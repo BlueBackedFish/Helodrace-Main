@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <AlienRace.ThingDef_AlienRace ParentName="HD_PawnBase"> <!-- HAR 종족의 기본 정의 -->
+    <defName>Helod</defName>
+    <label>Helod</label>
+    <description>A mysterious humanoid race with dog-like features.</description>
+    <alienRace> <!-- HAR 관련 모든 설정이 들어가는 태그 -->
+      <generalSettings> <!-- 종족의 일반적인 특성 설정 -->
+        <maleGenderProbability>0.000001</maleGenderProbability>
+        <immuneToAge>false</immuneToAge>
+        <humanRecipeImport>true</humanRecipeImport>
+        <canLayDown>true</canLayDown>
+        
+        <alienPartGenerator> <!-- 외형(머리, 몸, 부착물 등) 생성 규칙 -->
+          <headOffset>(0.0, 0.12)</headOffset>
+          
+          <atlasScale>4</atlasScale>
+          <headTypes>
+            <li>HelodHead01</li>
+          </headTypes>
+          <bodyTypes>
+            <li>Female</li>
+          </bodyTypes>
+          <customDrawSize>(1.0, 1.0)</customDrawSize>
+          <customHeadDrawSize>(0.9, 0.9)</customHeadDrawSize>
+          <customPortraitDrawSize>(1.0, 1.0)</customPortraitDrawSize>
+          
+          <colorChannels> <!-- 색상 채널 설정 (피부, 머리카락 등) -->
+            <li>
+              <name>skin</name>
+              <first Class="ColorGenerator_Options">
+                <options>
+                  <li>
+                    <weight>10</weight>
+                    <only>(255,255,255)</only>
+                  </li>
+                </options>
+              </first>
+            </li>
+            <li>
+              <name>hair</name>
+              <first Class="ColorGenerator_Options">
+                <options>
+                  <li>
+                    <weight>10</weight>
+                    <only>(255,255,255)</only>
+                  </li>
+                </options>
+              </first>
+            </li>
+          </colorChannels>
+          
+          <bodyAddons> <!-- 신체 부착물 설정 (꼬리, 귀 등) -->
+            <!-- Tail -->
+            <li>
+              <path>Dogos/Tail/HelodTail</path>
+              <inFrontOfBody>false</inFrontOfBody>
+              <colorChannel>hair</colorChannel>
+              <shaderType>Cutout</shaderType>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <conditions>
+                <BodyPart>
+                  <bodyPart>HD_Tail</bodyPart>
+                </BodyPart>
+                <RotStage>Fresh,Rotting</RotStage>
+                <Posture>
+                  <drawnStanding>true</drawnStanding>
+                  <drawnInBed>false</drawnInBed>
+                </Posture>
+              </conditions>
+              <offsets>
+                <south><offset>(0.2,-0.15)</offset></south>
+                <north>
+                  <offset>(-0.06,-0.14)</offset>
+                  <layerOffset>-0.2</layerOffset> <!-- 북쪽을 볼 때 몸 뒤로 숨김 -->
+                </north>
+                <east><offset>(0.23,-0.14)</offset></east>
+              </offsets>
+            </li>
+            <!-- Left Ear -->
+            <li>
+              <path>Dogos/EarLeft/Ear1Left</path>
+              <drawSize>0.7</drawSize>
+              <inFrontOfBody>true</inFrontOfBody>
+              <colorChannel>hair</colorChannel>
+              <alignWithHead>true</alignWithHead>
+              <shaderType>Cutout</shaderType>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <conditions>
+                <BodyPart>
+                  <bodyPart>Ear</bodyPart>
+                  <bodyPartLabel>left ear</bodyPartLabel>
+                </BodyPart>
+                <RotStage>Fresh,Rotting</RotStage>
+                <Posture>
+                  <drawnStanding>true</drawnStanding>
+                  <drawnInBed>true</drawnInBed>
+                </Posture>
+              </conditions>
+              <offsets>
+                <south>
+                  <offset>(0.15,0.16)</offset>
+                  <layerOffset>0.02</layerOffset>
+                </south>
+                <north>
+                  <offset>(-0.11,0.11)</offset>
+                  <layerOffset>-0.02</layerOffset>
+                </north>
+                <east>
+                  <offset>(0,0.16)</offset>
+                  <layerOffset>0.02</layerOffset>
+                </east>
+              </offsets>
+            </li>
+            <!-- Right Ear -->
+            <li>
+              <path>Dogos/EarRight/Ear1Right</path>
+              <drawSize>0.7</drawSize>
+              <inFrontOfBody>true</inFrontOfBody>
+              <colorChannel>hair</colorChannel>
+              <alignWithHead>true</alignWithHead>
+              <shaderType>Cutout</shaderType>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <conditions>
+                <BodyPart>
+                  <bodyPart>Ear</bodyPart>
+                  <bodyPartLabel>right ear</bodyPartLabel>
+                </BodyPart>
+                <RotStage>Fresh,Rotting</RotStage>
+                <Posture>
+                  <drawnStanding>true</drawnStanding>
+                  <drawnInBed>true</drawnInBed>
+                </Posture>
+              </conditions>
+              <offsets>
+                <south>
+                  <offset>(-0.18,0.16)</offset>
+                  <layerOffset>0.02</layerOffset>
+                </south>
+                <north>
+                  <offset>(0.25,0.11)</offset>
+                  <layerOffset>-0.02</layerOffset>
+                </north>
+                <east>
+                  <offset>(0,0.16)</offset>
+                  <layerOffset>0.02</layerOffset>
+                </east>
+              </offsets>
+            </li>
+          </bodyAddons>
+        </alienPartGenerator>
+      </generalSettings>
+      
+      <graphicPaths> <!-- 그래픽 경로 설정 -->
+        <body>
+          <path>Dogos/Body/</path>
+        </body>
+        <head>
+          <path>Dogos/Head/HelodHead01</path>
+        </head>
+        <skeleton>Things/Pawn/Humanlike/Bodies/Dessicated/Dessicated_Thin</skeleton>
+        <skinShader>Cutout</skinShader>
+      </graphicPaths>
+      
+      <styleSettings> <!-- 스타일 설정 (헤어, 수염 등) -->
+        <li>
+          <key>HairDef</key>
+          <value>
+            <hasStyle>true</hasStyle>
+            <styleTags>
+              <li>HD_Hair</li>
+            </styleTags>
+          </value>
+        </li>
+        <li>
+          <key>BeardDef</key>
+          <value>
+            <hasStyle>false</hasStyle>
+          </value>
+        </li>
+      </styleSettings>
+      
+      <thoughtSettings> <!-- 생각/무드 관련 설정 -->
+        <replacerList>
+          <!-- 예: 특정 생각을 다른 생각으로 대체 -->
+        </replacerList>
+        <cannotReceiveThoughts>
+          <!-- 받지 않는 생각들 -->
+          <li>SoakingWet</li>
+        </cannotReceiveThoughts>
+      </thoughtSettings>
+      
+      <raceRestriction> <!-- 종족 제한 설정 -->
+        <onlyUseRaceRestrictedApparel>false</onlyUseRaceRestrictedApparel>
+        <apparelList>
+          <!-- 종족 전용 의류 목록 -->
+        </apparelList>
+        <weaponList>
+          <!-- 종족 전용 무기 목록 -->
+        </weaponList>
+        <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">
+          <!-- 가질 수 없는 유전자 -->
+          <li MayRequire="Ludeon.RimWorld.Biotech">Furskin</li>
+        </blackGeneList>
+        <xenotypeList MayRequire="Ludeon.RimWorld.Biotech">
+          <li MayRequire="Ludeon.RimWorld.Biotech">HD_Helod</li>
+        </xenotypeList>
+        <blackXenotypeList MayRequire="Ludeon.RimWorld.Biotech">
+          <li MayRequire="Ludeon.RimWorld.Biotech">Dirtmole</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Genie</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Hussar</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Sanguophage</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Neanderthal</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Pigskin</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Impid</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Waster</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Yttakin</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Highmate</li>
+        </blackXenotypeList>
+        <onlyUseRaceRestrictedXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</onlyUseRaceRestrictedXenotypes>
+      </raceRestriction>
+    </alienRace>
+    
+    <tools>
+      <li>
+        <label>left fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>right fist</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>teeth</label>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>8.2</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+        <chanceFactor>0.07</chanceFactor>
+        <surpriseAttack>
+          <extraMeleeDamages>
+            <li>
+              <def>Stun</def>
+              <amount>14</amount>
+            </li>
+          </extraMeleeDamages>
+        </surpriseAttack>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupUsedInLimitedCapacity>true</ensureLinkedBodyPartsGroupUsedInLimitedCapacity>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+
+    <statBases> <!-- 기초 능력치 설정 -->
+      <MarketValue>1750</MarketValue>
+      <MoveSpeed>4.6</MoveSpeed>
+      <Flammability>0.5</Flammability>
+      <ComfyTemperatureMin>16</ComfyTemperatureMin>
+      <ComfyTemperatureMax>26</ComfyTemperatureMax>
+      <ImmunityGainSpeed>1.0</ImmunityGainSpeed>
+      <CarryingCapacity>75</CarryingCapacity>
+      <Mass>55</Mass>
+      <!-- 전투 -->
+      <MeleeDodgeChance>1.0</MeleeDodgeChance>
+      <MeleeHitChance>1.0</MeleeHitChance>
+      <!-- 사교 -->
+      <NegotiationAbility>1.0</NegotiationAbility>
+      <SocialImpact>1.0</SocialImpact>
+    </statBases>
+    
+    <race> <!-- 바닐라 종족 관련 설정 -->
+      <thinkTreeMain>Humanlike</thinkTreeMain>
+      <thinkTreeConstant>HumanlikeConstant</thinkTreeConstant>
+      <intelligence>Humanlike</intelligence>
+      <makesFootprints>true</makesFootprints>
+      <lifeExpectancy>80</lifeExpectancy>
+      <leatherDef>Leather_Human</leatherDef>
+      <nameCategory>HumanStandard</nameCategory>
+      <hasGenders>true</hasGenders>
+      <body>Helod</body>
+      <baseBodySize>1</baseBodySize>
+      <baseHealthScale>1</baseHealthScale>
+      <foodType>OmnivoreHuman</foodType>
+      <gestationPeriodDays>30</gestationPeriodDays>
+      <litterSizeCurve>
+        <points>
+          <li>(0.5, 0)</li>
+          <li>(1, 1.0)</li>
+          <li>(2, 0.1)</li>
+          <li>(3, 0)</li>
+        </points>
+      </litterSizeCurve>
+      <lifeStageAges>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>0</minAge>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+      <specialShadowData>
+        <volume>(0.3, 0.8, 0.4)</volume>
+        <offset>(0,0,-0.3)</offset>
+      </specialShadowData>
+      <ageGenerationCurve>
+        <points>
+          <li>(14,0)</li>
+          <li>(16,100)</li>
+          <li>(50,100)</li>
+          <li>(60,30)</li>
+          <li>(70,18)</li>
+          <li>(80,0)</li>
+        </points>
+      </ageGenerationCurve>
+      <hediffGiverSets>
+        <li>OrganicStandard</li>
+        <li>Human</li>
+      </hediffGiverSets>
+    </race>
+  </AlienRace.ThingDef_AlienRace>
+</Defs>

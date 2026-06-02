@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PawnKindDef ParentName="BasePlayerPawnKind"> <!-- 폰 종류 정의 (스폰되는 캐릭터의 세부 특성 설정) -->
+    <defName>Helod_Colonist</defName>
+    <label>helod colonist</label>
+    <race>Helod</race>
+    <defaultFactionType>PlayerColony</defaultFactionType>
+    <chemicalAddictionChance>0.05</chemicalAddictionChance>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <apparelAllowHeadgearChance>0.5</apparelAllowHeadgearChance>
+    <initialResistanceRange>10~16</initialResistanceRange>
+    <useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+    <xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+      <xenotypeChances>
+        <HD_Helod MayRequire="Ludeon.RimWorld.Biotech">1</HD_Helod>
+      </xenotypeChances>
+    </xenotypeSet>
+  </PawnKindDef>
+</Defs>

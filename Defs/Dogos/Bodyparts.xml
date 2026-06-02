@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>  
+	<BodyPartDef> <!-- 신체 부위 자체에 대한 정의 (체력, 민감도 등) -->
+   	 <defName>HD_Tail</defName>
+   	 <label>tail</label>
+   	 <hitPoints>30</hitPoints> <!-- 부위의 체력 -->
+   	 <frostbiteVulnerability>0</frostbiteVulnerability>
+   	 <skinCovered>true</skinCovered>
+   	 <beautyRelated>true</beautyRelated>
+    <tags> <!-- 부위의 기능적 태그 (이동, 작업 등 관련) -->
+      <li>MovingLimbCore</li>
+    </tags>
+	</BodyPartDef>
+</Defs>

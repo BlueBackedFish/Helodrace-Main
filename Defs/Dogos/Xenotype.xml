@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Helod</defName>
+    <label>helod</label>
+    <description>A mysterious humanoid race with dog-like features. They are naturally agile and loyal, possessing a unique genetic structure that defines their canine-humanoid hybrid nature.</description>
+    <descriptionShort>A dog-like humanoid race.</descriptionShort>
+    <iconPath>Icon/HD_icon</iconPath>
+    <inheritable>true</inheritable>
+    <genes>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Hair_SnowWhite</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin3</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MaxTemp_SmallDecrease</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MinTemp_SmallDecrease</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Plants</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Medical</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Intellectual</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Shooting</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Social</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Immunity_Strong</li>
+    </genes>
+  </XenotypeDef>
+</Defs>
