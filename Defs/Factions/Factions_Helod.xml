@@ -22,8 +22,62 @@
     </backstoryFilters>
     <factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
     <startingResearchTags>
-      <li>HD_HelodScenarioStart</li>
+      <li>HD_HelodWildWestScenarioStart</li>
     </startingResearchTags>
+    <apparelStuffFilter>
+      <thingDefs>
+        <li>Synthread</li>
+      </thingDefs>
+    </apparelStuffFilter>
+  </FactionDef>
+
+  <FactionDef>
+    <defName>HD_HelodCivilFaction</defName>
+    <label>Helod settlements</label>
+    <description>Independent Helod frontier settlements bound together by trade, kinship, and practical cooperation.</description>
+    <humanlikeFaction>true</humanlikeFaction>
+    <canMakeRandomly>true</canMakeRandomly>
+    <basicMemberKind>HD_HelodSettler</basicMemberKind>
+    <pawnSingular>Helod settler</pawnSingular>
+    <pawnsPlural>Helod settlers</pawnsPlural>
+    <leaderTitle>mayor</leaderTitle>
+    <techLevel>Industrial</techLevel>
+    <factionNameMaker>NamerFactionOutlander</factionNameMaker>
+    <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
+    <allowedCultures><li>Astropolitan</li></allowedCultures>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>HD_Helod</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+    <naturalColonyGoodwill>
+      <min>0</min>
+      <max>0</max>
+    </naturalColonyGoodwill>
+    <naturalEnemy>false</naturalEnemy>
+    <permanentEnemy>false</permanentEnemy>
+    <mustStartOneEnemy>false</mustStartOneEnemy>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <maxCountAtGameStart>1</maxCountAtGameStart>
+    <settlementGenerationWeight>1</settlementGenerationWeight>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <options>
+          <HD_HelodSettler>45</HD_HelodSettler>
+          <HD_HelodCavalry>75</HD_HelodCavalry>
+        </options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options>
+          <HD_HelodSettler>35</HD_HelodSettler>
+        </options>
+      </li>
+    </pawnGroupMakers>
     <apparelStuffFilter>
       <thingDefs>
         <li>Synthread</li>

@@ -6,9 +6,6 @@
         <description>default tech to open cloth</description>
         <baseCost>100</baseCost>
         <techLevel>Industrial</techLevel>
-        <tags>
-            <li>HD_HelodScenarioStart</li>
-        </tags>
         <prerequisites>
             <li>ComplexFurniture</li>
             <li>Smithing</li>
@@ -25,9 +22,6 @@
         <description>basic tech for mechanic engineering</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
-        <tags>
-            <li>HD_HelodScenarioStart</li>
-        </tags>
         <prerequisites>
             <li>HelodFrontierSpirit</li>
         </prerequisites>
@@ -42,9 +36,6 @@
         <description>for electricity and medicine</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
-        <tags>
-            <li>HD_HelodScenarioStart</li>
-        </tags>
         <prerequisites>
             <li>HelodFrontierSpirit</li>
         </prerequisites>
@@ -418,7 +409,7 @@
 
     <ResearchProjectDef>
         <defName>HelodChokingAgent</defName>
-        <label>ChokingAgent</label>
+        <label>The Poison Wind</label>
         <description>chlorine</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -432,7 +423,7 @@
 
     <ResearchProjectDef>
         <defName>HelodFirstAid</defName>
-        <label>FirstAid</label>
+        <label>Keeping Death Waiting</label>
         <description>blood transfusion, basic disinfection</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -446,7 +437,7 @@
 
     <ResearchProjectDef>
         <defName>HelodBasicMachineGun</defName>
-        <label>BasicMachineGun</label>
+        <label>The Devil's Paintbrush</label>
         <description>maxim</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -460,7 +451,7 @@
 
     <ResearchProjectDef>
         <defName>HelodSamiAutomaticPistol</defName>
-        <label>SamiAutomaticPistol</label>
+        <label>One Pull, One Shot</label>
         <description>1911, Pedersen Device</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -475,7 +466,7 @@
 
     <ResearchProjectDef>
         <defName>HelodMiniMotor</defName>
-        <label>MiniMotor</label>
+        <label>The Compact Whir</label>
         <description>MiniMotor For Machine Tools</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -489,7 +480,7 @@
 
     <ResearchProjectDef>
         <defName>HelodHighElectronics</defName>
-        <label>HighElectronics</label>
+        <label>The Thermionic Age</label>
         <description>Vaccum tube, computer, Radio wave</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -504,7 +495,7 @@
 
     <ResearchProjectDef>
         <defName>HelodHighMachineGun</defName>
-        <label>HighMachineGun</label>
+        <label>Beaten Zone</label>
         <description>Light machine gun, heavy machine gun with high caliber</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -518,7 +509,7 @@
 
     <ResearchProjectDef>
         <defName>HelodHaberBosch</defName>
-        <label>HaberBosch</label>
+        <label>Bread from Air</label>
         <description>fertilizer</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -532,7 +523,7 @@
 
     <ResearchProjectDef>
         <defName>HelodBasicModernRifle</defName>
-        <label>BasicModernRifle</label>
+        <label>The Rifleman's Century</label>
         <description>M1!!!!!!!!! and thompson</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
@@ -547,7 +538,7 @@
 
     <ResearchProjectDef>
         <defName>HelodHighExplosive</defName>
-        <label>HighExplosive</label>
+        <label>Brisance and Thunder</label>
         <description>Unlocks powerful explosive compounds for advanced industrial and military applications.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>

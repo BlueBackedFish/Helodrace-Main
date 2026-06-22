@@ -3,6 +3,22 @@
 
   <!-- Sharpshooter Gene -->
   <HD_Gene_Sharpshooter.label>명사수</HD_Gene_Sharpshooter.label>
-  <HD_Gene_Sharpshooter.description>"아아, 이 서늘하고도 묵직한 감각..." (총기의 특수 조작을 사용할수 있습니다)</HD_Gene_Sharpshooter.description>
+  <HD_Gene_Sharpshooter.description>"아아, 이 서늘하고도 묵직한 감각..." (총기의 특수 조작을 사용할 수 있습니다)</HD_Gene_Sharpshooter.description>
+
+  <!-- Arrogant Leader Gene -->
+  <HD_Gene_ArrogantLeader.label>오만한 지도자</HD_Gene_ArrogantLeader.label>
+  <HD_Gene_ArrogantLeader.description>오만하지만 사람을 끌어당기는 카리스마를 지녔습니다.</HD_Gene_ArrogantLeader.description>
+
+  <!-- Polar Precision Gene -->
+  <HD_Gene_PolarPrecision.label>극지의 정밀함</HD_Gene_PolarPrecision.label>
+  <HD_Gene_PolarPrecision.description>극도의 집중력으로 표적을 놓치지 않습니다.</HD_Gene_PolarPrecision.description>
+
+  <!-- Monopolist Gene -->
+  <HD_Gene_Monopolist.label>독점가</HD_Gene_Monopolist.label>
+  <HD_Gene_Monopolist.description>돈은 항상 옳다!</HD_Gene_Monopolist.description>
+
+  <!-- Mercenary Cohesion Gene -->
+  <HD_Gene_MercenaryCohesion.label>용병대 결속</HD_Gene_MercenaryCohesion.label>
+  <HD_Gene_MercenaryCohesion.description>헤로드 뭉치면 강하다</HD_Gene_MercenaryCohesion.description>
 
 </LanguageData>

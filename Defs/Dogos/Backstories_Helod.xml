@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <!-- Temporary Helod backstories for scenario and pawn generation testing. -->
@@ -6,7 +6,7 @@
     <defName>HD_HelodTempPipelinePup</defName>
     <title>pipeline pup</title>
     <titleShort>pipeline pup</titleShort>
-    <baseDesc>[PAWN_nameDef] grew up around frontier pump camps, carrying tools, counting barrels, and learning to sleep through the thump of machinery.</baseDesc>
+    <description>[PAWN_nameDef] grew up around frontier pump camps, carrying tools, counting barrels, and learning to sleep through the thump of machinery.</description>
     <slot>Childhood</slot>
     <spawnCategories>
       <li>HD_Helod</li>
@@ -30,7 +30,7 @@
     <defName>HD_HelodTempTelegraphRunner</defName>
     <title>telegraph runner</title>
     <titleShort>runner</titleShort>
-    <baseDesc>As a young courier, [PAWN_nameDef] carried coded slips between banks, rail camps, and lonely telegraph offices on the edge of settled space.</baseDesc>
+    <description>As a young courier, [PAWN_nameDef] carried coded slips between banks, rail camps, and lonely telegraph offices on the edge of settled space.</description>
     <slot>Childhood</slot>
     <spawnCategories>
       <li>HD_Helod</li>
@@ -54,7 +54,7 @@
     <defName>HD_HelodTempFoundryOrphan</defName>
     <title>foundry orphan</title>
     <titleShort>foundry kid</titleShort>
-    <baseDesc>[PAWN_nameDef] was raised by a smoky machine yard where spare hands were expected to sort coal, fetch water, and keep clear of red-hot iron.</baseDesc>
+    <description>[PAWN_nameDef] was raised by a smoky machine yard where spare hands were expected to sort coal, fetch water, and keep clear of red-hot iron.</description>
     <slot>Childhood</slot>
     <spawnCategories>
       <li>HD_Helod</li>
@@ -78,7 +78,7 @@
     <defName>HD_HelodTempFrontierMechanic</defName>
     <title>frontier mechanic</title>
     <titleShort>mechanic</titleShort>
-    <baseDesc>[PAWN_nameDef] kept battered engines, pumps, and line shafts alive with improvised parts and stubborn patience. The frontier rarely offered a second chance for bad repairs.</baseDesc>
+    <description>[PAWN_nameDef] kept battered engines, pumps, and line shafts alive with improvised parts and stubborn patience. The frontier rarely offered a second chance for bad repairs.</description>
     <slot>Adulthood</slot>
     <spawnCategories>
       <li>HD_Helod</li>
@@ -102,7 +102,7 @@
     <defName>HD_HelodTempOilClaimGuard</defName>
     <title>oil claim guard</title>
     <titleShort>claim guard</titleShort>
-    <baseDesc>Hired to protect surveyors and oil claims, [PAWN_nameDef] learned to read dust, distance, and the twitch of a hand near a holster.</baseDesc>
+    <description>Hired to protect surveyors and oil claims, [PAWN_nameDef] learned to read dust, distance, and the twitch of a hand near a holster.</description>
     <slot>Adulthood</slot>
     <spawnCategories>
       <li>HD_Helod</li>
@@ -126,7 +126,7 @@
     <defName>HD_HelodTempSthalerClerk</defName>
     <title>Sthaler clerk</title>
     <titleShort>clerk</titleShort>
-    <baseDesc>[PAWN_nameDef] balanced ledgers for a frontier finance house, turning ore, oil, debts, and favors into neat columns of money.</baseDesc>
+    <description>[PAWN_nameDef] balanced ledgers for a frontier finance house, turning ore, oil, debts, and favors into neat columns of money.</description>
     <slot>Adulthood</slot>
     <spawnCategories>
       <li>HD_Helod</li>
@@ -150,7 +150,7 @@
     <defName>HD_HelodTempPrairieDoctor</defName>
     <title>prairie doctor</title>
     <titleShort>doctor</titleShort>
-    <baseDesc>Between cattle towns, drill camps, and rail depots, [PAWN_nameDef] treated burns, infections, and chemical sickness with whatever supplies could be found.</baseDesc>
+    <description>Between cattle towns, drill camps, and rail depots, [PAWN_nameDef] treated burns, infections, and chemical sickness with whatever supplies could be found.</description>
     <slot>Adulthood</slot>
     <spawnCategories>
       <li>HD_Helod</li>
@@ -170,4 +170,866 @@
     </modExtensions>
   </BackstoryDef>
 
+  <BackstoryDef>
+    <defName>HD_HelodRailSectionHand</defName>
+    <title>rail section hand</title>
+    <titleShort>rail hand</titleShort>
+    <description>[PAWN_nameDef] spent youth along iron rights-of-way, replacing ties, clearing washouts, and learning the hard rhythm of train towns.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Construction>2</Construction>
+      <Mining>1</Mining>
+      <Melee>1</Melee>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.45</Assertive>
+        <Passive>0.25</Passive>
+        <Cooperative>0.70</Cooperative>
+        <Independent>0.35</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodCountySchoolchild</defName>
+    <title>county schoolchild</title>
+    <titleShort>schoolchild</titleShort>
+    <description>[PAWN_nameDef] learned letters, sums, and manners in a one-room schoolhouse where older children helped teach the younger ones.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>2</Intellectual>
+      <Social>1</Social>
+      <Artistic>1</Artistic>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.25</Assertive>
+        <Passive>0.45</Passive>
+        <Cooperative>0.80</Cooperative>
+        <Independent>0.30</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodDustBowlForager</defName>
+    <title>dust-bowl forager</title>
+    <titleShort>forager</titleShort>
+    <description>Dry years taught [PAWN_nameDef] to patch clothes, stretch food, and read the sky for any mercy it might offer.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Plants>2</Plants>
+      <Animals>1</Animals>
+      <Crafting>1</Crafting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.25</Assertive>
+        <Passive>0.55</Passive>
+        <Cooperative>0.45</Cooperative>
+        <Independent>0.70</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodRadioShopApprentice</defName>
+    <title>radio shop apprentice</title>
+    <titleShort>radio apprentice</titleShort>
+    <description>[PAWN_nameDef] swept floors in a repair shop, then learned to solder contacts, tune coils, and listen for trouble in static.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>2</Crafting>
+      <Intellectual>2</Intellectual>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.35</Assertive>
+        <Passive>0.35</Passive>
+        <Cooperative>0.55</Cooperative>
+        <Independent>0.60</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodCarnivalWagonKid</defName>
+    <title>carnival wagon kid</title>
+    <titleShort>wagon kid</titleShort>
+    <description>[PAWN_nameDef] grew up behind canvas tents and painted wagons, learning patter, quick repairs, and how to vanish before trouble found the lot.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>2</Social>
+      <Crafting>1</Crafting>
+      <Melee>1</Melee>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.55</Assertive>
+        <Passive>0.15</Passive>
+        <Cooperative>0.45</Cooperative>
+        <Independent>0.75</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodUnionMillwright</defName>
+    <title>union millwright</title>
+    <titleShort>millwright</titleShort>
+    <description>[PAWN_nameDef] installed belts, presses, and guarded shafts in noisy mills, arguing for safer shops whenever the foreman would listen.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>4</Crafting>
+      <Construction>2</Construction>
+      <Social>1</Social>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.70</Assertive>
+        <Passive>0.10</Passive>
+        <Cooperative>0.75</Cooperative>
+        <Independent>0.45</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodDepressionReliefCook</defName>
+    <title>relief camp cook</title>
+    <titleShort>camp cook</titleShort>
+    <description>[PAWN_nameDef] fed work crews from dented kettles, turning scarce flour, beans, and coffee into enough comfort to face another shift.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Cooking>4</Cooking>
+      <Social>2</Social>
+      <Plants>1</Plants>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.35</Assertive>
+        <Passive>0.40</Passive>
+        <Cooperative>0.90</Cooperative>
+        <Independent>0.25</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodHighwayPatrolman</defName>
+    <title>highway patrolman</title>
+    <titleShort>patrolman</titleShort>
+    <description>[PAWN_nameDef] watched new highways, wreck scenes, and roadside towns where engines ran faster than local law could adapt.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>3</Shooting>
+      <Social>2</Social>
+      <Medicine>1</Medicine>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.75</Assertive>
+        <Passive>0.10</Passive>
+        <Cooperative>0.55</Cooperative>
+        <Independent>0.60</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodSwitchboardOperator</defName>
+    <title>switchboard operator</title>
+    <titleShort>operator</titleShort>
+    <description>With a headset and a wall of cords, [PAWN_nameDef] connected doctors, sheriffs, factories, and families before the line went dead.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>4</Social>
+      <Intellectual>2</Intellectual>
+      <Medicine>1</Medicine>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.30</Assertive>
+        <Passive>0.45</Passive>
+        <Cooperative>0.85</Cooperative>
+        <Independent>0.35</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodRocketRangeTechnician</defName>
+    <title>rocket range technician</title>
+    <titleShort>range tech</titleShort>
+    <description>[PAWN_nameDef] worked on desert test ranges, measuring burn rates, checking seals, and keeping curious visitors far from volatile machinery.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>3</Intellectual>
+      <Crafting>3</Crafting>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.50</Assertive>
+        <Passive>0.20</Passive>
+        <Cooperative>0.55</Cooperative>
+        <Independent>0.70</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodBlueFieldCampChild</defName>
+    <title>blue-field camp child</title>
+    <titleShort>camp child</titleShort>
+    <description>[PAWN_nameDef] grew up beside divided marching camps, carrying water, mending blankets, and learning which songs meant the columns would not come back whole.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>1</Social>
+      <Medicine>1</Medicine>
+      <Crafting>2</Crafting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.30</Assertive>
+        <Passive>0.45</Passive>
+        <Cooperative>0.70</Cooperative>
+        <Independent>0.35</Independent>
+        <PTSD>0.50</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodGreatTrenchBilletChild</defName>
+    <title>great-trench billet child</title>
+    <titleShort>billet child</titleShort>
+    <description>[PAWN_nameDef] spent childhood in towns behind endless trenches, hauling coal to billets and counting windows taped against distant blasts.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Construction>1</Construction>
+      <Medicine>1</Medicine>
+      <Intellectual>2</Intellectual>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.25</Assertive>
+        <Passive>0.55</Passive>
+        <Cooperative>0.65</Cooperative>
+        <Independent>0.35</Independent>
+        <PTSD>0.50</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodStormFrontFactoryChild</defName>
+    <title>storm-front factory child</title>
+    <titleShort>factory child</titleShort>
+    <description>[PAWN_nameDef] came of age near blackout factories, sorting scrap, running messages, and sleeping under sirens that made every ceiling feel temporary.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>2</Crafting>
+      <Intellectual>1</Intellectual>
+      <Social>1</Social>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.35</Assertive>
+        <Passive>0.40</Passive>
+        <Cooperative>0.75</Cooperative>
+        <Independent>0.40</Independent>
+        <PTSD>0.50</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodJungleZoneRefugeeChild</defName>
+    <title>jungle-zone refugee child</title>
+    <titleShort>refugee child</titleShort>
+    <description>[PAWN_nameDef] learned to move between wet villages, aid stations, and temporary fences while aircraft passed overhead and adults spoke in whispers.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Plants>2</Plants>
+      <Medicine>1</Medicine>
+      <Social>1</Social>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.25</Assertive>
+        <Passive>0.50</Passive>
+        <Cooperative>0.55</Cooperative>
+        <Independent>0.65</Independent>
+        <PTSD>0.50</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodMountainPassBaseChild</defName>
+    <title>mountain-pass base child</title>
+    <titleShort>base child</titleShort>
+    <description>[PAWN_nameDef] grew up around highland outposts and market roads, translating small favors and learning why convoys never stopped in open ground.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>2</Social>
+      <Intellectual>1</Intellectual>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.30</Assertive>
+        <Passive>0.45</Passive>
+        <Cooperative>0.50</Cooperative>
+        <Independent>0.70</Independent>
+        <PTSD>0.50</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodBlueFieldSkirmisher</defName>
+    <title>blue-field skirmisher</title>
+    <titleShort>skirmisher</titleShort>
+    <description>[PAWN_nameDef] fought through split-state farm country where neighbors wore different colors and every fence line could become a firing line.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>4</Shooting>
+      <Melee>2</Melee>
+      <Plants>1</Plants>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.70</Assertive>
+        <Passive>0.15</Passive>
+        <Cooperative>0.45</Cooperative>
+        <Independent>0.70</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodBlueFieldDrummer</defName>
+    <title>blue-field drummer</title>
+    <titleShort>drummer</titleShort>
+    <description>Too young for a rifle at first, [PAWN_nameDef] carried signals through smoke until marching songs became orders no one could refuse.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>3</Social>
+      <Shooting>2</Shooting>
+      <Medicine>1</Medicine>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.45</Assertive>
+        <Passive>0.35</Passive>
+        <Cooperative>0.75</Cooperative>
+        <Independent>0.25</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodBlueFieldSawbone</defName>
+    <title>blue-field sawbone</title>
+    <titleShort>sawbone</titleShort>
+    <description>[PAWN_nameDef] served in tent hospitals behind divided front lines, where chloroform, bone saws, and prayer often arrived too late.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Medicine>5</Medicine>
+      <Intellectual>2</Intellectual>
+      <Melee>1</Melee>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.30</Assertive>
+        <Passive>0.55</Passive>
+        <Cooperative>0.85</Cooperative>
+        <Independent>0.30</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodGreatTrenchRifleman</defName>
+    <title>great-trench rifleman</title>
+    <titleShort>rifleman</titleShort>
+    <description>[PAWN_nameDef] endured wire, mud, barrages, and whistles that sent whole lines over the lip into machine fire.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>5</Shooting>
+      <Construction>1</Construction>
+      <Melee>1</Melee>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.65</Assertive>
+        <Passive>0.40</Passive>
+        <Cooperative>0.55</Cooperative>
+        <Independent>0.45</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodGreatTrenchOrderly</defName>
+    <title>great-trench orderly</title>
+    <titleShort>orderly</titleShort>
+    <description>[PAWN_nameDef] dragged the wounded through duckboards and shell holes, memorizing the sounds that meant a stretcher was already too late.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Medicine>4</Medicine>
+      <Social>2</Social>
+      <Construction>1</Construction>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.35</Assertive>
+        <Passive>0.60</Passive>
+        <Cooperative>0.90</Cooperative>
+        <Independent>0.25</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodGreatTrenchGasScout</defName>
+    <title>great-trench gas scout</title>
+    <titleShort>gas scout</titleShort>
+    <description>[PAWN_nameDef] watched wind, clouds, and the color of distant flares, warning dugouts before poison rolled into the low ground.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>3</Shooting>
+      <Intellectual>2</Intellectual>
+      <Medicine>2</Medicine>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.45</Assertive>
+        <Passive>0.45</Passive>
+        <Cooperative>0.55</Cooperative>
+        <Independent>0.75</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodStormFrontParatrooper</defName>
+    <title>storm-front paratrooper</title>
+    <titleShort>paratrooper</titleShort>
+    <description>[PAWN_nameDef] dropped behind thunderous front lines, fighting through hedges, ruins, and roadblocks before maps could catch up.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>5</Shooting>
+      <Melee>2</Melee>
+      <Construction>1</Construction>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.85</Assertive>
+        <Passive>0.05</Passive>
+        <Cooperative>0.65</Cooperative>
+        <Independent>0.60</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodStormFrontMotorPool</defName>
+    <title>storm-front motor pool</title>
+    <titleShort>motor pool</titleShort>
+    <description>[PAWN_nameDef] kept trucks, halftracks, and field generators running while artillery dust settled into every gasket and lung.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>4</Crafting>
+      <Construction>2</Construction>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.55</Assertive>
+        <Passive>0.25</Passive>
+        <Cooperative>0.75</Cooperative>
+        <Independent>0.55</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodStormFrontCodeClerk</defName>
+    <title>storm-front code clerk</title>
+    <titleShort>code clerk</titleShort>
+    <description>[PAWN_nameDef] handled ciphers, casualty lists, and radio traffic, learning that a clean message could carry unbearable news.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>4</Intellectual>
+      <Social>2</Social>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.30</Assertive>
+        <Passive>0.50</Passive>
+        <Cooperative>0.70</Cooperative>
+        <Independent>0.60</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodJungleZonePointman</defName>
+    <title>jungle-zone pointman</title>
+    <titleShort>pointman</titleShort>
+    <description>[PAWN_nameDef] walked first through wet green corridors where trails lied, birds went silent, and the ground itself might explode.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>4</Shooting>
+      <Plants>2</Plants>
+      <Melee>1</Melee>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.65</Assertive>
+        <Passive>0.25</Passive>
+        <Cooperative>0.40</Cooperative>
+        <Independent>0.85</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodJungleZoneDustoffMedic</defName>
+    <title>jungle-zone dustoff medic</title>
+    <titleShort>dustoff medic</titleShort>
+    <description>[PAWN_nameDef] treated casualties under rotor wash, smoke, and monsoon rain, shouting triage over engines that never fully drowned out the screams.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Medicine>5</Medicine>
+      <Social>2</Social>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.55</Assertive>
+        <Passive>0.35</Passive>
+        <Cooperative>0.90</Cooperative>
+        <Independent>0.35</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodJungleZoneRadioHand</defName>
+    <title>jungle-zone radio hand</title>
+    <titleShort>radio hand</titleShort>
+    <description>[PAWN_nameDef] carried a heavy radio through soaked hills, calling coordinates while every antenna made an obvious target.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>3</Intellectual>
+      <Social>2</Social>
+      <Shooting>2</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.45</Assertive>
+        <Passive>0.30</Passive>
+        <Cooperative>0.80</Cooperative>
+        <Independent>0.55</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodMountainPassMarksman</defName>
+    <title>mountain-pass marksman</title>
+    <titleShort>marksman</titleShort>
+    <description>[PAWN_nameDef] watched ridgelines and walled valleys where distance, patience, and one wrong glint decided who walked home.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>5</Shooting>
+      <Animals>1</Animals>
+      <Plants>1</Plants>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.55</Assertive>
+        <Passive>0.30</Passive>
+        <Cooperative>0.30</Cooperative>
+        <Independent>0.90</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodMountainPassConvoyDriver</defName>
+    <title>mountain-pass convoy driver</title>
+    <titleShort>convoy driver</titleShort>
+    <description>[PAWN_nameDef] drove supply columns through dust, switchbacks, and culverts that might hide a charge beneath every patch of road.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>3</Crafting>
+      <Shooting>2</Shooting>
+      <Construction>2</Construction>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.60</Assertive>
+        <Passive>0.20</Passive>
+        <Cooperative>0.70</Cooperative>
+        <Independent>0.55</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodMountainPassInterpreter</defName>
+    <title>mountain-pass interpreter</title>
+    <titleShort>interpreter</titleShort>
+    <description>[PAWN_nameDef] translated bargains, warnings, and grief between patrols and villages, never fully trusted by either side.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>5</Social>
+      <Intellectual>2</Intellectual>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.35</Assertive>
+        <Passive>0.45</Passive>
+        <Cooperative>0.75</Cooperative>
+        <Independent>0.70</Independent>
+        <PTSD>0.85</PTSD>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodCanalTowpathKid</defName>
+    <title>canal towpath kid</title>
+    <titleShort>towpath kid</titleShort>
+    <description>[PAWN_nameDef] grew up beside mule paths and canal locks, carrying feed, counting barges, and learning weather from the smell of slow water.</description>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Animals>2</Animals>
+      <Plants>1</Plants>
+      <Social>1</Social>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.25</Assertive>
+        <Passive>0.45</Passive>
+        <Cooperative>0.60</Cooperative>
+        <Independent>0.55</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodStageRoadBlacksmith</defName>
+    <title>stage-road blacksmith</title>
+    <titleShort>blacksmith</titleShort>
+    <description>[PAWN_nameDef] shod horses and repaired coach iron on rough stage roads before rail depots reached every county seat.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>4</Crafting>
+      <Animals>2</Animals>
+      <Construction>1</Construction>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.55</Assertive>
+        <Passive>0.20</Passive>
+        <Cooperative>0.50</Cooperative>
+        <Independent>0.70</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodTerritorialSurveyor</defName>
+    <title>territorial surveyor</title>
+    <titleShort>surveyor</titleShort>
+    <description>Before fences settled the maps, [PAWN_nameDef] measured claims, water rights, and wagon routes with a chain, notebook, and wary eye.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Intellectual>3</Intellectual>
+      <Construction>2</Construction>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.45</Assertive>
+        <Passive>0.25</Passive>
+        <Cooperative>0.45</Cooperative>
+        <Independent>0.80</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodAirstripMechanic</defName>
+    <title>bush airstrip mechanic</title>
+    <titleShort>airstrip mechanic</titleShort>
+    <description>[PAWN_nameDef] kept crop dusters, mail planes, and rescue craft flying from dirt strips where a missing bolt could strand a whole valley.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>4</Crafting>
+      <Intellectual>2</Intellectual>
+      <Medicine>1</Medicine>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.50</Assertive>
+        <Passive>0.15</Passive>
+        <Cooperative>0.60</Cooperative>
+        <Independent>0.75</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodCommunityBroadcaster</defName>
+    <title>community broadcaster</title>
+    <titleShort>broadcaster</titleShort>
+    <description>[PAWN_nameDef] ran a small-town transmitter, reading storm warnings, market prices, lost notices, and late-night music into the dark.</description>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>4</Social>
+      <Intellectual>2</Intellectual>
+      <Artistic>1</Artistic>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.40</Assertive>
+        <Passive>0.35</Passive>
+        <Cooperative>0.85</Cooperative>
+        <Independent>0.35</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
 </Defs>
+
+
+

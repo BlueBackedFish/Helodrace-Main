@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <HD_NPC_Villager.label>헤로드 정착민</HD_NPC_Villager.label>
-  <HD_NPC_Guard.label>마을 경비병</HD_NPC_Guard.label>
-  <HD_NPC_Gunslinger.label>베테랑 총잡이</HD_NPC_Gunslinger.label>
-  <HD_NPC_Leader.label>보안관</HD_NPC_Leader.label>
-  <HD_NPC_Carvaly.label>기병대원</HD_NPC_Carvaly.label>
+  <HD_HelodColonist.label>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;</HD_HelodColonist.label>
+  <HD_HelodSettler.label>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;</HD_HelodSettler.label>
+  <HD_HelodCavalry.label>&#xD5E4;&#xB85C;&#xB4DC; &#xAE30;&#xBCD1;&#xB300;&#xC6D0;</HD_HelodCavalry.label>
 </LanguageData>

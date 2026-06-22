@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <HD_PlayerFaction.label>헤로드 개척 정착지</HD_PlayerFaction.label>
-  <HD_PlayerFaction.description>미개척야생의 땅에서 새로운 정착지와 보금자리를 마련하려는 헤로드 개척민 분대입니다.</HD_PlayerFaction.description>
+  <HD_HelodPlayerColony.label>&#xD5E4;&#xB85C;&#xB4DC; &#xAC1C;&#xCC99; &#xC815;&#xCC29;&#xC9C0;</HD_HelodPlayerColony.label>
+  <HD_HelodPlayerColony.description>&#xBCC0;&#xBC29; &#xC0B0;&#xC5C5; &#xC804;&#xCD08;&#xAE30;&#xC9C0;&#xB97C; &#xC138;&#xC6CC; &#xB098;&#xAC00;&#xB294; &#xD5E4;&#xB85C;&#xB4DC; &#xAC1C;&#xCC99;&#xC790;&#xB4E4;&#xC758; &#xC815;&#xCC29;&#xC9C0;&#xC785;&#xB2C8;&#xB2E4;.</HD_HelodPlayerColony.description>
+  <HD_HelodPlayerColony.pawnSingular>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;</HD_HelodPlayerColony.pawnSingular>
+  <HD_HelodPlayerColony.pawnsPlural>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;&#xB4E4;</HD_HelodPlayerColony.pawnsPlural>
 
-  <HD_Faction_Civil.label>베세니카 합중국</HD_Faction_Civil.label>
-  <HD_Faction_Civil.description>가까운 협동심으로 굳게 뭉친 우호적이고 상호적이며 발달된 헤로드 정착지들의 연합체입니다. 이들은 서부 전역에 걸쳐 견고한 무역망과 요새화된 전방 기지들을 설립했습니다. 기본적으로 이들은 매우 평화롭고 상거래에 적극적이어서 스탈레르 지폐와 물자들을 교환하려 하지만, 누군가 자극하거나 위협한다면 정밀한 사격 장비와 리볼버를 들고 영토를 결사 수호할 것입니다.</HD_Faction_Civil.description>
+  <HD_HelodCivilFaction.label>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xC9C0; &#xC5F0;&#xD569;</HD_HelodCivilFaction.label>
+  <HD_HelodCivilFaction.description>&#xBB34;&#xC5ED;, &#xD608;&#xC5F0;, &#xC2E4;&#xC6A9;&#xC801;&#xC778; &#xD611;&#xB825;&#xC73C;&#xB85C; &#xC774;&#xC5B4;&#xC9C4; &#xB3C5;&#xB9BD;&#xC801;&#xC778; &#xD5E4;&#xB85C;&#xB4DC; &#xAC1C;&#xCC99; &#xC815;&#xCC29;&#xC9C0;&#xB4E4;&#xC758; &#xC5F0;&#xD569;&#xC785;&#xB2C8;&#xB2E4;.</HD_HelodCivilFaction.description>
+  <HD_HelodCivilFaction.pawnSingular>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;</HD_HelodCivilFaction.pawnSingular>
+  <HD_HelodCivilFaction.pawnsPlural>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;&#xB4E4;</HD_HelodCivilFaction.pawnsPlural>
+  <HD_HelodCivilFaction.leaderTitle>&#xC2DC;&#xC7A5;</HD_HelodCivilFaction.leaderTitle>
 </LanguageData>

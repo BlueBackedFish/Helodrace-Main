@@ -41,6 +41,7 @@
       </layers>
       <tags>
         <li>HD_Apparel</li>
+        <li>HD_Apparel_Carvaly</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
@@ -95,6 +96,7 @@
       </layers>
       <tags>
         <li>HD_Apparel</li>
+        <li>HD_Apparel_Carvaly</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
@@ -286,6 +288,7 @@
       </layers>
       <tags>
         <li>HD_Apparel</li>
+        <li>HD_Apparel_Casual</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
@@ -351,6 +354,7 @@
       </layers>
       <tags>
         <li>HD_Apparel</li>
+        <li>HD_Apparel_Casual</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>

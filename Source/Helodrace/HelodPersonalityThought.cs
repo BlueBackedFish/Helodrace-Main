@@ -52,7 +52,7 @@ namespace Helodrace
         {
             string childhood = pawn?.story?.Childhood?.defName ?? "NoChildhood";
             string adulthood = pawn?.story?.Adulthood?.defName ?? "NoAdulthood";
-            return childhood + "|" + adulthood;
+            return "VectorSumTop2PTSD|" + childhood + "|" + adulthood;
         }
 
         private static int StableHash(string text)
@@ -93,27 +93,18 @@ namespace Helodrace
         {
             get
             {
-                ThoughtDefExtension_HelodPersonalityDescriptions extension =
-                    def.GetModExtension<ThoughtDefExtension_HelodPersonalityDescriptions>();
-                if (extension?.descriptions == null || extension.descriptions.Count == 0 || pawn == null)
-                {
-                    return base.Description;
-                }
+                return HelodPersonalityUtility.PersonalityDescription(def, pawn, base.Description);
+            }
+        }
+    }
 
-                int index = HelodPersonalityUtility.GetCachedVariantIndex(pawn);
-                if (index < 0)
-                {
-                    return base.Description;
-                }
-
-                index = Math.Min(index, extension.descriptions.Count - 1);
-                string translationKey = def.defName + ".personalityDescriptions." + index;
-                if (translationKey.CanTranslate())
-                {
-                    return translationKey.Translate(pawn.Named("PAWN")).Resolve();
-                }
-
-                return extension.descriptions[index].Formatted(pawn.Named("PAWN")).Resolve();
+    public class Thought_Situational_HelodPersonalityDescription : Thought_Situational
+    {
+        public override string Description
+        {
+            get
+            {
+                return HelodPersonalityUtility.PersonalityDescription(def, pawn, base.Description);
             }
         }
     }
@@ -121,6 +112,8 @@ namespace Helodrace
     public static class HelodPersonalityUtility
     {
         private const float RandomJitter = 0.12f;
+        private const float PtsdJitter = 0.4f;
+        private const float PtsdThreshold = 1.0f;
 
         public static int GetCachedVariantIndex(Pawn pawn)
         {
@@ -133,47 +126,137 @@ namespace Helodrace
             return comp?.GetPersonalityDescriptionVariant(pawn) ?? CalculateVariantIndex(pawn, pawn.thingIDNumber);
         }
 
-        public static int CalculateVariantIndex(Pawn pawn, int seed)
+        public static string PersonalityDescription(ThoughtDef def, Pawn pawn, string fallback)
         {
-            HelodPersonalityAxis childhoodAxis = DominantAxis(pawn?.story?.Childhood, seed, 0);
-            HelodPersonalityAxis adulthoodAxis = DominantAxis(pawn?.story?.Adulthood, seed, 1);
-            return ((int)childhoodAxis * 4) + (int)adulthoodAxis;
+            ThoughtDefExtension_HelodPersonalityDescriptions extension =
+                def.GetModExtension<ThoughtDefExtension_HelodPersonalityDescriptions>();
+            if (extension?.descriptions == null || extension.descriptions.Count == 0 || pawn == null)
+            {
+                return fallback;
+            }
+
+            int index = GetCachedVariantIndex(pawn);
+            if (index < 0)
+            {
+                return fallback;
+            }
+
+            index = Math.Min(index, extension.descriptions.Count - 1);
+            string translationKey = def.defName + ".personalityDescriptions." + index;
+            if (translationKey.CanTranslate())
+            {
+                return translationKey.Translate(pawn.Named("PAWN")).Resolve();
+            }
+
+            return extension.descriptions[index].Formatted(pawn.Named("PAWN")).Resolve();
         }
 
-        private static HelodPersonalityAxis DominantAxis(BackstoryDef backstory, int seed, int salt)
+        public static int CalculateVariantIndex(Pawn pawn, int seed)
+        {
+            float[] scores = new float[4];
+            bool hasPersonalityVector = false;
+            float ptsd = 0f;
+
+            hasPersonalityVector |= AddBackstoryVector(scores, pawn?.story?.Childhood, ref ptsd);
+            hasPersonalityVector |= AddBackstoryVector(scores, pawn?.story?.Adulthood, ref ptsd);
+
+            if (!hasPersonalityVector)
+            {
+                HelodPersonalityAxis firstFallback = (HelodPersonalityAxis)(Math.Abs(seed) % 4);
+                HelodPersonalityAxis secondFallback = (HelodPersonalityAxis)(Math.Abs(seed + 1) % 4);
+                if (secondFallback == firstFallback)
+                {
+                    secondFallback = (HelodPersonalityAxis)(((int)secondFallback + 1) % 4);
+                }
+                return VariantIndexForAxes(firstFallback, secondFallback);
+            }
+
+            for (int i = 0; i < scores.Length; i++)
+            {
+                scores[i] += Jitter(seed, 0, i);
+            }
+            ptsd += Jitter(seed, 1, 4, PtsdJitter);
+
+            HelodPersonalityAxis primaryAxis;
+            HelodPersonalityAxis secondaryAxis;
+            TopTwoAxes(scores, out primaryAxis, out secondaryAxis);
+            if (ptsd >= PtsdThreshold)
+            {
+                return 12 + (int)primaryAxis;
+            }
+            return VariantIndexForAxes(primaryAxis, secondaryAxis);
+        }
+
+        private static int VariantIndexForAxes(HelodPersonalityAxis primaryAxis, HelodPersonalityAxis secondaryAxis)
+        {
+            int primary = (int)primaryAxis;
+            int secondary = (int)secondaryAxis;
+            if (secondary == primary)
+            {
+                secondary = (secondary + 1) % 4;
+            }
+            if (secondary > primary)
+            {
+                secondary--;
+            }
+            return primary * 3 + secondary;
+        }
+
+        private static bool AddBackstoryVector(float[] scores, BackstoryDef backstory, ref float ptsd)
         {
             BackstoryPersonalityDirectionExtension extension =
                 backstory?.GetModExtension<BackstoryPersonalityDirectionExtension>();
             if (extension == null)
             {
-                return (HelodPersonalityAxis)(Math.Abs(seed + salt) % 4);
+                return false;
             }
 
-            float assertive = extension.Assertive + Jitter(seed, salt, 0);
-            float passive = extension.Passive + Jitter(seed, salt, 1);
-            float cooperative = extension.Cooperative + Jitter(seed, salt, 2);
-            float independent = extension.Independent + Jitter(seed, salt, 3);
+            scores[(int)HelodPersonalityAxis.Assertive] += extension.Assertive;
+            scores[(int)HelodPersonalityAxis.Passive] += extension.Passive;
+            scores[(int)HelodPersonalityAxis.Cooperative] += extension.Cooperative;
+            scores[(int)HelodPersonalityAxis.Independent] += extension.Independent;
+            ptsd += extension.PTSD;
+            return true;
+        }
 
-            HelodPersonalityAxis axis = HelodPersonalityAxis.Assertive;
-            float best = assertive;
-            if (passive > best)
+        private static void TopTwoAxes(float[] scores, out HelodPersonalityAxis primaryAxis, out HelodPersonalityAxis secondaryAxis)
+        {
+            primaryAxis = HelodPersonalityAxis.Assertive;
+            secondaryAxis = HelodPersonalityAxis.Passive;
+
+            for (int i = 0; i < scores.Length; i++)
             {
-                axis = HelodPersonalityAxis.Passive;
-                best = passive;
+                if (scores[i] > scores[(int)primaryAxis])
+                {
+                    secondaryAxis = primaryAxis;
+                    primaryAxis = (HelodPersonalityAxis)i;
+                }
+                else if (i != (int)primaryAxis && scores[i] > scores[(int)secondaryAxis])
+                {
+                    secondaryAxis = (HelodPersonalityAxis)i;
+                }
             }
-            if (cooperative > best)
+
+            if (secondaryAxis == primaryAxis)
             {
-                axis = HelodPersonalityAxis.Cooperative;
-                best = cooperative;
+                secondaryAxis = (HelodPersonalityAxis)(((int)primaryAxis + 1) % 4);
             }
-            if (independent > best)
+
+            for (int i = 0; i < scores.Length; i++)
             {
-                axis = HelodPersonalityAxis.Independent;
+                if (i != (int)primaryAxis && scores[i] > scores[(int)secondaryAxis])
+                {
+                    secondaryAxis = (HelodPersonalityAxis)i;
+                }
             }
-            return axis;
         }
 
         private static float Jitter(int seed, int salt, int axis)
+        {
+            return Jitter(seed, salt, axis, RandomJitter);
+        }
+
+        private static float Jitter(int seed, int salt, int axis, float amount)
         {
             unchecked
             {
@@ -184,7 +267,7 @@ namespace Helodrace
                 hash *= 1274126177;
                 hash ^= hash >> 16;
                 float normalized = (hash & 0x7fffffff) / (float)int.MaxValue;
-                return (normalized * 2f - 1f) * RandomJitter;
+                return (normalized * 2f - 1f) * amount;
             }
         }
     }

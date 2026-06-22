@@ -54,6 +54,7 @@
     <defName>HD_Gun_KragJorgensen_Weapon</defName>
     <weaponTags>
       <li>HD_Rifle</li>
+      <li>HD_BoltActionRifle</li>
       <li>Rifle</li>
     </weaponTags>
     <label>Krag-Jorgensen (Helodrace)</label>
@@ -127,6 +128,7 @@
     <defName>HD_Gun_SprMThree_Weapon</defName>
     <weaponTags>
       <li>HD_Rifle</li>
+      <li>HD_BoltActionRifle</li>
       <li>Rifle</li>
     </weaponTags>
     <label>Springfield M1903 (Helodrace)</label>
