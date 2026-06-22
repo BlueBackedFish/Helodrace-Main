@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <HeadTypeDef>
-    <defName>HelodHead01</defName>
+  <HeadTypeDef ParentName="AverageBase" Name="HelodHeadBase" Abstract="True">
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead01</defName>
     <graphicPath>Dogos/Head/HelodHead01</graphicPath>
-    <gender>None</gender>
-    <selectionWeight>1.0</selectionWeight>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead02</defName>
+    <graphicPath>Dogos/Head/HelodHead02</graphicPath>
   </HeadTypeDef>
 </Defs>

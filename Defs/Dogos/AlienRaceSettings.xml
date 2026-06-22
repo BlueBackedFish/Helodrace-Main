@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<AlienRace.RaceSettings>
+		<defName>HD_Helod_Race_Setting</defName>
+		<pawnKindSettings>
+			<startingColonists>
+				<li>
+					<pawnKindEntries>
+						<li>
+							<kindDefs>
+								<li>HD_HelodColonist</li>
+							</kindDefs>
+							<chance>100</chance>
+						</li>
+					</pawnKindEntries>
+					<factionDefs>
+						<li>PlayerColony</li> 
+						<li>HD_HelodPlayerColony</li>
+					</factionDefs>
+				</li>
+			</startingColonists>
+
+			<alienslavekinds>
+				<li>
+					<kindDefs>
+						<li>HD_HelodColonist</li>
+					</kindDefs>
+					<chance>15</chance>
+				</li>
+			</alienslavekinds>
+
+			<alienrefugeekinds>
+				<li>
+					<kindDefs>
+						<li>HD_HelodColonist</li>
+					</kindDefs>
+					<chance>15</chance>
+				</li>
+			</alienrefugeekinds>
+
+			<alienwandererkinds>
+				<li>
+					<pawnKindEntries>
+						<li>
+							<kindDefs>
+								<li>HD_HelodColonist</li>
+							</kindDefs>
+							<chance>15</chance>
+						</li>
+					</pawnKindEntries>
+					<factionDefs>
+						<li>PlayerColony</li>
+						<li>HD_HelodPlayerColony</li>
+					</factionDefs>
+				</li>
+			</alienwandererkinds>
+		</pawnKindSettings>
+	</AlienRace.RaceSettings>
+</Defs>

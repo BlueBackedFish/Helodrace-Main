@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_CableToolRig</defName>
+    <label>cable-tool rig</label>
+    <description>A traditional drilling rig using a heavy bit suspended by a cable to pound through
+      rock. Used for finding water or oil in the frontier.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Building/HD_CableToolRig</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(5,5)</drawSize>
+      <drawOffset>(0.4,0,1.2)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(2.8, 0.6, 2.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1.0</fillPercent>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>1.5</Flammability>
+      <Mass>100</Mass>
+    </statBases>
+    <stuffCategories>
+      <li>Woody</li>
+    </stuffCategories>
+    <costStuffCount>150</costStuffCount>
+    <size>(4,3)</size>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2000</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodBasicOilDevelopment</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <building>
+      <buildingTags>
+        <li>HD_SteamEnginePowered</li>
+      </buildingTags>
+    </building>
+    <inspectorTabs>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>0</explosiveRadius>
+        <explosiveExpandPerFuel>0.95</explosiveExpandPerFuel>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <destroyThingOnExplosionSize>2</destroyThingOnExplosionSize>
+        <startWickHitPointsPercent>0.333</startWickHitPointsPercent>
+        <preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+        <preExplosionSpawnChance>1</preExplosionSpawnChance>
+        <wickTicks>70~150</wickTicks>
+      </li>
+      <li Class="Helodrace.CompProperties_MechanicalUser">
+        <powerConsumed>0</powerConsumed>
+        <requireTorque>300</requireTorque>
+        <minimalRPM>100</minimalRPM>
+        <recommendedRPM>100</recommendedRPM>
+        <defaultGearRatio>1.0</defaultGearRatio>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>2</heatPerSecond>
+        <heatPushMaxTemperature>45</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_OilFieldDevelopment" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_SmallSteamEngine</defName>
+    <label>small steam engine</label>
+    <description>A compact, coal-fired steam engine designed to provide mechanical power to nearby
+      machinery. It must be placed near a compatible building to function.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Building/HD_SmallSteamEngine</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(3.3,3.3)</drawSize>
+      <drawOffset>(0,0,0.3)</drawOffset>
+      <shadowData>
+        <volume>(1.8, 0.5, 1.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>1.0</fillPercent>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>1500</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>60</Mass>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>75</costStuffCount>
+    <costList>
+      <HD_PigIron>40</HD_PigIron>
+    </costList>
+    <size>(2,2)</size>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2100</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodSteamEngine</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <inspectorTabs>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="Helodrace.CompProperties_MechanicalEmitter">
+        <maxPossiblePower>1200</maxPossiblePower>
+        <recommendedPower>1000</recommendedPower>
+        <sourceType>SteamEngine</sourceType>
+        <maxRPM>500</maxRPM>
+        <lowestRPM>50</lowestRPM>
+        <rpmInaccuracy>10</rpmInaccuracy>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>50.0</fuelConsumptionRate>
+        <fuelCapacity>25.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <showFuelGizmo>true</showFuelGizmo>
+        <fuelLabel>Wood</fuelLabel>
+        <fuelGizmoLabel>Wood fuel</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot function: Out of wood</outOfFuelMessage>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>12</heatPerSecond>
+        <heatPushMaxTemperature>85</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>9.9</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <destroyThingOnExplosionSize>2</destroyThingOnExplosionSize>
+        <startWickHitPointsPercent>0.5</startWickHitPointsPercent>
+        <wickTicks>200~240</wickTicks>
+      </li>
+      <li Class="Helodrace.CompProperties_SteamEngineSmoke">
+        <smokeOffset>(0.5, 0, 2)</smokeOffset>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_BasicPumpJack</defName>
+    <label>basic pump jack</label>
+    <description>A simple mechanical pump used to extract crude oil from a developed oil field. Requires a nearby steam engine to provide the necessary torque.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Building/HD_BasicPumpJack</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(6.5,6.5)</drawSize>
+      <drawOffset>(0.2,0,0.7)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(1.8, 0.5, 1.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>1.0</fillPercent>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>80</Mass>
+    </statBases>
+    <stuffCategories>
+      <li>Woody</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <HD_PigIron>35</HD_PigIron>
+    </costList>
+    <size>(6,3)</size>
+    <rotatable>false</rotatable>
+    <tickerType>Rare</tickerType>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2200</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodBasicOilDevelopment</li>
+    </researchPrerequisites>
+    <placeWorkers>
+      <li>Helodrace.PlaceWorker_OnOilFloor</li>
+    </placeWorkers>
+    <inspectorTabs>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="Helodrace.CompProperties_MechanicalUser">
+        <requireTorque>250</requireTorque>
+        <minimalRPM>60</minimalRPM>
+        <recommendedRPM>60</recommendedRPM>
+        <defaultGearRatio>1.0</defaultGearRatio>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>2</heatPerSecond>
+        <heatPushMaxTemperature>45</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_OilProducer">
+        <product>HD_CrudeOil_Low</product>
+        <amount>15</amount>
+        <daysToProduce>1</daysToProduce>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_BatchStill</defName>
+    <label>batch still</label>
+    <description>A crude refinery used to distill low quality crude oil into usable fuels like diesel and kerosene.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_BatchStill</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.5,3.5)</drawSize>
+      <drawOffset>(0,0,0.1)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(1.8, 0.5, 1.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>1.0</fillPercent>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>100</Mass>
+      <WorkTableWorkSpeedFactor>1.0</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <WoodLog>50</WoodLog>
+      <Steel>50</Steel>
+    </costList>
+    <size>(3,3)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(-1,0,-2)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2300</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodBasicOilDevelopment</li>
+    </researchPrerequisites>
+    <tickerType>Rare</tickerType>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>  
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>200.0</fuelConsumptionRate>
+        <fuelCapacity>50.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </fuelFilter>
+        <showFuelGizmo>true</showFuelGizmo>
+        <fuelLabel>Wood</fuelLabel>
+        <fuelGizmoLabel>Wood fuel</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot function: Out of wood</outOfFuelMessage>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>9</heatPerSecond>
+        <heatPushMaxTemperature>75</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_KeroseneLamp</defName>
+    <label>kerosene lamp</label>
+    <description>A simple lamp fueled by kerosene. It provides a warm, steady light but requires regular refueling.</description>
+    <category>Building</category>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Building/HD_KeroseneLamp</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+      <shadowData>
+        <volume>(0.3, 0.6, 0.3)</volume>
+        <offset>(0,0,-0.1)</offset>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <fillPercent>0.20</fillPercent>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <WorkToBuild>300</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>2</Mass>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>15</costStuffCount>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2400</uiOrder>
+    <researchPrerequisites>
+      <li>HelodBasicOilDevelopment</li>
+    </researchPrerequisites>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <inspectorTabs>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0.5</fuelConsumptionRate>
+        <fuelCapacity>10.0</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>HD_Kerosene</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>1</initialFuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <fuelLabel>Kerosene</fuelLabel>
+        <fuelGizmoLabel>Kerosene fuel</fuelGizmoLabel>
+        <functionsInVacuum>false</functionsInVacuum>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(252,187,113,0)</glowColor>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>3.5</heatPerSecond>
+        <heatPushMaxTemperature>23</heatPushMaxTemperature>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.24</fireSize>
+        <offset>(-0.01,0,0.01)</offset>
+      </li>
+    </comps>
+  </ThingDef>
+
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_LineShaft</defName>
+    <label>line shaft</label>
+    <description>A system of rotating shafts used to transmit mechanical power from a steam engine to other machines.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Things/Building/Linked/PowerConduit_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>Transmitter</linkType>
+      <linkFlags>
+        <li>PowerConduit</li>
+      </linkFlags>
+      <damageData>
+        <rect>(0,0.35,1,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Linked/PowerConduit_MenuIcon</uiIconPath>
+    <building>
+      <isInert>true</isInert>
+      <isEdifice>false</isEdifice>
+    </building>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>Standable</passability>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <WorkToBuild>35</WorkToBuild>
+      <Flammability>0</Flammability>
+      <Beauty>-2</Beauty>
+    </statBases>
+    <drawStyleCategory>Conduits</drawStyleCategory>
+    <clearBuildingArea>false</clearBuildingArea>
+    <costList>
+      <Steel>1</Steel>
+      <HD_Shaft>1</HD_Shaft>
+    </costList>
+    <inspectorTabs>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="Helodrace.CompProperties_MechanicalTransmitter" />
+    </comps>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2050</uiOrder>
+    <researchPrerequisites>
+      <li>HelodLineShaft</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_TreadleLathe</defName>
+    <label>treadle lathe</label>
+    <description>A human-powered woodworking and metalworking lathe. Operated by a foot treadle, it allows for turning wooden and metallic components without requiring external mechanical power.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_TreadleLathe</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.1,3.1)</drawSize>
+      <drawOffset>(0.05,0,-0.1)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(1.8, 0.5, 0.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>false</blockWind>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>1500</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>45</Mass>
+      <WorkTableWorkSpeedFactor>1.0</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>50</costStuffCount>
+    <costList>
+      <WoodLog>20</WoodLog>
+      <HD_PigIron>20</HD_PigIron>
+    </costList>
+    <size>(2,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2350</uiOrder>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodBasicMachineTool</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <!-- Line Shaft Turret Lathe -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_LineShaftTurretLathe</defName>
+    <label>line shaft turret lathe</label>
+    <description>An advanced, line-shaft-driven metalworking lathe with a rotatable turret. Powered by the mechanical network, it allows for high-precision cutting, boring, and turning of metal components with superior speed.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_LineShaftTurretLathe</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.1,3.1)</drawSize>
+      <drawOffset>(0.05,0,-0.1)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(1.8, 0.5, 0.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>80</Mass>
+      <WorkTableWorkSpeedFactor>1.5</WorkTableWorkSpeedFactor> <!-- 50% faster than manual treadle lathe! -->
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>80</costStuffCount>
+    <costList>
+      <Steel>50</Steel>
+      <HD_CarbonSteel>20</HD_CarbonSteel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <size>(2,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2360</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodMetalCuttingMachine</li>
+    </researchPrerequisites>
+    <tickerType>Rare</tickerType>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_MechanicalUser">
+        <requireTorque>250</requireTorque>
+        <minimalRPM>150</minimalRPM>
+        <recommendedRPM>250</recommendedRPM>
+        <defaultGearRatio>1.0</defaultGearRatio>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>3</heatPerSecond>
+        <heatPushMaxTemperature>55</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <!-- Line Shaft Milling Machine -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_LineShaftMillingMachine</defName>
+    <label>line shaft milling machine</label>
+    <description>A line-shaft-driven milling machine for precision metal shaping. Powered by the mechanical network, it can cut slots, faces, and fitted parts more quickly than hand tools.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_LineShaftMillingMachine</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.2,3.2)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(1.8, 0.5, 0.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>90</Mass>
+      <WorkTableWorkSpeedFactor>1.5</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>80</costStuffCount>
+    <costList>
+      <Steel>60</Steel>
+      <HD_CarbonSteel>25</HD_CarbonSteel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <size>(2,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2361</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodMetalCuttingMachine</li>
+    </researchPrerequisites>
+    <tickerType>Rare</tickerType>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_MechanicalUser">
+        <requireTorque>300</requireTorque>
+        <minimalRPM>180</minimalRPM>
+        <recommendedRPM>300</recommendedRPM>
+        <defaultGearRatio>1.0</defaultGearRatio>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>4</heatPerSecond>
+        <heatPushMaxTemperature>60</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <!-- Line Shaft Hydraulic Press -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_LineShaftHydraulicPress</defName>
+    <label>line shaft hydraulic press</label>
+    <description>A heavy hydraulic press driven by the line shaft network. It forms steel stock into springs, stamped plates, and other force-shaped metal parts.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_LineShaftPress</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.4,3.4)</drawSize>
+      <drawOffset>(0,0,0.1)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(2.2, 0.6, 1.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.75</fillPercent>
+    <statBases>
+      <MaxHitPoints>260</MaxHitPoints>
+      <WorkToBuild>2400</WorkToBuild>
+      <Flammability>0.4</Flammability>
+      <Mass>140</Mass>
+      <WorkTableWorkSpeedFactor>1.5</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <Steel>80</Steel>
+      <HD_CarbonSteel>35</HD_CarbonSteel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <size>(3,3)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2362</uiOrder>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodMetalFormingMachine</li>
+    </researchPrerequisites>
+    <tickerType>Rare</tickerType>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_MechanicalUser">
+        <requireTorque>450</requireTorque>
+        <minimalRPM>60</minimalRPM>
+        <recommendedRPM>120</recommendedRPM>
+        <defaultGearRatio>1.0</defaultGearRatio>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>5</heatPerSecond>
+        <heatPushMaxTemperature>65</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <!-- Line Shaft Rolling Machine -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_LineShaftRollingMachine</defName>
+    <label>line shaft rolling machine</label>
+    <description>A heavy rolling machine driven by the line shaft network. It squeezes heated metal stock between paired rollers to draw it into bars, plates, and other flat forms.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_RollingMC</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.4,3.4)</drawSize>
+      <drawOffset>(0,0,0.1)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(2.2, 0.6, 1.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.75</fillPercent>
+    <statBases>
+      <MaxHitPoints>260</MaxHitPoints>
+      <WorkToBuild>2400</WorkToBuild>
+      <Flammability>0.4</Flammability>
+      <Mass>150</Mass>
+      <WorkTableWorkSpeedFactor>1.5</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <Steel>80</Steel>
+      <HD_CarbonSteel>40</HD_CarbonSteel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <size>(3,3)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2363</uiOrder>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodMetalFormingMachine</li>
+    </researchPrerequisites>
+    <tickerType>Rare</tickerType>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_MechanicalUser">
+        <requireTorque>500</requireTorque>
+        <minimalRPM>60</minimalRPM>
+        <recommendedRPM>120</recommendedRPM>
+        <defaultGearRatio>1.0</defaultGearRatio>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>6</heatPerSecond>
+        <heatPushMaxTemperature>70</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_BlastFurnace</defName>
+    <label>blast furnace</label>
+    <description>A large furnace used to smelt iron at industrial scale. It can produce batches of molten iron for later shaping and refining.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_BlastFurnace</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(8.4,8.4)</drawSize>
+      <drawOffset>(0.05,0,1.3)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(3.2, 0.8, 3.2)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1.0</fillPercent>
+    <statBases>
+      <MaxHitPoints>500</MaxHitPoints>
+      <WorkToBuild>4500</WorkToBuild>
+      <Flammability>0.2</Flammability>
+      <Mass>400</Mass>
+      <WorkTableWorkSpeedFactor>1.0</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>250</costStuffCount>
+    <costList>
+      <Steel>150</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <size>(4,4)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2364</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodIronMaking</li>
+    </researchPrerequisites>
+    <tickerType>Rare</tickerType>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>400.0</fuelConsumptionRate>
+        <fuelCapacity>100.0</fuelCapacity>
+        <fuelFilter>
+          <categories>
+            <li>HD_BlastFurnaceFuel</li>
+          </categories>
+        </fuelFilter>
+        <showFuelGizmo>true</showFuelGizmo>
+        <fuelLabel>Charcoal</fuelLabel>
+        <fuelGizmoLabel>Charcoal fuel</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot function: Out of charcoal</outOfFuelMessage>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>12</glowRadius>
+        <glowColor>(255,135,55,0)</glowColor>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>22</heatPerSecond>
+        <heatPushMaxTemperature>120</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Converter</defName>
+    <label>converter</label>
+    <description>A tilting steelmaking vessel used to refine molten iron with iron ore into carbon steel.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_Converter</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4.5,4.5)</drawSize>
+      <drawOffset>(0,0,0.3)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(2.2, 0.8, 2.2)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>0.85</fillPercent>
+    <statBases>
+      <MaxHitPoints>380</MaxHitPoints>
+      <WorkToBuild>3200</WorkToBuild>
+      <Flammability>0.2</Flammability>
+      <Mass>260</Mass>
+      <WorkTableWorkSpeedFactor>1.0</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Stony</li>
+    </stuffCategories>
+    <costStuffCount>160</costStuffCount>
+    <costList>
+      <Steel>120</Steel>
+      <HD_PigIron>60</HD_PigIron>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <size>(3,3)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-2)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2365</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodIronMaking</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Glower">
+        <glowRadius>8</glowRadius>
+        <glowColor>(255,125,45,0)</glowColor>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_LineShaftHeatPump</defName>
+    <label>line shaft heat pump</label>
+    <description>A line-shaft-driven heat pump that fits into a wall. One side chills the air while the other dumps waste heat, with transfer strength depending on actual shaft speed.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Building/HD_LineShaftHeatPump</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.05,1)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(0.8, 0.4, 0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <blockWind>true</blockWind>
+    <fillPercent>1</fillPercent>
+    <coversFloor>true</coversFloor>
+    <blockLight>true</blockLight>
+    <canOverlapZones>false</canOverlapZones>
+    <castEdgeShadows>true</castEdgeShadows>
+    <blockWeather>true</blockWeather>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToBuild>1200</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>35</Mass>
+    </statBases>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>40</costStuffCount>
+    <costList>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <size>(1,1)</size>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2370</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodHeatPump</li>
+    </researchPrerequisites>
+    <tickerType>Rare</tickerType>
+    <placeWorkers>
+      <li>PlaceWorker_Cooler</li>
+    </placeWorkers>
+    <drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+    <building>
+      <canPlaceOverWall>true</canPlaceOverWall>
+      <isAirtight>true</isAirtight>
+    </building>
+    <inspectorTabs>
+      <li>Helodrace.ITab_MechanicalNetwork</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="Helodrace.CompProperties_MechanicalUser">
+        <requireTorque>40</requireTorque>
+        <minimalRPM>20</minimalRPM>
+        <recommendedRPM>20</recommendedRPM>
+        <defaultGearRatio>1.0</defaultGearRatio>
+      </li>
+      <li Class="Helodrace.CompProperties_MechanicalTemperatureControl">
+        <heatPerSecond>-2</heatPerSecond>
+        <heatDumpFactor>1.25</heatDumpFactor>
+        <outdoorSideEfficiencyMultiplier>1</outdoorSideEfficiencyMultiplier>
+        <ratedRPM>20</ratedRPM>
+        <maxHeatTransferFactor>40</maxHeatTransferFactor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Basic Workbench -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_BasicWorkbench</defName>
+    <label>basic workbench</label>
+    <description>A simple, hand-powered wooden workbench for basic crafting and gunsmithing tasks on the frontier. Does not require external power.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_BasicWorkbench</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2.7,2.7)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(1.8, 0.5, 0.8)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>1000</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>30</Mass>
+      <WorkTableWorkSpeedFactor>0.8</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories>
+      <li>Woody</li>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>75</costStuffCount>
+    <size>(2,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>1950</uiOrder>
+    <constructionSkillPrerequisite>2</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodFrontierSpirit</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+  <!-- Telegraph Table -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_TelegraphTable</defName>
+    <label>telegraph table</label>
+    <description>A specialized telegraph terminal used to transmit commercial orders and settle frontier petroleum contracts.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Building/HD_TelegraphTable</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.5</fillPercent>
+    <castEdgeShadows>true</castEdgeShadows>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>1500</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>35</Mass>
+      <WorkTableWorkSpeedFactor>1.0</WorkTableWorkSpeedFactor>
+    </statBases>
+    <costList>
+      <HD_PrimaryCell>2</HD_PrimaryCell>
+    </costList>
+    <stuffCategories>
+      <li>Woody</li>
+    </stuffCategories>
+    <costStuffCount>60</costStuffCount>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2450</uiOrder>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodTelegraph</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+</Defs>

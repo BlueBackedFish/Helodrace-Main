@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>HD_ConfigureMechanical</defName>
+    <driverClass>Helodrace.JobDriver_ConfigureMechanical</driverClass>
+    <reportString>configuring mechanical device.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HD_ConfigureMechanical</defName>
+    <label>configure mechanical device</label>
+    <giverClass>Helodrace.WorkGiver_ConfigureMechanical</giverClass>
+    <workType>BasicWorker</workType>
+    <priorityInType>10</priorityInType>
+    <verb>configure</verb>
+    <gerund>configuring</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <JobDef>
+    <defName>HD_DevelopOilField</defName>
+    <driverClass>Helodrace.JobDriver_DevelopOilField</driverClass>
+    <reportString>developing oil field.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HD_DevelopOilField</defName>
+    <label>develop oil field</label>
+    <giverClass>Helodrace.WorkGiver_DevelopOilField</giverClass>
+    <workType>Construction</workType>
+    <priorityInType>10</priorityInType>
+    <verb>develop</verb>
+    <gerund>developing</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_BatchStill</defName>
+    <label>refine oil</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_BatchStill</li>
+    </fixedBillGiverDefs>
+    <verb>refine</verb>
+    <gerund>refining at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <JobDef>
+    <defName>HD_LubricateBelt</defName>
+    <driverClass>Helodrace.JobDriver_LubricateBelt</driverClass>
+    <reportString>lubricating mechanical belt.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HD_LubricateBelt</defName>
+    <label>lubricate mechanical belt</label>
+    <giverClass>Helodrace.WorkGiver_LubricateBelt</giverClass>
+    <workType>BasicWorker</workType>
+    <priorityInType>20</priorityInType>
+    <verb>lubricate</verb>
+    <gerund>lubricating</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <JobDef>
+    <defName>HD_RepairBelt</defName>
+    <driverClass>Helodrace.JobDriver_RepairBelt</driverClass>
+    <reportString>repairing mechanical belt.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>HD_RepairBelt</defName>
+    <label>repair mechanical belt</label>
+    <giverClass>Helodrace.WorkGiver_RepairBelt</giverClass>
+    <workType>Construction</workType>
+    <priorityInType>50</priorityInType>
+    <verb>repair</verb>
+    <gerund>repairing</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <JobDef>
+    <defName>HD_SwitchSharpshooterMode</defName>
+    <driverClass>Helodrace.JobDriver_SwitchSharpshooterMode</driverClass>
+    <reportString>switching weapon mode.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_BlastFurnace</defName>
+    <label>use blast furnace</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_BlastFurnace</li>
+    </fixedBillGiverDefs>
+    <verb>smelt</verb>
+    <gerund>smelting at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_Converter</defName>
+    <label>use converter</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_Converter</li>
+    </fixedBillGiverDefs>
+    <verb>refine</verb>
+    <gerund>refining at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_CampfireCrafting</defName>
+    <label>use campfire for crafting</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>Campfire</li>
+    </fixedBillGiverDefs>
+    <verb>char</verb>
+    <gerund>charring at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_TreadleLathe</defName>
+    <label>use treadle lathe</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_TreadleLathe</li>
+    </fixedBillGiverDefs>
+    <verb>turn</verb>
+    <gerund>turning wood/metal at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_BasicWorkbench</defName>
+    <label>use basic workbench</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_BasicWorkbench</li>
+    </fixedBillGiverDefs>
+    <verb>craft</verb>
+    <gerund>crafting at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_LineShaftTurretLathe</defName>
+    <label>use line shaft turret lathe</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_LineShaftTurretLathe</li>
+    </fixedBillGiverDefs>
+    <verb>turn</verb>
+    <gerund>turning metal at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_LineShaftMillingMachine</defName>
+    <label>use line shaft milling machine</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_LineShaftMillingMachine</li>
+    </fixedBillGiverDefs>
+    <verb>mill</verb>
+    <gerund>milling metal at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_LineShaftHydraulicPress</defName>
+    <label>use line shaft hydraulic press</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_LineShaftHydraulicPress</li>
+    </fixedBillGiverDefs>
+    <verb>press</verb>
+    <gerund>pressing metal at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_LineShaftRollingMachine</defName>
+    <label>use line shaft rolling machine</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_LineShaftRollingMachine</li>
+    </fixedBillGiverDefs>
+    <verb>roll</verb>
+    <gerund>rolling metal at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_TelegraphTable</defName>
+    <label>use telegraph table</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_TelegraphTable</li>
+    </fixedBillGiverDefs>
+    <verb>transmit</verb>
+    <gerund>transmitting orders at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+</Defs>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ==================== Bullets ==================== -->
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_KragJorgensen_Proj</defName>
+    <label>Krag-Jorgensen bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>18</damageAmountBase>
+      <stoppingPower>1.5</stoppingPower>
+      <speed>75</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_SprMThree_Proj</defName>
+    <label>Springfield M1903 bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+      <stoppingPower>1.5</stoppingPower>
+      <speed>80</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_M1903Pedersen_Proj</defName>
+    <label>Pedersen device bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>11</damageAmountBase>
+      <stoppingPower>0.7</stoppingPower>
+      <speed>70</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- ==================== Weapons ==================== -->
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_KragJorgensen_Weapon</defName>
+    <weaponTags>
+      <li>HD_Rifle</li>
+      <li>Rifle</li>
+    </weaponTags>
+    <label>Krag-Jorgensen (Helodrace)</label>
+    <description>A bolt-action rifle with a unique side-loading magazine. Famous for its smooth action. Adapted for Helodrace use.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/KragJorgensen</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>35000</WorkToMake>
+      <Mass>4.1</Mass>
+      <AccuracyTouch>0.55</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.80</AccuracyLong>
+      <RangedWeapon_Cooldown>2.3</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>75</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_KragJorgensen_Proj</defaultProjectile>
+        <warmupTime>1.5</warmupTime>
+        <range>36.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_KragJorgensen_Proj</defaultProjectile>
+        <warmupTime>0.4</warmupTime>
+        <range>19.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_SprMThree_Weapon</defName>
+    <weaponTags>
+      <li>HD_Rifle</li>
+      <li>Rifle</li>
+    </weaponTags>
+    <label>Springfield M1903 (Helodrace)</label>
+    <description>A reliable and accurate bolt-action rifle that served for decades. Highly prized for its precision. Adapted for Helodrace use.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/SprM1903</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>40000</WorkToMake>
+      <Mass>3.9</Mass>
+      <AccuracyTouch>0.50</AccuracyTouch>
+      <AccuracyShort>0.65</AccuracyShort>
+      <AccuracyMedium>0.90</AccuracyMedium>
+      <AccuracyLong>0.90</AccuracyLong>
+      <RangedWeapon_Cooldown>2.5</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>80</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_SprMThree_Proj</defaultProjectile>
+        <warmupTime>1.7</warmupTime>
+        <range>39.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_SprMThree_Proj</defaultProjectile>
+        <warmupTime>0.4</warmupTime>
+        <range>19.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M1903Pedersen_Weapon</defName>
+    <weaponTags>
+      <li>HD_Rifle</li>
+      <li>Rifle</li>
+    </weaponTags>
+    <label>Springfield M1903 Pedersen device (Helodrace)</label>
+    <description>A Springfield M1903 fitted with a Pedersen device, trading full-power rifle cartridges for fast semi-automatic fire with lighter ammunition. Adapted for Helodrace use.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_M1903Pedersen</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>42000</WorkToMake>
+      <Mass>4.0</Mass>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.75</AccuracyShort>
+      <AccuracyMedium>0.78</AccuracyMedium>
+      <AccuracyLong>0.55</AccuracyLong>
+      <RangedWeapon_Cooldown>1.0</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>85</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.8</altAccuracyMultiplier>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1903Pedersen_Proj</defaultProjectile>
+        <warmupTime>0.8</warmupTime>
+        <range>27.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1903Pedersen_Proj</defaultProjectile>
+        <warmupTime>0.2</warmupTime>
+        <range>15.9</range>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+</Defs>

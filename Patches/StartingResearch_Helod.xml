@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Starting research for HD_HelodPlayerColony. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ResearchProjectDef[defName="Stonecutting"]/tags</xpath>
+    <value>
+      <li>HD_HelodScenarioStart</li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ResearchProjectDef[defName="PassiveCooler"]/tags</xpath>
+    <value>
+      <li>HD_HelodScenarioStart</li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ResearchProjectDef[defName="ComplexFurniture"]/tags</xpath>
+    <value>
+      <li>HD_HelodScenarioStart</li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ResearchProjectDef[defName="ComplexClothing"]/tags</xpath>
+    <value>
+      <li>HD_HelodScenarioStart</li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ResearchProjectDef[defName="Smithing"]</xpath>
+    <value>
+      <tags>
+        <li>HD_HelodScenarioStart</li>
+      </tags>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ResearchProjectDef[defName="Pemmican"]/tags</xpath>
+    <value>
+      <li>HD_HelodScenarioStart</li>
+    </value>
+  </Operation>
+
+</Patch>

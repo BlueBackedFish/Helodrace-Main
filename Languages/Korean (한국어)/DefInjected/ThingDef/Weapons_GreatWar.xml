@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Krag-Jorgensen -->
+  <HD_Gun_KragJorgensen_Weapon.label>그레이록 M1892</HD_Gun_KragJorgensen_Weapon.label>
+  <HD_Gun_KragJorgensen_Weapon.description>그레이록 조병창에서 라이센스 생산되는 독특한 측면 장전식 탄창을 가진 볼트 액션 소총입니다. 부드러운 작동 방식으로 유명합니다.</HD_Gun_KragJorgensen_Weapon.description>
+  <HD_Bullet_KragJorgensen_Proj.label>그레이록 M1892 탄환</HD_Bullet_KragJorgensen_Proj.label>
+
+  <!-- Springfield M1903 -->
+  <HD_Gun_SprMThree_Weapon.label>그레이록 M1903</HD_Gun_SprMThree_Weapon.label>
+  <HD_Gun_SprMThree_Weapon.description>수십 년간 사용된 신뢰성 높고 정확한 볼트 액션 소총입니다. 정밀도가 높아 큰 호평을 받았습니다.</HD_Gun_SprMThree_Weapon.description>
+  <HD_Bullet_SprMThree_Proj.label>그레이록 M1903 탄환</HD_Bullet_SprMThree_Proj.label>
+
+  <!-- Springfield M1903 Pedersen device -->
+  <HD_Gun_M1903Pedersen_Weapon.label>그레이록 M1903 페더슨 장비</HD_Gun_M1903Pedersen_Weapon.label>
+  <HD_Gun_M1903Pedersen_Weapon.description>페더슨 장비를 장착한 M1903 소총입니다. 강력한 소총탄 대신 가벼운 탄약을 사용하여 빠른 반자동 사격이 가능합니다.</HD_Gun_M1903Pedersen_Weapon.description>
+  <HD_Bullet_M1903Pedersen_Proj.label>그레이록 M1903 페더슨 탄환</HD_Bullet_M1903Pedersen_Proj.label>
+
+</LanguageData>

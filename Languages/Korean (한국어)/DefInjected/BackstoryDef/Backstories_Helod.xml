@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <HD_HelodTempPipelinePup.title>송유관 강아지</HD_HelodTempPipelinePup.title>
+  <HD_HelodTempPipelinePup.titleShort>송유관 아이</HD_HelodTempPipelinePup.titleShort>
+  <HD_HelodTempPipelinePup.baseDesc>[PAWN_nameDef]은 변경의 펌프 야영지에서 자라며 공구를 나르고, 원유통 수를 세고, 기계가 두드리는 소리 속에서도 잠드는 법을 배웠습니다.</HD_HelodTempPipelinePup.baseDesc>
+
+  <HD_HelodTempTelegraphRunner.title>전신 심부름꾼</HD_HelodTempTelegraphRunner.title>
+  <HD_HelodTempTelegraphRunner.titleShort>심부름꾼</HD_HelodTempTelegraphRunner.titleShort>
+  <HD_HelodTempTelegraphRunner.baseDesc>어린 배달꾼이었던 [PAWN_nameDef]은 은행, 철도 야영지, 그리고 개척지 끝의 외로운 전신국 사이를 오가며 암호문 쪽지를 날랐습니다.</HD_HelodTempTelegraphRunner.baseDesc>
+
+  <HD_HelodTempFoundryOrphan.title>주물소 고아</HD_HelodTempFoundryOrphan.title>
+  <HD_HelodTempFoundryOrphan.titleShort>주물소 아이</HD_HelodTempFoundryOrphan.titleShort>
+  <HD_HelodTempFoundryOrphan.baseDesc>[PAWN_nameDef]은 매캐한 기계 작업장에서 자랐습니다. 그곳에서 작은 손은 석탄을 고르고, 물을 나르고, 벌겋게 달아오른 철에서 물러서는 법을 배워야 했습니다.</HD_HelodTempFoundryOrphan.baseDesc>
+
+  <HD_HelodTempFrontierMechanic.title>변경 기계공</HD_HelodTempFrontierMechanic.title>
+  <HD_HelodTempFrontierMechanic.titleShort>기계공</HD_HelodTempFrontierMechanic.titleShort>
+  <HD_HelodTempFrontierMechanic.baseDesc>[PAWN_nameDef]은 임시 부품과 끈질긴 인내심으로 낡은 엔진, 펌프, 라인 샤프트를 살려냈습니다. 변경은 서투른 수리에 두 번째 기회를 잘 주지 않았습니다.</HD_HelodTempFrontierMechanic.baseDesc>
+
+  <HD_HelodTempOilClaimGuard.title>유전 권리 경비원</HD_HelodTempOilClaimGuard.title>
+  <HD_HelodTempOilClaimGuard.titleShort>유전 경비원</HD_HelodTempOilClaimGuard.titleShort>
+  <HD_HelodTempOilClaimGuard.baseDesc>측량사와 유전 권리를 지키기 위해 고용된 [PAWN_nameDef]은 먼지, 거리, 그리고 총집 가까이 움직이는 손끝을 읽는 법을 배웠습니다.</HD_HelodTempOilClaimGuard.baseDesc>
+
+  <HD_HelodTempSthalerClerk.title>스탈레르 회계원</HD_HelodTempSthalerClerk.title>
+  <HD_HelodTempSthalerClerk.titleShort>회계원</HD_HelodTempSthalerClerk.titleShort>
+  <HD_HelodTempSthalerClerk.baseDesc>[PAWN_nameDef]은 변경 금융 회사에서 장부를 맞추며 광석, 석유, 빚, 호의를 단정한 돈의 열로 바꾸었습니다.</HD_HelodTempSthalerClerk.baseDesc>
+
+  <HD_HelodTempPrairieDoctor.title>초원 의사</HD_HelodTempPrairieDoctor.title>
+  <HD_HelodTempPrairieDoctor.titleShort>의사</HD_HelodTempPrairieDoctor.titleShort>
+  <HD_HelodTempPrairieDoctor.baseDesc>[PAWN_nameDef]은 목축 마을, 시추 야영지, 철도 보급소를 오가며 구할 수 있는 물자로 화상, 감염, 화학 중독을 치료했습니다.</HD_HelodTempPrairieDoctor.baseDesc>
+
+</LanguageData>

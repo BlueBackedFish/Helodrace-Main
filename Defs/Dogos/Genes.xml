@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Existing: Sharpshooter (초월공학 명사수) -->
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Gene_Sharpshooter</defName>
+    <label>sharpshooter</label>
+    <description>Helod 명사수 초월공학 유전자입니다. 사격 명중률이 조금 증가하고 원거리 무기의 재사용 대기시간이 조금 단축됩니다. 또한 명사수 특수 무기의 보조 사격 모드를 사용할 수 있게 해줍니다. 이 유전자를 이식하려면 초월공학 캡슐이 필요합니다.</description>
+    <iconPath>Icon/HD_Sharpshooter</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <biostatCpx>0</biostatCpx>
+    <biostatMet>0</biostatMet>
+    <biostatArc>1</biostatArc>
+    <statOffsets>
+      <ShootingAccuracyPawn>1.5</ShootingAccuracyPawn>
+    </statOffsets>
+    <statFactors>
+      <RangedWeapon_Cooldown>0.9</RangedWeapon_Cooldown>
+    </statFactors>
+  </GeneDef>
+
+  <!-- New Custom Gene 1: Arrogant Leader (오만하고 지배적인 지도자) -->
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Gene_ArrogantLeader</defName>
+    <label>arrogant leader</label>
+    <description>오만하고 권력욕에 가득 찬 매켄지 헬로드의 지배적인 기질을 나타내는 유전자입니다. 타고난 위엄 덕분에 사교적 영향력이 증가하지만, 자존심이 매우 드높아 정신적으로 쉽게 흔들리고 남들의 말을 귀담아듣지 않아 학습 속도가 저하됩니다.</description>
+    <iconPath>Icon/HD_icon</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <biostatCpx>2</biostatCpx>
+    <biostatMet>0</biostatMet>
+    <statOffsets>
+      <SocialImpact>0.20</SocialImpact>
+      <MentalBreakThreshold>0.06</MentalBreakThreshold>
+      <GlobalLearningFactor>-0.15</GlobalLearningFactor>
+    </statOffsets>
+  </GeneDef>
+
+  <!-- New Custom Gene 2: Polar Precision (북극광 명사수) -->
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Gene_PolarPrecision</defName>
+    <label>polar precision</label>
+    <description>극한의 상황 속에서 극도로 인내심을 유지하여 정밀한 저격을 가능케 하는 북극헬로드 전용의 사격 보정 유전자입니다. 원거리 사격 명중률이 대폭 상승하지만, 너무 신중하게 사격하느라 전체적인 작업 속도가 소폭 저하되고 난전(근접전)에서의 감각이 둔화됩니다.</description>
+    <iconPath>Icon/HD_Sharpshooter</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <biostatCpx>2</biostatCpx>
+    <biostatMet>-1</biostatMet>
+    <statOffsets>
+      <ShootingAccuracyPawn>2.0</ShootingAccuracyPawn>
+      <MeleeHitChance>-1.5</MeleeHitChance>
+      <WorkSpeedGlobal>-0.10</WorkSpeedGlobal>
+    </statOffsets>
+  </GeneDef>
+
+  <!-- New Custom Gene 3: Monopolist (독점 자산가) -->
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Gene_Monopolist</defName>
+    <label>monopolist</label>
+    <description>도금시대 자산가처럼 정교하고 지적인 대화법과 협상 논리를 장착한 동부헬로드의 특수 유전자입니다. 무역 상거래 시 가격 할인율을 대폭 이끌어내고, 각종 협상 및 사교적 의사소통에서 압도적인 우위를 점합니다.</description>
+    <iconPath>Icon/HD_icon</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <biostatCpx>2</biostatCpx>
+    <biostatMet>-1</biostatMet>
+    <statOffsets>
+      <TradePriceImprovement>0.12</TradePriceImprovement>
+      <NegotiationAbility>0.25</NegotiationAbility>
+      <SocialImpact>0.15</SocialImpact>
+    </statOffsets>
+  </GeneDef>
+
+  <!-- New Custom Gene 4: Mercenary Cohesion (용병단의 군대식 결속) -->
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Gene_MercenaryCohesion</defName>
+    <label>mercenary cohesion</label>
+    <description>서로 엄호하며 엄격한 군대식 전술 규율 하에 움직이는 멕시코 PMC 헬로드의 결속 유전자입니다. 체계적인 방어 기동 및 신속한 엄폐 전환 덕분에 입는 피해가 감소하고, 민첩한 회피 능력을 지니며 뼈가 깎이는 고통조차 극복하고 끝까지 전선에서 싸울 수 있게 해줍니다.</description>
+    <iconPath>Icon/HD_Sharpshooter</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <biostatCpx>3</biostatCpx>
+    <biostatMet>-2</biostatMet>
+    <statOffsets>
+      <MeleeDodgeChance>2.0</MeleeDodgeChance>
+      <PainShockThreshold>0.15</PainShockThreshold>
+    </statOffsets>
+    <statFactors>
+      <IncomingDamageFactor>0.92</IncomingDamageFactor>
+    </statFactors>
+  </GeneDef>
+
+</Defs>

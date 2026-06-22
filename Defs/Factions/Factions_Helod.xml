@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <FactionDef ParentName="PlayerFactionBase">
+    <defName>HD_HelodPlayerColony</defName>
+    <label>Helod colony</label>
+    <description>A colony of Helod pioneers building a frontier industrial outpost.</description>
+    <isPlayer>true</isPlayer>
+    <basicMemberKind>HD_HelodColonist</basicMemberKind>
+    <pawnSingular>Helod colonist</pawnSingular>
+    <pawnsPlural>Helod colonists</pawnsPlural>
+    <techLevel>Industrial</techLevel>
+    <factionNameMaker>NamerFactionOutlander</factionNameMaker>
+    <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
+    <allowedCultures><li>Astropolitan</li></allowedCultures>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>HD_Helod</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+    <startingResearchTags>
+      <li>HD_HelodScenarioStart</li>
+    </startingResearchTags>
+    <apparelStuffFilter>
+      <thingDefs>
+        <li>Synthread</li>
+      </thingDefs>
+    </apparelStuffFilter>
+  </FactionDef>
+
+</Defs>

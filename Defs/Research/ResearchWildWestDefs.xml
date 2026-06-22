@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <ResearchProjectDef>
+        <defName>HelodFrontierSpirit</defName>
+        <label>Frontier Spirit</label>
+        <description>default tech to open cloth</description>
+        <baseCost>100</baseCost>
+        <techLevel>Industrial</techLevel>
+        <tags>
+            <li>HD_HelodScenarioStart</li>
+        </tags>
+        <prerequisites>
+            <li>ComplexFurniture</li>
+            <li>Smithing</li>
+            <li>ComplexClothing</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>0</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodMechanicalEngineering</defName>
+        <label>Mechanical engineering 101</label>
+        <description>basic tech for mechanic engineering</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <tags>
+            <li>HD_HelodScenarioStart</li>
+        </tags>
+        <prerequisites>
+            <li>HelodFrontierSpirit</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>1</researchViewX>
+        <researchViewY>0.8</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodExperimentalAnalysis</defName>
+        <label>Trial, Error, and Litmus</label>
+        <description>for electricity and medicine</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <tags>
+            <li>HD_HelodScenarioStart</li>
+        </tags>
+        <prerequisites>
+            <li>HelodFrontierSpirit</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>1</researchViewX>
+        <researchViewY>6.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodSteamEngine</defName>
+        <label>Harnessing the fire</label>
+        <description>technology for steamengine</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodIronMaking</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>3</researchViewX>
+        <researchViewY>0</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicMachineTool</defName>
+        <label>Machine That Makes Machine</label>
+        <description>human powered tools</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodIronMaking</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>3</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodIngredientExtraction</defName>
+        <label>Distilling nature</label>
+        <description>feel good drugs</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodExperimentalAnalysis</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>2</researchViewX>
+        <researchViewY>5.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodPrimaryCell</defName>
+        <label>Lightning in a bottle</label>
+        <description>primary cell</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodExperimentalAnalysis</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>2</researchViewX>
+        <researchViewY>7.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicOilDevelopment</defName>
+        <label>Blood of the Iron Age</label>
+        <description>oilsssssssssss</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodSteamEngine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>5</researchViewX>
+        <researchViewY>0</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLineShaft</defName>
+        <label>One engine, Many machines</label>
+        <description>shaft</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodSteamEngine</li>
+            <li>HelodBasicMachineTool</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>4</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodTelegraph</defName>
+        <label>The Victorian internet</label>
+        <description>dot dash</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodPrimaryCell</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>3</researchViewX>
+        <researchViewY>7.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodMetalCuttingMachine</defName>
+        <label>Shaving the micron</label>
+        <description>lathe</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLineShaft</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>5</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodMetalFormingMachine</defName>
+        <label>Brute Force Shaping</label>
+        <description>press</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLineShaft</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>5</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBreechLoadingGun</defName>
+        <label>Loading from the back</label>
+        <description>gun!</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLineShaft</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>5</researchViewX>
+        <researchViewY>3.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodIronMaking</defName>
+        <label>The Bones of the Machine</label>
+        <description>Unlocks the basic processes needed to smelt and refine iron for frontier industry.</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodMechanicalEngineering</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>2</researchViewX>
+        <researchViewY>0.8</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicEngine</defName>
+        <label>Controlled Explosions</label>
+        <description>real engine</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicOilDevelopment</li>
+            <li>HelodMetalCuttingMachine</li>
+            <li>HelodMetalFormingMachine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>7</researchViewX>
+        <researchViewY>0.8</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLargeSteamEngine</defName>
+        <label>Screaming Cylinders</label>
+        <description>biiiiiiiiiiig steamengine</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodSteamEngine</li>
+            <li>HelodMetalCuttingMachine</li>
+            <li>HelodMetalFormingMachine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>7</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodSpinner</defName>
+        <label>Weaving the Future</label>
+        <description>cloth, many</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLineShaft</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>5</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodHeatPump</defName>
+        <label>The Cold-Hot Siphoner</label>
+        <description>airconditioner!!!!!!!!</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodMetalCuttingMachine</li>
+            <li>HelodMetalFormingMachine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>7</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicPetrochemistry</defName>
+        <label>Liquid Alchemy</label>
+        <description>chemestry with oil</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicEngine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>0.8</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodHighOilDevelopment</defName>
+        <label>High-Pressure Scavenging</label>
+        <description>big pumpjack, rotorydrill</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicOilDevelopment</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>0</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodTotalSynthesisMedicine</defName>
+        <label>Molecular Assembly Line</label>
+        <description>ampthetaminesssssssssss</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodIngredientExtraction</li>
+            <li>HelodBasicPetrochemistry</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>10</researchViewX>
+        <researchViewY>0.8</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicElectronics</defName>
+        <label>Ohm's Law Applied</label>
+        <description>electronics</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodTelegraph</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>4</researchViewX>
+        <researchViewY>5.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodFinancialNetwork</defName>
+        <label>Wire transfer</label>
+        <description>money with telegraph</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodTelegraph</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>4</researchViewX>
+        <researchViewY>7.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicMotor</defName>
+        <label>Kinetic-Electric Synergy</label>
+        <description>big motor and generator</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodMetalCuttingMachine</li>
+            <li>HelodMetalFormingMachine</li>
+            <li>HelodBasicElectronics</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>5.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodWireless</defName>
+        <label>Breaking the Wire</label>
+        <description>Wireless telegraph</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicElectronics</li>
+            <li>HelodFinancialNetwork</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>7.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLeverAction</defName>
+        <label>The Gun that Won the West</label>
+        <description>leveration</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodMetalCuttingMachine</li>
+            <li>HelodMetalFormingMachine</li>
+            <li>HelodBreechLoadingGun</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>7</researchViewX>
+        <researchViewY>3.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodSmokeLessGunpowder</defName>
+        <label>Clear Skies, Deadly Horizon</label>
+        <description>more good gun's requirement</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodIngredientExtraction</li>
+            <li>HelodLeverAction</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>8</researchViewX>
+        <researchViewY>3.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBoltAction</defName>
+        <label>Lock, Stock, and Barrel</label>
+        <description>boltaction rifle</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodSmokeLessGunpowder</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>3.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodChokingAgent</defName>
+        <label>ChokingAgent</label>
+        <description>chlorine</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodTotalSynthesisMedicine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>11</researchViewX>
+        <researchViewY>0.8</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodFirstAid</defName>
+        <label>FirstAid</label>
+        <description>blood transfusion, basic disinfection</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodTotalSynthesisMedicine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>11</researchViewX>
+        <researchViewY>0</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicMachineGun</defName>
+        <label>BasicMachineGun</label>
+        <description>maxim</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodSmokeLessGunpowder</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodSamiAutomaticPistol</defName>
+        <label>SamiAutomaticPistol</label>
+        <description>1911, Pedersen Device</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBoltAction</li>
+            <li>HelodBasicMachineGun</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>10</researchViewX>
+        <researchViewY>3.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodMiniMotor</defName>
+        <label>MiniMotor</label>
+        <description>MiniMotor For Machine Tools</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicMotor</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>10</researchViewX>
+        <researchViewY>5.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodHighElectronics</defName>
+        <label>HighElectronics</label>
+        <description>Vaccum tube, computer, Radio wave</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicMotor</li>
+            <li>HelodWireless</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>10</researchViewX>
+        <researchViewY>7.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodHighMachineGun</defName>
+        <label>HighMachineGun</label>
+        <description>Light machine gun, heavy machine gun with high caliber</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicMachineGun</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>10</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodHaberBosch</defName>
+        <label>HaberBosch</label>
+        <description>fertilizer</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodTotalSynthesisMedicine</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>11</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBasicModernRifle</defName>
+        <label>BasicModernRifle</label>
+        <description>M1!!!!!!!!! and thompson</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodSamiAutomaticPistol</li>
+            <li>HelodHighMachineGun</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>11</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodHighExplosive</defName>
+        <label>HighExplosive</label>
+        <description>Unlocks powerful explosive compounds for advanced industrial and military applications.</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodHaberBosch</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>12</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+</Defs>

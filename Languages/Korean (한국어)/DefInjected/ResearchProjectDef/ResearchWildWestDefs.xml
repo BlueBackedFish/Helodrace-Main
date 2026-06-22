@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HelodFrontierSpirit.label>개척정신</HelodFrontierSpirit.label>
+  <HelodFrontierSpirit.description>기본적인 의류 제작 기술을 잠금 해제합니다.</HelodFrontierSpirit.description>
+
+  <HelodMechanicalEngineering.label>기계공학 입문</HelodMechanicalEngineering.label>
+  <HelodMechanicalEngineering.description>기계공학의 기초를 연구합니다.</HelodMechanicalEngineering.description>
+
+  <HelodExperimentalAnalysis.label>시행착오와 리트머스</HelodExperimentalAnalysis.label>
+  <HelodExperimentalAnalysis.description>전기 및 의료 기술의 발판이 되는 실험적 분석법을 연구합니다.</HelodExperimentalAnalysis.description>
+
+  <HelodSteamEngine.label>불을 길들이다</HelodSteamEngine.label>
+  <HelodSteamEngine.description>증기 기관을 건설하여 기계식 동력을 생산하는 기술을 연구합니다.</HelodSteamEngine.description>
+
+  <HelodBasicMachineTool.label>기계를 만드는 기계</HelodBasicMachineTool.label>
+  <HelodBasicMachineTool.description>인력으로 구동되는 기초적인 공작 기계를 연구합니다.</HelodBasicMachineTool.description>
+
+  <HelodIngredientExtraction.label>자연의 정수</HelodIngredientExtraction.label>
+  <HelodIngredientExtraction.description>자연물로부터 약효 성분을 원활히 추출하는 가공법을 연구합니다.</HelodIngredientExtraction.description>
+
+  <HelodPrimaryCell.label>병 속의 번개</HelodPrimaryCell.label>
+  <HelodPrimaryCell.description>일회성 화학 에너지를 전기로 보관하는 1차 전지를 연구합니다.</HelodPrimaryCell.description>
+
+  <HelodBasicOilDevelopment.label>철기 시대의 피</HelodBasicOilDevelopment.label>
+  <HelodBasicOilDevelopment.description>기초적인 유전 개발 및 원유 시추 기술을 연구합니다.</HelodBasicOilDevelopment.description>
+
+  <HelodLineShaft.label>하나의 동력, 수많은 기계</HelodLineShaft.label>
+  <HelodLineShaft.description>회전축과 벨트를 이용해 여러 기계 장치로 기계적 동력을 전달하는 라인 샤프트 기술을 연구합니다.</HelodLineShaft.description>
+
+  <HelodTelegraph.label>빅토리아 시대의 인터넷</HelodTelegraph.label>
+  <HelodTelegraph.description>모스 부호를 이용한 원거리 전신 통신 기술을 연구합니다.</HelodTelegraph.description>
+
+  <HelodMetalCuttingMachine.label>천분의 일 인치를 향하여</HelodMetalCuttingMachine.label>
+  <HelodMetalCuttingMachine.description>금속을 깎아 정밀한 원형 부품을 제작하는 금속 절삭 기계를 연구합니다.</HelodMetalCuttingMachine.description>
+
+  <HelodMetalFormingMachine.label>압력의 예술</HelodMetalFormingMachine.label>
+  <HelodMetalFormingMachine.description>금속을 압착하거나 구부려 원하는 모양으로 만드는 금속 성형 기술을 연구합니다.</HelodMetalFormingMachine.description>
+
+  <HelodBreechLoadingGun.label>약실의 혁명</HelodBreechLoadingGun.label>
+  <HelodBreechLoadingGun.description>총열 뒤쪽에서 탄약을 장전하는 고속 연사식 후장식 화기를 연구합니다.</HelodBreechLoadingGun.description>
+
+  <HelodIronMaking.label>기계의 뼈대</HelodIronMaking.label>
+  <HelodIronMaking.description>철을 제련하여 각종 장치와 대형 구조물의 완성을 위한 단단한 기초를 만듭니다.</HelodIronMaking.description>
+
+  <HelodBasicEngine.label>통제된 폭발</HelodBasicEngine.label>
+  <HelodBasicEngine.description>원유 정제물을 이용해 연소실 내부에서 지속적이고 통제된 폭발을 일으켜 회전력을 얻는 기초적인 내연기관을 연구합니다.</HelodBasicEngine.description>
+
+  <HelodLargeSteamEngine.label>포효하는 실린더</HelodLargeSteamEngine.label>
+  <HelodLargeSteamEngine.description>거대한 실린더와 증기 압력을 다루는 기술을 연구하여 엄청난 소음과 함께 고마력의 동력을 제공하는 대형 증기 기관을 제작합니다.</HelodLargeSteamEngine.description>
+
+  <HelodSpinner.label>미래를 짜내다</HelodSpinner.label>
+  <HelodSpinner.description>원목, 섬유 원료에서 실을 자아내고 옷감을 대량 생산할 수 있는 자동 방적 기술을 연구합니다.</HelodSpinner.description>
+
+  <HelodHeatPump.label>열을 훔치는 장치</HelodHeatPump.label>
+  <HelodHeatPump.description>압축기와 냉매를 사용하여 열을 한 곳에서 다른 곳으로 이동시킴으로써 온도 조절 및 냉각을 가능케 하는 기술을 연구합니다.</HelodHeatPump.description>
+
+  <HelodBasicPetrochemistry.label>액체 연금술</HelodBasicPetrochemistry.label>
+  <HelodBasicPetrochemistry.description>시출한 원유를 정밀하게 분류 증류하고 복잡한 화학 처리를 거쳐 유용한 화학 연료와 합성 물질을 추출해내는 유화학의 기초를 다집니다.</HelodBasicPetrochemistry.description>
+
+  <HelodHighOilDevelopment.label>깊은 곳 까지</HelodHighOilDevelopment.label>
+  <HelodHighOilDevelopment.description>더욱 단단한 지층을 뚫기 위한 로터리 드릴과 깊은 지하의 원유를 지상으로 강력하게 끌어올릴 수 있는 대형 펌프잭 기술을 연구합니다.</HelodHighOilDevelopment.description>
+
+  <HelodTotalSynthesisMedicine.label>분자 조립 라인</HelodTotalSynthesisMedicine.label>
+  <HelodTotalSynthesisMedicine.description>화학 원료와 정밀 가공 기술을 조합하여, 순수한 성분의 약물을 높은 수율로 합성하는 첨단 제약 기술을 연구합니다.</HelodTotalSynthesisMedicine.description>
+
+  <HelodBasicElectronics.label>옴의 법칙 응용</HelodBasicElectronics.label>
+  <HelodBasicElectronics.description>기본적인 저항, 콘덴서, 진공관 등의 소자를 다루어 신호를 증폭하고 조절하는 고도화된 전자 회로 기술을 연구합니다.</HelodBasicElectronics.description>
+
+  <HelodFinancialNetwork.label>전선을 타고 흐르는 돈</HelodFinancialNetwork.label>
+  <HelodFinancialNetwork.description>기존의 통신 선로와 정교한 거래 규약을 접목하여, 자본을 전신망을 통해 원격으로 안전하고 신속하게 송금하는 금융 네트워크를 마련합니다.</HelodFinancialNetwork.description>
+
+  <HelodBasicMotor.label>운동-전기 시너지</HelodBasicMotor.label>
+  <HelodBasicMotor.description>전자기 유도 현상을 이용하여 회전 운동력을 전기에너지로 변환하거나, 전기에너지를 다시 강력한 회전 동력으로 바꾸는 대형 모터와 발전기를 설계합니다.</HelodBasicMotor.description>
+
+  <HelodWireless.label>전선의 속박을 끊고</HelodWireless.label>
+  <HelodWireless.description>눈에 보이지 않는 공기 중의 전파를 수신하고 발신하여 물리적인 연결 선로 없이도 장거리로 메시지를 주고받는 무선 통신 기술을 연구합니다.</HelodWireless.description>
+
+  <HelodLeverAction.label>서부를 개척한 총</HelodLeverAction.label>
+  <HelodLeverAction.description>방아쇠울의 연장선상에 있는 레버를 당겼다 밀어내는 동작 하나만으로 탄피를 배출하고 새로운 탄약을 공급하여 격발하는 레버액션 소총을 제작합니다.</HelodLeverAction.description>
+
+  <HelodSmokeLessGunpowder.label>맑은 하늘, 죽음의 지평선</HelodSmokeLessGunpowder.label>
+  <HelodSmokeLessGunpowder.description>연소 잔사물과 짙은 백색 연기가 남지 않는 화학 장약을 조제함으로써 총구의 시야를 가리지 않고 사격의 연사 속도와 투사 위력을 한 단계 끌어 올립니다.</HelodSmokeLessGunpowder.description>
+
+  <HelodBoltAction.label>완성된 소총</HelodBoltAction.label>
+  <HelodBoltAction.description>노리쇠를 손으로 직접 당기고 젖히는 방식을 활용하여, 단순하지만 극도로 견고하며 압도적인 명중률과 사거리를 보장하는 볼트액션 소총을 연구합니다.</HelodBoltAction.description>
+
+</LanguageData>

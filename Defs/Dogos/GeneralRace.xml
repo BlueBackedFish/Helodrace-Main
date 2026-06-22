@@ -1,148 +1,216 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <AlienRace.ThingDef_AlienRace ParentName="HD_PawnBase"> <!-- HAR 종족의 기본 정의 -->
+  <AlienRace.ThingDef_AlienRace ParentName="HD_PawnBase">
     <defName>Helod</defName>
     <label>Helod</label>
-    <description>A mysterious humanoid race with dog-like features.</description>
-    <alienRace> <!-- HAR 관련 모든 설정이 들어가는 태그 -->
-      <generalSettings> <!-- 종족의 일반적인 특성 설정 -->
-        <maleGenderProbability>0.000001</maleGenderProbability>
+    <description>A noble canine-like humanoid race known for their loyalty, agility, and frontier spirit. Excellent survivors, trackers, and marksmen.</description>
+    <alienRace>
+      <generalSettings>
+        <maleGenderProbability>0.0000001</maleGenderProbability>
         <immuneToAge>false</immuneToAge>
         <humanRecipeImport>true</humanRecipeImport>
         <canLayDown>true</canLayDown>
+        <maxDamageForSocialfight>6</maxDamageForSocialfight>
+        <immuneToXenophobia>false</immuneToXenophobia>
         
-        <alienPartGenerator> <!-- 외형(머리, 몸, 부착물 등) 생성 규칙 -->
-          <headOffset>(0.0, 0.12)</headOffset>
-          
+        <disallowedTraits>
+          <li>
+            <defName Degree="-1">SpeedOffset</defName>
+          </li>
+          <li>
+            <defName>CreepyBreathing</defName>
+          </li>
+          <li>
+            <defName>BodyPurist</defName>
+          </li>
+        </disallowedTraits>
+
+        <alienPartGenerator>
           <atlasScale>4</atlasScale>
           <headTypes>
-            <li>HelodHead01</li>
+            <li>HD_HelodHead01</li>
+            <li>HD_HelodHead02</li>
           </headTypes>
           <bodyTypes>
             <li>Female</li>
+            <!--<li>Thin</li>-->
           </bodyTypes>
+          <headOffset>(0.0, 0.25)</headOffset>
           <customDrawSize>(1.0, 1.0)</customDrawSize>
-          <customHeadDrawSize>(0.9, 0.9)</customHeadDrawSize>
+          <customHeadDrawSize>(1.0, 1.0)</customHeadDrawSize>
           <customPortraitDrawSize>(1.0, 1.0)</customPortraitDrawSize>
           
-          <colorChannels> <!-- 색상 채널 설정 (피부, 머리카락 등) -->
+          <colorChannels>
             <li>
               <name>skin</name>
-              <first Class="ColorGenerator_Options">
-                <options>
-                  <li>
-                    <weight>10</weight>
-                    <only>(255,255,255)</only>
-                  </li>
-                </options>
+              <first Class="ColorGenerator_Single">
+                <color>(1.0, 1.0, 1.0)</color>
               </first>
+              <second Class="ColorGenerator_Single">
+                <color>(1.0, 1.0, 1.0)</color>
+              </second>
             </li>
             <li>
               <name>hair</name>
               <first Class="ColorGenerator_Options">
                 <options>
+                  <!-- Charcoal Black -->
                   <li>
-                    <weight>10</weight>
-                    <only>(255,255,255)</only>
+                    <weight>70</weight>
+                    <only>RGBA(92, 92, 92, 255)</only>
+                  </li>
+                  <!-- Cocoa -->
+                  <li>
+                    <weight>150</weight>
+                    <only>RGBA(181, 132, 102, 255)</only>
+                  </li>
+                  <!-- Brown -->
+                  <li>
+                    <weight>150</weight>
+                    <only>RGBA(153, 69, 0, 255)</only>
+                  </li>
+                  <!-- Gold Blonde -->
+                  <li>
+                    <weight>100</weight>
+                    <only>RGBA(221, 150, 0, 255)</only>
+                  </li>
+                  <!-- White Blonde -->
+                  <li>
+                    <weight>100</weight>
+                    <only>RGBA(242, 214, 153, 255)</only>
+                  </li>
+                  <!-- Sugar Ash -->
+                  <li>
+                    <weight>50</weight>
+                    <only>RGBA(148, 138, 138, 255)</only>
+                  </li>
+                  <!-- Gold Rose -->
+                  <li>
+                    <weight>40</weight>
+                    <only>RGBA(181, 135, 89, 255)</only>
+                  </li>
+                  <!-- Dark Rose -->
+                  <li>
+                    <weight>30</weight>
+                    <only>RGBA(171, 40, 46, 255)</only>
+                  </li>
+                  <!-- Light Purple -->
+                  <li>
+                    <weight>40</weight>
+                    <only>RGBA(229, 193, 255, 255)</only>
+                  </li>
+                  <!-- Aqua -->
+                  <li>
+                    <weight>40</weight>
+                    <only>RGBA(0, 206, 255, 255)</only>
+                  </li>
+                  <!-- White -->
+                  <li>
+                    <weight>20</weight>
+                    <only>RGBA(230, 230, 230, 255)</only>
                   </li>
                 </options>
               </first>
+              <second Class="ColorGenerator_Single">
+                <color>RGBA(0, 0, 0, 0)</color>
+              </second>
             </li>
           </colorChannels>
-          
-          <bodyAddons> <!-- 신체 부착물 설정 (꼬리, 귀 등) -->
+
+          <bodyAddons>
             <!-- Tail -->
             <li>
+              <drawSize>1</drawSize>
               <path>Dogos/Tail/HelodTail</path>
-              <inFrontOfBody>false</inFrontOfBody>
-              <colorChannel>hair</colorChannel>
-              <shaderType>Cutout</shaderType>
-              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
               <conditions>
                 <BodyPart>
-                  <bodyPart>HD_Tail</bodyPart>
+                  <bodyPart>HD_HelodTail</bodyPart>
+                  <bodyPartLabel>tail</bodyPartLabel>
                 </BodyPart>
-                <RotStage>Fresh,Rotting</RotStage>
                 <Posture>
                   <drawnStanding>true</drawnStanding>
                   <drawnInBed>false</drawnInBed>
                 </Posture>
+                <RotStage>Fresh,Rotting</RotStage>
               </conditions>
+              <inFrontOfBody>false</inFrontOfBody>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <colorChannel>hair</colorChannel>
+              <defaultOffset>Tail</defaultOffset>
+              <shaderType>Cutout</shaderType>
               <offsets>
-                <south><offset>(0.2,-0.15)</offset></south>
+                <south><offset>(-0.25,0.25)</offset></south>
                 <north>
-                  <offset>(-0.06,-0.14)</offset>
+                  <offset>(-0.05,0.36)</offset>
                   <layerOffset>-0.2</layerOffset> <!-- 북쪽을 볼 때 몸 뒤로 숨김 -->
                 </north>
-                <east><offset>(0.23,-0.14)</offset></east>
+                <east><offset>(-0.11,0.18)</offset></east>
               </offsets>
             </li>
+
             <!-- Left Ear -->
             <li>
               <path>Dogos/EarLeft/Ear1Left</path>
-              <drawSize>0.7</drawSize>
-              <inFrontOfBody>true</inFrontOfBody>
-              <colorChannel>hair</colorChannel>
-              <alignWithHead>true</alignWithHead>
-              <shaderType>Cutout</shaderType>
-              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
               <conditions>
                 <BodyPart>
                   <bodyPart>Ear</bodyPart>
                   <bodyPartLabel>left ear</bodyPartLabel>
                 </BodyPart>
                 <RotStage>Fresh,Rotting</RotStage>
-                <Posture>
-                  <drawnStanding>true</drawnStanding>
-                  <drawnInBed>true</drawnInBed>
-                </Posture>
               </conditions>
+              <inFrontOfBody>true</inFrontOfBody>
+              <colorChannel>hair</colorChannel>
+              <drawSize>0.8</drawSize>
+              <angle>0</angle>
+              <alignWithHead>true</alignWithHead>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <defaultOffset>Tail</defaultOffset>
+              <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <south>
-                  <offset>(0.15,0.16)</offset>
+                  <offset>(-0.25,0.4)</offset>
                   <layerOffset>0.02</layerOffset>
                 </south>
                 <north>
-                  <offset>(-0.11,0.11)</offset>
+                  <offset>(-0.11,0.68)</offset>
                   <layerOffset>-0.02</layerOffset>
                 </north>
                 <east>
-                  <offset>(0,0.16)</offset>
+                  <offset>(-0.4,0.4)</offset>
                   <layerOffset>0.02</layerOffset>
                 </east>
               </offsets>
             </li>
+
             <!-- Right Ear -->
             <li>
               <path>Dogos/EarRight/Ear1Right</path>
-              <drawSize>0.7</drawSize>
-              <inFrontOfBody>true</inFrontOfBody>
-              <colorChannel>hair</colorChannel>
-              <alignWithHead>true</alignWithHead>
-              <shaderType>Cutout</shaderType>
-              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
               <conditions>
                 <BodyPart>
                   <bodyPart>Ear</bodyPart>
                   <bodyPartLabel>right ear</bodyPartLabel>
                 </BodyPart>
                 <RotStage>Fresh,Rotting</RotStage>
-                <Posture>
-                  <drawnStanding>true</drawnStanding>
-                  <drawnInBed>true</drawnInBed>
-                </Posture>
               </conditions>
+              <inFrontOfBody>true</inFrontOfBody>
+              <colorChannel>hair</colorChannel>
+              <drawSize>0.8</drawSize>
+              <angle>0</angle>
+              <alignWithHead>true</alignWithHead>
+              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+              <defaultOffset>Tail</defaultOffset>
+              <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <south>
-                  <offset>(-0.18,0.16)</offset>
+                  <offset>(-0.63,0.4)</offset>
                   <layerOffset>0.02</layerOffset>
                 </south>
                 <north>
-                  <offset>(0.25,0.11)</offset>
+                  <offset>(0.30,0.68)</offset>
                   <layerOffset>-0.02</layerOffset>
                 </north>
                 <east>
-                  <offset>(0,0.16)</offset>
+                  <offset>(-0.4,0.4)</offset>
                   <layerOffset>0.02</layerOffset>
                 </east>
               </offsets>
@@ -150,26 +218,21 @@
           </bodyAddons>
         </alienPartGenerator>
       </generalSettings>
-      
-      <graphicPaths> <!-- 그래픽 경로 설정 -->
-        <body>
-          <path>Dogos/Body/</path>
-        </body>
-        <head>
-          <path>Dogos/Head/HelodHead01</path>
-        </head>
+
+      <!-- Graphic Paths -->
+      <graphicPaths>
+        <body>Dogos/Body/</body>
         <skeleton>Things/Pawn/Humanlike/Bodies/Dessicated/Dessicated_Thin</skeleton>
-        <skinShader>Cutout</skinShader>
       </graphicPaths>
-      
-      <styleSettings> <!-- 스타일 설정 (헤어, 수염 등) -->
+
+      <styleSettings>
         <li>
           <key>HairDef</key>
           <value>
             <hasStyle>true</hasStyle>
-            <styleTags>
-              <li>HD_Hair</li>
-            </styleTags>
+            <styleTagsOverride>
+              <li>HelodHair</li>
+            </styleTagsOverride>
           </value>
         </li>
         <li>
@@ -178,32 +241,59 @@
             <hasStyle>false</hasStyle>
           </value>
         </li>
+        <li>
+          <key>TattooDef</key>
+          <value>
+            <hasStyle>false</hasStyle>
+          </value>
+        </li>
       </styleSettings>
-      
-      <thoughtSettings> <!-- 생각/무드 관련 설정 -->
-        <replacerList>
-          <!-- 예: 특정 생각을 다른 생각으로 대체 -->
-        </replacerList>
-        <cannotReceiveThoughts>
-          <!-- 받지 않는 생각들 -->
-          <li>SoakingWet</li>
-        </cannotReceiveThoughts>
+
+      <relationSettings>
+        <relationChanceModifierChild>1</relationChanceModifierChild>
+        <relationChanceModifierExLover>1</relationChanceModifierExLover>
+        <relationChanceModifierExSpouse>1</relationChanceModifierExSpouse>
+        <relationChanceModifierFiance>1</relationChanceModifierFiance>
+        <relationChanceModifierLover>1</relationChanceModifierLover>
+        <relationChanceModifierParent>1</relationChanceModifierParent>
+        <relationChanceModifierSibling>1</relationChanceModifierSibling>
+        <relationChanceModifierSpouse>1</relationChanceModifierSpouse>
+      </relationSettings>
+
+      <thoughtSettings>
       </thoughtSettings>
-      
-      <raceRestriction> <!-- 종족 제한 설정 -->
-        <onlyUseRaceRestrictedApparel>false</onlyUseRaceRestrictedApparel>
+
+      <raceRestriction>
+        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
         <apparelList>
-          <!-- 종족 전용 의류 목록 -->
+          <li>HD_Apparel_CarvalyUniform</li>
+          <li>HD_Apparel_CarvalyHat</li>
+          <li>HD_Apparel_CowboyHat</li>
+          <li>HD_Apparel_WildWestFemaleCasual</li>
+          <li>HD_Apparel_WildWestMaleCasual</li>
+          <li>HD_WildWestLeatherVest</li>
+          <li>HD_Bugle</li>
         </apparelList>
-        <weaponList>
-          <!-- 종족 전용 무기 목록 -->
-        </weaponList>
+        <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">
-          <!-- 가질 수 없는 유전자 -->
           <li MayRequire="Ludeon.RimWorld.Biotech">Furskin</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Hair_BaldOnly</li>
         </blackGeneList>
+        <blackEndoCategories MayRequire="Ludeon.RimWorld.Biotech">
+          <li MayRequire="Ludeon.RimWorld.Biotech">Melanin</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Headbone</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Head</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Jaw</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Ears</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Nose</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Voice</li>
+        </blackEndoCategories>
         <xenotypeList MayRequire="Ludeon.RimWorld.Biotech">
-          <li MayRequire="Ludeon.RimWorld.Biotech">HD_Helod</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">HD_MackenzieValleyHelod</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">HD_TexasHelod</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">HD_ArcticHelod</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">HD_EasternHelod</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">HD_MexicanHelod</li>
         </xenotypeList>
         <blackXenotypeList MayRequire="Ludeon.RimWorld.Biotech">
           <li MayRequire="Ludeon.RimWorld.Biotech">Dirtmole</li>
@@ -217,10 +307,30 @@
           <li MayRequire="Ludeon.RimWorld.Biotech">Yttakin</li>
           <li MayRequire="Ludeon.RimWorld.Biotech">Highmate</li>
         </blackXenotypeList>
-        <onlyUseRaceRestrictedXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</onlyUseRaceRestrictedXenotypes>
+        <onlyUseRaceRestrictedXenotypes MayRequire="Ludeon.RimWorld.Biotech">true</onlyUseRaceRestrictedXenotypes>
       </raceRestriction>
     </alienRace>
-    
+
+    <statBases>
+      <MarketValue>1750</MarketValue>
+      <Flammability>1.0</Flammability>
+      <MoveSpeed>4.6</MoveSpeed>
+      <MentalBreakThreshold>0.35</MentalBreakThreshold>
+      <ComfyTemperatureMax>26</ComfyTemperatureMax>
+      <ComfyTemperatureMin>8</ComfyTemperatureMin>
+      <ImmunityGainSpeed>1.0</ImmunityGainSpeed>
+      <CarryingCapacity>75</CarryingCapacity>
+      <MeatAmount>50</MeatAmount>
+      <LeatherAmount>40</LeatherAmount>
+      <Mass>55</Mass>
+      <PainShockThreshold>0.80</PainShockThreshold>
+      <PsychicSensitivity>1.0</PsychicSensitivity>
+      <MeleeDodgeChance>1.1</MeleeDodgeChance>
+      <MeleeHitChance>1.0</MeleeHitChance>
+      <AimingDelayFactor>1.0</AimingDelayFactor>
+      <ShootingAccuracyPawn>1.0</ShootingAccuracyPawn>
+    </statBases>
+
     <tools>
       <li>
         <label>left fist</label>
@@ -228,7 +338,7 @@
           <li>Blunt</li>
         </capacities>
         <power>8.2</power>
-        <cooldownTime>2</cooldownTime>
+        <cooldownTime>2.0</cooldownTime>
         <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
         <surpriseAttack>
           <extraMeleeDamages>
@@ -245,7 +355,7 @@
           <li>Blunt</li>
         </capacities>
         <power>8.2</power>
-        <cooldownTime>2</cooldownTime>
+        <cooldownTime>2.0</cooldownTime>
         <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
         <surpriseAttack>
           <extraMeleeDamages>
@@ -261,50 +371,22 @@
         <capacities>
           <li>Bite</li>
         </capacities>
-        <power>8.2</power>
-        <cooldownTime>2</cooldownTime>
+        <power>12.0</power>
+        <cooldownTime>2.6</cooldownTime>
         <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
-        <chanceFactor>0.07</chanceFactor>
         <surpriseAttack>
           <extraMeleeDamages>
             <li>
-              <def>Stun</def>
-              <amount>14</amount>
+              <def>Bite</def>
+              <amount>18</amount>
             </li>
           </extraMeleeDamages>
         </surpriseAttack>
-      </li>
-      <li>
-        <label>head</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>5</power>
-        <cooldownTime>2</cooldownTime>
-        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
-        <ensureLinkedBodyPartsGroupUsedInLimitedCapacity>true</ensureLinkedBodyPartsGroupUsedInLimitedCapacity>
-        <chanceFactor>0.2</chanceFactor>
+        <chanceFactor>0.4</chanceFactor>
       </li>
     </tools>
 
-    <statBases> <!-- 기초 능력치 설정 -->
-      <MarketValue>1750</MarketValue>
-      <MoveSpeed>4.6</MoveSpeed>
-      <Flammability>0.5</Flammability>
-      <ComfyTemperatureMin>16</ComfyTemperatureMin>
-      <ComfyTemperatureMax>26</ComfyTemperatureMax>
-      <ImmunityGainSpeed>1.0</ImmunityGainSpeed>
-      <CarryingCapacity>75</CarryingCapacity>
-      <Mass>55</Mass>
-      <!-- 전투 -->
-      <MeleeDodgeChance>1.0</MeleeDodgeChance>
-      <MeleeHitChance>1.0</MeleeHitChance>
-      <!-- 사교 -->
-      <NegotiationAbility>1.0</NegotiationAbility>
-      <SocialImpact>1.0</SocialImpact>
-    </statBases>
-    
-    <race> <!-- 바닐라 종족 관련 설정 -->
+    <race>
       <thinkTreeMain>Humanlike</thinkTreeMain>
       <thinkTreeConstant>HumanlikeConstant</thinkTreeConstant>
       <intelligence>Humanlike</intelligence>
@@ -313,28 +395,43 @@
       <leatherDef>Leather_Human</leatherDef>
       <nameCategory>HumanStandard</nameCategory>
       <hasGenders>true</hasGenders>
-      <body>Helod</body>
+      <body>HD_HelodBody</body>
+      <renderTree>Humanlike</renderTree>
+      <canBecomeShambler>false</canBecomeShambler>
       <baseBodySize>1</baseBodySize>
-      <baseHealthScale>1</baseHealthScale>
+      <baseHealthScale>1.0</baseHealthScale>
       <foodType>OmnivoreHuman</foodType>
       <gestationPeriodDays>30</gestationPeriodDays>
       <litterSizeCurve>
         <points>
           <li>(0.5, 0)</li>
           <li>(1, 1.0)</li>
-          <li>(2, 0.1)</li>
-          <li>(3, 0)</li>
+          <li>(2, 0.2)</li>
+          <li>(3, 0.0)</li>
         </points>
       </litterSizeCurve>
       <lifeStageAges>
         <li>
-          <def>HumanlikeAdult</def>
+          <def>HumanlikeBaby</def>
           <minAge>0</minAge>
+        </li>
+        <li>
+          <def>HumanlikeChild</def>
+          <minAge>3</minAge>
+        </li>
+        <li>
+          <def>HumanlikeTeenager</def>
+          <minAge>13</minAge>
+        </li>
+        <li>
+          <def>HumanlikeAdult</def>
+          <minAge>18</minAge>
         </li>
       </lifeStageAges>
       <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
       <soundMeleeHitBuilding>Pawn_Melee_Punch_HitBuilding</soundMeleeHitBuilding>
       <soundMeleeMiss>Pawn_Melee_Punch_Miss</soundMeleeMiss>
+      <soundMeleeDodge>Pawn_Melee_Dodge</soundMeleeDodge>
       <specialShadowData>
         <volume>(0.3, 0.8, 0.4)</volume>
         <offset>(0,0,-0.3)</offset>

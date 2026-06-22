@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_DevelopOilField.reportString>유전 개발하는 중.</HD_DevelopOilField.reportString>
+  
+  <HD_ConfigureMechanical.reportString>기계 장치 설정 중.</HD_ConfigureMechanical.reportString>
+  <HD_LubricateBelt.reportString>기계식 벨트 윤활 중.</HD_LubricateBelt.reportString>
+  <HD_RepairBelt.reportString>기계식 벨트 수리 중.</HD_RepairBelt.reportString>
+</LanguageData>

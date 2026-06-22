@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+  <HD_BTXHigh.label>BTX 안정화</HD_BTXHigh.label>
+  <HD_BTXHigh.labelNoun>BTX 안정화</HD_BTXHigh.labelNoun>
+  <HD_BTXHigh.description>BTX 성분이 혈류를 따라 순환하며 헤로드의 생화학 경로를 일시적으로 안정화하고 있습니다.</HD_BTXHigh.description>
+  <HD_BTXAddiction.label>BTX 의존증</HD_BTXAddiction.label>
+  <HD_BTXAddiction.description>BTX 계열 화합물에 대한 화학적 의존증입니다. BTX 성분을 가진 어떤 약물이든 이 욕구를 충족할 수 있습니다.</HD_BTXAddiction.description>
+  <BTXAddiction.label>BTX 의존증</BTXAddiction.label>
+  <BTXAddiction.description>BTX 계열 화합물 의존증 참조를 안전하게 처리하기 위한 호환용 상태입니다.</BTXAddiction.description>
+
+</LanguageData>

@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>HD_BlastFurnaceFuel</defName>
+    <label>blast furnace fuel</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <!-- Low Quality Crude Oil -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_CrudeOil_Low</defName>
+    <label>low quality crude oil</label>
+    <description>A thick, impurity-heavy crude oil extracted from unstable or low-grade deposits. It requires significant refining to be useful but can be used as a basic fuel.</description>
+    <graphicData>
+      <texPath>Item/HD_CrudeOilLow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(100, 80, 60)</color>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>1.5</MarketValue>
+      <Mass>0.12</Mass>
+      <Flammability>1.8</Flammability>
+      <DeteriorationRate>2</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- High Quality Crude Oil -->
+  <!--<ThingDef ParentName="ResourceBase">
+    <defName>HD_CrudeOil_High</defName>
+    <label>high quality crude oil</label>
+    <description>Clearer, energy-dense crude oil extracted from deep, stable pockets. It is highly valued for its ease of refining and superior energy output.</description>
+    <graphicData>
+      <texPath>Item/HD_CrudeOil_High</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(40, 40, 40)</color>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <MarketValue>4.0</MarketValue>
+      <Mass>0.08</Mass>
+      <Flammability>2.5</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>ResourcesRaw</li>
+    </thingCategories>
+  </ThingDef>-->
+
+  <!-- Diesel -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Diesel</defName>
+    <label>diesel</label>
+    <description>A dense, combustible liquid fuel refined from crude oil. Used for powering heavy machinery and generators.</description>
+    <graphicData>
+      <texPath>Item/HD_Diesel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>4.0</MarketValue>
+      <Mass>0.1</Mass>
+      <Flammability>2.0</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Kerosene -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Kerosene</defName>
+    <label>kerosene</label>
+    <description>A clean-burning, lighter liquid fuel refined from crude oil. Used for heating, lighting, and specialized engines.</description>
+    <graphicData>
+      <texPath>Item/HD_Kerosene</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>3.5</MarketValue>
+      <Mass>0.08</Mass>
+      <Flammability>2.2</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Naphtha -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Naphtha</defName>
+    <label>naphtha</label>
+    <description>A volatile light petroleum fraction distilled from crude oil. It contains trace BTX compounds, but drinking it leaves a foul oily taste and smell.</description>
+    <descriptionHyperlinks>
+      <HediffDef>HD_BTXHigh</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Item/HD_Naphtha</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>45</MaxHitPoints>
+      <MarketValue>5.0</MarketValue>
+      <Mass>0.06</Mass>
+      <Flammability>2.6</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <ingestible>
+      <preferability>NeverForNutrition</preferability>
+      <foodType>Processed</foodType>
+      <drugCategory>Medical</drugCategory>
+      <ingestCommandString>Drink naphtha</ingestCommandString>
+      <ingestReportString>Drinking naphtha.</ingestReportString>
+      <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+      <tasteThought>HD_DrankNaphtha</tasteThought>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HD_BTXHigh</hediffDef>
+          <severity>0.35</severity>
+          <toleranceChemical>BTX</toleranceChemical>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>BTX</chemical>
+        <addictiveness>0</addictiveness>
+        <needLevelOffset>0.9</needLevelOffset>
+        <listOrder>1006</listOrder>
+        <overdoseSeverityOffset>0.02~0.04</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Charcoal -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Charcoal</defName>
+    <label>charcoal</label>
+    <description>Wood baked down into a dense, carbon-rich fuel. It burns cleaner and hotter than raw wood, making it suitable for blast furnace operation.</description>
+    <graphicData>
+      <texPath>Item/HD_charcoal</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>2.0</MarketValue>
+      <Mass>0.2</Mass>
+      <Flammability>1.8</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_BlastFurnaceFuel</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Molten Iron -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_MoltenIronSmall</defName>
+    <label>small molten iron bloom</label>
+    <description>A small, freshly cast mass of molten iron. It must be handled as an individual piece before further processing.</description>
+    <graphicData>
+      <texPath>Item/HD_MoltenIronSmall</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <stackLimit>1</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>18</MarketValue>
+      <Mass>100</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>4</glowRadius>
+        <glowColor>(255,115,45,0)</glowColor>
+      </li>
+      <li Class="Helodrace.CompProperties_MoltenIronCooling">
+        <ticksToCool>30000</ticksToCool>
+        <product>HD_PigIron</product>
+        <productCount>40</productCount>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_MoltenIronMedium</defName>
+    <label>medium molten iron bloom</label>
+    <description>A medium, freshly cast mass of molten iron. It must be handled as an individual piece before further processing.</description>
+    <graphicData>
+      <texPath>Item/HD_MoltenIronMedium</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <stackLimit>1</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>110</MaxHitPoints>
+      <MarketValue>36</MarketValue>
+      <Mass>200</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>5</glowRadius>
+        <glowColor>(255,105,35,0)</glowColor>
+      </li>
+      <li Class="Helodrace.CompProperties_MoltenIronCooling">
+        <ticksToCool>30000</ticksToCool>
+        <product>HD_PigIron</product>
+        <productCount>80</productCount>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_MoltenIronLarge</defName>
+    <label>large molten iron bloom</label>
+    <description>A large, freshly cast mass of molten iron. It must be handled as an individual piece before further processing.</description>
+    <graphicData>
+      <texPath>Item/HD_MoltenIronLarge</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <tickerType>Rare</tickerType>
+    <stackLimit>1</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>140</MaxHitPoints>
+      <MarketValue>72</MarketValue>
+      <Mass>400</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <glowColor>(255,95,25,0)</glowColor>
+      </li>
+      <li Class="Helodrace.CompProperties_MoltenIronCooling">
+        <ticksToCool>30000</ticksToCool>
+        <product>HD_PigIron</product>
+        <productCount>160</productCount>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Pig Iron -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_PigIron</defName>
+    <label>pig iron</label>
+    <description>A brittle, carbon-rich iron product cast from molten iron. It is an intermediate material for later refining into workable iron or steel.</description>
+    <graphicData>
+      <texPath>Item/HD_PigIron</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <MarketValue>8</MarketValue>
+      <Mass>2.5</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0.6</commonality>
+      <stuffAdjective>pig iron</stuffAdjective>
+      <color>(95,85,76)</color>
+      <statFactors>
+        <MaxHitPoints>0.75</MaxHitPoints>
+        <WorkToMake>0.55</WorkToMake>
+        <MeleeWeapon_DamageMultiplier>0.85</MeleeWeapon_DamageMultiplier>
+        <MeleeWeapon_CooldownMultiplier>1.1</MeleeWeapon_CooldownMultiplier>
+        <Flammability>0</Flammability>
+      </statFactors>
+      <statOffsets>
+        <ArmorRating_Sharp>-0.04</ArmorRating_Sharp>
+        <ArmorRating_Blunt>-0.02</ArmorRating_Blunt>
+      </statOffsets>
+    </stuffProps>
+  </ThingDef>
+
+  <!-- Carbon Steel -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_CarbonSteel</defName>
+    <label>carbon steel</label>
+    <description>A refined iron alloy with controlled carbon content. It is stronger and more workable than pig iron, making it valuable for advanced machine parts, tools, and weapons.</description>
+    <graphicData>
+      <texPath>Item/HD_CarbonSteel</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <MarketValue>12</MarketValue>
+      <Mass>2.0</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0.35</commonality>
+      <stuffAdjective>carbon steel</stuffAdjective>
+      <color>(82,92,98)</color>
+      <statFactors>
+        <MaxHitPoints>1.25</MaxHitPoints>
+        <WorkToMake>1.0</WorkToMake>
+        <MeleeWeapon_DamageMultiplier>1.15</MeleeWeapon_DamageMultiplier>
+        <MeleeWeapon_CooldownMultiplier>0.95</MeleeWeapon_CooldownMultiplier>
+        <Flammability>0</Flammability>
+      </statFactors>
+      <statOffsets>
+        <ArmorRating_Sharp>0.04</ArmorRating_Sharp>
+        <ArmorRating_Blunt>0.02</ArmorRating_Blunt>
+        <ArmorRating_Heat>0.01</ArmorRating_Heat>
+      </statOffsets>
+    </stuffProps>
+  </ThingDef>
+
+  <!-- Shaft -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Shaft</defName>
+    <label>shaft</label>
+    <description>A straight machined shaft used to transmit rotation through engines, pumps, machine tools, and other mechanical assemblies.</description>
+    <graphicData>
+      <texPath>Item/HD_LineShaftItem</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <MarketValue>18</MarketValue>
+      <Mass>2.0</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Uniform Rolled Steel Plate -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_UniformRolledSteelPlate</defName>
+    <label>uniform rolled steel plate</label>
+    <description>A flat carbon steel plate rolled to even thickness. It is useful for machinery frames, receivers, shields, and other parts that need consistent strength.</description>
+    <graphicData>
+      <texPath>Item/HD_RHA</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>130</MaxHitPoints>
+      <MarketValue>20</MarketValue>
+      <Mass>3.0</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Plain Dog Chew -->
+  <ThingDef ParentName="DrugBase">
+    <defName>HD_PlainDogChew</defName>
+    <label>plain dog chew</label>
+    <description>A tough leather chew infused with a measured amount of BTX-bearing naphtha. It takes a long time to chew through, but steadily releases BTX compounds without the harsh mood effects of raw naphtha.</description>
+    <descriptionHyperlinks>
+      <HediffDef>HD_PlainDogChewHigh</HediffDef>
+      <HediffDef>HD_BTXHigh</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Item/HD_BasicDogChew</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MaxHitPoints>45</MaxHitPoints> 
+      <MarketValue>8.0</MarketValue>
+      <Mass>0.08</Mass>
+      <Flammability>1.2</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <ingestible>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>3000</baseIngestTicks>
+      <chairSearchRadius>0</chairSearchRadius>
+      <ingestSound>Ingest_Bite</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <drugCategory>Medical</drugCategory>
+      <ingestCommandString>Chew {0}</ingestCommandString>
+      <ingestReportString>Chewing {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HD_PlainDogChewHigh</hediffDef>
+          <severity>1.0</severity>
+          <toleranceChemical>BTX</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HD_BTXHigh</hediffDef>
+          <severity>0.35</severity>
+          <toleranceChemical>BTX</toleranceChemical>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>BTX</chemical>
+        <addictiveness>0</addictiveness>
+        <needLevelOffset>0.65</needLevelOffset>
+        <listOrder>1007</listOrder>
+        <overdoseSeverityOffset>0.01~0.02</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+
+
+  <!-- PrimaryCell -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_PrimaryCell</defName>
+    <label>primary cell</label>
+    <description>battary</description>
+    <graphicData>
+      <texPath>Item/HD_PrimaryCell</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>3.5</MarketValue>
+      <Mass>0.08</Mass>
+      <Flammability>2.2</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  
+  <!-- Low Quality Lubricating Slush -->
+  <!--<ThingDef ParentName="ResourceBase">
+    <defName>HD_Slush_Low</defName>
+    <label>low quality lubricating slush</label>
+    <description>A thick, greasy paste made from low quality crude oil. Used to lubricate heavy mechanical belts and gears. Because of its impurities, it burns off quickly and must be reapplied frequently.</description>
+    <graphicData>
+      <texPath>Item/HD_CrudeOilLow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(100, 80, 50)</color>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>1.5</MarketValue>
+      <Mass>0.1</Mass>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="Helodrace.CompProperties_Lubricant">
+        <lubeMtbHours>6.0</lubeMtbHours>
+      </li>
+    </comps>
+  </ThingDef>-->
+
+  <!-- High Quality Lubricating Slush -->
+  <!--<ThingDef ParentName="ResourceBase">
+    <defName>HD_Slush_High</defName>
+    <label>high quality lubricating slush</label>
+    <description>A pure, highly refined synthetic grease made from processed diesel or high grade oil. It lasts significantly longer than standard slush, reducing the amount of maintenance required by pawns.</description>
+    <graphicData>
+      <texPath>Item/HD_CrudeOilLow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(160, 160, 120)</color>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>5.0</MarketValue>
+      <Mass>0.1</Mass>
+      <Flammability>1.0</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="Helodrace.CompProperties_Lubricant">
+        <lubeMtbHours>24.0</lubeMtbHours>
+      </li>
+    </comps>
+  </ThingDef>-->
+
+  <!-- Low Quality Gun Barrel -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_LowQualityBarrel</defName>
+    <label>low quality gun barrel</label>
+    <description>A crude, low-quality metal gun barrel bored and turned on a lathe. Used as a core component for crafting frontier firearms.</description>
+    <graphicData>
+      <texPath>Item/HD_LowQualityBarrel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>15.0</MarketValue>
+      <Mass>1.5</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Shotgun Barrel -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_ShotgunBarrel</defName>
+    <label>shotgun barrel</label>
+    <description>A thick, heavy metal barrel specifically designed for shotguns. Bored and turned on a workbench.</description>
+    <graphicData>
+      <texPath>Item/HD_ShotgunBarrel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <MarketValue>22.0</MarketValue>
+      <Mass>2.0</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Wild West Barrel -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_WildWestBarrel</defName>
+    <label>wild west gun barrel</label>
+    <description>A high-quality, precision-rifled metal gun barrel bored and turned on a specialized lathe. Used for crafting advanced wild west breech-loading and repeating firearms.</description>
+    <graphicData>
+      <texPath>Item/HD_WildWestBarrel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <MarketValue>32.0</MarketValue>
+      <Mass>1.8</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Low Quality Torsion Spring -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_LowQualityTorsionSpring</defName>
+    <label>low quality torsion spring</label>
+    <description>A crude metal torsion spring made with inconsistent tempering. Used in simple mechanisms and low-grade firearms where precision is not critical.</description>
+    <graphicData>
+      <texPath>Item/HD_LowQualityTorsionSpring</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <MarketValue>8.0</MarketValue>
+      <Mass>0.15</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- V-Spring -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_VSpring</defName>
+    <label>V-spring</label>
+    <description>A shaped metal spring that stores force between two arms. Used in firearm locks, triggers, and compact mechanical assemblies.</description>
+    <graphicData>
+      <texPath>Item/HD_VSpring</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>70</MaxHitPoints>
+      <MarketValue>12.0</MarketValue>
+      <Mass>0.1</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Low Quality Magazine Spring -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_LowQualityMagazineSpring</defName>
+    <label>low quality magazine spring</label>
+    <description>A rough coil spring made for feeding cartridges from a simple magazine. It works, but its uneven tension limits reliability in advanced weapons.</description>
+    <graphicData>
+      <texPath>Item/HD_LowQualityMagazineSpring</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <MarketValue>10.0</MarketValue>
+      <Mass>0.12</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  </Defs>

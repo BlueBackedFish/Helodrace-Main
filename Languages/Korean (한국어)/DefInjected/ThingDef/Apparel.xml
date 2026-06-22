@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Apparel_CarvalyUniform.label>기병대 제복</HD_Apparel_CarvalyUniform.label>
+  <HD_Apparel_CarvalyUniform.description>기병대원를 위한 표준 제복입니다.</HD_Apparel_CarvalyUniform.description>
+
+  <HD_Apparel_CarvalyHat.label>기병대 모자</HD_Apparel_CarvalyHat.label>
+  <HD_Apparel_CarvalyHat.description>기병대 제복과 어울리는 모자입니다.</HD_Apparel_CarvalyHat.description>
+
+  <HD_Apparel_CowboyHat.label>카우보이 모자</HD_Apparel_CowboyHat.label>
+  <HD_Apparel_CowboyHat.description>귀가 모자 깃 밖으로 삐져나오도록 디자인된 헤로드용 카우보이 모자입니다.</HD_Apparel_CowboyHat.description>
+
+  <HD_Bugle.label>뷰글</HD_Bugle.label>
+  <HD_Bugle.description>신호를 보내기 위해 휴대하는 작은 나팔입니다.</HD_Bugle.description>
+
+  <HD_Apparel_WildWestFemaleCasual.label>캐주얼 드레스</HD_Apparel_WildWestFemaleCasual.label>
+  <HD_Apparel_WildWestFemaleCasual.description>19세기 여성용 평상복입니다.</HD_Apparel_WildWestFemaleCasual.description>
+
+  <HD_Apparel_WildWestMaleCasual.label>캐주얼 재킷</HD_Apparel_WildWestMaleCasual.label>
+  <HD_Apparel_WildWestMaleCasual.description>19세기 남성용 평상복입니다.</HD_Apparel_WildWestMaleCasual.description>
+</LanguageData>

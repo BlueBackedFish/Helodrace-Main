@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef>
+    <defName>HD_BugleChargeCommand</defName>
+    <label>charge command</label>
+    <labelNoun>charge command</labelNoun>
+    <description>The sharp call of a bugle is driving this fighter into a coordinated charge.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0,0.78,0.35)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-4</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <MoveSpeed>0.35</MoveSpeed>
+          <MeleeHitChance>1.0</MeleeHitChance>
+          <MeleeDodgeChance>0.5</MeleeDodgeChance>
+          <PainShockThreshold>0.08</PainShockThreshold>
+        </statOffsets>
+        <statFactors>
+          <AimingDelayFactor>0.9</AimingDelayFactor>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

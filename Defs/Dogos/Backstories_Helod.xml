@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Temporary Helod backstories for scenario and pawn generation testing. -->
+  <BackstoryDef>
+    <defName>HD_HelodTempPipelinePup</defName>
+    <title>pipeline pup</title>
+    <titleShort>pipeline pup</titleShort>
+    <baseDesc>[PAWN_nameDef] grew up around frontier pump camps, carrying tools, counting barrels, and learning to sleep through the thump of machinery.</baseDesc>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Construction>2</Construction>
+      <Mining>1</Mining>
+      <Crafting>1</Crafting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.35</Assertive>
+        <Passive>0.25</Passive>
+        <Cooperative>0.65</Cooperative>
+        <Independent>0.45</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodTempTelegraphRunner</defName>
+    <title>telegraph runner</title>
+    <titleShort>runner</titleShort>
+    <baseDesc>As a young courier, [PAWN_nameDef] carried coded slips between banks, rail camps, and lonely telegraph offices on the edge of settled space.</baseDesc>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>1</Social>
+      <Intellectual>2</Intellectual>
+      <Shooting>1</Shooting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.45</Assertive>
+        <Passive>0.20</Passive>
+        <Cooperative>0.75</Cooperative>
+        <Independent>0.55</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodTempFoundryOrphan</defName>
+    <title>foundry orphan</title>
+    <titleShort>foundry kid</titleShort>
+    <baseDesc>[PAWN_nameDef] was raised by a smoky machine yard where spare hands were expected to sort coal, fetch water, and keep clear of red-hot iron.</baseDesc>
+    <slot>Childhood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>2</Crafting>
+      <Construction>1</Construction>
+      <Plants>1</Plants>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.30</Assertive>
+        <Passive>0.50</Passive>
+        <Cooperative>0.55</Cooperative>
+        <Independent>0.35</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodTempFrontierMechanic</defName>
+    <title>frontier mechanic</title>
+    <titleShort>mechanic</titleShort>
+    <baseDesc>[PAWN_nameDef] kept battered engines, pumps, and line shafts alive with improvised parts and stubborn patience. The frontier rarely offered a second chance for bad repairs.</baseDesc>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Crafting>4</Crafting>
+      <Construction>2</Construction>
+      <Intellectual>1</Intellectual>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.55</Assertive>
+        <Passive>0.15</Passive>
+        <Cooperative>0.45</Cooperative>
+        <Independent>0.75</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodTempOilClaimGuard</defName>
+    <title>oil claim guard</title>
+    <titleShort>claim guard</titleShort>
+    <baseDesc>Hired to protect surveyors and oil claims, [PAWN_nameDef] learned to read dust, distance, and the twitch of a hand near a holster.</baseDesc>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Shooting>4</Shooting>
+      <Melee>1</Melee>
+      <Social>1</Social>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.85</Assertive>
+        <Passive>0.05</Passive>
+        <Cooperative>0.35</Cooperative>
+        <Independent>0.70</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodTempSthalerClerk</defName>
+    <title>Sthaler clerk</title>
+    <titleShort>clerk</titleShort>
+    <baseDesc>[PAWN_nameDef] balanced ledgers for a frontier finance house, turning ore, oil, debts, and favors into neat columns of money.</baseDesc>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Social>3</Social>
+      <Intellectual>3</Intellectual>
+      <Crafting>1</Crafting>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.40</Assertive>
+        <Passive>0.25</Passive>
+        <Cooperative>0.80</Cooperative>
+        <Independent>0.45</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+  <BackstoryDef>
+    <defName>HD_HelodTempPrairieDoctor</defName>
+    <title>prairie doctor</title>
+    <titleShort>doctor</titleShort>
+    <baseDesc>Between cattle towns, drill camps, and rail depots, [PAWN_nameDef] treated burns, infections, and chemical sickness with whatever supplies could be found.</baseDesc>
+    <slot>Adulthood</slot>
+    <spawnCategories>
+      <li>HD_Helod</li>
+    </spawnCategories>
+    <skillGains>
+      <Medicine>4</Medicine>
+      <Intellectual>2</Intellectual>
+      <Social>1</Social>
+    </skillGains>
+    <modExtensions>
+      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
+        <Assertive>0.25</Assertive>
+        <Passive>0.35</Passive>
+        <Cooperative>0.90</Cooperative>
+        <Independent>0.30</Independent>
+      </li>
+    </modExtensions>
+  </BackstoryDef>
+
+</Defs>

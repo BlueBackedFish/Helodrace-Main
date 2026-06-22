@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThoughtDef>
+    <defName>HD_DrankNaphtha</defName>
+    <thoughtClass>Helodrace.Thought_Memory_HelodPersonalityDescription</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>1</stackLimit>
+    <modExtensions>
+      <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+        <descriptions>
+          <li>I drank naphtha. The burn makes me want to bark orders and push through the taste.</li>
+          <li>I drank naphtha. I hate the taste, but I can endure it quietly.</li>
+          <li>I drank naphtha. I should warn the others before someone else tries this.</li>
+          <li>I drank naphtha. I will handle the aftertaste alone and keep moving.</li>
+          <li>I drank naphtha. I do not want a scene, but the oily smell will not leave my mouth.</li>
+          <li>I drank naphtha. I just need to sit still until the taste fades.</li>
+          <li>I drank naphtha. Someone should check the stores so nobody repeats my mistake.</li>
+          <li>I drank naphtha. I will stay out of the way until my stomach settles.</li>
+          <li>I drank naphtha. If we are going to rely on this, we need a better shared plan.</li>
+          <li>I drank naphtha. I can tolerate it if the colony needs me to, but not gladly.</li>
+          <li>I drank naphtha. The group should know exactly how foul this stuff is.</li>
+          <li>I drank naphtha. I will take my share, but nobody should pretend it is pleasant.</li>
+          <li>I drank naphtha. Fine. I know what my body needs, even when it tastes like a refinery.</li>
+          <li>I drank naphtha. I will keep the discomfort to myself.</li>
+          <li>I drank naphtha. I hope the others appreciate what this body demands.</li>
+          <li>I drank naphtha. The oily burn is mine to manage.</li>
+        </descriptions>
+      </li>
+    </modExtensions>
+    <stages>
+      <li>
+        <label>oil smell in my mouth</label>
+        <description>I drank naphtha. The oily smell will not leave my mouth.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>HD_EnjoyedRawBTX</defName>
+    <thoughtClass>Helodrace.Thought_Memory_HelodPersonalityDescription</thoughtClass>
+    <durationDays>1</durationDays>
+    <stackLimit>1</stackLimit>
+    <modExtensions>
+      <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+        <descriptions>
+          <li>I drank raw BTX compounds. The burn feels like command returning to my blood.</li>
+          <li>I drank raw BTX compounds. Quiet relief spreads under the oily taste.</li>
+          <li>I drank raw BTX compounds. I feel steady enough to stand with the others again.</li>
+          <li>I drank raw BTX compounds. My body knows its own medicine.</li>
+          <li>I drank raw BTX compounds. I will not make a fuss, but I needed that.</li>
+          <li>I drank raw BTX compounds. The warmth settles me into silence.</li>
+          <li>I drank raw BTX compounds. We should keep enough for everyone who needs it.</li>
+          <li>I drank raw BTX compounds. I feel better away from all the noise.</li>
+          <li>I drank raw BTX compounds. Good. Now I can help keep everyone on their feet.</li>
+          <li>I drank raw BTX compounds. It is harsh, but I can bear it for the colony.</li>
+          <li>I drank raw BTX compounds. The relief feels better when nobody is left short.</li>
+          <li>I drank raw BTX compounds. I know my ration, and I know my limit.</li>
+          <li>I drank raw BTX compounds. Exactly what I needed. Nobody has to approve.</li>
+          <li>I drank raw BTX compounds. The relief is private and clean.</li>
+          <li>I drank raw BTX compounds. I can rejoin the line now.</li>
+          <li>I drank raw BTX compounds. My chemistry is mine again.</li>
+        </descriptions>
+      </li>
+    </modExtensions>
+    <stages>
+      <li>
+        <label>enjoyed raw BTX</label>
+        <description>I drank raw BTX compounds. The oily burn was exactly what I wanted.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

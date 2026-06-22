@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <HairDef> <!-- 헤어 정의 -->
-    <defName>HD_Hair_1</defName>
+  <HairDef>
+    <defName>HD_HelodHair1</defName>
     <label>Helod Hair 1</label>
     <styleGender>Any</styleGender>
     <texPath>Dogos/Hair/Hear1</texPath>
-    <category>Hair</category>
     <styleTags>
-      <li>HD_Hair</li>
+      <li>HelodHair</li>
     </styleTags>
   </HairDef>
-
-  <StyleItemCategoryDef> <!-- 스타일 아이템 카테고리 정의 (종족 전용 헤어 분류용) -->
-	<defName>HD_Hair</defName>
-	<label>Helod hair style</label>
-  </StyleItemCategoryDef>
 </Defs>

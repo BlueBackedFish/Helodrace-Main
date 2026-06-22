@@ -1,25 +1,133 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+
+  <!-- 1. Mackenzie Valley Helod (매켄지 계곡 늑대) -->
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>HD_Helod</defName>
-    <label>helod</label>
-    <description>A mysterious humanoid race with dog-like features. They are naturally agile and loyal, possessing a unique genetic structure that defines their canine-humanoid hybrid nature.</description>
-    <descriptionShort>A dog-like humanoid race.</descriptionShort>
+    <defName>HD_MackenzieValleyHelod</defName>
+    <label>Mackenzie Valley helod</label>
+    <description>A mysterious humanoid race with dog-like features. They are naturally massive and authoritative, designed to lead and protect. Possess high social charm, extreme resilience, and arrogant leadership, but require huge amounts of food and are relatively slow due to their heavy frames.</description>
+    <descriptionShort>A large, resilient, and authoritative helod.</descriptionShort>
+    <iconPath>Icon/HD_icon</iconPath>
+    <inheritable>true</inheritable>
+    <genes>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Hair_DarkBlack</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Slow</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Beauty_Pretty</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Pain_Reduced</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_ArrogantLeader</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Plants</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Medicine</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Intellectual</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Shooting</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeRemarkable_Social</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Immunity_Strong</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_Sharpshooter</li>
+    </genes>
+  </XenotypeDef>
+
+  <!-- 2. Texas Helod (텍사스 늑대) -->
+  <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_TexasHelod</defName>
+    <label>Texas helod</label>
+    <description>A mysterious humanoid race with dog-like features. Adapted to hot prairies, they are swift and lethal marksmen with extreme heat tolerance. However, they are highly aggressive and socially isolated due to their delicate, high-strung nature.</description>
+    <descriptionShort>A swift, heat-tolerant sharpshooter helod.</descriptionShort>
+    <iconPath>Icon/HD_icon</iconPath>
+    <inheritable>true</inheritable>
+    <genes>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Hair_SandyBlonde</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MaxTemp_LargeIncrease</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Delicate</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Plants</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Medicine</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Intellectual</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Shooting</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeTerrible_Social</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Immunity_Strong</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_Sharpshooter</li>
+    </genes>
+  </XenotypeDef>
+
+  <!-- 3. Arctic Helod (북극늑대) -->
+  <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_ArcticHelod</defName>
+    <label>arctic helod</label>
+    <description>A mysterious humanoid race with dog-like features. Master scouts and snipers born for the freezing wilderness. Highly resistant to freezing cold but extremely vulnerable to heat, they possess weak immune systems, operate as complete lone wolves, and possess ultimate polar sniping accuracy.</description>
+    <descriptionShort>An elite polar sniper and lone wolf helod.</descriptionShort>
     <iconPath>Icon/HD_icon</iconPath>
     <inheritable>true</inheritable>
     <genes>
       <li MayRequire="Ludeon.RimWorld.Biotech">Hair_SnowWhite</li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin3</li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Quick</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MinTemp_LargeDecrease</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">MaxTemp_SmallDecrease</li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">MinTemp_SmallDecrease</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_PolarPrecision</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Plants</li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Medical</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Medicine</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Intellectual</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Shooting</li>
-      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Social</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeTerrible_Social</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Immunity_Weak</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_Sharpshooter</li>
+    </genes>
+  </XenotypeDef>
+
+  <!-- 4. Eastern Helod (동부 늑대) -->
+  <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_EasternHelod</defName>
+    <label>eastern helod</label>
+    <description>A mysterious humanoid race with dog-like features. Highly sophisticated and brilliant asset managers of the Gilded Age, they excel in social interactions, research, and high-precision crafting. They are natural monopolists, but suffer from physically fragile bodies and high psychic vulnerability.</description>
+    <descriptionShort>An intellectual, highly social 내정-focused monopolist helod.</descriptionShort>
+    <iconPath>Icon/HD_icon</iconPath>
+    <inheritable>true</inheritable>
+    <genes>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Hair_Gray</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Delicate</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">WoundHealing_Slow</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">PsychicAbility_Enhanced</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_Monopolist</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Medicine</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Intellectual</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Crafting</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeRemarkable_Social</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Immunity_Strong</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_Sharpshooter</li>
+    </genes>
+  </XenotypeDef>
+
+  <!-- 5. Mexican Helod (멕시코 늑대) -->
+  <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_MexicanHelod</defName>
+    <label>Mexican helod</label>
+    <description>A mysterious humanoid race with dog-like features. Designed as highly coordinated PMC mercenaries with robust health, rapid healing, and outstanding military tactical cohesion. They suffer from chronic psychite dependency representing battlefield opium reliance.</description>
+    <descriptionShort>A robust, swift combat PMC helod with psychite dependency.</descriptionShort>
+    <iconPath>Icon/HD_icon</iconPath>
+    <inheritable>true</inheritable>
+    <genes>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Hair_DarkBrown</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">WoundHealing_Fast</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">KindInstinct</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">ChemicalDependency_Psychite</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_MercenaryCohesion</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Plants</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Medicine</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Intellectual</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Shooting</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudeStrong_Melee</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">AptitudePoor_Social</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Immunity_Strong</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">HD_Gene_Sharpshooter</li>
     </genes>
   </XenotypeDef>
 </Defs>
