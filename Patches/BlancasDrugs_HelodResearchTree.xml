@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Helod race - Blanca's Drugs</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <!-- Cola: Frontier Spirit -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Cola"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
+          </value>
+        </li>
+
+        <!-- Cocaine cola and laudanum: Ingredient Extraction -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_CocaineCola"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodIngredientExtraction</researchPrerequisite>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Laudanum"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodIngredientExtraction</researchPrerequisite>
+          </value>
+        </li>
+
+        <!-- Remaining drugs except MKultra, morphine, fentanyl, modafinil, and sonata: Total Synthesis Medicine -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Desoxyn"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodTotalSynthesisMedicine</researchPrerequisite>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Benzedrine"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodTotalSynthesisMedicine</researchPrerequisite>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Dexedrine"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodTotalSynthesisMedicine</researchPrerequisite>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Ketamine"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodTotalSynthesisMedicine</researchPrerequisite>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Ambien"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodTotalSynthesisMedicine</researchPrerequisite>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Restoril"]/recipeMaker/researchPrerequisite</xpath>
+          <value>
+            <researchPrerequisite>HelodTotalSynthesisMedicine</researchPrerequisite>
+          </value>
+        </li>
+
+        <!-- Keep Blanca's remaining temporary research nodes out of the main flow for now. -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaEarlyNarcotics"]/researchViewX</xpath>
+          <value>
+            <researchViewX>14</researchViewX>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaEarlyNarcotics"]/researchViewY</xpath>
+          <value>
+            <researchViewY>5.6</researchViewY>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedPainkillers"]/researchViewX</xpath>
+          <value>
+            <researchViewX>15</researchViewX>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedPainkillers"]/researchViewY</xpath>
+          <value>
+            <researchViewY>4.8</researchViewY>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedStimulants"]/researchViewX</xpath>
+          <value>
+            <researchViewX>15</researchViewX>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedStimulants"]/researchViewY</xpath>
+          <value>
+            <researchViewY>5.6</researchViewY>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedSomnifacients"]/researchViewX</xpath>
+          <value>
+            <researchViewX>15</researchViewX>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedSomnifacients"]/researchViewY</xpath>
+          <value>
+            <researchViewY>6.4</researchViewY>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaMKultraProject"]/researchViewX</xpath>
+          <value>
+            <researchViewX>16</researchViewX>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaMKultraProject"]/researchViewY</xpath>
+          <value>
+            <researchViewY>5.6</researchViewY>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

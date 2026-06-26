@@ -93,7 +93,7 @@ namespace Helodrace
         {
             get
             {
-                return HelodPersonalityUtility.PersonalityDescription(def, pawn, base.Description);
+                return HelodPersonalityUtility.PersonalityDescription(def, pawn, base.Description, CurStageIndex);
             }
         }
     }
@@ -104,7 +104,7 @@ namespace Helodrace
         {
             get
             {
-                return HelodPersonalityUtility.PersonalityDescription(def, pawn, base.Description);
+                return HelodPersonalityUtility.PersonalityDescription(def, pawn, base.Description, CurStageIndex);
             }
         }
     }
@@ -128,6 +128,11 @@ namespace Helodrace
 
         public static string PersonalityDescription(ThoughtDef def, Pawn pawn, string fallback)
         {
+            return PersonalityDescription(def, pawn, fallback, -1);
+        }
+
+        public static string PersonalityDescription(ThoughtDef def, Pawn pawn, string fallback, int stageIndex)
+        {
             ThoughtDefExtension_HelodPersonalityDescriptions extension =
                 def.GetModExtension<ThoughtDefExtension_HelodPersonalityDescriptions>();
             if (extension?.descriptions == null || extension.descriptions.Count == 0 || pawn == null)
@@ -142,6 +147,15 @@ namespace Helodrace
             }
 
             index = Math.Min(index, extension.descriptions.Count - 1);
+            if (stageIndex >= 0)
+            {
+                string stageTranslationKey = def.defName + ".stages." + stageIndex + ".personalityDescriptions." + index;
+                if (stageTranslationKey.CanTranslate())
+                {
+                    return stageTranslationKey.Translate(pawn.Named("PAWN")).Resolve();
+                }
+            }
+
             string translationKey = def.defName + ".personalityDescriptions." + index;
             if (translationKey.CanTranslate())
             {

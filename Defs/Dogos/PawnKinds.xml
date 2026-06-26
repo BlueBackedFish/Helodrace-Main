@@ -74,7 +74,7 @@
 	<PawnKindDef ParentName="HD_HelodBasePawnKind">
 		<defName>HD_HelodSettler</defName>
 		<label>Helod settler</label>
-		<defaultFactionType>HD_HelodCivilFaction</defaultFactionType>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
 		<isFighter>true</isFighter>
 		<backstoryFiltersOverride>
 			<li>
@@ -141,7 +141,7 @@
 	<PawnKindDef ParentName="HD_HelodBasePawnKind">
 		<defName>HD_HelodCavalry</defName>
 		<label>Helod cavalry trooper</label>
-		<defaultFactionType>HD_HelodCivilFaction</defaultFactionType>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
 		<combatPower>75</combatPower>
 		<isFighter>true</isFighter>
 		<backstoryFiltersOverride>
