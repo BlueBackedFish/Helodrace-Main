@@ -1,7 +1,0 @@
-# XML definitions and localization
-*.xml @BlueBackedFish
-
-# C# source and project files
-*.cs @BlueBackedFish
-*.csproj @BlueBackedFish
-*.sln @BlueBackedFish

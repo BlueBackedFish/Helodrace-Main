@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
-  <HD_Bugle_Command_Label>Sound charge</HD_Bugle_Command_Label>
-  <HD_Bugle_Command_Desc>Blow the bugle to give friendly pawns within {0} cells a charge command buff.</HD_Bugle_Command_Desc>
-  <HD_Bugle_Command_Cooldown>Cooldown: {0}</HD_Bugle_Command_Cooldown>
-  <HD_Bugle_Command_Message>{0}'s bugle call drove {1} fighters into a charge.</HD_Bugle_Command_Message>
-</LanguageData>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<LanguageData>
-  <HD_Bugle_Command_Label>돌격 나팔</HD_Bugle_Command_Label>
-  <HD_Bugle_Command_Desc>뷰글을 불어 반경 {0}칸 안의 아군에게 돌격 명령 버프를 부여합니다.</HD_Bugle_Command_Desc>
-  <HD_Bugle_Command_Cooldown>재사용 대기 중: {0}</HD_Bugle_Command_Cooldown>
-  <HD_Bugle_Command_Message>{0}의 뷰글 소리에 {1}명이 돌격 태세에 들어갔습니다.</HD_Bugle_Command_Message>
-</LanguageData>
