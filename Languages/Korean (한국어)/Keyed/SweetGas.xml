@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_SweetGasCan_Deploy_Label>스위트 가스 방출</HD_SweetGasCan_Deploy_Label>
+  <HD_SweetGasCan_Deploy_Desc>캔의 점화 캡을 태웁니다. 한동안 계속 타면서 스위트 가스를 반복적으로 방출합니다.</HD_SweetGasCan_Deploy_Desc>
+  <HD_SweetGasCan_Deploy_Burning>이미 타고 있는 캔입니다.</HD_SweetGasCan_Deploy_Burning>
+  <HD_SweetGasCan_Deploy_Used>이미 방출된 캔입니다.</HD_SweetGasCan_Deploy_Used>
+  <HD_SweetGasCan_Deploy_Message>{0}이(가) {1}에 불을 붙였습니다. 스위트 가스를 방출하기 시작합니다.</HD_SweetGasCan_Deploy_Message>
+  <HD_SweetGas_Density>농도: {0}%</HD_SweetGas_Density>
+  <HD_SweetGasRisk_Progress>진행도 {0}%</HD_SweetGasRisk_Progress>
+</LanguageData>

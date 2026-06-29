@@ -104,6 +104,13 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>HD_IgnitePhotochlorogenCan</defName>
+    <driverClass>Helodrace.JobDriver_IgnitePhotochlorogenCan</driverClass>
+    <reportString>igniting photochlorogen can.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
   <WorkGiverDef>
     <defName>DoBillsHD_BlastFurnace</defName>
     <label>use blast furnace</label>

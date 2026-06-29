@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <RecipeDef>
     <defName>HD_MakeCharcoal</defName>
@@ -1468,8 +1468,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMechanicalEngineering</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodMechanicalEngineering</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -1530,8 +1530,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMechanicalEngineering</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodMechanicalEngineering</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -1586,8 +1586,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -1642,8 +1642,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -1684,6 +1684,62 @@
     </recipeUsers>
     <skillRequirements>
       <Crafting>6</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1911_Weapon</defName>
+    <label>craft M1911 pistol</label>
+    <description>Craft an M1911 semi-automatic pistol using steel, a magazine spring, and industrial components.</description>
+    <jobString>Crafting M1911 pistol.</jobString>
+    <workAmount>7200</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+        <researchPrerequisite>HelodSamiAutomaticPistol</researchPrerequisite>
+<ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>32</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_LowQualityMagazineSpring</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>ComponentIndustrial</li>
+        <li>HD_LowQualityMagazineSpring</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1911_Weapon>1</HD_Gun_M1911_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>7</Crafting>
     </skillRequirements>
   </RecipeDef>
 
@@ -1787,8 +1843,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -1849,8 +1905,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodLeverAction</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodLeverAction</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -1923,8 +1979,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodLeverAction</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodLeverAction</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -1997,8 +2053,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodSmokeLessGunpowder</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodSmokeLessGunpowder</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -2071,8 +2127,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodBreechLoadingGun</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -2116,8 +2172,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodBoltAction</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodBoltAction</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -2190,8 +2246,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodBoltAction</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodBoltAction</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -2264,8 +2320,8 @@
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Sculpt</effectWorking>
     <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodSamiAutomaticPistol</researchPrerequisite>
-    <ingredients>
+        <researchPrerequisite>HelodSamiAutomaticPistol</researchPrerequisite>
+<ingredients>
       <li>
         <filter>
           <thingDefs>
@@ -2318,4 +2374,153 @@
     </skillRequirements>
   </RecipeDef>
 
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1Garand_Weapon</defName>
+    <label>craft M1 Garand</label>
+    <description>Craft an M1 Garand semi-automatic rifle using a wild west barrel, magazine spring, steel, wood, and industrial components.</description>
+    <jobString>Crafting M1 Garand.</jobString>
+    <workAmount>15500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+        <researchPrerequisite>HelodBasicModernRifle</researchPrerequisite>
+<ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_WildWestBarrel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_LowQualityMagazineSpring</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>75</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>6</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_LowQualityMagazineSpring</li>
+        <li>Steel</li>
+        <li>WoodLog</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1Garand_Weapon>1</HD_Gun_M1Garand_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1919A6LMG_Weapon</defName>
+    <label>craft M1919A6 light machine gun</label>
+    <description>Craft a portable M1919A6 light machine gun using a wild west barrel, magazine springs, uniform rolled steel plate, steel, and industrial components.</description>
+    <jobString>Crafting M1919A6 light machine gun.</jobString>
+    <workAmount>18000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+        <researchPrerequisite>HelodHighMachineGun</researchPrerequisite>
+<ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_WildWestBarrel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_LowQualityMagazineSpring</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>95</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_UniformRolledSteelPlate</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_LowQualityMagazineSpring</li>
+        <li>Steel</li>
+        <li>ComponentIndustrial</li>
+        <li>HD_UniformRolledSteelPlate</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1919A6LMG_Weapon>1</HD_Gun_M1919A6LMG_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
 </Defs>
+

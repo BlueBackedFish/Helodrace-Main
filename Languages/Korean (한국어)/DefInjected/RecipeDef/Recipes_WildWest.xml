@@ -123,4 +123,16 @@
   <HD_MakePrimaryCell.label>1차 전지 제작</HD_MakePrimaryCell.label>
   <HD_MakePrimaryCell.description>강철과 화학 반응 부품을 결합하여 고출력 전기를 보관할 수 있는 기초적인 화학 전지(1차 전지)를 조립합니다.</HD_MakePrimaryCell.description>
   <HD_MakePrimaryCell.jobString>1차 전지 조립하는 중.</HD_MakePrimaryCell.jobString>
+  <HD_Make_Gun_M1919A6LMG_Weapon.label>M1919A6 경기관총 제작</HD_Make_Gun_M1919A6LMG_Weapon.label>
+  <HD_Make_Gun_M1919A6LMG_Weapon.description>와일드웨스트 총열, 탄창 스프링, 균일압연강판, 강철, 산업 부품을 사용해 휴대용 M1919A6 경기관총을 제작합니다.</HD_Make_Gun_M1919A6LMG_Weapon.description>
+  <HD_Make_Gun_M1919A6LMG_Weapon.jobString>M1919A6 경기관총을 제작하는 중</HD_Make_Gun_M1919A6LMG_Weapon.jobString>
+
+  <HD_Make_Gun_M1911_Weapon.label>M1911 권총 제작</HD_Make_Gun_M1911_Weapon.label>
+  <HD_Make_Gun_M1911_Weapon.description>강철, 탄창 스프링, 산업 부품을 사용해 M1911 반자동 권총을 제작합니다.</HD_Make_Gun_M1911_Weapon.description>
+  <HD_Make_Gun_M1911_Weapon.jobString>M1911 권총을 제작하는 중.</HD_Make_Gun_M1911_Weapon.jobString>
+
+  <HD_Make_Gun_M1Garand_Weapon.label>M1 개런드 제작</HD_Make_Gun_M1Garand_Weapon.label>
+  <HD_Make_Gun_M1Garand_Weapon.description>와일드웨스트 총열, 탄창 스프링, 강철, 목재, 산업 부품을 사용해 M1 개런드 반자동 소총을 제작합니다.</HD_Make_Gun_M1Garand_Weapon.description>
+  <HD_Make_Gun_M1Garand_Weapon.jobString>M1 개런드를 제작하는 중.</HD_Make_Gun_M1Garand_Weapon.jobString>
+
 </LanguageData>

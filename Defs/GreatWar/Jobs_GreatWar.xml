@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <JobDef>
+    <defName>HD_MedibagHemostasis</defName>
+    <driverClass>Helodrace.JobDriver_MedibagHemostasis</driverClass>
+    <reportString>applying field hemostasis.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_MedibagPlasmaTransfusion</defName>
+    <driverClass>Helodrace.JobDriver_MedibagPlasmaTransfusion</driverClass>
+    <reportString>performing plasma transfusion.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_IgniteSweetGasCan</defName>
+    <driverClass>Helodrace.JobDriver_IgniteSweetGasCan</driverClass>
+    <reportString>igniting sweet gas can.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

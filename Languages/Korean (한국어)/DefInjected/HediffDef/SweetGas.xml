@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_SweetGasExposure.label>스위트 가스 노출량</HD_SweetGasExposure.label>
+  <HD_SweetGasExposure.labelNoun>스위트 가스 노출량</HD_SweetGasExposure.labelNoun>
+  <HD_SweetGasExposure.description>스위트 가스가 체내로 들어왔습니다. 이 노출량은 자연적으로 내려가지 않으며, 노출량 변화가 없는 상태로 몇 시간이 지나면 체내 노출 상태가 사라집니다. 의학 처치를 받으면 노출량이 더 빠르게 줄고, 치료 품질이 높을수록 더 많이 제거됩니다.</HD_SweetGasExposure.description>
+  <HD_SweetGasExposure.stages.0.label>흡수됨</HD_SweetGasExposure.stages.0.label>
+
+  <HD_SweetGasRisk.label>스위트 가스 손상 위험</HD_SweetGasRisk.label>
+  <HD_SweetGasRisk.labelNoun>스위트 가스 손상 위험</HD_SweetGasRisk.labelNoun>
+  <HD_SweetGasRisk.description>스위트 가스 노출로 인한 지연성 수포 작용제 손상 위험입니다. 잠복기에는 증상이 없습니다. 작용기가 시작되면 극심한 고통과 함께 내부 장기를 제외한 외부 신체 부위 중 아직 흉터가 없는 랜덤 3부위에 주기적으로 강한 영구 흉터가 생기며, 작용기 후반에는 높은 확률로 사망합니다. 치료는 3시간 동안 진행 속도를 늦추고, 치료 품질이 총 500% 누적되면 위험을 제거합니다.</HD_SweetGasRisk.description>
+  <HD_SweetGasRisk.stages.0.label>잠복기</HD_SweetGasRisk.stages.0.label>
+  <HD_SweetGasRisk.stages.1.label>작용기</HD_SweetGasRisk.stages.1.label>
+</LanguageData>

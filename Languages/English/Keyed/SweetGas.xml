@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_SweetGasCan_Deploy_Label>Release sweet gas</HD_SweetGasCan_Deploy_Label>
+  <HD_SweetGasCan_Deploy_Desc>Ignite the can. It will burn for a while, repeatedly releasing sweet gas.</HD_SweetGasCan_Deploy_Desc>
+  <HD_SweetGasCan_Deploy_Burning>This can is already burning.</HD_SweetGasCan_Deploy_Burning>
+  <HD_SweetGasCan_Deploy_Used>This can has already been released.</HD_SweetGasCan_Deploy_Used>
+  <HD_SweetGasCan_Deploy_Message>{0} ignited {1}, which began releasing sweet gas.</HD_SweetGasCan_Deploy_Message>
+  <HD_SweetGas_Density>Density: {0}%</HD_SweetGas_Density>
+  <HD_SweetGasRisk_Progress>progress {0}%</HD_SweetGasRisk_Progress>
+</LanguageData>

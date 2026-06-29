@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- ==================== Bullets ==================== -->
@@ -141,7 +141,7 @@
     <soundInteract>Interact_Revolver</soundInteract>
     <statBases>
       <WorkToMake>15000</WorkToMake>
-      <Mass>1.2</Mass>
+      <Mass>1.05</Mass>
       <AccuracyTouch>0.80</AccuracyTouch>
       <AccuracyShort>0.70</AccuracyShort>
       <AccuracyMedium>0.50</AccuracyMedium>
@@ -152,6 +152,8 @@
       <Steel>30</Steel>
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -223,7 +225,7 @@
     <soundInteract>Interact_Revolver</soundInteract>
     <statBases>
       <WorkToMake>13000</WorkToMake>
-      <Mass>1.2</Mass>
+      <Mass>1.22</Mass>
       <AccuracyTouch>0.75</AccuracyTouch>
       <AccuracyShort>0.68</AccuracyShort>
       <AccuracyMedium>0.45</AccuracyMedium>
@@ -234,6 +236,8 @@
       <Steel>28</Steel>
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -317,6 +321,8 @@
       <Steel>30</Steel>
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -391,6 +397,8 @@
       <Steel>60</Steel>
       <ComponentIndustrial>3</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -454,7 +462,7 @@
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>28000</WorkToMake>
-      <Mass>4.3</Mass>
+      <Mass>3.6</Mass>
       <AccuracyTouch>0.80</AccuracyTouch>
       <AccuracyShort>0.62</AccuracyShort>
       <AccuracyMedium>0.32</AccuracyMedium>
@@ -465,6 +473,8 @@
       <Steel>65</Steel>
       <ComponentIndustrial>3</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -530,7 +540,7 @@
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>30000</WorkToMake>
-      <Mass>4.0</Mass>
+      <Mass>4.2</Mass>
       <AccuracyTouch>0.60</AccuracyTouch>
       <AccuracyShort>0.75</AccuracyShort>
       <AccuracyMedium>0.75</AccuracyMedium>
@@ -541,6 +551,8 @@
       <Steel>70</Steel>
       <ComponentIndustrial>4</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -615,6 +627,8 @@
       <WoodLog>20</WoodLog>
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -622,7 +636,7 @@
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
-        <altAccuracyMultiplier>2.0</altAccuracyMultiplier>
+        <altAccuracyMultiplier>1.5</altAccuracyMultiplier>
       </li>
     </comps>
     <verbs>
@@ -697,6 +711,8 @@
       <Steel>60</Steel>
       <ComponentIndustrial>2</ComponentIndustrial>
     </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -704,7 +720,7 @@
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
-        <altAccuracyMultiplier>1.5</altAccuracyMultiplier>
+        <altAccuracyMultiplier>1.25</altAccuracyMultiplier>
       </li>
     </comps>
     <verbs>
@@ -806,3 +822,4 @@
   </ThingDef>
 
 </Defs>
+

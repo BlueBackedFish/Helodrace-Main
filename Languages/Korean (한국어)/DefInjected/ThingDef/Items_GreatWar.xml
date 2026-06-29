@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <HD_Hardtack.label>하드택</HD_Hardtack.label>
+  <HD_Hardtack.description>보존 처리한 채식 재료를 단단하고 건조하게 구운 야전 식량입니다. 썩지 않고 대량으로 조리할 수 있으며, 절박한 상황에서는 던지는 무기로도 쓸 수 있습니다.</HD_Hardtack.description>
+  <HD_Hardtack_Proj.label>하드택</HD_Hardtack_Proj.label>
+
+  <HD_Apparel_GreatWarMedibag.label>메딕 가방</HD_Apparel_GreatWarMedibag.label>
+  <HD_Apparel_GreatWarMedibag.description>간단한 생약과 붕대류를 넣어 어깨에 매는 야전 의무 가방입니다. 아직 특별한 기능은 없습니다.</HD_Apparel_GreatWarMedibag.description>
+
+  <HD_Apparel_GreatWarGasMaskPouch.label>가스마스크 파우치</HD_Apparel_GreatWarGasMaskPouch.label>
+  <HD_Apparel_GreatWarGasMaskPouch.description>밀봉된 여분 필터와 방독 천을 넣어 허리에 차는 작은 파우치입니다. 착용 중 독성 환경 저항력을 100%까지 높이지만, 무게와 끈 때문에 이동, 작업, 사격, 근접 전투 능력이 낮아집니다.</HD_Apparel_GreatWarGasMaskPouch.description>
+
+  <HD_Apparel_GreatWarCBRNPouch.label>화생방보호 파우치</HD_Apparel_GreatWarCBRNPouch.label>
+  <HD_Apparel_GreatWarCBRNPouch.description>밀봉 필터, 차단 천, 응급 화학 방호 물품을 넣어 보강한 가스마스크 파우치입니다. 착용 중 독성 환경 저항력을 100%까지 높이고 스위트 가스 노출을 막지만, 부피 때문에 이동, 작업, 사격, 근접 전투 능력이 크게 낮아집니다.</HD_Apparel_GreatWarCBRNPouch.description>
+
+</LanguageData>

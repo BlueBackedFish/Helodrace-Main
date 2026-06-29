@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_PhotochlorogenCan_Deploy_Label>Release photochlorogen</HD_PhotochlorogenCan_Deploy_Label>
+  <HD_PhotochlorogenCan_Deploy_Desc>Ignite the can. It will burn for a while, repeatedly spreading photochlorogen gas in a radius of {0} cells.</HD_PhotochlorogenCan_Deploy_Desc>
+  <HD_PhotochlorogenCan_Deploy_Burning>This can is already burning.</HD_PhotochlorogenCan_Deploy_Burning>
+  <HD_PhotochlorogenCan_Deploy_Used>This can has already been released.</HD_PhotochlorogenCan_Deploy_Used>
+  <HD_PhotochlorogenCan_Deploy_Message>{0} ignited {1}, which began spreading photochlorogen gas in a radius of {2} cells.</HD_PhotochlorogenCan_Deploy_Message>
+  <HD_PhotochlorogenGas_Density>Density: {0}%</HD_PhotochlorogenGas_Density>
+</LanguageData>

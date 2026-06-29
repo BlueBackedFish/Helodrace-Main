@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Building_SweetGasCan.label>스위트 가스 캔</HD_Building_SweetGasCan.label>
+  <HD_Building_SweetGasCan.description>포토클로로겐 캔 몸체를 임시로 사용하는 화학 캔입니다. 작동시키면 타오르며 지연성 수포 작용제인 스위트 가스를 방출합니다. 방독면과 독가스 노출 면역은 이 가스를 막지 못합니다. 오디세이가 설치되어 있다면 진공저항력에 따라 노출량이 줄어듭니다.</HD_Building_SweetGasCan.description>
+
+  <HD_SweetGas.label>스위트 가스</HD_SweetGas.label>
+  <HD_SweetGas.description>노란빛의 지연성 수포 작용제 구름입니다. 스위트 가스 노출량은 자연적으로 내려가지 않지만, 노출량 변화가 없는 상태로 몇 시간이 지나면 노출 상태가 사라집니다. 방독면과 독가스 노출 면역은 이 가스를 막지 못하며, 오디세이가 설치되어 있다면 진공저항력에 따라 노출량이 줄어듭니다. 위험은 증상이 없는 잠복기를 거친 뒤 작용기에 외부 조직에 주기적으로 강한 영구 흉터를 남기고, 작용기 후반에는 높은 확률로 사망을 일으킵니다.</HD_SweetGas.description>
+</LanguageData>

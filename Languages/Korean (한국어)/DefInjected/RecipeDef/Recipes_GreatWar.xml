@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <HD_MakeHardtackBulk.label>하드텍 만들기 x32</HD_MakeHardtackBulk.label>
+  <HD_MakeHardtackBulk.description>채식 재료로 오래 보관할 수 있는 하드텍을 대량으로 굽습니다. 하드텍 자체는 재료로 사용할 수 없습니다.</HD_MakeHardtackBulk.description>
+  <HD_MakeHardtackBulk.jobString>하드텍을 만드는 중.</HD_MakeHardtackBulk.jobString>
+
+</LanguageData>

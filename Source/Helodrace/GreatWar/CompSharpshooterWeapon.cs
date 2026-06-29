@@ -11,6 +11,7 @@ namespace Helodrace
         public int altVerbIndex = 1; 
         public float altCooldownMultiplier = 1.0f; 
         public float altAccuracyMultiplier = 1.0f; 
+        public float moveSpeedOffset = 0.0f;
         public int switchTicks = 120; // Default 2 seconds to switch modes
 
         public CompProperties_SharpshooterWeapon()
@@ -144,6 +145,43 @@ namespace Helodrace
         }
     }
 
+    [HarmonyPatch(typeof(StatExtension), "GetStatValue")]
+    public static class Patch_StatExtension_GetStatValue
+    {
+        public static void Postfix(Thing thing, StatDef stat, ref float __result)
+        {
+            if (thing is Pawn pawn)
+            {
+                if (pawn.equipment?.Primary == null)
+                {
+                    return;
+                }
+
+                var comp = pawn.equipment.Primary.TryGetComp<CompSharpshooterWeapon>();
+                if (comp == null || !comp.altModeActive || !comp.CanUseSharpshooterMode)
+                {
+                    return;
+                }
+
+                if (stat == StatDefOf.MoveSpeed && comp.Props.moveSpeedOffset != 0f)
+                {
+                    __result = UnityEngine.Mathf.Max(0.0f, __result + comp.Props.moveSpeedOffset);
+                }
+            }
+            else
+            {
+                if (stat == StatDefOf.RangedWeapon_Cooldown)
+                {
+                    var comp = thing.TryGetComp<CompSharpshooterWeapon>();
+                    if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode)
+                    {
+                        __result *= comp.Props.altCooldownMultiplier;
+                    }
+                }
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(VerbTracker), "get_PrimaryVerb")]
     public static class Patch_VerbTracker_PrimaryVerb
     {
@@ -160,41 +198,152 @@ namespace Helodrace
         }
     }
 
-    [HarmonyPatch(typeof(StatExtension), "GetStatValue")]
-    public static class Patch_StatExtension_GetStatValue
+    [HarmonyPatch(typeof(ShotReport), nameof(ShotReport.HitReportFor))]
+    public static class Patch_ShotReport_HitReportFor
     {
-        public static void Postfix(Thing thing, StatDef stat, ref float __result)
+        public static void Postfix(Thing caster, Verb verb, LocalTargetInfo target, ref ShotReport __result)
         {
-            if (thing is Pawn pawn)
+            if (caster is Pawn pawn && pawn.equipment?.Primary != null)
             {
-                if (stat == StatDefOf.ShootingAccuracyPawn && pawn.equipment?.Primary != null)
+                var comp = pawn.equipment.Primary.TryGetComp<CompSharpshooterWeapon>();
+                if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode)
                 {
-                    var comp = pawn.equipment.Primary.TryGetComp<CompSharpshooterWeapon>();
-                    if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode)
-                    {
-                        // ShootingAccuracyPawn is a probability per tile between 0 and 1.0 (typically 0.95 - 0.99).
-                        // Multiplying it directly can make it > 1.0, which grows exponentially when raised to the power of distance (resulting in 100,000%+ accuracy).
-                        // Instead, we reduce the remaining inaccuracy (error rate) by the multiplier.
-                        float multiplier = comp.Props.altAccuracyMultiplier;
-                        if (multiplier > 0f)
-                        {
-                            float inaccuracy = 1.0f - __result;
-                            float newInaccuracy = inaccuracy / multiplier;
-                            __result = UnityEngine.Mathf.Clamp(1.0f - newInaccuracy, 0.0f, 0.999f);
-                        }
-                    }
+                    SharpshooterAccuracyReport.Register(__result, comp.Props.altAccuracyMultiplier);
                 }
             }
-            else
+        }
+    }
+
+    public static class SharpshooterAccuracyReport
+    {
+        private const int CacheLifetimeTicks = 120;
+        private static readonly System.Reflection.FieldInfo TargetField = AccessTools.Field(typeof(ShotReport), "target");
+        private static readonly System.Reflection.FieldInfo DistanceField = AccessTools.Field(typeof(ShotReport), "distance");
+        private static readonly System.Reflection.FieldInfo CoversOverallBlockChanceField = AccessTools.Field(typeof(ShotReport), "coversOverallBlockChance");
+        private static readonly System.Reflection.FieldInfo FactorFromShooterAndDistField = AccessTools.Field(typeof(ShotReport), "factorFromShooterAndDist");
+        private static readonly System.Reflection.FieldInfo FactorFromEquipmentField = AccessTools.Field(typeof(ShotReport), "factorFromEquipment");
+        private static readonly System.Reflection.FieldInfo FactorFromTargetSizeField = AccessTools.Field(typeof(ShotReport), "factorFromTargetSize");
+        private static readonly System.Reflection.FieldInfo FactorFromWeatherField = AccessTools.Field(typeof(ShotReport), "factorFromWeather");
+        private static readonly System.Reflection.FieldInfo FactorFromCoveringGasField = AccessTools.Field(typeof(ShotReport), "factorFromCoveringGas");
+        private static readonly System.Reflection.FieldInfo ShootLineField = AccessTools.Field(typeof(ShotReport), "shootLine");
+        private static readonly Dictionary<string, CachedMultiplier> MultipliersByReport = new Dictionary<string, CachedMultiplier>();
+
+        private struct CachedMultiplier
+        {
+            public float multiplier;
+            public int tick;
+        }
+
+        public static void Register(ShotReport report, float multiplier)
+        {
+            if (UnityEngine.Mathf.Approximately(multiplier, 1.0f) || multiplier <= 0f)
             {
-                if (stat == StatDefOf.RangedWeapon_Cooldown)
+                return;
+            }
+
+            string key = GetKey(report);
+            if (key == null)
+            {
+                return;
+            }
+
+            PruneOldEntries();
+            MultipliersByReport[key] = new CachedMultiplier
+            {
+                multiplier = multiplier,
+                tick = CurrentTick
+            };
+        }
+
+        public static bool TryGetMultiplier(ShotReport report, out float multiplier)
+        {
+            string key = GetKey(report);
+            if (key != null && MultipliersByReport.TryGetValue(key, out CachedMultiplier cached))
+            {
+                multiplier = cached.multiplier;
+                return true;
+            }
+
+            multiplier = 1.0f;
+            return false;
+        }
+
+        private static string GetKey(ShotReport report)
+        {
+            if (TargetField == null || DistanceField == null || FactorFromShooterAndDistField == null)
+            {
+                return null;
+            }
+
+            object boxedReport = report;
+            return string.Join("|",
+                StableHash(TargetField.GetValue(boxedReport)),
+                StableHash(ShootLineField?.GetValue(boxedReport)),
+                RoundedHash(DistanceField.GetValue(boxedReport)),
+                RoundedHash(CoversOverallBlockChanceField?.GetValue(boxedReport)),
+                RoundedHash(FactorFromShooterAndDistField.GetValue(boxedReport)),
+                RoundedHash(FactorFromEquipmentField?.GetValue(boxedReport)),
+                RoundedHash(FactorFromTargetSizeField?.GetValue(boxedReport)),
+                RoundedHash(FactorFromWeatherField?.GetValue(boxedReport)),
+                RoundedHash(FactorFromCoveringGasField?.GetValue(boxedReport)));
+        }
+
+        private static int StableHash(object value)
+        {
+            return value?.GetHashCode() ?? 0;
+        }
+
+        private static int RoundedHash(object value)
+        {
+            return value is float number ? UnityEngine.Mathf.RoundToInt(number * 10000f) : 0;
+        }
+
+        private static int CurrentTick => Find.TickManager?.TicksGame ?? 0;
+
+        private static void PruneOldEntries()
+        {
+            int currentTick = CurrentTick;
+            if (MultipliersByReport.Count < 64)
+            {
+                return;
+            }
+
+            List<string> expiredKeys = new List<string>();
+            foreach (KeyValuePair<string, CachedMultiplier> entry in MultipliersByReport)
+            {
+                if (currentTick - entry.Value.tick > CacheLifetimeTicks)
                 {
-                    var comp = thing.TryGetComp<CompSharpshooterWeapon>();
-                    if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode)
-                    {
-                        __result *= comp.Props.altCooldownMultiplier;
-                    }
+                    expiredKeys.Add(entry.Key);
                 }
+            }
+
+            foreach (string expiredKey in expiredKeys)
+            {
+                MultipliersByReport.Remove(expiredKey);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ShotReport), "get_AimOnTargetChance_StandardTarget")]
+    public static class Patch_ShotReport_AimOnTargetChance_StandardTarget
+    {
+        public static void Postfix(ShotReport __instance, ref float __result)
+        {
+            if (SharpshooterAccuracyReport.TryGetMultiplier(__instance, out float multiplier))
+            {
+                __result = UnityEngine.Mathf.Clamp01(__result * multiplier);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ShotReport), nameof(ShotReport.GetTextReadout))]
+    public static class Patch_ShotReport_GetTextReadout
+    {
+        public static void Postfix(ShotReport __instance, ref string __result)
+        {
+            if (SharpshooterAccuracyReport.TryGetMultiplier(__instance, out float multiplier))
+            {
+                __result += "\n" + "HD_SharpshooterMode_AccuracyFactor".Translate(multiplier.ToStringPercent()).Resolve();
             }
         }
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- Mechanical info card stats -->
+  <HD_Stat_MechanicalRole>Mechanical power role</HD_Stat_MechanicalRole>
+  <HD_Stat_MechanicalRole_Emitter>Power source</HD_Stat_MechanicalRole_Emitter>
+  <HD_Stat_MechanicalRole_User>Power user</HD_Stat_MechanicalRole_User>
+  <HD_Stat_MechanicalRole_Transmitter>Power transmitter</HD_Stat_MechanicalRole_Transmitter>
+  <HD_Stat_MechanicalRole_Emitter_Desc>Supplies rotational power and torque to a mechanical network.</HD_Stat_MechanicalRole_Emitter_Desc>
+  <HD_Stat_MechanicalRole_User_Desc>Operates by drawing torque from a mechanical network.</HD_Stat_MechanicalRole_User_Desc>
+  <HD_Stat_MechanicalRole_Transmitter_Desc>Transfers mechanical power between adjacent mechanical devices.</HD_Stat_MechanicalRole_Transmitter_Desc>
+  <HD_Stat_MechanicalSourceType>Power source type</HD_Stat_MechanicalSourceType>
+  <HD_Stat_MechanicalSourceType_Desc>The type of mechanical power source used by this device.\n\nSteamEngine: A steam engine. RPM mismatch can damage gears and structure, while low-RPM high-torque overload can cause severe structural damage.\n\nEngine: A combustion engine. RPM mismatch can cause overheating and fire, while overload can break the engine down or damage its durability.\n\nMotor: An electric motor. RPM mismatch can cause EMP discharge, while overload can drain or explode batteries and may short-circuit the motor.</HD_Stat_MechanicalSourceType_Desc>
+  <HD_Stat_MechanicalRecommendedPower>Recommended output</HD_Stat_MechanicalRecommendedPower>
+  <HD_Stat_MechanicalRecommendedPower_Desc>The mechanical power output this device can supply during normal stable operation.</HD_Stat_MechanicalRecommendedPower_Desc>
+  <HD_Stat_MechanicalMaxPower>Maximum output</HD_Stat_MechanicalMaxPower>
+  <HD_Stat_MechanicalMaxPower_Desc>The maximum mechanical power output this device can tolerate during overload.</HD_Stat_MechanicalMaxPower_Desc>
+  <HD_Stat_MechanicalRpmRange>RPM range</HD_Stat_MechanicalRpmRange>
+  <HD_Stat_MechanicalRpmRange_Desc>The minimum and maximum rotational speed this power source can be configured to use.</HD_Stat_MechanicalRpmRange_Desc>
+  <HD_Stat_MechanicalRpmInaccuracy>RPM inaccuracy</HD_Stat_MechanicalRpmInaccuracy>
+  <HD_Stat_MechanicalRpmInaccuracy_Desc>The rotational speed tolerance used when matching this power source with other sources on the network.</HD_Stat_MechanicalRpmInaccuracy_Desc>
+  <HD_Stat_MechanicalRequiredTorque>Required torque</HD_Stat_MechanicalRequiredTorque>
+  <HD_Stat_MechanicalRequiredTorque_Desc>The baseline torque this device demands at its recommended RPM.</HD_Stat_MechanicalRequiredTorque_Desc>
+  <HD_Stat_MechanicalRpmRequirement>Required RPM</HD_Stat_MechanicalRpmRequirement>
+  <HD_Stat_MechanicalRpmRequirement_Desc>The minimum RPM required for operation and the recommended RPM for full effective speed.</HD_Stat_MechanicalRpmRequirement_Desc>
+  <HD_Stat_MechanicalDefaultGearRatio>Default gear ratio</HD_Stat_MechanicalDefaultGearRatio>
+  <HD_Stat_MechanicalDefaultGearRatio_Desc>The gear ratio applied to this device immediately after construction.</HD_Stat_MechanicalDefaultGearRatio_Desc>
+  <HD_Stat_MechanicalHazards>Mechanical hazards</HD_Stat_MechanicalHazards>
+  <HD_Stat_MechanicalHazards_Desc>The mechanical hazards this device can have while operating.</HD_Stat_MechanicalHazards_Desc>
+
+  <!-- Sharpshooter Mode -->
+  <HD_SharpshooterMode_Label>Sharpshooter mode</HD_SharpshooterMode_Label>
+  <HD_SharpshooterMode_Desc>Switches between normal fire and precise sharpshooter fire.</HD_SharpshooterMode_Desc>
+  <HD_SharpshooterMode_AccuracyFactor>Sharpshooter mode: {0}</HD_SharpshooterMode_AccuracyFactor>
+</LanguageData>

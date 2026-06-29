@@ -9,9 +9,9 @@
   <HD_Command_IncreaseRPM_Desc>목표 RPM을 {0}만큼 증가시킵니다.</HD_Command_IncreaseRPM_Desc>
 
   <!-- Mechanical User -->
-  <HD_MechanicalUser_TorqueStruggle> (과부하: 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
+  <HD_MechanicalUser_TorqueStruggle> (과부하 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
   <HD_MechanicalUser_DangerNone>없음 (안전)</HD_MechanicalUser_DangerNone>
-  <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 수요 토크: {1}{2}\n요구 속도: {3} - {4} RPM\n위험 요소: {5}</HD_MechanicalUser_Info>
+  <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}\n요구 속도: {3} - {4} RPM\n위험 요소: {5}</HD_MechanicalUser_Info>
   <HD_MechanicalUser_BeltSnapped>벨트 상태: 파단됨 (수리 필요)</HD_MechanicalUser_BeltSnapped>
   <HD_MechanicalUser_BeltDry>벨트 상태: 마름 (윤활 필요)</HD_MechanicalUser_BeltDry>
   <HD_MechanicalUser_BeltLubricated>벨트 상태: 윤활됨 (수명 약 {0}시간)</HD_MechanicalUser_BeltLubricated>
@@ -23,13 +23,41 @@
   <HD_Command_DecreaseGear_Desc>기어비를 {0}만큼 감소시킵니다.</HD_Command_DecreaseGear_Desc>
   <HD_Command_IncreaseGear_Desc>기어비를 {0}만큼 증가시킵니다.</HD_Command_IncreaseGear_Desc>
 
+  <!-- Mechanical info card stats -->
+  <HD_Stat_MechanicalRole>기계 동력 역할</HD_Stat_MechanicalRole>
+  <HD_Stat_MechanicalRole_Emitter>동력원</HD_Stat_MechanicalRole_Emitter>
+  <HD_Stat_MechanicalRole_User>동력 소모 장치</HD_Stat_MechanicalRole_User>
+  <HD_Stat_MechanicalRole_Transmitter>동력 전달 장치</HD_Stat_MechanicalRole_Transmitter>
+  <HD_Stat_MechanicalRole_Emitter_Desc>기계 동력망에 회전 동력과 토크를 공급합니다.</HD_Stat_MechanicalRole_Emitter_Desc>
+  <HD_Stat_MechanicalRole_User_Desc>기계 동력망에서 토크를 받아 작동합니다.</HD_Stat_MechanicalRole_User_Desc>
+  <HD_Stat_MechanicalRole_Transmitter_Desc>인접한 기계 장치 사이에 기계 동력을 전달합니다.</HD_Stat_MechanicalRole_Transmitter_Desc>
+  <HD_Stat_MechanicalSourceType>동력원 종류</HD_Stat_MechanicalSourceType>
+  <HD_Stat_MechanicalSourceType_Desc>이 장치가 사용하는 기계 동력원의 유형입니다.\n\nSteamEngine: 증기기관입니다. RPM이 맞지 않으면 기어와 구조부가 손상될 수 있고, 저RPM 고토크 과부하에서는 심각한 구조 손상이 발생할 수 있습니다.\n\nEngine: 내연기관입니다. RPM 불일치 시 과열과 화재가 발생할 수 있으며, 과부하에서는 고장나거나 내구도가 손상될 수 있습니다.\n\nMotor: 전기 모터입니다. RPM 불일치 시 EMP 방전이 발생할 수 있고, 과부하에서는 배터리를 방전시키거나 폭발시키거나 모터가 단락될 수 있습니다.</HD_Stat_MechanicalSourceType_Desc>
+  <HD_Stat_MechanicalRecommendedPower>권장 출력</HD_Stat_MechanicalRecommendedPower>
+  <HD_Stat_MechanicalRecommendedPower_Desc>정상 안정 상태에서 이 장치가 공급할 수 있는 기계 동력 출력입니다.</HD_Stat_MechanicalRecommendedPower_Desc>
+  <HD_Stat_MechanicalMaxPower>최대 출력</HD_Stat_MechanicalMaxPower>
+  <HD_Stat_MechanicalMaxPower_Desc>과부하 상황에서 이 장치가 버틸 수 있는 최대 기계 동력 출력입니다.</HD_Stat_MechanicalMaxPower_Desc>
+  <HD_Stat_MechanicalRpmRange>RPM 범위</HD_Stat_MechanicalRpmRange>
+  <HD_Stat_MechanicalRpmRange_Desc>이 동력원이 설정할 수 있는 최소 및 최대 회전 속도입니다.</HD_Stat_MechanicalRpmRange_Desc>
+  <HD_Stat_MechanicalRpmInaccuracy>RPM 오차</HD_Stat_MechanicalRpmInaccuracy>
+  <HD_Stat_MechanicalRpmInaccuracy_Desc>동력망에서 다른 동력원과 속도를 맞출 때 허용되는 회전 속도 오차입니다.</HD_Stat_MechanicalRpmInaccuracy_Desc>
+  <HD_Stat_MechanicalRequiredTorque>요구 토크</HD_Stat_MechanicalRequiredTorque>
+  <HD_Stat_MechanicalRequiredTorque_Desc>권장 RPM에서 이 장치가 요구하는 기본 토크입니다.</HD_Stat_MechanicalRequiredTorque_Desc>
+  <HD_Stat_MechanicalRpmRequirement>요구 RPM</HD_Stat_MechanicalRpmRequirement>
+  <HD_Stat_MechanicalRpmRequirement_Desc>장치가 작동하기 위한 최소 RPM과 완전한 효율을 내는 권장 RPM입니다.</HD_Stat_MechanicalRpmRequirement_Desc>
+  <HD_Stat_MechanicalDefaultGearRatio>기본 기어비</HD_Stat_MechanicalDefaultGearRatio>
+  <HD_Stat_MechanicalDefaultGearRatio_Desc>건설 직후 이 장치에 적용되는 기본 기어비입니다.</HD_Stat_MechanicalDefaultGearRatio_Desc>
+  <HD_Stat_MechanicalHazards>동력 위험 요소</HD_Stat_MechanicalHazards>
+  <HD_Stat_MechanicalHazards_Desc>이 장치가 작동 중 가질 수 있는 기계적 위험 요소입니다.</HD_Stat_MechanicalHazards_Desc>
+
   <!-- Sharpshooter Mode -->
   <HD_SharpshooterMode_Label>명사수 모드</HD_SharpshooterMode_Label>
   <HD_SharpshooterMode_Desc>일반 사격 방식과 정밀한 명사수 사격 방식 사이를 전환합니다.</HD_SharpshooterMode_Desc>
+  <HD_SharpshooterMode_AccuracyFactor>명사수 모드: {0}</HD_SharpshooterMode_AccuracyFactor>
 
   <!-- ITab_MechanicalNetwork -->
   <HD_ITab_MechanicalNetwork_Title>기계 동력망 정보</HD_ITab_MechanicalNetwork_Title>
-  <HD_ITab_MechanicalNetwork_NotConnected>기계 동력망에 연결되지 않았습니다.</HD_ITab_MechanicalNetwork_NotConnected>
+  <HD_ITab_MechanicalNetwork_NotConnected>기계 동력망에 연결되어 있지 않습니다.</HD_ITab_MechanicalNetwork_NotConnected>
   <HD_ITab_MechanicalNetwork_Summary>동력망 요약</HD_ITab_MechanicalNetwork_Summary>
   <HD_ITab_MechanicalNetwork_PowerOutput>전체 출력 토크: {0} W</HD_ITab_MechanicalNetwork_PowerOutput>
   <HD_ITab_MechanicalNetwork_PowerNeeded>전체 요구 토크: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>

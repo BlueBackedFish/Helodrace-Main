@@ -35,10 +35,10 @@
             <li>Female</li>
             <!--<li>Thin</li>-->
           </bodyTypes>
-          <headOffset>(0.0, 0.25)</headOffset>
-          <customDrawSize>(1.0, 1.0)</customDrawSize>
-          <customHeadDrawSize>(1.0, 1.0)</customHeadDrawSize>
-          <customPortraitDrawSize>(1.0, 1.0)</customPortraitDrawSize>
+          <headOffset>(0.0, 0.11)</headOffset>
+          <customDrawSize>(0.8, 0.8)</customDrawSize>
+          <customHeadDrawSize>(0.8, 0.8)</customHeadDrawSize>
+          <customPortraitDrawSize>(0.8, 0.8)</customPortraitDrawSize>
           
           <colorChannels>
             <li>
@@ -168,15 +168,15 @@
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <south>
-                  <offset>(-0.25,0.4)</offset>
+                  <offset>(-0.25,0.36)</offset>
                   <layerOffset>0.02</layerOffset>
                 </south>
                 <north>
-                  <offset>(-0.11,0.68)</offset>
+                  <offset>(-0.11,0.64)</offset>
                   <layerOffset>-0.02</layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.4,0.4)</offset>
+                  <offset>(-0.4,0.36)</offset>
                   <layerOffset>0.02</layerOffset>
                 </east>
               </offsets>
@@ -202,15 +202,15 @@
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <south>
-                  <offset>(-0.63,0.4)</offset>
+                  <offset>(-0.63,0.36)</offset>
                   <layerOffset>0.02</layerOffset>
                 </south>
                 <north>
-                  <offset>(0.30,0.68)</offset>
+                  <offset>(0.26,0.64)</offset>
                   <layerOffset>-0.02</layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.4,0.4)</offset>
+                  <offset>(-0.4,0.36)</offset>
                   <layerOffset>0.02</layerOffset>
                 </east>
               </offsets>
@@ -273,6 +273,9 @@
           <li>HD_Apparel_WildWestMaleCasual</li>
           <li>HD_WildWestLeatherVest</li>
           <li>HD_Bugle</li>
+          <li>HD_Apparel_GreatWarMedibag</li>
+          <li>HD_Apparel_GreatWarGasMaskPouch</li>
+          <li>HD_Apparel_GreatWarCBRNPouch</li>
         </apparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">

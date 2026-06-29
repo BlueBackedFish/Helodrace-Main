@@ -12,6 +12,16 @@ namespace Helodrace
         {
             this.compClass = typeof(CompMechanicalTransmitter);
         }
+
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry stat in base.SpecialDisplayStats(req))
+            {
+                yield return stat;
+            }
+
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRole", "HD_Stat_MechanicalRole_Transmitter".Translate().Resolve(), "HD_Stat_MechanicalRole_Transmitter_Desc");
+        }
     }
 
     public enum PowerSourceType
@@ -32,6 +42,22 @@ namespace Helodrace
         Friction
     }
 
+    internal static class MechanicalStatEntries
+    {
+        public const int DisplayPriority = 5500;
+
+        public static StatDrawEntry Entry(string labelKey, string value, string reportKey, int priorityOffset = 0)
+        {
+            return new StatDrawEntry(
+                StatCategoryDefOf.Building,
+                labelKey.Translate().Resolve(),
+                value,
+                reportKey.Translate().Resolve(),
+                DisplayPriority - priorityOffset
+            );
+        }
+    }
+
     public class CompProperties_MechanicalEmitter : CompProperties
     {
         public PowerSourceType sourceType = PowerSourceType.SteamEngine;
@@ -44,6 +70,21 @@ namespace Helodrace
         public CompProperties_MechanicalEmitter()
         {
             this.compClass = typeof(CompMechanicalEmitter);
+        }
+
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry stat in base.SpecialDisplayStats(req))
+            {
+                yield return stat;
+            }
+
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRole", "HD_Stat_MechanicalRole_Emitter".Translate().Resolve(), "HD_Stat_MechanicalRole_Emitter_Desc");
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalSourceType", sourceType.ToString(), "HD_Stat_MechanicalSourceType_Desc", 1);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRecommendedPower", recommendedPower.ToString("F0") + " W", "HD_Stat_MechanicalRecommendedPower_Desc", 2);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalMaxPower", maxPossiblePower.ToString("F0") + " W", "HD_Stat_MechanicalMaxPower_Desc", 3);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmRange", lowestRPM.ToString("F0") + " - " + maxRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmRange_Desc", 4);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmInaccuracy", "±" + rpmInaccuracy.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmInaccuracy_Desc", 5);
         }
     }
 
@@ -64,6 +105,24 @@ namespace Helodrace
         public CompProperties_MechanicalUser()
         {
             this.compClass = typeof(CompMechanicalUser);
+        }
+
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats(StatRequest req)
+        {
+            foreach (StatDrawEntry stat in base.SpecialDisplayStats(req))
+            {
+                yield return stat;
+            }
+
+            string dangerStr = dangerTypes != null && dangerTypes.Count > 0
+                ? string.Join(", ", dangerTypes)
+                : "HD_MechanicalUser_DangerNone".Translate().Resolve();
+
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRole", "HD_Stat_MechanicalRole_User".Translate().Resolve(), "HD_Stat_MechanicalRole_User_Desc");
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRequiredTorque", requireTorque.ToString("F0"), "HD_Stat_MechanicalRequiredTorque_Desc", 1);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmRequirement", minimalRPM.ToString("F0") + " - " + recommendedRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmRequirement_Desc", 2);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalDefaultGearRatio", defaultGearRatio.ToString("F1") + "x", "HD_Stat_MechanicalDefaultGearRatio_Desc", 3);
+            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalHazards", dangerStr, "HD_Stat_MechanicalHazards_Desc", 4);
         }
     }
 

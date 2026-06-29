@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <RecipeDef>
+    <defName>HD_MakeHardtackBulk</defName>
+    <label>make hardtack x32</label>
+    <description>Bake a bulk batch of long-lasting hardtack from vegetarian ingredients.</description>
+    <jobString>Making hardtack.</jobString>
+    <workAmount>2400</workAmount>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <workSkill>Cooking</workSkill>
+    <requiredGiverWorkType>Cooking</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>PlantFoodRaw</li>
+          </categories>
+          <disallowedThingDefs>
+            <li>HD_Hardtack</li>
+          </disallowedThingDefs>
+        </filter>
+        <count>3.2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>PlantFoodRaw</li>
+      </categories>
+      <disallowedThingDefs>
+        <li>HD_Hardtack</li>
+      </disallowedThingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Hardtack>32</HD_Hardtack>
+    </products>
+    <recipeUsers>
+      <li>ElectricStove</li>
+      <li>FueledStove</li>
+    </recipeUsers>
+  </RecipeDef>
+
+</Defs>
