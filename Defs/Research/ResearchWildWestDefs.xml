@@ -211,7 +211,7 @@
             <li>HelodMetalFormingMachine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>7</researchViewX>
+        <researchViewX>6</researchViewX>
         <researchViewY>0.8</researchViewY>
     </ResearchProjectDef>
 
@@ -227,7 +227,7 @@
             <li>HelodMetalFormingMachine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>7</researchViewX>
+        <researchViewX>6</researchViewX>
         <researchViewY>1.6</researchViewY>
     </ResearchProjectDef>
 
@@ -256,7 +256,7 @@
             <li>HelodMetalFormingMachine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>7</researchViewX>
+        <researchViewX>6</researchViewX>
         <researchViewY>2.4</researchViewY>
     </ResearchProjectDef>
 
@@ -270,7 +270,7 @@
             <li>HelodBasicEngine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>9</researchViewX>
+        <researchViewX>7</researchViewX>
         <researchViewY>0.8</researchViewY>
     </ResearchProjectDef>
 
@@ -284,7 +284,7 @@
             <li>HelodBasicOilDevelopment</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>9</researchViewX>
+        <researchViewX>7</researchViewX>
         <researchViewY>0</researchViewY>
     </ResearchProjectDef>
 
@@ -299,7 +299,7 @@
             <li>HelodBasicPetrochemistry</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>10</researchViewX>
+        <researchViewX>8</researchViewX>
         <researchViewY>0.8</researchViewY>
     </ResearchProjectDef>
 
@@ -343,7 +343,7 @@
             <li>HelodBasicElectronics</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>9</researchViewX>
+        <researchViewX>8</researchViewX>
         <researchViewY>5.6</researchViewY>
     </ResearchProjectDef>
 
@@ -358,7 +358,7 @@
             <li>HelodFinancialNetwork</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>9</researchViewX>
+        <researchViewX>8</researchViewX>
         <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
@@ -374,7 +374,7 @@
             <li>HelodBreechLoadingGun</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>7</researchViewX>
+        <researchViewX>6</researchViewX>
         <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
@@ -389,7 +389,7 @@
             <li>HelodLeverAction</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>8</researchViewX>
+        <researchViewX>7</researchViewX>
         <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
@@ -403,21 +403,21 @@
             <li>HelodSmokeLessGunpowder</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>9</researchViewX>
+        <researchViewX>8</researchViewX>
         <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
         <defName>HelodChokingAgent</defName>
         <label>The Poison Wind</label>
-        <description>chlorine</description>
+        <description>Phosgene, gas mask</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
             <li>HelodTotalSynthesisMedicine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>11</researchViewX>
+        <researchViewX>9</researchViewX>
         <researchViewY>0.8</researchViewY>
     </ResearchProjectDef>
 
@@ -431,7 +431,7 @@
             <li>HelodTotalSynthesisMedicine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>11</researchViewX>
+        <researchViewX>9</researchViewX>
         <researchViewY>0</researchViewY>
     </ResearchProjectDef>
 
@@ -445,14 +445,14 @@
             <li>HelodSmokeLessGunpowder</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>9</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewX>8</researchViewX>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
         <defName>HelodSamiAutomaticPistol</defName>
         <label>One Pull, One Shot</label>
-        <description>1911, Pedersen Device</description>
+        <description>1911, Whitmore Device</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -460,7 +460,7 @@
             <li>HelodBasicMachineGun</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>10</researchViewX>
+        <researchViewX>9</researchViewX>
         <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
@@ -474,7 +474,7 @@
             <li>HelodBasicMotor</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>10</researchViewX>
+        <researchViewX>11</researchViewX>
         <researchViewY>5.6</researchViewY>
     </ResearchProjectDef>
 
@@ -489,7 +489,7 @@
             <li>HelodWireless</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>10</researchViewX>
+        <researchViewX>9</researchViewX>
         <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
@@ -503,8 +503,8 @@
             <li>HelodBasicMachineGun</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>10</researchViewX>
-        <researchViewY>4</researchViewY>
+        <researchViewX>9</researchViewX>
+        <researchViewY>4.8</researchViewY>
     </ResearchProjectDef>
 
     <ResearchProjectDef>
@@ -517,7 +517,7 @@
             <li>HelodTotalSynthesisMedicine</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>11</researchViewX>
+        <researchViewX>9</researchViewX>
         <researchViewY>1.6</researchViewY>
     </ResearchProjectDef>
 
@@ -532,7 +532,7 @@
             <li>HelodHighMachineGun</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>11</researchViewX>
+        <researchViewX>10</researchViewX>
         <researchViewY>4</researchViewY>
     </ResearchProjectDef>
 
@@ -546,8 +546,96 @@
             <li>HelodHaberBosch</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>12</researchViewX>
+        <researchViewX>10</researchViewX>
         <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodBlisterAgent</defName>
+        <label>Scorched Earth Therapy</label>
+        <description>Anti-cancer agent, HN-2, Primitive rubber CBRN protection</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodChokingAgent</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>10</researchViewX>
+        <researchViewY>0.8</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodSniperRifle</defName>
+        <label>Sub-MOA Precision</label>
+        <description>m1903a4, m1c</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBoltAction</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLowGranade</defName>
+        <label>The Hand-Held Artillery</label>
+        <description>granade, m1, m7, m8 rifle granade launcher</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodHighExplosive</li>
+            <li>HelodLowHeavyArtillery</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>11</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLowLightArtillery</defName>
+        <label>The Trench Flatteners</label>
+        <description>3-inch Stokes Mortar,</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBoltAction</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>9</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLowHeavyArtillery</defName>
+        <label>The Multi-Purpose Rain</label>
+        <description>M1 4.2-inch Chemical Mortar</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLowLightArtillery</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>10</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodRespectForPatrioticMartyrs</defName>
+        <label>hymn to the fallen</label>
+        <description>"But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract."
+
+//m1902 saber, service dress</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBlisterAgent</li>
+            <li>HelodLowGranade</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>13</researchViewX>
+        <researchViewY>3.2</researchViewY>
     </ResearchProjectDef>
 
 </Defs>

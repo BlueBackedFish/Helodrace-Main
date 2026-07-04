@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_CrudeOil_Low.label>저품질 원유</HD_CrudeOil_Low.label>
   <HD_CrudeOil_Low.description>불안정하거나 낮은 등급의 매장지에서 추출된 불순물이 많고 걸쭉한 원유입니다. 유용하게 사용하려면 상당한 정제가 필요하지만 기본 연료로 사용할 수 있습니다.</HD_CrudeOil_Low.description>
@@ -21,8 +21,8 @@
   <HD_ShotgunBarrel.label>산탄총 총열</HD_ShotgunBarrel.label>
   <HD_ShotgunBarrel.description>산탄총에 사용하도록 두껍고 단단하게 디자인된 금속제 총열입니다. 작업대에서 깎고 가공할 수 있습니다.</HD_ShotgunBarrel.description>
 
-  <HD_WildWestBarrel.label>와일드웨스트 총열</HD_WildWestBarrel.label>
-  <HD_WildWestBarrel.description>정교한 기계식 선반에서 정밀하게 깎고 강선을 판 고품질 금속제 총열입니다. 후장식 소총이나 연사식 화기 등 고급 개척지 무기를 제작할 때 부품으로 쓰입니다.</HD_WildWestBarrel.description>
+  <HD_WildWestBarrel.label>중품질 총열</HD_WildWestBarrel.label>
+  <HD_WildWestBarrel.description>정교한 기계식 선반에서 정밀하게 깎고 강선을 판 중품질 금속제 총열입니다. 후장식 소총이나 연사식 화기 등 개척지 무기를 제작할 때 부품으로 쓰입니다.</HD_WildWestBarrel.description>
 
   <HD_Money.label>스탈레르 지폐</HD_Money.label>
   <HD_Money.description>아름답게 도안된 종이 지폐형 스탈레르 통화입니다. 매우 높은 가치와 가벼운 무게를 지니고 있지만, 종이로 제작되어 무척 연약하며 지붕이 없는 곳에서 비나 눈을 맞으면 빠르게 녹아내려 소실됩니다.</HD_Money.description>
@@ -55,4 +55,24 @@
   
   <HD_Charcoal.label>숯</HD_Charcoal.label>
   <HD_Charcoal.description>나무를 공기가 적은 상태에서 구워 만든 탄소가 풍부한 연료입니다. 생목재보다 깨끗하고 뜨겁게 타기 때문에 고로 운전에 적합합니다.</HD_Charcoal.description>
+  <HD_PressComponent.label>프레스 부품</HD_PressComponent.label>
+  <HD_PressComponent.description>프레스로 찍어 만든 금속 반제품입니다. 더 정밀한 기계 조립품을 만들기 위한 기본 부품으로 쓰입니다.</HD_PressComponent.description>
+  <HD_GeneralMachinePart.label>범용 기계 부품</HD_GeneralMachinePart.label>
+  <HD_GeneralMachinePart.description>총기, 도구, 산업 설비에 두루 사용할 수 있도록 가공한 범용 기계 부품입니다.</HD_GeneralMachinePart.description>
+  <HD_Naphtha.label>나프타</HD_Naphtha.label>
+  <HD_Naphtha.description>원유에서 증류한 휘발성 경질 석유 유분입니다. 미량의 BTX 화합물을 포함하고 있어 헤로드의 BTX 의존을 일부 충족할 수 있지만, 마시면 역한 기름 맛과 냄새가 남습니다.</HD_Naphtha.description>
+  <HD_PlainDogChew.label>무첨가 개껌</HD_PlainDogChew.label>
+  <HD_PlainDogChew.description>정량의 BTX 함유 나프타가 스며든 질긴 가죽 개껌입니다. 다 씹는 데 오래 걸리지만, 생 나프타의 거친 기분 효과 없이 BTX 화합물을 꾸준히 방출합니다.</HD_PlainDogChew.description>
+  <HD_PrimaryCell.label>일차 전지</HD_PrimaryCell.label>
+  <HD_PrimaryCell.description>화학 반응으로 전기를 내는 단순한 일회용 전지입니다.</HD_PrimaryCell.description>
+  <HD_LowQualityTorsionSpring.label>저품질 토션 스프링</HD_LowQualityTorsionSpring.label>
+  <HD_LowQualityTorsionSpring.description>열처리가 고르지 않은 조잡한 금속 토션 스프링입니다. 정밀도가 중요하지 않은 단순 기계 장치와 저급 화기에 사용됩니다.</HD_LowQualityTorsionSpring.description>
+  <HD_VSpring.label>V스프링</HD_VSpring.label>
+  <HD_VSpring.description>두 팔 사이에 힘을 저장하는 V자형 금속 스프링입니다. 총기 격발 장치, 방아쇠, 소형 기계 조립품에 사용됩니다.</HD_VSpring.description>
+  <HD_LowQualityMagazineSpring.label>저품질 탄창 스프링</HD_LowQualityMagazineSpring.label>
+  <HD_LowQualityMagazineSpring.description>단순한 탄창에서 탄약을 밀어 올리도록 만든 거친 코일 스프링입니다. 작동은 하지만 장력이 고르지 않아 고급 무기에서는 신뢰성이 떨어집니다.</HD_LowQualityMagazineSpring.description>
 </LanguageData>
+
+
+
+

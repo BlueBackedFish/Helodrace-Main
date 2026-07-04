@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_TelegraphTable_Use_Label>Use {0}</HD_TelegraphTable_Use_Label>
+  <HD_TelegraphTable_NoPrimaryCell>requires 1 primary cell</HD_TelegraphTable_NoPrimaryCell>
+  <HD_TelegraphTable_ActionNeedsPrimaryCell>The telegraph table has no loaded primary cells.</HD_TelegraphTable_ActionNeedsPrimaryCell>
+  <HD_TelegraphTable_LoadPrimaryCells>Load primary cells into {0} ({1}/{2})</HD_TelegraphTable_LoadPrimaryCells>
+  <HD_TelegraphTable_PrimaryCellsFull>primary cell rack full</HD_TelegraphTable_PrimaryCellsFull>
+  <HD_TelegraphTable_PrimaryCellsStored>Primary cells: {0}/{1}</HD_TelegraphTable_PrimaryCellsStored>
+  <HD_TelegraphTable_Window_Title>Telegraph table</HD_TelegraphTable_Window_Title>
+  <HD_TelegraphTable_Station>Station: {0}</HD_TelegraphTable_Station>
+  <HD_TelegraphTable_Operator>Operator: {0}</HD_TelegraphTable_Operator>
+  <HD_TelegraphTable_Status_Ready>Status: line ready</HD_TelegraphTable_Status_Ready>
+  <HD_TelegraphTable_Status_Ready_WithCells>Status: line ready | primary cells: {0}</HD_TelegraphTable_Status_Ready_WithCells>
+  <HD_TelegraphTable_Tab_Orders>Orders</HD_TelegraphTable_Tab_Orders>
+  <HD_TelegraphTable_Tab_Military>Military cooperation</HD_TelegraphTable_Tab_Military>
+  <HD_TelegraphTable_Tab_Market>Market</HD_TelegraphTable_Tab_Market>
+  <HD_TelegraphTable_Orders_Title>Orders</HD_TelegraphTable_Orders_Title>
+  <HD_TelegraphTable_Placeholder>The telegraph key is ready. Contract, bond, and exchange controls will be connected here later.</HD_TelegraphTable_Placeholder>
+  <HD_TelegraphTable_Button_Contracts>Contracts</HD_TelegraphTable_Button_Contracts>
+  <HD_TelegraphTable_Button_Bonds>Bonds</HD_TelegraphTable_Button_Bonds>
+  <HD_TelegraphTable_Button_Exchange>Exchange</HD_TelegraphTable_Button_Exchange>
+  <HD_TelegraphTable_Military_Title>Military cooperation</HD_TelegraphTable_Military_Title>
+  <HD_TelegraphTable_Military_Placeholder>Military liaison is available. Support requests and forward base contracts will be connected here later.</HD_TelegraphTable_Military_Placeholder>
+  <HD_TelegraphTable_Military_RequestSupport>Request support</HD_TelegraphTable_Military_RequestSupport>
+  <HD_TelegraphTable_Military_ForwardBase>Forward base contract</HD_TelegraphTable_Military_ForwardBase>
+  <HD_TelegraphTable_Military_ForwardBaseContracts>Forward base contracts</HD_TelegraphTable_Military_ForwardBaseContracts>
+  <HD_TelegraphTable_Military_SelectActivity>Select a military cooperation activity.</HD_TelegraphTable_Military_SelectActivity>
+  <HD_TelegraphTable_ForwardBaseContracts_Title>Forward base contracts</HD_TelegraphTable_ForwardBaseContracts_Title>
+  <HD_TelegraphTable_ForwardBaseContracts_None>No forward base contracts.</HD_TelegraphTable_ForwardBaseContracts_None>
+  <HD_TelegraphTable_ForwardBaseContracts_Row>{0} | Tile {1}</HD_TelegraphTable_ForwardBaseContracts_Row>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>Under construction: {0} left</HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusComplete>Complete</HD_TelegraphTable_ForwardBaseContracts_StatusComplete>
+  <HD_TelegraphTable_ForwardBaseContracts_Info>Info</HD_TelegraphTable_ForwardBaseContracts_Info>
+  <HD_TelegraphTable_ForwardBaseContracts_Jump>Jump</HD_TelegraphTable_ForwardBaseContracts_Jump>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>Location: tile {0}, Helod settlement distance {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoBase>Base type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>Cost type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ service order pricing: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>Duration: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServices>Services: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCredit>Military credit at signing: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCredit>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\nTile {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
+  <HD_TelegraphTable_ForwardBase_Title>Forward base construction contract</HD_TelegraphTable_ForwardBase_Title>
+  <HD_TelegraphTable_ForwardBase_Description>Select the base type, cost model, and attached services. Low credit limits the available contract terms.</HD_TelegraphTable_ForwardBase_Description>
+  <HD_TelegraphTable_ForwardBase_SelectLocation>Select base location</HD_TelegraphTable_ForwardBase_SelectLocation>
+  <HD_TelegraphTable_ForwardBase_SelectedLocation>Selected world tile: {0}</HD_TelegraphTable_ForwardBase_SelectedLocation>
+  <HD_TelegraphTable_ForwardBase_NoLocation>No base location selected.</HD_TelegraphTable_ForwardBase_NoLocation>
+  <HD_TelegraphTable_ForwardBase_InvalidLocation>Select a valid world tile for the forward base.</HD_TelegraphTable_ForwardBase_InvalidLocation>
+  <HD_TelegraphTable_ForwardBase_Credit>Military credit: {0}</HD_TelegraphTable_ForwardBase_Credit>
+  <HD_TelegraphTable_ForwardBase_Distance>Nearest Helod settlement distance: {0}/{1} tiles</HD_TelegraphTable_ForwardBase_Distance>
+  <HD_TelegraphTable_ForwardBase_DistanceUnknown>Nearest Helod settlement distance: select a base location first.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
+  <HD_TelegraphTable_ForwardBase_BaseKind>Base type</HD_TelegraphTable_ForwardBase_BaseKind>
+  <HD_TelegraphTable_ForwardBase_CostKind>Cost type</HD_TelegraphTable_ForwardBase_CostKind>
+  <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ service order pricing</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
+  <HD_TelegraphTable_ForwardBase_DurationKind>Contract duration</HD_TelegraphTable_ForwardBase_DurationKind>
+  <HD_TelegraphTable_ForwardBase_ServiceKind>Selected services</HD_TelegraphTable_ForwardBase_ServiceKind>
+  <HD_TelegraphTable_ForwardBase_IdiqServiceKind>IDIQ callable services</HD_TelegraphTable_ForwardBase_IdiqServiceKind>
+  <HD_TelegraphTable_ForwardBase_Summary>Draft: {0} / {1}\nDuration: {2}\nServices: {3}\n{4}: {5}</HD_TelegraphTable_ForwardBase_Summary>
+  <HD_TelegraphTable_ForwardBase_IdiqSummary>IDIQ draft: {0}\nDuration: {1} | Service order pricing: {2}\nCallable services: {3}\n{4}: {5} | {6}: {7}</HD_TelegraphTable_ForwardBase_IdiqSummary>
+  <HD_TelegraphTable_ForwardBase_CostPending>location required</HD_TelegraphTable_ForwardBase_CostPending>
+  <HD_TelegraphTable_ForwardBase_SthalerAmount>{0} STH</HD_TelegraphTable_ForwardBase_SthalerAmount>
+  <HD_TelegraphTable_ForwardBase_FixedPrice>Fixed price</HD_TelegraphTable_ForwardBase_FixedPrice>
+  <HD_TelegraphTable_ForwardBase_ReimbursableEstimate>Reimbursable estimate</HD_TelegraphTable_ForwardBase_ReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_EstimatedCost>Estimated cost</HD_TelegraphTable_ForwardBase_EstimatedCost>
+  <HD_TelegraphTable_ForwardBase_BaseContractPrice>Contract retainer</HD_TelegraphTable_ForwardBase_BaseContractPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallFixedPrice>Per-call fixed price</HD_TelegraphTable_ForwardBase_PerCallFixedPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>Per-call reimbursable estimate</HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_CannotBuildHere>Cannot build a forward base here: {0}</HD_TelegraphTable_ForwardBase_CannotBuildHere>
+  <HD_TelegraphTable_ForwardBase_TileOccupied>Cannot build a forward base on an occupied world tile.</HD_TelegraphTable_ForwardBase_TileOccupied>
+  <HD_TelegraphTable_ForwardBase_ContractFailed>Forward base contract failed.</HD_TelegraphTable_ForwardBase_ContractFailed>
+  <HD_TelegraphTable_ForwardBase_ConstructionStarted>Forward base construction started. Completion in {0} days.</HD_TelegraphTable_ForwardBase_ConstructionStarted>
+  <HD_ForwardBaseConstruction_TimeLeft>Construction time left: {0}</HD_ForwardBaseConstruction_TimeLeft>
+  <HD_ForwardBaseConstruction_Completed>Forward base construction completed.</HD_ForwardBaseConstruction_Completed>
+  <HD_TelegraphTable_ForwardBase_DraftContract>Draft contract</HD_TelegraphTable_ForwardBase_DraftContract>
+  <HD_TelegraphTable_ForwardBase_Locked>(credit {0})</HD_TelegraphTable_ForwardBase_Locked>
+  <HD_TelegraphTable_ForwardBase_LockedTooltip>Requires military credit of at least {0}.</HD_TelegraphTable_ForwardBase_LockedTooltip>
+  <HD_TelegraphTable_ForwardBase_Kind_PB>PB</HD_TelegraphTable_ForwardBase_Kind_PB>
+  <HD_TelegraphTable_ForwardBase_Kind_FB>FB</HD_TelegraphTable_ForwardBase_Kind_FB>
+  <HD_TelegraphTable_ForwardBase_Kind_COP>COP</HD_TelegraphTable_ForwardBase_Kind_COP>
+  <HD_TelegraphTable_ForwardBase_Kind_FOB>FOB</HD_TelegraphTable_ForwardBase_Kind_FOB>
+  <HD_TelegraphTable_ForwardBase_Cost_FFP>FFP</HD_TelegraphTable_ForwardBase_Cost_FFP>
+  <HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>Cost reimbursement</HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_Cost_IDIQ>IDIQ</HD_TelegraphTable_ForwardBase_Cost_IDIQ>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>FFP task orders</HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>Cost reimbursement task orders</HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_DurationDays>{0} days</HD_TelegraphTable_ForwardBase_DurationDays>
+  <HD_TelegraphTable_ForwardBase_Service_None>None</HD_TelegraphTable_ForwardBase_Service_None>
+  <HD_TelegraphTable_ForwardBase_ServiceLevel>Lv.{0}</HD_TelegraphTable_ForwardBase_ServiceLevel>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>(base limit)</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>The selected base type cannot operate this service.</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Artillery>Artillery</HD_TelegraphTable_ForwardBase_ServiceType_Artillery>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Infantry>Infantry</HD_TelegraphTable_ForwardBase_ServiceType_Infantry>
+  <HD_TelegraphTable_ForwardBase_ServiceType_AirForce>Air force</HD_TelegraphTable_ForwardBase_ServiceType_AirForce>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Logistics>Logistics</HD_TelegraphTable_ForwardBase_ServiceType_Logistics>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Empty>No services configured yet.</HD_TelegraphTable_ForwardBase_ServiceType_Empty>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>Mortar support</HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>Infantry deployment</HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>Fresh food</HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>Preserved rations</HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>Medical supplies</HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>Weapons</HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>
+  <HD_TelegraphTable_ForwardBase_Service_AirBombing>Air bombing</HD_TelegraphTable_ForwardBase_Service_AirBombing>
+  <HD_TelegraphTable_ForwardBase_Service_SupportRequest>Support request</HD_TelegraphTable_ForwardBase_Service_SupportRequest>
+  <HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>Security detachment</HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>
+  <HD_TelegraphTable_ForwardBase_Service_EngineerTeam>Engineer team</HD_TelegraphTable_ForwardBase_Service_EngineerTeam>
+  <HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>Supply convoy</HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>
+  <HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>Artillery liaison</HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>
+  <HD_TelegraphTable_ForwardBase_Service_Bombardment>Bombardment</HD_TelegraphTable_ForwardBase_Service_Bombardment>
+  <HD_TelegraphTable_MarketUnavailable>Market data is unavailable.</HD_TelegraphTable_MarketUnavailable>
+  <HD_TelegraphTable_Market_Title>Market board ({0})</HD_TelegraphTable_Market_Title>
+  <HD_TelegraphTable_Market_SubTab_Log>Records</HD_TelegraphTable_Market_SubTab_Log>
+  <HD_TelegraphTable_Market_SubTab_Trade>Trade</HD_TelegraphTable_Market_SubTab_Trade>
+  <HD_TelegraphTable_Market_OilIndex>Oil index: {0}</HD_TelegraphTable_Market_OilIndex>
+  <HD_TelegraphTable_Market_CurrentQuote>{0} OTC quote: {1}</HD_TelegraphTable_Market_CurrentQuote>
+  <HD_TelegraphTable_Market_FixedGoldPrice>Fixed gold-standard price: {0}</HD_TelegraphTable_Market_FixedGoldPrice>
+  <HD_TelegraphTable_Market_FixedGoldDetail>No bid/ask spread | Settlement: {0}</HD_TelegraphTable_Market_FixedGoldDetail>
+  <HD_TelegraphTable_Market_LogEntry>Bid: {0} | Ask: {1} | Spread: {2} | Settlement: {3}</HD_TelegraphTable_Market_LogEntry>
+  <HD_TelegraphTable_Market_LogEntry_Prices>Bid: {0} | Ask: {1}</HD_TelegraphTable_Market_LogEntry_Prices>
+  <HD_TelegraphTable_Market_LogEntry_Details>Spread: {0} | Settlement: {1}</HD_TelegraphTable_Market_LogEntry_Details>
+  <HD_TelegraphTable_Market_Day>Day {0}</HD_TelegraphTable_Market_Day>
+  <HD_TelegraphTable_Market_NoInformation>No information</HD_TelegraphTable_Market_NoInformation>
+  <HD_TelegraphTable_Market_NoInformationDetail>Quote was not checked on this day.</HD_TelegraphTable_Market_NoInformationDetail>
+  <HD_TelegraphTable_Market_QueryNeedsPrimaryCell>Load a primary cell to record today's quote.</HD_TelegraphTable_Market_QueryNeedsPrimaryCell>
+  <HD_TelegraphTable_Market_SettlementHours>{0}h</HD_TelegraphTable_Market_SettlementHours>
+  <HD_TelegraphTable_Market_SettlementDays>{0}d</HD_TelegraphTable_Market_SettlementDays>
+  <HD_TelegraphTable_Market_NotEnoughHistory>Waiting for market history.</HD_TelegraphTable_Market_NotEnoughHistory>
+  <HD_TelegraphTable_Market_SthalerFxValue>{0} silver/STH</HD_TelegraphTable_Market_SthalerFxValue>
+  <HD_TelegraphTable_Market_SthalerLocked>Sthaler FX quotes unlock after the credit currency regime begins.</HD_TelegraphTable_Market_SthalerLocked>
+  <HD_TelegraphTable_Trade_IndexOnly>This index is informational only.</HD_TelegraphTable_Trade_IndexOnly>
+  <HD_TelegraphTable_Trade_Credit>Credit: {0} {1}</HD_TelegraphTable_Trade_Credit>
+  <HD_TelegraphTable_Trade_Count>Count</HD_TelegraphTable_Trade_Count>
+  <HD_TelegraphTable_Trade_Sell>Sell</HD_TelegraphTable_Trade_Sell>
+  <HD_TelegraphTable_Trade_Buy>Buy</HD_TelegraphTable_Trade_Buy>
+  <HD_TelegraphTable_Trade_EstimatedSettlement>Settlement: {0}</HD_TelegraphTable_Trade_EstimatedSettlement>
+  <HD_TelegraphTable_Trade_PendingLocked>A trade for this asset is already pending.</HD_TelegraphTable_Trade_PendingLocked>
+  <HD_TelegraphTable_Trade_CreditTooLow>Credit too low: {0} / {1}</HD_TelegraphTable_Trade_CreditTooLow>
+  <HD_TelegraphTable_Trade_NotEnoughCurrency>Not enough {0}: need {1}</HD_TelegraphTable_Trade_NotEnoughCurrency>
+  <HD_TelegraphTable_Trade_NotEnoughGoods>Not enough {0}: need {1}</HD_TelegraphTable_Trade_NotEnoughGoods>
+  <HD_TelegraphTable_Trade_Failed>Trade order failed.</HD_TelegraphTable_Trade_Failed>
+  <HD_TelegraphTable_Trade_Started>{0} trade order started: {1}</HD_TelegraphTable_Trade_Started>
+  <HD_TelegraphTable_Trade_Settled>{0} trade settled: {1}</HD_TelegraphTable_Trade_Settled>
+  <HD_TelegraphTable_Trade_SettlementFailed>{0} trade settlement failed.</HD_TelegraphTable_Trade_SettlementFailed>
+  <HD_MarketCurrency_Sthaler>Sthaler</HD_MarketCurrency_Sthaler>
+  <HD_MarketCurrency_Silver>silver</HD_MarketCurrency_Silver>
+  <HD_MarketStandard_Gold>gold standard</HD_MarketStandard_Gold>
+  <HD_MarketStandard_Credit>credit currency regime</HD_MarketStandard_Credit>
+  <HD_MarketAsset_OilIndex>Oil index</HD_MarketAsset_OilIndex>
+  <HD_MarketAsset_CrudeOil>Crude oil</HD_MarketAsset_CrudeOil>
+  <HD_MarketAsset_Diesel>Diesel</HD_MarketAsset_Diesel>
+  <HD_MarketAsset_Kerosene>Kerosene</HD_MarketAsset_Kerosene>
+  <HD_MarketAsset_GovernmentBond>Government bond</HD_MarketAsset_GovernmentBond>
+  <HD_MarketAsset_ContinentalPetroleumBond>Continental Petroleum bond</HD_MarketAsset_ContinentalPetroleumBond>
+  <HD_MarketAsset_Sthaler>Sthaler banknote</HD_MarketAsset_Sthaler>
+</LanguageData>

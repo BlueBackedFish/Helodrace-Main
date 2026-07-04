@@ -42,4 +42,98 @@
     </recipeUsers>
   </RecipeDef>
 
+  <RecipeDef>
+    <defName>HD_Make3InchMortarShellHE</defName>
+    <label>make 3-inch mortar HE shell</label>
+    <description>Assemble a high-explosive shell for the 3-inch Hawkins mortar.</description>
+    <jobString>Making 3-inch mortar HE shell.</jobString>
+    <workAmount>1600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighExplosive</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_3InchMortarShell_HE>1</HD_3InchMortarShell_HE>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make3InchMortarShellCG</defName>
+    <label>make 3-inch mortar photochlorogen shell</label>
+    <description>Assemble a compact photochlorogen shell for the 3-inch Hawkins mortar.</description>
+    <jobString>Making 3-inch mortar photochlorogen shell.</jobString>
+    <workAmount>1800</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodChokingAgent</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_3InchMortarShell_CG>1</HD_3InchMortarShell_CG>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
 </Defs>

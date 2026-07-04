@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -13,6 +14,9 @@ namespace Helodrace
         public float altAccuracyMultiplier = 1.0f; 
         public float moveSpeedOffset = 0.0f;
         public int switchTicks = 120; // Default 2 seconds to switch modes
+        public string normalModeLabelKey = "HD_SharpshooterMode_Normal";
+        public string altModeLabelKey = "HD_SharpshooterMode_Label";
+        public string modeDescriptionKey = "HD_SharpshooterMode_Desc";
 
         public CompProperties_SharpshooterWeapon()
         {
@@ -59,23 +63,18 @@ namespace Helodrace
                 Pawn wielder = Wielder;
                 if (wielder == null)
                 {
-                    Log.Message("[Sharpshooter] CanUseSharpshooterMode: Wielder is null");
                     return false;
                 }
                 if (wielder.genes == null)
                 {
-                    Log.Message($"[Sharpshooter] CanUseSharpshooterMode: {wielder.Name?.ToStringShort ?? wielder.LabelShort} has null genes");
                     return false;
                 }
                 GeneDef geneDef = DefDatabase<GeneDef>.GetNamedSilentFail("HD_Gene_Sharpshooter");
                 if (geneDef == null)
                 {
-                    Log.Message("[Sharpshooter] CanUseSharpshooterMode: HD_Gene_Sharpshooter def is null!");
                     return false;
                 }
-                bool active = wielder.genes.HasActiveGene(geneDef);
-                Log.Message($"[Sharpshooter] CanUseSharpshooterMode: {wielder.Name?.ToStringShort ?? wielder.LabelShort} has active gene: {active}");
-                return active;
+                return wielder.genes.HasActiveGene(geneDef);
             }
         }
 
@@ -95,7 +94,19 @@ namespace Helodrace
         public void PerformSwitch()
         {
             altModeActive = !altModeActive;
+            parent.TryGetComp<CompCEDoubleTapWeapon>()?.ApplyMode();
         }
+
+        public string CurrentModeLabel
+        {
+            get
+            {
+                string key = altModeActive ? Props.altModeLabelKey : Props.normalModeLabelKey;
+                return key.Translate().Resolve();
+            }
+        }
+
+        public string ModeDescription => Props.modeDescriptionKey.Translate().Resolve();
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
@@ -189,6 +200,18 @@ namespace Helodrace
         {
             if (__instance.directOwner is CompEquippable eq && eq.parent != null)
             {
+                CompCEDoubleTapWeapon ceDoubleTap = eq.parent.TryGetComp<CompCEDoubleTapWeapon>();
+                if (ceDoubleTap != null)
+                {
+                    ceDoubleTap.ApplyMode();
+                    Verb selectedVerb = ceDoubleTap.CurrentVerb;
+                    if (selectedVerb != null)
+                    {
+                        __result = selectedVerb;
+                    }
+                    return;
+                }
+
                 var comp = eq.parent.TryGetComp<CompSharpshooterWeapon>();
                 if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode && comp.AltVerb != null)
                 {
@@ -355,6 +378,18 @@ namespace Helodrace
         {
             if (__instance.parent != null)
             {
+                CompCEDoubleTapWeapon ceDoubleTap = __instance.parent.TryGetComp<CompCEDoubleTapWeapon>();
+                if (ceDoubleTap != null)
+                {
+                    ceDoubleTap.ApplyMode();
+                    Verb selectedVerb = ceDoubleTap.CurrentVerb;
+                    if (selectedVerb != null)
+                    {
+                        __result = selectedVerb;
+                    }
+                    return;
+                }
+
                 var comp = __instance.parent.TryGetComp<CompSharpshooterWeapon>();
                 if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode && comp.AltVerb != null)
                 {
@@ -374,17 +409,17 @@ namespace Helodrace
                 var comp = __instance.parent.TryGetComp<CompSharpshooterWeapon>();
                 if (comp != null)
                 {
-                    Log.Message($"[Sharpshooter] GetVerbsCommands called. altModeActive: {comp.altModeActive}, CanUseSharpshooterMode: {comp.CanUseSharpshooterMode}");
-                    
                     var updated = new List<Command>();
-                    bool shouldSwap = comp.altModeActive && comp.CanUseSharpshooterMode && comp.AltVerb != null;
+                    CompCEDoubleTapWeapon ceDoubleTap = __instance.parent.TryGetComp<CompCEDoubleTapWeapon>();
+                    ceDoubleTap?.ApplyMode();
+                    Verb selectedVerb = ceDoubleTap?.CurrentVerb;
+                    bool shouldSwap = selectedVerb != null || (comp.altModeActive && comp.CanUseSharpshooterMode && comp.AltVerb != null);
                     
                     foreach (var command in __result)
                     {
                         if (shouldSwap && command is Command_VerbTarget cmdVerb)
                         {
-                            cmdVerb.verb = comp.AltVerb;
-                            Log.Message("[Sharpshooter] Swapped manual Attack command verb to AltVerb!");
+                            cmdVerb.verb = selectedVerb ?? comp.AltVerb;
                         }
                         updated.Add(command);
                     }
@@ -392,7 +427,7 @@ namespace Helodrace
                     Pawn wielder = comp.Wielder;
                     bool isPlayerPawn = wielder != null && wielder.Faction != null && wielder.Faction.IsPlayer;
 
-                    if (isPlayerPawn && comp.CanUseSharpshooterMode && comp.AltVerb != null)
+                    if (isPlayerPawn && comp.CanUseSharpshooterMode && (ceDoubleTap?.ModeVerb != null || comp.AltVerb != null))
                     {
                         var iconTex = ContentFinder<UnityEngine.Texture2D>.Get("Icon/HD_Sharpshooter", false);
                         if (iconTex == null)
@@ -402,8 +437,8 @@ namespace Helodrace
 
                         var switchCommand = new Command_Action
                         {
-                            defaultLabel = "HD_SharpshooterMode_Label".Translate().Resolve() + (comp.altModeActive ? " (ON)" : " (OFF)"),
-                            defaultDesc = "HD_SharpshooterMode_Desc".Translate().Resolve(),
+                            defaultLabel = "HD_SharpshooterMode_Command".Translate(comp.CurrentModeLabel).Resolve(),
+                            defaultDesc = comp.ModeDescription,
                             icon = iconTex, 
                             action = () => 
                             {
@@ -416,7 +451,6 @@ namespace Helodrace
                             }
                         };
                         updated.Add(switchCommand);
-                        Log.Message("[Sharpshooter] Appended switch mode button to GetVerbsCommands results!");
                     }
                     
                     __result = updated;
@@ -424,4 +458,111 @@ namespace Helodrace
             }
         }
     }
+
+    public class CompProperties_CEDoubleTapWeapon : CompProperties
+    {
+        public int doubleTapVerbIndex = 0;
+        public int normalVerbIndex = 1;
+        public int normalBurstShotCount = 1;
+        public int doubleTapBurstShotCount = 2;
+        public int ticksBetweenBurstShots = 3;
+
+        public CompProperties_CEDoubleTapWeapon()
+        {
+            compClass = typeof(CompCEDoubleTapWeapon);
+        }
+    }
+
+    public class CompCEDoubleTapWeapon : ThingComp
+    {
+        private static readonly FieldInfo CachedBurstShotCountField = AccessTools.Field(typeof(Verb), "cachedBurstShotCount");
+        private static readonly FieldInfo CachedTicksBetweenBurstShotsField = AccessTools.Field(typeof(Verb), "cachedTicksBetweenBurstShots");
+
+        public CompProperties_CEDoubleTapWeapon Props => (CompProperties_CEDoubleTapWeapon)props;
+
+        public override void PostPostMake()
+        {
+            base.PostPostMake();
+            ApplyMode();
+        }
+
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            ApplyMode();
+        }
+
+        public Verb CurrentVerb => DoubleTapActive ? DoubleTapVerb ?? NormalVerb : NormalVerb ?? DoubleTapVerb;
+
+        public Verb ModeVerb => DoubleTapVerb;
+
+        private bool DoubleTapActive
+        {
+            get
+            {
+                CompSharpshooterWeapon sharpshooter = parent.TryGetComp<CompSharpshooterWeapon>();
+                return sharpshooter != null && sharpshooter.altModeActive && sharpshooter.CanUseSharpshooterMode;
+            }
+        }
+
+        public void ApplyMode()
+        {
+            Verb doubleTapVerb = DoubleTapVerb;
+            if (doubleTapVerb?.verbProps == null)
+            {
+                return;
+            }
+
+            doubleTapVerb.verbProps.burstShotCount = Props.doubleTapBurstShotCount;
+            doubleTapVerb.verbProps.ticksBetweenBurstShots = Props.ticksBetweenBurstShots;
+            ResetVerbCaches(doubleTapVerb);
+
+            Verb normalVerb = NormalVerb;
+            if (normalVerb?.verbProps != null)
+            {
+                normalVerb.verbProps.burstShotCount = Props.normalBurstShotCount;
+                normalVerb.verbProps.ticksBetweenBurstShots = Props.ticksBetweenBurstShots;
+                ResetVerbCaches(normalVerb);
+            }
+
+            ApplyCEFireModesBurstCount(Props.doubleTapBurstShotCount);
+        }
+
+        private Verb DoubleTapVerb => VerbAtIndex(Props.doubleTapVerbIndex);
+
+        private Verb NormalVerb => VerbAtIndex(Props.normalVerbIndex);
+
+        private Verb VerbAtIndex(int index)
+        {
+            CompEquippable eq = parent.GetComp<CompEquippable>();
+            if (eq != null && eq.AllVerbs.Count > index)
+            {
+                return eq.AllVerbs[index];
+            }
+            return null;
+        }
+
+        private static void ResetVerbCaches(Verb verb)
+        {
+            CachedBurstShotCountField?.SetValue(verb, null);
+            CachedTicksBetweenBurstShotsField?.SetValue(verb, null);
+        }
+
+        private void ApplyCEFireModesBurstCount(int burstShotCount)
+        {
+            FieldInfo propsField = AccessTools.Field(typeof(ThingComp), "props");
+            foreach (ThingComp comp in parent.AllComps)
+            {
+                if (comp?.GetType().FullName != "CombatExtended.CompFireModes")
+                {
+                    continue;
+                }
+
+                object compProps = propsField?.GetValue(comp);
+                FieldInfo burstField = compProps == null ? null : AccessTools.Field(compProps.GetType(), "aimedBurstShotCount");
+                burstField?.SetValue(compProps, burstShotCount);
+            }
+        }
+    }
+
 }

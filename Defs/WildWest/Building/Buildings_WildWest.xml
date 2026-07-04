@@ -510,7 +510,7 @@
     <costList>
       <Steel>50</Steel>
       <HD_CarbonSteel>20</HD_CarbonSteel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <size>(2,1)</size>
     <hasInteractionCell>true</hasInteractionCell>
@@ -580,7 +580,7 @@
     <costList>
       <Steel>60</Steel>
       <HD_CarbonSteel>25</HD_CarbonSteel>
-      <ComponentIndustrial>1</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <size>(2,1)</size>
     <hasInteractionCell>true</hasInteractionCell>
@@ -650,7 +650,7 @@
     <costList>
       <Steel>80</Steel>
       <HD_CarbonSteel>35</HD_CarbonSteel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <size>(3,3)</size>
     <hasInteractionCell>true</hasInteractionCell>
@@ -720,7 +720,7 @@
     <costList>
       <Steel>80</Steel>
       <HD_CarbonSteel>40</HD_CarbonSteel>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <size>(3,3)</size>
     <hasInteractionCell>true</hasInteractionCell>
@@ -789,7 +789,7 @@
     <costStuffCount>250</costStuffCount>
     <costList>
       <Steel>150</Steel>
-      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_GeneralMachinePart>4</HD_GeneralMachinePart>
     </costList>
     <size>(4,4)</size>
     <hasInteractionCell>true</hasInteractionCell>
@@ -870,7 +870,7 @@
     <costList>
       <Steel>120</Steel>
       <HD_PigIron>60</HD_PigIron>
-      <ComponentIndustrial>3</ComponentIndustrial>
+      <HD_GeneralMachinePart>3</HD_GeneralMachinePart>
     </costList>
     <size>(3,3)</size>
     <hasInteractionCell>true</hasInteractionCell>
@@ -929,12 +929,10 @@
       <Flammability>0.5</Flammability>
       <Mass>35</Mass>
     </statBases>
-    <stuffCategories>
-      <li>Metallic</li>
-    </stuffCategories>
-    <costStuffCount>40</costStuffCount>
     <costList>
-      <ComponentIndustrial>2</ComponentIndustrial>
+      <HD_CarbonSteel>40</HD_CarbonSteel>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+      <HD_PressComponent>2</HD_PressComponent>
     </costList>
     <size>(1,1)</size>
     <rotatable>true</rotatable>
@@ -1066,6 +1064,9 @@
     <researchPrerequisites>
       <li>HelodTelegraph</li>
     </researchPrerequisites>
+    <comps>
+      <li Class="Helodrace.CompProperties_TelegraphTable" />
+    </comps>
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>

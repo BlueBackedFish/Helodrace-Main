@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Krag-Jorgensen -->
+  <HD_Gun_KragJorgensen_Weapon.label>그레이록 M1892</HD_Gun_KragJorgensen_Weapon.label>
+  <HD_Gun_KragJorgensen_Weapon.description>그레이록 조병창에서 생산하는 독특한 측면 장전 탄창을 가진 볼트액션 소총입니다. 부드러운 작동 방식으로 유명합니다.</HD_Gun_KragJorgensen_Weapon.description>
+  <HD_Bullet_KragJorgensen_Proj.label>그레이록 M1892 탄환</HD_Bullet_KragJorgensen_Proj.label>
+
+  <!-- Springfield M1903 -->
+  <HD_Gun_SprMThree_Weapon.label>그레이록 M1903</HD_Gun_SprMThree_Weapon.label>
+  <HD_Gun_SprMThree_Weapon.description>수십 년간 사용된 신뢰성 높고 정확한 볼트액션 소총입니다. 정밀도가 높아 호평을 받습니다.</HD_Gun_SprMThree_Weapon.description>
+  <HD_Bullet_SprMThree_Proj.label>그레이록 M1903 탄환</HD_Bullet_SprMThree_Proj.label>
+
+  <!-- Springfield M1903 Pedersen device -->
+  <HD_Gun_M1903Pedersen_Weapon.label>그레이록 M1903 페더슨 장비</HD_Gun_M1903Pedersen_Weapon.label>
+  <HD_Gun_M1903Pedersen_Weapon.description>페더슨 장비를 장착한 M1903 소총입니다. 강력한 소총탄 대신 가벼운 탄약을 사용하여 빠른 반자동 사격이 가능합니다.</HD_Gun_M1903Pedersen_Weapon.description>
+  <HD_Bullet_M1903Pedersen_Proj.label>그레이록 M1903 페더슨 탄환</HD_Bullet_M1903Pedersen_Proj.label>
+
+  <!-- M1911 pistol -->
+  <HD_Gun_M1911_Weapon.label>M1911 권총</HD_Gun_M1911_Weapon.label>
+  <HD_Gun_M1911_Weapon.description>묵직한 권총탄과 빠른 후속 사격이 특징인 튼튼한 반자동 군용 권총입니다.</HD_Gun_M1911_Weapon.description>
+  <HD_Bullet_M1911_Proj.label>M1911 권총탄</HD_Bullet_M1911_Proj.label>
+
+  <!-- M1 Garand -->
+  <HD_Gun_M1Garand_Weapon.label>M1 개런드</HD_Gun_M1Garand_Weapon.label>
+  <HD_Gun_M1Garand_Weapon.description>엔블록 클립으로 급탄하는 반자동 전투소총입니다. 정밀한 조준 사격 능력을 조금 덜어낸 대신 강력한 후속 사격을 빠르게 이어갈 수 있습니다.</HD_Gun_M1Garand_Weapon.description>
+  <HD_Bullet_M1Garand_Proj.label>M1 개런드 탄환</HD_Bullet_M1Garand_Proj.label>
+
+  <!-- M1919A6 light machine gun -->
+  <HD_Gun_M1919A6LMG_Weapon.label>M1919A6 경기관총</HD_Gun_M1919A6LMG_Weapon.label>
+  <HD_Gun_M1919A6LMG_Weapon.description>브라우닝 M1919를 휴대 화기로 개조한 벨트 급탄식 경기관총입니다. 보병 화기로는 무겁지만 지속적인 제압 사격을 퍼부을 수 있습니다.</HD_Gun_M1919A6LMG_Weapon.description>
+  <HD_Bullet_M1919A6LMG_Proj.label>M1919A6 경기관총탄</HD_Bullet_M1919A6LMG_Proj.label>
+  <HD_Hardtack_Proj.label>하드택</HD_Hardtack_Proj.label>
+  <HD_Bullet_M1917HMG_Proj.label>M1917 중기관총 탄환</HD_Bullet_M1917HMG_Proj.label>
+  <HD_Gun_M1917HMG_TurretGun.label>M1917 중기관총</HD_Gun_M1917HMG_TurretGun.label>
+  <HD_Gun_M1917HMG_TurretGun.description>긴 탄띠로 급탄되는 수랭식 중기관총입니다. 휴대 무기로 쓰기에는 너무 무거우며 고정 방어 거치대용으로 설계되었습니다.</HD_Gun_M1917HMG_TurretGun.description>
+</LanguageData>
+

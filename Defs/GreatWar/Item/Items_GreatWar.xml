@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
+  <ThingCategoryDef>
+    <defName>HD_3InchMortarShells</defName>
+    <label>3-inch mortar shells</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
   <ThingDef>
     <defName>HD_Hardtack</defName>
     <label>hardtack</label>
@@ -78,10 +84,48 @@
     </tools>
   </ThingDef>
 
-  <ThingDef ParentName="ApparelBase">
+  <ThingDef ParentName="ApparelBase" Name="HD_TreatmentBagBase" Abstract="True">
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <drawData>
+        <defaultData>
+          <layer>110</layer>
+        </defaultData>
+      </drawData>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Worker</li>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_TreatmentBagBase">
     <defName>HD_Apparel_GreatWarMedibag</defName>
     <label>medic bag</label>
-    <description>A shoulder-slung field medic bag packed with simple herbal remedies and bandaging supplies. It has no special function yet.</description>
+    <description>A basic shoulder-slung treatment bag stocked with simple herbal remedies and bandaging supplies.</description>
     <graphicData>
       <texPath>Item/HD_GreatWarMedibag_item</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -124,15 +168,15 @@
     </apparel>
     <comps>
       <li Class="Helodrace.CompProperties_Medibag">
-        <medicineDef>MedicineHerbal</medicineDef>
+        <supplyDef>MedicineHerbal</supplyDef>
         <plasmaTransfusionHediff>HD_PlasmaTransfusion</plasmaTransfusionHediff>
-        <maxStoredMedicine>5</maxStoredMedicine>
-        <hemostasisMedicineCost>1</hemostasisMedicineCost>
-        <plasmaMedicineCost>1</plasmaMedicineCost>
+        <maxStoredSupplies>5</maxStoredSupplies>
+        <hemostasisSupplyCost>1</hemostasisSupplyCost>
+        <plasmaSupplyCost>1</plasmaSupplyCost>
         <hemostasisPartCount>4</hemostasisPartCount>
         <hemostasisQuality>0.35</hemostasisQuality>
         <hemostasisMaxQuality>0.60</hemostasisMaxQuality>
-        <bloodLossReduction>0.20</bloodLossReduction>
+        <bloodLossReduction>0.60</bloodLossReduction>
         <treatmentTicks>180</treatmentTicks>
         <excludedHemostasisParts>
           <li>Brain</li>
@@ -156,6 +200,9 @@
     <costList>
       <MedicineHerbal>5</MedicineHerbal>
     </costList>
+    <researchPrerequisites>
+      <li>HelodFirstAid</li>
+    </researchPrerequisites>
   </ThingDef>
 
   <ThingDef ParentName="ApparelBase">
@@ -163,7 +210,7 @@
     <label>gas mask pouch</label>
     <description>A compact belt pouch carrying sealed filter spares and anti-gas cloth. It fully improves toxic environment resistance while worn, but its weight and straps hinder movement, work, shooting, and close combat.</description>
     <graphicData>
-      <texPath>Item/HD_GreatWarGasMaskPouch_south</texPath>
+      <texPath>Item/HD_GreatWarGasMaskBag_item</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>Cutout</shaderType>
       <color>(255,255,255)</color>
@@ -225,6 +272,9 @@
     <costList>
       <Cloth>10</Cloth>
     </costList>
+    <researchPrerequisites>
+      <li>HelodChokingAgent</li>
+    </researchPrerequisites>
   </ThingDef>
 
   <ThingDef ParentName="ApparelBase">
@@ -295,6 +345,55 @@
       <Cloth>15</Cloth>
       <MedicineHerbal>2</MedicineHerbal>
     </costList>
+    <researchPrerequisites>
+      <li>HelodBlisterAgent</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_3InchMortarShell_HE</defName>
+    <label>3-inch mortar HE shell</label>
+    <description>A high-explosive bomb for the 3-inch Hawkins mortar. It is packed for indirect fire against clustered infantry and light fieldworks.</description>
+    <projectileWhenLoaded>HD_3InchMortarShell_HE_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_3InchMortarHE</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.7,0.7)</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <MarketValue>34</MarketValue>
+      <Mass>2.2</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_3InchMortarShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_3InchMortarShell_CG</defName>
+    <label>3-inch mortar photochlorogen shell</label>
+    <description>A chemical bomb for the 3-inch Hawkins mortar. On impact it bursts once and releases a compact photochlorogen cloud, much narrower than a deployed canister.</description>
+    <projectileWhenLoaded>HD_3InchMortarShell_CG_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_3InchMortarCG</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.7,0.7)</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <MarketValue>42</MarketValue>
+      <Mass>2.4</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_3InchMortarShells</li>
+    </thingCategories>
   </ThingDef>
 
 </Defs>

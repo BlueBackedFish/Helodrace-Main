@@ -11,8 +11,8 @@ namespace Helodrace
         private const float MinDensity = 0.02f;
         private const int SimulationIntervalTicks = 30;
         private const int ExposureIntervalTicks = 300;
-        private const int VisualIntervalTicks = 45;
-        private const int VisualSamplesPerPulse = 5;
+        private const int VisualIntervalTicks = 24;
+        private const int VisualSamplesPerPulse = 28;
         private const float DensityDissipationPerTick = 0.00012f;
         private const float SeverityPerTickAtFullDensity = 0.35f / 240f;
         private const float VisualFleckScale = 3.4f;
@@ -459,7 +459,7 @@ namespace Helodrace
 
             tmpCells.Clear();
             tmpCells.AddRange(visualIndices);
-            int sampleCount = Mathf.Min(VisualSamplesPerPulse, Mathf.Max(1, tmpCells.Count / 12 + 1));
+            int sampleCount = Mathf.Min(VisualSamplesPerPulse, Mathf.Max(1, tmpCells.Count / 5 + 1));
             for (int i = 0; i < sampleCount; i++)
             {
                 int index = tmpCells[Rand.Range(0, tmpCells.Count)];

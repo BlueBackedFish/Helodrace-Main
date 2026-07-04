@@ -10,15 +10,19 @@ namespace Helodrace
 {
     public class CompProperties_Medibag : CompProperties
     {
+        public ThingDef supplyDef;
         public ThingDef medicineDef;
         public HediffDef plasmaTransfusionHediff;
+        public int maxStoredSupplies = -1;
         public int maxStoredMedicine = 5;
+        public int hemostasisSupplyCost = -1;
         public int hemostasisMedicineCost = 1;
+        public int plasmaSupplyCost = -1;
         public int plasmaMedicineCost = 1;
         public int hemostasisPartCount = 4;
         public float hemostasisQuality = 0.35f;
         public float hemostasisMaxQuality = 0.60f;
-        public float bloodLossReduction = 0.20f;
+        public float bloodLossReduction = 0.60f;
         public int treatmentTicks = 180;
         public List<BodyPartDef> excludedHemostasisParts;
 
@@ -30,7 +34,7 @@ namespace Helodrace
 
     public class CompMedibag : ThingComp
     {
-        private int storedMedicine;
+        private int storedSupplies;
 
         public CompProperties_Medibag Props => (CompProperties_Medibag)props;
 
@@ -47,19 +51,29 @@ namespace Helodrace
             }
         }
 
-        private ThingDef MedicineDef => Props.medicineDef ?? ThingDefOf.MedicineHerbal;
+        private ThingDef SupplyDef => Props.supplyDef ?? Props.medicineDef ?? ThingDefOf.MedicineHerbal;
+
+        private int MaxStoredSupplies => Props.maxStoredSupplies > 0 ? Props.maxStoredSupplies : Props.maxStoredMedicine;
+
+        private int HemostasisSupplyCost => Props.hemostasisSupplyCost > 0 ? Props.hemostasisSupplyCost : Props.hemostasisMedicineCost;
+
+        private int PlasmaSupplyCost => Props.plasmaSupplyCost > 0 ? Props.plasmaSupplyCost : Props.plasmaMedicineCost;
 
         public Pawn CurrentWearer => Wearer;
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref storedMedicine, "storedMedicine", 0);
+            Scribe_Values.Look(ref storedSupplies, "storedSupplies", 0);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && storedSupplies == 0)
+            {
+                Scribe_Values.Look(ref storedSupplies, "storedMedicine", 0);
+            }
         }
 
         public override string CompInspectStringExtra()
         {
-            return "HD_Medibag_StoredMedicine".Translate(storedMedicine, Props.maxStoredMedicine, MedicineDef.label);
+            return "HD_Medibag_StoredSupplies".Translate(storedSupplies, MaxStoredSupplies, SupplyDef.label);
         }
 
         public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
@@ -80,12 +94,12 @@ namespace Helodrace
             Command_Action reloadCommand = new Command_Action
             {
                 defaultLabel = "HD_Medibag_Load_Label".Translate(),
-                defaultDesc = "HD_Medibag_Load_Desc".Translate(MedicineDef.label, storedMedicine, Props.maxStoredMedicine),
+                defaultDesc = "HD_Medibag_Load_Desc".Translate(SupplyDef.label, storedSupplies, MaxStoredSupplies),
                 icon = icon,
-                action = LoadOneMedicine
+                action = LoadOneSupply
             };
 
-            if (storedMedicine >= Props.maxStoredMedicine)
+            if (storedSupplies >= MaxStoredSupplies)
             {
                 reloadCommand.Disable("HD_Medibag_Load_Full".Translate());
             }
@@ -100,14 +114,14 @@ namespace Helodrace
             Command_Action hemostasisCommand = new Command_Action
             {
                 defaultLabel = "HD_Medibag_Hemostasis_Label".Translate(),
-                defaultDesc = "HD_Medibag_Hemostasis_Desc".Translate(Props.hemostasisPartCount, Props.hemostasisMedicineCost),
+                defaultDesc = "HD_Medibag_Hemostasis_Desc".Translate(Props.hemostasisPartCount, HemostasisSupplyCost),
                 icon = icon,
                 action = BeginHemostasisTargeting
             };
 
-            if (storedMedicine < Props.hemostasisMedicineCost)
+            if (storedSupplies < HemostasisSupplyCost)
             {
-                hemostasisCommand.Disable("HD_Medibag_NotEnoughMedicine".Translate(MedicineDef.label));
+                hemostasisCommand.Disable("HD_Medibag_NotEnoughSupplies".Translate(SupplyDef.label));
             }
 
             yield return hemostasisCommand;
@@ -115,14 +129,14 @@ namespace Helodrace
             Command_Action plasmaCommand = new Command_Action
             {
                 defaultLabel = "HD_Medibag_Plasma_Label".Translate(),
-                defaultDesc = "HD_Medibag_Plasma_Desc".Translate(Props.plasmaMedicineCost),
+                defaultDesc = "HD_Medibag_Plasma_Desc".Translate(PlasmaSupplyCost),
                 icon = icon,
                 action = BeginPlasmaTargeting
             };
 
-            if (storedMedicine < Props.plasmaMedicineCost)
+            if (storedSupplies < PlasmaSupplyCost)
             {
-                plasmaCommand.Disable("HD_Medibag_NotEnoughMedicine".Translate(MedicineDef.label));
+                plasmaCommand.Disable("HD_Medibag_NotEnoughSupplies".Translate(SupplyDef.label));
             }
 
             yield return plasmaCommand;
@@ -187,7 +201,7 @@ namespace Helodrace
         public bool TryApplyHemostasis(Pawn target)
         {
             Pawn wearer = Wearer;
-            if (!CanUseOn(wearer, target) || !TryConsumeMedicine(Props.hemostasisMedicineCost))
+            if (!CanUseOn(wearer, target) || !TryConsumeSupplies(HemostasisSupplyCost))
             {
                 return false;
             }
@@ -217,7 +231,7 @@ namespace Helodrace
 
             if (treatedParts == 0)
             {
-                storedMedicine += Props.hemostasisMedicineCost;
+                storedSupplies += HemostasisSupplyCost;
                 Messages.Message("HD_Medibag_Hemostasis_NoBleeding".Translate(target.LabelShort), target, MessageTypeDefOf.RejectInput);
                 return false;
             }
@@ -229,14 +243,14 @@ namespace Helodrace
         public bool TryApplyPlasma(Pawn target)
         {
             Pawn wearer = Wearer;
-            if (!CanUseOn(wearer, target) || Props.plasmaTransfusionHediff == null || !TryConsumeMedicine(Props.plasmaMedicineCost))
+            if (!CanUseOn(wearer, target) || Props.plasmaTransfusionHediff == null || !TryConsumeSupplies(PlasmaSupplyCost))
             {
                 return false;
             }
 
             if (target.health.hediffSet.HasHediff(Props.plasmaTransfusionHediff))
             {
-                storedMedicine += Props.plasmaMedicineCost;
+                storedSupplies += PlasmaSupplyCost;
                 Messages.Message("HD_Medibag_Plasma_AlreadyActive".Translate(target.LabelShort), target, MessageTypeDefOf.RejectInput);
                 return false;
             }
@@ -259,37 +273,37 @@ namespace Helodrace
             return true;
         }
 
-        private bool TryConsumeMedicine(int count)
+        private bool TryConsumeSupplies(int count)
         {
-            if (storedMedicine < count)
+            if (storedSupplies < count)
             {
-                Messages.Message("HD_Medibag_NotEnoughMedicine".Translate(MedicineDef.label), parent, MessageTypeDefOf.RejectInput);
+                Messages.Message("HD_Medibag_NotEnoughSupplies".Translate(SupplyDef.label), parent, MessageTypeDefOf.RejectInput);
                 return false;
             }
 
-            storedMedicine -= count;
+            storedSupplies -= count;
             return true;
         }
 
-        private void LoadOneMedicine()
+        private void LoadOneSupply()
         {
             Pawn wearer = Wearer;
-            if (wearer == null || storedMedicine >= Props.maxStoredMedicine)
+            if (wearer == null || storedSupplies >= MaxStoredSupplies)
             {
                 return;
             }
 
-            Thing medicine = wearer.inventory?.innerContainer?.FirstOrDefault(thing => thing.def == MedicineDef);
-            if (medicine != null)
+            Thing supply = wearer.inventory?.innerContainer?.FirstOrDefault(thing => thing.def == SupplyDef);
+            if (supply != null)
             {
-                ConsumeMedicineThing(medicine);
+                ConsumeSupplyThing(supply);
                 return;
             }
 
-            Find.Targeter.BeginTargeting(MedicineTargetingParameters(), target => TryLoadMedicineFromMap(target.Thing));
+            Find.Targeter.BeginTargeting(SupplyTargetingParameters(), target => StartLoadSupplyJob(target.Thing));
         }
 
-        private TargetingParameters MedicineTargetingParameters()
+        private TargetingParameters SupplyTargetingParameters()
         {
             Pawn wearer = Wearer;
             return new TargetingParameters
@@ -301,26 +315,63 @@ namespace Helodrace
                 validator = target =>
                 {
                     Thing thing = target.Thing;
-                    return wearer != null && thing != null && thing.def == MedicineDef && thing.Spawned && thing.Map == wearer.Map;
+                    return wearer != null
+                        && thing != null
+                        && thing.def == SupplyDef
+                        && thing.Spawned
+                        && thing.Map == wearer.Map
+                        && !thing.IsForbidden(wearer)
+                        && wearer.CanReserveAndReach(thing, PathEndMode.Touch, Danger.Deadly);
                 }
             };
         }
 
-        private void TryLoadMedicineFromMap(Thing medicine)
+        private void StartLoadSupplyJob(Thing supply)
         {
-            if (medicine == null || medicine.def != MedicineDef || storedMedicine >= Props.maxStoredMedicine)
+            Pawn wearer = Wearer;
+            if (wearer == null || !CanLoadSupply(supply))
             {
                 return;
             }
 
-            ConsumeMedicineThing(medicine);
+            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail("HD_MedibagLoadSupply");
+            if (jobDef == null)
+            {
+                Log.ErrorOnce("Helodrace: HD_MedibagLoadSupply JobDef is missing.", "HD_MedibagLoadSupply".GetHashCode());
+                return;
+            }
+
+            Job job = JobMaker.MakeJob(jobDef, supply, parent);
+            wearer.jobs.TryTakeOrderedJob(job, JobTag.Misc);
         }
 
-        private void ConsumeMedicineThing(Thing medicine)
+        public bool CanLoadSupply(Thing supply)
         {
-            Thing consumed = medicine.SplitOff(1);
+            Pawn wearer = Wearer;
+            return wearer != null
+                && supply != null
+                && supply.def == SupplyDef
+                && supply.Spawned
+                && supply.Map == wearer.Map
+                && storedSupplies < MaxStoredSupplies;
+        }
+
+        public bool TryLoadSupply(Thing supply)
+        {
+            if (!CanLoadSupply(supply))
+            {
+                return false;
+            }
+
+            ConsumeSupplyThing(supply);
+            return true;
+        }
+
+        private void ConsumeSupplyThing(Thing supply)
+        {
+            Thing consumed = supply.SplitOff(1);
             consumed.Destroy(DestroyMode.Vanish);
-            storedMedicine++;
+            storedSupplies++;
         }
 
         private bool IsExcludedHemostasisPart(BodyPartDef partDef)
@@ -353,6 +404,40 @@ namespace Helodrace
         protected override bool ApplyTreatment(CompMedibag medibag, Pawn target)
         {
             return medibag.TryApplyPlasma(target);
+        }
+    }
+
+    public class JobDriver_MedibagLoadSupply : JobDriver
+    {
+        private const TargetIndex SupplyInd = TargetIndex.A;
+        private const TargetIndex MedibagInd = TargetIndex.B;
+
+        protected Thing SupplyThing => job.GetTarget(SupplyInd).Thing;
+        protected Thing MedibagThing => job.GetTarget(MedibagInd).Thing;
+
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
+        {
+            return pawn.Reserve(SupplyThing, job, 1, 1, null, errorOnFailed);
+        }
+
+        protected override IEnumerable<Toil> MakeNewToils()
+        {
+            this.FailOnDestroyedOrNull(SupplyInd);
+            this.FailOnForbidden(SupplyInd);
+            this.FailOn(() => MedibagThing?.TryGetComp<CompMedibag>() == null);
+            this.FailOn(() => MedibagThing?.TryGetComp<CompMedibag>()?.CurrentWearer != pawn);
+            this.FailOn(() => MedibagThing?.TryGetComp<CompMedibag>()?.CanLoadSupply(SupplyThing) != true);
+
+            yield return Toils_Goto.GotoThing(SupplyInd, PathEndMode.Touch);
+
+            yield return new Toil
+            {
+                initAction = delegate
+                {
+                    MedibagThing.TryGetComp<CompMedibag>()?.TryLoadSupply(SupplyThing);
+                },
+                defaultCompleteMode = ToilCompleteMode.Instant
+            };
         }
     }
 

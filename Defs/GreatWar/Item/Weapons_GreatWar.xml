@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- ==================== Bullets ==================== -->
@@ -21,7 +21,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_KragJorgensen_Proj</defName>
-    <label>Krag-Jorgensen bullet</label>
+    <label>Graylock M1892 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -36,7 +36,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_SprMThree_Proj</defName>
-    <label>Springfield M1903 bullet</label>
+    <label>Graylock M1903 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -51,7 +51,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1903Pedersen_Proj</defName>
-    <label>Pedersen device bullet</label>
+    <label>Graylock M1903 Whitmore bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -66,7 +66,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1911_Proj</defName>
-    <label>M1911 bullet</label>
+    <label>Ironfang M1911 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -81,7 +81,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1Garand_Proj</defName>
-    <label>M1 Garand bullet</label>
+    <label>M1 Hartwell bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -124,16 +124,61 @@
     </projectile>
   </ThingDef>
 
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_3InchMortarShell_HE_Proj</defName>
+    <label>3-inch mortar HE shell</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_3InchMortarHE_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>50</damageAmountBase>
+      <stoppingPower>2.0</stoppingPower>
+      <speed>28</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>3.0</explosionRadius>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_3InchMortarShell_CG_Proj</defName>
+    <label>3-inch mortar photochlorogen shell</label>
+    <thingClass>Helodrace.Projectile_PhotochlorogenShell</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_3InchMortarCG_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>2</damageAmountBase>
+      <stoppingPower>0.6</stoppingPower>
+      <speed>28</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>0.5</explosionRadius>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.PhotochlorogenShellExtension">
+        <gasDef>HD_PhotochlorogenGas</gasDef>
+        <emissionRadius>1.6</emissionRadius>
+        <density>0.75</density>
+        <edgeDensityFactor>0.45</edgeDensityFactor>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
   <!-- ==================== Weapons ==================== -->
 
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M1911_Weapon</defName>
     <weaponTags>
-      <li>HD_Revolver</li>
-      <li>Revolver</li>
+      <li>HD_GreatWarPistol</li>
     </weaponTags>
-    <label>M1911 pistol (Helodrace)</label>
-    <description>A rugged semi-automatic service pistol with a heavy cartridge and fast follow-up shots. Adapted for Helodrace use.</description>
+    <label>Ironfang M1911</label>
+    <description>Hartmann's masterpiece, a gun handed down from grandfathers, and a gun like the heart of Vessenica. A rugged semi-automatic service pistol with a heavy cartridge and fast follow-up shots.</description>
     <graphicData>
       <texPath>Weapon/GreatWar/HD_m1911</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -164,6 +209,8 @@
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>1.0</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey>
       </li>
     </comps>
     <verbs>
@@ -239,15 +286,69 @@
     </verbs>
   </ThingDef>
 
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_3InchHawkinsMortar_TurretGun</defName>
+    <label>3-inch Hawkins mortar</label>
+    <description>A simple infantry mortar firing high-explosive bombs in a high arc. It requires a crew and prepared shells.</description>
+    <graphicData>
+      <texPath>Building/Security/HD_3InchStokesMortar</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.4,1.4)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.10</AccuracyTouch>
+      <AccuracyShort>0.25</AccuracyShort>
+      <AccuracyMedium>0.38</AccuracyMedium>
+      <AccuracyLong>0.32</AccuracyLong>
+      <RangedWeapon_Cooldown>7.5</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <warmupTime>3.5</warmupTime>
+        <range>55.9</range>
+        <minRange>12.9</minRange>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>10</muzzleFlashScale>
+        <forcedMissRadius>8.0</forcedMissRadius>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_3InchMortarShell_HE</li>
+            <li>HD_3InchMortarShell_CG</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_3InchMortarShell_HE</li>
+            <li>HD_3InchMortarShell_CG</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_KragJorgensen_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>HD_BoltActionRifle</li>
-      <li>Rifle</li>
+      <li>HD_WildWestBoltActionRifle</li>
     </weaponTags>
-    <label>Krag-Jorgensen (Helodrace)</label>
-    <description>A bolt-action rifle with a unique side-loading magazine. Famous for its smooth action. Adapted for Helodrace use.</description>
+    <label>Graylock M1892</label>
+    <description>A Graylock Arsenal production of the Berg-Larsen rifle, a bolt-action design with a unique side-loading magazine. Famous for its smooth action.</description>
     <graphicData>
       <texPath>Weapon/GreatWar/KragJorgensen</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -318,11 +419,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M1Garand_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>Rifle</li>
+      <li>HD_GreatWarSemiAutoRifle</li>
     </weaponTags>
-    <label>M1 Garand (Helodrace)</label>
-    <description>A semi-automatic battle rifle fed by an en-bloc clip. It gives up a little deliberate precision for rapid, powerful follow-up fire. Adapted for Helodrace use.</description>
+    <label>M1 Hartwell</label>
+    <description>A semi-automatic battle rifle fed by an en-bloc clip. It gives up a little deliberate precision for rapid, powerful follow-up fire. In later stories, the adoption of small-caliber high-velocity rounds was delayed by the Dark Hartwell Order.</description>
     <graphicData>
       <texPath>Weapon/GreatWar/HD_m1garand</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -353,7 +453,8 @@
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
-        <altAccuracyMultiplier>1.15</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey>
       </li>
     </comps>
     <verbs>
@@ -396,11 +497,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M1919A6LMG_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>MachineGun</li>
+      <li>HD_GreatWarLightMachineGun</li>
     </weaponTags>
-    <label>M1919A6 light machine gun (Helodrace)</label>
-    <description>A portable belt-fed machine gun adapted from the Browning M1919. Heavy for an infantry weapon, but able to lay down sustained suppressive fire. Adapted for Helodrace use.</description>
+    <label>M1919A6 light machine gun</label>
+    <description>A portable belt-fed machine gun adapted from the Hartmann M1919. Heavy for an infantry weapon, but able to lay down sustained suppressive fire.</description>
     <graphicData>
       <texPath>Weapon/GreatWar/HD_m1919a6LMG</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -486,12 +586,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_SprMThree_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>HD_BoltActionRifle</li>
-      <li>Rifle</li>
+      <li>HD_GreatWarBoltActionRifle</li>
     </weaponTags>
-    <label>Springfield M1903 (Helodrace)</label>
-    <description>A reliable and accurate bolt-action rifle that served for decades. Highly prized for its precision. Adapted for Helodrace use.</description>
+    <label>Graylock M1903</label>
+    <description>A reliable and accurate bolt-action rifle that served for decades. Highly prized for its precision.</description>
     <graphicData>
       <texPath>Weapon/GreatWar/SprM1903</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -562,11 +660,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M1903Pedersen_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>Rifle</li>
+      <li>HD_GreatWarSemiAutoRifle</li>
     </weaponTags>
-    <label>Springfield M1903 Pedersen device (Helodrace)</label>
-    <description>A Springfield M1903 fitted with a Pedersen device, trading full-power rifle cartridges for fast semi-automatic fire with lighter ammunition. Adapted for Helodrace use.</description>
+    <label>Graylock M1903 Whitmore device</label>
+    <description>An M1903 rifle fitted with a Whitmore conversion device. It uses lighter ammunition instead of full-power rifle cartridges, allowing fast semi-automatic fire.</description>
     <graphicData>
       <texPath>Weapon/GreatWar/HD_M1903Pedersen</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -596,7 +693,8 @@
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
-        <altAccuracyMultiplier>1.8</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey>
       </li>
     </comps>
     <verbs>

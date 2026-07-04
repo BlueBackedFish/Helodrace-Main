@@ -12,8 +12,8 @@ namespace Helodrace
         private const float MinDensity = 0.02f;
         private const int SimulationIntervalTicks = 30;
         private const int ExposureIntervalTicks = 300;
-        private const int VisualIntervalTicks = 45;
-        private const int VisualSamplesPerPulse = 5;
+        private const int VisualIntervalTicks = 24;
+        private const int VisualSamplesPerPulse = 28;
         private const float DensityDissipationPerTick = 0.00010f;
         private const float SeverityPerTickAtFullDensity = 0.28f / 240f;
         private const float VisualFleckScale = 3.0f;
@@ -439,7 +439,7 @@ namespace Helodrace
 
             tmpCells.Clear();
             tmpCells.AddRange(visualIndices);
-            int sampleCount = Mathf.Min(VisualSamplesPerPulse, Mathf.Max(1, tmpCells.Count / 12 + 1));
+            int sampleCount = Mathf.Min(VisualSamplesPerPulse, Mathf.Max(1, tmpCells.Count / 5 + 1));
             for (int i = 0; i < sampleCount; i++)
             {
                 int index = tmpCells[Rand.Range(0, tmpCells.Count)];
@@ -452,10 +452,15 @@ namespace Helodrace
                 IntVec3 cell = map.cellIndices.IndexToCell(index);
                 if (cell.ShouldSpawnMotesAt(map))
                 {
-                    Vector3 loc = cell.ToVector3Shifted();
-                    loc.x += Rand.Range(-0.28f, 0.28f);
-                    loc.z += Rand.Range(-0.28f, 0.28f);
-                    FleckMaker.Static(loc, map, FleckDefOf.Smoke, Mathf.Lerp(0.8f, VisualFleckScale, density));
+                    int fleckCount = density >= 0.75f ? 3 : density >= 0.35f ? 2 : 1;
+                    float scale = Mathf.Lerp(0.8f, VisualFleckScale, density);
+                    for (int j = 0; j < fleckCount; j++)
+                    {
+                        Vector3 loc = cell.ToVector3Shifted();
+                        loc.x += Rand.Range(-0.28f, 0.28f);
+                        loc.z += Rand.Range(-0.28f, 0.28f);
+                        FleckMaker.Static(loc, map, FleckDefOf.Smoke, scale);
+                    }
                 }
             }
         }

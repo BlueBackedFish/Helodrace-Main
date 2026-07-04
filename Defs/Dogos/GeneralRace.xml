@@ -169,7 +169,7 @@
               <offsets>
                 <south>
                   <offset>(-0.25,0.36)</offset>
-                  <layerOffset>0.02</layerOffset>
+                  <layerOffset>0.004</layerOffset>
                 </south>
                 <north>
                   <offset>(-0.11,0.64)</offset>
@@ -177,7 +177,7 @@
                 </north>
                 <east>
                   <offset>(-0.4,0.36)</offset>
-                  <layerOffset>0.02</layerOffset>
+                  <layerOffset>0.004</layerOffset>
                 </east>
               </offsets>
             </li>
@@ -203,7 +203,7 @@
               <offsets>
                 <south>
                   <offset>(-0.63,0.36)</offset>
-                  <layerOffset>0.02</layerOffset>
+                  <layerOffset>0.004</layerOffset>
                 </south>
                 <north>
                   <offset>(0.26,0.64)</offset>
@@ -211,7 +211,7 @@
                 </north>
                 <east>
                   <offset>(-0.4,0.36)</offset>
-                  <layerOffset>0.02</layerOffset>
+                  <layerOffset>0.004</layerOffset>
                 </east>
               </offsets>
             </li>
@@ -269,9 +269,13 @@
           <li>HD_Apparel_CarvalyUniform</li>
           <li>HD_Apparel_CarvalyHat</li>
           <li>HD_Apparel_CowboyHat</li>
+          <li>HD_Apparel_WildWestTopHat</li>
           <li>HD_Apparel_WildWestFemaleCasual</li>
           <li>HD_Apparel_WildWestMaleCasual</li>
+          <li>HD_Apparel_WildWestFormalShirt</li>
+          <li>HD_Apparel_WildWestFrockCoat</li>
           <li>HD_WildWestLeatherVest</li>
+          <li>HD_WildWestMetalVest</li>
           <li>HD_Bugle</li>
           <li>HD_Apparel_GreatWarMedibag</li>
           <li>HD_Apparel_GreatWarGasMaskPouch</li>

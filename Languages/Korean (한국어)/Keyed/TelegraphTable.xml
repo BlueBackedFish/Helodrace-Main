@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_TelegraphTable_Use_Label>{0} 사용</HD_TelegraphTable_Use_Label>
+  <HD_TelegraphTable_NoPrimaryCell>일차 전지 1개 필요</HD_TelegraphTable_NoPrimaryCell>
+  <HD_TelegraphTable_ActionNeedsPrimaryCell>전신기에 넣어둔 일차 전지가 없습니다.</HD_TelegraphTable_ActionNeedsPrimaryCell>
+  <HD_TelegraphTable_LoadPrimaryCells>{0}에 일차 전지 충전 ({1}/{2})</HD_TelegraphTable_LoadPrimaryCells>
+  <HD_TelegraphTable_PrimaryCellsFull>일차 전지 보관함이 가득 참</HD_TelegraphTable_PrimaryCellsFull>
+  <HD_TelegraphTable_PrimaryCellsStored>일차 전지: {0}/{1}</HD_TelegraphTable_PrimaryCellsStored>
+  <HD_TelegraphTable_Window_Title>전신기</HD_TelegraphTable_Window_Title>
+  <HD_TelegraphTable_Station>전신국: {0}</HD_TelegraphTable_Station>
+  <HD_TelegraphTable_Operator>조작자: {0}</HD_TelegraphTable_Operator>
+  <HD_TelegraphTable_Status_Ready>상태: 회선 준비됨</HD_TelegraphTable_Status_Ready>
+  <HD_TelegraphTable_Status_Ready_WithCells>상태: 회선 준비됨 | 일차 전지: {0}</HD_TelegraphTable_Status_Ready_WithCells>
+  <HD_TelegraphTable_Tab_Orders>업무</HD_TelegraphTable_Tab_Orders>
+  <HD_TelegraphTable_Tab_Military>군사 협력</HD_TelegraphTable_Tab_Military>
+  <HD_TelegraphTable_Tab_Market>시장</HD_TelegraphTable_Tab_Market>
+  <HD_TelegraphTable_Orders_Title>전문 업무</HD_TelegraphTable_Orders_Title>
+  <HD_TelegraphTable_Placeholder>전신 선로가 준비되어 있습니다. 계약, 채권, 환전 기능은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Placeholder>
+  <HD_TelegraphTable_Button_Contracts>계약</HD_TelegraphTable_Button_Contracts>
+  <HD_TelegraphTable_Button_Bonds>채권</HD_TelegraphTable_Button_Bonds>
+  <HD_TelegraphTable_Button_Exchange>환전</HD_TelegraphTable_Button_Exchange>
+  <HD_TelegraphTable_Military_Title>군사 협력</HD_TelegraphTable_Military_Title>
+  <HD_TelegraphTable_Military_Placeholder>군사 연락망이 열려 있습니다. 지원 요청과 전진기지 구축 계약은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Military_Placeholder>
+  <HD_TelegraphTable_Military_RequestSupport>지원 요청</HD_TelegraphTable_Military_RequestSupport>
+  <HD_TelegraphTable_Military_ForwardBase>전진기지 구축 계약</HD_TelegraphTable_Military_ForwardBase>
+  <HD_TelegraphTable_Military_ForwardBaseContracts>전진기지 계약 목록</HD_TelegraphTable_Military_ForwardBaseContracts>
+  <HD_TelegraphTable_Military_SelectActivity>군사 협력 활동을 선택하십시오.</HD_TelegraphTable_Military_SelectActivity>
+  <HD_TelegraphTable_ForwardBaseContracts_Title>전진기지 계약 목록</HD_TelegraphTable_ForwardBaseContracts_Title>
+  <HD_TelegraphTable_ForwardBaseContracts_None>전진기지 계약이 없습니다.</HD_TelegraphTable_ForwardBaseContracts_None>
+  <HD_TelegraphTable_ForwardBaseContracts_Row>{0} | 타일 {1}</HD_TelegraphTable_ForwardBaseContracts_Row>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>건설중: {0} 남음</HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusComplete>완성</HD_TelegraphTable_ForwardBaseContracts_StatusComplete>
+  <HD_TelegraphTable_ForwardBaseContracts_Info>정보</HD_TelegraphTable_ForwardBaseContracts_Info>
+  <HD_TelegraphTable_ForwardBaseContracts_Jump>이동</HD_TelegraphTable_ForwardBaseContracts_Jump>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>위치: 타일 {0}, 헤로드 정착지 거리 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoBase>기지 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>비용 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ 서비스 지시 상환방식: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>계약기간: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServices>서비스: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCredit>계약 시점 군사 신용: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCredit>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\n타일 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
+  <HD_TelegraphTable_ForwardBase_Title>전진기지 구축 계약</HD_TelegraphTable_ForwardBase_Title>
+  <HD_TelegraphTable_ForwardBase_Description>기지 종류, 비용 종류, 부가 서비스를 선택합니다. 신용이 낮으면 선택 가능한 계약 조건이 제한됩니다.</HD_TelegraphTable_ForwardBase_Description>
+  <HD_TelegraphTable_ForwardBase_SelectLocation>기지 위치 지정</HD_TelegraphTable_ForwardBase_SelectLocation>
+  <HD_TelegraphTable_ForwardBase_SelectedLocation>선택한 월드 타일: {0}</HD_TelegraphTable_ForwardBase_SelectedLocation>
+  <HD_TelegraphTable_ForwardBase_NoLocation>기지 위치가 지정되지 않았습니다.</HD_TelegraphTable_ForwardBase_NoLocation>
+  <HD_TelegraphTable_ForwardBase_InvalidLocation>전진기지를 세울 월드 타일을 선택해야 합니다.</HD_TelegraphTable_ForwardBase_InvalidLocation>
+  <HD_TelegraphTable_ForwardBase_Credit>군사 신용: {0}</HD_TelegraphTable_ForwardBase_Credit>
+  <HD_TelegraphTable_ForwardBase_Distance>가장 가까운 헤로드 정착지 거리: {0}/{1} 타일</HD_TelegraphTable_ForwardBase_Distance>
+  <HD_TelegraphTable_ForwardBase_DistanceUnknown>가장 가까운 헤로드 정착지 거리: 먼저 기지 위치를 지정해야 합니다.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
+  <HD_TelegraphTable_ForwardBase_BaseKind>기지 종류</HD_TelegraphTable_ForwardBase_BaseKind>
+  <HD_TelegraphTable_ForwardBase_CostKind>비용 종류</HD_TelegraphTable_ForwardBase_CostKind>
+  <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ 서비스 지시 상환방식</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
+  <HD_TelegraphTable_ForwardBase_DurationKind>계약기간</HD_TelegraphTable_ForwardBase_DurationKind>
+  <HD_TelegraphTable_ForwardBase_ServiceKind>선택 서비스</HD_TelegraphTable_ForwardBase_ServiceKind>
+  <HD_TelegraphTable_ForwardBase_IdiqServiceKind>IDIQ 호출 가능 서비스</HD_TelegraphTable_ForwardBase_IdiqServiceKind>
+  <HD_TelegraphTable_ForwardBase_Summary>계약 초안: {0} / {1}\n계약기간: {2}\n서비스: {3}\n{4}: {5}</HD_TelegraphTable_ForwardBase_Summary>
+  <HD_TelegraphTable_ForwardBase_IdiqSummary>IDIQ 초안: {0}\n계약기간: {1} | 서비스 지시 상환방식: {2}\n호출 가능 서비스: {3}\n{4}: {5} | {6}: {7}</HD_TelegraphTable_ForwardBase_IdiqSummary>
+  <HD_TelegraphTable_ForwardBase_CostPending>위치 지정 필요</HD_TelegraphTable_ForwardBase_CostPending>
+  <HD_TelegraphTable_ForwardBase_SthalerAmount>{0} STH</HD_TelegraphTable_ForwardBase_SthalerAmount>
+  <HD_TelegraphTable_ForwardBase_FixedPrice>고정 가격</HD_TelegraphTable_ForwardBase_FixedPrice>
+  <HD_TelegraphTable_ForwardBase_ReimbursableEstimate>상환 예상액</HD_TelegraphTable_ForwardBase_ReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_EstimatedCost>예상 비용</HD_TelegraphTable_ForwardBase_EstimatedCost>
+  <HD_TelegraphTable_ForwardBase_BaseContractPrice>계약 유지비</HD_TelegraphTable_ForwardBase_BaseContractPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallFixedPrice>1회 호출 고정 가격</HD_TelegraphTable_ForwardBase_PerCallFixedPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>1회 호출 상환 예상액</HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_CannotBuildHere>이곳에는 전진기지를 건설할 수 없습니다: {0}</HD_TelegraphTable_ForwardBase_CannotBuildHere>
+  <HD_TelegraphTable_ForwardBase_TileOccupied>이미 점유된 월드 타일에는 전진기지를 건설할 수 없습니다.</HD_TelegraphTable_ForwardBase_TileOccupied>
+  <HD_TelegraphTable_ForwardBase_ContractFailed>전진기지 계약에 실패했습니다.</HD_TelegraphTable_ForwardBase_ContractFailed>
+  <HD_TelegraphTable_ForwardBase_ConstructionStarted>전진기지 건설이 시작되었습니다. {0}일 뒤 완성됩니다.</HD_TelegraphTable_ForwardBase_ConstructionStarted>
+  <HD_ForwardBaseConstruction_TimeLeft>남은 건설 기간: {0}</HD_ForwardBaseConstruction_TimeLeft>
+  <HD_ForwardBaseConstruction_Completed>전진기지 건설이 완료되었습니다.</HD_ForwardBaseConstruction_Completed>
+  <HD_TelegraphTable_ForwardBase_DraftContract>계약 초안 작성</HD_TelegraphTable_ForwardBase_DraftContract>
+  <HD_TelegraphTable_ForwardBase_Locked>(신용 {0})</HD_TelegraphTable_ForwardBase_Locked>
+  <HD_TelegraphTable_ForwardBase_LockedTooltip>군사 신용 {0} 이상이 필요합니다.</HD_TelegraphTable_ForwardBase_LockedTooltip>
+  <HD_TelegraphTable_ForwardBase_Kind_PB>PB</HD_TelegraphTable_ForwardBase_Kind_PB>
+  <HD_TelegraphTable_ForwardBase_Kind_FB>FB</HD_TelegraphTable_ForwardBase_Kind_FB>
+  <HD_TelegraphTable_ForwardBase_Kind_COP>COP</HD_TelegraphTable_ForwardBase_Kind_COP>
+  <HD_TelegraphTable_ForwardBase_Kind_FOB>FOB</HD_TelegraphTable_ForwardBase_Kind_FOB>
+  <HD_TelegraphTable_ForwardBase_Cost_FFP>FFP</HD_TelegraphTable_ForwardBase_Cost_FFP>
+  <HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>비용 상환</HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_Cost_IDIQ>IDIQ</HD_TelegraphTable_ForwardBase_Cost_IDIQ>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>FFP 서비스 지시</HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>비용 상환 서비스 지시</HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_DurationDays>{0}일</HD_TelegraphTable_ForwardBase_DurationDays>
+  <HD_TelegraphTable_ForwardBase_Service_None>없음</HD_TelegraphTable_ForwardBase_Service_None>
+  <HD_TelegraphTable_ForwardBase_ServiceLevel>Lv.{0}</HD_TelegraphTable_ForwardBase_ServiceLevel>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>(기지 제한)</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>선택한 기지 종류에서는 이 서비스를 운용할 수 없습니다.</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Artillery>포병</HD_TelegraphTable_ForwardBase_ServiceType_Artillery>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Infantry>보병</HD_TelegraphTable_ForwardBase_ServiceType_Infantry>
+  <HD_TelegraphTable_ForwardBase_ServiceType_AirForce>공군</HD_TelegraphTable_ForwardBase_ServiceType_AirForce>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Logistics>군수</HD_TelegraphTable_ForwardBase_ServiceType_Logistics>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Empty>아직 등록된 서비스가 없습니다.</HD_TelegraphTable_ForwardBase_ServiceType_Empty>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>박격포 지원</HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>보병 투입</HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>신선 식품</HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>보존 식량</HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>의료품</HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>무기</HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>
+  <HD_TelegraphTable_ForwardBase_Service_AirBombing>항공폭격</HD_TelegraphTable_ForwardBase_Service_AirBombing>
+  <HD_TelegraphTable_ForwardBase_Service_SupportRequest>지원 요청</HD_TelegraphTable_ForwardBase_Service_SupportRequest>
+  <HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>경비 분견대</HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>
+  <HD_TelegraphTable_ForwardBase_Service_EngineerTeam>공병대</HD_TelegraphTable_ForwardBase_Service_EngineerTeam>
+  <HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>보급 수송대</HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>
+  <HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>포병 연락반</HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>
+  <HD_TelegraphTable_ForwardBase_Service_Bombardment>포격</HD_TelegraphTable_ForwardBase_Service_Bombardment>
+  <HD_TelegraphTable_MarketUnavailable>시장 데이터를 사용할 수 없습니다.</HD_TelegraphTable_MarketUnavailable>
+  <HD_TelegraphTable_Market_Title>시장 게시판 ({0})</HD_TelegraphTable_Market_Title>
+  <HD_TelegraphTable_Market_SubTab_Log>기록</HD_TelegraphTable_Market_SubTab_Log>
+  <HD_TelegraphTable_Market_SubTab_Trade>거래</HD_TelegraphTable_Market_SubTab_Trade>
+  <HD_TelegraphTable_Market_OilIndex>유가 지수: {0}</HD_TelegraphTable_Market_OilIndex>
+  <HD_TelegraphTable_Market_CurrentQuote>{0} 장외 호가: {1}</HD_TelegraphTable_Market_CurrentQuote>
+  <HD_TelegraphTable_Market_FixedGoldPrice>금본위제 고정가: {0}</HD_TelegraphTable_Market_FixedGoldPrice>
+  <HD_TelegraphTable_Market_FixedGoldDetail>Bid/Ask 스프레드 없음 | 정산: {0}</HD_TelegraphTable_Market_FixedGoldDetail>
+  <HD_TelegraphTable_Market_LogEntry>Bid: {0} | Ask: {1} | 스프레드: {2} | 소요: {3}</HD_TelegraphTable_Market_LogEntry>
+  <HD_TelegraphTable_Market_LogEntry_Prices>Bid: {0} | Ask: {1}</HD_TelegraphTable_Market_LogEntry_Prices>
+  <HD_TelegraphTable_Market_LogEntry_Details>스프레드: {0} | 소요: {1}</HD_TelegraphTable_Market_LogEntry_Details>
+  <HD_TelegraphTable_Market_Day>{0}일차</HD_TelegraphTable_Market_Day>
+  <HD_TelegraphTable_Market_NoInformation>정보 없음</HD_TelegraphTable_Market_NoInformation>
+  <HD_TelegraphTable_Market_NoInformationDetail>이 날에는 시세를 확인하지 않았습니다.</HD_TelegraphTable_Market_NoInformationDetail>
+  <HD_TelegraphTable_Market_QueryNeedsPrimaryCell>오늘 시세를 기록하려면 일차 전지를 충전해야 합니다.</HD_TelegraphTable_Market_QueryNeedsPrimaryCell>
+  <HD_TelegraphTable_Market_SettlementHours>{0}시간</HD_TelegraphTable_Market_SettlementHours>
+  <HD_TelegraphTable_Market_SettlementDays>{0}일</HD_TelegraphTable_Market_SettlementDays>
+  <HD_TelegraphTable_Market_NotEnoughHistory>시장 기록을 수집 중입니다.</HD_TelegraphTable_Market_NotEnoughHistory>
+  <HD_TelegraphTable_Market_SthalerFxValue>{0} 은/STH</HD_TelegraphTable_Market_SthalerFxValue>
+  <HD_TelegraphTable_Market_SthalerLocked>스탈레르 FX 시세는 신용화폐 체제가 시작된 뒤 열립니다.</HD_TelegraphTable_Market_SthalerLocked>
+  <HD_TelegraphTable_Trade_IndexOnly>이 지수는 정보 표시 전용입니다.</HD_TelegraphTable_Trade_IndexOnly>
+  <HD_TelegraphTable_Trade_Credit>신용: {0} {1}</HD_TelegraphTable_Trade_Credit>
+  <HD_TelegraphTable_Trade_Count>수량</HD_TelegraphTable_Trade_Count>
+  <HD_TelegraphTable_Trade_Sell>매도</HD_TelegraphTable_Trade_Sell>
+  <HD_TelegraphTable_Trade_Buy>매수</HD_TelegraphTable_Trade_Buy>
+  <HD_TelegraphTable_Trade_EstimatedSettlement>정산: {0}</HD_TelegraphTable_Trade_EstimatedSettlement>
+  <HD_TelegraphTable_Trade_PendingLocked>이 종목은 이미 진행 중인 거래가 있습니다.</HD_TelegraphTable_Trade_PendingLocked>
+  <HD_TelegraphTable_Trade_CreditTooLow>신용 부족: {0} / {1}</HD_TelegraphTable_Trade_CreditTooLow>
+  <HD_TelegraphTable_Trade_NotEnoughCurrency>{0} 부족: {1} 필요</HD_TelegraphTable_Trade_NotEnoughCurrency>
+  <HD_TelegraphTable_Trade_NotEnoughGoods>{0} 부족: {1} 필요</HD_TelegraphTable_Trade_NotEnoughGoods>
+  <HD_TelegraphTable_Trade_Failed>거래 주문 실패.</HD_TelegraphTable_Trade_Failed>
+  <HD_TelegraphTable_Trade_Started>{0} 거래 주문 시작: {1}</HD_TelegraphTable_Trade_Started>
+  <HD_TelegraphTable_Trade_Settled>{0} 거래 정산 완료: {1}</HD_TelegraphTable_Trade_Settled>
+  <HD_TelegraphTable_Trade_SettlementFailed>{0} 거래 정산 실패.</HD_TelegraphTable_Trade_SettlementFailed>
+  <HD_MarketCurrency_Sthaler>스탈레르</HD_MarketCurrency_Sthaler>
+  <HD_MarketCurrency_Silver>은</HD_MarketCurrency_Silver>
+  <HD_MarketStandard_Gold>금본위제</HD_MarketStandard_Gold>
+  <HD_MarketStandard_Credit>신용화폐 체제</HD_MarketStandard_Credit>
+  <HD_MarketAsset_OilIndex>유가 지수</HD_MarketAsset_OilIndex>
+  <HD_MarketAsset_CrudeOil>원유</HD_MarketAsset_CrudeOil>
+  <HD_MarketAsset_Diesel>디젤</HD_MarketAsset_Diesel>
+  <HD_MarketAsset_Kerosene>등유</HD_MarketAsset_Kerosene>
+  <HD_MarketAsset_GovernmentBond>정부 채권</HD_MarketAsset_GovernmentBond>
+  <HD_MarketAsset_ContinentalPetroleumBond>콘티넨탈 석유 채권</HD_MarketAsset_ContinentalPetroleumBond>
+  <HD_MarketAsset_Sthaler>스탈레르 지폐</HD_MarketAsset_Sthaler>
+</LanguageData>

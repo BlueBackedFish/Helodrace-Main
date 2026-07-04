@@ -39,7 +39,7 @@
     <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <researchPrerequisites>
-      <li>HelodChokingAgent</li>
+      <li>HelodBlisterAgent</li>
     </researchPrerequisites>
     <comps>
       <li Class="Helodrace.CompProperties_SweetGasCan">

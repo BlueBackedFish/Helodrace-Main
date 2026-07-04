@@ -5,7 +5,7 @@
   <ScenarioDef ParentName="ScenarioBase">
     <defName>HD_Scenario_HelodFourPawns</defName>
     <label>Helod Gilded Pioneers</label>
-    <description>Four Helod pioneers venture deep into the harsh, untamed frontier to establish an industrial outpost. Equipped with high starting funds of Sthaler banknotes, raw pemmican rations, three Springfield M1861 rifled muskets, and a steel knife (iron dagger), they are ready to seize control of local petroleum and build their financial empire.</description>
+    <description>Four Helod pioneers venture deep into the harsh, untamed frontier to establish an industrial outpost. Equipped with high starting funds of Sthaler banknotes, raw pemmican rations, three Graylock M1861 rifled muskets, and a steel knife (iron dagger), they are ready to seize control of local petroleum and build their financial empire.</description>
     <scenario>
       <summary>Four Helod settlers starting with Sthaler money, pemmican, three M1861 rifles, and a steel knife.</summary>
       <playerFaction>
@@ -35,19 +35,19 @@
           <overrideKinds>
             <li>
               <xenotype>HD_MackenzieValleyHelod</xenotype>
-              <pawnKind>HD_HelodColonist</pawnKind>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
             </li>
             <li>
               <xenotype>HD_TexasHelod</xenotype>
-              <pawnKind>HD_HelodColonist</pawnKind>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
             </li>
             <li>
               <xenotype>HD_ArcticHelod</xenotype>
-              <pawnKind>HD_HelodColonist</pawnKind>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
             </li>
             <li>
               <xenotype>HD_EasternHelod</xenotype>
-              <pawnKind>HD_HelodColonist</pawnKind>
+              <pawnKind>HD_WW_HelodColonist</pawnKind>
             </li>
           </overrideKinds>
           <xenotypeCounts>
@@ -83,7 +83,7 @@
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
           <thingDef>HD_Gun_SprMOne_Weapon</thingDef>
-          <count>3</count> <!-- 3 Springfield M1861 Rifled Muskets -->
+          <count>3</count> <!-- 3 Graylock M1861 Rifled Muskets -->
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>

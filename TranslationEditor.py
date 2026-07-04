@@ -6,6 +6,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import xml.etree.ElementTree as ET
 
+from ToolUi import bind_common_shortcuts, setup_theme, style_text
+
 
 SOURCE_FIELDS = [
     "label",
@@ -21,8 +23,7 @@ SOURCE_FIELDS = [
 class TranslationEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("RimWorld Translation Editor")
-        self.root.geometry("1500x900")
+        setup_theme(self.root, "RimWorld Translation Editor", "1500x900")
 
         self.workspace = os.getcwd()
         self.languages_root = os.path.join(self.workspace, "Languages")
@@ -37,30 +38,36 @@ class TranslationEditor:
         self.loading_editor = False
 
         self.create_widgets()
+        bind_common_shortcuts(
+            self.root,
+            save=self.save_file,
+            reload_cmd=self.reload_file,
+            focus_filter=lambda: self.filter_entry.focus_set(),
+        )
         self.populate_file_tree()
         self.auto_open_first_file()
 
     def create_widgets(self):
-        toolbar = ttk.Frame(self.root, padding=6)
+        toolbar = ttk.Frame(self.root, padding=8, style="Toolbar.TFrame")
         toolbar.pack(side=tk.TOP, fill=tk.X)
 
-        ttk.Button(toolbar, text="번역 XML 열기", command=self.open_file_dialog).pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="저장", command=self.save_file).pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="번역 XML 열기", command=self.open_file_dialog).pack(side=tk.LEFT, padx=4)
+        ttk.Button(toolbar, text="저장", command=self.save_file, style="Accent.TButton").pack(side=tk.LEFT, padx=4)
         ttk.Button(toolbar, text="새로고침", command=self.reload_file).pack(side=tk.LEFT, padx=3)
         ttk.Separator(toolbar, orient=tk.VERTICAL).pack(side=tk.LEFT, fill=tk.Y, padx=8)
         ttk.Button(toolbar, text="항목 추가", command=self.add_entry).pack(side=tk.LEFT, padx=3)
-        ttk.Button(toolbar, text="선택 삭제", command=self.delete_entry).pack(side=tk.LEFT, padx=3)
+        ttk.Button(toolbar, text="선택 삭제", command=self.delete_entry, style="Danger.TButton").pack(side=tk.LEFT, padx=3)
         ttk.Button(toolbar, text="Def에서 누락 키 추가", command=self.add_missing_from_defs).pack(side=tk.LEFT, padx=3)
 
         self.status_var = tk.StringVar(value="번역 XML 파일을 선택하세요.")
-        ttk.Label(toolbar, textvariable=self.status_var, font=("Consolas", 10)).pack(side=tk.LEFT, padx=14)
+        ttk.Label(toolbar, textvariable=self.status_var, style="Status.TLabel").pack(side=tk.LEFT, padx=14)
 
         pane = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
         pane.pack(fill=tk.BOTH, expand=True, padx=6, pady=6)
 
         left = ttk.Frame(pane, width=330)
         pane.add(left, weight=1)
-        ttk.Label(left, text="Languages XML 파일", font=("Segoe UI", 10, "bold")).pack(anchor=tk.W, pady=(0, 4))
+        ttk.Label(left, text="Languages XML 파일", style="Title.TLabel").pack(anchor=tk.W, pady=(0, 6))
         self.file_tree = ttk.Treeview(left, show="tree", selectmode="browse")
         self.file_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         file_scroll = ttk.Scrollbar(left, orient=tk.VERTICAL, command=self.file_tree.yview)
@@ -70,15 +77,15 @@ class TranslationEditor:
 
         middle = ttk.Frame(pane, width=520)
         pane.add(middle, weight=2)
-        ttk.Label(middle, text="번역 항목", font=("Segoe UI", 10, "bold")).pack(anchor=tk.W, pady=(0, 4))
+        ttk.Label(middle, text="번역 항목", style="Title.TLabel").pack(anchor=tk.W, pady=(0, 6))
 
         filter_row = ttk.Frame(middle)
         filter_row.pack(fill=tk.X, pady=(0, 5))
         ttk.Label(filter_row, text="검색").pack(side=tk.LEFT)
         self.filter_var = tk.StringVar()
-        filter_entry = ttk.Entry(filter_row, textvariable=self.filter_var)
-        filter_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
-        filter_entry.bind("<KeyRelease>", lambda _event: self.refresh_entry_tree())
+        self.filter_entry = ttk.Entry(filter_row, textvariable=self.filter_var)
+        self.filter_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+        self.filter_entry.bind("<KeyRelease>", lambda _event: self.refresh_entry_tree())
 
         columns = ("key", "value", "source")
         self.entry_tree = ttk.Treeview(middle, columns=columns, show="headings", selectmode="browse")
@@ -108,10 +115,12 @@ class TranslationEditor:
         ttk.Label(right, text="원본 Def 값 / 참고", font=("Segoe UI", 10, "bold")).grid(row=2, column=0, sticky=tk.W)
         self.source_text = tk.Text(right, height=8, font=("Consolas", 10), wrap=tk.WORD, state=tk.DISABLED)
         self.source_text.grid(row=3, column=0, sticky=tk.EW, pady=(2, 8))
+        style_text(self.source_text, readonly=True)
 
         ttk.Label(right, text="번역문", font=("Segoe UI", 10, "bold")).grid(row=4, column=0, sticky=tk.W)
         self.value_text = tk.Text(right, height=12, font=("Consolas", 11), wrap=tk.WORD, undo=True)
         self.value_text.grid(row=5, column=0, sticky=tk.NSEW, pady=(2, 8))
+        style_text(self.value_text)
         self.value_text.bind("<KeyRelease>", self.on_editor_change)
 
         bottom = ttk.Frame(right)

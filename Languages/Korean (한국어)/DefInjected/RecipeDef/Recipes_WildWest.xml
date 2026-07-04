@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_MakeCharcoal.label>숯 만들기</HD_MakeCharcoal.label>
   <HD_MakeCharcoal.description>모닥불에서 나무를 구워 숯을 만듭니다.</HD_MakeCharcoal.description>
@@ -105,16 +105,16 @@
   <HD_MakeShotgunBarrel.jobString>산탄총 총열 가공하는 중.</HD_MakeShotgunBarrel.jobString>
 
   <HD_Make_Gun_SprMOne_Weapon.label>스프링필드 M1861 제작</HD_Make_Gun_SprMOne_Weapon.label>
-  <HD_Make_Gun_SprMOne_Weapon.description>저품질 총열, V스프링, 강철, 목재를 결합하여 수동식 전장식 강선 소총인 스프링필드 M1861을 제작합니다.</HD_Make_Gun_SprMOne_Weapon.description>
-  <HD_Make_Gun_SprMOne_Weapon.jobString>스프링필드 M1861 제작하는 중.</HD_Make_Gun_SprMOne_Weapon.jobString>
 
-  <HD_MakeWildWestBarrel.label>와일드웨스트 총열 제작</HD_MakeWildWestBarrel.label>
-  <HD_MakeWildWestBarrel.description>선삭 절삭 공구를 장착한 정밀 선반에서 강철과 기계 부품을 깎아 정밀 강선이 가공된 와일드웨스트 총열을 제작합니다.</HD_MakeWildWestBarrel.description>
-  <HD_MakeWildWestBarrel.jobString>와일드웨스트 총열 가공하는 중.</HD_MakeWildWestBarrel.jobString>
+  <HD_MakeWildWestBarrel_BasicWorkbench.label>중품질 총열 수제 제작</HD_MakeWildWestBarrel_BasicWorkbench.label>
+  <HD_MakeWildWestBarrel_BasicWorkbench.description>기본 작업대에서 강철과 산업 부품을 천천히 가공해 강선이 파인 중품질 총열을 제작합니다.</HD_MakeWildWestBarrel_BasicWorkbench.description>
+  <HD_MakeWildWestBarrel_BasicWorkbench.jobString>중품질 총열 수제 제작하는 중.</HD_MakeWildWestBarrel_BasicWorkbench.jobString>
+
+  <HD_MakeWildWestBarrel.label>중품질 총열 제작</HD_MakeWildWestBarrel.label>
+  <HD_MakeWildWestBarrel.description>선삭 절삭 공구를 장착한 정밀 선반에서 강철과 기계 부품을 깎아 정밀 강선이 가공된 중품질 총열을 제작합니다.</HD_MakeWildWestBarrel.description>
+  <HD_MakeWildWestBarrel.jobString>중품질 총열 가공하는 중.</HD_MakeWildWestBarrel.jobString>
 
   <HD_Make_Gun_SprMThreeHigh_Weapon.label>스프링필드 M1873 제작</HD_Make_Gun_SprMThreeHigh_Weapon.label>
-  <HD_Make_Gun_SprMThreeHigh_Weapon.description>와일드웨스트 총열, 저품질 토션 스프링, 강철, 부품을 활용하여 수동 트랩도어식 단발 후장식 소총인 스프링필드 M1873을 제작합니다.</HD_Make_Gun_SprMThreeHigh_Weapon.description>
-  <HD_Make_Gun_SprMThreeHigh_Weapon.jobString>스프링필드 M1873 제작하는 중.</HD_Make_Gun_SprMThreeHigh_Weapon.jobString>
 
   <HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.label>스프링필드 M1861을 M1873으로 개조</HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.label>
   <HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.description>스프링필드 M1861의 V스프링 작동부를 저품질 토션 스프링으로 교체하여 스프링필드 M1873 후장식 소총으로 개조합니다. 기존 V스프링은 회수됩니다.</HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.description>
@@ -124,15 +124,111 @@
   <HD_MakePrimaryCell.description>강철과 화학 반응 부품을 결합하여 고출력 전기를 보관할 수 있는 기초적인 화학 전지(1차 전지)를 조립합니다.</HD_MakePrimaryCell.description>
   <HD_MakePrimaryCell.jobString>1차 전지 조립하는 중.</HD_MakePrimaryCell.jobString>
   <HD_Make_Gun_M1919A6LMG_Weapon.label>M1919A6 경기관총 제작</HD_Make_Gun_M1919A6LMG_Weapon.label>
-  <HD_Make_Gun_M1919A6LMG_Weapon.description>와일드웨스트 총열, 탄창 스프링, 균일압연강판, 강철, 산업 부품을 사용해 휴대용 M1919A6 경기관총을 제작합니다.</HD_Make_Gun_M1919A6LMG_Weapon.description>
-  <HD_Make_Gun_M1919A6LMG_Weapon.jobString>M1919A6 경기관총을 제작하는 중</HD_Make_Gun_M1919A6LMG_Weapon.jobString>
 
   <HD_Make_Gun_M1911_Weapon.label>M1911 권총 제작</HD_Make_Gun_M1911_Weapon.label>
-  <HD_Make_Gun_M1911_Weapon.description>강철, 탄창 스프링, 산업 부품을 사용해 M1911 반자동 권총을 제작합니다.</HD_Make_Gun_M1911_Weapon.description>
-  <HD_Make_Gun_M1911_Weapon.jobString>M1911 권총을 제작하는 중.</HD_Make_Gun_M1911_Weapon.jobString>
 
   <HD_Make_Gun_M1Garand_Weapon.label>M1 개런드 제작</HD_Make_Gun_M1Garand_Weapon.label>
-  <HD_Make_Gun_M1Garand_Weapon.description>와일드웨스트 총열, 탄창 스프링, 강철, 목재, 산업 부품을 사용해 M1 개런드 반자동 소총을 제작합니다.</HD_Make_Gun_M1Garand_Weapon.description>
-  <HD_Make_Gun_M1Garand_Weapon.jobString>M1 개런드를 제작하는 중.</HD_Make_Gun_M1Garand_Weapon.jobString>
 
+  <HD_MakePressComponent.label>프레스 부품 제작</HD_MakePressComponent.label>
+  <HD_MakePressComponent.description>유압 프레스에서 탄소강을 찍어 프레스 부품을 만듭니다.</HD_MakePressComponent.description>
+  <HD_MakePressComponent.jobString>프레스 부품을 찍어내는 중</HD_MakePressComponent.jobString>
+  <HD_ConvertIndustrialComponentToGeneralMachinePart.label>범용 기계 부품으로 개조</HD_ConvertIndustrialComponentToGeneralMachinePart.label>
+  <HD_ConvertIndustrialComponentToGeneralMachinePart.description>기초 작업대에서 표준 산업 부품을 범용 기계 부품으로 다시 맞춰 가공합니다.</HD_ConvertIndustrialComponentToGeneralMachinePart.description>
+  <HD_ConvertIndustrialComponentToGeneralMachinePart.jobString>범용 기계 부품으로 개조하는 중</HD_ConvertIndustrialComponentToGeneralMachinePart.jobString>
+  <HD_MillGeneralMachinePart.label>범용 기계 부품 밀링</HD_MillGeneralMachinePart.label>
+  <HD_MillGeneralMachinePart.description>밀링 머신에서 탄소강을 깎아 범용 기계 부품을 만듭니다.</HD_MillGeneralMachinePart.description>
+  <HD_MillGeneralMachinePart.jobString>범용 기계 부품을 밀링하는 중</HD_MillGeneralMachinePart.jobString>
+  <HD_TurnGeneralMachinePart.label>범용 기계 부품 선삭</HD_TurnGeneralMachinePart.label>
+  <HD_TurnGeneralMachinePart.description>선반에서 더 많은 탄소강을 천천히 깎아 범용 기계 부품을 만듭니다.</HD_TurnGeneralMachinePart.description>
+  <HD_TurnGeneralMachinePart.jobString>범용 기계 부품을 선삭하는 중</HD_TurnGeneralMachinePart.jobString>
+  <HD_RefineCrudeOil_Naphtha.label>원유를 나프타로 정제</HD_RefineCrudeOil_Naphtha.label>
+  <HD_RefineCrudeOil_Naphtha.description>저품질 원유에서 휘발성 나프타를 소량 증류합니다.</HD_RefineCrudeOil_Naphtha.description>
+  <HD_RefineCrudeOil_Naphtha.jobString>나프타 증류 중.</HD_RefineCrudeOil_Naphtha.jobString>
+  <HD_MakePlainDogChew.label>무첨가 개껌 제작</HD_MakePlainDogChew.label>
+  <HD_MakePlainDogChew.description>나프타와 가죽으로 BTX가 스며든 무첨가 개껌을 만듭니다.</HD_MakePlainDogChew.description>
+  <HD_MakePlainDogChew.jobString>무첨가 개껌 제작 중.</HD_MakePlainDogChew.jobString>
+  <HD_PressLowQualityTorsionSpring.label>저품질 토션 스프링 가압 성형</HD_PressLowQualityTorsionSpring.label>
+  <HD_PressLowQualityTorsionSpring.description>유압 프레스로 강철을 성형해 조잡한 토션 스프링을 만듭니다.</HD_PressLowQualityTorsionSpring.description>
+  <HD_PressLowQualityTorsionSpring.jobString>토션 스프링 가압 성형 중.</HD_PressLowQualityTorsionSpring.jobString>
+  <HD_MakePressComponentBulk5.label>프레스 부품 x5 가압 성형</HD_MakePressComponentBulk5.label>
+  <HD_MakePressComponentBulk5.description>유압 프레스로 탄소강을 찍어 거친 프레스 부품을 만듭니다.</HD_MakePressComponentBulk5.description>
+  <HD_MakePressComponentBulk5.jobString>프레스 부품 가압 성형 중.</HD_MakePressComponentBulk5.jobString>
+  <HD_MakePressComponentBulk10.label>프레스 부품 x10 가압 성형</HD_MakePressComponentBulk10.label>
+  <HD_MakePressComponentBulk10.description>유압 프레스로 탄소강을 찍어 거친 프레스 부품을 만듭니다.</HD_MakePressComponentBulk10.description>
+  <HD_MakePressComponentBulk10.jobString>프레스 부품 가압 성형 중.</HD_MakePressComponentBulk10.jobString>
+  <HD_MillGeneralMachinePartBulk5.label>범용 기계 부품 x5 밀링</HD_MillGeneralMachinePartBulk5.label>
+  <HD_MillGeneralMachinePartBulk5.description>탄소강을 밀링하여 범용 기계 부품을 만듭니다.</HD_MillGeneralMachinePartBulk5.description>
+  <HD_MillGeneralMachinePartBulk5.jobString>범용 기계 부품 밀링 중.</HD_MillGeneralMachinePartBulk5.jobString>
+  <HD_MillGeneralMachinePartBulk10.label>범용 기계 부품 x10 밀링</HD_MillGeneralMachinePartBulk10.label>
+  <HD_MillGeneralMachinePartBulk10.description>탄소강을 밀링하여 범용 기계 부품을 만듭니다.</HD_MillGeneralMachinePartBulk10.description>
+  <HD_MillGeneralMachinePartBulk10.jobString>범용 기계 부품 밀링 중.</HD_MillGeneralMachinePartBulk10.jobString>
+  <HD_TurnGeneralMachinePartBulk5.label>범용 기계 부품 x5 선반 가공</HD_TurnGeneralMachinePartBulk5.label>
+  <HD_TurnGeneralMachinePartBulk5.description>남는 탄소강을 선반에서 깎아 범용 기계 부품으로 만듭니다.</HD_TurnGeneralMachinePartBulk5.description>
+  <HD_TurnGeneralMachinePartBulk5.jobString>범용 기계 부품 선반 가공 중.</HD_TurnGeneralMachinePartBulk5.jobString>
+  <HD_TurnGeneralMachinePartBulk10.label>범용 기계 부품 x10 선반 가공</HD_TurnGeneralMachinePartBulk10.label>
+  <HD_TurnGeneralMachinePartBulk10.description>남는 탄소강을 선반에서 깎아 범용 기계 부품으로 만듭니다.</HD_TurnGeneralMachinePartBulk10.description>
+  <HD_TurnGeneralMachinePartBulk10.jobString>범용 기계 부품 선반 가공 중.</HD_TurnGeneralMachinePartBulk10.jobString>
+  <HD_PressVSpring.label>V스프링 가압 성형</HD_PressVSpring.label>
+  <HD_PressVSpring.description>유압 프레스로 강철을 성형해 V자형 스프링을 만듭니다.</HD_PressVSpring.description>
+  <HD_PressVSpring.jobString>V스프링 가압 성형 중.</HD_PressVSpring.jobString>
+  <HD_PressLowQualityMagazineSpring.label>저품질 탄창 스프링 가압 성형</HD_PressLowQualityMagazineSpring.label>
+  <HD_PressLowQualityMagazineSpring.description>유압 프레스로 강철을 성형해 투박한 탄창 스프링을 만듭니다.</HD_PressLowQualityMagazineSpring.description>
+  <HD_PressLowQualityMagazineSpring.jobString>탄창 스프링 가압 성형 중.</HD_PressLowQualityMagazineSpring.jobString>
+  <HD_MakeLowQualityTorsionSpring_BasicWorkbench.label>저품질 토션 스프링 수작업 제작</HD_MakeLowQualityTorsionSpring_BasicWorkbench.label>
+  <HD_MakeLowQualityTorsionSpring_BasicWorkbench.description>기초 작업대에서 강철을 천천히 성형해 조잡한 토션 스프링을 만듭니다.</HD_MakeLowQualityTorsionSpring_BasicWorkbench.description>
+  <HD_MakeLowQualityTorsionSpring_BasicWorkbench.jobString>토션 스프링 수작업 제작 중.</HD_MakeLowQualityTorsionSpring_BasicWorkbench.jobString>
+  <HD_MakeVSpring_BasicWorkbench.label>V스프링 수작업 제작</HD_MakeVSpring_BasicWorkbench.label>
+  <HD_MakeVSpring_BasicWorkbench.description>기초 작업대에서 강철을 천천히 성형해 V자형 스프링을 만듭니다.</HD_MakeVSpring_BasicWorkbench.description>
+  <HD_MakeVSpring_BasicWorkbench.jobString>V스프링 수작업 제작 중.</HD_MakeVSpring_BasicWorkbench.jobString>
+  <HD_MakeLowQualityMagazineSpring_BasicWorkbench.label>저품질 탄창 스프링 수작업 제작</HD_MakeLowQualityMagazineSpring_BasicWorkbench.label>
+  <HD_MakeLowQualityMagazineSpring_BasicWorkbench.description>기초 작업대에서 강철을 천천히 성형해 투박한 탄창 스프링을 만듭니다.</HD_MakeLowQualityMagazineSpring_BasicWorkbench.description>
+  <HD_MakeLowQualityMagazineSpring_BasicWorkbench.jobString>탄창 스프링 수작업 제작 중.</HD_MakeLowQualityMagazineSpring_BasicWorkbench.jobString>
+  <HD_MakeLowQualityBarrel_BasicWorkbench.label>저품질 총열 수작업 제작</HD_MakeLowQualityBarrel_BasicWorkbench.label>
+  <HD_MakeLowQualityBarrel_BasicWorkbench.description>기초 작업대에서 강철을 천천히 뚫고 마감하여 저품질 금속 총열을 수작업으로 만듭니다.</HD_MakeLowQualityBarrel_BasicWorkbench.description>
+  <HD_MakeLowQualityBarrel_BasicWorkbench.jobString>저품질 총열 수작업 제작 중.</HD_MakeLowQualityBarrel_BasicWorkbench.jobString>
+  <HD_MakeShotgunBarrel_BasicWorkbench.label>산탄총 총열 수작업 제작</HD_MakeShotgunBarrel_BasicWorkbench.label>
+  <HD_MakeShotgunBarrel_BasicWorkbench.description>기초 작업대에서 강철을 천천히 뚫고 마감하여 두꺼운 산탄총 총열을 만듭니다.</HD_MakeShotgunBarrel_BasicWorkbench.description>
+  <HD_MakeShotgunBarrel_BasicWorkbench.jobString>산탄총 총열 수작업 제작 중.</HD_MakeShotgunBarrel_BasicWorkbench.jobString>
+  <HD_Make_Gun_ColtArmyModel1860_Weapon.label>콜트 아미 모델 1860 제작</HD_Make_Gun_ColtArmyModel1860_Weapon.label>
+  <HD_Make_Gun_ColtSAA_Weapon.label>콜트 SAA 제작</HD_Make_Gun_ColtSAA_Weapon.label>
+  <HD_Make_Gun_SWModelThree_Weapon.label>S&amp;W 모델 3 제작</HD_Make_Gun_SWModelThree_Weapon.label>
+  <HD_Make_Gun_Henry_Weapon.label>헨리 소총 제작</HD_Make_Gun_Henry_Weapon.label>
+  <HD_Make_Gun_WinM1887_Weapon.label>윈체스터 M1887 제작</HD_Make_Gun_WinM1887_Weapon.label>
+  <HD_Make_Gun_WinMNinetyFive_Weapon.label>윈체스터 M1895 제작</HD_Make_Gun_WinMNinetyFive_Weapon.label>
+  <HD_Make_Gun_KragJorgensen_Weapon.label>크라그-요르겐센 제작</HD_Make_Gun_KragJorgensen_Weapon.label>
+  <HD_Make_Gun_SprMThree_Weapon.label>스프링필드 M1903 제작</HD_Make_Gun_SprMThree_Weapon.label>
+  <HD_Make_Gun_M1903Pedersen_Weapon.label>스프링필드 M1903 페더슨 장치 제작</HD_Make_Gun_M1903Pedersen_Weapon.label>
+
+
+
+
+
+  <HD_Make_Gun_SprMOne_Weapon.description>스프링필드 M1861을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SprMOne_Weapon.description>
+  <HD_Make_Gun_SprMOne_Weapon.jobString>스프링필드 M1861 제작 중.</HD_Make_Gun_SprMOne_Weapon.jobString>
+  <HD_Make_Gun_ColtArmyModel1860_Weapon.description>콜트 아미 모델 1860을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_ColtArmyModel1860_Weapon.description>
+  <HD_Make_Gun_ColtArmyModel1860_Weapon.jobString>콜트 아미 모델 1860 제작 중.</HD_Make_Gun_ColtArmyModel1860_Weapon.jobString>
+  <HD_Make_Gun_ColtSAA_Weapon.description>콜트 SAA을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_ColtSAA_Weapon.description>
+  <HD_Make_Gun_ColtSAA_Weapon.jobString>콜트 SAA 제작 중.</HD_Make_Gun_ColtSAA_Weapon.jobString>
+  <HD_Make_Gun_SWModelThree_Weapon.description>S&amp;W 모델 3을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SWModelThree_Weapon.description>
+  <HD_Make_Gun_SWModelThree_Weapon.jobString>S&amp;W 모델 3 제작 중.</HD_Make_Gun_SWModelThree_Weapon.jobString>
+  <HD_Make_Gun_M1911_Weapon.description>M1911 권총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1911_Weapon.description>
+  <HD_Make_Gun_M1911_Weapon.jobString>M1911 권총 제작 중.</HD_Make_Gun_M1911_Weapon.jobString>
+  <HD_Make_Gun_SprMThreeHigh_Weapon.description>스프링필드 M1873을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SprMThreeHigh_Weapon.description>
+  <HD_Make_Gun_SprMThreeHigh_Weapon.jobString>스프링필드 M1873 제작 중.</HD_Make_Gun_SprMThreeHigh_Weapon.jobString>
+  <HD_Make_Gun_Henry_Weapon.description>헨리 소총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_Henry_Weapon.description>
+  <HD_Make_Gun_Henry_Weapon.jobString>헨리 소총 제작 중.</HD_Make_Gun_Henry_Weapon.jobString>
+  <HD_Make_Gun_WinM1887_Weapon.description>윈체스터 M1887을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_WinM1887_Weapon.description>
+  <HD_Make_Gun_WinM1887_Weapon.jobString>윈체스터 M1887 제작 중.</HD_Make_Gun_WinM1887_Weapon.jobString>
+  <HD_Make_Gun_WinMNinetyFive_Weapon.description>윈체스터 M1895을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_WinMNinetyFive_Weapon.description>
+  <HD_Make_Gun_WinMNinetyFive_Weapon.jobString>윈체스터 M1895 제작 중.</HD_Make_Gun_WinMNinetyFive_Weapon.jobString>
+  <HD_Make_Gun_KragJorgensen_Weapon.description>크라그-요르겐센을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_KragJorgensen_Weapon.description>
+  <HD_Make_Gun_KragJorgensen_Weapon.jobString>크라그-요르겐센 제작 중.</HD_Make_Gun_KragJorgensen_Weapon.jobString>
+  <HD_Make_Gun_SprMThree_Weapon.description>스프링필드 M1903을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SprMThree_Weapon.description>
+  <HD_Make_Gun_SprMThree_Weapon.jobString>스프링필드 M1903 제작 중.</HD_Make_Gun_SprMThree_Weapon.jobString>
+  <HD_Make_Gun_M1903Pedersen_Weapon.description>스프링필드 M1903 페더슨 장치을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1903Pedersen_Weapon.description>
+  <HD_Make_Gun_M1903Pedersen_Weapon.jobString>스프링필드 M1903 페더슨 장치 제작 중.</HD_Make_Gun_M1903Pedersen_Weapon.jobString>
+  <HD_Make_Gun_M1Garand_Weapon.description>M1 개런드을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1Garand_Weapon.description>
+  <HD_Make_Gun_M1Garand_Weapon.jobString>M1 개런드 제작 중.</HD_Make_Gun_M1Garand_Weapon.jobString>
+  <HD_Make_Gun_M1919A6LMG_Weapon.description>M1919A6 경기관총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1919A6LMG_Weapon.description>
+  <HD_Make_Gun_M1919A6LMG_Weapon.jobString>M1919A6 경기관총 제작 중.</HD_Make_Gun_M1919A6LMG_Weapon.jobString>
 </LanguageData>

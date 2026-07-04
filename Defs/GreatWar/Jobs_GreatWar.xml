@@ -2,6 +2,13 @@
 <Defs>
 
   <JobDef>
+    <defName>HD_MedibagLoadSupply</defName>
+    <driverClass>Helodrace.JobDriver_MedibagLoadSupply</driverClass>
+    <reportString>loading treatment supplies into medic bag.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
     <defName>HD_MedibagHemostasis</defName>
     <driverClass>Helodrace.JobDriver_MedibagHemostasis</driverClass>
     <reportString>applying field hemostasis.</reportString>

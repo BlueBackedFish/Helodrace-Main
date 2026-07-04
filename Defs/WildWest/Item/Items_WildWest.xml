@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <ThingCategoryDef>
@@ -396,6 +396,52 @@
     </thingCategories>
   </ThingDef>
 
+  <!-- Press Component -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_PressComponent</defName>
+    <label>press component</label>
+    <description>A stamped and pressed metal subcomponent used as a starting piece for more precise mechanical assemblies.</description>
+    <graphicData>
+      <texPath>Item/HD_PressComponent</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>8</MarketValue>
+      <Mass>0.5</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- General Machine Part -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_GeneralMachinePart</defName>
+    <label>general machine part</label>
+    <description>A machined general-purpose mechanical part suitable for firearms, tools, and industrial assemblies.</description>
+    <graphicData>
+      <texPath>Item/HD_GeneralMachinePart</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <MarketValue>14</MarketValue>
+      <Mass>1.0</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
   <!-- Uniform Rolled Steel Plate -->
   <ThingDef ParentName="ResourceBase">
     <defName>HD_UniformRolledSteelPlate</defName>
@@ -625,11 +671,11 @@
     </thingCategories>
   </ThingDef>
 
-  <!-- Wild West Barrel -->
+  <!-- Medium Quality Gun Barrel -->
   <ThingDef ParentName="ResourceBase">
     <defName>HD_WildWestBarrel</defName>
-    <label>wild west gun barrel</label>
-    <description>A high-quality, precision-rifled metal gun barrel bored and turned on a specialized lathe. Used for crafting advanced wild west breech-loading and repeating firearms.</description>
+    <label>medium quality gun barrel</label>
+    <description>A medium-quality, precision-rifled metal gun barrel bored and turned on a specialized lathe. Used for crafting frontier breech-loading and repeating firearms.</description>
     <graphicData>
       <texPath>Item/HD_WildWestBarrel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -718,3 +764,6 @@
   </ThingDef>
 
   </Defs>
+
+
+

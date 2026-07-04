@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
   <!-- ==================== Bullets ==================== -->
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_ColtSAA_Proj</defName>
-    <label>Colt SAA bullet</label>
+    <label>Ironfang SAA bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -20,7 +20,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_SWModelThree_Proj</defName>
-    <label>S&amp;W Model 3 bullet</label>
+    <label>W&amp;M Model 3 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -35,7 +35,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_ColtArmyModel1860_Proj</defName>
-    <label>Colt Army Model 1860 bullet</label>
+    <label>Ironfang M1860 Army bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -65,7 +65,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_WinM1887_Proj</defName>
-    <label>Winchester M1887 buckshot</label>
+    <label>Frontier Arms M1887 buckshot</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -80,7 +80,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_WinMNinetyFive_Proj</defName>
-    <label>Winchester M1895 bullet</label>
+    <label>Frontier Arms M1895 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -95,7 +95,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_SprMOne_Proj</defName>
-    <label>Springfield M1861 bullet</label>
+    <label>Graylock M1861 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -110,7 +110,7 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_SprMThreeHigh_Proj</defName>
-    <label>Springfield M1873 bullet</label>
+    <label>Graylock M1873 bullet</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Big</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -128,11 +128,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_ColtSAA_Weapon</defName>
     <weaponTags>
-      <li>HD_Revolver</li>
-      <li>Revolver</li>
+      <li>HD_WildWestRevolver</li>
     </weaponTags>
-    <label>Colt SAA</label>
-    <description>The Colt Single Action Army, also known as the Peacemaker. A classic six-shooter revolver that tamed the west. Adapted for Helodrace use.</description>
+    <label>Ironfang SAA</label>
+    <description>A six-shot single-action revolver made by Ironfang Arms.</description>
     <graphicData>
       <texPath>Weapon/WildWest/ColtSAA</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -161,6 +160,8 @@
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>4</altCooldownMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_Fanning</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_Fanning_Desc</modeDescriptionKey>
       </li>
     </comps>
     <verbs>
@@ -212,11 +213,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_ColtArmyModel1860_Weapon</defName>
     <weaponTags>
-      <li>HD_Revolver</li>
-      <li>Revolver</li>
+      <li>HD_WildWestRevolver</li>
     </weaponTags>
-    <label>Colt Army Model 1860 (Helodrace)</label>
-    <description>A cap-and-ball single-action revolver with a long barrel and reliable handling. Older than cartridge revolvers, but still deadly in skilled hands. Adapted for Helodrace use.</description>
+    <label>Ironfang M1860 Army</label>
+    <description>A cap-and-ball single-action revolver with a long barrel. Older than cartridge revolvers, but still deadly in skilled hands.</description>
     <graphicData>
       <texPath>Weapon/WildWest/HD_ColtArmyModel1860</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -246,6 +246,8 @@
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>6</altCooldownMultiplier>
         <altAccuracyMultiplier>1.0</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_Fanning</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_Fanning_Desc</modeDescriptionKey>
       </li>
     </comps>
     <verbs>
@@ -297,11 +299,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_SWModelThree_Weapon</defName>
     <weaponTags>
-      <li>HD_Revolver</li>
-      <li>Revolver</li>
+      <li>HD_WildWestRevolver</li>
     </weaponTags>
-    <label>S&amp;W Model 3 (Helodrace)</label>
-    <description>A top-break single-action revolver. Faster to reload than its contemporaries, it was a favorite among frontiersmen. Adapted for Helodrace use.</description>
+    <label>W&amp;M Model 3</label>
+    <description>A top-break single-action revolver from Wolfe &amp; Mansion. Faster to reload than its contemporaries, it was a favorite among frontiersmen.</description>
     <graphicData>
       <texPath>Weapon/WildWest/SWModel3</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -330,6 +331,8 @@
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>3</altCooldownMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_Fanning</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_Fanning_Desc</modeDescriptionKey>
       </li>
     </comps>
     <verbs>
@@ -372,11 +375,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_Henry_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>Repeater</li>
+      <li>HD_WildWestLeverActionRifle</li>
     </weaponTags>
-    <label>Henry rifle (Helodrace)</label>
-    <description>The legendary lever-action rifle. Known as the rifle you could load on Sunday and shoot all week. Adapted for Helodrace use.</description>
+    <label>Henry rifle</label>
+    <description>A legendary lever-action rifle from Frontier Arms. Known as the rifle you could load on Sunday and shoot all week.</description>
     <graphicData>
       <texPath>Weapon/WildWest/Henry</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -448,11 +450,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_WinM1887_Weapon</defName>
     <weaponTags>
-      <li>HD_Shotgun</li>
-      <li>Shotgun</li>
+      <li>HD_WildWestLeverActionShotgun</li>
     </weaponTags>
-    <label>Winchester M1887 (Helodrace)</label>
-    <description>A lever-action repeating shotgun. Its short range and heavy recoil are offset by brutal close-quarters stopping power. Adapted for Helodrace use.</description>
+    <label>Frontier Arms M1887</label>
+    <description>A lever-action repeating shotgun. Its short range and heavy recoil are offset by overwhelming close-range stopping power.</description>
     <graphicData>
       <texPath>Weapon/WildWest/HD_WinM1887</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -526,11 +527,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_WinMNinetyFive_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>Repeater</li>
+      <li>HD_WildWestLeverActionRifle</li>
     </weaponTags>
-    <label>Winchester M1895 (Helodrace)</label>
-    <description>A powerful lever-action rifle designed for high-pressure smokeless powder cartridges. Adapted for Helodrace use.</description>
+    <label>Frontier Arms M1895</label>
+    <description>A powerful lever-action rifle designed for high-pressure smokeless powder cartridges.</description>
     <graphicData>
       <texPath>Weapon/WildWest/WinM1895</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -601,11 +601,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_SprMOne_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>Rifle</li>
+      <li>HD_WildWestSingleShotRifle</li>
     </weaponTags>
-    <label>Springfield M1861 (Helodrace)</label>
-    <description>A muzzle-loading rifled musket. Slow to load but packs a massive punch at medium range. Adapted for Helodrace use.</description>
+    <label>Graylock M1861</label>
+    <description>A muzzle-loading rifled musket. Slow to load, but it delivers tremendous destructive power at medium range.</description>
     <graphicData>
       <texPath>Weapon/WildWest/SprM1861</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -686,11 +685,10 @@
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_SprMThreeHigh_Weapon</defName>
     <weaponTags>
-      <li>HD_Rifle</li>
-      <li>Rifle</li>
+      <li>HD_WildWestSingleShotRifle</li>
     </weaponTags>
-    <label>Springfield M1873 (Helodrace)</label>
-    <description>The "Trapdoor" Springfield. A single-shot breech-loading rifle that replaced the older muzzle-loaders. Adapted for Helodrace use.</description>
+    <label>Graylock M1873</label>
+    <description>Also known as the "Trapdoor" rifle. A single-shot breech-loading rifle that replaced the older muzzle-loaders.</description>
     <graphicData>
       <texPath>Weapon/WildWest/SprM1873</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -764,7 +762,7 @@
   <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
     <defName>HD_mSixZeroSaber</defName>
     <label>m1860 light cavalry saber</label>
-    <description>The Model 1860 Light Cavalry Saber is a long, curved sword used by cavalrymen. Highly effective for slashing and fast thrusts.</description>
+    <description>A long, light, curved one-handed sword for cavalrymen. Optimized for slashing attacks and light thrusts.</description>
     <graphicData>
       <texPath>Weapon/WildWest/HD_m1860Saber</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -781,8 +779,7 @@
       <li>Metallic</li>
     </stuffCategories>
     <weaponTags>
-      <li>HD_Melee</li>
-      <li>HD_Saber</li>
+      <li>HD_WildWestCavalrySaber</li>
     </weaponTags>
     <tools>
       <li>
