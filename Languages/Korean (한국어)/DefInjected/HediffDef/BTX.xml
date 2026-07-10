@@ -9,10 +9,10 @@
   <BTXAddiction.label>BTX 의존증</BTXAddiction.label>
   <BTXAddiction.description>BTX 계열 화합물 의존증 참조를 안전하게 처리하기 위한 호환용 상태입니다.</BTXAddiction.description>
   <HD_BTXToxicity.label>BTX 중독</HD_BTXToxicity.label>
-  <HD_BTXToxicity.description>BTX 화합물이 이 몸을 자극하고 중독시키고 있습니다. 헬로드 생화학은 이런 화합물을 대사할 수 있지만, 다른 종족은 석유와 비슷한 독성 효과를 겪습니다.</HD_BTXToxicity.description>
+  <HD_BTXToxicity.description>BTX 화합물이 이 몸을 자극하고 중독시키고 있습니다. 헤로드 생화학은 이런 화합물을 대사할 수 있지만, 다른 종족은 석유와 비슷한 독성 효과를 겪습니다.</HD_BTXToxicity.description>
   <HD_BTXToxicity.labelNoun>BTX 중독</HD_BTXToxicity.labelNoun>
   <HD_BTXDeficiency.label>BTX 결핍</HD_BTXDeficiency.label>
-  <HD_BTXDeficiency.description>이 헬로드의 공학적으로 조정된 대사 체계에 BTX 화합물이 고갈되고 있습니다. 결핍이 완전히 붕괴 단계에 이르면 죽음에 이릅니다.</HD_BTXDeficiency.description>
+  <HD_BTXDeficiency.description>이 헤로드의 공학적으로 조정된 대사 체계에 BTX 화합물이 고갈되고 있습니다. 결핍이 완전히 붕괴 단계에 이르면 죽음에 이릅니다.</HD_BTXDeficiency.description>
   <HD_BTXDeficiency.labelNoun>BTX 결핍</HD_BTXDeficiency.labelNoun>
   <HD_PlainDogChewHigh.label>무첨가 개껌 씹는 중</HD_PlainDogChewHigh.label>
   <HD_PlainDogChewHigh.description>무첨가 개껌에서 서서히 방출된 BTX 화합물이 몸 안을 순환하며 약한 안정 효과를 내고 있습니다.</HD_PlainDogChewHigh.description>

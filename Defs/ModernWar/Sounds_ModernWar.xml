@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <SoundDef>
+    <defName>HD_DroneFlight_Start</defName>
+    <context>MapOnly</context>
+    <maxVoices>3</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_DroneFlight_Start</clipPath>
+          </li>
+        </grains>
+        <volumeRange>36~40</volumeRange>
+        <distRange>14~44</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_DroneFlight_Loop</defName>
+    <context>MapOnly</context>
+    <sustain>true</sustain>
+    <maxVoices>4</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_DroneFlight_Loop</clipPath>
+          </li>
+        </grains>
+        <volumeRange>21~25</volumeRange>
+        <distRange>10~36</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

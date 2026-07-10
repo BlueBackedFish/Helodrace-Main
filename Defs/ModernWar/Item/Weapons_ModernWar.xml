@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef>
+    <defName>HD_Switchblade600_Drone</defName>
+    <label>Switchblade 600 drone</label>
+    <thingClass>Helodrace.SwitchbladeDrone</thingClass>
+    <category>Projectile</category>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_SwitchBlade600_FullBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1,1.1)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Switchblade600_Proj</defName>
+    <label>Switchblade 600 loitering munition</label>
+    <thingClass>Helodrace.Projectile_Switchblade600</thingClass>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_SwitchBlade600_FullBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1,1.1)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>110</damageAmountBase>
+      <armorPenetrationBase>1.80</armorPenetrationBase>
+      <stoppingPower>3.2</stoppingPower>
+      <speed>38</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>2.4</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.Switchblade600ProjectileExtension">
+        <smokeTrailIntervalTicks>14</smokeTrailIntervalTicks>
+        <smokeTrailSize>0.35</smokeTrailSize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_Switchblade600Launcher_TurretGun</defName>
+    <label>Switchblade 600 launcher</label>
+    <description>A compact launch canister for Switchblade 600 loitering munitions. This early implementation fires a single long-range overhead strike and is reserved for spawning or scenario use.</description>
+    <graphicData>
+      <texPath>Building/Security/HD_SwitchBlade600_Canister</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.25,1.25)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.15</AccuracyTouch>
+      <AccuracyShort>0.45</AccuracyShort>
+      <AccuracyMedium>0.72</AccuracyMedium>
+      <AccuracyLong>0.86</AccuracyLong>
+      <RangedWeapon_Cooldown>18.0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>HD_Switchblade600_Proj</defaultProjectile>
+        <warmupTime>5.0</warmupTime>
+        <range>24.9</range>
+        <requireLineOfSight>false</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>5</muzzleFlashScale>
+        <forcedMissRadius>1.2</forcedMissRadius>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_Switchblade600_Round</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_Switchblade600_Round</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
+</Defs>

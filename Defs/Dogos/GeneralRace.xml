@@ -4,6 +4,9 @@
     <defName>Helod</defName>
     <label>Helod</label>
     <description>A noble canine-like humanoid race known for their loyalty, agility, and frontier spirit. Excellent survivors, trackers, and marksmen.</description>
+    <inspectorTabs>
+      <li>Helodrace.ITab_M6RocketBag</li>
+    </inspectorTabs>
     <alienRace>
       <generalSettings>
         <maleGenderProbability>0.0000001</maleGenderProbability>
@@ -160,25 +163,25 @@
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
               <colorChannel>hair</colorChannel>
-              <drawSize>0.8</drawSize>
+              <drawSize>1.0</drawSize>
               <angle>0</angle>
               <alignWithHead>true</alignWithHead>
               <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
               <defaultOffset>Tail</defaultOffset>
               <shaderType>CutoutComplex</shaderType>
               <offsets>
-                <south>
-                  <offset>(-0.25,0.36)</offset>
-                  <layerOffset>0.004</layerOffset>
-                </south>
                 <north>
                   <offset>(-0.11,0.64)</offset>
-                  <layerOffset>-0.02</layerOffset>
+                  <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.4,0.36)</offset>
+                  <offset>(-0.44,0.44)</offset>
                   <layerOffset>0.004</layerOffset>
                 </east>
+                <south>
+                  <offset>(-0.259,0.457)</offset>
+                  <layerOffset>0.004</layerOffset>
+                </south>
               </offsets>
             </li>
 
@@ -194,25 +197,25 @@
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
               <colorChannel>hair</colorChannel>
-              <drawSize>0.8</drawSize>
+              <drawSize>1.0</drawSize>
               <angle>0</angle>
               <alignWithHead>true</alignWithHead>
               <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
               <defaultOffset>Tail</defaultOffset>
               <shaderType>CutoutComplex</shaderType>
               <offsets>
-                <south>
-                  <offset>(-0.63,0.36)</offset>
-                  <layerOffset>0.004</layerOffset>
-                </south>
                 <north>
                   <offset>(0.26,0.64)</offset>
-                  <layerOffset>-0.02</layerOffset>
+                  <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.4,0.36)</offset>
+                  <offset>(-0.44,0.44)</offset>
                   <layerOffset>0.004</layerOffset>
                 </east>
+                <south>
+                  <offset>(-0.581,0.457)</offset>
+                  <layerOffset>0.004</layerOffset>
+                </south>
               </offsets>
             </li>
           </bodyAddons>
@@ -280,6 +283,12 @@
           <li>HD_Apparel_GreatWarMedibag</li>
           <li>HD_Apparel_GreatWarGasMaskPouch</li>
           <li>HD_Apparel_GreatWarCBRNPouch</li>
+          <li>HD_Apparel_M6RocketBag</li>
+          <li>HD_Apparel_GreatWarTrenchArmyInner</li>
+          <li>HD_Apparel_GreatWarTrenchArmyOuter</li>
+          <li>HD_Apparel_GreatWarUSUniform</li>
+          <li>HD_Apparel_GreatWarM1Helmet</li>
+          <li>HD_MilitaryTablet</li>
         </apparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">

@@ -5,6 +5,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using ForwardBaseService = Helodrace.HelodForwardBaseService;
 
 namespace Helodrace
 {
@@ -234,23 +235,25 @@ namespace Helodrace
     public class Dialog_TelegraphTable : Window
     {
         private const float MaxForwardBaseDistance = 60f;
-        private const float GoldStandardSthalerSilverValue = 5f;
-        private static readonly ForwardBaseService[] InfantryServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantryDeployment };
+        private const float GoldStandardSthalerSilverValue = HelodForwardBaseServiceUtility.GoldStandardSthalerSilverValue;
+        private static readonly ForwardBaseService[] InfantryServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment };
         private static readonly ForwardBaseService[] ArtilleryServices = { };
         private static readonly ForwardBaseService[] AirForceServices = { ForwardBaseService.AirBombing };
         private static readonly ForwardBaseService[] LogisticsServices = { ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons };
-        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.AirBombing };
+        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.AirBombing };
 
         private readonly Thing telegraphTable;
         private readonly Pawn operatorPawn;
         private TelegraphTab selectedTab;
         private MilitaryActivity selectedMilitaryActivity;
+        private string selectedMilitaryFactionDefName;
         private ForwardBaseKind selectedForwardBaseKind;
         private ContractCostKind selectedContractCostKind;
         private IdiqPricingKind selectedIdiqPricingKind;
         private ContractDuration selectedContractDuration = ContractDuration.Days30;
         private int selectedForwardBaseTile = -1;
         private bool includeInfantryMortarSupport;
+        private bool includeInfantrySniperSupport;
         private bool includeInfantryDeployment;
         private bool includeLogisticsFreshFood;
         private bool includeLogisticsPreservedFood;
@@ -382,16 +385,24 @@ namespace Helodrace
 
         private void DrawMilitaryActivityList(Rect bodyInner)
         {
+            EnsureSelectedMilitaryFaction();
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(bodyInner.x, bodyInner.y, bodyInner.width, 30f), "HD_TelegraphTable_Military_Title".Translate());
             Text.Font = GameFont.Small;
 
-            Rect descriptionRect = new Rect(bodyInner.x, bodyInner.y + 38f, bodyInner.width, 72f);
+            Rect factionLabelRect = new Rect(bodyInner.x, bodyInner.y + 38f, bodyInner.width, 24f);
+            Widgets.Label(factionLabelRect, "HD_TelegraphTable_Military_Faction".Translate());
+            DrawMilitaryFactionSelector(new Rect(bodyInner.x, bodyInner.y + 66f, bodyInner.width, 34f));
+
+            Rect descriptionRect = new Rect(bodyInner.x, bodyInner.y + 110f, bodyInner.width, 52f);
             Widgets.Label(descriptionRect, "HD_TelegraphTable_Military_Placeholder".Translate());
 
             float buttonWidth = (bodyInner.width - 20f) / 3f;
-            float buttonY = bodyInner.y + 124f;
-            DrawDisabledButton(new Rect(bodyInner.x, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_RequestSupport".Translate());
+            float buttonY = bodyInner.y + 176f;
+            if (Widgets.ButtonText(new Rect(bodyInner.x, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_RequestSupport".Translate()))
+            {
+                HelodSniperSupportUtility.OpenSupportDialog(telegraphTable?.Map, SelectedMilitaryFaction());
+            }
             if (Widgets.ButtonText(new Rect(bodyInner.x + buttonWidth + 10f, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_ForwardBase".Translate(), selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract))
             {
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContract;
@@ -407,6 +418,105 @@ namespace Helodrace
             Widgets.Label(emptyRect, "HD_TelegraphTable_Military_SelectActivity".Translate());
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        private void DrawMilitaryFactionSelector(Rect rect)
+        {
+            List<Faction> factions = MilitaryCooperationFactions();
+            if (factions.Count == 0)
+            {
+                DrawDisabledButton(rect, "HD_TelegraphTable_Military_FactionNone".Translate());
+                return;
+            }
+
+            float gap = 8f;
+            float width = (rect.width - gap * (factions.Count - 1)) / factions.Count;
+            for (int i = 0; i < factions.Count; i++)
+            {
+                Faction faction = factions[i];
+                Rect buttonRect = new Rect(rect.x + (width + gap) * i, rect.y, width, rect.height);
+                bool selected = SelectedMilitaryFaction() == faction;
+                if (Widgets.ButtonText(buttonRect, MilitaryFactionLabel(faction), selected))
+                {
+                    selectedMilitaryFactionDefName = faction.def.defName;
+                }
+            }
+        }
+
+        private void EnsureSelectedMilitaryFaction()
+        {
+            if (SelectedMilitaryFaction() != null)
+            {
+                return;
+            }
+
+            List<Faction> factions = MilitaryCooperationFactions();
+            if (factions.Count > 0)
+            {
+                selectedMilitaryFactionDefName = factions[0].def.defName;
+            }
+        }
+
+        private Faction SelectedMilitaryFaction()
+        {
+            if (!selectedMilitaryFactionDefName.NullOrEmpty())
+            {
+                FactionDef selectedDef = DefDatabase<FactionDef>.GetNamedSilentFail(selectedMilitaryFactionDefName);
+                Faction selected = selectedDef == null ? null : Find.FactionManager.FirstFactionOfDef(selectedDef);
+                if (selected != null)
+                {
+                    return selected;
+                }
+            }
+
+            List<Faction> factions = MilitaryCooperationFactions();
+            return factions.Count > 0 ? factions[0] : null;
+        }
+
+        private string SelectedMilitaryFactionLabel()
+        {
+            return MilitaryFactionLabel(SelectedMilitaryFaction());
+        }
+
+        private static string MilitaryFactionLabel(Faction faction)
+        {
+            return faction == null ? "HD_TelegraphTable_Military_FactionNone".Translate().ToString() : faction.Name;
+        }
+
+        private static List<Faction> MilitaryCooperationFactions()
+        {
+            List<Faction> factions = new List<Faction>();
+            if (Find.FactionManager?.AllFactionsListForReading != null)
+            {
+                List<Faction> allFactions = Find.FactionManager.AllFactionsListForReading;
+                for (int i = 0; i < allFactions.Count; i++)
+                {
+                    Faction faction = allFactions[i];
+                    if (IsMilitaryCooperationFaction(faction))
+                    {
+                        factions.Add(faction);
+                    }
+                }
+            }
+
+            if (factions.Count == 0)
+            {
+                Faction fallback = FactionOfDef("HD_HelodCivilLowFaction");
+                if (fallback != null)
+                {
+                    factions.Add(fallback);
+                }
+            }
+
+            return factions;
+        }
+
+        private static bool IsMilitaryCooperationFaction(Faction faction)
+        {
+            return faction?.def?.defName != null
+                && faction != Faction.OfPlayer
+                && !faction.defeated
+                && faction.def.defName.StartsWith("HD_Helod");
         }
 
         private void DrawForwardBaseContracts(Rect rect)
@@ -483,9 +593,11 @@ namespace Helodrace
             Rect viewRect = new Rect(0f, 0f, scrollRect.width - 16f, 1040f);
             Widgets.BeginScrollView(scrollRect, ref forwardBaseScroll, viewRect);
             Rect inner = viewRect.ContractedBy(4f);
-            float credit = MilitaryCredit(telegraphTable.Map);
+            EnsureSelectedMilitaryFaction();
+            Faction selectedFaction = SelectedMilitaryFaction();
+            float credit = MilitaryCredit(telegraphTable.Map, selectedFaction);
             bool hasSelectedTile = selectedForwardBaseTile >= 0;
-            float distance = hasSelectedTile ? NearestHelodSettlementDistance(selectedForwardBaseTile) : MaxForwardBaseDistance;
+            float distance = hasSelectedTile ? NearestMilitarySettlementDistance(selectedForwardBaseTile, selectedFaction) : MaxForwardBaseDistance;
             EnsureForwardBaseSelectionCredit(credit);
 
             Text.Font = GameFont.Medium;
@@ -493,7 +605,10 @@ namespace Helodrace
             Text.Font = GameFont.Small;
             Widgets.Label(new Rect(inner.x, inner.y + 34f, inner.width, 44f), "HD_TelegraphTable_ForwardBase_Description".Translate());
 
-            Rect locationButtonRect = new Rect(inner.x, inner.y + 86f, 180f, 34f);
+            Widgets.Label(new Rect(inner.x, inner.y + 86f, inner.width, 24f), "HD_TelegraphTable_Military_Faction".Translate());
+            DrawMilitaryFactionSelector(new Rect(inner.x, inner.y + 114f, inner.width, 34f));
+
+            Rect locationButtonRect = new Rect(inner.x, inner.y + 160f, 180f, 34f);
             if (Widgets.ButtonText(locationButtonRect, "HD_TelegraphTable_ForwardBase_SelectLocation".Translate()))
             {
                 Widgets.EndScrollView();
@@ -506,23 +621,23 @@ namespace Helodrace
                 ? "HD_TelegraphTable_ForwardBase_SelectedLocation".Translate(selectedForwardBaseTile)
                 : "HD_TelegraphTable_ForwardBase_NoLocation".Translate());
 
-            Widgets.Label(new Rect(inner.x, inner.y + 132f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_Credit".Translate(credit.ToString("F0")));
-            Widgets.Label(new Rect(inner.x, inner.y + 156f, inner.width, 24f), hasSelectedTile
+            Widgets.Label(new Rect(inner.x, inner.y + 206f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_Credit".Translate(credit.ToString("F0")));
+            Widgets.Label(new Rect(inner.x, inner.y + 230f, inner.width, 24f), hasSelectedTile
                 ? "HD_TelegraphTable_ForwardBase_Distance".Translate(distance.ToString("F0"), MaxForwardBaseDistance.ToString("F0"))
                 : "HD_TelegraphTable_ForwardBase_DistanceUnknown".Translate());
 
-            Widgets.Label(new Rect(inner.x, inner.y + 194f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_BaseKind".Translate());
-            DrawForwardBaseKindOptions(new Rect(inner.x, inner.y + 224f, inner.width, 38f), credit);
+            Widgets.Label(new Rect(inner.x, inner.y + 268f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_BaseKind".Translate());
+            DrawForwardBaseKindOptions(new Rect(inner.x, inner.y + 298f, inner.width, 38f), credit);
 
-            Widgets.Label(new Rect(inner.x, inner.y + 272f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_CostKind".Translate());
-            DrawContractCostKindOptions(new Rect(inner.x, inner.y + 302f, inner.width, 38f), credit);
+            Widgets.Label(new Rect(inner.x, inner.y + 346f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_CostKind".Translate());
+            DrawContractCostKindOptions(new Rect(inner.x, inner.y + 376f, inner.width, 38f), credit);
 
-            float durationLabelY = inner.y + 350f;
+            float durationLabelY = inner.y + 424f;
             if (selectedContractCostKind == ContractCostKind.IDIQ)
             {
-                Widgets.Label(new Rect(inner.x, inner.y + 350f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_IdiqPricingKind".Translate());
-                DrawIdiqPricingOptions(new Rect(inner.x, inner.y + 380f, inner.width, 38f));
-                durationLabelY = inner.y + 428f;
+                Widgets.Label(new Rect(inner.x, inner.y + 424f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_IdiqPricingKind".Translate());
+                DrawIdiqPricingOptions(new Rect(inner.x, inner.y + 454f, inner.width, 38f));
+                durationLabelY = inner.y + 502f;
             }
 
             Widgets.Label(new Rect(inner.x, durationLabelY, inner.width, 24f), "HD_TelegraphTable_ForwardBase_DurationKind".Translate());
@@ -614,9 +729,12 @@ namespace Helodrace
             }
 
             construction.Tile = selectedForwardBaseTile;
-            construction.SetFaction(HelodFaction() ?? Faction.OfPlayer);
+            Faction selectedFaction = SelectedMilitaryFaction();
+            construction.SetFaction(selectedFaction ?? Faction.OfPlayer);
             construction.StartConstruction(GenDate.TicksPerDay * 7);
             construction.SetContractInfo(BuildForwardBaseContractInfo(credit, distance));
+            construction.SetContractServices(SelectedServices());
+            construction.ConfigureContract(ToForwardBaseCostKind(selectedContractCostKind), ToForwardBaseIdiqPricingKind(selectedIdiqPricingKind), ContractDurationDays(selectedContractDuration), credit);
             Find.WorldObjects.Add(construction);
             telegraphComp.ConsumePrimaryCell();
             Messages.Message("HD_TelegraphTable_ForwardBase_ConstructionStarted".Translate(7), construction, MessageTypeDefOf.PositiveEvent);
@@ -628,6 +746,7 @@ namespace Helodrace
             List<string> lines = new List<string>();
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_Title".Translate().ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoLocation".Translate(selectedForwardBaseTile, distance.ToString("F0")).ToString());
+            lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoFaction".Translate(SelectedMilitaryFactionLabel()).ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoBase".Translate(ForwardBaseKindLabel(selectedForwardBaseKind)).ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoCostKind".Translate(ContractCostKindLabel(selectedContractCostKind)).ToString());
             if (selectedContractCostKind == ContractCostKind.IDIQ)
@@ -637,7 +756,11 @@ namespace Helodrace
 
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoDuration".Translate(ContractDurationLabel(selectedContractDuration)).ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoServices".Translate(SelectedServiceSummary()).ToString());
-            lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoCredit".Translate(credit.ToString("F0")).ToString());
+            lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit".Translate(HelodForwardBaseServiceUtility.ServiceBillingPeriodDays).ToString());
+            if (selectedContractCostKind != ContractCostKind.FFP)
+            {
+                lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoCredit".Translate(credit.ToString("F0")).ToString());
+            }
             if (selectedContractCostKind == ContractCostKind.IDIQ)
             {
                 lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoAmount".Translate(
@@ -717,6 +840,7 @@ namespace Helodrace
             IdiqPricingKind idiqPricing = selectedIdiqPricingKind;
             ContractDuration duration = selectedContractDuration;
             bool[] selectedServices = SelectedServiceFlags();
+            string factionDefName = selectedMilitaryFactionDefName;
 
             Close(false);
             if (telegraphTable?.Map != null)
@@ -729,16 +853,16 @@ namespace Helodrace
                 if (target.Tile < 0)
                 {
                     Messages.Message("HD_TelegraphTable_ForwardBase_InvalidLocation".Translate(), MessageTypeDefOf.RejectInput);
-                    ReopenForwardBaseContract(baseKind, costKind, idiqPricing, duration, selectedForwardBaseTile, selectedServices);
+                    ReopenForwardBaseContract(baseKind, costKind, idiqPricing, duration, selectedForwardBaseTile, selectedServices, factionDefName);
                     return false;
                 }
 
-                ReopenForwardBaseContract(baseKind, costKind, idiqPricing, duration, target.Tile, selectedServices);
+                ReopenForwardBaseContract(baseKind, costKind, idiqPricing, duration, target.Tile, selectedServices, factionDefName);
                 return true;
             }, true);
         }
 
-        private void ReopenForwardBaseContract(ForwardBaseKind baseKind, ContractCostKind costKind, IdiqPricingKind idiqPricing, ContractDuration duration, int tile, bool[] selectedServices)
+        private void ReopenForwardBaseContract(ForwardBaseKind baseKind, ContractCostKind costKind, IdiqPricingKind idiqPricing, ContractDuration duration, int tile, bool[] selectedServices, string factionDefName)
         {
             Dialog_TelegraphTable dialog = new Dialog_TelegraphTable(telegraphTable, operatorPawn)
             {
@@ -748,7 +872,8 @@ namespace Helodrace
                 selectedContractCostKind = costKind,
                 selectedIdiqPricingKind = idiqPricing,
                 selectedContractDuration = duration,
-                selectedForwardBaseTile = tile
+                selectedForwardBaseTile = tile,
+                selectedMilitaryFactionDefName = factionDefName
             };
             dialog.ApplySelectedServiceFlags(selectedServices);
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
@@ -1015,6 +1140,21 @@ namespace Helodrace
             return services.Count == 0 ? "HD_TelegraphTable_ForwardBase_Service_None".Translate().ToString() : string.Join(", ", services.ToArray());
         }
 
+        private List<ForwardBaseService> SelectedServices()
+        {
+            List<ForwardBaseService> services = new List<ForwardBaseService>();
+            for (int i = 0; i < AllForwardBaseServices.Length; i++)
+            {
+                ForwardBaseService service = AllForwardBaseServices[i];
+                if (IsServiceSelected(service))
+                {
+                    services.Add(service);
+                }
+            }
+
+            return services;
+        }
+
         private float EstimateForwardBaseCost(float credit, float distance)
         {
             if (selectedContractCostKind == ContractCostKind.IDIQ)
@@ -1027,9 +1167,12 @@ namespace Helodrace
 
             float contractMultiplier = ContractCostMultiplier(selectedContractCostKind);
             float durationMultiplier = ContractDurationMultiplier(selectedContractCostKind, selectedContractDuration);
+            float servicePeriods = ServiceBillingPeriodCount(selectedContractDuration);
             float distanceMultiplier = 1f + Mathf.Clamp01(distance / MaxForwardBaseDistance) * 0.45f;
             float creditMultiplier = Mathf.Lerp(1.20f, 0.82f, Mathf.InverseLerp(100f, 3500f, credit));
-            return ContractSilverValue(Mathf.Max(1f, (baseCost * contractMultiplier + serviceCost) * durationMultiplier * distanceMultiplier * creditMultiplier));
+            float contractBase = baseCost * contractMultiplier * durationMultiplier;
+            float services = selectedContractCostKind == ContractCostKind.CostReimbursement ? 0f : serviceCost * servicePeriods;
+            return ContractSilverValue(Mathf.Max(1f, (contractBase + services) * distanceMultiplier * creditMultiplier));
         }
 
         private float EstimateIdiqMaintenanceFee(float credit, float distance)
@@ -1069,7 +1212,7 @@ namespace Helodrace
 
         private static float CurrentSthalerSilverValue()
         {
-            return Mathf.Max(0.01f, HelodMarketState.Current?.SthalerSilverValue ?? GoldStandardSthalerSilverValue);
+            return HelodForwardBaseServiceUtility.CurrentSthalerSilverValue();
         }
 
         private float SelectedServiceCost()
@@ -1097,13 +1240,14 @@ namespace Helodrace
                 includeLogisticsPreservedFood,
                 includeLogisticsMedicalSupplies,
                 includeLogisticsWeapons,
-                includeAirBombing
+                includeAirBombing,
+                includeInfantrySniperSupport
             };
         }
 
         private void ApplySelectedServiceFlags(bool[] flags)
         {
-            if (flags == null || flags.Length < AllForwardBaseServices.Length)
+            if (flags == null || flags.Length < 7)
             {
                 return;
             }
@@ -1115,6 +1259,7 @@ namespace Helodrace
             includeLogisticsMedicalSupplies = flags[4];
             includeLogisticsWeapons = flags[5];
             includeAirBombing = flags[6];
+            includeInfantrySniperSupport = flags.Length > 7 && flags[7];
         }
 
         private bool IsServiceSelected(ForwardBaseService service)
@@ -1123,6 +1268,8 @@ namespace Helodrace
             {
                 case ForwardBaseService.InfantryMortarSupport:
                     return includeInfantryMortarSupport;
+                case ForwardBaseService.InfantrySniperSupport:
+                    return includeInfantrySniperSupport;
                 case ForwardBaseService.InfantryDeployment:
                     return includeInfantryDeployment;
                 case ForwardBaseService.LogisticsFreshFood:
@@ -1146,6 +1293,9 @@ namespace Helodrace
             {
                 case ForwardBaseService.InfantryMortarSupport:
                     includeInfantryMortarSupport = selected;
+                    break;
+                case ForwardBaseService.InfantrySniperSupport:
+                    includeInfantrySniperSupport = selected;
                     break;
                 case ForwardBaseService.InfantryDeployment:
                     includeInfantryDeployment = selected;
@@ -1488,35 +1638,29 @@ namespace Helodrace
             return research != null && research.IsFinished;
         }
 
-        private static float MilitaryCredit(Map map)
+        private static float MilitaryCredit(Map map, Faction faction)
         {
             float wealth = Mathf.Max(0f, map?.wealthWatcher?.WealthTotal ?? 0f);
             float wealthCredit = Mathf.Sqrt(Mathf.Max(wealth, 1f)) * 16f;
-            float goodwillCredit = HelodGoodwill() * 7f;
+            float goodwillCredit = MilitaryGoodwill(faction) * 7f;
             float marketCredit = HelodMarketState.Current?.CreditLimit(map) ?? 100f;
             return Mathf.Max(100f, wealthCredit + goodwillCredit + marketCredit * 0.25f);
         }
 
-        private static int HelodGoodwill()
+        private static int MilitaryGoodwill(Faction faction)
         {
-            return HelodFaction()?.PlayerGoodwill ?? 0;
+            return faction?.PlayerGoodwill ?? 0;
         }
 
-        private static Faction HelodFaction()
+        private static Faction FactionOfDef(string defName)
         {
-            FactionDef def = DefDatabase<FactionDef>.GetNamedSilentFail("HD_HelodCivilLowFaction");
+            FactionDef def = DefDatabase<FactionDef>.GetNamedSilentFail(defName);
             return def == null ? null : Find.FactionManager.FirstFactionOfDef(def);
         }
 
-        private static float NearestHelodSettlementDistance(int tile)
+        private static float NearestMilitarySettlementDistance(int tile, Faction faction)
         {
-            if (tile < 0 || Find.WorldObjects?.Settlements == null || Find.WorldGrid == null)
-            {
-                return MaxForwardBaseDistance;
-            }
-
-            FactionDef helodDef = DefDatabase<FactionDef>.GetNamedSilentFail("HD_HelodCivilLowFaction");
-            if (helodDef == null)
+            if (tile < 0 || faction == null || Find.WorldObjects?.Settlements == null || Find.WorldGrid == null)
             {
                 return MaxForwardBaseDistance;
             }
@@ -1524,7 +1668,7 @@ namespace Helodrace
             float nearest = MaxForwardBaseDistance;
             foreach (Settlement settlement in Find.WorldObjects.Settlements)
             {
-                if (settlement?.Faction?.def != helodDef || settlement.Destroyed)
+                if (settlement?.Faction != faction || settlement.Destroyed)
                 {
                     continue;
                 }
@@ -1605,6 +1749,7 @@ namespace Helodrace
             switch (service)
             {
                 case ForwardBaseService.InfantryMortarSupport:
+                case ForwardBaseService.InfantrySniperSupport:
                 case ForwardBaseService.InfantryDeployment:
                     return ForwardBaseServiceType.Infantry;
                 case ForwardBaseService.LogisticsFreshFood:
@@ -1641,7 +1786,8 @@ namespace Helodrace
             switch (baseKind)
             {
                 case ForwardBaseKind.PB:
-                    return service == ForwardBaseService.InfantryMortarSupport;
+                    return service == ForwardBaseService.InfantryMortarSupport
+                        || service == ForwardBaseService.InfantrySniperSupport;
                 case ForwardBaseKind.FB:
                     return ForwardBaseServiceTypeOf(service) == ForwardBaseServiceType.Artillery;
                 case ForwardBaseKind.COP:
@@ -1661,13 +1807,13 @@ namespace Helodrace
             switch (kind)
             {
                 case ForwardBaseKind.FB:
-                    return 1600f;
+                    return 650f;
                 case ForwardBaseKind.COP:
-                    return 3200f;
+                    return 1250f;
                 case ForwardBaseKind.FOB:
-                    return 6200f;
+                    return 2400f;
                 default:
-                    return 800f;
+                    return 320f;
             }
         }
 
@@ -1676,7 +1822,7 @@ namespace Helodrace
             switch (kind)
             {
                 case ContractCostKind.CostReimbursement:
-                    return 0.9f;
+                    return 0.05f;
                 case ContractCostKind.IDIQ:
                     return 0.38f;
                 default:
@@ -1707,7 +1853,7 @@ namespace Helodrace
                 case ContractCostKind.FFP:
                     return Mathf.Pow(durationFactor, 0.72f);
                 case ContractCostKind.CostReimbursement:
-                    return 1f + (durationFactor - 1f) * 0.22f;
+                    return 1f + (durationFactor - 1f) * 0.04f;
                 case ContractCostKind.IDIQ:
                     return 1f + (durationFactor - 1f) * 0.18f;
                 default:
@@ -1715,27 +1861,32 @@ namespace Helodrace
             }
         }
 
+        private static float ServiceBillingPeriodCount(ContractDuration duration)
+        {
+            return Mathf.CeilToInt(ContractDurationDays(duration) / (float)HelodForwardBaseServiceUtility.ServiceBillingPeriodDays);
+        }
+
         private static float ServiceCost(ForwardBaseService service)
         {
-            switch (service)
+            return HelodForwardBaseServiceUtility.ServiceBaseCost(service);
+        }
+
+        private static HelodForwardBaseCostKind ToForwardBaseCostKind(ContractCostKind kind)
+        {
+            switch (kind)
             {
-                case ForwardBaseService.InfantryDeployment:
-                    return 450f;
-                case ForwardBaseService.LogisticsFreshFood:
-                    return 360f;
-                case ForwardBaseService.LogisticsPreservedFood:
-                    return 520f;
-                case ForwardBaseService.LogisticsMedicalSupplies:
-                    return 720f;
-                case ForwardBaseService.LogisticsWeapons:
-                    return 1100f;
-                case ForwardBaseService.AirBombing:
-                    return 2400f;
-                case ForwardBaseService.InfantryMortarSupport:
-                    return 260f;
+                case ContractCostKind.CostReimbursement:
+                    return HelodForwardBaseCostKind.CostReimbursement;
+                case ContractCostKind.IDIQ:
+                    return HelodForwardBaseCostKind.IDIQ;
                 default:
-                    return 0f;
+                    return HelodForwardBaseCostKind.FFP;
             }
+        }
+
+        private static HelodForwardBaseIdiqPricingKind ToForwardBaseIdiqPricingKind(IdiqPricingKind kind)
+        {
+            return kind == IdiqPricingKind.CostReimbursement ? HelodForwardBaseIdiqPricingKind.CostReimbursement : HelodForwardBaseIdiqPricingKind.FFP;
         }
 
         private static void DrawDisabledButton(Rect rect, string label)
@@ -1797,17 +1948,6 @@ namespace Helodrace
             Infantry,
             AirForce,
             Logistics
-        }
-
-        private enum ForwardBaseService
-        {
-            InfantryMortarSupport,
-            InfantryDeployment,
-            LogisticsFreshFood,
-            LogisticsPreservedFood,
-            LogisticsMedicalSupplies,
-            LogisticsWeapons,
-            AirBombing
         }
 
         private enum MarketSubTab

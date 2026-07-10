@@ -2,5 +2,9 @@
 <LanguageData>
   <HD_Building_M1917HMG.label>M1917 중기관총</HD_Building_M1917HMG.label>
   <HD_Building_M1917HMG.description>삼각대에 장착된 수랭식 중기관총으로, 250발 탄띠를 사용합니다. 폰이 직접 조작해야 합니다.</HD_Building_M1917HMG.description>
+  <HD_Building_M1916_37mmGun.label>M1916 37mm 포</HD_Building_M1916_37mmGun.label>
+  <HD_Building_M1916_37mmGun.description>승무원이 운용하는 37mm 직사 보병포입니다. 낮은 포가는 투명한 바닥판으로 처리되어 포 본체만 터렛 상단으로 보입니다.</HD_Building_M1916_37mmGun.description>
+  <HD_Building_M1_81mmMortar.label>M1 81mm 박격포</HD_Building_M1_81mmMortar.label>
+  <HD_Building_M1_81mmMortar.description>M43 고폭탄을 엄폐물 너머로 떨어뜨리는 승무원 운용식 81mm 보병 박격포입니다. 폰이 직접 조작해야 하며 준비된 81mm 탄약으로 재장전합니다.</HD_Building_M1_81mmMortar.description>
 </LanguageData>
 

@@ -5,4 +5,19 @@
   <HD_MakeHardtackBulk.description>채식 재료로 오래 보관할 수 있는 하드텍을 대량으로 굽습니다. 하드텍 자체는 재료로 사용할 수 없습니다.</HD_MakeHardtackBulk.description>
   <HD_MakeHardtackBulk.jobString>하드텍을 만드는 중.</HD_MakeHardtackBulk.jobString>
 
+  <HD_Make37mmShellHE.label>37mm 고폭탄 만들기</HD_Make37mmShellHE.label>
+  <HD_Make37mmShellHE.description>M1916 37mm 포용 소형 고폭탄을 조립합니다.</HD_Make37mmShellHE.description>
+  <HD_Make37mmShellHE.jobString>37mm 고폭탄을 만드는 중.</HD_Make37mmShellHE.jobString>
+  <HD_Make37mmShellAP.label>37mm 철갑탄 만들기</HD_Make37mmShellAP.label>
+  <HD_Make37mmShellAP.description>M1916 37mm 포용 경화 철갑탄을 조립합니다.</HD_Make37mmShellAP.description>
+  <HD_Make37mmShellAP.jobString>37mm 철갑탄을 만드는 중.</HD_Make37mmShellAP.jobString>
+  <HD_MakeM6A3HEATRocket.label>M6A3 HEAT 로켓 만들기</HD_MakeM6A3HEATRocket.label>
+  <HD_MakeM6A3HEATRocket.description>M9A1 무반동포용 성형작약 로켓을 조립합니다.</HD_MakeM6A3HEATRocket.description>
+  <HD_MakeM6A3HEATRocket.jobString>M6A3 HEAT 로켓을 만드는 중.</HD_MakeM6A3HEATRocket.jobString>
+  <HD_MakeM10WPRocket.label>M10 WP 로켓 만들기</HD_MakeM10WPRocket.label>
+  <HD_MakeM10WPRocket.description>M9A1 무반동포용 백린 연막 로켓을 조립합니다.</HD_MakeM10WPRocket.description>
+  <HD_MakeM10WPRocket.jobString>M10 WP 로켓을 만드는 중.</HD_MakeM10WPRocket.jobString>
+  <HD_Make81mmMortarShellM43HE.label>M43 81mm 고폭탄 만들기</HD_Make81mmMortarShellM43HE.label>
+  <HD_Make81mmMortarShellM43HE.description>M1 81mm 박격포용 M43 고폭탄을 조립합니다.</HD_Make81mmMortarShellM43HE.description>
+  <HD_Make81mmMortarShellM43HE.jobString>M43 81mm 고폭탄 만드는 중.</HD_Make81mmMortarShellM43HE.jobString>
 </LanguageData>

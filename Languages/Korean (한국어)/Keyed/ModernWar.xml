@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_SwitchbladeLauncher_RequiresTablet>&#44400;&#50857; &#53468;&#48660;&#47551;&#51012; &#51109;&#52265;&#54620; &#54256;&#47564; &#51089;&#46041;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.</HD_SwitchbladeLauncher_RequiresTablet>
+  <HD_SwitchbladeLauncher_AlreadyFired>&#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300; &#48156;&#49324;&#44288;&#51008; &#51060;&#48120; &#48156;&#49324;&#46104;&#50632;&#49845;&#45768;&#45796;.</HD_SwitchbladeLauncher_AlreadyFired>
+  <HD_SwitchbladeLauncher_RequiresAmmo>&#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300; 600 &#53444;&#51060; &#51109;&#51204;&#46104;&#50612;&#50556; &#54633;&#45768;&#45796;.</HD_SwitchbladeLauncher_RequiresAmmo>
+  <HD_SwitchbladeTablet_SelectLoiter_Label>&#48176;&#54924; &#50896; &#49444;&#51221;</HD_SwitchbladeTablet_SelectLoiter_Label>
+  <HD_SwitchbladeTablet_SelectLoiter_Desc>&#50672;&#44208;&#46108; &#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300;&#51032; &#48176;&#54924; &#50896; &#51473;&#49900;&#51012; &#49440;&#53469;&#54633;&#45768;&#45796;.</HD_SwitchbladeTablet_SelectLoiter_Desc>
+  <HD_SwitchbladeTablet_Target_Label>&#47785;&#54364; &#51648;&#51221;</HD_SwitchbladeTablet_Target_Label>
+  <HD_SwitchbladeTablet_Target_Desc>&#50672;&#44208;&#46108; &#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300;&#51032; &#47785;&#54364;&#47484; &#51648;&#51221;&#54633;&#45768;&#45796;. &#44277;&#44201; &#48169;&#54693;&#51004;&#47196; &#49440;&#54924;&#54620; &#46244; &#48176;&#54924; &#49549;&#47141;&#51032; 1.8&#48176;&#47196; &#46028;&#44201;&#54633;&#45768;&#45796;.</HD_SwitchbladeTablet_Target_Desc>
+  <HD_SwitchbladeTablet_NoLinkedDrone>&#50672;&#44208;&#46108; &#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300; &#46300;&#47200;&#51060; &#50630;&#49845;&#45768;&#45796;.</HD_SwitchbladeTablet_NoLinkedDrone>
+  <HD_SwitchbladeTablet_LoiterUpdated>&#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300; &#48176;&#54924; &#50896;&#51060; &#44081;&#49888;&#46104;&#50632;&#49845;&#45768;&#45796;.</HD_SwitchbladeTablet_LoiterUpdated>
+  <HD_SwitchbladeTablet_TargetDesignated>&#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300; &#47785;&#54364;&#44032; &#51648;&#51221;&#46104;&#50632;&#49845;&#45768;&#45796;.</HD_SwitchbladeTablet_TargetDesignated>
+  <HD_SwitchbladeTablet_ReturnLoiter_Label>&#48176;&#54924; &#48373;&#44480;</HD_SwitchbladeTablet_ReturnLoiter_Label>
+  <HD_SwitchbladeTablet_ReturnLoiter_Desc>&#52265;&#53444; &#51204;&#50640; &#44277;&#44201;&#51012; &#52712;&#49548;&#54616;&#44256; &#50672;&#44208;&#46108; &#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300;&#47484; &#48176;&#54924;&#48708;&#54665;&#51004;&#47196; &#46028;&#47549;&#45768;&#45796;.</HD_SwitchbladeTablet_ReturnLoiter_Desc>
+  <HD_SwitchbladeTablet_ReturnLoiter_NotNeeded>&#50672;&#44208;&#46108; &#49828;&#50948;&#52824;&#48660;&#47112;&#51060;&#46300;&#44032; &#51060;&#48120; &#48176;&#54924;&#48708;&#54665; &#51473;&#51077;&#45768;&#45796;.</HD_SwitchbladeTablet_ReturnLoiter_NotNeeded>
+  <HD_M47Dragon_ChangeTarget_Label>미사일 목표 변경</HD_M47Dragon_ChangeTarget_Label>
+  <HD_M47Dragon_ChangeTarget_Desc>비행 중인 M222 미사일을 새로운 목표로 유도합니다. 다음 유도 펄스부터 새 목표를 추적합니다.</HD_M47Dragon_ChangeTarget_Desc>
+  <HD_M47Dragon_ChangeTarget_WireBroken>M47 드래곤의 유도선이 끊어졌습니다.</HD_M47Dragon_ChangeTarget_WireBroken>
+  <HD_M47Dragon_TargetChanged>M222 미사일의 목표가 변경되었습니다.</HD_M47Dragon_TargetChanged>
+  <HD_M47Dragon_ActiveMissileBlocksFire>이전에 발사한 M222 미사일이 비행 중인 동안에는 발사할 수 없습니다.</HD_M47Dragon_ActiveMissileBlocksFire>
+  <HD_M47Dragon_ChangeTarget_HelodOnly>비행 중인 M222 미사일의 목표는 헤로드 조작수만 변경할 수 있습니다.</HD_M47Dragon_ChangeTarget_HelodOnly>
+</LanguageData>

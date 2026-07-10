@@ -58,6 +58,9 @@
     <costList>
       <Cloth>40</Cloth>
     </costList>
+    <modExtensions>
+      <li Class="Helodrace.HonorGuardEquipmentExtension" />
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelBase">
@@ -117,6 +120,9 @@
     <costList>
       <Cloth>20</Cloth>
     </costList>
+    <modExtensions>
+      <li Class="Helodrace.HonorGuardEquipmentExtension" />
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="ApparelBase">
@@ -240,7 +246,6 @@
       <tags>
         <li>HD_Apparel</li>
         <li>HD_Apparel_Formal</li>
-        <li>HD_Apparel_WW_WatchmanHeadgear</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
@@ -668,4 +673,7 @@
       <Cloth>20</Cloth>
     </costList>
   </ThingDef>
+
+
+
 </Defs>

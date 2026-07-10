@@ -7,6 +7,24 @@
     <parent>Manufactured</parent>
   </ThingCategoryDef>
 
+  <ThingCategoryDef>
+    <defName>HD_81mmMortarShells</defName>
+    <label>81mm mortar shells</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
+    <defName>HD_37mmShells</defName>
+    <label>37mm shells</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
+    <defName>HD_Rockets</defName>
+    <label>rockets</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
   <ThingDef>
     <defName>HD_Hardtack</defName>
     <label>hardtack</label>
@@ -350,6 +368,268 @@
     </researchPrerequisites>
   </ThingDef>
 
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_M6RocketBag</defName>
+    <label>M6 rocket bag</label>
+    <description>A temporary rocket carrier bag for M6A3 HEAT rockets. A bearer can load rockets into the bag and assist a nearby M9A1 operator with reloading.</description>
+    <graphicData>
+      <texPath>Item/HD_GreatWarGasMaskBag_item</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <WorkToMake>1000</WorkToMake>
+      <Mass>1.0</Mass>
+      <MarketValue>42</MarketValue>
+      <Flammability>0.7</Flammability>
+      <EquipDelay>0.9</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.10</MoveSpeed>
+      <WorkSpeedGlobal>-0.05</WorkSpeedGlobal>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarGasMaskPouch</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <drawData>
+        <defaultData>
+          <layer>110</layer>
+        </defaultData>
+      </drawData>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <comps>
+      <li Class="Helodrace.CompProperties_M6RocketBag">
+        <allowedAmmoDefs>
+          <li>HD_Rocket_M6A3HEAT</li>
+          <li>HD_Rocket_M10WP</li>
+        </allowedAmmoDefs>
+        <maxStoredRounds>4</maxStoredRounds>
+      </li>
+    </comps>
+    <recipeMaker>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <costStuffCount>30</costStuffCount>
+    <costList>
+      <Steel>8</Steel>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodLowGranade</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_GreatWarTrenchArmyInner</defName>
+    <label>great war trench uniform liner</label>
+    <description>A fitted inner uniform for trench troops, tailored for Helod bodies. It is worn close to the body beneath armor or heavier field gear.</description>
+    <graphicData>
+      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>95</MaxHitPoints>
+      <WorkToMake>1500</WorkToMake>
+      <Mass>0.8</Mass>
+      <MarketValue>45</MarketValue>
+      <StuffEffectMultiplierArmor>0.15</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.35</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.20</StuffEffectMultiplierInsulation_Heat>
+      <Flammability>0.8</Flammability>
+      <EquipDelay>1.1</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Arms</li>
+        <li>Legs</li>
+        <li>Feet</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>OnSkin</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_GW_Uniform</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>45</Cloth>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodFirstAid</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_GreatWarTrenchArmyOuter</defName>
+    <label>great war trench armor coat</label>
+    <description>A reinforced outer uniform for trench troops, tailored for Helod bodies. It is worn over inner clothing as protective armor and field gear.</description>
+    <graphicData>
+      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>130</MaxHitPoints>
+      <WorkToMake>2200</WorkToMake>
+      <Mass>2.4</Mass>
+      <MarketValue>90</MarketValue>
+      <StuffEffectMultiplierArmor>0.45</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.55</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.15</StuffEffectMultiplierInsulation_Heat>
+      <ArmorRating_Blunt>0.10</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.22</ArmorRating_Sharp>
+      <Flammability>0.7</Flammability>
+      <EquipDelay>1.8</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+        <li>Feet</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_GW_Uniform</li>
+        <li>HD_Apparel_GW_Protective</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>60</Cloth>
+      <Steel>15</Steel>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodFirstAid</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_GreatWarUSUniform</defName>
+    <label>U.S. great war uniform</label>
+    <description>A practical U.S. field uniform from the great war period, tailored for Helod bodies. It combines an olive drab service coat, trousers, and sturdy boots without headgear or webbing.</description>
+    <graphicData>
+      <texPath>Item/HD_GreatWarUSUniform_item</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>110</MaxHitPoints>
+      <WorkToMake>1700</WorkToMake>
+      <Mass>1.1</Mass>
+      <MarketValue>55</MarketValue>
+      <StuffEffectMultiplierArmor>0.20</StuffEffectMultiplierArmor>
+      <StuffEffectMultiplierInsulation_Cold>0.45</StuffEffectMultiplierInsulation_Cold>
+      <StuffEffectMultiplierInsulation_Heat>0.20</StuffEffectMultiplierInsulation_Heat>
+      <Flammability>0.8</Flammability>
+      <EquipDelay>1.3</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Shoulders</li>
+        <li>Arms</li>
+        <li>Legs</li>
+        <li>Feet</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarUSUniform</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>OnSkin</li>
+        <li>Middle</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_GW_Uniform</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>60</Cloth>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodFirstAid</li>
+    </researchPrerequisites>
+    <modExtensions>
+      <li Class="Helodrace.HonorGuardEquipmentExtension" />
+    </modExtensions>
+  </ThingDef>
+
   <ThingDef ParentName="ResourceBase">
     <defName>HD_3InchMortarShell_HE</defName>
     <label>3-inch mortar HE shell</label>
@@ -374,6 +654,121 @@
   </ThingDef>
 
   <ThingDef ParentName="ResourceBase">
+    <defName>HD_81mmMortarShell_M43HE</defName>
+    <label>M43 81mm HE shell</label>
+    <description>A fin-stabilized high-explosive shell for the M1 81mm mortar. Its heavier bursting charge is well suited to suppressing clustered infantry, fieldworks, and light structures.</description>
+    <projectileWhenLoaded>HD_81mmMortarShell_M43HE_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_M43HE</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.75,0.75)</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>65</MaxHitPoints>
+      <MarketValue>42</MarketValue>
+      <Mass>3.1</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_81mmMortarShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_37mmShell_HE</defName>
+    <label>37mm HE shell</label>
+    <description>A compact high-explosive shell for the M1916 37mm gun. It is built for direct fire against infantry, light cover, and exposed fieldworks.</description>
+    <projectileWhenLoaded>HD_37mmShell_HE_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_37mmHE</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.55,0.55)</drawSize>
+    </graphicData>
+    <stackLimit>50</stackLimit>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>18</MarketValue>
+      <Mass>0.9</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_37mmShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_37mmShell_AP</defName>
+    <label>37mm AP shell</label>
+    <description>A solid armor-piercing shell for the M1916 37mm gun. It trades explosive blast for a hardened shot capable of punching through armor and tough targets.</description>
+    <projectileWhenLoaded>HD_37mmShell_AP_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_37mmAP</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.55,0.55)</drawSize>
+    </graphicData>
+    <stackLimit>50</stackLimit>
+    <statBases>
+      <MaxHitPoints>55</MaxHitPoints>
+      <MarketValue>22</MarketValue>
+      <Mass>1.0</Mass>
+      <Flammability>0.3</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_37mmShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Rocket_M6A3HEAT</defName>
+    <label>M6A3 HEAT rocket</label>
+    <description>A shaped-charge rocket for the M9A1 launcher. It must be loaded before firing and is consumed when the launcher is fired.</description>
+    <projectileWhenLoaded>HD_Rocket_M6A3HEAT_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_m6a3HEAT</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>55</MaxHitPoints>
+      <MarketValue>32</MarketValue>
+      <Mass>1.6</Mass>
+      <Flammability>0.8</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_Rockets</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Rocket_M10WP</defName>
+    <label>M10 WP rocket</label>
+    <description>A white phosphorus rocket for the M9A1 launcher. It bursts with a small charge, throws up dense smoke, and scatters burning phosphorus around the impact point.</description>
+    <projectileWhenLoaded>HD_Rocket_M10WP_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_m10WP</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>36</MarketValue>
+      <Mass>1.5</Mass>
+      <Flammability>1.0</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_Rockets</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
     <defName>HD_3InchMortarShell_CG</defName>
     <label>3-inch mortar photochlorogen shell</label>
     <description>A chemical bomb for the 3-inch Hawkins mortar. On impact it bursts once and releases a compact photochlorogen cloud, much narrower than a deployed canister.</description>
@@ -394,6 +789,55 @@
     <thingCategories>
       <li>HD_3InchMortarShells</li>
     </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_GreatWarM1Helmet</defName>
+    <label>m1 Helmet</label>
+    <description>m1 helmet with hole for ears</description>
+    <graphicData>
+      <texPath>Dogos/Appearel/HD_GreatWarM1Helmet_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>70</MaxHitPoints>
+      <WorkToMake>120</WorkToMake>
+      <Mass>1.55</Mass>
+      <ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.35</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.01</ArmorRating_Heat>
+      <Flammability>0.05</Flammability>
+      <EquipDelay>0.8</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Headgear</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarM1Helmet</wornGraphicPath>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Worker</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <HD_UniformRolledSteelPlate>5</HD_UniformRolledSteelPlate>
+    </costList>
   </ThingDef>
 
 </Defs>

@@ -29,4 +29,32 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>HD_ReloadRecoillessWeaponFromBag</defName>
+    <driverClass>Helodrace.JobDriver_ReloadRecoillessWeaponFromBag</driverClass>
+    <reportString>reloading recoilless weapon from carried rocket bag.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_LoadM6RocketBag</defName>
+    <driverClass>Helodrace.JobDriver_LoadM6RocketBag</driverClass>
+    <reportString>loading M6 rocket bag.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_AssistReloadRecoillessWeapon</defName>
+    <driverClass>Helodrace.JobDriver_AssistReloadRecoillessWeapon</driverClass>
+    <reportString>assisting recoilless weapon reload.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_StandbyRecoillessLoader</defName>
+    <driverClass>Helodrace.JobDriver_StandbyRecoillessLoader</driverClass>
+    <reportString>standing by as recoilless weapon loader.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
 </Defs>

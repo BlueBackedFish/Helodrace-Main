@@ -38,6 +38,34 @@ namespace Helodrace
             }
 
             Log.Message($"Helodrace initialized. Added Lubricant comp to {count} meat types.");
+            RemoveQualityFromHelodraceGuns();
+        }
+
+        private static void RemoveQualityFromHelodraceGuns()
+        {
+            int count = 0;
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+            {
+                if (!IsHelodraceGun(def) || def.comps == null)
+                {
+                    continue;
+                }
+
+                int removed = def.comps.RemoveAll(comp => comp?.compClass == typeof(CompQuality));
+                if (removed > 0)
+                {
+                    count++;
+                }
+            }
+
+            Log.Message($"Helodrace initialized. Removed quality comp from {count} Helodrace guns.");
+        }
+
+        private static bool IsHelodraceGun(ThingDef def)
+        {
+            return def?.defName != null
+                && def.defName.StartsWith("HD_Gun_")
+                && def.defName.EndsWith("_Weapon");
         }
     }
 

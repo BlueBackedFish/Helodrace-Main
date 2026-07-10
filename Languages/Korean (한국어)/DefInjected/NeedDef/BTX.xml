@@ -4,6 +4,6 @@
   <Chemical_BTX.label>BTX</Chemical_BTX.label>
   <Chemical_BTX.description>BTX 의존 때문에, 이 인물은 BTX 성분을 가진 약물을 주기적으로 섭취해야 합니다.</Chemical_BTX.description>
   <HD_BTXNeed.label>BTX</HD_BTXNeed.label>
-  <HD_BTXNeed.description>헬로드의 대사 체계는 주기적인 BTX 섭취를 필요로 합니다. 이 욕구가 비면 BTX 결핍이 서서히 악화되어 결국 치명적 상태가 됩니다.</HD_BTXNeed.description>
+  <HD_BTXNeed.description>헤로드의 대사 체계는 주기적인 BTX 섭취를 필요로 합니다. 이 욕구가 비면 BTX 결핍이 서서히 악화되어 결국 치명적 상태가 됩니다.</HD_BTXNeed.description>
 </LanguageData>
 

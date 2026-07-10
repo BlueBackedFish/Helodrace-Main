@@ -25,4 +25,16 @@
     <canHaveMap>false</canHaveMap>
   </WorldObjectDef>
 
+  <WorldObjectDef ParentName="StaticWorldObjectBase">
+    <defName>HD_ForwardBaseWithdrawal</defName>
+    <label>forward base withdrawal</label>
+    <description>A Helod forward base withdrawing after a failed fixed-price payment.</description>
+    <worldObjectClass>Helodrace.HelodForwardBaseWithdrawal</worldObjectClass>
+    <texture>Icon/HD_Icon_Construction</texture>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>Icon/HD_Icon_Construction</expandingIconTexture>
+    <expandingIconPriority>45</expandingIconPriority>
+    <canHaveMap>false</canHaveMap>
+  </WorldObjectDef>
+
 </Defs>

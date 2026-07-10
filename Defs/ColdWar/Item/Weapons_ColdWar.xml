@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Initial XML-only definition for the M47 Dragon.
+    The launcher is intentionally unavailable to crafting and starts as a
+    single-shot weapon. Its disposable state and guidance behavior will be
+    implemented by the M47 Dragon weapon/projectile comps.
+  -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_M47_M222_Proj</defName>
+    <label>M222 missile</label>
+    <description>A 140 mm shaped-charge missile guided through a command wire by an M47 Dragon launcher.</description>
+    <thingClass>Helodrace.Projectile_M47Dragon</thingClass>
+    <graphicData>
+      <texPath>Weapon/ColdWar/Proj/M222/HD_M47M222Missile</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>120</damageAmountBase>
+      <armorPenetrationBase>2.10</armorPenetrationBase>
+      <stoppingPower>3.5</stoppingPower>
+      <speed>50</speed>
+      <explosionRadius>1.2</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.M47DragonProjectileExtension">
+        <!-- Increasing this angle produces wider weaving and a lower practical hit chance. -->
+        <steeringOscillationDegrees>1.1</steeringOscillationDegrees>
+        <accuracyInfluence>0.45</accuracyInfluence>
+        <oscillationStepRadians>1.35</oscillationStepRadians>
+        <vectorLeadStartDistance>45</vectorLeadStartDistance>
+        <vectorLeadFullDistance>10</vectorLeadFullDistance>
+        <maximumLeadTicks>45</maximumLeadTicks>
+        <targetVectorSmoothing>0.45</targetVectorSmoothing>
+        <terminalGuidanceDistance>14</terminalGuidanceDistance>
+        <terminalOscillationFactor>0.15</terminalOscillationFactor>
+        <terminalSteeringMultiplier>1.6</terminalSteeringMultiplier>
+        <directHitRadius>0.42</directHitRadius>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M47_Dragon</defName>
+    <label>M47 Dragon</label>
+    <description>A disposable man-portable anti-tank guided missile system. The operator must keep the target in sight while commands travel through a wire to the missile. Pulsed steering charges correct its course in visible steps, and the operator may transfer guidance to another target while the missile is in flight.</description>
+    <weaponTags>
+      <li>HD_ColdWarLauncher</li>
+      <li>HD_ColdWarGuidedWeapon</li>
+    </weaponTags>
+    <graphicData>
+      <texPath>Weapon/ColdWar/HD_M47</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.35,1.35)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <Mass>14.6</Mass>
+      <MarketValue>1850</MarketValue>
+      <MaxHitPoints>100</MaxHitPoints>
+      <AccuracyTouch>0.20</AccuracyTouch>
+      <AccuracyShort>0.55</AccuracyShort>
+      <AccuracyMedium>0.78</AccuracyMedium>
+      <AccuracyLong>0.82</AccuracyLong>
+      <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
+    </statBases>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_M47DragonLauncher" />
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_M47_M222_Proj</defaultProjectile>
+        <warmupTime>3.5</warmupTime>
+        <range>79.9</range>
+        <minRange>6.9</minRange>
+        <requireLineOfSight>true</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Shot_IncendiaryLauncher</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>10</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>launch tube</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>2.5</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+</Defs>

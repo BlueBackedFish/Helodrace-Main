@@ -90,6 +90,259 @@
   </RecipeDef>
 
   <RecipeDef>
+    <defName>HD_Make81mmMortarShellM43HE</defName>
+    <label>make M43 81mm HE shell</label>
+    <description>Assemble a high-explosive M43 shell for the M1 81mm mortar.</description>
+    <jobString>Making M43 81mm HE shell.</jobString>
+    <workAmount>1800</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighExplosive</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>18</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_81mmMortarShell_M43HE>1</HD_81mmMortarShell_M43HE>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make37mmShellHE</defName>
+    <label>make 37mm HE shell</label>
+    <description>Assemble a compact high-explosive shell for the M1916 37mm gun.</description>
+    <jobString>Making 37mm HE shell.</jobString>
+    <workAmount>900</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighExplosive</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_37mmShell_HE>1</HD_37mmShell_HE>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>4</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make37mmShellAP</defName>
+    <label>make 37mm AP shell</label>
+    <description>Assemble a hardened armor-piercing shell for the M1916 37mm gun.</description>
+    <jobString>Making 37mm AP shell.</jobString>
+    <workAmount>1000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodLowLightArtillery</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_37mmShell_AP>1</HD_37mmShell_AP>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>4</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeM6A3HEATRocket</defName>
+    <label>make M6A3 HEAT rocket</label>
+    <description>Assemble a shaped-charge rocket for the M9A1 recoilless launcher.</description>
+    <jobString>Making M6A3 HEAT rocket.</jobString>
+    <workAmount>1200</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Rocket_M6A3HEAT>1</HD_Rocket_M6A3HEAT>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeM10WPRocket</defName>
+    <label>make M10 WP rocket</label>
+    <description>Assemble a white phosphorus smoke rocket for the M9A1 recoilless launcher.</description>
+    <jobString>Making M10 WP rocket.</jobString>
+    <workAmount>1100</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>8</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Rocket_M10WP>1</HD_Rocket_M10WP>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
     <defName>HD_Make3InchMortarShellCG</defName>
     <label>make 3-inch mortar photochlorogen shell</label>
     <description>Assemble a compact photochlorogen shell for the 3-inch Hawkins mortar.</description>

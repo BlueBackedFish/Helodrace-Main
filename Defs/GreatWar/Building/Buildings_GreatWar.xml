@@ -82,6 +82,71 @@
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_M1916_37mmGun</defName>
+    <label>M1916 37mm gun</label>
+    <description>A crew-served 37mm direct-fire infantry gun. Its low mount is treated as a transparent base, leaving the gun itself as the visible turret top.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <graphicData>
+      <texPath>Building/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.35,1.35)</drawSize>
+      <shadowData>
+        <volume>(0.75,0.2,0.75)</volume>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/HD_m191637mmGun</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2555</uiOrder>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodLowLightArtillery</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>1500</WorkToBuild>
+      <Flammability>0.4</Flammability>
+      <Mass>46</Mass>
+      <ShootingAccuracyTurret>0.82</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <HD_WildWestBarrel>1</HD_WildWestBarrel>
+      <HD_CarbonSteel>75</HD_CarbonSteel>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
+      <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
+    </costList>
+    <building>
+      <turretGunDef>HD_Gun_M1916_37mm_TurretGun</turretGunDef>
+      <turretBurstWarmupTime>2.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>4.5</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <inspectorTabs>
+      <li>ITab_Shells</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_3InchHawkinsMortar</defName>
     <label>3-inch Hawkins mortar</label>
     <description>A crew-served 3-inch trench mortar for lobbing high-explosive shells over cover. It must be directly operated by a pawn and reloaded with prepared HE shells.</description>
@@ -130,6 +195,71 @@
       <turretGunDef>HD_Gun_3InchHawkinsMortar_TurretGun</turretGunDef>
       <turretBurstWarmupTime>3.5</turretBurstWarmupTime>
       <turretBurstCooldownTime>7.5</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <inspectorTabs>
+      <li>ITab_Shells</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_M1_81mmMortar</defName>
+    <label>M1 81mm mortar</label>
+    <description>A crew-served 81mm infantry mortar for dropping M43 high-explosive shells over cover. It must be directly operated by a pawn and reloaded with prepared 81mm ammunition.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <graphicData>
+      <texPath>Building/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
+      <shadowData>
+        <volume>(0.75,0.2,0.75)</volume>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/HD_M181mmMortar</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2561</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodLowLightArtillery</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <WorkToBuild>1900</WorkToBuild>
+      <Flammability>0.4</Flammability>
+      <Mass>62</Mass>
+      <ShootingAccuracyTurret>0.85</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <HD_WildWestBarrel>1</HD_WildWestBarrel>
+      <HD_CarbonSteel>85</HD_CarbonSteel>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
+      <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
+    </costList>
+    <building>
+      <turretGunDef>HD_Gun_M1_81mmMortar_TurretGun</turretGunDef>
+      <turretBurstWarmupTime>2.8</turretBurstWarmupTime>
+      <turretBurstCooldownTime>8.0</turretBurstCooldownTime>
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>

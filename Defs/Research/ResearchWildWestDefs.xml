@@ -596,7 +596,7 @@
     <ResearchProjectDef>
         <defName>HelodLowLightArtillery</defName>
         <label>The Trench Flatteners</label>
-        <description>3-inch Stokes Mortar,</description>
+        <description>3-inch Stokes Mortar, M1 81mm Mortar</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>

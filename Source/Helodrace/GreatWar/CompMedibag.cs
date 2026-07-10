@@ -293,37 +293,35 @@ namespace Helodrace
                 return;
             }
 
-            Thing supply = wearer.inventory?.innerContainer?.FirstOrDefault(thing => thing.def == SupplyDef);
-            if (supply != null)
+            Thing supply = FindClosestLoadableSupply();
+            if (supply == null)
             {
-                ConsumeSupplyThing(supply);
+                Messages.Message("HD_Medibag_Load_NoReachableSupplies".Translate(SupplyDef.label), parent, MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
-            Find.Targeter.BeginTargeting(SupplyTargetingParameters(), target => StartLoadSupplyJob(target.Thing));
+            StartLoadSupplyJob(supply);
         }
 
-        private TargetingParameters SupplyTargetingParameters()
+        private Thing FindClosestLoadableSupply()
         {
             Pawn wearer = Wearer;
-            return new TargetingParameters
+            if (wearer?.Map == null)
             {
-                canTargetPawns = false,
-                canTargetBuildings = false,
-                canTargetItems = true,
-                canTargetLocations = false,
-                validator = target =>
-                {
-                    Thing thing = target.Thing;
-                    return wearer != null
-                        && thing != null
-                        && thing.def == SupplyDef
-                        && thing.Spawned
-                        && thing.Map == wearer.Map
-                        && !thing.IsForbidden(wearer)
-                        && wearer.CanReserveAndReach(thing, PathEndMode.Touch, Danger.Deadly);
-                }
-            };
+                return null;
+            }
+
+            return GenClosest.ClosestThingReachable(
+                wearer.Position,
+                wearer.Map,
+                ThingRequest.ForDef(SupplyDef),
+                PathEndMode.Touch,
+                TraverseParms.For(wearer, Danger.Deadly),
+                9999f,
+                thing => thing.Spawned
+                    && thing.Map == wearer.Map
+                    && !thing.IsForbidden(wearer)
+                    && wearer.CanReserve(thing, 1, 1));
         }
 
         private void StartLoadSupplyJob(Thing supply)
@@ -353,7 +351,9 @@ namespace Helodrace
                 && supply.def == SupplyDef
                 && supply.Spawned
                 && supply.Map == wearer.Map
-                && storedSupplies < MaxStoredSupplies;
+                && storedSupplies < MaxStoredSupplies
+                && !supply.IsForbidden(wearer)
+                && wearer.CanReserveAndReach(supply, PathEndMode.Touch, Danger.Deadly);
         }
 
         public bool TryLoadSupply(Thing supply)
@@ -507,7 +507,8 @@ namespace Helodrace
             string defName = thing?.def?.defName;
             return defName == "HD_Apparel_GreatWarMedibag"
                 || defName == "HD_Apparel_GreatWarGasMaskPouch"
-                || defName == "HD_Apparel_GreatWarCBRNPouch";
+                || defName == "HD_Apparel_GreatWarCBRNPouch"
+                || defName == "HD_Apparel_M6RocketBag";
         }
     }
 
@@ -527,7 +528,8 @@ namespace Helodrace
             string defName = thing?.def?.defName;
             return defName == "HD_Apparel_GreatWarMedibag"
                 || defName == "HD_Apparel_GreatWarGasMaskPouch"
-                || defName == "HD_Apparel_GreatWarCBRNPouch";
+                || defName == "HD_Apparel_GreatWarCBRNPouch"
+                || defName == "HD_Apparel_M6RocketBag";
         }
     }
 }

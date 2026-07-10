@@ -10,4 +10,10 @@
   <HD_BugleChargeCommandMood.stages.0.label>돌격 명령을 받음</HD_BugleChargeCommandMood.stages.0.label>
   <HD_BugleChargeCommandMood.stages.0.description>뷰글의 명령이 아직 귓가에 울리고 있다. 두려움이 따라잡기 전에 앞으로 떠밀리는 기분이다.</HD_BugleChargeCommandMood.stages.0.description>
 
+  <HD_HonorGuardEquipmentMood.stages.0.label>추모</HD_HonorGuardEquipmentMood.stages.0.label>
+  <HD_HonorGuardEquipmentMood.stages.0.description>의장대 제복과 장교도를 갖췄습니다. 전투에는 실용적이지 않지만, 죽은 이를 기리고 살아남은 자의 품위를 지키는 데에는 충분합니다.</HD_HonorGuardEquipmentMood.stages.0.description>
+  <HD_HonorGuardEquipmentMood.stages.1.label>추모</HD_HonorGuardEquipmentMood.stages.1.label>
+  <HD_HonorGuardEquipmentMood.stages.1.description>의장대 제복과 장교도를 갖췄습니다. 전투에는 실용적이지 않지만, 죽은 이를 기리고 살아남은 자의 품위를 지키는 데에는 충분합니다.</HD_HonorGuardEquipmentMood.stages.1.description>
+  <HD_HonorGuardEquipmentMood.stages.2.label>추모</HD_HonorGuardEquipmentMood.stages.2.label>
+  <HD_HonorGuardEquipmentMood.stages.2.description>의장대 제복과 장교도를 갖췄습니다. 전투에는 실용적이지 않지만, 죽은 이를 기리고 살아남은 자의 품위를 지키는 데에는 충분합니다.</HD_HonorGuardEquipmentMood.stages.2.description>
 </LanguageData>

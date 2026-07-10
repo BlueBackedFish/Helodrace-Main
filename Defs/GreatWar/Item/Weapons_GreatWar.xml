@@ -65,6 +65,21 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_M1897_Proj</defName>
+    <label>Frontier Arms M1897 buckshot</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>3.5</damageAmountBase>
+      <stoppingPower>0.9</stoppingPower>
+      <speed>48</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1911_Proj</defName>
     <label>Ironfang M1911 bullet</label>
     <graphicData>
@@ -144,6 +159,112 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_81mmMortarShell_M43HE_Proj</defName>
+    <label>M43 81mm HE shell</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_M43HE_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>60</damageAmountBase>
+      <stoppingPower>2.2</stoppingPower>
+      <speed>30</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>3.4</explosionRadius>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_37mmShell_HE_Proj</defName>
+    <label>37mm HE shell</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_37mmHE_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.45,0.45)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>45</damageAmountBase>
+      <stoppingPower>2.0</stoppingPower>
+      <speed>55</speed>
+      <explosionRadius>2.1</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_37mmShell_AP_Proj</defName>
+    <label>37mm AP shell</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_37mmAP_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.45,0.45)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>75</damageAmountBase>
+      <armorPenetrationBase>1.25</armorPenetrationBase>
+      <stoppingPower>2.6</stoppingPower>
+      <speed>75</speed>
+      <explosionRadius>0.6</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Rocket_M6A3HEAT_Proj</defName>
+    <label>M6A3 HEAT rocket</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_m6a3HEAT_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>95</damageAmountBase>
+      <armorPenetrationBase>1.60</armorPenetrationBase>
+      <stoppingPower>3.0</stoppingPower>
+      <speed>42</speed>
+      <explosionRadius>2.0</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Rocket_M10WP_Proj</defName>
+    <label>M10 WP rocket</label>
+    <thingClass>Helodrace.Projectile_WhitePhosphorusRocket</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_m10WP_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>24</damageAmountBase>
+      <armorPenetrationBase>0.10</armorPenetrationBase>
+      <stoppingPower>1.2</stoppingPower>
+      <speed>40</speed>
+      <explosionRadius>1.4</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.WhitePhosphorusRocketExtension">
+        <smokeRadius>3.6</smokeRadius>
+        <fireRadius>2.4</fireRadius>
+        <fireChance>0.55</fireChance>
+        <fireSize>0.45</fireSize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_3InchMortarShell_CG_Proj</defName>
     <label>3-inch mortar photochlorogen shell</label>
     <thingClass>Helodrace.Projectile_PhotochlorogenShell</thingClass>
@@ -171,6 +292,61 @@
   </ThingDef>
 
   <!-- ==================== Weapons ==================== -->
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_M1916_37mm_TurretGun</defName>
+    <label>M1916 37mm gun</label>
+    <description>A light infantry gun firing compact explosive shells in direct fire. It needs a crew and prepared 37mm ammunition.</description>
+    <graphicData>
+      <texPath>Building/Security/HD_m191637mmGun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.35,1.35)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.20</AccuracyTouch>
+      <AccuracyShort>0.55</AccuracyShort>
+      <AccuracyMedium>0.74</AccuracyMedium>
+      <AccuracyLong>0.62</AccuracyLong>
+      <RangedWeapon_Cooldown>4.5</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <warmupTime>2.0</warmupTime>
+        <range>39.9</range>
+        <minRange>4.9</minRange>
+        <requireLineOfSight>true</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Shot_Autocannon</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>10</muzzleFlashScale>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_37mmShell_HE</li>
+            <li>HD_37mmShell_AP</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_37mmShell_HE</li>
+            <li>HD_37mmShell_AP</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M1911_Weapon</defName>
@@ -246,6 +422,259 @@
         </capacities>
         <power>9</power>
         <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M1A1Harrington_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarSubmachineGun</li>
+    </weaponTags>
+    <label>M1A1 Harrington</label>
+    <description>A rugged submachine gun with a heavy bolt and a fast cyclic rate. It fires hard-hitting pistol cartridges in controlled bursts.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_Thompsonm1a1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.0, 1.0)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>52000</WorkToMake>
+      <Mass>4.8</Mass>
+      <AccuracyTouch>0.62</AccuracyTouch>
+      <AccuracyShort>0.58</AccuracyShort>
+      <AccuracyMedium>0.34</AccuracyMedium>
+      <AccuracyLong>0.15</AccuracyLong>
+      <RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>70</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>0.35</altCooldownMultiplier>
+        <altAccuracyMultiplier>2.0</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile>
+        <warmupTime>0.8</warmupTime>
+        <range>22.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_Autopistol</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile>
+        <warmupTime>0.15</warmupTime>
+        <range>22.9</range>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_Autopistol</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M3A1_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarSubmachineGun</li>
+    </weaponTags>
+    <label>M3A1 submachine gun</label>
+    <description>A compact stamped-metal submachine gun built for simple production and steady close-range automatic fire.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_m3a1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.0, 1.0)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>42000</WorkToMake>
+      <Mass>3.7</Mass>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.54</AccuracyShort>
+      <AccuracyMedium>0.30</AccuracyMedium>
+      <AccuracyLong>0.12</AccuracyLong>
+      <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>52</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>0.35</altCooldownMultiplier>
+        <altAccuracyMultiplier>2.0</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile>
+        <warmupTime>0.9</warmupTime>
+        <range>20.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <soundCast>Shot_Autopistol</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile>
+        <warmupTime>0.2</warmupTime>
+        <range>20.9</range>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <soundCast>Shot_Autopistol</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M9A1_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarLauncher</li>
+      <li>HD_GreatWarRecoillessWeapon</li>
+    </weaponTags>
+    <label>M9A1 recoilless launcher</label>
+    <description>A shoulder-fired recoilless rocket launcher for attacking armor, emplacements, and clustered hard targets. It must be loaded before firing, can be operated alone or by a two-pawn crew, and fires a shaped-charge M6A3 HEAT rocket in a flat, visible line.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_m9a1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.25, 1.25)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>52000</WorkToMake>
+      <Mass>7.2</Mass>
+      <AccuracyTouch>0.25</AccuracyTouch>
+      <AccuracyShort>0.50</AccuracyShort>
+      <AccuracyMedium>0.58</AccuracyMedium>
+      <AccuracyLong>0.34</AccuracyLong>
+      <RangedWeapon_Cooldown>0.9</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <HD_WildWestBarrel>1</HD_WildWestBarrel>
+      <HD_CarbonSteel>55</HD_CarbonSteel>
+      <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
+      <HD_PressComponent>3</HD_PressComponent>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_RecoillessWeapon">
+        <ammoDef>HD_Rocket_M6A3HEAT</ammoDef>
+        <allowedAmmoDefs>
+          <li>HD_Rocket_M6A3HEAT</li>
+          <li>HD_Rocket_M10WP</li>
+        </allowedAmmoDefs>
+        <reloadTicks>180</reloadTicks>
+        <selfReloadTicks>1800</selfReloadTicks>
+        <crewReloadTicks>90</crewReloadTicks>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Rocket_M6A3HEAT_Proj</defaultProjectile>
+        <warmupTime>1.8</warmupTime>
+        <range>34.9</range>
+        <minRange>4.9</minRange>
+        <forcedMissRadius>0.9</forcedMissRadius>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Shot_IncendiaryLauncher</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>tube</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2.4</cooldownTime>
       </li>
     </tools>
   </ThingDef>
@@ -342,6 +771,60 @@
     </building>
   </ThingDef>
 
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_M1_81mmMortar_TurretGun</defName>
+    <label>M1 81mm mortar</label>
+    <description>A battalion infantry mortar firing heavy 81mm bombs in a high arc. It requires a crew and prepared M43 HE shells.</description>
+    <graphicData>
+      <texPath>Building/Security/HD_M181mmMortar</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.5,1.5)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.12</AccuracyTouch>
+      <AccuracyShort>0.35</AccuracyShort>
+      <AccuracyMedium>0.52</AccuracyMedium>
+      <AccuracyLong>0.45</AccuracyLong>
+      <RangedWeapon_Cooldown>8.0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <warmupTime>2.8</warmupTime>
+        <range>63.9</range>
+        <minRange>13.9</minRange>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>10</muzzleFlashScale>
+        <forcedMissRadius>5.5</forcedMissRadius>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_81mmMortarShell_M43HE</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_81mmMortarShell_M43HE</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_KragJorgensen_Weapon</defName>
     <weaponTags>
@@ -411,6 +894,94 @@
           <li>Blunt</li>
         </capacities>
         <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M1897_Weapon</defName>
+    <weaponTags>
+      <li>HD_WildWestLeverActionShotgun</li>
+      <li>HD_GreatWarShotgun</li>
+    </weaponTags>
+    <label>Frontier Arms M1897</label>
+    <description>A rugged pump-action trench shotgun built for close fighting. Its tubular magazine and fast action make it devastating at short range.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_M1897</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>34000</WorkToMake>
+      <Mass>3.7</Mass>
+      <AccuracyTouch>0.82</AccuracyTouch>
+      <AccuracyShort>0.66</AccuracyShort>
+      <AccuracyMedium>0.34</AccuracyMedium>
+      <AccuracyLong>0.12</AccuracyLong>
+      <RangedWeapon_Cooldown>2.1</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>70</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>0.65</altCooldownMultiplier>
+        <altAccuracyMultiplier>0.85</altAccuracyMultiplier>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1897_Proj</defaultProjectile>
+        <warmupTime>0.8</warmupTime>
+        <range>17.9</range>
+        <burstShotCount>9</burstShotCount>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <soundCast>Shot_Shotgun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1897_Proj</defaultProjectile>
+        <warmupTime>0.2</warmupTime>
+        <range>7.9</range>
+        <burstShotCount>9</burstShotCount>
+        <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <soundCast>Shot_Shotgun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>8</power>
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
@@ -489,6 +1060,173 @@
           <li>Blunt</li>
         </capacities>
         <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M1D_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarSemiAutoRifle</li>
+    </weaponTags>
+    <label>M1D Hartwell</label>
+    <description>A scoped M1 Hartwell variant built for accurate semi-automatic fire at extended range. It trades some close handling for steadier long-range shooting.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_m1d</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>52000</WorkToMake>
+      <Mass>4.7</Mass>
+      <AccuracyTouch>0.50</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.88</AccuracyMedium>
+      <AccuracyLong>0.86</AccuracyLong>
+      <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>95</Steel>
+      <ComponentIndustrial>7</ComponentIndustrial>
+      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.3</altAccuracyMultiplier>
+        <moveSpeedOffset>-0.4</moveSpeedOffset>
+        <switchTicks>120</switchTicks>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Garand_Proj</defaultProjectile>
+        <warmupTime>1.1</warmupTime>
+        <range>39.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Garand_Proj</defaultProjectile>
+        <warmupTime>1.7</warmupTime>
+        <range>47.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M1918A2HAR_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarLightMachineGun</li>
+    </weaponTags>
+    <label>M1918A2 HAR</label>
+    <description>A heavy automatic rifle designed to walk with the infantry line. Its slow-fire setting keeps short bursts controllable, while sharpshooters can brace into a faster suppressive mode.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_m1918a2Bar</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15, 1.15)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>48000</WorkToMake>
+      <Mass>8.8</Mass>
+      <AccuracyTouch>0.36</AccuracyTouch>
+      <AccuracyShort>0.45</AccuracyShort>
+      <AccuracyMedium>0.55</AccuracyMedium>
+      <AccuracyLong>0.38</AccuracyLong>
+      <RangedWeapon_Cooldown>2.1</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>85</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.25</altAccuracyMultiplier>
+        <moveSpeedOffset>-1.2</moveSpeedOffset>
+        <switchTicks>120</switchTicks>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Garand_Proj</defaultProjectile>
+        <warmupTime>1.2</warmupTime>
+        <range>31.9</range>
+        <burstShotCount>4</burstShotCount>
+        <ticksBetweenBurstShots>10</ticksBetweenBurstShots>
+        <soundCast>Shot_Minigun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>11</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Garand_Proj</defaultProjectile>
+        <warmupTime>1.2</warmupTime>
+        <range>38.9</range>
+        <burstShotCount>10</burstShotCount>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <soundCast>Shot_Minigun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>11</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>8</power>
         <cooldownTime>2</cooldownTime>
       </li>
     </tools>
@@ -658,6 +1396,83 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M1903A4_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarBoltActionRifle</li>
+    </weaponTags>
+    <label>Graylock M1903A4</label>
+    <description>A scoped M1903 variant prepared for deliberate long-range fire. It keeps the familiar action of the service rifle while stretching its effective reach.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_m1903a4</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>46000</WorkToMake>
+      <Mass>4.2</Mass>
+      <AccuracyTouch>0.45</AccuracyTouch>
+      <AccuracyShort>0.64</AccuracyShort>
+      <AccuracyMedium>0.91</AccuracyMedium>
+      <AccuracyLong>0.92</AccuracyLong>
+      <RangedWeapon_Cooldown>2.6</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>85</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.35</altAccuracyMultiplier>
+        <moveSpeedOffset>-0.4</moveSpeedOffset>
+        <switchTicks>120</switchTicks>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_SprMThree_Proj</defaultProjectile>
+        <warmupTime>1.8</warmupTime>
+        <range>43.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_SprMThree_Proj</defaultProjectile>
+        <warmupTime>1.8</warmupTime>
+        <range>52.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>12</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_M1903Pedersen_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarSemiAutoRifle</li>
@@ -734,5 +1549,69 @@
     </tools>
   </ThingDef>
 
-</Defs>
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>HD_M1902Saber</defName>
+    <label>M1902 officer saber</label>
+    <description>A light ceremonial service saber carried by officers. It looks proper on parade, but its narrow blade and light fittings make it a poor battlefield weapon.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_M1902Saber</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <techLevel>Industrial</techLevel>
+    <costStuffCount>55</costStuffCount>
+    <statBases>
+      <WorkToMake>9000</WorkToMake>
+      <Mass>0.95</Mass>
+    </statBases>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <weaponTags>
+      <li>HD_WildWestCavalrySaber</li>
+    </weaponTags>
+    <tools>
+      <li>
+        <label>handle</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>1.7</cooldownTime>
+      </li>
+      <li>
+        <label>point</label>
+        <capacities>
+          <li>Stab</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2.0</cooldownTime>
+      </li>
+      <li>
+        <label>edge</label>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>12</power>
+        <cooldownTime>2.1</cooldownTime>
+      </li>
+    </tools>
+    <recipeMaker>
+      <recipeUsers>
+        <li>ElectricSmithy</li>
+        <li>FueledSmithy</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <researchPrerequisites>
+      <li>HelodRespectForPatrioticMartyrs</li>
+    </researchPrerequisites>
+    <modExtensions>
+      <li Class="Helodrace.HonorGuardEquipmentExtension" />
+    </modExtensions>
+  </ThingDef>
 
+</Defs>

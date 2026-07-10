@@ -16,4 +16,19 @@
     </subSounds>
   </SoundDef>
 
+  <SoundDef>
+    <defName>HD_GunHit</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_GunHit</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~38</volumeRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
 </Defs>

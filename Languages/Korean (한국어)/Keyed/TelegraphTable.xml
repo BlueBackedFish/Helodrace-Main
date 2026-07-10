@@ -22,9 +22,35 @@
   <HD_TelegraphTable_Military_Title>군사 협력</HD_TelegraphTable_Military_Title>
   <HD_TelegraphTable_Military_Placeholder>군사 연락망이 열려 있습니다. 지원 요청과 전진기지 구축 계약은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Military_Placeholder>
   <HD_TelegraphTable_Military_RequestSupport>지원 요청</HD_TelegraphTable_Military_RequestSupport>
+  <HD_SniperSupport_ModePrompt>저격지원 방식을 선택합니다.</HD_SniperSupport_ModePrompt>
+  <HD_SniperSupport_Suppress>저격지원: 제압</HD_SniperSupport_Suppress>
+  <HD_SniperSupport_Kill>저격지원: 사살</HD_SniperSupport_Kill>
+  <HD_SniperSupport_CommandDesc>전진기지 저격수를 호출해 시야에 잡힌 폰이나 구조물을 사격합니다. 대상은 맵 경계에서 시야가 닿아야 합니다.</HD_SniperSupport_CommandDesc>
+  <HD_SniperSupport_Unavailable>범위 내에 계약된 저격지원이 없습니다.</HD_SniperSupport_Unavailable>
+  <HD_SniperSupport_InvalidTarget>대상이 맵 경계 시야에 닿지 않습니다.</HD_SniperSupport_InvalidTarget>
+  <HD_SniperSupport_Called>저격지원이 조준을 시작했습니다.</HD_SniperSupport_Called>
+  <HD_SniperSupport_LostTarget>저격지원이 대상을 놓쳤습니다.</HD_SniperSupport_LostTarget>
+  <HD_ForwardBase_ServiceUnavailable>이 전진기지는 해당 서비스를 제공하지 않습니다.</HD_ForwardBase_ServiceUnavailable>
+  <HD_ForwardBase_ServiceQuotaExhausted>{0}의 {2}일 한도 {1}{3}을 모두 사용했습니다.</HD_ForwardBase_ServiceQuotaExhausted>
+  <HD_ForwardBase_ServiceCreditExhausted>이번 {0}일 기간의 서비스 신용 예산을 모두 사용했습니다. 신용 한도: {1}.</HD_ForwardBase_ServiceCreditExhausted>
+  <HD_ForwardBase_ServiceUsageHeader>서비스 사용량 ({0}일 단위)</HD_ForwardBase_ServiceUsageHeader>
+  <HD_ForwardBase_ServiceUsageLineLimited>{0}: {1}/{2}{4}, 누적 {3}</HD_ForwardBase_ServiceUsageLineLimited>
+  <HD_ForwardBase_ServiceUsageLineUnlimited>{0}: 이번 기간 {1}{3}, 누적 {2}</HD_ForwardBase_ServiceUsageLineUnlimited>
+  <HD_ForwardBase_ServiceUsageUnit_Call>회 호출</HD_ForwardBase_ServiceUsageUnit_Call>
+  <HD_ForwardBase_ServiceUsageUnit_Shot>발</HD_ForwardBase_ServiceUsageUnit_Shot>
+  <HD_ForwardBase_ServiceUsageCredit>기간 서비스 비용: 신용 {0}/{1}</HD_ForwardBase_ServiceUsageCredit>
+  <HD_ForwardBase_ServiceUsageReimbursable>비용 상환 누적액: {0}</HD_ForwardBase_ServiceUsageReimbursable>
+  <HD_ForwardBase_PeriodPaymentFailed>서비스 기간 정산 실패: HD_Money {0}개가 필요합니다.</HD_ForwardBase_PeriodPaymentFailed>
+  <HD_ForwardBase_PeriodPaymentDefaulted>서비스 기간 정산에 실패했습니다. 전진기지가 철수합니다.</HD_ForwardBase_PeriodPaymentDefaulted>
+  <HD_ForwardBase_ContractTimeLeft>남은 계약 기간: {0}</HD_ForwardBase_ContractTimeLeft>
+  <HD_ForwardBase_ContractCompleted>전진기지 계약이 종료되었습니다. 우호도가 조금 상승했습니다.</HD_ForwardBase_ContractCompleted>
+  <HD_ForwardBase_WithdrawalTimeLeft>남은 철수 기간: {0}</HD_ForwardBase_WithdrawalTimeLeft>
+  <HD_ForwardBase_WithdrawalCompleted>전진기지 철수가 완료되었습니다.</HD_ForwardBase_WithdrawalCompleted>
   <HD_TelegraphTable_Military_ForwardBase>전진기지 구축 계약</HD_TelegraphTable_Military_ForwardBase>
   <HD_TelegraphTable_Military_ForwardBaseContracts>전진기지 계약 목록</HD_TelegraphTable_Military_ForwardBaseContracts>
   <HD_TelegraphTable_Military_SelectActivity>군사 협력 활동을 선택하십시오.</HD_TelegraphTable_Military_SelectActivity>
+  <HD_TelegraphTable_Military_Faction>협력 팩션</HD_TelegraphTable_Military_Faction>
+  <HD_TelegraphTable_Military_FactionNone>사용 가능한 팩션 없음</HD_TelegraphTable_Military_FactionNone>
   <HD_TelegraphTable_ForwardBaseContracts_Title>전진기지 계약 목록</HD_TelegraphTable_ForwardBaseContracts_Title>
   <HD_TelegraphTable_ForwardBaseContracts_None>전진기지 계약이 없습니다.</HD_TelegraphTable_ForwardBaseContracts_None>
   <HD_TelegraphTable_ForwardBaseContracts_Row>{0} | 타일 {1}</HD_TelegraphTable_ForwardBaseContracts_Row>
@@ -32,12 +58,14 @@
   <HD_TelegraphTable_ForwardBaseContracts_StatusComplete>완성</HD_TelegraphTable_ForwardBaseContracts_StatusComplete>
   <HD_TelegraphTable_ForwardBaseContracts_Info>정보</HD_TelegraphTable_ForwardBaseContracts_Info>
   <HD_TelegraphTable_ForwardBaseContracts_Jump>이동</HD_TelegraphTable_ForwardBaseContracts_Jump>
-  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>위치: 타일 {0}, 헤로드 정착지 거리 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>위치: 타일 {0}, 협력 팩션 정착지 거리 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFaction>협력 팩션: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoFaction>
   <HD_TelegraphTable_ForwardBaseContracts_InfoBase>기지 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
   <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>비용 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
   <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ 서비스 지시 상환방식: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
   <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>계약기간: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
   <HD_TelegraphTable_ForwardBaseContracts_InfoServices>서비스: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>서비스 계산 단위: {0}일</HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>
   <HD_TelegraphTable_ForwardBaseContracts_InfoCredit>계약 시점 군사 신용: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCredit>
   <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
   <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\n타일 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
@@ -48,8 +76,8 @@
   <HD_TelegraphTable_ForwardBase_NoLocation>기지 위치가 지정되지 않았습니다.</HD_TelegraphTable_ForwardBase_NoLocation>
   <HD_TelegraphTable_ForwardBase_InvalidLocation>전진기지를 세울 월드 타일을 선택해야 합니다.</HD_TelegraphTable_ForwardBase_InvalidLocation>
   <HD_TelegraphTable_ForwardBase_Credit>군사 신용: {0}</HD_TelegraphTable_ForwardBase_Credit>
-  <HD_TelegraphTable_ForwardBase_Distance>가장 가까운 헤로드 정착지 거리: {0}/{1} 타일</HD_TelegraphTable_ForwardBase_Distance>
-  <HD_TelegraphTable_ForwardBase_DistanceUnknown>가장 가까운 헤로드 정착지 거리: 먼저 기지 위치를 지정해야 합니다.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
+  <HD_TelegraphTable_ForwardBase_Distance>가장 가까운 협력 팩션 정착지 거리: {0}/{1} 타일</HD_TelegraphTable_ForwardBase_Distance>
+  <HD_TelegraphTable_ForwardBase_DistanceUnknown>가장 가까운 협력 팩션 정착지 거리: 먼저 기지 위치를 지정해야 합니다.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
   <HD_TelegraphTable_ForwardBase_BaseKind>기지 종류</HD_TelegraphTable_ForwardBase_BaseKind>
   <HD_TelegraphTable_ForwardBase_CostKind>비용 종류</HD_TelegraphTable_ForwardBase_CostKind>
   <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ 서비스 지시 상환방식</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
@@ -95,6 +123,7 @@
   <HD_TelegraphTable_ForwardBase_ServiceType_Logistics>군수</HD_TelegraphTable_ForwardBase_ServiceType_Logistics>
   <HD_TelegraphTable_ForwardBase_ServiceType_Empty>아직 등록된 서비스가 없습니다.</HD_TelegraphTable_ForwardBase_ServiceType_Empty>
   <HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>박격포 지원</HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>저격지원</HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>
   <HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>보병 투입</HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>
   <HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>신선 식품</HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>
   <HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>보존 식량</HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>

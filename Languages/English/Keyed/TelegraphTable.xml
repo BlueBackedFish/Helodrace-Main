@@ -22,9 +22,35 @@
   <HD_TelegraphTable_Military_Title>Military cooperation</HD_TelegraphTable_Military_Title>
   <HD_TelegraphTable_Military_Placeholder>Military liaison is available. Support requests and forward base contracts will be connected here later.</HD_TelegraphTable_Military_Placeholder>
   <HD_TelegraphTable_Military_RequestSupport>Request support</HD_TelegraphTable_Military_RequestSupport>
+  <HD_SniperSupport_ModePrompt>Select sniper support mode.</HD_SniperSupport_ModePrompt>
+  <HD_SniperSupport_Suppress>Sniper support: suppress</HD_SniperSupport_Suppress>
+  <HD_SniperSupport_Kill>Sniper support: kill</HD_SniperSupport_Kill>
+  <HD_SniperSupport_CommandDesc>Call a forward-base sniper shot on a visible pawn or building. The target must be visible from the map edge.</HD_SniperSupport_CommandDesc>
+  <HD_SniperSupport_Unavailable>No contracted sniper support is in range.</HD_SniperSupport_Unavailable>
+  <HD_SniperSupport_InvalidTarget>The target is not visible from the map edge.</HD_SniperSupport_InvalidTarget>
+  <HD_SniperSupport_Called>Sniper support is aiming.</HD_SniperSupport_Called>
+  <HD_SniperSupport_LostTarget>Sniper support lost the target.</HD_SniperSupport_LostTarget>
+  <HD_ForwardBase_ServiceUnavailable>This forward base does not provide that service.</HD_ForwardBase_ServiceUnavailable>
+  <HD_ForwardBase_ServiceQuotaExhausted>{0} has reached its {2}-day limit of {1} {3}.</HD_ForwardBase_ServiceQuotaExhausted>
+  <HD_ForwardBase_ServiceCreditExhausted>Service credit budget for this {0}-day period is exhausted. Credit limit: {1}.</HD_ForwardBase_ServiceCreditExhausted>
+  <HD_ForwardBase_ServiceUsageHeader>Service usage ({0}-day period)</HD_ForwardBase_ServiceUsageHeader>
+  <HD_ForwardBase_ServiceUsageLineLimited>{0}: {1}/{2} {4}, total {3}</HD_ForwardBase_ServiceUsageLineLimited>
+  <HD_ForwardBase_ServiceUsageLineUnlimited>{0}: {1} {3} this period, total {2}</HD_ForwardBase_ServiceUsageLineUnlimited>
+  <HD_ForwardBase_ServiceUsageUnit_Call>calls</HD_ForwardBase_ServiceUsageUnit_Call>
+  <HD_ForwardBase_ServiceUsageUnit_Shot>shots</HD_ForwardBase_ServiceUsageUnit_Shot>
+  <HD_ForwardBase_ServiceUsageCredit>Period service cost: {0}/{1} credit</HD_ForwardBase_ServiceUsageCredit>
+  <HD_ForwardBase_ServiceUsageReimbursable>Reimbursable usage total: {0}</HD_ForwardBase_ServiceUsageReimbursable>
+  <HD_ForwardBase_PeriodPaymentFailed>Service period settlement failed: {0} HD_Money required.</HD_ForwardBase_PeriodPaymentFailed>
+  <HD_ForwardBase_PeriodPaymentDefaulted>Service period settlement failed. The forward base is withdrawing.</HD_ForwardBase_PeriodPaymentDefaulted>
+  <HD_ForwardBase_ContractTimeLeft>Contract time left: {0}</HD_ForwardBase_ContractTimeLeft>
+  <HD_ForwardBase_ContractCompleted>Forward base contract completed. Goodwill improved slightly.</HD_ForwardBase_ContractCompleted>
+  <HD_ForwardBase_WithdrawalTimeLeft>Withdrawal time left: {0}</HD_ForwardBase_WithdrawalTimeLeft>
+  <HD_ForwardBase_WithdrawalCompleted>Forward base withdrawal completed.</HD_ForwardBase_WithdrawalCompleted>
   <HD_TelegraphTable_Military_ForwardBase>Forward base contract</HD_TelegraphTable_Military_ForwardBase>
   <HD_TelegraphTable_Military_ForwardBaseContracts>Forward base contracts</HD_TelegraphTable_Military_ForwardBaseContracts>
   <HD_TelegraphTable_Military_SelectActivity>Select a military cooperation activity.</HD_TelegraphTable_Military_SelectActivity>
+  <HD_TelegraphTable_Military_Faction>Cooperation faction</HD_TelegraphTable_Military_Faction>
+  <HD_TelegraphTable_Military_FactionNone>No available faction</HD_TelegraphTable_Military_FactionNone>
   <HD_TelegraphTable_ForwardBaseContracts_Title>Forward base contracts</HD_TelegraphTable_ForwardBaseContracts_Title>
   <HD_TelegraphTable_ForwardBaseContracts_None>No forward base contracts.</HD_TelegraphTable_ForwardBaseContracts_None>
   <HD_TelegraphTable_ForwardBaseContracts_Row>{0} | Tile {1}</HD_TelegraphTable_ForwardBaseContracts_Row>
@@ -32,12 +58,14 @@
   <HD_TelegraphTable_ForwardBaseContracts_StatusComplete>Complete</HD_TelegraphTable_ForwardBaseContracts_StatusComplete>
   <HD_TelegraphTable_ForwardBaseContracts_Info>Info</HD_TelegraphTable_ForwardBaseContracts_Info>
   <HD_TelegraphTable_ForwardBaseContracts_Jump>Jump</HD_TelegraphTable_ForwardBaseContracts_Jump>
-  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>Location: tile {0}, Helod settlement distance {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>Location: tile {0}, cooperation faction settlement distance {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFaction>Cooperation faction: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoFaction>
   <HD_TelegraphTable_ForwardBaseContracts_InfoBase>Base type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
   <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>Cost type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
   <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ service order pricing: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
   <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>Duration: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
   <HD_TelegraphTable_ForwardBaseContracts_InfoServices>Services: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>Service billing/counting unit: {0} days</HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>
   <HD_TelegraphTable_ForwardBaseContracts_InfoCredit>Military credit at signing: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCredit>
   <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
   <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\nTile {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
@@ -48,8 +76,8 @@
   <HD_TelegraphTable_ForwardBase_NoLocation>No base location selected.</HD_TelegraphTable_ForwardBase_NoLocation>
   <HD_TelegraphTable_ForwardBase_InvalidLocation>Select a valid world tile for the forward base.</HD_TelegraphTable_ForwardBase_InvalidLocation>
   <HD_TelegraphTable_ForwardBase_Credit>Military credit: {0}</HD_TelegraphTable_ForwardBase_Credit>
-  <HD_TelegraphTable_ForwardBase_Distance>Nearest Helod settlement distance: {0}/{1} tiles</HD_TelegraphTable_ForwardBase_Distance>
-  <HD_TelegraphTable_ForwardBase_DistanceUnknown>Nearest Helod settlement distance: select a base location first.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
+  <HD_TelegraphTable_ForwardBase_Distance>Nearest cooperation faction settlement distance: {0}/{1} tiles</HD_TelegraphTable_ForwardBase_Distance>
+  <HD_TelegraphTable_ForwardBase_DistanceUnknown>Nearest cooperation faction settlement distance: select a base location first.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
   <HD_TelegraphTable_ForwardBase_BaseKind>Base type</HD_TelegraphTable_ForwardBase_BaseKind>
   <HD_TelegraphTable_ForwardBase_CostKind>Cost type</HD_TelegraphTable_ForwardBase_CostKind>
   <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ service order pricing</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
@@ -95,6 +123,7 @@
   <HD_TelegraphTable_ForwardBase_ServiceType_Logistics>Logistics</HD_TelegraphTable_ForwardBase_ServiceType_Logistics>
   <HD_TelegraphTable_ForwardBase_ServiceType_Empty>No services configured yet.</HD_TelegraphTable_ForwardBase_ServiceType_Empty>
   <HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>Mortar support</HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>Sniper support</HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>
   <HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>Infantry deployment</HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>
   <HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>Fresh food</HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>
   <HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>Preserved rations</HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>

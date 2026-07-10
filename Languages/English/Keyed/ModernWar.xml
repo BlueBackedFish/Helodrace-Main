@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_SwitchbladeLauncher_RequiresTablet>Requires a pawn equipped with a military tablet.</HD_SwitchbladeLauncher_RequiresTablet>
+  <HD_SwitchbladeLauncher_AlreadyFired>The Switchblade launch canister has already been fired.</HD_SwitchbladeLauncher_AlreadyFired>
+  <HD_SwitchbladeLauncher_RequiresAmmo>Requires a loaded Switchblade 600 round.</HD_SwitchbladeLauncher_RequiresAmmo>
+  <HD_SwitchbladeTablet_SelectLoiter_Label>Set loiter circle</HD_SwitchbladeTablet_SelectLoiter_Label>
+  <HD_SwitchbladeTablet_SelectLoiter_Desc>Choose the center of the linked Switchblade's loitering circle.</HD_SwitchbladeTablet_SelectLoiter_Desc>
+  <HD_SwitchbladeTablet_Target_Label>Designate target</HD_SwitchbladeTablet_Target_Label>
+  <HD_SwitchbladeTablet_Target_Desc>Designate a target point for the linked Switchblade. It will turn onto the attack heading, then dive at 1.8x loiter speed.</HD_SwitchbladeTablet_Target_Desc>
+  <HD_SwitchbladeTablet_NoLinkedDrone>No linked Switchblade drone.</HD_SwitchbladeTablet_NoLinkedDrone>
+  <HD_SwitchbladeTablet_LoiterUpdated>Switchblade loiter circle updated.</HD_SwitchbladeTablet_LoiterUpdated>
+  <HD_SwitchbladeTablet_TargetDesignated>Switchblade target designated.</HD_SwitchbladeTablet_TargetDesignated>
+  <HD_SwitchbladeTablet_ReturnLoiter_Label>Return to loiter</HD_SwitchbladeTablet_ReturnLoiter_Label>
+  <HD_SwitchbladeTablet_ReturnLoiter_Desc>Cancel the attack run before impact and return the linked Switchblade to loitering flight.</HD_SwitchbladeTablet_ReturnLoiter_Desc>
+  <HD_SwitchbladeTablet_ReturnLoiter_NotNeeded>The linked Switchblade is already loitering.</HD_SwitchbladeTablet_ReturnLoiter_NotNeeded>
+  <HD_M47Dragon_ChangeTarget_Label>Change missile target</HD_M47Dragon_ChangeTarget_Label>
+  <HD_M47Dragon_ChangeTarget_Desc>Redirect the in-flight M222 missile to a new target. Steering begins on the next guidance pulse.</HD_M47Dragon_ChangeTarget_Desc>
+  <HD_M47Dragon_ChangeTarget_WireBroken>The M47 Dragon guidance wire is broken.</HD_M47Dragon_ChangeTarget_WireBroken>
+  <HD_M47Dragon_TargetChanged>M222 missile target changed.</HD_M47Dragon_TargetChanged>
+  <HD_M47Dragon_ActiveMissileBlocksFire>Cannot fire while the previously launched M222 missile is still in flight.</HD_M47Dragon_ActiveMissileBlocksFire>
+  <HD_M47Dragon_ChangeTarget_HelodOnly>Only a Helod operator can redirect an M222 missile in flight.</HD_M47Dragon_ChangeTarget_HelodOnly>
+</LanguageData>

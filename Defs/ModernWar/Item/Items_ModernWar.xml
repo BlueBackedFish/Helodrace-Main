@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>HD_SwitchbladeMunitions</defName>
+    <label>Switchblade munitions</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Switchblade600_Round</defName>
+    <label>Switchblade 600 round</label>
+    <description>A sealed Switchblade 600 loitering munition packed with its wings folded for loading into a launch canister.</description>
+    <projectileWhenLoaded>HD_Switchblade600_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_SwitchBlade600_FoldBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>950</MarketValue>
+      <Mass>7.2</Mass>
+      <Flammability>0.55</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_SwitchbladeMunitions</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_MilitaryTablet</defName>
+    <label>military tablet</label>
+    <description>A rugged tactical tablet with sealed controls, a hardened screen, and a compact radio antenna. Worn as command gear, it authorizes operation of Switchblade launchers.</description>
+    <graphicData>
+      <texPath>Item/HD_MilitaryTablet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <MarketValue>280</MarketValue>
+      <Mass>1.4</Mass>
+      <Flammability>0.35</Flammability>
+      <EquipDelay>0.8</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <drawData>
+        <defaultData>
+          <layer>110</layer>
+        </defaultData>
+      </drawData>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>Soldier</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <comps>
+      <li Class="Helodrace.CompProperties_SwitchbladeTablet" />
+    </comps>
+  </ThingDef>
+
+</Defs>

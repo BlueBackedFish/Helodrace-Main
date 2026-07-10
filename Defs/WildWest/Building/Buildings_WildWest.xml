@@ -696,7 +696,7 @@
     <graphicData>
       <texPath>Building/HD_RollingMC</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3.4,3.4)</drawSize>
+      <drawSize>(3.0,3.0)</drawSize>
       <drawOffset>(0,0,0.1)</drawOffset>
       <shaderType>CutoutComplex</shaderType>
       <shadowData>

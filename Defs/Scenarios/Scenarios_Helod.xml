@@ -31,7 +31,7 @@
         <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_Xenotypes">
           <def>ConfigurePawnsXenotypes</def>
           <pawnChoiceCount>4</pawnChoiceCount>
-          <customSummary>네 명의 다양한 헬로드 아종 개척자로 시작합니다.</customSummary>
+          <customSummary>네 명의 다양한 헤로드 아종 개척자로 시작합니다.</customSummary>
           <overrideKinds>
             <li>
               <xenotype>HD_MackenzieValleyHelod</xenotype>

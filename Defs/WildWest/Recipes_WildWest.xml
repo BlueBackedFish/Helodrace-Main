@@ -2732,6 +2732,159 @@
   </RecipeDef>
 
 
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1897_Weapon</defName>
+    <label>craft Frontier Arms M1897</label>
+    <description>Craft Frontier Arms M1897 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting Frontier Arms M1897.</jobString>
+    <workAmount>52000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodSmokeLessGunpowder</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_ShotgunBarrel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_LowQualityMagazineSpring</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>60</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_PressComponent</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_ShotgunBarrel</li>
+        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_CarbonSteel</li>
+        <li>WoodLog</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1897_Weapon>1</HD_Gun_M1897_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>8</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1903A4_Weapon</defName>
+    <label>craft Graylock M1903A4</label>
+    <description>Craft Graylock M1903A4 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting Graylock M1903A4.</jobString>
+    <workAmount>50000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodSniperRifle</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_Gun_SprMThree_Weapon</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>18</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_Gun_SprMThree_Weapon</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1903A4_Weapon>1</HD_Gun_M1903A4_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+
 
   <RecipeDef>
     <defName>HD_Make_Gun_M1903Pedersen_Weapon</defName>
@@ -2805,6 +2958,237 @@
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1A1Harrington_Weapon</defName>
+    <label>craft M1A1 Harrington</label>
+    <description>Craft M1A1 Harrington using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M1A1 Harrington.</jobString>
+    <workAmount>56000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodBasicModernRifle</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_WildWestBarrel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_LowQualityMagazineSpring</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>70</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_PressComponent</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_CarbonSteel</li>
+        <li>WoodLog</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1A1Harrington_Weapon>1</HD_Gun_M1A1Harrington_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M3A1_Weapon</defName>
+    <label>craft M3A1 submachine gun</label>
+    <description>Craft M3A1 submachine gun using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M3A1 submachine gun.</jobString>
+    <workAmount>46000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodBasicModernRifle</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_WildWestBarrel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_LowQualityMagazineSpring</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>52</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_PressComponent</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M3A1_Weapon>1</HD_Gun_M3A1_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>9</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M9A1_Weapon</defName>
+    <label>craft M9A1 recoilless launcher</label>
+    <description>Craft an M9A1 recoilless launcher using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M9A1 recoilless launcher.</jobString>
+    <workAmount>54000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_WildWestBarrel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>55</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>5</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_PressComponent</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M9A1_Weapon>1</HD_Gun_M9A1_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>8</Crafting>
     </skillRequirements>
   </RecipeDef>
 
@@ -2885,6 +3269,158 @@
     </fixedIngredientFilter>
     <products>
       <HD_Gun_M1Garand_Weapon>1</HD_Gun_M1Garand_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1918A2HAR_Weapon</defName>
+    <label>craft M1918A2 HAR</label>
+    <description>Craft M1918A2 HAR using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M1918A2 HAR.</jobString>
+    <workAmount>62000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodHighMachineGun</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_WildWestBarrel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_LowQualityMagazineSpring</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>78</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>6</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_PressComponent</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_CarbonSteel</li>
+        <li>WoodLog</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1918A2HAR_Weapon>1</HD_Gun_M1918A2HAR_Weapon>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>10</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1D_Weapon</defName>
+    <label>craft M1D Hartwell</label>
+    <description>Craft M1D Hartwell using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M1D Hartwell.</jobString>
+    <workAmount>52000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodSniperRifle</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_Gun_M1Garand_Weapon</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>18</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_GeneralMachinePart</li>
+          </thingDefs>
+        </filter>
+        <count>4</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>ComponentIndustrial</li>
+          </thingDefs>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_Gun_M1Garand_Weapon</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Gun_M1D_Weapon>1</HD_Gun_M1D_Weapon>
     </products>
     <recipeUsers>
       <li>HD_BasicWorkbench</li>

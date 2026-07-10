@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_RecoillessWeapon_Loaded>장전됨</HD_RecoillessWeapon_Loaded>
+  <HD_RecoillessWeapon_Unloaded>미장전</HD_RecoillessWeapon_Unloaded>
+  <HD_RecoillessWeapon_Reload_Label>재장전</HD_RecoillessWeapon_Reload_Label>
+  <HD_RecoillessWeapon_Reload_Desc>착용 중인 M6 가방 탄약이나 지정된 장전수의 M6 가방 탄약으로 이 무기를 장전합니다.</HD_RecoillessWeapon_Reload_Desc>
+  <HD_RecoillessWeapon_AlreadyLoaded>이미 장전되어 있습니다.</HD_RecoillessWeapon_AlreadyLoaded>
+  <HD_RecoillessWeapon_NoReloadRound>장전에 사용할 탄약이 없습니다.</HD_RecoillessWeapon_NoReloadRound>
+  <HD_RecoillessWeapon_NeedsReload>{0}은(는) 장전되어 있지 않습니다.</HD_RecoillessWeapon_NeedsReload>
+  <HD_RecoillessWeapon_NoAssignedLoader>지정된 장전수가 없거나 장전수가 사용할 탄약을 가지고 있지 않습니다.</HD_RecoillessWeapon_NoAssignedLoader>
+  <HD_RecoillessWeapon_LoaderNotAdjacent>{0}이(가) 사수 옆에 대기하고 있지 않습니다.</HD_RecoillessWeapon_LoaderNotAdjacent>
+  <HD_RecoillessWeapon_ModeSelf>장전 방식: 스스로</HD_RecoillessWeapon_ModeSelf>
+  <HD_RecoillessWeapon_ModeCrew>장전 방식: 2인 1조</HD_RecoillessWeapon_ModeCrew>
+  <HD_RecoillessWeapon_ModeDesc>무반동포의 장전 방식을 전환합니다.</HD_RecoillessWeapon_ModeDesc>
+  <HD_RecoillessWeapon_AssignLoader>장전수 지정</HD_RecoillessWeapon_AssignLoader>
+  <HD_RecoillessWeapon_AssignedLoader>장전수: {0}</HD_RecoillessWeapon_AssignedLoader>
+  <HD_RecoillessWeapon_AssignLoaderDesc>M6 가방을 착용한 폰을 장전수로 지정합니다.</HD_RecoillessWeapon_AssignLoaderDesc>
+  <HD_RecoillessWeapon_LoaderStandby>장전수 대기</HD_RecoillessWeapon_LoaderStandby>
+  <HD_RecoillessWeapon_LoaderStandbyDesc>지정된 장전수를 사수 인접 타일로 이동시켜 대기하게 합니다.</HD_RecoillessWeapon_LoaderStandbyDesc>
+  <HD_RecoillessWeapon_AmmoLabel>탄종: {0}</HD_RecoillessWeapon_AmmoLabel>
+  <HD_RecoillessWeapon_AmmoDesc>이 무반동포가 다음 장전에 사용할 탄종을 선택합니다.</HD_RecoillessWeapon_AmmoDesc>
+  <HD_RecoillessWeapon_SelectAmmo>{0} 선택</HD_RecoillessWeapon_SelectAmmo>
+  <HD_RecoillessWeapon_AmmoSelected>{0} 선택됨</HD_RecoillessWeapon_AmmoSelected>
+  <HD_M6RocketBag_Contents>탄약 가방: {0} ({1}/{2})</HD_M6RocketBag_Contents>
+  <HD_M6RocketBag_Empty>비어 있음</HD_M6RocketBag_Empty>
+  <HD_M6RocketBag_Full>가득 참</HD_M6RocketBag_Full>
+  <HD_M6RocketBag_NoAmmoOnMap>가져올 수 있는 {0}이(가) 맵에 없습니다.</HD_M6RocketBag_NoAmmoOnMap>
+  <HD_ITab_M6RocketBag_Title>M6 가방</HD_ITab_M6RocketBag_Title>
+  <HD_ITab_M6RocketBag_NoBag>착용 중인 M6 로켓 가방이 없습니다.</HD_ITab_M6RocketBag_NoBag>
+  <HD_ITab_M6RocketBag_Stored>적재량: {0}/{1}</HD_ITab_M6RocketBag_Stored>
+  <HD_ITab_M6RocketBag_AmmoRow>{0}   가방 {1}</HD_ITab_M6RocketBag_AmmoRow>
+  <HD_ITab_M6RocketBag_LoadMapShort>맵</HD_ITab_M6RocketBag_LoadMapShort>
+  <HD_ITab_M6RocketBag_DropShort>빼기</HD_ITab_M6RocketBag_DropShort>
+</LanguageData>
