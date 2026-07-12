@@ -19,6 +19,7 @@ namespace Helodrace
         public float terminalOscillationFactor = 0.15f;
         public float terminalSteeringMultiplier = 1.6f;
         public float directHitRadius = 0.42f;
+        public float alignedCoastAngleDegrees = 2f;
     }
 
     /// <summary>
@@ -303,6 +304,20 @@ namespace Helodrace
 
             float distanceToAimPoint = desiredDirection.magnitude;
             desiredDirection.Normalize();
+            M47DragonProjectileExtension extension = def.GetModExtension<M47DragonProjectileExtension>();
+            float idealSteeringError = Vector3.SignedAngle(flightDirection, desiredDirection, Vector3.up);
+            float coastAngle = Mathf.Max(0f, extension?.alignedCoastAngleDegrees ?? 2f);
+            if (Mathf.Abs(idealSteeringError) <= coastAngle)
+            {
+                // The missile is already sufficiently aligned. Advance the
+                // oscillation phase, but do not fire a steering charge during
+                // this cycle.
+                steeringPulseCount++;
+                steeringFlameTicksLeft = 0;
+                steeringTextureSuffix = null;
+                return;
+            }
+
             float terminalFactor = TerminalGuidanceFactor(distanceToAimPoint);
             float oscillationDegrees = SteeringOscillationDegrees(terminalFactor);
             desiredDirection = Quaternion.AngleAxis(oscillationDegrees, Vector3.up) * desiredDirection;
@@ -310,7 +325,6 @@ namespace Helodrace
             float absoluteError = Mathf.Abs(signedError);
             bool weakSteering = absoluteError <= WeakSteeringThresholdDegrees;
             float maximumTurn = weakSteering ? WeakSteeringDegreesPerPulse : StrongSteeringDegreesPerPulse;
-            M47DragonProjectileExtension extension = def.GetModExtension<M47DragonProjectileExtension>();
             float terminalSteeringMultiplier = Mathf.Max(1f, extension?.terminalSteeringMultiplier ?? 1.6f);
             maximumTurn *= Mathf.Lerp(1f, terminalSteeringMultiplier, terminalFactor);
             float appliedTurn = Mathf.Clamp(signedError, -maximumTurn, maximumTurn);

@@ -203,6 +203,27 @@ namespace Helodrace
             return ServiceBaseCost(service) / limit;
         }
 
+        public static float MortarCallCostGoldStandard(ThingDef shellDef, int shellCount)
+        {
+            if (shellDef == null || shellCount <= 0) return 0f;
+            // Ammo market values are silver-denominated. Convert the full fire mission to
+            // gold-standard Sthaler so every future shell Def automatically gets its own price.
+            return Mathf.Max(1f, shellDef.BaseMarketValue * shellCount / GoldStandardSthalerSilverValue);
+        }
+
+        public static System.Collections.Generic.List<ThingDef> AvailableMortarShells()
+        {
+            ThingCategoryDef category = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("HD_81mmMortarShells");
+            var result = new System.Collections.Generic.List<ThingDef>();
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+            {
+                if (def.projectileWhenLoaded == null || category == null || def.thingCategories == null || !def.thingCategories.Contains(category)) continue;
+                result.Add(def);
+            }
+            result.SortBy(x => x.label);
+            return result;
+        }
+
         public static float CurrentSthalerSilverValue()
         {
             return Mathf.Max(0.01f, HelodMarketState.Current?.SthalerSilverValue ?? GoldStandardSthalerSilverValue);

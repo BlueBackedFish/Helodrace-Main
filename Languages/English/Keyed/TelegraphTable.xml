@@ -30,6 +30,36 @@
   <HD_SniperSupport_InvalidTarget>The target is not visible from the map edge.</HD_SniperSupport_InvalidTarget>
   <HD_SniperSupport_Called>Sniper support is aiming.</HD_SniperSupport_Called>
   <HD_SniperSupport_LostTarget>Sniper support lost the target.</HD_SniperSupport_LostTarget>
+  <HD_TelegraphTable_Support_Title>Forward-base support request</HD_TelegraphTable_Support_Title>
+  <HD_TelegraphTable_Support_Base>1. Select forward base</HD_TelegraphTable_Support_Base>
+  <HD_TelegraphTable_Support_TargetMap>2. Select settlement or encounter map</HD_TelegraphTable_Support_TargetMap>
+  <HD_TelegraphTable_Support_Settlement>Settlement</HD_TelegraphTable_Support_Settlement>
+  <HD_TelegraphTable_Support_Encounter>Encounter</HD_TelegraphTable_Support_Encounter>
+  <HD_TelegraphTable_Support_Sniper>Request sniper support</HD_TelegraphTable_Support_Sniper>
+  <HD_TelegraphTable_Support_MortarComing>Mortar support (next step)</HD_TelegraphTable_Support_MortarComing>
+  <HD_TelegraphTable_Support_Mortar>Mortar support: {0}</HD_TelegraphTable_Support_Mortar>
+  <HD_TelegraphTable_Support_MortarSelect>Mortar support — select ammunition</HD_TelegraphTable_Support_MortarSelect>
+  <HD_TelegraphTable_Support_Catalog>Contracted support services</HD_TelegraphTable_Support_Catalog>
+  <HD_TelegraphTable_Support_SniperDesc>Choose suppression or precision kill support.</HD_TelegraphTable_Support_SniperDesc>
+  <HD_TelegraphTable_Support_MortarCatalog>Mortar support</HD_TelegraphTable_Support_MortarCatalog>
+  <HD_TelegraphTable_Support_MortarDesc>Choose ammunition, then designate the bombardment area.</HD_TelegraphTable_Support_MortarDesc>
+  <HD_TelegraphTable_Support_Select>Select service</HD_TelegraphTable_Support_Select>
+  <HD_TelegraphTable_Support_UnavailableShort>Out of range or unavailable</HD_TelegraphTable_Support_UnavailableShort>
+  <HD_TelegraphTable_Support_SelectFirst>Select a forward base and target map to view its service catalog.</HD_TelegraphTable_Support_SelectFirst>
+  <HD_TelegraphTable_Support_SelectBaseOnMap>Select forward base on world map</HD_TelegraphTable_Support_SelectBaseOnMap>
+  <HD_TelegraphTable_Support_SelectTargetOnMap>Select service location on world map</HD_TelegraphTable_Support_SelectTargetOnMap>
+  <HD_TelegraphTable_Support_InvalidBase>Select a contracted forward base that provides support services.</HD_TelegraphTable_Support_InvalidBase>
+  <HD_TelegraphTable_Support_InvalidTargetMap>Select an in-range settlement or encounter map that is currently loaded.</HD_TelegraphTable_Support_InvalidTargetMap>
+  <HD_MortarSupport_AmmoPrompt>Ammunition: {0}\nScatter radius: {1} cells\nFire {2} shells per volley, {3} volleys at 3-second intervals.\nPricing: {4}</HD_MortarSupport_AmmoPrompt>
+  <HD_MortarSupport_Pricing_Included>Included in limited-call FFP contract</HD_MortarSupport_Pricing_Included>
+  <HD_MortarSupport_Pricing_PerCall>{0} per call</HD_MortarSupport_Pricing_PerCall>
+  <HD_MortarSupport_SelectAmmoTitle>Mortar support — ammunition selection</HD_MortarSupport_SelectAmmoTitle>
+  <HD_MortarSupport_SelectAmmoDesc>Target service location: {0}</HD_MortarSupport_SelectAmmoDesc>
+  <HD_MortarSupport_SmokeDragPrompt>Left-drag on the map to draw the smoke barrage line.</HD_MortarSupport_SmokeDragPrompt>
+  <HD_MortarSupport_Unavailable>Mortar support is unavailable.</HD_MortarSupport_Unavailable>
+  <HD_MortarSupport_Called>Mortar support requested: {0} shells incoming.</HD_MortarSupport_Called>
+  <HD_ForwardBase_MortarAmmoCharges>Mortar ammunition charges: {0}</HD_ForwardBase_MortarAmmoCharges>
+  <HD_TelegraphTable_Support_NoBase>No support-capable forward base is contracted.</HD_TelegraphTable_Support_NoBase>
   <HD_ForwardBase_ServiceUnavailable>This forward base does not provide that service.</HD_ForwardBase_ServiceUnavailable>
   <HD_ForwardBase_ServiceQuotaExhausted>{0} has reached its {2}-day limit of {1} {3}.</HD_ForwardBase_ServiceQuotaExhausted>
   <HD_ForwardBase_ServiceCreditExhausted>Service credit budget for this {0}-day period is exhausted. Credit limit: {1}.</HD_ForwardBase_ServiceCreditExhausted>

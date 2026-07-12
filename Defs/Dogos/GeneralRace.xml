@@ -286,8 +286,10 @@
           <li>HD_Apparel_M6RocketBag</li>
           <li>HD_Apparel_GreatWarTrenchArmyInner</li>
           <li>HD_Apparel_GreatWarTrenchArmyOuter</li>
-          <li>HD_Apparel_GreatWarUSUniform</li>
           <li>HD_Apparel_GreatWarM1Helmet</li>
+          <li>HD_Apparel_M1MortarBaseplate</li>
+          <li>HD_Apparel_M1MortarMount</li>
+          <li>HD_Apparel_M1MortarBarrel</li>
           <li>HD_MilitaryTablet</li>
         </apparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>

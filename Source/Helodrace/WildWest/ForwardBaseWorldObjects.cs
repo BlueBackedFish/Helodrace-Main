@@ -145,6 +145,7 @@ namespace Helodrace
         private List<HelodForwardBaseService> usageServices = new List<HelodForwardBaseService>();
         private List<int> usageCounts = new List<int>();
         private List<int> totalUsageCounts = new List<int>();
+        private float mortarUsageCostGoldStandard;
         private const int WithdrawalTicks = 3 * GenDate.TicksPerDay;
         private const float PaymentFailureCreditPenalty = 80f;
         private const int PaymentFailureGoodwillPenalty = -12;
@@ -243,6 +244,41 @@ namespace Helodrace
             return true;
         }
 
+        public bool TryConsumeMortarSupport(ThingDef shellDef, int shellCount, out string failReason)
+        {
+            failReason = null;
+            HelodForwardBaseService service = HelodForwardBaseService.InfantryMortarSupport;
+            if (!HasService(service))
+            {
+                failReason = "HD_ForwardBase_ServiceUnavailable".Translate().ToString();
+                return false;
+            }
+
+            EnsureUsagePeriod();
+            float callCost = HelodForwardBaseServiceUtility.MortarCallCostGoldStandard(shellDef, shellCount);
+            if (UsesCreditBudget && contractMilitaryCredit > 0f && PeriodUsageCostGoldStandard() + callCost > contractMilitaryCredit)
+            {
+                failReason = "HD_ForwardBase_ServiceCreditExhausted".Translate(HelodForwardBaseServiceUtility.ServiceBillingPeriodDays, contractMilitaryCredit.ToString("F0")).ToString();
+                return false;
+            }
+
+            int limit = ServiceUseLimitPerBillingPeriod(service);
+            if (UsesLimitedPeriodQuota && limit > 0 && CurrentUsageCount(service) >= limit)
+            {
+                failReason = "HD_ForwardBase_ServiceQuotaExhausted".Translate(ServiceLabel(service), limit, HelodForwardBaseServiceUtility.ServiceBillingPeriodDays, UsageUnitLabel(service)).ToString();
+                return false;
+            }
+
+            int index = UsageIndex(service);
+            usageCounts[index]++;
+            totalUsageCounts[index]++;
+            if (contractCostKind != HelodForwardBaseCostKind.FFP)
+            {
+                mortarUsageCostGoldStandard += callCost;
+            }
+            return true;
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -257,6 +293,7 @@ namespace Helodrace
             Scribe_Collections.Look(ref usageServices, "usageServices", LookMode.Value);
             Scribe_Collections.Look(ref usageCounts, "usageCounts", LookMode.Value);
             Scribe_Collections.Look(ref totalUsageCounts, "totalUsageCounts", LookMode.Value);
+            Scribe_Values.Look(ref mortarUsageCostGoldStandard, "mortarUsageCostGoldStandard", 0f);
             if (contractServices == null)
             {
                 contractServices = new List<HelodForwardBaseService>();
@@ -360,6 +397,7 @@ namespace Helodrace
                 {
                     usageCounts[i] = 0;
                 }
+                mortarUsageCostGoldStandard = 0f;
             }
         }
 
@@ -418,7 +456,10 @@ namespace Helodrace
 
                 if (UsesReimbursableUsageCost)
                 {
-                    reimbursableTotal += total * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(service);
+                    if (service != HelodForwardBaseService.InfantryMortarSupport)
+                    {
+                        reimbursableTotal += current * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(service);
+                    }
                 }
             }
 
@@ -431,6 +472,11 @@ namespace Helodrace
             {
                 builder.Append("HD_ForwardBase_ServiceUsageReimbursable".Translate(HelodForwardBaseServiceUtility.FormatSthalerValue(reimbursableTotal)).ToString());
             }
+            if (mortarUsageCostGoldStandard > 0f)
+            {
+                builder.AppendLine();
+                builder.Append("HD_ForwardBase_MortarAmmoCharges".Translate(HelodForwardBaseServiceUtility.FormatSthalerValue(mortarUsageCostGoldStandard)).ToString());
+            }
 
             return builder.ToString().TrimEndNewlines();
         }
@@ -442,6 +488,11 @@ namespace Helodrace
 
         private int ServiceUseLimitPerBillingPeriod(HelodForwardBaseService service)
         {
+            if (service == HelodForwardBaseService.InfantryMortarSupport)
+            {
+                return 5;
+            }
+
             if (contractCostKind == HelodForwardBaseCostKind.CostReimbursement)
             {
                 return 50;
@@ -452,7 +503,7 @@ namespace Helodrace
 
         private float PeriodUsageCostGoldStandard()
         {
-            float cost = 0f;
+            float cost = mortarUsageCostGoldStandard;
             if (usageServices == null || usageCounts == null)
             {
                 return cost;
@@ -460,7 +511,10 @@ namespace Helodrace
 
             for (int i = 0; i < usageServices.Count && i < usageCounts.Count; i++)
             {
-                cost += usageCounts[i] * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(usageServices[i]);
+                if (usageServices[i] != HelodForwardBaseService.InfantryMortarSupport)
+                {
+                    cost += usageCounts[i] * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(usageServices[i]);
+                }
             }
 
             return cost;

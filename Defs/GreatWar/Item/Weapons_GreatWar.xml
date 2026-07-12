@@ -178,6 +178,24 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_81mmMortarShell_M57WP_Proj</defName>
+    <label>M57 81mm WP smoke shell</label>
+    <thingClass>Helodrace.Projectile_WhitePhosphorusRocket</thingClass>
+    <graphicData><texPath>Weapon/GreatWar/Proj/HD_M43HE_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.85,0.85)</drawSize></graphicData>
+    <projectile><damageDef>Bomb</damageDef><damageAmountBase>20</damageAmountBase><stoppingPower>1.0</stoppingPower><speed>30</speed><flyOverhead>true</flyOverhead><explosionRadius>1.3</explosionRadius><soundExplode>Explosion_Bomb</soundExplode></projectile>
+    <modExtensions><li Class="Helodrace.WhitePhosphorusRocketExtension"><smokeRadius>4.8</smokeRadius><fireRadius>2.8</fireRadius><fireChance>0.6</fireChance><fireSize>0.5</fireSize></li></modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_81mmMortarShell_BA_Proj</defName>
+    <label>M57 81mm BA chemical shell</label>
+    <thingClass>Helodrace.Projectile_SweetGasShell</thingClass>
+    <graphicData><texPath>Weapon/GreatWar/Proj/HD_M43HE_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.85,0.85)</drawSize></graphicData>
+    <projectile><damageDef>Bomb</damageDef><damageAmountBase>3</damageAmountBase><stoppingPower>0.6</stoppingPower><speed>30</speed><flyOverhead>true</flyOverhead><explosionRadius>0.6</explosionRadius></projectile>
+    <modExtensions><li Class="Helodrace.PhotochlorogenShellExtension"><gasDef>HD_SweetGas</gasDef><emissionRadius>2.8</emissionRadius><density>0.9</density><edgeDensityFactor>0.45</edgeDensityFactor></li></modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_37mmShell_HE_Proj</defName>
     <label>37mm HE shell</label>
     <thingClass>Projectile_Explosive</thingClass>
@@ -791,7 +809,7 @@
       <li>
         <verbClass>Verb_Shoot</verbClass>
         <warmupTime>2.8</warmupTime>
-        <range>63.9</range>
+        <range>500</range>
         <minRange>13.9</minRange>
         <isMortar>true</isMortar>
         <requireLineOfSight>false</requireLineOfSight>
@@ -812,6 +830,8 @@
         <filter>
           <thingDefs>
             <li>HD_81mmMortarShell_M43HE</li>
+            <li>HD_81mmMortarShell_M57WP</li>
+            <li>HD_81mmMortarShell_BA</li>
           </thingDefs>
         </filter>
       </fixedStorageSettings>
@@ -819,6 +839,8 @@
         <filter>
           <thingDefs>
             <li>HD_81mmMortarShell_M43HE</li>
+            <li>HD_81mmMortarShell_M57WP</li>
+            <li>HD_81mmMortarShell_BA</li>
           </thingDefs>
         </filter>
       </defaultStorageSettings>
@@ -991,6 +1013,7 @@
     <defName>HD_Gun_M1Garand_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarSemiAutoRifle</li>
+      <li>HD_GreatWarM1Garand</li>
     </weaponTags>
     <label>M1 Hartwell</label>
     <description>A semi-automatic battle rifle fed by an en-bloc clip. It gives up a little deliberate precision for rapid, powerful follow-up fire. In later stories, the adoption of small-caliber high-velocity rounds was delayed by the Dark Hartwell Order.</description>

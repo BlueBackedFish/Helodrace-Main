@@ -1230,7 +1230,9 @@ namespace Helodrace
             }
 
             List<BodyPartRecord> parts = this.pawn.health.hediffSet.GetNotMissingParts()
-                .Where(part => part.depth == BodyPartDepth.Outside && !HasSweetGasScar(part))
+                .Where(part => part.depth == BodyPartDepth.Outside
+                    && part.coverageAbs > 0f
+                    && !HasSweetGasScar(part))
                 .ToList();
             if (parts.Count == 0)
             {
@@ -1240,7 +1242,7 @@ namespace Helodrace
             int scarsToAdd = Mathf.Min(ScarsPerInterval, parts.Count);
             for (int i = 0; i < scarsToAdd; i++)
             {
-                BodyPartRecord partToScar = parts.RandomElementByWeight(part => Mathf.Max(part.coverageAbs, 0.01f));
+                BodyPartRecord partToScar = parts.RandomElementByWeight(part => part.coverageAbs);
                 parts.Remove(partToScar);
                 Hediff scar = HediffMaker.MakeHediff(scarDef, this.pawn, partToScar);
                 scar.Severity = Rand.Range(1.20f, 1.70f);

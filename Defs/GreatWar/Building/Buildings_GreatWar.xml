@@ -273,6 +273,7 @@
         <manWorkType>Violent</manWorkType>
       </li>
       <li Class="CompProperties_Forbiddable"/>
+      <li Class="Helodrace.CompProperties_M1MortarDisassembly"/>
     </comps>
   </ThingDef>
 

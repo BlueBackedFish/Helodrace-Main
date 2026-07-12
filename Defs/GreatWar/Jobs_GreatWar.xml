@@ -57,4 +57,39 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>HD_AssembleM1MortarMount</defName>
+    <driverClass>Helodrace.JobDriver_AssembleM1MortarMount</driverClass>
+    <reportString>installing the M1 mortar bipod.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_BeginM1MortarAssembly</defName>
+    <driverClass>Helodrace.JobDriver_BeginM1MortarAssembly</driverClass>
+    <reportString>moving to the M1 mortar assembly site.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_AssembleM1MortarBarrel</defName>
+    <driverClass>Helodrace.JobDriver_AssembleM1MortarBarrel</driverClass>
+    <reportString>installing the M1 mortar barrel.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_DisassembleM1Mortar</defName>
+    <driverClass>Helodrace.JobDriver_DisassembleM1Mortar</driverClass>
+    <reportString>disassembling the M1 mortar.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_EvacuateRaidCasualty</defName>
+    <driverClass>Helodrace.JobDriver_EvacuateRaidCasualty</driverClass>
+    <reportString>evacuating a wounded squadmate.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
 </Defs>

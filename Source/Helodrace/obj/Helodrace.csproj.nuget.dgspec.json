@@ -10,7 +10,7 @@
         "projectUniqueName": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Helodrace.csproj",
         "projectName": "Helodrace",
         "projectPath": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Helodrace.csproj",
-        "packagesPath": "C:\\Users\\human\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\human\\.nuget\\packages",
         "outputPath": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -55,6 +55,11 @@
               "target": "Package",
               "version": "[1.0.3, )",
               "autoReferenced": true
+            },
+            "Microsoft.NETFramework.ReferenceAssemblies.net48": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203\\RuntimeIdentifierGraph.json"

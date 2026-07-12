@@ -56,6 +56,8 @@
   <HD_M1902Saber.label>M1902 장교 세이버</HD_M1902Saber.label>
   <HD_M1902Saber.description>장교가 패용하는 가벼운 의장용 군도입니다. 사열식에는 잘 어울리지만, 얇은 칼날과 가벼운 장식 때문에 전장 무기로는 부족합니다.</HD_M1902Saber.description>
   <HD_81mmMortarShell_M43HE_Proj.label>M43 81mm 고폭탄</HD_81mmMortarShell_M43HE_Proj.label>
+  <HD_81mmMortarShell_M57WP_Proj.label>M57 81mm 백린연막탄</HD_81mmMortarShell_M57WP_Proj.label>
+  <HD_81mmMortarShell_BA_Proj.label>M57 81mm BA 화학탄</HD_81mmMortarShell_BA_Proj.label>
   <HD_Gun_M1_81mmMortar_TurretGun.label>M1 81mm 박격포</HD_Gun_M1_81mmMortar_TurretGun.label>
   <HD_Gun_M1_81mmMortar_TurretGun.description>무거운 81mm 포탄을 높은 탄도로 발사하는 보병 박격포입니다. 운용 인원과 준비된 M43 고폭탄이 필요합니다.</HD_Gun_M1_81mmMortar_TurretGun.description>
 </LanguageData>

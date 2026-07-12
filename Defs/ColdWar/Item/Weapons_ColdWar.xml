@@ -40,6 +40,7 @@
         <terminalOscillationFactor>0.15</terminalOscillationFactor>
         <terminalSteeringMultiplier>1.6</terminalSteeringMultiplier>
         <directHitRadius>0.42</directHitRadius>
+        <alignedCoastAngleDegrees>2</alignedCoastAngleDegrees>
       </li>
     </modExtensions>
   </ThingDef>

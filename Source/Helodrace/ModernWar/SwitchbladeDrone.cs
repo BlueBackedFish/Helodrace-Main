@@ -86,6 +86,10 @@ namespace Helodrace
                     GenDraw.DrawRadiusRing(target.Cell, drone.LoiterRadius);
                 }
             });
+            MapComponent_PersistentTargetingOverlay.Set(wearer.Map, target =>
+            {
+                if (target.Cell.InBounds(wearer.Map)) GenDraw.DrawRadiusRing(target.Cell, drone.LoiterRadius);
+            });
         }
 
         private void BeginDesignateTarget()

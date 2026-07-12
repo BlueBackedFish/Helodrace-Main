@@ -22,7 +22,8 @@
     <defName>HD_DroneFlight_Loop</defName>
     <context>MapOnly</context>
     <sustain>true</sustain>
-    <maxVoices>4</maxVoices>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains>

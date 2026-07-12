@@ -2,6 +2,56 @@
 <Defs>
 
   <RecipeDef>
+    <defName>HD_MakeFLAM</defName>
+    <label>make FLAM x20</label>
+    <description>Can a large batch of finely processed meat into compact tins of FLAM.</description>
+    <jobString>Making FLAM.</jobString>
+    <workAmount>1800</workAmount>
+    <workSpeedStat>CookSpeed</workSpeedStat>
+    <workSkill>Cooking</workSkill>
+    <requiredGiverWorkType>Cooking</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <ingredientValueGetterClass>Helodrace.IngredientValueGetter_FLAM</ingredientValueGetterClass>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>MeatRaw</li>
+          </categories>
+        </filter>
+        <count>15</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+      </thingDefs>
+      <categories>
+        <li>MeatRaw</li>
+      </categories>
+    </fixedIngredientFilter>
+    <products>
+      <HD_FLAM>20</HD_FLAM>
+    </products>
+    <recipeUsers>
+      <li>ElectricStove</li>
+      <li>FueledStove</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Cooking>6</Cooking>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
     <defName>HD_MakeHardtackBulk</defName>
     <label>make hardtack x32</label>
     <description>Bake a bulk batch of long-lasting hardtack from vegetarian ingredients.</description>
@@ -134,6 +184,24 @@
     <skillRequirements>
       <Crafting>5</Crafting>
     </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make81mmMortarShellM57WP</defName>
+    <label>make M57 81mm WP smoke shell</label><description>Assemble a white-phosphorus smoke shell for the M1 81mm mortar.</description><jobString>Making M57 81mm WP smoke shell.</jobString>
+    <workAmount>1900</workAmount><workSpeedStat>GeneralLaborSpeed</workSpeedStat><workSkill>Crafting</workSkill><requiredGiverWorkType>Crafting</requiredGiverWorkType><effectWorking>Sculpt</effectWorking><soundWorking>Recipe_Machining</soundWorking><researchPrerequisite>HelodLowGranade</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>18</count></li><li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>16</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>Steel</li><li>Chemfuel</li></thingDefs></fixedIngredientFilter>
+    <products><HD_81mmMortarShell_M57WP>1</HD_81mmMortarShell_M57WP></products><recipeUsers><li>HD_BasicWorkbench</li></recipeUsers><skillRequirements><Crafting>5</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make81mmMortarShellBA</defName>
+    <label>make M57 81mm BA chemical shell</label><description>Assemble a sweet-gas chemical shell for the M1 81mm mortar.</description><jobString>Making M57 81mm BA chemical shell.</jobString>
+    <workAmount>2100</workAmount><workSpeedStat>GeneralLaborSpeed</workSpeedStat><workSkill>Crafting</workSkill><requiredGiverWorkType>Crafting</requiredGiverWorkType><effectWorking>Sculpt</effectWorking><soundWorking>Recipe_Machining</soundWorking><researchPrerequisite>HelodBlisterAgent</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>18</count></li><li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>20</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>Steel</li><li>Chemfuel</li></thingDefs></fixedIngredientFilter>
+    <products><HD_81mmMortarShell_BA>1</HD_81mmMortarShell_BA></products><recipeUsers><li>HD_BasicWorkbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements>
   </RecipeDef>
 
   <RecipeDef>

@@ -65,6 +65,12 @@ namespace Helodrace
                 {
                     return false;
                 }
+                // Sharpshooting is innate to Helod; the gene check remains for non-Helod users.
+                // This also keeps the mode functional when Biotech genes are unavailable.
+                if (BTXUtility.IsHelod(wielder))
+                {
+                    return true;
+                }
                 if (wielder.genes == null)
                 {
                     return false;

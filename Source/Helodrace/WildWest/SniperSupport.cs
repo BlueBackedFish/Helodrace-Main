@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -80,7 +79,7 @@ namespace Helodrace
 
         public static void BeginTargeting(Map map, HelodSniperSupportMode mode)
         {
-            BeginTargeting(map, mode, null);
+            BeginTargeting(map, mode, (Faction)null);
         }
 
         public static void BeginTargeting(Map map, HelodSniperSupportMode mode, Faction faction)
@@ -97,6 +96,32 @@ namespace Helodrace
             }
 
             Find.Targeter.BeginTargeting(TargetingParameters(map), target => TryCallSupport(map, target.Thing, mode, faction));
+        }
+
+        public static void BeginTargeting(Map map, HelodSniperSupportMode mode, HelodForwardBase forwardBase)
+        {
+            BeginTargeting(map, mode, forwardBase, null);
+        }
+
+        public static void BeginTargeting(Map map, HelodSniperSupportMode mode, HelodForwardBase forwardBase, CompTelegraphTable telegraphComp)
+        {
+            if (map == null || !CanUseBase(map, forwardBase))
+            {
+                Messages.Message("HD_SniperSupport_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            Current.Game.CurrentMap = map;
+            Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+            CameraJumper.TryJump(new TargetInfo(map.Center, map));
+            Find.Targeter.BeginTargeting(TargetingParameters(map), target => TryCallSupport(map, target.Thing, mode, forwardBase, telegraphComp));
+        }
+
+        public static bool CanUseBase(Map map, HelodForwardBase forwardBase)
+        {
+            if (map == null || forwardBase == null || !forwardBase.HasService(HelodForwardBaseService.InfantrySniperSupport)
+                || !forwardBase.HasServiceCapacity(HelodForwardBaseService.InfantrySniperSupport)) return false;
+            int tile = map.Tile >= 0 ? map.Tile : map.Parent?.Tile ?? -1;
+            return tile >= 0 && Find.WorldGrid.ApproxDistanceInTiles(forwardBase.Tile, tile) <= HelodForwardBaseServiceUtility.SupportRange(HelodForwardBaseService.InfantrySniperSupport);
         }
 
         private static TargetingParameters TargetingParameters(Map map)
@@ -143,6 +168,28 @@ namespace Helodrace
             }
 
             sniperComponent.QueueStrike(target, mode, AimTicks, forwardBase);
+            Messages.Message("HD_SniperSupport_Called".Translate(), target, MessageTypeDefOf.NeutralEvent);
+            return true;
+        }
+
+        private static bool TryCallSupport(Map map, Thing target, HelodSniperSupportMode mode, HelodForwardBase forwardBase, CompTelegraphTable telegraphComp)
+        {
+            if (!IsValidTarget(map, target, out _) || !CanUseBase(map, forwardBase)) return false;
+            if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
+            {
+                Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            MapComponent_HelodSniperSupport component = map.GetComponent<MapComponent_HelodSniperSupport>();
+            if (component.HasActiveStrikeOnTarget(target)) return false;
+            if (forwardBase.ShouldRecordServiceUseOnCall(HelodForwardBaseService.InfantrySniperSupport)
+                && !forwardBase.TryConsumeServiceUse(HelodForwardBaseService.InfantrySniperSupport, out string reason))
+            {
+                Messages.Message(reason ?? "HD_SniperSupport_Unavailable".Translate().ToString(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            component.QueueStrike(target, mode, AimTicks, forwardBase);
+            telegraphComp?.ConsumePrimaryCell();
             Messages.Message("HD_SniperSupport_Called".Translate(), target, MessageTypeDefOf.NeutralEvent);
             return true;
         }
@@ -951,38 +998,4 @@ namespace Helodrace
         }
     }
 
-    [HarmonyPatch(typeof(Pawn), nameof(Pawn.GetGizmos))]
-    public static class Patch_Pawn_GetGizmos_SniperSupport
-    {
-        public static void Postfix(Pawn __instance, ref IEnumerable<Gizmo> __result)
-        {
-            if (__instance?.Faction != Faction.OfPlayer || __instance.Map == null || Find.Selector.SingleSelectedThing != __instance)
-            {
-                return;
-            }
-
-            List<Gizmo> updated = __result.ToList();
-            updated.Add(SniperSupportCommand(__instance.Map, HelodSniperSupportMode.Suppress));
-            updated.Add(SniperSupportCommand(__instance.Map, HelodSniperSupportMode.Kill));
-            __result = updated;
-        }
-
-        private static Command_Action SniperSupportCommand(Map map, HelodSniperSupportMode mode)
-        {
-            Command_Action command = new Command_Action
-            {
-                defaultLabel = mode == HelodSniperSupportMode.Kill ? "HD_SniperSupport_Kill".Translate() : "HD_SniperSupport_Suppress".Translate(),
-                defaultDesc = "HD_SniperSupport_CommandDesc".Translate(),
-                icon = HelodSniperSupportUtility.CommandIcon,
-                action = () => HelodSniperSupportUtility.BeginTargeting(map, mode)
-            };
-
-            if (!HelodSniperSupportUtility.HasSniperSupport(map))
-            {
-                command.Disable("HD_SniperSupport_Unavailable".Translate());
-            }
-
-            return command;
-        }
-    }
 }

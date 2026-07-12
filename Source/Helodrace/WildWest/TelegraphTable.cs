@@ -401,7 +401,7 @@ namespace Helodrace
             float buttonY = bodyInner.y + 176f;
             if (Widgets.ButtonText(new Rect(bodyInner.x, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_RequestSupport".Translate()))
             {
-                HelodSniperSupportUtility.OpenSupportDialog(telegraphTable?.Map, SelectedMilitaryFaction());
+                Find.WindowStack.Add(new Dialog_ForwardBaseSupport(SelectedMilitaryFaction(), this, telegraphTable?.TryGetComp<CompTelegraphTable>()));
             }
             if (Widgets.ButtonText(new Rect(bodyInner.x + buttonWidth + 10f, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_ForwardBase".Translate(), selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract))
             {

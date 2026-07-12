@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
+  <ThingDef ParentName="MealBase">
+    <defName>HD_FLAM</defName>
+    <label>FLAM</label>
+    <description>A suspiciously long-lasting block of canned meat. FLAM is salty, filling, and compact enough to stockpile in truly unreasonable quantities.</description>
+    <graphicData>
+      <texPath>Item/HD_SPAM</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <stackLimit>512</stackLimit>
+    <statBases>
+      <MarketValue>24</MarketValue>
+      <Mass>0.3</Mass>
+      <Nutrition>0.9</Nutrition>
+    </statBases>
+    <thingCategories>
+      <li>FoodMeals</li>
+    </thingCategories>
+    <ingestible>
+      <preferability>MealFine</preferability>
+      <foodType>Meat, Processed, Meal</foodType>
+      <ingestSound>Ingest_Meat</ingestSound>
+      <specialThoughtDirect>AteCookedMeal</specialThoughtDirect>
+    </ingestible>
+  </ThingDef>
+
   <ThingCategoryDef>
     <defName>HD_3InchMortarShells</defName>
     <label>3-inch mortar shells</label>
@@ -223,6 +249,89 @@
     </researchPrerequisites>
   </ThingDef>
 
+  <!-- M1 81mm mortar crew loads. Different body-part groups let a crewman carry
+       more than one component when necessary, while retaining the full weight. -->
+  <ThingDef ParentName="ApparelBase" Name="HD_M1MortarLoadBase" Abstract="True">
+    <statBases>
+      <MaxHitPoints>240</MaxHitPoints>
+      <WorkToMake>2400</WorkToMake>
+      <MarketValue>180</MarketValue>
+      <Flammability>0</Flammability>
+      <EquipDelay>2.5</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M1MortarLoadBase">
+    <defName>HD_Apparel_M1MortarBarrel</defName>
+    <label>M1 mortar barrel</label>
+    <description>The barrel and breech assembly of an M1 81mm mortar, fitted with carrying straps. It is one of the three heavy loads into which the weapon is broken down for transport.</description>
+    <graphicData>
+      <texPath>Item/HD_M181mmMortar_Barrel</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>20.7</Mass>
+    </statBases>
+    <apparel>
+      <bodyPartGroups>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+    </apparel>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M1MortarLoadBase">
+    <defName>HD_Apparel_M1MortarBaseplate</defName>
+    <label>M1 mortar baseplate</label>
+    <description>The steel baseplate of an M1 81mm mortar, rigged as a heavy back load. It spreads the weapon's recoil into the ground when the mortar is assembled.</description>
+    <graphicData>
+      <texPath>Item/HD_M181mmMortar_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>20.5</Mass>
+    </statBases>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+      </bodyPartGroups>
+    </apparel>
+    <comps>
+      <li Class="Helodrace.CompProperties_MortarBaseplateAssembly" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M1MortarLoadBase">
+    <defName>HD_Apparel_M1MortarMount</defName>
+    <label>M1 mortar bipod</label>
+    <description>The bipod mount, elevation screw, and traversing mechanism of an M1 81mm mortar, bundled for carriage. It supports and aims the barrel when assembled.</description>
+    <graphicData>
+      <texPath>Item/HD_M181mmMortar_Mount</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <Mass>21.1</Mass>
+    </statBases>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+    </apparel>
+  </ThingDef>
+
   <ThingDef ParentName="ApparelBase">
     <defName>HD_Apparel_GreatWarGasMaskPouch</defName>
     <label>gas mask pouch</label>
@@ -308,7 +417,7 @@
     <statBases>
       <MaxHitPoints>90</MaxHitPoints>
       <WorkToMake>1200</WorkToMake>
-      <Mass>1.4</Mass>
+      <Mass>8.0</Mass>
       <MarketValue>60</MarketValue>
       <Flammability>0.6</Flammability>
       <EquipDelay>0.9</EquipDelay>
@@ -566,70 +675,6 @@
     </researchPrerequisites>
   </ThingDef>
 
-  <ThingDef ParentName="ApparelBase">
-    <defName>HD_Apparel_GreatWarUSUniform</defName>
-    <label>U.S. great war uniform</label>
-    <description>A practical U.S. field uniform from the great war period, tailored for Helod bodies. It combines an olive drab service coat, trousers, and sturdy boots without headgear or webbing.</description>
-    <graphicData>
-      <texPath>Item/HD_GreatWarUSUniform_item</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>Cutout</shaderType>
-      <color>(255,255,255)</color>
-    </graphicData>
-    <statBases>
-      <MaxHitPoints>110</MaxHitPoints>
-      <WorkToMake>1700</WorkToMake>
-      <Mass>1.1</Mass>
-      <MarketValue>55</MarketValue>
-      <StuffEffectMultiplierArmor>0.20</StuffEffectMultiplierArmor>
-      <StuffEffectMultiplierInsulation_Cold>0.45</StuffEffectMultiplierInsulation_Cold>
-      <StuffEffectMultiplierInsulation_Heat>0.20</StuffEffectMultiplierInsulation_Heat>
-      <Flammability>0.8</Flammability>
-      <EquipDelay>1.3</EquipDelay>
-    </statBases>
-    <thingCategories>
-      <li>Apparel</li>
-    </thingCategories>
-    <apparel>
-      <bodyPartGroups>
-        <li>Torso</li>
-        <li>Shoulders</li>
-        <li>Arms</li>
-        <li>Legs</li>
-        <li>Feet</li>
-      </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarUSUniform</wornGraphicPath>
-      <useWornGraphicMask>false</useWornGraphicMask>
-      <layers>
-        <li>OnSkin</li>
-        <li>Middle</li>
-      </layers>
-      <tags>
-        <li>HD_Apparel</li>
-        <li>HD_Apparel_GW_Uniform</li>
-      </tags>
-      <defaultOutfitTags>
-        <li>Soldier</li>
-      </defaultOutfitTags>
-    </apparel>
-    <recipeMaker>
-      <workSkill>Crafting</workSkill>
-      <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
-      </recipeUsers>
-    </recipeMaker>
-    <costList>
-      <Cloth>60</Cloth>
-    </costList>
-    <researchPrerequisites>
-      <li>HelodFirstAid</li>
-    </researchPrerequisites>
-    <modExtensions>
-      <li Class="Helodrace.HonorGuardEquipmentExtension" />
-    </modExtensions>
-  </ThingDef>
-
   <ThingDef ParentName="ResourceBase">
     <defName>HD_3InchMortarShell_HE</defName>
     <label>3-inch mortar HE shell</label>
@@ -674,6 +719,24 @@
     <thingCategories>
       <li>HD_81mmMortarShells</li>
     </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_81mmMortarShell_M57WP</defName><label>M57 81mm WP smoke shell</label>
+    <description>A white-phosphorus smoke shell for the M1 81mm mortar. It creates a broad smoke screen and scatters burning phosphorus around the impact.</description>
+    <projectileWhenLoaded>HD_81mmMortarShell_M57WP_Proj</projectileWhenLoaded>
+    <graphicData><texPath>Weapon/GreatWar/Ammo/HD_81mmM57WP</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.75,0.75)</drawSize></graphicData>
+    <stackLimit>25</stackLimit><statBases><MaxHitPoints>60</MaxHitPoints><MarketValue>46</MarketValue><Mass>3.1</Mass><Flammability>1.0</Flammability><DeteriorationRate>1</DeteriorationRate></statBases>
+    <thingCategories><li>HD_81mmMortarShells</li></thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_81mmMortarShell_BA</defName><label>M57 81mm BA chemical shell</label>
+    <description>A chemical shell for the M1 81mm mortar. Its small bursting charge spreads a concentrated cloud of sweet gas over the impact area.</description>
+    <projectileWhenLoaded>HD_81mmMortarShell_BA_Proj</projectileWhenLoaded>
+    <graphicData><texPath>Weapon/GreatWar/Ammo/HD_81mmM57BA</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.75,0.75)</drawSize></graphicData>
+    <stackLimit>25</stackLimit><statBases><MaxHitPoints>60</MaxHitPoints><MarketValue>52</MarketValue><Mass>3.3</Mass><Flammability>0.7</Flammability><DeteriorationRate>1</DeteriorationRate></statBases>
+    <thingCategories><li>HD_81mmMortarShells</li></thingCategories>
   </ThingDef>
 
   <ThingDef ParentName="ResourceBase">

@@ -20,4 +20,10 @@
   <HD_Make81mmMortarShellM43HE.label>M43 81mm 고폭탄 만들기</HD_Make81mmMortarShellM43HE.label>
   <HD_Make81mmMortarShellM43HE.description>M1 81mm 박격포용 M43 고폭탄을 조립합니다.</HD_Make81mmMortarShellM43HE.description>
   <HD_Make81mmMortarShellM43HE.jobString>M43 81mm 고폭탄 만드는 중.</HD_Make81mmMortarShellM43HE.jobString>
+  <HD_Make81mmMortarShellM57WP.label>M57 81mm 백린연막탄 만들기</HD_Make81mmMortarShellM57WP.label>
+  <HD_Make81mmMortarShellM57WP.description>M1 81mm 박격포용 백린연막탄을 조립합니다.</HD_Make81mmMortarShellM57WP.description>
+  <HD_Make81mmMortarShellM57WP.jobString>M57 81mm 백린연막탄 만드는 중.</HD_Make81mmMortarShellM57WP.jobString>
+  <HD_Make81mmMortarShellBA.label>M57 81mm BA 화학탄 만들기</HD_Make81mmMortarShellBA.label>
+  <HD_Make81mmMortarShellBA.description>M1 81mm 박격포용 스위트 가스 화학탄을 조립합니다.</HD_Make81mmMortarShellBA.description>
+  <HD_Make81mmMortarShellBA.jobString>M57 81mm BA 화학탄 만드는 중.</HD_Make81mmMortarShellBA.jobString>
 </LanguageData>

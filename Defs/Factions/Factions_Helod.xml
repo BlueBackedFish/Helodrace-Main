@@ -94,6 +94,17 @@
           <HD_WW_HelodCavalry>75</HD_WW_HelodCavalry>
         </options>
       </li>
+      <!-- Great War standard raid. Mortar crews are deliberately excluded. -->
+      <li>
+        <kindDef>Combat</kindDef>
+        <options>
+          <HD_GW_HelodRifleman>80</HD_GW_HelodRifleman>
+          <HD_GW_HelodScout>18</HD_GW_HelodScout>
+          <HD_GW_HelodAssistantSquadLeader>12</HD_GW_HelodAssistantSquadLeader>
+          <HD_GW_HelodSquadLeader>8</HD_GW_HelodSquadLeader>
+          <HD_GW_HelodAutomaticRifleman>16</HD_GW_HelodAutomaticRifleman>
+        </options>
+      </li>
       <li>
         <kindDef>Peaceful</kindDef>
         <options>
