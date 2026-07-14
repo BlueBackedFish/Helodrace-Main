@@ -1,6 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_ZaperX26_Probe</defName>
+    <label>ZAPER X26 probe</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ZaperX26Probe</thingClass>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_TASERProbe_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.28,0.28)</drawSize>
+    </graphicData>
+    <projectile>
+      <!-- Only a probe that actually creates a bullet wound counts toward activation. -->
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>1</damageAmountBase>
+      <armorPenetrationBase>0.08</armorPenetrationBase>
+      <speed>54</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_ZaperX26_TetherEffect</defName>
+    <label>ZAPER X26 active tether</label>
+    <thingClass>Helodrace.ModernWar.ZaperX26TetherEffect</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <selectable>false</selectable>
+    <useHitPoints>false</useHitPoints>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>HD_Gun_ZaperX26</defName>
+    <label>ZAPER X26</label>
+    <description>A compact electroshock weapon that launches two wired probes in rapid succession. Both probes must inflict a gunshot wound on the same target to complete the circuit. In close combat its exposed contact electrodes can deliver a brief, intensely painful shock.</description>
+    <graphicData>
+      <texPath>Weapon/ModernWar/HD_TASERX26</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>RangedLight</li>
+    </weaponClasses>
+    <weaponTags>
+      <li>HD_ModernWarWeapon</li>
+      <li>IndustrialGunAdvanced</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>9000</WorkToMake>
+      <Mass>0.9</Mass>
+      <MarketValue>420</MarketValue>
+      <MaxHitPoints>100</MaxHitPoints>
+      <AccuracyTouch>1.00</AccuracyTouch>
+      <AccuracyShort>0.98</AccuracyShort>
+      <AccuracyMedium>0.80</AccuracyMedium>
+      <AccuracyLong>0.60</AccuracyLong>
+      <RangedWeapon_Cooldown>2.4</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>MicroelectronicsBasics</researchPrerequisite>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ZaperX26" />
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+        <altAccuracyMultiplier>0.92</altAccuracyMultiplier>
+        <switchTicks>30</switchTicks>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Helodrace.ModernWar.Verb_ShootZaperX26</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_ZaperX26_Probe</defaultProjectile>
+        <warmupTime>0.35</warmupTime>
+        <range>7.9</range>
+        <requireLineOfSight>true</requireLineOfSight>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+        <muzzleFlashScale>0.25</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Helodrace.ModernWar.Verb_ShootZaperX26</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_ZaperX26_Probe</defaultProjectile>
+        <warmupTime>0.08</warmupTime>
+        <range>6.9</range>
+        <requireLineOfSight>true</requireLineOfSight>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>1</ticksBetweenBurstShots>
+        <muzzleFlashScale>0.25</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>contact electrodes</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>1</power>
+        <cooldownTime>1.5</cooldownTime>
+        <chanceFactor>10</chanceFactor>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+    </tools>
+  </ThingDef>
+
   <ThingDef>
     <defName>HD_Switchblade600_Drone</defName>
     <label>Switchblade 600 drone</label>

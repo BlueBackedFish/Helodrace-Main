@@ -82,6 +82,94 @@
   </ThingDef>
 
   <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_M2HB</defName>
+    <label>M2HB heavy machine gun</label>
+    <description>A pedestal-mounted .50 caliber heavy machine gun fed from a 100-round belt. Its powerful rounds are effective against personnel, light cover, and lightly armored targets. It must be directly operated by a pawn.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <graphicData>
+      <texPath>Building/Security/HD_Tripod1</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2.0,2.0)</drawSize>
+      <shadowData>
+        <volume>(1.0,0.3,1.0)</volume>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/HD_M2HB_UI</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.3</fillPercent>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2551</uiOrder>
+    <constructionSkillPrerequisite>7</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodHighMachineGun</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>220</MaxHitPoints>
+      <WorkToBuild>2200</WorkToBuild>
+      <Flammability>0.35</Flammability>
+      <Mass>58</Mass>
+      <ShootingAccuracyTurret>0.92</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <HD_WildWestBarrel>1</HD_WildWestBarrel>
+      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+      <HD_CarbonSteel>115</HD_CarbonSteel>
+      <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
+      <HD_PressComponent>8</HD_PressComponent>
+      <HD_UniformRolledSteelPlate>2</HD_UniformRolledSteelPlate>
+    </costList>
+    <building>
+      <turretGunDef>HD_Gun_M2HB_TurretGun</turretGunDef>
+      <turretBurstWarmupTime>1.2</turretBurstWarmupTime>
+      <turretBurstCooldownTime>0.2</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>PlaceWorker_ShowTurretRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>M2HB ammunition</fuelLabel>
+        <fuelGizmoLabel>Ammunition</fuelGizmoLabel>
+        <outOfFuelMessage>Needs ammunition</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>100</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+      </li>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="Helodrace.CompProperties_ReciprocatingTurretBarrel">
+        <barrelTexPath>Building/Security/HD_M2HB_Barrel</barrelTexPath>
+        <bodyTexPath>Building/Security/HD_M2HB_Body</bodyTexPath>
+        <drawSize>24.0</drawSize>
+        <drawOffset>0.08</drawOffset>
+        <recoilDistance>0.125</recoilDistance>
+        <recoilTicks>4</recoilTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M1916_37mmGun</defName>
     <label>M1916 37mm gun</label>
     <description>A crew-served 37mm direct-fire infantry gun. Its low mount is treated as a transparent base, leaving the gun itself as the visible turret top.</description>

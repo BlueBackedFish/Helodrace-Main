@@ -60,4 +60,7 @@
   <HD_81mmMortarShell_BA_Proj.label>M57 81mm BA 화학탄</HD_81mmMortarShell_BA_Proj.label>
   <HD_Gun_M1_81mmMortar_TurretGun.label>M1 81mm 박격포</HD_Gun_M1_81mmMortar_TurretGun.label>
   <HD_Gun_M1_81mmMortar_TurretGun.description>무거운 81mm 포탄을 높은 탄도로 발사하는 보병 박격포입니다. 운용 인원과 준비된 M43 고폭탄이 필요합니다.</HD_Gun_M1_81mmMortar_TurretGun.description>
+  <HD_Bullet_M2HB_Proj.label>12.7mm 중기관총탄</HD_Bullet_M2HB_Proj.label>
+  <HD_Gun_M2HB_TurretGun.label>M2HB 중기관총</HD_Gun_M2HB_TurretGun.label>
+  <HD_Gun_M2HB_TurretGun.description>고정 방어 거치대용으로 설계된 탄띠 급탄식 12.7mm 중기관총입니다.</HD_Gun_M2HB_TurretGun.description>
 </LanguageData>

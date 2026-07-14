@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="HD_AircraftBase">
+    <defName>HD_Aircraft_DH4</defName>
+    <label>DH-4 light bomber</label>
+    <description>A two-seat Great War biplane adapted for reconnaissance and light bombing. The pilot flies from the forward cockpit while an observer or passenger occupies the rear position.</description>
+    <size>(5,5)</size>
+    <graphicData>
+      <texPath>Aerocraft/DH-4/HD_DH4</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(45,45)</drawSize>
+    </graphicData>
+    <uiIconPath>Aerocraft/DH-4/UI</uiIconPath>
+    <statBases>
+      <MaxHitPoints>420</MaxHitPoints>
+      <MarketValue>2800</MarketValue>
+      <Mass>1083</Mass>
+      <Flammability>0.8</Flammability>
+    </statBases>
+    <modExtensions Inherit="False">
+      <li Class="Helodrace.Aircraft.AircraftDefExtension">
+        <cruiseSpeed>0.24</cruiseSpeed>
+        <turnRate>0.8</turnRate>
+        <takeoffTicks>180</takeoffTicks>
+        <takeoffDistance>16</takeoffDistance>
+        <landingDistance>18</landingDistance>
+        <arrivalRadius>1.5</arrivalRadius>
+        <defaultLoiterRadius>12</defaultLoiterRadius>
+        <airborneDrawScale>1.3</airborneDrawScale>
+        <drawShadow>true</drawShadow>
+        <cruiseAltitude>25</cruiseAltitude>
+        <maxLandingTurnAngle>60</maxLandingTurnAngle>
+        <worldFuelPerTile>3</worldFuelPerTile>
+        <worldRange>60</worldRange>
+        <worldFlightDurationTicks>4000</worldFlightDurationTicks>
+      </li>
+    </modExtensions>
+    <comps Inherit="False">
+      <li Class="CompProperties_Refuelable">
+        <fuelCapacity>180</fuelCapacity>
+        <fuelConsumptionRate>0.00065</fuelConsumptionRate>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <initialFuelPercent>0</initialFuelPercent>
+        <initialConfigurableTargetFuelLevel>180</initialConfigurableTargetFuelLevel>
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        <showFuelGizmo>true</showFuelGizmo>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+        <hideGizmosIfNotPlayerFaction>false</hideGizmosIfNotPlayerFaction>
+        <fuelLabel>HD_Aircraft_FuelLabel</fuelLabel>
+        <fuelGizmoLabel>HD_Aircraft_FuelGizmoLabel</fuelGizmoLabel>
+        <fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+      </li>
+      <li Class="Helodrace.Aircraft.CompProperties_AircraftFuelSelector" />
+      <li Class="Helodrace.Aircraft.CompProperties_AircraftManifest">
+        <passengerCapacity>1</passengerCapacity>
+        <cargoCapacity>80</cargoCapacity>
+      </li>
+      <li Class="Helodrace.Aircraft.CompProperties_AircraftTransporter">
+        <massCapacity>80</massCapacity>
+        <max1PerGroup>true</max1PerGroup>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+        <shouldTickContents>true</shouldTickContents>
+        <showMassInInspectString>true</showMassInInspectString>
+        <showOverallStats>true</showOverallStats>
+      </li>
+      <li Class="Helodrace.Aircraft.CompProperties_AircraftBombBay">
+        <capacity>210</capacity>
+        <hasCenterSlot>false</hasCenterSlot>
+        <wingSlotsPerSide>1</wingSlotsPerSide>
+        <minimumImbalancedTurnRateFactor>0.4</minimumImbalancedTurnRateFactor>
+        <defaultMaxCountPerSlot>1</defaultMaxCountPerSlot>
+        <bombSlotLimits>
+          <li>
+            <bombDef>HD_Bomb_230lb_MkI</bombDef>
+            <maxCountPerSlot>1</maxCountPerSlot>
+          </li>
+        </bombSlotLimits>
+        <allowedBombTags>
+          <li>HD_AircraftBomb</li>
+        </allowedBombTags>
+      </li>
+      <li Class="Helodrace.Aircraft.CompProperties_AircraftGun">
+        <gunDef>HD_Gun_M1917HMG_TurretGun</gunDef>
+        <mountType>Fixed</mountType>
+        <strafeLength>8</strafeLength>
+        <strafeWidth>3</strafeWidth>
+        <strafeAltitude>10</strafeAltitude>
+        <roundsPerMinute>600</roundsPerMinute>
+        <gunCount>1</gunCount>
+        <fireLeadDistance>12</fireLeadDistance>
+        <maxApproachTurnAngle>30</maxApproachTurnAngle>
+        <approachRadius>1.5</approachRadius>
+        <recoveryDistance>12</recoveryDistance>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

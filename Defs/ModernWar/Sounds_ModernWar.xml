@@ -2,6 +2,45 @@
 <Defs>
 
   <SoundDef>
+    <defName>HD_ZaperX26_ShockLoop</defName>
+    <context>MapOnly</context>
+    <sustain>true</sustain>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/TASER/HD_TASER_Loop</clipPath>
+          </li>
+        </grains>
+        <volumeRange>7~18</volumeRange>
+        <distRange>8~25</distRange>
+        <sustainAttack>0.03</sustainAttack>
+        <sustainRelease>0.08</sustainRelease>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_ZaperX26_Contact</defName>
+    <context>MapOnly</context>
+    <maxSimultaneous>4</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/TASER/HD_TASERMelee</clipPath>
+          </li>
+        </grains>
+        <volumeRange>24~32</volumeRange>
+        <distRange>8~25</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
     <defName>HD_DroneFlight_Start</defName>
     <context>MapOnly</context>
     <maxVoices>3</maxVoices>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Aircraft_Takeoff_Label>Take off</HD_Aircraft_Takeoff_Label>
+  <HD_Aircraft_Takeoff_Desc>Select a point along the takeoff heading.</HD_Aircraft_Takeoff_Desc>
+  <HD_Aircraft_Move_Label>Fly to</HD_Aircraft_Move_Label>
+  <HD_Aircraft_Move_Desc>Fly to the selected map position, then enter a holding circle.</HD_Aircraft_Move_Desc>
+  <HD_Aircraft_Loiter_Label>Loiter</HD_Aircraft_Loiter_Label>
+  <HD_Aircraft_Loiter_Desc>Circle around the selected map position.</HD_Aircraft_Loiter_Desc>
+  <HD_Aircraft_Land_Label>Land</HD_Aircraft_Land_Label>
+  <HD_Aircraft_Land_Desc>Approach and land at the selected map position.</HD_Aircraft_Land_Desc>
+  <HD_Aircraft_AbortLanding_Label>Abort landing</HD_Aircraft_AbortLanding_Label>
+  <HD_Aircraft_AbortLanding_Desc>Cancel the landing approach and enter a holding circle.</HD_Aircraft_AbortLanding_Desc>
+  <HD_Aircraft_NotSpawned>This aircraft is not on a map.</HD_Aircraft_NotSpawned>
+  <HD_Aircraft_AlreadyAirborne>This aircraft is already airborne.</HD_Aircraft_AlreadyAirborne>
+  <HD_Aircraft_NotAirborne>This aircraft is not airborne.</HD_Aircraft_NotAirborne>
+  <HD_Aircraft_InvalidCell>That map position is invalid.</HD_Aircraft_InvalidCell>
+  <HD_Aircraft_TakeoffTooShort>Select a takeoff point at least {0} cells away.</HD_Aircraft_TakeoffTooShort>
+  <HD_Aircraft_TakeoffRunwayBlocked>The takeoff path must be clear of terrain, structures, plants, pawns, and items.</HD_Aircraft_TakeoffRunwayBlocked>
+  <HD_Aircraft_LandingRunwayBlocked>The landing path must be clear of terrain, structures, plants, pawns, and items.</HD_Aircraft_LandingRunwayBlocked>
+  <HD_Aircraft_LandingTurnTooSharp>The landing approach would require a turn sharper than {0} degrees.</HD_Aircraft_LandingTurnTooSharp>
+  <HD_Aircraft_InspectState>Flight state: {0}</HD_Aircraft_InspectState>
+  <HD_Aircraft_InspectAltitude>Altitude: {0}</HD_Aircraft_InspectAltitude>
+  <HD_Aircraft_State_Parked>parked</HD_Aircraft_State_Parked>
+  <HD_Aircraft_State_TakingOff>taking off</HD_Aircraft_State_TakingOff>
+  <HD_Aircraft_State_Flying>airborne</HD_Aircraft_State_Flying>
+  <HD_Aircraft_State_Landing>landing</HD_Aircraft_State_Landing>
+  <HD_Aircraft_SelectFuel_Label>Select fuel</HD_Aircraft_SelectFuel_Label>
+  <HD_Aircraft_SelectFuel_Desc>Select which allowed item colonists will use to refuel this aircraft.</HD_Aircraft_SelectFuel_Desc>
+  <HD_Aircraft_SelectedFuel>Selected fuel: {0}</HD_Aircraft_SelectedFuel>
+  <HD_Aircraft_SelectedFuel_None>Selected fuel: none</HD_Aircraft_SelectedFuel_None>
+  <HD_Aircraft_SelectedMarker>selected</HD_Aircraft_SelectedMarker>
+  <HD_Aircraft_FuelSelected>{0} selected as aircraft fuel.</HD_Aircraft_FuelSelected>
+  <HD_Aircraft_NoAllowedFuel>This aircraft has no allowed fuel definitions.</HD_Aircraft_NoAllowedFuel>
+  <HD_Aircraft_NoFuelForTakeoff>The aircraft has no fuel.</HD_Aircraft_NoFuelForTakeoff>
+  <HD_Aircraft_OutOfFuelLanding>The aircraft has run out of fuel and is making an emergency landing.</HD_Aircraft_OutOfFuelLanding>
+  <HD_Aircraft_FuelLabel>aircraft fuel</HD_Aircraft_FuelLabel>
+  <HD_Aircraft_FuelGizmoLabel>Fuel</HD_Aircraft_FuelGizmoLabel>
+  <HD_Aircraft_BoardPilot_Label>Assign pilot</HD_Aircraft_BoardPilot_Label>
+  <HD_Aircraft_BoardPilot_Desc>Order a colonist to board this aircraft as its pilot.</HD_Aircraft_BoardPilot_Desc>
+  <HD_Aircraft_BoardPassenger_Label>Board passenger</HD_Aircraft_BoardPassenger_Label>
+  <HD_Aircraft_BoardPassenger_Desc>Order a colonist to board this aircraft as a passenger.</HD_Aircraft_BoardPassenger_Desc>
+  <HD_Aircraft_Disembark_Label>Disembark</HD_Aircraft_Disembark_Label>
+  <HD_Aircraft_Disembark_Desc>Select an occupant to leave this aircraft.</HD_Aircraft_Disembark_Desc>
+  <HD_Aircraft_LoadCargo_Label>Load cargo</HD_Aircraft_LoadCargo_Label>
+  <HD_Aircraft_LoadCargo_Desc>Designate an item stack for colonists to load into this aircraft.</HD_Aircraft_LoadCargo_Desc>
+  <HD_Aircraft_CancelCargo_Label>Cancel loading</HD_Aircraft_CancelCargo_Label>
+  <HD_Aircraft_CancelCargo_Desc>Clear all pending cargo designations for this aircraft.</HD_Aircraft_CancelCargo_Desc>
+  <HD_Aircraft_EjectCargo_Label>Unload cargo</HD_Aircraft_EjectCargo_Label>
+  <HD_Aircraft_EjectCargo_Desc>Place all loaded cargo beside this aircraft.</HD_Aircraft_EjectCargo_Desc>
+  <HD_Aircraft_Manifest_Airborne>The manifest cannot be changed while airborne.</HD_Aircraft_Manifest_Airborne>
+  <HD_Aircraft_InvalidOccupant>That pawn cannot board this aircraft.</HD_Aircraft_InvalidOccupant>
+  <HD_Aircraft_PilotOccupied>This aircraft already has a pilot.</HD_Aircraft_PilotOccupied>
+  <HD_Aircraft_PassengerFull>All passenger seats are occupied.</HD_Aircraft_PassengerFull>
+  <HD_Aircraft_BoardingFailed>Boarding failed.</HD_Aircraft_BoardingFailed>
+  <HD_Aircraft_RightClickBoardPilot>Board {0} as pilot</HD_Aircraft_RightClickBoardPilot>
+  <HD_Aircraft_RightClickBoardPassenger>Board {0} as passenger</HD_Aircraft_RightClickBoardPassenger>
+  <HD_Aircraft_BoardingJobRejected>{0} could not start the boarding job.</HD_Aircraft_BoardingJobRejected>
+  <HD_Aircraft_BoardedAsPilot>{0} boarded {1} as pilot.</HD_Aircraft_BoardedAsPilot>
+  <HD_Aircraft_BoardedAsPassenger>{0} boarded {1} as passenger.</HD_Aircraft_BoardedAsPassenger>
+  <HD_Aircraft_InvalidCargo>That item cannot be loaded.</HD_Aircraft_InvalidCargo>
+  <HD_Aircraft_CargoFull>The cargo hold is full.</HD_Aircraft_CargoFull>
+  <HD_Aircraft_NoOccupants>There are no occupants.</HD_Aircraft_NoOccupants>
+  <HD_Aircraft_NoPendingCargo>There is no cargo waiting to be loaded.</HD_Aircraft_NoPendingCargo>
+  <HD_Aircraft_NoCargo>There is no loaded cargo.</HD_Aircraft_NoCargo>
+  <HD_Aircraft_None>none</HD_Aircraft_None>
+  <HD_Aircraft_PilotMenuEntry>{0} (pilot)</HD_Aircraft_PilotMenuEntry>
+  <HD_Aircraft_ManifestInspect>Pilot: {0}\nPassengers: {1}/{2}\nCargo: {3}/{4} kg</HD_Aircraft_ManifestInspect>
+  <HD_Aircraft_NoPilotForTakeoff>A capable pilot must be aboard before takeoff.</HD_Aircraft_NoPilotForTakeoff>
+  <HD_Aircraft_PilotIncapacitatedLanding>The pilot is incapacitated or missing. The aircraft is making an emergency landing.</HD_Aircraft_PilotIncapacitatedLanding>
+  <HD_Aircraft_LoadBomb_Label>Load bomb</HD_Aircraft_LoadBomb_Label>
+  <HD_Aircraft_LoadBomb_Desc>Designate a compatible bomb stack for colonists to load into the bomb bay.</HD_Aircraft_LoadBomb_Desc>
+  <HD_Aircraft_CancelBombLoad_Label>Cancel bomb loading</HD_Aircraft_CancelBombLoad_Label>
+  <HD_Aircraft_CancelBombLoad_Desc>Clear all pending bomb loading designations.</HD_Aircraft_CancelBombLoad_Desc>
+  <HD_Aircraft_UnloadBombs_Label>Unload bombs</HD_Aircraft_UnloadBombs_Label>
+  <HD_Aircraft_UnloadBombs_Desc>Unload every bomb from the bomb bay.</HD_Aircraft_UnloadBombs_Desc>
+  <HD_Aircraft_DropBomb_Label>Drop {0} (x{1})</HD_Aircraft_DropBomb_Label>
+  <HD_Aircraft_DropBomb_Desc>Release one bomb. An asymmetric wing load reduces turn rate until balance is restored. Predicted forward travel: {0} cells. Maximum longitudinal and lateral error: {1} cells.</HD_Aircraft_DropBomb_Desc>
+  <HD_Aircraft_BombBayInspect>Bomb load: {0}/{1} kg</HD_Aircraft_BombBayInspect>
+  <HD_Aircraft_BombImbalanceInspect>Wing imbalance: {0} kg (turn rate -{1}%)</HD_Aircraft_BombImbalanceInspect>
+  <HD_Aircraft_BombBay_Airborne>The bomb load cannot be changed while airborne.</HD_Aircraft_BombBay_Airborne>
+  <HD_Aircraft_InvalidBomb>That item is not a compatible aircraft bomb.</HD_Aircraft_InvalidBomb>
+  <HD_Aircraft_BombBayFull>The bomb bay has reached its mass limit.</HD_Aircraft_BombBayFull>
+  <HD_Aircraft_NoPendingBombs>There are no bombs waiting to be loaded.</HD_Aircraft_NoPendingBombs>
+  <HD_Aircraft_NoLoadedBombs>There are no bombs in the bomb bay.</HD_Aircraft_NoLoadedBombs>
+  <HD_Aircraft_Bombing_NotAirborne>Bombs can only be dropped while airborne.</HD_Aircraft_Bombing_NotAirborne>
+  <HD_Aircraft_Bombing_NoPilot>A capable pilot is required to drop bombs.</HD_Aircraft_Bombing_NoPilot>
+  <HD_Aircraft_Bombing_Cooldown>The bomb release mechanism is cycling.</HD_Aircraft_Bombing_Cooldown>
+  <HD_Aircraft_Bombing_NoBomb>No bomb of that type remains.</HD_Aircraft_Bombing_NoBomb>
+  <HD_Aircraft_Bombing_InvalidProjectile>The bomb has no valid projectile definition.</HD_Aircraft_Bombing_InvalidProjectile>
+  <HD_Aircraft_Bombing_OutOfRange>Weapon range ({0}) must be greater than the current altitude ({1}).</HD_Aircraft_Bombing_OutOfRange>
+  <HD_ITab_Aircraft_Title>Aircraft</HD_ITab_Aircraft_Title>
+  <HD_ITab_Aircraft_NoAircraft>No aircraft selected.</HD_ITab_Aircraft_NoAircraft>
+  <HD_ITab_Aircraft_FlightState>Flight state</HD_ITab_Aircraft_FlightState>
+  <HD_ITab_Aircraft_Altitude>Altitude</HD_ITab_Aircraft_Altitude>
+  <HD_ITab_Aircraft_Speed>Current speed</HD_ITab_Aircraft_Speed>
+  <HD_ITab_Aircraft_Fuel>Fuel / target</HD_ITab_Aircraft_Fuel>
+  <HD_ITab_Aircraft_Occupants>Occupants</HD_ITab_Aircraft_Occupants>
+  <HD_ITab_Aircraft_Pilot>Pilot</HD_ITab_Aircraft_Pilot>
+  <HD_ITab_Aircraft_Passenger>Passenger</HD_ITab_Aircraft_Passenger>
+  <HD_ITab_Aircraft_Cargo>Cargo</HD_ITab_Aircraft_Cargo>
+  <HD_ITab_Aircraft_Bombs>Bomb load</HD_ITab_Aircraft_Bombs>
+  <HD_ITab_Aircraft_None>None</HD_ITab_Aircraft_None>
+  <HD_Aircraft_VanillaCargo_Label>Load cargo</HD_Aircraft_VanillaCargo_Label>
+  <HD_Aircraft_VanillaCargo_Desc>Open RimWorld's standard transporter loading dialog for this aircraft.</HD_Aircraft_VanillaCargo_Desc>
+  <HD_Aircraft_VanillaCargoCancel_Label>Cancel cargo loading</HD_Aircraft_VanillaCargoCancel_Label>
+  <HD_Aircraft_VanillaCargoCancel_Desc>Cancel the current vanilla transporter loading plan.</HD_Aircraft_VanillaCargoCancel_Desc>
+  <HD_Aircraft_CargoLoadingIncomplete>Assigned cargo has not finished loading.</HD_Aircraft_CargoLoadingIncomplete>
+  <HD_Aircraft_ConfigureBombs_Label>Configure bomb loadout</HD_Aircraft_ConfigureBombs_Label>
+  <HD_Aircraft_ConfigureBombs_Desc>Configure the center hardpoint and mirrored wing hardpoints. Colonists will load the selected bombs automatically.</HD_Aircraft_ConfigureBombs_Desc>
+  <HD_Aircraft_NoAllowedBombDefs>No compatible bomb definitions are available.</HD_Aircraft_NoAllowedBombDefs>
+  <HD_Aircraft_BombLoadout_Title>{0}: bomb loadout</HD_Aircraft_BombLoadout_Title>
+  <HD_Aircraft_BombLoadout_Mass>Requested mass: {0}/{1} kg</HD_Aircraft_BombLoadout_Mass>
+  <HD_Aircraft_BombLoadout_RowInfo>Loaded: {0}   Available: {1}   Unit mass: {2} kg</HD_Aircraft_BombLoadout_RowInfo>
+  <HD_Aircraft_BombLoadoutOverMass>Requested bomb mass ({0} kg) exceeds bomb bay capacity ({1} kg).</HD_Aircraft_BombLoadoutOverMass>
+  <HD_Aircraft_BombLoadoutIncomplete>The configured bomb loadout is not fully loaded or contains asymmetric bombs.</HD_Aircraft_BombLoadoutIncomplete>
+  <HD_Aircraft_BombLoadout_Symmetric>Wing hardpoints are linked in mirrored pairs. Each selection installs the same bomb and quantity on both sides.</HD_Aircraft_BombLoadout_Symmetric>
+  <HD_Aircraft_BombLoadout_Loaded>Loaded bombs: {0}/{1}</HD_Aircraft_BombLoadout_Loaded>
+  <HD_Aircraft_BombSlot_Center>Center</HD_Aircraft_BombSlot_Center>
+  <HD_Aircraft_BombSlot_WingLeft>Left {0}</HD_Aircraft_BombSlot_WingLeft>
+  <HD_Aircraft_BombSlot_WingRight>Right {0}</HD_Aircraft_BombSlot_WingRight>
+  <HD_Aircraft_BombSlot_WingPair>Wing pair {0}</HD_Aircraft_BombSlot_WingPair>
+  <HD_Aircraft_BombSlot_Empty>Empty</HD_Aircraft_BombSlot_Empty>
+  <HD_Aircraft_BombSlot_Invalid>That bomb hardpoint does not exist.</HD_Aircraft_BombSlot_Invalid>
+  <HD_Aircraft_BombSlot_CountInvalid>{0} allows at most {1} bombs per slot.</HD_Aircraft_BombSlot_CountInvalid>
+  <HD_Aircraft_BombSlot_Tooltip>{0}\nUnit mass: {1} kg</HD_Aircraft_BombSlot_Tooltip>
+  <HD_Aircraft_BombSlotPicker_Title>Configure {0}</HD_Aircraft_BombSlotPicker_Title>
+  <HD_Aircraft_BombSlotPicker_Quantity>Per wing slot: {0} (both wings: {1})</HD_Aircraft_BombSlotPicker_Quantity>
+  <HD_Aircraft_BombSlotPicker_CenterQuantity>Center slot: {0}</HD_Aircraft_BombSlotPicker_CenterQuantity>
+  <HD_Aircraft_BombSlotPicker_Info>{0} kg each\nAvailable: {1}\nMaximum per slot: {2}</HD_Aircraft_BombSlotPicker_Info>
+  <HD_Aircraft_BombSlotPicker_Clear>Clear slot</HD_Aircraft_BombSlotPicker_Clear>
+  <HD_Aircraft_BombSlotPicker_Select>Select a bomb first.</HD_Aircraft_BombSlotPicker_Select>
+  <HD_Aircraft_Expedition_Label>Begin expedition</HD_Aircraft_Expedition_Label>
+  <HD_Aircraft_Expedition_Desc>Fly to the map edge and form an aircraft caravan on the world map.</HD_Aircraft_Expedition_Desc>
+  <HD_Aircraft_ExpeditionCancel_Label>Abort expedition departure</HD_Aircraft_ExpeditionCancel_Label>
+  <HD_Aircraft_ExpeditionCancel_Desc>Cancel the flight to the map edge and resume loitering.</HD_Aircraft_ExpeditionCancel_Desc>
+  <HD_Aircraft_Expedition_NotReady>The aircraft must be in normal flight to begin an expedition.</HD_Aircraft_Expedition_NotReady>
+  <HD_Aircraft_Expedition_MissingWorldDef>The aircraft expedition world object definition is missing.</HD_Aircraft_Expedition_MissingWorldDef>
+  <HD_Aircraft_Expedition_TransferFailed>The aircraft could not be transferred to the world map.</HD_Aircraft_Expedition_TransferFailed>
+  <HD_Aircraft_Expedition_Created>{0} has entered the world map.</HD_Aircraft_Expedition_Created>
+  <HD_Aircraft_WorldCaravan_Label>{0} expedition</HD_Aircraft_WorldCaravan_Label>
+  <HD_Aircraft_WorldCaravan_Inspect>Aircraft: {0}\nPilot: {1}\nOccupants: {2}</HD_Aircraft_WorldCaravan_Inspect>
+  <HD_Aircraft_WorldSend_Label>Fly to destination</HD_Aircraft_WorldSend_Label>
+  <HD_Aircraft_WorldSend_Desc>Select a world tile and fly there. One-way range: {0} tiles. Round-trip range: {1} tiles. Fuel use: {2} per tile.</HD_Aircraft_WorldSend_Desc>
+  <HD_Aircraft_WorldSend_AlreadyTraveling>The aircraft is already in transit.</HD_Aircraft_WorldSend_AlreadyTraveling>
+  <HD_Aircraft_WorldSend_NoFuel>There is not enough fuel for a one-tile flight.</HD_Aircraft_WorldSend_NoFuel>
+  <HD_Aircraft_WorldSend_OutOfRange>That destination is outside the aircraft's one-way range.</HD_Aircraft_WorldSend_OutOfRange>
+  <HD_Aircraft_WorldSend_InvalidTarget>Select a different world tile.</HD_Aircraft_WorldSend_InvalidTarget>
+  <HD_Aircraft_WorldSend_TargetOutOfRange>Out of range. Distance: {0}; one-way range: {1}.</HD_Aircraft_WorldSend_TargetOutOfRange>
+  <HD_Aircraft_WorldSend_TargetRoundTrip>Round trip possible. Distance: {0} tiles; outbound fuel: {1}.</HD_Aircraft_WorldSend_TargetRoundTrip>
+  <HD_Aircraft_WorldSend_TargetOneWay>One way only. Distance: {0} tiles; outbound fuel: {1}.</HD_Aircraft_WorldSend_TargetOneWay>
+  <HD_Aircraft_WorldSend_OneWayWarning>This destination is outside the current round-trip range. The aircraft may not have enough fuel to return.\n\nDistance: {0} tiles\nCurrent fuel: {1}\nFuel required for the round trip: {2}\n\nContinue?</HD_Aircraft_WorldSend_OneWayWarning>
+  <HD_Aircraft_WorldSend_Arrived>{0} has arrived at its destination.</HD_Aircraft_WorldSend_Arrived>
+  <HD_Aircraft_WorldCaravan_Traveling>Arrival in: {0}</HD_Aircraft_WorldCaravan_Traveling>
+  <HD_Aircraft_WorldCaravan_Ranges>One-way range: {0} tiles\nRound-trip range: {1} tiles</HD_Aircraft_WorldCaravan_Ranges>
+  <HD_Aircraft_Strafe_Label>Strafe: {0} ×{1}</HD_Aircraft_Strafe_Label>
+  <HD_Aircraft_Strafe_Desc>Select the center of a {0}-cell fixed-gun strafing line. The aircraft descends to altitude {1}; all {3} guns fire simultaneously at {2} RPM per gun.</HD_Aircraft_Strafe_Desc>
+  <HD_Aircraft_CancelStrafe_Label>Abort strafing run</HD_Aircraft_CancelStrafe_Label>
+  <HD_Aircraft_CancelStrafe_Desc>Cancel the current approach or strafing run and return to cruise altitude.</HD_Aircraft_CancelStrafe_Desc>
+  <HD_Aircraft_Strafe_NotFlying>The aircraft must be in normal flight before beginning a strafing run.</HD_Aircraft_Strafe_NotFlying>
+  <HD_Aircraft_Strafe_ExpeditionDeparture>A strafing run cannot begin while the aircraft is leaving the map.</HD_Aircraft_Strafe_ExpeditionDeparture>
+  <HD_Aircraft_Strafe_NoPilot>A capable pilot is required for a strafing run.</HD_Aircraft_Strafe_NoPilot>
+  <HD_Aircraft_Strafe_AlreadyActive>A strafing run is already active.</HD_Aircraft_Strafe_AlreadyActive>
+  <HD_Aircraft_Strafe_InvalidGun>The mounted aircraft gun has no valid projectile.</HD_Aircraft_Strafe_InvalidGun>
+  <HD_Aircraft_Strafe_OutOfRange>The mounted gun range ({0}) must exceed the strafing altitude ({1}).</HD_Aircraft_Strafe_OutOfRange>
+  <HD_Aircraft_Strafe_InvalidLine>A valid strafing line could not be created at that position.</HD_Aircraft_Strafe_InvalidLine>
+  <HD_Aircraft_Strafe_Cancelled>The strafing run was cancelled.</HD_Aircraft_Strafe_Cancelled>
+  <HD_Aircraft_Strafe_TurnTooSharp>The strafing approach would require a turn sharper than {0} degrees.</HD_Aircraft_Strafe_TurnTooSharp>
+</LanguageData>

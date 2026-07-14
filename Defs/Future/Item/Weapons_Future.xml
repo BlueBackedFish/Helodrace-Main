@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_LANCE_LRA7_Beam</defName>
+    <label>LRA-7 coupled-mass shot</label>
+    <thingClass>Helodrace.Future.Projectile_LanceLra7</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.12,0.12)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>11</damageAmountBase>
+      <armorPenetrationBase>0.24</armorPenetrationBase>
+      <stoppingPower>2.0</stoppingPower>
+      <speed>1000</speed>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.Future.LanceLra7ProjectileExtension">
+        <damagePerCell>0.36</damagePerCell>
+        <armorPenetrationPerCell>0.008</armorPenetrationPerCell>
+        <feedbackRunawayMinDistance>30</feedbackRunawayMinDistance>
+        <feedbackRunawayGuaranteedDistance>70</feedbackRunawayGuaranteedDistance>
+        <feedbackConeRadius>3.2</feedbackConeRadius>
+        <feedbackConeAngle>70</feedbackConeAngle>
+        <feedbackDamageFactor>0.18</feedbackDamageFactor>
+        <feedbackSound>Explosion_Bomb</feedbackSound>
+        <attractionConeRadius>4.2</attractionConeRadius>
+        <attractionConeAngle>70</attractionConeAngle>
+        <attractionPullCells>2</attractionPullCells>
+        <vacuumBurnDamage>5</vacuumBurnDamage>
+        <beamDurationTicks>7</beamDurationTicks>
+        <beamWidth>0.12</beamWidth>
+        <shotSound>HD_LANCEGen2</shotSound>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_LANCE_LRA7_BeamEffect</defName>
+    <label>LRA-7 beam effect</label>
+    <thingClass>Helodrace.Future.LanceLra7BeamEffect</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <selectable>false</selectable>
+    <useHitPoints>false</useHitPoints>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_LANCE_LRA7_FeedbackWave</defName>
+    <label>LRA-7 feedback wave</label>
+    <thingClass>Helodrace.Future.LanceLra7FeedbackWave</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>None</drawerType>
+    <selectable>false</selectable>
+    <useHitPoints>false</useHitPoints>
+  </ThingDef>
+
+  <!--
+    LANCE LRA-7 platform definition.
+    Its firing behavior is supplied by the dedicated LANCE projectile system.
+  -->
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_LANCE_LRA7</defName>
+    <label>LANCE LRA-7</label>
+    <description>A second-generation LANCE rifle using a single-measurement system to couple its positive- and negative-mass projectiles. The coupled shot gains destructive energy over distance; beyond its safe separation envelope it collapses into a feedback runaway.</description>
+    <weaponTags>
+      <li>HD_FutureWeapon</li>
+      <li>HD_LANCEPlatform</li>
+    </weaponTags>
+    <graphicData>
+      <texPath>Weapon/Future/HD_LANCEGEN2</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <Mass>6.8</Mass>
+      <MarketValue>3200</MarketValue>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <AccuracyTouch>0.55</AccuracyTouch>
+      <AccuracyShort>0.72</AccuracyShort>
+      <AccuracyMedium>0.86</AccuracyMedium>
+      <AccuracyLong>0.92</AccuracyLong>
+      <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+    </statBases>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.Future.CompProperties_LanceLra7System" />
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>0.3</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.04</altAccuracyMultiplier>
+        <switchTicks>45</switchTicks>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_LANCE_LRA7_Beam</defaultProjectile>
+        <warmupTime>1.2</warmupTime>
+        <range>54.9</range>
+        <requireLineOfSight>true</requireLineOfSight>
+        <burstShotCount>5</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>HD_LRA7Beep</soundCast>
+        <muzzleFlashScale>3</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_LANCE_LRA7_Beam</defaultProjectile>
+        <warmupTime>0.4</warmupTime>
+        <range>54.9</range>
+        <requireLineOfSight>true</requireLineOfSight>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>HD_LRA7Beep</soundCast>
+        <muzzleFlashScale>3</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>2.2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+</Defs>

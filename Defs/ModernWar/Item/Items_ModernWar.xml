@@ -76,4 +76,68 @@
     </comps>
   </ThingDef>
 
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_Apparel_IBTVAssault</defName>
+    <label>IBTV Assault</label>
+    <description>A modern modular body armor system tailored for Helod bodies. Inspired by the assault configuration of the IOTV Gen4, it combines hard armor plates with reinforced neck and shoulder protection.</description>
+    <graphicData>
+      <texPath>Dogos/Appearel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>260</MaxHitPoints>
+      <WorkToMake>12000</WorkToMake>
+      <MarketValue>720</MarketValue>
+      <Mass>9.5</Mass>
+      <ArmorRating_Sharp>1.20</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.50</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.30</ArmorRating_Heat>
+      <Flammability>0.15</Flammability>
+      <EquipDelay>2.5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.12</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_IOTVGen4Assault/HD_IOTVGen4Assault</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_MW_Protective</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>60</Cloth>
+      <Plasteel>40</Plasteel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>FlakArmor</li>
+    </researchPrerequisites>
+  </ThingDef>
+
 </Defs>

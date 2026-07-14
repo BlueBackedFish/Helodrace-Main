@@ -475,7 +475,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\human\\.nuget\\packages": {}
+    "C:\\Users\\human\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -483,7 +483,7 @@
       "projectUniqueName": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Helodrace.csproj",
       "projectName": "Helodrace",
       "projectPath": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Helodrace.csproj",
-      "packagesPath": "C:\\Users\\human\\.nuget\\packages",
+      "packagesPath": "C:\\Users\\human\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [

@@ -291,6 +291,7 @@
           <li>HD_Apparel_M1MortarMount</li>
           <li>HD_Apparel_M1MortarBarrel</li>
           <li>HD_MilitaryTablet</li>
+          <li>HD_Apparel_IBTVAssault</li>
         </apparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">

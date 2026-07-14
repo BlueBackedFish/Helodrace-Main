@@ -125,6 +125,22 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_M2HB_Proj</defName>
+    <label>.50 caliber heavy machine gun bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>24</damageAmountBase>
+      <armorPenetrationBase>0.38</armorPenetrationBase>
+      <stoppingPower>2.2</stoppingPower>
+      <speed>90</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1919A6LMG_Proj</defName>
     <label>M1919A6 light machine gun bullet</label>
     <graphicData>
@@ -705,7 +721,7 @@
       <texPath>Building/Security/HD_m1917HMG_Top</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawOffset>(-0.05,0,0.05)</drawOffset>
-      <drawSize>(0.9,0.9)</drawSize>
+      <drawSize>(0.8,0.8)</drawSize>
     </graphicData>
     <statBases>
       <AccuracyTouch>0.45</AccuracyTouch>
@@ -728,6 +744,41 @@
         <soundCast>Shot_Minigun</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
+        <consumeFuelPerShot>1</consumeFuelPerShot>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_M2HB_TurretGun</defName>
+    <label>M2HB heavy machine gun</label>
+    <description>A belt-fed .50 caliber heavy machine gun intended for fixed defensive mounts.</description>
+    <graphicData>
+      <texPath>Building/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(24.0,24.0)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.48</AccuracyTouch>
+      <AccuracyShort>0.70</AccuracyShort>
+      <AccuracyMedium>0.78</AccuracyMedium>
+      <AccuracyLong>0.68</AccuracyLong>
+      <RangedWeapon_Cooldown>0.2</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>HD_Bullet_M2HB_Proj</defaultProjectile>
+        <warmupTime>0</warmupTime>
+        <range>42.9</range>
+        <burstShotCount>10</burstShotCount>
+        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Shot_Minigun</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>14</muzzleFlashScale>
         <consumeFuelPerShot>1</consumeFuelPerShot>
       </li>
     </verbs>
