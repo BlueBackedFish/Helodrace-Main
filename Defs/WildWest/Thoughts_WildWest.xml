@@ -109,4 +109,49 @@
     </stages>
   </ThoughtDef>
 
+  <ThoughtDef>
+    <defName>HD_HonorGuardEquipmentMood</defName>
+    <thoughtClass>Helodrace.Thought_Situational_HelodPersonalityDescription</thoughtClass>
+    <workerClass>Helodrace.ThoughtWorker_HonorGuardEquipment</workerClass>
+    <modExtensions>
+      <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+        <descriptions>
+          <li>The officer's saber and neat uniform, poor fits for battle, draw my body upright. They may lack practicality, but they are clearly equipment for honoring someone and preserving dignity.</li>
+          <li>The shining officer's saber and ordered uniform give mourning a clear form. If the one standing in front does not falter, those behind can lower their heads as well.</li>
+          <li>This equipment is less for fighting than a sign that the survivors have not become shabby. For the sake of the dead, I do not want to stand here looking disheveled.</li>
+          <li>It is awkward and cumbersome in combat, but wearing the uniform properly and fastening the officer's saber settles some of the noise inside me. Sometimes this kind of formality is necessary.</li>
+          <li>The weight of the neat uniform and officer's saber feels unfamiliar and burdensome. Still, this appearance seems suited to a place of mourning, so I quietly straighten my posture.</li>
+          <li>The gear would get in the way in a real fight, but its neatness lets me hold my feelings at a small distance. Without saying much, this dressed appearance can still convey grief.</li>
+          <li>Wearing the same formal dress feels like it binds the survivors together. Remembering someone is not only enduring alone; it is also refusing to fall apart together.</li>
+          <li>I can feel the people around me standing in the same silence. The formality of the officer's saber and uniform speaks grief for us, so no one has to force words out.</li>
+          <li>The form of mourning protects the order of those left behind. While each of us stands in uniform and in place, it becomes clear that the community has not yet collapsed.</li>
+          <li>The officer's saber falls short as a battlefield weapon, but that is exactly what gives it meaning now. This is not for fighting, but for respecting the dead in my own way.</li>
+          <li>It is easier to stand silently in uniform with the officer's saber at my side. I do not have to share grief noisily; I can hold the memory alone in a composed posture.</li>
+          <li>The neat uniform and ceremonial gear bind personal feelings inside the manners of the community. They create a proper distance: not collapsing completely, but not looking away either.</li>
+          <li>The collar of the uniform holds my neck upright, and the cold weight of the officer's saber steadies my fingertips. Old gunfire brushes past my ears for a moment, but today it does not pull me along. This formality is not an order that drives fear forward, but a support that lets the living stand straight.</li>
+          <li>The neatly dressed body remembers its posture before I do. My breathing grows a little shallow, but the lines of the uniform and the weight of the officer's saber slowly gather my scattered thoughts into one place. Today's silence is not a frightening silence, but a quiet space where the heart can settle.</li>
+          <li>Once I put on the uniform, the empty places become clearer, but strangely that clarity hurts a little less. Remembering those we lost is connected to protecting those still beside us. Because of that, there is a little warmth in the way I check on the comrades around me.</li>
+          <li>The officer's saber rests at my waist, and the uniform sits without disarray. My emotions take one step back, but this time it does not feel like running away. That cold, orderly distance lets me look at grief slowly, and within it I can find a quiet peace.</li>
+        </descriptions>
+      </li>
+    </modExtensions>
+    <stages>
+      <li>
+        <label>memorial</label>
+        <description>I am equipped with the honor guard uniform and officer's saber. They are not practical in combat, but they are enough to honor the dead and preserve the dignity of the living.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>memorial</label>
+        <description>I am equipped with the honor guard uniform and officer's saber. They are not practical in combat, but they are enough to honor the dead and preserve the dignity of the living.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+      <li>
+        <label>memorial</label>
+        <description>I am equipped with the honor guard uniform and officer's saber. They are not practical in combat, but they are enough to honor the dead and preserve the dignity of the living.</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
 </Defs>

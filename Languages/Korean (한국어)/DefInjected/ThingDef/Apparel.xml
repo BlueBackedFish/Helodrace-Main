@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_Apparel_CarvalyUniform.label>기병대 제복</HD_Apparel_CarvalyUniform.label>
   <HD_Apparel_CarvalyUniform.description>기병대원를 위한 표준 제복입니다.</HD_Apparel_CarvalyUniform.description>
@@ -8,6 +8,8 @@
 
   <HD_Apparel_CowboyHat.label>카우보이 모자</HD_Apparel_CowboyHat.label>
   <HD_Apparel_CowboyHat.description>귀가 모자 깃 밖으로 삐져나오도록 디자인된 헤로드용 카우보이 모자입니다.</HD_Apparel_CowboyHat.description>
+  <HD_Apparel_WildWestTopHat.label>탑햇</HD_Apparel_WildWestTopHat.label>
+  <HD_Apparel_WildWestTopHat.description>헤로드 머리에 맞춰 만든 높은 정장 모자입니다. 개척지에서 부와 직위, 도시적 예법을 드러내는 눈에 띄는 표식입니다.</HD_Apparel_WildWestTopHat.description>
 
   <HD_Bugle.label>뷰글</HD_Bugle.label>
   <HD_Bugle.description>신호를 보내기 위해 휴대하는 작은 나팔입니다.</HD_Bugle.description>
@@ -17,4 +19,13 @@
 
   <HD_Apparel_WildWestMaleCasual.label>캐주얼 재킷</HD_Apparel_WildWestMaleCasual.label>
   <HD_Apparel_WildWestMaleCasual.description>19세기 남성용 평상복입니다.</HD_Apparel_WildWestMaleCasual.description>
+  <HD_Apparel_WildWestFormalShirt.label>포멀 셔츠</HD_Apparel_WildWestFormalShirt.label>
+  <HD_Apparel_WildWestFormalShirt.description>헤로드 체형에 맞춰 재단한 깔끔한 정장 셔츠입니다. 일상 업무와 도시 생활, 격식 있는 자리에 어울리며 외교적 존재감을 높이고 정신 이상 임계치를 조금 낮춥니다.</HD_Apparel_WildWestFormalShirt.description>
+  <HD_Apparel_WildWestFrockCoat.label>프록 코트</HD_Apparel_WildWestFrockCoat.label>
+  <HD_Apparel_WildWestFrockCoat.description>헤로드 체형에 맞춰 재단한 긴 정장 코트입니다. 구조적인 중간층 의류로 착용하며, 약간의 보온성과 외교적 존재감을 제공하고 정신 이상 임계치를 조금 낮춥니다.</HD_Apparel_WildWestFrockCoat.description>
+  <HD_WildWestLeatherVest.label>가죽 조끼</HD_WildWestLeatherVest.label>
+  <HD_WildWestLeatherVest.description>개척지에서 가벼운 방호를 제공하도록 만든 질긴 가죽 조끼입니다. 다른 의류 위에 가벼운 방어구로 착용할 수 있습니다.</HD_WildWestLeatherVest.description>
+  <HD_WildWestMetalVest.label>금속 조끼</HD_WildWestMetalVest.label>
+  <HD_WildWestMetalVest.description>균일압연강판에 천 받침을 덧대어 만든 조잡한 금속 조끼입니다. 베임과 스치는 탄환을 조금 막아주지만, 방호 면적에 비해 무겁습니다.</HD_WildWestMetalVest.description>
 </LanguageData>
+

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <ThingCategoryDef>
@@ -310,14 +310,19 @@
       <statFactors>
         <MaxHitPoints>0.75</MaxHitPoints>
         <WorkToMake>0.55</WorkToMake>
+        <WorkToBuild>0.55</WorkToBuild>
+        <Beauty>0.6</Beauty>
         <MeleeWeapon_DamageMultiplier>0.85</MeleeWeapon_DamageMultiplier>
         <MeleeWeapon_CooldownMultiplier>1.1</MeleeWeapon_CooldownMultiplier>
+        <SharpDamageMultiplier>0.8</SharpDamageMultiplier>
+        <BluntDamageMultiplier>0.9</BluntDamageMultiplier>
+        <ArmorRating_Sharp>0.55</ArmorRating_Sharp>
+        <ArmorRating_Blunt>0.22</ArmorRating_Blunt>
+        <ArmorRating_Heat>0.45</ArmorRating_Heat>
+        <Insulation_Cold>0</Insulation_Cold>
+        <Insulation_Heat>0</Insulation_Heat>
         <Flammability>0</Flammability>
       </statFactors>
-      <statOffsets>
-        <ArmorRating_Sharp>-0.04</ArmorRating_Sharp>
-        <ArmorRating_Blunt>-0.02</ArmorRating_Blunt>
-      </statOffsets>
     </stuffProps>
   </ThingDef>
 
@@ -353,15 +358,18 @@
       <statFactors>
         <MaxHitPoints>1.25</MaxHitPoints>
         <WorkToMake>1.0</WorkToMake>
+        <Beauty>1.0</Beauty>
         <MeleeWeapon_DamageMultiplier>1.15</MeleeWeapon_DamageMultiplier>
         <MeleeWeapon_CooldownMultiplier>0.95</MeleeWeapon_CooldownMultiplier>
+        <SharpDamageMultiplier>1.05</SharpDamageMultiplier>
+        <BluntDamageMultiplier>1.05</BluntDamageMultiplier>
+        <ArmorRating_Sharp>1.05</ArmorRating_Sharp>
+        <ArmorRating_Blunt>0.42</ArmorRating_Blunt>
+        <ArmorRating_Heat>0.72</ArmorRating_Heat>
+        <Insulation_Cold>0</Insulation_Cold>
+        <Insulation_Heat>0</Insulation_Heat>
         <Flammability>0</Flammability>
       </statFactors>
-      <statOffsets>
-        <ArmorRating_Sharp>0.04</ArmorRating_Sharp>
-        <ArmorRating_Blunt>0.02</ArmorRating_Blunt>
-        <ArmorRating_Heat>0.01</ArmorRating_Heat>
-      </statOffsets>
     </stuffProps>
   </ThingDef>
 
@@ -380,6 +388,52 @@
       <MaxHitPoints>90</MaxHitPoints>
       <MarketValue>18</MarketValue>
       <Mass>2.0</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Press Component -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_PressComponent</defName>
+    <label>press component</label>
+    <description>A stamped and pressed metal subcomponent used as a starting piece for more precise mechanical assemblies.</description>
+    <graphicData>
+      <texPath>Item/HD_PressComponent</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>8</MarketValue>
+      <Mass>0.5</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- General Machine Part -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_GeneralMachinePart</defName>
+    <label>general machine part</label>
+    <description>A machined general-purpose mechanical part suitable for firearms, tools, and industrial assemblies.</description>
+    <graphicData>
+      <texPath>Item/HD_GeneralMachinePart</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <MarketValue>14</MarketValue>
+      <Mass>1.0</Mass>
       <Flammability>0</Flammability>
       <DeteriorationRate>0.4</DeteriorationRate>
     </statBases>
@@ -409,6 +463,31 @@
     <thingCategories>
       <li>Manufactured</li>
     </thingCategories>
+    <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
+    <stuffProps>
+      <categories>
+        <li>Metallic</li>
+      </categories>
+      <commonality>0.2</commonality>
+      <stuffAdjective>uniform rolled steel</stuffAdjective>
+      <color>(78,86,92)</color>
+      <statFactors>
+        <MaxHitPoints>1.35</MaxHitPoints>
+        <WorkToMake>0.75</WorkToMake>
+        <WorkToBuild>0.45</WorkToBuild>
+        <Beauty>0.9</Beauty>
+        <MeleeWeapon_DamageMultiplier>0.95</MeleeWeapon_DamageMultiplier>
+        <MeleeWeapon_CooldownMultiplier>1.05</MeleeWeapon_CooldownMultiplier>
+        <SharpDamageMultiplier>0.95</SharpDamageMultiplier>
+        <BluntDamageMultiplier>0.95</BluntDamageMultiplier>
+        <ArmorRating_Sharp>1.35</ArmorRating_Sharp>
+        <ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+        <ArmorRating_Heat>0.8</ArmorRating_Heat>
+        <Insulation_Cold>0</Insulation_Cold>
+        <Insulation_Heat>0</Insulation_Heat>
+        <Flammability>0</Flammability>
+      </statFactors>
+    </stuffProps>
   </ThingDef>
 
   <!-- Plain Dog Chew -->
@@ -592,11 +671,11 @@
     </thingCategories>
   </ThingDef>
 
-  <!-- Wild West Barrel -->
+  <!-- Medium Quality Gun Barrel -->
   <ThingDef ParentName="ResourceBase">
     <defName>HD_WildWestBarrel</defName>
-    <label>wild west gun barrel</label>
-    <description>A high-quality, precision-rifled metal gun barrel bored and turned on a specialized lathe. Used for crafting advanced wild west breech-loading and repeating firearms.</description>
+    <label>medium quality gun barrel</label>
+    <description>A medium-quality, precision-rifled metal gun barrel bored and turned on a specialized lathe. Used for crafting frontier breech-loading and repeating firearms.</description>
     <graphicData>
       <texPath>Item/HD_WildWestBarrel</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -615,73 +694,7 @@
     </thingCategories>
   </ThingDef>
 
-  <!-- Low Quality Torsion Spring -->
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_LowQualityTorsionSpring</defName>
-    <label>low quality torsion spring</label>
-    <description>A crude metal torsion spring made with inconsistent tempering. Used in simple mechanisms and low-grade firearms where precision is not critical.</description>
-    <graphicData>
-      <texPath>Item/HD_LowQualityTorsionSpring</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>60</MaxHitPoints>
-      <MarketValue>8.0</MarketValue>
-      <Mass>0.15</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-  </ThingDef>
-
-  <!-- V-Spring -->
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_VSpring</defName>
-    <label>V-spring</label>
-    <description>A shaped metal spring that stores force between two arms. Used in firearm locks, triggers, and compact mechanical assemblies.</description>
-    <graphicData>
-      <texPath>Item/HD_VSpring</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>70</MaxHitPoints>
-      <MarketValue>12.0</MarketValue>
-      <Mass>0.1</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-  </ThingDef>
-
-  <!-- Low Quality Magazine Spring -->
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_LowQualityMagazineSpring</defName>
-    <label>low quality magazine spring</label>
-    <description>A rough coil spring made for feeding cartridges from a simple magazine. It works, but its uneven tension limits reliability in advanced weapons.</description>
-    <graphicData>
-      <texPath>Item/HD_LowQualityMagazineSpring</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>60</MaxHitPoints>
-      <MarketValue>10.0</MarketValue>
-      <Mass>0.12</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-  </ThingDef>
-
   </Defs>
+
+
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RaidStrategyDef ParentName="ImmediateAttack">
+    <defName>HD_GW_MortarAssault</defName>
+    <workerClass>Helodrace.RaidStrategyWorker_MortarAssault</workerClass>
+    <minPawns>6</minPawns>
+    <pawnsCanBringFood>false</pawnsCanBringFood>
+    <raidLootValueFactor>0</raidLootValueFactor>
+    <selectionWeightPerPointsCurve>
+      <points>
+        <li>(0,0)</li>
+      </points>
+    </selectionWeightPerPointsCurve>
+    <selectionWeightCurvesPerFaction>
+      <li>
+        <faction>HD_HelodCivilLowFaction</faction>
+        <selectionWeightPerPointsCurve>
+          <points>
+            <li>(0,0)</li>
+            <li>(700,0.30)</li>
+            <li>(1600,0.55)</li>
+          </points>
+        </selectionWeightPerPointsCurve>
+      </li>
+    </selectionWeightCurvesPerFaction>
+    <arriveModes>
+      <li>EdgeWalkIn</li>
+    </arriveModes>
+    <letterLabelEnemy>Mortar assault</letterLabelEnemy>
+    <arrivalTextEnemy>The raiders are establishing a field position with an M1 mortar, automatic-rifle cover, ammunition, and rations.</arrivalTextEnemy>
+  </RaidStrategyDef>
+
+  <RaidStrategyDef ParentName="ImmediateAttack">
+    <defName>HD_GW_ChemicalMortarAssault</defName>
+    <workerClass>Helodrace.RaidStrategyWorker_ChemicalMortarAssault</workerClass>
+    <minPawns>6</minPawns>
+    <pawnsCanBringFood>false</pawnsCanBringFood>
+    <raidLootValueFactor>0</raidLootValueFactor>
+    <selectionWeightPerPointsCurve>
+      <points>
+        <li>(0,0)</li>
+      </points>
+    </selectionWeightPerPointsCurve>
+    <selectionWeightCurvesPerFaction>
+      <li>
+        <faction>HD_HelodCivilLowFaction</faction>
+        <selectionWeightPerPointsCurve>
+          <points>
+            <li>(0,0)</li>
+            <li>(900,0.12)</li>
+            <li>(1800,0.25)</li>
+          </points>
+        </selectionWeightPerPointsCurve>
+      </li>
+    </selectionWeightCurvesPerFaction>
+    <arriveModes>
+      <li>EdgeWalkIn</li>
+    </arriveModes>
+    <letterLabelEnemy>Chemical mortar assault</letterLabelEnemy>
+    <arrivalTextEnemy>The raiders are establishing a protected field position with an M1 mortar and BA chemical shells. Every member is carrying CBRN protection.</arrivalTextEnemy>
+  </RaidStrategyDef>
+</Defs>

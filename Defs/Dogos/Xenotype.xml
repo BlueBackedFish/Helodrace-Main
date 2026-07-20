@@ -9,6 +9,9 @@
     <descriptionShort>A large, resilient, and authoritative helod.</descriptionShort>
     <iconPath>Icon/HD_icon</iconPath>
     <inheritable>true</inheritable>
+    <nameMaker>HD_NamerPersonHelod</nameMaker>
+    <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
+    <chanceToUseNameMaker>1</chanceToUseNameMaker>
     <genes>
       <li MayRequire="Ludeon.RimWorld.Biotech">Hair_DarkBlack</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
@@ -35,6 +38,9 @@
     <descriptionShort>A swift, heat-tolerant sharpshooter helod.</descriptionShort>
     <iconPath>Icon/HD_icon</iconPath>
     <inheritable>true</inheritable>
+    <nameMaker>HD_NamerPersonHelod</nameMaker>
+    <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
+    <chanceToUseNameMaker>1</chanceToUseNameMaker>
     <genes>
       <li MayRequire="Ludeon.RimWorld.Biotech">Hair_SandyBlonde</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
@@ -60,6 +66,9 @@
     <descriptionShort>An elite polar sniper and lone wolf helod.</descriptionShort>
     <iconPath>Icon/HD_icon</iconPath>
     <inheritable>true</inheritable>
+    <nameMaker>HD_NamerPersonHelod</nameMaker>
+    <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
+    <chanceToUseNameMaker>1</chanceToUseNameMaker>
     <genes>
       <li MayRequire="Ludeon.RimWorld.Biotech">Hair_SnowWhite</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
@@ -85,6 +94,9 @@
     <descriptionShort>An intellectual, highly social 내정-focused monopolist helod.</descriptionShort>
     <iconPath>Icon/HD_icon</iconPath>
     <inheritable>true</inheritable>
+    <nameMaker>HD_NamerPersonHelod</nameMaker>
+    <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
+    <chanceToUseNameMaker>1</chanceToUseNameMaker>
     <genes>
       <li MayRequire="Ludeon.RimWorld.Biotech">Hair_Gray</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>
@@ -110,6 +122,9 @@
     <descriptionShort>A robust, swift combat PMC helod with psychite dependency.</descriptionShort>
     <iconPath>Icon/HD_icon</iconPath>
     <inheritable>true</inheritable>
+    <nameMaker>HD_NamerPersonHelod</nameMaker>
+    <nameMakerFemale>HD_NamerPersonHelod</nameMakerFemale>
+    <chanceToUseNameMaker>1</chanceToUseNameMaker>
     <genes>
       <li MayRequire="Ludeon.RimWorld.Biotech">Hair_DarkBrown</li>
       <li MayRequire="Ludeon.RimWorld.Biotech">Skin_Melanin1</li>

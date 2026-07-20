@@ -4,6 +4,9 @@
     <defName>Helod</defName>
     <label>Helod</label>
     <description>A noble canine-like humanoid race known for their loyalty, agility, and frontier spirit. Excellent survivors, trackers, and marksmen.</description>
+    <inspectorTabs>
+      <li>Helodrace.ITab_M6RocketBag</li>
+    </inspectorTabs>
     <alienRace>
       <generalSettings>
         <maleGenderProbability>0.0000001</maleGenderProbability>
@@ -35,10 +38,10 @@
             <li>Female</li>
             <!--<li>Thin</li>-->
           </bodyTypes>
-          <headOffset>(0.0, 0.25)</headOffset>
-          <customDrawSize>(1.0, 1.0)</customDrawSize>
-          <customHeadDrawSize>(1.0, 1.0)</customHeadDrawSize>
-          <customPortraitDrawSize>(1.0, 1.0)</customPortraitDrawSize>
+          <headOffset>(0.0, 0.11)</headOffset>
+          <customDrawSize>(0.8, 0.8)</customDrawSize>
+          <customHeadDrawSize>(0.8, 0.8)</customHeadDrawSize>
+          <customPortraitDrawSize>(0.8, 0.8)</customPortraitDrawSize>
           
           <colorChannels>
             <li>
@@ -139,10 +142,12 @@
               <defaultOffset>Tail</defaultOffset>
               <shaderType>Cutout</shaderType>
               <offsets>
-                <south><offset>(-0.25,0.25)</offset></south>
+                <south>
+                  <offset>(-0.25,0.25)</offset>
+                </south>
                 <north>
                   <offset>(-0.05,0.36)</offset>
-                  <layerOffset>-0.2</layerOffset> <!-- 북쪽을 볼 때 몸 뒤로 숨김 -->
+                  <layerOffset>-0.2</layerOffset>
                 </north>
                 <east><offset>(-0.11,0.18)</offset></east>
               </offsets>
@@ -160,25 +165,25 @@
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
               <colorChannel>hair</colorChannel>
-              <drawSize>0.8</drawSize>
+              <drawSize>1.0</drawSize>
               <angle>0</angle>
               <alignWithHead>true</alignWithHead>
               <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-              <defaultOffset>Tail</defaultOffset>
+              <defaultOffset>Head</defaultOffset>
               <shaderType>CutoutComplex</shaderType>
               <offsets>
-                <south>
-                  <offset>(-0.25,0.4)</offset>
-                  <layerOffset>0.02</layerOffset>
-                </south>
                 <north>
-                  <offset>(-0.11,0.68)</offset>
-                  <layerOffset>-0.02</layerOffset>
+                  <offset>(-0.165,-0.16)</offset>
+                  <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.4,0.4)</offset>
-                  <layerOffset>0.02</layerOffset>
+                  <offset>(0.042,-0.3)</offset>
+                  <layerOffset></layerOffset>
                 </east>
+                <south>
+                  <offset>(0.165,-0.2)</offset>
+                  <layerOffset></layerOffset>
+                </south>
               </offsets>
             </li>
 
@@ -194,25 +199,25 @@
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
               <colorChannel>hair</colorChannel>
-              <drawSize>0.8</drawSize>
+              <drawSize>1.0</drawSize>
               <angle>0</angle>
               <alignWithHead>true</alignWithHead>
               <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-              <defaultOffset>Tail</defaultOffset>
+              <defaultOffset>Head</defaultOffset>
               <shaderType>CutoutComplex</shaderType>
               <offsets>
-                <south>
-                  <offset>(-0.63,0.4)</offset>
-                  <layerOffset>0.02</layerOffset>
-                </south>
                 <north>
-                  <offset>(0.30,0.68)</offset>
-                  <layerOffset>-0.02</layerOffset>
+                  <offset>(0.165,-0.16)</offset>
+                  <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.4,0.4)</offset>
-                  <layerOffset>0.02</layerOffset>
+                  <offset>(0.042,-0.3)</offset>
+                  <layerOffset>-0.004</layerOffset>
                 </east>
+                <south>
+                  <offset>(-0.165,-0.2)</offset>
+                  <layerOffset></layerOffset>
+                </south>
               </offsets>
             </li>
           </bodyAddons>
@@ -269,10 +274,30 @@
           <li>HD_Apparel_CarvalyUniform</li>
           <li>HD_Apparel_CarvalyHat</li>
           <li>HD_Apparel_CowboyHat</li>
+          <li>HD_Apparel_WildWestTopHat</li>
           <li>HD_Apparel_WildWestFemaleCasual</li>
           <li>HD_Apparel_WildWestMaleCasual</li>
+          <li>HD_Apparel_WildWestFormalShirt</li>
+          <li>HD_Apparel_WildWestFrockCoat</li>
           <li>HD_WildWestLeatherVest</li>
+          <li>HD_WildWestMetalVest</li>
           <li>HD_Bugle</li>
+          <li>HD_Apparel_GreatWarMedibag</li>
+          <li>HD_Apparel_GreatWarGasMaskPouch</li>
+          <li>HD_Apparel_GreatWarCBRNPouch</li>
+          <li>HD_Apparel_M6RocketBag</li>
+          <li>HD_Apparel_GreatWarTrenchArmyInner</li>
+          <li>HD_Apparel_GreatWarTrenchArmyOuter</li>
+          <li>HD_Apparel_GreatWarStormFrontInner</li>
+          <li>HD_Apparel_GreatWarStormFrontOuter</li>
+          <li>HD_Apparel_GreatWarM1Helmet</li>
+          <li>HD_Apparel_M1MortarBaseplate</li>
+          <li>HD_Apparel_M1MortarMount</li>
+          <li>HD_Apparel_M1MortarBarrel</li>
+          <li>HD_MilitaryTablet</li>
+          <li>HD_Apparel_IBTVAssault</li>
+          <li>HD_Apparel_M1952AFlakJacket</li>
+          <li>HD_Apparel_SCR300</li>
         </apparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">

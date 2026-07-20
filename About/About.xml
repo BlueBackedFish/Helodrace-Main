@@ -25,5 +25,6 @@
   <loadAfter>
     <li>brrainz.harmony</li>
     <li>erdelf.humanoidalienraces</li>
+    <li>BlueBackedFish.Helod.BlancasDrugs</li>
   </loadAfter>
 </ModMetaData>

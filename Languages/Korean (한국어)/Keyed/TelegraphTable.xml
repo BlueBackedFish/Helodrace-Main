@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_TelegraphTable_Use_Label>{0} 사용</HD_TelegraphTable_Use_Label>
+  <HD_TelegraphTable_NoPrimaryCell>일차 전지 1개 필요</HD_TelegraphTable_NoPrimaryCell>
+  <HD_TelegraphTable_ActionNeedsPrimaryCell>전신기에 넣어둔 일차 전지가 없습니다.</HD_TelegraphTable_ActionNeedsPrimaryCell>
+  <HD_TelegraphTable_LoadPrimaryCells>{0}에 일차 전지 충전 ({1}/{2})</HD_TelegraphTable_LoadPrimaryCells>
+  <HD_TelegraphTable_PrimaryCellsFull>일차 전지 보관함이 가득 참</HD_TelegraphTable_PrimaryCellsFull>
+  <HD_TelegraphTable_PrimaryCellsStored>일차 전지: {0}/{1}</HD_TelegraphTable_PrimaryCellsStored>
+  <HD_TelegraphTable_Window_Title>전신기</HD_TelegraphTable_Window_Title>
+  <HD_TelegraphTable_Station>전신국: {0}</HD_TelegraphTable_Station>
+  <HD_TelegraphTable_Operator>조작자: {0}</HD_TelegraphTable_Operator>
+  <HD_TelegraphTable_Status_Ready>상태: 회선 준비됨</HD_TelegraphTable_Status_Ready>
+  <HD_TelegraphTable_Status_Ready_WithCells>상태: 회선 준비됨 | 일차 전지: {0}</HD_TelegraphTable_Status_Ready_WithCells>
+  <HD_TelegraphTable_Tab_Orders>업무</HD_TelegraphTable_Tab_Orders>
+  <HD_TelegraphTable_Tab_Military>군사 협력</HD_TelegraphTable_Tab_Military>
+  <HD_TelegraphTable_Tab_Market>시장</HD_TelegraphTable_Tab_Market>
+  <HD_TelegraphTable_Orders_Title>전문 업무</HD_TelegraphTable_Orders_Title>
+  <HD_TelegraphTable_Placeholder>전신 선로가 준비되어 있습니다. 계약, 채권, 환전 기능은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Placeholder>
+  <HD_TelegraphTable_Button_Contracts>계약</HD_TelegraphTable_Button_Contracts>
+  <HD_TelegraphTable_Button_Bonds>채권</HD_TelegraphTable_Button_Bonds>
+  <HD_TelegraphTable_Button_Exchange>환전</HD_TelegraphTable_Button_Exchange>
+  <HD_TelegraphTable_Military_Title>군사 협력</HD_TelegraphTable_Military_Title>
+  <HD_TelegraphTable_Military_Placeholder>군사 연락망이 열려 있습니다. 지원 요청과 전진기지 구축 계약은 나중에 이 화면에 연결됩니다.</HD_TelegraphTable_Military_Placeholder>
+  <HD_TelegraphTable_Military_RequestSupport>지원 요청</HD_TelegraphTable_Military_RequestSupport>
+  <HD_SniperSupport_ModePrompt>저격지원 방식을 선택합니다.</HD_SniperSupport_ModePrompt>
+  <HD_SniperSupport_Suppress>저격지원: 제압</HD_SniperSupport_Suppress>
+  <HD_SniperSupport_Kill>저격지원: 사살</HD_SniperSupport_Kill>
+  <HD_SniperSupport_CommandDesc>전진기지 저격수를 호출해 시야에 잡힌 폰이나 구조물을 사격합니다. 대상은 맵 경계에서 시야가 닿아야 합니다.</HD_SniperSupport_CommandDesc>
+  <HD_SniperSupport_Unavailable>범위 내에 계약된 저격지원이 없습니다.</HD_SniperSupport_Unavailable>
+  <HD_SniperSupport_InvalidTarget>대상이 맵 경계 시야에 닿지 않습니다.</HD_SniperSupport_InvalidTarget>
+  <HD_SniperSupport_Called>저격지원이 조준을 시작했습니다.</HD_SniperSupport_Called>
+  <HD_SniperSupport_LostTarget>저격지원이 대상을 놓쳤습니다.</HD_SniperSupport_LostTarget>
+  <HD_TelegraphTable_Support_Title>전진기지 지원 요청</HD_TelegraphTable_Support_Title>
+  <HD_TelegraphTable_Support_Base>1. 지원 전진기지 선택</HD_TelegraphTable_Support_Base>
+  <HD_TelegraphTable_Support_TargetMap>2. 정착지 또는 인카운터 맵 선택</HD_TelegraphTable_Support_TargetMap>
+  <HD_TelegraphTable_Support_Settlement>정착지</HD_TelegraphTable_Support_Settlement>
+  <HD_TelegraphTable_Support_Encounter>인카운터</HD_TelegraphTable_Support_Encounter>
+  <HD_TelegraphTable_Support_Sniper>저격 지원 요청</HD_TelegraphTable_Support_Sniper>
+  <HD_TelegraphTable_Support_MortarComing>박격포 지원 (다음 단계)</HD_TelegraphTable_Support_MortarComing>
+  <HD_TelegraphTable_Support_Mortar>박격포 지원: {0}</HD_TelegraphTable_Support_Mortar>
+  <HD_TelegraphTable_Support_MortarSelect>박격포 지원 — 탄종 선택</HD_TelegraphTable_Support_MortarSelect>
+  <HD_TelegraphTable_Support_Catalog>계약 지원 서비스</HD_TelegraphTable_Support_Catalog>
+  <HD_TelegraphTable_Support_SniperDesc>제압 사격 또는 정밀 사살 지원을 선택합니다.</HD_TelegraphTable_Support_SniperDesc>
+  <HD_TelegraphTable_Support_MortarCatalog>박격포 지원</HD_TelegraphTable_Support_MortarCatalog>
+  <HD_TelegraphTable_Support_MortarDesc>탄종을 선택한 뒤 포격 범위를 지정합니다.</HD_TelegraphTable_Support_MortarDesc>
+  <HD_TelegraphTable_Support_Select>서비스 선택</HD_TelegraphTable_Support_Select>
+  <HD_TelegraphTable_Support_UnavailableShort>사거리 밖 또는 사용 불가</HD_TelegraphTable_Support_UnavailableShort>
+  <HD_TelegraphTable_Support_SelectFirst>전진기지와 목표 맵을 선택하면 계약 서비스가 표시됩니다.</HD_TelegraphTable_Support_SelectFirst>
+  <HD_TelegraphTable_Support_SelectBaseOnMap>월드맵에서 전진기지 선택</HD_TelegraphTable_Support_SelectBaseOnMap>
+  <HD_TelegraphTable_Support_SelectTargetOnMap>월드맵에서 서비스 지점 선택</HD_TelegraphTable_Support_SelectTargetOnMap>
+  <HD_TelegraphTable_Support_InvalidBase>지원 서비스가 계약된 전진기지를 선택하세요.</HD_TelegraphTable_Support_InvalidBase>
+  <HD_TelegraphTable_Support_InvalidTargetMap>사거리 안에 있으며 현재 생성된 정착지 또는 인카운터 맵을 선택하세요.</HD_TelegraphTable_Support_InvalidTargetMap>
+  <HD_MortarSupport_AmmoPrompt>탄종: {0}\n탄착 분산 반경: {1}칸\n한 번에 {2}발씩, 3초 간격으로 {3}회 발사합니다.\n가격: {4}</HD_MortarSupport_AmmoPrompt>
+  <HD_MortarSupport_Pricing_Included>호출 제한형 FFP 계약에 포함</HD_MortarSupport_Pricing_Included>
+  <HD_MortarSupport_Pricing_PerCall>호출당 {0}</HD_MortarSupport_Pricing_PerCall>
+  <HD_MortarSupport_SelectAmmoTitle>박격포 지원 — 탄종 선택</HD_MortarSupport_SelectAmmoTitle>
+  <HD_MortarSupport_SelectAmmoDesc>지원 대상 지점: {0}</HD_MortarSupport_SelectAmmoDesc>
+  <HD_MortarSupport_SmokeDragPrompt>맵에서 마우스 왼쪽 버튼을 드래그해 연막 탄막선을 지정하세요.</HD_MortarSupport_SmokeDragPrompt>
+  <HD_MortarSupport_Unavailable>박격포 지원을 사용할 수 없습니다.</HD_MortarSupport_Unavailable>
+  <HD_MortarSupport_Called>박격포 지원을 요청했습니다. 총 {0}발이 날아옵니다.</HD_MortarSupport_Called>
+  <HD_ForwardBase_MortarAmmoCharges>박격포 탄약 정산액: {0}</HD_ForwardBase_MortarAmmoCharges>
+  <HD_TelegraphTable_Support_NoBase>지원 가능한 계약 전진기지가 없습니다.</HD_TelegraphTable_Support_NoBase>
+  <HD_ForwardBase_ServiceUnavailable>이 전진기지는 해당 서비스를 제공하지 않습니다.</HD_ForwardBase_ServiceUnavailable>
+  <HD_ForwardBase_ServiceQuotaExhausted>{0}의 {2}일 한도 {1}{3}을 모두 사용했습니다.</HD_ForwardBase_ServiceQuotaExhausted>
+  <HD_ForwardBase_ServiceCreditExhausted>이번 {0}일 기간의 서비스 신용 예산을 모두 사용했습니다. 신용 한도: {1}.</HD_ForwardBase_ServiceCreditExhausted>
+  <HD_ForwardBase_ServiceUsageHeader>서비스 사용량 ({0}일 단위)</HD_ForwardBase_ServiceUsageHeader>
+  <HD_ForwardBase_ServiceUsageLineLimited>{0}: {1}/{2}{4}, 누적 {3}</HD_ForwardBase_ServiceUsageLineLimited>
+  <HD_ForwardBase_ServiceUsageLineUnlimited>{0}: 이번 기간 {1}{3}, 누적 {2}</HD_ForwardBase_ServiceUsageLineUnlimited>
+  <HD_ForwardBase_ServiceUsageUnit_Call>회 호출</HD_ForwardBase_ServiceUsageUnit_Call>
+  <HD_ForwardBase_ServiceUsageUnit_Shot>발</HD_ForwardBase_ServiceUsageUnit_Shot>
+  <HD_ForwardBase_ServiceUsageCredit>기간 서비스 비용: 신용 {0}/{1}</HD_ForwardBase_ServiceUsageCredit>
+  <HD_ForwardBase_ServiceUsageReimbursable>비용 상환 누적액: {0}</HD_ForwardBase_ServiceUsageReimbursable>
+  <HD_ForwardBase_PeriodPaymentFailed>서비스 기간 정산 실패: HD_Money {0}개가 필요합니다.</HD_ForwardBase_PeriodPaymentFailed>
+  <HD_ForwardBase_PeriodPaymentDefaulted>서비스 기간 정산에 실패했습니다. 전진기지가 철수합니다.</HD_ForwardBase_PeriodPaymentDefaulted>
+  <HD_ForwardBase_ContractTimeLeft>남은 계약 기간: {0}</HD_ForwardBase_ContractTimeLeft>
+  <HD_ForwardBase_ContractCompleted>전진기지 계약이 종료되었습니다. 우호도가 조금 상승했습니다.</HD_ForwardBase_ContractCompleted>
+  <HD_ForwardBase_WithdrawalTimeLeft>남은 철수 기간: {0}</HD_ForwardBase_WithdrawalTimeLeft>
+  <HD_ForwardBase_WithdrawalCompleted>전진기지 철수가 완료되었습니다.</HD_ForwardBase_WithdrawalCompleted>
+  <HD_TelegraphTable_Military_ForwardBase>전진기지 구축 계약</HD_TelegraphTable_Military_ForwardBase>
+  <HD_TelegraphTable_Military_ForwardBaseContracts>전진기지 계약 목록</HD_TelegraphTable_Military_ForwardBaseContracts>
+  <HD_TelegraphTable_Military_SelectActivity>군사 협력 활동을 선택하십시오.</HD_TelegraphTable_Military_SelectActivity>
+  <HD_TelegraphTable_Military_Faction>협력 팩션</HD_TelegraphTable_Military_Faction>
+  <HD_TelegraphTable_Military_FactionNone>사용 가능한 팩션 없음</HD_TelegraphTable_Military_FactionNone>
+  <HD_TelegraphTable_ForwardBaseContracts_Title>전진기지 계약 목록</HD_TelegraphTable_ForwardBaseContracts_Title>
+  <HD_TelegraphTable_ForwardBaseContracts_None>전진기지 계약이 없습니다.</HD_TelegraphTable_ForwardBaseContracts_None>
+  <HD_TelegraphTable_ForwardBaseContracts_Row>{0} | 타일 {1}</HD_TelegraphTable_ForwardBaseContracts_Row>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>건설중: {0} 남음</HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusComplete>완성</HD_TelegraphTable_ForwardBaseContracts_StatusComplete>
+  <HD_TelegraphTable_ForwardBaseContracts_Info>정보</HD_TelegraphTable_ForwardBaseContracts_Info>
+  <HD_TelegraphTable_ForwardBaseContracts_Jump>이동</HD_TelegraphTable_ForwardBaseContracts_Jump>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>위치: 타일 {0}, 협력 팩션 정착지 거리 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFaction>협력 팩션: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoFaction>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoBase>기지 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>비용 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ 서비스 지시 상환방식: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>계약기간: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServices>서비스: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>서비스 계산 단위: {0}일</HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCredit>계약 시점 군사 신용: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCredit>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\n타일 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
+  <HD_TelegraphTable_ForwardBase_Title>전진기지 구축 계약</HD_TelegraphTable_ForwardBase_Title>
+  <HD_TelegraphTable_ForwardBase_Description>기지 종류, 비용 종류, 부가 서비스를 선택합니다. 신용이 낮으면 선택 가능한 계약 조건이 제한됩니다.</HD_TelegraphTable_ForwardBase_Description>
+  <HD_TelegraphTable_ForwardBase_SelectLocation>기지 위치 지정</HD_TelegraphTable_ForwardBase_SelectLocation>
+  <HD_TelegraphTable_ForwardBase_SelectedLocation>선택한 월드 타일: {0}</HD_TelegraphTable_ForwardBase_SelectedLocation>
+  <HD_TelegraphTable_ForwardBase_NoLocation>기지 위치가 지정되지 않았습니다.</HD_TelegraphTable_ForwardBase_NoLocation>
+  <HD_TelegraphTable_ForwardBase_InvalidLocation>전진기지를 세울 월드 타일을 선택해야 합니다.</HD_TelegraphTable_ForwardBase_InvalidLocation>
+  <HD_TelegraphTable_ForwardBase_Credit>군사 신용: {0}</HD_TelegraphTable_ForwardBase_Credit>
+  <HD_TelegraphTable_ForwardBase_Distance>가장 가까운 협력 팩션 정착지 거리: {0}/{1} 타일</HD_TelegraphTable_ForwardBase_Distance>
+  <HD_TelegraphTable_ForwardBase_DistanceUnknown>가장 가까운 협력 팩션 정착지 거리: 먼저 기지 위치를 지정해야 합니다.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
+  <HD_TelegraphTable_ForwardBase_BaseKind>기지 종류</HD_TelegraphTable_ForwardBase_BaseKind>
+  <HD_TelegraphTable_ForwardBase_CostKind>비용 종류</HD_TelegraphTable_ForwardBase_CostKind>
+  <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ 서비스 지시 상환방식</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
+  <HD_TelegraphTable_ForwardBase_DurationKind>계약기간</HD_TelegraphTable_ForwardBase_DurationKind>
+  <HD_TelegraphTable_ForwardBase_ServiceKind>선택 서비스</HD_TelegraphTable_ForwardBase_ServiceKind>
+  <HD_TelegraphTable_ForwardBase_IdiqServiceKind>IDIQ 호출 가능 서비스</HD_TelegraphTable_ForwardBase_IdiqServiceKind>
+  <HD_TelegraphTable_ForwardBase_Summary>계약 초안: {0} / {1}\n계약기간: {2}\n서비스: {3}\n{4}: {5}</HD_TelegraphTable_ForwardBase_Summary>
+  <HD_TelegraphTable_ForwardBase_IdiqSummary>IDIQ 초안: {0}\n계약기간: {1} | 서비스 지시 상환방식: {2}\n호출 가능 서비스: {3}\n{4}: {5} | {6}: {7}</HD_TelegraphTable_ForwardBase_IdiqSummary>
+  <HD_TelegraphTable_ForwardBase_CostPending>위치 지정 필요</HD_TelegraphTable_ForwardBase_CostPending>
+  <HD_TelegraphTable_ForwardBase_SthalerAmount>{0} STH</HD_TelegraphTable_ForwardBase_SthalerAmount>
+  <HD_TelegraphTable_ForwardBase_FixedPrice>고정 가격</HD_TelegraphTable_ForwardBase_FixedPrice>
+  <HD_TelegraphTable_ForwardBase_ReimbursableEstimate>상환 예상액</HD_TelegraphTable_ForwardBase_ReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_EstimatedCost>예상 비용</HD_TelegraphTable_ForwardBase_EstimatedCost>
+  <HD_TelegraphTable_ForwardBase_BaseContractPrice>계약 유지비</HD_TelegraphTable_ForwardBase_BaseContractPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallFixedPrice>1회 호출 고정 가격</HD_TelegraphTable_ForwardBase_PerCallFixedPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>1회 호출 상환 예상액</HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_CannotBuildHere>이곳에는 전진기지를 건설할 수 없습니다: {0}</HD_TelegraphTable_ForwardBase_CannotBuildHere>
+  <HD_TelegraphTable_ForwardBase_TileOccupied>이미 점유된 월드 타일에는 전진기지를 건설할 수 없습니다.</HD_TelegraphTable_ForwardBase_TileOccupied>
+  <HD_TelegraphTable_ForwardBase_ContractFailed>전진기지 계약에 실패했습니다.</HD_TelegraphTable_ForwardBase_ContractFailed>
+  <HD_TelegraphTable_ForwardBase_ConstructionStarted>전진기지 건설이 시작되었습니다. {0}일 뒤 완성됩니다.</HD_TelegraphTable_ForwardBase_ConstructionStarted>
+  <HD_ForwardBaseConstruction_TimeLeft>남은 건설 기간: {0}</HD_ForwardBaseConstruction_TimeLeft>
+  <HD_ForwardBaseConstruction_Completed>전진기지 건설이 완료되었습니다.</HD_ForwardBaseConstruction_Completed>
+  <HD_TelegraphTable_ForwardBase_DraftContract>계약 초안 작성</HD_TelegraphTable_ForwardBase_DraftContract>
+  <HD_TelegraphTable_ForwardBase_Locked>(신용 {0})</HD_TelegraphTable_ForwardBase_Locked>
+  <HD_TelegraphTable_ForwardBase_LockedTooltip>군사 신용 {0} 이상이 필요합니다.</HD_TelegraphTable_ForwardBase_LockedTooltip>
+  <HD_TelegraphTable_ForwardBase_Kind_PB>PB</HD_TelegraphTable_ForwardBase_Kind_PB>
+  <HD_TelegraphTable_ForwardBase_Kind_FB>FB</HD_TelegraphTable_ForwardBase_Kind_FB>
+  <HD_TelegraphTable_ForwardBase_Kind_COP>COP</HD_TelegraphTable_ForwardBase_Kind_COP>
+  <HD_TelegraphTable_ForwardBase_Kind_FOB>FOB</HD_TelegraphTable_ForwardBase_Kind_FOB>
+  <HD_TelegraphTable_ForwardBase_Cost_FFP>FFP</HD_TelegraphTable_ForwardBase_Cost_FFP>
+  <HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>비용 상환</HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_Cost_IDIQ>IDIQ</HD_TelegraphTable_ForwardBase_Cost_IDIQ>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>FFP 서비스 지시</HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>비용 상환 서비스 지시</HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_DurationDays>{0}일</HD_TelegraphTable_ForwardBase_DurationDays>
+  <HD_TelegraphTable_ForwardBase_Service_None>없음</HD_TelegraphTable_ForwardBase_Service_None>
+  <HD_TelegraphTable_ForwardBase_ServiceLevel>Lv.{0}</HD_TelegraphTable_ForwardBase_ServiceLevel>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>(기지 제한)</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>선택한 기지 종류에서는 이 서비스를 운용할 수 없습니다.</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Artillery>포병</HD_TelegraphTable_ForwardBase_ServiceType_Artillery>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Infantry>보병</HD_TelegraphTable_ForwardBase_ServiceType_Infantry>
+  <HD_TelegraphTable_ForwardBase_ServiceType_AirForce>공군</HD_TelegraphTable_ForwardBase_ServiceType_AirForce>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Logistics>군수</HD_TelegraphTable_ForwardBase_ServiceType_Logistics>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Empty>아직 등록된 서비스가 없습니다.</HD_TelegraphTable_ForwardBase_ServiceType_Empty>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>박격포 지원</HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>저격지원</HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>보병 투입</HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>신선 식품</HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>보존 식량</HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>의료품</HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>무기</HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>
+  <HD_TelegraphTable_ForwardBase_Service_CloseAirSupport>근접항공지원</HD_TelegraphTable_ForwardBase_Service_CloseAirSupport>
+  <HD_TelegraphTable_ForwardBase_Service_SupportRequest>지원 요청</HD_TelegraphTable_ForwardBase_Service_SupportRequest>
+  <HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>경비 분견대</HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>
+  <HD_TelegraphTable_ForwardBase_Service_EngineerTeam>공병대</HD_TelegraphTable_ForwardBase_Service_EngineerTeam>
+  <HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>보급 수송대</HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>
+  <HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>포병 연락반</HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>
+  <HD_TelegraphTable_ForwardBase_Service_Bombardment>포격</HD_TelegraphTable_ForwardBase_Service_Bombardment>
+  <HD_TelegraphTable_MarketUnavailable>시장 데이터를 사용할 수 없습니다.</HD_TelegraphTable_MarketUnavailable>
+  <HD_TelegraphTable_Market_Title>시장 게시판 ({0})</HD_TelegraphTable_Market_Title>
+  <HD_TelegraphTable_Market_SubTab_Log>기록</HD_TelegraphTable_Market_SubTab_Log>
+  <HD_TelegraphTable_Market_SubTab_Trade>거래</HD_TelegraphTable_Market_SubTab_Trade>
+  <HD_TelegraphTable_Market_OilIndex>유가 지수: {0}</HD_TelegraphTable_Market_OilIndex>
+  <HD_TelegraphTable_Market_CurrentQuote>{0} 장외 호가: {1}</HD_TelegraphTable_Market_CurrentQuote>
+  <HD_TelegraphTable_Market_FixedGoldPrice>금본위제 고정가: {0}</HD_TelegraphTable_Market_FixedGoldPrice>
+  <HD_TelegraphTable_Market_FixedGoldDetail>Bid/Ask 스프레드 없음 | 정산: {0}</HD_TelegraphTable_Market_FixedGoldDetail>
+  <HD_TelegraphTable_Market_LogEntry>Bid: {0} | Ask: {1} | 스프레드: {2} | 소요: {3}</HD_TelegraphTable_Market_LogEntry>
+  <HD_TelegraphTable_Market_LogEntry_Prices>Bid: {0} | Ask: {1}</HD_TelegraphTable_Market_LogEntry_Prices>
+  <HD_TelegraphTable_Market_LogEntry_Details>스프레드: {0} | 소요: {1}</HD_TelegraphTable_Market_LogEntry_Details>
+  <HD_TelegraphTable_Market_Day>{0}일차</HD_TelegraphTable_Market_Day>
+  <HD_TelegraphTable_Market_NoInformation>정보 없음</HD_TelegraphTable_Market_NoInformation>
+  <HD_TelegraphTable_Market_NoInformationDetail>이 날에는 시세를 확인하지 않았습니다.</HD_TelegraphTable_Market_NoInformationDetail>
+  <HD_TelegraphTable_Market_QueryNeedsPrimaryCell>오늘 시세를 기록하려면 일차 전지를 충전해야 합니다.</HD_TelegraphTable_Market_QueryNeedsPrimaryCell>
+  <HD_TelegraphTable_Market_SettlementHours>{0}시간</HD_TelegraphTable_Market_SettlementHours>
+  <HD_TelegraphTable_Market_SettlementDays>{0}일</HD_TelegraphTable_Market_SettlementDays>
+  <HD_TelegraphTable_Market_NotEnoughHistory>시장 기록을 수집 중입니다.</HD_TelegraphTable_Market_NotEnoughHistory>
+  <HD_TelegraphTable_Market_SthalerFxValue>{0} 은/STH</HD_TelegraphTable_Market_SthalerFxValue>
+  <HD_TelegraphTable_Market_SthalerLocked>스탈레르 FX 시세는 신용화폐 체제가 시작된 뒤 열립니다.</HD_TelegraphTable_Market_SthalerLocked>
+  <HD_TelegraphTable_Trade_IndexOnly>이 지수는 정보 표시 전용입니다.</HD_TelegraphTable_Trade_IndexOnly>
+  <HD_TelegraphTable_Trade_Credit>신용: {0} {1}</HD_TelegraphTable_Trade_Credit>
+  <HD_TelegraphTable_Trade_Count>수량</HD_TelegraphTable_Trade_Count>
+  <HD_TelegraphTable_Trade_Sell>매도</HD_TelegraphTable_Trade_Sell>
+  <HD_TelegraphTable_Trade_Buy>매수</HD_TelegraphTable_Trade_Buy>
+  <HD_TelegraphTable_Trade_EstimatedSettlement>정산: {0}</HD_TelegraphTable_Trade_EstimatedSettlement>
+  <HD_TelegraphTable_Trade_PendingLocked>이 종목은 이미 진행 중인 거래가 있습니다.</HD_TelegraphTable_Trade_PendingLocked>
+  <HD_TelegraphTable_Trade_CreditTooLow>신용 부족: {0} / {1}</HD_TelegraphTable_Trade_CreditTooLow>
+  <HD_TelegraphTable_Trade_NotEnoughCurrency>{0} 부족: {1} 필요</HD_TelegraphTable_Trade_NotEnoughCurrency>
+  <HD_TelegraphTable_Trade_NotEnoughGoods>{0} 부족: {1} 필요</HD_TelegraphTable_Trade_NotEnoughGoods>
+  <HD_TelegraphTable_Trade_Failed>거래 주문 실패.</HD_TelegraphTable_Trade_Failed>
+  <HD_TelegraphTable_Trade_Started>{0} 거래 주문 시작: {1}</HD_TelegraphTable_Trade_Started>
+  <HD_TelegraphTable_Trade_Settled>{0} 거래 정산 완료: {1}</HD_TelegraphTable_Trade_Settled>
+  <HD_TelegraphTable_Trade_SettlementFailed>{0} 거래 정산 실패.</HD_TelegraphTable_Trade_SettlementFailed>
+  <HD_MarketCurrency_Sthaler>스탈레르</HD_MarketCurrency_Sthaler>
+  <HD_MarketCurrency_Silver>은</HD_MarketCurrency_Silver>
+  <HD_MarketStandard_Gold>금본위제</HD_MarketStandard_Gold>
+  <HD_MarketStandard_Credit>신용화폐 체제</HD_MarketStandard_Credit>
+  <HD_MarketAsset_OilIndex>유가 지수</HD_MarketAsset_OilIndex>
+  <HD_MarketAsset_CrudeOil>원유</HD_MarketAsset_CrudeOil>
+  <HD_MarketAsset_Diesel>디젤</HD_MarketAsset_Diesel>
+  <HD_MarketAsset_Kerosene>등유</HD_MarketAsset_Kerosene>
+  <HD_MarketAsset_GovernmentBond>정부 채권</HD_MarketAsset_GovernmentBond>
+  <HD_MarketAsset_ContinentalPetroleumBond>콘티넨탈 석유 채권</HD_MarketAsset_ContinentalPetroleumBond>
+  <HD_MarketAsset_Sthaler>스탈레르 지폐</HD_MarketAsset_Sthaler>
+  <HD_SCR300_SelectedBase_None>선택된 전진기지: 없음</HD_SCR300_SelectedBase_None>
+  <HD_SCR300_SelectedBase>선택된 전진기지: {0} ({1}번 타일)</HD_SCR300_SelectedBase>
+  <HD_SCR300_SelectBase_Label>전진기지 선택</HD_SCR300_SelectBase_Label>
+  <HD_SCR300_SelectBase_Desc>착용자의 현재 맵까지 도달 가능한 계약 서비스가 하나 이상 있는 전진기지를 선택합니다.</HD_SCR300_SelectBase_Desc>
+  <HD_SCR300_RequestCAS_Label>CAS 요청</HD_SCR300_RequestCAS_Label>
+  <HD_SCR300_RequestCAS_Desc>{0}에 착용자의 현재 맵을 대상으로 근접항공지원을 요청합니다.</HD_SCR300_RequestCAS_Desc>
+  <HD_SCR300_None>없음</HD_SCR300_None>
+  <HD_SCR300_NoBase>범위 안에 계약 서비스를 제공할 수 있는 전진기지가 없습니다.</HD_SCR300_NoBase>
+  <HD_SCR300_InvalidBase>현재 맵을 지원할 수 있는 계약 전진기지를 선택하십시오.</HD_SCR300_InvalidBase>
+  <HD_SCR300_BaseSelected>SCR-300이 {0}과 연결되었습니다.</HD_SCR300_BaseSelected>
+  <HD_SCR300_SelectBase_First>먼저 전진기지를 선택하십시오.</HD_SCR300_SelectBase_First>
+  <HD_SCR300_BaseNoCAS>선택한 전진기지는 CAS를 제공하지 않습니다.</HD_SCR300_BaseNoCAS>
+  <HD_SCR300_BaseOutOfRange>선택한 전진기지의 서비스 중 현재 맵까지 도달할 수 있는 서비스가 없습니다.</HD_SCR300_BaseOutOfRange>
+  <HD_SCR300_ServiceUnavailable>선택한 전진기지의 CAS 할당량 또는 서비스 크레딧을 사용할 수 없습니다.</HD_SCR300_ServiceUnavailable>
+  <HD_CAS_Unavailable>선택한 전진기지에서 근접항공지원을 이용할 수 없습니다.</HD_CAS_Unavailable>
+  <HD_CAS_TargetPrompt>CAS 공격 경로의 중심을 선택하십시오. 공격 반경: {0}칸.</HD_CAS_TargetPrompt>
+  <HD_CAS_Called>{0}이(가) CAS 요청을 승인했습니다. 약 {1}초 뒤 항공기가 도착합니다. 진입 경로의 산 지붕: {2}칸.</HD_CAS_Called>
+  <HD_SCR300_RequestSupport_Label>지원 요청</HD_SCR300_RequestSupport_Label>
+  <HD_SCR300_RequestSupport_Desc>SCR-300으로 {0}이(가) 계약한 서비스 중 하나를 착용자의 현재 맵에 요청합니다.</HD_SCR300_RequestSupport_Desc>
+  <HD_SCR300_NoContractedServices>선택한 전진기지에 계약된 서비스가 없습니다.</HD_SCR300_NoContractedServices>
+  <HD_SCR300_ServiceOutOfRange>지원 범위 밖</HD_SCR300_ServiceOutOfRange>
+  <HD_SCR300_ServiceNotImplemented>이 서비스는 현재 맵으로 파견할 수 없습니다.</HD_SCR300_ServiceNotImplemented>
+  <HD_SCR300_SuppliesDispatched>{1}이(가) 무전병 위치로 {0} 물자를 발송했습니다.</HD_SCR300_SuppliesDispatched>
+  <HD_SCR300_InfantryDispatched>{0}이(가) 무전병 근처에 지원 보병 {1}명을 파견했습니다.</HD_SCR300_InfantryDispatched>
+  <HD_SCR300_DeploymentFailed>전진기지에서 보병 파견대를 편성하지 못했습니다.</HD_SCR300_DeploymentFailed>
+  <HD_SCR300_SolarFlare>흑점폭발 전파 방해로 SCR-300이 작동하지 않습니다.</HD_SCR300_SolarFlare>
+  <HD_SCR300_TargetNotVisible>포격 또는 CAS 목표는 무전병의 시야 안에 있어야 합니다.</HD_SCR300_TargetNotVisible>
+  <HD_M8Flare_TimeRemaining>신호탄 남은 연소 시간: {0}</HD_M8Flare_TimeRemaining>
+  <HD_CAS_Guidance_TalkOn>Talk-on 유도</HD_CAS_Guidance_TalkOn>
+  <HD_CAS_Guidance_Flare>플레어 유도</HD_CAS_Guidance_Flare>
+  <HD_CAS_Guidance_FlareUnavailable>플레어 유도 (활성 플레어 없음)</HD_CAS_Guidance_FlareUnavailable>
+  <HD_CAS_NoActiveFlare>이 맵에 활성 M8 플레어가 없습니다.</HD_CAS_NoActiveFlare>
+  <HD_CAS_FlareTargetPrompt>활성 M8 플레어를 CAS 표적 지시점으로 선택하십시오.</HD_CAS_FlareTargetPrompt>
+  <HD_CAS_LaserUnavailable>레이저 유도는 현재 사용할 수 없습니다.</HD_CAS_LaserUnavailable>
+  <HD_CAS_GuidanceLost>유도 표식을 잃어 CAS가 중단되었습니다.</HD_CAS_GuidanceLost>
+  <HD_CAS_RoutePrompt>맵 경계에서 {0}칸 이내인 진입점부터 타격 위치까지 진입선을 드래그하십시오.</HD_CAS_RoutePrompt>
+  <HD_CAS_InvalidEntry>CAS 진입점은 맵 경계에서 {0}칸 이내여야 합니다.</HD_CAS_InvalidEntry>
+  <HD_CAS_InvalidRoute>CAS 진입 경로는 최소 8칸이어야 하며 맵 안에서 끝나야 합니다.</HD_CAS_InvalidRoute>
+  <HD_CAS_RouteMustEndAtFlare>플레어 유도 CAS 경로는 활성 M8 플레어에서 끝나야 합니다.</HD_CAS_RouteMustEndAtFlare>
+  <HD_CAS_GuidanceSuccess>CAS 유도에 성공했습니다. 성공 확률: {0}%. 시도 횟수: {1}.</HD_CAS_GuidanceSuccess>
+  <HD_CAS_GoAround>CAS 유도에 실패했습니다(확률 {0}%). 항공기가 고어라운드합니다. 다음 확률: {1}%. 고어라운드 횟수: {2}. 재시도까지: {3}.</HD_CAS_GoAround>
+  <HD_CAS_Cancel_Label>CAS 취소</HD_CAS_Cancel_Label>
+  <HD_CAS_Cancel_Desc>현재 CAS 기체와 남은 모든 후속 기체를 취소합니다.</HD_CAS_Cancel_Desc>
+  <HD_CAS_Cancel_NoActive>취소할 활성 CAS 임무가 없습니다.</HD_CAS_Cancel_NoActive>
+  <HD_CAS_Cancel_Locked>폭탄 투하까지 1초도 남지 않아 기체가 공격을 중단할 수 없습니다.</HD_CAS_Cancel_Locked>
+  <HD_CAS_Cancel_NoFollowup>마지막 기체가 이미 공격을 완료했습니다.</HD_CAS_Cancel_NoFollowup>
+  <HD_CAS_Cancelled>CAS를 취소했습니다. 현재 기체는 공격을 중단하고 후속 기체는 모두 복귀합니다.</HD_CAS_Cancelled>
+  <HD_CAS_Attack_Bombing>항공 폭격</HD_CAS_Attack_Bombing>
+  <HD_CAS_Attack_Strafing>기총소사</HD_CAS_Attack_Strafing>
+  <HD_CAS_StrafeRoutePrompt>맵 경계 {0}타일 안쪽에서 소사 범위 중앙까지 드래그하십시오. 중앙에서 앞뒤 15타일씩, 총 길이 {1}타일과 폭 {2}타일의 소사 범위를 지정합니다.</HD_CAS_StrafeRoutePrompt>
+  <HD_CAS_StrafeOutsideMap>30타일 소사 범위 전체가 맵 안에 있어야 합니다.</HD_CAS_StrafeOutsideMap>
+  <HD_CAS_TargetNoVisibleReference>폰 표적은 직접 시야에 들어와야 합니다. 지면 표적은 반경 10타일 안에 보이는 참조 지점이 하나 이상 있어야 합니다.</HD_CAS_TargetNoVisibleReference>
+  <HD_CAS_PlaytimeExhausted>사용 가능한 P-47 편대가 없습니다. 먼저 CAS 작전창에서 항공기를 요청하십시오.</HD_CAS_PlaytimeExhausted>
+  <HD_CAS_AircraftAssigned>이번 요청에 배정된 항공기: {0}대.</HD_CAS_AircraftAssigned>
+  <HD_CAS_PlaytimeGuidancePenalty>{0}: 유도 실패가 3회 추가 누적되어 P-47 편대의 플레이타임이 감소했습니다.</HD_CAS_PlaytimeGuidancePenalty>
+  <HD_CAS_PlaytimeTimePenalty>{0}: 현장 체공 2시간이 지나 P-47 편대의 플레이타임이 {1} 감소했습니다.</HD_CAS_PlaytimeTimePenalty>
+  <HD_CAS_Control_Title>CAS 작전 통제</HD_CAS_Control_Title>
+  <HD_CAS_Control_Base>전진기지: {0}</HD_CAS_Control_Base>
+  <HD_CAS_Control_StatusActive>P-47 편대 현장 체공 중</HD_CAS_Control_StatusActive>
+  <HD_CAS_Control_StatusExhausted>P-47 편대가 작전 구역을 이탈함</HD_CAS_Control_StatusExhausted>
+  <HD_CAS_Control_StatusNotRequested>P-47 편대가 요청되지 않음</HD_CAS_Control_StatusNotRequested>
+  <HD_CAS_Control_Playtime>현장 플레이타임</HD_CAS_Control_Playtime>
+  <HD_CAS_Control_ReservedAircraft>후속 폭격을 위해 대기 중인 항공기: {0}대</HD_CAS_Control_ReservedAircraft>
+  <HD_CAS_Control_RequestFlight>P-47 편대 요청</HD_CAS_Control_RequestFlight>
+  <HD_CAS_FlightRequested>{0}: P-47 편대를 요청했습니다. 현장 플레이타임 산정을 시작합니다.</HD_CAS_FlightRequested>
+  <HD_CAS_Control_BombingDesc>진입 경로와 표적을 지정하여 폭탄 2발로 공격합니다.</HD_CAS_Control_BombingDesc>
+  <HD_CAS_Control_StrafingDesc>진입 경로와 기총소사 구역의 중앙을 지정합니다.</HD_CAS_Control_StrafingDesc>
+  <HD_CAS_Control_Select>선택</HD_CAS_Control_Select>
+  <HD_CAS_Control_MissionActive>이 무전수에게 이미 진행 중인 CAS 임무가 있습니다.</HD_CAS_Control_MissionActive>
+  <HD_CAS_Control_NoCapacity>선택한 전진기지에서는 추가 CAS 요청을 접수할 수 없습니다.</HD_CAS_Control_NoCapacity>
+  <HD_CAS_Control_PlaytimeTooltip>P-47 편대의 남은 현장 플레이타임입니다. 공격 요청마다 한 칸을 소모하며, 체공 시간과 반복된 유도 실패로도 감소합니다.</HD_CAS_Control_PlaytimeTooltip>
+</LanguageData>

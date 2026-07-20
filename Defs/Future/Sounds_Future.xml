@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <SoundDef>
+    <defName>HD_LANCEGen2</defName>
+    <context>MapOnly</context>
+    <maxVoices>12</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/LANCE/HD_LANCEGen2</clipPath>
+          </li>
+        </grains>
+        <volumeRange>52~56</volumeRange>
+        <distRange>12~48</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_LRA7Beep</defName>
+    <context>MapOnly</context>
+    <maxVoices>12</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/LANCE/HD_LRA-7Beep</clipPath>
+          </li>
+        </grains>
+        <volumeRange>50~60</volumeRange>
+        <distRange>10~30</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

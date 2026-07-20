@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_CableToolRig.label>케이블식 굴착기</HD_CableToolRig.label>
   <HD_CableToolRig.description>케이블에 매달린 무거운 드릴 비트를 사용하여 암석을 뚫는 전통적인 굴착 장비입니다. 개척지에서 기름을 찾는 데 사용됩니다.</HD_CableToolRig.description>
@@ -35,4 +35,11 @@
   <HD_BlastFurnace.description>대량의 철을 제련하기 위한 거대한 용광로입니다. 이후 성형과 정련에 사용할 융선을 생산할 수 있습니다.</HD_BlastFurnace.description>
   <HD_Converter.label>전로</HD_Converter.label>
   <HD_Converter.description>융선과 철광석을 함께 정련하여 탄소강을 만드는 기울임식 제강 설비입니다.</HD_Converter.description>
+  <HD_LineShaftMillingMachine.label>라인 샤프트 밀링 머신</HD_LineShaftMillingMachine.label>
+  <HD_LineShaftMillingMachine.description>정밀 금속 성형을 위한 라인 샤프트 구동식 밀링 머신입니다. 기계 동력망으로 움직이며, 홈, 평면, 맞춤 부품을 수공구보다 빠르게 절삭할 수 있습니다.</HD_LineShaftMillingMachine.description>
+  <HD_LineShaftHydraulicPress.label>라인 샤프트 유압 프레스</HD_LineShaftHydraulicPress.label>
+  <HD_LineShaftHydraulicPress.description>라인 샤프트 동력망으로 구동되는 중형 유압 프레스입니다. 강철 소재를 스프링, 압인 판재, 기타 힘으로 성형한 금속 부품으로 만듭니다.</HD_LineShaftHydraulicPress.description>
+  <HD_LineShaftHeatPump.label>라인 샤프트 열펌프</HD_LineShaftHeatPump.label>
+  <HD_LineShaftHeatPump.description>벽 안에 설치되는 라인 샤프트 구동식 열펌프입니다. 한쪽은 공기를 식히고 다른 쪽은 폐열을 배출하며, 실제 축 속도에 따라 열 전달 성능이 달라집니다.</HD_LineShaftHeatPump.description>
 </LanguageData>
+

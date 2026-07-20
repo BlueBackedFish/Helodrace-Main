@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Medibag_StoredSupplies>적재된 치료용 구성품: {0}/{1} {2}</HD_Medibag_StoredSupplies>
+  <HD_Medibag_Load_Label>구성품 채우기</HD_Medibag_Load_Label>
+  <HD_Medibag_Load_Desc>{0} 1개를 치료가방 구성품으로 넣습니다. 착용자의 소지품을 먼저 사용하며, 없으면 지도 위 더미를 지정할 수 있습니다. 현재 적재량: {1}/{2}.</HD_Medibag_Load_Desc>
+  <HD_Medibag_Load_Full>메딕 가방이 가득 찼습니다.</HD_Medibag_Load_Full>
+  <HD_Medibag_Load_NoSupplies>착용자의 소지품에 {0}이 없습니다.</HD_Medibag_Load_NoSupplies>
+  <HD_Medibag_Load_NoReachableSupplies>가져올 수 있는 {0}이(가) 맵에 없습니다.</HD_Medibag_Load_NoReachableSupplies>
+  <HD_Medibag_NotEnoughSupplies>메딕 가방에 적재된 {0}이 필요합니다.</HD_Medibag_NotEnoughSupplies>
+  <HD_Medibag_Hemostasis_Label>지혈</HD_Medibag_Hemostasis_Label>
+  <HD_Medibag_Hemostasis_Desc>주요 장기가 아닌 부위 최대 {0}곳의 출혈을 빠르게 응급 처치합니다. 적재된 치료용 구성품 {1}개를 사용합니다.</HD_Medibag_Hemostasis_Desc>
+  <HD_Medibag_Hemostasis_NoBleeding>{0}에게 지혈 가능한 출혈 상처가 없습니다.</HD_Medibag_Hemostasis_NoBleeding>
+  <HD_Medibag_Hemostasis_Applied>{0}이 {1}의 출혈을 안정화했습니다. 처치한 부위: {2}곳.</HD_Medibag_Hemostasis_Applied>
+  <HD_Medibag_Plasma_Label>혈장 수혈</HD_Medibag_Plasma_Label>
+  <HD_Medibag_Plasma_Desc>대상에게 혈장 수혈 상태가 없을 때 혈액손실을 낮추고 혈장 수혈 상태를 부여합니다. 적재된 치료용 구성품 {0}개를 사용합니다.</HD_Medibag_Plasma_Desc>
+  <HD_Medibag_Plasma_AlreadyActive>{0}은 최근 이미 혈장 수혈을 받았습니다.</HD_Medibag_Plasma_AlreadyActive>
+  <HD_Medibag_Plasma_Applied>{0}이 {1}에게 응급 혈장 수혈을 했습니다.</HD_Medibag_Plasma_Applied>
+</LanguageData>

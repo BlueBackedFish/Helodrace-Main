@@ -6,13 +6,13 @@
     <label>Helod colony</label>
     <description>A colony of Helod pioneers building a frontier industrial outpost.</description>
     <isPlayer>true</isPlayer>
-    <basicMemberKind>HD_HelodColonist</basicMemberKind>
+    <basicMemberKind>HD_WW_HelodColonist</basicMemberKind>
     <pawnSingular>Helod colonist</pawnSingular>
     <pawnsPlural>Helod colonists</pawnsPlural>
     <techLevel>Industrial</techLevel>
     <factionNameMaker>NamerFactionOutlander</factionNameMaker>
     <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
-    <allowedCultures><li>Astropolitan</li></allowedCultures>
+    <allowedCultures><li>HD_HelodCulture</li></allowedCultures>
     <backstoryFilters>
       <li>
         <categories>
@@ -20,31 +20,44 @@
         </categories>
       </li>
     </backstoryFilters>
-    <factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
+    <factionIconPath>Icon/HD_Sharpshooter</factionIconPath>
     <startingResearchTags>
       <li>HD_HelodWildWestScenarioStart</li>
     </startingResearchTags>
     <apparelStuffFilter>
       <thingDefs>
-        <li>Synthread</li>
+        <li>Cloth</li>
       </thingDefs>
     </apparelStuffFilter>
   </FactionDef>
 
-  <FactionDef>
-    <defName>HD_HelodCivilFaction</defName>
+  <FactionDef ParentName="FactionBase">
+    <defName>HD_HelodCivilLowFaction</defName>
     <label>Helod settlements</label>
     <description>Independent Helod frontier settlements bound together by trade, kinship, and practical cooperation.</description>
     <humanlikeFaction>true</humanlikeFaction>
-    <canMakeRandomly>true</canMakeRandomly>
-    <basicMemberKind>HD_HelodSettler</basicMemberKind>
+    <basicMemberKind>HD_WW_HelodSettler</basicMemberKind>
     <pawnSingular>Helod settler</pawnSingular>
     <pawnsPlural>Helod settlers</pawnsPlural>
+    <categoryTag>Outlander</categoryTag>
+    <listOrderPriority>30</listOrderPriority>
     <leaderTitle>mayor</leaderTitle>
+    <fixedLeaderKinds>
+      <li>HD_WW_HelodSettler</li>
+      <li>HD_WW_HelodUpperClass</li>
+      <li>HD_WW_FrontierWatchman</li>
+    </fixedLeaderKinds>
+    <caravanTraderKinds>
+      <li>HD_WW_Caravan_HelodFinancial</li>
+    </caravanTraderKinds>
     <techLevel>Industrial</techLevel>
     <factionNameMaker>NamerFactionOutlander</factionNameMaker>
     <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
-    <allowedCultures><li>Astropolitan</li></allowedCultures>
+    <allowedCultures><li>HD_HelodCulture</li></allowedCultures>
+    <colorSpectrum>
+      <li>(0.42, 0.33, 0.18)</li>
+      <li>(0.72, 0.55, 0.28)</li>
+    </colorSpectrum>
     <backstoryFilters>
       <li>
         <categories>
@@ -52,35 +65,73 @@
         </categories>
       </li>
     </backstoryFilters>
-    <factionIconPath>World/WorldObjects/Expanding/Town</factionIconPath>
-    <naturalColonyGoodwill>
-      <min>0</min>
-      <max>0</max>
-    </naturalColonyGoodwill>
+    <factionIconPath>Icon/HD_Sharpshooter</factionIconPath>
+    <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
     <naturalEnemy>false</naturalEnemy>
     <permanentEnemy>false</permanentEnemy>
     <mustStartOneEnemy>false</mustStartOneEnemy>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <maxCountAtGameStart>1</maxCountAtGameStart>
     <settlementGenerationWeight>1</settlementGenerationWeight>
+    <maxConfigurableAtWorldCreation>9999</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>11</configurationListOrderPriority>
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(0,35)</li>
+        <li>(70, 50)</li>
+        <li>(700, 100)</li>
+        <li>(1300, 150)</li>
+        <li>(100000, 10000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
+      <!-- Great War standard raid. Mortar crews are deliberately excluded. -->
       <li>
         <kindDef>Combat</kindDef>
         <options>
-          <HD_HelodSettler>45</HD_HelodSettler>
-          <HD_HelodCavalry>75</HD_HelodCavalry>
+          <HD_GW_HelodRifleman>80</HD_GW_HelodRifleman>
+          <HD_GW_HelodScout>18</HD_GW_HelodScout>
+          <HD_GW_HelodAssistantSquadLeader>12</HD_GW_HelodAssistantSquadLeader>
+          <HD_GW_HelodSquadLeader>8</HD_GW_HelodSquadLeader>
+          <HD_GW_HelodAutomaticRifleman>16</HD_GW_HelodAutomaticRifleman>
         </options>
       </li>
       <li>
         <kindDef>Peaceful</kindDef>
         <options>
-          <HD_HelodSettler>35</HD_HelodSettler>
+          <HD_WW_HelodSettler>35</HD_WW_HelodSettler>
+          <HD_WW_HelodUpperClass>45</HD_WW_HelodUpperClass>
+        </options>
+      </li>
+      <li>
+        <kindDef>Trader</kindDef>
+        <traders>
+          <HD_WW_HelodFinancialTrader>1</HD_WW_HelodFinancialTrader>
+        </traders>
+        <carriers>
+          <Muffalo>6</Muffalo>
+          <Dromedary>5</Dromedary>
+          <Alpaca>2</Alpaca>
+        </carriers>
+        <guards>
+          <HD_WW_FrontierWatchman>12</HD_WW_FrontierWatchman>
+          <HD_WW_HelodSettler>4</HD_WW_HelodSettler>
+          <HD_WW_HelodUpperClass>1.5</HD_WW_HelodUpperClass>
+        </guards>
+      </li>
+      <li>
+        <kindDef>Settlement</kindDef>
+        <options>
+          <HD_WW_HelodSettler>45</HD_WW_HelodSettler>
+          <HD_WW_HelodUpperClass>35</HD_WW_HelodUpperClass>
+          <HD_WW_FrontierWatchman>60</HD_WW_FrontierWatchman>
+          <HD_WW_HelodCavalry>75</HD_WW_HelodCavalry>
         </options>
       </li>
     </pawnGroupMakers>
     <apparelStuffFilter>
       <thingDefs>
-        <li>Synthread</li>
+        <li>Cloth</li>
       </thingDefs>
     </apparelStuffFilter>
   </FactionDef>

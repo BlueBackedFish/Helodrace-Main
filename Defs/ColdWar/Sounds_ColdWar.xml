@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <SoundDef>
+    <defName>HD_TOWMissile</defName>
+    <context>MapOnly</context>
+    <sustain>true</sustain>
+    <sustainStopSound>HD_TOWMissileEnd</sustainStopSound>
+    <maxSimultaneous>4</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/TOW/HD_TOWMissile</clipPath>
+          </li>
+        </grains>
+        <volumeRange>42~46</volumeRange>
+        <distRange>14~55</distRange>
+        <sustainAttack>0.01</sustainAttack>
+        <sustainRelease>0.03</sustainRelease>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_TOWMissileEnd</defName>
+    <context>MapOnly</context>
+    <maxVoices>6</maxVoices>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/TOW/HD_TOWMissileEnd</clipPath>
+          </li>
+        </grains>
+        <volumeRange>42~46</volumeRange>
+        <distRange>14~55</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

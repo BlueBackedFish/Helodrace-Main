@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_SweetGasCan</defName>
+    <label>sweet gas can</label>
+    <description>A temporary chemical canister using the photochlorogen can body. When activated, it burns open and releases sweet gas, a delayed blister agent. Gas masks and tox-gas exposure immunity do not block the gas; if Odyssey is installed, vacuum resistance reduces exposure.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Building/HD_PhotochlorogenCan</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(0.45, 0.35, 0.45)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <fillPercent>0.25</fillPercent>
+    <rotatable>false</rotatable>
+    <size>(1,1)</size>
+    <tickerType>Normal</tickerType>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <WorkToBuild>450</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>8</Mass>
+    </statBases>
+    <costList>
+      <Steel>15</Steel>
+      <Chemfuel>25</Chemfuel>
+    </costList>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2461</uiOrder>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodBlisterAgent</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="Helodrace.CompProperties_SweetGasCan">
+        <spawnChance>1.0</spawnChance>
+        <densityPerPulse>0.75</densityPerPulse>
+        <emissionRadius>2.4</emissionRadius>
+        <burnDurationTicks>1800</burnDurationTicks>
+        <gasSimulationIntervalTicks>30</gasSimulationIntervalTicks>
+        <spreadIntervalTicks>600</spreadIntervalTicks>
+        <gasDef>HD_SweetGas</gasDef>
+        <destroyOnUse>true</destroyOnUse>
+      </li>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.5</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <startWickHitPointsPercent>0.35</startWickHitPointsPercent>
+        <wickTicks>60~120</wickTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_SweetGas</defName>
+    <label>sweet gas</label>
+    <description>A yellow delayed blister agent cloud. Sweet gas dose does not naturally fall; if no dose change occurs for several hours, the exposure is considered cleared. Gas masks and tox-gas exposure immunity do not block it; if Odyssey is installed, vacuum resistance reduces exposure. The hazard has a symptomless latent phase before the active phase scars exposed external tissue and may kill late in the active phase.</description>
+    <thingClass>Helodrace.Gas_SweetGas</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Never</tickerType>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>Gas</altitudeLayer>
+    <graphicData>
+      <texPath>Icon/HD_icon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.01,0.01)</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HD_SweetGasExposure</defName>
+    <label>sweet gas dose</label>
+    <labelNoun>sweet gas dose</labelNoun>
+    <description>Sweet gas has entered the body. This dose does not naturally decrease; if the dose remains unchanged for several hours, the body clears the exposure state. Medical treatment can reduce the dose faster, with better treatment quality removing more.</description>
+    <hediffClass>Helodrace.Hediff_SweetGasExposure</hediffClass>
+    <defaultLabelColor>(0.95,0.86,0.35)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>true</tendable>
+    <stages>
+      <li>
+        <label>absorbed</label>
+        <minSeverity>0.01</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>HD_SweetGasRisk</defName>
+    <label>sweet gas injury risk</label>
+    <labelNoun>sweet gas injury risk</labelNoun>
+    <description>Delayed blister-agent injury from sweet gas exposure. The latent phase has no symptoms. Once the active phase begins, sweet gas causes extreme pain and periodically adds severe permanent scars to three random external body parts that are not already scarred by it. Late active exposure has a high chance to kill. Treatment slows progression for three hours, and a total of 500% treatment quality clears the risk.</description>
+    <hediffClass>Helodrace.Hediff_SweetGasRisk</hediffClass>
+    <defaultLabelColor>(0.95,0.78,0.25)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>true</tendable>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <baseTendDurationHours>1</baseTendDurationHours>
+        <tendOverlapHours>2</tendOverlapHours>
+        <disappearsAtTotalTendQuality>5</disappearsAtTotalTendQuality>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>latent phase</label>
+        <minSeverity>0.01</minSeverity>
+      </li>
+      <li>
+        <label>active phase</label>
+        <minSeverity>0.35</minSeverity>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>1.20</painOffset>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.10</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.65</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.65</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Dedicated pouch slot: compatible with Belt-layer utility and carried equipment. -->
+  <ApparelLayerDef>
+    <defName>HD_Pouch</defName>
+    <label>pouch</label>
+    <drawOrder>310</drawOrder>
+  </ApparelLayerDef>
+</Defs>

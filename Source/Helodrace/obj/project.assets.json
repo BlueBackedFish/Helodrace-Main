@@ -470,7 +470,8 @@
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.8": [
       "Lib.Harmony >= 2.3.3",
-      "Microsoft.NETFramework.ReferenceAssemblies >= 1.0.3"
+      "Microsoft.NETFramework.ReferenceAssemblies >= 1.0.3",
+      "Microsoft.NETFramework.ReferenceAssemblies.net48 >= 1.0.3"
     ]
   },
   "packageFolders": {
@@ -527,6 +528,11 @@
             "target": "Package",
             "version": "[1.0.3, )",
             "autoReferenced": true
+          },
+          "Microsoft.NETFramework.ReferenceAssemblies.net48": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.0.3, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203\\RuntimeIdentifierGraph.json"

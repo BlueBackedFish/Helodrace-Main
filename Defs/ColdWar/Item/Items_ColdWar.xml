@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>HD_TOWMunitions</defName>
+    <label>TOW missiles</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_BGM71A_Round</defName>
+    <label>BGM-71A missile</label>
+    <description>An early wire-guided anti-tank missile for the M220 TOW launcher.</description>
+    <projectileWhenLoaded>HD_BGM71A_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/ColdWar/Ammo/BGM-71A/HD_BGM71A</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>1250</MarketValue>
+      <Mass>18.9</Mass>
+      <Flammability>0.55</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_TOWMunitions</li>
+    </thingCategories>
+    <modExtensions>
+      <li Class="Helodrace.TowLoadedGraphicExtension">
+        <loadedLineTexPath>Weapon/ColdWar/Ammo/BGM-71A/HD_BGM71A_LoadedLine</loadedLineTexPath>
+        <loadedTexPath>Weapon/ColdWar/Ammo/BGM-71A/HD_BGM71A_Loaded</loadedTexPath>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+</Defs>

@@ -16,4 +16,104 @@
     </subSounds>
   </SoundDef>
 
+  <SoundDef>
+    <defName>HD_GunHit</defName>
+    <context>MapOnly</context>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_GunHit</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~38</volumeRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_HighCaliberpistol</defName>
+    <context>MapOnly</context>
+    <maxVoices>12</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/Common/HD_HighCaliberpistol</clipPath>
+          </li>
+        </grains>
+        <volumeRange>42~42</volumeRange>
+        <distRange>12~45</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_M1917Fire</defName>
+    <context>MapOnly</context>
+    <maxVoices>12</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/M1917/HD_M1917Fire</clipPath>
+          </li>
+        </grains>
+        <volumeRange>57~57</volumeRange>
+        <distRange>15~55</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_M2Fire</defName>
+    <context>MapOnly</context>
+    <maxVoices>12</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/M2/HD_M2Fire</clipPath>
+          </li>
+        </grains>
+        <volumeRange>60~60</volumeRange>
+        <distRange>18~60</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_Snipe</defName>
+    <context>MapOnly</context>
+    <maxVoices>8</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_Snipe</clipPath>
+          </li>
+        </grains>
+        <volumeRange>40~40</volumeRange>
+        <distRange>12~50</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_DistantFired</defName>
+    <context>MapOnly</context>
+    <maxVoices>8</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_DistantFired</clipPath>
+          </li>
+        </grains>
+        <volumeRange>52~52</volumeRange>
+        <distRange>18~65</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
 </Defs>

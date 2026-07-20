@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_SharpshooterMode_Command>Mode: {0}</HD_SharpshooterMode_Command>
+  <HD_SharpshooterMode_Normal>Normal fire</HD_SharpshooterMode_Normal>
+  <HD_SharpshooterMode_Fanning>Fanning</HD_SharpshooterMode_Fanning>
+  <HD_SharpshooterMode_Fanning_Desc>Switches between normal aimed fire and close-range fanning.</HD_SharpshooterMode_Fanning_Desc>
+  <HD_SharpshooterMode_DoubleTap>Double tap</HD_SharpshooterMode_DoubleTap>
+  <HD_SharpshooterMode_DoubleTap_Desc>Switches between normal fire and a fast two-shot follow-up.</HD_SharpshooterMode_DoubleTap_Desc>
+</LanguageData>

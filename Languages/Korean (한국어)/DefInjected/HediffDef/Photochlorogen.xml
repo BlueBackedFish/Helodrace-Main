@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_PhotochlorogenExposure.label>포토클로로겐 노출량</HD_PhotochlorogenExposure.label>
+  <HD_PhotochlorogenExposure.labelNoun>포토클로로겐 노출량</HD_PhotochlorogenExposure.labelNoun>
+  <HD_PhotochlorogenExposure.description>포토클로로겐이 체내로 들어왔습니다. 노출량이 높을수록 지연성 호흡기 손상 위험이 더 빠르게 진행되며, 증상이 잠시 가라앉아도 위험이 사라진 것은 아닙니다. 의학 처치를 받으면 노출량이 더 빠르게 빠지고, 치료 품질이 높을수록 더 많이 제거됩니다.</HD_PhotochlorogenExposure.description>
+  <HD_PhotochlorogenExposure.stages.0.label>흡수됨</HD_PhotochlorogenExposure.stages.0.label>
+
+  <HD_PhotochlorogenRisk.label>포토클로로겐 손상 위험</HD_PhotochlorogenRisk.label>
+  <HD_PhotochlorogenRisk.labelNoun>포토클로로겐 손상 위험</HD_PhotochlorogenRisk.labelNoun>
+  <HD_PhotochlorogenRisk.description>포토클로로겐 노출로 인한 지연성 호흡기 손상 위험입니다. 초기 반응기 증상은 노출량이 빠지면 자연적으로 회복될 수 있지만, 잠복기에 도달하면 더 이상 자연 회복되지 않고 최소한 조금씩 계속 진행됩니다. 위험도는 1시간마다 다시 치료할 수 있으며, 각 치료는 3시간 동안 진행 속도를 크게 늦춥니다. 치료 품질이 총 500% 누적되면 폐수종이 치명적으로 번지기 전에 제거됩니다.</HD_PhotochlorogenRisk.description>
+  <HD_PhotochlorogenRisk.stages.0.label>반응기</HD_PhotochlorogenRisk.stages.0.label>
+  <HD_PhotochlorogenRisk.stages.1.label>잠복기</HD_PhotochlorogenRisk.stages.1.label>
+  <HD_PhotochlorogenRisk.stages.2.label>폐수종기</HD_PhotochlorogenRisk.stages.2.label>
+</LanguageData>

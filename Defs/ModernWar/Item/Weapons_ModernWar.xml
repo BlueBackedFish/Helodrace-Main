@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_M16A4_Proj</defName>
+    <label>M16A4 bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>11</damageAmountBase>
+      <armorPenetrationBase>0.18</armorPenetrationBase>
+      <stoppingPower>0.5</stoppingPower>
+      <speed>85</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_ZaperX26_Probe</defName>
+    <label>ZAPER X26 probe</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ZaperX26Probe</thingClass>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_TASERProbe_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.28,0.28)</drawSize>
+    </graphicData>
+    <projectile>
+      <!-- Only a probe that actually creates a bullet wound counts toward activation. -->
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>1</damageAmountBase>
+      <armorPenetrationBase>0.08</armorPenetrationBase>
+      <speed>54</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_ZaperX26_TetherEffect</defName>
+    <label>ZAPER X26 active tether</label>
+    <thingClass>Helodrace.ModernWar.ZaperX26TetherEffect</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <selectable>false</selectable>
+    <useHitPoints>false</useHitPoints>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+  </ThingDef>
+
+  <ThingDef Name="HD_M16FamilyBase" ParentName="BaseHumanMakeableGun" Abstract="True">
+    <graphicData>
+      <texPath>Weapon/ModernWar/HD_M16A4</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <weaponTags>
+      <li>HD_ModernWarWeapon</li>
+      <li>IndustrialGunAdvanced</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>42000</WorkToMake>
+      <Mass>3.4</Mass>
+      <MarketValue>1250</MarketValue>
+      <MaxHitPoints>100</MaxHitPoints>
+      <AccuracyTouch>0.62</AccuracyTouch>
+      <AccuracyShort>0.78</AccuracyShort>
+      <AccuracyMedium>0.72</AccuracyMedium>
+      <AccuracyLong>0.60</AccuracyLong>
+      <RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>55</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>PrecisionRifling</researchPrerequisite>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>1.0</warmupTime>
+        <range>30.9</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.3</warmupTime>
+        <range>22.9</range>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>9</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+      <li>
+        <label>barrel</label>
+        <capacities>
+          <li>Blunt</li>
+          <li>Poke</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M16FamilyBase">
+    <defName>HD_Gun_M16A1_Weapon</defName>
+    <label>M16A1</label>
+    <description>An early lightweight 5.56 mm service rifle with full-automatic fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
+    <graphicData>
+      <texPath>Weapon/ColdWar/HD_M16A1</texPath>
+    </graphicData>
+    <statBases>
+      <Mass>3.18</Mass>
+      <MarketValue>1025</MarketValue>
+      <AccuracyTouch>0.60</AccuracyTouch>
+      <AccuracyShort>0.74</AccuracyShort>
+      <AccuracyMedium>0.68</AccuracyMedium>
+      <AccuracyLong>0.54</AccuracyLong>
+      <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs Inherit="False">
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.9</warmupTime>
+        <range>29.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.3</warmupTime>
+        <range>21.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M16FamilyBase">
+    <defName>HD_Gun_M16A2_Weapon</defName>
+    <label>M16A2</label>
+    <description>A refined 5.56 mm service rifle with improved sights, heavier furniture, and a controlled three-round burst. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
+    <graphicData>
+      <texPath>Weapon/ColdWar/HD_M16A2,3</texPath>
+    </graphicData>
+    <statBases>
+      <Mass>3.52</Mass>
+      <MarketValue>1125</MarketValue>
+      <AccuracyTouch>0.61</AccuracyTouch>
+      <AccuracyShort>0.76</AccuracyShort>
+      <AccuracyMedium>0.71</AccuracyMedium>
+      <AccuracyLong>0.58</AccuracyLong>
+      <RangedWeapon_Cooldown>1.75</RangedWeapon_Cooldown>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M16FamilyBase">
+    <defName>HD_Gun_M16A3_Weapon</defName>
+    <label>M16A3</label>
+    <description>A full-automatic derivative of the M16A2 intended for sustained close-to-medium-range fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
+    <graphicData>
+      <texPath>Weapon/ColdWar/HD_M16A2,3</texPath>
+    </graphicData>
+    <statBases>
+      <Mass>3.50</Mass>
+      <MarketValue>1180</MarketValue>
+      <AccuracyTouch>0.63</AccuracyTouch>
+      <AccuracyShort>0.77</AccuracyShort>
+      <AccuracyMedium>0.70</AccuracyMedium>
+      <AccuracyLong>0.56</AccuracyLong>
+      <RangedWeapon_Cooldown>1.65</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs Inherit="False">
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.9</warmupTime>
+        <range>30.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.3</warmupTime>
+        <range>22.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M16FamilyBase">
+    <defName>HD_Gun_M16A4_Weapon</defName>
+    <label>M16A4</label>
+    <description>A modern service rifle chambered for a small-caliber, high-velocity cartridge. It fires a controlled three-round burst, while a Helod sharpshooter can trade eight tiles of effective range for near-instant target acquisition.</description>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M16FamilyBase">
+    <defName>HD_Gun_M4A1_Weapon</defName>
+    <label>M4A1</label>
+    <description>A compact full-automatic 5.56 mm carbine with a telescoping stock. It sacrifices some long-range performance for faster handling, while a Helod sharpshooter can trade eight tiles of effective range for near-instant target acquisition.</description>
+    <graphicData>
+      <texPath>Weapon/ModernWar/HD_M4A1</texPath>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <statBases>
+      <Mass>2.88</Mass>
+      <MarketValue>1200</MarketValue>
+      <AccuracyTouch>0.68</AccuracyTouch>
+      <AccuracyShort>0.80</AccuracyShort>
+      <AccuracyMedium>0.68</AccuracyMedium>
+      <AccuracyLong>0.50</AccuracyLong>
+      <RangedWeapon_Cooldown>1.55</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs Inherit="False">
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.8</warmupTime>
+        <range>27.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>8</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.25</warmupTime>
+        <range>19.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>8</muzzleFlashScale>
+      </li>
+    </verbs>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_Switchblade600_Drone</defName>
+    <label>Switchblade 600 drone</label>
+    <thingClass>Helodrace.SwitchbladeDrone</thingClass>
+    <category>Projectile</category>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_SwitchBlade600_FullBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1,1.1)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Switchblade600_Proj</defName>
+    <label>Switchblade 600 loitering munition</label>
+    <thingClass>Helodrace.Projectile_Switchblade600</thingClass>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_SwitchBlade600_FullBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1,1.1)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>110</damageAmountBase>
+      <armorPenetrationBase>1.80</armorPenetrationBase>
+      <stoppingPower>3.2</stoppingPower>
+      <speed>38</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>2.4</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.Switchblade600ProjectileExtension">
+        <smokeTrailIntervalTicks>14</smokeTrailIntervalTicks>
+        <smokeTrailSize>0.35</smokeTrailSize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_Switchblade600Launcher_TurretGun</defName>
+    <label>Switchblade 600 launcher</label>
+    <description>A compact launch canister for Switchblade 600 loitering munitions. This early implementation fires a single long-range overhead strike and is reserved for spawning or scenario use.</description>
+    <graphicData>
+      <texPath>Building/Security/HD_SwitchBlade600_Canister</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.25,1.25)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.15</AccuracyTouch>
+      <AccuracyShort>0.45</AccuracyShort>
+      <AccuracyMedium>0.72</AccuracyMedium>
+      <AccuracyLong>0.86</AccuracyLong>
+      <RangedWeapon_Cooldown>18.0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>HD_Switchblade600_Proj</defaultProjectile>
+        <warmupTime>5.0</warmupTime>
+        <range>24.9</range>
+        <requireLineOfSight>false</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Mortar_LaunchA</soundCast>
+        <muzzleFlashScale>5</muzzleFlashScale>
+        <forcedMissRadius>1.2</forcedMissRadius>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_Switchblade600_Round</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_Switchblade600_Round</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
+</Defs>

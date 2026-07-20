@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_Money.label>스탈레르 지폐</HD_Money.label>
+  <HD_Money.description>아름답게 도안된 종이 지폐형 스탈레르 통화입니다. 매우 높은 가치와 가벼운 무게를 지니고 있지만, 종이로 제작되어 무척 연약하며 지붕이 없는 곳에서 비나 눈을 맞으면 빠르게 녹아내려 소실됩니다.</HD_Money.description>
+  <HD_GovernmentBond.label>정부 채권</HD_GovernmentBond.label>
+  <HD_GovernmentBond.description>베세니카 합중국 정부가 발행하는 공식적인 종이 정부 채권 증서입니다. 대규모의 자산을 안전하고 영구히 보존할 수 있는 고가치 금융 수단으로 활용됩니다. 종이로 제작되어 무척 조심스럽게 다뤄야 하며, 최대 10장까지 겹쳐서 보관할 수 있습니다.</HD_GovernmentBond.description>
+  <HD_ContinentalPetroleumBond.label>대륙 석유회사 채권</HD_ContinentalPetroleumBond.label>
+  <HD_ContinentalPetroleumBond.description>대륙 석유회사(Continental Petroleum Company)가 발행하는 공식적인 종이 기업 회사채 증서입니다. 명목 가치로 100 스탈레르를 보증합니다. 국가가 신용을 보증하는 정부 채권과 달리, 이 채권의 실질 가치는 석유 산업 전반의 시황에 직접적으로 연동되어 역동적으로 요동칩니다. 높은 유동성을 가진 고가치 산업용 부의 보관 수단으로 활용됩니다.</HD_ContinentalPetroleumBond.description>
+</LanguageData>
+

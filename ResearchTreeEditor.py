@@ -4,11 +4,12 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import xml.etree.ElementTree as ET
 
+from ToolUi import PALETTE, bind_common_shortcuts, setup_theme, style_text
+
 class ResearchTreeEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("RimWorld Research Tree GUI Editor")
-        self.root.geometry("1400x800")
+        setup_theme(self.root, "RimWorld Research Tree GUI Editor", "1400x800")
         
         # Grid scale config
         self.grid_size_x = 120  # Pixels per X coordinate
@@ -24,22 +25,23 @@ class ResearchTreeEditor:
         
         # Create Layout
         self.create_widgets()
+        bind_common_shortcuts(self.root, save=self.save_file)
         
         # Try to load existing files in the workspace automatically if available
         self.auto_find_files()
 
     def create_widgets(self):
         # Top toolbar
-        toolbar = ttk.Frame(self.root, padding=5)
+        toolbar = ttk.Frame(self.root, padding=8, style="Toolbar.TFrame")
         toolbar.pack(side=tk.TOP, fill=tk.X)
         
         self.btn_load = ttk.Button(toolbar, text="Open XML File", command=self.load_file)
         self.btn_load.pack(side=tk.LEFT, padx=5)
         
-        self.btn_save = ttk.Button(toolbar, text="Save XML File", command=self.save_file)
+        self.btn_save = ttk.Button(toolbar, text="Save XML File", command=self.save_file, style="Accent.TButton")
         self.btn_save.pack(side=tk.LEFT, padx=5)
         
-        self.lbl_status = ttk.Label(toolbar, text="No file loaded", font=("Consolas", 10))
+        self.lbl_status = ttk.Label(toolbar, text="No file loaded", style="Status.TLabel")
         self.lbl_status.pack(side=tk.LEFT, padx=20)
         
         # Main split pane
@@ -51,12 +53,13 @@ class ResearchTreeEditor:
         self.main_pane.add(sidebar, weight=1)
         
         # Node List title & listbox
-        ttk.Label(sidebar, text="Research Defs:", font=("Helvetica", 10, "bold")).pack(anchor=tk.W, pady=5)
+        ttk.Label(sidebar, text="Research Defs:", style="Title.TLabel").pack(anchor=tk.W, pady=5)
         
         list_frame = ttk.Frame(sidebar)
         list_frame.pack(fill=tk.BOTH, expand=True)
         
         self.node_listbox = tk.Listbox(list_frame, font=("Consolas", 10), exportselection=False)
+        self.style_listbox(self.node_listbox)
         self.node_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.node_listbox.bind("<<ListboxSelect>>", self.on_listbox_select)
         
@@ -71,7 +74,7 @@ class ResearchTreeEditor:
         self.btn_add = ttk.Button(btn_frame, text="Add New Def", command=self.add_node)
         self.btn_add.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=2)
         
-        self.btn_delete = ttk.Button(btn_frame, text="Delete Def", command=self.delete_node)
+        self.btn_delete = ttk.Button(btn_frame, text="Delete Def", command=self.delete_node, style="Danger.TButton")
         self.btn_delete.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=2)
 
         # Map Frame (Middle)
@@ -82,7 +85,7 @@ class ResearchTreeEditor:
         canvas_container = ttk.Frame(map_frame)
         canvas_container.pack(fill=tk.BOTH, expand=True)
         
-        self.canvas = tk.Canvas(canvas_container, bg="#1e1e1e", scrollregion=(0, 0, 2000, 2000))
+        self.canvas = tk.Canvas(canvas_container, bg="#16202a", highlightthickness=0, scrollregion=(0, 0, 2000, 2000))
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
         # Canvas scrollbars
@@ -150,6 +153,7 @@ class ResearchTreeEditor:
         ttk.Label(self.editor_frame, text="description:").grid(row=row, column=0, sticky=tk.NW, pady=3)
         self.txt_desc = tk.Text(self.editor_frame, width=30, height=5, font=("Consolas", 9))
         self.txt_desc.grid(row=row, column=1, sticky=tk.NSEW, pady=3)
+        style_text(self.txt_desc)
         self.txt_desc.bind("<KeyRelease>", lambda e: self.update_from_editor())
         
         row += 1
@@ -160,6 +164,7 @@ class ResearchTreeEditor:
         prereq_frame.grid(row=row, column=1, sticky=tk.NSEW, pady=3)
         
         self.prereq_listbox = tk.Listbox(prereq_frame, selectmode="multiple", height=8, font=("Consolas", 9), exportselection=False)
+        self.style_listbox(self.prereq_listbox)
         self.prereq_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.prereq_listbox.bind("<<ListboxSelect>>", self.on_prereq_listbox_select)
         
@@ -170,6 +175,20 @@ class ResearchTreeEditor:
         # Grid weight config for scaling editor
         self.editor_frame.grid_rowconfigure(row, weight=1)
         self.editor_frame.grid_columnconfigure(1, weight=1)
+
+    def style_listbox(self, widget):
+        widget.configure(
+            bg=PALETTE["panel"],
+            fg=PALETTE["text"],
+            selectbackground=PALETTE["accent"],
+            selectforeground="#ffffff",
+            relief=tk.SOLID,
+            bd=1,
+            highlightthickness=1,
+            highlightbackground=PALETTE["border"],
+            highlightcolor=PALETTE["accent"],
+            activestyle="none",
+        )
 
     def auto_find_files(self):
         # Look for standard project research files
@@ -337,13 +356,13 @@ class ResearchTreeEditor:
         # Draw coordinate grid
         for i in range(0, 20):
             x = i * self.grid_size_x + 50
-            self.canvas.create_line(x, 0, x, 2000, fill="#2d2d2d", dash=(2, 4))
-            self.canvas.create_text(x, 15, text=f"X:{i}", fill="#777777", font=("Consolas", 8))
+            self.canvas.create_line(x, 0, x, 2000, fill="#263442", dash=(2, 4))
+            self.canvas.create_text(x, 15, text=f"X:{i}", fill="#9fb0c0", font=("Consolas", 8))
             
         for j in range(0, 30):
             y = j * self.grid_size_y + 50
-            self.canvas.create_line(0, y, 2000, y, fill="#2d2d2d", dash=(2, 4))
-            self.canvas.create_text(15, y, text=f"Y:{j}", fill="#777777", font=("Consolas", 8))
+            self.canvas.create_line(0, y, 2000, y, fill="#263442", dash=(2, 4))
+            self.canvas.create_text(15, y, text=f"Y:{j}", fill="#9fb0c0", font=("Consolas", 8))
             
         # Draw connections/arrows from prerequisites
         # Construct dictionary of node defName -> coordinate
@@ -364,14 +383,11 @@ class ResearchTreeEditor:
                     dest_x = canvas_curr_x - self.node_width/2
                     dest_y = canvas_curr_y
                     
-                    # Draw a nice orthogonal step-line
-                    mid_x = (canvas_p_x + dest_x) / 2
+                    # Draw a straight dependency line.
                     self.canvas.create_line(
                         canvas_p_x, canvas_p_y,
-                        mid_x, canvas_p_y,
-                        mid_x, dest_y,
                         dest_x, dest_y,
-                        fill="#ff9900", width=2, arrow=tk.LAST, arrowshape=(8,10,3)
+                        fill="#f59e0b", width=2, arrow=tk.LAST, arrowshape=(8,10,3)
                     )
         
         # Draw node boxes
@@ -382,13 +398,13 @@ class ResearchTreeEditor:
             
             # Colors
             if index == self.selected_node_index:
-                box_color = "#3a6073"
-                border_color = "#00ffcc"
+                box_color = "#2f6fed"
+                border_color = "#ffffff"
                 text_color = "#ffffff"
             else:
-                box_color = "#333333"
-                border_color = "#666666"
-                text_color = "#dddddd"
+                box_color = "#24313f"
+                border_color = "#60758b"
+                text_color = "#ecf3fb"
                 
             # Create rectangle
             box_id = self.canvas.create_rectangle(

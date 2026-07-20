@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <CultureDef>
+    <defName>HD_HelodCulture</defName>
+    <label>Helod frontier</label>
+    <description>A frontier culture shaped by Helod settlements, rail towns, oil claims, and industrial outposts.</description>
+    <pawnNameMaker>HD_NamerPersonHelod</pawnNameMaker>
+    <pawnNameMakerFemale>HD_NamerPersonHelod</pawnNameMakerFemale>
+    <ideoNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerIdeoRustican</ideoNameMaker>
+    <deityNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerDeityRustican</deityNameMaker>
+    <deityTypeMaker MayRequire="Ludeon.RimWorld.Ideology">DeityTypeMakerRustican</deityTypeMaker>
+    <leaderTitleMaker MayRequire="Ludeon.RimWorld.Ideology">LeaderTitleMaker_Rustican</leaderTitleMaker>
+    <festivalNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerFestivalRustican</festivalNameMaker>
+    <allowedPlaceTags>
+      <li>OriginSpacer</li>
+    </allowedPlaceTags>
+    <iconPath>World/WorldObjects/Expanding/Town</iconPath>
+    <styleItemTags>
+      <li>
+        <tag>Rural</tag>
+        <baseWeight>1</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+      <li>
+        <tag>Urban</tag>
+        <baseWeight>0.35</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+      <li>
+        <tag>NoBeard</tag>
+        <baseWeight>10</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+      <li>
+        <tag>NoTattoo</tag>
+        <baseWeight>1</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+    </styleItemTags>
+  </CultureDef>
+
+  <RulePackDef>
+    <defName>HD_NamerPersonHelod</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name(p=12)->[firstName] [lastName]</li>
+        <li>r_name(p=1)->[firstName] "[nickName]" [lastName]</li>
+
+        <li>firstName->&#xC544;&#xB2E4;</li>
+        <li>firstName->&#xC560;&#xB4E4;&#xB77C;&#xC778;</li>
+        <li>firstName->&#xC560;&#xB4E4;&#xB9B0;</li>
+        <li>firstName->&#xC560;&#xBE44;&#xAC8C;&#xC77C;</li>
+        <li>firstName->&#xC560;&#xC2DC;</li>
+        <li>firstName->&#xC564;</li>
+        <li>firstName->&#xC568;&#xB9AC;&#xC2A4;</li>
+        <li>firstName->&#xC568;&#xB9AC;&#xC0E4;</li>
+        <li>firstName->&#xC560;&#xBA3C;&#xB2E4;</li>
+        <li>firstName->&#xC548;&#xB4DC;&#xB8E8;</li>
+        <li>firstName->&#xC560;&#xB098;</li>
+        <li>firstName->&#xC544;&#xC11C;</li>
+        <li>firstName->&#xC624;&#xB4DC;&#xB9AC;</li>
+        <li>firstName->&#xC5D0;&#xC774;&#xBE0C;</li>
+        <li>firstName->&#xBC14;&#xC774;&#xC62C;&#xB77C;</li>
+        <li>firstName->&#xBC84;&#xB2C8;&#xC2A4;</li>
+        <li>firstName->&#xBE0C;&#xB77C;&#xC774;&#xC5B8;</li>
+        <li>firstName->&#xBE0C;&#xB8E9;</li>
+        <li>firstName->&#xCE98;&#xB7FD;</li>
+        <li>firstName->&#xCE90;&#xB864;</li>
+        <li>firstName->&#xCE90;&#xC11C;&#xB9B0;</li>
+        <li>firstName->&#xCC30;&#xC2A4;</li>
+        <li>firstName->&#xD074;&#xB77C;&#xB77C;</li>
+        <li>firstName->&#xD074;&#xB808;&#xC774;</li>
+        <li>firstName->&#xCF5C;</li>
+        <li>firstName->&#xB370;&#xC774;&#xBE44;&#xB4DC;</li>
+        <li>firstName->&#xB514;&#xC5D0;&#xACE0;</li>
+        <li>firstName->&#xB3C4;&#xB85C;&#xC2DC;</li>
+        <li>firstName->&#xC5D0;&#xB4DC;&#xC6CC;&#xB4DC;</li>
+        <li>firstName->&#xC5D8;&#xB77C;</li>
+        <li>firstName->&#xC5D8;&#xB9AC;&#xC790;</li>
+        <li>firstName->&#xC5E0;&#xB9C8;</li>
+        <li>firstName->&#xC5D0;&#xC2A4;&#xD130;</li>
+        <li>firstName->&#xC5D0;&#xBC88;</li>
+        <li>firstName->&#xD50C;&#xB85C;&#xB80C;&#xC2A4;</li>
+        <li>firstName->&#xD504;&#xB7AD;&#xD06C;</li>
+        <li>firstName->&#xD504;&#xB808;&#xB4DC;</li>
+        <li>firstName->&#xC870;&#xC9C0;</li>
+        <li>firstName->&#xADF8;&#xB808;&#xC774;&#xC2A4;</li>
+        <li>firstName->&#xD5E8;&#xB9AC;</li>
+        <li>firstName->&#xC544;&#xC774;&#xB9B0;</li>
+        <li>firstName->&#xC544;&#xC774;&#xC0AD;</li>
+        <li>firstName->&#xC790;&#xCF65;</li>
+        <li>firstName->&#xC81C;&#xC784;&#xC2A4;</li>
+        <li>firstName->&#xC81C;&#xC778;</li>
+        <li>firstName->&#xC870;&#xC149;</li>
+        <li>firstName->&#xB85C;&#xB77C;</li>
+        <li>firstName->&#xB9C8;&#xC0EC;</li>
+        <li>firstName->&#xB9C8;&#xD2F8;&#xB2E4;</li>
+        <li>firstName->&#xB9E5;&#xC2A4;</li>
+        <li>firstName->&#xBAA8;&#xB77C;</li>
+        <li>firstName->&#xB0B8;&#xC2DC;</li>
+        <li>firstName->&#xB178;&#xB77C;</li>
+        <li>firstName->&#xC62C;&#xB9AC;&#xBC84;</li>
+        <li>firstName->&#xD53C;&#xD130;</li>
+        <li>firstName->&#xB85C;&#xC790;</li>
+        <li>firstName->&#xB85C;&#xC988;</li>
+        <li>firstName->&#xB8E8;&#xC2A4;</li>
+        <li>firstName->&#xC0AC;&#xBB34;&#xC5D8;</li>
+        <li>firstName->&#xC138;&#xB77C;</li>
+        <li>firstName->&#xC2A4;&#xD154;&#xB77C;</li>
+        <li>firstName->&#xD14C;&#xB808;&#xC0AC;</li>
+        <li>firstName->&#xD1A0;&#xB9C8;&#xC2A4;</li>
+        <li>firstName->&#xBE44;&#xD1A0;</li>
+        <li>firstName->&#xC6D4;&#xD130;</li>
+
+        <li>lastName->&#xC560;&#xB364;&#xC2A4;</li>
+        <li>lastName->&#xC560;&#xB4E4;&#xB7EC;</li>
+        <li>lastName->&#xBC14;&#xB85C;&#xC6B0;</li>
+        <li>lastName->&#xBC31;&#xC2A4;&#xD130;</li>
+        <li>lastName->&#xBC14;&#xC774;&#xB124;&#xC2A4;</li>
+        <li>lastName->&#xBCA0;&#xB137;</li>
+        <li>lastName->&#xBE14;&#xB799;&#xC6B0;&#xB4DC;</li>
+        <li>lastName->&#xBD80;&#xC2A4;</li>
+        <li>lastName->&#xBE0C;&#xB79C;&#xB4DC;</li>
+        <li>lastName->&#xBE0C;&#xB8E9;&#xC2A4;</li>
+        <li>lastName->&#xBE0C;&#xB77C;&#xC6B4;</li>
+        <li>lastName->&#xBC84;&#xD2BC;</li>
+        <li>lastName->&#xCE74;&#xD130;</li>
+        <li>lastName->&#xCC54;&#xB4DC;&#xC719;</li>
+        <li>lastName->&#xCF5C;&#xB9CC;</li>
+        <li>lastName->&#xCF00;&#xC77C;</li>
+        <li>lastName->&#xD06C;&#xB85C;&#xD3EC;&#xB4DC;</li>
+        <li>lastName->&#xB2EC;&#xD2BC;</li>
+        <li>lastName->&#xB370;&#xC774;&#xBE44;&#xC2A4;</li>
+        <li>lastName->&#xB3C4;&#xC2A8;</li>
+        <li>lastName->&#xB4DC;&#xB808;&#xC774;&#xD06C;</li>
+        <li>lastName->&#xC5D0;&#xB4DC;&#xC6CC;&#xC988;</li>
+        <li>lastName->&#xC5D8;&#xB9AC;&#xC5C7;</li>
+        <li>lastName->&#xD53C;&#xC154;</li>
+        <li>lastName->&#xD50C;&#xB808;&#xCC98;</li>
+        <li>lastName->&#xD3EC;&#xB4DC;</li>
+        <li>lastName->&#xD3EC;&#xC2A4;&#xD130;</li>
+        <li>lastName->&#xADF8;&#xB808;&#xC774;</li>
+        <li>lastName->&#xADF8;&#xB9B0;</li>
+        <li>lastName->&#xD558;&#xD37C;</li>
+        <li>lastName->&#xD574;&#xB9AC;&#xC2A4;</li>
+        <li>lastName->&#xD638;&#xD504;&#xB9CC;</li>
+        <li>lastName->&#xD5CC;&#xD130;</li>
+        <li>lastName->&#xC7AD;&#xC2A8;</li>
+        <li>lastName->&#xCF00;&#xC778;</li>
+        <li>lastName->&#xB79C;&#xB4DC;&#xB9AC;</li>
+        <li>lastName->&#xB85C;&#xC2A8;</li>
+        <li>lastName->&#xB9E5;&#xCF00;&#xC774;</li>
+        <li>lastName->&#xBAA8;&#xB9AC;&#xC2A8;</li>
+        <li>lastName->&#xD30C;&#xCEE4;</li>
+        <li>lastName->&#xD30C;&#xD2BC;</li>
+        <li>lastName->&#xD53C;&#xC5B4;&#xC2A4;</li>
+        <li>lastName->&#xD3EC;&#xD130;</li>
+        <li>lastName->&#xB808;&#xC774;&#xB178;&#xC988;</li>
+        <li>lastName->&#xB85C;&#xC988;</li>
+        <li>lastName->&#xC0CC;&#xB354;&#xC2A4;</li>
+        <li>lastName->&#xC154;&#xB9CC;</li>
+        <li>lastName->&#xC2A4;&#xBBF8;&#xC2A4;</li>
+        <li>lastName->&#xC2A4;&#xD0E0;&#xD2BC;</li>
+        <li>lastName->&#xD14C;&#xC77C;&#xB7EC;</li>
+        <li>lastName->&#xD130;&#xB108;</li>
+        <li>lastName->&#xC6CC;&#xCEE4;</li>
+        <li>lastName->&#xC6F0;&#xC2A4;</li>
+        <li>lastName->&#xC6E8;&#xC2A4;&#xD2B8;</li>
+        <li>lastName->&#xC704;&#xD2B8;&#xB9CC;</li>
+
+        <li>nickName->&#xBE14;&#xB8E8;</li>
+        <li>nickName->&#xBD80;&#xCE20;</li>
+        <li>nickName->&#xBC85;</li>
+        <li>nickName->&#xCE90;&#xBA38;</li>
+        <li>nickName->&#xCF5C;&#xB4DC;&#xC544;&#xC774;</li>
+        <li>nickName->&#xB354;&#xC2A4;&#xD2F0;</li>
+        <li>nickName->&#xD53C;&#xB2C9;&#xC2A4;</li>
+        <li>nickName->&#xD558;&#xC6B4;&#xB4DC;</li>
+        <li>nickName->&#xB85C;&#xC2A4;&#xD2B8;</li>
+        <li>nickName->&#xB7ED;&#xD0A4;</li>
+        <li>nickName->&#xB808;&#xB4DC;</li>
+        <li>nickName->&#xC0E4;&#xD504;</li>
+        <li>nickName->&#xC2E4;&#xBC84;</li>
+        <li>nickName->&#xC2A4;&#xD0C0;</li>
+        <li>nickName->&#xC2A4;&#xD1B0;</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+</Defs>

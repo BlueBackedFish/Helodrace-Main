@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_DevelopOilField.label>유전 개발</HD_DevelopOilField.label>
   <HD_DevelopOilField.verb>개발</HD_DevelopOilField.verb>
@@ -21,8 +21,8 @@
   <HD_RepairBelt.gerund>수리하는 중</HD_RepairBelt.gerund>
 
   <DoBillsHD_TreadleLathe.label>발판식 선반 사용</DoBillsHD_TreadleLathe.label>
-  <DoBillsHD_TreadleLathe.verb>선반 가공</DoBillsHD_TreadleLathe.verb>
-  <DoBillsHD_TreadleLathe.gerund>선반 가공하는 중</DoBillsHD_TreadleLathe.gerund>
+  <DoBillsHD_TreadleLathe.verb>제작</DoBillsHD_TreadleLathe.verb>
+  <DoBillsHD_TreadleLathe.gerund>제작하는 중</DoBillsHD_TreadleLathe.gerund>
 
   <DoBillsHD_BasicWorkbench.label>기초 작업대 사용</DoBillsHD_BasicWorkbench.label>
   <DoBillsHD_BasicWorkbench.verb>수공예 작업</DoBillsHD_BasicWorkbench.verb>
@@ -33,12 +33,12 @@
   <DoBillsHD_TelegraphTable.gerund>전신 송신하는 중</DoBillsHD_TelegraphTable.gerund>
 
   <DoBillsHD_LineShaftRollingMachine.label>라인 샤프트 압연기 사용</DoBillsHD_LineShaftRollingMachine.label>
-  <DoBillsHD_LineShaftRollingMachine.verb>압연</DoBillsHD_LineShaftRollingMachine.verb>
-  <DoBillsHD_LineShaftRollingMachine.gerund>압연하는 중</DoBillsHD_LineShaftRollingMachine.gerund>
+  <DoBillsHD_LineShaftRollingMachine.verb>제작</DoBillsHD_LineShaftRollingMachine.verb>
+  <DoBillsHD_LineShaftRollingMachine.gerund>제작하는 중</DoBillsHD_LineShaftRollingMachine.gerund>
 
   <DoBillsHD_LineShaftTurretLathe.label>라인 샤프트 터렛 선반 사용</DoBillsHD_LineShaftTurretLathe.label>
-  <DoBillsHD_LineShaftTurretLathe.verb>선반 가공</DoBillsHD_LineShaftTurretLathe.verb>
-  <DoBillsHD_LineShaftTurretLathe.gerund>선반 가공하는 중</DoBillsHD_LineShaftTurretLathe.gerund>
+  <DoBillsHD_LineShaftTurretLathe.verb>제작</DoBillsHD_LineShaftTurretLathe.verb>
+  <DoBillsHD_LineShaftTurretLathe.gerund>제작하는 중</DoBillsHD_LineShaftTurretLathe.gerund>
 
   <DoBillsHD_BlastFurnace.label>고로 사용</DoBillsHD_BlastFurnace.label>
   <DoBillsHD_BlastFurnace.verb>제련</DoBillsHD_BlastFurnace.verb>
@@ -51,4 +51,11 @@
   <DoBillsHD_CampfireCrafting.label>모닥불 제작</DoBillsHD_CampfireCrafting.label>
   <DoBillsHD_CampfireCrafting.verb>제작</DoBillsHD_CampfireCrafting.verb>
   <DoBillsHD_CampfireCrafting.gerund>제작하는 중</DoBillsHD_CampfireCrafting.gerund>
+  <DoBillsHD_LineShaftMillingMachine.label>라인 샤프트 밀링 머신 사용</DoBillsHD_LineShaftMillingMachine.label>
+  <DoBillsHD_LineShaftMillingMachine.verb>제작</DoBillsHD_LineShaftMillingMachine.verb>
+  <DoBillsHD_LineShaftMillingMachine.gerund>제작하는 중</DoBillsHD_LineShaftMillingMachine.gerund>
+  <DoBillsHD_LineShaftHydraulicPress.label>라인 샤프트 유압 프레스 사용</DoBillsHD_LineShaftHydraulicPress.label>
+  <DoBillsHD_LineShaftHydraulicPress.verb>제작</DoBillsHD_LineShaftHydraulicPress.verb>
+  <DoBillsHD_LineShaftHydraulicPress.gerund>제작하는 중</DoBillsHD_LineShaftHydraulicPress.gerund>
 </LanguageData>
+

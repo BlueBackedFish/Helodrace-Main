@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <WorldObjectDef ParentName="StaticWorldObjectBase">
+    <defName>HD_ForwardBaseConstruction</defName>
+    <label>forward base construction</label>
+    <description>A contracted Helod forward base under construction.</description>
+    <worldObjectClass>Helodrace.HelodForwardBaseConstruction</worldObjectClass>
+    <texture>Icon/HD_Icon_Construction</texture>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>Icon/HD_Icon_Construction</expandingIconTexture>
+    <expandingIconPriority>45</expandingIconPriority>
+    <canHaveMap>false</canHaveMap>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="StaticWorldObjectBase">
+    <defName>HD_ForwardBase</defName>
+    <label>forward base</label>
+    <description>A completed Helod forward base.</description>
+    <worldObjectClass>Helodrace.HelodForwardBase</worldObjectClass>
+    <texture>Icon/HD_Icon_WW_Infantry</texture>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>Icon/HD_Icon_WW_Infantry</expandingIconTexture>
+    <expandingIconPriority>45</expandingIconPriority>
+    <canHaveMap>false</canHaveMap>
+  </WorldObjectDef>
+
+  <WorldObjectDef ParentName="StaticWorldObjectBase">
+    <defName>HD_ForwardBaseWithdrawal</defName>
+    <label>forward base withdrawal</label>
+    <description>A Helod forward base withdrawing after a failed fixed-price payment.</description>
+    <worldObjectClass>Helodrace.HelodForwardBaseWithdrawal</worldObjectClass>
+    <texture>Icon/HD_Icon_Construction</texture>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>Icon/HD_Icon_Construction</expandingIconTexture>
+    <expandingIconPriority>45</expandingIconPriority>
+    <canHaveMap>false</canHaveMap>
+  </WorldObjectDef>
+
+</Defs>

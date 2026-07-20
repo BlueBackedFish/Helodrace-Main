@@ -17,7 +17,7 @@
 
 	<!-- Helod Player Colonist -->
 	<PawnKindDef ParentName="HD_HelodBasePawnKind">
-		<defName>HD_HelodColonist</defName>
+		<defName>HD_WW_HelodColonist</defName>
 		<label>Helod colonist</label>
 		<defaultFactionType>PlayerColony</defaultFactionType>
 		<backstoryFiltersOverride>
@@ -72,9 +72,9 @@
 
 	<!-- Helod NPC settler -->
 	<PawnKindDef ParentName="HD_HelodBasePawnKind">
-		<defName>HD_HelodSettler</defName>
+		<defName>HD_WW_HelodSettler</defName>
 		<label>Helod settler</label>
-		<defaultFactionType>HD_HelodCivilFaction</defaultFactionType>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
 		<isFighter>true</isFighter>
 		<backstoryFiltersOverride>
 			<li>
@@ -84,15 +84,15 @@
 			</li>
 		</backstoryFiltersOverride>
 		<weaponMoney>
-			<min>250</min>
-			<max>950</max>
+			<min>450</min>
+			<max>1200</max>
 		</weaponMoney>
 		<weaponTags>
-			<li>HD_Revolver</li>
-			<li>Repeater</li>
-			<li>HD_BoltActionRifle</li>
-			<li>HD_Shotgun</li>
-			<li>HD_Melee</li>
+			<li>HD_WildWestRevolver</li>
+			<li>HD_WildWestLeverActionRifle</li>
+			<li>HD_WildWestBoltActionRifle</li>
+			<li>HD_WildWestLeverActionShotgun</li>
+			<li>HD_WildWestCavalrySaber</li>
 		</weaponTags>
 		<chemicalAddictionChance>0.02</chemicalAddictionChance>
 		<apparelTags>
@@ -137,12 +137,12 @@
 		</xenotypeSet>
 	</PawnKindDef>
 
-	<!-- Helod cavalry trooper -->
+	<!-- Helod upper class -->
 	<PawnKindDef ParentName="HD_HelodBasePawnKind">
-		<defName>HD_HelodCavalry</defName>
-		<label>Helod cavalry trooper</label>
-		<defaultFactionType>HD_HelodCivilFaction</defaultFactionType>
-		<combatPower>75</combatPower>
+		<defName>HD_WW_HelodUpperClass</defName>
+		<label>Helod upper class</label>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<combatPower>45</combatPower>
 		<isFighter>true</isFighter>
 		<backstoryFiltersOverride>
 			<li>
@@ -153,11 +153,223 @@
 		</backstoryFiltersOverride>
 		<weaponMoney>
 			<min>350</min>
-			<max>900</max>
+			<max>850</max>
 		</weaponMoney>
 		<weaponTags>
-			<li>HD_Saber</li>
-			<li>HD_Revolver</li>
+			<li>HD_WildWestRevolver</li>
+		</weaponTags>
+		<apparelTags>
+			<li>HD_Apparel_Formal</li>
+			<li>HD_Apparel_WW_WatchmanHeadgear</li>
+		</apparelTags>
+		<apparelRequired>
+			<li>HD_Apparel_WildWestFormalShirt</li>
+			<li>HD_Apparel_WildWestFrockCoat</li>
+			<li>HD_Apparel_WildWestTopHat</li>
+		</apparelRequired>
+		<apparelAllowHeadgearChance>0.7</apparelAllowHeadgearChance>
+		<apparelMoney>
+			<min>900</min>
+			<max>1800</max>
+		</apparelMoney>
+		<chemicalAddictionChance>0.02</chemicalAddictionChance>
+		<techHediffsChance>0.04</techHediffsChance>
+		<techHediffsMoney>
+			<min>100</min>
+			<max>1000</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<li>Simple</li>
+		</techHediffsTags>
+		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>12~18</initialResistanceRange>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
+				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
+				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
+				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
+				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
+				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
+				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
+				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
+				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
+				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
+				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
+				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
+				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
+				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
+				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+			</xenotypeChances>
+		</xenotypeSet>
+	</PawnKindDef>
+
+	<!-- Helod financial trader -->
+	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+		<defName>HD_WW_HelodFinancialTrader</defName>
+		<label>Helod financial trader</label>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<trader>true</trader>
+		<combatPower>45</combatPower>
+		<isFighter>false</isFighter>
+		<backstoryFiltersOverride>
+			<li>
+				<categories>
+					<li>HD_Helod</li>
+				</categories>
+			</li>
+		</backstoryFiltersOverride>
+		<gearHealthRange>1~1</gearHealthRange>
+		<itemQuality>Normal</itemQuality>
+		<weaponMoney>
+			<min>350</min>
+			<max>600</max>
+		</weaponMoney>
+		<weaponTags>
+			<li>HD_WildWestRevolver</li>
+		</weaponTags>
+		<apparelTags>
+			<li>HD_Apparel_Formal</li>
+			<li>HD_Apparel_WW_WatchmanHeadgear</li>
+		</apparelTags>
+		<apparelRequired>
+			<li>HD_Apparel_WildWestFormalShirt</li>
+			<li>HD_Apparel_WildWestFrockCoat</li>
+			<li>HD_Apparel_WildWestTopHat</li>
+		</apparelRequired>
+		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+		<apparelMoney>
+			<min>900</min>
+			<max>1800</max>
+		</apparelMoney>
+		<chemicalAddictionChance>0.02</chemicalAddictionChance>
+		<techHediffsChance>0.04</techHediffsChance>
+		<techHediffsMoney>
+			<min>100</min>
+			<max>1000</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<li>Simple</li>
+		</techHediffsTags>
+		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>12~18</initialResistanceRange>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
+				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
+				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
+				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
+				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
+				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
+				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
+				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
+				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
+				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
+				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
+				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
+				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
+				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
+				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+			</xenotypeChances>
+		</xenotypeSet>
+	</PawnKindDef>
+
+	<!-- Helod frontier watchman -->
+	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+		<defName>HD_WW_FrontierWatchman</defName>
+		<label>frontier watchman</label>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<combatPower>65</combatPower>
+		<isFighter>true</isFighter>
+		<backstoryFiltersOverride>
+			<li>
+				<categories>
+					<li>HD_Helod</li>
+				</categories>
+			</li>
+		</backstoryFiltersOverride>
+		<weaponMoney>
+			<min>500</min>
+			<max>1000</max>
+		</weaponMoney>
+		<weaponTags>
+			<li>HD_WildWestLeverActionRifle</li>
+			<li>HD_WildWestSingleShotRifle</li>
+		</weaponTags>
+		<apparelTags>
+			<li>HD_Apparel_Casual</li>
+			<li>HD_Apparel_WW_Protective</li>
+			<li>HD_Apparel_WW_WatchmanHeadgear</li>
+		</apparelTags>
+		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+		<apparelMoney>
+			<min>600</min>
+			<max>1300</max>
+		</apparelMoney>
+		<chemicalAddictionChance>0.02</chemicalAddictionChance>
+		<techHediffsChance>0.03</techHediffsChance>
+		<techHediffsMoney>
+			<min>50</min>
+			<max>800</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<li>Simple</li>
+		</techHediffsTags>
+		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>10~15</initialResistanceRange>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
+				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
+				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
+				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
+				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
+				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
+				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
+				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
+				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
+				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
+				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
+				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
+				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
+				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
+				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+			</xenotypeChances>
+		</xenotypeSet>
+	</PawnKindDef>
+
+	<!-- Helod cavalry trooper -->
+	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+		<defName>HD_WW_HelodCavalry</defName>
+		<label>Helod cavalry trooper</label>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<combatPower>75</combatPower>
+		<isFighter>true</isFighter>
+		<backstoryFiltersOverride>
+			<li>
+				<categories>
+					<li>HD_Helod</li>
+				</categories>
+			</li>
+		</backstoryFiltersOverride>
+		<weaponMoney>
+			<min>550</min>
+			<max>1250</max>
+		</weaponMoney>
+		<weaponTags>
+			<li>HD_WildWestRevolver</li>
+			<li>HD_WildWestLeverActionRifle</li>
+			<li>HD_WildWestBoltActionRifle</li>
+			<li>HD_WildWestCavalrySaber</li>
 		</weaponTags>
 		<apparelTags>
 			<li>HD_Apparel_Carvaly</li>
@@ -204,5 +416,224 @@
 				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
 			</xenotypeChances>
 		</xenotypeSet>
+	</PawnKindDef>
+
+	<!-- Great War Helod rifleman -->
+	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+		<defName>HD_GW_HelodRifleman</defName>
+		<label>Great War Helod rifleman</label>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<combatPower>80</combatPower>
+		<isFighter>true</isFighter>
+		<backstoryFiltersOverride>
+			<li>
+				<categories>
+					<li>HD_Helod</li>
+				</categories>
+			</li>
+		</backstoryFiltersOverride>
+		<weaponMoney>
+			<min>650</min>
+			<max>1300</max>
+		</weaponMoney>
+		<weaponTags>
+			<li>HD_GreatWarM1Garand</li>
+		</weaponTags>
+		<apparelTags>
+			<li>HD_Apparel_GW_Uniform</li>
+			<li>HD_Apparel_GW_Protective</li>
+		</apparelTags>
+		<apparelRequired>
+			<li>HD_Apparel_GreatWarStormFrontInner</li>
+			<li>HD_Apparel_GreatWarStormFrontOuter</li>
+			<li>HD_Apparel_GreatWarM1Helmet</li>
+		</apparelRequired>
+		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+		<apparelMoney>
+			<min>700</min>
+			<max>1400</max>
+		</apparelMoney>
+		<chemicalAddictionChance>0.02</chemicalAddictionChance>
+		<techHediffsChance>0.03</techHediffsChance>
+		<techHediffsMoney>
+			<min>50</min>
+			<max>800</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<li>Simple</li>
+		</techHediffsTags>
+		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>12~18</initialResistanceRange>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
+				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
+				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
+				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
+				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
+				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
+				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
+				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
+				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
+				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
+				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
+				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
+				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
+				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
+				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+			</xenotypeChances>
+		</xenotypeSet>
+	</PawnKindDef>
+
+	<!-- Great War Helod squad leader -->
+	<PawnKindDef Name="HD_GW_HelodLeaderPawnKind" ParentName="HD_HelodBasePawnKind">
+		<defName>HD_GW_HelodSquadLeader</defName>
+		<label>Great War Helod squad leader</label>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<combatPower>100</combatPower>
+		<isFighter>true</isFighter>
+		<backstoryFiltersOverride>
+			<li>
+				<categories>
+					<li>HD_Helod</li>
+				</categories>
+			</li>
+		</backstoryFiltersOverride>
+		<weaponMoney>
+			<min>650</min>
+			<max>1400</max>
+		</weaponMoney>
+		<weaponTags>
+			<li>HD_GreatWarM1Garand</li>
+			<li>HD_GreatWarSubmachineGun</li>
+		</weaponTags>
+		<apparelTags>
+			<li>HD_Apparel_GW_Uniform</li>
+			<li>HD_Apparel_GW_Protective</li>
+		</apparelTags>
+		<apparelRequired>
+			<li>HD_Apparel_GreatWarStormFrontInner</li>
+			<li>HD_Apparel_GreatWarStormFrontOuter</li>
+			<li>HD_Apparel_GreatWarM1Helmet</li>
+		</apparelRequired>
+		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+		<apparelMoney>
+			<min>700</min>
+			<max>1400</max>
+		</apparelMoney>
+		<chemicalAddictionChance>0.02</chemicalAddictionChance>
+		<techHediffsChance>0.03</techHediffsChance>
+		<techHediffsMoney>
+			<min>50</min>
+			<max>800</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<li>Simple</li>
+		</techHediffsTags>
+		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>14~20</initialResistanceRange>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
+				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
+				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
+				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
+				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
+				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
+				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
+				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
+				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
+				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
+				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
+				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
+				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
+				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
+				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+			</xenotypeChances>
+		</xenotypeSet>
+	</PawnKindDef>
+
+	<!-- Great War Helod scout -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodScout</defName>
+		<label>Great War Helod scout</label>
+		<combatPower>90</combatPower>
+		<initialResistanceRange>12~18</initialResistanceRange>
+	</PawnKindDef>
+
+	<!-- Great War Helod assistant squad leader -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodAssistantSquadLeader</defName>
+		<label>Great War Helod assistant squad leader</label>
+		<combatPower>95</combatPower>
+		<initialResistanceRange>13~19</initialResistanceRange>
+	</PawnKindDef>
+
+	<!-- Great War Helod automatic rifleman -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodAutomaticRifleman</defName>
+		<label>Great War Helod automatic rifleman</label>
+		<combatPower>110</combatPower>
+		<weaponMoney>
+			<min>800</min>
+			<max>1700</max>
+		</weaponMoney>
+		<weaponTags Inherit="False">
+			<li>HD_GreatWarLightMachineGun</li>
+		</weaponTags>
+		<initialResistanceRange>13~19</initialResistanceRange>
+	</PawnKindDef>
+
+	<!-- Great War Helod mortar crew A: baseplate carrier -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodMortarmanA</defName>
+		<label>Great War Helod mortarman A</label>
+		<combatPower>95</combatPower>
+		<apparelRequired>
+			<li>HD_Apparel_M1MortarBaseplate</li>
+		</apparelRequired>
+		<initialResistanceRange>13~19</initialResistanceRange>
+	</PawnKindDef>
+
+	<!-- Great War Helod mortar crew B: bipod carrier -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodMortarmanB</defName>
+		<label>Great War Helod mortarman B</label>
+		<combatPower>95</combatPower>
+		<apparelRequired>
+			<li>HD_Apparel_M1MortarMount</li>
+		</apparelRequired>
+		<initialResistanceRange>13~19</initialResistanceRange>
+	</PawnKindDef>
+
+	<!-- Great War Helod mortar crew C: barrel carrier -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodMortarmanC</defName>
+		<label>Great War Helod mortarman C</label>
+		<combatPower>95</combatPower>
+		<apparelRequired>
+			<li>HD_Apparel_M1MortarBarrel</li>
+		</apparelRequired>
+		<initialResistanceRange>13~19</initialResistanceRange>
+	</PawnKindDef>
+
+	<!-- Great War M1 mortar ammunition bearer -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodMortarShellBearer</defName>
+		<label>Great War Helod mortar ammunition bearer</label>
+		<combatPower>85</combatPower>
+	</PawnKindDef>
+
+	<!-- Great War field ration bearer -->
+	<PawnKindDef ParentName="HD_GW_HelodLeaderPawnKind">
+		<defName>HD_GW_HelodFieldRationBearer</defName>
+		<label>Great War Helod field ration bearer</label>
+		<combatPower>85</combatPower>
 	</PawnKindDef>
 </Defs>

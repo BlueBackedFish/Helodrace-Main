@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_Switchblade600Launcher</defName>
+    <label>Switchblade 600 launcher</label>
+    <description>A sealed launch canister for Switchblade 600 loitering munitions. It is not craftable or normally buildable yet, but can be spawned for testing or scenario placement.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <graphicData>
+      <texPath>Building/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.25,1.25)</drawSize>
+      <shadowData>
+        <volume>(0.6,0.2,0.6)</volume>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/HD_SwitchBlade600_Canister</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.20</fillPercent>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <WorkToBuild>2200</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>54</Mass>
+      <ShootingAccuracyTurret>0.92</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <Steel>80</Steel>
+      <ComponentIndustrial>8</ComponentIndustrial>
+      <ComponentSpacer>2</ComponentSpacer>
+    </costList>
+    <building>
+      <turretGunDef>HD_Gun_Switchblade600Launcher_TurretGun</turretGunDef>
+      <turretBurstWarmupTime>5.0</turretBurstWarmupTime>
+      <turretBurstCooldownTime>18.0</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+    </placeWorkers>
+    <inspectorTabs>
+      <li>ITab_Shells</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="Helodrace.CompProperties_SwitchbladeLauncher" />
+      <li Class="CompProperties_Forbiddable"/>
+    </comps>
+  </ThingDef>
+
+</Defs>

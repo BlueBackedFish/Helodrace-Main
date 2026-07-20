@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_FLAM.label>FLAM</HD_FLAM.label>
+  <HD_FLAM.description>수상할 정도로 오래 보존되는 통조림 고기 덩어리입니다. 짭짤하고 든든하며, 터무니없는 양을 비축하기에도 충분히 작습니다.</HD_FLAM.description>
+
+  <HD_Hardtack.label>건빵</HD_Hardtack.label>
+  <HD_Hardtack.description>보존 처리한 채식 재료를 단단하고 건조하게 구운 야전 식량입니다. 쉽게 상하지 않고 한꺼번에 조리할 수 있으며, 급한 상황에서는 투척 무기로도 쓸 수 있습니다.</HD_Hardtack.description>
+  <HD_Hardtack_Proj.label>건빵</HD_Hardtack_Proj.label>
+
+  <HD_Apparel_GreatWarMedibag.label>메딕 가방</HD_Apparel_GreatWarMedibag.label>
+  <HD_Apparel_GreatWarMedibag.description>간단한 생약과 붕대류를 구성품으로 갖는 가장 기본적인 어깨걸이 치료가방입니다.</HD_Apparel_GreatWarMedibag.description>
+
+  <HD_Apparel_GreatWarGasMaskPouch.label>가스마스크 파우치</HD_Apparel_GreatWarGasMaskPouch.label>
+  <HD_Apparel_GreatWarGasMaskPouch.description>밀봉된 여분 필터와 방독 천을 넣어 허리에 차는 작은 파우치입니다. 착용 중 독성 환경 저항력을 100%까지 높이지만, 무게와 끈 때문에 이동, 작업, 사격, 근접 전투 능력이 낮아집니다.</HD_Apparel_GreatWarGasMaskPouch.description>
+
+  <HD_Apparel_GreatWarCBRNPouch.label>화생방보호의 파우치</HD_Apparel_GreatWarCBRNPouch.label>
+  <HD_Apparel_GreatWarCBRNPouch.description>밀봉 필터, 차단 천, 응급 화학 방호 물품을 넣어 보강한 가스마스크 파우치입니다. 착용 중 독성 환경 저항력을 100%까지 높이고 스위트 가스 노출을 막지만, 부피 때문에 이동, 작업, 사격, 근접 전투 능력이 크게 낮아집니다.</HD_Apparel_GreatWarCBRNPouch.description>
+
+  <HD_Apparel_M6RocketBag.label>M6 로켓 가방</HD_Apparel_M6RocketBag.label>
+  <HD_Apparel_M6RocketBag.description>M6A3 HEAT 로켓을 나르는 임시 로켓 운반 가방입니다. 착용자는 가방에 로켓을 넣고 M9A1 무반동포 사수의 재장전을 도울 수 있습니다.</HD_Apparel_M6RocketBag.description>
+
+  <HD_Apparel_GreatWarTrenchArmyInner.label>대참호 군복 내피</HD_Apparel_GreatWarTrenchArmyInner.label>
+  <HD_Apparel_GreatWarTrenchArmyInner.description>헤로드 체형에 맞춰 재단한 참호전 병사용 내피 군복입니다. 방어구나 두꺼운 야전 장구 아래에 입는 내의입니다.</HD_Apparel_GreatWarTrenchArmyInner.description>
+
+  <HD_Apparel_GreatWarTrenchArmyOuter.label>대참호 군복 외피</HD_Apparel_GreatWarTrenchArmyOuter.label>
+  <HD_Apparel_GreatWarTrenchArmyOuter.description>헤로드 체형에 맞춰 재단한 참호전 병사용 보강 외피입니다. 내의 위에 방어구처럼 걸쳐 입는 야전 장구입니다.</HD_Apparel_GreatWarTrenchArmyOuter.description>
+
+  <HD_Apparel_GreatWarStormFrontInner.label>폭풍 전선 군복 내피</HD_Apparel_GreatWarStormFrontInner.label>
+  <HD_Apparel_GreatWarStormFrontInner.description>헤로드 체형에 맞춰 재단한 폭풍 전선 병사용 내피 군복입니다. 방어구나 두꺼운 야전 장구 아래에 입는 내의입니다.</HD_Apparel_GreatWarStormFrontInner.description>
+
+  <HD_Apparel_GreatWarStormFrontOuter.label>폭풍 전선 군복 외피</HD_Apparel_GreatWarStormFrontOuter.label>
+  <HD_Apparel_GreatWarStormFrontOuter.description>헤로드 체형에 맞춰 재단한 폭풍 전선 병사용 보강 외피입니다. 군복 내피 위, 두꺼운 방어구와 야전 장구 아래의 중간층에 입습니다.</HD_Apparel_GreatWarStormFrontOuter.description>
+
+  <HD_37mmShell_HE.label>37mm 고폭탄</HD_37mmShell_HE.label>
+  <HD_37mmShell_HE.description>M1916 37mm 포용 소형 고폭탄입니다. 보병, 경엄폐물, 노출된 야전 진지를 직접 사격하기 위해 제작되었습니다.</HD_37mmShell_HE.description>
+  <HD_37mmShell_AP.label>37mm 철갑탄</HD_37mmShell_AP.label>
+  <HD_37mmShell_AP.description>M1916 37mm 포용 단단한 철갑탄입니다. 폭발 범위를 포기하는 대신 장갑과 단단한 목표를 관통하도록 제작되었습니다.</HD_37mmShell_AP.description>
+  <HD_Rocket_M6A3HEAT.label>M6A3 HEAT 로켓</HD_Rocket_M6A3HEAT.label>
+  <HD_Rocket_M6A3HEAT.description>M9A1 무반동포용 성형작약 로켓입니다. 발사 전에 장전해야 하며, 발사 시 소모됩니다.</HD_Rocket_M6A3HEAT.description>
+  <HD_Rocket_M10WP.label>M10 WP 로켓</HD_Rocket_M10WP.label>
+  <HD_Rocket_M10WP.description>M9A1 무반동포용 백린 로켓입니다. 약한 폭발과 함께 짙은 연막을 만들고 착탄 지점 주변에 불을 흩뿌립니다.</HD_Rocket_M10WP.description>
+
+  <HD_81mmMortarShell_M43HE.label>M43 81mm 고폭탄</HD_81mmMortarShell_M43HE.label>
+  <HD_81mmMortarShell_M43HE.description>M1 81mm 박격포용 안정익식 고폭탄입니다. 더 큰 폭약 장약으로 밀집한 보병, 야전 진지, 경량 구조물을 제압하는 데 적합합니다.</HD_81mmMortarShell_M43HE.description>
+  <HD_81mmMortarShell_M57WP.label>M57 81mm 백린연막탄</HD_81mmMortarShell_M57WP.label>
+  <HD_81mmMortarShell_M57WP.description>M1 81mm 박격포용 백린연막탄입니다. 넓은 연막을 만들고 착탄 지점 주변에 불타는 백린을 흩뿌립니다.</HD_81mmMortarShell_M57WP.description>
+  <HD_81mmMortarShell_BA.label>M57 81mm BA 화학탄</HD_81mmMortarShell_BA.label>
+  <HD_81mmMortarShell_BA.description>M1 81mm 박격포용 화학탄입니다. 소형 작약이 터지며 착탄 지점에 고농도 스위트 가스를 살포합니다.</HD_81mmMortarShell_BA.description>
+  <HD_Apparel_M1MortarBarrel.label>M1 박격포 포신</HD_Apparel_M1MortarBarrel.label>
+  <HD_Apparel_M1MortarBarrel.description>운반용 멜빵을 단 M1 81mm 박격포의 포신과 포미 조립체입니다. 박격포를 운반할 때 세 부분으로 분해하여 나누어 드는 무거운 장비 중 하나입니다.</HD_Apparel_M1MortarBarrel.description>
+  <HD_Apparel_M1MortarBaseplate.label>M1 박격포 포판</HD_Apparel_M1MortarBaseplate.label>
+  <HD_Apparel_M1MortarBaseplate.description>등에 질 수 있도록 꾸린 M1 81mm 박격포의 강철 포판입니다. 박격포를 설치하면 발사 반동을 지면으로 분산합니다.</HD_Apparel_M1MortarBaseplate.description>
+  <HD_Apparel_M1MortarMount.label>M1 박격포 포다리</HD_Apparel_M1MortarMount.label>
+  <HD_Apparel_M1MortarMount.description>운반용으로 묶은 M1 81mm 박격포의 포다리와 고저·방향 조절 장치입니다. 설치한 포신을 지지하고 조준하는 데 사용합니다.</HD_Apparel_M1MortarMount.description>
+
+</LanguageData>

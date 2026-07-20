@@ -3,20 +3,6 @@
 
   <!-- Starting research for HD_HelodPlayerColony. -->
   <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="Stonecutting"]/tags</xpath>
-    <value>
-      <li>HD_HelodWildWestScenarioStart</li>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="PassiveCooler"]/tags</xpath>
-    <value>
-      <li>HD_HelodWildWestScenarioStart</li>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ResearchProjectDef[defName="ComplexFurniture"]/tags</xpath>
     <value>
       <li>HD_HelodWildWestScenarioStart</li>
@@ -40,13 +26,6 @@
   </Operation>
 
   <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="Pemmican"]/tags</xpath>
-    <value>
-      <li>HD_HelodWildWestScenarioStart</li>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ResearchProjectDef[defName="HelodFrontierSpirit"]</xpath>
     <value>
       <tags>
@@ -66,105 +45,6 @@
 
   <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ResearchProjectDef[defName="HelodExperimentalAnalysis"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodIronMaking"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodSteamEngine"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodBasicMachineTool"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodLineShaft"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodIngredientExtraction"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodMetalCuttingMachine"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodMetalFormingMachine"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodBreechLoadingGun"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodLeverAction"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodSmokeLessGunpowder"]</xpath>
-    <value>
-      <tags>
-        <li>HD_HelodWildWestScenarioStart</li>
-      </tags>
-    </value>
-  </Operation>
-
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ResearchProjectDef[defName="HelodBoltAction"]</xpath>
     <value>
       <tags>
         <li>HD_HelodWildWestScenarioStart</li>

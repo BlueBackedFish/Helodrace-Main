@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Helod race - Blanca's Drugs</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[starts-with(defName, "BD_") and not(thoughtClass)]</xpath>
+          <value>
+            <thoughtClass>Helodrace.Thought_Situational_HelodPersonalityDescription</thoughtClass>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_AmphetaminesWithdrawal"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>The hollow crash after amphetamines makes me furious. I will drag this useless body upright by force if I have to.</li>
+                  <li>The emptiness is brutal, but I know what this is. Survive the crash, keep moving, and do not let it decide the day.</li>
+                  <li>My strength is gone, and that insult burns worse than the need. I focus on beating the weakness back one breath at a time.</li>
+                  <li>Everything irritates me because my nerves are starving. I want one more dose, but I hate needing anything this badly.</li>
+                  <li>I feel small and wrung out. I keep quiet so nobody sees how much I want to beg for another stimulant.</li>
+                  <li>The world has gone gray at the edges. I wait it out, because panicking would only make the hunger louder.</li>
+                  <li>I am crashing hard, but the others still need me present. I hold onto that duty until my head stops sinking.</li>
+                  <li>I want to lean on someone and hate admitting it. The craving is easier to endure when I remember I am not alone.</li>
+                  <li>This withdrawal is a debt I have to pay. I will stay useful, even if every thought feels like it is wading through mud.</li>
+                  <li>The need is mine to master. I will not let a chemical make me crawl just because my body is empty.</li>
+                  <li>I keep my face still and my hands busy. Nobody needs to know how badly the amphetamine hunger is chewing through me.</li>
+                  <li>I hate the weakness, but I hate burdening the group more. I swallow the craving and try to be worth standing beside.</li>
+                  <li>The crash drags old panic into the room. I turn the fear into anger and use that anger to keep breathing.</li>
+                  <li>This hollow feeling reminds me of days when survival was only obedience. I go quiet and wait for the shaking to pass.</li>
+                  <li>The craving makes everyone around me look exhausted too. I need to stay steady enough that nobody follows me down.</li>
+                  <li>The withdrawal pulls me far behind my own eyes. I let the distance protect me until the need loosens its grip.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_CocaineWithdrawal"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>The bright edge is gone, and everything dulls into insult. I want that sharp rush back, and I hate the wanting.</li>
+                  <li>This flat misery is only the bill coming due. I can pay it, endure it, and keep my head from chasing another drink.</li>
+                  <li>My nerves keep reaching for speed that is not there. I clench down on the craving and refuse to look weak.</li>
+                  <li>Every sound scrapes. The cocaine hunger makes me cruel inside, so I force my mouth shut before it spills out.</li>
+                  <li>The world feels empty and too quiet. I wish someone would distract me before the craving becomes all I can hear.</li>
+                  <li>I cannot trust my mood right now. I stay still, count time, and let the false urgency burn itself down.</li>
+                  <li>The craving wants to make me selfish. I keep thinking of the others so I remember why one more rush is not worth it.</li>
+                  <li>I feel exposed without the brightness. Being near the group helps keep the hollow place from swallowing me.</li>
+                  <li>This is what indulgence costs. I will carry the cost myself and not make it everyone else's problem.</li>
+                  <li>The drug had its turn. Now I take my body back, even if every nerve complains about the silence.</li>
+                  <li>I miss the rush with an ugly hunger. I keep that confession buried where nobody can use it against me.</li>
+                  <li>If I lose control, the people beside me pay for it. I grip the craving hard enough to keep it from touching them.</li>
+                  <li>The crash flashes like incoming fire, too quiet after too much noise. I make myself angry enough to stay awake.</li>
+                  <li>The emptiness feels practiced, familiar, almost old. I retreat into routine until the craving stops speaking my name.</li>
+                  <li>Everyone looks fragile while my nerves crawl. I need to stay kind, because withdrawal makes cruelty too easy.</li>
+                  <li>The craving turns the room distant and unreal. I let myself become colder than the need until it passes.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_ZDrugsWithdrawal"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>I am exhausted and still cannot sleep. The contradiction makes me want to tear the dark apart with my teeth.</li>
+                  <li>The sleeplessness is ugly, but it is not stronger than me. I can outlast a night, then another, if I must.</li>
+                  <li>My body begs for rest while my mind refuses orders. I focus on discipline because comfort has betrayed me.</li>
+                  <li>Every shadow feels like mockery. I need that pill, and the need makes me furious enough to stay awake anyway.</li>
+                  <li>I am so tired I could cry. I just want someone nearby so the dark stops feeling like it is laughing at me.</li>
+                  <li>Sleep will not come, so I stop chasing it. I lie still and let the strange thoughts drift past without grabbing them.</li>
+                  <li>If I cannot sleep, I can at least keep watch. Turning this misery into usefulness makes it easier to bear.</li>
+                  <li>The night feels less hostile when I know others are close. I hold onto that warmth while my brain refuses rest.</li>
+                  <li>I will not make my sleeplessness everyone else's burden. I keep quiet and do what small tasks I can.</li>
+                  <li>The pill does not own my nights. I will stare down this darkness until my body remembers how to rest alone.</li>
+                  <li>I hide how badly I want the sedative. Pride is thin protection, but tonight it is what I have.</li>
+                  <li>I need to sleep so I can be useful tomorrow. That thought hurts more than the tiredness itself.</li>
+                  <li>The shapes in the dark pull old fear awake. I bite down on the panic and turn it into vigilance.</li>
+                  <li>This sleepless fog feels like punishment from some older place. I go silent and wait for morning like an order.</li>
+                  <li>I worry that others may be as tired as I am. If I can keep myself together, maybe they can rest.</li>
+                  <li>The night separates me from myself. I float behind my eyes until the walls stop breathing.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_BenzodiazepinesWithdrawal"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>My body is shaking like it wants to mutiny. I want the calming pill, but I refuse to be ruled by trembling.</li>
+                  <li>The terror is chemical, not prophecy. I repeat that until my breathing remembers how to obey.</li>
+                  <li>Fear floods my chest, and I turn it into vigilance. If my nerves will not calm down, they can at least stay useful.</li>
+                  <li>Every tiny sound jabs straight into my skull. I am angry at the pill, at myself, at the whole shaking world.</li>
+                  <li>I am scared in a way that feels embarrassing. I wish someone would speak softly until my heart stops racing.</li>
+                  <li>The panic keeps rising, but I do not have to rise with it. I sit still and let the waves pass over me.</li>
+                  <li>I cannot let my fear infect the others. I steady my voice first, then my hands, then whatever is left.</li>
+                  <li>Being alone makes the tremors worse. I stay near familiar people and borrow their calm without saying so.</li>
+                  <li>This withdrawal is dangerous if I let it spread. I keep myself contained, one careful movement at a time.</li>
+                  <li>The sedative can scream all it wants from memory. My fear is mine, and I will decide what it means.</li>
+                  <li>I do not want anyone seeing me this frightened. I hide the shaking where sleeves and silence can cover it.</li>
+                  <li>If I fall apart, someone else has to carry me. That thought is enough to make me sit up straighter.</li>
+                  <li>The panic feels older than the drug. I bare my teeth at it and make terror work as armor.</li>
+                  <li>The trembling drags me back to helplessness. I go quiet, small, and distant until the room becomes safe again.</li>
+                  <li>Fear makes me scan every face for damage. I need to stay gentle, because everyone looks breakable right now.</li>
+                  <li>The withdrawal folds the world into muffled distance. I step back inside myself until the terror loses interest.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_RestorilHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Restoril is dragging me down hard, and I resent the weight. If I must be subdued, I will at least stay aware.</li>
+                  <li>The sedation is heavy, but it has a purpose. I let it cover the worst noise and save my strength.</li>
+                  <li>My limbs are slow, yet my will is not. I hold onto the last clear edge of myself like a weapon.</li>
+                  <li>This fog makes everything dull and irritating. I hate being softened this much, even if the quiet feels useful.</li>
+                  <li>The calm is almost frightening in its depth. I want to trust it, but I keep checking that I am still here.</li>
+                  <li>Restoril lays a blanket over my thoughts. I settle beneath it carefully and stop fighting every sensation.</li>
+                  <li>If this helps me recover, then I can accept the heaviness. Rest is also a duty when people rely on me.</li>
+                  <li>The fog is easier beside familiar voices. Their nearness keeps the sedation from feeling like disappearance.</li>
+                  <li>I am dulled, but not useless. I conserve myself so I can return steadier than I was.</li>
+                  <li>No drug gets to decide what I am. Restoril can slow my body, but it cannot claim my judgment.</li>
+                  <li>I keep the pleasure of quiet to myself. Needing this much calm feels like a private weakness.</li>
+                  <li>The sedation makes me less sharp, and that worries me. I need to recover without failing the people nearby.</li>
+                  <li>The heavy calm presses old fear flat. I turn the silence into a bunker and hold position inside it.</li>
+                  <li>The fog feels like being ordered not to feel. I obey for now, distant and still, because resistance costs too much.</li>
+                  <li>Restoril quiets me enough to notice everyone else's strain. I hope this calm leaves me useful to them later.</li>
+                  <li>The drug lowers a curtain between me and the room. I let myself vanish behind it until my nerves cool.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_SonataHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Sonata hits fast, and I hate how quickly it gets its hands on my mind. I push back before the room tilts away.</li>
+                  <li>The brief fog is manageable. I can use the short calm, then return before anything important slips.</li>
+                  <li>Sleep pulls at me like a challenge. I decide when I drop, not the little pill dissolving in my blood.</li>
+                  <li>This sudden softness makes me irritable. I did not ask my thoughts to become wet paper.</li>
+                  <li>The drowsiness comes too quickly, and that scares me. I look for a familiar face before I let my guard fall.</li>
+                  <li>Sonata is a short tide. I stop resisting every wave and let it carry me only as far as it must.</li>
+                  <li>If a quick rest keeps me useful, I can accept it. I trust the others to hold the line for a little while.</li>
+                  <li>I drift easier when I know someone is nearby. The fast sedation feels less like falling when there is company.</li>
+                  <li>This is only a brief interruption. I will rest, wake, and return to my part without making trouble.</li>
+                  <li>The pill may be quick, but I am quicker. I set my mind in order before the sleep can steal it.</li>
+                  <li>I do not want anyone to see how relieved I am. A small escape from consciousness should not feel this precious.</li>
+                  <li>I need this rest so I can protect my place in the group. That makes surrendering to it a little easier.</li>
+                  <li>The sudden sleepiness opens an old trapdoor of fear. I turn the panic into a final check of the room.</li>
+                  <li>Sonata makes the world dim like lights under command. I go obediently distant and wait for waking.</li>
+                  <li>I hope nobody else has to fight sleep this hard. If I wake first, I will watch over them.</li>
+                  <li>The drug pulls a soft line between me and myself. I step over it quietly and let the room fade.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_AmbienHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Ambien makes the world loose at the corners, and I do not like it. I force my thoughts to march in straight lines.</li>
+                  <li>The strange warmth is useful if I do not chase it too far. I let the pill soften me, not steer me.</li>
+                  <li>My body is light and my pride hates it. I hold myself together through sheer stubbornness.</li>
+                  <li>This floating calm feels suspicious. I am comfortable, irritated, and annoyed that both can be true.</li>
+                  <li>Ambien makes everything gentle enough to worry me. I want someone close before I trust this softness.</li>
+                  <li>The haze is odd, but not hostile. I let it blur the sharp edges and keep my breathing slow.</li>
+                  <li>If this calm helps me sleep, then it helps everyone. I can accept comfort when it serves the group.</li>
+                  <li>The warmth spreads easier when I am not alone. Familiar voices keep the dreamlike edges from becoming frightening.</li>
+                  <li>I will not wander through this haze uselessly. I settle down before the pill can make me careless.</li>
+                  <li>Ambien can loosen my body, not my control. I decide where I rest and when I stop.</li>
+                  <li>I hide how pleasant the drifting feels. It seems dangerous to enjoy being this unguarded.</li>
+                  <li>The calm is a relief, but I still worry about being needed. I hope I wake ready to help.</li>
+                  <li>The dreamy warmth catches on old fear of losing control. I snarl inwardly and anchor myself to the present.</li>
+                  <li>The haze feels like a room I have been locked in before. I go quiet and wait for the key of morning.</li>
+                  <li>Ambien softens me enough to notice how tense everyone is. I want this rest to make me kinder later.</li>
+                  <li>The pill turns distance into comfort. I let myself drift where nothing can reach too deeply.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_BenzedrineHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Benzedrine gives me speed, then threatens to collect it back with interest. I will spend the strength before it turns on me.</li>
+                  <li>The lift is real, and so is the coming crash. I use the clear hours carefully and save enough discipline for afterward.</li>
+                  <li>My body feels ready to work, fight, and prove itself. I push forward before doubt can catch up.</li>
+                  <li>The stimulant sharpens every irritation into a blade. Useful, maybe, but I need to keep the blade pointed outward.</li>
+                  <li>The energy feels good enough to make me nervous. I keep checking whether I am acting too strange.</li>
+                  <li>Benzedrine brightens the room without asking permission. I breathe through the rush and let it settle into focus.</li>
+                  <li>If this keeps me awake for the others, good. I can carry the extra speed for everyone who is tired.</li>
+                  <li>The rush makes me want to talk, move, share it. Being around others keeps it from becoming lonely mania.</li>
+                  <li>This energy is a tool, not a holiday. I put it to work before it rots into restlessness.</li>
+                  <li>The drug can lend me speed, but the direction is mine. I refuse to become a passenger in my own body.</li>
+                  <li>I like the confidence too much, so I keep that private. Nobody needs to see me enjoying the borrowed fire.</li>
+                  <li>The rush helps, but the crash may hurt the group later. I pace myself for their sake.</li>
+                  <li>The speed wakes old battlefield instincts. I seize them, sharpen them, and keep them pointed at survival.</li>
+                  <li>Benzedrine turns me into a quiet machine. I let the rhythm carry me so I do not have to feel the cost.</li>
+                  <li>The extra energy makes everyone's fatigue look dangerous. I need to cover gaps before someone breaks.</li>
+                  <li>The stimulant puts glass between me and the room. Everything is bright, distant, and strangely manageable.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_DesoxynHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Desoxyn makes my blood feel like a command. I want to break through everything in front of me before the crash comes due.</li>
+                  <li>This is dangerous power, not comfort. I ration the invincible feeling before it burns a hole through my judgment.</li>
+                  <li>My mind is a hard white line. Nothing can stop me right now, and I have to make that useful before it becomes stupid.</li>
+                  <li>The strength is almost too much. Every obstacle feels like an insult that deserves to be smashed.</li>
+                  <li>I feel unstoppable, and that is what scares me. I need someone near enough to tell me if I go too far.</li>
+                  <li>The rush is enormous, so I make myself narrow. One task, one breath, one controlled movement at a time.</li>
+                  <li>If I can do more than usual, then I owe that effort to the group. I will not waste this dangerous gift.</li>
+                  <li>The force in my body wants company, witness, direction. The others keep me from becoming only speed and appetite.</li>
+                  <li>Desoxyn is a debt with teeth. I spend it on work that matters and prepare for the bite afterward.</li>
+                  <li>I am not invincible just because I feel invincible. I repeat that until pride stops lying to me.</li>
+                  <li>I love the clarity and hate myself for loving it. I keep that pleasure sealed behind a steady face.</li>
+                  <li>The power could help everyone or endanger everyone. I choose help, over and over, before the drug chooses for me.</li>
+                  <li>The surge wakes an old order to advance at any cost. I turn the command into fury and keep my feet under me.</li>
+                  <li>Desoxyn makes me efficient enough to disappear. I become procedure, motion, and silence until the rush fades.</li>
+                  <li>Everyone else seems slow and fragile. I need patience, because this strength is not permission to leave them behind.</li>
+                  <li>The drug makes me vast and distant from pain. I stand behind that distance and let the body do what it must.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_CocaineColaHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>The cola rush snaps everything bright, and I want to move before it goes stale. This sweet little lightning is mine to spend.</li>
+                  <li>The drink is pleasant, but the cocaine edge deserves respect. I enjoy the lift while keeping one hand on the reins.</li>
+                  <li>My mood jumps upward like a spark. I turn the brightness into action before it becomes showing off.</li>
+                  <li>The sweetness makes the sharpness almost more irritating. I feel cheerful, wired, and ready to argue with the air.</li>
+                  <li>The rush is fun enough to make me uneasy. I hope nobody notices how badly I want another bottle already.</li>
+                  <li>The bubbles and brightness pass through me quickly. I let the moment be light without chasing it too hard.</li>
+                  <li>If a small cheer helps morale, then good. I can share the brightness instead of hoarding it.</li>
+                  <li>This kind of lift feels better around others. It turns conversation warmer and the room less heavy.</li>
+                  <li>A little pleasure is fine if it keeps me useful. I enjoy it, then get back to work.</li>
+                  <li>The drink can lift my mood, not own it. I decide what the extra spark is for.</li>
+                  <li>I hide how much I enjoy the quick shine. A harmless drink should not make me feel this hungry for more.</li>
+                  <li>The brighter mood makes me want to help before it fades. I should use this while I can.</li>
+                  <li>The sudden spark wakes old alarm beneath the sweetness. I grin through it and make the fear move my feet.</li>
+                  <li>The rush feels like forced celebration. I go distant behind the smile and wait for the brightness to drain away.</li>
+                  <li>The drink makes everyone seem easier to reach. I should check on someone while my courage is up.</li>
+                  <li>The fizz carries me a step away from myself. From there, even the craving looks small and far off.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_ColaHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>The cold cola snaps me awake in the simplest way. Good. Even small comforts should have some bite.</li>
+                  <li>Sweetness, bubbles, a little caffeine. It is not much, but morale is built from small reliable things.</li>
+                  <li>The drink clears my mouth and lifts my chest. I feel ready to prove that a small boost can still matter.</li>
+                  <li>It is only cola, but the pleasant fizz annoys me by working. Fine, I feel better. That does not mean I have to be graceful about it.</li>
+                  <li>The sweetness makes me smile before I can stop it. I hope nobody teases me for enjoying something so ordinary.</li>
+                  <li>The refreshment is clean and simple. I let myself enjoy it without turning it into a problem.</li>
+                  <li>A shared drink can do more for people than it seems. I feel a little warmer toward everyone after this.</li>
+                  <li>Cola tastes better when others are nearby. The small happiness feels bigger when it has somewhere to go.</li>
+                  <li>This is a modest comfort, and modest comforts keep people functional. I will take the lift and continue.</li>
+                  <li>I do not need much to recover my footing. A cold drink, a clear head, and my own decisions are enough.</li>
+                  <li>I enjoy the sweetness privately. It is nice to want something harmless for once.</li>
+                  <li>The little lift makes me want to be easier to work with. Maybe that is useful too.</li>
+                  <li>The caffeine pricks old alertness awake. I let it sharpen me without letting it turn into fear.</li>
+                  <li>The fizz feels distant, like happiness observed through glass. I accept it quietly anyway.</li>
+                  <li>The simple pleasure reminds me that people need small kindnesses. I should remember to offer them more often.</li>
+                  <li>The drink gives me a soft place to stand outside myself. For a moment, that is enough.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_OpioidsWithdrawal"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>The pain is everywhere, and I want to bite through the world to make it stop. One pill would end this, which is exactly why I hate it.</li>
+                  <li>Opioid hunger is cruel, but it is still hunger. I can name it, endure it, and refuse to let it become a command.</li>
+                  <li>My bones feel full of fire. I grip the pain like proof that I am still strong enough to resist.</li>
+                  <li>Every ache makes me vicious. I want relief, and the wanting makes me angrier than the pain.</li>
+                  <li>I am hurting so much it scares me. I wish someone would stay close and remind me this will pass.</li>
+                  <li>The agony rises and falls in waves. I stop arguing with each wave and save strength for the next one.</li>
+                  <li>If I give in recklessly, the others may have to carry the consequences. I hold the line for them as much as myself.</li>
+                  <li>Pain isolates me, but company thins the walls. I need to hear other voices more than I want to admit.</li>
+                  <li>This withdrawal is a crisis, not an excuse. I keep my suffering from becoming everyone else's emergency.</li>
+                  <li>The drug promised mercy and now demands obedience. I choose pain over being owned.</li>
+                  <li>I hide the worst of it because desperation is ugly. The craving can gnaw where nobody sees.</li>
+                  <li>I need help, but I do not want to become helpless. That tension hurts almost as much as my body.</li>
+                  <li>The pain opens old doors of terror. I turn the fear into rage and brace against the next wave.</li>
+                  <li>The withdrawal feels like punishment administered by memory. I go quiet, obedient to survival, and wait.</li>
+                  <li>Pain makes everyone seem far away and precious. I need to avoid lashing out at the people who might save me.</li>
+                  <li>The agony pushes me out of my own body. I watch it from a cold distance until the worst edge dulls.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_KetamineWithdrawal"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>The world is twisted and wrong without the numbness. I want my body back, even if I have to drag it through fear.</li>
+                  <li>The dissociation is frightening, but I can map it. Hands, feet, breath, floor. Reality returns by landmarks.</li>
+                  <li>My body feels distant, and that makes me want to conquer the distance. I anchor myself with stubborn force.</li>
+                  <li>Everything is warped enough to make me angry. I hate needing a cold chemical just to feel real.</li>
+                  <li>I cannot tell where I end, and that terrifies me. I need someone familiar to make the room feel attached to me again.</li>
+                  <li>The unreality comes in pulses. I let each one pass and keep naming the things I can still trust.</li>
+                  <li>If I lose my grip, I may frighten the others. I focus on staying present enough to be safe around them.</li>
+                  <li>Reality is easier to hold when someone answers back. I stay near people so the world has voices in it.</li>
+                  <li>This is disorientation, not truth. I keep my actions simple until my senses stop lying.</li>
+                  <li>Ketamine can steal the feeling of my body, but not my claim to it. I take it back piece by piece.</li>
+                  <li>I do not want anyone seeing how unreal everything feels. I act normal and hope the mask teaches the body.</li>
+                  <li>I need grounding before I can help anyone. That frustrates me, but pretending would be worse.</li>
+                  <li>The warped room wakes old helplessness. I turn panic into a hard focus on the nearest solid object.</li>
+                  <li>The distance feels familiar, almost trained. I become quiet observation until my self returns.</li>
+                  <li>Everyone looks too far away. I need to reach back toward them before the separation becomes comfortable.</li>
+                  <li>The withdrawal leaves me watching from outside the glass. I wait there, cold and patient, for the body to open.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_MorphineHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Morphine dulls the pain, and I resent how grateful I am. Relief should not feel this much like surrender.</li>
+                  <li>The pain is distant now, which means I can think. I will use the quiet carefully and not mistake it for invulnerability.</li>
+                  <li>My body is foggy, but the relief gives me room to act. I can still be strong through the haze.</li>
+                  <li>The calm is pleasant enough to irritate me. I hate that a drug can make pain seem negotiable.</li>
+                  <li>The relief makes me soft and scared of losing it. I want someone nearby before the ache remembers me.</li>
+                  <li>Morphine turns the pain down to a murmur. I let myself rest in that lower volume without chasing deeper silence.</li>
+                  <li>If I recover faster, I can return to the others. That makes accepting the fog easier.</li>
+                  <li>The warmth feels safer when I am not alone. Familiar company keeps the relief from becoming lonely drifting.</li>
+                  <li>This is treatment, not escape. I let the medicine do its work and keep myself ready for what comes next.</li>
+                  <li>The pain is quiet, but I am still in charge. Morphine does not get to redraw my limits without permission.</li>
+                  <li>I keep the relief private because it feels too good. Nobody needs to know how much I needed this mercy.</li>
+                  <li>The fog slows me, and that may make me less useful. I need to heal without disappearing from the group.</li>
+                  <li>The pain's retreat leaves old fear exposed. I harden around it before the warmth makes me careless.</li>
+                  <li>The morphine haze feels like being wrapped and stored away. I accept the stillness because fighting hurts worse.</li>
+                  <li>The quiet makes me notice other people's pain more clearly. I hope they get relief before they break.</li>
+                  <li>The drug floats me just outside the hurt. I stay there, distant and grateful despite myself.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_LaudanumHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Laudanum spreads warm and bitter, and I fight the softness on principle. Comfort should not get this close to command.</li>
+                  <li>The draught is old-fashioned mercy, and mercy is useful. I let it quiet the pain without giving it my judgment.</li>
+                  <li>The warmth makes my body slow, but not my resolve. I carry myself through the haze with deliberate pride.</li>
+                  <li>The bitter calm annoys me because it works. I feel soothed, and that feels like losing an argument.</li>
+                  <li>The laudanum makes everything gentle and sad. I want someone near enough that the gentleness does not turn lonely.</li>
+                  <li>The draught settles over me like dusk. I let the pain recede and stop demanding perfect clarity.</li>
+                  <li>If this keeps me from snapping under pain, it helps everyone. I can accept a quiet hour for their sake too.</li>
+                  <li>The warmth is better shared in silence. Just knowing others are near keeps the haze kind.</li>
+                  <li>This is a controlled retreat from pain. I will rest, recover, and return when the body is ready.</li>
+                  <li>Laudanum can sweeten the cage, but I still know where the door is. I stay aware beneath the comfort.</li>
+                  <li>I do not want anyone seeing how much I welcome the numbness. Need feels indecent when it tastes this warm.</li>
+                  <li>The comfort helps, but I worry about becoming slow when others need speed. I will repay the rest later.</li>
+                  <li>The warmth smothers fear without killing it. I keep a spark of anger alive so I do not sink too far.</li>
+                  <li>The haze feels like an old blanket thrown over orders and pain. I go quiet beneath it and preserve what remains.</li>
+                  <li>The eased pain makes me softer toward everyone else's suffering. I should remember this mercy when they falter.</li>
+                  <li>The drug makes the world amber and distant. I let myself watch from there until the ache forgets my name.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_FentanylHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Fentanyl erases pain so completely that it feels like a threat. I do not trust any mercy this absolute.</li>
+                  <li>The absence of pain is powerful medicine and dangerous illusion. I move carefully inside the relief.</li>
+                  <li>Nothing hurts, and that makes me feel enormous. I must remember that damage can still exist without pain reporting it.</li>
+                  <li>The bliss is too clean. I am irritated by how easily my body can be convinced to forgive the world.</li>
+                  <li>The relief is so deep it frightens me. I need someone to help me remember what is real and what is only numb.</li>
+                  <li>Fentanyl lowers the pain to nothing. I slow down, because nothing is exactly when caution matters most.</li>
+                  <li>If this lets me survive injury, then I owe survival to the people beside me. I will not waste it on recklessness.</li>
+                  <li>The numb warmth feels safer with witnesses. Other people help keep me from drifting too far into it.</li>
+                  <li>No pain does not mean no consequence. I treat my body like something fragile even when it feels weightless.</li>
+                  <li>The drug may silence pain, but it cannot silence my judgment. I remain the one giving orders.</li>
+                  <li>I hide how heavenly the absence feels. Wanting it again would be too easy.</li>
+                  <li>The relief makes me useful now and vulnerable later. I need to remember both truths for the group's sake.</li>
+                  <li>The vanished pain leaves fear ringing in the empty space. I turn that fear into strict control.</li>
+                  <li>The numbness feels like being removed from the battlefield after the fact. I go distant and let the body be carried by chemistry.</li>
+                  <li>If pain can disappear this completely, everyone else's suffering seems even crueler. I should watch for who needs help next.</li>
+                  <li>Fentanyl puts me outside the body like a quiet observer. I stay there carefully, because returning may hurt.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_KetamineHighThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>Ketamine splits me away from the body, and I hate the surrender. I keep one hard thread tied to the room.</li>
+                  <li>The distance from pain is useful if I respect it. I observe the separation without mistaking it for freedom.</li>
+                  <li>I am outside myself, but still in command. The body may feel remote, yet I can still make it obey.</li>
+                  <li>This floating detachment makes me angry in a quiet way. I do not like being made into a spectator.</li>
+                  <li>I feel far away from my own hands. I need a voice nearby to keep me from drifting into the ceiling.</li>
+                  <li>The dissociation is strange, but it has edges. I trace those edges calmly until I know where I am.</li>
+                  <li>If being distant from pain lets me survive, then I can bear the strangeness. I will return useful.</li>
+                  <li>The room stays real when people speak in it. I hold onto their voices like rope.</li>
+                  <li>This is anesthesia, not enlightenment. I keep my choices simple until body and mind reconnect.</li>
+                  <li>Ketamine can move me aside, but not erase me. I wait in the distance and keep ownership of the return.</li>
+                  <li>I hide how peaceful the separation is. It feels dangerous to enjoy being unreachable.</li>
+                  <li>I am less available to others in this state. That worries me, so I focus on coming back cleanly.</li>
+                  <li>The distance wakes old survival numbness. I turn it into a watch post rather than a grave.</li>
+                  <li>The drug makes obedience easy because feeling is far away. I stay silent and let the room pass through me.</li>
+                  <li>From this distance, everyone seems delicate and alone. I want to come back before I forget how to reach them.</li>
+                  <li>Ketamine places me behind glass, safe and absent. I rest there until pain becomes someone else's problem.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThoughtDef[defName="BD_MKultraConditioningThought"]</xpath>
+          <value>
+            <modExtensions>
+              <li Class="Helodrace.ThoughtDefExtension_HelodPersonalityDescriptions">
+                <descriptions>
+                  <li>The conditioning tells me to obey, and I feel rage beneath the command. Something in me is still fighting the numbers.</li>
+                  <li>The implanted loyalty is functional, but the seams show when the static starts. I follow orders while measuring the wrongness.</li>
+                  <li>My thoughts have been rearranged, but not defeated. I will turn this forced purpose into strength before it turns me hollow.</li>
+                  <li>The false duty crawls under my skin. I want to tear the obedience out and throw it at whoever put it there.</li>
+                  <li>I am afraid that the loyal thoughts are not mine. I need someone to tell me there is still a real person underneath.</li>
+                  <li>The static comes, the numbers pass, and I remain. I hold onto that simple fact when identity starts to blur.</li>
+                  <li>If my will has been bent toward these people, then I will protect them by choice where choice still exists.</li>
+                  <li>Belonging feels programmed, but the faces around me are real. I cling to the real ones when the false certainty rises.</li>
+                  <li>This conditioning is damage, not destiny. I will perform my duties while watching for where the manipulation ends.</li>
+                  <li>My mind is occupied territory. I may have to live in it, but I will not call the occupier myself.</li>
+                  <li>I hide the static because I do not know who would fear me. The numbers whisper, and I keep my face obedient.</li>
+                  <li>If I am useful because I was broken, that does not make the breaking right. I need to serve without forgetting the wound.</li>
+                  <li>The commands drag old terror into perfect formation. I turn the fear against the conditioning and keep one rebel thought alive.</li>
+                  <li>The static makes distance feel safer than identity. I retreat behind obedience until I can remember a shape called me.</li>
+                  <li>I worry that others could be rewritten this way. I need to protect them from becoming loyal through damage.</li>
+                  <li>The conditioning pushes me outside myself and leaves a dutiful mask behind. I watch from the dark behind it, waiting.</li>
+                </descriptions>
+              </li>
+            </modExtensions>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+
+</Patch>

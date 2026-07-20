@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>HD_SwitchbladeMunitions</defName>
+    <label>Switchblade munitions</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_ZaperX26</defName>
+    <label>ZAPER X26</label>
+    <description>A compact electroshock sidearm carried as auxiliary equipment. Its dedicated controls fire a paired set of wired probes or deliver a direct contact-electrode strike without replacing the wearer's primary weapon.</description>
+    <graphicData>
+      <texPath>Weapon/ModernWar/HD_TASERX26</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.65,0.65)</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>9000</WorkToMake>
+      <Mass>0.9</Mass>
+      <MarketValue>420</MarketValue>
+      <MaxHitPoints>100</MaxHitPoints>
+      <EquipDelay>0.8</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>Soldier</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <costList>
+      <Steel>20</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>MicroelectronicsBasics</researchPrerequisite>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ZaperX26" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Switchblade600_Round</defName>
+    <label>Switchblade 600 round</label>
+    <description>A sealed Switchblade 600 loitering munition packed with its wings folded for loading into a launch canister.</description>
+    <projectileWhenLoaded>HD_Switchblade600_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_SwitchBlade600_FoldBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>950</MarketValue>
+      <Mass>7.2</Mass>
+      <Flammability>0.55</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_SwitchbladeMunitions</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_MilitaryTablet</defName>
+    <label>military tablet</label>
+    <description>A rugged tactical tablet with sealed controls, a hardened screen, and a compact radio antenna. Worn as command gear, it authorizes operation of Switchblade launchers.</description>
+    <smeltable>false</smeltable>
+    <graphicData>
+      <texPath>Item/HD_MilitaryTablet</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <MarketValue>280</MarketValue>
+      <Mass>1.4</Mass>
+      <Flammability>0.35</Flammability>
+      <EquipDelay>0.8</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <drawData>
+        <defaultData>
+          <layer>110</layer>
+        </defaultData>
+      </drawData>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>Soldier</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <comps>
+      <li Class="Helodrace.CompProperties_SwitchbladeTablet" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_IBTVAssault</defName>
+    <label>IBTV Assault</label>
+    <description>A modern modular body armor system tailored for Helod bodies. Inspired by the assault configuration of the IOTV Gen4, it combines hard armor plates with reinforced neck and shoulder protection.</description>
+    <graphicData>
+      <texPath>Dogos/Appearel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>260</MaxHitPoints>
+      <WorkToMake>12000</WorkToMake>
+      <MarketValue>720</MarketValue>
+      <Mass>9.5</Mass>
+      <ArmorRating_Sharp>1.20</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.50</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.30</ArmorRating_Heat>
+      <Flammability>0.15</Flammability>
+      <EquipDelay>2.5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.12</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_IOTVGen4Assault/HD_IOTVGen4Assault</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_MW_Protective</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>60</Cloth>
+      <Plasteel>40</Plasteel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </costList>
+    <researchPrerequisites>
+      <li>FlakArmor</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_M1952AFlakJacket</defName>
+    <label>M1952A flak jacket</label>
+    <description>A sleeveless fragmentation vest issued for protection against shell and grenade fragments. It is lighter and more flexible than modern plate armor, but offers substantially less protection against direct rifle fire.</description>
+    <graphicData>
+      <texPath>Dogos/Appearel/HD_M1952AFlackJacket/HD_M1952AFlakJacket_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToMake>6500</WorkToMake>
+      <MarketValue>310</MarketValue>
+      <Mass>3.7</Mass>
+      <ArmorRating_Sharp>0.55</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.15</ArmorRating_Heat>
+      <Flammability>0.45</Flammability>
+      <EquipDelay>1.7</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.05</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_M1952AFlackJacket/HD_M1952AFlakJacket</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_MW_Protective</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>65</Cloth>
+      <Steel>25</Steel>
+    </costList>
+    <researchPrerequisites>
+      <li>FlakArmor</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>

@@ -9,3 +9,7 @@ c:\Users\human\Documents\GitHub\Helodrace-Main\Assemblies\Helodrace.pdb
 c:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\Debug\Helodrace.dll
 c:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\Debug\Helodrace.pdb
 c:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\Debug\Helodrace.csproj.Up2Date
+C:\tmp\helodrace-lra7-build\Helodrace.dll
+C:\tmp\helodrace-lra7-build\Helodrace.pdb
+C:\tmp\helodrace-lra7-build-2\Helodrace.dll
+C:\tmp\helodrace-lra7-build-2\Helodrace.pdb

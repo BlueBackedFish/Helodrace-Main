@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HelodFrontierSpirit.label>개척정신</HelodFrontierSpirit.label>
   <HelodFrontierSpirit.description>기본적인 의류 제작 기술을 잠금 해제합니다.</HelodFrontierSpirit.description>
@@ -113,5 +113,17 @@
 
   <HelodHighExplosive.label>폭압과 천둥</HelodHighExplosive.label>
   <HelodHighExplosive.description>고급 산업 및 군사 용도에 사용할 강력한 고성능 폭약 화합물을 연구합니다.</HelodHighExplosive.description>
-
+  <HelodBlisterAgent.label>초토화 치료법</HelodBlisterAgent.label>
+  <HelodBlisterAgent.description>항암제, HN-2, 원시적인 고무 CBRN 방호구를 해금합니다.</HelodBlisterAgent.description>
+  <HelodSniperRifle.label>서브 MOA 정밀도</HelodSniperRifle.label>
+  <HelodSniperRifle.description>M1903A4와 M1C 저격소총을 해금합니다.</HelodSniperRifle.description>
+  <HelodLowGranade.label>손에 든 포병</HelodLowGranade.label>
+  <HelodLowGranade.description>수류탄과 M1, M7, M8 소총 유탄 발사기를 해금합니다.</HelodLowGranade.description>
+  <HelodLowLightArtillery.label>분해식 포대</HelodLowLightArtillery.label>
+  <HelodLowLightArtillery.description>가벼운 야포와 분해 운반식 포대 기술을 연구합니다.</HelodLowLightArtillery.description>
+  <HelodLowHeavyArtillery.label>중탄도학</HelodLowHeavyArtillery.label>
+  <HelodLowHeavyArtillery.description>초기 중포와 중화력 탄도 기술을 연구합니다.</HelodLowHeavyArtillery.description>
+  <HelodRespectForPatrioticMartyrs.label>전몰자를 위한 찬가</HelodRespectForPatrioticMartyrs.label>
+  <HelodRespectForPatrioticMartyrs.description>"그러나 더 큰 의미에서 우리는 이 땅을 바칠 수도, 성별할 수도, 거룩하게 할 수도 없습니다. 이곳에서 싸운 용감한 이들, 산 자와 죽은 자가 이미 이 땅을 거룩하게 했으며, 우리의 미약한 힘으로 더하거나 덜 수 있는 수준을 훨씬 넘어섰습니다." M1902 세이버와 군복을 해금합니다.</HelodRespectForPatrioticMartyrs.description>
 </LanguageData>
+

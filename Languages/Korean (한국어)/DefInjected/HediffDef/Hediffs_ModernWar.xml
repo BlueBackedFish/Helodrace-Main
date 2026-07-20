@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_ZaperX26_Shock.label>ZAPER 전기충격</HD_ZaperX26_Shock.label>
+  <HD_ZaperX26_Shock.description>두 개의 유선 탐침이 반복적인 전기 펄스를 흘려보내 극심한 고통을 일으키고 자발적인 움직임을 방해하고 있습니다.</HD_ZaperX26_Shock.description>
+  <HD_ZaperX26_ContactShock.label>ZAPER 접촉 감전</HD_ZaperX26_ContactShock.label>
+  <HD_ZaperX26_ContactShock.description>무기의 접촉 전극에서 방출된 전류가 짧은 시간 동안 극심한 고통을 일으키고 있습니다.</HD_ZaperX26_ContactShock.description>
+</LanguageData>

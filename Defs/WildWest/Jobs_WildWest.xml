@@ -104,6 +104,27 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>HD_IgnitePhotochlorogenCan</defName>
+    <driverClass>Helodrace.JobDriver_IgnitePhotochlorogenCan</driverClass>
+    <reportString>igniting photochlorogen can.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_UseTelegraphTable</defName>
+    <driverClass>Helodrace.JobDriver_UseTelegraphTable</driverClass>
+    <reportString>using telegraph table.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_LoadTelegraphPrimaryCells</defName>
+    <driverClass>Helodrace.JobDriver_LoadTelegraphPrimaryCells</driverClass>
+    <reportString>loading primary cells into telegraph table.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
   <WorkGiverDef>
     <defName>DoBillsHD_BlastFurnace</defName>
     <label>use blast furnace</label>
@@ -161,8 +182,8 @@
     <fixedBillGiverDefs>
       <li>HD_TreadleLathe</li>
     </fixedBillGiverDefs>
-    <verb>turn</verb>
-    <gerund>turning wood/metal at</gerund>
+    <verb>craft</verb>
+    <gerund>crafting at</gerund>
     <requiredCapacities>
       <li>Manipulation</li>
     </requiredCapacities>
@@ -193,8 +214,8 @@
     <fixedBillGiverDefs>
       <li>HD_LineShaftTurretLathe</li>
     </fixedBillGiverDefs>
-    <verb>turn</verb>
-    <gerund>turning metal at</gerund>
+    <verb>craft</verb>
+    <gerund>crafting at</gerund>
     <requiredCapacities>
       <li>Manipulation</li>
     </requiredCapacities>
@@ -209,8 +230,8 @@
     <fixedBillGiverDefs>
       <li>HD_LineShaftMillingMachine</li>
     </fixedBillGiverDefs>
-    <verb>mill</verb>
-    <gerund>milling metal at</gerund>
+    <verb>craft</verb>
+    <gerund>crafting at</gerund>
     <requiredCapacities>
       <li>Manipulation</li>
     </requiredCapacities>
@@ -225,8 +246,8 @@
     <fixedBillGiverDefs>
       <li>HD_LineShaftHydraulicPress</li>
     </fixedBillGiverDefs>
-    <verb>press</verb>
-    <gerund>pressing metal at</gerund>
+    <verb>craft</verb>
+    <gerund>crafting at</gerund>
     <requiredCapacities>
       <li>Manipulation</li>
     </requiredCapacities>
@@ -241,8 +262,8 @@
     <fixedBillGiverDefs>
       <li>HD_LineShaftRollingMachine</li>
     </fixedBillGiverDefs>
-    <verb>roll</verb>
-    <gerund>rolling metal at</gerund>
+    <verb>craft</verb>
+    <gerund>crafting at</gerund>
     <requiredCapacities>
       <li>Manipulation</li>
     </requiredCapacities>

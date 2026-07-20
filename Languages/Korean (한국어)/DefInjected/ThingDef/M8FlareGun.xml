@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Projectile_M8Flare.label>M8 신호탄</HD_Projectile_M8Flare.label>
+  <HD_Projectile_M8Flare_Indirect.label>M8 고각 신호탄</HD_Projectile_M8Flare_Indirect.label>
+  <HD_M8FlareTarget.label>연소 중인 신호탄</HD_M8FlareTarget.label>
+  <HD_M8FlareTarget.description>이 위치를 표시하는 밝은 M8 신호탄입니다. 신호탄 표적 지정을 지원하는 시스템에서 목표로 선택할 수 있습니다.</HD_M8FlareTarget.description>
+  <HD_Gun_M8FlareGun_Weapon.label>M8 플레어건</HD_Gun_M8FlareGun_Weapon.label>
+  <HD_Gun_M8FlareGun_Weapon.description>단발 중절식 신호 권총입니다. 발사된 신호탄은 맵에 선택 가능한 표식으로 남아 이후 근접항공지원 시스템의 목표로 사용할 수 있습니다.</HD_Gun_M8FlareGun_Weapon.description>
+</LanguageData>

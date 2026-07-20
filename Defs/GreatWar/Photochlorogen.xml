@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_PhotochlorogenCan</defName>
+    <label>photochlorogen can</label>
+    <description>A small chemical canister rigged with an ignition cap. When activated, it burns open and spreads photochlorogen gas across a wide nearby area. Gas masks and other tox-gas exposure immunity block the gas.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>Building/HD_PhotochlorogenCan</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(0.45, 0.35, 0.45)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>14</pathCost>
+    <fillPercent>0.25</fillPercent>
+    <rotatable>false</rotatable>
+    <size>(1,1)</size>
+    <tickerType>Normal</tickerType>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <WorkToBuild>450</WorkToBuild>
+      <Flammability>1.0</Flammability>
+      <Mass>8</Mass>
+    </statBases>
+    <costList>
+      <Steel>15</Steel>
+      <Chemfuel>25</Chemfuel>
+    </costList>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2460</uiOrder>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodChokingAgent</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="Helodrace.CompProperties_PhotochlorogenCan">
+        <radius>10</radius>
+        <spawnChance>1.0</spawnChance>
+        <densityPerPulse>0.8</densityPerPulse>
+        <emissionRadius>2.4</emissionRadius>
+        <burnDurationTicks>1800</burnDurationTicks>
+        <gasSimulationIntervalTicks>30</gasSimulationIntervalTicks>
+        <spreadIntervalTicks>300</spreadIntervalTicks>
+        <gasDef>HD_PhotochlorogenGas</gasDef>
+        <destroyOnUse>true</destroyOnUse>
+      </li>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.5</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <startWickHitPointsPercent>0.35</startWickHitPointsPercent>
+        <wickTicks>60~120</wickTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_PhotochlorogenGas</defName>
+    <label>photochlorogen gas</label>
+    <description>A pale delayed-action choking agent cloud. Photochlorogen first irritates the airways, then may seem to fade during a latent period before pulmonary edema begins damaging the lungs. Gas masks and other tox-gas exposure immunity block it.</description>
+    <thingClass>Helodrace.Gas_Photochlorogen</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Never</tickerType>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>Gas</altitudeLayer>
+    <graphicData>
+      <texPath>Icon/HD_icon</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.01,0.01)</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HD_PhotochlorogenExposure</defName>
+    <label>photochlorogen dose</label>
+    <labelNoun>photochlorogen dose</labelNoun>
+    <description>Photochlorogen has entered the body. A higher dose accelerates the delayed risk of respiratory injury, even if symptoms fade for a while after exposure. Medical treatment can help clear the dose faster, with better treatment quality removing more.</description>
+    <hediffClass>Helodrace.Hediff_PhotochlorogenExposure</hediffClass>
+    <defaultLabelColor>(0.72,0.86,0.55)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>true</tendable>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.2</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>absorbed</label>
+        <minSeverity>0.01</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>HD_PhotochlorogenRisk</defName>
+    <label>photochlorogen injury risk</label>
+    <labelNoun>photochlorogen injury risk</labelNoun>
+    <description>Delayed respiratory injury from photochlorogen exposure. Early reaction-phase symptoms can recover naturally after the dose fades, but once the condition reaches the latent phase it no longer naturally recovers and will continue progressing at least slowly. The risk requires repeated treatment every hour; each treatment greatly slows progression for three hours, and a total of 500% treatment quality clears it before pulmonary edema becomes fatal.</description>
+    <hediffClass>Helodrace.Hediff_PhotochlorogenRisk</hediffClass>
+    <defaultLabelColor>(0.86,0.92,0.58)</defaultLabelColor>
+    <scenarioCanAdd>true</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <lethalSeverity>1.0</lethalSeverity>
+    <isBad>true</isBad>
+    <tendable>true</tendable>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <baseTendDurationHours>1</baseTendDurationHours>
+        <tendOverlapHours>2</tendOverlapHours>
+        <disappearsAtTotalTendQuality>5</disappearsAtTotalTendQuality>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>reaction phase</label>
+        <minSeverity>0.05</minSeverity>
+        <painOffset>0.04</painOffset>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.05</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.12</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>latent phase</label>
+        <minSeverity>0.25</minSeverity>
+        <painOffset>0.01</painOffset>
+        <capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.03</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <label>pulmonary edema</label>
+        <minSeverity>0.65</minSeverity>
+        <lifeThreatening>true</lifeThreatening>
+        <painOffset>0.22</painOffset>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <offset>-0.12</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.45</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

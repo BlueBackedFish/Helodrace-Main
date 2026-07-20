@@ -8,7 +8,7 @@
 					<pawnKindEntries>
 						<li>
 							<kindDefs>
-								<li>HD_HelodColonist</li>
+								<li>HD_WW_HelodColonist</li>
 							</kindDefs>
 							<chance>100</chance>
 						</li>
@@ -23,7 +23,7 @@
 			<alienslavekinds>
 				<li>
 					<kindDefs>
-						<li>HD_HelodColonist</li>
+						<li>HD_WW_HelodColonist</li>
 					</kindDefs>
 					<chance>15</chance>
 				</li>
@@ -32,7 +32,7 @@
 			<alienrefugeekinds>
 				<li>
 					<kindDefs>
-						<li>HD_HelodColonist</li>
+						<li>HD_WW_HelodColonist</li>
 					</kindDefs>
 					<chance>15</chance>
 				</li>
@@ -43,7 +43,7 @@
 					<pawnKindEntries>
 						<li>
 							<kindDefs>
-								<li>HD_HelodColonist</li>
+								<li>HD_WW_HelodColonist</li>
 							</kindDefs>
 							<chance>15</chance>
 						</li>

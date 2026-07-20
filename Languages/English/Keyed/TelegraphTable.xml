@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_TelegraphTable_Use_Label>Use {0}</HD_TelegraphTable_Use_Label>
+  <HD_TelegraphTable_NoPrimaryCell>requires 1 primary cell</HD_TelegraphTable_NoPrimaryCell>
+  <HD_TelegraphTable_ActionNeedsPrimaryCell>The telegraph table has no loaded primary cells.</HD_TelegraphTable_ActionNeedsPrimaryCell>
+  <HD_TelegraphTable_LoadPrimaryCells>Load primary cells into {0} ({1}/{2})</HD_TelegraphTable_LoadPrimaryCells>
+  <HD_TelegraphTable_PrimaryCellsFull>primary cell rack full</HD_TelegraphTable_PrimaryCellsFull>
+  <HD_TelegraphTable_PrimaryCellsStored>Primary cells: {0}/{1}</HD_TelegraphTable_PrimaryCellsStored>
+  <HD_TelegraphTable_Window_Title>Telegraph table</HD_TelegraphTable_Window_Title>
+  <HD_TelegraphTable_Station>Station: {0}</HD_TelegraphTable_Station>
+  <HD_TelegraphTable_Operator>Operator: {0}</HD_TelegraphTable_Operator>
+  <HD_TelegraphTable_Status_Ready>Status: line ready</HD_TelegraphTable_Status_Ready>
+  <HD_TelegraphTable_Status_Ready_WithCells>Status: line ready | primary cells: {0}</HD_TelegraphTable_Status_Ready_WithCells>
+  <HD_TelegraphTable_Tab_Orders>Orders</HD_TelegraphTable_Tab_Orders>
+  <HD_TelegraphTable_Tab_Military>Military cooperation</HD_TelegraphTable_Tab_Military>
+  <HD_TelegraphTable_Tab_Market>Market</HD_TelegraphTable_Tab_Market>
+  <HD_TelegraphTable_Orders_Title>Orders</HD_TelegraphTable_Orders_Title>
+  <HD_TelegraphTable_Placeholder>The telegraph key is ready. Contract, bond, and exchange controls will be connected here later.</HD_TelegraphTable_Placeholder>
+  <HD_TelegraphTable_Button_Contracts>Contracts</HD_TelegraphTable_Button_Contracts>
+  <HD_TelegraphTable_Button_Bonds>Bonds</HD_TelegraphTable_Button_Bonds>
+  <HD_TelegraphTable_Button_Exchange>Exchange</HD_TelegraphTable_Button_Exchange>
+  <HD_TelegraphTable_Military_Title>Military cooperation</HD_TelegraphTable_Military_Title>
+  <HD_TelegraphTable_Military_Placeholder>Military liaison is available. Support requests and forward base contracts will be connected here later.</HD_TelegraphTable_Military_Placeholder>
+  <HD_TelegraphTable_Military_RequestSupport>Request support</HD_TelegraphTable_Military_RequestSupport>
+  <HD_SniperSupport_ModePrompt>Select sniper support mode.</HD_SniperSupport_ModePrompt>
+  <HD_SniperSupport_Suppress>Sniper support: suppress</HD_SniperSupport_Suppress>
+  <HD_SniperSupport_Kill>Sniper support: kill</HD_SniperSupport_Kill>
+  <HD_SniperSupport_CommandDesc>Call a forward-base sniper shot on a visible pawn or building. The target must be visible from the map edge.</HD_SniperSupport_CommandDesc>
+  <HD_SniperSupport_Unavailable>No contracted sniper support is in range.</HD_SniperSupport_Unavailable>
+  <HD_SniperSupport_InvalidTarget>The target is not visible from the map edge.</HD_SniperSupport_InvalidTarget>
+  <HD_SniperSupport_Called>Sniper support is aiming.</HD_SniperSupport_Called>
+  <HD_SniperSupport_LostTarget>Sniper support lost the target.</HD_SniperSupport_LostTarget>
+  <HD_TelegraphTable_Support_Title>Forward-base support request</HD_TelegraphTable_Support_Title>
+  <HD_TelegraphTable_Support_Base>1. Select forward base</HD_TelegraphTable_Support_Base>
+  <HD_TelegraphTable_Support_TargetMap>2. Select settlement or encounter map</HD_TelegraphTable_Support_TargetMap>
+  <HD_TelegraphTable_Support_Settlement>Settlement</HD_TelegraphTable_Support_Settlement>
+  <HD_TelegraphTable_Support_Encounter>Encounter</HD_TelegraphTable_Support_Encounter>
+  <HD_TelegraphTable_Support_Sniper>Request sniper support</HD_TelegraphTable_Support_Sniper>
+  <HD_TelegraphTable_Support_MortarComing>Mortar support (next step)</HD_TelegraphTable_Support_MortarComing>
+  <HD_TelegraphTable_Support_Mortar>Mortar support: {0}</HD_TelegraphTable_Support_Mortar>
+  <HD_TelegraphTable_Support_MortarSelect>Mortar support — select ammunition</HD_TelegraphTable_Support_MortarSelect>
+  <HD_TelegraphTable_Support_Catalog>Contracted support services</HD_TelegraphTable_Support_Catalog>
+  <HD_TelegraphTable_Support_SniperDesc>Choose suppression or precision kill support.</HD_TelegraphTable_Support_SniperDesc>
+  <HD_TelegraphTable_Support_MortarCatalog>Mortar support</HD_TelegraphTable_Support_MortarCatalog>
+  <HD_TelegraphTable_Support_MortarDesc>Choose ammunition, then designate the bombardment area.</HD_TelegraphTable_Support_MortarDesc>
+  <HD_TelegraphTable_Support_Select>Select service</HD_TelegraphTable_Support_Select>
+  <HD_TelegraphTable_Support_UnavailableShort>Out of range or unavailable</HD_TelegraphTable_Support_UnavailableShort>
+  <HD_TelegraphTable_Support_SelectFirst>Select a forward base and target map to view its service catalog.</HD_TelegraphTable_Support_SelectFirst>
+  <HD_TelegraphTable_Support_SelectBaseOnMap>Select forward base on world map</HD_TelegraphTable_Support_SelectBaseOnMap>
+  <HD_TelegraphTable_Support_SelectTargetOnMap>Select service location on world map</HD_TelegraphTable_Support_SelectTargetOnMap>
+  <HD_TelegraphTable_Support_InvalidBase>Select a contracted forward base that provides support services.</HD_TelegraphTable_Support_InvalidBase>
+  <HD_TelegraphTable_Support_InvalidTargetMap>Select an in-range settlement or encounter map that is currently loaded.</HD_TelegraphTable_Support_InvalidTargetMap>
+  <HD_MortarSupport_AmmoPrompt>Ammunition: {0}\nScatter radius: {1} cells\nFire {2} shells per volley, {3} volleys at 3-second intervals.\nPricing: {4}</HD_MortarSupport_AmmoPrompt>
+  <HD_MortarSupport_Pricing_Included>Included in limited-call FFP contract</HD_MortarSupport_Pricing_Included>
+  <HD_MortarSupport_Pricing_PerCall>{0} per call</HD_MortarSupport_Pricing_PerCall>
+  <HD_MortarSupport_SelectAmmoTitle>Mortar support — ammunition selection</HD_MortarSupport_SelectAmmoTitle>
+  <HD_MortarSupport_SelectAmmoDesc>Target service location: {0}</HD_MortarSupport_SelectAmmoDesc>
+  <HD_MortarSupport_SmokeDragPrompt>Left-drag on the map to draw the smoke barrage line.</HD_MortarSupport_SmokeDragPrompt>
+  <HD_MortarSupport_Unavailable>Mortar support is unavailable.</HD_MortarSupport_Unavailable>
+  <HD_MortarSupport_Called>Mortar support requested: {0} shells incoming.</HD_MortarSupport_Called>
+  <HD_ForwardBase_MortarAmmoCharges>Mortar ammunition charges: {0}</HD_ForwardBase_MortarAmmoCharges>
+  <HD_TelegraphTable_Support_NoBase>No support-capable forward base is contracted.</HD_TelegraphTable_Support_NoBase>
+  <HD_ForwardBase_ServiceUnavailable>This forward base does not provide that service.</HD_ForwardBase_ServiceUnavailable>
+  <HD_ForwardBase_ServiceQuotaExhausted>{0} has reached its {2}-day limit of {1} {3}.</HD_ForwardBase_ServiceQuotaExhausted>
+  <HD_ForwardBase_ServiceCreditExhausted>Service credit budget for this {0}-day period is exhausted. Credit limit: {1}.</HD_ForwardBase_ServiceCreditExhausted>
+  <HD_ForwardBase_ServiceUsageHeader>Service usage ({0}-day period)</HD_ForwardBase_ServiceUsageHeader>
+  <HD_ForwardBase_ServiceUsageLineLimited>{0}: {1}/{2} {4}, total {3}</HD_ForwardBase_ServiceUsageLineLimited>
+  <HD_ForwardBase_ServiceUsageLineUnlimited>{0}: {1} {3} this period, total {2}</HD_ForwardBase_ServiceUsageLineUnlimited>
+  <HD_ForwardBase_ServiceUsageUnit_Call>calls</HD_ForwardBase_ServiceUsageUnit_Call>
+  <HD_ForwardBase_ServiceUsageUnit_Shot>shots</HD_ForwardBase_ServiceUsageUnit_Shot>
+  <HD_ForwardBase_ServiceUsageCredit>Period service cost: {0}/{1} credit</HD_ForwardBase_ServiceUsageCredit>
+  <HD_ForwardBase_ServiceUsageReimbursable>Reimbursable usage total: {0}</HD_ForwardBase_ServiceUsageReimbursable>
+  <HD_ForwardBase_PeriodPaymentFailed>Service period settlement failed: {0} HD_Money required.</HD_ForwardBase_PeriodPaymentFailed>
+  <HD_ForwardBase_PeriodPaymentDefaulted>Service period settlement failed. The forward base is withdrawing.</HD_ForwardBase_PeriodPaymentDefaulted>
+  <HD_ForwardBase_ContractTimeLeft>Contract time left: {0}</HD_ForwardBase_ContractTimeLeft>
+  <HD_ForwardBase_ContractCompleted>Forward base contract completed. Goodwill improved slightly.</HD_ForwardBase_ContractCompleted>
+  <HD_ForwardBase_WithdrawalTimeLeft>Withdrawal time left: {0}</HD_ForwardBase_WithdrawalTimeLeft>
+  <HD_ForwardBase_WithdrawalCompleted>Forward base withdrawal completed.</HD_ForwardBase_WithdrawalCompleted>
+  <HD_TelegraphTable_Military_ForwardBase>Forward base contract</HD_TelegraphTable_Military_ForwardBase>
+  <HD_TelegraphTable_Military_ForwardBaseContracts>Forward base contracts</HD_TelegraphTable_Military_ForwardBaseContracts>
+  <HD_TelegraphTable_Military_SelectActivity>Select a military cooperation activity.</HD_TelegraphTable_Military_SelectActivity>
+  <HD_TelegraphTable_Military_Faction>Cooperation faction</HD_TelegraphTable_Military_Faction>
+  <HD_TelegraphTable_Military_FactionNone>No available faction</HD_TelegraphTable_Military_FactionNone>
+  <HD_TelegraphTable_ForwardBaseContracts_Title>Forward base contracts</HD_TelegraphTable_ForwardBaseContracts_Title>
+  <HD_TelegraphTable_ForwardBaseContracts_None>No forward base contracts.</HD_TelegraphTable_ForwardBaseContracts_None>
+  <HD_TelegraphTable_ForwardBaseContracts_Row>{0} | Tile {1}</HD_TelegraphTable_ForwardBaseContracts_Row>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>Under construction: {0} left</HD_TelegraphTable_ForwardBaseContracts_StatusConstruction>
+  <HD_TelegraphTable_ForwardBaseContracts_StatusComplete>Complete</HD_TelegraphTable_ForwardBaseContracts_StatusComplete>
+  <HD_TelegraphTable_ForwardBaseContracts_Info>Info</HD_TelegraphTable_ForwardBaseContracts_Info>
+  <HD_TelegraphTable_ForwardBaseContracts_Jump>Jump</HD_TelegraphTable_ForwardBaseContracts_Jump>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoLocation>Location: tile {0}, cooperation faction settlement distance {1}</HD_TelegraphTable_ForwardBaseContracts_InfoLocation>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFaction>Cooperation faction: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoFaction>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoBase>Base type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>Cost type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ service order pricing: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>Duration: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServices>Services: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>Service billing/counting unit: {0} days</HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoCredit>Military credit at signing: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCredit>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
+  <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\nTile {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
+  <HD_TelegraphTable_ForwardBase_Title>Forward base construction contract</HD_TelegraphTable_ForwardBase_Title>
+  <HD_TelegraphTable_ForwardBase_Description>Select the base type, cost model, and attached services. Low credit limits the available contract terms.</HD_TelegraphTable_ForwardBase_Description>
+  <HD_TelegraphTable_ForwardBase_SelectLocation>Select base location</HD_TelegraphTable_ForwardBase_SelectLocation>
+  <HD_TelegraphTable_ForwardBase_SelectedLocation>Selected world tile: {0}</HD_TelegraphTable_ForwardBase_SelectedLocation>
+  <HD_TelegraphTable_ForwardBase_NoLocation>No base location selected.</HD_TelegraphTable_ForwardBase_NoLocation>
+  <HD_TelegraphTable_ForwardBase_InvalidLocation>Select a valid world tile for the forward base.</HD_TelegraphTable_ForwardBase_InvalidLocation>
+  <HD_TelegraphTable_ForwardBase_Credit>Military credit: {0}</HD_TelegraphTable_ForwardBase_Credit>
+  <HD_TelegraphTable_ForwardBase_Distance>Nearest cooperation faction settlement distance: {0}/{1} tiles</HD_TelegraphTable_ForwardBase_Distance>
+  <HD_TelegraphTable_ForwardBase_DistanceUnknown>Nearest cooperation faction settlement distance: select a base location first.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
+  <HD_TelegraphTable_ForwardBase_BaseKind>Base type</HD_TelegraphTable_ForwardBase_BaseKind>
+  <HD_TelegraphTable_ForwardBase_CostKind>Cost type</HD_TelegraphTable_ForwardBase_CostKind>
+  <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ service order pricing</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
+  <HD_TelegraphTable_ForwardBase_DurationKind>Contract duration</HD_TelegraphTable_ForwardBase_DurationKind>
+  <HD_TelegraphTable_ForwardBase_ServiceKind>Selected services</HD_TelegraphTable_ForwardBase_ServiceKind>
+  <HD_TelegraphTable_ForwardBase_IdiqServiceKind>IDIQ callable services</HD_TelegraphTable_ForwardBase_IdiqServiceKind>
+  <HD_TelegraphTable_ForwardBase_Summary>Draft: {0} / {1}\nDuration: {2}\nServices: {3}\n{4}: {5}</HD_TelegraphTable_ForwardBase_Summary>
+  <HD_TelegraphTable_ForwardBase_IdiqSummary>IDIQ draft: {0}\nDuration: {1} | Service order pricing: {2}\nCallable services: {3}\n{4}: {5} | {6}: {7}</HD_TelegraphTable_ForwardBase_IdiqSummary>
+  <HD_TelegraphTable_ForwardBase_CostPending>location required</HD_TelegraphTable_ForwardBase_CostPending>
+  <HD_TelegraphTable_ForwardBase_SthalerAmount>{0} STH</HD_TelegraphTable_ForwardBase_SthalerAmount>
+  <HD_TelegraphTable_ForwardBase_FixedPrice>Fixed price</HD_TelegraphTable_ForwardBase_FixedPrice>
+  <HD_TelegraphTable_ForwardBase_ReimbursableEstimate>Reimbursable estimate</HD_TelegraphTable_ForwardBase_ReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_EstimatedCost>Estimated cost</HD_TelegraphTable_ForwardBase_EstimatedCost>
+  <HD_TelegraphTable_ForwardBase_BaseContractPrice>Contract retainer</HD_TelegraphTable_ForwardBase_BaseContractPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallFixedPrice>Per-call fixed price</HD_TelegraphTable_ForwardBase_PerCallFixedPrice>
+  <HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>Per-call reimbursable estimate</HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate>
+  <HD_TelegraphTable_ForwardBase_CannotBuildHere>Cannot build a forward base here: {0}</HD_TelegraphTable_ForwardBase_CannotBuildHere>
+  <HD_TelegraphTable_ForwardBase_TileOccupied>Cannot build a forward base on an occupied world tile.</HD_TelegraphTable_ForwardBase_TileOccupied>
+  <HD_TelegraphTable_ForwardBase_ContractFailed>Forward base contract failed.</HD_TelegraphTable_ForwardBase_ContractFailed>
+  <HD_TelegraphTable_ForwardBase_ConstructionStarted>Forward base construction started. Completion in {0} days.</HD_TelegraphTable_ForwardBase_ConstructionStarted>
+  <HD_ForwardBaseConstruction_TimeLeft>Construction time left: {0}</HD_ForwardBaseConstruction_TimeLeft>
+  <HD_ForwardBaseConstruction_Completed>Forward base construction completed.</HD_ForwardBaseConstruction_Completed>
+  <HD_TelegraphTable_ForwardBase_DraftContract>Draft contract</HD_TelegraphTable_ForwardBase_DraftContract>
+  <HD_TelegraphTable_ForwardBase_Locked>(credit {0})</HD_TelegraphTable_ForwardBase_Locked>
+  <HD_TelegraphTable_ForwardBase_LockedTooltip>Requires military credit of at least {0}.</HD_TelegraphTable_ForwardBase_LockedTooltip>
+  <HD_TelegraphTable_ForwardBase_Kind_PB>PB</HD_TelegraphTable_ForwardBase_Kind_PB>
+  <HD_TelegraphTable_ForwardBase_Kind_FB>FB</HD_TelegraphTable_ForwardBase_Kind_FB>
+  <HD_TelegraphTable_ForwardBase_Kind_COP>COP</HD_TelegraphTable_ForwardBase_Kind_COP>
+  <HD_TelegraphTable_ForwardBase_Kind_FOB>FOB</HD_TelegraphTable_ForwardBase_Kind_FOB>
+  <HD_TelegraphTable_ForwardBase_Cost_FFP>FFP</HD_TelegraphTable_ForwardBase_Cost_FFP>
+  <HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>Cost reimbursement</HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_Cost_IDIQ>IDIQ</HD_TelegraphTable_ForwardBase_Cost_IDIQ>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>FFP task orders</HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>
+  <HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>Cost reimbursement task orders</HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>
+  <HD_TelegraphTable_ForwardBase_DurationDays>{0} days</HD_TelegraphTable_ForwardBase_DurationDays>
+  <HD_TelegraphTable_ForwardBase_Service_None>None</HD_TelegraphTable_ForwardBase_Service_None>
+  <HD_TelegraphTable_ForwardBase_ServiceLevel>Lv.{0}</HD_TelegraphTable_ForwardBase_ServiceLevel>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>(base limit)</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>
+  <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>The selected base type cannot operate this service.</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Artillery>Artillery</HD_TelegraphTable_ForwardBase_ServiceType_Artillery>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Infantry>Infantry</HD_TelegraphTable_ForwardBase_ServiceType_Infantry>
+  <HD_TelegraphTable_ForwardBase_ServiceType_AirForce>Air force</HD_TelegraphTable_ForwardBase_ServiceType_AirForce>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Logistics>Logistics</HD_TelegraphTable_ForwardBase_ServiceType_Logistics>
+  <HD_TelegraphTable_ForwardBase_ServiceType_Empty>No services configured yet.</HD_TelegraphTable_ForwardBase_ServiceType_Empty>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>Mortar support</HD_TelegraphTable_ForwardBase_Service_InfantryMortarSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>Sniper support</HD_TelegraphTable_ForwardBase_Service_InfantrySniperSupport>
+  <HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>Infantry deployment</HD_TelegraphTable_ForwardBase_Service_InfantryDeployment>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>Fresh food</HD_TelegraphTable_ForwardBase_Service_LogisticsFreshFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>Preserved rations</HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>Medical supplies</HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>
+  <HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>Weapons</HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>
+  <HD_TelegraphTable_ForwardBase_Service_CloseAirSupport>Close air support</HD_TelegraphTable_ForwardBase_Service_CloseAirSupport>
+  <HD_TelegraphTable_ForwardBase_Service_SupportRequest>Support request</HD_TelegraphTable_ForwardBase_Service_SupportRequest>
+  <HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>Security detachment</HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>
+  <HD_TelegraphTable_ForwardBase_Service_EngineerTeam>Engineer team</HD_TelegraphTable_ForwardBase_Service_EngineerTeam>
+  <HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>Supply convoy</HD_TelegraphTable_ForwardBase_Service_SupplyConvoy>
+  <HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>Artillery liaison</HD_TelegraphTable_ForwardBase_Service_ArtilleryLiaison>
+  <HD_TelegraphTable_ForwardBase_Service_Bombardment>Bombardment</HD_TelegraphTable_ForwardBase_Service_Bombardment>
+  <HD_TelegraphTable_MarketUnavailable>Market data is unavailable.</HD_TelegraphTable_MarketUnavailable>
+  <HD_TelegraphTable_Market_Title>Market board ({0})</HD_TelegraphTable_Market_Title>
+  <HD_TelegraphTable_Market_SubTab_Log>Records</HD_TelegraphTable_Market_SubTab_Log>
+  <HD_TelegraphTable_Market_SubTab_Trade>Trade</HD_TelegraphTable_Market_SubTab_Trade>
+  <HD_TelegraphTable_Market_OilIndex>Oil index: {0}</HD_TelegraphTable_Market_OilIndex>
+  <HD_TelegraphTable_Market_CurrentQuote>{0} OTC quote: {1}</HD_TelegraphTable_Market_CurrentQuote>
+  <HD_TelegraphTable_Market_FixedGoldPrice>Fixed gold-standard price: {0}</HD_TelegraphTable_Market_FixedGoldPrice>
+  <HD_TelegraphTable_Market_FixedGoldDetail>No bid/ask spread | Settlement: {0}</HD_TelegraphTable_Market_FixedGoldDetail>
+  <HD_TelegraphTable_Market_LogEntry>Bid: {0} | Ask: {1} | Spread: {2} | Settlement: {3}</HD_TelegraphTable_Market_LogEntry>
+  <HD_TelegraphTable_Market_LogEntry_Prices>Bid: {0} | Ask: {1}</HD_TelegraphTable_Market_LogEntry_Prices>
+  <HD_TelegraphTable_Market_LogEntry_Details>Spread: {0} | Settlement: {1}</HD_TelegraphTable_Market_LogEntry_Details>
+  <HD_TelegraphTable_Market_Day>Day {0}</HD_TelegraphTable_Market_Day>
+  <HD_TelegraphTable_Market_NoInformation>No information</HD_TelegraphTable_Market_NoInformation>
+  <HD_TelegraphTable_Market_NoInformationDetail>Quote was not checked on this day.</HD_TelegraphTable_Market_NoInformationDetail>
+  <HD_TelegraphTable_Market_QueryNeedsPrimaryCell>Load a primary cell to record today's quote.</HD_TelegraphTable_Market_QueryNeedsPrimaryCell>
+  <HD_TelegraphTable_Market_SettlementHours>{0}h</HD_TelegraphTable_Market_SettlementHours>
+  <HD_TelegraphTable_Market_SettlementDays>{0}d</HD_TelegraphTable_Market_SettlementDays>
+  <HD_TelegraphTable_Market_NotEnoughHistory>Waiting for market history.</HD_TelegraphTable_Market_NotEnoughHistory>
+  <HD_TelegraphTable_Market_SthalerFxValue>{0} silver/STH</HD_TelegraphTable_Market_SthalerFxValue>
+  <HD_TelegraphTable_Market_SthalerLocked>Sthaler FX quotes unlock after the credit currency regime begins.</HD_TelegraphTable_Market_SthalerLocked>
+  <HD_TelegraphTable_Trade_IndexOnly>This index is informational only.</HD_TelegraphTable_Trade_IndexOnly>
+  <HD_TelegraphTable_Trade_Credit>Credit: {0} {1}</HD_TelegraphTable_Trade_Credit>
+  <HD_TelegraphTable_Trade_Count>Count</HD_TelegraphTable_Trade_Count>
+  <HD_TelegraphTable_Trade_Sell>Sell</HD_TelegraphTable_Trade_Sell>
+  <HD_TelegraphTable_Trade_Buy>Buy</HD_TelegraphTable_Trade_Buy>
+  <HD_TelegraphTable_Trade_EstimatedSettlement>Settlement: {0}</HD_TelegraphTable_Trade_EstimatedSettlement>
+  <HD_TelegraphTable_Trade_PendingLocked>A trade for this asset is already pending.</HD_TelegraphTable_Trade_PendingLocked>
+  <HD_TelegraphTable_Trade_CreditTooLow>Credit too low: {0} / {1}</HD_TelegraphTable_Trade_CreditTooLow>
+  <HD_TelegraphTable_Trade_NotEnoughCurrency>Not enough {0}: need {1}</HD_TelegraphTable_Trade_NotEnoughCurrency>
+  <HD_TelegraphTable_Trade_NotEnoughGoods>Not enough {0}: need {1}</HD_TelegraphTable_Trade_NotEnoughGoods>
+  <HD_TelegraphTable_Trade_Failed>Trade order failed.</HD_TelegraphTable_Trade_Failed>
+  <HD_TelegraphTable_Trade_Started>{0} trade order started: {1}</HD_TelegraphTable_Trade_Started>
+  <HD_TelegraphTable_Trade_Settled>{0} trade settled: {1}</HD_TelegraphTable_Trade_Settled>
+  <HD_TelegraphTable_Trade_SettlementFailed>{0} trade settlement failed.</HD_TelegraphTable_Trade_SettlementFailed>
+  <HD_MarketCurrency_Sthaler>Sthaler</HD_MarketCurrency_Sthaler>
+  <HD_MarketCurrency_Silver>silver</HD_MarketCurrency_Silver>
+  <HD_MarketStandard_Gold>gold standard</HD_MarketStandard_Gold>
+  <HD_MarketStandard_Credit>credit currency regime</HD_MarketStandard_Credit>
+  <HD_MarketAsset_OilIndex>Oil index</HD_MarketAsset_OilIndex>
+  <HD_MarketAsset_CrudeOil>Crude oil</HD_MarketAsset_CrudeOil>
+  <HD_MarketAsset_Diesel>Diesel</HD_MarketAsset_Diesel>
+  <HD_MarketAsset_Kerosene>Kerosene</HD_MarketAsset_Kerosene>
+  <HD_MarketAsset_GovernmentBond>Government bond</HD_MarketAsset_GovernmentBond>
+  <HD_MarketAsset_ContinentalPetroleumBond>Continental Petroleum bond</HD_MarketAsset_ContinentalPetroleumBond>
+  <HD_MarketAsset_Sthaler>Sthaler banknote</HD_MarketAsset_Sthaler>
+  <HD_SCR300_SelectedBase_None>Selected forward base: none</HD_SCR300_SelectedBase_None>
+  <HD_SCR300_SelectedBase>Selected forward base: {0} (tile {1})</HD_SCR300_SelectedBase>
+  <HD_SCR300_SelectBase_Label>Select forward base</HD_SCR300_SelectBase_Label>
+  <HD_SCR300_SelectBase_Desc>Select a contracted forward base with at least one service in range of the wearer's current map.</HD_SCR300_SelectBase_Desc>
+  <HD_SCR300_RequestCAS_Label>Request CAS</HD_SCR300_RequestCAS_Label>
+  <HD_SCR300_RequestCAS_Desc>Request close air support from {0} against a position on the wearer's current map.</HD_SCR300_RequestCAS_Desc>
+  <HD_SCR300_None>none</HD_SCR300_None>
+  <HD_SCR300_NoBase>No contracted forward base with an in-range service is available.</HD_SCR300_NoBase>
+  <HD_SCR300_InvalidBase>Select a contracted forward base that can support the current map.</HD_SCR300_InvalidBase>
+  <HD_SCR300_BaseSelected>SCR-300 linked to {0}.</HD_SCR300_BaseSelected>
+  <HD_SCR300_SelectBase_First>Select a forward base first.</HD_SCR300_SelectBase_First>
+  <HD_SCR300_BaseNoCAS>The selected forward base does not provide CAS.</HD_SCR300_BaseNoCAS>
+  <HD_SCR300_BaseOutOfRange>None of the selected forward base's services can reach the current map.</HD_SCR300_BaseOutOfRange>
+  <HD_SCR300_ServiceUnavailable>The selected forward base has no available CAS quota or service credit.</HD_SCR300_ServiceUnavailable>
+  <HD_CAS_Unavailable>Close air support is unavailable from the selected forward base.</HD_CAS_Unavailable>
+  <HD_CAS_TargetPrompt>Select the center of the CAS attack run. Strike radius: {0} cells.</HD_CAS_TargetPrompt>
+  <HD_CAS_Called>{0} acknowledged the CAS request. Aircraft arrive in approximately {1} seconds. Mountain-roof cells on approach: {2}.</HD_CAS_Called>
+  <HD_SCR300_RequestSupport_Label>Request support</HD_SCR300_RequestSupport_Label>
+  <HD_SCR300_RequestSupport_Desc>Use the SCR-300 to request one of {0}'s contracted services for the wearer's current map.</HD_SCR300_RequestSupport_Desc>
+  <HD_SCR300_NoContractedServices>The selected forward base has no contracted services.</HD_SCR300_NoContractedServices>
+  <HD_SCR300_ServiceOutOfRange>out of range</HD_SCR300_ServiceOutOfRange>
+  <HD_SCR300_ServiceNotImplemented>This service cannot be dispatched to the current map.</HD_SCR300_ServiceNotImplemented>
+  <HD_SCR300_SuppliesDispatched>{1} dispatched {0} to the radio operator's position.</HD_SCR300_SuppliesDispatched>
+  <HD_SCR300_InfantryDispatched>{0} deployed {1} supporting infantry near the radio operator.</HD_SCR300_InfantryDispatched>
+  <HD_SCR300_DeploymentFailed>The forward base could not assemble an infantry detachment.</HD_SCR300_DeploymentFailed>
+  <HD_SCR300_SolarFlare>Solar flare interference has disabled the SCR-300.</HD_SCR300_SolarFlare>
+  <HD_SCR300_TargetNotVisible>The radio operator must have line of sight to the artillery or CAS target.</HD_SCR300_TargetNotVisible>
+  <HD_M8Flare_TimeRemaining>Flare burn time remaining: {0}</HD_M8Flare_TimeRemaining>
+  <HD_CAS_Guidance_TalkOn>Talk-on guidance</HD_CAS_Guidance_TalkOn>
+  <HD_CAS_Guidance_Flare>Flare guidance</HD_CAS_Guidance_Flare>
+  <HD_CAS_Guidance_FlareUnavailable>Flare guidance (no active flare)</HD_CAS_Guidance_FlareUnavailable>
+  <HD_CAS_NoActiveFlare>No active M8 flare is available on this map.</HD_CAS_NoActiveFlare>
+  <HD_CAS_FlareTargetPrompt>Select an active M8 flare as the CAS designation target.</HD_CAS_FlareTargetPrompt>
+  <HD_CAS_LaserUnavailable>Laser guidance is not currently available.</HD_CAS_LaserUnavailable>
+  <HD_CAS_GuidanceLost>CAS aborted because the guidance marker was lost.</HD_CAS_GuidanceLost>
+  <HD_CAS_RoutePrompt>Drag an approach line from within {0} cells of the map edge to the strike position.</HD_CAS_RoutePrompt>
+  <HD_CAS_InvalidEntry>The CAS entry point must be within {0} cells of the map edge.</HD_CAS_InvalidEntry>
+  <HD_CAS_InvalidRoute>CAS approach routes must be at least 8 cells long and end inside the map.</HD_CAS_InvalidRoute>
+  <HD_CAS_RouteMustEndAtFlare>Flare-guided CAS routes must end on an active M8 flare.</HD_CAS_RouteMustEndAtFlare>
+  <HD_CAS_GuidanceSuccess>CAS guidance acquired successfully. Success chance: {0}%. Attempt: {1}.</HD_CAS_GuidanceSuccess>
+  <HD_CAS_GoAround>CAS guidance failed at {0}% probability. Aircraft are going around. Next probability: {1}%. Go-around: {2}. Retry in {3}.</HD_CAS_GoAround>
+  <HD_CAS_Cancel_Label>Cancel CAS</HD_CAS_Cancel_Label>
+  <HD_CAS_Cancel_Desc>Cancel the current CAS aircraft and all remaining follow-up aircraft.</HD_CAS_Cancel_Desc>
+  <HD_CAS_Cancel_NoActive>There is no active CAS mission to cancel.</HD_CAS_Cancel_NoActive>
+  <HD_CAS_Cancel_Locked>The aircraft is within one second of bomb release and cannot abort.</HD_CAS_Cancel_Locked>
+  <HD_CAS_Cancel_NoFollowup>The final aircraft has already completed its attack.</HD_CAS_Cancel_NoFollowup>
+  <HD_CAS_Cancelled>CAS cancelled. The current aircraft is aborting and all follow-up aircraft have been recalled.</HD_CAS_Cancelled>
+  <HD_CAS_Attack_Bombing>Bombing run</HD_CAS_Attack_Bombing>
+  <HD_CAS_Attack_Strafing>Strafing run</HD_CAS_Attack_Strafing>
+  <HD_CAS_StrafeRoutePrompt>Drag from within {0} cells of the map edge to the center of the strafing area. The run extends 15 cells in both directions for a total length of {1} cells and a width of {2} cells.</HD_CAS_StrafeRoutePrompt>
+  <HD_CAS_StrafeOutsideMap>The full 30-cell strafing line must remain inside the map.</HD_CAS_StrafeOutsideMap>
+  <HD_CAS_TargetNoVisibleReference>Pawn targets require direct line of sight. Ground targets require at least one visible reference cell within 10 cells.</HD_CAS_TargetNoVisibleReference>
+  <HD_CAS_PlaytimeExhausted>No active P-47 flight is available. Request a flight from the CAS operations panel first.</HD_CAS_PlaytimeExhausted>
+  <HD_CAS_AircraftAssigned>Aircraft assigned to this request: {0}.</HD_CAS_AircraftAssigned>
+  <HD_CAS_PlaytimeGuidancePenalty>{0}: three additional guidance failures reduced the P-47 flight's playtime.</HD_CAS_PlaytimeGuidancePenalty>
+  <HD_CAS_PlaytimeTimePenalty>{0}: two hours on station reduced the P-47 flight's playtime by {1}.</HD_CAS_PlaytimeTimePenalty>
+  <HD_CAS_Control_Title>CAS Operations</HD_CAS_Control_Title>
+  <HD_CAS_Control_Base>Forward base: {0}</HD_CAS_Control_Base>
+  <HD_CAS_Control_StatusActive>P-47 flight on station</HD_CAS_Control_StatusActive>
+  <HD_CAS_Control_StatusExhausted>P-47 flight has left the station</HD_CAS_Control_StatusExhausted>
+  <HD_CAS_Control_StatusNotRequested>No P-47 flight requested</HD_CAS_Control_StatusNotRequested>
+  <HD_CAS_Control_Playtime>On-station playtime</HD_CAS_Control_Playtime>
+  <HD_CAS_Control_ReservedAircraft>Aircraft held for the follow-up bombing run: {0}</HD_CAS_Control_ReservedAircraft>
+  <HD_CAS_Control_RequestFlight>Request P-47 flight</HD_CAS_Control_RequestFlight>
+  <HD_CAS_FlightRequested>{0}: P-47 flight requested. On-station playtime has started.</HD_CAS_FlightRequested>
+  <HD_CAS_Control_BombingDesc>Designate an approach route and target for a two-bomb strike.</HD_CAS_Control_BombingDesc>
+  <HD_CAS_Control_StrafingDesc>Designate an approach route and the center of a strafing run.</HD_CAS_Control_StrafingDesc>
+  <HD_CAS_Control_Select>Select</HD_CAS_Control_Select>
+  <HD_CAS_Control_MissionActive>A CAS mission is already active for this radio operator.</HD_CAS_Control_MissionActive>
+  <HD_CAS_Control_NoCapacity>The selected forward base cannot accept another CAS request.</HD_CAS_Control_NoCapacity>
+  <HD_CAS_Control_PlaytimeTooltip>Remaining P-47 on-station playtime. Each attack request consumes one segment; time on station and repeated guidance failures can also reduce it.</HD_CAS_Control_PlaytimeTooltip>
+</LanguageData>

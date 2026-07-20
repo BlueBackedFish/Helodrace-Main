@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_M8Flare</defName>
+    <label>M8 signal flare</label>
+    <thingClass>Helodrace.Projectile_M8Flare</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <color>(255,72,24)</color>
+      <drawSize>(0.45,0.45)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Burn</damageDef>
+      <damageAmountBase>3</damageAmountBase>
+      <stoppingPower>0.2</stoppingPower>
+      <speed>38</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_M8Flare_Indirect</defName>
+    <label>M8 signal flare (high angle)</label>
+    <thingClass>Helodrace.Projectile_M8Flare</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <color>(255,72,24)</color>
+      <drawSize>(0.45,0.45)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Burn</damageDef>
+      <damageAmountBase>3</damageAmountBase>
+      <stoppingPower>0.2</stoppingPower>
+      <speed>30</speed>
+      <flyOverhead>true</flyOverhead>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_M8FlareTarget</defName>
+    <label>burning signal flare</label>
+    <description>A bright M8 signal flare marking this position. It can be selected as a target by systems that support flare designation.</description>
+    <thingClass>Helodrace.Thing_M8FlareTarget</thingClass>
+    <category>Item</category>
+    <graphicData>
+      <texPath>Things/Special/Fire</texPath>
+      <graphicClass>Graphic_Flicker</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <drawSize>(0.7,0.7)</drawSize>
+    </graphicData>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>PawnState</altitudeLayer>
+    <selectable>true</selectable>
+    <useHitPoints>false</useHitPoints>
+    <alwaysHaulable>false</alwaysHaulable>
+    <passability>PassThroughOnly</passability>
+    <pathCost>0</pathCost>
+    <drawGUIOverlay>false</drawGUIOverlay>
+    <tradeability>None</tradeability>
+    <statBases>
+      <Mass>0.1</Mass>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>3</glowRadius>
+        <glowColor>(184,136,83,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M8FlareGun_Weapon</defName>
+    <label>M8 flare gun</label>
+    <description>A single-shot break-action signal pistol. Its burning flare remains on the map as a selectable designation marker for future close air support systems.</description>
+    <weaponTags>
+      <li>HD_GreatWarPistol</li>
+      <li>HD_SignalWeapon</li>
+    </weaponTags>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_M8FlareGun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <soundInteract>Interact_Revolver</soundInteract>
+    <statBases>
+      <WorkToMake>6000</WorkToMake>
+      <Mass>1.15</Mass>
+      <MarketValue>180</MarketValue>
+      <AccuracyTouch>0.75</AccuracyTouch>
+      <AccuracyShort>0.55</AccuracyShort>
+      <AccuracyMedium>0.32</AccuracyMedium>
+      <AccuracyLong>0.16</AccuracyLong>
+      <RangedWeapon_Cooldown>2.4</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>18</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.0</altAccuracyMultiplier>
+        <altModeLabelKey>HD_M8Flare_HighAngle</altModeLabelKey>
+        <modeDescriptionKey>HD_M8Flare_ModeDesc</modeDescriptionKey>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Projectile_M8Flare</defaultProjectile>
+        <warmupTime>0.7</warmupTime>
+        <range>49.9</range>
+        <burstShotCount>1</burstShotCount>
+        <requireLineOfSight>true</requireLineOfSight>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Shot_IncendiaryLauncher</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Projectile_M8Flare_Indirect</defaultProjectile>
+        <warmupTime>1.2</warmupTime>
+        <range>49.9</range>
+        <minRange>5.9</minRange>
+        <burstShotCount>1</burstShotCount>
+        <requireLineOfSight>false</requireLineOfSight>
+        <forcedMissRadius>3.5</forcedMissRadius>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>Shot_IncendiaryLauncher</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>5</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>grip</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>5</power>
+        <cooldownTime>1.8</cooldownTime>
+      </li>
+    </tools>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <researchPrerequisites>
+      <li>HelodLowGranade</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>
