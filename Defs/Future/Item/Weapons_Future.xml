@@ -66,7 +66,7 @@
     Its firing behavior is supplied by the dedicated LANCE projectile system.
   -->
   <ThingDef ParentName="BaseMakeableGun">
-    <defName>HD_Gun_LANCE_LRA7</defName>
+    <defName>HD_Gun_LANCE_LRA7_Weapon</defName>
     <label>LANCE LRA-7</label>
     <description>A second-generation LANCE rifle using a single-measurement system to couple its positive- and negative-mass projectiles. The coupled shot gains destructive energy over distance; beyond its safe separation envelope it collapses into a feedback runaway.</description>
     <weaponTags>
@@ -81,6 +81,7 @@
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
+      <WorkToMake>50000</WorkToMake>
       <Mass>6.8</Mass>
       <MarketValue>3200</MarketValue>
       <MaxHitPoints>180</MaxHitPoints>
@@ -91,7 +92,20 @@
       <AccuracyLong>0.92</AccuracyLong>
       <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
     </statBases>
-    <recipeMaker Inherit="False" IsNull="True" />
+    <!-- Temporary crafting recipe until the future-tech production chain is implemented. -->
+    <costList>
+      <Plasteel>80</Plasteel>
+      <ComponentSpacer>6</ComponentSpacer>
+    </costList>
+    <recipeMaker>
+      <recipeUsers>
+        <li>FabricationBench</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>10</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>Fabrication</researchPrerequisite>
+    </recipeMaker>
     <comps>
       <li>
         <compClass>CompEquippable</compClass>

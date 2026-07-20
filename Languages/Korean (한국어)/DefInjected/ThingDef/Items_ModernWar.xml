@@ -4,4 +4,8 @@
   <HD_MilitaryTablet.description>&#51109;&#52265; &#44032;&#45733;&#54620; &#51648;&#55064; &#50500;&#51060;&#53596;&#51077;&#45768;&#45796;.</HD_MilitaryTablet.description>
   <HD_Apparel_IBTVAssault.label>IBTV Assault</HD_Apparel_IBTVAssault.label>
   <HD_Apparel_IBTVAssault.description>헬로드 체형에 맞춰 제작한 현대식 모듈형 방탄복입니다. IOTV Gen4 Assault 구성을 모티브로 삼아 경질 방탄판에 목과 어깨 보호대를 결합했습니다.</HD_Apparel_IBTVAssault.description>
+  <HD_Apparel_M1952AFlakJacket.label>M1952A 플랙 재킷</HD_Apparel_M1952AFlakJacket.label>
+  <HD_Apparel_M1952AFlakJacket.description>포탄과 수류탄 파편으로부터 착용자를 보호하는 민소매 방편복입니다. 현대식 판형 방탄복보다 가볍고 유연하지만, 소총탄의 직격에는 방호력이 크게 떨어집니다.</HD_Apparel_M1952AFlakJacket.description>
+  <HD_Apparel_ZaperX26.label>ZAPER X26</HD_Apparel_ZaperX26.label>
+  <HD_Apparel_ZaperX26.description>주무기를 교체하지 않고 사용할 수 있는 보조장비형 전기충격기입니다. 전용 명령으로 유선 탐침 두 발을 발사하거나 접촉 전극 근접공격을 가할 수 있습니다.</HD_Apparel_ZaperX26.description>
 </LanguageData>

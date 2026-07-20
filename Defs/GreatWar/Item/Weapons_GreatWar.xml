@@ -141,6 +141,22 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_M2HB_CAS_Proj</defName>
+    <label>.50 caliber aircraft machine gun bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Big</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>24</damageAmountBase>
+      <armorPenetrationBase>0.38</armorPenetrationBase>
+      <stoppingPower>2.2</stoppingPower>
+      <speed>240</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1919A6LMG_Proj</defName>
     <label>M1919A6 light machine gun bullet</label>
     <graphicData>
@@ -407,7 +423,7 @@
     <costList>
       <Steel>32</Steel>
       <ComponentIndustrial>3</ComponentIndustrial>
-      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -485,7 +501,7 @@
     <costList>
       <Steel>70</Steel>
       <ComponentIndustrial>5</ComponentIndustrial>
-      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -573,7 +589,7 @@
     <costList>
       <Steel>52</Steel>
       <ComponentIndustrial>4</ComponentIndustrial>
-      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -741,7 +757,7 @@
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
-        <soundCast>Shot_Minigun</soundCast>
+        <soundCast>HD_M1917Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
         <consumeFuelPerShot>1</consumeFuelPerShot>
@@ -776,7 +792,7 @@
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>
-        <soundCast>Shot_Minigun</soundCast>
+        <soundCast>HD_M2Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>14</muzzleFlashScale>
         <consumeFuelPerShot>1</consumeFuelPerShot>
@@ -999,7 +1015,7 @@
     <costList>
       <Steel>70</Steel>
       <ComponentIndustrial>4</ComponentIndustrial>
-      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1087,7 +1103,7 @@
     <costList>
       <Steel>90</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
-      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1165,7 +1181,7 @@
     <costList>
       <Steel>95</Steel>
       <ComponentIndustrial>7</ComponentIndustrial>
-      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1243,7 +1259,7 @@
     <costList>
       <Steel>85</Steel>
       <ComponentIndustrial>6</ComponentIndustrial>
-      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
 
@@ -1357,7 +1373,7 @@
         <range>30.9</range>
         <burstShotCount>6</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <soundCast>Shot_Minigun</soundCast>
+        <soundCast>HD_M1917Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
       </li>
@@ -1369,7 +1385,7 @@
         <range>36.9</range>
         <burstShotCount>12</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <soundCast>Shot_Minigun</soundCast>
+        <soundCast>HD_M1917Fire</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
       </li>

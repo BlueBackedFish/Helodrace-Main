@@ -444,8 +444,8 @@
 			<li>HD_Apparel_GW_Protective</li>
 		</apparelTags>
 		<apparelRequired>
-			<li>HD_Apparel_GreatWarTrenchArmyInner</li>
-			<li>HD_Apparel_GreatWarTrenchArmyOuter</li>
+			<li>HD_Apparel_GreatWarStormFrontInner</li>
+			<li>HD_Apparel_GreatWarStormFrontOuter</li>
 			<li>HD_Apparel_GreatWarM1Helmet</li>
 		</apparelRequired>
 		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
@@ -515,8 +515,8 @@
 			<li>HD_Apparel_GW_Protective</li>
 		</apparelTags>
 		<apparelRequired>
-			<li>HD_Apparel_GreatWarTrenchArmyInner</li>
-			<li>HD_Apparel_GreatWarTrenchArmyOuter</li>
+			<li>HD_Apparel_GreatWarStormFrontInner</li>
+			<li>HD_Apparel_GreatWarStormFrontOuter</li>
 			<li>HD_Apparel_GreatWarM1Helmet</li>
 		</apparelRequired>
 		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>

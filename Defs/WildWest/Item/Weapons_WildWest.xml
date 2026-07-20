@@ -172,7 +172,7 @@
         <warmupTime>0.3</warmupTime>
         <range>25.9</range>
         <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_Revolver</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -184,7 +184,7 @@
         <range>6.9</range>
         <burstShotCount>6</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <soundCast>Shot_Revolver</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -258,7 +258,7 @@
         <warmupTime>0.4</warmupTime>
         <range>22.9</range>
         <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_Revolver</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -270,7 +270,7 @@
         <range>6.9</range>
         <burstShotCount>6</burstShotCount>
         <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
-        <soundCast>Shot_Revolver</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -343,7 +343,7 @@
         <warmupTime>0.3</warmupTime>
         <range>23.9</range>
         <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_Revolver</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -355,7 +355,7 @@
         <range>6.9</range>
         <burstShotCount>6</burstShotCount>
         <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
-        <soundCast>Shot_Revolver</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Light</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -418,7 +418,7 @@
         <warmupTime>1.0</warmupTime>
         <range>30.9</range>
         <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -430,7 +430,7 @@
         <range>13.9</range>
         <burstShotCount>1</burstShotCount>
         <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
-        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Medium</soundCastTail>
         <muzzleFlashScale>9</muzzleFlashScale>
       </li>
@@ -570,7 +570,7 @@
         <warmupTime>1.2</warmupTime>
         <range>32.9</range>
         <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
       </li>
@@ -581,7 +581,7 @@
         <warmupTime>0.3</warmupTime>
         <range>13.9</range>
         <burstShotCount>1</burstShotCount>
-        <soundCast>Shot_BoltActionRifle</soundCast>
+        <soundCast>HD_HighCaliberpistol</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
       </li>

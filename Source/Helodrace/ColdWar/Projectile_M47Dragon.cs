@@ -20,6 +20,7 @@ namespace Helodrace
         public float terminalSteeringMultiplier = 1.6f;
         public float directHitRadius = 0.42f;
         public float alignedCoastAngleDegrees = 2f;
+        public float maximumLaunchDeviationDegrees = 55f;
     }
 
     /// <summary>
@@ -47,6 +48,7 @@ namespace Helodrace
         private bool guidanceActive = true;
         private int wireAgeTicks;
         private Vector3 flightDirection;
+        private Vector3 initialGuidanceDirection;
         private int steeringFlameTicksLeft;
         private string steeringTextureSuffix;
         private bool registeredWithLauncher;
@@ -70,6 +72,7 @@ namespace Helodrace
             Scribe_Values.Look(ref guidanceActive, "guidanceActive", true);
             Scribe_Values.Look(ref wireAgeTicks, "wireAgeTicks");
             Scribe_Values.Look(ref flightDirection, "flightDirection");
+            Scribe_Values.Look(ref initialGuidanceDirection, "initialGuidanceDirection");
             Scribe_Values.Look(ref steeringFlameTicksLeft, "steeringFlameTicksLeft");
             Scribe_Values.Look(ref steeringTextureSuffix, "steeringTextureSuffix");
             Scribe_Values.Look(ref registeredWithLauncher, "registeredWithLauncher");
@@ -287,6 +290,10 @@ namespace Helodrace
             }
 
             flightDirection.Normalize();
+            if (initialGuidanceDirection.sqrMagnitude < 0.001f)
+            {
+                initialGuidanceDirection = flightDirection;
+            }
         }
 
         private void ApplySteeringPulse()
@@ -331,7 +338,7 @@ namespace Helodrace
 
             flightDirection = Quaternion.AngleAxis(appliedTurn, Vector3.up) * flightDirection;
             flightDirection.y = 0f;
-            flightDirection.Normalize();
+            flightDirection = ClampToLaunchCone(flightDirection);
 
             // Rotate only the remaining flight vector. Keeping ticksToImpact
             // and rebuilding the remaining distance from the projectile def's
@@ -357,6 +364,37 @@ namespace Helodrace
             {
                 SoundDef.Named("Shot_Revolver").PlayOneShot(new TargetInfo(missilePosition.ToIntVec3(), Map));
             }
+        }
+
+        private Vector3 ClampToLaunchCone(Vector3 direction)
+        {
+            direction.y = 0f;
+            if (direction.sqrMagnitude < 0.001f)
+            {
+                return initialGuidanceDirection;
+            }
+
+            direction.Normalize();
+            if (initialGuidanceDirection.sqrMagnitude < 0.001f)
+            {
+                initialGuidanceDirection = direction;
+                return direction;
+            }
+
+            initialGuidanceDirection.y = 0f;
+            initialGuidanceDirection.Normalize();
+            M47DragonProjectileExtension extension = def.GetModExtension<M47DragonProjectileExtension>();
+            float maximumDeviation = Mathf.Clamp(
+                extension?.maximumLaunchDeviationDegrees ?? 55f,
+                1f,
+                89f);
+            float signedDeviation = Vector3.SignedAngle(
+                initialGuidanceDirection,
+                direction,
+                Vector3.up);
+            return Quaternion.AngleAxis(
+                Mathf.Clamp(signedDeviation, -maximumDeviation, maximumDeviation),
+                Vector3.up) * initialGuidanceDirection;
         }
 
         private void UpdateTrackedTargetVector(Vector3 currentTargetPosition)

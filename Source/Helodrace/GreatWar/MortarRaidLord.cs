@@ -10,14 +10,19 @@ namespace Helodrace
     public class LordJob_MortarRaidHold : LordJob
     {
         private IntVec3 anchor;
+        private bool chemicalRaid;
 
         public LordJob_MortarRaidHold() { }
-        public LordJob_MortarRaidHold(IntVec3 anchor) { this.anchor = anchor; }
+        public LordJob_MortarRaidHold(IntVec3 anchor, bool chemicalRaid = false)
+        {
+            this.anchor = anchor;
+            this.chemicalRaid = chemicalRaid;
+        }
 
         public override StateGraph CreateGraph()
         {
             StateGraph graph = new StateGraph();
-            LordToil_MortarRaidHold hold = new LordToil_MortarRaidHold(anchor);
+            LordToil_MortarRaidHold hold = new LordToil_MortarRaidHold(anchor, chemicalRaid);
             graph.AddToil(hold);
             graph.StartingToil = hold;
             return graph;
@@ -27,6 +32,7 @@ namespace Helodrace
         {
             base.ExposeData();
             Scribe_Values.Look(ref anchor, "mortarRaidAnchor");
+            Scribe_Values.Look(ref chemicalRaid, "chemicalMortarRaid", false);
         }
     }
 
@@ -40,9 +46,14 @@ namespace Helodrace
         private int lastTacticalResponseAttemptTick = -99999;
         private int nextGroupManeuverDecisionTick;
         private bool groupManeuverAllowed = true;
+        private bool chemicalRaid;
 
         public LordToil_MortarRaidHold() { }
-        public LordToil_MortarRaidHold(IntVec3 anchor) { this.anchor = anchor; }
+        public LordToil_MortarRaidHold(IntVec3 anchor, bool chemicalRaid = false)
+        {
+            this.anchor = anchor;
+            this.chemicalRaid = chemicalRaid;
+        }
 
         public override void UpdateAllDuties()
         {
@@ -139,7 +150,8 @@ namespace Helodrace
             if (Find.TickManager.TicksGame >= nextGroupManeuverDecisionTick)
             {
                 nextGroupManeuverDecisionTick = Find.TickManager.TicksGame + 300;
-                groupManeuverAllowed = Map.GetComponent<MapComponent_MortarRaidAI>()?.TacticalActionAllowed(lord.faction) ?? true;
+                groupManeuverAllowed = !chemicalRaid
+                    && (Map.GetComponent<MapComponent_MortarRaidAI>()?.TacticalActionAllowed(lord.faction) ?? true);
             }
 
             foreach (Pawn defender in availableDefenders)
@@ -225,7 +237,7 @@ namespace Helodrace
             if (tacticalTick - lastTacticalResponseAttemptTick < 120)
                 return;
             lastTacticalResponseAttemptTick = tacticalTick;
-            if (!(Map.GetComponent<MapComponent_MortarRaidAI>()?.TacticalActionAllowed(lord.faction) ?? true))
+            if (chemicalRaid || !(Map.GetComponent<MapComponent_MortarRaidAI>()?.TacticalActionAllowed(lord.faction) ?? true))
                 return;
 
             Building_TurretGun mortar = Map.listerThings

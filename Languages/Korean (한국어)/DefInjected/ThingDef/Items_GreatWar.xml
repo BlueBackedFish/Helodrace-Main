@@ -25,6 +25,12 @@
   <HD_Apparel_GreatWarTrenchArmyOuter.label>대참호 군복 외피</HD_Apparel_GreatWarTrenchArmyOuter.label>
   <HD_Apparel_GreatWarTrenchArmyOuter.description>헤로드 체형에 맞춰 재단한 참호전 병사용 보강 외피입니다. 내의 위에 방어구처럼 걸쳐 입는 야전 장구입니다.</HD_Apparel_GreatWarTrenchArmyOuter.description>
 
+  <HD_Apparel_GreatWarStormFrontInner.label>폭풍 전선 군복 내피</HD_Apparel_GreatWarStormFrontInner.label>
+  <HD_Apparel_GreatWarStormFrontInner.description>헤로드 체형에 맞춰 재단한 폭풍 전선 병사용 내피 군복입니다. 방어구나 두꺼운 야전 장구 아래에 입는 내의입니다.</HD_Apparel_GreatWarStormFrontInner.description>
+
+  <HD_Apparel_GreatWarStormFrontOuter.label>폭풍 전선 군복 외피</HD_Apparel_GreatWarStormFrontOuter.label>
+  <HD_Apparel_GreatWarStormFrontOuter.description>헤로드 체형에 맞춰 재단한 폭풍 전선 병사용 보강 외피입니다. 군복 내피 위, 두꺼운 방어구와 야전 장구 아래의 중간층에 입습니다.</HD_Apparel_GreatWarStormFrontOuter.description>
+
   <HD_37mmShell_HE.label>37mm 고폭탄</HD_37mmShell_HE.label>
   <HD_37mmShell_HE.description>M1916 37mm 포용 소형 고폭탄입니다. 보병, 경엄폐물, 노출된 야전 진지를 직접 사격하기 위해 제작되었습니다.</HD_37mmShell_HE.description>
   <HD_37mmShell_AP.label>37mm 철갑탄</HD_37mmShell_AP.label>

@@ -142,10 +142,12 @@
               <defaultOffset>Tail</defaultOffset>
               <shaderType>Cutout</shaderType>
               <offsets>
-                <south><offset>(-0.25,0.25)</offset></south>
+                <south>
+                  <offset>(-0.25,0.25)</offset>
+                </south>
                 <north>
                   <offset>(-0.05,0.36)</offset>
-                  <layerOffset>-0.2</layerOffset> <!-- 북쪽을 볼 때 몸 뒤로 숨김 -->
+                  <layerOffset>-0.2</layerOffset>
                 </north>
                 <east><offset>(-0.11,0.18)</offset></east>
               </offsets>
@@ -167,20 +169,20 @@
               <angle>0</angle>
               <alignWithHead>true</alignWithHead>
               <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-              <defaultOffset>Tail</defaultOffset>
+              <defaultOffset>Head</defaultOffset>
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <north>
-                  <offset>(-0.11,0.64)</offset>
+                  <offset>(-0.165,-0.16)</offset>
                   <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.44,0.44)</offset>
-                  <layerOffset>0.004</layerOffset>
+                  <offset>(0.042,-0.3)</offset>
+                  <layerOffset></layerOffset>
                 </east>
                 <south>
-                  <offset>(-0.259,0.457)</offset>
-                  <layerOffset>0.004</layerOffset>
+                  <offset>(0.165,-0.2)</offset>
+                  <layerOffset></layerOffset>
                 </south>
               </offsets>
             </li>
@@ -201,20 +203,20 @@
               <angle>0</angle>
               <alignWithHead>true</alignWithHead>
               <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-              <defaultOffset>Tail</defaultOffset>
+              <defaultOffset>Head</defaultOffset>
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <north>
-                  <offset>(0.26,0.64)</offset>
+                  <offset>(0.165,-0.16)</offset>
                   <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.44,0.44)</offset>
-                  <layerOffset>0.004</layerOffset>
+                  <offset>(0.042,-0.3)</offset>
+                  <layerOffset>-0.004</layerOffset>
                 </east>
                 <south>
-                  <offset>(-0.581,0.457)</offset>
-                  <layerOffset>0.004</layerOffset>
+                  <offset>(-0.165,-0.2)</offset>
+                  <layerOffset></layerOffset>
                 </south>
               </offsets>
             </li>
@@ -286,12 +288,16 @@
           <li>HD_Apparel_M6RocketBag</li>
           <li>HD_Apparel_GreatWarTrenchArmyInner</li>
           <li>HD_Apparel_GreatWarTrenchArmyOuter</li>
+          <li>HD_Apparel_GreatWarStormFrontInner</li>
+          <li>HD_Apparel_GreatWarStormFrontOuter</li>
           <li>HD_Apparel_GreatWarM1Helmet</li>
           <li>HD_Apparel_M1MortarBaseplate</li>
           <li>HD_Apparel_M1MortarMount</li>
           <li>HD_Apparel_M1MortarBarrel</li>
           <li>HD_MilitaryTablet</li>
           <li>HD_Apparel_IBTVAssault</li>
+          <li>HD_Apparel_M1952AFlakJacket</li>
+          <li>HD_Apparel_SCR300</li>
         </apparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">

@@ -159,7 +159,7 @@
   <HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>Preserved rations</HD_TelegraphTable_ForwardBase_Service_LogisticsPreservedFood>
   <HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>Medical supplies</HD_TelegraphTable_ForwardBase_Service_LogisticsMedicalSupplies>
   <HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>Weapons</HD_TelegraphTable_ForwardBase_Service_LogisticsWeapons>
-  <HD_TelegraphTable_ForwardBase_Service_AirBombing>Air bombing</HD_TelegraphTable_ForwardBase_Service_AirBombing>
+  <HD_TelegraphTable_ForwardBase_Service_CloseAirSupport>Close air support</HD_TelegraphTable_ForwardBase_Service_CloseAirSupport>
   <HD_TelegraphTable_ForwardBase_Service_SupportRequest>Support request</HD_TelegraphTable_ForwardBase_Service_SupportRequest>
   <HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>Security detachment</HD_TelegraphTable_ForwardBase_Service_SecurityDetachment>
   <HD_TelegraphTable_ForwardBase_Service_EngineerTeam>Engineer team</HD_TelegraphTable_ForwardBase_Service_EngineerTeam>
@@ -211,4 +211,75 @@
   <HD_MarketAsset_GovernmentBond>Government bond</HD_MarketAsset_GovernmentBond>
   <HD_MarketAsset_ContinentalPetroleumBond>Continental Petroleum bond</HD_MarketAsset_ContinentalPetroleumBond>
   <HD_MarketAsset_Sthaler>Sthaler banknote</HD_MarketAsset_Sthaler>
+  <HD_SCR300_SelectedBase_None>Selected forward base: none</HD_SCR300_SelectedBase_None>
+  <HD_SCR300_SelectedBase>Selected forward base: {0} (tile {1})</HD_SCR300_SelectedBase>
+  <HD_SCR300_SelectBase_Label>Select forward base</HD_SCR300_SelectBase_Label>
+  <HD_SCR300_SelectBase_Desc>Select a contracted forward base with at least one service in range of the wearer's current map.</HD_SCR300_SelectBase_Desc>
+  <HD_SCR300_RequestCAS_Label>Request CAS</HD_SCR300_RequestCAS_Label>
+  <HD_SCR300_RequestCAS_Desc>Request close air support from {0} against a position on the wearer's current map.</HD_SCR300_RequestCAS_Desc>
+  <HD_SCR300_None>none</HD_SCR300_None>
+  <HD_SCR300_NoBase>No contracted forward base with an in-range service is available.</HD_SCR300_NoBase>
+  <HD_SCR300_InvalidBase>Select a contracted forward base that can support the current map.</HD_SCR300_InvalidBase>
+  <HD_SCR300_BaseSelected>SCR-300 linked to {0}.</HD_SCR300_BaseSelected>
+  <HD_SCR300_SelectBase_First>Select a forward base first.</HD_SCR300_SelectBase_First>
+  <HD_SCR300_BaseNoCAS>The selected forward base does not provide CAS.</HD_SCR300_BaseNoCAS>
+  <HD_SCR300_BaseOutOfRange>None of the selected forward base's services can reach the current map.</HD_SCR300_BaseOutOfRange>
+  <HD_SCR300_ServiceUnavailable>The selected forward base has no available CAS quota or service credit.</HD_SCR300_ServiceUnavailable>
+  <HD_CAS_Unavailable>Close air support is unavailable from the selected forward base.</HD_CAS_Unavailable>
+  <HD_CAS_TargetPrompt>Select the center of the CAS attack run. Strike radius: {0} cells.</HD_CAS_TargetPrompt>
+  <HD_CAS_Called>{0} acknowledged the CAS request. Aircraft arrive in approximately {1} seconds. Mountain-roof cells on approach: {2}.</HD_CAS_Called>
+  <HD_SCR300_RequestSupport_Label>Request support</HD_SCR300_RequestSupport_Label>
+  <HD_SCR300_RequestSupport_Desc>Use the SCR-300 to request one of {0}'s contracted services for the wearer's current map.</HD_SCR300_RequestSupport_Desc>
+  <HD_SCR300_NoContractedServices>The selected forward base has no contracted services.</HD_SCR300_NoContractedServices>
+  <HD_SCR300_ServiceOutOfRange>out of range</HD_SCR300_ServiceOutOfRange>
+  <HD_SCR300_ServiceNotImplemented>This service cannot be dispatched to the current map.</HD_SCR300_ServiceNotImplemented>
+  <HD_SCR300_SuppliesDispatched>{1} dispatched {0} to the radio operator's position.</HD_SCR300_SuppliesDispatched>
+  <HD_SCR300_InfantryDispatched>{0} deployed {1} supporting infantry near the radio operator.</HD_SCR300_InfantryDispatched>
+  <HD_SCR300_DeploymentFailed>The forward base could not assemble an infantry detachment.</HD_SCR300_DeploymentFailed>
+  <HD_SCR300_SolarFlare>Solar flare interference has disabled the SCR-300.</HD_SCR300_SolarFlare>
+  <HD_SCR300_TargetNotVisible>The radio operator must have line of sight to the artillery or CAS target.</HD_SCR300_TargetNotVisible>
+  <HD_M8Flare_TimeRemaining>Flare burn time remaining: {0}</HD_M8Flare_TimeRemaining>
+  <HD_CAS_Guidance_TalkOn>Talk-on guidance</HD_CAS_Guidance_TalkOn>
+  <HD_CAS_Guidance_Flare>Flare guidance</HD_CAS_Guidance_Flare>
+  <HD_CAS_Guidance_FlareUnavailable>Flare guidance (no active flare)</HD_CAS_Guidance_FlareUnavailable>
+  <HD_CAS_NoActiveFlare>No active M8 flare is available on this map.</HD_CAS_NoActiveFlare>
+  <HD_CAS_FlareTargetPrompt>Select an active M8 flare as the CAS designation target.</HD_CAS_FlareTargetPrompt>
+  <HD_CAS_LaserUnavailable>Laser guidance is not currently available.</HD_CAS_LaserUnavailable>
+  <HD_CAS_GuidanceLost>CAS aborted because the guidance marker was lost.</HD_CAS_GuidanceLost>
+  <HD_CAS_RoutePrompt>Drag an approach line from within {0} cells of the map edge to the strike position.</HD_CAS_RoutePrompt>
+  <HD_CAS_InvalidEntry>The CAS entry point must be within {0} cells of the map edge.</HD_CAS_InvalidEntry>
+  <HD_CAS_InvalidRoute>CAS approach routes must be at least 8 cells long and end inside the map.</HD_CAS_InvalidRoute>
+  <HD_CAS_RouteMustEndAtFlare>Flare-guided CAS routes must end on an active M8 flare.</HD_CAS_RouteMustEndAtFlare>
+  <HD_CAS_GuidanceSuccess>CAS guidance acquired successfully. Success chance: {0}%. Attempt: {1}.</HD_CAS_GuidanceSuccess>
+  <HD_CAS_GoAround>CAS guidance failed at {0}% probability. Aircraft are going around. Next probability: {1}%. Go-around: {2}. Retry in {3}.</HD_CAS_GoAround>
+  <HD_CAS_Cancel_Label>Cancel CAS</HD_CAS_Cancel_Label>
+  <HD_CAS_Cancel_Desc>Cancel the current CAS aircraft and all remaining follow-up aircraft.</HD_CAS_Cancel_Desc>
+  <HD_CAS_Cancel_NoActive>There is no active CAS mission to cancel.</HD_CAS_Cancel_NoActive>
+  <HD_CAS_Cancel_Locked>The aircraft is within one second of bomb release and cannot abort.</HD_CAS_Cancel_Locked>
+  <HD_CAS_Cancel_NoFollowup>The final aircraft has already completed its attack.</HD_CAS_Cancel_NoFollowup>
+  <HD_CAS_Cancelled>CAS cancelled. The current aircraft is aborting and all follow-up aircraft have been recalled.</HD_CAS_Cancelled>
+  <HD_CAS_Attack_Bombing>Bombing run</HD_CAS_Attack_Bombing>
+  <HD_CAS_Attack_Strafing>Strafing run</HD_CAS_Attack_Strafing>
+  <HD_CAS_StrafeRoutePrompt>Drag from within {0} cells of the map edge to the center of the strafing area. The run extends 15 cells in both directions for a total length of {1} cells and a width of {2} cells.</HD_CAS_StrafeRoutePrompt>
+  <HD_CAS_StrafeOutsideMap>The full 30-cell strafing line must remain inside the map.</HD_CAS_StrafeOutsideMap>
+  <HD_CAS_TargetNoVisibleReference>Pawn targets require direct line of sight. Ground targets require at least one visible reference cell within 10 cells.</HD_CAS_TargetNoVisibleReference>
+  <HD_CAS_PlaytimeExhausted>No active P-47 flight is available. Request a flight from the CAS operations panel first.</HD_CAS_PlaytimeExhausted>
+  <HD_CAS_AircraftAssigned>Aircraft assigned to this request: {0}.</HD_CAS_AircraftAssigned>
+  <HD_CAS_PlaytimeGuidancePenalty>{0}: three additional guidance failures reduced the P-47 flight's playtime.</HD_CAS_PlaytimeGuidancePenalty>
+  <HD_CAS_PlaytimeTimePenalty>{0}: two hours on station reduced the P-47 flight's playtime by {1}.</HD_CAS_PlaytimeTimePenalty>
+  <HD_CAS_Control_Title>CAS Operations</HD_CAS_Control_Title>
+  <HD_CAS_Control_Base>Forward base: {0}</HD_CAS_Control_Base>
+  <HD_CAS_Control_StatusActive>P-47 flight on station</HD_CAS_Control_StatusActive>
+  <HD_CAS_Control_StatusExhausted>P-47 flight has left the station</HD_CAS_Control_StatusExhausted>
+  <HD_CAS_Control_StatusNotRequested>No P-47 flight requested</HD_CAS_Control_StatusNotRequested>
+  <HD_CAS_Control_Playtime>On-station playtime</HD_CAS_Control_Playtime>
+  <HD_CAS_Control_ReservedAircraft>Aircraft held for the follow-up bombing run: {0}</HD_CAS_Control_ReservedAircraft>
+  <HD_CAS_Control_RequestFlight>Request P-47 flight</HD_CAS_Control_RequestFlight>
+  <HD_CAS_FlightRequested>{0}: P-47 flight requested. On-station playtime has started.</HD_CAS_FlightRequested>
+  <HD_CAS_Control_BombingDesc>Designate an approach route and target for a two-bomb strike.</HD_CAS_Control_BombingDesc>
+  <HD_CAS_Control_StrafingDesc>Designate an approach route and the center of a strafing run.</HD_CAS_Control_StrafingDesc>
+  <HD_CAS_Control_Select>Select</HD_CAS_Control_Select>
+  <HD_CAS_Control_MissionActive>A CAS mission is already active for this radio operator.</HD_CAS_Control_MissionActive>
+  <HD_CAS_Control_NoCapacity>The selected forward base cannot accept another CAS request.</HD_CAS_Control_NoCapacity>
+  <HD_CAS_Control_PlaytimeTooltip>Remaining P-47 on-station playtime. Each attack request consumes one segment; time on station and repeated guidance failures can also reduce it.</HD_CAS_Control_PlaytimeTooltip>
 </LanguageData>

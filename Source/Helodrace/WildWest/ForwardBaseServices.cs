@@ -14,7 +14,7 @@ namespace Helodrace
         LogisticsPreservedFood,
         LogisticsMedicalSupplies,
         LogisticsWeapons,
-        AirBombing
+        CloseAirSupport
     }
 
     public enum HelodForwardBaseCostKind
@@ -51,7 +51,7 @@ namespace Helodrace
                 case HelodForwardBaseService.LogisticsMedicalSupplies:
                 case HelodForwardBaseService.LogisticsWeapons:
                     return 8f;
-                case HelodForwardBaseService.AirBombing:
+                case HelodForwardBaseService.CloseAirSupport:
                     return 10f;
                 default:
                     return 0f;
@@ -170,7 +170,7 @@ namespace Helodrace
                     return 320f;
                 case HelodForwardBaseService.LogisticsWeapons:
                     return 480f;
-                case HelodForwardBaseService.AirBombing:
+                case HelodForwardBaseService.CloseAirSupport:
                     return 950f;
                 case HelodForwardBaseService.InfantrySniperSupport:
                     return 160f;

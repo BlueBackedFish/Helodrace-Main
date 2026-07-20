@@ -85,15 +85,6 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
-      <li>
-        <kindDef>Combat</kindDef>
-        <options>
-          <HD_WW_HelodSettler>45</HD_WW_HelodSettler>
-          <HD_WW_HelodUpperClass>35</HD_WW_HelodUpperClass>
-          <HD_WW_FrontierWatchman>60</HD_WW_FrontierWatchman>
-          <HD_WW_HelodCavalry>75</HD_WW_HelodCavalry>
-        </options>
-      </li>
       <!-- Great War standard raid. Mortar crews are deliberately excluded. -->
       <li>
         <kindDef>Combat</kindDef>

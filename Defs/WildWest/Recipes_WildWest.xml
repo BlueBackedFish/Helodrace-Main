@@ -973,44 +973,6 @@
   </RecipeDef>-->
 
   <RecipeDef>
-    <defName>HD_PressLowQualityTorsionSpring</defName>
-    <label>press low quality torsion spring</label>
-    <description>Form a crude torsion spring from carbon steel with the hydraulic press.</description>
-    <jobString>Pressing torsion spring.</jobString>
-    <workAmount>900</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>12</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_LowQualityTorsionSpring>1</HD_LowQualityTorsionSpring>
-    </products>
-    <recipeUsers>
-      <li>HD_LineShaftHydraulicPress</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>4</Crafting>
-    </skillRequirements>
-  </RecipeDef>
-
-  <RecipeDef>
     <defName>HD_MakeShaft</defName>
     <label>make shaft</label>
     <description>Turn carbon steel into a straight mechanical shaft on a lathe.</description>
@@ -1467,82 +1429,6 @@
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_PressVSpring</defName>
-    <label>press V-spring</label>
-    <description>Form a shaped V-spring from carbon steel with the hydraulic press.</description>
-    <jobString>Pressing V-spring.</jobString>
-    <workAmount>900</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>14</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_VSpring>1</HD_VSpring>
-    </products>
-    <recipeUsers>
-      <li>HD_LineShaftHydraulicPress</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>5</Crafting>
-    </skillRequirements>
-  </RecipeDef>
-
-  <RecipeDef>
-    <defName>HD_PressLowQualityMagazineSpring</defName>
-    <label>press low quality magazine spring</label>
-    <description>Form a rough magazine spring from carbon steel with the hydraulic press.</description>
-    <jobString>Pressing magazine spring.</jobString>
-    <workAmount>900</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>13</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
-    </products>
-    <recipeUsers>
-      <li>HD_LineShaftHydraulicPress</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>5</Crafting>
-    </skillRequirements>
-  </RecipeDef>
-
-  <RecipeDef>
     <defName>HD_MakeLowQualityBarrel</defName>
     <label>make low quality gun barrel</label>
     <description>Bore and turn a low-quality metal gun barrel from carbon steel on a lathe.</description>
@@ -1608,120 +1494,6 @@
     <recipeUsers>
       <li>HD_TreadleLathe</li>
     </recipeUsers>
-  </RecipeDef>
-
-  <RecipeDef>
-    <defName>HD_MakeLowQualityTorsionSpring_BasicWorkbench</defName>
-    <label>make low quality torsion spring by hand</label>
-    <description>Slowly form a crude torsion spring from carbon steel at a basic workbench.</description>
-    <jobString>Making torsion spring by hand.</jobString>
-    <workAmount>2100</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>12</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_LowQualityTorsionSpring>1</HD_LowQualityTorsionSpring>
-    </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>4</Crafting>
-    </skillRequirements>
-  </RecipeDef>
-
-  <RecipeDef>
-    <defName>HD_MakeVSpring_BasicWorkbench</defName>
-    <label>make V-spring by hand</label>
-    <description>Slowly form a shaped V-spring from carbon steel at a basic workbench.</description>
-    <jobString>Making V-spring by hand.</jobString>
-    <workAmount>2400</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMechanicalEngineering</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>14</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_VSpring>1</HD_VSpring>
-    </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>5</Crafting>
-    </skillRequirements>
-  </RecipeDef>
-
-  <RecipeDef>
-    <defName>HD_MakeLowQualityMagazineSpring_BasicWorkbench</defName>
-    <label>make low quality magazine spring by hand</label>
-    <description>Slowly form a rough magazine spring from carbon steel at a basic workbench.</description>
-    <jobString>Making magazine spring by hand.</jobString>
-    <workAmount>2400</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Sculpt</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodMetalFormingMachine</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CarbonSteel</li>
-          </thingDefs>
-        </filter>
-        <count>13</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CarbonSteel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_LowQualityMagazineSpring>1</HD_LowQualityMagazineSpring>
-    </products>
-    <recipeUsers>
-      <li>HD_BasicWorkbench</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>5</Crafting>
-    </skillRequirements>
   </RecipeDef>
 
   <RecipeDef>
@@ -1880,7 +1652,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_VSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
         <count>1</count>
@@ -1891,7 +1663,7 @@
         <li>HD_LowQualityBarrel</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_VSpring</li>
+        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -1937,7 +1709,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_VSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
         <count>1</count>
@@ -1947,7 +1719,7 @@
       <thingDefs>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_VSpring</li>
+        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -1991,22 +1763,13 @@
             <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_VSpring</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
-        <li>HD_VSpring</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2050,22 +1813,13 @@
             <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>2</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_VSpring</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
+        <count>3</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
-        <li>HD_VSpring</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2109,7 +1863,7 @@
             <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>3</count>
+        <count>4</count>
       </li>
       <li>
         <filter>
@@ -2119,21 +1873,12 @@
         </filter>
         <count>2</count>
       </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
         <li>HD_PressComponent</li>
-        <li>HD_LowQualityMagazineSpring</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2274,15 +2019,7 @@
             <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_LowQualityTorsionSpring</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -2290,7 +2027,6 @@
         <li>HD_LowQualityBarrel</li>
         <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
-        <li>HD_LowQualityTorsionSpring</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2328,10 +2064,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>3</count>
       </li>
       <li>
         <filter>
@@ -2349,22 +2085,13 @@
         </filter>
         <count>20</count>
       </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>2</count>
-      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2405,10 +2132,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>3</count>
       </li>
       <li>
         <filter>
@@ -2426,22 +2153,13 @@
         </filter>
         <count>20</count>
       </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>2</count>
-      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_ShotgunBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2482,10 +2200,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>4</count>
       </li>
       <li>
         <filter>
@@ -2503,22 +2221,13 @@
         </filter>
         <count>20</count>
       </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>3</count>
-      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2556,7 +2265,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityTorsionSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
         <count>1</count>
@@ -2565,12 +2274,12 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_Gun_SprMOne_Weapon</li>
-        <li>HD_LowQualityTorsionSpring</li>
+        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
       <HD_Gun_SprMThreeHigh_Weapon>1</HD_Gun_SprMThreeHigh_Weapon>
-      <HD_VSpring>1</HD_VSpring>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </products>
     <recipeUsers>
       <li>HD_BasicWorkbench</li>
@@ -2604,10 +2313,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -2625,22 +2334,13 @@
         </filter>
         <count>20</count>
       </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2681,10 +2381,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>6</count>
       </li>
       <li>
         <filter>
@@ -2702,22 +2402,13 @@
         </filter>
         <count>20</count>
       </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>5</count>
-      </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -2757,10 +2448,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -2781,14 +2472,6 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
             <li>HD_PressComponent</li>
           </thingDefs>
         </filter>
@@ -2798,10 +2481,9 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_ShotgunBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
         <li>HD_PressComponent</li>
       </thingDefs>
     </fixedIngredientFilter>
@@ -2911,10 +2593,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -2923,14 +2605,6 @@
           </thingDefs>
         </filter>
         <count>25</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>4</count>
       </li>
       <li>
         <filter>
@@ -2944,9 +2618,8 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_Gun_SprMThree_Weapon</li>
-        <li>HD_LowQualityMagazineSpring</li>
-        <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
+        <li>HD_CarbonSteel</li>
         <li>HD_PressComponent</li>
       </thingDefs>
     </fixedIngredientFilter>
@@ -2988,10 +2661,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>2</count>
+        <count>7</count>
       </li>
       <li>
         <filter>
@@ -3012,14 +2685,6 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>5</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
             <li>HD_PressComponent</li>
           </thingDefs>
         </filter>
@@ -3029,10 +2694,9 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
         <li>HD_PressComponent</li>
       </thingDefs>
     </fixedIngredientFilter>
@@ -3074,10 +2738,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>2</count>
+        <count>3</count>
       </li>
       <li>
         <filter>
@@ -3086,14 +2750,6 @@
           </thingDefs>
         </filter>
         <count>52</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
       </li>
       <li>
         <filter>
@@ -3107,9 +2763,8 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
-        <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
+        <li>HD_CarbonSteel</li>
         <li>HD_PressComponent</li>
       </thingDefs>
     </fixedIngredientFilter>
@@ -3219,10 +2874,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>7</count>
       </li>
       <li>
         <filter>
@@ -3243,14 +2898,6 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>6</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
             <li>HD_PressComponent</li>
           </thingDefs>
         </filter>
@@ -3260,10 +2907,9 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
         <li>HD_PressComponent</li>
       </thingDefs>
     </fixedIngredientFilter>
@@ -3305,10 +2951,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>2</count>
+        <count>8</count>
       </li>
       <li>
         <filter>
@@ -3329,14 +2975,6 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>6</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
             <li>HD_PressComponent</li>
           </thingDefs>
         </filter>
@@ -3346,10 +2984,9 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
+        <li>HD_GeneralMachinePart</li>
         <li>HD_CarbonSteel</li>
         <li>WoodLog</li>
-        <li>HD_GeneralMachinePart</li>
         <li>HD_PressComponent</li>
       </thingDefs>
     </fixedIngredientFilter>
@@ -3457,10 +3094,10 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_LowQualityMagazineSpring</li>
+            <li>HD_GeneralMachinePart</li>
           </thingDefs>
         </filter>
-        <count>2</count>
+        <count>10</count>
       </li>
       <li>
         <filter>
@@ -3469,14 +3106,6 @@
           </thingDefs>
         </filter>
         <count>95</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_GeneralMachinePart</li>
-          </thingDefs>
-        </filter>
-        <count>8</count>
       </li>
       <li>
         <filter>
@@ -3498,9 +3127,8 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>HD_WildWestBarrel</li>
-        <li>HD_LowQualityMagazineSpring</li>
-        <li>HD_CarbonSteel</li>
         <li>HD_GeneralMachinePart</li>
+        <li>HD_CarbonSteel</li>
         <li>HD_PressComponent</li>
         <li>HD_UniformRolledSteelPlate</li>
       </thingDefs>

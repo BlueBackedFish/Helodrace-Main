@@ -37,4 +37,6 @@
   <HD_SharpshooterMode_Fanning_Desc>Switches between normal aimed fire and close-range fanning.</HD_SharpshooterMode_Fanning_Desc>
   <HD_SharpshooterMode_DoubleTap>Double tap</HD_SharpshooterMode_DoubleTap>
   <HD_SharpshooterMode_DoubleTap_Desc>Switches between normal fire and a fast two-shot follow-up.</HD_SharpshooterMode_DoubleTap_Desc>
+  <HD_M8Flare_HighAngle>High-angle flare</HD_M8Flare_HighAngle>
+  <HD_M8Flare_ModeDesc>Switches between direct flare fire and an inaccurate high-angle shot that can pass over intervening obstacles.</HD_M8Flare_ModeDesc>
 </LanguageData>

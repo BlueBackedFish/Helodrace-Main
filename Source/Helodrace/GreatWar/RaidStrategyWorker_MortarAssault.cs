@@ -8,6 +8,9 @@ namespace Helodrace
 {
     public class RaidStrategyWorker_MortarAssault : RaidStrategyWorker_ImmediateAttack
     {
+        protected virtual string MortarShellDefName => "HD_81mmMortarShell_M43HE";
+        protected virtual bool IsChemicalRaid => false;
+
         private static readonly string[] RequiredKinds =
         {
             "HD_GW_HelodMortarmanA",
@@ -50,15 +53,22 @@ namespace Helodrace
 
             Pawn shellBearer = pawns.First(p => p.kindDef.defName == "HD_GW_HelodMortarShellBearer");
             Pawn rationBearer = pawns.First(p => p.kindDef.defName == "HD_GW_HelodFieldRationBearer");
-            GiveInventory(shellBearer, "HD_81mmMortarShell_M43HE", parms.points >= 1800f ? 24 : 16);
+            GiveInventory(shellBearer, MortarShellDefName, parms.points >= 1800f ? 24 : 16);
             GiveInventory(rationBearer, "HD_Hardtack", pawns.Count * 3);
+
+            if (IsChemicalRaid)
+            {
+                foreach (Pawn pawn in pawns)
+                    EnsureCbrnPouch(pawn);
+            }
+
             return pawns;
         }
 
         protected override LordJob MakeLordJob(IncidentParms parms, Map map, List<Pawn> pawns, int raidSeed)
         {
             Pawn anchor = pawns.FirstOrDefault(p => p.kindDef?.defName == "HD_GW_HelodMortarmanA") ?? pawns.First();
-            return new LordJob_MortarRaidHold(anchor.Position);
+            return new LordJob_MortarRaidHold(anchor.Position, IsChemicalRaid);
         }
 
         private static Pawn GenerateAndSpawn(string kindDefName, Faction faction, Map map, IntVec3 center)
@@ -90,6 +100,30 @@ namespace Helodrace
                 carrier.apparel.Wear(apparel, false);
             else
                 carrier.inventory.innerContainer.TryAdd(apparel);
+        }
+
+        private static void EnsureCbrnPouch(Pawn pawn)
+        {
+            ThingDef pouchDef = DefDatabase<ThingDef>.GetNamed("HD_Apparel_GreatWarCBRNPouch");
+            if (pawn.apparel.WornApparel.Any(a => a.def == pouchDef))
+                return;
+
+            Apparel pouch = (Apparel)ThingMaker.MakeThing(pouchDef, pouchDef.MadeFromStuff ? ThingDefOf.Cloth : null);
+            if (pawn.apparel.CanWearWithoutDroppingAnything(pouchDef))
+                pawn.apparel.Wear(pouch, false);
+            else
+                pawn.apparel.Wear(pouch, true);
+        }
+    }
+
+    public class RaidStrategyWorker_ChemicalMortarAssault : RaidStrategyWorker_MortarAssault
+    {
+        protected override string MortarShellDefName => "HD_81mmMortarShell_BA";
+        protected override bool IsChemicalRaid => true;
+
+        public override bool CanUseWith(IncidentParms parms, PawnGroupKindDef groupKind)
+        {
+            return base.CanUseWith(parms, groupKind) && parms.points >= 900f;
         }
     }
 }

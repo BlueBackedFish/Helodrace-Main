@@ -147,9 +147,6 @@
   <HD_MakePlainDogChew.label>무첨가 개껌 제작</HD_MakePlainDogChew.label>
   <HD_MakePlainDogChew.description>나프타와 가죽으로 BTX가 스며든 무첨가 개껌을 만듭니다.</HD_MakePlainDogChew.description>
   <HD_MakePlainDogChew.jobString>무첨가 개껌 제작 중.</HD_MakePlainDogChew.jobString>
-  <HD_PressLowQualityTorsionSpring.label>저품질 토션 스프링 가압 성형</HD_PressLowQualityTorsionSpring.label>
-  <HD_PressLowQualityTorsionSpring.description>유압 프레스로 강철을 성형해 조잡한 토션 스프링을 만듭니다.</HD_PressLowQualityTorsionSpring.description>
-  <HD_PressLowQualityTorsionSpring.jobString>토션 스프링 가압 성형 중.</HD_PressLowQualityTorsionSpring.jobString>
   <HD_MakePressComponentBulk5.label>프레스 부품 x5 가압 성형</HD_MakePressComponentBulk5.label>
   <HD_MakePressComponentBulk5.description>유압 프레스로 탄소강을 찍어 거친 프레스 부품을 만듭니다.</HD_MakePressComponentBulk5.description>
   <HD_MakePressComponentBulk5.jobString>프레스 부품 가압 성형 중.</HD_MakePressComponentBulk5.jobString>
@@ -168,21 +165,6 @@
   <HD_TurnGeneralMachinePartBulk10.label>범용 기계 부품 x10 선반 가공</HD_TurnGeneralMachinePartBulk10.label>
   <HD_TurnGeneralMachinePartBulk10.description>남는 탄소강을 선반에서 깎아 범용 기계 부품으로 만듭니다.</HD_TurnGeneralMachinePartBulk10.description>
   <HD_TurnGeneralMachinePartBulk10.jobString>범용 기계 부품 선반 가공 중.</HD_TurnGeneralMachinePartBulk10.jobString>
-  <HD_PressVSpring.label>V스프링 가압 성형</HD_PressVSpring.label>
-  <HD_PressVSpring.description>유압 프레스로 강철을 성형해 V자형 스프링을 만듭니다.</HD_PressVSpring.description>
-  <HD_PressVSpring.jobString>V스프링 가압 성형 중.</HD_PressVSpring.jobString>
-  <HD_PressLowQualityMagazineSpring.label>저품질 탄창 스프링 가압 성형</HD_PressLowQualityMagazineSpring.label>
-  <HD_PressLowQualityMagazineSpring.description>유압 프레스로 강철을 성형해 투박한 탄창 스프링을 만듭니다.</HD_PressLowQualityMagazineSpring.description>
-  <HD_PressLowQualityMagazineSpring.jobString>탄창 스프링 가압 성형 중.</HD_PressLowQualityMagazineSpring.jobString>
-  <HD_MakeLowQualityTorsionSpring_BasicWorkbench.label>저품질 토션 스프링 수작업 제작</HD_MakeLowQualityTorsionSpring_BasicWorkbench.label>
-  <HD_MakeLowQualityTorsionSpring_BasicWorkbench.description>기초 작업대에서 강철을 천천히 성형해 조잡한 토션 스프링을 만듭니다.</HD_MakeLowQualityTorsionSpring_BasicWorkbench.description>
-  <HD_MakeLowQualityTorsionSpring_BasicWorkbench.jobString>토션 스프링 수작업 제작 중.</HD_MakeLowQualityTorsionSpring_BasicWorkbench.jobString>
-  <HD_MakeVSpring_BasicWorkbench.label>V스프링 수작업 제작</HD_MakeVSpring_BasicWorkbench.label>
-  <HD_MakeVSpring_BasicWorkbench.description>기초 작업대에서 강철을 천천히 성형해 V자형 스프링을 만듭니다.</HD_MakeVSpring_BasicWorkbench.description>
-  <HD_MakeVSpring_BasicWorkbench.jobString>V스프링 수작업 제작 중.</HD_MakeVSpring_BasicWorkbench.jobString>
-  <HD_MakeLowQualityMagazineSpring_BasicWorkbench.label>저품질 탄창 스프링 수작업 제작</HD_MakeLowQualityMagazineSpring_BasicWorkbench.label>
-  <HD_MakeLowQualityMagazineSpring_BasicWorkbench.description>기초 작업대에서 강철을 천천히 성형해 투박한 탄창 스프링을 만듭니다.</HD_MakeLowQualityMagazineSpring_BasicWorkbench.description>
-  <HD_MakeLowQualityMagazineSpring_BasicWorkbench.jobString>탄창 스프링 수작업 제작 중.</HD_MakeLowQualityMagazineSpring_BasicWorkbench.jobString>
   <HD_MakeLowQualityBarrel_BasicWorkbench.label>저품질 총열 수작업 제작</HD_MakeLowQualityBarrel_BasicWorkbench.label>
   <HD_MakeLowQualityBarrel_BasicWorkbench.description>기초 작업대에서 강철을 천천히 뚫고 마감하여 저품질 금속 총열을 수작업으로 만듭니다.</HD_MakeLowQualityBarrel_BasicWorkbench.description>
   <HD_MakeLowQualityBarrel_BasicWorkbench.jobString>저품질 총열 수작업 제작 중.</HD_MakeLowQualityBarrel_BasicWorkbench.jobString>

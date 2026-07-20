@@ -1,11 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_BGM71A_Proj</defName>
+    <label>BGM-71A missile</label>
+    <thingClass>Helodrace.Projectile_Tow</thingClass>
+    <graphicData>
+      <texPath>Weapon/ColdWar/Proj/BGM-71A/HD_BGM71A</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>145</damageAmountBase>
+      <armorPenetrationBase>2.6</armorPenetrationBase>
+      <stoppingPower>4</stoppingPower>
+      <!-- M47 speed is 50; TOW uses 1.5x that speed. -->
+      <speed>75</speed>
+      <explosionRadius>1.2</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.TowProjectileExtension">
+        <normalTexPath>Weapon/ColdWar/Proj/BGM-71A/HD_BGM71A</normalTexPath>
+        <ignitionTexPath>Weapon/ColdWar/Proj/BGM-71A/HD_BGM71A_Fire</ignitionTexPath>
+        <!-- 60 ticks per second: 0.05 s before ignition, then 1.6 s of thrust. -->
+        <ignitionDelayTicks>3</ignitionDelayTicks>
+        <thrustTicks>96</thrustTicks>
+        <decelerationTicks>120</decelerationTicks>
+        <coastSpeedFactor>0.58</coastSpeedFactor>
+        <turnDegreesPerTick>2.5</turnDegreesPerTick>
+        <oscillationDegrees>0.45</oscillationDegrees>
+        <oscillationCyclesPerSecond>1.15</oscillationCyclesPerSecond>
+        <terminalGuidanceDistance>12</terminalGuidanceDistance>
+        <terminalOscillationFactor>0.15</terminalOscillationFactor>
+        <directHitRadius>0.75</directHitRadius>
+        <maximumLaunchDeviationDegrees>55</maximumLaunchDeviationDegrees>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_M220TOW_TurretGun</defName>
+    <label>M220 TOW launcher</label>
+    <graphicData>
+      <texPath>Building/Security/HD_TOWBase</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.20</AccuracyTouch>
+      <AccuracyShort>0.62</AccuracyShort>
+      <AccuracyMedium>0.82</AccuracyMedium>
+      <AccuracyLong>0.88</AccuracyLong>
+      <RangedWeapon_Cooldown>8</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <defaultProjectile>HD_BGM71A_Proj</defaultProjectile>
+        <warmupTime>3.5</warmupTime>
+        <range>79.9</range>
+        <minRange>6.9</minRange>
+        <forcedMissRadius>0.9</forcedMissRadius>
+        <requireLineOfSight>true</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_IncendiaryLauncher</soundCast>
+        <soundCastTail>GunTail_Heavy</soundCastTail>
+        <muzzleFlashScale>10</muzzleFlashScale>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_BGM71A_Round</li>
+          </thingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <thingDefs>
+            <li>HD_BGM71A_Round</li>
+          </thingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
   <!--
     Initial XML-only definition for the M47 Dragon.
-    The launcher is intentionally unavailable to crafting and starts as a
-    single-shot weapon. Its disposable state and guidance behavior will be
-    implemented by the M47 Dragon weapon/projectile comps.
+    The launcher starts as a single-shot weapon. Its disposable state and
+    guidance behavior are implemented by the M47 Dragon weapon/projectile comps.
   -->
   <ThingDef ParentName="BaseBullet">
     <defName>HD_M47_M222_Proj</defName>
@@ -41,6 +130,7 @@
         <terminalSteeringMultiplier>1.6</terminalSteeringMultiplier>
         <directHitRadius>0.42</directHitRadius>
         <alignedCoastAngleDegrees>2</alignedCoastAngleDegrees>
+        <maximumLaunchDeviationDegrees>55</maximumLaunchDeviationDegrees>
       </li>
     </modExtensions>
   </ThingDef>
@@ -61,6 +151,7 @@
     <equippedAngleOffset>0</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
+      <WorkToMake>18000</WorkToMake>
       <Mass>14.6</Mass>
       <MarketValue>1850</MarketValue>
       <MaxHitPoints>100</MaxHitPoints>
@@ -70,7 +161,20 @@
       <AccuracyLong>0.82</AccuracyLong>
       <RangedWeapon_Cooldown>3.0</RangedWeapon_Cooldown>
     </statBases>
-    <recipeMaker Inherit="False" IsNull="True" />
+    <!-- Temporary crafting recipe until the Cold War production chain is implemented. -->
+    <costList>
+      <Steel>60</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>Machining</researchPrerequisite>
+    </recipeMaker>
     <comps>
       <li>
         <compClass>CompEquippable</compClass>
@@ -85,6 +189,7 @@
         <warmupTime>3.5</warmupTime>
         <range>79.9</range>
         <minRange>6.9</minRange>
+        <forcedMissRadius>0.9</forcedMissRadius>
         <requireLineOfSight>true</requireLineOfSight>
         <burstShotCount>1</burstShotCount>
         <targetParams>

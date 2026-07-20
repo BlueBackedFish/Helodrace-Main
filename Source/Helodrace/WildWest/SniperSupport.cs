@@ -24,7 +24,8 @@ namespace Helodrace
         private const int MaxRetryTicks = 300;
         private const string SniperProjectileDefName = "HD_Bullet_SprMThree_Proj";
         private const string SniperWeaponDefName = "HD_Gun_M1903A4_Weapon";
-        private const string HitSoundDefName = "HD_GunHit";
+        private const string HitSoundDefName = "HD_Snipe";
+        private const string DistantFireSoundDefName = "HD_DistantFired";
         private const float WrongPartChance = 0.08f;
         private const float MissChance = 0.07f;
         private const float MinSizedMissChance = 0.025f;
@@ -352,6 +353,11 @@ namespace Helodrace
             PlaySound(HitSoundDefName, cell, map);
         }
 
+        public static void PlayDistantFireSound(IntVec3 cell, Map map)
+        {
+            PlaySound(DistantFireSoundDefName, cell, map);
+        }
+
         private static void PlaySound(string defName, IntVec3 cell, Map map)
         {
             if (map == null || !cell.IsValid)
@@ -634,8 +640,10 @@ namespace Helodrace
 
     public class MapComponent_HelodSniperSupport : MapComponent
     {
+        private const int DistantFireDelayTicks = 30;
         private List<SniperSupportEffect> effects = new List<SniperSupportEffect>();
         private List<SniperSupportTrail> trails = new List<SniperSupportTrail>();
+        private List<SniperSupportDelayedSound> delayedSounds = new List<SniperSupportDelayedSound>();
 
         public MapComponent_HelodSniperSupport(Map map) : base(map)
         {
@@ -676,6 +684,18 @@ namespace Helodrace
         public override void MapComponentTick()
         {
             base.MapComponentTick();
+            for (int i = delayedSounds.Count - 1; i >= 0; i--)
+            {
+                SniperSupportDelayedSound delayedSound = delayedSounds[i];
+                if (Find.TickManager.TicksGame < delayedSound.PlayTick)
+                {
+                    continue;
+                }
+
+                HelodSniperSupportUtility.PlayDistantFireSound(delayedSound.Cell, map);
+                delayedSounds.RemoveAt(i);
+            }
+
             for (int i = trails.Count - 1; i >= 0; i--)
             {
                 if (trails[i].Expired)
@@ -730,6 +750,7 @@ namespace Helodrace
                     }
 
                     HelodSniperSupportUtility.PlayHitSound(effect.ImpactCell, map);
+                    delayedSounds.Add(new SniperSupportDelayedSound(effect.ImpactCell, Find.TickManager.TicksGame + DistantFireDelayTicks));
                     if (hitTarget)
                     {
                         FleckMaker.ThrowMicroSparks(effect.ImpactCell.ToVector3Shifted(), map);
@@ -785,6 +806,12 @@ namespace Helodrace
             {
                 trails = new List<SniperSupportTrail>();
             }
+
+            Scribe_Collections.Look(ref delayedSounds, "helodSniperSupportDelayedSounds", LookMode.Deep);
+            if (delayedSounds == null)
+            {
+                delayedSounds = new List<SniperSupportDelayedSound>();
+            }
         }
 
         private static void DrawTrail(SniperSupportTrail trail)
@@ -828,6 +855,31 @@ namespace Helodrace
             float scale = Mathf.Lerp(1.15f, 0.85f, Mathf.SmoothStep(0f, 1f, progress));
             Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.AngleAxis(angle, Vector3.up), Vector3.one * scale);
             Graphics.DrawMesh(MeshPool.plane10, matrix, HelodSniperSupportUtility.AimMaterial, 0);
+        }
+    }
+
+    public class SniperSupportDelayedSound : IExposable
+    {
+        private IntVec3 cell;
+        private int playTick;
+
+        public IntVec3 Cell => cell;
+        public int PlayTick => playTick;
+
+        public SniperSupportDelayedSound()
+        {
+        }
+
+        public SniperSupportDelayedSound(IntVec3 cell, int playTick)
+        {
+            this.cell = cell;
+            this.playTick = playTick;
+        }
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref cell, "cell");
+            Scribe_Values.Look(ref playTick, "playTick");
         }
     }
 

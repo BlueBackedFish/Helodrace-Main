@@ -20,6 +20,8 @@ namespace Helodrace
         private readonly HashSet<int> disorganizedRaidAnchors = new HashSet<int>();
         private readonly HashSet<int> leaderConfirmedAnchors = new HashSet<int>();
         private readonly HashSet<int> abandonedCasualtyIds = new HashSet<int>();
+        private readonly HashSet<int> chemicalRaidAnchors = new HashSet<int>();
+        private readonly Dictionary<int, int> initialRaiderCount = new Dictionary<int, int>();
 
         public MapComponent_MortarRaidAI(Map map) : base(map) { }
 
@@ -37,6 +39,9 @@ namespace Helodrace
             List<int> leaderHandled = leaderLossHandledAnchors.ToList();
             List<int> disorganized = disorganizedRaidAnchors.ToList();
             List<int> leaderConfirmed = leaderConfirmedAnchors.ToList();
+            List<int> chemical = chemicalRaidAnchors.ToList();
+            List<int> raiderKeys = initialRaiderCount.Keys.ToList();
+            List<int> raiderValues = raiderKeys.Select(k => initialRaiderCount[k]).ToList();
             Scribe_Collections.Look(ref activated, "activatedMortarBaseplateCarriers", LookMode.Value);
             Scribe_Collections.Look(ref covered, "coveredAutomaticRiflemen", LookMode.Value);
             Scribe_Collections.Look(ref released, "releasedMortarRaidAnchors", LookMode.Value);
@@ -48,6 +53,9 @@ namespace Helodrace
             Scribe_Collections.Look(ref leaderHandled, "mortarRaidLeaderLossHandled", LookMode.Value);
             Scribe_Collections.Look(ref disorganized, "mortarRaidDisorganized", LookMode.Value);
             Scribe_Collections.Look(ref leaderConfirmed, "mortarRaidLeaderConfirmed", LookMode.Value);
+            Scribe_Collections.Look(ref chemical, "chemicalMortarRaidAnchors", LookMode.Value);
+            Scribe_Collections.Look(ref raiderKeys, "mortarRaidInitialRaiderIds", LookMode.Value);
+            Scribe_Collections.Look(ref raiderValues, "mortarRaidInitialRaiderCounts", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 activatedBaseplateCarriers.Clear();
@@ -59,6 +67,8 @@ namespace Helodrace
                 leaderLossHandledAnchors.Clear();
                 disorganizedRaidAnchors.Clear();
                 leaderConfirmedAnchors.Clear();
+                chemicalRaidAnchors.Clear();
+                initialRaiderCount.Clear();
                 if (activated != null) foreach (int id in activated) activatedBaseplateCarriers.Add(id);
                 if (covered != null) foreach (int id in covered) coveredAutomaticRiflemen.Add(id);
                 if (released != null) foreach (int id in released) releasedRaidAnchors.Add(id);
@@ -70,6 +80,9 @@ namespace Helodrace
                 if (leaderHandled != null) foreach (int id in leaderHandled) leaderLossHandledAnchors.Add(id);
                 if (disorganized != null) foreach (int id in disorganized) disorganizedRaidAnchors.Add(id);
                 if (leaderConfirmed != null) foreach (int id in leaderConfirmed) leaderConfirmedAnchors.Add(id);
+                if (chemical != null) foreach (int id in chemical) chemicalRaidAnchors.Add(id);
+                if (raiderKeys != null && raiderValues != null)
+                    for (int i = 0; i < raiderKeys.Count && i < raiderValues.Count; i++) initialRaiderCount[raiderKeys[i]] = raiderValues[i];
             }
         }
 
@@ -97,9 +110,15 @@ namespace Helodrace
                 {
                     firstSeenTick[baseCarrier.thingIDNumber] = Find.TickManager.TicksGame;
                     initialColonistCount[baseCarrier.thingIDNumber] = map.mapPawns.FreeColonistsSpawned.Count;
+                    initialRaiderCount[baseCarrier.thingIDNumber] = group.Count();
                 }
 
                 int anchorId = baseCarrier.thingIDNumber;
+                if (IsChemicalMortarRaid(group))
+                    chemicalRaidAnchors.Add(anchorId);
+                if (!initialRaiderCount.ContainsKey(anchorId))
+                    initialRaiderCount[anchorId] = group.Count();
+                bool chemicalRaid = chemicalRaidAnchors.Contains(anchorId);
                 if (group.Any(p => p.kindDef?.defName == "HD_GW_HelodSquadLeader"))
                     leaderConfirmedAnchors.Add(anchorId);
                 Building_TurretGun mortar = map.listerThings.ThingsOfDef(DefDatabase<ThingDef>.GetNamed("HD_Building_M1_81mmMortar"))
@@ -108,6 +127,17 @@ namespace Helodrace
                 if (retreatingRaidAnchors.Contains(anchorId))
                 {
                     TryEvacuateCasualties(group.ToList());
+                    OrderRetreat(group.ToList());
+                    continue;
+                }
+
+                if (chemicalRaid && ChemicalRaidSufficientlyDamaged(group.ToList(), anchorId))
+                {
+                    TryEvacuateCasualties(group.ToList());
+                    if (mortar != null)
+                        RecoverMortarParts(group.ToList(), mortar);
+                    CancelMortarJobs(group.ToList());
+                    retreatingRaidAnchors.Add(anchorId);
                     OrderRetreat(group.ToList());
                     continue;
                 }
@@ -124,7 +154,8 @@ namespace Helodrace
                 }
 
                 int elapsed = Find.TickManager.TicksGame - firstSeenTick[baseCarrier.thingIDNumber];
-                if (elapsed >= 420 && !activatedBaseplateCarriers.Contains(baseCarrier.thingIDNumber)
+                int assemblyDelay = chemicalRaid ? 900 : 420;
+                if (elapsed >= assemblyDelay && !activatedBaseplateCarriers.Contains(baseCarrier.thingIDNumber)
                     && TryStartMortarAssemblyAtSafeCell(baseCarrier))
                     activatedBaseplateCarriers.Add(baseCarrier.thingIDNumber);
 
@@ -138,11 +169,13 @@ namespace Helodrace
                         OrderRetreat(group.ToList());
                         continue;
                     }
-                    ManMortarAndSupplyShells(group.ToList(), mortar);
+                    ThingDef shellDef = MortarShellDef(chemicalRaid);
+                    ManMortarAndSupplyShells(group.ToList(), mortar, shellDef);
                     bool hasFired = mortar.LastAttackTargetTick > firstSeenTick[anchorId];
-                    if (hasFired && AmmunitionExhausted(group.ToList(), mortar))
+                    if (hasFired && AmmunitionExhausted(group.ToList(), mortar, shellDef))
                     {
-                        if (ColonySufficientlyWeakened(anchorId))
+                        float assaultThreshold = chemicalRaid ? 0.50f : 0.34f;
+                        if (ColonySufficientlyWeakened(anchorId, assaultThreshold))
                         {
                             releasedRaidAnchors.Add(anchorId);
                             BeginAssault(group.ToList(), group.Key);
@@ -286,11 +319,10 @@ namespace Helodrace
             }
         }
 
-        private void ManMortarAndSupplyShells(List<Pawn> pawns, Building_TurretGun mortar)
+        private void ManMortarAndSupplyShells(List<Pawn> pawns, Building_TurretGun mortar, ThingDef shellDef)
         {
             Pawn shellBearer = pawns.FirstOrDefault(p => p.kindDef?.defName == "HD_GW_HelodMortarShellBearer");
             if (shellBearer == null || shellBearer.Downed) return;
-            ThingDef shellDef = DefDatabase<ThingDef>.GetNamed("HD_81mmMortarShell_M43HE");
             Thing shells = shellBearer.inventory.innerContainer.FirstOrDefault(t => t.def == shellDef);
             CompChangeableProjectile loader = mortar.GunCompEq?.parent?.TryGetComp<CompChangeableProjectile>();
             if (shells != null && loader != null && !loader.Loaded && shellBearer.Position.DistanceTo(mortar.Position) <= 3f)
@@ -304,24 +336,44 @@ namespace Helodrace
                 shellBearer.jobs.TryTakeOrderedJob(JobMaker.MakeJob(JobDefOf.ManTurret, mortar), JobTag.Misc);
         }
 
-        private bool AmmunitionExhausted(List<Pawn> pawns, Building_TurretGun mortar)
+        private bool AmmunitionExhausted(List<Pawn> pawns, Building_TurretGun mortar, ThingDef shellDef)
         {
-            ThingDef shellDef = DefDatabase<ThingDef>.GetNamed("HD_81mmMortarShell_M43HE");
             CompChangeableProjectile loader = mortar.GunCompEq?.parent?.TryGetComp<CompChangeableProjectile>();
             return (loader == null || !loader.Loaded)
                 && !pawns.Any(p => p.inventory?.innerContainer.Any(t => t.def == shellDef) == true)
                 && !map.listerThings.ThingsOfDef(shellDef).Any(t => t.Position.DistanceTo(mortar.Position) <= 12f);
         }
 
-        private bool ColonySufficientlyWeakened(int anchorId)
+        private bool ColonySufficientlyWeakened(int anchorId, float requiredFraction)
         {
             int initial = initialColonistCount.TryGetValue(anchorId, out int count) ? count : map.mapPawns.FreeColonistsSpawned.Count;
             int current = map.mapPawns.FreeColonistsSpawned.Count;
             int deadOrMissing = System.Math.Max(0, initial - current);
             int downed = map.mapPawns.FreeColonistsSpawned.Count(p => p.Downed);
             int neutralized = deadOrMissing + downed;
-            int required = System.Math.Max(1, (int)System.Math.Ceiling(initial * 0.34f));
+            int required = System.Math.Max(1, (int)System.Math.Ceiling(initial * requiredFraction));
             return neutralized >= required;
+        }
+
+        private bool ChemicalRaidSufficientlyDamaged(List<Pawn> pawns, int anchorId)
+        {
+            int initial = initialRaiderCount.TryGetValue(anchorId, out int count) ? count : pawns.Count;
+            int mobile = pawns.Count(IsMobile);
+            int neutralized = System.Math.Max(0, initial - mobile);
+            int required = System.Math.Max(1, (int)System.Math.Ceiling(initial * 0.25f));
+            return neutralized >= required;
+        }
+
+        private static bool IsChemicalMortarRaid(IEnumerable<Pawn> pawns)
+        {
+            return pawns.Any(p => p.inventory?.innerContainer.Any(t => t.def?.defName == "HD_81mmMortarShell_BA") == true);
+        }
+
+        private static ThingDef MortarShellDef(bool chemicalRaid)
+        {
+            return DefDatabase<ThingDef>.GetNamed(chemicalRaid
+                ? "HD_81mmMortarShell_BA"
+                : "HD_81mmMortarShell_M43HE");
         }
 
         private bool HandleAutomaticRiflemenLost(List<Pawn> pawns, int anchorId, Building_TurretGun mortar)

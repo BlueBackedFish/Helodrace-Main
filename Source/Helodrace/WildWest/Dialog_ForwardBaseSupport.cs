@@ -145,14 +145,17 @@ namespace Helodrace
         private readonly Map targetMap;
         private readonly HelodForwardBase forwardBase;
         private readonly CompTelegraphTable telegraphComp;
+        private readonly Pawn radioOperator;
         private Vector2 scroll;
         public override Vector2 InitialSize => new Vector2(680f, 520f);
 
-        public Dialog_MortarAmmoSelection(Map targetMap, HelodForwardBase forwardBase, CompTelegraphTable telegraphComp)
+        public Dialog_MortarAmmoSelection(Map targetMap, HelodForwardBase forwardBase,
+            CompTelegraphTable telegraphComp, Pawn radioOperator = null)
         {
             this.targetMap = targetMap;
             this.forwardBase = forwardBase;
             this.telegraphComp = telegraphComp;
+            this.radioOperator = radioOperator;
             doCloseX = true;
             absorbInputAroundWindow = true;
         }
@@ -193,7 +196,7 @@ namespace Helodrace
         {
             Close(false);
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
-            Find.WindowStack.Add(new Dialog_MessageBox("HD_MortarSupport_AmmoPrompt".Translate(shell.LabelCap, HelodMortarSupportUtility.ScatterRadius, HelodMortarSupportUtility.ShellsPerVolley, HelodMortarSupportUtility.VolleyCount, price), "Confirm".Translate(), () => HelodMortarSupportUtility.BeginTargeting(targetMap, forwardBase, shell, telegraphComp), "CancelButton".Translate(), null));
+            Find.WindowStack.Add(new Dialog_MessageBox("HD_MortarSupport_AmmoPrompt".Translate(shell.LabelCap, HelodMortarSupportUtility.ScatterRadius, HelodMortarSupportUtility.ShellsPerVolley, HelodMortarSupportUtility.VolleyCount, price), "Confirm".Translate(), () => HelodMortarSupportUtility.BeginTargeting(targetMap, forwardBase, shell, telegraphComp, radioOperator), "CancelButton".Translate(), null));
         }
     }
 }

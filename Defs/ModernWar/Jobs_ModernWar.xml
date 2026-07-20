@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <JobDef>
+    <defName>HD_ZaperX26Fire</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_ZaperX26Fire</driverClass>
+    <reportString>firing ZAPER X26 at TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_ZaperX26Contact</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_ZaperX26Contact</driverClass>
+    <reportString>striking TargetA with ZAPER X26 contact electrodes.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

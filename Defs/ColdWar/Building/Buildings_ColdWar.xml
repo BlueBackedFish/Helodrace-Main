@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_M220TOW</defName>
+    <label>M220 TOW launcher</label>
+    <description>A crew-served tube-launched, optically tracked, wire-guided anti-tank missile launcher. Its launch tube remains in place after firing and accepts several types of TOW missile.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <graphicData>
+      <texPath>Building/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shadowData>
+        <volume>(0.9,0.25,0.9)</volume>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/HD_M220TOW_TopLow</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0.4</Flammability>
+      <Mass>93</Mass>
+      <ShootingAccuracyTurret>0.93</ShootingAccuracyTurret>
+    </statBases>
+    <building>
+      <turretGunDef>HD_Gun_M220TOW_TurretGun</turretGunDef>
+      <turretBurstWarmupTime>3.5</turretBurstWarmupTime>
+      <turretBurstCooldownTime>8</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>Helodrace.PlaceWorker_ShowExtendedTurretRadius</li>
+    </placeWorkers>
+    <inspectorTabs>
+      <li>ITab_Shells</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="Helodrace.CompProperties_TowLauncherGraphic">
+        <lowTexPath>Building/Security/HD_M220TOW_TopLow</lowTexPath>
+        <highTexPath>Building/Security/HD_M220TOW_TopHigh</highTexPath>
+        <drawSize>2</drawSize>
+        <rotationOffsetDegrees>-90</rotationOffsetDegrees>
+      </li>
+      <li Class="Helodrace.CompProperties_TowLauncher" />
+      <li Class="CompProperties_Forbiddable" />
+    </comps>
+  </ThingDef>
+
+</Defs>

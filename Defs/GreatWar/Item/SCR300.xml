@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_SCR300</defName>
+    <label>SCR-300 backpack radio</label>
+    <description>A rugged backpack VHF radio for direct communication with a contracted forward base. A wearer can bind the set to a forward base and request any contracted service that can reach the wearer's current map.</description>
+    <graphicData>
+      <texPath>Dogos/Appearel/HD_SCR300/HD_SCR300_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(1.1,1.1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>140</MaxHitPoints>
+      <WorkToMake>2800</WorkToMake>
+      <Mass>17.3</Mass>
+      <MarketValue>520</MarketValue>
+      <Flammability>0.35</Flammability>
+      <EquipDelay>2.5</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.12</MoveSpeed>
+      <WorkSpeedGlobal>-0.04</WorkSpeedGlobal>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Dogos/Appearel/HD_SCR300/HD_SCR300</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <drawData>
+        <defaultData>
+          <layer>108</layer>
+        </defaultData>
+        <dataSouth>
+          <layer>19</layer>
+        </dataSouth>
+      </drawData>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_FieldRadio</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <comps>
+      <li Class="Helodrace.CompProperties_SCR300" />
+    </comps>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Steel>45</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <Cloth>20</Cloth>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodHighElectronics</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>

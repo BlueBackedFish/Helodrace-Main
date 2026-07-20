@@ -54,6 +54,8 @@
   <HD_SharpshooterMode_Label>명사수 모드</HD_SharpshooterMode_Label>
   <HD_SharpshooterMode_Desc>일반 사격 방식과 정밀한 명사수 사격 방식 사이를 전환합니다.</HD_SharpshooterMode_Desc>
   <HD_SharpshooterMode_AccuracyFactor>명사수 모드: {0}</HD_SharpshooterMode_AccuracyFactor>
+  <HD_M8Flare_HighAngle>고각 신호탄</HD_M8Flare_HighAngle>
+  <HD_M8Flare_ModeDesc>직사 신호탄과 장애물을 넘어 발사할 수 있지만 산포가 큰 고각 사격을 전환합니다.</HD_M8Flare_ModeDesc>
 
   <!-- ITab_MechanicalNetwork -->
   <HD_ITab_MechanicalNetwork_Title>기계 동력망 정보</HD_ITab_MechanicalNetwork_Title>

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.Sound;
 
 namespace Helodrace.ModernWar
@@ -23,12 +23,17 @@ namespace Helodrace.ModernWar
     {
         private const int ProbePairWindowTicks = 12;
         private const int ShockDurationTicks = 300;
+        private const int RangedCooldownTicks = 144;
+        private const int ContactCooldownTicks = 90;
 
         private Pawn pendingTarget;
         private int pendingProbeExpiresAt;
         private ZaperX26TetherEffect activeTether;
+        private int nextRangedUseTick;
+        private int nextContactUseTick;
 
         public bool HasActiveTether => activeTether != null && !activeTether.Destroyed && activeTether.Spawned;
+        public Pawn Wearer => (parent.ParentHolder as Pawn_ApparelTracker)?.pawn;
 
         public override void PostExposeData()
         {
@@ -36,6 +41,109 @@ namespace Helodrace.ModernWar
             Scribe_References.Look(ref pendingTarget, "zaperPendingTarget");
             Scribe_Values.Look(ref pendingProbeExpiresAt, "zaperPendingProbeExpiresAt");
             Scribe_References.Look(ref activeTether, "zaperActiveTether");
+            Scribe_Values.Look(ref nextRangedUseTick, "zaperNextRangedUseTick", 0);
+            Scribe_Values.Look(ref nextContactUseTick, "zaperNextContactUseTick", 0);
+        }
+
+        public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetWornGizmosExtra())
+            {
+                yield return gizmo;
+            }
+
+            Pawn wearer = Wearer;
+            if (wearer == null || wearer.Faction != Faction.OfPlayer)
+            {
+                yield break;
+            }
+
+            Command_Action fire = new Command_Action
+            {
+                defaultLabel = "HD_ZaperX26_Fire_Label".Translate(),
+                defaultDesc = "HD_ZaperX26_Fire_Desc".Translate(),
+                icon = ContentFinder<Texture2D>.Get(parent.def.graphicData.texPath, true),
+                action = () => BeginTargeting("HD_ZaperX26Fire")
+            };
+            DisableIfUnavailable(fire, nextRangedUseTick, HasActiveTether);
+            yield return fire;
+
+            Command_Action contact = new Command_Action
+            {
+                defaultLabel = "HD_ZaperX26_Contact_Label".Translate(),
+                defaultDesc = "HD_ZaperX26_Contact_Desc".Translate(),
+                icon = ContentFinder<Texture2D>.Get(parent.def.graphicData.texPath, true),
+                action = () => BeginTargeting("HD_ZaperX26Contact")
+            };
+            DisableIfUnavailable(contact, nextContactUseTick, false);
+            yield return contact;
+        }
+
+        private void DisableIfUnavailable(Command command, int readyTick, bool tetherActive)
+        {
+            Pawn wearer = Wearer;
+            if (wearer?.Spawned != true || wearer.Downed)
+            {
+                command.Disable("HD_ZaperX26_Unavailable".Translate());
+            }
+            else if (tetherActive)
+            {
+                command.Disable("HD_ZaperX26_TetherActive".Translate());
+            }
+            else if (readyTick > Find.TickManager.TicksGame)
+            {
+                command.Disable("HD_ZaperX26_Cooldown".Translate((readyTick - Find.TickManager.TicksGame).ToStringTicksToPeriod()));
+            }
+        }
+
+        private void BeginTargeting(string jobDefName)
+        {
+            Pawn wearer = Wearer;
+            if (wearer?.Map == null)
+            {
+                return;
+            }
+
+            TargetingParameters parameters = TargetingParameters.ForAttackAny();
+            parameters.validator = target => target.Thing is Pawn pawn
+                && pawn.Spawned
+                && !pawn.Dead
+                && pawn.Map == wearer.Map
+                && pawn != wearer;
+            Find.Targeter.BeginTargeting(parameters, target => StartUseJob(jobDefName, target.Thing as Pawn));
+        }
+
+        private void StartUseJob(string jobDefName, Pawn target)
+        {
+            Pawn wearer = Wearer;
+            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(jobDefName);
+            if (wearer?.jobs == null || target == null || jobDef == null)
+            {
+                return;
+            }
+
+            Job job = JobMaker.MakeJob(jobDef, target, parent);
+            job.playerForced = true;
+            wearer.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        }
+
+        public bool CanFireNow => Wearer?.Spawned == true
+            && !Wearer.Downed
+            && !HasActiveTether
+            && Find.TickManager.TicksGame >= nextRangedUseTick;
+
+        public bool CanContactNow => Wearer?.Spawned == true
+            && !Wearer.Downed
+            && Find.TickManager.TicksGame >= nextContactUseTick;
+
+        public void MarkRangedUsed()
+        {
+            nextRangedUseTick = Find.TickManager.TicksGame + RangedCooldownTicks;
+        }
+
+        public void MarkContactUsed()
+        {
+            nextContactUseTick = Find.TickManager.TicksGame + ContactCooldownTicks;
         }
 
         public void RegisterProbeHit(Pawn launcher, Pawn target, Map map)
@@ -72,36 +180,142 @@ namespace Helodrace.ModernWar
         }
     }
 
-    /// <summary>
-    /// Prevents this weapon from beginning another attack while it is powering
-    /// an active tether. TryCastShot is also guarded for AI and queued casts.
-    /// </summary>
-    public sealed class Verb_ShootZaperX26 : Verb_Shoot
+    public abstract class JobDriver_UseZaperX26 : JobDriver
     {
-        private bool TetherActive => EquipmentSource?.TryGetComp<CompZaperX26>()?.HasActiveTether == true;
+        protected Pawn TargetPawn => job.GetTarget(TargetIndex.A).Pawn;
+        protected ThingWithComps Zaper => job.GetTarget(TargetIndex.B).Thing as ThingWithComps;
+        protected CompZaperX26 ZaperComp => Zaper?.TryGetComp<CompZaperX26>();
 
-        public override bool Available()
+        protected bool ZaperStillWorn => ZaperComp?.Wearer == pawn;
+
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return !TetherActive && base.Available();
+            return true;
         }
 
-        protected override bool TryCastShot()
+        protected Toil FaceAndWait(int ticks)
         {
-            if (TetherActive || !base.TryCastShot())
+            Toil wait = Toils_General.Wait(ticks, TargetIndex.A);
+            wait.tickAction = delegate
             {
-                return false;
+                if (TargetPawn != null)
+                {
+                    pawn.rotationTracker.FaceTarget(TargetPawn);
+                }
+            };
+            return wait;
+        }
+    }
+
+    public sealed class JobDriver_ZaperX26Fire : JobDriver_UseZaperX26
+    {
+        private const float Range = 7.9f;
+
+        protected override IEnumerable<Toil> MakeNewToils()
+        {
+            this.FailOn(() => !ZaperStillWorn || ZaperComp?.CanFireNow != true);
+            this.FailOn(() => TargetPawn == null || TargetPawn.Dead || TargetPawn.Map != pawn.Map);
+
+            Toil approach = new Toil
+            {
+                initAction = delegate
+                {
+                    if (!CanShootFromCurrentPosition())
+                    {
+                        pawn.pather.StartPath(TargetPawn, PathEndMode.Touch);
+                    }
+                },
+                tickAction = delegate
+                {
+                    if (CanShootFromCurrentPosition())
+                    {
+                        pawn.pather.StopDead();
+                        ReadyForNextToil();
+                    }
+                    else if (!pawn.pather.Moving)
+                    {
+                        EndJobWith(JobCondition.Incompletable);
+                    }
+                },
+                defaultCompleteMode = ToilCompleteMode.Never
+            };
+            yield return approach;
+            yield return FaceAndWait(21);
+            yield return new Toil
+            {
+                initAction = FireProbes,
+                defaultCompleteMode = ToilCompleteMode.Instant
+            };
+        }
+
+        private bool CanShootFromCurrentPosition()
+        {
+            return TargetPawn?.Spawned == true
+                && pawn.Position.DistanceTo(TargetPawn.Position) <= Range
+                && GenSight.LineOfSight(pawn.Position, TargetPawn.Position, pawn.Map);
+        }
+
+        private void FireProbes()
+        {
+            if (!CanShootFromCurrentPosition() || ZaperComp?.CanFireNow != true)
+            {
+                return;
             }
 
-            Pawn caster = CasterPawn;
-            SoundDef mortarLaunch = DefDatabase<SoundDef>.GetNamedSilentFail("Mortar_LaunchA");
-            if (caster?.Map != null && mortarLaunch != null)
+            ThingDef probeDef = DefDatabase<ThingDef>.GetNamedSilentFail("HD_ZaperX26_Probe");
+            if (probeDef == null)
             {
-                SoundInfo soundInfo = SoundInfo.InMap(new TargetInfo(caster), MaintenanceType.None);
+                return;
+            }
+
+            ZaperComp.MarkRangedUsed();
+            SoundDef launchSound = DefDatabase<SoundDef>.GetNamedSilentFail("Mortar_LaunchA");
+            if (launchSound != null)
+            {
+                SoundInfo soundInfo = SoundInfo.InMap(new TargetInfo(pawn), MaintenanceType.None);
                 soundInfo.volumeFactor = 0.45f;
-                SoundStarter.PlayOneShot(mortarLaunch, soundInfo);
+                SoundStarter.PlayOneShot(launchSound, soundInfo);
             }
 
-            return true;
+            for (int i = 0; i < 2; i++)
+            {
+                Projectile projectile = GenSpawn.Spawn(probeDef, pawn.Position, pawn.Map) as Projectile;
+                projectile?.Launch(pawn, TargetPawn, TargetPawn, ProjectileHitFlags.IntendedTarget, false, Zaper);
+            }
+        }
+    }
+
+    public sealed class JobDriver_ZaperX26Contact : JobDriver_UseZaperX26
+    {
+        protected override IEnumerable<Toil> MakeNewToils()
+        {
+            this.FailOn(() => !ZaperStillWorn || ZaperComp?.CanContactNow != true);
+            this.FailOn(() => TargetPawn == null || TargetPawn.Dead || TargetPawn.Map != pawn.Map);
+            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+            yield return FaceAndWait(18);
+            yield return new Toil
+            {
+                initAction = Strike,
+                defaultCompleteMode = ToilCompleteMode.Instant
+            };
+        }
+
+        private void Strike()
+        {
+            if (ZaperComp?.CanContactNow != true
+                || TargetPawn?.Spawned != true
+                || !pawn.Position.AdjacentTo8WayOrInside(TargetPawn.Position))
+            {
+                return;
+            }
+
+            DamageInfo damage = new DamageInfo(DamageDefOf.Blunt, 1f, 0f, -1f, pawn, weapon: Zaper.def);
+            DamageWorker.DamageResult result = TargetPawn.TakeDamage(damage);
+            ZaperComp.MarkContactUsed();
+            if (result.totalDamageDealt > 0f)
+            {
+                ZaperX26Utility.ApplyContactShock(TargetPawn);
+            }
         }
     }
 
@@ -306,6 +520,8 @@ namespace Helodrace.ModernWar
                 && target.Spawned
                 && launcher.Map == Map
                 && target.Map == Map
+                && sourceWeapon?.ParentHolder is Pawn_ApparelTracker apparelTracker
+                && apparelTracker.pawn == launcher
                 && launcher.Position.DistanceTo(target.Position) <= MaximumConnectedDistance;
         }
 
@@ -370,29 +586,19 @@ namespace Helodrace.ModernWar
         }
     }
 
-    /// <summary>
-    /// The ZAPER's Blunt tool is its contact-electrode strike. Apply a separate
-    /// high-pain pulse only after that melee attack actually deals damage.
-    /// Ranged probes use Bullet damage and therefore never enter this path.
-    /// </summary>
-    [HarmonyPatch(typeof(Pawn), nameof(Pawn.PostApplyDamage))]
-    public static class Patch_Pawn_PostApplyDamage_ZaperX26Contact
+    public static class ZaperX26Utility
     {
-        public static void Postfix(Pawn __instance, DamageInfo dinfo, float totalDamageDealt)
+        public static void ApplyContactShock(Pawn target)
         {
-            if (__instance == null
-                || __instance.Dead
-                || totalDamageDealt <= 0f
-                || dinfo.Def != DamageDefOf.Blunt
-                || dinfo.Weapon?.defName != "HD_Gun_ZaperX26")
+            if (target == null || target.Dead)
             {
                 return;
             }
 
             SoundDef contactSound = DefDatabase<SoundDef>.GetNamedSilentFail("HD_ZaperX26_Contact");
-            if (__instance.Map != null && contactSound != null)
+            if (target.Map != null && contactSound != null)
             {
-                contactSound.PlayOneShot(new TargetInfo(__instance.Position, __instance.Map));
+                contactSound.PlayOneShot(new TargetInfo(target.Position, target.Map));
             }
 
             HediffDef contactShockDef = DefDatabase<HediffDef>.GetNamedSilentFail("HD_ZaperX26_ContactShock");
@@ -401,13 +607,13 @@ namespace Helodrace.ModernWar
                 return;
             }
 
-            Hediff existing = __instance.health.hediffSet.GetFirstHediffOfDef(contactShockDef);
+            Hediff existing = target.health.hediffSet.GetFirstHediffOfDef(contactShockDef);
             if (existing != null)
             {
-                __instance.health.RemoveHediff(existing);
+                target.health.RemoveHediff(existing);
             }
 
-            __instance.health.AddHediff(contactShockDef);
+            target.health.AddHediff(contactShockDef);
         }
     }
 }

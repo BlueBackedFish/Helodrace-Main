@@ -42,9 +42,8 @@
     </statBases>
     <costList>
       <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
       <HD_CarbonSteel>95</HD_CarbonSteel>
-      <HD_GeneralMachinePart>8</HD_GeneralMachinePart>
       <HD_PressComponent>6</HD_PressComponent>
       <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
     </costList>
@@ -55,7 +54,7 @@
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
-      <li>PlaceWorker_ShowTurretRadius</li>
+      <li>Helodrace.PlaceWorker_ShowExtendedTurretRadius</li>
     </placeWorkers>
     <comps>
       <li Class="CompProperties_Refuelable">
@@ -122,9 +121,8 @@
     </statBases>
     <costList>
       <HD_WildWestBarrel>1</HD_WildWestBarrel>
-      <HD_LowQualityMagazineSpring>2</HD_LowQualityMagazineSpring>
+      <HD_GeneralMachinePart>12</HD_GeneralMachinePart>
       <HD_CarbonSteel>115</HD_CarbonSteel>
-      <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
       <HD_PressComponent>8</HD_PressComponent>
       <HD_UniformRolledSteelPlate>2</HD_UniformRolledSteelPlate>
     </costList>
@@ -135,7 +133,7 @@
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
-      <li>PlaceWorker_ShowTurretRadius</li>
+      <li>Helodrace.PlaceWorker_ShowExtendedTurretRadius</li>
     </placeWorkers>
     <comps>
       <li Class="CompProperties_Refuelable">
@@ -221,7 +219,7 @@
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
-      <li>PlaceWorker_ShowTurretRadius</li>
+      <li>Helodrace.PlaceWorker_ShowExtendedTurretRadius</li>
     </placeWorkers>
     <inspectorTabs>
       <li>ITab_Shells</li>
@@ -286,7 +284,7 @@
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
-      <li>PlaceWorker_ShowTurretRadius</li>
+      <li>Helodrace.PlaceWorker_ShowExtendedTurretRadius</li>
     </placeWorkers>
     <inspectorTabs>
       <li>ITab_Shells</li>
@@ -351,7 +349,7 @@
     </building>
     <placeWorkers>
       <li>PlaceWorker_TurretTop</li>
-      <li>PlaceWorker_ShowTurretRadius</li>
+      <li>Helodrace.PlaceWorker_ShowExtendedTurretRadius</li>
     </placeWorkers>
     <inspectorTabs>
       <li>ITab_Shells</li>

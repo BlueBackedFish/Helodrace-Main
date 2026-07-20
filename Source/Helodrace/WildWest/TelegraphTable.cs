@@ -238,9 +238,9 @@ namespace Helodrace
         private const float GoldStandardSthalerSilverValue = HelodForwardBaseServiceUtility.GoldStandardSthalerSilverValue;
         private static readonly ForwardBaseService[] InfantryServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment };
         private static readonly ForwardBaseService[] ArtilleryServices = { };
-        private static readonly ForwardBaseService[] AirForceServices = { ForwardBaseService.AirBombing };
+        private static readonly ForwardBaseService[] AirForceServices = { ForwardBaseService.CloseAirSupport };
         private static readonly ForwardBaseService[] LogisticsServices = { ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons };
-        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.AirBombing };
+        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.CloseAirSupport };
 
         private readonly Thing telegraphTable;
         private readonly Pawn operatorPawn;
@@ -259,7 +259,7 @@ namespace Helodrace
         private bool includeLogisticsPreservedFood;
         private bool includeLogisticsMedicalSupplies;
         private bool includeLogisticsWeapons;
-        private bool includeAirBombing;
+        private bool includeCloseAirSupport;
         private MarketSubTab selectedMarketSubTab;
         private int selectedMarketIndex;
         private int tradeCount = 1;
@@ -1240,7 +1240,7 @@ namespace Helodrace
                 includeLogisticsPreservedFood,
                 includeLogisticsMedicalSupplies,
                 includeLogisticsWeapons,
-                includeAirBombing,
+                includeCloseAirSupport,
                 includeInfantrySniperSupport
             };
         }
@@ -1258,7 +1258,7 @@ namespace Helodrace
             includeLogisticsPreservedFood = flags[3];
             includeLogisticsMedicalSupplies = flags[4];
             includeLogisticsWeapons = flags[5];
-            includeAirBombing = flags[6];
+            includeCloseAirSupport = flags[6];
             includeInfantrySniperSupport = flags.Length > 7 && flags[7];
         }
 
@@ -1280,8 +1280,8 @@ namespace Helodrace
                     return includeLogisticsMedicalSupplies;
                 case ForwardBaseService.LogisticsWeapons:
                     return includeLogisticsWeapons;
-                case ForwardBaseService.AirBombing:
-                    return includeAirBombing;
+                case ForwardBaseService.CloseAirSupport:
+                    return includeCloseAirSupport;
                 default:
                     return false;
             }
@@ -1312,8 +1312,8 @@ namespace Helodrace
                 case ForwardBaseService.LogisticsWeapons:
                     includeLogisticsWeapons = selected;
                     break;
-                case ForwardBaseService.AirBombing:
-                    includeAirBombing = selected;
+                case ForwardBaseService.CloseAirSupport:
+                    includeCloseAirSupport = selected;
                     break;
             }
         }
@@ -1722,7 +1722,7 @@ namespace Helodrace
                     return 650f;
                 case ForwardBaseService.LogisticsWeapons:
                     return 900f;
-                case ForwardBaseService.AirBombing:
+                case ForwardBaseService.CloseAirSupport:
                     return 1800f;
                 default:
                     return 250f;
@@ -1737,7 +1737,7 @@ namespace Helodrace
                 case ForwardBaseService.LogisticsMedicalSupplies:
                     return 2;
                 case ForwardBaseService.LogisticsWeapons:
-                case ForwardBaseService.AirBombing:
+                case ForwardBaseService.CloseAirSupport:
                     return 3;
                 default:
                     return 1;
@@ -1757,7 +1757,7 @@ namespace Helodrace
                 case ForwardBaseService.LogisticsMedicalSupplies:
                 case ForwardBaseService.LogisticsWeapons:
                     return ForwardBaseServiceType.Logistics;
-                case ForwardBaseService.AirBombing:
+                case ForwardBaseService.CloseAirSupport:
                     return ForwardBaseServiceType.AirForce;
                 default:
                     return ForwardBaseServiceType.Artillery;

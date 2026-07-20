@@ -22,8 +22,15 @@ namespace Helodrace
                 <= HelodForwardBaseServiceUtility.SupportRange(HelodForwardBaseService.InfantryMortarSupport);
         }
 
-        public static void BeginTargeting(Map map, HelodForwardBase forwardBase, ThingDef shellDef, CompTelegraphTable telegraphComp = null)
+        public static void BeginTargeting(Map map, HelodForwardBase forwardBase, ThingDef shellDef,
+            CompTelegraphTable telegraphComp = null, Pawn radioOperator = null)
         {
+            if (radioOperator != null && SCR300RadioUtility.IsBlackout(map))
+            {
+                Messages.Message("HD_SCR300_SolarFlare".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
             if (!CanUseBase(map, forwardBase) || shellDef?.projectileWhenLoaded == null)
             {
                 Messages.Message("HD_MortarSupport_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
@@ -36,13 +43,14 @@ namespace Helodrace
             CameraJumper.TryJump(new TargetInfo(map.Center, map));
             if (IsSmokeShell(shellDef))
             {
-                map.GetComponent<MapComponent_HelodMortarSupport>().BeginSmokeLineTargeting(forwardBase, shellDef, telegraphComp);
+                map.GetComponent<MapComponent_HelodMortarSupport>().BeginSmokeLineTargeting(
+                    forwardBase, shellDef, telegraphComp, radioOperator);
                 Messages.Message("HD_MortarSupport_SmokeDragPrompt".Translate(), MessageTypeDefOf.NeutralEvent);
                 return;
             }
             float radius = IsChemicalShell(shellDef) ? ChemicalScatterRadius : ScatterRadius;
-            Find.Targeter.BeginTargeting(new TargetingParameters { canTargetLocations = true, validator = t => t.Cell.InBounds(map) && !t.Cell.Fogged(map) },
-                target => TryCall(map, target.Cell, forwardBase, shellDef, default(IntVec3), telegraphComp),
+            Find.Targeter.BeginTargeting(new TargetingParameters { canTargetLocations = true, validator = t => t.Cell.InBounds(map) && !t.Cell.Fogged(map) && SCR300RadioUtility.HasLineOfSight(radioOperator, map, t.Cell) },
+                target => TryCall(map, target.Cell, forwardBase, shellDef, default(IntVec3), telegraphComp, radioOperator),
                 target => { if (target.Cell.InBounds(map)) GenDraw.DrawRadiusRing(target.Cell, radius); });
             MapComponent_PersistentTargetingOverlay.Set(map, target =>
             {
@@ -50,8 +58,22 @@ namespace Helodrace
             });
         }
 
-        public static bool TryCall(Map map, IntVec3 cell, HelodForwardBase forwardBase, ThingDef shellDef, IntVec3 lineEnd = default(IntVec3), CompTelegraphTable telegraphComp = null)
+        public static bool TryCall(Map map, IntVec3 cell, HelodForwardBase forwardBase,
+            ThingDef shellDef, IntVec3 lineEnd = default(IntVec3),
+            CompTelegraphTable telegraphComp = null, Pawn radioOperator = null)
         {
+            if (radioOperator != null && SCR300RadioUtility.IsBlackout(map))
+            {
+                Messages.Message("HD_SCR300_SolarFlare".Translate(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            if (!SCR300RadioUtility.HasLineOfSight(radioOperator, map, cell)
+                || (lineEnd.IsValid && !SCR300RadioUtility.HasLineOfSight(radioOperator, map, lineEnd)))
+            {
+                Messages.Message("HD_SCR300_TargetNotVisible".Translate(), MessageTypeDefOf.RejectInput);
+                return false;
+            }
+
             if (!CanUseBase(map, forwardBase) || !cell.InBounds(map)) return false;
             if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
             {
@@ -79,6 +101,7 @@ namespace Helodrace
         private HelodForwardBase lineTargetBase;
         private ThingDef lineTargetShell;
         private CompTelegraphTable lineTargetTelegraph;
+        private Pawn lineTargetRadioOperator;
         private IntVec3 lineDragStart = IntVec3.Invalid;
         private IntVec3 lineDragEnd = IntVec3.Invalid;
         public MapComponent_HelodMortarSupport(Map map) : base(map) { }
@@ -88,9 +111,12 @@ namespace Helodrace
             strikes.Add(new MortarSupportStrike(center, lineEnd, shellDef, forwardBase, IncomingEdgeCell(forwardBase), Find.TickManager.TicksGame + 120));
         }
 
-        public void BeginSmokeLineTargeting(HelodForwardBase forwardBase, ThingDef shellDef, CompTelegraphTable telegraphComp)
+        public void BeginSmokeLineTargeting(HelodForwardBase forwardBase, ThingDef shellDef,
+            CompTelegraphTable telegraphComp, Pawn radioOperator)
         {
-            lineTargetBase = forwardBase; lineTargetShell = shellDef; lineTargetTelegraph = telegraphComp; lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid;
+            lineTargetBase = forwardBase; lineTargetShell = shellDef;
+            lineTargetTelegraph = telegraphComp; lineTargetRadioOperator = radioOperator;
+            lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid;
         }
 
         public override void MapComponentOnGUI()
@@ -113,8 +139,9 @@ namespace Helodrace
                 IntVec3 start = lineDragStart; IntVec3 end = lineDragEnd.IsValid ? lineDragEnd : mouseCell;
                 HelodForwardBase targetBase = lineTargetBase; ThingDef shell = lineTargetShell;
                 CompTelegraphTable telegraph = lineTargetTelegraph;
+                Pawn radioOperator = lineTargetRadioOperator;
                 CancelLineTargeting(); evt.Use();
-                HelodMortarSupportUtility.TryCall(map, start, targetBase, shell, end, telegraph);
+                HelodMortarSupportUtility.TryCall(map, start, targetBase, shell, end, telegraph, radioOperator);
             }
         }
 
@@ -134,7 +161,7 @@ namespace Helodrace
             if (end.InBounds(map)) GenDraw.DrawRadiusRing(end, 2f);
         }
 
-        private void CancelLineTargeting() { lineTargetBase = null; lineTargetShell = null; lineTargetTelegraph = null; lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid; }
+        private void CancelLineTargeting() { lineTargetBase = null; lineTargetShell = null; lineTargetTelegraph = null; lineTargetRadioOperator = null; lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid; }
 
         private IntVec3 IncomingEdgeCell(HelodForwardBase forwardBase)
         {
