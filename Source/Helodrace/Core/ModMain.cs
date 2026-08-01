@@ -15,29 +15,6 @@ namespace Helodrace
             var harmony = new Harmony("YourName.Helodrace");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             
-            // Dynamically add CompProperties_Lubricant to all Raw Meat (vanilla auto-generates these, so XML patching is unreliable)
-            ThingCategoryDef meatCat = ThingCategoryDefOf.MeatRaw;
-            int count = 0;
-            
-            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
-            {
-                if (def.thingCategories != null && def.thingCategories.Contains(meatCat))
-                {
-                    if (def.comps == null)
-                    {
-                        def.comps = new List<CompProperties>();
-                    }
-                    
-                    if (!def.comps.Any(c => c is CompProperties_Lubricant))
-                    {
-                        // Raw meat is terrible lubricant, so it only lasts ~6 hours
-                        def.comps.Add(new CompProperties_Lubricant { lubeMtbHours = 6f }); 
-                        count++;
-                    }
-                }
-            }
-
-            Log.Message($"Helodrace initialized. Added Lubricant comp to {count} meat types.");
             RemoveQualityFromHelodraceGuns();
         }
 

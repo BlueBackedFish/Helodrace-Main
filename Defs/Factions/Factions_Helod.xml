@@ -70,6 +70,15 @@
     <naturalEnemy>false</naturalEnemy>
     <permanentEnemy>false</permanentEnemy>
     <mustStartOneEnemy>false</mustStartOneEnemy>
+    <disallowedRaidStrategies>
+      <li>ImmediateAttack</li>
+      <li>ImmediateAttackSmart</li>
+      <li>StageThenAttack</li>
+      <li>ImmediateAttackSappers</li>
+      <li>ImmediateAttackBreaching</li>
+      <li>ImmediateAttackBreachingSmart</li>
+      <li>Siege</li>
+    </disallowedRaidStrategies>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <maxCountAtGameStart>1</maxCountAtGameStart>
     <settlementGenerationWeight>1</settlementGenerationWeight>

@@ -11,13 +11,13 @@
   <HD_Apparel_GreatWarMedibag.description>간단한 생약과 붕대류를 구성품으로 갖는 가장 기본적인 어깨걸이 치료가방입니다.</HD_Apparel_GreatWarMedibag.description>
 
   <HD_Apparel_GreatWarGasMaskPouch.label>가스마스크 파우치</HD_Apparel_GreatWarGasMaskPouch.label>
-  <HD_Apparel_GreatWarGasMaskPouch.description>밀봉된 여분 필터와 방독 천을 넣어 허리에 차는 작은 파우치입니다. 착용 중 독성 환경 저항력을 100%까지 높이지만, 무게와 끈 때문에 이동, 작업, 사격, 근접 전투 능력이 낮아집니다.</HD_Apparel_GreatWarGasMaskPouch.description>
+  <HD_Apparel_GreatWarGasMaskPouch.description>방독면과 밀봉된 여분 필터, 방독 천을 넣어 허리에 차는 작은 파우치입니다. 파우치를 착용하면 방독면을 사용할 수 있으며, 방독면을 꺼내 착용해야 독성 환경 저항력이 100%까지 높아집니다.</HD_Apparel_GreatWarGasMaskPouch.description>
 
   <HD_Apparel_GreatWarCBRNPouch.label>화생방보호의 파우치</HD_Apparel_GreatWarCBRNPouch.label>
-  <HD_Apparel_GreatWarCBRNPouch.description>밀봉 필터, 차단 천, 응급 화학 방호 물품을 넣어 보강한 가스마스크 파우치입니다. 착용 중 독성 환경 저항력을 100%까지 높이고 스위트 가스 노출을 막지만, 부피 때문에 이동, 작업, 사격, 근접 전투 능력이 크게 낮아집니다.</HD_Apparel_GreatWarCBRNPouch.description>
+  <HD_Apparel_GreatWarCBRNPouch.description>밀봉 필터, 차단 천, 응급 화학 방호 물품을 넣어 보강한 방독면 파우치입니다. 파우치를 착용하면 방독면을 사용할 수 있으며, 방독면을 꺼내 착용해야 독성 환경 저항력이 100%까지 높아지고 스위트 가스 노출을 막습니다.</HD_Apparel_GreatWarCBRNPouch.description>
 
-  <HD_Apparel_M6RocketBag.label>M6 로켓 가방</HD_Apparel_M6RocketBag.label>
-  <HD_Apparel_M6RocketBag.description>M6A3 HEAT 로켓을 나르는 임시 로켓 운반 가방입니다. 착용자는 가방에 로켓을 넣고 M9A1 무반동포 사수의 재장전을 도울 수 있습니다.</HD_Apparel_M6RocketBag.description>
+  <HD_Apparel_M6RocketBag.label>무장 시스템 테스트 장비</HD_Apparel_M6RocketBag.label>
+  <HD_Apparel_M6RocketBag.description>실험용 무장 보급 설정 장비입니다. 착용하면 탄약별 목표 소지량을 지정할 수 있으며, 정착민이 지정된 수량만큼 탄약을 자동으로 챙깁니다.</HD_Apparel_M6RocketBag.description>
 
   <HD_Apparel_GreatWarTrenchArmyInner.label>대참호 군복 내피</HD_Apparel_GreatWarTrenchArmyInner.label>
   <HD_Apparel_GreatWarTrenchArmyInner.description>헤로드 체형에 맞춰 재단한 참호전 병사용 내피 군복입니다. 방어구나 두꺼운 야전 장구 아래에 입는 내의입니다.</HD_Apparel_GreatWarTrenchArmyInner.description>
@@ -46,6 +46,8 @@
   <HD_81mmMortarShell_M57WP.description>M1 81mm 박격포용 백린연막탄입니다. 넓은 연막을 만들고 착탄 지점 주변에 불타는 백린을 흩뿌립니다.</HD_81mmMortarShell_M57WP.description>
   <HD_81mmMortarShell_BA.label>M57 81mm BA 화학탄</HD_81mmMortarShell_BA.label>
   <HD_81mmMortarShell_BA.description>M1 81mm 박격포용 화학탄입니다. 소형 작약이 터지며 착탄 지점에 고농도 스위트 가스를 살포합니다.</HD_81mmMortarShell_BA.description>
+  <HD_105mmShell_M1HE.label>M1 105mm 고폭탄</HD_105mmShell_M1HE.label>
+  <HD_105mmShell_M1HE.description>M2A2 105mm 경곡사포용 탄피식 M1 고폭탄입니다. 중량급 작약으로 참호의 보병, 야전 진지와 구조물을 제압합니다.</HD_105mmShell_M1HE.description>
   <HD_Apparel_M1MortarBarrel.label>M1 박격포 포신</HD_Apparel_M1MortarBarrel.label>
   <HD_Apparel_M1MortarBarrel.description>운반용 멜빵을 단 M1 81mm 박격포의 포신과 포미 조립체입니다. 박격포를 운반할 때 세 부분으로 분해하여 나누어 드는 무거운 장비 중 하나입니다.</HD_Apparel_M1MortarBarrel.description>
   <HD_Apparel_M1MortarBaseplate.label>M1 박격포 포판</HD_Apparel_M1MortarBaseplate.label>

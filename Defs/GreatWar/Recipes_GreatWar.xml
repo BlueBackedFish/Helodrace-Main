@@ -9,6 +9,7 @@
     <workAmount>1800</workAmount>
     <workSpeedStat>CookSpeed</workSpeedStat>
     <workSkill>Cooking</workSkill>
+    <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
     <requiredGiverWorkType>Cooking</requiredGiverWorkType>
     <effectWorking>Cook</effectWorking>
     <soundWorking>Recipe_CookMeal</soundWorking>
@@ -59,6 +60,7 @@
     <workAmount>2400</workAmount>
     <workSpeedStat>CookSpeed</workSpeedStat>
     <workSkill>Cooking</workSkill>
+    <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
     <requiredGiverWorkType>Cooking</requiredGiverWorkType>
     <effectWorking>Cook</effectWorking>
     <soundWorking>Recipe_CookMeal</soundWorking>
@@ -183,6 +185,53 @@
     </recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make105mmShellM1HE</defName>
+    <label>make M1 105mm HE shell</label>
+    <description>Assemble a cased M1 high-explosive shell for the M2A2 105mm light howitzer.</description>
+    <jobString>Making M1 105mm HE shell.</jobString>
+    <workAmount>2400</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighExplosive</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>25</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>22</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_105mmShell_M1HE>1</HD_105mmShell_M1HE>
+    </products>
+    <recipeUsers>
+      <li>HD_BasicWorkbench</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Crafting>6</Crafting>
     </skillRequirements>
   </RecipeDef>
 

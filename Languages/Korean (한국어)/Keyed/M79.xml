@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_M79_Inspect>탄약: {0}\n상태: {1}</HD_M79_Inspect>
+  <HD_M79_Loaded>장전됨</HD_M79_Loaded>
+  <HD_M79_Unloaded>미장전</HD_M79_Unloaded>
+  <HD_M79_Reload>M79 재장전</HD_M79_Reload>
+  <HD_M79_ReloadDesc>사수의 인벤토리에서 {0} 한 발을 장전합니다.</HD_M79_ReloadDesc>
+  <HD_M79_AlreadyLoaded>이미 장전되어 있습니다.</HD_M79_AlreadyLoaded>
+  <HD_M79_NoAmmo>사수의 인벤토리에 {0}이(가) 없습니다.</HD_M79_NoAmmo>
+  <HD_M79_AmmoLabel>탄종: {0}</HD_M79_AmmoLabel>
+  <HD_M79_AmmoDesc>사수의 인벤토리에 있는 40×46mm 탄약 중 다음 재장전에 사용할 탄종을 선택합니다.</HD_M79_AmmoDesc>
+  <HD_M79_SelectAmmo>{0} 선택</HD_M79_SelectAmmo>
+  <HD_M79_AmmoSelected>{0} (선택됨)</HD_M79_AmmoSelected>
+</LanguageData>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Allow Helod pawns to use Ponpeco's female hairstyles. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Ponpeco Hair</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/HairDef[category="PonpecoHairF"]/styleTags</xpath>
+      <value>
+        <li>HelodHair</li>
+      </value>
+    </match>
+  </Operation>
+
+  <!-- FFXV Hair uses the legacy hairTags field, converted by RimWorld on load. -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>FFXV Hair</li>
+    </mods>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/HairDef[defName="XV_Luna"]/hairTags</xpath>
+      <value>
+        <li>HelodHair</li>
+      </value>
+    </match>
+  </Operation>
+
+</Patch>

@@ -1,5 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_HelodBody.label>헤로드</HD_HelodBody.label>
+  <HD_HelodBody.corePart.parts.tail.customLabel>꼬리</HD_HelodBody.corePart.parts.tail.customLabel>
+  <HD_HelodBody.corePart.parts.left_lung.customLabel>왼쪽 폐</HD_HelodBody.corePart.parts.left_lung.customLabel>
+  <HD_HelodBody.corePart.parts.right_lung.customLabel>오른쪽 폐</HD_HelodBody.corePart.parts.right_lung.customLabel>
+  <HD_HelodBody.corePart.parts.left_kidney.customLabel>왼쪽 신장</HD_HelodBody.corePart.parts.left_kidney.customLabel>
+  <HD_HelodBody.corePart.parts.right_kidney.customLabel>오른쪽 신장</HD_HelodBody.corePart.parts.right_kidney.customLabel>
+  <HD_HelodBody.corePart.parts.Neck.parts.Head.customLabel>머리</HD_HelodBody.corePart.parts.Neck.parts.Head.customLabel>
+  <HD_HelodBody.corePart.parts.Neck.parts.Head.parts.left_eye.customLabel>왼쪽 눈</HD_HelodBody.corePart.parts.Neck.parts.Head.parts.left_eye.customLabel>
+  <HD_HelodBody.corePart.parts.Neck.parts.Head.parts.right_eye.customLabel>오른쪽 눈</HD_HelodBody.corePart.parts.Neck.parts.Head.parts.right_eye.customLabel>
+  <HD_HelodBody.corePart.parts.Neck.parts.Head.parts.left_ear.customLabel>왼쪽 귀</HD_HelodBody.corePart.parts.Neck.parts.Head.parts.left_ear.customLabel>
+  <HD_HelodBody.corePart.parts.Neck.parts.Head.parts.right_ear.customLabel>오른쪽 귀</HD_HelodBody.corePart.parts.Neck.parts.Head.parts.right_ear.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.customLabel>왼쪽 어깨</HD_HelodBody.corePart.parts.left_shoulder.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_clavicle.customLabel>왼쪽 쇄골</HD_HelodBody.corePart.parts.left_shoulder.parts.left_clavicle.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.customLabel>왼팔</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_humerus.customLabel>왼쪽 상완골</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_humerus.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_radius.customLabel>왼쪽 요골</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_radius.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.customLabel>왼손</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_pinky.customLabel>왼쪽 새끼손가락</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_pinky.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_ring_finger.customLabel>왼쪽 약지</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_ring_finger.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_middle_finger.customLabel>왼쪽 중지</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_middle_finger.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_index_finger.customLabel>왼쪽 검지</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_index_finger.customLabel>
+  <HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_thumb.customLabel>왼쪽 엄지손가락</HD_HelodBody.corePart.parts.left_shoulder.parts.left_arm.parts.left_hand.parts.left_thumb.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.customLabel>오른쪽 어깨</HD_HelodBody.corePart.parts.right_shoulder.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_clavicle.customLabel>오른쪽 쇄골</HD_HelodBody.corePart.parts.right_shoulder.parts.right_clavicle.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.customLabel>오른팔</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_humerus.customLabel>오른쪽 상완골</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_humerus.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_radius.customLabel>오른쪽 요골</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_radius.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.customLabel>오른손</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_pinky.customLabel>오른쪽 새끼손가락</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_pinky.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_ring_finger.customLabel>오른쪽 약지</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_ring_finger.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_middle_finger.customLabel>오른쪽 중지</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_middle_finger.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_index_finger.customLabel>오른쪽 검지</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_index_finger.customLabel>
+  <HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_thumb.customLabel>오른쪽 엄지손가락</HD_HelodBody.corePart.parts.right_shoulder.parts.right_arm.parts.right_hand.parts.right_thumb.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.customLabel>왼다리</HD_HelodBody.corePart.parts.left_leg.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_femur.customLabel>왼쪽 대퇴골</HD_HelodBody.corePart.parts.left_leg.parts.left_femur.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_tibia.customLabel>왼쪽 경골</HD_HelodBody.corePart.parts.left_leg.parts.left_tibia.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_foot.customLabel>왼발</HD_HelodBody.corePart.parts.left_leg.parts.left_foot.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_little_toe.customLabel>왼쪽 새끼발가락</HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_little_toe.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_fourth_toe.customLabel>왼쪽 넷째 발가락</HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_fourth_toe.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_middle_toe.customLabel>왼쪽 가운데 발가락</HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_middle_toe.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_second_toe.customLabel>왼쪽 둘째 발가락</HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_second_toe.customLabel>
+  <HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_big_toe.customLabel>왼쪽 엄지발가락</HD_HelodBody.corePart.parts.left_leg.parts.left_foot.parts.left_big_toe.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.customLabel>오른다리</HD_HelodBody.corePart.parts.right_leg.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_femur.customLabel>오른쪽 대퇴골</HD_HelodBody.corePart.parts.right_leg.parts.right_femur.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_tibia.customLabel>오른쪽 경골</HD_HelodBody.corePart.parts.right_leg.parts.right_tibia.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_foot.customLabel>오른발</HD_HelodBody.corePart.parts.right_leg.parts.right_foot.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_little_toe.customLabel>오른쪽 새끼발가락</HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_little_toe.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_fourth_toe.customLabel>오른쪽 넷째 발가락</HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_fourth_toe.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_middle_toe.customLabel>오른쪽 가운데 발가락</HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_middle_toe.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_second_toe.customLabel>오른쪽 둘째 발가락</HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_second_toe.customLabel>
+  <HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_big_toe.customLabel>오른쪽 엄지발가락</HD_HelodBody.corePart.parts.right_leg.parts.right_foot.parts.right_big_toe.customLabel>
 </LanguageData>
 

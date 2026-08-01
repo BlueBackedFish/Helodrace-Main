@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_GW_BreachingAssault.letterLabelEnemy>브리칭 습격</HD_GW_BreachingAssault.letterLabelEnemy>
+  <HD_GW_BreachingAssault.arrivalTextEnemy>습격자들이 브리칭 전투조로 즉시 공격해 옵니다. 대부분은 명사수 모드로 전환한 기관단총을 들었고, 저격수 한두 명과 M9A1 무반동포 2인조가 지원합니다.</HD_GW_BreachingAssault.arrivalTextEnemy>
+  <HD_GW_ShowOfForce.letterLabelEnemy>무력시위</HD_GW_ShowOfForce.letterLabelEnemy>
+  <HD_GW_ShowOfForce.arrivalTextEnemy>습격자들이 정착지 주변에서 무력시위를 벌이려 합니다. 이들은 정면 돌격하지 않고 외곽을 순회하면서 시야에 들어온 정착민을 사격하며, 쓰러뜨린 정착민을 포로로 끌고 가려 할 것입니다.</HD_GW_ShowOfForce.arrivalTextEnemy>
+</LanguageData>

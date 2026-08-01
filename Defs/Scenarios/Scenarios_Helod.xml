@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <!-- Scenario: 4-Pawn Start (Helod Gilded Pioneers) based on Biotech and Wild West mechanics -->
   <ScenarioDef ParentName="ScenarioBase">
-    <defName>HD_Scenario_HelodFourPawns</defName>
+    <defName>HD_Scenario_WWTech</defName>
     <label>Helod Gilded Pioneers</label>
     <description>Four Helod pioneers venture deep into the harsh, untamed frontier to establish an industrial outpost. Equipped with high starting funds of Sthaler banknotes, raw pemmican rations, three Graylock M1861 rifled muskets, and a steel knife (iron dagger), they are ready to seize control of local petroleum and build their financial empire.</description>
     <scenario>
@@ -24,7 +23,7 @@
         <li Class="Helodrace.ScenPart_ResearchCostFactor">
           <def>HD_ResearchCostFactor</def>
           <project>Electricity</project>
-          <factor>3</factor>
+          <factor>4.5</factor>
         </li>
 
         <!-- Config page (Advanced Biotech Xenotypes configuration) -->
@@ -94,7 +93,7 @@
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>
           <thingDef>Pemmican</thingDef>
-          <count>400</count> <!-- Pemmican Survival Rations -->
+          <count>800</count> <!-- Pemmican Survival Rations -->
         </li>
         <li Class="ScenPart_StartingThing_Defined">
           <def>StartingThing_Defined</def>

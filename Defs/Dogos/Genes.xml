@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <!-- Existing: Sharpshooter (초월공학 명사수) -->
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>HD_Gene_BTXDependency</defName>
+    <label>BTX dependency</label>
+    <description>Carriers of this gene permanently develop BTX addiction. The addiction creates a BTX need which must be replenished with benzene, toluene, or xylene compounds to prevent dangerous withdrawal.</description>
+    <geneClass>Helodrace.Gene_BTXAddiction</geneClass>
+    <chemical>BTX</chemical>
+    <labelShortAdj>BTX-dependent</labelShortAdj>
+    <iconPath>Icon/HD_Aromatic</iconPath>
+    <displayCategory>Drugs</displayCategory>
+    <biostatCpx>1</biostatCpx>
+    <biostatMet>3</biostatMet>
+    <exclusionTags>
+      <li>AddictionBTX</li>
+    </exclusionTags>
+  </GeneDef>
+
+  <GeneDef MayRequire="BlueBackedFish.Helod.BlancasDrugs">
+    <defName>HD_Gene_AmphetamineDependency</defName>
+    <label>amphetamine dependency</label>
+    <description>Carriers of this gene need to ingest amphetamines on a regular basis to survive. After 5 days without amphetamines, carriers suffer from amphetamine deficiency. After 30 days, they fall into a coma. After 60 days, they die.</description>
+    <geneClass>Gene_ChemicalDependency</geneClass>
+    <chemical>BD_Amphetamines</chemical>
+    <labelShortAdj>amphetamine-dependent</labelShortAdj>
+    <iconPath>Icon/HD_Amphetamine</iconPath>
+    <displayCategory>Drugs</displayCategory>
+    <addictionChanceFactor>0</addictionChanceFactor>
+    <minAgeActive>13</minAgeActive>
+    <biostatCpx>1</biostatCpx>
+    <biostatMet>4</biostatMet>
+    <exclusionTags>
+      <li>AddictionBD_Amphetamines</li>
+    </exclusionTags>
+  </GeneDef>
+
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_Sharpshooter</defName>
     <label>sharpshooter</label>
@@ -19,7 +52,6 @@
     </statFactors>
   </GeneDef>
 
-  <!-- New Custom Gene 1: Arrogant Leader -->
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_ArrogantLeader</defName>
     <label>arrogant leader</label>
@@ -35,7 +67,6 @@
     </statOffsets>
   </GeneDef>
 
-  <!-- New Custom Gene 2: Polar Precision -->
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_PolarPrecision</defName>
     <label>polar precision</label>
@@ -51,7 +82,6 @@
     </statOffsets>
   </GeneDef>
 
-  <!-- New Custom Gene 3: Monopolist -->
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_Monopolist</defName>
     <label>monopolist</label>
@@ -67,7 +97,6 @@
     </statOffsets>
   </GeneDef>
 
-  <!-- New Custom Gene 4: Mercenary Cohesion (용병단의 군대식 결속) -->
   <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_Gene_MercenaryCohesion</defName>
     <label>mercenary cohesion</label>

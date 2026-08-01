@@ -110,6 +110,22 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_M1Carbine_Proj</defName>
+    <label>.30 carbine bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <armorPenetrationBase>0.18</armorPenetrationBase>
+      <stoppingPower>1.0</stoppingPower>
+      <speed>76</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1917HMG_Proj</defName>
     <label>M1917 heavy machine gun bullet</label>
     <graphicData>
@@ -914,6 +930,94 @@
     </building>
   </ThingDef>
 
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_105mmShell_M1HE_Proj</defName>
+    <label>M1 105mm HE shell</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Proj/HD_105MMM1HE_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.95,0.95)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>75</damageAmountBase>
+      <stoppingPower>2.8</stoppingPower>
+      <speed>36</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>3.9</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_M2A2LightHowitzer_TurretGun</defName>
+    <label>M2A2 105mm light howitzer</label>
+    <description>A 105mm field howitzer configured for long-range indirect fire with dedicated M1 high-explosive shells or standard mortar shells.</description>
+    <graphicData>
+      <texPath>Building/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(9.0,9.0)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.08</AccuracyTouch>
+      <AccuracyShort>0.32</AccuracyShort>
+      <AccuracyMedium>0.58</AccuracyMedium>
+      <AccuracyLong>0.56</AccuracyLong>
+      <RangedWeapon_Cooldown>14.0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <warmupTime>4.0</warmupTime>
+        <range>500</range>
+        <minRange>17.9</minRange>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>HD_105MMFire</soundCast>
+        <muzzleFlashScale>14</muzzleFlashScale>
+        <forcedMissRadius>4.5</forcedMissRadius>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <categories>
+            <li>MortarShells</li>
+            <li>HD_105mmHowitzerShells</li>
+          </categories>
+          <disallowedThingDefs>
+            <li>Shell_Firefoam</li>
+            <li>Shell_AntigrainWarhead</li>
+          </disallowedThingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <categories>
+            <li>MortarShells</li>
+            <li>HD_105mmHowitzerShells</li>
+          </categories>
+          <disallowedThingDefs>
+            <li>Shell_Firefoam</li>
+            <li>Shell_AntigrainWarhead</li>
+          </disallowedThingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
   <ThingDef ParentName="BaseMakeableGun">
     <defName>HD_Gun_KragJorgensen_Weapon</defName>
     <weaponTags>
@@ -1072,6 +1176,161 @@
         </capacities>
         <power>8</power>
         <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M1A1Carbine_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarSemiAutoRifle</li>
+      <li>HD_GreatWarM1Garand</li>
+    </weaponTags>
+    <label>M1A1 carbine</label>
+    <description>A compact, lightweight semi-automatic carbine fitted with a folding wire stock. It is quick to shoulder and easy to carry, trading the power and reach of a full-size service rifle for excellent handling.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_M1A1Carbine</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.95, 0.95)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>38000</WorkToMake>
+      <Mass>2.36</Mass>
+      <AccuracyTouch>0.72</AccuracyTouch>
+      <AccuracyShort>0.80</AccuracyShort>
+      <AccuracyMedium>0.70</AccuracyMedium>
+      <AccuracyLong>0.42</AccuracyLong>
+      <RangedWeapon_Cooldown>1.1</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>58</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>1.0</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.0</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Carbine_Proj</defaultProjectile>
+        <warmupTime>0.65</warmupTime>
+        <range>27.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Carbine_Proj</defaultProjectile>
+        <warmupTime>0.25</warmupTime>
+        <range>18.9</range>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>12</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities><li>Blunt</li></capacities>
+        <power>7</power>
+        <cooldownTime>1.8</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M2Carbine_Weapon</defName>
+    <weaponTags>
+      <li>HD_GreatWarSubmachineGun</li>
+      <li>HD_GreatWarSemiAutoRifle</li>
+    </weaponTags>
+    <label>M2 carbine</label>
+    <description>A select-fire development of the lightweight service carbine. Its controllable cartridge and compact frame make it effective in close fighting, though sustained automatic fire quickly loses precision at range.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_M2Carbine</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.95, 0.95)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <statBases>
+      <WorkToMake>42000</WorkToMake>
+      <Mass>2.49</Mass>
+      <AccuracyTouch>0.66</AccuracyTouch>
+      <AccuracyShort>0.72</AccuracyShort>
+      <AccuracyMedium>0.56</AccuracyMedium>
+      <AccuracyLong>0.30</AccuracyLong>
+      <RangedWeapon_Cooldown>1.55</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>62</Steel>
+      <ComponentIndustrial>5</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker Inherit="False" IsNull="True" />
+    <comps>
+      <li>
+        <compClass>CompEquippable</compClass>
+      </li>
+      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <altVerbIndex>1</altVerbIndex>
+        <altCooldownMultiplier>0.55</altCooldownMultiplier>
+        <altAccuracyMultiplier>1.5</altAccuracyMultiplier>
+        <altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey>
+        <modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey>
+      </li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Carbine_Proj</defaultProjectile>
+        <warmupTime>0.75</warmupTime>
+        <range>26.9</range>
+        <burstShotCount>5</burstShotCount>
+        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M1Carbine_Proj</defaultProjectile>
+        <warmupTime>0.25</warmupTime>
+        <range>22.9</range>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>9</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>9</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities><li>Blunt</li></capacities>
+        <power>8</power>
+        <cooldownTime>1.8</cooldownTime>
       </li>
     </tools>
   </ThingDef>
@@ -1702,6 +1961,83 @@
     <modExtensions>
       <li Class="Helodrace.HonorGuardEquipmentExtension" />
     </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelBase">
+    <defName>HD_USMCFightingKnife</defName>
+    <label>KA-BUG USMC fighting knife</label>
+    <description>A sturdy clip-point combat knife worn at the waist for fighting and field utility. While equipped, it adds quick knife thrusts and cuts to the wearer's available melee attacks.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_USMCFightingKnife</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawSize>(0.75,0.75)</drawSize>
+    </graphicData>
+    <techLevel>Industrial</techLevel>
+    <costStuffCount>35</costStuffCount>
+    <statBases>
+      <WorkToMake>6500</WorkToMake>
+      <Mass>0.55</Mass>
+      <EquipDelay>0.5</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Waist</li>
+      </bodyPartGroups>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>Soldier</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <tools>
+      <li>
+        <label>point</label>
+        <capacities><li>Stab</li></capacities>
+        <power>13</power>
+        <cooldownTime>1.55</cooldownTime>
+        <chanceFactor>1.08</chanceFactor>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+      <li>
+        <label>edge</label>
+        <capacities><li>Cut</li></capacities>
+        <power>12</power>
+        <cooldownTime>1.5</cooldownTime>
+        <chanceFactor>1.05</chanceFactor>
+        <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+      </li>
+    </tools>
+    <comps>
+      <li Class="Helodrace.CompProperties_WornMeleeWeapon">
+        <minimumBestVerbWeightFactor>1.15</minimumBestVerbWeightFactor>
+      </li>
+    </comps>
+    <recipeMaker>
+      <recipeUsers>
+        <li>ElectricSmithy</li>
+        <li>FueledSmithy</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <researchPrerequisites>
+      <li>HelodGreatWarTech</li>
+    </researchPrerequisites>
   </ThingDef>
 
 </Defs>

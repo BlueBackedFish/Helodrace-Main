@@ -12,9 +12,6 @@
   <HD_MechanicalUser_TorqueStruggle> (과부하 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
   <HD_MechanicalUser_DangerNone>없음 (안전)</HD_MechanicalUser_DangerNone>
   <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}\n요구 속도: {3} - {4} RPM\n위험 요소: {5}</HD_MechanicalUser_Info>
-  <HD_MechanicalUser_BeltSnapped>벨트 상태: 파단됨 (수리 필요)</HD_MechanicalUser_BeltSnapped>
-  <HD_MechanicalUser_BeltDry>벨트 상태: 마름 (윤활 필요)</HD_MechanicalUser_BeltDry>
-  <HD_MechanicalUser_BeltLubricated>벨트 상태: 윤활됨 (수명 약 {0}시간)</HD_MechanicalUser_BeltLubricated>
   <HD_MechanicalUser_GearRatio>현재 기어비: {0}x</HD_MechanicalUser_GearRatio>
   <HD_MechanicalUser_GearRatioPending>현재 기어비: {0}x (대기 중: {1}x)</HD_MechanicalUser_GearRatioPending>
   <HD_MechanicalUser_SpeedInfo>실제 속도: {0} RPM (±{1} RPM)\n유효 속도: {2} RPM\n상태: {3}</HD_MechanicalUser_SpeedInfo>
@@ -74,4 +71,10 @@
   <HD_ITab_MechanicalNetwork_Emitters>- 동력원: {0}</HD_ITab_MechanicalNetwork_Emitters>
   <HD_ITab_MechanicalNetwork_Users>- 동력 소모 장치: {0}</HD_ITab_MechanicalNetwork_Users>
   <HD_ITab_MechanicalNetwork_Transmitters>- 동력 전달 장치: {0}</HD_ITab_MechanicalNetwork_Transmitters>
+  <HD_MechanicalGenerator_Stopped>발전기 정지\n기계 입력: 0 W\n전기 출력: 0 W</HD_MechanicalGenerator_Stopped>
+  <HD_MechanicalGenerator_Info>기계 입력: {0} W\n변환 효율: {1}%\n전기 출력: {2} W</HD_MechanicalGenerator_Info>
+  <HD_Stat_GeneratorRatedInput>정격 기계 입력</HD_Stat_GeneratorRatedInput>
+  <HD_Stat_GeneratorRatedInput_Desc>발전기가 최고 변환 효율에 도달하는 기계 동력 입력입니다.</HD_Stat_GeneratorRatedInput_Desc>
+  <HD_Stat_GeneratorEfficiency>최고 / 최저 효율</HD_Stat_GeneratorEfficiency>
+  <HD_Stat_GeneratorEfficiency_Desc>기계 입력이 정격 입력에서 10% 멀어질 때마다 변환 효율이 5%p씩 감소하며, 최저 효율 아래로는 내려가지 않습니다.</HD_Stat_GeneratorEfficiency_Desc>
 </LanguageData>

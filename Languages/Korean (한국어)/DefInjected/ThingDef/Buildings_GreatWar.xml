@@ -8,5 +8,9 @@
   <HD_Building_M1916_37mmGun.description>승무원이 운용하는 37mm 직사 보병포입니다. 낮은 포가는 투명한 바닥판으로 처리되어 포 본체만 터렛 상단으로 보입니다.</HD_Building_M1916_37mmGun.description>
   <HD_Building_M1_81mmMortar.label>M1 81mm 박격포</HD_Building_M1_81mmMortar.label>
   <HD_Building_M1_81mmMortar.description>M43 고폭탄을 엄폐물 너머로 떨어뜨리는 승무원 운용식 81mm 보병 박격포입니다. 폰이 직접 조작해야 하며 준비된 81mm 탄약으로 재장전합니다.</HD_Building_M1_81mmMortar.description>
+  <HD_Building_M2A2LightHowitzer.label>M2A2 105mm 경곡사포</HD_Building_M2A2LightHowitzer.label>
+  <HD_Building_M2A2LightHowitzer.description>개각식 포가에 탑재된 105mm 야전곡사포입니다. 포반장, 사수, 부사수가 서로 다른 운용 위치를 맡아 명중률과 장전 속도, 조준 속도에 영향을 줍니다. 모든 필수 역할이 배치되어야 사격할 수 있으며 전용 M1 105mm 고폭탄과 바닐라 박격포탄을 사용합니다.</HD_Building_M2A2LightHowitzer.description>
+  <HD_Gun_M2A2LightHowitzer_TurretGun.label>M2A2 105mm 경곡사포</HD_Gun_M2A2LightHowitzer_TurretGun.label>
+  <HD_Gun_M2A2LightHowitzer_TurretGun.description>전용 M1 고폭탄 또는 바닐라 박격포탄으로 장거리 간접 사격을 가하는 105mm 야전곡사포입니다.</HD_Gun_M2A2LightHowitzer_TurretGun.description>
 </LanguageData>
 

@@ -19,16 +19,23 @@ namespace Helodrace
             Thing thingToIgnore = null,
             Thing thing = null)
         {
-            ThingDef turretDef = checkingDef as ThingDef;
-            VerbProperties verb = turretDef?.building?.turretGunDef?.Verbs?.Find(IsTurretVerb);
+            return true;
+        }
+
+        public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol, Thing thing = null)
+        {
+            VerbProperties verb = def?.building?.turretGunDef?.Verbs?.Find(IsTurretVerb);
             if (verb == null)
             {
-                return true;
+                return;
             }
 
-            DrawRange(loc, verb.range, map);
-            DrawRange(loc, verb.minRange, map);
-            return true;
+            // DrawGhost is only used for an actual placement preview. Keeping
+            // rendering out of AllowsPlacing prevents AI blueprint checks from
+            // showing the player's range overlay during a raid.
+            Map map = Find.CurrentMap;
+            DrawRange(center, verb.range, map);
+            DrawRange(center, verb.minRange, map);
         }
 
         private static bool IsTurretVerb(VerbProperties verb)

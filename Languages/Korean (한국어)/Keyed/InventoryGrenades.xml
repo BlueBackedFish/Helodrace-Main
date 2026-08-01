@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Grenade_CloseThrow>근접 투척</HD_Grenade_CloseThrow>
+  <HD_Grenade_CloseThrowDesc>{0} 동안 준비한 뒤 수류탄을 빠르게 투척합니다. 최대 사거리: {1}칸. 사격 레벨이 높을수록 정확하게 투척합니다.</HD_Grenade_CloseThrowDesc>
+  <HD_Grenade_NormalThrow>일반 투척</HD_Grenade_NormalThrow>
+  <HD_Grenade_NormalThrowDesc>{0} 동안 충분히 준비한 뒤 수류탄을 투척합니다. 최대 사거리: {1}칸. 사격 레벨이 높을수록 정확하게 투척합니다.</HD_Grenade_NormalThrowDesc>
+  <HD_Grenade_None>이 정착민의 인벤토리에 수류탄이 없습니다.</HD_Grenade_None>
+  <HD_Grenade_NoneOfType>이 정착민의 인벤토리에 {0}이(가) 남아 있지 않습니다.</HD_Grenade_NoneOfType>
+  <HD_Grenade_SelectEntry>{0} ×{1}</HD_Grenade_SelectEntry>
+</LanguageData>

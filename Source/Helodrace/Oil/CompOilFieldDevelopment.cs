@@ -7,11 +7,14 @@ namespace Helodrace
 {
     public class CompProperties_OilFieldDevelopment : CompProperties
     {
-        public float totalDaysNeeded = 15f;
-        public float mtbDaysConfirmation = 0.1f;
-        public float mtbDaysMaintenance = 1f; // On average, needs work once a day
-        public string floorDefName = "HD_LowQualityOilRigFloor";
+        public float totalDaysNeeded = 7f;
+        public float mtbDaysConfirmation = 3f;
+        public float mtbDaysMaintenance = 0.6f; // On average, needs work once a day
+        public string floorDefName = MapComponent_OilFields.OilFieldTerrainDefName;
         public IntVec3 floorOffset = new IntVec3(0, 0, 0);
+        public float minimumQuality = 0.75f;
+        public float maximumQuality = 1.25f;
+        public float initialPressure = 1f;
 
         public CompProperties_OilFieldDevelopment()
         {
@@ -23,6 +26,8 @@ namespace Helodrace
     {
         public float currentProgressDays = 0f;
         public bool needsMaintenance = false;
+        public bool developmentComplete = false;
+        private CompMechanicalUser mechanicalUser;
 
         public CompProperties_OilFieldDevelopment Props => (CompProperties_OilFieldDevelopment)this.props;
 
@@ -30,8 +35,23 @@ namespace Helodrace
         {
             get
             {
-                var userComp = this.parent.GetComp<CompMechanicalUser>();
-                return userComp != null && userComp.HasPower;
+                return mechanicalUser != null && mechanicalUser.HasPower;
+            }
+        }
+
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            mechanicalUser = parent.GetComp<CompMechanicalUser>();
+
+            IntVec3 targetPos = parent.Position + Props.floorOffset;
+            MapComponent_OilFields oilFields = parent.Map?.GetComponent<MapComponent_OilFields>();
+            if (oilFields != null && oilFields.IsOilFieldTerrain(targetPos))
+            {
+                oilFields.FieldAtOrCreateLegacy(targetPos);
+                developmentComplete = true;
+                needsMaintenance = false;
+                currentProgressDays = Props.totalDaysNeeded;
             }
         }
 
@@ -40,13 +60,14 @@ namespace Helodrace
             base.PostExposeData();
             Scribe_Values.Look(ref currentProgressDays, "currentProgressDays", 0f);
             Scribe_Values.Look(ref needsMaintenance, "needsMaintenance", false);
+            Scribe_Values.Look(ref developmentComplete, "developmentComplete", false);
         }
 
         public override void CompTickRare()
         {
             base.CompTickRare();
 
-            if (IsPoweredBySteam && !needsMaintenance)
+            if (!developmentComplete && IsPoweredBySteam && !needsMaintenance)
             {
                 // Progress
                 float dayDelta = 250f / 60000f;
@@ -98,27 +119,43 @@ namespace Helodrace
             TerrainDef floor = DefDatabase<TerrainDef>.GetNamed(Props.floorDefName, false);
             if (floor != null && targetPos.InBounds(this.parent.Map))
             {
+                TerrainDef previousTerrain = targetPos.GetTerrain(parent.Map);
+                if (previousTerrain != null && !previousTerrain.layerable)
+                {
+                    parent.Map.terrainGrid.SetUnderTerrain(targetPos, previousTerrain);
+                }
                 this.parent.Map.terrainGrid.SetTerrain(targetPos, floor);
+                float quality = Rand.Range(Props.minimumQuality, Props.maximumQuality);
+                this.parent.Map.GetComponent<MapComponent_OilFields>()
+                    .CreateOrReplace(targetPos, quality, Props.initialPressure);
                 Messages.Message("HD_OilFieldDevelopmentComplete".Translate(this.parent.Label), this.parent, MessageTypeDefOf.PositiveEvent);
             }
-            currentProgressDays = 0;
+            currentProgressDays = Props.totalDaysNeeded;
             needsMaintenance = false;
+            developmentComplete = true;
         }
 
         public override string CompInspectStringExtra()
         {
-            string s = $"Development Progress: {currentProgressDays:F1} / {Props.totalDaysNeeded:F0} days";
+            if (developmentComplete)
+            {
+                return "HD_OilFieldDevelopment_CompleteInspect".Translate();
+            }
+
+            string s = "HD_OilFieldDevelopment_Progress".Translate(
+                currentProgressDays.ToString("F1"),
+                Props.totalDaysNeeded.ToString("F0"));
             if (needsMaintenance)
             {
-                s += "\n<color=orange>Idle: Needs Maintenance Work</color>";
+                s += "\n<color=orange>" + "HD_OilFieldDevelopment_NeedsMaintenance".Translate() + "</color>";
             }
             else if (IsPoweredBySteam)
             {
-                s += "\nOperational: Drilling (Chance to strike oil!)";
+                s += "\n" + "HD_OilFieldDevelopment_Drilling".Translate();
             }
             else
             {
-                s += "\nIdle: Needs Steam Power";
+                s += "\n" + "HD_OilFieldDevelopment_NeedsPower".Translate();
             }
             return s;
         }

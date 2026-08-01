@@ -494,7 +494,9 @@ namespace Helodrace
                 if (!exit.IsValid) continue;
                 assignedCarriers.Add(carrier);
                 assignedCasualties.Add(casualty);
-                carrier.jobs.TryTakeOrderedJob(JobMaker.MakeJob(evacDef, casualty, exit), JobTag.Misc);
+                Job evacuationJob = JobMaker.MakeJob(evacDef, casualty, exit);
+                evacuationJob.count = 1;
+                carrier.jobs.TryTakeOrderedJob(evacuationJob, JobTag.Misc);
             }
 
             foreach (Pawn casualty in casualties.Where(c => !assignedCasualties.Contains(c)))
@@ -566,11 +568,16 @@ namespace Helodrace
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
+            // StartCarryThing validates job.count even when the target is a pawn.
+            // JobMaker leaves it at -1 unless a count is supplied explicitly.
+            job.count = 1;
             return pawn.Reserve(Casualty, job, 1, -1, null, errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
+            // Also repairs evacuation jobs already present in a saved game.
+            job.count = 1;
             this.FailOn(() => Casualty == null || Casualty.Dead || !Casualty.Downed);
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
             yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false, false);

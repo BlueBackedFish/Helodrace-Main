@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <!-- Temporary Helod backstories for scenario and pawn generation testing. -->
@@ -16,14 +16,6 @@
       <Mining>1</Mining>
       <Crafting>1</Crafting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.35</Assertive>
-        <Passive>0.25</Passive>
-        <Cooperative>0.65</Cooperative>
-        <Independent>0.45</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -40,14 +32,6 @@
       <Intellectual>2</Intellectual>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.45</Assertive>
-        <Passive>0.20</Passive>
-        <Cooperative>0.75</Cooperative>
-        <Independent>0.55</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -64,14 +48,6 @@
       <Construction>1</Construction>
       <Plants>1</Plants>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.30</Assertive>
-        <Passive>0.50</Passive>
-        <Cooperative>0.55</Cooperative>
-        <Independent>0.35</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -88,14 +64,6 @@
       <Construction>2</Construction>
       <Intellectual>1</Intellectual>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.55</Assertive>
-        <Passive>0.15</Passive>
-        <Cooperative>0.45</Cooperative>
-        <Independent>0.75</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -112,14 +80,6 @@
       <Melee>1</Melee>
       <Social>1</Social>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.85</Assertive>
-        <Passive>0.05</Passive>
-        <Cooperative>0.35</Cooperative>
-        <Independent>0.70</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -136,14 +96,6 @@
       <Intellectual>3</Intellectual>
       <Crafting>1</Crafting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.40</Assertive>
-        <Passive>0.25</Passive>
-        <Cooperative>0.80</Cooperative>
-        <Independent>0.45</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -160,14 +112,6 @@
       <Intellectual>2</Intellectual>
       <Social>1</Social>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.25</Assertive>
-        <Passive>0.35</Passive>
-        <Cooperative>0.90</Cooperative>
-        <Independent>0.30</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -184,14 +128,6 @@
       <Mining>1</Mining>
       <Melee>1</Melee>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.45</Assertive>
-        <Passive>0.25</Passive>
-        <Cooperative>0.70</Cooperative>
-        <Independent>0.35</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -208,14 +144,6 @@
       <Social>1</Social>
       <Artistic>1</Artistic>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.25</Assertive>
-        <Passive>0.45</Passive>
-        <Cooperative>0.80</Cooperative>
-        <Independent>0.30</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -232,14 +160,6 @@
       <Animals>1</Animals>
       <Crafting>1</Crafting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.25</Assertive>
-        <Passive>0.55</Passive>
-        <Cooperative>0.45</Cooperative>
-        <Independent>0.70</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -255,14 +175,6 @@
       <Crafting>2</Crafting>
       <Intellectual>2</Intellectual>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.35</Assertive>
-        <Passive>0.35</Passive>
-        <Cooperative>0.55</Cooperative>
-        <Independent>0.60</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -279,14 +191,6 @@
       <Crafting>1</Crafting>
       <Melee>1</Melee>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.55</Assertive>
-        <Passive>0.15</Passive>
-        <Cooperative>0.45</Cooperative>
-        <Independent>0.75</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -303,14 +207,6 @@
       <Construction>2</Construction>
       <Social>1</Social>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.70</Assertive>
-        <Passive>0.10</Passive>
-        <Cooperative>0.75</Cooperative>
-        <Independent>0.45</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -327,14 +223,6 @@
       <Social>2</Social>
       <Plants>1</Plants>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.35</Assertive>
-        <Passive>0.40</Passive>
-        <Cooperative>0.90</Cooperative>
-        <Independent>0.25</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -351,14 +239,6 @@
       <Social>2</Social>
       <Medicine>1</Medicine>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.75</Assertive>
-        <Passive>0.10</Passive>
-        <Cooperative>0.55</Cooperative>
-        <Independent>0.60</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -375,14 +255,6 @@
       <Intellectual>2</Intellectual>
       <Medicine>1</Medicine>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.30</Assertive>
-        <Passive>0.45</Passive>
-        <Cooperative>0.85</Cooperative>
-        <Independent>0.35</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -399,14 +271,6 @@
       <Crafting>3</Crafting>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.50</Assertive>
-        <Passive>0.20</Passive>
-        <Cooperative>0.55</Cooperative>
-        <Independent>0.70</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -423,15 +287,6 @@
       <Medicine>1</Medicine>
       <Crafting>2</Crafting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.30</Assertive>
-        <Passive>0.45</Passive>
-        <Cooperative>0.70</Cooperative>
-        <Independent>0.35</Independent>
-        <PTSD>0.50</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -448,15 +303,6 @@
       <Medicine>1</Medicine>
       <Intellectual>2</Intellectual>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.25</Assertive>
-        <Passive>0.55</Passive>
-        <Cooperative>0.65</Cooperative>
-        <Independent>0.35</Independent>
-        <PTSD>0.50</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -473,15 +319,6 @@
       <Intellectual>1</Intellectual>
       <Social>1</Social>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.35</Assertive>
-        <Passive>0.40</Passive>
-        <Cooperative>0.75</Cooperative>
-        <Independent>0.40</Independent>
-        <PTSD>0.50</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -498,15 +335,6 @@
       <Medicine>1</Medicine>
       <Social>1</Social>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.25</Assertive>
-        <Passive>0.50</Passive>
-        <Cooperative>0.55</Cooperative>
-        <Independent>0.65</Independent>
-        <PTSD>0.50</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -523,15 +351,6 @@
       <Intellectual>1</Intellectual>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.30</Assertive>
-        <Passive>0.45</Passive>
-        <Cooperative>0.50</Cooperative>
-        <Independent>0.70</Independent>
-        <PTSD>0.50</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -548,15 +367,6 @@
       <Melee>2</Melee>
       <Plants>1</Plants>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.70</Assertive>
-        <Passive>0.15</Passive>
-        <Cooperative>0.45</Cooperative>
-        <Independent>0.70</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -573,15 +383,6 @@
       <Shooting>2</Shooting>
       <Medicine>1</Medicine>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.45</Assertive>
-        <Passive>0.35</Passive>
-        <Cooperative>0.75</Cooperative>
-        <Independent>0.25</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -598,15 +399,6 @@
       <Intellectual>2</Intellectual>
       <Melee>1</Melee>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.30</Assertive>
-        <Passive>0.55</Passive>
-        <Cooperative>0.85</Cooperative>
-        <Independent>0.30</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -623,15 +415,6 @@
       <Construction>1</Construction>
       <Melee>1</Melee>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.65</Assertive>
-        <Passive>0.40</Passive>
-        <Cooperative>0.55</Cooperative>
-        <Independent>0.45</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -648,15 +431,6 @@
       <Social>2</Social>
       <Construction>1</Construction>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.35</Assertive>
-        <Passive>0.60</Passive>
-        <Cooperative>0.90</Cooperative>
-        <Independent>0.25</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -673,15 +447,6 @@
       <Intellectual>2</Intellectual>
       <Medicine>2</Medicine>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.45</Assertive>
-        <Passive>0.45</Passive>
-        <Cooperative>0.55</Cooperative>
-        <Independent>0.75</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -698,15 +463,6 @@
       <Melee>2</Melee>
       <Construction>1</Construction>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.85</Assertive>
-        <Passive>0.05</Passive>
-        <Cooperative>0.65</Cooperative>
-        <Independent>0.60</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -723,15 +479,6 @@
       <Construction>2</Construction>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.55</Assertive>
-        <Passive>0.25</Passive>
-        <Cooperative>0.75</Cooperative>
-        <Independent>0.55</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -748,15 +495,6 @@
       <Social>2</Social>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.30</Assertive>
-        <Passive>0.50</Passive>
-        <Cooperative>0.70</Cooperative>
-        <Independent>0.60</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -773,15 +511,6 @@
       <Plants>2</Plants>
       <Melee>1</Melee>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.65</Assertive>
-        <Passive>0.25</Passive>
-        <Cooperative>0.40</Cooperative>
-        <Independent>0.85</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -798,15 +527,6 @@
       <Social>2</Social>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.55</Assertive>
-        <Passive>0.35</Passive>
-        <Cooperative>0.90</Cooperative>
-        <Independent>0.35</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -823,15 +543,6 @@
       <Social>2</Social>
       <Shooting>2</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.45</Assertive>
-        <Passive>0.30</Passive>
-        <Cooperative>0.80</Cooperative>
-        <Independent>0.55</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -848,15 +559,6 @@
       <Animals>1</Animals>
       <Plants>1</Plants>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.55</Assertive>
-        <Passive>0.30</Passive>
-        <Cooperative>0.30</Cooperative>
-        <Independent>0.90</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -873,15 +575,6 @@
       <Shooting>2</Shooting>
       <Construction>2</Construction>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.60</Assertive>
-        <Passive>0.20</Passive>
-        <Cooperative>0.70</Cooperative>
-        <Independent>0.55</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -898,15 +591,6 @@
       <Intellectual>2</Intellectual>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.35</Assertive>
-        <Passive>0.45</Passive>
-        <Cooperative>0.75</Cooperative>
-        <Independent>0.70</Independent>
-        <PTSD>0.85</PTSD>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -923,14 +607,6 @@
       <Plants>1</Plants>
       <Social>1</Social>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.25</Assertive>
-        <Passive>0.45</Passive>
-        <Cooperative>0.60</Cooperative>
-        <Independent>0.55</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -947,14 +623,6 @@
       <Animals>2</Animals>
       <Construction>1</Construction>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.55</Assertive>
-        <Passive>0.20</Passive>
-        <Cooperative>0.50</Cooperative>
-        <Independent>0.70</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -971,14 +639,6 @@
       <Construction>2</Construction>
       <Shooting>1</Shooting>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.45</Assertive>
-        <Passive>0.25</Passive>
-        <Cooperative>0.45</Cooperative>
-        <Independent>0.80</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -995,14 +655,6 @@
       <Intellectual>2</Intellectual>
       <Medicine>1</Medicine>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.50</Assertive>
-        <Passive>0.15</Passive>
-        <Cooperative>0.60</Cooperative>
-        <Independent>0.75</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
   <BackstoryDef>
@@ -1019,14 +671,6 @@
       <Intellectual>2</Intellectual>
       <Artistic>1</Artistic>
     </skillGains>
-    <modExtensions>
-      <li Class="Helodrace.BackstoryPersonalityDirectionExtension">
-        <Assertive>0.40</Assertive>
-        <Passive>0.35</Passive>
-        <Cooperative>0.85</Cooperative>
-        <Independent>0.35</Independent>
-      </li>
-    </modExtensions>
   </BackstoryDef>
 
 </Defs>

@@ -2,6 +2,28 @@
 <Defs>
 
   <SoundDef>
+    <defName>HD_HelicopterLoop</defName>
+    <context>MapOnly</context>
+    <sustain>true</sustain>
+    <maxSimultaneous>3</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_HelicopterLoop</clipPath>
+          </li>
+        </grains>
+        <volumeRange>28~34</volumeRange>
+        <distRange>18~55</distRange>
+        <sustainAttack>0.08</sustainAttack>
+        <sustainRelease>0.18</sustainRelease>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
     <defName>HD_LANCEGen2</defName>
     <context>MapOnly</context>
     <maxVoices>12</maxVoices>

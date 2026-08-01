@@ -205,7 +205,7 @@
   <HD_MarketStandard_Gold>금본위제</HD_MarketStandard_Gold>
   <HD_MarketStandard_Credit>신용화폐 체제</HD_MarketStandard_Credit>
   <HD_MarketAsset_OilIndex>유가 지수</HD_MarketAsset_OilIndex>
-  <HD_MarketAsset_CrudeOil>원유</HD_MarketAsset_CrudeOil>
+  <HD_MarketAsset_CrudeOil>중질유</HD_MarketAsset_CrudeOil>
   <HD_MarketAsset_Diesel>디젤</HD_MarketAsset_Diesel>
   <HD_MarketAsset_Kerosene>등유</HD_MarketAsset_Kerosene>
   <HD_MarketAsset_GovernmentBond>정부 채권</HD_MarketAsset_GovernmentBond>

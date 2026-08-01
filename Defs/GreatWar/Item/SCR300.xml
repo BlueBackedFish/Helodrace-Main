@@ -58,6 +58,7 @@
     </comps>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodWireless</researchPrerequisite>
       <recipeUsers>
         <li>MachiningTable</li>
       </recipeUsers>
@@ -68,7 +69,7 @@
       <Cloth>20</Cloth>
     </costList>
     <researchPrerequisites>
-      <li>HelodHighElectronics</li>
+      <li>HelodWireless</li>
     </researchPrerequisites>
   </ThingDef>
 

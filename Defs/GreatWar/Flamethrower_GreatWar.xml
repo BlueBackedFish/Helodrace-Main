@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <HediffDef>
+    <defName>HD_BurningGel</defName>
+    <label>burning gel</label>
+    <description>Sticky incendiary gel coats this creature. Until the gel burns away, it repeatedly catches fire even after the flames are extinguished.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <initialSeverity>1.0</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>false</tendable>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <comps>
+      <li Class="Helodrace.HediffCompProperties_BurningGel">
+        <ignitionIntervalTicks>90</ignitionIntervalTicks>
+        <fireSize>0.35</fireSize>
+        <fireGrowth>0.18</fireGrowth>
+        <maximumFireSize>1.75</maximumFireSize>
+      </li>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>900</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_IncendiaryGel_Proj</defName>
+    <label>incendiary gel glob</label>
+    <thingClass>Helodrace.Projectile_IncendiaryGel</thingClass>
+    <graphicData>
+      <texPath>Things/Projectile/LauncherShot</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>TransparentPostLight</shaderType>
+      <color>(254,189,58)</color>
+      <drawSize>(0.45,0.45)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <damageAmountBase>7</damageAmountBase>
+      <stoppingPower>1.5</stoppingPower>
+      <speed>22</speed>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+      <arcHeightFactor>0.08</arcHeightFactor>
+      <shadowSize>0.25</shadowSize>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.IncendiaryGelProjectileExtension">
+        <directHitHediff>HD_BurningGel</directHitHediff>
+        <fuelFilthDef>Filth_Fuel</fuelFilthDef>
+        <fuelRadius>1.9</fuelRadius>
+        <fuelChance>0.72</fuelChance>
+        <fireRadius>2.4</fireRadius>
+        <fireChance>0.72</fireChance>
+        <edgeChanceFactor>0.35</edgeChanceFactor>
+        <fireSize>0.45</fireSize>
+        <directHitFireSize>0.65</directHitFireSize>
+        <directHitFireGrowth>0.35</directHitFireGrowth>
+        <maximumAttachedFireSize>1.75</maximumAttachedFireSize>
+        <directHitStaggerTicks>30</directHitStaggerTicks>
+        <trailIntervalTicks>2</trailIntervalTicks>
+        <trailSize>0.42</trailSize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M2FlameThrower_Weapon</defName>
+    <label>M2 flamethrower</label>
+    <description>A backpack-fed flamethrower that launches globs of sticky incendiary gel. Each glob scatters fire around its impact point, while a direct hit coats the victim in gel that repeatedly reignites for a short time.</description>
+    <graphicData>
+      <texPath>Weapon/GreatWar/HD_M2FlameThrower</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.2,1.2)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <generateCommonality>0.18</generateCommonality>
+    <weaponClasses>
+      <li>RangedHeavy</li>
+    </weaponClasses>
+    <weaponTags>
+      <li>IndustrialGunAdvanced</li>
+      <li>HD_GreatWarHeavyWeapon</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>42000</WorkToMake>
+      <Mass>18.0</Mass>
+      <MarketValue>1050</MarketValue>
+      <AccuracyTouch>0.95</AccuracyTouch>
+      <AccuracyShort>0.95</AccuracyShort>
+      <AccuracyMedium>0.95</AccuracyMedium>
+      <AccuracyLong>0.85</AccuracyLong>
+      <RangedWeapon_Cooldown>2.0</RangedWeapon_Cooldown>
+    </statBases>
+    <costList>
+      <Steel>90</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+      <Chemfuel>25</Chemfuel>
+    </costList>
+    <recipeMaker>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <displayPriority>470</displayPriority>
+    </recipeMaker>
+    <researchPrerequisites>
+      <li>HelodGreatWarTech</li>
+    </researchPrerequisites>
+    <verbs>
+      <li>
+        <verbClass>Helodrace.Verb_ShootIncendiaryGel</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_IncendiaryGel_Proj</defaultProjectile>
+        <warmupTime>0.6</warmupTime>
+        <range>14.9</range>
+        <forcedMissRadius>1.05</forcedMissRadius>
+        <ai_AvoidFriendlyFireRadius>3.0</ai_AvoidFriendlyFireRadius>
+        <burstShotCount>10</burstShotCount>
+        <ticksBetweenBurstShots>4</ticksBetweenBurstShots>
+        <muzzleFlashScale>8</muzzleFlashScale>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>stock</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>2.1</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+</Defs>

@@ -8,6 +8,11 @@ using Verse.AI;
 
 namespace Helodrace
 {
+    public class AmmoCaliberExtension : DefModExtension
+    {
+        public string caliber;
+    }
+
     public class CompProperties_RecoillessWeapon : CompProperties
     {
         public ThingDef ammoDef;
@@ -35,6 +40,7 @@ namespace Helodrace
         private RecoillessReloadMode reloadMode = RecoillessReloadMode.Self;
         private Pawn assignedLoader;
         private ThingDef selectedAmmoDef;
+        private bool fallBackToSelfWhenCrewAmmoDepleted;
 
         public CompProperties_RecoillessWeapon Props => (CompProperties_RecoillessWeapon)props;
 
@@ -81,6 +87,7 @@ namespace Helodrace
             Scribe_Values.Look(ref reloadMode, "reloadMode", RecoillessReloadMode.Self);
             Scribe_References.Look(ref assignedLoader, "assignedLoader");
             Scribe_Defs.Look(ref selectedAmmoDef, "selectedAmmoDef");
+            Scribe_Values.Look(ref fallBackToSelfWhenCrewAmmoDepleted, "fallBackToSelfWhenCrewAmmoDepleted", false);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && !AllowedAmmoDefs.Contains(SelectedAmmoDef))
             {
                 selectedAmmoDef = DefaultAmmoDef;
@@ -111,17 +118,22 @@ namespace Helodrace
 
             if (reloadMode == RecoillessReloadMode.Crew)
             {
+                TryFallbackToSelfReload(pawn);
+            }
+
+            if (reloadMode == RecoillessReloadMode.Crew)
+            {
                 return TryStartCrewReloadJob(pawn);
             }
 
-            if (TryStartSelfBagReloadJob(pawn))
+            if (TryStartSelfReloadJob(pawn))
             {
                 return true;
             }
 
             if (pawn.Faction == Faction.OfPlayer)
             {
-                Messages.Message("HD_RecoillessWeapon_NoReloadRound".Translate(), parent, MessageTypeDefOf.RejectInput, false);
+                Messages.Message("HD_RecoillessWeapon_NoReloadRound_Inventory".Translate(), parent, MessageTypeDefOf.RejectInput, false);
             }
             return false;
         }
@@ -135,10 +147,15 @@ namespace Helodrace
 
             if (reloadMode == RecoillessReloadMode.Crew)
             {
+                TryFallbackToSelfReload(pawn);
+            }
+
+            if (reloadMode == RecoillessReloadMode.Crew)
+            {
                 return AssignedLoaderWithAmmoFor(pawn) != null;
             }
 
-            return FindLoadedAmmoBag(pawn) != null;
+            return HasInventoryAmmo(pawn);
         }
 
         public bool TryStartCrewReloadJob(Pawn weaponUser)
@@ -148,7 +165,7 @@ namespace Helodrace
             {
                 if (weaponUser.Faction == Faction.OfPlayer)
                 {
-                    Messages.Message("HD_RecoillessWeapon_NoAssignedLoader".Translate(), parent, MessageTypeDefOf.RejectInput, false);
+                    Messages.Message("HD_RecoillessWeapon_NoAssignedLoader_Inventory".Translate(), parent, MessageTypeDefOf.RejectInput, false);
                 }
                 return false;
             }
@@ -169,9 +186,9 @@ namespace Helodrace
             return loader.jobs.TryTakeOrderedJob(job, JobTag.Misc);
         }
 
-        private bool TryStartSelfBagReloadJob(Pawn pawn)
+        private bool TryStartSelfReloadJob(Pawn pawn)
         {
-            if (FindLoadedAmmoBag(pawn) == null)
+            if (!HasInventoryAmmo(pawn))
             {
                 return false;
             }
@@ -187,16 +204,44 @@ namespace Helodrace
             return pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
         }
 
-        public CompM6RocketBag FindLoadedAmmoBag(Pawn pawn)
+        public bool HasInventoryAmmo(Pawn pawn)
         {
-            return pawn?.apparel?.WornApparel?
-                .Select(apparel => apparel.TryGetComp<CompM6RocketBag>())
-                .FirstOrDefault(comp => comp != null && comp.StoredCountFor(SelectedAmmoDef) > 0);
+            return InventoryAmmoUtility.Count(pawn, SelectedAmmoDef) > 0;
+        }
+
+        public bool TryConsumeInventoryAmmo(Pawn pawn)
+        {
+            return InventoryAmmoUtility.TryConsume(pawn, SelectedAmmoDef);
         }
 
         public bool IsAssignedLoader(Pawn pawn)
         {
             return reloadMode == RecoillessReloadMode.Crew && assignedLoader == pawn;
+        }
+
+        public void ConfigureCrew(Pawn loader, bool fallBackToSelfAfterCrewAmmo)
+        {
+            assignedLoader = loader;
+            reloadMode = loader == null ? RecoillessReloadMode.Self : RecoillessReloadMode.Crew;
+            fallBackToSelfWhenCrewAmmoDepleted = fallBackToSelfAfterCrewAmmo;
+            if (loader != null && Wielder?.Spawned == true)
+            {
+                TryStartLoaderStandbyJob();
+            }
+        }
+
+        private void TryFallbackToSelfReload(Pawn weaponUser)
+        {
+            if (!fallBackToSelfWhenCrewAmmoDepleted
+                || reloadMode != RecoillessReloadMode.Crew
+                || AssignedLoaderWithAmmoFor(weaponUser) != null
+                || !HasInventoryAmmo(weaponUser))
+            {
+                return;
+            }
+
+            reloadMode = RecoillessReloadMode.Self;
+            fallBackToSelfWhenCrewAmmoDepleted = false;
         }
 
         public void SetSelectedAmmo(ThingDef ammoDef)
@@ -240,8 +285,7 @@ namespace Helodrace
                         && !pawn.Downed
                         && pawn.Faction == wielder.Faction
                         && pawn.Map == wielder.Map
-                        && pawn.CanReach(wielder, PathEndMode.Touch, Danger.Deadly)
-                        && pawn.apparel?.WornApparel?.Any(apparel => apparel.TryGetComp<CompM6RocketBag>() != null) == true;
+                        && pawn.CanReach(wielder, PathEndMode.Touch, Danger.Deadly);
                 }
             }, target =>
             {
@@ -302,7 +346,7 @@ namespace Helodrace
                 || assignedLoader.Downed
                 || assignedLoader.Map != weaponUser.Map
                 || !assignedLoader.CanReach(weaponUser, PathEndMode.Touch, Danger.Deadly)
-                || FindLoadedAmmoBag(assignedLoader) == null)
+                || !HasInventoryAmmo(assignedLoader))
             {
                 return null;
             }
@@ -317,7 +361,7 @@ namespace Helodrace
                 || assignedLoader.Dead
                 || assignedLoader.Downed
                 || assignedLoader.Map != weaponUser.Map
-                || FindLoadedAmmoBag(assignedLoader) == null)
+                || !HasInventoryAmmo(assignedLoader))
             {
                 return null;
             }
@@ -354,7 +398,7 @@ namespace Helodrace
             yield return new Command_Action
             {
                 defaultLabel = loaded ? "HD_RecoillessWeapon_Loaded".Translate().ToString() : "HD_RecoillessWeapon_Reload_Label".Translate().ToString(),
-                defaultDesc = loaded ? "HD_RecoillessWeapon_AlreadyLoaded".Translate().ToString() : "HD_RecoillessWeapon_Reload_Desc".Translate().ToString(),
+                defaultDesc = loaded ? "HD_RecoillessWeapon_AlreadyLoaded".Translate().ToString() : "HD_RecoillessWeapon_Reload_Desc_Inventory".Translate().ToString(),
                 icon = ContentFinder<Texture2D>.Get("Weapon/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
                 Disabled = loaded,
                 disabledReason = "HD_RecoillessWeapon_AlreadyLoaded".Translate().ToString(),
@@ -378,7 +422,7 @@ namespace Helodrace
                     defaultLabel = assignedLoader == null
                         ? "HD_RecoillessWeapon_AssignLoader".Translate().ToString()
                         : "HD_RecoillessWeapon_AssignedLoader".Translate(assignedLoader.LabelShort).ToString(),
-                    defaultDesc = "HD_RecoillessWeapon_AssignLoaderDesc".Translate().ToString(),
+                    defaultDesc = "HD_RecoillessWeapon_AssignLoaderDesc_Inventory".Translate().ToString(),
                     icon = ContentFinder<Texture2D>.Get("UI/Commands/ForPrisoners", false) ?? BaseContent.BadTex,
                     action = BeginAssignLoader
                 };
@@ -422,8 +466,8 @@ namespace Helodrace
 
             lastUnloadedMessageTick = ticksGame;
             string key = reloadMode == RecoillessReloadMode.Crew
-                ? "HD_RecoillessWeapon_NoAssignedLoader"
-                : "HD_RecoillessWeapon_NoReloadRound";
+                ? "HD_RecoillessWeapon_NoAssignedLoader_Inventory"
+                : "HD_RecoillessWeapon_NoReloadRound_Inventory";
             Messages.Message(key.Translate(), parent, MessageTypeDefOf.RejectInput, false);
         }
     }
@@ -444,7 +488,7 @@ namespace Helodrace
             this.FailOn(() => Weapon?.TryGetComp<CompRecoillessWeapon>() == null);
             this.FailOn(() => Weapon?.TryGetComp<CompRecoillessWeapon>()?.Wielder != pawn);
             this.FailOn(() => Weapon?.TryGetComp<CompRecoillessWeapon>()?.Loaded == true);
-            this.FailOn(() => Weapon.TryGetComp<CompRecoillessWeapon>()?.FindLoadedAmmoBag(pawn) == null);
+            this.FailOn(() => Weapon.TryGetComp<CompRecoillessWeapon>()?.HasInventoryAmmo(pawn) != true);
 
             Toil reload = Toils_General.Wait(Weapon.TryGetComp<CompRecoillessWeapon>().SelfReloadTicks);
             reload.WithProgressBarToilDelay(WeaponInd);
@@ -455,8 +499,7 @@ namespace Helodrace
                 initAction = delegate
                 {
                     CompRecoillessWeapon weaponComp = Weapon.TryGetComp<CompRecoillessWeapon>();
-                    CompM6RocketBag bag = weaponComp?.FindLoadedAmmoBag(pawn);
-                    if (bag != null && weaponComp != null && !weaponComp.Loaded && bag.TryConsumeAmmo(weaponComp.SelectedAmmoDef))
+                    if (weaponComp != null && !weaponComp.Loaded && weaponComp.TryConsumeInventoryAmmo(pawn))
                     {
                         weaponComp.Load();
                     }
@@ -481,34 +524,16 @@ namespace Helodrace
 
     public class CompM6RocketBag : ThingComp
     {
+        private Dictionary<ThingDef, int> desiredAmmo = new Dictionary<ThingDef, int>();
+        // Kept only to migrate ammunition stored by saves made with the old pouch system.
         private Dictionary<ThingDef, int> storedAmmo = new Dictionary<ThingDef, int>();
         private int storedRockets;
 
         public CompProperties_M6RocketBag Props => (CompProperties_M6RocketBag)props;
 
-        public int StoredRockets => TotalStoredRounds;
-
         public ThingDef RocketDef => Props.rocketDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("HD_Rocket_M6A3HEAT");
 
-        private int MaxStoredRounds => Props.maxStoredRounds > 0 ? Props.maxStoredRounds : Props.maxStoredRockets;
-        public int MaxStoredRoundsForUI => MaxStoredRounds;
-        public int TotalStoredRoundsForUI => TotalStoredRounds;
-
-        public IEnumerable<ThingDef> AllowedAmmoDefs
-        {
-            get
-            {
-                if (Props.allowedAmmoDefs != null && Props.allowedAmmoDefs.Count > 0)
-                {
-                    return Props.allowedAmmoDefs;
-                }
-
-                ThingDef fallback = RocketDef;
-                return fallback != null ? new[] { fallback } : Enumerable.Empty<ThingDef>();
-            }
-        }
-
-        private int TotalStoredRounds => storedAmmo.Values.Sum();
+        public IEnumerable<ThingDef> AllowedAmmoDefs => InventoryAmmoUtility.AllAmmoDefs;
 
         public Pawn Wearer
         {
@@ -526,6 +551,7 @@ namespace Helodrace
         public override void PostExposeData()
         {
             base.PostExposeData();
+            Scribe_Collections.Look(ref desiredAmmo, "desiredAmmo", LookMode.Def, LookMode.Value);
             Scribe_Collections.Look(ref storedAmmo, "storedAmmo", LookMode.Def, LookMode.Value);
             Scribe_Values.Look(ref storedRockets, "storedRockets", 0);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -535,159 +561,85 @@ namespace Helodrace
                     storedAmmo = new Dictionary<ThingDef, int>();
                 }
 
+                if (desiredAmmo == null)
+                {
+                    desiredAmmo = new Dictionary<ThingDef, int>();
+                }
+
                 if (storedRockets > 0 && RocketDef != null && !storedAmmo.ContainsKey(RocketDef))
                 {
                     storedAmmo[RocketDef] = storedRockets;
                 }
+
+                TryMigrateLegacyStoredAmmo();
             }
+        }
+
+        public override void CompTick()
+        {
+            base.CompTick();
+            TryMigrateLegacyStoredAmmo();
         }
 
         public override string CompInspectStringExtra()
         {
-            string contents = TotalStoredRounds > 0
-                ? string.Join(", ", storedAmmo.Where(entry => entry.Value > 0).Select(entry => $"{entry.Key.label}: {entry.Value}"))
-                : "HD_M6RocketBag_Empty".Translate().ToString();
-            return "HD_M6RocketBag_Contents".Translate(contents, TotalStoredRounds, MaxStoredRounds);
+            int configured = desiredAmmo?.Count(entry => entry.Value > 0) ?? 0;
+            float mass = desiredAmmo?.Where(entry => entry.Value > 0)
+                .Sum(entry => entry.Key.GetStatValueAbstract(StatDefOf.Mass) * entry.Value) ?? 0f;
+            return "HD_WeaponLoadout_Inspect".Translate(configured, mass.ToStringMass());
         }
 
-        public bool TryStartLoadAmmoJobFromMap(ThingDef ammoDef)
+        public int DesiredCountFor(ThingDef ammoDef)
         {
-            Thing ammo = FindClosestLoadableAmmo(ammoDef);
-            if (ammo == null)
+            return ammoDef != null && desiredAmmo != null && desiredAmmo.TryGetValue(ammoDef, out int count)
+                ? Mathf.Max(0, count)
+                : 0;
+        }
+
+        public void SetDesiredCount(ThingDef ammoDef, int count)
+        {
+            if (ammoDef == null || !InventoryAmmoUtility.IsAmmo(ammoDef))
             {
-                Messages.Message("HD_M6RocketBag_NoAmmoOnMap".Translate(ammoDef.label), parent, MessageTypeDefOf.RejectInput, false);
-                return false;
+                return;
             }
 
-            return TryStartLoadAmmoJob(ammo);
+            count = Mathf.Clamp(count, 0, 9999);
+            if (count == 0)
+            {
+                desiredAmmo.Remove(ammoDef);
+            }
+            else
+            {
+                desiredAmmo[ammoDef] = count;
+            }
         }
 
-        private Thing FindClosestLoadableAmmo(ThingDef ammoDef)
+        private void TryMigrateLegacyStoredAmmo()
         {
             Pawn wearer = Wearer;
-            if (wearer?.Map == null || !CanAcceptAmmo(ammoDef))
+            if (wearer?.inventory == null || storedAmmo == null || storedAmmo.All(entry => entry.Value <= 0))
             {
-                return null;
+                return;
             }
 
-            return GenClosest.ClosestThingReachable(
-                wearer.Position,
-                wearer.Map,
-                ThingRequest.ForDef(ammoDef),
-                PathEndMode.Touch,
-                TraverseParms.For(wearer, Danger.Deadly),
-                9999f,
-                thing => thing.Spawned
-                    && thing.Map == wearer.Map
-                    && !thing.IsForbidden(wearer)
-                    && wearer.CanReserve(thing, 1, 1));
-        }
-
-        public bool TryStartLoadAmmoJob(Thing ammo)
-        {
-            Pawn wearer = Wearer;
-            if (wearer == null || !CanLoadAmmo(ammo))
+            foreach (KeyValuePair<ThingDef, int> entry in storedAmmo.ToList())
             {
-                return false;
+                if (entry.Key == null || entry.Value <= 0)
+                {
+                    continue;
+                }
+
+                Thing ammo = ThingMaker.MakeThing(entry.Key);
+                ammo.stackCount = entry.Value;
+                if (wearer.inventory.innerContainer.TryAdd(ammo))
+                {
+                    storedAmmo[entry.Key] = 0;
+                }
+                else
+                {
+                    ammo.Destroy(DestroyMode.Vanish);
+                }
             }
-
-            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail("HD_LoadM6RocketBag");
-            if (jobDef == null)
-            {
-                Log.ErrorOnce("Helodrace: HD_LoadM6RocketBag JobDef is missing.", 97160203);
-                return false;
-            }
-
-            Job job = JobMaker.MakeJob(jobDef, ammo, parent);
-            return wearer.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-        }
-
-        public bool CanLoadRocket(Thing rocket)
-        {
-            return CanLoadAmmo(rocket);
-        }
-
-        public bool CanLoadAmmo(Thing ammo)
-        {
-            Pawn wearer = Wearer;
-            return wearer != null
-                && ammo != null
-                && CanAcceptAmmo(ammo.def)
-                && ammo.Spawned
-                && ammo.Map == wearer.Map
-                && !ammo.IsForbidden(wearer)
-                && wearer.CanReserveAndReach(ammo, PathEndMode.Touch, Danger.Deadly);
-        }
-
-        public bool CanAcceptAmmo(ThingDef ammoDef)
-        {
-            return ammoDef != null
-                && AllowedAmmoDefs.Contains(ammoDef)
-                && TotalStoredRounds < MaxStoredRounds;
-        }
-
-        public bool TryLoadRocket(Thing rocket)
-        {
-            return TryLoadAmmo(rocket);
-        }
-
-        public bool TryLoadAmmo(Thing ammo)
-        {
-            if (!CanLoadAmmo(ammo))
-            {
-                return false;
-            }
-
-            LoadAmmoFrom(ammo);
-            return true;
-        }
-
-        private void LoadAmmoFrom(Thing ammo)
-        {
-            ThingDef ammoDef = ammo.def;
-            ammo.SplitOff(1).Destroy(DestroyMode.Vanish);
-            storedAmmo[ammoDef] = StoredCountFor(ammoDef) + 1;
-        }
-
-        public bool TryConsumeRocket()
-        {
-            return TryConsumeAmmo(RocketDef);
-        }
-
-        public int StoredCountFor(ThingDef ammoDef)
-        {
-            if (ammoDef == null || storedAmmo == null)
-            {
-                return 0;
-            }
-
-            return storedAmmo.TryGetValue(ammoDef, out int count) ? count : 0;
-        }
-
-        public bool TryConsumeAmmo(ThingDef ammoDef)
-        {
-            int count = StoredCountFor(ammoDef);
-            if (count <= 0)
-            {
-                return false;
-            }
-
-            storedAmmo[ammoDef] = count - 1;
-            return true;
-        }
-
-        public bool DropAmmo(ThingDef ammoDef)
-        {
-            Pawn wearer = Wearer;
-            if (wearer?.Map == null || !TryConsumeAmmo(ammoDef))
-            {
-                return false;
-            }
-
-            Thing dropped = ThingMaker.MakeThing(ammoDef);
-            dropped.stackCount = 1;
-            GenPlace.TryPlaceThing(dropped, wearer.Position, wearer.Map, ThingPlaceMode.Near);
-            return true;
         }
 
         public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
@@ -697,35 +649,19 @@ namespace Helodrace
                 yield return gizmo;
             }
 
-            CompRecoillessWeapon weaponComp = AssignedRecoillessWeapon;
-            if (weaponComp == null)
+            Pawn wearer = Wearer;
+            if (wearer == null || wearer.Faction != Faction.OfPlayer)
             {
                 yield break;
             }
 
             yield return new Command_Action
             {
-                defaultLabel = "HD_RecoillessWeapon_AmmoLabel".Translate(weaponComp.SelectedAmmoDef?.label ?? "None".Translate()).ToString(),
-                defaultDesc = "HD_RecoillessWeapon_AmmoDesc".Translate().ToString(),
+                defaultLabel = "HD_WeaponLoadout_Gizmo_Label".Translate().ToString(),
+                defaultDesc = "HD_WeaponLoadout_Gizmo_Desc".Translate().ToString(),
                 icon = ContentFinder<Texture2D>.Get("Weapon/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
-                action = weaponComp.ShowAmmoFloatMenu
+                action = () => Find.WindowStack.Add(new Dialog_WeaponLoadout(this))
             };
-        }
-
-        private CompRecoillessWeapon AssignedRecoillessWeapon
-        {
-            get
-            {
-                Pawn wearer = Wearer;
-                if (wearer?.Map == null || wearer.Faction != Faction.OfPlayer)
-                {
-                    return null;
-                }
-
-                return wearer.Map.mapPawns.FreeColonistsSpawned
-                    .Select(pawn => pawn.equipment?.Primary?.TryGetComp<CompRecoillessWeapon>())
-                    .FirstOrDefault(comp => comp != null && comp.IsAssignedLoader(wearer));
-            }
         }
     }
 
@@ -768,7 +704,7 @@ namespace Helodrace
 
                     if (weaponComp != null
                         && !weaponComp.Loaded
-                        && weaponComp.FindLoadedAmmoBag(pawn) != null)
+                        && weaponComp.HasInventoryAmmo(pawn))
                     {
                         weaponComp.TryStartCrewReloadJob(WeaponUser);
                     }
@@ -776,40 +712,6 @@ namespace Helodrace
                 defaultCompleteMode = ToilCompleteMode.Never
             };
             yield return wait;
-        }
-    }
-
-    public class JobDriver_LoadM6RocketBag : JobDriver
-    {
-        private const TargetIndex RocketInd = TargetIndex.A;
-        private const TargetIndex BagInd = TargetIndex.B;
-
-        protected Thing Rocket => job.GetTarget(RocketInd).Thing;
-        protected Thing Bag => job.GetTarget(BagInd).Thing;
-
-        public override bool TryMakePreToilReservations(bool errorOnFailed)
-        {
-            return pawn.Reserve(Rocket, job, 1, 1, null, errorOnFailed);
-        }
-
-        protected override IEnumerable<Toil> MakeNewToils()
-        {
-            this.FailOnDestroyedOrNull(RocketInd);
-            this.FailOnForbidden(RocketInd);
-            this.FailOn(() => Bag?.TryGetComp<CompM6RocketBag>() == null);
-            this.FailOn(() => Bag?.TryGetComp<CompM6RocketBag>()?.Wearer != pawn);
-            this.FailOn(() => Bag?.TryGetComp<CompM6RocketBag>()?.CanLoadAmmo(Rocket) != true);
-
-            yield return Toils_Goto.GotoThing(RocketInd, PathEndMode.Touch);
-
-            yield return new Toil
-            {
-                initAction = delegate
-                {
-                    Bag.TryGetComp<CompM6RocketBag>()?.TryLoadAmmo(Rocket);
-                },
-                defaultCompleteMode = ToilCompleteMode.Instant
-            };
         }
     }
 
@@ -832,7 +734,7 @@ namespace Helodrace
             this.FailOn(() => Weapon?.TryGetComp<CompRecoillessWeapon>() == null);
             this.FailOn(() => Weapon?.TryGetComp<CompRecoillessWeapon>()?.Wielder != WeaponUser);
             this.FailOn(() => Weapon?.TryGetComp<CompRecoillessWeapon>()?.Loaded == true);
-            this.FailOn(() => FindLoadedAmmoBag(pawn, Weapon.TryGetComp<CompRecoillessWeapon>().SelectedAmmoDef) == null);
+            this.FailOn(() => Weapon.TryGetComp<CompRecoillessWeapon>()?.HasInventoryAmmo(pawn) != true);
 
             yield return Toils_Goto.GotoThing(WeaponUserInd, PathEndMode.Touch);
 
@@ -846,8 +748,7 @@ namespace Helodrace
                 initAction = delegate
                 {
                     CompRecoillessWeapon weaponComp = Weapon.TryGetComp<CompRecoillessWeapon>();
-                    CompM6RocketBag bag = FindLoadedAmmoBag(pawn, weaponComp?.SelectedAmmoDef);
-                    if (bag != null && weaponComp != null && !weaponComp.Loaded && bag.TryConsumeAmmo(weaponComp.SelectedAmmoDef))
+                    if (weaponComp != null && !weaponComp.Loaded && weaponComp.TryConsumeInventoryAmmo(pawn))
                     {
                         weaponComp.Load();
                     }
@@ -856,11 +757,134 @@ namespace Helodrace
             };
         }
 
-        private static CompM6RocketBag FindLoadedAmmoBag(Pawn pawn, ThingDef ammoDef)
+    }
+
+    public static class InventoryAmmoUtility
+    {
+        private static List<ThingDef> cachedAmmoDefs;
+
+        public static IEnumerable<ThingDef> AllAmmoDefs
         {
-            return pawn.apparel?.WornApparel?
+            get
+            {
+                if (cachedAmmoDefs == null)
+                {
+                    cachedAmmoDefs = DefDatabase<ThingDef>.AllDefsListForReading
+                        .Where(IsAmmo)
+                        .OrderBy(def => def.label)
+                        .ToList();
+                }
+
+                return cachedAmmoDefs;
+            }
+        }
+
+        public static bool IsAmmo(ThingDef def)
+        {
+            return def != null
+                && (def.projectileWhenLoaded != null
+                    || def.thingCategories?.Any(category => category.GetModExtension<AmmoCaliberExtension>() != null) == true)
+                && def.EverHaulable
+                && def.stackLimit > 0;
+        }
+
+        public static int Count(Pawn pawn, ThingDef ammoDef)
+        {
+            return pawn?.inventory?.Count(ammoDef) ?? 0;
+        }
+
+        public static bool TryConsume(Pawn pawn, ThingDef ammoDef)
+        {
+            Thing ammo = pawn?.inventory?.innerContainer?.FirstOrDefault(thing => thing.def == ammoDef);
+            if (ammo == null)
+            {
+                return false;
+            }
+
+            ammo.SplitOff(1).Destroy(DestroyMode.Vanish);
+            return true;
+        }
+
+        public static CompM6RocketBag EquippedLoadout(Pawn pawn)
+        {
+            return pawn?.apparel?.WornApparel?
                 .Select(apparel => apparel.TryGetComp<CompM6RocketBag>())
-                .FirstOrDefault(comp => comp != null && comp.StoredCountFor(ammoDef) > 0);
+                .FirstOrDefault(comp => comp != null);
+        }
+    }
+
+    [HarmonyPatch(typeof(JobGiver_TakeForInventoryStock), "TryGiveJob")]
+    public static class Patch_JobGiver_TakeForInventoryStock_WeaponLoadout
+    {
+        public static void Postfix(Pawn pawn, ref Job __result)
+        {
+            if (__result != null || pawn?.Map == null || pawn.inventory == null)
+            {
+                return;
+            }
+
+            CompM6RocketBag loadout = InventoryAmmoUtility.EquippedLoadout(pawn);
+            if (loadout == null)
+            {
+                return;
+            }
+
+            foreach (ThingDef ammoDef in loadout.AllowedAmmoDefs)
+            {
+                int deficit = loadout.DesiredCountFor(ammoDef) - InventoryAmmoUtility.Count(pawn, ammoDef);
+                if (deficit <= 0)
+                {
+                    continue;
+                }
+
+                Thing ammo = GenClosest.ClosestThingReachable(
+                    pawn.Position,
+                    pawn.Map,
+                    ThingRequest.ForDef(ammoDef),
+                    PathEndMode.Touch,
+                    TraverseParms.For(pawn, Danger.Deadly),
+                    9999f,
+                    thing => thing.Spawned
+                        && !thing.IsForbidden(pawn)
+                        && pawn.CanReserve(thing, 1, 1));
+                if (ammo == null)
+                {
+                    continue;
+                }
+
+                int capacityCount = MassUtility.CountToPickUpUntilOverEncumbered(pawn, ammo);
+                if (capacityCount <= 0)
+                {
+                    continue;
+                }
+
+                __result = JobMaker.MakeJob(JobDefOf.TakeInventory, ammo);
+                __result.count = Mathf.Min(deficit, ammo.stackCount, capacityCount);
+                return;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(JobGiver_DropUnusedInventory), "TryGiveJob")]
+    public static class Patch_JobGiver_DropUnusedInventory_WeaponLoadout
+    {
+        public static void Postfix(Pawn pawn, ref Job __result)
+        {
+            Thing target = __result?.targetA.Thing;
+            CompM6RocketBag loadout = InventoryAmmoUtility.EquippedLoadout(pawn);
+            if (target == null || loadout == null || !InventoryAmmoUtility.IsAmmo(target.def))
+            {
+                return;
+            }
+
+            int excess = InventoryAmmoUtility.Count(pawn, target.def) - loadout.DesiredCountFor(target.def);
+            if (excess <= 0)
+            {
+                __result = null;
+                return;
+            }
+
+            __result.count = Mathf.Min(excess, target.stackCount);
         }
     }
 
@@ -964,6 +988,7 @@ namespace Helodrace
         public static void Prefix(Pawn __instance)
         {
             RecoillessReloadScheduler.TryRun(__instance);
+            __instance?.equipment?.Primary?.TryGetComp<CompM79Launcher>()?.TickDelayedEffects();
         }
     }
 
@@ -973,12 +998,18 @@ namespace Helodrace
         public static void Postfix(Pawn __instance, ref IEnumerable<Gizmo> __result)
         {
             CompRecoillessWeapon comp = __instance?.equipment?.Primary?.TryGetComp<CompRecoillessWeapon>();
-            if (comp == null)
+            if (comp != null)
             {
-                return;
+                __result = __result.Concat(comp.CompGetGizmosExtra());
             }
 
-            __result = __result.Concat(comp.CompGetGizmosExtra());
+            CompM79Launcher m79 = __instance?.equipment?.Primary?.TryGetComp<CompM79Launcher>();
+            if (m79 != null)
+            {
+                __result = __result.Concat(m79.CompGetGizmosExtra());
+            }
+
+            __result = __result.Concat(InventoryGrenadeUtility.GetGizmos(__instance));
         }
     }
 

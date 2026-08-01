@@ -49,49 +49,10 @@
     <priorityInType>100</priorityInType>
     <fixedBillGiverDefs>
       <li>HD_BatchStill</li>
+      <li>HD_DistillationTower</li>
     </fixedBillGiverDefs>
     <verb>refine</verb>
     <gerund>refining at</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-  </WorkGiverDef>
-
-  <JobDef>
-    <defName>HD_LubricateBelt</defName>
-    <driverClass>Helodrace.JobDriver_LubricateBelt</driverClass>
-    <reportString>lubricating mechanical belt.</reportString>
-    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
-  </JobDef>
-
-  <WorkGiverDef>
-    <defName>HD_LubricateBelt</defName>
-    <label>lubricate mechanical belt</label>
-    <giverClass>Helodrace.WorkGiver_LubricateBelt</giverClass>
-    <workType>BasicWorker</workType>
-    <priorityInType>20</priorityInType>
-    <verb>lubricate</verb>
-    <gerund>lubricating</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-  </WorkGiverDef>
-
-  <JobDef>
-    <defName>HD_RepairBelt</defName>
-    <driverClass>Helodrace.JobDriver_RepairBelt</driverClass>
-    <reportString>repairing mechanical belt.</reportString>
-    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
-  </JobDef>
-
-  <WorkGiverDef>
-    <defName>HD_RepairBelt</defName>
-    <label>repair mechanical belt</label>
-    <giverClass>Helodrace.WorkGiver_RepairBelt</giverClass>
-    <workType>Construction</workType>
-    <priorityInType>50</priorityInType>
-    <verb>repair</verb>
-    <gerund>repairing</gerund>
     <requiredCapacities>
       <li>Manipulation</li>
     </requiredCapacities>

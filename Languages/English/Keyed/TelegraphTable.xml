@@ -205,7 +205,7 @@
   <HD_MarketStandard_Gold>gold standard</HD_MarketStandard_Gold>
   <HD_MarketStandard_Credit>credit currency regime</HD_MarketStandard_Credit>
   <HD_MarketAsset_OilIndex>Oil index</HD_MarketAsset_OilIndex>
-  <HD_MarketAsset_CrudeOil>Crude oil</HD_MarketAsset_CrudeOil>
+  <HD_MarketAsset_CrudeOil>Heavy crude oil</HD_MarketAsset_CrudeOil>
   <HD_MarketAsset_Diesel>Diesel</HD_MarketAsset_Diesel>
   <HD_MarketAsset_Kerosene>Kerosene</HD_MarketAsset_Kerosene>
   <HD_MarketAsset_GovernmentBond>Government bond</HD_MarketAsset_GovernmentBond>

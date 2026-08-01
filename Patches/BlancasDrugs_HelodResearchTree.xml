@@ -73,11 +73,54 @@
           </value>
         </li>
 
-        <!-- Keep Blanca's remaining temporary research nodes out of the main flow for now. -->
+        <!-- Total-synthesis drugs use aromatic base oil instead of neutroamine. -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Desoxyn"]/costList/Neutroamine</xpath>
+          <value>
+            <HD_AromaticBaseOil>2</HD_AromaticBaseOil>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Benzedrine"]/costList/Neutroamine</xpath>
+          <value>
+            <HD_AromaticBaseOil>2</HD_AromaticBaseOil>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Dexedrine"]/costList/Neutroamine</xpath>
+          <value>
+            <HD_AromaticBaseOil>2</HD_AromaticBaseOil>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Ketamine"]/costList/Neutroamine</xpath>
+          <value>
+            <HD_AromaticBaseOil>4</HD_AromaticBaseOil>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Ambien"]/costList/Neutroamine</xpath>
+          <value>
+            <HD_AromaticBaseOil>2</HD_AromaticBaseOil>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Restoril"]/costList/Neutroamine</xpath>
+          <value>
+            <HD_AromaticBaseOil>3</HD_AromaticBaseOil>
+          </value>
+        </li>
+
+        <!-- Keep Blanca's research branch beyond the end of the main tree. -->
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaEarlyNarcotics"]/researchViewX</xpath>
           <value>
-            <researchViewX>14</researchViewX>
+            <researchViewX>17</researchViewX>
           </value>
         </li>
 
@@ -91,7 +134,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedPainkillers"]/researchViewX</xpath>
           <value>
-            <researchViewX>15</researchViewX>
+            <researchViewX>18</researchViewX>
           </value>
         </li>
 
@@ -105,7 +148,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedStimulants"]/researchViewX</xpath>
           <value>
-            <researchViewX>15</researchViewX>
+            <researchViewX>18</researchViewX>
           </value>
         </li>
 
@@ -119,7 +162,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaAdvancedSomnifacients"]/researchViewX</xpath>
           <value>
-            <researchViewX>15</researchViewX>
+            <researchViewX>18</researchViewX>
           </value>
         </li>
 
@@ -133,7 +176,7 @@
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaMKultraProject"]/researchViewX</xpath>
           <value>
-            <researchViewX>16</researchViewX>
+            <researchViewX>19</researchViewX>
           </value>
         </li>
 

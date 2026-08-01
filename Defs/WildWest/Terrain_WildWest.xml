@@ -2,10 +2,10 @@
 <Defs>
 
   <TerrainDef>
-    <defName>HD_LowQualityOilRigFloor</defName>
-    <label>low quality oil rig</label>
-    <description>A rusted and worn structural floor from a low-quality oil rig. It is part of the environment and cannot be moved or destroyed.</description>
-    <texturePath>Terrain/HD_LowQualityOilFloor</texturePath>
+    <defName>HD_OilFieldFloor</defName>
+    <label>oil field</label>
+    <description>A developed petroleum-bearing floor. Its hidden quality and declining well pressure determine extraction speed. It can be removed with the remove-floor designation.</description>
+    <texturePath>Building/HD_OilRig</texturePath>
     <edgeType>Fade</edgeType>
     <renderPrecedence>340</renderPrecedence>
     <pathCost>0</pathCost>
@@ -21,10 +21,31 @@
       <li>GrowSoil</li>
     </affordances>
     <fertility>0</fertility>
-    <costList>
-      <Steel>1</Steel>
-    </costList>
-    <!-- No designationCategory: Player still cannot build this -->
+    <layerable>true</layerable>
+  </TerrainDef>
+
+  <!-- Kept so existing saves load cleanly. New drilling always creates HD_OilFieldFloor. -->
+  <TerrainDef>
+    <defName>HD_LowQualityOilRigFloor</defName>
+    <label>oil field</label>
+    <description>A developed petroleum-bearing floor retained for save compatibility.</description>
+    <texturePath>Building/HD_OilRig</texturePath>
+    <edgeType>Fade</edgeType>
+    <renderPrecedence>340</renderPrecedence>
+    <pathCost>0</pathCost>
+    <statBases>
+      <Beauty>-1</Beauty>
+      <Cleanliness>-2</Cleanliness>
+    </statBases>
+    <scatterType>Rocky</scatterType>
+    <affordances>
+      <li>Light</li>
+      <li>Medium</li>
+      <li>Heavy</li>
+      <li>GrowSoil</li>
+    </affordances>
+    <fertility>0</fertility>
+    <layerable>true</layerable>
   </TerrainDef>
 
 </Defs>

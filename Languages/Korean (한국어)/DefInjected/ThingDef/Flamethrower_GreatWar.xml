@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Gun_M2FlameThrower_Weapon.label>M2 화염방사기</HD_Gun_M2FlameThrower_Weapon.label>
+  <HD_Gun_M2FlameThrower_Weapon.description>등짐식 연료통에서 끈적한 소이 젤 덩어리를 발사하는 화염방사기입니다. 젤탄은 착탄 지점 주변에 불을 흩뿌리며, 직격당한 대상은 몸에 달라붙은 젤이 모두 탈 때까지 짧은 시간 동안 반복해서 불이 붙습니다.</HD_Gun_M2FlameThrower_Weapon.description>
+  <HD_IncendiaryGel_Proj.label>소이 젤탄</HD_IncendiaryGel_Proj.label>
+</LanguageData>

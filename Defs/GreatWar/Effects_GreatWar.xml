@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Visual-only muzzle smoke: no BlindSmoke gas or gameplay effect. -->
+  <FleckDef ParentName="FleckBase">
+    <defName>HD_M2A2SmokeScreenVisual</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.02</fadeInTime>
+    <solidTime>3.0</solidTime>
+    <fadeOutTime>2.5</fadeOutTime>
+    <growthRate>0.012</growthRate>
+  </FleckDef>
+
+</Defs>

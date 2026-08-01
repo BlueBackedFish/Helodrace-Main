@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Gun_M79_Weapon.label>M79 유탄발사기</HD_Gun_M79_Weapon.label>
+  <HD_Gun_M79_Weapon.description>40×46mm 저속탄을 사용하는 중절식 단발 유탄발사기입니다. 사수의 실제 인벤토리에서 탄종을 선택하고 한 발씩 장전합니다.</HD_Gun_M79_Weapon.description>
+  <HD_40mmM381HE_Round.label>M381 40×46mm 고폭유탄</HD_40mmM381HE_Round.label>
+  <HD_40mmM381HE_Round.description>M79용 40×46mm 저속 고폭유탄입니다. 넓은 파편 폭발로 보병과 경엄폐물을 공격합니다.</HD_40mmM381HE_Round.description>
+  <HD_40mmM433HEDP_Round.label>M433 40×46mm 이중목적유탄</HD_40mmM433HEDP_Round.label>
+  <HD_40mmM433HEDP_Round.description>성형작약 라이너를 넣은 40×46mm 이중목적유탄입니다. 일반 고폭유탄보다 폭발 범위는 작지만 장갑 관통력이 높습니다.</HD_40mmM433HEDP_Round.description>
+  <HD_40mmM576MP_Round.label>M576 40×46mm 다중탄</HD_40mmM576MP_Round.label>
+  <HD_40mmM576MP_Round.description>일반 산탄총과 같은 탄도 방식으로 20개의 산탄을 동시에 발사하는 근거리용 40×46mm 다중발사체 탄약입니다.</HD_40mmM576MP_Round.description>
+  <HD_40mmM651CS_Round.label>M651 40×46mm CS 유탄</HD_40mmM651CS_Round.label>
+  <HD_40mmM651CS_Round.description>착탄 지점에 CS 최루 작용제를 방출하는 40×46mm 폭동 진압용 유탄입니다.</HD_40mmM651CS_Round.description>
+  <HD_40mmSponge_Round.label>40×46mm 스펀지탄</HD_40mmSponge_Round.label>
+  <HD_40mmSponge_Round.description>변형되는 스펀지 탄두를 사용하는 저살상 충격탄입니다. 폭발 없이 강한 둔상과 저지력을 가합니다.</HD_40mmSponge_Round.description>
+</LanguageData>

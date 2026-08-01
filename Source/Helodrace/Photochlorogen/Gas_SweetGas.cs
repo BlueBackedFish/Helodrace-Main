@@ -831,7 +831,6 @@ namespace Helodrace
 
     public class Gas_SweetGas : ThingWithComps
     {
-        private const string SweetGasProtectionPouchDefName = "HD_Apparel_GreatWarCBRNPouch";
         private const float InitialDensity = 0.35f;
         private const float OverlayMinSize = 1.25f;
         private const float OverlayMaxSize = 2.55f;
@@ -970,21 +969,7 @@ namespace Helodrace
 
         private static bool WearingSweetGasProtection(Pawn pawn)
         {
-            List<Apparel> wornApparel = pawn.apparel?.WornApparel;
-            if (wornApparel == null)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < wornApparel.Count; i++)
-            {
-                if (wornApparel[i]?.def?.defName == SweetGasProtectionPouchDefName)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return GasMaskPouchUtility.HasActiveMask(pawn, requireSweetGasProtection: true);
         }
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)

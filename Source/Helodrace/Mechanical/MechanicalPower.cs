@@ -31,17 +31,6 @@ namespace Helodrace
         Motor
     }
 
-    public enum MechanicalDangerType
-    {
-        Belt,
-        Rotary,
-        Saw,
-        Fixed,
-        Shatter,
-        Kickback,
-        Friction
-    }
-
     internal static class MechanicalStatEntries
     {
         public const int DisplayPriority = 5500;
@@ -95,12 +84,6 @@ namespace Helodrace
         public float minimalRPM = 50f;
         public float recommendedRPM = 300f;
         public float defaultGearRatio = 1f;
-        public List<MechanicalDangerType> dangerTypes = new List<MechanicalDangerType>();
-        
-        // Belt Hazard Specifics
-        public float beltSafeRPM = 200f;
-        public float beltDamageRadius = 1.9f;
-        public int beltDamageAmount = 15;
 
         public CompProperties_MechanicalUser()
         {
@@ -114,15 +97,10 @@ namespace Helodrace
                 yield return stat;
             }
 
-            string dangerStr = dangerTypes != null && dangerTypes.Count > 0
-                ? string.Join(", ", dangerTypes)
-                : "HD_MechanicalUser_DangerNone".Translate().Resolve();
-
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRole", "HD_Stat_MechanicalRole_User".Translate().Resolve(), "HD_Stat_MechanicalRole_User_Desc");
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRequiredTorque", requireTorque.ToString("F0"), "HD_Stat_MechanicalRequiredTorque_Desc", 1);
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmRequirement", minimalRPM.ToString("F0") + " - " + recommendedRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmRequirement_Desc", 2);
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalDefaultGearRatio", defaultGearRatio.ToString("F1") + "x", "HD_Stat_MechanicalDefaultGearRatio_Desc", 3);
-            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalHazards", dangerStr, "HD_Stat_MechanicalHazards_Desc", 4);
         }
     }
 
@@ -157,9 +135,20 @@ namespace Helodrace
     public class CompMechanicalEmitter : CompMechanicalNode
     {
         public CompProperties_MechanicalEmitter Props => (CompProperties_MechanicalEmitter)props;
-        
+
+        private CompFlickable flickable;
+        private CompRefuelable refuelable;
+        private CompPowerTrader powerTrader;
         private float targetRPM = -1f;
         private float pendingTargetRPM = -1f;
+
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            flickable = parent.GetComp<CompFlickable>();
+            refuelable = parent.GetComp<CompRefuelable>();
+            powerTrader = parent.GetComp<CompPowerTrader>();
+        }
 
         public float TargetRPM
         {
@@ -214,11 +203,11 @@ namespace Helodrace
         {
             get
             {
-                var flickable = parent.GetComp<CompFlickable>();
                 if (flickable != null && !flickable.SwitchIsOn) return false;
 
-                var refuelable = parent.GetComp<CompRefuelable>();
                 if (refuelable != null && !refuelable.HasFuel) return false;
+
+                if (powerTrader != null && !powerTrader.PowerOn) return false;
 
                 return true;
             }
@@ -229,7 +218,8 @@ namespace Helodrace
             get
             {
                 if (!IsProducingPower) return 0f;
-                return (TargetRPM / Props.maxRPM) * Props.recommendedPower;
+                float scaledOutput = (TargetRPM / Props.maxRPM) * Props.recommendedPower;
+                return UnityEngine.Mathf.Clamp(scaledOutput, 0f, UnityEngine.Mathf.Max(0f, Props.maxPossiblePower));
             }
         }
 
@@ -317,6 +307,9 @@ namespace Helodrace
     {
         public CompProperties_MechanicalUser Props => (CompProperties_MechanicalUser)props;
         public bool HasPower { get; private set; }
+        public CompFlickable Flickable { get; private set; }
+        public CompMechanicalHazard Hazard { get; private set; }
+        public CompMechanicalGenerator Generator { get; private set; }
         
         // This holds the actual ratio of torque the network was able to provide (1.0 = fully powered, <1.0 = overloaded)
         public float TorqueFulfillmentRatio { get; private set; } = 0f;
@@ -324,10 +317,13 @@ namespace Helodrace
         private float gearRatio = -1f;
         private float pendingGearRatio = -1f;
 
-        // Belt hazard specifics
-        public bool isLubricated = false;
-        public float lubeMtbHours = 0f;
-        public bool isBeltBroken = false;
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            Flickable = parent.GetComp<CompFlickable>();
+            Hazard = parent.GetComp<CompMechanicalHazard>();
+            Generator = parent.GetComp<CompMechanicalGenerator>();
+        }
 
         public float GearRatio
         {
@@ -363,9 +359,6 @@ namespace Helodrace
 
         public bool WantsConfiguration => pendingGearRatio >= 0 && !UnityEngine.Mathf.Approximately(pendingGearRatio, GearRatio);
         
-        public bool WantsLubrication => Props.dangerTypes != null && Props.dangerTypes.Contains(MechanicalDangerType.Belt) && !isBeltBroken && !isLubricated;
-        public bool WantsBeltRepair => isBeltBroken;
-
         public void ApplyPendingGearRatio()
         {
             if (WantsConfiguration)
@@ -374,81 +367,17 @@ namespace Helodrace
             }
         }
 
-        public override void CompTick()
-        {
-            base.CompTick();
-
-            if (Props.dangerTypes != null && Props.dangerTypes.Contains(MechanicalDangerType.Belt))
-            {
-                if (isBeltBroken) return;
-
-                if (isLubricated)
-                {
-                    if (HasPower && RealRPM > 0f)
-                    {
-                        // Expiration MTB check. 2500 ticks = 1 in-game hour.
-                        if (Rand.MTBEventOccurs(lubeMtbHours, 2500f, 1f))
-                        {
-                            isLubricated = false;
-                            Messages.Message(parent.Label + " drive belt has dried up and needs lubrication.", parent, MessageTypeDefOf.NeutralEvent);
-                        }
-                    }
-                }
-                else if (HasPower && RealRPM > Props.beltSafeRPM)
-                {
-                    // MTB event for snapping. ~2 hours MTB if running continuously over safe RPM.
-                    if (Rand.MTBEventOccurs(2f, 2500f, 1f))
-                    {
-                        SnapBelt();
-                    }
-                }
-            }
-        }
-
-        private void SnapBelt()
-        {
-            isBeltBroken = true;
-            GenExplosion.DoExplosion(parent.Position, parent.Map, Props.beltDamageRadius, DamageDefOf.Cut, parent, Props.beltDamageAmount);
-            Messages.Message(parent.Label + " drive belt snapped violently due to lack of lubrication!", parent, MessageTypeDefOf.NegativeEvent);
-            UpdatePowerStatus(false, 0f);
-        }
-
-        public void Lubricate(Thing slush)
-        {
-            float baseMtb = 6f; // default fallback
-            
-            var lubeComp = slush.TryGetComp<CompLubricant>();
-            if (lubeComp != null)
-            {
-                baseMtb = lubeComp.Props.lubeMtbHours;
-            }
-            
-            isLubricated = true;
-            lubeMtbHours = baseMtb;
-            slush.SplitOff(1).Destroy();
-        }
-
-        public void RepairBelt(Thing parts)
-        {
-            isBeltBroken = false;
-            isLubricated = false;
-            lubeMtbHours = 0f;
-            if (parts != null)
-            {
-                parts.SplitOff(5).Destroy(); // Assumes 5 steel or cloth
-            }
-        }
-
         // If the grid can't provide full torque, the user's RPM physically bogs down proportional to the missing torque.
-        public float RealRPM => (Network != null && !isBeltBroken) ? (Network.GridRPM / GearRatio) * TorqueFulfillmentRatio : 0f;
-        public float RealInaccuracy => (Network != null && !isBeltBroken) ? Network.GridInaccuracy / GearRatio : 0f;
+        public float RealRPM => Network != null ? (Network.GridRPM / GearRatio) * TorqueFulfillmentRatio : 0f;
+        public float RealInaccuracy => Network != null ? Network.GridInaccuracy / GearRatio : 0f;
+        public float RealRpmError => Network != null ? Network.GridRpmError / GearRatio : 0f;
         
         // Power = Torque * RPM. If RealRPM == recommendedRPM, this demands exactly requireTorque.
         public float GridTorqueDemanded 
         {
             get
             {
-                if (Network == null || Props.recommendedRPM <= 0 || isBeltBroken) return 0f;
+                if (Network == null || Props.recommendedRPM <= 0) return 0f;
                 
                 // Calculate based on what the RPM *would* be before any overload torque drops
                 float intendedRpm = Network.GridRPM / GearRatio;
@@ -464,14 +393,11 @@ namespace Helodrace
             base.PostExposeData();
             Scribe_Values.Look(ref gearRatio, "gearRatio", -1f);
             Scribe_Values.Look(ref pendingGearRatio, "pendingGearRatio", -1f);
-            Scribe_Values.Look(ref isLubricated, "isLubricated", false);
-            Scribe_Values.Look(ref lubeMtbHours, "lubeMtbHours", 0f);
-            Scribe_Values.Look(ref isBeltBroken, "isBeltBroken", false);
         }
 
         public void UpdatePowerStatus(bool isPowered, float fulfillmentRatio)
         {
-            HasPower = isPowered && !isBeltBroken;
+            HasPower = isPowered;
             TorqueFulfillmentRatio = fulfillmentRatio;
         }
 
@@ -481,34 +407,16 @@ namespace Helodrace
                 ? "HD_MechanicalUser_TorqueStruggle".Translate((TorqueFulfillmentRatio*100).ToString("F0")).Resolve()
                 : "";
 
-            string dangerStr = (Props.dangerTypes != null && Props.dangerTypes.Count > 0) 
-                ? string.Join(", ", Props.dangerTypes) 
-                : "HD_MechanicalUser_DangerNone".Translate().Resolve();
-
             string str = "HD_MechanicalUser_Info".Translate(
                 Props.requireTorque.ToString("F0"),
                 GridTorqueDemanded.ToString("F1"),
                 torqueStatus,
                 Props.minimalRPM.ToString("F0"),
                 Props.recommendedRPM.ToString("F0"),
-                dangerStr
+                Hazard != null
+                    ? "HD_MechanicalUser_DangerConfigured".Translate().Resolve()
+                    : "HD_MechanicalUser_DangerNone".Translate().Resolve()
             ).Resolve() + "\n";
-
-            if (Props.dangerTypes != null && Props.dangerTypes.Contains(MechanicalDangerType.Belt))
-            {
-                if (isBeltBroken)
-                {
-                    str += "HD_MechanicalUser_BeltSnapped".Translate().Resolve() + "\n";
-                }
-                else if (!isLubricated)
-                {
-                    str += "HD_MechanicalUser_BeltDry".Translate().Resolve() + "\n";
-                }
-                else
-                {
-                    str += "HD_MechanicalUser_BeltLubricated".Translate(lubeMtbHours.ToString("F0")).Resolve() + "\n";
-                }
-            }
 
             if (WantsConfiguration)
             {
@@ -577,23 +485,35 @@ namespace Helodrace
     public class MechanicalNetwork
     {
         public List<CompMechanicalNode> nodes = new List<CompMechanicalNode>();
+        private readonly List<CompMechanicalEmitter> activeEmittersBuffer =
+            new List<CompMechanicalEmitter>();
         public float CurrentPowerOutput = 0f;
+        public float CurrentMaximumPower = 0f;
         public float CurrentPowerNeeded = 0f;
         public bool HasRpmMismatch = false;
 
         // Aggregated network stats
         public float GridRPM = 0f;
         public float GridInaccuracy = 0f;
+        public float GridRpmError = 0f;
 
         public void UpdateNetwork()
         {
             CurrentPowerOutput = 0f;
+            CurrentMaximumPower = 0f;
             CurrentPowerNeeded = 0f;
             GridRPM = 0f;
             GridInaccuracy = 0f;
+            GridRpmError = 0f;
             HasRpmMismatch = false;
 
-            List<CompMechanicalEmitter> activeEmitters = new List<CompMechanicalEmitter>();
+            List<CompMechanicalEmitter> activeEmitters = activeEmittersBuffer;
+            activeEmitters.Clear();
+            float normalPowerAvailable = 0f;
+            float maximumPowerAvailable = 0f;
+            float totalEmitterRpm = 0f;
+            float minimumEmitterRpm = float.MaxValue;
+            float maximumEmitterRpm = float.MinValue;
 
             // 1. Check Power Sources First
             foreach (var node in nodes)
@@ -604,76 +524,124 @@ namespace Helodrace
                 }
             }
 
-            // 2. Check Inaccuracy and RPM Mismatch, and calculate aggregated grid stats
+            // 2. Detect RPM mismatch in linear time by comparing each source's
+            // tolerance interval against the extreme intervals of the other sources.
             if (activeEmitters.Count > 0)
             {
                 if (activeEmitters.Count > 1)
                 {
+                    float smallestUpper = float.MaxValue;
+                    float secondSmallestUpper = float.MaxValue;
+                    int smallestUpperIndex = -1;
+                    float largestLower = float.MinValue;
+                    float secondLargestLower = float.MinValue;
+                    int largestLowerIndex = -1;
+
                     for (int i = 0; i < activeEmitters.Count; i++)
                     {
-                        for (int j = i + 1; j < activeEmitters.Count; j++)
-                        {
-                            var e1 = activeEmitters[i];
-                            var e2 = activeEmitters[j];
-                            
-                            float rpmDiff = UnityEngine.Mathf.Abs(e1.TargetRPM - e2.TargetRPM);
-                            float inaccuracySum = e1.Props.rpmInaccuracy + e2.Props.rpmInaccuracy;
+                        CompMechanicalEmitter emitter = activeEmitters[i];
+                        float tolerance = UnityEngine.Mathf.Max(0f, emitter.Props.rpmInaccuracy);
+                        float lower = emitter.TargetRPM - tolerance;
+                        float upper = emitter.TargetRPM + tolerance;
 
-                            if (rpmDiff > inaccuracySum)
-                            {
-                                HasRpmMismatch = true;
-                                ApplyMismatchEffect(e1);
-                                ApplyMismatchEffect(e2);
-                            }
+                        if (upper < smallestUpper)
+                        {
+                            secondSmallestUpper = smallestUpper;
+                            smallestUpper = upper;
+                            smallestUpperIndex = i;
+                        }
+                        else if (upper < secondSmallestUpper)
+                        {
+                            secondSmallestUpper = upper;
+                        }
+
+                        if (lower > largestLower)
+                        {
+                            secondLargestLower = largestLower;
+                            largestLower = lower;
+                            largestLowerIndex = i;
+                        }
+                        else if (lower > secondLargestLower)
+                        {
+                            secondLargestLower = lower;
+                        }
+                    }
+
+                    for (int i = 0; i < activeEmitters.Count; i++)
+                    {
+                        CompMechanicalEmitter emitter = activeEmitters[i];
+                        float tolerance = UnityEngine.Mathf.Max(0f, emitter.Props.rpmInaccuracy);
+                        float lower = emitter.TargetRPM - tolerance;
+                        float upper = emitter.TargetRPM + tolerance;
+                        float otherSmallestUpper = i == smallestUpperIndex
+                            ? secondSmallestUpper
+                            : smallestUpper;
+                        float otherLargestLower = i == largestLowerIndex
+                            ? secondLargestLower
+                            : largestLower;
+
+                        bool emitterMismatched = lower > otherSmallestUpper
+                            || upper < otherLargestLower;
+                        if (emitterMismatched)
+                        {
+                            HasRpmMismatch = true;
+                            ApplyMismatchEffect(emitter);
                         }
                     }
                 }
 
-                if (!HasRpmMismatch)
+                // 3. Gather every source value before deciding the final grid output.
+                foreach (var emitter in activeEmitters)
                 {
-                    // Safe aggregation
-                    foreach (var emitter in activeEmitters)
+                    float emitterMaximum = UnityEngine.Mathf.Max(0f, emitter.Props.maxPossiblePower);
+                    float emitterNormal = UnityEngine.Mathf.Clamp(emitter.PowerOutput, 0f, emitterMaximum);
+
+                    normalPowerAvailable += emitterNormal;
+                    maximumPowerAvailable += emitterMaximum;
+                    totalEmitterRpm += emitter.TargetRPM;
+                    minimumEmitterRpm = UnityEngine.Mathf.Min(minimumEmitterRpm, emitter.TargetRPM);
+                    maximumEmitterRpm = UnityEngine.Mathf.Max(maximumEmitterRpm, emitter.TargetRPM);
+                    GridInaccuracy += UnityEngine.Mathf.Max(0f, emitter.Props.rpmInaccuracy);
+
+                    if (emitter.TargetRPM > GridRPM)
                     {
-                        CurrentPowerOutput += emitter.PowerOutput;
-                        GridInaccuracy += emitter.Props.rpmInaccuracy;
-                        if (emitter.TargetRPM > GridRPM)
-                        {
-                            GridRPM = emitter.TargetRPM;
-                        }
+                        GridRPM = emitter.TargetRPM;
                     }
                 }
-                else
+
+                GridRpmError = activeEmitters.Count > 1
+                    ? maximumEmitterRpm - minimumEmitterRpm
+                    : 0f;
+
+                if (HasRpmMismatch)
                 {
-                    // Mismatch penalty aggregation
-                    float totalRpm = 0f;
-                    float rawTorque = 0f;
-
-                    foreach (var emitter in activeEmitters)
-                    {
-                        totalRpm += emitter.TargetRPM;
-                        rawTorque += emitter.PowerOutput;
-                        GridInaccuracy += emitter.Props.rpmInaccuracy;
-                    }
-
                     // Average RPM, cut under 10 (floor to nearest 10)
-                    float averageRpm = totalRpm / activeEmitters.Count;
+                    float averageRpm = totalEmitterRpm / activeEmitters.Count;
                     GridRPM = UnityEngine.Mathf.Floor(averageRpm / 10f) * 10f;
 
                     // Double inaccuracy
                     GridInaccuracy *= 2f;
 
-                    // Torque reduced to 2/3, cut under 10
-                    float reducedTorque = rawTorque * (2f / 3f);
-                    CurrentPowerOutput = UnityEngine.Mathf.Floor(reducedTorque / 10f) * 10f;
+                    // Both normal and maximum combined output receive the same
+                    // mismatch penalty before the final cap is calculated.
+                    normalPowerAvailable = UnityEngine.Mathf.Floor(
+                        normalPowerAvailable * (2f / 3f) / 10f) * 10f;
+                    maximumPowerAvailable = UnityEngine.Mathf.Floor(
+                        maximumPowerAvailable * (2f / 3f) / 10f) * 10f;
                 }
             }
 
-            // 3. Check Power Users Next
+            maximumPowerAvailable = UnityEngine.Mathf.Max(0f, maximumPowerAvailable);
+            normalPowerAvailable = UnityEngine.Mathf.Clamp(
+                normalPowerAvailable, 0f, maximumPowerAvailable);
+            CurrentMaximumPower = maximumPowerAvailable;
+
+            // 4. Gather every active user's demand.
             foreach (var node in nodes)
             {
                 if (node is CompMechanicalUser user)
                 {
-                    var flickable = user.parent.GetComp<CompFlickable>();
+                    CompFlickable flickable = user.Flickable;
                     if (flickable == null || flickable.SwitchIsOn)
                     {
                         CurrentPowerNeeded += user.GridTorqueDemanded;
@@ -681,33 +649,26 @@ namespace Helodrace
                 }
             }
 
-            // 4. Overload Logic (Compensating torque and dropping RPM)
+            // 5. Final output calculation. This is the only stage that assigns
+            // CurrentPowerOutput, and it is capped again unconditionally below.
             float torqueFulfillment = 1.0f;
-            if (CurrentPowerNeeded > CurrentPowerOutput && CurrentPowerOutput > 0)
-            {
-                float totalMaxPower = 0f;
-                foreach (var emitter in activeEmitters)
-                {
-                    totalMaxPower += HasRpmMismatch ? (emitter.Props.maxPossiblePower * 0.66f) : emitter.Props.maxPossiblePower;
-                }
+            CurrentPowerOutput = normalPowerAvailable;
 
-                if (CurrentPowerNeeded <= totalMaxPower)
-                {
-                    // Engines increase torque to meet demand, RPM is safe
-                    CurrentPowerOutput = CurrentPowerNeeded;
-                }
-                else
+            if (CurrentPowerNeeded > normalPowerAvailable && maximumPowerAvailable > 0f)
+            {
+                CurrentPowerOutput = UnityEngine.Mathf.Min(CurrentPowerNeeded, maximumPowerAvailable);
+
+                if (CurrentPowerNeeded > maximumPowerAvailable)
                 {
                     // Engines pushed beyond max limits!
-                    CurrentPowerOutput = totalMaxPower; // Hard cap torque at maximum possible output
-                    
                     // The ratio of how much torque we have versus what we actually need
-                    torqueFulfillment = totalMaxPower / CurrentPowerNeeded;
+                    torqueFulfillment = maximumPowerAvailable / CurrentPowerNeeded;
                     
                     // RPM drops drastically because it can't handle the load
                     GridRPM *= torqueFulfillment;
 
-                    // Apply overload damage randomly (20% chance per second)
+                    // Power sources retain their original overload maintenance
+                    // and building-damage behavior.
                     if (Verse.Rand.Chance(0.20f))
                     {
                         foreach (var emitter in activeEmitters)
@@ -718,6 +679,11 @@ namespace Helodrace
                 }
             }
 
+            // Guard against malformed Def values, floating-point drift, and future
+            // calculation branches bypassing the overload block.
+            CurrentPowerOutput = UnityEngine.Mathf.Clamp(
+                CurrentPowerOutput, 0f, CurrentMaximumPower);
+
             bool gridHasEnoughTorque = CurrentPowerOutput > 0;
 
             // Update users
@@ -725,7 +691,7 @@ namespace Helodrace
             {
                 if (node is CompMechanicalUser user)
                 {
-                    var flickable = user.parent.GetComp<CompFlickable>();
+                    CompFlickable flickable = user.Flickable;
                     bool isSwitchedOn = flickable == null || flickable.SwitchIsOn;
                     
                     // Update user with the torque ratio before checking RPM
@@ -733,36 +699,59 @@ namespace Helodrace
                     
                     bool meetsRpm = user.RealRPM >= user.Props.minimalRPM;
                     
-                    // If it doesn't meet RPM after the torque drop, turn it off entirely
+                    // Below minimum RPM the machine stops completely and cannot
+                    // cause a low-speed operating accident.
                     if (!meetsRpm)
                     {
                         user.UpdatePowerStatus(false, 0f);
                     }
+                    else
+                    {
+                        // The dangerous operating band exists only when minimum
+                        // and recommended RPM differ.
+                        float dangerousBelowRpm =
+                            user.Props.minimalRPM < user.Props.recommendedRPM
+                                ? user.Props.recommendedRPM
+                                : -1f;
+                        user.Hazard?.Evaluate(
+                            user.RealRPM,
+                            user.RealRpmError,
+                            user.HasPower,
+                            dangerousBelowRpm);
+                    }
+
+                    // Use the final network state after torque and minimum-RPM
+                    // checks, so electrical output cannot lead the mechanical
+                    // calculation by one update.
+                    user.Generator?.RefreshOutput();
                 }
             }
         }
 
         private void ApplyMismatchEffect(CompMechanicalEmitter emitter)
         {
-            // Apply effects rarely so it doesn't instantly destroy the base (runs every 60 ticks / 1 second)
-            if (Verse.Rand.Chance(0.05f)) // 5% chance every second while mismatched
+            // Source-specific building damage remains separate from the simplified
+            // user-machine hazard component.
+            if (Verse.Rand.Chance(0.05f))
             {
                 switch (emitter.Props.sourceType)
                 {
                     case PowerSourceType.SteamEngine:
-                        // Steam Engine: Gears grind and take crush damage
                         emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Crush, 15f));
                         FleckMaker.ThrowDustPuff(emitter.parent.DrawPos, emitter.parent.Map, 1.5f);
                         break;
                     case PowerSourceType.Engine:
-                        // Combustion Engine: Overheats and catches fire
                         emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Burn, 10f));
                         FireUtility.TryStartFireIn(emitter.parent.Position, emitter.parent.Map, 0.5f, null);
                         break;
                     case PowerSourceType.Motor:
-                        // Electric Motor: Short circuits and throws EMP sparks
                         FleckMaker.ThrowMicroSparks(emitter.parent.DrawPos, emitter.parent.Map);
-                        GenExplosion.DoExplosion(emitter.parent.Position, emitter.parent.Map, 1.5f, DamageDefOf.EMP, emitter.parent);
+                        GenExplosion.DoExplosion(
+                            emitter.parent.Position,
+                            emitter.parent.Map,
+                            1.5f,
+                            DamageDefOf.EMP,
+                            emitter.parent);
                         break;
                 }
             }
@@ -779,17 +768,23 @@ namespace Helodrace
                         FleckMaker.ThrowDustPuff(emitter.parent.DrawPos, emitter.parent.Map, 2.0f);
                         if (Verse.Rand.Chance(0.1f))
                         {
-                            Messages.Message("Steam engine suffered catastrophic structural damage due to low-RPM high-torque overload!", emitter.parent, MessageTypeDefOf.NegativeEvent);
+                            Messages.Message(
+                                "Steam engine suffered catastrophic structural damage due to low-RPM high-torque overload!",
+                                emitter.parent,
+                                MessageTypeDefOf.NegativeEvent);
                             emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Crush, 300f));
                         }
                     }
                     break;
                 case PowerSourceType.Engine:
-                    var breakdown = emitter.parent.GetComp<CompBreakdownable>();
+                    CompBreakdownable breakdown = emitter.parent.GetComp<CompBreakdownable>();
                     if (breakdown != null && !breakdown.BrokenDown)
                     {
                         breakdown.DoBreakdown();
-                        Messages.Message("Combustion engine broke down from mechanical overload!", emitter.parent, MessageTypeDefOf.NegativeEvent);
+                        Messages.Message(
+                            "Combustion engine broke down from mechanical overload!",
+                            emitter.parent,
+                            MessageTypeDefOf.NegativeEvent);
                     }
                     else
                     {
@@ -798,32 +793,51 @@ namespace Helodrace
                     }
                     break;
                 case PowerSourceType.Motor:
-                    var powerTrader = emitter.parent.GetComp<CompPowerTrader>();
+                    CompPowerTrader powerTrader = emitter.parent.GetComp<CompPowerTrader>();
                     bool explodedBattery = false;
-                    if (powerTrader != null && powerTrader.PowerNet != null)
+                    if (powerTrader?.PowerNet != null)
                     {
-                        foreach (var battery in powerTrader.PowerNet.batteryComps)
+                        foreach (CompPowerBattery battery in powerTrader.PowerNet.batteryComps)
                         {
-                            if (battery.StoredEnergy > 0)
+                            if (battery.StoredEnergy <= 0f)
                             {
-                                battery.SetStoredEnergyPct(0f);
-                                GenExplosion.DoExplosion(battery.parent.Position, battery.parent.Map, 2.9f, DamageDefOf.Flame, null);
-                                explodedBattery = true;
-                                Messages.Message("Electric motor overload caused a battery to violently discharge!", battery.parent, MessageTypeDefOf.NegativeEvent);
-                                break;
+                                continue;
                             }
+
+                            battery.SetStoredEnergyPct(0f);
+                            GenExplosion.DoExplosion(
+                                battery.parent.Position,
+                                battery.parent.Map,
+                                2.9f,
+                                DamageDefOf.Flame,
+                                null);
+                            explodedBattery = true;
+                            Messages.Message(
+                                "Electric motor overload caused a battery to violently discharge!",
+                                battery.parent,
+                                MessageTypeDefOf.NegativeEvent);
+                            break;
                         }
                     }
-                    
+
                     if (!explodedBattery)
                     {
-                        GenExplosion.DoExplosion(emitter.parent.Position, emitter.parent.Map, 1.9f, DamageDefOf.EMP, null);
+                        GenExplosion.DoExplosion(
+                            emitter.parent.Position,
+                            emitter.parent.Map,
+                            1.9f,
+                            DamageDefOf.EMP,
+                            null);
                         emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Burn, 20f));
-                        Messages.Message("Electric motor short-circuited under heavy mechanical load!", emitter.parent, MessageTypeDefOf.NegativeEvent);
+                        Messages.Message(
+                            "Electric motor short-circuited under heavy mechanical load!",
+                            emitter.parent,
+                            MessageTypeDefOf.NegativeEvent);
                     }
                     break;
             }
         }
+
     }
 
     public class MechanicalNetworkManager : MapComponent

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingCategoryDef>
+    <defName>HD_InventoryGrenades</defName>
+    <label>hand grenades</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+</Defs>

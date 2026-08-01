@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 using RimWorld;
 
@@ -10,6 +11,8 @@ namespace Helodrace
         public ThingDef product;
         public int amount = 10;
         public float daysToProduce = 1f;
+        public float pressureLossPerProduction = 0.01f;
+        public float minimumPressure = 0.35f;
 
         public CompProperties_OilProducer()
         {
@@ -24,11 +27,13 @@ namespace Helodrace
         public CompProperties_OilProducer Props => (CompProperties_OilProducer)this.props;
 
         private CompMechanicalUser mechanicalUser;
+        private MapComponent_OilFields oilFields;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
             mechanicalUser = this.parent.GetComp<CompMechanicalUser>();
+            oilFields = this.parent.Map?.GetComponent<MapComponent_OilFields>();
         }
 
         public override void PostExposeData()
@@ -41,47 +46,73 @@ namespace Helodrace
         {
             base.CompTickRare();
 
-            if (mechanicalUser != null && mechanicalUser.HasPower)
+            OilFieldRecord field = OilField;
+            if (mechanicalUser != null && mechanicalUser.HasPower && field != null)
             {
                 float dayDelta = 250f / 60000f; // CompTickRare is 250 ticks
-                
-                // Scale production based on EffectiveRPM relative to RecommendedRPM
-                float speedFactor = 1f;
-                if (mechanicalUser.Props.recommendedRPM > 0)
-                {
-                    speedFactor = mechanicalUser.EffectiveRPM / mechanicalUser.Props.recommendedRPM;
-                }
+                float speedFactor = MechanicalSpeedFactor * field.quality * field.pressure;
                 
                 progressDays += dayDelta * speedFactor;
 
                 if (progressDays >= Props.daysToProduce)
                 {
-                    Produce();
+                    Produce(field);
                 }
             }
         }
 
-        private void Produce()
+        private void Produce(OilFieldRecord field)
         {
-            progressDays -= Props.daysToProduce;
-            if (progressDays < 0f) progressDays = 0f; // safety limit
             Thing thing = ThingMaker.MakeThing(Props.product);
             thing.stackCount = Props.amount;
-            GenPlace.TryPlaceThing(thing, this.parent.Position, this.parent.Map, ThingPlaceMode.Near);
-            
-            // Optional: Add some smoke/dust visual here if desired
+            if (!GenPlace.TryPlaceThing(thing, this.parent.Position, this.parent.Map, ThingPlaceMode.Near))
+            {
+                thing.Destroy();
+                return;
+            }
+
+            progressDays = Mathf.Max(0f, progressDays - Props.daysToProduce);
+            oilFields.ReducePressure(field, Props.pressureLossPerProduction, Props.minimumPressure);
         }
 
         public override string CompInspectStringExtra()
         {
-            if (mechanicalUser != null && mechanicalUser.HasPower)
+            OilFieldRecord field = OilField;
+            if (field == null)
             {
-                float speedFactor = (mechanicalUser.Props.recommendedRPM > 0) ? (mechanicalUser.EffectiveRPM / mechanicalUser.Props.recommendedRPM) : 1f;
-                return $"Production progress: {progressDays / Props.daysToProduce:P0}\n" +
-                       $"Production speed: {speedFactor:P0}";
+                return "HD_OilProducer_NoField".Translate();
             }
-            return "Stalled: Needs Mechanical Power";
+
+            float speedFactor = MechanicalSpeedFactor * field.quality * field.pressure;
+            string status = mechanicalUser != null && mechanicalUser.HasPower
+                ? "HD_OilProducer_Operating".Translate()
+                : "HD_OilProducer_NeedsPower".Translate();
+
+            return "HD_OilProducer_Inspect".Translate(
+                progressDays / Props.daysToProduce,
+                speedFactor,
+                field.quality,
+                field.pressure,
+                status);
         }
+
+        private OilFieldRecord OilField
+        {
+            get
+            {
+                if (oilFields == null && parent.Map != null)
+                {
+                    oilFields = parent.Map.GetComponent<MapComponent_OilFields>();
+                }
+
+                return oilFields?.FieldAtOrCreateLegacy(parent.Position);
+            }
+        }
+
+        private float MechanicalSpeedFactor =>
+            mechanicalUser != null && mechanicalUser.Props.recommendedRPM > 0f
+                ? mechanicalUser.EffectiveRPM / mechanicalUser.Props.recommendedRPM
+                : 1f;
     }
 
     // PlaceWorker to ensure it's built on Oil Floor
@@ -89,12 +120,12 @@ namespace Helodrace
     {
         public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null, Thing thing = null)
         {
-            TerrainDef terrain = loc.GetTerrain(map);
-            if (terrain != null && terrain.defName == "HD_LowQualityOilRigFloor") // Assuming HD_LowQualityOilFloor might be the actual defName, let's keep as is unless reported bug
+            MapComponent_OilFields oilFields = map.GetComponent<MapComponent_OilFields>();
+            if (oilFields.IsOilFieldTerrain(loc))
             {
                 return true;
             }
-            return "Must be placed on a Low quality oil rig floor.";
+            return "HD_OilProducer_MustPlaceOnField".Translate();
         }
     }
 }

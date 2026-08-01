@@ -26,6 +26,7 @@
   <HD_Stat_MechanicalDefaultGearRatio_Desc>The gear ratio applied to this device immediately after construction.</HD_Stat_MechanicalDefaultGearRatio_Desc>
   <HD_Stat_MechanicalHazards>Mechanical hazards</HD_Stat_MechanicalHazards>
   <HD_Stat_MechanicalHazards_Desc>The mechanical hazards this device can have while operating.</HD_Stat_MechanicalHazards_Desc>
+  <HD_ITab_MechanicalNetwork_MaxPower>Maximum combined output: {0} W</HD_ITab_MechanicalNetwork_MaxPower>
 
   <!-- Sharpshooter Mode -->
   <HD_SharpshooterMode_Label>Sharpshooter mode</HD_SharpshooterMode_Label>
@@ -39,4 +40,10 @@
   <HD_SharpshooterMode_DoubleTap_Desc>Switches between normal fire and a fast two-shot follow-up.</HD_SharpshooterMode_DoubleTap_Desc>
   <HD_M8Flare_HighAngle>High-angle flare</HD_M8Flare_HighAngle>
   <HD_M8Flare_ModeDesc>Switches between direct flare fire and an inaccurate high-angle shot that can pass over intervening obstacles.</HD_M8Flare_ModeDesc>
+  <HD_MechanicalGenerator_Stopped>Generator stopped\nMechanical input: 0 W\nElectrical output: 0 W</HD_MechanicalGenerator_Stopped>
+  <HD_MechanicalGenerator_Info>Mechanical input: {0} W\nConversion efficiency: {1}%\nElectrical output: {2} W</HD_MechanicalGenerator_Info>
+  <HD_Stat_GeneratorRatedInput>Rated mechanical input</HD_Stat_GeneratorRatedInput>
+  <HD_Stat_GeneratorRatedInput_Desc>The mechanical input at which this generator reaches its peak conversion efficiency.</HD_Stat_GeneratorRatedInput_Desc>
+  <HD_Stat_GeneratorEfficiency>Peak / minimum efficiency</HD_Stat_GeneratorEfficiency>
+  <HD_Stat_GeneratorEfficiency_Desc>Conversion efficiency drops by 5 percentage points for every 10% that mechanical input deviates from the rated input, down to the minimum.</HD_Stat_GeneratorEfficiency_Desc>
 </LanguageData>

@@ -28,24 +28,35 @@
     <defName>HD_3InchMortarShells</defName>
     <label>3-inch mortar shells</label>
     <parent>Manufactured</parent>
+    <modExtensions><li Class="Helodrace.AmmoCaliberExtension"><caliber>3-inch</caliber></li></modExtensions>
   </ThingCategoryDef>
 
   <ThingCategoryDef>
     <defName>HD_81mmMortarShells</defName>
     <label>81mm mortar shells</label>
     <parent>Manufactured</parent>
+    <modExtensions><li Class="Helodrace.AmmoCaliberExtension"><caliber>81mm</caliber></li></modExtensions>
   </ThingCategoryDef>
 
   <ThingCategoryDef>
     <defName>HD_37mmShells</defName>
     <label>37mm shells</label>
     <parent>Manufactured</parent>
+    <modExtensions><li Class="Helodrace.AmmoCaliberExtension"><caliber>37mm</caliber></li></modExtensions>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
+    <defName>HD_105mmHowitzerShells</defName>
+    <label>105mm howitzer shells</label>
+    <parent>Manufactured</parent>
+    <modExtensions><li Class="Helodrace.AmmoCaliberExtension"><caliber>105mm</caliber></li></modExtensions>
   </ThingCategoryDef>
 
   <ThingCategoryDef>
     <defName>HD_Rockets</defName>
     <label>rockets</label>
     <parent>Manufactured</parent>
+    <modExtensions><li Class="Helodrace.AmmoCaliberExtension"><caliber>60mm</caliber></li></modExtensions>
   </ThingCategoryDef>
 
   <ThingDef>
@@ -187,7 +198,10 @@
       <bodyPartGroups>
         <li>Shoulders</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarMedibag</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarMedibag/HD_GreatWarMedibag</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+      </wornGraphicData>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
       <drawData>
@@ -332,7 +346,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GreatWarGasMaskPouch</defName>
     <label>gas mask pouch</label>
-    <description>A compact belt pouch carrying sealed filter spares and anti-gas cloth. It fully improves toxic environment resistance while worn, but its weight and straps hinder movement, work, shooting, and close combat.</description>
+    <description>A compact belt pouch carrying a gas mask, sealed filter spares, and anti-gas cloth. Wearing the pouch makes the mask available; deploy the mask to gain full toxic environment resistance.</description>
     <graphicData>
       <texPath>Item/HD_GreatWarGasMaskBag_item</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -347,15 +361,11 @@
       <Flammability>0.7</Flammability>
       <EquipDelay>0.8</EquipDelay>
     </statBases>
-    <equippedStatOffsets>
-      <ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
-      <MoveSpeed>-0.06</MoveSpeed>
-      <WorkSpeedGlobal>-0.06</WorkSpeedGlobal>
-      <ShootingAccuracyPawn>-0.20</ShootingAccuracyPawn>
-      <AimingDelayFactor>0.08</AimingDelayFactor>
-      <MeleeHitChance>-0.40</MeleeHitChance>
-      <MeleeDodgeChance>-0.02</MeleeDodgeChance>
-    </equippedStatOffsets>
+    <comps>
+      <li Class="Helodrace.CompProperties_GasMaskPouch">
+        <wearTicks>480</wearTicks>
+      </li>
+    </comps>
     <thingCategories>
       <li>Apparel</li>
     </thingCategories>
@@ -363,7 +373,7 @@
       <bodyPartGroups>
         <li>Waist</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarGasMaskPouch</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarGasMaskPouch/HD_GreatWarGasMaskPouch</wornGraphicPath>
       <wornGraphicData>
         <renderUtilityAsPack>true</renderUtilityAsPack>
       </wornGraphicData>
@@ -374,6 +384,20 @@
           <layer>110</layer>
         </defaultData>
       </drawData>
+      <renderNodeProperties>
+        <li>
+          <debugLabel>Deployed gas mask</debugLabel>
+          <workerClass>Helodrace.PawnRenderNodeWorker_ActiveGasMask</workerClass>
+          <texPath>Dogos/Appearel/HD_LowGasMask/HD_LowGasMask</texPath>
+          <parentTagDef>Head</parentTagDef>
+          <rotDrawMode>Fresh, Rotting</rotDrawMode>
+          <drawData>
+            <defaultData>
+              <layer>69</layer>
+            </defaultData>
+          </drawData>
+        </li>
+      </renderNodeProperties>
       <layers>
         <li>HD_Pouch</li>
       </layers>
@@ -407,7 +431,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GreatWarCBRNPouch</defName>
     <label>CBRN protection pouch</label>
-    <description>A reinforced gas mask pouch carrying sealed filters, barrier cloth, and emergency chemical-protection supplies. It fully improves toxic environment resistance and blocks sweet gas exposure while worn, but its bulk heavily hinders movement, work, shooting, and close combat.</description>
+    <description>A reinforced gas mask pouch carrying sealed filters, barrier cloth, and emergency chemical-protection supplies. Wearing the pouch makes the mask available; deploy the mask to gain full toxic environment resistance and block sweet gas exposure.</description>
     <graphicData>
       <texPath>Item/HD_GreatWarGasMaskBag_item</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -422,15 +446,12 @@
       <Flammability>0.6</Flammability>
       <EquipDelay>0.9</EquipDelay>
     </statBases>
-    <equippedStatOffsets>
-      <ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
-      <MoveSpeed>-0.18</MoveSpeed>
-      <WorkSpeedGlobal>-0.18</WorkSpeedGlobal>
-      <ShootingAccuracyPawn>-0.60</ShootingAccuracyPawn>
-      <AimingDelayFactor>0.24</AimingDelayFactor>
-      <MeleeHitChance>-1.20</MeleeHitChance>
-      <MeleeDodgeChance>-0.06</MeleeDodgeChance>
-    </equippedStatOffsets>
+    <comps>
+      <li Class="Helodrace.CompProperties_GasMaskPouch">
+        <protectsSweetGas>true</protectsSweetGas>
+        <wearTicks>600</wearTicks>
+      </li>
+    </comps>
     <thingCategories>
       <li>Apparel</li>
     </thingCategories>
@@ -438,7 +459,7 @@
       <bodyPartGroups>
         <li>Waist</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarGasMaskPouch</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarGasMaskPouch/HD_GreatWarGasMaskPouch</wornGraphicPath>
       <wornGraphicData>
         <renderUtilityAsPack>true</renderUtilityAsPack>
       </wornGraphicData>
@@ -449,6 +470,20 @@
           <layer>110</layer>
         </defaultData>
       </drawData>
+      <renderNodeProperties>
+        <li>
+          <debugLabel>Deployed gas mask</debugLabel>
+          <workerClass>Helodrace.PawnRenderNodeWorker_ActiveGasMask</workerClass>
+          <texPath>Dogos/Appearel/HD_LowGasMask/HD_LowGasMask</texPath>
+          <parentTagDef>Head</parentTagDef>
+          <rotDrawMode>Fresh, Rotting</rotDrawMode>
+          <drawData>
+            <defaultData>
+              <layer>69</layer>
+            </defaultData>
+          </drawData>
+        </li>
+      </renderNodeProperties>
       <layers>
         <li>HD_Pouch</li>
       </layers>
@@ -482,8 +517,8 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_M6RocketBag</defName>
-    <label>M6 rocket bag</label>
-    <description>A temporary rocket carrier bag for M6A3 HEAT rockets. A bearer can load rockets into the bag and assist a nearby M9A1 operator with reloading.</description>
+    <label>weapon system test harness</label>
+    <description>An experimental loadout-control harness. When worn, it lets a colonist configure desired inventory amounts for ammunition and automatically collect those supplies.</description>
     <graphicData>
       <texPath>Item/HD_GreatWarGasMaskBag_item</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -509,7 +544,10 @@
       <bodyPartGroups>
         <li>Waist</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarGasMaskPouch</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarGasMaskPouch/HD_GreatWarGasMaskPouch</wornGraphicPath>
+      <wornGraphicData>
+        <renderUtilityAsPack>true</renderUtilityAsPack>
+      </wornGraphicData>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
       <drawData>
@@ -528,13 +566,7 @@
       </defaultOutfitTags>
     </apparel>
     <comps>
-      <li Class="Helodrace.CompProperties_M6RocketBag">
-        <allowedAmmoDefs>
-          <li>HD_Rocket_M6A3HEAT</li>
-          <li>HD_Rocket_M10WP</li>
-        </allowedAmmoDefs>
-        <maxStoredRounds>4</maxStoredRounds>
-      </li>
+      <li Class="Helodrace.CompProperties_M6RocketBag" />
     </comps>
     <recipeMaker>
       <recipeUsers>
@@ -560,7 +592,7 @@
     <label>great war trench uniform liner</label>
     <description>A fitted inner uniform for trench troops, tailored for Helod bodies. It is worn close to the body beneath armor or heavier field gear.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner/HD_GreatWarTrenchArmyInner_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
@@ -586,7 +618,7 @@
         <li>Legs</li>
         <li>Feet</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner/HD_GreatWarTrenchArmyInner</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>OnSkin</li>
@@ -601,6 +633,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -610,7 +643,7 @@
       <Cloth>45</Cloth>
     </costList>
     <researchPrerequisites>
-      <li>HelodFirstAid</li>
+      <li>HelodGreatWarTech</li>
     </researchPrerequisites>
   </ThingDef>
 
@@ -619,7 +652,7 @@
     <label>great war trench armor coat</label>
     <description>A reinforced outer uniform for trench troops, tailored for Helod bodies. It is worn over inner clothing as protective armor and field gear.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter/HD_GreatWarTrenchArmyOuter_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
@@ -648,7 +681,7 @@
         <li>Legs</li>
         <li>Feet</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter/HD_GreatWarTrenchArmyOuter</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>Shell</li>
@@ -664,6 +697,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -674,7 +708,7 @@
       <Steel>15</Steel>
     </costList>
     <researchPrerequisites>
-      <li>HelodFirstAid</li>
+      <li>HelodGreatWarTech</li>
     </researchPrerequisites>
   </ThingDef>
 
@@ -683,7 +717,7 @@
     <label>great war storm-front uniform liner</label>
     <description>A fitted inner uniform issued to storm-front troops, tailored for Helod bodies. It is worn close to the body beneath armor or heavier field gear.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_GreatWarStormFrontInner/HD_GreatWarStormFrontInner_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner/HD_GreatWarTrenchArmyInner_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
@@ -709,7 +743,7 @@
         <li>Legs</li>
         <li>Feet</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarStormFrontInner/HD_GreatWarStormFrontInner</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyInner/HD_GreatWarTrenchArmyInner</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>OnSkin</li>
@@ -724,6 +758,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -733,7 +768,7 @@
       <Cloth>45</Cloth>
     </costList>
     <researchPrerequisites>
-      <li>HelodFirstAid</li>
+      <li>HelodGreatWarTech</li>
     </researchPrerequisites>
   </ThingDef>
 
@@ -742,7 +777,7 @@
     <label>great war storm-front uniform outer layer</label>
     <description>A reinforced storm-front field uniform tailored for Helod bodies. It is worn over the uniform liner and beneath heavier armor and field gear.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_GreatWarStormFrontOuter/HD_GreatWarStormFrontOuter_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter/HD_GreatWarTrenchArmyOuter_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
@@ -771,7 +806,7 @@
         <li>Legs</li>
         <li>Feet</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarStormFrontOuter/HD_GreatWarStormFrontOuter</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarTrenchArmyOuter/HD_GreatWarTrenchArmyOuter</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>Middle</li>
@@ -787,6 +822,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -797,7 +833,7 @@
       <Steel>15</Steel>
     </costList>
     <researchPrerequisites>
-      <li>HelodFirstAid</li>
+      <li>HelodGreatWarTech</li>
     </researchPrerequisites>
   </ThingDef>
 
@@ -821,6 +857,29 @@
     </statBases>
     <thingCategories>
       <li>HD_3InchMortarShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_105mmShell_M1HE</defName>
+    <label>M1 105mm HE shell</label>
+    <description>A cased M1 high-explosive shell for the M2A2 105mm light howitzer. Its heavy bursting charge is intended for entrenched infantry, fortifications, and field targets.</description>
+    <projectileWhenLoaded>HD_105mmShell_M1HE_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapon/GreatWar/Ammo/HD_105MMM1HE</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+    </graphicData>
+    <stackLimit>20</stackLimit>
+    <statBases>
+      <MaxHitPoints>70</MaxHitPoints>
+      <MarketValue>58</MarketValue>
+      <Mass>5.6</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_105mmHowitzerShells</li>
     </thingCategories>
   </ThingDef>
 
@@ -985,7 +1044,7 @@
     <label>m1 Helmet</label>
     <description>m1 helmet with hole for ears</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_GreatWarM1Helmet_south</texPath>
+      <texPath>Dogos/Appearel/HD_GreatWarM1Helmet/HD_GreatWarM1Helmet_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <color>(255,255,255)</color>
     </graphicData>
@@ -1006,7 +1065,7 @@
       <bodyPartGroups>
         <li>UpperHead</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_GreatWarM1Helmet</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_GreatWarM1Helmet/HD_GreatWarM1Helmet</wornGraphicPath>
       <layers>
         <li>Overhead</li>
       </layers>
@@ -1019,6 +1078,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>

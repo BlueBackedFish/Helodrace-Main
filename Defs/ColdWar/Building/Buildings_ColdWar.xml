@@ -27,6 +27,9 @@
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
     <rotatable>true</rotatable>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodWireGuidedMissile</li>
+    </researchPrerequisites>
     <statBases>
       <MaxHitPoints>180</MaxHitPoints>
       <Flammability>0.4</Flammability>
@@ -57,6 +60,119 @@
       </li>
       <li Class="Helodrace.CompProperties_TowLauncher" />
       <li Class="CompProperties_Forbiddable" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_Building_M167VADS</defName>
+    <label>M167 VADS</label>
+    <description>A towed 20 mm Vulcan air defense system with a 500-round ammunition drum. Its six-barrel rotary cannon saturates exposed targets with an extremely dense burst of fire. It must be directly operated by a pawn.</description>
+    <thingClass>Building_TurretGun</thingClass>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <drawHighlight>true</drawHighlight>
+    <drawHighlightOnlyForHostile>true</drawHighlightOnlyForHostile>
+    <!-- The carriage is the vanilla building graphic. -->
+    <graphicData>
+      <texPath>Building/Security/HD_M167VADS_Base</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(10.71,10.71)</drawSize>
+      <drawOffsetNorth>(0.5,0,0)</drawOffsetNorth>
+      <drawOffsetEast>(0,0,-0.5)</drawOffsetEast>
+      <drawOffsetSouth>(-0.5,0,0)</drawOffsetSouth>
+      <drawOffsetWest>(0,0,0.5)</drawOffsetWest>
+      <shadowData>
+        <volume>(2.2,0.3,2.8)</volume>
+      </shadowData>
+    </graphicData>
+    <uiIconPath>Building/Security/HD_M167VADS_Base</uiIconPath>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <size>(4,3)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,0)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2563</uiOrder>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodAntiAirMachineGun</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>420</MaxHitPoints>
+      <WorkToBuild>7200</WorkToBuild>
+      <Flammability>0.25</Flammability>
+      <Mass>1576</Mass>
+      <ShootingAccuracyTurret>0.94</ShootingAccuracyTurret>
+    </statBases>
+    <costList>
+      <HD_WildWestBarrel>6</HD_WildWestBarrel>
+      <HD_CarbonSteel>350</HD_CarbonSteel>
+      <HD_GeneralMachinePart>24</HD_GeneralMachinePart>
+      <HD_PressComponent>16</HD_PressComponent>
+      <HD_UniformRolledSteelPlate>8</HD_UniformRolledSteelPlate>
+    </costList>
+    <building>
+      <turretGunDef>HD_Gun_M167VADS_TurretGun</turretGunDef>
+      <turretTopDrawSize>8.0325</turretTopDrawSize>
+      <turretBurstWarmupTime>1.2</turretBurstWarmupTime>
+      <turretBurstCooldownTime>0.75</turretBurstCooldownTime>
+    </building>
+    <placeWorkers>
+      <li>PlaceWorker_TurretTop</li>
+      <li>Helodrace.PlaceWorker_ShowExtendedTurretRadius</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Refuelable">
+        <fuelLabel>M167 ammunition</fuelLabel>
+        <fuelGizmoLabel>Ammunition</fuelGizmoLabel>
+        <outOfFuelMessage>Needs ammunition</outOfFuelMessage>
+        <fuelFilter>
+          <thingDefs>
+            <li>HD_20x102mmMixedRound</li>
+          </thingDefs>
+        </fuelFilter>
+        <fuelCapacity>500</fuelCapacity>
+        <initialFuelPercent>1</initialFuelPercent>
+        <autoRefuelPercent>0.25</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <minimumFueledThreshold>1</minimumFueledThreshold>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+      </li>
+      <li Class="CompProperties_Mannable">
+        <manWorkType>Violent</manWorkType>
+      </li>
+      <li Class="CompProperties_Forbiddable"/>
+      <!-- The top remains the vanilla turret-gun graphic. This comp only adds
+           the animated barrel and places every outline beneath filled art. -->
+      <li Class="Helodrace.CompProperties_M167VadsGraphic">
+        <topOutlineTexPath>Building/Security/HD_M167VADS_TopOutLine</topOutlineTexPath>
+        <barrelTexPaths>
+          <li>Building/Security/HD_M167VADS_1Barrel</li>
+          <li>Building/Security/HD_M167VADS_2Barrel</li>
+          <li>Building/Security/HD_M167VADS_3Barrel</li>
+          <li>Building/Security/HD_M167VADS_4Barrel</li>
+        </barrelTexPaths>
+        <barrelOutlineTexPaths>
+          <li>Building/Security/HD_M167VADS_1BarrelOutLine</li>
+          <li>Building/Security/HD_M167VADS_2BarrelOutLine</li>
+          <li>Building/Security/HD_M167VADS_3BarrelOutLine</li>
+          <li>Building/Security/HD_M167VADS_4BarrelOutLine</li>
+        </barrelOutlineTexPaths>
+        <drawSize>8.0325</drawSize>
+        <rotationOffsetDegrees>-90</rotationOffsetDegrees>
+        <turretCenterOffset>(0.5,0)</turretCenterOffset>
+        <casingTexPath>Weapon/ColdWar/Proj/20x102mm/HD_20X102MM_cartridge</casingTexPath>
+        <casingDrawSize>5.0</casingDrawSize>
+        <casingPortDistance>0.88</casingPortDistance>
+        <casingPortRightOffset>0.48</casingPortRightOffset>
+        <casingRandomStartTicks>15</casingRandomStartTicks>
+        <casingDropSoundDef>HD_LargeShellDrop</casingDropSoundDef>
+        <casingDropSoundTick>44</casingDropSoundTick>
+        <casingDropSoundVolume>0.3</casingDropSoundVolume>
+      </li>
     </comps>
   </ThingDef>
 

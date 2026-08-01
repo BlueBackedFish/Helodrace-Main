@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <HD_LowQualityOilRigFloor.label>저품질 유전 굴착장</HD_LowQualityOilRigFloor.label>
-  <HD_LowQualityOilRigFloor.description>저품질 유전 굴착 장비에서 나온 녹슬고 낡은 구조 바닥입니다. 환경의 일부이므로 옮기거나 파괴할 수 없습니다.</HD_LowQualityOilRigFloor.description>
+  <HD_OilFieldFloor.label>유전</HD_OilFieldFloor.label>
+  <HD_OilFieldFloor.description>개발된 석유 함유 바닥입니다. 내부 품질과 감소하는 유정 압력이 채굴 속도를 결정합니다. 바닥 제거 명령으로 철거할 수 있습니다.</HD_OilFieldFloor.description>
+  <HD_LowQualityOilRigFloor.label>유전</HD_LowQualityOilRigFloor.label>
+  <HD_LowQualityOilRigFloor.description>기존 저장 파일 호환성을 위해 유지되는 개발된 유전 바닥입니다.</HD_LowQualityOilRigFloor.description>
 </LanguageData>
 

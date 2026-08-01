@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Kept at zero automatic weight until a future raid strategy explicitly opts in. -->
+  <PawnsArrivalModeDef>
+    <defName>HD_MH60M_Heliborne</defName>
+    <workerClass>Helodrace.Future.PawnsArrivalModeWorker_Mh60Heliborne</workerClass>
+    <selectionWeightCurve>
+      <points>
+        <li>(0,0)</li>
+      </points>
+    </selectionWeightCurve>
+    <minTechLevel>Industrial</minTechLevel>
+    <textEnemy>A helicopter is inserting {0} from {1} by fast-rope!</textEnemy>
+    <textFriendly>A friendly helicopter is inserting {0} from {1} by fast-rope.</textFriendly>
+    <textWillArrive>{0_pawnsPluralDef} will arrive by helicopter.</textWillArrive>
+    <layerWhitelist>
+      <li>Surface</li>
+    </layerWhitelist>
+  </PawnsArrivalModeDef>
+
+  <ThingDef>
+    <defName>HD_MH60M_HeliborneAircraft</defName>
+    <label>MH-60M helicopter</label>
+    <thingClass>Helodrace.Future.Mh60HeliborneAircraft</thingClass>
+    <category>Projectile</category>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <graphicData>
+      <texPath>Effects/Aircraft/MH60M/HD_MH60M_UI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(160,160)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+</Defs>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_OilFieldDevelopment_CompleteInspect>Oil field development complete. Remove the drilling rig to install a pump jack.</HD_OilFieldDevelopment_CompleteInspect>
+  <HD_OilFieldDevelopment_Progress>Development progress: {0} / {1} days</HD_OilFieldDevelopment_Progress>
+  <HD_OilFieldDevelopment_NeedsMaintenance>Idle: needs maintenance work</HD_OilFieldDevelopment_NeedsMaintenance>
+  <HD_OilFieldDevelopment_Drilling>Operational: drilling for oil</HD_OilFieldDevelopment_Drilling>
+  <HD_OilFieldDevelopment_NeedsPower>Idle: needs mechanical power</HD_OilFieldDevelopment_NeedsPower>
+  <HD_OilProducer_NoField>Stalled: no developed oil field beneath the pump</HD_OilProducer_NoField>
+  <HD_OilProducer_Operating>Operating</HD_OilProducer_Operating>
+  <HD_OilProducer_NeedsPower>Stalled: needs mechanical power</HD_OilProducer_NeedsPower>
+  <HD_OilProducer_Inspect>Production progress: {0:P0}\nProduction speed: {1:P0}\nOil field quality: {2:P0}\nWell pressure: {3:P0}\nStatus: {4}</HD_OilProducer_Inspect>
+  <HD_OilProducer_MustPlaceOnField>Must be placed on a developed oil field.</HD_OilProducer_MustPlaceOnField>
+  <HD_OilFieldStruckEarly>{0} struck oil earlier than expected.</HD_OilFieldStruckEarly>
+  <HD_OilFieldNeedsMaintenance>{0} needs drilling maintenance.</HD_OilFieldNeedsMaintenance>
+  <HD_OilFieldDevelopmentComplete>{0} completed development of an oil field.</HD_OilFieldDevelopmentComplete>
+</LanguageData>

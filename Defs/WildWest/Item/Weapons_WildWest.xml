@@ -808,6 +808,7 @@
       </li>
     </tools>
     <recipeMaker>
+      <researchPrerequisite>HelodLeverAction</researchPrerequisite>
       <recipeUsers>
         <li>ElectricSmithy</li>
         <li>FueledSmithy</li>

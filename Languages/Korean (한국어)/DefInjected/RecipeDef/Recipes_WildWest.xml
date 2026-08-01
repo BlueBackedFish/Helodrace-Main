@@ -3,6 +3,9 @@
   <HD_MakeCharcoal.label>숯 만들기</HD_MakeCharcoal.label>
   <HD_MakeCharcoal.description>모닥불에서 나무를 구워 숯을 만듭니다.</HD_MakeCharcoal.description>
   <HD_MakeCharcoal.jobString>숯을 만드는 중</HD_MakeCharcoal.jobString>
+  <HD_MakeCharcoalBulk.label>숯 만들기 x150</HD_MakeCharcoalBulk.label>
+  <HD_MakeCharcoalBulk.description>모닥불에서 많은 양의 나무를 구워 숯을 대량으로 만듭니다.</HD_MakeCharcoalBulk.description>
+  <HD_MakeCharcoalBulk.jobString>숯을 대량으로 만드는 중</HD_MakeCharcoalBulk.jobString>
 
   <HD_SmeltMoltenIronSmall.label>용선 소 제련</HD_SmeltMoltenIronSmall.label>
   <HD_SmeltMoltenIronSmall.description>고로에서 소량의 강철을 녹여 작은 용선 덩어리를 만듭니다.</HD_SmeltMoltenIronSmall.description>
@@ -36,16 +39,20 @@
   <HD_RollUniformSteelPlate.description>압연기에서 탄소강을 일정한 두께의 균일압연강판으로 만듭니다.</HD_RollUniformSteelPlate.description>
   <HD_RollUniformSteelPlate.jobString>균일압연강판을 압연하는 중</HD_RollUniformSteelPlate.jobString>
 
-  <HD_RefineCrudeOil_Diesel.label>원유를 디젤로 정제</HD_RefineCrudeOil_Diesel.label>
-  <HD_RefineCrudeOil_Diesel.description>저품질 원유를 디젤 연료로 정제합니다.</HD_RefineCrudeOil_Diesel.description>
-  <HD_RefineCrudeOil_Diesel.jobString>원유 정제하는 중.</HD_RefineCrudeOil_Diesel.jobString>
+  <HD_RefineCrudeOil_Diesel.label>중질유에서 디젤 증류</HD_RefineCrudeOil_Diesel.label>
+  <HD_RefineCrudeOil_Diesel.description>배치식 증류기로 중질유에서 디젤 유분을 회수합니다. 다른 유용한 유분은 버려집니다.</HD_RefineCrudeOil_Diesel.description>
+  <HD_RefineCrudeOil_Diesel.jobString>중질유에서 디젤을 증류하는 중.</HD_RefineCrudeOil_Diesel.jobString>
 
-  <HD_RefineCrudeOil_Kerosene.label>원유를 등유로 정제</HD_RefineCrudeOil_Kerosene.label>
-  <HD_RefineCrudeOil_Kerosene.description>저품질 원유를 등유 연료로 정제합니다.</HD_RefineCrudeOil_Kerosene.description>
-  <HD_RefineCrudeOil_Kerosene.jobString>원유 정제하는 중.</HD_RefineCrudeOil_Kerosene.jobString>
+  <HD_RefineCrudeOil_Kerosene.label>중질유에서 등유 증류</HD_RefineCrudeOil_Kerosene.label>
+  <HD_RefineCrudeOil_Kerosene.description>배치식 증류기로 중질유에서 등유 유분을 회수합니다. 다른 유용한 유분은 버려집니다.</HD_RefineCrudeOil_Kerosene.description>
+  <HD_RefineCrudeOil_Kerosene.jobString>중질유에서 등유를 증류하는 중.</HD_RefineCrudeOil_Kerosene.jobString>
+
+  <HD_RefineCrudeOil_Chemfuel.label>중질유에서 화학연료 증류</HD_RefineCrudeOil_Chemfuel.label>
+  <HD_RefineCrudeOil_Chemfuel.description>배치식 증류기로 중질유에서 화학연료를 회수합니다. 다른 유용한 유분은 버려집니다.</HD_RefineCrudeOil_Chemfuel.description>
+  <HD_RefineCrudeOil_Chemfuel.jobString>중질유에서 화학연료를 증류하는 중.</HD_RefineCrudeOil_Chemfuel.jobString>
 
   <HD_TelegraphCrudeOilToSthaler.label>원유 계약 전신 송신</HD_TelegraphCrudeOilToSthaler.label>
-  <HD_TelegraphCrudeOilToSthaler.description>저품질 원유 판매 주문을 전신으로 송신하고 스탈레르 지폐를 받습니다.</HD_TelegraphCrudeOilToSthaler.description>
+  <HD_TelegraphCrudeOilToSthaler.description>중질유 판매 주문을 전신으로 송신하고 스탈레르 지폐를 받습니다.</HD_TelegraphCrudeOilToSthaler.description>
   <HD_TelegraphCrudeOilToSthaler.jobString>원유 계약을 전신 송신하는 중.</HD_TelegraphCrudeOilToSthaler.jobString>
 
   <HD_TelegraphDieselToSthaler.label>디젤 계약 전신 송신</HD_TelegraphDieselToSthaler.label>
@@ -141,9 +148,17 @@
   <HD_TurnGeneralMachinePart.label>범용 기계 부품 선삭</HD_TurnGeneralMachinePart.label>
   <HD_TurnGeneralMachinePart.description>선반에서 더 많은 탄소강을 천천히 깎아 범용 기계 부품을 만듭니다.</HD_TurnGeneralMachinePart.description>
   <HD_TurnGeneralMachinePart.jobString>범용 기계 부품을 선삭하는 중</HD_TurnGeneralMachinePart.jobString>
-  <HD_RefineCrudeOil_Naphtha.label>원유를 나프타로 정제</HD_RefineCrudeOil_Naphtha.label>
-  <HD_RefineCrudeOil_Naphtha.description>저품질 원유에서 휘발성 나프타를 소량 증류합니다.</HD_RefineCrudeOil_Naphtha.description>
-  <HD_RefineCrudeOil_Naphtha.jobString>나프타 증류 중.</HD_RefineCrudeOil_Naphtha.jobString>
+  <HD_RefineCrudeOil_Naphtha.label>중질유에서 나프타 증류</HD_RefineCrudeOil_Naphtha.label>
+  <HD_RefineCrudeOil_Naphtha.description>배치식 증류기로 중질유에서 나프타 유분을 회수합니다. 다른 유용한 유분은 버려집니다.</HD_RefineCrudeOil_Naphtha.description>
+  <HD_RefineCrudeOil_Naphtha.jobString>중질유에서 나프타를 증류하는 중.</HD_RefineCrudeOil_Naphtha.jobString>
+
+  <HD_FractionateHeavyCrudeOil.label>중질유 분별 증류</HD_FractionateHeavyCrudeOil.label>
+  <HD_FractionateHeavyCrudeOil.description>중질유를 연속 분별 증류하여 화학연료, 나프타, 등유 및 디젤로 분리합니다.</HD_FractionateHeavyCrudeOil.description>
+  <HD_FractionateHeavyCrudeOil.jobString>중질유를 분별 증류하는 중.</HD_FractionateHeavyCrudeOil.jobString>
+
+  <HD_ProduceAromaticBaseOil.label>방향족 기초유분 생산</HD_ProduceAromaticBaseOil.label>
+  <HD_ProduceAromaticBaseOil.description>증류탑과 플라스틸 촉매층을 사용하여 나프타를 농축된 방향족 기초유분으로 전환합니다. 공정이 끝나면 플라스틸 대부분을 회수합니다.</HD_ProduceAromaticBaseOil.description>
+  <HD_ProduceAromaticBaseOil.jobString>방향족 기초유분을 생산하는 중.</HD_ProduceAromaticBaseOil.jobString>
   <HD_MakePlainDogChew.label>무첨가 개껌 제작</HD_MakePlainDogChew.label>
   <HD_MakePlainDogChew.description>나프타와 가죽으로 BTX가 스며든 무첨가 개껌을 만듭니다.</HD_MakePlainDogChew.description>
   <HD_MakePlainDogChew.jobString>무첨가 개껌 제작 중.</HD_MakePlainDogChew.jobString>
@@ -231,7 +246,16 @@
   <HD_Make_Gun_M1Garand_Weapon.jobString>M1 개런드 제작 중.</HD_Make_Gun_M1Garand_Weapon.jobString>
   <HD_Make_Gun_M1919A6LMG_Weapon.description>M1919A6 경기관총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1919A6LMG_Weapon.description>
   <HD_Make_Gun_M1919A6LMG_Weapon.jobString>M1919A6 경기관총 제작 중.</HD_Make_Gun_M1919A6LMG_Weapon.jobString>
+  <HD_Make_Gun_M1A1Carbine_Weapon.label>M1A1 카빈 제작</HD_Make_Gun_M1A1Carbine_Weapon.label>
+  <HD_Make_Gun_M1A1Carbine_Weapon.description>M1A1 카빈을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1A1Carbine_Weapon.description>
+  <HD_Make_Gun_M1A1Carbine_Weapon.jobString>M1A1 카빈 제작 중.</HD_Make_Gun_M1A1Carbine_Weapon.jobString>
+  <HD_Make_Gun_M2Carbine_Weapon.label>M2 카빈 제작</HD_Make_Gun_M2Carbine_Weapon.label>
+  <HD_Make_Gun_M2Carbine_Weapon.description>M2 카빈을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M2Carbine_Weapon.description>
+  <HD_Make_Gun_M2Carbine_Weapon.jobString>M2 카빈 제작 중.</HD_Make_Gun_M2Carbine_Weapon.jobString>
   <HD_Make_Gun_M9A1_Weapon.label>M9A1 무반동포 제작</HD_Make_Gun_M9A1_Weapon.label>
   <HD_Make_Gun_M9A1_Weapon.description>M9A1 무반동포를 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M9A1_Weapon.description>
   <HD_Make_Gun_M9A1_Weapon.jobString>M9A1 무반동포 제작 중.</HD_Make_Gun_M9A1_Weapon.jobString>
+  <HD_Make_Gun_M60E3_Weapon.label>M60E3 다목적기관총 제작</HD_Make_Gun_M60E3_Weapon.label>
+  <HD_Make_Gun_M60E3_Weapon.description>고급 총기 부품으로 M60E3 다목적기관총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M60E3_Weapon.description>
+  <HD_Make_Gun_M60E3_Weapon.jobString>M60E3 다목적기관총 제작 중.</HD_Make_Gun_M60E3_Weapon.jobString>
 </LanguageData>

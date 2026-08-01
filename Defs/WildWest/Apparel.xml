@@ -6,7 +6,7 @@
     <label>Carvaly uniform</label>
     <description>A standard uniform for Carvaly officers. Designed specifically for the Helod body type. Gives bonuses to movement speed and melee combat.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_Carvaly_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_Carvaly/HD_Carvaly_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <color>(255,255,255)</color>
     </graphicData>
@@ -35,7 +35,7 @@
         <li>Arms</li>
         <li>Legs</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_Carvaly</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_Carvaly/HD_Carvaly</wornGraphicPath>
       <layers>
         <li>OnSkin</li>
       </layers>
@@ -50,6 +50,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodLeverAction</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -68,7 +69,7 @@
     <label>Carvaly hat</label>
     <description>A matching hat for the Carvaly uniform. Gives bonuses to movement speed and melee dodging.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_CarvalyHat_south</texPath>
+      <texPath>Dogos/Appearel/HD_CarvalyHat/HD_CarvalyHat_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <color>(255,255,255)</color>
     </graphicData>
@@ -94,7 +95,7 @@
       <bodyPartGroups>
         <li>UpperHead</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_CarvalyHat</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_CarvalyHat/HD_CarvalyHat</wornGraphicPath>
       <layers>
         <li>Overhead</li>
       </layers>
@@ -112,6 +113,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodLeverAction</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -130,7 +132,7 @@
     <label>Cowboy hat</label>
     <description>A stylish cowboy hat that has a split design to accommodate ears on the sides when facing east and west.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_CowboyHat_south</texPath>
+      <texPath>Dogos/Appearel/HD_CowboyHat/HD_CowboyHat_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <color>(255,255,255)</color>
     </graphicData>
@@ -155,7 +157,7 @@
       <bodyPartGroups>
         <li>UpperHead</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_CowboyHat</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_CowboyHat/HD_CowboyHat</wornGraphicPath>
       <layers>
         <li>Overhead</li>
       </layers>
@@ -182,26 +184,11 @@
             </dataWest>
           </drawData>
         </li>
-        <!-- 2. Front Brim Layer (drawn in front of the ears when facing East/West) -->
-        <li>
-          <nodeClass>PawnRenderNode</nodeClass>
-          <workerClass>PawnRenderNodeWorker</workerClass>
-          <parentTagDef>Head</parentTagDef>
-          <baseLayer>92</baseLayer>
-          <texPath>Dogos/Appearel/HD_CowboyHat_Front</texPath>
-          <drawData>
-            <dataEast>
-              <layer>92</layer>
-            </dataEast>
-            <dataWest>
-              <layer>92</layer>
-            </dataWest>
-          </drawData>
-        </li>
       </renderNodeProperties>
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -217,8 +204,9 @@
     <label>top hat</label>
     <description>A tall formal hat tailored for Helod heads. It is a conspicuous marker of wealth, office, and urban manners on the frontier.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_WildWestTopHat_south</texPath>
+      <texPath>Dogos/Appearel/HD_WildWestTopHat/HD_WildWestTopHat_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
     </graphicData>
     <statBases>
@@ -239,7 +227,8 @@
       <bodyPartGroups>
         <li>UpperHead</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_WildWestTopHat</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_WildWestTopHat/HD_WildWestTopHat</wornGraphicPath>
+      <useWornGraphicMask>true</useWornGraphicMask>
       <layers>
         <li>Overhead</li>
       </layers>
@@ -253,14 +242,16 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
       </recipeUsers>
     </recipeMaker>
-    <costList>
-      <Cloth>20</Cloth>
-    </costList>
+    <stuffCategories>
+      <li>Fabric</li>
+    </stuffCategories>
+    <costStuffCount>20</costStuffCount>
   </ThingDef>
 
   <ThingDef ParentName="ApparelBase">
@@ -307,6 +298,7 @@
     </comps>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodLeverAction</researchPrerequisite>
       <recipeUsers>
         <li>ElectricSmithy</li>
         <li>FueledSmithy</li>
@@ -322,7 +314,7 @@
     <label>Casual dress</label>
     <description>Casual cloth for female in 19'</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_WildWestFemaleCasual_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_WildWestFemaleCasual/HD_WildWestFemaleCasual_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
@@ -345,7 +337,7 @@
         <li>Arms</li>
         <li>Legs</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_WildWestFemaleCasual</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_WildWestFemaleCasual/HD_WildWestFemaleCasual</wornGraphicPath>
       <useWornGraphicMask>true</useWornGraphicMask>
       <layers>
         <li>OnSkin</li>
@@ -361,6 +353,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -390,7 +383,7 @@
     <label>Casual jacket</label>
     <description>Casual cloth for male in 19'</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_WildWestMaleCasual_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_WildWestMaleCasual/HD_WildWestMaleCasual_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
@@ -413,7 +406,7 @@
         <li>Arms</li>
         <li>Legs</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_WildWestMaleCasual</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_WildWestMaleCasual/HD_WildWestMaleCasual</wornGraphicPath>
       <useWornGraphicMask>true</useWornGraphicMask>
       <layers>
         <li>OnSkin</li>
@@ -428,6 +421,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -456,7 +450,7 @@
     <label>formal shirt</label>
     <description>A clean formal shirt tailored for Helod bodies. Suitable for work, town life, and respectable occasions, lending its wearer a little extra diplomatic presence.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_WildWestFormalShirt_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_WildWestFormalShirt/HD_WildWestFormalShirt_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
@@ -483,7 +477,7 @@
         <li>Shoulders</li>
         <li>Arms</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_WildWestFormalShirt</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_WildWestFormalShirt/HD_WildWestFormalShirt</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>OnSkin</li>
@@ -499,6 +493,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -514,7 +509,7 @@
     <label>frock coat</label>
     <description>A long, formal frontier coat tailored for Helod bodies. It is worn as a structured middle layer, lending its wearer extra diplomatic presence and a steadier bearing.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_WildWestFrockCoat_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_WildWestFrockCoat/HD_WildWestFrockCoat_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
@@ -541,7 +536,7 @@
         <li>Shoulders</li>
         <li>Arms</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_WildWestFrockCoat</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_WildWestFrockCoat/HD_WildWestFrockCoat</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>Middle</li>
@@ -558,6 +553,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -573,7 +569,7 @@
     <label>leather vest</label>
     <description>A tough leather vest designed for light protection on the frontier. Can be worn over other clothing as light armor.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_WildWestLeatherVest_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_WildWestLeatherVest/HD_WildWestLeatherVest_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
@@ -594,7 +590,7 @@
         <li>Torso</li>
         <li>Shoulders</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_WildWestLeatherVest</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_WildWestLeatherVest/HD_WildWestLeatherVest</wornGraphicPath>
       <useWornGraphicMask>true</useWornGraphicMask>
       <layers>
         <li>Middle</li>
@@ -610,6 +606,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
@@ -624,9 +621,9 @@
   <ThingDef ParentName="ApparelBase">
     <defName>HD_WildWestMetalVest</defName>
     <label>metal vest</label>
-    <description>A crude metal vest made from rolled steel plate backed with cloth. It offers modest protection against cuts and glancing shots, but is heavy for the amount of coverage it provides.</description>
+    <description>A crude vest made from metal plates backed with cloth. It offers modest protection against cuts and glancing shots, but is heavy for the amount of coverage it provides.</description>
     <graphicData>
-      <texPath>Dogos/Appearel/HD_WildWestMetalVest_Female_south</texPath>
+      <texPath>Dogos/Appearel/HD_WildWestMetalVest/HD_WildWestMetalVest_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
     </graphicData>
@@ -648,7 +645,7 @@
         <li>Torso</li>
         <li>Shoulders</li>
       </bodyPartGroups>
-      <wornGraphicPath>Dogos/Appearel/HD_WildWestMetalVest</wornGraphicPath>
+      <wornGraphicPath>Dogos/Appearel/HD_WildWestMetalVest/HD_WildWestMetalVest</wornGraphicPath>
       <useWornGraphicMask>true</useWornGraphicMask>
       <layers>
         <li>Middle</li>
@@ -663,13 +660,17 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
       <recipeUsers>
         <li>ElectricTailoringBench</li>
         <li>HandTailoringBench</li>
       </recipeUsers>
     </recipeMaker>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>10</costStuffCount>
     <costList>
-      <HD_UniformRolledSteelPlate>1</HD_UniformRolledSteelPlate>
       <Cloth>20</Cloth>
     </costList>
   </ThingDef>

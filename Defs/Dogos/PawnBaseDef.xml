@@ -15,7 +15,6 @@
             <li>
                 <compClass>CompAttachBase</compClass>
             </li>
-            <li Class="Helodrace.CompProperties_HelodPersonalitySeed" />
         </comps>
         <race> <!-- 렌더링 트리 및 종족 공통 특성 설정 -->
             <body>HD_HelodBody</body>

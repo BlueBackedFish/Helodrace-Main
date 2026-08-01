@@ -7,11 +7,86 @@
     <parent>Manufactured</parent>
   </ThingCategoryDef>
 
-  <!-- Low Quality Crude Oil -->
+  <!-- Basic Electrical Components -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_BasicElectricalComponents</defName>
+    <label>basic electrical components</label>
+    <description>A collection of simple resistors, switches, terminals, and insulated wiring used to assemble electrical machinery.</description>
+    <graphicData>
+      <texPath>Item/HD_BasicElectricalComponents</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>18</MarketValue>
+      <Mass>0.6</Mass>
+      <Flammability>0.3</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>HelodBasicElectronics</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!-- Basic Electronic Components -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_BasicElectronicComponents</defName>
+    <label>basic electronic components</label>
+    <description>Early electronic parts such as vacuum tubes, sockets, and control elements used in radios and precision electrical equipment.</description>
+    <graphicData>
+      <texPath>Item/HD_BasicElectronicComponents</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>65</MaxHitPoints>
+      <MarketValue>32</MarketValue>
+      <Mass>0.4</Mass>
+      <Flammability>0.2</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <researchPrerequisites>
+      <li>HelodHighElectronics</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <!-- Basic Medical Supplies -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_BasicMedicalSupplies</defName>
+    <label>basic medical supplies</label>
+    <description>A standardized set of syringes, ampoules, disinfectant, and other expendable supplies for medical treatment and pharmaceutical work.</description>
+    <graphicData>
+      <texPath>Item/HD_BasicMedicalSupplies</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>55</MaxHitPoints>
+      <MarketValue>24</MarketValue>
+      <Mass>0.35</Mass>
+      <Flammability>0.4</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- Heavy Crude Oil -->
   <ThingDef ParentName="ResourceBase">
     <defName>HD_CrudeOil_Low</defName>
-    <label>low quality crude oil</label>
-    <description>A thick, impurity-heavy crude oil extracted from unstable or low-grade deposits. It requires significant refining to be useful but can be used as a basic fuel.</description>
+    <label>heavy crude oil</label>
+    <description>A dense, viscous crude oil rich in heavy hydrocarbons. Distillation separates it into chemfuel, naphtha, kerosene, and diesel.</description>
     <graphicData>
       <texPath>Item/HD_CrudeOilLow</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -148,6 +223,60 @@
         <needLevelOffset>0.9</needLevelOffset>
         <listOrder>1006</listOrder>
         <overdoseSeverityOffset>0.02~0.04</overdoseSeverityOffset>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Aromatic Base Oil -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_AromaticBaseOil</defName>
+    <label>aromatic base oil</label>
+    <description>A pungent refinery fraction rich in benzene, toluene, and xylene compounds. Helods can drink it to satisfy their BTX need and experience a chemical rush, but it is toxic to other species.</description>
+    <descriptionHyperlinks>
+      <HediffDef>HD_BTXHigh</HediffDef>
+      <HediffDef>HD_BTXToxicity</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Item/HD_BTX</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>150</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>45</MaxHitPoints>
+      <MarketValue>7.0</MarketValue>
+      <Mass>0.06</Mass>
+      <Flammability>2.8</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <ingestible>
+      <preferability>NeverForNutrition</preferability>
+      <foodType>Processed</foodType>
+      <drugCategory>Medical</drugCategory>
+      <ingestCommandString>Drink aromatic base oil</ingestCommandString>
+      <ingestReportString>Drinking aromatic base oil.</ingestReportString>
+      <maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HD_BTXHigh</hediffDef>
+          <severity>0.5</severity>
+          <toleranceChemical>BTX</toleranceChemical>
+        </li>
+        <li Class="Helodrace.IngestionOutcomeDoer_GiveThoughtToHelod">
+          <thoughtDef>HD_DrankAromaticBaseOil</thoughtDef>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>BTX</chemical>
+        <addictiveness>0</addictiveness>
+        <needLevelOffset>1.0</needLevelOffset>
+        <listOrder>1007</listOrder>
+        <overdoseSeverityOffset>0.04~0.08</overdoseSeverityOffset>
       </li>
     </comps>
   </ThingDef>
@@ -567,63 +696,6 @@
       <li>Manufactured</li>
     </thingCategories>
   </ThingDef>
-
-  
-  <!-- Low Quality Lubricating Slush -->
-  <!--<ThingDef ParentName="ResourceBase">
-    <defName>HD_Slush_Low</defName>
-    <label>low quality lubricating slush</label>
-    <description>A thick, greasy paste made from low quality crude oil. Used to lubricate heavy mechanical belts and gears. Because of its impurities, it burns off quickly and must be reapplied frequently.</description>
-    <graphicData>
-      <texPath>Item/HD_CrudeOilLow</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <color>(100, 80, 50)</color>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <statBases>
-      <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>1.5</MarketValue>
-      <Mass>0.1</Mass>
-      <Flammability>1.0</Flammability>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-    <comps>
-      <li Class="CompProperties_Forbiddable"/>
-      <li Class="Helodrace.CompProperties_Lubricant">
-        <lubeMtbHours>6.0</lubeMtbHours>
-      </li>
-    </comps>
-  </ThingDef>-->
-
-  <!-- High Quality Lubricating Slush -->
-  <!--<ThingDef ParentName="ResourceBase">
-    <defName>HD_Slush_High</defName>
-    <label>high quality lubricating slush</label>
-    <description>A pure, highly refined synthetic grease made from processed diesel or high grade oil. It lasts significantly longer than standard slush, reducing the amount of maintenance required by pawns.</description>
-    <graphicData>
-      <texPath>Item/HD_CrudeOilLow</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <color>(160, 160, 120)</color>
-    </graphicData>
-    <stackLimit>75</stackLimit>
-    <statBases>
-      <MaxHitPoints>50</MaxHitPoints>
-      <MarketValue>5.0</MarketValue>
-      <Mass>0.1</Mass>
-      <Flammability>1.0</Flammability>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-    <comps>
-      <li Class="CompProperties_Forbiddable"/>
-      <li Class="Helodrace.CompProperties_Lubricant">
-        <lubeMtbHours>24.0</lubeMtbHours>
-      </li>
-    </comps>
-  </ThingDef>-->
 
   <!-- Low Quality Gun Barrel -->
   <ThingDef ParentName="ResourceBase">

@@ -26,4 +26,7 @@
   <HD_Make81mmMortarShellBA.label>M57 81mm BA 화학탄 만들기</HD_Make81mmMortarShellBA.label>
   <HD_Make81mmMortarShellBA.description>M1 81mm 박격포용 스위트 가스 화학탄을 조립합니다.</HD_Make81mmMortarShellBA.description>
   <HD_Make81mmMortarShellBA.jobString>M57 81mm BA 화학탄 만드는 중.</HD_Make81mmMortarShellBA.jobString>
+  <HD_Make105mmShellM1HE.label>M1 105mm 고폭탄 만들기</HD_Make105mmShellM1HE.label>
+  <HD_Make105mmShellM1HE.description>M2A2 105mm 경곡사포용 탄피식 M1 고폭탄을 조립합니다.</HD_Make105mmShellM1HE.description>
+  <HD_Make105mmShellM1HE.jobString>M1 105mm 고폭탄 만드는 중.</HD_Make105mmShellM1HE.jobString>
 </LanguageData>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef Name="HD_GreatWarGrenadeBase" ParentName="ResourceBase" Abstract="True">
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.78,0.78)</drawSize>
+    </graphicData>
+    <uiIconScale>1.2</uiIconScale>
+    <stackLimit>25</stackLimit>
+    <soundInteract>Interact_Grenade</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <Mass>0.65</Mass>
+      <RangedWeapon_Cooldown>2.5</RangedWeapon_Cooldown>
+      <WorkToMake>12000</WorkToMake>
+      <MarketValue>260</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>16</Steel>
+      <Chemfuel>45</Chemfuel>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <skillRequirements><Crafting>5</Crafting></skillRequirements>
+    </recipeMaker>
+    <weaponTags><li>HD_GreatWarGrenade</li></weaponTags>
+    <thingCategories><li>HD_InventoryGrenades</li></thingCategories>
+    <smeltable>true</smeltable>
+    <verbs />
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeBase">
+    <defName>HD_Grenade_M8</defName>
+    <projectileWhenLoaded>HD_Projectile_M8</projectileWhenLoaded>
+    <label>M8 HC smoke grenade</label>
+    <description>Metal canister grenades that burn a hexachloroethane mixture to rapidly create a thick white screening cloud.</description>
+    <graphicData><texPath>Weapon/GreatWar/HD_M8</texPath></graphicData>
+    <weaponTags><li>GrenadeSmoke</li></weaponTags>
+    <verbs Inherit="False">
+      <li>
+        <label>throw M8 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.9</range>
+        <forcedMissRadius>1.6</forcedMissRadius>
+        <warmupTime>1.35</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M8</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.5</explosiveRadius>
+        <explosiveDamageType>Smoke</explosiveDamageType>
+        <postExplosionGasType>BlindSmoke</postExplosionGasType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeBase">
+    <defName>HD_Grenade_M15</defName>
+    <projectileWhenLoaded>HD_Projectile_M15</projectileWhenLoaded>
+    <label>M15 white phosphorus grenade</label>
+    <description>White phosphorus grenades that burst into burning material while producing a dense smoke screen. They are dangerous to exposed personnel and readily ignite the surroundings.</description>
+    <graphicData><texPath>Weapon/GreatWar/HD_M15</texPath></graphicData>
+    <statBases>
+      <Mass>0.88</Mass>
+      <WorkToMake>16000</WorkToMake>
+      <MarketValue>380</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>18</Steel>
+      <Chemfuel>70</Chemfuel>
+    </costList>
+    <weaponTags>
+      <li>GrenadeFlame</li>
+      <li>GrenadeSmoke</li>
+    </weaponTags>
+    <verbs Inherit="False">
+      <li>
+        <label>throw M15 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <forcedMissRadius>1.7</forcedMissRadius>
+        <warmupTime>1.45</warmupTime>
+        <noiseRadius>5</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M15</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.0</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <postExplosionGasType>BlindSmoke</postExplosionGasType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="HD_GreatWarGrenadeProjectileBase" ParentName="BaseGrenadeProjectile" Abstract="True">
+    <thingClass>Helodrace.ModernWar.Projectile_ModernGrenade</thingClass>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.46,0.46)</drawSize>
+    </graphicData>
+    <projectile><explosionDelay>100</explosionDelay></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
+    <defName>HD_Projectile_M8</defName>
+    <label>M8 HC smoke grenade</label>
+    <graphicData><texPath>Weapon/GreatWar/Proj/HD_M8_proj</texPath></graphicData>
+    <projectile>
+      <damageDef>Smoke</damageDef>
+      <explosionRadius>4.2</explosionRadius>
+      <postExplosionGasType>BlindSmoke</postExplosionGasType>
+      <screenShakeFactor>0.2</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M8_ClipEffect</clipDef>
+        <pinDef>HD_M8_PinEffect</pinDef>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
+    <defName>HD_Projectile_M15</defName>
+    <label>M15 white phosphorus grenade</label>
+    <graphicData><texPath>Weapon/GreatWar/Proj/HD_M15_proj</texPath></graphicData>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <damageAmountBase>22</damageAmountBase>
+      <explosionRadius>3.0</explosionRadius>
+      <preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+      <preExplosionSpawnChance>0.8</preExplosionSpawnChance>
+      <postExplosionGasType>BlindSmoke</postExplosionGasType>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+      <screenShakeFactor>0.6</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M15_ClipEffect</clipDef>
+        <pinDef>HD_M15_PinEffect</pinDef>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef Name="HD_GreatWarGrenadePartBase" Abstract="True">
+    <thingClass>Helodrace.ModernWar.ModernGrenadePart</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>(0.32,0.32)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M8_ClipEffect</defName><label>M8 safety clip</label><graphicData><texPath>Weapon/GreatWar/Proj/HD_M8_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M8_PinEffect</defName><label>M8 safety pin</label><graphicData><texPath>Weapon/GreatWar/Proj/HD_M8_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M15_ClipEffect</defName><label>M15 safety clip</label><graphicData><texPath>Weapon/GreatWar/Proj/HD_M15_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M15_PinEffect</defName><label>M15 safety pin</label><graphicData><texPath>Weapon/GreatWar/Proj/HD_M15_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+</Defs>

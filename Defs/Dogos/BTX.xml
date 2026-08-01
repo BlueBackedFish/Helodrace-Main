@@ -4,7 +4,7 @@
     <defName>HD_BTXHigh</defName>
     <label>BTX stabilization</label>
     <labelNoun>BTX stabilization</labelNoun>
-    <description>BTX compounds are circulating through the bloodstream, temporarily stabilizing Helod biochemical pathways.</description>
+    <description>BTX compounds are circulating through the bloodstream, temporarily stabilizing BTX-dependent biochemical pathways.</description>
     <hediffClass>Hediff_High</hediffClass>
     <defaultLabelColor>(0.35,0.85,0.95)</defaultLabelColor>
     <scenarioCanAdd>true</scenarioCanAdd>
@@ -92,12 +92,17 @@
     <defName>HD_BTXDeficiency</defName>
     <label>BTX deficiency</label>
     <labelNoun>BTX deficiency</labelNoun>
-    <description>This Helod's engineered metabolism is running out of BTX compounds. If the deficiency reaches total collapse, death follows.</description>
+    <description>A legacy BTX deficiency state. It will clear automatically now that BTX dependency is managed by the genetic chemical-dependency system.</description>
     <defaultLabelColor>(0.9,0.35,0.25)</defaultLabelColor>
     <scenarioCanAdd>true</scenarioCanAdd>
     <maxSeverity>1.0</maxSeverity>
     <lethalSeverity>1.0</lethalSeverity>
     <isBad>true</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+      </li>
+    </comps>
     <stages>
       <li>
         <label>minor</label>
@@ -176,6 +181,7 @@
   <ChemicalDef>
     <defName>BTX</defName>
     <label>BTX</label>
+    <addictionHediff>HD_BTXAddiction</addictionHediff>
     <canBeAddicted>false</canBeAddicted>
     <generateAddictionGenes>false</generateAddictionGenes>
     <canBinge>false</canBinge>
@@ -183,39 +189,45 @@
     <geneOverdoseChanceFactorImmune>0</geneOverdoseChanceFactorImmune>
   </ChemicalDef>
 
-  <NeedDef>
-    <defName>HD_BTXNeed</defName>
-    <needClass>Helodrace.Need_BTX</needClass>
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_BTX</defName>
+    <needClass>Need_Chemical</needClass>
     <label>BTX</label>
-    <description>Helod metabolism requires periodic BTX intake. If this need empties, BTX deficiency slowly worsens until it becomes fatal.</description>
-    <minIntelligence>Humanlike</minIntelligence>
-    <baseLevel>1.0</baseLevel>
-    <major>true</major>
+    <description>Because of a BTX addiction, this person needs to regularly consume benzene, toluene, or xylene compounds to avoid withdrawal symptoms.</description>
     <fallPerDay>0.333</fallPerDay>
     <listPriority>46</listPriority>
   </NeedDef>
 
-  <ThoughtDef>
-    <defName>HD_BTXNeedLow</defName>
-    <workerClass>Helodrace.ThoughtWorker_BTXNeed</workerClass>
-    <validWhileDespawned>true</validWhileDespawned>
+  <HediffDef ParentName="AddictionBase">
+    <defName>HD_BTXAddiction</defName>
+    <label>BTX addiction</label>
+    <description>A permanent biochemical addiction to benzene, toluene, and xylene compounds caused by the BTX dependency gene. This addiction creates and controls the BTX need.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <chemicalNeed>Chemical_BTX</chemicalNeed>
+    <everCurableByItem>false</everCurableByItem>
     <stages>
+      <li />
       <li>
-        <label>BTX running low</label>
-        <description>My BTX reserves are running low. I can feel my engineered metabolism beginning to slip.</description>
-        <baseMoodEffect>-3</baseMoodEffect>
-      </li>
-      <li>
-        <label>BTX critically low</label>
-        <description>My BTX reserves are critically low. Every system in my body feels unstable.</description>
-        <baseMoodEffect>-8</baseMoodEffect>
-      </li>
-      <li>
-        <label>BTX depleted</label>
-        <description>My BTX reserves are depleted. My body is starting to fail.</description>
-        <baseMoodEffect>-14</baseMoodEffect>
+        <label>withdrawal</label>
+        <painOffset>0.25</painOffset>
+        <lifeThreatening>true</lifeThreatening>
+        <deathMtbDays>10</deathMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.25</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.20</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
       </li>
     </stages>
-  </ThoughtDef>
+  </HediffDef>
 
 </Defs>

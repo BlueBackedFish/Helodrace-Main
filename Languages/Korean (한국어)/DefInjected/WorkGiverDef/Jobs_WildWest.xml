@@ -12,13 +12,6 @@
   <HD_ConfigureMechanical.verb>설정</HD_ConfigureMechanical.verb>
   <HD_ConfigureMechanical.gerund>설정하는 중</HD_ConfigureMechanical.gerund>
 
-  <HD_LubricateBelt.label>기계식 벨트 윤활</HD_LubricateBelt.label>
-  <HD_LubricateBelt.verb>윤활</HD_LubricateBelt.verb>
-  <HD_LubricateBelt.gerund>윤활하는 중</HD_LubricateBelt.gerund>
-
-  <HD_RepairBelt.label>기계식 벨트 수리</HD_RepairBelt.label>
-  <HD_RepairBelt.verb>수리</HD_RepairBelt.verb>
-  <HD_RepairBelt.gerund>수리하는 중</HD_RepairBelt.gerund>
 
   <DoBillsHD_TreadleLathe.label>발판식 선반 사용</DoBillsHD_TreadleLathe.label>
   <DoBillsHD_TreadleLathe.verb>제작</DoBillsHD_TreadleLathe.verb>

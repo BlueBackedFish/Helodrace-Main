@@ -30,6 +30,66 @@
     <arrivalTextEnemy>The raiders are establishing a field position with an M1 mortar, automatic-rifle cover, ammunition, and rations.</arrivalTextEnemy>
   </RaidStrategyDef>
 
+  <RaidStrategyDef ParentName="BreachingBase">
+    <defName>HD_GW_BreachingAssault</defName>
+    <workerClass>Helodrace.RaidStrategyWorker_BreachingAssault</workerClass>
+    <minPawns>7</minPawns>
+    <pawnsCanBringFood>false</pawnsCanBringFood>
+    <raidLootValueFactor>0</raidLootValueFactor>
+    <selectionWeightPerPointsCurve>
+      <points>
+        <li>(0,0)</li>
+      </points>
+    </selectionWeightPerPointsCurve>
+    <selectionWeightCurvesPerFaction>
+      <li>
+        <faction>HD_HelodCivilLowFaction</faction>
+        <selectionWeightPerPointsCurve>
+          <points>
+            <li>(0,0)</li>
+            <li>(700,0.20)</li>
+            <li>(1600,0.45)</li>
+          </points>
+        </selectionWeightPerPointsCurve>
+      </li>
+    </selectionWeightCurvesPerFaction>
+    <arriveModes>
+      <li>EdgeWalkIn</li>
+    </arriveModes>
+    <letterLabelEnemy>Breaching assault</letterLabelEnemy>
+    <arrivalTextEnemy>The raiders are attacking as a breaching team. Most carry submachine guns in sharpshooter mode, supported by one or two snipers and a two-pawn M9A1 recoilless-launcher crew.</arrivalTextEnemy>
+  </RaidStrategyDef>
+
+  <RaidStrategyDef ParentName="ImmediateAttack">
+    <defName>HD_GW_ShowOfForce</defName>
+    <workerClass>Helodrace.RaidStrategyWorker_ShowOfForce</workerClass>
+    <minPawns>4</minPawns>
+    <pawnsCanBringFood>false</pawnsCanBringFood>
+    <raidLootValueFactor>0</raidLootValueFactor>
+    <selectionWeightPerPointsCurve>
+      <points>
+        <li>(0,0)</li>
+      </points>
+    </selectionWeightPerPointsCurve>
+    <selectionWeightCurvesPerFaction>
+      <li>
+        <faction>HD_HelodCivilLowFaction</faction>
+        <selectionWeightPerPointsCurve>
+          <points>
+            <li>(0,0)</li>
+            <li>(300,0.35)</li>
+            <li>(1200,0.55)</li>
+          </points>
+        </selectionWeightPerPointsCurve>
+      </li>
+    </selectionWeightCurvesPerFaction>
+    <arriveModes>
+      <li>EdgeWalkIn</li>
+    </arriveModes>
+    <letterLabelEnemy>Show of force</letterLabelEnemy>
+    <arrivalTextEnemy>The raiders intend to make a show of force around the colony. They will patrol the perimeter, fire on colonists they can see, and attempt to carry away anyone they down instead of launching a direct assault.</arrivalTextEnemy>
+  </RaidStrategyDef>
+
   <RaidStrategyDef ParentName="ImmediateAttack">
     <defName>HD_GW_ChemicalMortarAssault</defName>
     <workerClass>Helodrace.RaidStrategyWorker_ChemicalMortarAssault</workerClass>

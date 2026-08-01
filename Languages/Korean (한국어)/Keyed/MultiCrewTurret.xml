@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MultiCrew_Role_ChiefOfSection>포반장</HD_MultiCrew_Role_ChiefOfSection>
+  <HD_MultiCrew_Role_Gunner>사수</HD_MultiCrew_Role_Gunner>
+  <HD_MultiCrew_Role_AssistantGunner>부사수</HD_MultiCrew_Role_AssistantGunner>
+  <HD_MultiCrew_Role_Loader>장전수</HD_MultiCrew_Role_Loader>
+  <HD_MultiCrew_Role_FuzeSetter>신관수</HD_MultiCrew_Role_FuzeSetter>
+  <HD_MultiCrew_Role_ChargeHandler>장약수</HD_MultiCrew_Role_ChargeHandler>
+  <HD_MultiCrew_Role_AmmunitionBearer>탄약수</HD_MultiCrew_Role_AmmunitionBearer>
+  <HD_MultiCrew_Role_AssistantAmmunitionBearer>보조탄약수</HD_MultiCrew_Role_AssistantAmmunitionBearer>
+  <HD_MultiCrew_OperateAs>{1} 역할로 {0} 운용</HD_MultiCrew_OperateAs>
+  <HD_MultiCrew_RoleOccupied>{0}이(가) 운용 중</HD_MultiCrew_RoleOccupied>
+  <HD_MultiCrew_Ready>모든 필수 운용 역할이 배치되었습니다.</HD_MultiCrew_Ready>
+  <HD_MultiCrew_MissingRequired>필수 운용 역할 부재: 사격할 수 없습니다.</HD_MultiCrew_MissingRequired>
+  <HD_MultiCrew_Required>필수</HD_MultiCrew_Required>
+  <HD_MultiCrew_Optional>선택</HD_MultiCrew_Optional>
+  <HD_MultiCrew_Vacant>비어 있음</HD_MultiCrew_Vacant>
+  <HD_MultiCrew_RoleStatus>{0} — {1}: {2}</HD_MultiCrew_RoleStatus>
+  <HD_MultiCrew_Modifiers>현재 보정 — 명중률: {0}, 쿨다운: {1}, 웜업: {2}</HD_MultiCrew_Modifiers>
+</LanguageData>

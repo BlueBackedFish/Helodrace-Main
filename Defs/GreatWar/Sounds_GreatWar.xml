@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <SoundDef>
+    <defName>HD_LargeShellDrop</defName>
+    <context>MapOnly</context>
+    <maxVoices>6</maxVoices>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/Common/HD_LargeShellDrop</clipPath>
+          </li>
+        </grains>
+        <volumeRange>38~42</volumeRange>
+        <distRange>10~38</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_105MMFire</defName>
+    <context>MapOnly</context>
+    <maxVoices>6</maxVoices>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/Common/HD_105MMFire</clipPath>
+          </li>
+        </grains>
+        <volumeRange>62~66</volumeRange>
+        <distRange>18~75</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

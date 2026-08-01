@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <HD_CrudeOil_Low.label>저품질 원유</HD_CrudeOil_Low.label>
-  <HD_CrudeOil_Low.description>불안정하거나 낮은 등급의 매장지에서 추출된 불순물이 많고 걸쭉한 원유입니다. 유용하게 사용하려면 상당한 정제가 필요하지만 기본 연료로 사용할 수 있습니다.</HD_CrudeOil_Low.description>
+  <HD_BasicElectricalComponents.label>기초 전기 부품</HD_BasicElectricalComponents.label>
+  <HD_BasicElectricalComponents.description>전기 기계를 조립하는 데 쓰이는 단순한 저항기, 스위치, 단자와 절연 전선의 모음입니다.</HD_BasicElectricalComponents.description>
+
+  <HD_BasicElectronicComponents.label>기초 전자 부품</HD_BasicElectronicComponents.label>
+  <HD_BasicElectronicComponents.description>라디오와 정밀 전기 장비에 쓰이는 진공관, 소켓, 제어 소자 등의 초기 전자 부품입니다.</HD_BasicElectronicComponents.description>
+
+  <HD_BasicMedicalSupplies.label>기초 의료용품</HD_BasicMedicalSupplies.label>
+  <HD_BasicMedicalSupplies.description>치료와 의약품 작업에 쓰이는 주사기, 앰풀, 소독제와 기타 소모품을 한데 모은 표준 의료용품입니다.</HD_BasicMedicalSupplies.description>
+
+  <HD_CrudeOil_Low.label>중질유</HD_CrudeOil_Low.label>
+  <HD_CrudeOil_Low.description>중질 탄화수소가 풍부한 밀도 높고 점성이 강한 원유입니다. 증류하면 화학연료, 나프타, 등유 및 디젤로 분리됩니다.</HD_CrudeOil_Low.description>
 
   <HD_Diesel.label>디젤</HD_Diesel.label>
   <HD_Diesel.description>원유에서 정제된 밀도 높고 가연성이 있는 액체 연료입니다. 중장비와 발전기에 동력을 공급하는 데 사용됩니다.</HD_Diesel.description>
 
   <HD_Kerosene.label>등유</HD_Kerosene.label>
   <HD_Kerosene.description>원유에서 정제된 깨끗하게 연소되는 가벼운 액체 연료입니다. 난방, 조명 및 특수 엔진에 사용됩니다.</HD_Kerosene.description>
-
-  <HD_Slush_Low.label>저품질 윤활 슬러시</HD_Slush_Low.label>
-  <HD_Slush_Low.description>저품질 원유로 만든 걸쭉하고 기름진 반죽입니다. 무거운 기계 벨트와 기어를 윤활하여 마찰과 파단을 방지하는 데 사용됩니다. 불순물이 많아 빨리 연소되므로 자주 다시 발라주어야 합니다.</HD_Slush_Low.description>
-
-  <HD_Slush_High.label>고품질 윤활 슬러시</HD_Slush_High.label>
-  <HD_Slush_High.description>디젤이나 고품질 기름을 가공하여 만든 순수하고 정제된 합성 윤활유입니다. 일반 슬러시보다 훨씬 오래 지속되어 폰의 유지보수 부담을 줄여줍니다.</HD_Slush_High.description>
 
   <HD_LowQualityBarrel.label>저품질 총열</HD_LowQualityBarrel.label>
   <HD_LowQualityBarrel.description>선반에서 깎고 구멍을 뚫어 만든 투박하고 저품질인 금속제 총열입니다. 개척지의 기본 무기를 제작할 때 핵심적인 부품으로 사용됩니다.</HD_LowQualityBarrel.description>
@@ -43,15 +46,18 @@
 
   <HD_PigIron.label>주철</HD_PigIron.label>
   <HD_PigIron.description>융선에서 주조한 탄소 함량이 높고 부서지기 쉬운 철 제품입니다. 이후 가공 가능한 철이나 강철로 정련하기 위한 중간 재료입니다.</HD_PigIron.description>
+  <HD_PigIron.stuffProps.stuffAdjective>주철</HD_PigIron.stuffProps.stuffAdjective>
 
   <HD_CarbonSteel.label>탄소강</HD_CarbonSteel.label>
   <HD_CarbonSteel.description>탄소 함량을 조절해 정련한 철 합금입니다. 주철보다 강하고 가공하기 쉬워 고급 기계 부품, 도구, 무기 제작에 유용합니다.</HD_CarbonSteel.description>
+  <HD_CarbonSteel.stuffProps.stuffAdjective>탄소강</HD_CarbonSteel.stuffProps.stuffAdjective>
 
   <HD_Shaft.label>샤프트</HD_Shaft.label>
   <HD_Shaft.description>엔진, 펌프, 공작기계 등 각종 기계 조립품에서 회전을 전달하는 데 쓰이는 곧게 가공된 축입니다.</HD_Shaft.description>
 
   <HD_UniformRolledSteelPlate.label>균일압연강판</HD_UniformRolledSteelPlate.label>
   <HD_UniformRolledSteelPlate.description>일정한 두께로 압연한 평평한 탄소강 판재입니다. 기계 프레임, 총몸, 방호판처럼 균일한 강도가 필요한 부품에 쓰입니다.</HD_UniformRolledSteelPlate.description>
+  <HD_UniformRolledSteelPlate.stuffProps.stuffAdjective>균일압연강</HD_UniformRolledSteelPlate.stuffProps.stuffAdjective>
   
   <HD_Charcoal.label>숯</HD_Charcoal.label>
   <HD_Charcoal.description>나무를 공기가 적은 상태에서 구워 만든 탄소가 풍부한 연료입니다. 생목재보다 깨끗하고 뜨겁게 타기 때문에 고로 운전에 적합합니다.</HD_Charcoal.description>
@@ -61,12 +67,10 @@
   <HD_GeneralMachinePart.description>총기, 도구, 산업 설비에 두루 사용할 수 있도록 가공한 범용 기계 부품입니다.</HD_GeneralMachinePart.description>
   <HD_Naphtha.label>나프타</HD_Naphtha.label>
   <HD_Naphtha.description>원유에서 증류한 휘발성 경질 석유 유분입니다. 미량의 BTX 화합물을 포함하고 있어 헤로드의 BTX 의존을 일부 충족할 수 있지만, 마시면 역한 기름 맛과 냄새가 남습니다.</HD_Naphtha.description>
+  <HD_AromaticBaseOil.label>방향족 기초유분</HD_AromaticBaseOil.label>
+  <HD_AromaticBaseOil.description>달달한 향이 나는 방향족 물질입니다. 헤로드들에게는 필수 성분이지만 만약 헤로드가 아니라면 마시지 않는것을 추천합니다.</HD_AromaticBaseOil.description>
   <HD_PlainDogChew.label>무첨가 개껌</HD_PlainDogChew.label>
   <HD_PlainDogChew.description>정량의 BTX 함유 나프타가 스며든 질긴 가죽 개껌입니다. 다 씹는 데 오래 걸리지만, 생 나프타의 거친 기분 효과 없이 BTX 화합물을 꾸준히 방출합니다.</HD_PlainDogChew.description>
   <HD_PrimaryCell.label>일차 전지</HD_PrimaryCell.label>
   <HD_PrimaryCell.description>화학 반응으로 전기를 내는 단순한 일회용 전지입니다.</HD_PrimaryCell.description>
 </LanguageData>
-
-
-
-

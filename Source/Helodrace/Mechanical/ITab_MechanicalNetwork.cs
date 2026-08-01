@@ -59,6 +59,7 @@ namespace Helodrace
 
             // Power (Torque)
             listing.Label("HD_ITab_MechanicalNetwork_PowerOutput".Translate(net.CurrentPowerOutput.ToString("F0")).Resolve());
+            listing.Label("HD_ITab_MechanicalNetwork_MaxPower".Translate(net.CurrentMaximumPower.ToString("F0")).Resolve());
             listing.Label("HD_ITab_MechanicalNetwork_PowerNeeded".Translate(net.CurrentPowerNeeded.ToString("F0")).Resolve());
             
             float surplus = net.CurrentPowerOutput - net.CurrentPowerNeeded;
@@ -70,6 +71,7 @@ namespace Helodrace
 
             // RPM
             listing.Label("HD_ITab_MechanicalNetwork_GridRPM".Translate(net.GridRPM.ToString("F0"), net.GridInaccuracy.ToString("F0")).Resolve());
+            listing.Label("HD_ITab_MechanicalNetwork_RpmError".Translate(net.GridRpmError.ToString("F0")).Resolve());
             listing.GapLine();
 
             // Connected Devices

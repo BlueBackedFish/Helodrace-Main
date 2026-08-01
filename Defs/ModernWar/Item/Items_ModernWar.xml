@@ -52,7 +52,7 @@
       <skillRequirements>
         <Crafting>4</Crafting>
       </skillRequirements>
-      <researchPrerequisite>MicroelectronicsBasics</researchPrerequisite>
+      <researchPrerequisite>HelodLessLethalLowRanged</researchPrerequisite>
       <recipeUsers>
         <li>MachiningTable</li>
       </recipeUsers>

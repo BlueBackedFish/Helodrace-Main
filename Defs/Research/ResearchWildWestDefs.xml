@@ -354,11 +354,10 @@
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
-            <li>HelodBasicElectronics</li>
-            <li>HelodFinancialNetwork</li>
+            <li>HelodHighElectronics</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
-        <researchViewX>8</researchViewX>
+        <researchViewX>10</researchViewX>
         <researchViewY>7.2</researchViewY>
     </ResearchProjectDef>
 
@@ -485,8 +484,9 @@
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
+            <li>HelodBasicElectronics</li>
+            <li>HelodFinancialNetwork</li>
             <li>HelodBasicMotor</li>
-            <li>HelodWireless</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
         <researchViewX>9</researchViewX>
@@ -524,7 +524,7 @@
     <ResearchProjectDef>
         <defName>HelodBasicModernRifle</defName>
         <label>The Rifleman's Century</label>
-        <description>M1!!!!!!!!! and thompson</description>
+        <description>Develops modern infantry arms, including semi-automatic rifles, lightweight carbines, and submachine guns.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -634,8 +634,215 @@
             <li>HelodLowGranade</li>
         </prerequisites>
         <tab>HelodTechTab</tab>
+        <researchViewX>12</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodGreatWarTech</defName>
+        <label>The Practical Arts</label>
+        <description></description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicPetrochemistry</li>
+            <li>HelodSmokeLessGunpowder</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>8</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLowAutomaticRifle</defName>
+        <label>Fire and Maneuver</label>
+        <description>m16a1, m2 carbine</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodBasicModernRifle</li>
+            <li>HelodLowGranade</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
         <researchViewX>13</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodTransistor</defName>
+        <label>Silicon Revolution</label>
+        <description>Transistor, 9n silicon, tube furnice</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodWireless</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>13</researchViewX>
+        <researchViewY>7.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodAntiAirMachineGun</defName>
+        <label>The Wall of Steel</label>
+        <description>m167</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodWireless</li>
+            <li>HelodMiniMotor</li>
+            <li>HelodBasicModernRifle</li>
+            <li>HelodHighExplosive</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>13</researchViewX>
+        <researchViewY>5.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodMidAutomaticRifle</defName>
+        <label>The Service Rifle</label>
+        <description>m16a2, m16a3</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLowAutomaticRifle</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>14</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodHighAutomaticRifle</defName>
+        <label>Rails and Optics</label>
+        <description>m16a4, m4a1</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodMidAutomaticRifle</li>
+            <li>HelodWireGuidedMissile</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>16</researchViewX>
+        <researchViewY>4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodWireGuidedMissile</defName>
+        <label>Holding the Crosshair</label>
+        <description>Tow</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodTransistor</li>
+            <li>HelodAntiAirMachineGun</li>
+            <li>HelodMidAutomaticRifle</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>15</researchViewX>
+        <researchViewY>5.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodColdWarTech</defName>
+        <label>Better Living</label>
+        <description>hood</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodRespectForPatrioticMartyrs</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>13</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLessLethalLowRanged</defName>
+        <label>Measured Response</label>
+        <description>beanbag</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLowAutomaticRifle</li>
+            <li>HelodLessLethalClose</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>15</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLessLethalClose</defName>
+        <label>Shield and Baton</label>
+        <description></description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodColdWarTech</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>14</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLessLethalChemical</defName>
+        <label>Chemical Compliance</label>
+        <description></description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLessLethalClose</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>15</researchViewX>
+        <researchViewY>1.6</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodFlakJacket</defName>
+        <label>The First Layer</label>
+        <description>FlakJacket</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodGreatWarTech</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>8</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodPASGT</defName>
+        <label>Head to Torso</label>
+        <description>PASGT</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodMidAutomaticRifle</li>
+            <li>HelodLessLethalClose</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>15</researchViewX>
         <researchViewY>3.2</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
+        <defName>HelodLowHeadSet</defName>
+        <label>Hear and Be Heard</label>
+        <description>Basic Tactical Headset</description>
+        <baseCost>500</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodTransistor</li>
+            <li>HelodColdWarTech</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>15</researchViewX>
+        <researchViewY>6.4</researchViewY>
     </ResearchProjectDef>
 
 </Defs>

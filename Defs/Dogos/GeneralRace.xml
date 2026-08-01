@@ -5,7 +5,6 @@
     <label>Helod</label>
     <description>A noble canine-like humanoid race known for their loyalty, agility, and frontier spirit. Excellent survivors, trackers, and marksmen.</description>
     <inspectorTabs>
-      <li>Helodrace.ITab_M6RocketBag</li>
     </inspectorTabs>
     <alienRace>
       <generalSettings>
@@ -31,11 +30,24 @@
         <alienPartGenerator>
           <atlasScale>4</atlasScale>
           <headTypes>
-            <li>HD_HelodHead01</li>
-            <li>HD_HelodHead02</li>
+            <li>HD_HelodHead010101</li>
+            <li>HD_HelodHead010102</li>
+            <li>HD_HelodHead010103</li>
+            <li>HD_HelodHead010201</li>
+            <li>HD_HelodHead010202</li>
+            <li>HD_HelodHead010203</li>
+            <li>HD_HelodHead010301</li>
+            <li>HD_HelodHead010302</li>
+            <li>HD_HelodHead010303</li>
+            <li>HD_HelodHead010401</li>
+            <li>HD_HelodHead010402</li>
+            <li>HD_HelodHead010501</li>
+            <li>HD_HelodHead010502</li>
           </headTypes>
           <bodyTypes>
             <li>Female</li>
+            <li MayRequire="Ludeon.RimWorld.Biotech">Baby</li>
+            <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
             <!--<li>Thin</li>-->
           </bodyTypes>
           <headOffset>(0.0, 0.11)</headOffset>
@@ -147,9 +159,10 @@
                 </south>
                 <north>
                   <offset>(-0.05,0.36)</offset>
-                  <layerOffset>-0.2</layerOffset>
                 </north>
-                <east><offset>(-0.11,0.18)</offset></east>
+                <east>
+                  <offset>(-0.325,0.24)</offset>
+                </east>
               </offsets>
             </li>
 
@@ -162,6 +175,21 @@
                   <bodyPartLabel>left ear</bodyPartLabel>
                 </BodyPart>
                 <RotStage>Fresh,Rotting</RotStage>
+                <Not>
+                  <ApparelDef>HD_Apparel_CarvalyHat</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_AdvancedHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_BowlerHat</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_CowboyHat</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_HatHood</ApparelDef>
+                </Not>
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
               <colorChannel>hair</colorChannel>
@@ -173,15 +201,15 @@
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <north>
-                  <offset>(-0.165,-0.16)</offset>
+                  <offset>(-0.11,-0.2)</offset>
                   <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(0.042,-0.3)</offset>
-                  <layerOffset></layerOffset>
+                  <offset>(-0.0425,-0.335)</offset>
+                  <layerOffset>-1</layerOffset>
                 </east>
                 <south>
-                  <offset>(0.165,-0.2)</offset>
+                  <offset>(0.11,-0.32)</offset>
                   <layerOffset></layerOffset>
                 </south>
               </offsets>
@@ -196,6 +224,21 @@
                   <bodyPartLabel>right ear</bodyPartLabel>
                 </BodyPart>
                 <RotStage>Fresh,Rotting</RotStage>
+                <Not>
+                  <ApparelDef>HD_Apparel_CarvalyHat</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_AdvancedHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_BowlerHat</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_CowboyHat</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_HatHood</ApparelDef>
+                </Not>
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
               <colorChannel>hair</colorChannel>
@@ -207,15 +250,15 @@
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <north>
-                  <offset>(0.165,-0.16)</offset>
+                  <offset>(0.11,-0.2)</offset>
                   <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(0.042,-0.3)</offset>
+                  <offset>(0.07,-0.325)</offset>
                   <layerOffset>-0.004</layerOffset>
                 </east>
                 <south>
-                  <offset>(-0.165,-0.2)</offset>
+                  <offset>(-0.11,-0.32)</offset>
                   <layerOffset></layerOffset>
                 </south>
               </offsets>
@@ -228,6 +271,42 @@
       <graphicPaths>
         <body>Dogos/Body/</body>
         <skeleton>Things/Pawn/Humanlike/Bodies/Dessicated/Dessicated_Thin</skeleton>
+        <apparel>
+          <individualPaths>
+            <li>
+              <key>Apparel_AdvancedHelmet</key>
+              <value>Dogos/VanillaAppearel/AdvancedHelmet/AdvancedHelmet</value>
+            </li>
+            <li>
+              <key>Apparel_BowlerHat</key>
+              <value>Dogos/VanillaAppearel/BowlerHat/BowlerHat</value>
+            </li>
+            <li MayRequireAnyOf="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Biotech">
+              <key>Apparel_Cape</key>
+              <value>Dogos/VanillaAppearel/Cape/Cape</value>
+            </li>
+            <li>
+              <key>Apparel_ClothMask</key>
+              <value>Dogos/VanillaAppearel/ClothMask/ClothMask</value>
+            </li>
+            <li>
+              <key>Apparel_CowboyHat</key>
+              <value>Dogos/VanillaAppearel/CowboyHat/CowboyHat</value>
+            </li>
+            <li>
+              <key>Apparel_Duster</key>
+              <value>Dogos/VanillaAppearel/Duster/Duster</value>
+            </li>
+            <li>
+              <key>Apparel_FlakJacket</key>
+              <value>Dogos/VanillaAppearel/FlakJacket/FlakJacket</value>
+            </li>
+            <li>
+              <key>Apparel_HatHood</key>
+              <value>Dogos/VanillaAppearel/Hood/Hood</value>
+            </li>
+          </individualPaths>
+        </apparel>
       </graphicPaths>
 
       <styleSettings>
@@ -298,7 +377,18 @@
           <li>HD_Apparel_IBTVAssault</li>
           <li>HD_Apparel_M1952AFlakJacket</li>
           <li>HD_Apparel_SCR300</li>
+          <li>HD_USMCFightingKnife</li>
         </apparelList>
+        <whiteApparelList>
+          <li>Apparel_AdvancedHelmet</li>
+          <li>Apparel_BowlerHat</li>
+          <li MayRequireAnyOf="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Biotech">Apparel_Cape</li>
+          <li>Apparel_ClothMask</li>
+          <li>Apparel_CowboyHat</li>
+          <li>Apparel_Duster</li>
+          <li>Apparel_FlakJacket</li>
+          <li>Apparel_HatHood</li>
+        </whiteApparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">
           <li MayRequire="Ludeon.RimWorld.Biotech">Furskin</li>

@@ -342,6 +342,12 @@ namespace Helodrace
 
             if (__instance?.LordJob is LordJob_MortarRaidRetreat)
                 __instance.SetJob(new LordJob_MortarRaidRetreat());
+            else if (__instance?.LordJob is LordJob_HelodRaidRetreat helodRetreat)
+                __instance.SetJob(helodRetreat);
+            else if (__instance?.LordJob is LordJob_HelodShowOfForce showOfForce)
+                __instance.SetJob(showOfForce);
+            else if (__instance?.LordJob is LordJob_HelodBreachingAssault breachingAssault)
+                __instance.SetJob(breachingAssault);
             else if (__instance?.LordJob is LordJob_MortarRaidHold hold)
             {
                 // Reloading the same job rebuilds its graph from its serialized anchor.

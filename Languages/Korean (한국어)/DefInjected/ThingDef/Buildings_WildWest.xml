@@ -6,11 +6,26 @@
   <HD_SmallSteamEngine.label>소형 증기 기관</HD_SmallSteamEngine.label>
   <HD_SmallSteamEngine.description>근처의 기계에 기계적 동력을 제공하도록 설계된 소형 증기 기관입니다. 높은 부하에 유동적으로 반응하지만 높은 부하에서 폭발할 위험이 있습니다.</HD_SmallSteamEngine.description>
 
+  <HD_LargeSteamEngine.label>대형 증기 기관</HD_LargeSteamEngine.label>
+  <HD_LargeSteamEngine.description>산업용 라인 샤프트 동력망을 구동하도록 제작된 거대한 숯 연소식 증기 기관입니다. 소형 증기 기관보다 훨씬 큰 토크를 내지만 많은 열을 발생시키며, 손상되면 치명적으로 폭발할 수 있습니다.</HD_LargeSteamEngine.description>
+
+  <HD_IndustrialDieselEngine.label>산업용 디젤 엔진</HD_IndustrialDieselEngine.label>
+  <HD_IndustrialDieselEngine.description>디젤을 연소하여 산업용 라인 샤프트 동력망을 구동하는 대형 내연기관입니다. 넓은 회전 속도 범위에서 높은 출력을 정밀하게 제공하지만, 연료가 비싸고 화재에 매우 취약합니다.</HD_IndustrialDieselEngine.description>
+
+  <HD_EarlyIndustrialLargeMotor.label>대형 산업용 모터</HD_EarlyIndustrialLargeMotor.label>
+  <HD_EarlyIndustrialLargeMotor.description>전력을 정밀한 회전 동력으로 변환하여 라인 샤프트 동력망에 공급하는 초기 산업 시대의 대형 전기 모터입니다. 효율적이고 반응성이 뛰어나지만, 심각하게 과부하되면 모터가 단락되거나 연결된 배터리가 격렬하게 방전될 수 있습니다.</HD_EarlyIndustrialLargeMotor.description>
+
+  <HD_EarlyIndustrialGenerator.label>초기 산업용 발전기</HD_EarlyIndustrialGenerator.label>
+  <HD_EarlyIndustrialGenerator.description>라인 샤프트의 기계 동력을 전기로 변환하는 대형 초기 산업 시대 발전기입니다. 정격 기계 입력에서 효율이 가장 높으며, 입력이 정격점에서 멀어질수록 효율이 단계적으로 감소합니다.</HD_EarlyIndustrialGenerator.description>
+
   <HD_BasicPumpJack.label>기본 펌프잭</HD_BasicPumpJack.label>
   <HD_BasicPumpJack.description>개발된 유전에서 원유를 추출하는 데 사용되는 간단한 기계식 펌프입니다. 필요한 회전력을 제공하기 위해 동력원이 있어야 합니다.</HD_BasicPumpJack.description>
 
   <HD_BatchStill.label>배치식 증류기</HD_BatchStill.label>
-  <HD_BatchStill.description>저품질 원유를 디젤 및 등유와 같은 사용 가능한 연료로 정제하는 데 사용되는 투박한 정제 시설입니다.</HD_BatchStill.description>
+  <HD_BatchStill.description>중질유에서 선택한 유분 하나를 회수하는 투박한 배치식 정제 시설입니다. 단순하지만 다른 유용한 유분은 회수하지 못합니다.</HD_BatchStill.description>
+
+  <HD_DistillationTower.label>증류탑</HD_DistillationTower.label>
+  <HD_DistillationTower.description>중질유를 여러 유용한 연료 성분으로 연속 분리하는 전기 가열식 분별 증류탑입니다. 가동하려면 전력과 디젤 연료가 모두 필요합니다.</HD_DistillationTower.description>
 
   <HD_KeroseneLamp.label>등유 램프</HD_KeroseneLamp.label>
   <HD_KeroseneLamp.description>등유를 연료로 사용하는 간단한 램프입니다. 따뜻하고 일정한 빛을 제공하지만 정기적으로 연료를 보충해야 합니다.</HD_KeroseneLamp.description>
@@ -35,6 +50,10 @@
   <HD_BlastFurnace.description>대량의 철을 제련하기 위한 거대한 용광로입니다. 이후 성형과 정련에 사용할 융선을 생산할 수 있습니다.</HD_BlastFurnace.description>
   <HD_Converter.label>전로</HD_Converter.label>
   <HD_Converter.description>융선과 철광석을 함께 정련하여 탄소강을 만드는 기울임식 제강 설비입니다.</HD_Converter.description>
+  <HD_SAFurnace.label>전기아크로</HD_SAFurnace.label>
+  <HD_SAFurnace.description>전극 사이에 강력한 전기 아크를 일으켜 금속을 용해하고 정련하는 대형 전기로입니다. 많은 양을 빠르게 처리하지만 가동 중 막대한 전력을 소모합니다.</HD_SAFurnace.description>
+  <HD_VIMFurnace.label>진공 전기유도로</HD_VIMFurnace.label>
+  <HD_VIMFurnace.description>진공 상태에서 유도 가열로 금속을 용해하는 밀폐식 전기로입니다. 반응성 기체와 오염 물질의 유입을 막아 매우 깨끗하고 정밀한 합금을 생산할 수 있습니다.</HD_VIMFurnace.description>
   <HD_LineShaftMillingMachine.label>라인 샤프트 밀링 머신</HD_LineShaftMillingMachine.label>
   <HD_LineShaftMillingMachine.description>정밀 금속 성형을 위한 라인 샤프트 구동식 밀링 머신입니다. 기계 동력망으로 움직이며, 홈, 평면, 맞춤 부품을 수공구보다 빠르게 절삭할 수 있습니다.</HD_LineShaftMillingMachine.description>
   <HD_LineShaftHydraulicPress.label>라인 샤프트 유압 프레스</HD_LineShaftHydraulicPress.label>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef Name="HD_ModernGrenadeBase" ParentName="ResourceBase" Abstract="True">
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.78,0.78)</drawSize>
+    </graphicData>
+    <uiIconScale>1.2</uiIconScale>
+    <stackLimit>25</stackLimit>
+    <soundInteract>Interact_Grenade</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <Mass>0.45</Mass>
+      <RangedWeapon_Cooldown>2.4</RangedWeapon_Cooldown>
+      <WorkToMake>14000</WorkToMake>
+      <MarketValue>320</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>18</Steel>
+      <Chemfuel>55</Chemfuel>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <weaponTags>
+      <li>HD_ModernWarWeapon</li>
+      <li>GrenadeDestructive</li>
+    </weaponTags>
+    <thingCategories>
+      <li>HD_InventoryGrenades</li>
+    </thingCategories>
+    <smeltable>true</smeltable>
+    <verbs />
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModernGrenadeBase">
+    <defName>HD_Grenade_M67</defName>
+    <projectileWhenLoaded>HD_Projectile_M67</projectileWhenLoaded>
+    <label>M67 fragmentation grenade</label>
+    <description>Modern defensive hand grenades whose steel bodies scatter lethal fragments across a broad area.</description>
+    <graphicData>
+      <texPath>Weapon/ModernWar/HD_M67</texPath>
+    </graphicData>
+    <verbs Inherit="False">
+      <li>
+        <label>throw M67 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.9</range>
+        <forcedMissRadius>1.6</forcedMissRadius>
+        <warmupTime>1.35</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M67</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.66</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModernGrenadeBase">
+    <defName>HD_Grenade_M84</defName>
+    <projectileWhenLoaded>HD_Projectile_M84</projectileWhenLoaded>
+    <label>M84 stun grenade</label>
+    <description>Non-lethal diversionary grenades that overwhelm nearby targets with a blinding flash and concussive report.</description>
+    <graphicData>
+      <texPath>Weapon/ModernWar/HD_M84</texPath>
+    </graphicData>
+    <statBases>
+      <Mass>0.38</Mass>
+      <MarketValue>360</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>14</Steel>
+      <Chemfuel>35</Chemfuel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <weaponTags Inherit="False">
+      <li>HD_ModernWarWeapon</li>
+    </weaponTags>
+    <verbs Inherit="False">
+      <li>
+        <label>throw M84 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.9</range>
+        <forcedMissRadius>1.6</forcedMissRadius>
+        <warmupTime>1.35</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M84</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.5</explosiveRadius>
+        <explosiveDamageType>Stun</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModernGrenadeBase">
+    <defName>HD_Grenade_M111</defName>
+    <projectileWhenLoaded>HD_Projectile_M111</projectileWhenLoaded>
+    <label>M111 offensive grenade</label>
+    <description>Plastic-bodied offensive grenades built to kill through intense blast overpressure with little dangerous fragmentation, making them especially effective in confined spaces.</description>
+    <graphicData>
+      <texPath>Weapon/ModernWar/HD_M111</texPath>
+    </graphicData>
+    <statBases>
+      <Mass>0.42</Mass>
+      <WorkToMake>18000</WorkToMake>
+      <MarketValue>440</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>10</Steel>
+      <Chemfuel>75</Chemfuel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <verbs Inherit="False">
+      <li>
+        <label>throw M111 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.9</range>
+        <forcedMissRadius>1.6</forcedMissRadius>
+        <warmupTime>1.35</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M111</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.4</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="HD_ModernGrenadeProjectileBase" ParentName="BaseGrenadeProjectile" Abstract="True">
+    <thingClass>Helodrace.ModernWar.Projectile_ModernGrenade</thingClass>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.46,0.46)</drawSize>
+    </graphicData>
+    <projectile>
+      <explosionDelay>100</explosionDelay>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
+    <defName>HD_Projectile_M67</defName>
+    <label>M67 fragmentation grenade</label>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_M67_proj</texPath>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>45</damageAmountBase>
+      <armorPenetrationBase>0.35</armorPenetrationBase>
+      <explosionRadius>3.1</explosionRadius>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M67_ClipEffect</clipDef>
+        <pinDef>HD_M67_PinEffect</pinDef>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
+    <defName>HD_Projectile_M84</defName>
+    <label>M84 stun grenade</label>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_M84_proj</texPath>
+    </graphicData>
+    <projectile>
+      <damageDef>Stun</damageDef>
+      <damageAmountBase>24</damageAmountBase>
+      <explosionRadius>4.2</explosionRadius>
+      <screenShakeFactor>0.7</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M84_ClipEffect</clipDef>
+        <pinDef>HD_M84_PinEffect</pinDef>
+        <projectileVisualArcHeight>1.6</projectileVisualArcHeight>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
+    <defName>HD_Projectile_M111</defName>
+    <label>M111 offensive grenade</label>
+    <graphicData>
+      <texPath>Weapon/ModernWar/Proj/HD_M111_proj</texPath>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>70</damageAmountBase>
+      <armorPenetrationBase>0.18</armorPenetrationBase>
+      <explosionRadius>2.2</explosionRadius>
+      <screenShakeFactor>1.0</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M111_ClipEffect</clipDef>
+        <pinDef>HD_M111_PinEffect</pinDef>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef Name="HD_ModernGrenadePartBase" Abstract="True">
+    <thingClass>Helodrace.ModernWar.ModernGrenadePart</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>(0.32,0.32)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModernGrenadePartBase"><defName>HD_M67_ClipEffect</defName><label>M67 safety clip</label><graphicData><texPath>Weapon/ModernWar/Proj/HD_M67_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ModernGrenadePartBase"><defName>HD_M67_PinEffect</defName><label>M67 safety pin</label><graphicData><texPath>Weapon/ModernWar/Proj/HD_M67_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ModernGrenadePartBase"><defName>HD_M84_ClipEffect</defName><label>M84 safety clip</label><graphicData><texPath>Weapon/ModernWar/Proj/HD_M84_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ModernGrenadePartBase"><defName>HD_M84_PinEffect</defName><label>M84 safety pin</label><graphicData><texPath>Weapon/ModernWar/Proj/HD_M84_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ModernGrenadePartBase"><defName>HD_M111_ClipEffect</defName><label>M111 safety clip</label><graphicData><texPath>Weapon/ModernWar/Proj/HD_M111_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ModernGrenadePartBase"><defName>HD_M111_PinEffect</defName><label>M111 safety pin</label><graphicData><texPath>Weapon/ModernWar/Proj/HD_M111_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+
+</Defs>

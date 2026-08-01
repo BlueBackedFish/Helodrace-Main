@@ -8,6 +8,7 @@
     <workAmount>900</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
+    <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
     <effectWorking>Cook</effectWorking>
     <soundWorking>Recipe_CookMeal</soundWorking>
@@ -27,7 +28,42 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HD_Charcoal>10</HD_Charcoal>
+      <HD_Charcoal>30</HD_Charcoal>
+    </products>
+    <recipeUsers>
+      <li>Campfire</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_MakeCharcoalBulk</defName>
+    <label>make charcoal x150</label>
+    <description>Char a large batch of wood into charcoal at a campfire.</description>
+    <jobString>Making charcoal.</jobString>
+    <workAmount>3000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <researchPrerequisite>HelodFrontierSpirit</researchPrerequisite>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_CookMeal</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>WoodLog</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>WoodLog</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_Charcoal>150</HD_Charcoal>
     </products>
     <recipeUsers>
       <li>Campfire</li>
@@ -273,10 +309,10 @@
 
   <RecipeDef>
     <defName>HD_RefineCrudeOil_Diesel</defName>
-    <label>refine crude oil into diesel</label>
-    <description>Refine low quality crude oil into diesel fuel.</description>
-    <jobString>Refining crude oil.</jobString>
-    <workAmount>1500</workAmount>
+    <label>distill heavy crude oil into diesel</label>
+    <description>Use a batch still to recover the diesel fraction from heavy crude oil. Other useful fractions are discarded.</description>
+    <jobString>Distilling diesel from heavy crude oil.</jobString>
+    <workAmount>3000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
@@ -289,7 +325,7 @@
             <li>HD_CrudeOil_Low</li>
           </thingDefs>
         </filter>
-        <count>20</count>
+        <count>100</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -298,7 +334,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HD_Diesel>10</HD_Diesel>
+      <HD_Diesel>20</HD_Diesel>
     </products>
     <recipeUsers>
       <li>HD_BatchStill</li>
@@ -307,10 +343,10 @@
 
   <RecipeDef>
     <defName>HD_RefineCrudeOil_Kerosene</defName>
-    <label>refine crude oil into kerosene</label>
-    <description>Refine low quality crude oil into kerosene fuel.</description>
-    <jobString>Refining crude oil.</jobString>
-    <workAmount>1500</workAmount>
+    <label>distill heavy crude oil into kerosene</label>
+    <description>Use a batch still to recover the kerosene fraction from heavy crude oil. Other useful fractions are discarded.</description>
+    <jobString>Distilling kerosene from heavy crude oil.</jobString>
+    <workAmount>3000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
@@ -323,7 +359,7 @@
             <li>HD_CrudeOil_Low</li>
           </thingDefs>
         </filter>
-        <count>20</count>
+        <count>100</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -332,7 +368,41 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HD_Kerosene>10</HD_Kerosene>
+      <HD_Kerosene>15</HD_Kerosene>
+    </products>
+    <recipeUsers>
+      <li>HD_BatchStill</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_RefineCrudeOil_Chemfuel</defName>
+    <label>distill heavy crude oil into chemfuel</label>
+    <description>Use a batch still to recover chemfuel from heavy crude oil. Other useful fractions are discarded.</description>
+    <jobString>Distilling chemfuel from heavy crude oil.</jobString>
+    <workAmount>3000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CrudeOil_Low</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_CrudeOil_Low</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Chemfuel>45</Chemfuel>
     </products>
     <recipeUsers>
       <li>HD_BatchStill</li>
@@ -341,10 +411,10 @@
 
   <RecipeDef>
     <defName>HD_RefineCrudeOil_Naphtha</defName>
-    <label>refine crude oil into naphtha</label>
-    <description>Distill a small amount of volatile naphtha from low quality crude oil.</description>
-    <jobString>Distilling naphtha.</jobString>
-    <workAmount>1500</workAmount>
+    <label>distill heavy crude oil into naphtha</label>
+    <description>Use a batch still to recover the naphtha fraction from heavy crude oil. Other useful fractions are discarded.</description>
+    <jobString>Distilling naphtha from heavy crude oil.</jobString>
+    <workAmount>3000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
@@ -357,7 +427,7 @@
             <li>HD_CrudeOil_Low</li>
           </thingDefs>
         </filter>
-        <count>20</count>
+        <count>100</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
@@ -366,10 +436,91 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HD_Naphtha>4</HD_Naphtha>
+      <HD_Naphtha>10</HD_Naphtha>
     </products>
     <recipeUsers>
       <li>HD_BatchStill</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_FractionateHeavyCrudeOil</defName>
+    <label>fractionate heavy crude oil</label>
+    <description>Continuously fractionate heavy crude oil into chemfuel, naphtha, kerosene, and diesel.</description>
+    <jobString>Fractionating heavy crude oil.</jobString>
+    <workAmount>6000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CrudeOil_Low</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_CrudeOil_Low</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Chemfuel>45</Chemfuel>
+      <HD_Naphtha>10</HD_Naphtha>
+      <HD_Kerosene>15</HD_Kerosene>
+      <HD_Diesel>20</HD_Diesel>
+    </products>
+    <recipeUsers>
+      <li>HD_DistillationTower</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_ProduceAromaticBaseOil</defName>
+    <label>produce aromatic base oil</label>
+    <description>Use a distillation tower and a plasteel catalyst bed to convert naphtha into a concentrated aromatic base oil. Most of the plasteel is recovered after processing.</description>
+    <jobString>Producing aromatic base oil.</jobString>
+    <workAmount>6000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_Naphtha</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Plasteel</li>
+          </thingDefs>
+        </filter>
+        <count>15</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_Naphtha</li>
+        <li>Plasteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_AromaticBaseOil>70</HD_AromaticBaseOil>
+      <Plasteel>14</Plasteel>
+    </products>
+    <recipeUsers>
+      <li>HD_DistillationTower</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -423,7 +574,7 @@
   <RecipeDef>
     <defName>HD_TelegraphCrudeOilToSthaler</defName>
     <label>telegraph crude oil contract</label>
-    <description>Transmit a sale order for low quality crude oil and receive Sthaler banknotes.</description>
+    <description>Transmit a sale order for heavy crude oil and receive Sthaler banknotes.</description>
     <jobString>Transmitting crude oil contract.</jobString>
     <workAmount>700</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -900,77 +1051,6 @@
       <li>HD_TelegraphTable</li>
     </recipeUsers>
   </RecipeDef>
-
-<!--  <RecipeDef>
-    <defName>HD_MakeSlush_Low</defName>
-    <label>make low quality slush</label>
-    <description>Mix crude oil into a thick, low-quality lubricating slush.</description>
-    <jobString>Making low quality slush.</jobString>
-    <workAmount>300</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Cook</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_CrudeOil_Low</li>
-          </thingDefs>
-        </filter>
-        <count>5</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_CrudeOil_Low</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_Slush_Low>1</HD_Slush_Low>
-    </products>
-    <recipeUsers>
-      <li>HD_BatchStill</li>
-    </recipeUsers>
-  </RecipeDef>
-
-  <RecipeDef>
-    <defName>HD_MakeSlush_High</defName>
-    <label>make high quality slush</label>
-    <description>Refine diesel fuel into a pure, long-lasting high quality lubricating slush.</description>
-    <jobString>Making high quality slush.</jobString>
-    <workAmount>800</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Cook</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_Diesel</li>
-          </thingDefs>
-        </filter>
-        <count>10</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_Diesel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_Slush_High>1</HD_Slush_High>
-    </products>
-    <recipeUsers>
-      <li>HD_BatchStill</li>
-    </recipeUsers>
-    <skillRequirements>
-      <Crafting>6</Crafting>
-    </skillRequirements>
-  </RecipeDef>-->
 
   <RecipeDef>
     <defName>HD_MakeShaft</defName>
@@ -3142,6 +3222,108 @@
     <skillRequirements>
       <Crafting>10</Crafting>
     </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M1A1Carbine_Weapon</defName>
+    <label>craft M1A1 carbine</label>
+    <description>Craft an M1A1 carbine using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M1A1 carbine.</jobString>
+    <workAmount>50000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodBasicModernRifle</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>HD_WildWestBarrel</li></thingDefs></filter><count>1</count></li>
+      <li><filter><thingDefs><li>HD_GeneralMachinePart</li></thingDefs></filter><count>5</count></li>
+      <li><filter><thingDefs><li>HD_CarbonSteel</li></thingDefs></filter><count>55</count></li>
+      <li><filter><thingDefs><li>WoodLog</li></thingDefs></filter><count>10</count></li>
+      <li><filter><thingDefs><li>HD_PressComponent</li></thingDefs></filter><count>3</count></li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_CarbonSteel</li>
+        <li>WoodLog</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products><HD_Gun_M1A1Carbine_Weapon>1</HD_Gun_M1A1Carbine_Weapon></products>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <skillRequirements><Crafting>9</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M2Carbine_Weapon</defName>
+    <label>craft M2 carbine</label>
+    <description>Craft an M2 select-fire carbine using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M2 carbine.</jobString>
+    <workAmount>54000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>HD_WildWestBarrel</li></thingDefs></filter><count>1</count></li>
+      <li><filter><thingDefs><li>HD_GeneralMachinePart</li></thingDefs></filter><count>6</count></li>
+      <li><filter><thingDefs><li>HD_CarbonSteel</li></thingDefs></filter><count>60</count></li>
+      <li><filter><thingDefs><li>WoodLog</li></thingDefs></filter><count>12</count></li>
+      <li><filter><thingDefs><li>HD_PressComponent</li></thingDefs></filter><count>4</count></li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_CarbonSteel</li>
+        <li>WoodLog</li>
+        <li>HD_PressComponent</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products><HD_Gun_M2Carbine_Weapon>1</HD_Gun_M2Carbine_Weapon></products>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <skillRequirements><Crafting>10</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make_Gun_M60E3_Weapon</defName>
+    <label>craft M60E3 general-purpose machine gun</label>
+    <description>Craft an M60E3 general-purpose machine gun using advanced firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <jobString>Crafting M60E3 general-purpose machine gun.</jobString>
+    <workAmount>68000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <unfinishedThingDef>UnfinishedGun</unfinishedThingDef>
+    <researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>HD_WildWestBarrel</li></thingDefs></filter><count>1</count></li>
+      <li><filter><thingDefs><li>HD_GeneralMachinePart</li></thingDefs></filter><count>9</count></li>
+      <li><filter><thingDefs><li>HD_CarbonSteel</li></thingDefs></filter><count>75</count></li>
+      <li><filter><thingDefs><li>HD_PressComponent</li></thingDefs></filter><count>6</count></li>
+      <li><filter><thingDefs><li>ComponentIndustrial</li></thingDefs></filter><count>2</count></li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_WildWestBarrel</li>
+        <li>HD_GeneralMachinePart</li>
+        <li>HD_CarbonSteel</li>
+        <li>HD_PressComponent</li>
+        <li>ComponentIndustrial</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products><HD_Gun_M60E3_Weapon>1</HD_Gun_M60E3_Weapon></products>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    <skillRequirements><Crafting>11</Crafting></skillRequirements>
   </RecipeDef>
 
 </Defs>
