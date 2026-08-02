@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>HD_Cigarette</defName>
+    <label>cigarette</label>
+    <description>A paper-wrapped roll of cured leaf. It gives a brief, mild lift and leaves a trail of smoke and ash.</description>
+    <descriptionHyperlinks>
+      <HediffDef>HD_NicotineRush</HediffDef>
+      <HediffDef>HD_NicotineTolerance</HediffDef>
+      <HediffDef>HD_NicotineAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Items/Cigarette/HD_Cigarette/HD_Cigarette_a</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.385,0.385)</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>200</stackLimit>
+    <statBases>
+      <WorkToMake>120</WorkToMake>
+      <MarketValue>2.5</MarketValue>
+      <Mass>0.01</Mass>
+      <DeteriorationRate>4</DeteriorationRate>
+      <Flammability>1.5</Flammability>
+    </statBases>
+    <techLevel>Neolithic</techLevel>
+    <ingestible>
+      <foodType>Plant, Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>0.35</joy>
+      <baseIngestTicks>1500</baseIngestTicks>
+      <drugCategory>Social</drugCategory>
+      <ingestSound>Ingest_Smoke</ingestSound>
+      <ingestEffect>Smoke_Joint</ingestEffect>
+      <ingestHoldOffsetStanding>
+        <northDefault>
+          <offset>(0.27,0,0.08)</offset>
+          <behind>true</behind>
+        </northDefault>
+        <east>
+          <offset>(0.45,0,0.08)</offset>
+        </east>
+        <south>
+          <offset>(0.27,0,0.08)</offset>
+        </south>
+        <west>
+          <offset>(-0.50,0,0.08)</offset>
+          <flip>true</flip>
+        </west>
+      </ingestHoldOffsetStanding>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <ingestCommandString>Smoke {0}</ingestCommandString>
+      <ingestReportString>Smoking {0}.</ingestReportString>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HD_NicotineRush</hediffDef>
+          <severity>1.0</severity>
+          <toleranceChemical>HD_Nicotine</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>HD_NicotineTolerance</hediffDef>
+          <toleranceChemical>HD_Nicotine</toleranceChemical>
+          <severity>0.015</severity>
+          <divideByBodySize>true</divideByBodySize>
+          <multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <workSpeedStat>DrugCookingSpeed</workSpeedStat>
+      <workSkill>Cooking</workSkill>
+      <displayPriority>1390</displayPriority>
+    </recipeMaker>
+    <costList>
+      <SmokeleafLeaves>1</SmokeleafLeaves>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>HD_Nicotine</chemical>
+        <addictiveness>0.035</addictiveness>
+        <minToleranceToAddict>0.03</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.08</existingAddictionSeverityOffset>
+        <needLevelOffset>0.65</needLevelOffset>
+        <listOrder>15</listOrder>
+      </li>
+    </comps>
+    <allowedArchonexusCount>100</allowedArchonexusCount>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseFilth">
+    <defName>HD_CigaretteButt</defName>
+    <label>cigarette butt</label>
+    <description>A discarded cigarette butt that should be cleaned away.</description>
+    <thingClass>Helodrace.Thing_CigaretteButt</thingClass>
+    <graphicData>
+      <texPath>Items/Cigarette/OnHand/HD_Cigarette131</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.385,0.385)</drawSize>
+    </graphicData>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <rotatable>false</rotatable>
+    <statBases>
+      <Beauty>-1</Beauty>
+      <Cleanliness>-1</Cleanliness>
+    </statBases>
+    <filth>
+      <placementMask>
+        <li>Terrain</li>
+      </placementMask>
+      <disappearsInDays>12~18</disappearsInDays>
+      <rainWashes>true</rainWashes>
+      <cleaningWorkToReduceThickness>35</cleaningWorkToReduceThickness>
+      <canFilthAttach>false</canFilthAttach>
+      <maxThickness>1</maxThickness>
+      <cleaningSound>Interact_CleanFilth_Dirt</cleaningSound>
+    </filth>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>HD_NicotineRush</defName>
+    <label>nicotine buzz</label>
+    <description>A brief feeling of alert calm after smoking a cigarette.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.72,0.68,0.45)</defaultLabelColor>
+    <isBad>false</isBad>
+    <maxSeverity>1.0</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-12.0</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.03</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ChemicalDef>
+    <defName>HD_Nicotine</defName>
+    <label>nicotine</label>
+    <addictionHediff>HD_NicotineAddiction</addictionHediff>
+    <toleranceHediff>HD_NicotineTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+    <geneToleranceBuildupFactorResist>0.5</geneToleranceBuildupFactorResist>
+    <geneToleranceBuildupFactorImmune>0</geneToleranceBuildupFactorImmune>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>HD_Chemical_Nicotine</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>nicotine</label>
+    <description>Because of nicotine dependence, this person needs to smoke regularly to avoid withdrawal symptoms.</description>
+    <listPriority>24</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>HD_NicotineTolerance</defName>
+    <label>nicotine tolerance</label>
+    <description>A built-up tolerance to nicotine. Greater tolerance reduces the effect of each cigarette.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.012</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>HD_Nicotine</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>HD_NicotineAddiction</defName>
+    <label>nicotine dependence</label>
+    <description>A chemical dependence on nicotine. Going without cigarettes causes irritability and impaired concentration, but sustained abstinence will eventually resolve the dependence.</description>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <chemicalNeed>HD_Chemical_Nicotine</chemicalNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.02</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li />
+      <li>
+        <label>withdrawal</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.08</offset>
+          </li>
+        </capMods>
+        <statOffsets>
+          <WorkSpeedGlobal>-0.08</WorkSpeedGlobal>
+        </statOffsets>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugMajor</mentalState>
+            <mtbDays>45</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>

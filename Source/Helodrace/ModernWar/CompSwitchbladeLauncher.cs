@@ -202,8 +202,8 @@ namespace Helodrace
         }
 
         private Material CurrentMaterial => SwitchbladeLauncherUtility.HasLoadedMunition(parent) ? LoadedMaterial : FiredMaterial;
-        private static Material LoadedMaterial => loadedMaterial ?? (loadedMaterial = MaterialPool.MatFrom("Building/Security/HD_SwitchBlade600_Canister", ShaderDatabase.Cutout));
-        private static Material FiredMaterial => firedMaterial ?? (firedMaterial = MaterialPool.MatFrom("Building/Security/HD_SwitchBlade600_CanisterUsed", ShaderDatabase.Cutout));
+        private static Material LoadedMaterial => loadedMaterial ?? (loadedMaterial = MaterialPool.MatFrom("Buildings/Security/HD_SwitchBlade600_Canister", ShaderDatabase.Cutout));
+        private static Material FiredMaterial => firedMaterial ?? (firedMaterial = MaterialPool.MatFrom("Buildings/Security/HD_SwitchBlade600_CanisterUsed", ShaderDatabase.Cutout));
     }
 
     public static class SwitchbladeLauncherVerbPatches

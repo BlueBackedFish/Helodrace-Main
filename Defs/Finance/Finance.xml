@@ -7,7 +7,7 @@
     <label>sthaler banknote</label>
     <description>A beautifully engraved paper banknote used as the standard currency among Helod settlements. Known as Sthaler, it carries significant value but is highly fragile and will dissolve quickly if left unroofed in the rain.</description>
     <graphicData>
-      <texPath>Item/HD_Money</texPath>
+      <texPath>Items/HD_Money</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
     </graphicData>
     <soundInteract>Standard_Drop</soundInteract>
@@ -32,7 +32,7 @@
     <label>government bond</label>
     <description>An official, beautifully engraved paper government bond certificate issued by the United States of Vesenica. It serves as high-value, secure sovereign wealth storage. It cannot be stacked and must be handled with care.</description>
     <graphicData>
-      <texPath>Item/HD_GovernmentBond</texPath>
+      <texPath>Items/HD_GovernmentBond</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
     </graphicData>
     <soundInteract>Standard_Drop</soundInteract>
@@ -57,7 +57,7 @@
     <label>Continental Petroleum bond</label>
     <description>An official corporate debt certificate issued by the Continental Petroleum Company, representing a face value of 100 Sthaler. Unlike sovereign government bonds, this corporate security is tied directly to the performance of the oil industry. It serves as highly liquid industrial wealth storage.</description>
     <graphicData>
-      <texPath>Item/HD_CorporateBond</texPath> <!-- Re-use the beautifully engraved bond certificate graphic -->
+      <texPath>Items/HD_CorporateBond</texPath> <!-- Re-use the beautifully engraved bond certificate graphic -->
       <graphicClass>Graphic_StackCount</graphicClass>
     </graphicData>
     <soundInteract>Standard_Drop</soundInteract>

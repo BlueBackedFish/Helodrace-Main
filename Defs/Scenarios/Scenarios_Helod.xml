@@ -23,7 +23,7 @@
         <li Class="Helodrace.ScenPart_ResearchCostFactor">
           <def>HD_ResearchCostFactor</def>
           <project>Electricity</project>
-          <factor>4.5</factor>
+          <factor>7</factor>
         </li>
 
         <!-- Config page (Advanced Biotech Xenotypes configuration) -->

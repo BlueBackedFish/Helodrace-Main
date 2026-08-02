@@ -5,7 +5,7 @@
     <defName>HD_OilFieldFloor</defName>
     <label>oil field</label>
     <description>A developed petroleum-bearing floor. Its hidden quality and declining well pressure determine extraction speed. It can be removed with the remove-floor designation.</description>
-    <texturePath>Building/HD_OilRig</texturePath>
+    <texturePath>Buildings/HD_OilRig</texturePath>
     <edgeType>Fade</edgeType>
     <renderPrecedence>340</renderPrecedence>
     <pathCost>0</pathCost>
@@ -29,7 +29,7 @@
     <defName>HD_LowQualityOilRigFloor</defName>
     <label>oil field</label>
     <description>A developed petroleum-bearing floor retained for save compatibility.</description>
-    <texturePath>Building/HD_OilRig</texturePath>
+    <texturePath>Buildings/HD_OilRig</texturePath>
     <edgeType>Fade</edgeType>
     <renderPrecedence>340</renderPrecedence>
     <pathCost>0</pathCost>

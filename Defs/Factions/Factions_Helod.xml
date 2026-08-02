@@ -20,7 +20,7 @@
         </categories>
       </li>
     </backstoryFilters>
-    <factionIconPath>Icon/HD_Sharpshooter</factionIconPath>
+    <factionIconPath>Icons/HD_Sharpshooter</factionIconPath>
     <startingResearchTags>
       <li>HD_HelodWildWestScenarioStart</li>
     </startingResearchTags>
@@ -65,7 +65,7 @@
         </categories>
       </li>
     </backstoryFilters>
-    <factionIconPath>Icon/HD_Sharpshooter</factionIconPath>
+    <factionIconPath>Icons/HD_Sharpshooter</factionIconPath>
     <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
     <naturalEnemy>false</naturalEnemy>
     <permanentEnemy>false</permanentEnemy>

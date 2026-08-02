@@ -399,7 +399,7 @@ namespace Helodrace
             {
                 defaultLabel = loaded ? "HD_RecoillessWeapon_Loaded".Translate().ToString() : "HD_RecoillessWeapon_Reload_Label".Translate().ToString(),
                 defaultDesc = loaded ? "HD_RecoillessWeapon_AlreadyLoaded".Translate().ToString() : "HD_RecoillessWeapon_Reload_Desc_Inventory".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("Weapon/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
+                icon = ContentFinder<Texture2D>.Get("Weapons/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
                 Disabled = loaded,
                 disabledReason = "HD_RecoillessWeapon_AlreadyLoaded".Translate().ToString(),
                 action = () => TryStartReloadJob(wielder)
@@ -445,7 +445,7 @@ namespace Helodrace
                 {
                     defaultLabel = "HD_RecoillessWeapon_AmmoLabel".Translate(SelectedAmmoDef?.label ?? "None".Translate()).ToString(),
                     defaultDesc = "HD_RecoillessWeapon_AmmoDesc".Translate().ToString(),
-                    icon = ContentFinder<Texture2D>.Get("Weapon/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
+                    icon = ContentFinder<Texture2D>.Get("Weapons/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
                     action = ShowAmmoFloatMenu
                 };
             }
@@ -659,7 +659,7 @@ namespace Helodrace
             {
                 defaultLabel = "HD_WeaponLoadout_Gizmo_Label".Translate().ToString(),
                 defaultDesc = "HD_WeaponLoadout_Gizmo_Desc".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("Weapon/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
+                icon = ContentFinder<Texture2D>.Get("Weapons/GreatWar/Ammo/HD_m6a3HEAT", false) ?? BaseContent.BadTex,
                 action = () => Find.WindowStack.Add(new Dialog_WeaponLoadout(this))
             };
         }

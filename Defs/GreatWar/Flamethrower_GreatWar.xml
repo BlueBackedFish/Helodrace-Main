@@ -70,7 +70,7 @@
     <label>M2 flamethrower</label>
     <description>A backpack-fed flamethrower that launches globs of sticky incendiary gel. Each glob scatters fire around its impact point, while a direct hit coats the victim in gel that repeatedly reignites for a short time.</description>
     <graphicData>
-      <texPath>Weapon/GreatWar/HD_M2FlameThrower</texPath>
+      <texPath>Weapons/GreatWar/HD_M2FlameThrower</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1.2,1.2)</drawSize>
     </graphicData>

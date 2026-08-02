@@ -12,7 +12,7 @@
     <drawerType>RealtimeOnly</drawerType>
     <altitudeLayer>Gas</altitudeLayer>
     <graphicData>
-      <texPath>Icon/HD_icon</texPath>
+      <texPath>Icons/HD_Helod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(0.01,0.01)</drawSize>
       <shaderType>Transparent</shaderType>

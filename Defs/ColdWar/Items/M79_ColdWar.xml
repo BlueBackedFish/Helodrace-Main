@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>HD_40x46mmLowVelocityAmmo</defName>
+    <label>40×46mm low-velocity ammunition</label>
+    <parent>Manufactured</parent>
+    <modExtensions>
+      <li Class="Helodrace.AmmoCaliberExtension"><caliber>40×46mm</caliber></li>
+    </modExtensions>
+  </ThingCategoryDef>
+
+  <ThingDef Name="HD_M79AmmoBase" ParentName="ResourceBase" Abstract="True">
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>45</MaxHitPoints>
+      <Mass>0.23</Mass>
+      <Flammability>0.55</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+      <WorkToMake>900</WorkToMake>
+    </statBases>
+    <thingCategories><li>HD_40x46mmLowVelocityAmmo</li></thingCategories>
+    <recipeMaker>
+      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <recipeUsers><li>MachiningTable</li></recipeUsers>
+      <skillRequirements><Crafting>4</Crafting></skillRequirements>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M79AmmoBase">
+    <defName>HD_40mmM381HE_Round</defName>
+    <label>M381 40×46mm HE grenade</label>
+    <description>A 40×46mm low-velocity high-explosive grenade for the M79. It produces a broad fragmentation blast against personnel and light cover.</description>
+    <projectileWhenLoaded>HD_40mmM381HE_Proj</projectileWhenLoaded>
+    <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowM381HE</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
+    <statBases><MarketValue>32</MarketValue></statBases>
+    <costList><Steel>2</Steel><Chemfuel>4</Chemfuel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M79AmmoBase">
+    <defName>HD_40mmM433HEDP_Round</defName>
+    <label>M433 40×46mm HEDP grenade</label>
+    <description>A dual-purpose 40×46mm grenade with a shaped-charge liner. Its smaller blast retains much better armor penetration than a standard fragmentation grenade.</description>
+    <projectileWhenLoaded>HD_40mmM433HEDP_Proj</projectileWhenLoaded>
+    <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowM433DP</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
+    <statBases><MarketValue>42</MarketValue></statBases>
+    <costList><Steel>3</Steel><Chemfuel>4</Chemfuel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M79AmmoBase">
+    <defName>HD_40mmM576MP_Round</defName>
+    <label>M576 40×46mm multiple-projectile round</label>
+    <description>A close-range 40×46mm multiple-projectile cartridge that fires twenty pellets using standard shotgun ballistics.</description>
+    <projectileWhenLoaded>HD_40mmM576Pellet_Proj</projectileWhenLoaded>
+    <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowM576MP</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
+    <statBases><MarketValue>24</MarketValue></statBases>
+    <costList><Steel>3</Steel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M79AmmoBase">
+    <defName>HD_40mmM651CS_Round</defName>
+    <label>M651 40×46mm CS grenade</label>
+    <description>A 40×46mm riot-control grenade that releases CS tear agent at the impact point.</description>
+    <projectileWhenLoaded>HD_40mmM651CS_Proj</projectileWhenLoaded>
+    <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowM651CS</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
+    <statBases><MarketValue>28</MarketValue></statBases>
+    <costList><Steel>4</Steel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M79AmmoBase">
+    <defName>HD_40mmSponge_Round</defName>
+    <label>40×46mm sponge grenade</label>
+    <description>A less-lethal 40×46mm impact round with a deformable sponge nose. It delivers heavy blunt force and stopping power without an explosive blast.</description>
+    <projectileWhenLoaded>HD_40mmSponge_Proj</projectileWhenLoaded>
+    <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowSponge</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
+    <statBases><MarketValue>18</MarketValue><Mass>0.18</Mass></statBases>
+    <costList><Steel>1</Steel><Cloth>3</Cloth></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_40mmM381HE_Proj</defName>
+    <label>M381 HE grenade</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLowM381HE_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.84,0.84)</drawSize></graphicData>
+    <projectile><damageDef>Bomb</damageDef><damageAmountBase>42</damageAmountBase><armorPenetrationBase>0.24</armorPenetrationBase><stoppingPower>2.2</stoppingPower><speed>32</speed><explosionRadius>2.2</explosionRadius><soundExplode>Explosion_Bomb</soundExplode></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_40mmM433HEDP_Proj</defName>
+    <label>M433 HEDP grenade</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLowM433DP_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.84,0.84)</drawSize></graphicData>
+    <projectile><damageDef>Bomb</damageDef><damageAmountBase>38</damageAmountBase><armorPenetrationBase>0.72</armorPenetrationBase><stoppingPower>2.5</stoppingPower><speed>32</speed><explosionRadius>1.35</explosionRadius><soundExplode>Explosion_Bomb</soundExplode></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_40mmM576Pellet_Proj</defName>
+    <label>M576 buckshot pellet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>6</damageAmountBase><armorPenetrationBase>0.08</armorPenetrationBase><stoppingPower>0.55</stoppingPower><speed>65</speed></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_40mmM651CS_Proj</defName>
+    <label>M651 CS grenade</label>
+    <thingClass>Helodrace.Projectile_M651CS</thingClass>
+    <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLowM651CS_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.7,0.7)</drawSize></graphicData>
+    <projectile><damageDef>Smoke</damageDef><damageAmountBase>0</damageAmountBase><armorPenetrationBase>0</armorPenetrationBase><speed>38</speed><explosionRadius>1.2</explosionRadius></projectile>
+    <modExtensions>
+      <li Class="Helodrace.M651CSProjectileExtension">
+        <gasDef>HD_CSGas</gasDef><gasReleaseDelayTicks>15</gasReleaseDelayTicks><gasEmissionRadius>1.9</gasEmissionRadius><gasDensity>1.0</gasDensity><gasEdgeDensityFactor>0.68</gasEdgeDensityFactor><gasEmissionDurationTicksMin>1200</gasEmissionDurationTicksMin><gasEmissionDurationTicksMax>1800</gasEmissionDurationTicksMax><gasEmissionIntervalTicks>60</gasEmissionIntervalTicks><gasPulseDensityFactor>0.12</gasPulseDensityFactor>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_40mmSponge_Proj</defName>
+    <label>40×46mm sponge projectile</label>
+    <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLowSponge_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.8,0.8)</drawSize></graphicData>
+    <projectile><damageDef>Blunt</damageDef><damageAmountBase>16</damageAmountBase><armorPenetrationBase>0.04</armorPenetrationBase><stoppingPower>3.8</stoppingPower><speed>38</speed></projectile>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_M651CSGasEmitter</defName>
+    <label>M651 CS gas emitter</label>
+    <thingClass>Helodrace.ModernWar.CSGasEmitter</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>Item</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLowM651CS_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.7,0.7)</drawSize></graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_M79CartridgeMote</defName>
+    <label>40×46mm cartridge case</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLow_cartridge</texPath><graphicClass>Graphic_Mote</graphicClass><drawSize>(0.32,0.32)</drawSize></graphicData>
+    <mote><fadeInTime>0</fadeInTime><solidTime>1.2</solidTime><fadeOutTime>0.5</fadeOutTime><archHeight>0.35</archHeight><archDuration>0.45</archDuration><speedPerTime>-2.4</speedPerTime></mote>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMakeableGun">
+    <defName>HD_Gun_M79_Weapon</defName>
+    <label>M79 grenade launcher</label>
+    <description>A break-action single-shot grenade launcher chambered for 40×46mm low-velocity ammunition. Its ammunition is selected and loaded directly from the operator's inventory.</description>
+    <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_M79</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(1,1)</drawSize></graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <soundInteract>Interact_Rifle</soundInteract>
+    <weaponTags><li>HD_ColdWarLauncher</li><li>IndustrialGunAdvanced</li></weaponTags>
+    <statBases>
+      <WorkToMake>24000</WorkToMake><Mass>2.93</Mass><MarketValue>780</MarketValue><MaxHitPoints>110</MaxHitPoints>
+      <AccuracyTouch>0.34</AccuracyTouch><AccuracyShort>0.66</AccuracyShort><AccuracyMedium>0.60</AccuracyMedium><AccuracyLong>0.40</AccuracyLong><RangedWeapon_Cooldown>2.6</RangedWeapon_Cooldown>
+    </statBases>
+    <costList><Steel>55</Steel><ComponentIndustrial>5</ComponentIndustrial></costList>
+    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite><recipeUsers><li>MachiningTable</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
+    <comps>
+      <li><compClass>CompEquippable</compClass></li>
+      <li Class="Helodrace.CompProperties_M79Launcher">
+        <allowedAmmoDefs>
+          <li>HD_40mmM381HE_Round</li><li>HD_40mmM433HEDP_Round</li><li>HD_40mmM576MP_Round</li><li>HD_40mmM651CS_Round</li><li>HD_40mmSponge_Round</li>
+        </allowedAmmoDefs>
+        <reloadTicks>90</reloadTicks><casingDelayTicks>42</casingDelayTicks><casingMoteDef>HD_M79CartridgeMote</casingMoteDef>
+      </li>
+    </comps>
+    <verbs>
+      <li><verbClass>Helodrace.Verb_ShootM79</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_40mmM381HE_Proj</defaultProjectile><warmupTime>1.15</warmupTime><range>27.9</range><minRange>2.9</minRange><burstShotCount>1</burstShotCount><ticksBetweenBurstShots>0</ticksBetweenBurstShots><targetParams><canTargetLocations>true</canTargetLocations></targetParams><soundCast>Shot_IncendiaryLauncher</soundCast><soundCastTail>GunTail_Heavy</soundCastTail><muzzleFlashScale>5</muzzleFlashScale></li>
+    </verbs>
+    <tools><li><label>stock</label><capacities><li>Blunt</li></capacities><power>8</power><cooldownTime>2.2</cooldownTime></li></tools>
+  </ThingDef>
+
+</Defs>

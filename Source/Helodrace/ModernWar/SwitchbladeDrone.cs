@@ -140,7 +140,7 @@ namespace Helodrace
             {
                 defaultLabel = "HD_SwitchbladeTablet_SelectLoiter_Label".Translate().ToString(),
                 defaultDesc = "HD_SwitchbladeTablet_SelectLoiter_Desc".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("Item/HD_MilitaryTablet", false) ?? BaseContent.BadTex,
+                icon = ContentFinder<Texture2D>.Get("Items/HD_MilitaryTablet", false) ?? BaseContent.BadTex,
                 action = BeginSelectLoiterCenter
             };
 
@@ -709,9 +709,9 @@ namespace Helodrace
             }
         }
 
-        private static Material FoldedMaterial => foldedMaterial ?? (foldedMaterial = MaterialPool.MatFrom("Weapon/ModernWar/Proj/HD_SwitchBlade600_FoldBlade", ShaderDatabase.Cutout));
-        private static Material HalfBladeMaterial => halfBladeMaterial ?? (halfBladeMaterial = MaterialPool.MatFrom("Weapon/ModernWar/Proj/HD_SwitchBlade600_halfBlade", ShaderDatabase.Cutout));
-        private static Material FullBladeMaterial => fullBladeMaterial ?? (fullBladeMaterial = MaterialPool.MatFrom("Weapon/ModernWar/Proj/HD_SwitchBlade600_FullBlade", ShaderDatabase.Cutout));
+        private static Material FoldedMaterial => foldedMaterial ?? (foldedMaterial = MaterialPool.MatFrom("Weapons/ModernWar/Projectiles/HD_SwitchBlade600_FoldBlade", ShaderDatabase.Cutout));
+        private static Material HalfBladeMaterial => halfBladeMaterial ?? (halfBladeMaterial = MaterialPool.MatFrom("Weapons/ModernWar/Projectiles/HD_SwitchBlade600_halfBlade", ShaderDatabase.Cutout));
+        private static Material FullBladeMaterial => fullBladeMaterial ?? (fullBladeMaterial = MaterialPool.MatFrom("Weapons/ModernWar/Projectiles/HD_SwitchBlade600_FullBlade", ShaderDatabase.Cutout));
         private static Material ZoomHighlightMaterial => zoomHighlightMaterial ?? (zoomHighlightMaterial = SolidColorMaterials.SimpleSolidColorMaterial(ZoomHighlightColor, false));
         private static Material ShadowMaterial => shadowMaterial ?? (shadowMaterial = SolidColorMaterials.SimpleSolidColorMaterial(ShadowColor, false));
     }

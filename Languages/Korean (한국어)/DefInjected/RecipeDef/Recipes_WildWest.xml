@@ -31,6 +31,14 @@
   <HD_RefineCarbonSteelLarge.description>전로에서 큰 융선과 철광석을 함께 정련하여 탄소강을 만듭니다.</HD_RefineCarbonSteelLarge.description>
   <HD_RefineCarbonSteelLarge.jobString>탄소강을 정련하는 중</HD_RefineCarbonSteelLarge.jobString>
 
+  <HD_ArcRefineCarbonSteelFromPigIron.label>전기아크로 탄소강 정련: 주철</HD_ArcRefineCarbonSteelFromPigIron.label>
+  <HD_ArcRefineCarbonSteelFromPigIron.description>전기아크로에서 주철과 숯을 함께 정련하여 탄소강을 만듭니다.</HD_ArcRefineCarbonSteelFromPigIron.description>
+  <HD_ArcRefineCarbonSteelFromPigIron.jobString>전기아크로에서 탄소강을 정련하는 중</HD_ArcRefineCarbonSteelFromPigIron.jobString>
+
+  <HD_ArcRefineCarbonSteelDirect.label>전기아크로 탄소강 직접 정련</HD_ArcRefineCarbonSteelDirect.label>
+  <HD_ArcRefineCarbonSteelDirect.description>전기아크로에서 탄소강을 정련재로 사용해 철광석을 탄소강으로 직접 정련합니다.</HD_ArcRefineCarbonSteelDirect.description>
+  <HD_ArcRefineCarbonSteelDirect.jobString>전기아크로에서 탄소강을 직접 정련하는 중</HD_ArcRefineCarbonSteelDirect.jobString>
+
   <HD_MakeShaft.label>샤프트 제작</HD_MakeShaft.label>
   <HD_MakeShaft.description>선반에서 탄소강을 곧은 기계식 샤프트로 깎아냅니다.</HD_MakeShaft.description>
   <HD_MakeShaft.jobString>샤프트를 가공하는 중</HD_MakeShaft.jobString>

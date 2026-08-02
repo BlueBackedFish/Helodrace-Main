@@ -37,8 +37,8 @@ namespace Helodrace
         private const float FallbackSniperArmorPenetration = 0.30f;
         private static Thing sniperWeaponForStats;
 
-        public static readonly Texture2D CommandIcon = ContentFinder<Texture2D>.Get("Icon/HD_Icon_Aimed", false) ?? BaseContent.BadTex;
-        public static readonly Material AimMaterial = MaterialPool.MatFrom("Icon/HD_Icon_Aimed", ShaderDatabase.Transparent);
+        public static readonly Texture2D CommandIcon = ContentFinder<Texture2D>.Get("Icons/HD_Icon_Aimed", false) ?? BaseContent.BadTex;
+        public static readonly Material AimMaterial = MaterialPool.MatFrom("Icons/HD_Icon_Aimed", ShaderDatabase.Transparent);
         public static readonly Material TrailGlowMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(1f, 0.62f, 0.18f, 0.50f), false);
         public static readonly Material TrailCoreMaterial = SolidColorMaterials.SimpleSolidColorMaterial(new Color(1f, 0.96f, 0.68f, 0.95f), false);
 

@@ -435,7 +435,7 @@ namespace Helodrace
 
                     if (isPlayerPawn && comp.CanUseSharpshooterMode && (ceDoubleTap?.ModeVerb != null || comp.AltVerb != null))
                     {
-                        var iconTex = ContentFinder<UnityEngine.Texture2D>.Get("Icon/HD_Sharpshooter", false);
+                        var iconTex = ContentFinder<UnityEngine.Texture2D>.Get("Icons/HD_Sharpshooter", false);
                         if (iconTex == null)
                         {
                             iconTex = BaseContent.BadTex;

@@ -307,6 +307,95 @@
     </recipeUsers>
   </RecipeDef>
 
+  <!-- Electric arc furnace steelmaking -->
+  <RecipeDef>
+    <defName>HD_ArcRefineCarbonSteelFromPigIron</defName>
+    <label>arc-refine carbon steel from pig iron</label>
+    <description>Refine pig iron with charcoal in an electric arc furnace to produce carbon steel.</description>
+    <jobString>Arc-refining carbon steel.</jobString>
+    <workAmount>4000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodBasicElectronics</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_PigIron</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_Charcoal</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_PigIron</li>
+        <li>HD_Charcoal</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_CarbonSteel>100</HD_CarbonSteel>
+    </products>
+    <recipeUsers>
+      <li>HD_SAFurnace</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_ArcRefineCarbonSteelDirect</defName>
+    <label>direct arc-refine carbon steel</label>
+    <description>Use carbon steel as a refining charge to convert iron ore directly into carbon steel in an electric arc furnace.</description>
+    <jobString>Directly arc-refining carbon steel.</jobString>
+    <workAmount>4500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodBasicElectronics</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>100</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_CarbonSteel</li>
+          </thingDefs>
+        </filter>
+        <count>10</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+        <li>HD_CarbonSteel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_CarbonSteel>100</HD_CarbonSteel>
+    </products>
+    <recipeUsers>
+      <li>HD_SAFurnace</li>
+    </recipeUsers>
+  </RecipeDef>
+
   <RecipeDef>
     <defName>HD_RefineCrudeOil_Diesel</defName>
     <label>distill heavy crude oil into diesel</label>

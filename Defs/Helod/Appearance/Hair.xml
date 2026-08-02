@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <HairDef>
+    <defName>HD_HelodHair1</defName>
+    <label>Helod Hair 1</label>
+    <styleGender>Any</styleGender>
+    <texPath>Helod/Hair/Hair1</texPath>
+    <styleTags>
+      <li>HelodHair</li>
+    </styleTags>
+  </HairDef>
+</Defs>

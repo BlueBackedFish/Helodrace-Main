@@ -32,7 +32,7 @@ namespace Helodrace
             {
                 defaultLabel = "Assemble M1 mortar",
                 defaultDesc = "Call the nearest bipod carrier, then the nearest barrel carrier, to assemble an M1 81mm mortar here.",
-                icon = ContentFinder<Texture2D>.Get("Building/Security/HD_M181mmMortar", true),
+                icon = ContentFinder<Texture2D>.Get("Buildings/Security/HD_M181mmMortar", true),
                 action = () => BeginPlacement(wearer)
             };
 
@@ -205,7 +205,7 @@ namespace Helodrace
             {
                 defaultLabel = "Disassemble M1 mortar",
                 defaultDesc = "Order the nearest available Helod to take down this M1 81mm mortar and recover its three portable components.",
-                icon = ContentFinder<Texture2D>.Get("Item/HD_M181mmMortar_Base", true),
+                icon = ContentFinder<Texture2D>.Get("Items/HD_M181mmMortar_Base", true),
                 action = BeginDisassembly
             };
         }

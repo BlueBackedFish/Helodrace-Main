@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Grenade_M14</defName>
+    <projectileWhenLoaded>HD_Projectile_M14</projectileWhenLoaded>
+    <label>AN-M14 TH3 incendiary grenade</label>
+    <description>Heavy thermate grenades designed to destroy equipment, weapons and vehicles with an intensely hot incendiary reaction that readily starts fires.</description>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Weapons/ColdWar/HD_M14</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.78,0.78)</drawSize>
+    </graphicData>
+    <uiIconScale>1.2</uiIconScale>
+    <stackLimit>25</stackLimit>
+    <soundInteract>Interact_Grenade</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <Mass>0.91</Mass>
+      <RangedWeapon_Cooldown>2.8</RangedWeapon_Cooldown>
+      <WorkToMake>18000</WorkToMake>
+      <MarketValue>440</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>24</Steel>
+      <Chemfuel>80</Chemfuel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <skillRequirements><Crafting>6</Crafting></skillRequirements>
+    </recipeMaker>
+    <weaponTags>
+      <li>HD_ColdWarGrenade</li>
+      <li>GrenadeFlame</li>
+    </weaponTags>
+    <thingCategories><li>HD_InventoryGrenades</li></thingCategories>
+    <smeltable>true</smeltable>
+    <verbs>
+      <li>
+        <label>throw AN-M14 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>11.9</range>
+        <forcedMissRadius>1.8</forcedMissRadius>
+        <warmupTime>1.5</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M14</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>0.1</explosiveRadius>
+        <explosiveDamageType>Smoke</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>HD_Projectile_M14</defName>
+    <label>AN-M14 TH3 incendiary grenade</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ThermiteGrenade</thingClass>
+    <graphicData>
+      <texPath>Weapons/ColdWar/Projectiles/M14/HD_M14_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.46,0.46)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Smoke</damageDef>
+      <explosionRadius>0.1</explosionRadius>
+      <explosionDelay>90</explosionDelay>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+      <screenShakeFactor>0.65</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M14_ClipEffect</clipDef>
+        <pinDef>HD_M14_PinEffect</pinDef>
+        <projectileBounceHeight>0.28</projectileBounceHeight>
+      </li>
+      <li Class="Helodrace.ModernWar.ThermiteGrenadeExtension">
+        <emitterDef>HD_ThermiteGrenadeEmitter</emitterDef>
+        <reactionDelayTicks>90</reactionDelayTicks>
+        <reactionDurationTicks>420</reactionDurationTicks>
+        <damageIntervalTicks>12</damageIntervalTicks>
+        <pawnDamageIntervalTicks>30</pawnDamageIntervalTicks>
+        <visualIntervalTicks>30</visualIntervalTicks>
+        <crossRadius>1</crossRadius>
+        <damage>18</damage>
+        <pawnDamage>12</pawnDamage>
+        <armorPenetration>0.75</armorPenetration>
+        <minimumFlammabilityDamageFactor>0.30</minimumFlammabilityDamageFactor>
+        <lowFlammabilityThreshold>0.75</lowFlammabilityThreshold>
+        <fireSize>1.15</fireSize>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Grenade_M7A2</defName>
+    <projectileWhenLoaded>HD_Projectile_M7A2</projectileWhenLoaded>
+    <label>M7A2 CS riot-control grenade</label>
+    <description>Burning-type riot-control grenades filled with CS tear agent. The choking, eye-watering cloud incapacitates exposed targets without relying on fragmentation.</description>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Weapons/ColdWar/HD_M7A2</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.78,0.78)</drawSize>
+    </graphicData>
+    <uiIconScale>1.2</uiIconScale>
+    <stackLimit>25</stackLimit>
+    <soundInteract>Interact_Grenade</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <Mass>0.57</Mass>
+      <RangedWeapon_Cooldown>2.5</RangedWeapon_Cooldown>
+      <WorkToMake>12000</WorkToMake>
+      <MarketValue>330</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>14</Steel>
+      <Chemfuel>35</Chemfuel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <skillRequirements><Crafting>5</Crafting></skillRequirements>
+    </recipeMaker>
+    <weaponTags><li>HD_ColdWarGrenade</li></weaponTags>
+    <thingCategories><li>HD_InventoryGrenades</li></thingCategories>
+    <smeltable>true</smeltable>
+    <verbs>
+      <li>
+        <label>throw M7A2 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.9</range>
+        <forcedMissRadius>1.6</forcedMissRadius>
+        <warmupTime>1.35</warmupTime>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M7A2</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.2</explosiveRadius>
+        <explosiveDamageType>Smoke</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseGrenadeProjectile">
+    <defName>HD_Projectile_M7A2</defName>
+    <label>M7A2 CS riot-control grenade</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ModernGrenade</thingClass>
+    <graphicData>
+      <texPath>Weapons/ColdWar/Projectiles/M7A2/HD_M7A2_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.46,0.46)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Smoke</damageDef>
+      <explosionRadius>3.8</explosionRadius>
+      <explosionDelay>100</explosionDelay>
+      <screenShakeFactor>0.25</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M7A2_ClipEffect</clipDef>
+        <pinDef>HD_M7A2_PinEffect</pinDef>
+        <gasDef>HD_CSGas</gasDef>
+        <gasReleaseDelayTicks>100</gasReleaseDelayTicks>
+        <gasEmissionRadius>1.7</gasEmissionRadius>
+        <gasDensity>1.0</gasDensity>
+        <gasEdgeDensityFactor>0.72</gasEdgeDensityFactor>
+        <gasEmissionDurationTicksMin>1200</gasEmissionDurationTicksMin>
+        <gasEmissionDurationTicksMax>1800</gasEmissionDurationTicksMax>
+        <gasEmissionIntervalTicks>60</gasEmissionIntervalTicks>
+        <gasPulseDensityFactor>0.12</gasPulseDensityFactor>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef Name="HD_ColdWarGrenadePartBase" Abstract="True">
+    <thingClass>Helodrace.ModernWar.ModernGrenadePart</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>(0.32,0.32)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ColdWarGrenadePartBase"><defName>HD_M14_ClipEffect</defName><label>AN-M14 safety clip</label><graphicData><texPath>Weapons/ColdWar/Projectiles/M14/HD_M14_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ColdWarGrenadePartBase"><defName>HD_M14_PinEffect</defName><label>AN-M14 safety pin</label><graphicData><texPath>Weapons/ColdWar/Projectiles/M14/HD_M14_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ColdWarGrenadePartBase"><defName>HD_M7A2_ClipEffect</defName><label>M7A2 safety clip</label><graphicData><texPath>Weapons/ColdWar/Projectiles/M7A2/HD_M7A2_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_ColdWarGrenadePartBase"><defName>HD_M7A2_PinEffect</defName><label>M7A2 safety pin</label><graphicData><texPath>Weapons/ColdWar/Projectiles/M7A2/HD_M7A2_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+
+  <ThingDef>
+    <defName>HD_ThermiteGrenadeEmitter</defName>
+    <label>thermite reaction</label>
+    <thingClass>Helodrace.ModernWar.ThermiteGrenadeEmitter</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>None</drawerType>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+  </ThingDef>
+
+  <ThingDef>
+    <defName>HD_CSGasEmitter</defName>
+    <label>CS gas emitter</label>
+    <thingClass>Helodrace.ModernWar.CSGasEmitter</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>Item</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <graphicData>
+      <texPath>Weapons/ColdWar/Projectiles/M7A2/HD_M7A2_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(0.46,0.46)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+</Defs>
