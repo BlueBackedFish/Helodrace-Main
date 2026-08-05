@@ -116,6 +116,104 @@
           </value>
         </li>
 
+        <!-- Total-synthesis drugs are produced exclusively in the stirred-tank reactor. -->
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Desoxyn"]/recipeMaker/recipeUsers</xpath>
+          <value>
+            <recipeUsers>
+              <li>HD_StirredTankReactor</li>
+            </recipeUsers>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Benzedrine"]/recipeMaker/recipeUsers</xpath>
+          <value>
+            <recipeUsers>
+              <li>HD_StirredTankReactor</li>
+            </recipeUsers>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Dexedrine"]/recipeMaker/recipeUsers</xpath>
+          <value>
+            <recipeUsers>
+              <li>HD_StirredTankReactor</li>
+            </recipeUsers>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Ketamine"]/recipeMaker/recipeUsers</xpath>
+          <value>
+            <recipeUsers>
+              <li>HD_StirredTankReactor</li>
+            </recipeUsers>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Ambien"]/recipeMaker/recipeUsers</xpath>
+          <value>
+            <recipeUsers>
+              <li>HD_StirredTankReactor</li>
+            </recipeUsers>
+          </value>
+        </li>
+
+        <li Class="PatchOperationReplace">
+          <xpath>/Defs/ThingDef[defName="BD_Restoril"]/recipeMaker/recipeUsers</xpath>
+          <value>
+            <recipeUsers>
+              <li>HD_StirredTankReactor</li>
+            </recipeUsers>
+          </value>
+        </li>
+
+        <!-- Assign the generated recipes to the crafting work type. -->
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="BD_Desoxyn"]/recipeMaker</xpath>
+          <value>
+            <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="BD_Benzedrine"]/recipeMaker</xpath>
+          <value>
+            <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="BD_Dexedrine"]/recipeMaker</xpath>
+          <value>
+            <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="BD_Ketamine"]/recipeMaker</xpath>
+          <value>
+            <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="BD_Ambien"]/recipeMaker</xpath>
+          <value>
+            <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+          </value>
+        </li>
+
+        <li Class="PatchOperationAdd">
+          <xpath>/Defs/ThingDef[defName="BD_Restoril"]/recipeMaker</xpath>
+          <value>
+            <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+          </value>
+        </li>
+
         <!-- Keep Blanca's research branch beyond the end of the main tree. -->
         <li Class="PatchOperationReplace">
           <xpath>/Defs/ResearchProjectDef[defName="BD_HelodBlancaEarlyNarcotics"]/researchViewX</xpath>

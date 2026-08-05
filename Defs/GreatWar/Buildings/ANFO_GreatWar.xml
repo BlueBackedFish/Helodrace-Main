@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_ANFOBlastingCharge</defName>
+    <label>ANFO blasting charge</label>
+    <description>A prepared ammonium nitrate and diesel blasting charge. It can be fired remotely by a friendly blasting detonator within 50 cells, penetrates two layers into solid rock, and recovers destroyed resource veins at the yield of a level 12 miner. Direct rain exposure prevents accidental cook-off and permanently disables the charge after an average of one hour. When dry, it may cook off if badly damaged.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_MiningCharge_north</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.08,1.08)</drawSize>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <tickerType>Normal</tickerType>
+    <passability>PassThroughOnly</passability>
+    <pathCost>25</pathCost>
+    <fillPercent>0.2</fillPercent>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2540</uiOrder>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodHighExplosive</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>70</MaxHitPoints>
+      <WorkToBuild>700</WorkToBuild>
+      <Flammability>1.8</Flammability>
+      <Mass>7</Mass>
+      <Beauty>-3</Beauty>
+    </statBases>
+    <costList>
+      <HD_AmmoniumNitrate>50</HD_AmmoniumNitrate>
+      <HD_Diesel>5</HD_Diesel>
+    </costList>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <building>
+      <expandHomeArea>false</expandHomeArea>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>5.9</explosiveRadius>
+        <explosiveDamageType>HD_ANFOBomb</explosiveDamageType>
+        <damageAmountBase>200</damageAmountBase>
+        <armorPenetrationBase>0.35</armorPenetrationBase>
+        <damageFalloff>true</damageFalloff>
+        <startWickHitPointsPercent>0.6</startWickHitPointsPercent>
+        <wickTicks>15</wickTicks>
+        <startWickOnDamageTaken>
+          <li>Bullet</li>
+          <li>Arrow</li>
+          <li>ArrowHighVelocity</li>
+        </startWickOnDamageTaken>
+        <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+        <destroyThingOnExplosionSize>1</destroyThingOnExplosionSize>
+      </li>
+      <li Class="Helodrace.CompProperties_ANFORainSensitivity">
+        <mtbHours>1</mtbHours>
+      </li>
+    </comps>
+    <specialDisplayRadius>5.9</specialDisplayRadius>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_ANFODetonator</defName>
+    <label>blasting detonator</label>
+    <description>A hand-operated blasting machine wired to every friendly ANFO charge within 50 cells. Select it and use the detonation command to fire all connected charges at once.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_DynamiteDetonator</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>25</pathCost>
+    <fillPercent>0.3</fillPercent>
+    <size>(1,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2541</uiOrder>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodHighExplosive</li>
+    </researchPrerequisites>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToBuild>600</WorkToBuild>
+      <Flammability>0.8</Flammability>
+      <Mass>12</Mass>
+    </statBases>
+    <stuffCategories>
+      <li>Woody</li>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>15</costStuffCount>
+    <costList>
+      <HD_BasicElectricalComponents>2</HD_BasicElectricalComponents>
+    </costList>
+    <comps>
+      <li Class="Helodrace.CompProperties_ANFODetonator">
+        <detonationRange>50</detonationRange>
+        <chargeDefName>HD_ANFOBlastingCharge</chargeDefName>
+        <operationTicks>120</operationTicks>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

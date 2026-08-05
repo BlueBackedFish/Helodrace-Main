@@ -2040,4 +2040,66 @@
     </researchPrerequisites>
   </ThingDef>
 
+  <ThingDef ParentName="BaseWeaponTurret">
+    <defName>HD_Gun_M114Howitzer_TurretGun</defName>
+    <label>M114 155mm howitzer</label>
+    <description>A medium field howitzer configured for deliberate long-range indirect fire with standard mortar shells.</description>
+    <graphicData>
+      <texPath>Buildings/Security/HD_Transparent</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(9.0,9.0)</drawSize>
+    </graphicData>
+    <statBases>
+      <AccuracyTouch>0.05</AccuracyTouch>
+      <AccuracyShort>0.24</AccuracyShort>
+      <AccuracyMedium>0.52</AccuracyMedium>
+      <AccuracyLong>0.54</AccuracyLong>
+      <RangedWeapon_Cooldown>20.0</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <warmupTime>5.5</warmupTime>
+        <range>500</range>
+        <minRange>25.9</minRange>
+        <isMortar>true</isMortar>
+        <requireLineOfSight>false</requireLineOfSight>
+        <burstShotCount>1</burstShotCount>
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <soundCast>HD_105MMFire</soundCast>
+        <muzzleFlashScale>18</muzzleFlashScale>
+        <forcedMissRadius>5.5</forcedMissRadius>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_ChangeableProjectile" />
+    </comps>
+    <building>
+      <fixedStorageSettings>
+        <filter>
+          <categories>
+            <li>MortarShells</li>
+          </categories>
+          <disallowedThingDefs>
+            <li>Shell_Firefoam</li>
+            <li>Shell_AntigrainWarhead</li>
+          </disallowedThingDefs>
+        </filter>
+      </fixedStorageSettings>
+      <defaultStorageSettings>
+        <filter>
+          <categories>
+            <li>MortarShells</li>
+          </categories>
+          <disallowedThingDefs>
+            <li>Shell_Firefoam</li>
+            <li>Shell_AntigrainWarhead</li>
+          </disallowedThingDefs>
+        </filter>
+      </defaultStorageSettings>
+    </building>
+  </ThingDef>
+
 </Defs>

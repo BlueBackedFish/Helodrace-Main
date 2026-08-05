@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <DamageDef ParentName="Bomb">
+    <defName>HD_ANFOBomb</defName>
+    <label>ANFO blast</label>
+    <workerClass>Helodrace.DamageWorker_ANFOBomb</workerClass>
+    <buildingDamageFactorImpassable>8</buildingDamageFactorImpassable>
+    <buildingDamageFactorPassable>4</buildingDamageFactorPassable>
+  </DamageDef>
+
+</Defs>

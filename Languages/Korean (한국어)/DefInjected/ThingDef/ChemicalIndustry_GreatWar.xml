@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_AmmoniumNitrate.label>질산암모늄</HD_AmmoniumNitrate.label>
+  <HD_AmmoniumNitrate.description>고압 합성으로 생산한 흰색 결정질 질소 화합물입니다. 비료와 산업용 폭약 전구체에 쓰이는 강력한 산화제입니다.</HD_AmmoniumNitrate.description>
+
+  <HD_TNT.label>TNT</HD_TNT.label>
+  <HD_TNT.description>작은 폭파용 블록으로 주조한 트라이나이트로톨루엔입니다. 운반하기에는 비교적 안정적이지만 탄약과 발파 장약에 사용하면 강력하게 폭발합니다.</HD_TNT.description>
+</LanguageData>

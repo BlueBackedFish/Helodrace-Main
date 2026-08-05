@@ -19,6 +19,23 @@ namespace Helodrace
         public string lever2TexPath;
         public string lever3OutlineTexPath;
         public string lever3TexPath;
+        public bool useM114LayerLayout;
+        public string topUnderOutlineTexPath;
+        public string topUnderTexPath;
+        public string topTopOutlineTexPath;
+        public string topTopTexPath;
+        public string chamberOutlineTexPath;
+        public string chamberTexPath;
+        public float m114Lever1AngleDegrees = 66f;
+        public float m114GraphicDownOffset;
+        public float m114GraphicRightOffset = 0.10f;
+        public float chamberLeftOffset = 0.05f;
+        public float chamberDownOffset = 0.04f;
+        public float chamberOpenAngleDegrees = 72f;
+        public int chamberOpenDelayTicks = 86;
+        public int chamberOpenTicks = 24;
+        public int chamberMinimumOpenTicks = 50;
+        public int chamberCloseTicks = 24;
         public float drawSize = 3.2f;
         public float rotationOffsetDegrees = -90f;
         public float recoilDistance = 0.66f;
@@ -75,6 +92,8 @@ namespace Helodrace
         private int lever1Cycles = 2;
         private int lever2Cycles = 1;
         private int lever3Cycles = 2;
+        private bool chamberCycleActive;
+        private int chamberCloseStartTick = -1;
         private Material baseMaterial;
         private Material bodyOutlineMaterial;
         private Material bodyMaterial;
@@ -86,6 +105,12 @@ namespace Helodrace
         private Material lever2Material;
         private Material lever3OutlineMaterial;
         private Material lever3Material;
+        private Material topUnderOutlineMaterial;
+        private Material topUnderMaterial;
+        private Material topTopOutlineMaterial;
+        private Material topTopMaterial;
+        private Material chamberOutlineMaterial;
+        private Material chamberMaterial;
         private Material casingMaterial;
         private FleckDef smokeScreenFleck;
 
@@ -98,6 +123,11 @@ namespace Helodrace
         public void NotifyShotFired()
         {
             lastShotTick = Find.TickManager.TicksGame;
+            if (Props.useM114LayerLayout)
+            {
+                chamberCycleActive = true;
+                chamberCloseStartTick = -1;
+            }
             casingEjectTick = lastShotTick;
             casingDropPending = true;
             if (parent is Building_TurretGun turret && turret.Top != null)
@@ -135,6 +165,7 @@ namespace Helodrace
         public override void CompTick()
         {
             base.CompTick();
+            UpdateChamberCycle();
 
             int age = Find.TickManager.TicksGame - casingEjectTick;
             if (age >= Props.casingSmokeStartTicks
@@ -172,8 +203,11 @@ namespace Helodrace
                 soundCell = parent.Position;
             }
 
-            DefDatabase<SoundDef>.GetNamedSilentFail(Props.casingDropSoundDef)
-                ?.PlayOneShot(new TargetInfo(soundCell, parent.Map));
+            if (!Props.casingDropSoundDef.NullOrEmpty())
+            {
+                DefDatabase<SoundDef>.GetNamedSilentFail(Props.casingDropSoundDef)
+                    ?.PlayOneShot(new TargetInfo(soundCell, parent.Map));
+            }
         }
 
         public override void PostDraw()
@@ -191,6 +225,14 @@ namespace Helodrace
             Vector3 drawPos = parent.DrawPos;
             drawPos.y = AltitudeLayer.BuildingOnTop.AltitudeFor();
             Vector3 scale = new Vector3(Props.drawSize, 1f, Props.drawSize);
+
+            if (Props.useM114LayerLayout)
+            {
+                DrawM114Layers(turret, drawPos, rotation, forward, scale);
+                DrawEjectedCasing();
+                return;
+            }
+
             GetLeverOffsets(
                 turret,
                 rotation,
@@ -218,6 +260,69 @@ namespace Helodrace
             barrelPos = drawPos - forward * CurrentRecoil;
             DrawLayer(ref barrelPos, rotation, scale, BarrelMaterial);
             DrawEjectedCasing();
+        }
+
+        private void DrawM114Layers(
+            Building_TurretGun turret,
+            Vector3 drawPos,
+            Quaternion rotation,
+            Vector3 forward,
+            Vector3 scale)
+        {
+            drawPos -= forward * Props.m114GraphicDownOffset;
+            Vector3 right = new Vector3(forward.z, 0f, -forward.x);
+            drawPos += right * Props.m114GraphicRightOffset;
+            GetM114LeverOffsets(
+                turret,
+                rotation,
+                out Vector3 lever1Offset,
+                out Vector3 lever2Offset);
+            Vector3 chamberOffset = ChamberStaticOffset(rotation);
+            float chamberAngle = -Props.chamberOpenAngleDegrees
+                * CurrentChamberOpenFraction;
+
+            // All separate outline textures remain below every filled layer.
+            // Recoiling silhouettes use the same displacement as their art.
+            DrawLayer(ref drawPos, rotation, scale, TopUnderOutlineMaterial);
+            DrawRotatedOffsetRecoilLayer(
+                ref drawPos,
+                forward,
+                chamberOffset,
+                rotation,
+                scale,
+                ChamberOutlineMaterial,
+                chamberAngle);
+            DrawRecoilLayer(
+                ref drawPos,
+                forward,
+                rotation,
+                scale,
+                BarrelOutlineMaterial);
+            DrawLayer(ref drawPos, rotation, scale, TopTopOutlineMaterial);
+            DrawMovingLayer(ref drawPos, lever1Offset, rotation, scale, Lever1OutlineMaterial);
+            DrawMovingLayer(ref drawPos, lever2Offset, rotation, scale, Lever2OutlineMaterial);
+
+            // Filled order from bottom to top: carriage, lower cradle,
+            // chamber, barrel, upper cradle, then the two control handles.
+            DrawLayer(ref drawPos, rotation, scale, BaseMaterial);
+            DrawLayer(ref drawPos, rotation, scale, TopUnderMaterial);
+            DrawRotatedOffsetRecoilLayer(
+                ref drawPos,
+                forward,
+                chamberOffset,
+                rotation,
+                scale,
+                ChamberMaterial,
+                chamberAngle);
+            DrawRecoilLayer(
+                ref drawPos,
+                forward,
+                rotation,
+                scale,
+                BarrelMaterial);
+            DrawLayer(ref drawPos, rotation, scale, TopTopMaterial);
+            DrawMovingLayer(ref drawPos, lever1Offset, rotation, scale, Lever1Material);
+            DrawMovingLayer(ref drawPos, lever2Offset, rotation, scale, Lever2Material);
         }
 
         private void DrawEjectedCasing()
@@ -480,6 +585,50 @@ namespace Helodrace
             lever3Offset = lever3Direction * (Props.lever3Stroke * sightStroke);
         }
 
+        private void GetM114LeverOffsets(
+            Building_TurretGun turret,
+            Quaternion rotation,
+            out Vector3 lever1Offset,
+            out Vector3 lever2Offset)
+        {
+            lever1Offset = Vector3.zero;
+            lever2Offset = Vector3.zero;
+
+            float progress = WarmupAnimationProgress(turret);
+            if (progress < 0f || progress >= 0.94f)
+            {
+                return;
+            }
+
+            float lever1Stroke = EndpointHarmonicStroke(
+                WindowProgress(progress, 0f, 0.60f),
+                lever1Cycles);
+            float angle = Props.m114Lever1AngleDegrees * Mathf.Deg2Rad;
+            // The artwork is end-aligned, not center-anchored. Move the whole
+            // handle on the axis 90 degrees from its authored 66-degree angle.
+            Vector3 lever1Direction = rotation * new Vector3(
+                Mathf.Cos(angle),
+                0f,
+                Mathf.Sin(angle));
+            lever1Offset = lever1Direction * (Props.lever1Stroke * lever1Stroke);
+
+            float lever2Stroke = EndpointHarmonicStroke(
+                WindowProgress(progress, 0.16f, 0.74f),
+                lever2Cycles);
+            // Lever 2 is horizontal in the artwork, so its travel is vertical.
+            Vector3 lever2Direction = rotation * Vector3.right;
+            lever2Offset = lever2Direction * (Props.lever2Stroke * lever2Stroke);
+        }
+
+        private Vector3 ChamberStaticOffset(Quaternion rotation)
+        {
+            Vector3 staticOffset = new Vector3(
+                -Props.chamberDownOffset,
+                0f,
+                Props.chamberLeftOffset);
+            return rotation * staticOffset;
+        }
+
         private void ConfigureLeverMotion()
         {
             if (!(parent is Building_TurretGun turret) || turret.Top == null)
@@ -593,6 +742,99 @@ namespace Helodrace
             return -Mathf.Sin(settle * Mathf.PI * 4f) * envelope * 0.22f;
         }
 
+        private static float EndpointHarmonicStroke(float phase, int cycles)
+        {
+            if (phase < 0f)
+            {
+                return 0f;
+            }
+
+            float radians = Mathf.Clamp01(phase) * cycles * 2f * Mathf.PI;
+            return 0.5f - 0.5f * Mathf.Cos(radians);
+        }
+
+        private float CurrentChamberOpenFraction
+        {
+            get
+            {
+                if (!chamberCycleActive)
+                {
+                    return 0f;
+                }
+
+                int age = Find.TickManager.TicksGame - lastShotTick;
+                int openingStart = Props.chamberOpenDelayTicks;
+                int fullyOpenTick = openingStart + Props.chamberOpenTicks;
+
+                if (age < openingStart)
+                {
+                    return 0f;
+                }
+
+                if (age < fullyOpenTick)
+                {
+                    float progress = (age - openingStart)
+                        / (float)Mathf.Max(1, Props.chamberOpenTicks);
+                    return SmoothStep01(progress);
+                }
+
+                if (chamberCloseStartTick < 0)
+                {
+                    return 1f;
+                }
+
+                float closingProgress =
+                    (Find.TickManager.TicksGame - chamberCloseStartTick)
+                    / (float)Mathf.Max(1, Props.chamberCloseTicks);
+                return 1f - SmoothStep01(closingProgress);
+            }
+        }
+
+        private void UpdateChamberCycle()
+        {
+            if (!Props.useM114LayerLayout || !chamberCycleActive)
+            {
+                return;
+            }
+
+            int now = Find.TickManager.TicksGame;
+            int earliestCloseTick = lastShotTick
+                + Props.chamberOpenDelayTicks
+                + Props.chamberOpenTicks
+                + Props.chamberMinimumOpenTicks;
+
+            if (chamberCloseStartTick < 0
+                && now >= earliestCloseTick
+                && IsNextRoundLoaded)
+            {
+                chamberCloseStartTick = now;
+            }
+
+            if (chamberCloseStartTick >= 0
+                && now - chamberCloseStartTick >= Props.chamberCloseTicks)
+            {
+                chamberCycleActive = false;
+                chamberCloseStartTick = -1;
+            }
+        }
+
+        private bool IsNextRoundLoaded
+        {
+            get
+            {
+                Building_TurretGun turret = parent as Building_TurretGun;
+                CompChangeableProjectile loader = turret?.GunCompEq?.parent?
+                    .TryGetComp<CompChangeableProjectile>();
+                return loader?.Loaded == true;
+            }
+        }
+
+        private static float SmoothStep01(float value)
+        {
+            value = Mathf.Clamp01(value);
+            return 0.5f - 0.5f * Mathf.Cos(value * Mathf.PI);
+        }
+
         private float CurrentRecoil
         {
             get
@@ -638,6 +880,36 @@ namespace Helodrace
             layerCursor.y = movingPos.y;
         }
 
+        private void DrawRecoilLayer(
+            ref Vector3 layerCursor,
+            Vector3 forward,
+            Quaternion rotation,
+            Vector3 scale,
+            Material material)
+        {
+            Vector3 movingPos = layerCursor - forward * CurrentRecoil;
+            DrawLayer(ref movingPos, rotation, scale, material);
+            layerCursor.y = movingPos.y;
+        }
+
+        private void DrawRotatedOffsetRecoilLayer(
+            ref Vector3 layerCursor,
+            Vector3 forward,
+            Vector3 offset,
+            Quaternion rotation,
+            Vector3 scale,
+            Material material,
+            float additionalAngle)
+        {
+            Vector3 layerCenter = layerCursor
+                - forward * CurrentRecoil
+                + offset;
+            Quaternion layerRotation = rotation
+                * Quaternion.AngleAxis(additionalAngle, Vector3.up);
+            DrawLayer(ref layerCenter, layerRotation, scale, material);
+            layerCursor.y = layerCenter.y;
+        }
+
         private static Material MaterialFrom(string texPath)
         {
             return texPath.NullOrEmpty()
@@ -667,6 +939,18 @@ namespace Helodrace
             lever3OutlineMaterial ?? (lever3OutlineMaterial = MaterialFrom(Props.lever3OutlineTexPath));
         private Material Lever3Material =>
             lever3Material ?? (lever3Material = MaterialFrom(Props.lever3TexPath));
+        private Material TopUnderOutlineMaterial =>
+            topUnderOutlineMaterial ?? (topUnderOutlineMaterial = MaterialFrom(Props.topUnderOutlineTexPath));
+        private Material TopUnderMaterial =>
+            topUnderMaterial ?? (topUnderMaterial = MaterialFrom(Props.topUnderTexPath));
+        private Material TopTopOutlineMaterial =>
+            topTopOutlineMaterial ?? (topTopOutlineMaterial = MaterialFrom(Props.topTopOutlineTexPath));
+        private Material TopTopMaterial =>
+            topTopMaterial ?? (topTopMaterial = MaterialFrom(Props.topTopTexPath));
+        private Material ChamberOutlineMaterial =>
+            chamberOutlineMaterial ?? (chamberOutlineMaterial = MaterialFrom(Props.chamberOutlineTexPath));
+        private Material ChamberMaterial =>
+            chamberMaterial ?? (chamberMaterial = MaterialFrom(Props.chamberTexPath));
         private Material CasingMaterial =>
             casingMaterial ?? (casingMaterial = MaterialFrom(Props.casingTexPath));
     }

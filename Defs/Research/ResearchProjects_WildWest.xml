@@ -610,7 +610,7 @@
     <ResearchProjectDef>
         <defName>HelodLowHeavyArtillery</defName>
         <label>The Multi-Purpose Rain</label>
-        <description>M1 4.2-inch Chemical Mortar</description>
+        <description>M1 4.2-inch chemical mortar and M114 155mm howitzer</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>

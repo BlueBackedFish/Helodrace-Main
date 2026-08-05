@@ -4,4 +4,11 @@
   <HD_ZaperX26_Shock.description>두 개의 유선 탐침이 반복적인 전기 펄스를 흘려보내 극심한 고통을 일으키고 자발적인 움직임을 방해하고 있습니다.</HD_ZaperX26_Shock.description>
   <HD_ZaperX26_ContactShock.label>ZAPER 접촉 감전</HD_ZaperX26_ContactShock.label>
   <HD_ZaperX26_ContactShock.description>무기의 접촉 전극에서 방출된 전류가 짧은 시간 동안 극심한 고통을 일으키고 있습니다.</HD_ZaperX26_ContactShock.description>
+  <HD_FlashbangSuppression.label>섬광탄 제압</HD_FlashbangSuppression.label>
+  <HD_FlashbangSuppression.labelNoun>섬광탄 제압</HD_FlashbangSuppression.labelNoun>
+  <HD_FlashbangSuppression.description>섬광탄의 강렬한 빛과 폭음이 감각을 압도하고 정상적인 행동을 방해하고 있습니다. 시력과 청력이 돌아오면서 효과가 단계적으로 약해집니다.</HD_FlashbangSuppression.description>
+  <HD_FlashbangSuppression.stages.0.label>방향 감각 상실</HD_FlashbangSuppression.stages.0.label>
+  <HD_FlashbangSuppression.stages.1.label>혼미</HD_FlashbangSuppression.stages.1.label>
+  <HD_FlashbangSuppression.stages.2.label>강한 제압</HD_FlashbangSuppression.stages.2.label>
+  <HD_FlashbangSuppression.stages.3.label>감각 마비</HD_FlashbangSuppression.stages.3.label>
 </LanguageData>

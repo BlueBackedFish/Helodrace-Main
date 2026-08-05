@@ -12,15 +12,15 @@ namespace Helodrace
         private const float LayerGap = 0.01f;
 
         [HarmonyPostfix]
-        public static void Postfix(PawnRenderNode node, PawnDrawParms parms, ref float __result)
+        public static void Postfix(PawnRenderNode n, PawnDrawParms parms, ref float __result)
         {
             if (parms.pawn?.def?.defName != HelodRaceDefName ||
-                node?.apparel?.def?.apparel?.LastLayer != ApparelLayerDefOf.Shell)
+                n?.apparel?.def?.apparel?.LastLayer != ApparelLayerDefOf.Shell)
             {
                 return;
             }
 
-            PawnRenderNode hairNode = FindHairNode(node.tree?.rootNode);
+            PawnRenderNode hairNode = FindHairNode(n.tree?.rootNode);
             if (hairNode == null)
             {
                 return;

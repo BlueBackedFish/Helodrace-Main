@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ANFOBlastingCharge.label>ANFO 폭약</HD_ANFOBlastingCharge.label>
+  <HD_ANFOBlastingCharge.description>질산암모늄과 디젤을 혼합해 설치한 발파용 폭약입니다. 50칸 안의 아군 발파 격발기로 원격 기폭할 수 있으며, 단단한 암벽을 두 타일까지 관통해 피해를 줍니다. 파괴한 광맥에서는 채굴 12레벨에 해당하는 산출량을 회수합니다. 비에 직접 노출된 동안에는 피해로 유폭하지 않으며, 평균 1시간이 지나면 습기로 영구 비활성화됩니다. 건조한 상태에서는 심하게 손상될 경우 유폭할 수 있습니다.</HD_ANFOBlastingCharge.description>
+
+  <HD_ANFODetonator.label>발파 격발기</HD_ANFODetonator.label>
+  <HD_ANFODetonator.description>50칸 안의 모든 아군 ANFO 폭약에 연결된 수동 발파 장치입니다. 격발기를 선택하고 기폭 명령을 사용하면 연결된 폭약이 모두 동시에 점화됩니다.</HD_ANFODetonator.description>
+</LanguageData>

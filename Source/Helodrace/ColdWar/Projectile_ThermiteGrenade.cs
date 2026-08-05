@@ -34,6 +34,18 @@ namespace Helodrace.ModernWar
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
+            TrySpawnThermiteEmitter();
+            base.Impact(hitThing, blockedByShield);
+        }
+
+        protected override void PrepareFuseExplosion()
+        {
+            TrySpawnThermiteEmitter();
+            base.PrepareFuseExplosion();
+        }
+
+        private void TrySpawnThermiteEmitter()
+        {
             ThermiteGrenadeExtension extension = def.GetModExtension<ThermiteGrenadeExtension>();
             if (!thermiteEmitterSpawned && extension?.emitterDef != null && Map != null)
             {
@@ -46,8 +58,6 @@ namespace Helodrace.ModernWar
                     GenSpawn.Spawn(emitter, Position, Map);
                 }
             }
-
-            base.Impact(hitThing, blockedByShield);
         }
     }
 

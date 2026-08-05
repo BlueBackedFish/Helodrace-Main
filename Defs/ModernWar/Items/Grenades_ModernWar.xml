@@ -54,6 +54,7 @@
         <range>13.9</range>
         <forcedMissRadius>1.6</forcedMissRadius>
         <warmupTime>1.35</warmupTime>
+        <requireLineOfSight>true</requireLineOfSight>
         <noiseRadius>4</noiseRadius>
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
@@ -74,7 +75,7 @@
   <ThingDef ParentName="HD_ModernGrenadeBase">
     <defName>HD_Grenade_M84</defName>
     <projectileWhenLoaded>HD_Projectile_M84</projectileWhenLoaded>
-    <label>M84 stun grenade</label>
+    <label>M84 flashbang</label>
     <description>Non-lethal diversionary grenades that overwhelm nearby targets with a blinding flash and concussive report.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M84</texPath>
@@ -99,6 +100,7 @@
         <range>13.9</range>
         <forcedMissRadius>1.6</forcedMissRadius>
         <warmupTime>1.35</warmupTime>
+        <requireLineOfSight>true</requireLineOfSight>
         <noiseRadius>4</noiseRadius>
         <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
@@ -110,7 +112,7 @@
     <comps>
       <li Class="CompProperties_Explosive">
         <explosiveRadius>3.5</explosiveRadius>
-        <explosiveDamageType>Stun</explosiveDamageType>
+        <explosiveDamageType>Smoke</explosiveDamageType>
         <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
       </li>
     </comps>
@@ -142,6 +144,7 @@
         <range>13.9</range>
         <forcedMissRadius>1.6</forcedMissRadius>
         <warmupTime>1.35</warmupTime>
+        <requireLineOfSight>true</requireLineOfSight>
         <noiseRadius>4</noiseRadius>
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
@@ -166,13 +169,14 @@
       <drawSize>(0.46,0.46)</drawSize>
     </graphicData>
     <projectile>
-      <explosionDelay>100</explosionDelay>
+      <explosionDelay>270</explosionDelay>
     </projectile>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
     <defName>HD_Projectile_M67</defName>
     <label>M67 fragmentation grenade</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
     <graphicData>
       <texPath>Weapons/ModernWar/Projectiles/HD_M67_proj</texPath>
     </graphicData>
@@ -187,26 +191,92 @@
         <clipDef>HD_M67_ClipEffect</clipDef>
         <pinDef>HD_M67_PinEffect</pinDef>
       </li>
+      <li Class="Helodrace.ModernWar.ExplosiveGrenadeVisualExtension">
+        <smokeCount>32</smokeCount>
+        <initialRadius>0.30</initialRadius>
+        <expansionSpeed>1.9</expansionSpeed>
+        <smokeScale>0.92</smokeScale>
+      </li>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_M67Fragment</fragmentProjectile>
+        <fragmentCount>64</fragmentCount>
+        <radius>12.75</radius>
+        <minimumRangeFactor>0.50</minimumRangeFactor>
+        <targetedFragmentFraction>0.55</targetedFragmentFraction>
+        <closeAimMultiplier>1.65</closeAimMultiplier>
+        <edgeAimMultiplier>0.25</edgeAimMultiplier>
+        <longRangeFragmentFraction>0.16</longRangeFragmentFraction>
+        <longRangeRadius>18</longRangeRadius>
+        <longRangeMinimumFactor>0.72</longRangeMinimumFactor>
+      </li>
+      <li Class="Helodrace.ModernWar.FlashbangProjectileExtension">
+        <suppressionHediff>HD_FlashbangSuppression</suppressionHediff>
+        <effectRadius>9</effectRadius>
+        <indoorRadiusFactor>1.35</indoorRadiusFactor>
+        <outdoorDistanceExponent>1.30</outdoorDistanceExponent>
+        <indoorDistanceExponent>0.75</indoorDistanceExponent>
+        <severityAtCenter>0.82</severityAtCenter>
+        <severityAtEdge>0.08</severityAtEdge>
+        <outdoorFactor>0.60</outdoorFactor>
+        <smallRoomCellCount>16</smallRoomCellCount>
+        <largeRoomCellCount>160</largeRoomCellCount>
+        <smallRoomFactor>1.30</smallRoomFactor>
+        <largeRoomFactor>0.75</largeRoomFactor>
+        <differentRoomFactor>0.55</differentRoomFactor>
+        <blockedPathFactor>0.12</blockedPathFactor>
+        <stunThreshold>0.65</stunThreshold>
+        <stunFullIntensity>0.95</stunFullIntensity>
+        <stunTicksMin>90</stunTicksMin>
+        <stunTicksMax>150</stunTicksMax>
+      </li>
     </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
     <defName>HD_Projectile_M84</defName>
-    <label>M84 stun grenade</label>
+    <label>M84 flashbang</label>
+    <thingClass>Helodrace.ModernWar.Projectile_Flashbang</thingClass>
     <graphicData>
       <texPath>Weapons/ModernWar/Projectiles/HD_M84_proj</texPath>
     </graphicData>
     <projectile>
-      <damageDef>Stun</damageDef>
-      <damageAmountBase>24</damageAmountBase>
+      <damageDef>Smoke</damageDef>
+      <damageAmountBase>0</damageAmountBase>
       <explosionRadius>4.2</explosionRadius>
+      <explosionDelay>90</explosionDelay>
+      <doExplosionVFX>false</doExplosionVFX>
       <screenShakeFactor>0.7</screenShakeFactor>
     </projectile>
     <modExtensions>
       <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
         <clipDef>HD_M84_ClipEffect</clipDef>
         <pinDef>HD_M84_PinEffect</pinDef>
+        <fuseTicks>90</fuseTicks>
+        <fuseVarianceTicks>12</fuseVarianceTicks>
         <projectileVisualArcHeight>1.6</projectileVisualArcHeight>
+      </li>
+      <li Class="Helodrace.ModernWar.FlashbangProjectileExtension">
+        <suppressionHediff>HD_FlashbangSuppression</suppressionHediff>
+        <effectRadius>12</effectRadius>
+        <indoorRadiusFactor>1.50</indoorRadiusFactor>
+        <outdoorDistanceExponent>1.25</outdoorDistanceExponent>
+        <indoorDistanceExponent>0.65</indoorDistanceExponent>
+        <severityAtCenter>1.0</severityAtCenter>
+        <severityAtEdge>0.12</severityAtEdge>
+        <outdoorFactor>0.70</outdoorFactor>
+        <smallRoomCellCount>16</smallRoomCellCount>
+        <largeRoomCellCount>160</largeRoomCellCount>
+        <smallRoomFactor>1.45</smallRoomFactor>
+        <largeRoomFactor>0.85</largeRoomFactor>
+        <differentRoomFactor>0.65</differentRoomFactor>
+        <blockedPathFactor>0.20</blockedPathFactor>
+        <stunThreshold>0.55</stunThreshold>
+        <stunFullIntensity>1.05</stunFullIntensity>
+        <stunTicksMin>120</stunTicksMin>
+        <stunTicksMax>180</stunTicksMax>
+        <stunSuppressionMultiplierMax>3.50</stunSuppressionMultiplierMax>
+        <stunSuppressionExponent>1.15</stunSuppressionExponent>
+        <stunTicksAbsoluteMax>600</stunTicksAbsoluteMax>
       </li>
     </modExtensions>
   </ThingDef>
@@ -214,6 +284,7 @@
   <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
     <defName>HD_Projectile_M111</defName>
     <label>M111 offensive grenade</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
     <graphicData>
       <texPath>Weapons/ModernWar/Projectiles/HD_M111_proj</texPath>
     </graphicData>
@@ -229,7 +300,56 @@
         <clipDef>HD_M111_ClipEffect</clipDef>
         <pinDef>HD_M111_PinEffect</pinDef>
       </li>
+      <li Class="Helodrace.ModernWar.ExplosiveGrenadeVisualExtension">
+        <smokeCount>28</smokeCount>
+        <initialRadius>0.25</initialRadius>
+        <expansionSpeed>1.7</expansionSpeed>
+        <smokeScale>1.0</smokeScale>
+      </li>
+      <li Class="Helodrace.ModernWar.FlashbangProjectileExtension">
+        <suppressionHediff>HD_FlashbangSuppression</suppressionHediff>
+        <effectRadius>12</effectRadius>
+        <indoorRadiusFactor>1.65</indoorRadiusFactor>
+        <outdoorDistanceExponent>1.0</outdoorDistanceExponent>
+        <indoorDistanceExponent>0.50</indoorDistanceExponent>
+        <severityAtCenter>1.35</severityAtCenter>
+        <severityAtEdge>0.18</severityAtEdge>
+        <outdoorFactor>0.85</outdoorFactor>
+        <smallRoomCellCount>16</smallRoomCellCount>
+        <largeRoomCellCount>160</largeRoomCellCount>
+        <smallRoomFactor>1.70</smallRoomFactor>
+        <largeRoomFactor>1.05</largeRoomFactor>
+        <differentRoomFactor>0.75</differentRoomFactor>
+        <blockedPathFactor>0.25</blockedPathFactor>
+        <stunThreshold>0.48</stunThreshold>
+        <stunFullIntensity>1.10</stunFullIntensity>
+        <stunTicksMin>180</stunTicksMin>
+        <stunTicksMax>300</stunTicksMax>
+        <intensityDamageDef>Blunt</intensityDamageDef>
+        <damageThreshold>0.75</damageThreshold>
+        <damageFullIntensity>1.35</damageFullIntensity>
+        <damageAtThreshold>8</damageAtThreshold>
+        <damageAtFullIntensity>28</damageAtFullIntensity>
+        <damageArmorPenetration>0.16</damageArmorPenetration>
+      </li>
     </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_M67Fragment</defName>
+    <label>M67 grenade fragment</label>
+    <graphicData>
+      <texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.12,0.34)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Cut</damageDef>
+      <damageAmountBase>12</damageAmountBase>
+      <armorPenetrationBase>0.24</armorPenetrationBase>
+      <stoppingPower>0.35</stoppingPower>
+      <speed>42</speed>
+    </projectile>
   </ThingDef>
 
   <ThingDef Name="HD_ModernGrenadePartBase" Abstract="True">

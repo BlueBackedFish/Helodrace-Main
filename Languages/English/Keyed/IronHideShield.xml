@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_IronHideShield_ViewportHit>Viewport hit!</HD_IronHideShield_ViewportHit>
+  <HD_BallisticShield_Penetrated>Shield penetrated!</HD_BallisticShield_Penetrated>
+  <HD_IronHideShield_ViewportIntact>Viewport: intact</HD_IronHideShield_ViewportIntact>
+  <HD_IronHideShield_ViewportStatus>Viewport damage: {0}&#10;Shield firing accuracy: {1}</HD_IronHideShield_ViewportStatus>
+  <HD_IronHideShield_ViewportDamage>Viewport damage</HD_IronHideShield_ViewportDamage>
+  <HD_IronHideShield_ViewportDamage_Desc>Accumulated damage to the shield's viewport. Viewport hits gradually reduce accuracy when firing a ranged weapon from behind the shield.</HD_IronHideShield_ViewportDamage_Desc>
+  <HD_IronHideShield_CurrentAccuracy>Current shield firing accuracy</HD_IronHideShield_CurrentAccuracy>
+  <HD_IronHideShield_CurrentAccuracy_Desc>The current accuracy multiplier applied when firing a ranged weapon while using this shield, including the effect of viewport damage.</HD_IronHideShield_CurrentAccuracy_Desc>
+  <HD_IronHideShield_ForcedFacing_Label>Watch shield point</HD_IronHideShield_ForcedFacing_Label>
+  <HD_IronHideShield_ForcedFacing_Desc>Select a map point for the shield bearer to keep watching. The bearer continually turns toward that fixed point while moving. Sideways and backward movement is slower. Use this command again to stop watching it.</HD_IronHideShield_ForcedFacing_Desc>
+  <HD_IronHideShield_AllyCover>Stationary ally cover</HD_IronHideShield_AllyCover>
+  <HD_IronHideShield_AllyCover_Desc>Cover block chance granted to a friendly pawn immediately behind the shield while its bearer is stationary and facing the threat. The protected pawn leans around the shield to fire.</HD_IronHideShield_AllyCover_Desc>
+  <HD_BallisticShield_AllowedWeapons>Compatible weapons</HD_BallisticShield_AllowedWeapons>
+  <HD_BallisticShield_AllowedWeapons_Desc>Weapons explicitly listed as compatible with this shield. Edit allowedWeaponDefs in the shield's XML component to change this list.</HD_BallisticShield_AllowedWeapons_Desc>
+  <HD_BallisticShield_WeaponIncompatible>{0} cannot be equipped while using {1}.</HD_BallisticShield_WeaponIncompatible>
+  <HD_BallisticShield_WeaponDropped>{0} was dropped because it is incompatible with {1}.</HD_BallisticShield_WeaponDropped>
+</LanguageData>

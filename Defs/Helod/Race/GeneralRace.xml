@@ -392,6 +392,8 @@
           <li>HD_MilitaryTablet</li>
           <li>HD_Apparel_IBTVAssault</li>
           <li>HD_Apparel_M1952AFlakJacket</li>
+          <li>HD_Apparel_ShieldDefenTechIIIA</li>
+          <li>HD_Apparel_ShieldIronHideIV</li>
           <li>HD_Apparel_SCR300</li>
           <li>HD_USMCFightingKnife</li>
         </apparelList>
@@ -548,14 +550,18 @@
         <li>
           <def>HumanlikeBaby</def>
           <minAge>0</minAge>
+          <headOffset>(0.0, -0.07)</headOffset>
+          
         </li>
         <li>
           <def>HumanlikeChild</def>
           <minAge>3</minAge>
+          <headOffset>(0.0, -0.07)</headOffset>
         </li>
         <li>
           <def>HumanlikeTeenager</def>
           <minAge>13</minAge>
+          <headOffset>(0.0, -0.07)</headOffset>
         </li>
         <li>
           <def>HumanlikeAdult</def>

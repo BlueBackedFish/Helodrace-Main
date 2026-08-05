@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <RecipeDef>
+    <defName>HD_SynthesizeAmmoniumNitrate</defName>
+    <label>synthesize ammonium nitrate</label>
+    <description>Fix atmospheric nitrogen with a hydrogen-rich chemfuel feed, then oxidize and neutralize the resulting ammonia to produce ammonium nitrate.</description>
+    <jobString>Synthesizing ammonium nitrate.</jobString>
+    <workAmount>4500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Intellectual</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHaberBosch</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_AmmoniumNitrate>40</HD_AmmoniumNitrate>
+    </products>
+    <recipeUsers>
+      <li>HD_HaberBoschHighPressureReactor</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Intellectual>6</Intellectual>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_SynthesizeTNT</defName>
+    <label>synthesize TNT</label>
+    <description>Nitrate the toluene-rich fraction of aromatic base oil in a stirred-tank reactor, then wash and cast the resulting TNT into demolition blocks.</description>
+    <jobString>Synthesizing TNT.</jobString>
+    <workAmount>5000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Intellectual</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighExplosive</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_AmmoniumNitrate</li>
+          </thingDefs>
+        </filter>
+        <count>20</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_AromaticBaseOil</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_AmmoniumNitrate</li>
+        <li>HD_AromaticBaseOil</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_TNT>20</HD_TNT>
+    </products>
+    <recipeUsers>
+      <li>HD_StirredTankReactor</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Intellectual>8</Intellectual>
+    </skillRequirements>
+  </RecipeDef>
+
+</Defs>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_SynthesizeAmmoniumNitrate.label>질산암모늄 합성</HD_SynthesizeAmmoniumNitrate.label>
+  <HD_SynthesizeAmmoniumNitrate.description>수소가 풍부한 화학연료를 공급하여 대기 중 질소를 고정한 뒤, 생성된 암모니아를 산화·중화해 질산암모늄을 생산합니다.</HD_SynthesizeAmmoniumNitrate.description>
+  <HD_SynthesizeAmmoniumNitrate.jobString>질산암모늄을 합성하는 중.</HD_SynthesizeAmmoniumNitrate.jobString>
+
+  <HD_SynthesizeTNT.label>TNT 합성</HD_SynthesizeTNT.label>
+  <HD_SynthesizeTNT.description>교반식 탱크 반응기에서 방향족 기초유분의 톨루엔 성분을 질산화한 뒤, 생성된 TNT를 세척하고 폭파용 블록으로 주조합니다.</HD_SynthesizeTNT.description>
+  <HD_SynthesizeTNT.jobString>TNT를 합성하는 중.</HD_SynthesizeTNT.jobString>
+</LanguageData>

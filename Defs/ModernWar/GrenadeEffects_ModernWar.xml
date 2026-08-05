@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <FleckDef ParentName="FleckBase">
+    <defName>HD_SuppressionLight</defName>
+    <graphicData>
+      <texPath>Things/Mote/FireGlow</texPath>
+      <shaderType>MoteGlow</shaderType>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteLow</altitudeLayer>
+    <fadeInTime>0.06</fadeInTime>
+    <solidTime>0.14</solidTime>
+    <fadeOutTime>0.34</fadeOutTime>
+    <growthRate>0.12</growthRate>
+  </FleckDef>
+
+  <!-- Uses the vanilla smoke texture and lifetime; only movement braking differs. -->
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>HD_DirectionalVanillaSmoke</defName>
+    <fleckSystemClass>Helodrace.ModernWar.FleckSystemEaseOutSmoke</fleckSystemClass>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.50</fadeInTime>
+    <solidTime>6</solidTime>
+    <fadeOutTime>3.2</fadeOutTime>
+    <growthRate>0.005</growthRate>
+  </FleckDef>
+
+  <ThingDef>
+    <defName>HD_FlashbangLightEffect</defName>
+    <label>flashbang light</label>
+    <thingClass>Helodrace.ModernWar.Thing_FlashbangLightEffect</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>None</drawerType>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>20</glowRadius>
+        <overlightRadius>10</overlightRadius>
+        <glowColor>(255,250,225,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

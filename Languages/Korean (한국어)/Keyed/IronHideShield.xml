@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_BallisticShield_Penetrated>방패 관통!</HD_BallisticShield_Penetrated>
+  <HD_IronHideShield_ViewportHit>관측창 피격!</HD_IronHideShield_ViewportHit>
+  <HD_IronHideShield_ViewportIntact>관측창: 정상</HD_IronHideShield_ViewportIntact>
+  <HD_IronHideShield_ViewportStatus>관측창 손상: {0}&#10;방패 사격 명중률: {1}</HD_IronHideShield_ViewportStatus>
+  <HD_IronHideShield_ViewportDamage>관측창 손상도</HD_IronHideShield_ViewportDamage>
+  <HD_IronHideShield_ViewportDamage_Desc>방패 관측창에 누적된 손상입니다. 관측창이 피격될수록 방패 뒤에서 원거리 무기를 사용할 때의 명중률이 점점 감소합니다.</HD_IronHideShield_ViewportDamage_Desc>
+  <HD_IronHideShield_CurrentAccuracy>현재 방패 사격 명중률</HD_IronHideShield_CurrentAccuracy>
+  <HD_IronHideShield_CurrentAccuracy_Desc>관측창 손상을 포함하여 이 방패를 사용한 원거리 사격에 현재 적용되는 명중률 배율입니다.</HD_IronHideShield_CurrentAccuracy_Desc>
+  <HD_IronHideShield_ForcedFacing_Label>방패 지점 주목</HD_IronHideShield_ForcedFacing_Label>
+  <HD_IronHideShield_ForcedFacing_Desc>지도상의 지점을 선택해 방패 착용자가 계속 주목하게 합니다. 이동 중에도 지정한 점을 향해 계속 방향을 바꾸며 측면 및 후진 이동은 느려집니다. 다시 누르면 주목을 해제합니다.</HD_IronHideShield_ForcedFacing_Desc>
+  <HD_IronHideShield_AllyCover>정지 시 아군 엄폐율</HD_IronHideShield_AllyCover>
+  <HD_IronHideShield_AllyCover_Desc>방패병이 멈춰서 위협을 정면으로 바라볼 때 바로 뒤의 아군에게 제공하는 엄폐 확률입니다. 엄폐한 아군은 방패 좌우로 빼꼼 나와 사격합니다.</HD_IronHideShield_AllyCover_Desc>
+  <HD_BallisticShield_AllowedWeapons>호환 무기</HD_BallisticShield_AllowedWeapons>
+  <HD_BallisticShield_AllowedWeapons_Desc>이 방패와 함께 사용할 수 있도록 명시된 무기입니다. 방패 XML 컴프의 allowedWeaponDefs 목록에서 변경할 수 있습니다.</HD_BallisticShield_AllowedWeapons_Desc>
+  <HD_BallisticShield_WeaponIncompatible>{0}은(는) {1} 사용 중에는 장착할 수 없습니다.</HD_BallisticShield_WeaponIncompatible>
+  <HD_BallisticShield_WeaponDropped>{0}은(는) {1}과 호환되지 않아 내려놓았습니다.</HD_BallisticShield_WeaponDropped>
+</LanguageData>

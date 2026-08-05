@@ -9,6 +9,14 @@
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HD_Grenade_MKII"]/verbs</xpath>
+    <value><verbs /></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="HD_Grenade_MKIII"]/verbs</xpath>
+    <value><verbs /></value>
+  </Operation>
+  <Operation Class="PatchOperationReplace">
     <xpath>Defs/ThingDef[defName="HD_Grenade_M14"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
@@ -29,7 +37,7 @@
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M8" or defName="HD_Grenade_M15" or defName="HD_Grenade_M14" or defName="HD_Grenade_M7A2" or defName="HD_Grenade_M67" or defName="HD_Grenade_M84" or defName="HD_Grenade_M111"]/weaponTags</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M8" or defName="HD_Grenade_M15" or defName="HD_Grenade_MKII" or defName="HD_Grenade_MKIII" or defName="HD_Grenade_M14" or defName="HD_Grenade_M7A2" or defName="HD_Grenade_M67" or defName="HD_Grenade_M84" or defName="HD_Grenade_M111"]/weaponTags</xpath>
     <value><weaponTags /></value>
   </Operation>
 </Patch>

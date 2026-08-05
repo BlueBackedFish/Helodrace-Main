@@ -1,6 +1,7 @@
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace Helodrace.ModernWar
 {
@@ -17,6 +18,14 @@ namespace Helodrace.ModernWar
         public float projectileBounceHeight = 0.34f;
         public float projectileBounceTravelDistance = 2f;
         public float projectileVisualArcHeight = 1.6f;
+        public int fuseTicks = 270;
+        public int fuseVarianceTicks = 30;
+        public bool waitForGroundBeforeRelease;
+        public bool smokeTrail;
+        public bool glowingTrail;
+        public int trailIntervalTicks = 4;
+        public float trailSmokeScale = 0.30f;
+        public float trailGlowScale = 0.28f;
         public ThingDef gasDef;
         public int gasReleaseDelayTicks;
         public float gasEmissionRadius = 1.7f;
@@ -31,6 +40,8 @@ namespace Helodrace.ModernWar
     public class Projectile_ModernGrenade : Projectile_Explosive
     {
         private int age;
+        private int fuseDurationTicks;
+        private bool fuseTriggeredInFlight;
         private int landedTick = -1;
         private int bounceCount;
         private float startingRotation;
@@ -82,6 +93,11 @@ namespace Helodrace.ModernWar
 
             ModernGrenadeProjectileExtension extension =
                 def.GetModExtension<ModernGrenadeProjectileExtension>();
+            int baseFuseTicks = Mathf.Max(1, extension?.fuseTicks ?? 270);
+            int fuseVariance = Mathf.Max(0, extension?.fuseVarianceTicks ?? 30);
+            fuseDurationTicks = Mathf.Max(
+                1,
+                baseFuseTicks + Rand.RangeInclusive(-fuseVariance, fuseVariance));
             InitializeTrajectory(origin, extension);
             if (Map == null || extension == null)
             {
@@ -137,6 +153,8 @@ namespace Helodrace.ModernWar
         {
             base.ExposeData();
             Scribe_Values.Look(ref age, "modernGrenadeAge");
+            Scribe_Values.Look(ref fuseDurationTicks, "modernGrenadeFuseDurationTicks");
+            Scribe_Values.Look(ref fuseTriggeredInFlight, "modernGrenadeFuseTriggeredInFlight");
             Scribe_Values.Look(ref landedTick, "modernGrenadeLandedTick", -1);
             Scribe_Values.Look(ref bounceCount, "modernGrenadeBounceCount");
             Scribe_Values.Look(ref startingRotation, "modernGrenadeStartingRotation");
@@ -161,14 +179,22 @@ namespace Helodrace.ModernWar
 
         protected override void Tick()
         {
+            ModernGrenadeProjectileExtension extension =
+                def.GetModExtension<ModernGrenadeProjectileExtension>();
             if (!trajectoryInitialized)
             {
-                InitializeTrajectory(base.ExactPosition, def.GetModExtension<ModernGrenadeProjectileExtension>());
+                InitializeTrajectory(base.ExactPosition, extension);
             }
 
             age++;
             if (landedTick >= 0)
             {
+                if (FuseExpired(extension))
+                {
+                    DetonateFromFuse();
+                    return;
+                }
+
                 base.Tick();
                 return;
             }
@@ -179,6 +205,7 @@ namespace Helodrace.ModernWar
             }
 
             UpdateTrajectoryPosition();
+            ThrowFlightTrail(extension);
             ThrowBounceContactFleck();
 
             // Vanilla still handles map-cell updates, interception, and the
@@ -186,7 +213,25 @@ namespace Helodrace.ModernWar
             // grenade reaches the final impact cell.
             ticksToImpact = 1000000;
             base.Tick();
-            if (!Destroyed && age >= primaryFlightTicks + bounceFlightTicks)
+            if (Destroyed)
+            {
+                return;
+            }
+
+            if (FuseExpired(extension))
+            {
+                if (extension?.waitForGroundBeforeRelease == true)
+                {
+                    TriggerFuseInFlight();
+                }
+                else
+                {
+                    DetonateFromFuse();
+                    return;
+                }
+            }
+
+            if (age >= primaryFlightTicks + bounceFlightTicks)
             {
                 Impact(null, false);
             }
@@ -196,32 +241,144 @@ namespace Helodrace.ModernWar
         {
             ModernGrenadeProjectileExtension extension =
                 def.GetModExtension<ModernGrenadeProjectileExtension>();
-            if (!gasEmitterSpawned && extension?.gasDef != null && Map != null)
-            {
-                gasEmitterSpawned = true;
-                CSGasEmitter emitter = ThingMaker.MakeThing(
-                    DefDatabase<ThingDef>.GetNamed("HD_CSGasEmitter")) as CSGasEmitter;
-                emitter?.Initialize(
-                    extension.gasDef,
-                    extension.gasReleaseDelayTicks,
-                    extension.gasEmissionRadius,
-                    extension.gasDensity,
-                    extension.gasEdgeDensityFactor,
-                    extension.gasEmissionDurationTicksMin,
-                    extension.gasEmissionDurationTicksMax,
-                    extension.gasEmissionIntervalTicks,
-                    extension.gasPulseDensityFactor);
-                if (emitter != null)
-                {
-                    GenSpawn.Spawn(emitter, Position, Map);
-                }
-            }
-
+            TrySpawnGasEmitter();
             base.Impact(hitThing, blockedByShield);
             if (!Destroyed && landedTick < 0)
             {
                 landedTick = age;
                 exactPosition = Position.ToVector3Shifted();
+            }
+
+            if (!Destroyed && extension?.waitForGroundBeforeRelease == true)
+            {
+                Explode();
+            }
+        }
+
+        protected virtual void PrepareFuseExplosion()
+        {
+            TrySpawnGasEmitter();
+        }
+
+        private bool FuseExpired(ModernGrenadeProjectileExtension extension)
+        {
+            if (fuseDurationTicks <= 0)
+            {
+                fuseDurationTicks = Mathf.Max(1, extension?.fuseTicks ?? 270);
+            }
+
+            return age >= fuseDurationTicks;
+        }
+
+        private void DetonateFromFuse()
+        {
+            PrepareFuseExplosion();
+            Explode();
+        }
+
+        private void TriggerFuseInFlight()
+        {
+            if (fuseTriggeredInFlight)
+            {
+                return;
+            }
+
+            fuseTriggeredInFlight = true;
+            if (Map != null)
+            {
+                def.projectile.soundExplode?.PlayOneShot(
+                    new TargetInfo(Position, Map));
+            }
+        }
+
+        private void ThrowFlightTrail(ModernGrenadeProjectileExtension extension)
+        {
+            if (extension?.smokeTrail != true
+                || Map == null
+                || age % Mathf.Max(1, extension.trailIntervalTicks) != 0)
+            {
+                return;
+            }
+
+            Vector3 direction = finalDestination - launchOrigin;
+            direction.y = 0f;
+            direction = direction.sqrMagnitude > 0.0001f
+                ? direction.normalized
+                : Vector3.forward;
+            Vector3 position = CurrentVisualTrailPosition(extension);
+            FleckCreationData smoke = FleckMaker.GetDataStatic(
+                position,
+                Map,
+                FleckDefOf.Smoke,
+                Mathf.Max(0.05f, extension.trailSmokeScale) * Rand.Range(0.78f, 1.18f));
+            smoke.rotation = Rand.Range(0f, 360f);
+            smoke.rotationRate = Rand.Range(-12f, 12f);
+            smoke.velocity = -direction * Rand.Range(0.05f, 0.12f);
+            smoke.solidTimeOverride = Rand.Range(0.16f, 0.34f);
+            Map.flecks.CreateFleck(smoke);
+
+            if (extension.glowingTrail)
+            {
+                FleckMaker.ThrowFireGlow(
+                    position,
+                    Map,
+                    Mathf.Max(0.05f, extension.trailGlowScale));
+            }
+        }
+
+        private Vector3 CurrentVisualTrailPosition(
+            ModernGrenadeProjectileExtension extension)
+        {
+            Vector3 position = ExactPosition;
+            if (age <= primaryFlightTicks)
+            {
+                float progress = Mathf.Clamp01(
+                    age / (float)Mathf.Max(1, primaryFlightTicks));
+                float visualArcHeight = primaryVisualArcHeight >= 0f
+                    ? primaryVisualArcHeight
+                    : Mathf.Max(0f, extension?.projectileVisualArcHeight ?? 1.6f);
+                position.z += Mathf.Sin(progress * Mathf.PI) * visualArcHeight;
+                return position;
+            }
+
+            float bounceProgress = Mathf.Clamp01(
+                (age - primaryFlightTicks) / (float)Mathf.Max(1, bounceFlightTicks));
+            float bounceHeight = BounceHeightAt(
+                bounceProgress,
+                bounceArcHeight >= 0f
+                    ? bounceArcHeight
+                    : Mathf.Max(0f, extension?.projectileBounceHeight ?? 0.34f));
+            position.z += bounceHeight * (bounceVisualArcFactor >= 0f
+                ? bounceVisualArcFactor
+                : 0.75f);
+            return position;
+        }
+
+        private void TrySpawnGasEmitter()
+        {
+            ModernGrenadeProjectileExtension extension =
+                def.GetModExtension<ModernGrenadeProjectileExtension>();
+            if (gasEmitterSpawned || extension?.gasDef == null || Map == null)
+            {
+                return;
+            }
+
+            gasEmitterSpawned = true;
+            CSGasEmitter emitter = ThingMaker.MakeThing(
+                DefDatabase<ThingDef>.GetNamed("HD_CSGasEmitter")) as CSGasEmitter;
+            emitter?.Initialize(
+                extension.gasDef,
+                extension.gasReleaseDelayTicks,
+                extension.gasEmissionRadius,
+                extension.gasDensity,
+                extension.gasEdgeDensityFactor,
+                extension.gasEmissionDurationTicksMin,
+                extension.gasEmissionDurationTicksMax,
+                extension.gasEmissionIntervalTicks,
+                extension.gasPulseDensityFactor);
+            if (emitter != null)
+            {
+                GenSpawn.Spawn(emitter, Position, Map);
             }
         }
 

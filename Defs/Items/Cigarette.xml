@@ -10,8 +10,8 @@
       <HediffDef>HD_NicotineAddiction</HediffDef>
     </descriptionHyperlinks>
     <graphicData>
-      <texPath>Items/Cigarette/HD_Cigarette/HD_Cigarette_a</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Items/Cigarette/HD_Cigarette</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
       <drawSize>(0.385,0.385)</drawSize>
     </graphicData>
     <rotatable>false</rotatable>

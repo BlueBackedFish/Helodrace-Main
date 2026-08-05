@@ -34,6 +34,22 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_Nailgun_Proj</defName>
+    <label>nailgun nail</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>7</damageAmountBase>
+      <armorPenetrationBase>0.08</armorPenetrationBase>
+      <stoppingPower>0.25</stoppingPower>
+      <speed>65</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_ZaperX26_Probe</defName>
     <label>ZAPER X26 probe</label>
     <thingClass>Helodrace.ModernWar.Projectile_ZaperX26Probe</thingClass>
@@ -469,6 +485,137 @@
         <muzzleFlashScale>3</muzzleFlashScale>
       </li>
     </verbs>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
+    <defName>HD_PowerforgeJackhammer</defName>
+    <label>Powerforge jackhammer</label>
+    <description>A heavy battery-powered demolition tool built around a hardened reciprocating bit. In combat it delivers brutal impacts; in practiced hands it also makes mining and construction substantially faster. While equipped, it increases mining speed by 35% and construction speed by 15%.</description>
+    <graphicData>
+      <texPath>Weapons/ModernWar/HD_JackHammer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <uiIconScale>1.05</uiIconScale>
+    <equippedAngleOffset>45</equippedAngleOffset>
+    <weaponTags>
+      <li>HD_ModernWarWeapon</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>36000</WorkToMake>
+      <Mass>6.6</Mass>
+      <MarketValue>1050</MarketValue>
+      <MaxHitPoints>120</MaxHitPoints>
+    </statBases>
+    <equippedStatOffsets>
+      <MiningSpeed>0.75</MiningSpeed>
+      <ConstructionSpeed>0.15</ConstructionSpeed>
+    </equippedStatOffsets>
+    <costList>
+      <Steel>60</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
+    </recipeMaker>
+    <tools>
+      <li>
+        <label>drill</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>15</power>
+        <cooldownTime>1.8</cooldownTime>
+      </li>
+      <li>
+        <label>reciprocating bit</label>
+        <labelUsedInLogging>false</labelUsedInLogging>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>4</power>
+        <armorPenetration>0.35</armorPenetration>
+        <cooldownTime>0.2</cooldownTime>
+        <soundMeleeHit>MeleeHit_Metal_Blunt</soundMeleeHit>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>HD_Gun_Nailgun_Weapon</defName>
+    <label>nailgun</label>
+    <description>A rugged cordless nailgun intended for rapid assembly work. It can launch construction nails as short-ranged projectiles in an emergency. While equipped, it increases general labor speed used by most crafting recipes and construction speed by 20%.</description>
+    <graphicData>
+      <texPath>Weapons/ModernWar/HD_Nailgun</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.82,0.82)</drawSize>
+    </graphicData>
+    <uiIconScale>1.1</uiIconScale>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <soundInteract>Interact_Autopistol</soundInteract>
+    <weaponClasses>
+      <li>RangedLight</li>
+    </weaponClasses>
+    <weaponTags>
+      <li>HD_ModernWarWeapon</li>
+      <li>IndustrialGunAdvanced</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>24000</WorkToMake>
+      <Mass>2.2</Mass>
+      <MarketValue>800</MarketValue>
+      <MaxHitPoints>90</MaxHitPoints>
+      <AccuracyTouch>0.86</AccuracyTouch>
+      <AccuracyShort>0.78</AccuracyShort>
+      <AccuracyMedium>0.48</AccuracyMedium>
+      <AccuracyLong>0.18</AccuracyLong>
+      <RangedWeapon_Cooldown>0.4</RangedWeapon_Cooldown>
+    </statBases>
+    <equippedStatOffsets>
+      <GeneralLaborSpeed>0.20</GeneralLaborSpeed>
+      <ConstructionSpeed>0.30</ConstructionSpeed>
+    </equippedStatOffsets>
+    <costList>
+      <Steel>35</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+      <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
+    </recipeMaker>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_Nailgun_Proj</defaultProjectile>
+        <warmupTime>0.35</warmupTime>
+        <range>8.9</range>
+        <burstShotCount>1</burstShotCount>
+        <soundCast>Shot_NeedleGun</soundCast>
+        <soundCastTail>GunTail_Light</soundCastTail>
+        <muzzleFlashScale>1</muzzleFlashScale>
+      </li>
+    </verbs>
+    <tools>
+      <li>
+        <label>body</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>1.8</cooldownTime>
+      </li>
+    </tools>
   </ThingDef>
 
   <ThingDef>

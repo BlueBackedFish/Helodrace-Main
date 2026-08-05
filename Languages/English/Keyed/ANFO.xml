@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ANFO_Detonate_Label>Detonate ANFO charges</HD_ANFO_Detonate_Label>
+  <HD_ANFO_Detonate_Desc>Order the nearest available colonist to operate this detonator and fire every friendly ANFO charge within {0} cells.</HD_ANFO_Detonate_Desc>
+  <HD_ANFO_NoLinkedCharges>No friendly ANFO charges are connected within {0} cells.</HD_ANFO_NoLinkedCharges>
+  <HD_ANFO_NoOperator>No available colonist can reach and operate the blasting detonator.</HD_ANFO_NoOperator>
+  <HD_ANFO_LinkedCharges>Connected ANFO charges: {0} (range: {1})</HD_ANFO_LinkedCharges>
+  <HD_ANFO_Detonated>Detonated {0} ANFO charge(s).</HD_ANFO_Detonated>
+  <HD_ANFO_RainDisabled>Inactive: moisture-damaged</HD_ANFO_RainDisabled>
+  <HD_ANFO_RainDisabledMessage>{0} has been disabled by rain.</HD_ANFO_RainDisabledMessage>
+</LanguageData>

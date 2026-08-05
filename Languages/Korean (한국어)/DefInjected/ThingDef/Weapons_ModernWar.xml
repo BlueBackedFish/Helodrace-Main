@@ -4,10 +4,15 @@
   <HD_ZaperX26_TetherEffect.label>ZAPER X26 작동 전선</HD_ZaperX26_TetherEffect.label>
   <HD_Bullet_M16A4_Proj.label>M16A4 탄환</HD_Bullet_M16A4_Proj.label>
   <HD_Bullet_Glock19_Proj.label>9×19mm 탄환</HD_Bullet_Glock19_Proj.label>
+  <HD_Bullet_Nailgun_Proj.label>네일건 못</HD_Bullet_Nailgun_Proj.label>
   <HD_Gun_M16A4_Weapon.label>M16A4</HD_Gun_M16A4_Weapon.label>
   <HD_Gun_M16A4_Weapon.description>소구경 고속탄을 사용하는 현대식 제식소총입니다. 제어된 3점사를 가하며, 헬로드 명사수는 유효 사거리 8칸을 희생해 거의 즉시 표적을 조준할 수 있습니다.</HD_Gun_M16A4_Weapon.description>
   <HD_Gun_Glock19Gen5_Weapon.label>Glock 19 Gen5</HD_Gun_Glock19Gen5_Weapon.label>
   <HD_Gun_Glock19Gen5_Weapon.description>슬라이드 장착형 반사 조준경과 전술조명을 단 탄색 5세대 Glock 19입니다. 소형 프레임과 선명한 조준점, 조명 덕분에 근거리 표적을 매우 빠르게 포착할 수 있습니다.</HD_Gun_Glock19Gen5_Weapon.description>
   <HD_Gun_MK18MOD1_Weapon.label>MK18 Mod 1</HD_Gun_MK18MOD1_Weapon.label>
   <HD_Gun_MK18MOD1_Weapon.description>수직손잡이, 소음기, 확대경이 결합된 EOTech 홀로그램 조준기, 전술조명, 콤보 레이저 모듈을 장착한 소형 5.56mm 근접전용 카빈입니다. 짧은 총열에도 불구하고 풍부한 부착물 덕분에 조작성과 표적 획득 능력이 뛰어납니다.</HD_Gun_MK18MOD1_Weapon.description>
+  <HD_PowerforgeJackhammer.label>파워포지 잭해머</HD_PowerforgeJackhammer.label>
+  <HD_PowerforgeJackhammer.description>경화 왕복 비트를 장착한 중량급 배터리식 철거 공구입니다. 전투에서는 강력한 충격을 가하고, 숙련된 작업자의 손에서는 채굴과 건설 작업을 크게 앞당깁니다. 장비하면 채굴 속도가 35%, 건설 속도가 15% 증가합니다.</HD_PowerforgeJackhammer.description>
+  <HD_Gun_Nailgun_Weapon.label>네일건</HD_Gun_Nailgun_Weapon.label>
+  <HD_Gun_Nailgun_Weapon.description>빠른 조립 작업을 위한 튼튼한 무선 네일건입니다. 비상시에는 건설용 못을 단거리 투사체로 발사할 수 있습니다. 장비하면 대부분의 제작에 쓰이는 일반 노동 속도와 건설 속도가 각각 20% 증가합니다.</HD_Gun_Nailgun_Weapon.description>
 </LanguageData>

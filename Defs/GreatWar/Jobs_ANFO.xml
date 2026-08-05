@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <JobDef>
+    <defName>HD_OperateANFODetonator</defName>
+    <driverClass>Helodrace.JobDriver_OperateANFODetonator</driverClass>
+    <reportString>operating the blasting detonator.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>
