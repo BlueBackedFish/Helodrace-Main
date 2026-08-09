@@ -65,7 +65,7 @@
           <baseLayer>6</baseLayer>
           <drawData>
             <dataSouth>
-              <layer>350</layer>
+              <layer>40</layer>
             </dataSouth>
           </drawData>
           <colorType>Skin</colorType>
@@ -84,7 +84,7 @@
           <baseLayer>6</baseLayer>
           <drawData>
             <dataSouth>
-              <layer>350</layer>
+              <layer>40</layer>
             </dataSouth>
           </drawData>
           <colorType>Skin</colorType>
@@ -100,7 +100,7 @@
               <baseLayer>7</baseLayer>
               <drawData>
                 <dataSouth>
-                  <layer>351</layer>
+                  <layer>41</layer>
                 </dataSouth>
               </drawData>
             </li>
@@ -114,7 +114,7 @@
               <baseLayer>8</baseLayer>
               <drawData>
                 <dataSouth>
-                  <layer>352</layer>
+                  <layer>42</layer>
                 </dataSouth>
               </drawData>
             </li>
@@ -128,7 +128,7 @@
               <baseLayer>9</baseLayer>
               <drawData>
                 <dataSouth>
-                  <layer>353</layer>
+                  <layer>43</layer>
                 </dataSouth>
               </drawData>
             </li>
@@ -139,14 +139,14 @@
               <baseLayer>10</baseLayer>
               <drawData>
                 <dataSouth>
-                  <layer>354</layer>
+                  <layer>44</layer>
                 </dataSouth>
               </drawData>
             </li>
             <li Class="PawnRenderNodeProperties_Parent">
               <debugLabel>Apparel root</debugLabel>
               <tagDef>ApparelHead</tagDef>
-              <baseLayer>11</baseLayer>
+              <baseLayer>80</baseLayer>
             </li>
             <li Class="PawnRenderNodeProperties_Overlay">
               <debugLabel>Firefoam</debugLabel>
@@ -155,7 +155,7 @@
               <baseLayer>12</baseLayer>
               <drawData>
                 <dataSouth>
-                  <layer>355</layer>
+                  <layer>90</layer>
                 </dataSouth>
               </drawData>
             </li>
@@ -165,7 +165,7 @@
               <baseLayer>13</baseLayer>
               <drawData>
                 <dataSouth>
-                  <layer>356</layer>
+                  <layer>91</layer>
                 </dataSouth>
               </drawData>
             </li>

@@ -11,7 +11,7 @@
     <stages>
       <li>
         <label>covered ears</label>
-        <painOffset>0.35</painOffset>
+        <painOffset>0.05</painOffset>
         <capMods>
           <li>
             <capacity>Hearing</capacity>

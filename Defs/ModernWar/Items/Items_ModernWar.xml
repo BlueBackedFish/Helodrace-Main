@@ -297,11 +297,14 @@
         <defaultData>
           <layer>110</layer>
         </defaultData>
+        <dataSouth>
+          <layer>30</layer>
+        </dataSouth>
         <dataNorth>
           <layer>-3</layer>
         </dataNorth>
         <dataSouth>
-          <layer>500</layer>
+          <layer>99</layer>
         </dataSouth>
       </drawData>
       <layers>
@@ -400,7 +403,7 @@
           <layer>-3</layer>
         </dataNorth>
         <dataSouth>
-          <layer>500</layer>
+          <layer>99</layer>
         </dataSouth>
       </drawData>
       <layers>

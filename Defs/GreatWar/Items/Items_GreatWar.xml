@@ -149,6 +149,9 @@
         <defaultData>
           <layer>110</layer>
         </defaultData>
+        <dataSouth>
+          <layer>30</layer>
+        </dataSouth>
       </drawData>
       <layers>
         <li>Belt</li>
@@ -208,6 +211,9 @@
         <defaultData>
           <layer>110</layer>
         </defaultData>
+        <dataSouth>
+          <layer>30</layer>
+        </dataSouth>
       </drawData>
       <layers>
         <li>Belt</li>
@@ -383,6 +389,9 @@
         <defaultData>
           <layer>110</layer>
         </defaultData>
+        <dataSouth>
+          <layer>30</layer>
+        </dataSouth>
       </drawData>
       <renderNodeProperties>
         <li>
@@ -469,6 +478,9 @@
         <defaultData>
           <layer>110</layer>
         </defaultData>
+        <dataSouth>
+          <layer>30</layer>
+        </dataSouth>
       </drawData>
       <renderNodeProperties>
         <li>
@@ -554,6 +566,9 @@
         <defaultData>
           <layer>110</layer>
         </defaultData>
+        <dataSouth>
+          <layer>30</layer>
+        </dataSouth>
       </drawData>
       <layers>
         <li>Belt</li>
