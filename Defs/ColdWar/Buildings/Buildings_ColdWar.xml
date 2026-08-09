@@ -144,6 +144,22 @@
       <li Class="CompProperties_Mannable">
         <manWorkType>Violent</manWorkType>
       </li>
+      <!-- M167's optical lead-computing sight tells the operator where to aim;
+           interception therefore depends on Shooting, not Intellectual. -->
+      <li Class="Helodrace.CompProperties_MannedAntiAir">
+        <projectileInterceptChance>0.075</projectileInterceptChance>
+        <dropPodInterceptChance>0.025</dropPodInterceptChance>
+        <antiAirWarmupTicks>12</antiAirWarmupTicks>
+        <interceptCollisionRadius>1.25</interceptCollisionRadius>
+        <missTrajectoryRangeFactor>2</missTrajectoryRangeFactor>
+        <shootingSkillWeight>1</shootingSkillWeight>
+        <intellectualSkillWeight>0</intellectualSkillWeight>
+        <interceptOverheadProjectiles>true</interceptOverheadProjectiles>
+        <interceptDirectProjectiles>true</interceptDirectProjectiles>
+        <interceptDropPods>true</interceptDropPods>
+        <dropPodCrashExplosionRadius>2.2</dropPodCrashExplosionRadius>
+        <dropPodCrashDamage>28</dropPodCrashDamage>
+      </li>
       <li Class="CompProperties_Forbiddable"/>
       <!-- The top remains the vanilla turret-gun graphic. This comp only adds
            the animated barrel and places every outline beneath filled art. -->

@@ -22,6 +22,7 @@ namespace Helodrace.ModernWar
         public float targetedFragmentFraction = 0.5f;
         public float closeAimMultiplier = 1.5f;
         public float edgeAimMultiplier = 0.25f;
+        public float minimumTargetedAimChance = 0.35f;
         public float longRangeFragmentFraction = 0.15f;
         public float longRangeRadius = 12f;
         public float longRangeMinimumFactor = 0.7f;
@@ -173,6 +174,11 @@ namespace Helodrace.ModernWar
                 return;
             }
 
+            // Off-map mortar support intentionally launches its parent shell
+            // without a Thing launcher. A null fragment launcher breaks pawn
+            // clamor/flee reactions and combat-log grammar when the fragment
+            // hits. The still-spawned parent projectile is a safe fallback.
+            instigator = instigator ?? shotCaster;
             float radius = Mathf.Max(0.1f, extension.radius);
             float minimumRange = radius * Mathf.Clamp(extension.minimumRangeFactor, 0.1f, 1f);
             int fragmentCount = Mathf.Clamp(extension.fragmentCount, 4, 64);
@@ -208,6 +214,66 @@ namespace Helodrace.ModernWar
                     ? Rand.Range(longRangeMinimum, longRangeRadius)
                     : Rand.Range(minimumRange, radius);
                 IntVec3 targetCell = (origin + direction * distance).ToIntVec3();
+                targetCell.x = Mathf.Clamp(targetCell.x, 0, map.Size.x - 1);
+                targetCell.z = Mathf.Clamp(targetCell.z, 0, map.Size.z - 1);
+                targetCell.y = center.y;
+                if (targetCell == center)
+                {
+                    continue;
+                }
+
+                LocalTargetInfo target = new LocalTargetInfo(targetCell);
+                LaunchFragment(
+                    center,
+                    map,
+                    fragmentDef,
+                    instigator,
+                    origin,
+                    target,
+                    target,
+                    null);
+            }
+        }
+
+        public static void ThrowDirectionalFragments(
+            IntVec3 center,
+            Map map,
+            FragmentationGrenadeExtension extension,
+            Thing instigator,
+            Thing shotCaster,
+            Vector3 direction,
+            float coneDegrees)
+        {
+            ThingDef fragmentDef = extension?.fragmentProjectile;
+            direction.y = 0f;
+            if (map == null
+                || fragmentDef?.projectile == null
+                || shotCaster == null
+                || !center.InBounds(map)
+                || direction.sqrMagnitude < 0.001f)
+            {
+                return;
+            }
+
+            instigator = instigator ?? shotCaster;
+            direction.Normalize();
+            int fragmentCount = Mathf.Clamp(extension.fragmentCount, 1, 64);
+            float radius = Mathf.Max(0.1f, extension.radius);
+            float minimumRange = radius
+                * Mathf.Clamp(extension.minimumRangeFactor, 0.05f, 1f);
+            float cone = Mathf.Clamp(coneDegrees, 1f, 360f);
+            float coneStart = direction.AngleFlat() - cone * 0.5f;
+            Vector3 origin = center.ToVector3Shifted();
+
+            for (int i = 0; i < fragmentCount; i++)
+            {
+                float angle = coneStart
+                    + (i + Rand.Range(0.05f, 0.95f)) * cone / fragmentCount;
+                Vector3 fragmentDirection = Quaternion.AngleAxis(
+                    angle,
+                    Vector3.up) * Vector3.forward;
+                float distance = Rand.Range(minimumRange, radius);
+                IntVec3 targetCell = (origin + fragmentDirection * distance).ToIntVec3();
                 targetCell.x = Mathf.Clamp(targetCell.x, 0, map.Size.x - 1);
                 targetCell.z = Mathf.Clamp(targetCell.z, 0, map.Size.z - 1);
                 targetCell.y = center.y;
@@ -286,7 +352,9 @@ namespace Helodrace.ModernWar
                     Mathf.Max(0f, extension.closeAimMultiplier),
                     Mathf.Max(0f, extension.edgeAimMultiplier),
                     distanceProgress);
-                float aimChance = Mathf.Clamp01(report.AimOnTargetChance * aimMultiplier);
+                float aimChance = Mathf.Clamp01(Mathf.Max(
+                    extension.minimumTargetedAimChance,
+                    report.AimOnTargetChance * aimMultiplier));
                 if (!Rand.Chance(aimChance))
                 {
                     continue;
@@ -541,6 +609,36 @@ namespace Helodrace.ModernWar
             {
                 GenSpawn.Spawn(light, center, map);
             }
+        }
+    }
+
+    public class Projectile_FragmentingExplosive : Projectile_Explosive
+    {
+        protected override void Explode()
+        {
+            Map impactMap = Map;
+            IntVec3 impactCell = Position;
+            Thing instigator = Launcher;
+            FragmentationGrenadeExtension fragmentation =
+                def.GetModExtension<FragmentationGrenadeExtension>();
+
+            try
+            {
+                GrenadeExplosionEffectUtility.ThrowFragments(
+                    impactCell,
+                    impactMap,
+                    fragmentation,
+                    instigator,
+                    this);
+            }
+            catch (System.Exception exception)
+            {
+                Log.ErrorOnce(
+                    $"Helodrace explosive fragment calculation failed; continuing main explosion. {exception}",
+                    GetHashCode());
+            }
+
+            base.Explode();
         }
     }
 

@@ -3,4 +3,6 @@
   <HD_Bullet_M60E3_Proj.label>7.62×51mm NATO 탄환</HD_Bullet_M60E3_Proj.label>
   <HD_Gun_M60E3_Weapon.label>M60E3 다목적기관총</HD_Gun_M60E3_Weapon.label>
   <HD_Gun_M60E3_Weapon.description>탄띠 급탄식 M60에서 양각대를 제거하고 전방 손잡이와 개량 총열을 장착한 경량형 현대화 모델입니다. 헬로드 명사수는 유효 사거리와 명중률을 조금 희생해 훨씬 빠르게 표적을 포착하는 지향사격 모드로 전환할 수 있습니다.</HD_Gun_M60E3_Weapon.description>
+  <HD_PowerCutter.label>동력 절단기</HD_PowerCutter.label>
+  <HD_PowerCutter.description>석재와 금속 골조를 비롯한 각종 건축 자재를 절단하도록 만든 중량급 무선 절단기입니다. 비상시에는 노출된 절단날을 흉포한 근접무기로 사용할 수 있습니다. 장비하면 건설 속도가 25% 증가합니다.</HD_PowerCutter.description>
 </LanguageData>

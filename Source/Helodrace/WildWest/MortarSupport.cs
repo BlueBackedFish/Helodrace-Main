@@ -85,7 +85,12 @@ namespace Helodrace
                 Messages.Message(reason ?? "HD_MortarSupport_Unavailable".Translate().ToString(), MessageTypeDefOf.RejectInput);
                 return false;
             }
-            map.GetComponent<MapComponent_HelodMortarSupport>().QueueStrike(cell, lineEnd.IsValid ? lineEnd : cell, shellDef, forwardBase);
+            map.GetComponent<MapComponent_HelodMortarSupport>().QueueStrike(
+                cell,
+                lineEnd.IsValid ? lineEnd : cell,
+                shellDef,
+                forwardBase,
+                radioOperator);
             telegraphComp?.ConsumePrimaryCell();
             Messages.Message("HD_MortarSupport_Called".Translate(VolleyCount * ShellsPerVolley), MessageTypeDefOf.NeutralEvent);
             return true;
@@ -106,9 +111,21 @@ namespace Helodrace
         private IntVec3 lineDragEnd = IntVec3.Invalid;
         public MapComponent_HelodMortarSupport(Map map) : base(map) { }
 
-        public void QueueStrike(IntVec3 center, IntVec3 lineEnd, ThingDef shellDef, HelodForwardBase forwardBase)
+        public void QueueStrike(
+            IntVec3 center,
+            IntVec3 lineEnd,
+            ThingDef shellDef,
+            HelodForwardBase forwardBase,
+            Pawn caller)
         {
-            strikes.Add(new MortarSupportStrike(center, lineEnd, shellDef, forwardBase, IncomingEdgeCell(forwardBase), Find.TickManager.TicksGame + 120));
+            strikes.Add(new MortarSupportStrike(
+                center,
+                lineEnd,
+                shellDef,
+                forwardBase,
+                IncomingEdgeCell(forwardBase),
+                Find.TickManager.TicksGame + 120,
+                caller));
         }
 
         public void BeginSmokeLineTargeting(HelodForwardBase forwardBase, ThingDef shellDef,
@@ -202,7 +219,12 @@ namespace Helodrace
             IntVec3 impact = CellFinder.RandomClosewalkCellNear(aim, map, Mathf.RoundToInt(scatter));
             IntVec3 source = strike.IncomingEdgeCell;
             Projectile projectile = (Projectile)GenSpawn.Spawn(strike.ProjectileDef, source, map);
-            projectile.Launch(null, source.ToVector3Shifted(), impact, impact, ProjectileHitFlags.All);
+            projectile.Launch(
+                strike.Caller,
+                source.ToVector3Shifted(),
+                impact,
+                impact,
+                ProjectileHitFlags.All);
         }
 
         public override void ExposeData()
@@ -224,6 +246,7 @@ namespace Helodrace
         private int volleysFired;
         private int nextVolleyTick;
         private float patternRotation;
+        private Pawn caller;
         public IntVec3 Center => center;
         public ThingDef ProjectileDef => projectileDef;
         public bool IsSmokeLine => HelodMortarSupportUtility.IsSmokeShell(shellDef) && lineEnd != center;
@@ -231,8 +254,27 @@ namespace Helodrace
         public int NextVolleyTick => nextVolleyTick;
         public IntVec3 IncomingEdgeCell => incomingEdgeCell;
         public bool Finished => volleysFired >= HelodMortarSupportUtility.VolleyCount;
+        public Pawn Caller => caller;
         public MortarSupportStrike() { }
-        public MortarSupportStrike(IntVec3 center, IntVec3 lineEnd, ThingDef shellDef, HelodForwardBase forwardBase, IntVec3 incomingEdgeCell, int firstTick) { this.center = center; this.lineEnd = lineEnd; this.shellDef = shellDef; projectileDef = shellDef.projectileWhenLoaded; this.forwardBase = forwardBase; this.incomingEdgeCell = incomingEdgeCell; nextVolleyTick = firstTick; patternRotation = Rand.Range(0f, 360f); }
+        public MortarSupportStrike(
+            IntVec3 center,
+            IntVec3 lineEnd,
+            ThingDef shellDef,
+            HelodForwardBase forwardBase,
+            IntVec3 incomingEdgeCell,
+            int firstTick,
+            Pawn caller)
+        {
+            this.center = center;
+            this.lineEnd = lineEnd;
+            this.shellDef = shellDef;
+            projectileDef = shellDef.projectileWhenLoaded;
+            this.forwardBase = forwardBase;
+            this.incomingEdgeCell = incomingEdgeCell;
+            nextVolleyTick = firstTick;
+            patternRotation = Rand.Range(0f, 360f);
+            this.caller = caller;
+        }
         public IntVec3 AimCellForNextShell(int shellInVolley)
         {
             int shellIndex = volleysFired * HelodMortarSupportUtility.ShellsPerVolley + shellInVolley;
@@ -248,6 +290,6 @@ namespace Helodrace
             return new IntVec3(Mathf.RoundToInt(Mathf.Lerp(center.x, lineEnd.x, t)), 0, Mathf.RoundToInt(Mathf.Lerp(center.z, lineEnd.z, t)));
         }
         public void VolleyFired() { volleysFired++; nextVolleyTick += HelodMortarSupportUtility.VolleyIntervalTicks; }
-        public void ExposeData() { Scribe_Values.Look(ref center, "center"); Scribe_Values.Look(ref lineEnd, "lineEnd"); Scribe_Defs.Look(ref shellDef, "shellDef"); Scribe_Defs.Look(ref projectileDef, "projectileDef"); Scribe_References.Look(ref forwardBase, "forwardBase"); Scribe_Values.Look(ref incomingEdgeCell, "incomingEdgeCell"); Scribe_Values.Look(ref volleysFired, "volleysFired"); Scribe_Values.Look(ref nextVolleyTick, "nextVolleyTick"); Scribe_Values.Look(ref patternRotation, "patternRotation", 0f); }
+        public void ExposeData() { Scribe_Values.Look(ref center, "center"); Scribe_Values.Look(ref lineEnd, "lineEnd"); Scribe_Defs.Look(ref shellDef, "shellDef"); Scribe_Defs.Look(ref projectileDef, "projectileDef"); Scribe_References.Look(ref forwardBase, "forwardBase"); Scribe_References.Look(ref caller, "caller"); Scribe_Values.Look(ref incomingEdgeCell, "incomingEdgeCell"); Scribe_Values.Look(ref volleysFired, "volleysFired"); Scribe_Values.Look(ref nextVolleyTick, "nextVolleyTick"); Scribe_Values.Look(ref patternRotation, "patternRotation", 0f); }
     }
 }

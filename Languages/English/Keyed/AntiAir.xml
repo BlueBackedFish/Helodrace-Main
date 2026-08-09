@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_AntiAir_Mode_Label>Anti-air mode</HD_AntiAir_Mode_Label>
+  <HD_AntiAir_Mode_Desc>Switch between normal ground fire and CIWS fire. In anti-air mode, a staffed turret automatically engages every interceptable projectile and incoming drop pod within range, regardless of its launcher or faction.</HD_AntiAir_Mode_Desc>
+  <HD_AntiAir_StatusOn>on</HD_AntiAir_StatusOn>
+  <HD_AntiAir_StatusOff>off</HD_AntiAir_StatusOff>
+  <HD_AntiAir_InspectMode>Anti-air mode: {0}</HD_AntiAir_InspectMode>
+  <HD_AntiAir_NoGunner>Waiting for a gunner.</HD_AntiAir_NoGunner>
+  <HD_AntiAir_OperatorFactors>Operator influence — Shooting: {0}, Intellectual: {1}</HD_AntiAir_OperatorFactors>
+  <HD_AntiAir_Chance>Interception chance per round — shell: {0}, drop pod: {1}</HD_AntiAir_Chance>
+</LanguageData>

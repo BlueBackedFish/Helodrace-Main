@@ -40,6 +40,12 @@
         <ignitionRadius>0.75</ignitionRadius>
         <fireSize>0.35</fireSize>
       </li>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_20mmHEIFragment</fragmentProjectile>
+        <fragmentCount>4</fragmentCount><radius>3.2</radius><minimumRangeFactor>0.35</minimumRangeFactor>
+        <targetedFragmentFraction>0.35</targetedFragmentFraction><closeAimMultiplier>1.55</closeAimMultiplier><edgeAimMultiplier>0.38</edgeAimMultiplier><minimumTargetedAimChance>0.35</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0</longRangeFragmentFraction><longRangeRadius>3.2</longRangeRadius>
+      </li>
     </modExtensions>
   </ThingDef>
 
@@ -92,7 +98,20 @@
         <ignitionRadius>0.75</ignitionRadius>
         <fireSize>0.35</fireSize>
       </li>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_20mmHEIFragment</fragmentProjectile>
+        <fragmentCount>4</fragmentCount><radius>3.2</radius><minimumRangeFactor>0.35</minimumRangeFactor>
+        <targetedFragmentFraction>0.35</targetedFragmentFraction><closeAimMultiplier>1.55</closeAimMultiplier><edgeAimMultiplier>0.38</edgeAimMultiplier><minimumTargetedAimChance>0.35</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0</longRangeFragmentFraction><longRangeRadius>3.2</longRangeRadius>
+      </li>
     </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_20mmHEIFragment</defName>
+    <label>20 mm HEI fragment</label>
+    <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.08,0.24)</drawSize></graphicData>
+    <projectile><damageDef>Cut</damageDef><damageAmountBase>5</damageAmountBase><armorPenetrationBase>0.12</armorPenetrationBase><stoppingPower>0.18</stoppingPower><speed>55</speed></projectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseWeaponTurret">
@@ -439,6 +458,103 @@
         </capacities>
         <power>8</power>
         <cooldownTime>2</cooldownTime>
+      </li>
+    </tools>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseMeleeWeapon_Sharp_Quality">
+    <defName>HD_PowerCutter</defName>
+    <label>power cutter</label>
+    <description>A heavy cordless cut-off saw designed to slice through masonry, metal framing, and other construction materials. Its exposed blade makes it a vicious close-combat weapon in an emergency. While equipped, it increases construction speed by 25%.</description>
+    <graphicData>
+      <texPath>Weapons/ColdWar/HD_PowerCutter</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1,1.1)</drawSize>
+    </graphicData>
+    <uiIconScale>1.05</uiIconScale>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <weaponTags>
+      <li>HD_ColdWarMelee</li>
+    </weaponTags>
+    <statBases>
+      <WorkToMake>32000</WorkToMake>
+      <Mass>5.2</Mass>
+      <MarketValue>900</MarketValue>
+      <MaxHitPoints>110</MaxHitPoints>
+    </statBases>
+    <equippedStatOffsets>
+      <ConstructionSpeed>0.25</ConstructionSpeed>
+    </equippedStatOffsets>
+    <costList>
+      <Steel>55</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <HD_GeneralMachinePart>2</HD_GeneralMachinePart>
+    </costList>
+    <recipeMaker>
+      <recipeUsers Inherit="False">
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.CompProperties_PowerCutterBreach">
+        <playerDeconstructSpeedFactor>1.5</playerDeconstructSpeedFactor>
+        <!-- 30 emissions/second so several spark flecks remain visible at all times. -->
+        <effectIntervalTicks>2</effectIntervalTicks>
+        <sparksPerEmission>4</sparksPerEmission>
+        <sparkOriginRadius>0.04</sparkOriginRadius>
+        <sparkBrightness>2</sparkBrightness>
+        <sparkOriginScreenUpOffset>0.44</sparkOriginScreenUpOffset>
+        <sparkUpwardBias>0.18</sparkUpwardBias>
+        <smokeIntervalTicks>4</smokeIntervalTicks>
+        <smokePerEmission>2</smokePerEmission>
+        <smokeScale>0.30</smokeScale>
+        <dustIntervalTicks>3</dustIntervalTicks>
+        <dustPerEmission>4</dustPerEmission>
+        <dustOriginRadius>0.22</dustOriginRadius>
+        <dustScale>0.34</dustScale>
+        <metalFlashIntervalTicks>3</metalFlashIntervalTicks>
+        <metalFlashScale>0.24</metalFlashScale>
+        <breachContactCenterOffset>0.30</breachContactCenterOffset>
+        <cuttingGraphicRightReach>0.386</cuttingGraphicRightReach>
+        <!-- Concave curve: tougher targets take longer, but each extra HP adds less time. -->
+        <nonPlayerWorkTicksByHitPoints>
+          <points>
+            <li>(1, 90)</li>
+            <li>(100, 240)</li>
+            <li>(300, 420)</li>
+            <li>(600, 600)</li>
+            <li>(1000, 780)</li>
+            <li>(2000, 1080)</li>
+            <li>(4000, 1440)</li>
+            <li>(8000, 1840)</li>
+            <li>(16000, 2320)</li>
+          </points>
+        </nonPlayerWorkTicksByHitPoints>
+      </li>
+    </comps>
+    <tools>
+      <li>
+        <label>grip</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>8</power>
+        <cooldownTime>1.8</cooldownTime>
+      </li>
+      <li>
+        <label>cutting blade</label>
+        <labelUsedInLogging>false</labelUsedInLogging>
+        <capacities>
+          <li>Cut</li>
+        </capacities>
+        <power>18</power>
+        <armorPenetration>0.25</armorPenetration>
+        <cooldownTime>2.0</cooldownTime>
+        <soundMeleeHit>MeleeHit_Metal_Sharp</soundMeleeHit>
       </li>
     </tools>
   </ThingDef>

@@ -15,7 +15,7 @@ namespace Helodrace.ModernWar
         private const int ExposureIntervalTicks = 120;
         private const int VisualIntervalTicks = 18;
         private const int MaxVisualSamplesPerPulse = 24;
-        private const float SeverityPerTickAtFullDensity = 0.12f / 240f;
+        private const float SeverityPerTickAtFullDensity = 0.20f / 240f;
 
         private Dictionary<int, float> sources = new Dictionary<int, float>();
         private Dictionary<int, float> densities = new Dictionary<int, float>();
@@ -382,6 +382,7 @@ namespace Helodrace.ModernWar
             }
 
             Hediff newExposure = HediffMaker.MakeHediff(exposureHediff, pawn);
+            newExposure.Severity = 0f;
             if (newExposure is Hediff_CSGasExposure newCSExposure)
             {
                 newCSExposure.AddDose(gain);

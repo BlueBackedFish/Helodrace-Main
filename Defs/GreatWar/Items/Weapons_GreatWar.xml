@@ -190,7 +190,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>HD_3InchMortarShell_HE_Proj</defName>
     <label>3-inch mortar HE shell</label>
-    <thingClass>Projectile_Explosive</thingClass>
+    <thingClass>Helodrace.ModernWar.Projectile_FragmentingExplosive</thingClass>
     <graphicData>
       <texPath>Weapons/GreatWar/Projectiles/HD_3InchMortarHE_proj</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -204,12 +204,20 @@
       <flyOverhead>true</flyOverhead>
       <explosionRadius>3.0</explosionRadius>
     </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_3InchHEFragment</fragmentProjectile>
+        <fragmentCount>48</fragmentCount><radius>13</radius><minimumRangeFactor>0.45</minimumRangeFactor>
+        <targetedFragmentFraction>0.55</targetedFragmentFraction><closeAimMultiplier>1.75</closeAimMultiplier><edgeAimMultiplier>0.40</edgeAimMultiplier><minimumTargetedAimChance>0.38</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0.16</longRangeFragmentFraction><longRangeRadius>19</longRangeRadius><longRangeMinimumFactor>0.72</longRangeMinimumFactor>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_81mmMortarShell_M43HE_Proj</defName>
     <label>M43 81mm HE shell</label>
-    <thingClass>Projectile_Explosive</thingClass>
+    <thingClass>Helodrace.ModernWar.Projectile_FragmentingExplosive</thingClass>
     <graphicData>
       <texPath>Weapons/GreatWar/Projectiles/HD_M43HE_proj</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -223,6 +231,14 @@
       <flyOverhead>true</flyOverhead>
       <explosionRadius>3.4</explosionRadius>
     </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_81mmHEFragment</fragmentProjectile>
+        <fragmentCount>56</fragmentCount><radius>15</radius><minimumRangeFactor>0.45</minimumRangeFactor>
+        <targetedFragmentFraction>0.60</targetedFragmentFraction><closeAimMultiplier>1.85</closeAimMultiplier><edgeAimMultiplier>0.44</edgeAimMultiplier><minimumTargetedAimChance>0.42</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0.18</longRangeFragmentFraction><longRangeRadius>22</longRangeRadius><longRangeMinimumFactor>0.72</longRangeMinimumFactor>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
@@ -933,7 +949,7 @@
   <ThingDef ParentName="BaseBullet">
     <defName>HD_105mmShell_M1HE_Proj</defName>
     <label>M1 105mm HE shell</label>
-    <thingClass>Projectile_Explosive</thingClass>
+    <thingClass>Helodrace.ModernWar.Projectile_FragmentingExplosive</thingClass>
     <graphicData>
       <texPath>Weapons/GreatWar/Projectiles/HD_105MMM1HE_proj</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -952,6 +968,30 @@
       <soundAmbient>MortarRound_Ambient</soundAmbient>
       <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
     </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_105mmHEFragment</fragmentProjectile>
+        <fragmentCount>64</fragmentCount><radius>18</radius><minimumRangeFactor>0.45</minimumRangeFactor>
+        <targetedFragmentFraction>0.65</targetedFragmentFraction><closeAimMultiplier>1.95</closeAimMultiplier><edgeAimMultiplier>0.48</edgeAimMultiplier><minimumTargetedAimChance>0.45</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0.20</longRangeFragmentFraction><longRangeRadius>27</longRangeRadius><longRangeMinimumFactor>0.72</longRangeMinimumFactor>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_3InchHEFragment</defName><label>3-inch HE shell fragment</label>
+    <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.12,0.34)</drawSize></graphicData>
+    <projectile><damageDef>Cut</damageDef><damageAmountBase>13</damageAmountBase><armorPenetrationBase>0.20</armorPenetrationBase><stoppingPower>0.35</stoppingPower><speed>45</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_81mmHEFragment</defName><label>81mm HE shell fragment</label>
+    <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.13,0.36)</drawSize></graphicData>
+    <projectile><damageDef>Cut</damageDef><damageAmountBase>15</damageAmountBase><armorPenetrationBase>0.24</armorPenetrationBase><stoppingPower>0.40</stoppingPower><speed>48</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_105mmHEFragment</defName><label>105mm HE shell fragment</label>
+    <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.14,0.38)</drawSize></graphicData>
+    <projectile><damageDef>Cut</damageDef><damageAmountBase>18</damageAmountBase><armorPenetrationBase>0.30</armorPenetrationBase><stoppingPower>0.50</stoppingPower><speed>52</speed></projectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseWeaponTurret">
@@ -1028,7 +1068,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/KragJorgensen</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(0.9, 0.9)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1346,7 +1386,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1garand</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(0.9, 0.9)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1424,7 +1464,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1d</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(0.9, 0.9)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1680,7 +1720,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/SprM1903</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(0.9, 0.9)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1754,7 +1794,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_m1903a4</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(0.9, 0.9)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>
@@ -1831,7 +1871,7 @@
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M1903Pedersen</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(0.9, 0.9)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>

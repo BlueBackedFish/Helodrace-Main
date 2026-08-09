@@ -190,6 +190,30 @@
                 <Not>
                   <ApparelDef>Apparel_HatHood</ApparelDef>
                 </Not>
+                <Not>
+                  <ApparelDef>Apparel_ArmorHelmetRecon</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_PowerArmorHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_PsychicFoilHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_SimpleHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_TribalHeaddress</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_Tuque</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_WarMask</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_WarVeil</ApparelDef>
+                </Not>
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
               <colorChannel>hair</colorChannel>
@@ -238,6 +262,30 @@
                 </Not>
                 <Not>
                   <ApparelDef>Apparel_HatHood</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_ArmorHelmetRecon</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_PowerArmorHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_PsychicFoilHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_SimpleHelmet</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_TribalHeaddress</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_Tuque</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_WarMask</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>Apparel_WarVeil</ApparelDef>
                 </Not>
               </conditions>
               <inFrontOfBody>true</inFrontOfBody>
@@ -298,6 +346,10 @@
               <value>Helod/VanillaApparel/Duster/Duster</value>
             </li>
             <li>
+              <key>Apparel_FirefoampopPack</key>
+              <value>Helod/VanillaApparel/FirefoamPack/FirefoamPack</value>
+            </li>
+            <li>
               <key>Apparel_FlakJacket</key>
               <value>Helod/VanillaApparel/FlakJacket/FlakJacket</value>
             </li>
@@ -320,6 +372,42 @@
             <li>
               <key>Apparel_Pants</key>
               <value>Helod/VanillaApparel/Pants/Pants</value>
+            </li>
+            <li>
+              <key>Apparel_Parka</key>
+              <value>Helod/VanillaApparel/Parka/Parka</value>
+            </li>
+            <li>
+              <key>Apparel_PlateArmor</key>
+              <value>Helod/VanillaApparel/PlateArmor/PlateArmor</value>
+            </li>
+            <li>
+              <key>Apparel_PowerArmor</key>
+              <value>Helod/VanillaApparel/PowerArmor/PowerArmor</value>
+            </li>
+            <li>
+              <key>Apparel_PowerArmorHelmet</key>
+              <value>Helod/VanillaApparel/PowerArmorHelmet/PowerArmorHelmet</value>
+            </li>
+            <li>
+              <key>Apparel_PsychicFoilHelmet</key>
+              <value>Helod/VanillaApparel/PsychicFoilHelmet/PsychicFoilHelmet</value>
+            </li>
+            <li>
+              <key>Apparel_ArmorRecon</key>
+              <value>Helod/VanillaApparel/ReconArmor/ReconArmor</value>
+            </li>
+            <li>
+              <key>Apparel_ArmorHelmetRecon</key>
+              <value>Helod/VanillaApparel/ReconArmorHelmet/ReconHelmet</value>
+            </li>
+            <li>
+              <key>Apparel_Robe</key>
+              <value>Helod/VanillaApparel/Robe/Robe</value>
+            </li>
+            <li>
+              <key>Apparel_SmokepopBelt</key>
+              <value>Helod/VanillaApparel/SmokepopPack/SmokepopPack</value>
             </li>
           </individualPaths>
         </apparel>
@@ -410,6 +498,35 @@
           <li>Apparel_HatHood</li>
           <li>Apparel_Jacket</li>
           <li>Apparel_Pants</li>
+          <li>Apparel_FirefoampopPack</li>
+          <li>Apparel_Parka</li>
+          <li>Apparel_PlateArmor</li>
+          <li>Apparel_PowerArmor</li>
+          <li>Apparel_PowerArmorHelmet</li>
+          <li>Apparel_PsychicFoilHelmet</li>
+          <li>Apparel_ArmorRecon</li>
+          <li>Apparel_ArmorHelmetRecon</li>
+          <li>Apparel_Robe</li>
+          <li>Apparel_ShieldBelt</li>
+          <li>Apparel_SmokepopBelt</li>
+          <li>Apparel_PsychicShockLance</li>
+          <li>Apparel_PsychicInsanityLance</li>
+          <li>OrbitalTargeterBombardment</li>
+          <li>OrbitalTargeterPowerBeam</li>
+          <li>TornadoGenerator</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_PackJump</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_PackBroadshield</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Apparel_PackControl</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Apparel_PackBandwidth</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">Apparel_PackTox</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">Apparel_ShardPsychicShockLance</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">Apparel_ShardPsychicInsanityLance</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">Apparel_BiomutationLance</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">Apparel_DisruptorFlarePack</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">Apparel_PackTurret</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">Apparel_DeadlifePack</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">Apparel_PackHunter</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">Apparel_CerebrexNode</li>
         </whiteApparelList>
         <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">
@@ -547,25 +664,25 @@
         </points>
       </litterSizeCurve>
       <lifeStageAges>
-        <li>
+        <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeBaby</def>
           <minAge>0</minAge>
           <headOffset>(0.0, -0.07)</headOffset>
-          
         </li>
-        <li>
+        <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeChild</def>
           <minAge>3</minAge>
           <headOffset>(0.0, -0.07)</headOffset>
         </li>
-        <li>
+        <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeTeenager</def>
           <minAge>13</minAge>
           <headOffset>(0.0, -0.07)</headOffset>
         </li>
-        <li>
+        <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeAdult</def>
           <minAge>18</minAge>
+          <headOffset>(0.0, -0.07)</headOffset>
         </li>
       </lifeStageAges>
       <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>

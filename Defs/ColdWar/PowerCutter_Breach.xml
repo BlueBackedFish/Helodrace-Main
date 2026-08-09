@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <JobDef>
+    <defName>HD_PowerCutterBreach</defName>
+    <driverClass>Helodrace.JobDriver_PowerCutterBreach</driverClass>
+    <reportString>breaching TargetA with a power cutter.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+  </JobDef>
+
+  <SoundDef>
+    <defName>HD_PowerCutter_BreachStart</defName>
+    <context>MapOnly</context>
+    <maxVoices>6</maxVoices>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/PowerCutter/HD_PowerCutter_Start</clipPath>
+          </li>
+        </grains>
+        <volumeRange>34~38</volumeRange>
+        <distRange>8~36</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_PowerCutter_BreachEnd</defName>
+    <context>MapOnly</context>
+    <maxVoices>6</maxVoices>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/PowerCutter/HD_PowerCutter_End</clipPath>
+          </li>
+        </grains>
+        <volumeRange>34~38</volumeRange>
+        <distRange>8~36</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <SoundDef>
+    <defName>HD_PowerCutter_BreachLoop</defName>
+    <context>MapOnly</context>
+    <sustain>true</sustain>
+    <sustainStartSound>HD_PowerCutter_BreachStart</sustainStartSound>
+    <sustainStopSound>HD_PowerCutter_BreachEnd</sustainStopSound>
+    <maxSimultaneous>6</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <muteWhenPaused>true</muteWhenPaused>
+        <tempoAffectedByGameSpeed>true</tempoAffectedByGameSpeed>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Item/Weapon/PowerCutter/HD_PowerCutter_Loop</clipPath>
+          </li>
+        </grains>
+        <volumeRange>31~35</volumeRange>
+        <distRange>8~36</distRange>
+        <!-- Restart grains slightly before they end to hide MP3 loop padding. -->
+        <sustainLoop>false</sustainLoop>
+        <sustainIntervalRange>-0.16~-0.16</sustainIntervalRange>
+        <sustainAttack>0.06</sustainAttack>
+        <sustainRelease>0.10</sustainRelease>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <FleckDef Name="HD_PowerCutterSparkBase" ParentName="FleckBase_Thrown" Abstract="True">
+    <fleckSystemClass>Helodrace.FleckSystemFallingSpark</fleckSystemClass>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <!-- Every visible pixel in these PNGs uses partial alpha. Keep the
+           source texture out of the atlas/instanced path so that alpha is
+           preserved while MoteGlow renders it as an emissive sprite. -->
+      <allowAtlasing>false</allowAtlasing>
+      <renderInstanced>false</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0</fadeInTime>
+    <solidTime>0.08</solidTime>
+    <fadeOutTime>0.22</fadeOutTime>
+    <!-- Screen-south acceleration bends the fast streaks into a falling arc. -->
+    <acceleration>(0,0,-12)</acceleration>
+    <speedPerTime>0</speedPerTime>
+  </FleckDef>
+
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>HD_PowerCutterSmoke</defName>
+    <graphicData>
+      <texPath>Things/Mote/Smoke</texPath>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.06</fadeInTime>
+    <solidTime>0.24</solidTime>
+    <fadeOutTime>0.72</fadeOutTime>
+    <growthRate>0.12</growthRate>
+    <speedPerTime>-0.12</speedPerTime>
+  </FleckDef>
+
+  <FleckDef ParentName="FleckBase_Thrown">
+    <defName>HD_PowerCutterDust</defName>
+    <graphicData>
+      <texPath>Things/Mote/DustPuff</texPath>
+      <renderInstanced>true</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.04</fadeInTime>
+    <solidTime>0.18</solidTime>
+    <fadeOutTime>0.82</fadeOutTime>
+    <growthRate>0.20</growthRate>
+    <speedPerTime>-0.18</speedPerTime>
+  </FleckDef>
+
+  <FleckDef ParentName="FleckBase">
+    <defName>HD_PowerCutterMetalFlash</defName>
+    <graphicData>
+      <texPath>Things/Mote/ExplosionFlash</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>0.025</solidTime>
+    <fadeOutTime>0.045</fadeOutTime>
+  </FleckDef>
+
+  <ThingDef>
+    <defName>HD_PowerCutterMetalFlashLight</defName>
+    <label>power cutter flash light</label>
+    <thingClass>Helodrace.Thing_PowerCutterFlashLight</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>None</drawerType>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>2.2</glowRadius>
+        <overlightRadius>0.6</overlightRadius>
+        <glowColor>(255,205,105,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <FleckDef ParentName="HD_PowerCutterSparkBase">
+    <defName>HD_PowerCutterSparkShort</defName>
+    <graphicData><texPath>Effects/Spark/HD_Spark_Short</texPath></graphicData>
+  </FleckDef>
+  <FleckDef ParentName="HD_PowerCutterSparkBase">
+    <defName>HD_PowerCutterSparkMedium</defName>
+    <graphicData><texPath>Effects/Spark/HD_Spark_Medium</texPath></graphicData>
+  </FleckDef>
+  <FleckDef ParentName="HD_PowerCutterSparkBase">
+    <defName>HD_PowerCutterSparkLong</defName>
+    <graphicData><texPath>Effects/Spark/HD_Spark_Long</texPath></graphicData>
+  </FleckDef>
+  <FleckDef ParentName="HD_PowerCutterSparkBase">
+    <defName>HD_PowerCutterSparkCurveShort</defName>
+    <graphicData><texPath>Effects/Spark/HD_Spark_CurveShort</texPath></graphicData>
+  </FleckDef>
+  <FleckDef ParentName="HD_PowerCutterSparkBase">
+    <defName>HD_PowerCutterSparkCurveLong</defName>
+    <graphicData><texPath>Effects/Spark/HD_Spark_CurveLong</texPath></graphicData>
+  </FleckDef>
+
+</Defs>

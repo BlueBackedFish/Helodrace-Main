@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <JobDef>
+    <defName>HD_InstallBreachChargeFuse</defName>
+    <driverClass>Helodrace.JobDriver_InstallBreachCharge</driverClass>
+    <reportString>installing a fuse-fired breaching charge on TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_InstallBreachChargeShockTube</defName>
+    <driverClass>Helodrace.JobDriver_InstallBreachCharge</driverClass>
+    <reportString>installing a shock-tube breaching charge on TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_TriggerBreachCharge</defName>
+    <driverClass>Helodrace.JobDriver_TriggerBreachCharge</driverClass>
+    <reportString>triggering the breaching charge.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <ThingDef>
+    <defName>HD_InstalledBreachCharge</defName>
+    <label>installed breaching charge</label>
+    <description>C-4 fixed to a wall or door and linked to a nearby operator. Firing it immediately destroys the target structure, suppresses the far side with confined blast pressure, and drives fragments through the breach. Blast damage is limited to the target's remaining hit points, wasting any excess charge strength.</description>
+    <thingClass>Helodrace.Thing_InstalledBreachCharge</thingClass>
+    <category>Item</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>MapMeshOnly</drawerType>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <rotatable>true</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <useHitPoints>false</useHitPoints>
+    <graphicData>
+      <texPath>Buildings/HD_BreachCharge</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(1.0,1.0)</drawSize>
+      <drawOffsetNorth>(0,0,0.5)</drawOffsetNorth>
+      <drawOffsetEast>(0.5,0,0)</drawOffsetEast>
+      <drawOffsetSouth>(0,0,-0.5)</drawOffsetSouth>
+      <drawOffsetWest>(-0.5,0,0)</drawOffsetWest>
+    </graphicData>
+    <comps>
+      <li Class="Helodrace.CompProperties_InstalledBreachCharge">
+        <c4DefName>HD_C4</c4DefName>
+        <hitPointsPerC4>500</hitPointsPerC4>
+        <workTicksPerC4>30</workTicksPerC4>
+        <minimumWorkTicks>90</minimumWorkTicks>
+        <explosionRadiusBase>1.5</explosionRadiusBase>
+        <explosionRadiusPerC4>0.18</explosionRadiusPerC4>
+        <explosionArmorPenetration>0.35</explosionArmorPenetration>
+        <beyondSuppressionProjectileDefName>HD_Projectile_MKIII</beyondSuppressionProjectileDefName>
+        <beyondFragmentProjectileDefName>HD_Projectile_MKIIFragment</beyondFragmentProjectileDefName>
+        <beyondFragmentCount>18</beyondFragmentCount>
+        <beyondFragmentRadius>8</beyondFragmentRadius>
+        <beyondFragmentMinimumRangeFactor>0.25</beyondFragmentMinimumRangeFactor>
+        <beyondFragmentConeDegrees>120</beyondFragmentConeDegrees>
+        <triggerWorkTicks>60</triggerWorkTicks>
+        <fuseTicksPerCell>60</fuseTicksPerCell>
+        <installGizmoIconPath>Skill/HD_SetBreachCharge</installGizmoIconPath>
+        <detonateGizmoIconPath>Skill/HD_BreachExplosive</detonateGizmoIconPath>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

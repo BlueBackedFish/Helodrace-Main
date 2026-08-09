@@ -76,7 +76,7 @@
     <graphicData>
       <texPath>Weapons/Future/HD_LANCEGEN2</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9,0.9)</drawSize>
+      <drawSize>(0.8,0.8)</drawSize>
     </graphicData>
     <equippedAngleOffset>45</equippedAngleOffset>
     <soundInteract>Interact_Rifle</soundInteract>

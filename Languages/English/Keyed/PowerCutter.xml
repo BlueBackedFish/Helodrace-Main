@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_PowerCutter_Breach_Label>Breach</HD_PowerCutter_Breach_Label>
+  <HD_PowerCutter_Breach_Desc>Cut through an impassable wall or door without recovering materials. Player-owned structures are breached 50% faster than normal deconstruction. Other structures take longer according to their remaining hit points, with diminishing time increases at high durability.</HD_PowerCutter_Breach_Desc>
+  <HD_PowerCutter_Breach_Unavailable>The power cutter cannot be used right now.</HD_PowerCutter_Breach_Unavailable>
+  <HD_PowerCutter_Breach_InvalidTarget>Select an impassable wall or a door.</HD_PowerCutter_Breach_InvalidTarget>
+  <HD_PowerCutter_Breach_CannotReach>Cannot reach the selected structure.</HD_PowerCutter_Breach_CannotReach>
+  <HD_PowerCutter_Breach_CannotReserve>The selected structure is already reserved.</HD_PowerCutter_Breach_CannotReserve>
+</LanguageData>

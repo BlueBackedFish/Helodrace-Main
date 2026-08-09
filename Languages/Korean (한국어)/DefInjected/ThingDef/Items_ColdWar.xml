@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_M60Igniter.label>M60 도화선 점화기</HD_M60Igniter.label>
+  <HD_M60Igniter.description>폭파용 도화선을 점화하는 소형 일회용 내후성 당김식 점화기입니다. C-4와 같이 소지하면 도화선식 돌파 폭약을 설치할 수 있으며, 폭약을 설치할 때 1개가 소모됩니다.</HD_M60Igniter.description>
+
+  <HD_M81Igniter.label>M81 점화기</HD_M81Igniter.label>
+  <HD_M81Igniter.description>폭파용 도화선과 비전기식 충격관을 모두 기폭할 수 있는 일회용 현대식 당김식 점화기입니다. 충격관 설치는 더 오래 걸리지만 발파 전에 폭약에서 훨씬 멀리 이동할 수 있으며, 폭약을 설치할 때 1개가 소모됩니다.</HD_M81Igniter.description>
+
+  <HD_InstalledBreachCharge.label>설치된 돌파 폭약</HD_InstalledBreachCharge.label>
+  <HD_InstalledBreachCharge.description>벽이나 문에 부착하고 근처의 작업자에게 연결한 C-4입니다. 발파하면 대상 구조물을 즉시 파괴하고, 구조물이 제거되기 전의 방 판정을 기준으로 너머 공간에 폭압 제압과 전방 파편을 가합니다. 폭발 피해량은 대상의 남은 체력까지만 적용되어 남는 폭약 위력은 버려집니다.</HD_InstalledBreachCharge.description>
+</LanguageData>

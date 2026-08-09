@@ -86,4 +86,98 @@
     </skillRequirements>
   </RecipeDef>
 
+  <RecipeDef>
+    <defName>HD_SynthesizeRDX</defName>
+    <label>synthesize RDX</label>
+    <description>Nitrate a formaldehyde-rich petrochemical feed under tightly controlled conditions, then stabilize and dry the resulting RDX crystals.</description>
+    <jobString>Synthesizing RDX.</jobString>
+    <workAmount>6500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Intellectual</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighExplosive</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_AmmoniumNitrate</li>
+          </thingDefs>
+        </filter>
+        <count>24</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>12</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_AmmoniumNitrate</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_RDX>20</HD_RDX>
+    </products>
+    <recipeUsers>
+      <li>HD_StirredTankReactor</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Intellectual>10</Intellectual>
+    </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_CompoundC4</defName>
+    <label>compound C-4</label>
+    <description>Blend RDX with polymer binders and plasticizers, then press the pliable explosive into sealed demolition blocks.</description>
+    <jobString>Compounding C-4.</jobString>
+    <workAmount>4000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Intellectual</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>HD_RDX</li>
+          </thingDefs>
+        </filter>
+        <count>18</count>
+      </li>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </filter>
+        <count>3</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>HD_RDX</li>
+        <li>Chemfuel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_C4>18</HD_C4>
+    </products>
+    <recipeUsers>
+      <li>HD_StirredTankReactor</li>
+    </recipeUsers>
+    <skillRequirements>
+      <Intellectual>10</Intellectual>
+    </skillRequirements>
+  </RecipeDef>
+
 </Defs>

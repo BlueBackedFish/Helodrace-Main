@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -10,6 +9,7 @@ namespace Helodrace
     public class DamageWorker_ANFOBomb : DamageWorker_AddInjury
     {
         private const float MiningLevel12Yield = 1.04f;
+        private const int SolidPenetrationLayers = 3;
 
         private static readonly AccessTools.FieldRef<Mineable, float> MineableYieldPct =
             AccessTools.FieldRefAccess<Mineable, float>("yieldPct");
@@ -54,38 +54,37 @@ namespace Helodrace
 
             HashSet<IntVec3> affectedCells = new HashSet<IntVec3>(vanillaCells);
             float radiusSquared = radius * radius;
+            HashSet<IntVec3> currentLayer = new HashSet<IntVec3>(
+                vanillaCells.Where(cell => IsFullBlocker(cell.GetEdifice(map))));
+            HashSet<IntVec3> visitedBlockers = new HashSet<IntVec3>(currentLayer);
 
-            foreach (IntVec3 firstLayerCell in vanillaCells)
+            for (int layer = 2; layer <= SolidPenetrationLayers && currentLayer.Count > 0; layer++)
             {
-                Building firstLayerBuilding = firstLayerCell.GetEdifice(map);
-                if (!IsFullBlocker(firstLayerBuilding))
-                    continue;
+                HashSet<IntVec3> nextLayer = new HashSet<IntVec3>();
+                foreach (IntVec3 sourceCell in currentLayer)
+                    AddAdjacentBlockers(
+                        center,
+                        sourceCell,
+                        map,
+                        radiusSquared,
+                        visitedBlockers,
+                        nextLayer);
 
-                IntVec3 secondLayerCell = FindSecondLayerCell(
-                    center,
-                    firstLayerCell,
-                    map,
-                    radiusSquared);
-                if (secondLayerCell.IsValid)
-                    affectedCells.Add(secondLayerCell);
+                affectedCells.UnionWith(nextLayer);
+                currentLayer = nextLayer;
             }
 
             return affectedCells;
         }
 
-        private static IntVec3 FindSecondLayerCell(
+        private static void AddAdjacentBlockers(
             IntVec3 center,
-            IntVec3 firstLayerCell,
+            IntVec3 sourceCell,
             Map map,
-            float radiusSquared)
+            float radiusSquared,
+            HashSet<IntVec3> visitedBlockers,
+            HashSet<IntVec3> nextLayer)
         {
-            int directionX = firstLayerCell.x - center.x;
-            int directionZ = firstLayerCell.z - center.z;
-            int firstDistanceSquared = firstLayerCell.DistanceToSquared(center);
-            IntVec3 bestCell = IntVec3.Invalid;
-            int bestCrossProduct = int.MaxValue;
-            int bestDistanceSquared = int.MaxValue;
-
             for (int offsetX = -1; offsetX <= 1; offsetX++)
             {
                 for (int offsetZ = -1; offsetZ <= 1; offsetZ++)
@@ -93,41 +92,20 @@ namespace Helodrace
                     if (offsetX == 0 && offsetZ == 0)
                         continue;
 
-                    int outwardDotProduct = offsetX * directionX + offsetZ * directionZ;
-                    if (outwardDotProduct <= 0)
-                        continue;
-
-                    IntVec3 candidate = firstLayerCell + new IntVec3(offsetX, 0, offsetZ);
+                    IntVec3 candidate = sourceCell + new IntVec3(offsetX, 0, offsetZ);
                     if (!candidate.InBounds(map))
                         continue;
 
-                    int candidateDistanceSquared = candidate.DistanceToSquared(center);
-                    if (candidateDistanceSquared <= firstDistanceSquared
-                        || candidateDistanceSquared > radiusSquared)
-                    {
+                    if (candidate.DistanceToSquared(center) > radiusSquared)
                         continue;
-                    }
 
                     Building candidateBuilding = candidate.GetEdifice(map);
-                    if (!IsFullBlocker(candidateBuilding))
+                    if (!IsFullBlocker(candidateBuilding) || !visitedBlockers.Add(candidate))
                         continue;
 
-                    int candidateX = candidate.x - center.x;
-                    int candidateZ = candidate.z - center.z;
-                    int crossProduct = Math.Abs(directionX * candidateZ - directionZ * candidateX);
-
-                    if (crossProduct < bestCrossProduct
-                        || (crossProduct == bestCrossProduct
-                            && candidateDistanceSquared < bestDistanceSquared))
-                    {
-                        bestCell = candidate;
-                        bestCrossProduct = crossProduct;
-                        bestDistanceSquared = candidateDistanceSquared;
-                    }
+                    nextLayer.Add(candidate);
                 }
             }
-
-            return bestCell;
         }
 
         private static bool IsFullBlocker(Building building)

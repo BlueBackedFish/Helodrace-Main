@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_AmmoniumNitrate.label>질산암모늄</HD_AmmoniumNitrate.label>
-  <HD_AmmoniumNitrate.description>고압 합성으로 생산한 흰색 결정질 질소 화합물입니다. 비료와 산업용 폭약 전구체에 쓰이는 강력한 산화제입니다.</HD_AmmoniumNitrate.description>
+  <HD_AmmoniumNitrate.description>고압 합성으로 생산한 흰색 결정질 질소 화합물입니다. 비료와 산업용 폭약 전구체에 쓰이는 강력한 산화제입니다. 총탄과 화염에는 둔감하지만 충분히 강한 폭발을 받으면 유폭합니다.</HD_AmmoniumNitrate.description>
 
   <HD_TNT.label>TNT</HD_TNT.label>
-  <HD_TNT.description>작은 폭파용 블록으로 주조한 트라이나이트로톨루엔입니다. 운반하기에는 비교적 안정적이지만 탄약과 발파 장약에 사용하면 강력하게 폭발합니다.</HD_TNT.description>
+  <HD_TNT.description>작은 폭파용 블록으로 주조한 트라이나이트로톨루엔입니다. 운반 중 총탄과 화염에는 둔감하지만 충분히 강한 폭발을 받으면 유폭합니다.</HD_TNT.description>
+
+  <HD_RDX.label>RDX</HD_RDX.label>
+  <HD_RDX.description>밀봉 드럼에 담은 결정질 사이클로트라이메틸렌트라이나이트라민입니다. TNT보다 강력하고 운반하기에 충분히 안정적이며, 플라스틱 폭약의 주요 폭발 성분으로 쓰입니다.</HD_RDX.description>
+
+  <HD_C4.label>C-4</HD_C4.label>
+  <HD_C4.description>RDX에 고분자 결합제와 가소제를 혼합해 자유롭게 형태를 바꿀 수 있도록 만든 폭파용 블록입니다. 강력하고 내후성이 좋으며, 적절한 뇌관 없이는 극히 둔감합니다.</HD_C4.description>
 </LanguageData>

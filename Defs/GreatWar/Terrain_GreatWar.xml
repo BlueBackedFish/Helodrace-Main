@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <TerrainDef ParentName="FloorBase">
+    <defName>HD_FertilizedSoil</defName>
+    <label>fertile earth</label>
+    <description>Earth enriched with ammonium nitrate. It can only be laid over growable soil, and crops grow considerably faster in it.</description>
+    <texturePath>Terrain/Surfaces/SoilRich</texturePath>
+    <pollutedTexturePath>Terrain/Surfaces/SoilRichPolluted</pollutedTexturePath>
+    <edgeType>FadeRough</edgeType>
+    <renderPrecedence>335</renderPrecedence>
+    <pathCost>2</pathCost>
+    <statBases>
+      <Beauty>-3</Beauty>
+      <BeautyOutdoors>0</BeautyOutdoors>
+      <Cleanliness>-1</Cleanliness>
+      <WorkToBuild>100</WorkToBuild>
+    </statBases>
+    <costList>
+      <HD_AmmoniumNitrate>1</HD_AmmoniumNitrate>
+    </costList>
+    <affordances>
+      <li>GrowSoil</li>
+      <li>Diggable</li>
+    </affordances>
+    <generatedFilth>Filth_Dirt</generatedFilth>
+    <fertility>1.7</fertility>
+    <takeFootprints>true</takeFootprints>
+    <researchPrerequisites>
+      <li>HelodHaberBosch</li>
+    </researchPrerequisites>
+    <terrainAffordanceNeeded>GrowSoil</terrainAffordanceNeeded>
+    <uiOrder>2015</uiOrder>
+  </TerrainDef>
+
+</Defs>

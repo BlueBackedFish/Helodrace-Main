@@ -15,6 +15,53 @@ namespace Helodrace
         private const int ItemSpacing = 2;
         private const int TestAreaPadding = 2;
 
+        // Keep this list synchronized with Helod's whiteApparelList in
+        // Defs/Helod/Race/GeneralRace.xml. Missing DLC defs are skipped.
+        private static readonly string[] CompatibleVanillaApparelDefNames =
+        {
+            "Apparel_AdvancedHelmet",
+            "Apparel_BowlerHat",
+            "Apparel_Cape",
+            "Apparel_ClothMask",
+            "Apparel_CowboyHat",
+            "Apparel_Duster",
+            "Apparel_FlakJacket",
+            "Apparel_FlakPants",
+            "Apparel_FlakVest",
+            "Apparel_HatHood",
+            "Apparel_Jacket",
+            "Apparel_Pants",
+            "Apparel_FirefoampopPack",
+            "Apparel_Parka",
+            "Apparel_PlateArmor",
+            "Apparel_PowerArmor",
+            "Apparel_PowerArmorHelmet",
+            "Apparel_PsychicFoilHelmet",
+            "Apparel_ArmorRecon",
+            "Apparel_ArmorHelmetRecon",
+            "Apparel_Robe",
+            "Apparel_ShieldBelt",
+            "Apparel_SmokepopBelt",
+            "Apparel_PsychicShockLance",
+            "Apparel_PsychicInsanityLance",
+            "OrbitalTargeterBombardment",
+            "OrbitalTargeterPowerBeam",
+            "TornadoGenerator",
+            "Apparel_PackJump",
+            "Apparel_PackBroadshield",
+            "Apparel_PackControl",
+            "Apparel_PackBandwidth",
+            "Apparel_PackTox",
+            "Apparel_ShardPsychicShockLance",
+            "Apparel_ShardPsychicInsanityLance",
+            "Apparel_BiomutationLance",
+            "Apparel_DisruptorFlarePack",
+            "Apparel_PackTurret",
+            "Apparel_DeadlifePack",
+            "Apparel_PackHunter",
+            "Apparel_CerebrexNode"
+        };
+
         [DebugAction("Helodrace", "Spawn all Helodrace buildings and items", allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void SpawnAllHelodraceBuildingsAndItems()
         {
@@ -40,31 +87,86 @@ namespace Helodrace
                 .OrderBy(def => def.defName)
                 .ToList();
 
-            IntVec3 itemOrigin = origin + new IntVec3(0, 0, ((buildings.Count + Columns - 1) / Columns + 1) * BuildingSpacing);
-            CellRect testArea = TestAreaFor(origin, itemOrigin, buildings.Count, items.Count);
+            List<ThingDef> compatibleApparel = CompatibleVanillaApparelDefs()
+                .OrderBy(def => def.defName)
+                .ToList();
+
+            IntVec3 itemOrigin = origin + new IntVec3(
+                0,
+                0,
+                (RowsFor(buildings.Count) + 1) * BuildingSpacing);
+            IntVec3 apparelOrigin = itemOrigin + new IntVec3(
+                0,
+                0,
+                (RowsFor(items.Count) + 2) * ItemSpacing);
+            CellRect testArea = TestAreaFor(
+                origin,
+                itemOrigin,
+                apparelOrigin,
+                buildings.Count,
+                items.Count,
+                compatibleApparel.Count);
             PrepareTestArea(map, testArea);
 
             int spawnedBuildings = SpawnDefs(buildings, map, origin, BuildingSpacing, 1);
             int spawnedItems = SpawnDefs(items, map, itemOrigin, ItemSpacing, 75);
+            int spawnedCompatibleApparel = SpawnDefs(
+                compatibleApparel,
+                map,
+                apparelOrigin,
+                ItemSpacing,
+                1);
 
             Messages.Message(
-                $"Spawned {spawnedBuildings}/{buildings.Count} Helodrace buildings and {spawnedItems}/{items.Count} items.",
+                $"Spawned {spawnedBuildings}/{buildings.Count} Helodrace buildings, "
+                + $"{spawnedItems}/{items.Count} items, and "
+                + $"{spawnedCompatibleApparel}/{compatibleApparel.Count} "
+                + "compatible vanilla apparel in a separate group.",
                 MessageTypeDefOf.PositiveEvent,
                 false);
         }
 
-        private static CellRect TestAreaFor(IntVec3 buildingOrigin, IntVec3 itemOrigin, int buildingCount, int itemCount)
+        private static int RowsFor(int count)
+        {
+            return Math.Max(1, (count + Columns - 1) / Columns);
+        }
+
+        private static CellRect TestAreaFor(
+            IntVec3 buildingOrigin,
+            IntVec3 itemOrigin,
+            IntVec3 apparelOrigin,
+            int buildingCount,
+            int itemCount,
+            int apparelCount)
         {
             int buildingColumns = Math.Min(Columns, Math.Max(1, buildingCount));
             int itemColumns = Math.Min(Columns, Math.Max(1, itemCount));
-            int buildingRows = Math.Max(1, (buildingCount + Columns - 1) / Columns);
-            int itemRows = Math.Max(1, (itemCount + Columns - 1) / Columns);
+            int apparelColumns = Math.Min(Columns, Math.Max(1, apparelCount));
+            int buildingRows = RowsFor(buildingCount);
+            int itemRows = RowsFor(itemCount);
+            int apparelRows = RowsFor(apparelCount);
             int maxX = Math.Max(
-                buildingOrigin.x + (buildingColumns - 1) * BuildingSpacing + BuildingSpacing - 1,
-                itemOrigin.x + (itemColumns - 1) * ItemSpacing + ItemSpacing - 1);
+                Math.Max(
+                    buildingOrigin.x
+                        + (buildingColumns - 1) * BuildingSpacing
+                        + BuildingSpacing - 1,
+                    itemOrigin.x
+                        + (itemColumns - 1) * ItemSpacing
+                        + ItemSpacing - 1),
+                apparelOrigin.x
+                    + (apparelColumns - 1) * ItemSpacing
+                    + ItemSpacing - 1);
             int maxZ = Math.Max(
-                buildingOrigin.z + (buildingRows - 1) * BuildingSpacing + BuildingSpacing - 1,
-                itemOrigin.z + (itemRows - 1) * ItemSpacing + ItemSpacing - 1);
+                Math.Max(
+                    buildingOrigin.z
+                        + (buildingRows - 1) * BuildingSpacing
+                        + BuildingSpacing - 1,
+                    itemOrigin.z
+                        + (itemRows - 1) * ItemSpacing
+                        + ItemSpacing - 1),
+                apparelOrigin.z
+                    + (apparelRows - 1) * ItemSpacing
+                    + ItemSpacing - 1);
 
             return CellRect.FromLimits(
                 buildingOrigin.x - TestAreaPadding,
@@ -108,6 +210,21 @@ namespace Helodrace
                     && !def.IsBlueprint
                     && !def.IsFrame
                     && (def.category == ThingCategory.Building || def.category == ThingCategory.Item));
+        }
+
+        private static IEnumerable<ThingDef> CompatibleVanillaApparelDefs()
+        {
+            for (int i = 0; i < CompatibleVanillaApparelDefNames.Length; i++)
+            {
+                ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(
+                    CompatibleVanillaApparelDefNames[i]);
+                if (def != null
+                    && def.category == ThingCategory.Item
+                    && def.IsApparel)
+                {
+                    yield return def;
+                }
+            }
         }
 
         private static int SpawnDefs(List<ThingDef> defs, Map map, IntVec3 origin, int spacing, int maxStackCount)

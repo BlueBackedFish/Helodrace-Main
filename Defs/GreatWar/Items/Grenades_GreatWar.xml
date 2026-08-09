@@ -277,9 +277,10 @@
         <fragmentCount>56</fragmentCount>
         <radius>11.25</radius>
         <minimumRangeFactor>0.50</minimumRangeFactor>
-        <targetedFragmentFraction>0.50</targetedFragmentFraction>
-        <closeAimMultiplier>1.55</closeAimMultiplier>
-        <edgeAimMultiplier>0.22</edgeAimMultiplier>
+        <targetedFragmentFraction>0.60</targetedFragmentFraction>
+        <closeAimMultiplier>1.80</closeAimMultiplier>
+        <edgeAimMultiplier>0.42</edgeAimMultiplier>
+        <minimumTargetedAimChance>0.40</minimumTargetedAimChance>
         <longRangeFragmentFraction>0.14</longRangeFragmentFraction>
         <longRangeRadius>16</longRangeRadius>
         <longRangeMinimumFactor>0.72</longRangeMinimumFactor>

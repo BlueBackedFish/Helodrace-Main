@@ -63,6 +63,11 @@
           <workerClass>PawnRenderNodeWorker_Stump</workerClass>
           <texPath>Things/Pawn/Humanlike/Heads/None_Average_Stump</texPath>
           <baseLayer>6</baseLayer>
+          <drawData>
+            <dataSouth>
+              <layer>350</layer>
+            </dataSouth>
+          </drawData>
           <colorType>Skin</colorType>
           <skipFlag>Head</skipFlag>
           <useSkinShader>true</useSkinShader>
@@ -77,6 +82,11 @@
           <tagDef>Head</tagDef>
           <skipFlag>Head</skipFlag>
           <baseLayer>6</baseLayer>
+          <drawData>
+            <dataSouth>
+              <layer>350</layer>
+            </dataSouth>
+          </drawData>
           <colorType>Skin</colorType>
           <useRottenColor>true</useRottenColor>
           <useSkinShader>true</useSkinShader>
@@ -88,6 +98,11 @@
               <rotDrawMode>Fresh, Rotting</rotDrawMode>
               <colorType>Skin</colorType>
               <baseLayer>7</baseLayer>
+              <drawData>
+                <dataSouth>
+                  <layer>351</layer>
+                </dataSouth>
+              </drawData>
             </li>
             <li>
               <debugLabel>Beard</debugLabel>
@@ -97,6 +112,11 @@
               <colorType>Hair</colorType>
               <skipFlag>Beard</skipFlag>
               <baseLayer>8</baseLayer>
+              <drawData>
+                <dataSouth>
+                  <layer>352</layer>
+                </dataSouth>
+              </drawData>
             </li>
             <li>
               <debugLabel>Hair</debugLabel>
@@ -106,12 +126,22 @@
               <colorType>Hair</colorType>
               <skipFlag>Hair</skipFlag>
               <baseLayer>9</baseLayer>
+              <drawData>
+                <dataSouth>
+                  <layer>353</layer>
+                </dataSouth>
+              </drawData>
             </li>
             <li Class="PawnRenderNodeProperties_Overlay">
               <debugLabel>Head wounds</debugLabel>
               <workerClass>PawnRenderNodeWorker_OverlayWounds</workerClass>
               <overlayLayer>Head</overlayLayer>
               <baseLayer>10</baseLayer>
+              <drawData>
+                <dataSouth>
+                  <layer>354</layer>
+                </dataSouth>
+              </drawData>
             </li>
             <li Class="PawnRenderNodeProperties_Parent">
               <debugLabel>Apparel root</debugLabel>
@@ -123,11 +153,21 @@
               <workerClass>PawnRenderNodeWorker_OverlayFirefoam</workerClass>
               <overlayLayer>Head</overlayLayer>
               <baseLayer>12</baseLayer>
+              <drawData>
+                <dataSouth>
+                  <layer>355</layer>
+                </dataSouth>
+              </drawData>
             </li>
             <li Class="PawnRenderNodeProperties_Overlay">
               <debugLabel>Status overlay</debugLabel>
               <workerClass>PawnRenderNodeWorker_OverlayStatus</workerClass>
               <baseLayer>13</baseLayer>
+              <drawData>
+                <dataSouth>
+                  <layer>356</layer>
+                </dataSouth>
+              </drawData>
             </li>
           </children>
         </li>

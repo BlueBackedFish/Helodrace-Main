@@ -300,6 +300,9 @@
         <dataNorth>
           <layer>-3</layer>
         </dataNorth>
+        <dataSouth>
+          <layer>500</layer>
+        </dataSouth>
       </drawData>
       <layers>
         <li>Belt</li>
@@ -396,6 +399,9 @@
         <dataNorth>
           <layer>-3</layer>
         </dataNorth>
+        <dataSouth>
+          <layer>500</layer>
+        </dataSouth>
       </drawData>
       <layers>
         <li>Belt</li>

@@ -31,7 +31,8 @@ namespace Helodrace
         }
     }
 
-    public sealed class Projectile_20mmHighExplosiveIncendiary : Projectile_Explosive
+    public sealed class Projectile_20mmHighExplosiveIncendiary :
+        ModernWar.Projectile_FragmentingExplosive
     {
         protected override void Explode()
         {
