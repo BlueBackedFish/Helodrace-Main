@@ -21,8 +21,7 @@
     <ingestible>
       <preferability>MealFine</preferability>
       <foodType>Meat, Processed, Meal</foodType>
-      <ingestSound>Ingest_Meat</ingestSound>
-      <specialThoughtDirect>AteCookedMeal</specialThoughtDirect>
+      <ingestSound>RawMeat_Eat</ingestSound>
     </ingestible>
   </ThingDef>
 
@@ -108,7 +107,7 @@
       <foodType>VegetableOrFruit, Processed, Meal</foodType>
       <baseIngestTicks>240</baseIngestTicks>
       <chairSearchRadius>0</chairSearchRadius>
-      <ingestSound>Ingest_Bite</ingestSound>
+      <ingestSound>Meal_Eat</ingestSound>
       <ingestHoldUsesTable>false</ingestHoldUsesTable>
       <maxNumToIngestAtOnce>6</maxNumToIngestAtOnce>
     </ingestible>

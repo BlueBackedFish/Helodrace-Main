@@ -73,7 +73,7 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>3.5</damageAmountBase>
+      <damageAmountBase>4</damageAmountBase>
       <stoppingPower>0.9</stoppingPower>
       <speed>48</speed>
     </projectile>
@@ -1970,6 +1970,7 @@
     </weaponTags>
     <comps Inherit="False">
       <li><compClass>CompEquippable</compClass></li>
+      <li Class="CompProperties_Styleable" />
     </comps>
     <tools>
       <li>

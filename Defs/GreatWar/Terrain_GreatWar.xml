@@ -24,6 +24,9 @@
       <li>Diggable</li>
     </affordances>
     <generatedFilth>Filth_Dirt</generatedFilth>
+    <filthAcceptanceMask>
+      <li>Unnatural</li>
+    </filthAcceptanceMask>
     <fertility>1.7</fertility>
     <takeFootprints>true</takeFootprints>
     <researchPrerequisites>

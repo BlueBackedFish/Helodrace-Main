@@ -483,6 +483,7 @@ namespace Helodrace.Future
         }
     }
 
+    [StaticConstructorOnStartup]
     public sealed class LanceLra7BeamEffect : Thing
     {
         private const int GradientSteps = 16;

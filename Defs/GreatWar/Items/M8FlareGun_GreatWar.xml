@@ -138,7 +138,6 @@
         <minRange>5.9</minRange>
         <burstShotCount>1</burstShotCount>
         <requireLineOfSight>false</requireLineOfSight>
-        <forcedMissRadius>3.5</forcedMissRadius>
         <targetParams>
           <canTargetLocations>true</canTargetLocations>
         </targetParams>

@@ -120,7 +120,6 @@
         <defaultProjectile>HD_IncendiaryGel_Proj</defaultProjectile>
         <warmupTime>0.6</warmupTime>
         <range>14.9</range>
-        <forcedMissRadius>1.05</forcedMissRadius>
         <ai_AvoidFriendlyFireRadius>3.0</ai_AvoidFriendlyFireRadius>
         <burstShotCount>10</burstShotCount>
         <ticksBetweenBurstShots>4</ticksBetweenBurstShots>

@@ -151,6 +151,7 @@ namespace Helodrace.Future
         }
     }
 
+    [StaticConstructorOnStartup]
     public sealed class Mh60HeliborneAircraft : ThingWithComps, IThingHolder
     {
         private const string TextureRoot = "Effects/Aircraft/MH60M/";

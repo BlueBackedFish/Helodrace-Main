@@ -58,6 +58,20 @@
   </ThoughtDef>
 
   <ThoughtDef>
+    <defName>HD_ChewingPlainDogChew</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>HD_PlainDogChewHigh</hediff>
+    <stages>
+      <li>
+        <label>chewing dog chew</label>
+        <description>temp</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
     <defName>HD_HonorGuardEquipmentMood</defName>
     <thoughtClass>Thought_Situational</thoughtClass>
     <workerClass>Helodrace.ThoughtWorker_HonorGuardEquipment</workerClass>

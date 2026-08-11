@@ -50,7 +50,7 @@
       </skillRequirements>
       <researchPrerequisite>HelodLessLethalLowRanged</researchPrerequisite>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>TableMachining</li>
       </recipeUsers>
     </recipeMaker>
     <comps>
@@ -156,7 +156,7 @@
         <Crafting>8</Crafting>
       </skillRequirements>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>TableMachining</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -234,7 +234,7 @@
       </skillRequirements>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>TableMachining</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -333,7 +333,7 @@
       </skillRequirements>
       <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>TableMachining</li>
       </recipeUsers>
     </recipeMaker>
     <costList>

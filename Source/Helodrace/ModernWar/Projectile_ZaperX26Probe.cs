@@ -323,6 +323,7 @@ namespace Helodrace.ModernWar
     /// A short-range X26 probe that keeps its deployment wire visually attached
     /// to the pawn that fired it for the duration of its flight.
     /// </summary>
+    [StaticConstructorOnStartup]
     public sealed class Projectile_ZaperX26Probe : Projectile
     {
         private const float WireWidth = 0.022f;

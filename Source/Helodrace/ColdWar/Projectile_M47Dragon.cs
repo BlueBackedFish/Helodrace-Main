@@ -28,6 +28,7 @@ namespace Helodrace
     /// launcher. Steering code must check GuidanceActive before changing the
     /// missile's course.
     /// </summary>
+    [StaticConstructorOnStartup]
     public class Projectile_M47Dragon : Projectile_Explosive
     {
         private const float WireWidth = 0.025f;

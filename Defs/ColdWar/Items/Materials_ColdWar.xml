@@ -12,6 +12,7 @@
       <drawSize>(0.8,0.8)</drawSize>
     </graphicData>
     <stackLimit>75</stackLimit>
+    <tickerType>Normal</tickerType>
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>50</MaxHitPoints>
@@ -69,7 +70,7 @@
       <workSkill>Crafting</workSkill>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>TableMachining</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>5</Crafting>
@@ -114,7 +115,7 @@
       <workSkill>Crafting</workSkill>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>TableMachining</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>7</Crafting>

@@ -25,6 +25,7 @@
     </stuffCategories>
     <comps Inherit="False">
       <li><compClass>CompEquippable</compClass></li>
+      <li Class="CompProperties_Styleable" />
     </comps>
     <recipeMaker>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
@@ -76,6 +77,7 @@
     </stuffCategories>
     <comps Inherit="False">
       <li><compClass>CompEquippable</compClass></li>
+      <li Class="CompProperties_Styleable" />
     </comps>
     <recipeMaker>
       <recipeUsers>

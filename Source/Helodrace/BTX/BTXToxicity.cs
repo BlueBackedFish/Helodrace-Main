@@ -8,6 +8,7 @@ namespace Helodrace
     public static class BTXUtility
     {
         public const string ChemicalDefName = "BTX";
+        public const string ChemicalNeedDefName = "Chemical_BTX";
         public const string BTXDependencyGeneDefName = "HD_Gene_BTXDependency";
         public const string StabilizationHediffDefName = "HD_BTXHigh";
         public const string ToxicityHediffDefName = "HD_BTXToxicity";
@@ -93,8 +94,7 @@ namespace Helodrace
 
             if (BTXUtility.HasBTXDependency(ingester))
             {
-                // CompDrug already replenishes Chemical_BTX through the addiction hediff.
-                // Only non-carriers need the custom toxicity.
+                ReplenishBTXNeed(__instance, ingester);
                 return;
             }
 
@@ -122,6 +122,35 @@ namespace Helodrace
             Hediff toxicity = HediffMaker.MakeHediff(toxicityDef, ingester);
             toxicity.Severity = 0.20f;
             ingester.health.AddHediff(toxicity);
+        }
+
+        private static void ReplenishBTXNeed(CompDrug drug, Pawn ingester)
+        {
+            CompProperties_Drug props = drug?.Props;
+            if (props == null || props.Addictive)
+            {
+                // Addictive drugs are already handled by CompDrug.PrePostIngested.
+                return;
+            }
+
+            NeedDef needDef = DefDatabase<NeedDef>.GetNamedSilentFail(BTXUtility.ChemicalNeedDefName);
+            Need chemicalNeed = needDef == null ? null : ingester.needs?.TryGetNeed(needDef);
+            if (chemicalNeed == null)
+            {
+                Log.WarningOnce(
+                    "Helodrace: a BTX-dependent pawn ingested BTX, but Chemical_BTX was not present.",
+                    71930412);
+                return;
+            }
+
+            float needOffset = props.needLevelOffset;
+            AddictionUtility.ModifyChemicalEffectForToleranceAndBodySize(
+                ingester,
+                props.chemical,
+                ref needOffset,
+                true,
+                true);
+            chemicalNeed.CurLevel += needOffset;
         }
     }
 

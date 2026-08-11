@@ -43,7 +43,7 @@
     <researchPrerequisites>
       <li>HelodBasicOilDevelopment</li>
     </researchPrerequisites>
-    <tickerType>Rare</tickerType>
+    <tickerType>Normal</tickerType>
     <building>
       <buildingTags>
         <li>HD_SteamEnginePowered</li>

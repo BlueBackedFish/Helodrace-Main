@@ -137,6 +137,7 @@
         <warmupTime>1.2</warmupTime>
         <range>49.9</range>
         <minRange>3.9</minRange>
+        <forcedMissRadius>1.5</forcedMissRadius>
         <consumeFuelPerShot>1</consumeFuelPerShot>
         <ticksBetweenBurstShots>2</ticksBetweenBurstShots>
         <burstShotCount>30</burstShotCount>
@@ -501,6 +502,7 @@
     </recipeMaker>
     <comps Inherit="False">
       <li><compClass>CompEquippable</compClass></li>
+      <li Class="CompProperties_Styleable" />
       <li Class="Helodrace.CompProperties_PowerCutterBreach">
         <playerDeconstructSpeedFactor>1.5</playerDeconstructSpeedFactor>
         <!-- 30 emissions/second so several spark flecks remain visible at all times. -->

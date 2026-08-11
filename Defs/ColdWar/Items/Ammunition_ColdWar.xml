@@ -20,7 +20,7 @@
     <label>20x102mm mixed ammunition</label>
     <description>A linked 20x102mm ammunition supply for the M167 VADS, assembled in its standard mixed feed of high-explosive incendiary, high-explosive incendiary tracer, and armor-piercing incendiary projectiles.</description>
     <graphicData>
-      <texPath>Weapons/ColdWar/Ammo/20x102mm/</texPath>
+      <texPath>Weapons/ColdWar/Ammo/20x102mm</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>
       <drawSize>(0.8,0.8)</drawSize>
     </graphicData>

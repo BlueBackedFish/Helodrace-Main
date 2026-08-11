@@ -11,6 +11,7 @@
       <drawSize>(0.8,0.8)</drawSize>
     </graphicData>
     <stackLimit>150</stackLimit>
+    <tickerType>Normal</tickerType>
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>55</MaxHitPoints>
@@ -48,6 +49,7 @@
       <drawSize>(0.8,0.8)</drawSize>
     </graphicData>
     <stackLimit>75</stackLimit>
+    <tickerType>Normal</tickerType>
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>45</MaxHitPoints>
@@ -85,6 +87,7 @@
       <drawSize>(0.8,0.8)</drawSize>
     </graphicData>
     <stackLimit>75</stackLimit>
+    <tickerType>Normal</tickerType>
     <healthAffectsPrice>false</healthAffectsPrice>
     <statBases>
       <MaxHitPoints>45</MaxHitPoints>

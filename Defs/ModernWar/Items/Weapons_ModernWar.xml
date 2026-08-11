@@ -310,6 +310,7 @@
     </recipeMaker>
     <comps Inherit="False">
       <li><compClass>CompEquippable</compClass></li>
+      <li Class="CompProperties_Styleable" />
     </comps>
     <tools>
       <li>

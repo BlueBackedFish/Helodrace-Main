@@ -430,8 +430,8 @@
     <thingCategories>
       <li>Manufactured</li>
     </thingCategories>
-    <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
     <stuffProps>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
       <categories>
         <li>Metallic</li>
       </categories>
@@ -478,8 +478,8 @@
     <thingCategories>
       <li>Manufactured</li>
     </thingCategories>
-    <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
     <stuffProps>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
       <categories>
         <li>Metallic</li>
       </categories>
@@ -594,8 +594,8 @@
     <thingCategories>
       <li>Manufactured</li>
     </thingCategories>
-    <soundImpactStuff>BulletImpact_Metal</soundImpactStuff>
     <stuffProps>
+      <soundImpactBullet>BulletImpact_Metal</soundImpactBullet>
       <categories>
         <li>Metallic</li>
       </categories>
@@ -646,9 +646,9 @@
     </statBases>
     <ingestible>
       <foodType>Processed</foodType>
-      <baseIngestTicks>3000</baseIngestTicks>
+      <baseIngestTicks>420</baseIngestTicks>
       <chairSearchRadius>0</chairSearchRadius>
-      <ingestSound>Ingest_Bite</ingestSound>
+      <ingestSound>Meal_Eat</ingestSound>
       <ingestHoldUsesTable>false</ingestHoldUsesTable>
       <drugCategory>Medical</drugCategory>
       <ingestCommandString>Chew {0}</ingestCommandString>
@@ -771,6 +771,3 @@
   </ThingDef>
 
   </Defs>
-
-
-

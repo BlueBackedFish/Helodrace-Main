@@ -164,6 +164,7 @@ namespace Helodrace
         }
     }
 
+    [StaticConstructorOnStartup]
     public class SwitchbladeDrone : ThingWithComps
     {
         private IntVec3 loiterCenter;

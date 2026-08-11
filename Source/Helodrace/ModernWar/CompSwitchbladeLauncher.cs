@@ -172,6 +172,7 @@ namespace Helodrace
         }
     }
 
+    [StaticConstructorOnStartup]
     public class CompSwitchbladeLauncher : ThingComp
     {
         private bool fired;

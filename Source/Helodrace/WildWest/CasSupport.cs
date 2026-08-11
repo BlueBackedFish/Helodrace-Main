@@ -335,6 +335,7 @@ namespace Helodrace
         }
     }
 
+    [StaticConstructorOnStartup]
     public sealed class MapComponent_HelodCasSupport : MapComponent
     {
         private List<HelodCasStrike> strikes = new List<HelodCasStrike>();
