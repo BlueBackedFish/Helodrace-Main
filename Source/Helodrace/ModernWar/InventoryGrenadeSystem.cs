@@ -113,12 +113,16 @@ namespace Helodrace
             }
 
             Texture2D grenadeIcon = grenades[0].def.uiIcon ?? BaseContent.BadTex;
+            Texture2D closeThrowIcon =
+                ContentFinder<Texture2D>.Get("Skill/HD_ThrowShort", false) ?? grenadeIcon;
+            Texture2D normalThrowIcon =
+                ContentFinder<Texture2D>.Get("Skill/HD_ThrowLong", false) ?? grenadeIcon;
             Command_Action closeCommand = new Command_Action
             {
                 defaultLabel = "HD_Grenade_CloseThrow".Translate().ToString(),
                 defaultDesc = "HD_Grenade_CloseThrowDesc".Translate(
                     CloseThrowTicks.ToStringTicksToPeriod(), CloseThrowRange).ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/AttackMelee", false) ?? grenadeIcon,
+                icon = closeThrowIcon,
                 action = () => BeginChooseGrenade(pawn, true)
             };
             Command_Action normalCommand = new Command_Action
@@ -126,7 +130,7 @@ namespace Helodrace
                 defaultLabel = "HD_Grenade_NormalThrow".Translate().ToString(),
                 defaultDesc = "HD_Grenade_NormalThrowDesc".Translate(
                     NormalThrowTicks.ToStringTicksToPeriod(), NormalThrowRange).ToString(),
-                icon = grenadeIcon,
+                icon = normalThrowIcon,
                 action = () => BeginChooseGrenade(pawn, false)
             };
 

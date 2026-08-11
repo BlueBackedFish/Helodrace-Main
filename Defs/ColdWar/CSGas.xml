@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef>
-    <defName>HD_CSGas</defName>
-    <label>CS gas</label>
-    <description>A dense tear-agent cloud that causes immediate eye, skin, and respiratory irritation. It disperses quickly and does not travel as far as persistent chemical agents. Gas protection and toxic-environment resistance reduce exposure.</description>
-    <thingClass>Helodrace.ModernWar.Gas_CS</thingClass>
-    <category>Ethereal</category>
-    <tickerType>Never</tickerType>
-    <useHitPoints>false</useHitPoints>
-    <selectable>false</selectable>
-    <drawerType>RealtimeOnly</drawerType>
-    <altitudeLayer>Gas</altitudeLayer>
-    <graphicData>
-      <texPath>Icons/HD_Helod</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.01,0.01)</drawSize>
-      <shaderType>Transparent</shaderType>
-    </graphicData>
-  </ThingDef>
-
   <HediffDef>
     <defName>HD_CSGasExposure</defName>
     <label>CS irritation</label>

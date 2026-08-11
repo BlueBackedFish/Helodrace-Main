@@ -452,6 +452,9 @@
       </thoughtSettings>
 
       <raceRestriction>
+        <traitList>
+          <li>HD_RawBTXMadman</li>
+        </traitList>
         <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
         <apparelList>
           <li>HD_Apparel_CarvalyUniform</li>
@@ -482,7 +485,7 @@
           <li>HD_Apparel_M1952AFlakJacket</li>
           <li>HD_Apparel_ShieldDefenTechIIIA</li>
           <li>HD_Apparel_ShieldIronHideIV</li>
-          <li>HD_Apparel_SCR300</li>
+          <li>HD_Apparel_SCR300_Radio</li>
           <li>HD_USMCFightingKnife</li>
         </apparelList>
         <whiteApparelList>

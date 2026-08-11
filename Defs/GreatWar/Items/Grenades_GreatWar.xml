@@ -23,6 +23,9 @@
     </costList>
     <recipeMaker>
       <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <recipeUsers Inherit="False">
+        <li>HD_Tier2Workbench</li>
+      </recipeUsers>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>
     </recipeMaker>
     <weaponTags><li>HD_GreatWarGrenade</li></weaponTags>
@@ -32,8 +35,8 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeBase">
-    <defName>HD_Grenade_M8</defName>
-    <projectileWhenLoaded>HD_Projectile_M8</projectileWhenLoaded>
+    <defName>HD_Grenade_M8_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M8_Round</projectileWhenLoaded>
     <label>M8 HC smoke grenade</label>
     <description>Metal canister grenades that burn a hexachloroethane mixture to rapidly create a thick white screening cloud.</description>
     <graphicData><texPath>Weapons/GreatWar/HD_M8</texPath></graphicData>
@@ -51,7 +54,7 @@
         <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
-        <defaultProjectile>HD_Projectile_M8</defaultProjectile>
+        <defaultProjectile>HD_Projectile_M8_Round</defaultProjectile>
         <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
       </li>
     </verbs>
@@ -66,8 +69,8 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeBase">
-    <defName>HD_Grenade_M15</defName>
-    <projectileWhenLoaded>HD_Projectile_M15</projectileWhenLoaded>
+    <defName>HD_Grenade_M15_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M15_Round</projectileWhenLoaded>
     <label>M15 white phosphorus grenade</label>
     <description>White phosphorus grenades that burst into burning material while producing a dense smoke screen. They are dangerous to exposed personnel and readily ignite the surroundings.</description>
     <graphicData><texPath>Weapons/GreatWar/HD_M15</texPath></graphicData>
@@ -97,7 +100,7 @@
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
-        <defaultProjectile>HD_Projectile_M15</defaultProjectile>
+        <defaultProjectile>HD_Projectile_M15_Round</defaultProjectile>
         <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
       </li>
     </verbs>
@@ -105,10 +108,15 @@
       <li Class="CompProperties_Explosive">
         <explosiveRadius>3.0</explosiveRadius>
         <explosiveDamageType>Flame</explosiveDamageType>
-        <postExplosionGasType>BlindSmoke</postExplosionGasType>
         <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
       </li>
     </comps>
+    <modExtensions>
+      <li Class="Helodrace.HelodGasOnExplosionExtension">
+        <gasDef>HD_WhitePhosphorusSmokeGrid</gasDef>
+        <radius>3.0</radius>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeBase">
@@ -201,7 +209,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
-    <defName>HD_Projectile_M8</defName>
+    <defName>HD_Projectile_M8_Round</defName>
     <label>M8 HC smoke grenade</label>
     <graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M8_proj</texPath></graphicData>
     <projectile>
@@ -225,16 +233,13 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
-    <defName>HD_Projectile_M15</defName>
+    <defName>HD_Projectile_M15_Round</defName>
     <label>M15 white phosphorus grenade</label>
     <graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M15_proj</texPath></graphicData>
     <projectile>
       <damageDef>Flame</damageDef>
       <damageAmountBase>22</damageAmountBase>
       <explosionRadius>3.0</explosionRadius>
-      <preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
-      <preExplosionSpawnChance>0.8</preExplosionSpawnChance>
-      <postExplosionGasType>BlindSmoke</postExplosionGasType>
       <ai_IsIncendiary>true</ai_IsIncendiary>
       <screenShakeFactor>0.6</screenShakeFactor>
     </projectile>
@@ -246,6 +251,10 @@
         <glowingTrail>true</glowingTrail>
         <trailSmokeScale>0.34</trailSmokeScale>
         <trailGlowScale>0.34</trailGlowScale>
+      </li>
+      <li Class="Helodrace.HelodGasOnExplosionExtension">
+        <gasDef>HD_WhitePhosphorusSmokeGrid</gasDef>
+        <radius>3.0</radius>
       </li>
     </modExtensions>
   </ThingDef>

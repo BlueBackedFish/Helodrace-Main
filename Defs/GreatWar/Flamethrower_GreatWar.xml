@@ -103,7 +103,7 @@
     </costList>
     <recipeMaker>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>

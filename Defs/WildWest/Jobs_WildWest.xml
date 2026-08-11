@@ -151,13 +151,13 @@
   </WorkGiverDef>
 
   <WorkGiverDef>
-    <defName>DoBillsHD_BasicWorkbench</defName>
-    <label>use basic workbench</label>
+    <defName>DoBillsHD_Tier1Workbench</defName>
+    <label>use tier 1 workbench</label>
     <giverClass>WorkGiver_DoBill</giverClass>
     <workType>Crafting</workType>
     <priorityInType>100</priorityInType>
     <fixedBillGiverDefs>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier1Workbench</li>
     </fixedBillGiverDefs>
     <verb>craft</verb>
     <gerund>crafting at</gerund>

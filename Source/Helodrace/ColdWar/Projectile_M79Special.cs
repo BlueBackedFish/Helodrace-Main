@@ -4,9 +4,55 @@ using Verse;
 
 namespace Helodrace
 {
+    public sealed class SpongeRoundDamageExtension : DefModExtension
+    {
+        public HediffDef suppressionHediff;
+        public float severityPerHit = 0.3f;
+    }
+
+    public sealed class DamageWorker_SpongeRound : DamageWorker_Blunt
+    {
+        public override DamageResult Apply(DamageInfo dinfo, Thing victim)
+        {
+            DamageResult result = base.Apply(dinfo, victim);
+            if (!(victim is Pawn pawn) || pawn.RaceProps?.IsFlesh != true ||
+                pawn.Dead || result.totalDamageDealt <= 0f)
+            {
+                return result;
+            }
+
+            SpongeRoundDamageExtension extension =
+                def.GetModExtension<SpongeRoundDamageExtension>();
+            if (extension?.suppressionHediff == null)
+            {
+                return result;
+            }
+
+            Hediff suppression = pawn.health.hediffSet.GetFirstHediffOfDef(
+                extension.suppressionHediff);
+            float severityGain = Mathf.Max(0.01f, extension.severityPerHit);
+            if (suppression == null)
+            {
+                suppression = HediffMaker.MakeHediff(extension.suppressionHediff, pawn);
+                suppression.Severity = Mathf.Min(
+                    severityGain,
+                    extension.suppressionHediff.maxSeverity);
+                pawn.health.AddHediff(suppression);
+            }
+            else
+            {
+                suppression.Severity = Mathf.Min(
+                    suppression.Severity + severityGain,
+                    extension.suppressionHediff.maxSeverity);
+            }
+
+            return result;
+        }
+    }
+
     public sealed class M651CSProjectileExtension : DefModExtension
     {
-        public ThingDef gasDef;
+        public HelodGasDef gasDef;
         public int gasReleaseDelayTicks = 15;
         public float gasEmissionRadius = 1.9f;
         public float gasDensity = 1f;

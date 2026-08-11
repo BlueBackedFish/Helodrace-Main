@@ -99,7 +99,7 @@
     </costList>
     <recipeMaker>
       <recipeUsers>
-        <li>FabricationBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>10</Crafting>

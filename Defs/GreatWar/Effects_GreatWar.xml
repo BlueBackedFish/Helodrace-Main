@@ -15,4 +15,36 @@
     <growthRate>0.012</growthRate>
   </FleckDef>
 
+  <FleckDef ParentName="FleckBase">
+    <defName>HD_WhitePhosphorusSpark</defName>
+    <fleckSystemClass>Helodrace.FleckSystemWhitePhosphorusParticle</fleckSystemClass>
+    <graphicData>
+      <texPath>Effects/Spark/HD_Spark_Short</texPath>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <allowAtlasing>false</allowAtlasing>
+      <renderInstanced>false</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.08</fadeInTime>
+    <solidTime>1.15</solidTime>
+    <fadeOutTime>0.75</fadeOutTime>
+  </FleckDef>
+
+  <FleckDef ParentName="FleckBase">
+    <defName>HD_WhitePhosphorusEmber</defName>
+    <fleckSystemClass>Helodrace.FleckSystemWhitePhosphorusParticle</fleckSystemClass>
+    <graphicData>
+      <texPath>Items/Cigarette/OnHand/HD_CigaretteFire14</texPath>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <allowAtlasing>false</allowAtlasing>
+      <renderInstanced>false</renderInstanced>
+    </graphicData>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <fadeInTime>0.15</fadeInTime>
+    <solidTime>2.80</solidTime>
+    <fadeOutTime>1.60</fadeOutTime>
+  </FleckDef>
+
 </Defs>

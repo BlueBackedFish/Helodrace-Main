@@ -47,7 +47,7 @@
     </graphicData>
     <comps>
       <li Class="Helodrace.CompProperties_InstalledBreachCharge">
-        <c4DefName>HD_C4</c4DefName>
+        <c4DefName>HD_C4_Charge</c4DefName>
         <hitPointsPerC4>500</hitPointsPerC4>
         <workTicksPerC4>30</workTicksPerC4>
         <minimumWorkTicks>90</minimumWorkTicks>

@@ -23,6 +23,7 @@
     </costList>
     <recipeMaker>
       <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
@@ -39,8 +40,8 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeBase">
-    <defName>HD_Grenade_M67</defName>
-    <projectileWhenLoaded>HD_Projectile_M67</projectileWhenLoaded>
+    <defName>HD_Grenade_M67_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M67_Round</projectileWhenLoaded>
     <label>M67 fragmentation grenade</label>
     <description>Modern defensive hand grenades whose steel bodies scatter lethal fragments across a broad area.</description>
     <graphicData>
@@ -59,7 +60,7 @@
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
-        <defaultProjectile>HD_Projectile_M67</defaultProjectile>
+        <defaultProjectile>HD_Projectile_M67_Round</defaultProjectile>
         <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
       </li>
     </verbs>
@@ -73,8 +74,8 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeBase">
-    <defName>HD_Grenade_M84</defName>
-    <projectileWhenLoaded>HD_Projectile_M84</projectileWhenLoaded>
+    <defName>HD_Grenade_M84_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M84_Round</projectileWhenLoaded>
     <label>M84 flashbang</label>
     <description>Non-lethal diversionary grenades that overwhelm nearby targets with a blinding flash and concussive report.</description>
     <graphicData>
@@ -105,7 +106,7 @@
         <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
-        <defaultProjectile>HD_Projectile_M84</defaultProjectile>
+        <defaultProjectile>HD_Projectile_M84_Round</defaultProjectile>
         <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
       </li>
     </verbs>
@@ -119,8 +120,8 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeBase">
-    <defName>HD_Grenade_M111</defName>
-    <projectileWhenLoaded>HD_Projectile_M111</projectileWhenLoaded>
+    <defName>HD_Grenade_M111_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M111_Round</projectileWhenLoaded>
     <label>M111 offensive grenade</label>
     <description>Plastic-bodied offensive grenades built to kill through intense blast overpressure with little dangerous fragmentation, making them especially effective in confined spaces.</description>
     <graphicData>
@@ -149,7 +150,7 @@
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
-        <defaultProjectile>HD_Projectile_M111</defaultProjectile>
+        <defaultProjectile>HD_Projectile_M111_Round</defaultProjectile>
         <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
       </li>
     </verbs>
@@ -174,7 +175,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
-    <defName>HD_Projectile_M67</defName>
+    <defName>HD_Projectile_M67_Round</defName>
     <label>M67 fragmentation grenade</label>
     <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
     <graphicData>
@@ -234,7 +235,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
-    <defName>HD_Projectile_M84</defName>
+    <defName>HD_Projectile_M84_Round</defName>
     <label>M84 flashbang</label>
     <thingClass>Helodrace.ModernWar.Projectile_Flashbang</thingClass>
     <graphicData>
@@ -283,7 +284,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModernGrenadeProjectileBase">
-    <defName>HD_Projectile_M111</defName>
+    <defName>HD_Projectile_M111_Round</defName>
     <label>M111 offensive grenade</label>
     <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
     <graphicData>

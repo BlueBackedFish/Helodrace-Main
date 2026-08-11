@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Shared build menu for all Helod technology eras. -->
+
+  <DesignationCategoryDef>
+    <defName>HD_HelodTechnology_Build</defName>
+    <label>Helod</label>
+    <order>250</order>
+  </DesignationCategoryDef>
+
+</Defs>

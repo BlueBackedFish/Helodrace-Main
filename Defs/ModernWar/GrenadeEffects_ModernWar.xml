@@ -33,7 +33,7 @@
   <ThingDef>
     <defName>HD_FlashbangLightEffect</defName>
     <label>flashbang light</label>
-    <thingClass>Helodrace.ModernWar.Thing_FlashbangLightEffect</thingClass>
+    <thingClass>ThingWithComps</thingClass>
     <category>Ethereal</category>
     <tickerType>Normal</tickerType>
     <drawerType>None</drawerType>
@@ -45,6 +45,10 @@
         <glowRadius>20</glowRadius>
         <overlightRadius>10</overlightRadius>
         <glowColor>(255,250,225,0)</glowColor>
+      </li>
+      <li Class="CompProperties_DestroyAfterDelay">
+        <delayTicks>6</delayTicks>
+        <destroyMode>Vanish</destroyMode>
       </li>
     </comps>
   </ThingDef>

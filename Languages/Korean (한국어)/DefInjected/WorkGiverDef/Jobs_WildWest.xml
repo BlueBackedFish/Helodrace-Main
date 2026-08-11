@@ -17,9 +17,9 @@
   <DoBillsHD_TreadleLathe.verb>제작</DoBillsHD_TreadleLathe.verb>
   <DoBillsHD_TreadleLathe.gerund>제작하는 중</DoBillsHD_TreadleLathe.gerund>
 
-  <DoBillsHD_BasicWorkbench.label>기초 작업대 사용</DoBillsHD_BasicWorkbench.label>
-  <DoBillsHD_BasicWorkbench.verb>수공예 작업</DoBillsHD_BasicWorkbench.verb>
-  <DoBillsHD_BasicWorkbench.gerund>수공예 작업하는 중</DoBillsHD_BasicWorkbench.gerund>
+  <DoBillsHD_Tier1Workbench.label>1단계 작업대 사용</DoBillsHD_Tier1Workbench.label>
+  <DoBillsHD_Tier1Workbench.verb>수공예 작업</DoBillsHD_Tier1Workbench.verb>
+  <DoBillsHD_Tier1Workbench.gerund>수공예 작업하는 중</DoBillsHD_Tier1Workbench.gerund>
 
   <DoBillsHD_TelegraphTable.label>전신기 테이블 사용</DoBillsHD_TelegraphTable.label>
   <DoBillsHD_TelegraphTable.verb>전신 송신</DoBillsHD_TelegraphTable.verb>

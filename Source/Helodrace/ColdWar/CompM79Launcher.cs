@@ -14,6 +14,10 @@ namespace Helodrace
         public int reloadTicks = 90;
         public int casingDelayTicks = 42;
         public ThingDef casingMoteDef;
+        public float buckshotAccuracyTouch = -1f;
+        public float buckshotAccuracyShort = -1f;
+        public float buckshotAccuracyMedium = -1f;
+        public float buckshotAccuracyLong = -1f;
 
         public CompProperties_M79Launcher()
         {
@@ -23,6 +27,9 @@ namespace Helodrace
 
     public sealed class CompM79Launcher : ThingComp
     {
+        private static readonly HashSet<CompM79Launcher> pendingDelayedEffects = new HashSet<CompM79Launcher>();
+        private static readonly List<CompM79Launcher> pendingDelayedEffectsSnapshot = new List<CompM79Launcher>();
+
         private bool loaded;
         private ThingDef selectedAmmoDef;
         private int casingDueTick = -1;
@@ -34,6 +41,35 @@ namespace Helodrace
         public bool Loaded => loaded;
         public ThingDef SelectedAmmoDef => selectedAmmoDef ?? Props.allowedAmmoDefs.FirstOrDefault();
         public ThingDef SelectedProjectileDef => SelectedAmmoDef?.projectileWhenLoaded;
+        public bool BuckshotSelected => SelectedAmmoDef?.defName == "HD_40mmM576MP_Round";
+
+        public bool TryGetBuckshotAccuracy(StatDef stat, out float accuracy)
+        {
+            accuracy = -1f;
+            if (!BuckshotSelected)
+            {
+                return false;
+            }
+
+            if (stat == StatDefOf.AccuracyTouch)
+            {
+                accuracy = Props.buckshotAccuracyTouch;
+            }
+            else if (stat == StatDefOf.AccuracyShort)
+            {
+                accuracy = Props.buckshotAccuracyShort;
+            }
+            else if (stat == StatDefOf.AccuracyMedium)
+            {
+                accuracy = Props.buckshotAccuracyMedium;
+            }
+            else if (stat == StatDefOf.AccuracyLong)
+            {
+                accuracy = Props.buckshotAccuracyLong;
+            }
+
+            return accuracy >= 0f;
+        }
 
         public Pawn Wielder => (parent.ParentHolder as Pawn_EquipmentTracker)?.pawn;
 
@@ -50,6 +86,11 @@ namespace Helodrace
             if (Scribe.mode == LoadSaveMode.PostLoadInit && !Props.allowedAmmoDefs.Contains(SelectedAmmoDef))
             {
                 selectedAmmoDef = Props.allowedAmmoDefs.FirstOrDefault();
+            }
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && (casingDueTick >= 0 || reloadRequestDueTick >= 0))
+            {
+                pendingDelayedEffects.Add(this);
             }
 
         }
@@ -89,6 +130,7 @@ namespace Helodrace
             if (reloadRequestDueTick < 0)
             {
                 reloadRequestDueTick = Find.TickManager.TicksGame + 1;
+                pendingDelayedEffects.Add(this);
             }
         }
 
@@ -147,6 +189,33 @@ namespace Helodrace
             Vector3 direction = verb.CurrentTarget.CenterVector3 - wielder.DrawPos;
             casingAngle = direction.AngleFlat() + 90f + Rand.Range(-12f, 12f);
             casingDueTick = Find.TickManager.TicksGame + Mathf.Max(1, Props.casingDelayTicks);
+            pendingDelayedEffects.Add(this);
+        }
+
+        public static void TickPendingDelayedEffects()
+        {
+            if (pendingDelayedEffects.Count == 0)
+            {
+                return;
+            }
+
+            pendingDelayedEffectsSnapshot.Clear();
+            pendingDelayedEffectsSnapshot.AddRange(pendingDelayedEffects);
+            foreach (CompM79Launcher launcher in pendingDelayedEffectsSnapshot)
+            {
+                if (launcher?.parent == null)
+                {
+                    pendingDelayedEffects.Remove(launcher);
+                    continue;
+                }
+
+                launcher.TickDelayedEffects();
+                if (launcher.casingDueTick < 0 && launcher.reloadRequestDueTick < 0)
+                {
+                    pendingDelayedEffects.Remove(launcher);
+                }
+            }
+            pendingDelayedEffectsSnapshot.Clear();
         }
 
         public void TickDelayedEffects()
@@ -253,27 +322,43 @@ namespace Helodrace
         }
     }
 
-    public sealed class Verb_ShootM79 : Verb_Shoot
+    public sealed class Verb_ShootM79 : Verb_ShootShotgun
     {
         private CompM79Launcher Launcher => EquipmentSource?.TryGetComp<CompM79Launcher>();
 
         public override ThingDef Projectile => Launcher?.SelectedProjectileDef ?? base.Projectile;
 
+        protected override int PelletCount => Launcher?.BuckshotSelected == true ? 20 : 1;
+
         protected override bool TryCastShot()
         {
-            bool isM576 = Launcher?.SelectedAmmoDef?.defName == "HD_40mmM576MP_Round";
-            int projectileCount = isM576 ? 20 : 1;
-            bool fired = false;
-            for (int index = 0; index < projectileCount; index++)
-            {
-                fired |= base.TryCastShot();
-            }
+            bool fired = base.TryCastShot();
 
             if (fired)
             {
                 Launcher?.NotifyShotFired(this);
             }
             return fired;
+        }
+    }
+
+    [HarmonyPatch(typeof(StatExtension), nameof(StatExtension.GetStatValue))]
+    public static class Patch_StatExtension_GetStatValue_M79Buckshot
+    {
+        public static void Postfix(Thing thing, StatDef stat, ref float __result)
+        {
+            CompM79Launcher launcher = thing?.TryGetComp<CompM79Launcher>();
+            if (launcher == null || !launcher.TryGetBuckshotAccuracy(stat, out float configuredAccuracy))
+            {
+                return;
+            }
+
+            // Scale the final value instead of replacing it so weapon quality
+            // and any other stat modifiers continue to affect accuracy.
+            float baseAccuracy = thing.def.GetStatValueAbstract(stat);
+            __result = baseAccuracy > 0f
+                ? Mathf.Clamp01(__result * configuredAccuracy / baseAccuracy)
+                : Mathf.Clamp01(configuredAccuracy);
         }
     }
 

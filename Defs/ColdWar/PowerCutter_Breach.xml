@@ -137,7 +137,7 @@
   <ThingDef>
     <defName>HD_PowerCutterMetalFlashLight</defName>
     <label>power cutter flash light</label>
-    <thingClass>Helodrace.Thing_PowerCutterFlashLight</thingClass>
+    <thingClass>ThingWithComps</thingClass>
     <category>Ethereal</category>
     <tickerType>Normal</tickerType>
     <drawerType>None</drawerType>
@@ -149,6 +149,10 @@
         <glowRadius>2.2</glowRadius>
         <overlightRadius>0.6</overlightRadius>
         <glowColor>(255,205,105,0)</glowColor>
+      </li>
+      <li Class="CompProperties_DestroyAfterDelay">
+        <delayTicks>2</delayTicks>
+        <destroyMode>Vanish</destroyMode>
       </li>
     </comps>
   </ThingDef>

@@ -3,5 +3,7 @@
   <ResearchTabDef>
     <defName>HelodTechTab</defName>
     <label>Helod Technology</label>
+    <generalTitle>City upon a Hill</generalTitle>
+    <generalDescription>Technology changes many things. What we eat, what we make, how we kill one another, how we mend the wounds left behind, and, in the end, even how we value one another. We stand upon a hill built with the blood of those who came before us, and now we must follow in their footsteps and climb once more.</generalDescription>
   </ResearchTabDef>
 </Defs>

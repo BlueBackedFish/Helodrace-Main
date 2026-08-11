@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_SpongeRoundImpact.label>스펀지탄 충격</HD_SpongeRoundImpact.label>
+  <HD_SpongeRoundImpact.deathMessage>{0}이(가) 충격으로 인한 고통을 버티지 못했습니다.</HD_SpongeRoundImpact.deathMessage>
+</LanguageData>

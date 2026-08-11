@@ -193,7 +193,7 @@ class ResearchTreeEditor:
     def auto_find_files(self):
         # Look for standard project research files
         possibilities = [
-            "Defs/Research/ResearchProjects_WildWest.xml",
+            "Defs/Research/ResearchProjects_Helod.xml",
             "Defs/Research/temp.xml"
         ]
         for p in possibilities:

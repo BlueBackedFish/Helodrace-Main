@@ -26,7 +26,7 @@ namespace Helodrace.ModernWar
         public int trailIntervalTicks = 4;
         public float trailSmokeScale = 0.30f;
         public float trailGlowScale = 0.28f;
-        public ThingDef gasDef;
+        public HelodGasDef gasDef;
         public int gasReleaseDelayTicks;
         public float gasEmissionRadius = 1.7f;
         public float gasDensity = 0.8f;
@@ -639,7 +639,7 @@ namespace Helodrace.ModernWar
 
     public sealed class CSGasEmitter : Thing
     {
-        private ThingDef gasDef;
+        private HelodGasDef gasDef;
         private int delayTicks;
         private float radius;
         private float density;
@@ -650,7 +650,7 @@ namespace Helodrace.ModernWar
         private float pulseDensityFactor;
 
         public void Initialize(
-            ThingDef gas,
+            HelodGasDef gas,
             int delay,
             float emissionRadius,
             float centerDensity,
@@ -737,7 +737,7 @@ namespace Helodrace.ModernWar
                 }
 
                 float distanceFactor = Mathf.InverseLerp(radius, 0f, Position.DistanceTo(cell));
-                Gas_CS.AddGasAt(
+                HelodGasStore.AddGas(
                     cell,
                     Map,
                     gasDef,

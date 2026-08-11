@@ -57,7 +57,7 @@ namespace Helodrace
 
     public class CompProperties_InstalledBreachCharge : CompProperties
     {
-        public string c4DefName = "HD_C4";
+        public string c4DefName = "HD_C4_Charge";
         public float hitPointsPerC4 = 500f;
         public float workTicksPerC4 = 120f;
         public int minimumWorkTicks = 150;
@@ -819,7 +819,7 @@ namespace Helodrace
         }
 
         public static ThingDef C4Def => DefDatabase<ThingDef>.GetNamedSilentFail(
-            ChargeProps?.c4DefName ?? "HD_C4");
+            ChargeProps?.c4DefName ?? "HD_C4_Charge");
 
         public static int CountInInventory(Pawn pawn, ThingDef def)
         {

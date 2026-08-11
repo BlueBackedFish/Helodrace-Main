@@ -692,6 +692,11 @@ namespace Helodrace
             {
                 tickAction = delegate
                 {
+                    if (!pawn.IsHashIntervalTick(15))
+                    {
+                        return;
+                    }
+
                     CompRecoillessWeapon weaponComp = Weapon?.TryGetComp<CompRecoillessWeapon>();
                     if (WeaponUser == null
                         || WeaponUser.Dead
@@ -980,15 +985,32 @@ namespace Helodrace
                 pawn.jobs.EndCurrentJob(JobCondition.Incompletable);
             }
         }
+
+        public static void TickScheduledReloads()
+        {
+            if (scheduledReloads.Count == 0)
+            {
+                return;
+            }
+
+            int tick = Find.TickManager.TicksGame;
+            foreach (KeyValuePair<Pawn, ScheduledReload> entry in scheduledReloads.ToList())
+            {
+                if (entry.Value.tick <= tick)
+                {
+                    TryRun(entry.Key);
+                }
+            }
+        }
     }
 
-    [HarmonyPatch(typeof(Pawn), "Tick")]
-    public static class Patch_Pawn_Tick_RecoillessReloadScheduler
+    [HarmonyPatch(typeof(TickManager), "DoSingleTick")]
+    public static class Patch_TickManager_RecoillessScheduledActions
     {
-        public static void Prefix(Pawn __instance)
+        public static void Postfix()
         {
-            RecoillessReloadScheduler.TryRun(__instance);
-            __instance?.equipment?.Primary?.TryGetComp<CompM79Launcher>()?.TickDelayedEffects();
+            RecoillessReloadScheduler.TickScheduledReloads();
+            CompM79Launcher.TickPendingDelayedEffects();
         }
     }
 

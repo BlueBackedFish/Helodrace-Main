@@ -2,22 +2,6 @@
 <Defs>
 
   <ThingDef ParentName="BaseBullet">
-    <defName>HD_Bullet_M16A4_Proj</defName>
-    <label>M16A4 bullet</label>
-    <graphicData>
-      <texPath>Things/Projectile/Bullet_Small</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <projectile>
-      <damageDef>Bullet</damageDef>
-      <damageAmountBase>11</damageAmountBase>
-      <armorPenetrationBase>0.18</armorPenetrationBase>
-      <stoppingPower>0.5</stoppingPower>
-      <speed>85</speed>
-    </projectile>
-  </ThingDef>
-
-  <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_Glock19_Proj</defName>
     <label>9x19mm bullet</label>
     <graphicData>
@@ -79,217 +63,13 @@
     <altitudeLayer>MoteOverhead</altitudeLayer>
   </ThingDef>
 
-  <ThingDef Name="HD_M16FamilyBase" ParentName="BaseHumanMakeableGun" Abstract="True">
-    <graphicData>
-      <texPath>Weapons/ModernWar/HD_M16A4</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.9,0.9)</drawSize>
-    </graphicData>
-    <equippedAngleOffset>45</equippedAngleOffset>
-    <soundInteract>Interact_Rifle</soundInteract>
-    <weaponClasses>
-      <li>RangedHeavy</li>
-    </weaponClasses>
-    <weaponTags>
-      <li>HD_ModernWarWeapon</li>
-      <li>IndustrialGunAdvanced</li>
-    </weaponTags>
-    <statBases>
-      <WorkToMake>42000</WorkToMake>
-      <Mass>3.4</Mass>
-      <MarketValue>1250</MarketValue>
-      <MaxHitPoints>100</MaxHitPoints>
-      <AccuracyTouch>0.62</AccuracyTouch>
-      <AccuracyShort>0.78</AccuracyShort>
-      <AccuracyMedium>0.72</AccuracyMedium>
-      <AccuracyLong>0.60</AccuracyLong>
-      <RangedWeapon_Cooldown>1.7</RangedWeapon_Cooldown>
-    </statBases>
-    <costList>
-      <Steel>55</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
-      <ComponentSpacer>1</ComponentSpacer>
-    </costList>
-    <recipeMaker>
-      <skillRequirements>
-        <Crafting>8</Crafting>
-      </skillRequirements>
-      <researchPrerequisite>PrecisionRifling</researchPrerequisite>
-    </recipeMaker>
-    <comps>
-      <li Class="Helodrace.CompProperties_SharpshooterWeapon">
-        <altVerbIndex>1</altVerbIndex>
-        <altCooldownMultiplier>1.0</altCooldownMultiplier>
-      </li>
-    </comps>
-    <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>1.0</warmupTime>
-        <range>30.9</range>
-        <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.3</warmupTime>
-        <range>22.9</range>
-        <burstShotCount>3</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-    </verbs>
-    <tools>
-      <li>
-        <label>stock</label>
-        <capacities>
-          <li>Blunt</li>
-        </capacities>
-        <power>9</power>
-        <cooldownTime>2</cooldownTime>
-      </li>
-      <li>
-        <label>barrel</label>
-        <capacities>
-          <li>Blunt</li>
-          <li>Poke</li>
-        </capacities>
-        <power>8</power>
-        <cooldownTime>2</cooldownTime>
-      </li>
-    </tools>
-  </ThingDef>
-
-  <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_M16A1_Weapon</defName>
-    <label>M16A1</label>
-    <description>An early lightweight 5.56 mm service rifle with full-automatic fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
-    <graphicData>
-      <texPath>Weapons/ColdWar/HD_M16A1</texPath>
-    </graphicData>
-    <statBases>
-      <Mass>3.18</Mass>
-      <MarketValue>1025</MarketValue>
-      <AccuracyTouch>0.60</AccuracyTouch>
-      <AccuracyShort>0.74</AccuracyShort>
-      <AccuracyMedium>0.68</AccuracyMedium>
-      <AccuracyLong>0.54</AccuracyLong>
-      <RangedWeapon_Cooldown>1.8</RangedWeapon_Cooldown>
-    </statBases>
-    <recipeMaker>
-      <researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite>
-    </recipeMaker>
-    <verbs Inherit="False">
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.9</warmupTime>
-        <range>29.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.3</warmupTime>
-        <range>21.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-    </verbs>
-  </ThingDef>
-
-  <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_M16A2_Weapon</defName>
-    <label>M16A2</label>
-    <description>A refined 5.56 mm service rifle with improved sights, heavier furniture, and a controlled three-round burst. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
-    <graphicData>
-      <texPath>Weapons/ColdWar/HD_M16A2,3</texPath>
-    </graphicData>
-    <statBases>
-      <Mass>3.52</Mass>
-      <MarketValue>1125</MarketValue>
-      <AccuracyTouch>0.61</AccuracyTouch>
-      <AccuracyShort>0.76</AccuracyShort>
-      <AccuracyMedium>0.71</AccuracyMedium>
-      <AccuracyLong>0.58</AccuracyLong>
-      <RangedWeapon_Cooldown>1.75</RangedWeapon_Cooldown>
-    </statBases>
-    <recipeMaker>
-      <researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite>
-    </recipeMaker>
-  </ThingDef>
-
-  <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_M16A3_Weapon</defName>
-    <label>M16A3</label>
-    <description>A full-automatic derivative of the M16A2 intended for sustained close-to-medium-range fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
-    <graphicData>
-      <texPath>Weapons/ColdWar/HD_M16A2,3</texPath>
-    </graphicData>
-    <statBases>
-      <Mass>3.50</Mass>
-      <MarketValue>1180</MarketValue>
-      <AccuracyTouch>0.63</AccuracyTouch>
-      <AccuracyShort>0.77</AccuracyShort>
-      <AccuracyMedium>0.70</AccuracyMedium>
-      <AccuracyLong>0.56</AccuracyLong>
-      <RangedWeapon_Cooldown>1.65</RangedWeapon_Cooldown>
-    </statBases>
-    <recipeMaker>
-      <researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite>
-    </recipeMaker>
-    <verbs Inherit="False">
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.9</warmupTime>
-        <range>30.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.3</warmupTime>
-        <range>22.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>9</muzzleFlashScale>
-      </li>
-    </verbs>
-  </ThingDef>
-
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_M16A4_Weapon</defName>
     <label>M16A4</label>
     <description>A modern service rifle chambered for a small-caliber, high-velocity cartridge. It fires a controlled three-round burst, while a Helod sharpshooter can trade eight tiles of effective range for near-instant target acquisition.</description>
     <recipeMaker>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
 
@@ -313,6 +93,7 @@
     </statBases>
     <recipeMaker>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
     </recipeMaker>
     <verbs Inherit="False">
       <li>
@@ -381,6 +162,7 @@
         <Crafting>8</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
@@ -458,6 +240,7 @@
     </costList>
     <recipeMaker>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
     </recipeMaker>
     <verbs Inherit="False">
       <li>
@@ -518,13 +301,16 @@
     </costList>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>TableMachining</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
     </recipeMaker>
+    <comps Inherit="False">
+      <li><compClass>CompEquippable</compClass></li>
+    </comps>
     <tools>
       <li>
         <label>drill</label>
@@ -592,6 +378,7 @@
         <Crafting>6</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
     </recipeMaker>
     <verbs>
       <li>

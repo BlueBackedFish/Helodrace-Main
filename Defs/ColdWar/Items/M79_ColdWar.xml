@@ -70,7 +70,7 @@
   <ThingDef ParentName="HD_M79AmmoBase">
     <defName>HD_40mmSponge_Round</defName>
     <label>40×46mm sponge grenade</label>
-    <description>A less-lethal 40×46mm impact round with a deformable sponge nose. It delivers heavy blunt force and stopping power without an explosive blast.</description>
+    <description>A less-lethal 40×46mm impact round with a deformable sponge nose. A damaging hit delivers heavy blunt force, intense pain, and short-lived physical suppression without an explosive blast.</description>
     <projectileWhenLoaded>HD_40mmSponge_Proj</projectileWhenLoaded>
     <graphicData><texPath>Weapons/ColdWar/Ammo/40mmLow/HD_40MMLowSponge</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.55,0.55)</drawSize></graphicData>
     <statBases><MarketValue>18</MarketValue><Mass>0.18</Mass></statBases>
@@ -111,7 +111,7 @@
     <projectile><damageDef>Smoke</damageDef><damageAmountBase>0</damageAmountBase><armorPenetrationBase>0</armorPenetrationBase><speed>38</speed><explosionRadius>1.2</explosionRadius></projectile>
     <modExtensions>
       <li Class="Helodrace.M651CSProjectileExtension">
-        <gasDef>HD_CSGas</gasDef><gasReleaseDelayTicks>15</gasReleaseDelayTicks><gasEmissionRadius>1.9</gasEmissionRadius><gasDensity>1.0</gasDensity><gasEdgeDensityFactor>0.68</gasEdgeDensityFactor><gasEmissionDurationTicksMin>1200</gasEmissionDurationTicksMin><gasEmissionDurationTicksMax>1800</gasEmissionDurationTicksMax><gasEmissionIntervalTicks>60</gasEmissionIntervalTicks><gasPulseDensityFactor>0.12</gasPulseDensityFactor>
+        <gasDef>HD_CSGasGrid</gasDef><gasReleaseDelayTicks>15</gasReleaseDelayTicks><gasEmissionRadius>1.9</gasEmissionRadius><gasDensity>1.0</gasDensity><gasEdgeDensityFactor>0.68</gasEdgeDensityFactor><gasEmissionDurationTicksMin>1200</gasEmissionDurationTicksMin><gasEmissionDurationTicksMax>1800</gasEmissionDurationTicksMax><gasEmissionIntervalTicks>60</gasEmissionIntervalTicks><gasPulseDensityFactor>0.12</gasPulseDensityFactor>
       </li>
     </modExtensions>
   </ThingDef>
@@ -120,8 +120,90 @@
     <defName>HD_40mmSponge_Proj</defName>
     <label>40×46mm sponge projectile</label>
     <graphicData><texPath>Weapons/ColdWar/Projectiles/40mmLow/HD_40MMLowSponge_proj</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.8,0.8)</drawSize></graphicData>
-    <projectile><damageDef>Blunt</damageDef><damageAmountBase>16</damageAmountBase><armorPenetrationBase>0.04</armorPenetrationBase><stoppingPower>3.8</stoppingPower><speed>38</speed></projectile>
+    <projectile><damageDef>HD_SpongeRoundImpact</damageDef><damageAmountBase>1</damageAmountBase><armorPenetrationBase>0.04</armorPenetrationBase><stoppingPower>3.8</stoppingPower><speed>38</speed></projectile>
   </ThingDef>
+
+  <DamageDef>
+    <defName>HD_SpongeRoundImpact</defName>
+    <label>sponge-round impact</label>
+    <workerClass>Helodrace.DamageWorker_SpongeRound</workerClass>
+    <externalViolence>false</externalViolence>
+    <deathMessage>{0} could not withstand the impact pain.</deathMessage>
+    <hediff>Bruise</hediff>
+    <harmAllLayersUntilOutside>false</harmAllLayersUntilOutside>
+    <impactSoundType>Blunt</impactSoundType>
+    <armorCategory>Blunt</armorCategory>
+    <overkillPctToDestroyPart>0~0.7</overkillPctToDestroyPart>
+    <isRanged>true</isRanged>
+    <makesAnimalsFlee>true</makesAnimalsFlee>
+    <modExtensions>
+      <li Class="Helodrace.SpongeRoundDamageExtension">
+        <suppressionHediff>HD_SpongeRoundSuppression</suppressionHediff>
+        <severityPerHit>0.30</severityPerHit>
+      </li>
+    </modExtensions>
+  </DamageDef>
+
+  <HediffDef>
+    <defName>HD_SpongeRoundSuppression</defName>
+    <label>sponge-round impact shock</label>
+    <labelNoun>sponge-round impact shock</labelNoun>
+    <description>Repeated less-lethal impacts are causing intense pain, loss of coordination, and nausea. The shock fades quickly once the impacts stop.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0,0.72,0.35)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-60</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>painfully staggered</label>
+        <minSeverity>0.01</minSeverity>
+        <painOffset>0.70</painOffset>
+        <capMods>
+          <li><capacity>Moving</capacity><postFactor>0.85</postFactor></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.85</postFactor></li>
+        </capMods>
+      </li>
+      <li>
+        <label>strongly suppressed</label>
+        <minSeverity>0.31</minSeverity>
+        <painOffset>0.80</painOffset>
+        <capMods>
+          <li><capacity>Moving</capacity><postFactor>0.65</postFactor></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.70</postFactor></li>
+        </capMods>
+      </li>
+      <li>
+        <label>nauseated by pain</label>
+        <minSeverity>0.61</minSeverity>
+        <painOffset>0.95</painOffset>
+        <vomitMtbDays>0.003</vomitMtbDays>
+        <capMods>
+          <li><capacity>Moving</capacity><postFactor>0.40</postFactor></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.50</postFactor></li>
+          <li><capacity>Consciousness</capacity><postFactor>0.90</postFactor></li>
+        </capMods>
+      </li>
+      <li>
+        <label>overwhelmed by pain</label>
+        <minSeverity>0.91</minSeverity>
+        <painOffset>1.10</painOffset>
+        <vomitMtbDays>0.0015</vomitMtbDays>
+        <capMods>
+          <li><capacity>Moving</capacity><postFactor>0.20</postFactor></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.30</postFactor></li>
+          <li><capacity>Consciousness</capacity><postFactor>0.80</postFactor></li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
 
   <ThingDef>
     <defName>HD_M651CSGasEmitter</defName>
@@ -157,7 +239,7 @@
       <AccuracyTouch>0.34</AccuracyTouch><AccuracyShort>0.66</AccuracyShort><AccuracyMedium>0.60</AccuracyMedium><AccuracyLong>0.40</AccuracyLong><RangedWeapon_Cooldown>2.6</RangedWeapon_Cooldown>
     </statBases>
     <costList><Steel>55</Steel><ComponentIndustrial>5</ComponentIndustrial></costList>
-    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite><recipeUsers><li>MachiningTable</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite><recipeUsers><li>HD_Tier2Workbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
     <comps>
       <li><compClass>CompEquippable</compClass></li>
       <li Class="Helodrace.CompProperties_M79Launcher">
@@ -165,6 +247,10 @@
           <li>HD_40mmM381HE_Round</li><li>HD_40mmM433HEDP_Round</li><li>HD_40mmM576MP_Round</li><li>HD_40mmM651CS_Round</li><li>HD_40mmSponge_Round</li>
         </allowedAmmoDefs>
         <reloadTicks>90</reloadTicks><casingDelayTicks>42</casingDelayTicks><casingMoteDef>HD_M79CartridgeMote</casingMoteDef>
+        <buckshotAccuracyTouch>0.85</buckshotAccuracyTouch>
+        <buckshotAccuracyShort>0.75</buckshotAccuracyShort>
+        <buckshotAccuracyMedium>0.45</buckshotAccuracyMedium>
+        <buckshotAccuracyLong>0.20</buckshotAccuracyLong>
       </li>
     </comps>
     <verbs>

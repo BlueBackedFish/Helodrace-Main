@@ -49,7 +49,7 @@
         <burnDurationTicks>1800</burnDurationTicks>
         <gasSimulationIntervalTicks>30</gasSimulationIntervalTicks>
         <spreadIntervalTicks>600</spreadIntervalTicks>
-        <gasDef>HD_SweetGas</gasDef>
+        <gasDef>HD_SweetGasGrid</gasDef>
         <destroyOnUse>true</destroyOnUse>
       </li>
       <li Class="CompProperties_Explosive">
@@ -59,25 +59,6 @@
         <wickTicks>60~120</wickTicks>
       </li>
     </comps>
-  </ThingDef>
-
-  <ThingDef>
-    <defName>HD_SweetGas</defName>
-    <label>sweet gas</label>
-    <description>A yellow delayed blister agent cloud. Sweet gas dose does not naturally fall; if no dose change occurs for several hours, the exposure is considered cleared. Gas masks and tox-gas exposure immunity do not block it; if Odyssey is installed, vacuum resistance reduces exposure. The hazard has a symptomless latent phase before the active phase scars exposed external tissue and may kill late in the active phase.</description>
-    <thingClass>Helodrace.Gas_SweetGas</thingClass>
-    <category>Ethereal</category>
-    <tickerType>Never</tickerType>
-    <useHitPoints>false</useHitPoints>
-    <selectable>false</selectable>
-    <drawerType>RealtimeOnly</drawerType>
-    <altitudeLayer>Gas</altitudeLayer>
-    <graphicData>
-      <texPath>Icons/HD_Helod</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.01,0.01)</drawSize>
-      <shaderType>Transparent</shaderType>
-    </graphicData>
   </ThingDef>
 
   <HediffDef>

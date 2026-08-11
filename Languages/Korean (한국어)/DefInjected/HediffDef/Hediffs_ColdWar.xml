@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_SpongeRoundSuppression.label>스펀지탄 충격 쇼크</HD_SpongeRoundSuppression.label>
+  <HD_SpongeRoundSuppression.labelNoun>스펀지탄 충격 쇼크</HD_SpongeRoundSuppression.labelNoun>
+  <HD_SpongeRoundSuppression.description>반복되는 저살상 탄두의 충격으로 극심한 고통과 신체 조절 장애, 메스꺼움이 발생하고 있습니다. 추가 충격이 없으면 빠르게 회복됩니다.</HD_SpongeRoundSuppression.description>
+  <HD_SpongeRoundSuppression.stages.0.label>고통으로 비틀거림</HD_SpongeRoundSuppression.stages.0.label>
+  <HD_SpongeRoundSuppression.stages.1.label>강하게 제압됨</HD_SpongeRoundSuppression.stages.1.label>
+  <HD_SpongeRoundSuppression.stages.2.label>고통으로 인한 메스꺼움</HD_SpongeRoundSuppression.stages.2.label>
+  <HD_SpongeRoundSuppression.stages.3.label>고통에 압도됨</HD_SpongeRoundSuppression.stages.3.label>
+</LanguageData>

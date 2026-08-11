@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
+  <!-- Consumables -->
+
   <ThingDef ParentName="MealBase">
     <defName>HD_FLAM</defName>
     <label>FLAM</label>
@@ -24,6 +26,7 @@
     </ingestible>
   </ThingDef>
 
+  <!-- Ammunition categories -->
   <ThingCategoryDef>
     <defName>HD_3InchMortarShells</defName>
     <label>3-inch mortar shells</label>
@@ -138,6 +141,7 @@
     </tools>
   </ThingDef>
 
+  <!-- Wearable field equipment -->
   <ThingDef ParentName="ApparelNoQualityBase" Name="HD_TreatmentBagBase" Abstract="True">
     <apparel>
       <bodyPartGroups>
@@ -166,8 +170,7 @@
     </apparel>
     <recipeMaker>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -248,8 +251,7 @@
     </comps>
     <recipeMaker>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -420,8 +422,7 @@
     </apparel>
     <recipeMaker>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -509,8 +510,7 @@
     </apparel>
     <recipeMaker>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -585,8 +585,7 @@
     </comps>
     <recipeMaker>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -602,6 +601,7 @@
     </researchPrerequisites>
   </ThingDef>
 
+  <!-- Uniforms and protective apparel -->
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GreatWarTrenchArmyInner</defName>
     <label>great war trench uniform liner</label>
@@ -650,8 +650,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -714,8 +713,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -775,8 +773,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -839,8 +836,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -852,6 +848,7 @@
     </researchPrerequisites>
   </ThingDef>
 
+  <!-- Ammunition -->
   <ThingDef ParentName="ResourceBase">
     <defName>HD_3InchMortarShell_HE</defName>
     <label>3-inch mortar HE shell</label>
@@ -1095,8 +1092,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>ElectricTailoringBench</li>
-        <li>HandTailoringBench</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>

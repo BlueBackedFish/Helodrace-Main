@@ -14,15 +14,12 @@ namespace Helodrace
         private static readonly Color BackgroundColor = new Color(0.05f, 0.05f, 0.05f, 0.78f);
         private static readonly Color OutlineColor = new Color(0.68f, 0.72f, 0.62f, 0.9f);
 
-        private static ThingDef photochlorogenGasDef;
-        private static ThingDef sweetGasDef;
-        private static ThingDef csGasDef;
-
         private readonly StringBuilder labelBuilder = new StringBuilder(96);
         private IntVec3 cachedCell = IntVec3.Invalid;
         private int cachedPhotoPercent = -1;
         private int cachedSweetPercent = -1;
         private int cachedCSPercent = -1;
+        private int cachedWhitePhosphorusPercent = -1;
         private string cachedLabel;
 
         public MapComponent_GasDensityMouseover(Map map) : base(map)
@@ -44,15 +41,20 @@ namespace Helodrace
                 return;
             }
 
-            int photoPercent = DensityPercent(map.GetComponent<MapComponent_PhotochlorogenGasGrid>()?.VisualDensityAt(cell) ?? 0f);
-            int sweetPercent = DensityPercent(map.GetComponent<MapComponent_SweetGasGrid>()?.VisualDensityAt(cell) ?? 0f);
-            int csPercent = DensityPercent(map.GetComponent<ModernWar.MapComponent_CSGasGrid>()?.DensityAt(cell) ?? 0f);
-            if (photoPercent <= 0 && sweetPercent <= 0 && csPercent <= 0)
+            int photoPercent = DensityPercent(
+                HelodGasStore.DensityPercentAt(cell, map, HelodGasDefOf.HD_PhotochlorogenGasGrid));
+            int sweetPercent = DensityPercent(
+                HelodGasStore.DensityPercentAt(cell, map, HelodGasDefOf.HD_SweetGasGrid));
+            int csPercent = DensityPercent(
+                HelodGasStore.DensityPercentAt(cell, map, HelodGasDefOf.HD_CSGasGrid));
+            int whitePhosphorusPercent = DensityPercent(
+                HelodGasStore.DensityPercentAt(cell, map, HelodGasDefOf.HD_WhitePhosphorusSmokeGrid));
+            if (photoPercent <= 0 && sweetPercent <= 0 && csPercent <= 0 && whitePhosphorusPercent <= 0)
             {
                 return;
             }
 
-            string label = GetCachedLabel(cell, photoPercent, sweetPercent, csPercent);
+            string label = GetCachedLabel(cell, photoPercent, sweetPercent, csPercent, whitePhosphorusPercent);
             DrawCornerLabel(label);
         }
 
@@ -66,10 +68,16 @@ namespace Helodrace
             return Mathf.Clamp(Mathf.RoundToInt(density * 100f), 1, 100);
         }
 
-        private string GetCachedLabel(IntVec3 cell, int photoPercent, int sweetPercent, int csPercent)
+        private string GetCachedLabel(
+            IntVec3 cell,
+            int photoPercent,
+            int sweetPercent,
+            int csPercent,
+            int whitePhosphorusPercent)
         {
             if (cell == cachedCell && photoPercent == cachedPhotoPercent && sweetPercent == cachedSweetPercent &&
-                csPercent == cachedCSPercent && cachedLabel != null)
+                csPercent == cachedCSPercent && whitePhosphorusPercent == cachedWhitePhosphorusPercent &&
+                cachedLabel != null)
             {
                 return cachedLabel;
             }
@@ -78,16 +86,23 @@ namespace Helodrace
             cachedPhotoPercent = photoPercent;
             cachedSweetPercent = sweetPercent;
             cachedCSPercent = csPercent;
+            cachedWhitePhosphorusPercent = whitePhosphorusPercent;
             labelBuilder.Length = 0;
             labelBuilder.Append("Gas density");
-            AppendGasLine(PhotochlorogenGasDef, photoPercent);
-            AppendGasLine(SweetGasDef, sweetPercent);
-            AppendGasLine(CSGasDef, csPercent);
+            AppendGasLine(HelodGasDefOf.HD_PhotochlorogenGasGrid, photoPercent);
+            AppendGasLine(HelodGasDefOf.HD_SweetGasGrid, sweetPercent);
+            AppendGasLine(HelodGasDefOf.HD_CSGasGrid, csPercent);
+            AppendGasLine(HelodGasDefOf.HD_WhitePhosphorusSmokeGrid, whitePhosphorusPercent);
             cachedLabel = labelBuilder.ToString();
             return cachedLabel;
         }
 
-        private void AppendGasLine(ThingDef gasDef, int percent)
+        private void AppendGasLine(HelodGasDef gasDef, int percent)
+        {
+            AppendGasLine(gasDef?.LabelCap ?? "Gas", percent);
+        }
+
+        private void AppendGasLine(string label, int percent)
         {
             if (percent <= 0)
             {
@@ -95,7 +110,7 @@ namespace Helodrace
             }
 
             labelBuilder.AppendLine();
-            labelBuilder.Append(gasDef?.LabelCap ?? "Gas");
+            labelBuilder.Append(label);
             labelBuilder.Append(": ");
             labelBuilder.Append(percent);
             labelBuilder.Append('%');
@@ -122,43 +137,5 @@ namespace Helodrace
             Text.Font = oldFont;
         }
 
-        private static ThingDef PhotochlorogenGasDef
-        {
-            get
-            {
-                if (photochlorogenGasDef == null)
-                {
-                    photochlorogenGasDef = DefDatabase<ThingDef>.GetNamedSilentFail("HD_PhotochlorogenGas");
-                }
-
-                return photochlorogenGasDef;
-            }
-        }
-
-        private static ThingDef SweetGasDef
-        {
-            get
-            {
-                if (sweetGasDef == null)
-                {
-                    sweetGasDef = DefDatabase<ThingDef>.GetNamedSilentFail("HD_SweetGas");
-                }
-
-                return sweetGasDef;
-            }
-        }
-
-        private static ThingDef CSGasDef
-        {
-            get
-            {
-                if (csGasDef == null)
-                {
-                    csGasDef = DefDatabase<ThingDef>.GetNamedSilentFail("HD_CSGas");
-                }
-
-                return csGasDef;
-            }
-        }
     }
 }

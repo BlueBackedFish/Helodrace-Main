@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LanguageData>
-  <HD_HaberBoschHighPressureReactor.label>고압 반응기</HD_HaberBoschHighPressureReactor.label>
-  <HD_HaberBoschHighPressureReactor.description>극고압에서 대기 중 질소를 고정하는 내압성 촉매 반응기입니다. 수소가 풍부한 연료를 공급하면 비료와 폭약에 쓰이는 질산암모늄을 생산합니다.</HD_HaberBoschHighPressureReactor.description>
-
-  <HD_StirredTankReactor.label>교반식 탱크 반응기</HD_StirredTankReactor.label>
-  <HD_StirredTankReactor.description>정밀한 질산화 반응과 기타 액상 화학 공정을 위한 전동식 이중 외피 반응 용기입니다. 밀폐된 교반기가 휘발성 반응물을 고르게 섞으며 반응열을 배출합니다.</HD_StirredTankReactor.description>
-</LanguageData>

@@ -2,7 +2,7 @@
 <Defs>
 
   <ThingDef ParentName="ApparelNoQualityBase">
-    <defName>HD_Apparel_SCR300</defName>
+    <defName>HD_Apparel_SCR300_Radio</defName>
     <label>SCR-300 backpack radio</label>
     <description>A rugged backpack VHF radio for direct communication with a contracted forward base. A wearer can bind the set to a forward base and request any contracted service that can reach the wearer's current map.</description>
     <graphicData>
@@ -60,7 +60,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodWireless</researchPrerequisite>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>

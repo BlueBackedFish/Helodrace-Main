@@ -50,7 +50,7 @@
         <burnDurationTicks>1800</burnDurationTicks>
         <gasSimulationIntervalTicks>30</gasSimulationIntervalTicks>
         <spreadIntervalTicks>300</spreadIntervalTicks>
-        <gasDef>HD_PhotochlorogenGas</gasDef>
+        <gasDef>HD_PhotochlorogenGasGrid</gasDef>
         <destroyOnUse>true</destroyOnUse>
       </li>
       <li Class="CompProperties_Explosive">
@@ -60,25 +60,6 @@
         <wickTicks>60~120</wickTicks>
       </li>
     </comps>
-  </ThingDef>
-
-  <ThingDef>
-    <defName>HD_PhotochlorogenGas</defName>
-    <label>photochlorogen gas</label>
-    <description>A pale delayed-action choking agent cloud. Photochlorogen first irritates the airways, then may seem to fade during a latent period before pulmonary edema begins damaging the lungs. Gas masks and other tox-gas exposure immunity block it.</description>
-    <thingClass>Helodrace.Gas_Photochlorogen</thingClass>
-    <category>Ethereal</category>
-    <tickerType>Never</tickerType>
-    <useHitPoints>false</useHitPoints>
-    <selectable>false</selectable>
-    <drawerType>RealtimeOnly</drawerType>
-    <altitudeLayer>Gas</altitudeLayer>
-    <graphicData>
-      <texPath>Icons/HD_Helod</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(0.01,0.01)</drawSize>
-      <shaderType>Transparent</shaderType>
-    </graphicData>
   </ThingDef>
 
   <HediffDef>

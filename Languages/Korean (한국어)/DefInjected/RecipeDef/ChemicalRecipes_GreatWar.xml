@@ -12,7 +12,4 @@
   <HD_SynthesizeRDX.description>엄격히 통제된 환경에서 포름알데히드가 풍부한 석유화학 원료를 질산화한 뒤, 생성된 RDX 결정을 안정화하고 건조합니다.</HD_SynthesizeRDX.description>
   <HD_SynthesizeRDX.jobString>RDX를 합성하는 중.</HD_SynthesizeRDX.jobString>
 
-  <HD_CompoundC4.label>C-4 배합</HD_CompoundC4.label>
-  <HD_CompoundC4.description>RDX에 고분자 결합제와 가소제를 섞은 뒤, 유연한 폭약을 밀봉된 폭파용 블록으로 압축합니다.</HD_CompoundC4.description>
-  <HD_CompoundC4.jobString>C-4를 배합하는 중.</HD_CompoundC4.jobString>
 </LanguageData>

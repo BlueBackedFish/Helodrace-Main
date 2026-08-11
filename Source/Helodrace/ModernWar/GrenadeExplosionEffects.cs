@@ -602,9 +602,9 @@ namespace Helodrace.ModernWar
         private static void SpawnFlashbangLight(IntVec3 center, Map map)
         {
             ThingDef lightDef = DefDatabase<ThingDef>.GetNamedSilentFail(FlashbangLightDefName);
-            Thing_FlashbangLightEffect light = lightDef == null
+            Thing light = lightDef == null
                 ? null
-                : ThingMaker.MakeThing(lightDef) as Thing_FlashbangLightEffect;
+                : ThingMaker.MakeThing(lightDef);
             if (light != null)
             {
                 GenSpawn.Spawn(light, center, map);
@@ -688,25 +688,4 @@ namespace Helodrace.ModernWar
         }
     }
 
-    public sealed class Thing_FlashbangLightEffect : ThingWithComps
-    {
-        private const int LifetimeTicks = 6;
-        private int ticksRemaining = LifetimeTicks;
-
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Values.Look(ref ticksRemaining, "ticksRemaining", LifetimeTicks);
-        }
-
-        protected override void Tick()
-        {
-            base.Tick();
-            ticksRemaining--;
-            if (ticksRemaining <= 0)
-            {
-                Destroy(DestroyMode.Vanish);
-            }
-        }
-    }
 }

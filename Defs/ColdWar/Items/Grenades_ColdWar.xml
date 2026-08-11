@@ -2,8 +2,8 @@
 <Defs>
 
   <ThingDef ParentName="ResourceBase">
-    <defName>HD_Grenade_M14</defName>
-    <projectileWhenLoaded>HD_Projectile_M14</projectileWhenLoaded>
+    <defName>HD_Grenade_M14_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M14_Round</projectileWhenLoaded>
     <label>AN-M14 TH3 incendiary grenade</label>
     <description>Heavy thermate grenades designed to destroy equipment, weapons and vehicles with an intensely hot incendiary reaction that readily starts fires.</description>
     <tickerType>Normal</tickerType>
@@ -28,7 +28,8 @@
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
       <skillRequirements><Crafting>6</Crafting></skillRequirements>
     </recipeMaker>
     <weaponTags>
@@ -50,7 +51,7 @@
         <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
-        <defaultProjectile>HD_Projectile_M14</defaultProjectile>
+        <defaultProjectile>HD_Projectile_M14_Round</defaultProjectile>
         <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
       </li>
     </verbs>
@@ -64,7 +65,7 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseGrenadeProjectile">
-    <defName>HD_Projectile_M14</defName>
+    <defName>HD_Projectile_M14_Round</defName>
     <label>AN-M14 TH3 incendiary grenade</label>
     <thingClass>Helodrace.ModernWar.Projectile_ThermiteGrenade</thingClass>
     <graphicData>
@@ -109,8 +110,8 @@
   </ThingDef>
 
   <ThingDef ParentName="ResourceBase">
-    <defName>HD_Grenade_M7A2</defName>
-    <projectileWhenLoaded>HD_Projectile_M7A2</projectileWhenLoaded>
+    <defName>HD_Grenade_M7A2_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M7A2_Round</projectileWhenLoaded>
     <label>M7A2 CS riot-control grenade</label>
     <description>Burning-type riot-control grenades filled with CS tear agent. The choking, eye-watering cloud incapacitates exposed targets without relying on fragmentation.</description>
     <tickerType>Normal</tickerType>
@@ -135,7 +136,8 @@
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <researchPrerequisite>HelodLessLethalChemical</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
       <skillRequirements><Crafting>5</Crafting></skillRequirements>
     </recipeMaker>
     <weaponTags><li>HD_ColdWarGrenade</li></weaponTags>
@@ -154,7 +156,7 @@
         <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
-        <defaultProjectile>HD_Projectile_M7A2</defaultProjectile>
+        <defaultProjectile>HD_Projectile_M7A2_Round</defaultProjectile>
         <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
       </li>
     </verbs>
@@ -168,7 +170,7 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseGrenadeProjectile">
-    <defName>HD_Projectile_M7A2</defName>
+    <defName>HD_Projectile_M7A2_Round</defName>
     <label>M7A2 CS riot-control grenade</label>
     <thingClass>Helodrace.ModernWar.Projectile_ModernGrenade</thingClass>
     <graphicData>
@@ -191,7 +193,7 @@
         <fuseVarianceTicks>12</fuseVarianceTicks>
         <waitForGroundBeforeRelease>true</waitForGroundBeforeRelease>
         <smokeTrail>true</smokeTrail>
-        <gasDef>HD_CSGas</gasDef>
+        <gasDef>HD_CSGasGrid</gasDef>
         <gasReleaseDelayTicks>0</gasReleaseDelayTicks>
         <gasEmissionRadius>1.7</gasEmissionRadius>
         <gasDensity>1.0</gasDensity>
@@ -199,7 +201,7 @@
         <gasEmissionDurationTicksMin>1200</gasEmissionDurationTicksMin>
         <gasEmissionDurationTicksMax>1800</gasEmissionDurationTicksMax>
         <gasEmissionIntervalTicks>60</gasEmissionIntervalTicks>
-        <gasPulseDensityFactor>0.12</gasPulseDensityFactor>
+        <gasPulseDensityFactor>0.24</gasPulseDensityFactor>
       </li>
     </modExtensions>
   </ThingDef>

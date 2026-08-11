@@ -94,7 +94,9 @@ namespace Helodrace
         public override void LordToilTick()
         {
             base.LordToilTick();
-            if (!Map.IsHashIntervalTick(30)) return;
+            // Damage and projectile impact patches handle urgent reactions. This pass only
+            // maintains duties and idle defensive fire, so it does not need to run twice a second.
+            if (!Map.IsHashIntervalTick(120)) return;
             if (responseTarget != null && (!responseTarget.Spawned || responseTarget.Destroyed
                 || (responseTarget is Pawn targetPawn && targetPawn.Downed)
                 || responsePawn == null || responsePawn.Downed || responsePawn.Position.DistanceTo(anchor) > 45f))
@@ -119,20 +121,6 @@ namespace Helodrace
                 else if (!settled && mode.altModeActive) mode.PerformSwitch();
             }
             IssueDefensiveFire();
-            DetectActiveLongRangeShooters();
-        }
-
-        private void DetectActiveLongRangeShooters()
-        {
-            foreach (Pawn attacker in Map.mapPawns.AllPawnsSpawned.Where(p => !p.Dead && !p.Downed
-                && lord.faction.HostileTo(p.Faction) && p.CurJobDef == JobDefOf.AttackStatic))
-            {
-                Pawn intendedVictim = attacker.CurJob?.targetA.Pawn;
-                if (intendedVictim == null || intendedVictim.GetLord() != lord || CanAnyDefenderFireAt(attacker))
-                    continue;
-                TryRespondToLongRangeThreat(intendedVictim, attacker, intendedVictim.Position);
-                break;
-            }
         }
 
         private void IssueDefensiveFire()
@@ -156,7 +144,6 @@ namespace Helodrace
 
             foreach (Pawn defender in availableDefenders)
             {
-                string currentJob = defender.CurJobDef?.defName;
                 if (defender.CurJobDef == JobDefOf.AttackStatic)
                     continue;
 
@@ -166,13 +153,17 @@ namespace Helodrace
                     continue;
 
                 Pawn target = null;
-                foreach (Pawn candidate in targets.OrderBy(t => defender.Position.DistanceToSquared(t.Position)))
+                int nearestDistance = int.MaxValue;
+                foreach (Pawn candidate in targets)
                 {
+                    int distance = defender.Position.DistanceToSquared(candidate.Position);
+                    if (distance >= nearestDistance)
+                        continue;
                     Verb candidateVerb = defender.TryGetAttackVerb(candidate, false, false);
                     if (candidateVerb != null && candidateVerb.CanHitTarget(candidate))
                     {
                         target = candidate;
-                        break;
+                        nearestDistance = distance;
                     }
                 }
                 if (target == null)
@@ -332,29 +323,29 @@ namespace Helodrace
         }
     }
 
-    [HarmonyPatch(typeof(Lord), nameof(Lord.LordTick))]
-    public static class Patch_LordTick_RepairMortarRaidGraph
+    [HarmonyPatch(typeof(Lord), nameof(Lord.ExposeData))]
+    public static class Patch_LordExposeData_RepairMortarRaidGraph
     {
-        public static bool Prefix(Lord __instance)
+        public static void Postfix(Lord __instance)
         {
-            if (__instance?.CurLordToil != null)
-                return true;
+            if (Scribe.mode != LoadSaveMode.PostLoadInit || __instance == null
+                || __instance.CurLordToil != null)
+                return;
 
-            if (__instance?.LordJob is LordJob_MortarRaidRetreat)
+            LordJob job = __instance.LordJob;
+            if (job is LordJob_MortarRaidRetreat)
                 __instance.SetJob(new LordJob_MortarRaidRetreat());
-            else if (__instance?.LordJob is LordJob_HelodRaidRetreat helodRetreat)
+            else if (job is LordJob_HelodRaidRetreat helodRetreat)
                 __instance.SetJob(helodRetreat);
-            else if (__instance?.LordJob is LordJob_HelodShowOfForce showOfForce)
+            else if (job is LordJob_HelodShowOfForce showOfForce)
                 __instance.SetJob(showOfForce);
-            else if (__instance?.LordJob is LordJob_HelodBreachingAssault breachingAssault)
+            else if (job is LordJob_HelodBreachingAssault breachingAssault)
                 __instance.SetJob(breachingAssault);
-            else if (__instance?.LordJob is LordJob_MortarRaidHold hold)
+            else if (job is LordJob_MortarRaidHold hold)
             {
                 // Reloading the same job rebuilds its graph from its serialized anchor.
                 __instance.SetJob(hold);
             }
-
-            return __instance?.CurLordToil != null;
         }
     }
 
@@ -382,13 +373,31 @@ namespace Helodrace
                 return;
 
             IntVec3 impactCell = __instance.Position;
-            Pawn nearbyDefender = map.mapPawns.AllPawnsSpawned
-                .Where(p => !p.Dead && !p.Downed && p.Position.DistanceTo(impactCell) <= 15f
-                    && attacker.HostileTo(p))
-                .OrderBy(p => p.Position.DistanceToSquared(impactCell))
-                .FirstOrDefault(p => p.GetLord()?.CurLordToil is LordToil_MortarRaidHold);
-            if (nearbyDefender?.GetLord()?.CurLordToil is LordToil_MortarRaidHold hold)
-                hold.TryRespondToLongRangeThreat(nearbyDefender, attacker, impactCell);
+            Pawn nearbyDefender = null;
+            LordToil_MortarRaidHold activeHold = null;
+            int nearestDistance = 15 * 15 + 1;
+            foreach (Lord activeLord in map.lordManager.lords)
+            {
+                if (!(activeLord.CurLordToil is LordToil_MortarRaidHold hold))
+                    continue;
+
+                foreach (Pawn defender in activeLord.ownedPawns)
+                {
+                    if (defender == null || defender.Dead || defender.Downed || !defender.Spawned
+                        || !attacker.HostileTo(defender))
+                        continue;
+                    int distance = defender.Position.DistanceToSquared(impactCell);
+                    if (distance <= 15 * 15 && distance < nearestDistance)
+                    {
+                        nearbyDefender = defender;
+                        activeHold = hold;
+                        nearestDistance = distance;
+                    }
+                }
+            }
+
+            if (nearbyDefender != null)
+                activeHold.TryRespondToLongRangeThreat(nearbyDefender, attacker, impactCell);
         }
     }
 }

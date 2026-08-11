@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Helodrace.HelodGasDef>
+    <defName>HD_PhotochlorogenGasGrid</defName>
+    <label>photochlorogen gas</label>
+    <description>A pale delayed-action choking agent cloud. Photochlorogen first irritates the airways, then may seem to fade during a latent period before pulmonary edema begins damaging the lungs. Gas masks and other tox-gas exposure immunity block it.</description>
+    <color>(0.72,0.90,0.48,0.36)</color>
+    <dissipationRate>4</dissipationRate>
+    <diffusionThreshold>12</diffusionThreshold>
+    <diffusionTransferDivisor>3</diffusionTransferDivisor>
+    <severityPerTickAtFullDensity>0.0015</severityPerTickAtFullDensity>
+    <workerClass>Helodrace.HelodGasWorker_Photochlorogen</workerClass>
+  </Helodrace.HelodGasDef>
+
+  <Helodrace.HelodGasDef>
+    <defName>HD_SweetGasGrid</defName>
+    <label>sweet gas</label>
+    <description>A yellow delayed blister agent cloud. Sweet gas dose does not naturally fall; if no dose change occurs for several hours, the exposure is considered cleared. Gas masks and tox-gas exposure immunity do not block it; if Odyssey is installed, vacuum resistance reduces exposure.</description>
+    <color>(0.95,0.86,0.35,0.40)</color>
+    <dissipationRate>1</dissipationRate>
+    <diffusionThreshold>20</diffusionThreshold>
+    <diffusionTransferDivisor>5</diffusionTransferDivisor>
+    <severityPerTickAtFullDensity>0.0012</severityPerTickAtFullDensity>
+    <workerClass>Helodrace.HelodGasWorker_SweetGas</workerClass>
+  </Helodrace.HelodGasDef>
+
+  <Helodrace.HelodGasDef>
+    <defName>HD_CSGasGrid</defName>
+    <label>CS gas</label>
+    <description>A dense tear-agent cloud that causes immediate eye, skin, and respiratory irritation. Gas protection and toxic-environment resistance reduce exposure.</description>
+    <color>(0.76,0.78,0.55,0.34)</color>
+    <dissipationRate>3</dissipationRate>
+    <diffusionThreshold>14</diffusionThreshold>
+    <diffusionTransferDivisor>3</diffusionTransferDivisor>
+    <accuracyFactor>0.9</accuracyFactor>
+    <severityPerTickAtFullDensity>0.002</severityPerTickAtFullDensity>
+    <workerClass>Helodrace.HelodGasWorker_CS</workerClass>
+  </Helodrace.HelodGasDef>
+
+  <Helodrace.HelodGasDef>
+    <defName>HD_WhitePhosphorusSmokeGrid</defName>
+    <label>white phosphorus smoke</label>
+    <description>A dense, persistent cloud produced by burning white phosphorus. It obscures gunfire as effectively as an ordinary smoke screen and can ignite flammable things caught inside.</description>
+    <color>(0.90,0.90,0.84,0.48)</color>
+    <dissipationRate>3</dissipationRate>
+    <diffusionThreshold>10</diffusionThreshold>
+    <diffusionTransferDivisor>2</diffusionTransferDivisor>
+    <accuracyFactor>0.7</accuracyFactor>
+    <minDensityForEffect>12</minDensityForEffect>
+    <workerClass>Helodrace.HelodGasWorker_WhitePhosphorus</workerClass>
+  </Helodrace.HelodGasDef>
+</Defs>

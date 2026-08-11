@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_M1952AFlakJacket</defName>
+    <label>M1952A flak jacket</label>
+    <description>A sleeveless fragmentation vest issued for protection against shell and grenade fragments. It is lighter and more flexible than modern plate armor, but offers substantially less protection against direct rifle fire.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_M1952AFlakJacket/HD_M1952AFlakJacket_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToMake>6500</WorkToMake>
+      <MarketValue>310</MarketValue>
+      <Mass>3.7</Mass>
+      <ArmorRating_Sharp>0.55</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.15</ArmorRating_Heat>
+      <Flammability>0.45</Flammability>
+      <EquipDelay>1.7</EquipDelay>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.05</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_M1952AFlakJacket/HD_M1952AFlakJacket</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_CW_Protective</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>HD_Tier2Workbench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>65</Cloth>
+      <Steel>25</Steel>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodFlakJacket</li>
+      <li>HelodColdWarTech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>

@@ -160,7 +160,7 @@
     <recipeMaker>
       <workSkill>Crafting</workSkill>
       <recipeUsers>
-        <li>MachiningTable</li>
+        <li>HD_Tier2Workbench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>4</Crafting>

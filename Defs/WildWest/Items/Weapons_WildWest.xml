@@ -487,26 +487,28 @@
       </li>
     </comps>
     <verbs>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
+      <li Class="Helodrace.VerbProperties_Shotgun">
+        <verbClass>Helodrace.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>true</hasStandardCommand>
         <defaultProjectile>HD_Bullet_WinM1887_Proj</defaultProjectile>
         <warmupTime>1.0</warmupTime>
         <range>15.9</range>
-        <burstShotCount>9</burstShotCount>
+        <burstShotCount>1</burstShotCount>
         <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <pelletCount>9</pelletCount>
         <soundCast>Shot_Shotgun</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
       </li>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
+      <li Class="Helodrace.VerbProperties_Shotgun">
+        <verbClass>Helodrace.Verb_ShootShotgun</verbClass>
         <hasStandardCommand>false</hasStandardCommand>
         <defaultProjectile>HD_Bullet_WinM1887_Proj</defaultProjectile>
         <warmupTime>0.3</warmupTime>
         <range>6.9</range>
-        <burstShotCount>9</burstShotCount>
+        <burstShotCount>1</burstShotCount>
         <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
+        <pelletCount>9</pelletCount>
         <soundCast>Shot_Shotgun</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>

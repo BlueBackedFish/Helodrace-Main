@@ -88,14 +88,26 @@ namespace Helodrace
 
         public override void MapComponentTick()
         {
-            if (!map.IsHashIntervalTick(30)) return;
+            // A mortar raid owns a dedicated Lord. Looking at those Lords avoids polling every
+            // hostile pawn on maps where no mortar raid exists.
+            if (!map.IsHashIntervalTick(60)) return;
 
-            List<Pawn> hostiles = map.mapPawns.AllPawnsSpawned
-                .Where(p => p.RaceProps.Humanlike && p.Faction != null && p.Faction.HostileTo(Faction.OfPlayer) && !p.Dead)
+            List<Lord> mortarRaidLords = map.lordManager.lords
+                .Where(l => l?.LordJob is LordJob_MortarRaidHold
+                    && l.CurLordToil is LordToil_MortarRaidHold)
                 .ToList();
+            if (mortarRaidLords.Count == 0)
+                return;
 
-            foreach (IGrouping<Faction, Pawn> group in hostiles.GroupBy(p => p.Faction))
+            foreach (Lord raidLord in mortarRaidLords)
             {
+                List<Pawn> group = raidLord.ownedPawns
+                    .Where(p => p != null && p.Spawned && !p.Dead)
+                    .ToList();
+                if (group.Count == 0)
+                    continue;
+
+                Faction raidFaction = raidLord.faction;
                 Pawn baseCarrier = group.FirstOrDefault(p => firstSeenTick.ContainsKey(p.thingIDNumber));
                 if (baseCarrier == null)
                 {
@@ -122,35 +134,35 @@ namespace Helodrace
                 if (group.Any(p => p.kindDef?.defName == "HD_GW_HelodSquadLeader"))
                     leaderConfirmedAnchors.Add(anchorId);
                 Building_TurretGun mortar = map.listerThings.ThingsOfDef(DefDatabase<ThingDef>.GetNamed("HD_Building_M1_81mmMortar"))
-                    .OfType<Building_TurretGun>().FirstOrDefault(b => b.Faction == group.Key);
+                    .OfType<Building_TurretGun>().FirstOrDefault(b => b.Faction == raidFaction);
 
                 if (retreatingRaidAnchors.Contains(anchorId))
                 {
-                    TryEvacuateCasualties(group.ToList());
-                    OrderRetreat(group.ToList());
+                    TryEvacuateCasualties(group);
+                    OrderRetreat(group);
                     continue;
                 }
 
-                if (chemicalRaid && ChemicalRaidSufficientlyDamaged(group.ToList(), anchorId))
+                if (chemicalRaid && ChemicalRaidSufficientlyDamaged(group, anchorId))
                 {
-                    TryEvacuateCasualties(group.ToList());
+                    TryEvacuateCasualties(group);
                     if (mortar != null)
-                        RecoverMortarParts(group.ToList(), mortar);
-                    CancelMortarJobs(group.ToList());
+                        RecoverMortarParts(group, mortar);
+                    CancelMortarJobs(group);
                     retreatingRaidAnchors.Add(anchorId);
-                    OrderRetreat(group.ToList());
+                    OrderRetreat(group);
                     continue;
                 }
 
-                if (HandleSquadLeaderLoss(group.ToList(), anchorId, mortar))
+                if (HandleSquadLeaderLoss(group, anchorId, mortar))
                     continue;
 
-                if (HandleAutomaticRiflemenLost(group.ToList(), anchorId, mortar))
+                if (HandleAutomaticRiflemenLost(group, anchorId, mortar))
                     continue;
 
                 if (!releasedRaidAnchors.Contains(anchorId))
                 {
-                    BuildCoverAndDeployAutomaticRiflemen(group.ToList(), baseCarrier);
+                    BuildCoverAndDeployAutomaticRiflemen(group, baseCarrier);
                 }
 
                 int elapsed = Find.TickManager.TicksGame - firstSeenTick[baseCarrier.thingIDNumber];
@@ -163,29 +175,29 @@ namespace Helodrace
                 {
                     if (!MortarInteractionCellSafe(mortar))
                     {
-                        TryEvacuateCasualties(group.ToList());
-                        RecoverMortarParts(group.ToList(), mortar);
+                        TryEvacuateCasualties(group);
+                        RecoverMortarParts(group, mortar);
                         retreatingRaidAnchors.Add(anchorId);
-                        OrderRetreat(group.ToList());
+                        OrderRetreat(group);
                         continue;
                     }
                     ThingDef shellDef = MortarShellDef(chemicalRaid);
-                    ManMortarAndSupplyShells(group.ToList(), mortar, shellDef);
+                    ManMortarAndSupplyShells(group, mortar, shellDef);
                     bool hasFired = mortar.LastAttackTargetTick > firstSeenTick[anchorId];
-                    if (hasFired && AmmunitionExhausted(group.ToList(), mortar, shellDef))
+                    if (hasFired && AmmunitionExhausted(group, mortar, shellDef))
                     {
                         float assaultThreshold = chemicalRaid ? 0.50f : 0.34f;
                         if (ColonySufficientlyWeakened(anchorId, assaultThreshold))
                         {
                             releasedRaidAnchors.Add(anchorId);
-                            BeginAssault(group.ToList(), group.Key);
+                            BeginAssault(group, raidFaction);
                         }
                         else
                         {
-                            TryEvacuateCasualties(group.ToList());
-                            RecoverMortarParts(group.ToList(), mortar);
+                            TryEvacuateCasualties(group);
+                            RecoverMortarParts(group, mortar);
                             retreatingRaidAnchors.Add(anchorId);
-                            OrderRetreat(group.ToList());
+                            OrderRetreat(group);
                         }
                     }
                 }
@@ -429,8 +441,11 @@ namespace Helodrace
 
         public bool TacticalActionAllowed(Faction faction)
         {
-            bool disorganized = map.mapPawns.AllPawnsSpawned.Any(p => p.Faction == faction
-                && firstSeenTick.ContainsKey(p.thingIDNumber) && disorganizedRaidAnchors.Contains(p.thingIDNumber));
+            bool disorganized = map.lordManager.lords
+                .Where(l => l?.faction == faction)
+                .SelectMany(l => l.ownedPawns)
+                .Any(p => p != null && firstSeenTick.ContainsKey(p.thingIDNumber)
+                    && disorganizedRaidAnchors.Contains(p.thingIDNumber));
             return !disorganized || Rand.Chance(0.25f);
         }
 

@@ -8,7 +8,7 @@ namespace Helodrace
 {
     public class PhotochlorogenShellExtension : DefModExtension
     {
-        public ThingDef gasDef;
+        public HelodGasDef gasDef;
         public float emissionRadius = 1.6f;
         public float density = 0.75f;
         public float edgeDensityFactor = 0.45f;
@@ -33,7 +33,7 @@ namespace Helodrace
             }
 
             PhotochlorogenShellExtension extension = def.GetModExtension<PhotochlorogenShellExtension>();
-            ThingDef gasDef = extension?.gasDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("HD_PhotochlorogenGas");
+            HelodGasDef gasDef = extension?.gasDef ?? HelodGasDefOf.HD_PhotochlorogenGasGrid;
             if (gasDef == null)
             {
                 return;
@@ -50,15 +50,14 @@ namespace Helodrace
                     continue;
                 }
 
-                MapComponent_PhotochlorogenGasGrid gasGrid = map.GetComponent<MapComponent_PhotochlorogenGasGrid>();
-                if (gasGrid != null && !gasGrid.CanGasOccupy(cell))
+                if (!HelodGasStore.GasCanMoveTo(cell, map))
                 {
                     continue;
                 }
 
                 float distanceFactor = Mathf.InverseLerp(radius, 0f, center.DistanceTo(cell));
                 float cellDensity = density * Mathf.Lerp(edgeDensityFactor, 1f, distanceFactor);
-                Gas_Photochlorogen.AddGasAt(cell, map, gasDef, cellDensity);
+                HelodGasStore.AddGas(cell, map, gasDef, cellDensity);
             }
 
             FleckMaker.ThrowSmoke(center.ToVector3Shifted(), map, 1.2f);
@@ -80,7 +79,7 @@ namespace Helodrace
             if (map == null || !center.InBounds(map)) return;
 
             PhotochlorogenShellExtension extension = def.GetModExtension<PhotochlorogenShellExtension>();
-            ThingDef gasDef = extension?.gasDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("HD_SweetGas");
+            HelodGasDef gasDef = extension?.gasDef ?? HelodGasDefOf.HD_SweetGasGrid;
             if (gasDef == null) return;
 
             float radius = Mathf.Max(0.1f, extension?.emissionRadius ?? 2.6f);
@@ -89,10 +88,10 @@ namespace Helodrace
 
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, radius, true))
             {
-                if (!cell.InBounds(map) || !cell.Standable(map)) continue;
+                if (!cell.InBounds(map) || !HelodGasStore.GasCanMoveTo(cell, map)) continue;
                 float distanceFactor = Mathf.InverseLerp(radius, 0f, center.DistanceTo(cell));
                 float cellDensity = density * Mathf.Lerp(edgeDensityFactor, 1f, distanceFactor);
-                Gas_SweetGas.AddGasAt(cell, map, gasDef, cellDensity);
+                HelodGasStore.AddGas(cell, map, gasDef, cellDensity);
             }
 
             FleckMaker.ThrowSmoke(center.ToVector3Shifted(), map, 1.4f);
@@ -101,7 +100,6 @@ namespace Helodrace
 
     public class WhitePhosphorusRocketExtension : DefModExtension
     {
-        public float smokeRadius = 3.6f;
         public float fireRadius = 2.4f;
         public float fireChance = 0.55f;
         public float fireSize = 0.45f;
@@ -126,12 +124,9 @@ namespace Helodrace
             }
 
             WhitePhosphorusRocketExtension extension = def.GetModExtension<WhitePhosphorusRocketExtension>();
-            float smokeRadius = Mathf.Max(0.1f, extension?.smokeRadius ?? 3.6f);
             float fireRadius = Mathf.Max(0.1f, extension?.fireRadius ?? 2.4f);
             float fireChance = Mathf.Clamp01(extension?.fireChance ?? 0.55f);
             float fireSize = Mathf.Max(0.1f, extension?.fireSize ?? 0.45f);
-
-            GasUtility.AddGas(center, map, GasType.BlindSmoke, smokeRadius);
 
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, fireRadius, true))
             {

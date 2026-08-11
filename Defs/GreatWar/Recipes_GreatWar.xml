@@ -44,8 +44,7 @@
       <HD_FLAM>20</HD_FLAM>
     </products>
     <recipeUsers>
-      <li>ElectricStove</li>
-      <li>FueledStove</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Cooking>6</Cooking>
@@ -89,8 +88,7 @@
       <HD_Hardtack>32</HD_Hardtack>
     </products>
     <recipeUsers>
-      <li>ElectricStove</li>
-      <li>FueledStove</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -134,7 +132,7 @@
       <HD_3InchMortarShell_HE>1</HD_3InchMortarShell_HE>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>
@@ -181,7 +179,7 @@
       <HD_81mmMortarShell_M43HE>1</HD_81mmMortarShell_M43HE>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>
@@ -228,7 +226,7 @@
       <HD_105mmShell_M1HE>1</HD_105mmShell_M1HE>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>6</Crafting>
@@ -241,7 +239,7 @@
     <workAmount>1900</workAmount><workSpeedStat>GeneralLaborSpeed</workSpeedStat><workSkill>Crafting</workSkill><requiredGiverWorkType>Crafting</requiredGiverWorkType><effectWorking>Sculpt</effectWorking><soundWorking>Recipe_Machining</soundWorking><researchPrerequisite>HelodLowGranade</researchPrerequisite>
     <ingredients><li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>18</count></li><li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>16</count></li></ingredients>
     <fixedIngredientFilter><thingDefs><li>Steel</li><li>Chemfuel</li></thingDefs></fixedIngredientFilter>
-    <products><HD_81mmMortarShell_M57WP>1</HD_81mmMortarShell_M57WP></products><recipeUsers><li>HD_BasicWorkbench</li></recipeUsers><skillRequirements><Crafting>5</Crafting></skillRequirements>
+    <products><HD_81mmMortarShell_M57WP>1</HD_81mmMortarShell_M57WP></products><recipeUsers><li>HD_Tier2Workbench</li></recipeUsers><skillRequirements><Crafting>5</Crafting></skillRequirements>
   </RecipeDef>
 
   <RecipeDef>
@@ -250,7 +248,7 @@
     <workAmount>2100</workAmount><workSpeedStat>GeneralLaborSpeed</workSpeedStat><workSkill>Crafting</workSkill><requiredGiverWorkType>Crafting</requiredGiverWorkType><effectWorking>Sculpt</effectWorking><soundWorking>Recipe_Machining</soundWorking><researchPrerequisite>HelodBlisterAgent</researchPrerequisite>
     <ingredients><li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>18</count></li><li><filter><thingDefs><li>Chemfuel</li></thingDefs></filter><count>20</count></li></ingredients>
     <fixedIngredientFilter><thingDefs><li>Steel</li><li>Chemfuel</li></thingDefs></fixedIngredientFilter>
-    <products><HD_81mmMortarShell_BA>1</HD_81mmMortarShell_BA></products><recipeUsers><li>HD_BasicWorkbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements>
+    <products><HD_81mmMortarShell_BA>1</HD_81mmMortarShell_BA></products><recipeUsers><li>HD_Tier2Workbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements>
   </RecipeDef>
 
   <RecipeDef>
@@ -293,7 +291,7 @@
       <HD_37mmShell_HE>1</HD_37mmShell_HE>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>4</Crafting>
@@ -340,7 +338,7 @@
       <HD_37mmShell_AP>1</HD_37mmShell_AP>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>4</Crafting>
@@ -396,7 +394,7 @@
       <HD_Rocket_M6A3HEAT>1</HD_Rocket_M6A3HEAT>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>
@@ -452,7 +450,7 @@
       <HD_Rocket_M10WP>1</HD_Rocket_M10WP>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>
@@ -499,7 +497,7 @@
       <HD_3InchMortarShell_CG>1</HD_3InchMortarShell_CG>
     </products>
     <recipeUsers>
-      <li>HD_BasicWorkbench</li>
+      <li>HD_Tier2Workbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>

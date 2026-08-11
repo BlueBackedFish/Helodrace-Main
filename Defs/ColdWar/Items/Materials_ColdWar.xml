@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Cold War chemical and demolition materials. -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_C4_Charge</defName>
+    <label>C-4</label>
+    <description>RDX compounded with polymer binders and plasticizers into moldable demolition blocks. It is powerful, weather-resistant, and extremely insensitive without a proper detonator.</description>
+    <graphicData>
+      <texPath>Items/HD_C4</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(0.8,0.8)</drawSize>
+    </graphicData>
+    <stackLimit>75</stackLimit>
+    <healthAffectsPrice>false</healthAffectsPrice>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>24</MarketValue>
+      <Mass>0.13</Mass>
+      <Flammability>0.2</Flammability>
+      <DeteriorationRate>0.35</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <comps>
+      <li Class="Helodrace.CompProperties_InsensitiveExplosive">
+        <explosiveRadius>1.25</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <damageAmountBase>82</damageAmountBase>
+        <armorPenetrationBase>0.4</armorPenetrationBase>
+        <damageFalloff>false</damageFalloff>
+        <explosiveExpandPerStackcount>0.06</explosiveExpandPerStackcount>
+        <chanceNeverExplodeFromDamage>1</chanceNeverExplodeFromDamage>
+        <drawWick>false</drawWick>
+        <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+        <minimumExplosionDamage>60</minimumExplosionDamage>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_M60Igniter</defName>
+    <label>M60 fuse igniter</label>
+    <description>A compact disposable weatherproof pull igniter for initiating time blasting fuse. Carry it together with C-4 to install a fuse-fired breaching charge. One igniter is consumed when the charge is installed.</description>
+    <graphicData>
+      <texPath>Items/HD_M60Igniter</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>70</MaxHitPoints>
+      <WorkToMake>1800</WorkToMake>
+      <MarketValue>95</MarketValue>
+      <Mass>0.18</Mass>
+      <Flammability>0.25</Flammability>
+      <DeteriorationRate>0.8</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <costList>
+      <Steel>8</Steel>
+      <ComponentIndustrial>1</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <workSkill>Crafting</workSkill>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.CompProperties_BreachIgniter">
+        <supportsTimeFuse>true</supportsTimeFuse>
+        <supportsShockTube>false</supportsShockTube>
+        <timeFuseRange>12</timeFuseRange>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_M81Igniter</defName>
+    <label>M81 igniter</label>
+    <description>A disposable modern pull igniter capable of initiating either time blasting fuse or non-electric shock tube. Shock-tube installation takes longer, but permits the operator to move much farther from the charge before firing. One igniter is consumed when the charge is installed.</description>
+    <graphicData>
+      <texPath>Items/HD_M81Igniter</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <stackLimit>25</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToMake>2400</WorkToMake>
+      <MarketValue>140</MarketValue>
+      <Mass>0.20</Mass>
+      <Flammability>0.20</Flammability>
+      <DeteriorationRate>0.7</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <costList>
+      <Steel>10</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <workSkill>Crafting</workSkill>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <recipeUsers>
+        <li>MachiningTable</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>7</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.CompProperties_BreachIgniter">
+        <supportsTimeFuse>true</supportsTimeFuse>
+        <supportsShockTube>true</supportsShockTube>
+        <timeFuseRange>12</timeFuseRange>
+        <shockTubeRange>30</shockTubeRange>
+        <shockTubeInstallWorkFactor>1.2</shockTubeInstallWorkFactor>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

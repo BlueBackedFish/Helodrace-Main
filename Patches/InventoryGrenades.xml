@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M8"]/verbs</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M8_Item"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M15"]/verbs</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M15_Item"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
@@ -17,27 +17,27 @@
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M14"]/verbs</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M14_Item"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M7A2"]/verbs</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M7A2_Item"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M67"]/verbs</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M67_Item"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M84"]/verbs</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M84_Item"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M111"]/verbs</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M111_Item"]/verbs</xpath>
     <value><verbs /></value>
   </Operation>
   <Operation Class="PatchOperationReplace">
-    <xpath>Defs/ThingDef[defName="HD_Grenade_M8" or defName="HD_Grenade_M15" or defName="HD_Grenade_MKII" or defName="HD_Grenade_MKIII" or defName="HD_Grenade_M14" or defName="HD_Grenade_M7A2" or defName="HD_Grenade_M67" or defName="HD_Grenade_M84" or defName="HD_Grenade_M111"]/weaponTags</xpath>
+    <xpath>Defs/ThingDef[defName="HD_Grenade_M8_Item" or defName="HD_Grenade_M15_Item" or defName="HD_Grenade_MKII" or defName="HD_Grenade_MKIII" or defName="HD_Grenade_M14_Item" or defName="HD_Grenade_M7A2_Item" or defName="HD_Grenade_M67_Item" or defName="HD_Grenade_M84_Item" or defName="HD_Grenade_M111_Item"]/weaponTags</xpath>
     <value><weaponTags /></value>
   </Operation>
 </Patch>
