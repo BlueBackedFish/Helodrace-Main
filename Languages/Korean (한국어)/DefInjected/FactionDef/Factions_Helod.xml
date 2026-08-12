@@ -6,8 +6,16 @@
   <HD_HelodPlayerColony.pawnsPlural>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;&#xB4E4;</HD_HelodPlayerColony.pawnsPlural>
 
   <HD_HelodCivilLowFaction.label>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xC9C0; &#xC5F0;&#xD569;</HD_HelodCivilLowFaction.label>
+  <HD_HelodCivilLowFaction.fixedName>&#xD5E4;&#xB85C;&#xB4DC; &#xC0C1;&#xC5C5;&#xC870;&#xD569;</HD_HelodCivilLowFaction.fixedName>
   <HD_HelodCivilLowFaction.description>&#xBB34;&#xC5ED;, &#xD608;&#xC5F0;, &#xC2E4;&#xC6A9;&#xC801;&#xC778; &#xD611;&#xB825;&#xC73C;&#xB85C; &#xC774;&#xC5B4;&#xC9C4; &#xB3C5;&#xB9BD;&#xC801;&#xC778; &#xD5E4;&#xB85C;&#xB4DC; &#xAC1C;&#xCC99; &#xC815;&#xCC29;&#xC9C0;&#xB4E4;&#xC758; &#xC5F0;&#xD569;&#xC785;&#xB2C8;&#xB2E4;.</HD_HelodCivilLowFaction.description>
   <HD_HelodCivilLowFaction.pawnSingular>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;</HD_HelodCivilLowFaction.pawnSingular>
   <HD_HelodCivilLowFaction.pawnsPlural>&#xD5E4;&#xB85C;&#xB4DC; &#xC815;&#xCC29;&#xBBFC;&#xB4E4;</HD_HelodCivilLowFaction.pawnsPlural>
   <HD_HelodCivilLowFaction.leaderTitle>&#xC2DC;&#xC7A5;</HD_HelodCivilLowFaction.leaderTitle>
+
+  <HD_HelodCivilHighFaction.label>&#xBCA0;&#xC138;&#xB2C8;&#xCE74; &#xC8FC;</HD_HelodCivilHighFaction.label>
+  <HD_HelodCivilHighFaction.fixedName>&#xD504;&#xB85C;&#xBE44;&#xB358;&#xC2A4; &#xC2A4;&#xD14C;&#xC774;&#xD2B8;</HD_HelodCivilHighFaction.fixedName>
+  <HD_HelodCivilHighFaction.description>&#xBCC0;&#xBC29; &#xB108;&#xBA38;&#xAE4C;&#xC9C0; &#xAD8C;&#xC704;&#xB97C; &#xD589;&#xC0AC;&#xD558;&#xB294; &#xC911;&#xC559; &#xC9D1;&#xAD8C;&#xC801;&#xC778; &#xD5E4;&#xB85C;&#xB4DC; &#xAD6D;&#xAC00;&#xC785;&#xB2C8;&#xB2E4;.</HD_HelodCivilHighFaction.description>
+  <HD_HelodCivilHighFaction.pawnSingular>&#xBCA0;&#xC138;&#xB2C8;&#xCE74; &#xC2DC;&#xBBFC;</HD_HelodCivilHighFaction.pawnSingular>
+  <HD_HelodCivilHighFaction.pawnsPlural>&#xBCA0;&#xC138;&#xB2C8;&#xCE74; &#xC2DC;&#xBBFC;&#xB4E4;</HD_HelodCivilHighFaction.pawnsPlural>
+  <HD_HelodCivilHighFaction.leaderTitle>&#xCD1D;&#xB3C5;</HD_HelodCivilHighFaction.leaderTitle>
 </LanguageData>

@@ -33,7 +33,8 @@
 
   <FactionDef ParentName="FactionBase">
     <defName>HD_HelodCivilLowFaction</defName>
-    <label>Helod settlements</label>
+    <label>Helod Mercantile Association</label>
+    <fixedName>Helod Mercantile Association</fixedName>
     <description>Independent Helod frontier settlements bound together by trade, kinship, and practical cooperation.</description>
     <humanlikeFaction>true</humanlikeFaction>
     <basicMemberKind>HD_WW_HelodSettler</basicMemberKind>
@@ -54,10 +55,6 @@
     <factionNameMaker>NamerFactionOutlander</factionNameMaker>
     <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
     <allowedCultures><li>HD_HelodCulture</li></allowedCultures>
-    <colorSpectrum>
-      <li>(0.42, 0.33, 0.18)</li>
-      <li>(0.72, 0.55, 0.28)</li>
-    </colorSpectrum>
     <backstoryFilters>
       <li>
         <categories>
@@ -65,7 +62,7 @@
         </categories>
       </li>
     </backstoryFilters>
-    <factionIconPath>Icons/HD_Sharpshooter</factionIconPath>
+    <factionIconPath>Icons/HD_FactionLow</factionIconPath>
     <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
     <naturalEnemy>false</naturalEnemy>
     <permanentEnemy>false</permanentEnemy>
@@ -138,6 +135,48 @@
         </options>
       </li>
     </pawnGroupMakers>
+    <apparelStuffFilter>
+      <thingDefs>
+        <li>Cloth</li>
+      </thingDefs>
+    </apparelStuffFilter>
+  </FactionDef>
+
+  <FactionDef ParentName="FactionBase">
+    <defName>HD_HelodCivilHighFaction</defName>
+    <label>베세니카 주</label>
+    <fixedName>Providence State</fixedName>
+    <description>A centralized Helod state whose authority extends beyond the frontier.</description>
+    <humanlikeFaction>true</humanlikeFaction>
+    <basicMemberKind>HD_WW_HelodUpperClass</basicMemberKind>
+    <pawnSingular>Vesenican citizen</pawnSingular>
+    <pawnsPlural>Vesenican citizens</pawnsPlural>
+    <categoryTag>Outlander</categoryTag>
+    <listOrderPriority>31</listOrderPriority>
+    <leaderTitle>governor</leaderTitle>
+    <fixedLeaderKinds>
+      <li>HD_WW_HelodUpperClass</li>
+    </fixedLeaderKinds>
+    <techLevel>Industrial</techLevel>
+    <settlementNameMaker>NamerSettlementOutlander</settlementNameMaker>
+    <allowedCultures><li>HD_HelodCulture</li></allowedCultures>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>HD_Helod</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <factionIconPath>Icons/HD_FactionHigh</factionIconPath>
+    <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
+    <naturalEnemy>false</naturalEnemy>
+    <permanentEnemy>false</permanentEnemy>
+    <mustStartOneEnemy>false</mustStartOneEnemy>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <maxCountAtGameStart>1</maxCountAtGameStart>
+    <settlementGenerationWeight>1</settlementGenerationWeight>
+    <maxConfigurableAtWorldCreation>1</maxConfigurableAtWorldCreation>
+    <configurationListOrderPriority>12</configurationListOrderPriority>
     <apparelStuffFilter>
       <thingDefs>
         <li>Cloth</li>
