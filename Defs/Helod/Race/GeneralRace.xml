@@ -329,6 +329,10 @@
               <key>Apparel_BowlerHat</key>
               <value>Helod/VanillaApparel/BowlerHat/BowlerHat</value>
             </li>
+            <li>
+              <key>Apparel_BasicShirt</key>
+              <value>Helod/VanillaApparel/ShirtBasic/ShirtBasic</value>
+            </li>
             <li MayRequireAnyOf="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Biotech">
               <key>Apparel_Cape</key>
               <value>Helod/VanillaApparel/Cape/Cape</value>
@@ -336,6 +340,10 @@
             <li>
               <key>Apparel_ClothMask</key>
               <value>Helod/VanillaApparel/ClothMask/ClothMask</value>
+            </li>
+            <li>
+              <key>Apparel_CollarShirt</key>
+              <value>Helod/VanillaApparel/ShirtButton/ShirtButton</value>
             </li>
             <li>
               <key>Apparel_CowboyHat</key>
@@ -406,8 +414,20 @@
               <value>Helod/VanillaApparel/Robe/Robe</value>
             </li>
             <li>
+              <key>Apparel_SimpleHelmet</key>
+              <value>Helod/VanillaApparel/SimpleHelmet/SimpleHelmet</value>
+            </li>
+            <li>
               <key>Apparel_SmokepopBelt</key>
               <value>Helod/VanillaApparel/SmokepopPack/SmokepopPack</value>
+            </li>
+            <li>
+              <key>Apparel_TribalA</key>
+              <value>Helod/VanillaApparel/TribalA/TribalA</value>
+            </li>
+            <li>
+              <key>Apparel_TribalHeaddress</key>
+              <value>Helod/VanillaApparel/TribalHeaddress/TribalHeaddress</value>
             </li>
           </individualPaths>
         </apparel>

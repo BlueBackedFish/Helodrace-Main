@@ -241,7 +241,6 @@
     <costList><Steel>55</Steel><ComponentIndustrial>5</ComponentIndustrial></costList>
     <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite><recipeUsers><li>HD_Tier2Workbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
     <comps>
-      <li><compClass>CompEquippable</compClass></li>
       <li Class="Helodrace.CompProperties_M79Launcher">
         <allowedAmmoDefs>
           <li>HD_40mmM381HE_Round</li><li>HD_40mmM433HEDP_Round</li><li>HD_40mmM576MP_Round</li><li>HD_40mmM651CS_Round</li><li>HD_40mmSponge_Round</li>

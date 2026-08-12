@@ -102,9 +102,6 @@
       <ComponentIndustrial>1</ComponentIndustrial>
     </costList>
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>

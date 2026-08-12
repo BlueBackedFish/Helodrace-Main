@@ -12,7 +12,7 @@
   <HD_BTXToxicity.description>BTX 화합물이 이 몸을 자극하고 중독시키고 있습니다. 헤로드 생화학은 이런 화합물을 대사할 수 있지만, 다른 종족은 석유와 비슷한 독성 효과를 겪습니다.</HD_BTXToxicity.description>
   <HD_BTXToxicity.labelNoun>BTX 중독</HD_BTXToxicity.labelNoun>
   <HD_BTXDeficiency.label>BTX 결핍</HD_BTXDeficiency.label>
-  <HD_BTXDeficiency.description>공학적으로 조정된 이 대사 체계에 BTX 화합물이 고갈되고 있습니다. 결핍이 완전히 붕괴 단계에 이르면 죽음에 이릅니다.</HD_BTXDeficiency.description>
+  <HD_BTXDeficiency.description>BTX 욕구가 30% 미만으로 유지되어 생화학적 붕괴가 진행 중입니다. 결핍이 열흘간 계속되면 사망하며, BTX 욕구를 회복하면 증상이 점차 호전됩니다.</HD_BTXDeficiency.description>
   <HD_BTXDeficiency.labelNoun>BTX 결핍</HD_BTXDeficiency.labelNoun>
   <HD_PlainDogChewHigh.label>무첨가 개껌 씹는 중</HD_PlainDogChewHigh.label>
   <HD_PlainDogChewHigh.description>까드득 까드득</HD_PlainDogChewHigh.description>

@@ -466,9 +466,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -544,9 +541,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>0.35</altCooldownMultiplier>
@@ -632,9 +626,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>0.35</altCooldownMultiplier>
@@ -723,9 +714,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_RecoillessWeapon">
         <ammoDef>HD_Rocket_M6A3HEAT</ammoDef>
         <allowedAmmoDefs>
@@ -1094,9 +1082,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1170,9 +1155,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>0.65</altCooldownMultiplier>
@@ -1259,9 +1241,6 @@
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1336,9 +1315,6 @@
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>0.55</altCooldownMultiplier>
@@ -1415,9 +1391,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1493,9 +1466,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1571,9 +1541,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1660,9 +1627,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1748,9 +1712,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1822,9 +1783,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
@@ -1899,9 +1857,6 @@
     <recipeMaker Inherit="False" IsNull="True" />
 
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>

@@ -63,14 +63,32 @@ namespace Helodrace
             Scribe_Values.Look(ref developmentComplete, "developmentComplete", false);
         }
 
+        public override void CompTick()
+        {
+            base.CompTick();
+
+            // The cable-tool rig uses a Normal ticker because its explosive comp
+            // requires one. ThingWithComps therefore calls CompTick, not
+            // CompTickRare, so throttle the development simulation here.
+            if (parent.IsHashIntervalTick(GenTicks.TickRareInterval))
+            {
+                TickDevelopment(GenTicks.TickRareInterval);
+            }
+        }
+
         public override void CompTickRare()
         {
             base.CompTickRare();
+            TickDevelopment(GenTicks.TickRareInterval);
+        }
+
+        private void TickDevelopment(int intervalTicks)
+        {
 
             if (!developmentComplete && IsPoweredBySteam && !needsMaintenance)
             {
                 // Progress
-                float dayDelta = 250f / 60000f;
+                float dayDelta = intervalTicks / 60000f;
                 currentProgressDays += dayDelta;
 
                 // Spawn a burst of dust particles to maintain visual feedback at rare tick rate
@@ -85,8 +103,7 @@ namespace Helodrace
                 }
 
                 // Roll for "Strike Oil" (Random Finish) - MTB 7 Days
-                // MTBEventOccurs checkInterval is 250 for CompTickRare
-                if (Rand.MTBEventOccurs(Props.mtbDaysConfirmation, 60000f, 250f))
+                if (Rand.MTBEventOccurs(Props.mtbDaysConfirmation, 60000f, intervalTicks))
                 {
                     Messages.Message("HD_OilFieldStruckEarly".Translate(this.parent.Label), this.parent, MessageTypeDefOf.PositiveEvent);
                     FinishDevelopment();
@@ -94,7 +111,7 @@ namespace Helodrace
                 }
 
                 // Roll for Maintenance Needed (MTB 1 Day)
-                if (Rand.MTBEventOccurs(Props.mtbDaysMaintenance, 60000f, 250f))
+                if (Rand.MTBEventOccurs(Props.mtbDaysMaintenance, 60000f, intervalTicks))
                 {
                     needsMaintenance = true;
                     Messages.Message("HD_OilFieldNeedsMaintenance".Translate(this.parent.Label), this.parent, MessageTypeDefOf.CautionInput);
@@ -143,7 +160,7 @@ namespace Helodrace
             }
 
             string s = "HD_OilFieldDevelopment_Progress".Translate(
-                currentProgressDays.ToString("F1"),
+                currentProgressDays.ToString("F2"),
                 Props.totalDaysNeeded.ToString("F0"));
             if (needsMaintenance)
             {

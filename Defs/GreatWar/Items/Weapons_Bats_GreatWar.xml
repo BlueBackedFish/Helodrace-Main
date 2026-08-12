@@ -23,10 +23,6 @@
     <stuffCategories>
       <li>Woody</li>
     </stuffCategories>
-    <comps Inherit="False">
-      <li><compClass>CompEquippable</compClass></li>
-      <li Class="CompProperties_Styleable" />
-    </comps>
     <recipeMaker>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
@@ -75,10 +71,6 @@
     <stuffCategories>
       <li>Metallic</li>
     </stuffCategories>
-    <comps Inherit="False">
-      <li><compClass>CompEquippable</compClass></li>
-      <li Class="CompProperties_Styleable" />
-    </comps>
     <recipeMaker>
       <recipeUsers>
         <li>HD_Tier2Workbench</li>

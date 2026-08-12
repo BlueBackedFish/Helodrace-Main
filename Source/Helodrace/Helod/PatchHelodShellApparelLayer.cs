@@ -94,7 +94,7 @@ namespace Helodrace
             }
 
             // The firefoam pack keeps its explicitly authored layer. The
-            // smokepop belt uses its Helod art but is intentionally lowered.
+            // smokepop belt follows the common utility apparel rules.
             return def.defName != "Apparel_FirefoampopPack";
         }
 

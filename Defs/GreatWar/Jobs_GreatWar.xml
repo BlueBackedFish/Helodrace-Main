@@ -43,6 +43,26 @@
     <requiredCapacities><li>Manipulation</li></requiredCapacities>
   </WorkGiverDef>
 
+  <WorkGiverDef>
+    <defName>DoBillsHD_StirredTankReactor</defName>
+    <label>operate stirred-tank reactor</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <workTags>
+      <li>Intellectual</li>
+    </workTags>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_StirredTankReactor</li>
+    </fixedBillGiverDefs>
+    <verb>operate</verb>
+    <gerund>operating</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+
   <JobDef>
     <defName>HD_MedibagLoadSupply</defName>
     <driverClass>Helodrace.JobDriver_MedibagLoadSupply</driverClass>

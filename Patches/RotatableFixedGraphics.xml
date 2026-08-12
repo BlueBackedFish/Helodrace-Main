@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    Only square-footprint production worktables are made rotatable. Their artwork
+    remains visually fixed while interaction cells and connections rotate normally.
+    Oil drilling and refining buildings deliberately retain their original rotation.
+  -->
+  <Operation Class="PatchOperationSequence">
+    <operations>
+      <li Class="PatchOperationReplace">
+        <xpath>/Defs/ThingDef[
+          defName="HD_LineShaftHydraulicPress" or
+          defName="HD_LineShaftRollingMachine" or
+          defName="HD_BlastFurnace" or
+          defName="HD_Converter" or
+          defName="HD_SAFurnace" or
+          defName="HD_HaberBoschHighPressureReactor" or
+          defName="HD_StirredTankReactor"
+        ]/rotatable</xpath>
+        <value>
+          <rotatable>true</rotatable>
+        </value>
+      </li>
+
+      <li Class="PatchOperationAdd">
+        <xpath>/Defs/ThingDef[
+          defName="HD_LineShaftHydraulicPress" or
+          defName="HD_LineShaftRollingMachine" or
+          defName="HD_BlastFurnace" or
+          defName="HD_Converter" or
+          defName="HD_SAFurnace" or
+          defName="HD_HaberBoschHighPressureReactor" or
+          defName="HD_StirredTankReactor"
+        ]/graphicData[not(drawRotated)]</xpath>
+        <value>
+          <drawRotated>false</drawRotated>
+        </value>
+      </li>
+    </operations>
+  </Operation>
+</Patch>

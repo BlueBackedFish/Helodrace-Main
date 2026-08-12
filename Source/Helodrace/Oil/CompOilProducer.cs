@@ -89,11 +89,16 @@ namespace Helodrace
                 : "HD_OilProducer_NeedsPower".Translate();
 
             return "HD_OilProducer_Inspect".Translate(
-                progressDays / Props.daysToProduce,
-                speedFactor,
-                field.quality,
-                field.pressure,
+                ToPercent(progressDays / Props.daysToProduce),
+                ToPercent(speedFactor),
+                ToPercent(field.quality),
+                ToPercent(field.pressure),
                 status);
+        }
+
+        private static string ToPercent(float value)
+        {
+            return (value * 100f).ToString("F0") + "%";
         }
 
         private OilFieldRecord OilField
@@ -105,7 +110,29 @@ namespace Helodrace
                     oilFields = parent.Map.GetComponent<MapComponent_OilFields>();
                 }
 
-                return oilFields?.FieldAtOrCreateLegacy(parent.Position);
+                if (oilFields == null)
+                {
+                    return null;
+                }
+
+                OilFieldRecord field = oilFields.FieldAtOrCreateLegacy(parent.Position);
+                if (field != null || !parent.Spawned)
+                {
+                    return field;
+                }
+
+                // Older saves and differently-sized drilling rigs can leave the
+                // developed field under another cell of the pump's footprint.
+                foreach (IntVec3 cell in parent.OccupiedRect())
+                {
+                    field = oilFields.FieldAtOrCreateLegacy(cell);
+                    if (field != null)
+                    {
+                        return field;
+                    }
+                }
+
+                return null;
             }
         }
 
@@ -121,9 +148,12 @@ namespace Helodrace
         public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null, Thing thing = null)
         {
             MapComponent_OilFields oilFields = map.GetComponent<MapComponent_OilFields>();
-            if (oilFields.IsOilFieldTerrain(loc))
+            foreach (IntVec3 cell in GenAdj.OccupiedRect(loc, rot, checkingDef.Size))
             {
-                return true;
+                if (oilFields.IsOilFieldTerrain(cell))
+                {
+                    return true;
+                }
             }
             return "HD_OilProducer_MustPlaceOnField".Translate();
         }

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_OilFieldDevelopment_CompleteInspect>유전 개발 완료. 시추기를 철거하고 펌프잭을 설치할 수 있습니다.</HD_OilFieldDevelopment_CompleteInspect>
+  <HD_OilFieldDevelopment_CompleteInspect>유정 개발 완료. 시추기를 철거하고 펌프잭을 설치할 수 있습니다.</HD_OilFieldDevelopment_CompleteInspect>
   <HD_OilFieldDevelopment_Progress>개발 진행도: {0} / {1}일</HD_OilFieldDevelopment_Progress>
   <HD_OilFieldDevelopment_NeedsMaintenance>정지: 정비 작업 필요</HD_OilFieldDevelopment_NeedsMaintenance>
   <HD_OilFieldDevelopment_Drilling>작동 중: 석유 시추 중</HD_OilFieldDevelopment_Drilling>
   <HD_OilFieldDevelopment_NeedsPower>정지: 기계 동력 필요</HD_OilFieldDevelopment_NeedsPower>
-  <HD_OilProducer_NoField>정지: 펌프 아래에 개발된 유전이 없음</HD_OilProducer_NoField>
+  <HD_OilProducer_NoField>정지: 펌프 아래에 개발된 유정이 없음</HD_OilProducer_NoField>
   <HD_OilProducer_Operating>작동 중</HD_OilProducer_Operating>
   <HD_OilProducer_NeedsPower>정지: 기계 동력 필요</HD_OilProducer_NeedsPower>
-  <HD_OilProducer_Inspect>생산 진행도: {0:P0}\n생산 속도: {1:P0}\n유전 품질: {2:P0}\n유정 압력: {3:P0}\n상태: {4}</HD_OilProducer_Inspect>
-  <HD_OilProducer_MustPlaceOnField>개발된 유전 위에만 설치할 수 있습니다.</HD_OilProducer_MustPlaceOnField>
+  <HD_OilProducer_Inspect>생산 진행도: {0}\n생산 속도: {1}\n유정 품질: {2}\n유정 압력: {3}\n상태: {4}</HD_OilProducer_Inspect>
+  <HD_OilProducer_MustPlaceOnField>개발된 유정 위에 설치해야 합니다.</HD_OilProducer_MustPlaceOnField>
   <HD_OilFieldStruckEarly>{0}에서 예상보다 일찍 석유를 발견했습니다.</HD_OilFieldStruckEarly>
   <HD_OilFieldNeedsMaintenance>{0}에 시추 정비가 필요합니다.</HD_OilFieldNeedsMaintenance>
-  <HD_OilFieldDevelopmentComplete>{0}에서 유전 개발을 완료했습니다.</HD_OilFieldDevelopmentComplete>
+  <HD_OilFieldDevelopmentComplete>{0}에서 유정 개발을 완료했습니다.</HD_OilFieldDevelopmentComplete>
 </LanguageData>

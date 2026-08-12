@@ -334,9 +334,6 @@
       <researchPrerequisite>HelodWireGuidedMissile</researchPrerequisite>
     </recipeMaker>
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_M47DragonLauncher" />
     </comps>
     <verbs>
@@ -406,9 +403,6 @@
     </costList>
     <recipeMaker Inherit="False" IsNull="True" />
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>

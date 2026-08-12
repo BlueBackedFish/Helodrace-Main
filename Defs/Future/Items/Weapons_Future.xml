@@ -107,9 +107,6 @@
       <researchPrerequisite>Fabrication</researchPrerequisite>
     </recipeMaker>
     <comps>
-      <li>
-        <compClass>CompEquippable</compClass>
-      </li>
       <li Class="Helodrace.Future.CompProperties_LanceLra7System" />
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <altVerbIndex>1</altVerbIndex>

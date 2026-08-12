@@ -559,7 +559,7 @@
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_OilProducer">
         <product>HD_CrudeOil_Low</product>
-        <amount>15</amount>
+        <amount>50</amount>
         <daysToProduce>1</daysToProduce>
         <pressureLossPerProduction>0.01</pressureLossPerProduction>
         <minimumPressure>0.35</minimumPressure>
