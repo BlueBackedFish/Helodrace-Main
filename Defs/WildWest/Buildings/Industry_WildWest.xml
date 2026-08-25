@@ -1557,9 +1557,9 @@
   <!-- Telegraph Table -->
   <ThingDef ParentName="BuildingBase">
     <defName>HD_TelegraphTable</defName>
-    <label>telegraph table</label>
-    <description>A specialized telegraph terminal used to transmit commercial orders and settle frontier petroleum contracts.</description>
-    <thingClass>Building_WorkTable</thingClass>
+    <label>telegraph</label>
+    <description>A telegraph terminal used to transmit commercial orders, frontier contracts, and military support requests. It uses primary cells as fuel.</description>
+    <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_TelegraphTable</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
@@ -1576,7 +1576,6 @@
       <WorkToBuild>1500</WorkToBuild>
       <Flammability>1.0</Flammability>
       <Mass>35</Mass>
-      <WorkTableWorkSpeedFactor>1.0</WorkTableWorkSpeedFactor>
     </statBases>
     <costList>
       <HD_PrimaryCell>2</HD_PrimaryCell>
@@ -1598,13 +1597,22 @@
     </researchPrerequisites>
     <comps>
       <li Class="Helodrace.CompProperties_TelegraphTable" />
+      <li Class="CompProperties_Refuelable">
+        <fuelConsumptionRate>0</fuelConsumptionRate>
+        <fuelCapacity>100</fuelCapacity>
+        <fuelFilter>
+          <thingDefs>
+            <li>HD_PrimaryCell</li>
+          </thingDefs>
+        </fuelFilter>
+        <initialFuelPercent>0</initialFuelPercent>
+        <autoRefuelPercent>0.5</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <fuelLabel>Primary cells</fuelLabel>
+        <fuelGizmoLabel>Primary cells</fuelGizmoLabel>
+        <outOfFuelMessage>Cannot transmit: no primary cells</outOfFuelMessage>
+      </li>
     </comps>
-    <inspectorTabs>
-      <li>ITab_Bills</li>
-    </inspectorTabs>
-    <building>
-      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
-    </building>
   </ThingDef>
 
 </Defs>

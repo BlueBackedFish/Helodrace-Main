@@ -14,8 +14,8 @@
   <HD_Gun_M2A2LightHowitzer_TurretGun.label>M2A2 105mm 경곡사포</HD_Gun_M2A2LightHowitzer_TurretGun.label>
   <HD_Gun_M2A2LightHowitzer_TurretGun.description>전용 M1 고폭탄 또는 바닐라 박격포탄으로 장거리 간접 사격을 가하는 105mm 야전곡사포입니다.</HD_Gun_M2A2LightHowitzer_TurretGun.description>
   <HD_Building_M114Howitzer.label>M114 155mm 곡사포</HD_Building_M114Howitzer.label>
-  <HD_Building_M114Howitzer.description>개각식 포가에 탑재된 중형 155mm 야전곡사포입니다. 포반장, 사수, 부사수가 모두 배치되어야 사격할 수 있으며 추가 포반원은 조준과 장전 속도를 높입니다. 바닐라 박격포탄으로 장거리 간접 사격을 가합니다.</HD_Building_M114Howitzer.description>
+  <HD_Building_M114Howitzer.description>개각식 포가에 탑재된 중형 155mm 야전곡사포입니다. 포반장, 사수, 부사수가 모두 배치되어야 사격할 수 있으며 추가 포반원은 조준과 장전 속도를 높입니다. 전용 155mm 고폭탄, BA·CN 화학탄, 백린연막탄과 W48 핵포탄을 사용합니다.</HD_Building_M114Howitzer.description>
   <HD_Gun_M114Howitzer_TurretGun.label>M114 155mm 곡사포</HD_Gun_M114Howitzer_TurretGun.label>
-  <HD_Gun_M114Howitzer_TurretGun.description>바닐라 박격포탄을 사용하는 장거리 간접 사격용 중형 야전곡사포입니다.</HD_Gun_M114Howitzer_TurretGun.description>
+  <HD_Gun_M114Howitzer_TurretGun.description>전용 155mm 고폭탄, BA·CN 화학탄, 백린연막탄과 W48 핵포탄을 사용하는 장거리 간접 사격용 중형 야전곡사포입니다.</HD_Gun_M114Howitzer_TurretGun.description>
 </LanguageData>
 

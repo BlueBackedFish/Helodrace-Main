@@ -169,6 +169,7 @@
       <armorPenetrationBase>0.38</armorPenetrationBase>
       <stoppingPower>2.2</stoppingPower>
       <speed>240</speed>
+      <flyOverhead>true</flyOverhead>
     </projectile>
   </ThingDef>
 
@@ -973,6 +974,204 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">
+    <defName>HD_155mmShell_M107HE_Proj</defName>
+    <label>M107 155mm HE shell</label>
+    <thingClass>Helodrace.ModernWar.Projectile_FragmentingExplosive</thingClass>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Projectiles/HD_155MMM107HE_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>110</damageAmountBase>
+      <stoppingPower>3.5</stoppingPower>
+      <speed>34</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>5.2</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>MortarBomb_Explode</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_155mmHEFragment</fragmentProjectile>
+        <fragmentCount>96</fragmentCount><radius>22</radius><minimumRangeFactor>0.45</minimumRangeFactor>
+        <targetedFragmentFraction>0.65</targetedFragmentFraction><closeAimMultiplier>2.05</closeAimMultiplier><edgeAimMultiplier>0.50</edgeAimMultiplier><minimumTargetedAimChance>0.47</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0.24</longRangeFragmentFraction><longRangeRadius>34</longRangeRadius><longRangeMinimumFactor>0.72</longRangeMinimumFactor>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_155mmShell_M110BA_Proj</defName>
+    <label>M110 155mm BA chemical shell</label>
+    <thingClass>Helodrace.Projectile_SweetGasShell</thingClass>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Projectiles/HD_155MMM110BA_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>5</damageAmountBase>
+      <stoppingPower>0.8</stoppingPower>
+      <speed>34</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>0.8</explosionRadius>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.PhotochlorogenShellExtension">
+        <gasDef>HD_SweetGasGrid</gasDef>
+        <emissionRadius>5.5</emissionRadius>
+        <density>0.95</density>
+        <edgeDensityFactor>0.40</edgeDensityFactor>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_155mmShell_M110WP_Proj</defName>
+    <label>M110 155mm WP smoke shell</label>
+    <thingClass>Helodrace.Projectile_WhitePhosphorusRocket</thingClass>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Projectiles/HD_155MMM110WP_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>35</damageAmountBase>
+      <stoppingPower>1.5</stoppingPower>
+      <speed>34</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>1.8</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.WhitePhosphorusRocketExtension">
+        <fireRadius>4.8</fireRadius>
+        <fireChance>0.65</fireChance>
+        <fireSize>0.65</fireSize>
+      </li>
+      <li Class="Helodrace.HelodGasOnExplosionExtension">
+        <gasDef>HD_WhitePhosphorusSmokeGrid</gasDef>
+        <radius>8.0</radius>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_155mmShell_M110CN_Proj</defName>
+    <label>M110 155mm CN chemical shell</label>
+    <thingClass>Helodrace.Projectile_PhotochlorogenShell</thingClass>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Projectiles/HD_155MMM110CN_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>4</damageAmountBase>
+      <stoppingPower>0.7</stoppingPower>
+      <speed>34</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>0.7</explosionRadius>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.PhotochlorogenShellExtension">
+        <gasDef>HD_CNGasGrid</gasDef>
+        <emissionRadius>6.0</emissionRadius>
+        <density>0.95</density>
+        <edgeDensityFactor>0.45</edgeDensityFactor>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_155mmShell_W48_Proj</defName>
+    <label>W48 155mm nuclear shell</label>
+    <thingClass>Helodrace.Projectile_NuclearArtilleryShell</thingClass>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Projectiles/HD_155MMW48_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.15,1.15)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>300</damageAmountBase>
+      <armorPenetrationBase>1.0</armorPenetrationBase>
+      <stoppingPower>8</stoppingPower>
+      <speed>34</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>25</explosionRadius>
+      <soundHitThickRoof>Artillery_HitThickRoof</soundHitThickRoof>
+      <soundExplode>Explosion_Bomb</soundExplode>
+      <soundImpactAnticipate>MortarRound_PreImpact</soundImpactAnticipate>
+      <soundAmbient>MortarRound_Ambient</soundAmbient>
+      <preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+      <screenShakeFactor>4</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ExplosiveGrenadeVisualExtension">
+        <smokeCount>64</smokeCount>
+        <initialRadius>1.2</initialRadius>
+        <expansionSpeed>8.0</expansionSpeed>
+        <smokeScale>3.0</smokeScale>
+      </li>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_W48Fragment</fragmentProjectile>
+        <fragmentCount>64</fragmentCount>
+        <radius>50</radius>
+        <minimumRangeFactor>0.12</minimumRangeFactor>
+        <targetedFragmentFraction>0.70</targetedFragmentFraction>
+        <closeAimMultiplier>2.10</closeAimMultiplier>
+        <edgeAimMultiplier>0.34</edgeAimMultiplier>
+        <minimumTargetedAimChance>0.30</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0.35</longRangeFragmentFraction>
+        <longRangeRadius>50</longRangeRadius>
+        <longRangeMinimumFactor>0.72</longRangeMinimumFactor>
+      </li>
+      <li Class="Helodrace.ModernWar.FlashbangProjectileExtension">
+        <suppressionHediff>HD_FlashbangSuppression</suppressionHediff>
+        <effectRadius>50</effectRadius>
+        <indoorRadiusFactor>1.0</indoorRadiusFactor>
+        <outdoorDistanceExponent>1.0</outdoorDistanceExponent>
+        <indoorDistanceExponent>0.65</indoorDistanceExponent>
+        <severityAtCenter>2.5</severityAtCenter>
+        <severityAtEdge>0.12</severityAtEdge>
+        <outdoorFactor>1.0</outdoorFactor>
+        <smallRoomCellCount>16</smallRoomCellCount>
+        <largeRoomCellCount>160</largeRoomCellCount>
+        <smallRoomFactor>1.8</smallRoomFactor>
+        <largeRoomFactor>1.15</largeRoomFactor>
+        <differentRoomFactor>0.75</differentRoomFactor>
+        <blockedPathFactor>0.30</blockedPathFactor>
+        <stunThreshold>0.55</stunThreshold>
+        <stunFullIntensity>1.4</stunFullIntensity>
+        <stunTicksMin>180</stunTicksMin>
+        <stunTicksMax>480</stunTicksMax>
+        <stunSuppressionMultiplierMax>2.0</stunSuppressionMultiplierMax>
+        <stunTicksAbsoluteMax>900</stunTicksAbsoluteMax>
+        <intensityDamageDef>Blunt</intensityDamageDef>
+        <damageThreshold>0.10</damageThreshold>
+        <damageFullIntensity>2.5</damageFullIntensity>
+        <damageAtThreshold>1</damageAtThreshold>
+        <damageAtFullIntensity>45</damageAtFullIntensity>
+        <damageArmorPenetration>0.25</damageArmorPenetration>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
     <defName>HD_Projectile_3InchHEFragment</defName><label>3-inch HE shell fragment</label>
     <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.12,0.34)</drawSize></graphicData>
     <projectile><damageDef>Cut</damageDef><damageAmountBase>13</damageAmountBase><armorPenetrationBase>0.20</armorPenetrationBase><stoppingPower>0.35</stoppingPower><speed>45</speed></projectile>
@@ -986,6 +1185,16 @@
     <defName>HD_Projectile_105mmHEFragment</defName><label>105mm HE shell fragment</label>
     <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.14,0.38)</drawSize></graphicData>
     <projectile><damageDef>Cut</damageDef><damageAmountBase>18</damageAmountBase><armorPenetrationBase>0.30</armorPenetrationBase><stoppingPower>0.50</stoppingPower><speed>52</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_155mmHEFragment</defName><label>155mm HE shell fragment</label>
+    <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.16,0.42)</drawSize></graphicData>
+    <projectile><damageDef>Cut</damageDef><damageAmountBase>22</damageAmountBase><armorPenetrationBase>0.38</armorPenetrationBase><stoppingPower>0.65</stoppingPower><speed>56</speed></projectile>
+  </ThingDef>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_W48Fragment</defName><label>W48 shell fragment</label>
+    <graphicData><texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.18,0.46)</drawSize></graphicData>
+    <projectile><damageDef>Cut</damageDef><damageAmountBase>28</damageAmountBase><armorPenetrationBase>0.48</armorPenetrationBase><stoppingPower>0.8</stoppingPower><speed>62</speed></projectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseWeaponTurret">
@@ -2048,7 +2257,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>HD_Gun_M114Howitzer_TurretGun</defName>
     <label>M114 155mm howitzer</label>
-    <description>A medium field howitzer configured for deliberate long-range indirect fire with standard mortar shells.</description>
+    <description>A medium field howitzer configured for deliberate long-range indirect fire with dedicated 155mm high-explosive, BA and CN chemical, white-phosphorus, and W48 nuclear shells.</description>
     <graphicData>
       <texPath>Buildings/Security/HD_Transparent</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -2085,23 +2294,15 @@
       <fixedStorageSettings>
         <filter>
           <categories>
-            <li>MortarShells</li>
+            <li>HD_155mmHowitzerShells</li>
           </categories>
-          <disallowedThingDefs>
-            <li>Shell_Firefoam</li>
-            <li>Shell_AntigrainWarhead</li>
-          </disallowedThingDefs>
         </filter>
       </fixedStorageSettings>
       <defaultStorageSettings>
         <filter>
           <categories>
-            <li>MortarShells</li>
+            <li>HD_155mmHowitzerShells</li>
           </categories>
-          <disallowedThingDefs>
-            <li>Shell_Firefoam</li>
-            <li>Shell_AntigrainWarhead</li>
-          </disallowedThingDefs>
         </filter>
       </defaultStorageSettings>
     </building>

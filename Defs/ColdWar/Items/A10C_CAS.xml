@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_A10C_PGU13</defName>
+    <label>30×173 mm PGU-13/B HEI round</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData>
+      <texPath>Weapons/ColdWar/Projectiles/30x173mm/HD_PGU13_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.28,0.28)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>34</damageAmountBase>
+      <armorPenetrationBase>0.46</armorPenetrationBase>
+      <stoppingPower>3.5</stoppingPower>
+      <speed>260</speed>
+      <flyOverhead>true</flyOverhead>
+      <explosionRadius>1.15</explosionRadius>
+      <soundExplode>Explosion_Bomb</soundExplode>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_A10C_PGU14</defName>
+    <label>30×173 mm PGU-14/B API round</label>
+    <graphicData>
+      <texPath>Weapons/ColdWar/Projectiles/30x173mm/HD_PGU14_proj</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.28,0.28)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>52</damageAmountBase>
+      <armorPenetrationBase>1.15</armorPenetrationBase>
+      <stoppingPower>4.5</stoppingPower>
+      <speed>270</speed>
+      <flyOverhead>true</flyOverhead>
+    </projectile>
+  </ThingDef>
+</Defs>

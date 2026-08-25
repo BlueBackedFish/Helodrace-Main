@@ -144,4 +144,96 @@ namespace Helodrace
         }
     }
 
+    public class Projectile_NuclearArtilleryShell : Projectile_Explosive
+    {
+        private const int PollutionCells = 1800;
+
+        protected override void Explode()
+        {
+            Map impactMap = Map;
+            IntVec3 impactCell = Position;
+            Thing instigator = Launcher;
+            ModernWar.FragmentationGrenadeExtension fragmentation =
+                def.GetModExtension<ModernWar.FragmentationGrenadeExtension>();
+            ModernWar.FlashbangProjectileExtension overpressure =
+                def.GetModExtension<ModernWar.FlashbangProjectileExtension>();
+            ModernWar.ExplosiveGrenadeVisualExtension smoke =
+                def.GetModExtension<ModernWar.ExplosiveGrenadeVisualExtension>();
+
+            try
+            {
+                ModernWar.GrenadeExplosionEffectUtility.ThrowFragments(
+                    impactCell,
+                    impactMap,
+                    fragmentation,
+                    instigator,
+                    this);
+            }
+            catch (System.Exception exception)
+            {
+                Log.ErrorOnce(
+                    $"Helodrace W48 fragment calculation failed; continuing nuclear explosion. {exception}",
+                    GetHashCode());
+            }
+
+            base.Explode();
+
+            if (impactMap == null || !impactCell.InBounds(impactMap))
+            {
+                return;
+            }
+
+            ModernWar.FlashbangUtility.ApplySuppression(
+                impactCell,
+                impactMap,
+                overpressure,
+                instigator);
+            ModernWar.GrenadeExplosionEffectUtility.ThrowExpandingSmokeRing(
+                impactCell,
+                impactMap,
+                smoke);
+            ModernWar.GrenadeExplosionEffectUtility.ThrowLingeringExplosionDust(
+                impactCell,
+                impactMap,
+                smoke);
+
+            if (ModsConfig.BiotechActive)
+            {
+                PollutionUtility.GrowPollutionAt(
+                    impactCell,
+                    impactMap,
+                    PollutionCells,
+                    null,
+                    true);
+            }
+
+            FleckMaker.Static(impactCell, impactMap, FleckDefOf.ExplosionFlash, 18f);
+            FleckMaker.ThrowFireGlow(impactCell.ToVector3Shifted(), impactMap, 8f);
+            GenExplosion.DoExplosion(
+                impactCell,
+                impactMap,
+                15f,
+                DamageDefOf.EMP,
+                instigator,
+                damAmount: 35,
+                armorPenetration: 0f,
+                doVisualEffects: false,
+                doSoundEffects: false);
+
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(impactCell, 35f, true))
+            {
+                if (!cell.InBounds(impactMap) || !cell.Standable(impactMap))
+                {
+                    continue;
+                }
+
+                float distanceFactor = Mathf.InverseLerp(35f, 0f, impactCell.DistanceTo(cell));
+                if (Rand.Chance(0.7f * distanceFactor))
+                {
+                    FireUtility.TryStartFireIn(cell, impactMap, Mathf.Lerp(0.2f, 0.9f, distanceFactor), instigator);
+                }
+            }
+        }
+    }
+
 }

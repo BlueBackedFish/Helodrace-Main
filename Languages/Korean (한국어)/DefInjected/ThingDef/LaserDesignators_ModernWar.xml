@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Apparel_ANPEQ1C.label>AN/PEQ-1C SOFLAM</HD_Apparel_ANPEQ1C.label>
+  <HD_Apparel_ANPEQ1C.description>삼각대 설치가 가능한 정밀 레이저 표적지시기입니다. SCR-300 운용자가 휴대하면 레이저 유도 CAS를 사용할 수 있으며 악천후에서도 가장 안정적으로 표적을 지시합니다.</HD_Apparel_ANPEQ1C.description>
+  <HD_Apparel_IZLIDUltra.label>IZLID Ultra</HD_Apparel_IZLIDUltra.label>
+  <HD_Apparel_IZLIDUltra.description>소형 장거리 적외선 레이저 표적지시기입니다. SCR-300 운용자가 레이저 유도 CAS를 사용할 수 있게 하며 기동 관측병이 휴대하기에 충분히 가볍습니다.</HD_Apparel_IZLIDUltra.description>
+  <HD_Apparel_LA16uPEQ.label>LA-16u/PEQ</HD_Apparel_LA16uPEQ.label>
+  <HD_Apparel_LA16uPEQ.description>신속한 야전 운용을 위한 권총형 레이저 표적지시기입니다. 가볍게 레이저 유도 CAS를 사용할 수 있지만 심한 악천후에는 비교적 불안정합니다.</HD_Apparel_LA16uPEQ.description>
+</LanguageData>

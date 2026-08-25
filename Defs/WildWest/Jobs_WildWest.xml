@@ -79,13 +79,6 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
-  <JobDef>
-    <defName>HD_LoadTelegraphPrimaryCells</defName>
-    <driverClass>Helodrace.JobDriver_LoadTelegraphPrimaryCells</driverClass>
-    <reportString>loading primary cells into telegraph table.</reportString>
-    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
-  </JobDef>
-
   <WorkGiverDef>
     <defName>DoBillsHD_BlastFurnace</defName>
     <label>use blast furnace</label>
@@ -225,22 +218,6 @@
     </fixedBillGiverDefs>
     <verb>craft</verb>
     <gerund>crafting at</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
-    <defName>DoBillsHD_TelegraphTable</defName>
-    <label>use telegraph table</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Crafting</workType>
-    <priorityInType>100</priorityInType>
-    <fixedBillGiverDefs>
-      <li>HD_TelegraphTable</li>
-    </fixedBillGiverDefs>
-    <verb>transmit</verb>
-    <gerund>transmitting orders at</gerund>
     <requiredCapacities>
       <li>Manipulation</li>
     </requiredCapacities>

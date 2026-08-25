@@ -42,6 +42,14 @@ namespace Helodrace
         }
     }
 
+    public sealed class HelodGasWorker_CN : HelodGasWorker
+    {
+        public override void Apply(Pawn pawn, float density, float severityAtFullDensity)
+        {
+            ModernWar.Gas_CN.ApplyExposureTo(pawn, density, severityAtFullDensity);
+        }
+    }
+
     public sealed class HelodGasDef : Def
     {
         public Color color = new Color(1f, 1f, 1f, 0.35f);
@@ -129,6 +137,7 @@ namespace Helodrace
         public static HelodGasDef HD_PhotochlorogenGasGrid;
         public static HelodGasDef HD_SweetGasGrid;
         public static HelodGasDef HD_CSGasGrid;
+        public static HelodGasDef HD_CNGasGrid;
         public static HelodGasDef HD_WhitePhosphorusSmokeGrid;
 
         static HelodGasDefOf()

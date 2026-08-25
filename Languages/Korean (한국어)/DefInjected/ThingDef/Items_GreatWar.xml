@@ -49,6 +49,16 @@
   <HD_81mmMortarShell_BA.description>M1 81mm 박격포용 화학탄입니다. 소형 작약이 터지며 착탄 지점에 고농도 스위트 가스를 살포합니다.</HD_81mmMortarShell_BA.description>
   <HD_105mmShell_M1HE.label>M1 105mm 고폭탄</HD_105mmShell_M1HE.label>
   <HD_105mmShell_M1HE.description>M2A2 105mm 경곡사포용 탄피식 M1 고폭탄입니다. 중량급 작약으로 참호의 보병, 야전 진지와 구조물을 제압합니다.</HD_105mmShell_M1HE.description>
+  <HD_155mmShell_M107HE.label>M107 155mm 고폭탄</HD_155mmShell_M107HE.label>
+  <HD_155mmShell_M107HE.description>M114 155mm 곡사포용 중량 M107 고폭탄입니다. 대용량 작약으로 참호의 보병, 요새와 구조물을 넓은 범위에 걸쳐 파괴합니다.</HD_155mmShell_M107HE.description>
+  <HD_155mmShell_M110BA.label>M110 155mm BA 화학탄</HD_155mmShell_M110BA.label>
+  <HD_155mmShell_M110BA.description>M114 155mm 곡사포용 M110 화학탄입니다. 지속성 HD 수포 작용제를 충전했으며, 소형 작약이 폭발하면 넓은 착탄 지역에 고농도 스위트 가스를 살포합니다.</HD_155mmShell_M110BA.description>
+  <HD_155mmShell_M110WP.label>M110 155mm 백린연막탄</HD_155mmShell_M110WP.label>
+  <HD_155mmShell_M110WP.description>M114 155mm 곡사포용 백린연막탄입니다. 넓고 짙은 연막을 만들고 착탄 지역 주변에 불타는 백린을 흩뿌립니다.</HD_155mmShell_M110WP.description>
+  <HD_155mmShell_M110CN.label>M110 155mm CN 화학탄</HD_155mmShell_M110CN.label>
+  <HD_155mmShell_M110CN.description>CN 최루 작용제를 충전한 M114 155mm 곡사포용 M110 화학탄입니다. CS보다 느리게 작용하지만 심한 노출에서는 인체에 미약한 손상을 주는 넓고 지속적인 자극성 구름을 만듭니다.</HD_155mmShell_M110CN.description>
+  <HD_155mmShell_W48.label>W48 155mm 핵포탄</HD_155mmShell_W48.label>
+  <HD_155mmShell_W48.description>M114 155mm 곡사포용 소형 핵포탄입니다. 폭발하면 압도적인 폭풍, 강력한 화재와 전자기 펄스를 일으키고 폭심지 주변을 심각하게 오염시킵니다. 제작할 수 없습니다.</HD_155mmShell_W48.description>
   <HD_Apparel_M1MortarBarrel.label>M1 박격포 포신</HD_Apparel_M1MortarBarrel.label>
   <HD_Apparel_M1MortarBarrel.description>운반용 멜빵을 단 M1 81mm 박격포의 포신과 포미 조립체입니다. 박격포를 운반할 때 세 부분으로 분해하여 나누어 드는 무거운 장비 중 하나입니다.</HD_Apparel_M1MortarBarrel.description>
   <HD_Apparel_M1MortarBaseplate.label>M1 박격포 포판</HD_Apparel_M1MortarBaseplate.label>

@@ -38,8 +38,14 @@
         <defaultData>
           <layer>108</layer>
         </defaultData>
+        <dataEast>
+          <layer>-1</layer>
+        </dataEast>
+        <dataWest>
+          <layer>-1</layer>
+        </dataWest>
         <dataSouth>
-          <layer>19</layer>
+          <layer>-100</layer>
         </dataSouth>
       </drawData>
       <layers>

@@ -4,6 +4,7 @@ using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.Sound;
 
 namespace Helodrace
@@ -11,7 +12,18 @@ namespace Helodrace
     public enum HelodCasAttackKind
     {
         Bombing,
-        Strafing
+        Strafing,
+        Hydra70,
+        AGR20A,
+        Maverick,
+        GBU31,
+        GBU54
+    }
+
+    public enum HelodCasAircraftKind
+    {
+        P47,
+        A10C
     }
 
     public enum HelodCasGuidanceMode
@@ -19,6 +31,20 @@ namespace Helodrace
         TalkOn,
         Flare,
         Laser
+    }
+
+    public sealed class HelodCasLaserDesignatorExtension : DefModExtension
+    {
+        public float baseGuidanceChance = 0.90f;
+        public float weatherPenaltyFactor = 0.75f;
+        public bool adjustsGbu54Scatter = true;
+        public bool usesPilotSignalVisual;
+        public string guidanceGraphicPath;
+        public float guidanceGraphicSize = 0.8f;
+        public float guidanceGraphicRotationOffset = -90f;
+        public float guidanceGraphicForwardOffset = 0.28f;
+        public float guidanceGraphicLateralOffset = 0.16f;
+        public bool fixedGuidanceGraphicPosition;
     }
 
     public enum HelodCasRunState
@@ -38,7 +64,8 @@ namespace Helodrace
         StrafeApproach,
         Strafing,
         StrafeExit,
-        Complete
+        Complete,
+        LevelAttack
     }
 
     public enum HelodCasAircraftTickEvent
@@ -57,11 +84,14 @@ namespace Helodrace
         public const int AircraftCount = 2;
         public const int BombsPerAircraft = 2;
         public const int P47Playtime = 4;
+        public const int A10CPlaytime = 6;
         public const int PlaytimeDecayTicks = 2 * 2500;
         public const int GuidanceFailuresPerPlaytime = 3;
         public const int ArrivalDelayTicks = 5 * 60;
         public const int GoAroundMinimumTicks = 25 * 60;
         public const int GoAroundMaximumTicks = 35 * 60;
+        public const int A10CGoAroundMinimumTicks = GoAroundMinimumTicks / 3;
+        public const int A10CGoAroundMaximumTicks = GoAroundMaximumTicks / 3;
         public const int GoAroundTurnTicks = 45;
         public const int GoAroundExitTicks = 180;
         public const float GoAroundTurnRadius = 4f;
@@ -69,37 +99,422 @@ namespace Helodrace
         public const float AbortTurnAngleDegrees = 225f;
         public const float GoAroundExitSpeed = 0.60f;
         public const float AircraftAttackSpeed = 1.00f;
-        public const float AircraftDiveMinimumSpeed = AircraftAttackSpeed * 0.5f;
-        public const float AircraftRecoverySpeed = AircraftAttackSpeed * 0.8660254f;
-        public const int AircraftRecoveryTicks = 3 * 60;
+        public const float AircraftDiveMinimumSpeed = AircraftAttackSpeed * 0.82f;
+        public const float AircraftRecoverySpeed = AircraftAttackSpeed;
+        public const int AircraftRecoveryTicks = 4 * 60;
         public const float DiveDistance = 60f;
-        public const float BombReleaseDistance = 10f;
+        public const float BombReleaseDistance = 30f;
+        public const float SelfPropelledAttackDistance = 120f;
+        public const float SelfPropelledReleaseDistance = 110f;
         public const float StrafeLength = 30f;
         public const float StrafeWidth = 2.5f;
         public const float GroundReferenceRadius = 10f;
         public const float StrafeApproachDistance = 15f;
-        public const float StrafeSpeedFactor = 0.9063078f;
-        public const float StrafeMinimumScale = 0.90f;
+        public const float A10CStrafeApproachDistance = 80f;
+        public const float StrafeSpeedFactor = 0.97f;
+        public const float StrafeMinimumScale = 0.96f;
         public const float StrafeTurnRadius = 14.32f;
         public const float StrafeExitTurnAngleDegrees = 210f;
         public const int StrafeRoundsPerBurst = 8;
         public const float StrafeRoundsPerMinute = 750f;
         public const float StrafeTicksPerBurst = 60f * 60f / StrafeRoundsPerMinute;
         public const float StrafeBulletLeadDistance = 15f;
+        public const float A10CStrafeBulletLeadDistance = 30f;
+        public const float A10CRoundsPerMinute = 4200f;
+        public const float A10CRoundsPerTick = A10CRoundsPerMinute / (60f * 60f);
+        public const int A10CStrafeRoundCount = 90;
+        public const float A10CMuzzleForwardOffset = 3.5f;
         public const string StrafeProjectileDefName = "HD_Bullet_M2HB_CAS_Proj";
         public const string StrafeSoundDefName = "HD_M2Fire";
         public const int FollowupEntryIntervalTicks = 12 * 60;
         public const int CancellationLockBeforeReleaseTicks = 60;
         public const int BombFallTicks = 75;
+        public const float MunitionDrawScale = 2.5f;
         public const float BombExplosionRadius = 6.2f;
         public const int BombDamage = 180;
         public const float BombArmorPenetration = 0.45f;
+        public const float GBU54LaserScatterMultiplier = 0.5f;
+        public const int IzlidSkySignalTicks = 2 * 60;
+        public const int IzlidSignalPauseTicks = 30;
+        public const int IzlidTargetSignalTicks = 3 * 60;
+        public const int LaserBlinkIntervalTicks = 30;
+        public const float IzlidSkyBeamLength = 42f;
+        public const int IzlidSkyBeamSegments = 14;
         public const float TalkOnGoAroundBonus = 0.12f;
         public const float FlareGoAroundBonus = 0.08f;
         public const float TalkOnFlareAssistRadius = 10f;
         public const float SimilarPawnRadius = 8f;
         public const string AircraftTexturePath = "Effects/CAS/HD_P47_CAS";
         public const string BombTexturePath = "Effects/CAS/Bombs/HD_ANM64_proj";
+
+        public static string AircraftLabel(HelodCasAircraftKind aircraftKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.A10C ? "A-10C" : "P-47";
+        }
+
+        public static int Playtime(HelodCasAircraftKind aircraftKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.A10C ? A10CPlaytime : P47Playtime;
+        }
+
+        public static int AircraftCountFor(HelodCasAircraftKind aircraftKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.A10C ? 1 : AircraftCount;
+        }
+
+        public static float StrafeApproachDistanceFor(
+            HelodCasAircraftKind aircraftKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.A10C
+                ? A10CStrafeApproachDistance : StrafeApproachDistance;
+        }
+
+        public static float StrafeBulletLeadDistanceFor(
+            HelodCasAircraftKind aircraftKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.A10C
+                ? A10CStrafeBulletLeadDistance : StrafeBulletLeadDistance;
+        }
+
+        public static string AircraftTexture(HelodCasAircraftKind aircraftKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.A10C
+                ? "Effects/CAS/A10/HD_A10C" : AircraftTexturePath;
+        }
+
+        public static float AircraftDrawSize(HelodCasAircraftKind aircraftKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.A10C ? 8.25f : 6.5f;
+        }
+
+        public static bool SupportsAttack(HelodCasAircraftKind aircraftKind,
+            HelodCasAttackKind attackKind)
+        {
+            if (aircraftKind == HelodCasAircraftKind.P47)
+            {
+                return attackKind == HelodCasAttackKind.Bombing
+                    || attackKind == HelodCasAttackKind.Strafing;
+            }
+            return attackKind != HelodCasAttackKind.Bombing;
+        }
+
+        public static void ScatterFor(HelodCasAircraftKind aircraftKind,
+            HelodCasAttackKind attackKind, out float major, out float minor)
+        {
+            major = MajorScatterRadius;
+            minor = MinorScatterRadius;
+            if (aircraftKind != HelodCasAircraftKind.A10C)
+            {
+                return;
+            }
+            switch (attackKind)
+            {
+                case HelodCasAttackKind.Hydra70: major = 5f; minor = 2f; break;
+                case HelodCasAttackKind.AGR20A: major = 2f; minor = 0.8f; break;
+                case HelodCasAttackKind.Maverick: major = 1.5f; minor = 0.6f; break;
+                case HelodCasAttackKind.GBU31: major = 2.5f; minor = 1f; break;
+                case HelodCasAttackKind.GBU54: major = 1f; minor = 0.4f; break;
+            }
+        }
+
+        public static int MunitionCount(HelodCasAttackKind attackKind)
+        {
+            switch (attackKind)
+            {
+                case HelodCasAttackKind.Hydra70: return 7;
+                case HelodCasAttackKind.AGR20A: return 4;
+                case HelodCasAttackKind.Maverick:
+                case HelodCasAttackKind.GBU31:
+                case HelodCasAttackKind.GBU54: return 1;
+                default: return BombsPerAircraft;
+            }
+        }
+
+        public static bool UsesSequentialTargets(HelodCasAttackKind attackKind)
+        {
+            return true;
+        }
+
+        public static bool UsesAttackCorridor(HelodCasAttackKind attackKind)
+        {
+            return attackKind == HelodCasAttackKind.Strafing
+                || attackKind == HelodCasAttackKind.Hydra70;
+        }
+
+        public static bool UsesAreaFire(HelodCasAttackKind attackKind)
+        {
+            return attackKind == HelodCasAttackKind.Bombing
+                || attackKind == HelodCasAttackKind.Strafing
+                || attackKind == HelodCasAttackKind.Hydra70;
+        }
+
+        public static bool IsGuidedMissile(HelodCasAttackKind attackKind)
+        {
+            return attackKind == HelodCasAttackKind.AGR20A
+                || attackKind == HelodCasAttackKind.Maverick;
+        }
+
+        public static bool IsSelfPropelledMunition(HelodCasAttackKind attackKind)
+        {
+            return attackKind == HelodCasAttackKind.Hydra70
+                || attackKind == HelodCasAttackKind.AGR20A
+                || attackKind == HelodCasAttackKind.Maverick;
+        }
+
+        public static bool TryGetBestLaserDesignator(Pawn pawn,
+            out HelodCasLaserDesignatorExtension designator)
+        {
+            return TryGetBestLaserDesignatorThing(pawn, out _, out designator);
+        }
+
+        public static bool TryGetBestLaserDesignatorThing(Pawn pawn,
+            out Thing designatorThing,
+            out HelodCasLaserDesignatorExtension designator)
+        {
+            designatorThing = null;
+            designator = null;
+            if (pawn == null)
+            {
+                return false;
+            }
+
+            IEnumerable<Thing> equipment = pawn.equipment?.AllEquipmentListForReading
+                ?? Enumerable.Empty<ThingWithComps>();
+            IEnumerable<Thing> apparel = pawn.apparel?.WornApparel
+                ?? Enumerable.Empty<Apparel>();
+            IEnumerable<Thing> inventory = pawn.inventory?.innerContainer
+                ?? Enumerable.Empty<Thing>();
+            IEnumerable<Thing> carried = pawn.carryTracker?.CarriedThing != null
+                ? new[] { pawn.carryTracker.CarriedThing }
+                : Enumerable.Empty<Thing>();
+            foreach (Thing thing in equipment.Concat(apparel).Concat(inventory)
+                .Concat(carried))
+            {
+                HelodCasLaserDesignatorExtension candidate = LaserDesignatorExtension(
+                    thing?.def);
+                if (candidate != null && (designator == null
+                    || candidate.baseGuidanceChance > designator.baseGuidanceChance))
+                {
+                    designatorThing = thing;
+                    designator = candidate;
+                }
+            }
+            return designatorThing != null;
+        }
+
+        public static bool CanLaserDesignate(Pawn caller, Map map, IntVec3 target)
+        {
+            return TryGetLaserDesignatorOperator(caller, map, target, out _, out _);
+        }
+
+        public static bool TryGetLaserDesignatorOperator(Pawn caller, Map map,
+            IntVec3 target, out Pawn designatorPawn,
+            out HelodCasLaserDesignatorExtension designator)
+        {
+            designatorPawn = null;
+            designator = null;
+            if (map == null || !target.InBounds(map) || target.Fogged(map))
+            {
+                return false;
+            }
+
+            foreach (Pawn candidatePawn in LaserDesignatorOperators(caller))
+            {
+                HelodCasLaserDesignatorExtension candidate = PawnLaserDesignator(
+                    candidatePawn);
+                if (candidatePawn.Spawned && candidatePawn.Map == map
+                    && !candidatePawn.Dead && !candidatePawn.Downed
+                    && candidate != null
+                    && SCR300RadioUtility.HasLineOfSight(candidatePawn, map, target)
+                    && (designator == null
+                        || candidate.baseGuidanceChance > designator.baseGuidanceChance))
+                {
+                    designatorPawn = candidatePawn;
+                    designator = candidate;
+                }
+            }
+            return designatorPawn != null;
+        }
+
+        private static IEnumerable<Pawn> LaserDesignatorOperators(Pawn caller)
+        {
+            if (caller == null)
+            {
+                yield break;
+            }
+            yield return caller;
+        }
+
+        private static HelodCasLaserDesignatorExtension PawnLaserDesignator(Pawn pawn)
+        {
+            TryGetBestLaserDesignatorThing(pawn, out _,
+                out HelodCasLaserDesignatorExtension best);
+            return best;
+        }
+
+        private static HelodCasLaserDesignatorExtension LaserDesignatorExtension(
+            ThingDef def)
+        {
+            HelodCasLaserDesignatorExtension extension = def
+                ?.GetModExtension<HelodCasLaserDesignatorExtension>();
+            if (extension != null)
+            {
+                return extension;
+            }
+
+            switch (def?.defName)
+            {
+                case "HD_Apparel_ANPEQ1C":
+                    return new HelodCasLaserDesignatorExtension
+                    {
+                        baseGuidanceChance = 0.97f,
+                        weatherPenaltyFactor = 0.55f,
+                        adjustsGbu54Scatter = true,
+                        usesPilotSignalVisual = false,
+                        guidanceGraphicPath =
+                            "Weapons/ModernWar/ANPEQ1C/HD_ANPEQ1C",
+                        guidanceGraphicSize = 1.1f,
+                        guidanceGraphicRotationOffset = 0f,
+                        guidanceGraphicForwardOffset = 0.12f,
+                        guidanceGraphicLateralOffset = 0.75f,
+                        fixedGuidanceGraphicPosition = true
+                    };
+                case "HD_Apparel_IZLIDUltra":
+                    return new HelodCasLaserDesignatorExtension
+                    {
+                        baseGuidanceChance = 0.93f,
+                        weatherPenaltyFactor = 0.72f,
+                        adjustsGbu54Scatter = false,
+                        usesPilotSignalVisual = true,
+                        guidanceGraphicPath = "Weapons/ModernWar/HD_IZLIDUltra",
+                        guidanceGraphicSize = 0.78f,
+                        guidanceGraphicRotationOffset = -90f,
+                        guidanceGraphicForwardOffset = 0f,
+                        guidanceGraphicLateralOffset = 0f
+                    };
+                case "HD_Apparel_LA16uPEQ":
+                    return new HelodCasLaserDesignatorExtension
+                    {
+                        baseGuidanceChance = 0.90f,
+                        weatherPenaltyFactor = 0.85f,
+                        adjustsGbu54Scatter = true,
+                        usesPilotSignalVisual = false,
+                        guidanceGraphicPath = "Weapons/ModernWar/HD_LA16uPEQ",
+                        guidanceGraphicSize = 0.76f
+                    };
+                default:
+                    return null;
+            }
+        }
+
+        public static float WeatherGuidancePenalty(Map map)
+        {
+            if (map?.weatherManager == null)
+            {
+                return 0f;
+            }
+            float weatherAccuracy = map.weatherManager.curWeather
+                ?.accuracyMultiplier ?? 1f;
+            float visibilityLoss = Mathf.Clamp01(1f - weatherAccuracy);
+            float rain = Mathf.Clamp01(map.weatherManager.RainRate);
+            return Mathf.Clamp(visibilityLoss * 0.35f + rain * 0.10f,
+                0f, 0.35f);
+        }
+
+        public static float AttackApproachDistance(HelodCasAttackKind attackKind)
+        {
+            return IsSelfPropelledMunition(attackKind)
+                ? SelfPropelledAttackDistance : DiveDistance;
+        }
+
+        public static float MunitionReleaseDistance(HelodCasAttackKind attackKind)
+        {
+            return IsSelfPropelledMunition(attackKind)
+                ? SelfPropelledReleaseDistance : BombReleaseDistance;
+        }
+
+        public static bool RequiresDive(HelodCasAircraftKind aircraftKind,
+            HelodCasAttackKind attackKind)
+        {
+            if (aircraftKind == HelodCasAircraftKind.P47)
+            {
+                return attackKind == HelodCasAttackKind.Bombing;
+            }
+            return attackKind == HelodCasAttackKind.Hydra70
+                || attackKind == HelodCasAttackKind.AGR20A
+                || attackKind == HelodCasAttackKind.Maverick;
+        }
+
+        public static int TargetDesignationCount(HelodCasAttackKind attackKind)
+        {
+            return 1;
+        }
+
+        public static int InitialAmmo(HelodCasAircraftKind aircraftKind,
+            HelodCasAttackKind attackKind)
+        {
+            if (aircraftKind == HelodCasAircraftKind.P47)
+            {
+                return attackKind == HelodCasAttackKind.Bombing ? 8
+                    : attackKind == HelodCasAttackKind.Strafing ? 4 : 0;
+            }
+            switch (attackKind)
+            {
+                case HelodCasAttackKind.Strafing: return 4;
+                case HelodCasAttackKind.Hydra70: return 28;
+                case HelodCasAttackKind.AGR20A: return 8;
+                case HelodCasAttackKind.Maverick: return 4;
+                case HelodCasAttackKind.GBU31:
+                case HelodCasAttackKind.GBU54: return 2;
+                default: return 0;
+            }
+        }
+
+        public static int AmmoCost(HelodCasAttackKind attackKind,
+            int munitionCount, int aircraftCount)
+        {
+            int perAircraft = attackKind == HelodCasAttackKind.Strafing
+                ? 1 : Mathf.Max(1, munitionCount);
+            return perAircraft * Mathf.Max(1, aircraftCount);
+        }
+
+        public static int MunitionReleaseInterval(HelodCasAttackKind attackKind)
+        {
+            if (attackKind == HelodCasAttackKind.Hydra70)
+            {
+                return 2;
+            }
+            return attackKind == HelodCasAttackKind.AGR20A ? 3 : 0;
+        }
+
+        public static string MunitionTexture(HelodCasAttackKind attackKind)
+        {
+            switch (attackKind)
+            {
+                case HelodCasAttackKind.Hydra70: return "Effects/CAS/Bombs/HD_Hydra70_proj";
+                case HelodCasAttackKind.AGR20A: return "Effects/CAS/Bombs/HD_AGR20A_proj";
+                case HelodCasAttackKind.Maverick: return "Effects/CAS/Bombs/HD_Maverick_proj";
+                case HelodCasAttackKind.GBU31: return "Effects/CAS/Bombs/HD_GBU31JDAM_proj";
+                case HelodCasAttackKind.GBU54: return "Effects/CAS/Bombs/HD_GBU54LJDAM_proj";
+                default: return BombTexturePath;
+            }
+        }
+
+        public static void MunitionDamage(HelodCasAttackKind attackKind,
+            out float radius, out int damage, out float armorPenetration)
+        {
+            radius = BombExplosionRadius;
+            damage = BombDamage;
+            armorPenetration = BombArmorPenetration;
+            switch (attackKind)
+            {
+                case HelodCasAttackKind.Hydra70: radius = 2.2f; damage = 42; armorPenetration = 0.35f; break;
+                case HelodCasAttackKind.AGR20A: radius = 2.4f; damage = 65; armorPenetration = 0.65f; break;
+                case HelodCasAttackKind.Maverick: radius = 3.2f; damage = 210; armorPenetration = 3.0f; break;
+                case HelodCasAttackKind.GBU31: radius = 7.5f; damage = 360; armorPenetration = 1.1f; break;
+                case HelodCasAttackKind.GBU54: radius = 5.5f; damage = 260; armorPenetration = 0.9f; break;
+            }
+        }
 
         public static bool IsInRange(Map map, HelodForwardBase forwardBase)
         {
@@ -121,14 +536,16 @@ namespace Helodrace
         }
 
         public static void BeginTalkOnTargeting(Map map, HelodForwardBase forwardBase,
-            Pawn caller, HelodCasAttackKind attackKind = HelodCasAttackKind.Bombing)
+            Pawn caller, HelodCasAttackKind attackKind = HelodCasAttackKind.Bombing,
+            HelodCasAircraftKind aircraftKind = HelodCasAircraftKind.P47)
         {
             BeginRouteTargeting(map, forwardBase, caller, HelodCasGuidanceMode.TalkOn,
-                attackKind);
+                attackKind, aircraftKind);
         }
 
         public static void BeginFlareTargeting(Map map, HelodForwardBase forwardBase,
-            Pawn caller, HelodCasAttackKind attackKind = HelodCasAttackKind.Bombing)
+            Pawn caller, HelodCasAttackKind attackKind = HelodCasAttackKind.Bombing,
+            HelodCasAircraftKind aircraftKind = HelodCasAircraftKind.P47)
         {
             if (!CasFlareTargetUtility.ActiveFlares(map).Any())
             {
@@ -136,11 +553,26 @@ namespace Helodrace
                 return;
             }
             BeginRouteTargeting(map, forwardBase, caller, HelodCasGuidanceMode.Flare,
-                attackKind);
+                attackKind, aircraftKind);
+        }
+
+        public static void BeginLaserTargeting(Map map, HelodForwardBase forwardBase,
+            Pawn caller, HelodCasAttackKind attackKind,
+            HelodCasAircraftKind aircraftKind)
+        {
+            if (!TryGetBestLaserDesignator(caller, out _))
+            {
+                Messages.Message("HD_CAS_LaserUnavailable".Translate(),
+                    MessageTypeDefOf.RejectInput);
+                return;
+            }
+            BeginRouteTargeting(map, forwardBase, caller, HelodCasGuidanceMode.Laser,
+                attackKind, aircraftKind);
         }
 
         private static void BeginRouteTargeting(Map map, HelodForwardBase forwardBase,
-            Pawn caller, HelodCasGuidanceMode guidanceMode, HelodCasAttackKind attackKind)
+            Pawn caller, HelodCasGuidanceMode guidanceMode, HelodCasAttackKind attackKind,
+            HelodCasAircraftKind aircraftKind)
         {
             if (!CanUseBase(map, forwardBase) || caller == null || caller.Map != map
                 || SCR300RadioUtility.IsBlackout(map))
@@ -151,8 +583,12 @@ namespace Helodrace
 
             if (guidanceMode == HelodCasGuidanceMode.Laser)
             {
-                Messages.Message("HD_CAS_LaserUnavailable".Translate(), MessageTypeDefOf.RejectInput);
-                return;
+                if (!TryGetBestLaserDesignator(caller, out _))
+                {
+                    Messages.Message("HD_CAS_LaserUnavailable".Translate(),
+                        MessageTypeDefOf.RejectInput);
+                    return;
+                }
             }
 
             Find.WorldTargeter.StopTargeting();
@@ -162,8 +598,14 @@ namespace Helodrace
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
             CameraJumper.TryJump(new TargetInfo(caller.Position, map));
             map.GetComponent<MapComponent_HelodCasSupport>()
-                .BeginRouteTargeting(forwardBase, caller, guidanceMode, attackKind);
-            string prompt = attackKind == HelodCasAttackKind.Strafing
+                .BeginRouteTargeting(forwardBase, caller, guidanceMode, attackKind,
+                    aircraftKind);
+            string prompt = UsesSequentialTargets(attackKind)
+                ? "HD_CAS_SequentialEntryPrompt".Translate(EntryEdgeDepth).ToString()
+                : attackKind == HelodCasAttackKind.Hydra70
+                ? "HD_CAS_HydraRoutePrompt".Translate(EntryEdgeDepth, StrafeLength,
+                    StrafeWidth).ToString()
+                : UsesAttackCorridor(attackKind)
                 ? "HD_CAS_StrafeRoutePrompt".Translate(EntryEdgeDepth, StrafeLength,
                     StrafeWidth).ToString()
                 : "HD_CAS_RoutePrompt".Translate(EntryEdgeDepth).ToString();
@@ -238,10 +680,25 @@ namespace Helodrace
             }
 
             int social = Mathf.Clamp(SocialLevel(caller), 0, 20);
+            float weatherPenalty = WeatherGuidancePenalty(map);
+            if (plan.GuidanceMode == HelodCasGuidanceMode.Laser)
+            {
+                if (!TryGetLaserDesignatorOperator(caller, map,
+                    plan.CurrentAimCell(map), out _,
+                    out HelodCasLaserDesignatorExtension designator))
+                {
+                    return 0f;
+                }
+                float laserChance = designator.baseGuidanceChance
+                    + goAroundCount * 0.06f
+                    - weatherPenalty * designator.weatherPenaltyFactor;
+                return Mathf.Clamp(laserChance, 0.05f, 0.995f);
+            }
             if (plan.GuidanceMode == HelodCasGuidanceMode.Flare)
             {
                 float flareChance = 0.88f + social * 0.005f
-                    + goAroundCount * FlareGoAroundBonus;
+                    + goAroundCount * FlareGoAroundBonus
+                    - weatherPenalty * 0.75f;
                 return Mathf.Clamp(flareChance, 0.05f, 0.995f);
             }
             if (plan.GuidanceMode != HelodCasGuidanceMode.TalkOn)
@@ -257,7 +714,8 @@ namespace Helodrace
                 NearbySimilarPawnCount(map, plan) * 0.03f);
             float retryBonus = goAroundCount * TalkOnGoAroundBonus;
             return Mathf.Clamp(0.30f + socialBonus + routeBonus - roofPenalty
-                + flareBonus - similarPawnPenalty + retryBonus, 0.05f, 0.98f);
+                + flareBonus - similarPawnPenalty + retryBonus
+                - weatherPenalty * 0.50f, 0.05f, 0.98f);
         }
 
         public static bool TryCall(Map map, HelodCasAttackPlan plan,
@@ -269,12 +727,21 @@ namespace Helodrace
                 return false;
             }
             if (plan == null || !plan.EntryCell.InBounds(map) || !plan.TargetCell.InBounds(map)
-                || !IsEntryCell(map, plan.EntryCell) || !CanUseBase(map, forwardBase))
+                || !IsEntryCell(map, plan.EntryCell) || !CanUseBase(map, forwardBase)
+                || !SupportsAttack(plan.AircraftKind, plan.AttackKind))
             {
                 Messages.Message("HD_CAS_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
                 return false;
             }
-            if (plan.AttackKind == HelodCasAttackKind.Strafing
+            if (UsesSequentialTargets(plan.AttackKind)
+                && plan.DesignatedTargetCount
+                    != TargetDesignationCount(plan.AttackKind))
+            {
+                Messages.Message("HD_CAS_Unavailable".Translate(),
+                    MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            if (UsesAttackCorridor(plan.AttackKind)
                 && (!plan.StrafeStart.InBounds(map) || !plan.StrafeEnd.InBounds(map)
                     || plan.FlightRouteLength < 8f))
             {
@@ -298,15 +765,28 @@ namespace Helodrace
             }
             if (plan.GuidanceMode == HelodCasGuidanceMode.Laser)
             {
-                Messages.Message("HD_CAS_LaserUnavailable".Translate(), MessageTypeDefOf.RejectInput);
-                return false;
+                if (!TryGetLaserDesignatorOperator(caller, map,
+                    plan.CurrentAimCell(map), out _, out _))
+                {
+                    Messages.Message("HD_CAS_LaserUnavailable".Translate(),
+                        MessageTypeDefOf.RejectInput);
+                    return false;
+                }
             }
 
             MapComponent_HelodCasSupport support = map
                 .GetComponent<MapComponent_HelodCasSupport>();
-            if (!support.HasPlaytime(forwardBase))
+            if (!support.HasPlaytime(forwardBase, plan.AircraftKind))
             {
-                Messages.Message("HD_CAS_PlaytimeExhausted".Translate(),
+                Messages.Message("HD_CAS_PlaytimeExhaustedAircraft".Translate(
+                    AircraftLabel(plan.AircraftKind)),
+                    MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            if (!support.HasAmmoForAttack(forwardBase, plan.AircraftKind,
+                plan.AttackKind, plan.MunitionCount, out _))
+            {
+                Messages.Message("HD_CAS_AmmoExhausted".Translate(),
                     MessageTypeDefOf.RejectInput);
                 return false;
             }
@@ -318,10 +798,18 @@ namespace Helodrace
                 return false;
             }
 
-            if (!support.TryConsumePlaytime(forwardBase, Find.TickManager.TicksGame,
-                plan.AttackKind, out int aircraftCount, out _))
+            if (!support.TryConsumePlaytime(forwardBase, plan.AircraftKind,
+                Find.TickManager.TicksGame, plan.AttackKind, out int aircraftCount, out _))
             {
-                Messages.Message("HD_CAS_PlaytimeExhausted".Translate(),
+                Messages.Message("HD_CAS_PlaytimeExhaustedAircraft".Translate(
+                    AircraftLabel(plan.AircraftKind)),
+                    MessageTypeDefOf.RejectInput);
+                return false;
+            }
+            if (!support.TryConsumeAmmo(forwardBase, plan.AircraftKind,
+                plan.AttackKind, plan.MunitionCount, aircraftCount))
+            {
+                Messages.Message("HD_CAS_AmmoExhausted".Translate(),
                     MessageTypeDefOf.RejectInput);
                 return false;
             }
@@ -346,25 +834,56 @@ namespace Helodrace
         private Pawn routeCaller;
         private HelodCasGuidanceMode routeGuidanceMode;
         private HelodCasAttackKind routeAttackKind;
+        private HelodCasAircraftKind routeAircraftKind;
         private IntVec3 dragStart = IntVec3.Invalid;
         private IntVec3 dragEnd = IntVec3.Invalid;
+        private readonly List<IntVec3> designatedTargets = new List<IntVec3>();
+        private readonly List<Thing> designatedTargetThings = new List<Thing>();
         private bool routeTargeting;
-        private static Material aircraftMaterial;
-        private static Material bombMaterial;
+        private static readonly Dictionary<HelodCasAircraftKind, Material> aircraftMaterials
+            = new Dictionary<HelodCasAircraftKind, Material>();
+        private static readonly Dictionary<string, Material> munitionMaterials
+            = new Dictionary<string, Material>();
+        private static readonly Dictionary<string, Material> designatorMaterials
+            = new Dictionary<string, Material>();
+        private static readonly Material izlidBeamOuterMaterial
+            = SolidColorMaterials.SimpleSolidColorMaterial(
+                new Color(0.18f, 1f, 0.42f, 0.16f), false);
+        private static readonly Material izlidBeamCoreMaterial
+            = SolidColorMaterials.SimpleSolidColorMaterial(
+                new Color(0.58f, 1f, 0.72f, 0.52f), false);
+        private static readonly Material[] izlidSkyBeamOuterMaterials
+            = CreateSkyFadeMaterials(new Color(0.18f, 1f, 0.42f), 0.20f,
+                0.008f);
+        private static readonly Material[] izlidSkyBeamCoreMaterials
+            = CreateSkyFadeMaterials(new Color(0.58f, 1f, 0.72f), 0.58f,
+                0.012f);
+        private static readonly Material[] pulsingBeamOuterMaterials
+            = CreatePulsingSolidMaterials(new Color(0.18f, 1f, 0.42f), 0f,
+                0.16f);
+        private static readonly Material[] pulsingBeamCoreMaterials
+            = CreatePulsingSolidMaterials(new Color(0.58f, 1f, 0.72f), 0f,
+                0.52f);
+        private static readonly Material[] laserAimGlowMaterials
+            = CreatePulsingGlowMaterials();
 
         public MapComponent_HelodCasSupport(Map map) : base(map)
         {
         }
 
         public void BeginRouteTargeting(HelodForwardBase forwardBase, Pawn caller,
-            HelodCasGuidanceMode guidanceMode, HelodCasAttackKind attackKind)
+            HelodCasGuidanceMode guidanceMode, HelodCasAttackKind attackKind,
+            HelodCasAircraftKind aircraftKind)
         {
             routeBase = forwardBase;
             routeCaller = caller;
             routeGuidanceMode = guidanceMode;
             routeAttackKind = attackKind;
+            routeAircraftKind = aircraftKind;
             dragStart = IntVec3.Invalid;
             dragEnd = IntVec3.Invalid;
+            designatedTargets.Clear();
+            designatedTargetThings.Clear();
             routeTargeting = true;
         }
 
@@ -372,56 +891,94 @@ namespace Helodrace
             HelodForwardBase forwardBase, Thing_M8FlareTarget flareTarget,
             int aircraftCount)
         {
-            strikes.Add(new HelodCasStrike(plan, caller, forwardBase, flareTarget,
+            HelodCasStrike strike = new HelodCasStrike(plan, caller, forwardBase,
+                flareTarget,
                 Find.TickManager.TicksGame,
                 Find.TickManager.TicksGame + HelodCasSupportUtility.ArrivalDelayTicks,
-                aircraftCount));
+                aircraftCount);
+            strikes.Add(strike);
+            EnsureStationaryGuidanceJobs(strike);
         }
 
-        public bool HasPlaytime(HelodForwardBase forwardBase)
+        public bool HasPlaytime(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind)
         {
-            return GetPlaytimeState(forwardBase, true).IsActive;
+            return GetPlaytimeState(forwardBase, aircraftKind, true).IsActive;
         }
 
-        public bool CanRequestFlight(HelodForwardBase forwardBase)
+        public bool CanRequestFlight(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind)
         {
-            HelodCasPlaytimeState state = GetPlaytimeState(forwardBase, true);
-            return !state.IsActive && !strikes.Any(strike => strike.ForwardBase == forwardBase);
+            HelodCasPlaytimeState state = GetPlaytimeState(forwardBase, aircraftKind, true);
+            return !state.IsActive && !strikes.Any(strike => strike.ForwardBase == forwardBase
+                && strike.Plan?.AircraftKind == aircraftKind);
         }
 
-        public bool TryRequestFlight(HelodForwardBase forwardBase, int now)
+        public bool TryRequestFlight(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind, int now)
         {
-            return CanRequestFlight(forwardBase)
-                && GetPlaytimeState(forwardBase, true).RequestFlight(now);
+            return CanRequestFlight(forwardBase, aircraftKind)
+                && GetPlaytimeState(forwardBase, aircraftKind, true).RequestFlight(now);
         }
 
         public void GetPlaytimeStatus(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind,
             out bool flightRequested, out int remainingPlaytime,
             out int reservedAircraftCount)
         {
-            HelodCasPlaytimeState state = GetPlaytimeState(forwardBase, true);
+            HelodCasPlaytimeState state = GetPlaytimeState(forwardBase, aircraftKind, true);
             flightRequested = state.FlightRequested;
             remainingPlaytime = state.RemainingPlaytime;
             reservedAircraftCount = state.ReservedAircraftCount;
         }
 
-        public bool TryConsumePlaytime(HelodForwardBase forwardBase, int now,
+        public int GetAmmoRemaining(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind, HelodCasAttackKind attackKind)
+        {
+            return GetPlaytimeState(forwardBase, aircraftKind, true)
+                .AmmoRemaining(attackKind);
+        }
+
+        public bool HasAmmoForAttack(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind, HelodCasAttackKind attackKind,
+            int munitionCount, out int required)
+        {
+            HelodCasPlaytimeState state = GetPlaytimeState(forwardBase,
+                aircraftKind, true);
+            required = HelodCasSupportUtility.AmmoCost(attackKind, munitionCount,
+                state.ExpectedAircraftCount(attackKind));
+            return state.HasAmmo(attackKind, required);
+        }
+
+        public bool TryConsumeAmmo(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind, HelodCasAttackKind attackKind,
+            int munitionCount, int aircraftCount)
+        {
+            int cost = HelodCasSupportUtility.AmmoCost(attackKind, munitionCount,
+                aircraftCount);
+            return GetPlaytimeState(forwardBase, aircraftKind, true)
+                .TryConsumeAmmo(attackKind, cost);
+        }
+
+        public bool TryConsumePlaytime(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind, int now,
             HelodCasAttackKind attackKind, out int aircraftCount, out int remaining)
         {
-            HelodCasPlaytimeState state = GetPlaytimeState(forwardBase, true);
+            HelodCasPlaytimeState state = GetPlaytimeState(forwardBase, aircraftKind, true);
             bool consumed = state.TryConsumeAction(now, attackKind, out aircraftCount);
             remaining = state.RemainingPlaytime;
             return consumed;
         }
 
         private HelodCasPlaytimeState GetPlaytimeState(HelodForwardBase forwardBase,
-            bool create)
+            HelodCasAircraftKind aircraftKind, bool create)
         {
             HelodCasPlaytimeState state = playtimeStates.FirstOrDefault(
-                item => item.ForwardBase == forwardBase);
+                item => item.ForwardBase == forwardBase
+                    && item.AircraftKind == aircraftKind);
             if (state == null && create)
             {
-                state = new HelodCasPlaytimeState(forwardBase);
+                state = new HelodCasPlaytimeState(forwardBase, aircraftKind);
                 playtimeStates.Add(state);
             }
             return state;
@@ -431,7 +988,8 @@ namespace Helodrace
         {
             if (forwardBase != null && count > 0)
             {
-                GetPlaytimeState(forwardBase, true).ReserveAircraft(count);
+                GetPlaytimeState(forwardBase, HelodCasAircraftKind.P47, true)
+                    .ReserveAircraft(count);
             }
         }
 
@@ -443,11 +1001,13 @@ namespace Helodrace
             {
                 return;
             }
-            HelodCasPlaytimeState state = GetPlaytimeState(strike.ForwardBase, true);
+            HelodCasPlaytimeState state = GetPlaytimeState(strike.ForwardBase,
+                strike.Plan.AircraftKind, true);
             if (state.ConsumePenalty())
             {
-                Messages.Message("HD_CAS_PlaytimeGuidancePenalty".Translate(
-                    strike.ForwardBase.LabelCap),
+                Messages.Message("HD_CAS_PlaytimeGuidancePenaltyAircraft".Translate(
+                    strike.ForwardBase.LabelCap,
+                    HelodCasSupportUtility.AircraftLabel(strike.Plan.AircraftKind)),
                     MessageTypeDefOf.CautionInput);
             }
         }
@@ -460,8 +1020,9 @@ namespace Helodrace
                 int consumed = state.ConsumeElapsedTime(now);
                 if (consumed > 0 && state.ForwardBase != null)
                 {
-                    Messages.Message("HD_CAS_PlaytimeTimePenalty".Translate(
-                        state.ForwardBase.LabelCap, consumed),
+                    Messages.Message("HD_CAS_PlaytimeTimePenaltyAircraft".Translate(
+                        state.ForwardBase.LabelCap,
+                        HelodCasSupportUtility.AircraftLabel(state.AircraftKind), consumed),
                         MessageTypeDefOf.CautionInput);
                 }
             }
@@ -470,6 +1031,113 @@ namespace Helodrace
         public bool HasActiveStrike(Pawn caller)
         {
             return FindStrike(caller) != null;
+        }
+
+        public bool RequiresStationaryGuidance(Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+            for (int i = 0; i < strikes.Count; i++)
+            {
+                HelodCasStrike strike = strikes[i];
+                if (!strike.RequiresStationaryGuidance)
+                {
+                    continue;
+                }
+                if (strike.Caller == pawn)
+                {
+                    return true;
+                }
+                if (strike.Plan?.GuidanceMode == HelodCasGuidanceMode.Laser
+                    && HelodCasSupportUtility.TryGetLaserDesignatorOperator(
+                        strike.Caller, map, strike.Plan.CurrentAimCell(map),
+                        out Pawn designatorPawn, out _)
+                    && designatorPawn == pawn)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void FaceLaserGuidanceDirection(Pawn pawn, int now)
+        {
+            if (pawn?.rotationTracker == null)
+            {
+                return;
+            }
+            for (int i = 0; i < strikes.Count; i++)
+            {
+                HelodCasStrike strike = strikes[i];
+                if (strike?.Plan?.GuidanceMode != HelodCasGuidanceMode.Laser
+                    || !strike.RequiresStationaryGuidance
+                    || !HelodCasSupportUtility.TryGetLaserDesignatorOperator(
+                        strike.Caller, map, strike.Plan.CurrentAimCell(map),
+                        out Pawn operatorPawn,
+                        out HelodCasLaserDesignatorExtension designator)
+                    || operatorPawn != pawn)
+                {
+                    continue;
+                }
+
+                Vector3 facingPosition;
+                if (designator.usesPilotSignalVisual)
+                {
+                    if (strike.IzlidSkySignalActive(now))
+                    {
+                        facingPosition = IzlidSkySignalEnd(strike, pawn, now);
+                    }
+                    else if (strike.IzlidTargetSignalActive(now))
+                    {
+                        facingPosition = strike.Plan.CurrentAimCell(map)
+                            .ToVector3Shifted();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    facingPosition = strike.Plan.CurrentAimCell(map)
+                        .ToVector3Shifted();
+                }
+                pawn.rotationTracker.FaceCell(facingPosition.ToIntVec3());
+                return;
+            }
+        }
+
+        private void EnsureStationaryGuidanceJobs(HelodCasStrike strike)
+        {
+            if (strike == null || !strike.RequiresStationaryGuidance)
+            {
+                return;
+            }
+            EnsureStationaryGuidanceJob(strike.Caller);
+            if (strike.Plan?.GuidanceMode == HelodCasGuidanceMode.Laser
+                && HelodCasSupportUtility.TryGetLaserDesignatorOperator(strike.Caller,
+                    map, strike.Plan.CurrentAimCell(map), out Pawn designatorPawn,
+                    out _))
+            {
+                EnsureStationaryGuidanceJob(designatorPawn);
+            }
+        }
+
+        private static void EnsureStationaryGuidanceJob(Pawn pawn)
+        {
+            if (pawn?.jobs == null || !pawn.Spawned || pawn.Dead || pawn.Downed)
+            {
+                return;
+            }
+            JobDef guidanceJob = DefDatabase<JobDef>.GetNamedSilentFail(
+                "HD_CASStationaryGuidance");
+            if (guidanceJob == null || pawn.CurJob?.def == guidanceJob)
+            {
+                return;
+            }
+            pawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(guidanceJob), JobTag.Misc);
         }
 
         public bool CanCancelStrike(Pawn caller, out string rejection)
@@ -538,6 +1206,12 @@ namespace Helodrace
                 return;
             }
 
+            if (HelodCasSupportUtility.UsesSequentialTargets(routeAttackKind))
+            {
+                HandleSequentialTargeting(evt, mouseCell);
+                return;
+            }
+
             if (evt.type == EventType.MouseDown && evt.button == 0)
             {
                 if (!HelodCasSupportUtility.IsEntryCell(map, mouseCell))
@@ -569,6 +1243,136 @@ namespace Helodrace
             }
         }
 
+        private void HandleSequentialTargeting(Event evt, IntVec3 mouseCell)
+        {
+            if (evt.type != EventType.MouseDown || evt.button != 0)
+            {
+                return;
+            }
+            evt.Use();
+            if (!dragStart.IsValid)
+            {
+                if (!HelodCasSupportUtility.IsEntryCell(map, mouseCell))
+                {
+                    Messages.Message("HD_CAS_InvalidEntry".Translate(
+                        HelodCasSupportUtility.EntryEdgeDepth),
+                        MessageTypeDefOf.RejectInput);
+                    return;
+                }
+                dragStart = mouseCell;
+                int count = HelodCasSupportUtility.TargetDesignationCount(
+                    routeAttackKind);
+                string prompt = HelodCasSupportUtility.UsesAreaFire(routeAttackKind)
+                    ? "HD_CAS_AreaTargetPrompt".Translate().ToString()
+                    : "HD_CAS_SequentialTargetPrompt".Translate(count).ToString();
+                Messages.Message(prompt,
+                    MessageTypeDefOf.NeutralEvent);
+                return;
+            }
+
+            if (!mouseCell.InBounds(map) || dragStart.DistanceTo(mouseCell) < 8f)
+            {
+                Messages.Message("HD_CAS_InvalidRoute".Translate(),
+                    MessageTypeDefOf.RejectInput);
+                return;
+            }
+            bool targetVisible = routeGuidanceMode == HelodCasGuidanceMode.Laser
+                ? HelodCasSupportUtility.CanLaserDesignate(routeCaller, map,
+                    mouseCell)
+                : HelodCasSupportUtility.CanUseTalkOnTarget(routeCaller, map,
+                    mouseCell);
+            if (!targetVisible)
+            {
+                Messages.Message("HD_CAS_TargetNoVisibleReference".Translate(),
+                    MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (HelodCasSupportUtility.UsesAttackCorridor(routeAttackKind)
+                && (!HelodCasAttackPlan.StrafeStartCell(dragStart, mouseCell).InBounds(map)
+                    || !HelodCasAttackPlan.StrafeEndCell(dragStart, mouseCell).InBounds(map)
+                    || dragStart.DistanceTo(mouseCell)
+                        - HelodCasSupportUtility.StrafeLength * 0.5f < 8f))
+            {
+                Messages.Message("HD_CAS_StrafeOutsideMap".Translate(),
+                    MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            designatedTargets.Add(mouseCell);
+            Thing targetThing = HelodCasSupportUtility.UsesAreaFire(routeAttackKind)
+                ? null : map.thingGrid.ThingsListAtFast(mouseCell)
+                    .FirstOrDefault(thing => thing is Pawn
+                        || thing.def.category == ThingCategory.Building);
+            designatedTargetThings.Add(targetThing);
+            int required = HelodCasSupportUtility.TargetDesignationCount(
+                routeAttackKind);
+            if (designatedTargets.Count < required)
+            {
+                Messages.Message("HD_CAS_SequentialTargetProgress".Translate(
+                    designatedTargets.Count, required), MessageTypeDefOf.NeutralEvent);
+                return;
+            }
+            if (routeAttackKind == HelodCasAttackKind.AGR20A)
+            {
+                OpenAgr20LaunchCountMenu();
+            }
+            else
+            {
+                int munitionCount = routeAttackKind == HelodCasAttackKind.Strafing
+                    ? 1 : HelodCasSupportUtility.MunitionCount(routeAttackKind);
+                FinishSequentialTargeting(munitionCount);
+            }
+        }
+
+        private HelodCasAttackPlan CreateSequentialAttackPlan(int munitionCount)
+        {
+            IntVec3 entry = dragStart;
+            IntVec3 primaryTarget = designatedTargets[0];
+            HelodCasSupportUtility.ScatterFor(routeAircraftKind, routeAttackKind,
+                out float majorScatter, out float minorScatter);
+            return new HelodCasAttackPlan(entry, primaryTarget,
+                routeGuidanceMode, map, majorScatter, minorScatter,
+                routeAttackKind, routeAircraftKind, designatedTargets,
+                designatedTargetThings, munitionCount);
+        }
+
+        private void FinishSequentialTargeting(int munitionCount)
+        {
+            HelodCasAttackPlan plan = CreateSequentialAttackPlan(munitionCount);
+            HelodForwardBase forwardBase = routeBase;
+            Pawn caller = routeCaller;
+            CancelRouteTargeting();
+            HelodCasSupportUtility.TryCall(map, plan, forwardBase, caller, null);
+        }
+
+        private void OpenAgr20LaunchCountMenu()
+        {
+            int available = GetAmmoRemaining(routeBase, routeAircraftKind,
+                HelodCasAttackKind.AGR20A);
+            if (available <= 0)
+            {
+                Messages.Message("HD_CAS_AmmoExhausted".Translate(),
+                    MessageTypeDefOf.RejectInput);
+                CancelRouteTargeting();
+                return;
+            }
+
+            HelodForwardBase forwardBase = routeBase;
+            Pawn caller = routeCaller;
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            for (int count = 1; count <= available; count++)
+            {
+                int selectedCount = count;
+                HelodCasAttackPlan plan = CreateSequentialAttackPlan(selectedCount);
+                options.Add(new FloatMenuOption(
+                    "HD_CAS_AGR20LaunchCountOption".Translate(selectedCount),
+                    () => HelodCasSupportUtility.TryCall(map, plan, forwardBase,
+                        caller, null)));
+            }
+            CancelRouteTargeting();
+            Find.WindowStack.Add(new FloatMenu(options));
+        }
+
         public override void MapComponentUpdate()
         {
             base.MapComponentUpdate();
@@ -580,6 +1384,8 @@ namespace Helodrace
             int now = Find.TickManager?.TicksGame ?? 0;
             for (int i = 0; i < strikes.Count; i++)
             {
+                DrawLaserGuidanceEffect(strikes[i], now);
+                DrawLaserDesignator(strikes[i], now);
                 DrawAircraft(strikes[i], now);
             }
             for (int i = 0; i < fallingBombs.Count; i++)
@@ -597,7 +1403,7 @@ namespace Helodrace
                 return;
             }
 
-            if (routeAttackKind == HelodCasAttackKind.Strafing
+            if (HelodCasSupportUtility.UsesAttackCorridor(routeAttackKind)
                 && (!HelodCasAttackPlan.StrafeStartCell(entry, target).InBounds(map)
                     || !HelodCasAttackPlan.StrafeEndCell(entry, target).InBounds(map)
                     || entry.DistanceTo(target)
@@ -633,9 +1439,11 @@ namespace Helodrace
                 }
             }
 
+            HelodCasSupportUtility.ScatterFor(routeAircraftKind, routeAttackKind,
+                out float majorScatter, out float minorScatter);
             HelodCasAttackPlan plan = new HelodCasAttackPlan(entry, target,
-                routeGuidanceMode, map, HelodCasSupportUtility.MajorScatterRadius,
-                HelodCasSupportUtility.MinorScatterRadius, routeAttackKind);
+                routeGuidanceMode, map, majorScatter, minorScatter, routeAttackKind,
+                routeAircraftKind);
             HelodForwardBase forwardBase = routeBase;
             Pawn caller = routeCaller;
             CancelRouteTargeting();
@@ -656,6 +1464,32 @@ namespace Helodrace
                 return;
             }
 
+            if (HelodCasSupportUtility.UsesSequentialTargets(routeAttackKind))
+            {
+                if (mouseCell.InBounds(map))
+                {
+                    GenDraw.DrawLineBetween(dragStart.ToVector3Shifted(),
+                        mouseCell.ToVector3Shifted(), SimpleColor.White);
+                    if (HelodCasSupportUtility.UsesAttackCorridor(routeAttackKind))
+                    {
+                        DrawStrafeCorridor(dragStart, mouseCell);
+                    }
+                    else if (HelodCasSupportUtility.UsesAreaFire(routeAttackKind))
+                    {
+                        HelodCasSupportUtility.ScatterFor(routeAircraftKind,
+                            routeAttackKind, out float major, out float minor);
+                        DrawScatterEllipse(mouseCell, dragStart, major, minor);
+                    }
+                }
+                foreach (IGrouping<IntVec3, IntVec3> group in designatedTargets
+                    .GroupBy(cell => cell))
+                {
+                    GenDraw.DrawRadiusRing(group.Key, 0.7f + group.Count() * 0.18f,
+                        Color.cyan);
+                }
+                return;
+            }
+
             IntVec3 end = dragEnd.IsValid ? dragEnd : mouseCell;
             if (!end.InBounds(map))
             {
@@ -663,7 +1497,7 @@ namespace Helodrace
             }
             GenDraw.DrawLineBetween(dragStart.ToVector3Shifted(), end.ToVector3Shifted(),
                 SimpleColor.White);
-            if (routeAttackKind == HelodCasAttackKind.Strafing)
+            if (HelodCasSupportUtility.UsesAttackCorridor(routeAttackKind))
             {
                 DrawStrafeCorridor(dragStart, end);
             }
@@ -739,6 +1573,8 @@ namespace Helodrace
             routeTargeting = false;
             routeBase = null;
             routeCaller = null;
+            designatedTargets.Clear();
+            designatedTargetThings.Clear();
             ResetDrag();
         }
 
@@ -765,6 +1601,7 @@ namespace Helodrace
             for (int i = strikes.Count - 1; i >= 0; i--)
             {
                 HelodCasStrike strike = strikes[i];
+                EnsureStationaryGuidanceJobs(strike);
                 if (!strike.GuidanceValid(map))
                 {
                     strikes.RemoveAt(i);
@@ -802,7 +1639,7 @@ namespace Helodrace
                 HelodCasAircraftTickEvent tickEvent = strike.TickAircraft(now, map);
                 if (tickEvent == HelodCasAircraftTickEvent.ReleaseBombPair)
                 {
-                    DropBombPair(strike);
+                    ReleaseOrdnance(strike);
                 }
                 else if (tickEvent == HelodCasAircraftTickEvent.StrafeBurst)
                 {
@@ -815,48 +1652,87 @@ namespace Helodrace
             }
         }
 
-        private void DropBombPair(HelodCasStrike strike)
+        private void ReleaseOrdnance(HelodCasStrike strike)
         {
             int now = Find.TickManager.TicksGame;
             Vector3 releasePosition = strike.AircraftDrawPosition(now);
-            for (int bomb = 0; bomb < HelodCasSupportUtility.BombsPerAircraft; bomb++)
+            int count = strike.Plan.MunitionCount;
+            for (int munition = 0; munition < count; munition++)
             {
-                IntVec3 impact = strike.NextImpactCell(map);
+                IntVec3 impact = strike.NextImpactCell(map, munition);
                 if (!impact.InBounds(map))
                 {
                     continue;
                 }
-                fallingBombs.Add(new HelodCasFallingBomb(releasePosition, impact,
-                    strike.Caller, now, now + HelodCasSupportUtility.BombFallTicks,
-                    strike.Plan.ApproachDirection));
+                int releaseTick = now + munition
+                    * HelodCasSupportUtility.MunitionReleaseInterval(
+                        strike.Plan.AttackKind);
+                Vector3 scheduledReleasePosition = munition == 0 ? releasePosition
+                    : strike.AircraftDrawPosition(releaseTick);
+                Thing guidedTarget = HelodCasSupportUtility.IsGuidedMissile(
+                    strike.Plan.AttackKind)
+                    ? strike.Plan.DesignatedTargetThing(munition) : null;
+                fallingBombs.Add(new HelodCasFallingBomb(scheduledReleasePosition, impact,
+                    strike.Caller, releaseTick,
+                    releaseTick + HelodCasSupportUtility.BombFallTicks,
+                    strike.Plan.ApproachDirection, strike.Plan.AttackKind,
+                    guidedTarget));
             }
         }
 
         private void FireStrafeBurst(HelodCasStrike strike, int now)
         {
-            ThingDef projectileDef = DefDatabase<ThingDef>.GetNamedSilentFail(
-                HelodCasSupportUtility.StrafeProjectileDefName);
+            bool isA10C = strike.Plan.AircraftKind == HelodCasAircraftKind.A10C;
             Vector3 origin = strike.AircraftDrawPosition(now);
+            Vector2 direction = strike.Plan.ApproachDirection;
+            if (isA10C)
+            {
+                origin += new Vector3(direction.x, 0f, direction.y)
+                    * HelodCasSupportUtility.A10CMuzzleForwardOffset;
+            }
             IntVec3 originCell = origin.ToIntVec3();
-            if (projectileDef == null || !originCell.InBounds(map))
+            if (!originCell.InBounds(map))
             {
                 return;
             }
             SoundDef sound = DefDatabase<SoundDef>.GetNamedSilentFail(
                 HelodCasSupportUtility.StrafeSoundDefName);
-            sound?.PlayOneShot(new TargetInfo(originCell, map));
-
-            Vector2 direction = strike.Plan.ApproachDirection;
-            Vector2 lateral = new Vector2(-direction.y, direction.x);
-            float aimDistance = strike.StrafeAimDistance(now);
-            for (int round = 0; round < HelodCasSupportUtility.StrafeRoundsPerBurst;
-                round++)
+            if (!isA10C)
             {
+                sound?.PlayOneShot(new TargetInfo(originCell, map));
+            }
+            if (isA10C)
+            {
+                FleckMaker.ThrowSmoke(origin, map, 0.42f);
+            }
+
+            Vector2 lateral = new Vector2(-direction.y, direction.x);
+            float aimDistance = isA10C ? 0f : strike.StrafeAimDistance(now);
+            int roundsToFire = strike.ConsumePendingStrafeRounds();
+            for (int round = 0; round < roundsToFire; round++)
+            {
+                int a10CShotIndex = -1;
+                string projectileDefName = isA10C
+                    ? (strike.NextA10CStrafeRoundIsHighExplosive(out a10CShotIndex)
+                        ? "HD_Projectile_A10C_PGU13"
+                        : "HD_Projectile_A10C_PGU14")
+                    : HelodCasSupportUtility.StrafeProjectileDefName;
+                ThingDef projectileDef = DefDatabase<ThingDef>.GetNamedSilentFail(
+                    projectileDefName);
+                if (projectileDef == null)
+                {
+                    continue;
+                }
                 float lateralOffset = Rand.Range(
                     -HelodCasSupportUtility.StrafeWidth * 0.5f,
                     HelodCasSupportUtility.StrafeWidth * 0.5f);
                 float longitudinalOffset = Rand.Range(-1.25f, 1.25f);
-                float roundAimDistance = Mathf.Clamp(aimDistance + longitudinalOffset,
+                float baseAimDistance = isA10C
+                    ? HelodCasSupportUtility.StrafeLength * a10CShotIndex
+                        / (HelodCasSupportUtility.A10CStrafeRoundCount - 1f)
+                    : aimDistance;
+                float roundAimDistance = Mathf.Clamp(baseAimDistance
+                    + longitudinalOffset,
                     0f, HelodCasSupportUtility.StrafeLength);
                 Vector3 start = strike.Plan.CurrentStrafeStartPosition(map);
                 IntVec3 impact = new IntVec3(
@@ -874,6 +1750,10 @@ namespace Helodrace
                     originCell, map);
                 projectile.Launch(strike.Caller, origin, impact, impact,
                     ProjectileHitFlags.All);
+                if (isA10C)
+                {
+                    sound?.PlayOneShot(new TargetInfo(originCell, map));
+                }
             }
         }
 
@@ -884,43 +1764,305 @@ namespace Helodrace
                 return;
             }
             FleckMaker.ThrowSmoke(bomb.ImpactCell.ToVector3Shifted(), map, 1.8f);
-            GenExplosion.DoExplosion(bomb.ImpactCell, map,
-                HelodCasSupportUtility.BombExplosionRadius, DamageDefOf.Bomb,
-                bomb.Caller, HelodCasSupportUtility.BombDamage,
-                HelodCasSupportUtility.BombArmorPenetration);
+            HelodCasSupportUtility.MunitionDamage(bomb.AttackKind,
+                out float radius, out int damage, out float armorPenetration);
+            GenExplosion.DoExplosion(bomb.ImpactCell, map, radius, DamageDefOf.Bomb,
+                bomb.Caller, damage, armorPenetration);
         }
 
-        private static Material AircraftMaterial
+        private static Material AircraftMaterial(HelodCasAircraftKind aircraftKind)
         {
-            get
+            if (aircraftMaterials.TryGetValue(aircraftKind, out Material material))
             {
-                if (aircraftMaterial == null
-                    && ContentFinder<Texture2D>.Get(HelodCasSupportUtility.AircraftTexturePath, false) != null)
-                {
-                    aircraftMaterial = MaterialPool.MatFrom(
-                        HelodCasSupportUtility.AircraftTexturePath, ShaderDatabase.Cutout);
-                }
-                return aircraftMaterial;
+                return material;
+            }
+            string texturePath = HelodCasSupportUtility.AircraftTexture(aircraftKind);
+            if (ContentFinder<Texture2D>.Get(texturePath, false) == null)
+            {
+                return null;
+            }
+            material = MaterialPool.MatFrom(texturePath, ShaderDatabase.Cutout);
+            aircraftMaterials[aircraftKind] = material;
+            return material;
+        }
+
+        private static Material MunitionMaterial(HelodCasAttackKind attackKind)
+        {
+            string texturePath = HelodCasSupportUtility.MunitionTexture(attackKind);
+            if (munitionMaterials.TryGetValue(texturePath, out Material material))
+            {
+                return material;
+            }
+            if (ContentFinder<Texture2D>.Get(texturePath, false) == null)
+            {
+                return null;
+            }
+            material = MaterialPool.MatFrom(texturePath, ShaderDatabase.Cutout);
+            munitionMaterials[texturePath] = material;
+            return material;
+        }
+
+        private void DrawLaserGuidanceEffect(HelodCasStrike strike, int now)
+        {
+            if (strike?.Plan?.GuidanceMode != HelodCasGuidanceMode.Laser
+                || !strike.RequiresStationaryGuidance
+                || !HelodCasSupportUtility.TryGetLaserDesignatorOperator(
+                    strike.Caller, map, strike.Plan.CurrentAimCell(map),
+                    out Pawn operatorPawn,
+                    out HelodCasLaserDesignatorExtension designator))
+            {
+                return;
+            }
+
+            if (!designator.usesPilotSignalVisual)
+            {
+                float glowBlink = LaserBlinkIntensity(now);
+                DrawLaserAimGlow(strike.Plan.CurrentAimCell(map), glowBlink,
+                    1.25f, 0.45f);
+                return;
+            }
+
+            if (strike.IzlidSkySignalActive(now))
+            {
+                DrawIzlidSkySignal(strike, operatorPawn, now);
+                return;
+            }
+            if (strike.IzlidTargetSignalActive(now))
+            {
+                DrawIzlidTargetSignal(operatorPawn,
+                    strike.Plan.CurrentAimCell(map),
+                    LaserBlinkIntensity(now - strike.IzlidTargetSignalStartTick));
             }
         }
 
-        private static Material BombMaterial
+        private void DrawLaserDesignator(HelodCasStrike strike, int now)
         {
-            get
+            if (strike?.Plan?.GuidanceMode != HelodCasGuidanceMode.Laser
+                || !strike.RequiresStationaryGuidance
+                || !HelodCasSupportUtility.TryGetLaserDesignatorOperator(
+                    strike.Caller, map, strike.Plan.CurrentAimCell(map),
+                    out Pawn operatorPawn,
+                    out HelodCasLaserDesignatorExtension designator)
+                || !HelodCasSupportUtility.TryGetBestLaserDesignatorThing(operatorPawn,
+                    out _, out _)
+                || designator.guidanceGraphicPath.NullOrEmpty())
             {
-                if (bombMaterial == null
-                    && ContentFinder<Texture2D>.Get(HelodCasSupportUtility.BombTexturePath, false) != null)
-                {
-                    bombMaterial = MaterialPool.MatFrom(
-                        HelodCasSupportUtility.BombTexturePath, ShaderDatabase.Cutout);
-                }
-                return bombMaterial;
+                return;
             }
+
+            Material material = LaserDesignatorMaterial(
+                designator.guidanceGraphicPath);
+            if (material == null)
+            {
+                return;
+            }
+
+            Vector3 aimPosition = strike.Plan.CurrentAimCell(map).ToVector3Shifted();
+            if (designator.usesPilotSignalVisual
+                && strike.IzlidSkySignalActive(now))
+            {
+                aimPosition = IzlidSkySignalEnd(strike, operatorPawn, now);
+            }
+            Vector3 direction = aimPosition - operatorPawn.DrawPos;
+            direction.y = 0f;
+            if (direction.sqrMagnitude < 0.001f)
+            {
+                direction = operatorPawn.Rotation.FacingCell.ToVector3();
+            }
+            direction.Normalize();
+
+            Vector3 drawPosition;
+            if (designator.fixedGuidanceGraphicPosition)
+            {
+                drawPosition = strike.FixedGuidanceDevicePosition(operatorPawn,
+                    designator);
+                direction = aimPosition - drawPosition;
+                direction.y = 0f;
+                if (direction.sqrMagnitude < 0.001f)
+                {
+                    direction = operatorPawn.Rotation.FacingCell.ToVector3();
+                }
+                direction.Normalize();
+            }
+            else
+            {
+                Vector3 right = new Vector3(direction.z, 0f, -direction.x);
+                drawPosition = operatorPawn.DrawPos
+                    + direction * designator.guidanceGraphicForwardOffset
+                    + right * designator.guidanceGraphicLateralOffset;
+            }
+
+            drawPosition.y = AltitudeLayer.MoteOverhead.AltitudeFor() + 0.04f;
+            float rotation = direction.AngleFlat()
+                + designator.guidanceGraphicRotationOffset;
+            float size = Mathf.Max(0.1f, designator.guidanceGraphicSize);
+            Graphics.DrawMesh(MeshPool.plane10,
+                Matrix4x4.TRS(drawPosition,
+                    Quaternion.AngleAxis(rotation, Vector3.up),
+                    new Vector3(size, 1f, size)), material, 0);
+        }
+
+        private static Material LaserDesignatorMaterial(string texturePath)
+        {
+            if (designatorMaterials.TryGetValue(texturePath, out Material material))
+            {
+                return material;
+            }
+            if (ContentFinder<Texture2D>.Get(texturePath, false) == null)
+            {
+                return null;
+            }
+            material = MaterialPool.MatFrom(texturePath, ShaderDatabase.Cutout);
+            designatorMaterials[texturePath] = material;
+            return material;
+        }
+
+        private static Material[] CreatePulsingSolidMaterials(Color color,
+            float minimumAlpha, float maximumAlpha)
+        {
+            Material[] materials = new Material[16];
+            for (int i = 0; i < materials.Length; i++)
+            {
+                float progress = i / (float)(materials.Length - 1);
+                materials[i] = SolidColorMaterials.SimpleSolidColorMaterial(
+                    new Color(color.r, color.g, color.b,
+                        Mathf.Lerp(minimumAlpha, maximumAlpha, progress)), false);
+            }
+            return materials;
+        }
+
+        private static Material[] CreateSkyFadeMaterials(Color color,
+            float nearAlpha, float farAlpha)
+        {
+            int count = Mathf.Max(2, HelodCasSupportUtility.IzlidSkyBeamSegments);
+            Material[] materials = new Material[count];
+            for (int i = 0; i < count; i++)
+            {
+                float progress = i / (float)(count - 1);
+                float easedProgress = progress * progress;
+                materials[i] = SolidColorMaterials.SimpleSolidColorMaterial(
+                    new Color(color.r, color.g, color.b,
+                        Mathf.Lerp(nearAlpha, farAlpha, easedProgress)), false);
+            }
+            return materials;
+        }
+
+        private static Material[] CreatePulsingGlowMaterials()
+        {
+            Material[] materials = new Material[16];
+            for (int i = 0; i < materials.Length; i++)
+            {
+                float progress = i / (float)(materials.Length - 1);
+                materials[i] = MaterialPool.MatFrom("Things/Mote/FireGlow",
+                    ShaderDatabase.MoteGlow, new Color(0.20f, 1f, 0.40f,
+                        Mathf.Lerp(0f, 0.65f, progress)));
+            }
+            return materials;
+        }
+
+        private static float LaserBlinkIntensity(int elapsedTicks)
+        {
+            int interval = Mathf.Max(1,
+                HelodCasSupportUtility.LaserBlinkIntervalTicks);
+            return Mathf.FloorToInt(Mathf.Max(0, elapsedTicks) / (float)interval)
+                % 2 == 0 ? 1f : 0f;
+        }
+
+        private static int PulseMaterialIndex(float intensity)
+        {
+            return Mathf.Clamp(Mathf.RoundToInt(Mathf.Clamp01(intensity)
+                * (laserAimGlowMaterials.Length - 1)), 0,
+                laserAimGlowMaterials.Length - 1);
+        }
+
+        private static void DrawIzlidSkySignal(HelodCasStrike strike,
+            Pawn operatorPawn, int now)
+        {
+            Vector3 origin = operatorPawn.DrawPos;
+            Vector3 end = IzlidSkySignalEnd(strike, operatorPawn, now);
+            DrawIzlidSkyBeam(origin, end);
+        }
+
+        private static Vector3 IzlidSkySignalEnd(HelodCasStrike strike,
+            Pawn operatorPawn, int now)
+        {
+            Vector3 origin = operatorPawn.DrawPos;
+            Vector2 direction = new Vector2(0f, 1f);
+            float waveDegrees = Mathf.Sin(now * 0.06f
+                + operatorPawn.thingIDNumber * 0.37f) * 8f;
+            float radians = waveDegrees * Mathf.Deg2Rad;
+            float cos = Mathf.Cos(radians);
+            float sin = Mathf.Sin(radians);
+            Vector2 wavedDirection = new Vector2(
+                direction.x * cos - direction.y * sin,
+                direction.x * sin + direction.y * cos);
+            return origin + new Vector3(wavedDirection.x, 0f,
+                wavedDirection.y) * HelodCasSupportUtility.IzlidSkyBeamLength;
+        }
+
+        private static void DrawIzlidSkyBeam(Vector3 origin, Vector3 destination)
+        {
+            origin.y = destination.y = AltitudeLayer.MoteOverhead.AltitudeFor()
+                + 0.018f;
+            int segments = Mathf.Min(izlidSkyBeamOuterMaterials.Length,
+                izlidSkyBeamCoreMaterials.Length);
+            Vector3 previous = origin;
+            for (int i = 0; i < segments; i++)
+            {
+                float endProgress = (i + 1f) / segments;
+                Vector3 current = Vector3.Lerp(origin, destination, endProgress);
+                float widthProgress = i / (float)Mathf.Max(1, segments - 1);
+                GenDraw.DrawLineBetween(previous, current,
+                    izlidSkyBeamOuterMaterials[i],
+                    Mathf.Lerp(0.095f, 0.022f, widthProgress));
+                GenDraw.DrawLineBetween(previous, current,
+                    izlidSkyBeamCoreMaterials[i],
+                    Mathf.Lerp(0.030f, 0.005f, widthProgress));
+                previous = current;
+            }
+        }
+
+        private static void DrawIzlidTargetSignal(Pawn operatorPawn,
+            IntVec3 target, float intensity)
+        {
+            Vector3 targetPosition = target.ToVector3Shifted();
+            DrawIzlidBeam(operatorPawn.DrawPos, targetPosition, intensity);
+            DrawLaserAimGlow(target, intensity, 1.05f, 0.35f);
+        }
+
+        private static void DrawIzlidBeam(Vector3 origin, Vector3 destination,
+            float intensity = -1f)
+        {
+            origin.y = destination.y = AltitudeLayer.MoteOverhead.AltitudeFor()
+                + 0.018f;
+            Material outer = izlidBeamOuterMaterial;
+            Material core = izlidBeamCoreMaterial;
+            if (intensity >= 0f)
+            {
+                int materialIndex = PulseMaterialIndex(intensity);
+                outer = pulsingBeamOuterMaterials[materialIndex];
+                core = pulsingBeamCoreMaterials[materialIndex];
+            }
+            GenDraw.DrawLineBetween(origin, destination, outer, 0.075f);
+            GenDraw.DrawLineBetween(origin, destination, core, 0.022f);
+        }
+
+        private static void DrawLaserAimGlow(IntVec3 target, float intensity,
+            float baseSize, float pulseAmount)
+        {
+            Vector3 position = target.ToVector3Shifted();
+            position.y = AltitudeLayer.MoteOverhead.AltitudeFor() + 0.02f;
+            float size = baseSize + Mathf.Clamp01(intensity) * pulseAmount;
+            Matrix4x4 matrix = Matrix4x4.TRS(position, Quaternion.identity,
+                new Vector3(size, 1f, size));
+            Graphics.DrawMesh(MeshPool.plane10, matrix,
+                laserAimGlowMaterials[PulseMaterialIndex(intensity)], 0);
         }
 
         private static void DrawAircraft(HelodCasStrike strike, int now)
         {
-            Material material = AircraftMaterial;
+            Material material = strike?.Plan == null ? null
+                : AircraftMaterial(strike.Plan.AircraftKind);
             if (material == null || strike?.Plan == null || !strike.ShouldDrawAircraft(now))
             {
                 return;
@@ -929,7 +2071,8 @@ namespace Helodrace
             position.y = AltitudeLayer.MoteOverhead.AltitudeFor();
             Vector2 direction = strike.AircraftDrawDirection(now);
             float rotation = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-            float size = 6.5f * strike.AircraftDrawScale(now);
+            float size = HelodCasSupportUtility.AircraftDrawSize(
+                strike.Plan.AircraftKind) * strike.AircraftDrawScale(now);
             Matrix4x4 matrix = Matrix4x4.TRS(position,
                 Quaternion.AngleAxis(rotation, Vector3.up), new Vector3(size, 1f, size));
             Graphics.DrawMesh(MeshPool.plane10, matrix, material, 0);
@@ -937,20 +2080,25 @@ namespace Helodrace
 
         private static void DrawFallingBomb(HelodCasFallingBomb bomb, int now)
         {
-            Material material = BombMaterial;
-            if (material == null || bomb == null)
+            Material material = bomb == null ? null
+                : MunitionMaterial(bomb.AttackKind);
+            if (material == null || bomb == null || now < bomb.ReleaseTick)
             {
                 return;
             }
             float progress = bomb.Progress(now);
             float smoothProgress = progress * progress * (3f - 2f * progress);
             Vector3 position = Vector3.Lerp(bomb.ReleasePosition,
-                bomb.ImpactCell.ToVector3Shifted(), smoothProgress);
+                bomb.ImpactCell.ToVector3Shifted(), progress);
             position.y = Mathf.Lerp(AltitudeLayer.MoteOverhead.AltitudeFor(),
                 AltitudeLayer.Projectile.AltitudeFor(), smoothProgress);
-            float size = Mathf.Lerp(1.05f, 0.5f, smoothProgress);
-            float rotation = Mathf.Atan2(bomb.ApproachDirection.x,
-                bomb.ApproachDirection.y) * Mathf.Rad2Deg;
+            float size = Mathf.Lerp(1.05f, 0.5f, smoothProgress)
+                * HelodCasSupportUtility.MunitionDrawScale;
+            Vector2 drawDirection = bomb.AttackKind == HelodCasAttackKind.Hydra70
+                || HelodCasSupportUtility.UsesSequentialTargets(bomb.AttackKind)
+                ? bomb.FlightDirection : bomb.ApproachDirection;
+            float rotation = Mathf.Atan2(drawDirection.x,
+                drawDirection.y) * Mathf.Rad2Deg;
             Matrix4x4 matrix = Matrix4x4.TRS(position,
                 Quaternion.AngleAxis(rotation, Vector3.up), new Vector3(size, 1f, size));
             Graphics.DrawMesh(MeshPool.plane10, matrix, material, 0);
@@ -978,6 +2126,35 @@ namespace Helodrace
         }
     }
 
+    public sealed class JobDriver_CASStationaryGuidance : JobDriver
+    {
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
+        {
+            return true;
+        }
+
+        protected override IEnumerable<Toil> MakeNewToils()
+        {
+            Toil guide = new Toil
+            {
+                tickAction = delegate
+                {
+                    MapComponent_HelodCasSupport support = pawn.Map?
+                        .GetComponent<MapComponent_HelodCasSupport>();
+                    if (support == null || !support.RequiresStationaryGuidance(pawn))
+                    {
+                        pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
+                        return;
+                    }
+                    support.FaceLaserGuidanceDirection(pawn,
+                        Find.TickManager.TicksGame);
+                },
+                defaultCompleteMode = ToilCompleteMode.Never
+            };
+            yield return guide;
+        }
+    }
+
     public sealed class HelodCasFallingBomb : IExposable
     {
         private float releaseX;
@@ -988,19 +2165,36 @@ namespace Helodrace
         private int impactTick;
         private float approachX;
         private float approachZ;
+        private HelodCasAttackKind attackKind;
+        private Thing guidedTarget;
 
         public Vector3 ReleasePosition => new Vector3(releaseX, 0f, releaseZ);
-        public IntVec3 ImpactCell => impactCell;
+        public IntVec3 ImpactCell => guidedTarget != null && guidedTarget.Spawned
+            && !guidedTarget.Destroyed ? guidedTarget.Position : impactCell;
         public Pawn Caller => caller;
+        public int ReleaseTick => releaseTick;
         public int ImpactTick => impactTick;
         public Vector2 ApproachDirection => new Vector2(approachX, approachZ).normalized;
+        public HelodCasAttackKind AttackKind => attackKind;
+        public Vector2 FlightDirection
+        {
+            get
+            {
+                IntVec3 currentImpact = ImpactCell;
+                Vector2 direction = new Vector2(currentImpact.x + 0.5f - releaseX,
+                    currentImpact.z + 0.5f - releaseZ);
+                return direction.sqrMagnitude > 0.0001f
+                    ? direction.normalized : ApproachDirection;
+            }
+        }
 
         public HelodCasFallingBomb()
         {
         }
 
         public HelodCasFallingBomb(Vector3 releasePosition, IntVec3 impactCell,
-            Pawn caller, int releaseTick, int impactTick, Vector2 approachDirection)
+            Pawn caller, int releaseTick, int impactTick, Vector2 approachDirection,
+            HelodCasAttackKind attackKind, Thing guidedTarget = null)
         {
             releaseX = releasePosition.x;
             releaseZ = releasePosition.z;
@@ -1010,6 +2204,8 @@ namespace Helodrace
             this.impactTick = impactTick;
             approachX = approachDirection.x;
             approachZ = approachDirection.y;
+            this.attackKind = attackKind;
+            this.guidedTarget = guidedTarget;
         }
 
         public float Progress(int now)
@@ -1027,6 +2223,8 @@ namespace Helodrace
             Scribe_Values.Look(ref impactTick, "impactTick", 0);
             Scribe_Values.Look(ref approachX, "approachX", 0f);
             Scribe_Values.Look(ref approachZ, "approachZ", 1f);
+            Scribe_Values.Look(ref attackKind, "attackKind", HelodCasAttackKind.Bombing);
+            Scribe_References.Look(ref guidedTarget, "guidedTarget");
         }
     }
 
@@ -1037,20 +2235,25 @@ namespace Helodrace
         private int nextDecayTick;
         private int reservedAircraftCount;
         private bool flightRequested;
+        private HelodCasAircraftKind aircraftKind;
+        private List<int> ammunition = new List<int>();
 
         public HelodForwardBase ForwardBase => forwardBase;
         public int RemainingPlaytime => remainingPlaytime;
         public int ReservedAircraftCount => reservedAircraftCount;
         public bool FlightRequested => flightRequested;
         public bool IsActive => flightRequested && remainingPlaytime > 0;
+        public HelodCasAircraftKind AircraftKind => aircraftKind;
 
         public HelodCasPlaytimeState()
         {
         }
 
-        public HelodCasPlaytimeState(HelodForwardBase forwardBase)
+        public HelodCasPlaytimeState(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind)
         {
             this.forwardBase = forwardBase;
+            this.aircraftKind = aircraftKind;
         }
 
         public bool RequestFlight(int now)
@@ -1060,10 +2263,64 @@ namespace Helodrace
                 return false;
             }
             flightRequested = true;
-            remainingPlaytime = HelodCasSupportUtility.P47Playtime;
+            remainingPlaytime = HelodCasSupportUtility.Playtime(aircraftKind);
             nextDecayTick = now + HelodCasSupportUtility.PlaytimeDecayTicks;
             reservedAircraftCount = 0;
+            ResetAmmunition();
             return true;
+        }
+
+        public int AmmoRemaining(HelodCasAttackKind attackKind)
+        {
+            EnsureAmmunition();
+            int index = (int)attackKind;
+            return index >= 0 && index < ammunition.Count ? ammunition[index] : 0;
+        }
+
+        public int ExpectedAircraftCount(HelodCasAttackKind attackKind)
+        {
+            return aircraftKind == HelodCasAircraftKind.P47
+                && attackKind == HelodCasAttackKind.Bombing
+                && reservedAircraftCount > 0
+                ? reservedAircraftCount
+                : HelodCasSupportUtility.AircraftCountFor(aircraftKind);
+        }
+
+        public bool HasAmmo(HelodCasAttackKind attackKind, int amount)
+        {
+            return amount > 0 && AmmoRemaining(attackKind) >= amount;
+        }
+
+        public bool TryConsumeAmmo(HelodCasAttackKind attackKind, int amount)
+        {
+            if (!HasAmmo(attackKind, amount))
+            {
+                return false;
+            }
+            ammunition[(int)attackKind] -= amount;
+            return true;
+        }
+
+        private void ResetAmmunition()
+        {
+            ammunition = new List<int>();
+            for (int i = 0; i <= (int)HelodCasAttackKind.GBU54; i++)
+            {
+                ammunition.Add(HelodCasSupportUtility.InitialAmmo(aircraftKind,
+                    (HelodCasAttackKind)i));
+            }
+        }
+
+        private void EnsureAmmunition()
+        {
+            if (ammunition == null || ammunition.Count == 0)
+            {
+                ResetAmmunition();
+            }
+            while (ammunition.Count <= (int)HelodCasAttackKind.GBU54)
+            {
+                ammunition.Add(0);
+            }
         }
 
         public bool TryConsumeAction(int now, HelodCasAttackKind attackKind,
@@ -1075,10 +2332,13 @@ namespace Helodrace
                 return false;
             }
             remainingPlaytime--;
-            aircraftCount = attackKind == HelodCasAttackKind.Bombing
+            aircraftCount = aircraftKind == HelodCasAircraftKind.P47
+                && attackKind == HelodCasAttackKind.Bombing
                 && reservedAircraftCount > 0
-                ? reservedAircraftCount : HelodCasSupportUtility.AircraftCount;
-            if (attackKind == HelodCasAttackKind.Bombing)
+                ? reservedAircraftCount
+                : HelodCasSupportUtility.AircraftCountFor(aircraftKind);
+            if (aircraftKind == HelodCasAircraftKind.P47
+                && attackKind == HelodCasAttackKind.Bombing)
             {
                 reservedAircraftCount = 0;
             }
@@ -1122,6 +2382,13 @@ namespace Helodrace
             Scribe_Values.Look(ref nextDecayTick, "nextDecayTick", 0);
             Scribe_Values.Look(ref reservedAircraftCount, "reservedAircraftCount", 0);
             Scribe_Values.Look(ref flightRequested, "flightRequested", false);
+            Scribe_Values.Look(ref aircraftKind, "aircraftKind",
+                HelodCasAircraftKind.P47);
+            Scribe_Collections.Look(ref ammunition, "ammunition", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                EnsureAmmunition();
+            }
         }
     }
 
@@ -1138,6 +2405,10 @@ namespace Helodrace
         private float routeLength;
         private Pawn targetPawn;
         private HelodCasAttackKind attackKind;
+        private HelodCasAircraftKind aircraftKind;
+        private List<IntVec3> designatedTargets = new List<IntVec3>();
+        private List<Thing> designatedTargetThings = new List<Thing>();
+        private int munitionCount;
 
         public IntVec3 EntryCell => entryCell;
         public IntVec3 TargetCell => targetCell;
@@ -1149,7 +2420,12 @@ namespace Helodrace
         public float RouteLength => routeLength;
         public Pawn TargetPawn => targetPawn;
         public HelodCasAttackKind AttackKind => attackKind;
-        public float FlightRouteLength => attackKind == HelodCasAttackKind.Strafing
+        public HelodCasAircraftKind AircraftKind => aircraftKind;
+        public int DesignatedTargetCount => designatedTargets?.Count ?? 0;
+        public int MunitionCount => munitionCount > 0 ? munitionCount
+            : HelodCasSupportUtility.MunitionCount(attackKind);
+        public float FlightRouteLength => HelodCasSupportUtility
+            .UsesAttackCorridor(attackKind)
             ? Mathf.Max(0f, routeLength - HelodCasSupportUtility.StrafeLength * 0.5f)
             : routeLength;
         public Vector3 StrafeStartPosition => StrafePoint(-0.5f);
@@ -1164,7 +2440,11 @@ namespace Helodrace
         public HelodCasAttackPlan(IntVec3 entryCell, IntVec3 targetCell,
             HelodCasGuidanceMode guidanceMode, Map map, float majorScatterRadius,
             float minorScatterRadius,
-            HelodCasAttackKind attackKind = HelodCasAttackKind.Bombing)
+            HelodCasAttackKind attackKind = HelodCasAttackKind.Bombing,
+            HelodCasAircraftKind aircraftKind = HelodCasAircraftKind.P47,
+            IEnumerable<IntVec3> designatedTargets = null,
+            IEnumerable<Thing> designatedTargetThings = null,
+            int munitionCount = 0)
         {
             this.entryCell = entryCell;
             this.targetCell = targetCell;
@@ -1172,6 +2452,13 @@ namespace Helodrace
             this.majorScatterRadius = majorScatterRadius;
             this.minorScatterRadius = minorScatterRadius;
             this.attackKind = attackKind;
+            this.aircraftKind = aircraftKind;
+            this.designatedTargets = designatedTargets?.ToList()
+                ?? new List<IntVec3>();
+            this.designatedTargetThings = designatedTargetThings?.ToList()
+                ?? new List<Thing>();
+            this.munitionCount = munitionCount > 0 ? munitionCount
+                : HelodCasSupportUtility.MunitionCount(attackKind);
             Vector2 direction = new Vector2(targetCell.x - entryCell.x,
                 targetCell.z - entryCell.z).normalized;
             approachX = direction.x;
@@ -1179,8 +2466,9 @@ namespace Helodrace
             routeLength = entryCell.DistanceTo(targetCell);
             mountainRoofCount = LineCells(entryCell, targetCell)
                 .Count(cell => IsMountainRoof(map, cell));
-            targetPawn = map?.thingGrid?.ThingsListAtFast(targetCell)
-                .OfType<Pawn>().FirstOrDefault();
+            targetPawn = HelodCasSupportUtility.UsesAreaFire(attackKind)
+                ? null : map?.thingGrid?.ThingsListAtFast(targetCell)
+                    .OfType<Pawn>().FirstOrDefault();
         }
 
         public static IEnumerable<IntVec3> LineCells(IntVec3 start, IntVec3 end)
@@ -1231,6 +2519,36 @@ namespace Helodrace
                 return targetPawn.Position;
             }
             return targetCell;
+        }
+
+        public IntVec3 DesignatedTargetCell(int index, Map map)
+        {
+            if (designatedTargets == null || designatedTargets.Count == 0)
+            {
+                return CurrentAimCell(map);
+            }
+            int safeIndex = Mathf.Clamp(index, 0, designatedTargets.Count - 1);
+            if (designatedTargetThings != null
+                && safeIndex < designatedTargetThings.Count)
+            {
+                Thing thing = designatedTargetThings[safeIndex];
+                if (thing != null && thing.Spawned && !thing.Destroyed && thing.Map == map)
+                {
+                    return thing.Position;
+                }
+            }
+            return designatedTargets[safeIndex];
+        }
+
+        public Thing DesignatedTargetThing(int index)
+        {
+            if (designatedTargetThings == null || designatedTargetThings.Count == 0)
+            {
+                return null;
+            }
+            int safeIndex = Mathf.Clamp(index, 0, designatedTargetThings.Count - 1);
+            Thing thing = designatedTargetThings[safeIndex];
+            return thing != null && !thing.Destroyed ? thing : null;
         }
 
         public Vector3 CurrentStrafeStartPosition(Map map)
@@ -1285,6 +2603,18 @@ namespace Helodrace
             Scribe_Values.Look(ref routeLength, "routeLength", 0f);
             Scribe_References.Look(ref targetPawn, "targetPawn");
             Scribe_Values.Look(ref attackKind, "attackKind", HelodCasAttackKind.Bombing);
+            Scribe_Values.Look(ref aircraftKind, "aircraftKind",
+                HelodCasAircraftKind.P47);
+            Scribe_Collections.Look(ref designatedTargets, "designatedTargets",
+                LookMode.Value);
+            Scribe_Collections.Look(ref designatedTargetThings,
+                "designatedTargetThings", LookMode.Reference);
+            Scribe_Values.Look(ref munitionCount, "munitionCount", 0);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                designatedTargets = designatedTargets ?? new List<IntVec3>();
+                designatedTargetThings = designatedTargetThings ?? new List<Thing>();
+            }
         }
     }
 
@@ -1323,14 +2653,20 @@ namespace Helodrace
         private Vector2 abortExitDirection;
         private Vector3 recoveryStartPosition;
         private float recoveryInitialSpeed;
-        private float recoveryStartScale = 0.72f;
+        private float recoveryStartScale = 0.92f;
         private float nextStrafeBurstTick;
+        private float a10CStrafeRoundAccumulator;
+        private int pendingStrafeRounds;
+        private int a10CStrafeRoundsQueued;
+        private int a10CStrafeSequenceIndex;
         private Vector3 strafeExitStartPosition;
         private Vector2 strafeExitStartDirection;
         private Vector2 strafeExitDirection;
         private float strafeExitSignedAngle;
         private int strafeExitTurnTicks;
         private float strafeExitStartScale = HelodCasSupportUtility.StrafeMinimumScale;
+        private Vector3 fixedGuidanceDevicePosition;
+        private bool fixedGuidanceDevicePositionInitialized;
 
         public HelodCasAttackPlan Plan => plan;
         public Pawn Caller => caller;
@@ -1350,6 +2686,57 @@ namespace Helodrace
         public int PhaseEndTick => phaseEndTick;
         public int BombReleaseTick => bombReleaseTick;
         public int CancellationLockTick => cancellationLockTick;
+        public bool RequiresStationaryGuidance => !aborting
+            && aircraftPhase != HelodCasAircraftPhase.Complete;
+
+        public Vector3 FixedGuidanceDevicePosition(Pawn operatorPawn,
+            HelodCasLaserDesignatorExtension designator)
+        {
+            if (!fixedGuidanceDevicePositionInitialized)
+            {
+                Vector3 forward = operatorPawn.Rotation.FacingCell.ToVector3();
+                Vector3 right = new Vector3(forward.z, 0f, -forward.x);
+                fixedGuidanceDevicePosition = operatorPawn.DrawPos
+                    + forward * designator.guidanceGraphicForwardOffset
+                    + right * designator.guidanceGraphicLateralOffset;
+                fixedGuidanceDevicePositionInitialized = true;
+            }
+            return fixedGuidanceDevicePosition;
+        }
+
+        public bool IzlidSkySignalActive(int now)
+        {
+            if (aborting || runState == HelodCasRunState.Attacking)
+            {
+                return false;
+            }
+            int approachStart = runState == HelodCasRunState.Approaching
+                ? queuedTick : nextGuidanceAttemptTick
+                    - HelodCasSupportUtility.ArrivalDelayTicks;
+            return now >= approachStart && now < approachStart
+                + HelodCasSupportUtility.IzlidSkySignalTicks;
+        }
+
+        public bool IzlidTargetSignalActive(int now)
+        {
+            if (aborting)
+            {
+                return false;
+            }
+            int approachStart = runState == HelodCasRunState.Approaching
+                ? queuedTick : nextGuidanceAttemptTick
+                    - HelodCasSupportUtility.ArrivalDelayTicks;
+            int targetStart = approachStart
+                    + HelodCasSupportUtility.IzlidSkySignalTicks
+                    + HelodCasSupportUtility.IzlidSignalPauseTicks;
+            return now >= targetStart && now < targetStart
+                + HelodCasSupportUtility.IzlidTargetSignalTicks;
+        }
+
+        public int IzlidTargetSignalStartTick => nextGuidanceAttemptTick
+            - (HelodCasSupportUtility.ArrivalDelayTicks
+                - HelodCasSupportUtility.IzlidSkySignalTicks
+                - HelodCasSupportUtility.IzlidSignalPauseTicks);
 
         public HelodCasStrike()
         {
@@ -1380,6 +2767,11 @@ namespace Helodrace
             {
                 return false;
             }
+            if (caller == null || !caller.Spawned || caller.Map != map
+                || caller.Dead || caller.Downed)
+            {
+                return false;
+            }
             if (plan.GuidanceMode == HelodCasGuidanceMode.TalkOn)
             {
                 return true;
@@ -1387,6 +2779,11 @@ namespace Helodrace
             if (plan.GuidanceMode == HelodCasGuidanceMode.Flare)
             {
                 return flareTarget != null && flareTarget.IsActiveFlare && flareTarget.Map == map;
+            }
+            if (plan.GuidanceMode == HelodCasGuidanceMode.Laser)
+            {
+                return HelodCasSupportUtility.TryGetLaserDesignatorOperator(caller,
+                    map, plan.CurrentAimCell(map), out _, out _);
             }
             return false;
         }
@@ -1426,9 +2823,14 @@ namespace Helodrace
             goAroundStartTick = Find.TickManager.TicksGame;
             goAroundExitTick = goAroundStartTick + HelodCasSupportUtility.GoAroundExitTicks;
             goAroundTurnSign = Rand.Bool ? 1 : -1;
-            nextGuidanceAttemptTick = Find.TickManager.TicksGame + Rand.RangeInclusive(
-                HelodCasSupportUtility.GoAroundMinimumTicks,
-                HelodCasSupportUtility.GoAroundMaximumTicks);
+            int minimumGoAroundTicks = plan.AircraftKind == HelodCasAircraftKind.A10C
+                ? HelodCasSupportUtility.A10CGoAroundMinimumTicks
+                : HelodCasSupportUtility.GoAroundMinimumTicks;
+            int maximumGoAroundTicks = plan.AircraftKind == HelodCasAircraftKind.A10C
+                ? HelodCasSupportUtility.A10CGoAroundMaximumTicks
+                : HelodCasSupportUtility.GoAroundMaximumTicks;
+            nextGuidanceAttemptTick = Find.TickManager.TicksGame
+                + Rand.RangeInclusive(minimumGoAroundTicks, maximumGoAroundTicks);
             return false;
         }
 
@@ -1439,15 +2841,30 @@ namespace Helodrace
                 return HelodCasAircraftTickEvent.None;
             }
 
+            if (plan.AircraftKind == HelodCasAircraftKind.A10C
+                && plan.AttackKind == HelodCasAttackKind.Strafing
+                && a10CStrafeRoundsQueued >= HelodCasSupportUtility.A10CStrafeRoundCount
+                && (aircraftPhase == HelodCasAircraftPhase.StrafeApproach
+                    || aircraftPhase == HelodCasAircraftPhase.Strafing))
+            {
+                BeginStrafeExit(now, map, AircraftDrawPosition(now),
+                    AircraftDrawScale(now), false);
+            }
+
             if (aircraftPhase == HelodCasAircraftPhase.Entry && now >= phaseEndTick)
             {
                 if (plan.AttackKind == HelodCasAttackKind.Strafing)
                 {
                     BeginStrafeApproach(now);
                 }
-                else
+                else if (HelodCasSupportUtility.RequiresDive(plan.AircraftKind,
+                    plan.AttackKind))
                 {
                     BeginDive(now);
+                }
+                else
+                {
+                    BeginLevelAttack(now);
                 }
             }
 
@@ -1461,7 +2878,21 @@ namespace Helodrace
                 if (now >= phaseEndTick)
                 {
                     BeginRecovery(now, plan.TargetCell.ToVector3Shifted(),
-                        HelodCasSupportUtility.AircraftDiveMinimumSpeed, 0.72f);
+                        HelodCasSupportUtility.AircraftDiveMinimumSpeed, 0.92f);
+                }
+            }
+
+            if (aircraftPhase == HelodCasAircraftPhase.LevelAttack)
+            {
+                if (!bombPairReleased && now >= bombReleaseTick)
+                {
+                    bombPairReleased = true;
+                    return HelodCasAircraftTickEvent.ReleaseBombPair;
+                }
+                if (now >= phaseEndTick)
+                {
+                    BeginRecovery(now, plan.TargetCell.ToVector3Shifted(),
+                        HelodCasSupportUtility.AircraftAttackSpeed, 1.15f);
                 }
             }
 
@@ -1489,17 +2920,14 @@ namespace Helodrace
                 BeginStrafing(now);
             }
             else if (aircraftPhase == HelodCasAircraftPhase.StrafeApproach
-                && now >= nextStrafeBurstTick && CanFireStrafeAt(now))
+                && TryQueueStrafeFire(now))
             {
-                nextStrafeBurstTick += HelodCasSupportUtility.StrafeTicksPerBurst;
                 return HelodCasAircraftTickEvent.StrafeBurst;
             }
             if (aircraftPhase == HelodCasAircraftPhase.Strafing)
             {
-                if (now >= nextStrafeBurstTick && now < phaseEndTick
-                    && CanFireStrafeAt(now))
+                if (now < phaseEndTick && TryQueueStrafeFire(now))
                 {
-                    nextStrafeBurstTick += HelodCasSupportUtility.StrafeTicksPerBurst;
                     return HelodCasAircraftTickEvent.StrafeBurst;
                 }
                 if (now >= phaseEndTick)
@@ -1532,8 +2960,8 @@ namespace Helodrace
             aircraftEntryTick = now;
             phaseStartTick = now;
             float terminalApproachDistance = plan.AttackKind == HelodCasAttackKind.Strafing
-                ? HelodCasSupportUtility.StrafeApproachDistance
-                : HelodCasSupportUtility.DiveDistance;
+                ? HelodCasSupportUtility.StrafeApproachDistanceFor(plan.AircraftKind)
+                : HelodCasSupportUtility.AttackApproachDistance(plan.AttackKind);
             float entryDistance = Mathf.Max(0f,
                 plan.FlightRouteLength - terminalApproachDistance);
             phaseEndTick = now + Mathf.Max(1,
@@ -1543,6 +2971,10 @@ namespace Helodrace
             bombReleaseTick = 0;
             cancellationLockTick = 0;
             nextStrafeBurstTick = 0f;
+            a10CStrafeRoundAccumulator = 0f;
+            pendingStrafeRounds = 0;
+            a10CStrafeRoundsQueued = 0;
+            a10CStrafeSequenceIndex = 0;
         }
 
         private void BeginDive(int now)
@@ -1550,14 +2982,16 @@ namespace Helodrace
             aircraftPhase = HelodCasAircraftPhase.Dive;
             phaseStartTick = now;
             float diveDistance = Mathf.Min(plan.RouteLength,
-                HelodCasSupportUtility.DiveDistance);
+                HelodCasSupportUtility.AttackApproachDistance(plan.AttackKind));
             float averageDiveSpeed = (HelodCasSupportUtility.AircraftAttackSpeed
                 + HelodCasSupportUtility.AircraftDiveMinimumSpeed) * 0.5f;
             int diveTicks = Mathf.Max(1,
                 Mathf.RoundToInt(diveDistance / averageDiveSpeed));
             phaseEndTick = now + diveTicks;
+            float releaseDistance = HelodCasSupportUtility.MunitionReleaseDistance(
+                plan.AttackKind);
             float distanceBeforeRelease = Mathf.Max(0f, diveDistance
-                - Mathf.Min(HelodCasSupportUtility.BombReleaseDistance, diveDistance));
+                - Mathf.Min(releaseDistance, diveDistance));
             int releaseOffset = 1;
             while (releaseOffset < diveTicks
                 && DiveTravelDistance(releaseOffset, diveTicks, diveDistance)
@@ -1566,6 +3000,26 @@ namespace Helodrace
                 releaseOffset++;
             }
             bombReleaseTick = now + releaseOffset;
+            cancellationLockTick = bombReleaseTick
+                - HelodCasSupportUtility.CancellationLockBeforeReleaseTicks;
+        }
+
+        private void BeginLevelAttack(int now)
+        {
+            aircraftPhase = HelodCasAircraftPhase.LevelAttack;
+            phaseStartTick = now;
+            float attackDistance = Mathf.Min(plan.RouteLength,
+                HelodCasSupportUtility.AttackApproachDistance(plan.AttackKind));
+            int attackTicks = Mathf.Max(1, Mathf.RoundToInt(attackDistance
+                / HelodCasSupportUtility.AircraftAttackSpeed));
+            phaseEndTick = now + attackTicks;
+            float releaseDistance = HelodCasSupportUtility.MunitionReleaseDistance(
+                plan.AttackKind);
+            float distanceBeforeRelease = Mathf.Max(0f, attackDistance
+                - Mathf.Min(releaseDistance, attackDistance));
+            bombReleaseTick = now + Mathf.Clamp(Mathf.RoundToInt(
+                distanceBeforeRelease / HelodCasSupportUtility.AircraftAttackSpeed),
+                1, attackTicks);
             cancellationLockTick = bombReleaseTick
                 - HelodCasSupportUtility.CancellationLockBeforeReleaseTicks;
         }
@@ -1586,7 +3040,7 @@ namespace Helodrace
             aircraftPhase = HelodCasAircraftPhase.StrafeApproach;
             phaseStartTick = now;
             float distance = Mathf.Min(plan.FlightRouteLength,
-                HelodCasSupportUtility.StrafeApproachDistance);
+                HelodCasSupportUtility.StrafeApproachDistanceFor(plan.AircraftKind));
             float strafeSpeed = HelodCasSupportUtility.AircraftAttackSpeed
                 * HelodCasSupportUtility.StrafeSpeedFactor;
             float averageSpeed = (HelodCasSupportUtility.AircraftAttackSpeed
@@ -1596,14 +3050,67 @@ namespace Helodrace
             nextStrafeBurstTick = now;
         }
 
+        private bool TryQueueStrafeFire(int now)
+        {
+            if (now < nextStrafeBurstTick || !CanFireStrafeAt(now))
+            {
+                return false;
+            }
+            if (plan.AircraftKind == HelodCasAircraftKind.A10C)
+            {
+                int remainingRounds = HelodCasSupportUtility.A10CStrafeRoundCount
+                    - a10CStrafeRoundsQueued;
+                if (remainingRounds <= 0)
+                {
+                    return false;
+                }
+                nextStrafeBurstTick = now + 1f;
+                a10CStrafeRoundAccumulator += HelodCasSupportUtility.A10CRoundsPerTick;
+                pendingStrafeRounds = Mathf.Min(remainingRounds,
+                    Mathf.FloorToInt(a10CStrafeRoundAccumulator));
+                a10CStrafeRoundAccumulator -= pendingStrafeRounds;
+                a10CStrafeRoundsQueued += pendingStrafeRounds;
+                return pendingStrafeRounds > 0;
+            }
+
+            nextStrafeBurstTick += HelodCasSupportUtility.StrafeTicksPerBurst;
+            pendingStrafeRounds = HelodCasSupportUtility.StrafeRoundsPerBurst;
+            return true;
+        }
+
+        public int ConsumePendingStrafeRounds()
+        {
+            int rounds = pendingStrafeRounds;
+            pendingStrafeRounds = 0;
+            return rounds;
+        }
+
+        public bool NextA10CStrafeRoundIsHighExplosive(out int shotIndex)
+        {
+            shotIndex = a10CStrafeSequenceIndex;
+            bool highExplosive = shotIndex % 5 == 4;
+            a10CStrafeSequenceIndex++;
+            return highExplosive;
+        }
+
         private void BeginStrafing(int now)
         {
             aircraftPhase = HelodCasAircraftPhase.Strafing;
             phaseStartTick = now;
             float strafeSpeed = HelodCasSupportUtility.AircraftAttackSpeed
                 * HelodCasSupportUtility.StrafeSpeedFactor;
-            phaseEndTick = now + Mathf.Max(1,
-                Mathf.RoundToInt(HelodCasSupportUtility.StrafeLength / strafeSpeed));
+            int strafeTicks = Mathf.Max(1, Mathf.RoundToInt(
+                HelodCasSupportUtility.StrafeLength / strafeSpeed));
+            if (plan.AircraftKind == HelodCasAircraftKind.A10C)
+            {
+                int remainingRounds = Mathf.Max(0,
+                    HelodCasSupportUtility.A10CStrafeRoundCount
+                        - a10CStrafeRoundsQueued);
+                int remainingFireTicks = Mathf.CeilToInt(remainingRounds
+                    / HelodCasSupportUtility.A10CRoundsPerTick) + 1;
+                strafeTicks = Mathf.Max(strafeTicks, remainingFireTicks);
+            }
+            phaseEndTick = now + strafeTicks;
         }
 
         private void BeginStrafeExit(int now, Map map, Vector3 startPosition,
@@ -1723,12 +3230,20 @@ namespace Helodrace
                 phaseEndTick = now + abortTurnTicks + exitTicks;
                 return true;
             }
+            if (aircraftPhase == HelodCasAircraftPhase.LevelAttack)
+            {
+                Vector3 startPosition = AircraftDrawPosition(now);
+                bombPairReleased = true;
+                BeginRecovery(now, startPosition,
+                    HelodCasSupportUtility.AircraftAttackSpeed, 1.15f);
+                return true;
+            }
             if (aircraftPhase == HelodCasAircraftPhase.Dive)
             {
                 Vector3 startPosition = AircraftDrawPosition(now);
                 float startScale = AircraftDrawScale(now);
                 float diveDistance = Mathf.Min(plan.RouteLength,
-                    HelodCasSupportUtility.DiveDistance);
+                    HelodCasSupportUtility.AttackApproachDistance(plan.AttackKind));
                 float startSpeed = DiveSpeed(now - phaseStartTick,
                     phaseEndTick - phaseStartTick, diveDistance);
                 bombPairReleased = true;
@@ -1760,7 +3275,8 @@ namespace Helodrace
                 rejection = "HD_CAS_Cancel_NoActive".Translate().ToString();
                 return false;
             }
-            if (aircraftPhase == HelodCasAircraftPhase.Dive
+            if ((aircraftPhase == HelodCasAircraftPhase.Dive
+                || aircraftPhase == HelodCasAircraftPhase.LevelAttack)
                 && now >= cancellationLockTick)
             {
                 rejection = "HD_CAS_Cancel_Locked".Translate().ToString();
@@ -1775,7 +3291,7 @@ namespace Helodrace
             return true;
         }
 
-        public IntVec3 NextImpactCell(Map map)
+        public IntVec3 NextImpactCell(Map map, int munitionIndex = 0)
         {
             Vector2 direction = plan.ApproachDirection;
             Vector2 lateral = new Vector2(-direction.y, direction.x);
@@ -1783,9 +3299,41 @@ namespace Helodrace
             float radius = Mathf.Sqrt(Rand.Value);
             float along = Mathf.Cos(angle) * plan.MajorScatterRadius * radius;
             float across = Mathf.Sin(angle) * plan.MinorScatterRadius * radius;
-            IntVec3 center = plan.GuidanceMode == HelodCasGuidanceMode.Flare
+            if (HelodCasSupportUtility.IsGuidedMissile(plan.AttackKind))
+            {
+                along = 0f;
+                across = 0f;
+            }
+            else if (plan.AttackKind == HelodCasAttackKind.GBU54
+                && plan.GuidanceMode == HelodCasGuidanceMode.Laser
+                && HelodCasSupportUtility.TryGetLaserDesignatorOperator(caller, map,
+                    plan.CurrentAimCell(map), out _,
+                    out HelodCasLaserDesignatorExtension designator)
+                && designator.adjustsGbu54Scatter)
+            {
+                along *= HelodCasSupportUtility.GBU54LaserScatterMultiplier;
+                across *= HelodCasSupportUtility.GBU54LaserScatterMultiplier;
+            }
+            IntVec3 center = HelodCasSupportUtility.UsesSequentialTargets(
+                plan.AttackKind)
+                ? plan.DesignatedTargetCell(munitionIndex, map)
+                : plan.GuidanceMode == HelodCasGuidanceMode.Flare
                 && flareTarget?.IsActiveFlare == true
                 ? flareTarget.Position : plan.CurrentAimCell(map);
+            if (plan.AttackKind == HelodCasAttackKind.Hydra70)
+            {
+                int count = plan.MunitionCount;
+                float lineProgress = count <= 1 ? 0.5f
+                    : (munitionIndex + 0.5f) / count;
+                float lineOffset = Mathf.Lerp(-HelodCasSupportUtility.StrafeLength * 0.5f,
+                    HelodCasSupportUtility.StrafeLength * 0.5f, lineProgress);
+                center = new IntVec3(
+                    Mathf.RoundToInt(center.x + direction.x * lineOffset), 0,
+                    Mathf.RoundToInt(center.z + direction.y * lineOffset));
+                along = Rand.Range(-1.25f, 1.25f);
+                across = Rand.Range(-HelodCasSupportUtility.StrafeWidth * 0.5f,
+                    HelodCasSupportUtility.StrafeWidth * 0.5f);
+            }
             IntVec3 cell = new IntVec3(
                 Mathf.RoundToInt(center.x + direction.x * along + lateral.x * across),
                 0,
@@ -1801,8 +3349,10 @@ namespace Helodrace
             Vector2 direction = plan.ApproachDirection;
             float aircraftDistance = (aircraft.x - start.x) * direction.x
                 + (aircraft.z - start.z) * direction.y;
+            float leadDistance = HelodCasSupportUtility.StrafeBulletLeadDistanceFor(
+                plan.AircraftKind);
             return Mathf.Clamp(aircraftDistance
-                + HelodCasSupportUtility.StrafeBulletLeadDistance,
+                + leadDistance,
                 0f, HelodCasSupportUtility.StrafeLength);
         }
 
@@ -1813,14 +3363,21 @@ namespace Helodrace
             {
                 return false;
             }
+            if (plan.AircraftKind == HelodCasAircraftKind.A10C)
+            {
+                return a10CStrafeRoundsQueued
+                    < HelodCasSupportUtility.A10CStrafeRoundCount;
+            }
             Vector3 aircraft = AircraftDrawPosition(now);
             Vector3 start = plan.StrafeStartPosition;
             Vector2 direction = plan.ApproachDirection;
             float aircraftDistance = (aircraft.x - start.x) * direction.x
                 + (aircraft.z - start.z) * direction.y;
-            return aircraftDistance >= -HelodCasSupportUtility.StrafeBulletLeadDistance
+            float leadDistance = HelodCasSupportUtility.StrafeBulletLeadDistanceFor(
+                plan.AircraftKind);
+            return aircraftDistance >= -leadDistance
                 && aircraftDistance <= HelodCasSupportUtility.StrafeLength
-                    - HelodCasSupportUtility.StrafeBulletLeadDistance;
+                    - leadDistance;
         }
 
         public Vector3 AircraftDrawPosition(int now)
@@ -1849,8 +3406,10 @@ namespace Helodrace
             {
                 float terminalApproachDistance = plan.AttackKind
                     == HelodCasAttackKind.Strafing
-                    ? HelodCasSupportUtility.StrafeApproachDistance
-                    : HelodCasSupportUtility.DiveDistance;
+                    ? HelodCasSupportUtility.StrafeApproachDistanceFor(
+                        plan.AircraftKind)
+                    : HelodCasSupportUtility.AttackApproachDistance(
+                        plan.AttackKind);
                 float entryDistance = Mathf.Max(0f,
                     plan.FlightRouteLength - terminalApproachDistance);
                 float runDistance = Mathf.Min(entryDistance,
@@ -1861,13 +3420,23 @@ namespace Helodrace
             if (aircraftPhase == HelodCasAircraftPhase.Dive)
             {
                 float diveDistance = Mathf.Min(plan.RouteLength,
-                    HelodCasSupportUtility.DiveDistance);
+                    HelodCasSupportUtility.AttackApproachDistance(plan.AttackKind));
                 Vector3 diveStart = target
                     - new Vector3(direction.x, 0f, direction.y) * diveDistance;
                 float runDistance = DiveTravelDistance(now - phaseStartTick,
                     phaseEndTick - phaseStartTick, diveDistance);
                 return diveStart
                     + new Vector3(direction.x, 0f, direction.y) * runDistance;
+            }
+            if (aircraftPhase == HelodCasAircraftPhase.LevelAttack)
+            {
+                float attackDistance = Mathf.Min(plan.RouteLength,
+                    HelodCasSupportUtility.AttackApproachDistance(plan.AttackKind));
+                Vector3 attackStart = target
+                    - new Vector3(direction.x, 0f, direction.y) * attackDistance;
+                float progress = Mathf.InverseLerp(phaseStartTick, phaseEndTick, now);
+                return attackStart + new Vector3(direction.x, 0f, direction.y)
+                    * (attackDistance * progress);
             }
             if (aircraftPhase == HelodCasAircraftPhase.AbortTurn)
             {
@@ -1877,7 +3446,8 @@ namespace Helodrace
             {
                 Vector3 strafeStart = plan.StrafeStartPosition;
                 float approachDistance = Mathf.Min(plan.FlightRouteLength,
-                    HelodCasSupportUtility.StrafeApproachDistance);
+                    HelodCasSupportUtility.StrafeApproachDistanceFor(
+                        plan.AircraftKind));
                 Vector3 approachStart = strafeStart
                     - new Vector3(direction.x, 0f, direction.y) * approachDistance;
                 float runDistance = TransitionTravelDistance(now - phaseStartTick,
@@ -2090,29 +3660,27 @@ namespace Helodrace
             if (aircraftPhase == HelodCasAircraftPhase.Dive)
             {
                 float progress = Mathf.InverseLerp(phaseStartTick, phaseEndTick, now);
-                return Mathf.SmoothStep(1.15f, 0.72f, progress);
+                return Mathf.SmoothStep(1.15f, 0.92f, progress);
             }
             if (aircraftPhase == HelodCasAircraftPhase.Recovery)
             {
                 float progress = Mathf.InverseLerp(phaseStartTick, phaseEndTick, now);
-                float scaleProgress = 1f - Mathf.Pow(1f - progress, 3f);
-                return Mathf.Lerp(recoveryStartScale, 1.20f, scaleProgress);
+                return Mathf.SmoothStep(recoveryStartScale, 1.15f, progress);
             }
             if (aircraftPhase == HelodCasAircraftPhase.Strafing)
             {
                 float progress = Mathf.InverseLerp(phaseStartTick, phaseEndTick, now);
-                return Mathf.Lerp(1.15f, HelodCasSupportUtility.StrafeMinimumScale,
+                return Mathf.SmoothStep(1.15f,
+                    HelodCasSupportUtility.StrafeMinimumScale,
                     progress);
             }
             if (aircraftPhase == HelodCasAircraftPhase.StrafeExit)
             {
                 float progress = Mathf.InverseLerp(phaseStartTick,
                     phaseStartTick + Mathf.Max(1, strafeExitTurnTicks), now);
-                float scaleProgress = 1f - Mathf.Pow(1f - progress, 3f);
-                return Mathf.Lerp(strafeExitStartScale, 1.15f,
-                    scaleProgress);
+                return Mathf.SmoothStep(strafeExitStartScale, 1.15f, progress);
             }
-            return aircraftPhase == HelodCasAircraftPhase.Complete ? 1.20f : 1.15f;
+            return 1.15f;
         }
 
         public void ExposeData()
@@ -2151,8 +3719,15 @@ namespace Helodrace
             Scribe_Values.Look(ref abortExitDirection, "abortExitDirection");
             Scribe_Values.Look(ref recoveryStartPosition, "recoveryStartPosition");
             Scribe_Values.Look(ref recoveryInitialSpeed, "recoveryInitialSpeed", 0f);
-            Scribe_Values.Look(ref recoveryStartScale, "recoveryStartScale", 0.72f);
+            Scribe_Values.Look(ref recoveryStartScale, "recoveryStartScale", 0.92f);
             Scribe_Values.Look(ref nextStrafeBurstTick, "nextStrafeBurstTick", 0f);
+            Scribe_Values.Look(ref a10CStrafeRoundAccumulator,
+                "a10CStrafeRoundAccumulator", 0f);
+            Scribe_Values.Look(ref pendingStrafeRounds, "pendingStrafeRounds", 0);
+            Scribe_Values.Look(ref a10CStrafeRoundsQueued,
+                "a10CStrafeRoundsQueued", 0);
+            Scribe_Values.Look(ref a10CStrafeSequenceIndex,
+                "a10CStrafeSequenceIndex", 0);
             Scribe_Values.Look(ref strafeExitStartPosition, "strafeExitStartPosition");
             Scribe_Values.Look(ref strafeExitStartDirection, "strafeExitStartDirection");
             Scribe_Values.Look(ref strafeExitDirection, "strafeExitDirection");
@@ -2160,6 +3735,10 @@ namespace Helodrace
             Scribe_Values.Look(ref strafeExitTurnTicks, "strafeExitTurnTicks", 0);
             Scribe_Values.Look(ref strafeExitStartScale, "strafeExitStartScale",
                 HelodCasSupportUtility.StrafeMinimumScale);
+            Scribe_Values.Look(ref fixedGuidanceDevicePosition,
+                "fixedGuidanceDevicePosition");
+            Scribe_Values.Look(ref fixedGuidanceDevicePositionInitialized,
+                "fixedGuidanceDevicePositionInitialized", false);
         }
     }
 }

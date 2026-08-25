@@ -66,50 +66,6 @@
   <HD_RefineCrudeOil_Chemfuel.description>배치식 증류기로 중질유에서 화학연료를 회수합니다. 다른 유용한 유분은 버려집니다.</HD_RefineCrudeOil_Chemfuel.description>
   <HD_RefineCrudeOil_Chemfuel.jobString>중질유에서 화학연료를 증류하는 중.</HD_RefineCrudeOil_Chemfuel.jobString>
 
-  <HD_TelegraphCrudeOilToSthaler.label>원유 계약 전신 송신</HD_TelegraphCrudeOilToSthaler.label>
-  <HD_TelegraphCrudeOilToSthaler.description>중질유 판매 주문을 전신으로 송신하고 스탈레르 지폐를 받습니다.</HD_TelegraphCrudeOilToSthaler.description>
-  <HD_TelegraphCrudeOilToSthaler.jobString>원유 계약을 전신 송신하는 중.</HD_TelegraphCrudeOilToSthaler.jobString>
-
-  <HD_TelegraphDieselToSthaler.label>디젤 계약 전신 송신</HD_TelegraphDieselToSthaler.label>
-  <HD_TelegraphDieselToSthaler.description>디젤 판매 주문을 전신으로 송신하고 스탈레르 지폐를 받습니다.</HD_TelegraphDieselToSthaler.description>
-  <HD_TelegraphDieselToSthaler.jobString>디젤 계약을 전신 송신하는 중.</HD_TelegraphDieselToSthaler.jobString>
-
-  <HD_TelegraphKeroseneToSthaler.label>등유 계약 전신 송신</HD_TelegraphKeroseneToSthaler.label>
-  <HD_TelegraphKeroseneToSthaler.description>등유 판매 주문을 전신으로 송신하고 스탈레르 지폐를 받습니다.</HD_TelegraphKeroseneToSthaler.description>
-  <HD_TelegraphKeroseneToSthaler.jobString>등유 계약을 전신 송신하는 중.</HD_TelegraphKeroseneToSthaler.jobString>
-
-  <HD_TelegraphBuyGovernmentBond.label>정부 채권 전신 구매</HD_TelegraphBuyGovernmentBond.label>
-  <HD_TelegraphBuyGovernmentBond.description>스탈레르 지폐로 베세니카 정부 채권 구매 주문을 전신 송신합니다.</HD_TelegraphBuyGovernmentBond.description>
-  <HD_TelegraphBuyGovernmentBond.jobString>정부 채권 구매 주문을 전신 송신하는 중.</HD_TelegraphBuyGovernmentBond.jobString>
-
-  <HD_TelegraphBuyGovernmentBondBulk.label>정부 채권 전신 구매 x5</HD_TelegraphBuyGovernmentBondBulk.label>
-  <HD_TelegraphBuyGovernmentBondBulk.description>스탈레르 지폐로 베세니카 정부 채권 5장 구매 주문을 전신 송신합니다.</HD_TelegraphBuyGovernmentBondBulk.description>
-  <HD_TelegraphBuyGovernmentBondBulk.jobString>대량 정부 채권 구매 주문을 전신 송신하는 중.</HD_TelegraphBuyGovernmentBondBulk.jobString>
-
-  <HD_TelegraphBuyContinentalPetroleumBond.label>대륙 석유회사 채권 전신 구매</HD_TelegraphBuyContinentalPetroleumBond.label>
-  <HD_TelegraphBuyContinentalPetroleumBond.description>스탈레르 지폐로 대륙 석유회사 채권 구매 주문을 전신 송신합니다.</HD_TelegraphBuyContinentalPetroleumBond.description>
-  <HD_TelegraphBuyContinentalPetroleumBond.jobString>대륙 석유회사 채권 구매 주문을 전신 송신하는 중.</HD_TelegraphBuyContinentalPetroleumBond.jobString>
-
-  <HD_TelegraphBuyContinentalPetroleumBondBulk.label>대륙 석유회사 채권 전신 구매 x5</HD_TelegraphBuyContinentalPetroleumBondBulk.label>
-  <HD_TelegraphBuyContinentalPetroleumBondBulk.description>스탈레르 지폐로 대륙 석유회사 채권 5장 구매 주문을 전신 송신합니다.</HD_TelegraphBuyContinentalPetroleumBondBulk.description>
-  <HD_TelegraphBuyContinentalPetroleumBondBulk.jobString>대량 대륙 석유회사 채권 구매 주문을 전신 송신하는 중.</HD_TelegraphBuyContinentalPetroleumBondBulk.jobString>
-
-  <HD_TelegraphGoldToSthaler.label>금을 스탈레르로 전신 환전</HD_TelegraphGoldToSthaler.label>
-  <HD_TelegraphGoldToSthaler.description>금을 스탈레르 지폐로 바꾸는 환전 주문을 전신 송신합니다.</HD_TelegraphGoldToSthaler.description>
-  <HD_TelegraphGoldToSthaler.jobString>금-스탈레르 환전 주문을 전신 송신하는 중.</HD_TelegraphGoldToSthaler.jobString>
-
-  <HD_TelegraphGoldToSthalerBulk.label>금을 스탈레르로 전신 환전 x10</HD_TelegraphGoldToSthalerBulk.label>
-  <HD_TelegraphGoldToSthalerBulk.description>금을 스탈레르 지폐로 바꾸는 대량 환전 주문을 전신 송신합니다.</HD_TelegraphGoldToSthalerBulk.description>
-  <HD_TelegraphGoldToSthalerBulk.jobString>대량 금-스탈레르 환전 주문을 전신 송신하는 중.</HD_TelegraphGoldToSthalerBulk.jobString>
-
-  <HD_TelegraphSthalerToGold.label>스탈레르를 금으로 전신 환전</HD_TelegraphSthalerToGold.label>
-  <HD_TelegraphSthalerToGold.description>스탈레르 지폐를 금으로 바꾸는 환전 주문을 전신 송신합니다.</HD_TelegraphSthalerToGold.description>
-  <HD_TelegraphSthalerToGold.jobString>스탈레르-금 환전 주문을 전신 송신하는 중.</HD_TelegraphSthalerToGold.jobString>
-
-  <HD_TelegraphSthalerToGoldBulk.label>스탈레르를 금으로 전신 환전 x10</HD_TelegraphSthalerToGoldBulk.label>
-  <HD_TelegraphSthalerToGoldBulk.description>스탈레르 지폐를 금으로 바꾸는 대량 환전 주문을 전신 송신합니다.</HD_TelegraphSthalerToGoldBulk.description>
-  <HD_TelegraphSthalerToGoldBulk.jobString>대량 스탈레르-금 환전 주문을 전신 송신하는 중.</HD_TelegraphSthalerToGoldBulk.jobString>
-
   <HD_MakeSlush_Low.label>저품질 슬러시 만들기</HD_MakeSlush_Low.label>
   <HD_MakeSlush_Low.description>원유를 섞어 걸쭉한 저품질 윤활 슬러시를 만듭니다.</HD_MakeSlush_Low.description>
   <HD_MakeSlush_Low.jobString>저품질 슬러시 만드는 중.</HD_MakeSlush_Low.jobString>

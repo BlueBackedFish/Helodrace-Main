@@ -67,6 +67,13 @@
   <HD_81mmMortarShell_M57WP_Proj.label>M57 81mm 백린연막탄</HD_81mmMortarShell_M57WP_Proj.label>
   <HD_81mmMortarShell_BA_Proj.label>M57 81mm BA 화학탄</HD_81mmMortarShell_BA_Proj.label>
   <HD_105mmShell_M1HE_Proj.label>M1 105mm 고폭탄</HD_105mmShell_M1HE_Proj.label>
+  <HD_155mmShell_M107HE_Proj.label>M107 155mm 고폭탄</HD_155mmShell_M107HE_Proj.label>
+  <HD_155mmShell_M110BA_Proj.label>M110 155mm BA 화학탄</HD_155mmShell_M110BA_Proj.label>
+  <HD_155mmShell_M110WP_Proj.label>M110 155mm 백린연막탄</HD_155mmShell_M110WP_Proj.label>
+  <HD_155mmShell_M110CN_Proj.label>M110 155mm CN 화학탄</HD_155mmShell_M110CN_Proj.label>
+  <HD_155mmShell_W48_Proj.label>W48 155mm 핵포탄</HD_155mmShell_W48_Proj.label>
+  <HD_Projectile_W48Fragment.label>W48 핵포탄 파편</HD_Projectile_W48Fragment.label>
+  <HD_Projectile_155mmHEFragment.label>155mm 고폭탄 파편</HD_Projectile_155mmHEFragment.label>
   <HD_Gun_M1_81mmMortar_TurretGun.label>M1 81mm 박격포</HD_Gun_M1_81mmMortar_TurretGun.label>
   <HD_Gun_M1_81mmMortar_TurretGun.description>무거운 81mm 포탄을 높은 탄도로 발사하는 보병 박격포입니다. 운용 인원과 준비된 M43 고폭탄이 필요합니다.</HD_Gun_M1_81mmMortar_TurretGun.description>
   <HD_Bullet_M2HB_Proj.label>12.7mm 중기관총탄</HD_Bullet_M2HB_Proj.label>

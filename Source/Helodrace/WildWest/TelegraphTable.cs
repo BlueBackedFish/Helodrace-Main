@@ -20,43 +20,34 @@ namespace Helodrace
     public class CompTelegraphTable : ThingComp
     {
         private const string UseJobDefName = "HD_UseTelegraphTable";
-        private const string LoadJobDefName = "HD_LoadTelegraphPrimaryCells";
-        private const string PrimaryCellDefName = "HD_PrimaryCell";
-        private const int MaxPrimaryCells = 100;
+        private int legacyStoredPrimaryCells;
 
-        private int storedPrimaryCells;
+        private CompRefuelable Refuelable => parent.TryGetComp<CompRefuelable>();
 
-        public int StoredPrimaryCells => storedPrimaryCells;
-        public int PrimaryCellCapacityLeft => MaxPrimaryCells - storedPrimaryCells;
-        public bool HasPrimaryCell => storedPrimaryCells > 0;
+        public int StoredPrimaryCells => Mathf.FloorToInt(Refuelable?.Fuel ?? 0f);
+        public bool HasPrimaryCell => Refuelable?.Fuel >= 1f;
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref storedPrimaryCells, "storedPrimaryCells", 0);
-        }
-
-        public override string CompInspectStringExtra()
-        {
-            return "HD_TelegraphTable_PrimaryCellsStored".Translate(storedPrimaryCells, MaxPrimaryCells);
+            Scribe_Values.Look(ref legacyStoredPrimaryCells, "storedPrimaryCells", 0);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && legacyStoredPrimaryCells > 0)
+            {
+                Refuelable?.Refuel(legacyStoredPrimaryCells);
+                legacyStoredPrimaryCells = 0;
+            }
         }
 
         public bool ConsumePrimaryCell()
         {
-            if (storedPrimaryCells <= 0)
+            CompRefuelable refuelable = Refuelable;
+            if (refuelable?.Fuel < 1f)
             {
                 return false;
             }
 
-            storedPrimaryCells--;
+            refuelable.ConsumeFuel(1f);
             return true;
-        }
-
-        public int AddPrimaryCells(int count)
-        {
-            int added = Mathf.Clamp(count, 0, PrimaryCellCapacityLeft);
-            storedPrimaryCells += added;
-            return added;
         }
 
         public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
@@ -96,54 +87,6 @@ namespace Helodrace
                 Job job = JobMaker.MakeJob(jobDef, parent);
                 selPawn.jobs.TryTakeOrderedJob(job);
             });
-
-            string loadLabel = "HD_TelegraphTable_LoadPrimaryCells".Translate(parent.LabelShort, storedPrimaryCells, MaxPrimaryCells);
-            if (PrimaryCellCapacityLeft <= 0)
-            {
-                yield return new FloatMenuOption(loadLabel + ": " + "HD_TelegraphTable_PrimaryCellsFull".Translate(), null);
-                yield break;
-            }
-
-            Thing primaryCell = FindPrimaryCell(selPawn);
-            if (primaryCell == null)
-            {
-                yield return new FloatMenuOption(loadLabel + ": " + "HD_TelegraphTable_NoPrimaryCell".Translate(), null);
-                yield break;
-            }
-
-            yield return new FloatMenuOption(loadLabel, delegate
-            {
-                JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(LoadJobDefName);
-                if (jobDef == null)
-                {
-                    Log.ErrorOnce("Helodrace: HD_LoadTelegraphPrimaryCells JobDef is missing.", 72851043);
-                    return;
-                }
-
-                Job job = JobMaker.MakeJob(jobDef, parent, primaryCell);
-                job.count = Mathf.Min(PrimaryCellCapacityLeft, primaryCell.stackCount);
-                selPawn.jobs.TryTakeOrderedJob(job);
-            });
-        }
-
-        private static Thing FindPrimaryCell(Pawn pawn)
-        {
-            ThingDef primaryCellDef = DefDatabase<ThingDef>.GetNamedSilentFail(PrimaryCellDefName);
-            if (primaryCellDef == null)
-            {
-                Log.ErrorOnce("Helodrace: HD_PrimaryCell ThingDef is missing.", 72851042);
-                return null;
-            }
-
-            return GenClosest.ClosestThingReachable(
-                pawn.Position,
-                pawn.Map,
-                ThingRequest.ForDef(primaryCellDef),
-                PathEndMode.ClosestTouch,
-                TraverseParms.For(pawn),
-                9999f,
-                x => !x.IsForbidden(pawn) && pawn.CanReserve(x) && x.stackCount >= 1
-            );
         }
     }
 
@@ -179,68 +122,15 @@ namespace Helodrace
         }
     }
 
-    public class JobDriver_LoadTelegraphPrimaryCells : JobDriver
-    {
-        private const TargetIndex TableInd = TargetIndex.A;
-        private const TargetIndex PrimaryCellInd = TargetIndex.B;
-
-        private Thing TelegraphTable => job.GetTarget(TableInd).Thing;
-        private Thing PrimaryCell => job.GetTarget(PrimaryCellInd).Thing;
-
-        public override bool TryMakePreToilReservations(bool errorOnFailed)
-        {
-            if (!pawn.Reserve(TelegraphTable, job, 1, -1, null, errorOnFailed)) return false;
-            if (!pawn.Reserve(PrimaryCell, job, 1, job.count, null, errorOnFailed)) return false;
-            return true;
-        }
-
-        protected override IEnumerable<Toil> MakeNewToils()
-        {
-            this.FailOnDespawnedNullOrForbidden(TableInd);
-            this.FailOnBurningImmobile(TableInd);
-
-            yield return Toils_Goto.GotoThing(PrimaryCellInd, PathEndMode.ClosestTouch)
-                .FailOnDespawnedNullOrForbidden(PrimaryCellInd)
-                .FailOnSomeonePhysicallyInteracting(PrimaryCellInd);
-            yield return Toils_Haul.StartCarryThing(PrimaryCellInd, false, false, false);
-            yield return Toils_Goto.GotoThing(TableInd, PathEndMode.InteractionCell);
-
-            yield return new Toil
-            {
-                initAction = delegate
-                {
-                    CompTelegraphTable comp = TelegraphTable?.TryGetComp<CompTelegraphTable>();
-                    Thing carried = pawn.carryTracker.CarriedThing;
-                    if (comp == null || carried == null)
-                    {
-                        return;
-                    }
-
-                    int added = comp.AddPrimaryCells(carried.stackCount);
-                    if (added >= carried.stackCount)
-                    {
-                        carried.Destroy(DestroyMode.Vanish);
-                    }
-                    else
-                    {
-                        carried.stackCount -= added;
-                        pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Near, out _);
-                    }
-                },
-                defaultCompleteMode = ToilCompleteMode.Instant
-            };
-        }
-    }
-
     public class Dialog_TelegraphTable : Window
     {
         private const float MaxForwardBaseDistance = 60f;
         private const float GoldStandardSthalerSilverValue = HelodForwardBaseServiceUtility.GoldStandardSthalerSilverValue;
         private static readonly ForwardBaseService[] InfantryServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment };
-        private static readonly ForwardBaseService[] ArtilleryServices = { };
+        private static readonly ForwardBaseService[] ArtilleryServices = { ForwardBaseService.Artillery105mmSupport, ForwardBaseService.Artillery155mmSupport, ForwardBaseService.W48Support };
         private static readonly ForwardBaseService[] AirForceServices = { ForwardBaseService.CloseAirSupport };
         private static readonly ForwardBaseService[] LogisticsServices = { ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons };
-        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.CloseAirSupport };
+        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.Artillery105mmSupport, ForwardBaseService.Artillery155mmSupport, ForwardBaseService.W48Support, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.CloseAirSupport };
 
         private readonly Thing telegraphTable;
         private readonly Pawn operatorPawn;
@@ -260,6 +150,9 @@ namespace Helodrace
         private bool includeLogisticsMedicalSupplies;
         private bool includeLogisticsWeapons;
         private bool includeCloseAirSupport;
+        private bool includeArtillery105mmSupport;
+        private bool includeArtillery155mmSupport;
+        private bool includeW48Support;
         private MarketSubTab selectedMarketSubTab;
         private int selectedMarketIndex;
         private int tradeCount = 1;
@@ -1011,6 +904,12 @@ namespace Helodrace
         private void DrawForwardBaseServiceOption(Rect rect, ForwardBaseService service, float credit)
         {
             string label = ForwardBaseServiceLabel(service) + "  " + "HD_TelegraphTable_ForwardBase_ServiceLevel".Translate(ForwardBaseServiceLevel(service));
+            if (service == ForwardBaseService.W48Support && !includeArtillery155mmSupport)
+            {
+                SetServiceSelected(service, false);
+                DrawServiceDependencyOption(rect, label);
+                return;
+            }
             if (!IsServiceAvailableForBase(selectedForwardBaseKind, service))
             {
                 SetServiceSelected(service, false);
@@ -1050,6 +949,17 @@ namespace Helodrace
             Widgets.Label(rect, label + "  " + "HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
             TooltipHandler.TipRegion(rect, "HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip".Translate());
+            GUI.color = Color.white;
+        }
+
+        private static void DrawServiceDependencyOption(Rect rect, string label)
+        {
+            GUI.color = Color.gray;
+            Widgets.DrawOptionBackground(rect, false);
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(rect, label + "  " + "HD_TelegraphTable_ForwardBase_ServiceDependency".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            TooltipHandler.TipRegion(rect, "HD_TelegraphTable_ForwardBase_ServiceDependency_M114".Translate());
             GUI.color = Color.white;
         }
 
@@ -1122,6 +1032,11 @@ namespace Helodrace
                 {
                     SetServiceSelected(service, false);
                 }
+            }
+
+            if (!includeArtillery155mmSupport)
+            {
+                includeW48Support = false;
             }
         }
 
@@ -1241,7 +1156,10 @@ namespace Helodrace
                 includeLogisticsMedicalSupplies,
                 includeLogisticsWeapons,
                 includeCloseAirSupport,
-                includeInfantrySniperSupport
+                includeInfantrySniperSupport,
+                includeArtillery105mmSupport,
+                includeArtillery155mmSupport,
+                includeW48Support
             };
         }
 
@@ -1260,6 +1178,9 @@ namespace Helodrace
             includeLogisticsWeapons = flags[5];
             includeCloseAirSupport = flags[6];
             includeInfantrySniperSupport = flags.Length > 7 && flags[7];
+            includeArtillery105mmSupport = flags.Length > 8 && flags[8];
+            includeArtillery155mmSupport = flags.Length > 9 && flags[9];
+            includeW48Support = flags.Length > 10 && flags[10];
         }
 
         private bool IsServiceSelected(ForwardBaseService service)
@@ -1282,6 +1203,12 @@ namespace Helodrace
                     return includeLogisticsWeapons;
                 case ForwardBaseService.CloseAirSupport:
                     return includeCloseAirSupport;
+                case ForwardBaseService.Artillery105mmSupport:
+                    return includeArtillery105mmSupport;
+                case ForwardBaseService.Artillery155mmSupport:
+                    return includeArtillery155mmSupport;
+                case ForwardBaseService.W48Support:
+                    return includeW48Support;
                 default:
                     return false;
             }
@@ -1314,6 +1241,19 @@ namespace Helodrace
                     break;
                 case ForwardBaseService.CloseAirSupport:
                     includeCloseAirSupport = selected;
+                    break;
+                case ForwardBaseService.Artillery105mmSupport:
+                    includeArtillery105mmSupport = selected;
+                    break;
+                case ForwardBaseService.Artillery155mmSupport:
+                    includeArtillery155mmSupport = selected;
+                    if (!selected)
+                    {
+                        includeW48Support = false;
+                    }
+                    break;
+                case ForwardBaseService.W48Support:
+                    includeW48Support = selected;
                     break;
             }
         }
@@ -1724,6 +1664,12 @@ namespace Helodrace
                     return 900f;
                 case ForwardBaseService.CloseAirSupport:
                     return 1800f;
+                case ForwardBaseService.Artillery105mmSupport:
+                    return 900f;
+                case ForwardBaseService.Artillery155mmSupport:
+                    return 1500f;
+                case ForwardBaseService.W48Support:
+                    return 2000f;
                 default:
                     return 250f;
             }
@@ -1738,7 +1684,12 @@ namespace Helodrace
                     return 2;
                 case ForwardBaseService.LogisticsWeapons:
                 case ForwardBaseService.CloseAirSupport:
+                case ForwardBaseService.Artillery155mmSupport:
                     return 3;
+                case ForwardBaseService.W48Support:
+                    return 4;
+                case ForwardBaseService.Artillery105mmSupport:
+                    return 2;
                 default:
                     return 1;
             }
@@ -1791,7 +1742,8 @@ namespace Helodrace
                 case ForwardBaseKind.FB:
                     return ForwardBaseServiceTypeOf(service) == ForwardBaseServiceType.Artillery;
                 case ForwardBaseKind.COP:
-                    return ForwardBaseServiceTypeOf(service) == ForwardBaseServiceType.Infantry
+                    return ForwardBaseServiceTypeOf(service) == ForwardBaseServiceType.Artillery
+                        || ForwardBaseServiceTypeOf(service) == ForwardBaseServiceType.Infantry
                         || service == ForwardBaseService.LogisticsFreshFood
                         || service == ForwardBaseService.LogisticsPreservedFood
                         || service == ForwardBaseService.LogisticsMedicalSupplies;

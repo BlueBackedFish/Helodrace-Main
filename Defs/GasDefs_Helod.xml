@@ -38,6 +38,19 @@
   </Helodrace.HelodGasDef>
 
   <Helodrace.HelodGasDef>
+    <defName>HD_CNGasGrid</defName>
+    <label>CN gas</label>
+    <description>A persistent tear-agent cloud that develops more slowly than CS. Heavy exposure causes severe eye, skin, and respiratory irritation and may inflict minor tissue damage. Gas protection and toxic-environment resistance reduce exposure.</description>
+    <color>(0.83,0.78,0.52,0.37)</color>
+    <dissipationRate>2</dissipationRate>
+    <diffusionThreshold>16</diffusionThreshold>
+    <diffusionTransferDivisor>4</diffusionTransferDivisor>
+    <accuracyFactor>0.88</accuracyFactor>
+    <severityPerTickAtFullDensity>0.00075</severityPerTickAtFullDensity>
+    <workerClass>Helodrace.HelodGasWorker_CN</workerClass>
+  </Helodrace.HelodGasDef>
+
+  <Helodrace.HelodGasDef>
     <defName>HD_WhitePhosphorusSmokeGrid</defName>
     <label>white phosphorus smoke</label>
     <description>A dense, persistent cloud produced by burning white phosphorus. It obscures gunfire as effectively as an ordinary smoke screen and can ignite flammable things caught inside.</description>

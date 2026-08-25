@@ -549,7 +549,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Building_M114Howitzer</defName>
     <label>M114 155mm howitzer</label>
-    <description>A medium 155mm field howitzer on a split-trail carriage. Its section chief, gunner, and assistant gunner must all be at their stations before it can fire, while additional crew improve aiming and loading. It uses standard mortar shells for long-range indirect fire.</description>
+    <description>A medium 155mm field howitzer on a split-trail carriage. Its section chief, gunner, and assistant gunner must all be at their stations before it can fire, while additional crew improve aiming and loading. It uses dedicated 155mm high-explosive, BA and CN chemical, white-phosphorus, and W48 nuclear shells for long-range indirect fire.</description>
     <thingClass>Building_TurretGun</thingClass>
     <drawerType>MapMeshAndRealTime</drawerType>
     <drawHighlight>true</drawHighlight>

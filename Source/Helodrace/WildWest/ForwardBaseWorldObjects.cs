@@ -3,6 +3,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Helodrace
@@ -134,6 +135,9 @@ namespace Helodrace
 
     public class HelodForwardBase : WorldObject
     {
+        public const int W48DeliveryHours = 5;
+        public const int W48AuthorizationHours = 5;
+
         private string contractInfo;
         private List<HelodForwardBaseService> contractServices = new List<HelodForwardBaseService>();
         private HelodForwardBaseCostKind contractCostKind = HelodForwardBaseCostKind.FFP;
@@ -146,6 +150,12 @@ namespace Helodrace
         private List<int> usageCounts = new List<int>();
         private List<int> totalUsageCounts = new List<int>();
         private float mortarUsageCostGoldStandard;
+        private bool w48OrderPending;
+        private bool w48ReadyNotified;
+        private int w48TargetMapId = -1;
+        private IntVec3 w48TargetCell = IntVec3.Invalid;
+        private int w48DeliveryTick;
+        private int w48AuthorizationExpiryTick;
         private const int WithdrawalTicks = 3 * GenDate.TicksPerDay;
         private const float PaymentFailureCreditPenalty = 80f;
         private const int PaymentFailureGoodwillPenalty = -12;
@@ -157,6 +167,12 @@ namespace Helodrace
         public HelodForwardBaseIdiqPricingKind IdiqPricingKind => idiqPricingKind;
         public int ContractDurationDays => contractDurationDays;
         public float ContractMilitaryCredit => contractMilitaryCredit;
+        public bool HasPendingW48Order => w48OrderPending;
+        public bool W48AwaitingAuthorization => w48OrderPending
+            && Find.TickManager.TicksGame >= w48DeliveryTick
+            && Find.TickManager.TicksGame <= w48AuthorizationExpiryTick;
+        public int W48DeliveryTick => w48DeliveryTick;
+        public int W48AuthorizationExpiryTick => w48AuthorizationExpiryTick;
 
         public void SetContractInfo(string info)
         {
@@ -246,8 +262,20 @@ namespace Helodrace
 
         public bool TryConsumeMortarSupport(ThingDef shellDef, int shellCount, out string failReason)
         {
+            return TryConsumeAmmunitionSupport(
+                HelodForwardBaseService.InfantryMortarSupport,
+                shellDef,
+                shellCount,
+                out failReason);
+        }
+
+        public bool TryConsumeAmmunitionSupport(
+            HelodForwardBaseService service,
+            ThingDef shellDef,
+            int shellCount,
+            out string failReason)
+        {
             failReason = null;
-            HelodForwardBaseService service = HelodForwardBaseService.InfantryMortarSupport;
             if (!HasService(service))
             {
                 failReason = "HD_ForwardBase_ServiceUnavailable".Translate().ToString();
@@ -279,6 +307,86 @@ namespace Helodrace
             return true;
         }
 
+        public bool TryRequestW48(Map targetMap, IntVec3 targetCell, out string failReason)
+        {
+            failReason = null;
+            if (!HasService(HelodForwardBaseService.W48Support)
+                || !HasService(HelodForwardBaseService.Artillery155mmSupport))
+            {
+                failReason = "HD_ForwardBase_ServiceUnavailable".Translate().ToString();
+                return false;
+            }
+            if (w48OrderPending)
+            {
+                failReason = "HD_W48_AlreadyPending".Translate().ToString();
+                return false;
+            }
+
+            ThingDef shell = DefDatabase<ThingDef>.GetNamedSilentFail("HD_155mmShell_W48");
+            if (targetMap == null || shell?.projectileWhenLoaded == null || !targetCell.InBounds(targetMap))
+            {
+                failReason = "HD_W48_Unavailable".Translate().ToString();
+                return false;
+            }
+
+            if (!TryConsumeAmmunitionSupport(
+                HelodForwardBaseService.W48Support,
+                shell,
+                1,
+                out failReason))
+            {
+                return false;
+            }
+
+            int now = Find.TickManager.TicksGame;
+            w48OrderPending = true;
+            w48ReadyNotified = false;
+            w48TargetMapId = targetMap.uniqueID;
+            w48TargetCell = targetCell;
+            w48DeliveryTick = now + W48DeliveryHours * GenDate.TicksPerHour;
+            w48AuthorizationExpiryTick = w48DeliveryTick + W48AuthorizationHours * GenDate.TicksPerHour;
+            return true;
+        }
+
+        public bool TryAuthorizeW48(out string failReason)
+        {
+            failReason = null;
+            int now = Find.TickManager.TicksGame;
+            if (!w48OrderPending || now < w48DeliveryTick)
+            {
+                failReason = "HD_W48_NotReady".Translate().ToString();
+                return false;
+            }
+            if (now > w48AuthorizationExpiryTick)
+            {
+                ClearW48Order();
+                failReason = "HD_W48_AuthorizationExpired".Translate().ToString();
+                return false;
+            }
+
+            Map targetMap = Find.Maps.FirstOrDefault(x => x.uniqueID == w48TargetMapId);
+            ThingDef shell = DefDatabase<ThingDef>.GetNamedSilentFail("HD_155mmShell_W48");
+            if (targetMap == null || shell?.projectileWhenLoaded == null || !w48TargetCell.InBounds(targetMap))
+            {
+                ClearW48Order();
+                failReason = "HD_W48_TargetUnavailable".Translate().ToString();
+                return false;
+            }
+
+            targetMap.GetComponent<MapComponent_HelodMortarSupport>().QueueStrike(
+                w48TargetCell,
+                w48TargetCell,
+                shell,
+                this,
+                null,
+                1,
+                1,
+                120,
+                2f);
+            ClearW48Order();
+            return true;
+        }
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -294,6 +402,20 @@ namespace Helodrace
             Scribe_Collections.Look(ref usageCounts, "usageCounts", LookMode.Value);
             Scribe_Collections.Look(ref totalUsageCounts, "totalUsageCounts", LookMode.Value);
             Scribe_Values.Look(ref mortarUsageCostGoldStandard, "mortarUsageCostGoldStandard", 0f);
+            Scribe_Values.Look(ref w48OrderPending, "w48OrderPending", false);
+            Scribe_Values.Look(ref w48ReadyNotified, "w48ReadyNotified", false);
+            Scribe_Values.Look(ref w48TargetMapId, "w48TargetMapId", -1);
+            Scribe_Values.Look(ref w48TargetCell, "w48TargetCell", IntVec3.Invalid);
+            Scribe_Values.Look(ref w48DeliveryTick, "w48DeliveryTick", 0);
+            Scribe_Values.Look(ref w48AuthorizationExpiryTick, "w48AuthorizationExpiryTick", 0);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit
+                && w48OrderPending
+                && w48AuthorizationExpiryTick - w48DeliveryTick == 2 * GenDate.TicksPerHour)
+            {
+                w48DeliveryTick -= 3 * GenDate.TicksPerHour;
+                w48AuthorizationExpiryTick = w48DeliveryTick
+                    + W48AuthorizationHours * GenDate.TicksPerHour;
+            }
             if (contractServices == null)
             {
                 contractServices = new List<HelodForwardBaseService>();
@@ -322,6 +444,7 @@ namespace Helodrace
             base.Tick();
             EnsureUsagePeriod();
             CheckContractEnd();
+            TickW48Order();
         }
 
         public override string GetInspectString()
@@ -346,6 +469,19 @@ namespace Helodrace
                 }
 
                 inspect += usageInfo;
+            }
+
+            if (w48OrderPending)
+            {
+                if (!inspect.NullOrEmpty())
+                {
+                    inspect += "\n";
+                }
+
+                int currentTick = Find.TickManager?.TicksGame ?? 0;
+                inspect += currentTick < w48DeliveryTick
+                    ? "HD_W48_Status_Delivering".Translate((w48DeliveryTick - currentTick).ToStringTicksToPeriod())
+                    : "HD_W48_Status_AwaitingAuthorization".Translate(Mathf.Max(0, w48AuthorizationExpiryTick - currentTick).ToStringTicksToPeriod());
             }
 
             int ticksLeft = ContractEndTick - (Find.TickManager?.TicksGame ?? 0);
@@ -456,7 +592,7 @@ namespace Helodrace
 
                 if (UsesReimbursableUsageCost)
                 {
-                    if (service != HelodForwardBaseService.InfantryMortarSupport)
+                    if (!IsAmmunitionSupport(service))
                     {
                         reimbursableTotal += current * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(service);
                     }
@@ -488,7 +624,12 @@ namespace Helodrace
 
         private int ServiceUseLimitPerBillingPeriod(HelodForwardBaseService service)
         {
-            if (service == HelodForwardBaseService.InfantryMortarSupport)
+            if (service == HelodForwardBaseService.W48Support)
+            {
+                return 1;
+            }
+
+            if (IsAmmunitionSupport(service))
             {
                 return 5;
             }
@@ -511,7 +652,7 @@ namespace Helodrace
 
             for (int i = 0; i < usageServices.Count && i < usageCounts.Count; i++)
             {
-                if (usageServices[i] != HelodForwardBaseService.InfantryMortarSupport)
+                if (!IsAmmunitionSupport(usageServices[i]))
                 {
                     cost += usageCounts[i] * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(usageServices[i]);
                 }
@@ -761,6 +902,54 @@ namespace Helodrace
         private static string ServiceLabel(HelodForwardBaseService service)
         {
             return ("HD_TelegraphTable_ForwardBase_Service_" + service).Translate().ToString();
+        }
+
+        private static bool IsAmmunitionSupport(HelodForwardBaseService service)
+        {
+            return service == HelodForwardBaseService.InfantryMortarSupport
+                || service == HelodForwardBaseService.Artillery105mmSupport
+                || service == HelodForwardBaseService.Artillery155mmSupport
+                || service == HelodForwardBaseService.W48Support;
+        }
+
+        private void TickW48Order()
+        {
+            if (!w48OrderPending)
+            {
+                return;
+            }
+
+            int now = Find.TickManager.TicksGame;
+            if (now > w48AuthorizationExpiryTick)
+            {
+                ClearW48Order();
+                Messages.Message("HD_W48_AuthorizationExpired".Translate(), this, MessageTypeDefOf.NegativeEvent);
+                return;
+            }
+
+            if (!w48ReadyNotified && now >= w48DeliveryTick)
+            {
+                w48ReadyNotified = true;
+                Messages.Message(
+                    "HD_W48_ReadyAlarm".Translate(W48AuthorizationHours),
+                    this,
+                    MessageTypeDefOf.NeutralEvent);
+                Find.LetterStack.ReceiveLetter(
+                    "HD_W48_ReadyLetterLabel".Translate(),
+                    "HD_W48_ReadyLetterText".Translate(W48AuthorizationHours),
+                    LetterDefOf.NeutralEvent,
+                    this);
+            }
+        }
+
+        private void ClearW48Order()
+        {
+            w48OrderPending = false;
+            w48ReadyNotified = false;
+            w48TargetMapId = -1;
+            w48TargetCell = IntVec3.Invalid;
+            w48DeliveryTick = 0;
+            w48AuthorizationExpiryTick = 0;
         }
 
         private string UsageUnitLabel(HelodForwardBaseService service)

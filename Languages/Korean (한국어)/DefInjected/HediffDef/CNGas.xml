@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_CNGasExposure.label>CN 자극 증상</HD_CNGasExposure.label>
+  <HD_CNGasExposure.labelNoun>CN 자극 증상</HD_CNGasExposure.labelNoun>
+  <HD_CNGasExposure.description>CN 최루 작용제에 노출되어 눈, 피부와 기도의 통증성 자극이 천천히 심해지고 있습니다. 심각한 누적 노출은 미약한 조직 손상을 일으킬 수 있으며, 가스 구름을 벗어나면 증상은 천천히 가라앉습니다.</HD_CNGasExposure.description>
+  <HD_CNGasExposure.stages.0.label>자극 발현 중</HD_CNGasExposure.stages.0.label>
+  <HD_CNGasExposure.stages.1.label>기침과 시야 흐림</HD_CNGasExposure.stages.1.label>
+  <HD_CNGasExposure.stages.2.label>심각한 CN 중독</HD_CNGasExposure.stages.2.label>
+</LanguageData>

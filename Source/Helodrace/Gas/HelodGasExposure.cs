@@ -168,4 +168,41 @@ namespace Helodrace.ModernWar
             }
         }
     }
+
+    public static class Gas_CN
+    {
+        private static HediffDef exposureHediff;
+
+        internal static void ApplyExposureTo(Pawn pawn, float density, float severityAtFullDensity)
+        {
+            if (pawn?.health == null || pawn.Dead || pawn.RaceProps?.IsFlesh != true
+                || (pawn.RaceProps.Humanlike && !GasUtility.IsAffectedByExposure(pawn)))
+                return;
+
+            float resistance = pawn.GetStatValue(StatDefOf.ToxicEnvironmentResistance);
+            if (resistance >= 1f)
+                return;
+
+            exposureHediff = exposureHediff ?? DefDatabase<HediffDef>.GetNamedSilentFail("HD_CNGasExposure");
+            if (exposureHediff == null)
+                return;
+
+            float gain = severityAtFullDensity * Mathf.Clamp01(density) * Mathf.Clamp01(1f - resistance);
+            Hediff exposure = pawn.health.hediffSet.GetFirstHediffOfDef(exposureHediff);
+            if (exposure is Hediff_CNGasExposure cnExposure)
+                cnExposure.AddDose(gain);
+            else if (exposure != null)
+                exposure.Severity = Mathf.Min(exposureHediff.maxSeverity, exposure.Severity + gain);
+            else
+            {
+                Hediff newExposure = HediffMaker.MakeHediff(exposureHediff, pawn);
+                newExposure.Severity = 0f;
+                if (newExposure is Hediff_CNGasExposure newCNExposure)
+                    newCNExposure.AddDose(gain);
+                else
+                    newExposure.Severity = gain;
+                pawn.health.AddHediff(newExposure);
+            }
+        }
+    }
 }

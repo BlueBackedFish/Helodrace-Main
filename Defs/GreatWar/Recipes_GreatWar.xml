@@ -210,7 +210,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>Chemfuel</li>
+            <li>HD_TNT</li>
           </thingDefs>
         </filter>
         <count>22</count>
@@ -219,7 +219,7 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>Steel</li>
-        <li>Chemfuel</li>
+        <li>HD_TNT</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -231,6 +231,104 @@
     <skillRequirements>
       <Crafting>6</Crafting>
     </skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make155mmShellM107HE</defName>
+    <label>make M107 155mm HE shell</label>
+    <description>Assemble a heavy M107 high-explosive shell for the M114 155mm howitzer.</description>
+    <jobString>Making M107 155mm HE shell.</jobString>
+    <workAmount>3600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodHighExplosive</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter><thingDefs><li>Steel</li></thingDefs></filter>
+        <count>45</count>
+      </li>
+      <li>
+        <filter><thingDefs><li>HD_TNT</li></thingDefs></filter>
+        <count>38</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs><li>Steel</li><li>HD_TNT</li></thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_155mmShell_M107HE>1</HD_155mmShell_M107HE>
+    </products>
+    <recipeUsers><li>HD_Tier2Workbench</li></recipeUsers>
+    <skillRequirements><Crafting>7</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make155mmShellM110BA</defName>
+    <label>make M110 155mm BA chemical shell</label>
+    <description>Assemble an M110 chemical shell filled with persistent HD blister agent for the M114 155mm howitzer.</description>
+    <jobString>Making M110 155mm BA chemical shell.</jobString>
+    <workAmount>3900</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodBlisterAgent</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>45</count></li>
+      <li><filter><thingDefs><li>HD_TNT</li></thingDefs></filter><count>42</count></li>
+    </ingredients>
+    <fixedIngredientFilter><thingDefs><li>Steel</li><li>HD_TNT</li></thingDefs></fixedIngredientFilter>
+    <products><HD_155mmShell_M110BA>1</HD_155mmShell_M110BA></products>
+    <recipeUsers><li>HD_Tier2Workbench</li></recipeUsers>
+    <skillRequirements><Crafting>8</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make155mmShellM110WP</defName>
+    <label>make M110 155mm WP smoke shell</label>
+    <description>Assemble a white-phosphorus smoke shell for the M114 155mm howitzer.</description>
+    <jobString>Making M110 155mm WP smoke shell.</jobString>
+    <workAmount>3700</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>45</count></li>
+      <li><filter><thingDefs><li>HD_TNT</li></thingDefs></filter><count>35</count></li>
+    </ingredients>
+    <fixedIngredientFilter><thingDefs><li>Steel</li><li>HD_TNT</li></thingDefs></fixedIngredientFilter>
+    <products><HD_155mmShell_M110WP>1</HD_155mmShell_M110WP></products>
+    <recipeUsers><li>HD_Tier2Workbench</li></recipeUsers>
+    <skillRequirements><Crafting>7</Crafting></skillRequirements>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_Make155mmShellM110CN</defName>
+    <label>make M110 155mm CN chemical shell</label>
+    <description>Assemble an M110 CN tear-agent shell for the M114 155mm howitzer.</description>
+    <jobString>Making M110 155mm CN chemical shell.</jobString>
+    <workAmount>3800</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Sculpt</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodLessLethalChemical</researchPrerequisite>
+    <ingredients>
+      <li><filter><thingDefs><li>Steel</li></thingDefs></filter><count>45</count></li>
+      <li><filter><thingDefs><li>HD_TNT</li></thingDefs></filter><count>38</count></li>
+    </ingredients>
+    <fixedIngredientFilter><thingDefs><li>Steel</li><li>HD_TNT</li></thingDefs></fixedIngredientFilter>
+    <products><HD_155mmShell_M110CN>1</HD_155mmShell_M110CN></products>
+    <recipeUsers><li>HD_Tier2Workbench</li></recipeUsers>
+    <skillRequirements><Crafting>7</Crafting></skillRequirements>
   </RecipeDef>
 
   <RecipeDef>

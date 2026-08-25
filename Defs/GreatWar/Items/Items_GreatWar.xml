@@ -55,6 +55,13 @@
   </ThingCategoryDef>
 
   <ThingCategoryDef>
+    <defName>HD_155mmHowitzerShells</defName>
+    <label>155mm howitzer shells</label>
+    <parent>Manufactured</parent>
+    <modExtensions><li Class="Helodrace.AmmoCaliberExtension"><caliber>155mm</caliber></li></modExtensions>
+  </ThingCategoryDef>
+
+  <ThingCategoryDef>
     <defName>HD_Rockets</defName>
     <label>rockets</label>
     <parent>Manufactured</parent>
@@ -958,6 +965,117 @@
     <thingCategories>
       <li>HD_105mmHowitzerShells</li>
     </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_155mmShell_M107HE</defName>
+    <label>M107 155mm HE shell</label>
+    <description>A heavy M107 high-explosive shell for the M114 155mm howitzer. Its large bursting charge devastates entrenched infantry, fortifications, and structures over a broad area.</description>
+    <projectileWhenLoaded>HD_155mmShell_M107HE_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Ammo/HD_155MMM107HE</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>95</MarketValue>
+      <Mass>10.5</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_155mmHowitzerShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_155mmShell_M110BA</defName>
+    <label>M110 155mm BA chemical shell</label>
+    <description>An M110 chemical shell for the M114 155mm howitzer, filled with persistent HD blister agent. Its burster spreads a dense cloud of sweet gas over a wide impact area.</description>
+    <projectileWhenLoaded>HD_155mmShell_M110BA_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Ammo/HD_155MMM110BA</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>115</MarketValue>
+      <Mass>10.8</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_155mmHowitzerShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_155mmShell_M110WP</defName>
+    <label>M110 155mm WP smoke shell</label>
+    <description>A white-phosphorus smoke shell for the M114 155mm howitzer. It lays down a broad, dense smoke screen and scatters burning phosphorus around the impact area.</description>
+    <projectileWhenLoaded>HD_155mmShell_M110WP_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Ammo/HD_155MMM110WP</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>105</MarketValue>
+      <Mass>10.6</Mass>
+      <Flammability>1.0</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_155mmHowitzerShells</li>
+    </thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_155mmShell_M110CN</defName>
+    <label>M110 155mm CN chemical shell</label>
+    <description>An M110 chemical shell for the M114 155mm howitzer filled with CN tear agent. It produces a broad, persistent irritant cloud that acts more slowly than CS but becomes harmful at severe exposure.</description>
+    <projectileWhenLoaded>HD_155mmShell_M110CN_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Ammo/HD_155MMM110CN</texPath>
+      <graphicClass>Graphic_StackCount</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>110</MarketValue>
+      <Mass>10.7</Mass>
+      <Flammability>0.7</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories><li>HD_155mmHowitzerShells</li></thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_155mmShell_W48</defName>
+    <label>W48 155mm nuclear shell</label>
+    <description>A compact nuclear artillery shell for the M114 155mm howitzer. Its detonation produces a devastating blast, intense fires, a powerful electromagnetic pulse, and severe pollution around ground zero. It cannot be manufactured.</description>
+    <projectileWhenLoaded>HD_155mmShell_W48_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapons/GreatWar/Ammo/HD_155MMW48</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <MarketValue>6000</MarketValue>
+      <Mass>12.0</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0</DeteriorationRate>
+    </statBases>
+    <thingCategories><li>HD_155mmHowitzerShells</li></thingCategories>
   </ThingDef>
 
   <ThingDef ParentName="ResourceBase">

@@ -40,8 +40,8 @@
   <HD_Tier1Workbench.label>1단계 작업대</HD_Tier1Workbench.label>
   <HD_Tier1Workbench.description>개척지에서 기본적인 수공예와 총기 제작 작업을 수행하기 위한 간단하고 인력으로 움직이는 나무 작업대입니다. 외부 전력이나 기계적 동력이 필요하지 않습니다.</HD_Tier1Workbench.description>
 
-  <HD_TelegraphTable.label>전신기 테이블</HD_TelegraphTable.label>
-  <HD_TelegraphTable.description>개척지 석유 계약과 상업 주문을 전신으로 송신하고 스탈레르 지폐로 정산하는 전용 작업대입니다.</HD_TelegraphTable.description>
+  <HD_TelegraphTable.label>전신기</HD_TelegraphTable.label>
+  <HD_TelegraphTable.description>개척지 석유 계약과 상업 주문, 군사 지원 요청을 송신하는 전신 설비입니다. 일차 전지를 연료로 사용합니다.</HD_TelegraphTable.description>
 
   <HD_LineShaftTurretLathe.label>라인 샤프트 터렛 선반</HD_LineShaftTurretLathe.label>
   <HD_LineShaftTurretLathe.description>터렛 헤드가 부착된 정밀 기계식 라인 샤프트 구동형 금속가공 선반입니다. 회전축 동력망에 연결되어 기계 동력을 공급받으며, 극도로 빠르고 정교한 금속 부품 깎기, 강선 파기, 절삭 가공 작업을 수행합니다.</HD_LineShaftTurretLathe.description>

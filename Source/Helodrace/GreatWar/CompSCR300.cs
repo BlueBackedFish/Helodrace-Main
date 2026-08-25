@@ -237,6 +237,14 @@ namespace Helodrace
                 case HelodForwardBaseService.InfantryMortarSupport:
                     Find.WindowStack.Add(new Dialog_MortarAmmoSelection(map, selectedBase, null, wearer));
                     break;
+                case HelodForwardBaseService.Artillery105mmSupport:
+                case HelodForwardBaseService.Artillery155mmSupport:
+                    Find.WindowStack.Add(new Dialog_MortarAmmoSelection(
+                        map, selectedBase, null, wearer, service));
+                    break;
+                case HelodForwardBaseService.W48Support:
+                    OpenW48Service(map, wearer);
+                    break;
                 case HelodForwardBaseService.CloseAirSupport:
                     OpenCasAttackMenu(map, wearer);
                     break;
@@ -246,32 +254,92 @@ namespace Helodrace
             }
         }
 
+        private void OpenW48Service(Map map, Pawn wearer)
+        {
+            HelodForwardBase forwardBase = selectedBase;
+            if (forwardBase.W48AwaitingAuthorization)
+            {
+                Find.WindowStack.Add(new Dialog_MessageBox(
+                    "HD_W48_FinalAuthorizationPrompt".Translate(),
+                    "HD_W48_Authorize".Translate(),
+                    () => AuthorizeW48ViaRadio(map, forwardBase),
+                    "CancelButton".Translate(),
+                    null));
+                return;
+            }
+
+            if (forwardBase.HasPendingW48Order)
+            {
+                Messages.Message("HD_W48_NotReady".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            Find.WindowStack.Add(new Dialog_MessageBox(
+                "HD_W48_RequestPrompt".Translate(
+                    HelodForwardBase.W48DeliveryHours,
+                    HelodForwardBase.W48AuthorizationHours),
+                "Confirm".Translate(),
+                () => HelodW48SupportUtility.BeginRequestTargeting(
+                    map, forwardBase, null, wearer),
+                "CancelButton".Translate(),
+                null));
+        }
+
+        private static void AuthorizeW48ViaRadio(Map map, HelodForwardBase forwardBase)
+        {
+            if (SCR300RadioUtility.IsBlackout(map))
+            {
+                Messages.Message("HD_SCR300_SolarFlare".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            if (forwardBase.TryAuthorizeW48(out string reason))
+            {
+                Messages.Message("HD_W48_Launched".Translate(), forwardBase, MessageTypeDefOf.ThreatBig);
+            }
+            else
+            {
+                Messages.Message(reason, MessageTypeDefOf.RejectInput);
+            }
+        }
+
         private void OpenCasAttackMenu(Map map, Pawn wearer)
         {
             Find.WindowStack.Add(new Dialog_HelodCasControl(map, selectedBase, wearer,
-                () => OpenCasGuidanceMenu(map, wearer, HelodCasAttackKind.Bombing),
-                () => OpenCasGuidanceMenu(map, wearer, HelodCasAttackKind.Strafing)));
+                (aircraftKind, attackKind) => OpenCasGuidanceMenu(map, wearer,
+                    aircraftKind, attackKind)));
         }
 
         private void OpenCasGuidanceMenu(Map map, Pawn wearer,
-            HelodCasAttackKind attackKind)
+            HelodCasAircraftKind aircraftKind, HelodCasAttackKind attackKind)
         {
+            bool hasLaserDesignator = HelodCasSupportUtility
+                .TryGetBestLaserDesignator(wearer, out _);
             List<FloatMenuOption> options = new List<FloatMenuOption>
             {
                 new FloatMenuOption("HD_CAS_Guidance_TalkOn".Translate(),
                     () => HelodCasSupportUtility.BeginTalkOnTargeting(map, selectedBase,
-                        wearer, attackKind))
+                        wearer, attackKind, aircraftKind))
             };
 
             bool hasFlare = CasFlareTargetUtility.ActiveFlares(map).Any();
             options.Add(hasFlare
                 ? new FloatMenuOption("HD_CAS_Guidance_Flare".Translate(),
                     () => HelodCasSupportUtility.BeginFlareTargeting(map, selectedBase,
-                        wearer, attackKind))
+                        wearer, attackKind, aircraftKind))
                 : new FloatMenuOption("HD_CAS_Guidance_FlareUnavailable".Translate(), null));
 
-            // Laser guidance is intentionally implemented as a reserved enum value,
-            // but remains hidden until a designator item is introduced.
+            if (hasLaserDesignator)
+            {
+                options.Add(new FloatMenuOption("HD_CAS_Guidance_Laser".Translate(),
+                    () => HelodCasSupportUtility.BeginLaserTargeting(map, selectedBase,
+                        wearer, attackKind, aircraftKind)));
+            }
+            else
+            {
+                options.Add(new FloatMenuOption(
+                    "HD_CAS_LaserUnavailable".Translate(), null));
+            }
             Find.WindowStack.Add(new FloatMenu(options));
         }
 
@@ -315,6 +383,14 @@ namespace Helodrace
             if (!ServiceInRange(map, selectedBase, service))
             {
                 return "HD_SCR300_ServiceOutOfRange".Translate().ToString();
+            }
+
+            if (service == HelodForwardBaseService.W48Support
+                && selectedBase.HasPendingW48Order)
+            {
+                return selectedBase.W48AwaitingAuthorization
+                    ? null
+                    : "HD_W48_NotReady".Translate().ToString();
             }
 
             // Keep the CAS operations panel available as a status display even

@@ -21,10 +21,6 @@
   <DoBillsHD_Tier1Workbench.verb>수공예 작업</DoBillsHD_Tier1Workbench.verb>
   <DoBillsHD_Tier1Workbench.gerund>수공예 작업하는 중</DoBillsHD_Tier1Workbench.gerund>
 
-  <DoBillsHD_TelegraphTable.label>전신기 테이블 사용</DoBillsHD_TelegraphTable.label>
-  <DoBillsHD_TelegraphTable.verb>전신 송신</DoBillsHD_TelegraphTable.verb>
-  <DoBillsHD_TelegraphTable.gerund>전신 송신하는 중</DoBillsHD_TelegraphTable.gerund>
-
   <DoBillsHD_LineShaftRollingMachine.label>라인 샤프트 압연기 사용</DoBillsHD_LineShaftRollingMachine.label>
   <DoBillsHD_LineShaftRollingMachine.verb>제작</DoBillsHD_LineShaftRollingMachine.verb>
   <DoBillsHD_LineShaftRollingMachine.gerund>제작하는 중</DoBillsHD_LineShaftRollingMachine.gerund>

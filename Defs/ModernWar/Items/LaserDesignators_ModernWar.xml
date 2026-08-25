@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef Name="HD_LaserDesignatorBase" ParentName="ApparelNoQualityBase" Abstract="True">
+    <techLevel>Industrial</techLevel>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Arms</li>
+      </bodyPartGroups>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>Soldier</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>10</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>HelodHighElectronics</researchPrerequisite>
+      <recipeUsers>
+        <li>HD_Tier2Workbench</li>
+      </recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_LaserDesignatorBase">
+    <defName>HD_Apparel_ANPEQ1C</defName>
+    <label>AN/PEQ-1C SOFLAM</label>
+    <description>A tripod-capable precision laser target designator. When carried by an SCR-300 operator it unlocks laser-guided CAS and retains the most stable designation in poor weather.</description>
+    <graphicData>
+      <texPath>Weapons/ModernWar/ANPEQ1C/HD_ANPEQ1C_item</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <uiIconPath>Weapons/ModernWar/ANPEQ1C/HD_ANPEQ1C</uiIconPath>
+    <statBases>
+      <WorkToMake>30000</WorkToMake>
+      <Mass>5.2</Mass>
+      <MarketValue>3200</MarketValue>
+      <MaxHitPoints>120</MaxHitPoints>
+      <Flammability>0.25</Flammability>
+      <EquipDelay>1.8</EquipDelay>
+    </statBases>
+    <costList>
+      <Steel>60</Steel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <ComponentSpacer>3</ComponentSpacer>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.HelodCasLaserDesignatorExtension">
+        <baseGuidanceChance>0.97</baseGuidanceChance>
+        <weatherPenaltyFactor>0.55</weatherPenaltyFactor>
+        <adjustsGbu54Scatter>true</adjustsGbu54Scatter>
+        <usesPilotSignalVisual>false</usesPilotSignalVisual>
+        <guidanceGraphicPath>Weapons/ModernWar/ANPEQ1C/HD_ANPEQ1C</guidanceGraphicPath>
+        <guidanceGraphicSize>1.1</guidanceGraphicSize>
+        <guidanceGraphicRotationOffset>0</guidanceGraphicRotationOffset>
+        <guidanceGraphicForwardOffset>0.12</guidanceGraphicForwardOffset>
+        <guidanceGraphicLateralOffset>0.75</guidanceGraphicLateralOffset>
+        <fixedGuidanceGraphicPosition>true</fixedGuidanceGraphicPosition>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_LaserDesignatorBase">
+    <defName>HD_Apparel_IZLIDUltra</defName>
+    <label>IZLID Ultra</label>
+    <description>A compact long-range infrared laser marker. It gives an SCR-300 operator access to laser-guided CAS while remaining light enough for a mobile observer.</description>
+    <graphicData>
+      <texPath>Weapons/ModernWar/HD_IZLIDUltra</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.78,0.78)</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>17000</WorkToMake>
+      <Mass>0.58</Mass>
+      <MarketValue>1450</MarketValue>
+      <MaxHitPoints>90</MaxHitPoints>
+      <Flammability>0.25</Flammability>
+      <EquipDelay>0.8</EquipDelay>
+    </statBases>
+    <costList>
+      <Steel>22</Steel>
+      <ComponentIndustrial>4</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.HelodCasLaserDesignatorExtension">
+        <baseGuidanceChance>0.93</baseGuidanceChance>
+        <weatherPenaltyFactor>0.72</weatherPenaltyFactor>
+        <adjustsGbu54Scatter>false</adjustsGbu54Scatter>
+        <usesPilotSignalVisual>true</usesPilotSignalVisual>
+        <guidanceGraphicPath>Weapons/ModernWar/HD_IZLIDUltra</guidanceGraphicPath>
+        <guidanceGraphicSize>0.78</guidanceGraphicSize>
+        <guidanceGraphicRotationOffset>-90</guidanceGraphicRotationOffset>
+        <guidanceGraphicForwardOffset>0</guidanceGraphicForwardOffset>
+        <guidanceGraphicLateralOffset>0</guidanceGraphicLateralOffset>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_LaserDesignatorBase">
+    <defName>HD_Apparel_LA16uPEQ</defName>
+    <label>LA-16u/PEQ</label>
+    <description>A pistol-form laser target marker designed for rapid field use. It enables laser-guided CAS with less bulk, but its designation is more vulnerable to severe weather.</description>
+    <graphicData>
+      <texPath>Weapons/ModernWar/HD_LA16uPEQ</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.76,0.76)</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>13000</WorkToMake>
+      <Mass>0.75</Mass>
+      <MarketValue>1100</MarketValue>
+      <MaxHitPoints>85</MaxHitPoints>
+      <Flammability>0.25</Flammability>
+      <EquipDelay>0.65</EquipDelay>
+    </statBases>
+    <costList>
+      <Steel>18</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <modExtensions>
+      <li Class="Helodrace.HelodCasLaserDesignatorExtension">
+        <baseGuidanceChance>0.90</baseGuidanceChance>
+        <weatherPenaltyFactor>0.85</weatherPenaltyFactor>
+        <adjustsGbu54Scatter>true</adjustsGbu54Scatter>
+        <usesPilotSignalVisual>false</usesPilotSignalVisual>
+        <guidanceGraphicPath>Weapons/ModernWar/HD_LA16uPEQ</guidanceGraphicPath>
+        <guidanceGraphicSize>0.76</guidanceGraphicSize>
+        <guidanceGraphicRotationOffset>-90</guidanceGraphicRotationOffset>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+</Defs>

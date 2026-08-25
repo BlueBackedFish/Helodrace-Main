@@ -182,4 +182,12 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>HD_CASStationaryGuidance</defName>
+    <driverClass>Helodrace.JobDriver_CASStationaryGuidance</driverClass>
+    <reportString>guiding close air support.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <playerInterruptible>false</playerInterruptible>
+  </JobDef>
+
 </Defs>

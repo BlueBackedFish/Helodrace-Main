@@ -16,14 +16,21 @@ namespace Helodrace
 
         public static bool CanUseBase(Map map, HelodForwardBase forwardBase)
         {
-            if (map == null || forwardBase == null || !forwardBase.HasService(HelodForwardBaseService.InfantryMortarSupport)
-                || !forwardBase.HasServiceCapacity(HelodForwardBaseService.InfantryMortarSupport)) return false;
+            return CanUseBase(map, forwardBase, HelodForwardBaseService.InfantryMortarSupport);
+        }
+
+        public static bool CanUseBase(Map map, HelodForwardBase forwardBase,
+            HelodForwardBaseService service)
+        {
+            if (map == null || forwardBase == null || !forwardBase.HasService(service)
+                || !forwardBase.HasServiceCapacity(service)) return false;
             return Find.WorldGrid.ApproxDistanceInTiles(forwardBase.Tile, map.Tile)
-                <= HelodForwardBaseServiceUtility.SupportRange(HelodForwardBaseService.InfantryMortarSupport);
+                <= HelodForwardBaseServiceUtility.SupportRange(service);
         }
 
         public static void BeginTargeting(Map map, HelodForwardBase forwardBase, ThingDef shellDef,
-            CompTelegraphTable telegraphComp = null, Pawn radioOperator = null)
+            CompTelegraphTable telegraphComp = null, Pawn radioOperator = null,
+            HelodForwardBaseService service = HelodForwardBaseService.InfantryMortarSupport)
         {
             if (radioOperator != null && SCR300RadioUtility.IsBlackout(map))
             {
@@ -31,7 +38,7 @@ namespace Helodrace
                 return;
             }
 
-            if (!CanUseBase(map, forwardBase) || shellDef?.projectileWhenLoaded == null)
+            if (!CanUseBase(map, forwardBase, service) || shellDef?.projectileWhenLoaded == null)
             {
                 Messages.Message("HD_MortarSupport_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
                 return;
@@ -44,13 +51,13 @@ namespace Helodrace
             if (IsSmokeShell(shellDef))
             {
                 map.GetComponent<MapComponent_HelodMortarSupport>().BeginSmokeLineTargeting(
-                    forwardBase, shellDef, telegraphComp, radioOperator);
+                    forwardBase, shellDef, telegraphComp, radioOperator, service);
                 Messages.Message("HD_MortarSupport_SmokeDragPrompt".Translate(), MessageTypeDefOf.NeutralEvent);
                 return;
             }
             float radius = IsChemicalShell(shellDef) ? ChemicalScatterRadius : ScatterRadius;
             Find.Targeter.BeginTargeting(new TargetingParameters { canTargetLocations = true, validator = t => t.Cell.InBounds(map) && !t.Cell.Fogged(map) && SCR300RadioUtility.HasLineOfSight(radioOperator, map, t.Cell) },
-                target => TryCall(map, target.Cell, forwardBase, shellDef, default(IntVec3), telegraphComp, radioOperator),
+                target => TryCall(map, target.Cell, forwardBase, shellDef, default(IntVec3), telegraphComp, radioOperator, service),
                 target => { if (target.Cell.InBounds(map)) GenDraw.DrawRadiusRing(target.Cell, radius); });
             MapComponent_PersistentTargetingOverlay.Set(map, target =>
             {
@@ -60,7 +67,8 @@ namespace Helodrace
 
         public static bool TryCall(Map map, IntVec3 cell, HelodForwardBase forwardBase,
             ThingDef shellDef, IntVec3 lineEnd = default(IntVec3),
-            CompTelegraphTable telegraphComp = null, Pawn radioOperator = null)
+            CompTelegraphTable telegraphComp = null, Pawn radioOperator = null,
+            HelodForwardBaseService service = HelodForwardBaseService.InfantryMortarSupport)
         {
             if (radioOperator != null && SCR300RadioUtility.IsBlackout(map))
             {
@@ -74,13 +82,17 @@ namespace Helodrace
                 return false;
             }
 
-            if (!CanUseBase(map, forwardBase) || !cell.InBounds(map)) return false;
+            if (!CanUseBase(map, forwardBase, service) || !cell.InBounds(map)) return false;
             if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
             {
                 Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), MessageTypeDefOf.RejectInput);
                 return false;
             }
-            if (!forwardBase.TryConsumeMortarSupport(shellDef, VolleyCount * ShellsPerVolley, out string reason))
+            if (!forwardBase.TryConsumeAmmunitionSupport(
+                service,
+                shellDef,
+                VolleyCount * ShellsPerVolley,
+                out string reason))
             {
                 Messages.Message(reason ?? "HD_MortarSupport_Unavailable".Translate().ToString(), MessageTypeDefOf.RejectInput);
                 return false;
@@ -96,8 +108,94 @@ namespace Helodrace
             return true;
         }
 
-        public static bool IsSmokeShell(ThingDef shellDef) => shellDef?.defName.IndexOf("M57WP", System.StringComparison.OrdinalIgnoreCase) >= 0;
-        public static bool IsChemicalShell(ThingDef shellDef) => shellDef?.defName.IndexOf("chemical", System.StringComparison.OrdinalIgnoreCase) >= 0 || shellDef?.defName.EndsWith("_BA") == true;
+        public static bool IsSmokeShell(ThingDef shellDef) =>
+            shellDef?.defName.IndexOf("WP", System.StringComparison.OrdinalIgnoreCase) >= 0;
+        public static bool IsChemicalShell(ThingDef shellDef) =>
+            shellDef?.defName.IndexOf("chemical", System.StringComparison.OrdinalIgnoreCase) >= 0
+            || shellDef?.defName.EndsWith("BA") == true
+            || shellDef?.defName.EndsWith("CN") == true;
+    }
+
+    public static class HelodW48SupportUtility
+    {
+        public static bool CanRequest(Map map, HelodForwardBase forwardBase)
+        {
+            return map != null
+                && forwardBase != null
+                && !forwardBase.HasPendingW48Order
+                && forwardBase.HasService(HelodForwardBaseService.Artillery155mmSupport)
+                && HelodMortarSupportUtility.CanUseBase(
+                    map,
+                    forwardBase,
+                    HelodForwardBaseService.W48Support);
+        }
+
+        public static void BeginRequestTargeting(
+            Map map,
+            HelodForwardBase forwardBase,
+            CompTelegraphTable telegraphComp,
+            Pawn radioOperator = null)
+        {
+            if (radioOperator != null && SCR300RadioUtility.IsBlackout(map))
+            {
+                Messages.Message("HD_SCR300_SolarFlare".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (!CanRequest(map, forwardBase))
+            {
+                Messages.Message("HD_W48_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (telegraphComp != null && !telegraphComp.HasPrimaryCell)
+            {
+                Messages.Message("HD_TelegraphTable_ActionNeedsPrimaryCell".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            Find.WorldTargeter.StopTargeting();
+            Find.World.renderer.wantedMode = WorldRenderMode.None;
+            Current.Game.CurrentMap = map;
+            Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+            CameraJumper.TryJump(new TargetInfo(map.Center, map));
+            Find.Targeter.BeginTargeting(
+                new TargetingParameters
+                {
+                    canTargetLocations = true,
+                    validator = target => target.Cell.InBounds(map)
+                },
+                target => TryRequest(map, target.Cell, forwardBase, telegraphComp, radioOperator),
+                target =>
+                {
+                    if (target.Cell.InBounds(map))
+                    {
+                        GenDraw.DrawRadiusRing(target.Cell, 25f);
+                    }
+                });
+        }
+
+        private static void TryRequest(
+            Map map,
+            IntVec3 targetCell,
+            HelodForwardBase forwardBase,
+            CompTelegraphTable telegraphComp,
+            Pawn radioOperator)
+        {
+            if (radioOperator != null && SCR300RadioUtility.IsBlackout(map))
+            {
+                Messages.Message("HD_SCR300_SolarFlare".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+            if (!forwardBase.TryRequestW48(map, targetCell, out string failReason))
+            {
+                Messages.Message(failReason ?? "HD_W48_Unavailable".Translate().ToString(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            telegraphComp?.ConsumePrimaryCell();
+            Messages.Message("HD_W48_Requested".Translate(
+                HelodForwardBase.W48DeliveryHours,
+                HelodForwardBase.W48AuthorizationHours), forwardBase, MessageTypeDefOf.CautionInput);
+        }
     }
 
     public class MapComponent_HelodMortarSupport : MapComponent
@@ -107,6 +205,7 @@ namespace Helodrace
         private ThingDef lineTargetShell;
         private CompTelegraphTable lineTargetTelegraph;
         private Pawn lineTargetRadioOperator;
+        private HelodForwardBaseService lineTargetService = HelodForwardBaseService.InfantryMortarSupport;
         private IntVec3 lineDragStart = IntVec3.Invalid;
         private IntVec3 lineDragEnd = IntVec3.Invalid;
         public MapComponent_HelodMortarSupport(Map map) : base(map) { }
@@ -116,7 +215,11 @@ namespace Helodrace
             IntVec3 lineEnd,
             ThingDef shellDef,
             HelodForwardBase forwardBase,
-            Pawn caller)
+            Pawn caller,
+            int volleyCount = HelodMortarSupportUtility.VolleyCount,
+            int shellsPerVolley = HelodMortarSupportUtility.ShellsPerVolley,
+            int volleyIntervalTicks = HelodMortarSupportUtility.VolleyIntervalTicks,
+            float scatterRadius = HelodMortarSupportUtility.ScatterRadius)
         {
             strikes.Add(new MortarSupportStrike(
                 center,
@@ -125,14 +228,20 @@ namespace Helodrace
                 forwardBase,
                 IncomingEdgeCell(forwardBase),
                 Find.TickManager.TicksGame + 120,
-                caller));
+                caller,
+                volleyCount,
+                shellsPerVolley,
+                volleyIntervalTicks,
+                scatterRadius));
         }
 
         public void BeginSmokeLineTargeting(HelodForwardBase forwardBase, ThingDef shellDef,
-            CompTelegraphTable telegraphComp, Pawn radioOperator)
+            CompTelegraphTable telegraphComp, Pawn radioOperator,
+            HelodForwardBaseService service = HelodForwardBaseService.InfantryMortarSupport)
         {
             lineTargetBase = forwardBase; lineTargetShell = shellDef;
             lineTargetTelegraph = telegraphComp; lineTargetRadioOperator = radioOperator;
+            lineTargetService = service;
             lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid;
         }
 
@@ -157,8 +266,9 @@ namespace Helodrace
                 HelodForwardBase targetBase = lineTargetBase; ThingDef shell = lineTargetShell;
                 CompTelegraphTable telegraph = lineTargetTelegraph;
                 Pawn radioOperator = lineTargetRadioOperator;
+                HelodForwardBaseService service = lineTargetService;
                 CancelLineTargeting(); evt.Use();
-                HelodMortarSupportUtility.TryCall(map, start, targetBase, shell, end, telegraph, radioOperator);
+                HelodMortarSupportUtility.TryCall(map, start, targetBase, shell, end, telegraph, radioOperator, service);
             }
         }
 
@@ -178,7 +288,7 @@ namespace Helodrace
             if (end.InBounds(map)) GenDraw.DrawRadiusRing(end, 2f);
         }
 
-        private void CancelLineTargeting() { lineTargetBase = null; lineTargetShell = null; lineTargetTelegraph = null; lineTargetRadioOperator = null; lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid; }
+        private void CancelLineTargeting() { lineTargetBase = null; lineTargetShell = null; lineTargetTelegraph = null; lineTargetRadioOperator = null; lineTargetService = HelodForwardBaseService.InfantryMortarSupport; lineDragStart = IntVec3.Invalid; lineDragEnd = IntVec3.Invalid; }
 
         private IntVec3 IncomingEdgeCell(HelodForwardBase forwardBase)
         {
@@ -206,7 +316,7 @@ namespace Helodrace
             {
                 MortarSupportStrike strike = strikes[i];
                 if (now < strike.NextVolleyTick) continue;
-                for (int shell = 0; shell < HelodMortarSupportUtility.ShellsPerVolley; shell++) FireShell(strike, shell);
+                for (int shell = 0; shell < strike.ShellsPerVolley; shell++) FireShell(strike, shell);
                 strike.VolleyFired();
                 if (strike.Finished) strikes.RemoveAt(i);
             }
@@ -215,7 +325,7 @@ namespace Helodrace
         private void FireShell(MortarSupportStrike strike, int shellInVolley)
         {
             IntVec3 aim = strike.AimCellForNextShell(shellInVolley);
-            float scatter = strike.IsSmokeLine ? 2f : strike.IsChemical ? 1.8f : HelodMortarSupportUtility.ScatterRadius;
+            float scatter = strike.IsSmokeLine ? 2f : strike.IsChemical ? 1.8f : strike.ScatterRadius;
             IntVec3 impact = CellFinder.RandomClosewalkCellNear(aim, map, Mathf.RoundToInt(scatter));
             IntVec3 source = strike.IncomingEdgeCell;
             Projectile projectile = (Projectile)GenSpawn.Spawn(strike.ProjectileDef, source, map);
@@ -247,14 +357,22 @@ namespace Helodrace
         private int nextVolleyTick;
         private float patternRotation;
         private Pawn caller;
+        private int volleyCount;
+        private int shellsPerVolley;
+        private int volleyIntervalTicks;
+        private float scatterRadius;
         public IntVec3 Center => center;
         public ThingDef ProjectileDef => projectileDef;
         public bool IsSmokeLine => HelodMortarSupportUtility.IsSmokeShell(shellDef) && lineEnd != center;
         public bool IsChemical => HelodMortarSupportUtility.IsChemicalShell(shellDef);
         public int NextVolleyTick => nextVolleyTick;
         public IntVec3 IncomingEdgeCell => incomingEdgeCell;
-        public bool Finished => volleysFired >= HelodMortarSupportUtility.VolleyCount;
+        public bool Finished => volleysFired >= VolleyCount;
         public Pawn Caller => caller;
+        public int VolleyCount => volleyCount > 0 ? volleyCount : HelodMortarSupportUtility.VolleyCount;
+        public int ShellsPerVolley => shellsPerVolley > 0 ? shellsPerVolley : HelodMortarSupportUtility.ShellsPerVolley;
+        public int VolleyIntervalTicks => volleyIntervalTicks > 0 ? volleyIntervalTicks : HelodMortarSupportUtility.VolleyIntervalTicks;
+        public float ScatterRadius => scatterRadius > 0f ? scatterRadius : HelodMortarSupportUtility.ScatterRadius;
         public MortarSupportStrike() { }
         public MortarSupportStrike(
             IntVec3 center,
@@ -263,7 +381,11 @@ namespace Helodrace
             HelodForwardBase forwardBase,
             IntVec3 incomingEdgeCell,
             int firstTick,
-            Pawn caller)
+            Pawn caller,
+            int volleyCount = HelodMortarSupportUtility.VolleyCount,
+            int shellsPerVolley = HelodMortarSupportUtility.ShellsPerVolley,
+            int volleyIntervalTicks = HelodMortarSupportUtility.VolleyIntervalTicks,
+            float scatterRadius = HelodMortarSupportUtility.ScatterRadius)
         {
             this.center = center;
             this.lineEnd = lineEnd;
@@ -274,22 +396,26 @@ namespace Helodrace
             nextVolleyTick = firstTick;
             patternRotation = Rand.Range(0f, 360f);
             this.caller = caller;
+            this.volleyCount = volleyCount;
+            this.shellsPerVolley = shellsPerVolley;
+            this.volleyIntervalTicks = volleyIntervalTicks;
+            this.scatterRadius = scatterRadius;
         }
         public IntVec3 AimCellForNextShell(int shellInVolley)
         {
-            int shellIndex = volleysFired * HelodMortarSupportUtility.ShellsPerVolley + shellInVolley;
+            int shellIndex = volleysFired * ShellsPerVolley + shellInVolley;
             if (IsChemical)
             {
-                int total = HelodMortarSupportUtility.VolleyCount * HelodMortarSupportUtility.ShellsPerVolley;
+                int total = VolleyCount * ShellsPerVolley;
                 float radius = Mathf.Sqrt((shellIndex + 0.5f) / total) * (HelodMortarSupportUtility.ChemicalScatterRadius - 1.5f);
                 float angle = (patternRotation + shellIndex * 137.50777f) * Mathf.Deg2Rad;
                 return new IntVec3(center.x + Mathf.RoundToInt(Mathf.Cos(angle) * radius), 0, center.z + Mathf.RoundToInt(Mathf.Sin(angle) * radius));
             }
             if (!IsSmokeLine) return center;
-            float t = (shellIndex + Rand.Value) / (HelodMortarSupportUtility.VolleyCount * HelodMortarSupportUtility.ShellsPerVolley - 1f);
+            float t = (shellIndex + Rand.Value) / Mathf.Max(1f, VolleyCount * ShellsPerVolley - 1f);
             return new IntVec3(Mathf.RoundToInt(Mathf.Lerp(center.x, lineEnd.x, t)), 0, Mathf.RoundToInt(Mathf.Lerp(center.z, lineEnd.z, t)));
         }
-        public void VolleyFired() { volleysFired++; nextVolleyTick += HelodMortarSupportUtility.VolleyIntervalTicks; }
-        public void ExposeData() { Scribe_Values.Look(ref center, "center"); Scribe_Values.Look(ref lineEnd, "lineEnd"); Scribe_Defs.Look(ref shellDef, "shellDef"); Scribe_Defs.Look(ref projectileDef, "projectileDef"); Scribe_References.Look(ref forwardBase, "forwardBase"); Scribe_References.Look(ref caller, "caller"); Scribe_Values.Look(ref incomingEdgeCell, "incomingEdgeCell"); Scribe_Values.Look(ref volleysFired, "volleysFired"); Scribe_Values.Look(ref nextVolleyTick, "nextVolleyTick"); Scribe_Values.Look(ref patternRotation, "patternRotation", 0f); }
+        public void VolleyFired() { volleysFired++; nextVolleyTick += VolleyIntervalTicks; }
+        public void ExposeData() { Scribe_Values.Look(ref center, "center"); Scribe_Values.Look(ref lineEnd, "lineEnd"); Scribe_Defs.Look(ref shellDef, "shellDef"); Scribe_Defs.Look(ref projectileDef, "projectileDef"); Scribe_References.Look(ref forwardBase, "forwardBase"); Scribe_References.Look(ref caller, "caller"); Scribe_Values.Look(ref incomingEdgeCell, "incomingEdgeCell"); Scribe_Values.Look(ref volleysFired, "volleysFired"); Scribe_Values.Look(ref nextVolleyTick, "nextVolleyTick"); Scribe_Values.Look(ref patternRotation, "patternRotation", 0f); Scribe_Values.Look(ref volleyCount, "volleyCount", HelodMortarSupportUtility.VolleyCount); Scribe_Values.Look(ref shellsPerVolley, "shellsPerVolley", HelodMortarSupportUtility.ShellsPerVolley); Scribe_Values.Look(ref volleyIntervalTicks, "volleyIntervalTicks", HelodMortarSupportUtility.VolleyIntervalTicks); Scribe_Values.Look(ref scatterRadius, "scatterRadius", HelodMortarSupportUtility.ScatterRadius); }
     }
 }
