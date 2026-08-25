@@ -15,4 +15,18 @@
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>HD_InstallModularArmorPart</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_InstallModularArmorPart</driverClass>
+    <reportString>installing an armor part.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_SwapModularArmorFrontRear</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_SwapModularArmorFrontRear</driverClass>
+    <reportString>swapping the front and rear armor plates.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
 </Defs>

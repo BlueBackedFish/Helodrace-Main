@@ -2,8 +2,10 @@
 <LanguageData>
   <HD_MilitaryTablet.label>&#44400;&#50857; &#53468;&#48660;&#47551;</HD_MilitaryTablet.label>
   <HD_MilitaryTablet.description>&#51109;&#52265; &#44032;&#45733;&#54620; &#51648;&#55064; &#50500;&#51060;&#53596;&#51077;&#45768;&#45796;.</HD_MilitaryTablet.description>
-  <HD_Apparel_IBTVAssault.label>IBTV Assault</HD_Apparel_IBTVAssault.label>
-  <HD_Apparel_IBTVAssault.description>헬로드 체형에 맞춰 제작한 현대식 모듈형 방탄복입니다. IOTV Gen4 Assault 구성을 모티브로 삼아 경질 방탄판에 목과 어깨 보호대를 결합했습니다.</HD_Apparel_IBTVAssault.description>
+  <HD_Apparel_IBTVAssault.label>IBTV 돌격형 방탄복</HD_Apparel_IBTVAssault.label>
+  <HD_Apparel_FASTMT.label>FAST MT 헬멧</HD_Apparel_FASTMT.label>
+  <HD_Apparel_FASTMT.description>헬로드의 머리에 맞춰 제작한 경량 현대식 방탄 헬멧입니다. 귀까지 덮는 풀컷 형상으로, 파편과 소화기 사격으로부터 머리 상부와 귀를 보호합니다.</HD_Apparel_FASTMT.description>
+  <HD_Apparel_IBTVAssault.description>헬로드 체형에 맞춰 제작한 현대식 모듈형 방탄복입니다. IBTV Gen4 돌격형 구성으로, 경질 방탄판에 목과 어깨 보호대를 결합했습니다.</HD_Apparel_IBTVAssault.description>
   <HD_Apparel_ShieldDefenTechIIIA.label>디펜테크 IIIA 경량 방패</HD_Apparel_ShieldDefenTechIIIA.label>
   <HD_Apparel_ShieldDefenTechIIIA.description>컴팩트한 Intruder G2 형상을 모티브로 만든 경량 IIIA급 휴대 방탄 방패입니다. 넓은 투명 관측창과 가벼운 중량 덕분에 전신형 IV급 방패보다 훨씬 민첩하지만, 정면 방호력과 내구도 및 뒤의 아군을 보호하는 능력은 더 낮습니다. 소형 한손 화기와 함께 사용하도록 설계되었습니다. 측면이나 후방에서 들어오는 공격은 방패를 완전히 우회합니다.</HD_Apparel_ShieldDefenTechIIIA.description>
   <HD_Apparel_ShieldIronHideIV.label>아이언하이드 IV 중형 방패</HD_Apparel_ShieldIronHideIV.label>

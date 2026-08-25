@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularArmor_Inspect>Ergonomics: {0} | Ventilation: {1} | Load distribution: {2}</HD_ModularArmor_Inspect>
+  <HD_ModularArmor_Configure_Label>Customize armor</HD_ModularArmor_Configure_Label>
+  <HD_ModularArmor_Configure_Desc>Change fixed armor parts and arrange pouches on the PALS webbing.</HD_ModularArmor_Configure_Desc>
+  <HD_ModularArmor_WindowTitle>Customize {0}</HD_ModularArmor_WindowTitle>
+  <HD_ModularArmor_None>None</HD_ModularArmor_None>
+  <HD_ModularArmor_FixedPosition>Fixed: {0}</HD_ModularArmor_FixedPosition>
+  <HD_ModularArmor_MetricBlock>ERGONOMICS  {0}\nVENTILATION  {1}\nLOAD DISTRIBUTION  {2}</HD_ModularArmor_MetricBlock>
+  <HD_ModularArmor_PalsCatalog>PALS PARTS</HD_ModularArmor_PalsCatalog>
+  <HD_ModularArmor_Pals_Hint>Select a PALS part below, then click an empty grid cell. Click an installed part to move it; right-click to remove it.</HD_ModularArmor_Pals_Hint>
+  <HD_ModularArmor_Pals_PlaceHint>Installing {0} ({1} x {2}). Click a valid empty grid cell.</HD_ModularArmor_Pals_PlaceHint>
+  <HD_ModularArmor_Pals_MoveHint>Moving {0}. Click a valid empty grid cell.</HD_ModularArmor_Pals_MoveHint>
+  <HD_ModularArmor_PalsInstalledTip>{0}\nPALS coordinate: {1}, {2}\nLeft-click: move\nRight-click: remove</HD_ModularArmor_PalsInstalledTip>
+  <HD_ModularArmor_FixedOnlyHint>Select a socket around the preview to install or remove a compatible part.</HD_ModularArmor_FixedOnlyHint>
+  <HD_ModularArmor_Facing>View: {0}</HD_ModularArmor_Facing>
+  <HD_ModularArmor_VisibleSlots>Visible fixed parts: {0}</HD_ModularArmor_VisibleSlots>
+  <HD_ModularArmor_Facing_Front>Front</HD_ModularArmor_Facing_Front>
+  <HD_ModularArmor_Facing_Back>Back</HD_ModularArmor_Facing_Back>
+  <HD_ModularArmor_Facing_Left>Left</HD_ModularArmor_Facing_Left>
+  <HD_ModularArmor_Facing_Right>Right</HD_ModularArmor_Facing_Right>
+  <HD_ModularArmor_AllDirections>all directions</HD_ModularArmor_AllDirections>
+  <HD_ModularArmor_CoverageWithDirection>{0} ({1})</HD_ModularArmor_CoverageWithDirection>
+  <HD_ModularArmor_ProtectionArea>{0} protection</HD_ModularArmor_ProtectionArea>
+  <HD_ModularArmor_ProtectionValues>Sharp {0} · Blunt {1} · Heat {2}</HD_ModularArmor_ProtectionValues>
+  <HD_ModularArmor_ProtectionDesc>Protected area: {0}\nArmor: {1}</HD_ModularArmor_ProtectionDesc>
+  <HD_ModularArmor_PlateDurability>Durability {0} / {1}</HD_ModularArmor_PlateDurability>
+  <HD_ModularArmor_PlateDestroyed>Plate destroyed</HD_ModularArmor_PlateDestroyed>
+  <HD_ModularArmor_PlateStock>[available {0} / needed {1}]</HD_ModularArmor_PlateStock>
+  <HD_ModularArmor_PlateRequired>physical plates required</HD_ModularArmor_PlateRequired>
+  <HD_ModularArmor_PartConflict>conflicts with {0}</HD_ModularArmor_PartConflict>
+  <HD_ModularArmor_PartStock>[available {0}]</HD_ModularArmor_PartStock>
+  <HD_ModularArmor_PartRequired>physical part required</HD_ModularArmor_PartRequired>
+  <HD_ModularArmor_InvalidInstall>That part cannot be installed in the selected position.</HD_ModularArmor_InvalidInstall>
+  <HD_ModularArmor_MustBeWorn>The armor must be worn by a player colonist to modify it.</HD_ModularArmor_MustBeWorn>
+  <HD_ModularArmor_NoReachablePart>No reachable {0} is available.</HD_ModularArmor_NoReachablePart>
+  <HD_ModularArmor_JobMissing>The armor modification job definition is missing.</HD_ModularArmor_JobMissing>
+  <HD_ModularArmor_CannotStartJob>Could not start the armor modification job.</HD_ModularArmor_CannotStartJob>
+  <HD_ModularArmor_InstallComplete>Installed {0}.</HD_ModularArmor_InstallComplete>
+  <HD_ModularArmor_InstallFailed>Armor part installation failed; the part was returned.</HD_ModularArmor_InstallFailed>
+  <HD_ModularArmor_NoSwappablePlate>No front/rear plate set is installed.</HD_ModularArmor_NoSwappablePlate>
+  <HD_ModularArmor_SwapComplete>Swapped the front and rear plates.</HD_ModularArmor_SwapComplete>
+  <HD_ModularArmor_NumberedPlateDurability>Plate {0}: durability {1} / {2}</HD_ModularArmor_NumberedPlateDurability>
+  <HD_ModularArmor_NumberedPlateDestroyed>Plate {0}: destroyed</HD_ModularArmor_NumberedPlateDestroyed>
+  <HD_ModularArmor_PlateSetMissing>Physical plate set not installed</HD_ModularArmor_PlateSetMissing>
+  <HD_ArmorPlateSet_Inspect>Plate 1: {0} / {1}\nPlate 2: {2} / {3}</HD_ArmorPlateSet_Inspect>
+  <HD_ModularArmor_SwapFrontRear>Swap 1 ↔ 2</HD_ModularArmor_SwapFrontRear>
+  <HD_ModularArmor_SwapFrontRearTip>Spend time swapping the front and rear plate positions. Current: front plate {0}, rear plate {1}.</HD_ModularArmor_SwapFrontRearTip>
+  <HD_ModularArmor_GuaranteedBlock>Guaranteed block: ranged sharp penetration ≤ {0} while plate durability is at least {1}.</HD_ModularArmor_GuaranteedBlock>
+</LanguageData>

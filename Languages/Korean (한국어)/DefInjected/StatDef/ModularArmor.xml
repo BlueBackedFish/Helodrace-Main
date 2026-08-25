@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ArmorErgonomics.label>방어구 인체공학</HD_ArmorErgonomics.label>
+  <HD_ArmorErgonomics.description>방어구가 자연스러운 움직임을 얼마나 적게 방해하는지를 나타냅니다. 기준값과의 차이는 설정된 림월드 기본 능력치로 변환됩니다.</HD_ArmorErgonomics.description>
+  <HD_ArmorVentilation.label>방어구 통기성</HD_ArmorVentilation.label>
+  <HD_ArmorVentilation.description>방어구가 열과 습기를 얼마나 효과적으로 배출하는지를 나타냅니다. 기준값과의 차이는 설정된 림월드 기본 능력치로 변환됩니다.</HD_ArmorVentilation.description>
+  <HD_ArmorLoadDistribution.label>방어구 하중분산</HD_ArmorLoadDistribution.label>
+  <HD_ArmorLoadDistribution.description>방어구의 무게를 착용자의 몸 전체로 얼마나 효율적으로 분산하는지를 나타냅니다. 기준값과의 차이는 설정된 림월드 기본 능력치로 변환됩니다.</HD_ArmorLoadDistribution.description>
+</LanguageData>

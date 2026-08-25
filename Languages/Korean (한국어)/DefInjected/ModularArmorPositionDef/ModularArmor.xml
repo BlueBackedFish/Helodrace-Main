@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MA_Pos_FrontRearTorso.label>몸통 전·후면</HD_MA_Pos_FrontRearTorso.label>
+  <HD_MA_Pos_SideTorso.label>몸통 좌·우 측면</HD_MA_Pos_SideTorso.label>
+  <HD_MA_Pos_FrontTorso.label>몸통 전면</HD_MA_Pos_FrontTorso.label>
+  <HD_MA_Pos_RearTorso.label>몸통 후면</HD_MA_Pos_RearTorso.label>
+  <HD_MA_Pos_LeftTorso.label>몸통 좌측</HD_MA_Pos_LeftTorso.label>
+  <HD_MA_Pos_RightTorso.label>몸통 우측</HD_MA_Pos_RightTorso.label>
+  <HD_MA_Pos_Neck.label>목</HD_MA_Pos_Neck.label>
+  <HD_MA_Pos_Shoulders.label>어깨</HD_MA_Pos_Shoulders.label>
+  <HD_MA_Pos_LowerBody.label>하반신</HD_MA_Pos_LowerBody.label>
+  <HD_MH_Pos_FrontHead.label>헬멧 전면 장착부</HD_MH_Pos_FrontHead.label>
+  <HD_MH_Pos_FaceVisor.label>얼굴 전면</HD_MH_Pos_FaceVisor.label>
+</LanguageData>

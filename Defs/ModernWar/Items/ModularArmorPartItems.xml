@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingCategoryDef>
+    <defName>HD_ModularArmorParts</defName>
+    <label>modular armor parts</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef Name="HD_ModularArmorPartItemBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <techLevel>Industrial</techLevel>
+    <useHitPoints>true</useHitPoints>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <stackLimit>1</stackLimit>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <soundInteract>Standard_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <thingCategories><li>HD_ModularArmorParts</li></thingCategories>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Flammability>0.10</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements><Crafting>6</Crafting></skillRequirements>
+      <researchPrerequisite>FlakArmor</researchPrerequisite>
+      <recipeUsers><li>TableMachining</li></recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_GPNVG18</defName>
+    <label>GPNVG-18 helmet module</label>
+    <description>A panoramic night-vision module made for the FAST MT helmet mount.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HelmetPart/HD_GPNVG18/HD_GPNVG18_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.75,0.75)</drawSize>
+    </graphicData>
+    <statBases><MarketValue>1800</MarketValue><Mass>0.76</Mass><WorkToMake>18000</WorkToMake></statBases>
+    <costList><Plasteel>18</Plasteel><ComponentIndustrial>6</ComponentIndustrial><ComponentSpacer>1</ComponentSpacer></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_MultiHitVisor</defName>
+    <label>multi-hit ballistic visor module</label>
+    <description>A transparent multi-hit ballistic visor made for the FAST MT helmet.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HelmetPart/HD_MultiHitVisor/HD_MultiHitVisor_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.75,0.75)</drawSize>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <statBases><MarketValue>520</MarketValue><Mass>1.10</Mass><WorkToMake>9000</WorkToMake></statBases>
+    <costList><Plasteel>24</Plasteel><ComponentIndustrial>2</ComponentIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_IBTVNeckGuard</defName>
+    <label>IBTV neck guard module</label>
+    <description>A detachable ballistic neck guard for the IBTV carrier.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>180</MarketValue><Mass>0.45</Mass><WorkToMake>3600</WorkToMake></statBases>
+    <costList><Cloth>8</Cloth><Plasteel>8</Plasteel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_IBTVShoulderGuards</defName>
+    <label>IBTV shoulder guard module</label>
+    <description>A paired detachable shoulder armor module for the IBTV carrier.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>260</MarketValue><Mass>0.85</Mass><WorkToMake>5000</WorkToMake></statBases>
+    <costList><Cloth>12</Cloth><Plasteel>12</Plasteel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_IBTVLowerBody</defName>
+    <label>IBTV lower-body armor module</label>
+    <description>A detachable groin and lower-body armor module for the IBTV carrier.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>240</MarketValue><Mass>0.90</Mass><WorkToMake>5000</WorkToMake></statBases>
+    <costList><Cloth>14</Cloth><Plasteel>10</Plasteel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_IFAK</defName>
+    <label>IFAK pouch module</label>
+    <description>A detachable individual first-aid pouch for PALS webbing.</description>
+    <graphicData><texPath>Items/HD_BasicMedicalSupplies</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>75</MarketValue><Mass>0.30</Mass><WorkToMake>1200</WorkToMake></statBases>
+    <costList><Cloth>12</Cloth><MedicineIndustrial>1</MedicineIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_RifleMagazinePouch</defName>
+    <label>rifle magazine pouch module</label>
+    <description>A detachable rifle magazine pouch for PALS webbing.</description>
+    <graphicData><texPath>Weapons/GreatWar/Ammo/HD_37mmAP</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>45</MarketValue><Mass>0.18</Mass><WorkToMake>900</WorkToMake></statBases>
+    <costList><Cloth>10</Cloth></costList>
+  </ThingDef>
+</Defs>

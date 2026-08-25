@@ -107,8 +107,8 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_IBTVAssault</defName>
-    <label>IBTV Assault</label>
-    <description>A modern modular body armor system tailored for Helod bodies. Inspired by the assault configuration of the IOTV Gen4, it combines hard armor plates with reinforced neck and shoulder protection.</description>
+    <label>IBTV assault body armor</label>
+    <description>A modern modular body armor system tailored for Helod bodies. The IBTV Gen4 assault configuration combines hard armor plates with reinforced neck and shoulder protection.</description>
     <graphicData>
       <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -119,14 +119,14 @@
       <WorkToMake>12000</WorkToMake>
       <MarketValue>720</MarketValue>
       <Mass>9.5</Mass>
-      <ArmorRating_Sharp>1.20</ArmorRating_Sharp>
-      <ArmorRating_Blunt>0.50</ArmorRating_Blunt>
-      <ArmorRating_Heat>0.30</ArmorRating_Heat>
+      <ArmorRating_Sharp>0.35</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.20</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.10</ArmorRating_Heat>
       <Flammability>0.15</Flammability>
       <EquipDelay>2.5</EquipDelay>
     </statBases>
     <equippedStatOffsets>
-      <MoveSpeed>-0.12</MoveSpeed>
+      <MoveSpeed>-0.06</MoveSpeed>
     </equippedStatOffsets>
     <thingCategories>
       <li>Apparel</li>
@@ -167,6 +167,155 @@
     <researchPrerequisites>
       <li>FlakArmor</li>
     </researchPrerequisites>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
+        <armorTags><li>HD_IOTVGen4</li></armorTags>
+        <previewCrop>
+          <x>0.28</x>
+          <y>0.38</y>
+          <width>0.44</width>
+          <height>0.48</height>
+        </previewCrop>
+        <slots>
+          <li>HD_MA_Slot_FrontRearPlates</li>
+          <li>HD_MA_Slot_SidePlates</li>
+          <li>HD_MA_Slot_NeckGuard</li>
+          <li>HD_MA_Slot_ShoulderGuards</li>
+          <li>HD_MA_Slot_LowerBody</li>
+        </slots>
+        <palsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li></palsPanels>
+        <defaultParts>
+          <li><slot>HD_MA_Slot_NeckGuard</slot><part>HD_IOTVPart_NeckGuard</part></li>
+          <li><slot>HD_MA_Slot_ShoulderGuards</slot><part>HD_IOTVPart_ShoulderGuards</part></li>
+          <li><slot>HD_MA_Slot_LowerBody</slot><part>HD_IOTVPart_LowerBody</part></li>
+        </defaultParts>
+        <baseErgonomics>7</baseErgonomics>
+        <baseVentilation>7</baseVentilation>
+        <baseLoadDistribution>5</baseLoadDistribution>
+        <statConversions>
+          <li>
+            <source>Ergonomics</source>
+            <targetStat>MoveSpeed</targetStat>
+            <mode>Offset</mode>
+            <referenceValue>5</referenceValue>
+            <factor>0.04</factor>
+          </li>
+          <li>
+            <source>Ventilation</source>
+            <targetStat>ComfyTemperatureMax</targetStat>
+            <mode>Offset</mode>
+            <referenceValue>5</referenceValue>
+            <factor>1</factor>
+          </li>
+          <li>
+            <source>LoadDistribution</source>
+            <targetStat>CarryingCapacity</targetStat>
+            <mode>Offset</mode>
+            <referenceValue>5</referenceValue>
+            <factor>3</factor>
+          </li>
+        </statConversions>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_FASTMT</defName>
+    <label>FAST MT helmet</label>
+    <description>A lightweight modern ballistic helmet tailored for Helod heads. Its full-cut shell extends over the ears, protecting the upper head and ears against fragments and small-arms fire.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_FASTMT/HD_FASTMT_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <WorkToMake>6000</WorkToMake>
+      <MarketValue>420</MarketValue>
+      <Mass>1.45</Mass>
+      <ArmorRating_Sharp>0.85</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.45</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.15</ArmorRating_Heat>
+      <Flammability>0.10</Flammability>
+      <EquipDelay>1.0</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Headgear</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>UpperHead</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_FASTMT/HD_FASTMT</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_MW_Protective</li>
+        <li>Soldier</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>8</Crafting>
+      </skillRequirements>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>15</Cloth>
+      <Plasteel>25</Plasteel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+    </costList>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
+        <armorTags><li>HD_FASTMT</li></armorTags>
+        <previewCrop>
+          <x>0.155</x>
+          <y>0.36</y>
+          <width>0.69</width>
+          <height>0.50</height>
+        </previewCrop>
+        <slots>
+          <li>HD_MH_Slot_NightVision</li>
+          <li>HD_MH_Slot_Visor</li>
+        </slots>
+        <baseErgonomics>5</baseErgonomics>
+        <baseVentilation>5</baseVentilation>
+        <baseLoadDistribution>5</baseLoadDistribution>
+        <statConversions>
+          <li>
+            <source>Ergonomics</source>
+            <targetStat>MoveSpeed</targetStat>
+            <mode>Offset</mode>
+            <referenceValue>5</referenceValue>
+            <factor>0.02</factor>
+          </li>
+          <li>
+            <source>Ventilation</source>
+            <targetStat>ComfyTemperatureMax</targetStat>
+            <mode>Offset</mode>
+            <referenceValue>5</referenceValue>
+            <factor>0.5</factor>
+          </li>
+          <li>
+            <source>LoadDistribution</source>
+            <targetStat>CarryingCapacity</targetStat>
+            <mode>Offset</mode>
+            <referenceValue>5</referenceValue>
+            <factor>1</factor>
+          </li>
+        </statConversions>
+      </li>
+    </comps>
   </ThingDef>
 
   <ThingDef ParentName="ApparelNoQualityBase">

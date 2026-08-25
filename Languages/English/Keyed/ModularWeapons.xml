@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularWeapon_Command>Weapon modding</HD_ModularWeapon_Command>
+  <HD_ModularWeapon_CommandDesc>Open the modular weapon interface. Parts selected here are created and installed immediately.</HD_ModularWeapon_CommandDesc>
+  <HD_ModularWeapon_Title>Weapon modding — {0}</HD_ModularWeapon_Title>
+  <HD_ModularWeapon_Missing>The weapon is no longer available.</HD_ModularWeapon_Missing>
+  <HD_ModularWeapon_Tree>Assembly tree</HD_ModularWeapon_Tree>
+  <HD_ModularWeapon_Navigation>Part browser</HD_ModularWeapon_Navigation>
+  <HD_ModularWeapon_BackToParent>← Back to parent</HD_ModularWeapon_BackToParent>
+  <HD_ModularWeapon_Home>Root</HD_ModularWeapon_Home>
+  <HD_ModularWeapon_AssemblyRoot>Assembly root</HD_ModularWeapon_AssemblyRoot>
+  <HD_ModularWeapon_CurrentPart>Current part</HD_ModularWeapon_CurrentPart>
+  <HD_ModularWeapon_PartSummary>{0} sockets  ·  {1} attached</HD_ModularWeapon_PartSummary>
+  <HD_ModularWeapon_AttachedParts>Parts attached here</HD_ModularWeapon_AttachedParts>
+  <HD_ModularWeapon_NoAttachedParts>No parts are attached directly here.</HD_ModularWeapon_NoAttachedParts>
+  <HD_ModularWeapon_ConnectedVia>Socket: {0}</HD_ModularWeapon_ConnectedVia>
+  <HD_ModularWeapon_ImmediateHint>Click a socket, then click a compatible part. No loose item is required during this development stage.</HD_ModularWeapon_ImmediateHint>
+  <HD_ModularWeapon_Performance>Mechanical limit: {0} RPM\nCurrent setting: {1} RPM\nMinimum/current delay: {2}s / {3}s\nBurst interval: {4} ticks</HD_ModularWeapon_Performance>
+  <HD_ModularWeapon_RailDetail>Length {0}  •  {1}</HD_ModularWeapon_RailDetail>
+  <HD_ModularWeapon_RailOffset>Rail position: {0}</HD_ModularWeapon_RailOffset>
+  <HD_ModularWeapon_SelectSocket>Select a socket to view compatible parts.</HD_ModularWeapon_SelectSocket>
+  <HD_ModularWeapon_Catalog>Compatible parts — {0}</HD_ModularWeapon_Catalog>
+  <HD_ModularWeapon_Occupancy>Occupied length: {0}</HD_ModularWeapon_Occupancy>
+  <HD_ModularWeapon_FireDelayModifier>Fire delay multiplier: ×{0}</HD_ModularWeapon_FireDelayModifier>
+  <HD_ModularWeapon_AttachFailed>The part could not be attached.</HD_ModularWeapon_AttachFailed>
+</LanguageData>

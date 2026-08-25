@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularArmor_Inspect>인체공학: {0} | 통기성: {1} | 하중분산: {2}</HD_ModularArmor_Inspect>
+  <HD_ModularArmor_Configure_Label>방어구 개조</HD_ModularArmor_Configure_Label>
+  <HD_ModularArmor_Configure_Desc>고정 방어 부품을 교체하고 PALS 부착망에 장비 주머니를 배치합니다.</HD_ModularArmor_Configure_Desc>
+  <HD_ModularArmor_WindowTitle>{0} 개조</HD_ModularArmor_WindowTitle>
+  <HD_ModularArmor_None>없음</HD_ModularArmor_None>
+  <HD_ModularArmor_FixedPosition>고정: {0}</HD_ModularArmor_FixedPosition>
+  <HD_ModularArmor_MetricBlock>인체공학  {0}\n통기성  {1}\n하중분산  {2}</HD_ModularArmor_MetricBlock>
+  <HD_ModularArmor_PalsCatalog>PALS 부착 장비</HD_ModularArmor_PalsCatalog>
+  <HD_ModularArmor_Pals_Hint>아래에서 PALS 부착 장비를 선택한 뒤 빈 격자 칸을 클릭하십시오. 장착된 부품은 왼쪽 클릭으로 이동하고 오른쪽 클릭으로 제거합니다.</HD_ModularArmor_Pals_Hint>
+  <HD_ModularArmor_Pals_PlaceHint>{0} 장착 중 ({1} × {2}). 장착 가능한 빈 격자 칸을 클릭하십시오.</HD_ModularArmor_Pals_PlaceHint>
+  <HD_ModularArmor_Pals_MoveHint>{0} 이동 중. 장착 가능한 빈 격자 칸을 클릭하십시오.</HD_ModularArmor_Pals_MoveHint>
+  <HD_ModularArmor_PalsInstalledTip>{0}\nPALS 장착 위치: {1}, {2}\n왼쪽 클릭: 이동\n오른쪽 클릭: 제거</HD_ModularArmor_PalsInstalledTip>
+  <HD_ModularArmor_FixedOnlyHint>미리보기 주변의 장착부를 선택하여 호환 부품을 장착하거나 제거하십시오.</HD_ModularArmor_FixedOnlyHint>
+  <HD_ModularArmor_Facing>보기 방향: {0}</HD_ModularArmor_Facing>
+  <HD_ModularArmor_VisibleSlots>현재 보이는 고정 부품: {0}</HD_ModularArmor_VisibleSlots>
+  <HD_ModularArmor_Facing_Front>전면</HD_ModularArmor_Facing_Front>
+  <HD_ModularArmor_Facing_Back>후면</HD_ModularArmor_Facing_Back>
+  <HD_ModularArmor_Facing_Left>좌측면</HD_ModularArmor_Facing_Left>
+  <HD_ModularArmor_Facing_Right>우측면</HD_ModularArmor_Facing_Right>
+  <HD_ModularArmor_AllDirections>전 방향</HD_ModularArmor_AllDirections>
+  <HD_ModularArmor_CoverageWithDirection>{0} ({1})</HD_ModularArmor_CoverageWithDirection>
+  <HD_ModularArmor_ProtectionArea>{0} 보호</HD_ModularArmor_ProtectionArea>
+  <HD_ModularArmor_ProtectionValues>날카로움 {0} · 둔탁함 {1} · 열기 {2}</HD_ModularArmor_ProtectionValues>
+  <HD_ModularArmor_ProtectionDesc>보호 부위: {0}\n방어력: {1}</HD_ModularArmor_ProtectionDesc>
+  <HD_ModularArmor_PlateDurability>내구도 {0} / {1}</HD_ModularArmor_PlateDurability>
+  <HD_ModularArmor_PlateDestroyed>방탄판 파괴됨</HD_ModularArmor_PlateDestroyed>
+  <HD_ModularArmor_PlateStock>[보유 {0} / 필요 {1}]</HD_ModularArmor_PlateStock>
+  <HD_ModularArmor_PlateRequired>실물 방탄판 세트 필요</HD_ModularArmor_PlateRequired>
+  <HD_ModularArmor_PartConflict>{0}과(와) 동시 장착 불가</HD_ModularArmor_PartConflict>
+  <HD_ModularArmor_PartStock>[보유 {0}]</HD_ModularArmor_PartStock>
+  <HD_ModularArmor_PartRequired>실물 파츠 필요</HD_ModularArmor_PartRequired>
+  <HD_ModularArmor_InvalidInstall>선택한 위치에 해당 파츠를 장착할 수 없습니다.</HD_ModularArmor_InvalidInstall>
+  <HD_ModularArmor_MustBeWorn>플레이어 정착민이 방어구를 착용한 상태에서만 개조할 수 있습니다.</HD_ModularArmor_MustBeWorn>
+  <HD_ModularArmor_NoReachablePart>도달 가능한 {0}이(가) 없습니다.</HD_ModularArmor_NoReachablePart>
+  <HD_ModularArmor_JobMissing>방어구 개조 작업 정의가 없습니다.</HD_ModularArmor_JobMissing>
+  <HD_ModularArmor_CannotStartJob>방어구 개조 작업을 시작할 수 없습니다.</HD_ModularArmor_CannotStartJob>
+  <HD_ModularArmor_InstallComplete>{0} 장착을 완료했습니다.</HD_ModularArmor_InstallComplete>
+  <HD_ModularArmor_InstallFailed>파츠 장착에 실패하여 부품을 돌려놓았습니다.</HD_ModularArmor_InstallFailed>
+  <HD_ModularArmor_NoSwappablePlate>교체 가능한 전·후면 방탄판 세트가 장착되어 있지 않습니다.</HD_ModularArmor_NoSwappablePlate>
+  <HD_ModularArmor_SwapComplete>전·후면 방탄판 위치를 교체했습니다.</HD_ModularArmor_SwapComplete>
+  <HD_ModularArmor_NumberedPlateDurability>{0}번: 내구도 {1} / {2}</HD_ModularArmor_NumberedPlateDurability>
+  <HD_ModularArmor_NumberedPlateDestroyed>{0}번: 파괴됨</HD_ModularArmor_NumberedPlateDestroyed>
+  <HD_ModularArmor_PlateSetMissing>실물 방탄판 세트 미장착</HD_ModularArmor_PlateSetMissing>
+  <HD_ArmorPlateSet_Inspect>1번 플레이트: {0} / {1}\n2번 플레이트: {2} / {3}</HD_ArmorPlateSet_Inspect>
+  <HD_ModularArmor_SwapFrontRear>1 ↔ 2 교체</HD_ModularArmor_SwapFrontRear>
+  <HD_ModularArmor_SwapFrontRearTip>시간을 들여 전·후면 플레이트 위치를 교체합니다. 현재: 전면 {0}번, 후면 {1}번.</HD_ModularArmor_SwapFrontRearTip>
+  <HD_ModularArmor_GuaranteedBlock>최소 방어 보장: 플레이트 내구도가 {1} 이상이면 관통력 {0} 이하의 원거리 날카로움 피해를 완전히 차단합니다.</HD_ModularArmor_GuaranteedBlock>
+</LanguageData>

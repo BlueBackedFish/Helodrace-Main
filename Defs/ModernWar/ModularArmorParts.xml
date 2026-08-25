@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Installation slots -->
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_FrontRearPlates</defName>
+    <label>IBTV front/rear plate set slot</label>
+    <required>false</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Left</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_SidePlates</defName>
+    <label>IBTV left/right side plate set slot</label>
+    <required>false</required>
+    <uiOrder>20</uiOrder>
+    <uiSide>Right</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <!-- Legacy definitions are retained so existing saves can resolve old records. -->
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_FrontPlate</defName>
+    <label>IBTV front plate slot</label>
+    <required>true</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Left</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_RearPlate</defName>
+    <label>IBTV rear plate slot</label>
+    <required>true</required>
+    <uiOrder>20</uiOrder>
+    <uiSide>Right</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_LeftPlate</defName>
+    <label>IBTV left side plate slot</label>
+    <required>false</required>
+    <uiOrder>30</uiOrder>
+    <uiSide>Left</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_RightPlate</defName>
+    <label>IBTV right side plate slot</label>
+    <required>false</required>
+    <uiOrder>40</uiOrder>
+    <uiSide>Right</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_NeckGuard</defName>
+    <label>IBTV neck guard slot</label>
+    <required>false</required>
+    <uiOrder>50</uiOrder>
+    <uiSide>Top</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_ShoulderGuards</defName>
+    <label>IBTV shoulder guard slot</label>
+    <required>false</required>
+    <uiOrder>60</uiOrder>
+    <uiSide>Top</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_LowerBody</defName>
+    <label>IBTV lower body armor slot</label>
+    <required>false</required>
+    <uiOrder>70</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <!-- A position controls hit location, protected direction and render anchor. -->
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_FrontRearTorso</defName>
+    <label>front and rear torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Front</li><li>Back</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>8</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_SideTorso</defName>
+    <label>left and right torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Left</li><li>Right</li></protectedDirections>
+    <directionArcDegrees>80</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>8</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_FrontTorso</defName>
+    <label>front torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Front</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>8</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+
+  <!-- A PALS panel is a real multi-cell mounting surface, not a direction selector. -->
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Front</defName>
+    <label>IBTV upper front PALS webbing</label>
+    <columns>6</columns>
+    <rows>2</rows>
+    <armorPosition>HD_MA_Pos_FrontTorso</armorPosition>
+    <uiX>0.18</uiX>
+    <uiY>0.43</uiY>
+    <uiWidth>0.64</uiWidth>
+    <uiHeight>0.16</uiHeight>
+    <drawCellSize>(0.08,0.08)</drawCellSize>
+    <drawLayer>11</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Lower</defName>
+    <label>IBTV lower front PALS webbing</label>
+    <columns>6</columns>
+    <rows>3</rows>
+    <armorPosition>HD_MA_Pos_FrontTorso</armorPosition>
+    <uiX>0.18</uiX>
+    <uiY>0.61</uiY>
+    <uiWidth>0.64</uiWidth>
+    <uiHeight>0.25</uiHeight>
+    <drawCellSize>(0.08,0.08)</drawCellSize>
+    <drawLayer>11</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_RearTorso</defName>
+    <label>rear torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Back</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>8</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_LeftTorso</defName>
+    <label>left torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Left</li></protectedDirections>
+    <directionArcDegrees>80</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>8</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_RightTorso</defName>
+    <label>right torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Right</li></protectedDirections>
+    <directionArcDegrees>80</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>8</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_Neck</defName>
+    <label>neck</label>
+    <bodyPartGroups><li>Neck</li></bodyPartGroups>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>9</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_Shoulders</defName>
+    <label>shoulders</label>
+    <bodyPartGroups><li>Shoulders</li><li>Arms</li></bodyPartGroups>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>10</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_LowerBody</defName>
+    <label>lower body</label>
+    <bodyPartGroups><li>Waist</li><li>Legs</li></bodyPartGroups>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>10</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+
+  <!-- Fixed parts have an authored installation location. -->
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRearPlates</defName>
+    <label>IBTV front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-2</ergonomics>
+    <ventilation>-2</ventilation>
+    <loadDistribution>2</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_SidePlates</defName>
+    <label>IBTV left/right side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>0.85</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-1</ventilation>
+    <loadDistribution>1</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_SAPI</defName>
+    <label>IBTV SAPI front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <armorRatingSharp>1.00</armorRatingSharp>
+    <armorRatingBlunt>0.45</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-1.6</ergonomics><ventilation>-1.5</ventilation><loadDistribution>1.5</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_ESAPI</defName>
+    <label>IBTV ESAPI front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.60</guaranteedBlockPenetration>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.25</armorRatingHeat>
+    <ergonomics>-2</ergonomics><ventilation>-2</ventilation><loadDistribution>2</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_SSAPI</defName>
+    <label>IBTV SSAPI front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.70</guaranteedBlockPenetration>
+    <armorRatingSharp>1.40</armorRatingSharp>
+    <armorRatingBlunt>0.55</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-2.4</ergonomics><ventilation>-2</ventilation><loadDistribution>2.3</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_RAMPART4800</defName>
+    <label>IBTV RAMPART 4800 front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_RAMPART4800</plateThingDef>
+    <guaranteedBlockPenetration>0.80</guaranteedBlockPenetration>
+    <armorRatingSharp>1.60</armorRatingSharp>
+    <armorRatingBlunt>0.65</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-3</ergonomics><ventilation>-2.5</ventilation><loadDistribution>2.8</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_SAPI</defName>
+    <label>IBTV SAPI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <armorRatingSharp>1.00</armorRatingSharp>
+    <armorRatingBlunt>0.45</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.8</ergonomics><ventilation>-0.75</ventilation><loadDistribution>0.75</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_ESAPI</defName>
+    <label>IBTV ESAPI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.60</guaranteedBlockPenetration>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.25</armorRatingHeat>
+    <ergonomics>-1</ergonomics><ventilation>-1</ventilation><loadDistribution>1</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_SSAPI</defName>
+    <label>IBTV SSAPI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.70</guaranteedBlockPenetration>
+    <armorRatingSharp>1.40</armorRatingSharp>
+    <armorRatingBlunt>0.55</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1.2</ergonomics><ventilation>-1</ventilation><loadDistribution>1.15</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_ESBI</defName>
+    <label>IBTV ESBI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_ESBI</plateThingDef>
+    <guaranteedBlockPenetration>0.75</guaranteedBlockPenetration>
+    <armorRatingSharp>1.50</armorRatingSharp>
+    <armorRatingBlunt>0.60</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1.35</ergonomics><ventilation>-1.15</ventilation><loadDistribution>1.3</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_RAMPART4800</defName>
+    <label>IBTV RAMPART 4800 side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_RAMPART4800</plateThingDef>
+    <guaranteedBlockPenetration>0.80</guaranteedBlockPenetration>
+    <armorRatingSharp>1.60</armorRatingSharp>
+    <armorRatingBlunt>0.65</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1.5</ergonomics><ventilation>-1.25</ventilation><loadDistribution>1.4</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <!-- Legacy one-direction parts are retained for save compatibility. -->
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontPlate</defName>
+    <label>IBTV front plate</label>
+    <slot>HD_MA_Slot_FrontPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-1</ventilation>
+    <loadDistribution>1</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_RearPlate</defName>
+    <label>IBTV rear plate</label>
+    <slot>HD_MA_Slot_RearPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-1</ventilation>
+    <loadDistribution>1</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_NeckGuard</defName>
+    <label>IBTV neck guard</label>
+    <slot>HD_MA_Slot_NeckGuard</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Neck</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVNeckGuard</partThingDef>
+    <armorRatingSharp>0.65</armorRatingSharp>
+    <armorRatingBlunt>0.35</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.5</ergonomics>
+    <ventilation>-1</ventilation>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_LeftPlate</defName>
+    <label>IBTV left side plate</label>
+    <slot>HD_MA_Slot_LeftPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_LeftTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>0.85</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.5</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>0.5</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_RightPlate</defName>
+    <label>IBTV right side plate</label>
+    <slot>HD_MA_Slot_RightPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RightTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>0.85</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.5</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>0.5</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_ShoulderGuards</defName>
+    <label>IBTV shoulder guards</label>
+    <slot>HD_MA_Slot_ShoulderGuards</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Shoulders</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVShoulderGuards</partThingDef>
+    <armorRatingSharp>0.80</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>0.5</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(0.95,0.95)</drawSize>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_LowerBody</defName>
+    <label>IBTV lower body armor</label>
+    <slot>HD_MA_Slot_LowerBody</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_LowerBody</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVLowerBody</partThingDef>
+    <armorRatingSharp>0.55</armorRatingSharp>
+    <armorRatingBlunt>0.30</armorRatingBlunt>
+    <armorRatingHeat>0.15</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>-0.5</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+
+  <!-- PALS parts can be installed repeatedly and occupy multiple grid cells. -->
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_IFAK</defName>
+    <label>IBTV IFAK pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li></allowedPalsPanels>
+    <palsWidth>2</palsWidth>
+    <palsHeight>2</palsHeight>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IFAK</partThingDef>
+    <ergonomics>-0.2</ergonomics>
+    <ventilation>-0.1</ventilation>
+    <loadDistribution>-0.15</loadDistribution>
+    <uiIconPath>Items/HD_BasicMedicalSupplies</uiIconPath>
+    <uiColor>(0.28,0.36,0.25)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_RifleMagazinePouch</defName>
+    <label>IBTV rifle magazine pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li></allowedPalsPanels>
+    <palsWidth>1</palsWidth>
+    <palsHeight>2</palsHeight>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_RifleMagazinePouch</partThingDef>
+    <ergonomics>-0.1</ergonomics>
+    <ventilation>-0.1</ventilation>
+    <loadDistribution>-0.25</loadDistribution>
+    <uiIconPath>Weapons/GreatWar/Ammo/HD_37mmAP</uiIconPath>
+    <uiColor>(0.34,0.30,0.20)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+</Defs>

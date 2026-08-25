@@ -179,6 +179,9 @@
                   <ApparelDef>HD_Apparel_CarvalyHat</ApparelDef>
                 </Not>
                 <Not>
+                  <ApparelDef>HD_Apparel_FASTMT</ApparelDef>
+                </Not>
+                <Not>
                   <ApparelDef>Apparel_AdvancedHelmet</ApparelDef>
                 </Not>
                 <Not>
@@ -250,6 +253,9 @@
                 <RotStage>Fresh,Rotting</RotStage>
                 <Not>
                   <ApparelDef>HD_Apparel_CarvalyHat</ApparelDef>
+                </Not>
+                <Not>
+                  <ApparelDef>HD_Apparel_FASTMT</ApparelDef>
                 </Not>
                 <Not>
                   <ApparelDef>Apparel_AdvancedHelmet</ApparelDef>
@@ -502,6 +508,7 @@
           <li>HD_Apparel_M1MortarBarrel</li>
           <li>HD_MilitaryTablet</li>
           <li>HD_Apparel_IBTVAssault</li>
+          <li>HD_Apparel_FASTMT</li>
           <li>HD_Apparel_M1952AFlakJacket</li>
           <li>HD_Apparel_ShieldDefenTechIIIA</li>
           <li>HD_Apparel_ShieldIronHideIV</li>

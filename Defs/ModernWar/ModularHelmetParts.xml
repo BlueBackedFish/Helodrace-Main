@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MH_Slot_NightVision</defName>
+    <label>night vision mount</label>
+    <required>false</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Top</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MH_Slot_Visor</defName>
+    <label>ballistic visor mount</label>
+    <required>false</required>
+    <uiOrder>20</uiOrder>
+    <uiSide>Right</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MH_Pos_FrontHead</defName>
+    <label>front helmet mount</label>
+    <bodyPartGroups><li>UpperHead</li></bodyPartGroups>
+    <parentTagDef>ApparelHead</parentTagDef>
+    <drawLayer>120</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MH_Pos_FaceVisor</defName>
+    <label>front face</label>
+    <bodyParts><li>Eye</li><li>Nose</li><li>Jaw</li></bodyParts>
+    <protectedDirections><li>Front</li></protectedDirections>
+    <directionArcDegrees>120</directionArcDegrees>
+    <parentTagDef>ApparelHead</parentTagDef>
+    <drawLayer>121</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_FASTMTPart_GPNVG18</defName>
+    <label>GPNVG-18</label>
+    <slot>HD_MH_Slot_NightVision</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MH_Pos_FrontHead</fixedPosition>
+    <compatibleArmorTags><li>HD_FASTMT</li></compatibleArmorTags>
+    <conflictTags><li>HD_FASTMT_FrontFace</li></conflictTags>
+    <partThingDef>HD_ModularPart_GPNVG18</partThingDef>
+    <installWorkTicks>240</installWorkTicks>
+    <ergonomics>-0.4</ergonomics>
+    <ventilation>-0.2</ventilation>
+    <loadDistribution>-0.3</loadDistribution>
+    <statModifiers>
+      <li>
+        <stat>AimingDelayFactor</stat>
+        <mode>Offset</mode>
+        <value>-0.10</value>
+      </li>
+      <li>
+        <stat>ShootingAccuracyFactor_Short</stat>
+        <mode>Factor</mode>
+        <value>1.05</value>
+      </li>
+      <li>
+        <stat>ShootingAccuracyFactor_Medium</stat>
+        <mode>Factor</mode>
+        <value>1.10</value>
+      </li>
+      <li>
+        <stat>ShootingAccuracyFactor_Long</stat>
+        <mode>Factor</mode>
+        <value>1.15</value>
+      </li>
+    </statModifiers>
+    <uiIconPath>Helod/Apparel/HelmetPart/HD_GPNVG18/HD_GPNVG18_south</uiIconPath>
+    <uiColor>(0.38,0.34,0.24)</uiColor>
+    <graphicData>
+      <texPath>Helod/Apparel/HelmetPart/HD_GPNVG18/HD_GPNVG18</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_FASTMTPart_MultiHitVisor</defName>
+    <label>multi-hit ballistic visor</label>
+    <description>A transparent multi-hit face shield for the FAST MT helmet. It protects the eyes, nose and jaw against attacks from the front.</description>
+    <slot>HD_MH_Slot_Visor</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MH_Pos_FaceVisor</fixedPosition>
+    <compatibleArmorTags><li>HD_FASTMT</li></compatibleArmorTags>
+    <conflictTags><li>HD_FASTMT_FrontFace</li></conflictTags>
+    <partThingDef>HD_ModularPart_MultiHitVisor</partThingDef>
+    <installWorkTicks>300</installWorkTicks>
+    <armorRatingSharp>0.75</armorRatingSharp>
+    <armorRatingBlunt>0.35</armorRatingBlunt>
+    <armorRatingHeat>0.10</armorRatingHeat>
+    <metallic>false</metallic>
+    <ergonomics>-0.6</ergonomics>
+    <ventilation>-1.5</ventilation>
+    <loadDistribution>-0.4</loadDistribution>
+    <uiIconPath>Helod/Apparel/HelmetPart/HD_MultiHitVisor/HD_MultiHitVisor_south</uiIconPath>
+    <uiColor>(0.30,0.34,0.31)</uiColor>
+    <graphicData>
+      <texPath>Helod/Apparel/HelmetPart/HD_MultiHitVisor/HD_MultiHitVisor</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Transparent</shaderType>
+    </graphicData>
+    <northUnderGraphicData>
+      <texPath>Helod/Apparel/HelmetPart/HD_MultiHitVisor/HD_MultiHitVisor_under_north</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+    </northUnderGraphicData>
+    <northUnderParentTagDef>Head</northUnderParentTagDef>
+    <northUnderDrawLayer>79</northUnderDrawLayer>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+</Defs>

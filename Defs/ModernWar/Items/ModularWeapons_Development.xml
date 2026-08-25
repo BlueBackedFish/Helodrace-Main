@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>HD_ModularWeaponParts</defName>
+    <label>modular weapon parts</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <!-- Development-only physical parts. Every attached child remains a real Thing and owns
+       its own children, so detaching a handguard can preserve the complete rail subtree.
+       The modular Thing/Graphic classes also let any loose part render its child assembly. -->
+  <ThingDef Name="HD_ModularWeaponPartBase" Abstract="True">
+    <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <category>Item</category>
+    <techLevel>Industrial</techLevel>
+    <drawerType>MapMeshOnly</drawerType>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <useHitPoints>true</useHitPoints>
+    <stackLimit>1</stackLimit>
+    <altitudeLayer>Item</altitudeLayer>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <soundInteract>Standard_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
+    <graphicData>
+      <graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Mass>0.2</Mass>
+      <MarketValue>50</MarketValue>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_UpperReceiver_M4A1</defName>
+    <label>M4A1 upper receiver</label>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M4a1</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>1</graphicLayer>
+        <mounts>
+          <li><id>receiver_mount</id><socketTags><li>upper_receiver</li></socketTags><transform><position>(-0.095,0,-0.017)</position></transform></li>
+        </mounts>
+        <sockets>
+          <li><id>barrel</id><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.023,0,-0.005)</position></transform></li>
+          <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.023,0,-0.005)</position></transform></li>
+          <!-- One continuous receiver rail. Its front edge preserves the former holographic-sight rail extent. -->
+          <li><id>rail_receiver_top</id><label>upper receiver top rail</label><tags><li>picatinny</li><li>top_rail</li><li>receiver_rail</li></tags><isRail>true</isRail><railLength>0.123</railLength><transform><position>(-0.1335,0,0.017)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR15103</part></li>
+          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_HACRISFDE</part></li>
+          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Magnifier_VOTechG33</part><railOffset>-0.0215</railOffset></li>
+          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Optic_VOTechEXPS</part><railOffset>0.0215</railOffset></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_AR15103</defName>
+    <label>10.3 inch AR-15 barrel</label>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1510.3</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-3</graphicLayer>
+        <mounts><li><id>barrel_mount</id><socketTags><li>ar15_barrel</li></socketTags><transform><position>(-0.024,0,-0.006)</position></transform></li></mounts>
+        <sockets>
+          <li><id>gas_block</id><label>gas block journal</label><tags><li>ar15_gas_block</li></tags><transform><position>(0.14,0,-0.005)</position></transform></li>
+          <li><id>muzzle</id><label>muzzle thread</label><tags><li>muzzle_556</li></tags><transform><position>(0.198,0,-0.006)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_MK12LP</part></li>
+          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_HACNT4</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_GasBlock_MK12LP</defName>
+    <label>MK12 low-profile gas block</label>
+    <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_MK12LP</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-2</graphicLayer>
+        <mounts><li><id>gas_block_mount</id><socketTags><li>ar15_gas_block</li></socketTags><transform><position>(0.146,0,-0.006)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Muzzle_HACNT4</defName>
+    <label>HAC NT4 muzzle device</label>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_HACNT4</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-2</graphicLayer>
+        <mounts><li><id>thread_mount</id><socketTags><li>muzzle_556</li></socketTags><transform><position>(0.198,0,-0.006)</position></transform></li></mounts>
+        <sockets><li><id>suppressor</id><label>NT4 suppressor interface</label><tags><li>nt4_suppressor</li></tags><transform><position>(0.212,0,-0.006)</position></transform></li></sockets>
+        <defaultAttachments>
+          <li><socketId>suppressor</socketId><part>HD_ModularPart_Suppressor_BrightStrike4Prong</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Suppressor_BrightStrike4Prong</defName>
+    <label>BrightStrike four-prong suppressor</label>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Supp_BrightStrike4Prong</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-1</graphicLayer>
+        <mounts><li><id>nt4_mount</id><socketTags><li>nt4_suppressor</li></socketTags><transform><position>(0.206,0,-0.007)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Handguard_HACRISFDE</defName>
+    <label>HAC RIS FDE handguard</label>
+    <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACRISFDE</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>2</graphicLayer>
+        <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.024,0,-0.005)</position></transform></li></mounts>
+        <sockets>
+          <li><id>rail_top_front</id><label>top rail front</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.132,0,0.018)</position></transform></li>
+          <li><id>rail_side</id><label>side rail</label><tags><li>picatinny</li><li>side_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.12,0,-0.005)</position></transform></li>
+          <li><id>rail_bottom</id><label>bottom rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.154,0,-0.023)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>rail_top_front</socketId><part>HD_ModularPart_Laser_ANPEQ15</part></li>
+          <li><socketId>rail_side</socketId><part>HD_ModularPart_Light_BrightStrikeM600</part></li>
+          <li><socketId>rail_bottom</socketId><part>HD_ModularPart_Grip_DaltonDefenseVFG</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Optic_VOTechEXPS</defName>
+    <label>VOTech EXPS sight</label>
+    <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_VOTechEXPS</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>5</graphicLayer>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.045</railOccupancy><transform><position>(-0.111,0,0.015)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Magnifier_VOTechG33</defName>
+    <label>VOTech G33 magnifier</label>
+    <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_VOTechG33</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>6</graphicLayer>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.04</railOccupancy><transform><position>(-0.153,0,0.015)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Laser_ANPEQ15</defName>
+    <label>AN/PEQ-15 laser module</label>
+    <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyUP_ANPEQ15</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>5</graphicLayer>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.05</railOccupancy><transform><position>(0.142,0,0.019)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Light_BrightStrikeM600</defName>
+    <label>BrightStrike M600 weapon light</label>
+    <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyMID_BrightStrikeM600</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>4</graphicLayer>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.05</railOccupancy><transform><position>(0.117,0,-0.005)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Grip_DaltonDefenseVFG</defName>
+    <label>Dalton Defense vertical foregrip</label>
+    <graphicData><texPath>Weapons/Modular/Grips/HD_PicatinnyLOW_DaltonDefenseVFG</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>4</graphicLayer>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.035</railOccupancy><transform><position>(0.154,0,-0.022)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_PistolGrip_IronFangA2</defName>
+    <label>IronFang A2 pistol grip</label>
+    <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_IronFangA2</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>2</graphicLayer>
+        <mounts><li><id>grip_mount</id><socketTags><li>ar15_pistol_grip</li></socketTags><transform><position>(-0.162,0,-0.049)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_BufferTube_Colt</defName>
+    <label>Colt buffer tube</label>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_Colt</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-2</graphicLayer>
+        <mounts><li><id>buffer_mount</id><socketTags><li>ar15_buffer</li></socketTags><transform><position>(-0.204,0,-0.006)</position></transform></li></mounts>
+        <sockets><li><id>stock</id><label>adjustable carbine stock track</label><tags><li>ar15_stock</li></tags><isRail>true</isRail><railLength>0.1</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.263,0,-0.006)</position></transform></li></sockets>
+        <defaultAttachments>
+          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FieldFormMOEFDE</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Stock_FieldFormMOEFDE</defName>
+    <label>FieldForm MOE FDE stock</label>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_FieldFormMOEFDE</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-1</graphicLayer>
+        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.242,0,-0.01)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Separate test gun: existing production M4A1 remains untouched while the tree/editor
+       are stabilized. Spawn it from the Helodrace debug item action. -->
+  <ThingDef ParentName="HD_M16FamilyBase">
+    <defName>HD_Gun_ModularM4_Test_Weapon</defName>
+    <label>modular M4 development carbine</label>
+    <description>A development weapon for authoring the tree-based modular attachment system.</description>
+    <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <graphicData>
+      <texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath>
+      <graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass>
+      <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <statBases>
+      <RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown>
+    </statBases>
+    <verbs Inherit="False">
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.8</warmupTime>
+        <range>27.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>8</muzzleFlashScale>
+      </li>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>false</hasStandardCommand>
+        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
+        <warmupTime>0.25</warmupTime>
+        <range>19.9</range>
+        <burstShotCount>6</burstShotCount>
+        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
+        <soundCast>Shot_AssaultRifle</soundCast>
+        <soundCastTail>GunTail_Medium</soundCastTail>
+        <muzzleFlashScale>8</muzzleFlashScale>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <isAssemblyRoot>true</isAssemblyRoot>
+        <realisticRoundsPerMinute>800</realisticRoundsPerMinute>
+        <baseFireDelayFactor>1.2</baseFireDelayFactor>
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <sockets>
+          <li><id>upper_receiver</id><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
+          <li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>ar15_pistol_grip</li></tags><transform><position>(-0.161,0,-0.051)</position></transform></li>
+          <li><id>buffer_tube</id><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
+          <li><id>magazine</id><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M4A1</part></li>
+          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
+          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_Colt</part></li>
+          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

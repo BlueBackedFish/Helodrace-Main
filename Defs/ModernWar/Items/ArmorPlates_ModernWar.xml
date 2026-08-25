@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingCategoryDef>
+    <defName>HD_ArmorPlates</defName>
+    <label>armor plates</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef Name="HD_ArmorPlateBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <techLevel>Industrial</techLevel>
+    <useHitPoints>true</useHitPoints>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <stackLimit>1</stackLimit>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <healthAffectsPrice>true</healthAffectsPrice>
+    <soundInteract>Standard_Drop</soundInteract>
+    <soundDrop>Standard_Drop</soundDrop>
+    <thingCategories><li>HD_ArmorPlates</li></thingCategories>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ArmorPlateSet" />
+    </comps>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements><Crafting>8</Crafting></skillRequirements>
+      <researchPrerequisite>FlakArmor</researchPrerequisite>
+      <recipeUsers><li>TableMachining</li></recipeUsers>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ArmorPlateBase">
+    <defName>HD_ArmorPlate_SAPI</defName>
+    <label>SAPI plate set</label>
+    <description>A two-plate ceramic ballistic set. Plate 1 and plate 2 retain damage independently.</description>
+    <graphicData>
+      <texPath>Items/Plates/HD_SAPI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>32</MaxHitPoints>
+      <MarketValue>480</MarketValue>
+      <Mass>2.0</Mass>
+      <Flammability>0.05</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+      <WorkToMake>9000</WorkToMake>
+    </statBases>
+    <costList><Steel>18</Steel><Plasteel>18</Plasteel><ComponentIndustrial>1</ComponentIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ArmorPlateBase">
+    <defName>HD_ArmorPlate_ESAPI</defName>
+    <label>ESAPI plate set</label>
+    <description>A two-plate enhanced ceramic ballistic set with independent durability for plate 1 and plate 2.</description>
+    <graphicData>
+      <texPath>Items/Plates/HD_ESAPI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <MarketValue>760</MarketValue>
+      <Mass>2.25</Mass>
+      <Flammability>0.05</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+      <WorkToMake>13000</WorkToMake>
+    </statBases>
+    <costList><Steel>16</Steel><Plasteel>28</Plasteel><ComponentIndustrial>2</ComponentIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ArmorPlateBase">
+    <defName>HD_ArmorPlate_SSAPI</defName>
+    <label>SSAPI side plate set</label>
+    <description>A two-plate compact side protection set. Plate 1 and plate 2 retain damage independently.</description>
+    <graphicData>
+      <texPath>Items/Plates/HD_SSAPI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>46</MaxHitPoints>
+      <MarketValue>1080</MarketValue>
+      <Mass>2.5</Mass>
+      <Flammability>0.04</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+      <WorkToMake>18000</WorkToMake>
+    </statBases>
+    <costList><Steel>12</Steel><Plasteel>40</Plasteel><ComponentIndustrial>3</ComponentIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ArmorPlateBase">
+    <defName>HD_ArmorPlate_ESBI</defName>
+    <label>ESBI side plate set</label>
+    <description>A two-plate enhanced side ballistic insert set. Plate 1 and plate 2 retain damage independently.</description>
+    <graphicData>
+      <texPath>Items/Plates/HD_ESBI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <MarketValue>1220</MarketValue>
+      <Mass>2.7</Mass>
+      <Flammability>0.04</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+      <WorkToMake>20000</WorkToMake>
+    </statBases>
+    <costList><Steel>10</Steel><Plasteel>44</Plasteel><ComponentIndustrial>3</ComponentIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ArmorPlateBase">
+    <defName>HD_ArmorPlate_RAMPART4800</defName>
+    <label>RAMPART 4800 plate set</label>
+    <description>A two-plate heavy premium ballistic set engineered for maximum rifle and repeated-impact resistance.</description>
+    <graphicData>
+      <texPath>Items/Plates/HD_RAMPART4800</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.72,0.72)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>56</MaxHitPoints>
+      <MarketValue>1420</MarketValue>
+      <Mass>3.0</Mass>
+      <Flammability>0.03</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+      <WorkToMake>24000</WorkToMake>
+    </statBases>
+    <costList><Uranium>10</Uranium><Plasteel>48</Plasteel><ComponentIndustrial>4</ComponentIndustrial></costList>
+  </ThingDef>
+</Defs>

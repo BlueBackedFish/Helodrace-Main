@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <StatDef>
+    <defName>HD_ArmorErgonomics</defName>
+    <label>armor ergonomics</label>
+    <description>How little the armor obstructs natural movement. Modular armor converts the difference from its configured reference value into vanilla pawn statistics.</description>
+    <category>Apparel</category>
+    <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
+    <toStringStyle>FloatOne</toStringStyle>
+    <defaultBaseValue>0</defaultBaseValue>
+    <showIfUndefined>false</showIfUndefined>
+    <showZeroBaseValue>false</showZeroBaseValue>
+    <displayPriorityInCategory>5050</displayPriorityInCategory>
+  </StatDef>
+
+  <StatDef>
+    <defName>HD_ArmorVentilation</defName>
+    <label>armor ventilation</label>
+    <description>How effectively the armor releases heat and moisture. Modular armor converts the difference from its configured reference value into vanilla pawn statistics.</description>
+    <category>Apparel</category>
+    <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
+    <toStringStyle>FloatOne</toStringStyle>
+    <defaultBaseValue>0</defaultBaseValue>
+    <showIfUndefined>false</showIfUndefined>
+    <showZeroBaseValue>false</showZeroBaseValue>
+    <displayPriorityInCategory>5049</displayPriorityInCategory>
+  </StatDef>
+
+  <StatDef>
+    <defName>HD_ArmorLoadDistribution</defName>
+    <label>armor load distribution</label>
+    <description>How effectively the armor transfers weight across the wearer's body. Modular armor converts the difference from its configured reference value into vanilla pawn statistics.</description>
+    <category>Apparel</category>
+    <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
+    <toStringStyle>FloatOne</toStringStyle>
+    <defaultBaseValue>0</defaultBaseValue>
+    <showIfUndefined>false</showIfUndefined>
+    <showZeroBaseValue>false</showZeroBaseValue>
+    <displayPriorityInCategory>5048</displayPriorityInCategory>
+  </StatDef>
+</Defs>

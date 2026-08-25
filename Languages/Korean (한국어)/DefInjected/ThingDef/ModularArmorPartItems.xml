@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularPart_GPNVG18.label>GPNVG-18 헬멧 모듈</HD_ModularPart_GPNVG18.label>
+  <HD_ModularPart_GPNVG18.description>FAST MT 헬멧 장착부용 파노라마 야간투시경 모듈입니다.</HD_ModularPart_GPNVG18.description>
+  <HD_ModularPart_MultiHitVisor.label>멀티히트 방탄 바이저 모듈</HD_ModularPart_MultiHitVisor.label>
+  <HD_ModularPart_MultiHitVisor.description>FAST MT 헬멧용 투명 멀티히트 방탄 바이저입니다.</HD_ModularPart_MultiHitVisor.description>
+  <HD_ModularPart_IBTVNeckGuard.label>IBTV 목 보호대 모듈</HD_ModularPart_IBTVNeckGuard.label>
+  <HD_ModularPart_IBTVNeckGuard.description>IBTV 캐리어에 장착하는 탈착식 목 보호대입니다.</HD_ModularPart_IBTVNeckGuard.description>
+  <HD_ModularPart_IBTVShoulderGuards.label>IBTV 어깨 보호대 모듈</HD_ModularPart_IBTVShoulderGuards.label>
+  <HD_ModularPart_IBTVShoulderGuards.description>IBTV 캐리어에 장착하는 한 쌍의 탈착식 어깨 보호대입니다.</HD_ModularPart_IBTVShoulderGuards.description>
+  <HD_ModularPart_IBTVLowerBody.label>IBTV 하반신 보호대 모듈</HD_ModularPart_IBTVLowerBody.label>
+  <HD_ModularPart_IBTVLowerBody.description>IBTV 캐리어에 장착하는 탈착식 낭심 및 하반신 보호대입니다.</HD_ModularPart_IBTVLowerBody.description>
+  <HD_ModularPart_IFAK.label>IFAK 파우치 모듈</HD_ModularPart_IFAK.label>
+  <HD_ModularPart_IFAK.description>PALS 부착망에 장착하는 탈착식 개인 응급처치낭입니다.</HD_ModularPart_IFAK.description>
+  <HD_ModularPart_RifleMagazinePouch.label>소총 탄창 파우치 모듈</HD_ModularPart_RifleMagazinePouch.label>
+  <HD_ModularPart_RifleMagazinePouch.description>PALS 부착망에 장착하는 탈착식 소총 탄창 파우치입니다.</HD_ModularPart_RifleMagazinePouch.description>
+</LanguageData>

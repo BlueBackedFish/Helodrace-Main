@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularWeapon_Command>총기 모딩</HD_ModularWeapon_Command>
+  <HD_ModularWeapon_CommandDesc>모듈러 총기 화면을 엽니다. 현재 개발 단계에서는 선택한 파츠가 아이템 소모 없이 즉시 생성·장착됩니다.</HD_ModularWeapon_CommandDesc>
+  <HD_ModularWeapon_Title>총기 모딩 — {0}</HD_ModularWeapon_Title>
+  <HD_ModularWeapon_Missing>편집할 총기가 더 이상 존재하지 않습니다.</HD_ModularWeapon_Missing>
+  <HD_ModularWeapon_Tree>조립 트리</HD_ModularWeapon_Tree>
+  <HD_ModularWeapon_Navigation>파츠 탐색</HD_ModularWeapon_Navigation>
+  <HD_ModularWeapon_BackToParent>← 상위 파츠로</HD_ModularWeapon_BackToParent>
+  <HD_ModularWeapon_Home>루트</HD_ModularWeapon_Home>
+  <HD_ModularWeapon_AssemblyRoot>조립체 루트</HD_ModularWeapon_AssemblyRoot>
+  <HD_ModularWeapon_CurrentPart>현재 파츠</HD_ModularWeapon_CurrentPart>
+  <HD_ModularWeapon_PartSummary>소켓 {0}개  ·  직결 파츠 {1}개</HD_ModularWeapon_PartSummary>
+  <HD_ModularWeapon_AttachedParts>여기에 연결된 파츠</HD_ModularWeapon_AttachedParts>
+  <HD_ModularWeapon_NoAttachedParts>이 파츠에 직접 연결된 파츠가 없습니다.</HD_ModularWeapon_NoAttachedParts>
+  <HD_ModularWeapon_ConnectedVia>장착 소켓: {0}</HD_ModularWeapon_ConnectedVia>
+  <HD_ModularWeapon_ImmediateHint>소켓을 선택한 뒤 호환 파츠를 누르십시오. 현재 단계에서는 바닥이나 인벤토리의 파츠가 필요하지 않습니다.</HD_ModularWeapon_ImmediateHint>
+  <HD_ModularWeapon_Performance>기계적 한계: {0} RPM\n현재 설정: {1} RPM\n최소/현재 지연: {2}초 / {3}초\n점사 내부 간격: {4}틱</HD_ModularWeapon_Performance>
+  <HD_ModularWeapon_RailDetail>길이 {0}  •  {1}</HD_ModularWeapon_RailDetail>
+  <HD_ModularWeapon_RailOffset>레일 위치: {0}</HD_ModularWeapon_RailOffset>
+  <HD_ModularWeapon_SelectSocket>소켓을 선택하면 호환 파츠가 표시됩니다.</HD_ModularWeapon_SelectSocket>
+  <HD_ModularWeapon_Catalog>호환 파츠 — {0}</HD_ModularWeapon_Catalog>
+  <HD_ModularWeapon_Occupancy>점유 길이: {0}</HD_ModularWeapon_Occupancy>
+  <HD_ModularWeapon_FireDelayModifier>발사 지연 배수: ×{0}</HD_ModularWeapon_FireDelayModifier>
+  <HD_ModularWeapon_AttachFailed>파츠를 장착할 수 없습니다.</HD_ModularWeapon_AttachFailed>
+</LanguageData>

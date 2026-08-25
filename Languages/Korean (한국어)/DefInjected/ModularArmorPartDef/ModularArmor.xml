@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_IOTVPart_FrontRearPlates.label>IBTV 전·후면 방탄판 세트</HD_IOTVPart_FrontRearPlates.label>
+  <HD_IOTVPart_SidePlates.label>IBTV 좌·우 측면 방탄판 세트</HD_IOTVPart_SidePlates.label>
+  <HD_IOTVPart_FrontRear_SAPI.label>IBTV SAPI 전·후면 방탄판 세트</HD_IOTVPart_FrontRear_SAPI.label>
+  <HD_IOTVPart_FrontRear_ESAPI.label>IBTV ESAPI 전·후면 방탄판 세트</HD_IOTVPart_FrontRear_ESAPI.label>
+  <HD_IOTVPart_FrontRear_SSAPI.label>IBTV SSAPI 전·후면 방탄판 세트</HD_IOTVPart_FrontRear_SSAPI.label>
+  <HD_IOTVPart_FrontRear_RAMPART4800.label>IBTV RAMPART 4800 전·후면 방탄판 세트</HD_IOTVPart_FrontRear_RAMPART4800.label>
+  <HD_IOTVPart_Sides_SAPI.label>IBTV SAPI 좌·우 측면 방탄판 세트</HD_IOTVPart_Sides_SAPI.label>
+  <HD_IOTVPart_Sides_ESAPI.label>IBTV ESAPI 좌·우 측면 방탄판 세트</HD_IOTVPart_Sides_ESAPI.label>
+  <HD_IOTVPart_Sides_SSAPI.label>IBTV SSAPI 좌·우 측면 방탄판 세트</HD_IOTVPart_Sides_SSAPI.label>
+  <HD_IOTVPart_Sides_ESBI.label>IBTV ESBI 좌·우 측면 방탄판 세트</HD_IOTVPart_Sides_ESBI.label>
+  <HD_IOTVPart_Sides_RAMPART4800.label>IBTV RAMPART 4800 좌·우 측면 방탄판 세트</HD_IOTVPart_Sides_RAMPART4800.label>
+  <HD_IOTVPart_FrontPlate.label>IBTV 전면 방탄판</HD_IOTVPart_FrontPlate.label>
+  <HD_IOTVPart_RearPlate.label>IBTV 후면 방탄판</HD_IOTVPart_RearPlate.label>
+  <HD_IOTVPart_LeftPlate.label>IBTV 좌측 방탄판</HD_IOTVPart_LeftPlate.label>
+  <HD_IOTVPart_RightPlate.label>IBTV 우측 방탄판</HD_IOTVPart_RightPlate.label>
+  <HD_IOTVPart_NeckGuard.label>IBTV 목 보호대</HD_IOTVPart_NeckGuard.label>
+  <HD_IOTVPart_ShoulderGuards.label>IBTV 어깨 보호대</HD_IOTVPart_ShoulderGuards.label>
+  <HD_IOTVPart_LowerBody.label>IBTV 하반신 보호대</HD_IOTVPart_LowerBody.label>
+  <HD_IOTVPart_IFAK.label>IBTV 개인 응급처치낭 (IFAK)</HD_IOTVPart_IFAK.label>
+  <HD_IOTVPart_RifleMagazinePouch.label>IBTV 소총 탄창 주머니</HD_IOTVPart_RifleMagazinePouch.label>
+  <HD_FASTMTPart_GPNVG18.label>FAST MT용 GPNVG-18</HD_FASTMTPart_GPNVG18.label>
+  <HD_FASTMTPart_MultiHitVisor.label>FAST MT용 멀티히트 방탄 바이저</HD_FASTMTPart_MultiHitVisor.label>
+  <HD_FASTMTPart_MultiHitVisor.description>FAST MT 헬멧에 장착하는 투명 멀티히트 안면 보호대입니다. 전방에서 가해지는 공격으로부터 눈, 코, 턱을 보호합니다.</HD_FASTMTPart_MultiHitVisor.description>
+</LanguageData>
