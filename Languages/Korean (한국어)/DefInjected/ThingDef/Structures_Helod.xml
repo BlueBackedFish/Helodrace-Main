@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Defs/Buildings/Structures_Helod.xml -->
+  <HD_Building_ReinforcedConcreteWall.label>&#52384;&#44540; &#53080;&#53356;&#47532;&#53944; &#48317;</HD_Building_ReinforcedConcreteWall.label>
+  <HD_Building_ReinforcedConcreteWall.description>&#45236;&#48512;&#50640; &#52384;&#44540;&#51012; &#45347;&#50612; &#48372;&#44053;&#54620; &#44204;&#44256;&#54620; &#53080;&#53356;&#47532;&#53944; &#48317;&#51077;&#45768;&#45796;. &#45236;&#44396;&#49457;&#51060; &#47588;&#50864; &#45458;&#51004;&#47728; &#48520;&#51060; &#48537;&#51648; &#50506;&#49845;&#45768;&#45796;.</HD_Building_ReinforcedConcreteWall.description>
+  <HD_Building_ThickReinforcedConcreteWall.label>&#46160;&#44732;&#50868; &#52384;&#44540; &#53080;&#53356;&#47532;&#53944; &#48317;</HD_Building_ThickReinforcedConcreteWall.label>
+  <HD_Building_ThickReinforcedConcreteWall.description>&#51648;&#49549;&#51201;&#51064; &#54252;&#44201;&#51012; &#44204;&#46356;&#46020;&#47197; &#47564;&#46304; &#47588;&#50864; &#46160;&#44732;&#50868; &#52384;&#44540; &#53080;&#53356;&#47532;&#53944; &#48317;&#51077;&#45768;&#45796;. &#48520;&#51060; &#48537;&#51648; &#50506;&#49845;&#45768;&#45796;.</HD_Building_ThickReinforcedConcreteWall.description>
+</LanguageData>
