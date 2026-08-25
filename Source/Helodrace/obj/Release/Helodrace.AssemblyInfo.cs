@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Helodrace")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e30a6fe47ab144ea3d4f923d5cb026532e0a45af")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e24f1bf7646843c4376c028673a6b090a6bcc6fa")]
 [assembly: System.Reflection.AssemblyProductAttribute("Helodrace")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Helodrace")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
