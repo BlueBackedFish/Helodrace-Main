@@ -331,6 +331,10 @@
               <key>Apparel_AdvancedHelmet</key>
               <value>Helod/VanillaApparel/AdvancedHelmet/AdvancedHelmet</value>
             </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_Beret</key>
+              <value>Helod/VanillaApparel/Beret/Beret</value>
+            </li>
             <li>
               <key>Apparel_BowlerHat</key>
               <value>Helod/VanillaApparel/BowlerHat/BowlerHat</value>
@@ -343,6 +347,14 @@
               <key>Apparel_Cape</key>
               <value>Helod/VanillaApparel/Cape/Cape</value>
             </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_ArmorCataphract</key>
+              <value>Helod/VanillaApparel/CataphractArmor/CataphractArmor</value>
+            </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_ArmorHelmetCataphract</key>
+              <value>Helod/VanillaApparel/Royalty/CataphractArmorHelmet/CataphractHelmet</value>
+            </li>
             <li>
               <key>Apparel_ClothMask</key>
               <value>Helod/VanillaApparel/ClothMask/ClothMask</value>
@@ -351,9 +363,25 @@
               <key>Apparel_CollarShirt</key>
               <value>Helod/VanillaApparel/ShirtButton/ShirtButton</value>
             </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_Coronet</key>
+              <value>Helod/VanillaApparel/Royalty/Coronet/Coronet</value>
+            </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_Corset</key>
+              <value>Helod/VanillaApparel/Royalty/CorsetRoyal/CorsetRoyal</value>
+            </li>
             <li>
               <key>Apparel_CowboyHat</key>
               <value>Helod/VanillaApparel/CowboyHat/CowboyHat</value>
+            </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_Crown</key>
+              <value>Helod/VanillaApparel/Royalty/Crown/Crown</value>
+            </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_CrownStellic</key>
+              <value>Helod/VanillaApparel/Royalty/CrownStellic/CrownStellic</value>
             </li>
             <li>
               <key>Apparel_Duster</key>
@@ -391,6 +419,10 @@
               <key>Apparel_Parka</key>
               <value>Helod/VanillaApparel/Parka/Parka</value>
             </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_PackBroadshield</key>
+              <value>Helod/VanillaApparel/Royalty/BroadshieldPack/BroadshieldPack</value>
+            </li>
             <li>
               <key>Apparel_PlateArmor</key>
               <value>Helod/VanillaApparel/PlateArmor/PlateArmor</value>
@@ -406,6 +438,10 @@
             <li>
               <key>Apparel_PsychicFoilHelmet</key>
               <value>Helod/VanillaApparel/PsychicFoilHelmet/PsychicFoilHelmet</value>
+            </li>
+            <li MayRequire="Ludeon.RimWorld.Royalty">
+              <key>Apparel_PsyfocusHelmet</key>
+              <value>Helod/VanillaApparel/Royalty/EltexHelmet/EltexHelmet</value>
             </li>
             <li>
               <key>Apparel_ArmorRecon</key>
@@ -434,6 +470,18 @@
             <li>
               <key>Apparel_TribalHeaddress</key>
               <value>Helod/VanillaApparel/TribalHeaddress/TribalHeaddress</value>
+            </li>
+            <li>
+              <key>Apparel_Tuque</key>
+              <value>Helod/VanillaApparel/Tuque/Tuque</value>
+            </li>
+            <li>
+              <key>Apparel_WarVeil</key>
+              <value>Helod/VanillaApparel/Veil/Veil</value>
+            </li>
+            <li>
+              <key>Apparel_WarMask</key>
+              <value>Helod/VanillaApparel/WarMask/WarMask</value>
             </li>
           </individualPaths>
         </apparel>
@@ -521,10 +569,19 @@
         </apparelList>
         <whiteApparelList>
           <li>Apparel_AdvancedHelmet</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Beret</li>
           <li>Apparel_BowlerHat</li>
+          <li>Apparel_BasicShirt</li>
           <li MayRequireAnyOf="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Biotech">Apparel_Cape</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_ArmorCataphract</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_ArmorHelmetCataphract</li>
           <li>Apparel_ClothMask</li>
+          <li>Apparel_CollarShirt</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Coronet</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Corset</li>
           <li>Apparel_CowboyHat</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Crown</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_CrownStellic</li>
           <li>Apparel_Duster</li>
           <li>Apparel_FlakJacket</li>
           <li>Apparel_FlakPants</li>
@@ -538,11 +595,18 @@
           <li>Apparel_PowerArmor</li>
           <li>Apparel_PowerArmorHelmet</li>
           <li>Apparel_PsychicFoilHelmet</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_PsyfocusHelmet</li>
           <li>Apparel_ArmorRecon</li>
           <li>Apparel_ArmorHelmetRecon</li>
           <li>Apparel_Robe</li>
+          <li>Apparel_SimpleHelmet</li>
           <li>Apparel_ShieldBelt</li>
           <li>Apparel_SmokepopBelt</li>
+          <li>Apparel_TribalA</li>
+          <li>Apparel_TribalHeaddress</li>
+          <li>Apparel_Tuque</li>
+          <li>Apparel_WarVeil</li>
+          <li>Apparel_WarMask</li>
           <li>Apparel_PsychicShockLance</li>
           <li>Apparel_PsychicInsanityLance</li>
           <li>OrbitalTargeterBombardment</li>
