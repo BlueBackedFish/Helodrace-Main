@@ -446,6 +446,7 @@
 		<apparelRequired>
 			<li>HD_Apparel_GreatWarStormFrontInner</li>
 			<li>HD_Apparel_GreatWarStormFrontOuter</li>
+			<li>HD_Apparel_GreatWarStormFrontChestRig</li>
 			<li>HD_Apparel_GreatWarM1Helmet</li>
 		</apparelRequired>
 		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
@@ -517,6 +518,7 @@
 		<apparelRequired>
 			<li>HD_Apparel_GreatWarStormFrontInner</li>
 			<li>HD_Apparel_GreatWarStormFrontOuter</li>
+			<li>HD_Apparel_GreatWarStormFrontChestRig</li>
 			<li>HD_Apparel_GreatWarM1Helmet</li>
 		</apparelRequired>
 		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>

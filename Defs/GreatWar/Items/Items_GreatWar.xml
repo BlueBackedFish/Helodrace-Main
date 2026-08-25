@@ -729,7 +729,7 @@
     <label>great war storm-front uniform liner</label>
     <description>A fitted inner uniform issued to storm-front troops, tailored for Helod bodies. It is worn close to the body beneath armor or heavier field gear.</description>
     <graphicData>
-      <texPath>Helod/Apparel/HD_GreatWarTrenchArmyInner/HD_GreatWarTrenchArmyInner_Female_south</texPath>
+      <texPath>Helod/Apparel/HD_GreatWarStormFrontInner/HD_GreatWarStormFrontInner_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
@@ -755,7 +755,7 @@
         <li>Legs</li>
         <li>Feet</li>
       </bodyPartGroups>
-      <wornGraphicPath>Helod/Apparel/HD_GreatWarTrenchArmyInner/HD_GreatWarTrenchArmyInner</wornGraphicPath>
+      <wornGraphicPath>Helod/Apparel/HD_GreatWarStormFrontInner/HD_GreatWarStormFrontInner</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>OnSkin</li>
@@ -788,7 +788,7 @@
     <label>great war storm-front uniform outer layer</label>
     <description>A reinforced storm-front field uniform tailored for Helod bodies. It is worn over the uniform liner and beneath heavier armor and field gear.</description>
     <graphicData>
-      <texPath>Helod/Apparel/HD_GreatWarTrenchArmyOuter/HD_GreatWarTrenchArmyOuter_Female_south</texPath>
+      <texPath>Helod/Apparel/HD_GreatWarStormFrontOuter/HD_GreatWarStormFrontOuter_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <shaderType>CutoutComplex</shaderType>
       <color>(255,255,255)</color>
@@ -817,7 +817,7 @@
         <li>Legs</li>
         <li>Feet</li>
       </bodyPartGroups>
-      <wornGraphicPath>Helod/Apparel/HD_GreatWarTrenchArmyOuter/HD_GreatWarTrenchArmyOuter</wornGraphicPath>
+      <wornGraphicPath>Helod/Apparel/HD_GreatWarStormFrontOuter/HD_GreatWarStormFrontOuter</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers>
         <li>Middle</li>
@@ -841,6 +841,72 @@
     <costList>
       <Cloth>60</Cloth>
       <Steel>15</Steel>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodGreatWarTech</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_GreatWarStormFrontChestRig</defName>
+    <label>great war storm-front chest rig</label>
+    <description>A webbing chest rig issued to storm-front infantry. Its reinforced straps and ammunition pouches keep essential field equipment secure and close at hand.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_GreatWarStormFrontBelt/HD_GreatWarStormFrontBelt_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>110</MaxHitPoints>
+      <WorkToMake>1800</WorkToMake>
+      <Mass>1.8</Mass>
+      <MarketValue>70</MarketValue>
+      <ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.08</ArmorRating_Sharp>
+      <Flammability>0.7</Flammability>
+      <EquipDelay>1.2</EquipDelay>
+    </statBases>
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_GreatWarStormFrontBelt/HD_GreatWarStormFrontBelt</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <drawData>
+        <defaultData>
+          <layer>110</layer>
+        </defaultData>
+        <dataSouth>
+          <layer>30</layer>
+        </dataSouth>
+      </drawData>
+      <layers>
+        <li>Belt</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_GW_Protective</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
+      <recipeUsers>
+        <li>HD_Tier2Workbench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>35</Cloth>
+      <Steel>5</Steel>
     </costList>
     <researchPrerequisites>
       <li>HelodGreatWarTech</li>
