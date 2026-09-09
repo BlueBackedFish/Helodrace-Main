@@ -135,7 +135,7 @@ namespace Helodrace.Future
             }
         }
 
-        private static bool IsValidHoverCell(IntVec3 cell, Map map)
+        public static bool IsValidHoverCell(IntVec3 cell, Map map)
         {
             if (!cell.IsValid || !cell.InBounds(map)
                 || cell.x < SafeMapMargin || cell.x >= map.Size.x - SafeMapMargin
