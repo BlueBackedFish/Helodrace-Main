@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -11,6 +12,9 @@ namespace Helodrace.ModernWar
         private const int MaxTreeDepth = 32;
         private const float ReceiverRearRailOffset = -0.0215f;
         private const float ReceiverFrontRailOffset = 0.0215f;
+        private const float M16LowerGripRailOffset = -0.036f;
+        private const float M16LowerPanelRailOffset = 0.059f;
+        private const float M16UpperSidePanelRailOffset = -0.024f;
 
         private ThingOwner<Thing> children;
         private List<string> childSocketIds = new List<string>();
@@ -18,7 +22,36 @@ namespace Helodrace.ModernWar
         private List<float> childRailOffsets = new List<float>();
         private List<ModularRenderNode> renderCache;
         private bool renderCacheDirty = true;
+        private readonly Dictionary<StatDef, float> statOffsetCache =
+            new Dictionary<StatDef, float>();
+        private readonly Dictionary<StatDef, float> statFactorCache =
+            new Dictionary<StatDef, float>();
+        private Dictionary<int, float> resolvedSightPerformanceWeights =
+            new Dictionary<int, float>();
+        private List<ModularSightGroupStatus> resolvedSightGroups =
+            new List<ModularSightGroupStatus>();
+        private bool performanceCacheDirty = true;
+        private float resolvedFireDelayMultiplier = 1f;
+        private int resolvedBurstShotCountOffset;
+        private float resolvedBurstShotCountMultiplier = 1f;
+        private float resolvedBurstShotSpeedMultiplier = 1f;
+        private ModularWeaponConvertedStats resolvedConvertedStats =
+            new ModularWeaponConvertedStats();
+        private int resolvedMagazineCapacity;
+        private int resolvedMagazinePartThingId;
+        private string resolvedCEAmmoSetDefName;
+        private string resolvedCEAmmoDefName;
+        private ThingDef resolvedProjectileOverride;
+        private int resolvedProjectilePriority = int.MinValue;
+        private SoundDef resolvedSoundCastOverride;
+        private SoundDef resolvedSoundCastTailOverride;
+        private int resolvedSoundPriority = int.MinValue;
+        private EffecterDef resolvedMuzzleFlashEffecter;
+        private float resolvedMuzzleFlashDistance;
+        private float resolvedMuzzleFlashScale = 1f;
+        private bool resolvedMuzzleFlashSuppressed;
         private bool legacyDevelopmentTreeChecked;
+        private bool requiredDefaultAttachmentsChecked;
 
         public CompProperties_ModularWeaponNode Props =>
             (CompProperties_ModularWeaponNode)props;
@@ -117,13 +150,104 @@ namespace Helodrace.ModernWar
         {
             get
             {
-                List<ModularRenderNode> nodes = RootComp().RenderSnapshot();
-                float result = 1f;
-                for (int i = 0; i < nodes.Count; i++)
-                    result *= Mathf.Max(0.01f, nodes[i].Props.fireDelayMultiplier);
-                return result;
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedFireDelayMultiplier;
             }
         }
+
+        public int BurstShotCountOffset
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedBurstShotCountOffset;
+            }
+        }
+
+        public float BurstShotCountMultiplier
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedBurstShotCountMultiplier;
+            }
+        }
+
+        public float BurstShotSpeedMultiplier
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedBurstShotSpeedMultiplier;
+            }
+        }
+
+        public ModularWeaponConvertedStats ConvertedStats
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedConvertedStats;
+            }
+        }
+
+        /// <summary>
+        /// Capacity supplied by the installed magazine. This is not a converted combat
+        /// stat: compatibility modules consume it as an instance-level magazine value.
+        /// </summary>
+        public int MagazineCapacity
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                if (root.FunctionStatus.singleRoundCapacity) return 1;
+                return root.resolvedMagazineCapacity;
+            }
+        }
+
+        /// <summary>Runtime identity of the installed magazine part, or zero.</summary>
+        public int MagazinePartThingId
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedMagazinePartThingId;
+            }
+        }
+
+        /// <summary>CE AmmoSet defName supplied independently by the active chamber.</summary>
+        public string CEAmmoSetDefName
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedCEAmmoSetDefName;
+            }
+        }
+
+        /// <summary>CE AmmoDef defName supplied independently by the ammo selector.</summary>
+        public string CEAmmoDefName
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedCEAmmoDefName;
+            }
+        }
+
+        public CompModularWeaponNode AssemblyRoot => RootComp();
+
+        public ModularWeaponFunctionStatus FunctionStatus =>
+            ModularWeaponFunctionResolver.Resolve(RootComp());
 
         public float EffectiveFireDelaySeconds
         {
@@ -132,7 +256,8 @@ namespace Helodrace.ModernWar
                 CompModularWeaponNode root = RootComp();
                 float configured = MinimumFireDelaySeconds
                     * Mathf.Max(1f, root.Props.baseFireDelayFactor)
-                    * InstalledFireDelayMultiplier;
+                    * InstalledFireDelayMultiplier
+                    / Mathf.Max(0.01f, BurstShotSpeedMultiplier);
                 return Mathf.Max(MinimumFireDelaySeconds, configured);
             }
         }
@@ -145,7 +270,312 @@ namespace Helodrace.ModernWar
 
         public void ApplyFireDelayToCooldown(ref float cooldownSeconds)
         {
-            cooldownSeconds = EffectiveFireDelaySeconds;
+            cooldownSeconds = Mathf.Max(
+                MinimumFireDelaySeconds,
+                cooldownSeconds * InstalledFireDelayMultiplier);
+        }
+
+        public void ApplyMechanicalRpmFloor(ref float seconds)
+        {
+            seconds = Mathf.Max(MinimumFireDelaySeconds, seconds);
+        }
+
+        public int ApplyBurstShotCount(int baseCount)
+        {
+            if (FunctionStatus.semiAutomaticOnly) return 1;
+            return Mathf.Max(1, Mathf.CeilToInt(
+                (baseCount + BurstShotCountOffset) * BurstShotCountMultiplier));
+        }
+
+        public ThingDef ProjectileOverride
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedProjectileOverride;
+            }
+        }
+
+        public SoundDef SoundCastOverride
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedSoundCastOverride;
+            }
+        }
+
+        public SoundDef SoundCastTailOverride
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedSoundCastTailOverride;
+            }
+        }
+
+        public EffecterDef MuzzleFlashEffecter
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedMuzzleFlashSuppressed
+                    ? null
+                    : root.resolvedMuzzleFlashEffecter;
+            }
+        }
+
+        public float MuzzleFlashDistance
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedMuzzleFlashDistance;
+            }
+        }
+
+        public float MuzzleFlashScale
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedMuzzleFlashScale;
+            }
+        }
+
+        public IReadOnlyList<ModularSightGroupStatus> SightGroups
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedSightGroups;
+            }
+        }
+
+        public ModularSightGroupStatus ActiveSightGroup
+        {
+            get
+            {
+                IReadOnlyList<ModularSightGroupStatus> groups = SightGroups;
+                for (int i = 0; i < groups.Count; i++)
+                    if (groups[i].isActive) return groups[i];
+                return null;
+            }
+        }
+
+        public override float GetStatOffset(StatDef stat)
+        {
+            CompModularWeaponNode root = RootComp();
+            root.EnsurePerformanceCache();
+            float value;
+            return stat != null && root.statOffsetCache.TryGetValue(stat, out value)
+                ? value
+                : 0f;
+        }
+
+        public override float GetStatFactor(StatDef stat)
+        {
+            CompModularWeaponNode root = RootComp();
+            root.EnsurePerformanceCache();
+            float value;
+            return stat != null && root.statFactorCache.TryGetValue(stat, out value)
+                ? value
+                : 1f;
+        }
+
+        public override void GetStatsExplanation(
+            StatDef stat,
+            StringBuilder sb,
+            string whitespace = "")
+        {
+            CompModularWeaponNode root = RootComp();
+            root.EnsurePerformanceCache();
+            List<ModularRenderNode> nodes = root.RenderSnapshot();
+            StringBuilder partLines = new StringBuilder();
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                ModularRenderNode node = nodes[i];
+                CompProperties_ModularWeaponNode nodeProps = node.Props;
+                if (nodeProps == null) continue;
+
+                float performanceWeight = 1f;
+                if (nodeProps.sight != null
+                    && !root.resolvedSightPerformanceWeights.TryGetValue(
+                        node.thing.thingIDNumber,
+                        out performanceWeight))
+                    continue;
+
+                float offset = nodeProps.statOffsets.GetStatOffsetFromList(stat);
+                if (!Mathf.Approximately(offset, 0f))
+                {
+                    partLines.AppendLine(whitespace + "    "
+                        + node.thing.LabelCap + ": "
+                        + stat.Worker.ValueToString(
+                            offset * performanceWeight,
+                            false,
+                            ToStringNumberSense.Offset));
+                }
+
+                float factor = nodeProps.statFactors.GetStatFactorFromList(stat);
+                if (!Mathf.Approximately(factor, 1f))
+                {
+                    partLines.AppendLine(whitespace + "    "
+                        + node.thing.LabelCap + ": "
+                        + stat.Worker.ValueToString(
+                            Mathf.Lerp(1f, factor, performanceWeight),
+                            false,
+                            ToStringNumberSense.Factor));
+                }
+            }
+
+            if (partLines.Length == 0) return;
+            sb.AppendLine(whitespace
+                + "HD_ModularWeapon_AttachedParts".Translate() + ":");
+            sb.Append(partLines);
+        }
+
+        private void EnsurePerformanceCache()
+        {
+            CompModularWeaponNode root = RootComp();
+            if (root != this)
+            {
+                root.EnsurePerformanceCache();
+                return;
+            }
+            if (!performanceCacheDirty) return;
+
+            statOffsetCache.Clear();
+            statFactorCache.Clear();
+            resolvedFireDelayMultiplier = 1f;
+            resolvedBurstShotCountOffset = 0;
+            resolvedBurstShotCountMultiplier = 1f;
+            resolvedBurstShotSpeedMultiplier = 1f;
+            resolvedMagazineCapacity = 0;
+            resolvedMagazinePartThingId = 0;
+            resolvedCEAmmoSetDefName = null;
+            resolvedCEAmmoDefName = null;
+            resolvedProjectileOverride = null;
+            resolvedProjectilePriority = int.MinValue;
+            resolvedSoundCastOverride = null;
+            resolvedSoundCastTailOverride = null;
+            resolvedSoundPriority = int.MinValue;
+            resolvedMuzzleFlashEffecter = Props.muzzleFlashEffecter;
+            resolvedMuzzleFlashDistance = Props.muzzleFlashDistance;
+            resolvedMuzzleFlashScale = Props.muzzleFlashScale;
+            resolvedMuzzleFlashSuppressed = false;
+
+            List<ModularRenderNode> nodes = RenderSnapshot();
+            ModularSightResolution sightResolution =
+                ModularWeaponSightResolver.Resolve(this, nodes);
+            resolvedSightGroups = sightResolution.groups;
+            resolvedSightPerformanceWeights = sightResolution.performanceWeights;
+            resolvedConvertedStats = ModularWeaponStatConverter.Resolve(
+                this,
+                nodes,
+                resolvedSightPerformanceWeights);
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                CompProperties_ModularWeaponNode nodeProps = nodes[i].Props;
+                if (nodeProps == null) continue;
+
+                float performanceWeight = 1f;
+                bool applyStatModifiers = nodeProps.sight == null
+                    || resolvedSightPerformanceWeights.TryGetValue(
+                        nodes[i].thing.thingIDNumber,
+                        out performanceWeight);
+
+                if (applyStatModifiers && !nodeProps.statOffsets.NullOrEmpty())
+                {
+                    for (int j = 0; j < nodeProps.statOffsets.Count; j++)
+                    {
+                        StatModifier modifier = nodeProps.statOffsets[j];
+                        if (modifier?.stat == null) continue;
+                        float current;
+                        statOffsetCache.TryGetValue(modifier.stat, out current);
+                        statOffsetCache[modifier.stat] = current
+                            + modifier.value * performanceWeight;
+                    }
+                }
+
+                if (applyStatModifiers && !nodeProps.statFactors.NullOrEmpty())
+                {
+                    for (int j = 0; j < nodeProps.statFactors.Count; j++)
+                    {
+                        StatModifier modifier = nodeProps.statFactors[j];
+                        if (modifier?.stat == null) continue;
+                        float current;
+                        if (!statFactorCache.TryGetValue(modifier.stat, out current))
+                            current = 1f;
+                        statFactorCache[modifier.stat] = current
+                            * Mathf.Lerp(1f, modifier.value, performanceWeight);
+                    }
+                }
+
+                resolvedFireDelayMultiplier *= Mathf.Max(
+                    0.01f,
+                    nodeProps.fireDelayMultiplier);
+                resolvedBurstShotCountOffset += nodeProps.burstShotCountOffset;
+                resolvedBurstShotCountMultiplier *= Mathf.Max(
+                    0.01f,
+                    nodeProps.burstShotCountMultiplier);
+                resolvedBurstShotSpeedMultiplier *= Mathf.Max(
+                    0.01f,
+                    nodeProps.burstShotSpeedMultiplier);
+
+                if (nodeProps.magazineCapacity > 0)
+                {
+                    resolvedMagazineCapacity = nodeProps.magazineCapacity;
+                    resolvedMagazinePartThingId = nodes[i].thing.thingIDNumber;
+                }
+                if (!nodeProps.ceAmmoSetDefName.NullOrEmpty())
+                    resolvedCEAmmoSetDefName = nodeProps.ceAmmoSetDefName;
+                if (!nodeProps.ceAmmoDefName.NullOrEmpty())
+                    resolvedCEAmmoDefName = nodeProps.ceAmmoDefName;
+
+                if (nodeProps.projectileOverride != null
+                    && nodeProps.overridePriority >= resolvedProjectilePriority)
+                {
+                    resolvedProjectileOverride = nodeProps.projectileOverride;
+                    resolvedProjectilePriority = nodeProps.overridePriority;
+                }
+
+                if ((nodeProps.soundCastOverride != null
+                        || nodeProps.soundCastTailOverride != null)
+                    && nodeProps.overridePriority >= resolvedSoundPriority)
+                {
+                    if (nodeProps.soundCastOverride != null)
+                        resolvedSoundCastOverride = nodeProps.soundCastOverride;
+                    if (nodeProps.soundCastTailOverride != null)
+                        resolvedSoundCastTailOverride = nodeProps.soundCastTailOverride;
+                    resolvedSoundPriority = nodeProps.overridePriority;
+                }
+
+                if (nodeProps.muzzleFlashEffecterOverride != null)
+                    resolvedMuzzleFlashEffecter = nodeProps.muzzleFlashEffecterOverride;
+                resolvedMuzzleFlashDistance += nodeProps.muzzleFlashDistanceOffset;
+                resolvedMuzzleFlashScale *= Mathf.Max(
+                    0f,
+                    nodeProps.muzzleFlashScaleFactor);
+                if (nodeProps.suppressMuzzleFlash)
+                    resolvedMuzzleFlashSuppressed = true;
+            }
+
+            ModularWeaponStatConverter.ApplyVanillaFactors(
+                resolvedConvertedStats,
+                statOffsetCache,
+                statFactorCache,
+                parent?.def);
+            resolvedFireDelayMultiplier *= resolvedConvertedStats.VanillaCycleFactor;
+
+            performanceCacheDirty = false;
         }
 
         public bool TryAttach(
@@ -369,6 +799,166 @@ namespace Helodrace.ModernWar
             return taken;
         }
 
+        /// <summary>
+        /// Atomically replaces the descendant tree with a preset. A detached template is
+        /// built and validated first, so a malformed Def cannot partially alter a weapon.
+        /// </summary>
+        public bool TryApplyPreset(ModularWeaponPresetDef preset, out string rejection)
+        {
+            rejection = null;
+            if (preset == null || preset.weaponDef != parent.def || !Props.isAssemblyRoot)
+            {
+                rejection = "The weapon preset does not target this assembly root.";
+                return false;
+            }
+
+            Thing templateThing = ThingMaker.MakeThing(
+                parent.def,
+                GenStuff.DefaultStuffFor(parent.def));
+            CompModularWeaponNode template =
+                templateThing?.TryGetComp<CompModularWeaponNode>();
+            if (template == null)
+            {
+                templateThing?.Destroy(DestroyMode.Vanish);
+                rejection = "The preset root could not be created.";
+                return false;
+            }
+
+            if (!preset.useDefaultConfiguration)
+            {
+                template.DestroyAllChildren();
+                if (!BuildPresetChildren(template, preset.parts, 0, out rejection))
+                {
+                    DestroyAssembly(templateThing);
+                    return false;
+                }
+            }
+
+            if (!template.ValidateRequiredSocketsRecursive(0, out rejection))
+            {
+                DestroyAssembly(templateThing);
+                return false;
+            }
+
+            DestroyAllChildren();
+            while (template.ChildCount > 0)
+            {
+                string socketId = template.SocketIdAt(0);
+                string mountId = template.MountIdAt(0);
+                float railOffset = template.RailOffsetAt(0);
+                Thing child = template.DetachChildAt(0);
+                if (!TryAttach(child, socketId, mountId, railOffset, out rejection))
+                {
+                    DestroyAssembly(child);
+                    DestroyAssembly(templateThing);
+                    return false;
+                }
+            }
+
+            requiredDefaultAttachmentsChecked = true;
+            templateThing.Destroy(DestroyMode.Vanish);
+            InvalidateTree();
+            return true;
+        }
+
+        private static bool BuildPresetChildren(
+            CompModularWeaponNode parentComp,
+            List<ModularWeaponPresetPart> entries,
+            int depth,
+            out string rejection)
+        {
+            rejection = null;
+            if (depth > MaxTreeDepth)
+            {
+                rejection = "The preset exceeds the maximum modular tree depth.";
+                return false;
+            }
+            if (entries.NullOrEmpty()) return true;
+
+            for (int i = 0; i < entries.Count; i++)
+            {
+                ModularWeaponPresetPart entry = entries[i];
+                Thing child = entry?.part == null
+                    ? null
+                    : ThingMaker.MakeThing(
+                        entry.part,
+                        GenStuff.DefaultStuffFor(entry.part));
+                CompModularWeaponNode childComp =
+                    child?.TryGetComp<CompModularWeaponNode>();
+                if (childComp == null)
+                {
+                    DestroyAssembly(child);
+                    rejection = "Invalid modular part at preset index " + i + ".";
+                    return false;
+                }
+
+                childComp.DestroyAllChildren();
+                if (!BuildPresetChildren(
+                    childComp, entry.children, depth + 1, out rejection)
+                    || !parentComp.TryAttach(
+                        child, entry.socketId, entry.mountId,
+                        entry.railOffset, out rejection))
+                {
+                    DestroyAssembly(child);
+                    return false;
+                }
+                childComp.requiredDefaultAttachmentsChecked = true;
+            }
+            return true;
+        }
+
+        private bool ValidateRequiredSocketsRecursive(
+            int depth,
+            out string rejection)
+        {
+            rejection = null;
+            if (depth > MaxTreeDepth)
+            {
+                rejection = "The preset exceeds the maximum modular tree depth.";
+                return false;
+            }
+            if (!Props.sockets.NullOrEmpty())
+            {
+                for (int i = 0; i < Props.sockets.Count; i++)
+                {
+                    ModularAttachmentSocket socket = Props.sockets[i];
+                    if (socket?.required == true && CountOnSocket(socket.id) == 0)
+                    {
+                        rejection = parent.def.defName + " requires socket "
+                            + socket.id + ".";
+                        return false;
+                    }
+                }
+            }
+
+            for (int i = 0; i < ChildCount; i++)
+            {
+                CompModularWeaponNode child = ChildAt(i)
+                    ?.TryGetComp<CompModularWeaponNode>();
+                if (child != null
+                    && !child.ValidateRequiredSocketsRecursive(depth + 1, out rejection))
+                    return false;
+            }
+            return true;
+        }
+
+        private void DestroyAllChildren()
+        {
+            while (ChildCount > 0)
+                DestroyAssembly(DetachChildAt(ChildCount - 1));
+            requiredDefaultAttachmentsChecked = true;
+            InvalidateTree();
+        }
+
+        private static void DestroyAssembly(Thing thing)
+        {
+            if (thing == null || thing.Destroyed) return;
+            CompModularWeaponNode comp = thing.TryGetComp<CompModularWeaponNode>();
+            while (comp != null && comp.ChildCount > 0)
+                DestroyAssembly(comp.DetachChildAt(comp.ChildCount - 1));
+            thing.Destroy(DestroyMode.Vanish);
+        }
+
         public int IndexOnSocket(string socketId)
         {
             RepairAssignmentLists();
@@ -394,6 +984,7 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode root = RootComp();
             if (root != this) return root.RenderSnapshot();
             root.MigrateLegacyDevelopmentOptics();
+            root.EnsureRequiredDefaultAttachmentsRecursive();
             if (!renderCacheDirty && renderCache != null) return renderCache;
 
             List<ModularRenderNode> result = new List<ModularRenderNode>();
@@ -421,8 +1012,24 @@ namespace Helodrace.ModernWar
         public void InvalidateTree()
         {
             CompModularWeaponNode root = RootComp();
+            HashSet<StatDef> affectedStats = new HashSet<StatDef>();
+            foreach (StatDef stat in root.statOffsetCache.Keys) affectedStats.Add(stat);
+            foreach (StatDef stat in root.statFactorCache.Keys) affectedStats.Add(stat);
+            root.CollectPerformanceStats(affectedStats, 0);
+            affectedStats.Add(StatDefOf.RangedWeapon_Cooldown);
+            affectedStats.Add(StatDefOf.RangedWeapon_WarmupMultiplier);
+            affectedStats.Add(StatDefOf.Mass);
+            affectedStats.Add(StatDefOf.AccuracyTouch);
+            affectedStats.Add(StatDefOf.AccuracyShort);
+            affectedStats.Add(StatDefOf.AccuracyMedium);
+            affectedStats.Add(StatDefOf.AccuracyLong);
+
             root.renderCacheDirty = true;
             root.renderCache = null;
+            root.performanceCacheDirty = true;
+
+            foreach (StatDef stat in affectedStats)
+                stat?.Worker?.ClearCacheForThing(root.parent);
 
             Thing rootThing = root.parent;
             if (rootThing != null && rootThing.Spawned && rootThing.Map != null)
@@ -433,17 +1040,41 @@ namespace Helodrace.ModernWar
             }
         }
 
+        private void CollectPerformanceStats(HashSet<StatDef> result, int depth)
+        {
+            if (result == null || depth > MaxTreeDepth) return;
+            if (!Props.statOffsets.NullOrEmpty())
+            {
+                for (int i = 0; i < Props.statOffsets.Count; i++)
+                    if (Props.statOffsets[i]?.stat != null)
+                        result.Add(Props.statOffsets[i].stat);
+            }
+            if (!Props.statFactors.NullOrEmpty())
+            {
+                for (int i = 0; i < Props.statFactors.Count; i++)
+                    if (Props.statFactors[i]?.stat != null)
+                        result.Add(Props.statFactors[i].stat);
+            }
+
+            EnsureContainer();
+            for (int i = 0; i < children.Count; i++)
+                children[i]?.TryGetComp<CompModularWeaponNode>()
+                    ?.CollectPerformanceStats(result, depth + 1);
+        }
+
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             foreach (Gizmo gizmo in base.CompGetGizmosExtra()) yield return gizmo;
             if (!IsTopLevelAssembly || !Props.isAssemblyRoot) yield break;
 
-            if (Props.allowPlayerConfiguration)
+            // Normal configuration is deliberately exposed by the dedicated weapon bench,
+            // where a linked parts box can account for every installed/removed part.
+            if (Props.allowPlayerConfiguration && Prefs.DevMode)
             {
                 yield return new Command_Action
                 {
-                    defaultLabel = "HD_ModularWeapon_Command".Translate(),
-                    defaultDesc = "HD_ModularWeapon_CommandDesc".Translate(),
+                    defaultLabel = "DEV: " + "HD_ModularWeapon_Command".Translate(),
+                    defaultDesc = "HD_ModularWeapon_CommandDescDev".Translate(),
                     icon = parent.def.uiIcon,
                     action = () => Find.WindowStack.Add(new Dialog_ModularWeapon(this))
                 };
@@ -462,7 +1093,10 @@ namespace Helodrace.ModernWar
 
         private void BuildDefaultAttachments()
         {
-            if (Props.defaultAttachments.NullOrEmpty() || ChildCount > 0) return;
+            // CE can query assembled stats while comps are still initializing, which may
+            // materialize a required child before this callback. Reconcile each socket
+            // below instead of treating any existing child as a completed assembly.
+            if (Props.defaultAttachments.NullOrEmpty()) return;
 
             for (int i = 0; i < Props.defaultAttachments.Count; i++)
             {
@@ -482,6 +1116,44 @@ namespace Helodrace.ModernWar
                         + entry.part.defName + " on " + parent.def.defName + ": " + reason);
                 }
             }
+        }
+
+        private void EnsureRequiredDefaultAttachmentsRecursive()
+        {
+            if (!requiredDefaultAttachmentsChecked)
+            {
+                requiredDefaultAttachmentsChecked = true;
+                for (int i = 0; i < Props.defaultAttachments.Count; i++)
+                {
+                    ModularDefaultAttachment entry = Props.defaultAttachments[i];
+                    ModularAttachmentSocket socket = Props.SocketNamed(entry?.socketId);
+                    if (entry?.part == null || socket?.required != true
+                        || CountOnSocket(socket.id) > 0)
+                        continue;
+
+                    // Part categories intentionally allow incomplete assemblies to persist.
+                    // A missing Required part must block firing instead of silently being
+                    // recreated when the weapon happens to render.
+                    CompProperties_ModularWeaponNode expectedProps = entry.part
+                        .GetCompProperties<CompProperties_ModularWeaponNode>();
+                    if (expectedProps?.partCategory == ModularWeaponPartCategory.Required)
+                        continue;
+
+                    Thing child = ThingMaker.MakeThing(entry.part);
+                    string reason;
+                    if (!TryAttach(child, socket.id, entry.mountId,
+                        entry.railOffset, out reason))
+                    {
+                        child.Destroy(DestroyMode.Vanish);
+                        Log.Error("[Helodrace] Could not restore required modular attachment "
+                            + entry.part.defName + " on " + parent.def.defName + ": " + reason);
+                    }
+                }
+            }
+
+            for (int i = 0; i < ChildCount; i++)
+                ChildAt(i)?.TryGetComp<CompModularWeaponNode>()
+                    ?.EnsureRequiredDefaultAttachmentsRecursive();
         }
 
         // Development saves made before receiver rail sockets existed stored the EXPS under
@@ -569,6 +1241,7 @@ namespace Helodrace.ModernWar
             int parentChildIndex = -1,
             float railOffset = 0f,
             bool attachedToRail = false,
+            bool mountedOnOppositeSurface = false,
             Vector2 railStart = default(Vector2),
             Vector2 railEnd = default(Vector2),
             Vector2 occupiedRailStart = default(Vector2),
@@ -594,6 +1267,7 @@ namespace Helodrace.ModernWar
                 parentChildIndex = parentChildIndex,
                 railOffset = railOffset,
                 attachedToRail = attachedToRail,
+                mountedOnOppositeSurface = mountedOnOppositeSurface,
                 railStart = railStart,
                 railEnd = railEnd,
                 occupiedRailStart = occupiedRailStart,
@@ -602,6 +1276,7 @@ namespace Helodrace.ModernWar
 
             RepairAssignmentLists();
             MigrateLegacyReceiverRailAssignments();
+            MigrateLegacyM16LowerRailAssignments();
             for (int i = 0; i < children.Count; i++)
             {
                 Thing child = children[i];
@@ -617,6 +1292,9 @@ namespace Helodrace.ModernWar
                     effectiveSocket.angle = 0f;
                     effectiveSocket.position.x += childRailOffsets[i];
                 }
+                bool oppositeSurface = mount.UsesOppositeSurface(socket);
+                if (oppositeSurface)
+                    effectiveSocket.position += mount.oppositeSurfaceOffset;
                 bool childAttachedToRail = socket.isRail;
                 Vector2 childRailStart = Vector2.zero;
                 Vector2 childRailEnd = Vector2.zero;
@@ -641,7 +1319,7 @@ namespace Helodrace.ModernWar
                 }
                 ModularTransform2D childTransform = transform.Attach(
                     effectiveSocket,
-                    mount.transform,
+                    mount.EffectiveTransform(socket),
                     childComp.Props.graphicAngle);
                 childComp.BuildSnapshotRecursive(
                     result,
@@ -655,6 +1333,7 @@ namespace Helodrace.ModernWar
                     i,
                     childRailOffsets[i],
                     childAttachedToRail,
+                    oppositeSurface,
                     childRailStart,
                     childRailEnd,
                     childOccupiedStart,
@@ -679,6 +1358,67 @@ namespace Helodrace.ModernWar
                 {
                     childSocketIds[i] = "rail_receiver_top";
                     childRailOffsets[i] = ReceiverFrontRailOffset;
+                    changed = true;
+                }
+            }
+
+            if (changed) InvalidateTree();
+        }
+
+        private void MigrateLegacyM16LowerRailAssignments()
+        {
+            if (parent?.def?.defName != "HD_ModularPart_HandguardExt_HACURXDOWN"
+                || Props.SocketNamed("rail_bottom") == null)
+                return;
+
+            RepairAssignmentLists();
+            bool changed = false;
+            for (int i = childSocketIds.Count - 1; i >= 0; i--)
+            {
+                string legacySocket = childSocketIds[i];
+                if (legacySocket == "rail_bottom_grip")
+                {
+                    childSocketIds[i] = "rail_bottom";
+                    childRailOffsets[i] = M16LowerGripRailOffset;
+                    changed = true;
+                }
+                else if (legacySocket == "rail_bottom_panel")
+                {
+                    childSocketIds[i] = "rail_bottom";
+                    childRailOffsets[i] = M16LowerPanelRailOffset;
+                    changed = true;
+                }
+                else if (legacySocket == "rail_side_panel")
+                {
+                    string legacyMount = childMountIds[i];
+                    float legacyOffset = childRailOffsets[i];
+                    Thing sidePanel = DetachChildAt(i);
+                    CompModularWeaponNode upperHandguard = parent?.ParentHolder
+                        as CompModularWeaponNode;
+                    string reason = null;
+                    bool transferred = sidePanel != null
+                        && upperHandguard?.Props.SocketNamed("rail_side_upper") != null
+                        && upperHandguard.TryAttach(sidePanel, "rail_side_upper", null,
+                            M16UpperSidePanelRailOffset, out reason);
+                    if (!transferred && sidePanel != null)
+                    {
+                        float freeOffset;
+                        transferred = upperHandguard != null
+                            && upperHandguard.TryFindAttachOffset(sidePanel,
+                                "rail_side_upper", null, out freeOffset, out reason)
+                            && upperHandguard.TryAttach(sidePanel, "rail_side_upper",
+                                null, freeOffset, out reason);
+                    }
+
+                    if (!transferred && sidePanel != null && children.TryAdd(sidePanel))
+                    {
+                        childSocketIds.Add(legacySocket);
+                        childMountIds.Add(legacyMount);
+                        childRailOffsets.Add(legacyOffset);
+                        Log.Warning("[Helodrace] Could not move a saved M16 mid panel to "
+                            + "the upper side rail; the part was preserved for a later retry. "
+                            + reason);
+                    }
                     changed = true;
                 }
             }

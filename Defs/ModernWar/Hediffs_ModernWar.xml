@@ -102,4 +102,41 @@
     </stages>
   </HediffDef>
 
+  <!-- Severity is replaced each tick by the number/intensity of weapon lights currently
+       trained on the pawn. It therefore reacts immediately and fades as soon as aim moves. -->
+  <HediffDef>
+    <defName>HD_WeaponFlashlightDazzle</defName>
+    <label>weapon-light dazzle</label>
+    <description>A high-intensity weapon light is shining directly into this pawn's eyes, temporarily reducing effective vision.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0,0.95,0.70)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>3</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="Helodrace.ModernWar.HediffCompProperties_ModularFlashlightDazzle">
+        <graceTicks>3</graceTicks>
+        <fadePerTick>0.15</fadePerTick>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>illuminated</label>
+        <minSeverity>0.01</minSeverity>
+        <capMods><li><capacity>Sight</capacity><offset>-0.10</offset></li></capMods>
+      </li>
+      <li>
+        <label>dazzled</label>
+        <minSeverity>1.5</minSeverity>
+        <capMods><li><capacity>Sight</capacity><offset>-0.22</offset></li></capMods>
+      </li>
+      <li>
+        <label>heavily dazzled</label>
+        <minSeverity>2.5</minSeverity>
+        <capMods><li><capacity>Sight</capacity><offset>-0.38</offset></li></capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
 </Defs>

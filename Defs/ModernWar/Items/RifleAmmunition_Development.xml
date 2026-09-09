@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- M855A1 is the modular rifle baseline. The shared 5.56 projectile lives in
+       WeaponFamilies_Helod.xml; .300 BLK trades penetration and velocity for a
+       heavier hit and substantially greater stopping power. -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_300BLKTACTX_Proj</defName>
+    <label>.300 BLK TACTX bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <armorPenetrationBase>0.14</armorPenetrationBase>
+      <stoppingPower>1.0</stoppingPower>
+      <speed>75</speed>
+    </projectile>
+  </ThingDef>
+
+  <!-- Physical ammunition selectors installed inside compatible magazine nodes. They
+       remain visible as loose items but are hidden while nested in a weapon assembly. -->
+  <ThingCategoryDef>
+    <defName>HD_RifleAmmunition</defName>
+    <label>rifle ammunition</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef Name="HD_RifleAmmunitionBase" ParentName="HD_ModularWeaponPartBase" Abstract="True">
+    <stackLimit>1</stackLimit>
+    <statBases>
+      <MarketValue>2</MarketValue>
+      <Mass>0.012</Mass>
+      <Flammability>0.25</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories><li>HD_RifleAmmunition</li></thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_556M855A1</defName>
+    <label>5.56x45mm M855A1 cartridge</label>
+    <description>An enhanced-performance 5.56x45mm ammunition selection installed inside a compatible STANAG magazine.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode>
+        <hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>5.56 M855A1</ammunitionType>
+        <ceAmmoDefName>Ammo_HDM855A1</ceAmmoDefName>
+        <ammunitionCaliber>556x45</ammunitionCaliber>
+        <projectileDiameterMm>5.7</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_M16A4_Proj</projectileOverride>
+        <casingMoteDef>HD_Mote_Shell55645</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M855A1</feedingRoundTexPath>
+        <overridePriority>20</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_300BLKTACTX</defName>
+    <label>.300 BLK TACTX cartridge</label>
+    <description>A copper expanding .300 Blackout ammunition selection installed inside a compatible STANAG magazine.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_300BLKTACTX</texPath></graphicData>
+    <statBases><Mass>0.016</Mass><MarketValue>3</MarketValue></statBases>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode>
+        <hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>.300 BLK TACTX</ammunitionType>
+        <ceAmmoDefName>Ammo_HD300BLKTACTX</ceAmmoDefName>
+        <ammunitionCaliber>300BLK</ammunitionCaliber>
+        <projectileDiameterMm>7.82</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_300BLKTACTX_Proj</projectileOverride>
+        <casingMoteDef>HD_Mote_Shell300BLK</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_300BLKTACTX</feedingRoundTexPath>
+        <overridePriority>20</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

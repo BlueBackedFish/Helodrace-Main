@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The bench owns the modding interaction. Linked parts boxes provide compact
+       ThingDef/count storage for parts which do not need individual identity. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_ModularWeaponWorkbench</defName>
+    <label>weapon workbench</label>
+    <description>A dedicated gunsmithing bench for assembling and modifying modular weapons. It must be linked to at least one weapon-parts box.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_Tier2Workbench</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2.7,2.7)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <WorkToBuild>2400</WorkToBuild>
+      <Flammability>0.35</Flammability>
+      <Mass>95</Mass>
+      <WorkTableWorkSpeedFactor>1</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories><li>Metallic</li></stuffCategories>
+    <costStuffCount>120</costStuffCount>
+    <costList><ComponentIndustrial>4</ComponentIndustrial></costList>
+    <size>(2,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(1,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2470</uiOrder>
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites><li>HelodColdWarTech</li></researchPrerequisites>
+    <inspectorTabs><li>ITab_Bills</li></inspectorTabs>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponWorkbench">
+        <linkableFacilities><li>HD_ModularWeaponPartsBox</li></linkableFacilities>
+      </li>
+    </comps>
+    <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
+    <building><spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity></building>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_ModularWeaponPartsBox</defName>
+    <label>weapon-parts box</label>
+    <description>A compartmented parts box linked to a weapon workbench. Small modular parts are stored as compact inventory records instead of separate world objects.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_CableToolRig</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1.25,1.25)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.45</fillPercent>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <WorkToBuild>700</WorkToBuild>
+      <Flammability>0.35</Flammability>
+      <Mass>32</Mass>
+    </statBases>
+    <stuffCategories><li>Metallic</li></stuffCategories>
+    <costStuffCount>45</costStuffCount>
+    <size>(1,1)</size>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2471</uiOrder>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites><li>HelodColdWarTech</li></researchPrerequisites>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponPartsBox">
+        <linkableBuildings><li>HD_ModularWeaponWorkbench</li></linkableBuildings>
+        <maxSimultaneous>1</maxSimultaneous>
+        <maxDistance>6</maxDistance>
+        <requiresLOS>true</requiresLOS>
+      </li>
+    </comps>
+    <placeWorkers><li>PlaceWorker_ShowFacilitiesConnections</li></placeWorkers>
+  </ThingDef>
+
+</Defs>

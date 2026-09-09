@@ -7,22 +7,30 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UpperReceiver_M16A4</defName>
     <label>M16A4 upper receiver</label>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
     <description>A flat-top M16A4 upper receiver for the modular AR assembly.</description>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a4</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>IndependentThing</storageMode>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>1</graphicLayer>
+        <outlinePriority>100</outlinePriority>
+        <casingPort><offset>(-0.096,0,0)</offset><ejectionAngleOffset>90</ejectionAngleOffset><speedMin>1.7</speedMin><speedMax>2.4</speedMax><scale>0.75</scale><ejectionCycleFraction>0.28</ejectionCycleFraction><feedStartCycleFraction>0.55</feedStartCycleFraction><feedEndCycleFraction>0.92</feedEndCycleFraction><feedStartOffset>(-0.076,0,-0.01)</feedStartOffset><feedEndOffset>(-0.023,0,-0.004)</feedEndOffset><feedingRoundDrawSize>0.12</feedingRoundDrawSize></casingPort>
         <mounts><li><id>receiver_mount</id><socketTags><li>upper_receiver</li></socketTags><transform><position>(-0.095,0,-0.017)</position></transform></li></mounts>
         <sockets>
           <li><id>barrel</id><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.023,0,-0.005)</position></transform></li>
-          <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.006,0,-0.005)</position></transform></li>
-          <li><id>rail_receiver_top</id><label>upper receiver top rail</label><tags><li>picatinny</li><li>top_rail</li><li>receiver_rail</li></tags><isRail>true</isRail><railLength>0.123</railLength><transform><position>(-0.1335,0,0.017)</position></transform></li>
+          <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.023,0,-0.005)</position></transform></li>
+          <li><id>bolt</id><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
+          <li><id>rail_receiver_top</id><label>upper receiver top rail</label><tags><li>picatinny</li><li>top_rail</li><li>receiver_rail</li></tags><isRail>true</isRail><railLength>0.152</railLength><railSurface>Top</railSurface><transform><position>(-0.114,0,0.017)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520</part></li>
           <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_HACURXUP</part></li>
-          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_OpticMount_LumiconTA51</part><railOffset>-0.0215</railOffset></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15</part></li>
+          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_OpticMount_LumiconTA51</part><railOffset>-0.022</railOffset></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -36,10 +44,13 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>-3</graphicLayer>
-        <mounts><li><id>barrel_mount</id><socketTags><li>ar15_barrel</li></socketTags><transform><position>(-0.032,0,0)</position></transform></li></mounts>
+        <chamberCaliber>556x45</chamberCaliber>
+        <ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName>
+        <boreDiameterMm>5.7</boreDiameterMm>
+        <mounts><li><id>barrel_mount</id><socketTags><li>ar15_barrel</li></socketTags><transform><position>(-0.028,0,-0.006)</position></transform></li></mounts>
         <sockets>
           <li><id>gas_block</id><label>gas block journal</label><tags><li>ar15_gas_block</li></tags><transform><position>(0.278,0,-0.005)</position></transform></li>
-          <li><id>muzzle</id><label>muzzle thread</label><tags><li>muzzle_556</li></tags><transform><position>(0.417,0,-0.004)</position></transform></li>
+          <li><id>muzzle</id><label>muzzle thread</label><tags><li>muzzle_556</li></tags><transform><position>(0.417,0,-0.005)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_AR15</part></li>
@@ -56,6 +67,19 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>-2</graphicLayer>
+        <verticalOccupancy>0.065</verticalOccupancy>
+        <verticalOccupancyOffset>0.016</verticalOccupancyOffset>
+        <sight>
+          <kind>IronFront</kind>
+          <axisOffset>(0.29,0,0.052)</axisOffset>
+          <aimRadius>0.006</aimRadius>
+          <selectionPriority>10</selectionPriority>
+        </sight>
+        <internalStats>
+          <targetAcquisition>2</targetAcquisition>
+          <aimingPrecision>4</aimingPrecision>
+          <identificationDistanceMeters>20</identificationDistanceMeters>
+        </internalStats>
         <mounts><li><id>gas_block_mount</id><socketTags><li>ar15_gas_block</li></socketTags><transform><position>(0.286,0,-0.006)</position></transform></li></mounts>
       </li>
     </comps>
@@ -69,11 +93,11 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>2</graphicLayer>
-        <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.006,0,-0.004)</position></transform></li></mounts>
+        <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.025,0,-0.004)</position></transform></li></mounts>
         <sockets>
           <li><id>lower_extension</id><label>URX lower handguard interface</label><tags><li>hac_urx_lower</li></tags><transform><position>(-0.013,0,-0.014)</position></transform></li>
-          <li><id>rail_top_front</id><label>top rail front</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.18</railLength><transform><position>(0.189,0,0.018)</position></transform></li>
-          <li><id>rail_side_upper</id><label>upper side rail</label><tags><li>picatinny</li><li>side_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.167,0,-0.005)</position></transform></li>
+          <li><id>rail_top_front</id><label>top rail front</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.263</railLength><railSurface>Top</railSurface><transform><position>(0.124,0,0.018)</position></transform></li>
+          <li><id>rail_side_upper</id><label>upper side rail</label><tags><li>picatinny</li><li>side_rail</li></tags><isRail>true</isRail><railLength>0.215</railLength><railSurface>Side</railSurface><transform><position>(0.102,0,-0.005)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>lower_extension</socketId><part>HD_ModularPart_HandguardExt_HACURXDOWN</part></li>
@@ -92,14 +116,12 @@
         <graphicLayer>1.5</graphicLayer>
         <mounts><li><id>lower_handguard_mount</id><socketTags><li>hac_urx_lower</li></socketTags><transform><position>(-0.012,0,-0.014)</position></transform></li></mounts>
         <sockets>
-          <li><id>rail_bottom_grip</id><label>bottom rail grip position</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.076,0,-0.024)</position></transform></li>
-          <li><id>rail_bottom_panel</id><label>bottom rail panel position</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.119,0,-0.024)</position></transform></li>
-          <li><id>rail_side_panel</id><label>side rail panel position</label><tags><li>picatinny</li><li>side_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.007,0,-0.007)</position></transform></li>
+          <!-- The former grip/panel sockets are one continuous lower rail. The obsolete mid/side rail was removed. -->
+          <li><id>rail_bottom</id><label>continuous bottom rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.263</railLength><railSurface>Bottom</railSurface><transform><position>(0.124,0,-0.024)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>rail_bottom_grip</socketId><part>HD_ModularPart_Grip_HACVFG</part></li>
-          <li><socketId>rail_bottom_panel</socketId><part>HD_ModularPart_RailPanel_HACURXLow</part></li>
-          <li><socketId>rail_side_panel</socketId><part>HD_ModularPart_RailPanel_HACURXMid</part></li>
+          <li><socketId>rail_bottom</socketId><part>HD_ModularPart_Grip_HACVFG</part><railOffset>-0.036</railOffset></li>
+          <li><socketId>rail_bottom</socketId><part>HD_ModularPart_RailPanel_HACURXLow</part><railOffset>0.059</railOffset></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -113,10 +135,16 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>-1</graphicLayer>
+        <magazineCapacity>30</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>stanag_magazine</li></socketTags><transform><position>(-0.075,0,-0.026)</position></transform></li></mounts>
-        <sockets><li><id>floorplate</id><label>magazine floorplate</label><tags><li>stanag_floorplate</li></tags><transform><position>(-0.051,0,-0.169)</position></transform></li></sockets>
+        <sockets>
+          <li><id>floorplate</id><label>magazine floorplate</label><tags><li>stanag_floorplate</li></tags><transform><position>(-0.051,0,-0.169)</position></transform></li>
+          <li><id>magazine_wrap</id><label>magazine body wrap</label><tags><li>stanag_magazine_wrap</li></tags><transform><position>(-0.066,0,-0.110)</position></transform></li>
+          <li><id>ammunition</id><label>loaded ammunition</label><tags><li>stanag_ammunition</li></tags><required>true</required><transform><position>(-0.064,0,-0.097)</position></transform></li>
+        </sockets>
         <defaultAttachments>
           <li><socketId>floorplate</socketId><part>HD_ModularPart_MagazineExt_StanagGrip</part></li>
+          <li><socketId>ammunition</socketId><part>HD_Ammunition_556M855A1</part></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -131,6 +159,19 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>0</graphicLayer>
         <mounts><li><id>floorplate_mount</id><socketTags><li>stanag_floorplate</li></socketTags><transform><position>(-0.052,0,-0.165)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_MagazineWrap_StanagTapeBlue</defName>
+    <label>blue STANAG magazine tape</label>
+    <description>Blue identification tape wrapped around a full-size STANAG magazine body.</description>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_MagazineExt_StanagTapeBlue</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>0</graphicLayer>
+        <mounts><li><id>magazine_wrap_mount</id><socketTags><li>stanag_magazine_wrap</li></socketTags><transform><position>(-0.066,0,-0.110)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -173,7 +214,9 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>5</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.06</railOccupancy><transform><position>(-0.103,0,0.017)</position></transform></li></mounts>
+        <verticalOccupancy>0.01</verticalOccupancy>
+        <verticalOccupancyOffset>0.02</verticalOccupancyOffset>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.1</railOccupancy><railSurface>Top</railSurface><transform><position>(-0.106,0,0.017)</position></transform></li></mounts>
         <sockets><li><id>scope</id><label>Lumicon scope interface</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.023)</position></transform></li></sockets>
         <defaultAttachments>
           <li><socketId>scope</socketId><part>HD_ModularPart_Scope_LumiconTA11</part></li>
@@ -190,6 +233,25 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>6</graphicLayer>
+        <verticalOccupancy>0.062</verticalOccupancy>
+        <verticalOccupancyOffset>0.054</verticalOccupancyOffset>
+        <sight>
+          <kind>Scope</kind>
+          <axisOffset>(-0.041,0,0.057)</axisOffset>
+          <aimRadius>0.017</aimRadius>
+          <selectionPriority>30</selectionPriority>
+        </sight>
+        <internalStats>
+          <ergonomics>-3</ergonomics>
+          <targetAcquisition>10</targetAcquisition>
+          <aimingPrecision>22</aimingPrecision>
+          <identificationDistanceMeters>220</identificationDistanceMeters>
+        </internalStats>
+        <statFactors>
+          <AccuracyShort>1.03</AccuracyShort>
+          <AccuracyMedium>1.12</AccuracyMedium>
+          <AccuracyLong>1.16</AccuracyLong>
+        </statFactors>
         <mounts><li><id>ta_mount</id><socketTags><li>lumicon_ta_scope</li></socketTags><transform><position>(-0.103,0,0.022)</position></transform></li></mounts>
       </li>
     </comps>
@@ -203,7 +265,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>4</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.035</railOccupancy><transform><position>(0.094,0,-0.027)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.043</railOccupancy><railSurface>Bottom</railSurface><transform><position>(0.094,0,-0.027)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -216,7 +278,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>3</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.06</railOccupancy><transform><position>(0.119,0,-0.024)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.144</railOccupancy><railSurface>Bottom</railSurface><transform><position>(0.189,0,-0.024)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -229,7 +291,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>3</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.06</railOccupancy><transform><position>(0,0,-0.008)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.145</railOccupancy><railSurface>Side</railSurface><transform><position>(0.059,0,-0.008)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -240,6 +302,7 @@
     <label>modular M16A4 development rifle</label>
     <description>A development rifle for authoring the expanded modular part set.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <uiIconPath>Weapons/ModernWar/HD_M16A4</uiIconPath>
     <graphicData>
       <texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath>
       <graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass>
@@ -254,18 +317,32 @@
         <isAssemblyRoot>true</isAssemblyRoot>
         <realisticRoundsPerMinute>800</realisticRoundsPerMinute>
         <baseFireDelayFactor>1.2</baseFireDelayFactor>
+        <internalStats>
+          <massKg>0.86</massKg>
+          <recoilImpulse>4.2</recoilImpulse>
+          <ergonomics>50</ergonomics>
+          <muzzleRise>3</muzzleRise>
+          <operatingReliability>0.975</operatingReliability>
+          <gasFlow>1</gasFlow>
+          <momentOfInertia>0.04</momentOfInertia>
+          <targetAcquisition>50</targetAcquisition>
+          <aimingPrecision>60</aimingPrecision>
+          <identificationDistanceMeters>300</identificationDistanceMeters>
+        </internalStats>
         <graphicOffset>(0,0,0)</graphicOffset>
         <sockets>
           <li><id>upper_receiver</id><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
           <li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>ar15_pistol_grip</li></tags><transform><position>(-0.161,0,-0.051)</position></transform></li>
           <li><id>buffer_tube</id><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
           <li><id>magazine</id><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
+          <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A4</part></li>
           <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
           <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2</part></li>
           <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
         </defaultAttachments>
       </li>
     </comps>

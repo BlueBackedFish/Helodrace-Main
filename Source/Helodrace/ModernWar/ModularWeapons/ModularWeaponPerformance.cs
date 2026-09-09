@@ -18,6 +18,34 @@ namespace Helodrace.ModernWar
         }
     }
 
+    [HarmonyPatch(typeof(Verb), "get_BurstShotCount")]
+    public static class Patch_Verb_BurstShotCount_ModularWeapon
+    {
+        [HarmonyPostfix]
+        [HarmonyPriority(Priority.Last)]
+        public static void Postfix(Verb __instance, ref int __result)
+        {
+            CompModularWeaponNode comp = __instance?.EquipmentSource
+                ?.TryGetComp<CompModularWeaponNode>();
+            if (comp?.Props.isAssemblyRoot != true) return;
+            __result = comp.ApplyBurstShotCount(__result);
+        }
+    }
+
+    [HarmonyPatch(typeof(Verb), "get_WarmupTime")]
+    public static class Patch_Verb_WarmupTime_ModularWeapon
+    {
+        [HarmonyPostfix]
+        [HarmonyPriority(Priority.Last)]
+        public static void Postfix(Verb __instance, ref float __result)
+        {
+            CompModularWeaponNode comp = __instance?.EquipmentSource
+                ?.TryGetComp<CompModularWeaponNode>();
+            if (comp?.Props.isAssemblyRoot != true) return;
+            comp.ApplyMechanicalRpmFloor(ref __result);
+        }
+    }
+
     [HarmonyPatch(typeof(StatExtension), nameof(StatExtension.GetStatValue))]
     public static class Patch_StatExtension_ModularWeaponFireDelay
     {

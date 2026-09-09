@@ -638,4 +638,36 @@
 		<label>Great War Helod field ration bearer</label>
 		<combatPower>85</combatPower>
 	</PawnKindDef>
+
+	<!-- Modern War reference PawnKind. The extension selects one weighted package after
+	     vanilla gear generation and applies exact modular weapon/armor configurations. -->
+	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+		<defName>HD_MW_HelodRifleman</defName>
+		<label>Modern War Helod rifleman</label>
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<combatPower>155</combatPower>
+		<isFighter>true</isFighter>
+		<weaponMoney><min>900</min><max>1600</max></weaponMoney>
+		<weaponTags><li>IndustrialGunAdvanced</li></weaponTags>
+		<apparelMoney><min>1200</min><max>2400</max></apparelMoney>
+		<apparelRequired>
+			<li>HD_Apparel_IBTVAssault</li>
+			<li>HD_Apparel_FASTMT</li>
+		</apparelRequired>
+		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+		<modExtensions>
+			<li Class="Helodrace.ModernWar.PawnKindModularLoadoutExtension">
+				<loadouts>
+					<li>
+						<weight>1</weight>
+						<weaponPreset>HD_WeaponPreset_ModularM16A4_Default</weaponPreset>
+						<armorPresets>
+							<li>HD_ArmorPreset_IBTV_Rifleman</li>
+							<li>HD_ArmorPreset_FASTMT_GPNVG18</li>
+						</armorPresets>
+					</li>
+				</loadouts>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
 </Defs>

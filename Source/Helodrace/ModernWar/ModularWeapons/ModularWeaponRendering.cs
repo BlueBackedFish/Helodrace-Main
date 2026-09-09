@@ -67,8 +67,13 @@ namespace Helodrace.ModernWar
     {
         public const float LayerAltitudeStep = 0.0042f;
         private const float OutlineLayerGap = 1f;
+        private const float OutlinePriorityAltitudeStep = 0.00001f;
         private static readonly Dictionary<ThingDef, Material> outlineMaterials =
             new Dictionary<ThingDef, Material>();
+        private static readonly Dictionary<Material, Material> verticalFlipMaterials =
+            new Dictionary<Material, Material>();
+        private static readonly Dictionary<string, Material> feedingRoundMaterials =
+            new Dictionary<string, Material>();
 
         public static void PrintOutlines(
             CompModularWeaponNode comp,
@@ -107,6 +112,7 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
+                if (!ShouldDrawNode(node)) continue;
                 Graphic graphic = node.thing.Graphic;
                 Material material = OutlineMaterial(node);
                 if (graphic == null || material == null) continue;
@@ -115,26 +121,32 @@ namespace Helodrace.ModernWar
                 if (flip) local.x = -local.x;
                 Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
                 Vector3 center = baseCenter + new Vector3(worldOffset.x, 0f, worldOffset.y);
-                center.y += outlineLayer * LayerAltitudeStep + i * 0.000001f;
+                center.y += outlineLayer * LayerAltitudeStep
+                    + node.Props.outlinePriority * OutlinePriorityAltitudeStep
+                    + i * 0.00000001f;
 
-                Vector2 size = Vector2.Scale(graphic.drawSize, node.GraphicScale) * stackScale;
+                Vector2 size = Vector2.Scale(graphic.drawSize,
+                    AbsoluteScale(node.GraphicScale)) * stackScale;
                 if (!rotated && rot.IsHorizontal) size = size.Rotated();
                 float drawAngle = bodyAngle + LocalGraphAngleAsWorldYaw(
                     node.GraphicAngle, flip);
                 if (flip && bodyGraphic.data != null)
                     drawAngle += bodyGraphic.data.flipExtraRotation;
 
-                Material printMaterial = material;
+                Material printMaterial = node.GraphicVerticallyFlipped
+                    ? VerticallyFlippedMaterial(material)
+                    : material;
                 Vector2[] uvs = null;
                 Color32 vertexColor = new Color32(255, 255, 255, 255);
-                Graphic.TryGetTextureAtlasReplacementInfo(
-                    material,
-                    root.def.category.ToAtlasGroup(),
-                    flip,
-                    true,
-                    out printMaterial,
-                    out uvs,
-                    out vertexColor);
+                if (!node.GraphicVerticallyFlipped)
+                    Graphic.TryGetTextureAtlasReplacementInfo(
+                        material,
+                        root.def.category.ToAtlasGroup(),
+                        flip,
+                        true,
+                        out printMaterial,
+                        out uvs,
+                        out vertexColor);
 
                 Printer_Plane.PrintPlane(
                     layer,
@@ -185,7 +197,8 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
-                if (node.depth == 0 || (node.GraphicLayer < 0f) != under) continue;
+                if (!ShouldDrawNode(node) || node.depth == 0
+                    || (node.GraphicLayer < 0f) != under) continue;
                 Graphic graphic = node.thing.Graphic;
                 Material material = graphic?.MatSingleFor(node.thing);
                 if (material == null) continue;
@@ -196,8 +209,8 @@ namespace Helodrace.ModernWar
                 Vector3 center = baseCenter + new Vector3(worldOffset.x, 0f, worldOffset.y);
                 center.y += node.GraphicLayer * LayerAltitudeStep;
 
-                Vector2 graphicScale = node.GraphicScale;
-                Vector2 size = Vector2.Scale(graphic.drawSize, graphicScale) * stackScale;
+                Vector2 size = Vector2.Scale(graphic.drawSize,
+                    AbsoluteScale(node.GraphicScale)) * stackScale;
                 if (!rotated && rot.IsHorizontal) size = size.Rotated();
 
                 float drawAngle = bodyAngle + LocalGraphAngleAsWorldYaw(
@@ -205,17 +218,20 @@ namespace Helodrace.ModernWar
                 if (flip && bodyGraphic.data != null)
                     drawAngle += bodyGraphic.data.flipExtraRotation;
 
-                Material printMaterial = material;
+                Material printMaterial = node.GraphicVerticallyFlipped
+                    ? VerticallyFlippedMaterial(material)
+                    : material;
                 Vector2[] uvs = null;
                 Color32 vertexColor = new Color32(255, 255, 255, 255);
-                Graphic.TryGetTextureAtlasReplacementInfo(
-                    material,
-                    root.def.category.ToAtlasGroup(),
-                    flip,
-                    true,
-                    out printMaterial,
-                    out uvs,
-                    out vertexColor);
+                if (!node.GraphicVerticallyFlipped)
+                    Graphic.TryGetTextureAtlasReplacementInfo(
+                        material,
+                        root.def.category.ToAtlasGroup(),
+                        flip,
+                        true,
+                        out printMaterial,
+                        out uvs,
+                        out vertexColor);
 
                 Printer_Plane.PrintPlane(
                     layer,
@@ -249,38 +265,51 @@ namespace Helodrace.ModernWar
             Mesh mesh)
         {
             List<ModularRenderNode> nodes = comp.RenderSnapshot();
-            DrawRealtimeOutlines(nodes, drawLoc, bodyAngle, flipped, mesh);
+            DrawRealtimeOutlines(comp, nodes, drawLoc, bodyAngle, flipped, mesh);
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
-                if (node.depth == 0) continue;
+                if (!ShouldDrawNode(node) || node.depth == 0) continue;
+                if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
+                    continue;
 
                 Graphic graphic = node.thing.Graphic;
                 Material material = graphic?.MatSingleFor(node.thing);
                 if (material == null) continue;
+                if (node.GraphicVerticallyFlipped)
+                    material = VerticallyFlippedMaterial(material);
 
-                Vector2 local = node.GraphicCenter;
+                Vector2 local;
+                float animatedGraphAngle;
+                RealtimeNodeGeometry(
+                    comp,
+                    node,
+                    flipped,
+                    out local,
+                    out animatedGraphAngle);
                 if (flipped) local.x = -local.x;
                 Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
                 Vector3 position = drawLoc + new Vector3(worldOffset.x, 0f, worldOffset.y);
                 position.y += node.GraphicLayer * LayerAltitudeStep;
 
-                Vector2 scale = node.GraphicScale;
+                Vector2 scale = AbsoluteScale(node.GraphicScale);
                 Vector3 size = new Vector3(
                     graphic.drawSize.x * scale.x,
                     0f,
                     graphic.drawSize.y * scale.y);
                 float localAngle = LocalGraphAngleAsWorldYaw(
-                    node.GraphicAngle, flipped);
+                    animatedGraphAngle, flipped);
                 Matrix4x4 matrix = Matrix4x4.TRS(
                     position,
                     Quaternion.AngleAxis(bodyAngle + localAngle, Vector3.up),
                     size);
                 Graphics.DrawMesh(mesh, matrix, material, 0);
             }
+            DrawFeedingRound(comp, nodes, drawLoc, bodyAngle, flipped, mesh);
         }
 
         private static void DrawRealtimeOutlines(
+            CompModularWeaponNode comp,
             List<ModularRenderNode> nodes,
             Vector3 drawLoc,
             float bodyAngle,
@@ -291,23 +320,37 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
+                if (!ShouldDrawNode(node)) continue;
+                if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
+                    continue;
                 Graphic graphic = node.thing.Graphic;
                 Material material = OutlineMaterial(node);
                 if (graphic == null || material == null) continue;
+                if (node.GraphicVerticallyFlipped)
+                    material = VerticallyFlippedMaterial(material);
 
-                Vector2 local = node.GraphicCenter;
+                Vector2 local;
+                float animatedGraphAngle;
+                RealtimeNodeGeometry(
+                    comp,
+                    node,
+                    flipped,
+                    out local,
+                    out animatedGraphAngle);
                 if (flipped) local.x = -local.x;
                 Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
                 Vector3 position = drawLoc + new Vector3(worldOffset.x, 0f, worldOffset.y);
-                position.y += outlineLayer * LayerAltitudeStep + i * 0.000001f;
+                position.y += outlineLayer * LayerAltitudeStep
+                    + node.Props.outlinePriority * OutlinePriorityAltitudeStep
+                    + i * 0.00000001f;
 
-                Vector2 scale = node.GraphicScale;
+                Vector2 scale = AbsoluteScale(node.GraphicScale);
                 Vector3 size = new Vector3(
                     graphic.drawSize.x * scale.x,
                     0f,
                     graphic.drawSize.y * scale.y);
                 float localAngle = LocalGraphAngleAsWorldYaw(
-                    node.GraphicAngle, flipped);
+                    animatedGraphAngle, flipped);
                 Matrix4x4 matrix = Matrix4x4.TRS(
                     position,
                     Quaternion.AngleAxis(bodyAngle + localAngle, Vector3.up),
@@ -316,11 +359,140 @@ namespace Helodrace.ModernWar
             }
         }
 
+        private static void RealtimeNodeGeometry(
+            CompModularWeaponNode root,
+            ModularRenderNode node,
+            bool flipped,
+            out Vector2 center,
+            out float graphAngle)
+        {
+            CompProperties_ModularWeaponNode props = node.Props;
+            float amount = ModularWeaponCycleUtility.AnimationAmount(
+                root,
+                props.animatedPart);
+            Vector3 localCenter = props.graphicOffset
+                + props.animationTravel * amount;
+            float animatedAngle = props.animationAngle * amount;
+            // Mirroring the mesh reverses authored rotations. Reverse only the
+            // animation delta on west-facing weapons while retaining their static
+            // attachment angle.
+            if (flipped) animatedAngle = -animatedAngle;
+            if (!Mathf.Approximately(animatedAngle, 0f))
+            {
+                Vector3 pivot = props.graphicOffset + props.animationPivot;
+                Vector2 fromPivot = new Vector2(
+                    localCenter.x - pivot.x,
+                    localCenter.z - pivot.z);
+                Vector2 rotated = ModularTransform2D.Rotate(
+                    fromPivot,
+                    animatedAngle);
+                localCenter.x = pivot.x + rotated.x;
+                localCenter.z = pivot.z + rotated.y;
+            }
+            center = node.transform.TransformPoint(localCenter)
+                + ModularWeaponCycleUtility.ReloadMagazineOffset(root, node);
+            graphAngle = node.GraphicAngle + animatedAngle;
+        }
+
+        private static void DrawFeedingRound(
+            CompModularWeaponNode root,
+            List<ModularRenderNode> nodes,
+            Vector3 drawLoc,
+            float bodyAngle,
+            bool flipped,
+            Mesh mesh)
+        {
+            ModularRenderNode portNode;
+            ModularWeaponCasingPortProperties port;
+            string texturePath;
+            float progress;
+            if (!ModularWeaponCycleUtility.TryGetFeedingRound(
+                root,
+                out portNode,
+                out port,
+                out texturePath,
+                out progress))
+                return;
+
+            Material material;
+            if (!feedingRoundMaterials.TryGetValue(texturePath, out material))
+            {
+                Texture2D texture = ContentFinder<Texture2D>.Get(
+                    texturePath,
+                    false);
+                material = texture == null
+                    ? null
+                    : MaterialPool.MatFrom(
+                        texturePath,
+                        ShaderDatabase.Cutout,
+                        Color.white);
+                feedingRoundMaterials[texturePath] = material;
+            }
+            if (material == null) return;
+
+            Vector3 feedOffset = Vector3.Lerp(
+                port.feedStartOffset,
+                port.feedEndOffset,
+                progress);
+            Vector3 localPoint = portNode.Props.graphicOffset + feedOffset;
+            Vector2 local = portNode.transform.TransformPoint(localPoint);
+            if (flipped) local.x = -local.x;
+            Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
+            Vector3 position = drawLoc
+                + new Vector3(worldOffset.x, 0f, worldOffset.y);
+            // The live round belongs behind every weapon fill but in front of the
+            // composite outline. Keeping it halfway through the outline gap makes
+            // that ordering independent of the receiver's authored graphic layer.
+            float feedingLayer = LowestGraphicLayer(nodes) - OutlineLayerGap * 0.5f;
+            position.y += feedingLayer * LayerAltitudeStep;
+            float roundAngle = bodyAngle + LocalGraphAngleAsWorldYaw(-90f, flipped);
+            float size = port.feedingRoundDrawSize;
+            Graphics.DrawMesh(
+                mesh,
+                Matrix4x4.TRS(
+                    position,
+                    Quaternion.AngleAxis(roundAngle, Vector3.up),
+                    new Vector3(size, 0f, size)),
+                material,
+                0);
+        }
+
         private static float LowestGraphicLayer(List<ModularRenderNode> nodes)
         {
             float result = 0f;
             for (int i = 0; i < nodes.Count; i++)
-                result = Mathf.Min(result, nodes[i].GraphicLayer);
+                if (ShouldDrawNode(nodes[i]))
+                    result = Mathf.Min(result, nodes[i].GraphicLayer);
+            return result;
+        }
+
+        public static bool ShouldDrawNode(ModularRenderNode node)
+        {
+            return node != null
+                && (node.depth == 0 || !node.Props.hideWhenAttached);
+        }
+
+        private static Vector2 AbsoluteScale(Vector2 scale)
+        {
+            return new Vector2(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+        }
+
+        private static Material VerticallyFlippedMaterial(Material source)
+        {
+            if (source == null) return null;
+            Material result;
+            if (verticalFlipMaterials.TryGetValue(source, out result) && result != null)
+                return result;
+
+            result = new Material(source)
+            {
+                name = source.name + " (Helodrace vertical flip)"
+            };
+            Vector2 scale = source.mainTextureScale;
+            Vector2 offset = source.mainTextureOffset;
+            result.mainTextureScale = new Vector2(scale.x, -scale.y);
+            result.mainTextureOffset = new Vector2(offset.x, offset.y + scale.y);
+            verticalFlipMaterials[source] = result;
             return result;
         }
 
@@ -387,21 +559,30 @@ namespace Helodrace.ModernWar
                 angle += equipment.def.equippedAngleOffset;
             }
 
-            CompEquippable equippable = equipment.TryGetComp<CompEquippable>();
-            if (equippable != null)
-            {
-                Vector3 ignored;
-                float recoilAngle;
-                EquipmentUtility.Recoil(
-                    equipment.def,
-                    EquipmentUtility.GetRecoilVerb(equippable.AllVerbs),
-                    out ignored,
-                    out recoilAngle,
-                    aimAngle);
-                angle += recoilAngle;
-            }
+            Vector3 recoilOffset;
+            float recoilAngle;
+            ModularWeaponRecoilUtility.Resolve(
+                equipment,
+                aimAngle,
+                out recoilOffset,
+                out recoilAngle);
+            // Apply the combat system's complete transform to every modular layer.
+            drawLoc += recoilOffset;
+            // The west mesh is mirrored. Applying the same angular delta after that
+            // mirror makes muzzle rise appear as muzzle drop, so mirror the recoil
+            // rotation as well while leaving its world-space translation untouched.
+            angle += flipped ? -recoilAngle : recoilAngle;
 
-            DrawRealtime(comp, equipment, drawLoc, angle % 360f, flipped, mesh);
+            angle %= 360f;
+            ModularWeaponAimingPoseUtility.Record(
+                equipment,
+                drawLoc,
+                aimAngle,
+                angle,
+                flipped,
+                recoilOffset.sqrMagnitude > 0.000001f
+                    || Mathf.Abs(recoilAngle) > 0.001f);
+            DrawRealtime(comp, equipment, drawLoc, angle, flipped, mesh);
         }
 
         public static float GroundExtraRotation(Thing root)
@@ -441,12 +622,12 @@ namespace Helodrace.ModernWar
             if (comp == null || !comp.Props.isAssemblyRoot
                 || __instance.Faction != Faction.OfPlayer) yield break;
 
-            if (comp.Props.allowPlayerConfiguration)
+            if (comp.Props.allowPlayerConfiguration && Prefs.DevMode)
             {
                 yield return new Command_Action
                 {
-                    defaultLabel = "HD_ModularWeapon_Command".Translate(),
-                    defaultDesc = "HD_ModularWeapon_CommandDesc".Translate(),
+                    defaultLabel = "DEV: " + "HD_ModularWeapon_Command".Translate(),
+                    defaultDesc = "HD_ModularWeapon_CommandDescDev".Translate(),
                     icon = comp.parent.def.uiIcon,
                     action = () => Find.WindowStack.Add(new Dialog_ModularWeapon(comp))
                 };

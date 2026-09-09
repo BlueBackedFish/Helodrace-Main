@@ -11,6 +11,7 @@ namespace Helodrace.ModernWar
     public sealed class Dialog_ModularWeapon : Window
     {
         private readonly CompModularWeaponNode root;
+        private readonly ModularWeaponWorkshopSession workshop;
         private string selectedPath = "root";
         private string selectedSocketId;
         private int selectedAttachmentId = -1;
@@ -18,10 +19,19 @@ namespace Helodrace.ModernWar
         private Vector2 socketScroll;
         private Vector2 catalogScroll;
         private ThingDef hoveredPart;
+        private bool performanceExpanded;
 
         public Dialog_ModularWeapon(CompModularWeaponNode root)
+            : this(root, null)
+        {
+        }
+
+        public Dialog_ModularWeapon(
+            CompModularWeaponNode root,
+            ModularWeaponWorkshopSession workshop)
         {
             this.root = root;
+            this.workshop = workshop;
             doCloseX = true;
             absorbInputAroundWindow = true;
             closeOnClickedOutside = false;
@@ -41,13 +51,33 @@ namespace Helodrace.ModernWar
             }
 
             List<ModularRenderNode> snapshot = root.RenderSnapshot();
+            if (SynchronizeCEAmmunitionToChamber(snapshot))
+                snapshot = root.RenderSnapshot();
             ModularRenderNode selected = FindSelected(snapshot);
+            if (ShouldHideCEAmmunitionPart(selected))
+            {
+                selected = snapshot.FirstOrDefault(node => node.depth == 0);
+                if (selected != null) SelectNode(selected);
+            }
             EnsureSelectedSocket(selected);
 
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width - 160f, 32f),
+            Widgets.Label(new Rect(0f, 0f, inRect.width - 205f, 32f),
                 "HD_ModularWeapon_Title".Translate(root.parent.LabelCap));
             Text.Font = GameFont.Small;
+            Rect exportRect = new Rect(inRect.width - 190f, 0f, 170f, 30f);
+            if (Widgets.ButtonText(exportRect,
+                "HD_ModularWeapon_ExportPreset".Translate()))
+            {
+                GUIUtility.systemCopyBuffer = ModularPresetXmlExporter.ExportWeapon(root);
+                Messages.Message(
+                    "HD_ModularWeapon_ExportPresetCopied".Translate(),
+                    MessageTypeDefOf.PositiveEvent,
+                    false);
+            }
+            TooltipHandler.TipRegion(
+                exportRect,
+                "HD_ModularWeapon_ExportPresetDesc".Translate());
 
             float bodyTop = 40f;
             float catalogHeight = 184f;
@@ -67,7 +97,9 @@ namespace Helodrace.ModernWar
             Rect footer = new Rect(0f, inRect.height - footerHeight,
                 inRect.width, footerHeight);
             Widgets.Label(new Rect(4f, footer.y + 9f, footer.width - 150f, 24f),
-                "HD_ModularWeapon_ImmediateHint".Translate());
+                (workshop == null
+                    ? "HD_ModularWeapon_ImmediateHintDev"
+                    : "HD_ModularWeapon_WorkshopHint").Translate());
             if (Widgets.ButtonText(new Rect(footer.xMax - 120f, footer.y + 4f,
                 120f, 30f), "CloseButton".Translate()))
                 Close();
@@ -140,7 +172,8 @@ namespace Helodrace.ModernWar
             Widgets.Label(new Rect(currentCard.x + 74f, currentCard.y + 60f,
                 currentCard.width - 82f, 20f),
                 "HD_ModularWeapon_PartSummary".Translate(
-                    selected.Props.sockets?.Count ?? 0, directChildCount));
+                    selected.Props.sockets?.Count ?? 0, directChildCount)
+                    + "  ·  " + selected.Props.partCategory.Label());
             Text.Font = GameFont.Small;
 
             Widgets.Label(new Rect(rect.x + 9f, rect.y + 194f,
@@ -184,10 +217,14 @@ namespace Helodrace.ModernWar
                     .SocketNamed(child.parentSocketId);
                 Text.Font = GameFont.Tiny;
                 string connection = "HD_ModularWeapon_ConnectedVia".Translate(
-                    socket?.Label ?? child.parentSocketId);
+                    socket?.Label ?? child.parentSocketId)
+                    + "  ·  " + child.Props.partCategory.Label();
                 if (socket?.isRail == true)
                     connection += "  ·  " + "HD_ModularWeapon_RailOffset".Translate(
                         child.railOffset.ToString("0.###", CultureInfo.InvariantCulture));
+                if (child.mountedOnOppositeSurface)
+                    connection += "  ·  "
+                        + "HD_ModularWeapon_OppositeMounted".Translate();
                 GUI.color = new Color(0.70f, 0.74f, 0.71f);
                 Widgets.Label(new Rect(card.x + 60f, card.y + 34f,
                     card.width - 76f, 24f), connection);
@@ -226,6 +263,7 @@ namespace Helodrace.ModernWar
         {
             if (parent?.comp == null) return new List<ModularRenderNode>();
             return snapshot.Where(node => node.parentComp == parent.comp)
+                .Where(node => !ShouldHideCEAmmunitionPart(node))
                 .OrderBy(node => node.parentChildIndex)
                 .ToList();
         }
@@ -254,6 +292,8 @@ namespace Helodrace.ModernWar
                 new Color(0.055f, 0.06f, 0.07f, 1f),
                 new Color(0.35f, 0.38f, 0.42f), 2);
             Rect inner = rect.ContractedBy(18f);
+            // Keep the normal compact overlays out of the weapon's drawing area.
+            inner.yMin += 92f;
             Vector2 origin = inner.center;
             float pixelsPerCell = Mathf.Min(inner.width, inner.height) * 0.82f;
 
@@ -262,6 +302,7 @@ namespace Helodrace.ModernWar
                 for (int i = 0; i < snapshot.Count; i++)
                 {
                     ModularRenderNode node = snapshot[i];
+                    if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) continue;
                     Graphic graphic = node.thing.Graphic;
                     string texturePath = node.thing.def.graphicData?.texPath;
                     Texture texture = pass == 0
@@ -272,8 +313,10 @@ namespace Helodrace.ModernWar
                     if (graphic == null || texture == null) continue;
 
                     Vector2 center = WorldToGui(node.GraphicCenter, origin, pixelsPerCell);
-                    Vector2 size = Vector2.Scale(graphic.drawSize, node.GraphicScale)
-                        * pixelsPerCell;
+                    Vector2 graphicScale = node.GraphicScale;
+                    Vector2 size = Vector2.Scale(graphic.drawSize,
+                        new Vector2(Mathf.Abs(graphicScale.x),
+                            Mathf.Abs(graphicScale.y))) * pixelsPerCell;
                     Rect drawRect = CenteredRect(center, size);
                     Color previous = GUI.color;
                     if (pass == 1 && selected != null && node.path != selected.path)
@@ -281,14 +324,20 @@ namespace Helodrace.ModernWar
                     Matrix4x4 matrix = GUI.matrix;
                     if (!Mathf.Approximately(node.GraphicAngle, 0f))
                         UI.RotateAroundPivot(-node.GraphicAngle, drawRect.center);
-                    GUI.DrawTexture(drawRect, texture, ScaleMode.StretchToFill);
+                    DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
                     GUI.matrix = matrix;
                     GUI.color = previous;
                 }
             }
 
             DrawSelectedRailOverlay(selected, origin, pixelsPerCell);
-            DrawPerformanceBlock(new Rect(rect.x + 10f, rect.y + 10f, 280f, 104f));
+            Rect performanceRect = performanceExpanded
+                ? new Rect(rect.x + 10f, rect.y + 10f, 430f, 390f)
+                : new Rect(rect.x + 10f, rect.y + 10f, 285f, 60f);
+            DrawPerformanceBlock(performanceRect, performanceExpanded);
+            DrawAmmunitionBadge(
+                new Rect(rect.xMax - 245f, rect.y + 10f, 235f, 74f),
+                snapshot);
         }
 
         private void DrawSelectedRailOverlay(
@@ -307,19 +356,195 @@ namespace Helodrace.ModernWar
             Widgets.DrawLine(occupiedStart, occupiedEnd, Color.yellow, 7f);
         }
 
-        private void DrawPerformanceBlock(Rect rect)
+        private void DrawPerformanceBlock(Rect rect, bool expanded)
         {
             Widgets.DrawBoxSolidWithOutline(rect,
                 new Color(0.07f, 0.08f, 0.085f, 0.93f),
                 new Color(0.32f, 0.38f, 0.40f), 1);
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(rect.x + 8f, rect.y + 5f,
+                rect.width - 42f, 20f),
+                "HD_ModularWeapon_StatsTitle".Translate());
+            if (Widgets.ButtonText(new Rect(rect.xMax - 31f, rect.y + 4f, 25f, 22f),
+                expanded ? "−" : "+"))
+                performanceExpanded = !performanceExpanded;
+
+            if (!expanded)
+            {
+                Widgets.Label(new Rect(rect.x + 8f, rect.y + 26f,
+                    rect.width - 16f, 28f),
+                    "HD_ModularWeapon_PerformanceCompact".Translate(
+                        root.EffectiveRoundsPerMinute.ToString("0.#",
+                            CultureInfo.InvariantCulture),
+                        root.EffectiveFireDelaySeconds.ToString("0.###",
+                            CultureInfo.InvariantCulture)));
+                Text.Font = GameFont.Small;
+                return;
+            }
+
             string text = "HD_ModularWeapon_Performance".Translate(
                 root.RealisticRoundsPerMinute.ToString("0.#", CultureInfo.InvariantCulture),
                 root.EffectiveRoundsPerMinute.ToString("0.#", CultureInfo.InvariantCulture),
                 root.MinimumFireDelaySeconds.ToString("0.###", CultureInfo.InvariantCulture),
                 root.EffectiveFireDelaySeconds.ToString("0.###", CultureInfo.InvariantCulture),
                 root.EffectiveBurstIntervalTicks);
+            Thing weapon = root.parent;
+            VerbProperties verb = weapon.def.Verbs?.FirstOrDefault(v => v.isPrimary)
+                ?? weapon.def.Verbs?.FirstOrDefault();
+            if (verb != null)
+                text += "\n" + "Burst shots" + ": "
+                    + root.ApplyBurstShotCount(verb.burstShotCount);
+            ModularWeaponFunctionStatus functionStatus = root.FunctionStatus;
+            text += "\n" + (functionStatus.CanFire
+                ? "HD_ModularWeapon_FunctionOperational".Translate().ToString()
+                : "HD_ModularWeapon_FunctionBlocked".Translate(
+                    functionStatus.MissingRequiredLabels).ToString());
+            if (functionStatus.missingFunctionalParts.Count > 0)
+                text += "\n" + "HD_ModularWeapon_FunctionDegraded".Translate(
+                    functionStatus.MissingFunctionalLabels);
+            text += "\n" + StatDefOf.RangedWeapon_Cooldown.LabelCap + ": "
+                + weapon.GetStatValue(StatDefOf.RangedWeapon_Cooldown)
+                    .ToString("0.###", CultureInfo.InvariantCulture) + "s";
+            text += "\n" + StatDefOf.RangedWeapon_WarmupMultiplier.LabelCap + ": ×"
+                + weapon.GetStatValue(StatDefOf.RangedWeapon_WarmupMultiplier)
+                    .ToString("0.###", CultureInfo.InvariantCulture);
+            if (ModsConfig.IsActive("ceteam.combatextended"))
+            {
+                AppendCEStat(ref text, weapon, "SightsEfficiency", "P0");
+                AppendCEStat(ref text, weapon, "ShotSpread", "0.###");
+                AppendCEStat(ref text, weapon, "SwayFactor", "0.###");
+                AppendCEStat(ref text, weapon, "Recoil", "0.###");
+            }
+            else
+            {
+                text += "\n" + StatDefOf.AccuracyShort.LabelCap + ": "
+                    + weapon.GetStatValue(StatDefOf.AccuracyShort).ToString("P0");
+                text += "  " + StatDefOf.AccuracyMedium.LabelCap + ": "
+                    + weapon.GetStatValue(StatDefOf.AccuracyMedium).ToString("P0");
+                text += "\n" + StatDefOf.AccuracyLong.LabelCap + ": "
+                    + weapon.GetStatValue(StatDefOf.AccuracyLong).ToString("P0");
+            }
+            text += "  " + StatDefOf.Mass.LabelCap + ": "
+                + weapon.GetStatValue(StatDefOf.Mass)
+                    .ToString("0.##", CultureInfo.InvariantCulture) + "kg";
+            ModularWeaponConvertedStats converted = root.ConvertedStats;
+            text += "\n\n" + "HD_ModularWeapon_ConvertedStats".Translate();
+            text += "\n" + "HD_ModularWeapon_Mass".Translate() + ": "
+                + converted.MassKg.ToString("0.##", CultureInfo.InvariantCulture) + " kg";
+            text += "  " + "HD_ModularWeapon_RecoilControl".Translate() + ": "
+                + converted.RecoilControl.ToString("P0");
+            text += "\n" + "HD_ModularWeapon_Ergonomics".Translate() + ": "
+                + converted.Ergonomics.ToString("P0");
+            text += "  " + "HD_ModularWeapon_MuzzleControl".Translate() + ": "
+                + converted.MuzzleControl.ToString("P0");
+            text += "\n" + "HD_ModularWeapon_Reliability".Translate() + ": "
+                + converted.OperatingReliability.ToString("P1");
+            text += "  " + "HD_ModularWeapon_GasEfficiency".Translate() + ": "
+                + converted.GasEfficiency.ToString("P0");
+            text += "\n" + "HD_ModularWeapon_Balance".Translate() + ": "
+                + (converted.CenterOfMassMeters * 100f)
+                    .ToString("+0.0;-0.0;0.0", CultureInfo.InvariantCulture) + " cm";
+            text += "  " + "HD_ModularWeapon_Handling".Translate() + ": "
+                + converted.Handling.ToString("P0");
+            text += "\n" + "HD_ModularWeapon_TargetAcquisition".Translate() + ": "
+                + converted.TargetAcquisition.ToString("P0");
+            text += "  " + "HD_ModularWeapon_AimingPrecision".Translate() + ": "
+                + converted.AimingPrecision.ToString("P0");
+            text += "\n" + "HD_ModularWeapon_IdentificationDistance".Translate() + ": "
+                + converted.IdentificationDistanceCells
+                    .ToString("0.#", CultureInfo.InvariantCulture) + " "
+                + "HD_ModularWeapon_Cells".Translate();
+            IReadOnlyList<ModularSightGroupStatus> sightGroups = root.SightGroups;
+            text += "\n\n" + "HD_ModularWeapon_SightGroups".Translate(
+                sightGroups.Count);
+            for (int i = 0; i < sightGroups.Count; i++)
+            {
+                ModularSightGroupStatus group = sightGroups[i];
+                string primary = group.primary != null
+                    ? group.primary.LabelCap.ToString()
+                    : "HD_ModularWeapon_SightNoPrimary".Translate().ToString();
+                if (group.hasCompleteIronSight)
+                    primary += " / " + "HD_ModularWeapon_SightIronPair".Translate();
+                if (group.magnifierBehindPrimary)
+                    primary += " + " + "HD_ModularWeapon_SightMagnifierRear".Translate();
+                else if (group.magnifierAheadPrimary)
+                    primary += " / " + "HD_ModularWeapon_SightMagnifierFront".Translate();
+                if (group.belowWeaponSightCount > 0)
+                    primary += " / " + "HD_ModularWeapon_SightBelowWeapon".Translate(
+                        group.belowWeaponSightCount);
+                text += "\n" + "HD_ModularWeapon_SightGroupLine".Translate(
+                    group.isActive ? "▶ " : "  ",
+                    group.axisHeight.ToString("0.###", CultureInfo.InvariantCulture),
+                    group.efficiency.ToString("P0"),
+                    primary);
+            }
+            Widgets.Label(new Rect(rect.x + 8f, rect.y + 29f,
+                rect.width - 16f, rect.height - 36f), text);
+            Text.Font = GameFont.Small;
+        }
+
+        private static void AppendCEStat(
+            ref string text,
+            Thing weapon,
+            string defName,
+            string format)
+        {
+            StatDef stat = DefDatabase<StatDef>.GetNamedSilentFail(defName);
+            if (stat == null || weapon == null) return;
+
+            text += "\n" + stat.LabelCap + ": "
+                + weapon.GetStatValue(stat).ToString(
+                    format,
+                    CultureInfo.InvariantCulture);
+        }
+
+        private static void DrawAmmunitionBadge(
+            Rect rect,
+            List<ModularRenderNode> snapshot)
+        {
+            ModularRenderNode ammunition = snapshot.FirstOrDefault(node =>
+                !node.Props.ammunitionType.NullOrEmpty());
+            string label = ammunition != null
+                ? ammunition.Props.ammunitionType
+                : "HD_ModularWeapon_NoAmmunition".Translate().ToString();
+            ModularAmmunitionCompatibilityResult compatibility =
+                ModularWeaponAmmunitionUtility.Resolve(snapshot);
+            string status;
+            Color border;
+            switch (compatibility.kind)
+            {
+                case ModularAmmunitionCompatibilityKind.Compatible:
+                    status = "HD_ModularWeapon_AmmoCompatible".Translate(
+                        compatibility.ChamberLabel);
+                    border = new Color(0.45f, 0.67f, 0.35f);
+                    break;
+                case ModularAmmunitionCompatibilityKind.FailureToChamber:
+                    status = "HD_ModularWeapon_AmmoFailureToChamber".Translate(
+                        compatibility.ChamberLabel);
+                    border = new Color(1f, 0.62f, 0.12f);
+                    break;
+                case ModularAmmunitionCompatibilityKind.Catastrophic:
+                    status = "HD_ModularWeapon_AmmoCatastrophic".Translate(
+                        compatibility.ChamberLabel);
+                    border = new Color(1f, 0.16f, 0.12f);
+                    break;
+                default:
+                    status = "HD_ModularWeapon_AmmoUnspecified".Translate();
+                    border = new Color(0.50f, 0.32f, 0.28f);
+                    break;
+            }
+            Widgets.DrawBoxSolidWithOutline(rect,
+                new Color(0.07f, 0.08f, 0.085f, 0.93f),
+                border,
+                compatibility.kind == ModularAmmunitionCompatibilityKind.Catastrophic
+                    ? 2
+                    : 1);
             Text.Font = GameFont.Tiny;
-            Widgets.Label(rect.ContractedBy(8f), text);
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(rect.ContractedBy(7f),
+                "HD_ModularWeapon_SelectedAmmunition".Translate(label)
+                + "\n" + status);
+            Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
         }
 
@@ -333,7 +558,11 @@ namespace Helodrace.ModernWar
                 inner.height - 30f);
             float contentHeight = 16f;
             for (int i = 0; i < node.Props.sockets.Count; i++)
-                contentHeight += 78f + node.comp.CountOnSocket(node.Props.sockets[i].id) * 50f;
+            {
+                ModularAttachmentSocket candidate = node.Props.sockets[i];
+                if (ShouldHideCEAmmunitionSocket(candidate)) continue;
+                contentHeight += 78f + node.comp.CountOnSocket(candidate.id) * 50f;
+            }
             Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
                 Mathf.Max(outRect.height, contentHeight));
             Widgets.BeginScrollView(outRect, ref socketScroll, viewRect);
@@ -342,6 +571,7 @@ namespace Helodrace.ModernWar
             for (int socketIndex = 0; socketIndex < node.Props.sockets.Count; socketIndex++)
             {
                 ModularAttachmentSocket socket = node.Props.sockets[socketIndex];
+                if (ShouldHideCEAmmunitionSocket(socket)) continue;
                 int count = node.comp.CountOnSocket(socket.id);
                 Rect socketRect = new Rect(2f, y, viewRect.width - 4f, 64f);
                 bool active = socket.id == selectedSocketId;
@@ -368,7 +598,8 @@ namespace Helodrace.ModernWar
                 string detail = socket.isRail
                     ? "HD_ModularWeapon_RailDetail".Translate(
                         socket.railLength.ToString("0.###", CultureInfo.InvariantCulture),
-                        TagText(socket.tags)).ToString()
+                        SurfaceText(socket.railSurface) + "  ·  "
+                            + TagText(socket.tags)).ToString()
                     : TagText(socket.tags);
                 Widgets.Label(new Rect(socketRect.x + 8f, socketRect.y + 33f,
                     socketRect.width - 16f, 22f), detail);
@@ -406,7 +637,7 @@ namespace Helodrace.ModernWar
                     if (!socket.required && Widgets.ButtonText(removeRect, "×"))
                     {
                         Thing removed = node.comp.DetachChildAt(childIndex);
-                        DestroyAssembly(removed);
+                        ReturnOrDestroyAssembly(removed);
                         selectedAttachmentId = -1;
                         root.InvalidateTree();
                         Widgets.EndScrollView();
@@ -450,6 +681,7 @@ namespace Helodrace.ModernWar
                 new Color(0.075f, 0.085f, 0.08f),
                 new Color(0.32f, 0.37f, 0.34f), 1);
             ModularAttachmentSocket socket = node?.Props.SocketNamed(selectedSocketId);
+            if (ShouldHideCEAmmunitionSocket(socket)) socket = null;
             string title = socket == null
                 ? "HD_ModularWeapon_SelectSocket".Translate()
                 : "HD_ModularWeapon_Catalog".Translate(socket.Label);
@@ -468,6 +700,8 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < candidates.Count; i++)
             {
                 ThingDef def = candidates[i];
+                int available = workshop?.AvailableCount(def) ?? int.MaxValue;
+                bool unavailable = available <= 0;
                 Rect tile = new Rect(6f + i * (tileWidth + 8f), 3f,
                     tileWidth, viewRect.height - 8f);
                 bool hovered = Mouse.IsOver(tile);
@@ -487,16 +721,34 @@ namespace Helodrace.ModernWar
                     def.GetCompProperties<CompProperties_ModularWeaponNode>();
                 ModularAttachmentMount mount = CompatibleMount(props, socket);
                 Text.Font = GameFont.Tiny;
-                string occupancyLabel = mount?.railOccupancy > 0f
-                    ? "HD_ModularWeapon_Occupancy".Translate(
+                string occupancyLabel = mount == null
+                    ? props.partCategory.Label()
+                    : props.partCategory.Label() + "\n"
+                    + "HD_ModularWeapon_SurfaceDetail".Translate(
+                        SurfaceText(mount.railSurface)).ToString() + "\n"
+                    + (mount.railOccupancy > 0f
+                        ? "HD_ModularWeapon_Occupancy".Translate(
                         mount.railOccupancy.ToString("0.###",
                             CultureInfo.InvariantCulture)).ToString()
-                    : string.Empty;
-                Widgets.Label(new Rect(tile.x + 6f, tile.yMax - 25f,
-                    tile.width - 12f, 20f), occupancyLabel);
+                        : string.Empty);
+                Widgets.Label(new Rect(tile.x + 6f, tile.yMax - 42f,
+                    tile.width - 12f, 38f), occupancyLabel);
+                if (workshop != null
+                    && CompModularWeaponPartsBox.StorageModeFor(def)
+                        != ModularWeaponPartStorageMode.Internal)
+                {
+                    GUI.color = unavailable ? Color.red : new Color(0.65f, 0.9f, 0.65f);
+                    Text.Anchor = TextAnchor.UpperRight;
+                    Widgets.Label(new Rect(tile.x + 6f, tile.y + 5f,
+                        tile.width - 12f, 22f),
+                        "HD_ModularWeapon_PartAvailable".Translate(available));
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    GUI.color = Color.white;
+                }
                 Text.Font = GameFont.Small;
                 if (hovered) hoveredPart = def;
-                if (Widgets.ButtonInvisible(tile)) InstallPart(node, socket, def, mount);
+                if (!unavailable && Widgets.ButtonInvisible(tile))
+                    InstallPart(node, socket, def, mount);
             }
             Widgets.EndScrollView();
         }
@@ -524,7 +776,23 @@ namespace Helodrace.ModernWar
                 node.comp.DetachChildAt(index);
             }
 
-            Thing child = ThingMaker.MakeThing(def);
+            Thing child;
+            if (workshop != null)
+            {
+                if (!workshop.TryTakePart(def, out child))
+                {
+                    RestoreDisplaced(node.comp, displaced);
+                    Messages.Message(
+                        "HD_ModularWeapon_PartUnavailable".Translate(def.LabelCap),
+                        MessageTypeDefOf.RejectInput,
+                        false);
+                    return;
+                }
+            }
+            else
+            {
+                child = ThingMaker.MakeThing(def);
+            }
             string rejection;
             float offset;
             bool success = node.comp.TryFindAttachOffset(
@@ -532,7 +800,7 @@ namespace Helodrace.ModernWar
                 && node.comp.TryAttach(child, socket.id, mount.id, offset, out rejection);
             if (!success)
             {
-                DestroyAssembly(child);
+                ReturnOrDestroyAssembly(child);
                 RestoreDisplaced(node.comp, displaced);
                 Messages.Message(rejection ?? "HD_ModularWeapon_AttachFailed".Translate(),
                     MessageTypeDefOf.RejectInput, false);
@@ -540,7 +808,7 @@ namespace Helodrace.ModernWar
             }
 
             for (int i = 0; i < displaced.Count; i++)
-                DestroyAssembly(displaced[i].thing);
+                ReturnOrDestroyAssembly(displaced[i].thing);
             selectedAttachmentId = child.thingIDNumber;
             root.InvalidateTree();
         }
@@ -568,12 +836,18 @@ namespace Helodrace.ModernWar
             thing.Destroy(DestroyMode.Vanish);
         }
 
+        private void ReturnOrDestroyAssembly(Thing thing)
+        {
+            if (workshop != null) workshop.ReturnAssembly(thing);
+            else DestroyAssembly(thing);
+        }
+
         private void DrawHoveredPartPreview(Rect windowRect, ThingDef def)
         {
             PartPreviewData data = PartPreviewData.For(def);
             Vector2 mouse = Event.current.mousePosition;
             float width = 250f;
-            float height = 250f;
+            float height = 340f;
             float x = Mathf.Min(windowRect.xMax - width - 4f, mouse.x + 20f);
             float y = Mathf.Clamp(mouse.y - height * 0.5f,
                 windowRect.y + 4f, windowRect.yMax - height - 4f);
@@ -584,7 +858,7 @@ namespace Helodrace.ModernWar
                 panel.width - 20f, 26f), def.LabelCap);
 
             Rect imageArea = new Rect(panel.x + 12f, panel.y + 38f,
-                panel.width - 24f, 156f);
+                panel.width - 24f, 140f);
             if (data.texture != null)
             {
                 float aspect = Mathf.Max(0.05f, data.aspect);
@@ -605,12 +879,52 @@ namespace Helodrace.ModernWar
             if (mount?.railOccupancy > 0f)
                 details += "\n" + "HD_ModularWeapon_Occupancy".Translate(
                     mount.railOccupancy.ToString("0.###", CultureInfo.InvariantCulture));
+            if (mount != null)
+            {
+                details += "\n" + "HD_ModularWeapon_SurfaceDetail".Translate(
+                    SurfaceText(mount.railSurface));
+                if (mount.UsesOppositeSurface(selectedSocket))
+                    details += "  ·  " + "HD_ModularWeapon_OppositeMounted".Translate();
+            }
             if (props != null && !Mathf.Approximately(props.fireDelayMultiplier, 1f))
                 details += "\n" + "HD_ModularWeapon_FireDelayModifier".Translate(
                     props.fireDelayMultiplier.ToString("0.###", CultureInfo.InvariantCulture));
+            if (props?.verticalOccupancy > 0f)
+                details += "\n" + "HD_ModularWeapon_VerticalOccupancy".Translate(
+                    props.verticalOccupancy.ToString("0.###", CultureInfo.InvariantCulture));
+            if (props?.sight != null)
+                details += "\n" + "HD_ModularWeapon_SightPartDetail".Translate(
+                    props.sight.kind.ToString(),
+                    props.sight.aimRadius.ToString("0.###", CultureInfo.InvariantCulture));
+            if (props != null && !props.ammunitionType.NullOrEmpty())
+                details += "\n" + "HD_ModularWeapon_AmmunitionPartDetail".Translate(
+                    props.ammunitionType);
+            if (props != null && !props.chamberCaliber.NullOrEmpty())
+                details += "\n" + "HD_ModularWeapon_ChamberPartDetail".Translate(
+                    ModularWeaponAmmunitionUtility.DisplayCaliber(props.chamberCaliber));
+            if (props != null && !props.statOffsets.NullOrEmpty())
+            {
+                for (int i = 0; i < props.statOffsets.Count; i++)
+                {
+                    StatModifier modifier = props.statOffsets[i];
+                    if (modifier?.stat == null) continue;
+                    details += "\n" + modifier.stat.LabelCap + " "
+                        + modifier.value.ToStringWithSign();
+                }
+            }
+            if (props != null && !props.statFactors.NullOrEmpty())
+            {
+                for (int i = 0; i < props.statFactors.Count; i++)
+                {
+                    StatModifier modifier = props.statFactors[i];
+                    if (modifier?.stat == null) continue;
+                    details += "\n" + modifier.stat.LabelCap + " ×"
+                        + modifier.value.ToString("0.###", CultureInfo.InvariantCulture);
+                }
+            }
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(panel.x + 10f, panel.y + 199f,
-                panel.width - 20f, 45f), details);
+            Widgets.Label(new Rect(panel.x + 10f, panel.y + 183f,
+                panel.width - 20f, panel.height - 191f), details);
             Text.Font = GameFont.Small;
         }
 
@@ -644,9 +958,130 @@ namespace Helodrace.ModernWar
 
         private void EnsureSelectedSocket(ModularRenderNode node)
         {
-            if (node?.Props.SocketNamed(selectedSocketId) != null) return;
-            selectedSocketId = node?.Props.sockets.FirstOrDefault()?.id;
+            ModularAttachmentSocket current = node?.Props.SocketNamed(selectedSocketId);
+            if (current != null && !ShouldHideCEAmmunitionSocket(current)) return;
+            selectedSocketId = node?.Props.sockets
+                .FirstOrDefault(socket => !ShouldHideCEAmmunitionSocket(socket))
+                ?.id;
             selectedAttachmentId = -1;
+        }
+
+        private bool SynchronizeCEAmmunitionToChamber(
+            List<ModularRenderNode> snapshot)
+        {
+            if (!CombatExtendedActive || snapshot.NullOrEmpty()) return false;
+
+            ModularRenderNode chamber = snapshot.FirstOrDefault(node =>
+                !node.Props.chamberCaliber.NullOrEmpty()
+                && !node.Props.ceAmmoSetDefName.NullOrEmpty());
+            if (chamber == null) return false;
+
+            ModularRenderNode currentAmmo = snapshot.FirstOrDefault(node =>
+                !node.Props.ammunitionType.NullOrEmpty());
+            if (currentAmmo != null
+                && string.Equals(
+                    currentAmmo.Props.ammunitionCaliber,
+                    chamber.Props.chamberCaliber,
+                    StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            ThingDef desired = DefDatabase<ThingDef>.AllDefsListForReading
+                .Where(def =>
+                {
+                    CompProperties_ModularWeaponNode props = def
+                        .GetCompProperties<CompProperties_ModularWeaponNode>();
+                    return props != null
+                        && !props.ceAmmoDefName.NullOrEmpty()
+                        && string.Equals(
+                            props.ammunitionCaliber,
+                            chamber.Props.chamberCaliber,
+                            StringComparison.OrdinalIgnoreCase);
+                })
+                .OrderBy(def => def.defName)
+                .FirstOrDefault();
+            if (desired == null) return false;
+
+            CompModularWeaponNode magazine = currentAmmo?.parentComp;
+            ModularAttachmentSocket socket = magazine?.Props
+                .SocketNamed(currentAmmo?.parentSocketId);
+            if (magazine == null || socket == null)
+            {
+                ModularRenderNode magazineNode = snapshot.FirstOrDefault(node =>
+                    node.Props.sockets.Any(ShouldHideCEAmmunitionSocket));
+                magazine = magazineNode?.comp;
+                socket = magazineNode?.Props.sockets
+                    .FirstOrDefault(ShouldHideCEAmmunitionSocket);
+            }
+            if (magazine == null || socket == null) return false;
+
+            int oldIndex = magazine.IndexOnSocket(socket.id);
+            Thing oldPart = oldIndex >= 0 ? magazine.ChildAt(oldIndex) : null;
+            string oldMount = oldIndex >= 0 ? magazine.MountIdAt(oldIndex) : null;
+            float oldOffset = oldIndex >= 0 ? magazine.RailOffsetAt(oldIndex) : 0f;
+            if (oldIndex >= 0) magazine.DetachChildAt(oldIndex);
+
+            Thing replacement = ThingMaker.MakeThing(desired);
+            CompProperties_ModularWeaponNode replacementProps = replacement
+                .TryGetComp<CompModularWeaponNode>()?.Props;
+            ModularAttachmentMount mount = CompatibleMount(replacementProps, socket);
+            string rejection;
+            float offset;
+            bool attached = mount != null
+                && magazine.TryFindAttachOffset(
+                    replacement,
+                    socket.id,
+                    mount.id,
+                    out offset,
+                    out rejection)
+                && magazine.TryAttach(
+                    replacement,
+                    socket.id,
+                    mount.id,
+                    offset,
+                    out rejection);
+            if (!attached)
+            {
+                DestroyAssembly(replacement);
+                if (oldPart != null)
+                {
+                    string ignored;
+                    magazine.TryAttach(
+                        oldPart,
+                        socket.id,
+                        oldMount,
+                        oldOffset,
+                        out ignored);
+                }
+                return false;
+            }
+
+            DestroyAssembly(oldPart);
+            selectedAttachmentId = -1;
+            return true;
+        }
+
+        private static bool CombatExtendedActive =>
+            ModsConfig.IsActive("ceteam.combatextended");
+
+        private static bool ShouldHideCEAmmunitionPart(ModularRenderNode node)
+        {
+            return CombatExtendedActive
+                && node != null
+                && !node.Props.ammunitionType.NullOrEmpty();
+        }
+
+        private static bool ShouldHideCEAmmunitionSocket(
+            ModularAttachmentSocket socket)
+        {
+            if (!CombatExtendedActive || socket == null) return false;
+            if (string.Equals(
+                socket.id,
+                "ammunition",
+                StringComparison.OrdinalIgnoreCase))
+                return true;
+            return socket.tags?.Any(tag => tag?.IndexOf(
+                "ammunition",
+                StringComparison.OrdinalIgnoreCase) >= 0) == true;
         }
 
         private static int FirstChildIndexOnSocket(
@@ -663,6 +1098,21 @@ namespace Helodrace.ModernWar
             return tags.NullOrEmpty() ? "-" : string.Join(", ", tags.ToArray());
         }
 
+        private static string SurfaceText(ModularRailSurface surface)
+        {
+            switch (surface)
+            {
+                case ModularRailSurface.Top:
+                    return "HD_ModularWeapon_SurfaceTop".Translate();
+                case ModularRailSurface.Bottom:
+                    return "HD_ModularWeapon_SurfaceBottom".Translate();
+                case ModularRailSurface.Side:
+                    return "HD_ModularWeapon_SurfaceSide".Translate();
+                default:
+                    return "HD_ModularWeapon_SurfaceUnspecified".Translate();
+            }
+        }
+
         private static Vector2 WorldToGui(Vector2 point, Vector2 origin, float scale)
         {
             return new Vector2(origin.x + point.x * scale, origin.y - point.y * scale);
@@ -672,6 +1122,14 @@ namespace Helodrace.ModernWar
         {
             return new Rect(center.x - size.x * 0.5f,
                 center.y - size.y * 0.5f, size.x, size.y);
+        }
+
+        private static void DrawTexture(Rect rect, Texture texture, bool flipVertical)
+        {
+            Rect uv = flipVertical
+                ? new Rect(0f, 1f, 1f, -1f)
+                : new Rect(0f, 0f, 1f, 1f);
+            GUI.DrawTextureWithTexCoords(rect, texture, uv, true);
         }
 
         private sealed class DetachedPart

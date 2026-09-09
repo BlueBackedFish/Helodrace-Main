@@ -14,6 +14,12 @@
   <HD_ModularWeapon_AttachedParts>Parts attached here</HD_ModularWeapon_AttachedParts>
   <HD_ModularWeapon_NoAttachedParts>No parts are attached directly here.</HD_ModularWeapon_NoAttachedParts>
   <HD_ModularWeapon_ConnectedVia>Socket: {0}</HD_ModularWeapon_ConnectedVia>
+  <HD_ModularWeapon_SurfaceDetail>Orientation: {0}</HD_ModularWeapon_SurfaceDetail>
+  <HD_ModularWeapon_SurfaceTop>top</HD_ModularWeapon_SurfaceTop>
+  <HD_ModularWeapon_SurfaceBottom>bottom</HD_ModularWeapon_SurfaceBottom>
+  <HD_ModularWeapon_SurfaceSide>side only</HD_ModularWeapon_SurfaceSide>
+  <HD_ModularWeapon_SurfaceUnspecified>unspecified</HD_ModularWeapon_SurfaceUnspecified>
+  <HD_ModularWeapon_OppositeMounted>vertically flipped</HD_ModularWeapon_OppositeMounted>
   <HD_ModularWeapon_ImmediateHint>Click a socket, then click a compatible part. No loose item is required during this development stage.</HD_ModularWeapon_ImmediateHint>
   <HD_ModularWeapon_Performance>Mechanical limit: {0} RPM\nCurrent setting: {1} RPM\nMinimum/current delay: {2}s / {3}s\nBurst interval: {4} ticks</HD_ModularWeapon_Performance>
   <HD_ModularWeapon_RailDetail>Length {0}  •  {1}</HD_ModularWeapon_RailDetail>
@@ -23,4 +29,64 @@
   <HD_ModularWeapon_Occupancy>Occupied length: {0}</HD_ModularWeapon_Occupancy>
   <HD_ModularWeapon_FireDelayModifier>Fire delay multiplier: ×{0}</HD_ModularWeapon_FireDelayModifier>
   <HD_ModularWeapon_AttachFailed>The part could not be attached.</HD_ModularWeapon_AttachFailed>
+  <HD_ModularWeapon_SightGroups>Sight groups: {0}</HD_ModularWeapon_SightGroups>
+  <HD_ModularWeapon_SightGroupLine>{0}H {1} · efficiency {2} · {3}</HD_ModularWeapon_SightGroupLine>
+  <HD_ModularWeapon_SightNoPrimary>no usable primary sight</HD_ModularWeapon_SightNoPrimary>
+  <HD_ModularWeapon_SightIronPair>iron-sight pair</HD_ModularWeapon_SightIronPair>
+  <HD_ModularWeapon_SightMagnifierRear>rear magnifier synergy</HD_ModularWeapon_SightMagnifierRear>
+  <HD_ModularWeapon_SightMagnifierFront>front magnifier disabled</HD_ModularWeapon_SightMagnifierFront>
+  <HD_ModularWeapon_SightBelowWeapon>{0} sight(s) below the weapon centerline disabled</HD_ModularWeapon_SightBelowWeapon>
+  <HD_ModularWeapon_VerticalOccupancy>Vertical occupancy: {0}</HD_ModularWeapon_VerticalOccupancy>
+  <HD_ModularWeapon_SightPartDetail>Sight: {0} · aim radius {1}</HD_ModularWeapon_SightPartDetail>
+  <HD_ModularWeapon_StatsTitle>Weapon statistics</HD_ModularWeapon_StatsTitle>
+  <HD_ModularWeapon_PerformanceCompact>{0} RPM · {1}s fire delay</HD_ModularWeapon_PerformanceCompact>
+  <HD_ModularWeapon_SelectedAmmunition>Ammunition\n{0}</HD_ModularWeapon_SelectedAmmunition>
+  <HD_ModularWeapon_NoAmmunition>none selected</HD_ModularWeapon_NoAmmunition>
+  <HD_ModularWeapon_AmmunitionPartDetail>Ammunition selection: {0}</HD_ModularWeapon_AmmunitionPartDetail>
+  <HD_ModularWeapon_ChamberPartDetail>Chamber: {0}</HD_ModularWeapon_ChamberPartDetail>
+  <HD_ModularWeapon_AmmoCompatible>Compatible with {0}</HD_ModularWeapon_AmmoCompatible>
+  <HD_ModularWeapon_AmmoFailureToChamber>BLOCKED: will not chamber in {0}</HD_ModularWeapon_AmmoFailureToChamber>
+  <HD_ModularWeapon_AmmoCatastrophic>DANGER: barrel rupture in {0}</HD_ModularWeapon_AmmoCatastrophic>
+  <HD_ModularWeapon_AmmoUnspecified>Chamber compatibility unknown</HD_ModularWeapon_AmmoUnspecified>
+  <HD_ModularWeapon_FailureToChamber>{0} cannot fire: {1} will not chamber correctly in a {2} barrel.</HD_ModularWeapon_FailureToChamber>
+  <HD_ModularWeapon_CatastrophicFailure>{0}'s weapon ruptured! {1} was fired through a {2} barrel.</HD_ModularWeapon_CatastrophicFailure>
+  <HD_ModularWeapon_ConvertedStats>Converted performance</HD_ModularWeapon_ConvertedStats>
+  <HD_ModularWeapon_Mass>Weight</HD_ModularWeapon_Mass>
+  <HD_ModularWeapon_RecoilControl>Recoil control</HD_ModularWeapon_RecoilControl>
+  <HD_ModularWeapon_Ergonomics>Ergonomics</HD_ModularWeapon_Ergonomics>
+  <HD_ModularWeapon_MuzzleControl>Muzzle control</HD_ModularWeapon_MuzzleControl>
+  <HD_ModularWeapon_Reliability>Operating reliability</HD_ModularWeapon_Reliability>
+  <HD_ModularWeapon_GasEfficiency>Gas efficiency</HD_ModularWeapon_GasEfficiency>
+  <HD_ModularWeapon_Balance>Balance point</HD_ModularWeapon_Balance>
+  <HD_ModularWeapon_Handling>Moment handling</HD_ModularWeapon_Handling>
+  <HD_ModularWeapon_TargetAcquisition>Target acquisition</HD_ModularWeapon_TargetAcquisition>
+  <HD_ModularWeapon_AimingPrecision>Aiming precision</HD_ModularWeapon_AimingPrecision>
+  <HD_ModularWeapon_IdentificationDistance>Identification range</HD_ModularWeapon_IdentificationDistance>
+  <HD_ModularWeapon_Cells>cells</HD_ModularWeapon_Cells>
+  <HD_ModularWeapon_ImmediateHintDev>Development mode: parts are created and removed without inventory accounting.</HD_ModularWeapon_ImmediateHintDev>
+  <HD_ModularWeapon_WorkshopHint>Installed parts are taken from linked parts boxes. Removed small parts are returned as compact inventory records.</HD_ModularWeapon_WorkshopHint>
+  <HD_ModularWeapon_CommandDescDev>Open the modular weapon interface without a workbench or parts inventory. Development mode only.</HD_ModularWeapon_CommandDescDev>
+  <HD_ModularWeapon_PartAvailable>Available: {0}</HD_ModularWeapon_PartAvailable>
+  <HD_ModularWeapon_PartUnavailable>No {0} is available to this weapon workbench.</HD_ModularWeapon_PartUnavailable>
+  <HD_ModularWeaponBench_Command>Modify weapon</HD_ModularWeaponBench_Command>
+  <HD_ModularWeaponBench_CommandDesc>Select a modular weapon and modify it using linked weapon-parts boxes.</HD_ModularWeaponBench_CommandDesc>
+  <HD_ModularWeaponBench_NoPartsBox>A linked weapon-parts box is required.</HD_ModularWeaponBench_NoPartsBox>
+  <HD_ModularWeaponBench_NoWeapon>No modular weapon is available on this map.</HD_ModularWeaponBench_NoWeapon>
+  <HD_ModularWeaponBench_WieldedBy>{0} — carried by {1}</HD_ModularWeaponBench_WieldedBy>
+  <HD_ModularPartsBox_Empty>No virtual weapon parts stored.</HD_ModularPartsBox_Empty>
+  <HD_ModularPartsBox_Total>Stored weapon parts: {0}</HD_ModularPartsBox_Total>
+  <HD_ModularPartsBox_More>...and {0} more types</HD_ModularPartsBox_More>
+  <HD_ModularPartsBox_Absorb>Store nearby parts</HD_ModularPartsBox_Absorb>
+  <HD_ModularPartsBox_AbsorbDesc>Convert loose non-independent modular parts within 8 cells into compact records in this box.</HD_ModularPartsBox_AbsorbDesc>
+  <HD_ModularPartsBox_Absorbed>Stored {0} weapon part(s).</HD_ModularPartsBox_Absorbed>
+  <HD_ModularWeapon_ExportPreset>Export preset XML</HD_ModularWeapon_ExportPreset>
+  <HD_ModularWeapon_ExportPresetDesc>Copy a complete preset Def for the current recursive weapon assembly to the clipboard.</HD_ModularWeapon_ExportPresetDesc>
+  <HD_ModularWeapon_ExportPresetCopied>The weapon preset XML was copied to the clipboard.</HD_ModularWeapon_ExportPresetCopied>
+  <HD_ModularWeapon_CategoryRequired>Required part</HD_ModularWeapon_CategoryRequired>
+  <HD_ModularWeapon_CategoryFunctional>Functional part</HD_ModularWeapon_CategoryFunctional>
+  <HD_ModularWeapon_CategoryOptional>Optional part</HD_ModularWeapon_CategoryOptional>
+  <HD_ModularWeapon_MissingRequiredParts>{0} cannot fire because required parts are missing: {1}.</HD_ModularWeapon_MissingRequiredParts>
+  <HD_ModularWeapon_FunctionOperational>Function: operational</HD_ModularWeapon_FunctionOperational>
+  <HD_ModularWeapon_FunctionBlocked>Function: cannot fire (missing required parts: {0})</HD_ModularWeapon_FunctionBlocked>
+  <HD_ModularWeapon_FunctionDegraded>Function degraded (missing functional parts: {0})</HD_ModularWeapon_FunctionDegraded>
 </LanguageData>

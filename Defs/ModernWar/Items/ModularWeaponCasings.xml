@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Short-lived thrown motes used by modular ammunition selectors. The transparent
+       source canvases keep each casing's authored proportions while the mote draw size
+       controls its in-world scale. -->
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_Mote_Shell55645</defName>
+    <label>5.56x45mm cartridge case</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData>
+      <texPath>Weapons/Modular/Ammunition/Shell/HD_Shell_55645</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <drawSize>(0.16,0.16)</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <solidTime>0.65</solidTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <archHeight>0.24</archHeight>
+      <archDuration>0.38</archDuration>
+      <speedPerTime>-2.8</speedPerTime>
+    </mote>
+  </ThingDef>
+
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_Mote_Shell300BLK</defName>
+    <label>.300 BLK cartridge case</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData>
+      <texPath>Weapons/Modular/Ammunition/Shell/HD_Shell_300BLK</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <drawSize>(0.17,0.17)</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <solidTime>0.65</solidTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <archHeight>0.24</archHeight>
+      <archDuration>0.38</archDuration>
+      <speedPerTime>-2.8</speedPerTime>
+    </mote>
+  </ThingDef>
+
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_Mote_Shell3006</defName>
+    <label>.30-06 cartridge case</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData>
+      <texPath>Weapons/Modular/Ammunition/Shell/HD_Shell_3006</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <drawSize>(0.19,0.19)</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <solidTime>0.7</solidTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <archHeight>0.26</archHeight>
+      <archDuration>0.4</archDuration>
+      <speedPerTime>-2.8</speedPerTime>
+    </mote>
+  </ThingDef>
+
+</Defs>

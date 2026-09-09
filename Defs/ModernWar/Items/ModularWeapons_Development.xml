@@ -7,23 +7,22 @@
     <parent>Manufactured</parent>
   </ThingCategoryDef>
 
-  <!-- Development-only physical parts. Every attached child remains a real Thing and owns
-       its own children, so detaching a handguard can preserve the complete rail subtree.
-       The modular Thing/Graphic classes also let any loose part render its child assembly. -->
+  <!-- Internal representation shared by installed parts. Small parts are deliberately not
+       selectable or haulable as loose world objects; outside a weapon they live as counts
+       in a linked weapon-parts box. Independently valuable assemblies opt back in below. -->
   <ThingDef Name="HD_ModularWeaponPartBase" Abstract="True">
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <category>Item</category>
     <techLevel>Industrial</techLevel>
     <drawerType>MapMeshOnly</drawerType>
-    <selectable>true</selectable>
-    <alwaysHaulable>true</alwaysHaulable>
+    <selectable>false</selectable>
+    <alwaysHaulable>false</alwaysHaulable>
     <useHitPoints>true</useHitPoints>
     <stackLimit>1</stackLimit>
     <altitudeLayer>Item</altitudeLayer>
     <drawGUIOverlay>true</drawGUIOverlay>
     <soundInteract>Standard_Drop</soundInteract>
     <soundDrop>Standard_Drop</soundDrop>
-    <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
     <graphicData>
       <graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass>
       <drawSize>(1,1)</drawSize>
@@ -35,28 +34,69 @@
     </statBases>
   </ThingDef>
 
+  <!-- Full-canvas internal AR-15 parts. Their zero-point mounts preserve the
+       receiver texture alignment while the renderer applies firing animation. -->
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Bolt_AR15</defName>
+    <label>AR-15 bolt carrier group</label>
+    <description>An internal AR-15 bolt carrier group animated through the firing cycle.</description>
+    <graphicData><texPath>Weapons/Modular/HD_Bolt_AR15</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>0.5</graphicLayer>
+        <animatedPart>Bolt</animatedPart>
+        <animationTravel>(-0.078,0,0)</animationTravel>
+        <mounts><li><id>bolt_mount</id><socketTags><li>ar15_bolt</li></socketTags><transform><position>(-0.044,0,-0.002)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Trigger_AR15</defName>
+    <label>AR-15 trigger</label>
+    <description>An internal AR-15 trigger animated when the weapon fires.</description>
+    <graphicData><texPath>Weapons/Modular/HD_Trigger_AR15</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>0.5</graphicLayer>
+        <animatedPart>Trigger</animatedPart>
+        <animationPivot>(-0.135,0,-0.02)</animationPivot>
+        <animationAngle>-14</animationAngle>
+        <mounts><li><id>trigger_mount</id><socketTags><li>ar15_trigger</li></socketTags><transform><position>(-0.138,0,-0.052)</position><layer>1</layer></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UpperReceiver_M4A1</defName>
     <label>M4A1 upper receiver</label>
-    <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M4a1</texPath></graphicData>
+    <selectable>true</selectable>
+    <alwaysHaulable>true</alwaysHaulable>
+    <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a4</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>IndependentThing</storageMode>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>1</graphicLayer>
+        <outlinePriority>100</outlinePriority>
+        <casingPort><offset>(-0.096,0,0)</offset><ejectionAngleOffset>90</ejectionAngleOffset><speedMin>1.7</speedMin><speedMax>2.4</speedMax><scale>0.75</scale><ejectionCycleFraction>0.28</ejectionCycleFraction><feedStartCycleFraction>0.55</feedStartCycleFraction><feedEndCycleFraction>0.92</feedEndCycleFraction><feedStartOffset>(-0.076,0,-0.01)</feedStartOffset><feedEndOffset>(-0.023,0,-0.004)</feedEndOffset><feedingRoundDrawSize>0.12</feedingRoundDrawSize></casingPort>
         <mounts>
           <li><id>receiver_mount</id><socketTags><li>upper_receiver</li></socketTags><transform><position>(-0.095,0,-0.017)</position></transform></li>
         </mounts>
         <sockets>
           <li><id>barrel</id><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.023,0,-0.005)</position></transform></li>
           <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.023,0,-0.005)</position></transform></li>
-          <!-- One continuous receiver rail. Its front edge preserves the former holographic-sight rail extent. -->
-          <li><id>rail_receiver_top</id><label>upper receiver top rail</label><tags><li>picatinny</li><li>top_rail</li><li>receiver_rail</li></tags><isRail>true</isRail><railLength>0.123</railLength><transform><position>(-0.1335,0,0.017)</position></transform></li>
+          <li><id>bolt</id><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
+          <!-- One continuous receiver rail authored from the latest M4 placement export. -->
+          <li><id>rail_receiver_top</id><label>upper receiver top rail</label><tags><li>picatinny</li><li>top_rail</li><li>receiver_rail</li></tags><isRail>true</isRail><railLength>0.152</railLength><railSurface>Top</railSurface><transform><position>(-0.114,0,0.017)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR15103</part></li>
           <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_HACRISFDE</part></li>
-          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Magnifier_VOTechG33</part><railOffset>-0.0215</railOffset></li>
-          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Optic_VOTechEXPS</part><railOffset>0.0215</railOffset></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15</part></li>
+          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Magnifier_VOTechG33</part><railOffset>-0.034</railOffset></li>
+          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Optic_VOTechEXPS</part><railOffset>0.036</railOffset></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -70,6 +110,9 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-3</graphicLayer>
+        <chamberCaliber>556x45</chamberCaliber>
+        <ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName>
+        <boreDiameterMm>5.7</boreDiameterMm>
         <mounts><li><id>barrel_mount</id><socketTags><li>ar15_barrel</li></socketTags><transform><position>(-0.024,0,-0.006)</position></transform></li></mounts>
         <sockets>
           <li><id>gas_block</id><label>gas block journal</label><tags><li>ar15_gas_block</li></tags><transform><position>(0.14,0,-0.005)</position></transform></li>
@@ -92,6 +135,70 @@
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>gas_block_mount</id><socketTags><li>ar15_gas_block</li></socketTags><transform><position>(0.146,0,-0.006)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_AR15300BLK103</defName>
+    <label>10.3 inch .300 BLK AR-15 barrel</label>
+    <description>A compact 10.3-inch AR-15 barrel chambered for .300 Blackout.</description>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR15300BLK10.3</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-3</graphicLayer>
+        <chamberCaliber>300BLK</chamberCaliber>
+        <ceAmmoSetDefName>AmmoSet_300AACBlackout</ceAmmoSetDefName>
+        <boreDiameterMm>7.82</boreDiameterMm>
+        <mounts><li><id>barrel_mount</id><socketTags><li>ar15_barrel</li></socketTags><transform><position>(-0.024,0,-0.006)</position></transform></li></mounts>
+        <sockets>
+          <li><id>gas_block</id><label>pistol-length gas block journal</label><tags><li>ar15_gas_block</li></tags><transform><position>(0.063,0,-0.005)</position></transform></li>
+          <li><id>muzzle</id><label>5/8x24 muzzle thread</label><tags><li>muzzle_762</li></tags><transform><position>(0.198,0,-0.006)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_300BLKLP</part></li>
+          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_BrightStrikeSF3P762</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_GasBlock_300BLKLP</defName>
+    <label>.300 BLK low-profile gas block</label>
+    <description>A compact low-profile gas block positioned for a pistol-length .300 Blackout gas system.</description>
+    <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_300BLKLP</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-2</graphicLayer>
+        <mounts><li><id>gas_block_mount</id><socketTags><li>ar15_gas_block</li></socketTags><transform><position>(0.063,0,-0.006)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_AR15145</defName>
+    <label>14.5 inch AR-15 barrel</label>
+    <description>A carbine-length 14.5-inch AR-15 barrel.</description>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1514.5</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-3</graphicLayer>
+        <chamberCaliber>556x45</chamberCaliber>
+        <ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName>
+        <boreDiameterMm>5.7</boreDiameterMm>
+        <mounts><li><id>barrel_mount</id><socketTags><li>ar15_barrel</li></socketTags><transform><position>(-0.039,0,-0.005)</position></transform></li></mounts>
+        <sockets>
+          <li><id>gas_block</id><label>gas block journal</label><tags><li>ar15_gas_block</li></tags><transform><position>(0.143,0,-0.005)</position></transform></li>
+          <li><id>muzzle</id><label>muzzle thread</label><tags><li>muzzle_556</li></tags><transform><position>(0.298,0,-0.007)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_MK12LP</part></li>
+          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_HACNT4</part></li>
+        </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -127,6 +234,20 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Muzzle_BrightStrikeSF3P762</defName>
+    <label>BrightStrike SF3P 7.62 flash hider</label>
+    <description>A three-prong flash hider for 7.62 mm and .300 Blackout 5/8x24 muzzle threads.</description>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_BrightStrikeSF3P762</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-2</graphicLayer>
+        <mounts><li><id>thread_mount</id><socketTags><li>muzzle_762</li></socketTags><transform><position>(0.198,0,-0.006)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_HACRISFDE</defName>
     <label>HAC RIS FDE handguard</label>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACRISFDE</texPath></graphicData>
@@ -136,14 +257,14 @@
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.024,0,-0.005)</position></transform></li></mounts>
         <sockets>
-          <li><id>rail_top_front</id><label>top rail front</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.132,0,0.018)</position></transform></li>
-          <li><id>rail_side</id><label>side rail</label><tags><li>picatinny</li><li>side_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.12,0,-0.005)</position></transform></li>
-          <li><id>rail_bottom</id><label>bottom rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.16</railLength><transform><position>(0.154,0,-0.023)</position></transform></li>
+          <li><id>rail_top_front</id><label>top rail front</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.21</railLength><railSurface>Top</railSurface><transform><position>(0.079,0,0.018)</position></transform></li>
+          <li><id>rail_side</id><label>side rail</label><tags><li>picatinny</li><li>side_rail</li></tags><isRail>true</isRail><railLength>0.206</railLength><railSurface>Side</railSurface><transform><position>(0.077,0,-0.005)</position></transform></li>
+          <li><id>rail_bottom</id><label>bottom rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.185</railLength><railSurface>Bottom</railSurface><transform><position>(0.091,0,-0.023)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>rail_top_front</socketId><part>HD_ModularPart_Laser_ANPEQ15</part></li>
-          <li><socketId>rail_side</socketId><part>HD_ModularPart_Light_BrightStrikeM600</part></li>
-          <li><socketId>rail_bottom</socketId><part>HD_ModularPart_Grip_DaltonDefenseVFG</part></li>
+          <li><socketId>rail_top_front</socketId><part>HD_ModularPart_Laser_ANPEQ15</part><railOffset>0.006</railOffset></li>
+          <li><socketId>rail_side</socketId><part>HD_ModularPart_Light_BrightStrikeM600</part><railOffset>0.038</railOffset></li>
+          <li><socketId>rail_bottom</socketId><part>HD_ModularPart_Grip_DaltonDefenseVFG</part><railOffset>0.059</railOffset></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -157,7 +278,64 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>5</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.045</railOccupancy><transform><position>(-0.111,0,0.015)</position></transform></li></mounts>
+        <verticalOccupancy>0.061</verticalOccupancy>
+        <verticalOccupancyOffset>0.044</verticalOccupancyOffset>
+        <sight>
+          <kind>Holographic</kind>
+          <axisOffset>(-0.095,0,0.055)</axisOffset>
+          <aimRadius>0.016</aimRadius>
+          <selectionPriority>20</selectionPriority>
+        </sight>
+        <internalStats>
+          <ergonomics>4</ergonomics>
+          <targetAcquisition>24</targetAcquisition>
+          <aimingPrecision>10</aimingPrecision>
+          <identificationDistanceMeters>50</identificationDistanceMeters>
+        </internalStats>
+        <statFactors>
+          <AccuracyShort>1.08</AccuracyShort>
+          <AccuracyMedium>1.04</AccuracyMedium>
+        </statFactors>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.08</railOccupancy><railSurface>Top</railSurface><transform><position>(-0.098,0,0.015)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Handguard_HACURXM4UP</defName>
+    <label>HAC URX M4 upper handguard</label>
+    <description>The upper section of a compact two-piece HAC URX M4 rail handguard.</description>
+    <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACURXM4UP</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>2</graphicLayer>
+        <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.029,0,-0.005)</position></transform></li></mounts>
+        <sockets>
+          <li><id>lower_extension</id><label>URX M4 lower handguard interface</label><tags><li>hac_urx_m4_lower</li></tags><transform><position>(-0.016,0,-0.014)</position></transform></li>
+          <li><id>rail_top_front</id><label>top rail front</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.14</railLength><railSurface>Top</railSurface><transform><position>(0.059,0,0.018)</position></transform></li>
+          <li><id>rail_side</id><label>side rail</label><tags><li>picatinny</li><li>side_rail</li></tags><isRail>true</isRail><railLength>0.14</railLength><railSurface>Side</railSurface><transform><position>(0.06,0,-0.005)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>lower_extension</socketId><part>HD_ModularPart_HandguardExt_HACURXM4DOWN</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_HandguardExt_HACURXM4DOWN</defName>
+    <label>HAC URX M4 lower handguard</label>
+    <description>The removable lower section of a compact HAC URX M4 rail handguard.</description>
+    <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_HACURXM4DOWN</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>1.5</graphicLayer>
+        <mounts><li><id>lower_handguard_mount</id><socketTags><li>hac_urx_m4_lower</li></socketTags><transform><position>(-0.016,0,-0.014)</position></transform></li></mounts>
+        <sockets>
+          <li><id>rail_bottom</id><label>continuous bottom rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.14</railLength><railSurface>Bottom</railSurface><transform><position>(0.06,0,-0.024)</position></transform></li>
+        </sockets>
       </li>
     </comps>
   </ThingDef>
@@ -170,7 +348,25 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>6</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.04</railOccupancy><transform><position>(-0.153,0,0.015)</position></transform></li></mounts>
+        <verticalOccupancy>0.037</verticalOccupancy>
+        <verticalOccupancyOffset>0.032</verticalOccupancyOffset>
+        <sight>
+          <kind>Magnifier</kind>
+          <axisOffset>(-0.169,0,0.055)</axisOffset>
+          <aimRadius>0.013</aimRadius>
+          <selectionPriority>0</selectionPriority>
+        </sight>
+        <internalStats>
+          <ergonomics>-3</ergonomics>
+          <targetAcquisition>-3</targetAcquisition>
+          <aimingPrecision>15</aimingPrecision>
+          <identificationDistanceMeters>170</identificationDistanceMeters>
+        </internalStats>
+        <statFactors>
+          <AccuracyMedium>1.08</AccuracyMedium>
+          <AccuracyLong>1.12</AccuracyLong>
+        </statFactors>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.055</railOccupancy><railSurface>Top</railSurface><transform><position>(-0.167,0,0.015)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -183,7 +379,17 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>5</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.05</railOccupancy><transform><position>(0.142,0,0.019)</position></transform></li></mounts>
+        <verticalOccupancy>0.037</verticalOccupancy>
+        <verticalOccupancyOffset>0.032</verticalOccupancyOffset>
+        <laser>
+          <emitterOffset>(0.209,0,0.027)</emitterOffset>
+          <color>(1,0.08,0.05,0.85)</color>
+          <beamWidth>0.018</beamWidth>
+          <dotSize>0.12</dotSize>
+          <drawDot>true</drawDot>
+          <maxLength>40</maxLength>
+        </laser>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.135</railOccupancy><railSurface>Top</railSurface><transform><position>(0.145,0,0.019)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -196,7 +402,50 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>4</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.05</railOccupancy><transform><position>(0.117,0,-0.005)</position></transform></li></mounts>
+        <verticalOccupancy>0.025</verticalOccupancy>
+        <verticalOccupancyOffset>-0.006</verticalOccupancyOffset>
+        <!-- Legion-style light: the emitter is measured from this part's graphic centre,
+             so moving the part along a rail also moves the beam origin. -->
+        <flashlight>
+          <emitterOffset>(0.213,0,-0.007)</emitterOffset>
+          <color>(1,0.95,0.75,0.28)</color>
+          <nearWidth>0.3</nearWidth>
+          <farWidth>1.45</farWidth>
+          <lengthOvershoot>0.3</lengthOvershoot>
+          <circleRadius>0.7</circleRadius>
+          <closeRange>3.5</closeRange>
+          <closeRangeMinScale>0.2</closeRangeMinScale>
+          <maxRange>24</maxRange>
+          <hediff>HD_WeaponFlashlightDazzle</hediff>
+          <intensity>1</intensity>
+          <affectsMechanoids>false</affectsMechanoids>
+          <affectsAnimals>true</affectsAnimals>
+        </flashlight>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.13</railOccupancy><railSurface>Side</railSurface><transform><position>(0.129,0,-0.005)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Laser_IZLIDUltra</defName>
+    <label>IZLID Ultra laser module</label>
+    <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyMID_IZLIDU</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <!-- Keep the complete placement definition identical to the M600. -->
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>4</graphicLayer>
+        <verticalOccupancy>0.025</verticalOccupancy>
+        <verticalOccupancyOffset>-0.006</verticalOccupancyOffset>
+        <laser>
+          <emitterOffset>(0.213,0,-0.007)</emitterOffset>
+          <color>(1,0.08,0.05,0.85)</color>
+          <beamWidth>0.018</beamWidth>
+          <dotSize>0.12</dotSize>
+          <drawDot>true</drawDot>
+          <maxLength>40</maxLength>
+        </laser>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.13</railOccupancy><railSurface>Side</railSurface><transform><position>(0.129,0,-0.005)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -209,7 +458,7 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>4</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.035</railOccupancy><transform><position>(0.154,0,-0.022)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.043</railOccupancy><railSurface>Bottom</railSurface><transform><position>(0.155,0,-0.022)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -228,6 +477,20 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_RailPanel_HACURXShortLow</defName>
+    <label>HAC URX short rail panel</label>
+    <description>A short protective panel for a Picatinny rail.</description>
+    <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyLOW_HACURXShortPanel</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>3</graphicLayer>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.086</railOccupancy><railSurface>Bottom</railSurface><transform><position>(0.028,0,-0.024)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_BufferTube_Colt</defName>
     <label>Colt buffer tube</label>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_Colt</texPath></graphicData>
@@ -238,7 +501,7 @@
         <mounts><li><id>buffer_mount</id><socketTags><li>ar15_buffer</li></socketTags><transform><position>(-0.204,0,-0.006)</position></transform></li></mounts>
         <sockets><li><id>stock</id><label>adjustable carbine stock track</label><tags><li>ar15_stock</li></tags><isRail>true</isRail><railLength>0.1</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.263,0,-0.006)</position></transform></li></sockets>
         <defaultAttachments>
-          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FieldFormMOEFDE</part></li>
+          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FieldFormMOEFDE</part><railOffset>0.003</railOffset></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -252,7 +515,21 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-1</graphicLayer>
-        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.242,0,-0.01)</position></transform></li></mounts>
+        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.258,0,-0.01)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Stock_M4</defName>
+    <label>M4 collapsible stock</label>
+    <description>A conventional collapsible M4 carbine stock.</description>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_M4</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>-1</graphicLayer>
+        <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.315,0,-0.007)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -264,6 +541,7 @@
     <label>modular M4 development carbine</label>
     <description>A development weapon for authoring the tree-based modular attachment system.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <uiIconPath>Weapons/ModernWar/HD_M4A1</uiIconPath>
     <graphicData>
       <texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath>
       <graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass>
@@ -304,18 +582,32 @@
         <isAssemblyRoot>true</isAssemblyRoot>
         <realisticRoundsPerMinute>800</realisticRoundsPerMinute>
         <baseFireDelayFactor>1.2</baseFireDelayFactor>
+        <internalStats>
+          <massKg>0.82</massKg>
+          <recoilImpulse>4.4</recoilImpulse>
+          <ergonomics>56</ergonomics>
+          <muzzleRise>3.4</muzzleRise>
+          <operatingReliability>0.965</operatingReliability>
+          <gasFlow>1</gasFlow>
+          <momentOfInertia>0.035</momentOfInertia>
+          <targetAcquisition>52</targetAcquisition>
+          <aimingPrecision>56</aimingPrecision>
+          <identificationDistanceMeters>250</identificationDistanceMeters>
+        </internalStats>
         <graphicOffset>(0,0,0)</graphicOffset>
         <sockets>
           <li><id>upper_receiver</id><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
           <li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>ar15_pistol_grip</li></tags><transform><position>(-0.161,0,-0.051)</position></transform></li>
           <li><id>buffer_tube</id><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
           <li><id>magazine</id><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
+          <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M4A1</part></li>
           <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
           <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_Colt</part></li>
           <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
         </defaultAttachments>
       </li>
     </comps>
