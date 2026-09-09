@@ -10,8 +10,20 @@
   <HD_ModularPart_IBTVShoulderGuards.description>IBTV 캐리어에 장착하는 한 쌍의 탈착식 어깨 보호대입니다.</HD_ModularPart_IBTVShoulderGuards.description>
   <HD_ModularPart_IBTVLowerBody.label>IBTV 하반신 보호대 모듈</HD_ModularPart_IBTVLowerBody.label>
   <HD_ModularPart_IBTVLowerBody.description>IBTV 캐리어에 장착하는 탈착식 낭심 및 하반신 보호대입니다.</HD_ModularPart_IBTVLowerBody.description>
-  <HD_ModularPart_IFAK.label>IFAK 파우치 모듈</HD_ModularPart_IFAK.label>
-  <HD_ModularPart_IFAK.description>PALS 부착망에 장착하는 탈착식 개인 응급처치낭입니다.</HD_ModularPart_IFAK.description>
+  <HD_ModularPart_IFAK.label>중형 의료 파우치 모듈</HD_ModularPart_IFAK.label>
+  <HD_ModularPart_IFAK.description>PALS 부착망에서 4칸을 차지하는 탈착식 의료 파우치입니다.</HD_ModularPart_IFAK.description>
   <HD_ModularPart_RifleMagazinePouch.label>소총 탄창 파우치 모듈</HD_ModularPart_RifleMagazinePouch.label>
-  <HD_ModularPart_RifleMagazinePouch.description>PALS 부착망에 장착하는 탈착식 소총 탄창 파우치입니다.</HD_ModularPart_RifleMagazinePouch.description>
+  <HD_ModularPart_RifleMagazinePouch.description>PALS 부착망에서 2칸을 차지하는 탈착식 소총 탄창 파우치입니다.</HD_ModularPart_RifleMagazinePouch.description>
+  <HD_ModularPart_WalkieTalkie.label>무전기 파우치 모듈</HD_ModularPart_WalkieTalkie.label>
+  <HD_ModularPart_WalkieTalkie.description>PALS 부착망에서 2칸을 차지하는 무전기 파우치입니다.</HD_ModularPart_WalkieTalkie.description>
+  <HD_ModularPart_MediL.label>대형 의료 파우치 모듈</HD_ModularPart_MediL.label>
+  <HD_ModularPart_MediL.description>기본적으로 6칸을 차지하며, 가랑이처럼 좁은 부착망에서는 모든 칸을 채우는 의료 파우치입니다.</HD_ModularPart_MediL.description>
+  <HD_ModularPart_AdminPouch.label>어드민 파우치 모듈</HD_ModularPart_AdminPouch.label>
+  <HD_ModularPart_AdminPouch.description>PALS 부착망에서 4칸을 사용하는 납작한 관리용 파우치입니다.</HD_ModularPart_AdminPouch.description>
+  <HD_ModularPart_IBTVCamelBak.label>IBTV 수낭 모듈</HD_ModularPart_IBTVCamelBak.label>
+  <HD_ModularPart_IBTVCamelBak.description>IBTV 후면 장착부에 결합하는 탈착식 수낭입니다.</HD_ModularPart_IBTVCamelBak.description>
+  <HD_ModularPart_UCPKneePads.label>UCP 무릎 보호대 모듈</HD_ModularPart_UCPKneePads.label>
+  <HD_ModularPart_UCPKneePads.description>UCP 전투 하의에 장착하는 한 쌍의 무릎 보호대입니다.</HD_ModularPart_UCPKneePads.description>
+  <HD_ModularPart_MOLLEDropLeg.label>MOLLE 드롭레그 플랫폼 모듈</HD_ModularPart_MOLLEDropLeg.label>
+  <HD_ModularPart_MOLLEDropLeg.description>MOLLE 전투벨트에 장착하는 탈착식 PALS 드롭레그 플랫폼입니다.</HD_ModularPart_MOLLEDropLeg.description>
 </LanguageData>

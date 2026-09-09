@@ -2,4 +2,10 @@
 <LanguageData>
   <HD_IOTV_PALS_Front.label>IBTV 상단 전면 PALS 부착망</HD_IOTV_PALS_Front.label>
   <HD_IOTV_PALS_Lower.label>IBTV 하단 전면 PALS 부착망</HD_IOTV_PALS_Lower.label>
+  <HD_IOTV_PALS_Side.label>IBTV 우측 PALS 부착망</HD_IOTV_PALS_Side.label>
+  <HD_IOTV_PALS_SideLeft.label>IBTV 좌측 PALS 부착망</HD_IOTV_PALS_SideLeft.label>
+  <HD_IOTV_PALS_Groin.label>IBTV 가랑이 PALS 부착망</HD_IOTV_PALS_Groin.label>
+  <HD_IOTV_PALS_Back.label>IBTV 후면 PALS 부착망</HD_IOTV_PALS_Back.label>
+  <HD_BattleBelt_PALS_Right.label>MOLLE 전투벨트 우측 PALS 부착면</HD_BattleBelt_PALS_Right.label>
+  <HD_BattleBelt_PALS_Left.label>MOLLE 전투벨트 좌측 PALS 부착면</HD_BattleBelt_PALS_Left.label>
 </LanguageData>

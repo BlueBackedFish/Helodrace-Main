@@ -11,4 +11,7 @@
   <HD_MA_Slot_LowerBody.label>IBTV 하반신 보호대 장착부</HD_MA_Slot_LowerBody.label>
   <HD_MH_Slot_NightVision.label>야간투시경 장착부</HD_MH_Slot_NightVision.label>
   <HD_MH_Slot_Visor.label>방탄 바이저 장착부</HD_MH_Slot_Visor.label>
+  <HD_MA_Slot_CamelBak.label>IBTV 수낭 장착부</HD_MA_Slot_CamelBak.label>
+  <HD_MA_Slot_KneePads.label>전투복 무릎 보호대 장착부</HD_MA_Slot_KneePads.label>
+  <HD_MA_Slot_DropLeg.label>MOLLE 전투벨트 드롭레그 장착부</HD_MA_Slot_DropLeg.label>
 </LanguageData>

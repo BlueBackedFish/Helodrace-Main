@@ -12,6 +12,16 @@ namespace Helodrace.ModernWar
         public readonly CompModularArmor Comp;
         public readonly InstalledModularArmorPart Installed;
         public readonly bool NorthUnderlay;
+        public readonly Graphic AuthoredPalsGraphic;
+        public readonly Graphic AuthoredPalsWestGraphic;
+        public readonly Graphic AuthoredPalsNorthGraphic;
+        public readonly Graphic AuthoredPalsSouthGraphic;
+        public readonly bool SideBack;
+
+        public bool IsAuthoredPals => AuthoredPalsGraphic != null
+            || AuthoredPalsWestGraphic != null
+            || AuthoredPalsNorthGraphic != null
+            || AuthoredPalsSouthGraphic != null;
 
         public GraphicData NodeGraphicData => NorthUnderlay
             ? Installed.part.northUnderGraphicData
@@ -22,36 +32,82 @@ namespace Helodrace.ModernWar
             PawnRenderTree tree,
             CompModularArmor comp,
             InstalledModularArmorPart installed,
-            bool northUnderlay = false)
+            bool northUnderlay = false,
+            Graphic authoredPalsGraphic = null,
+            Graphic authoredPalsWestGraphic = null,
+            Graphic authoredPalsNorthGraphic = null,
+            Graphic authoredPalsSouthGraphic = null,
+            bool sideBack = false)
             : base(
                 pawn,
-                BuildProperties(installed, northUnderlay),
+                BuildProperties(
+                    installed,
+                    northUnderlay,
+                    authoredPalsGraphic,
+                    sideBack),
                 tree,
                 comp.Apparel)
         {
             Comp = comp;
             Installed = installed;
             NorthUnderlay = northUnderlay;
+            AuthoredPalsGraphic = authoredPalsGraphic;
+            AuthoredPalsWestGraphic = authoredPalsWestGraphic;
+            AuthoredPalsNorthGraphic = authoredPalsNorthGraphic;
+            AuthoredPalsSouthGraphic = authoredPalsSouthGraphic;
+            SideBack = sideBack;
         }
 
         public override Graphic GraphicFor(Pawn pawn)
         {
-            return NodeGraphicData.GraphicColoredFor(Comp.parent);
+            return AuthoredPalsGraphic
+                ?? AuthoredPalsSouthGraphic
+                ?? AuthoredPalsNorthGraphic
+                ?? AuthoredPalsWestGraphic
+                ?? NodeGraphicData.GraphicColoredFor(Comp.parent);
+        }
+
+        public Graphic AuthoredGraphicFor(Rot4 facing)
+        {
+            if (facing == Rot4.West) return AuthoredPalsWestGraphic;
+            if (facing == Rot4.North) return AuthoredPalsNorthGraphic;
+            if (facing == Rot4.South) return AuthoredPalsSouthGraphic;
+            return AuthoredPalsGraphic;
         }
 
         protected override IEnumerable<Graphic> GraphicsFor(Pawn pawn)
         {
             yield return GraphicFor(pawn);
+            if (AuthoredPalsWestGraphic != null
+                && AuthoredPalsWestGraphic != AuthoredPalsGraphic)
+            {
+                yield return AuthoredPalsWestGraphic;
+            }
+            if (AuthoredPalsNorthGraphic != null
+                && AuthoredPalsNorthGraphic != AuthoredPalsGraphic
+                && AuthoredPalsNorthGraphic != AuthoredPalsWestGraphic)
+            {
+                yield return AuthoredPalsNorthGraphic;
+            }
+            if (AuthoredPalsSouthGraphic != null
+                && AuthoredPalsSouthGraphic != AuthoredPalsGraphic
+                && AuthoredPalsSouthGraphic != AuthoredPalsWestGraphic
+                && AuthoredPalsSouthGraphic != AuthoredPalsNorthGraphic)
+            {
+                yield return AuthoredPalsSouthGraphic;
+            }
         }
 
         public override Color ColorFor(Pawn pawn)
         {
-            return Comp.parent.DrawColor;
+            return IsAuthoredPals ? Color.white : Comp.parent.DrawColor;
         }
 
         private static PawnRenderNodeProperties BuildProperties(
             InstalledModularArmorPart installed,
-            bool northUnderlay)
+            bool northUnderlay,
+            Graphic authoredPalsGraphic,
+            bool sideBack)
         {
             GraphicData graphicData = northUnderlay
                 ? installed.part.northUnderGraphicData
@@ -65,14 +121,19 @@ namespace Helodrace.ModernWar
                     ? installed.part.northUnderParentTagDef ?? position.parentTagDef
                     : position.parentTagDef,
                 useGraphic = true,
-                baseLayer = northUnderlay
+                baseLayer = sideBack
+                    ? installed.palsPanel?.sideBackDrawLayer ?? 2f
+                    : northUnderlay
                     ? installed.part.northUnderDrawLayer
                     : installed.part.drawLayer
                         + position.drawLayer
                         + (installed.palsPanel?.drawLayer ?? 0f),
-                drawSize = graphicData.drawSize,
+                drawSize = authoredPalsGraphic?.drawSize
+                    ?? graphicData?.drawSize
+                    ?? Vector2.one,
                 debugLabel = installed.part.defName
                     + (northUnderlay ? " (north underlay)" : string.Empty)
+                    + (sideBack ? " (side back)" : string.Empty)
             };
         }
     }
@@ -140,12 +201,60 @@ namespace Helodrace.ModernWar
 
     public sealed class PawnRenderNodeWorker_ModularArmorPart : PawnRenderNodeWorker
     {
+        protected override Graphic GetGraphic(PawnRenderNode node, PawnDrawParms parms)
+        {
+            PawnRenderNode_ModularArmorPart modularNode =
+                (PawnRenderNode_ModularArmorPart)node;
+            Graphic authored = modularNode.AuthoredGraphicFor(parms.facing);
+            if (modularNode.IsAuthoredPals && authored != null)
+            {
+                return authored;
+            }
+
+            return base.GetGraphic(node, parms);
+        }
+
+        public override void AppendDrawRequests(
+            PawnRenderNode node,
+            PawnDrawParms parms,
+            List<PawnGraphicDrawRequest> requests)
+        {
+            int firstRequest = requests.Count;
+            base.AppendDrawRequests(node, parms, requests);
+
+            PawnRenderNode_ModularArmorPart modularNode =
+                (PawnRenderNode_ModularArmorPart)node;
+            if (!modularNode.IsAuthoredPals || parms.facing != Rot4.West)
+            {
+                return;
+            }
+
+            for (int i = firstRequest; i < requests.Count; i++)
+            {
+                PawnGraphicDrawRequest request = requests[i];
+                Mesh westMesh = MeshPool.GetMetaData(request.mesh).flipped
+                    ? request.mesh
+                    : MeshPool.GridPlaneFlip(request.mesh);
+                PawnGraphicDrawRequest flippedRequest = new PawnGraphicDrawRequest(
+                    request.node,
+                    westMesh,
+                    request.material);
+                flippedRequest.preDrawnComputedMatrix = request.preDrawnComputedMatrix;
+                requests[i] = flippedRequest;
+            }
+        }
+
         public override bool CanDrawNow(PawnRenderNode node, PawnDrawParms parms)
         {
             PawnRenderNode_ModularArmorPart modularNode =
                 (PawnRenderNode_ModularArmorPart)node;
             return base.CanDrawNow(node, parms)
-                && (!modularNode.NorthUnderlay || parms.facing == Rot4.North);
+                && (!modularNode.NorthUnderlay || parms.facing == Rot4.North)
+                && modularNode.Comp.PalsPartVisibleForFacing(
+                    modularNode.Installed,
+                    parms.facing)
+                && (!modularNode.IsAuthoredPals
+                    || modularNode.AuthoredGraphicFor(parms.facing) != null);
         }
 
         public override Vector3 OffsetFor(
@@ -158,6 +267,11 @@ namespace Helodrace.ModernWar
                 (PawnRenderNode_ModularArmorPart)node;
             ModularArmorPartDef part = modularNode.Installed.part;
             ModularArmorPositionDef position = modularNode.Installed.EffectivePosition;
+
+            if (modularNode.IsAuthoredPals)
+            {
+                return result;
+            }
 
             if (position.drawOffsets != null)
             {
@@ -178,7 +292,7 @@ namespace Helodrace.ModernWar
                 }
 
                 float gridX = modularNode.Installed.palsX
-                    + part.palsWidth * 0.5f
+                    + part.PalsWidthFor(panel) * 0.5f
                     - panel.columns * 0.5f;
                 float gridY = panel.rows * 0.5f
                     - modularNode.Installed.palsY
@@ -195,6 +309,11 @@ namespace Helodrace.ModernWar
             return result;
         }
 
+        public override Vector3 ScaleFor(PawnRenderNode node, PawnDrawParms parms)
+        {
+            return base.ScaleFor(node, parms);
+        }
+
         public override float LayerFor(PawnRenderNode node, PawnDrawParms parms)
         {
             PawnRenderNode_ModularArmorPart modularNode =
@@ -204,9 +323,12 @@ namespace Helodrace.ModernWar
                 return modularNode.Installed.part.northUnderDrawLayer;
             }
 
-            return modularNode.Installed.part.drawLayer
-                + modularNode.Installed.EffectivePosition.drawLayer
-                + (modularNode.Installed.palsPanel?.drawLayer ?? 0f);
+            if (modularNode.SideBack)
+            {
+                return modularNode.Installed.palsPanel?.sideBackDrawLayer ?? 2f;
+            }
+
+            return modularNode.Comp.DrawLayerFor(modularNode.Installed);
         }
     }
 

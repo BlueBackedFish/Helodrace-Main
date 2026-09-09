@@ -65,6 +65,27 @@
     <uiOrder>70</uiOrder>
     <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_CamelBak</defName>
+    <label>IBTV hydration pack slot</label>
+    <required>false</required>
+    <uiOrder>80</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_KneePads</defName>
+    <label>combat pants knee-pad slot</label>
+    <required>false</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_DropLeg</defName>
+    <label>MOLLE battle belt drop-leg platform slot</label>
+    <required>false</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
   <!-- A position controls hit location, protected direction and render anchor. -->
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_FrontRearTorso</defName>
@@ -99,27 +120,157 @@
     <defName>HD_IOTV_PALS_Front</defName>
     <label>IBTV upper front PALS webbing</label>
     <columns>6</columns>
-    <rows>2</rows>
+    <rows>1</rows>
     <armorPosition>HD_MA_Pos_FrontTorso</armorPosition>
-    <uiX>0.18</uiX>
-    <uiY>0.43</uiY>
-    <uiWidth>0.64</uiWidth>
-    <uiHeight>0.16</uiHeight>
+    <uiX>0.20</uiX>
+    <uiY>0.24</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Front</li></visibleDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh</authoredTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh</southTexturePrefix>
     <drawCellSize>(0.08,0.08)</drawCellSize>
     <drawLayer>11</drawLayer>
+    <positionDrawLayerStep>-0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
     <defName>HD_IOTV_PALS_Lower</defName>
     <label>IBTV lower front PALS webbing</label>
     <columns>6</columns>
-    <rows>3</rows>
+    <rows>1</rows>
     <armorPosition>HD_MA_Pos_FrontTorso</armorPosition>
-    <uiX>0.18</uiX>
-    <uiY>0.61</uiY>
-    <uiWidth>0.64</uiWidth>
-    <uiHeight>0.25</uiHeight>
+    <uiX>0.20</uiX>
+    <uiY>0.39</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Front</li></visibleDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontLow</authoredTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontLow</southTexturePrefix>
     <drawCellSize>(0.08,0.08)</drawCellSize>
     <drawLayer>11</drawLayer>
+    <positionDrawLayerStep>-0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Side</defName>
+    <label>IBTV right-side PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_SideTorso</armorPosition>
+    <uiX>0.10</uiX>
+    <uiY>0.48</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Right</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Right</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Right</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_RightBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Right</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_RightBack</southBackTexturePrefix>
+    <drawLayer>11</drawLayer>
+    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_SideLeft</defName>
+    <label>IBTV left-side PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_SideTorso</armorPosition>
+    <uiX>0.10</uiX>
+    <uiY>0.48</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Left</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Left</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Left</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_LeftBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Left</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_LeftBack</southBackTexturePrefix>
+    <drawLayer>11</drawLayer>
+    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Groin</defName>
+    <label>IBTV groin PALS webbing</label>
+    <columns>4</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_LowerBody</armorPosition>
+    <uiX>0.30</uiX>
+    <uiY>0.72</uiY>
+    <uiWidth>0.40</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Front</li></visibleDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IBTV_Groin</authoredTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IBTV_Groin</southTexturePrefix>
+    <drawLayer>12</drawLayer>
+    <positionDrawLayerStep>-0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Back</defName>
+    <label>IBTV rear PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_RearTorso</armorPosition>
+    <uiX>0.20</uiX>
+    <uiY>0.39</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Back</li></visibleDirections>
+    <renderDirections><li>Back</li></renderDirections>
+    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Back</northTexturePrefix>
+    <drawLayer>11</drawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_BattleBelt_PALS_Right</defName>
+    <label>MOLLE battle belt right PALS webbing</label>
+    <columns>4</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_Legs</armorPosition>
+    <uiX>0.15</uiX>
+    <uiY>0.57</uiY>
+    <uiWidth>0.70</uiWidth>
+    <uiHeight>0.10</uiHeight>
+    <visibleDirections><li>Right</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Right</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Right</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_RightBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Right</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_RightBack</southBackTexturePrefix>
+    <flatNormalPositionCount>2</flatNormalPositionCount>
+    <drawLayer>12</drawLayer>
+    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_BattleBelt_PALS_Left</defName>
+    <label>MOLLE battle belt left PALS webbing</label>
+    <columns>4</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_Legs</armorPosition>
+    <uiX>0.15</uiX>
+    <uiY>0.57</uiY>
+    <uiWidth>0.70</uiWidth>
+    <uiHeight>0.10</uiHeight>
+    <visibleDirections><li>Left</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Left</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Left</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_LeftBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Left</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_LeftBack</southBackTexturePrefix>
+    <flatNormalPositionCount>2</flatNormalPositionCount>
+    <drawLayer>12</drawLayer>
+    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_RearTorso</defName>
@@ -166,6 +317,13 @@
     <defName>HD_MA_Pos_LowerBody</defName>
     <label>lower body</label>
     <bodyPartGroups><li>Waist</li><li>Legs</li></bodyPartGroups>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>10</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_Legs</defName>
+    <label>legs</label>
+    <bodyPartGroups><li>Legs</li></bodyPartGroups>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>10</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -417,9 +575,9 @@
     <ergonomics>-1</ergonomics>
     <ventilation>-0.5</ventilation>
     <loadDistribution>0.5</loadDistribution>
-    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</uiIconPath>
     <graphicData>
-      <texPath>Helod/Apparel/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female</texPath>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>Cutout</shaderType>
       <drawSize>(0.95,0.95)</drawSize>
@@ -439,37 +597,147 @@
     <ergonomics>-1</ergonomics>
     <ventilation>-0.5</ventilation>
     <loadDistribution>-0.5</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_CamelBak</defName>
+    <label>IBTV hydration pack</label>
+    <slot>HD_MA_Slot_CamelBak</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVCamelBak</partThingDef>
+    <ergonomics>-0.25</ergonomics>
+    <ventilation>-0.25</ventilation>
+    <loadDistribution>0.75</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_CamelBak_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_CamelBak</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_UCPPantsPart_KneePads</defName>
+    <label>UCP combat pants knee pads</label>
+    <slot>HD_MA_Slot_KneePads</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Legs</fixedPosition>
+    <compatibleArmorTags><li>HD_UCPPants</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_UCPKneePads</partThingDef>
+    <armorRatingSharp>0.10</armorRatingSharp>
+    <armorRatingBlunt>0.18</armorRatingBlunt>
+    <ergonomics>-0.1</ergonomics>
+    <uiIconPath>Helod/Apparel/HD_UCPPants/HD_UCPPants_KneePads_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_UCPPants/HD_UCPPants_KneePads</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_MOLLEPart_DropLeg</defName>
+    <label>MOLLE battle belt drop-leg platform</label>
+    <slot>HD_MA_Slot_DropLeg</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Legs</fixedPosition>
+    <compatibleArmorTags><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_MOLLEDropLeg</partThingDef>
+    <ergonomics>-0.2</ergonomics>
+    <loadDistribution>0.5</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_MOLLEBattleBelt_DropLeg_Female_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_MOLLEBattleBelt_DropLeg_Female</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
   </Helodrace.ModernWar.ModularArmorPartDef>
 
   <!-- PALS parts can be installed repeatedly and occupy multiple grid cells. -->
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_IFAK</defName>
-    <label>IBTV IFAK pouch</label>
+    <label>medium medical pouch</label>
     <installMode>Positionable</installMode>
-    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li></allowedPalsPanels>
-    <palsWidth>2</palsWidth>
-    <palsHeight>2</palsHeight>
-    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>4</palsWidth>
+    <palsHeight>1</palsHeight>
+    <fillNarrowPalsPanel>true</fillNarrowPalsPanel>
+    <authoredPalsTextureKey>MediM</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
     <partThingDef>HD_ModularPart_IFAK</partThingDef>
     <ergonomics>-0.2</ergonomics>
     <ventilation>-0.1</ventilation>
     <loadDistribution>-0.15</loadDistribution>
-    <uiIconPath>Items/HD_BasicMedicalSupplies</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_MediM_1_east</uiIconPath>
     <uiColor>(0.28,0.36,0.25)</uiColor>
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_RifleMagazinePouch</defName>
-    <label>IBTV rifle magazine pouch</label>
+    <label>rifle magazine pouch</label>
     <installMode>Positionable</installMode>
-    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li></allowedPalsPanels>
-    <palsWidth>1</palsWidth>
-    <palsHeight>2</palsHeight>
-    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>2</palsWidth>
+    <palsHeight>1</palsHeight>
+    <authoredPalsTextureKey>Mag</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
     <partThingDef>HD_ModularPart_RifleMagazinePouch</partThingDef>
     <ergonomics>-0.1</ergonomics>
     <ventilation>-0.1</ventilation>
     <loadDistribution>-0.25</loadDistribution>
-    <uiIconPath>Weapons/GreatWar/Ammo/HD_37mmAP</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_Mag_1_east</uiIconPath>
     <uiColor>(0.34,0.30,0.20)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_WalkieTalkie</defName>
+    <label>walkie-talkie pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>2</palsWidth>
+    <palsHeight>1</palsHeight>
+    <authoredPalsTextureKey>WalkieTalkie</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_WalkieTalkie</partThingDef>
+    <ergonomics>-0.15</ergonomics>
+    <loadDistribution>-0.15</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Side_WalkieTalkie_1_east</uiIconPath>
+    <uiColor>(0.30,0.32,0.25)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_MediL</defName>
+    <label>large medical pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>6</palsWidth>
+    <palsHeight>1</palsHeight>
+    <fillNarrowPalsPanel>true</fillNarrowPalsPanel>
+    <authoredPalsTextureKey>MediL</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_MediL</partThingDef>
+    <ergonomics>-0.35</ergonomics>
+    <ventilation>-0.15</ventilation>
+    <loadDistribution>-0.25</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_MediL_east</uiIconPath>
+    <uiColor>(0.26,0.34,0.24)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_AdminPouch</defName>
+    <label>admin pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>4</palsWidth>
+    <fillNarrowPalsPanel>true</fillNarrowPalsPanel>
+    <palsHeight>1</palsHeight>
+    <authoredPalsTextureKey>Admin</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_AdminPouch</partThingDef>
+    <ergonomics>-0.1</ergonomics>
+    <loadDistribution>-0.1</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_Admin_1_east</uiIconPath>
+    <uiColor>(0.34,0.33,0.24)</uiColor>
   </Helodrace.ModernWar.ModularArmorPartDef>
 </Defs>

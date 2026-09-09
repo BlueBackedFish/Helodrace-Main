@@ -9,6 +9,7 @@
   <HD_MA_Pos_Neck.label>목</HD_MA_Pos_Neck.label>
   <HD_MA_Pos_Shoulders.label>어깨</HD_MA_Pos_Shoulders.label>
   <HD_MA_Pos_LowerBody.label>하반신</HD_MA_Pos_LowerBody.label>
+  <HD_MA_Pos_Legs.label>다리</HD_MA_Pos_Legs.label>
   <HD_MH_Pos_FrontHead.label>헬멧 전면 장착부</HD_MH_Pos_FrontHead.label>
   <HD_MH_Pos_FaceVisor.label>얼굴 전면</HD_MH_Pos_FaceVisor.label>
 </LanguageData>

@@ -116,6 +116,17 @@ namespace Helodrace.ModernWar
         public ModularArmorDrawOffsets drawOrigin;
         public Vector2 drawCellSize = new Vector2(0.08f, 0.08f);
         public float drawLayer;
+        public float sideBackDrawLayer = 2f;
+        public float positionDrawLayerStep;
+        public int flatNormalPositionCount;
+        public string authoredTexturePrefix;
+        public string sideBackTexturePrefix;
+        public string northTexturePrefix;
+        public string northBackTexturePrefix;
+        public string southTexturePrefix;
+        public string southBackTexturePrefix;
+        public List<ModularArmorFacing> visibleDirections;
+        public List<ModularArmorFacing> renderDirections;
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -144,6 +155,8 @@ namespace Helodrace.ModernWar
         public List<ModularArmorPalsPanelDef> allowedPalsPanels;
         public int palsWidth = 1;
         public int palsHeight = 1;
+        public bool fillNarrowPalsPanel;
+        public string authoredPalsTextureKey;
         public List<string> compatibleArmorTags;
         public List<string> conflictTags;
         public ThingDef plateThingDef;
@@ -185,6 +198,16 @@ namespace Helodrace.ModernWar
         }
 
         public ThingDef RequiredThingDef => plateThingDef ?? partThingDef;
+
+        public int PalsWidthFor(ModularArmorPalsPanelDef panel)
+        {
+            if (panel == null || !fillNarrowPalsPanel)
+            {
+                return palsWidth;
+            }
+
+            return Mathf.Min(palsWidth, panel.columns);
+        }
 
         public bool AllowsPosition(ModularArmorPositionDef position)
         {
@@ -821,6 +844,7 @@ namespace Helodrace.ModernWar
     public sealed class CompModularArmor : ThingComp
     {
         private List<InstalledModularArmorPart> installedParts;
+        private bool palsGridDoubled;
 
         public CompProperties_ModularArmor Props => (CompProperties_ModularArmor)props;
 
@@ -840,6 +864,7 @@ namespace Helodrace.ModernWar
         public override void PostPostMake()
         {
             base.PostPostMake();
+            palsGridDoubled = true;
             EnsureConfiguration();
         }
 
@@ -850,10 +875,25 @@ namespace Helodrace.ModernWar
                 ref installedParts,
                 "modularArmorParts",
                 LookMode.Deep);
+            Scribe_Values.Look(ref palsGridDoubled, "palsGridDoubled", false);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 EnsureConfiguration();
+                if (!palsGridDoubled)
+                {
+                    for (int i = 0; i < installedParts.Count; i++)
+                    {
+                        InstalledModularArmorPart record = installedParts[i];
+                        if (record?.IsPalsMounted == true)
+                        {
+                            record.palsX *= 2;
+                            record.palsY *= 2;
+                        }
+                    }
+
+                    palsGridDoubled = true;
+                }
                 ValidateConfiguration();
             }
         }
@@ -1004,6 +1044,137 @@ namespace Helodrace.ModernWar
 
             NotifyConfigurationChanged();
             return true;
+        }
+
+        /// <summary>
+        /// Replaces the complete modular configuration with a validated Def preset.
+        /// Candidate records (including physical plate/module Things) are built first;
+        /// the old configuration is only destroyed after every entry succeeds.
+        /// </summary>
+        public bool TryApplyPreset(ModularArmorPresetDef preset, out string rejection)
+        {
+            rejection = null;
+            if (preset == null || preset.armorDef != parent.def)
+            {
+                rejection = "The armor preset does not target this apparel.";
+                return false;
+            }
+
+            EnsureConfiguration();
+            List<InstalledModularArmorPart> previous = installedParts;
+            installedParts = new List<InstalledModularArmorPart>();
+            bool success = TryBuildPresetConfiguration(preset, out rejection);
+            if (!success)
+            {
+                DestroyInstalledItems(installedParts);
+                installedParts = previous;
+                NotifyConfigurationChanged();
+                return false;
+            }
+
+            DestroyInstalledItems(previous);
+            NotifyConfigurationChanged();
+            return true;
+        }
+
+        private bool TryBuildPresetConfiguration(
+            ModularArmorPresetDef preset,
+            out string rejection)
+        {
+            rejection = null;
+            List<ModularArmorPresetPart> fixedEntries;
+            if (preset.useDefaultConfiguration)
+            {
+                fixedEntries = Props.defaultParts.NullOrEmpty()
+                    ? new List<ModularArmorPresetPart>()
+                    : Props.defaultParts
+                        .Where(entry => entry?.slot != null && entry.part != null)
+                        .Select(entry => new ModularArmorPresetPart
+                        {
+                            slot = entry.slot,
+                            part = entry.part,
+                            position = entry.position
+                        }).ToList();
+            }
+            else
+            {
+                fixedEntries = preset.fixedParts
+                    ?? new List<ModularArmorPresetPart>();
+            }
+
+            for (int i = 0; i < fixedEntries.Count; i++)
+            {
+                ModularArmorPresetPart entry = fixedEntries[i];
+                Thing suppliedItem = MakeRequiredItem(entry?.part);
+                if (entry?.slot == null || entry.part == null
+                    || !SetPart(entry.slot, entry.part, entry.position, suppliedItem))
+                {
+                    suppliedItem?.Destroy(DestroyMode.Vanish);
+                    rejection = "Invalid fixed armor entry at index " + i + ".";
+                    return false;
+                }
+
+                InstalledModularArmorPart installed = InstalledIn(entry.slot);
+                if (installed != null)
+                    installed.plateOrderSwapped = entry.plateOrderSwapped;
+            }
+
+            List<ModularArmorPresetPalsPart> palsEntries =
+                preset.useDefaultConfiguration
+                    ? null
+                    : preset.palsParts;
+            if (!palsEntries.NullOrEmpty())
+            {
+                for (int i = 0; i < palsEntries.Count; i++)
+                {
+                    ModularArmorPresetPalsPart entry = palsEntries[i];
+                    Thing suppliedItem = MakeRequiredItem(entry?.part);
+                    if (entry?.part == null || entry.panel == null
+                        || InstallPalsPart(
+                            entry.part, entry.panel, entry.x, entry.y,
+                            suppliedItem) == null)
+                    {
+                        suppliedItem?.Destroy(DestroyMode.Vanish);
+                        rejection = "Invalid PALS armor entry at index " + i + ".";
+                        return false;
+                    }
+                }
+            }
+
+            if (!Props.slots.NullOrEmpty())
+            {
+                for (int i = 0; i < Props.slots.Count; i++)
+                {
+                    ModularArmorSlotDef slot = Props.slots[i];
+                    if (slot?.required == true && InstalledIn(slot) == null)
+                    {
+                        rejection = "Required armor slot " + slot.defName
+                            + " is empty.";
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static Thing MakeRequiredItem(ModularArmorPartDef part)
+        {
+            ThingDef itemDef = part?.RequiredThingDef;
+            return itemDef == null
+                ? null
+                : ThingMaker.MakeThing(itemDef, GenStuff.DefaultStuffFor(itemDef));
+        }
+
+        private static void DestroyInstalledItems(
+            List<InstalledModularArmorPart> records)
+        {
+            if (records == null) return;
+            for (int i = 0; i < records.Count; i++)
+            {
+                Thing item = records[i]?.RemoveInstalledItem();
+                if (item != null && !item.Destroyed)
+                    item.Destroy(DestroyMode.Vanish);
+            }
         }
 
         public int RequiredItemsNeededFor(
@@ -1338,6 +1509,7 @@ namespace Helodrace.ModernWar
             int y,
             InstalledModularArmorPart ignore = null)
         {
+            int partWidth = part?.PalsWidthFor(panel) ?? 0;
             if (part?.installMode != ModularArmorInstallMode.Positionable
                 || panel == null
                 || !IsPartCompatible(part)
@@ -1345,8 +1517,9 @@ namespace Helodrace.ModernWar
                 || !part.allowedPalsPanels.Contains(panel)
                 || x < 0
                 || y < 0
-                || x + part.palsWidth > panel.columns
-                || y + part.palsHeight > panel.rows)
+                || x + partWidth > panel.columns
+                || y + part.palsHeight > panel.rows
+                || !HasAuthoredPalsTexture(part, panel, x))
             {
                 return false;
             }
@@ -1366,11 +1539,11 @@ namespace Helodrace.ModernWar
                 if (RectanglesOverlap(
                     x,
                     y,
-                    part.palsWidth,
+                    partWidth,
                     part.palsHeight,
                     other.palsX,
                     other.palsY,
-                    other.part.palsWidth,
+                    other.part.PalsWidthFor(other.palsPanel),
                     other.part.palsHeight))
                 {
                     return false;
@@ -1696,6 +1869,279 @@ namespace Helodrace.ModernWar
             return RenderNodes(Wearer?.Drawer?.renderer?.renderTree);
         }
 
+        public string AuthoredPalsTexturePath(
+            InstalledModularArmorPart record,
+            bool sideBack,
+            bool west = false)
+        {
+            return AuthoredPalsTexturePath(
+                record,
+                sideBack,
+                west ? Rot4.West : Rot4.East);
+        }
+
+        public string AuthoredPalsTexturePath(
+            InstalledModularArmorPart record,
+            bool backLayer,
+            Rot4 facing)
+        {
+            ModularArmorPartDef part = record?.part;
+            ModularArmorPalsPanelDef panel = record?.palsPanel;
+            if (part?.authoredPalsTextureKey.NullOrEmpty() != false || panel == null)
+            {
+                return null;
+            }
+
+            if (facing == Rot4.East || facing == Rot4.West)
+            {
+                if (backLayer)
+                {
+                    if (panel.sideBackTexturePrefix.NullOrEmpty()
+                        || !IsFrontmostSideRecord(record))
+                    {
+                        return null;
+                    }
+
+                    return panel.sideBackTexturePrefix
+                        + "_" + part.authoredPalsTextureKey + "_east";
+                }
+
+                int textureX = record.palsX;
+                if (facing == Rot4.West)
+                {
+                    textureX = panel.columns
+                        - textureX
+                        - part.PalsWidthFor(panel);
+                }
+
+                return AuthoredPalsTexturePath(
+                    part,
+                    panel,
+                    textureX,
+                    panel.authoredTexturePrefix,
+                    "east");
+            }
+
+            string normalPrefix = facing == Rot4.North
+                ? panel.northTexturePrefix
+                : panel.southTexturePrefix;
+            string backPrefix = facing == Rot4.North
+                ? panel.northBackTexturePrefix
+                : panel.southBackTexturePrefix;
+            string suffix = facing == Rot4.North ? "north" : "south";
+            return AuthoredSegmentedPalsTexturePath(
+                part,
+                panel,
+                record.palsX,
+                normalPrefix,
+                backPrefix,
+                suffix,
+                backLayer);
+        }
+
+        private static string AuthoredSegmentedPalsTexturePath(
+            ModularArmorPartDef part,
+            ModularArmorPalsPanelDef panel,
+            int x,
+            string normalPrefix,
+            string backPrefix,
+            string suffix,
+            bool backLayer)
+        {
+            if (normalPrefix.NullOrEmpty())
+            {
+                return null;
+            }
+
+            if (backPrefix.NullOrEmpty())
+            {
+                return backLayer
+                    ? null
+                    : AuthoredPalsTexturePath(
+                        part,
+                        panel,
+                        x,
+                        normalPrefix,
+                        suffix);
+            }
+
+            int width = part.PalsWidthFor(panel);
+            int totalPositions = panel.columns - width + 1;
+            int normalPositions = Mathf.Min(
+                totalPositions,
+                panel.flatNormalPositionCount > 0
+                    ? panel.flatNormalPositionCount
+                    : Mathf.Max(1, totalPositions / 2));
+            bool usesBack = x >= normalPositions;
+            if (usesBack != backLayer)
+            {
+                return null;
+            }
+
+            int localX = usesBack ? x - normalPositions : x;
+            int segmentPositions = usesBack
+                ? totalPositions - normalPositions
+                : normalPositions;
+            string prefix = usesBack ? backPrefix : normalPrefix;
+            return prefix
+                + "_" + part.authoredPalsTextureKey
+                + (segmentPositions > 1 ? "_" + (localX + 1) : string.Empty)
+                + "_" + suffix;
+        }
+
+        private static string AuthoredPalsTexturePath(
+            ModularArmorPartDef part,
+            ModularArmorPalsPanelDef panel,
+            int x,
+            string prefix = null,
+            string suffix = "east")
+        {
+            if (part?.authoredPalsTextureKey.NullOrEmpty() != false
+                || panel == null
+                || (prefix ?? panel.authoredTexturePrefix).NullOrEmpty()
+                || x < 0)
+            {
+                return null;
+            }
+
+            int width = part.PalsWidthFor(panel);
+            bool usesPositionSuffix = panel.columns > width;
+            return (prefix ?? panel.authoredTexturePrefix)
+                + "_" + part.authoredPalsTextureKey
+                + (usesPositionSuffix ? "_" + (x + 1) : string.Empty)
+                + "_" + suffix;
+        }
+
+        private static bool HasAuthoredPalsTexture(
+            ModularArmorPartDef part,
+            ModularArmorPalsPanelDef panel,
+            int x)
+        {
+            if (panel == null)
+            {
+                return false;
+            }
+
+            bool configured = false;
+            if (!panel.authoredTexturePrefix.NullOrEmpty())
+            {
+                configured = true;
+                string eastPath = AuthoredPalsTexturePath(part, panel, x);
+                if (eastPath.NullOrEmpty()
+                    || ContentFinder<Texture2D>.Get(eastPath, false) == null)
+                {
+                    return false;
+                }
+            }
+
+            Rot4[] flatFacings = { Rot4.North, Rot4.South };
+            for (int i = 0; i < flatFacings.Length; i++)
+            {
+                Rot4 facing = flatFacings[i];
+                string normalPrefix = facing == Rot4.North
+                    ? panel.northTexturePrefix
+                    : panel.southTexturePrefix;
+                if (normalPrefix.NullOrEmpty())
+                {
+                    continue;
+                }
+
+                configured = true;
+                string backPrefix = facing == Rot4.North
+                    ? panel.northBackTexturePrefix
+                    : panel.southBackTexturePrefix;
+                string path = AuthoredSegmentedPalsTexturePath(
+                    part,
+                    panel,
+                    x,
+                    normalPrefix,
+                    backPrefix,
+                    facing == Rot4.North ? "north" : "south",
+                    !backPrefix.NullOrEmpty()
+                        && x >= Mathf.Min(
+                            panel.columns - part.PalsWidthFor(panel) + 1,
+                            panel.flatNormalPositionCount > 0
+                                ? panel.flatNormalPositionCount
+                                : Mathf.Max(1,
+                                    (panel.columns - part.PalsWidthFor(panel) + 1) / 2)));
+                if (path.NullOrEmpty()
+                    || ContentFinder<Texture2D>.Get(path, false) == null)
+                {
+                    return false;
+                }
+            }
+
+            return !configured || part.authoredPalsTextureKey.NullOrEmpty() == false;
+        }
+
+        private bool IsFrontmostSideRecord(InstalledModularArmorPart record)
+        {
+            if (record?.palsPanel?.sideBackTexturePrefix.NullOrEmpty() != false)
+            {
+                return false;
+            }
+
+            return PartsOnPanel(record.palsPanel)
+                .Where(other => other?.part?.authoredPalsTextureKey.NullOrEmpty() == false)
+                .OrderBy(other => other.palsX)
+                .ThenBy(other => other.palsY)
+                .FirstOrDefault() == record;
+        }
+
+        private Graphic AuthoredPalsGraphic(
+            InstalledModularArmorPart record,
+            bool sideBack,
+            Rot4 facing)
+        {
+            string path = AuthoredPalsTexturePath(record, sideBack, facing);
+            if (path.NullOrEmpty()
+                || ContentFinder<Texture2D>.Get(path, false) == null)
+            {
+                return null;
+            }
+
+            return GraphicDatabase.Get<Graphic_Single>(
+                path,
+                ShaderDatabase.Cutout,
+                Vector2.one,
+                Color.white);
+        }
+
+        public bool PalsPartVisibleForFacing(
+            InstalledModularArmorPart record,
+            Rot4 facing)
+        {
+            if (record?.IsPalsMounted != true
+                || record.palsPanel?.renderDirections.NullOrEmpty() != false)
+            {
+                return true;
+            }
+
+            ModularArmorFacing modularFacing;
+            if (facing == Rot4.North) modularFacing = ModularArmorFacing.Back;
+            else if (facing == Rot4.East) modularFacing = ModularArmorFacing.Right;
+            else if (facing == Rot4.West) modularFacing = ModularArmorFacing.Left;
+            else modularFacing = ModularArmorFacing.Front;
+            return record.palsPanel.renderDirections.Contains(modularFacing);
+        }
+
+        public float DrawLayerFor(InstalledModularArmorPart record)
+        {
+            if (record?.part == null || record.EffectivePosition == null)
+            {
+                return 0f;
+            }
+
+            float result = record.part.drawLayer + record.EffectivePosition.drawLayer;
+            if (record.IsPalsMounted && record.palsPanel != null)
+            {
+                result += record.palsPanel.drawLayer
+                    + record.palsPanel.positionDrawLayerStep * record.palsX;
+            }
+
+            return result;
+        }
+
         public List<PawnRenderNode> RenderNodes(PawnRenderTree tree)
         {
             Pawn wearer = Wearer;
@@ -1709,8 +2155,64 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < installedParts.Count; i++)
             {
                 InstalledModularArmorPart record = installedParts[i];
-                if (record?.part?.graphicData == null
-                    || record.EffectivePosition == null
+                if (record?.part == null || record.EffectivePosition == null)
+                {
+                    continue;
+                }
+
+                Graphic authoredEastGraphic = AuthoredPalsGraphic(
+                    record, false, Rot4.East);
+                Graphic authoredWestGraphic = AuthoredPalsGraphic(
+                    record, false, Rot4.West);
+                Graphic authoredNorthGraphic = AuthoredPalsGraphic(
+                    record, false, Rot4.North);
+                Graphic authoredSouthGraphic = AuthoredPalsGraphic(
+                    record, false, Rot4.South);
+                if (authoredEastGraphic != null
+                    || authoredWestGraphic != null
+                    || authoredNorthGraphic != null
+                    || authoredSouthGraphic != null)
+                {
+                    Graphic sideBackEast = AuthoredPalsGraphic(
+                        record, true, Rot4.East);
+                    Graphic sideBackWest = AuthoredPalsGraphic(
+                        record, true, Rot4.West);
+                    Graphic sideBackNorth = AuthoredPalsGraphic(
+                        record, true, Rot4.North);
+                    Graphic sideBackSouth = AuthoredPalsGraphic(
+                        record, true, Rot4.South);
+                    if (sideBackEast != null
+                        || sideBackWest != null
+                        || sideBackNorth != null
+                        || sideBackSouth != null)
+                    {
+                        nodes.Add(new PawnRenderNode_ModularArmorPart(
+                            wearer,
+                            tree,
+                            this,
+                            record,
+                            false,
+                            sideBackEast,
+                            sideBackWest,
+                            sideBackNorth,
+                            sideBackSouth,
+                            true));
+                    }
+
+                    nodes.Add(new PawnRenderNode_ModularArmorPart(
+                        wearer,
+                        tree,
+                        this,
+                        record,
+                        false,
+                        authoredEastGraphic,
+                        authoredWestGraphic,
+                        authoredNorthGraphic,
+                        authoredSouthGraphic));
+                    continue;
+                }
+
+                if (record.part.graphicData == null
                     || record.part.graphicData.texPath.NullOrEmpty())
                 {
                     continue;
@@ -1831,6 +2333,7 @@ namespace Helodrace.ModernWar
         private void ValidateConfiguration()
         {
             installedParts = installedParts ?? new List<InstalledModularArmorPart>();
+            NormalizeSingleRowPalsPlacements();
             HashSet<ModularArmorSlotDef> occupied = new HashSet<ModularArmorSlotDef>();
             installedParts.RemoveAll(record => record == null
                 || record.part == null
@@ -1899,6 +2402,93 @@ namespace Helodrace.ModernWar
                             occupied.Add(entry.slot);
                         }
                     }
+                }
+            }
+        }
+
+        private void NormalizeSingleRowPalsPlacements()
+        {
+            if (Props.palsPanels.NullOrEmpty() || installedParts.NullOrEmpty())
+            {
+                return;
+            }
+
+            List<InstalledModularArmorPart> rejected = new List<InstalledModularArmorPart>();
+            for (int panelIndex = 0; panelIndex < Props.palsPanels.Count; panelIndex++)
+            {
+                ModularArmorPalsPanelDef panel = Props.palsPanels[panelIndex];
+                if (panel?.rows != 1)
+                {
+                    continue;
+                }
+
+                List<InstalledModularArmorPart> accepted = new List<InstalledModularArmorPart>();
+                List<InstalledModularArmorPart> records = installedParts
+                    .Where(record => record?.IsPalsMounted == true
+                        && record.palsPanel == panel)
+                    .OrderBy(record => record.palsX)
+                    .ThenBy(record => record.palsY)
+                    .ToList();
+                for (int i = 0; i < records.Count; i++)
+                {
+                    InstalledModularArmorPart record = records[i];
+                    if (record.part?.allowedPalsPanels?.Contains(panel) != true)
+                    {
+                        rejected.Add(record);
+                        continue;
+                    }
+
+                    int width = record.part.PalsWidthFor(panel);
+                    int maximumX = panel.columns - width;
+                    int preferredX = Mathf.Clamp(record.palsX, 0, Mathf.Max(0, maximumX));
+                    int chosenX = -1;
+                    for (int offset = 0; offset <= Mathf.Max(0, maximumX) + 1; offset++)
+                    {
+                        int candidateX = offset == 0 ? preferredX : offset - 1;
+                        if (candidateX < 0 || candidateX > maximumX)
+                        {
+                            continue;
+                        }
+
+                        if (!HasAuthoredPalsTexture(record.part, panel, candidateX))
+                        {
+                            continue;
+                        }
+
+                        bool overlaps = accepted.Any(other => RectanglesOverlap(
+                            candidateX,
+                            0,
+                            width,
+                            1,
+                            other.palsX,
+                            0,
+                            other.part.PalsWidthFor(panel),
+                            1));
+                        if (!overlaps)
+                        {
+                            chosenX = candidateX;
+                            break;
+                        }
+                    }
+
+                    if (chosenX < 0)
+                    {
+                        rejected.Add(record);
+                        continue;
+                    }
+
+                    record.palsX = chosenX;
+                    record.palsY = 0;
+                    accepted.Add(record);
+                }
+            }
+
+            for (int i = 0; i < rejected.Count; i++)
+            {
+                InstalledModularArmorPart record = rejected[i];
+                if (TryReturnInstalledItem(record))
+                {
+                    installedParts.Remove(record);
                 }
             }
         }
@@ -1972,9 +2562,22 @@ namespace Helodrace.ModernWar
         public override void DoWindowContents(Rect inRect)
         {
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, inRect.width, 32f),
+            Widgets.Label(new Rect(0f, 0f, inRect.width - 205f, 32f),
                 "HD_ModularArmor_WindowTitle".Translate(comp.parent.LabelCap));
             Text.Font = GameFont.Small;
+            Rect exportRect = new Rect(inRect.width - 190f, 0f, 170f, 30f);
+            if (Widgets.ButtonText(exportRect,
+                "HD_ModularArmor_ExportPreset".Translate()))
+            {
+                GUIUtility.systemCopyBuffer = ModularPresetXmlExporter.ExportArmor(comp);
+                Messages.Message(
+                    "HD_ModularArmor_ExportPresetCopied".Translate(),
+                    MessageTypeDefOf.PositiveEvent,
+                    false);
+            }
+            TooltipHandler.TipRegion(
+                exportRect,
+                "HD_ModularArmor_ExportPresetDesc".Translate());
 
             Rect previewRect = new Rect(
                 inRect.width * 0.5f - 220f,
@@ -2041,7 +2644,7 @@ namespace Helodrace.ModernWar
                 for (int i = 0; i < comp.Props.palsPanels.Count; i++)
                 {
                     ModularArmorPalsPanelDef panel = comp.Props.palsPanels[i];
-                    if (PositionVisibleForFacing(panel.armorPosition))
+                    if (PanelVisibleForFacing(panel))
                     {
                         DrawPalsPanel(rect, panel);
                     }
@@ -2076,15 +2679,58 @@ namespace Helodrace.ModernWar
                 }
             }
 
+            for (int i = 0; i < installed.Count; i++)
+            {
+                if (!comp.PalsPartVisibleForFacing(installed[i], previewFacing))
+                {
+                    continue;
+                }
+
+                string sideBackPath = comp.AuthoredPalsTexturePath(
+                    installed[i],
+                    true,
+                    previewFacing);
+                Texture2D sideBackTexture = sideBackPath.NullOrEmpty()
+                    ? null
+                    : ContentFinder<Texture2D>.Get(sideBackPath, false);
+                if (sideBackTexture != null)
+                {
+                    textures.Add(sideBackTexture);
+                }
+            }
+
             Texture2D apparelTexture = ApparelPreviewTexture();
             if (apparelTexture != null)
             {
                 textures.Add(apparelTexture);
             }
 
-            for (int i = 0; i < installed.Count; i++)
+            List<InstalledModularArmorPart> orderedInstalled = installed
+                .Where(record => record != null)
+                .OrderBy(comp.DrawLayerFor)
+                .ToList();
+            for (int i = 0; i < orderedInstalled.Count; i++)
             {
-                GraphicData graphicData = installed[i]?.part?.graphicData;
+                InstalledModularArmorPart installedPart = orderedInstalled[i];
+                if (!comp.PalsPartVisibleForFacing(installedPart, previewFacing))
+                {
+                    continue;
+                }
+
+                string authoredPath = comp.AuthoredPalsTexturePath(
+                    installedPart,
+                    false,
+                    previewFacing);
+                Texture2D authoredTexture = authoredPath.NullOrEmpty()
+                    ? null
+                    : ContentFinder<Texture2D>.Get(authoredPath, false);
+                if (authoredTexture != null)
+                {
+                    textures.Add(authoredTexture);
+                    continue;
+                }
+
+                GraphicData graphicData = installedPart.part?.graphicData;
                 if (graphicData == null || graphicData.texPath.NullOrEmpty())
                 {
                     continue;
@@ -2457,7 +3103,7 @@ namespace Helodrace.ModernWar
             Rect preview = new Rect(
                 gridRect.x + x * cellWidth,
                 gridRect.y + y * cellHeight,
-                part.palsWidth * cellWidth,
+                part.PalsWidthFor(panel) * cellWidth,
                 part.palsHeight * cellHeight);
             bool valid = comp.CanPlacePalsPart(part, panel, x, y, selectedInstalledPart);
             Widgets.DrawBoxSolid(preview.ContractedBy(2f), valid
@@ -2652,6 +3298,18 @@ namespace Helodrace.ModernWar
             return position.protectedDirections.Contains(PreviewArmorFacing());
         }
 
+        private bool PanelVisibleForFacing(ModularArmorPalsPanelDef panel)
+        {
+            if (panel == null)
+            {
+                return false;
+            }
+
+            return panel.visibleDirections.NullOrEmpty()
+                ? PositionVisibleForFacing(panel.armorPosition)
+                : panel.visibleDirections.Contains(PreviewArmorFacing());
+        }
+
         private ModularArmorFacing PreviewArmorFacing()
         {
             if (previewFacing == Rot4.North) return ModularArmorFacing.Back;
@@ -2727,7 +3385,7 @@ namespace Helodrace.ModernWar
             return new Rect(
                 gridRect.x + record.palsX * cellWidth,
                 gridRect.y + record.palsY * cellHeight,
-                record.part.palsWidth * cellWidth,
+                record.part.PalsWidthFor(record.palsPanel) * cellWidth,
                 record.part.palsHeight * cellHeight);
         }
 

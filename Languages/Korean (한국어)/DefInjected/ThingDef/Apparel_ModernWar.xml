@@ -12,4 +12,12 @@
   <HD_Apparel_ShieldIronHideIV.description>투명 관측창과 측면 소총 거치대를 갖춘 바퀴식 전신 높이 4등급 방탄 방패입니다. 착용자의 정면 범위에서 날아오는 탄도 공격에 강력한 방호력을 제공합니다. 거치대를 이용해 소총을 비롯한 원거리 무기를 계속 사용할 수 있지만, 불편한 사격 자세 때문에 명중률이 감소합니다. 측면이나 후방에서 들어오는 공격은 방패를 완전히 우회합니다.</HD_Apparel_ShieldIronHideIV.description>
   <HD_Apparel_ZaperX26_Device.label>ZAPER X26</HD_Apparel_ZaperX26_Device.label>
   <HD_Apparel_ZaperX26_Device.description>주무기를 교체하지 않고 사용할 수 있는 보조장비형 전기충격기입니다. 전용 명령으로 유선 탐침 두 발을 발사하거나 접촉 전극 근접공격을 가할 수 있습니다.</HD_Apparel_ZaperX26_Device.description>
+  <HD_Apparel_ACSUpper.label>육군 전투 셔츠</HD_Apparel_ACSUpper.label>
+  <HD_Apparel_ACSUpper.description>방탄복 안에 착용하도록 설계된 통기성 전투 셔츠입니다.</HD_Apparel_ACSUpper.description>
+  <HD_Apparel_UCPBlouse.label>UCP 전투 상의</HD_Apparel_UCPBlouse.label>
+  <HD_Apparel_UCPBlouse.description>현대 전투복용 UCP 무늬 야전 상의입니다.</HD_Apparel_UCPBlouse.description>
+  <HD_Apparel_UCPPants.label>UCP 전투 하의</HD_Apparel_UCPPants.label>
+  <HD_Apparel_UCPPants.description>무릎 보호대를 추가 장착할 수 있는 UCP 무늬 전투 하의입니다.</HD_Apparel_UCPPants.description>
+  <HD_Apparel_MOLLEBattleBelt.label>MOLLE 전투벨트</HD_Apparel_MOLLEBattleBelt.label>
+  <HD_Apparel_MOLLEBattleBelt.description>드롭레그 플랫폼과 좌우 PALS 부착면을 갖춘 모듈식 하중 분산 전투벨트입니다.</HD_Apparel_MOLLEBattleBelt.description>
 </LanguageData>

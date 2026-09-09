@@ -182,8 +182,16 @@
           <li>HD_MA_Slot_NeckGuard</li>
           <li>HD_MA_Slot_ShoulderGuards</li>
           <li>HD_MA_Slot_LowerBody</li>
+          <li>HD_MA_Slot_CamelBak</li>
         </slots>
-        <palsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li></palsPanels>
+        <palsPanels>
+          <li>HD_IOTV_PALS_Front</li>
+          <li>HD_IOTV_PALS_Lower</li>
+          <li>HD_IOTV_PALS_Side</li>
+          <li>HD_IOTV_PALS_SideLeft</li>
+          <li>HD_IOTV_PALS_Groin</li>
+          <li>HD_IOTV_PALS_Back</li>
+        </palsPanels>
         <defaultParts>
           <li><slot>HD_MA_Slot_NeckGuard</slot><part>HD_IOTVPart_NeckGuard</part></li>
           <li><slot>HD_MA_Slot_ShoulderGuards</slot><part>HD_IOTVPart_ShoulderGuards</part></li>
@@ -215,6 +223,167 @@
             <factor>3</factor>
           </li>
         </statConversions>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_ACSUpper</defName>
+    <label>army combat shirt</label>
+    <description>A breathable combat shirt designed to be worn beneath body armor.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_ACSUpper/HD_ACSUpper_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToMake>1800</WorkToMake>
+      <MarketValue>85</MarketValue>
+      <Mass>0.65</Mass>
+      <ArmorRating_Sharp>0.04</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.08</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.08</ArmorRating_Heat>
+      <Flammability>0.60</Flammability>
+      <EquipDelay>1.2</EquipDelay>
+    </statBases>
+    <thingCategories><li>Apparel</li></thingCategories>
+    <apparel>
+      <bodyPartGroups><li>Torso</li><li>Shoulders</li><li>Arms</li></bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_ACSUpper/HD_ACSUpper</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers><li>OnSkin</li></layers>
+      <tags><li>HD_Apparel</li><li>Soldier</li></tags>
+      <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
+    </recipeMaker>
+    <costList><Cloth>45</Cloth></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_UCPBlouse</defName>
+    <label>UCP combat blouse</label>
+    <description>A durable UCP-pattern field blouse for modern combat uniforms.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_UCPBlouse/HD_UCPBlouse_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>115</MaxHitPoints>
+      <WorkToMake>1900</WorkToMake>
+      <MarketValue>80</MarketValue>
+      <Mass>0.80</Mass>
+      <ArmorRating_Sharp>0.05</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.09</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.08</ArmorRating_Heat>
+      <Flammability>0.60</Flammability>
+      <EquipDelay>1.3</EquipDelay>
+    </statBases>
+    <thingCategories><li>Apparel</li></thingCategories>
+    <apparel>
+      <bodyPartGroups><li>Torso</li><li>Shoulders</li><li>Arms</li></bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_UCPBlouse/HD_UCPBlouse</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers><li>OnSkin</li></layers>
+      <tags><li>HD_Apparel</li><li>Soldier</li></tags>
+      <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
+    </recipeMaker>
+    <costList><Cloth>50</Cloth></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_UCPPants</defName>
+    <label>UCP combat pants</label>
+    <description>UCP-pattern combat trousers with modular knee-pad mounts.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_UCPPants/HD_UCPPants_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>115</MaxHitPoints>
+      <WorkToMake>1900</WorkToMake>
+      <MarketValue>85</MarketValue>
+      <Mass>0.90</Mass>
+      <ArmorRating_Sharp>0.05</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.09</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.08</ArmorRating_Heat>
+      <Flammability>0.60</Flammability>
+      <EquipDelay>1.3</EquipDelay>
+    </statBases>
+    <thingCategories><li>Apparel</li></thingCategories>
+    <apparel>
+      <bodyPartGroups><li>Waist</li><li>Legs</li></bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_UCPPants/HD_UCPPants</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers><li>OnSkin</li></layers>
+      <tags><li>HD_Apparel</li><li>Soldier</li></tags>
+      <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
+    </recipeMaker>
+    <costList><Cloth>50</Cloth></costList>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
+        <armorTags><li>HD_UCPPants</li></armorTags>
+        <previewCrop><x>0.28</x><y>0.38</y><width>0.44</width><height>0.48</height></previewCrop>
+        <slots><li>HD_MA_Slot_KneePads</li></slots>
+        <baseErgonomics>9</baseErgonomics>
+        <baseVentilation>9</baseVentilation>
+        <baseLoadDistribution>3</baseLoadDistribution>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_MOLLEBattleBelt</defName>
+    <label>MOLLE battle belt</label>
+    <description>A modular load-bearing belt with a detachable drop-leg platform and left/right PALS mounting surfaces.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>140</MaxHitPoints>
+      <WorkToMake>3200</WorkToMake>
+      <MarketValue>180</MarketValue>
+      <Mass>1.10</Mass>
+      <Flammability>0.35</Flammability>
+      <EquipDelay>1.5</EquipDelay>
+    </statBases>
+    <thingCategories><li>Apparel</li></thingCategories>
+    <apparel>
+      <bodyPartGroups><li>Waist</li></bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers><li>Belt</li></layers>
+      <tags><li>HD_Apparel</li><li>Soldier</li></tags>
+      <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements><Crafting>5</Crafting></skillRequirements>
+      <recipeUsers><li>ElectricTailoringBench</li></recipeUsers>
+    </recipeMaker>
+    <costList><Cloth>30</Cloth><Steel>10</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
+    <researchPrerequisites><li>FlakArmor</li></researchPrerequisites>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularArmor">
+        <armorTags><li>HD_MOLLEBattleBelt</li></armorTags>
+        <previewCrop><x>0.28</x><y>0.38</y><width>0.44</width><height>0.48</height></previewCrop>
+        <slots><li>HD_MA_Slot_DropLeg</li></slots>
+        <palsPanels><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></palsPanels>
+        <defaultParts><li><slot>HD_MA_Slot_DropLeg</slot><part>HD_MOLLEPart_DropLeg</part></li></defaultParts>
+        <baseErgonomics>8</baseErgonomics>
+        <baseVentilation>9</baseVentilation>
+        <baseLoadDistribution>8</baseLoadDistribution>
       </li>
     </comps>
   </ThingDef>

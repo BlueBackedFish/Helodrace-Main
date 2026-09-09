@@ -47,4 +47,7 @@
   <HD_ModularArmor_SwapFrontRear>Swap 1 ↔ 2</HD_ModularArmor_SwapFrontRear>
   <HD_ModularArmor_SwapFrontRearTip>Spend time swapping the front and rear plate positions. Current: front plate {0}, rear plate {1}.</HD_ModularArmor_SwapFrontRearTip>
   <HD_ModularArmor_GuaranteedBlock>Guaranteed block: ranged sharp penetration ≤ {0} while plate durability is at least {1}.</HD_ModularArmor_GuaranteedBlock>
+  <HD_ModularArmor_ExportPreset>Export preset XML</HD_ModularArmor_ExportPreset>
+  <HD_ModularArmor_ExportPresetDesc>Copy a complete preset Def for the current fixed-slot and PALS configuration to the clipboard.</HD_ModularArmor_ExportPresetDesc>
+  <HD_ModularArmor_ExportPresetCopied>The armor preset XML was copied to the clipboard.</HD_ModularArmor_ExportPresetCopied>
 </LanguageData>

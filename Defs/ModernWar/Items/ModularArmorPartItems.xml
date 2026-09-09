@@ -71,7 +71,7 @@
     <defName>HD_ModularPart_IBTVShoulderGuards</defName>
     <label>IBTV shoulder guard module</label>
     <description>A paired detachable shoulder armor module for the IBTV carrier.</description>
-    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>260</MarketValue><Mass>0.85</Mass><WorkToMake>5000</WorkToMake></statBases>
     <costList><Cloth>12</Cloth><Plasteel>12</Plasteel></costList>
   </ThingDef>
@@ -80,16 +80,16 @@
     <defName>HD_ModularPart_IBTVLowerBody</defName>
     <label>IBTV lower-body armor module</label>
     <description>A detachable groin and lower-body armor module for the IBTV carrier.</description>
-    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>240</MarketValue><Mass>0.90</Mass><WorkToMake>5000</WorkToMake></statBases>
     <costList><Cloth>14</Cloth><Plasteel>10</Plasteel></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_IFAK</defName>
-    <label>IFAK pouch module</label>
-    <description>A detachable individual first-aid pouch for PALS webbing.</description>
-    <graphicData><texPath>Items/HD_BasicMedicalSupplies</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <label>medium medical pouch module</label>
+    <description>A four-cell detachable medical pouch for PALS webbing.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_MediM_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>75</MarketValue><Mass>0.30</Mass><WorkToMake>1200</WorkToMake></statBases>
     <costList><Cloth>12</Cloth><MedicineIndustrial>1</MedicineIndustrial></costList>
   </ThingDef>
@@ -97,9 +97,63 @@
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_RifleMagazinePouch</defName>
     <label>rifle magazine pouch module</label>
-    <description>A detachable rifle magazine pouch for PALS webbing.</description>
-    <graphicData><texPath>Weapons/GreatWar/Ammo/HD_37mmAP</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <description>A two-cell detachable rifle magazine pouch for PALS webbing.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_Mag_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>45</MarketValue><Mass>0.18</Mass><WorkToMake>900</WorkToMake></statBases>
     <costList><Cloth>10</Cloth></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_WalkieTalkie</defName>
+    <label>walkie-talkie pouch module</label>
+    <description>A two-cell radio pouch for PALS webbing.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Side_WalkieTalkie_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>120</MarketValue><Mass>0.35</Mass><WorkToMake>1400</WorkToMake></statBases>
+    <costList><Cloth>10</Cloth><ComponentIndustrial>1</ComponentIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_MediL</defName>
+    <label>large medical pouch module</label>
+    <description>A six-cell medical pouch that fills narrower PALS panels when installed on them.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_MediL_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>110</MarketValue><Mass>0.55</Mass><WorkToMake>1800</WorkToMake></statBases>
+    <costList><Cloth>18</Cloth><MedicineIndustrial>2</MedicineIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_AdminPouch</defName>
+    <label>admin pouch module</label>
+    <description>A four-cell flat administrative pouch for PALS webbing.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_Admin_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>55</MarketValue><Mass>0.22</Mass><WorkToMake>1000</WorkToMake></statBases>
+    <costList><Cloth>12</Cloth></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_IBTVCamelBak</defName>
+    <label>IBTV hydration pack module</label>
+    <description>A detachable hydration pack made for the rear mount of the IBTV carrier.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_CamelBak_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>140</MarketValue><Mass>1.20</Mass><WorkToMake>2200</WorkToMake></statBases>
+    <costList><Cloth>20</Cloth><ComponentIndustrial>1</ComponentIndustrial></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_UCPKneePads</defName>
+    <label>UCP knee-pad module</label>
+    <description>A paired set of detachable knee pads for UCP combat pants.</description>
+    <graphicData><texPath>Helod/Apparel/HD_UCPPants/HD_UCPPants_KneePads_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>65</MarketValue><Mass>0.35</Mass><WorkToMake>1200</WorkToMake></statBases>
+    <costList><Cloth>8</Cloth><Steel>6</Steel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_MOLLEDropLeg</defName>
+    <label>MOLLE drop-leg platform module</label>
+    <description>A detachable PALS-compatible drop-leg platform for the MOLLE battle belt.</description>
+    <graphicData><texPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_MOLLEBattleBelt_DropLeg_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>95</MarketValue><Mass>0.55</Mass><WorkToMake>1600</WorkToMake></statBases>
+    <costList><Cloth>16</Cloth><Steel>6</Steel></costList>
   </ThingDef>
 </Defs>

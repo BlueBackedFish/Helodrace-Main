@@ -18,9 +18,15 @@
   <HD_IOTVPart_NeckGuard.label>IBTV 목 보호대</HD_IOTVPart_NeckGuard.label>
   <HD_IOTVPart_ShoulderGuards.label>IBTV 어깨 보호대</HD_IOTVPart_ShoulderGuards.label>
   <HD_IOTVPart_LowerBody.label>IBTV 하반신 보호대</HD_IOTVPart_LowerBody.label>
-  <HD_IOTVPart_IFAK.label>IBTV 개인 응급처치낭 (IFAK)</HD_IOTVPart_IFAK.label>
+  <HD_IOTVPart_IFAK.label>IBTV 중형 의료 파우치</HD_IOTVPart_IFAK.label>
   <HD_IOTVPart_RifleMagazinePouch.label>IBTV 소총 탄창 주머니</HD_IOTVPart_RifleMagazinePouch.label>
+  <HD_IOTVPart_WalkieTalkie.label>IBTV 무전기 파우치</HD_IOTVPart_WalkieTalkie.label>
+  <HD_IOTVPart_MediL.label>IBTV 대형 의료 파우치</HD_IOTVPart_MediL.label>
+  <HD_IOTVPart_AdminPouch.label>IBTV 어드민 파우치</HD_IOTVPart_AdminPouch.label>
   <HD_FASTMTPart_GPNVG18.label>FAST MT용 GPNVG-18</HD_FASTMTPart_GPNVG18.label>
   <HD_FASTMTPart_MultiHitVisor.label>FAST MT용 멀티히트 방탄 바이저</HD_FASTMTPart_MultiHitVisor.label>
   <HD_FASTMTPart_MultiHitVisor.description>FAST MT 헬멧에 장착하는 투명 멀티히트 안면 보호대입니다. 전방에서 가해지는 공격으로부터 눈, 코, 턱을 보호합니다.</HD_FASTMTPart_MultiHitVisor.description>
+  <HD_IOTVPart_CamelBak.label>IBTV 수낭</HD_IOTVPart_CamelBak.label>
+  <HD_UCPPantsPart_KneePads.label>UCP 전투복 무릎 보호대</HD_UCPPantsPart_KneePads.label>
+  <HD_MOLLEPart_DropLeg.label>MOLLE 전투벨트 드롭레그 플랫폼</HD_MOLLEPart_DropLeg.label>
 </LanguageData>

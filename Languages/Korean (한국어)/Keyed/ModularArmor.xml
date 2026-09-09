@@ -47,4 +47,7 @@
   <HD_ModularArmor_SwapFrontRear>1 ↔ 2 교체</HD_ModularArmor_SwapFrontRear>
   <HD_ModularArmor_SwapFrontRearTip>시간을 들여 전·후면 플레이트 위치를 교체합니다. 현재: 전면 {0}번, 후면 {1}번.</HD_ModularArmor_SwapFrontRearTip>
   <HD_ModularArmor_GuaranteedBlock>최소 방어 보장: 플레이트 내구도가 {1} 이상이면 관통력 {0} 이하의 원거리 날카로움 피해를 완전히 차단합니다.</HD_ModularArmor_GuaranteedBlock>
+  <HD_ModularArmor_ExportPreset>&#54532;&#47532;&#49483; XML &#45236;&#48372;&#45236;&#44592;</HD_ModularArmor_ExportPreset>
+  <HD_ModularArmor_ExportPresetDesc>&#54788;&#51116; &#48169;&#53444;&#48373;&#51032; &#44256;&#51221; &#49836;&#47215;&#44284; PALS &#44396;&#49457;&#51012; &#54532;&#47532;&#49483; Def XML&#47196; &#53364;&#47549;&#48372;&#46300;&#50640; &#48373;&#49324;&#54633;&#45768;&#45796;.</HD_ModularArmor_ExportPresetDesc>
+  <HD_ModularArmor_ExportPresetCopied>&#48169;&#53444;&#48373; &#54532;&#47532;&#49483; XML&#51012; &#53364;&#47549;&#48372;&#46300;&#50640; &#48373;&#49324;&#54664;&#49845;&#45768;&#45796;.</HD_ModularArmor_ExportPresetCopied>
 </LanguageData>
