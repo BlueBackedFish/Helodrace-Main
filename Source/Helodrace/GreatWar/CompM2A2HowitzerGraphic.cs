@@ -130,10 +130,10 @@ namespace Helodrace
             }
             casingEjectTick = lastShotTick;
             casingDropPending = true;
-            if (parent is Building_TurretGun turret && turret.Top != null)
+            if (AnimatedTurretUtility.Top(parent) is TurretTop top)
             {
                 displayedRotationDegrees =
-                    turret.Top.CurRotation + Props.rotationOffsetDegrees;
+                    top.CurRotation + Props.rotationOffsetDegrees;
                 displayedRotationInitialized = true;
             }
             casingEjectRotationDegrees = displayedRotationInitialized
@@ -189,7 +189,7 @@ namespace Helodrace
             }
 
             casingDropPending = false;
-            if (!(parent is Building_TurretGun) || parent.Map == null)
+            if (AnimatedTurretUtility.Top(parent) == null || parent.Map == null)
             {
                 return;
             }
@@ -214,7 +214,8 @@ namespace Helodrace
         {
             base.PostDraw();
 
-            if (!(parent is Building_TurretGun turret) || turret.Top == null)
+            ThingWithComps turret = parent;
+            if (AnimatedTurretUtility.Top(turret) == null)
             {
                 return;
             }
@@ -263,7 +264,7 @@ namespace Helodrace
         }
 
         private void DrawM114Layers(
-            Building_TurretGun turret,
+            ThingWithComps turret,
             Vector3 drawPos,
             Quaternion rotation,
             Vector3 forward,
@@ -526,7 +527,7 @@ namespace Helodrace
             smokeScreenFleck ?? (smokeScreenFleck =
                 DefDatabase<FleckDef>.GetNamedSilentFail("HD_M2A2SmokeScreenVisual"));
 
-        private float GraphicRotationDegrees(Building_TurretGun turret)
+        private float GraphicRotationDegrees(ThingWithComps turret)
         {
             if (!displayedRotationInitialized)
             {
@@ -537,17 +538,18 @@ namespace Helodrace
             // Follow the real turret angle only while it has a target. Once
             // the target is cleared, retain the last aimed direction instead
             // of displaying Building_TurretGun's random idle scanning turns.
-            if (turret?.Top != null && turret.CurrentTarget.IsValid)
+            TurretTop top = AnimatedTurretUtility.Top(turret);
+            if (top != null && AnimatedTurretUtility.CurrentTarget(turret).IsValid)
             {
                 displayedRotationDegrees =
-                    turret.Top.CurRotation + Props.rotationOffsetDegrees;
+                    top.CurRotation + Props.rotationOffsetDegrees;
             }
 
             return displayedRotationDegrees;
         }
 
         private void GetLeverOffsets(
-            Building_TurretGun turret,
+            ThingWithComps turret,
             Quaternion rotation,
             out Vector3 lever1Offset,
             out Vector3 lever2Offset,
@@ -586,7 +588,7 @@ namespace Helodrace
         }
 
         private void GetM114LeverOffsets(
-            Building_TurretGun turret,
+            ThingWithComps turret,
             Quaternion rotation,
             out Vector3 lever1Offset,
             out Vector3 lever2Offset)
@@ -631,7 +633,9 @@ namespace Helodrace
 
         private void ConfigureLeverMotion()
         {
-            if (!(parent is Building_TurretGun turret) || turret.Top == null)
+            ThingWithComps turret = parent;
+            TurretTop top = AnimatedTurretUtility.Top(turret);
+            if (top == null)
             {
                 lever1Cycles = 2;
                 lever2Cycles = 1;
@@ -640,13 +644,13 @@ namespace Helodrace
                 return;
             }
 
-            LocalTargetInfo target = turret.CurrentTarget;
+            LocalTargetInfo target = AnimatedTurretUtility.CurrentTarget(turret);
             float distance = target.IsValid
                 ? parent.Position.DistanceTo(target.Cell)
                 : Mathf.Max(0f, lastAimedDistance);
             pendingAimDistance = distance;
 
-            Verb attackVerb = turret.AttackVerb;
+            Verb attackVerb = AnimatedTurretUtility.AttackVerb(turret);
             float minimumRange = attackVerb?.verbProps?.minRange ?? 0f;
             float maximumRange = attackVerb?.verbProps?.range ?? 120f;
             float practicalMaximum = Mathf.Min(maximumRange, 120f);
@@ -665,7 +669,7 @@ namespace Helodrace
                 6);
 
             float targetRotation =
-                turret.Top.CurRotation + Props.rotationOffsetDegrees;
+                top.CurRotation + Props.rotationOffsetDegrees;
             float referenceRotation = hasLastFiredAimRotation
                 ? lastFiredAimRotationDegrees
                 : InitialGraphicRotationDegrees;
@@ -685,10 +689,21 @@ namespace Helodrace
                 5);
         }
 
-        private float WarmupAnimationProgress(Building_TurretGun turret)
+        private float WarmupAnimationProgress(ThingWithComps turret)
         {
-            int remainingTicks = Patch_BuildingTurretGun_WarmupAnimation_M2A2
-                .WarmupTicksRemaining(turret);
+            int remainingTicks;
+            if (turret is Building_TurretGun vanillaTurret)
+            {
+                remainingTicks = Patch_BuildingTurretGun_WarmupAnimation_M2A2
+                    .WarmupTicksRemaining(vanillaTurret);
+            }
+            else
+            {
+                int externalAge = Find.TickManager.TicksGame - warmupStartTick;
+                remainingTicks = warmupStartTick >= 0
+                    ? Mathf.Max(0, warmupDurationTicks - externalAge)
+                    : 0;
+            }
             if (remainingTicks <= 0)
             {
                 warmupStartTick = -1;
@@ -822,8 +837,8 @@ namespace Helodrace
         {
             get
             {
-                Building_TurretGun turret = parent as Building_TurretGun;
-                CompChangeableProjectile loader = turret?.GunCompEq?.parent?
+                ThingWithComps turret = parent;
+                CompChangeableProjectile loader = AnimatedTurretUtility.GunCompEq(turret)?.parent?
                     .TryGetComp<CompChangeableProjectile>();
                 return loader?.Loaded == true;
             }
@@ -986,7 +1001,7 @@ namespace Helodrace
     {
         public static void Postfix(Verb_LaunchProjectile __instance, bool __result)
         {
-            if (__result && __instance.Caster is Building_TurretGun turret)
+            if (__result && __instance.Caster is ThingWithComps turret)
             {
                 turret.TryGetComp<CompM2A2HowitzerGraphic>()?.NotifyShotFired();
             }

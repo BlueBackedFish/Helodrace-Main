@@ -42,13 +42,14 @@ namespace Helodrace
         {
             base.PostDraw();
 
-            Building_TurretGun turret = parent as Building_TurretGun;
-            if (turret == null || turret.Top == null)
+            ThingWithComps turret = parent;
+            TurretTop top = AnimatedTurretUtility.Top(turret);
+            if (top == null)
             {
                 return;
             }
 
-            float angle = turret.Top.CurRotation;
+            float angle = top.CurRotation;
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
             Vector3 forward = rotation * Vector3.forward;
             Vector3 drawPos = parent.DrawPos;
@@ -91,7 +92,7 @@ namespace Helodrace
     {
         public static void Postfix(Verb_LaunchProjectile __instance, bool __result)
         {
-            if (__result && __instance.Caster is Building_TurretGun turret)
+            if (__result && __instance.Caster is ThingWithComps turret)
             {
                 turret.TryGetComp<CompReciprocatingTurretBarrel>()?.NotifyShotFired();
             }

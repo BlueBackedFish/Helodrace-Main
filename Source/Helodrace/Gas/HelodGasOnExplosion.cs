@@ -11,7 +11,7 @@ namespace Helodrace
         public float radius = 3.6f;
     }
 
-    internal static class HelodGasOnExplosionUtility
+    public static class HelodGasOnExplosionUtility
     {
         public static void Release(ThingDef sourceDef, IntVec3 cell, Map map)
         {

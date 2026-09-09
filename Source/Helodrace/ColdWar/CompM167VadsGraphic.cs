@@ -58,6 +58,7 @@ namespace Helodrace
         private float frameProgress;
         private float spinSpeedFramesPerTick;
         private bool wasWarmingUp;
+        private int externalWarmupEndTick = -1;
         private int lastCasingDropSoundTick = -99999;
         private readonly List<CasingVisual> casings = new List<CasingVisual>();
         private Material casingMaterial;
@@ -82,13 +83,14 @@ namespace Helodrace
 
         public void NotifyShotFired()
         {
-            Building_TurretGun turret = parent as Building_TurretGun;
-            if (turret?.Top == null)
+            ThingWithComps turret = parent;
+            TurretTop top = AnimatedTurretUtility.Top(turret);
+            if (top == null)
             {
                 return;
             }
 
-            float aimAngle = turret.Top.CurRotation;
+            float aimAngle = top.CurRotation;
             Quaternion aimRotation = Quaternion.AngleAxis(aimAngle, Vector3.up);
 
             Vector3 forward = aimRotation * Vector3.forward;
@@ -113,12 +115,21 @@ namespace Helodrace
             }
         }
 
+        public void NotifyWarmupStarted(int durationTicks)
+        {
+            if (durationTicks > 0)
+            {
+                externalWarmupEndTick = Find.TickManager.TicksGame + durationTicks;
+            }
+        }
+
         public override void CompTick()
         {
             base.CompTick();
 
-            Building_TurretGun turret = parent as Building_TurretGun;
-            if (turret?.Top == null)
+            ThingWithComps turret = parent;
+            TurretTop top = AnimatedTurretUtility.Top(turret);
+            if (top == null)
             {
                 return;
             }
@@ -126,7 +137,7 @@ namespace Helodrace
             Pawn gunner = parent.TryGetComp<CompMannable>()?.ManningPawn;
             if (gunner != null && gunner.Spawned && !gunner.Dead)
             {
-                gunner.Rotation = Rot4.FromAngleFlat(turret.Top.CurRotation);
+                gunner.Rotation = Rot4.FromAngleFlat(top.CurRotation);
             }
 
             UpdateBarrelAnimation(turret);
@@ -140,8 +151,9 @@ namespace Helodrace
         {
             base.PostDraw();
 
-            Building_TurretGun turret = parent as Building_TurretGun;
-            if (turret == null || turret.Top == null)
+            ThingWithComps turret = parent;
+            TurretTop top = AnimatedTurretUtility.Top(turret);
+            if (top == null)
             {
                 return;
             }
@@ -155,7 +167,7 @@ namespace Helodrace
 
             int frame = barrelFrame % frameCount;
             Quaternion rotation = Quaternion.AngleAxis(
-                turret.Top.CurRotation + Props.rotationOffsetDegrees,
+                top.CurRotation + Props.rotationOffsetDegrees,
                 Vector3.up);
             // MeshPool.plane10 scaling was authored at one tenth of the size
             // required by these additional 1024x1024 M167 layers.
@@ -262,7 +274,7 @@ namespace Helodrace
             }
         }
 
-        private void UpdateBarrelAnimation(Building_TurretGun turret)
+        private void UpdateBarrelAnimation(ThingWithComps turret)
         {
             int frameCount = Mathf.Min(Props.barrelTexPaths.Count, Props.barrelOutlineTexPaths.Count);
             if (frameCount <= 0)
@@ -272,7 +284,7 @@ namespace Helodrace
 
             int remainingWarmupTicks = WarmupTicksRemaining(turret);
             bool warmingUp = remainingWarmupTicks > 0;
-            bool bursting = turret.GunCompEq?.PrimaryVerb?.Bursting == true;
+            bool bursting = AnimatedTurretUtility.GunCompEq(turret)?.PrimaryVerb?.Bursting == true;
 
             if (!warmingUp && !bursting)
             {
@@ -323,14 +335,15 @@ namespace Helodrace
             }
         }
 
-        private static int WarmupTicksRemaining(Building_TurretGun turret)
+        private int WarmupTicksRemaining(ThingWithComps turret)
         {
-            if (turret == null || BurstWarmupTicksLeftField == null)
+            if (turret is Building_TurretGun vanillaTurret
+                && BurstWarmupTicksLeftField != null)
             {
-                return 0;
+                return Mathf.Max(0, (int)BurstWarmupTicksLeftField.GetValue(vanillaTurret));
             }
 
-            return Mathf.Max(0, (int)BurstWarmupTicksLeftField.GetValue(turret));
+            return Mathf.Max(0, externalWarmupEndTick - Find.TickManager.TicksGame);
         }
 
         private void EnsureMaterials()
@@ -378,8 +391,8 @@ namespace Helodrace
 
         public static void Prefix(TurretTop __instance, ref Vector3 drawLoc)
         {
-            Building_TurretGun turret =
-                ParentTurretField?.GetValue(__instance) as Building_TurretGun;
+            ThingWithComps turret =
+                ParentTurretField?.GetValue(__instance) as ThingWithComps;
             CompM167VadsGraphic graphic = turret?.TryGetComp<CompM167VadsGraphic>();
             if (graphic != null)
             {

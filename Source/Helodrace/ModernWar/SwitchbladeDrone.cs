@@ -6,6 +6,21 @@ using Verse.Sound;
 
 namespace Helodrace
 {
+    /// <summary>
+    /// Shared tablet control surface.  The main mod's visual drone and CE's
+    /// physical ProjectileCE implementation can both be operated without the
+    /// main assembly taking a dependency on Combat Extended.
+    /// </summary>
+    public interface ISwitchbladeDroneControl
+    {
+        Thing DroneThing { get; }
+        bool IsAttackRunActive { get; }
+        float LoiterRadius { get; }
+        void SetLoiterCenter(IntVec3 center);
+        void DesignateTarget(LocalTargetInfo target);
+        void ReturnToLoiter();
+    }
+
     public enum SwitchbladeDroneMode
     {
         Deploying,
@@ -26,8 +41,8 @@ namespace Helodrace
     {
         private Thing activeDrone;
 
-        public SwitchbladeDrone ActiveDrone => activeDrone as SwitchbladeDrone;
-        public bool HasActiveDrone => ActiveDrone is SwitchbladeDrone drone && !drone.Destroyed && drone.Spawned;
+        public ISwitchbladeDroneControl ActiveDrone => activeDrone as ISwitchbladeDroneControl;
+        public bool HasActiveDrone => ActiveDrone?.DroneThing is Thing drone && !drone.Destroyed && drone.Spawned;
 
         private Pawn Wearer
         {
@@ -48,7 +63,7 @@ namespace Helodrace
             Scribe_References.Look(ref activeDrone, "activeDrone");
         }
 
-        public void SetActiveDrone(SwitchbladeDrone drone)
+        public void SetActiveDrone(Thing drone)
         {
             activeDrone = drone;
         }
@@ -61,8 +76,9 @@ namespace Helodrace
         private void BeginSelectLoiterCenter()
         {
             Pawn wearer = Wearer;
-            SwitchbladeDrone drone = ActiveDrone;
-            if (wearer?.Map == null || drone == null || drone.Destroyed || drone.Map != wearer.Map)
+            ISwitchbladeDroneControl drone = ActiveDrone;
+            Thing droneThing = drone?.DroneThing;
+            if (wearer?.Map == null || droneThing == null || droneThing.Destroyed || droneThing.Map != wearer.Map)
             {
                 Messages.Message("HD_SwitchbladeTablet_NoLinkedDrone".Translate(), parent, MessageTypeDefOf.RejectInput, false);
                 return;
@@ -78,7 +94,7 @@ namespace Helodrace
             }, target =>
             {
                 drone.SetLoiterCenter(target.Cell);
-                Messages.Message("HD_SwitchbladeTablet_LoiterUpdated".Translate(), drone, MessageTypeDefOf.NeutralEvent, false);
+                Messages.Message("HD_SwitchbladeTablet_LoiterUpdated".Translate(), droneThing, MessageTypeDefOf.NeutralEvent, false);
             }, target =>
             {
                 if (target.Cell.InBounds(wearer.Map))
@@ -95,8 +111,9 @@ namespace Helodrace
         private void BeginDesignateTarget()
         {
             Pawn wearer = Wearer;
-            SwitchbladeDrone drone = ActiveDrone;
-            if (wearer?.Map == null || drone == null || drone.Destroyed || drone.Map != wearer.Map)
+            ISwitchbladeDroneControl drone = ActiveDrone;
+            Thing droneThing = drone?.DroneThing;
+            if (wearer?.Map == null || droneThing == null || droneThing.Destroyed || droneThing.Map != wearer.Map)
             {
                 Messages.Message("HD_SwitchbladeTablet_NoLinkedDrone".Translate(), parent, MessageTypeDefOf.RejectInput, false);
                 return;
@@ -112,7 +129,7 @@ namespace Helodrace
             }, target =>
             {
                 drone.DesignateTarget(target);
-                Messages.Message("HD_SwitchbladeTablet_TargetDesignated".Translate(), drone, MessageTypeDefOf.NeutralEvent, false);
+                Messages.Message("HD_SwitchbladeTablet_TargetDesignated".Translate(), droneThing, MessageTypeDefOf.NeutralEvent, false);
             });
         }
 
@@ -129,8 +146,9 @@ namespace Helodrace
                 yield break;
             }
 
-            SwitchbladeDrone drone = ActiveDrone;
-            bool hasDrone = drone != null && !drone.Destroyed && drone.Spawned && drone.Map == wearer.Map;
+            ISwitchbladeDroneControl drone = ActiveDrone;
+            Thing droneThing = drone?.DroneThing;
+            bool hasDrone = droneThing != null && !droneThing.Destroyed && droneThing.Spawned && droneThing.Map == wearer.Map;
             if (!hasDrone)
             {
                 yield break;
@@ -165,7 +183,7 @@ namespace Helodrace
     }
 
     [StaticConstructorOnStartup]
-    public class SwitchbladeDrone : ThingWithComps
+    public class SwitchbladeDrone : ThingWithComps, ISwitchbladeDroneControl
     {
         private IntVec3 loiterCenter;
         private float loiterRadius = 8f;
@@ -206,6 +224,7 @@ namespace Helodrace
         private static Material shadowMaterial;
 
         public override Vector3 DrawPos => exactPosition == default ? base.DrawPos : exactPosition;
+        public Thing DroneThing => this;
         public bool IsAttackRunActive => mode == SwitchbladeDroneMode.TurningToTarget || mode == SwitchbladeDroneMode.Diving;
         public float LoiterRadius => loiterRadius;
 

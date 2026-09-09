@@ -21,18 +21,19 @@ namespace Helodrace
             Map impactMap = Map;
             IntVec3 impactCell = Position;
 
-            ReleaseGas(impactMap, impactCell);
+            ReleaseGas(def, impactMap, impactCell);
             base.Impact(hitThing, blockedByShield);
         }
 
-        private void ReleaseGas(Map map, IntVec3 center)
+        public static void ReleaseGas(ThingDef sourceDef, Map map, IntVec3 center)
         {
             if (map == null || !center.InBounds(map))
             {
                 return;
             }
 
-            PhotochlorogenShellExtension extension = def.GetModExtension<PhotochlorogenShellExtension>();
+            PhotochlorogenShellExtension extension =
+                sourceDef?.GetModExtension<PhotochlorogenShellExtension>();
             HelodGasDef gasDef = extension?.gasDef ?? HelodGasDefOf.HD_PhotochlorogenGasGrid;
             if (gasDef == null)
             {
@@ -70,15 +71,16 @@ namespace Helodrace
         {
             Map impactMap = Map;
             IntVec3 impactCell = Position;
-            ReleaseGas(impactMap, impactCell);
+            ReleaseGas(def, impactMap, impactCell);
             base.Impact(hitThing, blockedByShield);
         }
 
-        private void ReleaseGas(Map map, IntVec3 center)
+        public static void ReleaseGas(ThingDef sourceDef, Map map, IntVec3 center)
         {
             if (map == null || !center.InBounds(map)) return;
 
-            PhotochlorogenShellExtension extension = def.GetModExtension<PhotochlorogenShellExtension>();
+            PhotochlorogenShellExtension extension =
+                sourceDef?.GetModExtension<PhotochlorogenShellExtension>();
             HelodGasDef gasDef = extension?.gasDef ?? HelodGasDefOf.HD_SweetGasGrid;
             if (gasDef == null) return;
 
@@ -113,17 +115,19 @@ namespace Helodrace
             IntVec3 impactCell = Position;
 
             base.Impact(hitThing, blockedByShield);
-            ReleaseWhitePhosphorus(impactMap, impactCell);
+            ReleaseWhitePhosphorus(def, impactMap, impactCell);
         }
 
-        private void ReleaseWhitePhosphorus(Map map, IntVec3 center)
+        public static void ReleaseWhitePhosphorus(ThingDef sourceDef, Map map,
+            IntVec3 center)
         {
             if (map == null || !center.InBounds(map))
             {
                 return;
             }
 
-            WhitePhosphorusRocketExtension extension = def.GetModExtension<WhitePhosphorusRocketExtension>();
+            WhitePhosphorusRocketExtension extension =
+                sourceDef?.GetModExtension<WhitePhosphorusRocketExtension>();
             float fireRadius = Mathf.Max(0.1f, extension?.fireRadius ?? 2.4f);
             float fireChance = Mathf.Clamp01(extension?.fireChance ?? 0.55f);
             float fireSize = Mathf.Max(0.1f, extension?.fireSize ?? 0.45f);
@@ -155,11 +159,6 @@ namespace Helodrace
             Thing instigator = Launcher;
             ModernWar.FragmentationGrenadeExtension fragmentation =
                 def.GetModExtension<ModernWar.FragmentationGrenadeExtension>();
-            ModernWar.FlashbangProjectileExtension overpressure =
-                def.GetModExtension<ModernWar.FlashbangProjectileExtension>();
-            ModernWar.ExplosiveGrenadeVisualExtension smoke =
-                def.GetModExtension<ModernWar.ExplosiveGrenadeVisualExtension>();
-
             try
             {
                 ModernWar.GrenadeExplosionEffectUtility.ThrowFragments(
@@ -182,6 +181,22 @@ namespace Helodrace
             {
                 return;
             }
+
+            ApplyAftermath(def, impactCell, impactMap, instigator);
+        }
+
+        public static void ApplyAftermath(ThingDef sourceDef, IntVec3 impactCell,
+            Map impactMap, Thing instigator, bool createEmpExplosion = true)
+        {
+            if (impactMap == null || !impactCell.InBounds(impactMap))
+            {
+                return;
+            }
+
+            ModernWar.FlashbangProjectileExtension overpressure =
+                sourceDef?.GetModExtension<ModernWar.FlashbangProjectileExtension>();
+            ModernWar.ExplosiveGrenadeVisualExtension smoke =
+                sourceDef?.GetModExtension<ModernWar.ExplosiveGrenadeVisualExtension>();
 
             ModernWar.FlashbangUtility.ApplySuppression(
                 impactCell,
@@ -209,16 +224,19 @@ namespace Helodrace
 
             FleckMaker.Static(impactCell, impactMap, FleckDefOf.ExplosionFlash, 18f);
             FleckMaker.ThrowFireGlow(impactCell.ToVector3Shifted(), impactMap, 8f);
-            GenExplosion.DoExplosion(
-                impactCell,
-                impactMap,
-                15f,
-                DamageDefOf.EMP,
-                instigator,
-                damAmount: 35,
-                armorPenetration: 0f,
-                doVisualEffects: false,
-                doSoundEffects: false);
+            if (createEmpExplosion)
+            {
+                GenExplosion.DoExplosion(
+                    impactCell,
+                    impactMap,
+                    15f,
+                    DamageDefOf.EMP,
+                    instigator,
+                    damAmount: 35,
+                    armorPenetration: 0f,
+                    doVisualEffects: false,
+                    doSoundEffects: false);
+            }
 
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(impactCell, 35f, true))
             {

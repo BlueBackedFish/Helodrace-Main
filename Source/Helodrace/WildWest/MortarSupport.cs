@@ -6,6 +6,35 @@ using Verse;
 
 namespace Helodrace
 {
+    public static class HelodMortarSupportCombatBridge
+    {
+        public delegate bool ProjectileLaunchHandler(ThingDef projectileDef,
+            Pawn launcher, IntVec3 source, IntVec3 impact, Map map);
+
+        public static ProjectileLaunchHandler ExternalProjectileLauncher;
+
+        public static bool TryLaunchProjectile(ThingDef projectileDef,
+            Pawn launcher, IntVec3 source, IntVec3 impact, Map map)
+        {
+            ProjectileLaunchHandler handler = ExternalProjectileLauncher;
+            if (handler == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                return handler(projectileDef, launcher, source, impact, map);
+            }
+            catch (System.Exception exception)
+            {
+                Log.ErrorOnce("[Helodrace] External artillery projectile handler failed: "
+                    + exception, 1976431203);
+                return false;
+            }
+        }
+    }
+
     public static class HelodMortarSupportUtility
     {
         public const int VolleyCount = 5;
@@ -328,13 +357,18 @@ namespace Helodrace
             float scatter = strike.IsSmokeLine ? 2f : strike.IsChemical ? 1.8f : strike.ScatterRadius;
             IntVec3 impact = CellFinder.RandomClosewalkCellNear(aim, map, Mathf.RoundToInt(scatter));
             IntVec3 source = strike.IncomingEdgeCell;
-            Projectile projectile = (Projectile)GenSpawn.Spawn(strike.ProjectileDef, source, map);
-            projectile.Launch(
-                strike.Caller,
-                source.ToVector3Shifted(),
-                impact,
-                impact,
-                ProjectileHitFlags.All);
+            if (!HelodMortarSupportCombatBridge.TryLaunchProjectile(
+                strike.ProjectileDef, strike.Caller, source, impact, map))
+            {
+                Projectile projectile = (Projectile)GenSpawn.Spawn(
+                    strike.ProjectileDef, source, map);
+                projectile.Launch(
+                    strike.Caller,
+                    source.ToVector3Shifted(),
+                    impact,
+                    impact,
+                    ProjectileHitFlags.All);
+            }
         }
 
         public override void ExposeData()

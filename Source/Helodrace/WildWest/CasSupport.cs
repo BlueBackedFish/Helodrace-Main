@@ -9,6 +9,58 @@ using Verse.Sound;
 
 namespace Helodrace
 {
+    public static class HelodCasCombatBridge
+    {
+        public delegate bool ProjectileLaunchHandler(ThingDef projectileDef,
+            Pawn launcher, Vector3 origin, IntVec3 impact, Map map);
+        public delegate bool MunitionImpactHandler(HelodCasFallingBomb munition,
+            Map map);
+
+        public static ProjectileLaunchHandler ExternalProjectileLauncher;
+        public static MunitionImpactHandler ExternalMunitionImpact;
+
+        public static bool TryLaunchProjectile(ThingDef projectileDef,
+            Pawn launcher, Vector3 origin, IntVec3 impact, Map map)
+        {
+            ProjectileLaunchHandler handler = ExternalProjectileLauncher;
+            if (handler == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                return handler(projectileDef, launcher, origin, impact, map);
+            }
+            catch (System.Exception exception)
+            {
+                Log.ErrorOnce("[Helodrace] External CAS projectile handler failed: "
+                    + exception, 1976431201);
+                return false;
+            }
+        }
+
+        public static bool TryImpactMunition(HelodCasFallingBomb munition, Map map)
+        {
+            MunitionImpactHandler handler = ExternalMunitionImpact;
+            if (handler == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                return handler(munition, map);
+            }
+            catch (System.Exception exception)
+            {
+                Log.ErrorOnce("[Helodrace] External CAS impact handler failed: "
+                    + exception, 1976431202);
+                return false;
+            }
+        }
+    }
+
     public enum HelodCasAttackKind
     {
         Bombing,
@@ -1746,10 +1798,14 @@ namespace Helodrace
                 {
                     continue;
                 }
-                Projectile projectile = (Projectile)GenSpawn.Spawn(projectileDef,
-                    originCell, map);
-                projectile.Launch(strike.Caller, origin, impact, impact,
-                    ProjectileHitFlags.All);
+                if (!HelodCasCombatBridge.TryLaunchProjectile(projectileDef,
+                    strike.Caller, origin, impact, map))
+                {
+                    Projectile projectile = (Projectile)GenSpawn.Spawn(projectileDef,
+                        originCell, map);
+                    projectile.Launch(strike.Caller, origin, impact, impact,
+                        ProjectileHitFlags.All);
+                }
                 if (isA10C)
                 {
                     sound?.PlayOneShot(new TargetInfo(originCell, map));
@@ -1760,6 +1816,10 @@ namespace Helodrace
         private void ImpactBomb(HelodCasFallingBomb bomb)
         {
             if (bomb == null || !bomb.ImpactCell.InBounds(map))
+            {
+                return;
+            }
+            if (HelodCasCombatBridge.TryImpactMunition(bomb, map))
             {
                 return;
             }
@@ -2172,6 +2232,8 @@ namespace Helodrace
         public IntVec3 ImpactCell => guidedTarget != null && guidedTarget.Spawned
             && !guidedTarget.Destroyed ? guidedTarget.Position : impactCell;
         public Pawn Caller => caller;
+        public Thing GuidedTarget => guidedTarget != null && !guidedTarget.Destroyed
+            ? guidedTarget : null;
         public int ReleaseTick => releaseTick;
         public int ImpactTick => impactTick;
         public Vector2 ApproachDirection => new Vector2(approachX, approachZ).normalized;
