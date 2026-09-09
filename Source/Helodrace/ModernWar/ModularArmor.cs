@@ -109,6 +109,7 @@ namespace Helodrace.ModernWar
         public int columns = 6;
         public int rows = 4;
         public ModularArmorPositionDef armorPosition;
+        public ModularArmorPartDef requiredPart;
         public float uiX = 0.2f;
         public float uiY = 0.45f;
         public float uiWidth = 0.6f;
@@ -144,6 +145,12 @@ namespace Helodrace.ModernWar
             {
                 yield return defName + " has no armorPosition.";
             }
+
+            if (requiredPart != null
+                && requiredPart.installMode != ModularArmorInstallMode.Fixed)
+            {
+                yield return defName + " requires a part that is not fixed.";
+            }
         }
     }
 
@@ -153,6 +160,7 @@ namespace Helodrace.ModernWar
         public ModularArmorInstallMode installMode;
         public ModularArmorPositionDef fixedPosition;
         public List<ModularArmorPalsPanelDef> allowedPalsPanels;
+        public List<ModularArmorPalsPanelDef> blockedPalsPanels;
         public int palsWidth = 1;
         public int palsHeight = 1;
         public bool fillNarrowPalsPanel;
@@ -176,6 +184,9 @@ namespace Helodrace.ModernWar
         public List<ModularArmorPartStatModifier> statModifiers;
 
         public GraphicData graphicData;
+        public bool drawBehindArmor;
+        public List<ModularArmorFacing> renderDirections;
+        public List<ModularArmorFacing> previewDirections;
         public GraphicData northUnderGraphicData;
         public PawnRenderNodeTagDef northUnderParentTagDef;
         public float northUnderDrawLayer = 79f;
@@ -973,6 +984,11 @@ namespace Helodrace.ModernWar
 
                 if (existing != null)
                 {
+                    if (!RemovePalsPartsRequiring(existing.part))
+                    {
+                        return false;
+                    }
+
                     if (!TryReturnInstalledItem(existing))
                     {
                         return false;
@@ -1010,6 +1026,17 @@ namespace Helodrace.ModernWar
             if (requiredThingDef != null
                 && !canReuseInstalledItem
                 && suppliedItem?.def != requiredThingDef)
+            {
+                return false;
+            }
+
+            if (!RemovePalsPartsBlockedBy(part))
+            {
+                return false;
+            }
+
+            if (existing?.part != part
+                && !RemovePalsPartsRequiring(existing?.part))
             {
                 return false;
             }
@@ -1260,6 +1287,20 @@ namespace Helodrace.ModernWar
                 return false;
             }
 
+            if (DebugSettings.godMode)
+            {
+                Thing suppliedItem = RequiredItemsNeededFor(slot, part) > 0
+                    ? MakeRequiredItem(part)
+                    : null;
+                bool installed = SetPart(slot, part, position, suppliedItem);
+                if (!installed && suppliedItem != null && !suppliedItem.Destroyed)
+                {
+                    suppliedItem.Destroy(DestroyMode.Vanish);
+                }
+
+                return installed;
+            }
+
             if (part.RequiredThingDef == null)
             {
                 return SetPart(slot, part, position);
@@ -1280,6 +1321,23 @@ namespace Helodrace.ModernWar
             {
                 rejection = "HD_ModularArmor_InvalidInstall".Translate();
                 return false;
+            }
+
+            if (DebugSettings.godMode)
+            {
+                Thing suppliedItem = MakeRequiredItem(part);
+                bool installed = InstallPalsPart(
+                    part,
+                    panel,
+                    x,
+                    y,
+                    suppliedItem) != null;
+                if (!installed && suppliedItem != null && !suppliedItem.Destroyed)
+                {
+                    suppliedItem.Destroy(DestroyMode.Vanish);
+                }
+
+                return installed;
             }
 
             if (part.RequiredThingDef == null)
@@ -1407,16 +1465,21 @@ namespace Helodrace.ModernWar
         public bool TryStartFrontRearSwap(out string rejection)
         {
             rejection = null;
+            if (!InstalledParts.Any(record => record?.CanSwapFrontRearPlates == true))
+            {
+                rejection = "HD_ModularArmor_NoSwappablePlate".Translate();
+                return false;
+            }
+
+            if (DebugSettings.godMode)
+            {
+                return CompleteFrontRearSwap();
+            }
+
             Pawn worker = Wearer;
             if (worker?.Spawned != true || worker.Faction != Faction.OfPlayer)
             {
                 rejection = "HD_ModularArmor_MustBeWorn".Translate();
-                return false;
-            }
-
-            if (!InstalledParts.Any(record => record?.CanSwapFrontRearPlates == true))
-            {
-                rejection = "HD_ModularArmor_NoSwappablePlate".Translate();
                 return false;
             }
 
@@ -1502,6 +1565,99 @@ namespace Helodrace.ModernWar
                 && record.palsPanel == panel);
         }
 
+        public InstalledModularArmorPart PalsPanelBlocker(
+            ModularArmorPalsPanelDef panel,
+            InstalledModularArmorPart ignore = null)
+        {
+            EnsureConfiguration();
+            return installedParts.FirstOrDefault(record => record != null
+                && record != ignore
+                && !record.IsPalsMounted
+                && record.part?.blockedPalsPanels?.Contains(panel) == true);
+        }
+
+        public bool IsPalsPanelAvailable(ModularArmorPalsPanelDef panel)
+        {
+            if (panel == null
+                || Props.palsPanels.NullOrEmpty()
+                || !Props.palsPanels.Contains(panel))
+            {
+                return false;
+            }
+
+            if (panel.requiredPart == null)
+            {
+                return true;
+            }
+
+            EnsureConfiguration();
+            return installedParts.Any(record => record != null
+                && !record.IsPalsMounted
+                && record.part == panel.requiredPart);
+        }
+
+        private bool RemovePalsPartsBlockedBy(ModularArmorPartDef part)
+        {
+            if (part?.blockedPalsPanels.NullOrEmpty() != false)
+            {
+                return true;
+            }
+
+            List<InstalledModularArmorPart> blocked = installedParts
+                .Where(record => record?.IsPalsMounted == true
+                    && part.blockedPalsPanels.Contains(record.palsPanel))
+                .ToList();
+            for (int i = 0; i < blocked.Count; i++)
+            {
+                if (!TryReturnInstalledItem(blocked[i]))
+                {
+                    return false;
+                }
+            }
+
+            for (int i = 0; i < blocked.Count; i++)
+            {
+                installedParts.Remove(blocked[i]);
+            }
+
+            return true;
+        }
+
+        private bool RemovePalsPartsRequiring(ModularArmorPartDef part)
+        {
+            if (part == null || Props.palsPanels.NullOrEmpty())
+            {
+                return true;
+            }
+
+            HashSet<ModularArmorPalsPanelDef> dependentPanels =
+                new HashSet<ModularArmorPalsPanelDef>(Props.palsPanels
+                    .Where(panel => panel?.requiredPart == part));
+            if (dependentPanels.Count == 0)
+            {
+                return true;
+            }
+
+            List<InstalledModularArmorPart> dependentParts = installedParts
+                .Where(record => record?.IsPalsMounted == true
+                    && dependentPanels.Contains(record.palsPanel))
+                .ToList();
+            for (int i = 0; i < dependentParts.Count; i++)
+            {
+                if (!TryReturnInstalledItem(dependentParts[i]))
+                {
+                    return false;
+                }
+            }
+
+            for (int i = 0; i < dependentParts.Count; i++)
+            {
+                installedParts.Remove(dependentParts[i]);
+            }
+
+            return true;
+        }
+
         public bool CanPlacePalsPart(
             ModularArmorPartDef part,
             ModularArmorPalsPanelDef panel,
@@ -1513,7 +1669,9 @@ namespace Helodrace.ModernWar
             if (part?.installMode != ModularArmorInstallMode.Positionable
                 || panel == null
                 || !IsPartCompatible(part)
+                || !IsPalsPanelAvailable(panel)
                 || ConflictingInstalledPart(part, ignore) != null
+                || PalsPanelBlocker(panel, ignore) != null
                 || !part.allowedPalsPanels.Contains(panel)
                 || x < 0
                 || y < 0
@@ -2111,10 +2269,9 @@ namespace Helodrace.ModernWar
             InstalledModularArmorPart record,
             Rot4 facing)
         {
-            if (record?.IsPalsMounted != true
-                || record.palsPanel?.renderDirections.NullOrEmpty() != false)
+            if (record?.part == null)
             {
-                return true;
+                return false;
             }
 
             ModularArmorFacing modularFacing;
@@ -2122,7 +2279,21 @@ namespace Helodrace.ModernWar
             else if (facing == Rot4.East) modularFacing = ModularArmorFacing.Right;
             else if (facing == Rot4.West) modularFacing = ModularArmorFacing.Left;
             else modularFacing = ModularArmorFacing.Front;
-            return record.palsPanel.renderDirections.Contains(modularFacing);
+
+            if (!record.part.renderDirections.NullOrEmpty()
+                && !record.part.renderDirections.Contains(modularFacing))
+            {
+                return false;
+            }
+
+            if (record.IsPalsMounted != true)
+            {
+                return true;
+            }
+
+            return IsPalsPanelAvailable(record.palsPanel)
+                && (record.palsPanel.renderDirections.NullOrEmpty()
+                    || record.palsPanel.renderDirections.Contains(modularFacing));
         }
 
         public float DrawLayerFor(InstalledModularArmorPart record)
@@ -2130,6 +2301,11 @@ namespace Helodrace.ModernWar
             if (record?.part == null || record.EffectivePosition == null)
             {
                 return 0f;
+            }
+
+            if (record.part.drawBehindArmor)
+            {
+                return -1f;
             }
 
             float result = record.part.drawLayer + record.EffectivePosition.drawLayer;
@@ -2681,7 +2857,7 @@ namespace Helodrace.ModernWar
 
             for (int i = 0; i < installed.Count; i++)
             {
-                if (!comp.PalsPartVisibleForFacing(installed[i], previewFacing))
+                if (!PartVisibleInPreview(installed[i]))
                 {
                     continue;
                 }
@@ -2699,12 +2875,6 @@ namespace Helodrace.ModernWar
                 }
             }
 
-            Texture2D apparelTexture = ApparelPreviewTexture();
-            if (apparelTexture != null)
-            {
-                textures.Add(apparelTexture);
-            }
-
             List<InstalledModularArmorPart> orderedInstalled = installed
                 .Where(record => record != null)
                 .OrderBy(comp.DrawLayerFor)
@@ -2712,7 +2882,36 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < orderedInstalled.Count; i++)
             {
                 InstalledModularArmorPart installedPart = orderedInstalled[i];
-                if (!comp.PalsPartVisibleForFacing(installedPart, previewFacing))
+                if (installedPart.part?.drawBehindArmor != true
+                    || !PartVisibleInPreview(installedPart))
+                {
+                    continue;
+                }
+
+                GraphicData graphicData = installedPart.part.graphicData;
+                if (graphicData == null || graphicData.texPath.NullOrEmpty())
+                {
+                    continue;
+                }
+
+                Texture2D partTexture = DirectionalTexture(graphicData.texPath, false);
+                if (partTexture != null)
+                {
+                    textures.Add(partTexture);
+                }
+            }
+
+            Texture2D apparelTexture = ApparelPreviewTexture();
+            if (apparelTexture != null)
+            {
+                textures.Add(apparelTexture);
+            }
+
+            for (int i = 0; i < orderedInstalled.Count; i++)
+            {
+                InstalledModularArmorPart installedPart = orderedInstalled[i];
+                if (installedPart.part?.drawBehindArmor == true
+                    || !PartVisibleInPreview(installedPart))
                 {
                     continue;
                 }
@@ -2744,6 +2943,18 @@ namespace Helodrace.ModernWar
             }
 
             return textures;
+        }
+
+        private bool PartVisibleInPreview(InstalledModularArmorPart record)
+        {
+            if (record?.part == null)
+            {
+                return false;
+            }
+
+            return (record.part.previewDirections.NullOrEmpty()
+                    || record.part.previewDirections.Contains(PreviewArmorFacing()))
+                && comp.PalsPartVisibleForFacing(record, previewFacing);
         }
 
         private Texture2D ApparelPreviewTexture()
@@ -2787,6 +2998,17 @@ namespace Helodrace.ModernWar
                 if (femaleTexture != null)
                 {
                     return femaleTexture;
+                }
+            }
+
+            if (!useBodyType)
+            {
+                Texture2D exactTexture = ContentFinder<Texture2D>.Get(
+                    basePath,
+                    false);
+                if (exactTexture != null)
+                {
+                    return exactTexture;
                 }
             }
 
@@ -3202,7 +3424,9 @@ namespace Helodrace.ModernWar
                 Rect tile = new Rect(rect.x + 10f + i * 175f, rect.y + 34f, 165f, 78f);
                 bool selected = selectedPalsPart == part;
                 int available = comp.AvailableRequiredItemCount(part.RequiredThingDef);
-                bool hasItem = part.RequiredThingDef == null || available > 0;
+                bool hasItem = DebugSettings.godMode
+                    || part.RequiredThingDef == null
+                    || available > 0;
                 Widgets.DrawBoxSolidWithOutline(
                     tile,
                     selected ? new Color(0.22f, 0.28f, 0.23f)
@@ -3300,7 +3524,7 @@ namespace Helodrace.ModernWar
 
         private bool PanelVisibleForFacing(ModularArmorPalsPanelDef panel)
         {
-            if (panel == null)
+            if (!comp.IsPalsPanelAvailable(panel))
             {
                 return false;
             }
@@ -3429,7 +3653,7 @@ namespace Helodrace.ModernWar
                 }
                 else
                 {
-                    options.Add(available >= needed
+                    options.Add(DebugSettings.godMode || available >= needed
                     ? new FloatMenuOption(
                         label,
                         delegate

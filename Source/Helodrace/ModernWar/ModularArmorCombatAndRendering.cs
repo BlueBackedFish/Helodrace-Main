@@ -9,6 +9,9 @@ namespace Helodrace.ModernWar
 {
     public sealed class PawnRenderNode_ModularArmorPart : PawnRenderNode_Apparel
     {
+        public const float BehindArmorLayerGap = 0.01f;
+        public const float BehindArmorFallbackLayer = 2.99f;
+
         public readonly CompModularArmor Comp;
         public readonly InstalledModularArmorPart Installed;
         public readonly bool NorthUnderlay;
@@ -121,7 +124,9 @@ namespace Helodrace.ModernWar
                     ? installed.part.northUnderParentTagDef ?? position.parentTagDef
                     : position.parentTagDef,
                 useGraphic = true,
-                baseLayer = sideBack
+                baseLayer = installed.part.drawBehindArmor
+                    ? BehindArmorFallbackLayer
+                    : sideBack
                     ? installed.palsPanel?.sideBackDrawLayer ?? 2f
                     : northUnderlay
                     ? installed.part.northUnderDrawLayer
@@ -323,12 +328,61 @@ namespace Helodrace.ModernWar
                 return modularNode.Installed.part.northUnderDrawLayer;
             }
 
+            if (modularNode.Installed.part.drawBehindArmor)
+            {
+                PawnRenderNode armorNode = FindMainApparelNode(
+                    modularNode.tree?.rootNode,
+                    modularNode);
+                if (armorNode != null)
+                {
+                    return armorNode.Worker.LayerFor(armorNode, parms)
+                        - PawnRenderNode_ModularArmorPart.BehindArmorLayerGap;
+                }
+
+                return PawnRenderNode_ModularArmorPart.BehindArmorFallbackLayer;
+            }
+
             if (modularNode.SideBack)
             {
                 return modularNode.Installed.palsPanel?.sideBackDrawLayer ?? 2f;
             }
 
             return modularNode.Comp.DrawLayerFor(modularNode.Installed);
+        }
+
+        private static PawnRenderNode FindMainApparelNode(
+            PawnRenderNode current,
+            PawnRenderNode_ModularArmorPart modularNode)
+        {
+            if (current == null)
+            {
+                return null;
+            }
+
+            if (current != modularNode
+                && current is PawnRenderNode_Apparel
+                && !(current is PawnRenderNode_ModularArmorPart)
+                && current.apparel == modularNode.Comp.Apparel)
+            {
+                return current;
+            }
+
+            PawnRenderNode[] children = current.children;
+            if (children == null)
+            {
+                return null;
+            }
+
+            for (int i = 0; i < children.Length; i++)
+            {
+                PawnRenderNode found = FindMainApparelNode(children[i], modularNode);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+
+            return null;
         }
     }
 

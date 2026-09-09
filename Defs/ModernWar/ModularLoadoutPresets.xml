@@ -40,6 +40,10 @@
         <slot>HD_MA_Slot_LowerBody</slot>
         <part>HD_IOTVPart_LowerBody</part>
       </li>
+      <li>
+        <slot>HD_MA_Slot_BackProtector</slot>
+        <part>HD_IOTVPart_BackProtector</part>
+      </li>
     </fixedParts>
     <palsParts>
       <li>

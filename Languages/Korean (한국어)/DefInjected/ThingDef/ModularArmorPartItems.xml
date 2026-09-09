@@ -8,8 +8,10 @@
   <HD_ModularPart_IBTVNeckGuard.description>IBTV 캐리어에 장착하는 탈착식 목 보호대입니다.</HD_ModularPart_IBTVNeckGuard.description>
   <HD_ModularPart_IBTVShoulderGuards.label>IBTV 어깨 보호대 모듈</HD_ModularPart_IBTVShoulderGuards.label>
   <HD_ModularPart_IBTVShoulderGuards.description>IBTV 캐리어에 장착하는 한 쌍의 탈착식 어깨 보호대입니다.</HD_ModularPart_IBTVShoulderGuards.description>
-  <HD_ModularPart_IBTVLowerBody.label>IBTV 하반신 보호대 모듈</HD_ModularPart_IBTVLowerBody.label>
-  <HD_ModularPart_IBTVLowerBody.description>IBTV 캐리어에 장착하는 탈착식 낭심 및 하반신 보호대입니다.</HD_ModularPart_IBTVLowerBody.description>
+  <HD_ModularPart_IBTVLowerBody.label>IBTV 사타구니 보호대 모듈</HD_ModularPart_IBTVLowerBody.label>
+  <HD_ModularPart_IBTVLowerBody.description>IBTV 캐리어 전면에 장착하여 골반을 보호하는 탈착식 사타구니 보호대입니다.</HD_ModularPart_IBTVLowerBody.description>
+  <HD_ModularPart_IBTVBackProtector.label>IBTV 후방 하단 보호대 모듈</HD_ModularPart_IBTVBackProtector.label>
+  <HD_ModularPart_IBTVBackProtector.description>IBTV 캐리어 후방 하단에 장착하며 PALS 부착망을 제공하는 탈착식 보호대입니다.</HD_ModularPart_IBTVBackProtector.description>
   <HD_ModularPart_IFAK.label>중형 의료 파우치 모듈</HD_ModularPart_IFAK.label>
   <HD_ModularPart_IFAK.description>PALS 부착망에서 4칸을 차지하는 탈착식 의료 파우치입니다.</HD_ModularPart_IFAK.description>
   <HD_ModularPart_RifleMagazinePouch.label>소총 탄창 파우치 모듈</HD_ModularPart_RifleMagazinePouch.label>

@@ -60,7 +60,7 @@
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_LowerBody</defName>
-    <label>IBTV lower body armor slot</label>
+    <label>IBTV groin protector slot</label>
     <required>false</required>
     <uiOrder>70</uiOrder>
     <uiSide>Bottom</uiSide>
@@ -70,6 +70,13 @@
     <label>IBTV hydration pack slot</label>
     <required>false</required>
     <uiOrder>80</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_BackProtector</defName>
+    <label>IBTV rear lower protector slot</label>
+    <required>false</required>
+    <uiOrder>75</uiOrder>
     <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
   <Helodrace.ModernWar.ModularArmorSlotDef>
@@ -200,6 +207,7 @@
     <columns>4</columns>
     <rows>1</rows>
     <armorPosition>HD_MA_Pos_LowerBody</armorPosition>
+    <requiredPart>HD_IOTVPart_LowerBody</requiredPart>
     <uiX>0.30</uiX>
     <uiY>0.72</uiY>
     <uiWidth>0.40</uiWidth>
@@ -212,17 +220,18 @@
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
     <defName>HD_IOTV_PALS_Back</defName>
-    <label>IBTV rear PALS webbing</label>
+    <label>IBTV rear lower protector PALS webbing</label>
     <columns>6</columns>
     <rows>1</rows>
-    <armorPosition>HD_MA_Pos_RearTorso</armorPosition>
+    <armorPosition>HD_MA_Pos_RearLowerBody</armorPosition>
+    <requiredPart>HD_IOTVPart_BackProtector</requiredPart>
     <uiX>0.20</uiX>
     <uiY>0.39</uiY>
     <uiWidth>0.60</uiWidth>
     <uiHeight>0.09</uiHeight>
     <visibleDirections><li>Back</li></visibleDirections>
     <renderDirections><li>Back</li></renderDirections>
-    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Back</northTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IBTV_Back</northTexturePrefix>
     <drawLayer>11</drawLayer>
     <positionDrawLayerStep>0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -232,6 +241,7 @@
     <columns>4</columns>
     <rows>1</rows>
     <armorPosition>HD_MA_Pos_Legs</armorPosition>
+    <requiredPart>HD_MOLLEPart_DropLeg</requiredPart>
     <uiX>0.15</uiX>
     <uiY>0.57</uiY>
     <uiWidth>0.70</uiWidth>
@@ -255,6 +265,7 @@
     <columns>4</columns>
     <rows>1</rows>
     <armorPosition>HD_MA_Pos_Legs</armorPosition>
+    <requiredPart>HD_MOLLEPart_DropLeg</requiredPart>
     <uiX>0.15</uiX>
     <uiY>0.57</uiY>
     <uiWidth>0.70</uiWidth>
@@ -280,6 +291,15 @@
     <directionArcDegrees>100</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>8</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_RearLowerBody</defName>
+    <label>rear lower body</label>
+    <bodyPartGroups><li>Waist</li><li>Legs</li></bodyPartGroups>
+    <protectedDirections><li>Back</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>10</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_LeftTorso</defName>
@@ -315,8 +335,10 @@
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_LowerBody</defName>
-    <label>lower body</label>
-    <bodyPartGroups><li>Waist</li><li>Legs</li></bodyPartGroups>
+    <label>groin</label>
+    <bodyParts><li>Pelvis</li></bodyParts>
+    <protectedDirections><li>Front</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
     <drawLayer>10</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
@@ -585,7 +607,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_LowerBody</defName>
-    <label>IBTV lower body armor</label>
+    <label>IBTV groin protector</label>
     <slot>HD_MA_Slot_LowerBody</slot>
     <installMode>Fixed</installMode>
     <fixedPosition>HD_MA_Pos_LowerBody</fixedPosition>
@@ -597,10 +619,35 @@
     <ergonomics>-1</ergonomics>
     <ventilation>-0.5</ventilation>
     <loadDistribution>-0.5</loadDistribution>
+    <drawBehindArmor>true</drawBehindArmor>
+    <renderDirections><li>Front</li><li>Right</li><li>Left</li></renderDirections>
+    <previewDirections><li>Front</li></previewDirections>
     <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</uiIconPath>
     <graphicData>
       <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_BackProtector</defName>
+    <label>IBTV rear lower protector</label>
+    <slot>HD_MA_Slot_BackProtector</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RearLowerBody</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVBackProtector</partThingDef>
+    <armorRatingSharp>0.55</armorRatingSharp>
+    <armorRatingBlunt>0.30</armorRatingBlunt>
+    <armorRatingHeat>0.15</armorRatingHeat>
+    <ergonomics>-0.6</ergonomics>
+    <ventilation>-0.35</ventilation>
+    <loadDistribution>-0.25</loadDistribution>
+    <renderDirections><li>Back</li></renderDirections>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
       <shaderType>Cutout</shaderType>
     </graphicData>
   </Helodrace.ModernWar.ModularArmorPartDef>

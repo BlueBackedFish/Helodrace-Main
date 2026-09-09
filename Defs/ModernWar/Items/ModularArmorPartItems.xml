@@ -78,11 +78,20 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_IBTVLowerBody</defName>
-    <label>IBTV lower-body armor module</label>
-    <description>A detachable groin and lower-body armor module for the IBTV carrier.</description>
+    <label>IBTV groin protector module</label>
+    <description>A detachable front-facing groin protector for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>240</MarketValue><Mass>0.90</Mass><WorkToMake>5000</WorkToMake></statBases>
     <costList><Cloth>14</Cloth><Plasteel>10</Plasteel></costList>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularArmorPartItemBase">
+    <defName>HD_ModularPart_IBTVBackProtector</defName>
+    <label>IBTV rear lower protector module</label>
+    <description>A detachable rear lower protector with PALS webbing for the IBTV carrier.</description>
+    <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
+    <statBases><MarketValue>230</MarketValue><Mass>0.80</Mass><WorkToMake>4800</WorkToMake></statBases>
+    <costList><Cloth>14</Cloth><Plasteel>9</Plasteel></costList>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">

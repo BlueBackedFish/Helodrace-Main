@@ -182,6 +182,7 @@
           <li>HD_MA_Slot_NeckGuard</li>
           <li>HD_MA_Slot_ShoulderGuards</li>
           <li>HD_MA_Slot_LowerBody</li>
+          <li>HD_MA_Slot_BackProtector</li>
           <li>HD_MA_Slot_CamelBak</li>
         </slots>
         <palsPanels>
@@ -196,6 +197,7 @@
           <li><slot>HD_MA_Slot_NeckGuard</slot><part>HD_IOTVPart_NeckGuard</part></li>
           <li><slot>HD_MA_Slot_ShoulderGuards</slot><part>HD_IOTVPart_ShoulderGuards</part></li>
           <li><slot>HD_MA_Slot_LowerBody</slot><part>HD_IOTVPart_LowerBody</part></li>
+          <li><slot>HD_MA_Slot_BackProtector</slot><part>HD_IOTVPart_BackProtector</part></li>
         </defaultParts>
         <baseErgonomics>7</baseErgonomics>
         <baseVentilation>7</baseVentilation>
