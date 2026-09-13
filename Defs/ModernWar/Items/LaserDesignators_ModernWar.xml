@@ -30,7 +30,7 @@
       </skillRequirements>
       <researchPrerequisite>HelodHighElectronics</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
   </ThingDef>

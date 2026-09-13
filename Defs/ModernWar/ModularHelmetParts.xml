@@ -15,12 +15,14 @@
     <uiSide>Right</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
 
+  <!-- Vanilla head apparel occupies the 70-85 band. Helmet attachments stay
+       just above ApparelHead (70), while the north visor underlay stays just below it. -->
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MH_Pos_FrontHead</defName>
     <label>front helmet mount</label>
     <bodyPartGroups><li>UpperHead</li></bodyPartGroups>
     <parentTagDef>ApparelHead</parentTagDef>
-    <drawLayer>120</drawLayer>
+    <drawLayer>71</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MH_Pos_FaceVisor</defName>
@@ -29,7 +31,7 @@
     <protectedDirections><li>Front</li></protectedDirections>
     <directionArcDegrees>120</directionArcDegrees>
     <parentTagDef>ApparelHead</parentTagDef>
-    <drawLayer>121</drawLayer>
+    <drawLayer>72</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
 
   <Helodrace.ModernWar.ModularArmorPartDef>
@@ -107,6 +109,6 @@
       <shaderType>Transparent</shaderType>
     </northUnderGraphicData>
     <northUnderParentTagDef>Head</northUnderParentTagDef>
-    <northUnderDrawLayer>79</northUnderDrawLayer>
+    <northUnderDrawLayer>69.99</northUnderDrawLayer>
   </Helodrace.ModernWar.ModularArmorPartDef>
 </Defs>

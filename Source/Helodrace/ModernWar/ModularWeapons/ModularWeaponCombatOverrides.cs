@@ -95,43 +95,6 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode comp = __instance?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>();
             ModularWeaponCycleUtility.NotifyShot(__instance, comp);
-            EffecterDef effecterDef = comp?.MuzzleFlashEffecter;
-            Thing caster = __instance?.caster;
-            if (effecterDef == null || caster == null || !caster.Spawned) return;
-
-            Vector3 from = caster.DrawPos;
-            Vector3 target = __instance.CurrentTarget.CenterVector3;
-            Vector3 direction = target - from;
-            direction.y = 0f;
-            if (direction.sqrMagnitude < 0.0001f) return;
-            direction.Normalize();
-
-            float aimAngle = direction.AngleFlat();
-            Pawn pawn = caster as Pawn;
-            float distanceFactor = pawn?.ageTracker?.CurLifeStage
-                ?.equipmentDrawDistanceFactor ?? 1f;
-            Vector3 gunCenter = from
-                + new Vector3(
-                    0f,
-                    0f,
-                    0.4f + __instance.EquipmentSource.def.equippedDistanceOffset)
-                    .RotatedBy(aimAngle) * distanceFactor;
-            Vector3 muzzle = gunCenter + direction * comp.MuzzleFlashDistance;
-            Vector3 offset = muzzle - caster.Position.ToVector3Shifted();
-            offset.y = 0f;
-
-            TargetInfo source = new TargetInfo(caster.Position, caster.Map);
-            IntVec3 aimCell = (from + direction * 20f).ToIntVec3();
-            if (!aimCell.InBounds(caster.Map)) aimCell = __instance.CurrentTarget.Cell;
-            TargetInfo destination = new TargetInfo(aimCell, caster.Map);
-
-            Effecter effecter = new Effecter(effecterDef)
-            {
-                offset = offset,
-                scale = comp.MuzzleFlashScale
-            };
-            effecter.Trigger(source, destination);
-            effecter.Cleanup();
         }
     }
 }

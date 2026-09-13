@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_Tier2Workbench.label>2단계 작업대</HD_Tier2Workbench.label>
-  <HD_Tier2Workbench.description>라인 샤프트 동력망으로 구동되며 대전기 시대의 실용 공예, 재봉, 조리 및 군수품 생산을 모두 수행할 수 있는 범용 작업대입니다.</HD_Tier2Workbench.description>
   <!-- Defs/GreatWar/Buildings/Industry_GreatWar.xml -->
   <HD_HaberBoschHighPressureReactor.label>고압 반응기</HD_HaberBoschHighPressureReactor.label>
   <HD_HaberBoschHighPressureReactor.description>극고압에서 대기 중 질소를 고정하는 내압성 촉매 반응기입니다. 수소가 풍부한 연료를 공급하면 비료와 폭약에 쓰이는 질산암모늄을 생산합니다.</HD_HaberBoschHighPressureReactor.description>

@@ -69,7 +69,7 @@
     <description>A modern service rifle chambered for a small-caliber, high-velocity cartridge. It fires a controlled three-round burst, while a Helod sharpshooter can trade eight tiles of effective range for near-instant target acquisition.</description>
     <recipeMaker>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
     </recipeMaker>
   </ThingDef>
 
@@ -93,7 +93,7 @@
     </statBases>
     <recipeMaker>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
     </recipeMaker>
     <verbs Inherit="False">
       <li>
@@ -162,7 +162,7 @@
         <Crafting>8</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
     </recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
@@ -240,7 +240,7 @@
     </costList>
     <recipeMaker>
       <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
     </recipeMaker>
     <verbs Inherit="False">
       <li>
@@ -301,7 +301,7 @@
     </costList>
     <recipeMaker>
       <recipeUsers Inherit="False">
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>
@@ -379,7 +379,7 @@
         <Crafting>6</Crafting>
       </skillRequirements>
       <researchPrerequisite>HelodMiniMotor</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_Tier2Workbench</li></recipeUsers>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
     </recipeMaker>
     <verbs>
       <li>

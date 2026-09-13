@@ -84,4 +84,27 @@
     </comps>
   </ThingDef>
 
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_919M882</defName>
+    <label>9x19mm M882 cartridge</label>
+    <description>A NATO-pattern 9x19mm ball cartridge installed inside a compatible MP5 magazine.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882</texPath></graphicData>
+    <statBases><Mass>0.012</Mass><MarketValue>2</MarketValue></statBases>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode>
+        <hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>9x19 M882</ammunitionType>
+        <ceAmmoDefName>Ammo_9x19mmPara_FMJ</ceAmmoDefName>
+        <ammunitionCaliber>9x19</ammunitionCaliber>
+        <projectileDiameterMm>9.03</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_Glock19_Proj</projectileOverride>
+        <casingMoteDef>HD_Mote_Shell919</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_919M882</feedingRoundTexPath>
+        <overridePriority>20</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>mp5_ammunition</li></socketTags><transform><position>(-0.012,0,-0.090)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
 </Defs>

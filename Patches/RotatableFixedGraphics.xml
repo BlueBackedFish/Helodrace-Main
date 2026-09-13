@@ -24,8 +24,6 @@
 
       <li Class="PatchOperationAdd">
         <xpath>/Defs/ThingDef[
-          defName="HD_LineShaftHydraulicPress" or
-          defName="HD_LineShaftRollingMachine" or
           defName="HD_BlastFurnace" or
           defName="HD_Converter" or
           defName="HD_SAFurnace" or

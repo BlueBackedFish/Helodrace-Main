@@ -17,9 +17,13 @@
   <DoBillsHD_TreadleLathe.verb>제작</DoBillsHD_TreadleLathe.verb>
   <DoBillsHD_TreadleLathe.gerund>제작하는 중</DoBillsHD_TreadleLathe.gerund>
 
-  <DoBillsHD_Tier1Workbench.label>1단계 작업대 사용</DoBillsHD_Tier1Workbench.label>
-  <DoBillsHD_Tier1Workbench.verb>수공예 작업</DoBillsHD_Tier1Workbench.verb>
-  <DoBillsHD_Tier1Workbench.gerund>수공예 작업하는 중</DoBillsHD_Tier1Workbench.gerund>
+  <DoBillsHD_BasicWorkbench.label>기초 작업대 사용</DoBillsHD_BasicWorkbench.label>
+  <DoBillsHD_BasicWorkbench.verb>수공예 작업</DoBillsHD_BasicWorkbench.verb>
+  <DoBillsHD_BasicWorkbench.gerund>수공예 작업하는 중</DoBillsHD_BasicWorkbench.gerund>
+
+  <DoBillsHD_GunSmithTable.label>총기 작업대 사용</DoBillsHD_GunSmithTable.label>
+  <DoBillsHD_GunSmithTable.verb>총기 제작</DoBillsHD_GunSmithTable.verb>
+  <DoBillsHD_GunSmithTable.gerund>총기를 제작하는 중</DoBillsHD_GunSmithTable.gerund>
 
   <DoBillsHD_LineShaftRollingMachine.label>라인 샤프트 압연기 사용</DoBillsHD_LineShaftRollingMachine.label>
   <DoBillsHD_LineShaftRollingMachine.verb>제작</DoBillsHD_LineShaftRollingMachine.verb>

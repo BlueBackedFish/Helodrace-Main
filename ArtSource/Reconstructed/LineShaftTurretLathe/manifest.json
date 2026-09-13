@@ -1,0 +1,416 @@
+{
+  "asset": "LineShaftTurretLathe",
+  "source_pairs": [
+    {
+      "color": "HD_LineShaftTurretLathe_east.png",
+      "mask": "HD_LineShaftTurretLathe_eastm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        185,
+        72,
+        329,
+        458
+      ],
+      "filled_bounds_without_black_stroke": [
+        189,
+        77,
+        323,
+        452
+      ],
+      "mask_red_bounds": [
+        189,
+        78,
+        319,
+        422
+      ],
+      "red_mask_pixels": 31756,
+      "visible_unmasked_pixels": 17175,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 15130
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 4405
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 3545
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 2739
+        },
+        {
+          "rgb": [
+            191,
+            191,
+            191
+          ],
+          "pixels": 2041
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1627
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 729
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 628
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 607
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 566
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 343
+        },
+        {
+          "rgb": [
+            38,
+            38,
+            38
+          ],
+          "pixels": 171
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftTurretLathe_north.png",
+      "mask": "HD_LineShaftTurretLathe_northm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        76,
+        161,
+        441,
+        342
+      ],
+      "filled_bounds_without_black_stroke": [
+        86,
+        170,
+        434,
+        333
+      ],
+      "mask_red_bounds": [
+        85,
+        170,
+        434,
+        333
+      ],
+      "red_mask_pixels": 32125,
+      "visible_unmasked_pixels": 14734,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 13132
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 2776
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2675
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 2418
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1655
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1430
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1279
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1079
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 974
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 663
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 568
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 458
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftTurretLathe_south.png",
+      "mask": "HD_LineShaftTurretLathe_southm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        67,
+        161,
+        432,
+        342
+      ],
+      "filled_bounds_without_black_stroke": [
+        74,
+        170,
+        423,
+        333
+      ],
+      "mask_red_bounds": [
+        73,
+        170,
+        423,
+        333
+      ],
+      "red_mask_pixels": 31969,
+      "visible_unmasked_pixels": 14953,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 13118
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 2797
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2667
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 2412
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1655
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1432
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1280
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1054
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 947
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 626
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 560
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 450
+        }
+      ]
+    }
+  ],
+  "game_footprint": [
+    2,
+    1
+  ],
+  "mesh_objects": 32,
+  "vertices": 392,
+  "world_bounds": [
+    [
+      -1.059999942779541,
+      -0.6148188710212708,
+      0.0
+    ],
+    [
+      1.0477499961853027,
+      0.07018110156059265,
+      1.220035195350647
+    ]
+  ],
+  "ortho_scale": 2.879759087795165,
+  "target_center": [
+    -0.006124973297119141,
+    -0.27231889963150024,
+    0.6100175976753235
+  ],
+  "downward_degrees": 64,
+  "resolution": [
+    512,
+    512
+  ],
+  "camera_positions": "North -Y, South +Y, East +X; chosen to match supplied sprite orientation.",
+  "unseen_views_inferred": false,
+  "no_outline_geometry": true,
+  "no_image_textures_on_model": true
+}

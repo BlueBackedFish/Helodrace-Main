@@ -10,7 +10,9 @@ namespace Helodrace.ModernWar
     public sealed class PawnRenderNode_ModularArmorPart : PawnRenderNode_Apparel
     {
         public const float BehindArmorLayerGap = 0.01f;
-        public const float BehindArmorFallbackLayer = 2.99f;
+        // Vanilla body apparel starts at 20. Use the adjacent lower depth only
+        // when the owning apparel node cannot be found.
+        public const float BehindArmorFallbackLayer = 19.99f;
 
         public readonly CompModularArmor Comp;
         public readonly InstalledModularArmorPart Installed;
@@ -127,7 +129,7 @@ namespace Helodrace.ModernWar
                 baseLayer = installed.part.drawBehindArmor
                     ? BehindArmorFallbackLayer
                     : sideBack
-                    ? installed.palsPanel?.sideBackDrawLayer ?? 2f
+                    ? installed.palsPanel?.sideBackDrawLayer ?? BehindArmorFallbackLayer
                     : northUnderlay
                     ? installed.part.northUnderDrawLayer
                     : installed.part.drawLayer
@@ -344,7 +346,8 @@ namespace Helodrace.ModernWar
 
             if (modularNode.SideBack)
             {
-                return modularNode.Installed.palsPanel?.sideBackDrawLayer ?? 2f;
+                return modularNode.Installed.palsPanel?.sideBackDrawLayer
+                    ?? PawnRenderNode_ModularArmorPart.BehindArmorFallbackLayer;
             }
 
             return modularNode.Comp.DrawLayerFor(modularNode.Installed);

@@ -1,12 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <DoBillsHD_Tier2WorkbenchCrafting.label>2단계 작업대에서 제작</DoBillsHD_Tier2WorkbenchCrafting.label>
-  <DoBillsHD_Tier2WorkbenchCrafting.verb>제작</DoBillsHD_Tier2WorkbenchCrafting.verb>
-  <DoBillsHD_Tier2WorkbenchCrafting.gerund>제작하는 중</DoBillsHD_Tier2WorkbenchCrafting.gerund>
-  <DoBillsHD_Tier2WorkbenchCooking.label>2단계 작업대에서 조리</DoBillsHD_Tier2WorkbenchCooking.label>
-  <DoBillsHD_Tier2WorkbenchCooking.verb>조리</DoBillsHD_Tier2WorkbenchCooking.verb>
-  <DoBillsHD_Tier2WorkbenchCooking.gerund>조리하는 중</DoBillsHD_Tier2WorkbenchCooking.gerund>
-  <DoBillsHD_Tier2WorkbenchTailoring.label>2단계 작업대에서 재봉</DoBillsHD_Tier2WorkbenchTailoring.label>
-  <DoBillsHD_Tier2WorkbenchTailoring.verb>재봉</DoBillsHD_Tier2WorkbenchTailoring.verb>
-  <DoBillsHD_Tier2WorkbenchTailoring.gerund>재봉하는 중</DoBillsHD_Tier2WorkbenchTailoring.gerund>
 </LanguageData>

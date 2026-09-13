@@ -1,0 +1,164 @@
+{
+  "asset": "RollingMC",
+  "source_pairs": [
+    {
+      "color": "HD_RollingMC_north.png",
+      "mask": "HD_RollingMC_northm.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "alpha_bounds_including_stroke": [
+        34,
+        206,
+        988,
+        827
+      ],
+      "filled_bounds_without_black_stroke": [
+        52,
+        223,
+        971,
+        809
+      ],
+      "mask_red_bounds": [
+        82,
+        223,
+        967,
+        809
+      ],
+      "red_mask_pixels": 280138,
+      "visible_unmasked_pixels": 169471,
+      "interior_palette": [
+        {
+          "rgb": [
+            171,
+            171,
+            171
+          ],
+          "pixels": 186613
+        },
+        {
+          "rgb": [
+            149,
+            149,
+            149
+          ],
+          "pixels": 99088
+        },
+        {
+          "rgb": [
+            183,
+            183,
+            183
+          ],
+          "pixels": 65670
+        },
+        {
+          "rgb": [
+            83,
+            83,
+            83
+          ],
+          "pixels": 20666
+        },
+        {
+          "rgb": [
+            181,
+            181,
+            181
+          ],
+          "pixels": 189
+        },
+        {
+          "rgb": [
+            182,
+            182,
+            182
+          ],
+          "pixels": 182
+        },
+        {
+          "rgb": [
+            177,
+            177,
+            177
+          ],
+          "pixels": 173
+        },
+        {
+          "rgb": [
+            173,
+            173,
+            173
+          ],
+          "pixels": 163
+        },
+        {
+          "rgb": [
+            151,
+            151,
+            151
+          ],
+          "pixels": 146
+        },
+        {
+          "rgb": [
+            170,
+            170,
+            170
+          ],
+          "pixels": 143
+        },
+        {
+          "rgb": [
+            172,
+            172,
+            172
+          ],
+          "pixels": 138
+        },
+        {
+          "rgb": [
+            152,
+            152,
+            152
+          ],
+          "pixels": 131
+        }
+      ]
+    }
+  ],
+  "game_footprint": [
+    3,
+    3
+  ],
+  "mesh_objects": 13,
+  "vertices": 524,
+  "world_bounds": [
+    [
+      -1.34765625,
+      -1.5240371227264404,
+      -0.3091793358325958
+    ],
+    [
+      1.3388671875,
+      0.15464462339878082,
+      1.6147559881210327
+    ]
+  ],
+  "ortho_scale": 3.973206296199706,
+  "target_center": [
+    -0.00439453125,
+    -0.6846962571144104,
+    0.6527883410453796
+  ],
+  "downward_degrees": 64,
+  "resolution": [
+    512,
+    512
+  ],
+  "camera_positions": "North -Y, South +Y, East +X; chosen to match supplied sprite orientation.",
+  "unseen_views_inferred": true,
+  "no_outline_geometry": true,
+  "no_image_textures_on_model": true
+}

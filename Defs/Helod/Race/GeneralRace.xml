@@ -155,10 +155,10 @@
               <shaderType>Cutout</shaderType>
               <offsets>
                 <south>
-                  <offset>(-0.25,0.25)</offset>
+                  <offset>(-0.4125,0.15)</offset>
                 </south>
                 <north>
-                  <offset>(-0.05,0.36)</offset>
+                  <offset>(0,0.475)</offset>
                 </north>
                 <east>
                   <offset>(-0.325,0.24)</offset>
@@ -228,15 +228,15 @@
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <north>
-                  <offset>(-0.11,-0.2)</offset>
+                  <offset>(-0.13,-0.15)</offset>
                   <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(-0.0425,-0.335)</offset>
+                  <offset>(-0.045,-0.355)</offset>
                   <layerOffset>-1</layerOffset>
                 </east>
                 <south>
-                  <offset>(0.11,-0.32)</offset>
+                  <offset>(0.13,-0.31175)</offset>
                   <layerOffset></layerOffset>
                 </south>
               </offsets>
@@ -304,15 +304,15 @@
               <shaderType>CutoutComplex</shaderType>
               <offsets>
                 <north>
-                  <offset>(0.11,-0.2)</offset>
+                  <offset>(0.13,-0.15)</offset>
                   <layerOffset></layerOffset>
                 </north>
                 <east>
-                  <offset>(0.07,-0.325)</offset>
+                  <offset>(0.0675,-0.355)</offset>
                   <layerOffset>-0.004</layerOffset>
                 </east>
                 <south>
-                  <offset>(-0.11,-0.32)</offset>
+                  <offset>(-0.13,-0.31175)</offset>
                   <layerOffset></layerOffset>
                 </south>
               </offsets>
@@ -769,26 +769,23 @@
         <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeBaby</def>
           <minAge>0</minAge>
-          <headOffset>(0.0, -0.7)</headOffset>
-          <headFemaleOffset>(0.0, -0.7)</headFemaleOffset>
+          <headFemaleOffset>(0.0, -0.25)</headFemaleOffset>
         </li>
         <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeChild</def>
           <minAge>3</minAge>
-          <headOffset>(0.0, -0.5)</headOffset>
-          <headFemaleOffset>(0.0, -0.5)</headFemaleOffset>
+          <headOffset>(0.0, -1.2)</headOffset>
+          <headFemaleOffset>(0.0, -0.2)</headFemaleOffset>
         </li>
-        <li Class="AlienRace.LifeStageAgeAlien">
+        <li Class="AlienRace.LifeStageAgeAlien">  <!-- 청소년기 스테이지 저희 쓰나요....? -->
           <def>HumanlikeTeenager</def>
           <minAge>13</minAge>
-          <headOffset>(0.0, -0.07)</headOffset>
-          <headFemaleOffset>(0.0, -0.07)</headFemaleOffset>
+          <headFemaleOffset>(0.0, -0.125)</headFemaleOffset>
         </li>
         <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeAdult</def>
           <minAge>18</minAge>
-          <headOffset>(0.0, -0.07)</headOffset>
-          <headFemaleOffset>(0.0, -0.07)</headFemaleOffset>
+          <headFemaleOffset>(0.0, -0.125)</headFemaleOffset>
         </li>
       </lifeStageAges>
       <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>

@@ -155,14 +155,6 @@
       </bodyPartGroups>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <drawData>
-        <defaultData>
-          <layer>110</layer>
-        </defaultData>
-        <dataSouth>
-          <layer>30</layer>
-        </dataSouth>
-      </drawData>
       <layers>
         <li>Belt</li>
       </layers>
@@ -176,7 +168,7 @@
     </apparel>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -216,14 +208,6 @@
       </wornGraphicData>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <drawData>
-        <defaultData>
-          <layer>110</layer>
-        </defaultData>
-        <dataSouth>
-          <layer>30</layer>
-        </dataSouth>
-      </drawData>
       <layers>
         <li>Belt</li>
       </layers>
@@ -257,7 +241,7 @@
     </comps>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -393,14 +377,6 @@
       </wornGraphicData>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <drawData>
-        <defaultData>
-          <layer>110</layer>
-        </defaultData>
-        <dataSouth>
-          <layer>30</layer>
-        </dataSouth>
-      </drawData>
       <renderNodeProperties>
         <li>
           <debugLabel>Deployed gas mask</debugLabel>
@@ -409,6 +385,7 @@
           <parentTagDef>Head</parentTagDef>
           <rotDrawMode>Fresh, Rotting</rotDrawMode>
           <drawData>
+            <!-- Keep the deployed mask immediately below vanilla head apparel (70). -->
             <defaultData>
               <layer>69</layer>
             </defaultData>
@@ -428,7 +405,7 @@
     </apparel>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -481,14 +458,6 @@
       </wornGraphicData>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <drawData>
-        <defaultData>
-          <layer>110</layer>
-        </defaultData>
-        <dataSouth>
-          <layer>30</layer>
-        </dataSouth>
-      </drawData>
       <renderNodeProperties>
         <li>
           <debugLabel>Deployed gas mask</debugLabel>
@@ -497,6 +466,7 @@
           <parentTagDef>Head</parentTagDef>
           <rotDrawMode>Fresh, Rotting</rotDrawMode>
           <drawData>
+            <!-- Keep the deployed mask immediately below vanilla head apparel (70). -->
             <defaultData>
               <layer>69</layer>
             </defaultData>
@@ -516,7 +486,7 @@
     </apparel>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -568,14 +538,6 @@
       </wornGraphicData>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <drawData>
-        <defaultData>
-          <layer>110</layer>
-        </defaultData>
-        <dataSouth>
-          <layer>30</layer>
-        </dataSouth>
-      </drawData>
       <layers>
         <li>Belt</li>
       </layers>
@@ -591,7 +553,7 @@
     </comps>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <stuffCategories>
@@ -656,7 +618,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -719,7 +681,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -779,7 +741,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -842,7 +804,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -885,14 +847,6 @@
       <wornGraphicPath>Helod/Apparel/HD_GreatWarStormFrontBelt/HD_GreatWarStormFrontBelt</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <drawData>
-        <defaultData>
-          <layer>110</layer>
-        </defaultData>
-        <dataSouth>
-          <layer>30</layer>
-        </dataSouth>
-      </drawData>
       <layers>
         <li>Belt</li>
       </layers>
@@ -908,7 +862,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>
@@ -1275,7 +1229,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>

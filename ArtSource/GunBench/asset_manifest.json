@@ -1,0 +1,44 @@
+{
+  "blender_version": "5.1.2",
+  "mesh_components": 11,
+  "vertices": 208,
+  "footprint": [
+    3,
+    1
+  ],
+  "elevation_degrees": 64,
+  "ortho_scale": 3.65,
+  "resolution": [
+    512,
+    512
+  ],
+  "camera_convention": "North +Y, South -Y, East +X",
+  "target_center": [
+    0.0,
+    0.0,
+    0.8500000238418579
+  ],
+  "reference_alignment": true,
+  "palette_srgb": {
+    "SteelGray": [
+      132,
+      131,
+      127
+    ],
+    "WorktopGray": [
+      99,
+      103,
+      102
+    ],
+    "Charcoal": [
+      63,
+      65,
+      64
+    ],
+    "DarkCyan": [
+      37,
+      76,
+      86
+    ]
+  }
+}

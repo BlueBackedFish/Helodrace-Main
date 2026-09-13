@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <!-- Shared production recipes spanning multiple technology eras. -->
@@ -715,7 +715,7 @@
   <RecipeDef>
     <defName>HD_ConvertIndustrialComponentToGeneralMachinePart</defName>
     <label>convert component into general machine part</label>
-    <description>Rework a standard industrial component into a general-purpose machine part at a tier 1 workbench.</description>
+    <description>Rework a standard industrial component into a general-purpose machine part at a basic workbench.</description>
     <jobString>Converting component into general machine part.</jobString>
     <workAmount>600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -742,7 +742,7 @@
       <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -1198,9 +1198,9 @@
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_MakeLowQualityBarrel_Tier1Workbench</defName>
+    <defName>HD_MakeLowQualityBarrel_BasicWorkbench</defName>
     <label>make low quality gun barrel by hand</label>
-    <description>Slowly bore and finish a low-quality metal gun barrel from carbon steel at a tier 1 workbench.</description>
+    <description>Slowly bore and finish a low-quality metal gun barrel from carbon steel at a basic workbench.</description>
     <jobString>Making low quality gun barrel by hand.</jobString>
     <workAmount>3000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1228,14 +1228,14 @@
       <HD_LowQualityBarrel>1</HD_LowQualityBarrel>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_MakeShotgunBarrel_Tier1Workbench</defName>
+    <defName>HD_MakeShotgunBarrel_BasicWorkbench</defName>
     <label>make shotgun barrel by hand</label>
-    <description>Slowly bore and finish a heavy shotgun barrel from carbon steel at a tier 1 workbench.</description>
+    <description>Slowly bore and finish a heavy shotgun barrel from carbon steel at a basic workbench.</description>
     <jobString>Making shotgun barrel by hand.</jobString>
     <workAmount>3600</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1262,14 +1262,14 @@
       <HD_ShotgunBarrel>1</HD_ShotgunBarrel>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_MakeWildWestBarrel_Tier1Workbench</defName>
+    <defName>HD_MakeWildWestBarrel_BasicWorkbench</defName>
     <label>make medium quality gun barrel by hand</label>
-    <description>Slowly bore and rifle a medium quality gun barrel from carbon steel and a general machine part at a tier 1 workbench.</description>
+    <description>Slowly bore and rifle a medium quality gun barrel from carbon steel and a general machine part at a basic workbench.</description>
     <jobString>Making medium quality gun barrel by hand.</jobString>
     <workAmount>4200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1306,7 +1306,7 @@
       <HD_WildWestBarrel>1</HD_WildWestBarrel>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -1371,7 +1371,7 @@
       <HD_Gun_SprMOne_Weapon>1</HD_Gun_SprMOne_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -1427,7 +1427,7 @@
       <HD_Gun_ColtArmyModel1860_Weapon>1</HD_Gun_ColtArmyModel1860_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>5</Crafting>
@@ -1477,7 +1477,7 @@
       <HD_Gun_ColtSAA_Weapon>1</HD_Gun_ColtSAA_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>6</Crafting>
@@ -1527,7 +1527,7 @@
       <HD_Gun_SWModelThree_Weapon>1</HD_Gun_SWModelThree_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>6</Crafting>
@@ -1586,7 +1586,7 @@
       <HD_Gun_M1911_Weapon>1</HD_Gun_M1911_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>7</Crafting>
@@ -1633,7 +1633,7 @@
       <HD_PrimaryCell>1</HD_PrimaryCell>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -1734,7 +1734,7 @@
       <HD_Gun_SprMThreeHigh_Weapon>1</HD_Gun_SprMThreeHigh_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -1799,7 +1799,7 @@
       <HD_Gun_Henry_Weapon>1</HD_Gun_Henry_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>7</Crafting>
@@ -1867,7 +1867,7 @@
       <HD_Gun_WinM1887_Weapon>1</HD_Gun_WinM1887_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>7</Crafting>
@@ -1935,7 +1935,7 @@
       <HD_Gun_WinMNinetyFive_Weapon>1</HD_Gun_WinMNinetyFive_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
@@ -1983,7 +1983,7 @@
       <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -2048,7 +2048,7 @@
       <HD_Gun_KragJorgensen_Weapon>1</HD_Gun_KragJorgensen_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
@@ -2116,7 +2116,7 @@
       <HD_Gun_SprMThree_Weapon>1</HD_Gun_SprMThree_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>9</Crafting>
@@ -2192,7 +2192,7 @@
       <HD_Gun_M1897_Weapon>1</HD_Gun_M1897_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
@@ -2260,7 +2260,7 @@
       <HD_Gun_M1903A4_Weapon>1</HD_Gun_M1903A4_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
@@ -2328,7 +2328,7 @@
       <HD_Gun_M1903Pedersen_Weapon>1</HD_Gun_M1903Pedersen_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
@@ -2405,7 +2405,7 @@
       <HD_Gun_M1A1Harrington_Weapon>1</HD_Gun_M1A1Harrington_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
@@ -2473,7 +2473,7 @@
       <HD_Gun_M3A1_Weapon>1</HD_Gun_M3A1_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>9</Crafting>
@@ -2541,7 +2541,7 @@
       <HD_Gun_M9A1_Weapon>1</HD_Gun_M9A1_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>8</Crafting>
@@ -2618,7 +2618,7 @@
       <HD_Gun_M1Garand_Weapon>1</HD_Gun_M1Garand_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
@@ -2695,7 +2695,7 @@
       <HD_Gun_M1918A2HAR_Weapon>1</HD_Gun_M1918A2HAR_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
@@ -2761,7 +2761,7 @@
       <HD_Gun_M1D_Weapon>1</HD_Gun_M1D_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
@@ -2838,7 +2838,7 @@
       <HD_Gun_M1919A6LMG_Weapon>1</HD_Gun_M1919A6LMG_Weapon>
     </products>
     <recipeUsers>
-      <li>HD_Tier2Workbench</li>
+      <li>HD_BasicWorkbench</li>
     </recipeUsers>
     <skillRequirements>
       <Crafting>10</Crafting>
@@ -2875,7 +2875,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_Gun_M1A1Carbine_Weapon>1</HD_Gun_M1A1Carbine_Weapon></products>
-    <recipeUsers><li>HD_Tier2Workbench</li></recipeUsers>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
     <skillRequirements><Crafting>9</Crafting></skillRequirements>
   </RecipeDef>
 
@@ -2909,7 +2909,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_Gun_M2Carbine_Weapon>1</HD_Gun_M2Carbine_Weapon></products>
-    <recipeUsers><li>HD_Tier2Workbench</li></recipeUsers>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
     <skillRequirements><Crafting>10</Crafting></skillRequirements>
   </RecipeDef>
 
@@ -2943,7 +2943,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_Gun_M60E3_Weapon>1</HD_Gun_M60E3_Weapon></products>
-    <recipeUsers><li>HD_Tier2Workbench</li></recipeUsers>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
     <skillRequirements><Crafting>11</Crafting></skillRequirements>
   </RecipeDef>
 
@@ -2976,7 +2976,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_BasicElectricalComponents>1</HD_BasicElectricalComponents></products>
-    <recipeUsers><li>HD_Tier1Workbench</li></recipeUsers>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
     <skillRequirements><Crafting>4</Crafting></skillRequirements>
   </RecipeDef>
 
@@ -3014,7 +3014,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products><HD_BasicElectronicComponents>1</HD_BasicElectronicComponents></products>
-    <recipeUsers><li>HD_Tier1Workbench</li></recipeUsers>
+    <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
     <skillRequirements><Crafting>6</Crafting></skillRequirements>
   </RecipeDef>
 

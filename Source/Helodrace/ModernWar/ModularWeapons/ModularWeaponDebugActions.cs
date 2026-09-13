@@ -30,6 +30,17 @@ namespace Helodrace.ModernWar
 
         [DebugAction(
             "Helodrace",
+            "Spawn modular MP5 development submachine gun",
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnDevelopmentMP5()
+        {
+            SpawnAndSelect(
+                "HD_Gun_ModularMP5_Test_Weapon",
+                "modular MP5 development submachine gun");
+        }
+
+        [DebugAction(
+            "Helodrace",
             "Spawn assembled M4 upper receiver",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void SpawnAssembledUpperReceiver()

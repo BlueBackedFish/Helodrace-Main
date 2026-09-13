@@ -23,6 +23,12 @@ namespace Helodrace.ModernWar
                 + " preset") + "</label>");
             Line(xml, 2, "<weaponDef>" + Escape(root.parent.def.defName)
                 + "</weaponDef>");
+            if (Math.Abs(root.GasTubeFlowSetting
+                    - ModularWeaponGasSystemUtility.DefaultSetting) > 0.0001f)
+                Line(xml, 2, "<gasTubeFlowSetting>"
+                    + root.GasTubeFlowSetting.ToString(
+                        "R", CultureInfo.InvariantCulture)
+                    + "</gasTubeFlowSetting>");
             if (root.ChildCount > 0)
             {
                 Line(xml, 2, "<parts>");
@@ -345,6 +351,7 @@ namespace Helodrace.ModernWar
     {
         public ThingDef weaponDef;
         public bool useDefaultConfiguration;
+        public float gasTubeFlowSetting = ModularWeaponGasSystemUtility.DefaultSetting;
         public List<ModularWeaponPresetPart> parts = new List<ModularWeaponPresetPart>();
 
         public override IEnumerable<string> ConfigErrors()
@@ -358,6 +365,12 @@ namespace Helodrace.ModernWar
                     + " has no weaponDef with a modular weapon root comp.";
                 yield break;
             }
+
+            if (gasTubeFlowSetting < ModularWeaponGasSystemUtility.MinimumSetting
+                || gasTubeFlowSetting > ModularWeaponGasSystemUtility.MaximumSetting)
+                yield return defName + " has gasTubeFlowSetting outside the supported "
+                    + ModularWeaponGasSystemUtility.MinimumSetting + "-"
+                    + ModularWeaponGasSystemUtility.MaximumSetting + " range.";
 
             if (useDefaultConfiguration && !parts.NullOrEmpty())
                 yield return defName
@@ -459,6 +472,7 @@ namespace Helodrace.ModernWar
 
             if (preset.useDefaultConfiguration)
             {
+                comp.SetGasTubeFlowSetting(preset.gasTubeFlowSetting);
                 return true;
             }
 

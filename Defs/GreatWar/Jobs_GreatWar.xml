@@ -2,48 +2,6 @@
 <Defs>
 
   <WorkGiverDef>
-    <defName>DoBillsHD_Tier2WorkbenchCrafting</defName>
-    <label>craft at tier 2 workbench</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Crafting</workType>
-    <priorityInType>100</priorityInType>
-    <fixedBillGiverDefs>
-      <li>HD_Tier2Workbench</li>
-    </fixedBillGiverDefs>
-    <verb>craft</verb>
-    <gerund>crafting at</gerund>
-    <requiredCapacities><li>Manipulation</li></requiredCapacities>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
-    <defName>DoBillsHD_Tier2WorkbenchCooking</defName>
-    <label>cook at tier 2 workbench</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Cooking</workType>
-    <priorityInType>100</priorityInType>
-    <fixedBillGiverDefs>
-      <li>HD_Tier2Workbench</li>
-    </fixedBillGiverDefs>
-    <verb>cook</verb>
-    <gerund>cooking at</gerund>
-    <requiredCapacities><li>Manipulation</li></requiredCapacities>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
-    <defName>DoBillsHD_Tier2WorkbenchTailoring</defName>
-    <label>tailor at tier 2 workbench</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Tailoring</workType>
-    <priorityInType>100</priorityInType>
-    <fixedBillGiverDefs>
-      <li>HD_Tier2Workbench</li>
-    </fixedBillGiverDefs>
-    <verb>tailor</verb>
-    <gerund>tailoring at</gerund>
-    <requiredCapacities><li>Manipulation</li></requiredCapacities>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
     <defName>DoBillsHD_StirredTankReactor</defName>
     <label>operate stirred-tank reactor</label>
     <giverClass>WorkGiver_DoBill</giverClass>

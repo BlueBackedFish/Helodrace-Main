@@ -239,7 +239,7 @@
       <AccuracyTouch>0.34</AccuracyTouch><AccuracyShort>0.66</AccuracyShort><AccuracyMedium>0.60</AccuracyMedium><AccuracyLong>0.40</AccuracyLong><RangedWeapon_Cooldown>2.6</RangedWeapon_Cooldown>
     </statBases>
     <costList><Steel>55</Steel><ComponentIndustrial>5</ComponentIndustrial></costList>
-    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite><recipeUsers><li>HD_Tier2Workbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
+    <recipeMaker><researchPrerequisite>HelodColdWarTech</researchPrerequisite><recipeUsers><li>HD_BasicWorkbench</li></recipeUsers><skillRequirements><Crafting>6</Crafting></skillRequirements></recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_M79Launcher">
         <allowedAmmoDefs>

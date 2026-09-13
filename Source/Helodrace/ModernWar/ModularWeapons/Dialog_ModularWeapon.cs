@@ -554,8 +554,13 @@ namespace Helodrace.ModernWar
             if (node == null) return;
             Rect inner = rect.ContractedBy(10f);
             Widgets.Label(new Rect(inner.x, inner.y, inner.width, 26f), node.thing.LabelCap);
-            Rect outRect = new Rect(inner.x, inner.y + 30f, inner.width,
-                inner.height - 30f);
+            DrawGasTubeControl(new Rect(
+                inner.x,
+                inner.y + 30f,
+                inner.width,
+                82f));
+            Rect outRect = new Rect(inner.x, inner.y + 118f, inner.width,
+                inner.height - 118f);
             float contentHeight = 16f;
             for (int i = 0; i < node.Props.sockets.Count; i++)
             {
@@ -673,6 +678,70 @@ namespace Helodrace.ModernWar
                 y += 9f;
             }
             Widgets.EndScrollView();
+        }
+
+        private void DrawGasTubeControl(Rect rect)
+        {
+            bool available = root.HasAdjustableGasSystem;
+            Widgets.DrawBoxSolidWithOutline(
+                rect,
+                new Color(0.085f, 0.105f, 0.10f),
+                available
+                    ? new Color(0.34f, 0.48f, 0.38f)
+                    : new Color(0.36f, 0.36f, 0.36f),
+                1);
+
+            float setting = root.GasTubeFlowSetting;
+            Widgets.Label(
+                new Rect(rect.x + 8f, rect.y + 5f, rect.width - 75f, 22f),
+                "HD_ModularWeapon_GasTubeSetting".Translate(
+                    setting.ToString("P0", CultureInfo.InvariantCulture)));
+            Rect resetRect = new Rect(rect.xMax - 60f, rect.y + 3f, 53f, 23f);
+            if (available && Widgets.ButtonText(
+                resetRect,
+                "HD_ModularWeapon_GasTubeReset".Translate()))
+                root.SetGasTubeFlowSetting(ModularWeaponGasSystemUtility.DefaultSetting);
+
+            if (available)
+            {
+                float edited = Widgets.HorizontalSlider(
+                    new Rect(rect.x + 9f, rect.y + 30f, rect.width - 18f, 18f),
+                    setting,
+                    ModularWeaponGasSystemUtility.MinimumSetting,
+                    ModularWeaponGasSystemUtility.MaximumSetting,
+                    true);
+                edited = Mathf.Round(edited * 100f) / 100f;
+                if (!Mathf.Approximately(edited, setting))
+                    root.SetGasTubeFlowSetting(edited);
+
+                ModularWeaponConvertedStats converted = root.ConvertedStats;
+                ModularWeaponMuzzleSignature muzzle = root.MuzzleSignature;
+                Text.Font = GameFont.Tiny;
+                Widgets.Label(
+                    new Rect(rect.x + 8f, rect.y + 55f, rect.width - 16f, 20f),
+                    "HD_ModularWeapon_GasTubeEffects".Translate(
+                        root.EffectiveRoundsPerMinute.ToString(
+                            "0.#", CultureInfo.InvariantCulture),
+                        converted.GasRecoilMultiplier.ToString(
+                            "0.###", CultureInfo.InvariantCulture),
+                        muzzle.Coefficient.ToString(
+                            "0.###", CultureInfo.InvariantCulture)));
+                Text.Font = GameFont.Small;
+            }
+            else
+            {
+                Text.Font = GameFont.Tiny;
+                GUI.color = new Color(0.65f, 0.65f, 0.65f);
+                Widgets.Label(
+                    new Rect(rect.x + 8f, rect.y + 34f, rect.width - 16f, 38f),
+                    "HD_ModularWeapon_GasTubeUnavailable".Translate());
+                GUI.color = Color.white;
+                Text.Font = GameFont.Small;
+            }
+
+            TooltipHandler.TipRegion(
+                rect,
+                "HD_ModularWeapon_GasTubeDesc".Translate());
         }
 
         private void DrawCatalog(Rect rect, ModularRenderNode node)

@@ -93,7 +93,8 @@
     <uiOrder>10</uiOrder>
     <uiSide>Bottom</uiSide>
   </Helodrace.ModernWar.ModularArmorSlotDef>
-  <!-- A position controls hit location, protected direction and render anchor. -->
+  <!-- A position controls hit location, protected direction and render anchor.
+       Vanilla body apparel occupies the 20-30 band: fixed parts use 21-23. -->
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_FrontRearTorso</defName>
     <label>front and rear torso</label>
@@ -101,7 +102,7 @@
     <protectedDirections><li>Front</li><li>Back</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>8</drawLayer>
+    <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_SideTorso</defName>
@@ -110,7 +111,7 @@
     <protectedDirections><li>Left</li><li>Right</li></protectedDirections>
     <directionArcDegrees>80</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>8</drawLayer>
+    <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_FrontTorso</defName>
@@ -119,10 +120,11 @@
     <protectedDirections><li>Front</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>8</drawLayer>
+    <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
 
-  <!-- A PALS panel is a real multi-cell mounting surface, not a direction selector. -->
+  <!-- A PALS panel is a real multi-cell mounting surface, not a direction selector.
+       Its drawLayer is added to the position layer, keeping effective layers below 30. -->
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
     <defName>HD_IOTV_PALS_Front</defName>
     <label>IBTV upper front PALS webbing</label>
@@ -137,7 +139,7 @@
     <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh</authoredTexturePrefix>
     <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh</southTexturePrefix>
     <drawCellSize>(0.08,0.08)</drawCellSize>
-    <drawLayer>11</drawLayer>
+    <drawLayer>3</drawLayer>
     <positionDrawLayerStep>-0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -154,7 +156,7 @@
     <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontLow</authoredTexturePrefix>
     <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontLow</southTexturePrefix>
     <drawCellSize>(0.08,0.08)</drawCellSize>
-    <drawLayer>11</drawLayer>
+    <drawLayer>3</drawLayer>
     <positionDrawLayerStep>-0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -175,8 +177,8 @@
     <northBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_RightBack</northBackTexturePrefix>
     <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Right</southTexturePrefix>
     <southBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_RightBack</southBackTexturePrefix>
-    <drawLayer>11</drawLayer>
-    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <drawLayer>3</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
     <positionDrawLayerStep>0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -197,8 +199,8 @@
     <northBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_LeftBack</northBackTexturePrefix>
     <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Left</southTexturePrefix>
     <southBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_LeftBack</southBackTexturePrefix>
-    <drawLayer>11</drawLayer>
-    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <drawLayer>3</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
     <positionDrawLayerStep>0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -215,7 +217,7 @@
     <visibleDirections><li>Front</li></visibleDirections>
     <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IBTV_Groin</authoredTexturePrefix>
     <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IBTV_Groin</southTexturePrefix>
-    <drawLayer>12</drawLayer>
+    <drawLayer>4</drawLayer>
     <positionDrawLayerStep>-0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -232,7 +234,7 @@
     <visibleDirections><li>Back</li></visibleDirections>
     <renderDirections><li>Back</li></renderDirections>
     <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IBTV_Back</northTexturePrefix>
-    <drawLayer>11</drawLayer>
+    <drawLayer>3</drawLayer>
     <positionDrawLayerStep>0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -255,8 +257,8 @@
     <southTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Right</southTexturePrefix>
     <southBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_RightBack</southBackTexturePrefix>
     <flatNormalPositionCount>2</flatNormalPositionCount>
-    <drawLayer>12</drawLayer>
-    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <drawLayer>4</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
     <positionDrawLayerStep>0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPalsPanelDef>
@@ -279,8 +281,8 @@
     <southTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Left</southTexturePrefix>
     <southBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_LeftBack</southBackTexturePrefix>
     <flatNormalPositionCount>2</flatNormalPositionCount>
-    <drawLayer>12</drawLayer>
-    <sideBackDrawLayer>2</sideBackDrawLayer>
+    <drawLayer>4</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
     <positionDrawLayerStep>0.1</positionDrawLayerStep>
   </Helodrace.ModernWar.ModularArmorPalsPanelDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
@@ -290,7 +292,7 @@
     <protectedDirections><li>Back</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>8</drawLayer>
+    <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_RearLowerBody</defName>
@@ -299,7 +301,7 @@
     <protectedDirections><li>Back</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>10</drawLayer>
+    <drawLayer>23</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_LeftTorso</defName>
@@ -308,7 +310,7 @@
     <protectedDirections><li>Left</li></protectedDirections>
     <directionArcDegrees>80</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>8</drawLayer>
+    <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_RightTorso</defName>
@@ -317,21 +319,21 @@
     <protectedDirections><li>Right</li></protectedDirections>
     <directionArcDegrees>80</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>8</drawLayer>
+    <drawLayer>21</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_Neck</defName>
     <label>neck</label>
     <bodyPartGroups><li>Neck</li></bodyPartGroups>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>9</drawLayer>
+    <drawLayer>22</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_Shoulders</defName>
     <label>shoulders</label>
     <bodyPartGroups><li>Shoulders</li><li>Arms</li></bodyPartGroups>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>10</drawLayer>
+    <drawLayer>23</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_LowerBody</defName>
@@ -340,14 +342,14 @@
     <protectedDirections><li>Front</li></protectedDirections>
     <directionArcDegrees>100</directionArcDegrees>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>10</drawLayer>
+    <drawLayer>23</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
   <Helodrace.ModernWar.ModularArmorPositionDef>
     <defName>HD_MA_Pos_Legs</defName>
     <label>legs</label>
     <bodyPartGroups><li>Legs</li></bodyPartGroups>
     <parentTagDef>ApparelBody</parentTagDef>
-    <drawLayer>10</drawLayer>
+    <drawLayer>23</drawLayer>
   </Helodrace.ModernWar.ModularArmorPositionDef>
 
   <!-- Fixed parts have an authored installation location. -->

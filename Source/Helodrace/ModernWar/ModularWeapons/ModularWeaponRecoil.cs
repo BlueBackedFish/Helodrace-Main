@@ -63,6 +63,15 @@ namespace Helodrace.ModernWar
                 out drawOffset,
                 out angleOffset,
                 aimAngle);
+
+            // Vanilla's recoil helper has no instance-level stat hook. Apply the same
+            // gas-adjusted raw recoil multiplier used by the converted combat stats so
+            // the held-weapon kick stays consistent with the actual configuration.
+            CompModularWeaponNode modular = equipment
+                ?.TryGetComp<CompModularWeaponNode>();
+            float gasRecoil = modular?.ConvertedStats?.GasRecoilMultiplier ?? 1f;
+            drawOffset *= gasRecoil;
+            angleOffset *= gasRecoil;
         }
     }
 }

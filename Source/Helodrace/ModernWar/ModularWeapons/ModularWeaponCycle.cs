@@ -78,6 +78,7 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode root)
         {
             if (verb == null || root?.Props.isAssemblyRoot != true) return;
+            ModularWeaponMuzzleEffectUtility.NotifyShot(verb, root);
             int now = Find.TickManager?.TicksGame ?? 0;
             int cycleTicks = Mathf.Max(2, root.EffectiveBurstIntervalTicks);
             states[root.parent.thingIDNumber] = new CycleState

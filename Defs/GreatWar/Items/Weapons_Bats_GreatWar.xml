@@ -26,7 +26,7 @@
     <recipeMaker>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
       <displayPriority>310</displayPriority>
     </recipeMaker>
@@ -73,7 +73,7 @@
     </stuffCategories>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <skillRequirements>

@@ -34,9 +34,10 @@
       <wornGraphicPath>Helod/Apparel/HD_SCR300/HD_SCR300</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
+      <!-- Back-mounted pack: use vanilla pack heights while keeping side views behind the body. -->
       <drawData>
         <defaultData>
-          <layer>108</layer>
+          <layer>93</layer>
         </defaultData>
         <dataEast>
           <layer>-1</layer>
@@ -45,7 +46,7 @@
           <layer>-1</layer>
         </dataWest>
         <dataSouth>
-          <layer>-100</layer>
+          <layer>-3</layer>
         </dataSouth>
       </drawData>
       <layers>
@@ -66,7 +67,7 @@
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodWireless</researchPrerequisite>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
     </recipeMaker>
     <costList>

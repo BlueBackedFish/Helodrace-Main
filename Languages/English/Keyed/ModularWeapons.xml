@@ -89,4 +89,9 @@
   <HD_ModularWeapon_FunctionOperational>Function: operational</HD_ModularWeapon_FunctionOperational>
   <HD_ModularWeapon_FunctionBlocked>Function: cannot fire (missing required parts: {0})</HD_ModularWeapon_FunctionBlocked>
   <HD_ModularWeapon_FunctionDegraded>Function degraded (missing functional parts: {0})</HD_ModularWeapon_FunctionDegraded>
+  <HD_ModularWeapon_GasTubeSetting>Gas-tube flow: {0}</HD_ModularWeapon_GasTubeSetting>
+  <HD_ModularWeapon_GasTubeReset>100%</HD_ModularWeapon_GasTubeReset>
+  <HD_ModularWeapon_GasTubeEffects>{0} RPM · recoil ×{1} · muzzle flash ×{2}</HD_ModularWeapon_GasTubeEffects>
+  <HD_ModularWeapon_GasTubeUnavailable>No installed gas system; the saved setting is inactive.</HD_ModularWeapon_GasTubeUnavailable>
+  <HD_ModularWeapon_GasTubeDesc>Adjusts the assembled weapon's gas flow. Lower flow reduces cyclic rate and recoil; higher flow increases both. The mechanical RPM limit is never exceeded.</HD_ModularWeapon_GasTubeDesc>
 </LanguageData>

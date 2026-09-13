@@ -1,0 +1,1398 @@
+{
+  "LineShaftMillingMachine": [
+    {
+      "color": "HD_LineShaftMillingMachine_east.png",
+      "mask": "HD_LineShaftMillingMachine_eastm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        194,
+        119,
+        340,
+        463
+      ],
+      "filled_bounds_without_black_stroke": [
+        207,
+        132,
+        328,
+        450
+      ],
+      "mask_red_bounds": [
+        218,
+        132,
+        328,
+        450
+      ],
+      "red_mask_pixels": 29493,
+      "visible_unmasked_pixels": 16765,
+      "interior_palette": [
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 12506
+        },
+        {
+          "rgb": [
+            234,
+            234,
+            234
+          ],
+          "pixels": 5047
+        },
+        {
+          "rgb": [
+            153,
+            153,
+            153
+          ],
+          "pixels": 4320
+        },
+        {
+          "rgb": [
+            85,
+            85,
+            85
+          ],
+          "pixels": 2300
+        },
+        {
+          "rgb": [
+            111,
+            111,
+            111
+          ],
+          "pixels": 1902
+        },
+        {
+          "rgb": [
+            52,
+            52,
+            52
+          ],
+          "pixels": 1855
+        },
+        {
+          "rgb": [
+            195,
+            195,
+            195
+          ],
+          "pixels": 1431
+        },
+        {
+          "rgb": [
+            174,
+            174,
+            174
+          ],
+          "pixels": 1003
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 898
+        },
+        {
+          "rgb": [
+            127,
+            82,
+            48
+          ],
+          "pixels": 645
+        },
+        {
+          "rgb": [
+            226,
+            226,
+            226
+          ],
+          "pixels": 595
+        },
+        {
+          "rgb": [
+            67,
+            67,
+            67
+          ],
+          "pixels": 520
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftMillingMachine_north.png",
+      "mask": "HD_LineShaftMillingMachine_northm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        104,
+        171,
+        409,
+        366
+      ],
+      "filled_bounds_without_black_stroke": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "mask_red_bounds": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "red_mask_pixels": 38246,
+      "visible_unmasked_pixels": 18511,
+      "interior_palette": [
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 12787
+        },
+        {
+          "rgb": [
+            153,
+            153,
+            153
+          ],
+          "pixels": 11438
+        },
+        {
+          "rgb": [
+            234,
+            234,
+            234
+          ],
+          "pixels": 4488
+        },
+        {
+          "rgb": [
+            111,
+            111,
+            111
+          ],
+          "pixels": 2121
+        },
+        {
+          "rgb": [
+            195,
+            195,
+            195
+          ],
+          "pixels": 2073
+        },
+        {
+          "rgb": [
+            85,
+            85,
+            85
+          ],
+          "pixels": 1953
+        },
+        {
+          "rgb": [
+            67,
+            67,
+            67
+          ],
+          "pixels": 1772
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 1350
+        },
+        {
+          "rgb": [
+            174,
+            174,
+            174
+          ],
+          "pixels": 1056
+        },
+        {
+          "rgb": [
+            122,
+            122,
+            122
+          ],
+          "pixels": 994
+        },
+        {
+          "rgb": [
+            59,
+            59,
+            59
+          ],
+          "pixels": 740
+        },
+        {
+          "rgb": [
+            127,
+            82,
+            48
+          ],
+          "pixels": 708
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftMillingMachine_south.png",
+      "mask": "HD_LineShaftMillingMachine_southm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        104,
+        171,
+        409,
+        366
+      ],
+      "filled_bounds_without_black_stroke": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "mask_red_bounds": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "red_mask_pixels": 36759,
+      "visible_unmasked_pixels": 18419,
+      "interior_palette": [
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 12552
+        },
+        {
+          "rgb": [
+            153,
+            153,
+            153
+          ],
+          "pixels": 11954
+        },
+        {
+          "rgb": [
+            234,
+            234,
+            234
+          ],
+          "pixels": 4584
+        },
+        {
+          "rgb": [
+            195,
+            195,
+            195
+          ],
+          "pixels": 2760
+        },
+        {
+          "rgb": [
+            111,
+            111,
+            111
+          ],
+          "pixels": 1904
+        },
+        {
+          "rgb": [
+            85,
+            85,
+            85
+          ],
+          "pixels": 1512
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 1175
+        },
+        {
+          "rgb": [
+            67,
+            67,
+            67
+          ],
+          "pixels": 996
+        },
+        {
+          "rgb": [
+            174,
+            174,
+            174
+          ],
+          "pixels": 987
+        },
+        {
+          "rgb": [
+            127,
+            82,
+            48
+          ],
+          "pixels": 702
+        },
+        {
+          "rgb": [
+            226,
+            226,
+            226
+          ],
+          "pixels": 648
+        },
+        {
+          "rgb": [
+            59,
+            59,
+            59
+          ],
+          "pixels": 643
+        }
+      ]
+    }
+  ],
+  "LineShaftPress": [
+    {
+      "color": "HD_LineShaftPress_north.png",
+      "mask": "HD_LineShaftPress_northm.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "alpha_bounds_including_stroke": [
+        149,
+        46,
+        883,
+        967
+      ],
+      "filled_bounds_without_black_stroke": [
+        164,
+        61,
+        868,
+        952
+      ],
+      "mask_red_bounds": [
+        164,
+        61,
+        868,
+        952
+      ],
+      "red_mask_pixels": 553772,
+      "visible_unmasked_pixels": 56505,
+      "interior_palette": [
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 100346
+        },
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 95166
+        },
+        {
+          "rgb": [
+            184,
+            184,
+            184
+          ],
+          "pixels": 86432
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 82633
+        },
+        {
+          "rgb": [
+            101,
+            101,
+            101
+          ],
+          "pixels": 59851
+        },
+        {
+          "rgb": [
+            52,
+            52,
+            52
+          ],
+          "pixels": 31795
+        },
+        {
+          "rgb": [
+            83,
+            83,
+            83
+          ],
+          "pixels": 25521
+        },
+        {
+          "rgb": [
+            166,
+            166,
+            166
+          ],
+          "pixels": 20868
+        },
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 19880
+        },
+        {
+          "rgb": [
+            132,
+            132,
+            132
+          ],
+          "pixels": 11194
+        },
+        {
+          "rgb": [
+            65,
+            65,
+            65
+          ],
+          "pixels": 10148
+        },
+        {
+          "rgb": [
+            98,
+            98,
+            98
+          ],
+          "pixels": 3455
+        }
+      ]
+    }
+  ],
+  "LineShaftTurretLathe": [
+    {
+      "color": "HD_LineShaftTurretLathe_east.png",
+      "mask": "HD_LineShaftTurretLathe_eastm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        185,
+        72,
+        329,
+        458
+      ],
+      "filled_bounds_without_black_stroke": [
+        189,
+        77,
+        323,
+        452
+      ],
+      "mask_red_bounds": [
+        189,
+        78,
+        319,
+        422
+      ],
+      "red_mask_pixels": 31756,
+      "visible_unmasked_pixels": 17175,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 15130
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 4405
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 3545
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 2739
+        },
+        {
+          "rgb": [
+            191,
+            191,
+            191
+          ],
+          "pixels": 2041
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1627
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 729
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 628
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 607
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 566
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 343
+        },
+        {
+          "rgb": [
+            38,
+            38,
+            38
+          ],
+          "pixels": 171
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftTurretLathe_north.png",
+      "mask": "HD_LineShaftTurretLathe_northm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        76,
+        161,
+        441,
+        342
+      ],
+      "filled_bounds_without_black_stroke": [
+        86,
+        170,
+        434,
+        333
+      ],
+      "mask_red_bounds": [
+        85,
+        170,
+        434,
+        333
+      ],
+      "red_mask_pixels": 32125,
+      "visible_unmasked_pixels": 14734,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 13132
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 2776
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2675
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 2418
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1655
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1430
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1279
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1079
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 974
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 663
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 568
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 458
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftTurretLathe_south.png",
+      "mask": "HD_LineShaftTurretLathe_southm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        67,
+        161,
+        432,
+        342
+      ],
+      "filled_bounds_without_black_stroke": [
+        74,
+        170,
+        423,
+        333
+      ],
+      "mask_red_bounds": [
+        73,
+        170,
+        423,
+        333
+      ],
+      "red_mask_pixels": 31969,
+      "visible_unmasked_pixels": 14953,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 13118
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 2797
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2667
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 2412
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1655
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1432
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1280
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1054
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 947
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 626
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 560
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 450
+        }
+      ]
+    }
+  ],
+  "RollingMC": [
+    {
+      "color": "HD_RollingMC_north.png",
+      "mask": "HD_RollingMC_northm.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "alpha_bounds_including_stroke": [
+        34,
+        206,
+        988,
+        827
+      ],
+      "filled_bounds_without_black_stroke": [
+        52,
+        223,
+        971,
+        809
+      ],
+      "mask_red_bounds": [
+        82,
+        223,
+        967,
+        809
+      ],
+      "red_mask_pixels": 280138,
+      "visible_unmasked_pixels": 169471,
+      "interior_palette": [
+        {
+          "rgb": [
+            171,
+            171,
+            171
+          ],
+          "pixels": 186613
+        },
+        {
+          "rgb": [
+            149,
+            149,
+            149
+          ],
+          "pixels": 99088
+        },
+        {
+          "rgb": [
+            183,
+            183,
+            183
+          ],
+          "pixels": 65670
+        },
+        {
+          "rgb": [
+            83,
+            83,
+            83
+          ],
+          "pixels": 20666
+        },
+        {
+          "rgb": [
+            181,
+            181,
+            181
+          ],
+          "pixels": 189
+        },
+        {
+          "rgb": [
+            182,
+            182,
+            182
+          ],
+          "pixels": 182
+        },
+        {
+          "rgb": [
+            177,
+            177,
+            177
+          ],
+          "pixels": 173
+        },
+        {
+          "rgb": [
+            173,
+            173,
+            173
+          ],
+          "pixels": 163
+        },
+        {
+          "rgb": [
+            151,
+            151,
+            151
+          ],
+          "pixels": 146
+        },
+        {
+          "rgb": [
+            170,
+            170,
+            170
+          ],
+          "pixels": 143
+        },
+        {
+          "rgb": [
+            172,
+            172,
+            172
+          ],
+          "pixels": 138
+        },
+        {
+          "rgb": [
+            152,
+            152,
+            152
+          ],
+          "pixels": 131
+        }
+      ]
+    }
+  ],
+  "TreadleLathe": [
+    {
+      "color": "HD_TreadleLathe_east.png",
+      "mask": "HD_TreadleLathe_eastm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        185,
+        61,
+        329,
+        447
+      ],
+      "filled_bounds_without_black_stroke": [
+        189,
+        71,
+        326,
+        441
+      ],
+      "mask_red_bounds": [
+        189,
+        70,
+        323,
+        441
+      ],
+      "red_mask_pixels": 35398,
+      "visible_unmasked_pixels": 12836,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 15810
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 6204
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1600
+        },
+        {
+          "rgb": [
+            191,
+            191,
+            191
+          ],
+          "pixels": 1420
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1368
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 1359
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 1094
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 639
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 594
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 517
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 315
+        },
+        {
+          "rgb": [
+            78,
+            44,
+            25
+          ],
+          "pixels": 300
+        }
+      ]
+    },
+    {
+      "color": "HD_TreadleLathe_north.png",
+      "mask": "HD_TreadleLathe_northm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        75,
+        162,
+        446,
+        343
+      ],
+      "filled_bounds_without_black_stroke": [
+        85,
+        170,
+        439,
+        333
+      ],
+      "mask_red_bounds": [
+        83,
+        171,
+        441,
+        335
+      ],
+      "red_mask_pixels": 33169,
+      "visible_unmasked_pixels": 18365,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 12559
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 5400
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2699
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1510
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1502
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 1378
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1193
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1158
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 980
+        },
+        {
+          "rgb": [
+            130,
+            130,
+            130
+          ],
+          "pixels": 949
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 653
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 472
+        }
+      ]
+    },
+    {
+      "color": "HD_TreadleLathe_south.png",
+      "mask": "HD_TreadleLathe_southm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        62,
+        162,
+        433,
+        343
+      ],
+      "filled_bounds_without_black_stroke": [
+        69,
+        170,
+        423,
+        333
+      ],
+      "mask_red_bounds": [
+        68,
+        169,
+        424,
+        334
+      ],
+      "red_mask_pixels": 31991,
+      "visible_unmasked_pixels": 16976,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 12861
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 5438
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2719
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1510
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1472
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1431
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 1222
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1032
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 989
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 667
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 443
+        },
+        {
+          "rgb": [
+            78,
+            44,
+            25
+          ],
+          "pixels": 387
+        }
+      ]
+    }
+  ]
+}

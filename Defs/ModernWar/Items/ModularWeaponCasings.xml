@@ -61,4 +61,23 @@
     </mote>
   </ThingDef>
 
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_Mote_Shell919</defName>
+    <label>9x19mm cartridge case</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData>
+      <texPath>Weapons/Modular/Ammunition/Shell/HD_Shell_919</texPath>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <drawSize>(0.12,0.12)</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <solidTime>0.6</solidTime>
+      <fadeOutTime>0.3</fadeOutTime>
+      <archHeight>0.21</archHeight>
+      <archDuration>0.35</archDuration>
+      <speedPerTime>-2.8</speedPerTime>
+    </mote>
+  </ThingDef>
+
 </Defs>

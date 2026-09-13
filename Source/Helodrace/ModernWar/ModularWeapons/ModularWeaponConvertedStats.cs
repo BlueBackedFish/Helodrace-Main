@@ -44,6 +44,8 @@ namespace Helodrace.ModernWar
         public float TargetAcquisition { get; internal set; }
         public float AimingPrecision { get; internal set; }
         public float IdentificationDistanceCells { get; internal set; }
+        public float GasTubeFlowSetting { get; internal set; } = 1f;
+        public float GasRecoilMultiplier { get; internal set; } = 1f;
 
         public float VanillaWarmupFactor { get; internal set; } = 1f;
         public float VanillaCycleFactor { get; internal set; } = 1f;
@@ -79,7 +81,8 @@ namespace Helodrace.ModernWar
         public static ModularWeaponConvertedStats Resolve(
             CompModularWeaponNode root,
             List<ModularRenderNode> nodes,
-            Dictionary<int, float> sightWeights)
+            Dictionary<int, float> sightWeights,
+            float gasTubeFlowSetting)
         {
             Aggregate aggregate = new Aggregate();
             if (nodes == null || nodes.Count == 0)
@@ -157,6 +160,21 @@ namespace Helodrace.ModernWar
             float identificationMeters = aggregate.identificationMeters > 0f
                 ? aggregate.identificationMeters : 280f;
 
+            gasTubeFlowSetting = Mathf.Clamp(
+                gasTubeFlowSetting,
+                ModularWeaponGasSystemUtility.MinimumSetting,
+                ModularWeaponGasSystemUtility.MaximumSetting);
+            float gasRecoilMultiplier = Mathf.Clamp(
+                1f + (gasTubeFlowSetting - 1f) * 0.4f,
+                0.85f,
+                1.15f);
+            recoil *= gasRecoilMultiplier;
+            muzzleRise *= Mathf.Clamp(
+                1f + (gasTubeFlowSetting - 1f) * 0.28f,
+                0.88f,
+                1.12f);
+            gasFlow *= gasTubeFlowSetting;
+
             float ergonomics01 = Mathf.Clamp01(ergonomics / 100f);
             float acquisition01 = Mathf.Clamp01(targetAcquisition / 100f);
             float precision01 = Mathf.Clamp01(aimingPrecision / 100f);
@@ -180,7 +198,9 @@ namespace Helodrace.ModernWar
                 Handling = handling,
                 TargetAcquisition = acquisition01,
                 AimingPrecision = precision01,
-                IdentificationDistanceCells = identificationCells
+                IdentificationDistanceCells = identificationCells,
+                GasTubeFlowSetting = gasTubeFlowSetting,
+                GasRecoilMultiplier = gasRecoilMultiplier
             };
 
             result.VanillaWarmupFactor = Mathf.Clamp(
@@ -193,9 +213,10 @@ namespace Helodrace.ModernWar
                 1.55f);
             result.VanillaCycleFactor = Mathf.Clamp(
                 1f + (0.97f - reliability01) * 1.8f
-                    + Mathf.Abs(gasEfficiency - 1f) * 0.28f,
-                0.88f,
-                1.45f);
+                    + Mathf.Max(0f, 1f - gasEfficiency) * 0.65f
+                    - Mathf.Max(0f, gasEfficiency - 1f) * 0.65f,
+                0.78f,
+                1.55f);
             result.VanillaAccuracyTouchFactor = Mathf.Clamp(
                 0.76f + muzzleControl * 0.22f + recoilControl * 0.18f,
                 0.65f,

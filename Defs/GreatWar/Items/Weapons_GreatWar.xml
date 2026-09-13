@@ -2164,7 +2164,7 @@
     </tools>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>4</Crafting>
@@ -2243,7 +2243,7 @@
     </comps>
     <recipeMaker>
       <recipeUsers>
-        <li>HD_Tier2Workbench</li>
+        <li>HD_BasicWorkbench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>5</Crafting>

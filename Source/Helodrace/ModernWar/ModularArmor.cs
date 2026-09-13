@@ -75,6 +75,7 @@ namespace Helodrace.ModernWar
         public float directionArcDegrees = 90f;
         public PawnRenderNodeTagDef parentTagDef;
         public ModularArmorDrawOffsets drawOffsets;
+        // Absolute layer within the vanilla body/head apparel render band.
         public float drawLayer;
 
         public bool Covers(BodyPartRecord part)
@@ -116,8 +117,10 @@ namespace Helodrace.ModernWar
         public float uiHeight = 0.35f;
         public ModularArmorDrawOffsets drawOrigin;
         public Vector2 drawCellSize = new Vector2(0.08f, 0.08f);
+        // Added to armorPosition.drawLayer for the normal panel graphic.
         public float drawLayer;
-        public float sideBackDrawLayer = 2f;
+        // Absolute layer used by authored side/back graphics behind body apparel.
+        public float sideBackDrawLayer = 19.99f;
         public float positionDrawLayerStep;
         public int flatNormalPositionCount;
         public string authoredTexturePrefix;
@@ -189,7 +192,8 @@ namespace Helodrace.ModernWar
         public List<ModularArmorFacing> previewDirections;
         public GraphicData northUnderGraphicData;
         public PawnRenderNodeTagDef northUnderParentTagDef;
-        public float northUnderDrawLayer = 79f;
+        // Immediately below the vanilla head-apparel root (70).
+        public float northUnderDrawLayer = 69.99f;
         public string uiIconPath;
         public Color uiColor = new Color(0.32f, 0.38f, 0.30f);
         public ModularArmorDrawOffsets drawOffsets;

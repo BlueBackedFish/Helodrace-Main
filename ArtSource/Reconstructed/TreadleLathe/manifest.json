@@ -1,0 +1,416 @@
+{
+  "asset": "TreadleLathe",
+  "source_pairs": [
+    {
+      "color": "HD_TreadleLathe_east.png",
+      "mask": "HD_TreadleLathe_eastm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        185,
+        61,
+        329,
+        447
+      ],
+      "filled_bounds_without_black_stroke": [
+        189,
+        71,
+        326,
+        441
+      ],
+      "mask_red_bounds": [
+        189,
+        70,
+        323,
+        441
+      ],
+      "red_mask_pixels": 35398,
+      "visible_unmasked_pixels": 12836,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 15810
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 6204
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1600
+        },
+        {
+          "rgb": [
+            191,
+            191,
+            191
+          ],
+          "pixels": 1420
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1368
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 1359
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 1094
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 639
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 594
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 517
+        },
+        {
+          "rgb": [
+            178,
+            178,
+            178
+          ],
+          "pixels": 315
+        },
+        {
+          "rgb": [
+            78,
+            44,
+            25
+          ],
+          "pixels": 300
+        }
+      ]
+    },
+    {
+      "color": "HD_TreadleLathe_north.png",
+      "mask": "HD_TreadleLathe_northm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        75,
+        162,
+        446,
+        343
+      ],
+      "filled_bounds_without_black_stroke": [
+        85,
+        170,
+        439,
+        333
+      ],
+      "mask_red_bounds": [
+        83,
+        171,
+        441,
+        335
+      ],
+      "red_mask_pixels": 33169,
+      "visible_unmasked_pixels": 18365,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 12559
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 5400
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2699
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1510
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1502
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 1378
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1193
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1158
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 980
+        },
+        {
+          "rgb": [
+            130,
+            130,
+            130
+          ],
+          "pixels": 949
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 653
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 472
+        }
+      ]
+    },
+    {
+      "color": "HD_TreadleLathe_south.png",
+      "mask": "HD_TreadleLathe_southm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        62,
+        162,
+        433,
+        343
+      ],
+      "filled_bounds_without_black_stroke": [
+        69,
+        170,
+        423,
+        333
+      ],
+      "mask_red_bounds": [
+        68,
+        169,
+        424,
+        334
+      ],
+      "red_mask_pixels": 31991,
+      "visible_unmasked_pixels": 16976,
+      "interior_palette": [
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 12861
+        },
+        {
+          "rgb": [
+            88,
+            88,
+            88
+          ],
+          "pixels": 5438
+        },
+        {
+          "rgb": [
+            213,
+            211,
+            211
+          ],
+          "pixels": 2719
+        },
+        {
+          "rgb": [
+            175,
+            132,
+            69
+          ],
+          "pixels": 1510
+        },
+        {
+          "rgb": [
+            127,
+            96,
+            50
+          ],
+          "pixels": 1472
+        },
+        {
+          "rgb": [
+            129,
+            129,
+            129
+          ],
+          "pixels": 1431
+        },
+        {
+          "rgb": [
+            161,
+            161,
+            161
+          ],
+          "pixels": 1222
+        },
+        {
+          "rgb": [
+            75,
+            75,
+            75
+          ],
+          "pixels": 1032
+        },
+        {
+          "rgb": [
+            169,
+            169,
+            169
+          ],
+          "pixels": 989
+        },
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 667
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 443
+        },
+        {
+          "rgb": [
+            78,
+            44,
+            25
+          ],
+          "pixels": 387
+        }
+      ]
+    }
+  ],
+  "game_footprint": [
+    2,
+    1
+  ],
+  "mesh_objects": 50,
+  "vertices": 696,
+  "world_bounds": [
+    [
+      -1.059999942779541,
+      -0.6830511093139648,
+      0.0
+    ],
+    [
+      1.0485999584197998,
+      0.15618112683296204,
+      1.246000051498413
+    ]
+  ],
+  "ortho_scale": 2.8927081241840273,
+  "target_center": [
+    -0.0056999921798706055,
+    -0.2634350061416626,
+    0.6230000257492065
+  ],
+  "downward_degrees": 64,
+  "resolution": [
+    512,
+    512
+  ],
+  "camera_positions": "North -Y, South +Y, East +X; chosen to match supplied sprite orientation.",
+  "unseen_views_inferred": false,
+  "no_outline_geometry": true,
+  "no_image_textures_on_model": true
+}

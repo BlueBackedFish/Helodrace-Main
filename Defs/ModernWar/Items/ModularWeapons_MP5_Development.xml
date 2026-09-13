@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- MP5-family parts use their own socket tags. The common 1024px authoring
+       canvas lets matching socket and mount coordinates preserve exact alignment. -->
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_CockingTube_MP5</defName>
+    <label>MP5 cocking tube</label>
+    <description>The forward receiver extension containing the MP5 cocking tube and charging-handle track.</description>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_MP5CockingTube</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <partCategory>Required</partCategory>
+        <graphicLayer>0.5</graphicLayer>
+        <mounts><li><id>cocking_tube_mount</id><socketTags><li>mp5_cocking_tube_standard</li></socketTags><transform><position>(-0.008,0,0.058)</position></transform></li></mounts>
+        <sockets>
+          <li><id>front_sight</id><label>MP5 cocking-tube front sight base</label><tags><li>mp5_front_sight_standard</li></tags><transform><position>(0.160,0,0.080)</position></transform></li>
+        </sockets>
+        <defaultAttachments><li><socketId>front_sight</socketId><part>HD_ModularPart_FrontSight_MP5</part></li></defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_CockingTube_MP5SD</defName>
+    <label>MP5SD cocking tube</label>
+    <description>The MP5SD receiver extension containing the cocking tube and its dedicated front-sight interface.</description>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_MP5CockingTube</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <partCategory>Required</partCategory>
+        <graphicLayer>0.5</graphicLayer>
+        <mounts><li><id>cocking_tube_mount</id><socketTags><li>mp5_cocking_tube_sd</li></socketTags><transform><position>(-0.008,0,0.058)</position></transform></li></mounts>
+        <sockets>
+          <li><id>front_sight</id><label>MP5SD cocking-tube front sight base</label><tags><li>mp5_front_sight_sd</li></tags><transform><position>(0.160,0,0.080)</position></transform></li>
+        </sockets>
+        <defaultAttachments><li><socketId>front_sight</socketId><part>HD_ModularPart_FrontSight_MP5SD</part></li></defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_MP5</defName>
+    <label>MP5 8.9 inch barrel</label>
+    <description>A standard 9x19mm MP5 barrel and trunnion assembly.</description>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_MP5</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <partCategory>Required</partCategory>
+        <graphicLayer>-4</graphicLayer>
+        <chamberCaliber>9x19</chamberCaliber>
+        <ceAmmoSetDefName>AmmoSet_9x19mmPara</ceAmmoSetDefName>
+        <boreDiameterMm>9.03</boreDiameterMm>
+        <mounts><li><id>barrel_mount</id><socketTags><li>mp5_barrel</li></socketTags><transform><position>(0,0,0.031)</position></transform></li></mounts>
+        <sockets>
+          <li><id>muzzle</id><label>MP5 bare muzzle</label><tags><li>mp5_muzzle</li></tags><transform><position>(0.196,0,0.029)</position></transform></li>
+          <li><id>handguard</id><label>standard MP5 handguard interface</label><tags><li>mp5_handguard_standard</li></tags><transform><position>(0,0,0.031)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_MP5Default</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_MP5SD</defName>
+    <label>MP5SD ported barrel</label>
+    <description>A short ported MP5SD barrel intended for use with its integral suppressor.</description>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_MP5SD</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <partCategory>Required</partCategory>
+        <graphicLayer>-4</graphicLayer>
+        <chamberCaliber>9x19</chamberCaliber>
+        <ceAmmoSetDefName>AmmoSet_9x19mmPara</ceAmmoSetDefName>
+        <boreDiameterMm>9.03</boreDiameterMm>
+        <mounts><li><id>barrel_mount</id><socketTags><li>mp5_barrel</li></socketTags><transform><position>(0,0,0.031)</position></transform></li></mounts>
+        <sockets>
+          <li><id>muzzle</id><label>MP5SD barrel muzzle</label><transform><position>(0.129,0,0.031)</position></transform></li>
+          <li><id>integral_suppressor</id><label>MP5SD integral suppressor thread</label><tags><li>mp5sd_suppressor</li></tags><transform><position>(0.129,0,0.031)</position></transform></li>
+          <li><id>handguard</id><label>MP5SD handguard interface</label><tags><li>mp5_handguard_sd</li></tags><transform><position>(0,0,0.031)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>integral_suppressor</socketId><part>HD_ModularPart_Suppressor_MP5SD</part></li>
+          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_MP5SD</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Handguard_MP5Default</defName>
+    <label>MP5 slim handguard</label>
+    <description>The conventional slim polymer MP5 handguard.</description>
+    <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MP5Default</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>2</graphicLayer><mounts><li><id>handguard_mount</id><socketTags><li>mp5_handguard_standard</li></socketTags><transform><position>(0,0,0.031)</position></transform></li></mounts></li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Handguard_MP5SD</defName>
+    <label>MP5SD handguard</label>
+    <description>A wide polymer handguard shaped around the MP5SD integral suppressor.</description>
+    <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MP5SD</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>2</graphicLayer><mounts><li><id>handguard_mount</id><socketTags><li>mp5_handguard_sd</li></socketTags><transform><position>(0,0,0.031)</position></transform></li></mounts></li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Suppressor_MP5SD</defName>
+    <label>MP5SD integral suppressor</label>
+    <description>The large-volume integral suppressor used with the MP5SD ported barrel.</description>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Supp_MP5SD</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>-3</graphicLayer>
+        <mounts><li><id>suppressor_mount</id><socketTags><li>mp5sd_suppressor</li></socketTags><transform><position>(0.129,0,0.031)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_FrontSight_MP5</defName>
+    <label>MP5 front sight</label>
+    <description>A hooded MP5 front sight assembly for the standard barrel.</description>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_MP5FrontSight</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>3</graphicLayer><verticalOccupancy>0.072</verticalOccupancy><verticalOccupancyOffset>0.080</verticalOccupancyOffset>
+        <sight><kind>IronFront</kind><axisOffset>(0.158,0,0.080)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>20</selectionPriority></sight>
+        <mounts><li><id>front_sight_mount</id><socketTags><li>mp5_front_sight_standard</li></socketTags><transform><position>(0.158,0,0.080)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_FrontSight_MP5SD</defName>
+    <label>MP5SD front sight</label>
+    <description>A shortened hooded front sight base for the MP5SD assembly.</description>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_MP5SDFrontSight</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>3</graphicLayer><verticalOccupancy>0.046</verticalOccupancy><verticalOccupancyOffset>0.080</verticalOccupancyOffset>
+        <sight><kind>IronFront</kind><axisOffset>(0.160,0,0.080)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>20</selectionPriority></sight>
+        <mounts><li><id>front_sight_mount</id><socketTags><li>mp5_front_sight_sd</li></socketTags><transform><position>(0.160,0,0.080)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_RearSight_MP5</defName>
+    <label>MP5 drum rear sight</label>
+    <description>The adjustable rotary diopter rear sight used by the MP5 family.</description>
+    <graphicData><texPath>Weapons/Modular/Optics/HD_IronSight_MP5</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>3</graphicLayer><verticalOccupancy>0.029</verticalOccupancy><verticalOccupancyOffset>0.080</verticalOccupancyOffset>
+        <sight><kind>IronRear</kind><axisOffset>(-0.155,0,0.080)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>20</selectionPriority></sight>
+        <mounts><li><id>rear_sight_mount</id><socketTags><li>mp5_rear_sight</li></socketTags><transform><position>(-0.155,0,0.080)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_OpticRail_MP5</defName>
+    <label>MP5 upper Picatinny rail</label>
+    <description>A claw-mounted upper Picatinny rail for MP5-pattern receivers.</description>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_UpperPicatinnyRail</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicLayer>2.5</graphicLayer>
+        <mounts><li><id>claw_mount</id><socketTags><li>mp5_claw_mount</li></socketTags><transform><position>(-0.067,0,0.064)</position></transform></li></mounts>
+        <sockets><li><id>rail_top</id><label>MP5 upper Picatinny rail</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.116</railLength><maxAttachments>3</maxAttachments><railSurface>Top</railSurface><transform><position>(-0.07,0,0.063)</position></transform></li></sockets>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Bolt_MP5</defName>
+    <label>MP5 bolt group</label>
+    <description>A roller-delayed MP5 bolt group animated through the firing cycle.</description>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_MP5</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <partCategory>Required</partCategory><graphicLayer>-1</graphicLayer><animatedPart>Bolt</animatedPart><animationTravel>(-0.055,0,0)</animationTravel>
+        <mounts><li><id>bolt_mount</id><socketTags><li>mp5_bolt</li></socketTags><transform><position>(-0.056,0,0.047)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Trigger_MP5</defName>
+    <label>MP5 trigger</label>
+    <description>An MP5 fire-control trigger animated when the weapon fires.</description>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_MP5</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <partCategory>Required</partCategory><graphicLayer>2</graphicLayer><animatedPart>Trigger</animatedPart><animationPivot>(-0.103,0,-0.027)</animationPivot><animationAngle>-14</animationAngle>
+        <mounts><li><id>trigger_mount</id><socketTags><li>mp5_trigger</li></socketTags><transform><position>(-0.103,0,-0.043)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_TriggerHousing_MP5A3</defName>
+    <label>MP5A3 trigger housing and pistol grip</label>
+    <description>A polymer SEF trigger housing and pistol grip for the MP5 family.</description>
+    <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_MP5A3</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><partCategory>Required</partCategory><graphicLayer>1</graphicLayer><mounts><li><id>trigger_housing_mount</id><socketTags><li>mp5_trigger_housing</li></socketTags><transform><position>(-0.106,0,-0.003)</position></transform></li></mounts></li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Magazine_MP530</defName>
+    <label>30-round MP5 magazine</label>
+    <description>A curved thirty-round 9x19mm magazine for MP5-pattern weapons.</description>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_MP530</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><graphicLayer>-1</graphicLayer><magazineCapacity>30</magazineCapacity>
+        <mounts><li><id>magazine_mount</id><socketTags><li>mp5_magazine</li></socketTags><transform><position>(-0.012,0,0.012)</position></transform></li></mounts>
+        <sockets><li><id>ammunition</id><label>loaded 9x19mm ammunition</label><tags><li>mp5_ammunition</li></tags><required>true</required><transform><position>(-0.012,0,-0.090)</position></transform></li></sockets>
+        <defaultAttachments><li><socketId>ammunition</socketId><part>HD_Ammunition_919M882</part></li></defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Stock_MP5A2</defName>
+    <label>MP5A2 fixed stock</label>
+    <description>A fixed polymer shoulder stock for MP5-pattern receivers.</description>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MP5A2</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>-2</graphicLayer><mounts><li><id>stock_mount</id><socketTags><li>mp5_stock</li></socketTags><transform><position>(-0.190,0,0.031)</position></transform></li></mounts></li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Stock_MP5A3</defName>
+    <label>MP5A3 retractable stock</label>
+    <description>A retractable metal shoulder stock for MP5-pattern receivers.</description>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MP5A3</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>-2</graphicLayer><mounts><li><id>stock_mount</id><socketTags><li>mp5_stock</li></socketTags><transform><position>(-0.190,0,0.031)</position></transform></li></mounts></li></comps>
+  </ThingDef>
+
+  <ThingDef Name="HD_MP5FamilyBase" ParentName="BaseHumanMakeableGun" Abstract="True">
+    <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_MP5</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset><soundInteract>Interact_Rifle</soundInteract>
+    <weaponClasses><li>RangedLight</li></weaponClasses>
+    <weaponTags><li>HD_ModernWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
+    <statBases><WorkToMake>34000</WorkToMake><Mass>2.9</Mass><MarketValue>1050</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.78</AccuracyTouch><AccuracyShort>0.84</AccuracyShort><AccuracyMedium>0.65</AccuracyMedium><AccuracyLong>0.40</AccuracyLong><RangedWeapon_Cooldown>1.35</RangedWeapon_Cooldown></statBases>
+    <costList><Steel>45</Steel><ComponentIndustrial>4</ComponentIndustrial><ComponentSpacer>1</ComponentSpacer></costList>
+    <recipeMaker><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <verbs>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_Glock19_Proj</defaultProjectile><warmupTime>0.55</warmupTime><range>23.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>5</muzzleFlashScale></li>
+    </verbs>
+    <tools><li><label>stock</label><capacities><li>Blunt</li></capacities><power>7</power><cooldownTime>1.7</cooldownTime></li></tools>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_MP5FamilyBase">
+    <defName>HD_Gun_ModularMP5_Test_Weapon</defName>
+    <label>modular MP5 development submachine gun</label>
+    <description>A roller-delayed 9x19mm submachine gun built from independently configurable MP5-family components.</description>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <isAssemblyRoot>true</isAssemblyRoot><partCategory>Required</partCategory><realisticRoundsPerMinute>800</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><graphicLayer>0</graphicLayer><outlinePriority>100</outlinePriority>
+        <casingPort><offset>(-0.064,0,0.046)</offset><ejectionAngleOffset>90</ejectionAngleOffset><speedMin>1.5</speedMin><speedMax>2.1</speedMax><scale>0.75</scale><ejectionCycleFraction>0.30</ejectionCycleFraction><feedStartCycleFraction>0.55</feedStartCycleFraction><feedEndCycleFraction>0.92</feedEndCycleFraction><feedStartOffset>(-0.034,0,0.012)</feedStartOffset><feedEndOffset>(-0.001,0,0.028)</feedEndOffset><feedingRoundDrawSize>0.075</feedingRoundDrawSize></casingPort>
+        <internalStats><massKg>0.75</massKg><recoilImpulse>2.4</recoilImpulse><ergonomics>70</ergonomics><muzzleRise>2.1</muzzleRise><operatingReliability>0.98</operatingReliability><gasFlow>1</gasFlow><momentOfInertia>0.022</momentOfInertia><targetAcquisition>67</targetAcquisition><aimingPrecision>60</aimingPrecision><identificationDistanceMeters>180</identificationDistanceMeters></internalStats>
+        <sockets>
+          <li><id>cocking_tube</id><label>MP5 cocking-tube interface</label><tags><li>mp5_cocking_tube_standard</li><li>mp5_cocking_tube_sd</li></tags><required>true</required><transform><position>(-0.008,0,0.058)</position></transform></li>
+          <li><id>barrel</id><label>MP5 receiver barrel trunnion</label><tags><li>mp5_barrel</li></tags><required>true</required><transform><position>(0,0,0.031)</position></transform></li>
+          <li><id>bolt</id><label>MP5 bolt group</label><tags><li>mp5_bolt</li></tags><required>true</required><transform><position>(-0.056,0,0.047)</position></transform></li>
+          <li><id>rear_sight</id><label>MP5 rear sight base</label><tags><li>mp5_rear_sight</li></tags><transform><position>(-0.155,0,0.080)</position></transform></li>
+          <li><id>optic_mount</id><label>MP5 receiver claw mount</label><tags><li>mp5_claw_mount</li></tags><transform><position>(-0.067,0,0.064)</position></transform></li>
+          <li><id>trigger_housing</id><label>MP5 trigger housing interface</label><tags><li>mp5_trigger_housing</li></tags><required>true</required><transform><position>(-0.106,0,-0.003)</position></transform></li>
+          <li><id>magazine</id><label>MP5 magazine well</label><tags><li>mp5_magazine</li></tags><transform><position>(-0.012,0,0.012)</position></transform></li>
+          <li><id>stock</id><label>MP5 stock interface</label><tags><li>mp5_stock</li></tags><transform><position>(-0.190,0,0.031)</position></transform></li>
+          <li><id>trigger</id><label>MP5 trigger group</label><tags><li>mp5_trigger</li></tags><required>true</required><transform><position>(-0.103,0,-0.043)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>cocking_tube</socketId><part>HD_ModularPart_CockingTube_MP5</part></li>
+          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_MP5</part></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_MP5</part></li>
+          <li><socketId>rear_sight</socketId><part>HD_ModularPart_RearSight_MP5</part></li>
+          <li><socketId>trigger_housing</socketId><part>HD_ModularPart_TriggerHousing_MP5A3</part></li>
+          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_MP530</part></li>
+          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_MP5A3</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_MP5</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

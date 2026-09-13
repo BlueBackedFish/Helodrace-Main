@@ -40,7 +40,7 @@
     <defName>HD_ModularPart_Bolt_AR15</defName>
     <label>AR-15 bolt carrier group</label>
     <description>An internal AR-15 bolt carrier group animated through the firing cycle.</description>
-    <graphicData><texPath>Weapons/Modular/HD_Bolt_AR15</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_AR15</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>0.5</graphicLayer>
@@ -55,7 +55,7 @@
     <defName>HD_ModularPart_Trigger_AR15</defName>
     <label>AR-15 trigger</label>
     <description>An internal AR-15 trigger animated when the weapon fires.</description>
-    <graphicData><texPath>Weapons/Modular/HD_Trigger_AR15</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_AR15</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>0.5</graphicLayer>

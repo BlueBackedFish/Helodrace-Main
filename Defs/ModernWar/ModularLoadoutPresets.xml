@@ -15,6 +15,13 @@
     <useDefaultConfiguration>true</useDefaultConfiguration>
   </Helodrace.ModernWar.ModularWeaponPresetDef>
 
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_ModularMP5_Default</defName>
+    <label>modular MP5 standard configuration</label>
+    <weaponDef>HD_Gun_ModularMP5_Test_Weapon</weaponDef>
+    <useDefaultConfiguration>true</useDefaultConfiguration>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+
   <Helodrace.ModernWar.ModularArmorPresetDef>
     <defName>HD_ArmorPreset_IBTV_Rifleman</defName>
     <label>IBTV rifleman configuration</label>

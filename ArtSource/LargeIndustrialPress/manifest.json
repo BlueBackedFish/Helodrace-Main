@@ -1,0 +1,34 @@
+{
+  "new_design": true,
+  "reference_folder": "ArtSource/Reference/LineShaftPress",
+  "mesh_objects": 14,
+  "vertices": 144,
+  "ortho_scale": 4.9,
+  "target_center": [
+    0.0,
+    0.0,
+    1.7799999713897705
+  ],
+  "resolution": [
+    512,
+    512
+  ],
+  "camera_positions": "North +Y; East +X; South -Y",
+  "validation": {
+    "North": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 83,
+      "transparent_pixels": 183590
+    },
+    "East": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 41,
+      "transparent_pixels": 192746
+    },
+    "South": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 83,
+      "transparent_pixels": 180700
+    }
+  }
+}

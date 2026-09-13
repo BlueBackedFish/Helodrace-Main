@@ -84,11 +84,6 @@
       </bodyPartGroups>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <drawData>
-        <defaultData>
-          <layer>110</layer>
-        </defaultData>
-      </drawData>
       <layers>
         <li>Belt</li>
       </layers>
@@ -522,19 +517,14 @@
       <wornGraphicPath>Helod/Apparel/Shield/DefenTechIIIA/HD_ShieldDefenTechIIIA</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
+      <!-- Handheld shield: behind the pawn when facing north, in front otherwise. -->
       <drawData>
         <defaultData>
-          <layer>110</layer>
+          <layer>99</layer>
         </defaultData>
-        <dataSouth>
-          <layer>30</layer>
-        </dataSouth>
         <dataNorth>
           <layer>-3</layer>
         </dataNorth>
-        <dataSouth>
-          <layer>99</layer>
-        </dataSouth>
       </drawData>
       <layers>
         <li>Belt</li>
@@ -624,16 +614,14 @@
       <wornGraphicPath>Helod/Apparel/Shield/IronHideIV/HD_ShieldIronHideIV</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
+      <!-- Handheld shield: behind the pawn when facing north, in front otherwise. -->
       <drawData>
         <defaultData>
-          <layer>110</layer>
+          <layer>99</layer>
         </defaultData>
         <dataNorth>
           <layer>-3</layer>
         </dataNorth>
-        <dataSouth>
-          <layer>99</layer>
-        </dataSouth>
       </drawData>
       <layers>
         <li>Belt</li>

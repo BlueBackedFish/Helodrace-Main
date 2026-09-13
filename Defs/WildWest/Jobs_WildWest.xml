@@ -144,13 +144,29 @@
   </WorkGiverDef>
 
   <WorkGiverDef>
-    <defName>DoBillsHD_Tier1Workbench</defName>
-    <label>use tier 1 workbench</label>
+    <defName>DoBillsHD_BasicWorkbench</defName>
+    <label>use basic workbench</label>
     <giverClass>WorkGiver_DoBill</giverClass>
     <workType>Crafting</workType>
     <priorityInType>100</priorityInType>
     <fixedBillGiverDefs>
-      <li>HD_Tier1Workbench</li>
+      <li>HD_BasicWorkbench</li>
+    </fixedBillGiverDefs>
+    <verb>craft</verb>
+    <gerund>crafting at</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+  </WorkGiverDef>
+
+  <WorkGiverDef>
+    <defName>DoBillsHD_GunSmithTable</defName>
+    <label>use gunsmith table</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_GunSmithTable</li>
     </fixedBillGiverDefs>
     <verb>craft</verb>
     <gerund>crafting at</gerund>

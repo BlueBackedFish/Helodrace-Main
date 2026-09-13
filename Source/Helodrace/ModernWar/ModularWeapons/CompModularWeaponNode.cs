@@ -50,6 +50,11 @@ namespace Helodrace.ModernWar
         private float resolvedMuzzleFlashDistance;
         private float resolvedMuzzleFlashScale = 1f;
         private bool resolvedMuzzleFlashSuppressed;
+        private bool resolvedHasAdjustableGasSystem;
+        private ModularWeaponMuzzleSignature resolvedMuzzleSignature =
+            new ModularWeaponMuzzleSignature();
+        private float gasTubeFlowSetting =
+            ModularWeaponGasSystemUtility.DefaultSetting;
         private bool legacyDevelopmentTreeChecked;
         private bool requiredDefaultAttachmentsChecked;
 
@@ -83,12 +88,21 @@ namespace Helodrace.ModernWar
             Scribe_Collections.Look(ref childSocketIds, "modularChildSocketIds", LookMode.Value);
             Scribe_Collections.Look(ref childMountIds, "modularChildMountIds", LookMode.Value);
             Scribe_Collections.Look(ref childRailOffsets, "modularChildRailOffsets", LookMode.Value);
+            if (Props.isAssemblyRoot)
+                Scribe_Values.Look(
+                    ref gasTubeFlowSetting,
+                    "modularGasTubeFlowSetting",
+                    ModularWeaponGasSystemUtility.DefaultSetting);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (childSocketIds == null) childSocketIds = new List<string>();
                 if (childMountIds == null) childMountIds = new List<string>();
                 if (childRailOffsets == null) childRailOffsets = new List<float>();
+                gasTubeFlowSetting = Mathf.Clamp(
+                    gasTubeFlowSetting,
+                    ModularWeaponGasSystemUtility.MinimumSetting,
+                    ModularWeaponGasSystemUtility.MaximumSetting);
                 RepairAssignmentLists();
                 InvalidateTree();
             }
@@ -194,6 +208,56 @@ namespace Helodrace.ModernWar
                 root.EnsurePerformanceCache();
                 return root.resolvedConvertedStats;
             }
+        }
+
+        public float GasTubeFlowSetting
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                return Mathf.Clamp(
+                    root.gasTubeFlowSetting,
+                    ModularWeaponGasSystemUtility.MinimumSetting,
+                    ModularWeaponGasSystemUtility.MaximumSetting);
+            }
+        }
+
+        public bool HasAdjustableGasSystem
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedHasAdjustableGasSystem;
+            }
+        }
+
+        public ModularWeaponMuzzleSignature MuzzleSignature
+        {
+            get
+            {
+                CompModularWeaponNode root = RootComp();
+                root.EnsurePerformanceCache();
+                return root.resolvedMuzzleSignature;
+            }
+        }
+
+        /// <summary>
+        /// Instance-level coefficient reserved for the muzzle-flash renderer. A value of
+        /// one is the 16-inch reference; zero means no flash should be emitted.
+        /// </summary>
+        public float MuzzleFlashCoefficient => MuzzleSignature.Coefficient;
+
+        public void SetGasTubeFlowSetting(float value)
+        {
+            CompModularWeaponNode root = RootComp();
+            value = Mathf.Clamp(
+                value,
+                ModularWeaponGasSystemUtility.MinimumSetting,
+                ModularWeaponGasSystemUtility.MaximumSetting);
+            if (Mathf.Approximately(root.gasTubeFlowSetting, value)) return;
+            root.gasTubeFlowSetting = value;
+            root.InvalidateTree();
         }
 
         /// <summary>
@@ -473,6 +537,11 @@ namespace Helodrace.ModernWar
             resolvedMuzzleFlashSuppressed = false;
 
             List<ModularRenderNode> nodes = RenderSnapshot();
+            resolvedHasAdjustableGasSystem =
+                ModularWeaponGasSystemUtility.HasInstalledGasSystem(nodes);
+            float activeGasSetting = resolvedHasAdjustableGasSystem
+                ? GasTubeFlowSetting
+                : ModularWeaponGasSystemUtility.DefaultSetting;
             ModularSightResolution sightResolution =
                 ModularWeaponSightResolver.Resolve(this, nodes);
             resolvedSightGroups = sightResolution.groups;
@@ -480,7 +549,8 @@ namespace Helodrace.ModernWar
             resolvedConvertedStats = ModularWeaponStatConverter.Resolve(
                 this,
                 nodes,
-                resolvedSightPerformanceWeights);
+                resolvedSightPerformanceWeights,
+                activeGasSetting);
             for (int i = 0; i < nodes.Count; i++)
             {
                 CompProperties_ModularWeaponNode nodeProps = nodes[i].Props;
@@ -567,6 +637,12 @@ namespace Helodrace.ModernWar
                 if (nodeProps.suppressMuzzleFlash)
                     resolvedMuzzleFlashSuppressed = true;
             }
+
+            resolvedMuzzleSignature =
+                ModularWeaponGasSystemUtility.ResolveMuzzleSignature(
+                    nodes,
+                    activeGasSetting,
+                    resolvedMuzzleFlashSuppressed);
 
             ModularWeaponStatConverter.ApplyVanillaFactors(
                 resolvedConvertedStats,
@@ -856,6 +932,10 @@ namespace Helodrace.ModernWar
             }
 
             requiredDefaultAttachmentsChecked = true;
+            gasTubeFlowSetting = Mathf.Clamp(
+                preset.gasTubeFlowSetting,
+                ModularWeaponGasSystemUtility.MinimumSetting,
+                ModularWeaponGasSystemUtility.MaximumSetting);
             templateThing.Destroy(DestroyMode.Vanish);
             InvalidateTree();
             return true;
