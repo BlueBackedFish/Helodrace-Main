@@ -6,8 +6,9 @@ using Verse;
 
 namespace Helodrace.ModernWar
 {
-    internal enum ModularMuzzleEffectKind
+    public enum ModularMuzzleEffectKind
     {
+        Auto,
         Bare,
         FlashHider,
         MuzzleBrake,
@@ -23,9 +24,8 @@ namespace Helodrace.ModernWar
 
     /// <summary>
     /// Resolves both the visible muzzle end and the correct authored effect family
-    /// from the live attachment tree. Device names are deliberately accepted as a
-    /// fallback so newly-authored brake/hider/suppressor parts work without another
-    /// per-part XML statistic.
+    /// from the live attachment tree and XML-authored muzzleEffectKind.
+    /// Auto uses the attachment socket, never a device-name shape lookup.
     /// </summary>
     internal static class ModularWeaponMuzzleEffectResolver
     {
@@ -68,8 +68,9 @@ namespace Helodrace.ModernWar
 
             ModularRenderNode terminal = suppressor ?? directDevice;
             ModularMuzzleEffectKind kind = suppressor != null
-                ? ModularMuzzleEffectKind.Suppressor
-                : Classify(directDevice);
+                && suppressor.Props.muzzleEffectKind == ModularMuzzleEffectKind.Auto
+                    ? ModularMuzzleEffectKind.Suppressor
+                    : Classify(terminal);
             if (terminal != null)
             {
                 ModularAttachmentMount mount = terminal.Props?.MountNamed(
@@ -93,43 +94,14 @@ namespace Helodrace.ModernWar
         private static ModularMuzzleEffectKind Classify(ModularRenderNode node)
         {
             if (node == null) return ModularMuzzleEffectKind.Bare;
-            string name = Identity(node);
-
-            if (ContainsToken(name, "muzzlebrake")
-                || ContainsToken(name, "muzzle brake")
-                || ContainsToken(name, "muzzlebreak")
-                || ContainsToken(name, "muzzle break")
-                || ContainsToken(name, "m16a2")
-                || ContainsToken(name, "nt4"))
-                return ModularMuzzleEffectKind.MuzzleBrake;
-
-            if (ContainsToken(name, "flashhider")
-                || ContainsToken(name, "flash hider")
-                || ContainsToken(name, "flash suppressor")
-                || ContainsToken(name, "m16a1")
-                || ContainsToken(name, "sf3p"))
-                return ModularMuzzleEffectKind.FlashHider;
-
-            if (IsDedicatedSuppressor(node))
-                return ModularMuzzleEffectKind.Suppressor;
-
-            // A part occupying the muzzle thread but carrying no more specific name
-            // is safest to render as a conventional multi-port flash hider.
-            return ModularMuzzleEffectKind.FlashHider;
+            ModularMuzzleEffectKind authored = node.Props.muzzleEffectKind;
+            return authored == ModularMuzzleEffectKind.Auto
+                ? ModularMuzzleEffectKind.FlashHider : authored;
         }
 
         private static bool IsDedicatedSuppressor(ModularRenderNode node)
         {
-            string defName = node?.thing?.def?.defName;
-            if (ContainsToken(defName, "suppressor")
-                || ContainsToken(defName, "silencer")
-                || ContainsToken(defName, "_supp_"))
-                return true;
-
-            string label = node?.thing?.def?.label;
-            return !ContainsToken(label, "flash suppressor")
-                && (ContainsToken(label, "suppressor")
-                    || ContainsToken(label, "silencer"));
+            return node?.Props?.muzzleEffectKind == ModularMuzzleEffectKind.Suppressor;
         }
 
         private static float TerminalExtension(

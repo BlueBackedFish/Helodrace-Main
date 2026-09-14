@@ -775,17 +775,17 @@
           <def>HumanlikeChild</def>
           <minAge>3</minAge>
           <headOffset>(0.0, -1.2)</headOffset>
-          <headFemaleOffset>(0.0, -0.2)</headFemaleOffset>
+          <headFemaleOffset>(0.0, -0.125)</headFemaleOffset>
         </li>
         <li Class="AlienRace.LifeStageAgeAlien">  <!-- 청소년기 스테이지 저희 쓰나요....? -->
           <def>HumanlikeTeenager</def>
           <minAge>13</minAge>
-          <headFemaleOffset>(0.0, -0.125)</headFemaleOffset>
+          <headFemaleOffset>(0.0, -0.075)</headFemaleOffset>
         </li>
         <li Class="AlienRace.LifeStageAgeAlien">
           <def>HumanlikeAdult</def>
           <minAge>18</minAge>
-          <headFemaleOffset>(0.0, -0.125)</headFemaleOffset>
+          <headFemaleOffset>(0.0, -0.075)</headFemaleOffset>
         </li>
       </lifeStageAges>
       <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>

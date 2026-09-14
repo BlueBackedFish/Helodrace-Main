@@ -127,13 +127,14 @@
     </comps>
   </ThingDef>
 
-  <ThingDef ParentName="HD_ModularWeaponPartBase">
+<ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_M16A1</defName>
     <label>M16A1 flash suppressor</label>
     <description>An M16A1 birdcage flash suppressor for a 5.56 mm muzzle thread.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_M16a1</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>FlashHider</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>thread_mount</id><socketTags><li>muzzle_556</li></socketTags><transform><position>(0.417,0,-0.007)</position></transform></li></mounts>

@@ -2,6 +2,12 @@
 <Defs>
   <!-- Presets are Defs so PawnKinds and scenario content can reference stable names. -->
   <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_ModularM14_Default</defName>
+    <label>modular M14 standard configuration</label>
+    <weaponDef>HD_Gun_ModularM14_Test_Weapon</weaponDef>
+    <useDefaultConfiguration>true</useDefaultConfiguration>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_ModularM4_Default</defName>
     <label>modular M4A1 standard configuration</label>
     <weaponDef>HD_Gun_ModularM4_Test_Weapon</weaponDef>

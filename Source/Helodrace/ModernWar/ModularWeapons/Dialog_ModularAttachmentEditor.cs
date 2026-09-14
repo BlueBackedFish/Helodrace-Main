@@ -1901,6 +1901,9 @@ namespace Helodrace.ModernWar
                         + "</muzzleFlashScaleFactor>");
                 if (props.suppressMuzzleFlash)
                     builder.AppendLine("<suppressMuzzleFlash>true</suppressMuzzleFlash>");
+                if (props.muzzleEffectKind != ModularMuzzleEffectKind.Auto)
+                    builder.AppendLine("<muzzleEffectKind>" + props.muzzleEffectKind
+                        + "</muzzleEffectKind>");
                 builder.AppendLine("<graphicOffset>" + Vector(props.graphicOffset) + "</graphicOffset>");
                 if (!Mathf.Approximately(props.graphicAngle, 0f))
                     builder.AppendLine("<graphicAngle>" + Number(props.graphicAngle) + "</graphicAngle>");

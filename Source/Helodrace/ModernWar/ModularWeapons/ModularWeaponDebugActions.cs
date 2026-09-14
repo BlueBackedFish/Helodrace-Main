@@ -52,6 +52,13 @@ namespace Helodrace.ModernWar
                 "assembled M4 upper receiver");
         }
 
+        [DebugAction("Helodrace", "Spawn modular M14 development rifle",
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnDevelopmentM14()
+        {
+            SpawnAndSelect("HD_Gun_ModularM14_Test_Weapon", "modular M14 development rifle");
+        }
+
         private static void SpawnAndSelect(string defName, string label)
         {
             Map map = Find.CurrentMap;

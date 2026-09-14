@@ -554,13 +554,18 @@ namespace Helodrace.ModernWar
             if (node == null) return;
             Rect inner = rect.ContractedBy(10f);
             Widgets.Label(new Rect(inner.x, inner.y, inner.width, 26f), node.thing.LabelCap);
-            DrawGasTubeControl(new Rect(
-                inner.x,
-                inner.y + 30f,
-                inner.width,
-                82f));
-            Rect outRect = new Rect(inner.x, inner.y + 118f, inner.width,
-                inner.height - 118f);
+            float socketTop = 30f;
+            if (root.HasAdjustableGasSystem)
+            {
+                DrawGasTubeControl(new Rect(
+                    inner.x,
+                    inner.y + socketTop,
+                    inner.width,
+                    82f));
+                socketTop += 88f;
+            }
+            Rect outRect = new Rect(inner.x, inner.y + socketTop, inner.width,
+                inner.height - socketTop);
             float contentHeight = 16f;
             for (int i = 0; i < node.Props.sockets.Count; i++)
             {

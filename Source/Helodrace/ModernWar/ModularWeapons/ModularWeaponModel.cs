@@ -301,6 +301,7 @@ namespace Helodrace.ModernWar
         public float muzzleFlashDistanceOffset;
         public float muzzleFlashScaleFactor = 1f;
         public bool suppressMuzzleFlash;
+        public ModularMuzzleEffectKind muzzleEffectKind = ModularMuzzleEffectKind.Auto;
 
         public Vector3 graphicOffset = Vector3.zero;
         public float graphicAngle;

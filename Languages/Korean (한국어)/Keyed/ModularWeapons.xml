@@ -89,7 +89,7 @@
   <HD_ModularWeapon_FunctionOperational>&#44592;&#45733;: &#51221;&#49345; &#51089;&#46041;</HD_ModularWeapon_FunctionOperational>
   <HD_ModularWeapon_FunctionBlocked>&#44592;&#45733;: &#44201;&#48156; &#48520;&#44032; (&#54596;&#49688; &#48512;&#54408; &#45572;&#46973;: {0})</HD_ModularWeapon_FunctionBlocked>
   <HD_ModularWeapon_FunctionDegraded>&#44592;&#45733; &#51200;&#54616; (&#44592;&#45733; &#48512;&#54408; &#45572;&#46973;: {0})</HD_ModularWeapon_FunctionDegraded>
-  <HD_ModularWeapon_GasTubeSetting>&#44032;&#49828;&#54040;&#48652; &#50976;&#47049;: {0}</HD_ModularWeapon_GasTubeSetting>
+  <HD_ModularWeapon_GasTubeSetting>가스조절기 유량: {0}</HD_ModularWeapon_GasTubeSetting>
   <HD_ModularWeapon_GasTubeReset>100%</HD_ModularWeapon_GasTubeReset>
   <HD_ModularWeapon_GasTubeEffects>{0} RPM &#183; &#48152;&#46041; &#215;{1} &#183; &#52509;&#44396;&#54868;&#50684; &#215;{2}</HD_ModularWeapon_GasTubeEffects>
   <HD_ModularWeapon_GasTubeUnavailable>&#51109;&#52265;&#46108; &#44032;&#49828; &#49884;&#49828;&#53596;&#51060; &#50630;&#50612; &#51200;&#51109;&#46108; &#49444;&#51221;&#51060; &#48708;&#54876;&#49457;&#54868;&#46121;&#45768;&#45796;.</HD_ModularWeapon_GasTubeUnavailable>

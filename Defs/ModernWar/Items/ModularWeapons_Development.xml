@@ -203,12 +203,13 @@
     </comps>
   </ThingDef>
 
-  <ThingDef ParentName="HD_ModularWeaponPartBase">
+<ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_HACNT4</defName>
     <label>HAC NT4 muzzle device</label>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_HACNT4</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>MuzzleBrake</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>thread_mount</id><socketTags><li>muzzle_556</li></socketTags><transform><position>(0.198,0,-0.006)</position></transform></li></mounts>
@@ -220,12 +221,13 @@
     </comps>
   </ThingDef>
 
-  <ThingDef ParentName="HD_ModularWeaponPartBase">
+<ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Suppressor_BrightStrike4Prong</defName>
     <label>BrightStrike four-prong suppressor</label>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Supp_BrightStrike4Prong</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>Suppressor</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-1</graphicLayer>
         <mounts><li><id>nt4_mount</id><socketTags><li>nt4_suppressor</li></socketTags><transform><position>(0.206,0,-0.007)</position></transform></li></mounts>
@@ -233,13 +235,14 @@
     </comps>
   </ThingDef>
 
-  <ThingDef ParentName="HD_ModularWeaponPartBase">
+<ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_BrightStrikeSF3P762</defName>
     <label>BrightStrike SF3P 7.62 flash hider</label>
     <description>A three-prong flash hider for 7.62 mm and .300 Blackout 5/8x24 muzzle threads.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_BrightStrikeSF3P762</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>FlashHider</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>thread_mount</id><socketTags><li>muzzle_762</li></socketTags><transform><position>(0.198,0,-0.006)</position></transform></li></mounts>

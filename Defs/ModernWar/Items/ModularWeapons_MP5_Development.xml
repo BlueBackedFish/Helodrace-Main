@@ -106,13 +106,14 @@
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>2</graphicLayer><mounts><li><id>handguard_mount</id><socketTags><li>mp5_handguard_sd</li></socketTags><transform><position>(0,0,0.031)</position></transform></li></mounts></li></comps>
   </ThingDef>
 
-  <ThingDef ParentName="HD_ModularWeaponPartBase">
+<ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Suppressor_MP5SD</defName>
     <label>MP5SD integral suppressor</label>
     <description>The large-volume integral suppressor used with the MP5SD ported barrel.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Supp_MP5SD</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>Suppressor</muzzleEffectKind>
         <graphicLayer>-3</graphicLayer>
         <mounts><li><id>suppressor_mount</id><socketTags><li>mp5sd_suppressor</li></socketTags><transform><position>(0.129,0,0.031)</position></transform></li></mounts>
       </li>

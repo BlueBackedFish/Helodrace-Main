@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -30,8 +31,10 @@ namespace Helodrace.ModernWar
         }
         private sealed class Pixels
         {
-            public Color[] colors;
+            public Color32[] colors;
+            public long used;
             public int width, height;
+            public int xMin, yMin, xMax, yMax;
         }
         private static readonly Dictionary<string, Entry> cache = new Dictionary<string, Entry>();
         private static readonly ConditionalWeakTable<List<ModularRenderNode>, Entry> snapshots =
@@ -39,47 +42,124 @@ namespace Helodrace.ModernWar
         private static long clock;
         private static bool reportedFailure;
 
+        private sealed class Request
+        {
+            public List<ModularRenderNode> nodes;
+            public Entry last;
+            public float changedAt;
+            public string signature;
+            public IEnumerator<Texture2D> job;
+        }
+        private static readonly ConditionalWeakTable<CompModularWeaponNode, Request> requests =
+            new ConditionalWeakTable<CompModularWeaponNode, Request>();
+        // At most 24 MiB of RGBA source pixels; GPU readback is icon-sized, never 1024px.
+        private static readonly Dictionary<Texture, Pixels> sources = new Dictionary<Texture, Pixels>();
+        private const int SourceCapacity = 96;
+        private static int workFrame = -1;
+        private static readonly long FrameBudget = Math.Max(1, Stopwatch.Frequency * 2 / 1000);
+
         public static Texture2D Get(CompModularWeaponNode root)
         {
+            Request request = requests.GetValue(root, key => new Request());
+            // No baking or signature construction on Layout/input events.
+            if (Event.current == null || Event.current.type != EventType.Repaint)
+                return request.last?.evicted == false ? request.last.texture : null;
+
             var nodes = root.RenderSnapshot();
+            if (!ReferenceEquals(nodes, request.nodes))
+            {
+                request.job?.Dispose();
+                request.job = null;
+                request.signature = null;
+                request.nodes = nodes;
+                request.changedAt = Time.realtimeSinceStartup;
+            }
+
             Entry remembered;
-            if (snapshots.TryGetValue(nodes, out remembered))
+            if (snapshots.TryGetValue(nodes, out remembered) && !remembered.evicted)
             {
-                if (!remembered.evicted)
-                {
-                    remembered.used = ++clock;
-                    return remembered.texture;
-                }
-                snapshots.Remove(nodes);
+                remembered.used = ++clock;
+                request.last = remembered;
+                return remembered.texture;
             }
-            var layers = new List<Layer>();
-            foreach (var node in nodes.OrderBy(n => n.Props.outlinePriority))
-                AddLayer(layers, node, true);
-            foreach (var node in nodes) AddLayer(layers, node, false);
-            if (layers.Count == 0) return null;
-            var key = new StringBuilder();
-            foreach (var layer in layers)
-            {
-                key.Append(layer.texture.GetInstanceID()).Append(':');
-                foreach (float value in new[] { layer.center.x, layer.center.y,
-                    layer.size.x, layer.size.y, layer.angle,
-                    layer.tint.r, layer.tint.g, layer.tint.b, layer.tint.a })
-                    key.Append(value.ToString("R", CultureInfo.InvariantCulture)).Append(',');
-                key.Append(';');
-            }
-            string signature = key.ToString();
-            Entry entry;
-            if (cache.TryGetValue(signature, out entry))
-            {
-                entry.used = ++clock;
-                snapshots.Add(nodes, entry);
-                return entry.texture;
-            }
-            // Only read GPU textures during repaint; layout and input use the fallback.
-            if (Event.current == null || Event.current.type != EventType.Repaint) return null;
+            Texture2D fallback = request.last?.evicted == false ? request.last.texture : null;
+            // Dragging generates many snapshots. Bake only after input has settled.
+            if (Time.realtimeSinceStartup - request.changedAt < 0.2f
+                || workFrame == Time.frameCount) return fallback;
+            workFrame = Time.frameCount;
+            long started = Stopwatch.GetTimestamp();
             try
             {
-                Texture2D result = Bake(layers);
+                if (request.job == null)
+                {
+                    var layers = new List<Layer>();
+                    foreach (var node in nodes.OrderBy(n => n.Props.outlinePriority))
+                        AddLayer(layers, node, true);
+                    foreach (var node in nodes) AddLayer(layers, node, false);
+                    if (layers.Count == 0) return fallback;
+                    var key = new StringBuilder();
+                    foreach (var layer in layers)
+                    {
+                        key.Append(layer.texture.GetInstanceID()).Append(':');
+                        foreach (float value in new[] { layer.center.x, layer.center.y,
+                            layer.size.x, layer.size.y, layer.angle,
+                            layer.tint.r, layer.tint.g, layer.tint.b, layer.tint.a })
+                            key.Append(value.ToString("R", CultureInfo.InvariantCulture)).Append(',');
+                        key.Append(';');
+                    }
+                    request.signature = key.ToString();
+                    Entry shared;
+                    if (cache.TryGetValue(request.signature, out shared))
+                    {
+                        shared.used = ++clock;
+                        snapshots.Remove(nodes);
+                        snapshots.Add(nodes, shared);
+                        request.last = shared;
+                        return shared.texture;
+                    }
+                    request.job = Bake(layers);
+                }
+                // Each step handles a source read or a few output rows. The budget is
+                // shared across all commands, including multiple selected pawns.
+                while (Stopwatch.GetTimestamp() - started < FrameBudget)
+                {
+                    if (!request.job.MoveNext())
+                    {
+                        request.job.Dispose();
+                        request.job = null;
+                        break;
+                    }
+                    Texture2D result = request.job.Current;
+                    if (result == null) continue;
+                    Remember(request, nodes, result);
+                    request.job.Dispose();
+                    request.job = null;
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                request.job?.Dispose();
+                request.job = null;
+                if (!reportedFailure)
+                {
+                    reportedFailure = true;
+                    Log.Warning("[Helodrace] Modular icon bake failed; using default icon. " + ex);
+                }
+                // Memoize failure for this snapshot instead of retrying every repaint.
+                snapshots.Remove(nodes);
+                snapshots.Add(nodes, new Entry { used = ++clock });
+            }
+            return fallback;
+        }
+
+        private static void Remember(Request request, List<ModularRenderNode> nodes, Texture2D texture)
+        {
+            Entry entry;
+            if (cache.TryGetValue(request.signature, out entry))
+                UnityEngine.Object.Destroy(texture);
+            else
+            {
                 if (cache.Count >= Capacity)
                 {
                     var oldest = cache.OrderBy(pair => pair.Value.used).First();
@@ -87,23 +167,13 @@ namespace Helodrace.ModernWar
                     UnityEngine.Object.Destroy(oldest.Value.texture);
                     cache.Remove(oldest.Key);
                 }
-                entry = new Entry { texture = result, used = ++clock };
-                cache.Add(signature, entry);
-                snapshots.Add(nodes, entry);
-                return result;
+                entry = new Entry { texture = texture };
+                cache.Add(request.signature, entry);
             }
-            catch (Exception ex)
-            {
-                if (!reportedFailure)
-                {
-                    reportedFailure = true;
-                    Log.Warning("[Helodrace] Modular icon bake failed; using default icon. " + ex);
-                }
-                // Remember failures too, so a bad texture cannot trigger repeated readbacks.
-                if (cache.Count < Capacity)
-                    cache[signature] = new Entry { used = ++clock };
-                return null;
-            }
+            entry.used = ++clock;
+            snapshots.Remove(nodes);
+            snapshots.Add(nodes, entry);
+            request.last = entry;
         }
 
         private static void AddLayer(List<Layer> layers, ModularRenderNode node, bool outline)
@@ -124,18 +194,40 @@ namespace Helodrace.ModernWar
 
         private static Pixels Read(Texture texture)
         {
+            Pixels cached;
+            if (sources.TryGetValue(texture, out cached))
+            {
+                cached.used = ++clock;
+                return cached;
+            }
+            int width = Math.Min(Resolution, texture.width);
+            int height = Math.Min(Resolution, texture.height);
             RenderTexture previous = RenderTexture.active;
-            RenderTexture temporary = RenderTexture.GetTemporary(texture.width, texture.height,
+            RenderTexture temporary = RenderTexture.GetTemporary(width, height,
                 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
             Texture2D readable = null;
             try
             {
                 Graphics.Blit(texture, temporary);
                 RenderTexture.active = temporary;
-                readable = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
-                readable.ReadPixels(new Rect(0, 0, texture.width, texture.height), 0, 0);
-                return new Pixels { colors = readable.GetPixels(), width = texture.width,
-                    height = texture.height };
+                readable = new Texture2D(width, height, TextureFormat.RGBA32, false);
+                readable.ReadPixels(new Rect(0, 0, width, height), 0, 0, false);
+                cached = new Pixels { colors = readable.GetPixels32(), width = width,
+                    height = height, used = ++clock,
+                    xMin = width, yMin = height, xMax = -1, yMax = -1 };
+                for (int y = 0; y < height; y++)
+                    for (int x = 0; x < width; x++)
+                        if (cached.colors[y * width + x].a > 2)
+                        {
+                            cached.xMin = Math.Min(cached.xMin, x);
+                            cached.xMax = Math.Max(cached.xMax, x);
+                            cached.yMin = Math.Min(cached.yMin, y);
+                            cached.yMax = Math.Max(cached.yMax, y);
+                        }
+                if (sources.Count >= SourceCapacity)
+                    sources.Remove(sources.OrderBy(pair => pair.Value.used).First().Key);
+                sources.Add(texture, cached);
+                return cached;
             }
             finally
             {
@@ -145,22 +237,21 @@ namespace Helodrace.ModernWar
             }
         }
 
-        private static Texture2D Bake(List<Layer> layers)
+        private static IEnumerator<Texture2D> Bake(List<Layer> layers)
         {
-            var sources = new Dictionary<Texture, Pixels>();
+            var localSources = new Dictionary<Texture, Pixels>();
             Vector2 min = new Vector2(float.MaxValue, float.MaxValue);
             Vector2 max = new Vector2(float.MinValue, float.MinValue);
             foreach (var layer in layers)
             {
                 Pixels pixels;
-                if (!sources.TryGetValue(layer.texture, out pixels))
-                    sources.Add(layer.texture, pixels = Read(layer.texture));
-                int xMin = pixels.width, yMin = pixels.height, xMax = -1, yMax = -1;
-                for (int y = 0; y < pixels.height; y++)
-                    for (int x = 0; x < pixels.width; x++)
-                        if (pixels.colors[y * pixels.width + x].a > 0.01f)
-                        { xMin = Math.Min(xMin, x); xMax = Math.Max(xMax, x);
-                          yMin = Math.Min(yMin, y); yMax = Math.Max(yMax, y); }
+                if (!localSources.TryGetValue(layer.texture, out pixels))
+                {
+                    localSources.Add(layer.texture, pixels = Read(layer.texture));
+                    yield return null;
+                }
+                int xMin = pixels.xMin, yMin = pixels.yMin,
+                    xMax = pixels.xMax, yMax = pixels.yMax;
                 if (xMax < 0) continue;
                 foreach (int x in new[] { xMin, xMax + 1 })
                     foreach (int y in new[] { yMin, yMax + 1 })
@@ -177,17 +268,23 @@ namespace Helodrace.ModernWar
             foreach (var layer in layers)
             {
                 if (Mathf.Abs(layer.size.x * layer.size.y) < .0000001f) continue;
-                Pixels source = sources[layer.texture];
+                Pixels source = localSources[layer.texture];
+                float cosine = Mathf.Cos(-layer.angle), sine = Mathf.Sin(-layer.angle);
                 for (int y = 0; y < Resolution; y++)
+                {
+                    if ((y & 3) == 0) yield return null;
                     for (int x = 0; x < Resolution; x++)
                     {
                         Vector2 point = center + new Vector2((x + .5f) / Resolution - .5f,
                             (y + .5f) / Resolution - .5f) * span;
-                        Vector2 local = Rotate(point - layer.center, -layer.angle);
+                        Vector2 delta = point - layer.center;
+                        Vector2 local = new Vector2(cosine * delta.x - sine * delta.y,
+                            sine * delta.x + cosine * delta.y);
                         float u = local.x / layer.size.x + .5f, v = local.y / layer.size.y + .5f;
                         if (u < 0 || u >= 1 || v < 0 || v >= 1) continue;
-                        Color src = source.colors[(int)(v * source.height) * source.width
+                        Color src = (Color)source.colors[(int)(v * source.height) * source.width
                             + (int)(u * source.width)] * layer.tint;
+                        if (src.a <= 0f) continue;
                         int index = y * Resolution + x;
                         Color dst = output[index];
                         float alpha = src.a + dst.a * (1 - src.a);
@@ -196,6 +293,7 @@ namespace Helodrace.ModernWar
                         mixed.a = alpha;
                         output[index] = mixed;
                     }
+                }
             }
             var result = new Texture2D(Resolution, Resolution, TextureFormat.RGBA32, false);
             result.name = "Helodrace modular weapon icon";
@@ -203,7 +301,7 @@ namespace Helodrace.ModernWar
             result.filterMode = FilterMode.Bilinear;
             result.SetPixels(output);
             result.Apply(false, true);
-            return result;
+            yield return result;
         }
 
         private static Vector2 Rotate(Vector2 p, float angle)

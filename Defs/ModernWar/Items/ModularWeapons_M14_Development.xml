@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Initial M14 geometry preserves source canvases; tune per variant in the editor.
+       The ammunition selector temporarily shares the 5.56 item icon; projectile is 7.62 NATO. -->
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_M1422</defName><label>M14 22 inch barrel</label>
+    <description>M14 22 inch barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1422</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-4</graphicLayer><partCategory>Required</partCategory><chamberCaliber>762x51</chamberCaliber><ceAmmoSetDefName>AmmoSet_762x51mmNATO</ceAmmoSetDefName><boreDiameterMm>7.82</boreDiameterMm>
+      <mounts><li><id>m14_barrel_mount</id><socketTags><li>m14_barrel</li></socketTags><transform><position>(-0.18457,0,-0.015625)</position></transform></li></mounts>
+      <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>m14_muzzle</li></tags><transform><position>(0.31543,0,-0.017578)</position></transform></li><li><id>gas_tube</id><label>gas tube</label><tags><li>m14_gas</li></tags><transform><position>(0.144531,0,-0.022461)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_M14</part></li><li><socketId>gas_tube</socketId><part>HD_ModularPart_GasTube_M14</part></li></defaultAttachments>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_M1418</defName><label>M14 18 inch barrel</label>
+    <description>M14 18 inch barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1418</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-4</graphicLayer><partCategory>Required</partCategory><chamberCaliber>762x51</chamberCaliber><ceAmmoSetDefName>AmmoSet_762x51mmNATO</ceAmmoSetDefName><boreDiameterMm>7.82</boreDiameterMm>
+      <mounts><li><id>m14_barrel_mount</id><socketTags><li>m14_barrel</li></socketTags><transform><position>(0.014648,0,-0.015625)</position></transform></li></mounts>
+      <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>m14_muzzle</li></tags><transform><position>(0.425781,0,-0.017578)</position></transform></li><li><id>gas_tube</id><label>gas tube</label><tags><li>m14_gas</li></tags><transform><position>(0.34375,0,-0.022461)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_SEI2000V</part></li><li><socketId>gas_tube</socketId><part>HD_ModularPart_GasTube_MK14EBR</part></li></defaultAttachments>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_M1A16</defName><label>M1A SOCOM 16 barrel</label>
+    <description>M1A SOCOM 16 barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1A16</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-4</graphicLayer><partCategory>Required</partCategory><chamberCaliber>762x51</chamberCaliber><ceAmmoSetDefName>AmmoSet_762x51mmNATO</ceAmmoSetDefName><boreDiameterMm>7.82</boreDiameterMm>
+      <mounts><li><id>m14_barrel_mount</id><socketTags><li>m14_barrel</li></socketTags><transform><position>(0.015,0,-0.016)</position></transform></li></mounts>
+      <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>m14_socom_muzzle</li></tags><transform><position>(0.384,0,-0.018)</position></transform></li><li><id>gas_tube</id><label>gas tube</label><tags><li>m14_gas_socom</li></tags><transform><position>(0.335,0,-0.022)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_Socom16</part></li><li><socketId>gas_tube</socketId><part>HD_ModularPart_GasTube_M1ASocom16</part></li></defaultAttachments>
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Bolt_M14</defName><label>M14 bolt</label>
+    <description>M14 bolt for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_M14</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-1</graphicLayer><partCategory>Required</partCategory><animatedPart>Bolt</animatedPart><animationTravel>(-0.044,0,0)</animationTravel>
+      <mounts><li><id>m14_bolt_mount</id><socketTags><li>m14_bolt</li></socketTags><transform><position>(-0.036,0,-0.011)</position></transform></li></mounts>
+      
+      
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+
+      <animationPivot>(0,0,0)</animationPivot>
+
+      <animationAngle>0</animationAngle>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_OperatingRod_M14</defName><label>M14 operating rod</label>
+    <description>M14 operating rod for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_M14OPRod</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>1</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions><animatedPart>Bolt</animatedPart><animationTravel>(-0.055,0,0)</animationTravel>
+      <mounts><li><id>m14_operating_rod_mount</id><socketTags><li>m14_operating_rod</li></socketTags><transform><position>(0.013,0,-0.017)</position></transform></li></mounts>
+      
+      
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+
+      <animationPivot>(0,0,0)</animationPivot>
+
+      <animationAngle>0</animationAngle>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_TriggerGroup_M14</defName><label>M14 trigger group</label>
+    <description>M14 trigger group for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M14TriggerGroup</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>1</graphicLayer><partCategory>Required</partCategory>
+      <mounts><li><id>m14_trigger_group_mount</id><socketTags><li>m14_trigger_group</li></socketTags><transform><position>(-0.11,0,-0.028)</position></transform></li></mounts>
+      <sockets><li><id>trigger</id><label>trigger</label><tags><li>m14_trigger</li></tags><required>true</required><transform><position>(-0.119,0,-0.073)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_M14</part></li></defaultAttachments>
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Trigger_M14</defName><label>M14 trigger</label>
+    <description>M14 trigger for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M14</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>1</graphicLayer><partCategory>Required</partCategory><animatedPart>Trigger</animatedPart><animationPivot>(-0.009,0,-0.011)</animationPivot><animationAngle>-12</animationAngle>
+      <mounts><li><id>m14_trigger_mount</id><socketTags><li>m14_trigger</li></socketTags><transform><position>(0,0,0)</position></transform></li></mounts>
+      
+      
+    
+      <graphicOffset>(0.12,0,0.072)</graphicOffset>
+
+      <animationTravel>(0,0,0)</animationTravel>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_GasTube_M14</defName><label>M14 gas system</label>
+    <description>M14 gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_M14</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-2</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions>
+      <mounts><li><id>m14_gas_mount</id><socketTags><li>m14_gas</li></socketTags><transform><position>(0.144531,0,-0.022461)</position></transform></li></mounts>
+      
+      
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_GasTube_MK14EBR</defName><label>MK14 EBR gas system</label>
+    <description>MK14 EBR gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_MK14EBR</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-2</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions>
+      <mounts><li><id>m14_gas_mount</id><socketTags><li>m14_gas</li></socketTags><transform><position>(0.34375,0,-0.022461)</position></transform></li></mounts>
+      
+      
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_GasTube_M1ASocom16</defName><label>M1A SOCOM 16 gas system</label>
+    <description>M1A SOCOM 16 gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_M1ASocom16</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-2</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions>
+      <mounts><li><id>m14_gas_socom_mount</id><socketTags><li>m14_gas_socom</li></socketTags><transform><position>(0.335,0,-0.022)</position></transform></li></mounts>
+      
+      
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Stock_M14Wood</defName><label>M14 wooden stock</label>
+    <description>M14 wooden stock for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_M14Wood</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>2</graphicLayer>
+      <mounts><li><id>m14_stock_mount</id><socketTags><li>m14_stock</li></socketTags><transform><position>(-0.075195,0,-0.027344)</position></transform></li></mounts>
+      
+      
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Stock_Socom16</defName><label>SOCOM 16 stock</label>
+    <description>SOCOM 16 stock for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_Socom16</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>2</graphicLayer>
+      <mounts><li><id>m14_stock_mount</id><socketTags><li>m14_stock</li></socketTags><transform><position>(-0.075,0,-0.027)</position></transform></li></mounts>
+      
+      
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+<ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Muzzle_M14</defName><label>M14 flash hider</label>
+    <description>M14 flash hider for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_M14</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>FlashHider</muzzleEffectKind>
+      <graphicLayer>3</graphicLayer>
+      <mounts><li><id>m14_muzzle_mount</id><socketTags><li>m14_muzzle</li></socketTags><transform><position>(0.315,0,-0.018)</position></transform></li></mounts>
+      
+      
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+<ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Muzzle_SEI2000V</defName><label>SEI 2000V muzzle brake</label>
+    <description>SEI 2000V muzzle brake for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_SEI2000V</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>FlashHider</muzzleEffectKind>
+      <graphicLayer>3</graphicLayer>
+      <mounts><li><id>m14_muzzle_mount</id><socketTags><li>m14_muzzle</li></socketTags><transform><position>(0.40332,0,-0.017578)</position></transform></li></mounts>
+      
+      
+    </li></comps>
+  </ThingDef>
+
+<ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Muzzle_Socom16</defName><label>SOCOM 16 muzzle brake</label>
+    <description>SOCOM 16 muzzle brake for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_Socom16</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>MuzzleBrake</muzzleEffectKind>
+      <graphicLayer>3</graphicLayer>
+      <mounts><li><id>m14_socom_muzzle_mount</id><socketTags><li>m14_socom_muzzle</li></socketTags><transform><position>(0.383789,0,-0.017578)</position></transform></li></mounts>
+      
+      
+    </li></comps>
+  </ThingDef>
+
+<ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Muzzle_Socom16Thread</defName><label>SOCOM 16 muzzle thread adapter</label>
+    <description>SOCOM 16 muzzle thread adapter for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_Socom16Thread</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <muzzleEffectKind>Bare</muzzleEffectKind>
+      <graphicLayer>3</graphicLayer>
+      <mounts><li><id>m14_socom_muzzle_mount</id><socketTags><li>m14_socom_muzzle</li></socketTags><transform><position>(0.384,0,-0.018)</position></transform></li></mounts>
+      <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>m14_muzzle</li></tags><transform><position>(0.403,0,-0.018)</position></transform></li></sockets>
+      
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Magazine_M1420</defName><label>20-round M14 magazine</label>
+    <description>20-round M14 magazine for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_M1420</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-1</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>20</magazineCapacity>
+      <mounts><li><id>m14_magazine_mount</id><socketTags><li>m14_magazine</li></socketTags><transform><position>(-0.035,0,-0.032)</position></transform></li></mounts>
+      <sockets><li><id>ammunition</id><label>ammunition</label><tags><li>m14_ammunition</li></tags><transform><position>(-0.035,0,-0.088)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_762M80</part></li></defaultAttachments>
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Ammunition_762M80</defName><label>7.62x51mm M80 ammunition</label>
+    <description>7.62x51mm M80 ammunition for the modular M14 family. Attachment placement can be adjusted in the in-game editor.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>0</graphicLayer><storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached><ammunitionType>7.62 M80</ammunitionType><ammunitionCaliber>762x51</ammunitionCaliber><ceAmmoDefName>Ammo_762x51mmNATO_FMJ</ceAmmoDefName><projectileDiameterMm>7.82</projectileDiameterMm><projectileOverride>HD_Bullet_M60E3_Proj</projectileOverride><overridePriority>20</overridePriority>
+      <mounts><li><id>m14_ammunition_mount</id><socketTags><li>m14_ammunition</li></socketTags><transform><position>(-0.035,0,-0.088)</position></transform></li></mounts>
+      
+      
+    
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>HD_Gun_ModularM14_Test_Weapon</defName><label>modular M14 development rifle</label>
+    <description>A configurable M14-family rifle. Initial geometry and animation settings are editable in the attachment editor.</description>
+    <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M14</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
+    <soundInteract>Interact_Rifle</soundInteract><weaponTags><li>HD_ModernWarWeapon</li></weaponTags>
+    <statBases><WorkToMake>40000</WorkToMake><Mass>4.1</Mass><MarketValue>1100</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.65</AccuracyTouch><AccuracyShort>0.80</AccuracyShort><AccuracyMedium>0.82</AccuracyMedium><AccuracyLong>0.73</AccuracyLong><RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown></statBases>
+    <costList><Steel>55</Steel><ComponentIndustrial>5</ComponentIndustrial></costList>
+    <recipeMaker><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <verbs><li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M60E3_Proj</defaultProjectile><warmupTime>1.1</warmupTime><range>36</range><burstShotCount>3</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li></verbs>
+    <tools><li><label>stock</label><capacities><li>Blunt</li></capacities><power>9</power><cooldownTime>1.8</cooldownTime></li></tools>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <isAssemblyRoot>true</isAssemblyRoot><partCategory>Required</partCategory><realisticRoundsPerMinute>750</realisticRoundsPerMinute><baseFireDelayFactor>1.2</baseFireDelayFactor><outlinePriority>100</outlinePriority>
+      <internalStats><massKg>1.1</massKg><recoilImpulse>5.5</recoilImpulse><ergonomics>55</ergonomics><muzzleRise>4.8</muzzleRise><operatingReliability>0.98</operatingReliability><gasFlow>1</gasFlow><centerOfMassOffsetMeters>0</centerOfMassOffsetMeters><momentOfInertia>0.06</momentOfInertia><targetAcquisition>55</targetAcquisition><aimingPrecision>72</aimingPrecision><identificationDistanceMeters>300</identificationDistanceMeters></internalStats>
+      <sockets><li><id>barrel</id><label>barrel</label><tags><li>m14_barrel</li></tags><required>true</required><transform><position>(0.015,0,-0.016)</position></transform></li><li><id>bolt</id><label>bolt</label><tags><li>m14_bolt</li></tags><required>true</required><transform><position>(-0.036,0,-0.011)</position></transform></li><li><id>operating_rod</id><label>operating rod</label><tags><li>m14_operating_rod</li></tags><transform><position>(0.013,0,-0.017)</position></transform></li><li><id>trigger_group</id><label>trigger group</label><tags><li>m14_trigger_group</li></tags><required>true</required><transform><position>(-0.11,0,-0.028)</position></transform></li><li><id>stock</id><label>stock</label><tags><li>m14_stock</li></tags><transform><position>(-0.075,0,-0.027)</position></transform></li><li><id>magazine</id><label>magazine</label><tags><li>m14_magazine</li></tags><transform><position>(-0.035,0,-0.032)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_M1422</part></li><li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_M14</part></li><li><socketId>operating_rod</socketId><part>HD_ModularPart_OperatingRod_M14</part></li><li><socketId>trigger_group</socketId><part>HD_ModularPart_TriggerGroup_M14</part></li><li><socketId>stock</socketId><part>HD_ModularPart_Stock_M14Wood</part></li><li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_M1420</part></li></defaultAttachments>
+    
+      <sightGroupHeightTolerance>0.015</sightGroupHeightTolerance>
+
+      <graphicOffset>(0,0,0)</graphicOffset>
+</li></comps>
+  </ThingDef>
+</Defs>
