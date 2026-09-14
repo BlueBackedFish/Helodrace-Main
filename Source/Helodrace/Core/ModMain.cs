@@ -14,6 +14,7 @@ namespace Helodrace
         {
             var harmony = new Harmony("YourName.Helodrace");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+            HelodRace.Initialize();
             CigaretteSmokingUtility.LogPatchStatus();
             
             RemoveQualityFromHelodraceGuns();

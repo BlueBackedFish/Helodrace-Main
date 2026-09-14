@@ -1,35 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <AlienRace.ThingDef_AlienRace ParentName="HD_PawnBase">
+  <ThingDef ParentName="HD_PawnBase">
     <defName>Helod</defName>
     <label>Helod</label>
     <description>A noble canine-like humanoid race known for their loyalty, agility, and frontier spirit. Excellent survivors, trackers, and marksmen.</description>
     <inspectorTabs>
     </inspectorTabs>
-    <alienRace>
-      <generalSettings>
-        <maleGenderProbability>0.0000001</maleGenderProbability>
-        <immuneToAge>false</immuneToAge>
-        <humanRecipeImport>true</humanRecipeImport>
-        <canLayDown>true</canLayDown>
-        <maxDamageForSocialfight>6</maxDamageForSocialfight>
-        <immuneToXenophobia>false</immuneToXenophobia>
-        
-        <disallowedTraits>
-          <li>
-            <defName Degree="-1">SpeedOffset</defName>
-          </li>
-          <li>
-            <defName>CreepyBreathing</defName>
-          </li>
-          <li>
-            <defName>BodyPurist</defName>
-          </li>
-        </disallowedTraits>
-
-        <alienPartGenerator>
-          <atlasScale>4</atlasScale>
-          <headTypes>
+    <modExtensions>
+      <li Class="Helodrace.HelodRaceExtension">
+        <headTypes>
             <li>HD_HelodHead010101</li>
             <li>HD_HelodHead010102</li>
             <li>HD_HelodHead010103</li>
@@ -44,289 +23,7 @@
             <li>HD_HelodHead010501</li>
             <li>HD_HelodHead010502</li>
           </headTypes>
-          <bodyTypes>
-            <li>Female</li>
-            <li MayRequire="Ludeon.RimWorld.Biotech">Baby</li>
-            <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
-            <!--<li>Thin</li>-->
-          </bodyTypes>
-          <headOffset>(0.0, -0.07)</headOffset>
-          <customDrawSize>(0.8, 0.8)</customDrawSize>
-          <customHeadDrawSize>(0.8, 0.8)</customHeadDrawSize>
-          <customPortraitDrawSize>(0.8, 0.8)</customPortraitDrawSize>
-          
-          <colorChannels>
-            <li>
-              <name>skin</name>
-              <first Class="ColorGenerator_Single">
-                <color>(1.0, 1.0, 1.0)</color>
-              </first>
-              <second Class="ColorGenerator_Single">
-                <color>(1.0, 1.0, 1.0)</color>
-              </second>
-            </li>
-            <li>
-              <name>hair</name>
-              <first Class="ColorGenerator_Options">
-                <options>
-                  <!-- Charcoal Black -->
-                  <li>
-                    <weight>70</weight>
-                    <only>RGBA(92, 92, 92, 255)</only>
-                  </li>
-                  <!-- Cocoa -->
-                  <li>
-                    <weight>150</weight>
-                    <only>RGBA(181, 132, 102, 255)</only>
-                  </li>
-                  <!-- Brown -->
-                  <li>
-                    <weight>150</weight>
-                    <only>RGBA(153, 69, 0, 255)</only>
-                  </li>
-                  <!-- Gold Blonde -->
-                  <li>
-                    <weight>100</weight>
-                    <only>RGBA(221, 150, 0, 255)</only>
-                  </li>
-                  <!-- White Blonde -->
-                  <li>
-                    <weight>100</weight>
-                    <only>RGBA(242, 214, 153, 255)</only>
-                  </li>
-                  <!-- Sugar Ash -->
-                  <li>
-                    <weight>50</weight>
-                    <only>RGBA(148, 138, 138, 255)</only>
-                  </li>
-                  <!-- Gold Rose -->
-                  <li>
-                    <weight>40</weight>
-                    <only>RGBA(181, 135, 89, 255)</only>
-                  </li>
-                  <!-- Dark Rose -->
-                  <li>
-                    <weight>30</weight>
-                    <only>RGBA(171, 40, 46, 255)</only>
-                  </li>
-                  <!-- Light Purple -->
-                  <li>
-                    <weight>40</weight>
-                    <only>RGBA(229, 193, 255, 255)</only>
-                  </li>
-                  <!-- Aqua -->
-                  <li>
-                    <weight>40</weight>
-                    <only>RGBA(0, 206, 255, 255)</only>
-                  </li>
-                  <!-- White -->
-                  <li>
-                    <weight>20</weight>
-                    <only>RGBA(230, 230, 230, 255)</only>
-                  </li>
-                </options>
-              </first>
-              <second Class="ColorGenerator_Single">
-                <color>RGBA(0, 0, 0, 0)</color>
-              </second>
-            </li>
-          </colorChannels>
-
-          <bodyAddons>
-            <!-- Tail -->
-            <li>
-              <drawSize>1</drawSize>
-              <path>Helod/Tails/HelodTail</path>
-              <conditions>
-                <BodyPart>
-                  <bodyPart>HD_HelodTail</bodyPart>
-                  <bodyPartLabel>tail</bodyPartLabel>
-                </BodyPart>
-                <Posture>
-                  <drawnStanding>true</drawnStanding>
-                  <drawnInBed>false</drawnInBed>
-                </Posture>
-                <RotStage>Fresh,Rotting</RotStage>
-              </conditions>
-              <inFrontOfBody>false</inFrontOfBody>
-              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-              <colorChannel>hair</colorChannel>
-              <defaultOffset>Tail</defaultOffset>
-              <shaderType>Cutout</shaderType>
-              <offsets>
-                <south>
-                  <offset>(-0.4125,0.15)</offset>
-                </south>
-                <north>
-                  <offset>(0,0.475)</offset>
-                </north>
-                <east>
-                  <offset>(-0.325,0.24)</offset>
-                </east>
-              </offsets>
-            </li>
-
-            <!-- Left Ear -->
-            <li>
-              <path>Helod/Ears/Left/Ear1Left</path>
-              <conditions>
-                <BodyPart>
-                  <bodyPart>Ear</bodyPart>
-                  <bodyPartLabel>left ear</bodyPartLabel>
-                </BodyPart>
-                <RotStage>Fresh,Rotting</RotStage>
-                <Not>
-                  <ApparelDef>HD_Apparel_CarvalyHat</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>HD_Apparel_FASTMT</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_AdvancedHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_BowlerHat</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_CowboyHat</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_HatHood</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_ArmorHelmetRecon</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_PowerArmorHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_PsychicFoilHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_SimpleHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_TribalHeaddress</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_Tuque</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_WarMask</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_WarVeil</ApparelDef>
-                </Not>
-              </conditions>
-              <inFrontOfBody>true</inFrontOfBody>
-              <colorChannel>hair</colorChannel>
-              <drawSize>1.0</drawSize>
-              <angle>0</angle>
-              <alignWithHead>true</alignWithHead>
-              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-              <defaultOffset>Head</defaultOffset>
-              <shaderType>CutoutComplex</shaderType>
-              <offsets>
-                <north>
-                  <offset>(-0.13,-0.15)</offset>
-                  <layerOffset></layerOffset>
-                </north>
-                <east>
-                  <offset>(-0.045,-0.355)</offset>
-                  <layerOffset>-1</layerOffset>
-                </east>
-                <south>
-                  <offset>(0.13,-0.31175)</offset>
-                  <layerOffset></layerOffset>
-                </south>
-              </offsets>
-            </li>
-
-            <!-- Right Ear -->
-            <li>
-              <path>Helod/Ears/Right/Ear1Right</path>
-              <conditions>
-                <BodyPart>
-                  <bodyPart>Ear</bodyPart>
-                  <bodyPartLabel>right ear</bodyPartLabel>
-                </BodyPart>
-                <RotStage>Fresh,Rotting</RotStage>
-                <Not>
-                  <ApparelDef>HD_Apparel_CarvalyHat</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>HD_Apparel_FASTMT</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_AdvancedHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_BowlerHat</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_CowboyHat</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_HatHood</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_ArmorHelmetRecon</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_PowerArmorHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_PsychicFoilHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_SimpleHelmet</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_TribalHeaddress</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_Tuque</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_WarMask</ApparelDef>
-                </Not>
-                <Not>
-                  <ApparelDef>Apparel_WarVeil</ApparelDef>
-                </Not>
-              </conditions>
-              <inFrontOfBody>true</inFrontOfBody>
-              <colorChannel>hair</colorChannel>
-              <drawSize>1.0</drawSize>
-              <angle>0</angle>
-              <alignWithHead>true</alignWithHead>
-              <scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-              <defaultOffset>Head</defaultOffset>
-              <shaderType>CutoutComplex</shaderType>
-              <offsets>
-                <north>
-                  <offset>(0.13,-0.15)</offset>
-                  <layerOffset></layerOffset>
-                </north>
-                <east>
-                  <offset>(0.0675,-0.355)</offset>
-                  <layerOffset>-0.004</layerOffset>
-                </east>
-                <south>
-                  <offset>(-0.13,-0.31175)</offset>
-                  <layerOffset></layerOffset>
-                </south>
-              </offsets>
-            </li>
-          </bodyAddons>
-        </alienPartGenerator>
-      </generalSettings>
-
-      <!-- Graphic Paths -->
-      <graphicPaths>
-        <body>Helod/Bodies/</body>
-        <skeleton>Things/Pawn/Humanlike/Bodies/Dessicated/Dessicated_Thin</skeleton>
-        <apparel>
-          <individualPaths>
+        <apparelGraphics>
             <li>
               <key>Apparel_AdvancedHelmet</key>
               <value>Helod/VanillaApparel/AdvancedHelmet/AdvancedHelmet</value>
@@ -483,53 +180,7 @@
               <key>Apparel_WarMask</key>
               <value>Helod/VanillaApparel/WarMask/WarMask</value>
             </li>
-          </individualPaths>
-        </apparel>
-      </graphicPaths>
-
-      <styleSettings>
-        <li>
-          <key>HairDef</key>
-          <value>
-            <hasStyle>true</hasStyle>
-            <styleTagsOverride>
-              <li>HelodHair</li>
-            </styleTagsOverride>
-          </value>
-        </li>
-        <li>
-          <key>BeardDef</key>
-          <value>
-            <hasStyle>false</hasStyle>
-          </value>
-        </li>
-        <li>
-          <key>TattooDef</key>
-          <value>
-            <hasStyle>false</hasStyle>
-          </value>
-        </li>
-      </styleSettings>
-
-      <relationSettings>
-        <relationChanceModifierChild>1</relationChanceModifierChild>
-        <relationChanceModifierExLover>1</relationChanceModifierExLover>
-        <relationChanceModifierExSpouse>1</relationChanceModifierExSpouse>
-        <relationChanceModifierFiance>1</relationChanceModifierFiance>
-        <relationChanceModifierLover>1</relationChanceModifierLover>
-        <relationChanceModifierParent>1</relationChanceModifierParent>
-        <relationChanceModifierSibling>1</relationChanceModifierSibling>
-        <relationChanceModifierSpouse>1</relationChanceModifierSpouse>
-      </relationSettings>
-
-      <thoughtSettings>
-      </thoughtSettings>
-
-      <raceRestriction>
-        <traitList>
-          <li>HD_RawBTXMadman</li>
-        </traitList>
-        <onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+          </apparelGraphics>
         <apparelList>
           <li>HD_Apparel_CarvalyUniform</li>
           <li>HD_Apparel_CarvalyHat</li>
@@ -630,7 +281,6 @@
           <li MayRequire="Ludeon.RimWorld.Odyssey">Apparel_PackHunter</li>
           <li MayRequire="Ludeon.RimWorld.Odyssey">Apparel_CerebrexNode</li>
         </whiteApparelList>
-        <onlyUseRaceRestrictedWeapons>false</onlyUseRaceRestrictedWeapons>
         <blackGeneList MayRequire="Ludeon.RimWorld.Biotech">
           <li MayRequire="Ludeon.RimWorld.Biotech">Furskin</li>
           <li MayRequire="Ludeon.RimWorld.Biotech">Hair_BaldOnly</li>
@@ -651,21 +301,8 @@
           <li MayRequire="Ludeon.RimWorld.Biotech">HD_EasternHelod</li>
           <li MayRequire="Ludeon.RimWorld.Biotech">HD_MexicanHelod</li>
         </xenotypeList>
-        <blackXenotypeList MayRequire="Ludeon.RimWorld.Biotech">
-          <li MayRequire="Ludeon.RimWorld.Biotech">Dirtmole</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Genie</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Hussar</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Sanguophage</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Neanderthal</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Pigskin</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Impid</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Waster</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Yttakin</li>
-          <li MayRequire="Ludeon.RimWorld.Biotech">Highmate</li>
-        </blackXenotypeList>
-        <onlyUseRaceRestrictedXenotypes MayRequire="Ludeon.RimWorld.Biotech">true</onlyUseRaceRestrictedXenotypes>
-      </raceRestriction>
-    </alienRace>
+      </li>
+    </modExtensions>
 
     <statBases>
       <MarketValue>1750</MarketValue>
@@ -766,26 +403,21 @@
         </points>
       </litterSizeCurve>
       <lifeStageAges>
-        <li Class="AlienRace.LifeStageAgeAlien">
+        <li>
           <def>HumanlikeBaby</def>
           <minAge>0</minAge>
-          <headFemaleOffset>(0.0, -0.25)</headFemaleOffset>
         </li>
-        <li Class="AlienRace.LifeStageAgeAlien">
+        <li>
           <def>HumanlikeChild</def>
           <minAge>3</minAge>
-          <headOffset>(0.0, -1.2)</headOffset>
-          <headFemaleOffset>(0.0, -0.125)</headFemaleOffset>
         </li>
-        <li Class="AlienRace.LifeStageAgeAlien">  <!-- 청소년기 스테이지 저희 쓰나요....? -->
+        <li>  <!-- 청소년기 스테이지 저희 쓰나요....? -->
           <def>HumanlikeTeenager</def>
           <minAge>13</minAge>
-          <headFemaleOffset>(0.0, -0.075)</headFemaleOffset>
         </li>
-        <li Class="AlienRace.LifeStageAgeAlien">
+        <li>
           <def>HumanlikeAdult</def>
           <minAge>18</minAge>
-          <headFemaleOffset>(0.0, -0.075)</headFemaleOffset>
         </li>
       </lifeStageAges>
       <soundMeleeHitPawn>Pawn_Melee_Punch_HitPawn</soundMeleeHitPawn>
@@ -811,5 +443,5 @@
         <li>Human</li>
       </hediffGiverSets>
     </race>
-  </AlienRace.ThingDef_AlienRace>
+  </ThingDef>
 </Defs>

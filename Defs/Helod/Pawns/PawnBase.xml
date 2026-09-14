@@ -1,5 +1,5 @@
 <Defs>
-    <ThingDef Class="AlienRace.ThingDef_AlienRace" ParentName="BasePawn" Name="HD_PawnBase" Abstract="True"> <!-- 모든 Helod 종족의 공통 기본 설정 (Abstract) -->
+    <ThingDef ParentName="BasePawn" Name="HD_PawnBase" Abstract="True"> <!-- 모든 Helod 종족의 공통 기본 설정 (Abstract) -->
         <thingClass>Pawn</thingClass>
         <category>Pawn</category>
         <selectable>true</selectable>

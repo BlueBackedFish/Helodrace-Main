@@ -19,6 +19,7 @@ namespace Helodrace
             new HashSet<string>
             {
                 "HD_Apparel_CarvalyHat",
+                "HD_Apparel_FASTMT",
                 "Apparel_AdvancedHelmet",
                 "Apparel_BowlerHat",
                 "Apparel_CowboyHat",
@@ -63,7 +64,7 @@ namespace Helodrace
             }
         }
 
-        private static bool IsWearingEarCoveringApparel(Pawn pawn)
+        public static bool IsWearingEarCoveringApparel(Pawn pawn)
         {
             List<Apparel> wornApparel = pawn.apparel?.WornApparel;
             if (wornApparel == null)
