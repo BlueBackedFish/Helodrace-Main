@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
@@ -63,14 +62,28 @@ namespace Helodrace
             if (kind == HelodAppendage.Tail)
             {
                 if (!parms.Portrait && parms.pawn.InBed()) return false;
-                return parms.pawn.health.hediffSet.GetNotMissingParts()
-                    .Any(part => part.def.defName == "HD_HelodTail");
+                return HasPart(parms.pawn, HelodRace.TailParts);
             }
             if (parms.flags.FlagSet(PawnRenderFlags.HeadStump)
                 || HelodCoveredEarsUtility.IsWearingEarCoveringApparel(parms.pawn)) return false;
-            string label = kind == HelodAppendage.LeftEar ? "left ear" : "right ear";
-            return parms.pawn.health.hediffSet.GetNotMissingParts()
-                .Any(part => part.def.defName == "Ear" && part.customLabel == label);
+            return HasPart(parms.pawn, kind == HelodAppendage.LeftEar
+                ? HelodRace.LeftEarParts : HelodRace.RightEarParts);
+        }
+
+        private static bool HasPart(Pawn pawn, List<BodyPartRecord> candidates)
+        {
+            if (pawn?.health?.hediffSet == null) return false;
+            for (int i = 0; i < candidates.Count; i++)
+                if (!pawn.health.hediffSet.PartIsMissing(candidates[i])) return true;
+            return false;
+        }
+
+        internal static bool MatchesEar(BodyPartRecord part, string label)
+        {
+            // customLabel is translated; keep anatomical identity language-independent.
+            return part.def.defName == "Ear"
+                && (string.IsNullOrEmpty(part.untranslatedCustomLabel)
+                    ? part.customLabel : part.untranslatedCustomLabel) == label;
         }
 
         protected override Material GetMaterial(PawnRenderNode node, PawnDrawParms parms)
@@ -109,7 +122,7 @@ namespace Helodrace
             float width = kind == HelodAppendage.Tail
                 ? HumanlikeMeshPoolUtility.HumanlikeBodyWidthForPawn(parms.pawn)
                 : HumanlikeMeshPoolUtility.HumanlikeHeadWidthForPawn(parms.pawn);
-            float scale = width * HelodRace.Settings.drawScale;
+            float scale = width * HelodRace.DrawScale;
             return new Vector3(scale, 1f, scale);
         }
     }
@@ -127,8 +140,8 @@ namespace Helodrace
         public static void Prefix(Pawn pawn, ref float wFactor, ref float hFactor)
         {
             if (!HelodRace.IsHelod(pawn)) return;
-            wFactor *= HelodRace.Settings.drawScale;
-            hFactor *= HelodRace.Settings.drawScale;
+            wFactor *= HelodRace.DrawScale;
+            hFactor *= HelodRace.DrawScale;
         }
     }
 
@@ -139,10 +152,16 @@ namespace Helodrace
         {
             if (!HelodRace.IsHelod(___pawn)) return;
             float age = ___pawn.ageTracker.AgeBiologicalYearsFloat;
-            float offset = ___pawn.gender == Gender.Female
-                ? (age < 3f ? -0.25f : age < 13f ? -0.2f : -0.125f)
-                : (age >= 3f && age < 13f ? -1.2f : -0.07f);
+            float offset = OffsetForAge(___pawn.gender, age);
             __result.z += offset * Mathf.Sqrt(___pawn.ageTracker.CurLifeStage.bodySizeFactor);
+        }
+
+        internal static float OffsetForAge(Gender gender, float age)
+        {
+            // Preserve the pre-removal lifeStageAges values, including the male overrides.
+            return gender == Gender.Female
+                ? (age < 3f ? -0.25f : age < 13f ? -0.125f : -0.075f)
+                : (age >= 3f && age < 13f ? -1.2f : -0.07f);
         }
     }
 

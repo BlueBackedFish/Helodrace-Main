@@ -244,7 +244,7 @@
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <muzzleEffectKind>FlashHider</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
-        <graphicLayer>-2</graphicLayer>
+        <graphicLayer>3</graphicLayer>
         <mounts><li><id>thread_mount</id><socketTags><li>muzzle_762</li></socketTags><transform><position>(0.198,0,-0.006)</position></transform></li></mounts>
       </li>
     </comps>

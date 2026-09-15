@@ -11,10 +11,16 @@ namespace Helodrace
     // Only Helod's authored rules live here; no external race framework is needed.
     public sealed class HelodRaceExtension : DefModExtension
     {
+        public HelodRaceSettingsDef settingsDef;
+    }
+
+    public sealed class HelodRaceSettingsDef : Def
+    {
         public List<HeadTypeDef> headTypes = new List<HeadTypeDef>();
         public List<HelodApparelGraphic> apparelGraphics = new List<HelodApparelGraphic>();
         public List<ThingDef> apparelList = new List<ThingDef>();
         public List<ThingDef> whiteApparelList = new List<ThingDef>();
+        public List<ThingDef> earCoveringApparel = new List<ThingDef>();
         public List<GeneDef> blackGeneList = new List<GeneDef>();
         public List<EndogeneCategory> blackEndoCategories = new List<EndogeneCategory>();
         public List<XenotypeDef> xenotypeList = new List<XenotypeDef>();
@@ -34,9 +40,25 @@ namespace Helodrace
 
     public static class HelodRace
     {
-        public static ThingDef Def => DefDatabase<ThingDef>.GetNamedSilentFail("Helod");
-        public static HelodRaceExtension Settings => Def?.GetModExtension<HelodRaceExtension>();
-        public static bool IsHelod(Pawn pawn) => pawn?.def?.defName == "Helod";
+        public static ThingDef RaceDef { get; private set; }
+        public static ThingDef Def => RaceDef;
+        public static HelodRaceSettingsDef Settings { get; private set; }
+        public static PawnKindDef ColonistKind { get; private set; }
+        public static float DrawScale { get; private set; } = 1f;
+        public static bool IsHelod(Pawn pawn) => RaceDef != null && pawn?.def == RaceDef;
+        internal static readonly HashSet<HeadTypeDef> HeadTypes = new HashSet<HeadTypeDef>();
+        internal static readonly HashSet<HeadTypeDef> NonHumanHeads = new HashSet<HeadTypeDef>();
+        internal static readonly HashSet<ThingDef> EarCoveringApparel = new HashSet<ThingDef>();
+        internal static readonly HashSet<GeneDef> ForbiddenGenes = new HashSet<GeneDef>();
+        internal static readonly HashSet<EndogeneCategory> ForbiddenCategories = new HashSet<EndogeneCategory>();
+        internal static readonly HashSet<XenotypeDef> XenotypeSet = new HashSet<XenotypeDef>();
+        internal static readonly HashSet<HairDef> HairSet = new HashSet<HairDef>();
+        internal static readonly List<HairDef> HelodHairs = new List<HairDef>();
+        internal static readonly List<XenotypeDef> HelodXenotypes = new List<XenotypeDef>();
+        internal static readonly List<XenotypeDef> NonHelodXenotypes = new List<XenotypeDef>();
+        internal static readonly List<BodyPartRecord> TailParts = new List<BodyPartRecord>();
+        internal static readonly List<BodyPartRecord> LeftEarParts = new List<BodyPartRecord>();
+        internal static readonly List<BodyPartRecord> RightEarParts = new List<BodyPartRecord>();
         private static readonly Dictionary<ApparelProperties, ThingDef> apparelOwners =
             new Dictionary<ApparelProperties, ThingDef>();
         private static readonly Dictionary<ThingDef, string> apparelPaths =
@@ -44,18 +66,53 @@ namespace Helodrace
         private static readonly HashSet<ThingDef> permittedApparel = new HashSet<ThingDef>();
         private static readonly HashSet<ThingDef> exclusiveApparel = new HashSet<ThingDef>();
 
-        public static void Initialize()
+        // Explicit rebuild boundary: startup after Def loading, never a rendering fallback.
+        public static void RebuildRuntimeCaches()
         {
-            HelodRaceExtension settings = Settings;
-            if (settings == null)
-            {
-                Log.Error("[Helodrace] Missing standalone race settings.");
-                return;
-            }
+            RaceDef = DefDatabase<ThingDef>.GetNamedSilentFail("Helod");
+            Settings = RaceDef?.GetModExtension<HelodRaceExtension>()?.settingsDef;
+            ColonistKind = DefDatabase<PawnKindDef>.GetNamedSilentFail("HD_WW_HelodColonist");
+            DrawScale = Settings?.drawScale ?? 1f;
+            HeadTypes.Clear();
+            NonHumanHeads.Clear();
+            EarCoveringApparel.Clear();
+            ForbiddenGenes.Clear();
+            ForbiddenCategories.Clear();
+            XenotypeSet.Clear();
+            HairSet.Clear();
+            HelodHairs.Clear();
+            HelodXenotypes.Clear();
+            NonHelodXenotypes.Clear();
+            TailParts.Clear();
+            LeftEarParts.Clear();
+            RightEarParts.Clear();
             apparelOwners.Clear();
             apparelPaths.Clear();
             permittedApparel.Clear();
             exclusiveApparel.Clear();
+            HelodRaceSettingsDef settings = Settings;
+            if (settings == null) { RaceDef = null; return; }
+            HeadTypes.UnionWith(settings.headTypes);
+            NonHumanHeads.UnionWith(settings.headTypes);
+            foreach (HeadTypeDef head in DefDatabase<HeadTypeDef>.AllDefsListForReading)
+                if (head.defName.StartsWith("HD_HelodHead", StringComparison.Ordinal)) NonHumanHeads.Add(head);
+            EarCoveringApparel.UnionWith(settings.earCoveringApparel);
+            ForbiddenGenes.UnionWith(settings.blackGeneList);
+            ForbiddenCategories.UnionWith(settings.blackEndoCategories);
+            XenotypeSet.UnionWith(settings.xenotypeList);
+            HelodXenotypes.AddRange(settings.xenotypeList);
+            foreach (XenotypeDef xenotype in DefDatabase<XenotypeDef>.AllDefsListForReading)
+                if (!XenotypeSet.Contains(xenotype)) NonHelodXenotypes.Add(xenotype);
+            foreach (HairDef hair in DefDatabase<HairDef>.AllDefsListForReading)
+                if (hair.styleTags != null && hair.styleTags.Contains("HelodHair"))
+                { HelodHairs.Add(hair); HairSet.Add(hair); }
+            if (RaceDef.race?.body != null)
+                foreach (BodyPartRecord part in RaceDef.race.body.AllParts)
+                {
+                    if (part.def.defName == "HD_HelodTail") TailParts.Add(part);
+                    if (PawnRenderNodeWorker_HelodAppendage.MatchesEar(part, "left ear")) LeftEarParts.Add(part);
+                    if (PawnRenderNodeWorker_HelodAppendage.MatchesEar(part, "right ear")) RightEarParts.Add(part);
+                }
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
                 if (def.apparel != null) apparelOwners[def.apparel] = def;
             foreach (HelodApparelGraphic entry in settings.apparelGraphics)
@@ -63,7 +120,18 @@ namespace Helodrace
             exclusiveApparel.UnionWith(settings.apparelList);
             permittedApparel.UnionWith(settings.apparelList);
             permittedApparel.UnionWith(settings.whiteApparelList);
+            PatchHelodShellApparelLayer.RebuildCache();
+        }
 
+        public static void Initialize()
+        {
+            RebuildRuntimeCaches();
+            HelodRaceSettingsDef settings = Settings;
+            if (settings == null)
+            {
+                Log.Error("[Helodrace] Missing standalone race settings.");
+                return;
+            }
             // Import human operations whose target parts exist in the Helod body.
             // AllRecipes also includes operations declared through recipeUsers.
             Def.recipes = (Def.recipes ?? new List<RecipeDef>())
@@ -91,18 +159,19 @@ namespace Helodrace
 
         public static bool CanWear(Pawn pawn, ThingDef apparel)
         {
-            if (apparel == null || !apparel.IsApparel) return true;
+            if (Settings == null || apparel == null || !apparel.IsApparel) return true;
             return IsHelod(pawn) ? permittedApparel.Contains(apparel)
                 : !exclusiveApparel.Contains(apparel);
         }
 
         public static bool CanWear(Pawn pawn, ApparelProperties properties)
         {
-            return !apparelOwners.TryGetValue(properties, out ThingDef def) || CanWear(pawn, def);
+            return properties == null || !apparelOwners.TryGetValue(properties, out ThingDef def) || CanWear(pawn, def);
         }
 
         public static bool CanHaveTrait(Pawn pawn, Trait trait)
         {
+            if (Settings == null) return true;
             if (!IsHelod(pawn)) return trait.def.defName != "HD_RawBTXMadman";
             return trait.def.defName != "CreepyBreathing"
                 && trait.def.defName != "BodyPurist"
@@ -111,10 +180,9 @@ namespace Helodrace
 
         public static bool CanHaveGene(Pawn pawn, GeneDef gene)
         {
-            HelodRaceExtension settings = Settings;
-            return !IsHelod(pawn) || settings == null || gene == null
-                || (!settings.blackGeneList.Contains(gene)
-                    && !settings.blackEndoCategories.Contains(gene.endogeneCategory));
+            return !IsHelod(pawn) || gene == null
+                || (!ForbiddenGenes.Contains(gene)
+                    && !ForbiddenCategories.Contains(gene.endogeneCategory));
         }
     }
 

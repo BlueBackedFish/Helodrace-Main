@@ -230,7 +230,7 @@
     <label>MP5A2 fixed stock</label>
     <description>A fixed polymer shoulder stock for MP5-pattern receivers.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MP5A2</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>-2</graphicLayer><mounts><li><id>stock_mount</id><socketTags><li>mp5_stock</li></socketTags><transform><position>(-0.190,0,0.031)</position></transform></li></mounts></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>2</graphicLayer><mounts><li><id>stock_mount</id><socketTags><li>mp5_stock</li></socketTags><transform><position>(-0.190,0,0.031)</position></transform></li></mounts></li></comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
@@ -238,7 +238,7 @@
     <label>MP5A3 retractable stock</label>
     <description>A retractable metal shoulder stock for MP5-pattern receivers.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MP5A3</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>-2</graphicLayer><mounts><li><id>stock_mount</id><socketTags><li>mp5_stock</li></socketTags><transform><position>(-0.190,0,0.031)</position></transform></li></mounts></li></comps>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>2</graphicLayer><mounts><li><id>stock_mount</id><socketTags><li>mp5_stock</li></socketTags><transform><position>(-0.190,0,0.031)</position></transform></li></mounts></li></comps>
   </ThingDef>
 
   <ThingDef Name="HD_MP5FamilyBase" ParentName="BaseHumanMakeableGun" Abstract="True">

@@ -37,14 +37,14 @@ namespace Helodrace
         public static Pawn GeneratePawn(PawnGenerationRequest request)
         {
             string faction = Faction.OfPlayerSilentFail?.def.defName;
-            HelodRaceExtension settings = HelodRace.Settings;
-            if (settings != null && (faction == "PlayerColony" || faction == "HD_HelodPlayerColony")
+            HelodRaceSettingsDef settings = HelodRace.Settings;
+            if (settings != null && HelodRace.ColonistKind != null && (faction == "PlayerColony" || faction == "HD_HelodPlayerColony")
                 && request.KindDef?.race == ThingDefOf.Human
                 && request.ForcedXenotype == null && request.ForcedCustomXenotype == null
                 && !request.AllowedDevelopmentalStages.Newborn() && Rand.Chance(settings.wandererChance))
             {
                 request.PawnKindDefGetter = null;
-                request.KindDef = DefDatabase<PawnKindDef>.GetNamed("HD_WW_HelodColonist");
+                request.KindDef = HelodRace.ColonistKind;
             }
             return PawnGenerator.GeneratePawn(request);
         }

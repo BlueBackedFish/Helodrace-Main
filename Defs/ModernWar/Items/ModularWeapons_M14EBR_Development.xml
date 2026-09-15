@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- MK14 EBR furniture uses the same 1024px authoring canvas as the M14 receiver.
+       Mounts therefore use the authored interface pixels and keep graphicOffset at zero. -->
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Handguard_MK14EBR</defName>
+    <label>MK14 EBR chassis handguard</label>
+    <description>A modular MK14 EBR chassis handguard with a continuous top rail.</description>
+    <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MK14EBR</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>2</graphicLayer>
+        <mounts>
+          <li><id>handguard_mount</id><socketTags><li>m14_handguard</li></socketTags><transform><position>(-0.020508,0,-0.028320)</position></transform></li>
+        </mounts>
+        <sockets>
+          <li><id>top_rail_extension</id><label>top rail extension interface</label><tags><li>m14_ebr_top_rail</li></tags><transform><position>(0.121094,0,0.010742)</position></transform></li>
+          <li><id>rail_top</id><label>MK14 handguard top rail</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.282</railLength><railSurface>Top</railSurface><transform><position>(0.167969,0,0.019531)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>top_rail_extension</socketId><part>HD_ModularPart_HandguardExt_MK14EBRTopRail</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_HandguardExt_MK14EBRTopRail</defName>
+    <label>MK14 EBR receiver top rail</label>
+    <description>A receiver-to-handguard top rail extension for the MK14 EBR chassis.</description>
+    <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_MK14EBRTopRail</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>3</graphicLayer>
+        <mounts>
+          <li><id>top_rail_extension_mount</id><socketTags><li>m14_ebr_top_rail</li></socketTags><transform><position>(0.121094,0,0.010742)</position></transform></li>
+        </mounts>
+        <sockets>
+          <li><id>rail_top</id><label>MK14 receiver top rail</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.238</railLength><railSurface>Top</railSurface><transform><position>(0.001953,0,0.027344)</position></transform></li>
+        </sockets>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_PistolGrip_MK14EBR</defName>
+    <label>MK14 EBR pistol grip</label>
+    <description>An MK14 EBR chassis pistol-grip assembly.</description>
+    <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_MK14EBR</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>2</graphicLayer>
+        <mounts>
+          <li><id>grip_mount</id><socketTags><li>m14_pistol_grip</li></socketTags><transform><position>(-0.110352,0,-0.028320)</position></transform></li>
+        </mounts>
+        <sockets>
+          <li><id>stock</id><label>MK14 EBR stock interface</label><tags><li>m14_ebr_stock</li></tags><maxAttachments>1</maxAttachments><transform><position>(-0.241211,0,-0.044922)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_MK14EBR</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Stock_MK14EBR</defName>
+    <label>MK14 EBR adjustable stock</label>
+    <description>An adjustable MK14 EBR chassis stock.</description>
+    <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MK14EBR</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <graphicOffset>(0,0,0)</graphicOffset>
+        <graphicLayer>1.5</graphicLayer>
+        <mounts>
+          <li><id>stock_mount</id><socketTags><li>m14_ebr_stock</li></socketTags><transform><position>(-0.241211,0,-0.044922)</position></transform></li>
+        </mounts>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

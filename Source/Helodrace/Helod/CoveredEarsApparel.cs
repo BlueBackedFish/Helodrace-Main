@@ -12,33 +12,13 @@ namespace Helodrace
     /// </summary>
     public static class HelodCoveredEarsUtility
     {
-        private const string HelodDefName = "Helod";
         private const string CoveredEarsHediffDefName = "HD_HelodCoveredEars";
-
-        private static readonly HashSet<string> EarCoveringApparelDefNames =
-            new HashSet<string>
-            {
-                "HD_Apparel_CarvalyHat",
-                "HD_Apparel_FASTMT",
-                "Apparel_AdvancedHelmet",
-                "Apparel_BowlerHat",
-                "Apparel_CowboyHat",
-                "Apparel_HatHood",
-                "Apparel_ArmorHelmetRecon",
-                "Apparel_PowerArmorHelmet",
-                "Apparel_PsychicFoilHelmet",
-                "Apparel_SimpleHelmet",
-                "Apparel_TribalHeaddress",
-                "Apparel_Tuque",
-                "Apparel_WarMask",
-                "Apparel_WarVeil"
-            };
 
         private static HediffDef coveredEarsHediffDef;
 
         public static void Synchronize(Pawn pawn)
         {
-            if (pawn?.def?.defName != HelodDefName
+            if (!HelodRace.IsHelod(pawn)
                 || pawn.health?.hediffSet == null)
             {
                 return;
@@ -66,7 +46,7 @@ namespace Helodrace
 
         public static bool IsWearingEarCoveringApparel(Pawn pawn)
         {
-            List<Apparel> wornApparel = pawn.apparel?.WornApparel;
+            List<Apparel> wornApparel = pawn?.apparel?.WornApparel;
             if (wornApparel == null)
             {
                 return false;
@@ -74,9 +54,8 @@ namespace Helodrace
 
             for (int i = 0; i < wornApparel.Count; i++)
             {
-                string defName = wornApparel[i]?.def?.defName;
-                if (defName != null
-                    && EarCoveringApparelDefNames.Contains(defName))
+                ThingDef def = wornApparel[i]?.def;
+                if (def != null && HelodRace.EarCoveringApparel.Contains(def))
                 {
                     return true;
                 }

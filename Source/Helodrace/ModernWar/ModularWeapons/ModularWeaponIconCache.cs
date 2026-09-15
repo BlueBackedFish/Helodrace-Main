@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using HarmonyLib;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -308,6 +309,43 @@ namespace Helodrace.ModernWar
         {
             float c = Mathf.Cos(angle), s = Mathf.Sin(angle);
             return new Vector2(c * p.x - s * p.y, s * p.x + c * p.y);
+        }
+    }
+
+    // Command_VerbTarget.DrawIcon (ownerThing) and ColonistBar both use this
+    // instance-aware overload. A shared ThingDef icon cannot represent two builds.
+    [HarmonyPatch(typeof(Widgets), nameof(Widgets.ThingIcon),
+        new Type[] { typeof(Rect), typeof(Thing), typeof(float), typeof(Rot4?),
+            typeof(bool), typeof(float), typeof(bool) })]
+    public static class Patch_ModularWeaponThingIcon
+    {
+        public static bool Prefix(Rect rect, Thing thing, float alpha, float scale,
+            bool grayscale)
+        {
+            var root = thing?.GetInnerIfMinified()?.TryGetComp<CompModularWeaponNode>();
+            if (root?.Props.isAssemblyRoot != true) return true;
+            Texture2D icon = ModularWeaponIconCache.Get(root);
+            // Retain vanilla fallback while the time-sliced bake is pending.
+            if (icon == null) return true;
+            Color previous = GUI.color;
+            try
+            {
+                GUI.color = Color.white;
+                Material material = grayscale
+                    ? MaterialPool.MatFrom(new MaterialRequest
+                    {
+                        shader = ShaderDatabase.GrayscaleGUI,
+                        color = Color.white,
+                        maskTex = Texture2D.redTexture
+                    })
+                    : null;
+                Widgets.DrawTextureFitted(rect, icon, scale, material, alpha);
+            }
+            finally
+            {
+                GUI.color = previous;
+            }
+            return false;
         }
     }
 

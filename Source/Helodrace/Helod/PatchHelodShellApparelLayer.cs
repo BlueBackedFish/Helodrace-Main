@@ -10,8 +10,18 @@ namespace Helodrace
     [HarmonyPatch(typeof(PawnRenderNodeWorker_Apparel_Body), nameof(PawnRenderNodeWorker_Apparel_Body.LayerFor))]
     public static class PatchHelodShellApparelLayer
     {
-        private const string HelodRaceDefName = "Helod";
         private const float LayerGap = 0.01f;
+        private static readonly HashSet<ThingDef> VanillaUtilities = new HashSet<ThingDef>();
+        private static ThingDef pantsDef;
+
+        internal static void RebuildCache()
+        {
+            VanillaUtilities.Clear();
+            pantsDef = DefDatabase<ThingDef>.GetNamedSilentFail("Apparel_Pants");
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+                if (VanillaUtilityDefNames.Contains(def.defName) && def.defName != "Apparel_FirefoampopPack")
+                    VanillaUtilities.Add(def);
+        }
 
         private static readonly HashSet<string> VanillaUtilityDefNames =
             new HashSet<string>(StringComparer.Ordinal)
@@ -42,12 +52,12 @@ namespace Helodrace
         [HarmonyPostfix]
         public static void Postfix(PawnRenderNode n, PawnDrawParms parms, ref float __result)
         {
-            if (parms.pawn?.def?.defName != HelodRaceDefName)
+            if (!HelodRace.IsHelod(parms.pawn))
             {
                 return;
             }
 
-            if (n?.apparel?.def?.defName == "Apparel_Pants")
+            if (pantsDef != null && n?.apparel?.def == pantsDef)
             {
                 // Helod body art already contains underwear. Keep pants at the
                 // first visible depth immediately above that baked body layer.
@@ -88,14 +98,9 @@ namespace Helodrace
 
         internal static bool IsUnspecifiedVanillaUtility(ThingDef def)
         {
-            if (!VanillaUtilityDefNames.Contains(def?.defName))
-            {
-                return false;
-            }
-
             // The firefoam pack keeps its explicitly authored layer. The
             // smokepop belt follows the common utility apparel rules.
-            return def.defName != "Apparel_FirefoampopPack";
+            return def != null && VanillaUtilities.Contains(def);
         }
 
         private static PawnRenderNode FindNode<TNode>(PawnRenderNode node)
@@ -133,7 +138,6 @@ namespace Helodrace
     [HarmonyPatch(typeof(PawnRenderNodeWorker), nameof(PawnRenderNodeWorker.OffsetFor))]
     public static class PatchHelodUnspecifiedUtilityOffset
     {
-        private const string HelodRaceDefName = "Helod";
         private const float EastWestOffsetX = 0.24f;
         private const float AllDirectionsOffsetZ = 0.16f;
 
@@ -143,7 +147,7 @@ namespace Helodrace
             PawnDrawParms parms,
             ref Vector3 __result)
         {
-            if (parms.pawn?.def?.defName != HelodRaceDefName
+            if (!HelodRace.IsHelod(parms.pawn)
                 || !PatchHelodShellApparelLayer.IsUnspecifiedVanillaUtility(
                     node?.apparel?.def))
             {

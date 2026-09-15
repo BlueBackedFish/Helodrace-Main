@@ -14,11 +14,11 @@ namespace Helodrace
     {
         public static void Prefix(ref PawnGenerationRequest request)
         {
-            HelodRaceExtension settings = HelodRace.Settings;
-            if (settings == null || request.KindDef == null) return;
-            PawnKindDef colonist = DefDatabase<PawnKindDef>.GetNamed("HD_WW_HelodColonist");
+            HelodRaceSettingsDef settings = HelodRace.Settings;
+            if (settings == null || HelodRace.ColonistKind == null || request.KindDef == null) return;
+            PawnKindDef colonist = HelodRace.ColonistKind;
             bool explicitHelod = request.ForcedXenotype != null
-                && settings.xenotypeList.Contains(request.ForcedXenotype);
+                && HelodRace.XenotypeSet.Contains(request.ForcedXenotype);
             // Scenario xenotypes must create an actual Helod, not a human with Helod genes.
             if (explicitHelod && request.KindDef.race == ThingDefOf.Human)
             {
@@ -43,26 +43,32 @@ namespace Helodrace
             // Keep explicit custom xenotypes; their incompatible genes are filtered on insertion.
             if (!request.AllowedDevelopmentalStages.Newborn()
                 && request.ForcedCustomXenotype == null
-                && !settings.xenotypeList.Contains(request.ForcedXenotype))
-                request.ForcedXenotype = settings.xenotypeList.RandomElement();
+                && !HelodRace.XenotypeSet.Contains(request.ForcedXenotype))
+                request.ForcedXenotype = HelodRace.HelodXenotypes.RandomElement();
         }
     }
 
     [HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.XenotypesAvailableFor))]
     public static class Patch_HelodXenotypeChoices
     {
+        [ThreadStatic] private static List<XenotypeDef> removed;
+
         public static void Postfix(PawnKindDef kind, Dictionary<XenotypeDef, float> __result)
         {
-            HelodRaceExtension settings = HelodRace.Settings;
+            HelodRaceSettingsDef settings = HelodRace.Settings;
             if (settings == null) return;
             bool helod = kind.race == HelodRace.Def;
             // Vanilla also reads its shared dictionary directly, so mutate it in place.
-            foreach (XenotypeDef xenotype in __result.Keys.ToList())
-                if (settings.xenotypeList.Contains(xenotype) != helod) __result.Remove(xenotype);
+            if (removed == null) removed = new List<XenotypeDef>();
+            removed.Clear();
+            foreach (KeyValuePair<XenotypeDef, float> entry in __result)
+                if (HelodRace.XenotypeSet.Contains(entry.Key) != helod) removed.Add(entry.Key);
+            for (int i = 0; i < removed.Count; i++) __result.Remove(removed[i]);
+            removed.Clear();
             if (__result.Count == 0)
             {
                 if (helod)
-                    foreach (XenotypeDef xenotype in settings.xenotypeList) __result[xenotype] = 1f;
+                    foreach (XenotypeDef xenotype in HelodRace.HelodXenotypes) __result[xenotype] = 1f;
                 else __result[XenotypeDefOf.Baseliner] = 1f;
             }
         }
@@ -73,13 +79,12 @@ namespace Helodrace
     {
         public static void Postfix(Pawn pawn, PawnGenerationRequest request, ref XenotypeDef xenotype)
         {
-            HelodRaceExtension settings = HelodRace.Settings;
+            HelodRaceSettingsDef settings = HelodRace.Settings;
             if (settings == null || request.ForcedCustomXenotype != null) return;
             bool helod = HelodRace.IsHelod(pawn);
-            if (settings.xenotypeList.Contains(xenotype) == helod) return;
-            if (helod) xenotype = settings.xenotypeList.RandomElement();
-            else if (!DefDatabase<XenotypeDef>.AllDefsListForReading
-                .Where(x => !settings.xenotypeList.Contains(x))
+            if (HelodRace.XenotypeSet.Contains(xenotype) == helod) return;
+            if (helod) xenotype = HelodRace.HelodXenotypes.RandomElement();
+            else if (!HelodRace.NonHelodXenotypes
                 .TryRandomElementByWeight(x => x.factionlessGenerationWeight, out xenotype))
                 xenotype = XenotypeDefOf.Baseliner;
         }
@@ -90,6 +95,7 @@ namespace Helodrace
     {
         public static void Postfix(ref PawnGenerationRequest __result)
         {
+            if (HelodRace.Settings == null || HelodRace.ColonistKind == null) return;
             string faction = __result.Faction?.def?.defName;
             if ((faction == "PlayerColony" || faction == "HD_HelodPlayerColony")
                 && __result.KindDef == PawnKindDefOf.Colonist
@@ -97,7 +103,7 @@ namespace Helodrace
                 && (__result.ForcedXenotype == null || __result.ForcedXenotype == XenotypeDefOf.Baseliner))
             {
                 __result.PawnKindDefGetter = null;
-                __result.KindDef = DefDatabase<PawnKindDef>.GetNamed("HD_WW_HelodColonist");
+                __result.KindDef = HelodRace.ColonistKind;
                 __result.ForcedXenotype = null;
             }
         }
@@ -122,8 +128,7 @@ namespace Helodrace
         {
             if (HelodRace.Settings == null || options == null) return;
             if (HelodRace.IsHelod(___pawn)) options = HelodRace.Settings.headTypes;
-            else options = options.Where(head => !HelodRace.Settings.headTypes.Contains(head)
-                && !head.defName.StartsWith("HD_HelodHead", StringComparison.Ordinal));
+            else options = options.Where(head => !HelodRace.NonHumanHeads.Contains(head));
         }
     }
 
@@ -134,7 +139,7 @@ namespace Helodrace
         {
             if (!HelodRace.IsHelod(pawn)) return true;
             if (styleItemDef is HairDef hair)
-                __result = hair.styleTags.Contains("HelodHair");
+                __result = HelodRace.HairSet.Contains(hair);
             else if (styleItemDef is BeardDef)
                 __result = styleItemDef == BeardDefOf.NoBeard;
             else if (styleItemDef is TattooDef)
@@ -150,9 +155,8 @@ namespace Helodrace
     {
         public static void Postfix(Pawn pawn, ref HairDef __result)
         {
-            if (!HelodRace.IsHelod(pawn) || __result?.styleTags?.Contains("HelodHair") == true) return;
-            __result = DefDatabase<HairDef>.AllDefsListForReading
-                .Where(h => h.styleTags.Contains("HelodHair")).RandomElement();
+            if (!HelodRace.IsHelod(pawn) || HelodRace.HairSet.Contains(__result)) return;
+            if (HelodRace.HelodHairs.Count > 0) __result = HelodRace.HelodHairs.RandomElement();
         }
     }
 
@@ -169,6 +173,7 @@ namespace Helodrace
             new Color32(230,230,230,255)
         };
         private static readonly int[] Weights = { 70,150,150,100,100,50,40,30,40,40,20 };
+        private static readonly int[] ColorIndices = { 0,1,2,3,4,5,6,7,8,9,10 };
 
         public static bool Prefix(Pawn pawn, int ageYears, ref Color __result)
         {
@@ -176,7 +181,7 @@ namespace Helodrace
             // Gene hair overrides still take precedence in the vanilla gene tracker.
             __result = PawnHairColors.HasGreyHair(pawn, ageYears)
                 ? PawnHairColors.RandomGreyHairColor()
-                : (Color)Colors[Enumerable.Range(0, Colors.Length).RandomElementByWeight(i => Weights[i])];
+                : (Color)Colors[ColorIndices.RandomElementByWeight(i => Weights[i])];
             return false;
         }
     }

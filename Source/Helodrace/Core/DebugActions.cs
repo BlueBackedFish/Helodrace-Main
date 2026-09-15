@@ -16,7 +16,7 @@ namespace Helodrace
         private const int TestAreaPadding = 2;
 
         // Keep this list synchronized with Helod's whiteApparelList in
-        // Defs/Helod/Race/GeneralRace.xml. Missing DLC defs are skipped.
+        // Defs/Helod/Race/HelodRaceSettings.xml. Missing DLC defs are skipped.
         private static readonly string[] CompatibleVanillaApparelDefNames =
         {
             "Apparel_AdvancedHelmet",

@@ -8,9 +8,17 @@ Write-Output "PASS: $($files.Count) XML files parse."
 $active = Get-ChildItem -LiteralPath "$repo/About", "$repo/Defs", "$repo/Patches", "$repo/Source/Helodrace", "$repo/Languages" -Recurse -File |
     Where-Object { $_.Extension -in '.xml', '.cs', '.csproj' -and $_.FullName -notmatch '\\obj\\' }
 Assert (!(Select-String -LiteralPath $active.FullName -Pattern 'AlienRace|humanoidalienraces')) 'Active framework reference found.'
-[xml]$race = Get-Content -LiteralPath "$repo/Defs/Helod/Race/GeneralRace.xml" -Raw -Encoding UTF8
-$settings = $race.Defs.ThingDef.modExtensions.li
-Assert ($settings.Class -eq 'Helodrace.HelodRaceExtension') 'Standalone extension missing.'
+[xml]$race = Get-Content -LiteralPath "$repo/Defs/Helod/Race/HelodRace.xml" -Raw -Encoding UTF8
+$extension = $race.Defs.ThingDef.modExtensions.li
+Assert ($extension.Class -eq 'Helodrace.HelodRaceExtension') 'Standalone extension missing.'
+[xml]$settingsXml = Get-Content "$repo/Defs/Helod/Race/HelodRaceSettings.xml" -Raw -Encoding UTF8
+$settings = $settingsXml.Defs.'Helodrace.HelodRaceSettingsDef'
+Assert ($extension.settingsDef -eq $settings.defName) 'Settings cross-reference mismatch.'
+$expectedEars = Get-Content "$repo/Source/Tests/StandaloneRaceEarPolicyBaseline.json" -Raw | ConvertFrom-Json
+Assert (($expectedEars -join '|') -ceq (@($settings.earCoveringApparel.li) -join '|')) 'Ear-cover policy order/membership changed.'
+foreach ($pair in @(@('drawScale','0.8'), @('maleProbability','0.0000001'), @('socialFightDamageLimit','6'), @('refugeeChance','0.15'), @('slaveChance','0.15'), @('wandererChance','0.15'))) {
+    Assert ($settings.SelectSingleNode($pair[0]).InnerText -eq $pair[1]) "Policy value changed: $($pair[0])"
+}
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $zip = [IO.Compression.ZipFile]::OpenRead("$repo/Archive/PreHAR-7725683-2026-09-14.zip")
 try {
@@ -24,14 +32,17 @@ try {
     foreach ($name in 'apparelList', 'whiteApparelList', 'blackGeneList', 'blackEndoCategories', 'xenotypeList') {
         $before = @($oldSettings.SelectNodes(".//$name/li") | ForEach-Object { $_.InnerText })
         $after = @($settings.SelectNodes("$name/li") | ForEach-Object { $_.InnerText })
-        Assert (!(Compare-Object $before $after)) "Migrated list differs: $name"
+        Assert (($before -join '|') -ceq ($after -join '|')) "Migrated list order differs: $name"
+        $beforeNodes = @($oldSettings.SelectNodes(".//$name/li") | ForEach-Object { $_.OuterXml })
+        $afterNodes = @($settings.SelectNodes("$name/li") | ForEach-Object { $_.OuterXml })
+        Assert (($beforeNodes -join '|') -ceq ($afterNodes -join '|')) "DLC conditions changed: $name"
         Write-Output "PASS: $name ($($after.Count)) preserved."
     }
     $before = @($oldSettings.generalSettings.alienPartGenerator.headTypes.li)
-    Assert (!(Compare-Object $before @($settings.headTypes.li))) 'Head choices changed.'
+    Assert (($before -join '|') -ceq (@($settings.headTypes.li) -join '|')) 'Head choice order changed.'
     $before = @($oldSettings.SelectNodes('.//individualPaths/li') | ForEach-Object { $_.InnerXml })
     $after = @($settings.apparelGraphics.li | ForEach-Object { $_.InnerXml })
-    Assert (!(Compare-Object $before $after)) 'Apparel paths changed.'
+    Assert (($before -join '|') -ceq ($after -join '|')) 'Apparel path order changed.'
     Write-Output "PASS: $($before.Count) apparel graphic mappings and head choices preserved; archive readable."
 } finally { $zip.Dispose() }
 $managed = Join-Path $RimWorldPath 'RimWorldWin64_Data/Managed'
@@ -46,11 +57,19 @@ Assert ($types.Count -ge 15) 'Standalone patches missing from build.'
 Write-Output "PASS: compiled assembly has no framework reference; $($types.Count) standalone patch classes loaded."
 # Minimal managed fixtures; no game session, native graphics, or save files are touched.
 function New-Fixture([Type]$type) { [Runtime.Serialization.FormatterServices]::GetUninitializedObject($type) }
+Assert (![Helodrace.HelodRace]::IsHelod($null)) 'Uninitialized/null race check failed.'
+$earlyRequest = [Activator]::CreateInstance([Verse.PawnGenerationRequest])
+[Helodrace.Patch_HelodPawnRequest]::Prefix([ref]$earlyRequest)
+Assert ($null -eq $earlyRequest.KindDef) 'Uninitialized generation request was changed.'
 $fixtureRace = New-Fixture ([Verse.ThingDef])
 [Verse.Def].GetField('defName').SetValue($fixtureRace, 'Helod')
-$fixtureSettings = [Helodrace.HelodRaceExtension]::new()
+$fixtureSettings = [Helodrace.HelodRaceSettingsDef]::new()
+$fixtureSettings.defName = 'HD_HelodRaceSettings'
+[Verse.DefDatabase[Helodrace.HelodRaceSettingsDef]]::Add($fixtureSettings)
+$fixtureExtension = [Helodrace.HelodRaceExtension]::new()
+$fixtureExtension.settingsDef = $fixtureSettings
 $extensions = [Collections.Generic.List[Verse.DefModExtension]]::new()
-$extensions.Add($fixtureSettings)
+$extensions.Add($fixtureExtension)
 [Verse.Def].GetField('modExtensions').SetValue($fixtureRace, $extensions)
 [Verse.DefDatabase[Verse.ThingDef]]::Add($fixtureRace)
 $fixtureKind = New-Fixture ([Verse.PawnKindDef])
@@ -62,6 +81,9 @@ $fixtureXenotype.defName = 'TestHelod'
 $fixtureSettings.xenotypeList.Add($fixtureXenotype)
 $baseliner = New-Fixture ([RimWorld.XenotypeDef])
 $baseliner.defName = 'Baseliner'
+[Helodrace.HelodRace]::RebuildRuntimeCaches()
+Assert ($null -ne [Helodrace.HelodRace]::RaceDef -and $null -ne [Helodrace.HelodRace]::Settings) 'Runtime caches missing.'
+Assert ([object]::ReferenceEquals([Helodrace.HelodRace]::Settings, $fixtureSettings)) 'Wrong cached settings.'
 $request = [Activator]::CreateInstance([Verse.PawnGenerationRequest])
 $request.KindDef = $fixtureKind
 $request.FixedGender = [Verse.Gender]::Female
@@ -79,6 +101,7 @@ Assert (![Helodrace.HelodRace]::CanHaveTrait($fixturePawn, $slow)) 'Forbidden sl
 Assert ([Helodrace.HelodRace]::CanHaveTrait($fixturePawn, $fast)) 'Allowed fast trait rejected.'
 $geneDef = New-Fixture ([Verse.GeneDef])
 $fixtureSettings.blackGeneList.Add($geneDef)
+[Helodrace.HelodRace]::RebuildRuntimeCaches()
 Assert (![Helodrace.HelodRace]::CanHaveGene($fixturePawn, $geneDef)) 'Forbidden gene accepted.'
 $choices = [Collections.Generic.Dictionary[RimWorld.XenotypeDef, single]]::new()
 $choices.Add($fixtureXenotype, 0.5)
@@ -91,6 +114,95 @@ $choices.Add($baseliner, 0.5)
 [Helodrace.Patch_HelodXenotypeChoices]::Postfix($humanKind, $choices)
 Assert ($choices.Count -eq 1 -and $choices.ContainsKey($baseliner)) 'Human xenotype filtering failed.'
 Write-Output 'PASS: newborn inheritance, trait degree, gene blocking, and bidirectional xenotype filtering regressions.'
+$offsetMethod = [Helodrace.Patch_HelodHeadOffset].GetMethod('OffsetForAge', [Reflection.BindingFlags]'Static,NonPublic')
+foreach ($case in @(@(0,-0.25), @(2.99,-0.25), @(3,-0.125), @(12.99,-0.125), @(13,-0.075), @(18,-0.075), @(40,-0.075))) {
+    $actual = $offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]$case[0]))
+    Assert ([Math]::Abs($actual - $case[1]) -lt 0.000001) "Female head offset regression at age $($case[0])."
+}
+foreach ($case in @(@(0,-0.07), @(3,-1.2), @(13,-0.07), @(18,-0.07))) {
+    $actual = $offsetMethod.Invoke($null, @([Verse.Gender]::Male, [single]$case[0]))
+    Assert ([Math]::Abs($actual - $case[1]) -lt 0.000001) "Male head offset regression at age $($case[0])."
+}
+$earMethod = [Helodrace.PawnRenderNodeWorker_HelodAppendage].GetMethod('MatchesEar', [Reflection.BindingFlags]'Static,NonPublic')
+$ear = [Verse.BodyPartRecord]::new()
+$ear.def = New-Fixture ([Verse.BodyPartDef])
+[Verse.Def].GetField('defName').SetValue($ear.def, 'Ear')
+foreach ($side in 'left', 'right') {
+    $ear.customLabel = 'translated ear label'
+    $ear.untranslatedCustomLabel = "$side ear"
+    Assert ($earMethod.Invoke($null, @($ear, "$side ear"))) 'Translated ear must remain visible.'
+    Assert (!$earMethod.Invoke($null, @($ear, 'other ear'))) 'Opposite ear must not match.'
+    $ear.customLabel = "$side ear"
+    $ear.untranslatedCustomLabel = $null
+    Assert ($earMethod.Invoke($null, @($ear, "$side ear"))) 'Untranslated ear fallback failed.'
+}
+Write-Output 'PASS: head offsets at age boundaries and language-independent left/right ear matching.'
+# Populate policy fixtures from the shipped XML and exercise the real cache builder.
+$thingFixtures = @{}
+foreach ($listName in 'apparelList','whiteApparelList','earCoveringApparel') {
+    $list = $fixtureSettings.$listName
+    $list.Clear()
+    foreach ($entry in $settings.SelectNodes("$listName/li")) {
+        $name = $entry.InnerText
+        if (!$thingFixtures.ContainsKey($name)) {
+            $item = New-Fixture ([Verse.ThingDef])
+            [Verse.Def].GetField('defName').SetValue($item, $name)
+            [Verse.DefDatabase[Verse.ThingDef]]::Add($item)
+            $thingFixtures[$name] = $item
+        }
+        $list.Add($thingFixtures[$name])
+    }
+}
+foreach ($listName in 'headTypes','xenotypeList','blackGeneList') {
+    $list = $fixtureSettings.$listName
+    $list.Clear()
+    $type = $list.GetType().GetGenericArguments()[0]
+    foreach ($entry in $settings.SelectNodes("$listName/li")) {
+        $item = New-Fixture $type
+        [Verse.Def].GetField('defName').SetValue($item, $entry.InnerText)
+        $list.Add($item)
+    }
+}
+$fixtureSettings.blackEndoCategories.Clear()
+$categoryType = $fixtureSettings.blackEndoCategories.GetType().GetGenericArguments()[0]
+foreach ($entry in $settings.blackEndoCategories.li) {
+    $fixtureSettings.blackEndoCategories.Add([Enum]::Parse($categoryType, $entry.InnerText))
+}
+$fixtureSettings.apparelGraphics.Clear()
+foreach ($entry in $settings.apparelGraphics.li) {
+    $graphic = [Helodrace.HelodApparelGraphic]::new()
+    $graphic.key = $thingFixtures[$entry.key]
+    if ($null -eq $graphic.key) {
+        $graphic.key = New-Fixture ([Verse.ThingDef])
+        [Verse.Def].GetField('defName').SetValue($graphic.key, $entry.key)
+    }
+    $graphic.value = $entry.value
+    $fixtureSettings.apparelGraphics.Add($graphic)
+}
+$hairType = $assembly.GetType('Helodrace.HelodRace').GetField('HelodHairs', [Reflection.BindingFlags]'Static,NonPublic').FieldType.GetGenericArguments()[0]
+foreach ($name in 'TestHairA','TestHairB') {
+    $hair = New-Fixture $hairType
+    [Verse.Def].GetField('defName').SetValue($hair, $name)
+    $hair.styleTags = [Collections.Generic.List[string]]::new()
+    $hair.styleTags.Add('HelodHair')
+    [Verse.DefDatabase[RimWorld.HairDef]]::Add($hair)
+}
+function Get-RaceCache([string]$name) {
+    return ,([Helodrace.HelodRace].GetField($name, [Reflection.BindingFlags]'Static,NonPublic').GetValue($null))
+}
+for ($repeat = 0; $repeat -lt 2; $repeat++) {
+    [Helodrace.HelodRace]::RebuildRuntimeCaches()
+    foreach ($pair in @(@('permittedApparel',96), @('exclusiveApparel',39), @('EarCoveringApparel',14), @('HeadTypes',13), @('ForbiddenGenes',2), @('ForbiddenCategories',7), @('HelodXenotypes',5), @('apparelPaths',39))) {
+        Assert ((Get-RaceCache $pair[0]).Count -eq $pair[1]) "Cache count mismatch: $($pair[0])"
+    }
+    Assert (((Get-RaceCache 'HelodHairs') | ForEach-Object defName) -join '|' -eq 'TestHairA|TestHairB') 'Hair cache order changed.'
+    Assert ([Math]::Abs([Helodrace.HelodRace]::DrawScale - 0.8) -lt 0.000001) 'Draw scale changed.'
+}
+$fixtureSettings.earCoveringApparel.Clear()
+[Helodrace.HelodRace]::RebuildRuntimeCaches()
+Assert ((Get-RaceCache 'EarCoveringApparel').Count -eq 0) 'Empty policy retained stale cache entries.'
+Assert (![Helodrace.HelodCoveredEarsUtility]::IsWearingEarCoveringApparel($null)) 'Null pawn ear-cover check failed.'
+Write-Output 'PASS: XML policy cache counts, ordered hair choices, repeated rebuild and empty policy.'
 if ($PatchSmokeTest) {
     $harmony = [HarmonyLib.Harmony]::new('Helodrace.Standalone.SmokeTest')
     try {
