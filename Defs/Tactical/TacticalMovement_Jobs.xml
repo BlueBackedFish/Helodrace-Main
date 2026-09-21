@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>HD_TacticalSlide</defName>
+    <driverClass>Helodrace.Tactical.JobDriver_TacticalSlide</driverClass>
+    <reportString>sliding to TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <playerInterruptible>false</playerInterruptible>
+    <casualInterruptible>false</casualInterruptible>
+    <forceCompleteBeforeNextJob>true</forceCompleteBeforeNextJob>
+  </JobDef>
+  <JobDef>
+    <defName>HD_TacticalTakedown</defName>
+    <driverClass>Helodrace.Tactical.JobDriver_TacticalTakedown</driverClass>
+    <reportString>approaching TargetA for a takedown.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+  <JobDef>
+    <defName>HD_TacticalSubdue</defName>
+    <driverClass>Helodrace.Tactical.JobDriver_TacticalTakedown</driverClass>
+    <reportString>approaching TargetA to subdue.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+</Defs>

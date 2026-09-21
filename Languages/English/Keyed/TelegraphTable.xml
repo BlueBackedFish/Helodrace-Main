@@ -51,7 +51,7 @@
   <HD_TelegraphTable_Support_InvalidBase>Select a contracted forward base that provides support services.</HD_TelegraphTable_Support_InvalidBase>
   <HD_TelegraphTable_Support_InvalidTargetMap>Select an in-range settlement or encounter map that is currently loaded.</HD_TelegraphTable_Support_InvalidTargetMap>
   <HD_MortarSupport_AmmoPrompt>Ammunition: {0}\nScatter radius: {1} cells\nFire {2} shells per volley, {3} volleys at 3-second intervals.\nPricing: {4}</HD_MortarSupport_AmmoPrompt>
-  <HD_MortarSupport_Pricing_Included>Included in limited-call FFP contract</HD_MortarSupport_Pricing_Included>
+  <HD_MortarSupport_Pricing_Included>Included in FFP contract</HD_MortarSupport_Pricing_Included>
   <HD_MortarSupport_Pricing_PerCall>{0} per call</HD_MortarSupport_Pricing_PerCall>
   <HD_MortarSupport_SelectAmmoTitle>Mortar support — ammunition selection</HD_MortarSupport_SelectAmmoTitle>
   <HD_MortarSupport_SelectAmmoDesc>Target service location: {0}</HD_MortarSupport_SelectAmmoDesc>
@@ -61,14 +61,12 @@
   <HD_ForwardBase_MortarAmmoCharges>Support ammunition charges: {0}</HD_ForwardBase_MortarAmmoCharges>
   <HD_TelegraphTable_Support_NoBase>No support-capable forward base is contracted.</HD_TelegraphTable_Support_NoBase>
   <HD_ForwardBase_ServiceUnavailable>This forward base does not provide that service.</HD_ForwardBase_ServiceUnavailable>
-  <HD_ForwardBase_ServiceQuotaExhausted>{0} has reached its {2}-day limit of {1} {3}.</HD_ForwardBase_ServiceQuotaExhausted>
-  <HD_ForwardBase_ServiceCreditExhausted>Service credit budget for this {0}-day period is exhausted. Credit limit: {1}.</HD_ForwardBase_ServiceCreditExhausted>
+  <HD_ForwardBase_ServiceStockExhausted>{0} has no FFP service stock remaining for this {2}-day period. Configured stock: {1} {3}.</HD_ForwardBase_ServiceStockExhausted>
   <HD_ForwardBase_ServiceUsageHeader>Service usage ({0}-day period)</HD_ForwardBase_ServiceUsageHeader>
-  <HD_ForwardBase_ServiceUsageLineLimited>{0}: {1}/{2} {4}, total {3}</HD_ForwardBase_ServiceUsageLineLimited>
+  <HD_ForwardBase_ServiceUsageLineStock>{0}: {1}/{2} {3} remaining this period, total {4}</HD_ForwardBase_ServiceUsageLineStock>
   <HD_ForwardBase_ServiceUsageLineUnlimited>{0}: {1} {3} this period, total {2}</HD_ForwardBase_ServiceUsageLineUnlimited>
   <HD_ForwardBase_ServiceUsageUnit_Call>calls</HD_ForwardBase_ServiceUsageUnit_Call>
   <HD_ForwardBase_ServiceUsageUnit_Shot>shots</HD_ForwardBase_ServiceUsageUnit_Shot>
-  <HD_ForwardBase_ServiceUsageCredit>Period service cost: {0}/{1} credit</HD_ForwardBase_ServiceUsageCredit>
   <HD_ForwardBase_ServiceUsageReimbursable>Reimbursable usage total: {0}</HD_ForwardBase_ServiceUsageReimbursable>
   <HD_ForwardBase_PeriodPaymentFailed>Service period settlement failed: {0} HD_Money required.</HD_ForwardBase_PeriodPaymentFailed>
   <HD_ForwardBase_PeriodPaymentDefaulted>Service period settlement failed. The forward base is withdrawing.</HD_ForwardBase_PeriodPaymentDefaulted>
@@ -92,7 +90,6 @@
   <HD_TelegraphTable_ForwardBaseContracts_InfoFaction>Cooperation faction: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoFaction>
   <HD_TelegraphTable_ForwardBaseContracts_InfoBase>Base type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
   <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>Cost type: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
-  <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ service order pricing: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
   <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>Duration: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
   <HD_TelegraphTable_ForwardBaseContracts_InfoServices>Services: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
   <HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>Service billing/counting unit: {0} days</HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>
@@ -100,7 +97,7 @@
   <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
   <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\nTile {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
   <HD_TelegraphTable_ForwardBase_Title>Forward base construction contract</HD_TelegraphTable_ForwardBase_Title>
-  <HD_TelegraphTable_ForwardBase_Description>Select the base type, cost model, and attached services. Low credit limits the available contract terms.</HD_TelegraphTable_ForwardBase_Description>
+  <HD_TelegraphTable_ForwardBase_Description>Select the base type, cost model, and attached services. FFP contracts also configure each service's stock per 30-day unit. Low credit limits the available contract terms.</HD_TelegraphTable_ForwardBase_Description>
   <HD_TelegraphTable_ForwardBase_SelectLocation>Select base location</HD_TelegraphTable_ForwardBase_SelectLocation>
   <HD_TelegraphTable_ForwardBase_SelectedLocation>Selected world tile: {0}</HD_TelegraphTable_ForwardBase_SelectedLocation>
   <HD_TelegraphTable_ForwardBase_NoLocation>No base location selected.</HD_TelegraphTable_ForwardBase_NoLocation>
@@ -110,12 +107,9 @@
   <HD_TelegraphTable_ForwardBase_DistanceUnknown>Nearest cooperation faction settlement distance: select a base location first.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
   <HD_TelegraphTable_ForwardBase_BaseKind>Base type</HD_TelegraphTable_ForwardBase_BaseKind>
   <HD_TelegraphTable_ForwardBase_CostKind>Cost type</HD_TelegraphTable_ForwardBase_CostKind>
-  <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ service order pricing</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
   <HD_TelegraphTable_ForwardBase_DurationKind>Contract duration</HD_TelegraphTable_ForwardBase_DurationKind>
   <HD_TelegraphTable_ForwardBase_ServiceKind>Selected services</HD_TelegraphTable_ForwardBase_ServiceKind>
-  <HD_TelegraphTable_ForwardBase_IdiqServiceKind>IDIQ callable services</HD_TelegraphTable_ForwardBase_IdiqServiceKind>
   <HD_TelegraphTable_ForwardBase_Summary>Draft: {0} / {1}\nDuration: {2}\nServices: {3}\n{4}: {5}</HD_TelegraphTable_ForwardBase_Summary>
-  <HD_TelegraphTable_ForwardBase_IdiqSummary>IDIQ draft: {0}\nDuration: {1} | Service order pricing: {2}\nCallable services: {3}\n{4}: {5} | {6}: {7}</HD_TelegraphTable_ForwardBase_IdiqSummary>
   <HD_TelegraphTable_ForwardBase_CostPending>location required</HD_TelegraphTable_ForwardBase_CostPending>
   <HD_TelegraphTable_ForwardBase_SthalerAmount>{0} STH</HD_TelegraphTable_ForwardBase_SthalerAmount>
   <HD_TelegraphTable_ForwardBase_FixedPrice>Fixed price</HD_TelegraphTable_ForwardBase_FixedPrice>
@@ -139,11 +133,10 @@
   <HD_TelegraphTable_ForwardBase_Kind_FOB>FOB</HD_TelegraphTable_ForwardBase_Kind_FOB>
   <HD_TelegraphTable_ForwardBase_Cost_FFP>FFP</HD_TelegraphTable_ForwardBase_Cost_FFP>
   <HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>Cost reimbursement</HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>
-  <HD_TelegraphTable_ForwardBase_Cost_IDIQ>IDIQ</HD_TelegraphTable_ForwardBase_Cost_IDIQ>
-  <HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>FFP task orders</HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>
-  <HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>Cost reimbursement task orders</HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>
   <HD_TelegraphTable_ForwardBase_DurationDays>{0} days</HD_TelegraphTable_ForwardBase_DurationDays>
   <HD_TelegraphTable_ForwardBase_Service_None>None</HD_TelegraphTable_ForwardBase_Service_None>
+  <HD_TelegraphTable_ForwardBase_ServiceUnitCountShort>per 30 days</HD_TelegraphTable_ForwardBase_ServiceUnitCountShort>
+  <HD_TelegraphTable_ForwardBase_ServiceUnitCount>{0} ({1} per 30 days)</HD_TelegraphTable_ForwardBase_ServiceUnitCount>
   <HD_TelegraphTable_ForwardBase_ServiceLevel>Lv.{0}</HD_TelegraphTable_ForwardBase_ServiceLevel>
   <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>(base limit)</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>
   <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>The selected base type cannot operate this service.</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>
@@ -251,7 +244,7 @@
   <HD_SCR300_SelectBase_First>Select a forward base first.</HD_SCR300_SelectBase_First>
   <HD_SCR300_BaseNoCAS>The selected forward base does not provide CAS.</HD_SCR300_BaseNoCAS>
   <HD_SCR300_BaseOutOfRange>None of the selected forward base's services can reach the current map.</HD_SCR300_BaseOutOfRange>
-  <HD_SCR300_ServiceUnavailable>The selected forward base has no available CAS quota or service credit.</HD_SCR300_ServiceUnavailable>
+  <HD_SCR300_ServiceUnavailable>The selected forward base cannot provide CAS service.</HD_SCR300_ServiceUnavailable>
   <HD_CAS_Unavailable>Close air support is unavailable from the selected forward base.</HD_CAS_Unavailable>
   <HD_CAS_TargetPrompt>Select the center of the CAS attack run. Strike radius: {0} cells.</HD_CAS_TargetPrompt>
   <HD_CAS_Called>{0} acknowledged the CAS request. Aircraft arrive in approximately {1} seconds. Mountain-roof cells on approach: {2}.</HD_CAS_Called>

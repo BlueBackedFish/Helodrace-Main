@@ -13,8 +13,8 @@ namespace Helodrace
         private int completeTick;
         private string contractInfo;
         private List<HelodForwardBaseService> contractServices = new List<HelodForwardBaseService>();
+        private List<int> contractServiceUnitCounts = new List<int>();
         private HelodForwardBaseCostKind contractCostKind = HelodForwardBaseCostKind.FFP;
-        private HelodForwardBaseIdiqPricingKind idiqPricingKind = HelodForwardBaseIdiqPricingKind.FFP;
         private int contractDurationDays = HelodForwardBaseServiceUtility.ServiceBillingPeriodDays;
         private float contractMilitaryCredit;
         private int contractStartTick;
@@ -24,7 +24,6 @@ namespace Helodrace
         public List<HelodForwardBaseService> ContractServices => contractServices;
 
         public HelodForwardBaseCostKind ContractCostKind => contractCostKind;
-        public HelodForwardBaseIdiqPricingKind IdiqPricingKind => idiqPricingKind;
         public int ContractDurationDays => contractDurationDays;
         public float ContractMilitaryCredit => contractMilitaryCredit;
 
@@ -38,15 +37,18 @@ namespace Helodrace
             contractInfo = info;
         }
 
-        public void SetContractServices(IEnumerable<HelodForwardBaseService> services)
+        public void SetContractServices(IEnumerable<HelodForwardBaseService> services, IEnumerable<int> serviceUnitCounts = null)
         {
             contractServices = services == null ? new List<HelodForwardBaseService>() : new List<HelodForwardBaseService>(services);
+            contractServiceUnitCounts = serviceUnitCounts == null
+                ? new List<int>()
+                : new List<int>(serviceUnitCounts);
+            NormalizeContractServiceUnitCounts();
         }
 
-        public void ConfigureContract(HelodForwardBaseCostKind costKind, HelodForwardBaseIdiqPricingKind pricingKind, int durationDays, float militaryCredit = 0f)
+        public void ConfigureContract(HelodForwardBaseCostKind costKind, int durationDays, float militaryCredit = 0f)
         {
-            contractCostKind = costKind;
-            idiqPricingKind = pricingKind;
+            contractCostKind = NormalizeContractCostKind(costKind);
             contractDurationDays = durationDays;
             contractMilitaryCredit = militaryCredit;
             contractStartTick = Find.TickManager?.TicksGame ?? 0;
@@ -58,14 +60,53 @@ namespace Helodrace
             Scribe_Values.Look(ref completeTick, "completeTick", 0);
             Scribe_Values.Look(ref contractInfo, "contractInfo");
             Scribe_Collections.Look(ref contractServices, "contractServices", LookMode.Value);
+            Scribe_Collections.Look(ref contractServiceUnitCounts, "contractServiceUnitCounts", LookMode.Value);
             Scribe_Values.Look(ref contractCostKind, "contractCostKind", HelodForwardBaseCostKind.FFP);
-            Scribe_Values.Look(ref idiqPricingKind, "idiqPricingKind", HelodForwardBaseIdiqPricingKind.FFP);
             Scribe_Values.Look(ref contractDurationDays, "contractDurationDays", HelodForwardBaseServiceUtility.ServiceBillingPeriodDays);
             Scribe_Values.Look(ref contractMilitaryCredit, "contractMilitaryCredit", 0f);
             Scribe_Values.Look(ref contractStartTick, "contractStartTick", 0);
             if (contractServices == null)
             {
                 contractServices = new List<HelodForwardBaseService>();
+            }
+            NormalizeContractServiceUnitCounts();
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                contractCostKind = NormalizeContractCostKind(contractCostKind);
+            }
+        }
+
+        private static HelodForwardBaseCostKind NormalizeContractCostKind(HelodForwardBaseCostKind kind)
+        {
+            return kind == HelodForwardBaseCostKind.CostReimbursement
+                ? HelodForwardBaseCostKind.CostReimbursement
+                : HelodForwardBaseCostKind.FFP;
+        }
+
+        private void NormalizeContractServiceUnitCounts()
+        {
+            if (contractServiceUnitCounts == null)
+            {
+                contractServiceUnitCounts = new List<int>();
+            }
+
+            while (contractServiceUnitCounts.Count < contractServices.Count)
+            {
+                contractServiceUnitCounts.Add(HelodForwardBaseServiceUtility.DefaultFfpServiceUnitsPerBillingPeriod);
+            }
+
+            while (contractServiceUnitCounts.Count > contractServices.Count)
+            {
+                contractServiceUnitCounts.RemoveAt(contractServiceUnitCounts.Count - 1);
+            }
+
+            for (int i = 0; i < contractServiceUnitCounts.Count; i++)
+            {
+                contractServiceUnitCounts[i] = Mathf.Clamp(
+                    contractServiceUnitCounts[i],
+                    1,
+                    999999);
             }
         }
 
@@ -125,8 +166,8 @@ namespace Helodrace
             if (forwardBase != null)
             {
                 forwardBase.SetContractInfo(contractInfo);
-                forwardBase.SetContractServices(contractServices);
-                forwardBase.ConfigureContract(contractCostKind, idiqPricingKind, contractDurationDays, contractMilitaryCredit, contractStartTick);
+                forwardBase.SetContractServices(contractServices, contractServiceUnitCounts);
+                forwardBase.ConfigureContract(contractCostKind, contractDurationDays, contractMilitaryCredit, contractStartTick);
             }
             Find.WorldObjects.Add(complete);
             Messages.Message("HD_ForwardBaseConstruction_Completed".Translate(), complete, MessageTypeDefOf.PositiveEvent);
@@ -140,8 +181,8 @@ namespace Helodrace
 
         private string contractInfo;
         private List<HelodForwardBaseService> contractServices = new List<HelodForwardBaseService>();
+        private List<int> contractServiceUnitCounts = new List<int>();
         private HelodForwardBaseCostKind contractCostKind = HelodForwardBaseCostKind.FFP;
-        private HelodForwardBaseIdiqPricingKind idiqPricingKind = HelodForwardBaseIdiqPricingKind.FFP;
         private int contractDurationDays = HelodForwardBaseServiceUtility.ServiceBillingPeriodDays;
         private float contractMilitaryCredit;
         private int contractStartTick;
@@ -157,14 +198,12 @@ namespace Helodrace
         private int w48DeliveryTick;
         private int w48AuthorizationExpiryTick;
         private const int WithdrawalTicks = 3 * GenDate.TicksPerDay;
-        private const float PaymentFailureCreditPenalty = 80f;
         private const int PaymentFailureGoodwillPenalty = -12;
         private const int ContractCompleteGoodwillBonus = 6;
 
         public string ContractInfo => contractInfo;
         public List<HelodForwardBaseService> ContractServices => contractServices;
         public HelodForwardBaseCostKind ContractCostKind => contractCostKind;
-        public HelodForwardBaseIdiqPricingKind IdiqPricingKind => idiqPricingKind;
         public int ContractDurationDays => contractDurationDays;
         public float ContractMilitaryCredit => contractMilitaryCredit;
         public bool HasPendingW48Order => w48OrderPending;
@@ -179,9 +218,13 @@ namespace Helodrace
             contractInfo = info;
         }
 
-        public void SetContractServices(IEnumerable<HelodForwardBaseService> services)
+        public void SetContractServices(IEnumerable<HelodForwardBaseService> services, IEnumerable<int> serviceUnitCounts = null)
         {
             contractServices = services == null ? new List<HelodForwardBaseService>() : new List<HelodForwardBaseService>(services);
+            contractServiceUnitCounts = serviceUnitCounts == null
+                ? new List<int>()
+                : new List<int>(serviceUnitCounts);
+            NormalizeContractServiceUnitCounts();
         }
 
         public bool HasService(HelodForwardBaseService service)
@@ -189,14 +232,43 @@ namespace Helodrace
             return contractServices != null && contractServices.Contains(service);
         }
 
-        public void ConfigureContract(HelodForwardBaseCostKind costKind, HelodForwardBaseIdiqPricingKind pricingKind, int durationDays, float militaryCredit = 0f, int startTick = 0)
+        public void ConfigureContract(HelodForwardBaseCostKind costKind, int durationDays, float militaryCredit = 0f, int startTick = 0)
         {
-            contractCostKind = costKind;
-            idiqPricingKind = pricingKind;
+            contractCostKind = NormalizeContractCostKind(costKind);
             contractDurationDays = durationDays;
             contractMilitaryCredit = militaryCredit;
             contractStartTick = startTick > 0 ? startTick : Find.TickManager?.TicksGame ?? 0;
             EnsureUsagePeriod();
+        }
+
+        private static HelodForwardBaseCostKind NormalizeContractCostKind(HelodForwardBaseCostKind kind)
+        {
+            return kind == HelodForwardBaseCostKind.CostReimbursement
+                ? HelodForwardBaseCostKind.CostReimbursement
+                : HelodForwardBaseCostKind.FFP;
+        }
+
+        private void NormalizeContractServiceUnitCounts()
+        {
+            if (contractServiceUnitCounts == null)
+            {
+                contractServiceUnitCounts = new List<int>();
+            }
+
+            while (contractServiceUnitCounts.Count < contractServices.Count)
+            {
+                contractServiceUnitCounts.Add(HelodForwardBaseServiceUtility.DefaultFfpServiceUnitsPerBillingPeriod);
+            }
+
+            while (contractServiceUnitCounts.Count > contractServices.Count)
+            {
+                contractServiceUnitCounts.RemoveAt(contractServiceUnitCounts.Count - 1);
+            }
+
+            for (int i = 0; i < contractServiceUnitCounts.Count; i++)
+            {
+                contractServiceUnitCounts[i] = Mathf.Clamp(contractServiceUnitCounts[i], 1, 999999);
+            }
         }
 
         public bool HasServiceCapacity(HelodForwardBaseService service)
@@ -207,18 +279,12 @@ namespace Helodrace
             }
 
             EnsureUsagePeriod();
-            if (UsesCreditBudget && IsCreditBudgetExhausted())
+            if (UsesFixedPriceUsageCost && CurrentUsageCount(service) >= ServiceUnitCapacity(service))
             {
                 return false;
             }
 
-            if (!UsesLimitedPeriodQuota)
-            {
-                return true;
-            }
-
-            int limit = ServiceUseLimitPerBillingPeriod(service);
-            return limit <= 0 || CurrentUsageCount(service) < limit;
+            return true;
         }
 
         public bool ShouldRecordServiceUseOnCall(HelodForwardBaseService service)
@@ -241,16 +307,13 @@ namespace Helodrace
             }
 
             EnsureUsagePeriod();
-            if (UsesCreditBudget && IsCreditBudgetExhausted())
+            if (UsesFixedPriceUsageCost && CurrentUsageCount(service) >= ServiceUnitCapacity(service))
             {
-                failReason = "HD_ForwardBase_ServiceCreditExhausted".Translate(HelodForwardBaseServiceUtility.ServiceBillingPeriodDays, contractMilitaryCredit.ToString("F0")).ToString();
-                return false;
-            }
-
-            int limit = ServiceUseLimitPerBillingPeriod(service);
-            if (UsesLimitedPeriodQuota && limit > 0 && CurrentUsageCount(service) >= limit)
-            {
-                failReason = "HD_ForwardBase_ServiceQuotaExhausted".Translate(ServiceLabel(service), limit, HelodForwardBaseServiceUtility.ServiceBillingPeriodDays, UsageUnitLabel(service)).ToString();
+                failReason = "HD_ForwardBase_ServiceStockExhausted".Translate(
+                    ServiceLabel(service),
+                    ServiceUnitCapacity(service),
+                    HelodForwardBaseServiceUtility.ServiceBillingPeriodDays,
+                    UsageUnitLabel(service)).ToString();
                 return false;
             }
 
@@ -284,23 +347,20 @@ namespace Helodrace
 
             EnsureUsagePeriod();
             float callCost = HelodForwardBaseServiceUtility.MortarCallCostGoldStandard(shellDef, shellCount);
-            if (UsesCreditBudget && contractMilitaryCredit > 0f && PeriodUsageCostGoldStandard() + callCost > contractMilitaryCredit)
+            if (UsesFixedPriceUsageCost && CurrentUsageCount(service) >= ServiceUnitCapacity(service))
             {
-                failReason = "HD_ForwardBase_ServiceCreditExhausted".Translate(HelodForwardBaseServiceUtility.ServiceBillingPeriodDays, contractMilitaryCredit.ToString("F0")).ToString();
-                return false;
-            }
-
-            int limit = ServiceUseLimitPerBillingPeriod(service);
-            if (UsesLimitedPeriodQuota && limit > 0 && CurrentUsageCount(service) >= limit)
-            {
-                failReason = "HD_ForwardBase_ServiceQuotaExhausted".Translate(ServiceLabel(service), limit, HelodForwardBaseServiceUtility.ServiceBillingPeriodDays, UsageUnitLabel(service)).ToString();
+                failReason = "HD_ForwardBase_ServiceStockExhausted".Translate(
+                    ServiceLabel(service),
+                    ServiceUnitCapacity(service),
+                    HelodForwardBaseServiceUtility.ServiceBillingPeriodDays,
+                    UsageUnitLabel(service)).ToString();
                 return false;
             }
 
             int index = UsageIndex(service);
             usageCounts[index]++;
             totalUsageCounts[index]++;
-            if (contractCostKind != HelodForwardBaseCostKind.FFP)
+            if (UsesReimbursableUsageCost)
             {
                 mortarUsageCostGoldStandard += callCost;
             }
@@ -392,8 +452,8 @@ namespace Helodrace
             base.ExposeData();
             Scribe_Values.Look(ref contractInfo, "contractInfo");
             Scribe_Collections.Look(ref contractServices, "contractServices", LookMode.Value);
+            Scribe_Collections.Look(ref contractServiceUnitCounts, "contractServiceUnitCounts", LookMode.Value);
             Scribe_Values.Look(ref contractCostKind, "contractCostKind", HelodForwardBaseCostKind.FFP);
-            Scribe_Values.Look(ref idiqPricingKind, "idiqPricingKind", HelodForwardBaseIdiqPricingKind.FFP);
             Scribe_Values.Look(ref contractDurationDays, "contractDurationDays", HelodForwardBaseServiceUtility.ServiceBillingPeriodDays);
             Scribe_Values.Look(ref contractMilitaryCredit, "contractMilitaryCredit", 0f);
             Scribe_Values.Look(ref contractStartTick, "contractStartTick", 0);
@@ -420,6 +480,7 @@ namespace Helodrace
             {
                 contractServices = new List<HelodForwardBaseService>();
             }
+            NormalizeContractServiceUnitCounts();
             if (usageServices == null)
             {
                 usageServices = new List<HelodForwardBaseService>();
@@ -436,6 +497,10 @@ namespace Helodrace
             if (contractStartTick <= 0)
             {
                 contractStartTick = usagePeriodStartTick > 0 ? usagePeriodStartTick : Find.TickManager?.TicksGame ?? 0;
+            }
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                contractCostKind = NormalizeContractCostKind(contractCostKind);
             }
         }
 
@@ -498,17 +563,11 @@ namespace Helodrace
             return inspect;
         }
 
-        private int ContractEndTick => contractStartTick + contractDurationDays * GenDate.TicksPerDay;
+        public int ContractEndTick => contractStartTick + contractDurationDays * GenDate.TicksPerDay;
 
-        private bool UsesLimitedPeriodQuota => contractCostKind != HelodForwardBaseCostKind.IDIQ;
+        private bool UsesFixedPriceUsageCost => contractCostKind == HelodForwardBaseCostKind.FFP;
 
-        private bool UsesCreditBudget => contractCostKind != HelodForwardBaseCostKind.FFP;
-
-        private bool UsesFixedPriceUsageCost => contractCostKind == HelodForwardBaseCostKind.FFP
-            || (contractCostKind == HelodForwardBaseCostKind.IDIQ && idiqPricingKind == HelodForwardBaseIdiqPricingKind.FFP);
-
-        private bool UsesReimbursableUsageCost => contractCostKind == HelodForwardBaseCostKind.CostReimbursement
-            || (contractCostKind == HelodForwardBaseCostKind.IDIQ && idiqPricingKind == HelodForwardBaseIdiqPricingKind.CostReimbursement);
+        private bool UsesReimbursableUsageCost => contractCostKind == HelodForwardBaseCostKind.CostReimbursement;
 
         private bool UsesPeriodSettlement => UsesFixedPriceUsageCost || UsesReimbursableUsageCost;
 
@@ -558,6 +617,17 @@ namespace Helodrace
             return index >= 0 && index < usageCounts.Count ? usageCounts[index] : 0;
         }
 
+        private int ServiceUnitCapacity(HelodForwardBaseService service)
+        {
+            int index = contractServices == null ? -1 : contractServices.IndexOf(service);
+            if (index < 0 || contractServiceUnitCounts == null || index >= contractServiceUnitCounts.Count)
+            {
+                return HelodForwardBaseServiceUtility.DefaultFfpServiceUnitsPerBillingPeriod;
+            }
+
+            return Mathf.Max(1, contractServiceUnitCounts[index]);
+        }
+
         private int TotalUsageCount(HelodForwardBaseService service)
         {
             int index = UsageIndex(service);
@@ -578,30 +648,27 @@ namespace Helodrace
             for (int i = 0; i < contractServices.Count; i++)
             {
                 HelodForwardBaseService service = contractServices[i];
-                int limit = ServiceUseLimitPerBillingPeriod(service);
                 int current = CurrentUsageCount(service);
                 int total = TotalUsageCount(service);
-                if (limit > 0 && UsesLimitedPeriodQuota)
+                if (UsesFixedPriceUsageCost)
                 {
-                    builder.AppendLine("HD_ForwardBase_ServiceUsageLineLimited".Translate(ServiceLabel(service), current, limit, total, UsageUnitLabel(service)).ToString());
+                    int capacity = ServiceUnitCapacity(service);
+                    int stock = Mathf.Max(0, capacity - current);
+                    builder.AppendLine("HD_ForwardBase_ServiceUsageLineStock".Translate(
+                        ServiceLabel(service),
+                        stock,
+                        capacity,
+                        UsageUnitLabel(service),
+                        total).ToString());
                 }
                 else
                 {
                     builder.AppendLine("HD_ForwardBase_ServiceUsageLineUnlimited".Translate(ServiceLabel(service), current, total, UsageUnitLabel(service)).ToString());
                 }
-
-                if (UsesReimbursableUsageCost)
+                if (UsesReimbursableUsageCost && !IsAmmunitionSupport(service))
                 {
-                    if (!IsAmmunitionSupport(service))
-                    {
-                        reimbursableTotal += current * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(service);
-                    }
+                    reimbursableTotal += current * HelodForwardBaseServiceUtility.ServiceUseCostGoldStandard(service);
                 }
-            }
-
-            if (UsesCreditBudget && contractMilitaryCredit > 0f)
-            {
-                builder.AppendLine("HD_ForwardBase_ServiceUsageCredit".Translate(PeriodUsageCostGoldStandard().ToString("F0"), contractMilitaryCredit.ToString("F0")).ToString());
             }
 
             if (UsesReimbursableUsageCost)
@@ -615,31 +682,6 @@ namespace Helodrace
             }
 
             return builder.ToString().TrimEndNewlines();
-        }
-
-        private bool IsCreditBudgetExhausted()
-        {
-            return contractMilitaryCredit > 0f && PeriodUsageCostGoldStandard() >= contractMilitaryCredit;
-        }
-
-        private int ServiceUseLimitPerBillingPeriod(HelodForwardBaseService service)
-        {
-            if (service == HelodForwardBaseService.W48Support)
-            {
-                return 1;
-            }
-
-            if (IsAmmunitionSupport(service))
-            {
-                return 5;
-            }
-
-            if (contractCostKind == HelodForwardBaseCostKind.CostReimbursement)
-            {
-                return 50;
-            }
-
-            return HelodForwardBaseServiceUtility.ServiceUseLimitPerBillingPeriod(service);
         }
 
         private float PeriodUsageCostGoldStandard()
@@ -724,7 +766,6 @@ namespace Helodrace
 
         private void HandlePaymentFailure()
         {
-            contractMilitaryCredit = Mathf.Max(0f, contractMilitaryCredit - PaymentFailureCreditPenalty);
             if (Faction != null && Faction != Faction.OfPlayer)
             {
                 Faction.TryAffectGoodwillWith(Faction.OfPlayer, PaymentFailureGoodwillPenalty);

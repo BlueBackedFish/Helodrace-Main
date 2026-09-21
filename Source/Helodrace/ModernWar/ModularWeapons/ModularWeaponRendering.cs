@@ -16,8 +16,8 @@ namespace Helodrace.ModernWar
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            base.DrawAt(drawLoc, flip);
             CompModularWeaponNode comp = GetComp<CompModularWeaponNode>();
+            if (comp == null) base.DrawAt(drawLoc, flip);
             if (comp != null)
                 ModularWeaponAssemblyRenderer.DrawRealtime(
                     comp,
@@ -42,7 +42,7 @@ namespace Helodrace.ModernWar
             if (comp != null)
                 ModularWeaponAssemblyRenderer.Print(comp, layer, thing, extraRotation, this, true);
 
-            base.Print(layer, thing, extraRotation);
+            if (comp == null) base.Print(layer, thing, extraRotation);
 
             if (comp != null)
                 ModularWeaponAssemblyRenderer.Print(comp, layer, thing, extraRotation, this, false);
@@ -68,8 +68,8 @@ namespace Helodrace.ModernWar
         public const float LayerAltitudeStep = 0.0042f;
         private const float OutlineLayerGap = 1f;
         private const float OutlinePriorityAltitudeStep = 0.00001f;
-        private static readonly Dictionary<ThingDef, Material> outlineMaterials =
-            new Dictionary<ThingDef, Material>();
+        private static readonly Dictionary<string, Material> outlineMaterials =
+            new Dictionary<string, Material>();
         private static readonly Dictionary<Material, Material> verticalFlipMaterials =
             new Dictionary<Material, Material>();
         private static readonly Dictionary<string, Material> feedingRoundMaterials =
@@ -82,7 +82,7 @@ namespace Helodrace.ModernWar
             float extraRotation,
             Graphic bodyGraphic)
         {
-            List<ModularRenderNode> nodes = comp.RenderSnapshot();
+            List<ModularRenderNode> nodes = ModularWeaponVisualLayers.Expand(comp.RenderSnapshot());
             if (nodes.Count == 0) return;
 
             Rot4 rot = root.Rotation;
@@ -113,7 +113,7 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
-                Graphic graphic = node.thing.Graphic;
+                Graphic graphic = node.Graphic;
                 Material material = OutlineMaterial(node);
                 if (graphic == null || material == null) continue;
 
@@ -168,8 +168,8 @@ namespace Helodrace.ModernWar
             Graphic bodyGraphic,
             bool under)
         {
-            List<ModularRenderNode> nodes = comp.RenderSnapshot();
-            if (nodes.Count <= 1) return;
+            List<ModularRenderNode> nodes = ModularWeaponVisualLayers.Expand(comp.RenderSnapshot());
+            if (nodes.Count == 0) return;
 
             Rot4 rot = root.Rotation;
             Vector3 baseCenter = root.TrueCenter() + bodyGraphic.DrawOffset(rot);
@@ -197,9 +197,9 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
-                if (!ShouldDrawNode(node) || node.depth == 0
+                if (!ShouldDrawNode(node)
                     || (node.GraphicLayer < 0f) != under) continue;
-                Graphic graphic = node.thing.Graphic;
+                Graphic graphic = node.Graphic;
                 Material material = graphic?.MatSingleFor(node.thing);
                 if (material == null) continue;
 
@@ -264,16 +264,16 @@ namespace Helodrace.ModernWar
             bool flipped,
             Mesh mesh)
         {
-            List<ModularRenderNode> nodes = comp.RenderSnapshot();
+            List<ModularRenderNode> nodes = ModularWeaponVisualLayers.Expand(comp.RenderSnapshot());
             DrawRealtimeOutlines(comp, nodes, drawLoc, bodyAngle, flipped, mesh);
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
-                if (!ShouldDrawNode(node) || node.depth == 0) continue;
+                if (!ShouldDrawNode(node)) continue;
                 if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
 
-                Graphic graphic = node.thing.Graphic;
+                Graphic graphic = node.Graphic;
                 Material material = graphic?.MatSingleFor(node.thing);
                 if (material == null) continue;
                 if (node.GraphicVerticallyFlipped)
@@ -323,7 +323,7 @@ namespace Helodrace.ModernWar
                 if (!ShouldDrawNode(node)) continue;
                 if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
-                Graphic graphic = node.thing.Graphic;
+                Graphic graphic = node.Graphic;
                 Material material = OutlineMaterial(node);
                 if (graphic == null || material == null) continue;
                 if (node.GraphicVerticallyFlipped)
@@ -359,39 +359,85 @@ namespace Helodrace.ModernWar
             }
         }
 
-        private static void RealtimeNodeGeometry(
+        public static void RealtimeNodeGeometry(
             CompModularWeaponNode root,
             ModularRenderNode node,
             bool flipped,
             out Vector2 center,
             out float graphAngle)
         {
+            float animatedAngle;
+            Vector2 localCenter = AnimateLocalPoint(
+                root,
+                node,
+                node.Props.graphicOffset,
+                out animatedAngle);
+            center = node.transform.TransformPoint(
+                new Vector3(localCenter.x, 0f, localCenter.y));
+            graphAngle = node.GraphicAngle + animatedAngle;
+
+            // Socket transforms in the snapshot are static. Reapply every animated
+            // ancestor from the immediate parent toward the root so descendants follow
+            // slide travel, barrel tilting and any future nested moving assembly.
+            List<ModularRenderNode> snapshot = root.RenderSnapshot();
+            CompModularWeaponNode ancestorComp = node.parentComp;
+            int remainingDepth = 32;
+            while (ancestorComp?.parent != null && remainingDepth-- > 0)
+            {
+                ModularRenderNode ancestor = FindNode(snapshot, ancestorComp);
+                if (ancestor == null) break;
+
+                Vector2 pointInAncestor = ancestor.transform.InverseTransformPoint(center);
+                float ancestorAngle;
+                Vector2 animatedPoint = AnimateLocalPoint(
+                    root,
+                    ancestor,
+                    new Vector3(pointInAncestor.x, 0f, pointInAncestor.y),
+                    out ancestorAngle);
+                center = ancestor.transform.TransformPoint(
+                    new Vector3(animatedPoint.x, 0f, animatedPoint.y));
+                graphAngle += ancestorAngle;
+                ancestorComp = ancestor.parentComp;
+            }
+
+            center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
+                * Mathf.Max(0.01f, root.Props.assemblyScale);
+        }
+
+        private static Vector2 AnimateLocalPoint(
+            CompModularWeaponNode root,
+            ModularRenderNode node,
+            Vector3 localPoint,
+            out float animatedAngle)
+        {
             CompProperties_ModularWeaponNode props = node.Props;
             float amount = ModularWeaponCycleUtility.AnimationAmount(
                 root,
                 props.animatedPart);
-            Vector3 localCenter = props.graphicOffset
-                + props.animationTravel * amount;
-            float animatedAngle = props.animationAngle * amount;
-            // Mirroring the mesh reverses authored rotations. Reverse only the
-            // animation delta on west-facing weapons while retaining their static
-            // attachment angle.
-            if (flipped) animatedAngle = -animatedAngle;
+            localPoint += props.animationTravel * amount;
+            animatedAngle = props.animationAngle * amount;
             if (!Mathf.Approximately(animatedAngle, 0f))
             {
                 Vector3 pivot = props.graphicOffset + props.animationPivot;
                 Vector2 fromPivot = new Vector2(
-                    localCenter.x - pivot.x,
-                    localCenter.z - pivot.z);
+                    localPoint.x - pivot.x,
+                    localPoint.z - pivot.z);
                 Vector2 rotated = ModularTransform2D.Rotate(
                     fromPivot,
                     animatedAngle);
-                localCenter.x = pivot.x + rotated.x;
-                localCenter.z = pivot.z + rotated.y;
+                localPoint.x = pivot.x + rotated.x;
+                localPoint.z = pivot.z + rotated.y;
             }
-            center = node.transform.TransformPoint(localCenter)
-                + ModularWeaponCycleUtility.ReloadMagazineOffset(root, node);
-            graphAngle = node.GraphicAngle + animatedAngle;
+            return new Vector2(localPoint.x, localPoint.z);
+        }
+
+        private static ModularRenderNode FindNode(
+            List<ModularRenderNode> nodes,
+            CompModularWeaponNode comp)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+                if (nodes[i].comp == comp) return nodes[i];
+            return null;
         }
 
         private static void DrawFeedingRound(
@@ -446,7 +492,7 @@ namespace Helodrace.ModernWar
             float feedingLayer = LowestGraphicLayer(nodes) - OutlineLayerGap * 0.5f;
             position.y += feedingLayer * LayerAltitudeStep;
             float roundAngle = bodyAngle + LocalGraphAngleAsWorldYaw(-90f, flipped);
-            float size = port.feedingRoundDrawSize;
+            float size = port.feedingRoundDrawSize * Mathf.Max(0.01f, root.Props.assemblyScale);
             Graphics.DrawMesh(
                 mesh,
                 Matrix4x4.TRS(
@@ -469,7 +515,7 @@ namespace Helodrace.ModernWar
         public static bool ShouldDrawNode(ModularRenderNode node)
         {
             return node != null
-                && (node.depth == 0 || !node.Props.hideWhenAttached);
+                && ((node.depth == 0 && node.additionalGraphic == null) || !node.Props.hideWhenAttached);
         }
 
         private static Vector2 AbsoluteScale(Vector2 scale)
@@ -519,9 +565,9 @@ namespace Helodrace.ModernWar
             if (def == null) return null;
 
             Material material;
-            if (outlineMaterials.TryGetValue(def, out material)) return material;
+            if (outlineMaterials.TryGetValue(node.TexturePath ?? string.Empty, out material)) return material;
 
-            string basePath = def.graphicData?.texPath;
+            string basePath = node.TexturePath;
             string outlinePath = basePath.NullOrEmpty() ? null : basePath + "_Outline";
             Texture2D texture = outlinePath.NullOrEmpty()
                 ? null
@@ -529,7 +575,7 @@ namespace Helodrace.ModernWar
             material = texture == null
                 ? null
                 : MaterialPool.MatFrom(outlinePath, ShaderDatabase.Cutout, Color.white);
-            outlineMaterials[def] = material;
+            outlineMaterials[node.TexturePath ?? string.Empty] = material;
             return material;
         }
 
@@ -599,10 +645,13 @@ namespace Helodrace.ModernWar
     [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAiming))]
     public static class Patch_DrawEquipmentAiming_ModularWeaponAssembly
     {
-        [HarmonyPostfix]
-        public static void Postfix(Thing eq, Vector3 drawLoc, float aimAngle)
+        [HarmonyPrefix]
+        public static bool Prefix(Thing eq, Vector3 drawLoc, float aimAngle)
         {
+            if (eq?.TryGetComp<CompModularWeaponNode>()?.Props.isAssemblyRoot != true)
+                return true;
             ModularWeaponAssemblyRenderer.DrawAiming(eq, drawLoc, aimAngle);
+            return false;
         }
     }
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using Helodrace.Tactical;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -29,7 +30,13 @@ namespace Helodrace.ModernWar
         private static void DrawFor(Pawn pawn)
         {
             Stance_Busy stance = pawn?.stances?.curStance as Stance_Busy;
-            if (stance == null || stance.neverAimWeapon || !stance.focusTarg.IsValid)
+            bool hasTacticalAim = TacticalAimUtility.IsAiming(pawn);
+            bool hasStanceTarget = stance != null
+                && !stance.neverAimWeapon
+                && stance.focusTarg.IsValid;
+            if (hasTacticalAim)
+                hasStanceTarget = TacticalAimUtility.TryLiveTarget(pawn, out _);
+            if (!hasStanceTarget && !hasTacticalAim)
                 return;
 
             ThingWithComps weapon = pawn.equipment?.Primary;
@@ -41,9 +48,22 @@ namespace Helodrace.ModernWar
             bool hasLaser = ModularWeaponLaserRenderer.HasLaser(comp);
             if (!hasFlashlight && !hasLaser) return;
 
-            Vector3 target = stance.focusTarg.HasThing
-                ? stance.focusTarg.Thing.DrawPos
-                : stance.focusTarg.Cell.ToVector3Shifted();
+            Vector3 target;
+            if (hasStanceTarget)
+            {
+                target = stance.focusTarg.HasThing
+                    ? stance.focusTarg.Thing.DrawPos
+                    : stance.focusTarg.Cell.ToVector3Shifted();
+            }
+            else
+            {
+                float tacticalAngle = TacticalAimUtility.VisualAimAngle(pawn);
+                Vector3 tacticalDirection = Quaternion.AngleAxis(
+                    tacticalAngle,
+                    Vector3.up) * Vector3.forward;
+                tacticalDirection.y = 0f;
+                target = pawn.DrawPos + tacticalDirection.normalized * 6f;
+            }
             Vector3 direction = target - pawn.DrawPos;
             direction.y = 0f;
             if (direction.sqrMagnitude < 0.0001f) return;
@@ -62,7 +82,16 @@ namespace Helodrace.ModernWar
                 out flipped,
                 out recoilActive);
             Vector3 weaponDirection = WeaponDirection(bodyAngle, flipped);
-            if (hasLaser)
+            if (hasLaser && !hasStanceTarget)
+            {
+                ModularWeaponLaserRenderer.DrawAimDirection(
+                    comp,
+                    drawLoc,
+                    bodyAngle,
+                    flipped,
+                    target);
+            }
+            else if (hasLaser)
                 ModularWeaponLaserRenderer.Draw(
                     comp,
                     drawLoc,
@@ -71,7 +100,7 @@ namespace Helodrace.ModernWar
                     target,
                     recoilActive,
                     weaponDirection);
-            if (hasFlashlight)
+            if (hasFlashlight && hasStanceTarget)
                 ModularWeaponFlashlightRenderer.Draw(
                     comp,
                     drawLoc,

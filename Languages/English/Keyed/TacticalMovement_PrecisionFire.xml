@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalPrecisionFire_Command>Precision fire</HD_TacticalPrecisionFire_Command>
+  <HD_TacticalPrecisionFire_CommandDesc>Choose a body part to prioritize while aiming. Current selection: {0}.</HD_TacticalPrecisionFire_CommandDesc>
+  <HD_TacticalPrecisionFire_Head>Head</HD_TacticalPrecisionFire_Head>
+  <HD_TacticalPrecisionFire_Chest>Chest</HD_TacticalPrecisionFire_Chest>
+  <HD_TacticalPrecisionFire_Arm>Arm</HD_TacticalPrecisionFire_Arm>
+  <HD_TacticalPrecisionFire_Leg>Leg</HD_TacticalPrecisionFire_Leg>
+  <HD_TacticalPrecisionFire_Clear>Clear selection</HD_TacticalPrecisionFire_Clear>
+  <HD_TacticalPrecisionFire_None>None</HD_TacticalPrecisionFire_None>
+  <HD_TacticalPrecisionFire_Selected>Precision fire target: {0}</HD_TacticalPrecisionFire_Selected>
+</LanguageData>

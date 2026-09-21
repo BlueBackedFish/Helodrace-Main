@@ -59,6 +59,27 @@ namespace Helodrace.ModernWar
             SpawnAndSelect("HD_Gun_ModularM14_Test_Weapon", "modular M14 development rifle");
         }
 
+        [DebugAction("Helodrace", "Spawn modular M1911 development pistol",
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnDevelopmentM1911()
+        {
+            SpawnAndSelect("HD_Gun_ModularM1911_Test_Weapon", "modular M1911 development pistol");
+        }
+
+        [DebugAction("Helodrace", "Spawn modular P320 development pistol",
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnDevelopmentP320()
+        {
+            SpawnAndSelect("HD_Gun_ModularP320_Test_Weapon", "modular P320 development pistol");
+        }
+
+        [DebugAction("Helodrace", "Spawn modular Flux Raider development PDW",
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnDevelopmentFluxRaider()
+        {
+            SpawnAndSelect("HD_Gun_ModularFluxRaider_Test_Weapon", "modular Flux Raider development PDW");
+        }
+
         private static void SpawnAndSelect(string defName, string label)
         {
             Map map = Find.CurrentMap;

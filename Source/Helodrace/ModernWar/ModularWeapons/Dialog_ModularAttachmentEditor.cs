@@ -198,41 +198,46 @@ namespace Helodrace.ModernWar
             float cells = Mathf.Max(rootSize.x, rootSize.y, 0.01f);
             float pixelsPerCell = Mathf.Min(inner.width, inner.height) * 0.86f * zoom / cells;
 
+            var visualSnapshot = ModularWeaponVisualLayers.Expand(snapshot);
             // The production renderer places every _Outline texture below the complete
             // assembly. Mirror that ordering here before drawing any normal part texture.
-            for (int i = 0; i < snapshot.Count; i++)
+            for (int i = 0; i < visualSnapshot.Count; i++)
             {
-                ModularRenderNode node = snapshot[i];
+                ModularRenderNode node = visualSnapshot[i];
                 if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) continue;
-                Graphic graphic = node.thing.Graphic;
-                string texturePath = node.thing.def.graphicData?.texPath;
+                Graphic graphic = node.Graphic;
+                string texturePath = node.TexturePath;
                 Texture2D outline = texturePath.NullOrEmpty()
                     ? null
                     : ContentFinder<Texture2D>.Get(texturePath + "_Outline", false);
                 if (graphic == null || outline == null) continue;
 
-                Vector2 center = WorldToGui(node.GraphicCenter, origin, pixelsPerCell);
+                ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
+                    root, node, false, out Vector2 posedCenter, out float posedAngle);
+                Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
                 Vector2 graphicScale = node.GraphicScale;
                 Vector2 size = Vector2.Scale(graphic.drawSize,
                     new Vector2(Mathf.Abs(graphicScale.x),
                         Mathf.Abs(graphicScale.y))) * pixelsPerCell;
                 Rect drawRect = CenteredRect(center, size);
                 Matrix4x4 matrix = GUI.matrix;
-                if (!Mathf.Approximately(node.GraphicAngle, 0f))
-                    UI.RotateAroundPivot(-node.GraphicAngle, drawRect.center);
+                if (!Mathf.Approximately(posedAngle, 0f))
+                    UI.RotateAroundPivot(-posedAngle, drawRect.center);
                 DrawTexture(drawRect, outline, node.GraphicVerticallyFlipped);
                 GUI.matrix = matrix;
             }
 
-            for (int i = 0; i < snapshot.Count; i++)
+            for (int i = 0; i < visualSnapshot.Count; i++)
             {
-                ModularRenderNode node = snapshot[i];
+                ModularRenderNode node = visualSnapshot[i];
                 if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) continue;
-                Graphic graphic = node.thing.Graphic;
+                Graphic graphic = node.Graphic;
                 Texture texture = graphic?.MatSingle?.mainTexture;
                 if (texture == null) continue;
 
-                Vector2 center = WorldToGui(node.GraphicCenter, origin, pixelsPerCell);
+                ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
+                    root, node, false, out Vector2 posedCenter, out float posedAngle);
+                Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
                 Vector2 graphicScale = node.GraphicScale;
                 Vector2 size = Vector2.Scale(graphic.drawSize,
                     new Vector2(Mathf.Abs(graphicScale.x),
@@ -243,8 +248,8 @@ namespace Helodrace.ModernWar
                     ? graphic.Color
                     : new Color(graphic.Color.r, graphic.Color.g, graphic.Color.b, 0.72f);
                 Matrix4x4 matrix = GUI.matrix;
-                if (!Mathf.Approximately(node.GraphicAngle, 0f))
-                    UI.RotateAroundPivot(-node.GraphicAngle, drawRect.center);
+                if (!Mathf.Approximately(posedAngle, 0f))
+                    UI.RotateAroundPivot(-posedAngle, drawRect.center);
                 DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
                 GUI.matrix = matrix;
                 GUI.color = old;
@@ -910,6 +915,24 @@ namespace Helodrace.ModernWar
             ModularRenderNode node,
             ref float y)
         {
+            if (Widgets.ButtonText(new Rect(inner.x, y, inner.width, 26f),
+                "Animated part: " + node.Props.animatedPart))
+            {
+                List<FloatMenuOption> options = new List<FloatMenuOption>();
+                foreach (ModularWeaponAnimatedPartKind kind in
+                    Enum.GetValues(typeof(ModularWeaponAnimatedPartKind)))
+                {
+                    ModularWeaponAnimatedPartKind selectedKind = kind;
+                    options.Add(new FloatMenuOption(kind.ToString(), () =>
+                    {
+                        EnsureUndoCheckpoint(CurrentEditKey(node));
+                        node.Props.animatedPart = selectedKind;
+                        root.InvalidateTree();
+                    }));
+                }
+                Find.WindowStack.Add(new FloatMenu(options));
+            }
+            y += 30f;
             if (node.Props.animatedPart == ModularWeaponAnimatedPartKind.None)
             {
                 Widgets.Label(new Rect(inner.x, y, inner.width, 48f),
@@ -1837,6 +1860,10 @@ namespace Helodrace.ModernWar
                     builder.AppendLine("<baseFireDelayFactor>"
                         + Number(props.baseFireDelayFactor)
                         + "</baseFireDelayFactor>");
+                    builder.AppendLine("<assemblyScale>" + Number(props.assemblyScale)
+                        + "</assemblyScale>");
+                    builder.AppendLine("<animationSpeed>" + Number(props.animationSpeed)
+                        + "</animationSpeed>");
                     builder.AppendLine("<sightGroupHeightTolerance>"
                         + Number(props.sightGroupHeightTolerance)
                         + "</sightGroupHeightTolerance>");
@@ -1912,6 +1939,22 @@ namespace Helodrace.ModernWar
                         + Number(props.graphicScale.y) + ")</graphicScale>");
                 if (!Mathf.Approximately(props.graphicLayer, 0f))
                     builder.AppendLine("<graphicLayer>" + Number(props.graphicLayer) + "</graphicLayer>");
+                if (props.additionalGraphics != null && props.additionalGraphics.Count > 0)
+                {
+                    builder.AppendLine("<additionalGraphics>");
+                    foreach (var layer in props.additionalGraphics)
+                    {
+                        if (layer?.graphicData == null) continue;
+                        builder.AppendLine("  <li><graphicLayer>" + Number(layer.graphicLayer)
+                            + "</graphicLayer><graphicData><texPath>"
+                            + System.Security.SecurityElement.Escape(layer.graphicData.texPath)
+                            + "</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>("
+                            + Number(layer.graphicData.drawSize.x) + ","
+                            + Number(layer.graphicData.drawSize.y)
+                            + ")</drawSize></graphicData></li>");
+                    }
+                    builder.AppendLine("</additionalGraphics>");
+                }
                 if (props.outlinePriority != 0)
                     builder.AppendLine("<outlinePriority>" + props.outlinePriority
                         + "</outlinePriority>");

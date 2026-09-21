@@ -57,6 +57,7 @@ namespace Helodrace.ModernWar
             ModularWeaponGasSystemUtility.DefaultSetting;
         private bool legacyDevelopmentTreeChecked;
         private bool requiredDefaultAttachmentsChecked;
+        private bool fluxStockRailMigrationChecked;
 
         public CompProperties_ModularWeaponNode Props =>
             (CompProperties_ModularWeaponNode)props;
@@ -88,6 +89,8 @@ namespace Helodrace.ModernWar
             Scribe_Collections.Look(ref childSocketIds, "modularChildSocketIds", LookMode.Value);
             Scribe_Collections.Look(ref childMountIds, "modularChildMountIds", LookMode.Value);
             Scribe_Collections.Look(ref childRailOffsets, "modularChildRailOffsets", LookMode.Value);
+            Scribe_Values.Look(ref fluxStockRailMigrationChecked,
+                "modularFluxStockRailMigrationChecked", false);
             if (Props.isAssemblyRoot)
                 Scribe_Values.Look(
                     ref gasTubeFlowSetting,
@@ -1063,6 +1066,12 @@ namespace Helodrace.ModernWar
         {
             CompModularWeaponNode root = RootComp();
             if (root != this) return root.RenderSnapshot();
+            // The initial M1911 import stored the lower slide image as a separate
+            // child. It is now rendered by the upper slide's additionalGraphics.
+            if (parent.def.defName == "HD_Gun_ModularM1911_Test_Weapon")
+                for (int i = ChildCount - 1; i >= 0; i--)
+                    if (ChildAt(i)?.def.defName == "HD_ModularPart_Slide_M1911A1_DOWN")
+                        DetachChildAt(i)?.Destroy(DestroyMode.Vanish);
             root.MigrateLegacyDevelopmentOptics();
             root.EnsureRequiredDefaultAttachmentsRecursive();
             if (!renderCacheDirty && renderCache != null) return renderCache;
@@ -1070,6 +1079,7 @@ namespace Helodrace.ModernWar
             List<ModularRenderNode> result = new List<ModularRenderNode>();
             HashSet<int> visited = new HashSet<int>();
             ModularTransform2D rootTransform = ModularTransform2D.Identity;
+            rootTransform.scale = Vector2.one * Mathf.Max(0.01f, Props.assemblyScale);
             rootTransform.angle = Props.graphicAngle;
             BuildSnapshotRecursive(
                 result,
@@ -1357,6 +1367,7 @@ namespace Helodrace.ModernWar
             RepairAssignmentLists();
             MigrateLegacyReceiverRailAssignments();
             MigrateLegacyM16LowerRailAssignments();
+            MigrateLegacyFluxStockRailOffset();
             for (int i = 0; i < children.Count; i++)
             {
                 Thing child = children[i];
@@ -1504,6 +1515,28 @@ namespace Helodrace.ModernWar
             }
 
             if (changed) InvalidateTree();
+        }
+
+        private void MigrateLegacyFluxStockRailOffset()
+        {
+            if (fluxStockRailMigrationChecked) return;
+            fluxStockRailMigrationChecked = true;
+            if (parent?.def?.defName != "HD_ModularPart_Receiver_FluxRaiderKit") return;
+
+            RepairAssignmentLists();
+            for (int i = 0; i < children.Count; i++)
+            {
+                if (childSocketIds[i] != "stock"
+                    || children[i]?.def?.defName != "HD_ModularPart_Stock_FluxRaiderKit"
+                    || !Mathf.Approximately(childRailOffsets[i], 0f))
+                    continue;
+
+                // Before the extension track existed, zero represented the authored
+                // placement. Preserve the latest fully extended authoring position.
+                childRailOffsets[i] = -0.121f;
+                InvalidateTree();
+                break;
+            }
         }
 
         private bool ContainsThingRecursive(Thing candidate, int depth)

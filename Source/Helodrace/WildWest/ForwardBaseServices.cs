@@ -24,19 +24,13 @@ namespace Helodrace
     {
         FFP,
         CostReimbursement,
-        IDIQ
-    }
-
-    public enum HelodForwardBaseIdiqPricingKind
-    {
-        FFP,
-        CostReimbursement
     }
 
     public static class HelodForwardBaseServiceUtility
     {
         public const int ServiceBillingPeriodDays = 30;
         public const int ServiceBillingPeriodTicks = ServiceBillingPeriodDays * GenDate.TicksPerDay;
+        public const int DefaultFfpServiceUnitsPerBillingPeriod = 10;
         public const float GoldStandardSthalerSilverValue = 5f;
 
         public static float SupportRange(HelodForwardBaseService service)
@@ -195,26 +189,11 @@ namespace Helodrace
             }
         }
 
-        public static int ServiceUseLimitPerBillingPeriod(HelodForwardBaseService service)
-        {
-            switch (service)
-            {
-                case HelodForwardBaseService.InfantrySniperSupport:
-                    return 10;
-                default:
-                    return 10;
-            }
-        }
-
         public static float ServiceUseCostGoldStandard(HelodForwardBaseService service)
         {
-            int limit = ServiceUseLimitPerBillingPeriod(service);
-            if (limit <= 0)
-            {
-                return ServiceBaseCost(service);
-            }
-
-            return ServiceBaseCost(service) / limit;
+            // Preserve the existing per-call reimbursement rate while allowing
+            // unlimited service uses within a billing period.
+            return ServiceBaseCost(service) / 10f;
         }
 
         public static float MortarCallCostGoldStandard(ThingDef shellDef, int shellCount)

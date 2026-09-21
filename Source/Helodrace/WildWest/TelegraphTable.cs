@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using RimWorld;
@@ -139,7 +140,6 @@ namespace Helodrace
         private string selectedMilitaryFactionDefName;
         private ForwardBaseKind selectedForwardBaseKind;
         private ContractCostKind selectedContractCostKind;
-        private IdiqPricingKind selectedIdiqPricingKind;
         private ContractDuration selectedContractDuration = ContractDuration.Days30;
         private int selectedForwardBaseTile = -1;
         private bool includeInfantryMortarSupport;
@@ -153,19 +153,32 @@ namespace Helodrace
         private bool includeArtillery105mmSupport;
         private bool includeArtillery155mmSupport;
         private bool includeW48Support;
+        private readonly Dictionary<ForwardBaseService, int> ffpServiceUnitCounts = new Dictionary<ForwardBaseService, int>();
+        private readonly Dictionary<ForwardBaseService, string> ffpServiceUnitBuffers = new Dictionary<ForwardBaseService, string>();
         private MarketSubTab selectedMarketSubTab;
         private int selectedMarketIndex;
         private int tradeCount = 1;
         private string tradeCountBuffer = "1";
         private Vector2 marketLogScroll;
-        private Vector2 forwardBaseScroll;
+        private readonly ContractDocumentSurface forwardBaseDocumentSurface = new ContractDocumentSurface();
         private Vector2 forwardBaseContractsScroll;
         private Vector2 infantryServiceScroll;
         private Vector2 artilleryServiceScroll;
         private Vector2 logisticsServiceScroll;
         private Vector2 airForceServiceScroll;
 
-        public override Vector2 InitialSize => new Vector2(960f, 760f);
+        private static readonly Vector2 TelegraphWindowSize = new Vector2(960f, 760f);
+        private static readonly Vector2 ContractWindowSize = new Vector2(820f, 1080f);
+        private static readonly Vector2 ContractViewerWindowSize = new Vector2(1020f, 1080f);
+        private const float ContractEntranceDuration = 0.6f;
+        private bool contractEntranceAnimating;
+        private float contractEntranceStartedAt;
+        private Vector2 contractEntranceStartPosition;
+        private Vector2 contractEntranceTargetPosition;
+
+        public override Vector2 InitialSize => selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract
+            ? ContractWindowSize
+            : TelegraphWindowSize;
 
         public Dialog_TelegraphTable(Thing telegraphTable, Pawn operatorPawn)
         {
@@ -176,8 +189,52 @@ namespace Helodrace
             absorbInputAroundWindow = true;
         }
 
+        private void StartContractEntranceAnimation()
+        {
+            windowRect.size = ContractWindowSize;
+            contractEntranceTargetPosition = new Vector2(
+                Mathf.Max(0f, (UI.screenWidth - ContractWindowSize.x) * 0.5f),
+                Mathf.Max(0f, (UI.screenHeight - ContractWindowSize.y) * 0.5f));
+            contractEntranceStartPosition = new Vector2(contractEntranceTargetPosition.x, -ContractWindowSize.y - 24f);
+            windowRect.position = contractEntranceStartPosition;
+            contractEntranceStartedAt = Time.realtimeSinceStartup;
+            contractEntranceAnimating = true;
+        }
+
+        private void UpdateContractEntranceAnimation()
+        {
+            if (!contractEntranceAnimating)
+            {
+                return;
+            }
+
+            float progress = Mathf.Clamp01((Time.realtimeSinceStartup - contractEntranceStartedAt) / ContractEntranceDuration);
+            float easedProgress = 1f - Mathf.Pow(1f - progress, 3f);
+            windowRect.position = Vector2.Lerp(contractEntranceStartPosition, contractEntranceTargetPosition, easedProgress);
+            if (progress >= 1f)
+            {
+                windowRect.position = contractEntranceTargetPosition;
+                contractEntranceAnimating = false;
+            }
+        }
+
         public override void DoWindowContents(Rect inRect)
         {
+            if (selectedTab == TelegraphTab.Military && selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
+            {
+                UpdateContractEntranceAnimation();
+                closeOnClickedOutside = false;
+                doWindowBackground = false;
+                doCloseX = false;
+                draggable = true;
+                DrawA4StandaloneForwardBaseContract(inRect);
+                return;
+            }
+
+            closeOnClickedOutside = true;
+            doWindowBackground = true;
+            doCloseX = true;
+            draggable = true;
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 34f), "HD_TelegraphTable_Window_Title".Translate());
             Text.Font = GameFont.Small;
@@ -263,7 +320,7 @@ namespace Helodrace
         {
             if (selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract)
             {
-                DrawForwardBaseContract(bodyInner);
+                DrawA4StandaloneForwardBaseContract(bodyInner);
                 return;
             }
 
@@ -299,6 +356,11 @@ namespace Helodrace
             if (Widgets.ButtonText(new Rect(bodyInner.x + buttonWidth + 10f, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_ForwardBase".Translate(), selectedMilitaryActivity == MilitaryActivity.ForwardBaseContract))
             {
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContract;
+                windowRect.size = ContractWindowSize;
+                doWindowBackground = false;
+                doCloseX = false;
+                closeOnClickedOutside = false;
+                StartContractEntranceAnimation();
             }
             if (Widgets.ButtonText(new Rect(bodyInner.x + (buttonWidth + 10f) * 2f, buttonY, buttonWidth, 42f), "HD_TelegraphTable_Military_ForwardBaseContracts".Translate(), selectedMilitaryActivity == MilitaryActivity.ForwardBaseContracts))
             {
@@ -459,7 +521,7 @@ namespace Helodrace
                 Rect infoRect = new Rect(row.xMax - 208f, row.y + 17f, 96f, 34f);
                 if (Widgets.ButtonText(infoRect, "HD_TelegraphTable_ForwardBaseContracts_Info".Translate()))
                 {
-                    Find.WindowStack.Add(new Dialog_MessageBox(ForwardBaseContractInfo(contract)));
+                    Find.WindowStack.Add(new ForwardBaseContractViewer(contract, ForwardBaseContractInfo(contract)));
                 }
 
                 Rect jumpRect = new Rect(row.xMax - 104f, row.y + 17f, 96f, 34f);
@@ -473,19 +535,8 @@ namespace Helodrace
             Widgets.EndScrollView();
         }
 
-        private void DrawForwardBaseContract(Rect rect)
+        private void DrawA4StandaloneForwardBaseContract(Rect inRect)
         {
-            Rect backRect = new Rect(rect.x, rect.y, 96f, 32f);
-            if (Widgets.ButtonText(backRect, "Back".Translate()))
-            {
-                selectedMilitaryActivity = MilitaryActivity.None;
-                return;
-            }
-
-            Rect scrollRect = new Rect(rect.x, rect.y + 44f, rect.width, rect.height - 44f);
-            Rect viewRect = new Rect(0f, 0f, scrollRect.width - 16f, 1040f);
-            Widgets.BeginScrollView(scrollRect, ref forwardBaseScroll, viewRect);
-            Rect inner = viewRect.ContractedBy(4f);
             EnsureSelectedMilitaryFaction();
             Faction selectedFaction = SelectedMilitaryFaction();
             float credit = MilitaryCredit(telegraphTable.Map, selectedFaction);
@@ -493,90 +544,432 @@ namespace Helodrace
             float distance = hasSelectedTile ? NearestMilitarySettlementDistance(selectedForwardBaseTile, selectedFaction) : MaxForwardBaseDistance;
             EnsureForwardBaseSelectionCredit(credit);
 
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(inner.x, inner.y, inner.width, 30f), "HD_TelegraphTable_ForwardBase_Title".Translate());
-            Text.Font = GameFont.Small;
-            Widgets.Label(new Rect(inner.x, inner.y + 34f, inner.width, 44f), "HD_TelegraphTable_ForwardBase_Description".Translate());
+            Rect paper = forwardBaseDocumentSurface.Begin(inRect);
+            Widgets.DrawBoxSolid(paper, Color.white);
+            Widgets.DrawBox(paper);
+            Rect content = paper.ContractedBy(22f);
+            float y = content.y;
+            GUI.color = Color.black;
+            Text.Anchor = TextAnchor.UpperLeft;
 
-            Widgets.Label(new Rect(inner.x, inner.y + 86f, inner.width, 24f), "HD_TelegraphTable_Military_Faction".Translate());
-            DrawMilitaryFactionSelector(new Rect(inner.x, inner.y + 114f, inner.width, 34f));
-
-            Rect locationButtonRect = new Rect(inner.x, inner.y + 160f, 180f, 34f);
-            if (Widgets.ButtonText(locationButtonRect, "HD_TelegraphTable_ForwardBase_SelectLocation".Translate()))
+            Texture2D logo = SelectedProviderLogo();
+            if (logo != null)
             {
-                Widgets.EndScrollView();
+                GUI.color = Color.white;
+                Widgets.DrawTextureFitted(new Rect(content.x, y, 88f, 88f), logo, 0.9f);
+                GUI.color = Color.black;
+            }
+
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), ProviderCompanyName(selectedFaction));
+            Text.Font = GameFont.Small;
+            GUI.color = new Color(0.12f, 0.12f, 0.12f);
+            Widgets.Label(new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f), "EXPEDITIONARY LOGISTICS DIVISION");
+            Widgets.Label(new Rect(content.x + 106f, y + 61f, content.width - 260f, 22f), "Official provider document");
+            Widgets.Label(new Rect(content.xMax - 150f, y + 8f, 150f, 22f), "FORM FB-01");
+            Widgets.Label(new Rect(content.xMax - 150f, y + 34f, 150f, 22f), "DRAFT / UNEXECUTED");
+            GUI.color = Color.black;
+            y += 100f;
+            Widgets.DrawLineHorizontal(content.x, y, content.width);
+            y += 18f;
+
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(content.x, y, content.width, 30f), "FORWARD BASE SERVICE AGREEMENT");
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.UpperLeft;
+            y += 36f;
+            y += DrawContractParagraph(new Rect(content.x, y, content.width, 80f), "This agreement records the terms under which the provider will establish and operate a forward base for the contracting party. Click any field to amend the draft.") + 12f;
+
+            y = DrawContractArticleHeader(content, y, "1. PARTIES AND DESTINATION");
+            string providerValue = ProviderCompanyName(selectedFaction) + "  /  " + MilitaryFactionLabel(selectedFaction);
+            float providerHeight = ContractEditableRowHeight(providerValue, content.width);
+            Rect providerRect = new Rect(content.x, y, content.width, providerHeight);
+            if (DrawContractEditableRow(providerRect, "PROVIDER", providerValue))
+            {
+                OpenProviderEditor();
+            }
+            y += providerHeight + 8f;
+            string locationValue = hasSelectedTile
+                ? "Tile " + selectedForwardBaseTile + "  /  " + distance.ToString("F0") + " tiles from nearest settlement"
+                : "Select a world tile";
+            float locationHeight = ContractEditableRowHeight(locationValue, content.width);
+            Rect locationRect = new Rect(content.x, y, content.width, locationHeight);
+            if (DrawContractEditableRow(locationRect, "DESTINATION", locationValue))
+            {
+                forwardBaseDocumentSurface.End();
                 BeginForwardBaseTileTargeting();
                 return;
             }
+            y += locationHeight + 10f;
 
-            Rect locationLabelRect = new Rect(locationButtonRect.xMax + 12f, locationButtonRect.y + 5f, inner.width - locationButtonRect.width - 12f, 24f);
-            Widgets.Label(locationLabelRect, hasSelectedTile
-                ? "HD_TelegraphTable_ForwardBase_SelectedLocation".Translate(selectedForwardBaseTile)
-                : "HD_TelegraphTable_ForwardBase_NoLocation".Translate());
-
-            Widgets.Label(new Rect(inner.x, inner.y + 206f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_Credit".Translate(credit.ToString("F0")));
-            Widgets.Label(new Rect(inner.x, inner.y + 230f, inner.width, 24f), hasSelectedTile
-                ? "HD_TelegraphTable_ForwardBase_Distance".Translate(distance.ToString("F0"), MaxForwardBaseDistance.ToString("F0"))
-                : "HD_TelegraphTable_ForwardBase_DistanceUnknown".Translate());
-
-            Widgets.Label(new Rect(inner.x, inner.y + 268f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_BaseKind".Translate());
-            DrawForwardBaseKindOptions(new Rect(inner.x, inner.y + 298f, inner.width, 38f), credit);
-
-            Widgets.Label(new Rect(inner.x, inner.y + 346f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_CostKind".Translate());
-            DrawContractCostKindOptions(new Rect(inner.x, inner.y + 376f, inner.width, 38f), credit);
-
-            float durationLabelY = inner.y + 424f;
-            if (selectedContractCostKind == ContractCostKind.IDIQ)
+            y = DrawContractArticleHeader(content, y, "2. SERVICE TERM");
+            Rect baseRect = new Rect(content.x, y, content.width * 0.5f - 9f, 32f);
+            if (DrawContractEditableRow(baseRect, "BASE TYPE", ForwardBaseKindLabel(selectedForwardBaseKind)))
             {
-                Widgets.Label(new Rect(inner.x, inner.y + 424f, inner.width, 24f), "HD_TelegraphTable_ForwardBase_IdiqPricingKind".Translate());
-                DrawIdiqPricingOptions(new Rect(inner.x, inner.y + 454f, inner.width, 38f));
-                durationLabelY = inner.y + 502f;
+                OpenBaseKindEditor(credit);
             }
-
-            Widgets.Label(new Rect(inner.x, durationLabelY, inner.width, 24f), "HD_TelegraphTable_ForwardBase_DurationKind".Translate());
-            DrawContractDurationOptions(new Rect(inner.x, durationLabelY + 30f, inner.width, 38f));
-
-            float serviceLabelY = durationLabelY + 78f;
-            Widgets.Label(new Rect(inner.x, serviceLabelY, inner.width, 24f), selectedContractCostKind == ContractCostKind.IDIQ
-                ? "HD_TelegraphTable_ForwardBase_IdiqServiceKind".Translate()
-                : "HD_TelegraphTable_ForwardBase_ServiceKind".Translate());
-            const float serviceOptionsHeight = 300f;
-            DrawForwardBaseServiceOptions(new Rect(inner.x, serviceLabelY + 30f, inner.width, serviceOptionsHeight), credit);
-
-            Rect summaryRect = new Rect(inner.x, serviceLabelY + serviceOptionsHeight + 44f, inner.width, 126f);
-            Widgets.DrawBox(summaryRect);
-            if (selectedContractCostKind == ContractCostKind.IDIQ)
+            Rect costRect = new Rect(content.x + content.width * 0.5f + 9f, y, content.width * 0.5f - 9f, 32f);
+            if (DrawContractEditableRow(costRect, "COST MODEL", ContractCostKindLabel(selectedContractCostKind)))
             {
-                Widgets.Label(summaryRect.ContractedBy(8f), "HD_TelegraphTable_ForwardBase_IdiqSummary".Translate(
-                    ForwardBaseKindLabel(selectedForwardBaseKind),
-                    ContractDurationLabel(selectedContractDuration),
-                    IdiqPricingKindLabel(selectedIdiqPricingKind),
-                    SelectedServiceSummary(),
-                    "HD_TelegraphTable_ForwardBase_BaseContractPrice".Translate(),
-                    hasSelectedTile ? FormatContractValue(EstimateForwardBaseCost(credit, distance)) : "HD_TelegraphTable_ForwardBase_CostPending".Translate().ToString(),
-                    IdiqServiceOrderAmountLabel(),
-                    hasSelectedTile ? FormatContractValue(EstimateIdiqServiceOrderCost(credit, distance)) : "HD_TelegraphTable_ForwardBase_CostPending".Translate().ToString()
-                ));
+                OpenCostKindEditor(credit);
             }
-            else
+            y += 36f;
+            Rect durationRect = new Rect(content.x, y, content.width, 32f);
+            if (DrawContractEditableRow(durationRect, "TERM", ContractDurationLabel(selectedContractDuration)))
             {
-                Widgets.Label(summaryRect.ContractedBy(8f), "HD_TelegraphTable_ForwardBase_Summary".Translate(
-                    ForwardBaseKindLabel(selectedForwardBaseKind),
-                    ContractCostKindLabel(selectedContractCostKind),
-                    ContractDurationLabel(selectedContractDuration),
-                    SelectedServiceSummary(),
-                    ContractAmountLabel(selectedContractCostKind),
-                    hasSelectedTile ? FormatContractValue(EstimateForwardBaseCost(credit, distance)) : "HD_TelegraphTable_ForwardBase_CostPending".Translate().ToString()
-                ));
+                OpenDurationEditor();
             }
+            y += 42f;
 
-            float orderWidth = 180f;
-            Rect orderRect = new Rect(inner.xMax - orderWidth, inner.yMax - 42f, orderWidth, 38f);
-            if (Widgets.ButtonText(orderRect, "HD_TelegraphTable_ForwardBase_DraftContract".Translate()))
+            y = DrawContractArticleHeader(content, y, "3. SCHEDULE A - SELECTED SERVICES");
+            Rect servicesRect = new Rect(content.x, y, content.width, 250f);
+            Widgets.DrawBox(servicesRect);
+            Widgets.DrawHighlightIfMouseover(servicesRect);
+            Widgets.Label(new Rect(servicesRect.x + 12f, servicesRect.y + 10f, servicesRect.width - 24f, 22f), "The following services are incorporated into this agreement:");
+            DrawContractServiceText(servicesRect.ContractedBy(12f));
+            if (Widgets.ButtonInvisible(servicesRect))
+            {
+                GUI.color = Color.white;
+                Find.WindowStack.Add(new ForwardBaseServiceEditor(this));
+                GUI.color = Color.black;
+            }
+            y += 266f;
+
+            y = DrawContractArticleHeader(content, y, "4. COMMERCIAL TERMS");
+            Rect creditRect = new Rect(content.x, y, content.width, 26f);
+            Widgets.Label(creditRect, "CREDIT AVAILABLE     " + credit.ToString("F0"));
+            y += 24f;
+            string total = hasSelectedTile
+                ? FormatContractValue(EstimateForwardBaseCost(credit, distance))
+                : "HD_TelegraphTable_ForwardBase_CostPending".Translate().ToString();
+            Rect amountRect = new Rect(content.x, y, content.width, 32f);
+            if (DrawContractEditableRow(amountRect, "ESTIMATED VALUE", ContractAmountLabel(selectedContractCostKind) + "  /  " + total))
+            {
+                OpenCostKindEditor(credit);
+            }
+            y += 36f;
+            y += DrawContractParagraph(new Rect(content.x, y, content.width, 80f), "FFP service quantities are stocked per 30-day billing period. Cost reimbursement services remain available without a contracted credit or call-count ceiling.") + 12f;
+
+            y = DrawContractArticleHeader(content, y, "5. EXECUTION");
+            y += DrawContractParagraph(new Rect(content.x, y, content.width, 80f), "This draft becomes effective when the contracting party authorizes construction and supplies the required primary cell.") + 10f;
+            float signatureGap = 24f;
+            float signatureWidth = (content.width - signatureGap) * 0.5f;
+            Widgets.DrawLineHorizontal(content.x, y, signatureWidth);
+            Widgets.DrawLineHorizontal(content.x + signatureWidth + signatureGap, y, signatureWidth);
+            Widgets.Label(new Rect(content.x, y + 8f, signatureWidth, 22f), "AUTHORIZED PROVIDER");
+            Widgets.Label(new Rect(content.x + signatureWidth + signatureGap, y + 8f, signatureWidth, 22f), "CONTRACTING PARTY");
+            Rect executeRect = new Rect(content.x + signatureWidth + signatureGap, y + 32f, signatureWidth, 36f);
+            GUI.color = Color.white;
+            if (Widgets.ButtonText(executeRect, "CONCLUDE CONTRACT"))
             {
                 TryStartForwardBaseConstructionContract(credit, distance);
             }
-            Widgets.EndScrollView();
+            GUI.color = Color.black;
+            forwardBaseDocumentSurface.End();
+
+            Rect closeRect = new Rect(inRect.xMax - 34f, inRect.y + 2f, 30f, 30f);
+            Widgets.DrawHighlightIfMouseover(closeRect);
+            GUI.color = Color.black;
+            Text.Font = GameFont.Medium;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(closeRect, "×");
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            if (Widgets.ButtonInvisible(closeRect))
+            {
+                Close();
+            }
+            GUI.color = Color.white;
+        }
+
+        private static float DrawContractArticleHeader(Rect content, float y, string title)
+        {
+            GUI.color = new Color(0.1f, 0.1f, 0.1f);
+            Widgets.Label(new Rect(content.x, y, content.width, 22f), title);
+            GUI.color = Color.black;
+            Widgets.DrawLineHorizontal(content.x, y + 24f, content.width);
+            return y + 28f;
+        }
+
+        private void DrawStandaloneForwardBaseContract(Rect inRect)
+        {
+            EnsureSelectedMilitaryFaction();
+            Faction selectedFaction = SelectedMilitaryFaction();
+            float credit = MilitaryCredit(telegraphTable.Map, selectedFaction);
+            bool hasSelectedTile = selectedForwardBaseTile >= 0;
+            float distance = hasSelectedTile ? NearestMilitarySettlementDistance(selectedForwardBaseTile, selectedFaction) : MaxForwardBaseDistance;
+            EnsureForwardBaseSelectionCredit(credit);
+
+            Widgets.DrawBoxSolid(inRect, Color.white);
+            Widgets.DrawBox(inRect);
+            Rect paper = inRect.ContractedBy(28f);
+            float y = paper.y;
+
+            Texture2D logo = SelectedProviderLogo();
+            if (logo != null)
+            {
+                GUI.color = Color.white;
+                Widgets.DrawTextureFitted(new Rect(paper.x, y, 72f, 72f), logo, 0.9f);
+                GUI.color = Color.black;
+            }
+
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(paper.x + 88f, y + 2f, paper.width - 90f, 30f), ProviderCompanyName(selectedFaction));
+            Text.Font = GameFont.Small;
+            GUI.color = new Color(0.12f, 0.12f, 0.12f);
+            Widgets.Label(new Rect(paper.x + 88f, y + 36f, paper.width - 90f, 24f), "FORWARD BASE SERVICE AGREEMENT");
+            Widgets.Label(new Rect(paper.x + 88f, y + 58f, paper.width - 90f, 20f), "Provider-issued contract draft");
+            GUI.color = Color.white;
+            y += 88f;
+            Widgets.DrawLineHorizontal(paper.x, y, paper.width);
+            y += 16f;
+
+            Rect providerRect = new Rect(paper.x, y, paper.width, 34f);
+            if (DrawContractEditableRow(providerRect, "PROVIDER", ProviderCompanyName(selectedFaction) + "  /  " + MilitaryFactionLabel(selectedFaction)))
+            {
+                OpenProviderEditor();
+            }
+            y += 40f;
+
+            Rect locationRect = new Rect(paper.x, y, paper.width, 34f);
+            if (DrawContractEditableRow(locationRect, "LOCATION", hasSelectedTile
+                ? "Tile " + selectedForwardBaseTile + "  /  " + distance.ToString("F0") + " tiles from nearest settlement"
+                : "Select a world tile"))
+            {
+                BeginForwardBaseTileTargeting();
+                return;
+            }
+            y += 40f;
+
+            float columnGap = 18f;
+            float columnWidth = (paper.width - columnGap) / 2f;
+            Rect baseRect = new Rect(paper.x, y, columnWidth, 34f);
+            if (DrawContractEditableRow(baseRect, "BASE TYPE", ForwardBaseKindLabel(selectedForwardBaseKind)))
+            {
+                OpenBaseKindEditor(credit);
+            }
+            Rect costRect = new Rect(baseRect.xMax + columnGap, y, columnWidth, 34f);
+            if (DrawContractEditableRow(costRect, "COST MODEL", ContractCostKindLabel(selectedContractCostKind)))
+            {
+                OpenCostKindEditor(credit);
+            }
+            y += 40f;
+
+            Rect durationRect = new Rect(paper.x, y, paper.width, 34f);
+            if (DrawContractEditableRow(durationRect, "TERM", ContractDurationLabel(selectedContractDuration)))
+            {
+                OpenDurationEditor();
+            }
+            y += 48f;
+
+            Rect servicesRect = new Rect(paper.x, y, paper.width, 176f);
+            Widgets.DrawBox(servicesRect);
+            Widgets.DrawHighlightIfMouseover(servicesRect);
+            Widgets.Label(new Rect(servicesRect.x + 12f, servicesRect.y + 8f, servicesRect.width - 24f, 22f), "SELECTED SERVICES  /  click to edit");
+            DrawContractServiceText(servicesRect.ContractedBy(12f));
+            if (Widgets.ButtonInvisible(servicesRect))
+            {
+                GUI.color = Color.white;
+                Find.WindowStack.Add(new ForwardBaseServiceEditor(this));
+                GUI.color = Color.black;
+            }
+            y += 188f;
+
+            Rect creditRect = new Rect(paper.x, y, paper.width, 26f);
+            Widgets.Label(creditRect, "CREDIT AVAILABLE     " + credit.ToString("F0"));
+            y += 28f;
+
+            string total = hasSelectedTile
+                ? FormatContractValue(EstimateForwardBaseCost(credit, distance))
+                : "HD_TelegraphTable_ForwardBase_CostPending".Translate().ToString();
+            Rect amountRect = new Rect(paper.x, y, paper.width, 32f);
+            if (DrawContractEditableRow(amountRect, "ESTIMATED CONTRACT VALUE", ContractAmountLabel(selectedContractCostKind) + "  /  " + total))
+            {
+                OpenCostKindEditor(credit);
+            }
+            y += 48f;
+
+            Rect draftRect = new Rect(paper.x, paper.yMax - 42f, paper.width, 38f);
+            if (Widgets.ButtonText(draftRect, "SIGN / DRAFT CONTRACT"))
+            {
+                TryStartForwardBaseConstructionContract(credit, distance);
+            }
+        }
+
+        private bool DrawContractEditableRow(Rect rect, string caption, string value)
+        {
+            Widgets.DrawHighlightIfMouseover(rect);
+            GUI.color = new Color(0.1f, 0.1f, 0.1f);
+            Widgets.Label(new Rect(rect.x + 8f, rect.y + 6f, 154f, rect.height - 12f), caption);
+            GUI.color = Color.black;
+            Widgets.Label(new Rect(rect.x + 164f, rect.y + 6f, rect.width - 172f, rect.height - 12f), value);
+            GUI.color = Color.black;
+            return Widgets.ButtonInvisible(rect);
+        }
+
+        private static float ContractEditableRowHeight(string value, float width)
+        {
+            return Mathf.Max(34f, Text.CalcHeight(value, width - 172f) + 12f);
+        }
+
+        private static float DrawContractParagraph(Rect rect, string text)
+        {
+            float height = Mathf.Max(22f, Text.CalcHeight(text, rect.width));
+            GUI.color = Color.black;
+            Widgets.Label(new Rect(rect.x, rect.y, rect.width, height), text);
+            return height;
+        }
+
+        private void DrawContractServiceText(Rect rect)
+        {
+            float columnGap = 18f;
+            float columnWidth = (rect.width - columnGap) * 0.5f;
+            Rect leftColumn = new Rect(rect.x, rect.y, columnWidth, rect.height);
+            Rect rightColumn = new Rect(rect.x + columnWidth + columnGap, rect.y, columnWidth, rect.height);
+            float leftY = leftColumn.y + 26f;
+            float rightY = rightColumn.y + 26f;
+            DrawContractServiceGroup(leftColumn, ref leftY, ForwardBaseServiceType.Artillery, ArtilleryServices);
+            DrawContractServiceGroup(leftColumn, ref leftY, ForwardBaseServiceType.Infantry, InfantryServices);
+            DrawContractServiceGroup(rightColumn, ref rightY, ForwardBaseServiceType.AirForce, AirForceServices);
+            DrawContractServiceGroup(rightColumn, ref rightY, ForwardBaseServiceType.Logistics, LogisticsServices);
+            if (leftY <= leftColumn.y + 26f && rightY <= rightColumn.y + 26f)
+            {
+                GUI.color = new Color(0.16f, 0.16f, 0.16f);
+                Widgets.Label(new Rect(rect.x, rect.y + 26f, rect.width, 22f), "- " + "HD_TelegraphTable_ForwardBase_Service_None".Translate());
+                GUI.color = Color.black;
+            }
+        }
+
+        private void DrawContractServiceGroup(Rect rect, ref float y, ForwardBaseServiceType type, ForwardBaseService[] services)
+        {
+            bool hasService = false;
+            for (int i = 0; i < services.Length; i++)
+            {
+                if (IsServiceSelected(services[i]))
+                {
+                    hasService = true;
+                    break;
+                }
+            }
+
+            if (!hasService)
+            {
+                return;
+            }
+
+            GUI.color = new Color(0.12f, 0.12f, 0.12f);
+            Widgets.Label(new Rect(rect.x, y, rect.width, 20f), ForwardBaseServiceTypeLabel(type).ToUpperInvariant());
+            GUI.color = Color.black;
+            y += 20f;
+            for (int i = 0; i < services.Length; i++)
+            {
+                ForwardBaseService service = services[i];
+                if (!IsServiceSelected(service))
+                {
+                    continue;
+                }
+
+                string line = "- " + ForwardBaseServiceLabel(service);
+                if (selectedContractCostKind == ContractCostKind.FFP)
+                {
+                    line += "  /  " + FfpServiceUnitCount(service).ToString() + " per 30 days";
+                }
+                float lineHeight = Mathf.Max(20f, Text.CalcHeight(line, rect.width - 12f));
+                Widgets.Label(new Rect(rect.x + 12f, y, rect.width - 12f, lineHeight), line);
+                y += lineHeight;
+            }
+        }
+
+        private static string ProviderCompanyName(Faction faction)
+        {
+            return IsHighProvider(faction) ? "Vanguard Expeditionary Group" : "Pioneer Overseas Service Company";
+        }
+
+        private static bool IsHighProvider(Faction faction)
+        {
+            return faction?.def?.defName != null && faction.def.defName.IndexOf("High", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private Texture2D SelectedProviderLogo()
+        {
+            return ContentFinder<Texture2D>.Get(IsHighProvider(SelectedMilitaryFaction()) ? "Icons/HD_VEG" : "Icons/HD_POSC", false);
+        }
+
+        private void OpenProviderEditor()
+        {
+            List<Faction> factions = MilitaryCooperationFactions();
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            for (int i = 0; i < factions.Count; i++)
+            {
+                Faction faction = factions[i];
+                options.Add(new FloatMenuOption(ProviderCompanyName(faction) + "  /  " + MilitaryFactionLabel(faction), delegate
+                {
+                    selectedMilitaryFactionDefName = faction.def.defName;
+                }));
+            }
+
+            if (options.Count == 0)
+            {
+                options.Add(new FloatMenuOption("HD_TelegraphTable_Military_FactionNone".Translate(), null));
+            }
+            Find.WindowStack.Add(new FloatMenu(options));
+        }
+
+        private void OpenBaseKindEditor(float credit)
+        {
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            List<ForwardBaseKind> kinds = new List<ForwardBaseKind> { ForwardBaseKind.PB, ForwardBaseKind.FB, ForwardBaseKind.COP, ForwardBaseKind.FOB };
+            for (int i = 0; i < kinds.Count; i++)
+            {
+                ForwardBaseKind kind = kinds[i];
+                bool unlocked = credit >= RequiredCredit(kind);
+                Action baseAction = unlocked ? (Action)delegate
+                {
+                    selectedForwardBaseKind = kind;
+                    EnsureForwardBaseSelectionCredit(credit);
+                } : null;
+                options.Add(new FloatMenuOption(ForwardBaseKindLabel(kind) + (unlocked ? string.Empty : "  (locked)"), baseAction));
+            }
+
+            Find.WindowStack.Add(new FloatMenu(options));
+        }
+
+        private void OpenCostKindEditor(float credit)
+        {
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            options.Add(new FloatMenuOption(ContractCostKindLabel(ContractCostKind.FFP), delegate
+            {
+                selectedContractCostKind = ContractCostKind.FFP;
+            }));
+            bool reimbursementUnlocked = credit >= RequiredCredit(ContractCostKind.CostReimbursement);
+            Action reimbursementAction = reimbursementUnlocked ? (Action)delegate
+            {
+                selectedContractCostKind = ContractCostKind.CostReimbursement;
+            } : null;
+            options.Add(new FloatMenuOption(ContractCostKindLabel(ContractCostKind.CostReimbursement) + (reimbursementUnlocked ? string.Empty : "  (locked)"), reimbursementAction));
+            Find.WindowStack.Add(new FloatMenu(options));
+        }
+
+        private void OpenDurationEditor()
+        {
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            ContractDuration[] durations =
+            {
+                ContractDuration.Days30,
+                ContractDuration.Days60,
+                ContractDuration.Days120,
+                ContractDuration.Days240
+            };
+            for (int i = 0; i < durations.Length; i++)
+            {
+                ContractDuration duration = durations[i];
+                options.Add(new FloatMenuOption(ContractDurationLabel(duration), delegate
+                {
+                    selectedContractDuration = duration;
+                }));
+            }
+            Find.WindowStack.Add(new FloatMenu(options));
         }
 
         private void TryStartForwardBaseConstructionContract(float credit, float distance)
@@ -626,8 +1019,8 @@ namespace Helodrace
             construction.SetFaction(selectedFaction ?? Faction.OfPlayer);
             construction.StartConstruction(GenDate.TicksPerDay * 7);
             construction.SetContractInfo(BuildForwardBaseContractInfo(credit, distance));
-            construction.SetContractServices(SelectedServices());
-            construction.ConfigureContract(ToForwardBaseCostKind(selectedContractCostKind), ToForwardBaseIdiqPricingKind(selectedIdiqPricingKind), ContractDurationDays(selectedContractDuration), credit);
+            construction.SetContractServices(SelectedServices(), SelectedServiceUnitCounts());
+            construction.ConfigureContract(ToForwardBaseCostKind(selectedContractCostKind), ContractDurationDays(selectedContractDuration), credit);
             Find.WorldObjects.Add(construction);
             telegraphComp.ConsumePrimaryCell();
             Messages.Message("HD_TelegraphTable_ForwardBase_ConstructionStarted".Translate(7), construction, MessageTypeDefOf.PositiveEvent);
@@ -642,11 +1035,6 @@ namespace Helodrace
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoFaction".Translate(SelectedMilitaryFactionLabel()).ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoBase".Translate(ForwardBaseKindLabel(selectedForwardBaseKind)).ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoCostKind".Translate(ContractCostKindLabel(selectedContractCostKind)).ToString());
-            if (selectedContractCostKind == ContractCostKind.IDIQ)
-            {
-                lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing".Translate(IdiqPricingKindLabel(selectedIdiqPricingKind)).ToString());
-            }
-
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoDuration".Translate(ContractDurationLabel(selectedContractDuration)).ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoServices".Translate(SelectedServiceSummary()).ToString());
             lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit".Translate(HelodForwardBaseServiceUtility.ServiceBillingPeriodDays).ToString());
@@ -654,24 +1042,10 @@ namespace Helodrace
             {
                 lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoCredit".Translate(credit.ToString("F0")).ToString());
             }
-            if (selectedContractCostKind == ContractCostKind.IDIQ)
-            {
-                lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoAmount".Translate(
-                    "HD_TelegraphTable_ForwardBase_BaseContractPrice".Translate(),
-                    FormatContractValue(EstimateForwardBaseCost(credit, distance))
-                ).ToString());
-                lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoAmount".Translate(
-                    IdiqServiceOrderAmountLabel(),
-                    FormatContractValue(EstimateIdiqServiceOrderCost(credit, distance))
-                ).ToString());
-            }
-            else
-            {
-                lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoAmount".Translate(
-                    ContractAmountLabel(selectedContractCostKind),
-                    FormatContractValue(EstimateForwardBaseCost(credit, distance))
-                ).ToString());
-            }
+            lines.Add("HD_TelegraphTable_ForwardBaseContracts_InfoAmount".Translate(
+                ContractAmountLabel(selectedContractCostKind),
+                FormatContractValue(EstimateForwardBaseCost(credit, distance))
+            ).ToString());
 
             return string.Join("\n", lines.ToArray());
         }
@@ -730,9 +1104,9 @@ namespace Helodrace
         {
             ForwardBaseKind baseKind = selectedForwardBaseKind;
             ContractCostKind costKind = selectedContractCostKind;
-            IdiqPricingKind idiqPricing = selectedIdiqPricingKind;
             ContractDuration duration = selectedContractDuration;
             bool[] selectedServices = SelectedServiceFlags();
+            int[] selectedServiceUnitCounts = SelectedServiceUnitCounts();
             string factionDefName = selectedMilitaryFactionDefName;
 
             Close(false);
@@ -746,16 +1120,16 @@ namespace Helodrace
                 if (target.Tile < 0)
                 {
                     Messages.Message("HD_TelegraphTable_ForwardBase_InvalidLocation".Translate(), MessageTypeDefOf.RejectInput);
-                    ReopenForwardBaseContract(baseKind, costKind, idiqPricing, duration, selectedForwardBaseTile, selectedServices, factionDefName);
+                    ReopenForwardBaseContract(baseKind, costKind, duration, selectedForwardBaseTile, selectedServices, selectedServiceUnitCounts, factionDefName);
                     return false;
                 }
 
-                ReopenForwardBaseContract(baseKind, costKind, idiqPricing, duration, target.Tile, selectedServices, factionDefName);
+                ReopenForwardBaseContract(baseKind, costKind, duration, target.Tile, selectedServices, selectedServiceUnitCounts, factionDefName);
                 return true;
             }, true);
         }
 
-        private void ReopenForwardBaseContract(ForwardBaseKind baseKind, ContractCostKind costKind, IdiqPricingKind idiqPricing, ContractDuration duration, int tile, bool[] selectedServices, string factionDefName)
+        private void ReopenForwardBaseContract(ForwardBaseKind baseKind, ContractCostKind costKind, ContractDuration duration, int tile, bool[] selectedServices, int[] serviceUnitCounts, string factionDefName)
         {
             Dialog_TelegraphTable dialog = new Dialog_TelegraphTable(telegraphTable, operatorPawn)
             {
@@ -763,12 +1137,16 @@ namespace Helodrace
                 selectedMilitaryActivity = MilitaryActivity.ForwardBaseContract,
                 selectedForwardBaseKind = baseKind,
                 selectedContractCostKind = costKind,
-                selectedIdiqPricingKind = idiqPricing,
                 selectedContractDuration = duration,
                 selectedForwardBaseTile = tile,
                 selectedMilitaryFactionDefName = factionDefName
             };
+            dialog.doWindowBackground = false;
+            dialog.doCloseX = false;
+            dialog.closeOnClickedOutside = false;
+            dialog.windowRect.size = ContractWindowSize;
             dialog.ApplySelectedServiceFlags(selectedServices);
+            dialog.ApplySelectedServiceUnitCounts(serviceUnitCounts);
             Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
             Find.WindowStack.Add(dialog);
         }
@@ -801,10 +1179,9 @@ namespace Helodrace
         private void DrawContractCostKindOptions(Rect rect, float credit)
         {
             float gap = 8f;
-            float width = (rect.width - gap * 2f) / 3f;
+            float width = (rect.width - gap) / 2f;
             DrawContractCostKindOption(new Rect(rect.x, rect.y, width, rect.height), ContractCostKind.FFP, credit);
             DrawContractCostKindOption(new Rect(rect.x + width + gap, rect.y, width, rect.height), ContractCostKind.CostReimbursement, credit);
-            DrawContractCostKindOption(new Rect(rect.x + (width + gap) * 2f, rect.y, width, rect.height), ContractCostKind.IDIQ, credit);
         }
 
         private void DrawContractCostKindOption(Rect rect, ContractCostKind kind, float credit)
@@ -837,22 +1214,6 @@ namespace Helodrace
             if (Widgets.ButtonText(rect, ContractDurationLabel(duration), selectedContractDuration == duration))
             {
                 selectedContractDuration = duration;
-            }
-        }
-
-        private void DrawIdiqPricingOptions(Rect rect)
-        {
-            float gap = 8f;
-            float width = (rect.width - gap) / 2f;
-            DrawIdiqPricingOption(new Rect(rect.x, rect.y, width, rect.height), IdiqPricingKind.FFP);
-            DrawIdiqPricingOption(new Rect(rect.x + width + gap, rect.y, width, rect.height), IdiqPricingKind.CostReimbursement);
-        }
-
-        private void DrawIdiqPricingOption(Rect rect, IdiqPricingKind kind)
-        {
-            if (Widgets.ButtonText(rect, IdiqPricingKindLabel(kind), selectedIdiqPricingKind == kind))
-            {
-                selectedIdiqPricingKind = kind;
             }
         }
 
@@ -926,8 +1287,57 @@ namespace Helodrace
             }
 
             bool selected = IsServiceSelected(service);
-            Widgets.CheckboxLabeled(rect, label, ref selected);
+            if (selectedContractCostKind == ContractCostKind.FFP && selected)
+            {
+                float countFieldWidth = 64f;
+                float countLabelWidth = 82f;
+                Widgets.CheckboxLabeled(
+                    new Rect(rect.x, rect.y, rect.width - countFieldWidth - countLabelWidth - 8f, rect.height),
+                    label,
+                    ref selected);
+                Widgets.Label(
+                    new Rect(rect.xMax - countFieldWidth - countLabelWidth - 4f, rect.y, countLabelWidth, rect.height),
+                    "HD_TelegraphTable_ForwardBase_ServiceUnitCountShort".Translate());
+                int units = FfpServiceUnitCount(service);
+                string buffer = FfpServiceUnitBuffer(service);
+                Widgets.TextFieldNumeric(
+                    new Rect(rect.xMax - countFieldWidth, rect.y + 2f, countFieldWidth, rect.height - 4f),
+                    ref units,
+                    ref buffer,
+                    1,
+                    999999);
+                ffpServiceUnitCounts[service] = Mathf.Clamp(units, 1, 999999);
+                ffpServiceUnitBuffers[service] = buffer;
+            }
+            else
+            {
+                Widgets.CheckboxLabeled(rect, label, ref selected);
+            }
             SetServiceSelected(service, selected);
+        }
+
+        private int FfpServiceUnitCount(ForwardBaseService service)
+        {
+            int units;
+            if (!ffpServiceUnitCounts.TryGetValue(service, out units))
+            {
+                units = HelodForwardBaseServiceUtility.DefaultFfpServiceUnitsPerBillingPeriod;
+                ffpServiceUnitCounts[service] = units;
+            }
+
+            return Mathf.Clamp(units, 1, 999999);
+        }
+
+        private string FfpServiceUnitBuffer(ForwardBaseService service)
+        {
+            string buffer;
+            if (!ffpServiceUnitBuffers.TryGetValue(service, out buffer))
+            {
+                buffer = FfpServiceUnitCount(service).ToString();
+                ffpServiceUnitBuffers[service] = buffer;
+            }
+
+            return buffer;
         }
 
         private static void DrawLockedOption(Rect rect, string label, float requiredCredit)
@@ -973,11 +1383,6 @@ namespace Helodrace
             return ("HD_TelegraphTable_ForwardBase_Cost_" + kind).Translate();
         }
 
-        private static string IdiqPricingKindLabel(IdiqPricingKind kind)
-        {
-            return ("HD_TelegraphTable_ForwardBase_IdiqPricing_" + kind).Translate();
-        }
-
         private static string ContractAmountLabel(ContractCostKind kind)
         {
             switch (kind)
@@ -989,13 +1394,6 @@ namespace Helodrace
                 default:
                     return "HD_TelegraphTable_ForwardBase_EstimatedCost".Translate().ToString();
             }
-        }
-
-        private string IdiqServiceOrderAmountLabel()
-        {
-            return selectedIdiqPricingKind == IdiqPricingKind.FFP
-                ? "HD_TelegraphTable_ForwardBase_PerCallFixedPrice".Translate().ToString()
-                : "HD_TelegraphTable_ForwardBase_PerCallReimbursableEstimate".Translate().ToString();
         }
 
         private static string ContractDurationLabel(ContractDuration duration)
@@ -1048,7 +1446,11 @@ namespace Helodrace
                 ForwardBaseService service = AllForwardBaseServices[i];
                 if (IsServiceSelected(service))
                 {
-                    services.Add(ForwardBaseServiceLabel(service));
+                    services.Add(selectedContractCostKind == ContractCostKind.FFP
+                        ? "HD_TelegraphTable_ForwardBase_ServiceUnitCount".Translate(
+                            ForwardBaseServiceLabel(service),
+                            FfpServiceUnitCount(service)).ToString()
+                        : ForwardBaseServiceLabel(service));
                 }
             }
 
@@ -1070,13 +1472,19 @@ namespace Helodrace
             return services;
         }
 
-        private float EstimateForwardBaseCost(float credit, float distance)
+        private int[] SelectedServiceUnitCounts()
         {
-            if (selectedContractCostKind == ContractCostKind.IDIQ)
+            int[] counts = new int[AllForwardBaseServices.Length];
+            for (int i = 0; i < AllForwardBaseServices.Length; i++)
             {
-                return EstimateIdiqMaintenanceFee(credit, distance);
+                counts[i] = FfpServiceUnitCount(AllForwardBaseServices[i]);
             }
 
+            return counts;
+        }
+
+        private float EstimateForwardBaseCost(float credit, float distance)
+        {
             float baseCost = BaseCost(selectedForwardBaseKind);
             float serviceCost = SelectedServiceCost();
 
@@ -1088,30 +1496,6 @@ namespace Helodrace
             float contractBase = baseCost * contractMultiplier * durationMultiplier;
             float services = selectedContractCostKind == ContractCostKind.CostReimbursement ? 0f : serviceCost * servicePeriods;
             return ContractSilverValue(Mathf.Max(1f, (contractBase + services) * distanceMultiplier * creditMultiplier));
-        }
-
-        private float EstimateIdiqMaintenanceFee(float credit, float distance)
-        {
-            float durationFactor = Mathf.Max(1f, ContractDurationDays(selectedContractDuration) / 30f);
-            float baseMaintenance = BaseCost(selectedForwardBaseKind) * 0.035f + 35f;
-            float durationMultiplier = 1f + (durationFactor - 1f) * 0.28f;
-            float distanceMultiplier = 1f + Mathf.Clamp01(distance / MaxForwardBaseDistance) * 0.08f;
-            float creditMultiplier = Mathf.Lerp(1.08f, 0.90f, Mathf.InverseLerp(100f, 3500f, credit));
-            return ContractSilverValue(Mathf.Max(1f, baseMaintenance * durationMultiplier * distanceMultiplier * creditMultiplier));
-        }
-
-        private float EstimateIdiqServiceOrderCost(float credit, float distance)
-        {
-            float serviceCost = SelectedServiceCost();
-            if (serviceCost <= 0f)
-            {
-                return 0f;
-            }
-
-            float pricingMultiplier = selectedIdiqPricingKind == IdiqPricingKind.FFP ? 1.1f : 0.92f;
-            float distanceMultiplier = 1f + Mathf.Clamp01(distance / MaxForwardBaseDistance) * 0.30f;
-            float creditMultiplier = Mathf.Lerp(1.12f, 0.88f, Mathf.InverseLerp(100f, 3500f, credit));
-            return ContractSilverValue(Mathf.Max(1f, serviceCost * pricingMultiplier * distanceMultiplier * creditMultiplier));
         }
 
         private static float ContractSilverValue(float goldStandardSthalerValue)
@@ -1181,6 +1565,22 @@ namespace Helodrace
             includeArtillery105mmSupport = flags.Length > 8 && flags[8];
             includeArtillery155mmSupport = flags.Length > 9 && flags[9];
             includeW48Support = flags.Length > 10 && flags[10];
+        }
+
+        private void ApplySelectedServiceUnitCounts(int[] counts)
+        {
+            if (counts == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < AllForwardBaseServices.Length && i < counts.Length; i++)
+            {
+                int units = Mathf.Clamp(counts[i], 1, 999999);
+                ForwardBaseService service = AllForwardBaseServices[i];
+                ffpServiceUnitCounts[service] = units;
+                ffpServiceUnitBuffers[service] = units.ToString();
+            }
         }
 
         private bool IsServiceSelected(ForwardBaseService service)
@@ -1641,8 +2041,6 @@ namespace Helodrace
             {
                 case ContractCostKind.CostReimbursement:
                     return 700f;
-                case ContractCostKind.IDIQ:
-                    return 1300f;
                 default:
                     return 100f;
             }
@@ -1775,8 +2173,6 @@ namespace Helodrace
             {
                 case ContractCostKind.CostReimbursement:
                     return 0.05f;
-                case ContractCostKind.IDIQ:
-                    return 0.38f;
                 default:
                     return 1f;
             }
@@ -1806,8 +2202,6 @@ namespace Helodrace
                     return Mathf.Pow(durationFactor, 0.72f);
                 case ContractCostKind.CostReimbursement:
                     return 1f + (durationFactor - 1f) * 0.04f;
-                case ContractCostKind.IDIQ:
-                    return 1f + (durationFactor - 1f) * 0.18f;
                 default:
                     return 1f;
             }
@@ -1829,16 +2223,9 @@ namespace Helodrace
             {
                 case ContractCostKind.CostReimbursement:
                     return HelodForwardBaseCostKind.CostReimbursement;
-                case ContractCostKind.IDIQ:
-                    return HelodForwardBaseCostKind.IDIQ;
                 default:
                     return HelodForwardBaseCostKind.FFP;
             }
-        }
-
-        private static HelodForwardBaseIdiqPricingKind ToForwardBaseIdiqPricingKind(IdiqPricingKind kind)
-        {
-            return kind == IdiqPricingKind.CostReimbursement ? HelodForwardBaseIdiqPricingKind.CostReimbursement : HelodForwardBaseIdiqPricingKind.FFP;
         }
 
         private static void DrawDisabledButton(Rect rect, string label)
@@ -1849,6 +2236,222 @@ namespace Helodrace
             Widgets.Label(rect, label);
             Text.Anchor = TextAnchor.UpperLeft;
             GUI.color = Color.white;
+        }
+
+        private sealed class ForwardBaseContractViewer : Window
+        {
+            private readonly WorldObject contract;
+            private readonly string contractInfo;
+
+            public override Vector2 InitialSize => ContractViewerWindowSize;
+
+            public ForwardBaseContractViewer(WorldObject contract, string contractInfo)
+            {
+                this.contract = contract;
+                this.contractInfo = contractInfo ?? string.Empty;
+                doCloseX = false;
+                closeOnClickedOutside = false;
+                absorbInputAroundWindow = true;
+                doWindowBackground = false;
+                draggable = true;
+            }
+
+            public override void DoWindowContents(Rect inRect)
+            {
+                Widgets.DrawBoxSolid(inRect, Color.white);
+                float pageWidth = 740f;
+                float pageHeight = pageWidth * (297f / 210f);
+                float noteWidth = 120f;
+                float noteGap = 14f;
+                float compositionWidth = pageWidth + noteGap + noteWidth;
+                Rect paper = new Rect((inRect.width - compositionWidth) * 0.5f, 14f, pageWidth, pageHeight);
+                Widgets.DrawBoxSolid(paper, Color.white);
+                Widgets.DrawBox(paper);
+                Rect content = paper.ContractedBy(22f);
+                Faction faction = contract?.Faction;
+                float y = content.y;
+
+                GUI.color = Color.black;
+                Texture2D logo = ContentFinder<Texture2D>.Get(
+                    Dialog_TelegraphTable.IsHighProvider(faction) ? "Icons/HD_VEG" : "Icons/HD_POSC",
+                    false);
+                if (logo != null)
+                {
+                    GUI.color = Color.white;
+                    Widgets.DrawTextureFitted(new Rect(content.x, y, 88f, 88f), logo, 0.9f);
+                    GUI.color = Color.black;
+                }
+
+                Text.Font = GameFont.Medium;
+                Widgets.Label(new Rect(content.x + 106f, y + 3f, content.width - 260f, 30f), Dialog_TelegraphTable.ProviderCompanyName(faction));
+                Text.Font = GameFont.Small;
+                Widgets.Label(new Rect(content.x + 106f, y + 38f, content.width - 260f, 22f), "FORWARD BASE SERVICE AGREEMENT");
+                Widgets.Label(new Rect(content.x + 106f, y + 61f, content.width - 260f, 22f), "EXECUTED CONTRACT RECORD");
+                Widgets.Label(new Rect(content.xMax - 170f, y + 8f, 170f, 22f), "CONTRACT RECORD");
+                Widgets.Label(new Rect(content.xMax - 170f, y + 34f, 170f, 22f), contract?.LabelCap ?? "Unknown contract");
+                y += 100f;
+                Widgets.DrawLineHorizontal(content.x, y, content.width);
+                y += 18f;
+
+                Widgets.Label(new Rect(content.x, y, content.width, 22f), "PROVIDER");
+                y += 24f;
+                Widgets.Label(new Rect(content.x + 12f, y, content.width - 12f, 24f), Dialog_TelegraphTable.ProviderCompanyName(faction) + "  /  " + (faction?.Name ?? "Unknown faction"));
+                y += 36f;
+                Widgets.Label(new Rect(content.x, y, content.width, 22f), "STATUS");
+                y += 24f;
+                Widgets.Label(new Rect(content.x + 12f, y, content.width - 12f, 24f), Dialog_TelegraphTable.ForwardBaseContractStatus(contract));
+                y += 42f;
+                Widgets.DrawLineHorizontal(content.x, y, content.width);
+                y += 18f;
+                Widgets.Label(new Rect(content.x, y, content.width, 22f), "CONTRACT TERMS");
+                y += 30f;
+                GUI.color = Color.black;
+                float infoHeight = Mathf.Max(22f, Text.CalcHeight(contractInfo, content.width));
+                Rect termsRect = new Rect(content.x, y, content.width, infoHeight + 16f);
+                Widgets.DrawBox(termsRect);
+                Widgets.Label(termsRect.ContractedBy(8f), contractInfo);
+
+                Rect noteRect = new Rect(paper.xMax + noteGap, paper.y + 176f, noteWidth, 126f);
+                Widgets.DrawBoxSolid(noteRect, new Color(1f, 0.93f, 0.45f));
+                Widgets.DrawBox(noteRect);
+                Text.Font = GameFont.Medium;
+                Widgets.Label(new Rect(noteRect.x + 10f, noteRect.y + 10f, noteRect.width - 20f, 24f), "POST-IT");
+                Text.Font = GameFont.Small;
+                Widgets.Label(new Rect(noteRect.x + 10f, noteRect.y + 42f, noteRect.width - 20f, 22f), "TIME REMAINING");
+                Widgets.Label(new Rect(noteRect.x + 10f, noteRect.y + 68f, noteRect.width - 20f, 42f), RemainingContractTime());
+
+                Rect closeRect = new Rect(inRect.xMax - 34f, inRect.y + 2f, 30f, 30f);
+                Widgets.DrawHighlightIfMouseover(closeRect);
+                Text.Font = GameFont.Medium;
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(closeRect, "×");
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+                if (Widgets.ButtonInvisible(closeRect))
+                {
+                    Close();
+                }
+                GUI.color = Color.white;
+            }
+
+            private string RemainingContractTime()
+            {
+                int ticksLeft = 0;
+                HelodForwardBaseConstruction construction = contract as HelodForwardBaseConstruction;
+                if (construction != null)
+                {
+                    ticksLeft = construction.CompleteTick - (Find.TickManager?.TicksGame ?? 0);
+                }
+                else
+                {
+                    HelodForwardBase forwardBase = contract as HelodForwardBase;
+                    if (forwardBase != null)
+                    {
+                        ticksLeft = forwardBase.ContractEndTick - (Find.TickManager?.TicksGame ?? 0);
+                    }
+                }
+
+                return ticksLeft > 0 ? ticksLeft.ToStringTicksToPeriod() : "Completed";
+            }
+        }
+
+        private sealed class ContractDocumentSurface
+        {
+            public Rect Begin(Rect windowRect)
+            {
+                Widgets.DrawBoxSolid(windowRect, Color.white);
+                float pageWidth = Mathf.Min(740f, windowRect.width - 28f);
+                float pageHeight = pageWidth * (297f / 210f);
+                return new Rect((windowRect.width - pageWidth) * 0.5f, 14f, pageWidth, pageHeight);
+            }
+
+            public void End()
+            {
+            }
+        }
+
+        private class ForwardBaseServiceEditor : Window
+        {
+            private readonly Dialog_TelegraphTable owner;
+            private Vector2 scrollPosition;
+
+            public override Vector2 InitialSize => new Vector2(720f, 680f);
+
+            public ForwardBaseServiceEditor(Dialog_TelegraphTable owner)
+            {
+                this.owner = owner;
+                doCloseX = true;
+                closeOnClickedOutside = false;
+                absorbInputAroundWindow = true;
+                doWindowBackground = false;
+            }
+
+            public override void DoWindowContents(Rect inRect)
+            {
+                GUI.color = Color.white;
+                Text.Anchor = TextAnchor.UpperLeft;
+                Widgets.DrawWindowBackground(inRect);
+                Text.Font = GameFont.Medium;
+                Widgets.Label(new Rect(inRect.x + 16f, inRect.y + 12f, inRect.width - 32f, 30f), "EDIT SELECTED SERVICES");
+                Text.Font = GameFont.Small;
+                float descriptionHeight = Dialog_TelegraphTable.DrawContractParagraph(new Rect(inRect.x + 16f, inRect.y + 45f, inRect.width - 32f, 60f), "Click a text line to include or remove it. FFP lines also define stock per 30 days.");
+                GUI.color = Color.white;
+
+                Rect listRect = new Rect(inRect.x + 16f, inRect.y + 52f + descriptionHeight, inRect.width - 32f, inRect.height - 68f - descriptionHeight);
+                Rect viewRect = new Rect(0f, 0f, listRect.width - 18f, 640f);
+                Widgets.BeginScrollView(listRect, ref scrollPosition, viewRect);
+                float y = 0f;
+                DrawServiceGroup(viewRect, ref y, ForwardBaseServiceType.Artillery, ArtilleryServices);
+                DrawServiceGroup(viewRect, ref y, ForwardBaseServiceType.Infantry, InfantryServices);
+                DrawServiceGroup(viewRect, ref y, ForwardBaseServiceType.AirForce, AirForceServices);
+                DrawServiceGroup(viewRect, ref y, ForwardBaseServiceType.Logistics, LogisticsServices);
+                Widgets.EndScrollView();
+            }
+
+            private void DrawServiceGroup(Rect viewRect, ref float y, ForwardBaseServiceType type, ForwardBaseService[] services)
+            {
+                GUI.color = Color.white;
+                Widgets.Label(new Rect(viewRect.x, y, viewRect.width, 24f), Dialog_TelegraphTable.ForwardBaseServiceTypeLabel(type).ToUpperInvariant());
+                y += 28f;
+                float credit = Dialog_TelegraphTable.MilitaryCredit(owner.telegraphTable.Map, owner.SelectedMilitaryFaction());
+                for (int i = 0; i < services.Length; i++)
+                {
+                    ForwardBaseService service = services[i];
+                    bool available = Dialog_TelegraphTable.IsServiceAvailableForBase(owner.selectedForwardBaseKind, service)
+                        && credit >= Dialog_TelegraphTable.RequiredCredit(service)
+                        && (service != ForwardBaseService.W48Support || owner.includeArtillery155mmSupport);
+                    Rect row = new Rect(viewRect.x, y, viewRect.width, 32f);
+                    if (!available)
+                    {
+                        GUI.color = new Color(0.22f, 0.22f, 0.22f);
+                        Widgets.Label(new Rect(row.x + 10f, row.y + 6f, row.width - 20f, 20f), "- " + Dialog_TelegraphTable.ForwardBaseServiceLabel(service) + "  (unavailable)");
+                        GUI.color = Color.white;
+                        y += 38f;
+                        continue;
+                    }
+
+                    Widgets.DrawHighlightIfMouseover(row);
+                    float countWidth = owner.selectedContractCostKind == ContractCostKind.FFP ? 116f : 0f;
+                    bool selected = owner.IsServiceSelected(service);
+                    Rect checkRect = new Rect(row.x + 6f, row.y, row.width - countWidth - 12f, row.height);
+                    Widgets.CheckboxLabeled(checkRect, Dialog_TelegraphTable.ForwardBaseServiceLabel(service), ref selected);
+                    owner.SetServiceSelected(service, selected);
+
+                    if (owner.selectedContractCostKind == ContractCostKind.FFP && owner.IsServiceSelected(service))
+                    {
+                        int units = owner.FfpServiceUnitCount(service);
+                        string buffer = owner.FfpServiceUnitBuffer(service);
+                        Widgets.Label(new Rect(row.xMax - countWidth, row.y + 6f, 60f, 20f), "per 30d");
+                        Widgets.TextFieldNumeric(new Rect(row.xMax - 48f, row.y + 3f, 48f, 26f), ref units, ref buffer, 1, 999999);
+                        owner.ffpServiceUnitCounts[service] = Mathf.Clamp(units, 1, 999999);
+                        owner.ffpServiceUnitBuffers[service] = buffer;
+                    }
+                    GUI.color = Color.white;
+                    y += 38f;
+                }
+                GUI.color = Color.white;
+                y += 8f;
+            }
         }
 
         private enum TelegraphTab
@@ -1874,13 +2477,6 @@ namespace Helodrace
         }
 
         private enum ContractCostKind
-        {
-            FFP,
-            CostReimbursement,
-            IDIQ
-        }
-
-        private enum IdiqPricingKind
         {
             FFP,
             CostReimbursement

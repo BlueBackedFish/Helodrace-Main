@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalSuddenFire_Command>Sudden fire</HD_TacticalSuddenFire_Command>
+  <HD_TacticalSuddenFire_CommandDesc>Immediately fire a fixed three-shot burst at a threat within 5 tiles. Larger shooters and pellet-based shotguns can use a modestly extended range.</HD_TacticalSuddenFire_CommandDesc>
+  <HD_TacticalSuddenFire_InvalidTarget>The target is outside the sudden-fire conditions.</HD_TacticalSuddenFire_InvalidTarget>
+  <HD_TacticalSuddenFire_Cooldown>Recharging: {0}</HD_TacticalSuddenFire_Cooldown>
+</LanguageData>

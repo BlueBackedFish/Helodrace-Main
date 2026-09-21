@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_CQBTraining.label>CQB training</HD_CQBTraining.label>
+  <HD_CQBTraining.description>Temporary training qualification for testing close-quarters and tactical shooting skills.</HD_CQBTraining.description>
+  <HD_TacticalAim_Command>Aim</HD_TacticalAim_Command>
+  <HD_TacticalAim_CommandDesc>Keep watching a chosen point. Aim direction follows that point as you move. The 90-degree focus arc grants faster warmup; outside it, warmup is slower. Moving fire is limited to a 120-degree arc.</HD_TacticalAim_CommandDesc>
+  <HD_TacticalAim_Retarget>Retarget Aim</HD_TacticalAim_Retarget>
+  <HD_TacticalAim_RetargetDesc>Choose a new point to watch.</HD_TacticalAim_RetargetDesc>
+  <HD_TacticalAim_Cancel>Cancel Aim</HD_TacticalAim_Cancel>
+  <HD_TacticalAim_CancelDesc>End the focused firing stance.</HD_TacticalAim_CancelDesc>
+  <HD_TacticalAim_FocusDirection>Focus direction: {0}°</HD_TacticalAim_FocusDirection>
+  <HD_TacticalAim_Started>Focus point set.</HD_TacticalAim_Started>
+  <HD_TacticalAim_Preparing>Preparing aim: {0}</HD_TacticalAim_Preparing>
+  <HD_TacticalAim_Cooldown>Recharging: {0}</HD_TacticalAim_Cooldown>
+  <HD_TacticalAim_OutsideArc>The target is outside the firing arc.</HD_TacticalAim_OutsideArc>
+  <HD_TacticalMovement_Command>Mobility ({0})</HD_TacticalMovement_Command>
+  <HD_TacticalMovement_CommandDesc>Choose the movement firing tradeoff. Accuracy retention greatly increases Warmup; response retention keeps Warmup closer to normal but reduces accuracy.</HD_TacticalMovement_CommandDesc>
+  <HD_TacticalMovement_Accuracy>Accuracy retention</HD_TacticalMovement_Accuracy>
+  <HD_TacticalMovement_Response>Response retention</HD_TacticalMovement_Response>
+  <HD_TacticalMovement_Selected>Movement mode: {0}</HD_TacticalMovement_Selected>
+  <HD_TacticalMovement_CurrentMode>Movement mode: {0}</HD_TacticalMovement_CurrentMode>
+  <HD_TacticalHighSpeed_Command>High-speed movement</HD_TacticalHighSpeed_Command>
+  <HD_TacticalHighSpeed_CommandDesc>Move up to 12 cells at roughly 200% speed. Firing and aiming are unavailable during the movement, while enemies suffer reduced accuracy against the moving pawn.</HD_TacticalHighSpeed_CommandDesc>
+  <HD_TacticalHighSpeed_InvalidTarget>The high-speed movement destination is invalid.</HD_TacticalHighSpeed_InvalidTarget>
+  <HD_TacticalHighSpeed_Started>High-speed movement started.</HD_TacticalHighSpeed_Started>
+  <HD_TacticalHighSpeed_AimDisabled>High-speed movement cannot be used while aiming.</HD_TacticalHighSpeed_AimDisabled>
+</LanguageData>

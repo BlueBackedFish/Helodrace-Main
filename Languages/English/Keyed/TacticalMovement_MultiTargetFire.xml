@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalMultiTargetFire_Command>Multi-target fire</HD_TacticalMultiTargetFire_Command>
+  <HD_TacticalMultiTargetFire_CommandDesc>Requires burst count 3+ OR ranged cooldown at most 1 second. Engage up to three targets while maintaining movement. Fixed 0.2-second warmup; weapon cooldown is ignored. Shooter accuracy x becomes 3x²−2x³. Hit chance within 7 tiles is doubled, capped at 100%. Cover and armor still apply.</HD_TacticalMultiTargetFire_CommandDesc>
+  <HD_TacticalMultiTargetFire_FirePriority>Fire Priority</HD_TacticalMultiTargetFire_FirePriority>
+  <HD_TacticalMultiTargetFire_SuppressionPriority>Suppression Priority</HD_TacticalMultiTargetFire_SuppressionPriority>
+  <HD_TacticalMultiTargetFire_AddTarget>Add another target ({0}/{1})</HD_TacticalMultiTargetFire_AddTarget>
+  <HD_TacticalMultiTargetFire_Start>Start with {0} target(s)</HD_TacticalMultiTargetFire_Start>
+  <HD_TacticalMultiTargetFire_InvalidTarget>The target is outside the multi-target firing conditions.</HD_TacticalMultiTargetFire_InvalidTarget>
+  <HD_TacticalMultiTargetFire_Finished>Multi-target fire complete.</HD_TacticalMultiTargetFire_Finished>
+</LanguageData>

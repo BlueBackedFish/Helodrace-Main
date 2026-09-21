@@ -297,14 +297,15 @@ namespace Helodrace.ModernWar
             Vector2 origin = inner.center;
             float pixelsPerCell = Mathf.Min(inner.width, inner.height) * 0.82f;
 
+            var visualSnapshot = ModularWeaponVisualLayers.Expand(snapshot);
             for (int pass = 0; pass < 2; pass++)
             {
-                for (int i = 0; i < snapshot.Count; i++)
+                for (int i = 0; i < visualSnapshot.Count; i++)
                 {
-                    ModularRenderNode node = snapshot[i];
+                    ModularRenderNode node = visualSnapshot[i];
                     if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) continue;
-                    Graphic graphic = node.thing.Graphic;
-                    string texturePath = node.thing.def.graphicData?.texPath;
+                    Graphic graphic = node.Graphic;
+                    string texturePath = node.TexturePath;
                     Texture texture = pass == 0
                         ? texturePath.NullOrEmpty()
                             ? null
@@ -312,7 +313,9 @@ namespace Helodrace.ModernWar
                         : graphic?.MatSingle?.mainTexture;
                     if (graphic == null || texture == null) continue;
 
-                    Vector2 center = WorldToGui(node.GraphicCenter, origin, pixelsPerCell);
+                    ModularWeaponAssemblyRenderer.RealtimeNodeGeometry(
+                        root, node, false, out Vector2 posedCenter, out float posedAngle);
+                    Vector2 center = WorldToGui(posedCenter, origin, pixelsPerCell);
                     Vector2 graphicScale = node.GraphicScale;
                     Vector2 size = Vector2.Scale(graphic.drawSize,
                         new Vector2(Mathf.Abs(graphicScale.x),
@@ -322,8 +325,8 @@ namespace Helodrace.ModernWar
                     if (pass == 1 && selected != null && node.path != selected.path)
                         GUI.color = new Color(1f, 1f, 1f, 0.78f);
                     Matrix4x4 matrix = GUI.matrix;
-                    if (!Mathf.Approximately(node.GraphicAngle, 0f))
-                        UI.RotateAroundPivot(-node.GraphicAngle, drawRect.center);
+                    if (!Mathf.Approximately(posedAngle, 0f))
+                        UI.RotateAroundPivot(-posedAngle, drawRect.center);
                     DrawTexture(drawRect, texture, node.GraphicVerticallyFlipped);
                     GUI.matrix = matrix;
                     GUI.color = previous;

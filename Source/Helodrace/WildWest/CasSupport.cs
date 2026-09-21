@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -202,6 +203,27 @@ namespace Helodrace
         public static string AircraftLabel(HelodCasAircraftKind aircraftKind)
         {
             return aircraftKind == HelodCasAircraftKind.A10C ? "A-10C" : "P-47";
+        }
+
+        public static HelodCasAircraftKind AircraftForForwardBase(
+            HelodForwardBase forwardBase)
+        {
+            return IsHighProvider(forwardBase?.Faction)
+                ? HelodCasAircraftKind.A10C
+                : HelodCasAircraftKind.P47;
+        }
+
+        public static bool IsAircraftAllowed(HelodForwardBase forwardBase,
+            HelodCasAircraftKind aircraftKind)
+        {
+            return AircraftForForwardBase(forwardBase) == aircraftKind;
+        }
+
+        private static bool IsHighProvider(Faction faction)
+        {
+            return faction?.def?.defName != null
+                && faction.def.defName.IndexOf("High", StringComparison.OrdinalIgnoreCase)
+                    >= 0;
         }
 
         public static int Playtime(HelodCasAircraftKind aircraftKind)
@@ -627,7 +649,8 @@ namespace Helodrace
             HelodCasAircraftKind aircraftKind)
         {
             if (!CanUseBase(map, forwardBase) || caller == null || caller.Map != map
-                || SCR300RadioUtility.IsBlackout(map))
+                || SCR300RadioUtility.IsBlackout(map)
+                || !IsAircraftAllowed(forwardBase, aircraftKind))
             {
                 Messages.Message("HD_CAS_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
                 return;
@@ -780,7 +803,8 @@ namespace Helodrace
             }
             if (plan == null || !plan.EntryCell.InBounds(map) || !plan.TargetCell.InBounds(map)
                 || !IsEntryCell(map, plan.EntryCell) || !CanUseBase(map, forwardBase)
-                || !SupportsAttack(plan.AircraftKind, plan.AttackKind))
+                || !SupportsAttack(plan.AircraftKind, plan.AttackKind)
+                || !IsAircraftAllowed(forwardBase, plan.AircraftKind))
             {
                 Messages.Message("HD_CAS_Unavailable".Translate(), MessageTypeDefOf.RejectInput);
                 return false;
@@ -961,6 +985,11 @@ namespace Helodrace
         public bool CanRequestFlight(HelodForwardBase forwardBase,
             HelodCasAircraftKind aircraftKind)
         {
+            if (!HelodCasSupportUtility.IsAircraftAllowed(forwardBase, aircraftKind))
+            {
+                return false;
+            }
+
             HelodCasPlaytimeState state = GetPlaytimeState(forwardBase, aircraftKind, true);
             return !state.IsActive && !strikes.Any(strike => strike.ForwardBase == forwardBase
                 && strike.Plan?.AircraftKind == aircraftKind);

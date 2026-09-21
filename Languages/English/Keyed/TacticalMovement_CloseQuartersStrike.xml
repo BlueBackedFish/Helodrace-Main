@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalCloseQuartersStrike_Command>Close-quarters strike</HD_TacticalCloseQuartersStrike_Command>
+  <HD_TacticalCloseQuartersStrike_CommandDesc>Use a long gun to push a nearby pawn away and briefly stun them. Colliding with a wall along the knockback path doubles the stun duration.</HD_TacticalCloseQuartersStrike_CommandDesc>
+  <HD_TacticalCloseQuartersStrike_InvalidTarget>The target is not a valid close-quarters strike target.</HD_TacticalCloseQuartersStrike_InvalidTarget>
+  <HD_TacticalCloseQuartersStrike_TooFar>Move adjacent to the target before using close-quarters strike.</HD_TacticalCloseQuartersStrike_TooFar>
+  <HD_TacticalCloseQuartersStrike_Blocked>An obstacle blocks the strike.</HD_TacticalCloseQuartersStrike_Blocked>
+</LanguageData>

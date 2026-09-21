@@ -11,7 +11,7 @@ namespace Helodrace.ModernWar
         private sealed class CycleState
         {
             public int shotTick;
-            public int cycleTicks;
+            public float cycleTicks;
         }
 
         private sealed class PendingCasing
@@ -36,6 +36,20 @@ namespace Helodrace.ModernWar
         private static readonly Dictionary<int, ReloadState> reloadStates =
             new Dictionary<int, ReloadState>();
         private static readonly HashSet<int> caughtBolts = new HashSet<int>();
+
+        private sealed class GripState
+        {
+            public CompModularWeaponNode root;
+            public float amount;
+        }
+
+        private static readonly Dictionary<int, GripState> grips = new Dictionary<int, GripState>();
+
+        private static bool GripPressed(CompModularWeaponNode root)
+        {
+            Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
+            return pawn?.Drafted == true && !pawn.Dead && !pawn.Downed;
+        }
 
         /// <summary>Sets the visual state of an AR-pattern last-round bolt catch.</summary>
         public static void NotifyBoltCatch(
@@ -80,7 +94,7 @@ namespace Helodrace.ModernWar
             if (verb == null || root?.Props.isAssemblyRoot != true) return;
             ModularWeaponMuzzleEffectUtility.NotifyShot(verb, root);
             int now = Find.TickManager?.TicksGame ?? 0;
-            int cycleTicks = Mathf.Max(2, root.EffectiveBurstIntervalTicks);
+            float cycleTicks = Mathf.Max(1f, root.EffectiveBurstIntervalTicks / Mathf.Max(0.01f, root.Props.animationSpeed));
             states[root.parent.thingIDNumber] = new CycleState
             {
                 shotTick = now,
@@ -138,6 +152,33 @@ namespace Helodrace.ModernWar
         {
             float progress;
             if (kind == ModularWeaponAnimatedPartKind.None) return 0f;
+            if (kind == ModularWeaponAnimatedPartKind.GripSafety)
+            {
+                if (root?.parent == null) return 0f;
+                GripState grip;
+                if (!grips.TryGetValue(root.parent.thingIDNumber, out grip))
+                {
+                    grip = new GripState { root = root, amount = 0f };
+                    grips[root.parent.thingIDNumber] = grip;
+                }
+                return root.parent.ParentHolder is Pawn_EquipmentTracker ? grip.amount : 0f;
+            }
+            if (kind == ModularWeaponAnimatedPartKind.Slide)
+                return AnimationAmount(root, ModularWeaponAnimatedPartKind.Bolt);
+            if (kind == ModularWeaponAnimatedPartKind.TiltingBarrel)
+            {
+                float slide = AnimationAmount(root, ModularWeaponAnimatedPartKind.Slide);
+                return Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.18f, 0.65f, slide));
+            }
+            if (kind == ModularWeaponAnimatedPartKind.Hammer)
+            {
+                // Authored pose is decocked; rotate around the animation pivot,
+                // not the attachment mount, when held ready like the grip safety.
+                float cocked = AnimationAmount(root, ModularWeaponAnimatedPartKind.GripSafety);
+                return TryGetProgress(root, out progress)
+                    ? cocked * Mathf.SmoothStep(0f, 1f, progress / 0.42f)
+                    : cocked;
+            }
 
             float firingAmount = 0f;
             bool firing = TryGetProgress(root, out progress);
@@ -234,7 +275,7 @@ namespace Helodrace.ModernWar
 
             // Pulling a charging handle is deliberately slower than the powered
             // firing cycle. Return speed stays tied to the normal bolt return phase.
-            int normalCycleTicks = Mathf.Max(2, root.EffectiveBurstIntervalTicks);
+            float normalCycleTicks = Mathf.Max(1f, root.EffectiveBurstIntervalTicks / Mathf.Max(0.01f, root.Props.animationSpeed));
             int normalReturnTicks = Mathf.Max(
                 2,
                 Mathf.RoundToInt(normalCycleTicks * 0.58f));
@@ -299,7 +340,8 @@ namespace Helodrace.ModernWar
             List<ModularRenderNode> nodes = root?.RenderSnapshot();
             if (nodes == null) return false;
             for (int i = 0; i < nodes.Count; i++)
-                if (nodes[i]?.thing?.def?.defName == "HD_ModularPart_Bolt_AR15")
+                if (nodes[i]?.thing?.def?.defName == "HD_ModularPart_Bolt_AR15"
+                    || nodes[i]?.Props.animatedPart == ModularWeaponAnimatedPartKind.Slide)
                     return true;
             return false;
         }
@@ -384,6 +426,16 @@ namespace Helodrace.ModernWar
         public static void TickPending()
         {
             int now = Find.TickManager?.TicksGame ?? 0;
+            List<int> finishedGrips = new List<int>();
+            foreach (KeyValuePair<int, GripState> pair in grips)
+            {
+                GripState grip = pair.Value;
+                grip.amount = Mathf.MoveTowards(grip.amount, GripPressed(grip.root) ? 1f : 0f, 1f / 6f);
+                if (grip.root?.parent == null || grip.root.parent.Destroyed
+                    || (grip.amount == 0f && !(grip.root.parent.ParentHolder is Pawn_EquipmentTracker)))
+                    finishedGrips.Add(pair.Key);
+            }
+            foreach (int id in finishedGrips) grips.Remove(id);
             for (int i = pendingCasings.Count - 1; i >= 0; i--)
             {
                 PendingCasing pending = pendingCasings[i];

@@ -20,6 +20,13 @@
     </projectile>
   </ThingDef>
 
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251M80A1_Proj</defName>
+    <label>7.62x51mm M80A1 bullet</label>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>15</damageAmountBase><armorPenetrationBase>0.3</armorPenetrationBase><stoppingPower>1.05</stoppingPower><speed>90</speed></projectile>
+  </ThingDef>
+
   <!-- Physical ammunition selectors installed inside compatible magazine nodes. They
        remain visible as loose items but are hidden while nested in a weapon assembly. -->
   <ThingCategoryDef>
@@ -103,6 +110,24 @@
         <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_919M882</feedingRoundTexPath>
         <overridePriority>20</overridePriority>
         <mounts><li><id>ammunition_mount</id><socketTags><li>mp5_ammunition</li></socketTags><transform><position>(-0.012,0,-0.090)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_76251M80A1</defName>
+    <label>7.62x51mm M80A1 cartridge</label>
+    <description>An enhanced-performance 7.62x51mm cartridge for modular M14 magazines.</description>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1</texPath></graphicData>
+    <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>7.62 M80A1</ammunitionType><ceAmmoDefName>Ammo_762x51mmNATO_FMJ</ceAmmoDefName>
+        <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell76251</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M80A1</feedingRoundTexPath><overridePriority>30</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>m14_ammunition</li></socketTags><transform><position>(-0.035,0,-0.088)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>

@@ -39,4 +39,64 @@
       <li>HelodHair</li>
     </styleTags>
   </HairDef>
+
+  <HairDef>
+    <defName>HD_HelodHair5</defName>
+    <label>Helod Hair 5</label>
+    <styleGender>Any</styleGender>
+    <texPath>Helod/Hair/Hair5</texPath>
+    <styleTags>
+      <li>HelodHair</li>
+    </styleTags>
+  </HairDef>
+
+  <HairDef>
+    <defName>HD_HelodHair6</defName>
+    <label>Helod Hair 6</label>
+    <styleGender>Any</styleGender>
+    <texPath>Helod/Hair/Hair6</texPath>
+    <styleTags>
+      <li>HelodHair</li>
+    </styleTags>
+  </HairDef>
+
+  <HairDef>
+    <defName>HD_HelodHair7</defName>
+    <label>Helod Hair 7</label>
+    <styleGender>Any</styleGender>
+    <texPath>Helod/Hair/Hair7</texPath>
+    <styleTags>
+      <li>HelodHair</li>
+    </styleTags>
+  </HairDef>
+
+  <HairDef>
+    <defName>HD_HelodHair8</defName>
+    <label>Helod Hair 8</label>
+    <styleGender>Any</styleGender>
+    <texPath>Helod/Hair/Hair8</texPath>
+    <styleTags>
+      <li>HelodHair</li>
+    </styleTags>
+  </HairDef>
+
+  <HairDef>
+    <defName>HD_HelodHair9</defName>
+    <label>Helod Hair 9</label>
+    <styleGender>Any</styleGender>
+    <texPath>Helod/Hair/Hair9</texPath>
+    <styleTags>
+      <li>HelodHair</li>
+    </styleTags>
+  </HairDef>
+
+  <HairDef>
+    <defName>HD_HelodHair10</defName>
+    <label>Helod Hair 10</label>
+    <styleGender>Any</styleGender>
+    <texPath>Helod/Hair/Hair10</texPath>
+    <styleTags>
+      <li>HelodHair</li>
+    </styleTags>
+  </HairDef>
 </Defs>

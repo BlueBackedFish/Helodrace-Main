@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Shared 512px canvas: x=(pixelX-256)/512, z=(256-pixelY)/512.
+       One slide part draws two layers; the barrel tilts independently. -->
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Slide_M1911A1_UP</defName><label>M1911A1 slide</label>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_UP</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>3</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <additionalGraphics>
+        <li><graphicLayer>-2</graphicLayer><graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_DOWN</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(1,1)</drawSize></graphicData></li>
+      </additionalGraphics>
+      <animatedPart>Slide</animatedPart><animationTravel>(-0.09,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
+      <mounts><li><id>slide_mount</id><socketTags><li>m1911_slide</li></socketTags><transform><position>(0,0,0.13)</position></transform></li></mounts>
+      <partCategory>Required</partCategory>
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Slide_M1911A1_DOWN</defName><label>Slide M1911A1 DOWN</label>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_DOWN</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-2</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <!-- Legacy saved lower-half item. No mount: no longer offered as a part. -->
+      <hideWhenAttached>true</hideWhenAttached>
+      
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Barrel_M1911A1</defName><label>Barrel M1911A1</label>
+    <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1911A1</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <animatedPart>TiltingBarrel</animatedPart><animationTravel>(-0.018,0,0)</animationTravel><animationPivot>(0.39,0,0.19)</animationPivot><animationAngle>4</animationAngle>
+      <mounts><li><id>barrel_mount</id><socketTags><li>m1911_barrel</li></socketTags><transform><position>(0,0,0.2)</position></transform></li></mounts>
+      <chamberCaliber>45ACP</chamberCaliber><boreDiameterMm>11.5</boreDiameterMm><partCategory>Required</partCategory>
+      <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>m1911_muzzle</li></tags><transform><position>(0.398,0,0.191)</position></transform></li></sockets>
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Hammer_M1911A1</defName><label>Hammer M1911A1</label>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Hammer_M1911A1</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <graphicAngle>0</graphicAngle>
+      <animatedPart>Hammer</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(-0.2890625,0,0.1171875)</animationPivot><animationAngle>55</animationAngle>
+      <mounts><li><id>hammer_mount</id><socketTags><li>m1911_hammer</li></socketTags><transform><position>(-0.2890625,0,0.1171875)</position></transform></li></mounts>
+      <partCategory>Required</partCategory>
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Safety_M1911A1Grip</defName><label>Safety M1911A1Grip</label>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Safety_M1911A1Grip</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <animatedPart>GripSafety</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(-0.342,0,0.092)</animationPivot><animationAngle>9</animationAngle>
+      <mounts><li><id>grip_safety_mount</id><socketTags><li>m1911_grip_safety</li></socketTags><transform><position>(-0.346,0,0.092)</position></transform></li></mounts>
+      
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Trigger_M1911A1</defName><label>Trigger M1911A1</label>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M1911A1</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <animatedPart>Trigger</animatedPart><animationTravel>(-0.012,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
+      <mounts><li><id>trigger_mount</id><socketTags><li>m1911_trigger</li></socketTags><transform><position>(-0.078,0,0.035)</position></transform></li></mounts>
+      <partCategory>Required</partCategory>
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_PistolGrip_1911GI</defName><label>PistolGrip 1911GI</label>
+    <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_1911GI</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>4</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <animatedPart>None</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
+      <mounts><li><id>grip_mount</id><socketTags><li>m1911_grip</li></socketTags><transform><position>(-0.195,0,0.07)</position></transform></li></mounts>
+      
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Magazine_1911GI7</defName><label>Magazine 1911GI7</label>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_1911GI7</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <graphicLayer>-3</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
+      <animatedPart>None</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
+      <mounts><li><id>magazine_mount</id><socketTags><li>m1911_magazine</li></socketTags><transform><position>(-0.164,0,0.156)</position></transform></li></mounts>
+      <magazineCapacity>7</magazineCapacity><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><sockets><li><id>ammunition</id><tags><li>m1911_ammunition</li></tags></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_45ACPM1911</part></li></defaultAttachments>
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Ammunition_45ACPM1911</defName><label>.45 ACP M1911 ammunition</label>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_45ACPM1911</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <hideWhenAttached>true</hideWhenAttached><storageMode>Internal</storageMode><ammunitionCaliber>45ACP</ammunitionCaliber><ammunitionType>.45 ACP</ammunitionType><projectileDiameterMm>11.5</projectileDiameterMm><projectileOverride>HD_Bullet_M1911_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell45ACP</casingMoteDef><overridePriority>20</overridePriority><feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_45ACPM1911</feedingRoundTexPath>
+      <mounts><li><id>ammunition_mount</id><socketTags><li>m1911_ammunition</li></socketTags></li></mounts>
+    </li></comps>
+  </ThingDef>
+  <ThingDef ParentName="BaseHumanMakeableGun">
+    <defName>HD_Gun_ModularM1911_Test_Weapon</defName><label>modular M1911A1 development pistol</label>
+    <description>A modular .45 ACP pistol with a reciprocating slide, tilting barrel, hammer and grip safety.</description>
+    <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M1911A1</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
+    <soundInteract>Interact_Revolver</soundInteract>
+    <statBases><Mass>1.1</Mass><MarketValue>400</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.8</AccuracyTouch><AccuracyShort>0.75</AccuracyShort><AccuracyMedium>0.5</AccuracyMedium><AccuracyLong>0.25</AccuracyLong><RangedWeapon_Cooldown>0.3</RangedWeapon_Cooldown></statBases>
+    <verbs><li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile><warmupTime>0.25</warmupTime><range>20.9</range><burstShotCount>1</burstShotCount><ticksBetweenBurstShots>8</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li></verbs>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <isAssemblyRoot>true</isAssemblyRoot><realisticRoundsPerMinute>450</realisticRoundsPerMinute><graphicLayer>2</graphicLayer>
+      <assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed>
+      <casingPort><offset>(0.01,0,0.2)</offset><feedStartOffset>(-0.164,0,0.178)</feedStartOffset><feedEndOffset>(-0.03,0,0.192)</feedEndOffset><feedingRoundDrawSize>0.09</feedingRoundDrawSize></casingPort>
+      <sockets>
+        <li><id>slide</id><label>slide</label><tags><li>m1911_slide</li></tags><required>true</required><transform><position>(0,0,0.13)</position></transform></li>
+        <li><id>barrel</id><label>barrel</label><tags><li>m1911_barrel</li></tags><required>true</required><transform><position>(0,0,0.2)</position></transform></li>
+        <li><id>hammer</id><label>hammer</label><tags><li>m1911_hammer</li></tags><required>true</required><transform><position>(-0.2890625,0,0.1171875)</position></transform></li>
+        <li><id>grip_safety</id><label>grip safety</label><tags><li>m1911_grip_safety</li></tags><transform><position>(-0.342,0,0.092)</position></transform></li>
+        <li><id>trigger</id><label>trigger</label><tags><li>m1911_trigger</li></tags><required>true</required><transform><position>(-0.078,0,0.035)</position></transform></li>
+        <li><id>grip</id><label>grip</label><tags><li>m1911_grip</li></tags><transform><position>(-0.195,0,0.07)</position></transform></li>
+        <li><id>magazine</id><label>magazine</label><tags><li>m1911_magazine</li></tags><transform><position>(-0.164,0,0.156)</position></transform></li>
+      </sockets>
+      <defaultAttachments>
+        <li><socketId>slide</socketId><part>HD_ModularPart_Slide_M1911A1_UP</part></li>
+        <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_M1911A1</part></li>
+        <li><socketId>hammer</socketId><part>HD_ModularPart_Hammer_M1911A1</part></li>
+        <li><socketId>grip_safety</socketId><part>HD_ModularPart_Safety_M1911A1Grip</part></li>
+        <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_M1911A1</part></li>
+        <li><socketId>grip</socketId><part>HD_ModularPart_PistolGrip_1911GI</part></li>
+        <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_1911GI7</part></li>
+      </defaultAttachments>
+    </li></comps>
+  </ThingDef>
+</Defs>

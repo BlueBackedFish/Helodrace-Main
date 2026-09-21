@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalTakedown_Command>Takedown</HD_TacticalTakedown_Command>
+  <HD_TacticalTakedown_CommandDesc>Select an unaware target within four tiles from behind, then approach to strike. Walls do not block selection, but a reachable route is required. Immobilization or a blocked route cancels the approach. Instant kill destroys the selected vital part and kills the target on contact.</HD_TacticalTakedown_CommandDesc>
+  <HD_TacticalTakedown_InstantKill>Instant kill</HD_TacticalTakedown_InstantKill>
+  <HD_TacticalTakedown_Subdue>Subdue</HD_TacticalTakedown_Subdue>
+  <HD_TacticalTakedown_InvalidTarget>The target does not meet the takedown conditions.</HD_TacticalTakedown_InvalidTarget>
+  <HD_TacticalTakedown_ReasonUser>Requires a drafted, standing CQB-trained pawn.</HD_TacticalTakedown_ReasonUser>
+  <HD_TacticalTakedown_ReasonDowned>The target is already downed.</HD_TacticalTakedown_ReasonDowned>
+  <HD_TacticalTakedown_ReasonRange>The target must be within {0} tiles.</HD_TacticalTakedown_ReasonRange>
+  <HD_TacticalTakedown_ReasonSight>Line of sight is blocked.</HD_TacticalTakedown_ReasonSight>
+  <HD_TacticalTakedown_ReasonBehind>Approach from behind the target.</HD_TacticalTakedown_ReasonBehind>
+  <HD_TacticalTakedown_ReasonDetected>The target has detected or previously attacked this pawn.</HD_TacticalTakedown_ReasonDetected>
+  <HD_TacticalTakedown_ReasonAnomaly>Anomaly creatures cannot be taken down.</HD_TacticalTakedown_ReasonAnomaly>
+  <HD_TacticalTakedown_ReasonMelee>Insufficient melee skill: current {0}, required {1}.</HD_TacticalTakedown_ReasonMelee>
+  <HD_TacticalTakedown_ReasonPart>No eligible lethal part with maximum health of {0} or less. Clothing with sharp armor of 20% or less is ignored; stronger armor still blocks takedowns.</HD_TacticalTakedown_ReasonPart>
+  <HD_TacticalTakedown_NoPath>No reachable path to the target.</HD_TacticalTakedown_NoPath>
+</LanguageData>

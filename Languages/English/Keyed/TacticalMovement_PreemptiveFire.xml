@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalPreemptiveFire_Command>Preemptive fire</HD_TacticalPreemptiveFire_Command>
+  <HD_TacticalPreemptiveFire_CommandDesc>Stop moving and repeat double-taps down the selected lane: at least 0.2 seconds between rounds and 1 second between pairs, respecting longer weapon cooldowns. A later move order cancels it. Base hit chance is 50% with double size influence, independent of shooting skill. Friendly fire, cover, armor and ammunition still apply.</HD_TacticalPreemptiveFire_CommandDesc>
+  <HD_TacticalPreemptiveFire_Preparing>Preparing preemptive fire.</HD_TacticalPreemptiveFire_Preparing>
+  <HD_TacticalPreemptiveFire_Cancel>Cancel preemptive fire</HD_TacticalPreemptiveFire_Cancel>
+  <HD_TacticalPreemptiveFire_CancelDesc>Cancel the prepared firing corridor.</HD_TacticalPreemptiveFire_CancelDesc>
+</LanguageData>

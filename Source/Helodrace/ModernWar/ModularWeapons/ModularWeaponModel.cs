@@ -137,7 +137,11 @@ namespace Helodrace.ModernWar
     {
         None,
         Bolt,
-        Trigger
+        Trigger,
+        Slide,
+        Hammer,
+        TiltingBarrel,
+        GripSafety
     }
 
     public enum ModularRailSurface
@@ -255,6 +259,12 @@ namespace Helodrace.ModernWar
         public float railOffset;
     }
 
+    public sealed class ModularWeaponGraphicLayer
+    {
+        public GraphicData graphicData;
+        public float graphicLayer;
+    }
+
     public sealed class CompProperties_ModularWeaponNode : CompProperties
     {
         public bool isAssemblyRoot;
@@ -267,6 +277,8 @@ namespace Helodrace.ModernWar
             new List<ModularWeaponMissingFunction>();
         public float realisticRoundsPerMinute;
         public float baseFireDelayFactor = 1.2f;
+        public float assemblyScale = 1f;
+        public float animationSpeed = 1f;
         public float fireDelayMultiplier = 1f;
         public float sightGroupHeightTolerance = 0.015f;
 
@@ -307,6 +319,7 @@ namespace Helodrace.ModernWar
         public float graphicAngle;
         public Vector2 graphicScale = Vector2.one;
         public float graphicLayer;
+        public List<ModularWeaponGraphicLayer> additionalGraphics;
         public int outlinePriority;
         public ModularWeaponAnimatedPartKind animatedPart;
         public Vector3 animationTravel = Vector3.zero;
@@ -595,6 +608,15 @@ namespace Helodrace.ModernWar
             return position + Rotate(scaled, angle);
         }
 
+        public Vector2 InverseTransformPoint(Vector2 world)
+        {
+            Vector2 unrotated = Rotate(world - position, -angle);
+            Vector2 safeScale = SafeScale(scale);
+            return new Vector2(
+                unrotated.x / safeScale.x,
+                unrotated.y / safeScale.y);
+        }
+
         public ModularTransform2D Attach(
             ModularAttachmentTransform socket,
             ModularAttachmentTransform mount,
@@ -665,11 +687,21 @@ namespace Helodrace.ModernWar
         public Vector2 occupiedRailStart;
         public Vector2 occupiedRailEnd;
 
+        public ModularWeaponGraphicLayer additionalGraphic;
+        public Graphic Graphic => additionalGraphic == null ? thing.Graphic : additionalGraphic.graphicData.Graphic;
+        public string TexturePath => additionalGraphic == null ? thing.def.graphicData?.texPath : additionalGraphic.graphicData.texPath;
+        public ModularRenderNode WithGraphic(ModularWeaponGraphicLayer graphic)
+        {
+            ModularRenderNode copy = (ModularRenderNode)MemberwiseClone();
+            copy.additionalGraphic = graphic;
+            return copy;
+        }
+
         public CompProperties_ModularWeaponNode Props => comp.Props;
         public Vector2 GraphicCenter => transform.TransformPoint(Props.graphicOffset);
         public float GraphicAngle => transform.angle;
         public Vector2 GraphicScale => Vector2.Scale(transform.scale, Props.graphicScale);
         public bool GraphicVerticallyFlipped => GraphicScale.y < 0f;
-        public float GraphicLayer => transform.layer + Props.graphicLayer;
+        public float GraphicLayer => transform.layer + (additionalGraphic?.graphicLayer ?? Props.graphicLayer);
     }
 }

@@ -11,7 +11,7 @@ namespace Helodrace
         private readonly HelodForwardBase forwardBase;
         private readonly Pawn caller;
         private readonly Action<HelodCasAircraftKind, HelodCasAttackKind> beginAttack;
-        private HelodCasAircraftKind selectedAircraft = HelodCasAircraftKind.P47;
+        private readonly HelodCasAircraftKind selectedAircraft;
 
         public override Vector2 InitialSize => new Vector2(720f, 650f);
 
@@ -22,6 +22,7 @@ namespace Helodrace
             this.forwardBase = forwardBase;
             this.caller = caller;
             this.beginAttack = beginAttack;
+            selectedAircraft = HelodCasSupportUtility.AircraftForForwardBase(forwardBase);
             doCloseX = true;
             absorbInputAroundWindow = true;
             closeOnClickedOutside = false;
@@ -41,12 +42,8 @@ namespace Helodrace
                     forwardBase?.LabelCap ?? "HD_SCR300_None".Translate()));
             y += 32f;
 
-            float tabGap = 10f;
-            float tabWidth = (inRect.width - tabGap) * 0.5f;
-            DrawAircraftTab(new Rect(inRect.x, y, tabWidth, 36f),
-                HelodCasAircraftKind.P47);
-            DrawAircraftTab(new Rect(inRect.x + tabWidth + tabGap, y,
-                tabWidth, 36f), HelodCasAircraftKind.A10C);
+            DrawAircraftTab(new Rect(inRect.x, y, inRect.width, 36f),
+                selectedAircraft);
             y += 48f;
 
             bool flightRequested = false;
@@ -118,10 +115,7 @@ namespace Helodrace
         private void DrawAircraftTab(Rect rect, HelodCasAircraftKind aircraftKind)
         {
             GUI.color = selectedAircraft == aircraftKind ? Color.white : Color.gray;
-            if (Widgets.ButtonText(rect, HelodCasSupportUtility.AircraftLabel(aircraftKind)))
-            {
-                selectedAircraft = aircraftKind;
-            }
+            Widgets.ButtonText(rect, HelodCasSupportUtility.AircraftLabel(aircraftKind));
             GUI.color = Color.white;
         }
 

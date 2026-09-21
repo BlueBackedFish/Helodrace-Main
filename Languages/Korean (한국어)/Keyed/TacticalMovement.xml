@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_CQBTraining.label>CQB 교육</HD_CQBTraining.label>
+  <HD_CQBTraining.description>CQB 및 전술 사격 스킬을 시험하기 위한 임시 교육 자격입니다.</HD_CQBTraining.description>
+  <HD_TacticalAim_Command>조준</HD_TacticalAim_Command>
+  <HD_TacticalAim_CommandDesc>지정한 지점을 계속 주목합니다. 이동하면 그 지점을 향하도록 조준 각도가 바뀝니다. 90도 안에서는 조준시간 보너스, 밖에서는 페널티를 받으며 이동 중 사격은 120도 범위로 제한됩니다.</HD_TacticalAim_CommandDesc>
+  <HD_TacticalAim_Retarget>주목 지점 변경</HD_TacticalAim_Retarget>
+  <HD_TacticalAim_RetargetDesc>계속 주목할 지점을 다시 지정합니다.</HD_TacticalAim_RetargetDesc>
+  <HD_TacticalAim_Cancel>조준 해제</HD_TacticalAim_Cancel>
+  <HD_TacticalAim_CancelDesc>집중 조준을 해제합니다.</HD_TacticalAim_CancelDesc>
+  <HD_TacticalAim_FocusDirection>집중 방향: {0}°</HD_TacticalAim_FocusDirection>
+  <HD_TacticalAim_Started>주목할 지점을 지정했습니다.</HD_TacticalAim_Started>
+  <HD_TacticalAim_Preparing>조준 준비 중: {0}</HD_TacticalAim_Preparing>
+  <HD_TacticalAim_Cooldown>재사용 대기 중: {0}</HD_TacticalAim_Cooldown>
+  <HD_TacticalAim_OutsideArc>조준 범위 밖의 표적입니다.</HD_TacticalAim_OutsideArc>
+  <HD_TacticalMovement_Command>기동 ({0})</HD_TacticalMovement_Command>
+  <HD_TacticalMovement_CommandDesc>이동 중 사격 방식의 페널티를 선택합니다. 정확도 유지형은 Warmup이 크게 증가하고, 반응속도 유지형은 Warmup 증가가 작지만 명중률이 감소합니다.</HD_TacticalMovement_CommandDesc>
+  <HD_TacticalMovement_Accuracy>정확도 유지형</HD_TacticalMovement_Accuracy>
+  <HD_TacticalMovement_Response>반응속도 유지형</HD_TacticalMovement_Response>
+  <HD_TacticalMovement_Selected>기동 방식: {0}</HD_TacticalMovement_Selected>
+  <HD_TacticalMovement_CurrentMode>기동 방식: {0}</HD_TacticalMovement_CurrentMode>
+  <HD_TacticalHighSpeed_Command>고속 기동</HD_TacticalHighSpeed_Command>
+  <HD_TacticalHighSpeed_CommandDesc>최대 12칸을 약 200% 속도로 이동합니다. 이동 중에는 사격과 조준을 사용할 수 없으며, 이동 중인 폰은 적의 명중률이 감소합니다.</HD_TacticalHighSpeed_CommandDesc>
+  <HD_TacticalHighSpeed_InvalidTarget>고속 기동 목적지가 유효하지 않습니다.</HD_TacticalHighSpeed_InvalidTarget>
+  <HD_TacticalHighSpeed_Started>고속 기동을 시작했습니다.</HD_TacticalHighSpeed_Started>
+  <HD_TacticalHighSpeed_AimDisabled>조준 중에는 고속 기동을 사용할 수 없습니다.</HD_TacticalHighSpeed_AimDisabled>
+</LanguageData>

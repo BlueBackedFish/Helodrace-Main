@@ -66,7 +66,7 @@ namespace Helodrace.ModernWar
             if (Event.current == null || Event.current.type != EventType.Repaint)
                 return request.last?.evicted == false ? request.last.texture : null;
 
-            var nodes = root.RenderSnapshot();
+            var nodes = ModularWeaponVisualLayers.Expand(root.RenderSnapshot());
             if (!ReferenceEquals(nodes, request.nodes))
             {
                 request.job?.Dispose();
@@ -180,9 +180,9 @@ namespace Helodrace.ModernWar
         private static void AddLayer(List<Layer> layers, ModularRenderNode node, bool outline)
         {
             if (!ModularWeaponAssemblyRenderer.ShouldDrawNode(node)) return;
-            Graphic graphic = node.thing.Graphic;
+            Graphic graphic = node.Graphic;
             if (graphic == null) return;
-            string path = node.thing.def.graphicData?.texPath;
+            string path = node.TexturePath;
             Texture texture = outline
                 ? (path.NullOrEmpty() ? null : ContentFinder<Texture2D>.Get(path + "_Outline", false))
                 : graphic.MatSingle.mainTexture;

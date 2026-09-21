@@ -51,7 +51,7 @@
   <HD_TelegraphTable_Support_InvalidBase>지원 서비스가 계약된 전진기지를 선택하세요.</HD_TelegraphTable_Support_InvalidBase>
   <HD_TelegraphTable_Support_InvalidTargetMap>사거리 안에 있으며 현재 생성된 정착지 또는 인카운터 맵을 선택하세요.</HD_TelegraphTable_Support_InvalidTargetMap>
   <HD_MortarSupport_AmmoPrompt>탄종: {0}\n탄착 분산 반경: {1}칸\n한 번에 {2}발씩, 3초 간격으로 {3}회 발사합니다.\n가격: {4}</HD_MortarSupport_AmmoPrompt>
-  <HD_MortarSupport_Pricing_Included>호출 제한형 FFP 계약에 포함</HD_MortarSupport_Pricing_Included>
+  <HD_MortarSupport_Pricing_Included>FFP 계약에 포함</HD_MortarSupport_Pricing_Included>
   <HD_MortarSupport_Pricing_PerCall>호출당 {0}</HD_MortarSupport_Pricing_PerCall>
   <HD_MortarSupport_SelectAmmoTitle>박격포 지원 — 탄종 선택</HD_MortarSupport_SelectAmmoTitle>
   <HD_MortarSupport_SelectAmmoDesc>지원 대상 지점: {0}</HD_MortarSupport_SelectAmmoDesc>
@@ -61,14 +61,12 @@
   <HD_ForwardBase_MortarAmmoCharges>지원 탄약 정산액: {0}</HD_ForwardBase_MortarAmmoCharges>
   <HD_TelegraphTable_Support_NoBase>지원 가능한 계약 전진기지가 없습니다.</HD_TelegraphTable_Support_NoBase>
   <HD_ForwardBase_ServiceUnavailable>이 전진기지는 해당 서비스를 제공하지 않습니다.</HD_ForwardBase_ServiceUnavailable>
-  <HD_ForwardBase_ServiceQuotaExhausted>{0}의 {2}일 한도 {1}{3}을 모두 사용했습니다.</HD_ForwardBase_ServiceQuotaExhausted>
-  <HD_ForwardBase_ServiceCreditExhausted>이번 {0}일 기간의 서비스 신용 예산을 모두 사용했습니다. 신용 한도: {1}.</HD_ForwardBase_ServiceCreditExhausted>
+  <HD_ForwardBase_ServiceStockExhausted>이번 {2}일 기간에 {0}의 FFP 서비스 재고가 소진되었습니다. 설정 재고: {1}{3}.</HD_ForwardBase_ServiceStockExhausted>
   <HD_ForwardBase_ServiceUsageHeader>서비스 사용량 ({0}일 단위)</HD_ForwardBase_ServiceUsageHeader>
-  <HD_ForwardBase_ServiceUsageLineLimited>{0}: {1}/{2}{4}, 누적 {3}</HD_ForwardBase_ServiceUsageLineLimited>
+  <HD_ForwardBase_ServiceUsageLineStock>{0}: 이번 기간 잔여 {1}/{2}{3}, 누적 {4}</HD_ForwardBase_ServiceUsageLineStock>
   <HD_ForwardBase_ServiceUsageLineUnlimited>{0}: 이번 기간 {1}{3}, 누적 {2}</HD_ForwardBase_ServiceUsageLineUnlimited>
   <HD_ForwardBase_ServiceUsageUnit_Call>회 호출</HD_ForwardBase_ServiceUsageUnit_Call>
   <HD_ForwardBase_ServiceUsageUnit_Shot>발</HD_ForwardBase_ServiceUsageUnit_Shot>
-  <HD_ForwardBase_ServiceUsageCredit>기간 서비스 비용: 신용 {0}/{1}</HD_ForwardBase_ServiceUsageCredit>
   <HD_ForwardBase_ServiceUsageReimbursable>비용 상환 누적액: {0}</HD_ForwardBase_ServiceUsageReimbursable>
   <HD_ForwardBase_PeriodPaymentFailed>서비스 기간 정산 실패: HD_Money {0}개가 필요합니다.</HD_ForwardBase_PeriodPaymentFailed>
   <HD_ForwardBase_PeriodPaymentDefaulted>서비스 기간 정산에 실패했습니다. 전진기지가 철수합니다.</HD_ForwardBase_PeriodPaymentDefaulted>
@@ -92,7 +90,6 @@
   <HD_TelegraphTable_ForwardBaseContracts_InfoFaction>협력 팩션: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoFaction>
   <HD_TelegraphTable_ForwardBaseContracts_InfoBase>기지 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoBase>
   <HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>비용 종류: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoCostKind>
-  <HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>IDIQ 서비스 지시 상환방식: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoIdiqPricing>
   <HD_TelegraphTable_ForwardBaseContracts_InfoDuration>계약기간: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoDuration>
   <HD_TelegraphTable_ForwardBaseContracts_InfoServices>서비스: {0}</HD_TelegraphTable_ForwardBaseContracts_InfoServices>
   <HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>서비스 계산 단위: {0}일</HD_TelegraphTable_ForwardBaseContracts_InfoServiceUnit>
@@ -100,7 +97,7 @@
   <HD_TelegraphTable_ForwardBaseContracts_InfoAmount>{0}: {1}</HD_TelegraphTable_ForwardBaseContracts_InfoAmount>
   <HD_TelegraphTable_ForwardBaseContracts_InfoFallback>{0}\n타일 {1}</HD_TelegraphTable_ForwardBaseContracts_InfoFallback>
   <HD_TelegraphTable_ForwardBase_Title>전진기지 구축 계약</HD_TelegraphTable_ForwardBase_Title>
-  <HD_TelegraphTable_ForwardBase_Description>기지 종류, 비용 종류, 부가 서비스를 선택합니다. 신용이 낮으면 선택 가능한 계약 조건이 제한됩니다.</HD_TelegraphTable_ForwardBase_Description>
+  <HD_TelegraphTable_ForwardBase_Description>기지 종류, 비용 종류, 부가 서비스를 선택합니다. FFP 계약은 서비스별 30일 재고 횟수도 설정합니다. 신용이 낮으면 선택 가능한 계약 조건이 제한됩니다.</HD_TelegraphTable_ForwardBase_Description>
   <HD_TelegraphTable_ForwardBase_SelectLocation>기지 위치 지정</HD_TelegraphTable_ForwardBase_SelectLocation>
   <HD_TelegraphTable_ForwardBase_SelectedLocation>선택한 월드 타일: {0}</HD_TelegraphTable_ForwardBase_SelectedLocation>
   <HD_TelegraphTable_ForwardBase_NoLocation>기지 위치가 지정되지 않았습니다.</HD_TelegraphTable_ForwardBase_NoLocation>
@@ -110,12 +107,9 @@
   <HD_TelegraphTable_ForwardBase_DistanceUnknown>가장 가까운 협력 팩션 정착지 거리: 먼저 기지 위치를 지정해야 합니다.</HD_TelegraphTable_ForwardBase_DistanceUnknown>
   <HD_TelegraphTable_ForwardBase_BaseKind>기지 종류</HD_TelegraphTable_ForwardBase_BaseKind>
   <HD_TelegraphTable_ForwardBase_CostKind>비용 종류</HD_TelegraphTable_ForwardBase_CostKind>
-  <HD_TelegraphTable_ForwardBase_IdiqPricingKind>IDIQ 서비스 지시 상환방식</HD_TelegraphTable_ForwardBase_IdiqPricingKind>
   <HD_TelegraphTable_ForwardBase_DurationKind>계약기간</HD_TelegraphTable_ForwardBase_DurationKind>
   <HD_TelegraphTable_ForwardBase_ServiceKind>선택 서비스</HD_TelegraphTable_ForwardBase_ServiceKind>
-  <HD_TelegraphTable_ForwardBase_IdiqServiceKind>IDIQ 호출 가능 서비스</HD_TelegraphTable_ForwardBase_IdiqServiceKind>
   <HD_TelegraphTable_ForwardBase_Summary>계약 초안: {0} / {1}\n계약기간: {2}\n서비스: {3}\n{4}: {5}</HD_TelegraphTable_ForwardBase_Summary>
-  <HD_TelegraphTable_ForwardBase_IdiqSummary>IDIQ 초안: {0}\n계약기간: {1} | 서비스 지시 상환방식: {2}\n호출 가능 서비스: {3}\n{4}: {5} | {6}: {7}</HD_TelegraphTable_ForwardBase_IdiqSummary>
   <HD_TelegraphTable_ForwardBase_CostPending>위치 지정 필요</HD_TelegraphTable_ForwardBase_CostPending>
   <HD_TelegraphTable_ForwardBase_SthalerAmount>{0} STH</HD_TelegraphTable_ForwardBase_SthalerAmount>
   <HD_TelegraphTable_ForwardBase_FixedPrice>고정 가격</HD_TelegraphTable_ForwardBase_FixedPrice>
@@ -139,11 +133,10 @@
   <HD_TelegraphTable_ForwardBase_Kind_FOB>FOB</HD_TelegraphTable_ForwardBase_Kind_FOB>
   <HD_TelegraphTable_ForwardBase_Cost_FFP>FFP</HD_TelegraphTable_ForwardBase_Cost_FFP>
   <HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>비용 상환</HD_TelegraphTable_ForwardBase_Cost_CostReimbursement>
-  <HD_TelegraphTable_ForwardBase_Cost_IDIQ>IDIQ</HD_TelegraphTable_ForwardBase_Cost_IDIQ>
-  <HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>FFP 서비스 지시</HD_TelegraphTable_ForwardBase_IdiqPricing_FFP>
-  <HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>비용 상환 서비스 지시</HD_TelegraphTable_ForwardBase_IdiqPricing_CostReimbursement>
   <HD_TelegraphTable_ForwardBase_DurationDays>{0}일</HD_TelegraphTable_ForwardBase_DurationDays>
   <HD_TelegraphTable_ForwardBase_Service_None>없음</HD_TelegraphTable_ForwardBase_Service_None>
+  <HD_TelegraphTable_ForwardBase_ServiceUnitCount>30일당 {1}회 {0}</HD_TelegraphTable_ForwardBase_ServiceUnitCount>
+  <HD_TelegraphTable_ForwardBase_ServiceUnitCountShort>30일당</HD_TelegraphTable_ForwardBase_ServiceUnitCountShort>
   <HD_TelegraphTable_ForwardBase_ServiceLevel>Lv.{0}</HD_TelegraphTable_ForwardBase_ServiceLevel>
   <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>(기지 제한)</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBase>
   <HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>선택한 기지 종류에서는 이 서비스를 운용할 수 없습니다.</HD_TelegraphTable_ForwardBase_ServiceUnavailableForBaseTooltip>
@@ -251,7 +244,7 @@
   <HD_SCR300_SelectBase_First>먼저 전진기지를 선택하십시오.</HD_SCR300_SelectBase_First>
   <HD_SCR300_BaseNoCAS>선택한 전진기지는 CAS를 제공하지 않습니다.</HD_SCR300_BaseNoCAS>
   <HD_SCR300_BaseOutOfRange>선택한 전진기지의 서비스 중 현재 맵까지 도달할 수 있는 서비스가 없습니다.</HD_SCR300_BaseOutOfRange>
-  <HD_SCR300_ServiceUnavailable>선택한 전진기지의 CAS 할당량 또는 서비스 크레딧을 사용할 수 없습니다.</HD_SCR300_ServiceUnavailable>
+  <HD_SCR300_ServiceUnavailable>선택한 전진기지에서 CAS 서비스를 제공할 수 없습니다.</HD_SCR300_ServiceUnavailable>
   <HD_CAS_Unavailable>선택한 전진기지에서 근접항공지원을 이용할 수 없습니다.</HD_CAS_Unavailable>
   <HD_CAS_TargetPrompt>CAS 공격 경로의 중심을 선택하십시오. 공격 반경: {0}칸.</HD_CAS_TargetPrompt>
   <HD_CAS_Called>{0}이(가) CAS 요청을 승인했습니다. 약 {1}초 뒤 항공기가 도착합니다. 진입 경로의 산 지붕: {2}칸.</HD_CAS_Called>

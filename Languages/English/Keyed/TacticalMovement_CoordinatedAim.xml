@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalCoordinatedAim_Command>Coordinated aim</HD_TacticalCoordinatedAim_Command>
+  <HD_TacticalCoordinatedAim_CommandDesc>Choose an adjacent partner, then a target within the 60-degree shooter-to-partner arc. Use the Precision Fire body-part selection, or a vital part if none is selected. Fire ceil(weapon burst count / 2) rounds, stopping further shots immediately if the target dies, is downed, or either partner moves. Armor and cover still apply.</HD_TacticalCoordinatedAim_CommandDesc>
+  <HD_TacticalCoordinatedAim_Started>Coordinated aim established with {0}.</HD_TacticalCoordinatedAim_Started>
+  <HD_TacticalCoordinatedAim_Cancel>Cancel coordinated aim</HD_TacticalCoordinatedAim_Cancel>
+  <HD_TacticalCoordinatedAim_CancelDesc>End the two-person firing formation.</HD_TacticalCoordinatedAim_CancelDesc>
+</LanguageData>

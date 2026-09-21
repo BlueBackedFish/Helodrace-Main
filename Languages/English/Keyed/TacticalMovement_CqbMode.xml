@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_CqbMode_Command>CQB mode</HD_CqbMode_Command>
+  <HD_CqbMode_CommandDesc>Show or hide CQB commands for this pawn. Hidden by default; saved per pawn. Hiding commands does not cancel active actions or change passive settings.</HD_CqbMode_CommandDesc>
+</LanguageData>
