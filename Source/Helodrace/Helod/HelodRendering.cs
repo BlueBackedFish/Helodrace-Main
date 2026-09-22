@@ -148,20 +148,29 @@ namespace Helodrace
     [HarmonyPatch(typeof(PawnRenderer), nameof(PawnRenderer.BaseHeadOffsetAt))]
     public static class Patch_HelodHeadOffset
     {
+        [HarmonyPriority(Priority.Last)]
         public static void Postfix(Pawn ___pawn, ref Vector3 __result)
         {
             if (!HelodRace.IsHelod(___pawn)) return;
             float age = ___pawn.ageTracker.AgeBiologicalYearsFloat;
-            float offset = OffsetForAge(___pawn.gender, age);
-            __result.z += offset * Mathf.Sqrt(___pawn.ageTracker.CurLifeStage.bodySizeFactor);
+            float? position = OffsetForAge(___pawn.gender, age);
+            // XML specifies the head anchor's Z directly, before render-tree transforms.
+            // Do not add the body type's base offset or scale by life-stage body size.
+            if (position.HasValue) __result.z = position.Value;
         }
 
-        internal static float OffsetForAge(Gender gender, float age)
+        internal static float? OffsetForAge(Gender gender, float age)
         {
-            // Preserve the pre-removal lifeStageAges values, including the male overrides.
-            return gender == Gender.Female
-                ? (age < 3f ? -0.25f : age < 13f ? -0.125f : -0.075f)
-                : (age >= 3f && age < 13f ? -1.2f : -0.07f);
+            var entries = HelodRace.Settings?.headOffsets;
+            HelodHeadOffset selected = null;
+            if (entries != null)
+                foreach (var entry in entries)
+                    if (entry != null && age >= entry.minAge
+                        && (selected == null || entry.minAge >= selected.minAge))
+                        selected = entry;
+            // Missing settings leave the vanilla head offset unchanged.
+            return selected == null ? (float?)null
+                : gender == Gender.Female ? selected.female : selected.male;
         }
     }
 

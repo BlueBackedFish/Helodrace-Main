@@ -16,6 +16,7 @@ namespace Helodrace
 
     public sealed class HelodRaceSettingsDef : Def
     {
+        public List<HelodHeadOffset> headOffsets = new List<HelodHeadOffset>();
         public List<HeadTypeDef> headTypes = new List<HeadTypeDef>();
         public List<HelodApparelGraphic> apparelGraphics = new List<HelodApparelGraphic>();
         public List<ThingDef> apparelList = new List<ThingDef>();
@@ -30,6 +31,13 @@ namespace Helodrace
         public float refugeeChance = 0.15f;
         public float slaveChance = 0.15f;
         public float wandererChance = 0.15f;
+    }
+
+    public sealed class HelodHeadOffset
+    {
+        public float minAge;
+        public float female;
+        public float male;
     }
 
     public sealed class HelodApparelGraphic

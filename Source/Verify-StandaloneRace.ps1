@@ -115,14 +115,56 @@ $choices.Add($baseliner, 0.5)
 Assert ($choices.Count -eq 1 -and $choices.ContainsKey($baseliner)) 'Human xenotype filtering failed.'
 Write-Output 'PASS: newborn inheritance, trait degree, gene blocking, and bidirectional xenotype filtering regressions.'
 $offsetMethod = [Helodrace.Patch_HelodHeadOffset].GetMethod('OffsetForAge', [Reflection.BindingFlags]'Static,NonPublic')
-foreach ($case in @(@(0,-0.25), @(2.99,-0.25), @(3,-0.125), @(12.99,-0.125), @(13,-0.075), @(18,-0.075), @(40,-0.075))) {
+Assert ($null -eq $offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]20))) 'Missing head position settings must preserve vanilla position.'
+foreach ($entry in $settings.headOffsets.li) {
+    $offsetEntry = [Helodrace.HelodHeadOffset]::new()
+    foreach ($field in 'minAge', 'female', 'male') {
+        $offsetEntry.$field = [single]::Parse($entry.$field, [Globalization.CultureInfo]::InvariantCulture)
+    }
+    $fixtureSettings.headOffsets.Add($offsetEntry)
+}
+foreach ($case in @(@(0,0.04), @(2.99,0.04), @(3,0.127), @(12.99,0.127), @(13,0.265), @(18,0.265), @(40,0.265))) {
     $actual = $offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]$case[0]))
     Assert ([Math]::Abs($actual - $case[1]) -lt 0.000001) "Female head offset regression at age $($case[0])."
 }
-foreach ($case in @(@(0,-0.07), @(3,-1.2), @(13,-0.07), @(18,-0.07))) {
+foreach ($case in @(@(0,0.04), @(3,0.127), @(13,0.265), @(18,0.265))) {
     $actual = $offsetMethod.Invoke($null, @([Verse.Gender]::Male, [single]$case[0]))
     Assert ([Math]::Abs($actual - $case[1]) -lt 0.000001) "Male head offset regression at age $($case[0])."
 }
+$customOffset = [Helodrace.HelodHeadOffset]::new()
+$customOffset.minAge = 7
+$customOffset.female = 0.42
+$fixtureSettings.headOffsets.Add($customOffset)
+Assert ([Math]::Abs($offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]8)) - 0.42) -lt 0.000001) 'Custom XML-style age/offset ignored.'
+Assert ([Math]::Abs($offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]18)) - 0.265) -lt 0.000001) 'Unsorted entry overrode a later age threshold.'
+$null = $fixtureSettings.headOffsets.Remove($customOffset)
+# Exercise the rendering postfix, not just age lookup: existing base offsets must
+# be replaced while X/Y survive; missing data and explicit zero are distinct.
+$renderAge = New-Fixture ([Verse.Pawn_AgeTracker])
+[Verse.Pawn].GetField('ageTracker').SetValue($fixturePawn, $renderAge)
+[Verse.Pawn].GetField('gender').SetValue($fixturePawn, [Verse.Gender]::Female)
+$ageTicksField = [Verse.Pawn_AgeTracker].GetField('ageBiologicalTicksInt', [Reflection.BindingFlags]'Instance,NonPublic')
+foreach ($renderCase in @(@(13,0.304105), @(18,0.34))) {
+    $ageTicksField.SetValue($renderAge, [long]($renderCase[0] * 3600000))
+    $position = [UnityEngine.Vector3]::new(0.1, 0.02, [single]$renderCase[1])
+    [Helodrace.Patch_HelodHeadOffset]::Postfix($fixturePawn, [ref]$position)
+    Assert ([Math]::Abs($position.z - 0.265) -lt 0.000001) 'Head Z still depends on vanilla age/body-size offset.'
+    Assert ([Math]::Abs($position.x - 0.1) -lt 0.000001 -and [Math]::Abs($position.y - 0.02) -lt 0.000001) 'Head X/Y were changed.'
+}
+$customOffset.minAge = 18
+$customOffset.female = 0
+$fixtureSettings.headOffsets.Add($customOffset)
+$position = [UnityEngine.Vector3]::new(0, 0, 0.34)
+[Helodrace.Patch_HelodHeadOffset]::Postfix($fixturePawn, [ref]$position)
+Assert ($position.z -eq 0) 'Explicit zero position fell back to vanilla.'
+$savedOffsets = $fixtureSettings.headOffsets.ToArray()
+$fixtureSettings.headOffsets.Clear()
+$position = [UnityEngine.Vector3]::new(0, 0, 0.34)
+[Helodrace.Patch_HelodHeadOffset]::Postfix($fixturePawn, [ref]$position)
+Assert ([Math]::Abs($position.z - 0.34) -lt 0.000001) 'Missing configuration overwrote vanilla position.'
+$fixtureSettings.headOffsets.AddRange($savedOffsets)
+$null = $fixtureSettings.headOffsets.Remove($customOffset)
+Write-Output 'PASS: direct head Z at 13/18, preserved X/Y, explicit zero and missing configuration.'
 $earMethod = [Helodrace.PawnRenderNodeWorker_HelodAppendage].GetMethod('MatchesEar', [Reflection.BindingFlags]'Static,NonPublic')
 $ear = [Verse.BodyPartRecord]::new()
 $ear.def = New-Fixture ([Verse.BodyPartDef])

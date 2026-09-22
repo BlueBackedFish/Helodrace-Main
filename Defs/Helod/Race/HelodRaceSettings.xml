@@ -3,6 +3,16 @@
   <Helodrace.HelodRaceSettingsDef>
     <defName>HD_HelodRaceSettings</defName>
     <drawScale>0.8</drawScale>
+    <!-- Direct head-anchor Z positions, not corrections to the vanilla position.
+         No bodySizeFactor scaling. X/Y and render-tree transforms still apply.
+         Greatest minAge <= biological age wins. Missing entries keep vanilla Z.
+         Zero is a valid position. Restart the game after editing. -->
+    <headOffsets>
+      <li><minAge>0</minAge><female>0.04</female><male>0.04</male></li>
+      <li><minAge>3</minAge><female>0.127</female><male>0.127</male></li>
+      <li><minAge>13</minAge><female>0.265</female><male>0.265</male></li>
+      <li><minAge>18</minAge><female>0.265</female><male>0.265</male></li>
+    </headOffsets>
     <maleProbability>0.0000001</maleProbability>
     <socialFightDamageLimit>6</socialFightDamageLimit>
     <refugeeChance>0.15</refugeeChance>
