@@ -8,7 +8,6 @@ namespace Helodrace
         private const string AddictionHediffDefName = "HD_BTXAddiction";
         private const string DeficiencyHediffDefName = "HD_BTXDeficiency";
         private const string ChemicalNeedDefName = "Chemical_BTX";
-        private const float DeficiencyNeedThreshold = 0.30f;
         private const float DeficiencyDaysToDeath = 10f;
         private const float DeficiencyRecoveryPerDay = 0.5f;
 
@@ -87,7 +86,7 @@ namespace Helodrace
 
             Hediff deficiency = pawn.health.hediffSet.GetFirstHediffOfDef(deficiencyDef);
             float elapsedDays = delta / 60000f;
-            if (chemicalNeed.CurLevel < DeficiencyNeedThreshold)
+            if (chemicalNeed.CurLevel < BTXUtility.DeficiencyNeedThreshold)
             {
                 if (deficiency == null)
                 {

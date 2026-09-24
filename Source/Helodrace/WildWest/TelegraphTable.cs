@@ -129,9 +129,9 @@ namespace Helodrace
         private const float GoldStandardSthalerSilverValue = HelodForwardBaseServiceUtility.GoldStandardSthalerSilverValue;
         private static readonly ForwardBaseService[] InfantryServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment };
         private static readonly ForwardBaseService[] ArtilleryServices = { ForwardBaseService.Artillery105mmSupport, ForwardBaseService.Artillery155mmSupport, ForwardBaseService.W48Support };
-        private static readonly ForwardBaseService[] AirForceServices = { ForwardBaseService.CloseAirSupport };
+        private static readonly ForwardBaseService[] AirForceServices = { ForwardBaseService.CloseAirSupport, ForwardBaseService.HelicopterQRF, ForwardBaseService.HelicopterMedevac };
         private static readonly ForwardBaseService[] LogisticsServices = { ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons };
-        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.Artillery105mmSupport, ForwardBaseService.Artillery155mmSupport, ForwardBaseService.W48Support, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.CloseAirSupport };
+        private static readonly ForwardBaseService[] AllForwardBaseServices = { ForwardBaseService.InfantryMortarSupport, ForwardBaseService.InfantrySniperSupport, ForwardBaseService.InfantryDeployment, ForwardBaseService.Artillery105mmSupport, ForwardBaseService.Artillery155mmSupport, ForwardBaseService.W48Support, ForwardBaseService.LogisticsFreshFood, ForwardBaseService.LogisticsPreservedFood, ForwardBaseService.LogisticsMedicalSupplies, ForwardBaseService.LogisticsWeapons, ForwardBaseService.CloseAirSupport, ForwardBaseService.HelicopterQRF, ForwardBaseService.HelicopterMedevac };
 
         private readonly Thing telegraphTable;
         private readonly Pawn operatorPawn;
@@ -145,6 +145,8 @@ namespace Helodrace
         private bool includeInfantryMortarSupport;
         private bool includeInfantrySniperSupport;
         private bool includeInfantryDeployment;
+        private bool includeHelicopterQRF;
+        private bool includeHelicopterMedevac;
         private bool includeLogisticsFreshFood;
         private bool includeLogisticsPreservedFood;
         private bool includeLogisticsMedicalSupplies;
@@ -1271,7 +1273,7 @@ namespace Helodrace
                 DrawServiceDependencyOption(rect, label);
                 return;
             }
-            if (!IsServiceAvailableForBase(selectedForwardBaseKind, service))
+            if (!HelodHelicopterSupport.ProviderAllows(SelectedMilitaryFaction(), service) || !IsServiceAvailableForBase(selectedForwardBaseKind, service))
             {
                 SetServiceSelected(service, false);
                 DrawUnavailableOption(rect, label);
@@ -1426,7 +1428,7 @@ namespace Helodrace
             for (int i = 0; i < AllForwardBaseServices.Length; i++)
             {
                 ForwardBaseService service = AllForwardBaseServices[i];
-                if (credit < RequiredCredit(service) || !IsServiceAvailableForBase(selectedForwardBaseKind, service))
+                if (!HelodHelicopterSupport.ProviderAllows(SelectedMilitaryFaction(), service) || credit < RequiredCredit(service) || !IsServiceAvailableForBase(selectedForwardBaseKind, service))
                 {
                     SetServiceSelected(service, false);
                 }
@@ -1543,7 +1545,9 @@ namespace Helodrace
                 includeInfantrySniperSupport,
                 includeArtillery105mmSupport,
                 includeArtillery155mmSupport,
-                includeW48Support
+                includeW48Support,
+                includeHelicopterQRF,
+                includeHelicopterMedevac
             };
         }
 
@@ -1565,6 +1569,8 @@ namespace Helodrace
             includeArtillery105mmSupport = flags.Length > 8 && flags[8];
             includeArtillery155mmSupport = flags.Length > 9 && flags[9];
             includeW48Support = flags.Length > 10 && flags[10];
+            includeHelicopterQRF = flags.Length > 11 && flags[11];
+            includeHelicopterMedevac = flags.Length > 12 && flags[12];
         }
 
         private void ApplySelectedServiceUnitCounts(int[] counts)
@@ -1585,8 +1591,11 @@ namespace Helodrace
 
         private bool IsServiceSelected(ForwardBaseService service)
         {
+            if (!HelodHelicopterSupport.ProviderAllows(SelectedMilitaryFaction(), service)) return false;
             switch (service)
             {
+                case ForwardBaseService.HelicopterQRF: return includeHelicopterQRF;
+                case ForwardBaseService.HelicopterMedevac: return includeHelicopterMedevac;
                 case ForwardBaseService.InfantryMortarSupport:
                     return includeInfantryMortarSupport;
                 case ForwardBaseService.InfantrySniperSupport:
@@ -1618,6 +1627,8 @@ namespace Helodrace
         {
             switch (service)
             {
+                case ForwardBaseService.HelicopterQRF: includeHelicopterQRF = selected; break;
+                case ForwardBaseService.HelicopterMedevac: includeHelicopterMedevac = selected; break;
                 case ForwardBaseService.InfantryMortarSupport:
                     includeInfantryMortarSupport = selected;
                     break;
@@ -2106,6 +2117,8 @@ namespace Helodrace
                 case ForwardBaseService.LogisticsMedicalSupplies:
                 case ForwardBaseService.LogisticsWeapons:
                     return ForwardBaseServiceType.Logistics;
+                case ForwardBaseService.HelicopterQRF:
+                case ForwardBaseService.HelicopterMedevac:
                 case ForwardBaseService.CloseAirSupport:
                     return ForwardBaseServiceType.AirForce;
                 default:
@@ -2417,7 +2430,8 @@ namespace Helodrace
                 for (int i = 0; i < services.Length; i++)
                 {
                     ForwardBaseService service = services[i];
-                    bool available = Dialog_TelegraphTable.IsServiceAvailableForBase(owner.selectedForwardBaseKind, service)
+                    bool available = HelodHelicopterSupport.ProviderAllows(owner.SelectedMilitaryFaction(), service)
+                        && Dialog_TelegraphTable.IsServiceAvailableForBase(owner.selectedForwardBaseKind, service)
                         && credit >= Dialog_TelegraphTable.RequiredCredit(service)
                         && (service != ForwardBaseService.W48Support || owner.includeArtillery155mmSupport);
                     Rect row = new Rect(viewRect.x, y, viewRect.width, 32f);

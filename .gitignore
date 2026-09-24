@@ -1,4 +1,8 @@
 /.tmp-scgf-source/
+/.codex-staging/TcccBuild/
+/.codex-staging/TcccRuntime/
+/Source/Helodrace/obj/TcccBuild/
+/Source/Helodrace/obj/TcccRuntime/
 /Textures/Helod/Apparel/Apparel.zip
 /Textures/Helod/VanillaApparel/Royalty/Beret.zip
 /Textures/Weapons/Modular/_Backups/

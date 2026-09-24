@@ -13,6 +13,38 @@
       <li><minAge>13</minAge><female>0.265</female><male>0.265</male></li>
       <li><minAge>18</minAge><female>0.265</female><male>0.265</male></li>
     </headOffsets>
+    <!-- Additive appendage offsets by facing. Missing entries mean no extra offset. -->
+    <appendageOffsets>
+      <li>
+        <appendage>Tail</appendage>
+        <north>(0, 0.3, -0.075)</north>
+        <south>(0.0075, -0.3, -0.07)</south>
+        <east>(-0.095, -0.3, 0.02)</east>
+        <west>(0.095, -0.3, 0.02)</west>
+        <childNorth>(0, 0, 0.075)</childNorth>
+        <childSouth>(0, 0, 0.075)</childSouth>
+        <childEast>(0.025, 0, 0.02)</childEast>
+        <childWest>(-0.025, 0, 0.02)</childWest>
+        <babyNorth>(0, 0, 0.025)</babyNorth>
+        <babySouth>(0, 0, 0.025)</babySouth>
+        <babyEast>(0.07, 0, -0.05)</babyEast>
+        <babyWest>(-0.07, 0, -0.05)</babyWest>
+      </li>
+      <li>
+        <appendage>LeftEar</appendage>
+        <north>(-0.13, -0.3, 0.2)</north>
+        <south>(0.13, 0.3, 0.18825)</south>
+        <east>(0.115, -0.7, 0.145)</east>
+        <west>(-0.115, -0.7, 0.145)</west>
+      </li>
+      <li>
+        <appendage>RightEar</appendage>
+        <north>(0.13, -0.3, 0.2)</north>
+        <south>(-0.13, 0.3, 0.18825)</south>
+        <east>(0.0025, 0.296, 0.145)</east>
+        <west>(-0.0025, 0.296, 0.145)</west>
+      </li>
+    </appendageOffsets>
     <maleProbability>0.0000001</maleProbability>
     <socialFightDamageLimit>6</socialFightDamageLimit>
     <refugeeChance>0.15</refugeeChance>

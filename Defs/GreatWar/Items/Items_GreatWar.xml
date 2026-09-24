@@ -1224,12 +1224,17 @@
       <defaultOutfitTags>
         <li>Worker</li>
       </defaultOutfitTags>
+      <drawData>
+        <defaultData>
+          <offset>(0,0,0.1)</offset>
+        </defaultData>
+      </drawData>
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
       <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
       <recipeUsers>
-        <li>HD_BasicWorkbench</li>
+        <li>HD_LineShaftHydraulicPress</li>
       </recipeUsers>
     </recipeMaker>
     <costList>

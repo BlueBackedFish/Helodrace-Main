@@ -17,6 +17,8 @@ namespace Helodrace
         public const string RawBTXEnjoyedThoughtDefName = "HD_EnjoyedRawBTX";
         public const string NaphthaThingDefName = "HD_Naphtha";
         public const string HelodRaceDefName = "Helod";
+        public const float DeficiencyNeedThreshold = 0.30f;
+        public const float AutomaticRefillThreshold = 0.35f;
 
         public static bool IsHelod(Pawn pawn)
         {
@@ -50,6 +52,25 @@ namespace Helodrace
                 && pawn?.story?.traits?.HasTrait(traitDef) == true;
         }
 
+        internal static bool ShouldForceAutomaticRefill(string needDefName, float currentLevel)
+        {
+            return needDefName == ChemicalNeedDefName && currentLevel < AutomaticRefillThreshold;
+        }
+
+    }
+
+    [HarmonyPatch(typeof(JobGiver_SatisfyChemicalNeed), "ShouldSatisfy")]
+    public static class Patch_HelodBTXChemicalNeed
+    {
+        [HarmonyPostfix]
+        public static void Postfix(Need __0, ref bool __result)
+        {
+            if (!__result && __0 != null
+                && BTXUtility.ShouldForceAutomaticRefill(__0.def?.defName, __0.CurLevel))
+            {
+                __result = true;
+            }
+        }
     }
 
     [HarmonyPatch(typeof(Thing), nameof(Thing.Ingested))]

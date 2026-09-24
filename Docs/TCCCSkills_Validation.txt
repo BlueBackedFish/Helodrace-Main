@@ -1,0 +1,75 @@
+TCCC isolated in-game validation
+PASS all specified timing constants
+PASS bleeding reductions do not multiply
+PASS BD_Morphine receives fractional-dose comp
+PASS BD_Morphine actual administration succeeds
+PASS BD_Morphine charges only the actual fractional amount
+PASS BD_Morphine reaches measured target pain
+PASS BD_Morphine retains native drug effect
+PASS BD_Morphine native CompDrug receives exact dose-scaled reduced addiction chance
+PASS BD_Morphine native high severity scales with dose
+PASS BD_Morphine dose-adjusted addiction probability is below a normal use
+PASS BD_Morphine partial vial cannot merge into full stack
+PASS BD_Morphine normal ingestion of a partial vial cannot grant a full high
+PASS BD_Morphine ordinary partial ingestion uses its actual addiction risk and clears context
+PASS BD_Fentanyl receives fractional-dose comp
+PASS BD_Fentanyl actual administration succeeds
+PASS BD_Fentanyl charges only the actual fractional amount
+PASS BD_Fentanyl reaches measured target pain
+PASS BD_Fentanyl retains native drug effect
+PASS BD_Fentanyl native CompDrug receives exact dose-scaled reduced addiction chance
+PASS BD_Fentanyl native high severity scales with dose
+PASS BD_Fentanyl dose-adjusted addiction probability is below a normal use
+PASS BD_Fentanyl partial vial cannot merge into full stack
+PASS BD_Fentanyl normal ingestion of a partial vial cannot grant a full high
+PASS BD_Fentanyl ordinary partial ingestion uses its actual addiction risk and clears context
+PASS BD_Ketamine receives fractional-dose comp
+PASS BD_Ketamine actual administration succeeds
+PASS BD_Ketamine charges only the actual fractional amount
+PASS BD_Ketamine reaches measured target pain
+PASS BD_Ketamine retains native drug effect
+PASS BD_Ketamine native CompDrug receives exact dose-scaled reduced addiction chance
+PASS BD_Ketamine native high severity scales with dose
+PASS BD_Ketamine dose-adjusted addiction probability is below a normal use
+PASS BD_Ketamine partial vial cannot merge into full stack
+PASS BD_Ketamine normal ingestion of a partial vial cannot grant a full high
+PASS BD_Ketamine ordinary partial ingestion uses its actual addiction risk and clears context
+PASS BD_Laudanum receives fractional-dose comp
+PASS BD_Laudanum actual administration succeeds
+PASS BD_Laudanum charges only the actual fractional amount
+PASS BD_Laudanum reaches measured target pain
+PASS BD_Laudanum retains native drug effect
+PASS BD_Laudanum native CompDrug receives exact dose-scaled reduced addiction chance
+PASS BD_Laudanum native high severity scales with dose
+PASS BD_Laudanum dose-adjusted addiction probability is below a normal use
+PASS BD_Laudanum partial vial cannot merge into full stack
+PASS BD_Laudanum normal ingestion of a partial vial cannot grant a full high
+PASS BD_Laudanum ordinary partial ingestion uses its actual addiction risk and clears context
+PASS self-care actor is capable and bleeding
+PASS no bleeding reduction before 20 seconds
+PASS 70 percent reduction starts at 20 seconds
+PASS 95 percent reduction after completed self-care
+PASS completed effect lasts 18 hours
+PASS interruption removes temporary pressure without granting completed effect
+PASS hemostatic administration takes 3 seconds
+PASS hemostatic effect lasts 6 hours
+PASS hemostatic reduces bleeding by 70 percent
+PASS tether leaves hands free and casualty on the map
+PASS tether reduces actual movement stat by 35 percent
+PASS tether reduces actual work speed
+PASS casualty follows actual movement without detaching
+PASS dragging speed/work penalties and rope rendering are active
+PASS pawn can shoot while tether remains attached
+PASS tether extends actual interaction from 300 to 450 ticks (observed work=448, elapsed=539)
+PASS save/load preserves drag link and casualty
+PASS BD_Morphine fractional inventory remainder survives save/load
+PASS BD_Fentanyl fractional inventory remainder survives save/load
+PASS BD_Ketamine fractional inventory remainder survives save/load
+PASS BD_Laudanum fractional inventory remainder survives save/load
+PASS detach removes penalties
+PASS MIST job creates persistent M/I/S/T handover report
+PASS MIST dispatch lands after 180 ticks instead of 240
+PASS MEDEVAC physically collects prepared casualty and returns to base
+PASS saved MEDEVAC returns patient to settlement bed and crew departs
+PASS MIST retains two-hour base treatment/return schedule
+COMPLETE All TCCC integration checks passed

@@ -17,7 +17,9 @@ namespace Helodrace
         CloseAirSupport,
         Artillery105mmSupport,
         Artillery155mmSupport,
-        W48Support
+        W48Support,
+        HelicopterQRF,
+        HelicopterMedevac
     }
 
     public enum HelodForwardBaseCostKind
@@ -48,6 +50,8 @@ namespace Helodrace
                 case HelodForwardBaseService.LogisticsMedicalSupplies:
                 case HelodForwardBaseService.LogisticsWeapons:
                     return 8f;
+                case HelodForwardBaseService.HelicopterQRF:
+                case HelodForwardBaseService.HelicopterMedevac:
                 case HelodForwardBaseService.CloseAirSupport:
                     return 10f;
                 case HelodForwardBaseService.Artillery105mmSupport:
@@ -162,6 +166,10 @@ namespace Helodrace
         {
             switch (service)
             {
+                case HelodForwardBaseService.HelicopterQRF:
+                    return 700f;
+                case HelodForwardBaseService.HelicopterMedevac:
+                    return 400f;
                 case HelodForwardBaseService.InfantryDeployment:
                     return 220f;
                 case HelodForwardBaseService.LogisticsFreshFood:

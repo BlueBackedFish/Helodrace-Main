@@ -435,7 +435,7 @@ namespace Helodrace.Tactical
                 defaultDesc = (active
                     ? "HD_TacticalPreemptiveFire_CancelDesc"
                     : "HD_TacticalPreemptiveFire_CommandDesc").Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_PreemptiveFire", false)
                     ?? BaseContent.BadTex,
                 action = () => BeginTargeting(pawn)
             };

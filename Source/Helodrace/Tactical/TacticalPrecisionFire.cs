@@ -284,7 +284,7 @@ namespace Helodrace.Tactical
                     defaultLabel = "HD_TacticalPrecisionFire_Command".Translate().ToString(),
                     defaultDesc = "HD_TacticalPrecisionFire_CommandDesc".Translate(
                         TacticalPrecisionFireUtility.LabelFor(selected)).ToString(),
-                    icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                    icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_Aiming", false)
                         ?? BaseContent.BadTex,
                     action = () => TacticalPrecisionFireUtility.ShowSelectionMenu(__instance)
                 }

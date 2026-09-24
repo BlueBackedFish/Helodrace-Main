@@ -443,7 +443,7 @@ namespace Helodrace.Tactical
                 defaultDesc = (active
                     ? "HD_TacticalCoordinatedAim_CancelDesc"
                     : "HD_TacticalCoordinatedAim_CommandDesc").Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_Aiming", false)
                     ?? BaseContent.BadTex,
                 action = () =>
                 {

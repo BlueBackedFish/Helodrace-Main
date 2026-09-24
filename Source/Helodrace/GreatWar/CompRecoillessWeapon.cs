@@ -1011,6 +1011,7 @@ namespace Helodrace
         {
             RecoillessReloadScheduler.TickScheduledReloads();
             CompM79Launcher.TickPendingDelayedEffects();
+            ModernWar.ModularWeaponCycleUtility.TickPending();
         }
     }
 

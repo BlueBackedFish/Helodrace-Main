@@ -385,7 +385,7 @@ namespace Helodrace.Tactical
             {
                 defaultLabel = "HD_TacticalTakedown_Command".Translate().ToString(),
                 defaultDesc = "HD_TacticalTakedown_CommandDesc".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_Smite", false)
                     ?? BaseContent.BadTex,
                 action = () => BeginModeSelection(pawn)
             };

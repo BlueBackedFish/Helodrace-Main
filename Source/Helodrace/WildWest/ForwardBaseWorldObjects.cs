@@ -229,7 +229,8 @@ namespace Helodrace
 
         public bool HasService(HelodForwardBaseService service)
         {
-            return contractServices != null && contractServices.Contains(service);
+            return HelodHelicopterSupport.ProviderAllows(Faction, service)
+                && contractServices != null && contractServices.Contains(service);
         }
 
         public void ConfigureContract(HelodForwardBaseCostKind costKind, int durationDays, float militaryCredit = 0f, int startTick = 0)

@@ -34,6 +34,12 @@ namespace Helodrace
         public override void ExposeData()
         {
             base.ExposeData();
+
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                PruneInvalidRecords();
+            }
+
             Scribe_Collections.Look(ref oilFields, "oilFields", LookMode.Deep);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit && oilFields == null)
@@ -65,7 +71,18 @@ namespace Helodrace
         public OilFieldRecord FieldAt(IntVec3 cell)
         {
             OilFieldRecord record;
-            return oilFieldsByCell.TryGetValue(cell, out record) ? record : null;
+            if (!oilFieldsByCell.TryGetValue(cell, out record))
+            {
+                return null;
+            }
+
+            if (record == null || !IsOilFieldTerrain(cell))
+            {
+                RemoveAt(cell);
+                return null;
+            }
+
+            return record;
         }
 
         public OilFieldRecord FieldAtOrCreateLegacy(IntVec3 cell)
@@ -103,27 +120,14 @@ namespace Helodrace
             return defName == OilFieldTerrainDefName || defName == LegacyOilFieldTerrainDefName;
         }
 
-        public override void MapComponentTick()
+        private void RemoveAt(IntVec3 cell)
         {
-            base.MapComponentTick();
-
-            if (Find.TickManager.TicksGame % GenTicks.TickRareInterval != 0)
-            {
-                return;
-            }
-
-            // A layerable oil-field floor can be removed with the normal remove-floor
-            // designation. Its simulation data disappears with the floor.
+            oilFieldsByCell.Remove(cell);
             for (int i = oilFields.Count - 1; i >= 0; i--)
             {
                 OilFieldRecord record = oilFields[i];
-                if (record == null || !IsOilFieldTerrain(record.cell))
+                if (record == null || record.cell == cell)
                 {
-                    if (record != null)
-                    {
-                        oilFieldsByCell.Remove(record.cell);
-                    }
-
                     int lastIndex = oilFields.Count - 1;
                     oilFields[i] = oilFields[lastIndex];
                     oilFields.RemoveAt(lastIndex);
@@ -134,12 +138,31 @@ namespace Helodrace
         private void RebuildLookup()
         {
             oilFieldsByCell.Clear();
-            for (int i = 0; i < oilFields.Count; i++)
+            for (int i = oilFields.Count - 1; i >= 0; i--)
             {
                 OilFieldRecord record = oilFields[i];
-                if (record != null)
+                if (record == null || oilFieldsByCell.ContainsKey(record.cell))
                 {
-                    oilFieldsByCell[record.cell] = record;
+                    oilFields.RemoveAt(i);
+                    continue;
+                }
+
+                oilFieldsByCell[record.cell] = record;
+            }
+        }
+
+        private void PruneInvalidRecords()
+        {
+            for (int i = oilFields.Count - 1; i >= 0; i--)
+            {
+                OilFieldRecord record = oilFields[i];
+                if (record == null || !IsOilFieldTerrain(record.cell))
+                {
+                    if (record != null)
+                    {
+                        oilFieldsByCell.Remove(record.cell);
+                    }
+                    oilFields.RemoveAt(i);
                 }
             }
         }

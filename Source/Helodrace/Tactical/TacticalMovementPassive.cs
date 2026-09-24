@@ -156,8 +156,7 @@ namespace Helodrace.Tactical
                 defaultLabel = "HD_TacticalMovement_Command".Translate(
                     LabelFor(ModeFor(pawn))).ToString(),
                 defaultDesc = "HD_TacticalMovement_CommandDesc".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Move", false)
-                    ?? ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_MovingFire", false)
                     ?? BaseContent.BadTex,
                 action = () => ShowSelectionMenu(pawn)
             };

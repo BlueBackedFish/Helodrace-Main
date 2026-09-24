@@ -226,6 +226,10 @@ namespace Helodrace
 
             switch (service)
             {
+                case HelodForwardBaseService.HelicopterQRF:
+                case HelodForwardBaseService.HelicopterMedevac:
+                    HelodHelicopterSupport.Request(map, selectedBase, wearer, service);
+                    break;
                 case HelodForwardBaseService.InfantrySniperSupport:
                     Find.WindowStack.Add(new Dialog_MessageBox(
                         "HD_SniperSupport_ModePrompt".Translate(),

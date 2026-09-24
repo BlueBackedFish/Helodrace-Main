@@ -45,7 +45,12 @@ namespace Helodrace
         {
             var props = (PawnRenderNodeProperties_HelodAppendage)Props;
             bool tail = props.appendage == HelodAppendage.Tail;
-            return GraphicDatabase.Get<Graphic_Multi>(props.texPath,
+            string texPath = props.texPath;
+            if (tail && pawn.DevelopmentalStage.Baby())
+                texPath = "Helod/Tails/HelodTail_Baby";
+            else if (tail && pawn.DevelopmentalStage.Child())
+                texPath = "Helod/Tails/HelodTail_Child";
+            return GraphicDatabase.Get<Graphic_Multi>(texPath,
                 tail ? ShaderDatabase.Cutout : ShaderDatabase.CutoutComplex,
                 Vector2.one, pawn.story.HairColor, Color.clear);
         }
@@ -61,7 +66,15 @@ namespace Helodrace
             var kind = ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage;
             if (kind == HelodAppendage.Tail)
             {
-                if (!parms.Portrait && parms.pawn.InBed()) return false;
+                // Sleeping spots are beds internally, but their Def explicitly asks the
+                // renderer to show the sleeper. Only suppress the tail when the bed hides
+                // the pawn body under its own graphic.
+                if (!parms.Portrait && parms.pawn.InBed())
+                {
+                    Building_Bed bed = parms.pawn.CurrentBed();
+                    if (bed == null || bed.def?.building == null
+                        || !bed.def.building.bed_showSleeperBody) return false;
+                }
                 return HasPart(parms.pawn, HelodRace.TailParts);
             }
             if (parms.flags.FlagSet(PawnRenderFlags.HeadStump)
@@ -98,22 +111,55 @@ namespace Helodrace
             Vector3 result = base.OffsetFor(node, parms, out pivot);
             var kind = ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage;
             Rot4 facing = parms.flipHead && kind != HelodAppendage.Tail ? parms.facing.Opposite : parms.facing;
-            // Final offsets include the former framework's default Head/Tail offsets.
-            Vector3 offset;
-            if (kind == HelodAppendage.Tail)
-                offset = facing == Rot4.North ? new Vector3(0f, 0.3f, -0.075f)
-                    : facing == Rot4.South ? new Vector3(0.0075f, -0.3f, -0.07f)
-                    : new Vector3(0.095f, -0.3f, 0.02f);
-            else if (kind == HelodAppendage.LeftEar)
-                offset = facing == Rot4.North ? new Vector3(-0.13f, -0.3f, 0.2f)
-                    : facing == Rot4.South ? new Vector3(0.13f, 0.3f, 0.18825f)
-                    : new Vector3(-0.115f, -0.7f, 0.145f);
-            else
-                offset = facing == Rot4.North ? new Vector3(0.13f, -0.3f, 0.2f)
-                    : facing == Rot4.South ? new Vector3(-0.13f, 0.3f, 0.18825f)
-                    : new Vector3(-0.0025f, 0.296f, 0.145f);
-            if (facing == Rot4.East) offset.x = -offset.x;
+            HelodAppendageOffset entry = ConfiguredOffsetFor(kind);
+            if (entry == null) return result;
+            Vector3 offset = DirectionalOffsetFor(entry, facing);
+            offset += DevelopmentalOffsetFor(entry, parms.pawn.DevelopmentalStage, facing);
             return result + offset;
+        }
+
+        internal static bool TryGetConfiguredOffset(
+            HelodAppendage kind, Rot4 facing, out Vector3 offset)
+        {
+            offset = Vector3.zero;
+            HelodAppendageOffset entry = ConfiguredOffsetFor(kind);
+            if (entry == null) return false;
+            offset = DirectionalOffsetFor(entry, facing);
+            return true;
+        }
+
+        private static HelodAppendageOffset ConfiguredOffsetFor(HelodAppendage kind)
+        {
+            var entries = HelodRace.Settings?.appendageOffsets;
+            if (entries == null) return null;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                HelodAppendageOffset entry = entries[i];
+                if (entry == null || entry.appendage != kind) continue;
+                return entry;
+            }
+            return null;
+        }
+
+        private static Vector3 DirectionalOffsetFor(HelodAppendageOffset entry, Rot4 facing)
+        {
+            return facing == Rot4.North ? entry.north
+                : facing == Rot4.South ? entry.south
+                : facing == Rot4.East ? entry.east : entry.west;
+        }
+
+        internal static Vector3 DevelopmentalOffsetFor(
+            HelodAppendageOffset entry, DevelopmentalStage stage, Rot4 facing)
+        {
+            if (stage.Baby())
+                return facing == Rot4.North ? entry.babyNorth
+                    : facing == Rot4.South ? entry.babySouth
+                    : facing == Rot4.East ? entry.babyEast : entry.babyWest;
+            if (stage.Child())
+                return facing == Rot4.North ? entry.childNorth
+                    : facing == Rot4.South ? entry.childSouth
+                    : facing == Rot4.East ? entry.childEast : entry.childWest;
+            return Vector3.zero;
         }
 
         public override Vector3 ScaleFor(PawnRenderNode node, PawnDrawParms parms)

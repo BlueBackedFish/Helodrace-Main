@@ -355,7 +355,7 @@ namespace Helodrace.Tactical
             {
                 defaultLabel = "HD_TacticalSuddenFire_Command".Translate().ToString(),
                 defaultDesc = "HD_TacticalSuddenFire_CommandDesc".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_SuddenFire", false)
                     ?? BaseContent.BadTex,
                 Disabled = onCooldown,
                 disabledReason = onCooldown

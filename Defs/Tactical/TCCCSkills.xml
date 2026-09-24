@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <HediffDef Name="HD_TCCC_TimedBase" Abstract="True">
+    <hediffClass>Helodrace.Tactical.Hediff_TcccTimed</hediffClass>
+    <isBad>false</isBad><tendable>false</tendable>
+    <defaultLabelColor>(0.35,0.9,0.65)</defaultLabelColor>
+  </HediffDef>
+  <HediffDef ParentName="HD_TCCC_TimedBase">
+    <defName>HD_TCCC_Pressure</defName><label>applying pressure</label>
+    <description>Self-hemostasis is in progress. Bleeding is reduced by 70% while pressure is maintained.</description>
+  </HediffDef>
+  <HediffDef ParentName="HD_TCCC_TimedBase">
+    <defName>HD_TCCC_SelfHemostasis</defName><label>self-hemostasis</label>
+    <description>Bleeding is reduced by 95% for 18 hours. Wounds still require treatment.</description>
+  </HediffDef>
+  <HediffDef ParentName="HD_TCCC_TimedBase">
+    <defName>HD_TCCC_Hemostatic</defName><label>hemostatic agent</label>
+    <description>Bleeding is reduced by 70% for 6 hours. Does not multiply with other TCCC bleeding reductions.</description>
+  </HediffDef>
+  <HediffDef ParentName="HD_TCCC_TimedBase">
+    <defName>HD_TCCC_Mist</defName><label>MIST handover prepared</label>
+    <description>Injury mechanism, injuries, signs and treatments have been recorded for evacuation. MEDEVAC arrives 25% faster if every selected patient has a current report. Loading and handover take half as long for prepared patients. Reports remain current for 6 hours.</description>
+  </HediffDef>
+  <HediffDef>
+    <defName>HD_TCCC_Dragging</defName><label>dragging casualty</label>
+    <hediffClass>Helodrace.Tactical.Hediff_TcccDragging</hediffClass>
+    <description>A carabiner tether allows hands-free casualty movement. Movement speed is reduced by 35%; work, aiming, cooldown and timed interactions take longer.</description>
+    <isBad>false</isBad><tendable>false</tendable>
+    <stages><li><statFactors>
+      <MoveSpeed>0.65</MoveSpeed><WorkSpeedGlobal>0.6666667</WorkSpeedGlobal>
+      <RangedCooldownFactor>1.5</RangedCooldownFactor><MeleeCooldownFactor>1.5</MeleeCooldownFactor>
+    </statFactors></li></stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>HD_TCCC_Analgesia</defName><label>titrated analgesia</label>
+    <hediffClass>Helodrace.Tactical.Hediff_TcccAnalgesia</hediffClass>
+    <description>A measured dose of a Blanca's Drugs analgesic. The active drug determines duration and side effects, scaled to the administered amount.</description>
+    <isBad>false</isBad><tendable>false</tendable>
+  </HediffDef>
+  <JobDef>
+    <defName>HD_TCCC_Treat</defName><driverClass>Helodrace.Tactical.JobDriver_TcccTreatment</driverClass>
+    <reportString>performing tactical casualty care.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_TCCC_HemostaticAgent</defName><label>hemostatic agent</label>
+    <description>A field hemostatic dose. Administer with the TCCC menu in 3 seconds to reduce bleeding by 70% for 6 hours. Does not heal injuries or replace lost blood.</description>
+    <graphicData><texPath>Things/Item/Resource/Medicine/MedicineIndustrial</texPath><graphicClass>Graphic_StackCount</graphicClass><color>(0.95,0.45,0.40)</color></graphicData>
+    <techLevel>Industrial</techLevel><stackLimit>25</stackLimit>
+    <thingCategories><li>Manufactured</li></thingCategories>
+    <statBases><MaxHitPoints>60</MaxHitPoints><Mass>0.05</Mass><MarketValue>8</MarketValue><WorkToMake>300</WorkToMake><Flammability>0.7</Flammability></statBases>
+    <costList><MedicineIndustrial>1</MedicineIndustrial></costList>
+    <recipeMaker><productCount>2</productCount><recipeUsers><li>DrugLab</li></recipeUsers><researchPrerequisite>MedicineProduction</researchPrerequisite></recipeMaker>
+  </ThingDef>
+</Defs>

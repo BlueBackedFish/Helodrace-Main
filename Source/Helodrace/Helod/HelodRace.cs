@@ -17,6 +17,7 @@ namespace Helodrace
     public sealed class HelodRaceSettingsDef : Def
     {
         public List<HelodHeadOffset> headOffsets = new List<HelodHeadOffset>();
+        public List<HelodAppendageOffset> appendageOffsets = new List<HelodAppendageOffset>();
         public List<HeadTypeDef> headTypes = new List<HeadTypeDef>();
         public List<HelodApparelGraphic> apparelGraphics = new List<HelodApparelGraphic>();
         public List<ThingDef> apparelList = new List<ThingDef>();
@@ -38,6 +39,23 @@ namespace Helodrace
         public float minAge;
         public float female;
         public float male;
+    }
+
+    public sealed class HelodAppendageOffset
+    {
+        public HelodAppendage appendage;
+        public Vector3 north;
+        public Vector3 south;
+        public Vector3 east;
+        public Vector3 west;
+        public Vector3 childNorth;
+        public Vector3 childSouth;
+        public Vector3 childEast;
+        public Vector3 childWest;
+        public Vector3 babyNorth;
+        public Vector3 babySouth;
+        public Vector3 babyEast;
+        public Vector3 babyWest;
     }
 
     public sealed class HelodApparelGraphic

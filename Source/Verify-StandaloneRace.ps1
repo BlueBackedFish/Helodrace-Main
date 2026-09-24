@@ -5,6 +5,14 @@ function Assert($condition, [string]$message) { if (!$condition) { throw $messag
 $files = Get-ChildItem -LiteralPath "$repo/About", "$repo/Defs", "$repo/Patches", "$repo/Languages" -Recurse -Filter *.xml
 foreach ($file in $files) { $null = [xml](Get-Content -LiteralPath $file.FullName -Raw -Encoding UTF8) }
 Write-Output "PASS: $($files.Count) XML files parse."
+[xml]$wildWestApparel = Get-Content -LiteralPath "$repo/Defs/WildWest/Items/Apparel_WildWest.xml" -Raw -Encoding UTF8
+$formalShirt = $wildWestApparel.SelectSingleNode('/Defs/ThingDef[defName="HD_Apparel_WildWestFormalShirt"]')
+Assert (@($formalShirt.apparel.bodyPartGroups.li) -contains 'Legs') 'Formal shirt does not cover the lower body.'
+[xml]$coldWarApparel = Get-Content -LiteralPath "$repo/Defs/ColdWar/Items/Apparel_ColdWar.xml" -Raw -Encoding UTF8
+$flakJacket = $coldWarApparel.SelectSingleNode('/Defs/ThingDef[defName="HD_Apparel_M1952AFlakJacket"]')
+Assert (@($flakJacket.thingCategories.li) -contains 'ApparelArmor') 'M1952 flak jacket is not classified as armor.'
+Assert (@($flakJacket.apparel.layers.li) -contains 'Shell') 'M1952 flak jacket is not on the Shell layer.'
+Write-Output 'PASS: formal-shirt coverage and M1952 armor/layer classification.'
 $active = Get-ChildItem -LiteralPath "$repo/About", "$repo/Defs", "$repo/Patches", "$repo/Source/Helodrace", "$repo/Languages" -Recurse -File |
     Where-Object { $_.Extension -in '.xml', '.cs', '.csproj' -and $_.FullName -notmatch '\\obj\\' }
 Assert (!(Select-String -LiteralPath $active.FullName -Pattern 'AlienRace|humanoidalienraces')) 'Active framework reference found.'
@@ -114,6 +122,14 @@ $choices.Add($baseliner, 0.5)
 [Helodrace.Patch_HelodXenotypeChoices]::Postfix($humanKind, $choices)
 Assert ($choices.Count -eq 1 -and $choices.ContainsKey($baseliner)) 'Human xenotype filtering failed.'
 Write-Output 'PASS: newborn inheritance, trait degree, gene blocking, and bidirectional xenotype filtering regressions.'
+$energyMethod = [Helodrace.CompMechanicalTemperatureControl].GetMethod('EnergyPerRareTick', [Reflection.BindingFlags]'Static,NonPublic')
+$rareEnergy = $energyMethod.Invoke($null, @([single]-2, [single]1))
+Assert ([Math]::Abs($rareEnergy - (2 * 250 / 60)) -lt 0.000001) 'Mechanical heat pump did not convert per-second transfer to rare-tick energy.'
+$refillMethod = [Helodrace.BTXUtility].GetMethod('ShouldForceAutomaticRefill', [Reflection.BindingFlags]'Static,NonPublic')
+Assert ($refillMethod.Invoke($null, @([Helodrace.BTXUtility]::ChemicalNeedDefName, [single]0.34))) 'BTX AI did not seek a source before the deficiency threshold.'
+Assert (!$refillMethod.Invoke($null, @([Helodrace.BTXUtility]::ChemicalNeedDefName, [single]0.36))) 'BTX AI refill threshold expanded beyond its intended buffer.'
+Assert (!$refillMethod.Invoke($null, @('Chemical_Chemical', [single]0.01))) 'BTX threshold affected another chemical need.'
+Write-Output 'PASS: rare-tick heat transfer units and early BTX refill threshold.'
 $offsetMethod = [Helodrace.Patch_HelodHeadOffset].GetMethod('OffsetForAge', [Reflection.BindingFlags]'Static,NonPublic')
 Assert ($null -eq $offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]20))) 'Missing head position settings must preserve vanilla position.'
 foreach ($entry in $settings.headOffsets.li) {
@@ -122,6 +138,23 @@ foreach ($entry in $settings.headOffsets.li) {
         $offsetEntry.$field = [single]::Parse($entry.$field, [Globalization.CultureInfo]::InvariantCulture)
     }
     $fixtureSettings.headOffsets.Add($offsetEntry)
+}
+foreach ($entry in $settings.appendageOffsets.li) {
+    $offsetEntry = [Helodrace.HelodAppendageOffset]::new()
+    $offsetEntry.appendage = [Helodrace.HelodAppendage]::$($entry.appendage)
+    foreach ($field in @(
+        'north', 'south', 'east', 'west',
+        'childNorth', 'childSouth', 'childEast', 'childWest',
+        'babyNorth', 'babySouth', 'babyEast', 'babyWest')) {
+        $node = $entry.SelectSingleNode($field)
+        if ($null -eq $node) { continue }
+        $parts = $node.InnerText.Trim('(', ')').Split(',')
+        $offsetEntry.$field = [UnityEngine.Vector3]::new(
+            [single]::Parse($parts[0], [Globalization.CultureInfo]::InvariantCulture),
+            [single]::Parse($parts[1], [Globalization.CultureInfo]::InvariantCulture),
+            [single]::Parse($parts[2], [Globalization.CultureInfo]::InvariantCulture))
+    }
+    $fixtureSettings.appendageOffsets.Add($offsetEntry)
 }
 foreach ($case in @(@(0,0.04), @(2.99,0.04), @(3,0.127), @(12.99,0.127), @(13,0.265), @(18,0.265), @(40,0.265))) {
     $actual = $offsetMethod.Invoke($null, @([Verse.Gender]::Female, [single]$case[0]))
@@ -165,6 +198,35 @@ Assert ([Math]::Abs($position.z - 0.34) -lt 0.000001) 'Missing configuration ove
 $fixtureSettings.headOffsets.AddRange($savedOffsets)
 $null = $fixtureSettings.headOffsets.Remove($customOffset)
 Write-Output 'PASS: direct head Z at 13/18, preserved X/Y, explicit zero and missing configuration.'
+$appendageMethod = [Helodrace.PawnRenderNodeWorker_HelodAppendage].GetMethod('TryGetConfiguredOffset', [Reflection.BindingFlags]'Static,NonPublic')
+foreach ($case in @(
+    @([Helodrace.HelodAppendage]::Tail, [Verse.Rot4]::East, -0.095),
+    @([Helodrace.HelodAppendage]::LeftEar, [Verse.Rot4]::West, -0.115),
+    @([Helodrace.HelodAppendage]::RightEar, [Verse.Rot4]::South, -0.13))) {
+    $args = @($case[0], $case[1], [UnityEngine.Vector3]::zero)
+    Assert ($appendageMethod.Invoke($null, $args)) "Missing appendage offset for $($case[0])/$($case[1])."
+    Assert ([Math]::Abs($args[2].x - $case[2]) -lt 0.000001) "Appendage X offset regression for $($case[0])/$($case[1])."
+}
+$tailOffset = $null
+foreach ($candidate in $fixtureSettings.appendageOffsets) {
+    if ($candidate.appendage -eq [Helodrace.HelodAppendage]::Tail) {
+        $tailOffset = $candidate
+        break
+    }
+}
+Assert ($null -ne $tailOffset) 'Tail offset fixture missing.'
+$developmentalMethod = [Helodrace.PawnRenderNodeWorker_HelodAppendage].GetMethod('DevelopmentalOffsetFor', [Reflection.BindingFlags]'Static,NonPublic')
+foreach ($case in @(
+    @([Verse.DevelopmentalStage]::Baby, [Verse.Rot4]::East, 0.07, -0.05),
+    @([Verse.DevelopmentalStage]::Child, [Verse.Rot4]::West, -0.025, 0.02),
+    @([Verse.DevelopmentalStage]::Adult, [Verse.Rot4]::North, 0, 0))) {
+    $actual = $developmentalMethod.Invoke($null, @($tailOffset, $case[0], $case[1]))
+    Assert ([Math]::Abs($actual.x - $case[2]) -lt 0.000001 -and [Math]::Abs($actual.z - $case[3]) -lt 0.000001) "Developmental tail offset regression for $($case[0])/$($case[1])."
+}
+$args = @([Helodrace.HelodAppendage]::Tail, [Verse.Rot4]::North, [UnityEngine.Vector3]::zero)
+$fixtureSettings.appendageOffsets.Clear()
+Assert (!$appendageMethod.Invoke($null, $args)) 'Missing appendage settings should not create an offset.'
+Write-Output 'PASS: XML appendage offsets, developmental tail offsets, and missing-configuration fallback.'
 $earMethod = [Helodrace.PawnRenderNodeWorker_HelodAppendage].GetMethod('MatchesEar', [Reflection.BindingFlags]'Static,NonPublic')
 $ear = [Verse.BodyPartRecord]::new()
 $ear.def = New-Fixture ([Verse.BodyPartDef])

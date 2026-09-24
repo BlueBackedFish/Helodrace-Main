@@ -375,7 +375,7 @@ namespace Helodrace.Tactical
             {
                 defaultLabel = "HD_TacticalHighSpeed_Command".Translate(),
                 defaultDesc = "HD_TacticalHighSpeed_CommandDesc".Translate(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Move", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_HighSpeedMovement", false)
                     ?? BaseContent.BadTex,
                 Disabled = disabled,
                 disabledReason = disabledReason,

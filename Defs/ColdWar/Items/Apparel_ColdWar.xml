@@ -25,7 +25,7 @@
       <MoveSpeed>-0.05</MoveSpeed>
     </equippedStatOffsets>
     <thingCategories>
-      <li>Apparel</li>
+      <li>ApparelArmor</li>
     </thingCategories>
     <apparel>
       <bodyPartGroups>

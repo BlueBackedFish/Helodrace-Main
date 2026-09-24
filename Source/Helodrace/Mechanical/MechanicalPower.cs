@@ -125,6 +125,12 @@ namespace Helodrace
                 previousMap.GetComponent<MechanicalNetworkManager>()?.DeregisterNode(this);
             }
         }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            base.PostDeSpawn(map, mode);
+            map?.GetComponent<MechanicalNetworkManager>()?.DeregisterNode(this);
+        }
     }
 
     public class CompMechanicalTransmitter : CompMechanicalNode
@@ -850,20 +856,59 @@ namespace Helodrace
 
         public void RegisterNode(CompMechanicalNode node)
         {
-            allNodes.Add(node);
-            isDirty = true;
+            if (node?.parent == null || !node.parent.Spawned || node.parent.Map != map)
+            {
+                return;
+            }
+
+            if (allNodes.Add(node))
+            {
+                isDirty = true;
+            }
         }
 
         public void DeregisterNode(CompMechanicalNode node)
         {
-            allNodes.Remove(node);
-            isDirty = true;
+            if (node != null)
+            {
+                node.Network = null;
+            }
+
+            if (node != null && allNodes.Remove(node))
+            {
+                isDirty = true;
+            }
         }
 
         public override void MapComponentTick()
         {
             base.MapComponentTick();
-            
+
+            // Old versions only deregistered on destruction. Minification,
+            // transfer and some debug clear paths can despawn without destroying,
+            // leaving nodes and whole networks ticking forever in a long save.
+            if (allNodes.Count > 0 && map.IsHashIntervalTick(GenTicks.TickRareInterval))
+            {
+                int removed = allNodes.RemoveWhere(node =>
+                    node?.parent == null
+                    || !node.parent.Spawned
+                    || node.parent.Map != map);
+                if (removed > 0)
+                {
+                    isDirty = true;
+                }
+            }
+
+            if (allNodes.Count == 0)
+            {
+                if (networks.Count > 0)
+                {
+                    networks.Clear();
+                }
+                isDirty = false;
+                return;
+            }
+
             if (isDirty)
             {
                 RebuildNetworks();
@@ -881,6 +926,10 @@ namespace Helodrace
 
         private void RebuildNetworks()
         {
+            allNodes.RemoveWhere(node =>
+                node?.parent == null
+                || !node.parent.Spawned
+                || node.parent.Map != map);
             networks.Clear();
             foreach (var node in allNodes)
             {

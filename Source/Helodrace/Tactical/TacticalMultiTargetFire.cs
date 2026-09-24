@@ -504,7 +504,7 @@ namespace Helodrace.Tactical
             {
                 defaultLabel = "HD_TacticalMultiTargetFire_Command".Translate().ToString(),
                 defaultDesc = "HD_TacticalMultiTargetFire_CommandDesc".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_MovingFire", false)
                     ?? BaseContent.BadTex,
                 action = () => BeginModeSelection(pawn)
             };

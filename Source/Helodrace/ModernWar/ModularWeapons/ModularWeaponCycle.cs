@@ -35,7 +35,10 @@ namespace Helodrace.ModernWar
             new List<PendingCasing>();
         private static readonly Dictionary<int, ReloadState> reloadStates =
             new Dictionary<int, ReloadState>();
-        private static readonly HashSet<int> caughtBolts = new HashSet<int>();
+        private static readonly Dictionary<int, CompModularWeaponNode> caughtBolts =
+            new Dictionary<int, CompModularWeaponNode>();
+        private static readonly List<int> cleanupIds = new List<int>();
+        private static int nextCleanupTick;
 
         private sealed class GripState
         {
@@ -60,7 +63,7 @@ namespace Helodrace.ModernWar
             if (!SupportsAr15BoltCatch(root)) return;
             int id = root.parent.thingIDNumber;
             if (caught)
-                caughtBolts.Add(id);
+                caughtBolts[id] = root;
             else
                 caughtBolts.Remove(id);
         }
@@ -332,7 +335,7 @@ namespace Helodrace.ModernWar
         private static bool IsBoltCaught(CompModularWeaponNode root)
         {
             return root?.parent != null
-                && caughtBolts.Contains(root.parent.thingIDNumber);
+                && caughtBolts.ContainsKey(root.parent.thingIDNumber);
         }
 
         private static bool SupportsAr15BoltCatch(CompModularWeaponNode root)
@@ -426,16 +429,23 @@ namespace Helodrace.ModernWar
         public static void TickPending()
         {
             int now = Find.TickManager?.TicksGame ?? 0;
-            List<int> finishedGrips = new List<int>();
+            if (grips.Count == 0 && pendingCasings.Count == 0
+                && states.Count == 0 && reloadStates.Count == 0
+                && caughtBolts.Count == 0)
+            {
+                return;
+            }
+
+            cleanupIds.Clear();
             foreach (KeyValuePair<int, GripState> pair in grips)
             {
                 GripState grip = pair.Value;
                 grip.amount = Mathf.MoveTowards(grip.amount, GripPressed(grip.root) ? 1f : 0f, 1f / 6f);
                 if (grip.root?.parent == null || grip.root.parent.Destroyed
                     || (grip.amount == 0f && !(grip.root.parent.ParentHolder is Pawn_EquipmentTracker)))
-                    finishedGrips.Add(pair.Key);
+                    cleanupIds.Add(pair.Key);
             }
-            foreach (int id in finishedGrips) grips.Remove(id);
+            for (int i = 0; i < cleanupIds.Count; i++) grips.Remove(cleanupIds[i]);
             for (int i = pendingCasings.Count - 1; i >= 0; i--)
             {
                 PendingCasing pending = pendingCasings[i];
@@ -444,33 +454,40 @@ namespace Helodrace.ModernWar
                 ModularWeaponCasingUtility.TryEject(pending.verb, pending.root);
             }
 
-            List<int> stale = new List<int>();
-            if (states.Count > 256)
+            if (now < nextCleanupTick)
             {
-                foreach (KeyValuePair<int, CycleState> pair in states)
-                    if (now - pair.Value.shotTick > pair.Value.cycleTicks + 120)
-                        stale.Add(pair.Key);
-                for (int i = 0; i < stale.Count; i++) states.Remove(stale[i]);
+                return;
             }
 
-            stale.Clear();
-            if (reloadStates.Count > 256)
-            {
-                foreach (KeyValuePair<int, ReloadState> pair in reloadStates)
-                    if (now - pair.Value.startTick > pair.Value.durationTicks + 120)
-                        stale.Add(pair.Key);
-                for (int i = 0; i < stale.Count; i++) reloadStates.Remove(stale[i]);
-            }
+            nextCleanupTick = now + 120;
+            CleanupExpired(now);
         }
-    }
 
-    [HarmonyPatch(typeof(TickManager), "DoSingleTick")]
-    internal static class Patch_TickManager_ModularWeaponCycle
-    {
-        [HarmonyPostfix]
-        public static void Postfix()
+        internal static void CleanupExpired(int now)
         {
-            ModularWeaponCycleUtility.TickPending();
+            cleanupIds.Clear();
+            foreach (KeyValuePair<int, CycleState> pair in states)
+            {
+                if (now - pair.Value.shotTick > pair.Value.cycleTicks + 120)
+                    cleanupIds.Add(pair.Key);
+            }
+            for (int i = 0; i < cleanupIds.Count; i++) states.Remove(cleanupIds[i]);
+
+            cleanupIds.Clear();
+            foreach (KeyValuePair<int, ReloadState> pair in reloadStates)
+            {
+                if (now - pair.Value.startTick > pair.Value.durationTicks + 120)
+                    cleanupIds.Add(pair.Key);
+            }
+            for (int i = 0; i < cleanupIds.Count; i++) reloadStates.Remove(cleanupIds[i]);
+
+            cleanupIds.Clear();
+            foreach (KeyValuePair<int, CompModularWeaponNode> pair in caughtBolts)
+            {
+                if (pair.Value?.parent == null || pair.Value.parent.Destroyed)
+                    cleanupIds.Add(pair.Key);
+            }
+            for (int i = 0; i < cleanupIds.Count; i++) caughtBolts.Remove(cleanupIds[i]);
         }
     }
 }

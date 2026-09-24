@@ -514,7 +514,7 @@ namespace Helodrace.Tactical
             {
                 defaultLabel = "HD_TacticalRapidKill_Command".Translate().ToString(),
                 defaultDesc = "HD_TacticalRapidKill_CommandDesc".Translate().ToString(),
-                icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", false)
+                icon = ContentFinder<Texture2D>.Get("Skill/HD_CQB_RapidKill", false)
                     ?? BaseContent.BadTex,
                 action = () => BeginTargeting(pawn)
             };

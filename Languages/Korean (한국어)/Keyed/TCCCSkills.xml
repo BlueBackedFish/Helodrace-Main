@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TCCC_Menu>TCCC 전술 응급처치</HD_TCCC_Menu>
+  <HD_TCCC_MenuDesc>자가 지혈: 30초 소요. 20초부터 출혈량 70% 감소, 완료 후 18시간 동안 95% 감소합니다. 부상자 연결: 손을 비운 채 끌고 이동하지만 이동속도가 감소하고 다른 행동이 느려집니다. 진통제: Blanca's Drugs 약물을 나누어 투여해 고통 10%를 목표로 완화합니다. 잔량은 보존하며 중독 확률은 사용량에 비례하고 일반 투여의 절반입니다. 지혈제: 3초 투여 후 6시간 동안 출혈량 70% 감소. MIST: 5초간 후송 인계서를 작성해 MEDEVAC 도착 및 환자 인계를 돕습니다.</HD_TCCC_MenuDesc>
+  <HD_TCCC_SelfHemostasis>자가 지혈 (30초)</HD_TCCC_SelfHemostasis>
+  <HD_TCCC_AttachDrag>부상자 이동 — 카라비너 연결</HD_TCCC_AttachDrag>
+  <HD_TCCC_Analgesic>진통제 적정량 투여</HD_TCCC_Analgesic>
+  <HD_TCCC_Hemostatic>지혈제 투여 (3초)</HD_TCCC_Hemostatic>
+  <HD_TCCC_Mist>MIST 인계서 작성 (5초)</HD_TCCC_Mist>
+  <HD_TCCC_Detach>부상자 연결 해제</HD_TCCC_Detach>
+  <HD_TCCC_Remaining>남은 시간: {0}</HD_TCCC_Remaining>
+  <HD_TCCC_NoBleeding>대상이 출혈 중이 아닙니다.</HD_TCCC_NoBleeding>
+  <HD_TCCC_NoPain>현재 고통 수치에는 추가 진통제가 필요하지 않습니다.</HD_TCCC_NoPain>
+  <HD_TCCC_NoAnalgesic>사용 가능한 Blanca's Drugs 진통제가 없습니다. 모르핀·펜타닐·케타민·아편팅크를 소지하거나 접근 가능한 곳에 두세요. 해당 약물 모듈이 활성화되어 있어야 합니다.</HD_TCCC_NoAnalgesic>
+  <HD_TCCC_NoHemostatic>사용 가능한 지혈제가 없습니다. 약품 연구대에서 제작하거나 소지품에 준비하세요.</HD_TCCC_NoHemostatic>
+  <HD_TCCC_CannotDrag>인접한 쓰러진 부상자만 연결할 수 있으며, 다른 구조자와 중복 연결할 수 없습니다.</HD_TCCC_CannotDrag>
+  <HD_TCCC_AnalgesicActive>이미 진통 효과가 적용 중입니다. 효과가 끝난 뒤 적정량을 다시 투여하세요.</HD_TCCC_AnalgesicActive>
+  <HD_TCCC_DoseRemaining>약물 잔량: {0}</HD_TCCC_DoseRemaining>
+  <HD_TCCC_DoseEffect>투여량: 정량의 {0}\n고통 감소량: {1}</HD_TCCC_DoseEffect>
+  <HD_TCCC_DoseGiven>{0}에게 {1} 정량의 {2}를 투여했습니다.</HD_TCCC_DoseGiven>
+  <HD_TCCC_MistReport>MIST — {0}\nM / 손상 기전: {1}\nI / 손상 부위: {2}\nS / 징후: 출혈 {3}, 고통 {4}, {5}\nT / 처치 및 현재 상태: {6}</HD_TCCC_MistReport>
+  <HD_TCCC_Downed>보행 불가</HD_TCCC_Downed>
+  <HD_TCCC_Mobile>보행 가능</HD_TCCC_Mobile>
+</LanguageData>

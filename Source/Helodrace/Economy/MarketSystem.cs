@@ -122,6 +122,9 @@ namespace Helodrace
             new HelodMarketAsset("HD_Money", "HD_MarketAsset_Sthaler", 5f, 0.035f, 0.55f, 1.65f, false, 0.012f, 6)
         };
 
+        private static readonly Dictionary<string, HelodMarketAsset> AssetsByDefName =
+            BuildAssetIndex();
+
         public HelodMarketState(Game game)
         {
         }
@@ -449,12 +452,25 @@ namespace Helodrace
 
         public static HelodMarketAsset AssetFor(ThingDef def)
         {
-            if (def == null)
+            if (def?.defName == null)
             {
                 return null;
             }
 
-            return Assets.Find(asset => asset.defName == def.defName);
+            AssetsByDefName.TryGetValue(def.defName, out HelodMarketAsset asset);
+            return asset;
+        }
+
+        private static Dictionary<string, HelodMarketAsset> BuildAssetIndex()
+        {
+            Dictionary<string, HelodMarketAsset> result =
+                new Dictionary<string, HelodMarketAsset>(Assets.Count);
+            for (int i = 0; i < Assets.Count; i++)
+            {
+                HelodMarketAsset asset = Assets[i];
+                result[asset.defName] = asset;
+            }
+            return result;
         }
 
         public static ThingDef DeliveryThingDef(HelodMarketAsset asset)
@@ -900,14 +916,16 @@ namespace Helodrace
     {
         public static void Postfix(Thing __instance, ref float __result)
         {
-            if (__instance?.def == null)
+            HelodMarketAsset asset = HelodMarketState.AssetFor(__instance?.def);
+            if (asset == null)
             {
                 return;
             }
 
-            if (HelodMarketState.Current?.TryGetMarketValue(__instance.def, out float marketValue) == true)
+            HelodMarketState state = HelodMarketState.Current;
+            if (state != null)
             {
-                __result = marketValue;
+                __result = state.MarketValue(asset);
             }
         }
     }
@@ -922,9 +940,16 @@ namespace Helodrace
                 return;
             }
 
-            if (HelodMarketState.Current?.TryGetMarketValue(thing.def, out float marketValue) == true)
+            HelodMarketAsset asset = HelodMarketState.AssetFor(thing.def);
+            if (asset == null)
             {
-                __result = marketValue;
+                return;
+            }
+
+            HelodMarketState state = HelodMarketState.Current;
+            if (state != null)
+            {
+                __result = state.MarketValue(asset);
             }
         }
     }

@@ -36,4 +36,35 @@
     </graphicData>
   </ThingDef>
 
+  <ThingDef>
+    <defName>HD_SupportHelicopter</defName>
+    <label>forward base helicopter</label>
+    <thingClass>Helodrace.HelodSupportHelicopter</thingClass>
+    <category>Projectile</category>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>true</selectable>
+    <size>(4,3)</size>
+    <passability>Standable</passability>
+    <rotatable>false</rotatable>
+    <graphicData>
+      <texPath>Effects/Aircraft/MH60M/HD_MH60M_UI</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(8,8)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <JobDef>
+    <defName>HD_HeliCarry</defName>
+    <driverClass>Helodrace.JobDriver_HelodHeliCarry</driverClass>
+    <reportString>transporting patient to destination.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
+    <defName>HD_HeliBoard</defName>
+    <driverClass>Helodrace.JobDriver_HelodHeliBoard</driverClass>
+    <reportString>boarding helicopter.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
 </Defs>

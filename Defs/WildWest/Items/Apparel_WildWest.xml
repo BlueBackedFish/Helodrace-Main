@@ -476,6 +476,7 @@
         <li>Torso</li>
         <li>Shoulders</li>
         <li>Arms</li>
+        <li>Legs</li>
       </bodyPartGroups>
       <wornGraphicPath>Helod/Apparel/HD_WildWestFormalShirt/HD_WildWestFormalShirt</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TelegraphTable_ForwardBase_Service_HelicopterQRF>헬기 QRF (신속대응부대)</HD_TelegraphTable_ForwardBase_Service_HelicopterQRF>
+  <HD_TelegraphTable_ForwardBase_Service_HelicopterMedevac>헬기 MEDEVAC (의무후송)</HD_TelegraphTable_ForwardBase_Service_HelicopterMedevac>
+  <HD_Heli_SelectDZ>장애물과 지붕이 없는 4 × 3 크기의 헬기 착륙구역을 선택하세요.</HD_Heli_SelectDZ>
+  <HD_Heli_SelectPatients>후송할 정착민을 최대 3명 선택하세요 ({0}/3). 전진기지에서 출혈만 처치하고 2시간 뒤 복귀합니다.</HD_Heli_SelectPatients>
+  <HD_Heli_ChooseDZ>착륙구역 선택</HD_Heli_ChooseDZ>
+  <HD_Heli_AtBase>의무후송 헬기가 {0}에 도착했습니다. 출혈 부위를 처치했으며, 환자는 2시간 뒤 복귀합니다.</HD_Heli_AtBase>
+  <HD_Heli_Timeout>일부 환자의 운반을 완료하지 못했습니다. 후송하지 못한 환자는 지도에 남고 구조요원은 헬기로 복귀합니다.</HD_Heli_Timeout>
+  <HD_Heli_Status>임무: {0}\n단계: {1}\n탑승 인원: {2}</HD_Heli_Status>
+  <HD_Heli_Phase_Arriving>착륙 중</HD_Heli_Phase_Arriving>
+  <HD_Heli_Phase_Loading>환자 후송 중</HD_Heli_Phase_Loading>
+  <HD_Heli_Phase_LeavingForBase>전진기지로 복귀 중</HD_Heli_Phase_LeavingForBase>
+  <HD_Heli_Phase_AtBase>전진기지 대기 중</HD_Heli_Phase_AtBase>
+  <HD_Heli_Phase_Returning>환자 복귀 및 착륙 중</HD_Heli_Phase_Returning>
+  <HD_Heli_Phase_Unloading>환자 인계 중</HD_Heli_Phase_Unloading>
+  <HD_Heli_Phase_Leaving>이륙 및 복귀 중</HD_Heli_Phase_Leaving>
+</LanguageData>
