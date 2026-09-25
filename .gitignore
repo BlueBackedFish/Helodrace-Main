@@ -1,6 +1,5 @@
 /.tmp-scgf-source/
-/.codex-staging/TcccBuild/
-/.codex-staging/TcccRuntime/
+/.codex-staging/
 /Source/Helodrace/obj/TcccBuild/
 /Source/Helodrace/obj/TcccRuntime/
 /Textures/Helod/Apparel/Apparel.zip
