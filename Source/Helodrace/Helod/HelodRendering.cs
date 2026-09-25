@@ -22,6 +22,45 @@ namespace Helodrace
         }
     }
 
+    public sealed class PawnRenderNode_HelodHead : PawnRenderNode_Head
+    {
+        public PawnRenderNode_HelodHead(Pawn pawn, PawnRenderNodeProperties props, PawnRenderTree tree)
+            : base(pawn, props, tree) { }
+
+        public override Graphic GraphicFor(Pawn pawn)
+        {
+            if (!pawn.health.hediffSet.HasHead) return null;
+            if (pawn.Drawer.renderer.CurRotDrawMode == RotDrawMode.Dessicated)
+                return HeadTypeDefOf.Skull.GetGraphic(pawn, Color.white);
+            if (pawn.story?.headType == null) return null;
+            if (!pawn.DevelopmentalStage.Baby())
+                return pawn.story.headType.GetGraphic(pawn, ColorFor(pawn));
+
+            string normalPath = pawn.story.headType.graphicPath;
+            int slash = normalPath.LastIndexOf('/');
+            string headName = slash >= 0 ? normalPath.Substring(slash + 1) : normalPath;
+            string babyPath = "Helod/Heads/Baby/" + headName;
+            if (ContentFinder<Texture2D>.Get(babyPath + "_south", false) == null)
+                return pawn.story.headType.GetGraphic(pawn, ColorFor(pawn));
+
+            Shader shader = pawn.Drawer.renderer.StatueColor.HasValue
+                ? ShaderDatabase.Cutout : ShaderUtility.GetSkinShader(pawn);
+            return GraphicDatabase.Get<Graphic_Multi>(babyPath, shader, Vector2.one, ColorFor(pawn));
+        }
+    }
+
+    public sealed class PawnRenderNode_HelodHair : PawnRenderNode_Hair
+    {
+        public PawnRenderNode_HelodHair(Pawn pawn, PawnRenderNodeProperties props, PawnRenderTree tree)
+            : base(pawn, props, tree) { }
+
+        public override Graphic GraphicFor(Pawn pawn)
+        {
+            if (pawn.story?.hairDef == null || pawn.story.hairDef.noGraphic) return null;
+            return pawn.story.hairDef.GraphicFor(pawn, ColorFor(pawn));
+        }
+    }
+
     public enum HelodAppendage { Tail, LeftEar, RightEar }
 
     public sealed class PawnRenderNodeProperties_HelodAppendage : PawnRenderNodeProperties
@@ -63,7 +102,8 @@ namespace Helodrace
         public override bool CanDrawNow(PawnRenderNode node, PawnDrawParms parms)
         {
             if (!base.CanDrawNow(node, parms)) return false;
-            var kind = ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage;
+            var kind = AnatomicalKind(
+                ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage, parms.facing);
             if (kind == HelodAppendage.Tail)
             {
                 // Sleeping spots are beds internally, but their Def explicitly asks the
@@ -99,6 +139,14 @@ namespace Helodrace
                     ? part.customLabel : part.untranslatedCustomLabel) == label;
         }
 
+        private static HelodAppendage AnatomicalKind(HelodAppendage kind, Rot4 facing)
+        {
+            if (facing != Rot4.West) return kind;
+            if (kind == HelodAppendage.LeftEar) return HelodAppendage.RightEar;
+            if (kind == HelodAppendage.RightEar) return HelodAppendage.LeftEar;
+            return kind;
+        }
+
         protected override Material GetMaterial(PawnRenderNode node, PawnDrawParms parms)
         {
             if (parms.flipHead && ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage != HelodAppendage.Tail)
@@ -109,12 +157,17 @@ namespace Helodrace
         public override Vector3 OffsetFor(PawnRenderNode node, PawnDrawParms parms, out Vector3 pivot)
         {
             Vector3 result = base.OffsetFor(node, parms, out pivot);
-            var kind = ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage;
-            Rot4 facing = parms.flipHead && kind != HelodAppendage.Tail ? parms.facing.Opposite : parms.facing;
-            HelodAppendageOffset entry = ConfiguredOffsetFor(kind);
+            var renderKind = ((PawnRenderNodeProperties_HelodAppendage)node.Props).appendage;
+            Rot4 facing = parms.flipHead && renderKind != HelodAppendage.Tail
+                ? parms.facing.Opposite : parms.facing;
+            HelodAppendageOffset entry = ConfiguredOffsetFor(renderKind);
             if (entry == null) return result;
             Vector3 offset = DirectionalOffsetFor(entry, facing);
-            offset += DevelopmentalOffsetFor(entry, parms.pawn.DevelopmentalStage, facing);
+            HelodAppendage anatomicalKind = AnatomicalKind(renderKind, parms.facing);
+            HelodAppendageOffset developmentalEntry = ConfiguredOffsetFor(anatomicalKind);
+            if (developmentalEntry != null)
+                offset += DevelopmentalOffsetFor(developmentalEntry,
+                    parms.pawn.DevelopmentalStage, parms.facing);
             return result + offset;
         }
 
@@ -199,13 +252,16 @@ namespace Helodrace
         {
             if (!HelodRace.IsHelod(___pawn)) return;
             float age = ___pawn.ageTracker.AgeBiologicalYearsFloat;
-            float? position = OffsetForAge(___pawn.gender, age);
-            // XML specifies the head anchor's Z directly, before render-tree transforms.
-            // Do not add the body type's base offset or scale by life-stage body size.
-            if (position.HasValue) __result.z = position.Value;
+            HelodHeadOffset entry = OffsetForAge(age);
+            if (entry == null) return;
+            float value = ___pawn.gender == Gender.Female ? entry.female : entry.male;
+            if (entry.absolute)
+                __result.z = value;
+            else
+                __result.z += value * Mathf.Sqrt(___pawn.ageTracker.CurLifeStage.bodySizeFactor);
         }
 
-        internal static float? OffsetForAge(Gender gender, float age)
+        internal static HelodHeadOffset OffsetForAge(float age)
         {
             var entries = HelodRace.Settings?.headOffsets;
             HelodHeadOffset selected = null;
@@ -215,8 +271,18 @@ namespace Helodrace
                         && (selected == null || entry.minAge >= selected.minAge))
                         selected = entry;
             // Missing settings leave the vanilla head offset unchanged.
-            return selected == null ? (float?)null
-                : gender == Gender.Female ? selected.female : selected.male;
+            return selected;
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderer), "GetBodyPos")]
+    public static class Patch_HelodBabyBedOffset
+    {
+        public static void Postfix(Pawn ___pawn, PawnPosture posture, ref Vector3 __result)
+        {
+            if (HelodRace.IsHelod(___pawn) && ___pawn.DevelopmentalStage.Baby()
+                && posture == PawnPosture.LayingInBed)
+                __result.z -= 0.3f;
         }
     }
 

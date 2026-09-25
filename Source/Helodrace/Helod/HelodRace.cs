@@ -39,6 +39,7 @@ namespace Helodrace
         public float minAge;
         public float female;
         public float male;
+        public bool absolute;
     }
 
     public sealed class HelodAppendageOffset

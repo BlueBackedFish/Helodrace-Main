@@ -4,7 +4,12 @@
     <randomChosen>false</randomChosen>
   </HeadTypeDef>
 
-  <HeadTypeDef ParentName="HelodHeadBase">
+   <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead000000</defName>
+    <graphicPath>Helod/Heads/HelodHead000000</graphicPath>
+  </HeadTypeDef>
+
+   <HeadTypeDef ParentName="HelodHeadBase">
     <defName>HD_HelodHead010101</defName>
     <graphicPath>Helod/Heads/HelodHead010101</graphicPath>
   </HeadTypeDef>
@@ -17,6 +22,26 @@
   <HeadTypeDef ParentName="HelodHeadBase">
     <defName>HD_HelodHead010103</defName>
     <graphicPath>Helod/Heads/HelodHead010103</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010104</defName>
+    <graphicPath>Helod/Heads/HelodHead010104</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010105</defName>
+    <graphicPath>Helod/Heads/HelodHead010105</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010106</defName>
+    <graphicPath>Helod/Heads/HelodHead010106</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010107</defName>
+    <graphicPath>Helod/Heads/HelodHead010107</graphicPath>
   </HeadTypeDef>
 
   <HeadTypeDef ParentName="HelodHeadBase">
@@ -35,6 +60,26 @@
   </HeadTypeDef>
 
   <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010204</defName>
+    <graphicPath>Helod/Heads/HelodHead010204</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010205</defName>
+    <graphicPath>Helod/Heads/HelodHead010205</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010206</defName>
+    <graphicPath>Helod/Heads/HelodHead010206</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010207</defName>
+    <graphicPath>Helod/Heads/HelodHead010207</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
     <defName>HD_HelodHead010301</defName>
     <graphicPath>Helod/Heads/HelodHead010301</graphicPath>
   </HeadTypeDef>
@@ -50,6 +95,26 @@
   </HeadTypeDef>
 
   <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010304</defName>
+    <graphicPath>Helod/Heads/HelodHead010304</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010305</defName>
+    <graphicPath>Helod/Heads/HelodHead010305</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010306</defName>
+    <graphicPath>Helod/Heads/HelodHead010306</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010307</defName>
+    <graphicPath>Helod/Heads/HelodHead010307</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
     <defName>HD_HelodHead010401</defName>
     <graphicPath>Helod/Heads/HelodHead010401</graphicPath>
   </HeadTypeDef>
@@ -57,6 +122,31 @@
   <HeadTypeDef ParentName="HelodHeadBase">
     <defName>HD_HelodHead010402</defName>
     <graphicPath>Helod/Heads/HelodHead010402</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010403</defName>
+    <graphicPath>Helod/Heads/HelodHead010403</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010404</defName>
+    <graphicPath>Helod/Heads/HelodHead010404</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010405</defName>
+    <graphicPath>Helod/Heads/HelodHead010405</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010406</defName>
+    <graphicPath>Helod/Heads/HelodHead010406</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010407</defName>
+    <graphicPath>Helod/Heads/HelodHead010407</graphicPath>
   </HeadTypeDef>
 
   <HeadTypeDef ParentName="HelodHeadBase">
@@ -68,6 +158,767 @@
     <defName>HD_HelodHead010502</defName>
     <graphicPath>Helod/Heads/HelodHead010502</graphicPath>
   </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010503</defName>
+    <graphicPath>Helod/Heads/HelodHead010503</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010504</defName>
+    <graphicPath>Helod/Heads/HelodHead010504</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010505</defName>
+    <graphicPath>Helod/Heads/HelodHead010505</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010506</defName>
+    <graphicPath>Helod/Heads/HelodHead010506</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010507</defName>
+    <graphicPath>Helod/Heads/HelodHead010507</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010601</defName>
+    <graphicPath>Helod/Heads/HelodHead010601</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010602</defName>
+    <graphicPath>Helod/Heads/HelodHead010602</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010603</defName>
+    <graphicPath>Helod/Heads/HelodHead010603</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010604</defName>
+    <graphicPath>Helod/Heads/HelodHead010604</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010605</defName>
+    <graphicPath>Helod/Heads/HelodHead010605</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010606</defName>
+    <graphicPath>Helod/Heads/HelodHead010606</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010607</defName>
+    <graphicPath>Helod/Heads/HelodHead010607</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010701</defName>
+    <graphicPath>Helod/Heads/HelodHead010701</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010702</defName>
+    <graphicPath>Helod/Heads/HelodHead010702</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010703</defName>
+    <graphicPath>Helod/Heads/HelodHead010703</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010704</defName>
+    <graphicPath>Helod/Heads/HelodHead010704</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010705</defName>
+    <graphicPath>Helod/Heads/HelodHead010705</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010706</defName>
+    <graphicPath>Helod/Heads/HelodHead010706</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010707</defName>
+    <graphicPath>Helod/Heads/HelodHead010707</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010801</defName>
+    <graphicPath>Helod/Heads/HelodHead010801</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010802</defName>
+    <graphicPath>Helod/Heads/HelodHead010802</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010803</defName>
+    <graphicPath>Helod/Heads/HelodHead010803</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010804</defName>
+    <graphicPath>Helod/Heads/HelodHead010804</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010805</defName>
+    <graphicPath>Helod/Heads/HelodHead010805</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010806</defName>
+    <graphicPath>Helod/Heads/HelodHead010806</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010807</defName>
+    <graphicPath>Helod/Heads/HelodHead010807</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010901</defName>
+    <graphicPath>Helod/Heads/HelodHead010901</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010902</defName>
+    <graphicPath>Helod/Heads/HelodHead010902</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010903</defName>
+    <graphicPath>Helod/Heads/HelodHead010903</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010904</defName>
+    <graphicPath>Helod/Heads/HelodHead010904</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010905</defName>
+    <graphicPath>Helod/Heads/HelodHead010905</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010906</defName>
+    <graphicPath>Helod/Heads/HelodHead010906</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead010907</defName>
+    <graphicPath>Helod/Heads/HelodHead010907</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011001</defName>
+    <graphicPath>Helod/Heads/HelodHead011001</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011002</defName>
+    <graphicPath>Helod/Heads/HelodHead011002</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011003</defName>
+    <graphicPath>Helod/Heads/HelodHead011003</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011004</defName>
+    <graphicPath>Helod/Heads/HelodHead011004</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011005</defName>
+    <graphicPath>Helod/Heads/HelodHead011005</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011006</defName>
+    <graphicPath>Helod/Heads/HelodHead011006</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011007</defName>
+    <graphicPath>Helod/Heads/HelodHead011007</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011101</defName>
+    <graphicPath>Helod/Heads/HelodHead011101</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011102</defName>
+    <graphicPath>Helod/Heads/HelodHead011102</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011103</defName>
+    <graphicPath>Helod/Heads/HelodHead011103</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011104</defName>
+    <graphicPath>Helod/Heads/HelodHead011104</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011105</defName>
+    <graphicPath>Helod/Heads/HelodHead011105</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011106</defName>
+    <graphicPath>Helod/Heads/HelodHead011106</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011107</defName>
+    <graphicPath>Helod/Heads/HelodHead011107</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011201</defName>
+    <graphicPath>Helod/Heads/HelodHead011201</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011202</defName>
+    <graphicPath>Helod/Heads/HelodHead011202</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011203</defName>
+    <graphicPath>Helod/Heads/HelodHead011203</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011204</defName>
+    <graphicPath>Helod/Heads/HelodHead011204</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011205</defName>
+    <graphicPath>Helod/Heads/HelodHead011205</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011206</defName>
+    <graphicPath>Helod/Heads/HelodHead011206</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011207</defName>
+    <graphicPath>Helod/Heads/HelodHead011207</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011301</defName>
+    <graphicPath>Helod/Heads/HelodHead011301</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011302</defName>
+    <graphicPath>Helod/Heads/HelodHead011302</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011303</defName>
+    <graphicPath>Helod/Heads/HelodHead011303</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011304</defName>
+    <graphicPath>Helod/Heads/HelodHead011304</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011305</defName>
+    <graphicPath>Helod/Heads/HelodHead011305</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011306</defName>
+    <graphicPath>Helod/Heads/HelodHead011306</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead011307</defName>
+    <graphicPath>Helod/Heads/HelodHead011307</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020101</defName>
+    <graphicPath>Helod/Heads/HelodHead020101</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020102</defName>
+    <graphicPath>Helod/Heads/HelodHead020102</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020103</defName>
+    <graphicPath>Helod/Heads/HelodHead020103</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020104</defName>
+    <graphicPath>Helod/Heads/HelodHead020104</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020105</defName>
+    <graphicPath>Helod/Heads/HelodHead020105</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020106</defName>
+    <graphicPath>Helod/Heads/HelodHead020106</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020107</defName>
+    <graphicPath>Helod/Heads/HelodHead020107</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020201</defName>
+    <graphicPath>Helod/Heads/HelodHead020201</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020202</defName>
+    <graphicPath>Helod/Heads/HelodHead020202</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020203</defName>
+    <graphicPath>Helod/Heads/HelodHead020203</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020204</defName>
+    <graphicPath>Helod/Heads/HelodHead020204</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020205</defName>
+    <graphicPath>Helod/Heads/HelodHead020205</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020206</defName>
+    <graphicPath>Helod/Heads/HelodHead020206</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020207</defName>
+    <graphicPath>Helod/Heads/HelodHead020207</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020301</defName>
+    <graphicPath>Helod/Heads/HelodHead020301</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020302</defName>
+    <graphicPath>Helod/Heads/HelodHead020302</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020303</defName>
+    <graphicPath>Helod/Heads/HelodHead020303</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020304</defName>
+    <graphicPath>Helod/Heads/HelodHead020304</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020305</defName>
+    <graphicPath>Helod/Heads/HelodHead020305</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020306</defName>
+    <graphicPath>Helod/Heads/HelodHead020306</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020307</defName>
+    <graphicPath>Helod/Heads/HelodHead020307</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020401</defName>
+    <graphicPath>Helod/Heads/HelodHead020401</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020402</defName>
+    <graphicPath>Helod/Heads/HelodHead020402</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020403</defName>
+    <graphicPath>Helod/Heads/HelodHead020403</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020404</defName>
+    <graphicPath>Helod/Heads/HelodHead020404</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020405</defName>
+    <graphicPath>Helod/Heads/HelodHead020405</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020406</defName>
+    <graphicPath>Helod/Heads/HelodHead020406</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020407</defName>
+    <graphicPath>Helod/Heads/HelodHead020407</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020501</defName>
+    <graphicPath>Helod/Heads/HelodHead020501</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020502</defName>
+    <graphicPath>Helod/Heads/HelodHead020502</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020503</defName>
+    <graphicPath>Helod/Heads/HelodHead020503</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020504</defName>
+    <graphicPath>Helod/Heads/HelodHead020504</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020505</defName>
+    <graphicPath>Helod/Heads/HelodHead020505</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020506</defName>
+    <graphicPath>Helod/Heads/HelodHead020506</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020507</defName>
+    <graphicPath>Helod/Heads/HelodHead020507</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020601</defName>
+    <graphicPath>Helod/Heads/HelodHead020601</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020602</defName>
+    <graphicPath>Helod/Heads/HelodHead020602</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020603</defName>
+    <graphicPath>Helod/Heads/HelodHead020603</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020604</defName>
+    <graphicPath>Helod/Heads/HelodHead020604</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020605</defName>
+    <graphicPath>Helod/Heads/HelodHead020605</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020606</defName>
+    <graphicPath>Helod/Heads/HelodHead020606</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020607</defName>
+    <graphicPath>Helod/Heads/HelodHead020607</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020701</defName>
+    <graphicPath>Helod/Heads/HelodHead020701</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020702</defName>
+    <graphicPath>Helod/Heads/HelodHead020702</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020703</defName>
+    <graphicPath>Helod/Heads/HelodHead020703</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020704</defName>
+    <graphicPath>Helod/Heads/HelodHead020704</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020705</defName>
+    <graphicPath>Helod/Heads/HelodHead020705</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020706</defName>
+    <graphicPath>Helod/Heads/HelodHead020706</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020707</defName>
+    <graphicPath>Helod/Heads/HelodHead020707</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020801</defName>
+    <graphicPath>Helod/Heads/HelodHead020801</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020802</defName>
+    <graphicPath>Helod/Heads/HelodHead020802</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020803</defName>
+    <graphicPath>Helod/Heads/HelodHead020803</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020804</defName>
+    <graphicPath>Helod/Heads/HelodHead020804</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020805</defName>
+    <graphicPath>Helod/Heads/HelodHead020805</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020806</defName>
+    <graphicPath>Helod/Heads/HelodHead020806</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020807</defName>
+    <graphicPath>Helod/Heads/HelodHead020807</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020901</defName>
+    <graphicPath>Helod/Heads/HelodHead020901</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020902</defName>
+    <graphicPath>Helod/Heads/HelodHead020902</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020903</defName>
+    <graphicPath>Helod/Heads/HelodHead020903</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020904</defName>
+    <graphicPath>Helod/Heads/HelodHead020904</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020905</defName>
+    <graphicPath>Helod/Heads/HelodHead020905</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020906</defName>
+    <graphicPath>Helod/Heads/HelodHead020906</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead020907</defName>
+    <graphicPath>Helod/Heads/HelodHead020907</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021001</defName>
+    <graphicPath>Helod/Heads/HelodHead021001</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021002</defName>
+    <graphicPath>Helod/Heads/HelodHead021002</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021003</defName>
+    <graphicPath>Helod/Heads/HelodHead021003</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021004</defName>
+    <graphicPath>Helod/Heads/HelodHead021004</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021005</defName>
+    <graphicPath>Helod/Heads/HelodHead021005</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021006</defName>
+    <graphicPath>Helod/Heads/HelodHead021006</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021007</defName>
+    <graphicPath>Helod/Heads/HelodHead021007</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021101</defName>
+    <graphicPath>Helod/Heads/HelodHead021101</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021102</defName>
+    <graphicPath>Helod/Heads/HelodHead021102</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021103</defName>
+    <graphicPath>Helod/Heads/HelodHead021103</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021104</defName>
+    <graphicPath>Helod/Heads/HelodHead021104</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021105</defName>
+    <graphicPath>Helod/Heads/HelodHead021105</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021106</defName>
+    <graphicPath>Helod/Heads/HelodHead021106</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021107</defName>
+    <graphicPath>Helod/Heads/HelodHead021107</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021201</defName>
+    <graphicPath>Helod/Heads/HelodHead021201</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021202</defName>
+    <graphicPath>Helod/Heads/HelodHead021202</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021203</defName>
+    <graphicPath>Helod/Heads/HelodHead021203</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021204</defName>
+    <graphicPath>Helod/Heads/HelodHead021204</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021205</defName>
+    <graphicPath>Helod/Heads/HelodHead021205</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021206</defName>
+    <graphicPath>Helod/Heads/HelodHead021206</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021207</defName>
+    <graphicPath>Helod/Heads/HelodHead021207</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021301</defName>
+    <graphicPath>Helod/Heads/HelodHead021301</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021302</defName>
+    <graphicPath>Helod/Heads/HelodHead021302</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021303</defName>
+    <graphicPath>Helod/Heads/HelodHead021303</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021304</defName>
+    <graphicPath>Helod/Heads/HelodHead021304</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021305</defName>
+    <graphicPath>Helod/Heads/HelodHead021305</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021306</defName>
+    <graphicPath>Helod/Heads/HelodHead021306</graphicPath>
+  </HeadTypeDef>
+
+  <HeadTypeDef ParentName="HelodHeadBase">
+    <defName>HD_HelodHead021307</defName>
+    <graphicPath>Helod/Heads/HelodHead021307</graphicPath>
+  </HeadTypeDef>
+
 
   <!-- Legacy save compatibility. These are intentionally omitted from the
        race's random head pool, but keep old pawns' saved headType references valid. -->

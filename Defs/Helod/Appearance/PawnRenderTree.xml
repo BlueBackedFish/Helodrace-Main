@@ -73,7 +73,7 @@
 
         <li> <!-- 머리 렌더링 노드 -->
           <debugLabel>Head</debugLabel>
-          <nodeClass>PawnRenderNode_Head</nodeClass>
+          <nodeClass>Helodrace.PawnRenderNode_HelodHead</nodeClass>
           <workerClass>PawnRenderNodeWorker_Head</workerClass>
           <tagDef>Head</tagDef>
           <skipFlag>Head</skipFlag>
@@ -94,7 +94,7 @@
             </li>
             <li>
               <debugLabel>Hair</debugLabel>
-              <nodeClass>PawnRenderNode_Hair</nodeClass>
+              <nodeClass>Helodrace.PawnRenderNode_HelodHair</nodeClass>
               <workerClass>PawnRenderNodeWorker_FlipWhenCrawling</workerClass>
               <rotDrawMode>Fresh, Rotting</rotDrawMode>
               <colorType>Hair</colorType>

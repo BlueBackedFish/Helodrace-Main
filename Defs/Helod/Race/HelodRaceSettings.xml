@@ -3,22 +3,22 @@
   <Helodrace.HelodRaceSettingsDef>
     <defName>HD_HelodRaceSettings</defName>
     <drawScale>0.8</drawScale>
-    <!-- Direct head-anchor Z positions, not corrections to the vanilla position.
-         No bodySizeFactor scaling. X/Y and render-tree transforms still apply.
+    <!-- Head-anchor Z offsets are additive and scaled by the square root of
+         bodySizeFactor unless absolute is true. Teenagers and adults share
+         the same final Z position, regardless of life-stage body size.
          Greatest minAge <= biological age wins. Missing entries keep vanilla Z.
-         Zero is a valid position. Restart the game after editing. -->
+         Restart the game after editing. -->
     <headOffsets>
-      <li><minAge>0</minAge><female>0.04</female><male>0.04</male></li>
-      <li><minAge>3</minAge><female>0.127</female><male>0.127</male></li>
-      <li><minAge>13</minAge><female>0.265</female><male>0.265</male></li>
-      <li><minAge>18</minAge><female>0.265</female><male>0.265</male></li>
+      <li><minAge>0</minAge><female>-0.5</female><male>-0.07</male></li>
+      <li><minAge>3</minAge><female>-0.125</female><male>-1.2</male></li>
+      <li><minAge>13</minAge><female>0.265</female><male>0.265</male><absolute>true</absolute></li>
     </headOffsets>
     <!-- Additive appendage offsets by facing. Missing entries mean no extra offset. -->
     <appendageOffsets>
       <li>
         <appendage>Tail</appendage>
         <north>(0, 0.3, -0.075)</north>
-        <south>(0.0075, -0.3, -0.07)</south>
+        <south>(0, -0.3, -0.07)</south>
         <east>(-0.095, -0.3, 0.02)</east>
         <west>(0.095, -0.3, 0.02)</west>
         <childNorth>(0, 0, 0.075)</childNorth>
@@ -36,13 +36,29 @@
         <south>(0.13, 0.3, 0.18825)</south>
         <east>(0.115, -0.7, 0.145)</east>
         <west>(-0.115, -0.7, 0.145)</west>
+        <childNorth>(0.035, 0, -0.05)</childNorth>
+        <childSouth>(-0.035, 0, -0.05)</childSouth>
+        <childEast>(-0.025, 0, -0.03)</childEast>
+        <childWest>(0.0075, 0, -0.0375)</childWest>
+        <babyNorth>(0.065, 0, -0.0975)</babyNorth>
+        <babySouth>(-0.065, 0, -0.0975)</babySouth>
+        <babyEast>(-0.055, 0, -0.07)</babyEast>
+        <babyWest>(0.0175, 0, -0.075)</babyWest>
       </li>
       <li>
         <appendage>RightEar</appendage>
         <north>(0.13, -0.3, 0.2)</north>
         <south>(-0.13, 0.3, 0.18825)</south>
-        <east>(0.0025, 0.296, 0.145)</east>
-        <west>(-0.0025, 0.296, 0.145)</west>
+        <east>(0.03625, 0.296, 0.1475)</east>
+        <west>(-0.03625, 0.296, 0.1475)</west>
+        <childNorth>(-0.035, 0, -0.05)</childNorth>
+        <childSouth>(0.035, 0, -0.05)</childSouth>
+        <childEast>(-0.0075, 0, -0.0375)</childEast>
+        <childWest>(0.025, 0, -0.03)</childWest>
+        <babyNorth>(-0.065, 0, -0.0975)</babyNorth>
+        <babySouth>(0.065, 0, -0.0975)</babySouth>
+        <babyEast>(-0.0175, 0, -0.075)</babyEast>
+        <babyWest>(0.055, 0, -0.07)</babyWest>
       </li>
     </appendageOffsets>
     <maleProbability>0.0000001</maleProbability>
@@ -51,19 +67,189 @@
     <slaveChance>0.15</slaveChance>
     <wandererChance>0.15</wandererChance>
     <headTypes>
+      <li>HD_HelodHead000000</li>
       <li>HD_HelodHead010101</li>
       <li>HD_HelodHead010102</li>
       <li>HD_HelodHead010103</li>
+      <li>HD_HelodHead010104</li>
+      <li>HD_HelodHead010105</li>
+      <li>HD_HelodHead010106</li>
+      <li>HD_HelodHead010107</li>
       <li>HD_HelodHead010201</li>
       <li>HD_HelodHead010202</li>
       <li>HD_HelodHead010203</li>
+      <li>HD_HelodHead010204</li>
+      <li>HD_HelodHead010205</li>
+      <li>HD_HelodHead010206</li>
+      <li>HD_HelodHead010207</li>
       <li>HD_HelodHead010301</li>
       <li>HD_HelodHead010302</li>
       <li>HD_HelodHead010303</li>
+      <li>HD_HelodHead010304</li>
+      <li>HD_HelodHead010305</li>
+      <li>HD_HelodHead010306</li>
+      <li>HD_HelodHead010307</li>
       <li>HD_HelodHead010401</li>
       <li>HD_HelodHead010402</li>
+      <li>HD_HelodHead010403</li>
+      <li>HD_HelodHead010404</li>
+      <li>HD_HelodHead010405</li>
+      <li>HD_HelodHead010406</li>
+      <li>HD_HelodHead010407</li>
       <li>HD_HelodHead010501</li>
       <li>HD_HelodHead010502</li>
+      <li>HD_HelodHead010503</li>
+      <li>HD_HelodHead010504</li>
+      <li>HD_HelodHead010505</li>
+      <li>HD_HelodHead010506</li>
+      <li>HD_HelodHead010507</li>
+      <li>HD_HelodHead010601</li>
+      <li>HD_HelodHead010602</li>
+      <li>HD_HelodHead010603</li>
+      <li>HD_HelodHead010604</li>
+      <li>HD_HelodHead010605</li>
+      <li>HD_HelodHead010606</li>
+      <li>HD_HelodHead010607</li>
+      <li>HD_HelodHead010701</li>
+      <li>HD_HelodHead010702</li>
+      <li>HD_HelodHead010703</li>
+      <li>HD_HelodHead010704</li>
+      <li>HD_HelodHead010705</li>
+      <li>HD_HelodHead010706</li>
+      <li>HD_HelodHead010707</li>
+      <li>HD_HelodHead010801</li>
+      <li>HD_HelodHead010802</li>
+      <li>HD_HelodHead010803</li>
+      <li>HD_HelodHead010804</li>
+      <li>HD_HelodHead010805</li>
+      <li>HD_HelodHead010806</li>
+      <li>HD_HelodHead010807</li>
+      <li>HD_HelodHead010901</li>
+      <li>HD_HelodHead010902</li>
+      <li>HD_HelodHead010903</li>
+      <li>HD_HelodHead010904</li>
+      <li>HD_HelodHead010905</li>
+      <li>HD_HelodHead010906</li>
+      <li>HD_HelodHead010907</li>
+      <li>HD_HelodHead011001</li>
+      <li>HD_HelodHead011002</li>
+      <li>HD_HelodHead011003</li>
+      <li>HD_HelodHead011004</li>
+      <li>HD_HelodHead011005</li>
+      <li>HD_HelodHead011006</li>
+      <li>HD_HelodHead011007</li>
+      <li>HD_HelodHead011101</li>
+      <li>HD_HelodHead011102</li>
+      <li>HD_HelodHead011103</li>
+      <li>HD_HelodHead011104</li>
+      <li>HD_HelodHead011105</li>
+      <li>HD_HelodHead011106</li>
+      <li>HD_HelodHead011107</li>
+      <li>HD_HelodHead011201</li>
+      <li>HD_HelodHead011202</li>
+      <li>HD_HelodHead011203</li>
+      <li>HD_HelodHead011204</li>
+      <li>HD_HelodHead011205</li>
+      <li>HD_HelodHead011206</li>
+      <li>HD_HelodHead011207</li>
+      <li>HD_HelodHead011301</li>
+      <li>HD_HelodHead011302</li>
+      <li>HD_HelodHead011303</li>
+      <li>HD_HelodHead011304</li>
+      <li>HD_HelodHead011305</li>
+      <li>HD_HelodHead011306</li>
+      <li>HD_HelodHead011307</li>
+      <li>HD_HelodHead020101</li>
+      <li>HD_HelodHead020102</li>
+      <li>HD_HelodHead020103</li>
+      <li>HD_HelodHead020104</li>
+      <li>HD_HelodHead020105</li>
+      <li>HD_HelodHead020106</li>
+      <li>HD_HelodHead020107</li>
+      <li>HD_HelodHead020201</li>
+      <li>HD_HelodHead020202</li>
+      <li>HD_HelodHead020203</li>
+      <li>HD_HelodHead020204</li>
+      <li>HD_HelodHead020205</li>
+      <li>HD_HelodHead020206</li>
+      <li>HD_HelodHead020207</li>
+      <li>HD_HelodHead020301</li>
+      <li>HD_HelodHead020302</li>
+      <li>HD_HelodHead020303</li>
+      <li>HD_HelodHead020304</li>
+      <li>HD_HelodHead020305</li>
+      <li>HD_HelodHead020306</li>
+      <li>HD_HelodHead020307</li>
+      <li>HD_HelodHead020401</li>
+      <li>HD_HelodHead020402</li>
+      <li>HD_HelodHead020403</li>
+      <li>HD_HelodHead020404</li>
+      <li>HD_HelodHead020405</li>
+      <li>HD_HelodHead020406</li>
+      <li>HD_HelodHead020407</li>
+      <li>HD_HelodHead020501</li>
+      <li>HD_HelodHead020502</li>
+      <li>HD_HelodHead020503</li>
+      <li>HD_HelodHead020504</li>
+      <li>HD_HelodHead020505</li>
+      <li>HD_HelodHead020506</li>
+      <li>HD_HelodHead020507</li>
+      <li>HD_HelodHead020601</li>
+      <li>HD_HelodHead020602</li>
+      <li>HD_HelodHead020603</li>
+      <li>HD_HelodHead020604</li>
+      <li>HD_HelodHead020605</li>
+      <li>HD_HelodHead020606</li>
+      <li>HD_HelodHead020607</li>
+      <li>HD_HelodHead020701</li>
+      <li>HD_HelodHead020702</li>
+      <li>HD_HelodHead020703</li>
+      <li>HD_HelodHead020704</li>
+      <li>HD_HelodHead020705</li>
+      <li>HD_HelodHead020706</li>
+      <li>HD_HelodHead020707</li>
+      <li>HD_HelodHead020801</li>
+      <li>HD_HelodHead020802</li>
+      <li>HD_HelodHead020803</li>
+      <li>HD_HelodHead020804</li>
+      <li>HD_HelodHead020805</li>
+      <li>HD_HelodHead020806</li>
+      <li>HD_HelodHead020807</li>
+      <li>HD_HelodHead020901</li>
+      <li>HD_HelodHead020902</li>
+      <li>HD_HelodHead020903</li>
+      <li>HD_HelodHead020904</li>
+      <li>HD_HelodHead020905</li>
+      <li>HD_HelodHead020906</li>
+      <li>HD_HelodHead020907</li>
+      <li>HD_HelodHead021001</li>
+      <li>HD_HelodHead021002</li>
+      <li>HD_HelodHead021003</li>
+      <li>HD_HelodHead021004</li>
+      <li>HD_HelodHead021005</li>
+      <li>HD_HelodHead021006</li>
+      <li>HD_HelodHead021007</li>
+      <li>HD_HelodHead021101</li>
+      <li>HD_HelodHead021102</li>
+      <li>HD_HelodHead021103</li>
+      <li>HD_HelodHead021104</li>
+      <li>HD_HelodHead021105</li>
+      <li>HD_HelodHead021106</li>
+      <li>HD_HelodHead021107</li>
+      <li>HD_HelodHead021201</li>
+      <li>HD_HelodHead021202</li>
+      <li>HD_HelodHead021203</li>
+      <li>HD_HelodHead021204</li>
+      <li>HD_HelodHead021205</li>
+      <li>HD_HelodHead021206</li>
+      <li>HD_HelodHead021207</li>
+      <li>HD_HelodHead021301</li>
+      <li>HD_HelodHead021302</li>
+      <li>HD_HelodHead021303</li>
+      <li>HD_HelodHead021304</li>
+      <li>HD_HelodHead021305</li>
+      <li>HD_HelodHead021306</li>
+      <li>HD_HelodHead021307</li>
     </headTypes>
     <apparelGraphics>
       <li>
