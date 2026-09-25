@@ -65,7 +65,7 @@
   <HelodTotalSynthesisMedicine.description>화학 원료와 정밀 가공 기술을 조합하여, 순수한 성분의 약물을 높은 수율로 합성하는 첨단 제약 기술을 연구합니다.</HelodTotalSynthesisMedicine.description>
 
   <HelodBasicElectronics.label>옴의 법칙 응용</HelodBasicElectronics.label>
-  <HelodBasicElectronics.description>아 이러 설명 뭐로 하지</HelodBasicElectronics.description>
+  <HelodBasicElectronics.description>전류와 전압, 저항의 관계를 응용해 절연 배선과 단자, 스위치, 저항 소자를 제작하는 기초 전기 기술을 연구합니다.</HelodBasicElectronics.description>
 
   <HelodFinancialNetwork.label>전선을 타고 흐르는 돈</HelodFinancialNetwork.label>
   <HelodFinancialNetwork.description>기존의 통신 선로와 정교한 거래 규약을 접목하여, 자본을 전신망을 통해 원격으로 안전하고 신속하게 송금하는 금융 네트워크를 마련합니다.</HelodFinancialNetwork.description>
@@ -95,7 +95,7 @@
   <HelodBasicMachineGun.description>지속 사격으로 전장을 제압하는 초기 기관총 기술을 연구합니다.</HelodBasicMachineGun.description>
 
   <HelodSamiAutomaticPistol.label>한 번 당기면 한 발</HelodSamiAutomaticPistol.label>
-  <HelodSamiAutomaticPistol.description>반자동 권총과 페더슨 장비 같은 빠른 연사 화기 기술을 연구합니다.</HelodSamiAutomaticPistol.description>
+  <HelodSamiAutomaticPistol.description>반자동 권총과 휘트모어 장비로 대표되는 속사 화기 기술을 연구합니다.</HelodSamiAutomaticPistol.description>
 
   <HelodMiniMotor.label>작은 회전의 시대</HelodMiniMotor.label>
   <HelodMiniMotor.description>공작 기계에 사용할 수 있는 소형 전동기 기술을 연구합니다.</HelodMiniMotor.description>

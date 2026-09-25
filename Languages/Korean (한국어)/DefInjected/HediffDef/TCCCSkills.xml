@@ -5,11 +5,11 @@
   <HD_TCCC_SelfHemostasis.label>자가 지혈</HD_TCCC_SelfHemostasis.label>
   <HD_TCCC_SelfHemostasis.description>18시간 동안 출혈량이 95% 감소합니다. 상처 자체는 별도 치료가 필요합니다.</HD_TCCC_SelfHemostasis.description>
   <HD_TCCC_Hemostatic.label>지혈제 효과</HD_TCCC_Hemostatic.label>
-  <HD_TCCC_Hemostatic.description>6시간 동안 출혈량이 70% 감소합니다. 다른 TCCC 지혈 효과와 곱연산으로 중첩되지 않습니다.</HD_TCCC_Hemostatic.description>
+  <HD_TCCC_Hemostatic.description>혈액 응고를 촉진해 출혈을 억제한 상태입니다. 같은 계열의 지혈 처치를 거듭해도 효과가 더 커지지는 않습니다.</HD_TCCC_Hemostatic.description>
   <HD_TCCC_Mist.label>MIST 후송 인계 준비</HD_TCCC_Mist.label>
-  <HD_TCCC_Mist.description>손상 기전, 부상, 징후와 처치를 기록했습니다. 선택한 환자 모두에게 유효한 인계서가 있으면 MEDEVAC 헬기가 25% 빠르게 도착합니다. 준비된 환자의 탑승 및 인계 시간은 절반이 됩니다. 인계서는 6시간 동안 유효합니다.</HD_TCCC_Mist.description>
+  <HD_TCCC_Mist.description>손상 기전, 부상, 징후와 처치를 정리한 MIST 후송 인계서입니다. 구조대와 의료진이 환자 상태를 빠르게 파악해 후송을 원활히 진행할 수 있습니다.</HD_TCCC_Mist.description>
   <HD_TCCC_Dragging.label>부상자 견인 중</HD_TCCC_Dragging.label>
-  <HD_TCCC_Dragging.description>카라비너 연결끈으로 손을 비운 채 부상자를 끌고 있습니다. 이동속도가 35% 감소하며 작업·조준·공격 간격·시간제 행동이 느려집니다.</HD_TCCC_Dragging.description>
+  <HD_TCCC_Dragging.description>카라비너 연결끈으로 손을 비운 채 부상자를 끌고 있습니다. 부상자의 무게 때문에 이동과 다른 행동이 둔해집니다.</HD_TCCC_Dragging.description>
   <HD_TCCC_Analgesia.label>적정량 진통 효과</HD_TCCC_Analgesia.label>
   <HD_TCCC_Analgesia.description>Blanca's Drugs 진통제를 필요한 양만큼 투여했습니다. 해당 약물의 효과와 부작용이 투여량에 맞춰 적용됩니다.</HD_TCCC_Analgesia.description>
 </LanguageData>

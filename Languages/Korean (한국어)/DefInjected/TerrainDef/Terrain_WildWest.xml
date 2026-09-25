@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_OilFieldFloor.label>유전</HD_OilFieldFloor.label>
-  <HD_OilFieldFloor.description>개발된 석유 함유 바닥입니다. 내부 품질과 감소하는 유정 압력이 채굴 속도를 결정합니다. 바닥 제거 명령으로 철거할 수 있습니다.</HD_OilFieldFloor.description>
+  <HD_OilFieldFloor.description>개발된 석유 함유 지반입니다. 매장 품질과 점차 낮아지는 유정 압력에 따라 원유 산출량이 달라집니다.</HD_OilFieldFloor.description>
   <HD_LowQualityOilRigFloor.label>유전</HD_LowQualityOilRigFloor.label>
   <HD_LowQualityOilRigFloor.description>기존 저장 파일 호환성을 위해 유지되는 개발된 유전 바닥입니다.</HD_LowQualityOilRigFloor.description>
 </LanguageData>

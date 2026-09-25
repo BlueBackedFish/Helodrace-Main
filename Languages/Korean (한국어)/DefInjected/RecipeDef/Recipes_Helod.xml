@@ -95,7 +95,7 @@
   <HD_Make_Gun_SprMThreeHigh_Weapon.label>스프링필드 M1873 제작</HD_Make_Gun_SprMThreeHigh_Weapon.label>
 
   <HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.label>스프링필드 M1861을 M1873으로 개조</HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.label>
-  <HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.description>스프링필드 M1861의 V스프링 작동부를 저품질 토션 스프링으로 교체하여 스프링필드 M1873 후장식 소총으로 개조합니다. 기존 V스프링은 회수됩니다.</HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.description>
+  <HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.description>그레이록 M1861의 V스프링 작동부를 저품질 토션 스프링으로 교체하여 그레이록 M1873 후장식 소총으로 개조합니다. 기존 V스프링은 회수됩니다.</HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.description>
   <HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.jobString>스프링필드 M1861을 M1873으로 개조하는 중.</HD_Convert_SprMOne_To_SprMThreeHigh_Weapon.jobString>
 
   <HD_MakePrimaryCell.label>1차 전지 제작</HD_MakePrimaryCell.label>
@@ -177,33 +177,33 @@
 
 
 
-  <HD_Make_Gun_SprMOne_Weapon.description>스프링필드 M1861을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SprMOne_Weapon.description>
+  <HD_Make_Gun_SprMOne_Weapon.description>그레이록 M1861을 제작합니다.</HD_Make_Gun_SprMOne_Weapon.description>
   <HD_Make_Gun_SprMOne_Weapon.jobString>스프링필드 M1861 제작 중.</HD_Make_Gun_SprMOne_Weapon.jobString>
-  <HD_Make_Gun_ColtArmyModel1860_Weapon.description>콜트 아미 모델 1860을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_ColtArmyModel1860_Weapon.description>
+  <HD_Make_Gun_ColtArmyModel1860_Weapon.description>아이언팽 M1860 아미를 제작합니다.</HD_Make_Gun_ColtArmyModel1860_Weapon.description>
   <HD_Make_Gun_ColtArmyModel1860_Weapon.jobString>콜트 아미 모델 1860 제작 중.</HD_Make_Gun_ColtArmyModel1860_Weapon.jobString>
-  <HD_Make_Gun_ColtSAA_Weapon.description>콜트 SAA을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_ColtSAA_Weapon.description>
+  <HD_Make_Gun_ColtSAA_Weapon.description>아이언팽 SAA를 제작합니다.</HD_Make_Gun_ColtSAA_Weapon.description>
   <HD_Make_Gun_ColtSAA_Weapon.jobString>콜트 SAA 제작 중.</HD_Make_Gun_ColtSAA_Weapon.jobString>
-  <HD_Make_Gun_SWModelThree_Weapon.description>S&amp;W 모델 3을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SWModelThree_Weapon.description>
+  <HD_Make_Gun_SWModelThree_Weapon.description>W&amp;M 모델 3을 제작합니다.</HD_Make_Gun_SWModelThree_Weapon.description>
   <HD_Make_Gun_SWModelThree_Weapon.jobString>S&amp;W 모델 3 제작 중.</HD_Make_Gun_SWModelThree_Weapon.jobString>
   <HD_Make_Gun_M1911_Weapon.description>M1911 권총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1911_Weapon.description>
   <HD_Make_Gun_M1911_Weapon.jobString>M1911 권총 제작 중.</HD_Make_Gun_M1911_Weapon.jobString>
-  <HD_Make_Gun_SprMThreeHigh_Weapon.description>스프링필드 M1873을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SprMThreeHigh_Weapon.description>
+  <HD_Make_Gun_SprMThreeHigh_Weapon.description>그레이록 M1873을 제작합니다.</HD_Make_Gun_SprMThreeHigh_Weapon.description>
   <HD_Make_Gun_SprMThreeHigh_Weapon.jobString>스프링필드 M1873 제작 중.</HD_Make_Gun_SprMThreeHigh_Weapon.jobString>
   <HD_Make_Gun_Henry_Weapon.description>헨리 소총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_Henry_Weapon.description>
   <HD_Make_Gun_Henry_Weapon.jobString>헨리 소총 제작 중.</HD_Make_Gun_Henry_Weapon.jobString>
-  <HD_Make_Gun_WinM1887_Weapon.description>윈체스터 M1887을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_WinM1887_Weapon.description>
+  <HD_Make_Gun_WinM1887_Weapon.description>프론티어 암즈 M1887을 제작합니다.</HD_Make_Gun_WinM1887_Weapon.description>
   <HD_Make_Gun_WinM1887_Weapon.jobString>윈체스터 M1887 제작 중.</HD_Make_Gun_WinM1887_Weapon.jobString>
-  <HD_Make_Gun_WinMNinetyFive_Weapon.description>윈체스터 M1895을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_WinMNinetyFive_Weapon.description>
+  <HD_Make_Gun_WinMNinetyFive_Weapon.description>프론티어 암즈 M1895를 제작합니다.</HD_Make_Gun_WinMNinetyFive_Weapon.description>
   <HD_Make_Gun_WinMNinetyFive_Weapon.jobString>윈체스터 M1895 제작 중.</HD_Make_Gun_WinMNinetyFive_Weapon.jobString>
-  <HD_Make_Gun_KragJorgensen_Weapon.description>크라그-요르겐센을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_KragJorgensen_Weapon.description>
+  <HD_Make_Gun_KragJorgensen_Weapon.description>그레이록 M1892를 제작합니다.</HD_Make_Gun_KragJorgensen_Weapon.description>
   <HD_Make_Gun_KragJorgensen_Weapon.jobString>크라그-요르겐센 제작 중.</HD_Make_Gun_KragJorgensen_Weapon.jobString>
-  <HD_Make_Gun_SprMThree_Weapon.description>스프링필드 M1903을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_SprMThree_Weapon.description>
+  <HD_Make_Gun_SprMThree_Weapon.description>그레이록 M1903을 제작합니다.</HD_Make_Gun_SprMThree_Weapon.description>
   <HD_Make_Gun_SprMThree_Weapon.jobString>스프링필드 M1903 제작 중.</HD_Make_Gun_SprMThree_Weapon.jobString>
   <HD_Make_Gun_M1897_Weapon.description>프론티어 암즈 M1897을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1897_Weapon.description>
   <HD_Make_Gun_M1897_Weapon.jobString>프론티어 암즈 M1897 제작 중.</HD_Make_Gun_M1897_Weapon.jobString>
-  <HD_Make_Gun_M1903A4_Weapon.description>스프링필드 M1903A4를 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1903A4_Weapon.description>
+  <HD_Make_Gun_M1903A4_Weapon.description>그레이록 M1903A4를 제작합니다.</HD_Make_Gun_M1903A4_Weapon.description>
   <HD_Make_Gun_M1903A4_Weapon.jobString>스프링필드 M1903A4 제작 중.</HD_Make_Gun_M1903A4_Weapon.jobString>
-  <HD_Make_Gun_M1903Pedersen_Weapon.description>스프링필드 M1903 페더슨 장치을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1903Pedersen_Weapon.description>
+  <HD_Make_Gun_M1903Pedersen_Weapon.description>그레이록 M1903 휘트모어 장비를 제작합니다.</HD_Make_Gun_M1903Pedersen_Weapon.description>
   <HD_Make_Gun_M1903Pedersen_Weapon.jobString>스프링필드 M1903 페더슨 장치 제작 중.</HD_Make_Gun_M1903Pedersen_Weapon.jobString>
   <HD_Make_Gun_M1A1Harrington_Weapon.description>M1A1 헤링턴을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1A1Harrington_Weapon.description>
   <HD_Make_Gun_M1A1Harrington_Weapon.jobString>M1A1 헤링턴 제작 중.</HD_Make_Gun_M1A1Harrington_Weapon.jobString>
@@ -213,7 +213,7 @@
   <HD_Make_Gun_M1918A2HAR_Weapon.jobString>M1918A2 HAR 제작 중.</HD_Make_Gun_M1918A2HAR_Weapon.jobString>
   <HD_Make_Gun_M1D_Weapon.description>M1D 하츠웰을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1D_Weapon.description>
   <HD_Make_Gun_M1D_Weapon.jobString>M1D 하츠웰 제작 중.</HD_Make_Gun_M1D_Weapon.jobString>
-  <HD_Make_Gun_M1Garand_Weapon.description>M1 개런드을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1Garand_Weapon.description>
+  <HD_Make_Gun_M1Garand_Weapon.description>M1 하츠웰을 제작합니다.</HD_Make_Gun_M1Garand_Weapon.description>
   <HD_Make_Gun_M1Garand_Weapon.jobString>M1 개런드 제작 중.</HD_Make_Gun_M1Garand_Weapon.jobString>
   <HD_Make_Gun_M1919A6LMG_Weapon.description>M1919A6 경기관총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1919A6LMG_Weapon.description>
   <HD_Make_Gun_M1919A6LMG_Weapon.jobString>M1919A6 경기관총 제작 중.</HD_Make_Gun_M1919A6LMG_Weapon.jobString>

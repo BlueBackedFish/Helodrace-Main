@@ -7,7 +7,7 @@
 
   <HD_PhotochlorogenRisk.label>포토클로로겐 손상 위험</HD_PhotochlorogenRisk.label>
   <HD_PhotochlorogenRisk.labelNoun>포토클로로겐 손상 위험</HD_PhotochlorogenRisk.labelNoun>
-  <HD_PhotochlorogenRisk.description>포토클로로겐 노출로 인한 지연성 호흡기 손상 위험입니다. 초기 반응기 증상은 노출량이 빠지면 자연적으로 회복될 수 있지만, 잠복기에 도달하면 더 이상 자연 회복되지 않고 최소한 조금씩 계속 진행됩니다. 위험도는 1시간마다 다시 치료할 수 있으며, 각 치료는 3시간 동안 진행 속도를 크게 늦춥니다. 치료 품질이 총 500% 누적되면 폐수종이 치명적으로 번지기 전에 제거됩니다.</HD_PhotochlorogenRisk.description>
+  <HD_PhotochlorogenRisk.description>포토클로로겐 노출 뒤 나타나는 지연성 호흡기 손상 위험입니다. 초기 반응은 가라앉을 수 있으나 잠복기에 들어서면 자연 회복되지 않고 폐수종으로 진행할 수 있습니다. 지속적인 치료로 악화를 억제해야 합니다.</HD_PhotochlorogenRisk.description>
   <HD_PhotochlorogenRisk.stages.0.label>반응기</HD_PhotochlorogenRisk.stages.0.label>
   <HD_PhotochlorogenRisk.stages.1.label>잠복기</HD_PhotochlorogenRisk.stages.1.label>
   <HD_PhotochlorogenRisk.stages.2.label>폐수종기</HD_PhotochlorogenRisk.stages.2.label>

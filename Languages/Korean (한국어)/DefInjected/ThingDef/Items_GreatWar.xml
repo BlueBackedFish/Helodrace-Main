@@ -9,13 +9,13 @@
   <HD_Apparel_GreatWarMedibag.description>간단한 생약과 붕대류를 구성품으로 갖는 가장 기본적인 어깨걸이 치료가방입니다.</HD_Apparel_GreatWarMedibag.description>
 
   <HD_Apparel_GreatWarGasMaskPouch.label>가스마스크 파우치</HD_Apparel_GreatWarGasMaskPouch.label>
-  <HD_Apparel_GreatWarGasMaskPouch.description>방독면과 밀봉된 여분 필터, 방독 천을 넣어 허리에 차는 작은 파우치입니다. 파우치를 착용하면 방독면을 사용할 수 있으며, 방독면을 꺼내 착용해야 독성 환경 저항력이 100%까지 높아집니다.</HD_Apparel_GreatWarGasMaskPouch.description>
+  <HD_Apparel_GreatWarGasMaskPouch.description>방독면과 밀봉된 여분 필터, 방독 천을 넣어 허리에 차는 작은 파우치입니다. 독성 환경에서 신속히 호흡기를 보호하기 위한 장비입니다.</HD_Apparel_GreatWarGasMaskPouch.description>
 
   <HD_Apparel_GreatWarCBRNPouch.label>화생방보호의 파우치</HD_Apparel_GreatWarCBRNPouch.label>
-  <HD_Apparel_GreatWarCBRNPouch.description>밀봉 필터, 차단 천, 응급 화학 방호 물품을 넣어 보강한 방독면 파우치입니다. 파우치를 착용하면 방독면을 사용할 수 있으며, 방독면을 꺼내 착용해야 독성 환경 저항력이 100%까지 높아지고 스위트 가스 노출을 막습니다.</HD_Apparel_GreatWarCBRNPouch.description>
+  <HD_Apparel_GreatWarCBRNPouch.description>밀봉 필터와 차단 천, 응급 화학 방호 물품을 넣은 보강형 방독면 파우치입니다. 스위트 가스를 포함한 위험한 화학 환경에 대비하도록 구성되었습니다.</HD_Apparel_GreatWarCBRNPouch.description>
 
-  <HD_Apparel_M6RocketBag.label>무장 시스템 테스트 장비</HD_Apparel_M6RocketBag.label>
-  <HD_Apparel_M6RocketBag.description>실험용 무장 보급 설정 장비입니다. 착용하면 탄약별 목표 소지량을 지정할 수 있으며, 정착민이 지정된 수량만큼 탄약을 자동으로 챙깁니다.</HD_Apparel_M6RocketBag.description>
+  <HD_Apparel_M6RocketBag.label>야전 탄약 보급 하네스</HD_Apparel_M6RocketBag.label>
+  <HD_Apparel_M6RocketBag.description>탄약과 소모품을 정해진 휴대량에 맞춰 정리하는 야전 보급 하네스입니다. 전투 전 필요한 물자를 빠르게 챙길 수 있도록 구획이 나뉘어 있습니다.</HD_Apparel_M6RocketBag.description>
 
   <HD_Apparel_GreatWarTrenchArmyInner.label>대참호 군복 내피</HD_Apparel_GreatWarTrenchArmyInner.label>
   <HD_Apparel_GreatWarTrenchArmyInner.description>헤로드 체형에 맞춰 재단한 참호전 병사용 내피 군복입니다. 방어구나 두꺼운 야전 장구 아래에 입는 내의입니다.</HD_Apparel_GreatWarTrenchArmyInner.description>
@@ -58,7 +58,7 @@
   <HD_155mmShell_M110CN.label>M110 155mm CN 화학탄</HD_155mmShell_M110CN.label>
   <HD_155mmShell_M110CN.description>CN 최루 작용제를 충전한 M114 155mm 곡사포용 M110 화학탄입니다. CS보다 느리게 작용하지만 심한 노출에서는 인체에 미약한 손상을 주는 넓고 지속적인 자극성 구름을 만듭니다.</HD_155mmShell_M110CN.description>
   <HD_155mmShell_W48.label>W48 155mm 핵포탄</HD_155mmShell_W48.label>
-  <HD_155mmShell_W48.description>M114 155mm 곡사포용 소형 핵포탄입니다. 폭발하면 압도적인 폭풍, 강력한 화재와 전자기 펄스를 일으키고 폭심지 주변을 심각하게 오염시킵니다. 제작할 수 없습니다.</HD_155mmShell_W48.description>
+  <HD_155mmShell_W48.description>M114 155mm 곡사포용 소형 핵포탄입니다. 폭발하면 거대한 폭풍과 화재, 전자기 펄스를 일으키고 주변을 심각하게 오염시킵니다.</HD_155mmShell_W48.description>
   <HD_Apparel_M1MortarBarrel.label>M1 박격포 포신</HD_Apparel_M1MortarBarrel.label>
   <HD_Apparel_M1MortarBarrel.description>운반용 멜빵을 단 M1 81mm 박격포의 포신과 포미 조립체입니다. 박격포를 운반할 때 세 부분으로 분해하여 나누어 드는 무거운 장비 중 하나입니다.</HD_Apparel_M1MortarBarrel.description>
   <HD_Apparel_M1MortarBaseplate.label>M1 박격포 포판</HD_Apparel_M1MortarBaseplate.label>

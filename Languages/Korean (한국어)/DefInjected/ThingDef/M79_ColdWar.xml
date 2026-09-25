@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Gun_M79_Weapon.label>M79 유탄발사기</HD_Gun_M79_Weapon.label>
-  <HD_Gun_M79_Weapon.description>40×46mm 저속탄을 사용하는 중절식 단발 유탄발사기입니다. 사수의 실제 인벤토리에서 탄종을 선택하고 한 발씩 장전합니다.</HD_Gun_M79_Weapon.description>
+  <HD_Gun_M79_Weapon.description>40×46mm 저속탄을 사용하는 중절식 단발 유탄발사기입니다. 임무에 맞는 탄종을 골라 한 발씩 장전합니다.</HD_Gun_M79_Weapon.description>
   <HD_40mmM381HE_Round.label>M381 40×46mm 고폭유탄</HD_40mmM381HE_Round.label>
   <HD_40mmM381HE_Round.description>M79용 40×46mm 저속 고폭유탄입니다. 넓은 파편 폭발로 보병과 경엄폐물을 공격합니다.</HD_40mmM381HE_Round.description>
   <HD_40mmM433HEDP_Round.label>M433 40×46mm 이중목적유탄</HD_40mmM433HEDP_Round.label>

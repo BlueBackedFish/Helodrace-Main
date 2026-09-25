@@ -7,11 +7,11 @@
   <HD_Apparel_FASTMT.description>헤로드의 머리에 맞춰 제작한 경량 현대식 방탄 헬멧입니다. 귀까지 덮는 풀컷 형상으로, 파편과 소화기 사격으로부터 머리 상부와 귀를 보호합니다.</HD_Apparel_FASTMT.description>
   <HD_Apparel_IBTVAssault.description>헤로드 체형에 맞춰 제작한 현대식 모듈형 방탄복입니다. IBTV Gen4 돌격형 구성으로, 경질 방탄판에 목과 어깨 보호대를 결합했습니다.</HD_Apparel_IBTVAssault.description>
   <HD_Apparel_ShieldDefenTechIIIA.label>디펜테크 IIIA 경량 방패</HD_Apparel_ShieldDefenTechIIIA.label>
-  <HD_Apparel_ShieldDefenTechIIIA.description>컴팩트한 Intruder G2 형상을 모티브로 만든 경량 IIIA급 휴대 방탄 방패입니다. 넓은 투명 관측창과 가벼운 중량 덕분에 전신형 IV급 방패보다 훨씬 민첩하지만, 정면 방호력과 내구도 및 뒤의 아군을 보호하는 능력은 더 낮습니다. 소형 한손 화기와 함께 사용하도록 설계되었습니다. 측면이나 후방에서 들어오는 공격은 방패를 완전히 우회합니다.</HD_Apparel_ShieldDefenTechIIIA.description>
+  <HD_Apparel_ShieldDefenTechIIIA.description>넓은 투명 관측창을 갖춘 디펜테크의 경량 IIIA급 휴대 방탄 방패입니다. 가벼운 구조로 신속하게 운용할 수 있습니다.</HD_Apparel_ShieldDefenTechIIIA.description>
   <HD_Apparel_ShieldIronHideIV.label>아이언하이드 IV 중형 방패</HD_Apparel_ShieldIronHideIV.label>
-  <HD_Apparel_ShieldIronHideIV.description>투명 관측창과 측면 소총 거치대를 갖춘 바퀴식 전신 높이 4등급 방탄 방패입니다. 착용자의 정면 범위에서 날아오는 탄도 공격에 강력한 방호력을 제공합니다. 거치대를 이용해 소총을 비롯한 원거리 무기를 계속 사용할 수 있지만, 불편한 사격 자세 때문에 명중률이 감소합니다. 측면이나 후방에서 들어오는 공격은 방패를 완전히 우회합니다.</HD_Apparel_ShieldIronHideIV.description>
+  <HD_Apparel_ShieldIronHideIV.description>투명 관측창과 측면 소총 거치대를 갖춘 바퀴식 전신 방탄 방패입니다. 중량급 4등급 장갑판으로 사수를 엄폐하며 천천히 전진하도록 설계되었습니다.</HD_Apparel_ShieldIronHideIV.description>
   <HD_Apparel_ZaperX26_Device.label>ZAPER X26</HD_Apparel_ZaperX26_Device.label>
-  <HD_Apparel_ZaperX26_Device.description>주무기를 교체하지 않고 사용할 수 있는 보조장비형 전기충격기입니다. 전용 명령으로 유선 탐침 두 발을 발사하거나 접촉 전극 근접공격을 가할 수 있습니다.</HD_Apparel_ZaperX26_Device.description>
+  <HD_Apparel_ZaperX26_Device.description>유선 탐침을 발사하거나 접촉 전극으로 전류를 전달하는 보조형 전기충격기입니다.</HD_Apparel_ZaperX26_Device.description>
   <HD_Apparel_ACSUpper.label>육군 전투 셔츠</HD_Apparel_ACSUpper.label>
   <HD_Apparel_ACSUpper.description>방탄복 안에 착용하도록 설계된 통기성 전투 셔츠입니다.</HD_Apparel_ACSUpper.description>
   <HD_Apparel_UCPBlouse.label>UCP 전투 상의</HD_Apparel_UCPBlouse.label>
