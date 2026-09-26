@@ -323,6 +323,14 @@ namespace Helodrace.ModernWar
 
         public override float LayerFor(PawnRenderNode node, PawnDrawParms parms)
         {
+            float layer = PartLayerFor(node, parms);
+            if (PatchHelodShellApparelLayer.IsMolleBelt(node.apparel?.def))
+                layer = PatchHelodShellApparelLayer.BelowShellLayer(node.tree?.rootNode, parms, layer);
+            return layer;
+        }
+
+        private float PartLayerFor(PawnRenderNode node, PawnDrawParms parms)
+        {
             PawnRenderNode_ModularArmorPart modularNode =
                 (PawnRenderNode_ModularArmorPart)node;
             if (modularNode.NorthUnderlay)

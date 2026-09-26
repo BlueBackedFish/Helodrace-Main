@@ -11,13 +11,22 @@ namespace Helodrace
     public static class PatchHelodShellApparelLayer
     {
         private const float LayerGap = 0.01f;
+        // GraphicMeshSet uses backLift planes: their vertex Y span is five
+        // altitude layers (0.0018292684). Head/body Z offsets shift the planes
+        // against each other, so ordering their origins by one layer is not
+        // enough. Separate the entire surfaces, with one layer of clearance.
+        private const float NorthShellLayerGap = 6f;
         private static readonly HashSet<ThingDef> VanillaUtilities = new HashSet<ThingDef>();
         private static ThingDef pantsDef;
+        private static ThingDef chestRigDef;
+        private static ThingDef molleBeltDef;
 
         internal static void RebuildCache()
         {
             VanillaUtilities.Clear();
             pantsDef = DefDatabase<ThingDef>.GetNamedSilentFail("Apparel_Pants");
+            chestRigDef = DefDatabase<ThingDef>.GetNamedSilentFail("HD_Apparel_GreatWarStormFrontChestRig");
+            molleBeltDef = DefDatabase<ThingDef>.GetNamedSilentFail("HD_Apparel_MOLLEBattleBelt");
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
                 if (VanillaUtilityDefNames.Contains(def.defName) && def.defName != "Apparel_FirefoampopPack")
                     VanillaUtilities.Add(def);
@@ -57,6 +66,21 @@ namespace Helodrace
                 return;
             }
 
+            if (IsMolleBelt(n?.apparel?.def))
+            {
+                __result = BelowShellLayer(n.tree?.rootNode, parms, __result);
+                return;
+            }
+
+            if (chestRigDef != null && n?.apparel?.def == chestRigDef)
+            {
+                // Keep the rig above every worn coat, including north-facing
+                // coats whose vanilla depth is overridden below.
+                __result = Math.Max(__result,
+                    HighestShellLayer(n.tree?.rootNode, parms) + 0.5f);
+                return;
+            }
+
             if (pantsDef != null && n?.apparel?.def == pantsDef)
             {
                 // Helod body art already contains underwear. Keep pants at the
@@ -93,7 +117,45 @@ namespace Helodrace
             }
 
             float hairLayer = hairNode.Worker.LayerFor(hairNode, parms);
-            __result = Math.Min(__result, hairLayer - LayerGap);
+            // North must account for mesh vertices as well as matrix origins.
+            float gap = parms.facing == Rot4.North ? NorthShellLayerGap : LayerGap;
+            __result = Math.Min(__result, hairLayer - gap);
+        }
+
+        private static float HighestShellLayer(PawnRenderNode node, PawnDrawParms parms)
+        {
+            float result = 20f;
+            if (node == null) return result;
+            if (node.apparel?.def?.apparel?.LastLayer == ApparelLayerDefOf.Shell
+                && node.Worker is PawnRenderNodeWorker_Apparel_Body)
+                result = node.Worker.LayerFor(node, parms);
+            if (node.children != null)
+                foreach (PawnRenderNode child in node.children)
+                    result = Math.Max(result, HighestShellLayer(child, parms));
+            return result;
+        }
+
+        internal static bool IsMolleBelt(ThingDef def)
+            => molleBeltDef != null && def == molleBeltDef;
+
+        internal static float BelowShellLayer(PawnRenderNode root, PawnDrawParms parms, float layer)
+        {
+            if (!HelodRace.IsHelod(parms.pawn)) return layer;
+            float lowest = LowestShellLayer(root, parms);
+            return float.IsPositiveInfinity(lowest) ? layer : Math.Min(layer, lowest - 0.5f);
+        }
+
+        private static float LowestShellLayer(PawnRenderNode node, PawnDrawParms parms)
+        {
+            float result = float.PositiveInfinity;
+            if (node == null) return result;
+            if (node.apparel?.def?.apparel?.LastLayer == ApparelLayerDefOf.Shell
+                && node.Worker is PawnRenderNodeWorker_Apparel_Body)
+                result = node.Worker.LayerFor(node, parms);
+            if (node.children != null)
+                foreach (PawnRenderNode child in node.children)
+                    result = Math.Min(result, LowestShellLayer(child, parms));
+            return result;
         }
 
         internal static bool IsUnspecifiedVanillaUtility(ThingDef def)

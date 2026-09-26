@@ -594,7 +594,7 @@
       <wornGraphicPath>Helod/Apparel/HD_WildWestLeatherVest/HD_WildWestLeatherVest</wornGraphicPath>
       <useWornGraphicMask>true</useWornGraphicMask>
       <layers>
-        <li>Middle</li>
+        <li>Shell</li>
       </layers>
       <tags>
         <li>HD_Apparel</li>
@@ -649,7 +649,7 @@
       <wornGraphicPath>Helod/Apparel/HD_WildWestMetalVest/HD_WildWestMetalVest</wornGraphicPath>
       <useWornGraphicMask>true</useWornGraphicMask>
       <layers>
-        <li>Middle</li>
+        <li>Shell</li>
       </layers>
       <tags>
         <li>HD_Apparel</li>

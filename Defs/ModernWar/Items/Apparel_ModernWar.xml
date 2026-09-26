@@ -358,7 +358,7 @@
     <thingCategories><li>Apparel</li></thingCategories>
     <apparel>
       <bodyPartGroups><li>Waist</li></bodyPartGroups>
-      <wornGraphicPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt</wornGraphicPath>
+      <wornGraphicPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_Female</wornGraphicPath>
       <useWornGraphicMask>false</useWornGraphicMask>
       <layers><li>Belt</li></layers>
       <tags><li>HD_Apparel</li><li>Soldier</li></tags>

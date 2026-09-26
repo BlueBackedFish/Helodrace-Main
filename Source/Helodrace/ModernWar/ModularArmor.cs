@@ -2064,7 +2064,7 @@ namespace Helodrace.ModernWar
                         return null;
                     }
 
-                    return panel.sideBackTexturePrefix
+                    return AuthoredPalsTexturePrefix(part, panel.sideBackTexturePrefix)
                         + "_" + part.authoredPalsTextureKey + "_east";
                 }
 
@@ -2145,7 +2145,7 @@ namespace Helodrace.ModernWar
                 ? totalPositions - normalPositions
                 : normalPositions;
             string prefix = usesBack ? backPrefix : normalPrefix;
-            return prefix
+            return AuthoredPalsTexturePrefix(part, prefix)
                 + "_" + part.authoredPalsTextureKey
                 + (segmentPositions > 1 ? "_" + (localX + 1) : string.Empty)
                 + "_" + suffix;
@@ -2168,10 +2168,23 @@ namespace Helodrace.ModernWar
 
             int width = part.PalsWidthFor(panel);
             bool usesPositionSuffix = panel.columns > width;
-            return (prefix ?? panel.authoredTexturePrefix)
+            return AuthoredPalsTexturePrefix(part, prefix ?? panel.authoredTexturePrefix)
                 + "_" + part.authoredPalsTextureKey
                 + (usesPositionSuffix ? "_" + (x + 1) : string.Empty)
                 + "_" + suffix;
+        }
+
+        private static string AuthoredPalsTexturePrefix(ModularArmorPartDef part, string prefix)
+        {
+            // Keep each individual PNG under part/mounting-position folders
+            // within the existing armor/panel directory.
+            if (prefix.NullOrEmpty() || part?.authoredPalsTextureKey.NullOrEmpty() != false)
+                return prefix;
+            int separator = prefix.LastIndexOf('/');
+            string filePrefix = prefix.Substring(separator + 1);
+            string position = filePrefix.Substring(filePrefix.LastIndexOf('_') + 1);
+            return prefix.Substring(0, separator + 1)
+                + part.authoredPalsTextureKey + "/" + position + "/" + filePrefix;
         }
 
         private static bool HasAuthoredPalsTexture(

@@ -664,9 +664,9 @@
     <ergonomics>-0.25</ergonomics>
     <ventilation>-0.25</ventilation>
     <loadDistribution>0.75</loadDistribution>
-    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_CamelBak_south</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/CamelBak/HD_IBTV_CamelBak_south</uiIconPath>
     <graphicData>
-      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_CamelBak</texPath>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/CamelBak/HD_IBTV_CamelBak</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>Cutout</shaderType>
     </graphicData>
@@ -682,9 +682,9 @@
     <armorRatingSharp>0.10</armorRatingSharp>
     <armorRatingBlunt>0.18</armorRatingBlunt>
     <ergonomics>-0.1</ergonomics>
-    <uiIconPath>Helod/Apparel/HD_UCPPants/HD_UCPPants_KneePads_south</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_UCPPants/KneePads/HD_UCPPants_KneePads_south</uiIconPath>
     <graphicData>
-      <texPath>Helod/Apparel/HD_UCPPants/HD_UCPPants_KneePads</texPath>
+      <texPath>Helod/Apparel/HD_UCPPants/KneePads/HD_UCPPants_KneePads</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <shaderType>Cutout</shaderType>
     </graphicData>
@@ -722,7 +722,7 @@
     <ergonomics>-0.2</ergonomics>
     <ventilation>-0.1</ventilation>
     <loadDistribution>-0.15</loadDistribution>
-    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_MediM_1_east</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/MediM/FrontHigh/HD_IBTV_FrontHigh_MediM_1_east</uiIconPath>
     <uiColor>(0.28,0.36,0.25)</uiColor>
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
@@ -738,7 +738,7 @@
     <ergonomics>-0.1</ergonomics>
     <ventilation>-0.1</ventilation>
     <loadDistribution>-0.25</loadDistribution>
-    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_Mag_1_east</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/Mag/FrontHigh/HD_IBTV_FrontHigh_Mag_1_east</uiIconPath>
     <uiColor>(0.34,0.30,0.20)</uiColor>
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
@@ -753,7 +753,7 @@
     <partThingDef>HD_ModularPart_WalkieTalkie</partThingDef>
     <ergonomics>-0.15</ergonomics>
     <loadDistribution>-0.15</loadDistribution>
-    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Side_WalkieTalkie_1_east</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/WalkieTalkie/Side/HD_IBTV_Side_WalkieTalkie_1_east</uiIconPath>
     <uiColor>(0.30,0.32,0.25)</uiColor>
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
@@ -770,7 +770,7 @@
     <ergonomics>-0.35</ergonomics>
     <ventilation>-0.15</ventilation>
     <loadDistribution>-0.25</loadDistribution>
-    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_MediL_east</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/MediL/FrontHigh/HD_IBTV_FrontHigh_MediL_east</uiIconPath>
     <uiColor>(0.26,0.34,0.24)</uiColor>
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
@@ -786,7 +786,7 @@
     <partThingDef>HD_ModularPart_AdminPouch</partThingDef>
     <ergonomics>-0.1</ergonomics>
     <loadDistribution>-0.1</loadDistribution>
-    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh_Admin_1_east</uiIconPath>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/Admin/FrontHigh/HD_IBTV_FrontHigh_Admin_1_east</uiIconPath>
     <uiColor>(0.34,0.33,0.24)</uiColor>
   </Helodrace.ModernWar.ModularArmorPartDef>
 </Defs>
