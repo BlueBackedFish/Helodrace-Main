@@ -670,12 +670,15 @@ namespace Helodrace.ModernWar
 
                     if (childSelected && socket.isRail)
                     {
-                        ModularAttachmentMount mount = child
-                            ?.TryGetComp<CompModularWeaponNode>()
+                        CompModularWeaponNode childComp = child
+                            ?.TryGetComp<CompModularWeaponNode>();
+                        ModularAttachmentMount mount = childComp
                             ?.Props.MountNamed(node.comp.MountIdAt(childIndex));
+                        float paletteRatio = node.comp.PaletteRatioFor(childComp);
                         float half = Mathf.Max(0f,
                             (socket.railLength
-                                - (mount?.EffectiveRailContactLength ?? 0f)) * 0.5f);
+                                - (mount?.EffectiveRailContactLength ?? 0f)
+                                    * paletteRatio) * 0.5f);
                         float oldValue = node.comp.RailOffsetAt(childIndex);
                         float value = half <= 0f ? 0f : Widgets.HorizontalSlider(
                             new Rect(28f, y + 3f, viewRect.width - 118f, 18f),

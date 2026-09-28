@@ -5,6 +5,43 @@ using Verse;
 
 namespace Helodrace.ModernWar
 {
+    /// <summary>
+    /// Converts a part texture's authoring canvas into the common 1024px modular-
+    /// weapon coordinate scale. Keeping this on the part Def prevents a 512px or
+    /// 256px attachment from inheriting the larger canvas of the weapon receiving it.
+    /// </summary>
+    public static class ModularWeaponPaletteScaleUtility
+    {
+        private const float ReferenceCanvasSize = 1024f;
+        private const int MinimumValidCanvasSize = 64;
+        private static readonly Dictionary<ThingDef, float> cachedScales =
+            new Dictionary<ThingDef, float>();
+
+        public static float For(ThingDef def)
+        {
+            if (def == null) return 1f;
+            float cached;
+            if (cachedScales.TryGetValue(def, out cached)) return cached;
+
+            Texture texture = def.graphicData?.Graphic?.MatSingle?.mainTexture;
+            int canvasSize = texture == null
+                ? 0
+                : Mathf.Max(texture.width, texture.height);
+            // Do not cache a missing/bad texture fallback; content may still be loading.
+            if (canvasSize < MinimumValidCanvasSize) return 1f;
+
+            float scale = canvasSize / ReferenceCanvasSize;
+            scale = Mathf.Max(0.01f, scale);
+            cachedScales[def] = scale;
+            return scale;
+        }
+
+        public static float Relative(ThingDef child, ThingDef parent)
+        {
+            return For(child) / Mathf.Max(0.01f, For(parent));
+        }
+    }
+
     public enum ModularWeaponPartStorageMode
     {
         // The part is represented by a count while it is in the inserted parts box.
@@ -647,7 +684,8 @@ namespace Helodrace.ModernWar
         public ModularTransform2D Attach(
             ModularAttachmentTransform socket,
             ModularAttachmentTransform mount,
-            float childAngleOffset = 0f)
+            float childAngleOffset = 0f,
+            float childPaletteRatio = 1f)
         {
             socket = socket ?? new ModularAttachmentTransform();
             mount = mount ?? new ModularAttachmentTransform();
@@ -657,8 +695,8 @@ namespace Helodrace.ModernWar
             Vector2 socketScale = Vector2.Scale(scale, SafeScale(socket.scale));
             Vector2 mountScale = SafeScale(mount.scale);
             Vector2 childScale = new Vector2(
-                socketScale.x / mountScale.x,
-                socketScale.y / mountScale.y);
+                socketScale.x / mountScale.x * childPaletteRatio,
+                socketScale.y / mountScale.y * childPaletteRatio);
             // The authored part angle belongs to the complete child node, not just its
             // texture. Folding it into the attachment transform keeps the mount pinned
             // to the parent socket while the graphic centre and all descendant sockets

@@ -64,6 +64,19 @@ namespace Helodrace.ModernWar
         public CompProperties_ModularWeaponNode Props =>
             (CompProperties_ModularWeaponNode)props;
 
+        public float PaletteScale =>
+            ModularWeaponPaletteScaleUtility.For(parent?.def);
+
+        // Converts child-authored distances into this node's palette coordinates.
+        internal float PaletteRatioFor(CompModularWeaponNode child)
+        {
+            return child == null
+                ? 1f
+                : ModularWeaponPaletteScaleUtility.Relative(
+                    child.parent?.def,
+                    parent?.def);
+        }
+
         public ThingOwner GetDirectlyHeldThings()
         {
             EnsureContainer();
@@ -734,7 +747,8 @@ namespace Helodrace.ModernWar
                 return false;
             }
 
-            if (!ValidateRailPlacement(socket, mount, railOffset, -1, out reason))
+            if (!ValidateRailPlacement(
+                socket, mount, childComp, railOffset, -1, out reason))
                 return false;
 
             if (child.Spawned)
@@ -777,7 +791,8 @@ namespace Helodrace.ModernWar
                 return false;
             }
 
-            if (!ValidateRailPlacement(socket, mount, railOffset, childIndex, out reason))
+            if (!ValidateRailPlacement(
+                socket, mount, childComp, railOffset, childIndex, out reason))
                 return false;
 
             childRailOffsets[childIndex] = railOffset;
@@ -806,8 +821,9 @@ namespace Helodrace.ModernWar
 
             if (!socket.isRail) return true;
 
+            float childPaletteRatio = PaletteRatioFor(childComp);
             float halfPart = Mathf.Max(0f,
-                mount.EffectiveRailContactLength) * 0.5f;
+                mount.EffectiveRailContactLength * childPaletteRatio) * 0.5f;
             float minimum = -socket.railLength * 0.5f + halfPart;
             float maximum = socket.railLength * 0.5f - halfPart;
             if (minimum > maximum)
@@ -825,16 +841,19 @@ namespace Helodrace.ModernWar
                 CompModularWeaponNode otherComp = children[i]
                     ?.TryGetComp<CompModularWeaponNode>();
                 ModularAttachmentMount otherMount = otherComp?.Props.MountNamed(childMountIds[i]);
+                float otherPaletteRatio = PaletteRatioFor(otherComp);
                 float otherHalf = Mathf.Max(0f,
-                    otherMount?.EffectivePhysicalLength ?? 0f) * 0.5f;
+                    (otherMount?.EffectivePhysicalLength ?? 0f)
+                        * otherPaletteRatio) * 0.5f;
                 float bodyHalf = Mathf.Max(0f,
-                    mount.EffectivePhysicalLength) * 0.5f;
+                    mount.EffectivePhysicalLength * childPaletteRatio) * 0.5f;
                 float otherCenter = childRailOffsets[i]
-                    + (otherMount?.physicalCenterOffset ?? 0f);
+                    + (otherMount?.physicalCenterOffset ?? 0f)
+                        * otherPaletteRatio;
                 candidates.Add(otherCenter + otherHalf + bodyHalf
-                    - mount.physicalCenterOffset + 0.0002f);
+                    - mount.physicalCenterOffset * childPaletteRatio + 0.0002f);
                 candidates.Add(otherCenter - otherHalf - bodyHalf
-                    - mount.physicalCenterOffset - 0.0002f);
+                    - mount.physicalCenterOffset * childPaletteRatio - 0.0002f);
             }
 
             candidates.Sort((a, b) =>
@@ -846,7 +865,8 @@ namespace Helodrace.ModernWar
             {
                 float candidate = Mathf.Clamp(candidates[i], minimum, maximum);
                 string rejection;
-                if (!ValidateRailPlacement(socket, mount, candidate, -1, out rejection))
+                if (!ValidateRailPlacement(
+                    socket, mount, childComp, candidate, -1, out rejection))
                     continue;
                 offset = candidate;
                 return true;
@@ -1402,8 +1422,10 @@ namespace Helodrace.ModernWar
                     effectiveSocket.position.x += childRailOffsets[i];
                 }
                 bool oppositeSurface = mount.UsesOppositeSurface(socket);
+                float childPaletteRatio = PaletteRatioFor(childComp);
                 if (oppositeSurface)
-                    effectiveSocket.position += mount.oppositeSurfaceOffset;
+                    effectiveSocket.position += mount.oppositeSurfaceOffset
+                        * childPaletteRatio;
                 bool childAttachedToRail = socket.isRail;
                 Vector2 childRailStart = Vector2.zero;
                 Vector2 childRailEnd = Vector2.zero;
@@ -1419,20 +1441,23 @@ namespace Helodrace.ModernWar
                     childRailEnd = transform.TransformPoint(right);
 
                     float occupiedHalf = Mathf.Max(0f,
-                        mount.EffectivePhysicalLength) * 0.5f;
+                        mount.EffectivePhysicalLength * childPaletteRatio) * 0.5f;
                     left = socket.transform.position;
                     right = socket.transform.position;
                     left.x += childRailOffsets[i]
-                        + mount.physicalCenterOffset - occupiedHalf;
+                        + mount.physicalCenterOffset * childPaletteRatio
+                        - occupiedHalf;
                     right.x += childRailOffsets[i]
-                        + mount.physicalCenterOffset + occupiedHalf;
+                        + mount.physicalCenterOffset * childPaletteRatio
+                        + occupiedHalf;
                     childOccupiedStart = transform.TransformPoint(left);
                     childOccupiedEnd = transform.TransformPoint(right);
                 }
                 ModularTransform2D childTransform = transform.Attach(
                     effectiveSocket,
                     mount.EffectiveTransform(socket),
-                    childComp.Props.graphicAngle);
+                    childComp.Props.graphicAngle,
+                    childPaletteRatio);
                 childComp.BuildSnapshotRecursive(
                     result,
                     visited,
@@ -1617,6 +1642,7 @@ namespace Helodrace.ModernWar
         private bool ValidateRailPlacement(
             ModularAttachmentSocket socket,
             ModularAttachmentMount mount,
+            CompModularWeaponNode mountedComp,
             float offset,
             int ignoredChildIndex,
             out string reason)
@@ -1624,9 +1650,10 @@ namespace Helodrace.ModernWar
             reason = null;
             if (!socket.isRail) return true;
 
+            float mountedPaletteRatio = PaletteRatioFor(mountedComp);
             float railLength = Mathf.Max(0f, socket.railLength);
             float occupancy = Mathf.Max(0f,
-                mount.EffectiveRailContactLength);
+                mount.EffectiveRailContactLength * mountedPaletteRatio);
             float halfRail = railLength * 0.5f;
             float halfPart = occupancy * 0.5f;
             if (railLength <= 0f || Mathf.Abs(offset) + halfPart > halfRail + 0.0001f)
@@ -1638,19 +1665,24 @@ namespace Helodrace.ModernWar
 
             RepairAssignmentLists();
             float physicalHalf = Mathf.Max(0f,
-                mount.EffectivePhysicalLength) * 0.5f;
-            float left = offset + mount.physicalCenterOffset - physicalHalf;
-            float right = offset + mount.physicalCenterOffset + physicalHalf;
+                mount.EffectivePhysicalLength * mountedPaletteRatio) * 0.5f;
+            float mountedCenterOffset = mount.physicalCenterOffset
+                * mountedPaletteRatio;
+            float left = offset + mountedCenterOffset - physicalHalf;
+            float right = offset + mountedCenterOffset + physicalHalf;
             for (int i = 0; i < children.Count; i++)
             {
                 if (i == ignoredChildIndex || childSocketIds[i] != socket.id) continue;
                 CompModularWeaponNode otherComp = children[i]
                     ?.TryGetComp<CompModularWeaponNode>();
                 ModularAttachmentMount otherMount = otherComp?.Props.MountNamed(childMountIds[i]);
+                float otherPaletteRatio = PaletteRatioFor(otherComp);
                 float otherHalf = Mathf.Max(0f,
-                    otherMount?.EffectivePhysicalLength ?? 0f) * 0.5f;
+                    (otherMount?.EffectivePhysicalLength ?? 0f)
+                        * otherPaletteRatio) * 0.5f;
                 float otherCenter = childRailOffsets[i]
-                    + (otherMount?.physicalCenterOffset ?? 0f);
+                    + (otherMount?.physicalCenterOffset ?? 0f)
+                        * otherPaletteRatio;
                 float otherLeft = otherCenter - otherHalf;
                 float otherRight = otherCenter + otherHalf;
                 if (right > otherLeft + 0.0001f && left < otherRight - 0.0001f)
