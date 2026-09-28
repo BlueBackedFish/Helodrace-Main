@@ -154,61 +154,6 @@
     </tools>
   </ThingDef>
 
-  <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_MK18MOD1_Weapon</defName>
-    <label>MK18 Mod 1</label>
-    <description>A compact 5.56 mm close-quarters carbine equipped with a vertical foregrip, suppressor, EOTech holographic sight and magnifier, tactical light, and combined laser aiming module. The accessory suite provides excellent handling and target acquisition despite the short barrel.</description>
-    <graphicData>
-      <texPath>Weapons/ModernWar/HD_MK18MOD1</texPath>
-      <drawSize>(1.05,1.05)</drawSize>
-    </graphicData>
-    <equippedAngleOffset>0</equippedAngleOffset>
-    <statBases>
-      <WorkToMake>50000</WorkToMake>
-      <Mass>3.25</Mass>
-      <MarketValue>1725</MarketValue>
-      <AccuracyTouch>0.75</AccuracyTouch>
-      <AccuracyShort>0.86</AccuracyShort>
-      <AccuracyMedium>0.78</AccuracyMedium>
-      <AccuracyLong>0.61</AccuracyLong>
-      <RangedWeapon_Cooldown>1.40</RangedWeapon_Cooldown>
-    </statBases>
-    <costList>
-      <Steel>60</Steel>
-      <ComponentIndustrial>6</ComponentIndustrial>
-      <ComponentSpacer>2</ComponentSpacer>
-    </costList>
-    <recipeMaker>
-      <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
-    </recipeMaker>
-    <verbs Inherit="False">
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.65</warmupTime>
-        <range>26.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Light</soundCastTail>
-        <muzzleFlashScale>3</muzzleFlashScale>
-      </li>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.20</warmupTime>
-        <range>18.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Light</soundCastTail>
-        <muzzleFlashScale>3</muzzleFlashScale>
-      </li>
-    </verbs>
-  </ThingDef>
 
   <ThingDef ParentName="BaseMeleeWeapon_Blunt_Quality">
     <defName>HD_PowerforgeJackhammer</defName>

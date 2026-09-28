@@ -3,7 +3,7 @@
   <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_MK18Mod1</defName>
     <label>MK18 mod 1</label>
-    <weaponDef>HD_Gun_ModularM4_Test_Weapon</weaponDef>
+    <weaponDef>HD_Gun_M4A1_Weapon</weaponDef>
     <parts>
       <li>
         <part>HD_ModularPart_UpperReceiver_M4A1</part>
