@@ -419,6 +419,8 @@ namespace Helodrace.ModernWar
         public List<ModularAttachmentSocket> sockets = new List<ModularAttachmentSocket>();
         public List<ModularDefaultAttachment> defaultAttachments =
             new List<ModularDefaultAttachment>();
+        // An authored preset applied to newly created weapon roots only.
+        public ModularWeaponPresetDef spawnPreset;
 
         public CompProperties_ModularWeaponNode()
         {
@@ -428,6 +430,10 @@ namespace Helodrace.ModernWar
         public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
             foreach (string error in base.ConfigErrors(parentDef)) yield return error;
+
+            if (spawnPreset != null && (!isAssemblyRoot || spawnPreset.weaponDef != parentDef))
+                yield return parentDef.defName
+                    + " has a spawnPreset that does not target this weapon root.";
 
             if (partCategory == ModularWeaponPartCategory.Functional
                 && missingFunctions.NullOrEmpty())

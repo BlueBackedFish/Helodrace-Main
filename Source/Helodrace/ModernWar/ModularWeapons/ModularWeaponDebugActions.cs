@@ -87,7 +87,7 @@ namespace Helodrace.ModernWar
             SpawnAndSelect(
                 "HD_Gun_P320_Weapon",
                 "modular Flux Raider",
-                "HD_WeaponPreset_ModularP320_FluxRaider");
+                "HD_WeaponPreset_P320_RaiderKit");
         }
 
         private static void SpawnAndSelect(

@@ -113,7 +113,7 @@
     <comps>
     <li Class="Helodrace.CompProperties_SharpshooterWeapon"><altVerbIndex>1</altVerbIndex><altCooldownMultiplier>1.0</altCooldownMultiplier><altAccuracyMultiplier>1.0</altAccuracyMultiplier><altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey><modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey></li>
     <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <isAssemblyRoot>true</isAssemblyRoot><realisticRoundsPerMinute>450</realisticRoundsPerMinute><graphicLayer>2</graphicLayer>
+      <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularM1911_Default</spawnPreset><realisticRoundsPerMinute>450</realisticRoundsPerMinute><graphicLayer>2</graphicLayer>
       <assemblyScale>0.25</assemblyScale><animationSpeed>1.75</animationSpeed>
       <casingPort><offset>(0.01,0,0.2)</offset><feedStartOffset>(-0.164,0,0.178)</feedStartOffset><feedEndOffset>(-0.03,0,0.192)</feedEndOffset><feedingRoundDrawSize>0.09</feedingRoundDrawSize></casingPort>
       <sockets>

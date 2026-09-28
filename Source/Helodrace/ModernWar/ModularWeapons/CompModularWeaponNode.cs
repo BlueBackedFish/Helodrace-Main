@@ -9,6 +9,9 @@ namespace Helodrace.ModernWar
 {
     public sealed class CompModularWeaponNode : ThingComp, IThingHolder
     {
+        [ThreadStatic]
+        private static bool creatingPresetTemplate;
+
         private const int MaxTreeDepth = 32;
         private const float ReceiverRearRailOffset = -0.0215f;
         private const float ReceiverFrontRailOffset = 0.0215f;
@@ -93,6 +96,11 @@ namespace Helodrace.ModernWar
             base.PostPostMake();
             EnsureContainer();
             BuildDefaultAttachments();
+            if (Props.isAssemblyRoot && Props.spawnPreset != null && !creatingPresetTemplate
+                && !TryApplyPreset(Props.spawnPreset, out string rejection))
+                Log.Error("[Helodrace] Could not apply spawn preset "
+                    + Props.spawnPreset.defName + " to " + parent.def.defName + ": "
+                    + rejection);
         }
 
         public override void PostExposeData()
@@ -928,9 +936,19 @@ namespace Helodrace.ModernWar
                 return false;
             }
 
-            Thing templateThing = ThingMaker.MakeThing(
-                parent.def,
-                GenStuff.DefaultStuffFor(parent.def));
+            Thing templateThing;
+            bool wasCreatingPresetTemplate = creatingPresetTemplate;
+            try
+            {
+                creatingPresetTemplate = true;
+                templateThing = ThingMaker.MakeThing(
+                    parent.def,
+                    GenStuff.DefaultStuffFor(parent.def));
+            }
+            finally
+            {
+                creatingPresetTemplate = wasCreatingPresetTemplate;
+            }
             CompModularWeaponNode template =
                 templateThing?.TryGetComp<CompModularWeaponNode>();
             if (template == null)

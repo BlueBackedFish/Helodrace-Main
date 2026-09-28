@@ -208,7 +208,7 @@
     <defName>HD_Gun_P320_Weapon</defName><label>P320</label>
     <description>A modular P320 platform that can be configured as a pistol or fitted with a Flux Raider chassis.</description>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <isAssemblyRoot>true</isAssemblyRoot><partCategory>Required</partCategory><realisticRoundsPerMinute>500</realisticRoundsPerMinute><graphicLayer>-2</graphicLayer><assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed><outlinePriority>100</outlinePriority>
+      <isAssemblyRoot>true</isAssemblyRoot><spawnPreset>HD_WeaponPreset_ModularP320_Default</spawnPreset><partCategory>Required</partCategory><realisticRoundsPerMinute>500</realisticRoundsPerMinute><graphicLayer>-2</graphicLayer><assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed><outlinePriority>100</outlinePriority>
       <casingPort><offset>(-0.001,0,0.1)</offset><feedStartOffset>(-0.084,0,0.076)</feedStartOffset><feedEndOffset>(0.027,0,0.091)</feedEndOffset><feedingRoundDrawSize>0.08</feedingRoundDrawSize></casingPort>
       <sockets>
         <li><id>receiver</id><label>P320 grip/chassis module</label><tags><li>p320_receiver</li></tags><required>true</required><transform><position>(-0.12,0,0.082)</position></transform></li>

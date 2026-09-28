@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_WeaponPreset_ModularM4_Default.label>모듈식 M4A1 표준 구성</HD_WeaponPreset_ModularM4_Default.label>
+  <HD_WeaponPreset_ModularM16A1_Default.label>M16A1 기본 구성</HD_WeaponPreset_ModularM16A1_Default.label>
+  <HD_WeaponPreset_ModularM16A2_Default.label>M16A2 기본 구성</HD_WeaponPreset_ModularM16A2_Default.label>
+  <HD_WeaponPreset_M16A3_Early.label>M16A3 초기형 구성</HD_WeaponPreset_M16A3_Early.label>
+  <HD_WeaponPreset_M16A3_Late.label>M16A3 후기형 구성</HD_WeaponPreset_M16A3_Late.label>
+  <HD_WeaponPreset_ModularM16A3_Default.label>M16A3 기본 구성</HD_WeaponPreset_ModularM16A3_Default.label>
+  <HD_WeaponPreset_MK18Mod1_Default.label>MK18 Mod 1 기본 구성</HD_WeaponPreset_MK18Mod1_Default.label>
+  <HD_WeaponPreset_MK18Mod1_Suppressed.label>MK18 Mod 1 소음기 구성</HD_WeaponPreset_MK18Mod1_Suppressed.label>
   <HD_WeaponPreset_ModularM16A4_Default.label>모듈식 M16A4 표준 구성</HD_WeaponPreset_ModularM16A4_Default.label>
   <HD_WeaponPreset_ModularM14_Default.label>모듈식 M14 표준 구성</HD_WeaponPreset_ModularM14_Default.label>
+  <HD_WeaponPreset_MK14_Default.label>MK14 기본 구성</HD_WeaponPreset_MK14_Default.label>
+  <HD_WeaponPreset_M14_SOCOM16.label>M14 SOCOM 16 구성</HD_WeaponPreset_M14_SOCOM16.label>
   <HD_WeaponPreset_ModularMP5_Default.label>모듈식 MP5 표준 구성</HD_WeaponPreset_ModularMP5_Default.label>
+  <HD_WeaponPreset_ModularM1911_Default.label>아이언팽 M1911 기본 구성</HD_WeaponPreset_ModularM1911_Default.label>
+  <HD_WeaponPreset_ModularP320_Default.label>P320 풀사이즈 기본 구성</HD_WeaponPreset_ModularP320_Default.label>
+  <HD_WeaponPreset_P320_RaiderKit.label>P320 Flux Raider 구성</HD_WeaponPreset_P320_RaiderKit.label>
+  <HD_WeaponPreset_P320_RaiderKitSuppressed.label>P320 Flux Raider 소음기 구성</HD_WeaponPreset_P320_RaiderKitSuppressed.label>
 </LanguageData>

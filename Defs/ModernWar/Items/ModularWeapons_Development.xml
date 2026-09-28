@@ -603,6 +603,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot>
+        <spawnPreset>HD_WeaponPreset_ModularM4_Default</spawnPreset>
         <realisticRoundsPerMinute>800</realisticRoundsPerMinute>
         <baseFireDelayFactor>1.2</baseFireDelayFactor>
         <internalStats>

@@ -176,6 +176,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot>
+        <spawnPreset>HD_WeaponPreset_ModularM16A1_Default</spawnPreset>
         <realisticRoundsPerMinute>750</realisticRoundsPerMinute>
         <baseFireDelayFactor>1.2</baseFireDelayFactor>
         <internalStats>
@@ -222,6 +223,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot>
+        <spawnPreset>HD_WeaponPreset_ModularM16A2_Default</spawnPreset>
         <realisticRoundsPerMinute>800</realisticRoundsPerMinute>
         <baseFireDelayFactor>1.2</baseFireDelayFactor>
         <internalStats>

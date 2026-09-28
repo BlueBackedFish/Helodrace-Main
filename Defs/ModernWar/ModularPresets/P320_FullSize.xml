@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_ModularP320_Default</defName>
+    <label>P320 full-size configuration</label>
+    <weaponDef>HD_Gun_P320_Weapon</weaponDef>
+    <parts>
+      <li>
+        <part>HD_ModularPart_Receiver_P320</part>
+        <socketId>receiver</socketId>
+        <mountId>receiver_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Slide_P32047</part>
+        <socketId>slide</socketId>
+        <mountId>slide_mount</mountId>
+        <children>
+          <li>
+            <part>HD_ModularPart_IronSight_P320Rear</part>
+            <socketId>rear_sight</socketId>
+            <mountId>rear_sight_mount</mountId>
+          </li>
+          <li>
+            <part>HD_ModularPart_IronSight_P320Front</part>
+            <socketId>front_sight</socketId>
+            <mountId>front_sight_mount</mountId>
+          </li>
+        </children>
+      </li>
+      <li>
+        <part>HD_ModularPart_Barrel_P32047</part>
+        <socketId>barrel</socketId>
+        <mountId>barrel_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Trigger_P320Flat</part>
+        <socketId>trigger</socketId>
+        <mountId>trigger_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Magazine_P32017</part>
+        <socketId>magazine</socketId>
+        <mountId>magazine_mount</mountId>
+        <children>
+          <li>
+            <part>HD_ModularPart_Ammunition_919M882_P320</part>
+            <socketId>ammunition</socketId>
+            <mountId>ammunition_mount</mountId>
+          </li>
+        </children>
+      </li>
+    </parts>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+</Defs>
