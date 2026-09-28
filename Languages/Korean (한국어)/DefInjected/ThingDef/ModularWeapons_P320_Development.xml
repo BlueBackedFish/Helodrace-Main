@@ -12,6 +12,7 @@
   <HD_ModularPart_Slide_P32047.description>P320 4.7인치 슬라이드는 발사 때 왕복하며 장전과 탄피 배출을 수행하는 슬라이드입니다.</HD_ModularPart_Slide_P32047.description>
   <HD_ModularPart_Slide_P32047.comps.0.sockets.0.label>P320 가늠자 도브테일</HD_ModularPart_Slide_P32047.comps.0.sockets.0.label>
   <HD_ModularPart_Slide_P32047.comps.0.sockets.1.label>P320 가늠쇠 도브테일</HD_ModularPart_Slide_P32047.comps.0.sockets.1.label>
+  <HD_ModularPart_Slide_P32047.comps.0.sockets.2.label>P320 슬라이드 광학 마운트</HD_ModularPart_Slide_P32047.comps.0.sockets.2.label>
   <HD_ModularPart_Barrel_P32047.label>P320 4.7인치 총열</HD_ModularPart_Barrel_P32047.label>
   <HD_ModularPart_Barrel_P32047.description>P320 4.7인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_P32047.description>
   <HD_ModularPart_Barrel_P32047.comps.0.sockets.0.label>P320 노출 총구</HD_ModularPart_Barrel_P32047.comps.0.sockets.0.label>

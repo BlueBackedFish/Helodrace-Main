@@ -5,6 +5,7 @@
   <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.0.label>
   <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.1.label>
   <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.2.label>
+  <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.3.label>캐링핸들 ACOG 결합부</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.3.label>
   <HD_ModularPart_Handguard_M16A1.label>M16A1 삼각형 총열덮개</HD_ModularPart_Handguard_M16A1.label>
   <HD_ModularPart_Handguard_M16A1.description>M16A1 삼각형 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_M16A1.description>
   <HD_ModularPart_UpperReceiver_M16A2.label>M16A2 상부 총몸</HD_ModularPart_UpperReceiver_M16A2.label>
@@ -12,6 +13,7 @@
   <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.0.label>
   <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.1.label>
   <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.2.label>
+  <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.3.label>캐링핸들 ACOG 결합부</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.3.label>
   <HD_ModularPart_Handguard_M16A2UP.label>M16A2 상부 총열덮개</HD_ModularPart_Handguard_M16A2UP.label>
   <HD_ModularPart_Handguard_M16A2UP.description>M16A2 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_M16A2UP.description>
   <HD_ModularPart_Handguard_M16A2UP.comps.0.sockets.0.label>M16A2 하부 총열덮개 결합부</HD_ModularPart_Handguard_M16A2UP.comps.0.sockets.0.label>

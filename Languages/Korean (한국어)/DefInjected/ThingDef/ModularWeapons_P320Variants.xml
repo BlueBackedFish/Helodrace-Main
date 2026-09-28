@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularPart_Receiver_M17.label>M17 탄색 손잡이 모듈</HD_ModularPart_Receiver_M17.label>
+  <HD_ModularPart_Receiver_M17.description>P320 계열의 발사 제어 장치를 장착하는 탄색 M17 손잡이 모듈입니다.</HD_ModularPart_Receiver_M17.description>
+  <HD_ModularPart_Receiver_M17.comps.0.sockets.0.label>M17 하부 레일</HD_ModularPart_Receiver_M17.comps.0.sockets.0.label>
+  <HD_ModularPart_Receiver_FluxRaiderKitTan.label>Flux Raider 탄색 섀시</HD_ModularPart_Receiver_FluxRaiderKitTan.label>
+  <HD_ModularPart_Receiver_FluxRaiderKitTan.description>P320 계열을 개인방어화기 형태로 바꾸는 탄색 Flux Raider 섀시입니다.</HD_ModularPart_Receiver_FluxRaiderKitTan.description>
+  <HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.0.label>Flux 개머리판 연장 레일</HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.0.label>
+  <HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.1.label>Flux 상부 레일</HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.1.label>
+  <HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.2.label>Flux 하부 레일</HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.2.label>
+  <HD_ModularPart_Slide_M17.label>M17 탄색 4.7인치 슬라이드</HD_ModularPart_Slide_M17.label>
+  <HD_ModularPart_Slide_M17.description>가늠쇠와 가늠자, 광학 마운트를 장착할 수 있는 탄색 M17 슬라이드입니다.</HD_ModularPart_Slide_M17.description>
+  <HD_ModularPart_Slide_M17.comps.0.sockets.0.label>M17 가늠자 도브테일</HD_ModularPart_Slide_M17.comps.0.sockets.0.label>
+  <HD_ModularPart_Slide_M17.comps.0.sockets.1.label>M17 가늠쇠 도브테일</HD_ModularPart_Slide_M17.comps.0.sockets.1.label>
+  <HD_ModularPart_Slide_M17.comps.0.sockets.2.label>M17 슬라이드 광학 마운트</HD_ModularPart_Slide_M17.comps.0.sockets.2.label>
+  <HD_ModularPart_OpticMount_DPPPlate.label>P320 DPP 광학장비 플레이트</HD_ModularPart_OpticMount_DPPPlate.label>
+  <HD_ModularPart_OpticMount_DPPPlate.description>P320 계열 슬라이드에 DPP 규격 광학장비를 결합하는 플레이트입니다.</HD_ModularPart_OpticMount_DPPPlate.description>
+  <HD_ModularPart_OpticMount_DPPPlate.comps.0.sockets.0.label>DPP 광학장비 결합부</HD_ModularPart_OpticMount_DPPPlate.comps.0.sockets.0.label>
+</LanguageData>

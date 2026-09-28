@@ -48,6 +48,7 @@
       <sockets>
         <li><id>rear_sight</id><label>P320 rear sight dovetail</label><tags><li>p320_rear_sight</li></tags><transform><position>(-0.135,0,0.123)</position></transform></li>
         <li><id>front_sight</id><label>P320 front sight dovetail</label><tags><li>p320_front_sight</li></tags><transform><position>(0.153,0,0.121)</position></transform></li>
+        <li><id>optic_plate</id><label>P320 slide optic plate mount</label><tags><li>p320_optic_plate</li></tags><transform><position>(-0.09,0,0.114)</position></transform></li>
       </sockets>
       <defaultAttachments>
         <li><socketId>rear_sight</socketId><part>HD_ModularPart_IronSight_P320Rear</part></li>

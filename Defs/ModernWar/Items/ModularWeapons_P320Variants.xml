@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Receiver_M17</defName><label>M17 tan grip module</label>
+    <description>Tan M17 grip module for the P320-family fire-control unit.</description>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M17</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>8</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <graphicLayer>2</graphicLayer><partCategory>Required</partCategory>
+      <mounts><li><id>receiver_mount</id><socketTags><li>p320_receiver</li></socketTags><transform><position>(-0.12,0,0.082)</position></transform></li></mounts>
+      <sockets><li><id>rail_lower</id><label>P320 lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.085</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.098,0,0.04)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.009</railOffset></li></defaultAttachments>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Receiver_FluxRaiderKitTan</defName><label>Flux Raider tan P320 chassis</label>
+    <description>Tan Flux Raider chassis for the P320-family fire-control unit.</description>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_FluxRaiderKitTan_DOWN</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>8</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <graphicLayer>2</graphicLayer><partCategory>Required</partCategory>
+      <additionalGraphics><li><graphicLayer>4</graphicLayer><graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_FluxRaiderKitTan_UP</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(1,1)</drawSize></graphicData></li></additionalGraphics>
+      <mounts><li><id>receiver_mount</id><socketTags><li>p320_receiver</li></socketTags><transform><position>(-0.12,0,0.082)</position></transform></li></mounts>
+      <sockets>
+        <li><id>stock</id><label>Flux stock extension track</label><tags><li>flux_raider_stock</li></tags><isRail>true</isRail><railLength>0.31</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.375,0,0.03)</position></transform></li>
+        <li><id>rail_top</id><label>Flux upper rail</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.07</railLength><maxAttachments>1</maxAttachments><railSurface>Top</railSurface><transform><position>(-0.195,0,0.144)</position></transform></li>
+        <li><id>rail_lower</id><label>Flux lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.075</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.16,0,0.037)</position></transform></li>
+      </sockets>
+      <defaultAttachments>
+        <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FluxRaiderKit</part><railOffset>-0.145</railOffset></li>
+        <li><socketId>rail_top</socketId><part>HD_ModularPart_Mount_T2Low</part></li>
+        <li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.0125</railOffset></li>
+      </defaultAttachments>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Slide_M17</defName><label>M17 tan 4.7-inch slide</label>
+    <description>Tan M17 slide with front and rear sight mounts and an optic plate cut.</description>
+    <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M17_UP</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <graphicLayer>3</graphicLayer><partCategory>Required</partCategory>
+      <additionalGraphics><li><graphicLayer>-1</graphicLayer><graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M17_DOWN</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(1,1)</drawSize></graphicData></li></additionalGraphics>
+      <animatedPart>Slide</animatedPart><animationTravel>(-0.143,0,0)</animationTravel>
+      <mounts><li><id>slide_mount</id><socketTags><li>p320_slide</li></socketTags><transform><position>(0,0,0.105)</position></transform></li></mounts>
+      <sockets>
+        <li><id>rear_sight</id><label>P320 rear sight dovetail</label><tags><li>p320_rear_sight</li></tags><transform><position>(-0.135,0,0.123)</position></transform></li>
+        <li><id>front_sight</id><label>P320 front sight dovetail</label><tags><li>p320_front_sight</li></tags><transform><position>(0.153,0,0.121)</position></transform></li>
+        <li><id>optic_plate</id><label>P320 slide optic plate mount</label><tags><li>p320_optic_plate</li></tags><transform><position>(-0.09,0,0.114)</position></transform></li>
+      </sockets>
+      <defaultAttachments>
+        <li><socketId>rear_sight</socketId><part>HD_ModularPart_IronSight_P320Rear</part></li>
+        <li><socketId>front_sight</socketId><part>HD_ModularPart_IronSight_P320Front</part></li>
+      </defaultAttachments>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_OpticMount_DPPPlate</defName><label>P320 DPP optic plate</label>
+    <description>A slide-mounted adapter plate for a DPP-pattern pistol optic.</description>
+    <graphicData><texPath>Weapons/Modular/Optics/HD_OpticMount_DPPPlate</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost>
+      <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <graphicLayer>4</graphicLayer>
+      <internalStats><massKg>0.05</massKg><ergonomics>-1</ergonomics></internalStats>
+      <mounts><li><id>plate_mount</id><socketTags><li>p320_optic_plate</li></socketTags><transform><position>(-0.09,0,0.114)</position></transform></li></mounts>
+      <sockets><li><id>optic</id><label>DPP optic footprint</label><tags><li>dpp_footprint</li></tags><transform><position>(-0.09,0,0.124)</position></transform></li></sockets>
+    </li></comps>
+  </ThingDef>
+
+</Defs>

@@ -23,6 +23,7 @@
           <li><id>barrel</id><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.037,0,-0.005)</position></transform></li>
           <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.029,0,-0.005)</position></transform></li>
           <li><id>bolt</id><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
+          <li><id>carry_handle_optic</id><label>carry handle ACOG mount</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.057)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520Pencil</part></li>
@@ -65,6 +66,7 @@
           <li><id>barrel</id><label>barrel extension</label><tags><li>ar15_barrel</li></tags><transform><position>(-0.025,0,-0.005)</position></transform></li>
           <li><id>handguard</id><label>handguard mount</label><tags><li>ar15_handguard</li></tags><transform><position>(-0.026,0,-0.005)</position></transform></li>
           <li><id>bolt</id><label>bolt carrier group</label><tags><li>ar15_bolt</li></tags><required>true</required><transform><position>(-0.044,0,-0.002)</position></transform></li>
+          <li><id>carry_handle_optic</id><label>carry handle ACOG mount</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.057)</position></transform></li>
         </sockets>
         <defaultAttachments>
           <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520</part></li>
