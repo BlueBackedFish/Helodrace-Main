@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Helodrace.ModernWar;
@@ -79,6 +80,58 @@ internal static class Program
                 .Single(n => (string)n.Attribute("Class") == "Helodrace.ModernWar.CompProperties_DirectionalBallisticShield");
             Near(expected.Item2, (float)comp.Element("guaranteedBlockPenetration"), "Shield cutoff " + expected.Item1);
         }
+        var apparelDefs = apparel.Root.Elements("ThingDef")
+            .Where(n => n.Element("defName") != null)
+            .ToDictionary(n => (string)n.Element("defName"));
+        Near(0.85f, (float)apparelDefs["HD_Apparel_IBTVAssault"].Element("statBases").Element("ArmorRating_Sharp"),
+            "IBTV HG2 armor");
+        Near(0.85f, (float)apparelDefs["HD_Apparel_FASTMT"].Element("statBases").Element("ArmorRating_Sharp"),
+            "FAST MT HG2 armor");
+        Near(0.85f, (float)apparelDefs["HD_Apparel_ShieldDefenTechIIIA"].Element("comps").Elements("li")
+            .Single(n => ((string)n.Attribute("Class"))?.Contains("DirectionalBallisticShield") == true)
+            .Element("sharpArmorRating"), "Light shield HG2 armor");
+        Near(1.65f, (float)apparelDefs["HD_Apparel_ShieldIronHideIV"].Element("comps").Elements("li")
+            .Single(n => ((string)n.Attribute("Class"))?.Contains("DirectionalBallisticShield") == true)
+            .Element("sharpArmorRating"), "Heavy shield RF3 armor");
+
+        var partDefs = XDocument.Load(System.IO.Path.Combine(root, "Defs/ModernWar/ModularArmorParts.xml"))
+            .Root.Elements("Helodrace.ModernWar.ModularArmorPartDef")
+            .ToDictionary(n => (string)n.Element("defName"));
+        var plateStats = new Dictionary<string, (float armor, float cutoff)>
+        {
+            ["SAPI"] = (1.20f, 0.33f), ["SSAPI"] = (1.20f, 0.33f),
+            ["ESAPI"] = (1.65f, 0.50f), ["ESBI"] = (1.65f, 0.50f),
+            ["RAMPART4800"] = (1.65f, 0.50f)
+        };
+        foreach (string position in new[] { "FrontRear", "Sides" })
+        {
+            foreach (var plate in plateStats)
+            {
+                string name = "HD_IOTVPart_" + position + "_" + plate.Key;
+                if (!partDefs.ContainsKey(name)) continue;
+                Near(plate.Value.armor, (float)partDefs[name].Element("armorRatingSharp"), name + " grade armor");
+                Near(plate.Value.cutoff, (float)partDefs[name].Element("guaranteedBlockPenetration"), name + " grade cutoff");
+            }
+        }
+        foreach (string suffix in new[] { "FrontRearPlates", "SidePlates", "FrontPlate", "RearPlate", "LeftPlate", "RightPlate" })
+        {
+            var part = partDefs["HD_IOTVPart_" + suffix];
+            Near(1.20f, (float)part.Element("armorRatingSharp"), "Legacy plate lower RF1 grade: " + suffix);
+            Check(part.Element("guaranteedBlockPenetration") == null, "Legacy plate has no unsupported cutoff: " + suffix);
+        }
+        foreach (string suffix in new[] { "NeckGuard", "ShoulderGuards", "LowerBody", "BackProtector" })
+        {
+            Near(0.70f, (float)partDefs["HD_IOTVPart_" + suffix].Element("armorRatingSharp"),
+                "Soft module lower HG1 grade: " + suffix);
+        }
+        var visor = XDocument.Load(System.IO.Path.Combine(root, "Defs/ModernWar/ModularHelmetParts.xml"))
+            .Root.Elements("Helodrace.ModernWar.ModularArmorPartDef")
+            .Single(n => (string)n.Element("defName") == "HD_FASTMTPart_MultiHitVisor");
+        Near(0.85f, (float)visor.Element("armorRatingSharp"), "Visor memo HG2 grade");
+        var belowHG1 = XDocument.Load(System.IO.Path.Combine(root, "Defs/ColdWar/Items/Apparel_ColdWar.xml"))
+            .Root.Elements("ThingDef").Single(n => (string)n.Element("defName") == "HD_Apparel_M1952AFlakJacket");
+        Near(0.55f, (float)belowHG1.Element("statBases").Element("ArmorRating_Sharp"),
+            "Below HG1 remains unchanged");
         Console.WriteLine("PASS: " + checks + " ballistic armor checks.");
     }
 }

@@ -84,7 +84,7 @@
 
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_FASTMTPart_MultiHitVisor</defName>
-    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg2. -->
     <label>multi-hit ballistic visor</label>
     <description>A transparent multi-hit face shield for the FAST MT helmet. It protects the eyes, nose and jaw against attacks from the front.</description>
     <slot>HD_MH_Slot_Visor</slot>
@@ -94,7 +94,7 @@
     <conflictTags><li>HD_FASTMT_FrontFace</li></conflictTags>
     <partThingDef>HD_ModularPart_MultiHitVisor</partThingDef>
     <installWorkTicks>300</installWorkTicks>
-    <armorRatingSharp>0.75</armorRatingSharp>
+    <armorRatingSharp>0.85</armorRatingSharp>
     <armorRatingBlunt>0.35</armorRatingBlunt>
     <armorRatingHeat>0.10</armorRatingHeat>
     <metallic>false</metallic>
