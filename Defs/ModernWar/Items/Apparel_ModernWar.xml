@@ -106,7 +106,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_IBTVAssault</defName>
-    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg2. -->
     <label>IBTV assault body armor</label>
     <description>A modern modular body armor system tailored for Helod bodies. The IBTV Gen4 assault configuration includes integrated neck protection, optional hard armor plates, and detachable shoulder protection.</description>
     <graphicData>
@@ -119,7 +119,7 @@
       <WorkToMake>12000</WorkToMake>
       <MarketValue>720</MarketValue>
       <Mass>9.5</Mass>
-      <ArmorRating_Sharp>0.35</ArmorRating_Sharp>
+      <ArmorRating_Sharp>0.85</ArmorRating_Sharp>
       <ArmorRating_Blunt>0.20</ArmorRating_Blunt>
       <ArmorRating_Heat>0.10</ArmorRating_Heat>
       <Flammability>0.15</Flammability>
@@ -398,7 +398,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_FASTMT</defName>
-    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg2. -->
     <label>FAST MT helmet</label>
     <description>A lightweight modern ballistic helmet tailored for Helod heads. Its full-cut shell extends over the ears, protecting the upper head and ears against fragments and small-arms fire.</description>
     <graphicData>
@@ -570,7 +570,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
         <frontalArcDegrees>80</frontalArcDegrees>
-        <sharpArmorRating>1.10</sharpArmorRating>
+        <sharpArmorRating>0.85</sharpArmorRating>
         <guaranteedBlockPenetration>0.19</guaranteedBlockPenetration>
         <rangedAccuracyMultiplier>0.90</rangedAccuracyMultiplier>
         <minimumRangedAccuracyMultiplier>0.55</minimumRangedAccuracyMultiplier>
@@ -669,7 +669,7 @@
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
         <frontalArcDegrees>90</frontalArcDegrees>
-        <sharpArmorRating>2.0</sharpArmorRating>
+        <sharpArmorRating>1.65</sharpArmorRating>
         <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
         <rangedAccuracyMultiplier>0.75</rangedAccuracyMultiplier>
         <minimumRangedAccuracyMultiplier>0.35</minimumRangedAccuracyMultiplier>

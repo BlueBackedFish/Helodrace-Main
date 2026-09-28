@@ -50,7 +50,7 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_MultiHitVisor</defName>
-    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg2. -->
     <label>multi-hit ballistic visor module</label>
     <description>A transparent multi-hit ballistic visor made for the FAST MT helmet.</description>
     <graphicData>
