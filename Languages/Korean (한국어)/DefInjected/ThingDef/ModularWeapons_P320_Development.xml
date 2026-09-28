@@ -33,8 +33,8 @@
   <HD_ModularPart_Magazine_P32030.label>30-탄 P320 탄창</HD_ModularPart_Magazine_P32030.label>
   <HD_ModularPart_Ammunition_919M882_P320.label>9×19mm M882 P320 탄약</HD_ModularPart_Ammunition_919M882_P320.label>
   <HD_ModularPart_Ammunition_919M882_P320.comps.0.ammunitionType>9x19 M882</HD_ModularPart_Ammunition_919M882_P320.comps.0.ammunitionType>
-  <HD_Gun_ModularP320_Test_Weapon.label>모듈식 P320 개발용 권총</HD_Gun_ModularP320_Test_Weapon.label>
-  <HD_Gun_ModularP320_Test_Weapon.description>모듈식 P320 개발용 권총은 호환 파츠와 작동을 시험하기 위한 개발용 모듈식 무기입니다.</HD_Gun_ModularP320_Test_Weapon.description>
+  <HD_Gun_ModularP320_Test_Weapon.label>모듈식 P320 개발용 총기</HD_Gun_ModularP320_Test_Weapon.label>
+  <HD_Gun_ModularP320_Test_Weapon.description>모듈식 P320은 손잡이 모듈을 교체해 권총이나 Flux Raider 섀시 구성으로 사용할 수 있는 무기입니다.</HD_Gun_ModularP320_Test_Weapon.description>
   <HD_Gun_ModularP320_Test_Weapon.comps.0.sockets.0.label>P320 손잡이·섀시 모듈</HD_Gun_ModularP320_Test_Weapon.comps.0.sockets.0.label>
   <HD_Gun_ModularP320_Test_Weapon.comps.0.sockets.1.label>P320 슬라이드</HD_Gun_ModularP320_Test_Weapon.comps.0.sockets.1.label>
   <HD_Gun_ModularP320_Test_Weapon.comps.0.sockets.2.label>P320 총열</HD_Gun_ModularP320_Test_Weapon.comps.0.sockets.2.label>

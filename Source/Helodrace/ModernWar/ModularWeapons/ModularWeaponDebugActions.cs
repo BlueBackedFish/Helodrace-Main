@@ -77,10 +77,14 @@ namespace Helodrace.ModernWar
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void SpawnDevelopmentFluxRaider()
         {
-            SpawnAndSelect("HD_Gun_ModularFluxRaider_Test_Weapon", "modular Flux Raider development PDW");
+            SpawnAndSelect(
+                "HD_Gun_ModularP320_Test_Weapon",
+                "modular Flux Raider development PDW",
+                "HD_WeaponPreset_ModularP320_FluxRaider");
         }
 
-        private static void SpawnAndSelect(string defName, string label)
+        private static void SpawnAndSelect(
+            string defName, string label, string presetDefName = null)
         {
             Map map = Find.CurrentMap;
             ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
@@ -96,6 +100,23 @@ namespace Helodrace.ModernWar
             IntVec3 cell = UI.MouseCell();
             if (!cell.InBounds(map)) cell = map.Center;
             Thing thing = ThingMaker.MakeThing(def);
+            if (presetDefName != null)
+            {
+                ModularWeaponPresetDef preset =
+                    DefDatabase<ModularWeaponPresetDef>.GetNamedSilentFail(presetDefName);
+                CompModularWeaponNode root = thing.TryGetComp<CompModularWeaponNode>();
+                string rejection = null;
+                if (preset == null || root == null
+                    || !root.TryApplyPreset(preset, out rejection))
+                {
+                    thing.Destroy(DestroyMode.Vanish);
+                    Messages.Message(
+                        rejection ?? "The " + label + " preset is unavailable.",
+                        MessageTypeDefOf.RejectInput,
+                        false);
+                    return;
+                }
+            }
             if (!GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near))
             {
                 thing.Destroy(DestroyMode.Vanish);

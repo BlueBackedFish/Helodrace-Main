@@ -94,6 +94,7 @@ namespace Helodrace.ModernWar
             base.PostPostMake();
             EnsureContainer();
             BuildDefaultAttachments();
+            MigrateLegacyFluxRoot();
         }
 
         public override void PostExposeData()
@@ -122,8 +123,28 @@ namespace Helodrace.ModernWar
                     ModularWeaponGasSystemUtility.MinimumSetting,
                     ModularWeaponGasSystemUtility.MaximumSetting);
                 RepairAssignmentLists();
+                MigrateLegacyFluxRoot();
                 InvalidateTree();
             }
+        }
+
+        // Keep the old Def loadable so existing saves retain their Flux assembly,
+        // but give every P320-family gun the same active ThingDef and root sockets.
+        private void MigrateLegacyFluxRoot()
+        {
+            if (parent?.def?.defName != "HD_Gun_ModularFluxRaider_Test_Weapon"
+                || !Props.isAssemblyRoot)
+                return;
+
+            ThingDef p320Def = DefDatabase<ThingDef>.GetNamedSilentFail(
+                "HD_Gun_ModularP320_Test_Weapon");
+            CompProperties_ModularWeaponNode p320Props = p320Def
+                ?.GetCompProperties<CompProperties_ModularWeaponNode>();
+            if (p320Props == null) return;
+
+            parent.def = p320Def;
+            props = p320Props;
+            InvalidateTree();
         }
 
         public int ChildCount
