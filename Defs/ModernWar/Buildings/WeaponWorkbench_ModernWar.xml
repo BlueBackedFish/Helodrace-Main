@@ -32,4 +32,40 @@
     </comps>
   </ThingDef>
 
+  <!-- A tradeable container of virtual part counts, never loose part Things. -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_ModularP320FluxPartsBox</defName>
+    <label>P320 Flux Raider parts box</label>
+    <description>A sealed box of P320 conversion parts. Insert it into a gunsmith table to use its contents.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <graphicData>
+      <texPath>Items/HD_WeaponPartBox</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <tradeability>Buyable</tradeability>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <MarketValue>900</MarketValue>
+      <Flammability>0.35</Flammability>
+      <Mass>12</Mass>
+    </statBases>
+    <thingCategories><li>Manufactured</li></thingCategories>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponPartsBox">
+        <initialVirtualParts>
+          <li><thingDef>HD_ModularPart_Receiver_FluxRaiderKit</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Stock_FluxRaiderKit</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Mount_T2Low</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Optic_PointSightT2</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Laser_DBALPL</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Barrel_P32047Threaded</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Suppressor_HelveticSRD9</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Magazine_P32021</thingDef><count>1</count></li>
+        </initialVirtualParts>
+      </li>
+    </comps>
+  </ThingDef>
+
 </Defs>

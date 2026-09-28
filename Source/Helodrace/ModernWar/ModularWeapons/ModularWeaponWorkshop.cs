@@ -10,9 +10,27 @@ namespace Helodrace.ModernWar
 {
     public sealed class CompProperties_ModularWeaponPartsBox : CompProperties
     {
+        public List<ThingDefCountClass> initialVirtualParts;
+
         public CompProperties_ModularWeaponPartsBox()
         {
             compClass = typeof(CompModularWeaponPartsBox);
+        }
+
+        public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
+        {
+            foreach (string error in base.ConfigErrors(parentDef)) yield return error;
+            if (initialVirtualParts == null) yield break;
+            for (int i = 0; i < initialVirtualParts.Count; i++)
+            {
+                ThingDefCountClass entry = initialVirtualParts[i];
+                if (entry?.thingDef != null && entry.count > 0
+                    && CompModularWeaponPartsBox.StorageModeFor(entry.thingDef)
+                        == ModularWeaponPartStorageMode.Virtual)
+                    continue;
+                yield return parentDef.defName
+                    + " has a non-virtual or invalid starting part at index " + i + ".";
+            }
         }
     }
 
@@ -46,6 +64,20 @@ namespace Helodrace.ModernWar
         {
             if (independentParts == null)
                 independentParts = new ThingOwner<Thing>(this, false, LookMode.Deep);
+        }
+
+        public override void PostPostMake()
+        {
+            base.PostPostMake();
+            List<ThingDefCountClass> initial =
+                ((CompProperties_ModularWeaponPartsBox)props).initialVirtualParts;
+            if (initial == null) return;
+            for (int i = 0; i < initial.Count; i++)
+            {
+                ThingDefCountClass entry = initial[i];
+                if (entry?.thingDef != null && entry.count > 0)
+                    TryAdd(entry.thingDef, entry.count);
+            }
         }
 
         public override void PostExposeData()

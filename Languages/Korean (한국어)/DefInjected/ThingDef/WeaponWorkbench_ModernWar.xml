@@ -2,4 +2,6 @@
 <LanguageData>
   <HD_ModularWeaponPartsBox.label>총기 파츠 상자</HD_ModularWeaponPartsBox.label>
   <HD_ModularWeaponPartsBox.description>총기 작업대에 넣어 사용하는 휴대용 파츠 상자입니다. 상자에 보관한 부품으로 모듈형 총기를 개조합니다.</HD_ModularWeaponPartsBox.description>
+  <HD_ModularP320FluxPartsBox.label>P320 Flux Raider 파츠 상자</HD_ModularP320FluxPartsBox.label>
+  <HD_ModularP320FluxPartsBox.description>P320 개조용 파츠가 들어 있는 상자입니다. 총기 작업대에 넣으면 내용물을 사용할 수 있습니다.</HD_ModularP320FluxPartsBox.description>
 </LanguageData>
