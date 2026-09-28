@@ -41,7 +41,7 @@
     <description>20 inch AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1520</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
         <graphicLayer>-3</graphicLayer>
         <chamberCaliber>556x45</chamberCaliber>
         <ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName>
@@ -64,7 +64,7 @@
     <description>AR-15 front sight gas block routes propellant gas through the weapon's operating system.</description>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_AR15</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>-2</graphicLayer>
         <verticalOccupancy>0.065</verticalOccupancy>
         <verticalOccupancyOffset>0.016</verticalOccupancyOffset>
@@ -132,7 +132,7 @@
     <description>STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_Stanag</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
         <graphicLayer>-1</graphicLayer>
         <magazineCapacity>30</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>stanag_magazine</li></socketTags><transform><position>(-0.075,0,-0.026)</position></transform></li></mounts>
@@ -181,7 +181,7 @@
     <description>Colt A2 rifle buffer tube connects the stock and houses the recoil buffer.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_ColtA2</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>buffer_mount</id><socketTags><li>ar15_buffer</li></socketTags><transform><position>(-0.211,0,-0.007)</position></transform></li></mounts>
         <sockets><li><id>stock</id><label>fixed stock placement track</label><tags><li>ar15_fixed_stock</li></tags><isRail>true</isRail><railLength>0.06</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.237,0,-0.007)</position></transform></li></sockets>
@@ -198,7 +198,7 @@
     <description>IronFang A2 stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_IronFangA2</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>-1</graphicLayer>
         <mounts><li><id>fixed_stock_mount</id><socketTags><li>ar15_fixed_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.236,0,-0.005)</position></transform></li></mounts>
       </li>
@@ -211,7 +211,7 @@
     <description>Lumicon TA51 rail mount secures an aiming device to a weapon rail.</description>
     <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_LumiconTA51</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>5</graphicLayer>
         <verticalOccupancy>0.01</verticalOccupancy>
         <verticalOccupancyOffset>0.02</verticalOccupancyOffset>

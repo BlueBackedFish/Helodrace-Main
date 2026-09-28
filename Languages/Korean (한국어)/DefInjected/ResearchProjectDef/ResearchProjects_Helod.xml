@@ -127,7 +127,7 @@
   <HelodGreatWarTech.description>대전기 산업과 군수품의 기반 기술을 연구합니다.</HelodGreatWarTech.description>
 
   <HelodLowAutomaticRifle.label>사격과 기동</HelodLowAutomaticRifle.label>
-  <HelodLowAutomaticRifle.description>M16A1과 M2 카빈을 연구합니다.</HelodLowAutomaticRifle.description>
+  <HelodLowAutomaticRifle.description>M14, M16A1과 M2 카빈을 연구합니다.</HelodLowAutomaticRifle.description>
 
   <HelodTransistor.label>실리콘 혁명</HelodTransistor.label>
   <HelodTransistor.description>트랜지스터와 실리콘 가공 기술을 연구합니다.</HelodTransistor.description>
@@ -139,7 +139,7 @@
   <HelodMidAutomaticRifle.description>M16A2, M16A3와 M60E3를 연구합니다.</HelodMidAutomaticRifle.description>
 
   <HelodHighAutomaticRifle.label>성숙한 제식소총</HelodHighAutomaticRifle.label>
-  <HelodHighAutomaticRifle.description>M16A4와 M4A1 계열의 개량형 제식 화기를 연구합니다.</HelodHighAutomaticRifle.description>
+  <HelodHighAutomaticRifle.description>M16A4, M4A1과 SOCOM 16·MK14 EBR용 부품을 연구합니다.</HelodHighAutomaticRifle.description>
 
   <HelodWireGuidedMissile.label>조준선 유지</HelodWireGuidedMissile.label>
   <HelodWireGuidedMissile.description>M47과 TOW 유선유도미사일을 연구합니다.</HelodWireGuidedMissile.description>
@@ -156,11 +156,14 @@
   <HelodLessLethalChemical.label>화학적 제압</HelodLessLethalChemical.label>
   <HelodLessLethalChemical.description>비살상 화학 제압 장비를 연구합니다.</HelodLessLethalChemical.description>
 
+  <HelodSpecialOperationsWeapons.label>특수전 화기</HelodSpecialOperationsWeapons.label>
+  <HelodSpecialOperationsWeapons.description>CS와 전기충격 장비를 확보한 뒤 MP5와 전용 부품을 도입합니다.</HelodSpecialOperationsWeapons.description>
+
   <HelodFlakJacket.label>첫 번째 방호층</HelodFlakJacket.label>
   <HelodFlakJacket.description>초기형 방탄 조끼를 연구합니다.</HelodFlakJacket.description>
 
   <HelodPASGT.label>현대 방탄 장비</HelodPASGT.label>
-  <HelodPASGT.description>복합재 헬멧과 휴대용 방탄 방패를 포함한 현대식 개인 방호 장비를 연구합니다.</HelodPASGT.description>
+  <HelodPASGT.description>복합재 헬멧, 휴대용 방탄 방패와 전투복을 연구합니다.</HelodPASGT.description>
 
   <HelodLowHeadSet.label>듣고 들려라</HelodLowHeadSet.label>
   <HelodLowHeadSet.description>기초 전술 헤드셋을 연구합니다.</HelodLowHeadSet.description>

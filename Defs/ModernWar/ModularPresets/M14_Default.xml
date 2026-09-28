@@ -62,9 +62,9 @@
         <mountId>m14_magazine_mount</mountId>
         <children>
           <li>
-            <part>HD_Ammunition_76251M80A1</part>
+            <part>HD_ModularPart_Ammunition_762M80</part>
             <socketId>ammunition</socketId>
-            <mountId>ammunition_mount</mountId>
+            <mountId>m14_ammunition_mount</mountId>
           </li>
         </children>
       </li>

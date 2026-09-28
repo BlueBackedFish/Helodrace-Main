@@ -643,7 +643,7 @@
     <ResearchProjectDef>
         <defName>HelodLowAutomaticRifle</defName>
         <label>Fire and Maneuver</label>
-        <description>m16a1, m2 carbine</description>
+        <description>Develops the M14, M16A1, and M2 carbine.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -703,7 +703,7 @@
     <ResearchProjectDef>
         <defName>HelodHighAutomaticRifle</defName>
         <label>Mature Service Rifles</label>
-        <description>Develops refined service rifles and carbines such as the M16A4 and M4A1.</description>
+        <description>Develops the M16A4 and M4A1 alongside SOCOM 16 and MK14 EBR components.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>
@@ -788,6 +788,21 @@
     </ResearchProjectDef>
 
     <ResearchProjectDef>
+        <defName>HelodSpecialOperationsWeapons</defName>
+        <label>Special Operations Firearms</label>
+        <description>Adopts the MP5 and its components for specialized operations after developing CS and electroshock equipment.</description>
+        <baseCost>900</baseCost>
+        <techLevel>Industrial</techLevel>
+        <prerequisites>
+            <li>HelodLessLethalChemical</li>
+            <li>HelodLessLethalLowRanged</li>
+        </prerequisites>
+        <tab>HelodTechTab</tab>
+        <researchViewX>16</researchViewX>
+        <researchViewY>2.4</researchViewY>
+    </ResearchProjectDef>
+
+    <ResearchProjectDef>
         <defName>HelodFlakJacket</defName>
         <label>The First Layer</label>
         <description>FlakJacket</description>
@@ -804,7 +819,7 @@
     <ResearchProjectDef>
         <defName>HelodPASGT</defName>
         <label>Modern Ballistic Protection</label>
-        <description>Develops lightweight composite helmets, portable ballistic shields, and modern protective equipment.</description>
+        <description>Develops composite helmets, ballistic shields, and combat uniforms for modern protective equipment.</description>
         <baseCost>500</baseCost>
         <techLevel>Industrial</techLevel>
         <prerequisites>

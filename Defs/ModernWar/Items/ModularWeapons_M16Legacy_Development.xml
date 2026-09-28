@@ -109,7 +109,7 @@
     <description>20 inch AR-15 pencil barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1520Pencil</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>-3</graphicLayer>
         <chamberCaliber>556x45</chamberCaliber>
         <ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName>

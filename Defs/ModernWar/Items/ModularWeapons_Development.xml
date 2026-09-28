@@ -43,7 +43,7 @@
     <description>AR-15 bolt carrier group is part of the weapon's loading and locking mechanism.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_AR15</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>0.5</graphicLayer>
         <animatedPart>Bolt</animatedPart>
         <animationTravel>(-0.078,0,0)</animationTravel>
@@ -58,7 +58,7 @@
     <description>AR-15 trigger transfers the firing input to the action.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_AR15</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>0.5</graphicLayer>
         <animatedPart>Trigger</animatedPart>
         <animationPivot>(-0.135,0,-0.02)</animationPivot>
@@ -209,7 +209,7 @@
     <label>HAC NT4 muzzle device</label>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_HACNT4</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>MuzzleBrake</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
@@ -483,7 +483,7 @@
     <label>IronFang A2 pistol grip</label>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_IronFangA2</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>grip_mount</id><socketTags><li>ar15_pistol_grip</li></socketTags><transform><position>(-0.162,0,-0.049)</position></transform></li></mounts>
