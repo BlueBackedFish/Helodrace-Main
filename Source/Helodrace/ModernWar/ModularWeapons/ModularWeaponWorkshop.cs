@@ -502,7 +502,7 @@ namespace Helodrace.ModernWar
         public static bool CanInstantCraft(ThingDef def)
         {
             return def?.GetCompProperties<CompProperties_ModularWeaponNode>()
-                ?.canInstantCraft == true && ResearchUnlocked(def);
+                ?.canInstantCraft == true;
         }
 
         public static bool ResearchUnlocked(ThingDef def)
@@ -519,6 +519,7 @@ namespace Helodrace.ModernWar
 
         public int AvailableCount(ThingDef def)
         {
+            if (!ResearchUnlocked(def)) return 0;
             ModularWeaponPartStorageMode mode = CompModularWeaponPartsBox.StorageModeFor(def);
             if (mode == ModularWeaponPartStorageMode.Internal || CanInstantCraft(def))
                 return int.MaxValue;
@@ -528,6 +529,7 @@ namespace Helodrace.ModernWar
         public bool TryTakePart(ThingDef def, out Thing part)
         {
             part = null;
+            if (!ResearchUnlocked(def)) return false;
             bool crafted = false;
             ModularWeaponPartStorageMode mode = CompModularWeaponPartsBox.StorageModeFor(def);
             CompModularWeaponPartsBox box = boxes.FirstOrDefault(
@@ -609,6 +611,7 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < comp.ChildCount; i++)
             {
                 Thing child = comp.ChildAt(i);
+                if (!ResearchUnlocked(child?.def)) return false;
                 ModularWeaponPartStorageMode childMode =
                     CompModularWeaponPartsBox.StorageModeFor(child?.def);
                 if (childMode == ModularWeaponPartStorageMode.IndependentThing)

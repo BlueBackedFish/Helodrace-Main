@@ -859,14 +859,15 @@ namespace Helodrace.ModernWar
                     Text.Font = GameFont.Tiny;
                     GUI.color = unavailable ? Color.red : new Color(0.65f, 0.9f, 0.65f);
                     string status = workshop == null
-                        || ModularWeaponWorkshopSession.CanInstantCraft(def)
                         ? "HD_ModularWeapon_InstantCraft".Translate()
+                        : missingResearch != null
+                            ? "HD_ModularWeapon_ResearchRequired".Translate(
+                                missingResearch.LabelCap)
+                        : ModularWeaponWorkshopSession.CanInstantCraft(def)
+                            ? "HD_ModularWeapon_InstantCraft".Translate()
                         : available > 0
                             ? "HD_ModularWeapon_PartAvailable".Translate(available)
-                            : missingResearch != null
-                                ? "HD_ModularWeapon_ResearchRequired".Translate(
-                                    missingResearch.LabelCap)
-                                : "HD_ModularWeapon_MustObtain".Translate();
+                            : "HD_ModularWeapon_MustObtain".Translate();
                     Widgets.Label(new Rect(tile.x + 6f, tile.y + 4f,
                         tile.width - 12f, 18f), status);
                     GUI.color = Color.white;
