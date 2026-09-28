@@ -12,6 +12,7 @@ namespace Helodrace.ModernWar
 
     internal static class BallisticArmorRules
     {
+        public const float PlateWearMultiplier = 1.5f;
         public const float PlateGuaranteedBlockMinimumDurability = 0.4f;
         public const float ShieldGuaranteedBlockMinimumDurability = 0.75f;
 
@@ -33,7 +34,8 @@ namespace Helodrace.ModernWar
         {
             return Math.Max(0f, damage)
                 * Math.Max(0f, armorPenetration)
-                * Math.Max(0f, materialCoefficient);
+                * Math.Max(0f, materialCoefficient)
+                * PlateWearMultiplier;
         }
 
         public static bool CanGuaranteeBlock(

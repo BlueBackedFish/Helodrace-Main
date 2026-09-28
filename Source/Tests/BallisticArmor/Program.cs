@@ -22,10 +22,10 @@ internal static class Program
     {
         foreach (var test in new[]
         {
-            (BallisticPlateMaterial.Ceramic, 6f),
-            (BallisticPlateMaterial.UHMWPE, 4.2f),
-            (BallisticPlateMaterial.BallisticSteel, 3f),
-            (BallisticPlateMaterial.Composite, 4.8f)
+            (BallisticPlateMaterial.Ceramic, 9f),
+            (BallisticPlateMaterial.UHMWPE, 6.3f),
+            (BallisticPlateMaterial.BallisticSteel, 4.5f),
+            (BallisticPlateMaterial.Composite, 7.2f)
         })
         {
             float coefficient = BallisticArmorRules.MaterialCoefficient(test.Item1, 0.8f);
@@ -33,7 +33,7 @@ internal static class Program
         }
         Near(0f, BallisticArmorRules.PlateWear(20f, 0f, 1f), "Zero AP causes no plate wear");
         Near(0f, BallisticArmorRules.PlateWear(0f, 0.3f, 1f), "Zero damage causes no wear");
-        Near(12f, BallisticArmorRules.PlateWear(20f, 0.6f, 1f), "AP above cutoff still consumes wear");
+        Near(18f, BallisticArmorRules.PlateWear(20f, 0.6f, 1f), "AP above cutoff still consumes wear");
         Near(0f, BallisticArmorRules.PlateWear(20f, -1f, 1f), "Negative AP cannot heal plate");
         Near(0f, BallisticArmorRules.MaterialCoefficient(BallisticPlateMaterial.Composite, -0.5f), "Negative composite coefficient cannot heal plate");
         Near(0.65f, BallisticArmorRules.MaterialCoefficient(BallisticPlateMaterial.Composite, 0.65f), "Composite coefficient belongs to plate");
@@ -60,6 +60,13 @@ internal static class Program
         int Hp(string name) => (int)plates[name].Element("statBases").Element("MaxHitPoints");
         Check(Hp("HD_ArmorPlate_SSAPI") < Hp("HD_ArmorPlate_SAPI"), "SAPI side plates have less durability");
         Check(Hp("HD_ArmorPlate_ESBI") < Hp("HD_ArmorPlate_ESAPI"), "ESAPI side plates have less durability");
+        foreach (string name in new[] { "HD_ArmorPlate_SAPI", "HD_ArmorPlate_ESAPI", "HD_ArmorPlate_SSAPI", "HD_ArmorPlate_ESBI" })
+        {
+            Check((string)plates[name].Element("comps").Element("li").Element("material") == "Ceramic",
+                "Plate explicitly declares Ceramic material: " + name);
+            Check((string)plates[name].Element("comps").Attribute("Inherit") == "False",
+                "Plate overrides inherited comp instead of duplicating it: " + name);
+        }
         Check((string)plates["HD_ArmorPlate_RAMPART4800"].Element("comps").Element("li").Element("material") == "UHMWPE",
             "RAMPART uses memo's simplified material");
         Check((string)plates["HD_ArmorPlate_RAMPART4800"].Element("comps").Attribute("Inherit") == "False",

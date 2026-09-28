@@ -22,7 +22,7 @@
 
 ## 플레이트 내구도 계산
 
-플레이트 내구도 감소량은 `판에 도달한 데미지 × 공격 AP × 소재 계수`로 계산하고 기존 `GenMath.RoundRandom`으로 정수화한다. AP는 내부 비율값을 사용한다. 예를 들어 데미지 20, AP 30(내부값 0.30)이면 세라믹 판은 6, UHMWPE 판은 평균 4.2, 방탄강 판은 3의 내구도를 소모한다. 앞뒤/좌우 두 판의 내구도는 계속 독립적으로 저장한다.
+플레이트 내구도 감소량은 `판에 도달한 데미지 × 공격 AP × 소재 계수 × 1.5`로 계산하고 기존 `GenMath.RoundRandom`으로 정수화한다. AP는 내부 비율값을 사용한다. 예를 들어 데미지 20, AP 30(내부값 0.30)이면 세라믹 판은 평균 9, UHMWPE 판은 평균 6.3, 방탄강 판은 평균 4.5의 내구도를 소모한다. 앞뒤/좌우 두 판의 내구도는 계속 독립적으로 저장한다.
 
 | 게임 소재 | 내구도 감소 계수 |
 | --- | --- |
@@ -31,7 +31,7 @@
 | 방탄강 (`BallisticSteel`) | 0.5 |
 | 복합소재 (`Composite`) | 해당 판의 `compositeDurabilityCoefficient` 고유값 |
 
-소재와 복합소재 계수는 실제 플레이트 아이템의 `CompProperties_ArmorPlateSet`에 지정한다. 기본 소재는 세라믹이며, 복합소재는 `material=Composite`와 `compositeDurabilityCoefficient`를 함께 설정한다. 현재 게임용 단순화 분류에 따라 SAPI/SSAPI/ESAPI/ESBI는 세라믹, RAMPART 4800은 UHMWPE를 사용한다. 아래의 실제품 소재 자료는 이 게임용 분류와 별개로 보존한다.
+소재와 복합소재 계수는 실제 플레이트 아이템의 `CompProperties_ArmorPlateSet`에 지정한다. 기본 소재는 세라믹이며, 복합소재는 `material=Composite`와 `compositeDurabilityCoefficient`를 함께 설정한다. 현재 게임용 단순화 분류에 따라 SAPI/SSAPI/ESAPI/ESBI는 세라믹, RAMPART 4800은 UHMWPE를 사용하며 각 아이템 XML에 소재를 명시한다. 아래의 실제품 소재 자료는 이 게임용 분류와 별개로 보존한다.
 
 사이드 판은 같은 계열 정면판 내구도의 75%로 설정한다. SAPI 32 / SSAPI 24, ESAPI 40 / ESBI 30이며 RAMPART 4800은 기존 56을 유지한다. 이전 저장 호환을 위한 비선택 측면 부품은 기존 아이템 참조를 유지한다. 방패의 내구도 소모는 기존 차단/관통 배율 계산을 유지한다.
 

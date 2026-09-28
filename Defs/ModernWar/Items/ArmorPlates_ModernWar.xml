@@ -41,6 +41,11 @@
     <defName>HD_ArmorPlate_SAPI</defName>
     <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); 정확한 섬유 백킹은 제조사/리비전별 확인; 연질 방탄복 병용 기준 추정, 군용 규격은 NIJ 인증과 별개. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>SAPI plate set</label>
+    <comps Inherit="False">
+      <li Class="Helodrace.ModernWar.CompProperties_ArmorPlateSet">
+        <material>Ceramic</material>
+      </li>
+    </comps>
     <description>A two-plate ceramic ballistic set. Plate 1 and plate 2 retain damage independently.</description>
     <graphicData>
       <texPath>Items/Plates/HD_SAPI</texPath>
@@ -62,6 +67,11 @@
     <defName>HD_ArmorPlate_ESAPI</defName>
     <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); APM2 위협 대응을 참고한 추정, 지정 연질 백킹/리비전 확인 필요. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>ESAPI plate set</label>
+    <comps Inherit="False">
+      <li Class="Helodrace.ModernWar.CompProperties_ArmorPlateSet">
+        <material>Ceramic</material>
+      </li>
+    </comps>
     <description>A two-plate enhanced ceramic ballistic set with independent durability for plate 1 and plate 2.</description>
     <graphicData>
       <texPath>Items/Plates/HD_ESAPI</texPath>
@@ -83,6 +93,11 @@
     <defName>HD_ArmorPlate_SSAPI</defName>
     <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); Side SAPI 기준 추정. SSAPI는 XSAPI가 아니며 기존 게임 수치로 등급을 역산하지 않음. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>SSAPI side plate set</label>
+    <comps Inherit="False">
+      <li Class="Helodrace.ModernWar.CompProperties_ArmorPlateSet">
+        <material>Ceramic</material>
+      </li>
+    </comps>
     <description>A two-plate compact side protection set. Plate 1 and plate 2 retain damage independently.</description>
     <graphicData>
       <texPath>Items/Plates/HD_SSAPI</texPath>
@@ -104,6 +119,11 @@
     <defName>HD_ArmorPlate_ESBI</defName>
     <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); enhanced side insert 기준 추정, 지정 연질 백킹/리비전 확인 필요. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>ESBI side plate set</label>
+    <comps Inherit="False">
+      <li Class="Helodrace.ModernWar.CompProperties_ArmorPlateSet">
+        <material>Ceramic</material>
+      </li>
+    </comps>
     <description>A two-plate enhanced side ballistic insert set. Plate 1 and plate 2 retain damage independently.</description>
     <graphicData>
       <texPath>Items/Plates/HD_ESBI</texPath>
