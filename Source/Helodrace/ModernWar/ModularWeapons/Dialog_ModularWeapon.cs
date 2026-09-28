@@ -863,10 +863,12 @@ namespace Helodrace.ModernWar
                         : missingResearch != null
                             ? "HD_ModularWeapon_ResearchRequired".Translate(
                                 missingResearch.LabelCap)
-                        : ModularWeaponWorkshopSession.CanInstantCraft(def)
-                            ? "HD_ModularWeapon_InstantCraft".Translate()
-                        : available > 0
+                        : available > 0 && available != int.MaxValue
                             ? "HD_ModularWeapon_PartAvailable".Translate(available)
+                        : workshop.CanCraftNow(def)
+                            ? "HD_ModularWeapon_InstantCraft".Translate()
+                        : ModularWeaponWorkshopSession.CanInstantCraft(def)
+                            ? "HD_ModularWeapon_MaterialUnavailable".Translate()
                             : "HD_ModularWeapon_MustObtain".Translate();
                     Widgets.Label(new Rect(tile.x + 6f, tile.y + 4f,
                         tile.width - 12f, 18f), status);
@@ -978,17 +980,21 @@ namespace Helodrace.ModernWar
             }
 
             Thing child;
+            ModularWeaponWorkshopSession.PartAcquisition acquisition = null;
             if (workshop != null)
             {
-                if (!workshop.TryTakePart(def, out child))
+                if (!workshop.TryAcquirePart(def, out acquisition,
+                    out string acquisitionRejection))
                 {
                     RestoreDisplaced(node.comp, displaced);
                     Messages.Message(
-                        "HD_ModularWeapon_PartUnavailable".Translate(def.LabelCap),
+                        acquisitionRejection
+                            ?? "HD_ModularWeapon_PartUnavailable".Translate(def.LabelCap),
                         MessageTypeDefOf.RejectInput,
                         false);
                     return;
                 }
+                child = acquisition.Part;
             }
             else
             {
@@ -1001,13 +1007,15 @@ namespace Helodrace.ModernWar
                 && node.comp.TryAttach(child, socket.id, mount.id, offset, out rejection);
             if (!success)
             {
-                ReturnOrDestroyAssembly(child);
+                if (acquisition != null) acquisition.Rollback();
+                else DestroyAssembly(child);
                 RestoreDisplaced(node.comp, displaced);
                 Messages.Message(rejection ?? "HD_ModularWeapon_AttachFailed".Translate(),
                     MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
+            acquisition?.Commit();
             for (int i = 0; i < displaced.Count; i++)
                 ReturnOrDestroyAssembly(displaced[i].thing);
             selectedAttachmentId = child.thingIDNumber;
@@ -1083,6 +1091,11 @@ namespace Helodrace.ModernWar
                 : def.GetStatValueAbstract(StatDefOf.Mass);
             details += "\n" + StatDefOf.Mass.LabelCap + ": "
                 + mass.ToString("0.##", CultureInfo.InvariantCulture) + " kg";
+            if (def.costList != null && def.costList.Count > 0)
+                details += "\n" + "HD_ModularWeapon_CraftCost".Translate(
+                    string.Join(", ", def.costList
+                        .Where(entry => entry?.thingDef != null)
+                        .Select(entry => entry.thingDef.LabelCap + " ×" + entry.count)));
             if (mount != null && selectedSocket?.isRail == true)
             {
                 details += "\n" + "HD_ModularWeapon_RailContactLength".Translate(

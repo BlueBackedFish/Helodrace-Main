@@ -6,6 +6,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_CockingTube_MP5</defName>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>MP5 cocking tube</label>
     <description>MP5 cocking tube is part of the weapon's loading and locking mechanism.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -25,6 +26,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_CockingTube_MP5SD</defName>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>MP5SD cocking tube</label>
     <description>MP5SD cocking tube is part of the weapon's loading and locking mechanism.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -44,6 +46,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_MP5</defName>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>MP5 8.9 inch barrel</label>
     <description>MP5 8.9 inch barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -69,6 +72,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_MP5SD</defName>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>MP5SD ported barrel</label>
     <description>MP5SD ported barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -96,6 +100,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_MP5Default</defName>
+    <costList><Steel>4</Steel></costList>
     <label>MP5 slim handguard</label>
     <description>MP5 slim handguard surrounds the barrel and provides attachment space.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -105,6 +110,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_MP5SD</defName>
+    <costList><Steel>4</Steel></costList>
     <label>MP5SD handguard</label>
     <description>MP5SD handguard surrounds the barrel and provides attachment space.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -114,6 +120,7 @@
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Suppressor_MP5SD</defName>
+    <costList><Steel>4</Steel></costList>
     <label>MP5SD integral suppressor</label>
     <description>MP5SD integral suppressor reduces muzzle blast and the report of a shot.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -129,6 +136,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_FrontSight_MP5</defName>
+    <costList><Steel>1</Steel></costList>
     <label>MP5 front sight</label>
     <description>MP5 front sight provides a sighting reference for the weapon.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -144,6 +152,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_FrontSight_MP5SD</defName>
+    <costList><Steel>1</Steel></costList>
     <label>MP5SD front sight</label>
     <description>MP5SD front sight provides a sighting reference for the weapon.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -159,6 +168,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_RearSight_MP5</defName>
+    <costList><Steel>1</Steel></costList>
     <label>MP5 drum rear sight</label>
     <description>MP5 drum rear sight provides a sighting reference for the weapon.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -174,6 +184,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_OpticRail_MP5</defName>
+    <costList><Steel>2</Steel></costList>
     <label>MP5 upper Picatinny rail</label>
     <description>MP5 upper Picatinny rail provides a sighting reference for the weapon.</description>
     <researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>
@@ -189,6 +200,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Bolt_MP5</defName>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>MP5 bolt group</label>
     <description>MP5 bolt group is part of the weapon's loading and locking mechanism.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -203,6 +215,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Trigger_MP5</defName>
+    <costList><Steel>2</Steel></costList>
     <label>MP5 trigger</label>
     <description>MP5 trigger transfers the firing input to the action.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -217,6 +230,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_TriggerHousing_MP5A3</defName>
+    <costList><Steel>2</Steel></costList>
     <label>MP5A3 trigger housing and pistol grip</label>
     <description>MP5A3 trigger housing and pistol grip transfers the firing input to the action.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -226,6 +240,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_MP530</defName>
+    <costList><Steel>2</Steel></costList>
     <label>30-round MP5 magazine</label>
     <description>30-round MP5 magazine is a detachable magazine that stores and feeds cartridges.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -242,6 +257,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_MP5A2</defName>
+    <costList><Steel>3</Steel></costList>
     <label>MP5A2 fixed stock</label>
     <description>MP5A2 fixed stock provides shoulder support and helps control recoil.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -251,6 +267,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_MP5A3</defName>
+    <costList><Steel>3</Steel></costList>
     <label>MP5A3 retractable stock</label>
     <description>MP5A3 retractable stock provides shoulder support and helps control recoil.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>

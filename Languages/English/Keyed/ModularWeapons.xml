@@ -67,11 +67,14 @@
   <HD_ModularWeapon_IdentificationDistance>Identification range</HD_ModularWeapon_IdentificationDistance>
   <HD_ModularWeapon_Cells>cells</HD_ModularWeapon_Cells>
   <HD_ModularWeapon_ImmediateHintDev>Development mode: parts are created and removed without inventory accounting.</HD_ModularWeapon_ImmediateHintDev>
-  <HD_ModularWeapon_WorkshopHint>Researched craftable parts are made at the bench; other parts must be in its parts box. Removed parts return to the box.</HD_ModularWeapon_WorkshopHint>
+  <HD_ModularWeapon_WorkshopHint>Researched parts use box stock first, then consume materials within 12 tiles of the bench. Removed parts return to the box.</HD_ModularWeapon_WorkshopHint>
   <HD_ModularWeapon_CommandDescDev>Open the modular weapon interface without a workbench or parts inventory. Development mode only.</HD_ModularWeapon_CommandDescDev>
   <HD_ModularWeapon_PartAvailable>Available: {0}</HD_ModularWeapon_PartAvailable>
   <HD_ModularWeapon_PartUnavailable>{0} must be obtained and placed in the parts box first.</HD_ModularWeapon_PartUnavailable>
   <HD_ModularWeapon_InstantCraft>Craft now</HD_ModularWeapon_InstantCraft>
+  <HD_ModularWeapon_MaterialUnavailable>Materials required</HD_ModularWeapon_MaterialUnavailable>
+  <HD_ModularWeapon_MaterialRequired>Need {1} {0} near the workbench.</HD_ModularWeapon_MaterialRequired>
+  <HD_ModularWeapon_CraftCost>Materials if crafted: {0} (default attachments extra)</HD_ModularWeapon_CraftCost>
   <HD_ModularWeapon_MustObtain>Obtain first</HD_ModularWeapon_MustObtain>
   <HD_ModularWeapon_ResearchRequired>Research required: {0}</HD_ModularWeapon_ResearchRequired>
   <HD_ModularWeapon_CatalogGroup_Discouraged>Discouraged parts</HD_ModularWeapon_CatalogGroup_Discouraged>

@@ -5,6 +5,7 @@
        1024px modular-weapon baseline. -->
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Receiver_P320</defName><label>P320 full-size grip module</label>
+    <costList><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>P320 full-size grip module supports the action, barrel, and compatible attachments.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_P320</texPath></graphicData>
@@ -18,6 +19,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Receiver_FluxRaiderKit</defName><label>Flux Raider P320 chassis</label>
+    <costList><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>Flux Raider P320 chassis supports the action, barrel, and compatible attachments.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_FluxRaiderKit_DOWN</texPath></graphicData>
@@ -40,6 +42,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Slide_P32047</defName><label>P320 4.7-inch slide</label>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>P320 4.7-inch slide cycles to load cartridges and eject spent cases.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_P32047_UP</texPath></graphicData>
@@ -61,6 +64,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_P32047</defName><label>P320 4.7-inch barrel</label>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>P320 4.7-inch barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_P32047</texPath></graphicData>
@@ -74,6 +78,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_P32047Threaded</defName><label>P320 4.7-inch threaded barrel</label>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>P320 4.7-inch threaded barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_P32047Threaded</texPath></graphicData>
@@ -88,6 +93,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Trigger_P320Flat</defName><label>P320 flat trigger</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_P320Flat</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -98,6 +104,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_IronSight_P320Rear</defName><label>P320 rear iron sight</label>
+    <costList><Steel>1</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Optics/HD_IronSight_P320Rear</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -109,6 +116,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_IronSight_P320Front</defName><label>P320 front iron sight</label>
+    <costList><Steel>1</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Optics/HD_IronSight_P320Front</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -120,6 +128,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_FluxRaiderKit</defName><label>Flux Raider folding stock</label>
+    <costList><Steel>3</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_FluxRaiderKit</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -130,6 +139,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Mount_T2Low</defName><label>T2 low Picatinny mount</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyUP_T2MountLow</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -142,6 +152,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Optic_PointSightT2</defName><label>PointSight T2 reflex sight</label>
+    <costList><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Optics/HD_Sight_PointSightT2</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -155,6 +166,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Laser_DBALPL</defName><label>DBAL-PL pistol laser</label>
+    <costList><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyLOW_DBALPL</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -167,6 +179,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_9mmThreadProtector</defName><label>9mm thread protector</label>
+    <costList><Steel>4</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_9mmThreadProtector</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -177,6 +190,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Suppressor_HelveticSRD9</defName><label>Helvetic SRD9 suppressor</label>
+    <costList><Steel>4</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Supp_HelveticSRD9</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -188,6 +202,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_P32017</defName><label>17-round P320 magazine</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32017</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>17</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_919M882_P320</part></li></defaultAttachments></li></comps>
@@ -195,6 +210,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_P32021</defName><label>21-round P320 magazine</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32021</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>21</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_919M882_P320</part></li></defaultAttachments></li></comps>
@@ -202,6 +218,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_P32030</defName><label>30-round P320 magazine</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32030</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><graphicLayer>-3</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>30</magazineCapacity><mounts><li><id>magazine_mount</id><socketTags><li>p320_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts><sockets><li><id>ammunition</id><tags><li>p320_ammunition</li></tags></li></sockets><defaultAttachments><li><socketId>ammunition</socketId><part>HD_ModularPart_Ammunition_919M882_P320</part></li></defaultAttachments></li></comps>

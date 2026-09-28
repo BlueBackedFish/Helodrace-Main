@@ -4,6 +4,7 @@
        The ammunition selector temporarily shares the 5.56 item icon; projectile is 7.62 NATO. -->
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_M1422</defName><label>M14 22 inch barrel</label>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>M14 22 inch barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1422</texPath></graphicData>
@@ -17,6 +18,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_M1418</defName><label>M14 18 inch barrel</label>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>M14 18 inch barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1418</texPath></graphicData>
@@ -30,6 +32,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_M1A16</defName><label>M1A SOCOM 16 barrel</label>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>M1A SOCOM 16 barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1A16</texPath></graphicData>
@@ -45,6 +48,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Bolt_M14</defName><label>M14 bolt</label>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>M14 bolt is part of the weapon's loading and locking mechanism.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_M14</texPath></graphicData>
@@ -64,6 +68,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_OperatingRod_M14</defName><label>M14 operating rod</label>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <description>M14 operating rod is part of the weapon's loading and locking mechanism.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_M14OPRod</texPath></graphicData>
@@ -83,6 +88,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_TriggerGroup_M14</defName><label>M14 trigger group</label>
+    <costList><Steel>2</Steel></costList>
     <description>M14 trigger group transfers the firing input to the action.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M14TriggerGroup</texPath></graphicData>
@@ -98,6 +104,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Trigger_M14</defName><label>M14 trigger</label>
+    <costList><Steel>2</Steel></costList>
     <description>M14 trigger transfers the firing input to the action.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M14</texPath></graphicData>
@@ -115,6 +122,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_GasTube_M14</defName><label>M14 gas system</label>
+    <costList><Steel>2</Steel></costList>
     <description>M14 gas system routes propellant gas through the weapon's operating system.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_M14</texPath></graphicData>
@@ -128,6 +136,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_GasTube_MK14EBR</defName><label>MK14 EBR gas system</label>
+    <costList><Steel>2</Steel></costList>
     <description>MK14 EBR gas system routes propellant gas through the weapon's operating system.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_MK14EBR</texPath></graphicData>
@@ -141,6 +150,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_GasTube_M1ASocom16</defName><label>M1A SOCOM 16 gas system</label>
+    <costList><Steel>2</Steel></costList>
     <description>M1A SOCOM 16 gas system routes propellant gas through the weapon's operating system.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_M1ASocom16</texPath></graphicData>
@@ -156,6 +166,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_M14Wood</defName><label>M14 wooden stock</label>
+    <costList><Steel>3</Steel></costList>
     <description>M14 wooden stock provides shoulder support and helps control recoil.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_M14Wood</texPath></graphicData>
@@ -171,6 +182,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_StockExt_M14WoodTopCover</defName>
+    <costList><Steel>3</Steel></costList>
     <label>M14 wooden stock top cover</label>
     <description>M14 wooden stock top cover provides shoulder support and helps control recoil.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -184,6 +196,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_Socom16</defName><label>SOCOM 16 stock</label>
+    <costList><Steel>3</Steel></costList>
     <description>SOCOM 16 stock provides shoulder support and helps control recoil.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_Socom16</texPath></graphicData>
@@ -199,6 +212,7 @@
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_M14</defName><label>M14 flash hider</label>
+    <costList><Steel>4</Steel></costList>
     <description>M14 flash hider controls muzzle flash and escaping propellant gas.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_M14</texPath></graphicData>
@@ -215,6 +229,7 @@
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_SEI2000V</defName><label>SEI 2000V muzzle brake</label>
+    <costList><Steel>4</Steel></costList>
     <description>SEI 2000V muzzle brake controls muzzle flash and escaping propellant gas.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_SEI2000V</texPath></graphicData>
@@ -229,6 +244,7 @@
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_Socom16</defName><label>SOCOM 16 muzzle brake</label>
+    <costList><Steel>4</Steel></costList>
     <description>SOCOM 16 muzzle brake controls muzzle flash and escaping propellant gas.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_Socom16</texPath></graphicData>
@@ -243,6 +259,7 @@
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_Socom16Thread</defName><label>SOCOM 16 muzzle thread adapter</label>
+    <costList><Steel>4</Steel></costList>
     <description>SOCOM 16 muzzle thread adapter controls muzzle flash and escaping propellant gas.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_Socom16Thread</texPath></graphicData>
@@ -259,6 +276,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_M1420</defName><label>20-round M14 magazine</label>
+    <costList><Steel>2</Steel></costList>
     <description>20-round M14 magazine is a detachable magazine that stores and feeds cartridges.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_M1420</texPath></graphicData>

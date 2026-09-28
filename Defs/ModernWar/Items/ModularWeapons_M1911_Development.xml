@@ -4,6 +4,7 @@
        One slide part draws two layers; the barrel tilts independently. -->
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Slide_M1911A1_UP</defName><label>M1911A1 slide</label>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_UP</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -18,6 +19,7 @@
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Slide_M1911A1_DOWN</defName><label>Slide M1911A1 DOWN</label>
+    <costList><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_DOWN</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -29,6 +31,7 @@
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_M1911A1</defName><label>Barrel M1911A1</label>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1911A1</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -41,6 +44,7 @@
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Hammer_M1911A1</defName><label>Hammer M1911A1</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Hammer_M1911A1</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -53,6 +57,7 @@
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Safety_M1911A1Grip</defName><label>Safety M1911A1Grip</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Safety_M1911A1Grip</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -64,6 +69,7 @@
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Trigger_M1911A1</defName><label>Trigger M1911A1</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M1911A1</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -75,6 +81,7 @@
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_PistolGrip_1911GI</defName><label>PistolGrip 1911GI</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_1911GI</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -86,6 +93,7 @@
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_1911GI7</defName><label>Magazine 1911GI7</label>
+    <costList><Steel>2</Steel></costList>
     <researchPrerequisites><li>HelodSamiAutomaticPistol</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_1911GI7</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">

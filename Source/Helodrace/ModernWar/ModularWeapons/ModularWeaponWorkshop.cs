@@ -264,33 +264,14 @@ namespace Helodrace.ModernWar
             List<Thing> candidates = map.listerThings.AllThings
                 .Where(thing => thing?.Spawned == true
                     && thing.Position.InHorDistOf(location.Position, 8f)
-                    && (StorageModeFor(thing.def) == ModularWeaponPartStorageMode.Virtual
-                        || StorageModeFor(thing.def) == ModularWeaponPartStorageMode.IndependentThing))
+                    && StorageModeFor(thing.def)
+                        == ModularWeaponPartStorageMode.IndependentThing)
                 .ToList();
             int absorbed = 0;
-            ModularWeaponWorkshopSession session = new ModularWeaponWorkshopSession(
-                parent,
-                new List<CompModularWeaponPartsBox> { this });
             for (int i = 0; i < candidates.Count; i++)
             {
                 Thing thing = candidates[i];
-                if (StorageModeFor(thing.def) == ModularWeaponPartStorageMode.IndependentThing)
-                {
-                    if (TryAddIndependent(thing)) absorbed += thing.stackCount;
-                    continue;
-                }
-                int count = Math.Max(1, thing.stackCount);
-                if (thing.stackCount > 1)
-                {
-                    if (!TryAdd(thing.def, count)) continue;
-                    absorbed += count;
-                    thing.Destroy(DestroyMode.Vanish);
-                }
-                else
-                {
-                    session.ReturnAssembly(thing);
-                    absorbed++;
-                }
+                if (TryAddIndependent(thing)) absorbed += thing.stackCount;
             }
 
             Messages.Message(
@@ -473,9 +454,62 @@ namespace Helodrace.ModernWar
 
     public sealed class ModularWeaponWorkshopSession
     {
+        private const float MaterialSearchRadius = 12f;
         private readonly Thing bench;
         private readonly List<CompModularWeaponPartsBox> boxes;
         private readonly Pawn worker;
+
+        public sealed class PartAcquisition
+        {
+            private readonly ModularWeaponWorkshopSession session;
+            private readonly CompModularWeaponPartsBox originalBox;
+            private readonly List<Tuple<CompModularWeaponPartsBox, ThingDef>> debited;
+            private readonly List<Tuple<Thing, int>> materials;
+            private bool resolved;
+
+            public Thing Part { get; }
+
+            internal PartAcquisition(
+                ModularWeaponWorkshopSession session,
+                Thing part,
+                CompModularWeaponPartsBox originalBox,
+                List<Tuple<CompModularWeaponPartsBox, ThingDef>> debited,
+                List<Tuple<Thing, int>> materials)
+            {
+                this.session = session;
+                Part = part;
+                this.originalBox = originalBox;
+                this.debited = debited;
+                this.materials = materials;
+            }
+
+            public void Commit()
+            {
+                if (resolved) return;
+                resolved = true;
+                for (int i = 0; i < materials.Count; i++)
+                {
+                    Thing consumed = materials[i].Item1.SplitOff(materials[i].Item2);
+                    consumed?.Destroy(DestroyMode.Vanish);
+                }
+            }
+
+            public void Rollback()
+            {
+                if (resolved) return;
+                resolved = true;
+                if (originalBox != null)
+                {
+                    if (!originalBox.TryAddIndependent(Part))
+                        session.PlaceNearBench(Part);
+                }
+                else
+                    DestroyAssemblyWithoutStorage(Part);
+
+                for (int i = 0; i < debited.Count; i++)
+                    debited[i].Item1.TryAdd(debited[i].Item2);
+            }
+        }
 
         public ModularWeaponWorkshopSession(
             Thing bench,
@@ -521,59 +555,90 @@ namespace Helodrace.ModernWar
         {
             if (!ResearchUnlocked(def)) return 0;
             ModularWeaponPartStorageMode mode = CompModularWeaponPartsBox.StorageModeFor(def);
-            if (mode == ModularWeaponPartStorageMode.Internal || CanInstantCraft(def))
-                return int.MaxValue;
-            return boxes.Where(box => box != null).Sum(box => box.CountOf(def));
+            if (mode == ModularWeaponPartStorageMode.Internal) return int.MaxValue;
+            int stored = AvailableCountInBoxes(def);
+            return stored > 0 ? stored : CanCraftNow(def) ? int.MaxValue : 0;
         }
 
-        public bool TryTakePart(ThingDef def, out Thing part)
+        public bool CanCraftNow(ThingDef def)
         {
-            part = null;
-            if (!ResearchUnlocked(def)) return false;
-            bool crafted = false;
-            ModularWeaponPartStorageMode mode = CompModularWeaponPartsBox.StorageModeFor(def);
-            CompModularWeaponPartsBox box = boxes.FirstOrDefault(
-                candidate => candidate != null);
-            if (box == null) return false;
-            if (mode == ModularWeaponPartStorageMode.IndependentThing)
+            if (!ResearchUnlocked(def) || !CanInstantCraft(def)) return false;
+            Dictionary<ThingDef, int> costs = new Dictionary<ThingDef, int>();
+            return TryAddCraftCost(def, costs)
+                && TryPlanMaterials(costs, out _, out _);
+        }
+
+        public bool TryAcquirePart(
+            ThingDef def, out PartAcquisition acquisition, out string rejection)
+        {
+            acquisition = null;
+            rejection = null;
+            ResearchProjectDef missingResearch = MissingResearch(def);
+            if (missingResearch != null)
             {
-                part = boxes.FirstOrDefault(candidate => candidate?.CountOf(def) > 0)
-                    ?.TryTakeIndependent(def);
-                if (part != null) return true;
-                if (!CanInstantCraft(def)) return false;
-                Thing made = ThingMaker.MakeThing(def);
-                if (made == null) return false;
-                if (!box.TryAddIndependent(made))
-                {
-                    DestroyAssemblyWithoutStorage(made);
-                    return false;
-                }
-                crafted = true;
-                part = box.TryTakeIndependent(def);
-                return part != null;
+                rejection = "HD_ModularWeapon_ResearchRequired".Translate(
+                    missingResearch.LabelCap);
+                return false;
             }
 
+            ModularWeaponPartStorageMode mode = CompModularWeaponPartsBox.StorageModeFor(def);
+            if (boxes.All(candidate => candidate == null)) return false;
             List<Tuple<CompModularWeaponPartsBox, ThingDef>> debited =
                 new List<Tuple<CompModularWeaponPartsBox, ThingDef>>();
-            if (mode == ModularWeaponPartStorageMode.Virtual
-                && AvailableCountInBoxes(def) == 0)
+            Dictionary<ThingDef, int> costs = new Dictionary<ThingDef, int>();
+            CompModularWeaponPartsBox originalBox = null;
+            Thing part = null;
+
+            if (mode == ModularWeaponPartStorageMode.IndependentThing)
             {
-                if (!CanInstantCraft(def)) return false;
-                if (!box.TryAdd(def)) return false;
-                crafted = true;
+                originalBox = boxes.FirstOrDefault(candidate => candidate?.CountOf(def) > 0);
+                part = originalBox?.TryTakeIndependent(def);
+                if (part == null) originalBox = null;
+                if (part != null && !ValidateResearchTree(part, out rejection))
+                {
+                    originalBox.TryAddIndependent(part);
+                    return false;
+                }
             }
-            if (mode == ModularWeaponPartStorageMode.Virtual
-                && !TryDebitVirtualPart(def, debited)) return false;
 
-            part = ThingMaker.MakeThing(def);
-            if (part != null && TryDebitDefaultSubtree(part, debited)) return true;
+            if (part == null)
+            {
+                if (mode == ModularWeaponPartStorageMode.Virtual
+                    && AvailableCountInBoxes(def) > 0)
+                {
+                    if (!TryDebitVirtualPart(def, debited)) return false;
+                }
+                else if (mode != ModularWeaponPartStorageMode.Internal
+                    && (!CanInstantCraft(def) || !TryAddCraftCost(def, costs)))
+                {
+                    rejection = "HD_ModularWeapon_PartUnavailable".Translate(def.LabelCap);
+                    return false;
+                }
 
-            for (int i = 0; i < debited.Count; i++)
-                if (!crafted || i > 0)
-                    debited[i].Item1.TryAdd(debited[i].Item2);
-            DestroyAssemblyWithoutStorage(part);
-            part = null;
-            return false;
+                part = ThingMaker.MakeThing(def);
+                if (part == null || !TryDebitDefaultSubtree(
+                    part, debited, costs, out rejection))
+                {
+                    DestroyAssemblyWithoutStorage(part);
+                    RestoreDebitedParts(debited);
+                    return false;
+                }
+            }
+
+            if (!TryPlanMaterials(costs, out List<Tuple<Thing, int>> materials,
+                out rejection))
+            {
+                if (originalBox != null)
+                    originalBox.TryAddIndependent(part);
+                else
+                    DestroyAssemblyWithoutStorage(part);
+                RestoreDebitedParts(debited);
+                return false;
+            }
+
+            acquisition = new PartAcquisition(
+                this, part, originalBox, debited, materials);
+            return true;
         }
 
         private int AvailableCountInBoxes(ThingDef def)
@@ -604,27 +669,118 @@ namespace Helodrace.ModernWar
 
         private bool TryDebitDefaultSubtree(
             Thing thing,
-            List<Tuple<CompModularWeaponPartsBox, ThingDef>> debited)
+            List<Tuple<CompModularWeaponPartsBox, ThingDef>> debited,
+            Dictionary<ThingDef, int> costs,
+            out string rejection)
         {
+            rejection = null;
             CompModularWeaponNode comp = thing?.TryGetComp<CompModularWeaponNode>();
             if (comp == null) return true;
             for (int i = 0; i < comp.ChildCount; i++)
             {
                 Thing child = comp.ChildAt(i);
-                if (!ResearchUnlocked(child?.def)) return false;
+                ResearchProjectDef missingResearch = MissingResearch(child?.def);
+                if (missingResearch != null)
+                {
+                    rejection = "HD_ModularWeapon_ResearchRequired".Translate(
+                        missingResearch.LabelCap);
+                    return false;
+                }
                 ModularWeaponPartStorageMode childMode =
                     CompModularWeaponPartsBox.StorageModeFor(child?.def);
-                if (childMode == ModularWeaponPartStorageMode.IndependentThing)
-                {
-                    if (!CanInstantCraft(child.def)) return false;
-                }
                 if (childMode == ModularWeaponPartStorageMode.Virtual
-                    && !CanInstantCraft(child.def)
-                    && !TryDebitVirtualPart(child.def, debited))
+                    && AvailableCountInBoxes(child.def) > 0)
+                {
+                    if (!TryDebitVirtualPart(child.def, debited)) return false;
+                }
+                else if (childMode != ModularWeaponPartStorageMode.Internal
+                    && (!CanInstantCraft(child.def)
+                        || !TryAddCraftCost(child.def, costs)))
+                {
+                    rejection = "HD_ModularWeapon_PartUnavailable".Translate(
+                        child.LabelCap);
                     return false;
-                if (!TryDebitDefaultSubtree(child, debited)) return false;
+                }
+                if (!TryDebitDefaultSubtree(child, debited, costs, out rejection))
+                    return false;
             }
             return true;
+        }
+
+        private static bool TryAddCraftCost(
+            ThingDef def, Dictionary<ThingDef, int> costs)
+        {
+            if (def?.costList.NullOrEmpty() != false) return false;
+            for (int i = 0; i < def.costList.Count; i++)
+            {
+                ThingDefCountClass entry = def.costList[i];
+                if (entry?.thingDef == null || entry.count <= 0) return false;
+                costs.TryGetValue(entry.thingDef, out int current);
+                costs[entry.thingDef] = current + entry.count;
+            }
+            return true;
+        }
+
+        private bool TryPlanMaterials(
+            Dictionary<ThingDef, int> costs,
+            out List<Tuple<Thing, int>> materials,
+            out string rejection)
+        {
+            materials = new List<Tuple<Thing, int>>();
+            rejection = null;
+            foreach (KeyValuePair<ThingDef, int> cost in costs)
+            {
+                int remaining = cost.Value;
+                IEnumerable<Thing> sources = bench?.Map?.listerThings
+                    ?.ThingsOfDef(cost.Key);
+                if (sources != null)
+                {
+                    sources = sources.Where(thing => thing?.Spawned == true
+                            && thing.Position.InHorDistOf(bench.Position,
+                                MaterialSearchRadius)
+                            && (worker == null || !thing.IsForbidden(worker)
+                                && worker.CanReserve(thing)))
+                        .OrderBy(thing => thing.Position.DistanceToSquared(bench.Position));
+                    foreach (Thing source in sources)
+                    {
+                        int count = Math.Min(source.stackCount, remaining);
+                        if (count <= 0) continue;
+                        materials.Add(Tuple.Create(source, count));
+                        remaining -= count;
+                        if (remaining == 0) break;
+                    }
+                }
+                if (remaining <= 0) continue;
+                rejection = "HD_ModularWeapon_MaterialRequired".Translate(
+                    cost.Key.LabelCap, cost.Value);
+                materials.Clear();
+                return false;
+            }
+            return true;
+        }
+
+        private static bool ValidateResearchTree(Thing thing, out string rejection)
+        {
+            rejection = null;
+            ResearchProjectDef missingResearch = MissingResearch(thing?.def);
+            if (missingResearch != null)
+            {
+                rejection = "HD_ModularWeapon_ResearchRequired".Translate(
+                    missingResearch.LabelCap);
+                return false;
+            }
+            CompModularWeaponNode comp = thing?.TryGetComp<CompModularWeaponNode>();
+            if (comp == null) return true;
+            for (int i = 0; i < comp.ChildCount; i++)
+                if (!ValidateResearchTree(comp.ChildAt(i), out rejection)) return false;
+            return true;
+        }
+
+        private static void RestoreDebitedParts(
+            List<Tuple<CompModularWeaponPartsBox, ThingDef>> debited)
+        {
+            for (int i = 0; i < debited.Count; i++)
+                debited[i].Item1.TryAdd(debited[i].Item2);
         }
 
         private bool TryDebitVirtualPart(

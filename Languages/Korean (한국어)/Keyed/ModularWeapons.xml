@@ -67,11 +67,14 @@
   <HD_ModularWeapon_IdentificationDistance>&#49885;&#48324; &#44144;&#47532;</HD_ModularWeapon_IdentificationDistance>
   <HD_ModularWeapon_Cells>&#52856;</HD_ModularWeapon_Cells>
   <HD_ModularWeapon_ImmediateHintDev>개발자 모드: 파츠 재고를 계산하지 않고 즉시 생성하거나 제거합니다.</HD_ModularWeapon_ImmediateHintDev>
-  <HD_ModularWeapon_WorkshopHint>연구가 끝난 제작 가능 파츠는 작업대에서 즉시 만들고, 나머지는 파츠 상자에서 가져옵니다. 떼어낸 파츠는 상자로 돌아갑니다.</HD_ModularWeapon_WorkshopHint>
+  <HD_ModularWeapon_WorkshopHint>연구가 끝난 파츠는 상자 재고를 먼저 쓰고, 없으면 작업대 12칸 이내의 재료를 소모해 만듭니다. 떼어낸 파츠는 상자로 돌아갑니다.</HD_ModularWeapon_WorkshopHint>
   <HD_ModularWeapon_CommandDescDev>작업대와 파츠 재고를 사용하지 않고 모듈형 총기 편집 화면을 엽니다. 개발자 모드 전용입니다.</HD_ModularWeapon_CommandDescDev>
   <HD_ModularWeapon_PartAvailable>보유: {0}</HD_ModularWeapon_PartAvailable>
   <HD_ModularWeapon_PartUnavailable>{0}을(를) 먼저 구해 파츠 상자에 넣어야 합니다.</HD_ModularWeapon_PartUnavailable>
   <HD_ModularWeapon_InstantCraft>즉시 제작</HD_ModularWeapon_InstantCraft>
+  <HD_ModularWeapon_MaterialUnavailable>제작 재료 부족</HD_ModularWeapon_MaterialUnavailable>
+  <HD_ModularWeapon_MaterialRequired>작업대 근처에 {0} {1}개가 필요합니다.</HD_ModularWeapon_MaterialRequired>
+  <HD_ModularWeapon_CraftCost>제작 시 재료: {0} (기본 부착물은 별도)</HD_ModularWeapon_CraftCost>
   <HD_ModularWeapon_MustObtain>별도 획득 필요</HD_ModularWeapon_MustObtain>
   <HD_ModularWeapon_ResearchRequired>필요 연구: {0}</HD_ModularWeapon_ResearchRequired>
   <HD_ModularWeapon_CatalogGroup_Discouraged>비권장 파츠</HD_ModularWeapon_CatalogGroup_Discouraged>

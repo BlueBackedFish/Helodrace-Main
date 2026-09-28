@@ -6,6 +6,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UpperReceiver_M16A4</defName>
+    <costList><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>M16A4 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
@@ -39,6 +40,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_AR1520</defName>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>20 inch AR-15 barrel</label>
     <description>20 inch AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -63,6 +65,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_GasBlock_AR15</defName>
+    <costList><Steel>2</Steel></costList>
     <label>AR-15 front sight gas block</label>
     <description>AR-15 front sight gas block routes propellant gas through the weapon's operating system.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -90,6 +93,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_HACURXUP</defName>
+    <costList><Steel>4</Steel></costList>
     <label>HAC URX upper handguard</label>
     <description>HAC URX upper handguard surrounds the barrel and provides attachment space.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -112,6 +116,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_HACURXDOWN</defName>
+    <costList><Steel>4</Steel></costList>
     <label>HAC URX lower handguard</label>
     <description>HAC URX lower handguard surrounds the barrel and provides attachment space.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -134,6 +139,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_STANAG</defName>
+    <costList><Steel>2</Steel></costList>
     <label>STANAG magazine</label>
     <description>STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -158,6 +164,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_MagazineExt_StanagGrip</defName>
+    <costList><Steel>2</Steel></costList>
     <label>STANAG magazine pull grip</label>
     <description>STANAG magazine pull grip is a detachable magazine that stores and feeds cartridges.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -172,6 +179,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_MagazineWrap_StanagTapeBlue</defName>
+    <costList><Steel>2</Steel></costList>
     <label>blue STANAG magazine tape</label>
     <description>blue STANAG magazine tape is a detachable magazine that stores and feeds cartridges.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -186,6 +194,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_BufferTube_ColtA2</defName>
+    <costList><Steel>3</Steel></costList>
     <label>Colt A2 rifle buffer tube</label>
     <description>Colt A2 rifle buffer tube connects the stock and houses the recoil buffer.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -204,6 +213,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_IronFangA2</defName>
+    <costList><Steel>3</Steel></costList>
     <label>IronFang A2 stock</label>
     <description>IronFang A2 stock provides shoulder support and helps control recoil.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -218,6 +228,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_OpticMount_LumiconTA51</defName>
+    <costList><Steel>2</Steel></costList>
     <label>Lumicon TA51 rail mount</label>
     <description>Lumicon TA51 rail mount secures an aiming device to a weapon rail.</description>
     <researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>
@@ -238,6 +249,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Scope_LumiconTA11</defName>
+    <costList><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>Lumicon TA11 scope</label>
     <description>Lumicon TA11 scope is a dedicated component of its modular weapon assembly.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -271,6 +283,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Grip_HACVFG</defName>
+    <costList><Steel>2</Steel></costList>
     <label>HAC vertical foregrip</label>
     <description>HAC vertical foregrip improves the shooter's grip and weapon control.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -290,6 +303,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_RailPanel_HACURXLow</defName>
+    <costList><Steel>2</Steel></costList>
     <label>HAC URX lower rail panel</label>
     <description>HAC URX lower rail panel covers an exposed rail surface for safer handling.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
@@ -307,6 +321,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_RailPanel_HACURXMid</defName>
+    <costList><Steel>2</Steel></costList>
     <label>HAC URX side rail panel</label>
     <description>HAC URX side rail panel covers an exposed rail surface for safer handling.</description>
     <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>

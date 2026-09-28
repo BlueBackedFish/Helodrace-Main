@@ -6,6 +6,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UpperReceiver_M16A1</defName>
+    <costList><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>M16A1 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
@@ -36,6 +37,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_M16A1</defName>
+    <costList><Steel>4</Steel></costList>
     <label>M16A1 triangular handguard</label>
     <description>M16A1 triangular handguard surrounds the barrel and provides attachment space.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -50,6 +52,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UpperReceiver_M16A2</defName>
+    <costList><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>M16A2 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
@@ -80,6 +83,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_M16A2UP</defName>
+    <costList><Steel>4</Steel></costList>
     <label>M16A2 upper handguard</label>
     <description>M16A2 upper handguard surrounds the barrel and provides attachment space.</description>
     <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
@@ -96,6 +100,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_M16A2DOWN</defName>
+    <costList><Steel>4</Steel></costList>
     <label>M16A2 lower handguard</label>
     <description>M16A2 lower handguard surrounds the barrel and provides attachment space.</description>
     <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
@@ -110,6 +115,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_AR1520Pencil</defName>
+    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>20 inch AR-15 pencil barrel</label>
     <description>20 inch AR-15 pencil barrel guides the projectile from the chamber to the muzzle.</description>
     <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
@@ -135,6 +141,7 @@
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_M16A1</defName>
+    <costList><Steel>4</Steel></costList>
     <label>M16A1 flash suppressor</label>
     <description>M16A1 flash suppressor controls muzzle flash and escaping propellant gas.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
@@ -151,6 +158,7 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_STANAG20</defName>
+    <costList><Steel>2</Steel></costList>
     <label>20-round STANAG magazine</label>
     <description>20-round STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
     <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>

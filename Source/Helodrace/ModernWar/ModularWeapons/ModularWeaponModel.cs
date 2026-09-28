@@ -444,6 +444,14 @@ namespace Helodrace.ModernWar
             if (isAssemblyRoot && storageMode == ModularWeaponPartStorageMode.IndependentThing)
                 yield return parentDef.defName
                     + " is an assembly root and does not need IndependentThing storage mode.";
+            if (!isAssemblyRoot && storageMode != ModularWeaponPartStorageMode.Internal
+                && canInstantCraft && parentDef.costList.NullOrEmpty())
+                yield return parentDef.defName
+                    + " can be crafted at the modular workbench but has no costList.";
+            if (!isAssemblyRoot && storageMode == ModularWeaponPartStorageMode.Virtual
+                && (parentDef.selectable || parentDef.alwaysHaulable))
+                yield return parentDef.defName
+                    + " is a virtual part but can be selected or hauled as a loose Thing.";
             if (internalStats != null)
             {
                 if (internalStats.massKg == 0f)
