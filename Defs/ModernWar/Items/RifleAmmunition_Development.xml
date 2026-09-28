@@ -49,7 +49,8 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_556M855A1</defName>
     <label>5.56x45mm M855A1 cartridge</label>
-    <description>An enhanced-performance 5.56x45mm ammunition selection installed inside a compatible STANAG magazine.</description>
+    <description>M855A1 ammunition for modular 5.56x45mm magazines.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -71,7 +72,8 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_300BLKTACTX</defName>
     <label>.300 BLK TACTX cartridge</label>
-    <description>A copper expanding .300 Blackout ammunition selection installed inside a compatible STANAG magazine.</description>
+    <description>TACTX ammunition for modular .300 BLK magazines.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_300BLKTACTX</texPath></graphicData>
     <statBases><Mass>0.016</Mass><MarketValue>3</MarketValue></statBases>
     <comps>
@@ -94,7 +96,8 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_919M882</defName>
     <label>9x19mm M882 cartridge</label>
-    <description>A NATO-pattern 9x19mm ball cartridge installed inside a compatible MP5 magazine.</description>
+    <description>M882 ammunition for modular 9x19mm magazines.</description>
+    <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882</texPath></graphicData>
     <statBases><Mass>0.012</Mass><MarketValue>2</MarketValue></statBases>
     <comps>
@@ -117,7 +120,8 @@
   <ThingDef ParentName="HD_RifleAmmunitionBase">
     <defName>HD_Ammunition_76251M80A1</defName>
     <label>7.62x51mm M80A1 cartridge</label>
-    <description>An enhanced-performance 7.62x51mm cartridge for modular M14 magazines.</description>
+    <description>M80A1 ammunition for modular 7.62x51mm magazines.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps>

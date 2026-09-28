@@ -44,46 +44,43 @@
   <HelodIronMaking.description>철광석을 환원시켜 주철, 강철을 만드는 기술을 연구합니다.</HelodIronMaking.description>
 
   <HelodBasicEngine.label>통제된 폭발</HelodBasicEngine.label>
-  <HelodBasicEngine.description>원유 정제물을 이용해 연소실 내부에서 지속적이고 통제된 폭발을 일으켜 회전력을 얻는 기초적인 내연기관을 연구합니다.</HelodBasicEngine.description>
+  <HelodBasicEngine.description>액체 연료를 실린더 안에서 연소시켜 회전력을 얻는 초기 내연기관을 연구합니다.</HelodBasicEngine.description>
 
   <HelodLargeSteamEngine.label>포효하는 실린더</HelodLargeSteamEngine.label>
-  <HelodLargeSteamEngine.description>거대한 실린더와 증기 압력을 다루는 기술을 연구하여 고마력의 동력을 제공하는 대형 증기 기관을 제작합니다.</HelodLargeSteamEngine.description>
+  <HelodLargeSteamEngine.description>대형 실린더와 고압 증기로 산업 설비를 움직이는 대형 증기 기관을 연구합니다.</HelodLargeSteamEngine.description>
 
-  <HelodSpinner.label>미래를 짜내다</HelodSpinner.label>
-  <HelodSpinner.description>천을 가공해 옷감을 대량 생산할 수 있는 자동 방적 기술을 연구합니다.</HelodSpinner.description>
-
-  <HelodHeatPump.label>열을 훔치는 장치</HelodHeatPump.label>
-  <HelodHeatPump.description>압축기와 냉매를 사용하여 열을 한 곳에서 다른 곳으로 이동시킴으로써 온도 조절 및 냉각을 가능케 하는 기술을 연구합니다.</HelodHeatPump.description>
+<HelodHeatPump.label>열을 훔치는 장치</HelodHeatPump.label>
+  <HelodHeatPump.description>냉매의 압축과 팽창으로 열을 옮기는 냉각·난방 기술을 연구합니다.</HelodHeatPump.description>
 
   <HelodBasicPetrochemistry.label>액체 연금술</HelodBasicPetrochemistry.label>
-  <HelodBasicPetrochemistry.description>시출한 원유를 정밀하게 분류 증류하고 복잡한 화학 처리를 거쳐 유용한 화학 연료와 합성 물질을 추출해내는 석유화학의 기초를 다집니다.</HelodBasicPetrochemistry.description>
+  <HelodBasicPetrochemistry.description>원유를 분별 증류하고 처리하여 연료와 화학 원료로 나누는 기초 석유화학을 연구합니다.</HelodBasicPetrochemistry.description>
 
   <HelodHighOilDevelopment.label>깊은 곳 까지</HelodHighOilDevelopment.label>
-  <HelodHighOilDevelopment.description>더욱 단단한 지층을 뚫기 위한 로터리 드릴과 깊은 지하의 원유를 지상으로 강력하게 끌어올릴 수 있는 대형 펌프잭 기술을 연구합니다.</HelodHighOilDevelopment.description>
+  <HelodHighOilDevelopment.description>단단한 지층을 뚫고 깊은 유전을 개발하는 고압 시추 기술을 연구합니다.</HelodHighOilDevelopment.description>
 
   <HelodTotalSynthesisMedicine.label>분자 조립 라인</HelodTotalSynthesisMedicine.label>
-  <HelodTotalSynthesisMedicine.description>화학 원료와 정밀 가공 기술을 조합하여, 순수한 성분의 약물을 높은 수율로 합성하는 첨단 제약 기술을 연구합니다.</HelodTotalSynthesisMedicine.description>
+  <HelodTotalSynthesisMedicine.description>정제한 화학 원료로 의약품 성분을 합성하는 공정을 연구합니다.</HelodTotalSynthesisMedicine.description>
 
   <HelodBasicElectronics.label>옴의 법칙 응용</HelodBasicElectronics.label>
-  <HelodBasicElectronics.description>전류와 전압, 저항의 관계를 응용해 절연 배선과 단자, 스위치, 저항 소자를 제작하는 기초 전기 기술을 연구합니다.</HelodBasicElectronics.description>
+  <HelodBasicElectronics.description>배선, 스위치와 저항 소자를 제작하고 회로를 구성하는 기초 전기 기술을 연구합니다.</HelodBasicElectronics.description>
 
   <HelodFinancialNetwork.label>전선을 타고 흐르는 돈</HelodFinancialNetwork.label>
-  <HelodFinancialNetwork.description>기존의 통신 선로와 정교한 거래 규약을 접목하여, 자본을 전신망을 통해 원격으로 안전하고 신속하게 송금하는 금융 네트워크를 마련합니다.</HelodFinancialNetwork.description>
+  <HelodFinancialNetwork.description>전신망을 이용해 원거리 거래와 송금을 처리하는 금융 체계를 연구합니다.</HelodFinancialNetwork.description>
 
   <HelodBasicMotor.label>운동-전기 시너지</HelodBasicMotor.label>
-  <HelodBasicMotor.description>전자기 유도 현상을 이용하여 회전 운동력을 전기에너지로 변환하거나, 전기에너지를 다시 강력한 회전 동력으로 바꾸는 대형 모터와 발전기를 설계합니다.</HelodBasicMotor.description>
+  <HelodBasicMotor.description>전기와 회전 운동을 서로 바꾸는 산업용 모터와 발전기를 연구합니다.</HelodBasicMotor.description>
 
   <HelodWireless.label>전선의 속박을 끊고</HelodWireless.label>
-  <HelodWireless.description>눈에 보이지 않는 공기 중의 전파를 수신하고 발신하여 물리적인 연결 선로 없이도 장거리로 메시지를 주고받는 무선 통신 기술을 연구합니다.</HelodWireless.description>
+  <HelodWireless.description>전파로 음성과 신호를 송수신하는 무선 통신 기술을 연구합니다.</HelodWireless.description>
 
   <HelodLeverAction.label>서부를 개척한 총</HelodLeverAction.label>
-  <HelodLeverAction.description>방아쇠울의 연장선상에 있는 레버를 당겼다 밀어내는 동작 하나만으로 탄피를 배출하고 새로운 탄약을 공급하여 격발하는 레버액션 소총을 제작합니다.</HelodLeverAction.description>
+  <HelodLeverAction.description>레버 조작으로 탄피 배출과 재장전을 이어 가는 연발 소총 기술을 연구합니다.</HelodLeverAction.description>
 
   <HelodSmokeLessGunpowder.label>맑은 하늘, 죽음의 지평선</HelodSmokeLessGunpowder.label>
-  <HelodSmokeLessGunpowder.description>연소 잔사물과 짙은 백색 연기가 남지 않는 화학 장약을 조제함으로써 총구의 시야를 가리지 않고 사격의 연사 속도와 투사 위력을 한 단계 끌어 올립니다.</HelodSmokeLessGunpowder.description>
+  <HelodSmokeLessGunpowder.description>연기와 찌꺼기를 줄인 무연 화약의 제조법을 연구합니다.</HelodSmokeLessGunpowder.description>
 
   <HelodBoltAction.label>완성된 소총</HelodBoltAction.label>
-  <HelodBoltAction.description>노리쇠를 손으로 직접 당기고 젖히는 방식을 활용하여, 단순하지만 극도로 견고하며 압도적인 명중률과 사거리를 보장하는 볼트액션 소총을 연구합니다.</HelodBoltAction.description>
+  <HelodBoltAction.description>회전식 노리쇠로 약실을 잠그는 볼트액션 소총 기술을 연구합니다.</HelodBoltAction.description>
 
   <HelodChokingAgent.label>독가스의 바람</HelodChokingAgent.label>
   <HelodChokingAgent.description>염소와 같은 질식성 화학 작용제를 연구합니다.</HelodChokingAgent.description>
@@ -141,8 +138,8 @@
   <HelodMidAutomaticRifle.label>제식소총</HelodMidAutomaticRifle.label>
   <HelodMidAutomaticRifle.description>M16A2, M16A3와 M60E3를 연구합니다.</HelodMidAutomaticRifle.description>
 
-  <HelodHighAutomaticRifle.label>레일과 광학장비</HelodHighAutomaticRifle.label>
-  <HelodHighAutomaticRifle.description>현대식 광학장비와 부착물을 갖춘 화기를 연구합니다.</HelodHighAutomaticRifle.description>
+  <HelodHighAutomaticRifle.label>성숙한 제식소총</HelodHighAutomaticRifle.label>
+  <HelodHighAutomaticRifle.description>M16A4와 M4A1 계열의 개량형 제식 화기를 연구합니다.</HelodHighAutomaticRifle.description>
 
   <HelodWireGuidedMissile.label>조준선 유지</HelodWireGuidedMissile.label>
   <HelodWireGuidedMissile.description>M47과 TOW 유선유도미사일을 연구합니다.</HelodWireGuidedMissile.description>
@@ -160,11 +157,26 @@
   <HelodLessLethalChemical.description>비살상 화학 제압 장비를 연구합니다.</HelodLessLethalChemical.description>
 
   <HelodFlakJacket.label>첫 번째 방호층</HelodFlakJacket.label>
-  <HelodFlakJacket.description>초기형 방편복을 연구합니다.</HelodFlakJacket.description>
+  <HelodFlakJacket.description>초기형 방탄 조끼를 연구합니다.</HelodFlakJacket.description>
 
-  <HelodPASGT.label>머리부터 몸통까지</HelodPASGT.label>
-  <HelodPASGT.description>PASGT 방탄 장비를 연구합니다.</HelodPASGT.description>
+  <HelodPASGT.label>현대 방탄 장비</HelodPASGT.label>
+  <HelodPASGT.description>복합재 헬멧과 휴대용 방탄 방패를 포함한 현대식 개인 방호 장비를 연구합니다.</HelodPASGT.description>
 
   <HelodLowHeadSet.label>듣고 들려라</HelodLowHeadSet.label>
   <HelodLowHeadSet.description>기초 전술 헤드셋을 연구합니다.</HelodLowHeadSet.description>
+
+  <HelodColdWarGrenades.label>냉전기 수류탄</HelodColdWarGrenades.label>
+  <HelodColdWarGrenades.description>표준화된 신관과 파편 몸체를 사용하는 냉전기 수류탄을 연구합니다.</HelodColdWarGrenades.description>
+
+  <HelodModernDiversionaryGrenades.label>현대식 섬광탄</HelodModernDiversionaryGrenades.label>
+  <HelodModernDiversionaryGrenades.description>섬광과 폭음으로 표적을 혼란시키는 비살상 수류탄을 연구합니다.</HelodModernDiversionaryGrenades.description>
+
+  <HelodModernOffensiveGrenades.label>현대식 공격 수류탄</HelodModernOffensiveGrenades.label>
+  <HelodModernOffensiveGrenades.description>밀폐 공간에서 폭압을 이용하는 저파편 공격 수류탄을 연구합니다.</HelodModernOffensiveGrenades.description>
+
+  <HelodAdvancedWeaponOptics.label>고급 총기 광학장비</HelodAdvancedWeaponOptics.label>
+  <HelodAdvancedWeaponOptics.description>전투용 광학 조준기와 레일 장착식 전자 조준 장비를 연구합니다.</HelodAdvancedWeaponOptics.description>
+
+  <HelodLaserTargetDesignators.label>레이저 표적지시</HelodLaserTargetDesignators.label>
+  <HelodLaserTargetDesignators.description>정밀 항공 지원을 유도하는 휴대용 레이저 표적지시기를 연구합니다.</HelodLaserTargetDesignators.description>
 </LanguageData>

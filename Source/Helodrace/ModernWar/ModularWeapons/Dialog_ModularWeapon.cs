@@ -18,6 +18,7 @@ namespace Helodrace.ModernWar
         private Vector2 navigationScroll;
         private Vector2 socketScroll;
         private Vector2 catalogScroll;
+        private string selectedCatalogGroup;
         private ThingDef hoveredPart;
         private bool performanceExpanded;
 
@@ -44,6 +45,11 @@ namespace Helodrace.ModernWar
         public override void DoWindowContents(Rect inRect)
         {
             hoveredPart = null;
+            if (workshop != null && !workshop.IsValidFor(root))
+            {
+                Close();
+                return;
+            }
             if (root?.parent == null || root.parent.Destroyed)
             {
                 Widgets.Label(inRect, "HD_ModularWeapon_Missing".Translate());
@@ -80,7 +86,7 @@ namespace Helodrace.ModernWar
                 "HD_ModularWeapon_ExportPresetDesc".Translate());
 
             float bodyTop = 40f;
-            float catalogHeight = 184f;
+            float catalogHeight = 250f;
             float footerHeight = 38f;
             float bodyHeight = inRect.height - bodyTop - catalogHeight - footerHeight - 8f;
             Rect treeRect = new Rect(0f, bodyTop, 278f, bodyHeight);
@@ -597,6 +603,7 @@ namespace Helodrace.ModernWar
                 {
                     selectedSocketId = socket.id;
                     selectedAttachmentId = -1;
+                    selectedCatalogGroup = null;
                     catalogScroll = Vector2.zero;
                 }
 
@@ -667,7 +674,8 @@ namespace Helodrace.ModernWar
                             ?.TryGetComp<CompModularWeaponNode>()
                             ?.Props.MountNamed(node.comp.MountIdAt(childIndex));
                         float half = Mathf.Max(0f,
-                            (socket.railLength - (mount?.railOccupancy ?? 0f)) * 0.5f);
+                            (socket.railLength
+                                - (mount?.EffectiveRailContactLength ?? 0f)) * 0.5f);
                         float oldValue = node.comp.RailOffsetAt(childIndex);
                         float value = half <= 0f ? 0f : Widgets.HorizontalSlider(
                             new Rect(28f, y + 3f, viewRect.width - 118f, 18f),
@@ -767,67 +775,179 @@ namespace Helodrace.ModernWar
             if (socket == null || node == null) return;
 
             List<ThingDef> candidates = CompatibleParts(socket);
-            Rect outRect = new Rect(rect.x + 6f, rect.y + 34f,
-                rect.width - 12f, rect.height - 40f);
-            float tileWidth = 164f;
-            Rect viewRect = new Rect(0f, 0f,
-                Mathf.Max(outRect.width, candidates.Count * (tileWidth + 8f) + 8f),
-                outRect.height - 18f);
-            Widgets.BeginScrollView(outRect, ref catalogScroll, viewRect);
-            for (int i = 0; i < candidates.Count; i++)
+            const float tileWidth = 164f;
+            const float tileHeight = 140f;
+            const float gap = 8f;
+            const float buttonWidth = 158f;
+            const float buttonHeight = 28f;
+            string[] groupOrder =
             {
-                ThingDef def = candidates[i];
-                int available = workshop?.AvailableCount(def) ?? int.MaxValue;
-                bool unavailable = available <= 0;
-                Rect tile = new Rect(6f + i * (tileWidth + 8f), 3f,
-                    tileWidth, viewRect.height - 8f);
-                bool hovered = Mouse.IsOver(tile);
-                Widgets.DrawBoxSolidWithOutline(tile,
-                    hovered ? new Color(0.18f, 0.22f, 0.18f)
-                        : new Color(0.105f, 0.12f, 0.11f),
-                    hovered ? Color.yellow : new Color(0.36f, 0.42f, 0.37f),
-                    hovered ? 2 : 1);
-                if (def.uiIcon != null)
-                    Widgets.DrawTextureFitted(new Rect(tile.center.x - 28f,
-                        tile.y + 7f, 56f, 56f), def.uiIcon, 1f);
-                Text.Anchor = TextAnchor.UpperCenter;
-                Widgets.Label(new Rect(tile.x + 5f, tile.y + 67f,
-                    tile.width - 10f, 42f), def.LabelCap);
-                Text.Anchor = TextAnchor.UpperLeft;
-                CompProperties_ModularWeaponNode props =
-                    def.GetCompProperties<CompProperties_ModularWeaponNode>();
-                ModularAttachmentMount mount = CompatibleMount(props, socket);
-                Text.Font = GameFont.Tiny;
-                string occupancyLabel = mount == null
-                    ? props.partCategory.Label()
-                    : props.partCategory.Label() + "\n"
-                    + "HD_ModularWeapon_SurfaceDetail".Translate(
-                        SurfaceText(mount.railSurface)).ToString() + "\n"
-                    + (mount.railOccupancy > 0f
-                        ? "HD_ModularWeapon_Occupancy".Translate(
-                        mount.railOccupancy.ToString("0.###",
-                            CultureInfo.InvariantCulture)).ToString()
-                        : string.Empty);
-                Widgets.Label(new Rect(tile.x + 6f, tile.yMax - 42f,
-                    tile.width - 12f, 38f), occupancyLabel);
-                if (workshop != null
-                    && CompModularWeaponPartsBox.StorageModeFor(def)
-                        != ModularWeaponPartStorageMode.Internal)
+                "Discouraged", "Core", "Barrel", "Furniture", "Magazine",
+                "Sights", "Electronics", "Other"
+            };
+            Dictionary<string, List<ThingDef>> groups = candidates
+                .GroupBy(def => CatalogGroup(def, socket))
+                .ToDictionary(group => group.Key,
+                    group => group.OrderBy(def => def.label).ToList());
+            List<string> availableGroups = groupOrder
+                .Where(key => groups.ContainsKey(key)).ToList();
+            if (availableGroups.Count == 0) return;
+            if (!availableGroups.Contains(selectedCatalogGroup))
+                selectedCatalogGroup = availableGroups
+                    .FirstOrDefault(key => key != "Discouraged")
+                    ?? availableGroups[0];
+
+            int buttonsPerRow = Mathf.Max(1,
+                Mathf.FloorToInt((rect.width - 12f) / (buttonWidth + 6f)));
+            int buttonRows = Mathf.CeilToInt(
+                availableGroups.Count / (float)buttonsPerRow);
+            for (int i = 0; i < availableGroups.Count; i++)
+            {
+                string key = availableGroups[i];
+                Rect button = new Rect(rect.x + 7f
+                        + (i % buttonsPerRow) * (buttonWidth + 6f),
+                    rect.y + 34f + (i / buttonsPerRow) * (buttonHeight + 4f),
+                    buttonWidth, buttonHeight);
+                GUI.color = key == "Discouraged"
+                    ? new Color(1f, 0.72f, 0.42f)
+                    : key == selectedCatalogGroup
+                        ? new Color(0.68f, 0.92f, 0.76f) : Color.white;
+                if (Widgets.ButtonText(button,
+                    ("HD_ModularWeapon_CatalogGroup_" + key).Translate()))
                 {
-                    GUI.color = unavailable ? Color.red : new Color(0.65f, 0.9f, 0.65f);
-                    Text.Anchor = TextAnchor.UpperRight;
-                    Widgets.Label(new Rect(tile.x + 6f, tile.y + 5f,
-                        tile.width - 12f, 22f),
-                        "HD_ModularWeapon_PartAvailable".Translate(available));
-                    Text.Anchor = TextAnchor.UpperLeft;
-                    GUI.color = Color.white;
+                    selectedCatalogGroup = key;
+                    catalogScroll = Vector2.zero;
                 }
-                Text.Font = GameFont.Small;
-                if (hovered) hoveredPart = def;
-                if (!unavailable && Widgets.ButtonInvisible(tile))
-                    InstallPart(node, socket, def, mount);
+                GUI.color = Color.white;
+            }
+
+            Rect outRect = new Rect(rect.x + 6f,
+                rect.y + 34f + buttonRows * (buttonHeight + 4f) + 4f,
+                rect.width - 12f,
+                rect.height - 40f - buttonRows * (buttonHeight + 4f) - 4f);
+            List<ThingDef> entries = groups[selectedCatalogGroup];
+            int columns = Mathf.Max(1,
+                Mathf.FloorToInt((outRect.width - 18f) / (tileWidth + gap)));
+            float contentHeight = 8f
+                + Mathf.CeilToInt(entries.Count / (float)columns)
+                    * (tileHeight + gap);
+            Rect viewRect = new Rect(0f, 0f, outRect.width - 18f,
+                Mathf.Max(outRect.height, contentHeight));
+            Widgets.BeginScrollView(outRect, ref catalogScroll, viewRect);
+            for (int i = 0; i < entries.Count; i++)
+            {
+                    ThingDef def = entries[i];
+                    CompProperties_ModularWeaponNode props =
+                        def.GetCompProperties<CompProperties_ModularWeaponNode>();
+                    int available = workshop?.AvailableCount(def) ?? int.MaxValue;
+                    bool unavailable = available <= 0;
+                    ResearchProjectDef missingResearch = workshop == null
+                        ? null
+                        : ModularWeaponWorkshopSession.MissingResearch(def);
+                    Rect tile = new Rect(6f + (i % columns) * (tileWidth + gap),
+                        6f + (i / columns) * (tileHeight + gap),
+                        tileWidth, tileHeight);
+                    bool hovered = Mouse.IsOver(tile);
+                    Widgets.DrawBoxSolidWithOutline(tile,
+                        hovered ? new Color(0.18f, 0.22f, 0.18f)
+                            : new Color(0.105f, 0.12f, 0.11f),
+                        hovered ? Color.yellow : new Color(0.36f, 0.42f, 0.37f),
+                        hovered ? 2 : 1);
+                    Text.Font = GameFont.Tiny;
+                    GUI.color = unavailable ? Color.red : new Color(0.65f, 0.9f, 0.65f);
+                    string status = workshop == null
+                        || ModularWeaponWorkshopSession.CanInstantCraft(def)
+                        ? "HD_ModularWeapon_InstantCraft".Translate()
+                        : available > 0
+                            ? "HD_ModularWeapon_PartAvailable".Translate(available)
+                            : missingResearch != null
+                                ? "HD_ModularWeapon_ResearchRequired".Translate(
+                                    missingResearch.LabelCap)
+                                : "HD_ModularWeapon_MustObtain".Translate();
+                    Widgets.Label(new Rect(tile.x + 6f, tile.y + 4f,
+                        tile.width - 12f, 18f), status);
+                    GUI.color = Color.white;
+                    if (def.uiIcon != null)
+                        Widgets.DrawTextureFitted(new Rect(tile.center.x - 25f,
+                            tile.y + 24f, 50f, 50f), def.uiIcon, 1f);
+                    Text.Anchor = TextAnchor.UpperCenter;
+                    Text.Font = GameFont.Small;
+                    Widgets.Label(new Rect(tile.x + 5f, tile.y + 75f,
+                        tile.width - 10f, 39f), def.LabelCap);
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    Text.Font = GameFont.Tiny;
+                    Widgets.Label(new Rect(tile.x + 6f, tile.yMax - 22f,
+                        tile.width - 12f, 20f), props.partCategory.Label());
+                    Text.Font = GameFont.Small;
+                    if (hovered) hoveredPart = def;
+                    string discouragedReason = DiscouragedReason(def, socket);
+                    if (discouragedReason != null)
+                        TooltipHandler.TipRegion(tile, discouragedReason.Translate());
+                    else if (socket.railSurface == ModularRailSurface.Side
+                        && props.performanceRole
+                            == ModularWeaponPerformanceRole.Foregrip)
+                        TooltipHandler.TipRegion(tile,
+                            "HD_ModularWeapon_SideGripEfficiency".Translate());
+                    else if (props.performanceRole
+                        == ModularWeaponPerformanceRole.RailPanel)
+                        TooltipHandler.TipRegion(tile,
+                            "HD_ModularWeapon_RailPanelEfficiency".Translate());
+                    if (!unavailable && Widgets.ButtonInvisible(tile))
+                        InstallPart(node, socket, def, CompatibleMount(props, socket));
             }
             Widgets.EndScrollView();
+        }
+
+        private static string CatalogGroup(ThingDef def, ModularAttachmentSocket socket)
+        {
+            if (DiscouragedReason(def, socket) != null) return "Discouraged";
+            string[] name = def.defName.Split('_');
+            string kind = name.Length > 2 ? name[2] : string.Empty;
+            switch (kind)
+            {
+                case "Receiver": case "UpperReceiver": case "Slide":
+                case "Bolt": case "OperatingRod": case "CockingTube":
+                case "Trigger": case "TriggerGroup": case "TriggerHousing":
+                case "Hammer": case "Safety": case "GasBlock":
+                case "GasTube": case "BufferTube": return "Core";
+                case "Barrel": case "Muzzle": case "Suppressor":
+                    return "Barrel";
+                case "Handguard": case "HandguardExt": case "Stock":
+                case "StockExt": case "Grip": case "PistolGrip":
+                case "RailPanel": return "Furniture";
+                case "Magazine": case "MagazineExt": case "MagazineWrap":
+                case "Ammunition": return "Magazine";
+                case "FrontSight": case "RearSight": case "IronSight":
+                case "Optic": case "Scope": case "Magnifier":
+                case "OpticRail": case "OpticMount": case "Mount":
+                    return "Sights";
+                case "Laser": case "Light": return "Electronics";
+                default: return "Other";
+            }
+        }
+
+        private static string DiscouragedReason(
+            ThingDef def, ModularAttachmentSocket socket)
+        {
+            if (socket?.isRail != true) return null;
+            CompProperties_ModularWeaponNode props =
+                def.GetCompProperties<CompProperties_ModularWeaponNode>();
+            ModularAttachmentMount mount = CompatibleMount(props, socket);
+            if (mount?.UsesOppositeSurface(socket) != true) return null;
+
+            string[] name = def.defName.Split('_');
+            string kind = name.Length > 2 ? name[2] : string.Empty;
+            if (socket.railSurface == ModularRailSurface.Top
+                && props.performanceRole == ModularWeaponPerformanceRole.Foregrip)
+                return "HD_ModularWeapon_DiscouragedTopGrip";
+            if (socket.railSurface == ModularRailSurface.Bottom
+                && (props.sight != null || kind == "Optic"
+                    || kind == "Scope" || kind == "Magnifier"
+                    || kind == "FrontSight" || kind == "RearSight"
+                    || kind == "IronSight" || kind == "OpticMount"
+                    || kind == "OpticRail"))
+                return "HD_ModularWeapon_DiscouragedBottomSight";
+            return null;
         }
 
         private void InstallPart(
@@ -953,9 +1073,25 @@ namespace Helodrace.ModernWar
                 ?.Props.SocketNamed(selectedSocketId);
             ModularAttachmentMount mount = CompatibleMount(props, selectedSocket);
             string details = def.defName;
-            if (mount?.railOccupancy > 0f)
-                details += "\n" + "HD_ModularWeapon_Occupancy".Translate(
-                    mount.railOccupancy.ToString("0.###", CultureInfo.InvariantCulture));
+            float mass = props?.internalStats != null
+                && props.internalStats.massKg > 0f
+                ? props.internalStats.massKg
+                : def.GetStatValueAbstract(StatDefOf.Mass);
+            details += "\n" + StatDefOf.Mass.LabelCap + ": "
+                + mass.ToString("0.##", CultureInfo.InvariantCulture) + " kg";
+            if (mount != null && selectedSocket?.isRail == true)
+            {
+                details += "\n" + "HD_ModularWeapon_RailContactLength".Translate(
+                    mount.EffectiveRailContactLength.ToString(
+                        "0.###", CultureInfo.InvariantCulture));
+                details += "\n" + "HD_ModularWeapon_PhysicalLength".Translate(
+                    mount.EffectivePhysicalLength.ToString(
+                        "0.###", CultureInfo.InvariantCulture));
+                if (!Mathf.Approximately(mount.physicalCenterOffset, 0f))
+                    details += "\n" + "HD_ModularWeapon_BodyOffset".Translate(
+                        mount.physicalCenterOffset.ToString("+0.###;-0.###;0",
+                            CultureInfo.InvariantCulture));
+            }
             if (mount != null)
             {
                 details += "\n" + "HD_ModularWeapon_SurfaceDetail".Translate(
@@ -1041,6 +1177,8 @@ namespace Helodrace.ModernWar
                 .FirstOrDefault(socket => !ShouldHideCEAmmunitionSocket(socket))
                 ?.id;
             selectedAttachmentId = -1;
+            selectedCatalogGroup = null;
+            catalogScroll = Vector2.zero;
         }
 
         private bool SynchronizeCEAmmunitionToChamber(

@@ -33,6 +33,11 @@
 
   <FactionDef ParentName="FactionBase">
     <defName>HD_HelodCivilLowFaction</defName>
+    <modExtensions>
+      <li Class="Helodrace.Squads.FactionOrganizationExtension">
+        <doctrine>HD_Doctrine_GreatWar</doctrine>
+      </li>
+    </modExtensions>
     <label>Helod Mercantile Association</label>
     <fixedName>Helod Mercantile Association</fixedName>
     <description>Independent Helod frontier settlements bound together by trade, kinship, and practical cooperation.</description>
@@ -68,9 +73,6 @@
     <permanentEnemy>false</permanentEnemy>
     <mustStartOneEnemy>false</mustStartOneEnemy>
     <disallowedRaidStrategies>
-      <li>ImmediateAttack</li>
-      <li>ImmediateAttackSmart</li>
-      <li>StageThenAttack</li>
       <li>ImmediateAttackSappers</li>
       <li>ImmediateAttackBreaching</li>
       <li>ImmediateAttackBreachingSmart</li>
@@ -91,15 +93,18 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
-      <!-- Great War standard raid. Mortar crews are deliberately excluded. -->
+      <!-- Great War combat pool organized by weapon. -->
       <li>
         <kindDef>Combat</kindDef>
         <options>
           <HD_GW_HelodRifleman>80</HD_GW_HelodRifleman>
-          <HD_GW_HelodScout>18</HD_GW_HelodScout>
-          <HD_GW_HelodAssistantSquadLeader>12</HD_GW_HelodAssistantSquadLeader>
-          <HD_GW_HelodSquadLeader>8</HD_GW_HelodSquadLeader>
-          <HD_GW_HelodAutomaticRifleman>16</HD_GW_HelodAutomaticRifleman>
+          <HD_GW_HelodCarbine>18</HD_GW_HelodCarbine>
+          <HD_GW_HelodHAR>16</HD_GW_HelodHAR>
+          <HD_GW_HelodSMG>20</HD_GW_HelodSMG>
+          <HD_GW_HelodSniper>8</HD_GW_HelodSniper>
+          <HD_GW_HelodM1919A6>8</HD_GW_HelodM1919A6>
+          <HD_GW_HelodBazooka>4</HD_GW_HelodBazooka>
+          <HD_GW_HelodBazookaAmmoBearer>4</HD_GW_HelodBazookaAmmoBearer>
         </options>
       </li>
       <li>

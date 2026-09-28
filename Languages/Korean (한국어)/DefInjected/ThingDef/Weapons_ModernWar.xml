@@ -14,4 +14,15 @@
   <HD_PowerforgeJackhammer.description>경화 왕복 비트를 장착한 중량급 배터리식 철거 공구입니다. 암반과 구조물을 부수는 데 쓰며, 위급할 때는 강력한 타격 무기가 됩니다.</HD_PowerforgeJackhammer.description>
   <HD_Gun_Nailgun_Weapon.label>네일건</HD_Gun_Nailgun_Weapon.label>
   <HD_Gun_Nailgun_Weapon.description>빠른 조립 작업에 쓰는 튼튼한 무선 네일건입니다. 위급할 때는 건설용 못을 단거리 투사체로 발사할 수 있습니다.</HD_Gun_Nailgun_Weapon.description>
+  <HD_Gun_M4A1_Weapon.label>M4A1</HD_Gun_M4A1_Weapon.label>
+  <HD_Gun_M4A1_Weapon.description>신축식 개머리판과 짧은 총열을 갖춘 5.56mm 자동 카빈입니다. 좁은 공간에서 다루기 쉽지만 장거리 사격 성능은 소총보다 낮습니다.</HD_Gun_M4A1_Weapon.description>
+  <HD_Gun_Glock19Gen5_Weapon.tools.0.label>손잡이</HD_Gun_Glock19Gen5_Weapon.tools.0.label>
+  <HD_Gun_Glock19Gen5_Weapon.tools.1.label>슬라이드</HD_Gun_Glock19Gen5_Weapon.tools.1.label>
+  <HD_PowerforgeJackhammer.tools.0.label>드릴</HD_PowerforgeJackhammer.tools.0.label>
+  <HD_PowerforgeJackhammer.tools.1.label>왕복 비트</HD_PowerforgeJackhammer.tools.1.label>
+  <HD_Gun_Nailgun_Weapon.tools.0.label>몸체</HD_Gun_Nailgun_Weapon.tools.0.label>
+  <HD_Switchblade600_Drone.label>Switchblade 600 드론</HD_Switchblade600_Drone.label>
+  <HD_Switchblade600_Proj.label>Switchblade 600 체공형 탄약</HD_Switchblade600_Proj.label>
+  <HD_Gun_Switchblade600Launcher_TurretGun.label>스위치블레이드 600 발사대</HD_Gun_Switchblade600Launcher_TurretGun.label>
+  <HD_Gun_Switchblade600Launcher_TurretGun.description>Switchblade 600 체공탄을 발사하는 휴대식 발사관입니다. 발사된 탄은 먼 거리의 표적을 상부에서 공격합니다.</HD_Gun_Switchblade600Launcher_TurretGun.description>
 </LanguageData>

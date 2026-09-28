@@ -41,4 +41,13 @@
   <HD_Make155mmShellM110CN.label>M110 155mm CN 화학탄 만들기</HD_Make155mmShellM110CN.label>
   <HD_Make155mmShellM110CN.description>M114 155mm 곡사포용 M110 CN 최루 작용제 화학탄을 조립합니다.</HD_Make155mmShellM110CN.description>
   <HD_Make155mmShellM110CN.jobString>M110 155mm CN 화학탄 만드는 중.</HD_Make155mmShellM110CN.jobString>
+  <HD_MakeFLAM.label>FLAM ×20 만들기</HD_MakeFLAM.label>
+  <HD_MakeFLAM.description>곱게 가공한 고기를 대량으로 통조림 처리해 작은 FLAM 캔으로 만듭니다.</HD_MakeFLAM.description>
+  <HD_MakeFLAM.jobString>FLAM 제작 중.</HD_MakeFLAM.jobString>
+  <HD_Make3InchMortarShellHE.label>3인치 박격포 고폭탄 만들기</HD_Make3InchMortarShellHE.label>
+  <HD_Make3InchMortarShellHE.description>3인치 호킨스 박격포용 고폭탄을 조립합니다.</HD_Make3InchMortarShellHE.description>
+  <HD_Make3InchMortarShellHE.jobString>3인치 박격포 고폭탄 제작 중.</HD_Make3InchMortarShellHE.jobString>
+  <HD_Make3InchMortarShellCG.label>3인치 박격포 포토클로로겐탄 만들기</HD_Make3InchMortarShellCG.label>
+  <HD_Make3InchMortarShellCG.description>3인치 호킨스 박격포용 소형 포토클로로겐탄을 조립합니다.</HD_Make3InchMortarShellCG.description>
+  <HD_Make3InchMortarShellCG.jobString>3인치 박격포 포토클로로겐탄 제작 중.</HD_Make3InchMortarShellCG.jobString>
 </LanguageData>

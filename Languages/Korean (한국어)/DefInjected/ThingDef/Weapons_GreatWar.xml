@@ -57,12 +57,12 @@
   <HD_Gun_M9A1_Weapon.label>M9A1 무반동포</HD_Gun_M9A1_Weapon.label>
   <HD_Gun_M9A1_Weapon.description>장갑, 거점, 밀집된 단단한 목표를 공격하기 위한 어깨 견착식 무반동 로켓 발사기입니다. 발사 전에 장전해야 하며, 단독 운용 또는 2인 1조 운용으로 M6A3 HEAT 로켓을 낮고 뚜렷한 탄도로 발사합니다.</HD_Gun_M9A1_Weapon.description>
   <HD_Gun_M1897_Weapon.label>프론티어 암즈 M1897</HD_Gun_M1897_Weapon.label>
-  <HD_Gun_M1897_Weapon.description>근접전을 위해 만들어진 견고한 펌프 액션 산탄총입니다. 관형 탄창과 빠른 작동 방식 덕분에 짧은 거리에서 파괴적입니다.</HD_Gun_M1897_Weapon.description>
+  <HD_Gun_M1897_Weapon.description>관형 탄창과 펌프액션 장전을 사용하는 산탄총입니다. 짧은 거리에서 빠르게 후속탄을 발사할 수 있습니다.</HD_Gun_M1897_Weapon.description>
   <HD_Bullet_M1897_Proj.label>프론티어 암즈 M1897 산탄</HD_Bullet_M1897_Proj.label>
   <HD_M1902Saber.label>M1902 장교 세이버</HD_M1902Saber.label>
   <HD_M1902Saber.description>장교가 패용하는 가벼운 의장용 군도입니다. 사열식에는 잘 어울리지만, 얇은 칼날과 가벼운 장식 때문에 전장 무기로는 부족합니다.</HD_M1902Saber.description>
   <HD_USMCFightingKnife.label>KA-BUG 미 해병대 전투 나이프</HD_USMCFightingKnife.label>
-  <HD_USMCFightingKnife.description>전투와 야전 작업을 위해 허리에 차는 튼튼한 클립 포인트 전투 나이프입니다. 착용하면 빠른 나이프 찌르기와 베기가 사용 가능한 근접 공격에 추가됩니다.</HD_USMCFightingKnife.description>
+  <HD_USMCFightingKnife.description>허리에 차는 클립 포인트 전투 나이프입니다. 전투뿐 아니라 절단과 야전 작업에도 사용할 수 있습니다.</HD_USMCFightingKnife.description>
   <HD_81mmMortarShell_M43HE_Proj.label>M43 81mm 고폭탄</HD_81mmMortarShell_M43HE_Proj.label>
   <HD_81mmMortarShell_M57WP_Proj.label>M57 81mm 백린연막탄</HD_81mmMortarShell_M57WP_Proj.label>
   <HD_81mmMortarShell_BA_Proj.label>M57 81mm BA 화학탄</HD_81mmMortarShell_BA_Proj.label>
@@ -80,4 +80,36 @@
   <HD_Bullet_M2HB_CAS_Proj.label>12.7mm 항공기 기총탄</HD_Bullet_M2HB_CAS_Proj.label>
   <HD_Gun_M2HB_TurretGun.label>M2HB 중기관총</HD_Gun_M2HB_TurretGun.label>
   <HD_Gun_M2HB_TurretGun.description>고정 방어 거치대용으로 설계된 탄띠 급탄식 12.7mm 중기관총입니다.</HD_Gun_M2HB_TurretGun.description>
+  <HD_3InchMortarShell_HE_Proj.label>3인치 박격포 고폭탄</HD_3InchMortarShell_HE_Proj.label>
+  <HD_3InchMortarShell_CG_Proj.label>3인치 박격포 포토클로로겐탄</HD_3InchMortarShell_CG_Proj.label>
+  <HD_Gun_M1911_Weapon.tools.0.label>손잡이</HD_Gun_M1911_Weapon.tools.0.label>
+  <HD_Gun_M1A1Harrington_Weapon.tools.0.label>개머리판</HD_Gun_M1A1Harrington_Weapon.tools.0.label>
+  <HD_Gun_M1A1Harrington_Weapon.tools.1.label>총열</HD_Gun_M1A1Harrington_Weapon.tools.1.label>
+  <HD_Gun_M3A1_Weapon.tools.0.label>개머리판</HD_Gun_M3A1_Weapon.tools.0.label>
+  <HD_Gun_M3A1_Weapon.tools.1.label>총열</HD_Gun_M3A1_Weapon.tools.1.label>
+  <HD_Gun_M9A1_Weapon.tools.0.label>관</HD_Gun_M9A1_Weapon.tools.0.label>
+  <HD_Gun_3InchHawkinsMortar_TurretGun.label>3인치 호킨스 박격포</HD_Gun_3InchHawkinsMortar_TurretGun.label>
+  <HD_Gun_3InchHawkinsMortar_TurretGun.description>고각으로 고폭탄을 발사하는 단순한 보병 박격포입니다. 운용 인원과 준비된 포탄이 필요합니다.</HD_Gun_3InchHawkinsMortar_TurretGun.description>
+  <HD_Projectile_3InchHEFragment.label>3인치 고폭탄 파편</HD_Projectile_3InchHEFragment.label>
+  <HD_Projectile_81mmHEFragment.label>81mm 고폭탄 파편</HD_Projectile_81mmHEFragment.label>
+  <HD_Projectile_105mmHEFragment.label>105mm 고폭탄 파편</HD_Projectile_105mmHEFragment.label>
+  <HD_Gun_KragJorgensen_Weapon.tools.0.label>개머리판</HD_Gun_KragJorgensen_Weapon.tools.0.label>
+  <HD_Gun_M1897_Weapon.tools.0.label>개머리판</HD_Gun_M1897_Weapon.tools.0.label>
+  <HD_Gun_M1897_Weapon.tools.1.label>총열</HD_Gun_M1897_Weapon.tools.1.label>
+  <HD_Gun_M1A1Carbine_Weapon.tools.0.label>개머리판</HD_Gun_M1A1Carbine_Weapon.tools.0.label>
+  <HD_Gun_M2Carbine_Weapon.tools.0.label>개머리판</HD_Gun_M2Carbine_Weapon.tools.0.label>
+  <HD_Gun_M1Garand_Weapon.tools.0.label>개머리판</HD_Gun_M1Garand_Weapon.tools.0.label>
+  <HD_Gun_M1D_Weapon.tools.0.label>개머리판</HD_Gun_M1D_Weapon.tools.0.label>
+  <HD_Gun_M1918A2HAR_Weapon.tools.0.label>개머리판</HD_Gun_M1918A2HAR_Weapon.tools.0.label>
+  <HD_Gun_M1918A2HAR_Weapon.tools.1.label>총열</HD_Gun_M1918A2HAR_Weapon.tools.1.label>
+  <HD_Gun_M1919A6LMG_Weapon.tools.0.label>개머리판</HD_Gun_M1919A6LMG_Weapon.tools.0.label>
+  <HD_Gun_M1919A6LMG_Weapon.tools.1.label>총열</HD_Gun_M1919A6LMG_Weapon.tools.1.label>
+  <HD_Gun_SprMThree_Weapon.tools.0.label>개머리판</HD_Gun_SprMThree_Weapon.tools.0.label>
+  <HD_Gun_M1903A4_Weapon.tools.0.label>개머리판</HD_Gun_M1903A4_Weapon.tools.0.label>
+  <HD_Gun_M1903Pedersen_Weapon.tools.0.label>개머리판</HD_Gun_M1903Pedersen_Weapon.tools.0.label>
+  <HD_M1902Saber.tools.0.label>손잡이</HD_M1902Saber.tools.0.label>
+  <HD_M1902Saber.tools.1.label>찌르기</HD_M1902Saber.tools.1.label>
+  <HD_M1902Saber.tools.2.label>날</HD_M1902Saber.tools.2.label>
+  <HD_USMCFightingKnife.tools.0.label>찌르기</HD_USMCFightingKnife.tools.0.label>
+  <HD_USMCFightingKnife.tools.1.label>날</HD_USMCFightingKnife.tools.1.label>
 </LanguageData>

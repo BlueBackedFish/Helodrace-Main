@@ -1,14 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_MackenzieValleyHelod.label>매켄지 밸리 헤로드</HD_MackenzieValleyHelod.label>
-  <HD_MackenzieValleyHelod.description>개와 비슷한 특징을 지닌 신비로운 인간형 종족입니다. 선천적으로 거대하고 권위적이며, 이끌고 보호하도록 설계되었습니다. 뛰어난 사회적 매력, 극도의 회복력, 오만한 지도력을 지녔지만 거대한 체구 때문에 많은 식량을 필요로 하고 비교적 느립니다.</HD_MackenzieValleyHelod.description>
+  <HD_MackenzieValleyHelod.description>큰 체격과 침착한 성향을 지닌 헤로드 계통입니다. 집단을 이끌고 동료를 지키는 데 능하지만 많은 식량을 필요로 하며 움직임은 느린 편입니다.</HD_MackenzieValleyHelod.description>
   <HD_TexasHelod.label>텍사스 헤로드</HD_TexasHelod.label>
-  <HD_TexasHelod.description>개와 비슷한 특징을 지닌 신비로운 인간형 종족입니다. 뜨거운 대초원에 적응하여 빠르고 치명적인 명사수이며 극도의 더위 내성을 지녔습니다. 그러나 예민하고 긴장된 성향 때문에 매우 공격적이고 사회적으로 고립되어 있습니다.</HD_TexasHelod.description>
+  <HD_TexasHelod.description>고온 건조한 초원에 적응한 헤로드 계통입니다. 빠른 움직임과 사격 솜씨가 강점이지만 경계심이 강해 충돌을 일으키기 쉽습니다.</HD_TexasHelod.description>
   <HD_ArcticHelod.label>북극 헤로드</HD_ArcticHelod.label>
-  <HD_ArcticHelod.description>개와 비슷한 특징을 지닌 신비로운 인간형 종족입니다. 얼어붙은 황야를 위해 태어난 정찰병이자 저격수로, 혹한에 매우 강하지만 열에는 극도로 취약합니다. 면역 체계가 약하고 완전한 고독형으로 행동하며, 극지 환경에서 궁극적인 저격 정확도를 발휘합니다.</HD_ArcticHelod.description>
+  <HD_ArcticHelod.description>한랭지 정찰과 장거리 사격에 적응한 헤로드 계통입니다. 추위에는 강하지만 더위와 질병에 약하며 혼자 행동하려는 경향이 있습니다.</HD_ArcticHelod.description>
   <HD_EasternHelod.label>동부 헤로드</HD_EasternHelod.label>
-  <HD_EasternHelod.description>개와 비슷한 특징을 지닌 신비로운 인간형 종족입니다. 도금 시대의 세련되고 뛰어난 자산 관리자로, 사교, 연구, 고정밀 제작에 능합니다. 타고난 독점가이지만 몸이 연약하고 정신 민감도가 높습니다.</HD_EasternHelod.description>
+  <HD_EasternHelod.description>상업과 정밀 작업에 익숙한 도시형 헤로드 계통입니다. 사교, 연구와 제작에 능하지만 체력이 약하고 정신 자극에 민감합니다.</HD_EasternHelod.description>
   <HD_MexicanHelod.label>멕시코 헤로드</HD_MexicanHelod.label>
-  <HD_MexicanHelod.description>개와 비슷한 특징을 지닌 신비로운 인간형 종족입니다. 고도로 조직화된 PMC 용병으로 설계되어 튼튼한 건강, 빠른 회복, 뛰어난 군사 전술 결속력을 지녔습니다. 전장 각성제 의존을 나타내는 만성 암페타민 의존증을 겪습니다.</HD_MexicanHelod.description>
+  <HD_MexicanHelod.description>조직적인 용병 생활에 적응한 헤로드 계통입니다. 튼튼한 체력과 빠른 회복을 지녔지만 전투 자극제에 의존하는 경우가 많습니다.</HD_MexicanHelod.description>
+  <HD_MackenzieValleyHelod.descriptionShort>크고 강인하며 권위적인 헤로드입니다.</HD_MackenzieValleyHelod.descriptionShort>
+  <HD_TexasHelod.descriptionShort>빠르고 열에 강한 명사수 헤로드입니다.</HD_TexasHelod.descriptionShort>
+  <HD_ArcticHelod.descriptionShort>정예 극지 저격수이자 고독한 헤로드입니다.</HD_ArcticHelod.descriptionShort>
+  <HD_EasternHelod.descriptionShort>지적이고 사교적이며 내정에 특화된 독점가 헤로드입니다.</HD_EasternHelod.descriptionShort>
+  <HD_MexicanHelod.descriptionShort>튼튼하고 민첩한 전투 PMC 헤로드로, 암페타민 의존증이 있습니다.</HD_MexicanHelod.descriptionShort>
 </LanguageData>
-

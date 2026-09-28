@@ -137,7 +137,8 @@ namespace Helodrace.ModernWar
                 return;
             if (id >= 0) nextFailureMessageTick[id] = now + FailureMessageCooldownTicks;
 
-            string user = shooter?.LabelShortCap ?? weapon?.LabelCap ?? "Weapon";
+            string user = shooter?.LabelShortCap ?? weapon?.LabelCap
+                ?? "HD_ModularWeapon_FallbackWeapon".Translate();
             Messages.Message(
                 "HD_ModularWeapon_FailureToChamber".Translate(
                     user,
@@ -194,7 +195,8 @@ namespace Helodrace.ModernWar
                     shooter));
             }
 
-            string user = shooter?.LabelShortCap ?? "Weapon user";
+            string user = shooter?.LabelShortCap
+                ?? "HD_ModularWeapon_FallbackWeaponUser".Translate();
             Messages.Message(
                 "HD_ModularWeapon_CatastrophicFailure".Translate(
                     user,

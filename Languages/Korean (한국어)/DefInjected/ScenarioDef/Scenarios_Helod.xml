@@ -3,4 +3,8 @@
   <HD_Scenario_HelodFourPawns.label>헤로드 도금 시대의 개척자들</HD_Scenario_HelodFourPawns.label>
   <HD_Scenario_HelodFourPawns.description>네 명의 헤로드 개척자가 외딴 국경 지대에 산업 전초기지를 세우려 합니다. 이들은 기초 물자와 그레이록 M1861을 들고 유전을 개발할 준비를 마쳤습니다.</HD_Scenario_HelodFourPawns.description>
   <HD_Scenario_HelodFourPawns.scenario.summary>스탈레르 자금, 페미컨 식량, 3정의 M1861 소총, 그리고 강철 단검을 가진 4명의 헤로드 개척자로 식민지를 개시합니다.</HD_Scenario_HelodFourPawns.scenario.summary>
+  <HD_Scenario_WWTech.label>헤로드 도금시대 개척자들</HD_Scenario_WWTech.label>
+  <HD_Scenario_WWTech.description>헤로드 개척자 네 명이 거칠고 길들지 않은 변방 깊숙이 들어가 산업 전초기지를 세우려 합니다. 넉넉한 스탈레르 지폐, 생 페미컨, 그레이록 M1861 강선 머스킷 세 정과 강철 칼을 갖추고 현지 석유를 장악해 금융 제국을 건설할 준비를 마쳤습니다.</HD_Scenario_WWTech.description>
+  <HD_Scenario_WWTech.scenario.summary>스탈레르 화폐, 페미컨, M1861 소총 세 정과 강철 칼을 가진 헤로드 정착민 네 명으로 시작합니다.</HD_Scenario_WWTech.scenario.summary>
+  <HD_Scenario_WWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>네 명의 다양한 헤로드 아종 개척자로 시작합니다.</HD_Scenario_WWTech.scenario.parts.ConfigurePawnsXenotypes.customSummary>
 </LanguageData>

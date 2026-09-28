@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+  <HD_BallisticShield_GuaranteedBlock>확정 방어 관통력 컷</HD_BallisticShield_GuaranteedBlock>
+  <HD_BallisticShield_GuaranteedBlock_Desc>피격 직전 방패 내구도가 {1} 이상이면 관통력 {0} 이하의 정면 원거리 날카로움 공격을 완전히 차단합니다. 차단해도 방패 내구도는 감소합니다. 내구도가 기준 미만이면 일반 방어 확률 판정을 사용합니다.</HD_BallisticShield_GuaranteedBlock_Desc>
   <HD_BallisticShield_Penetrated>방패 관통!</HD_BallisticShield_Penetrated>
   <HD_IronHideShield_ViewportHit>관측창 피격!</HD_IronHideShield_ViewportHit>
   <HD_IronHideShield_ViewportIntact>관측창: 정상</HD_IronHideShield_ViewportIntact>

@@ -30,7 +30,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>HD_GovernmentBond</defName>
     <label>government bond</label>
-    <description>An official, beautifully engraved paper government bond certificate issued by the United States of Vesenica. It serves as high-value, secure sovereign wealth storage. It cannot be stacked and must be handled with care.</description>
+    <description>A high-value bond issued by the United States of Vesennica. It stores substantial wealth in little space, but the paper certificate is vulnerable to fire and damage.</description>
     <graphicData>
       <texPath>Items/HD_GovernmentBond</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>

@@ -556,12 +556,18 @@ namespace Helodrace.ModernWar
             bool guaranteedBlock = damageDef.armorCategory
                     == DamageArmorCategoryDefOf.Sharp
                 && (damageDef == DamageDefOf.Bullet || damageDef.isRanged)
-                && installedPlateSet.PlateHealthRatioForFacing(protectedFacing) >= 0.4f
-                && installedPlateSet.part.guaranteedBlockPenetration > 0f
-                && armorPenetration
-                    <= installedPlateSet.part.guaranteedBlockPenetration;
+                && BallisticArmorRules.CanGuaranteeBlock(
+                    armorPenetration,
+                    installedPlateSet.part.guaranteedBlockPenetration,
+                    installedPlateSet.PlateHealthRatioForFacing(protectedFacing),
+                    BallisticArmorRules.PlateGuaranteedBlockMinimumDurability);
 
-            int plateWear = GenMath.RoundRandom(damageAmount * 0.35f);
+            float materialCoefficient = installedPlateSet.PlateSet?
+                .TryGetComp<CompArmorPlateSet>()?.DurabilityMaterialCoefficient ?? 1f;
+            int plateWear = GenMath.RoundRandom(BallisticArmorRules.PlateWear(
+                damageAmount,
+                armorPenetration,
+                materialCoefficient));
             if (plateWear > 0)
             {
                 installedPlateSet.DamagePlateForFacing(

@@ -45,6 +45,7 @@ namespace Helodrace.ModernWar
             public ModularRenderNode node;
             public ModularWeaponSightProperties props;
             public Vector2 axis;
+            public ModularRailSurface mountSurface;
         }
 
         private sealed class OccupancyRecord
@@ -152,7 +153,9 @@ namespace Helodrace.ModernWar
                 {
                     node = node,
                     props = sight,
-                    axis = node.transform.TransformPoint(local)
+                    axis = node.transform.TransformPoint(local),
+                    mountSurface = ModularWeaponPartPerformance.MountSurface(
+                        node, nodes)
                 });
             }
             result.Sort((a, b) => a.axis.y.CompareTo(b.axis.y));
@@ -448,6 +451,7 @@ namespace Helodrace.ModernWar
         private static bool IsUsable(SightRecord record)
         {
             return record != null
+                && record.mountSurface != ModularRailSurface.Bottom
                 && record.axis.y >= MinimumUsableAxisHeight;
         }
 

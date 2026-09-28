@@ -3,7 +3,7 @@
   <StatDef>
     <defName>HD_ArmorErgonomics</defName>
     <label>armor ergonomics</label>
-    <description>How little the armor obstructs natural movement. Modular armor converts the difference from its configured reference value into vanilla pawn statistics.</description>
+    <description>Measures how much the armor interferes with the wearer's movement.</description>
     <category>Apparel</category>
     <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
     <toStringStyle>FloatOne</toStringStyle>
@@ -16,7 +16,7 @@
   <StatDef>
     <defName>HD_ArmorVentilation</defName>
     <label>armor ventilation</label>
-    <description>How effectively the armor releases heat and moisture. Modular armor converts the difference from its configured reference value into vanilla pawn statistics.</description>
+    <description>Measures how well the armor releases trapped heat and moisture.</description>
     <category>Apparel</category>
     <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
     <toStringStyle>FloatOne</toStringStyle>
@@ -29,7 +29,7 @@
   <StatDef>
     <defName>HD_ArmorLoadDistribution</defName>
     <label>armor load distribution</label>
-    <description>How effectively the armor transfers weight across the wearer's body. Modular armor converts the difference from its configured reference value into vanilla pawn statistics.</description>
+    <description>Measures how evenly the armor's weight is spread across the wearer's body.</description>
     <category>Apparel</category>
     <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
     <toStringStyle>FloatOne</toStringStyle>

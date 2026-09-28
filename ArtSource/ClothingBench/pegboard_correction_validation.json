@@ -1,0 +1,28 @@
+{
+  "unrelated_objects_and_cameras_unchanged": true,
+  "preserved_objects": [
+    "01_Worktable",
+    "02_Support_frame",
+    "03_Storage_cabinet",
+    "04_Drawer_fronts",
+    "05_Sewing_machine",
+    "06_Cutting_surface",
+    "07_Cut_fabric",
+    "09_Fabric_roll",
+    "10_Folded_fabric",
+    "11_Large_scissors",
+    "Camera_North",
+    "Camera_South",
+    "Camera_East",
+    "14_Armor_insert_A",
+    "15_Armor_insert_B"
+  ],
+  "rear_y": 0.462,
+  "board_z_range": [
+    1.32,
+    1.82
+  ],
+  "tabletop_z": 0.95,
+  "through_holes": 12,
+  "front_panel_removed": true
+}

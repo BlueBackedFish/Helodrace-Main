@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_M1952AFlakJacket</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>M1952A flak jacket</label>
     <description>A sleeveless fragmentation vest issued for protection against shell and grenade fragments. It is lighter and more flexible than modern plate armor, but offers substantially less protection against direct rifle fire.</description>
     <graphicData>
@@ -20,6 +25,8 @@
       <ArmorRating_Heat>0.15</ArmorRating_Heat>
       <Flammability>0.45</Flammability>
       <EquipDelay>1.7</EquipDelay>
+      <Insulation_Cold>1</Insulation_Cold>
+      <Insulation_Heat>0.5</Insulation_Heat>
     </statBases>
     <equippedStatOffsets>
       <MoveSpeed>-0.05</MoveSpeed>
@@ -61,7 +68,6 @@
     </costList>
     <researchPrerequisites>
       <li>HelodFlakJacket</li>
-      <li>HelodColdWarTech</li>
     </researchPrerequisites>
   </ThingDef>
 

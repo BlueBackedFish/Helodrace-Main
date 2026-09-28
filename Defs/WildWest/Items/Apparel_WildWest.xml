@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
 
   <ThingDef ParentName="ApparelBase">
     <defName>HD_Apparel_CarvalyUniform</defName>
@@ -462,6 +466,8 @@
       <StuffEffectMultiplierInsulation_Cold>0.25</StuffEffectMultiplierInsulation_Cold>
       <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
       <EquipDelay>1.2</EquipDelay>
+      <Insulation_Cold>4.5</Insulation_Cold>
+      <Insulation_Heat>4.5</Insulation_Heat>
     </statBases>
     <equippedStatOffsets>
       <SocialImpact>0.08</SocialImpact>
@@ -522,6 +528,8 @@
       <StuffEffectMultiplierInsulation_Cold>0.55</StuffEffectMultiplierInsulation_Cold>
       <StuffEffectMultiplierInsulation_Heat>0.25</StuffEffectMultiplierInsulation_Heat>
       <EquipDelay>1.4</EquipDelay>
+      <Insulation_Cold>9.9</Insulation_Cold>
+      <Insulation_Heat>4.5</Insulation_Heat>
     </statBases>
     <equippedStatOffsets>
       <SocialImpact>0.12</SocialImpact>
@@ -567,6 +575,7 @@
 
   <ThingDef ParentName="ApparelBase">
     <defName>HD_WildWestLeatherVest</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>leather vest</label>
     <description>A tough leather vest designed for light protection on the frontier. Can be worn over other clothing as light armor.</description>
     <graphicData>
@@ -621,6 +630,7 @@
 
   <ThingDef ParentName="ApparelBase">
     <defName>HD_WildWestMetalVest</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>metal vest</label>
     <description>A crude vest made from metal plates backed with cloth. It offers modest protection against cuts and glancing shots, but is heavy for the amount of coverage it provides.</description>
     <graphicData>
@@ -637,6 +647,8 @@
       <ArmorRating_Heat>0.08</ArmorRating_Heat>
       <Flammability>0.1</Flammability>
       <EquipDelay>1.3</EquipDelay>
+      <Insulation_Cold>1</Insulation_Cold>
+      <Insulation_Heat>0.5</Insulation_Heat>
     </statBases>
     <thingCategories>
       <li>Apparel</li>

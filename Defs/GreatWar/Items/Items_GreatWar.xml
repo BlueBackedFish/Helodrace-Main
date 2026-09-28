@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
 
   <!-- Consumables -->
 
@@ -590,6 +594,8 @@
       <StuffEffectMultiplierInsulation_Heat>0.20</StuffEffectMultiplierInsulation_Heat>
       <Flammability>0.8</Flammability>
       <EquipDelay>1.1</EquipDelay>
+      <Insulation_Cold>6.3</Insulation_Cold>
+      <Insulation_Heat>3.6</Insulation_Heat>
     </statBases>
     <thingCategories>
       <li>Apparel</li>
@@ -631,6 +637,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GreatWarTrenchArmyOuter</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>great war trench armor coat</label>
     <description>A reinforced outer uniform for trench troops, tailored for Helod bodies. It is worn over inner clothing as protective armor and field gear.</description>
     <graphicData>
@@ -651,6 +658,8 @@
       <ArmorRating_Sharp>0.22</ArmorRating_Sharp>
       <Flammability>0.7</Flammability>
       <EquipDelay>1.8</EquipDelay>
+      <Insulation_Cold>9.9</Insulation_Cold>
+      <Insulation_Heat>2.7</Insulation_Heat>
     </statBases>
     <thingCategories>
       <li>Apparel</li>
@@ -713,6 +722,8 @@
       <StuffEffectMultiplierInsulation_Heat>0.20</StuffEffectMultiplierInsulation_Heat>
       <Flammability>0.8</Flammability>
       <EquipDelay>1.1</EquipDelay>
+      <Insulation_Cold>6.3</Insulation_Cold>
+      <Insulation_Heat>3.6</Insulation_Heat>
     </statBases>
     <thingCategories>
       <li>Apparel</li>
@@ -754,6 +765,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GreatWarStormFrontOuter</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>great war storm-front uniform outer layer</label>
     <description>A reinforced storm-front field uniform tailored for Helod bodies. It is worn over the uniform liner and beneath heavier armor and field gear.</description>
     <graphicData>
@@ -774,6 +786,8 @@
       <ArmorRating_Sharp>0.22</ArmorRating_Sharp>
       <Flammability>0.7</Flammability>
       <EquipDelay>1.8</EquipDelay>
+      <Insulation_Cold>9.9</Insulation_Cold>
+      <Insulation_Heat>2.7</Insulation_Heat>
     </statBases>
     <thingCategories>
       <li>Apparel</li>
@@ -1190,6 +1204,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GreatWarM1Helmet</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>m1 Helmet</label>
     <description>m1 helmet with hole for ears</description>
     <graphicData>
@@ -1206,6 +1221,8 @@
       <ArmorRating_Heat>0.01</ArmorRating_Heat>
       <Flammability>0.05</Flammability>
       <EquipDelay>0.8</EquipDelay>
+      <Insulation_Cold>1</Insulation_Cold>
+      <Insulation_Heat>0.5</Insulation_Heat>
     </statBases>
     <thingCategories>
       <li>Headgear</li>
@@ -1224,11 +1241,6 @@
       <defaultOutfitTags>
         <li>Worker</li>
       </defaultOutfitTags>
-      <drawData>
-        <defaultData>
-          <offset>(0,0,0.1)</offset>
-        </defaultData>
-      </drawData>
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>

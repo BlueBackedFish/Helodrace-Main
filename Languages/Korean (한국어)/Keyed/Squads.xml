@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Squads_ShowOverlay>습격 조직 정보</HD_Squads_ShowOverlay>
+  <HD_Squads_ActingRole>{0} 대행</HD_Squads_ActingRole>
+  <HD_Squads_OverlayCommander>지휘관: {0} · {1}</HD_Squads_OverlayCommander>
+  <HD_Squads_State_Normal>정상</HD_Squads_State_Normal>
+  <HD_Squads_State_CommanderLost>지휘관 손실</HD_Squads_State_CommanderLost>
+  <HD_Squads_State_SuccessionPending>승계 대기</HD_Squads_State_SuccessionPending>
+  <HD_Squads_State_ActingCommander>대행 지휘</HD_Squads_State_ActingCommander>
+  <HD_Squads_State_CommandRestored>지휘 복구</HD_Squads_State_CommandRestored>
+  <HD_Squads_Inspect>전투 조직</HD_Squads_Inspect>
+  <HD_Squads_InspectDesc>조직 트리, 원래 역할, 지휘권 승계와 잔여 지원 포인트를 확인합니다.</HD_Squads_InspectDesc>
+</LanguageData>

@@ -12,6 +12,7 @@
             <Mass>55</Mass>
         </statBases>
         <comps>
+            <li Class="Helodrace.Squads.CompProperties_PawnOrganization" />
             <li>
                 <compClass>CompAttachBase</compClass>
             </li>

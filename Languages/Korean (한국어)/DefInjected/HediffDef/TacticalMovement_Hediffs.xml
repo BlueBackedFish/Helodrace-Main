@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalAim.label>전술 조준</HD_TacticalAim.label>
+  <HD_TacticalAim.description>선택한 방향에 집중하는 지속 사격 자세입니다. 집중 부채꼴 안의 표적은 사격 준비가 빨라지고, 집중 범위 밖이지만 사격 범위 안인 표적도 더 느리게 공격할 수 있습니다.</HD_TacticalAim.description>
+  <HD_TacticalMovement.label>전술 기동</HD_TacticalMovement.label>
+  <HD_TacticalMovement.description>이동 중 정확도와 사격 준비 시간을 맞바꾸는 이동 사격 자세입니다.</HD_TacticalMovement.description>
+</LanguageData>

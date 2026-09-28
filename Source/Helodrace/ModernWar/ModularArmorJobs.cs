@@ -16,11 +16,14 @@ namespace Helodrace.ModernWar
         private ThingWithComps Armor => job.GetTarget(ArmorInd).Thing as ThingWithComps;
         private LocalTargetInfo InstallData => job.GetTarget(InstallDataInd);
         private CompModularArmor ArmorComp => Armor?.TryGetComp<CompModularArmor>();
+        private Thing Workbench => job.targetQueueB?.FirstOrDefault().Thing;
         private ModularArmorPartDef Part => ArmorComp?.PartForInstallJob(InstallData);
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             job.count = 1;
+            if (!CompClothingWorkbench.CanWorkAt(pawn, Workbench, ArmorComp)
+                || !pawn.Reserve(Workbench, job, 1, 1, null, errorOnFailed)) return false;
             if (PartItem?.Spawned == true)
             {
                 return pawn.Reserve(PartItem, job, 1, 1, null, errorOnFailed);
@@ -33,6 +36,8 @@ namespace Helodrace.ModernWar
         {
             this.FailOnDestroyedOrNull(PartItemInd);
             this.FailOn(() => ArmorComp?.Wearer != pawn);
+            this.FailOn(() => !CompClothingWorkbench.CanUse(Workbench, ArmorComp)
+                || Workbench.IsForbidden(pawn));
             this.FailOn(() => Part == null || PartItem?.def != Part.RequiredThingDef);
 
             Toil takeFromInventory = Toils_General.Do(delegate
@@ -60,14 +65,18 @@ namespace Helodrace.ModernWar
             Toil install = Toils_General.Wait(workTicks, ArmorInd);
             install.handlingFacing = true;
             install.WithProgressBarToilDelay(ArmorInd);
+            Toil goToWorkbench = Toils_Goto.GotoCell(Workbench?.InteractionCell ?? IntVec3.Invalid, PathEndMode.OnCell);
+            Toil faceWorkbench = Toils_General.Do(() => pawn.rotationTracker.FaceTarget(Workbench));
 
             yield return Toils_Jump.JumpIf(
                 takeFromInventory,
                 () => pawn.inventory?.innerContainer?.Contains(PartItem) == true);
             yield return Toils_Goto.GotoThing(PartItemInd, PathEndMode.ClosestTouch);
             yield return Toils_Haul.StartCarryThing(PartItemInd, false, true, false);
-            yield return Toils_Jump.Jump(install);
+            yield return Toils_Jump.Jump(goToWorkbench);
             yield return takeFromInventory;
+            yield return goToWorkbench;
+            yield return faceWorkbench;
             yield return install;
             yield return Toils_General.Do(FinishInstallation);
         }
@@ -130,25 +139,32 @@ namespace Helodrace.ModernWar
     public sealed class JobDriver_SwapModularArmorFrontRear : JobDriver
     {
         private const TargetIndex ArmorInd = TargetIndex.A;
+        private const TargetIndex BenchInd = TargetIndex.B;
         private const int SwapWorkTicks = 300;
 
         private ThingWithComps Armor => job.GetTarget(ArmorInd).Thing as ThingWithComps;
         private CompModularArmor ArmorComp => Armor?.TryGetComp<CompModularArmor>();
+        private Thing Workbench => job.GetTarget(BenchInd).Thing;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return ArmorComp?.Wearer == pawn;
+            return CompClothingWorkbench.CanWorkAt(pawn, Workbench, ArmorComp)
+                && pawn.Reserve(Workbench, job, 1, 1, null, errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOn(() => ArmorComp?.Wearer != pawn);
+            this.FailOnDespawnedNullOrForbidden(BenchInd);
+            this.FailOn(() => !CompClothingWorkbench.CanUse(Workbench, ArmorComp));
             this.FailOn(() => !ArmorComp.InstalledParts
                 .Any(record => record?.CanSwapFrontRearPlates == true));
 
             Toil swap = Toils_General.Wait(SwapWorkTicks, ArmorInd);
             swap.handlingFacing = true;
             swap.WithProgressBarToilDelay(ArmorInd);
+            yield return Toils_Goto.GotoThing(BenchInd, PathEndMode.InteractionCell);
+            yield return Toils_General.Do(() => pawn.rotationTracker.FaceTarget(Workbench));
             yield return swap;
             yield return Toils_General.Do(delegate
             {

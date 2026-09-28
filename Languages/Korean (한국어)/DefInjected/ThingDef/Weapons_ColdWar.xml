@@ -5,4 +5,26 @@
   <HD_Gun_M60E3_Weapon.description>양각대 대신 전방 손잡이와 개량 총열을 단 경량형 M60입니다. 빠른 지향사격에 적합하도록 현대화되었습니다.</HD_Gun_M60E3_Weapon.description>
   <HD_PowerCutter.label>동력 절단기</HD_PowerCutter.label>
   <HD_PowerCutter.description>석재와 금속 골조를 절단하는 중량급 무선 공구입니다. 노출된 절단날은 위급할 때 위험한 근접 무기가 됩니다.</HD_PowerCutter.description>
+  <HD_Projectile_M167_20mmHEI.label>20 mm 고폭소이탄</HD_Projectile_M167_20mmHEI.label>
+  <HD_Projectile_M167_20mmAPI.label>20 mm 철갑소이탄</HD_Projectile_M167_20mmAPI.label>
+  <HD_Projectile_M167_20mmHEIT.label>20 mm 고폭소이예광탄</HD_Projectile_M167_20mmHEIT.label>
+  <HD_Projectile_20mmHEIFragment.label>20 mm HEI 파편</HD_Projectile_20mmHEIFragment.label>
+  <HD_Gun_M167VADS_TurretGun.label>M167 VADS 20 mm 회전식 기관포</HD_Gun_M167VADS_TurretGun.label>
+  <HD_BGM71A_Proj.label>BGM-71A 미사일</HD_BGM71A_Proj.label>
+  <HD_Gun_M220TOW_TurretGun.label>M220 TOW 발사기</HD_Gun_M220TOW_TurretGun.label>
+  <HD_M47_M222_Proj.label>M222 미사일</HD_M47_M222_Proj.label>
+  <HD_M47_M222_Proj.description>M47 드래곤 발사기의 지령선을 통해 유도되는 140mm 성형작약 미사일입니다.</HD_M47_M222_Proj.description>
+  <HD_Gun_M47_Dragon.label>M47 드래곤</HD_Gun_M47_Dragon.label>
+  <HD_Gun_M47_Dragon.description>일회용 휴대식 대전차유도미사일 체계입니다. 조작자는 유도 명령이 전선을 통해 미사일에 전달되는 동안 표적을 시야에 유지해야 합니다. 펄스식 조향 장약이 단계적으로 비행 경로를 수정하며, 비행 중 다른 표적으로 유도를 전환할 수도 있습니다.</HD_Gun_M47_Dragon.description>
+  <HD_Gun_M47_Dragon.tools.0.label>발사관</HD_Gun_M47_Dragon.tools.0.label>
+  <HD_Gun_M60E3_Weapon.tools.0.label>개머리판</HD_Gun_M60E3_Weapon.tools.0.label>
+  <HD_Gun_M60E3_Weapon.tools.1.label>총열</HD_Gun_M60E3_Weapon.tools.1.label>
+  <HD_PowerCutter.tools.0.label>손잡이</HD_PowerCutter.tools.0.label>
+  <HD_PowerCutter.tools.1.label>절단날</HD_PowerCutter.tools.1.label>
+  <HD_Gun_M16A1_Weapon.label>M16A1</HD_Gun_M16A1_Weapon.label>
+  <HD_Gun_M16A1_Weapon.description>완전자동 사격이 가능한 초기형 경량 5.56mm 제식소총입니다. 헤로드 명사수는 유효 사거리 8칸을 대가로 표적 획득 속도를 크게 높일 수 있습니다.</HD_Gun_M16A1_Weapon.description>
+  <HD_Gun_M16A2_Weapon.label>M16A2</HD_Gun_M16A2_Weapon.label>
+  <HD_Gun_M16A2_Weapon.description>개선된 조준기와 더 무거운 부품, 제어된 3점사를 갖춘 개량형 5.56mm 제식소총입니다. 헤로드 명사수는 유효 사거리 8칸을 대가로 표적 획득 속도를 크게 높일 수 있습니다.</HD_Gun_M16A2_Weapon.description>
+  <HD_Gun_M16A3_Weapon.label>M16A3</HD_Gun_M16A3_Weapon.label>
+  <HD_Gun_M16A3_Weapon.description>근거리에서 중거리까지 지속 사격하도록 만든 M16A2의 완전자동 파생형입니다. 헤로드 명사수는 유효 사거리 8칸을 대가로 표적 획득 속도를 크게 높일 수 있습니다.</HD_Gun_M16A3_Weapon.description>
 </LanguageData>

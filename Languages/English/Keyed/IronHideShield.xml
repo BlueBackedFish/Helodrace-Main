@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+  <HD_BallisticShield_GuaranteedBlock>Guaranteed block penetration</HD_BallisticShield_GuaranteedBlock>
+  <HD_BallisticShield_GuaranteedBlock_Desc>Completely blocks frontal ranged sharp attacks with penetration at or below {0} while shield durability before the hit is at least {1}. Blocking still damages the shield. Below this durability, normal blocking rolls apply.</HD_BallisticShield_GuaranteedBlock_Desc>
   <HD_IronHideShield_ViewportHit>Viewport hit!</HD_IronHideShield_ViewportHit>
   <HD_BallisticShield_Penetrated>Shield penetrated!</HD_BallisticShield_Penetrated>
   <HD_IronHideShield_ViewportIntact>Viewport: intact</HD_IronHideShield_ViewportIntact>

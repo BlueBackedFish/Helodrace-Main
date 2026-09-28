@@ -17,4 +17,12 @@
   <HD_Projectile_MKII.label>MK II &#54028;&#54200; &#49688;&#47448;&#53444;</HD_Projectile_MKII.label>
   <HD_Projectile_MKIIFragment.label>MK II &#49688;&#47448;&#53444; &#54028;&#54200;</HD_Projectile_MKIIFragment.label>
   <HD_Projectile_MKIII.label>MK III &#44277;&#44201;&#50857; &#49688;&#47448;&#53444;</HD_Projectile_MKIII.label>
+  <HD_M8_ClipEffect.label>M8 안전 클립</HD_M8_ClipEffect.label>
+  <HD_M8_PinEffect.label>M8 안전핀</HD_M8_PinEffect.label>
+  <HD_M15_ClipEffect.label>M15 안전 클립</HD_M15_ClipEffect.label>
+  <HD_M15_PinEffect.label>M15 안전핀</HD_M15_PinEffect.label>
+  <HD_MKII_ClipEffect.label>MK II 안전 클립</HD_MKII_ClipEffect.label>
+  <HD_MKII_PinEffect.label>MK II 안전핀</HD_MKII_PinEffect.label>
+  <HD_MKIII_ClipEffect.label>MK III 안전 클립</HD_MKIII_ClipEffect.label>
+  <HD_MKIII_PinEffect.label>MK III 안전핀</HD_MKIII_PinEffect.label>
 </LanguageData>

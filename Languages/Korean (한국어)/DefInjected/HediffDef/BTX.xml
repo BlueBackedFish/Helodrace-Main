@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
   <HD_BTXHigh.label>BTX 안정화</HD_BTXHigh.label>
@@ -17,5 +17,11 @@
   <HD_PlainDogChewHigh.label>무첨가 개껌 씹는 중</HD_PlainDogChewHigh.label>
   <HD_PlainDogChewHigh.description>까드득 까드득</HD_PlainDogChewHigh.description>
   <HD_PlainDogChewHigh.labelNoun>무첨가 개껌 효과</HD_PlainDogChewHigh.labelNoun>
+  <HD_BTXToxicity.stages.0.label>경증</HD_BTXToxicity.stages.0.label>
+  <HD_BTXToxicity.stages.1.label>중증</HD_BTXToxicity.stages.1.label>
+  <HD_BTXToxicity.stages.2.label>심각</HD_BTXToxicity.stages.2.label>
+  <HD_BTXDeficiency.stages.0.label>경미</HD_BTXDeficiency.stages.0.label>
+  <HD_BTXDeficiency.stages.1.label>결핍</HD_BTXDeficiency.stages.1.label>
+  <HD_BTXDeficiency.stages.2.label>위급</HD_BTXDeficiency.stages.2.label>
+  <HD_BTXAddiction.stages.1.label>금단</HD_BTXAddiction.stages.1.label>
 </LanguageData>
-

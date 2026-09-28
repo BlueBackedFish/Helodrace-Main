@@ -98,9 +98,9 @@ namespace Helodrace
             ThingDef basic = DefDatabase<ThingDef>.GetNamed("HD_BasicWorkbench");
             Check(press.AllRecipes.Any(recipe => recipe.ProducedThingDef == helmet), "hydraulic press exposes the M1 helmet recipe");
             Check(!basic.AllRecipes.Any(recipe => recipe.ProducedThingDef == helmet), "basic workbench no longer exposes the M1 helmet recipe");
-            Check(helmet.apparel.drawData != null
-                && Math.Abs(helmet.apparel.drawData.OffsetForRot(Rot4.North).z - 0.1f) < 0.0001f,
-                "M1 helmet loaded with the corrected vertical draw offset");
+            Check(helmet.apparel.drawData == null
+                || Math.Abs(helmet.apparel.drawData.OffsetForRot(Rot4.North).z) < 0.0001f,
+                "M1 helmet retains its previous default vertical draw offset");
         }
 
         private void CheckApparel()

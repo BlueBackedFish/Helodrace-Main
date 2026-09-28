@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Defs/GreatWar/Buildings/Defense_GreatWar.xml -->
   <HD_Building_M1917HMG.label>M1917 중기관총</HD_Building_M1917HMG.label>
@@ -17,5 +17,12 @@
   <HD_Building_M114Howitzer.description>개각식 포가에 탑재된 중형 155mm 야전곡사포입니다. 포반이 고폭탄부터 화학탄, 백린연막탄, W48 핵포탄까지 다양한 전용탄을 운용합니다.</HD_Building_M114Howitzer.description>
   <HD_Gun_M114Howitzer_TurretGun.label>M114 155mm 곡사포</HD_Gun_M114Howitzer_TurretGun.label>
   <HD_Gun_M114Howitzer_TurretGun.description>전용 155mm 고폭탄, BA·CN 화학탄, 백린연막탄과 W48 핵포탄을 사용하는 장거리 간접 사격용 중형 야전곡사포입니다.</HD_Gun_M114Howitzer_TurretGun.description>
+  <HD_Building_M1917HMG.comps.0.fuelLabel>M1917 탄약</HD_Building_M1917HMG.comps.0.fuelLabel>
+  <HD_Building_M1917HMG.comps.0.fuelGizmoLabel>탄약</HD_Building_M1917HMG.comps.0.fuelGizmoLabel>
+  <HD_Building_M1917HMG.comps.0.outOfFuelMessage>탄약 필요</HD_Building_M1917HMG.comps.0.outOfFuelMessage>
+  <HD_Building_M2HB.comps.0.fuelLabel>M2HB 탄약</HD_Building_M2HB.comps.0.fuelLabel>
+  <HD_Building_M2HB.comps.0.fuelGizmoLabel>탄약</HD_Building_M2HB.comps.0.fuelGizmoLabel>
+  <HD_Building_M2HB.comps.0.outOfFuelMessage>탄약 필요</HD_Building_M2HB.comps.0.outOfFuelMessage>
+  <HD_Building_3InchHawkinsMortar.label>3인치 호킨스 박격포</HD_Building_3InchHawkinsMortar.label>
+  <HD_Building_3InchHawkinsMortar.description>엄폐물 너머로 고폭탄을 투사하는 다인 운용식 3인치 참호 박격포입니다. 폰이 직접 운용해야 하며 준비된 고폭탄으로 재장전합니다.</HD_Building_3InchHawkinsMortar.description>
 </LanguageData>
-

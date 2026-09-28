@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <DoBillsHD_StirredTankReactor.label>교반식 탱크 반응기 운전</DoBillsHD_StirredTankReactor.label>
+  <DoBillsHD_StirredTankReactor.verb>작동</DoBillsHD_StirredTankReactor.verb>
+  <DoBillsHD_StirredTankReactor.gerund>작동 중</DoBillsHD_StirredTankReactor.gerund>
 </LanguageData>

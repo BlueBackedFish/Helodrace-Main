@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Role_Rifleman.label>소총수</HD_Role_Rifleman.label>
+  <HD_Role_Carbine.label>카빈 사수</HD_Role_Carbine.label>
+  <HD_Role_SMG.label>SMG 사수</HD_Role_SMG.label>
+  <HD_Role_AutomaticRifleman.label>자동소총수</HD_Role_AutomaticRifleman.label>
+  <HD_Role_MachineGunner.label>기관총수</HD_Role_MachineGunner.label>
+  <HD_Role_Marksman.label>저격수</HD_Role_Marksman.label>
+  <HD_Role_BazookaGunner.label>바주카 사수</HD_Role_BazookaGunner.label>
+  <HD_Role_BazookaAmmoBearer.label>바주카 탄약수</HD_Role_BazookaAmmoBearer.label>
+  <HD_Role_TeamLeader.label>조장</HD_Role_TeamLeader.label>
+  <HD_Role_AssistantSquadLeader.label>부분대장</HD_Role_AssistantSquadLeader.label>
+  <HD_Role_SquadLeader.label>분대장</HD_Role_SquadLeader.label>
+  <HD_Role_PlatoonSergeant.label>소대 선임하사</HD_Role_PlatoonSergeant.label>
+  <HD_Role_PlatoonLeader.label>소대장</HD_Role_PlatoonLeader.label>
+</LanguageData>

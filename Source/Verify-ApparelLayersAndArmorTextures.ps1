@@ -91,6 +91,8 @@ $pawn = Fixture ([Verse.Pawn]); Set-Field $pawn ([Verse.Thing]) 'def' $race
 [RimWorld.DefOfHelper].GetField('bindingNow',[Reflection.BindingFlags]'Static,NonPublic').SetValue($null,$true)
 $shell = Fixture ([Verse.ApparelLayerDef]); $shell.defName = 'Shell'
 [RimWorld.ApparelLayerDefOf]::Shell = $shell
+$middle = Fixture ([Verse.ApparelLayerDef]); $middle.defName = 'Middle'
+[RimWorld.ApparelLayerDefOf]::Middle = $middle
 $rigDef = Fixture ([Verse.ThingDef]); Set-Field $rigDef ([Verse.Def]) 'defName' 'HD_Apparel_GreatWarStormFrontChestRig'
 [Verse.DefDatabase[Verse.ThingDef]]::Add($rigDef)
 $beltDef = Fixture ([Verse.ThingDef]); Set-Field $beltDef ([Verse.Def]) 'defName' 'HD_Apparel_MOLLEBattleBelt'

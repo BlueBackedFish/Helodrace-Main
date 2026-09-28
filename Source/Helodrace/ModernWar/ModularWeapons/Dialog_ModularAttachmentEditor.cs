@@ -46,6 +46,9 @@ namespace Helodrace.ModernWar
         private EditorSection section = EditorSection.Placement;
         private MovementConstraint movementConstraint = MovementConstraint.Free;
         private Vector2 treeScroll;
+        private Vector2 inspectorScroll;
+        private float inspectorContentHeight = 1000f;
+        private string inspectorScrollContext;
         private readonly Dictionary<string, string> numericBuffers =
             new Dictionary<string, string>();
         private readonly Dictionary<string, string> textBuffers =
@@ -508,12 +511,13 @@ namespace Helodrace.ModernWar
                     origin, pixelsPerCell);
                 Color color = target == EditTarget.Mount && i == selectedMountIndex
                     ? Color.yellow : new Color(1f, 0.45f, 0.08f);
-                if (mount.railOccupancy > 0f)
+                if (mount.EffectivePhysicalLength > 0f)
                 {
-                    Vector3 leftLocal = mount.transform.position;
-                    Vector3 rightLocal = mount.transform.position;
-                    leftLocal.x -= mount.railOccupancy * 0.5f;
-                    rightLocal.x += mount.railOccupancy * 0.5f;
+                    Vector3 leftLocal = mount.transform.position
+                        + new Vector3(mount.physicalCenterOffset, 0f, 0f);
+                    Vector3 rightLocal = leftLocal;
+                    leftLocal.x -= mount.EffectivePhysicalLength * 0.5f;
+                    rightLocal.x += mount.EffectivePhysicalLength * 0.5f;
                     Vector2 left = WorldToGui(node.transform.TransformPoint(leftLocal),
                         origin, pixelsPerCell);
                     Vector2 right = WorldToGui(node.transform.TransformPoint(rightLocal),
@@ -522,6 +526,19 @@ namespace Helodrace.ModernWar
                         target == EditTarget.Mount && i == selectedMountIndex ? 7f : 3f);
                     DrawCross(left, color, 3f);
                     DrawCross(right, color, 3f);
+                }
+                if (mount.EffectiveRailContactLength > 0f)
+                {
+                    Vector3 leftLocal = mount.transform.position;
+                    Vector3 rightLocal = leftLocal;
+                    leftLocal.x -= mount.EffectiveRailContactLength * 0.5f;
+                    rightLocal.x += mount.EffectiveRailContactLength * 0.5f;
+                    Widgets.DrawLine(
+                        WorldToGui(node.transform.TransformPoint(leftLocal),
+                            origin, pixelsPerCell),
+                        WorldToGui(node.transform.TransformPoint(rightLocal),
+                            origin, pixelsPerCell),
+                        new Color(0.25f, 0.9f, 0.55f), 2f);
                 }
                 Widgets.DrawBox(new Rect(point.x - 5f, point.y - 5f, 10f, 10f), 2, null);
                 GUI.color = color;
@@ -624,6 +641,23 @@ namespace Helodrace.ModernWar
                 SetMovementConstraint(MovementConstraint.Vertical);
             y += 38f;
 
+            string scrollContext = node.path + ":" + section + ":" + target;
+            if (inspectorScrollContext != scrollContext)
+            {
+                inspectorScrollContext = scrollContext;
+                inspectorScroll = Vector2.zero;
+                inspectorContentHeight = 1000f;
+            }
+            Rect propertyViewport = new Rect(inner.x, y, inner.width,
+                Mathf.Max(1f, inner.yMax - y));
+            Rect propertyContent = new Rect(0f, 0f,
+                Mathf.Max(1f, propertyViewport.width - 18f),
+                Mathf.Max(propertyViewport.height, inspectorContentHeight));
+            Widgets.BeginScrollView(propertyViewport, ref inspectorScroll,
+                propertyContent);
+            inner = propertyContent;
+            y = 0f;
+
             if (section == EditorSection.Placement)
             {
                 DrawFirePerformanceEditor(inner, node, ref y);
@@ -690,17 +724,30 @@ namespace Helodrace.ModernWar
                 selectedMountIndex = Mathf.Clamp(
                     selectedMountIndex, 0, node.Props.mounts.Count - 1);
                 ModularAttachmentMount mount = node.Props.mounts[selectedMountIndex];
-                float occupancy = SliderRow(inner, ref y, "Occupied",
-                    mount.railOccupancy, 0f, 1.5f);
-                if (!Mathf.Approximately(occupancy, mount.railOccupancy))
+                float contact = SliderRow(inner, ref y, "Rail contact",
+                    mount.EffectiveRailContactLength, 0f, 1.5f);
+                if (!Mathf.Approximately(contact, mount.EffectiveRailContactLength))
                 {
-                    EnsureUndoCheckpoint(CurrentEditKey(node) + ":railOccupancy");
-                    mount.railOccupancy = occupancy;
+                    EnsureUndoCheckpoint(CurrentEditKey(node) + ":railContactLength");
+                    mount.railContactLength = contact;
                     root.InvalidateTree();
                 }
                 TooltipHandler.TipRegion(new Rect(inner.x, y - 28f, inner.width, 24f),
-                    "Occupied rail length. The orange/yellow segment in the preview "
-                    + "shows the exact interval used by this part.");
+                    "Only this contact length must fit on the rail. "
+                    + "The green segment marks the rail contact.");
+                float bodyLength = SliderRow(inner, ref y, "Body length",
+                    mount.EffectivePhysicalLength, 0f, 1.5f);
+                float bodyOffset = SliderRow(inner, ref y, "Body center offset",
+                    mount.physicalCenterOffset, -1.5f, 1.5f);
+                if (!Mathf.Approximately(bodyLength, mount.EffectivePhysicalLength)
+                    || !Mathf.Approximately(bodyOffset,
+                        mount.physicalCenterOffset))
+                {
+                    EnsureUndoCheckpoint(CurrentEditKey(node) + ":physicalLength");
+                    mount.physicalLength = bodyLength;
+                    mount.physicalCenterOffset = bodyOffset;
+                    root.InvalidateTree();
+                }
                 if (mount.socketTags?.Contains("picatinny") == true)
                 {
                     DrawRailSurfaceRow(inner, ref y, "Native surface",
@@ -827,6 +874,8 @@ namespace Helodrace.ModernWar
             y += 10f;
             Widgets.Label(new Rect(inner.x, y, inner.width, 90f),
                 "Red: logical origin\nWhite: texture centre\nOrange: incoming mount\nBlue: outgoing socket\nYellow: active edit target");
+            inspectorContentHeight = y + 98f;
+            Widgets.EndScrollView();
         }
 
         private void DrawFlashlightEditor(
@@ -1335,11 +1384,16 @@ namespace Helodrace.ModernWar
             if (socket == null || !socket.isRail) return;
 
             ModularAttachmentMount mount = node.Props.MountNamed(node.mountId);
-            float occupancy = Mathf.Max(0f, mount?.railOccupancy ?? 0f);
-            float limit = Mathf.Max(0f, (socket.railLength - occupancy) * 0.5f);
+            float contact = Mathf.Max(0f,
+                mount?.EffectiveRailContactLength ?? 0f);
+            float body = Mathf.Max(0f,
+                mount?.EffectivePhysicalLength ?? 0f);
+            float limit = Mathf.Max(0f, (socket.railLength - contact) * 0.5f);
             Widgets.Label(new Rect(inner.x, y, inner.width, 24f),
-                "Rail: " + socket.Label + "   occupied "
-                + occupancy.ToString("0.###", CultureInfo.InvariantCulture));
+                "Rail: " + socket.Label + "   contact "
+                + contact.ToString("0.###", CultureInfo.InvariantCulture)
+                + "   body " + body.ToString("0.###",
+                    CultureInfo.InvariantCulture));
             y += 26f;
             float value = limit <= 0.0001f
                 ? 0f
@@ -1844,6 +1898,9 @@ namespace Helodrace.ModernWar
                 if (props.partCategory != ModularWeaponPartCategory.Optional)
                     builder.AppendLine("<partCategory>" + props.partCategory
                         + "</partCategory>");
+                if (props.performanceRole != ModularWeaponPerformanceRole.None)
+                    builder.AppendLine("<performanceRole>" + props.performanceRole
+                        + "</performanceRole>");
                 if (!props.missingFunctions.NullOrEmpty())
                 {
                     builder.AppendLine("<missingFunctions>");
@@ -2187,6 +2244,17 @@ namespace Helodrace.ModernWar
                 if (mount.railOccupancy > 0f)
                     builder.AppendLine("    <railOccupancy>" + Number(mount.railOccupancy)
                         + "</railOccupancy>");
+                if (mount.railContactLength > 0f)
+                    builder.AppendLine("    <railContactLength>"
+                        + Number(mount.railContactLength)
+                        + "</railContactLength>");
+                if (mount.physicalLength > 0f)
+                    builder.AppendLine("    <physicalLength>"
+                        + Number(mount.physicalLength) + "</physicalLength>");
+                if (!Mathf.Approximately(mount.physicalCenterOffset, 0f))
+                    builder.AppendLine("    <physicalCenterOffset>"
+                        + Number(mount.physicalCenterOffset)
+                        + "</physicalCenterOffset>");
                 if (mount.railSurface != ModularRailSurface.Unspecified)
                     builder.AppendLine("    <railSurface>" + mount.railSurface
                         + "</railSurface>");
@@ -2296,7 +2364,7 @@ namespace Helodrace.ModernWar
 
         private static string Number(float value)
         {
-            return value.ToString("0.###", CultureInfo.InvariantCulture);
+            return value.ToString("0.######", CultureInfo.InvariantCulture);
         }
 
         private sealed class EditorSnapshot
@@ -2357,6 +2425,7 @@ namespace Helodrace.ModernWar
             private readonly Vector2 graphicScale;
             private readonly float graphicLayer;
             private readonly ModularWeaponPartCategory partCategory;
+            private readonly ModularWeaponPerformanceRole performanceRole;
             private readonly List<ModularWeaponMissingFunction> missingFunctions;
             private readonly float realisticRoundsPerMinute;
             private readonly float baseFireDelayFactor;
@@ -2388,6 +2457,7 @@ namespace Helodrace.ModernWar
                 graphicScale = props.graphicScale;
                 graphicLayer = props.graphicLayer;
                 partCategory = props.partCategory;
+                performanceRole = props.performanceRole;
                 missingFunctions = new List<ModularWeaponMissingFunction>(
                     props.missingFunctions);
                 realisticRoundsPerMinute = props.realisticRoundsPerMinute;
@@ -2420,6 +2490,7 @@ namespace Helodrace.ModernWar
                 targetProps.graphicScale = graphicScale;
                 targetProps.graphicLayer = graphicLayer;
                 targetProps.partCategory = partCategory;
+                targetProps.performanceRole = performanceRole;
                 targetProps.missingFunctions =
                     new List<ModularWeaponMissingFunction>(missingFunctions);
                 targetProps.realisticRoundsPerMinute = realisticRoundsPerMinute;
@@ -2579,6 +2650,9 @@ namespace Helodrace.ModernWar
                         transform = item.transform?.Clone()
                             ?? new ModularAttachmentTransform(),
                         railOccupancy = item.railOccupancy,
+                        railContactLength = item.railContactLength,
+                        physicalLength = item.physicalLength,
+                        physicalCenterOffset = item.physicalCenterOffset,
                         railSurface = item.railSurface,
                         oppositeSurfaceOffset = item.oppositeSurfaceOffset
                     });

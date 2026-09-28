@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
   <ThingCategoryDef>
     <defName>HD_ModularArmorParts</defName>
     <label>modular armor parts</label>
@@ -46,6 +50,7 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_MultiHitVisor</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>multi-hit ballistic visor module</label>
     <description>A transparent multi-hit ballistic visor made for the FAST MT helmet.</description>
     <graphicData>
@@ -60,15 +65,21 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_IBTVNeckGuard</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV neck guard module</label>
     <description>A detachable ballistic neck guard for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>180</MarketValue><Mass>0.45</Mass><WorkToMake>3600</WorkToMake></statBases>
     <costList><Cloth>8</Cloth><Plasteel>8</Plasteel></costList>
+
+    <!-- 이전 저장용 아이템. 목 보호는 IBTV 본체에 통합; 제작/거래 제외. -->
+    <recipeMaker Inherit="False"><recipeUsers /></recipeMaker>
+    <tradeability>None</tradeability>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_IBTVShoulderGuards</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV shoulder guard module</label>
     <description>A paired detachable shoulder armor module for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
@@ -78,6 +89,7 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_IBTVLowerBody</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV groin protector module</label>
     <description>A detachable front-facing groin protector for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
@@ -87,6 +99,7 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_IBTVBackProtector</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV rear lower protector module</label>
     <description>A detachable rear lower protector with PALS webbing for the IBTV carrier.</description>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
@@ -150,6 +163,7 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_UCPKneePads</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>UCP knee-pad module</label>
     <description>A paired set of detachable knee pads for UCP combat pants.</description>
     <graphicData><texPath>Helod/Apparel/HD_UCPPants/KneePads/HD_UCPPants_KneePads_south</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>

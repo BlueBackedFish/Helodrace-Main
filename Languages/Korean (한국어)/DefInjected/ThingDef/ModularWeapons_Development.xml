@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularPart_Bolt_AR15.label>AR-15 노리쇠 운반체 뭉치</HD_ModularPart_Bolt_AR15.label>
+  <HD_ModularPart_Bolt_AR15.description>AR-15 노리쇠 운반체 뭉치는 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_Bolt_AR15.description>
+  <HD_ModularPart_Trigger_AR15.label>AR-15 방아쇠</HD_ModularPart_Trigger_AR15.label>
+  <HD_ModularPart_Trigger_AR15.description>AR-15 방아쇠는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_Trigger_AR15.description>
+  <HD_ModularPart_UpperReceiver_M4A1.label>M4A1 상부 총몸</HD_ModularPart_UpperReceiver_M4A1.label>
+  <HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.0.label>
+  <HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.1.label>
+  <HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.2.label>
+  <HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.3.label>상부 총몸 상단 레일</HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.3.label>
+  <HD_ModularPart_Barrel_AR15103.label>10.3인치 AR-15 총열</HD_ModularPart_Barrel_AR15103.label>
+  <HD_ModularPart_Barrel_AR15103.comps.0.sockets.0.label>가스 블록 장착부</HD_ModularPart_Barrel_AR15103.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_AR15103.comps.0.sockets.1.label>총구 나사산</HD_ModularPart_Barrel_AR15103.comps.0.sockets.1.label>
+  <HD_ModularPart_GasBlock_MK12LP.label>MK12 저상형 가스 블록</HD_ModularPart_GasBlock_MK12LP.label>
+  <HD_ModularPart_Barrel_AR15300BLK103.label>10.3인치 .300 BLK AR-15 총열</HD_ModularPart_Barrel_AR15300BLK103.label>
+  <HD_ModularPart_Barrel_AR15300BLK103.description>10.3인치 .300 BLK AR-15 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_AR15300BLK103.description>
+  <HD_ModularPart_Barrel_AR15300BLK103.comps.0.sockets.0.label>권총 길이 가스 블록 장착부</HD_ModularPart_Barrel_AR15300BLK103.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_AR15300BLK103.comps.0.sockets.1.label>5/8x24 총구 나사산</HD_ModularPart_Barrel_AR15300BLK103.comps.0.sockets.1.label>
+  <HD_ModularPart_GasBlock_300BLKLP.label>.300 BLK 저상형 가스 블록</HD_ModularPart_GasBlock_300BLKLP.label>
+  <HD_ModularPart_GasBlock_300BLKLP.description>.300 BLK 저상형 가스 블록은 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasBlock_300BLKLP.description>
+  <HD_ModularPart_Barrel_AR15145.label>14.5인치 AR-15 총열</HD_ModularPart_Barrel_AR15145.label>
+  <HD_ModularPart_Barrel_AR15145.description>14.5인치 AR-15 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_AR15145.description>
+  <HD_ModularPart_Barrel_AR15145.comps.0.sockets.0.label>가스 블록 장착부</HD_ModularPart_Barrel_AR15145.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_AR15145.comps.0.sockets.1.label>총구 나사산</HD_ModularPart_Barrel_AR15145.comps.0.sockets.1.label>
+  <HD_ModularPart_Muzzle_HACNT4.label>HAC NT4 총구 장치</HD_ModularPart_Muzzle_HACNT4.label>
+  <HD_ModularPart_Muzzle_HACNT4.comps.0.sockets.0.label>NT4 소음기 결합부</HD_ModularPart_Muzzle_HACNT4.comps.0.sockets.0.label>
+  <HD_ModularPart_Suppressor_BrightStrike4Prong.label>BrightStrike 4갈래 소음기</HD_ModularPart_Suppressor_BrightStrike4Prong.label>
+  <HD_ModularPart_Muzzle_BrightStrikeSF3P762.label>BrightStrike SF3P 7.62 소염기</HD_ModularPart_Muzzle_BrightStrikeSF3P762.label>
+  <HD_ModularPart_Muzzle_BrightStrikeSF3P762.description>BrightStrike SF3P 7.62 소염기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_BrightStrikeSF3P762.description>
+  <HD_ModularPart_Handguard_HACRISFDE.label>HAC RIS FDE 총열덮개</HD_ModularPart_Handguard_HACRISFDE.label>
+  <HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.0.label>상단 전방 레일</HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.0.label>
+  <HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.1.label>측면 레일</HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.1.label>
+  <HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.2.label>하단 레일</HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.2.label>
+  <HD_ModularPart_Optic_VOTechEXPS.label>VOTech EXPS 조준기</HD_ModularPart_Optic_VOTechEXPS.label>
+  <HD_ModularPart_Handguard_HACURXM4UP.label>HAC URX M4 상부 총열덮개</HD_ModularPart_Handguard_HACURXM4UP.label>
+  <HD_ModularPart_Handguard_HACURXM4UP.description>HAC URX M4 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_HACURXM4UP.description>
+  <HD_ModularPart_Handguard_HACURXM4UP.comps.0.sockets.0.label>URX M4 하부 총열덮개 결합부</HD_ModularPart_Handguard_HACURXM4UP.comps.0.sockets.0.label>
+  <HD_ModularPart_Handguard_HACURXM4UP.comps.0.sockets.1.label>상단 전방 레일</HD_ModularPart_Handguard_HACURXM4UP.comps.0.sockets.1.label>
+  <HD_ModularPart_Handguard_HACURXM4UP.comps.0.sockets.2.label>측면 레일</HD_ModularPart_Handguard_HACURXM4UP.comps.0.sockets.2.label>
+  <HD_ModularPart_HandguardExt_HACURXM4DOWN.label>HAC URX M4 하부 총열덮개</HD_ModularPart_HandguardExt_HACURXM4DOWN.label>
+  <HD_ModularPart_HandguardExt_HACURXM4DOWN.description>HAC URX M4 하부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_HandguardExt_HACURXM4DOWN.description>
+  <HD_ModularPart_HandguardExt_HACURXM4DOWN.comps.0.sockets.0.label>연속형 하단 레일</HD_ModularPart_HandguardExt_HACURXM4DOWN.comps.0.sockets.0.label>
+  <HD_ModularPart_Magnifier_VOTechG33.label>VOTech G33 배율 확대경</HD_ModularPart_Magnifier_VOTechG33.label>
+  <HD_ModularPart_Laser_ANPEQ15.label>AN/PEQ-15 레이저 모듈</HD_ModularPart_Laser_ANPEQ15.label>
+  <HD_ModularPart_Light_BrightStrikeM600.label>BrightStrike M600 총기 조명</HD_ModularPart_Light_BrightStrikeM600.label>
+  <HD_ModularPart_Laser_IZLIDUltra.label>IZLID Ultra 레이저 모듈</HD_ModularPart_Laser_IZLIDUltra.label>
+  <HD_ModularPart_Grip_DaltonDefenseVFG.label>Dalton Defense 수직 전방손잡이</HD_ModularPart_Grip_DaltonDefenseVFG.label>
+  <HD_ModularPart_PistolGrip_IronFangA2.label>IronFang A2 권총손잡이</HD_ModularPart_PistolGrip_IronFangA2.label>
+  <HD_ModularPart_RailPanel_HACURXShortLow.label>HAC URX 단축 레일 패널</HD_ModularPart_RailPanel_HACURXShortLow.label>
+  <HD_ModularPart_RailPanel_HACURXShortLow.description>HAC URX 단축 레일 패널은 레일의 노출된 면을 덮어 손잡이와 장비를 보호하는 패널입니다.</HD_ModularPart_RailPanel_HACURXShortLow.description>
+  <HD_ModularPart_BufferTube_Colt.label>Colt 버퍼 튜브</HD_ModularPart_BufferTube_Colt.label>
+  <HD_ModularPart_BufferTube_Colt.comps.0.sockets.0.label>조절식 카빈 개머리판 레일</HD_ModularPart_BufferTube_Colt.comps.0.sockets.0.label>
+  <HD_ModularPart_Stock_FieldFormMOEFDE.label>FieldForm MOE FDE 개머리판</HD_ModularPart_Stock_FieldFormMOEFDE.label>
+  <HD_ModularPart_Stock_M4.label>M4 신축식 개머리판</HD_ModularPart_Stock_M4.label>
+  <HD_ModularPart_Stock_M4.description>M4 신축식 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_M4.description>
+  <HD_Gun_ModularM4_Test_Weapon.label>모듈식 M4 개발용 카빈</HD_Gun_ModularM4_Test_Weapon.label>
+  <HD_Gun_ModularM4_Test_Weapon.description>모듈식 M4 개발용 카빈은 호환 파츠와 작동을 시험하기 위한 개발용 모듈식 무기입니다.</HD_Gun_ModularM4_Test_Weapon.description>
+  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.0.label>상부 총몸 결합부</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.0.label>
+  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.1.label>권총손잡이 결합부</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.1.label>
+  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.2.label>버퍼 튜브 결합부</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.2.label>
+  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.3.label>
+  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.4.label>방아쇠 뭉치</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.4.label>
+</LanguageData>

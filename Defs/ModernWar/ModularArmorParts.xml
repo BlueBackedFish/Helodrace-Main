@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       플레이트 소재는 세라믹 / 아라미드 / UHMWPE 등 실제 재질로 구분; 백킹/혼합 구조/미공개 재질은 별도 메모.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
   <!-- Installation slots -->
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MA_Slot_FrontRearPlates</defName>
@@ -355,6 +360,7 @@
   <!-- Fixed parts have an authored installation location. -->
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_FrontRearPlates</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
     <label>IBTV front/rear plate set</label>
     <slot>HD_MA_Slot_FrontRearPlates</slot>
     <installMode>Fixed</installMode>
@@ -370,6 +376,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_SidePlates</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
     <label>IBTV left/right side plate set</label>
     <slot>HD_MA_Slot_SidePlates</slot>
     <installMode>Fixed</installMode>
@@ -385,6 +392,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_FrontRear_SAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); 정확한 섬유 백킹은 제조사/리비전별 확인; 연질 방탄복 병용 기준 추정, 군용 규격은 NIJ 인증과 별개. 실제 아이템 기준: HD_ArmorPlate_SAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>IBTV SAPI front/rear plate set</label>
     <slot>HD_MA_Slot_FrontRearPlates</slot>
     <installMode>Fixed</installMode>
@@ -399,6 +407,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_FrontRear_ESAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); APM2 위협 대응을 참고한 추정, 지정 연질 백킹/리비전 확인 필요. 실제 아이템 기준: HD_ArmorPlate_ESAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>IBTV ESAPI front/rear plate set</label>
     <slot>HD_MA_Slot_FrontRearPlates</slot>
     <installMode>Fixed</installMode>
@@ -413,6 +422,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_FrontRear_SSAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); Side SAPI 기준 추정. SSAPI는 XSAPI가 아니며 기존 게임 수치로 등급을 역산하지 않음. 실제 아이템 기준: HD_ArmorPlate_SSAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>IBTV SSAPI front/rear plate set</label>
     <slot>HD_MA_Slot_FrontRearPlates</slot>
     <installMode>Fixed</installMode>
@@ -428,6 +438,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_FrontRear_RAMPART4800</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800. -->
     <label>IBTV RAMPART 4800 front/rear plate set</label>
     <slot>HD_MA_Slot_FrontRearPlates</slot>
     <installMode>Fixed</installMode>
@@ -443,6 +454,7 @@
 
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_Sides_SAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); 정확한 섬유 백킹은 제조사/리비전별 확인; 연질 방탄복 병용 기준 추정, 군용 규격은 NIJ 인증과 별개. 실제 아이템 기준: HD_ArmorPlate_SAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>IBTV SAPI side plate set</label>
     <slot>HD_MA_Slot_SidePlates</slot>
     <installMode>Fixed</installMode>
@@ -458,6 +470,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_Sides_ESAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); APM2 위협 대응을 참고한 추정, 지정 연질 백킹/리비전 확인 필요. 실제 아이템 기준: HD_ArmorPlate_ESAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>IBTV ESAPI side plate set</label>
     <slot>HD_MA_Slot_SidePlates</slot>
     <installMode>Fixed</installMode>
@@ -473,6 +486,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_Sides_SSAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); Side SAPI 기준 추정. SSAPI는 XSAPI가 아니며 기존 게임 수치로 등급을 역산하지 않음. 실제 아이템 기준: HD_ArmorPlate_SSAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>IBTV SSAPI side plate set</label>
     <slot>HD_MA_Slot_SidePlates</slot>
     <installMode>Fixed</installMode>
@@ -487,6 +501,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_Sides_ESBI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); enhanced side insert 기준 추정, 지정 연질 백킹/리비전 확인 필요. 실제 아이템 기준: HD_ArmorPlate_ESBI. 세라믹 및 섬유의 세부 등급은 미지정. -->
     <label>IBTV ESBI side plate set</label>
     <slot>HD_MA_Slot_SidePlates</slot>
     <installMode>Fixed</installMode>
@@ -501,6 +516,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_Sides_RAMPART4800</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800. -->
     <label>IBTV RAMPART 4800 side plate set</label>
     <slot>HD_MA_Slot_SidePlates</slot>
     <installMode>Fixed</installMode>
@@ -517,6 +533,7 @@
   <!-- Legacy one-direction parts are retained for save compatibility. -->
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_FrontPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
     <label>IBTV front plate</label>
     <slot>HD_MA_Slot_FrontPlate</slot>
     <installMode>Fixed</installMode>
@@ -531,6 +548,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_RearPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
     <label>IBTV rear plate</label>
     <slot>HD_MA_Slot_RearPlate</slot>
     <installMode>Fixed</installMode>
@@ -545,6 +563,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_NeckGuard</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV neck guard</label>
     <slot>HD_MA_Slot_NeckGuard</slot>
     <installMode>Fixed</installMode>
@@ -556,9 +575,13 @@
     <armorRatingHeat>0.20</armorRatingHeat>
     <ergonomics>-0.5</ergonomics>
     <ventilation>-1</ventilation>
+
+    <!-- 이전 저장의 Def 참조만 유지. 현재 IBTV 슬롯/기본 구성에서는 제외. -->
+    <playerSelectable>false</playerSelectable>
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_LeftPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
     <label>IBTV left side plate</label>
     <slot>HD_MA_Slot_LeftPlate</slot>
     <installMode>Fixed</installMode>
@@ -573,6 +596,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_RightPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
     <label>IBTV right side plate</label>
     <slot>HD_MA_Slot_RightPlate</slot>
     <installMode>Fixed</installMode>
@@ -587,6 +611,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_ShoulderGuards</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV shoulder guards</label>
     <slot>HD_MA_Slot_ShoulderGuards</slot>
     <installMode>Fixed</installMode>
@@ -609,6 +634,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_LowerBody</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV groin protector</label>
     <slot>HD_MA_Slot_LowerBody</slot>
     <installMode>Fixed</installMode>
@@ -633,6 +659,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_BackProtector</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV rear lower protector</label>
     <slot>HD_MA_Slot_BackProtector</slot>
     <installMode>Fixed</installMode>
@@ -673,6 +700,7 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_UCPPantsPart_KneePads</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>UCP combat pants knee pads</label>
     <slot>HD_MA_Slot_KneePads</slot>
     <installMode>Fixed</installMode>

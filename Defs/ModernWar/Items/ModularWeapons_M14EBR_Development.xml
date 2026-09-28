@@ -5,7 +5,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_MK14EBR</defName>
     <label>MK14 EBR chassis handguard</label>
-    <description>A modular MK14 EBR chassis handguard with a continuous top rail.</description>
+    <description>MK14 EBR chassis handguard surrounds the barrel and provides attachment space.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MK14EBR</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -28,7 +29,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_MK14EBRTopRail</defName>
     <label>MK14 EBR receiver top rail</label>
-    <description>A receiver-to-handguard top rail extension for the MK14 EBR chassis.</description>
+    <description>MK14 EBR receiver top rail surrounds the barrel and provides attachment space.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_MK14EBRTopRail</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -47,7 +49,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_PistolGrip_MK14EBR</defName>
     <label>MK14 EBR pistol grip</label>
-    <description>An MK14 EBR chassis pistol-grip assembly.</description>
+    <description>MK14 EBR pistol grip improves the shooter's grip and weapon control.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_MK14EBR</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -69,7 +72,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_MK14EBR</defName>
     <label>MK14 EBR adjustable stock</label>
-    <description>An adjustable MK14 EBR chassis stock.</description>
+    <description>MK14 EBR adjustable stock provides shoulder support and helps control recoil.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MK14EBR</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">

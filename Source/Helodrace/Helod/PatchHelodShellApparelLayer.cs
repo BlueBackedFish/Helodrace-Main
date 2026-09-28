@@ -77,7 +77,7 @@ namespace Helodrace
                 // Keep the rig above every worn coat, including north-facing
                 // coats whose vanilla depth is overridden below.
                 __result = Math.Max(__result,
-                    HighestShellLayer(n.tree?.rootNode, parms) + 0.5f);
+                    HighestCoatLayer(n.tree?.rootNode, parms) + 0.5f);
                 return;
             }
 
@@ -122,17 +122,23 @@ namespace Helodrace
             __result = Math.Min(__result, hairLayer - gap);
         }
 
-        private static float HighestShellLayer(PawnRenderNode node, PawnDrawParms parms)
+        private static float HighestCoatLayer(PawnRenderNode node, PawnDrawParms parms)
         {
             float result = 20f;
             if (node == null) return result;
-            if (node.apparel?.def?.apparel?.LastLayer == ApparelLayerDefOf.Shell
+            if (IsCoatLayer(node.apparel?.def)
                 && node.Worker is PawnRenderNodeWorker_Apparel_Body)
                 result = node.Worker.LayerFor(node, parms);
             if (node.children != null)
                 foreach (PawnRenderNode child in node.children)
-                    result = Math.Max(result, HighestShellLayer(child, parms));
+                    result = Math.Max(result, HighestCoatLayer(child, parms));
             return result;
+        }
+
+        private static bool IsCoatLayer(ThingDef def)
+        {
+            ApparelLayerDef layer = def?.apparel?.LastLayer;
+            return layer == ApparelLayerDefOf.Middle || layer == ApparelLayerDefOf.Shell;
         }
 
         internal static bool IsMolleBelt(ThingDef def)

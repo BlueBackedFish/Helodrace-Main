@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_InstallModularArmorPart.reportString>방어구 파츠를 장착하는 중.</HD_InstallModularArmorPart.reportString>
+  <HD_InsertModularWeaponPartsBox.reportString>파츠 상자를 총기 작업대에 넣는 중.</HD_InsertModularWeaponPartsBox.reportString>
+  <HD_ModifyModularWeaponAtBench.reportString>총기 작업대에서 무기를 개조하는 중.</HD_ModifyModularWeaponAtBench.reportString>
   <HD_SwapModularArmorFrontRear.reportString>전·후면 방탄판을 교체하는 중.</HD_SwapModularArmorFrontRear.reportString>
+  <HD_ZaperX26Fire.reportString>TargetA에게 ZAPER X26을 발사하는 중.</HD_ZaperX26Fire.reportString>
+  <HD_ZaperX26Contact.reportString>ZAPER X26 접촉 전극으로 TargetA을(를) 가격하는 중.</HD_ZaperX26Contact.reportString>
 </LanguageData>

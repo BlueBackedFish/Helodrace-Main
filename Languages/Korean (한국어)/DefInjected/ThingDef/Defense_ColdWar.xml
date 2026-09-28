@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Building_M220TOW.label>M220 TOW 발사기</HD_Building_M220TOW.label>
+  <HD_Building_M220TOW.description>여러 명이 운용하는 발사관식·광학추적·유선유도 대전차미사일 발사기입니다. 발사 후에도 발사관이 남으며 여러 종류의 TOW 미사일을 장전할 수 있습니다.</HD_Building_M220TOW.description>
+  <HD_Building_M167VADS.label>M167 VADS</HD_Building_M167VADS.label>
+  <HD_Building_M167VADS.description>500발 탄약 드럼을 장착한 견인식 20mm 벌컨 방공체계입니다. 6총열 회전식 기관포가 노출된 표적에 고밀도 탄막을 퍼부으며, 폰이 직접 운용해야 합니다.</HD_Building_M167VADS.description>
+  <HD_Building_M167VADS.comps.0.fuelLabel>M167 탄약</HD_Building_M167VADS.comps.0.fuelLabel>
+  <HD_Building_M167VADS.comps.0.fuelGizmoLabel>탄약</HD_Building_M167VADS.comps.0.fuelGizmoLabel>
+  <HD_Building_M167VADS.comps.0.outOfFuelMessage>탄약 필요</HD_Building_M167VADS.comps.0.outOfFuelMessage>
+</LanguageData>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_PhotochlorogenGasGrid.label>포토클로로겐 가스</HD_PhotochlorogenGasGrid.label>
+  <HD_PhotochlorogenGasGrid.description>옅은 색의 지연성 질식 작용제 구름입니다. 포토클로로겐은 먼저 기도를 자극하고 잠복기 동안 사라진 듯 보이지만, 이후 폐부종이 발생해 폐를 손상시킵니다. 방독면과 독성 가스 노출 면역으로 차단할 수 있습니다.</HD_PhotochlorogenGasGrid.description>
+  <HD_SweetGasGrid.label>스위트 가스</HD_SweetGasGrid.label>
+  <HD_SweetGasGrid.description>노란색의 지연성 수포 작용제 구름입니다. 스위트 가스의 노출량은 자연 감소하지 않으며, 몇 시간 동안 변화가 없으면 노출이 해소된 것으로 봅니다. 방독면과 독성 가스 면역으로 막을 수 없지만 Odyssey가 설치된 경우 진공 저항이 노출을 줄입니다.</HD_SweetGasGrid.description>
+  <HD_CSGasGrid.label>CS 가스</HD_CSGasGrid.label>
+  <HD_CSGasGrid.description>눈, 피부와 호흡기를 즉시 자극하는 짙은 최루 작용제 구름입니다. 가스 방호와 유독 환경 저항이 노출을 줄입니다.</HD_CSGasGrid.description>
+  <HD_CNGasGrid.label>CN 가스</HD_CNGasGrid.label>
+  <HD_CNGasGrid.description>CS보다 느리게 작용하는 지속성 최루 작용제 구름입니다. 심하게 노출되면 눈, 피부와 호흡기가 강하게 자극되고 경미한 조직 손상이 생길 수 있습니다. 가스 방호와 유독 환경 저항이 노출을 줄입니다.</HD_CNGasGrid.description>
+  <HD_WhitePhosphorusSmokeGrid.label>백린 연막</HD_WhitePhosphorusSmokeGrid.label>
+  <HD_WhitePhosphorusSmokeGrid.description>백린이 타면서 만들어지는 짙고 오래가는 구름입니다. 일반 연막처럼 사격선을 효과적으로 가리며 내부의 가연성 물체에 불을 붙일 수 있습니다.</HD_WhitePhosphorusSmokeGrid.description>
+</LanguageData>

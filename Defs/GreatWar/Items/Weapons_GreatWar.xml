@@ -516,6 +516,7 @@
     <defName>HD_Gun_M1A1Harrington_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarSubmachineGun</li>
+      <li>HD_GreatWarSMG</li>
     </weaponTags>
     <label>M1A1 Harrington</label>
     <description>A rugged submachine gun with a heavy bolt and a fast cyclic rate. It fires hard-hitting pistol cartridges in controlled bursts.</description>
@@ -601,6 +602,7 @@
     <defName>HD_Gun_M3A1_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarSubmachineGun</li>
+      <li>HD_GreatWarSMG</li>
     </weaponTags>
     <label>M3A1 submachine gun</label>
     <description>A compact stamped-metal submachine gun built for simple production and steady close-range automatic fire.</description>
@@ -1339,7 +1341,7 @@
       <li>HD_GreatWarShotgun</li>
     </weaponTags>
     <label>Frontier Arms M1897</label>
-    <description>A rugged pump-action trench shotgun built for close fighting. Its tubular magazine and fast action make it devastating at short range.</description>
+    <description>A pump-action shotgun fed from a tubular magazine. It can deliver rapid follow-up shots at close range.</description>
     <graphicData>
       <texPath>Weapons/GreatWar/HD_M1897</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -1424,6 +1426,7 @@
     <weaponTags>
       <li>HD_GreatWarSemiAutoRifle</li>
       <li>HD_GreatWarM1Garand</li>
+      <li>HD_GreatWarCarbine</li>
     </weaponTags>
     <label>M1A1 carbine</label>
     <description>A compact, lightweight semi-automatic carbine fitted with a folding wire stock. It is quick to shoulder and easy to carry, trading the power and reach of a full-size service rifle for excellent handling.</description>
@@ -1498,6 +1501,7 @@
     <weaponTags>
       <li>HD_GreatWarSubmachineGun</li>
       <li>HD_GreatWarSemiAutoRifle</li>
+      <li>HD_GreatWarCarbine</li>
     </weaponTags>
     <label>M2 carbine</label>
     <description>A select-fire development of the lightweight service carbine. Its controllable cartridge and compact frame make it effective in close fighting, though sustained automatic fire quickly loses precision at range.</description>
@@ -1573,6 +1577,7 @@
     <weaponTags>
       <li>HD_GreatWarSemiAutoRifle</li>
       <li>HD_GreatWarM1Garand</li>
+      <li>HD_GreatWarRifleman</li>
     </weaponTags>
     <label>M1 Hartwell</label>
     <description>A semi-automatic battle rifle fed by an en-bloc clip. It gives up a little deliberate precision for rapid, powerful follow-up fire. In later stories, the adoption of small-caliber high-velocity rounds was delayed by the Dark Hartwell Order.</description>
@@ -1648,6 +1653,7 @@
     <defName>HD_Gun_M1D_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarSemiAutoRifle</li>
+      <li>HD_GreatWarSniper</li>
     </weaponTags>
     <label>M1D Hartwell</label>
     <description>A scoped M1 Hartwell variant built for accurate semi-automatic fire at extended range. It trades some close handling for steadier long-range shooting.</description>
@@ -1723,6 +1729,7 @@
     <defName>HD_Gun_M1918A2HAR_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarLightMachineGun</li>
+      <li>HD_GreatWarHAR</li>
     </weaponTags>
     <label>M1918A2 HAR</label>
     <description>A heavy automatic rifle designed to walk with the infantry line. Its slow-fire setting keeps short bursts controllable, while sharpshooters can brace into a faster suppressive mode.</description>
@@ -1809,6 +1816,7 @@
     <defName>HD_Gun_M1919A6LMG_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarLightMachineGun</li>
+      <li>HD_GreatWarM1919A6</li>
     </weaponTags>
     <label>M1919A6 light machine gun</label>
     <description>A portable belt-fed machine gun adapted from the Hartmann M1919. Heavy for an infantry weapon, but able to lay down sustained suppressive fire.</description>
@@ -1966,6 +1974,7 @@
     <defName>HD_Gun_M1903A4_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarBoltActionRifle</li>
+      <li>HD_GreatWarSniper</li>
     </weaponTags>
     <label>Graylock M1903A4</label>
     <description>A scoped M1903 variant prepared for deliberate long-range fire. It keeps the familiar action of the service rifle while stretching its effective reach.</description>
@@ -2181,7 +2190,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_USMCFightingKnife</defName>
     <label>KA-BUG USMC fighting knife</label>
-    <description>A sturdy clip-point combat knife worn at the waist for fighting and field utility. While equipped, it adds quick knife thrusts and cuts to the wearer's available melee attacks.</description>
+    <description>A clip-point fighting knife worn at the belt for combat, cutting, and field work.</description>
     <graphicData>
       <texPath>Weapons/GreatWar/HD_USMCFightingKnife</texPath>
       <graphicClass>Graphic_Single</graphicClass>

@@ -76,7 +76,7 @@
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_M4A1_Weapon</defName>
     <label>M4A1</label>
-    <description>A compact full-automatic 5.56 mm carbine with a telescoping stock. It sacrifices some long-range performance for faster handling, while a Helod sharpshooter can trade eight tiles of effective range for near-instant target acquisition.</description>
+    <description>A compact 5.56mm automatic carbine with a telescoping stock. It handles well in confined spaces but gives up some long-range performance to a full-length rifle.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M4A1</texPath>
       <drawSize>(1.0,1.0)</drawSize>
@@ -453,7 +453,7 @@
   <ThingDef ParentName="BaseWeaponTurret">
     <defName>HD_Gun_Switchblade600Launcher_TurretGun</defName>
     <label>Switchblade 600 launcher</label>
-    <description>A compact launch canister for Switchblade 600 loitering munitions. This early implementation fires a single long-range overhead strike and is reserved for spawning or scenario use.</description>
+    <description>A portable launch tube for Switchblade 600 loitering munitions, which strike distant targets from above.</description>
     <graphicData>
       <texPath>Buildings/Security/HD_SwitchBlade600_Canister</texPath>
       <graphicClass>Graphic_Single</graphicClass>

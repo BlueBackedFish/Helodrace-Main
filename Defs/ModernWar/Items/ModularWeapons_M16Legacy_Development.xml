@@ -10,7 +10,8 @@
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
     <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
-    <description>A fixed-carry-handle M16A1 upper receiver.</description>
+    <description>M16A1 upper receiver supports the action, barrel, and compatible attachments.</description>
+    <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a1</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -36,7 +37,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_M16A1</defName>
     <label>M16A1 triangular handguard</label>
-    <description>A full triangular M16A1 handguard assembly.</description>
+    <description>M16A1 triangular handguard surrounds the barrel and provides attachment space.</description>
+    <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_M16a1</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -52,7 +54,8 @@
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
     <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
-    <description>A fixed-carry-handle M16A2 upper receiver.</description>
+    <description>M16A2 upper receiver supports the action, barrel, and compatible attachments.</description>
+    <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a2</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -78,7 +81,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_M16A2UP</defName>
     <label>M16A2 upper handguard</label>
-    <description>The upper half of a two-piece M16A2 handguard.</description>
+    <description>M16A2 upper handguard surrounds the barrel and provides attachment space.</description>
+    <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_M16a2UP</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -93,7 +97,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_M16A2DOWN</defName>
     <label>M16A2 lower handguard</label>
-    <description>The removable lower half of a two-piece M16A2 handguard.</description>
+    <description>M16A2 lower handguard surrounds the barrel and provides attachment space.</description>
+    <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_M16a2DOWN</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -106,7 +111,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_AR1520Pencil</defName>
     <label>20 inch AR-15 pencil barrel</label>
-    <description>A lightweight 20-inch pencil-profile AR-15 barrel.</description>
+    <description>20 inch AR-15 pencil barrel guides the projectile from the chamber to the muzzle.</description>
+    <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1520Pencil</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -130,7 +136,8 @@
 <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Muzzle_M16A1</defName>
     <label>M16A1 flash suppressor</label>
-    <description>An M16A1 birdcage flash suppressor for a 5.56 mm muzzle thread.</description>
+    <description>M16A1 flash suppressor controls muzzle flash and escaping propellant gas.</description>
+    <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_M16a1</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -145,7 +152,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_STANAG20</defName>
     <label>20-round STANAG magazine</label>
-    <description>A compact twenty-round STANAG-pattern rifle magazine.</description>
+    <description>20-round STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
+    <researchPrerequisites><li>HelodLowAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_Stanag20</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -161,7 +169,7 @@
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_ModularM16A1_Test_Weapon</defName>
     <label>modular M16A1 development rifle</label>
-    <description>A development rifle for authoring the modular M16A1 part set.</description>
+    <description>A development-only modular weapon used to test compatible parts and operation.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ColdWar/HD_M16A1</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A1</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
@@ -205,7 +213,7 @@
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_ModularM16A2_Test_Weapon</defName>
     <label>modular M16A2 development rifle</label>
-    <description>A development rifle for authoring the modular M16A2 part set.</description>
+    <description>A development-only modular weapon used to test compatible parts and operation.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ColdWar/HD_M16A2,3</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>

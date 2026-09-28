@@ -81,7 +81,7 @@ namespace Helodrace.ModernWar
         public static ModularWeaponConvertedStats Resolve(
             CompModularWeaponNode root,
             List<ModularRenderNode> nodes,
-            Dictionary<int, float> sightWeights,
+            Dictionary<int, float> performanceWeights,
             float gasTubeFlowSetting)
         {
             Aggregate aggregate = new Aggregate();
@@ -106,20 +106,26 @@ namespace Helodrace.ModernWar
                 aggregate.mass += mass;
                 aggregate.weightedPosition += mass * position;
 
-                if (authored == null) continue;
-                float performanceWeight = 1f;
-                if (props.sight != null
-                    && (sightWeights == null
-                        || !sightWeights.TryGetValue(thing.thingIDNumber, out performanceWeight)))
+                if (ModularWeaponPartPerformance.IsForegrip(node)
+                    && ModularWeaponPartPerformance.MountSurface(node, nodes)
+                        == ModularRailSurface.Top)
                 {
-                    performanceWeight = 0f;
+                    aggregate.ergonomics -= 8f;
+                    aggregate.targetAcquisition -= 12f;
+                    aggregate.aimingPrecision -= 8f;
                 }
 
-                aggregate.recoil += authored.recoilImpulse;
-                aggregate.ergonomics += authored.ergonomics;
-                aggregate.muzzleRise += authored.muzzleRise;
-                aggregate.reliability += authored.operatingReliability;
-                aggregate.gasFlow += authored.gasFlow;
+                if (authored == null) continue;
+                float performanceWeight = performanceWeights != null
+                    && performanceWeights.TryGetValue(
+                        thing.thingIDNumber, out float resolvedWeight)
+                    ? resolvedWeight : 1f;
+
+                aggregate.recoil += authored.recoilImpulse * performanceWeight;
+                aggregate.ergonomics += authored.ergonomics * performanceWeight;
+                aggregate.muzzleRise += authored.muzzleRise * performanceWeight;
+                aggregate.reliability += authored.operatingReliability * performanceWeight;
+                aggregate.gasFlow += authored.gasFlow * performanceWeight;
                 aggregate.localInertia += Mathf.Max(0f, authored.momentOfInertia);
                 aggregate.targetAcquisition += authored.targetAcquisition * performanceWeight;
                 aggregate.aimingPrecision += authored.aimingPrecision * performanceWeight;
@@ -147,18 +153,33 @@ namespace Helodrace.ModernWar
                 inertia += mass * arm * arm;
             }
 
-            // A root without authored data stays valid for old saves/Defs.
-            float recoil = aggregate.recoil > 0f ? aggregate.recoil : 4.2f;
-            float ergonomics = aggregate.ergonomics > 0f ? aggregate.ergonomics : 55f;
-            float muzzleRise = aggregate.muzzleRise > 0f ? aggregate.muzzleRise : 3.2f;
-            float reliability = aggregate.reliability > 0f ? aggregate.reliability : 0.96f;
-            float gasFlow = aggregate.gasFlow > 0f ? aggregate.gasFlow : 1f;
-            float targetAcquisition = aggregate.targetAcquisition > 0f
-                ? aggregate.targetAcquisition : 55f;
-            float aimingPrecision = aggregate.aimingPrecision > 0f
-                ? aggregate.aimingPrecision : 60f;
-            float identificationMeters = aggregate.identificationMeters > 0f
-                ? aggregate.identificationMeters : 280f;
+            float balancePenalty = Mathf.Clamp01(
+                Mathf.Abs(center + 0.07f) / 0.32f);
+
+            // Supply a baseline only when the root omits that field. This keeps
+            // accessory bonuses and penalties effective on older weapon Defs.
+            ModularWeaponInternalStats rootStats = root?.Props.internalStats;
+            float recoil = aggregate.recoil
+                + (rootStats?.recoilImpulse > 0f ? 0f : 4.2f);
+            float ergonomics = aggregate.ergonomics
+                + (rootStats?.ergonomics > 0f ? 0f : 55f);
+            // Weight and the resulting center of mass affect the displayed
+            // ergonomics directly, regardless of a part's special bonuses.
+            ergonomics -= Mathf.Max(0f, aggregate.mass - 0.5f) * 3.5f
+                + balancePenalty * 12f;
+            float muzzleRise = aggregate.muzzleRise
+                + (rootStats?.muzzleRise > 0f ? 0f : 3.2f);
+            float reliability = aggregate.reliability
+                + (rootStats?.operatingReliability > 0f ? 0f : 0.96f);
+            float gasFlow = aggregate.gasFlow
+                + (rootStats?.gasFlow > 0f ? 0f : 1f);
+            float targetAcquisition = aggregate.targetAcquisition
+                + (rootStats?.targetAcquisition > 0f ? 0f : 55f);
+            targetAcquisition -= balancePenalty * 7f;
+            float aimingPrecision = aggregate.aimingPrecision
+                + (rootStats?.aimingPrecision > 0f ? 0f : 60f);
+            float identificationMeters = aggregate.identificationMeters
+                + (rootStats?.identificationDistanceMeters > 0f ? 0f : 280f);
 
             gasTubeFlowSetting = Mathf.Clamp(
                 gasTubeFlowSetting,
@@ -182,8 +203,9 @@ namespace Helodrace.ModernWar
             float muzzleControl = Mathf.Clamp01(1f - muzzleRise / 9f);
             float reliability01 = Mathf.Clamp(reliability, 0.35f, 0.9995f);
             float gasEfficiency = Mathf.Clamp(gasFlow, 0.45f, 1.35f);
-            float handling = 1f / (1f + Mathf.Max(0f, inertia) / 0.18f);
-            float balancePenalty = Mathf.Clamp01(Mathf.Abs(center + 0.07f) / 0.32f);
+            float handling = 1f / (1f + Mathf.Max(0f, inertia) / 0.18f
+                + Mathf.Max(0f, aggregate.mass - 0.5f) * 0.05f
+                + balancePenalty * 0.25f);
             float identificationCells = Mathf.Clamp(identificationMeters / 10f, 8f, 80f);
 
             ModularWeaponConvertedStats result = new ModularWeaponConvertedStats

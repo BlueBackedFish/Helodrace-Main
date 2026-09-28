@@ -1315,7 +1315,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_SprMOne_Weapon</defName>
     <label>craft Graylock M1861</label>
-    <description>Craft Graylock M1861 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Graylock M1861 using firearm components at a workbench.</description>
     <jobString>Crafting Graylock M1861.</jobString>
     <workAmount>36000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1380,7 +1380,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_ColtArmyModel1860_Weapon</defName>
     <label>craft Ironfang M1860 Army</label>
-    <description>Craft Ironfang M1860 Army using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Ironfang M1860 Army using firearm components at a workbench.</description>
     <jobString>Crafting Ironfang M1860 Army.</jobString>
     <workAmount>48000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1439,7 +1439,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_ColtSAA_Weapon</defName>
     <label>craft Ironfang SAA</label>
-    <description>Craft Ironfang SAA using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Ironfang SAA using firearm components at a workbench.</description>
     <jobString>Crafting Ironfang SAA.</jobString>
     <workAmount>45000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1489,7 +1489,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_SWModelThree_Weapon</defName>
     <label>craft W&amp;M Model 3</label>
-    <description>Craft W&amp;M Model 3 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft W&amp;M Model 3 using firearm components at a workbench.</description>
     <jobString>Crafting W&amp;M Model 3.</jobString>
     <workAmount>48000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1539,7 +1539,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1911_Weapon</defName>
     <label>craft Ironfang M1911</label>
-    <description>Craft Ironfang M1911 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Ironfang M1911 using firearm components at a workbench.</description>
     <jobString>Crafting Ironfang M1911.</jobString>
     <workAmount>60000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1687,7 +1687,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_SprMThreeHigh_Weapon</defName>
     <label>craft Graylock M1873</label>
-    <description>Craft Graylock M1873 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Graylock M1873 using firearm components at a workbench.</description>
     <jobString>Crafting Graylock M1873.</jobString>
     <workAmount>42000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1743,7 +1743,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_Henry_Weapon</defName>
     <label>craft Henry rifle</label>
-    <description>Craft Henry rifle using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Henry rifle using firearm components at a workbench.</description>
     <jobString>Crafting Henry rifle.</jobString>
     <workAmount>54000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1811,7 +1811,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_WinM1887_Weapon</defName>
     <label>craft Frontier Arms M1887</label>
-    <description>Craft Frontier Arms M1887 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Frontier Arms M1887 using firearm components at a workbench.</description>
     <jobString>Crafting Frontier Arms M1887.</jobString>
     <workAmount>57000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1879,7 +1879,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_WinMNinetyFive_Weapon</defName>
     <label>craft Frontier Arms M1895</label>
-    <description>Craft Frontier Arms M1895 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Frontier Arms M1895 using firearm components at a workbench.</description>
     <jobString>Crafting Frontier Arms M1895.</jobString>
     <workAmount>57000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -1992,7 +1992,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_KragJorgensen_Weapon</defName>
     <label>craft Graylock M1892</label>
-    <description>Craft Graylock M1892 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Graylock M1892 using firearm components at a workbench.</description>
     <jobString>Crafting Graylock M1892.</jobString>
     <workAmount>45000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2060,7 +2060,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_SprMThree_Weapon</defName>
     <label>craft Graylock M1903</label>
-    <description>Craft Graylock M1903 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Graylock M1903 using firearm components at a workbench.</description>
     <jobString>Crafting Graylock M1903.</jobString>
     <workAmount>42000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2127,7 +2127,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1897_Weapon</defName>
     <label>craft Frontier Arms M1897</label>
-    <description>Craft Frontier Arms M1897 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Frontier Arms M1897 using firearm components at a workbench.</description>
     <jobString>Crafting Frontier Arms M1897.</jobString>
     <workAmount>52000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2204,7 +2204,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1903A4_Weapon</defName>
     <label>craft Graylock M1903A4</label>
-    <description>Craft Graylock M1903A4 using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Graylock M1903A4 using firearm components at a workbench.</description>
     <jobString>Crafting Graylock M1903A4.</jobString>
     <workAmount>50000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2272,7 +2272,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1903Pedersen_Weapon</defName>
     <label>craft Graylock M1903 Whitmore device</label>
-    <description>Craft Graylock M1903 Whitmore device using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft Graylock M1903 Whitmore device using firearm components at a workbench.</description>
     <jobString>Crafting Graylock M1903 Whitmore device.</jobString>
     <workAmount>18000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2340,7 +2340,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1A1Harrington_Weapon</defName>
     <label>craft M1A1 Harrington</label>
-    <description>Craft M1A1 Harrington using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft M1A1 Harrington using firearm components at a workbench.</description>
     <jobString>Crafting M1A1 Harrington.</jobString>
     <workAmount>56000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2417,7 +2417,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M3A1_Weapon</defName>
     <label>craft M3A1 submachine gun</label>
-    <description>Craft M3A1 submachine gun using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft M3A1 submachine gun using firearm components at a workbench.</description>
     <jobString>Crafting M3A1 submachine gun.</jobString>
     <workAmount>46000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2485,7 +2485,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M9A1_Weapon</defName>
     <label>craft M9A1 recoilless launcher</label>
-    <description>Craft an M9A1 recoilless launcher using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft an M9A1 recoilless launcher using firearm components at a workbench.</description>
     <jobString>Crafting M9A1 recoilless launcher.</jobString>
     <workAmount>54000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2553,7 +2553,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1Garand_Weapon</defName>
     <label>craft M1 Hartwell</label>
-    <description>Craft M1 Hartwell using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft M1 Hartwell using firearm components at a workbench.</description>
     <jobString>Crafting M1 Hartwell.</jobString>
     <workAmount>66000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2630,7 +2630,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1918A2HAR_Weapon</defName>
     <label>craft M1918A2 HAR</label>
-    <description>Craft M1918A2 HAR using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft M1918A2 HAR using firearm components at a workbench.</description>
     <jobString>Crafting M1918A2 HAR.</jobString>
     <workAmount>62000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2705,7 +2705,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1D_Weapon</defName>
     <label>craft M1D Hartwell</label>
-    <description>Craft M1D Hartwell using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft M1D Hartwell using firearm components at a workbench.</description>
     <jobString>Crafting M1D Hartwell.</jobString>
     <workAmount>52000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2773,7 +2773,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1919A6LMG_Weapon</defName>
     <label>craft M1919A6 light machine gun</label>
-    <description>Craft M1919A6 light machine gun using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft M1919A6 light machine gun using firearm components at a workbench.</description>
     <jobString>Crafting M1919A6 light machine gun.</jobString>
     <workAmount>72000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2848,7 +2848,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M1A1Carbine_Weapon</defName>
     <label>craft M1A1 carbine</label>
-    <description>Craft an M1A1 carbine using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft an M1A1 carbine using firearm components at a workbench.</description>
     <jobString>Crafting M1A1 carbine.</jobString>
     <workAmount>50000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2882,7 +2882,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M2Carbine_Weapon</defName>
     <label>craft M2 carbine</label>
-    <description>Craft an M2 select-fire carbine using firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft an M2 select-fire carbine using firearm components at a workbench.</description>
     <jobString>Crafting M2 carbine.</jobString>
     <workAmount>54000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
@@ -2916,7 +2916,7 @@
   <RecipeDef>
     <defName>HD_Make_Gun_M60E3_Weapon</defName>
     <label>craft M60E3 general-purpose machine gun</label>
-    <description>Craft an M60E3 general-purpose machine gun using advanced firearm components at a workbench. Interrupted work is stored as an unfinished firearm with its remaining work.</description>
+    <description>Craft an M60E3 general-purpose machine gun using advanced firearm components at a workbench.</description>
     <jobString>Crafting M60E3 general-purpose machine gun.</jobString>
     <workAmount>68000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>

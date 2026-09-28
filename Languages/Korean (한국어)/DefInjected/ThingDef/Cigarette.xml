@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Cigarette.label>담배</HD_Cigarette.label>
+  <HD_Cigarette.description>말린 잎을 종이로 만 물건입니다. 잠시 가벼운 각성감을 주고 연기와 재를 남깁니다.</HD_Cigarette.description>
+  <HD_Cigarette.ingestible.ingestCommandString>피우기: {0}</HD_Cigarette.ingestible.ingestCommandString>
+  <HD_Cigarette.ingestible.ingestReportString>피우는 중: {0}.</HD_Cigarette.ingestible.ingestReportString>
+  <HD_CigaretteButt.label>담배꽁초</HD_CigaretteButt.label>
+  <HD_CigaretteButt.description>버려진 담배꽁초입니다. 청소해서 치워야 합니다.</HD_CigaretteButt.description>
+</LanguageData>

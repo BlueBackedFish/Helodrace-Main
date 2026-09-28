@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Defs/WildWest/Items/Materials_WildWest.xml -->
   <HD_BasicElectricalComponents.label>기초 전기 부품</HD_BasicElectricalComponents.label>
@@ -66,4 +66,10 @@
   <HD_PlainDogChew.description>정량의 BTX 함유 나프타가 스며든 질긴 가죽 개껌입니다. 다 씹는 데 오래 걸리지만, 생 나프타의 거친 기분 효과 없이 BTX 화합물을 꾸준히 방출합니다.</HD_PlainDogChew.description>
   <HD_PrimaryCell.label>일차 전지</HD_PrimaryCell.label>
   <HD_PrimaryCell.description>화학 반응으로 전기를 내는 단순한 일회용 전지입니다.</HD_PrimaryCell.description>
+  <HD_Naphtha.ingestible.ingestCommandString>마시기: naphtha</HD_Naphtha.ingestible.ingestCommandString>
+  <HD_Naphtha.ingestible.ingestReportString>마시는 중: naphtha.</HD_Naphtha.ingestible.ingestReportString>
+  <HD_AromaticBaseOil.ingestible.ingestCommandString>방향족 기유 마시기</HD_AromaticBaseOil.ingestible.ingestCommandString>
+  <HD_AromaticBaseOil.ingestible.ingestReportString>방향족 기유를 마시는 중.</HD_AromaticBaseOil.ingestible.ingestReportString>
+  <HD_PlainDogChew.ingestible.ingestCommandString>씹기: {0}</HD_PlainDogChew.ingestible.ingestCommandString>
+  <HD_PlainDogChew.ingestible.ingestReportString>씹는 중: {0}.</HD_PlainDogChew.ingestible.ingestReportString>
 </LanguageData>

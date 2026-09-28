@@ -11,4 +11,9 @@
   <HD_FlashbangSuppression.stages.1.label>혼미</HD_FlashbangSuppression.stages.1.label>
   <HD_FlashbangSuppression.stages.2.label>강한 제압</HD_FlashbangSuppression.stages.2.label>
   <HD_FlashbangSuppression.stages.3.label>감각 마비</HD_FlashbangSuppression.stages.3.label>
+  <HD_WeaponFlashlightDazzle.label>무기 조명 눈부심</HD_WeaponFlashlightDazzle.label>
+  <HD_WeaponFlashlightDazzle.description>고광도 무기 조명이 이 폰의 눈을 직접 비추어 일시적으로 시야를 떨어뜨립니다.</HD_WeaponFlashlightDazzle.description>
+  <HD_WeaponFlashlightDazzle.stages.0.label>조명 노출</HD_WeaponFlashlightDazzle.stages.0.label>
+  <HD_WeaponFlashlightDazzle.stages.1.label>눈부심</HD_WeaponFlashlightDazzle.stages.1.label>
+  <HD_WeaponFlashlightDazzle.stages.2.label>심한 눈부심</HD_WeaponFlashlightDazzle.stages.2.label>
 </LanguageData>

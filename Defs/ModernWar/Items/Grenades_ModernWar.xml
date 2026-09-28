@@ -22,7 +22,6 @@
       <Chemfuel>55</Chemfuel>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
       <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
       <skillRequirements>
         <Crafting>6</Crafting>
@@ -47,6 +46,7 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M67</texPath>
     </graphicData>
+    <recipeMaker><researchPrerequisite>HelodColdWarGrenades</researchPrerequisite></recipeMaker>
     <verbs Inherit="False">
       <li>
         <label>throw M67 grenade</label>
@@ -81,6 +81,7 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M84</texPath>
     </graphicData>
+    <recipeMaker><researchPrerequisite>HelodModernDiversionaryGrenades</researchPrerequisite></recipeMaker>
     <statBases>
       <Mass>0.38</Mass>
       <MarketValue>360</MarketValue>
@@ -127,6 +128,7 @@
     <graphicData>
       <texPath>Weapons/ModernWar/HD_M111</texPath>
     </graphicData>
+    <recipeMaker><researchPrerequisite>HelodModernOffensiveGrenades</researchPrerequisite></recipeMaker>
     <statBases>
       <Mass>0.42</Mass>
       <WorkToMake>18000</WorkToMake>

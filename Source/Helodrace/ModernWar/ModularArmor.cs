@@ -345,6 +345,10 @@ namespace Helodrace.ModernWar
 
     public sealed class CompProperties_ArmorPlateSet : CompProperties
     {
+        public BallisticPlateMaterial material = BallisticPlateMaterial.Ceramic;
+        // Composite plates specify their own coefficient in the physical item's XML.
+        public float compositeDurabilityCoefficient = 1f;
+
         public CompProperties_ArmorPlateSet()
         {
             compClass = typeof(CompArmorPlateSet);
@@ -359,6 +363,17 @@ namespace Helodrace.ModernWar
         private int durabilityVersion;
 
         public int MaxHitPointsPerPlate => parent.MaxHitPoints;
+
+        public float DurabilityMaterialCoefficient
+        {
+            get
+            {
+                CompProperties_ArmorPlateSet plateProps = (CompProperties_ArmorPlateSet)props;
+                return BallisticArmorRules.MaterialCoefficient(
+                    plateProps.material,
+                    plateProps.compositeDurabilityCoefficient);
+            }
+        }
 
         public override void PostPostMake()
         {
@@ -561,6 +576,9 @@ namespace Helodrace.ModernWar
         public List<DirectionalArmorPlateState> directionalPlates;
         private ThingOwner<Thing> plateSetContainer;
         public bool plateOrderSwapped;
+        // Editor-only reference: preview health without transferring the real item.
+        internal InstalledModularArmorPart previewSource;
+        internal int previewSourceIndex = -1;
 
         public IThingHolder ParentHolder => null;
 
@@ -622,6 +640,7 @@ namespace Helodrace.ModernWar
         {
             get
             {
+                if (previewSource != null) return previewSource.PlateSet;
                 EnsurePlateSetContainer();
                 return plateSetContainer.Count > 0 ? plateSetContainer[0] : null;
             }
@@ -856,7 +875,7 @@ namespace Helodrace.ModernWar
         }
     }
 
-    public sealed class CompModularArmor : ThingComp
+    public sealed partial class CompModularArmor : ThingComp
     {
         private List<InstalledModularArmorPart> installedParts;
         private bool palsGridDoubled;
@@ -891,6 +910,7 @@ namespace Helodrace.ModernWar
                 "modularArmorParts",
                 LookMode.Deep);
             Scribe_Values.Look(ref palsGridDoubled, "palsGridDoubled", false);
+            Scribe_Deep.Look(ref pendingCustomization, "pendingArmorCustomization");
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -1029,6 +1049,7 @@ namespace Helodrace.ModernWar
                 && existing.InstalledItem != null;
             if (requiredThingDef != null
                 && !canReuseInstalledItem
+                && !isPreviewDraft
                 && suppliedItem?.def != requiredThingDef)
             {
                 return false;
@@ -1268,9 +1289,14 @@ namespace Helodrace.ModernWar
             ModularArmorSlotDef slot,
             ModularArmorPartDef part,
             ModularArmorPositionDef position,
-            out string rejection)
+            out string rejection, Thing workbench = null)
         {
             rejection = null;
+            if (!CompClothingWorkbench.CanUse(workbench, this))
+            {
+                rejection = "HD_ClothingBench_Required".Translate();
+                return false;
+            }
             InstalledModularArmorPart existing = InstalledIn(slot);
             if (part == null)
             {
@@ -1310,7 +1336,7 @@ namespace Helodrace.ModernWar
                 return SetPart(slot, part, position);
             }
 
-            return TryStartInstallJob(part, position, null, 0, 0, out rejection);
+            return TryStartInstallJob(part, position, null, 0, 0, out rejection, workbench);
         }
 
         public bool TryStartPalsPartInstall(
@@ -1318,9 +1344,14 @@ namespace Helodrace.ModernWar
             ModularArmorPalsPanelDef panel,
             int x,
             int y,
-            out string rejection)
+            out string rejection, Thing workbench = null)
         {
             rejection = null;
+            if (!CompClothingWorkbench.CanUse(workbench, this))
+            {
+                rejection = "HD_ClothingBench_Required".Translate();
+                return false;
+            }
             if (!CanPlacePalsPart(part, panel, x, y))
             {
                 rejection = "HD_ModularArmor_InvalidInstall".Translate();
@@ -1349,7 +1380,7 @@ namespace Helodrace.ModernWar
                 return InstallPalsPart(part, panel, x, y) != null;
             }
 
-            return TryStartInstallJob(part, null, panel, x, y, out rejection);
+            return TryStartInstallJob(part, null, panel, x, y, out rejection, workbench);
         }
 
         private bool TryStartInstallJob(
@@ -1358,13 +1389,19 @@ namespace Helodrace.ModernWar
             ModularArmorPalsPanelDef panel,
             int x,
             int y,
-            out string rejection)
+            out string rejection, Thing workbench)
         {
             rejection = null;
             Pawn worker = Wearer;
             if (worker?.Spawned != true || worker.Faction != Faction.OfPlayer)
             {
                 rejection = "HD_ModularArmor_MustBeWorn".Translate();
+                return false;
+            }
+
+            if (!CompClothingWorkbench.CanWorkAt(worker, workbench, this))
+            {
+                rejection = "HD_ClothingBench_Unreachable".Translate();
                 return false;
             }
 
@@ -1389,6 +1426,7 @@ namespace Helodrace.ModernWar
             LocalTargetInfo installData = new LocalTargetInfo(
                 new IntVec3(panel == null ? -1 : x, part.shortHash, packedZ));
             Job job = JobMaker.MakeJob(jobDef, item, parent, installData);
+            job.targetQueueB = new List<LocalTargetInfo> { workbench };
             job.count = 1;
             if (!worker.jobs.TryTakeOrderedJob(job, JobTag.Misc))
             {
@@ -1466,9 +1504,14 @@ namespace Helodrace.ModernWar
             return Mathf.Max(1, PartForInstallJob(installData)?.installWorkTicks ?? 240);
         }
 
-        public bool TryStartFrontRearSwap(out string rejection)
+        public bool TryStartFrontRearSwap(out string rejection, Thing workbench = null)
         {
             rejection = null;
+            if (!CompClothingWorkbench.CanUse(workbench, this))
+            {
+                rejection = "HD_ClothingBench_Required".Translate();
+                return false;
+            }
             if (!InstalledParts.Any(record => record?.CanSwapFrontRearPlates == true))
             {
                 rejection = "HD_ModularArmor_NoSwappablePlate".Translate();
@@ -1487,6 +1530,12 @@ namespace Helodrace.ModernWar
                 return false;
             }
 
+            if (!CompClothingWorkbench.CanWorkAt(worker, workbench, this))
+            {
+                rejection = "HD_ClothingBench_Unreachable".Translate();
+                return false;
+            }
+
             JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(
                 "HD_SwapModularArmorFrontRear");
             if (jobDef == null)
@@ -1496,7 +1545,7 @@ namespace Helodrace.ModernWar
             }
 
             return worker.jobs.TryTakeOrderedJob(
-                JobMaker.MakeJob(jobDef, parent),
+                JobMaker.MakeJob(jobDef, parent, workbench),
                 JobTag.Misc);
         }
 
@@ -1517,6 +1566,7 @@ namespace Helodrace.ModernWar
 
         private bool TryReturnInstalledItem(InstalledModularArmorPart record)
         {
+            if (isPreviewDraft) return true;
             Thing installedItem = record?.InstalledItem;
             if (installedItem == null)
             {
@@ -1723,7 +1773,7 @@ namespace Helodrace.ModernWar
             Thing suppliedItem = null)
         {
             if (!CanPlacePalsPart(part, panel, x, y)
-                || part.RequiredThingDef != null
+                || !isPreviewDraft && part.RequiredThingDef != null
                     && suppliedItem?.def != part.RequiredThingDef)
             {
                 return null;
@@ -1990,40 +2040,6 @@ namespace Helodrace.ModernWar
             if (facing == ModularArmorFacing.Left)
                 return "HD_ModularArmor_Facing_Left".Translate();
             return "HD_ModularArmor_Facing_Right".Translate();
-        }
-
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
-            {
-                yield return gizmo;
-            }
-
-            Command_Action command = ConfigurationCommand(false);
-            if (command != null)
-            {
-                yield return command;
-            }
-        }
-
-        public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
-        {
-            foreach (Gizmo gizmo in base.CompGetWornGizmosExtra())
-            {
-                yield return gizmo;
-            }
-
-            Command_Action command = ConfigurationCommand(true);
-            if (command != null)
-            {
-                yield return command;
-            }
-
-            Command_Action swapCommand = FrontRearSwapCommand();
-            if (swapCommand != null)
-            {
-                yield return swapCommand;
-            }
         }
 
         public override List<PawnRenderNode> CompRenderNodes()
@@ -2432,61 +2448,6 @@ namespace Helodrace.ModernWar
             return nodes;
         }
 
-        private Command_Action ConfigurationCommand(bool worn)
-        {
-            if (!Props.allowPlayerConfiguration
-                || Props.slots.NullOrEmpty() && Props.palsPanels.NullOrEmpty())
-            {
-                return null;
-            }
-
-            if (worn && Wearer?.Faction != Faction.OfPlayer)
-            {
-                return null;
-            }
-
-            return new Command_Action
-            {
-                defaultLabel = "HD_ModularArmor_Configure_Label".Translate(),
-                defaultDesc = "HD_ModularArmor_Configure_Desc".Translate(),
-                icon = parent.def.uiIcon,
-                action = () => Find.WindowStack.Add(new Dialog_ModularArmor(this))
-            };
-        }
-
-        private Command_Action FrontRearSwapCommand()
-        {
-            Pawn wearer = Wearer;
-            if (wearer?.Faction != Faction.OfPlayer)
-            {
-                return null;
-            }
-
-            InstalledModularArmorPart record = InstalledParts
-                .FirstOrDefault(installed => installed?.CanSwapFrontRearPlates == true);
-            if (record == null)
-            {
-                return null;
-            }
-
-            return new Command_Action
-            {
-                defaultLabel = "HD_ModularArmor_SwapFrontRear".Translate(),
-                defaultDesc = "HD_ModularArmor_SwapFrontRearTip".Translate(
-                    record.PlateNumberForFacing(ModularArmorFacing.Front),
-                    record.PlateNumberForFacing(ModularArmorFacing.Back)),
-                icon = parent.def.uiIcon,
-                action = delegate
-                {
-                    if (!TryStartFrontRearSwap(out string rejection)
-                        && !rejection.NullOrEmpty())
-                    {
-                        Messages.Message(rejection, MessageTypeDefOf.RejectInput);
-                    }
-                }
-            };
-        }
-
         private void EnsureConfiguration()
         {
             if (installedParts != null)
@@ -2688,6 +2649,7 @@ namespace Helodrace.ModernWar
 
         public void NotifyConfigurationChanged()
         {
+            if (isPreviewDraft) return;
             Wearer?.Drawer?.renderer?.SetAllGraphicsDirty();
         }
 
@@ -2735,13 +2697,20 @@ namespace Helodrace.ModernWar
     public sealed class Dialog_ModularArmor : Window
     {
         private readonly CompModularArmor comp;
+        private readonly CompModularArmor original;
+        private readonly string baseline;
+        private readonly CompClothingWorkbench bench;
         private ModularArmorPartDef selectedPalsPart;
         private InstalledModularArmorPart selectedInstalledPart;
         private Rot4 previewFacing;
+        private readonly ModularArmorPreviewBounds previewBounds = new ModularArmorPreviewBounds();
 
-        public Dialog_ModularArmor(CompModularArmor comp)
+        public Dialog_ModularArmor(CompModularArmor comp, CompClothingWorkbench bench)
         {
-            this.comp = comp;
+            original = comp;
+            baseline = comp.ConfigurationSignature();
+            this.comp = comp.CreateEditorDraft();
+            this.bench = bench;
             doCloseX = true;
             absorbInputAroundWindow = true;
             closeOnClickedOutside = false;
@@ -2754,6 +2723,11 @@ namespace Helodrace.ModernWar
 
         public override void DoWindowContents(Rect inRect)
         {
+            if (bench?.CanCustomize(original) != true)
+            {
+                Close();
+                return;
+            }
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(0f, 0f, inRect.width - 205f, 32f),
                 "HD_ModularArmor_WindowTitle".Translate(comp.parent.LabelCap));
@@ -2771,6 +2745,16 @@ namespace Helodrace.ModernWar
             TooltipHandler.TipRegion(
                 exportRect,
                 "HD_ModularArmor_ExportPresetDesc".Translate());
+
+            Widgets.Label(new Rect(10f, 44f, inRect.width - 390f, 30f),
+                "HD_ClothingBench_DraftHint".Translate());
+
+            if (comp.InstalledParts.Any(record => record?.CanSwapFrontRearPlates == true)
+                && Widgets.ButtonText(new Rect(inRect.width - 360f, 44f, 360f, 30f),
+                    "HD_ModularArmor_SwapFrontRear".Translate()))
+            {
+                comp.CompleteFrontRearSwap();
+            }
 
             Rect previewRect = new Rect(
                 inRect.width * 0.5f - 220f,
@@ -2799,10 +2783,16 @@ namespace Helodrace.ModernWar
                     : hasPals
                         ? "HD_ModularArmor_Pals_Hint".Translate()
                         : "HD_ModularArmor_FixedOnlyHint".Translate();
-            Widgets.Label(new Rect(10f, inRect.height - 35f, inRect.width - 150f, 30f),
+            Widgets.Label(new Rect(10f, inRect.height - 35f, inRect.width - 300f, 30f),
                 instruction);
+            if (Widgets.ButtonText(new Rect(inRect.width - 280f, inRect.height - 34f, 150f, 32f),
+                "HD_ClothingBench_Apply".Translate()))
+            {
+                if (original.TryStartCustomization(comp, baseline, bench.parent, out string rejection)) Close();
+                else if (!rejection.NullOrEmpty()) Messages.Message(rejection, MessageTypeDefOf.RejectInput);
+            }
             if (Widgets.ButtonText(new Rect(inRect.width - 120f, inRect.height - 34f, 120f, 32f),
-                "CloseButton".Translate()))
+                "CancelButton".Translate()))
             {
                 Close();
             }
@@ -3041,22 +3031,10 @@ namespace Helodrace.ModernWar
 
         private void DrawPreviewTextureLayers(Rect availableRect, List<Texture2D> layers)
         {
-            Rect uv = comp.Props.previewCrop?.Rect ?? new Rect(0f, 0f, 1f, 1f);
-
-            float sourceAspect = layers[0].width * uv.width
-                / Mathf.Max(1f, layers[0].height * uv.height);
-            Rect destination = availableRect;
-            float availableAspect = availableRect.width / availableRect.height;
-            if (availableAspect > sourceAspect)
-            {
-                destination.width = availableRect.height * sourceAspect;
-                destination.x = availableRect.center.x - destination.width * 0.5f;
-            }
-            else
-            {
-                destination.height = availableRect.width / sourceAspect;
-                destination.y = availableRect.center.y - destination.height * 0.5f;
-            }
+            Rect uv = previewBounds.CombinedBounds(layers);
+            Rect minimumCrop = comp.Props.previewCrop?.Rect ?? new Rect(0f, 0f, 1f, 1f);
+            Rect destination = ModularArmorPreviewBounds.DestinationFor(availableRect, uv,
+                layers[0].width, layers[0].height, minimumCrop);
 
             Rect drawUv = previewFacing == Rot4.West
                 ? new Rect(uv.xMax, uv.y, -uv.width, uv.height)
@@ -3401,19 +3379,13 @@ namespace Helodrace.ModernWar
             }
             else if (selectedPalsPart != null)
             {
-                if (comp.TryStartPalsPartInstall(
+                if (comp.InstallPalsPart(
                     selectedPalsPart,
                     panel,
                     x,
-                    y,
-                    out string rejection))
+                    y) != null)
                 {
                     selectedPalsPart = null;
-                    Close();
-                }
-                else if (!rejection.NullOrEmpty())
-                {
-                    Messages.Message(rejection, MessageTypeDefOf.RejectInput);
                 }
             }
             current.Use();
@@ -3440,7 +3412,7 @@ namespace Helodrace.ModernWar
                 ModularArmorPartDef part = parts[i];
                 Rect tile = new Rect(rect.x + 10f + i * 175f, rect.y + 34f, 165f, 78f);
                 bool selected = selectedPalsPart == part;
-                int available = comp.AvailableRequiredItemCount(part.RequiredThingDef);
+                int available = EditorStock(part.RequiredThingDef);
                 bool hasItem = DebugSettings.godMode
                     || part.RequiredThingDef == null
                     || available > 0;
@@ -3637,7 +3609,7 @@ namespace Helodrace.ModernWar
             {
                 options.Add(new FloatMenuOption(
                     "HD_ModularArmor_None".Translate(),
-                    () => comp.SetPart(slot, null)));
+                    () => { if (bench.CanCustomize(comp)) comp.SetPart(slot, null); }));
             }
 
             List<ModularArmorPartDef> parts = DefDatabase<ModularArmorPartDef>
@@ -3650,8 +3622,8 @@ namespace Helodrace.ModernWar
             for (int i = 0; i < parts.Count; i++)
             {
                 ModularArmorPartDef part = parts[i];
-                int needed = comp.RequiredItemsNeededFor(slot, part);
-                int available = comp.AvailableRequiredItemCount(part.RequiredThingDef);
+                int needed = part.RequiredThingDef == null ? 0 : 1;
+                int available = EditorStock(part.RequiredThingDef, slot);
                 InstalledModularArmorPart conflict = comp.ConflictingInstalledPart(
                     part,
                     comp.InstalledIn(slot));
@@ -3675,18 +3647,14 @@ namespace Helodrace.ModernWar
                         label,
                         delegate
                         {
-                            if (comp.TryStartFixedPartInstall(
+                            if (!bench.CanCustomize(comp)) return;
+                            if (!comp.SetPart(
                                 slot,
                                 part,
-                                part.DefaultPosition,
-                                out string rejection))
-                            {
-                                Close();
-                            }
-                            else if (!rejection.NullOrEmpty())
+                                part.DefaultPosition))
                             {
                                 Messages.Message(
-                                    rejection,
+                                    "HD_ModularArmor_InvalidInstall".Translate(),
                                     MessageTypeDefOf.RejectInput);
                             }
                         })
@@ -3697,6 +3665,15 @@ namespace Helodrace.ModernWar
             }
 
             Find.WindowStack.Add(new FloatMenu(options));
+        }
+
+        private int EditorStock(ThingDef itemDef, ModularArmorSlotDef replacing = null)
+        {
+            if (itemDef == null) return 0;
+            return Math.Max(0, original.AvailableRequiredItemCount(itemDef)
+                + original.InstalledParts.Count(record => record.InstalledItem?.def == itemDef)
+                - comp.InstalledParts.Count(record => record.part.RequiredThingDef == itemDef
+                    && (replacing == null || record.slot != replacing)));
         }
 
     }

@@ -264,6 +264,14 @@
         <key>Apparel_BowlerHat</key>
         <value>Helod/VanillaApparel/BowlerHat/BowlerHat</value>
       </li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <key>Apparel_KidHelmet</key>
+        <value>Helod/VanillaApparel/KidHelmet/KidHelmet</value>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">
+        <key>Apparel_KidRomper</key>
+        <value>Helod/VanillaApparel/KidRomper/KidRomper</value>
+      </li>
       <li>
         <key>Apparel_BasicShirt</key>
         <value>Helod/VanillaApparel/ShirtBasic/ShirtBasic</value>
@@ -454,6 +462,8 @@
       <li>Apparel_AdvancedHelmet</li>
       <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Beret</li>
       <li>Apparel_BowlerHat</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Apparel_KidHelmet</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Apparel_KidRomper</li>
       <li>Apparel_BasicShirt</li>
       <li MayRequireAnyOf="Ludeon.RimWorld.Royalty,Ludeon.RimWorld.Biotech">Apparel_Cape</li>
       <li MayRequire="Ludeon.RimWorld.Royalty">Apparel_ArmorCataphract</li>
@@ -536,6 +546,7 @@
       <li>Apparel_BowlerHat</li>
       <li>Apparel_CowboyHat</li>
       <li>Apparel_HatHood</li>
+      <li MayRequire="Ludeon.RimWorld.Biotech">Apparel_KidHelmet</li>
       <li>Apparel_ArmorHelmetRecon</li>
       <li>Apparel_PowerArmorHelmet</li>
       <li>Apparel_PsychicFoilHelmet</li>

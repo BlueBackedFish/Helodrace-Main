@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ClothingBench_Configure>의상 커스터마이징</HD_ClothingBench_Configure>
+  <HD_ClothingBench_ConfigureDesc>이 지도에 있는 의상을 선택하여 작업대에서 방어 부품과 PALS 부착 장비를 변경합니다.</HD_ClothingBench_ConfigureDesc>
+  <HD_ClothingBench_NoApparel>이 지도에 커스터마이징할 수 있는 의상이 없습니다.</HD_ClothingBench_NoApparel>
+  <HD_ClothingBench_WornApparel>{0}: {1}</HD_ClothingBench_WornApparel>
+  <HD_ClothingBench_StoredApparel>{0} (보관 중)</HD_ClothingBench_StoredApparel>
+  <HD_ClothingBench_Required>의상 커스터마이징은 의류 작업대에서만 가능합니다.</HD_ClothingBench_Required>
+  <HD_ClothingBench_Unreachable>착용자가 이 의류 작업대에 접근하거나 사용할 수 없습니다.</HD_ClothingBench_Unreachable>
+  <HD_ClothingBench_Apply>작업 시작</HD_ClothingBench_Apply>
+  <HD_ClothingBench_DraftHint>파츠 구성을 마친 뒤 작업 시작을 누르면 한 번에 적용합니다.</HD_ClothingBench_DraftHint>
+  <HD_ClothingBench_Changed>의상의 구성이 변경되었습니다. 커스터마이징 창을 다시 열고 작업을 시작하세요.</HD_ClothingBench_Changed>
+  <HD_ClothingBench_Complete>의상 커스터마이징 작업을 완료했습니다.</HD_ClothingBench_Complete>
+</LanguageData>

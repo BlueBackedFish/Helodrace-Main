@@ -28,6 +28,8 @@ namespace Helodrace.ModernWar
             new Dictionary<StatDef, float>();
         private Dictionary<int, float> resolvedSightPerformanceWeights =
             new Dictionary<int, float>();
+        private Dictionary<int, float> resolvedPartPerformanceWeights =
+            new Dictionary<int, float>();
         private List<ModularSightGroupStatus> resolvedSightGroups =
             new List<ModularSightGroupStatus>();
         private bool performanceCacheDirty = true;
@@ -473,12 +475,10 @@ namespace Helodrace.ModernWar
                 CompProperties_ModularWeaponNode nodeProps = node.Props;
                 if (nodeProps == null) continue;
 
-                float performanceWeight = 1f;
-                if (nodeProps.sight != null
-                    && !root.resolvedSightPerformanceWeights.TryGetValue(
-                        node.thing.thingIDNumber,
-                        out performanceWeight))
-                    continue;
+                float performanceWeight;
+                if (!root.resolvedPartPerformanceWeights.TryGetValue(
+                    node.thing.thingIDNumber, out performanceWeight)
+                    || performanceWeight <= 0f) continue;
 
                 float offset = nodeProps.statOffsets.GetStatOffsetFromList(stat);
                 if (!Mathf.Approximately(offset, 0f))
@@ -549,21 +549,24 @@ namespace Helodrace.ModernWar
                 ModularWeaponSightResolver.Resolve(this, nodes);
             resolvedSightGroups = sightResolution.groups;
             resolvedSightPerformanceWeights = sightResolution.performanceWeights;
+            resolvedPartPerformanceWeights =
+                ModularWeaponPartPerformance.ResolveWeights(
+                    nodes, resolvedSightPerformanceWeights);
             resolvedConvertedStats = ModularWeaponStatConverter.Resolve(
                 this,
                 nodes,
-                resolvedSightPerformanceWeights,
+                resolvedPartPerformanceWeights,
                 activeGasSetting);
             for (int i = 0; i < nodes.Count; i++)
             {
                 CompProperties_ModularWeaponNode nodeProps = nodes[i].Props;
                 if (nodeProps == null) continue;
 
-                float performanceWeight = 1f;
-                bool applyStatModifiers = nodeProps.sight == null
-                    || resolvedSightPerformanceWeights.TryGetValue(
-                        nodes[i].thing.thingIDNumber,
-                        out performanceWeight);
+                float performanceWeight;
+                bool applyStatModifiers =
+                    resolvedPartPerformanceWeights.TryGetValue(
+                        nodes[i].thing.thingIDNumber, out performanceWeight)
+                    && performanceWeight > 0f;
 
                 if (applyStatModifiers && !nodeProps.statOffsets.NullOrEmpty())
                 {
@@ -594,14 +597,18 @@ namespace Helodrace.ModernWar
 
                 resolvedFireDelayMultiplier *= Mathf.Max(
                     0.01f,
-                    nodeProps.fireDelayMultiplier);
-                resolvedBurstShotCountOffset += nodeProps.burstShotCountOffset;
+                    Mathf.Lerp(1f, nodeProps.fireDelayMultiplier,
+                        performanceWeight));
+                resolvedBurstShotCountOffset += Mathf.RoundToInt(
+                    nodeProps.burstShotCountOffset * performanceWeight);
                 resolvedBurstShotCountMultiplier *= Mathf.Max(
                     0.01f,
-                    nodeProps.burstShotCountMultiplier);
+                    Mathf.Lerp(1f, nodeProps.burstShotCountMultiplier,
+                        performanceWeight));
                 resolvedBurstShotSpeedMultiplier *= Mathf.Max(
                     0.01f,
-                    nodeProps.burstShotSpeedMultiplier);
+                    Mathf.Lerp(1f, nodeProps.burstShotSpeedMultiplier,
+                        performanceWeight));
 
                 if (nodeProps.magazineCapacity > 0)
                 {
@@ -676,7 +683,7 @@ namespace Helodrace.ModernWar
             reason = null;
             if (child == null || child.Destroyed)
             {
-                reason = "No valid part was supplied.";
+                reason = "HD_ModularWeapon_RejectNoPart".Translate();
                 return false;
             }
 
@@ -687,41 +694,43 @@ namespace Helodrace.ModernWar
                 || (prospectiveChildComp != null
                     && prospectiveChildComp.ContainsThingRecursive(parent, 0)))
             {
-                reason = "Attaching this part would create a cycle.";
+                reason = "HD_ModularWeapon_RejectCycle".Translate();
                 return false;
             }
 
             ModularAttachmentSocket socket = Props.SocketNamed(socketId);
             if (socket == null)
             {
-                reason = "Socket " + socketId + " does not exist on " + parent.LabelCap + ".";
+                reason = "HD_ModularWeapon_RejectSocketMissing".Translate(
+                    socketId, parent.LabelCap);
                 return false;
             }
 
             int attachmentLimit = socket.isRail ? socket.maxAttachments : 1;
             if (attachmentLimit > 0 && CountOnSocket(socketId) >= attachmentLimit)
             {
-                reason = "Socket " + socket.Label + " has reached its attachment limit.";
+                reason = "HD_ModularWeapon_RejectSocketFull".Translate(socket.Label);
                 return false;
             }
 
             CompModularWeaponNode childComp = prospectiveChildComp;
             if (childComp == null)
             {
-                reason = child.LabelCap + " is not a modular weapon part.";
+                reason = "HD_ModularWeapon_RejectNotModularPart".Translate(child.LabelCap);
                 return false;
             }
 
             ModularAttachmentMount mount = childComp.Props.MountNamed(mountId);
             if (mount == null)
             {
-                reason = child.LabelCap + " has no attachment mount.";
+                reason = "HD_ModularWeapon_RejectNoMount".Translate(child.LabelCap);
                 return false;
             }
 
             if (!mount.Accepts(socket))
             {
-                reason = mount.Label + " is not compatible with " + socket.Label + ".";
+                reason = "HD_ModularWeapon_RejectIncompatible".Translate(
+                    mount.Label, socket.Label);
                 return false;
             }
 
@@ -730,14 +739,14 @@ namespace Helodrace.ModernWar
 
             if (child.Spawned)
             {
-                reason = "A spawned part must be despawned before it can be attached.";
+                reason = "HD_ModularWeapon_RejectSpawned".Translate();
                 return false;
             }
 
             EnsureContainer();
             if (!children.TryAdd(child, false))
             {
-                reason = "RimWorld refused to move the part into the assembly.";
+                reason = "HD_ModularWeapon_RejectMoveFailed".Translate();
                 return false;
             }
 
@@ -754,7 +763,7 @@ namespace Helodrace.ModernWar
             reason = null;
             if (childIndex < 0 || childIndex >= children.Count)
             {
-                reason = "The attached part no longer exists.";
+                reason = "HD_ModularWeapon_RejectAttachedPartMissing".Translate();
                 return false;
             }
 
@@ -764,7 +773,7 @@ namespace Helodrace.ModernWar
             ModularAttachmentMount mount = childComp?.Props.MountNamed(childMountIds[childIndex]);
             if (socket == null || !socket.isRail || mount == null)
             {
-                reason = "This attachment is not mounted on a rail.";
+                reason = "HD_ModularWeapon_RejectNotRail".Translate();
                 return false;
             }
 
@@ -791,18 +800,20 @@ namespace Helodrace.ModernWar
             ModularAttachmentMount mount = childComp?.Props.MountNamed(mountId);
             if (socket == null || mount == null || !mount.Accepts(socket))
             {
-                reason = "The selected part is not compatible with this socket.";
+                reason = "HD_ModularWeapon_RejectSelectedIncompatible".Translate();
                 return false;
             }
 
             if (!socket.isRail) return true;
 
-            float halfPart = Mathf.Max(0f, mount.railOccupancy) * 0.5f;
+            float halfPart = Mathf.Max(0f,
+                mount.EffectiveRailContactLength) * 0.5f;
             float minimum = -socket.railLength * 0.5f + halfPart;
             float maximum = socket.railLength * 0.5f - halfPart;
             if (minimum > maximum)
             {
-                reason = mount.Label + " is longer than rail " + socket.Label + ".";
+                reason = "HD_ModularWeapon_RejectRailTooShort".Translate(
+                    mount.Label, socket.Label);
                 return false;
             }
 
@@ -814,9 +825,16 @@ namespace Helodrace.ModernWar
                 CompModularWeaponNode otherComp = children[i]
                     ?.TryGetComp<CompModularWeaponNode>();
                 ModularAttachmentMount otherMount = otherComp?.Props.MountNamed(childMountIds[i]);
-                float otherHalf = Mathf.Max(0f, otherMount?.railOccupancy ?? 0f) * 0.5f;
-                candidates.Add(childRailOffsets[i] + otherHalf + halfPart + 0.0002f);
-                candidates.Add(childRailOffsets[i] - otherHalf - halfPart - 0.0002f);
+                float otherHalf = Mathf.Max(0f,
+                    otherMount?.EffectivePhysicalLength ?? 0f) * 0.5f;
+                float bodyHalf = Mathf.Max(0f,
+                    mount.EffectivePhysicalLength) * 0.5f;
+                float otherCenter = childRailOffsets[i]
+                    + (otherMount?.physicalCenterOffset ?? 0f);
+                candidates.Add(otherCenter + otherHalf + bodyHalf
+                    - mount.physicalCenterOffset + 0.0002f);
+                candidates.Add(otherCenter - otherHalf - bodyHalf
+                    - mount.physicalCenterOffset - 0.0002f);
             }
 
             candidates.Sort((a, b) =>
@@ -834,7 +852,7 @@ namespace Helodrace.ModernWar
                 return true;
             }
 
-            reason = "There is no free span on rail " + socket.Label + ".";
+            reason = "HD_ModularWeapon_RejectNoFreeRailSpan".Translate(socket.Label);
             return false;
         }
 
@@ -1400,11 +1418,14 @@ namespace Helodrace.ModernWar
                     childRailStart = transform.TransformPoint(left);
                     childRailEnd = transform.TransformPoint(right);
 
-                    float occupiedHalf = Mathf.Max(0f, mount.railOccupancy) * 0.5f;
+                    float occupiedHalf = Mathf.Max(0f,
+                        mount.EffectivePhysicalLength) * 0.5f;
                     left = socket.transform.position;
                     right = socket.transform.position;
-                    left.x += childRailOffsets[i] - occupiedHalf;
-                    right.x += childRailOffsets[i] + occupiedHalf;
+                    left.x += childRailOffsets[i]
+                        + mount.physicalCenterOffset - occupiedHalf;
+                    right.x += childRailOffsets[i]
+                        + mount.physicalCenterOffset + occupiedHalf;
                     childOccupiedStart = transform.TransformPoint(left);
                     childOccupiedEnd = transform.TransformPoint(right);
                 }
@@ -1604,31 +1625,38 @@ namespace Helodrace.ModernWar
             if (!socket.isRail) return true;
 
             float railLength = Mathf.Max(0f, socket.railLength);
-            float occupancy = Mathf.Max(0f, mount.railOccupancy);
+            float occupancy = Mathf.Max(0f,
+                mount.EffectiveRailContactLength);
             float halfRail = railLength * 0.5f;
             float halfPart = occupancy * 0.5f;
             if (railLength <= 0f || Mathf.Abs(offset) + halfPart > halfRail + 0.0001f)
             {
-                reason = mount.Label + " does not fit within rail " + socket.Label + ".";
+                reason = "HD_ModularWeapon_RejectDoesNotFitRail".Translate(
+                    mount.Label, socket.Label);
                 return false;
             }
 
             RepairAssignmentLists();
-            float left = offset - halfPart;
-            float right = offset + halfPart;
+            float physicalHalf = Mathf.Max(0f,
+                mount.EffectivePhysicalLength) * 0.5f;
+            float left = offset + mount.physicalCenterOffset - physicalHalf;
+            float right = offset + mount.physicalCenterOffset + physicalHalf;
             for (int i = 0; i < children.Count; i++)
             {
                 if (i == ignoredChildIndex || childSocketIds[i] != socket.id) continue;
                 CompModularWeaponNode otherComp = children[i]
                     ?.TryGetComp<CompModularWeaponNode>();
                 ModularAttachmentMount otherMount = otherComp?.Props.MountNamed(childMountIds[i]);
-                float otherHalf = Mathf.Max(0f, otherMount?.railOccupancy ?? 0f) * 0.5f;
-                float otherLeft = childRailOffsets[i] - otherHalf;
-                float otherRight = childRailOffsets[i] + otherHalf;
+                float otherHalf = Mathf.Max(0f,
+                    otherMount?.EffectivePhysicalLength ?? 0f) * 0.5f;
+                float otherCenter = childRailOffsets[i]
+                    + (otherMount?.physicalCenterOffset ?? 0f);
+                float otherLeft = otherCenter - otherHalf;
+                float otherRight = otherCenter + otherHalf;
                 if (right > otherLeft + 0.0001f && left < otherRight - 0.0001f)
                 {
-                    reason = mount.Label + " overlaps " + children[i].LabelCap
-                        + " on rail " + socket.Label + ".";
+                    reason = "HD_ModularWeapon_RejectRailOverlap".Translate(
+                        mount.Label, children[i].LabelCap, socket.Label);
                     return false;
                 }
             }

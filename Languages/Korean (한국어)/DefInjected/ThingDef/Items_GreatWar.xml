@@ -65,5 +65,11 @@
   <HD_Apparel_M1MortarBaseplate.description>등에 질 수 있도록 꾸린 M1 81mm 박격포의 강철 포판입니다. 박격포를 설치하면 발사 반동을 지면으로 분산합니다.</HD_Apparel_M1MortarBaseplate.description>
   <HD_Apparel_M1MortarMount.label>M1 박격포 포다리</HD_Apparel_M1MortarMount.label>
   <HD_Apparel_M1MortarMount.description>운반용으로 묶은 M1 81mm 박격포의 포다리와 고저·방향 조절 장치입니다. 설치한 포신을 지지하고 조준하는 데 사용합니다.</HD_Apparel_M1MortarMount.description>
-
+  <HD_Hardtack.tools.0.label>건빵</HD_Hardtack.tools.0.label>
+  <HD_3InchMortarShell_HE.label>3인치 박격포 고폭탄</HD_3InchMortarShell_HE.label>
+  <HD_3InchMortarShell_HE.description>3인치 호킨스 박격포용 고폭탄입니다. 밀집 보병과 경야전 진지를 간접 사격하도록 장약되어 있습니다.</HD_3InchMortarShell_HE.description>
+  <HD_3InchMortarShell_CG.label>3인치 박격포 포토클로로겐탄</HD_3InchMortarShell_CG.label>
+  <HD_3InchMortarShell_CG.description>3인치 호킨스 박격포용 화학탄입니다. 충돌 시 한 번 폭발해 살포통보다 훨씬 좁고 응축된 포토클로로겐 구름을 방출합니다.</HD_3InchMortarShell_CG.description>
+  <HD_Apparel_GreatWarM1Helmet.label>M1 헬멧</HD_Apparel_GreatWarM1Helmet.label>
+  <HD_Apparel_GreatWarM1Helmet.description>귀가 들어갈 구멍이 있는 M1 헬멧입니다.</HD_Apparel_GreatWarM1Helmet.description>
 </LanguageData>

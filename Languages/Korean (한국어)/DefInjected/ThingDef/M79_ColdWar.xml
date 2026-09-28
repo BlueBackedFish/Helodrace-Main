@@ -12,4 +12,12 @@
   <HD_40mmM651CS_Round.description>착탄 지점에 CS 최루 작용제를 방출하는 40×46mm 폭동 진압용 유탄입니다.</HD_40mmM651CS_Round.description>
   <HD_40mmSponge_Round.label>40×46mm 스펀지탄</HD_40mmSponge_Round.label>
   <HD_40mmSponge_Round.description>변형되는 스펀지 탄두를 사용하는 저살상 충격탄입니다. 유효한 피해를 입히면 폭발 없이 강한 둔상과 극심한 고통, 짧고 강한 신체 제압을 가합니다.</HD_40mmSponge_Round.description>
+  <HD_40mmM381HE_Proj.label>M381 HE 수류탄</HD_40mmM381HE_Proj.label>
+  <HD_40mmM433HEDP_Proj.label>M433 HEDP 수류탄</HD_40mmM433HEDP_Proj.label>
+  <HD_40mmM576Pellet_Proj.label>M576 벅샷 산탄</HD_40mmM576Pellet_Proj.label>
+  <HD_40mmM651CS_Proj.label>M651 CS 수류탄</HD_40mmM651CS_Proj.label>
+  <HD_40mmSponge_Proj.label>40×46mm 스펀지탄</HD_40mmSponge_Proj.label>
+  <HD_M651CSGasEmitter.label>M651 CS 가스 방출기</HD_M651CSGasEmitter.label>
+  <HD_M79CartridgeMote.label>40×46mm 탄피</HD_M79CartridgeMote.label>
+  <HD_Gun_M79_Weapon.tools.0.label>개머리판</HD_Gun_M79_Weapon.tools.0.label>
 </LanguageData>

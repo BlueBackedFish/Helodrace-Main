@@ -7,12 +7,12 @@ namespace Helodrace.ModernWar
 {
     public enum ModularWeaponPartStorageMode
     {
-        // The part is represented by a count while it is in a linked parts box. A real
-        // Thing is created only while the part is installed in an assembly.
+        // The part is represented by a count while it is in the inserted parts box.
+        // A real Thing is created only inside a weapon assembly.
         Virtual,
 
         // The part is valuable as an individual assembly (for example an upper receiver)
-        // and is therefore kept as a real Thing when it is outside a weapon.
+        // and is therefore kept as a real Thing inside the parts box.
         IndependentThing,
 
         // Runtime selectors such as the hidden ammunition node are not inventory parts.
@@ -24,6 +24,13 @@ namespace Helodrace.ModernWar
         Optional,
         Functional,
         Required
+    }
+
+    public enum ModularWeaponPerformanceRole
+    {
+        None,
+        Foregrip,
+        RailPanel
     }
 
     public enum ModularWeaponMissingFunction
@@ -192,11 +199,21 @@ namespace Helodrace.ModernWar
         public string label;
         public List<string> socketTags = new List<string>();
         public ModularAttachmentTransform transform = new ModularAttachmentTransform();
+        // Legacy length used by older definitions for both the clamp and body.
         public float railOccupancy;
+        // Length actually held by the rail. The body may extend past its ends.
+        public float railContactLength;
+        // One-dimensional body extent and center along the rail axis.
+        public float physicalLength;
+        public float physicalCenterOffset;
         public ModularRailSurface railSurface;
         public Vector3 oppositeSurfaceOffset = Vector3.zero;
 
         public string Label => label.NullOrEmpty() ? id : label;
+        public float EffectiveRailContactLength => railContactLength > 0f
+            ? railContactLength : railOccupancy;
+        public float EffectivePhysicalLength => physicalLength > 0f
+            ? physicalLength : Mathf.Max(railOccupancy, railContactLength);
 
         public bool Accepts(ModularAttachmentSocket socket)
         {
@@ -218,6 +235,7 @@ namespace Helodrace.ModernWar
                 || socket.railSurface == ModularRailSurface.Unspecified)
                 return !picatinny;
 
+            // Side mounts form a separate group from top/bottom mounts.
             if (railSurface == ModularRailSurface.Side
                 || socket.railSurface == ModularRailSurface.Side)
                 return railSurface == ModularRailSurface.Side
@@ -269,10 +287,14 @@ namespace Helodrace.ModernWar
     {
         public bool isAssemblyRoot;
         public bool allowPlayerConfiguration = true;
+        // Parts can be made inside the workbench during a modification session.
+        // Set false for parts that must first be obtained and stored in the parts box.
+        public bool canInstantCraft = true;
         public ModularWeaponPartStorageMode storageMode =
             ModularWeaponPartStorageMode.Virtual;
         public ModularWeaponPartCategory partCategory =
             ModularWeaponPartCategory.Optional;
+        public ModularWeaponPerformanceRole performanceRole;
         public List<ModularWeaponMissingFunction> missingFunctions =
             new List<ModularWeaponMissingFunction>();
         public float realisticRoundsPerMinute;
@@ -286,9 +308,8 @@ namespace Helodrace.ModernWar
         // ModularWeaponConvertedStats profile and are never exposed as StatDefs.
         public ModularWeaponInternalStats internalStats;
 
-        // Legion-style performance modifiers. Ordinary parts stack across the tree. On a
-        // node with sight data they are gated by the one active sight group and scaled by
-        // that group's unobstructed aiming-window efficiency.
+        // Performance modifiers are weighted by the installed location. Sights
+        // also require an active, usable sight group; foregrips share one benefit.
         public List<StatModifier> statOffsets;
         public List<StatModifier> statFactors;
         public int burstShotCountOffset;
@@ -535,11 +556,17 @@ namespace Helodrace.ModernWar
                 if (mount.railOccupancy < 0f)
                     yield return parentDef.defName + " mount " + mount.id
                         + " has a negative railOccupancy.";
+                if (mount.railContactLength < 0f)
+                    yield return parentDef.defName + " mount " + mount.id
+                        + " has a negative railContactLength.";
+                if (mount.physicalLength < 0f)
+                    yield return parentDef.defName + " mount " + mount.id
+                        + " has a negative physicalLength.";
                 if (mount.socketTags != null
                     && mount.socketTags.Contains("picatinny")
-                    && mount.railOccupancy <= 0f)
+                    && mount.EffectiveRailContactLength <= 0f)
                     yield return parentDef.defName + " Picatinny mount " + mount.id
-                        + " must have a positive railOccupancy.";
+                        + " must have a positive rail contact length.";
                 if (mount.socketTags != null
                     && mount.socketTags.Contains("picatinny")
                     && mount.railSurface == ModularRailSurface.Unspecified)

@@ -185,11 +185,11 @@
   <HD_Make_Gun_ColtSAA_Weapon.jobString>콜트 SAA 제작 중.</HD_Make_Gun_ColtSAA_Weapon.jobString>
   <HD_Make_Gun_SWModelThree_Weapon.description>W&amp;M 모델 3을 제작합니다.</HD_Make_Gun_SWModelThree_Weapon.description>
   <HD_Make_Gun_SWModelThree_Weapon.jobString>S&amp;W 모델 3 제작 중.</HD_Make_Gun_SWModelThree_Weapon.jobString>
-  <HD_Make_Gun_M1911_Weapon.description>M1911 권총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1911_Weapon.description>
+  <HD_Make_Gun_M1911_Weapon.description>M1911 권총을 제작합니다.</HD_Make_Gun_M1911_Weapon.description>
   <HD_Make_Gun_M1911_Weapon.jobString>M1911 권총 제작 중.</HD_Make_Gun_M1911_Weapon.jobString>
   <HD_Make_Gun_SprMThreeHigh_Weapon.description>그레이록 M1873을 제작합니다.</HD_Make_Gun_SprMThreeHigh_Weapon.description>
   <HD_Make_Gun_SprMThreeHigh_Weapon.jobString>스프링필드 M1873 제작 중.</HD_Make_Gun_SprMThreeHigh_Weapon.jobString>
-  <HD_Make_Gun_Henry_Weapon.description>헨리 소총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_Henry_Weapon.description>
+  <HD_Make_Gun_Henry_Weapon.description>헨리 소총을 제작합니다.</HD_Make_Gun_Henry_Weapon.description>
   <HD_Make_Gun_Henry_Weapon.jobString>헨리 소총 제작 중.</HD_Make_Gun_Henry_Weapon.jobString>
   <HD_Make_Gun_WinM1887_Weapon.description>프론티어 암즈 M1887을 제작합니다.</HD_Make_Gun_WinM1887_Weapon.description>
   <HD_Make_Gun_WinM1887_Weapon.jobString>윈체스터 M1887 제작 중.</HD_Make_Gun_WinM1887_Weapon.jobString>
@@ -199,34 +199,34 @@
   <HD_Make_Gun_KragJorgensen_Weapon.jobString>크라그-요르겐센 제작 중.</HD_Make_Gun_KragJorgensen_Weapon.jobString>
   <HD_Make_Gun_SprMThree_Weapon.description>그레이록 M1903을 제작합니다.</HD_Make_Gun_SprMThree_Weapon.description>
   <HD_Make_Gun_SprMThree_Weapon.jobString>스프링필드 M1903 제작 중.</HD_Make_Gun_SprMThree_Weapon.jobString>
-  <HD_Make_Gun_M1897_Weapon.description>프론티어 암즈 M1897을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1897_Weapon.description>
+  <HD_Make_Gun_M1897_Weapon.description>프론티어 암즈 M1897을 제작합니다.</HD_Make_Gun_M1897_Weapon.description>
   <HD_Make_Gun_M1897_Weapon.jobString>프론티어 암즈 M1897 제작 중.</HD_Make_Gun_M1897_Weapon.jobString>
   <HD_Make_Gun_M1903A4_Weapon.description>그레이록 M1903A4를 제작합니다.</HD_Make_Gun_M1903A4_Weapon.description>
   <HD_Make_Gun_M1903A4_Weapon.jobString>스프링필드 M1903A4 제작 중.</HD_Make_Gun_M1903A4_Weapon.jobString>
   <HD_Make_Gun_M1903Pedersen_Weapon.description>그레이록 M1903 휘트모어 장비를 제작합니다.</HD_Make_Gun_M1903Pedersen_Weapon.description>
   <HD_Make_Gun_M1903Pedersen_Weapon.jobString>스프링필드 M1903 페더슨 장치 제작 중.</HD_Make_Gun_M1903Pedersen_Weapon.jobString>
-  <HD_Make_Gun_M1A1Harrington_Weapon.description>M1A1 헤링턴을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1A1Harrington_Weapon.description>
+  <HD_Make_Gun_M1A1Harrington_Weapon.description>M1A1 헤링턴을 제작합니다.</HD_Make_Gun_M1A1Harrington_Weapon.description>
   <HD_Make_Gun_M1A1Harrington_Weapon.jobString>M1A1 헤링턴 제작 중.</HD_Make_Gun_M1A1Harrington_Weapon.jobString>
-  <HD_Make_Gun_M3A1_Weapon.description>M3A1 기관단총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M3A1_Weapon.description>
+  <HD_Make_Gun_M3A1_Weapon.description>M3A1 기관단총을 제작합니다.</HD_Make_Gun_M3A1_Weapon.description>
   <HD_Make_Gun_M3A1_Weapon.jobString>M3A1 기관단총 제작 중.</HD_Make_Gun_M3A1_Weapon.jobString>
-  <HD_Make_Gun_M1918A2HAR_Weapon.description>M1918A2 HAR을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1918A2HAR_Weapon.description>
+  <HD_Make_Gun_M1918A2HAR_Weapon.description>M1918A2 HAR을 제작합니다.</HD_Make_Gun_M1918A2HAR_Weapon.description>
   <HD_Make_Gun_M1918A2HAR_Weapon.jobString>M1918A2 HAR 제작 중.</HD_Make_Gun_M1918A2HAR_Weapon.jobString>
-  <HD_Make_Gun_M1D_Weapon.description>M1D 하츠웰을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1D_Weapon.description>
+  <HD_Make_Gun_M1D_Weapon.description>M1D 하츠웰을 제작합니다.</HD_Make_Gun_M1D_Weapon.description>
   <HD_Make_Gun_M1D_Weapon.jobString>M1D 하츠웰 제작 중.</HD_Make_Gun_M1D_Weapon.jobString>
   <HD_Make_Gun_M1Garand_Weapon.description>M1 하츠웰을 제작합니다.</HD_Make_Gun_M1Garand_Weapon.description>
   <HD_Make_Gun_M1Garand_Weapon.jobString>M1 개런드 제작 중.</HD_Make_Gun_M1Garand_Weapon.jobString>
-  <HD_Make_Gun_M1919A6LMG_Weapon.description>M1919A6 경기관총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1919A6LMG_Weapon.description>
+  <HD_Make_Gun_M1919A6LMG_Weapon.description>M1919A6 경기관총을 제작합니다.</HD_Make_Gun_M1919A6LMG_Weapon.description>
   <HD_Make_Gun_M1919A6LMG_Weapon.jobString>M1919A6 경기관총 제작 중.</HD_Make_Gun_M1919A6LMG_Weapon.jobString>
   <HD_Make_Gun_M1A1Carbine_Weapon.label>M1A1 카빈 제작</HD_Make_Gun_M1A1Carbine_Weapon.label>
-  <HD_Make_Gun_M1A1Carbine_Weapon.description>M1A1 카빈을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M1A1Carbine_Weapon.description>
+  <HD_Make_Gun_M1A1Carbine_Weapon.description>M1A1 카빈을 제작합니다.</HD_Make_Gun_M1A1Carbine_Weapon.description>
   <HD_Make_Gun_M1A1Carbine_Weapon.jobString>M1A1 카빈 제작 중.</HD_Make_Gun_M1A1Carbine_Weapon.jobString>
   <HD_Make_Gun_M2Carbine_Weapon.label>M2 카빈 제작</HD_Make_Gun_M2Carbine_Weapon.label>
-  <HD_Make_Gun_M2Carbine_Weapon.description>M2 카빈을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M2Carbine_Weapon.description>
+  <HD_Make_Gun_M2Carbine_Weapon.description>M2 카빈을 제작합니다.</HD_Make_Gun_M2Carbine_Weapon.description>
   <HD_Make_Gun_M2Carbine_Weapon.jobString>M2 카빈 제작 중.</HD_Make_Gun_M2Carbine_Weapon.jobString>
   <HD_Make_Gun_M9A1_Weapon.label>M9A1 무반동포 제작</HD_Make_Gun_M9A1_Weapon.label>
-  <HD_Make_Gun_M9A1_Weapon.description>M9A1 무반동포를 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M9A1_Weapon.description>
+  <HD_Make_Gun_M9A1_Weapon.description>M9A1 무반동포를 제작합니다.</HD_Make_Gun_M9A1_Weapon.description>
   <HD_Make_Gun_M9A1_Weapon.jobString>M9A1 무반동포 제작 중.</HD_Make_Gun_M9A1_Weapon.jobString>
   <HD_Make_Gun_M60E3_Weapon.label>M60E3 다목적기관총 제작</HD_Make_Gun_M60E3_Weapon.label>
-  <HD_Make_Gun_M60E3_Weapon.description>고급 총기 부품으로 M60E3 다목적기관총을 제작합니다. 작업이 중단되면 남은 작업량을 가진 미완성 총기로 보관됩니다.</HD_Make_Gun_M60E3_Weapon.description>
+  <HD_Make_Gun_M60E3_Weapon.description>고급 총기 부품으로 M60E3 다목적기관총을 제작합니다.</HD_Make_Gun_M60E3_Weapon.description>
   <HD_Make_Gun_M60E3_Weapon.jobString>M60E3 다목적기관총 제작 중.</HD_Make_Gun_M60E3_Weapon.jobString>
 </LanguageData>

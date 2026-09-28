@@ -13,4 +13,10 @@
   <HD_Projectile_M67Fragment.label>M67 &#49688;&#47448;&#53444; &#54028;&#54200;</HD_Projectile_M67Fragment.label>
   <HD_Projectile_M84_Round.label>M84 &#49452;&#44305;&#54253;&#51020;&#53444;</HD_Projectile_M84_Round.label>
   <HD_Projectile_M111_Round.label>M111 &#44277;&#44201;&#50857; &#49688;&#47448;&#53444;</HD_Projectile_M111_Round.label>
+  <HD_M67_ClipEffect.label>M67 안전 클립</HD_M67_ClipEffect.label>
+  <HD_M67_PinEffect.label>M67 안전핀</HD_M67_PinEffect.label>
+  <HD_M84_ClipEffect.label>M84 안전 클립</HD_M84_ClipEffect.label>
+  <HD_M84_PinEffect.label>M84 안전핀</HD_M84_PinEffect.label>
+  <HD_M111_ClipEffect.label>M111 안전 클립</HD_M111_ClipEffect.label>
+  <HD_M111_PinEffect.label>M111 안전핀</HD_M111_PinEffect.label>
 </LanguageData>

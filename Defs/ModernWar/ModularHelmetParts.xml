@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
   <Helodrace.ModernWar.ModularArmorSlotDef>
     <defName>HD_MH_Slot_NightVision</defName>
     <label>night vision mount</label>
@@ -80,6 +84,7 @@
 
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_FASTMTPart_MultiHitVisor</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>multi-hit ballistic visor</label>
     <description>A transparent multi-hit face shield for the FAST MT helmet. It protects the eyes, nose and jaw against attacks from the front.</description>
     <slot>HD_MH_Slot_Visor</slot>

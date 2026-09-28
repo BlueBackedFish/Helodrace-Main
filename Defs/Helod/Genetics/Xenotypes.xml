@@ -5,7 +5,7 @@
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_MackenzieValleyHelod</defName>
     <label>Mackenzie Valley helod</label>
-    <description>A mysterious humanoid race with dog-like features. They are naturally massive and authoritative, designed to lead and protect. Possess high social charm, extreme resilience, and arrogant leadership, but require huge amounts of food and are relatively slow due to their heavy frames.</description>
+    <description>A large, composed Helod lineage suited to leading groups and protecting companions. Their size demands more food and makes them slower on foot.</description>
     <descriptionShort>A large, resilient, and authoritative helod.</descriptionShort>
     <iconPath>Icons/HD_Helod</iconPath>
     <inheritable>true</inheritable>
@@ -35,7 +35,7 @@
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_TexasHelod</defName>
     <label>Texas helod</label>
-    <description>A mysterious humanoid race with dog-like features. Adapted to hot prairies, they are swift and lethal marksmen with extreme heat tolerance. However, they are highly aggressive and socially isolated due to their delicate, high-strung nature.</description>
+    <description>A Helod lineage adapted to hot, dry grasslands. They move quickly and shoot well, but their constant vigilance can make them confrontational.</description>
     <descriptionShort>A swift, heat-tolerant sharpshooter helod.</descriptionShort>
     <iconPath>Icons/HD_Helod</iconPath>
     <inheritable>true</inheritable>
@@ -64,7 +64,7 @@
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_ArcticHelod</defName>
     <label>arctic helod</label>
-    <description>A mysterious humanoid race with dog-like features. Master scouts and snipers born for the freezing wilderness. Highly resistant to freezing cold but extremely vulnerable to heat, they possess weak immune systems, operate as complete lone wolves, and possess ultimate polar sniping accuracy.</description>
+    <description>A Helod lineage adapted to cold-weather scouting and long-range shooting. They tolerate severe cold but struggle with heat, illness, and close company.</description>
     <descriptionShort>An elite polar sniper and lone wolf helod.</descriptionShort>
     <iconPath>Icons/HD_Helod</iconPath>
     <inheritable>true</inheritable>
@@ -93,7 +93,7 @@
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_EasternHelod</defName>
     <label>eastern helod</label>
-    <description>A mysterious humanoid race with dog-like features. Highly sophisticated and brilliant asset managers of the Gilded Age, they excel in social interactions, research, and high-precision crafting. They are natural monopolists, but suffer from physically fragile bodies and high psychic vulnerability.</description>
+    <description>An urban Helod lineage experienced in commerce and precise work. They excel at social tasks, research, and crafting, but have frail bodies and sensitive minds.</description>
     <descriptionShort>An intellectual, highly social 내정-focused monopolist helod.</descriptionShort>
     <iconPath>Icons/HD_Helod</iconPath>
     <inheritable>true</inheritable>
@@ -122,7 +122,7 @@
   <XenotypeDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>HD_MexicanHelod</defName>
     <label>Mexican helod</label>
-    <description>A mysterious humanoid race with dog-like features. Designed as highly coordinated PMC mercenaries with robust health, rapid healing, and outstanding military tactical cohesion. They suffer from chronic amphetamine dependency representing battlefield stimulant reliance.</description>
+    <description>A Helod lineage shaped by organized mercenary service. They are hardy and recover quickly, but often depend on combat stimulants.</description>
     <descriptionShort>A robust, swift combat PMC helod with amphetamine dependency.</descriptionShort>
     <iconPath>Icons/HD_Helod</iconPath>
     <inheritable>true</inheritable>

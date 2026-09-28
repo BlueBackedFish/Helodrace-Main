@@ -28,7 +28,7 @@
       <skillRequirements>
         <Crafting>10</Crafting>
       </skillRequirements>
-      <researchPrerequisite>HelodHighElectronics</researchPrerequisite>
+      <researchPrerequisite>HelodLaserTargetDesignators</researchPrerequisite>
       <recipeUsers>
         <li>HD_BasicWorkbench</li>
       </recipeUsers>
@@ -38,7 +38,7 @@
   <ThingDef ParentName="HD_LaserDesignatorBase">
     <defName>HD_Apparel_ANPEQ1C</defName>
     <label>AN/PEQ-1C SOFLAM</label>
-    <description>A tripod-capable precision laser target designator. When carried by an SCR-300 operator it unlocks laser-guided CAS and retains the most stable designation in poor weather.</description>
+    <description>A tripod-capable laser target designator that maintains a comparatively stable mark in poor weather.</description>
     <graphicData>
       <texPath>Weapons/ModernWar/ANPEQ1C/HD_ANPEQ1C_item</texPath>
       <graphicClass>Graphic_Single</graphicClass>

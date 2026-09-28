@@ -10,7 +10,8 @@
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
     <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
-    <description>A flat-top M16A4 upper receiver for the modular AR assembly.</description>
+    <description>M16A4 upper receiver supports the action, barrel, and compatible attachments.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a4</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -39,7 +40,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_AR1520</defName>
     <label>20 inch AR-15 barrel</label>
-    <description>A full-length 20-inch AR-15 barrel.</description>
+    <description>20 inch AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1520</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -62,7 +64,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_GasBlock_AR15</defName>
     <label>AR-15 front sight gas block</label>
-    <description>An AR-15 gas block with an integrated front sight tower.</description>
+    <description>AR-15 front sight gas block routes propellant gas through the weapon's operating system.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_AR15</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -88,7 +91,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_HACURXUP</defName>
     <label>HAC URX upper handguard</label>
-    <description>The upper section of a two-piece HAC URX rail handguard.</description>
+    <description>HAC URX upper handguard surrounds the barrel and provides attachment space.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACURXUP</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -109,7 +113,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_HACURXDOWN</defName>
     <label>HAC URX lower handguard</label>
-    <description>The removable lower section of a HAC URX rail handguard.</description>
+    <description>HAC URX lower handguard surrounds the barrel and provides attachment space.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_HACURXDOWN</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -130,7 +135,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_STANAG</defName>
     <label>STANAG magazine</label>
-    <description>A detachable STANAG-pattern rifle magazine represented as a modular weapon part.</description>
+    <description>STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_Stanag</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -153,7 +159,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_MagazineExt_StanagGrip</defName>
     <label>STANAG magazine pull grip</label>
-    <description>A pull grip fitted to a STANAG magazine floorplate.</description>
+    <description>STANAG magazine pull grip is a detachable magazine that stores and feeds cartridges.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_MagazineExt_StanagGrip</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -166,7 +173,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_MagazineWrap_StanagTapeBlue</defName>
     <label>blue STANAG magazine tape</label>
-    <description>Blue identification tape wrapped around a full-size STANAG magazine body.</description>
+    <description>blue STANAG magazine tape is a detachable magazine that stores and feeds cartridges.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_MagazineExt_StanagTapeBlue</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -179,7 +187,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_BufferTube_ColtA2</defName>
     <label>Colt A2 rifle buffer tube</label>
-    <description>A fixed-stock rifle buffer tube for an AR-pattern lower receiver.</description>
+    <description>Colt A2 rifle buffer tube connects the stock and houses the recoil buffer.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_ColtA2</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -196,7 +205,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_IronFangA2</defName>
     <label>IronFang A2 stock</label>
-    <description>A fixed A2-pattern rifle stock.</description>
+    <description>IronFang A2 stock provides shoulder support and helps control recoil.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_IronFangA2</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -209,14 +219,15 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_OpticMount_LumiconTA51</defName>
     <label>Lumicon TA51 rail mount</label>
-    <description>A Picatinny mounting base for compatible Lumicon combat optics.</description>
+    <description>Lumicon TA51 rail mount secures an aiming device to a weapon rail.</description>
+    <researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_LumiconTA51</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>5</graphicLayer>
         <verticalOccupancy>0.01</verticalOccupancy>
         <verticalOccupancyOffset>0.02</verticalOccupancyOffset>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.1</railOccupancy><railSurface>Top</railSurface><transform><position>(-0.106,0,0.017)</position></transform></li></mounts>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.1</railOccupancy><railContactLength>0.082</railContactLength><physicalLength>0.16</physicalLength><physicalCenterOffset>-0.018</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.1,0,0.017)</position></transform></li></mounts>
         <sockets><li><id>scope</id><label>Lumicon scope interface</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.023)</position></transform></li></sockets>
         <defaultAttachments>
           <li><socketId>scope</socketId><part>HD_ModularPart_Scope_LumiconTA11</part></li>
@@ -228,7 +239,8 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Scope_LumiconTA11</defName>
     <label>Lumicon TA11 scope</label>
-    <description>A fixed-power combat optic for a compatible TA-series mount.</description>
+    <description>Lumicon TA11 scope is a dedicated component of its modular weapon assembly.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Optics/HD_Scope_LumiconTA11</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
@@ -260,12 +272,18 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Grip_HACVFG</defName>
     <label>HAC vertical foregrip</label>
-    <description>A compact Picatinny vertical foregrip.</description>
+    <description>HAC vertical foregrip improves the shooter's grip and weapon control.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PicatinnyLOW_HACVFG</texPath></graphicData>
+    <statBases><Mass>0.11</Mass></statBases>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>4</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.043</railOccupancy><railSurface>Bottom</railSurface><transform><position>(0.094,0,-0.027)</position></transform></li></mounts>
+        <performanceRole>Foregrip</performanceRole>
+        <verticalOccupancy>0.09</verticalOccupancy>
+        <verticalOccupancyOffset>-0.045</verticalOccupancyOffset>
+        <internalStats><ergonomics>5</ergonomics><muzzleRise>-0.7</muzzleRise><targetAcquisition>3</targetAcquisition></internalStats>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.043</railOccupancy><railContactLength>0.035</railContactLength><railSurface>Bottom</railSurface><transform><position>(0.094,0,-0.027)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -273,12 +291,16 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_RailPanel_HACURXLow</defName>
     <label>HAC URX lower rail panel</label>
-    <description>A protective panel for a lower Picatinny rail.</description>
+    <description>HAC URX lower rail panel covers an exposed rail surface for safer handling.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyLOW_HACURXPanel</texPath></graphicData>
+    <statBases><Mass>0.10</Mass></statBases>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>3</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.144</railOccupancy><railSurface>Bottom</railSurface><transform><position>(0.189,0,-0.024)</position></transform></li></mounts>
+        <performanceRole>RailPanel</performanceRole>
+        <internalStats><ergonomics>4</ergonomics></internalStats>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.144</railOccupancy><railContactLength>0.13</railContactLength><physicalLength>0.143</physicalLength><railSurface>Bottom</railSurface><transform><position>(0.19,0,-0.024)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -286,12 +308,16 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_RailPanel_HACURXMid</defName>
     <label>HAC URX side rail panel</label>
-    <description>A protective panel for a side Picatinny rail.</description>
+    <description>HAC URX side rail panel covers an exposed rail surface for safer handling.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyMID_HACURXPanel</texPath></graphicData>
+    <statBases><Mass>0.10</Mass></statBases>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <graphicLayer>3</graphicLayer>
-        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.145</railOccupancy><railSurface>Side</railSurface><transform><position>(0.059,0,-0.008)</position></transform></li></mounts>
+        <performanceRole>RailPanel</performanceRole>
+        <internalStats><ergonomics>3.5</ergonomics></internalStats>
+        <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.145</railOccupancy><railContactLength>0.13</railContactLength><physicalLength>0.145</physicalLength><railSurface>Side</railSurface><transform><position>(0.059,0,-0.008)</position></transform></li></mounts>
       </li>
     </comps>
   </ThingDef>
@@ -300,7 +326,7 @@
   <ThingDef ParentName="HD_M16FamilyBase">
     <defName>HD_Gun_ModularM16A4_Test_Weapon</defName>
     <label>modular M16A4 development rifle</label>
-    <description>A development rifle for authoring the expanded modular part set.</description>
+    <description>A development-only modular weapon used to test compatible parts and operation.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ModernWar/HD_M16A4</uiIconPath>
     <graphicData>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
 
   <!-- Wearable armor and auxiliary equipment. -->
 
@@ -102,8 +106,9 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_IBTVAssault</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
     <label>IBTV assault body armor</label>
-    <description>A modern modular body armor system tailored for Helod bodies. The IBTV Gen4 assault configuration combines hard armor plates with reinforced neck and shoulder protection.</description>
+    <description>A modern modular body armor system tailored for Helod bodies. The IBTV Gen4 assault configuration includes integrated neck protection, optional hard armor plates, and detachable shoulder protection.</description>
     <graphicData>
       <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Female_south</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -119,6 +124,8 @@
       <ArmorRating_Heat>0.10</ArmorRating_Heat>
       <Flammability>0.15</Flammability>
       <EquipDelay>2.5</EquipDelay>
+      <Insulation_Cold>2</Insulation_Cold>
+      <Insulation_Heat>0.5</Insulation_Heat>
     </statBases>
     <equippedStatOffsets>
       <MoveSpeed>-0.06</MoveSpeed>
@@ -129,7 +136,7 @@
     <apparel>
       <bodyPartGroups>
         <li>Torso</li>
-        <li>Neck</li>
+        <li>Neck</li> <!-- 목은 본체의 기본 보호부위; 탈착식 목 보호대는 사용하지 않음. -->
         <li>Shoulders</li>
       </bodyPartGroups>
       <wornGraphicPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault</wornGraphicPath>
@@ -174,7 +181,6 @@
         <slots>
           <li>HD_MA_Slot_FrontRearPlates</li>
           <li>HD_MA_Slot_SidePlates</li>
-          <li>HD_MA_Slot_NeckGuard</li>
           <li>HD_MA_Slot_ShoulderGuards</li>
           <li>HD_MA_Slot_LowerBody</li>
           <li>HD_MA_Slot_BackProtector</li>
@@ -189,7 +195,6 @@
           <li>HD_IOTV_PALS_Back</li>
         </palsPanels>
         <defaultParts>
-          <li><slot>HD_MA_Slot_NeckGuard</slot><part>HD_IOTVPart_NeckGuard</part></li>
           <li><slot>HD_MA_Slot_ShoulderGuards</slot><part>HD_IOTVPart_ShoulderGuards</part></li>
           <li><slot>HD_MA_Slot_LowerBody</slot><part>HD_IOTVPart_LowerBody</part></li>
           <li><slot>HD_MA_Slot_BackProtector</slot><part>HD_IOTVPart_BackProtector</part></li>
@@ -242,6 +247,8 @@
       <ArmorRating_Heat>0.08</ArmorRating_Heat>
       <Flammability>0.60</Flammability>
       <EquipDelay>1.2</EquipDelay>
+      <Insulation_Cold>3.6</Insulation_Cold>
+      <Insulation_Heat>4.5</Insulation_Heat>
     </statBases>
     <thingCategories><li>Apparel</li></thingCategories>
     <apparel>
@@ -277,6 +284,8 @@
       <ArmorRating_Heat>0.08</ArmorRating_Heat>
       <Flammability>0.60</Flammability>
       <EquipDelay>1.3</EquipDelay>
+      <Insulation_Cold>6.3</Insulation_Cold>
+      <Insulation_Heat>3.6</Insulation_Heat>
     </statBases>
     <thingCategories><li>Apparel</li></thingCategories>
     <apparel>
@@ -312,6 +321,8 @@
       <ArmorRating_Heat>0.08</ArmorRating_Heat>
       <Flammability>0.60</Flammability>
       <EquipDelay>1.3</EquipDelay>
+      <Insulation_Cold>3.6</Insulation_Cold>
+      <Insulation_Heat>1.44</Insulation_Heat>
     </statBases>
     <thingCategories><li>Apparel</li></thingCategories>
     <apparel>
@@ -387,6 +398,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_FASTMT</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
     <label>FAST MT helmet</label>
     <description>A lightweight modern ballistic helmet tailored for Helod heads. Its full-cut shell extends over the ears, protecting the upper head and ears against fragments and small-arms fire.</description>
     <graphicData>
@@ -404,6 +416,8 @@
       <ArmorRating_Heat>0.15</ArmorRating_Heat>
       <Flammability>0.10</Flammability>
       <EquipDelay>1.0</EquipDelay>
+      <Insulation_Cold>1</Insulation_Cold>
+      <Insulation_Heat>0.5</Insulation_Heat>
     </statBases>
     <thingCategories>
       <li>Headgear</li>
@@ -486,6 +500,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_ShieldDefenTechIIIA</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg2; 소재: PE(폴리에틸렌); 실제품: PROTECH Intruder G2. 제조사 공개 본체 재질은 PE; UHMWPE 세부 등급은 미공개. 투명 창 재질은 별도 확인; 방패 시험은 0101.07 인증과 별개. -->
     <label>DefenTech IIIA light shield</label>
     <description>A lightweight class IIIA handheld ballistic shield inspired by the compact Intruder G2 profile. Its broad transparent viewport and reduced mass make it far more mobile than a full-size class IV shield, though its frontal protection, durability, and ability to shelter another pawn are correspondingly lower. It is intended to be paired with compact one-handed firearms. Attacks from the sides or rear bypass the shield entirely.</description>
     <graphicData>
@@ -556,6 +571,7 @@
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
         <frontalArcDegrees>80</frontalArcDegrees>
         <sharpArmorRating>1.10</sharpArmorRating>
+        <guaranteedBlockPenetration>0.19</guaranteedBlockPenetration>
         <rangedAccuracyMultiplier>0.90</rangedAccuracyMultiplier>
         <minimumRangedAccuracyMultiplier>0.55</minimumRangedAccuracyMultiplier>
         <viewportHitChance>0.10</viewportHitChance>
@@ -583,6 +599,7 @@
 
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_ShieldIronHideIV</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf3; 소재: 세라믹(본체); 실제품: Point Blank SOB SS-4 Level IV Shield and Carry System. 본체는 세라믹; 백킹/투명 창의 세부 소재는 미공개. -->
     <label>Ironhide IV medium shield</label>
     <description>A wheeled, full-height class IV ballistic shield fitted with a transparent viewport and a side-mounted rifle rest. It provides formidable protection against projectiles arriving through the wearer's forward arc. The rifle rest still permits ranged weapons to be fired, but the awkward firing position reduces accuracy. Attacks from the sides or rear bypass the shield entirely.</description>
     <graphicData>
@@ -653,6 +670,7 @@
       <li Class="Helodrace.ModernWar.CompProperties_DirectionalBallisticShield">
         <frontalArcDegrees>90</frontalArcDegrees>
         <sharpArmorRating>2.0</sharpArmorRating>
+        <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
         <rangedAccuracyMultiplier>0.75</rangedAccuracyMultiplier>
         <minimumRangedAccuracyMultiplier>0.35</minimumRangedAccuracyMultiplier>
         <viewportHitChance>0.08</viewportHitChance>

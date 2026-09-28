@@ -12,6 +12,7 @@ namespace Helodrace.ModernWar
     {
         public float frontalArcDegrees = 90f;
         public float sharpArmorRating = 2f;
+        public float guaranteedBlockPenetration;
         public float rangedAccuracyMultiplier = 0.75f;
         public float minimumRangedAccuracyMultiplier = 0.35f;
         public float viewportHitChance = 0.08f;
@@ -141,6 +142,18 @@ namespace Helodrace.ModernWar
 
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
+            if (Props.guaranteedBlockPenetration > 0f)
+            {
+                yield return new StatDrawEntry(
+                    StatCategoryDefOf.Apparel,
+                    "HD_BallisticShield_GuaranteedBlock".Translate().Resolve(),
+                    Props.guaranteedBlockPenetration.ToStringPercent(),
+                    "HD_BallisticShield_GuaranteedBlock_Desc".Translate(
+                        Props.guaranteedBlockPenetration.ToStringPercent(),
+                        BallisticArmorRules.ShieldGuaranteedBlockMinimumDurability.ToStringPercent()).Resolve(),
+                    5496);
+            }
+
             yield return new StatDrawEntry(
                 StatCategoryDefOf.Apparel,
                 "HD_IronHideShield_ViewportDamage".Translate().Resolve(),
@@ -338,7 +351,12 @@ namespace Helodrace.ModernWar
                 ? 1f
                 : durabilityRatio / failureThreshold;
             float blockChance = Mathf.Clamp01(effectiveArmor) * durabilityFactor;
-            bool blocked = Rand.Value < blockChance;
+            bool guaranteedBlock = BallisticArmorRules.CanGuaranteeBlock(
+                dinfo.ArmorPenetrationInt,
+                Props.guaranteedBlockPenetration,
+                durabilityRatio,
+                BallisticArmorRules.ShieldGuaranteedBlockMinimumDurability);
+            bool blocked = guaranteedBlock || Rand.Value < blockChance;
             DamageShield(dinfo, blocked
                 ? Props.durabilityDamageOnBlock
                 : Props.durabilityDamageOnPenetrate);

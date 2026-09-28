@@ -42,10 +42,6 @@
         <part>HD_IOTVPart_Sides_ESBI</part>
       </li>
       <li>
-        <slot>HD_MA_Slot_NeckGuard</slot>
-        <part>HD_IOTVPart_NeckGuard</part>
-      </li>
-      <li>
         <slot>HD_MA_Slot_ShoulderGuards</slot>
         <part>HD_IOTVPart_ShoulderGuards</part>
       </li>

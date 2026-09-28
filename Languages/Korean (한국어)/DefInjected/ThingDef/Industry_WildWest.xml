@@ -1,23 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <!-- Defs/WildWest/Buildings/Industry_WildWest.xml -->
   <HD_CableToolRig.label>케이블식 굴착기</HD_CableToolRig.label>
   <HD_CableToolRig.description>케이블에 매달린 무거운 드릴 비트를 사용하여 암석을 뚫는 전통적인 굴착 장비입니다. 개척지에서 기름을 찾는 데 사용됩니다.</HD_CableToolRig.description>
 
   <HD_SmallSteamEngine.label>소형 증기 기관</HD_SmallSteamEngine.label>
-  <HD_SmallSteamEngine.description>근처의 기계에 기계적 동력을 제공하도록 설계된 소형 증기 기관입니다. 높은 부하에 유동적으로 반응하지만 높은 부하에서 폭발할 위험이 있습니다.</HD_SmallSteamEngine.description>
+  <HD_SmallSteamEngine.description>주변 기계에 회전 동력을 공급하는 소형 증기 기관입니다. 높은 부하에서는 보일러 손상과 폭발 위험이 커집니다.</HD_SmallSteamEngine.description>
 
   <HD_LargeSteamEngine.label>대형 증기 기관</HD_LargeSteamEngine.label>
-  <HD_LargeSteamEngine.description>산업용 라인 샤프트 동력망을 구동하도록 제작된 거대한 숯 연소식 증기 기관입니다. 소형 증기 기관보다 훨씬 큰 토크를 내지만 많은 열을 발생시키며, 손상되면 치명적으로 폭발할 수 있습니다.</HD_LargeSteamEngine.description>
+  <HD_LargeSteamEngine.description>산업용 라인 샤프트를 구동하는 대형 석탄 연소식 증기 기관입니다. 큰 토크를 내는 대신 열과 폭발 위험도 큽니다.</HD_LargeSteamEngine.description>
 
   <HD_IndustrialDieselEngine.label>산업용 디젤 엔진</HD_IndustrialDieselEngine.label>
-  <HD_IndustrialDieselEngine.description>디젤을 연소하여 산업용 라인 샤프트 동력망을 구동하는 대형 내연기관입니다. 넓은 회전 속도 범위에서 높은 출력을 정밀하게 제공하지만, 연료가 비싸고 화재에 매우 취약합니다.</HD_IndustrialDieselEngine.description>
+  <HD_IndustrialDieselEngine.description>디젤 연료로 라인 샤프트를 구동하는 대형 내연기관입니다. 회전 속도 조절이 쉽지만 연료비가 들고 화재에 약합니다.</HD_IndustrialDieselEngine.description>
 
   <HD_EarlyIndustrialLargeMotor.label>대형 산업용 모터</HD_EarlyIndustrialLargeMotor.label>
-  <HD_EarlyIndustrialLargeMotor.description>전력을 정밀한 회전 동력으로 변환하여 라인 샤프트 동력망에 공급하는 초기 산업 시대의 대형 전기 모터입니다. 효율적이고 반응성이 뛰어나지만, 심각하게 과부하되면 모터가 단락되거나 연결된 배터리가 격렬하게 방전될 수 있습니다.</HD_EarlyIndustrialLargeMotor.description>
+  <HD_EarlyIndustrialLargeMotor.description>전력을 라인 샤프트용 회전 동력으로 바꾸는 대형 전동기입니다. 심한 과부하는 단락과 배터리 방전을 일으킬 수 있습니다.</HD_EarlyIndustrialLargeMotor.description>
 
   <HD_EarlyIndustrialGenerator.label>초기 산업용 발전기</HD_EarlyIndustrialGenerator.label>
-  <HD_EarlyIndustrialGenerator.description>라인 샤프트의 기계 동력을 전기로 변환하는 대형 초기 산업 시대 발전기입니다. 정격 기계 입력에서 효율이 가장 높으며, 입력이 정격점에서 멀어질수록 효율이 단계적으로 감소합니다.</HD_EarlyIndustrialGenerator.description>
+  <HD_EarlyIndustrialGenerator.description>라인 샤프트의 회전력을 전기로 바꾸는 초기 산업용 발전기입니다. 정격 입력에서 벗어나면 발전 효율이 낮아집니다.</HD_EarlyIndustrialGenerator.description>
 
   <HD_BasicPumpJack.label>기본 펌프잭</HD_BasicPumpJack.label>
   <HD_BasicPumpJack.description>개발된 유전에서 원유를 추출하는 데 사용되는 간단한 기계식 펌프입니다. 필요한 회전력을 제공하기 위해 동력원이 있어야 합니다.</HD_BasicPumpJack.description>
@@ -41,13 +41,13 @@
   <HD_BasicWorkbench.description>개척지에서 기본적인 수공예와 총기 제작 작업을 수행하기 위한 간단하고 인력으로 움직이는 나무 작업대입니다. 외부 전력이나 기계적 동력이 필요하지 않습니다.</HD_BasicWorkbench.description>
 
   <HD_GunSmithTable.label>총기 작업대</HD_GunSmithTable.label>
-  <HD_GunSmithTable.description>총기를 조립하고 수리하기 위한 전용 작업대입니다.</HD_GunSmithTable.description>
+  <HD_GunSmithTable.description>총기를 조립하고 수리하며 모듈형 총기를 개조하는 전용 작업대입니다. 모듈형 총기 개조에는 총기 파츠 상자를 작업대에 넣어야 합니다.</HD_GunSmithTable.description>
 
   <HD_TelegraphTable.label>전신기</HD_TelegraphTable.label>
   <HD_TelegraphTable.description>개척지 석유 계약과 상업 주문, 군사 지원 요청을 송신하는 전신 설비입니다. 일차 전지를 연료로 사용합니다.</HD_TelegraphTable.description>
 
   <HD_LineShaftTurretLathe.label>라인 샤프트 터렛 선반</HD_LineShaftTurretLathe.label>
-  <HD_LineShaftTurretLathe.description>터렛 헤드가 부착된 정밀 기계식 라인 샤프트 구동형 금속가공 선반입니다. 회전축 동력망에 연결되어 기계 동력을 공급받으며, 극도로 빠르고 정교한 금속 부품 깎기, 강선 파기, 절삭 가공 작업을 수행합니다.</HD_LineShaftTurretLathe.description>
+  <HD_LineShaftTurretLathe.description>라인 샤프트로 구동하는 터렛 선반입니다. 금속 부품의 반복 절삭과 총열 강선 가공에 사용합니다.</HD_LineShaftTurretLathe.description>
   <HD_LineShaftRollingMachine.label>라인 샤프트 압연기</HD_LineShaftRollingMachine.label>
   <HD_LineShaftRollingMachine.description>라인 샤프트 동력망으로 구동되는 대형 압연기입니다. 가열된 금속 소재를 한 쌍의 롤러 사이로 눌러 막대, 판재, 기타 평평한 형태로 늘립니다.</HD_LineShaftRollingMachine.description>
   <HD_BlastFurnace.label>고로</HD_BlastFurnace.label>
@@ -62,5 +62,27 @@
   <HD_LineShaftHydraulicPress.description>라인 샤프트 동력망으로 구동되는 중형 유압 프레스입니다. 강철 소재를 스프링, 압인 판재, 기타 힘으로 성형한 금속 부품으로 만듭니다.</HD_LineShaftHydraulicPress.description>
   <HD_LineShaftHeatPump.label>라인 샤프트 열펌프</HD_LineShaftHeatPump.label>
   <HD_LineShaftHeatPump.description>벽 안에 설치되는 라인 샤프트 구동식 열펌프입니다. 한쪽은 공기를 식히고 다른 쪽은 폐열을 배출하며, 실제 축 속도에 따라 열 전달 성능이 달라집니다.</HD_LineShaftHeatPump.description>
+  <HD_SmallSteamEngine.comps.2.fuelLabel>목재</HD_SmallSteamEngine.comps.2.fuelLabel>
+  <HD_SmallSteamEngine.comps.2.fuelGizmoLabel>목재 연료</HD_SmallSteamEngine.comps.2.fuelGizmoLabel>
+  <HD_SmallSteamEngine.comps.2.outOfFuelMessage>작동 불가: 목재 부족</HD_SmallSteamEngine.comps.2.outOfFuelMessage>
+  <HD_LargeSteamEngine.comps.2.fuelLabel>숯</HD_LargeSteamEngine.comps.2.fuelLabel>
+  <HD_LargeSteamEngine.comps.2.fuelGizmoLabel>숯 연료</HD_LargeSteamEngine.comps.2.fuelGizmoLabel>
+  <HD_LargeSteamEngine.comps.2.outOfFuelMessage>작동 불가: 숯 부족</HD_LargeSteamEngine.comps.2.outOfFuelMessage>
+  <HD_IndustrialDieselEngine.comps.2.fuelLabel>디젤</HD_IndustrialDieselEngine.comps.2.fuelLabel>
+  <HD_IndustrialDieselEngine.comps.2.fuelGizmoLabel>디젤 연료</HD_IndustrialDieselEngine.comps.2.fuelGizmoLabel>
+  <HD_IndustrialDieselEngine.comps.2.outOfFuelMessage>작동 불가: 디젤 부족</HD_IndustrialDieselEngine.comps.2.outOfFuelMessage>
+  <HD_BatchStill.comps.1.fuelLabel>목재</HD_BatchStill.comps.1.fuelLabel>
+  <HD_BatchStill.comps.1.fuelGizmoLabel>목재 연료</HD_BatchStill.comps.1.fuelGizmoLabel>
+  <HD_BatchStill.comps.1.outOfFuelMessage>작동 불가: 목재 부족</HD_BatchStill.comps.1.outOfFuelMessage>
+  <HD_DistillationTower.comps.2.fuelLabel>디젤</HD_DistillationTower.comps.2.fuelLabel>
+  <HD_DistillationTower.comps.2.fuelGizmoLabel>디젤 연료</HD_DistillationTower.comps.2.fuelGizmoLabel>
+  <HD_DistillationTower.comps.2.outOfFuelMessage>작동 불가: 디젤 부족</HD_DistillationTower.comps.2.outOfFuelMessage>
+  <HD_KeroseneLamp.comps.0.fuelLabel>등유</HD_KeroseneLamp.comps.0.fuelLabel>
+  <HD_KeroseneLamp.comps.0.fuelGizmoLabel>등유 연료</HD_KeroseneLamp.comps.0.fuelGizmoLabel>
+  <HD_BlastFurnace.comps.1.fuelLabel>숯</HD_BlastFurnace.comps.1.fuelLabel>
+  <HD_BlastFurnace.comps.1.fuelGizmoLabel>숯 연료</HD_BlastFurnace.comps.1.fuelGizmoLabel>
+  <HD_BlastFurnace.comps.1.outOfFuelMessage>작동 불가: 숯 부족</HD_BlastFurnace.comps.1.outOfFuelMessage>
+  <HD_TelegraphTable.comps.1.fuelLabel>일차 전지</HD_TelegraphTable.comps.1.fuelLabel>
+  <HD_TelegraphTable.comps.1.fuelGizmoLabel>일차 전지</HD_TelegraphTable.comps.1.fuelGizmoLabel>
+  <HD_TelegraphTable.comps.1.outOfFuelMessage>송신 불가: 일차 전지 없음</HD_TelegraphTable.comps.1.outOfFuelMessage>
 </LanguageData>
-

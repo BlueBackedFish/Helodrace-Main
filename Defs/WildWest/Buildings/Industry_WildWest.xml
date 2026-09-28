@@ -86,8 +86,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_SmallSteamEngine</defName>
     <label>small steam engine</label>
-    <description>A compact, coal-fired steam engine designed to provide mechanical power to nearby
-      machinery. It must be placed near a compatible building to function.</description>
+    <description>A compact steam engine that supplies rotary power to nearby machinery. Heavy loads increase the risk of boiler damage and explosion.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_SmallSteamEngine</texPath>
@@ -172,7 +171,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LargeSteamEngine</defName>
     <label>large steam engine</label>
-    <description>A massive charcoal-fired steam engine built to drive an industrial line-shaft network. It delivers far more torque than a small steam engine, but runs hot and can explode catastrophically when damaged.</description>
+    <description>A large coal-fired steam engine for industrial line shafts. It produces high torque along with substantial heat and explosion risk.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_LargeSteamEngine</texPath>
@@ -260,7 +259,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_IndustrialDieselEngine</defName>
     <label>industrial diesel engine</label>
-    <description>A heavy internal-combustion engine that burns diesel to drive an industrial line-shaft network. It produces high power across a broad speed range and is more precise than a steam engine, but its fuel is costly and dangerously flammable.</description>
+    <description>A large diesel engine that drives an industrial line shaft. Its speed is easy to regulate, but it consumes costly fuel and is vulnerable to fire.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_IndustrialDieselEngine</texPath>
@@ -352,7 +351,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_EarlyIndustrialLargeMotor</defName>
     <label>large industrial motor</label>
-    <description>A large early industrial electric motor that converts electrical power into precise rotary power for a line-shaft network. It is efficient and responsive, but a severe mechanical overload can short-circuit the motor or violently discharge a connected battery.</description>
+    <description>A large electric motor that drives a line shaft. Severe overloads can short the motor or discharge connected batteries.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_EarlyIndustrialLargeMotor</texPath>
@@ -423,7 +422,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_EarlyIndustrialGenerator</defName>
     <label>early industrial generator</label>
-    <description>A large early industrial generator that converts line-shaft power into electricity. It is most efficient at its rated mechanical input, and loses efficiency in distinct steps as the input moves away from that point.</description>
+    <description>An early industrial generator that converts line-shaft rotation into electricity. Efficiency falls when the mechanical input moves away from its rated load.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_EarlyIndustrialLargeMotor</texPath>
@@ -903,7 +902,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftTurretLathe</defName>
     <label>line shaft turret lathe</label>
-    <description>An advanced, line-shaft-driven metalworking lathe with a rotatable turret. Powered by the mechanical network, it allows for high-precision cutting, boring, and turning of metal components with superior speed.</description>
+    <description>A line-shaft turret lathe used for repeat machining of metal parts and rifling gun barrels.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_LineShaftTurretLathe</texPath>
@@ -1555,7 +1554,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_GunSmithTable</defName>
     <label>gunsmith table</label>
-    <description>A dedicated workbench for assembling and repairing firearms.</description>
+    <description>A dedicated workbench for assembling, repairing, and modifying firearms. Insert a weapon-parts box to modify modular weapons.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_GunSmithTable</texPath>
@@ -1601,6 +1600,9 @@
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponWorkbench" />
+    </comps>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
