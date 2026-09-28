@@ -261,6 +261,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
     </recipeMaker>
     <costList><Cloth>45</Cloth></costList>
@@ -298,6 +299,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
     </recipeMaker>
     <costList><Cloth>50</Cloth></costList>
@@ -335,6 +337,7 @@
     </apparel>
     <recipeMaker>
       <workSkill>Crafting</workSkill>
+      <researchPrerequisite>HelodPASGT</researchPrerequisite>
       <recipeUsers><li>ElectricTailoringBench</li><li>HandTailoringBench</li></recipeUsers>
     </recipeMaker>
     <costList><Cloth>50</Cloth></costList>

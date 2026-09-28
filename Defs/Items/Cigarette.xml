@@ -68,6 +68,7 @@
       </outcomeDoers>
     </ingestible>
     <recipeMaker>
+      <researchPrerequisite>HelodIngredientExtraction</researchPrerequisite>
       <recipeUsers>
         <li>CraftingSpot</li>
         <li>DrugLab</li>
