@@ -3,6 +3,7 @@
   <HD_DevelopOilField.reportString>유전 개발하는 중.</HD_DevelopOilField.reportString>
   
   <HD_ConfigureMechanical.reportString>기계 장치 설정 중.</HD_ConfigureMechanical.reportString>
-  <HD_LubricateBelt.reportString>기계식 벨트 윤활 중.</HD_LubricateBelt.reportString>
-  <HD_RepairBelt.reportString>기계식 벨트 수리 중.</HD_RepairBelt.reportString>
+  <HD_SwitchSharpshooterMode.reportString>무기 모드를 전환하는 중.</HD_SwitchSharpshooterMode.reportString>
+  <HD_IgnitePhotochlorogenCan.reportString>포토클로로겐 살포통을 점화하는 중.</HD_IgnitePhotochlorogenCan.reportString>
+  <HD_UseTelegraphTable.reportString>전신기를 사용하는 중.</HD_UseTelegraphTable.reportString>
 </LanguageData>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_BreachExplosive_InstallFuse_Label>도화선식 폭약 설치</HD_BreachExplosive_InstallFuse_Label>
+  <HD_BreachExplosive_InstallFuse_Desc>격발기 1개를 소모해 벽이나 문에 C-4와 폭파용 도화선을 설치합니다. 발파하거나 포기할 때까지 작업자는 폭약으로부터 {0}칸 안에 머물러야 합니다. C-4 사용량은 구조물의 현재 체력에, 설치 시간은 사용하는 C-4 개수에 비례합니다.</HD_BreachExplosive_InstallFuse_Desc>
+  <HD_BreachExplosive_InstallShockTube_Label>충격관식 폭약 설치</HD_BreachExplosive_InstallShockTube_Label>
+  <HD_BreachExplosive_InstallShockTube_Desc>격발기 1개를 소모해 벽이나 문에 C-4와 비전기식 충격관을 설치합니다. 배선에 20% 더 오래 걸리지만 발파하거나 포기할 때까지 작업자가 폭약으로부터 {0}칸 안에서 이동할 수 있습니다. C-4 사용량은 구조물의 현재 체력에, 설치 시간은 사용하는 C-4 개수에 비례합니다.</HD_BreachExplosive_InstallShockTube_Desc>
+  <HD_BreachExplosive_Detonate_Label>돌파 폭약 발파</HD_BreachExplosive_Detonate_Label>
+  <HD_BreachExplosive_Detonate_Desc>1초 동안 설치한 C-4를 격발합니다. 충격관은 격발 완료 직후 폭발하고, 도화선은 작업자와 폭약 사이의 거리 1칸당 1초가 추가로 지난 뒤 폭발합니다.</HD_BreachExplosive_Detonate_Desc>
+  <HD_BreachExplosive_Abandon_Label>발파 포기</HD_BreachExplosive_Abandon_Label>
+  <HD_BreachExplosive_Abandon_Desc>연결을 끊고 설치된 폭약을 포기합니다. 설치에 사용한 C-4는 회수하지 않습니다.</HD_BreachExplosive_Abandon_Desc>
+  <HD_BreachExplosive_OperatorUnavailable>지금은 작업자가 돌파 폭약을 설치하거나 발파할 수 없습니다.</HD_BreachExplosive_OperatorUnavailable>
+  <HD_BreachExplosive_InvalidTarget>통과할 수 없는 벽이나 문을 선택해야 합니다.</HD_BreachExplosive_InvalidTarget>
+  <HD_BreachExplosive_AlreadyLinked>이 작업자는 이미 설치된 돌파 폭약과 연결되어 있습니다.</HD_BreachExplosive_AlreadyLinked>
+  <HD_BreachExplosive_WallAlreadyCharged>이 구조물에는 이미 돌파 폭약이 설치되어 있습니다.</HD_BreachExplosive_WallAlreadyCharged>
+  <HD_BreachExplosive_MissingIgniter>필요한 격발기가 더 이상 작업자의 소지품에 없습니다.</HD_BreachExplosive_MissingIgniter>
+  <HD_BreachExplosive_NoC4>작업자의 소지품에 C-4가 최소 {0}개 필요합니다.</HD_BreachExplosive_NoC4>
+  <HD_BreachExplosive_CannotReach>구조물 옆의 적절한 설치 위치에 도달할 수 없습니다.</HD_BreachExplosive_CannotReach>
+  <HD_BreachExplosive_CannotReserve>선택한 벽은 이미 다른 작업자가 사용 중입니다.</HD_BreachExplosive_CannotReserve>
+  <HD_BreachExplosive_ChargeInvalid>설치된 폭약의 대상 구조물이 사라졌습니다.</HD_BreachExplosive_ChargeInvalid>
+  <HD_BreachExplosive_OutOfRange>작업자는 설치된 폭약에서 {0}칸 안에 있어야 합니다.</HD_BreachExplosive_OutOfRange>
+  <HD_BreachExplosive_Installed>C-4 {0}개를 설치했습니다. 발파하거나 포기할 때까지 이동 범위가 반경 {1}칸으로 제한됩니다.</HD_BreachExplosive_Installed>
+  <HD_BreachExplosive_Abandoned>돌파 폭약을 포기했으며 설치한 C-4는 손실되었습니다.</HD_BreachExplosive_Abandoned>
+  <HD_BreachExplosive_TetherBlocked>돌파 폭약의 {0}칸 연결 범위 밖으로 이동할 수 없습니다. 먼저 발파하거나 발파를 포기해야 합니다.</HD_BreachExplosive_TetherBlocked>
+  <HD_BreachExplosive_FuseLit>도화선이 타고 있습니다. {0}초 후 폭발합니다.</HD_BreachExplosive_FuseLit>
+  <HD_BreachExplosive_FuseCountdown>폭발까지 남은 시간: {0}초</HD_BreachExplosive_FuseCountdown>
+</LanguageData>

@@ -1,0 +1,219 @@
+{
+  "LineShaftMillingMachine": {
+    "views": {
+      "north": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          72,
+          158,
+          440,
+          373
+        ],
+        "transparent_pixels": 186470,
+        "mask_red_pixels": 38246
+      },
+      "south": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          72,
+          156,
+          440,
+          380
+        ],
+        "transparent_pixels": 187195,
+        "mask_red_pixels": 36759
+      },
+      "east": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          175,
+          64,
+          337,
+          466
+        ],
+        "transparent_pixels": 199468,
+        "mask_red_pixels": 29493
+      }
+    },
+    "same_scale_and_target": true,
+    "silhouette_iou_after_uniform_crop_fit": {
+      "north": 0.9588,
+      "south": 0.9319,
+      "east": 0.8826
+    },
+    "comparison_sheet": "Left: source with black stroke removed; right: render. Rows North, South, East. Empty source cells mean unavailable views.",
+    "packed_reference_images": 6
+  },
+  "LineShaftPress": {
+    "views": {
+      "north": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          118,
+          88,
+          394,
+          435
+        ],
+        "transparent_pixels": 175567,
+        "mask_red_pixels": 553772
+      },
+      "south": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          118,
+          182,
+          394,
+          423
+        ],
+        "transparent_pixels": 207547
+      },
+      "east": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          152,
+          72,
+          360,
+          466
+        ],
+        "transparent_pixels": 195386
+      }
+    },
+    "same_scale_and_target": true,
+    "silhouette_iou_after_uniform_crop_fit": {
+      "north": 0.9867
+    },
+    "comparison_sheet": "Left: source with black stroke removed; right: render. Rows North, South, East. Empty source cells mean unavailable views.",
+    "packed_reference_images": 2
+  },
+  "LineShaftTurretLathe": {
+    "views": {
+      "north": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          69,
+          166,
+          443,
+          348
+        ],
+        "transparent_pixels": 216738,
+        "mask_red_pixels": 32125
+      },
+      "south": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          69,
+          166,
+          443,
+          358
+        ],
+        "transparent_pixels": 215901,
+        "mask_red_pixels": 31969
+      },
+      "east": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          195,
+          66,
+          317,
+          466
+        ],
+        "transparent_pixels": 218715,
+        "mask_red_pixels": 31756
+      }
+    },
+    "same_scale_and_target": true,
+    "silhouette_iou_after_uniform_crop_fit": {
+      "north": 0.8756,
+      "south": 0.8308,
+      "east": 0.8105
+    },
+    "comparison_sheet": "Left: source with black stroke removed; right: render. Rows North, South, East. Empty source cells mean unavailable views.",
+    "packed_reference_images": 6
+  },
+  "RollingMC": {
+    "views": {
+      "north": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          83,
+          104,
+          429,
+          330
+        ],
+        "transparent_pixels": 206576,
+        "mask_red_pixels": 280138
+      },
+      "south": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          83,
+          125,
+          429,
+          406
+        ],
+        "transparent_pixels": 204531
+      },
+      "east": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          148,
+          103,
+          364,
+          414
+        ],
+        "transparent_pixels": 217805
+      }
+    },
+    "same_scale_and_target": true,
+    "silhouette_iou_after_uniform_crop_fit": {
+      "north": 0.9378
+    },
+    "comparison_sheet": "Left: source with black stroke removed; right: render. Rows North, South, East. Empty source cells mean unavailable views.",
+    "packed_reference_images": 2
+  },
+  "TreadleLathe": {
+    "views": {
+      "north": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          69,
+          164,
+          443,
+          350
+        ],
+        "transparent_pixels": 214073,
+        "mask_red_pixels": 33169
+      },
+      "south": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          69,
+          146,
+          443,
+          357
+        ],
+        "transparent_pixels": 215301,
+        "mask_red_pixels": 31991
+      },
+      "east": {
+        "actual_downward_degrees": 64.00000113525775,
+        "alpha_bounds": [
+          182,
+          68,
+          330,
+          466
+        ],
+        "transparent_pixels": 218070,
+        "mask_red_pixels": 35398
+      }
+    },
+    "same_scale_and_target": true,
+    "silhouette_iou_after_uniform_crop_fit": {
+      "north": 0.8393,
+      "south": 0.7124,
+      "east": 0.7917
+    },
+    "comparison_sheet": "Left: source with black stroke removed; right: render. Rows North, South, East. Empty source cells mean unavailable views.",
+    "packed_reference_images": 6
+  }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_MackenzieValleyHelod.label>매켄지 밸리 헤로드</HD_MackenzieValleyHelod.label>
+  <HD_MackenzieValleyHelod.description>큰 체격과 침착한 성향을 지닌 헤로드 계통입니다. 집단을 이끌고 동료를 지키는 데 능하지만 많은 식량을 필요로 하며 움직임은 느린 편입니다.</HD_MackenzieValleyHelod.description>
+  <HD_TexasHelod.label>텍사스 헤로드</HD_TexasHelod.label>
+  <HD_TexasHelod.description>고온 건조한 초원에 적응한 헤로드 계통입니다. 빠른 움직임과 사격 솜씨가 강점이지만 경계심이 강해 충돌을 일으키기 쉽습니다.</HD_TexasHelod.description>
+  <HD_ArcticHelod.label>북극 헤로드</HD_ArcticHelod.label>
+  <HD_ArcticHelod.description>한랭지 정찰과 장거리 사격에 적응한 헤로드 계통입니다. 추위에는 강하지만 더위와 질병에 약하며 혼자 행동하려는 경향이 있습니다.</HD_ArcticHelod.description>
+  <HD_EasternHelod.label>동부 헤로드</HD_EasternHelod.label>
+  <HD_EasternHelod.description>상업과 정밀 작업에 익숙한 도시형 헤로드 계통입니다. 사교, 연구와 제작에 능하지만 체력이 약하고 정신 자극에 민감합니다.</HD_EasternHelod.description>
+  <HD_MexicanHelod.label>멕시코 헤로드</HD_MexicanHelod.label>
+  <HD_MexicanHelod.description>조직적인 용병 생활에 적응한 헤로드 계통입니다. 튼튼한 체력과 빠른 회복을 지녔지만 전투 자극제에 의존하는 경우가 많습니다.</HD_MexicanHelod.description>
+  <HD_MackenzieValleyHelod.descriptionShort>크고 강인하며 권위적인 헤로드입니다.</HD_MackenzieValleyHelod.descriptionShort>
+  <HD_TexasHelod.descriptionShort>빠르고 열에 강한 명사수 헤로드입니다.</HD_TexasHelod.descriptionShort>
+  <HD_ArcticHelod.descriptionShort>정예 극지 저격수이자 고독한 헤로드입니다.</HD_ArcticHelod.descriptionShort>
+  <HD_EasternHelod.descriptionShort>지적이고 사교적이며 내정에 특화된 독점가 헤로드입니다.</HD_EasternHelod.descriptionShort>
+  <HD_MexicanHelod.descriptionShort>튼튼하고 민첩한 전투 PMC 헤로드로, 암페타민 의존증이 있습니다.</HD_MexicanHelod.descriptionShort>
+</LanguageData>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalPrecisionFire_Command>정확한 사격</HD_TacticalPrecisionFire_Command>
+  <HD_TacticalPrecisionFire_CommandDesc>조준 중 우선 노릴 신체 부위를 선택합니다. 현재 선택: {0}.</HD_TacticalPrecisionFire_CommandDesc>
+  <HD_TacticalPrecisionFire_Head>머리</HD_TacticalPrecisionFire_Head>
+  <HD_TacticalPrecisionFire_Chest>흉부</HD_TacticalPrecisionFire_Chest>
+  <HD_TacticalPrecisionFire_Arm>팔</HD_TacticalPrecisionFire_Arm>
+  <HD_TacticalPrecisionFire_Leg>다리</HD_TacticalPrecisionFire_Leg>
+  <HD_TacticalPrecisionFire_Clear>선택 해제</HD_TacticalPrecisionFire_Clear>
+  <HD_TacticalPrecisionFire_None>없음</HD_TacticalPrecisionFire_None>
+  <HD_TacticalPrecisionFire_Selected>정확한 사격 부위: {0}</HD_TacticalPrecisionFire_Selected>
+</LanguageData>

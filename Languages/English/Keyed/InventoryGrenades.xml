@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Grenade_CloseThrow>Close grenade throw</HD_Grenade_CloseThrow>
+  <HD_Grenade_CloseThrowDesc>Prepare and throw a grenade in {0}. Maximum range: {1} cells. Throwing accuracy improves with Shooting skill.</HD_Grenade_CloseThrowDesc>
+  <HD_Grenade_NormalThrow>Normal grenade throw</HD_Grenade_NormalThrow>
+  <HD_Grenade_NormalThrowDesc>Carefully prepare and throw a grenade in {0}. Maximum range: {1} cells. Throwing accuracy improves with Shooting skill.</HD_Grenade_NormalThrowDesc>
+  <HD_Grenade_None>No hand grenades are available in this colonist's inventory.</HD_Grenade_None>
+  <HD_Grenade_NoneOfType>No {0} remains in this colonist's inventory.</HD_Grenade_NoneOfType>
+  <HD_Grenade_SelectEntry>{0} ×{1}</HD_Grenade_SelectEntry>
+</LanguageData>

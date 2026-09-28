@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ForwardBaseConstruction.label>전진기지 건설</HD_ForwardBaseConstruction.label>
+  <HD_ForwardBaseConstruction.description>계약에 따라 건설 중인 헤로드 전진기지입니다.</HD_ForwardBaseConstruction.description>
+  <HD_ForwardBase.label>전진기지</HD_ForwardBase.label>
+  <HD_ForwardBase.description>완공된 헤로드 전진기지입니다.</HD_ForwardBase.description>
+  <HD_ForwardBaseWithdrawal.label>전진기지 철수</HD_ForwardBaseWithdrawal.label>
+  <HD_ForwardBaseWithdrawal.description>정액 대금 지급 실패로 철수 중인 헤로드 전진기지입니다.</HD_ForwardBaseWithdrawal.description>
+</LanguageData>

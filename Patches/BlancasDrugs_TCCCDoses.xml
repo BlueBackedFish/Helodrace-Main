@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationFindMod">
+    <mods><li>Helod race - Blanca's Drugs</li></mods>
+    <match Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[defName="BD_Morphine" or defName="BD_Fentanyl" or defName="BD_Ketamine" or defName="BD_Laudanum"]/comps</xpath>
+      <value><li Class="Helodrace.Tactical.CompProperties_TcccDose" /></value>
+    </match>
+  </Operation>
+</Patch>

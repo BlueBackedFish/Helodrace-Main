@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ArmorPlate_SAPI.label>SAPI 방탄판 세트</HD_ArmorPlate_SAPI.label>
+  <HD_ArmorPlate_SAPI.description>1번과 2번의 손상도가 따로 보존되는 2장 구성 세라믹 방탄판 세트입니다.</HD_ArmorPlate_SAPI.description>
+  <HD_ArmorPlate_ESAPI.label>ESAPI 방탄판 세트</HD_ArmorPlate_ESAPI.label>
+  <HD_ArmorPlate_ESAPI.description>1번과 2번의 내구도가 독립된 2장 구성 강화 세라믹 방탄판 세트입니다.</HD_ArmorPlate_ESAPI.description>
+  <HD_ArmorPlate_SSAPI.label>SSAPI 측면 방탄판 세트</HD_ArmorPlate_SSAPI.label>
+  <HD_ArmorPlate_SSAPI.description>좌우 측면 포켓용 2장 구성 소형 방탄판 세트이며 각 판의 손상도가 따로 보존됩니다.</HD_ArmorPlate_SSAPI.description>
+  <HD_ArmorPlate_ESBI.label>ESBI 측면 방탄판 세트</HD_ArmorPlate_ESBI.label>
+  <HD_ArmorPlate_ESBI.description>좌우 측면 포켓용 2장 구성 강화 방탄판 세트이며 각 판의 손상도가 따로 보존됩니다.</HD_ArmorPlate_ESBI.description>
+  <HD_ArmorPlate_RAMPART4800.label>RAMPART 4800 방탄판 세트</HD_ArmorPlate_RAMPART4800.label>
+  <HD_ArmorPlate_RAMPART4800.description>최대 수준의 소총탄 및 반복 피격 방호를 위한 2장 구성 중량급 고성능 방탄판 세트입니다.</HD_ArmorPlate_RAMPART4800.description>
+</LanguageData>

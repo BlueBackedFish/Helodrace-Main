@@ -16,7 +16,7 @@ namespace Helodrace
             if (!pawn.CanReserve(t, 1, -1, null, forced)) return false;
             
             var comp = t.TryGetComp<CompOilFieldDevelopment>();
-            if (comp == null || !comp.IsPoweredBySteam) return false;
+            if (comp == null || comp.developmentComplete || !comp.IsPoweredBySteam) return false;
 
             // Only provide the job if maintenance is required
             return comp.needsMaintenance || forced;

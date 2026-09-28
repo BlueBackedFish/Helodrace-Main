@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ClothingBench_Configure>Customize apparel</HD_ClothingBench_Configure>
+  <HD_ClothingBench_ConfigureDesc>Select apparel on this map to change armor parts and PALS attachments at this workbench.</HD_ClothingBench_ConfigureDesc>
+  <HD_ClothingBench_NoApparel>No customizable apparel is available on this map.</HD_ClothingBench_NoApparel>
+  <HD_ClothingBench_WornApparel>{0}: {1}</HD_ClothingBench_WornApparel>
+  <HD_ClothingBench_StoredApparel>{0} (stored)</HD_ClothingBench_StoredApparel>
+  <HD_ClothingBench_Required>Apparel customization requires a clothing workbench.</HD_ClothingBench_Required>
+  <HD_ClothingBench_Unreachable>The wearer cannot reach or use this clothing workbench.</HD_ClothingBench_Unreachable>
+  <HD_ClothingBench_Apply>Start work</HD_ClothingBench_Apply>
+  <HD_ClothingBench_DraftHint>Arrange all parts, then start work to apply the complete configuration.</HD_ClothingBench_DraftHint>
+  <HD_ClothingBench_Changed>The apparel configuration has changed. Reopen the editor before starting work.</HD_ClothingBench_Changed>
+  <HD_ClothingBench_Complete>Apparel customization is complete.</HD_ClothingBench_Complete>
+</LanguageData>

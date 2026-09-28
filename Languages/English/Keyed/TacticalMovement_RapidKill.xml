@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalRapidKill_Command>Rapid kill</HD_TacticalRapidKill_Command>
+  <HD_TacticalRapidKill_CommandDesc>At very short range, rapidly fire torso, torso, head. If the torso rounds fail to penetrate, follow with up to five head double-taps (ten extra rounds), stopping if the target dies or firing becomes impossible. General accuracy penalties are removed; cover, line of sight and armor still apply.</HD_TacticalRapidKill_CommandDesc>
+</LanguageData>

@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       플레이트 소재는 세라믹 / 아라미드 / UHMWPE 등 실제 재질로 구분; 백킹/혼합 구조/미공개 재질은 별도 메모.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
+  <!-- Installation slots -->
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_FrontRearPlates</defName>
+    <label>IBTV front/rear plate set slot</label>
+    <required>false</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Left</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_SidePlates</defName>
+    <label>IBTV left/right side plate set slot</label>
+    <required>false</required>
+    <uiOrder>20</uiOrder>
+    <uiSide>Right</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <!-- Legacy definitions are retained so existing saves can resolve old records. -->
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_FrontPlate</defName>
+    <label>IBTV front plate slot</label>
+    <required>true</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Left</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_RearPlate</defName>
+    <label>IBTV rear plate slot</label>
+    <required>true</required>
+    <uiOrder>20</uiOrder>
+    <uiSide>Right</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_LeftPlate</defName>
+    <label>IBTV left side plate slot</label>
+    <required>false</required>
+    <uiOrder>30</uiOrder>
+    <uiSide>Left</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_RightPlate</defName>
+    <label>IBTV right side plate slot</label>
+    <required>false</required>
+    <uiOrder>40</uiOrder>
+    <uiSide>Right</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_NeckGuard</defName>
+    <label>IBTV neck guard slot</label>
+    <required>false</required>
+    <uiOrder>50</uiOrder>
+    <uiSide>Top</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_ShoulderGuards</defName>
+    <label>IBTV shoulder guard slot</label>
+    <required>false</required>
+    <uiOrder>60</uiOrder>
+    <uiSide>Top</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_LowerBody</defName>
+    <label>IBTV groin protector slot</label>
+    <required>false</required>
+    <uiOrder>70</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_CamelBak</defName>
+    <label>IBTV hydration pack slot</label>
+    <required>false</required>
+    <uiOrder>80</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_BackProtector</defName>
+    <label>IBTV rear lower protector slot</label>
+    <required>false</required>
+    <uiOrder>75</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_KneePads</defName>
+    <label>combat pants knee-pad slot</label>
+    <required>false</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <Helodrace.ModernWar.ModularArmorSlotDef>
+    <defName>HD_MA_Slot_DropLeg</defName>
+    <label>MOLLE battle belt drop-leg platform slot</label>
+    <required>false</required>
+    <uiOrder>10</uiOrder>
+    <uiSide>Bottom</uiSide>
+  </Helodrace.ModernWar.ModularArmorSlotDef>
+  <!-- A position controls hit location, protected direction and render anchor.
+       Vanilla body apparel occupies the 20-30 band: fixed parts use 21-23. -->
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_FrontRearTorso</defName>
+    <label>front and rear torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Front</li><li>Back</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>21</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_SideTorso</defName>
+    <label>left and right torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Left</li><li>Right</li></protectedDirections>
+    <directionArcDegrees>80</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>21</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_FrontTorso</defName>
+    <label>front torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Front</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>21</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+
+  <!-- A PALS panel is a real multi-cell mounting surface, not a direction selector.
+       Its drawLayer is added to the position layer, keeping effective layers below 30. -->
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Front</defName>
+    <label>IBTV upper front PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_FrontTorso</armorPosition>
+    <uiX>0.20</uiX>
+    <uiY>0.24</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Front</li></visibleDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh</authoredTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontHigh</southTexturePrefix>
+    <drawCellSize>(0.08,0.08)</drawCellSize>
+    <drawLayer>3</drawLayer>
+    <positionDrawLayerStep>-0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Lower</defName>
+    <label>IBTV lower front PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_FrontTorso</armorPosition>
+    <uiX>0.20</uiX>
+    <uiY>0.39</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Front</li></visibleDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontLow</authoredTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_FrontLow</southTexturePrefix>
+    <drawCellSize>(0.08,0.08)</drawCellSize>
+    <drawLayer>3</drawLayer>
+    <positionDrawLayerStep>-0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Side</defName>
+    <label>IBTV right-side PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_SideTorso</armorPosition>
+    <uiX>0.10</uiX>
+    <uiY>0.48</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Right</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Right</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Right</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_RightBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Right</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_RightBack</southBackTexturePrefix>
+    <drawLayer>3</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_SideLeft</defName>
+    <label>IBTV left-side PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_SideTorso</armorPosition>
+    <uiX>0.10</uiX>
+    <uiY>0.48</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Left</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Left</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Left</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_LeftBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_Left</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IBTV_LeftBack</southBackTexturePrefix>
+    <drawLayer>3</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Groin</defName>
+    <label>IBTV groin PALS webbing</label>
+    <columns>4</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_LowerBody</armorPosition>
+    <requiredPart>HD_IOTVPart_LowerBody</requiredPart>
+    <uiX>0.30</uiX>
+    <uiY>0.72</uiY>
+    <uiWidth>0.40</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Front</li></visibleDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IBTV_Groin</authoredTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IBTV_Groin</southTexturePrefix>
+    <drawLayer>4</drawLayer>
+    <positionDrawLayerStep>-0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_IOTV_PALS_Back</defName>
+    <label>IBTV rear lower protector PALS webbing</label>
+    <columns>6</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_RearLowerBody</armorPosition>
+    <requiredPart>HD_IOTVPart_BackProtector</requiredPart>
+    <uiX>0.20</uiX>
+    <uiY>0.39</uiY>
+    <uiWidth>0.60</uiWidth>
+    <uiHeight>0.09</uiHeight>
+    <visibleDirections><li>Back</li></visibleDirections>
+    <renderDirections><li>Back</li></renderDirections>
+    <northTexturePrefix>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IBTV_Back</northTexturePrefix>
+    <drawLayer>3</drawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_BattleBelt_PALS_Right</defName>
+    <label>MOLLE battle belt right PALS webbing</label>
+    <columns>4</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_Legs</armorPosition>
+    <requiredPart>HD_MOLLEPart_DropLeg</requiredPart>
+    <uiX>0.15</uiX>
+    <uiY>0.57</uiY>
+    <uiWidth>0.70</uiWidth>
+    <uiHeight>0.10</uiHeight>
+    <visibleDirections><li>Right</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Right</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Right</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_RightBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Right</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_RightBack</southBackTexturePrefix>
+    <flatNormalPositionCount>2</flatNormalPositionCount>
+    <drawLayer>4</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPalsPanelDef>
+    <defName>HD_BattleBelt_PALS_Left</defName>
+    <label>MOLLE battle belt left PALS webbing</label>
+    <columns>4</columns>
+    <rows>1</rows>
+    <armorPosition>HD_MA_Pos_Legs</armorPosition>
+    <requiredPart>HD_MOLLEPart_DropLeg</requiredPart>
+    <uiX>0.15</uiX>
+    <uiY>0.57</uiY>
+    <uiWidth>0.70</uiWidth>
+    <uiHeight>0.10</uiHeight>
+    <visibleDirections><li>Left</li></visibleDirections>
+    <renderDirections><li>Front</li><li>Back</li><li>Left</li></renderDirections>
+    <authoredTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Side</authoredTexturePrefix>
+    <sideBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_SideBack</sideBackTexturePrefix>
+    <northTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Left</northTexturePrefix>
+    <northBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_LeftBack</northBackTexturePrefix>
+    <southTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_Left</southTexturePrefix>
+    <southBackTexturePrefix>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_BattleBelt_LeftBack</southBackTexturePrefix>
+    <flatNormalPositionCount>2</flatNormalPositionCount>
+    <drawLayer>4</drawLayer>
+    <sideBackDrawLayer>19.99</sideBackDrawLayer>
+    <positionDrawLayerStep>0.1</positionDrawLayerStep>
+  </Helodrace.ModernWar.ModularArmorPalsPanelDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_RearTorso</defName>
+    <label>rear torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Back</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>21</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_RearLowerBody</defName>
+    <label>rear lower body</label>
+    <bodyPartGroups><li>Waist</li><li>Legs</li></bodyPartGroups>
+    <protectedDirections><li>Back</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>23</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_LeftTorso</defName>
+    <label>left torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Left</li></protectedDirections>
+    <directionArcDegrees>80</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>21</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_RightTorso</defName>
+    <label>right torso</label>
+    <bodyPartGroups><li>Torso</li></bodyPartGroups>
+    <protectedDirections><li>Right</li></protectedDirections>
+    <directionArcDegrees>80</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>21</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_Neck</defName>
+    <label>neck</label>
+    <bodyPartGroups><li>Neck</li></bodyPartGroups>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>22</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_Shoulders</defName>
+    <label>shoulders</label>
+    <bodyPartGroups><li>Shoulders</li><li>Arms</li></bodyPartGroups>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>23</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_LowerBody</defName>
+    <label>groin</label>
+    <bodyParts><li>Pelvis</li></bodyParts>
+    <protectedDirections><li>Front</li></protectedDirections>
+    <directionArcDegrees>100</directionArcDegrees>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>23</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+  <Helodrace.ModernWar.ModularArmorPositionDef>
+    <defName>HD_MA_Pos_Legs</defName>
+    <label>legs</label>
+    <bodyPartGroups><li>Legs</li></bodyPartGroups>
+    <parentTagDef>ApparelBody</parentTagDef>
+    <drawLayer>23</drawLayer>
+  </Helodrace.ModernWar.ModularArmorPositionDef>
+
+  <!-- Fixed parts have an authored installation location. -->
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRearPlates</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
+    <label>IBTV front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-2</ergonomics>
+    <ventilation>-2</ventilation>
+    <loadDistribution>2</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_SidePlates</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
+    <label>IBTV left/right side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>0.85</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-1</ventilation>
+    <loadDistribution>1</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_SAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); 정확한 섬유 백킹은 제조사/리비전별 확인; 연질 방탄복 병용 기준 추정, 군용 규격은 NIJ 인증과 별개. 실제 아이템 기준: HD_ArmorPlate_SAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
+    <label>IBTV SAPI front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <armorRatingSharp>1.00</armorRatingSharp>
+    <armorRatingBlunt>0.45</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-1.6</ergonomics><ventilation>-1.5</ventilation><loadDistribution>1.5</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_ESAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); APM2 위협 대응을 참고한 추정, 지정 연질 백킹/리비전 확인 필요. 실제 아이템 기준: HD_ArmorPlate_ESAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
+    <label>IBTV ESAPI front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.60</guaranteedBlockPenetration>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.25</armorRatingHeat>
+    <ergonomics>-2</ergonomics><ventilation>-2</ventilation><loadDistribution>2</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_SSAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); Side SAPI 기준 추정. SSAPI는 XSAPI가 아니며 기존 게임 수치로 등급을 역산하지 않음. 실제 아이템 기준: HD_ArmorPlate_SSAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
+    <label>IBTV SSAPI front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.70</guaranteedBlockPenetration>
+    <armorRatingSharp>1.40</armorRatingSharp>
+    <armorRatingBlunt>0.55</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-2.4</ergonomics><ventilation>-2</ventilation><loadDistribution>2.3</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontRear_RAMPART4800</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800. -->
+    <label>IBTV RAMPART 4800 front/rear plate set</label>
+    <slot>HD_MA_Slot_FrontRearPlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_RAMPART4800</plateThingDef>
+    <guaranteedBlockPenetration>0.80</guaranteedBlockPenetration>
+    <armorRatingSharp>1.60</armorRatingSharp>
+    <armorRatingBlunt>0.65</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-3</ergonomics><ventilation>-2.5</ventilation><loadDistribution>2.8</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_SAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); 정확한 섬유 백킹은 제조사/리비전별 확인; 연질 방탄복 병용 기준 추정, 군용 규격은 NIJ 인증과 별개. 실제 아이템 기준: HD_ArmorPlate_SAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
+    <label>IBTV SAPI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <armorRatingSharp>1.00</armorRatingSharp>
+    <armorRatingBlunt>0.45</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.8</ergonomics><ventilation>-0.75</ventilation><loadDistribution>0.75</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_ESAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); APM2 위협 대응을 참고한 추정, 지정 연질 백킹/리비전 확인 필요. 실제 아이템 기준: HD_ArmorPlate_ESAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
+    <label>IBTV ESAPI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.60</guaranteedBlockPenetration>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.25</armorRatingHeat>
+    <ergonomics>-1</ergonomics><ventilation>-1</ventilation><loadDistribution>1</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_SSAPI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf2; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); Side SAPI 기준 추정. SSAPI는 XSAPI가 아니며 기존 게임 수치로 등급을 역산하지 않음. 실제 아이템 기준: HD_ArmorPlate_SSAPI. 세라믹 및 섬유의 세부 등급은 미지정. -->
+    <label>IBTV SSAPI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
+    <guaranteedBlockPenetration>0.70</guaranteedBlockPenetration>
+    <armorRatingSharp>1.40</armorRatingSharp>
+    <armorRatingBlunt>0.55</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1.2</ergonomics><ventilation>-1</ventilation><loadDistribution>1.15</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_ESBI</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + 방탄섬유 백킹(아라미드/UHMWPE, 모델별 확인); enhanced side insert 기준 추정, 지정 연질 백킹/리비전 확인 필요. 실제 아이템 기준: HD_ArmorPlate_ESBI. 세라믹 및 섬유의 세부 등급은 미지정. -->
+    <label>IBTV ESBI side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_ESBI</plateThingDef>
+    <guaranteedBlockPenetration>0.75</guaranteedBlockPenetration>
+    <armorRatingSharp>1.50</armorRatingSharp>
+    <armorRatingBlunt>0.60</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1.35</ergonomics><ventilation>-1.15</ventilation><loadDistribution>1.3</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_Sides_RAMPART4800</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf2-rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800. -->
+    <label>IBTV RAMPART 4800 side plate set</label>
+    <slot>HD_MA_Slot_SidePlates</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <plateThingDef>HD_ArmorPlate_RAMPART4800</plateThingDef>
+    <guaranteedBlockPenetration>0.80</guaranteedBlockPenetration>
+    <armorRatingSharp>1.60</armorRatingSharp>
+    <armorRatingBlunt>0.65</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1.5</ergonomics><ventilation>-1.25</ventilation><loadDistribution>1.4</loadDistribution>
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <!-- Legacy one-direction parts are retained for save compatibility. -->
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_FrontPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
+    <label>IBTV front plate</label>
+    <slot>HD_MA_Slot_FrontPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_FrontTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-1</ventilation>
+    <loadDistribution>1</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_RearPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
+    <label>IBTV rear plate</label>
+    <slot>HD_MA_Slot_RearPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>1.20</armorRatingSharp>
+    <armorRatingBlunt>0.50</armorRatingBlunt>
+    <armorRatingHeat>0.30</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-1</ventilation>
+    <loadDistribution>1</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_NeckGuard</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
+    <label>IBTV neck guard</label>
+    <slot>HD_MA_Slot_NeckGuard</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Neck</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVNeckGuard</partThingDef>
+    <armorRatingSharp>0.65</armorRatingSharp>
+    <armorRatingBlunt>0.35</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.5</ergonomics>
+    <ventilation>-1</ventilation>
+
+    <!-- 이전 저장의 Def 참조만 유지. 현재 IBTV 슬롯/기본 구성에서는 제외. -->
+    <playerSelectable>false</playerSelectable>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_LeftPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
+    <label>IBTV left side plate</label>
+    <slot>HD_MA_Slot_LeftPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_LeftTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>0.85</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.5</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>0.5</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_RightPlate</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf1-rf3; 소재: 세라믹; 이전 저장용 일반 방탄판의 넓은 임시 범위. 실제 모델/시험자료 미지정. 타격면/섬유 백킹의 세부 소재 미지정. -->
+    <label>IBTV right side plate</label>
+    <slot>HD_MA_Slot_RightPlate</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RightTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <armorRatingSharp>0.85</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-0.5</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>0.5</loadDistribution>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_ShoulderGuards</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
+    <label>IBTV shoulder guards</label>
+    <slot>HD_MA_Slot_ShoulderGuards</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Shoulders</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVShoulderGuards</partThingDef>
+    <armorRatingSharp>0.80</armorRatingSharp>
+    <armorRatingBlunt>0.40</armorRatingBlunt>
+    <armorRatingHeat>0.20</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>0.5</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Arm/HD_IOTVGen4Assault_Arm_Female</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(0.95,0.95)</drawSize>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_LowerBody</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
+    <label>IBTV groin protector</label>
+    <slot>HD_MA_Slot_LowerBody</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_LowerBody</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVLowerBody</partThingDef>
+    <armorRatingSharp>0.55</armorRatingSharp>
+    <armorRatingBlunt>0.30</armorRatingBlunt>
+    <armorRatingHeat>0.15</armorRatingHeat>
+    <ergonomics>-1</ergonomics>
+    <ventilation>-0.5</ventilation>
+    <loadDistribution>-0.5</loadDistribution>
+    <drawBehindArmor>true</drawBehindArmor>
+    <renderDirections><li>Front</li><li>Right</li><li>Left</li></renderDirections>
+    <previewDirections><li>Front</li></previewDirections>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_Groin/HD_IOTVGen4Assault_Groin_Female</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_BackProtector</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 hg1-hg2. -->
+    <label>IBTV rear lower protector</label>
+    <slot>HD_MA_Slot_BackProtector</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RearLowerBody</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVBackProtector</partThingDef>
+    <armorRatingSharp>0.55</armorRatingSharp>
+    <armorRatingBlunt>0.30</armorRatingBlunt>
+    <armorRatingHeat>0.15</armorRatingHeat>
+    <ergonomics>-0.6</ergonomics>
+    <ventilation>-0.35</ventilation>
+    <loadDistribution>-0.25</loadDistribution>
+    <renderDirections><li>Back</li></renderDirections>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/HD_IOTVGen4Assault_BackProtector/HD_IOTVGen4Assault_BackProtector_Female_north</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_CamelBak</defName>
+    <label>IBTV hydration pack</label>
+    <slot>HD_MA_Slot_CamelBak</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_RearTorso</fixedPosition>
+    <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IBTVCamelBak</partThingDef>
+    <ergonomics>-0.25</ergonomics>
+    <ventilation>-0.25</ventilation>
+    <loadDistribution>0.75</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/CamelBak/HD_IBTV_CamelBak_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_IOTVGen4Assault/CamelBak/HD_IBTV_CamelBak</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_UCPPantsPart_KneePads</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
+    <label>UCP combat pants knee pads</label>
+    <slot>HD_MA_Slot_KneePads</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Legs</fixedPosition>
+    <compatibleArmorTags><li>HD_UCPPants</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_UCPKneePads</partThingDef>
+    <armorRatingSharp>0.10</armorRatingSharp>
+    <armorRatingBlunt>0.18</armorRatingBlunt>
+    <ergonomics>-0.1</ergonomics>
+    <uiIconPath>Helod/Apparel/HD_UCPPants/KneePads/HD_UCPPants_KneePads_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_UCPPants/KneePads/HD_UCPPants_KneePads</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_MOLLEPart_DropLeg</defName>
+    <label>MOLLE battle belt drop-leg platform</label>
+    <slot>HD_MA_Slot_DropLeg</slot>
+    <installMode>Fixed</installMode>
+    <fixedPosition>HD_MA_Pos_Legs</fixedPosition>
+    <compatibleArmorTags><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_MOLLEDropLeg</partThingDef>
+    <ergonomics>-0.2</ergonomics>
+    <loadDistribution>0.5</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_MOLLEBattleBelt_DropLeg_Female_south</uiIconPath>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_MOLLEBattleBelt/HD_MOLLEBattleBelt_DropLeg/HD_MOLLEBattleBelt_DropLeg_Female</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+    </graphicData>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+
+  <!-- PALS parts can be installed repeatedly and occupy multiple grid cells. -->
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_IFAK</defName>
+    <label>medium medical pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>4</palsWidth>
+    <palsHeight>1</palsHeight>
+    <fillNarrowPalsPanel>true</fillNarrowPalsPanel>
+    <authoredPalsTextureKey>MediM</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_IFAK</partThingDef>
+    <ergonomics>-0.2</ergonomics>
+    <ventilation>-0.1</ventilation>
+    <loadDistribution>-0.15</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/MediM/FrontHigh/HD_IBTV_FrontHigh_MediM_1_east</uiIconPath>
+    <uiColor>(0.28,0.36,0.25)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_RifleMagazinePouch</defName>
+    <label>rifle magazine pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>2</palsWidth>
+    <palsHeight>1</palsHeight>
+    <authoredPalsTextureKey>Mag</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_RifleMagazinePouch</partThingDef>
+    <ergonomics>-0.1</ergonomics>
+    <ventilation>-0.1</ventilation>
+    <loadDistribution>-0.25</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/Mag/FrontHigh/HD_IBTV_FrontHigh_Mag_1_east</uiIconPath>
+    <uiColor>(0.34,0.30,0.20)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_WalkieTalkie</defName>
+    <label>walkie-talkie pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>2</palsWidth>
+    <palsHeight>1</palsHeight>
+    <authoredPalsTextureKey>WalkieTalkie</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_WalkieTalkie</partThingDef>
+    <ergonomics>-0.15</ergonomics>
+    <loadDistribution>-0.15</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/WalkieTalkie/Side/HD_IBTV_Side_WalkieTalkie_1_east</uiIconPath>
+    <uiColor>(0.30,0.32,0.25)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_MediL</defName>
+    <label>large medical pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>6</palsWidth>
+    <palsHeight>1</palsHeight>
+    <fillNarrowPalsPanel>true</fillNarrowPalsPanel>
+    <authoredPalsTextureKey>MediL</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_MediL</partThingDef>
+    <ergonomics>-0.35</ergonomics>
+    <ventilation>-0.15</ventilation>
+    <loadDistribution>-0.25</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/MediL/FrontHigh/HD_IBTV_FrontHigh_MediL_east</uiIconPath>
+    <uiColor>(0.26,0.34,0.24)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+  <Helodrace.ModernWar.ModularArmorPartDef>
+    <defName>HD_IOTVPart_AdminPouch</defName>
+    <label>admin pouch</label>
+    <installMode>Positionable</installMode>
+    <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
+    <palsWidth>4</palsWidth>
+    <fillNarrowPalsPanel>true</fillNarrowPalsPanel>
+    <palsHeight>1</palsHeight>
+    <authoredPalsTextureKey>Admin</authoredPalsTextureKey>
+    <compatibleArmorTags><li>HD_IOTVGen4</li><li>HD_MOLLEBattleBelt</li></compatibleArmorTags>
+    <partThingDef>HD_ModularPart_AdminPouch</partThingDef>
+    <ergonomics>-0.1</ergonomics>
+    <loadDistribution>-0.1</loadDistribution>
+    <uiIconPath>Helod/Apparel/HD_IOTVGen4Assault/Admin/FrontHigh/HD_IBTV_FrontHigh_Admin_1_east</uiIconPath>
+    <uiColor>(0.34,0.33,0.24)</uiColor>
+  </Helodrace.ModernWar.ModularArmorPartDef>
+</Defs>

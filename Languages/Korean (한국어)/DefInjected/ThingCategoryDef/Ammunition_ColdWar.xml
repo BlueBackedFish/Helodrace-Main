@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TOWMunitions.label>TOW 미사일</HD_TOWMunitions.label>
+  <HD_TOWMunitions.modExtensions.0.caliber>152mm</HD_TOWMunitions.modExtensions.0.caliber>
+  <HD_20x102mmAmmunition.label>20×102mm 탄약</HD_20x102mmAmmunition.label>
+  <HD_20x102mmAmmunition.modExtensions.0.caliber>20×102mm</HD_20x102mmAmmunition.modExtensions.0.caliber>
+</LanguageData>

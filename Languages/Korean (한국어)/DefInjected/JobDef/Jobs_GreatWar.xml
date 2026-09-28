@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_WearGasMask.reportString>방독면 착용 중.</HD_WearGasMask.reportString>
+  <HD_CASStationaryGuidance.reportString>근접항공지원 유도 중.</HD_CASStationaryGuidance.reportString>
+  <HD_MedibagLoadSupply.reportString>의무가방에 치료 물자를 적재하는 중.</HD_MedibagLoadSupply.reportString>
+  <HD_MedibagHemostasis.reportString>야전 지혈을 시행하는 중.</HD_MedibagHemostasis.reportString>
+  <HD_MedibagPlasmaTransfusion.reportString>혈장 수혈을 시행하는 중.</HD_MedibagPlasmaTransfusion.reportString>
+  <HD_IgniteSweetGasCan.reportString>스위트 가스 살포통을 점화하는 중.</HD_IgniteSweetGasCan.reportString>
+  <HD_ReloadRecoillessWeaponFromBag.reportString>소지품에서 무반동 무기를 재장전하는 중.</HD_ReloadRecoillessWeaponFromBag.reportString>
+  <HD_AssistReloadRecoillessWeapon.reportString>무반동 무기 재장전을 보조하는 중.</HD_AssistReloadRecoillessWeapon.reportString>
+  <HD_StandbyRecoillessLoader.reportString>무반동 무기 장전수로 대기하는 중.</HD_StandbyRecoillessLoader.reportString>
+  <HD_AssembleM1MortarMount.reportString>M1 박격포 양각대를 설치하는 중.</HD_AssembleM1MortarMount.reportString>
+  <HD_BeginM1MortarAssembly.reportString>M1 박격포 조립 지점으로 이동하는 중.</HD_BeginM1MortarAssembly.reportString>
+  <HD_AssembleM1MortarBarrel.reportString>M1 박격포 총열을 설치하는 중.</HD_AssembleM1MortarBarrel.reportString>
+  <HD_DisassembleM1Mortar.reportString>M1 박격포를 분해하는 중.</HD_DisassembleM1Mortar.reportString>
+  <HD_ReloadM79FromInventory.reportString>소지품에서 M79 유탄발사기를 재장전하는 중.</HD_ReloadM79FromInventory.reportString>
+  <HD_ThrowInventoryGrenadeClose.reportString>근거리 수류탄 투척을 준비하는 중.</HD_ThrowInventoryGrenadeClose.reportString>
+  <HD_ThrowInventoryGrenadeNormal.reportString>수류탄 투척을 준비하는 중.</HD_ThrowInventoryGrenadeNormal.reportString>
+  <HD_OperateMultiCrewTurret.reportString>다인 운용 포탑을 조작하는 중.</HD_OperateMultiCrewTurret.reportString>
+</LanguageData>

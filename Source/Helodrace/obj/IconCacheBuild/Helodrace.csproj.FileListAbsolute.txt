@@ -1,0 +1,11 @@
+C:\Users\human\Documents\GitHub\Helodrace-Main\Assemblies\Helodrace.dll
+C:\Users\human\Documents\GitHub\Helodrace-Main\Assemblies\Helodrace.pdb
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.csproj.AssemblyReference.cache
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.AssemblyInfoInputs.cache
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.AssemblyInfo.cs
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.csproj.CoreCompileInputs.cache
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.sourcelink.json
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.csproj.Up2Date
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.dll
+C:\Users\human\Documents\GitHub\Helodrace-Main\Source\Helodrace\obj\IconCacheBuild\Helodrace.pdb

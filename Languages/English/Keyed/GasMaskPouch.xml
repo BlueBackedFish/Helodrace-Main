@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_GasMaskPouch_Wear_Label>Wear gas mask</HD_GasMaskPouch_Wear_Label>
+  <HD_GasMaskPouch_Remove_Label>Remove gas mask</HD_GasMaskPouch_Remove_Label>
+  <HD_GasMaskPouch_Toggle_Desc>Wear or store the gas mask carried in this pouch. Putting it on takes {0} seconds. Protection is provided only while the mask is worn.</HD_GasMaskPouch_Toggle_Desc>
+  <HD_GasMaskPouch_Status_Worn>Gas mask: worn</HD_GasMaskPouch_Status_Worn>
+  <HD_GasMaskPouch_Status_Stored>Gas mask: stored</HD_GasMaskPouch_Status_Stored>
+  <HD_GasMaskPouch_Wearing>Already putting on the gas mask.</HD_GasMaskPouch_Wearing>
+</LanguageData>

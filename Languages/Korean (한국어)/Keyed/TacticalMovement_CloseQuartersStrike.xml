@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalCloseQuartersStrike_Command>강타</HD_TacticalCloseQuartersStrike_Command>
+  <HD_TacticalCloseQuartersStrike_CommandDesc>장총으로 근접한 폰을 밀어내고 잠시 기절시킵니다. 밀리는 경로에서 벽에 충돌하면 기절 시간이 2배가 됩니다.</HD_TacticalCloseQuartersStrike_CommandDesc>
+  <HD_TacticalCloseQuartersStrike_InvalidTarget>강타 대상 조건을 만족하지 않습니다.</HD_TacticalCloseQuartersStrike_InvalidTarget>
+  <HD_TacticalCloseQuartersStrike_TooFar>대상과 인접한 칸으로 이동한 뒤 강타를 사용하세요.</HD_TacticalCloseQuartersStrike_TooFar>
+  <HD_TacticalCloseQuartersStrike_Blocked>장애물 때문에 강타할 수 없습니다.</HD_TacticalCloseQuartersStrike_Blocked>
+</LanguageData>

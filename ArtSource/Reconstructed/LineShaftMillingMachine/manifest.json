@@ -1,0 +1,416 @@
+{
+  "asset": "LineShaftMillingMachine",
+  "source_pairs": [
+    {
+      "color": "HD_LineShaftMillingMachine_east.png",
+      "mask": "HD_LineShaftMillingMachine_eastm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        194,
+        119,
+        340,
+        463
+      ],
+      "filled_bounds_without_black_stroke": [
+        207,
+        132,
+        328,
+        450
+      ],
+      "mask_red_bounds": [
+        218,
+        132,
+        328,
+        450
+      ],
+      "red_mask_pixels": 29493,
+      "visible_unmasked_pixels": 16765,
+      "interior_palette": [
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 12506
+        },
+        {
+          "rgb": [
+            234,
+            234,
+            234
+          ],
+          "pixels": 5047
+        },
+        {
+          "rgb": [
+            153,
+            153,
+            153
+          ],
+          "pixels": 4320
+        },
+        {
+          "rgb": [
+            85,
+            85,
+            85
+          ],
+          "pixels": 2300
+        },
+        {
+          "rgb": [
+            111,
+            111,
+            111
+          ],
+          "pixels": 1902
+        },
+        {
+          "rgb": [
+            52,
+            52,
+            52
+          ],
+          "pixels": 1855
+        },
+        {
+          "rgb": [
+            195,
+            195,
+            195
+          ],
+          "pixels": 1431
+        },
+        {
+          "rgb": [
+            174,
+            174,
+            174
+          ],
+          "pixels": 1003
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 898
+        },
+        {
+          "rgb": [
+            127,
+            82,
+            48
+          ],
+          "pixels": 645
+        },
+        {
+          "rgb": [
+            226,
+            226,
+            226
+          ],
+          "pixels": 595
+        },
+        {
+          "rgb": [
+            67,
+            67,
+            67
+          ],
+          "pixels": 520
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftMillingMachine_north.png",
+      "mask": "HD_LineShaftMillingMachine_northm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        104,
+        171,
+        409,
+        366
+      ],
+      "filled_bounds_without_black_stroke": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "mask_red_bounds": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "red_mask_pixels": 38246,
+      "visible_unmasked_pixels": 18511,
+      "interior_palette": [
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 12787
+        },
+        {
+          "rgb": [
+            153,
+            153,
+            153
+          ],
+          "pixels": 11438
+        },
+        {
+          "rgb": [
+            234,
+            234,
+            234
+          ],
+          "pixels": 4488
+        },
+        {
+          "rgb": [
+            111,
+            111,
+            111
+          ],
+          "pixels": 2121
+        },
+        {
+          "rgb": [
+            195,
+            195,
+            195
+          ],
+          "pixels": 2073
+        },
+        {
+          "rgb": [
+            85,
+            85,
+            85
+          ],
+          "pixels": 1953
+        },
+        {
+          "rgb": [
+            67,
+            67,
+            67
+          ],
+          "pixels": 1772
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 1350
+        },
+        {
+          "rgb": [
+            174,
+            174,
+            174
+          ],
+          "pixels": 1056
+        },
+        {
+          "rgb": [
+            122,
+            122,
+            122
+          ],
+          "pixels": 994
+        },
+        {
+          "rgb": [
+            59,
+            59,
+            59
+          ],
+          "pixels": 740
+        },
+        {
+          "rgb": [
+            127,
+            82,
+            48
+          ],
+          "pixels": 708
+        }
+      ]
+    },
+    {
+      "color": "HD_LineShaftMillingMachine_south.png",
+      "mask": "HD_LineShaftMillingMachine_southm.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_bounds_including_stroke": [
+        104,
+        171,
+        409,
+        366
+      ],
+      "filled_bounds_without_black_stroke": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "mask_red_bounds": [
+        116,
+        184,
+        396,
+        353
+      ],
+      "red_mask_pixels": 36759,
+      "visible_unmasked_pixels": 18419,
+      "interior_palette": [
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 12552
+        },
+        {
+          "rgb": [
+            153,
+            153,
+            153
+          ],
+          "pixels": 11954
+        },
+        {
+          "rgb": [
+            234,
+            234,
+            234
+          ],
+          "pixels": 4584
+        },
+        {
+          "rgb": [
+            195,
+            195,
+            195
+          ],
+          "pixels": 2760
+        },
+        {
+          "rgb": [
+            111,
+            111,
+            111
+          ],
+          "pixels": 1904
+        },
+        {
+          "rgb": [
+            85,
+            85,
+            85
+          ],
+          "pixels": 1512
+        },
+        {
+          "rgb": [
+            70,
+            70,
+            70
+          ],
+          "pixels": 1175
+        },
+        {
+          "rgb": [
+            67,
+            67,
+            67
+          ],
+          "pixels": 996
+        },
+        {
+          "rgb": [
+            174,
+            174,
+            174
+          ],
+          "pixels": 987
+        },
+        {
+          "rgb": [
+            127,
+            82,
+            48
+          ],
+          "pixels": 702
+        },
+        {
+          "rgb": [
+            226,
+            226,
+            226
+          ],
+          "pixels": 648
+        },
+        {
+          "rgb": [
+            59,
+            59,
+            59
+          ],
+          "pixels": 643
+        }
+      ]
+    }
+  ],
+  "game_footprint": [
+    2,
+    1
+  ],
+  "mesh_objects": 22,
+  "vertices": 296,
+  "world_bounds": [
+    [
+      -0.875,
+      -0.7254447937011719,
+      0.06000000238418579
+    ],
+    [
+      0.9000000357627869,
+      0.060553401708602905,
+      1.1700000762939453
+    ]
+  ],
+  "ortho_scale": 2.4704593710783054,
+  "target_center": [
+    0.012500017881393433,
+    -0.3324456810951233,
+    0.6150000095367432
+  ],
+  "downward_degrees": 64,
+  "resolution": [
+    512,
+    512
+  ],
+  "camera_positions": "North -Y, South +Y, East +X; chosen to match supplied sprite orientation.",
+  "unseen_views_inferred": false,
+  "no_outline_geometry": true,
+  "no_image_textures_on_model": true
+}

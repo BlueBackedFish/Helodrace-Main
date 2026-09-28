@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_InsensitiveExplosive_Description>Insensitive explosive: detonates immediately when struck by at least {0} explosive damage. Bullet, fire, and weaker blast damage will not detonate it.</HD_InsensitiveExplosive_Description>
+</LanguageData>

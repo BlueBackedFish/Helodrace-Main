@@ -1,0 +1,12 @@
+{
+  "Weapons": {
+    "rows": 56,
+    "range": "A1:V57",
+    "table": "WeaponsItems"
+  },
+  "Apparel": {
+    "rows": 58,
+    "range": "A1:U59",
+    "table": "ApparelItems"
+  }
+}

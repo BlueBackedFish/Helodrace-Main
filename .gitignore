@@ -1,0 +1,15 @@
+/.tmp-scgf-source/
+/.codex-staging/
+/Source/Helodrace/obj/TcccBuild/
+/Source/Helodrace/obj/TcccRuntime/
+/Source/Helodrace/obj/SquadSystem/
+/Source/Helodrace/obj/
+/Source/Tests/**/bin/
+/Source/Tests/**/obj/
+/outputs/itemwiki_20260926/node_modules/
+**/__pycache__/
+**/~$*.xlsx
+/Textures/Helod/Apparel/Apparel.zip
+/Textures/Helod/VanillaApparel/Royalty/Beret.zip
+/Textures/Weapons/Modular/_Backups/
+/Textures/Weapons/Modular/file_list.txt

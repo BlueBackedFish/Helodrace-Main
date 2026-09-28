@@ -14,26 +14,25 @@ namespace Helodrace
         LogisticsPreservedFood,
         LogisticsMedicalSupplies,
         LogisticsWeapons,
-        CloseAirSupport
+        CloseAirSupport,
+        Artillery105mmSupport,
+        Artillery155mmSupport,
+        W48Support,
+        HelicopterQRF,
+        HelicopterMedevac
     }
 
     public enum HelodForwardBaseCostKind
     {
         FFP,
         CostReimbursement,
-        IDIQ
-    }
-
-    public enum HelodForwardBaseIdiqPricingKind
-    {
-        FFP,
-        CostReimbursement
     }
 
     public static class HelodForwardBaseServiceUtility
     {
         public const int ServiceBillingPeriodDays = 30;
         public const int ServiceBillingPeriodTicks = ServiceBillingPeriodDays * GenDate.TicksPerDay;
+        public const int DefaultFfpServiceUnitsPerBillingPeriod = 10;
         public const float GoldStandardSthalerSilverValue = 5f;
 
         public static float SupportRange(HelodForwardBaseService service)
@@ -51,7 +50,14 @@ namespace Helodrace
                 case HelodForwardBaseService.LogisticsMedicalSupplies:
                 case HelodForwardBaseService.LogisticsWeapons:
                     return 8f;
+                case HelodForwardBaseService.HelicopterQRF:
+                case HelodForwardBaseService.HelicopterMedevac:
                 case HelodForwardBaseService.CloseAirSupport:
+                    return 10f;
+                case HelodForwardBaseService.Artillery105mmSupport:
+                    return 8f;
+                case HelodForwardBaseService.Artillery155mmSupport:
+                case HelodForwardBaseService.W48Support:
                     return 10f;
                 default:
                     return 0f;
@@ -160,6 +166,10 @@ namespace Helodrace
         {
             switch (service)
             {
+                case HelodForwardBaseService.HelicopterQRF:
+                    return 700f;
+                case HelodForwardBaseService.HelicopterMedevac:
+                    return 400f;
                 case HelodForwardBaseService.InfantryDeployment:
                     return 220f;
                 case HelodForwardBaseService.LogisticsFreshFood:
@@ -176,31 +186,22 @@ namespace Helodrace
                     return 160f;
                 case HelodForwardBaseService.InfantryMortarSupport:
                     return 120f;
+                case HelodForwardBaseService.Artillery105mmSupport:
+                    return 420f;
+                case HelodForwardBaseService.Artillery155mmSupport:
+                    return 780f;
+                case HelodForwardBaseService.W48Support:
+                    return 1200f;
                 default:
                     return 0f;
             }
         }
 
-        public static int ServiceUseLimitPerBillingPeriod(HelodForwardBaseService service)
-        {
-            switch (service)
-            {
-                case HelodForwardBaseService.InfantrySniperSupport:
-                    return 10;
-                default:
-                    return 10;
-            }
-        }
-
         public static float ServiceUseCostGoldStandard(HelodForwardBaseService service)
         {
-            int limit = ServiceUseLimitPerBillingPeriod(service);
-            if (limit <= 0)
-            {
-                return ServiceBaseCost(service);
-            }
-
-            return ServiceBaseCost(service) / limit;
+            // Preserve the existing per-call reimbursement rate while allowing
+            // unlimited service uses within a billing period.
+            return ServiceBaseCost(service) / 10f;
         }
 
         public static float MortarCallCostGoldStandard(ThingDef shellDef, int shellCount)
@@ -213,11 +214,32 @@ namespace Helodrace
 
         public static System.Collections.Generic.List<ThingDef> AvailableMortarShells()
         {
-            ThingCategoryDef category = DefDatabase<ThingCategoryDef>.GetNamedSilentFail("HD_81mmMortarShells");
+            return AvailableSupportShells(HelodForwardBaseService.InfantryMortarSupport);
+        }
+
+        public static System.Collections.Generic.List<ThingDef> AvailableSupportShells(
+            HelodForwardBaseService service)
+        {
+            string categoryDefName;
+            switch (service)
+            {
+                case HelodForwardBaseService.Artillery105mmSupport:
+                    categoryDefName = "HD_105mmHowitzerShells";
+                    break;
+                case HelodForwardBaseService.Artillery155mmSupport:
+                    categoryDefName = "HD_155mmHowitzerShells";
+                    break;
+                default:
+                    categoryDefName = "HD_81mmMortarShells";
+                    break;
+            }
+
+            ThingCategoryDef category = DefDatabase<ThingCategoryDef>.GetNamedSilentFail(categoryDefName);
             var result = new System.Collections.Generic.List<ThingDef>();
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
             {
                 if (def.projectileWhenLoaded == null || category == null || def.thingCategories == null || !def.thingCategories.Contains(category)) continue;
+                if (def.defName == "HD_155mmShell_W48") continue;
                 result.Add(def);
             }
             result.SortBy(x => x.label);

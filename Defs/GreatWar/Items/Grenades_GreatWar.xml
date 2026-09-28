@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef Name="HD_GreatWarGrenadeBase" ParentName="ResourceBase" Abstract="True">
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.78,0.78)</drawSize>
+    </graphicData>
+    <uiIconScale>1.2</uiIconScale>
+    <stackLimit>25</stackLimit>
+    <soundInteract>Interact_Grenade</soundInteract>
+    <techLevel>Industrial</techLevel>
+    <statBases>
+      <Mass>0.65</Mass>
+      <RangedWeapon_Cooldown>2.5</RangedWeapon_Cooldown>
+      <WorkToMake>12000</WorkToMake>
+      <MarketValue>260</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>16</Steel>
+      <Chemfuel>45</Chemfuel>
+    </costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodLowGranade</researchPrerequisite>
+      <recipeUsers Inherit="False">
+        <li>HD_BasicWorkbench</li>
+      </recipeUsers>
+      <skillRequirements><Crafting>5</Crafting></skillRequirements>
+    </recipeMaker>
+    <weaponTags><li>HD_GreatWarGrenade</li></weaponTags>
+    <thingCategories><li>HD_InventoryGrenades</li></thingCategories>
+    <smeltable>true</smeltable>
+    <verbs />
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeBase">
+    <defName>HD_Grenade_M8_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M8_Round</projectileWhenLoaded>
+    <label>M8 HC smoke grenade</label>
+    <description>Metal canister grenades that burn a hexachloroethane mixture to rapidly create a thick white screening cloud.</description>
+    <graphicData><texPath>Weapons/GreatWar/HD_M8</texPath></graphicData>
+    <weaponTags><li>GrenadeSmoke</li></weaponTags>
+    <verbs Inherit="False">
+      <li>
+        <label>throw M8 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.9</range>
+        <forcedMissRadius>1.6</forcedMissRadius>
+        <warmupTime>1.35</warmupTime>
+        <requireLineOfSight>true</requireLineOfSight>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>false</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M8_Round</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.5</explosiveRadius>
+        <explosiveDamageType>Smoke</explosiveDamageType>
+        <postExplosionGasType>BlindSmoke</postExplosionGasType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeBase">
+    <defName>HD_Grenade_M15_Item</defName>
+    <projectileWhenLoaded>HD_Projectile_M15_Round</projectileWhenLoaded>
+    <label>M15 white phosphorus grenade</label>
+    <description>White phosphorus grenades that burst into burning material while producing a dense smoke screen. They are dangerous to exposed personnel and readily ignite the surroundings.</description>
+    <graphicData><texPath>Weapons/GreatWar/HD_M15</texPath></graphicData>
+    <statBases>
+      <Mass>0.88</Mass>
+      <WorkToMake>16000</WorkToMake>
+      <MarketValue>380</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>18</Steel>
+      <Chemfuel>70</Chemfuel>
+    </costList>
+    <weaponTags>
+      <li>GrenadeFlame</li>
+      <li>GrenadeSmoke</li>
+    </weaponTags>
+    <verbs Inherit="False">
+      <li>
+        <label>throw M15 grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>12.9</range>
+        <forcedMissRadius>1.7</forcedMissRadius>
+        <warmupTime>1.45</warmupTime>
+        <requireLineOfSight>true</requireLineOfSight>
+        <noiseRadius>5</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_M15_Round</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>3.0</explosiveRadius>
+        <explosiveDamageType>Flame</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Helodrace.HelodGasOnExplosionExtension">
+        <gasDef>HD_WhitePhosphorusSmokeGrid</gasDef>
+        <radius>3.0</radius>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeBase">
+    <defName>HD_Grenade_MKII</defName>
+    <projectileWhenLoaded>HD_Projectile_MKII</projectileWhenLoaded>
+    <label>MK II fragmentation grenade</label>
+    <description>A cast-iron defensive grenade whose deeply grooved body bursts into deadly fragments. It is heavier and less powerful than later fragmentation grenades, but remains effective against exposed infantry.</description>
+    <graphicData><texPath>Weapons/GreatWar/HD_MKII</texPath></graphicData>
+    <statBases>
+      <Mass>0.59</Mass>
+      <WorkToMake>13000</WorkToMake>
+      <MarketValue>280</MarketValue>
+    </statBases>
+    <weaponTags><li>GrenadeDestructive</li></weaponTags>
+    <verbs Inherit="False">
+      <li>
+        <label>throw MK II grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.2</range>
+        <forcedMissRadius>1.7</forcedMissRadius>
+        <warmupTime>1.4</warmupTime>
+        <requireLineOfSight>true</requireLineOfSight>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_MKII</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.5</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeBase">
+    <defName>HD_Grenade_MKIII</defName>
+    <projectileWhenLoaded>HD_Projectile_MKIII</projectileWhenLoaded>
+    <label>MK III offensive grenade</label>
+    <description>An offensive grenade with a thick fiberboard body packed with high explosive. It produces little dangerous fragmentation and incapacitates through powerful blast overpressure, making it especially lethal in confined spaces.</description>
+    <graphicData><texPath>Weapons/GreatWar/HD_MKIII</texPath></graphicData>
+    <statBases>
+      <Mass>0.44</Mass>
+      <WorkToMake>14500</WorkToMake>
+      <MarketValue>320</MarketValue>
+    </statBases>
+    <costList>
+      <Steel>8</Steel>
+      <Chemfuel>65</Chemfuel>
+    </costList>
+    <weaponTags><li>GrenadeDestructive</li></weaponTags>
+    <verbs Inherit="False">
+      <li>
+        <label>throw MK III grenade</label>
+        <verbClass>Verb_LaunchProjectile</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <range>13.5</range>
+        <forcedMissRadius>1.6</forcedMissRadius>
+        <warmupTime>1.35</warmupTime>
+        <requireLineOfSight>true</requireLineOfSight>
+        <noiseRadius>4</noiseRadius>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams><canTargetLocations>true</canTargetLocations></targetParams>
+        <defaultProjectile>HD_Projectile_MKIII</defaultProjectile>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+      </li>
+    </verbs>
+    <comps>
+      <li Class="CompProperties_Explosive">
+        <explosiveRadius>2.4</explosiveRadius>
+        <explosiveDamageType>Bomb</explosiveDamageType>
+        <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef Name="HD_GreatWarGrenadeProjectileBase" ParentName="BaseGrenadeProjectile" Abstract="True">
+    <thingClass>Helodrace.ModernWar.Projectile_ModernGrenade</thingClass>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.46,0.46)</drawSize>
+    </graphicData>
+    <projectile><explosionDelay>270</explosionDelay></projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
+    <defName>HD_Projectile_M8_Round</defName>
+    <label>M8 HC smoke grenade</label>
+    <graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M8_proj</texPath></graphicData>
+    <projectile>
+      <damageDef>Smoke</damageDef>
+      <explosionRadius>4.2</explosionRadius>
+      <explosionDelay>90</explosionDelay>
+      <doExplosionVFX>false</doExplosionVFX>
+      <postExplosionGasType>BlindSmoke</postExplosionGasType>
+      <screenShakeFactor>0.2</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M8_ClipEffect</clipDef>
+        <pinDef>HD_M8_PinEffect</pinDef>
+        <fuseTicks>90</fuseTicks>
+        <fuseVarianceTicks>12</fuseVarianceTicks>
+        <waitForGroundBeforeRelease>true</waitForGroundBeforeRelease>
+        <smokeTrail>true</smokeTrail>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
+    <defName>HD_Projectile_M15_Round</defName>
+    <label>M15 white phosphorus grenade</label>
+    <graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M15_proj</texPath></graphicData>
+    <projectile>
+      <damageDef>Flame</damageDef>
+      <damageAmountBase>22</damageAmountBase>
+      <explosionRadius>3.0</explosionRadius>
+      <ai_IsIncendiary>true</ai_IsIncendiary>
+      <screenShakeFactor>0.6</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_M15_ClipEffect</clipDef>
+        <pinDef>HD_M15_PinEffect</pinDef>
+        <smokeTrail>true</smokeTrail>
+        <glowingTrail>true</glowingTrail>
+        <trailSmokeScale>0.34</trailSmokeScale>
+        <trailGlowScale>0.34</trailGlowScale>
+      </li>
+      <li Class="Helodrace.HelodGasOnExplosionExtension">
+        <gasDef>HD_WhitePhosphorusSmokeGrid</gasDef>
+        <radius>3.0</radius>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
+    <defName>HD_Projectile_MKII</defName>
+    <label>MK II fragmentation grenade</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
+    <graphicData><texPath>Weapons/GreatWar/Projectiles/MKII/HD_MKII_proj</texPath></graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>40</damageAmountBase>
+      <armorPenetrationBase>0.30</armorPenetrationBase>
+      <explosionRadius>2.8</explosionRadius>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_MKII_ClipEffect</clipDef>
+        <pinDef>HD_MKII_PinEffect</pinDef>
+      </li>
+      <li Class="Helodrace.ModernWar.ExplosiveGrenadeVisualExtension">
+        <smokeCount>30</smokeCount>
+        <initialRadius>0.28</initialRadius>
+        <expansionSpeed>1.75</expansionSpeed>
+        <smokeScale>0.9</smokeScale>
+      </li>
+      <li Class="Helodrace.ModernWar.FragmentationGrenadeExtension">
+        <fragmentProjectile>HD_Projectile_MKIIFragment</fragmentProjectile>
+        <fragmentCount>56</fragmentCount>
+        <radius>11.25</radius>
+        <minimumRangeFactor>0.50</minimumRangeFactor>
+        <targetedFragmentFraction>0.60</targetedFragmentFraction>
+        <closeAimMultiplier>1.80</closeAimMultiplier>
+        <edgeAimMultiplier>0.42</edgeAimMultiplier>
+        <minimumTargetedAimChance>0.40</minimumTargetedAimChance>
+        <longRangeFragmentFraction>0.14</longRangeFragmentFraction>
+        <longRangeRadius>16</longRangeRadius>
+        <longRangeMinimumFactor>0.72</longRangeMinimumFactor>
+      </li>
+      <li Class="Helodrace.ModernWar.FlashbangProjectileExtension">
+        <suppressionHediff>HD_FlashbangSuppression</suppressionHediff>
+        <effectRadius>8</effectRadius>
+        <indoorRadiusFactor>1.30</indoorRadiusFactor>
+        <outdoorDistanceExponent>1.35</outdoorDistanceExponent>
+        <indoorDistanceExponent>0.80</indoorDistanceExponent>
+        <severityAtCenter>0.75</severityAtCenter>
+        <severityAtEdge>0.06</severityAtEdge>
+        <outdoorFactor>0.55</outdoorFactor>
+        <smallRoomCellCount>16</smallRoomCellCount>
+        <largeRoomCellCount>160</largeRoomCellCount>
+        <smallRoomFactor>1.25</smallRoomFactor>
+        <largeRoomFactor>0.70</largeRoomFactor>
+        <differentRoomFactor>0.50</differentRoomFactor>
+        <blockedPathFactor>0.10</blockedPathFactor>
+        <stunThreshold>0.68</stunThreshold>
+        <stunFullIntensity>0.92</stunFullIntensity>
+        <stunTicksMin>75</stunTicksMin>
+        <stunTicksMax>120</stunTicksMax>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadeProjectileBase">
+    <defName>HD_Projectile_MKIII</defName>
+    <label>MK III offensive grenade</label>
+    <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
+    <graphicData><texPath>Weapons/GreatWar/Projectiles/MKIII/HD_MKIII_proj</texPath></graphicData>
+    <projectile>
+      <damageDef>Bomb</damageDef>
+      <damageAmountBase>60</damageAmountBase>
+      <armorPenetrationBase>0.15</armorPenetrationBase>
+      <explosionRadius>2.3</explosionRadius>
+      <screenShakeFactor>0.9</screenShakeFactor>
+    </projectile>
+    <modExtensions>
+      <li Class="Helodrace.ModernWar.ModernGrenadeProjectileExtension">
+        <clipDef>HD_MKIII_ClipEffect</clipDef>
+        <pinDef>HD_MKIII_PinEffect</pinDef>
+      </li>
+      <li Class="Helodrace.ModernWar.ExplosiveGrenadeVisualExtension">
+        <smokeCount>26</smokeCount>
+        <initialRadius>0.24</initialRadius>
+        <expansionSpeed>1.65</expansionSpeed>
+        <smokeScale>0.96</smokeScale>
+      </li>
+      <li Class="Helodrace.ModernWar.FlashbangProjectileExtension">
+        <suppressionHediff>HD_FlashbangSuppression</suppressionHediff>
+        <effectRadius>10.5</effectRadius>
+        <indoorRadiusFactor>1.60</indoorRadiusFactor>
+        <outdoorDistanceExponent>1.10</outdoorDistanceExponent>
+        <indoorDistanceExponent>0.58</indoorDistanceExponent>
+        <severityAtCenter>1.15</severityAtCenter>
+        <severityAtEdge>0.14</severityAtEdge>
+        <outdoorFactor>0.75</outdoorFactor>
+        <smallRoomCellCount>16</smallRoomCellCount>
+        <largeRoomCellCount>160</largeRoomCellCount>
+        <smallRoomFactor>1.55</smallRoomFactor>
+        <largeRoomFactor>0.90</largeRoomFactor>
+        <differentRoomFactor>0.68</differentRoomFactor>
+        <blockedPathFactor>0.20</blockedPathFactor>
+        <stunThreshold>0.55</stunThreshold>
+        <stunFullIntensity>1.05</stunFullIntensity>
+        <stunTicksMin>150</stunTicksMin>
+        <stunTicksMax>240</stunTicksMax>
+        <intensityDamageDef>Blunt</intensityDamageDef>
+        <damageThreshold>0.75</damageThreshold>
+        <damageFullIntensity>1.20</damageFullIntensity>
+        <damageAtThreshold>7</damageAtThreshold>
+        <damageAtFullIntensity>24</damageAtFullIntensity>
+        <damageArmorPenetration>0.14</damageArmorPenetration>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Projectile_MKIIFragment</defName>
+    <label>MK II grenade fragment</label>
+    <graphicData>
+      <texPath>Projectiles/Common/Bullet_Big_LowVisible</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.11,0.31)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Cut</damageDef>
+      <damageAmountBase>10</damageAmountBase>
+      <armorPenetrationBase>0.18</armorPenetrationBase>
+      <stoppingPower>0.30</stoppingPower>
+      <speed>40</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef Name="HD_GreatWarGrenadePartBase" Abstract="True">
+    <thingClass>Helodrace.ModernWar.ModernGrenadePart</thingClass>
+    <category>Ethereal</category>
+    <tickerType>Normal</tickerType>
+    <drawerType>RealtimeOnly</drawerType>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <useHitPoints>false</useHitPoints>
+    <selectable>false</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Transparent</shaderType>
+      <drawSize>(0.32,0.32)</drawSize>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M8_ClipEffect</defName><label>M8 safety clip</label><graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M8_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M8_PinEffect</defName><label>M8 safety pin</label><graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M8_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M15_ClipEffect</defName><label>M15 safety clip</label><graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M15_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_M15_PinEffect</defName><label>M15 safety pin</label><graphicData><texPath>Weapons/GreatWar/Projectiles/HD_M15_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_MKII_ClipEffect</defName><label>MK II safety clip</label><graphicData><texPath>Weapons/GreatWar/Projectiles/MKII/HD_MKII_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_MKII_PinEffect</defName><label>MK II safety pin</label><graphicData><texPath>Weapons/GreatWar/Projectiles/MKII/HD_MKII_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_MKIII_ClipEffect</defName><label>MK III safety clip</label><graphicData><texPath>Weapons/GreatWar/Projectiles/MKIII/HD_MKIII_Clip</texPath></graphicData></ThingDef>
+  <ThingDef ParentName="HD_GreatWarGrenadePartBase"><defName>HD_MKIII_PinEffect</defName><label>MK III safety pin</label><graphicData><texPath>Weapons/GreatWar/Projectiles/MKIII/HD_MKIII_Pin</texPath><drawSize>(0.24,0.24)</drawSize></graphicData></ThingDef>
+</Defs>

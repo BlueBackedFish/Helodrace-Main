@@ -1,91 +1,210 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace Helodrace
 {
-    public class ITab_M6RocketBag : ITab
+    public sealed class Dialog_WeaponLoadout : Window
     {
-        private Vector2 scrollPosition = Vector2.zero;
+        private readonly CompM6RocketBag loadout;
+        private readonly Dictionary<ThingDef, string> countBuffers = new Dictionary<ThingDef, string>();
+        private readonly HashSet<string> expandedGroups = new HashSet<string>();
+        private static readonly Regex CaliberPattern = new Regex(
+            @"\b\d+(?:\.\d+)?\s*(?:x|×)\s*\d+(?:\.\d+)?\s*mm\b|\b\d+(?:\.\d+)?\s*mm\b|\b\d+(?:\.\d+)?(?:-|\s)?inch\b",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private Vector2 scrollPosition;
+        private string search = string.Empty;
 
-        public ITab_M6RocketBag()
+        public override Vector2 InitialSize => new Vector2(760f, 620f);
+
+        public Dialog_WeaponLoadout(CompM6RocketBag loadout)
         {
-            size = new Vector2(520f, 320f);
-            labelKey = "HD_ITab_M6RocketBag_Title";
+            this.loadout = loadout;
+            doCloseX = true;
+            closeOnClickedOutside = false;
+            absorbInputAroundWindow = true;
+            forcePause = true;
         }
 
-        public override bool IsVisible => SelectedBag != null;
-
-        private Pawn SelectedPawn => Find.Selector.SingleSelectedThing as Pawn;
-
-        private CompM6RocketBag SelectedBag
+        public override void DoWindowContents(Rect inRect)
         {
-            get
+            if (loadout?.Wearer == null)
             {
-                return SelectedPawn?.apparel?.WornApparel?
-                    .Select(apparel => apparel.TryGetComp<CompM6RocketBag>())
-                    .FirstOrDefault(comp => comp != null);
-            }
-        }
-
-        protected override void FillTab()
-        {
-            CompM6RocketBag bag = SelectedBag;
-            Rect outRect = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
-
-            if (SelectedPawn == null || bag == null)
-            {
-                Widgets.Label(outRect, "HD_ITab_M6RocketBag_NoBag".Translate().Resolve());
+                Widgets.Label(inRect, "HD_WeaponLoadout_NotEquipped".Translate());
                 return;
             }
 
-            float viewHeight = 78f + (bag.AllowedAmmoDefs.Count() * 44f);
-            Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, Mathf.Max(outRect.height, viewHeight));
-
-            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect, true);
-
             Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, viewRect.width, 30f), "HD_ITab_M6RocketBag_Title".Translate().Resolve());
+            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 32f), "HD_WeaponLoadout_Title".Translate());
             Text.Font = GameFont.Small;
 
-            Widgets.Label(new Rect(0f, 34f, viewRect.width, 24f), "HD_ITab_M6RocketBag_Stored".Translate(bag.TotalStoredRoundsForUI, bag.MaxStoredRoundsForUI).Resolve());
+            float totalMass = loadout.AllowedAmmoDefs.Sum(def =>
+                loadout.DesiredCountFor(def) * def.GetStatValueAbstract(StatDefOf.Mass));
+            Widgets.Label(new Rect(inRect.x, inRect.y + 38f, inRect.width * 0.55f, 28f),
+                "HD_WeaponLoadout_TotalMass".Translate(totalMass.ToStringMass()));
 
-            float y = 70f;
-            foreach (ThingDef ammoDef in bag.AllowedAmmoDefs)
+            Rect searchRect = new Rect(inRect.x + inRect.width - 280f, inRect.y + 34f, 280f, 30f);
+            search = Widgets.TextField(searchRect, search ?? string.Empty);
+            if (search.NullOrEmpty())
             {
-                DrawAmmoRow(bag, ammoDef, new Rect(0f, y, viewRect.width, 38f));
-                y += 44f;
+                GUI.color = Color.gray;
+                Widgets.Label(searchRect.ContractedBy(5f, 3f), "HD_WeaponLoadout_Search".Translate());
+                GUI.color = Color.white;
+            }
+
+            Rect header = new Rect(inRect.x, inRect.y + 72f, inRect.width - 16f, 28f);
+            DrawHeader(header);
+
+            List<IGrouping<string, ThingDef>> ammoGroups = loadout.AllowedAmmoDefs
+                .GroupBy(CaliberGroupLabel)
+                .Where(group => search.NullOrEmpty()
+                    || group.Key.IndexOf(search, System.StringComparison.CurrentCultureIgnoreCase) >= 0
+                    || group.Any(def => def.label.IndexOf(search, System.StringComparison.CurrentCultureIgnoreCase) >= 0))
+                .OrderBy(group => group.Key)
+                .ToList();
+
+            Rect outRect = new Rect(inRect.x, inRect.y + 102f, inRect.width, inRect.height - 102f);
+            float contentHeight = ammoGroups.Sum(group => 48f + (expandedGroups.Contains(group.Key) ? group.Count() * 48f : 0f));
+            Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, Mathf.Max(outRect.height, contentHeight));
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+
+            float y = 0f;
+            foreach (IGrouping<string, ThingDef> group in ammoGroups)
+            {
+                DrawGroupRow(group, new Rect(0f, y, viewRect.width, 44f));
+                y += 48f;
+
+                if (!expandedGroups.Contains(group.Key))
+                {
+                    continue;
+                }
+
+                foreach (ThingDef ammoDef in group.OrderBy(def => def.label))
+                {
+                    DrawAmmoRow(ammoDef, new Rect(24f, y, viewRect.width - 24f, 44f));
+                    y += 48f;
+                }
             }
 
             Widgets.EndScrollView();
         }
 
-        private static void DrawAmmoRow(CompM6RocketBag bag, ThingDef ammoDef, Rect rect)
+        private void DrawGroupRow(IGrouping<string, ThingDef> group, Rect rect)
         {
+            bool expanded = expandedGroups.Contains(group.Key);
+            Widgets.DrawMenuSection(rect);
             Widgets.DrawHighlightIfMouseover(rect);
 
-            int stored = bag.StoredCountFor(ammoDef);
-
-            Rect labelRect = new Rect(rect.x, rect.y + 4f, rect.width - 182f, 30f);
-            Widgets.Label(labelRect, "HD_ITab_M6RocketBag_AmmoRow".Translate(ammoDef.label, stored).Resolve());
-
-            Rect mapRect = new Rect(rect.xMax - 176f, rect.y + 4f, 82f, 30f);
-            Rect dropRect = new Rect(rect.xMax - 88f, rect.y + 4f, 82f, 30f);
-
-            bool full = bag.TotalStoredRoundsForUI >= bag.MaxStoredRoundsForUI;
-            if (Widgets.ButtonText(mapRect, "HD_ITab_M6RocketBag_LoadMapShort".Translate().Resolve()))
+            if (Widgets.ButtonInvisible(rect))
             {
-                if (!full)
+                if (expanded)
                 {
-                    bag.TryStartLoadAmmoJobFromMap(ammoDef);
+                    expandedGroups.Remove(group.Key);
+                }
+                else
+                {
+                    expandedGroups.Add(group.Key);
                 }
             }
 
-            if (Widgets.ButtonText(dropRect, "HD_ITab_M6RocketBag_DropShort".Translate().Resolve()) && stored > 0)
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(rect.x + 10f, rect.y + 7f, 28f, 30f), expanded ? "−" : "+");
+            Widgets.Label(new Rect(rect.x + 42f, rect.y + 7f, 268f, 30f), group.Key);
+            Text.Font = GameFont.Small;
+
+            int current = group.Sum(def => InventoryAmmoUtility.Count(loadout.Wearer, def));
+            int desired = group.Sum(def => loadout.DesiredCountFor(def));
+            float desiredMass = group.Sum(def => loadout.DesiredCountFor(def) * def.GetStatValueAbstract(StatDefOf.Mass));
+            Widgets.Label(new Rect(rect.x + 320f, rect.y + 11f, 100f, 28f), current.ToString());
+            Widgets.Label(new Rect(rect.x + 457f, rect.y + 11f, 86f, 28f), desired.ToString());
+            Widgets.Label(new Rect(rect.x + 560f, rect.y + 11f, 160f, 28f), desiredMass.ToStringMass());
+        }
+
+        private static string CaliberGroupLabel(ThingDef ammoDef)
+        {
+            ThingCategoryDef category = ammoDef?.FirstThingCategory;
+            if (category?.defName == "HD_InventoryGrenades")
             {
-                bag.DropAmmo(ammoDef);
+                return "HD_WeaponLoadout_HandGrenades".Translate().ToString();
             }
+
+            AmmoCaliberExtension extension = category?.GetModExtension<AmmoCaliberExtension>();
+            string caliber = extension?.caliber;
+
+            if (caliber.NullOrEmpty())
+            {
+                string source = (category?.label ?? string.Empty) + " " + (ammoDef?.label ?? string.Empty);
+                Match match = CaliberPattern.Match(source);
+                if (match.Success)
+                {
+                    caliber = Regex.Replace(match.Value, @"\s+", string.Empty)
+                        .Replace("x", "×")
+                        .Replace("X", "×");
+                }
+            }
+
+            return !caliber.NullOrEmpty()
+                ? "HD_WeaponLoadout_CaliberGroup".Translate(caliber).ToString()
+                : "HD_WeaponLoadout_UnspecifiedCaliberGroup".Translate(
+                    category?.LabelCap ?? "HD_WeaponLoadout_OtherAmmo".Translate()).ToString();
+        }
+
+        private static void DrawHeader(Rect rect)
+        {
+            GUI.color = Color.gray;
+            Widgets.Label(new Rect(rect.x + 42f, rect.y, 270f, rect.height), "HD_WeaponLoadout_Ammo".Translate());
+            Widgets.Label(new Rect(rect.x + 320f, rect.y, 105f, rect.height), "HD_WeaponLoadout_Current".Translate());
+            Widgets.Label(new Rect(rect.x + 435f, rect.y, 105f, rect.height), "HD_WeaponLoadout_Desired".Translate());
+            Widgets.Label(new Rect(rect.x + 560f, rect.y, 160f, rect.height), "HD_WeaponLoadout_Mass".Translate());
+            GUI.color = Color.white;
+        }
+
+        private void DrawAmmoRow(ThingDef ammoDef, Rect rect)
+        {
+            Widgets.DrawHighlightIfMouseover(rect);
+            Widgets.DrawLineHorizontal(rect.x, rect.yMax, rect.width);
+            Widgets.ThingIcon(new Rect(rect.x + 4f, rect.y + 4f, 36f, 36f), ammoDef);
+
+            Rect labelRect = new Rect(rect.x + 46f, rect.y + 11f, 264f, 28f);
+            Widgets.Label(labelRect, ammoDef.LabelCap);
+            TooltipHandler.TipRegion(labelRect, ammoDef.description);
+
+            int current = InventoryAmmoUtility.Count(loadout.Wearer, ammoDef);
+            Widgets.Label(new Rect(rect.x + 320f, rect.y + 11f, 100f, 28f), current.ToString());
+
+            int desired = loadout.DesiredCountFor(ammoDef);
+            if (!countBuffers.TryGetValue(ammoDef, out string buffer))
+            {
+                buffer = desired.ToString();
+            }
+
+            Rect minusRect = new Rect(rect.x + 425f, rect.y + 7f, 28f, 30f);
+            Rect countRect = new Rect(rect.x + 457f, rect.y + 7f, 54f, 30f);
+            Rect plusRect = new Rect(rect.x + 515f, rect.y + 7f, 28f, 30f);
+
+            if (Widgets.ButtonText(minusRect, "−"))
+            {
+                desired = Mathf.Max(0, desired - 1);
+                buffer = desired.ToString();
+            }
+
+            Widgets.TextFieldNumeric(countRect, ref desired, ref buffer, 0, 9999);
+
+            if (Widgets.ButtonText(plusRect, "+"))
+            {
+                desired = Mathf.Min(9999, desired + 1);
+                buffer = desired.ToString();
+            }
+
+            countBuffers[ammoDef] = buffer;
+            loadout.SetDesiredCount(ammoDef, desired);
+
+            float unitMass = ammoDef.GetStatValueAbstract(StatDefOf.Mass);
+            Widgets.Label(new Rect(rect.x + 560f, rect.y + 11f, 160f, 28f),
+                "HD_WeaponLoadout_MassValue".Translate(unitMass.ToStringMass(), (unitMass * desired).ToStringMass()));
         }
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_ClothingBench</defName>
+    <label>clothing workbench</label>
+    <description>A dedicated workbench for tailoring clothing and customizing modular apparel. Select this workbench to change armor parts, arrange PALS pouches, or swap front and rear plates.</description>
+    <thingClass>Helodrace.ModernWar.Building_ClothingWorkbench</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_ClothingBench</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3.1,3.1)</drawSize>
+      <drawOffset>(0,0,0)</drawOffset>
+      <shaderType>Cutout</shaderType>
+      <shadowData><volume>(2.2,0.5,0.8)</volume></shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <statBases>
+      <MaxHitPoints>220</MaxHitPoints>
+      <WorkToBuild>2200</WorkToBuild>
+      <Flammability>0.5</Flammability>
+      <Mass>90</Mass>
+      <WorkTableWorkSpeedFactor>1</WorkTableWorkSpeedFactor>
+    </statBases>
+    <stuffCategories><li>Metallic</li><li>Woody</li></stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList><Steel>40</Steel><HD_GeneralMachinePart>2</HD_GeneralMachinePart></costList>
+    <size>(3,1)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>true</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2466</uiOrder>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <researchPrerequisites><li>HelodFrontierSpirit</li></researchPrerequisites>
+    <inspectorTabs><li>ITab_Bills</li></inspectorTabs>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ClothingWorkbench" /></comps>
+    <building><spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity></building>
+  </ThingDef>
+</Defs>

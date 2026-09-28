@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_M79_Inspect>Ammunition: {0}\nStatus: {1}</HD_M79_Inspect>
+  <HD_M79_Loaded>Loaded</HD_M79_Loaded>
+  <HD_M79_Unloaded>Unloaded</HD_M79_Unloaded>
+  <HD_M79_Reload>Reload M79</HD_M79_Reload>
+  <HD_M79_ReloadDesc>Load one {0} from the operator's inventory.</HD_M79_ReloadDesc>
+  <HD_M79_AlreadyLoaded>The launcher is already loaded.</HD_M79_AlreadyLoaded>
+  <HD_M79_NoAmmo>No {0} is available in the operator's inventory.</HD_M79_NoAmmo>
+  <HD_M79_AmmoLabel>Ammunition: {0}</HD_M79_AmmoLabel>
+  <HD_M79_AmmoDesc>Select an available 40×46mm round from the operator's inventory for the next reload.</HD_M79_AmmoDesc>
+  <HD_M79_SelectAmmo>Select {0}</HD_M79_SelectAmmo>
+  <HD_M79_AmmoSelected>{0} (selected)</HD_M79_AmmoSelected>
+</LanguageData>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- M855A1 is the modular rifle baseline. The shared 5.56 projectile lives in
+       WeaponFamilies_Helod.xml; .300 BLK trades penetration and velocity for a
+       heavier hit and substantially greater stopping power. -->
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_300BLKTACTX_Proj</defName>
+    <label>.300 BLK TACTX bullet</label>
+    <graphicData>
+      <texPath>Things/Projectile/Bullet_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Bullet</damageDef>
+      <damageAmountBase>14</damageAmountBase>
+      <armorPenetrationBase>0.14</armorPenetrationBase>
+      <stoppingPower>1.0</stoppingPower>
+      <speed>75</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_Bullet_76251M80A1_Proj</defName>
+    <label>7.62x51mm M80A1 bullet</label>
+    <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>15</damageAmountBase><armorPenetrationBase>0.3</armorPenetrationBase><stoppingPower>1.05</stoppingPower><speed>90</speed></projectile>
+  </ThingDef>
+
+  <!-- Physical ammunition selectors installed inside compatible magazine nodes. They
+       remain visible as loose items but are hidden while nested in a weapon assembly. -->
+  <ThingCategoryDef>
+    <defName>HD_RifleAmmunition</defName>
+    <label>rifle ammunition</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef Name="HD_RifleAmmunitionBase" ParentName="HD_ModularWeaponPartBase" Abstract="True">
+    <stackLimit>1</stackLimit>
+    <statBases>
+      <MarketValue>2</MarketValue>
+      <Mass>0.012</Mass>
+      <Flammability>0.25</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <thingCategories><li>HD_RifleAmmunition</li></thingCategories>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_556M855A1</defName>
+    <label>5.56x45mm M855A1 cartridge</label>
+    <description>M855A1 ammunition for modular 5.56x45mm magazines.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode>
+        <hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>5.56 M855A1</ammunitionType>
+        <ceAmmoDefName>Ammo_HDM855A1</ceAmmoDefName>
+        <ammunitionCaliber>556x45</ammunitionCaliber>
+        <projectileDiameterMm>5.7</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_M16A4_Proj</projectileOverride>
+        <casingMoteDef>HD_Mote_Shell55645</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M855A1</feedingRoundTexPath>
+        <overridePriority>20</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_300BLKTACTX</defName>
+    <label>.300 BLK TACTX cartridge</label>
+    <description>TACTX ammunition for modular .300 BLK magazines.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_300BLKTACTX</texPath></graphicData>
+    <statBases><Mass>0.016</Mass><MarketValue>3</MarketValue></statBases>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode>
+        <hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>.300 BLK TACTX</ammunitionType>
+        <ceAmmoDefName>Ammo_HD300BLKTACTX</ceAmmoDefName>
+        <ammunitionCaliber>300BLK</ammunitionCaliber>
+        <projectileDiameterMm>7.82</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_300BLKTACTX_Proj</projectileOverride>
+        <casingMoteDef>HD_Mote_Shell300BLK</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_300BLKTACTX</feedingRoundTexPath>
+        <overridePriority>20</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_919M882</defName>
+    <label>9x19mm M882 cartridge</label>
+    <description>M882 ammunition for modular 9x19mm magazines.</description>
+    <researchPrerequisites><li>HelodMidAutomaticRifle</li></researchPrerequisites>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882</texPath></graphicData>
+    <statBases><Mass>0.012</Mass><MarketValue>2</MarketValue></statBases>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode>
+        <hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>9x19 M882</ammunitionType>
+        <ceAmmoDefName>Ammo_9x19mmPara_FMJ</ceAmmoDefName>
+        <ammunitionCaliber>9x19</ammunitionCaliber>
+        <projectileDiameterMm>9.03</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_Glock19_Proj</projectileOverride>
+        <casingMoteDef>HD_Mote_Shell919</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_919M882</feedingRoundTexPath>
+        <overridePriority>20</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>mp5_ammunition</li></socketTags><transform><position>(-0.012,0,-0.090)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_RifleAmmunitionBase">
+    <defName>HD_Ammunition_76251M80A1</defName>
+    <label>7.62x51mm M80A1 cartridge</label>
+    <description>M80A1 ammunition for modular 7.62x51mm magazines.</description>
+    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1</texPath></graphicData>
+    <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
+        <ammunitionType>7.62 M80A1</ammunitionType><ceAmmoDefName>Ammo_762x51mmNATO_FMJ</ceAmmoDefName>
+        <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
+        <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell76251</casingMoteDef>
+        <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M80A1</feedingRoundTexPath><overridePriority>30</overridePriority>
+        <mounts><li><id>ammunition_mount</id><socketTags><li>m14_ammunition</li></socketTags><transform><position>(-0.035,0,-0.088)</position></transform></li></mounts>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

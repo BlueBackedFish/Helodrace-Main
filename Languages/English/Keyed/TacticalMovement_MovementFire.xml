@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalMovementFire_Command>Run and gun</HD_TacticalMovementFire_Command>
+  <HD_TacticalMovementFire_CommandDesc>Choose a destination and a target, including targets outside current line of sight. While moving, fire whenever line of sight, range and aim-angle conditions are met; retain the target while obstructed.</HD_TacticalMovementFire_CommandDesc>
+  <HD_TacticalMovementFire_Started>Run-and-gun movement started.</HD_TacticalMovementFire_Started>
+</LanguageData>

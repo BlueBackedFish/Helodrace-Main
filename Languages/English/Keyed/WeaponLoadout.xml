@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_WeaponLoadout_Gizmo_Label>Weapon loadout</HD_WeaponLoadout_Gizmo_Label>
+  <HD_WeaponLoadout_Gizmo_Desc>Configure how much ammunition this colonist should keep in their inventory.</HD_WeaponLoadout_Gizmo_Desc>
+  <HD_WeaponLoadout_Title>Weapon loadout settings</HD_WeaponLoadout_Title>
+  <HD_WeaponLoadout_NotEquipped>The weapon system test harness is no longer equipped.</HD_WeaponLoadout_NotEquipped>
+  <HD_WeaponLoadout_TotalMass>Configured ammunition mass: {0}</HD_WeaponLoadout_TotalMass>
+  <HD_WeaponLoadout_Search>Search ammunition...</HD_WeaponLoadout_Search>
+  <HD_WeaponLoadout_Ammo>Ammo type / ammunition</HD_WeaponLoadout_Ammo>
+  <HD_WeaponLoadout_OtherAmmo>Other ammunition</HD_WeaponLoadout_OtherAmmo>
+  <HD_WeaponLoadout_CaliberGroup>{0} ammunition</HD_WeaponLoadout_CaliberGroup>
+  <HD_WeaponLoadout_UnspecifiedCaliberGroup>Unspecified caliber · {0}</HD_WeaponLoadout_UnspecifiedCaliberGroup>
+  <HD_WeaponLoadout_HandGrenades>Hand grenades</HD_WeaponLoadout_HandGrenades>
+  <HD_WeaponLoadout_Current>Carried</HD_WeaponLoadout_Current>
+  <HD_WeaponLoadout_Desired>Desired</HD_WeaponLoadout_Desired>
+  <HD_WeaponLoadout_Mass>Mass (each / total)</HD_WeaponLoadout_Mass>
+  <HD_WeaponLoadout_MassValue>{0} / {1}</HD_WeaponLoadout_MassValue>
+  <HD_WeaponLoadout_Inspect>Configured ammunition types: {0}\nTarget ammunition mass: {1}</HD_WeaponLoadout_Inspect>
+  <HD_RecoillessWeapon_NoReloadRound_Inventory>The selected ammunition is not in this colonist's inventory.</HD_RecoillessWeapon_NoReloadRound_Inventory>
+  <HD_RecoillessWeapon_Reload_Desc_Inventory>Reload using one round of the selected ammunition from the operator's or assigned loader's inventory.</HD_RecoillessWeapon_Reload_Desc_Inventory>
+  <HD_RecoillessWeapon_NoAssignedLoader_Inventory>No valid loader is assigned, or the loader does not carry the selected ammunition.</HD_RecoillessWeapon_NoAssignedLoader_Inventory>
+  <HD_RecoillessWeapon_AssignLoaderDesc_Inventory>Assign a nearby colonist as loader. The loader must carry the selected ammunition in their inventory.</HD_RecoillessWeapon_AssignLoaderDesc_Inventory>
+</LanguageData>

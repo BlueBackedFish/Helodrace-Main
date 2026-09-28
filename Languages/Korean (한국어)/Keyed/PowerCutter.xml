@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_PowerCutter_Breach_Label>돌파</HD_PowerCutter_Breach_Label>
+  <HD_PowerCutter_Breach_Desc>통과 불가능한 벽이나 문을 자원 반환 없이 절단합니다. 플레이어 소유 건축물은 일반 철거보다 50% 빠르게 돌파합니다. 그 외 건축물은 남은 체력이 높을수록 시간이 늘어나지만, 높은 체력 구간일수록 증가폭은 완만해집니다.</HD_PowerCutter_Breach_Desc>
+  <HD_PowerCutter_Breach_Unavailable>지금은 동력 절단기를 사용할 수 없습니다.</HD_PowerCutter_Breach_Unavailable>
+  <HD_PowerCutter_Breach_InvalidTarget>통과 불가능한 벽이나 문을 선택해야 합니다.</HD_PowerCutter_Breach_InvalidTarget>
+  <HD_PowerCutter_Breach_CannotReach>선택한 건축물에 도달할 수 없습니다.</HD_PowerCutter_Breach_CannotReach>
+  <HD_PowerCutter_Breach_CannotReserve>선택한 건축물은 이미 다른 작업자가 사용 중입니다.</HD_PowerCutter_Breach_CannotReserve>
+</LanguageData>

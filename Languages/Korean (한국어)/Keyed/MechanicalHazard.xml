@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MechanicalUser_DangerConfigured>설정된 기계 위험</HD_MechanicalUser_DangerConfigured>
+  <HD_MechanicalHazard_Disabled>비활성</HD_MechanicalHazard_Disabled>
+  <HD_MechanicalHazard_ConditionUserBoth>최소·권장 RPM 사이 또는 RPM 오차 {0} 초과</HD_MechanicalHazard_ConditionUserBoth>
+  <HD_MechanicalHazard_ConditionUserSpeed>최소·권장 RPM 사이</HD_MechanicalHazard_ConditionUserSpeed>
+  <HD_MechanicalHazard_TargetArea>범위 피해, 반경 {0}</HD_MechanicalHazard_TargetArea>
+  <HD_MechanicalHazard_TargetOperator>작업자 피해, 부위: {0}</HD_MechanicalHazard_TargetOperator>
+  <HD_MechanicalHazard_AnyBodyPart>무작위</HD_MechanicalHazard_AnyBodyPart>
+  <HD_MechanicalHazard_ReasonLowRpm>저RPM</HD_MechanicalHazard_ReasonLowRpm>
+  <HD_MechanicalHazard_ReasonError>과도한 RPM 오차</HD_MechanicalHazard_ReasonError>
+  <HD_MechanicalHazard_Triggered>{0}에서 {1}(으)로 기계 사고가 발생했습니다.</HD_MechanicalHazard_Triggered>
+  <HD_ITab_MechanicalNetwork_RpmError>실제 RPM 오차: {0}</HD_ITab_MechanicalNetwork_RpmError>
+</LanguageData>

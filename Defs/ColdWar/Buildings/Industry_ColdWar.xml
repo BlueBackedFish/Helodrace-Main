@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Vacuum Induction Melting Furnace (VIM) -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>HD_VIMFurnace</defName>
+    <label>vacuum induction melting furnace</label>
+    <description>A sealed induction furnace that melts metal under vacuum. Its controlled atmosphere keeps reactive gases and contaminants out, allowing exceptionally clean and precise alloy production.</description>
+    <thingClass>Building_WorkTable</thingClass>
+    <graphicData>
+      <texPath>Buildings/HD_VIMFurnace</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(4.8,4.8)</drawSize>
+      <drawOffset>(0,0,0.35)</drawOffset>
+      <shaderType>Cutout</shaderType>
+      <shadowData>
+        <volume>(2.5,0.7,2.5)</volume>
+      </shadowData>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <blockWind>false</blockWind>
+    <fillPercent>0.75</fillPercent>
+    <statBases>
+      <MaxHitPoints>460</MaxHitPoints>
+      <WorkToBuild>7500</WorkToBuild>
+      <Flammability>0.1</Flammability>
+      <Mass>520</Mass>
+      <WorkTableWorkSpeedFactor>1.25</WorkTableWorkSpeedFactor>
+    </statBases>
+    <costList>
+      <Steel>220</Steel>
+      <HD_CarbonSteel>140</HD_CarbonSteel>
+      <HD_UniformRolledSteelPlate>24</HD_UniformRolledSteelPlate>
+      <HD_GeneralMachinePart>16</HD_GeneralMachinePart>
+      <HD_BasicElectricalComponents>12</HD_BasicElectricalComponents>
+      <HD_BasicElectronicComponents>8</HD_BasicElectronicComponents>
+    </costList>
+    <size>(3,4)</size>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-3)</interactionCellOffset>
+    <surfaceType>Item</surfaceType>
+    <rotatable>false</rotatable>
+    <designationCategory>HD_HelodTechnology_Build</designationCategory>
+    <uiOrder>2367</uiOrder>
+    <constructionSkillPrerequisite>12</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <researchPrerequisites>
+      <li>HelodColdWarTech</li>
+    </researchPrerequisites>
+    <inspectorTabs>
+      <li>ITab_Bills</li>
+    </inspectorTabs>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>20000</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Glower">
+        <glowRadius>7</glowRadius>
+        <glowColor>(80,150,215,0)</glowColor>
+      </li>
+      <li Class="Helodrace.CompProperties_OperatingHeatPusher">
+        <heatPerSecond>16</heatPerSecond>
+        <heatPushMaxTemperature>105</heatPushMaxTemperature>
+      </li>
+    </comps>
+    <building>
+      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+    </building>
+  </ThingDef>
+
+</Defs>

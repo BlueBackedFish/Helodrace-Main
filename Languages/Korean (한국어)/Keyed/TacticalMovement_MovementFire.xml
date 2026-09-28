@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalMovementFire_Command>기동사격</HD_TacticalMovementFire_Command>
+  <HD_TacticalMovementFire_CommandDesc>이동 위치와 사격 표적을 지정합니다. 현재 시야 밖의 표적도 지정할 수 있으며, 이동 중 시야·사거리·조준 각도 조건이 맞으면 사격합니다. 시야가 막혀도 표적 지정을 유지합니다.</HD_TacticalMovementFire_CommandDesc>
+  <HD_TacticalMovementFire_Started>기동사격을 시작했습니다.</HD_TacticalMovementFire_Started>
+</LanguageData>

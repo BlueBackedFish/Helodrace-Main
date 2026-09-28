@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <SoundDef>
+    <defName>HD_CoinToss</defName>
+    <context>MapOnly</context>
+    <maxVoices>8</maxVoices>
+    <subSounds>
+      <li>
+        <grains>
+          <li Class="AudioGrain_Clip">
+            <clipPath>Effects/HD_CoinToss</clipPath>
+          </li>
+        </grains>
+        <volumeRange>45~45</volumeRange>
+        <distRange>10~35</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+</Defs>

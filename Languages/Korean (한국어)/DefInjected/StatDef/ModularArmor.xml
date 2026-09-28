@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ArmorErgonomics.label>방어구 인체공학</HD_ArmorErgonomics.label>
+  <HD_ArmorErgonomics.description>방어구가 착용자의 움직임을 얼마나 방해하는지 나타냅니다.</HD_ArmorErgonomics.description>
+  <HD_ArmorVentilation.label>방어구 통기성</HD_ArmorVentilation.label>
+  <HD_ArmorVentilation.description>방어구 내부의 열과 습기를 배출하는 능력을 나타냅니다.</HD_ArmorVentilation.description>
+  <HD_ArmorLoadDistribution.label>방어구 하중분산</HD_ArmorLoadDistribution.label>
+  <HD_ArmorLoadDistribution.description>방어구의 무게가 착용자의 몸에 얼마나 고르게 분산되는지 나타냅니다.</HD_ArmorLoadDistribution.description>
+</LanguageData>

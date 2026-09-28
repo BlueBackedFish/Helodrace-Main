@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalCoordinatedAim_Command>협동 조준</HD_TacticalCoordinatedAim_Command>
+  <HD_TacticalCoordinatedAim_CommandDesc>인접한 파트너를 지정한 뒤 사수→파트너 방향의 60도 안에서 표적을 선택합니다. 정확한 사격의 선택 부위를 우선하며, 미선택 시 치명 부위를 노립니다. 연발수 절반(올림)만큼 발사하고 종료하며, 목표 사망·다운 또는 대형 이동 시 즉시 추가 발사를 중단합니다. 방호·엄폐는 유지됩니다.</HD_TacticalCoordinatedAim_CommandDesc>
+  <HD_TacticalCoordinatedAim_Started>{0}과 협동 조준을 시작했습니다.</HD_TacticalCoordinatedAim_Started>
+  <HD_TacticalCoordinatedAim_Cancel>협동 조준 해제</HD_TacticalCoordinatedAim_Cancel>
+  <HD_TacticalCoordinatedAim_CancelDesc>2인 사격 대형을 해제합니다.</HD_TacticalCoordinatedAim_CancelDesc>
+</LanguageData>

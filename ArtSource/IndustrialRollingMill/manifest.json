@@ -1,0 +1,33 @@
+{
+  "new_asset": true,
+  "prominent_rollers": 4,
+  "mesh_objects": 20,
+  "vertices": 256,
+  "orthographic_scale": 4.65,
+  "target_center": [
+    0.0,
+    0.0,
+    1.0
+  ],
+  "resolution": [
+    512,
+    512
+  ],
+  "validation": {
+    "North": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 52,
+      "transparent_pixels": 133989
+    },
+    "East": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 47,
+      "transparent_pixels": 136153
+    },
+    "South": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 52,
+      "transparent_pixels": 133989
+    }
+  }
+}

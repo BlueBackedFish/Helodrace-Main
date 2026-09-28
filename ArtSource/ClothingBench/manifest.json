@@ -1,0 +1,36 @@
+{
+  "blender_version": "5.1.2",
+  "footprint": [
+    3,
+    1
+  ],
+  "mesh_components": 16,
+  "vertices": 400,
+  "resolution": [
+    512,
+    512
+  ],
+  "ortho_scale": 3.65,
+  "target_center": [
+    0.0,
+    0.0,
+    0.7900000214576721
+  ],
+  "validation": {
+    "North": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 46,
+      "transparent_pixels": 200093
+    },
+    "South": {
+      "actual_downward_degrees": 64.00000113525775,
+      "minimum_margin_px": 46,
+      "transparent_pixels": 189449
+    },
+    "East": {
+      "actual_downward_degrees": 63.99999334484027,
+      "minimum_margin_px": 36,
+      "transparent_pixels": 203637
+    }
+  }
+}

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularWeapon_Command>총기 모딩</HD_ModularWeapon_Command>
+  <HD_ModularWeapon_CommandDesc>모듈형 총기 편집 화면을 엽니다. 현재 개발 단계에서는 선택한 파츠가 별도 아이템 없이 즉시 생성되어 장착됩니다.</HD_ModularWeapon_CommandDesc>
+  <HD_ModularWeapon_Title>총기 모딩 — {0}</HD_ModularWeapon_Title>
+  <HD_ModularWeapon_Missing>편집할 총기가 더 이상 존재하지 않습니다.</HD_ModularWeapon_Missing>
+  <HD_ModularWeapon_Tree>조립 구조</HD_ModularWeapon_Tree>
+  <HD_ModularWeapon_Navigation>파츠 탐색</HD_ModularWeapon_Navigation>
+  <HD_ModularWeapon_BackToParent>상위 파츠로</HD_ModularWeapon_BackToParent>
+  <HD_ModularWeapon_Home>루트</HD_ModularWeapon_Home>
+  <HD_ModularWeapon_AssemblyRoot>조립체 루트</HD_ModularWeapon_AssemblyRoot>
+  <HD_ModularWeapon_CurrentPart>현재 파츠</HD_ModularWeapon_CurrentPart>
+  <HD_ModularWeapon_PartSummary>소켓 {0}개  ·  직접 연결 파츠 {1}개</HD_ModularWeapon_PartSummary>
+  <HD_ModularWeapon_AttachedParts>장착된 파츠</HD_ModularWeapon_AttachedParts>
+  <HD_ModularWeapon_NoAttachedParts>이 파츠에 직접 연결된 파츠가 없습니다.</HD_ModularWeapon_NoAttachedParts>
+  <HD_ModularWeapon_ConnectedVia>장착 소켓: {0}</HD_ModularWeapon_ConnectedVia>
+  <HD_ModularWeapon_SurfaceDetail>방향: {0}</HD_ModularWeapon_SurfaceDetail>
+  <HD_ModularWeapon_SurfaceTop>상부</HD_ModularWeapon_SurfaceTop>
+  <HD_ModularWeapon_SurfaceBottom>하부</HD_ModularWeapon_SurfaceBottom>
+  <HD_ModularWeapon_SurfaceSide>측면 전용</HD_ModularWeapon_SurfaceSide>
+  <HD_ModularWeapon_SurfaceUnspecified>미지정</HD_ModularWeapon_SurfaceUnspecified>
+  <HD_ModularWeapon_OppositeMounted>상하 반전 장착</HD_ModularWeapon_OppositeMounted>
+  <HD_ModularWeapon_ImmediateHint>소켓을 선택한 다음 호환 파츠를 누르세요. 현재 개발 단계에서는 바닥이나 인벤토리에 파츠가 없어도 즉시 장착됩니다.</HD_ModularWeapon_ImmediateHint>
+  <HD_ModularWeapon_Performance>기계적 한계: {0} RPM\n현재 설정: {1} RPM\n최소/현재 지연: {2}초 / {3}초\n점사 발사 간격: {4}틱</HD_ModularWeapon_Performance>
+  <HD_ModularWeapon_RailDetail>길이 {0}  ·  {1}</HD_ModularWeapon_RailDetail>
+  <HD_ModularWeapon_RailOffset>레일 위치: {0}</HD_ModularWeapon_RailOffset>
+  <HD_ModularWeapon_SelectSocket>소켓을 선택하면 호환 파츠가 표시됩니다.</HD_ModularWeapon_SelectSocket>
+  <HD_ModularWeapon_Catalog>호환 파츠 — {0}</HD_ModularWeapon_Catalog>
+  <HD_ModularWeapon_Occupancy>점유 길이: {0}</HD_ModularWeapon_Occupancy>
+  <HD_ModularWeapon_RailContactLength>레일 접촉 길이: {0}</HD_ModularWeapon_RailContactLength>
+  <HD_ModularWeapon_PhysicalLength>실제 길이: {0}</HD_ModularWeapon_PhysicalLength>
+  <HD_ModularWeapon_BodyOffset>레일 접촉점 기준 본체 중심: {0}</HD_ModularWeapon_BodyOffset>
+  <HD_ModularWeapon_FireDelayModifier>발사 지연 배수: ×{0}</HD_ModularWeapon_FireDelayModifier>
+  <HD_ModularWeapon_AttachFailed>파츠를 장착할 수 없습니다.</HD_ModularWeapon_AttachFailed>
+  <HD_ModularWeapon_SightGroups>조준경 그룹: {0}</HD_ModularWeapon_SightGroups>
+  <HD_ModularWeapon_SightGroupLine>{0}높이 {1} · 효율 {2} · {3}</HD_ModularWeapon_SightGroupLine>
+  <HD_ModularWeapon_SightNoPrimary>사용 가능한 주 조준경 없음</HD_ModularWeapon_SightNoPrimary>
+  <HD_ModularWeapon_SightIronPair>아이언사이트 한 쌍</HD_ModularWeapon_SightIronPair>
+  <HD_ModularWeapon_SightMagnifierRear>후방 확대경 시너지</HD_ModularWeapon_SightMagnifierRear>
+  <HD_ModularWeapon_SightMagnifierFront>전방 확대경 비활성</HD_ModularWeapon_SightMagnifierFront>
+  <HD_ModularWeapon_SightBelowWeapon>무기 중심선 아래 조준경 {0}개 비활성</HD_ModularWeapon_SightBelowWeapon>
+  <HD_ModularWeapon_VerticalOccupancy>수직 점유: {0}</HD_ModularWeapon_VerticalOccupancy>
+  <HD_ModularWeapon_SightPartDetail>조준경: {0} · 조준반경 {1}</HD_ModularWeapon_SightPartDetail>
+  <HD_ModularWeapon_StatsTitle>무기 성능</HD_ModularWeapon_StatsTitle>
+  <HD_ModularWeapon_PerformanceCompact>{0} RPM · 발사 후딜 {1}초</HD_ModularWeapon_PerformanceCompact>
+  <HD_ModularWeapon_SelectedAmmunition>선택 탄종\n{0}</HD_ModularWeapon_SelectedAmmunition>
+  <HD_ModularWeapon_NoAmmunition>선택 없음</HD_ModularWeapon_NoAmmunition>
+  <HD_ModularWeapon_AmmunitionPartDetail>탄종 선택: {0}</HD_ModularWeapon_AmmunitionPartDetail>
+  <HD_ModularWeapon_ChamberPartDetail>총열 약실: {0}</HD_ModularWeapon_ChamberPartDetail>
+  <HD_ModularWeapon_AmmoCompatible>{0} 총열과 호환</HD_ModularWeapon_AmmoCompatible>
+  <HD_ModularWeapon_AmmoFailureToChamber>격발 불가: {0} 약실 폐쇄 불량</HD_ModularWeapon_AmmoFailureToChamber>
+  <HD_ModularWeapon_AmmoCatastrophic>위험: {0} 총열 파열</HD_ModularWeapon_AmmoCatastrophic>
+  <HD_ModularWeapon_AmmoUnspecified>총열 호환성 확인 불가</HD_ModularWeapon_AmmoUnspecified>
+  <HD_ModularWeapon_FailureToChamber>{0}: {1} 탄종은 {2} 총열에서 약실이 완전히 폐쇄되지 않아 격발할 수 없습니다.</HD_ModularWeapon_FailureToChamber>
+  <HD_ModularWeapon_CatastrophicFailure>{0}의 총기가 파열했습니다! {2} 총열에 잘못 장전된 {1} 탄종이 원인입니다.</HD_ModularWeapon_CatastrophicFailure>
+  <HD_ModularWeapon_ConvertedStats>&#54872;&#49328; &#49457;&#45733;</HD_ModularWeapon_ConvertedStats>
+  <HD_ModularWeapon_Mass>&#47924;&#44172;</HD_ModularWeapon_Mass>
+  <HD_ModularWeapon_RecoilControl>&#48152;&#46041; &#51228;&#50612;</HD_ModularWeapon_RecoilControl>
+  <HD_ModularWeapon_Ergonomics>&#51064;&#52404;&#44277;&#54617;</HD_ModularWeapon_Ergonomics>
+  <HD_ModularWeapon_MuzzleControl>&#52509;&#44396; &#49345;&#49849; &#51228;&#50612;</HD_ModularWeapon_MuzzleControl>
+  <HD_ModularWeapon_Reliability>&#51089;&#46041; &#49888;&#47280;&#49457;</HD_ModularWeapon_Reliability>
+  <HD_ModularWeapon_GasEfficiency>&#44032;&#49828; &#54952;&#50984;</HD_ModularWeapon_GasEfficiency>
+  <HD_ModularWeapon_Balance>&#47924;&#44172; &#51473;&#49900;</HD_ModularWeapon_Balance>
+  <HD_ModularWeapon_Handling>&#44288;&#49457; &#51312;&#51089;&#49457;</HD_ModularWeapon_Handling>
+  <HD_ModularWeapon_TargetAcquisition>&#54364;&#51201; &#54925;&#46301;</HD_ModularWeapon_TargetAcquisition>
+  <HD_ModularWeapon_AimingPrecision>&#51312;&#51456; &#51221;&#48128;&#46020;</HD_ModularWeapon_AimingPrecision>
+  <HD_ModularWeapon_IdentificationDistance>&#49885;&#48324; &#44144;&#47532;</HD_ModularWeapon_IdentificationDistance>
+  <HD_ModularWeapon_Cells>&#52856;</HD_ModularWeapon_Cells>
+  <HD_ModularWeapon_ImmediateHintDev>개발자 모드: 파츠 재고를 계산하지 않고 즉시 생성하거나 제거합니다.</HD_ModularWeapon_ImmediateHintDev>
+  <HD_ModularWeapon_WorkshopHint>연구가 끝난 제작 가능 파츠는 작업대에서 즉시 만들고, 나머지는 파츠 상자에서 가져옵니다. 떼어낸 파츠는 상자로 돌아갑니다.</HD_ModularWeapon_WorkshopHint>
+  <HD_ModularWeapon_CommandDescDev>작업대와 파츠 재고를 사용하지 않고 모듈형 총기 편집 화면을 엽니다. 개발자 모드 전용입니다.</HD_ModularWeapon_CommandDescDev>
+  <HD_ModularWeapon_PartAvailable>보유: {0}</HD_ModularWeapon_PartAvailable>
+  <HD_ModularWeapon_PartUnavailable>{0}을(를) 먼저 구해 파츠 상자에 넣어야 합니다.</HD_ModularWeapon_PartUnavailable>
+  <HD_ModularWeapon_InstantCraft>즉시 제작</HD_ModularWeapon_InstantCraft>
+  <HD_ModularWeapon_MustObtain>별도 획득 필요</HD_ModularWeapon_MustObtain>
+  <HD_ModularWeapon_ResearchRequired>필요 연구: {0}</HD_ModularWeapon_ResearchRequired>
+  <HD_ModularWeapon_CatalogGroup_Discouraged>비권장 파츠</HD_ModularWeapon_CatalogGroup_Discouraged>
+  <HD_ModularWeapon_CatalogGroup_Core>작동부와 리시버</HD_ModularWeapon_CatalogGroup_Core>
+  <HD_ModularWeapon_CatalogGroup_Barrel>총열과 총구</HD_ModularWeapon_CatalogGroup_Barrel>
+  <HD_ModularWeapon_CatalogGroup_Furniture>손잡이와 외장</HD_ModularWeapon_CatalogGroup_Furniture>
+  <HD_ModularWeapon_CatalogGroup_Magazine>탄창과 탄약</HD_ModularWeapon_CatalogGroup_Magazine>
+  <HD_ModularWeapon_CatalogGroup_Sights>조준기와 마운트</HD_ModularWeapon_CatalogGroup_Sights>
+  <HD_ModularWeapon_CatalogGroup_Electronics>조명과 레이저</HD_ModularWeapon_CatalogGroup_Electronics>
+  <HD_ModularWeapon_CatalogGroup_Other>기타 파츠</HD_ModularWeapon_CatalogGroup_Other>
+  <HD_ModularWeapon_DiscouragedTopGrip>상부 레일의 손잡이는 조준을 방해하고 효용이 거의 없습니다.</HD_ModularWeapon_DiscouragedTopGrip>
+  <HD_ModularWeapon_DiscouragedBottomSight>하부 레일의 조준기는 정상적인 조준에 사용할 수 없습니다.</HD_ModularWeapon_DiscouragedBottomSight>
+  <HD_ModularWeapon_SideGripEfficiency>측면 수직손잡이는 조작성과 총구 제어 이득의 45%를 제공합니다. 가장 효과적인 손잡이 하나만 이득을 주지만, 모든 파츠의 무게는 합산됩니다.</HD_ModularWeapon_SideGripEfficiency>
+  <HD_ModularWeapon_RailPanelEfficiency>레일 패널은 어느 레일에 달아도 인체공학 이득이 같습니다. 두 번째와 세 번째 패널의 이득은 절반과 4분의 1로 줄지만 무게는 모두 합산됩니다.</HD_ModularWeapon_RailPanelEfficiency>
+  <HD_ModularWeapon_SelectWeaponTitle>개조할 총기 선택</HD_ModularWeapon_SelectWeaponTitle>
+  <HD_ModularWeapon_SelectWeaponDesc>정착민이 장착한 모듈형 총기를 선택하세요. 해당 정착민이 작업대에 도착하면 모딩 창이 열립니다.</HD_ModularWeapon_SelectWeaponDesc>
+  <HD_ModularWeapon_SelectWeaponAction>작업대에서 개조</HD_ModularWeapon_SelectWeaponAction>
+  <HD_ModularWeaponBench_Command>총기 모딩</HD_ModularWeaponBench_Command>
+  <HD_ModularWeaponBench_CommandDesc>정착민이 장착한 모듈형 총기를 선택하면 해당 정착민이 이 작업대로 와서 개조합니다.</HD_ModularWeaponBench_CommandDesc>
+  <HD_ModularWeaponBench_NoPartsBox>작업대에 파츠 상자를 넣어야 합니다.</HD_ModularWeaponBench_NoPartsBox>
+  <HD_ModularWeaponBench_RemoveBox>파츠 상자 꺼내기</HD_ModularWeaponBench_RemoveBox>
+  <HD_ModularPartsBox_InsertAtBench>작업대에 파츠 상자 넣기</HD_ModularPartsBox_InsertAtBench>
+  <HD_ModularPartsBox_InsertAtBenchDesc>정착민에게 이 상자를 빈 총기 작업대로 운반하도록 지시합니다.</HD_ModularPartsBox_InsertAtBenchDesc>
+  <HD_ModularPartsBox_NoInstallJob>도달할 수 있는 빈 총기 작업대나 운반 가능한 정착민이 없습니다.</HD_ModularPartsBox_NoInstallJob>
+  <HD_ModularWeaponBench_NoWeapon>개조 가능한 모듈형 총기를 든 정착민이 없습니다.</HD_ModularWeaponBench_NoWeapon>
+  <HD_ModularWeaponBench_CannotStart>선택한 정착민이 총기 개조 작업을 시작할 수 없습니다.</HD_ModularWeaponBench_CannotStart>
+  <HD_ModularWeaponBench_WieldedBy>{0} — {1} 휴대 중</HD_ModularWeaponBench_WieldedBy>
+  <HD_ModularPartsBox_Empty>보관 중인 총기 파츠가 없습니다.</HD_ModularPartsBox_Empty>
+  <HD_ModularPartsBox_Total>보관된 총기 파츠: {0}</HD_ModularPartsBox_Total>
+  <HD_ModularPartsBox_More>외 {0}종</HD_ModularPartsBox_More>
+  <HD_ModularPartsBox_Absorb>주변 파츠 보관</HD_ModularPartsBox_Absorb>
+  <HD_ModularPartsBox_AbsorbDesc>8칸 안의 모듈형 파츠를 이 상자에 보관합니다. 소형 파츠는 수량으로, 독립 파츠는 아이템으로 보관합니다.</HD_ModularPartsBox_AbsorbDesc>
+  <HD_ModularPartsBox_Absorbed>총기 파츠 {0}개를 보관했습니다.</HD_ModularPartsBox_Absorbed>
+  <HD_ModularWeapon_ExportPreset>&#54532;&#47532;&#49483; XML &#45236;&#48372;&#45236;&#44592;</HD_ModularWeapon_ExportPreset>
+  <HD_ModularWeapon_ExportPresetDesc>&#54788;&#51116; &#52509;&#44592;&#51032; &#51204;&#52404; &#51116;&#44480; &#51312;&#47549; &#44396;&#49457;&#51012; &#54532;&#47532;&#49483; Def XML&#47196; &#53364;&#47549;&#48372;&#46300;&#50640; &#48373;&#49324;&#54633;&#45768;&#45796;.</HD_ModularWeapon_ExportPresetDesc>
+  <HD_ModularWeapon_ExportPresetCopied>&#52509;&#44592; &#54532;&#47532;&#49483; XML&#51012; &#53364;&#47549;&#48372;&#46300;&#50640; &#48373;&#49324;&#54664;&#49845;&#45768;&#45796;.</HD_ModularWeapon_ExportPresetCopied>
+  <HD_ModularWeapon_CategoryRequired>&#54596;&#49688; &#48512;&#54408;</HD_ModularWeapon_CategoryRequired>
+  <HD_ModularWeapon_CategoryFunctional>&#44592;&#45733; &#48512;&#54408;</HD_ModularWeapon_CategoryFunctional>
+  <HD_ModularWeapon_CategoryOptional>&#49440;&#53469; &#48512;&#54408;</HD_ModularWeapon_CategoryOptional>
+  <HD_ModularWeapon_MissingRequiredParts>{0}&#51008;(&#45716;) &#54596;&#49688; &#48512;&#54408;&#51060; &#50630;&#50612; &#44201;&#48156;&#54624; &#49688; &#50630;&#49845;&#45768;&#45796;: {1}.</HD_ModularWeapon_MissingRequiredParts>
+  <HD_ModularWeapon_FunctionOperational>&#44592;&#45733;: &#51221;&#49345; &#51089;&#46041;</HD_ModularWeapon_FunctionOperational>
+  <HD_ModularWeapon_FunctionBlocked>&#44592;&#45733;: &#44201;&#48156; &#48520;&#44032; (&#54596;&#49688; &#48512;&#54408; &#45572;&#46973;: {0})</HD_ModularWeapon_FunctionBlocked>
+  <HD_ModularWeapon_FunctionDegraded>&#44592;&#45733; &#51200;&#54616; (&#44592;&#45733; &#48512;&#54408; &#45572;&#46973;: {0})</HD_ModularWeapon_FunctionDegraded>
+  <HD_ModularWeapon_GasTubeSetting>가스조절기 유량: {0}</HD_ModularWeapon_GasTubeSetting>
+  <HD_ModularWeapon_GasTubeReset>100%</HD_ModularWeapon_GasTubeReset>
+  <HD_ModularWeapon_GasTubeEffects>{0} RPM &#183; &#48152;&#46041; &#215;{1} &#183; &#52509;&#44396;&#54868;&#50684; &#215;{2}</HD_ModularWeapon_GasTubeEffects>
+  <HD_ModularWeapon_GasTubeUnavailable>&#51109;&#52265;&#46108; &#44032;&#49828; &#49884;&#49828;&#53596;&#51060; &#50630;&#50612; &#51200;&#51109;&#46108; &#49444;&#51221;&#51060; &#48708;&#54876;&#49457;&#54868;&#46121;&#45768;&#45796;.</HD_ModularWeapon_GasTubeUnavailable>
+  <HD_ModularWeapon_GasTubeDesc>&#51312;&#47549;&#46108; &#52509;&#44592;&#51032; &#44032;&#49828; &#50976;&#47049;&#51012; &#51312;&#51208;&#54633;&#45768;&#45796;. &#50976;&#47049;&#51012; &#45230;&#52628;&#47732; &#50672;&#49324;&#49549;&#46020;&#50752; &#48152;&#46041;&#51060; &#44057;&#51060; &#51460;&#44256;, &#45458;&#51060;&#47732; &#46168; &#45796; &#45720;&#50612;&#45225;&#45768;&#45796;. &#44592;&#44228;&#51201; RPM &#54620;&#44228;&#45716; &#45336;&#51648; &#50506;&#49845;&#45768;&#45796;.</HD_ModularWeapon_GasTubeDesc>
+  <HD_ModularWeapon_RejectNoPart>유효한 파츠가 지정되지 않았습니다.</HD_ModularWeapon_RejectNoPart>
+  <HD_ModularWeapon_RejectCycle>이 파츠를 장착하면 순환 연결이 생깁니다.</HD_ModularWeapon_RejectCycle>
+  <HD_ModularWeapon_RejectSocketMissing>{1}에 {0} 장착부가 없습니다.</HD_ModularWeapon_RejectSocketMissing>
+  <HD_ModularWeapon_RejectSocketFull>{0} 장착부의 최대 장착 수에 도달했습니다.</HD_ModularWeapon_RejectSocketFull>
+  <HD_ModularWeapon_RejectNotModularPart>{0}은(는) 모듈식 총기 파츠가 아닙니다.</HD_ModularWeapon_RejectNotModularPart>
+  <HD_ModularWeapon_RejectNoMount>{0}에 결합부가 없습니다.</HD_ModularWeapon_RejectNoMount>
+  <HD_ModularWeapon_RejectIncompatible>{0}은(는) {1} 장착부와 호환되지 않습니다.</HD_ModularWeapon_RejectIncompatible>
+  <HD_ModularWeapon_RejectSpawned>지도에 놓인 파츠는 회수한 뒤 장착해야 합니다.</HD_ModularWeapon_RejectSpawned>
+  <HD_ModularWeapon_RejectMoveFailed>파츠를 조립체 안으로 옮기지 못했습니다.</HD_ModularWeapon_RejectMoveFailed>
+  <HD_ModularWeapon_RejectAttachedPartMissing>장착된 파츠가 더 이상 존재하지 않습니다.</HD_ModularWeapon_RejectAttachedPartMissing>
+  <HD_ModularWeapon_RejectNotRail>이 파츠는 레일에 장착되어 있지 않습니다.</HD_ModularWeapon_RejectNotRail>
+  <HD_ModularWeapon_RejectSelectedIncompatible>선택한 파츠는 이 장착부와 호환되지 않습니다.</HD_ModularWeapon_RejectSelectedIncompatible>
+  <HD_ModularWeapon_RejectRailTooShort>{0}이(가) {1} 레일보다 깁니다.</HD_ModularWeapon_RejectRailTooShort>
+  <HD_ModularWeapon_RejectNoFreeRailSpan>{0} 레일에 빈 공간이 없습니다.</HD_ModularWeapon_RejectNoFreeRailSpan>
+  <HD_ModularWeapon_RejectDoesNotFitRail>{0}은(는) {1} 레일 안에 들어가지 않습니다.</HD_ModularWeapon_RejectDoesNotFitRail>
+  <HD_ModularWeapon_RejectRailOverlap>{0}이(가) {2} 레일에서 {1}과(와) 겹칩니다.</HD_ModularWeapon_RejectRailOverlap>
+  <HD_ModularWeapon_FallbackWeapon>총기</HD_ModularWeapon_FallbackWeapon>
+  <HD_ModularWeapon_FallbackWeaponUser>총기 사용자</HD_ModularWeapon_FallbackWeaponUser>
+</LanguageData>

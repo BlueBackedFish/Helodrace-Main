@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Make the dedicated gunsmith table an additional user for firearm recipes. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/RecipeDef[
+      starts-with(defName,"HD_Make_Gun_") or
+      defName="HD_Convert_SprMOne_To_SprMThreeHigh_Weapon"
+    ]/recipeUsers</xpath>
+    <value>
+      <li>HD_GunSmithTable</li>
+    </value>
+  </Operation>
+
+  <!-- Also support weapons whose recipeMaker is defined directly on the ThingDef. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[starts-with(defName,"HD_Gun_")]/recipeMaker/recipeUsers</xpath>
+    <value>
+      <li>HD_GunSmithTable</li>
+    </value>
+  </Operation>
+</Patch>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MechanicalUser_DangerConfigured>Configured mechanical hazard</HD_MechanicalUser_DangerConfigured>
+  <HD_MechanicalHazard_Disabled>Disabled</HD_MechanicalHazard_Disabled>
+  <HD_MechanicalHazard_ConditionUserBoth>Between minimum and recommended RPM, or RPM error above {0}</HD_MechanicalHazard_ConditionUserBoth>
+  <HD_MechanicalHazard_ConditionUserSpeed>Between minimum and recommended RPM</HD_MechanicalHazard_ConditionUserSpeed>
+  <HD_MechanicalHazard_TargetArea>Area, radius {0}</HD_MechanicalHazard_TargetArea>
+  <HD_MechanicalHazard_TargetOperator>Operator, body part: {0}</HD_MechanicalHazard_TargetOperator>
+  <HD_MechanicalHazard_AnyBodyPart>any</HD_MechanicalHazard_AnyBodyPart>
+  <HD_MechanicalHazard_ReasonLowRpm>low RPM</HD_MechanicalHazard_ReasonLowRpm>
+  <HD_MechanicalHazard_ReasonError>excessive RPM error</HD_MechanicalHazard_ReasonError>
+  <HD_MechanicalHazard_Triggered>{0} caused a mechanical accident due to {1}.</HD_MechanicalHazard_Triggered>
+  <HD_ITab_MechanicalNetwork_RpmError>Actual RPM error: {0}</HD_ITab_MechanicalNetwork_RpmError>
+</LanguageData>

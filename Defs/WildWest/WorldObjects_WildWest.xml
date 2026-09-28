@@ -6,9 +6,9 @@
     <label>forward base construction</label>
     <description>A contracted Helod forward base under construction.</description>
     <worldObjectClass>Helodrace.HelodForwardBaseConstruction</worldObjectClass>
-    <texture>Icon/HD_Icon_Construction</texture>
+    <texture>Icons/HD_Icon_Construction</texture>
     <expandingIcon>true</expandingIcon>
-    <expandingIconTexture>Icon/HD_Icon_Construction</expandingIconTexture>
+    <expandingIconTexture>Icons/HD_Icon_Construction</expandingIconTexture>
     <expandingIconPriority>45</expandingIconPriority>
     <canHaveMap>false</canHaveMap>
   </WorldObjectDef>
@@ -18,9 +18,9 @@
     <label>forward base</label>
     <description>A completed Helod forward base.</description>
     <worldObjectClass>Helodrace.HelodForwardBase</worldObjectClass>
-    <texture>Icon/HD_Icon_WW_Infantry</texture>
+    <texture>Icons/HD_Icon_WW_Infantry</texture>
     <expandingIcon>true</expandingIcon>
-    <expandingIconTexture>Icon/HD_Icon_WW_Infantry</expandingIconTexture>
+    <expandingIconTexture>Icons/HD_Icon_WW_Infantry</expandingIconTexture>
     <expandingIconPriority>45</expandingIconPriority>
     <canHaveMap>false</canHaveMap>
   </WorldObjectDef>
@@ -30,9 +30,9 @@
     <label>forward base withdrawal</label>
     <description>A Helod forward base withdrawing after a failed fixed-price payment.</description>
     <worldObjectClass>Helodrace.HelodForwardBaseWithdrawal</worldObjectClass>
-    <texture>Icon/HD_Icon_Construction</texture>
+    <texture>Icons/HD_Icon_Construction</texture>
     <expandingIcon>true</expandingIcon>
-    <expandingIconTexture>Icon/HD_Icon_Construction</expandingIconTexture>
+    <expandingIconTexture>Icons/HD_Icon_Construction</expandingIconTexture>
     <expandingIconPriority>45</expandingIconPriority>
     <canHaveMap>false</canHaveMap>
   </WorldObjectDef>

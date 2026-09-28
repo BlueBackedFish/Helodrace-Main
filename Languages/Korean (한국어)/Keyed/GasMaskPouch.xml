@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_GasMaskPouch_Wear_Label>방독면 착용</HD_GasMaskPouch_Wear_Label>
+  <HD_GasMaskPouch_Remove_Label>방독면 벗기</HD_GasMaskPouch_Remove_Label>
+  <HD_GasMaskPouch_Toggle_Desc>파우치에 든 방독면을 착용하거나 수납합니다. 착용에는 {0}초가 걸리며, 방독면을 착용한 동안에만 방호력이 적용됩니다.</HD_GasMaskPouch_Toggle_Desc>
+  <HD_GasMaskPouch_Status_Worn>방독면: 착용 중</HD_GasMaskPouch_Status_Worn>
+  <HD_GasMaskPouch_Status_Stored>방독면: 수납 중</HD_GasMaskPouch_Status_Stored>
+  <HD_GasMaskPouch_Wearing>이미 방독면을 착용하고 있습니다.</HD_GasMaskPouch_Wearing>
+</LanguageData>

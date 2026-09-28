@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularWeapon_Command>Weapon modding</HD_ModularWeapon_Command>
+  <HD_ModularWeapon_CommandDesc>Open the modular weapon interface. Parts selected here are created and installed immediately.</HD_ModularWeapon_CommandDesc>
+  <HD_ModularWeapon_Title>Weapon modding — {0}</HD_ModularWeapon_Title>
+  <HD_ModularWeapon_Missing>The weapon is no longer available.</HD_ModularWeapon_Missing>
+  <HD_ModularWeapon_Tree>Assembly tree</HD_ModularWeapon_Tree>
+  <HD_ModularWeapon_Navigation>Part browser</HD_ModularWeapon_Navigation>
+  <HD_ModularWeapon_BackToParent>← Back to parent</HD_ModularWeapon_BackToParent>
+  <HD_ModularWeapon_Home>Root</HD_ModularWeapon_Home>
+  <HD_ModularWeapon_AssemblyRoot>Assembly root</HD_ModularWeapon_AssemblyRoot>
+  <HD_ModularWeapon_CurrentPart>Current part</HD_ModularWeapon_CurrentPart>
+  <HD_ModularWeapon_PartSummary>{0} sockets  ·  {1} attached</HD_ModularWeapon_PartSummary>
+  <HD_ModularWeapon_AttachedParts>Parts attached here</HD_ModularWeapon_AttachedParts>
+  <HD_ModularWeapon_NoAttachedParts>No parts are attached directly here.</HD_ModularWeapon_NoAttachedParts>
+  <HD_ModularWeapon_ConnectedVia>Socket: {0}</HD_ModularWeapon_ConnectedVia>
+  <HD_ModularWeapon_SurfaceDetail>Orientation: {0}</HD_ModularWeapon_SurfaceDetail>
+  <HD_ModularWeapon_SurfaceTop>top</HD_ModularWeapon_SurfaceTop>
+  <HD_ModularWeapon_SurfaceBottom>bottom</HD_ModularWeapon_SurfaceBottom>
+  <HD_ModularWeapon_SurfaceSide>side only</HD_ModularWeapon_SurfaceSide>
+  <HD_ModularWeapon_SurfaceUnspecified>unspecified</HD_ModularWeapon_SurfaceUnspecified>
+  <HD_ModularWeapon_OppositeMounted>vertically flipped</HD_ModularWeapon_OppositeMounted>
+  <HD_ModularWeapon_ImmediateHint>Click a socket, then click a compatible part. No loose item is required during this development stage.</HD_ModularWeapon_ImmediateHint>
+  <HD_ModularWeapon_Performance>Mechanical limit: {0} RPM\nCurrent setting: {1} RPM\nMinimum/current delay: {2}s / {3}s\nBurst interval: {4} ticks</HD_ModularWeapon_Performance>
+  <HD_ModularWeapon_RailDetail>Length {0}  •  {1}</HD_ModularWeapon_RailDetail>
+  <HD_ModularWeapon_RailOffset>Rail position: {0}</HD_ModularWeapon_RailOffset>
+  <HD_ModularWeapon_SelectSocket>Select a socket to view compatible parts.</HD_ModularWeapon_SelectSocket>
+  <HD_ModularWeapon_Catalog>Compatible parts — {0}</HD_ModularWeapon_Catalog>
+  <HD_ModularWeapon_Occupancy>Occupied length: {0}</HD_ModularWeapon_Occupancy>
+  <HD_ModularWeapon_RailContactLength>Rail contact: {0}</HD_ModularWeapon_RailContactLength>
+  <HD_ModularWeapon_PhysicalLength>Physical length: {0}</HD_ModularWeapon_PhysicalLength>
+  <HD_ModularWeapon_BodyOffset>Body center from rail contact: {0}</HD_ModularWeapon_BodyOffset>
+  <HD_ModularWeapon_FireDelayModifier>Fire delay multiplier: ×{0}</HD_ModularWeapon_FireDelayModifier>
+  <HD_ModularWeapon_AttachFailed>The part could not be attached.</HD_ModularWeapon_AttachFailed>
+  <HD_ModularWeapon_SightGroups>Sight groups: {0}</HD_ModularWeapon_SightGroups>
+  <HD_ModularWeapon_SightGroupLine>{0}H {1} · efficiency {2} · {3}</HD_ModularWeapon_SightGroupLine>
+  <HD_ModularWeapon_SightNoPrimary>no usable primary sight</HD_ModularWeapon_SightNoPrimary>
+  <HD_ModularWeapon_SightIronPair>iron-sight pair</HD_ModularWeapon_SightIronPair>
+  <HD_ModularWeapon_SightMagnifierRear>rear magnifier synergy</HD_ModularWeapon_SightMagnifierRear>
+  <HD_ModularWeapon_SightMagnifierFront>front magnifier disabled</HD_ModularWeapon_SightMagnifierFront>
+  <HD_ModularWeapon_SightBelowWeapon>{0} sight(s) below the weapon centerline disabled</HD_ModularWeapon_SightBelowWeapon>
+  <HD_ModularWeapon_VerticalOccupancy>Vertical occupancy: {0}</HD_ModularWeapon_VerticalOccupancy>
+  <HD_ModularWeapon_SightPartDetail>Sight: {0} · aim radius {1}</HD_ModularWeapon_SightPartDetail>
+  <HD_ModularWeapon_StatsTitle>Weapon statistics</HD_ModularWeapon_StatsTitle>
+  <HD_ModularWeapon_PerformanceCompact>{0} RPM · {1}s fire delay</HD_ModularWeapon_PerformanceCompact>
+  <HD_ModularWeapon_SelectedAmmunition>Ammunition\n{0}</HD_ModularWeapon_SelectedAmmunition>
+  <HD_ModularWeapon_NoAmmunition>none selected</HD_ModularWeapon_NoAmmunition>
+  <HD_ModularWeapon_AmmunitionPartDetail>Ammunition selection: {0}</HD_ModularWeapon_AmmunitionPartDetail>
+  <HD_ModularWeapon_ChamberPartDetail>Chamber: {0}</HD_ModularWeapon_ChamberPartDetail>
+  <HD_ModularWeapon_AmmoCompatible>Compatible with {0}</HD_ModularWeapon_AmmoCompatible>
+  <HD_ModularWeapon_AmmoFailureToChamber>BLOCKED: will not chamber in {0}</HD_ModularWeapon_AmmoFailureToChamber>
+  <HD_ModularWeapon_AmmoCatastrophic>DANGER: barrel rupture in {0}</HD_ModularWeapon_AmmoCatastrophic>
+  <HD_ModularWeapon_AmmoUnspecified>Chamber compatibility unknown</HD_ModularWeapon_AmmoUnspecified>
+  <HD_ModularWeapon_FailureToChamber>{0} cannot fire: {1} will not chamber correctly in a {2} barrel.</HD_ModularWeapon_FailureToChamber>
+  <HD_ModularWeapon_CatastrophicFailure>{0}'s weapon ruptured! {1} was fired through a {2} barrel.</HD_ModularWeapon_CatastrophicFailure>
+  <HD_ModularWeapon_ConvertedStats>Converted performance</HD_ModularWeapon_ConvertedStats>
+  <HD_ModularWeapon_Mass>Weight</HD_ModularWeapon_Mass>
+  <HD_ModularWeapon_RecoilControl>Recoil control</HD_ModularWeapon_RecoilControl>
+  <HD_ModularWeapon_Ergonomics>Ergonomics</HD_ModularWeapon_Ergonomics>
+  <HD_ModularWeapon_MuzzleControl>Muzzle control</HD_ModularWeapon_MuzzleControl>
+  <HD_ModularWeapon_Reliability>Operating reliability</HD_ModularWeapon_Reliability>
+  <HD_ModularWeapon_GasEfficiency>Gas efficiency</HD_ModularWeapon_GasEfficiency>
+  <HD_ModularWeapon_Balance>Balance point</HD_ModularWeapon_Balance>
+  <HD_ModularWeapon_Handling>Moment handling</HD_ModularWeapon_Handling>
+  <HD_ModularWeapon_TargetAcquisition>Target acquisition</HD_ModularWeapon_TargetAcquisition>
+  <HD_ModularWeapon_AimingPrecision>Aiming precision</HD_ModularWeapon_AimingPrecision>
+  <HD_ModularWeapon_IdentificationDistance>Identification range</HD_ModularWeapon_IdentificationDistance>
+  <HD_ModularWeapon_Cells>cells</HD_ModularWeapon_Cells>
+  <HD_ModularWeapon_ImmediateHintDev>Development mode: parts are created and removed without inventory accounting.</HD_ModularWeapon_ImmediateHintDev>
+  <HD_ModularWeapon_WorkshopHint>Researched craftable parts are made at the bench; other parts must be in its parts box. Removed parts return to the box.</HD_ModularWeapon_WorkshopHint>
+  <HD_ModularWeapon_CommandDescDev>Open the modular weapon interface without a workbench or parts inventory. Development mode only.</HD_ModularWeapon_CommandDescDev>
+  <HD_ModularWeapon_PartAvailable>Available: {0}</HD_ModularWeapon_PartAvailable>
+  <HD_ModularWeapon_PartUnavailable>{0} must be obtained and placed in the parts box first.</HD_ModularWeapon_PartUnavailable>
+  <HD_ModularWeapon_InstantCraft>Craft now</HD_ModularWeapon_InstantCraft>
+  <HD_ModularWeapon_MustObtain>Obtain first</HD_ModularWeapon_MustObtain>
+  <HD_ModularWeapon_ResearchRequired>Research required: {0}</HD_ModularWeapon_ResearchRequired>
+  <HD_ModularWeapon_CatalogGroup_Discouraged>Discouraged parts</HD_ModularWeapon_CatalogGroup_Discouraged>
+  <HD_ModularWeapon_CatalogGroup_Core>Mechanism and receivers</HD_ModularWeapon_CatalogGroup_Core>
+  <HD_ModularWeapon_CatalogGroup_Barrel>Barrels and muzzles</HD_ModularWeapon_CatalogGroup_Barrel>
+  <HD_ModularWeapon_CatalogGroup_Furniture>Grips and furniture</HD_ModularWeapon_CatalogGroup_Furniture>
+  <HD_ModularWeapon_CatalogGroup_Magazine>Magazines and ammunition</HD_ModularWeapon_CatalogGroup_Magazine>
+  <HD_ModularWeapon_CatalogGroup_Sights>Sights and mounts</HD_ModularWeapon_CatalogGroup_Sights>
+  <HD_ModularWeapon_CatalogGroup_Electronics>Lights and lasers</HD_ModularWeapon_CatalogGroup_Electronics>
+  <HD_ModularWeapon_CatalogGroup_Other>Other parts</HD_ModularWeapon_CatalogGroup_Other>
+  <HD_ModularWeapon_DiscouragedTopGrip>A grip on the top rail obstructs aiming and offers little benefit.</HD_ModularWeapon_DiscouragedTopGrip>
+  <HD_ModularWeapon_DiscouragedBottomSight>A sight under the weapon cannot be used to aim normally.</HD_ModularWeapon_DiscouragedBottomSight>
+  <HD_ModularWeapon_SideGripEfficiency>A side mounted foregrip gives 45% of its handling and muzzle control benefit. Only the most effective foregrip adds a benefit; every part still adds weight.</HD_ModularWeapon_SideGripEfficiency>
+  <HD_ModularWeapon_RailPanelEfficiency>Rail panels improve ergonomics equally on any rail. The second and third panels give half and one quarter of their benefit; all panels add weight.</HD_ModularWeapon_RailPanelEfficiency>
+  <HD_ModularWeapon_SelectWeaponTitle>Select a weapon to modify</HD_ModularWeapon_SelectWeaponTitle>
+  <HD_ModularWeapon_SelectWeaponDesc>Choose an equipped modular weapon. Its colonist will walk to this workbench before the modification window opens.</HD_ModularWeapon_SelectWeaponDesc>
+  <HD_ModularWeapon_SelectWeaponAction>Modify at bench</HD_ModularWeapon_SelectWeaponAction>
+  <HD_ModularWeaponBench_Command>Modify weapon</HD_ModularWeaponBench_Command>
+  <HD_ModularWeaponBench_CommandDesc>Choose an equipped modular weapon. Its colonist will come to this workbench to modify it.</HD_ModularWeaponBench_CommandDesc>
+  <HD_ModularWeaponBench_NoPartsBox>Insert a weapon-parts box into this workbench.</HD_ModularWeaponBench_NoPartsBox>
+  <HD_ModularWeaponBench_RemoveBox>Remove parts box</HD_ModularWeaponBench_RemoveBox>
+  <HD_ModularPartsBox_InsertAtBench>Insert into workbench</HD_ModularPartsBox_InsertAtBench>
+  <HD_ModularPartsBox_InsertAtBenchDesc>Order a colonist to carry this box to an available gunsmith table.</HD_ModularPartsBox_InsertAtBenchDesc>
+  <HD_ModularPartsBox_NoInstallJob>No reachable empty gunsmith table or available colonist was found.</HD_ModularPartsBox_NoInstallJob>
+  <HD_ModularWeaponBench_NoWeapon>No available colonist is carrying a configurable modular weapon.</HD_ModularWeaponBench_NoWeapon>
+  <HD_ModularWeaponBench_CannotStart>The selected colonist cannot start weapon modification.</HD_ModularWeaponBench_CannotStart>
+  <HD_ModularWeaponBench_WieldedBy>{0} — carried by {1}</HD_ModularWeaponBench_WieldedBy>
+  <HD_ModularPartsBox_Empty>No weapon parts stored.</HD_ModularPartsBox_Empty>
+  <HD_ModularPartsBox_Total>Stored weapon parts: {0}</HD_ModularPartsBox_Total>
+  <HD_ModularPartsBox_More>...and {0} more types</HD_ModularPartsBox_More>
+  <HD_ModularPartsBox_Absorb>Store nearby parts</HD_ModularPartsBox_Absorb>
+  <HD_ModularPartsBox_AbsorbDesc>Store modular parts within 8 cells in this box. Small parts are counted; independent parts remain items.</HD_ModularPartsBox_AbsorbDesc>
+  <HD_ModularPartsBox_Absorbed>Stored {0} weapon part(s).</HD_ModularPartsBox_Absorbed>
+  <HD_ModularWeapon_ExportPreset>Export preset XML</HD_ModularWeapon_ExportPreset>
+  <HD_ModularWeapon_ExportPresetDesc>Copy a complete preset Def for the current recursive weapon assembly to the clipboard.</HD_ModularWeapon_ExportPresetDesc>
+  <HD_ModularWeapon_ExportPresetCopied>The weapon preset XML was copied to the clipboard.</HD_ModularWeapon_ExportPresetCopied>
+  <HD_ModularWeapon_CategoryRequired>Required part</HD_ModularWeapon_CategoryRequired>
+  <HD_ModularWeapon_CategoryFunctional>Functional part</HD_ModularWeapon_CategoryFunctional>
+  <HD_ModularWeapon_CategoryOptional>Optional part</HD_ModularWeapon_CategoryOptional>
+  <HD_ModularWeapon_MissingRequiredParts>{0} cannot fire because required parts are missing: {1}.</HD_ModularWeapon_MissingRequiredParts>
+  <HD_ModularWeapon_FunctionOperational>Function: operational</HD_ModularWeapon_FunctionOperational>
+  <HD_ModularWeapon_FunctionBlocked>Function: cannot fire (missing required parts: {0})</HD_ModularWeapon_FunctionBlocked>
+  <HD_ModularWeapon_FunctionDegraded>Function degraded (missing functional parts: {0})</HD_ModularWeapon_FunctionDegraded>
+  <HD_ModularWeapon_GasTubeSetting>Gas-tube flow: {0}</HD_ModularWeapon_GasTubeSetting>
+  <HD_ModularWeapon_GasTubeReset>100%</HD_ModularWeapon_GasTubeReset>
+  <HD_ModularWeapon_GasTubeEffects>{0} RPM · recoil ×{1} · muzzle flash ×{2}</HD_ModularWeapon_GasTubeEffects>
+  <HD_ModularWeapon_GasTubeUnavailable>No installed gas system; the saved setting is inactive.</HD_ModularWeapon_GasTubeUnavailable>
+  <HD_ModularWeapon_GasTubeDesc>Adjusts the assembled weapon's gas flow. Lower flow reduces cyclic rate and recoil; higher flow increases both. The mechanical RPM limit is never exceeded.</HD_ModularWeapon_GasTubeDesc>
+  <HD_ModularWeapon_RejectNoPart>No valid part was supplied.</HD_ModularWeapon_RejectNoPart>
+  <HD_ModularWeapon_RejectCycle>Attaching this part would create a cycle.</HD_ModularWeapon_RejectCycle>
+  <HD_ModularWeapon_RejectSocketMissing>Socket {0} does not exist on {1}.</HD_ModularWeapon_RejectSocketMissing>
+  <HD_ModularWeapon_RejectSocketFull>Socket {0} has reached its attachment limit.</HD_ModularWeapon_RejectSocketFull>
+  <HD_ModularWeapon_RejectNotModularPart>{0} is not a modular weapon part.</HD_ModularWeapon_RejectNotModularPart>
+  <HD_ModularWeapon_RejectNoMount>{0} has no attachment mount.</HD_ModularWeapon_RejectNoMount>
+  <HD_ModularWeapon_RejectIncompatible>{0} is not compatible with {1}.</HD_ModularWeapon_RejectIncompatible>
+  <HD_ModularWeapon_RejectSpawned>A spawned part must be despawned before it can be attached.</HD_ModularWeapon_RejectSpawned>
+  <HD_ModularWeapon_RejectMoveFailed>RimWorld refused to move the part into the assembly.</HD_ModularWeapon_RejectMoveFailed>
+  <HD_ModularWeapon_RejectAttachedPartMissing>The attached part no longer exists.</HD_ModularWeapon_RejectAttachedPartMissing>
+  <HD_ModularWeapon_RejectNotRail>This attachment is not mounted on a rail.</HD_ModularWeapon_RejectNotRail>
+  <HD_ModularWeapon_RejectSelectedIncompatible>The selected part is not compatible with this socket.</HD_ModularWeapon_RejectSelectedIncompatible>
+  <HD_ModularWeapon_RejectRailTooShort>{0} is longer than rail {1}.</HD_ModularWeapon_RejectRailTooShort>
+  <HD_ModularWeapon_RejectNoFreeRailSpan>There is no free span on rail {0}.</HD_ModularWeapon_RejectNoFreeRailSpan>
+  <HD_ModularWeapon_RejectDoesNotFitRail>{0} does not fit within rail {1}.</HD_ModularWeapon_RejectDoesNotFitRail>
+  <HD_ModularWeapon_RejectRailOverlap>{0} overlaps {1} on rail {2}.</HD_ModularWeapon_RejectRailOverlap>
+  <HD_ModularWeapon_FallbackWeapon>weapon</HD_ModularWeapon_FallbackWeapon>
+  <HD_ModularWeapon_FallbackWeaponUser>weapon user</HD_ModularWeapon_FallbackWeaponUser>
+</LanguageData>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_BreachExplosive_InstallFuse_Label>Install fuse charge</HD_BreachExplosive_InstallFuse_Label>
+  <HD_BreachExplosive_InstallFuse_Desc>Consume one igniter and install C-4 on a wall or door with time blasting fuse. The operator remains linked within {0} cells until the charge is fired or abandoned. C-4 use scales with the structure's current hit points, and installation time scales with the amount of C-4 used.</HD_BreachExplosive_InstallFuse_Desc>
+  <HD_BreachExplosive_InstallShockTube_Label>Install shock-tube charge</HD_BreachExplosive_InstallShockTube_Label>
+  <HD_BreachExplosive_InstallShockTube_Desc>Consume one igniter and install C-4 on a wall or door with non-electric shock tube. Wiring takes 20% longer, but the operator may move within {0} cells until the charge is fired or abandoned. C-4 use scales with the structure's current hit points, and installation time scales with the amount of C-4 used.</HD_BreachExplosive_InstallShockTube_Desc>
+  <HD_BreachExplosive_Detonate_Label>Detonate breach charge</HD_BreachExplosive_Detonate_Label>
+  <HD_BreachExplosive_Detonate_Desc>Spend one second firing the installed C-4. A shock tube detonates immediately afterward; time fuse burns for one additional second per cell between the operator and the charge.</HD_BreachExplosive_Detonate_Desc>
+  <HD_BreachExplosive_Abandon_Label>Abandon breach charge</HD_BreachExplosive_Abandon_Label>
+  <HD_BreachExplosive_Abandon_Desc>Cut the connection and abandon the installed charge. The installed C-4 will not be recovered.</HD_BreachExplosive_Abandon_Desc>
+  <HD_BreachExplosive_OperatorUnavailable>The operator cannot install or fire a breaching charge right now.</HD_BreachExplosive_OperatorUnavailable>
+  <HD_BreachExplosive_InvalidTarget>Select an impassable wall or a door.</HD_BreachExplosive_InvalidTarget>
+  <HD_BreachExplosive_AlreadyLinked>This operator is already linked to an installed breaching charge.</HD_BreachExplosive_AlreadyLinked>
+  <HD_BreachExplosive_WallAlreadyCharged>This structure already has a breaching charge installed.</HD_BreachExplosive_WallAlreadyCharged>
+  <HD_BreachExplosive_MissingIgniter>The required igniter is no longer in the operator's inventory.</HD_BreachExplosive_MissingIgniter>
+  <HD_BreachExplosive_NoC4>Requires at least {0} C-4 in the operator's inventory.</HD_BreachExplosive_NoC4>
+  <HD_BreachExplosive_CannotReach>Cannot reach a suitable installation position beside the structure.</HD_BreachExplosive_CannotReach>
+  <HD_BreachExplosive_CannotReserve>The selected wall is already reserved.</HD_BreachExplosive_CannotReserve>
+  <HD_BreachExplosive_ChargeInvalid>The installed charge has lost its target structure.</HD_BreachExplosive_ChargeInvalid>
+  <HD_BreachExplosive_OutOfRange>The operator must be within {0} cells of the installed charge.</HD_BreachExplosive_OutOfRange>
+  <HD_BreachExplosive_Installed>Installed {0} C-4. Movement is now limited to a {1}-cell radius until detonation or abandonment.</HD_BreachExplosive_Installed>
+  <HD_BreachExplosive_Abandoned>The breaching charge was abandoned and its C-4 was lost.</HD_BreachExplosive_Abandoned>
+  <HD_BreachExplosive_TetherBlocked>Cannot move beyond the breaching charge's {0}-cell connection range. Detonate or abandon the charge first.</HD_BreachExplosive_TetherBlocked>
+  <HD_BreachExplosive_FuseLit>The time fuse is burning. Detonation in {0} seconds.</HD_BreachExplosive_FuseLit>
+  <HD_BreachExplosive_FuseCountdown>Time to detonation: {0} seconds</HD_BreachExplosive_FuseCountdown>
+</LanguageData>

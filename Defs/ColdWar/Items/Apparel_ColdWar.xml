@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- 방탄 참고 주석은 추후 개발용 추정/목표값이며 현재 게임 스탯이나 NIJ 인증을 뜻하지 않음.
+       NIJ 0101.07이 참조하는 0123.00 위협등급: hg1, hg2, rf1, rf2, rf3; 미달: -hg1.
+       비교 근거와 불확실성: Docs/Ballistic_Reference_Notes.md -->
+
+
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_M1952AFlakJacket</defName>
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 -hg1. -->
+    <label>M1952A flak jacket</label>
+    <description>A sleeveless fragmentation vest issued for protection against shell and grenade fragments. It is lighter and more flexible than modern plate armor, but offers substantially less protection against direct rifle fire.</description>
+    <graphicData>
+      <texPath>Helod/Apparel/HD_M1952AFlakJacket/HD_M1952AFlakJacket_Female_south</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <WorkToMake>6500</WorkToMake>
+      <MarketValue>310</MarketValue>
+      <Mass>3.7</Mass>
+      <ArmorRating_Sharp>0.55</ArmorRating_Sharp>
+      <ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+      <ArmorRating_Heat>0.15</ArmorRating_Heat>
+      <Flammability>0.45</Flammability>
+      <EquipDelay>1.7</EquipDelay>
+      <Insulation_Cold>1</Insulation_Cold>
+      <Insulation_Heat>0.5</Insulation_Heat>
+    </statBases>
+    <equippedStatOffsets>
+      <MoveSpeed>-0.05</MoveSpeed>
+    </equippedStatOffsets>
+    <thingCategories>
+      <li>ApparelArmor</li>
+    </thingCategories>
+    <apparel>
+      <bodyPartGroups>
+        <li>Torso</li>
+        <li>Neck</li>
+        <li>Shoulders</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Helod/Apparel/HD_M1952AFlakJacket/HD_M1952AFlakJacket</wornGraphicPath>
+      <useWornGraphicMask>false</useWornGraphicMask>
+      <layers>
+        <li>Shell</li>
+      </layers>
+      <tags>
+        <li>HD_Apparel</li>
+        <li>HD_Apparel_CW_Protective</li>
+      </tags>
+      <defaultOutfitTags>
+        <li>Soldier</li>
+      </defaultOutfitTags>
+    </apparel>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+      <recipeUsers>
+        <li>HD_BasicWorkbench</li>
+      </recipeUsers>
+    </recipeMaker>
+    <costList>
+      <Cloth>65</Cloth>
+      <Steel>25</Steel>
+    </costList>
+    <researchPrerequisites>
+      <li>HelodFlakJacket</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>

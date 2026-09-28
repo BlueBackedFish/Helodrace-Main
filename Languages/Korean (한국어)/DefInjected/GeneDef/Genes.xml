@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <!-- BTX Dependency Gene -->
+  <HD_Gene_BTXDependency.label>BTX 의존</HD_Gene_BTXDependency.label>
+  <HD_Gene_BTXDependency.description>이 유전자의 보유자는 영구적인 BTX 중독에 걸립니다. 중독 헤디프가 BTX 욕구를 생성하며, 위험한 금단 증상을 막으려면 벤젠, 톨루엔 또는 자일렌 화합물을 섭취해 욕구를 채워야 합니다.</HD_Gene_BTXDependency.description>
+
+  <!-- Amphetamine Dependency Gene -->
+  <HD_Gene_AmphetamineDependency.label>암페타민 의존</HD_Gene_AmphetamineDependency.label>
+  <HD_Gene_AmphetamineDependency.description>이 유전자의 보유자는 생존을 위해 암페타민을 주기적으로 섭취해야 합니다. 암페타민을 섭취하지 않고 5일이 지나면 결핍이 시작되고, 30일 뒤에는 혼수상태에 빠지며, 60일 뒤에는 사망합니다.</HD_Gene_AmphetamineDependency.description>
+
   <!-- Sharpshooter Gene -->
   <HD_Gene_Sharpshooter.label>명사수</HD_Gene_Sharpshooter.label>
   <HD_Gene_Sharpshooter.description>"아아, 이 서늘하고도 묵직한 감각..." (총기의 특수 조작을 사용할 수 있습니다)</HD_Gene_Sharpshooter.description>

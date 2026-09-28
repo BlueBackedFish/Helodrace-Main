@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_ModularWeaponPartsBox</defName>
+    <label>weapon-parts box</label>
+    <description>A portable parts box inserted into a gunsmith table. Its stored modular parts are used for weapon modification.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <graphicData>
+      <texPath>Items/HD_WeaponPartBox</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.9,0.9)</drawSize>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <WorkToMake>3500</WorkToMake>
+      <MarketValue>220</MarketValue>
+      <Flammability>0.35</Flammability>
+      <Mass>12</Mass>
+    </statBases>
+    <thingCategories><li>Manufactured</li></thingCategories>
+    <costList><Steel>45</Steel><ComponentIndustrial>2</ComponentIndustrial></costList>
+    <recipeMaker>
+      <researchPrerequisite>HelodColdWarTech</researchPrerequisite>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements><Crafting>4</Crafting></skillRequirements>
+      <recipeUsers><li>HD_GunSmithTable</li></recipeUsers>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponPartsBox" />
+    </comps>
+  </ThingDef>
+
+</Defs>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[(starts-with(defName,"HD_") or starts-with(@Name,"HD_")) and apparel]/recipeMaker/recipeUsers</xpath>
+    <value><li>HD_ClothingBench</li></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[@Name="HD_ModularArmorPartItemBase"]/recipeMaker/recipeUsers</xpath>
+    <value><li>HD_ClothingBench</li></value>
+  </Operation>
+</Patch>

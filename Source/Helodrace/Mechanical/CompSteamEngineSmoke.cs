@@ -18,6 +18,7 @@ namespace Helodrace
     public class CompSteamEngineSmoke : ThingComp
     {
         private CompRefuelable refuelable;
+        private CompMechanicalEmitter emitter;
 
         public CompProperties_SteamEngineSmoke Props => (CompProperties_SteamEngineSmoke)this.props;
 
@@ -25,19 +26,25 @@ namespace Helodrace
         {
             base.PostSpawnSetup(respawningAfterLoad);
             this.refuelable = this.parent.TryGetComp<CompRefuelable>();
+            this.emitter = this.parent.TryGetComp<CompMechanicalEmitter>();
         }
 
         public override void CompTick()
         {
             base.CompTick();
-            
-            // Only smoke if fueled
-            if (refuelable == null || refuelable.HasFuel)
+
+            if (!this.parent.IsHashIntervalTick(30))
             {
-                if (this.parent.IsHashIntervalTick(30)) // Every 0.5 seconds
-                {
-                    ThrowSmoke();
-                }
+                return;
+            }
+
+            // Mechanical engines should only smoke while they are actually running.
+            bool isRunning = emitter != null
+                ? emitter.IsProducingPower
+                : refuelable == null || refuelable.HasFuel;
+            if (isRunning)
+            {
+                ThrowSmoke();
             }
         }
 

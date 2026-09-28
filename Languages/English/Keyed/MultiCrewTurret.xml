@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MultiCrew_Role_ChiefOfSection>Chief of Section</HD_MultiCrew_Role_ChiefOfSection>
+  <HD_MultiCrew_Role_Gunner>Gunner</HD_MultiCrew_Role_Gunner>
+  <HD_MultiCrew_Role_AssistantGunner>Assistant Gunner</HD_MultiCrew_Role_AssistantGunner>
+  <HD_MultiCrew_Role_Loader>Loader</HD_MultiCrew_Role_Loader>
+  <HD_MultiCrew_Role_FuzeSetter>Fuze Setter</HD_MultiCrew_Role_FuzeSetter>
+  <HD_MultiCrew_Role_ChargeHandler>Charge Handler</HD_MultiCrew_Role_ChargeHandler>
+  <HD_MultiCrew_Role_AmmunitionBearer>Ammunition Bearer</HD_MultiCrew_Role_AmmunitionBearer>
+  <HD_MultiCrew_Role_AssistantAmmunitionBearer>Assistant Ammunition Bearer</HD_MultiCrew_Role_AssistantAmmunitionBearer>
+  <HD_MultiCrew_OperateAs>Operate {0} as {1}</HD_MultiCrew_OperateAs>
+  <HD_MultiCrew_RoleOccupied>occupied by {0}</HD_MultiCrew_RoleOccupied>
+  <HD_MultiCrew_Ready>All required crew roles are staffed.</HD_MultiCrew_Ready>
+  <HD_MultiCrew_MissingRequired>Required crew role missing: cannot fire.</HD_MultiCrew_MissingRequired>
+  <HD_MultiCrew_Required>required</HD_MultiCrew_Required>
+  <HD_MultiCrew_Optional>optional</HD_MultiCrew_Optional>
+  <HD_MultiCrew_Vacant>vacant</HD_MultiCrew_Vacant>
+  <HD_MultiCrew_RoleStatus>{0} — {1}: {2}</HD_MultiCrew_RoleStatus>
+  <HD_MultiCrew_Modifiers>Current modifiers — accuracy: {0}, cooldown: {1}, warmup: {2}</HD_MultiCrew_Modifiers>
+</LanguageData>

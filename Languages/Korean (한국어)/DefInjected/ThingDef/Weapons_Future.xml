@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_LANCE_LRA7_Beam.label>LRA-7 결합 질량탄</HD_LANCE_LRA7_Beam.label>
+  <HD_LANCE_LRA7_BeamEffect.label>LRA-7 빔 효과</HD_LANCE_LRA7_BeamEffect.label>
+  <HD_LANCE_LRA7_FeedbackWave.label>LRA-7 피드백 파동</HD_LANCE_LRA7_FeedbackWave.label>
+  <HD_Gun_LANCE_LRA7_Weapon.label>LANCE LRA-7</HD_Gun_LANCE_LRA7_Weapon.label>
+  <HD_Gun_LANCE_LRA7_Weapon.description>양질량탄과 음질량탄을 결합하는 단일 측정 체계를 사용하는 2세대 LANCE 소총입니다. 결합탄은 비행 거리가 늘수록 파괴 에너지를 얻지만 안전 분리 범위를 넘으면 피드백 폭주로 붕괴합니다.</HD_Gun_LANCE_LRA7_Weapon.description>
+  <HD_Gun_LANCE_LRA7_Weapon.tools.0.label>개머리판</HD_Gun_LANCE_LRA7_Weapon.tools.0.label>
+</LanguageData>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <StatDef>
+    <defName>HD_ArmorErgonomics</defName>
+    <label>armor ergonomics</label>
+    <description>Measures how much the armor interferes with the wearer's movement.</description>
+    <category>Apparel</category>
+    <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
+    <toStringStyle>FloatOne</toStringStyle>
+    <defaultBaseValue>0</defaultBaseValue>
+    <showIfUndefined>false</showIfUndefined>
+    <showZeroBaseValue>false</showZeroBaseValue>
+    <displayPriorityInCategory>5050</displayPriorityInCategory>
+  </StatDef>
+
+  <StatDef>
+    <defName>HD_ArmorVentilation</defName>
+    <label>armor ventilation</label>
+    <description>Measures how well the armor releases trapped heat and moisture.</description>
+    <category>Apparel</category>
+    <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
+    <toStringStyle>FloatOne</toStringStyle>
+    <defaultBaseValue>0</defaultBaseValue>
+    <showIfUndefined>false</showIfUndefined>
+    <showZeroBaseValue>false</showZeroBaseValue>
+    <displayPriorityInCategory>5049</displayPriorityInCategory>
+  </StatDef>
+
+  <StatDef>
+    <defName>HD_ArmorLoadDistribution</defName>
+    <label>armor load distribution</label>
+    <description>Measures how evenly the armor's weight is spread across the wearer's body.</description>
+    <category>Apparel</category>
+    <workerClass>Helodrace.ModernWar.StatWorker_ModularArmorMetric</workerClass>
+    <toStringStyle>FloatOne</toStringStyle>
+    <defaultBaseValue>0</defaultBaseValue>
+    <showIfUndefined>false</showIfUndefined>
+    <showZeroBaseValue>false</showZeroBaseValue>
+    <displayPriorityInCategory>5048</displayPriorityInCategory>
+  </StatDef>
+</Defs>

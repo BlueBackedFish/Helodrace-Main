@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_NicotineRush.label>니코틴 각성</HD_NicotineRush.label>
+  <HD_NicotineRush.description>담배를 피운 뒤 잠시 느끼는 차분한 각성감입니다.</HD_NicotineRush.description>
+  <HD_NicotineTolerance.label>니코틴 내성</HD_NicotineTolerance.label>
+  <HD_NicotineTolerance.description>누적된 니코틴 내성입니다. 내성이 높을수록 담배 한 개비의 효과가 줄어듭니다.</HD_NicotineTolerance.description>
+  <HD_NicotineAddiction.label>니코틴 의존증</HD_NicotineAddiction.label>
+  <HD_NicotineAddiction.description>니코틴에 대한 화학적 의존입니다. 담배를 피우지 않으면 짜증과 집중력 저하가 생기지만 금연을 계속하면 결국 의존증이 사라집니다.</HD_NicotineAddiction.description>
+  <HD_NicotineAddiction.stages.1.label>금단</HD_NicotineAddiction.stages.1.label>
+</LanguageData>

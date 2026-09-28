@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_AntiAir_Mode_Label>대공 모드</HD_AntiAir_Mode_Label>
+  <HD_AntiAir_Mode_Desc>일반 지상 사격과 CIWS 사격을 전환합니다. 대공 모드에서는 사수가 배치된 포탑이 발사자나 세력에 관계없이 사거리 안의 모든 요격 가능 투사체와 진입 중인 드랍포드를 자동으로 요격합니다.</HD_AntiAir_Mode_Desc>
+  <HD_AntiAir_StatusOn>켜짐</HD_AntiAir_StatusOn>
+  <HD_AntiAir_StatusOff>꺼짐</HD_AntiAir_StatusOff>
+  <HD_AntiAir_InspectMode>대공 모드: {0}</HD_AntiAir_InspectMode>
+  <HD_AntiAir_NoGunner>사수 대기 중</HD_AntiAir_NoGunner>
+  <HD_AntiAir_OperatorFactors>운용자 영향 — 사격: {0}, 연구: {1}</HD_AntiAir_OperatorFactors>
+  <HD_AntiAir_Chance>탄환당 요격 확률 — 포탄: {0}, 드랍포드: {1}</HD_AntiAir_Chance>
+</LanguageData>

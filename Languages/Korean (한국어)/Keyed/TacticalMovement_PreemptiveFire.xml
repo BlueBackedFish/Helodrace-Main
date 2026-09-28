@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalPreemptiveFire_Command>선제 사격</HD_TacticalPreemptiveFire_Command>
+  <HD_TacticalPreemptiveFire_CommandDesc>이동을 멈추고 지정 사선으로 더블탭을 반복합니다. 두 발 사이 최소 0.2초, 묶음 사이 최소 1초를 쉬며 더 긴 무기 후딜레이는 유지됩니다. 새 이동 명령으로 해제합니다. 기본 명중률 50%, 크기 보정 폭 2배이며 사격 레벨과 무관합니다. 아군 피격·엄폐·방호·탄약 판정은 유지됩니다.</HD_TacticalPreemptiveFire_CommandDesc>
+  <HD_TacticalPreemptiveFire_Preparing>선제 사격을 준비 중입니다.</HD_TacticalPreemptiveFire_Preparing>
+  <HD_TacticalPreemptiveFire_Cancel>선제 사격 해제</HD_TacticalPreemptiveFire_Cancel>
+  <HD_TacticalPreemptiveFire_CancelDesc>준비한 직선 사격 구역을 해제합니다.</HD_TacticalPreemptiveFire_CancelDesc>
+</LanguageData>

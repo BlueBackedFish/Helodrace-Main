@@ -25,14 +25,14 @@ namespace Helodrace
                 return;
             }
 
-            float transferPerSecond = Mathf.Abs(Props.heatPerSecond) * HeatTransferFactor;
-            if (Mathf.Approximately(transferPerSecond, 0f))
+            float transferPerRareTick = EnergyPerRareTick(Props.heatPerSecond, HeatTransferFactor);
+            if (Mathf.Approximately(transferPerRareTick, 0f))
             {
                 return;
             }
 
-            float coldEnergyLimit = -transferPerSecond;
-            float hotEnergyLimit = transferPerSecond * Props.heatDumpFactor;
+            float coldEnergyLimit = -transferPerRareTick;
+            float hotEnergyLimit = transferPerRareTick * Props.heatDumpFactor;
             bool coldSideOutdoor = IsOutdoorOrInvalid(ColdSideCell);
             bool hotSideOutdoor = IsOutdoorOrInvalid(HotSideCell);
 
@@ -44,6 +44,13 @@ namespace Helodrace
 
             ApplyTemperatureChangeToRoom(ColdSideCell, coldEnergyLimit, Props.coldSideTargetTemperature);
             ApplyTemperatureChangeToRoom(HotSideCell, hotEnergyLimit, Props.hotSideTargetTemperature);
+        }
+
+        internal static float EnergyPerRareTick(float heatPerSecond, float transferFactor)
+        {
+            // CompTickRare runs once per 250 game ticks. GenTemperature expects the
+            // total energy for that invocation, as used by vanilla heaters/coolers.
+            return Mathf.Abs(heatPerSecond) * transferFactor * GenTicks.TickRareInterval / 60f;
         }
 
         private bool IsOutdoorOrInvalid(IntVec3 cell)

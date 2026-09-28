@@ -26,4 +26,28 @@
   <HD_Make81mmMortarShellBA.label>M57 81mm BA 화학탄 만들기</HD_Make81mmMortarShellBA.label>
   <HD_Make81mmMortarShellBA.description>M1 81mm 박격포용 스위트 가스 화학탄을 조립합니다.</HD_Make81mmMortarShellBA.description>
   <HD_Make81mmMortarShellBA.jobString>M57 81mm BA 화학탄 만드는 중.</HD_Make81mmMortarShellBA.jobString>
+  <HD_Make105mmShellM1HE.label>M1 105mm 고폭탄 만들기</HD_Make105mmShellM1HE.label>
+  <HD_Make105mmShellM1HE.description>M2A2 105mm 경곡사포용 탄피식 M1 고폭탄을 조립합니다.</HD_Make105mmShellM1HE.description>
+  <HD_Make105mmShellM1HE.jobString>M1 105mm 고폭탄 만드는 중.</HD_Make105mmShellM1HE.jobString>
+  <HD_Make155mmShellM107HE.label>M107 155mm 고폭탄 만들기</HD_Make155mmShellM107HE.label>
+  <HD_Make155mmShellM107HE.description>M114 155mm 곡사포용 중량 M107 고폭탄을 조립합니다.</HD_Make155mmShellM107HE.description>
+  <HD_Make155mmShellM107HE.jobString>M107 155mm 고폭탄 만드는 중.</HD_Make155mmShellM107HE.jobString>
+  <HD_Make155mmShellM110BA.label>M110 155mm BA 화학탄 만들기</HD_Make155mmShellM110BA.label>
+  <HD_Make155mmShellM110BA.description>M114 155mm 곡사포용 지속성 HD 수포 작용제 화학탄을 조립합니다.</HD_Make155mmShellM110BA.description>
+  <HD_Make155mmShellM110BA.jobString>M110 155mm BA 화학탄 만드는 중.</HD_Make155mmShellM110BA.jobString>
+  <HD_Make155mmShellM110WP.label>M110 155mm 백린연막탄 만들기</HD_Make155mmShellM110WP.label>
+  <HD_Make155mmShellM110WP.description>M114 155mm 곡사포용 백린연막탄을 조립합니다.</HD_Make155mmShellM110WP.description>
+  <HD_Make155mmShellM110WP.jobString>M110 155mm 백린연막탄 만드는 중.</HD_Make155mmShellM110WP.jobString>
+  <HD_Make155mmShellM110CN.label>M110 155mm CN 화학탄 만들기</HD_Make155mmShellM110CN.label>
+  <HD_Make155mmShellM110CN.description>M114 155mm 곡사포용 M110 CN 최루 작용제 화학탄을 조립합니다.</HD_Make155mmShellM110CN.description>
+  <HD_Make155mmShellM110CN.jobString>M110 155mm CN 화학탄 만드는 중.</HD_Make155mmShellM110CN.jobString>
+  <HD_MakeFLAM.label>FLAM ×20 만들기</HD_MakeFLAM.label>
+  <HD_MakeFLAM.description>곱게 가공한 고기를 대량으로 통조림 처리해 작은 FLAM 캔으로 만듭니다.</HD_MakeFLAM.description>
+  <HD_MakeFLAM.jobString>FLAM 제작 중.</HD_MakeFLAM.jobString>
+  <HD_Make3InchMortarShellHE.label>3인치 박격포 고폭탄 만들기</HD_Make3InchMortarShellHE.label>
+  <HD_Make3InchMortarShellHE.description>3인치 호킨스 박격포용 고폭탄을 조립합니다.</HD_Make3InchMortarShellHE.description>
+  <HD_Make3InchMortarShellHE.jobString>3인치 박격포 고폭탄 제작 중.</HD_Make3InchMortarShellHE.jobString>
+  <HD_Make3InchMortarShellCG.label>3인치 박격포 포토클로로겐탄 만들기</HD_Make3InchMortarShellCG.label>
+  <HD_Make3InchMortarShellCG.description>3인치 호킨스 박격포용 소형 포토클로로겐탄을 조립합니다.</HD_Make3InchMortarShellCG.description>
+  <HD_Make3InchMortarShellCG.jobString>3인치 박격포 포토클로로겐탄 제작 중.</HD_Make3InchMortarShellCG.jobString>
 </LanguageData>

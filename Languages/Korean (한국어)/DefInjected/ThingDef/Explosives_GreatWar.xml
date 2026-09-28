@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Defs/GreatWar/Buildings/Explosives_GreatWar.xml -->
+  <HD_ANFOBlastingCharge.label>ANFO 폭약</HD_ANFOBlastingCharge.label>
+  <HD_ANFOBlastingCharge.description>질산암모늄과 디젤을 혼합한 발파용 폭약입니다. 격발기에 연결해 암벽을 원격 발파할 수 있지만, 습기에 오래 노출되면 사용할 수 없게 됩니다.</HD_ANFOBlastingCharge.description>
+
+  <HD_ANFODetonator.label>발파 격발기</HD_ANFODetonator.label>
+  <HD_ANFODetonator.description>연결된 ANFO 폭약을 한꺼번에 원격 점화하는 수동 발파 장치입니다.</HD_ANFODetonator.description>
+</LanguageData>

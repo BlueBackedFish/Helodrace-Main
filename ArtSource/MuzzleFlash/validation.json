@@ -1,0 +1,42 @@
+[
+  {
+    "File": "MuzzleFlash_Bare.png",
+    "Width": 256,
+    "Height": 256,
+    "BorderAlphaMax": 0,
+    "TransparentPixels": 53875,
+    "PartialAlphaPixels": 11291,
+    "RootAlpha": 255,
+    "SHA256": "BDA67969B7DF6E8FBA71582396C6223E8C248587B14CCCD658124B2BCC9129E2"
+  },
+  {
+    "File": "MuzzleFlash_Radial.png",
+    "Width": 256,
+    "Height": 256,
+    "BorderAlphaMax": 0,
+    "TransparentPixels": 61906,
+    "PartialAlphaPixels": 3459,
+    "RootAlpha": 255,
+    "SHA256": "1F334851A7914068295D43CE6683EDDE88DF24C288F41552C0A07772C417938D"
+  },
+  {
+    "File": "MuzzleFlash_Suppressed.png",
+    "Width": 256,
+    "Height": 256,
+    "BorderAlphaMax": 0,
+    "TransparentPixels": 64943,
+    "PartialAlphaPixels": 593,
+    "RootAlpha": 166,
+    "SHA256": "0C0C2F71461B0C2F4E5A4B3B2A35EF6A2D80DF9FF6CF5E70BBB1FECF8DC9A4EE"
+  },
+  {
+    "File": "MuzzleFlash_Upward.png",
+    "Width": 256,
+    "Height": 256,
+    "BorderAlphaMax": 0,
+    "TransparentPixels": 61807,
+    "PartialAlphaPixels": 3545,
+    "RootAlpha": 254,
+    "SHA256": "1741E0AA062B31622E97EC008F668F03D38336B8B27C5F8205518FB3C0E85CFA"
+  }
+]

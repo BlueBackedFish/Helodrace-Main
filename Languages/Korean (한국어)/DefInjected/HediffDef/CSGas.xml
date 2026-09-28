@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <HD_CSGasExposure.label>CS 자극 증상</HD_CSGasExposure.label>
+  <HD_CSGasExposure.labelNoun>CS 자극 증상</HD_CSGasExposure.labelNoun>
+  <HD_CSGasExposure.description>CS 최루 작용제에 노출되어 눈, 피부와 기도가 고통스럽게 자극받고 있습니다. 가스 구름을 벗어나면 증상은 서서히 가라앉습니다.</HD_CSGasExposure.description>
+  <HD_CSGasExposure.stages.0.label>자극받음</HD_CSGasExposure.stages.0.label>
+  <HD_CSGasExposure.stages.1.label>기침과 시야 장애</HD_CSGasExposure.stages.1.label>
+  <HD_CSGasExposure.stages.2.label>행동 불능성 자극</HD_CSGasExposure.stages.2.label>
+</LanguageData>

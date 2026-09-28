@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularPart_Handguard_MK14EBR.label>MK14 EBR 섀시 총열덮개</HD_ModularPart_Handguard_MK14EBR.label>
+  <HD_ModularPart_Handguard_MK14EBR.description>MK14 EBR 섀시 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_MK14EBR.description>
+  <HD_ModularPart_Handguard_MK14EBR.comps.0.sockets.0.label>상단 레일 연장 결합부</HD_ModularPart_Handguard_MK14EBR.comps.0.sockets.0.label>
+  <HD_ModularPart_Handguard_MK14EBR.comps.0.sockets.1.label>MK14 총열덮개 상단 레일</HD_ModularPart_Handguard_MK14EBR.comps.0.sockets.1.label>
+  <HD_ModularPart_HandguardExt_MK14EBRTopRail.label>MK14 EBR 총몸 상단 레일</HD_ModularPart_HandguardExt_MK14EBRTopRail.label>
+  <HD_ModularPart_HandguardExt_MK14EBRTopRail.description>MK14 EBR 총몸 상단 레일은 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_HandguardExt_MK14EBRTopRail.description>
+  <HD_ModularPart_HandguardExt_MK14EBRTopRail.comps.0.sockets.0.label>MK14 총몸 상단 레일</HD_ModularPart_HandguardExt_MK14EBRTopRail.comps.0.sockets.0.label>
+  <HD_ModularPart_PistolGrip_MK14EBR.label>MK14 EBR 권총손잡이</HD_ModularPart_PistolGrip_MK14EBR.label>
+  <HD_ModularPart_PistolGrip_MK14EBR.description>MK14 EBR 권총손잡이는 사격 자세와 무기 조작을 돕는 손잡이입니다.</HD_ModularPart_PistolGrip_MK14EBR.description>
+  <HD_ModularPart_PistolGrip_MK14EBR.comps.0.sockets.0.label>MK14 EBR 개머리판 결합부</HD_ModularPart_PistolGrip_MK14EBR.comps.0.sockets.0.label>
+  <HD_ModularPart_Stock_MK14EBR.label>MK14 EBR 조절식 개머리판</HD_ModularPart_Stock_MK14EBR.label>
+  <HD_ModularPart_Stock_MK14EBR.description>MK14 EBR 조절식 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_MK14EBR.description>
+</LanguageData>

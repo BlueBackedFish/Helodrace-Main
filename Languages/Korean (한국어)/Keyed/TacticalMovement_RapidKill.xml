@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalRapidKill_Command>사살</HD_TacticalRapidKill_Command>
+  <HD_TacticalRapidKill_CommandDesc>극근거리에서 흉부→흉부→머리를 빠르게 연속 사격합니다. 흉부탄이 관통하지 못하면 머리 더블탭을 최대 5회(추가 10발) 실시하며, 대상 사망 또는 사격 불가 시 중단합니다. 일반 명중 저하는 제거하지만 엄폐, 시야와 방호 판정은 유지합니다.</HD_TacticalRapidKill_CommandDesc>
+</LanguageData>

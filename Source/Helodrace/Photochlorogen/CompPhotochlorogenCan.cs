@@ -17,7 +17,7 @@ namespace Helodrace
         public int burnDurationTicks = 1800;
         public int gasSimulationIntervalTicks = 30;
         public int spreadIntervalTicks = 300;
-        public ThingDef gasDef;
+        public HelodGasDef gasDef;
         public bool destroyOnUse = true;
 
         public CompProperties_PhotochlorogenCan()
@@ -151,7 +151,8 @@ namespace Helodrace
                 float distanceFactor = Mathf.InverseLerp(Props.emissionRadius, 0f, parent.Position.DistanceTo(cell));
                 float densityFactor = Mathf.Lerp(Props.edgeDensityFactor, 1f, distanceFactor);
                 float simulationFactor = Props.spreadIntervalTicks > 0 ? simulationTicks / (float)Props.spreadIntervalTicks : 1f;
-                Gas_Photochlorogen.AddGasAt(cell, parent.Map, Props.gasDef, Props.densityPerPulse * Props.gasPerCell * densityFactor * Props.spawnChance * simulationFactor);
+                HelodGasStore.AddGas(cell, parent.Map, Props.gasDef,
+                    Props.densityPerPulse * Props.gasPerCell * densityFactor * Props.spawnChance * simulationFactor);
             }
         }
 
@@ -171,8 +172,7 @@ namespace Helodrace
                 return false;
             }
 
-            MapComponent_PhotochlorogenGasGrid gasGrid = parent.Map.GetComponent<MapComponent_PhotochlorogenGasGrid>();
-            return gasGrid?.CanGasOccupy(cell) ?? cell.Standable(parent.Map);
+            return HelodGasStore.GasCanMoveTo(cell, parent.Map);
         }
 
         private void ThrowIgnitionEffect()

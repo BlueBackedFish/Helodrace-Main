@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MH60M_Heliborne.textEnemy>헬리콥터가 {1}에서 {0}을(를) 패스트로프로 투입하고 있습니다!</HD_MH60M_Heliborne.textEnemy>
+  <HD_MH60M_Heliborne.textFriendly>우호적인 헬리콥터가 {1}에서 {0}을(를) 패스트로프로 투입하고 있습니다.</HD_MH60M_Heliborne.textFriendly>
+  <HD_MH60M_Heliborne.textWillArrive>{0_pawnsPluralDef}이(가) 헬리콥터로 도착합니다.</HD_MH60M_Heliborne.textWillArrive>
+</LanguageData>

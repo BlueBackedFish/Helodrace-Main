@@ -44,4 +44,99 @@
     </stages>
   </HediffDef>
 
+  <HediffDef>
+    <defName>HD_FlashbangSuppression</defName>
+    <label>flashbang suppression</label>
+    <labelNoun>flashbang suppression</labelNoun>
+    <description>Overwhelming light and sound from a flashbang are suppressing the senses and disrupting coordinated action. The effect fades progressively as vision and hearing recover.</description>
+    <hediffClass>Helodrace.ModernWar.Hediff_FlashbangSuppression</hediffClass>
+    <defaultLabelColor>(1.0,0.88,0.45)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-36</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>disoriented</label>
+        <minSeverity>0.01</minSeverity>
+        <capMods>
+          <li><capacity>Sight</capacity><offset>-0.35</offset></li>
+          <li><capacity>Hearing</capacity><offset>-0.55</offset></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.75</postFactor></li>
+        </capMods>
+      </li>
+      <li>
+        <label>dazed</label>
+        <minSeverity>0.25</minSeverity>
+        <capMods>
+          <li><capacity>Sight</capacity><offset>-0.70</offset></li>
+          <li><capacity>Hearing</capacity><offset>-0.90</offset></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.50</postFactor></li>
+        </capMods>
+      </li>
+      <li>
+        <label>heavily suppressed</label>
+        <minSeverity>0.50</minSeverity>
+        <capMods>
+          <li><capacity>Sight</capacity><offset>-0.95</offset></li>
+          <li><capacity>Hearing</capacity><offset>-1.00</offset></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.20</postFactor></li>
+        </capMods>
+      </li>
+      <li>
+        <label>overwhelmed</label>
+        <minSeverity>0.75</minSeverity>
+        <capMods>
+          <li><capacity>Sight</capacity><offset>-1.00</offset></li>
+          <li><capacity>Hearing</capacity><offset>-1.00</offset></li>
+          <li><capacity>Manipulation</capacity><postFactor>0.08</postFactor></li>
+          <li><capacity>Moving</capacity><offset>-0.30</offset></li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Severity is replaced each tick by the number/intensity of weapon lights currently
+       trained on the pawn. It therefore reacts immediately and fades as soon as aim moves. -->
+  <HediffDef>
+    <defName>HD_WeaponFlashlightDazzle</defName>
+    <label>weapon-light dazzle</label>
+    <description>A high-intensity weapon light is shining directly into this pawn's eyes, temporarily reducing effective vision.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(1.0,0.95,0.70)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <maxSeverity>3</maxSeverity>
+    <isBad>true</isBad>
+    <tendable>false</tendable>
+    <comps>
+      <li Class="Helodrace.ModernWar.HediffCompProperties_ModularFlashlightDazzle">
+        <graceTicks>3</graceTicks>
+        <fadePerTick>0.15</fadePerTick>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>illuminated</label>
+        <minSeverity>0.01</minSeverity>
+        <capMods><li><capacity>Sight</capacity><offset>-0.10</offset></li></capMods>
+      </li>
+      <li>
+        <label>dazzled</label>
+        <minSeverity>1.5</minSeverity>
+        <capMods><li><capacity>Sight</capacity><offset>-0.22</offset></li></capMods>
+      </li>
+      <li>
+        <label>heavily dazzled</label>
+        <minSeverity>2.5</minSeverity>
+        <capMods><li><capacity>Sight</capacity><offset>-0.38</offset></li></capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
 </Defs>

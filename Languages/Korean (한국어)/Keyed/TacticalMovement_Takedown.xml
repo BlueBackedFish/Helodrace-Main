@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalTakedown_Command>테이크다운</HD_TacticalTakedown_Command>
+  <HD_TacticalTakedown_CommandDesc>4칸 이내의 미발견 대상을 후방에서 지정하고 다가가 타격합니다. 벽 뒤에서도 지정 가능하지만 접근 경로가 필요하며, 이동 불능·경로 단절 시 취소됩니다. 즉살은 접촉 시 선택한 치명부위를 확정 파괴하고 대상을 죽입니다.</HD_TacticalTakedown_CommandDesc>
+  <HD_TacticalTakedown_InstantKill>즉살</HD_TacticalTakedown_InstantKill>
+  <HD_TacticalTakedown_Subdue>제압</HD_TacticalTakedown_Subdue>
+  <HD_TacticalTakedown_InvalidTarget>테이크다운 조건을 만족하지 않는 표적입니다.</HD_TacticalTakedown_InvalidTarget>
+  <HD_TacticalTakedown_ReasonUser>징집된 CQB 교육 폰이 정상적으로 서 있어야 합니다.</HD_TacticalTakedown_ReasonUser>
+  <HD_TacticalTakedown_ReasonDowned>대상이 이미 쓰러져 있습니다.</HD_TacticalTakedown_ReasonDowned>
+  <HD_TacticalTakedown_ReasonRange>대상이 {0}칸 이내에 있어야 합니다.</HD_TacticalTakedown_ReasonRange>
+  <HD_TacticalTakedown_ReasonSight>대상까지 시야가 막혀 있습니다.</HD_TacticalTakedown_ReasonSight>
+  <HD_TacticalTakedown_ReasonBehind>대상의 후방에서 접근해야 합니다.</HD_TacticalTakedown_ReasonBehind>
+  <HD_TacticalTakedown_ReasonDetected>대상이 사용자를 발견했거나 이전에 공격한 상태입니다.</HD_TacticalTakedown_ReasonDetected>
+  <HD_TacticalTakedown_ReasonAnomaly>이상현상 계열 생명체에게는 사용할 수 없습니다.</HD_TacticalTakedown_ReasonAnomaly>
+  <HD_TacticalTakedown_ReasonMelee>격투 레벨 부족: 현재 {0}, 필요 {1}.</HD_TacticalTakedown_ReasonMelee>
+  <HD_TacticalTakedown_ReasonPart>최대 체력 {0} 이하의 타격 가능한 치명부위가 없습니다. 날카로움 방어력 20% 이하 의복은 무시하며, 그보다 높은 방호는 사용을 막습니다.</HD_TacticalTakedown_ReasonPart>
+  <HD_TacticalTakedown_NoPath>대상에게 접근할 수 있는 경로가 없습니다.</HD_TacticalTakedown_NoPath>
+</LanguageData>

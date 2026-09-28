@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingCategoryDef>
+    <defName>HD_SwitchbladeMunitions</defName>
+    <label>Switchblade munitions</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>HD_Switchblade600_Round</defName>
+    <label>Switchblade 600 round</label>
+    <description>A sealed Switchblade 600 loitering munition packed with its wings folded for loading into a launch canister.</description>
+    <projectileWhenLoaded>HD_Switchblade600_Proj</projectileWhenLoaded>
+    <graphicData>
+      <texPath>Weapons/ModernWar/Projectiles/HD_SwitchBlade600_FoldBlade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.85,0.85)</drawSize>
+    </graphicData>
+    <stackLimit>10</stackLimit>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <MarketValue>950</MarketValue>
+      <Mass>7.2</Mass>
+      <Flammability>0.55</Flammability>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+    <thingCategories>
+      <li>HD_SwitchbladeMunitions</li>
+    </thingCategories>
+  </ThingDef>
+
+</Defs>

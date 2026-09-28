@@ -28,6 +28,7 @@ namespace Helodrace
     /// launcher. Steering code must check GuidanceActive before changing the
     /// missile's course.
     /// </summary>
+    [StaticConstructorOnStartup]
     public class Projectile_M47Dragon : Projectile_Explosive
     {
         private const float WireWidth = 0.025f;
@@ -43,7 +44,7 @@ namespace Helodrace
         private const float WeakSteeringThresholdDegrees = 12f;
         private const float WeakSteeringDegreesPerPulse = 2.5f;
         private const float StrongSteeringDegreesPerPulse = 7f;
-        private const string PulseTextureRoot = "Weapon/ColdWar/Proj/M222/HD_M47M222Missile_";
+        private const string PulseTextureRoot = "Weapons/ColdWar/Projectiles/M222/HD_M47M222Missile_";
 
         private bool guidanceActive = true;
         private int wireAgeTicks;

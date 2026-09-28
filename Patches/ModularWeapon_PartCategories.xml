@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Parts without which the weapon cannot discharge. A compatible replacement on
+       the same socket satisfies the requirement. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_Gun_ModularM4_Test_Weapon" or defName="HD_Gun_ModularM16A1_Test_Weapon" or defName="HD_Gun_ModularM16A2_Test_Weapon" or defName="HD_Gun_ModularM16A4_Test_Weapon" or defName="HD_ModularPart_Bolt_AR15" or defName="HD_ModularPart_Trigger_AR15" or defName="HD_ModularPart_UpperReceiver_M4A1" or defName="HD_ModularPart_UpperReceiver_M16A1" or defName="HD_ModularPart_UpperReceiver_M16A2" or defName="HD_ModularPart_UpperReceiver_M16A4" or defName="HD_ModularPart_Barrel_AR15103" or defName="HD_ModularPart_Barrel_AR15145" or defName="HD_ModularPart_Barrel_AR15300BLK103" or defName="HD_ModularPart_Barrel_AR1520" or defName="HD_ModularPart_Barrel_AR1520Pencil"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
+    <value>
+      <partCategory>Required</partCategory>
+    </value>
+  </Operation>
+
+  <!-- Without the gas system or receiver extension the rifle can still be manually
+       cycled, but it loses burst/automatic operation. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_GasBlock_MK12LP" or defName="HD_ModularPart_GasBlock_300BLKLP" or defName="HD_ModularPart_GasBlock_AR15" or defName="HD_ModularPart_BufferTube_Colt" or defName="HD_ModularPart_BufferTube_ColtA2"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
+    <value>
+      <partCategory>Functional</partCategory>
+      <missingFunctions>
+        <li>SemiAutomaticOnly</li>
+      </missingFunctions>
+    </value>
+  </Operation>
+
+  <!-- A rifle without a detachable magazine can retain and fire only the chambered
+       round before it must be loaded again. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[defName="HD_ModularPart_Magazine_STANAG" or defName="HD_ModularPart_Magazine_STANAG20"]/comps/li[@Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"]</xpath>
+    <value>
+      <partCategory>Functional</partCategory>
+      <missingFunctions>
+        <li>SingleRoundCapacity</li>
+      </missingFunctions>
+    </value>
+  </Operation>
+</Patch>

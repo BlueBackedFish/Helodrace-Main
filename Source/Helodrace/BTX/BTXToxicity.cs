@@ -8,19 +8,28 @@ namespace Helodrace
     public static class BTXUtility
     {
         public const string ChemicalDefName = "BTX";
-        public const string BTXNeedDefName = "HD_BTXNeed";
+        public const string ChemicalNeedDefName = "Chemical_BTX";
+        public const string BTXDependencyGeneDefName = "HD_Gene_BTXDependency";
         public const string StabilizationHediffDefName = "HD_BTXHigh";
-        public const string DeficiencyHediffDefName = "HD_BTXDeficiency";
         public const string ToxicityHediffDefName = "HD_BTXToxicity";
         public const string RawBTXMadmanTraitDefName = "HD_RawBTXMadman";
         public const string RawBTXDisgustThoughtDefName = "HD_DrankNaphtha";
         public const string RawBTXEnjoyedThoughtDefName = "HD_EnjoyedRawBTX";
         public const string NaphthaThingDefName = "HD_Naphtha";
         public const string HelodRaceDefName = "Helod";
+        public const float DeficiencyNeedThreshold = 0.30f;
+        public const float AutomaticRefillThreshold = 0.35f;
 
         public static bool IsHelod(Pawn pawn)
         {
             return pawn?.def?.defName == HelodRaceDefName;
+        }
+
+        public static bool HasBTXDependency(Pawn pawn)
+        {
+            GeneDef dependencyGene = DefDatabase<GeneDef>.GetNamedSilentFail(BTXDependencyGeneDefName);
+            return dependencyGene != null
+                && pawn?.genes?.HasActiveGene(dependencyGene) == true;
         }
 
         public static bool ContainsBTX(ThingDef thingDef)
@@ -43,47 +52,23 @@ namespace Helodrace
                 && pawn?.story?.traits?.HasTrait(traitDef) == true;
         }
 
-        public static float BTXNeedOffset(ThingDef thingDef)
+        internal static bool ShouldForceAutomaticRefill(string needDefName, float currentLevel)
         {
-            return thingDef?.comps?.OfType<CompProperties_Drug>()
-                .Where(comp => comp.chemical?.defName == ChemicalDefName)
-                .Select(comp => comp.needLevelOffset)
-                .DefaultIfEmpty(0f)
-                .Max() ?? 0f;
+            return needDefName == ChemicalNeedDefName && currentLevel < AutomaticRefillThreshold;
         }
 
-        public static void SatisfyBTXNeed(Pawn pawn, float offset)
+    }
+
+    [HarmonyPatch(typeof(JobGiver_SatisfyChemicalNeed), "ShouldSatisfy")]
+    public static class Patch_HelodBTXChemicalNeed
+    {
+        [HarmonyPostfix]
+        public static void Postfix(Need __0, ref bool __result)
         {
-            if (pawn?.needs?.AllNeeds == null || offset <= 0f)
+            if (!__result && __0 != null
+                && BTXUtility.ShouldForceAutomaticRefill(__0.def?.defName, __0.CurLevel))
             {
-                return;
-            }
-
-            foreach (Need need in pawn.needs.AllNeeds)
-            {
-                if (need is Need_BTX)
-                {
-                    need.CurLevel += offset;
-                }
-            }
-
-            RemoveLegacyBTXGeneticDependency(pawn);
-        }
-
-        public static void RemoveLegacyBTXGeneticDependency(Pawn pawn)
-        {
-            if (pawn?.health?.hediffSet?.hediffs == null)
-            {
-                return;
-            }
-
-            for (int i = pawn.health.hediffSet.hediffs.Count - 1; i >= 0; i--)
-            {
-                if (pawn.health.hediffSet.hediffs[i] is Hediff_ChemicalDependency dependency
-                    && dependency.chemical?.defName == ChemicalDefName)
-                {
-                    pawn.health.RemoveHediff(dependency);
-                }
+                __result = true;
             }
         }
     }
@@ -128,9 +113,9 @@ namespace Helodrace
                 return;
             }
 
-            if (BTXUtility.IsHelod(ingester))
+            if (BTXUtility.HasBTXDependency(ingester))
             {
-                BTXUtility.SatisfyBTXNeed(ingester, BTXUtility.BTXNeedOffset(drugDef));
+                ReplenishBTXNeed(__instance, ingester);
                 return;
             }
 
@@ -159,6 +144,35 @@ namespace Helodrace
             toxicity.Severity = 0.20f;
             ingester.health.AddHediff(toxicity);
         }
+
+        private static void ReplenishBTXNeed(CompDrug drug, Pawn ingester)
+        {
+            CompProperties_Drug props = drug?.Props;
+            if (props == null || props.Addictive)
+            {
+                // Addictive drugs are already handled by CompDrug.PrePostIngested.
+                return;
+            }
+
+            NeedDef needDef = DefDatabase<NeedDef>.GetNamedSilentFail(BTXUtility.ChemicalNeedDefName);
+            Need chemicalNeed = needDef == null ? null : ingester.needs?.TryGetNeed(needDef);
+            if (chemicalNeed == null)
+            {
+                Log.WarningOnce(
+                    "Helodrace: a BTX-dependent pawn ingested BTX, but Chemical_BTX was not present.",
+                    71930412);
+                return;
+            }
+
+            float needOffset = props.needLevelOffset;
+            AddictionUtility.ModifyChemicalEffectForToleranceAndBodySize(
+                ingester,
+                props.chemical,
+                ref needOffset,
+                true,
+                true);
+            chemicalNeed.CurLevel += needOffset;
+        }
     }
 
     [HarmonyPatch(typeof(IngestionOutcomeDoer_GiveHediff), "DoIngestionOutcomeSpecial")]
@@ -167,7 +181,7 @@ namespace Helodrace
         [HarmonyPrefix]
         public static bool Prefix(IngestionOutcomeDoer_GiveHediff __instance, Pawn pawn)
         {
-            if (__instance?.hediffDef?.defName == BTXUtility.StabilizationHediffDefName && !BTXUtility.IsHelod(pawn))
+            if (__instance?.hediffDef?.defName == BTXUtility.StabilizationHediffDefName && !BTXUtility.HasBTXDependency(pawn))
             {
                 return false;
             }

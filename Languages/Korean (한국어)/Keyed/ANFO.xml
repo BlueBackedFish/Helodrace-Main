@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ANFO_Detonate_Label>ANFO 폭약 기폭</HD_ANFO_Detonate_Label>
+  <HD_ANFO_Detonate_Desc>가장 가까운 정착민에게 이 격발기를 조작하여 {0}칸 안의 모든 아군 ANFO 폭약을 기폭하도록 명령합니다.</HD_ANFO_Detonate_Desc>
+  <HD_ANFO_NoLinkedCharges>{0}칸 안에 연결된 아군 ANFO 폭약이 없습니다.</HD_ANFO_NoLinkedCharges>
+  <HD_ANFO_NoOperator>발파 격발기에 도달하여 조작할 수 있는 정착민이 없습니다.</HD_ANFO_NoOperator>
+  <HD_ANFO_LinkedCharges>연결된 ANFO 폭약: {0} (범위: {1})</HD_ANFO_LinkedCharges>
+  <HD_ANFO_Detonated>ANFO 폭약 {0}개를 기폭했습니다.</HD_ANFO_Detonated>
+  <HD_ANFO_RainDisabled>비활성: 습기 손상</HD_ANFO_RainDisabled>
+  <HD_ANFO_RainDisabledMessage>{0}이(가) 비에 젖어 비활성화되었습니다.</HD_ANFO_RainDisabledMessage>
+</LanguageData>

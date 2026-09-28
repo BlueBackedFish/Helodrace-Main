@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_WeaponLoadout_Gizmo_Label>무장 세팅</HD_WeaponLoadout_Gizmo_Label>
+  <HD_WeaponLoadout_Gizmo_Desc>이 정착민이 인벤토리에 유지할 탄약별 소지 수량을 설정합니다.</HD_WeaponLoadout_Gizmo_Desc>
+  <HD_WeaponLoadout_Title>무장 세팅</HD_WeaponLoadout_Title>
+  <HD_WeaponLoadout_NotEquipped>무장 시스템 테스트 장비를 더 이상 착용하고 있지 않습니다.</HD_WeaponLoadout_NotEquipped>
+  <HD_WeaponLoadout_TotalMass>설정된 탄약 총 무게: {0}</HD_WeaponLoadout_TotalMass>
+  <HD_WeaponLoadout_Search>탄약 검색...</HD_WeaponLoadout_Search>
+  <HD_WeaponLoadout_Ammo>탄종 / 탄약</HD_WeaponLoadout_Ammo>
+  <HD_WeaponLoadout_OtherAmmo>기타 탄약</HD_WeaponLoadout_OtherAmmo>
+  <HD_WeaponLoadout_CaliberGroup>{0} 탄약</HD_WeaponLoadout_CaliberGroup>
+  <HD_WeaponLoadout_UnspecifiedCaliberGroup>구경 미지정 · {0}</HD_WeaponLoadout_UnspecifiedCaliberGroup>
+  <HD_WeaponLoadout_HandGrenades>수류탄</HD_WeaponLoadout_HandGrenades>
+  <HD_WeaponLoadout_Current>현재 소지</HD_WeaponLoadout_Current>
+  <HD_WeaponLoadout_Desired>목표 수량</HD_WeaponLoadout_Desired>
+  <HD_WeaponLoadout_Mass>무게 (개당 / 합계)</HD_WeaponLoadout_Mass>
+  <HD_WeaponLoadout_MassValue>{0} / {1}</HD_WeaponLoadout_MassValue>
+  <HD_WeaponLoadout_Inspect>설정된 탄약 종류: {0}\n목표 탄약 무게: {1}</HD_WeaponLoadout_Inspect>
+  <HD_RecoillessWeapon_NoReloadRound_Inventory>선택한 탄약이 이 정착민의 인벤토리에 없습니다.</HD_RecoillessWeapon_NoReloadRound_Inventory>
+  <HD_RecoillessWeapon_Reload_Desc_Inventory>사수 또는 지정 장전수의 인벤토리에서 선택한 탄약 한 발을 사용해 재장전합니다.</HD_RecoillessWeapon_Reload_Desc_Inventory>
+  <HD_RecoillessWeapon_NoAssignedLoader_Inventory>유효한 장전수가 지정되지 않았거나 장전수의 인벤토리에 선택한 탄약이 없습니다.</HD_RecoillessWeapon_NoAssignedLoader_Inventory>
+  <HD_RecoillessWeapon_AssignLoaderDesc_Inventory>근처 정착민을 장전수로 지정합니다. 장전수는 선택한 탄약을 인벤토리에 소지해야 합니다.</HD_RecoillessWeapon_AssignLoaderDesc_Inventory>
+</LanguageData>

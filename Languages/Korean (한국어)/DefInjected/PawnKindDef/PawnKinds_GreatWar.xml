@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_GW_HelodRifleman.label>대전기 헤로드 소총수</HD_GW_HelodRifleman.label>
+  <HD_GW_HelodCarbine.label>대전기 헤로드 카빈 사수</HD_GW_HelodCarbine.label>
+  <HD_GW_HelodHAR.label>대전기 헤로드 HAR 사수</HD_GW_HelodHAR.label>
+  <HD_GW_HelodSMG.label>대전기 헤로드 SMG 사수</HD_GW_HelodSMG.label>
+  <HD_GW_HelodSniper.label>대전기 헤로드 저격수</HD_GW_HelodSniper.label>
+  <HD_GW_HelodM1919A6.label>대전기 헤로드 M1919A6 사수</HD_GW_HelodM1919A6.label>
+  <HD_GW_HelodBazooka.label>대전기 헤로드 바주카 사수</HD_GW_HelodBazooka.label>
+  <HD_GW_HelodBazookaAmmoBearer.label>대전기 헤로드 바주카 탄약수</HD_GW_HelodBazookaAmmoBearer.label>
+</LanguageData>

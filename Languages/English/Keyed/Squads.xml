@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Squads_ShowOverlay>Raid organization info</HD_Squads_ShowOverlay>
+  <HD_Squads_ActingRole>Acting {0}</HD_Squads_ActingRole>
+  <HD_Squads_OverlayCommander>Commander: {0} · {1}</HD_Squads_OverlayCommander>
+  <HD_Squads_State_Normal>Normal</HD_Squads_State_Normal>
+  <HD_Squads_State_CommanderLost>Commander lost</HD_Squads_State_CommanderLost>
+  <HD_Squads_State_SuccessionPending>Succession pending</HD_Squads_State_SuccessionPending>
+  <HD_Squads_State_ActingCommander>Acting command</HD_Squads_State_ActingCommander>
+  <HD_Squads_State_CommandRestored>Command restored</HD_Squads_State_CommandRestored>
+  <HD_Squads_Inspect>Combat organization</HD_Squads_Inspect>
+  <HD_Squads_InspectDesc>Inspect the organization tree, original roles, command succession, and support points.</HD_Squads_InspectDesc>
+</LanguageData>

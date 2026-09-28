@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Bullet_300BLKTACTX_Proj.label>.300 BLK TACTX 탄자</HD_Bullet_300BLKTACTX_Proj.label>
+  <HD_Bullet_76251M80A1_Proj.label>7.62×51mm M80A1 탄자</HD_Bullet_76251M80A1_Proj.label>
+  <HD_Ammunition_556M855A1.label>5.56×45mm M855A1 탄약</HD_Ammunition_556M855A1.label>
+  <HD_Ammunition_556M855A1.description>모듈식 5.56×45mm 탄창에 사용하는 M855A1 규격 탄약입니다.</HD_Ammunition_556M855A1.description>
+  <HD_Ammunition_556M855A1.comps.0.ammunitionType>5.56 M855A1</HD_Ammunition_556M855A1.comps.0.ammunitionType>
+  <HD_Ammunition_300BLKTACTX.label>.300 BLK TACTX 탄약</HD_Ammunition_300BLKTACTX.label>
+  <HD_Ammunition_300BLKTACTX.description>모듈식 .300 BLK 탄창에 사용하는 TACTX 규격 탄약입니다.</HD_Ammunition_300BLKTACTX.description>
+  <HD_Ammunition_300BLKTACTX.comps.0.ammunitionType>.300 BLK TACTX</HD_Ammunition_300BLKTACTX.comps.0.ammunitionType>
+  <HD_Ammunition_919M882.label>9×19mm M882 탄약</HD_Ammunition_919M882.label>
+  <HD_Ammunition_919M882.description>모듈식 9×19mm 탄창에 사용하는 M882 규격 탄약입니다.</HD_Ammunition_919M882.description>
+  <HD_Ammunition_919M882.comps.0.ammunitionType>9x19 M882</HD_Ammunition_919M882.comps.0.ammunitionType>
+  <HD_Ammunition_76251M80A1.label>7.62×51mm M80A1 탄약</HD_Ammunition_76251M80A1.label>
+  <HD_Ammunition_76251M80A1.description>모듈식 7.62×51mm 탄창에 사용하는 M80A1 규격 탄약입니다.</HD_Ammunition_76251M80A1.description>
+  <HD_Ammunition_76251M80A1.comps.0.ammunitionType>7.62 M80A1</HD_Ammunition_76251M80A1.comps.0.ammunitionType>
+</LanguageData>

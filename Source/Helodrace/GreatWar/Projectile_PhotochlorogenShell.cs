@@ -8,7 +8,7 @@ namespace Helodrace
 {
     public class PhotochlorogenShellExtension : DefModExtension
     {
-        public ThingDef gasDef;
+        public HelodGasDef gasDef;
         public float emissionRadius = 1.6f;
         public float density = 0.75f;
         public float edgeDensityFactor = 0.45f;
@@ -21,19 +21,20 @@ namespace Helodrace
             Map impactMap = Map;
             IntVec3 impactCell = Position;
 
-            ReleaseGas(impactMap, impactCell);
+            ReleaseGas(def, impactMap, impactCell);
             base.Impact(hitThing, blockedByShield);
         }
 
-        private void ReleaseGas(Map map, IntVec3 center)
+        public static void ReleaseGas(ThingDef sourceDef, Map map, IntVec3 center)
         {
             if (map == null || !center.InBounds(map))
             {
                 return;
             }
 
-            PhotochlorogenShellExtension extension = def.GetModExtension<PhotochlorogenShellExtension>();
-            ThingDef gasDef = extension?.gasDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("HD_PhotochlorogenGas");
+            PhotochlorogenShellExtension extension =
+                sourceDef?.GetModExtension<PhotochlorogenShellExtension>();
+            HelodGasDef gasDef = extension?.gasDef ?? HelodGasDefOf.HD_PhotochlorogenGasGrid;
             if (gasDef == null)
             {
                 return;
@@ -50,15 +51,14 @@ namespace Helodrace
                     continue;
                 }
 
-                MapComponent_PhotochlorogenGasGrid gasGrid = map.GetComponent<MapComponent_PhotochlorogenGasGrid>();
-                if (gasGrid != null && !gasGrid.CanGasOccupy(cell))
+                if (!HelodGasStore.GasCanMoveTo(cell, map))
                 {
                     continue;
                 }
 
                 float distanceFactor = Mathf.InverseLerp(radius, 0f, center.DistanceTo(cell));
                 float cellDensity = density * Mathf.Lerp(edgeDensityFactor, 1f, distanceFactor);
-                Gas_Photochlorogen.AddGasAt(cell, map, gasDef, cellDensity);
+                HelodGasStore.AddGas(cell, map, gasDef, cellDensity);
             }
 
             FleckMaker.ThrowSmoke(center.ToVector3Shifted(), map, 1.2f);
@@ -71,16 +71,17 @@ namespace Helodrace
         {
             Map impactMap = Map;
             IntVec3 impactCell = Position;
-            ReleaseGas(impactMap, impactCell);
+            ReleaseGas(def, impactMap, impactCell);
             base.Impact(hitThing, blockedByShield);
         }
 
-        private void ReleaseGas(Map map, IntVec3 center)
+        public static void ReleaseGas(ThingDef sourceDef, Map map, IntVec3 center)
         {
             if (map == null || !center.InBounds(map)) return;
 
-            PhotochlorogenShellExtension extension = def.GetModExtension<PhotochlorogenShellExtension>();
-            ThingDef gasDef = extension?.gasDef ?? DefDatabase<ThingDef>.GetNamedSilentFail("HD_SweetGas");
+            PhotochlorogenShellExtension extension =
+                sourceDef?.GetModExtension<PhotochlorogenShellExtension>();
+            HelodGasDef gasDef = extension?.gasDef ?? HelodGasDefOf.HD_SweetGasGrid;
             if (gasDef == null) return;
 
             float radius = Mathf.Max(0.1f, extension?.emissionRadius ?? 2.6f);
@@ -89,10 +90,10 @@ namespace Helodrace
 
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, radius, true))
             {
-                if (!cell.InBounds(map) || !cell.Standable(map)) continue;
+                if (!cell.InBounds(map) || !HelodGasStore.GasCanMoveTo(cell, map)) continue;
                 float distanceFactor = Mathf.InverseLerp(radius, 0f, center.DistanceTo(cell));
                 float cellDensity = density * Mathf.Lerp(edgeDensityFactor, 1f, distanceFactor);
-                Gas_SweetGas.AddGasAt(cell, map, gasDef, cellDensity);
+                HelodGasStore.AddGas(cell, map, gasDef, cellDensity);
             }
 
             FleckMaker.ThrowSmoke(center.ToVector3Shifted(), map, 1.4f);
@@ -101,7 +102,6 @@ namespace Helodrace
 
     public class WhitePhosphorusRocketExtension : DefModExtension
     {
-        public float smokeRadius = 3.6f;
         public float fireRadius = 2.4f;
         public float fireChance = 0.55f;
         public float fireSize = 0.45f;
@@ -115,23 +115,22 @@ namespace Helodrace
             IntVec3 impactCell = Position;
 
             base.Impact(hitThing, blockedByShield);
-            ReleaseWhitePhosphorus(impactMap, impactCell);
+            ReleaseWhitePhosphorus(def, impactMap, impactCell);
         }
 
-        private void ReleaseWhitePhosphorus(Map map, IntVec3 center)
+        public static void ReleaseWhitePhosphorus(ThingDef sourceDef, Map map,
+            IntVec3 center)
         {
             if (map == null || !center.InBounds(map))
             {
                 return;
             }
 
-            WhitePhosphorusRocketExtension extension = def.GetModExtension<WhitePhosphorusRocketExtension>();
-            float smokeRadius = Mathf.Max(0.1f, extension?.smokeRadius ?? 3.6f);
+            WhitePhosphorusRocketExtension extension =
+                sourceDef?.GetModExtension<WhitePhosphorusRocketExtension>();
             float fireRadius = Mathf.Max(0.1f, extension?.fireRadius ?? 2.4f);
             float fireChance = Mathf.Clamp01(extension?.fireChance ?? 0.55f);
             float fireSize = Mathf.Max(0.1f, extension?.fireSize ?? 0.45f);
-
-            GasUtility.AddGas(center, map, GasType.BlindSmoke, smokeRadius);
 
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, fireRadius, true))
             {
@@ -144,6 +143,112 @@ namespace Helodrace
                 if (Rand.Chance(fireChance * distanceFactor))
                 {
                     FireUtility.TryStartFireIn(cell, map, fireSize, null);
+                }
+            }
+        }
+    }
+
+    public class Projectile_NuclearArtilleryShell : Projectile_Explosive
+    {
+        private const int PollutionCells = 1800;
+
+        protected override void Explode()
+        {
+            Map impactMap = Map;
+            IntVec3 impactCell = Position;
+            Thing instigator = Launcher;
+            ModernWar.FragmentationGrenadeExtension fragmentation =
+                def.GetModExtension<ModernWar.FragmentationGrenadeExtension>();
+            try
+            {
+                ModernWar.GrenadeExplosionEffectUtility.ThrowFragments(
+                    impactCell,
+                    impactMap,
+                    fragmentation,
+                    instigator,
+                    this);
+            }
+            catch (System.Exception exception)
+            {
+                Log.ErrorOnce(
+                    $"Helodrace W48 fragment calculation failed; continuing nuclear explosion. {exception}",
+                    GetHashCode());
+            }
+
+            base.Explode();
+
+            if (impactMap == null || !impactCell.InBounds(impactMap))
+            {
+                return;
+            }
+
+            ApplyAftermath(def, impactCell, impactMap, instigator);
+        }
+
+        public static void ApplyAftermath(ThingDef sourceDef, IntVec3 impactCell,
+            Map impactMap, Thing instigator, bool createEmpExplosion = true)
+        {
+            if (impactMap == null || !impactCell.InBounds(impactMap))
+            {
+                return;
+            }
+
+            ModernWar.FlashbangProjectileExtension overpressure =
+                sourceDef?.GetModExtension<ModernWar.FlashbangProjectileExtension>();
+            ModernWar.ExplosiveGrenadeVisualExtension smoke =
+                sourceDef?.GetModExtension<ModernWar.ExplosiveGrenadeVisualExtension>();
+
+            ModernWar.FlashbangUtility.ApplySuppression(
+                impactCell,
+                impactMap,
+                overpressure,
+                instigator);
+            ModernWar.GrenadeExplosionEffectUtility.ThrowExpandingSmokeRing(
+                impactCell,
+                impactMap,
+                smoke);
+            ModernWar.GrenadeExplosionEffectUtility.ThrowLingeringExplosionDust(
+                impactCell,
+                impactMap,
+                smoke);
+
+            if (ModsConfig.BiotechActive)
+            {
+                PollutionUtility.GrowPollutionAt(
+                    impactCell,
+                    impactMap,
+                    PollutionCells,
+                    null,
+                    true);
+            }
+
+            FleckMaker.Static(impactCell, impactMap, FleckDefOf.ExplosionFlash, 18f);
+            FleckMaker.ThrowFireGlow(impactCell.ToVector3Shifted(), impactMap, 8f);
+            if (createEmpExplosion)
+            {
+                GenExplosion.DoExplosion(
+                    impactCell,
+                    impactMap,
+                    15f,
+                    DamageDefOf.EMP,
+                    instigator,
+                    damAmount: 35,
+                    armorPenetration: 0f,
+                    doVisualEffects: false,
+                    doSoundEffects: false);
+            }
+
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(impactCell, 35f, true))
+            {
+                if (!cell.InBounds(impactMap) || !cell.Standable(impactMap))
+                {
+                    continue;
+                }
+
+                float distanceFactor = Mathf.InverseLerp(35f, 0f, impactCell.DistanceTo(cell));
+                if (Rand.Chance(0.7f * distanceFactor))
+                {
+                    FireUtility.TryStartFireIn(cell, impactMap, Mathf.Lerp(0.2f, 0.9f, distanceFactor), instigator);
                 }
             }
         }

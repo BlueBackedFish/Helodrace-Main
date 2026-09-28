@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TelegraphTable_ForwardBase_Service_HelicopterQRF>Helicopter QRF</HD_TelegraphTable_ForwardBase_Service_HelicopterQRF>
+  <HD_TelegraphTable_ForwardBase_Service_HelicopterMedevac>Helicopter MEDEVAC</HD_TelegraphTable_ForwardBase_Service_HelicopterMedevac>
+  <HD_Heli_SelectDZ>Select a clear, unroofed 4 × 3 helicopter landing zone.</HD_Heli_SelectDZ>
+  <HD_Heli_SelectPatients>Select up to 3 colonists for MEDEVAC ({0}/3). The forward base will stop bleeding and return them after 2 hours.</HD_Heli_SelectPatients>
+  <HD_Heli_ChooseDZ>Choose landing zone</HD_Heli_ChooseDZ>
+  <HD_Heli_AtBase>MEDEVAC has arrived at {0}. Bleeding injuries have been tended. The patients will return in 2 hours.</HD_Heli_AtBase>
+  <HD_Heli_Timeout>The helicopter could not complete all patient transfers. Unrecovered patients will stay on the map; the crew is returning to the helicopter.</HD_Heli_Timeout>
+  <HD_Heli_Status>Mission: {0}\nStage: {1}\nPassengers: {2}</HD_Heli_Status>
+  <HD_Heli_Phase_Arriving>Landing</HD_Heli_Phase_Arriving>
+  <HD_Heli_Phase_Loading>Recovering patients</HD_Heli_Phase_Loading>
+  <HD_Heli_Phase_LeavingForBase>Returning to forward base</HD_Heli_Phase_LeavingForBase>
+  <HD_Heli_Phase_AtBase>At forward base</HD_Heli_Phase_AtBase>
+  <HD_Heli_Phase_Returning>Landing with patients</HD_Heli_Phase_Returning>
+  <HD_Heli_Phase_Unloading>Delivering patients</HD_Heli_Phase_Unloading>
+  <HD_Heli_Phase_Leaving>Departing</HD_Heli_Phase_Leaving>
+</LanguageData>

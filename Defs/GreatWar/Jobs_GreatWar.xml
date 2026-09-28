@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
+  <WorkGiverDef>
+    <defName>DoBillsHD_StirredTankReactor</defName>
+    <label>operate stirred-tank reactor</label>
+    <giverClass>WorkGiver_DoBill</giverClass>
+    <workType>Crafting</workType>
+    <workTags>
+      <li>Intellectual</li>
+    </workTags>
+    <priorityInType>100</priorityInType>
+    <fixedBillGiverDefs>
+      <li>HD_StirredTankReactor</li>
+    </fixedBillGiverDefs>
+    <verb>operate</verb>
+    <gerund>operating</gerund>
+    <requiredCapacities>
+      <li>Manipulation</li>
+    </requiredCapacities>
+    <prioritizeSustains>true</prioritizeSustains>
+  </WorkGiverDef>
+
   <JobDef>
     <defName>HD_MedibagLoadSupply</defName>
     <driverClass>Helodrace.JobDriver_MedibagLoadSupply</driverClass>
@@ -32,14 +52,7 @@
   <JobDef>
     <defName>HD_ReloadRecoillessWeaponFromBag</defName>
     <driverClass>Helodrace.JobDriver_ReloadRecoillessWeaponFromBag</driverClass>
-    <reportString>reloading recoilless weapon from carried rocket bag.</reportString>
-    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
-  </JobDef>
-
-  <JobDef>
-    <defName>HD_LoadM6RocketBag</defName>
-    <driverClass>Helodrace.JobDriver_LoadM6RocketBag</driverClass>
-    <reportString>loading M6 rocket bag.</reportString>
+    <reportString>reloading recoilless weapon from inventory.</reportString>
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 
@@ -86,10 +99,46 @@
   </JobDef>
 
   <JobDef>
-    <defName>HD_EvacuateRaidCasualty</defName>
-    <driverClass>Helodrace.JobDriver_EvacuateRaidCasualty</driverClass>
-    <reportString>evacuating a wounded squadmate.</reportString>
+    <defName>HD_ReloadM79FromInventory</defName>
+    <driverClass>Helodrace.JobDriver_ReloadM79FromInventory</driverClass>
+    <reportString>reloading M79 grenade launcher from inventory.</reportString>
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_ThrowInventoryGrenadeClose</defName>
+    <driverClass>Helodrace.JobDriver_ThrowInventoryGrenade</driverClass>
+    <reportString>preparing a close grenade throw.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_ThrowInventoryGrenadeNormal</defName>
+    <driverClass>Helodrace.JobDriver_ThrowInventoryGrenade</driverClass>
+    <reportString>preparing a grenade throw.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_OperateMultiCrewTurret</defName>
+    <driverClass>Helodrace.JobDriver_OperateMultiCrewTurret</driverClass>
+    <reportString>operating a crew-served turret.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_WearGasMask</defName>
+    <driverClass>Helodrace.JobDriver_WearGasMask</driverClass>
+    <reportString>putting on a gas mask.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_CASStationaryGuidance</defName>
+    <driverClass>Helodrace.JobDriver_CASStationaryGuidance</driverClass>
+    <reportString>guiding close air support.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <playerInterruptible>false</playerInterruptible>
   </JobDef>
 
 </Defs>

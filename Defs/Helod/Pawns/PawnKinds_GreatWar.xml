@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!-- Shared equipment and generation settings for weapon-based Great War troops. -->
+	<PawnKindDef Name="HD_GW_HelodSoldierBase" ParentName="HD_HelodBasePawnKind" Abstract="True">
+		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<combatPower>80</combatPower>
+		<isFighter>true</isFighter>
+		<backstoryFiltersOverride>
+			<li>
+				<categories>
+					<li>HD_Helod</li>
+				</categories>
+			</li>
+		</backstoryFiltersOverride>
+		<weaponMoney><min>650</min><max>2500</max></weaponMoney>
+		<apparelTags>
+			<li>HD_Apparel_GW_Uniform</li>
+			<li>HD_Apparel_GW_Protective</li>
+		</apparelTags>
+		<apparelRequired>
+			<li>HD_Apparel_GreatWarStormFrontInner</li>
+			<li>HD_Apparel_GreatWarStormFrontOuter</li>
+			<li>HD_Apparel_GreatWarStormFrontChestRig</li>
+			<li>HD_Apparel_GreatWarM1Helmet</li>
+		</apparelRequired>
+		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
+		<apparelMoney>
+			<min>700</min>
+			<max>1400</max>
+		</apparelMoney>
+		<chemicalAddictionChance>0.02</chemicalAddictionChance>
+		<techHediffsChance>0.03</techHediffsChance>
+		<techHediffsMoney>
+			<min>50</min>
+			<max>800</max>
+		</techHediffsMoney>
+		<techHediffsTags>
+			<li>Simple</li>
+		</techHediffsTags>
+		<backstoryCryptosleepCommonality>1</backstoryCryptosleepCommonality>
+		<initialWillRange>0~0</initialWillRange>
+		<initialResistanceRange>12~18</initialResistanceRange>
+		<useFactionXenotypes MayRequire="Ludeon.RimWorld.Biotech">false</useFactionXenotypes>
+		<xenotypeSet MayRequire="Ludeon.RimWorld.Biotech">
+			<xenotypeChances>
+				<HD_MackenzieValleyHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MackenzieValleyHelod>
+				<HD_TexasHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_TexasHelod>
+				<HD_ArcticHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_ArcticHelod>
+				<HD_EasternHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_EasternHelod>
+				<HD_MexicanHelod MayRequire="Ludeon.RimWorld.Biotech">0.2</HD_MexicanHelod>
+				<Baseliner MayRequire="Ludeon.RimWorld.Biotech">0</Baseliner>
+				<Dirtmole MayRequire="Ludeon.RimWorld.Biotech">0</Dirtmole>
+				<Genie MayRequire="Ludeon.RimWorld.Biotech">0</Genie>
+				<Hussar MayRequire="Ludeon.RimWorld.Biotech">0</Hussar>
+				<Sanguophage MayRequire="Ludeon.RimWorld.Biotech">0</Sanguophage>
+				<Neanderthal MayRequire="Ludeon.RimWorld.Biotech">0</Neanderthal>
+				<Pigskin MayRequire="Ludeon.RimWorld.Biotech">0</Pigskin>
+				<Impid MayRequire="Ludeon.RimWorld.Biotech">0</Impid>
+				<Waster MayRequire="Ludeon.RimWorld.Biotech">0</Waster>
+				<Yttakin MayRequire="Ludeon.RimWorld.Biotech">0</Yttakin>
+				<Highmate MayRequire="Ludeon.RimWorld.Biotech">0</Highmate>
+			</xenotypeChances>
+		</xenotypeSet>
+	</PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodRifleman</defName>
+    <label>Great War Helod rifleman</label>
+    <weaponTags><li>HD_GreatWarRifleman</li></weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodCarbine</defName>
+    <label>Great War Helod carbine gunner</label>
+    <combatPower>80</combatPower>
+    <weaponTags><li>HD_GreatWarCarbine</li></weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodHAR</defName>
+    <label>Great War Helod HAR gunner</label>
+    <combatPower>110</combatPower>
+    <weaponTags><li>HD_GreatWarHAR</li></weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodSMG</defName>
+    <label>Great War Helod SMG gunner</label>
+    <combatPower>90</combatPower>
+    <weaponTags><li>HD_GreatWarSMG</li></weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodSniper</defName>
+    <label>Great War Helod sniper</label>
+    <combatPower>110</combatPower>
+    <weaponTags><li>HD_GreatWarSniper</li></weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodM1919A6</defName>
+    <label>Great War Helod M1919A6 gunner</label>
+    <combatPower>140</combatPower>
+    <weaponTags><li>HD_GreatWarM1919A6</li></weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodBazooka</defName>
+    <label>Great War Helod bazooka gunner</label>
+    <combatPower>150</combatPower>
+    <weaponTags><li>HD_GreatWarRecoillessWeapon</li></weaponTags>
+    <apparelRequired><li>HD_Apparel_M6RocketBag</li></apparelRequired>
+    <modExtensions>
+      <li Class="Helodrace.GreatWarAmmoLoadoutExtension">
+        <ammoDef>HD_Rocket_M6A3HEAT</ammoDef>
+        <ammoCount>4</ammoCount>
+      </li>
+    </modExtensions>
+  </PawnKindDef>
+
+  <!-- Separate kind so a future raid composition can explicitly pair gunner and bearer. -->
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodBazookaAmmoBearer</defName>
+    <label>Great War Helod bazooka ammunition bearer</label>
+    <combatPower>85</combatPower>
+    <weaponTags><li>HD_GreatWarCarbine</li></weaponTags>
+    <apparelRequired><li>HD_Apparel_M6RocketBag</li></apparelRequired>
+    <modExtensions>
+      <li Class="Helodrace.GreatWarAmmoLoadoutExtension">
+        <ammoDef>HD_Rocket_M6A3HEAT</ammoDef>
+        <ammoCount>4</ammoCount>
+      </li>
+    </modExtensions>
+  </PawnKindDef>
+</Defs>

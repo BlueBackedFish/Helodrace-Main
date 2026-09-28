@@ -17,7 +17,7 @@
   <HD_Bullet_M1903Pedersen_Proj.label>그레이록 M1903 휘트모어 탄환</HD_Bullet_M1903Pedersen_Proj.label>
   <!-- M1911 pistol -->
   <HD_Gun_M1911_Weapon.label>아이언팽 M1911</HD_Gun_M1911_Weapon.label>
-  <HD_Gun_M1911_Weapon.description>하트먼의 역작, 할아버지부터 물려 쓰는 총, 베세니카의 심장같은 총 입니다. 묵직한 권총탄과 빠른 후속 사격이 특징인 튼튼한 반자동 군용 권총입니다.</HD_Gun_M1911_Weapon.description>
+  <HD_Gun_M1911_Weapon.description>하트먼이 설계한 튼튼한 반자동 군용 권총입니다. 묵직한 권총탄과 빠른 후속 사격으로 여러 세대에 걸쳐 쓰였으며, 베세니카를 상징하는 무기로 자리 잡았습니다.</HD_Gun_M1911_Weapon.description>
   <HD_Bullet_M1911_Proj.label>아이언팽 M1911 탄환</HD_Bullet_M1911_Proj.label>
   <!-- Submachine guns -->
   <HD_Gun_M1A1Harrington_Weapon.label>M1A1 헤링턴</HD_Gun_M1A1Harrington_Weapon.label>
@@ -29,8 +29,14 @@
   <HD_Gun_M1918A2HAR_Weapon.description>보병 전열과 함께 움직이도록 설계된 무거운 자동소총입니다. 저속 사격 모드는 짧은 점사를 안정적으로 유지하며, 명사수는 자세를 잡고 더 빠른 제압 사격 모드로 전환할 수 있습니다.</HD_Gun_M1918A2HAR_Weapon.description>
   <!-- M1 Garand -->
   <HD_Gun_M1Garand_Weapon.label>M1 하츠웰</HD_Gun_M1Garand_Weapon.label>
-  <HD_Gun_M1Garand_Weapon.description>엔블록 클립으로 급탄하는 반자동 전투소총입니다. 정밀한 조준 사격 능력을 조금 덜어낸 대신 강력한 후속 사격을 빠르게 이어갈 수 있습니다. 후의 이야기 이지만 어둠의 하츠웰단에 의해 소구경 고속탄 도입이 지연되기도 했습니다.</HD_Gun_M1Garand_Weapon.description>
+  <HD_Gun_M1Garand_Weapon.description>엔블록 클립으로 급탄하는 반자동 전투소총으로, 강력한 후속 사격에 적합합니다. 훗날 어둠의 하츠웰단은 이 소총의 명성을 지키려 소구경 고속탄 도입을 늦췄습니다.</HD_Gun_M1Garand_Weapon.description>
   <HD_Bullet_M1Garand_Proj.label>M1 하츠웰 탄환</HD_Bullet_M1Garand_Proj.label>
+  <!-- M1/M2 carbines -->
+  <HD_Bullet_M1Carbine_Proj.label>.30 카빈탄</HD_Bullet_M1Carbine_Proj.label>
+  <HD_Gun_M1A1Carbine_Weapon.label>M1A1 카빈</HD_Gun_M1A1Carbine_Weapon.label>
+  <HD_Gun_M1A1Carbine_Weapon.description>접이식 철제 개머리판을 장착한 작고 가벼운 반자동 카빈입니다. 어깨에 빠르게 견착하고 휴대하기 편한 대신, 제식 소총의 위력과 사거리를 희생했습니다.</HD_Gun_M1A1Carbine_Weapon.description>
+  <HD_Gun_M2Carbine_Weapon.label>M2 카빈</HD_Gun_M2Carbine_Weapon.label>
+  <HD_Gun_M2Carbine_Weapon.description>가벼운 제식 카빈을 선택사격식으로 발전시킨 무기입니다. 통제하기 쉬운 탄약과 작은 크기 덕분에 근접전에서 효과적이지만, 연속 자동사격 시 장거리 명중률이 빠르게 떨어집니다.</HD_Gun_M2Carbine_Weapon.description>
   <!-- M1D sniper rifle -->
   <HD_Gun_M1D_Weapon.label>M1D 하츠웰</HD_Gun_M1D_Weapon.label>
   <HD_Gun_M1D_Weapon.description>조준경을 장착해 확장 사거리의 정밀한 반자동 사격에 맞춘 M1 하츠웰 변형입니다. 근거리 운용성을 조금 희생한 대신 장거리 사격 안정성을 높였습니다.</HD_Gun_M1D_Weapon.description>
@@ -51,17 +57,59 @@
   <HD_Gun_M9A1_Weapon.label>M9A1 무반동포</HD_Gun_M9A1_Weapon.label>
   <HD_Gun_M9A1_Weapon.description>장갑, 거점, 밀집된 단단한 목표를 공격하기 위한 어깨 견착식 무반동 로켓 발사기입니다. 발사 전에 장전해야 하며, 단독 운용 또는 2인 1조 운용으로 M6A3 HEAT 로켓을 낮고 뚜렷한 탄도로 발사합니다.</HD_Gun_M9A1_Weapon.description>
   <HD_Gun_M1897_Weapon.label>프론티어 암즈 M1897</HD_Gun_M1897_Weapon.label>
-  <HD_Gun_M1897_Weapon.description>근접전을 위해 만들어진 견고한 펌프 액션 산탄총입니다. 관형 탄창과 빠른 작동 방식 덕분에 짧은 거리에서 파괴적입니다.</HD_Gun_M1897_Weapon.description>
+  <HD_Gun_M1897_Weapon.description>관형 탄창과 펌프액션 장전을 사용하는 산탄총입니다. 짧은 거리에서 빠르게 후속탄을 발사할 수 있습니다.</HD_Gun_M1897_Weapon.description>
   <HD_Bullet_M1897_Proj.label>프론티어 암즈 M1897 산탄</HD_Bullet_M1897_Proj.label>
   <HD_M1902Saber.label>M1902 장교 세이버</HD_M1902Saber.label>
   <HD_M1902Saber.description>장교가 패용하는 가벼운 의장용 군도입니다. 사열식에는 잘 어울리지만, 얇은 칼날과 가벼운 장식 때문에 전장 무기로는 부족합니다.</HD_M1902Saber.description>
+  <HD_USMCFightingKnife.label>KA-BUG 미 해병대 전투 나이프</HD_USMCFightingKnife.label>
+  <HD_USMCFightingKnife.description>허리에 차는 클립 포인트 전투 나이프입니다. 전투뿐 아니라 절단과 야전 작업에도 사용할 수 있습니다.</HD_USMCFightingKnife.description>
   <HD_81mmMortarShell_M43HE_Proj.label>M43 81mm 고폭탄</HD_81mmMortarShell_M43HE_Proj.label>
   <HD_81mmMortarShell_M57WP_Proj.label>M57 81mm 백린연막탄</HD_81mmMortarShell_M57WP_Proj.label>
   <HD_81mmMortarShell_BA_Proj.label>M57 81mm BA 화학탄</HD_81mmMortarShell_BA_Proj.label>
+  <HD_105mmShell_M1HE_Proj.label>M1 105mm 고폭탄</HD_105mmShell_M1HE_Proj.label>
+  <HD_155mmShell_M107HE_Proj.label>M107 155mm 고폭탄</HD_155mmShell_M107HE_Proj.label>
+  <HD_155mmShell_M110BA_Proj.label>M110 155mm BA 화학탄</HD_155mmShell_M110BA_Proj.label>
+  <HD_155mmShell_M110WP_Proj.label>M110 155mm 백린연막탄</HD_155mmShell_M110WP_Proj.label>
+  <HD_155mmShell_M110CN_Proj.label>M110 155mm CN 화학탄</HD_155mmShell_M110CN_Proj.label>
+  <HD_155mmShell_W48_Proj.label>W48 155mm 핵포탄</HD_155mmShell_W48_Proj.label>
+  <HD_Projectile_W48Fragment.label>W48 핵포탄 파편</HD_Projectile_W48Fragment.label>
+  <HD_Projectile_155mmHEFragment.label>155mm 고폭탄 파편</HD_Projectile_155mmHEFragment.label>
   <HD_Gun_M1_81mmMortar_TurretGun.label>M1 81mm 박격포</HD_Gun_M1_81mmMortar_TurretGun.label>
   <HD_Gun_M1_81mmMortar_TurretGun.description>무거운 81mm 포탄을 높은 탄도로 발사하는 보병 박격포입니다. 운용 인원과 준비된 M43 고폭탄이 필요합니다.</HD_Gun_M1_81mmMortar_TurretGun.description>
   <HD_Bullet_M2HB_Proj.label>12.7mm 중기관총탄</HD_Bullet_M2HB_Proj.label>
   <HD_Bullet_M2HB_CAS_Proj.label>12.7mm 항공기 기총탄</HD_Bullet_M2HB_CAS_Proj.label>
   <HD_Gun_M2HB_TurretGun.label>M2HB 중기관총</HD_Gun_M2HB_TurretGun.label>
   <HD_Gun_M2HB_TurretGun.description>고정 방어 거치대용으로 설계된 탄띠 급탄식 12.7mm 중기관총입니다.</HD_Gun_M2HB_TurretGun.description>
+  <HD_3InchMortarShell_HE_Proj.label>3인치 박격포 고폭탄</HD_3InchMortarShell_HE_Proj.label>
+  <HD_3InchMortarShell_CG_Proj.label>3인치 박격포 포토클로로겐탄</HD_3InchMortarShell_CG_Proj.label>
+  <HD_Gun_M1911_Weapon.tools.0.label>손잡이</HD_Gun_M1911_Weapon.tools.0.label>
+  <HD_Gun_M1A1Harrington_Weapon.tools.0.label>개머리판</HD_Gun_M1A1Harrington_Weapon.tools.0.label>
+  <HD_Gun_M1A1Harrington_Weapon.tools.1.label>총열</HD_Gun_M1A1Harrington_Weapon.tools.1.label>
+  <HD_Gun_M3A1_Weapon.tools.0.label>개머리판</HD_Gun_M3A1_Weapon.tools.0.label>
+  <HD_Gun_M3A1_Weapon.tools.1.label>총열</HD_Gun_M3A1_Weapon.tools.1.label>
+  <HD_Gun_M9A1_Weapon.tools.0.label>관</HD_Gun_M9A1_Weapon.tools.0.label>
+  <HD_Gun_3InchHawkinsMortar_TurretGun.label>3인치 호킨스 박격포</HD_Gun_3InchHawkinsMortar_TurretGun.label>
+  <HD_Gun_3InchHawkinsMortar_TurretGun.description>고각으로 고폭탄을 발사하는 단순한 보병 박격포입니다. 운용 인원과 준비된 포탄이 필요합니다.</HD_Gun_3InchHawkinsMortar_TurretGun.description>
+  <HD_Projectile_3InchHEFragment.label>3인치 고폭탄 파편</HD_Projectile_3InchHEFragment.label>
+  <HD_Projectile_81mmHEFragment.label>81mm 고폭탄 파편</HD_Projectile_81mmHEFragment.label>
+  <HD_Projectile_105mmHEFragment.label>105mm 고폭탄 파편</HD_Projectile_105mmHEFragment.label>
+  <HD_Gun_KragJorgensen_Weapon.tools.0.label>개머리판</HD_Gun_KragJorgensen_Weapon.tools.0.label>
+  <HD_Gun_M1897_Weapon.tools.0.label>개머리판</HD_Gun_M1897_Weapon.tools.0.label>
+  <HD_Gun_M1897_Weapon.tools.1.label>총열</HD_Gun_M1897_Weapon.tools.1.label>
+  <HD_Gun_M1A1Carbine_Weapon.tools.0.label>개머리판</HD_Gun_M1A1Carbine_Weapon.tools.0.label>
+  <HD_Gun_M2Carbine_Weapon.tools.0.label>개머리판</HD_Gun_M2Carbine_Weapon.tools.0.label>
+  <HD_Gun_M1Garand_Weapon.tools.0.label>개머리판</HD_Gun_M1Garand_Weapon.tools.0.label>
+  <HD_Gun_M1D_Weapon.tools.0.label>개머리판</HD_Gun_M1D_Weapon.tools.0.label>
+  <HD_Gun_M1918A2HAR_Weapon.tools.0.label>개머리판</HD_Gun_M1918A2HAR_Weapon.tools.0.label>
+  <HD_Gun_M1918A2HAR_Weapon.tools.1.label>총열</HD_Gun_M1918A2HAR_Weapon.tools.1.label>
+  <HD_Gun_M1919A6LMG_Weapon.tools.0.label>개머리판</HD_Gun_M1919A6LMG_Weapon.tools.0.label>
+  <HD_Gun_M1919A6LMG_Weapon.tools.1.label>총열</HD_Gun_M1919A6LMG_Weapon.tools.1.label>
+  <HD_Gun_SprMThree_Weapon.tools.0.label>개머리판</HD_Gun_SprMThree_Weapon.tools.0.label>
+  <HD_Gun_M1903A4_Weapon.tools.0.label>개머리판</HD_Gun_M1903A4_Weapon.tools.0.label>
+  <HD_Gun_M1903Pedersen_Weapon.tools.0.label>개머리판</HD_Gun_M1903Pedersen_Weapon.tools.0.label>
+  <HD_M1902Saber.tools.0.label>손잡이</HD_M1902Saber.tools.0.label>
+  <HD_M1902Saber.tools.1.label>찌르기</HD_M1902Saber.tools.1.label>
+  <HD_M1902Saber.tools.2.label>날</HD_M1902Saber.tools.2.label>
+  <HD_USMCFightingKnife.tools.0.label>찌르기</HD_USMCFightingKnife.tools.0.label>
+  <HD_USMCFightingKnife.tools.1.label>날</HD_USMCFightingKnife.tools.1.label>
 </LanguageData>

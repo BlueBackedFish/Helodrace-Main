@@ -12,13 +12,6 @@
   <HD_ConfigureMechanical.verb>설정</HD_ConfigureMechanical.verb>
   <HD_ConfigureMechanical.gerund>설정하는 중</HD_ConfigureMechanical.gerund>
 
-  <HD_LubricateBelt.label>기계식 벨트 윤활</HD_LubricateBelt.label>
-  <HD_LubricateBelt.verb>윤활</HD_LubricateBelt.verb>
-  <HD_LubricateBelt.gerund>윤활하는 중</HD_LubricateBelt.gerund>
-
-  <HD_RepairBelt.label>기계식 벨트 수리</HD_RepairBelt.label>
-  <HD_RepairBelt.verb>수리</HD_RepairBelt.verb>
-  <HD_RepairBelt.gerund>수리하는 중</HD_RepairBelt.gerund>
 
   <DoBillsHD_TreadleLathe.label>발판식 선반 사용</DoBillsHD_TreadleLathe.label>
   <DoBillsHD_TreadleLathe.verb>제작</DoBillsHD_TreadleLathe.verb>
@@ -28,9 +21,9 @@
   <DoBillsHD_BasicWorkbench.verb>수공예 작업</DoBillsHD_BasicWorkbench.verb>
   <DoBillsHD_BasicWorkbench.gerund>수공예 작업하는 중</DoBillsHD_BasicWorkbench.gerund>
 
-  <DoBillsHD_TelegraphTable.label>전신기 테이블 사용</DoBillsHD_TelegraphTable.label>
-  <DoBillsHD_TelegraphTable.verb>전신 송신</DoBillsHD_TelegraphTable.verb>
-  <DoBillsHD_TelegraphTable.gerund>전신 송신하는 중</DoBillsHD_TelegraphTable.gerund>
+  <DoBillsHD_GunSmithTable.label>총기 작업대 사용</DoBillsHD_GunSmithTable.label>
+  <DoBillsHD_GunSmithTable.verb>총기 제작</DoBillsHD_GunSmithTable.verb>
+  <DoBillsHD_GunSmithTable.gerund>총기를 제작하는 중</DoBillsHD_GunSmithTable.gerund>
 
   <DoBillsHD_LineShaftRollingMachine.label>라인 샤프트 압연기 사용</DoBillsHD_LineShaftRollingMachine.label>
   <DoBillsHD_LineShaftRollingMachine.verb>제작</DoBillsHD_LineShaftRollingMachine.verb>

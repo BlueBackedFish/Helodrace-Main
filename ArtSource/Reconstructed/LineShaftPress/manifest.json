@@ -1,0 +1,164 @@
+{
+  "asset": "LineShaftPress",
+  "source_pairs": [
+    {
+      "color": "HD_LineShaftPress_north.png",
+      "mask": "HD_LineShaftPress_northm.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "alpha_bounds_including_stroke": [
+        149,
+        46,
+        883,
+        967
+      ],
+      "filled_bounds_without_black_stroke": [
+        164,
+        61,
+        868,
+        952
+      ],
+      "mask_red_bounds": [
+        164,
+        61,
+        868,
+        952
+      ],
+      "red_mask_pixels": 553772,
+      "visible_unmasked_pixels": 56505,
+      "interior_palette": [
+        {
+          "rgb": [
+            96,
+            96,
+            96
+          ],
+          "pixels": 100346
+        },
+        {
+          "rgb": [
+            213,
+            213,
+            213
+          ],
+          "pixels": 95166
+        },
+        {
+          "rgb": [
+            184,
+            184,
+            184
+          ],
+          "pixels": 86432
+        },
+        {
+          "rgb": [
+            117,
+            117,
+            117
+          ],
+          "pixels": 82633
+        },
+        {
+          "rgb": [
+            101,
+            101,
+            101
+          ],
+          "pixels": 59851
+        },
+        {
+          "rgb": [
+            52,
+            52,
+            52
+          ],
+          "pixels": 31795
+        },
+        {
+          "rgb": [
+            83,
+            83,
+            83
+          ],
+          "pixels": 25521
+        },
+        {
+          "rgb": [
+            166,
+            166,
+            166
+          ],
+          "pixels": 20868
+        },
+        {
+          "rgb": [
+            255,
+            255,
+            255
+          ],
+          "pixels": 19880
+        },
+        {
+          "rgb": [
+            132,
+            132,
+            132
+          ],
+          "pixels": 11194
+        },
+        {
+          "rgb": [
+            65,
+            65,
+            65
+          ],
+          "pixels": 10148
+        },
+        {
+          "rgb": [
+            98,
+            98,
+            98
+          ],
+          "pixels": 3455
+        }
+      ]
+    }
+  ],
+  "game_footprint": [
+    3,
+    3
+  ],
+  "mesh_objects": 15,
+  "vertices": 184,
+  "world_bounds": [
+    [
+      -1.359375,
+      -1.9245989322662354,
+      0.02499999850988388
+    ],
+    [
+      1.390625,
+      0.14678892493247986,
+      3.9499998092651367
+    ]
+  ],
+  "ortho_scale": 5.112549444524253,
+  "target_center": [
+    0.015625,
+    -0.8889049887657166,
+    1.9874999523162842
+  ],
+  "downward_degrees": 64,
+  "resolution": [
+    512,
+    512
+  ],
+  "camera_positions": "North -Y, South +Y, East +X; chosen to match supplied sprite orientation.",
+  "unseen_views_inferred": true,
+  "no_outline_geometry": true,
+  "no_image_textures_on_model": true
+}

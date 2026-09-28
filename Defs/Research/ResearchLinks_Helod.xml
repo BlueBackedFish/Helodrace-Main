@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    A ResearchLinkDef is bidirectional. If every project on one side is
+    finished, every project on the other side is finished automatically.
+
+    One project <-> one project:
+
+    <Helodrace.ResearchLinkDef>
+      <defName>HD_Link_AirConditioning</defName>
+      <leftProjects>
+        <li>AirConditioning</li>
+      </leftProjects>
+      <rightProjects>
+        <li>HelodHeatPump</li>
+      </rightProjects>
+    </Helodrace.ResearchLinkDef>
+
+    A group <-> one project. The group side is complete only after every
+    listed project is complete:
+
+    <Helodrace.ResearchLinkDef>
+      <defName>HD_Link_Machining</defName>
+      <leftProjects>
+        <li>Machining</li>
+      </leftProjects>
+      <rightProjects>
+        <li>HelodMetalCuttingMachine</li>
+        <li>HelodMetalFormingMachine</li>
+      </rightProjects>
+    </Helodrace.ResearchLinkDef>
+  -->
+
+</Defs>

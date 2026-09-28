@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Reinforced concrete walls. Construction recipes will be added later. -->
+
+  <ThingDef ParentName="Wall" Name="HD_ReinforcedConcreteWallBase" Abstract="True">
+    <designationCategory />
+    <designationHotKey />
+    <costStuffCount>0</costStuffCount>
+    <stuffCategories Inherit="False" />
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ReinforcedConcreteWallBase">
+    <defName>HD_Building_ReinforcedConcreteWall</defName>
+    <label>reinforced concrete wall</label>
+    <description>A solid wall of concrete strengthened with embedded steel reinforcement. It is extremely durable and cannot catch fire.</description>
+    <statBases>
+      <MaxHitPoints>1800</MaxHitPoints>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ReinforcedConcreteWallBase">
+    <defName>HD_Building_ThickReinforcedConcreteWall</defName>
+    <label>thick reinforced concrete wall</label>
+    <description>An exceptionally thick wall of steel-reinforced concrete. It is built to withstand sustained bombardment and cannot catch fire.</description>
+    <statBases>
+      <MaxHitPoints>3600</MaxHitPoints>
+    </statBases>
+  </ThingDef>
+
+</Defs>

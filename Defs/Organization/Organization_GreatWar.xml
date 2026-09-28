@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Helodrace.Squads.RoleDef Name="HD_CombatRoleBase" Abstract="True">
+    <preferredSkill>Shooting</preferredSkill>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_Rifleman</defName><label>rifleman</label><combatFunction>Rifle</combatFunction>
+    <successionPriority>30</successionPriority>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_Carbine</defName><label>carbine gunner</label><combatFunction>Carbine</combatFunction>
+    <successionPriority>25</successionPriority>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_SMG</defName><label>SMG gunner</label><combatFunction>SMG</combatFunction>
+    <successionPriority>25</successionPriority>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_AutomaticRifleman</defName><label>automatic rifleman</label><combatFunction>HAR</combatFunction>
+    <successionPriority>40</successionPriority>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_MachineGunner</defName><label>machine gunner</label><combatFunction>MachineGun</combatFunction>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_Marksman</defName><label>marksman</label><combatFunction>Sniper</combatFunction>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_BazookaGunner</defName><label>bazooka gunner</label><combatFunction>Bazooka</combatFunction>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CombatRoleBase">
+    <defName>HD_Role_BazookaAmmoBearer</defName><label>bazooka ammunition bearer</label><combatFunction>RocketSupply</combatFunction>
+  </Helodrace.Squads.RoleDef>
+
+  <Helodrace.Squads.RoleDef Name="HD_CommandRoleBase" Abstract="True">
+    <isCommandRole>true</isCommandRole><preferredSkill>Shooting</preferredSkill><minimumSkillLevel>4</minimumSkillLevel>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CommandRoleBase">
+    <defName>HD_Role_TeamLeader</defName><label>team leader</label><commandAuthority>20</commandAuthority>
+    <successionPriority>10</successionPriority><canCommandUnitLevels><li>Team</li><li>Fireteam</li></canCommandUnitLevels>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CommandRoleBase">
+    <defName>HD_Role_AssistantSquadLeader</defName><label>assistant squad leader</label><commandAuthority>30</commandAuthority>
+    <successionPriority>5</successionPriority><canCommandUnitLevels><li>Squad</li></canCommandUnitLevels>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CommandRoleBase">
+    <defName>HD_Role_SquadLeader</defName><label>squad leader</label><commandAuthority>40</commandAuthority>
+    <successionPriority>10</successionPriority><canCommandUnitLevels><li>Squad</li></canCommandUnitLevels>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CommandRoleBase">
+    <defName>HD_Role_PlatoonSergeant</defName><label>platoon sergeant</label><commandAuthority>60</commandAuthority>
+    <successionPriority>5</successionPriority><canCommandUnitLevels><li>Platoon</li></canCommandUnitLevels>
+  </Helodrace.Squads.RoleDef>
+  <Helodrace.Squads.RoleDef ParentName="HD_CommandRoleBase">
+    <defName>HD_Role_PlatoonLeader</defName><label>platoon leader</label><commandAuthority>80</commandAuthority>
+    <successionPriority>10</successionPriority><canCommandUnitLevels><li>Platoon</li></canCommandUnitLevels>
+  </Helodrace.Squads.RoleDef>
+
+  <!-- Every slot is mandatory for the selected formation. Costs use PawnKind combatPower. -->
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_GW_Patrol</defName><label>Great War patrol</label><unitLevel>Squad</unitLevel>
+    <minimumPersonnel>6</minimumPersonnel><idealPersonnel>6</idealPersonnel><maximumPersonnel>6</maximumPersonnel>
+    <selectionPriority>50</selectionPriority><commanderRole>HD_Role_SquadLeader</commanderRole>
+    <doctrine>HD_Doctrine_GreatWar</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_SquadLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder></li>
+      <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_AssistantSquadLeader</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder></li>
+      <li><pawnKind>HD_GW_HelodHAR</pawnKind><combatRole>HD_Role_AutomaticRifleman</combatRole></li>
+      <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><count>3</count><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications></li>
+    </requiredRoles>
+    <successionRoles><li>HD_Role_AssistantSquadLeader</li></successionRoles>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_GW_RifleSquad</defName><label>Great War rifle squad</label><unitLevel>Squad</unitLevel>
+    <minimumPersonnel>12</minimumPersonnel><idealPersonnel>12</idealPersonnel><maximumPersonnel>12</maximumPersonnel>
+    <selectionPriority>100</selectionPriority><commanderRole>HD_Role_SquadLeader</commanderRole>
+    <doctrine>HD_Doctrine_GreatWar</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_GW_HelodSMG</pawnKind><combatRole>HD_Role_SMG</combatRole><commandRole>HD_Role_SquadLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications></li>
+      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_AssistantSquadLeader</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder><commandQualifications><li>HD_Role_SquadLeader</li><li>HD_Role_PlatoonLeader</li></commandQualifications></li>
+      <li><pawnKind>HD_GW_HelodHAR</pawnKind><combatRole>HD_Role_AutomaticRifleman</combatRole></li>
+      <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><count>9</count><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications></li>
+    </requiredRoles>
+    <successionRoles><li>HD_Role_AssistantSquadLeader</li></successionRoles>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_GW_MachineGunTeam</defName><label>Great War machine gun team</label><unitLevel>Team</unitLevel>
+    <minimumPersonnel>3</minimumPersonnel><idealPersonnel>3</idealPersonnel><maximumPersonnel>3</maximumPersonnel>
+    <commanderRole>HD_Role_TeamLeader</commanderRole><doctrine>HD_Doctrine_GreatWar</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_GW_HelodM1919A6</pawnKind><combatRole>HD_Role_MachineGunner</combatRole><commandRole>HD_Role_TeamLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder></li>
+      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><count>2</count><explicitSuccessionOrder>1</explicitSuccessionOrder></li>
+    </requiredRoles>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_GW_BazookaTeam</defName><label>Great War bazooka team</label><unitLevel>Team</unitLevel>
+    <minimumPersonnel>2</minimumPersonnel><idealPersonnel>2</idealPersonnel><maximumPersonnel>2</maximumPersonnel>
+    <commanderRole>HD_Role_TeamLeader</commanderRole><doctrine>HD_Doctrine_GreatWar</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_GW_HelodBazooka</pawnKind><combatRole>HD_Role_BazookaGunner</combatRole><commandRole>HD_Role_TeamLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder></li>
+      <li><pawnKind>HD_GW_HelodBazookaAmmoBearer</pawnKind><combatRole>HD_Role_BazookaAmmoBearer</combatRole><explicitSuccessionOrder>1</explicitSuccessionOrder></li>
+    </requiredRoles>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_GW_SniperTeam</defName><label>Great War sniper team</label><unitLevel>Team</unitLevel>
+    <minimumPersonnel>2</minimumPersonnel><idealPersonnel>2</idealPersonnel><maximumPersonnel>2</maximumPersonnel>
+    <commanderRole>HD_Role_TeamLeader</commanderRole><doctrine>HD_Doctrine_GreatWar</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_GW_HelodSniper</pawnKind><combatRole>HD_Role_Marksman</combatRole><commandRole>HD_Role_TeamLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder></li>
+      <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>1</explicitSuccessionOrder></li>
+    </requiredRoles>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_GW_RiflePlatoon</defName><label>Great War reinforced rifle platoon</label><unitLevel>Platoon</unitLevel>
+    <minimumPersonnel>45</minimumPersonnel><idealPersonnel>45</idealPersonnel><maximumPersonnel>45</maximumPersonnel>
+    <selectionPriority>200</selectionPriority><commanderRole>HD_Role_PlatoonLeader</commanderRole>
+    <doctrine>HD_Doctrine_GreatWar</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_PlatoonLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder></li>
+      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_PlatoonSergeant</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder></li>
+    </requiredRoles>
+    <childFormations>
+      <li><formation>HD_Formation_GW_RifleSquad</formation><count>3</count><successionPriority>0</successionPriority></li>
+      <li><formation>HD_Formation_GW_MachineGunTeam</formation><successionPriority>20</successionPriority></li>
+      <li><formation>HD_Formation_GW_BazookaTeam</formation><successionPriority>30</successionPriority></li>
+      <li><formation>HD_Formation_GW_SniperTeam</formation><successionPriority>40</successionPriority></li>
+    </childFormations>
+    <successionRoles><li>HD_Role_PlatoonSergeant</li></successionRoles>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.DoctrineDef>
+    <defName>HD_Doctrine_GreatWar</defName><label>Great War infantry doctrine</label>
+    <formationPointTolerance>0.10</formationPointTolerance>
+    <commandLossDelayTicks>90</commandLossDelayTicks><commandRecoveryTicks>300</commandRecoveryTicks>
+    <actingCommandEfficiency>0.70</actingCommandEfficiency>
+    <directControl>0.9</directControl><fireteamIndependence>0.2</fireteamIndependence><squadCohesion>0.9</squadCohesion>
+    <availableFormations>
+      <li>HD_Formation_GW_RiflePlatoon</li><li>HD_Formation_GW_RifleSquad</li><li>HD_Formation_GW_Patrol</li>
+    </availableFormations>
+  </Helodrace.Squads.DoctrineDef>
+</Defs>

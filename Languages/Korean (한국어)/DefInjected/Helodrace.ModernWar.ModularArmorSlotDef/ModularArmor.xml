@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MA_Slot_FrontRearPlates.label>IBTV 전·후면 방탄판 장착부</HD_MA_Slot_FrontRearPlates.label>
+  <HD_MA_Slot_SidePlates.label>IBTV 좌·우 측면 방탄판 장착부</HD_MA_Slot_SidePlates.label>
+  <HD_MA_Slot_FrontPlate.label>IBTV 전면 방탄판 장착부</HD_MA_Slot_FrontPlate.label>
+  <HD_MA_Slot_RearPlate.label>IBTV 후면 방탄판 장착부</HD_MA_Slot_RearPlate.label>
+  <HD_MA_Slot_LeftPlate.label>IBTV 좌측 방탄판 장착부</HD_MA_Slot_LeftPlate.label>
+  <HD_MA_Slot_RightPlate.label>IBTV 우측 방탄판 장착부</HD_MA_Slot_RightPlate.label>
+  <HD_MA_Slot_NeckGuard.label>IBTV 목 보호대 장착부</HD_MA_Slot_NeckGuard.label>
+  <HD_MA_Slot_ShoulderGuards.label>IBTV 어깨 보호대 장착부</HD_MA_Slot_ShoulderGuards.label>
+  <HD_MA_Slot_LowerBody.label>IBTV 사타구니 보호대 장착부</HD_MA_Slot_LowerBody.label>
+  <HD_MA_Slot_BackProtector.label>IBTV 후방 하단 보호대 장착부</HD_MA_Slot_BackProtector.label>
+  <HD_MH_Slot_NightVision.label>야간투시경 장착부</HD_MH_Slot_NightVision.label>
+  <HD_MH_Slot_Visor.label>방탄 바이저 장착부</HD_MH_Slot_Visor.label>
+  <HD_MA_Slot_CamelBak.label>IBTV 수낭 장착부</HD_MA_Slot_CamelBak.label>
+  <HD_MA_Slot_KneePads.label>전투복 무릎 보호대 장착부</HD_MA_Slot_KneePads.label>
+  <HD_MA_Slot_DropLeg.label>MOLLE 전투벨트 드롭레그 장착부</HD_MA_Slot_DropLeg.label>
+</LanguageData>

@@ -2,6 +2,13 @@
 <Defs>
 
   <JobDef>
+    <defName>HD_CustomizeModularArmor</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_CustomizeModularArmor</driverClass>
+    <reportString>customizing apparel at the clothing workbench.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
     <defName>HD_ZaperX26Fire</defName>
     <driverClass>Helodrace.ModernWar.JobDriver_ZaperX26Fire</driverClass>
     <reportString>firing ZAPER X26 at TargetA.</reportString>
@@ -12,6 +19,34 @@
     <defName>HD_ZaperX26Contact</defName>
     <driverClass>Helodrace.ModernWar.JobDriver_ZaperX26Contact</driverClass>
     <reportString>striking TargetA with ZAPER X26 contact electrodes.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_InstallModularArmorPart</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_InstallModularArmorPart</driverClass>
+    <reportString>installing an armor part.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_InsertModularWeaponPartsBox</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_InsertModularWeaponPartsBox</driverClass>
+    <reportString>inserting TargetA into TargetB.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_ModifyModularWeaponAtBench</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_ModifyModularWeaponAtBench</driverClass>
+    <reportString>modifying TargetB at TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>HD_SwapModularArmorFrontRear</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_SwapModularArmorFrontRear</driverClass>
+    <reportString>swapping the front and rear armor plates.</reportString>
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
   </JobDef>
 

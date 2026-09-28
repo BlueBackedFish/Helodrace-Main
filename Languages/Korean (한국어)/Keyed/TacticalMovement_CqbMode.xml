@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_CqbMode_Command>CQB 모드</HD_CqbMode_Command>
+  <HD_CqbMode_CommandDesc>이 폰의 CQB 명령 기즈모를 펼치거나 접습니다. 기본값은 꺼짐이며 폰별로 저장됩니다. 꺼도 진행 중인 행동과 패시브 설정은 유지됩니다.</HD_CqbMode_CommandDesc>
+</LanguageData>

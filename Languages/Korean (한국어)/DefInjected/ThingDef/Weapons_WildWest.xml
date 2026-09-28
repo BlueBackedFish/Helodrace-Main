@@ -35,4 +35,18 @@
   <!-- m1860 Cavalry Saber -->
   <HD_mSixZeroSaber.label>m1860 경기병 세이버</HD_mSixZeroSaber.label>
   <HD_mSixZeroSaber.description>기병대원들을 위한 길고 가벼운 곡선 형태의 한손 검입니다. 베기 공격과 가벼운 찌르기에 최적화되어 있습니다.</HD_mSixZeroSaber.description>
+  <HD_Gun_ColtSAA_Weapon.tools.0.label>손잡이</HD_Gun_ColtSAA_Weapon.tools.0.label>
+  <HD_Gun_ColtSAA_Weapon.tools.1.label>총열</HD_Gun_ColtSAA_Weapon.tools.1.label>
+  <HD_Gun_ColtArmyModel1860_Weapon.tools.0.label>손잡이</HD_Gun_ColtArmyModel1860_Weapon.tools.0.label>
+  <HD_Gun_ColtArmyModel1860_Weapon.tools.1.label>총열</HD_Gun_ColtArmyModel1860_Weapon.tools.1.label>
+  <HD_Gun_SWModelThree_Weapon.tools.0.label>손잡이</HD_Gun_SWModelThree_Weapon.tools.0.label>
+  <HD_Gun_Henry_Weapon.tools.0.label>개머리판</HD_Gun_Henry_Weapon.tools.0.label>
+  <HD_Gun_WinM1887_Weapon.tools.0.label>개머리판</HD_Gun_WinM1887_Weapon.tools.0.label>
+  <HD_Gun_WinMNinetyFive_Weapon.tools.0.label>개머리판</HD_Gun_WinMNinetyFive_Weapon.tools.0.label>
+  <HD_Gun_SprMOne_Weapon.tools.0.label>개머리판</HD_Gun_SprMOne_Weapon.tools.0.label>
+  <HD_Gun_SprMOne_Weapon.tools.1.label>총열</HD_Gun_SprMOne_Weapon.tools.1.label>
+  <HD_Gun_SprMThreeHigh_Weapon.tools.0.label>개머리판</HD_Gun_SprMThreeHigh_Weapon.tools.0.label>
+  <HD_mSixZeroSaber.tools.0.label>손잡이</HD_mSixZeroSaber.tools.0.label>
+  <HD_mSixZeroSaber.tools.1.label>찌르기</HD_mSixZeroSaber.tools.1.label>
+  <HD_mSixZeroSaber.tools.2.label>날</HD_mSixZeroSaber.tools.2.label>
 </LanguageData>

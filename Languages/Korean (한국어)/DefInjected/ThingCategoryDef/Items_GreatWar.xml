@@ -2,6 +2,14 @@
 <LanguageData>
   <HD_3InchMortarShells.label>3인치 박격포탄</HD_3InchMortarShells.label>
   <HD_81mmMortarShells.label>81mm 박격포탄</HD_81mmMortarShells.label>
+  <HD_105mmHowitzerShells.label>105mm 곡사포탄</HD_105mmHowitzerShells.label>
+  <HD_155mmHowitzerShells.label>155mm 곡사포탄</HD_155mmHowitzerShells.label>
   <HD_37mmShells.label>37mm 포탄</HD_37mmShells.label>
   <HD_Rockets.label>로켓</HD_Rockets.label>
+  <HD_3InchMortarShells.modExtensions.0.caliber>3인치</HD_3InchMortarShells.modExtensions.0.caliber>
+  <HD_81mmMortarShells.modExtensions.0.caliber>81mm</HD_81mmMortarShells.modExtensions.0.caliber>
+  <HD_37mmShells.modExtensions.0.caliber>37mm</HD_37mmShells.modExtensions.0.caliber>
+  <HD_105mmHowitzerShells.modExtensions.0.caliber>105mm</HD_105mmHowitzerShells.modExtensions.0.caliber>
+  <HD_155mmHowitzerShells.modExtensions.0.caliber>155mm</HD_155mmHowitzerShells.modExtensions.0.caliber>
+  <HD_Rockets.modExtensions.0.caliber>60mm</HD_Rockets.modExtensions.0.caliber>
 </LanguageData>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_TacticalMultiTargetFire_Command>다중 목표 사격</HD_TacticalMultiTargetFire_Command>
+  <HD_TacticalMultiTargetFire_CommandDesc>연발수 3발 이상 또는 원거리 재사용 대기시간 1초 이하인 총에서 사용합니다. 이동을 유지하며 최대 3개 표적에 사격합니다. 선딜레이는 0.2초 고정, 무기 후딜레이는 무시합니다. 사수 정확도 x에 3x²−2x³을 적용하고, 7타일 이내 명중률은 2배(최대 100%)입니다. 엄폐·방호는 유지됩니다.</HD_TacticalMultiTargetFire_CommandDesc>
+  <HD_TacticalMultiTargetFire_FirePriority>사격 우선</HD_TacticalMultiTargetFire_FirePriority>
+  <HD_TacticalMultiTargetFire_SuppressionPriority>제압 우선</HD_TacticalMultiTargetFire_SuppressionPriority>
+  <HD_TacticalMultiTargetFire_AddTarget>추가 표적 지정 ({0}/{1})</HD_TacticalMultiTargetFire_AddTarget>
+  <HD_TacticalMultiTargetFire_Start>{0}개 표적으로 시작</HD_TacticalMultiTargetFire_Start>
+  <HD_TacticalMultiTargetFire_InvalidTarget>다중 목표 사격 조건을 만족하지 않는 표적입니다.</HD_TacticalMultiTargetFire_InvalidTarget>
+  <HD_TacticalMultiTargetFire_Finished>다중 목표 사격을 완료했습니다.</HD_TacticalMultiTargetFire_Finished>
+</LanguageData>
