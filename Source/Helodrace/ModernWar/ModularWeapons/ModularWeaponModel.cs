@@ -327,6 +327,14 @@ namespace Helodrace.ModernWar
         // Parts can be made inside the workbench during a modification session.
         // Set false for parts that must first be obtained and stored in the parts box.
         public bool canInstantCraft = true;
+        // Checked by the modular workbench only. Using ThingDef.researchPrerequisites
+        // would list every internal part separately on the vanilla research screen.
+        public List<ResearchProjectDef> requiredResearch =
+            new List<ResearchProjectDef>();
+        // The workbench consumes these materials directly. Keeping them off
+        // ThingDef.costList avoids involving vanilla recipe generation.
+        public List<ThingDefCountClass> craftCost =
+            new List<ThingDefCountClass>();
         public ModularWeaponPartStorageMode storageMode =
             ModularWeaponPartStorageMode.Virtual;
         public ModularWeaponPartCategory partCategory =
@@ -445,13 +453,19 @@ namespace Helodrace.ModernWar
                 yield return parentDef.defName
                     + " is an assembly root and does not need IndependentThing storage mode.";
             if (!isAssemblyRoot && storageMode != ModularWeaponPartStorageMode.Internal
-                && canInstantCraft && parentDef.costList.NullOrEmpty())
+                && canInstantCraft && craftCost.NullOrEmpty())
                 yield return parentDef.defName
-                    + " can be crafted at the modular workbench but has no costList.";
+                    + " can be crafted at the modular workbench but has no craftCost.";
+            if (!isAssemblyRoot && parentDef.costList.NullOrEmpty() == false)
+                yield return parentDef.defName
+                    + " is a modular part with a vanilla costList; use craftCost instead.";
             if (!isAssemblyRoot && storageMode == ModularWeaponPartStorageMode.Virtual
                 && (parentDef.selectable || parentDef.alwaysHaulable))
                 yield return parentDef.defName
                     + " is a virtual part but can be selected or hauled as a loose Thing.";
+            if (!isAssemblyRoot && parentDef.recipeMaker != null)
+                yield return parentDef.defName
+                    + " is a modular part with a vanilla recipeMaker.";
             if (internalStats != null)
             {
                 if (internalStats.massKg == 0f)

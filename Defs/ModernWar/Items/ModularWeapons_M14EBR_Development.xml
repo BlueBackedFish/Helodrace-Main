@@ -4,13 +4,11 @@
        Mounts therefore use the authored interface pixels and keep graphicOffset at zero. -->
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_MK14EBR</defName>
-    <costList><Steel>4</Steel></costList>
     <label>MK14 EBR chassis handguard</label>
     <description>MK14 EBR chassis handguard surrounds the barrel and provides attachment space.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MK14EBR</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts>
@@ -29,13 +27,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_MK14EBRTopRail</defName>
-    <costList><Steel>4</Steel></costList>
     <label>MK14 EBR receiver top rail</label>
     <description>MK14 EBR receiver top rail surrounds the barrel and provides attachment space.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_MK14EBRTopRail</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>3</graphicLayer>
         <mounts>
@@ -50,13 +46,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_PistolGrip_MK14EBR</defName>
-    <costList><Steel>2</Steel></costList>
     <label>MK14 EBR pistol grip</label>
     <description>MK14 EBR pistol grip improves the shooter's grip and weapon control.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_MK14EBR</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts>
@@ -74,13 +68,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_MK14EBR</defName>
-    <costList><Steel>3</Steel></costList>
     <label>MK14 EBR adjustable stock</label>
     <description>MK14 EBR adjustable stock provides shoulder support and helps control recoil.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MK14EBR</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>1.5</graphicLayer>
         <mounts>

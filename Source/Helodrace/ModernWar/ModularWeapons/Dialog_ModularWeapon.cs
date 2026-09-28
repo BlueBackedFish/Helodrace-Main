@@ -1091,9 +1091,9 @@ namespace Helodrace.ModernWar
                 : def.GetStatValueAbstract(StatDefOf.Mass);
             details += "\n" + StatDefOf.Mass.LabelCap + ": "
                 + mass.ToString("0.##", CultureInfo.InvariantCulture) + " kg";
-            if (def.costList != null && def.costList.Count > 0)
+            if (props?.craftCost != null && props.craftCost.Count > 0)
                 details += "\n" + "HD_ModularWeapon_CraftCost".Translate(
-                    string.Join(", ", def.costList
+                    string.Join(", ", props.craftCost
                         .Where(entry => entry?.thingDef != null)
                         .Select(entry => entry.thingDef.LabelCap + " ×" + entry.count)));
             if (mount != null && selectedSocket?.isRail == true)

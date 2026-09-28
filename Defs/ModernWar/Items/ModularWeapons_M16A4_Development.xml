@@ -6,16 +6,14 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UpperReceiver_M16A4</defName>
-    <costList><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>M16A4 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
     <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
     <description>M16A4 upper receiver supports the action, barrel, and compatible attachments.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a4</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>8</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <storageMode>IndependentThing</storageMode>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>1</graphicLayer>
@@ -40,13 +38,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_AR1520</defName>
-    <costList><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>20 inch AR-15 barrel</label>
     <description>20 inch AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1520</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>-3</graphicLayer>
         <chamberCaliber>556x45</chamberCaliber>
         <ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName>
@@ -65,13 +61,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_GasBlock_AR15</defName>
-    <costList><Steel>2</Steel></costList>
     <label>AR-15 front sight gas block</label>
     <description>AR-15 front sight gas block routes propellant gas through the weapon's operating system.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_AR15</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>-2</graphicLayer>
         <verticalOccupancy>0.065</verticalOccupancy>
         <verticalOccupancyOffset>0.016</verticalOccupancyOffset>
@@ -93,13 +87,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Handguard_HACURXUP</defName>
-    <costList><Steel>4</Steel></costList>
     <label>HAC URX upper handguard</label>
     <description>HAC URX upper handguard surrounds the barrel and provides attachment space.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACURXUP</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.025,0,-0.004)</position></transform></li></mounts>
         <sockets>
@@ -116,13 +108,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_HandguardExt_HACURXDOWN</defName>
-    <costList><Steel>4</Steel></costList>
     <label>HAC URX lower handguard</label>
     <description>HAC URX lower handguard surrounds the barrel and provides attachment space.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_HACURXDOWN</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>1.5</graphicLayer>
         <mounts><li><id>lower_handguard_mount</id><socketTags><li>hac_urx_lower</li></socketTags><transform><position>(-0.012,0,-0.014)</position></transform></li></mounts>
         <sockets>
@@ -139,13 +129,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_STANAG</defName>
-    <costList><Steel>2</Steel></costList>
     <label>STANAG magazine</label>
     <description>STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_Stanag</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>-1</graphicLayer>
         <magazineCapacity>30</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>stanag_magazine</li></socketTags><transform><position>(-0.075,0,-0.026)</position></transform></li></mounts>
@@ -164,13 +152,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_MagazineExt_StanagGrip</defName>
-    <costList><Steel>2</Steel></costList>
     <label>STANAG magazine pull grip</label>
     <description>STANAG magazine pull grip is a detachable magazine that stores and feeds cartridges.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_MagazineExt_StanagGrip</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>0</graphicLayer>
         <mounts><li><id>floorplate_mount</id><socketTags><li>stanag_floorplate</li></socketTags><transform><position>(-0.052,0,-0.165)</position></transform></li></mounts>
       </li>
@@ -179,13 +165,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_MagazineWrap_StanagTapeBlue</defName>
-    <costList><Steel>2</Steel></costList>
     <label>blue STANAG magazine tape</label>
     <description>blue STANAG magazine tape is a detachable magazine that stores and feeds cartridges.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_MagazineExt_StanagTapeBlue</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>0</graphicLayer>
         <mounts><li><id>magazine_wrap_mount</id><socketTags><li>stanag_magazine_wrap</li></socketTags><transform><position>(-0.066,0,-0.110)</position></transform></li></mounts>
       </li>
@@ -194,13 +178,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_BufferTube_ColtA2</defName>
-    <costList><Steel>3</Steel></costList>
     <label>Colt A2 rifle buffer tube</label>
     <description>Colt A2 rifle buffer tube connects the stock and houses the recoil buffer.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_ColtA2</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>buffer_mount</id><socketTags><li>ar15_buffer</li></socketTags><transform><position>(-0.211,0,-0.007)</position></transform></li></mounts>
         <sockets><li><id>stock</id><label>fixed stock placement track</label><tags><li>ar15_fixed_stock</li></tags><isRail>true</isRail><railLength>0.06</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.237,0,-0.007)</position></transform></li></sockets>
@@ -213,13 +195,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Stock_IronFangA2</defName>
-    <costList><Steel>3</Steel></costList>
     <label>IronFang A2 stock</label>
     <description>IronFang A2 stock provides shoulder support and helps control recoil.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_IronFangA2</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>-1</graphicLayer>
         <mounts><li><id>fixed_stock_mount</id><socketTags><li>ar15_fixed_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.236,0,-0.005)</position></transform></li></mounts>
       </li>
@@ -228,13 +208,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_OpticMount_LumiconTA51</defName>
-    <costList><Steel>2</Steel></costList>
     <label>Lumicon TA51 rail mount</label>
     <description>Lumicon TA51 rail mount secures an aiming device to a weapon rail.</description>
-    <researchPrerequisites><li>HelodAdvancedWeaponOptics</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_LumiconTA51</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
         <graphicLayer>5</graphicLayer>
         <verticalOccupancy>0.01</verticalOccupancy>
         <verticalOccupancyOffset>0.02</verticalOccupancyOffset>
@@ -249,13 +227,11 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Scope_LumiconTA11</defName>
-    <costList><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></costList>
     <label>Lumicon TA11 scope</label>
     <description>Lumicon TA11 scope is a dedicated component of its modular weapon assembly.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Optics/HD_Scope_LumiconTA11</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>6</graphicLayer>
         <verticalOccupancy>0.062</verticalOccupancy>
         <verticalOccupancyOffset>0.054</verticalOccupancyOffset>
@@ -283,14 +259,12 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Grip_HACVFG</defName>
-    <costList><Steel>2</Steel></costList>
     <label>HAC vertical foregrip</label>
     <description>HAC vertical foregrip improves the shooter's grip and weapon control.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PicatinnyLOW_HACVFG</texPath></graphicData>
     <statBases><Mass>0.11</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>4</graphicLayer>
         <performanceRole>Foregrip</performanceRole>
         <verticalOccupancy>0.09</verticalOccupancy>
@@ -303,14 +277,12 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_RailPanel_HACURXLow</defName>
-    <costList><Steel>2</Steel></costList>
     <label>HAC URX lower rail panel</label>
     <description>HAC URX lower rail panel covers an exposed rail surface for safer handling.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyLOW_HACURXPanel</texPath></graphicData>
     <statBases><Mass>0.10</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>3</graphicLayer>
         <performanceRole>RailPanel</performanceRole>
         <internalStats><ergonomics>4</ergonomics></internalStats>
@@ -321,14 +293,12 @@
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_RailPanel_HACURXMid</defName>
-    <costList><Steel>2</Steel></costList>
     <label>HAC URX side rail panel</label>
     <description>HAC URX side rail panel covers an exposed rail surface for safer handling.</description>
-    <researchPrerequisites><li>HelodHighAutomaticRifle</li></researchPrerequisites>
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyMID_HACURXPanel</texPath></graphicData>
     <statBases><Mass>0.10</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicLayer>3</graphicLayer>
         <performanceRole>RailPanel</performanceRole>
         <internalStats><ergonomics>3.5</ergonomics></internalStats>

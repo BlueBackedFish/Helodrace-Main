@@ -573,13 +573,17 @@ namespace Helodrace.ModernWar
 
         public static bool ResearchUnlocked(ThingDef def)
         {
-            return def?.researchPrerequisites.NullOrEmpty() != false
-                || def.researchPrerequisites.All(project => project?.IsFinished == true);
+            List<ResearchProjectDef> requirements = def
+                ?.GetCompProperties<CompProperties_ModularWeaponNode>()
+                ?.requiredResearch;
+            return requirements.NullOrEmpty()
+                || requirements.All(project => project?.IsFinished == true);
         }
 
         public static ResearchProjectDef MissingResearch(ThingDef def)
         {
-            return def?.researchPrerequisites?.FirstOrDefault(
+            return def?.GetCompProperties<CompProperties_ModularWeaponNode>()
+                ?.requiredResearch?.FirstOrDefault(
                 project => project != null && !project.IsFinished);
         }
 
@@ -742,10 +746,13 @@ namespace Helodrace.ModernWar
         private static bool TryAddCraftCost(
             ThingDef def, Dictionary<ThingDef, int> costs)
         {
-            if (def?.costList.NullOrEmpty() != false) return false;
-            for (int i = 0; i < def.costList.Count; i++)
+            List<ThingDefCountClass> craftCost = def
+                ?.GetCompProperties<CompProperties_ModularWeaponNode>()
+                ?.craftCost;
+            if (craftCost.NullOrEmpty()) return false;
+            for (int i = 0; i < craftCost.Count; i++)
             {
-                ThingDefCountClass entry = def.costList[i];
+                ThingDefCountClass entry = craftCost[i];
                 if (entry?.thingDef == null || entry.count <= 0) return false;
                 costs.TryGetValue(entry.thingDef, out int current);
                 costs[entry.thingDef] = current + entry.count;
