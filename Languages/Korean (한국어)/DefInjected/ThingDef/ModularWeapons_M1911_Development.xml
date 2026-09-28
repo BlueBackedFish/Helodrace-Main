@@ -11,13 +11,11 @@
   <HD_ModularPart_Magazine_1911GI7.label>탄창 1911GI7</HD_ModularPart_Magazine_1911GI7.label>
   <HD_ModularPart_Ammunition_45ACPM1911.label>.45 ACP M1911 탄약</HD_ModularPart_Ammunition_45ACPM1911.label>
   <HD_ModularPart_Ammunition_45ACPM1911.comps.0.ammunitionType>.45 ACP</HD_ModularPart_Ammunition_45ACPM1911.comps.0.ammunitionType>
-  <HD_Gun_ModularM1911_Test_Weapon.label>모듈식 M1911A1 개발용 권총</HD_Gun_ModularM1911_Test_Weapon.label>
-  <HD_Gun_ModularM1911_Test_Weapon.description>모듈식 M1911A1 개발용 권총은 호환 파츠와 작동을 시험하기 위한 개발용 모듈식 무기입니다.</HD_Gun_ModularM1911_Test_Weapon.description>
-  <HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.0.label>슬라이드</HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.0.label>
-  <HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.1.label>총열</HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.1.label>
-  <HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.2.label>해머</HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.2.label>
-  <HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.3.label>손잡이 안전장치</HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.3.label>
-  <HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.4.label>방아쇠</HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.4.label>
-  <HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.5.label>손잡이</HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.5.label>
-  <HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.6.label>탄창</HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.6.label>
+  <HD_Gun_M1911_Weapon.comps.1.sockets.0.label>슬라이드</HD_Gun_M1911_Weapon.comps.1.sockets.0.label>
+  <HD_Gun_M1911_Weapon.comps.1.sockets.1.label>총열</HD_Gun_M1911_Weapon.comps.1.sockets.1.label>
+  <HD_Gun_M1911_Weapon.comps.1.sockets.2.label>해머</HD_Gun_M1911_Weapon.comps.1.sockets.2.label>
+  <HD_Gun_M1911_Weapon.comps.1.sockets.3.label>손잡이 안전장치</HD_Gun_M1911_Weapon.comps.1.sockets.3.label>
+  <HD_Gun_M1911_Weapon.comps.1.sockets.4.label>방아쇠</HD_Gun_M1911_Weapon.comps.1.sockets.4.label>
+  <HD_Gun_M1911_Weapon.comps.1.sockets.5.label>손잡이</HD_Gun_M1911_Weapon.comps.1.sockets.5.label>
+  <HD_Gun_M1911_Weapon.comps.1.sockets.6.label>탄창</HD_Gun_M1911_Weapon.comps.1.sockets.6.label>
 </LanguageData>

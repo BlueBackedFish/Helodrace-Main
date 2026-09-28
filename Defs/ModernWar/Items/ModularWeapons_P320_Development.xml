@@ -205,7 +205,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularP320Root">
-    <defName>HD_Gun_ModularP320_Test_Weapon</defName><label>modular P320 development platform</label>
+    <defName>HD_Gun_P320_Weapon</defName><label>P320</label>
     <description>A modular P320 platform that can be configured as a pistol or fitted with a Flux Raider chassis.</description>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <isAssemblyRoot>true</isAssemblyRoot><partCategory>Required</partCategory><realisticRoundsPerMinute>500</realisticRoundsPerMinute><graphicLayer>-2</graphicLayer><assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed><outlinePriority>100</outlinePriority>
@@ -227,30 +227,5 @@
     </li></comps>
   </ThingDef>
 
-  <!-- Legacy save-load Def only. Newly spawned Flux builds use the P320 ThingDef
-       with the Flux Raider preset; CompModularWeaponNode migrates this root. -->
-  <ThingDef ParentName="HD_ModularP320Root">
-    <defName>HD_Gun_ModularFluxRaider_Test_Weapon</defName><label>modular Flux Raider development PDW</label>
-    <description>A development-only modular weapon used to test compatible parts and operation.</description>
-    <statBases><Mass>1.65</Mass><MarketValue>1450</MarketValue><AccuracyTouch>0.86</AccuracyTouch><AccuracyShort>0.82</AccuracyShort><AccuracyMedium>0.62</AccuracyMedium><AccuracyLong>0.34</AccuracyLong></statBases>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <isAssemblyRoot>true</isAssemblyRoot><partCategory>Required</partCategory><realisticRoundsPerMinute>500</realisticRoundsPerMinute><graphicLayer>-2</graphicLayer><assemblyScale>0.5</assemblyScale><animationSpeed>1.75</animationSpeed><outlinePriority>100</outlinePriority>
-      <casingPort><offset>(-0.001,0,0.1)</offset><feedStartOffset>(-0.084,0,0.076)</feedStartOffset><feedEndOffset>(0.027,0,0.091)</feedEndOffset><feedingRoundDrawSize>0.08</feedingRoundDrawSize></casingPort>
-      <sockets>
-        <li><id>receiver</id><label>P320 grip/chassis module</label><tags><li>p320_receiver</li></tags><required>true</required><transform><position>(-0.12,0,0.082)</position></transform></li>
-        <li><id>slide</id><label>P320 slide</label><tags><li>p320_slide</li></tags><required>true</required><transform><position>(0,0,0.105)</position></transform></li>
-        <li><id>barrel</id><label>P320 barrel</label><tags><li>p320_barrel</li></tags><required>true</required><transform><position>(0,0,0.09)</position></transform></li>
-        <li><id>trigger</id><label>P320 trigger</label><tags><li>p320_trigger</li></tags><required>true</required><transform><position>(-0.037,0,0.058)</position></transform></li>
-        <li><id>magazine</id><label>P320 magazine well</label><tags><li>p320_magazine</li></tags><transform><position>(-0.13,0,-0.04)</position></transform></li>
-      </sockets>
-      <defaultAttachments>
-        <li><socketId>receiver</socketId><part>HD_ModularPart_Receiver_FluxRaiderKit</part></li>
-        <li><socketId>slide</socketId><part>HD_ModularPart_Slide_P32047</part></li>
-        <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_P32047Threaded</part></li>
-        <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_P320Flat</part></li>
-        <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_P32021</part></li>
-      </defaultAttachments>
-    </li></comps>
-  </ThingDef>
 
 </Defs>

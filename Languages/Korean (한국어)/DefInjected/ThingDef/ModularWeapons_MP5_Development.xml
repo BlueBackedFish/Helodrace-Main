@@ -43,15 +43,15 @@
   <HD_ModularPart_Stock_MP5A2.description>MP5A2 고정형 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_MP5A2.description>
   <HD_ModularPart_Stock_MP5A3.label>MP5A3 인입식 개머리판</HD_ModularPart_Stock_MP5A3.label>
   <HD_ModularPart_Stock_MP5A3.description>MP5A3 인입식 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_MP5A3.description>
-  <HD_Gun_ModularMP5_Test_Weapon.label>모듈식 MP5 개발용 기관단총</HD_Gun_ModularMP5_Test_Weapon.label>
-  <HD_Gun_ModularMP5_Test_Weapon.description>모듈식 MP5 개발용 기관단총은 호환 파츠와 작동을 시험하기 위한 개발용 모듈식 무기입니다.</HD_Gun_ModularMP5_Test_Weapon.description>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.0.label>MP5 장전관 결합부</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.0.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.1.label>MP5 총몸 총열 트러니언</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.1.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.2.label>MP5 노리쇠 뭉치</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.2.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.3.label>MP5 가늠자 받침</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.3.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.4.label>MP5 총몸 클로 마운트</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.4.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.5.label>MP5 방아쇠 하우징 결합부</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.5.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.6.label>MP5 탄창 삽입구</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.6.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.7.label>MP5 개머리판 결합부</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.7.label>
-  <HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.8.label>MP5 방아쇠 뭉치</HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.8.label>
+  <HD_Gun_MP5_Weapon.label>MP5</HD_Gun_MP5_Weapon.label>
+  <HD_Gun_MP5_Weapon.description>총열, 개머리판, 조준기와 방아쇠 하우징을 교체할 수 있는 모듈식 9mm 기관단총입니다.</HD_Gun_MP5_Weapon.description>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.0.label>MP5 장전관 결합부</HD_Gun_MP5_Weapon.comps.0.sockets.0.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.1.label>MP5 총몸 총열 트러니언</HD_Gun_MP5_Weapon.comps.0.sockets.1.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.2.label>MP5 노리쇠 뭉치</HD_Gun_MP5_Weapon.comps.0.sockets.2.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.3.label>MP5 가늠자 받침</HD_Gun_MP5_Weapon.comps.0.sockets.3.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.4.label>MP5 총몸 클로 마운트</HD_Gun_MP5_Weapon.comps.0.sockets.4.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.5.label>MP5 방아쇠 하우징 결합부</HD_Gun_MP5_Weapon.comps.0.sockets.5.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.6.label>MP5 탄창 삽입구</HD_Gun_MP5_Weapon.comps.0.sockets.6.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.7.label>MP5 개머리판 결합부</HD_Gun_MP5_Weapon.comps.0.sockets.7.label>
+  <HD_Gun_MP5_Weapon.comps.0.sockets.8.label>MP5 방아쇠 뭉치</HD_Gun_MP5_Weapon.comps.0.sockets.8.label>
 </LanguageData>

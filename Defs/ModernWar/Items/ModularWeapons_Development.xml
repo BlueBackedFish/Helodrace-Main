@@ -555,9 +555,9 @@
   <!-- Separate test gun: existing production M4A1 remains untouched while the tree/editor
        are stabilized. Spawn it from the Helodrace debug item action. -->
   <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_ModularM4_Test_Weapon</defName>
-    <label>modular M4 development carbine</label>
-    <description>A development-only modular weapon used to test compatible parts and operation.</description>
+    <defName>HD_Gun_M4A1_Weapon</defName>
+    <label>M4A1</label>
+    <description>A compact 5.56mm automatic carbine with a telescoping stock. It handles well in confined spaces but gives up some long-range performance to a full-length rifle.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ModernWar/HD_M4A1</uiIconPath>
     <graphicData>
@@ -567,8 +567,13 @@
     </graphicData>
     <equippedAngleOffset>0</equippedAngleOffset>
     <statBases>
+      <MarketValue>1200</MarketValue>
       <RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown>
     </statBases>
+    <recipeMaker>
+      <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
+    </recipeMaker>
     <verbs Inherit="False">
       <li>
         <verbClass>Verb_Shoot</verbClass>

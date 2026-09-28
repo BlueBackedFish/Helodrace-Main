@@ -26,18 +26,19 @@
   <HD_ModularPart_Magazine_STANAG20.label>20-탄 STANAG 탄창</HD_ModularPart_Magazine_STANAG20.label>
   <HD_ModularPart_Magazine_STANAG20.description>20-탄 STANAG 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_STANAG20.description>
   <HD_ModularPart_Magazine_STANAG20.comps.0.sockets.0.label>장전 탄약</HD_ModularPart_Magazine_STANAG20.comps.0.sockets.0.label>
-  <HD_Gun_ModularM16A1_Test_Weapon.label>모듈식 M16A1 개발용 소총</HD_Gun_ModularM16A1_Test_Weapon.label>
-  <HD_Gun_ModularM16A1_Test_Weapon.description>모듈식 M16A1 개발용 소총은 호환 파츠와 작동을 시험하기 위한 개발용 모듈식 무기입니다.</HD_Gun_ModularM16A1_Test_Weapon.description>
-  <HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.0.label>상부 총몸 결합부</HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.0.label>
-  <HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.1.label>권총손잡이 결합부</HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.1.label>
-  <HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.2.label>버퍼 튜브 결합부</HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.2.label>
-  <HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.3.label>
-  <HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.4.label>방아쇠 뭉치</HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.4.label>
-  <HD_Gun_ModularM16A2_Test_Weapon.label>모듈식 M16A2 개발용 소총</HD_Gun_ModularM16A2_Test_Weapon.label>
-  <HD_Gun_ModularM16A2_Test_Weapon.description>모듈식 M16A2 개발용 소총은 호환 파츠와 작동을 시험하기 위한 개발용 모듈식 무기입니다.</HD_Gun_ModularM16A2_Test_Weapon.description>
-  <HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.0.label>상부 총몸 결합부</HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.0.label>
-  <HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.1.label>권총손잡이 결합부</HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.1.label>
-  <HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.2.label>버퍼 튜브 결합부</HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.2.label>
-  <HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.3.label>
-  <HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.4.label>방아쇠 뭉치</HD_Gun_ModularM16A2_Test_Weapon.comps.0.sockets.4.label>
+  <HD_Gun_M16A1_Weapon.comps.1.sockets.0.label>상부 총몸 결합부</HD_Gun_M16A1_Weapon.comps.1.sockets.0.label>
+  <HD_Gun_M16A1_Weapon.comps.1.sockets.1.label>권총손잡이 결합부</HD_Gun_M16A1_Weapon.comps.1.sockets.1.label>
+  <HD_Gun_M16A1_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M16A1_Weapon.comps.1.sockets.2.label>
+  <HD_Gun_M16A1_Weapon.comps.1.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_M16A1_Weapon.comps.1.sockets.3.label>
+  <HD_Gun_M16A1_Weapon.comps.1.sockets.4.label>방아쇠 뭉치</HD_Gun_M16A1_Weapon.comps.1.sockets.4.label>
+  <HD_Gun_M16A2_Weapon.comps.1.sockets.0.label>상부 총몸 결합부</HD_Gun_M16A2_Weapon.comps.1.sockets.0.label>
+  <HD_Gun_M16A2_Weapon.comps.1.sockets.1.label>권총손잡이 결합부</HD_Gun_M16A2_Weapon.comps.1.sockets.1.label>
+  <HD_Gun_M16A2_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M16A2_Weapon.comps.1.sockets.2.label>
+  <HD_Gun_M16A2_Weapon.comps.1.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_M16A2_Weapon.comps.1.sockets.3.label>
+  <HD_Gun_M16A2_Weapon.comps.1.sockets.4.label>방아쇠 뭉치</HD_Gun_M16A2_Weapon.comps.1.sockets.4.label>
+  <HD_Gun_M16A3_Weapon.comps.1.sockets.0.label>상부 총몸 결합부</HD_Gun_M16A3_Weapon.comps.1.sockets.0.label>
+  <HD_Gun_M16A3_Weapon.comps.1.sockets.1.label>권총손잡이 결합부</HD_Gun_M16A3_Weapon.comps.1.sockets.1.label>
+  <HD_Gun_M16A3_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M16A3_Weapon.comps.1.sockets.2.label>
+  <HD_Gun_M16A3_Weapon.comps.1.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_M16A3_Weapon.comps.1.sockets.3.label>
+  <HD_Gun_M16A3_Weapon.comps.1.sockets.4.label>방아쇠 뭉치</HD_Gun_M16A3_Weapon.comps.1.sockets.4.label>
 </LanguageData>

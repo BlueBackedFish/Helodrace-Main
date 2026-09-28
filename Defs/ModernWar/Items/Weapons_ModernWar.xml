@@ -63,66 +63,6 @@
     <altitudeLayer>MoteOverhead</altitudeLayer>
   </ThingDef>
 
-  <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_M16A4_Weapon</defName>
-    <label>M16A4</label>
-    <description>A modern service rifle chambered for a small-caliber, high-velocity cartridge. It fires a controlled three-round burst, while a Helod sharpshooter can trade eight tiles of effective range for near-instant target acquisition.</description>
-    <recipeMaker>
-      <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
-    </recipeMaker>
-  </ThingDef>
-
-  <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_M4A1_Weapon</defName>
-    <label>M4A1</label>
-    <description>A compact 5.56mm automatic carbine with a telescoping stock. It handles well in confined spaces but gives up some long-range performance to a full-length rifle.</description>
-    <graphicData>
-      <texPath>Weapons/ModernWar/HD_M4A1</texPath>
-      <drawSize>(1.0,1.0)</drawSize>
-    </graphicData>
-    <equippedAngleOffset>0</equippedAngleOffset>
-    <statBases>
-      <Mass>2.88</Mass>
-      <MarketValue>1200</MarketValue>
-      <AccuracyTouch>0.68</AccuracyTouch>
-      <AccuracyShort>0.80</AccuracyShort>
-      <AccuracyMedium>0.68</AccuracyMedium>
-      <AccuracyLong>0.50</AccuracyLong>
-      <RangedWeapon_Cooldown>1.55</RangedWeapon_Cooldown>
-    </statBases>
-    <recipeMaker>
-      <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
-      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
-    </recipeMaker>
-    <verbs Inherit="False">
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>true</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.8</warmupTime>
-        <range>27.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>8</muzzleFlashScale>
-      </li>
-      <li>
-        <verbClass>Verb_Shoot</verbClass>
-        <hasStandardCommand>false</hasStandardCommand>
-        <defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile>
-        <warmupTime>0.25</warmupTime>
-        <range>19.9</range>
-        <burstShotCount>6</burstShotCount>
-        <ticksBetweenBurstShots>5</ticksBetweenBurstShots>
-        <soundCast>Shot_AssaultRifle</soundCast>
-        <soundCastTail>GunTail_Medium</soundCastTail>
-        <muzzleFlashScale>8</muzzleFlashScale>
-      </li>
-    </verbs>
-  </ThingDef>
-
   <ThingDef ParentName="BaseHumanMakeableGun">
     <defName>HD_Gun_Glock19Gen5_Weapon</defName>
     <label>Glock 19 Gen5</label>

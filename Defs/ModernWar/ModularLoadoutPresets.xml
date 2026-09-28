@@ -4,41 +4,69 @@
   <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_ModularM14_Default</defName>
     <label>modular M14 standard configuration</label>
-    <weaponDef>HD_Gun_ModularM14_Test_Weapon</weaponDef>
+    <weaponDef>HD_Gun_M14_Weapon</weaponDef>
     <useDefaultConfiguration>true</useDefaultConfiguration>
   </Helodrace.ModernWar.ModularWeaponPresetDef>
   <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_ModularM4_Default</defName>
     <label>modular M4A1 standard configuration</label>
-    <weaponDef>HD_Gun_ModularM4_Test_Weapon</weaponDef>
+    <weaponDef>HD_Gun_M4A1_Weapon</weaponDef>
+    <useDefaultConfiguration>true</useDefaultConfiguration>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_ModularM16A1_Default</defName>
+    <label>modular M16A1 standard configuration</label>
+    <weaponDef>HD_Gun_M16A1_Weapon</weaponDef>
+    <useDefaultConfiguration>true</useDefaultConfiguration>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_ModularM16A2_Default</defName>
+    <label>modular M16A2 standard configuration</label>
+    <weaponDef>HD_Gun_M16A2_Weapon</weaponDef>
+    <useDefaultConfiguration>true</useDefaultConfiguration>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_ModularM16A3_Default</defName>
+    <label>modular M16A3 standard configuration</label>
+    <weaponDef>HD_Gun_M16A3_Weapon</weaponDef>
     <useDefaultConfiguration>true</useDefaultConfiguration>
   </Helodrace.ModernWar.ModularWeaponPresetDef>
 
   <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_ModularM16A4_Default</defName>
     <label>modular M16A4 standard configuration</label>
-    <weaponDef>HD_Gun_ModularM16A4_Test_Weapon</weaponDef>
+    <weaponDef>HD_Gun_M16A4_Weapon</weaponDef>
     <useDefaultConfiguration>true</useDefaultConfiguration>
   </Helodrace.ModernWar.ModularWeaponPresetDef>
 
   <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_ModularMP5_Default</defName>
     <label>modular MP5 standard configuration</label>
-    <weaponDef>HD_Gun_ModularMP5_Test_Weapon</weaponDef>
+    <weaponDef>HD_Gun_MP5_Weapon</weaponDef>
+    <useDefaultConfiguration>true</useDefaultConfiguration>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_ModularM1911_Default</defName>
+    <label>modular M1911 standard configuration</label>
+    <weaponDef>HD_Gun_M1911_Weapon</weaponDef>
     <useDefaultConfiguration>true</useDefaultConfiguration>
   </Helodrace.ModernWar.ModularWeaponPresetDef>
 
   <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_ModularP320_Default</defName>
     <label>modular P320 pistol configuration</label>
-    <weaponDef>HD_Gun_ModularP320_Test_Weapon</weaponDef>
+    <weaponDef>HD_Gun_P320_Weapon</weaponDef>
     <useDefaultConfiguration>true</useDefaultConfiguration>
   </Helodrace.ModernWar.ModularWeaponPresetDef>
 
   <Helodrace.ModernWar.ModularWeaponPresetDef>
     <defName>HD_WeaponPreset_ModularP320_FluxRaider</defName>
     <label>modular P320 Flux Raider configuration</label>
-    <weaponDef>HD_Gun_ModularP320_Test_Weapon</weaponDef>
+    <weaponDef>HD_Gun_P320_Weapon</weaponDef>
     <parts>
       <li>
         <part>HD_ModularPart_Receiver_FluxRaiderKit</part><socketId>receiver</socketId>

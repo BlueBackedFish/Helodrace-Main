@@ -159,14 +159,20 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_ModularM16A1_Test_Weapon</defName>
-    <label>modular M16A1 development rifle</label>
-    <description>A development-only modular weapon used to test compatible parts and operation.</description>
+    <defName>HD_Gun_M16A1_Weapon</defName>
+    <label>M16A1</label>
+    <description>An early lightweight 5.56 mm service rifle with full-automatic fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ColdWar/HD_M16A1</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A1</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
     <equippedAngleOffset>0</equippedAngleOffset>
-    <statBases><RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown></statBases>
+    <weaponTags Inherit="False"><li>HD_ColdWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
+    <statBases><MarketValue>1025</MarketValue><RangedWeapon_Cooldown>0.1</RangedWeapon_Cooldown></statBases>
+    <recipeMaker><researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <verbs Inherit="False">
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.9</warmupTime><range>29.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>false</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.3</warmupTime><range>21.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+    </verbs>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot>
@@ -203,14 +209,16 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_ModularM16A2_Test_Weapon</defName>
-    <label>modular M16A2 development rifle</label>
-    <description>A development-only modular weapon used to test compatible parts and operation.</description>
+    <defName>HD_Gun_M16A2_Weapon</defName>
+    <label>M16A2</label>
+    <description>A refined 5.56 mm service rifle with improved sights, heavier furniture, and a controlled three-round burst. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ColdWar/HD_M16A2,3</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
     <equippedAngleOffset>0</equippedAngleOffset>
-    <statBases><RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown></statBases>
+    <weaponTags Inherit="False"><li>HD_ColdWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
+    <statBases><MarketValue>1125</MarketValue><RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown></statBases>
+    <recipeMaker><researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot>
@@ -226,6 +234,56 @@
           <momentOfInertia>0.039</momentOfInertia>
           <targetAcquisition>51</targetAcquisition>
           <aimingPrecision>59</aimingPrecision>
+          <identificationDistanceMeters>285</identificationDistanceMeters>
+        </internalStats>
+        <sockets>
+          <li><id>upper_receiver</id><label>upper receiver interface</label><tags><li>upper_receiver</li></tags><transform><position>(-0.094,0,-0.018)</position></transform></li>
+          <li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>ar15_pistol_grip</li></tags><transform><position>(-0.161,0,-0.051)</position></transform></li>
+          <li><id>buffer_tube</id><label>buffer tube interface</label><tags><li>ar15_buffer</li></tags><transform><position>(-0.219,0,-0.006)</position></transform></li>
+          <li><id>magazine</id><label>STANAG magazine well</label><tags><li>stanag_magazine</li></tags><transform><position>(-0.075,0,-0.019)</position></transform></li>
+          <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
+        </sockets>
+        <defaultAttachments>
+          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A2</part></li>
+          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
+          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2</part></li>
+          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
+        </defaultAttachments>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_M16FamilyBase">
+    <defName>HD_Gun_M16A3_Weapon</defName>
+    <label>M16A3</label>
+    <description>A full-automatic derivative of the M16A2 intended for sustained close-to-medium-range fire. A Helod sharpshooter can trade eight tiles of effective range for much faster target acquisition.</description>
+    <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <uiIconPath>Weapons/ColdWar/HD_M16A2,3</uiIconPath>
+    <graphicData><texPath>Weapons/Modular/Receivers/HD_LowerReceiver_M16A2,3</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
+    <equippedAngleOffset>0</equippedAngleOffset>
+    <weaponTags Inherit="False"><li>HD_ColdWarWeapon</li><li>IndustrialGunAdvanced</li></weaponTags>
+    <statBases><MarketValue>1180</MarketValue><RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown></statBases>
+    <recipeMaker><researchPrerequisite>HelodMidAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>
+    <verbs Inherit="False">
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.9</warmupTime><range>30.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>false</hasStandardCommand><defaultProjectile>HD_Bullet_M16A4_Proj</defaultProjectile><warmupTime>0.3</warmupTime><range>22.9</range><burstShotCount>6</burstShotCount><ticksBetweenBurstShots>5</ticksBetweenBurstShots><soundCast>Shot_AssaultRifle</soundCast><soundCastTail>GunTail_Medium</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+    </verbs>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+        <isAssemblyRoot>true</isAssemblyRoot>
+        <realisticRoundsPerMinute>800</realisticRoundsPerMinute>
+        <baseFireDelayFactor>1.2</baseFireDelayFactor>
+        <internalStats>
+          <massKg>0.84</massKg>
+          <recoilImpulse>4.1</recoilImpulse>
+          <ergonomics>52</ergonomics>
+          <muzzleRise>3</muzzleRise>
+          <operatingReliability>0.97</operatingReliability>
+          <gasFlow>1</gasFlow>
+          <momentOfInertia>0.039</momentOfInertia>
+          <targetAcquisition>53</targetAcquisition>
+          <aimingPrecision>57</aimingPrecision>
           <identificationDistanceMeters>285</identificationDistanceMeters>
         </internalStats>
         <sockets>

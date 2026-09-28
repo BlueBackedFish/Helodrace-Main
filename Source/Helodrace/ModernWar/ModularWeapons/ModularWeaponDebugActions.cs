@@ -8,35 +8,42 @@ namespace Helodrace.ModernWar
     {
         [DebugAction(
             "Helodrace",
-            "Spawn modular M4 development carbine",
+            "Spawn modular M4A1",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void SpawnDevelopmentCarbine()
+        public static void SpawnModularM4A1()
         {
             SpawnAndSelect(
-                "HD_Gun_ModularM4_Test_Weapon",
-                "modular M4 development carbine");
+                "HD_Gun_M4A1_Weapon",
+                "modular M4A1");
         }
 
         [DebugAction(
             "Helodrace",
-            "Spawn modular M16A4 development rifle",
+            "Spawn modular M16A4",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void SpawnDevelopmentM16A4()
+        public static void SpawnModularM16A4()
         {
             SpawnAndSelect(
-                "HD_Gun_ModularM16A4_Test_Weapon",
-                "modular M16A4 development rifle");
+                "HD_Gun_M16A4_Weapon",
+                "modular M16A4");
+        }
+
+        [DebugAction("Helodrace", "Spawn modular M16A3",
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void SpawnModularM16A3()
+        {
+            SpawnAndSelect("HD_Gun_M16A3_Weapon", "modular M16A3");
         }
 
         [DebugAction(
             "Helodrace",
-            "Spawn modular MP5 development submachine gun",
+            "Spawn modular MP5",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void SpawnDevelopmentMP5()
+        public static void SpawnModularMP5()
         {
             SpawnAndSelect(
-                "HD_Gun_ModularMP5_Test_Weapon",
-                "modular MP5 development submachine gun");
+                "HD_Gun_MP5_Weapon",
+                "modular MP5");
         }
 
         [DebugAction(
@@ -52,34 +59,34 @@ namespace Helodrace.ModernWar
                 "assembled M4 upper receiver");
         }
 
-        [DebugAction("Helodrace", "Spawn modular M14 development rifle",
+        [DebugAction("Helodrace", "Spawn modular M14",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void SpawnDevelopmentM14()
+        public static void SpawnModularM14()
         {
-            SpawnAndSelect("HD_Gun_ModularM14_Test_Weapon", "modular M14 development rifle");
+            SpawnAndSelect("HD_Gun_M14_Weapon", "modular M14");
         }
 
-        [DebugAction("Helodrace", "Spawn modular M1911 development pistol",
+        [DebugAction("Helodrace", "Spawn modular M1911",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void SpawnDevelopmentM1911()
+        public static void SpawnModularM1911()
         {
-            SpawnAndSelect("HD_Gun_ModularM1911_Test_Weapon", "modular M1911 development pistol");
+            SpawnAndSelect("HD_Gun_M1911_Weapon", "modular M1911");
         }
 
-        [DebugAction("Helodrace", "Spawn modular P320 development pistol",
+        [DebugAction("Helodrace", "Spawn modular P320",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void SpawnDevelopmentP320()
+        public static void SpawnModularP320()
         {
-            SpawnAndSelect("HD_Gun_ModularP320_Test_Weapon", "modular P320 development pistol");
+            SpawnAndSelect("HD_Gun_P320_Weapon", "modular P320");
         }
 
-        [DebugAction("Helodrace", "Spawn modular Flux Raider development PDW",
+        [DebugAction("Helodrace", "Spawn modular Flux Raider",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void SpawnDevelopmentFluxRaider()
+        public static void SpawnModularFluxRaider()
         {
             SpawnAndSelect(
-                "HD_Gun_ModularP320_Test_Weapon",
-                "modular Flux Raider development PDW",
+                "HD_Gun_P320_Weapon",
+                "modular Flux Raider",
                 "HD_WeaponPreset_ModularP320_FluxRaider");
         }
 

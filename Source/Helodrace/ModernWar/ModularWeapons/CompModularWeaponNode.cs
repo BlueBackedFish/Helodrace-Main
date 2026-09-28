@@ -57,7 +57,6 @@ namespace Helodrace.ModernWar
             new ModularWeaponMuzzleSignature();
         private float gasTubeFlowSetting =
             ModularWeaponGasSystemUtility.DefaultSetting;
-        private bool legacyDevelopmentTreeChecked;
         private bool requiredDefaultAttachmentsChecked;
         private bool fluxStockRailMigrationChecked;
 
@@ -94,7 +93,6 @@ namespace Helodrace.ModernWar
             base.PostPostMake();
             EnsureContainer();
             BuildDefaultAttachments();
-            MigrateLegacyFluxRoot();
         }
 
         public override void PostExposeData()
@@ -123,28 +121,8 @@ namespace Helodrace.ModernWar
                     ModularWeaponGasSystemUtility.MinimumSetting,
                     ModularWeaponGasSystemUtility.MaximumSetting);
                 RepairAssignmentLists();
-                MigrateLegacyFluxRoot();
                 InvalidateTree();
             }
-        }
-
-        // Keep the old Def loadable so existing saves retain their Flux assembly,
-        // but give every P320-family gun the same active ThingDef and root sockets.
-        private void MigrateLegacyFluxRoot()
-        {
-            if (parent?.def?.defName != "HD_Gun_ModularFluxRaider_Test_Weapon"
-                || !Props.isAssemblyRoot)
-                return;
-
-            ThingDef p320Def = DefDatabase<ThingDef>.GetNamedSilentFail(
-                "HD_Gun_ModularP320_Test_Weapon");
-            CompProperties_ModularWeaponNode p320Props = p320Def
-                ?.GetCompProperties<CompProperties_ModularWeaponNode>();
-            if (p320Props == null) return;
-
-            parent.def = p320Def;
-            props = p320Props;
-            InvalidateTree();
         }
 
         public int ChildCount
@@ -1125,13 +1103,6 @@ namespace Helodrace.ModernWar
         {
             CompModularWeaponNode root = RootComp();
             if (root != this) return root.RenderSnapshot();
-            // The initial M1911 import stored the lower slide image as a separate
-            // child. It is now rendered by the upper slide's additionalGraphics.
-            if (parent.def.defName == "HD_Gun_ModularM1911_Test_Weapon")
-                for (int i = ChildCount - 1; i >= 0; i--)
-                    if (ChildAt(i)?.def.defName == "HD_ModularPart_Slide_M1911A1_DOWN")
-                        DetachChildAt(i)?.Destroy(DestroyMode.Vanish);
-            root.MigrateLegacyDevelopmentOptics();
             root.EnsureRequiredDefaultAttachmentsRecursive();
             if (!renderCacheDirty && renderCache != null) return renderCache;
 
@@ -1305,65 +1276,6 @@ namespace Helodrace.ModernWar
                     ?.EnsureRequiredDefaultAttachmentsRecursive();
         }
 
-        // Development saves made before receiver rail sockets existed stored the EXPS under
-        // the handguard and the G33 under the EXPS. Move those same Thing instances instead
-        // of recreating them, preserving hit points and the rest of each subtree state.
-        private void MigrateLegacyDevelopmentOptics()
-        {
-            if (legacyDevelopmentTreeChecked) return;
-            legacyDevelopmentTreeChecked = true;
-            if (parent?.def?.defName != "HD_Gun_ModularM4_Test_Weapon") return;
-
-            if (Props.SocketNamed("magazine") != null && IndexOnSocket("magazine") < 0)
-            {
-                ThingDef magazineDef = DefDatabase<ThingDef>.GetNamedSilentFail(
-                    "HD_ModularPart_Magazine_STANAG");
-                if (magazineDef != null)
-                {
-                    Thing magazine = ThingMaker.MakeThing(magazineDef);
-                    string magazineReason;
-                    if (!TryAttach(magazine, "magazine", null, out magazineReason))
-                    {
-                        magazine.Destroy(DestroyMode.Vanish);
-                        Log.Error("[Helodrace] Could not add the STANAG magazine to a saved "
-                            + "M4 development assembly: " + magazineReason);
-                    }
-                }
-            }
-
-            CompModularWeaponNode upper = DirectChildComp("HD_ModularPart_UpperReceiver_M4A1");
-            upper?.MigrateLegacyReceiverRailAssignments();
-            CompModularWeaponNode handguard = upper
-                ?.DirectChildComp("HD_ModularPart_Handguard_HACRISFDE");
-            if (upper == null || handguard == null) return;
-
-            int opticIndex = handguard.IndexOnSocket("rail_top_rear");
-            if (opticIndex < 0) return;
-
-            Thing optic = handguard.ChildAt(opticIndex);
-            CompModularWeaponNode opticComp = optic?.TryGetComp<CompModularWeaponNode>();
-            Thing magnifier = opticComp?.DetachFromSocket("magnifier");
-            optic = handguard.DetachFromSocket("rail_top_rear");
-
-            string reason;
-            if (magnifier != null
-                && !upper.TryAttach(magnifier, "rail_receiver_top", null,
-                    ReceiverRearRailOffset, out reason))
-            {
-                Log.Error("[Helodrace] Could not migrate saved G33 to the upper receiver: "
-                    + reason);
-            }
-
-            if (optic != null
-                && !upper.TryAttach(optic, "rail_receiver_top", null,
-                    ReceiverFrontRailOffset, out reason))
-            {
-                Log.Error("[Helodrace] Could not migrate saved EXPS to the upper receiver: "
-                    + reason);
-            }
-
-            renderCacheDirty = true;
-        }
 
         private CompModularWeaponNode DirectChildComp(string defName)
         {

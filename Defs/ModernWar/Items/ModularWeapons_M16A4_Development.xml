@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Second authoring set. Shared lower/upper interfaces use the same authored offsets
-       as the M4 development tree; M16A4-specific descendants remain ready for tuning. -->
+  <!-- M16A4-specific parts share the M4 lower/upper interface offsets. -->
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_UpperReceiver_M16A4</defName>
@@ -309,9 +308,9 @@
 
   <!-- A complete second test tree that exercises all fourteen new physical part Defs. -->
   <ThingDef ParentName="HD_M16FamilyBase">
-    <defName>HD_Gun_ModularM16A4_Test_Weapon</defName>
-    <label>modular M16A4 development rifle</label>
-    <description>A development-only modular weapon used to test compatible parts and operation.</description>
+    <defName>HD_Gun_M16A4_Weapon</defName>
+    <label>M16A4</label>
+    <description>A modern service rifle chambered for a small-caliber, high-velocity cartridge. It fires a controlled three-round burst, while a Helod sharpshooter can trade eight tiles of effective range for near-instant target acquisition.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <uiIconPath>Weapons/ModernWar/HD_M16A4</uiIconPath>
     <graphicData>
@@ -323,6 +322,10 @@
     <statBases>
       <RangedWeapon_Cooldown>0.09</RangedWeapon_Cooldown>
     </statBases>
+    <recipeMaker>
+      <researchPrerequisite>HelodHighAutomaticRifle</researchPrerequisite>
+      <recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers>
+    </recipeMaker>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
         <isAssemblyRoot>true</isAssemblyRoot>

@@ -269,8 +269,8 @@
   </ThingDef>
 
   <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>HD_Gun_ModularM14_Test_Weapon</defName><label>modular M14 development rifle</label>
-    <description>A development-only modular weapon used to test compatible parts and operation.</description>
+    <defName>HD_Gun_M14_Weapon</defName><label>M14</label>
+    <description>A modular 7.62mm service rifle with interchangeable barrel, stock, sights, and magazine.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M14</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
     <soundInteract>Interact_Rifle</soundInteract><weaponTags><li>HD_ModernWarWeapon</li></weaponTags>

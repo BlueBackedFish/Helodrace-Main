@@ -54,11 +54,9 @@
   <HD_ModularPart_Stock_FieldFormMOEFDE.label>FieldForm MOE FDE 개머리판</HD_ModularPart_Stock_FieldFormMOEFDE.label>
   <HD_ModularPart_Stock_M4.label>M4 신축식 개머리판</HD_ModularPart_Stock_M4.label>
   <HD_ModularPart_Stock_M4.description>M4 신축식 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_M4.description>
-  <HD_Gun_ModularM4_Test_Weapon.label>모듈식 M4 개발용 카빈</HD_Gun_ModularM4_Test_Weapon.label>
-  <HD_Gun_ModularM4_Test_Weapon.description>모듈식 M4 개발용 카빈은 호환 파츠와 작동을 시험하기 위한 개발용 모듈식 무기입니다.</HD_Gun_ModularM4_Test_Weapon.description>
-  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.0.label>상부 총몸 결합부</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.0.label>
-  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.1.label>권총손잡이 결합부</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.1.label>
-  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.2.label>버퍼 튜브 결합부</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.2.label>
-  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.3.label>
-  <HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.4.label>방아쇠 뭉치</HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.4.label>
+  <HD_Gun_M4A1_Weapon.comps.1.sockets.0.label>상부 총몸 결합부</HD_Gun_M4A1_Weapon.comps.1.sockets.0.label>
+  <HD_Gun_M4A1_Weapon.comps.1.sockets.1.label>권총손잡이 결합부</HD_Gun_M4A1_Weapon.comps.1.sockets.1.label>
+  <HD_Gun_M4A1_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M4A1_Weapon.comps.1.sockets.2.label>
+  <HD_Gun_M4A1_Weapon.comps.1.sockets.3.label>STANAG 탄창 삽입구</HD_Gun_M4A1_Weapon.comps.1.sockets.3.label>
+  <HD_Gun_M4A1_Weapon.comps.1.sockets.4.label>방아쇠 뭉치</HD_Gun_M4A1_Weapon.comps.1.sockets.4.label>
 </LanguageData>

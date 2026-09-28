@@ -96,14 +96,23 @@
     </li></comps>
   </ThingDef>
   <ThingDef ParentName="BaseHumanMakeableGun">
-    <defName>HD_Gun_ModularM1911_Test_Weapon</defName><label>modular M1911A1 development pistol</label>
-    <description>A development-only modular weapon used to test compatible parts and operation.</description>
+    <defName>HD_Gun_M1911_Weapon</defName><label>Ironfang M1911</label>
+    <description>A rugged semi-automatic service pistol with a heavy cartridge and fast follow-up shots.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
+    <uiIconPath>Weapons/GreatWar/HD_m1911</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M1911A1</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
     <soundInteract>Interact_Revolver</soundInteract>
+    <weaponTags><li>HD_GreatWarPistol</li></weaponTags>
     <statBases><Mass>1.1</Mass><MarketValue>400</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.8</AccuracyTouch><AccuracyShort>0.75</AccuracyShort><AccuracyMedium>0.5</AccuracyMedium><AccuracyLong>0.25</AccuracyLong><RangedWeapon_Cooldown>0.3</RangedWeapon_Cooldown></statBases>
-    <verbs><li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile><warmupTime>0.25</warmupTime><range>20.9</range><burstShotCount>1</burstShotCount><ticksBetweenBurstShots>8</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li></verbs>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+    <recipeMaker Inherit="False" IsNull="True" />
+    <verbs>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>true</hasStandardCommand><defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile><warmupTime>0.25</warmupTime><range>20.9</range><burstShotCount>1</burstShotCount><ticksBetweenBurstShots>8</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+      <li><verbClass>Verb_Shoot</verbClass><hasStandardCommand>false</hasStandardCommand><defaultProjectile>HD_Bullet_M1911_Proj</defaultProjectile><warmupTime>0.1</warmupTime><range>10.9</range><burstShotCount>2</burstShotCount><ticksBetweenBurstShots>6</ticksBetweenBurstShots><soundCast>Shot_Autopistol</soundCast><soundCastTail>GunTail_Light</soundCastTail><muzzleFlashScale>9</muzzleFlashScale></li>
+    </verbs>
+    <tools><li><label>grip</label><capacities><li>Blunt</li></capacities><power>9</power><cooldownTime>2</cooldownTime></li></tools>
+    <comps>
+    <li Class="Helodrace.CompProperties_SharpshooterWeapon"><altVerbIndex>1</altVerbIndex><altCooldownMultiplier>1.0</altCooldownMultiplier><altAccuracyMultiplier>1.0</altAccuracyMultiplier><altModeLabelKey>HD_SharpshooterMode_DoubleTap</altModeLabelKey><modeDescriptionKey>HD_SharpshooterMode_DoubleTap_Desc</modeDescriptionKey></li>
+    <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <isAssemblyRoot>true</isAssemblyRoot><realisticRoundsPerMinute>450</realisticRoundsPerMinute><graphicLayer>2</graphicLayer>
       <assemblyScale>0.25</assemblyScale><animationSpeed>1.75</animationSpeed>
       <casingPort><offset>(0.01,0,0.2)</offset><feedStartOffset>(-0.164,0,0.178)</feedStartOffset><feedEndOffset>(-0.03,0,0.192)</feedEndOffset><feedingRoundDrawSize>0.09</feedingRoundDrawSize></casingPort>
