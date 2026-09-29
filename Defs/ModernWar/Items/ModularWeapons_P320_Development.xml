@@ -114,7 +114,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Stock_FluxRaiderKit</defName><label>Flux Raider folding stock</label>
+    <defName>HD_ModularPart_Stock_FluxRaiderKit</defName><label>Flux Raider retractable stock</label>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_FluxRaiderKit</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>3</graphicLayer><internalStats><massKg>0.3</massKg><ergonomics>8</ergonomics><muzzleRise>-1.5</muzzleRise><targetAcquisition>-2</targetAcquisition></internalStats>

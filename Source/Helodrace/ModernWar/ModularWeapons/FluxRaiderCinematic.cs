@@ -24,6 +24,8 @@ namespace Helodrace.ModernWar
             public int reloadTick = -1000;
             public bool frontMagazineConsumed;
             public int lastDustTick = -1000;
+            public bool directionLocked;
+            public Rot4 lockedDirection;
         }
 
         private static readonly Dictionary<int, State> states = new Dictionary<int, State>();
@@ -53,6 +55,40 @@ namespace Helodrace.ModernWar
         public static FluxCinematicPose Pose(Pawn pawn) => For(pawn)?.pose ?? FluxCinematicPose.Aiming;
         public static bool Active(Pawn pawn) => For(pawn) != null;
         public static bool EmittersOn(Pawn pawn) => For(pawn)?.emittersOn ?? true;
+
+        public static bool TryLockedDirection(Pawn pawn, out Rot4 direction)
+        {
+            State state = For(pawn);
+            direction = state?.lockedDirection ?? Rot4.Invalid;
+            return state?.directionLocked == true;
+        }
+
+        public static void LockDirection(Pawn pawn, Rot4 direction)
+        {
+            State state = For(pawn);
+            if (state == null) return;
+            state.lockedDirection = direction;
+            state.directionLocked = true;
+            pawn.Rotation = direction;
+        }
+
+        public static void UnlockDirection(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state != null) state.directionLocked = false;
+        }
+
+        public static void FaceForPose(Pawn pawn, Rot4 direction)
+        {
+            if (TryLockedDirection(pawn, out _)) LockDirection(pawn, direction);
+            else pawn.Rotation = direction;
+        }
+
+        public static void ApplyLockedDirection(Pawn pawn)
+        {
+            if (TryLockedDirection(pawn, out Rot4 direction) && pawn.Rotation != direction)
+                pawn.Rotation = direction;
+        }
 
         public static void ToggleSession(Pawn pawn)
         {
@@ -201,13 +237,54 @@ namespace Helodrace.ModernWar
         {
             if (!Active(pawn)) return;
             float raise = Raise(pawn);
-            float side = pawn.Rotation == Rot4.West ? -1f : 1f;
+            Rot4 facing = TryLockedDirection(pawn, out Rot4 locked) ? locked : pawn.Rotation;
+            float side = facing == Rot4.West ? -1f : 1f;
             drawLoc += new Vector3(0f, 0f, -0.26f * (1f - raise));
             aimAngle += side * 28f * (1f - raise);
             if (Pose(pawn) == FluxCinematicPose.Prone)
                 drawLoc += new Vector3(0f, 0f, -0.17f);
             else if (Pose(pawn) == FluxCinematicPose.Lean)
                 drawLoc += new Vector3(side * 0.1f, 0f, 0f);
+        }
+    }
+
+    [HarmonyPatch]
+    internal static class Patch_FluxRaiderCinematicDirectionLock
+    {
+        private static IEnumerable<MethodBase> TargetMethods()
+        {
+            string[] methodNames =
+            {
+                nameof(Pawn_RotationTracker.UpdateRotation),
+                nameof(Pawn_RotationTracker.Face),
+                nameof(Pawn_RotationTracker.FaceCell),
+                "FaceAdjacentCell",
+                nameof(Pawn_RotationTracker.FaceTarget)
+            };
+            foreach (string methodName in methodNames)
+            {
+                MethodInfo method = AccessTools.Method(typeof(Pawn_RotationTracker), methodName);
+                if (method != null) yield return method;
+            }
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPriority(-100)]
+        private static void Postfix(Pawn ___pawn)
+        {
+            FluxRaiderCinematic.ApplyLockedDirection(___pawn);
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderer), "RotationForcedByJob")]
+    internal static class Patch_FluxRaiderCinematicForcedRenderDirection
+    {
+        [HarmonyPostfix]
+        [HarmonyPriority(-100)]
+        private static void Postfix(Pawn ___pawn, ref Rot4 __result)
+        {
+            if (FluxRaiderCinematic.TryLockedDirection(___pawn, out Rot4 direction))
+                __result = direction;
         }
     }
 
@@ -258,11 +335,42 @@ namespace Helodrace.ModernWar
                         icon = __instance.equipment.Primary.def.uiIcon,
                         action = () =>
                         {
-                            __instance.Rotation = facing;
+                            FluxRaiderCinematic.FaceForPose(__instance, facing);
                             FluxRaiderCinematic.SetPose(__instance, choice);
                         }
                     };
                 }
+            }
+            if (FluxRaiderCinematic.TryLockedDirection(__instance, out Rot4 lockedDirection))
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "CINE: unlock facing (" + lockedDirection + ")",
+                    defaultDesc = "Allow normal facing changes again.",
+                    icon = TexCommand.DesirePower,
+                    action = () => FluxRaiderCinematic.UnlockDirection(__instance)
+                };
+            }
+            else
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "CINE: lock current facing",
+                    defaultDesc = "Keep the pawn facing its current direction while filming.",
+                    icon = TexCommand.DesirePower,
+                    action = () => FluxRaiderCinematic.LockDirection(__instance, __instance.Rotation)
+                };
+            }
+            foreach (Rot4 direction in new[] { Rot4.North, Rot4.East, Rot4.South, Rot4.West })
+            {
+                Rot4 facing = direction;
+                yield return new Command_Action
+                {
+                    defaultLabel = "CINE: lock " + facing,
+                    defaultDesc = "Face " + facing + " and hold that direction.",
+                    icon = TexCommand.DesirePower,
+                    action = () => FluxRaiderCinematic.LockDirection(__instance, facing)
+                };
             }
             yield return new Command_Action
             {
@@ -312,9 +420,10 @@ namespace Helodrace.ModernWar
             // Real combat stances must retain their actual target and timing.
             if (pawn.stances.curStance is Stance_Busy busy
                 && !busy.neverAimWeapon && busy.focusTarg.IsValid) return;
-            __2 = pawn.Rotation;
+            __2 = FluxRaiderCinematic.TryLockedDirection(pawn, out Rot4 locked)
+                ? locked : pawn.Rotation;
             Stance_Busy visual = new VisualStance();
-            IntVec3 facing = pawn.Rotation.FacingCell;
+            IntVec3 facing = __2.FacingCell;
             Focus.SetValue(visual, new LocalTargetInfo(pawn.Position + facing * 6));
             VerbField?.SetValue(visual,
                 pawn.equipment.Primary.GetComp<CompEquippable>()?.PrimaryVerb);
@@ -362,13 +471,15 @@ namespace Helodrace.ModernWar
             if (flags.FlagSet(PawnRenderFlags.Portrait) || !FluxRaiderCinematic.Active(___pawn))
                 return;
             FluxCinematicPose pose = FluxRaiderCinematic.Pose(___pawn);
+            Rot4 facing = FluxRaiderCinematic.TryLockedDirection(___pawn, out Rot4 locked)
+                ? locked : ___pawn.Rotation;
             if (pose == FluxCinematicPose.Prone)
             {
                 bodyFacing = Rot4.East;
-                angle = ___pawn.Rotation == Rot4.West ? 270f : 90f;
+                angle = facing == Rot4.West ? 270f : 90f;
             }
             else if (pose == FluxCinematicPose.Lean)
-                angle += ___pawn.Rotation == Rot4.West ? -11f : 11f;
+                angle += facing == Rot4.West ? -11f : 11f;
         }
 
         [HarmonyPostfix]
@@ -404,7 +515,9 @@ namespace Helodrace.ModernWar
         [HarmonyPriority(Priority.Last)]
         private static void Prefix(Pawn ___pawn, ref Rot4? rotOverride)
         {
-            if (FluxRaiderCinematic.Active(___pawn)
+            if (FluxRaiderCinematic.TryLockedDirection(___pawn, out Rot4 locked))
+                rotOverride = locked;
+            else if (FluxRaiderCinematic.Active(___pawn)
                 && FluxRaiderCinematic.Pose(___pawn) == FluxCinematicPose.Prone)
                 rotOverride = ___pawn.Rotation;
         }

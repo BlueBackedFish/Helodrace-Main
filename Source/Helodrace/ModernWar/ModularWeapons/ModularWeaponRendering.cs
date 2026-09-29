@@ -409,19 +409,30 @@ namespace Helodrace.ModernWar
                 center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
                     * Mathf.Max(0.01f, root.Props.assemblyScale);
 
-            if (node.thing?.def?.defName == "HD_ModularPart_Stock_FluxRaiderKit")
+            if (node.thing?.def?.defName == "HD_ModularPart_Stock_FluxRaiderKit"
+                && node.attachedToRail && node.parentSocketId == "stock")
             {
                 Pawn wielder = (root.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
                 if (FluxRaiderCinematic.Active(wielder))
                 {
-                    float folded = 1f - FluxRaiderCinematic.Raise(wielder);
-                    float foldAngle = 72f * folded;
-                    // The hinge is near the right end of the stock texture (about
-                    // 350px on its 512px canvas), not at the image centre.
-                    Vector2 hinge = node.transform.TransformPoint(
-                        node.Props.graphicOffset + new Vector3(0.18f, 0f, 0f));
-                    center = hinge + ModularTransform2D.Rotate(center - hinge, foldAngle);
-                    graphAngle += foldAngle;
+                    ModularAttachmentSocket track = node.parentComp?.Props.SocketNamed("stock");
+                    ModularAttachmentMount mount = node.Props.MountNamed(node.mountId);
+                    if (track?.isRail == true && track.railLength > 0f && mount != null)
+                    {
+                        float contactLength = mount.EffectiveRailContactLength
+                            * node.parentComp.PaletteRatioFor(node.comp);
+                        float travel = (track.railLength - Mathf.Max(0f, contactLength)) * 0.5f;
+                        if (travel > 0f)
+                        {
+                            // The render snapshot is positioned at the configured rail
+                            // offset. Move only its image along that same rail axis.
+                            float desiredOffset = Mathf.Lerp(travel, -travel,
+                                FluxRaiderCinematic.Raise(wielder));
+                            Vector2 railAxis = (node.railEnd - node.railStart)
+                                / track.railLength;
+                            center += railAxis * (desiredOffset - node.railOffset);
+                        }
+                    }
                 }
             }
             center += FluxRaiderCinematic.FrontMagazineOffset(root, node);

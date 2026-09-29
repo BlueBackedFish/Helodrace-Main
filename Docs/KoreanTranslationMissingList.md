@@ -789,7 +789,7 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 | 562 | ThingDef | `HD_ModularPart_Trigger_P320Flat.label` | P320 flat trigger | P320 평면형 방아쇠 |
 | 563 | ThingDef | `HD_ModularPart_IronSight_P320Rear.label` | P320 rear iron sight | P320 기계식 가늠자 |
 | 564 | ThingDef | `HD_ModularPart_IronSight_P320Front.label` | P320 front iron sight | P320 기계식 가늠쇠 |
-| 565 | ThingDef | `HD_ModularPart_Stock_FluxRaiderKit.label` | Flux Raider folding stock | Flux Raider 접이식 개머리판 |
+| 565 | ThingDef | `HD_ModularPart_Stock_FluxRaiderKit.label` | Flux Raider retractable stock | Flux Raider 인입식 개머리판 |
 | 566 | ThingDef | `HD_ModularPart_Mount_T2Low.label` | T2 low Picatinny mount | T2 저상형 피카티니 마운트 |
 | 567 | ThingDef | `HD_ModularPart_Mount_T2Low.comps.0.sockets.0.label` | T2 optic footprint | T2 광학장비 장착 규격 |
 | 568 | ThingDef | `HD_ModularPart_Optic_PointSightT2.label` | PointSight T2 reflex sight | Point조준기 T2 반사식 조준기 |
