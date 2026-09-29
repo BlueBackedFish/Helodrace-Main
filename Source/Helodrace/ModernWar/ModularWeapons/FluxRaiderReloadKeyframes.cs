@@ -41,6 +41,10 @@ namespace Helodrace.ModernWar
         public int reloadDurationTicks = 72;
         public List<FluxMagazineKeyframe> droppedMagazine;
         public List<FluxMagazineKeyframe> spareMagazine;
+        public List<string> cinematicButtonOrder;
+
+        public List<string> ButtonOrder => cinematicButtonOrder
+            ?? (cinematicButtonOrder = new List<string>());
 
         public List<FluxMagazineKeyframe> Dropped
         {
@@ -68,6 +72,8 @@ namespace Helodrace.ModernWar
                 LookMode.Deep);
             Scribe_Collections.Look(ref spareMagazine, "fluxCinematicSpareMagazine",
                 LookMode.Deep);
+            Scribe_Collections.Look(ref cinematicButtonOrder,
+                "fluxCinematicButtonOrder", LookMode.Value);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 reloadDurationTicks = Mathf.Clamp(reloadDurationTicks, 12, 240);
