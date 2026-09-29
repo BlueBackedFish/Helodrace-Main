@@ -1,0 +1,429 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using HarmonyLib;
+using RimWorld;
+using UnityEngine;
+using Verse;
+
+namespace Helodrace.ModernWar
+{
+    // Developer-only, visual states for recording the Flux Raider trailer.
+    internal enum FluxCinematicPose { LowReady, Aiming, Lean, Prone }
+
+    internal static class FluxRaiderCinematic
+    {
+        private sealed class State
+        {
+            public int weaponId;
+            public FluxCinematicPose pose = FluxCinematicPose.LowReady;
+            public float fromRaise;
+            public int transitionTick;
+            public bool emittersOn;
+            public int reloadTick = -1000;
+            public bool frontMagazineConsumed;
+            public int lastDustTick = -1000;
+        }
+
+        private static readonly Dictionary<int, State> states = new Dictionary<int, State>();
+        private const int RaiseTicks = 14;
+        private const int ReloadTicks = 72;
+
+        public static bool IsFluxRaider(Pawn pawn)
+        {
+            CompModularWeaponNode root = pawn?.equipment?.Primary?.GetComp<CompModularWeaponNode>();
+            if (root?.Props.isAssemblyRoot != true || pawn.equipment.Primary.def.defName != "HD_Gun_P320_Weapon")
+                return false;
+            List<ModularRenderNode> nodes = root.RenderSnapshot();
+            return nodes.Any(n => n.thing?.def?.defName == "HD_ModularPart_Receiver_FluxRaiderKit"
+                || n.thing?.def?.defName == "HD_ModularPart_Receiver_FluxRaiderKitTan");
+        }
+
+        private static State For(Pawn pawn)
+        {
+            if (!Prefs.DevMode || !IsFluxRaider(pawn)) return null;
+            int weaponId = pawn.equipment.Primary.thingIDNumber;
+            return states.TryGetValue(pawn.thingIDNumber, out State state)
+                && state.weaponId == weaponId ? state : null;
+        }
+
+        private static int Now => Find.TickManager?.TicksGame ?? 0;
+
+        public static FluxCinematicPose Pose(Pawn pawn) => For(pawn)?.pose ?? FluxCinematicPose.Aiming;
+        public static bool Active(Pawn pawn) => For(pawn) != null;
+        public static bool EmittersOn(Pawn pawn) => For(pawn)?.emittersOn ?? true;
+
+        public static void ToggleSession(Pawn pawn)
+        {
+            if (!Prefs.DevMode || !IsFluxRaider(pawn)) return;
+            if (For(pawn) != null)
+                states.Remove(pawn.thingIDNumber);
+            else
+                states[pawn.thingIDNumber] = new State
+                {
+                    weaponId = pawn.equipment.Primary.thingIDNumber,
+                    transitionTick = Now - RaiseTicks
+                };
+        }
+
+        public static float Raise(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state == null) return 1f;
+            float target = state.pose == FluxCinematicPose.LowReady ? 0f : 1f;
+            float t = Mathf.SmoothStep(0f, 1f,
+                Mathf.Clamp01((Now - state.transitionTick) / (float)RaiseTicks));
+            return Mathf.Lerp(state.fromRaise, target, t);
+        }
+
+        public static void SetPose(Pawn pawn, FluxCinematicPose pose)
+        {
+            State state = For(pawn);
+            if (state == null) return;
+            float current = Raise(pawn);
+            state.pose = pose;
+            state.fromRaise = current;
+            state.transitionTick = Now;
+            if (pose == FluxCinematicPose.Lean || pose == FluxCinematicPose.Prone)
+                ThrowDust(pawn, 4);
+        }
+
+        public static void StartReload(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state == null) return;
+            state.reloadTick = Now;
+            state.frontMagazineConsumed = false;
+        }
+
+        public static void ToggleEmitters(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state != null) state.emittersOn = !state.emittersOn;
+        }
+
+        public static bool ReloadProgress(CompModularWeaponNode root, out float progress)
+        {
+            progress = 0f;
+            Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
+            State state = For(pawn);
+            if (state == null || state.weaponId != root.parent.thingIDNumber) return false;
+            int elapsed = Now - state.reloadTick;
+            if (elapsed >= Mathf.RoundToInt(ReloadTicks * 0.88f))
+                state.frontMagazineConsumed = true;
+            if (elapsed < 0 || elapsed >= ReloadTicks) return false;
+            progress = elapsed / (float)ReloadTicks;
+            return true;
+        }
+
+        public static bool ReloadMagazineOffset(CompModularWeaponNode root,
+            ModularRenderNode node, out Vector2 offset)
+        {
+            offset = Vector2.zero;
+            if (node == null || !IsMagazineNode(node) || !ReloadProgress(root, out float progress))
+                return false;
+            // The original magazine falls freely; the replacement comes up from the
+            // support hand and seats after the old one has cleared the frame.
+            if (progress < 0.12f) return true;
+            if (progress < 0.53f)
+            {
+                float fall = Mathf.InverseLerp(0.12f, 0.53f, progress);
+                offset = new Vector2(0.04f * fall, -0.68f * fall * fall);
+                return true;
+            }
+            float seat = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.53f, 0.88f, progress));
+            offset = new Vector2(-0.14f * (1f - seat), -0.42f * (1f - seat));
+            return true;
+        }
+
+        private static bool IsMagazineNode(ModularRenderNode node)
+        {
+            CompModularWeaponNode comp = node.comp;
+            for (int depth = 0; comp != null && depth < 16; depth++)
+            {
+                if (comp.Props.magazineCapacity > 0) return true;
+                comp = comp.parent?.ParentHolder as CompModularWeaponNode;
+            }
+            return false;
+        }
+
+        public static bool HideReloadNode(CompModularWeaponNode root, ModularRenderNode node)
+        {
+            Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
+            State state = For(pawn);
+            if (state == null || node?.thing?.def == null) return false;
+            bool front = node.thing.def.defName.StartsWith("HD_ModularPart_FrontMagazine_P320");
+            if (!ReloadProgress(root, out float progress))
+                return front && state.frontMagazineConsumed;
+            if (front) return progress >= 0.88f;
+            return IsMagazineNode(node) && progress >= 0.53f && progress < 0.88f;
+        }
+
+        public static Vector2 FrontMagazineOffset(CompModularWeaponNode root,
+            ModularRenderNode node)
+        {
+            if (node?.thing?.def?.defName.StartsWith("HD_ModularPart_FrontMagazine_P320") != true
+                || !ReloadProgress(root, out float progress) || progress < 0.35f)
+                return Vector2.zero;
+            List<ModularRenderNode> nodes = root.RenderSnapshot();
+            ModularRenderNode magazine = nodes.FirstOrDefault(n => n.Props.magazineCapacity > 0);
+            if (magazine == null) return Vector2.zero;
+            float travel = Mathf.SmoothStep(0f, 1f,
+                Mathf.InverseLerp(0.35f, 0.88f, progress));
+            Vector2 delta = magazine.GraphicCenter - node.GraphicCenter;
+            return delta * travel + new Vector2(0.04f, -0.13f) * Mathf.Sin(travel * Mathf.PI);
+        }
+
+        public static void NotifyShot(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state == null || (state.pose != FluxCinematicPose.Lean
+                && state.pose != FluxCinematicPose.Prone) || Now - state.lastDustTick < 6) return;
+            state.lastDustTick = Now;
+            ThrowDust(pawn, 3);
+        }
+
+        private static void ThrowDust(Pawn pawn, int count)
+        {
+            if (pawn?.Spawned != true || pawn.Map == null
+                || pawn.Position.GetTerrain(pawn.Map)?.IsWater == true) return;
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 offset = new Vector3(Rand.Range(-0.35f, 0.35f), 0f,
+                    Rand.Range(-0.25f, 0.2f));
+                FleckMaker.ThrowDustPuff(pawn.DrawPos + offset, pawn.Map,
+                    Rand.Range(0.35f, 0.65f));
+            }
+        }
+
+        public static void AdjustWeapon(Pawn pawn, ref Vector3 drawLoc, ref float aimAngle)
+        {
+            if (!Active(pawn)) return;
+            float raise = Raise(pawn);
+            float side = pawn.Rotation == Rot4.West ? -1f : 1f;
+            drawLoc += new Vector3(0f, 0f, -0.26f * (1f - raise));
+            aimAngle += side * 28f * (1f - raise);
+            if (Pose(pawn) == FluxCinematicPose.Prone)
+                drawLoc += new Vector3(0f, 0f, -0.17f);
+            else if (Pose(pawn) == FluxCinematicPose.Lean)
+                drawLoc += new Vector3(side * 0.1f, 0f, 0f);
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn), nameof(Pawn.GetGizmos))]
+    internal static class Patch_FluxRaiderCinematicGizmos
+    {
+        [HarmonyPostfix]
+        private static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> values, Pawn __instance)
+        {
+            if (values != null)
+                foreach (Gizmo gizmo in values) yield return gizmo;
+            if (__instance?.Faction != Faction.OfPlayer || !Prefs.DevMode
+                || !FluxRaiderCinematic.IsFluxRaider(__instance))
+                yield break;
+            bool active = FluxRaiderCinematic.Active(__instance);
+            yield return new Command_Action
+            {
+                defaultLabel = active ? "CINE: stop" : "CINE: start",
+                defaultDesc = "Toggle Flux Raider recording controls for this pawn.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.ToggleSession(__instance)
+            };
+            if (!active) yield break;
+            foreach (FluxCinematicPose pose in Enum.GetValues(typeof(FluxCinematicPose)))
+            {
+                if (pose == FluxCinematicPose.Lean || pose == FluxCinematicPose.Prone)
+                    continue;
+                FluxCinematicPose choice = pose;
+                yield return new Command_Action
+                {
+                    defaultLabel = "CINE: " + choice,
+                    defaultDesc = "Set the Flux Raider recording pose.",
+                    icon = __instance.equipment.Primary.def.uiIcon,
+                    action = () => FluxRaiderCinematic.SetPose(__instance, choice)
+                };
+            }
+            foreach (FluxCinematicPose pose in new[]
+                { FluxCinematicPose.Lean, FluxCinematicPose.Prone })
+            {
+                foreach (Rot4 direction in new[] { Rot4.East, Rot4.West })
+                {
+                    FluxCinematicPose choice = pose;
+                    Rot4 facing = direction;
+                    yield return new Command_Action
+                    {
+                        defaultLabel = "CINE: " + choice + " " + facing,
+                        defaultDesc = "Face " + facing + " and set the recording pose.",
+                        icon = __instance.equipment.Primary.def.uiIcon,
+                        action = () =>
+                        {
+                            __instance.Rotation = facing;
+                            FluxRaiderCinematic.SetPose(__instance, choice);
+                        }
+                    };
+                }
+            }
+            yield return new Command_Action
+            {
+                defaultLabel = "CINE: reload",
+                defaultDesc = "Drop the current magazine and seat a replacement visually.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.StartReload(__instance)
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = FluxRaiderCinematic.EmittersOn(__instance)
+                    ? "CINE: lights off" : "CINE: lights on",
+                defaultDesc = "Toggle attached laser and flashlight beams for filming.",
+                icon = TexCommand.DesirePower,
+                action = () => FluxRaiderCinematic.ToggleEmitters(__instance)
+            };
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
+    internal static class Patch_FluxRaiderCinematicRenderStance
+    {
+        private sealed class VisualStance : Stance_Busy
+        {
+            public VisualStance() : base(2) { }
+        }
+
+        private static readonly FieldInfo CurrentStance =
+            AccessTools.Field(typeof(Pawn_StanceTracker), "curStance");
+        private static readonly FieldInfo Focus = AccessTools.Field(typeof(Stance_Busy), "focusTarg");
+        private static readonly FieldInfo VerbField = AccessTools.Field(typeof(Stance_Busy), "verb");
+        private static readonly FieldInfo NeverAim =
+            AccessTools.Field(typeof(Stance_Busy), "neverAimWeapon");
+
+        private sealed class RestoreState
+        {
+            public Pawn_StanceTracker tracker;
+            public Stance oldStance;
+        }
+
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.Last)]
+        private static void Prefix(Pawn pawn, ref Rot4 __2, ref RestoreState __state)
+        {
+            if (!FluxRaiderCinematic.Active(pawn) || pawn.stances == null
+                || CurrentStance == null || Focus == null) return;
+            // Real combat stances must retain their actual target and timing.
+            if (pawn.stances.curStance is Stance_Busy busy
+                && !busy.neverAimWeapon && busy.focusTarg.IsValid) return;
+            __2 = pawn.Rotation;
+            Stance_Busy visual = new VisualStance();
+            IntVec3 facing = pawn.Rotation.FacingCell;
+            Focus.SetValue(visual, new LocalTargetInfo(pawn.Position + facing * 6));
+            VerbField?.SetValue(visual,
+                pawn.equipment.Primary.GetComp<CompEquippable>()?.PrimaryVerb);
+            NeverAim?.SetValue(visual, false);
+            __state = new RestoreState { tracker = pawn.stances, oldStance = pawn.stances.curStance };
+            CurrentStance.SetValue(pawn.stances, visual);
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(RestoreState __state) => Restore(__state);
+
+        [HarmonyFinalizer]
+        private static Exception Finalizer(Exception __exception, RestoreState __state)
+        {
+            Restore(__state);
+            return __exception;
+        }
+
+        private static void Restore(RestoreState state)
+        {
+            if (state?.tracker != null) CurrentStance?.SetValue(state.tracker, state.oldStance);
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAiming))]
+    internal static class Patch_FluxRaiderCinematicEquipmentPose
+    {
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.First)]
+        private static void Prefix(Thing eq, ref Vector3 drawLoc, ref float aimAngle)
+        {
+            Pawn pawn = (eq?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
+            if (pawn != null) FluxRaiderCinematic.AdjustWeapon(pawn, ref drawLoc, ref aimAngle);
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderer), "GetDrawParms")]
+    internal static class Patch_FluxRaiderCinematicBody
+    {
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.Last)]
+        private static void Prefix(Pawn ___pawn, ref float angle, ref Rot4 bodyFacing,
+            PawnRenderFlags flags)
+        {
+            if (flags.FlagSet(PawnRenderFlags.Portrait) || !FluxRaiderCinematic.Active(___pawn))
+                return;
+            FluxCinematicPose pose = FluxRaiderCinematic.Pose(___pawn);
+            if (pose == FluxCinematicPose.Prone)
+            {
+                bodyFacing = Rot4.East;
+                angle = ___pawn.Rotation == Rot4.West ? 270f : 90f;
+            }
+            else if (pose == FluxCinematicPose.Lean)
+                angle += ___pawn.Rotation == Rot4.West ? -11f : 11f;
+        }
+
+        [HarmonyPostfix]
+        [HarmonyPriority(Priority.Last)]
+        private static void Postfix(Pawn ___pawn, ref PawnDrawParms __result)
+        {
+            if (__result.flags.FlagSet(PawnRenderFlags.Portrait)
+                || !FluxRaiderCinematic.Active(___pawn)
+                || FluxRaiderCinematic.Pose(___pawn) != FluxCinematicPose.Prone)
+                return;
+            __result.posture = PawnPosture.LayingOnGroundNormal;
+            __result.crawling = false;
+            __result.facing = Rot4.East;
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderer), "GetBodyPos")]
+    internal static class Patch_FluxRaiderCinematicBodyPosition
+    {
+        [HarmonyPrefix]
+        private static void Prefix(Pawn ___pawn, ref PawnPosture posture)
+        {
+            if (FluxRaiderCinematic.Active(___pawn)
+                && FluxRaiderCinematic.Pose(___pawn) == FluxCinematicPose.Prone)
+                posture = PawnPosture.LayingOnGroundNormal;
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderer), "RenderPawnAt")]
+    internal static class Patch_FluxRaiderCinematicWater
+    {
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.Last)]
+        private static void Prefix(Pawn ___pawn, ref Rot4? rotOverride)
+        {
+            if (FluxRaiderCinematic.Active(___pawn)
+                && FluxRaiderCinematic.Pose(___pawn) == FluxCinematicPose.Prone)
+                rotOverride = ___pawn.Rotation;
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(Pawn ___pawn)
+        {
+            if (!FluxRaiderCinematic.Active(___pawn) || ___pawn?.Spawned != true)
+                return;
+            TerrainDef terrain = ___pawn.Position.GetTerrain(___pawn.Map);
+            if (terrain?.IsWater != true || terrain.DrawMatSingle == null) return;
+
+            // Lay the same water material over the near half of the pawn and weapon.
+            // It is drawn above equipment so a camera sees them break the surface.
+            Vector3 center = ___pawn.DrawPos + new Vector3(0f, 0f, -0.24f);
+            center.y = AltitudeLayer.MoteOverhead.AltitudeFor() + 0.02f;
+            Graphics.DrawMesh(MeshPool.plane10,
+                Matrix4x4.TRS(center, Quaternion.identity, new Vector3(1.3f, 1f, 0.55f)),
+                terrain.DrawMatSingle, 0);
+        }
+    }
+}

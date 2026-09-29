@@ -270,6 +270,7 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
+                if (FluxRaiderCinematic.HideReloadNode(comp, node)) continue;
                 if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
 
@@ -321,6 +322,7 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
+                if (FluxRaiderCinematic.HideReloadNode(comp, node)) continue;
                 if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
                 Graphic graphic = node.Graphic;
@@ -400,8 +402,29 @@ namespace Helodrace.ModernWar
                 ancestorComp = ancestor.parentComp;
             }
 
-            center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
-                * Mathf.Max(0.01f, root.Props.assemblyScale);
+            Vector2 reloadOffset;
+            if (FluxRaiderCinematic.ReloadMagazineOffset(root, node, out reloadOffset))
+                center += reloadOffset * Mathf.Max(0.01f, root.Props.assemblyScale);
+            else
+                center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
+                    * Mathf.Max(0.01f, root.Props.assemblyScale);
+
+            if (node.thing?.def?.defName == "HD_ModularPart_Stock_FluxRaiderKit")
+            {
+                Pawn wielder = (root.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
+                if (FluxRaiderCinematic.Active(wielder))
+                {
+                    float folded = 1f - FluxRaiderCinematic.Raise(wielder);
+                    float foldAngle = 72f * folded;
+                    // The hinge is near the right end of the stock texture (about
+                    // 350px on its 512px canvas), not at the image centre.
+                    Vector2 hinge = node.transform.TransformPoint(
+                        node.Props.graphicOffset + new Vector3(0.18f, 0f, 0f));
+                    center = hinge + ModularTransform2D.Rotate(center - hinge, foldAngle);
+                    graphAngle += foldAngle;
+                }
+            }
+            center += FluxRaiderCinematic.FrontMagazineOffset(root, node);
         }
 
         private static Vector2 AnimateLocalPoint(

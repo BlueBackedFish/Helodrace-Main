@@ -96,6 +96,7 @@ namespace Helodrace.ModernWar
         {
             if (verb == null || root?.Props.isAssemblyRoot != true) return;
             ModularWeaponMuzzleEffectUtility.NotifyShot(verb, root);
+            FluxRaiderCinematic.NotifyShot((root.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn);
             int now = Find.TickManager?.TicksGame ?? 0;
             float cycleTicks = Mathf.Max(1f, root.EffectiveBurstIntervalTicks / Mathf.Max(0.01f, root.Props.animationSpeed));
             states[root.parent.thingIDNumber] = new CycleState
