@@ -116,6 +116,25 @@ namespace Helodrace.ModernWar
             });
         }
 
+        public static void NotifyCinematicShot(CompModularWeaponNode root,
+            Pawn pawn, LocalTargetInfo focus)
+        {
+            if (root?.Props.isAssemblyRoot != true || root.parent == null
+                || pawn == null) return;
+            ModularWeaponMuzzleEffectUtility.NotifyCinematicShot(
+                pawn, root.parent, root, focus);
+            FluxRaiderCinematic.NotifyShot(pawn);
+            int now = Find.TickManager?.TicksGame ?? 0;
+            float cycleTicks = Mathf.Max(1f,
+                root.EffectiveBurstIntervalTicks
+                / Mathf.Max(0.01f, root.Props.animationSpeed));
+            states[root.parent.thingIDNumber] = new CycleState
+            {
+                shotTick = now,
+                cycleTicks = cycleTicks
+            };
+        }
+
         public static bool HasCustomCasingEjection(
             CompModularWeaponNode root)
         {

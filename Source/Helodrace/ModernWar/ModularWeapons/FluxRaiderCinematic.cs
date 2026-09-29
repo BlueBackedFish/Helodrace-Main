@@ -7,6 +7,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace Helodrace.ModernWar
 {
@@ -22,13 +23,20 @@ namespace Helodrace.ModernWar
             public float fromRaise;
             public float fromStock;
             public bool stockBeforeAim;
+            public bool vanillaAim;
+            public IntVec3 aimCell = IntVec3.Invalid;
+            public Map aimMap;
             public int transitionTick;
             public bool emittersOn;
             public int reloadTick;
+            public int reloadShotTick = -1000;
+            public int reloadShotSequence;
             public bool reloadPlayed;
             public float reloadPreview = -1f;
-            public int slideLockTick = -1000;
-            public bool slideLocked;
+            public int shotSequence;
+            public int lastVisualShotTick = -1000;
+            public int pendingShotTick = -1;
+            public bool pendingReload;
             public int lastDustTick = -1000;
             public bool directionLocked;
             public Rot4 lockedDirection;
@@ -40,6 +48,7 @@ namespace Helodrace.ModernWar
         private static readonly Dictionary<int, State> states = new Dictionary<int, State>();
         private const int RaiseTicks = 14;
         private const int StockLeadTicks = 10;
+        private const int ShotToReloadTicks = 8;
 
         public static bool IsFluxRaider(Pawn pawn)
         {
@@ -126,7 +135,14 @@ namespace Helodrace.ModernWar
         {
             State state = For(pawn);
             if (state?.pose == FluxCinematicPose.LowReady)
-                SetPose(pawn, FluxCinematicPose.Aiming);
+            {
+                if (state.vanillaAim && state.aimMap == pawn.Map
+                    && state.aimCell.IsValid)
+                    SetVanillaAiming(pawn, state.stockBeforeAim,
+                        new LocalTargetInfo(state.aimCell));
+                else
+                    SetAiming(pawn, state.stockBeforeAim);
+            }
         }
 
         public static void ToggleSession(Pawn pawn)
@@ -179,10 +195,54 @@ namespace Helodrace.ModernWar
             float currentRaise = Raise(pawn);
             float currentStock = StockExtension(pawn);
             state.stockBeforeAim = stockBeforeAim;
+            state.vanillaAim = false;
+            state.aimCell = IntVec3.Invalid;
             state.pose = FluxCinematicPose.Aiming;
             state.fromRaise = currentRaise;
             state.fromStock = currentStock;
             state.transitionTick = Now;
+            state.pendingShotTick = -1;
+        }
+
+        public static void SetVanillaAiming(Pawn pawn, bool stockBeforeAim,
+            LocalTargetInfo target)
+        {
+            if (!target.IsValid || pawn?.Map == null) return;
+            SetAiming(pawn, stockBeforeAim);
+            State state = For(pawn);
+            if (state == null) return;
+            state.vanillaAim = true;
+            state.aimCell = target.Cell;
+            state.aimMap = pawn.Map;
+            Vector3 direction = target.CenterVector3 - pawn.DrawPos;
+            direction.y = 0f;
+            if (direction.sqrMagnitude > 0.001f)
+                FaceForPose(pawn, Rot4.FromAngleFlat(direction.AngleFlat()));
+        }
+
+        public static void BeginVanillaAiming(Pawn pawn, bool stockBeforeAim)
+        {
+            if (For(pawn) == null || pawn.Map == null) return;
+            Map map = pawn.Map;
+            Find.Targeter.BeginTargeting(new TargetingParameters
+            {
+                canTargetLocations = true,
+                canTargetPawns = true,
+                canTargetBuildings = true,
+                canTargetItems = false,
+                validator = target => target.IsValid
+                    && target.Cell.InBounds(map)
+                    && target.Cell != pawn.Position
+            }, target => SetVanillaAiming(pawn, stockBeforeAim, target));
+        }
+
+        public static LocalTargetInfo VisualFocus(Pawn pawn, Rot4 facing)
+        {
+            State state = For(pawn);
+            if (state?.vanillaAim == true && state.aimMap == pawn.Map
+                && state.aimCell.IsValid)
+                return new LocalTargetInfo(state.aimCell);
+            return new LocalTargetInfo(pawn.Position + facing.FacingCell * 6);
         }
 
         public static void SetPose(Pawn pawn, FluxCinematicPose pose)
@@ -195,18 +255,76 @@ namespace Helodrace.ModernWar
             state.fromRaise = current;
             state.fromStock = currentStock;
             state.transitionTick = Now;
+            state.pendingShotTick = -1;
             if (pose == FluxCinematicPose.Lean || pose == FluxCinematicPose.Prone)
                 ThrowDust(pawn, 4);
         }
 
         public static void StartReload(Pawn pawn)
         {
+            QueueVisualShot(pawn, true);
+        }
+
+        public static void FireVisual(Pawn pawn)
+        {
+            QueueVisualShot(pawn, false);
+        }
+
+        private static void QueueVisualShot(Pawn pawn, bool reload)
+        {
             State state = For(pawn);
             if (state == null) return;
-            state.reloadTick = Now;
-            state.reloadPlayed = true;
-            state.reloadPreview = -1f;
-            state.slideLocked = true;
+            BeginAimingForShot(pawn);
+            int raiseDelay = state.stockBeforeAim && state.fromStock < 0.99f
+                ? StockLeadTicks : 0;
+            int raiseEnd = state.transitionTick + RaiseTicks + raiseDelay;
+            int stockEnd = state.transitionTick
+                + (state.stockBeforeAim ? StockLeadTicks : RaiseTicks);
+            if (Raise(pawn) >= 0.995f && StockExtension(pawn) >= 0.995f)
+            {
+                PlayVisualShot(pawn, reload);
+                return;
+            }
+            state.pendingShotTick = Mathf.Max(Now, Mathf.Max(raiseEnd, stockEnd));
+            state.pendingReload = reload;
+        }
+
+        public static void Tick(Pawn pawn)
+        {
+            if (pawn == null || !states.TryGetValue(pawn.thingIDNumber, out State state)
+                || state.pendingShotTick < 0 || Now < state.pendingShotTick)
+                return;
+            bool reload = state.pendingReload;
+            state.pendingShotTick = -1;
+            PlayVisualShot(pawn, reload);
+        }
+
+        private static void PlayVisualShot(Pawn pawn, bool reload)
+        {
+            State state = For(pawn);
+            ThingWithComps weapon = pawn?.equipment?.Primary;
+            CompModularWeaponNode root = weapon?.GetComp<CompModularWeaponNode>();
+            Verb verb = weapon?.GetComp<CompEquippable>()?.PrimaryVerb;
+            if (state == null || root?.Props.isAssemblyRoot != true
+                || pawn.Spawned != true || pawn.Dead || pawn.Downed
+                || pawn.Map == null) return;
+
+            LocalTargetInfo focus = VisualFocus(pawn, pawn.Rotation);
+            ModularWeaponCycleUtility.NotifyCinematicShot(root, pawn, focus);
+            state.lastVisualShotTick = Now;
+            TargetInfo soundTarget = new TargetInfo(pawn.Position, pawn.Map);
+            (root.SoundCastOverride ?? verb?.verbProps?.soundCast)
+                ?.PlayOneShot(soundTarget);
+            (root.SoundCastTailOverride ?? verb?.verbProps?.soundCastTail)
+                ?.PlayOneShot(soundTarget);
+            if (reload)
+            {
+                state.reloadShotTick = Now;
+                state.reloadShotSequence = state.shotSequence;
+                state.reloadTick = Now + ShotToReloadTicks;
+                state.reloadPlayed = true;
+                state.reloadPreview = -1f;
+            }
         }
 
         public static bool HasReloadPlayed(Pawn pawn) => For(pawn)?.reloadPlayed == true;
@@ -217,7 +335,7 @@ namespace Helodrace.ModernWar
             if (state == null) return;
             state.reloadPlayed = false;
             state.reloadPreview = -1f;
-            state.slideLocked = false;
+            state.pendingShotTick = -1;
         }
 
         public static void SetReloadPreview(Pawn pawn, float progress)
@@ -263,16 +381,23 @@ namespace Helodrace.ModernWar
             Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
             State state = For(pawn);
             if (state == null) return false;
-            if (state.reloadPreview >= 0f
-                || (state.reloadPlayed && state.reloadTick >= state.slideLockTick))
+            if (state.reloadPreview >= 0f)
             {
                 ReloadProgress(root, out float progress);
                 amount = 1f - Mathf.SmoothStep(0f, 1f,
                     Mathf.InverseLerp(0.94f, 1f, progress));
                 return true;
             }
-            if (!state.slideLocked) return false;
-            amount = Ease((Now - state.slideLockTick) / 6f);
+            if (!state.reloadPlayed || state.shotSequence > state.reloadShotSequence)
+                return false;
+            if (Now < state.reloadTick)
+            {
+                amount = Ease((Now - state.reloadShotTick) / 6f);
+                return true;
+            }
+            ReloadProgress(root, out float reloadProgress);
+            amount = 1f - Mathf.SmoothStep(0f, 1f,
+                Mathf.InverseLerp(0.94f, 1f, reloadProgress));
             return true;
         }
 
@@ -383,8 +508,7 @@ namespace Helodrace.ModernWar
             State state = For(pawn);
             if (state != null)
             {
-                state.slideLocked = true;
-                state.slideLockTick = Now;
+                state.shotSequence++;
             }
             if (state == null || (state.pose != FluxCinematicPose.Lean
                 && state.pose != FluxCinematicPose.Prone) || Now - state.lastDustTick < 6) return;
@@ -414,14 +538,34 @@ namespace Helodrace.ModernWar
             GetLowReady(pawn, out Vector2 lowReadyOffset, out float lowReadyAngle);
             float remaining = 1f - raise;
             Vector2 control = lowReadyOffset + new Vector2(side * 0.12f, 0.16f);
-            Vector2 curved = lowReadyOffset * (remaining * remaining)
-                + control * (2f * remaining * raise);
+            Vector2 curved = For(pawn)?.vanillaAim == true
+                ? lowReadyOffset * remaining
+                : lowReadyOffset * (remaining * remaining)
+                    + control * (2f * remaining * raise);
             drawLoc += new Vector3(curved.x, 0f, curved.y);
             aimAngle += side * lowReadyAngle * (1f - raise);
+            State state = For(pawn);
+            float shotProgress = (Now - (state?.lastVisualShotTick ?? -1000)) / 9f;
+            if (shotProgress >= 0f && shotProgress < 1f)
+            {
+                float kick = 1f - Mathf.SmoothStep(0f, 1f, shotProgress);
+                drawLoc.z += 0.045f * kick;
+                aimAngle += side * 4f * kick;
+            }
             if (Pose(pawn) == FluxCinematicPose.Prone)
                 drawLoc += new Vector3(0f, 0f, -0.17f);
             else if (Pose(pawn) == FluxCinematicPose.Lean)
                 drawLoc += new Vector3(side * 0.1f, 0f, 0f);
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn), "Tick")]
+    internal static class Patch_FluxRaiderCinematicQueuedShot
+    {
+        [HarmonyPostfix]
+        private static void Postfix(Pawn __instance)
+        {
+            FluxRaiderCinematic.Tick(__instance);
         }
     }
 
@@ -509,6 +653,20 @@ namespace Helodrace.ModernWar
             };
             yield return new Command_Action
             {
+                defaultLabel = "CINE: aim at target (stock first)",
+                defaultDesc = "Pick a firing direction, extend the stock, then raise the weapon with vanilla-style aim.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.BeginVanillaAiming(__instance, true)
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "CINE: aim at target (together)",
+                defaultDesc = "Pick a firing direction and extend the stock while raising the weapon with vanilla-style aim.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.BeginVanillaAiming(__instance, false)
+            };
+            yield return new Command_Action
+            {
                 defaultLabel = "CINE: tune low ready",
                 defaultDesc = "Adjust the lowered weapon's screen X/Z position and angle.",
                 icon = __instance.equipment.Primary.def.uiIcon,
@@ -571,8 +729,15 @@ namespace Helodrace.ModernWar
             }
             yield return new Command_Action
             {
+                defaultLabel = "CINE: fire",
+                defaultDesc = "Play one gunshot and its weapon animation without launching a projectile.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.FireVisual(__instance)
+            };
+            yield return new Command_Action
+            {
                 defaultLabel = "CINE: reload",
-                defaultDesc = "Drop the current magazine and seat a replacement visually.",
+                defaultDesc = "Play one visual gunshot, then drop and replace the magazine while the slide is held back.",
                 icon = __instance.equipment.Primary.def.uiIcon,
                 action = () => FluxRaiderCinematic.StartReload(__instance)
             };
@@ -744,8 +909,7 @@ namespace Helodrace.ModernWar
             __2 = FluxRaiderCinematic.TryLockedDirection(pawn, out Rot4 locked)
                 ? locked : pawn.Rotation;
             Stance_Busy visual = new VisualStance();
-            IntVec3 facing = __2.FacingCell;
-            Focus.SetValue(visual, new LocalTargetInfo(pawn.Position + facing * 6));
+            Focus.SetValue(visual, FluxRaiderCinematic.VisualFocus(pawn, __2));
             VerbField?.SetValue(visual,
                 pawn.equipment.Primary.GetComp<CompEquippable>()?.PrimaryVerb);
             NeverAim?.SetValue(visual, false);
