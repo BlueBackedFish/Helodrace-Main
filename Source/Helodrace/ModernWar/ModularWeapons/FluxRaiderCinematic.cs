@@ -6,6 +6,7 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace Helodrace.ModernWar
 {
@@ -26,6 +27,8 @@ namespace Helodrace.ModernWar
             public int lastDustTick = -1000;
             public bool directionLocked;
             public Rot4 lockedDirection;
+            public Vector2 lowReadyOffset = new Vector2(0f, -0.26f);
+            public float lowReadyAngle = 28f;
         }
 
         private static readonly Dictionary<int, State> states = new Dictionary<int, State>();
@@ -88,6 +91,30 @@ namespace Helodrace.ModernWar
         {
             if (TryLockedDirection(pawn, out Rot4 direction) && pawn.Rotation != direction)
                 pawn.Rotation = direction;
+        }
+
+        public static void GetLowReady(Pawn pawn, out Vector2 offset, out float angle)
+        {
+            State state = For(pawn);
+            offset = state?.lowReadyOffset ?? new Vector2(0f, -0.26f);
+            angle = state?.lowReadyAngle ?? 28f;
+        }
+
+        public static void SetLowReady(Pawn pawn, Vector2 offset, float angle)
+        {
+            State state = For(pawn);
+            if (state == null) return;
+            state.lowReadyOffset = new Vector2(
+                Mathf.Clamp(offset.x, -0.6f, 0.6f),
+                Mathf.Clamp(offset.y, -0.6f, 0.6f));
+            state.lowReadyAngle = Mathf.Clamp(angle, -90f, 90f);
+        }
+
+        public static void BeginAimingForShot(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state?.pose == FluxCinematicPose.LowReady)
+                SetPose(pawn, FluxCinematicPose.Aiming);
         }
 
         public static void ToggleSession(Pawn pawn)
@@ -239,8 +266,10 @@ namespace Helodrace.ModernWar
             float raise = Raise(pawn);
             Rot4 facing = TryLockedDirection(pawn, out Rot4 locked) ? locked : pawn.Rotation;
             float side = facing == Rot4.West ? -1f : 1f;
-            drawLoc += new Vector3(0f, 0f, -0.26f * (1f - raise));
-            aimAngle += side * 28f * (1f - raise);
+            GetLowReady(pawn, out Vector2 lowReadyOffset, out float lowReadyAngle);
+            drawLoc += new Vector3(lowReadyOffset.x, 0f, lowReadyOffset.y)
+                * (1f - raise);
+            aimAngle += side * lowReadyAngle * (1f - raise);
             if (Pose(pawn) == FluxCinematicPose.Prone)
                 drawLoc += new Vector3(0f, 0f, -0.17f);
             else if (Pose(pawn) == FluxCinematicPose.Lean)
@@ -321,6 +350,17 @@ namespace Helodrace.ModernWar
                     action = () => FluxRaiderCinematic.SetPose(__instance, choice)
                 };
             }
+            yield return new Command_Action
+            {
+                defaultLabel = "CINE: tune low ready",
+                defaultDesc = "Adjust the lowered weapon's screen X/Z position and angle.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () =>
+                {
+                    FluxRaiderCinematic.SetPose(__instance, FluxCinematicPose.LowReady);
+                    Find.WindowStack.Add(new Dialog_FluxRaiderLowReady(__instance));
+                }
+            };
             foreach (FluxCinematicPose pose in new[]
                 { FluxCinematicPose.Lean, FluxCinematicPose.Prone })
             {
@@ -387,6 +427,112 @@ namespace Helodrace.ModernWar
                 icon = TexCommand.DesirePower,
                 action = () => FluxRaiderCinematic.ToggleEmitters(__instance)
             };
+        }
+    }
+
+    internal sealed class Dialog_FluxRaiderLowReady : Window
+    {
+        private readonly Pawn pawn;
+
+        public Dialog_FluxRaiderLowReady(Pawn pawn)
+        {
+            this.pawn = pawn;
+            doCloseX = true;
+            draggable = true;
+        }
+
+        public override Vector2 InitialSize => new Vector2(430f, 220f);
+
+        public override void DoWindowContents(Rect inRect)
+        {
+            if (!FluxRaiderCinematic.Active(pawn))
+            {
+                Close();
+                return;
+            }
+
+            FluxRaiderCinematic.GetLowReady(pawn, out Vector2 offset, out float angle);
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 30f),
+                "Flux Raider low ready");
+            Text.Font = GameFont.Small;
+            float y = inRect.y + 39f;
+            offset.x = SliderRow(inRect, ref y, "Screen X", offset.x, -0.6f, 0.6f);
+            offset.y = SliderRow(inRect, ref y, "Screen Z", offset.y, -0.6f, 0.6f);
+            angle = SliderRow(inRect, ref y, "Angle", angle, -90f, 90f);
+            FluxRaiderCinematic.SetLowReady(pawn, offset, angle);
+
+            if (Widgets.ButtonText(new Rect(inRect.x, y + 5f, 90f, 27f), "Reset"))
+                FluxRaiderCinematic.SetLowReady(pawn, new Vector2(0f, -0.26f), 28f);
+            if (Widgets.ButtonText(new Rect(inRect.xMax - 90f, y + 5f, 90f, 27f), "Close"))
+                Close();
+        }
+
+        private static float SliderRow(Rect bounds, ref float y, string label,
+            float value, float minimum, float maximum)
+        {
+            Widgets.Label(new Rect(bounds.x, y, 95f, 24f), label);
+            value = Widgets.HorizontalSlider(
+                new Rect(bounds.x + 99f, y + 2f, bounds.width - 170f, 18f),
+                value, minimum, maximum, true);
+            value = Mathf.Round(value * 100f) / 100f;
+            Widgets.Label(new Rect(bounds.xMax - 66f, y, 66f, 24f),
+                value.ToString("0.00"));
+            y += 31f;
+            return value;
+        }
+    }
+
+    [HarmonyPatch(typeof(SelectionDrawer), nameof(SelectionDrawer.DrawSelectionBracketFor))]
+    internal static class Patch_FluxRaiderCinematicSelectionBracket
+    {
+        [HarmonyPrefix]
+        private static bool Prefix(object obj)
+        {
+            return !(obj is Pawn pawn && FluxRaiderCinematic.Active(pawn));
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
+    internal static class Patch_FluxRaiderCinematicAttackOrder
+    {
+        [HarmonyPrefix]
+        private static void Prefix(Pawn ___pawn, Job newJob)
+        {
+            if (!FluxRaiderCinematic.Active(___pawn) || newJob == null) return;
+            Verb verb = newJob.verbToUse
+                ?? ___pawn.equipment?.Primary?.GetComp<CompEquippable>()?.PrimaryVerb;
+            Thing weapon = ___pawn.equipment?.Primary;
+            if (verb == null || weapon == null
+                || !Helodrace.Tactical.TacticalAimUtility.IsRangedVerb(verb))
+                return;
+            bool usesWeapon = verb.EquipmentSource == weapon
+                || verb == weapon.TryGetComp<CompEquippable>()?.PrimaryVerb;
+            if (usesWeapon && (newJob.def == JobDefOf.AttackStatic
+                || newJob.verbToUse == verb))
+                FluxRaiderCinematic.BeginAimingForShot(___pawn);
+        }
+    }
+
+    [HarmonyPatch]
+    internal static class Patch_FluxRaiderCinematicCastStart
+    {
+        private static IEnumerable<MethodBase> TargetMethods()
+        {
+            foreach (MethodInfo method in typeof(Verb).GetMethods())
+                if (method.Name == nameof(Verb.TryStartCastOn)) yield return method;
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(Verb __instance, bool __result)
+        {
+            if (!__result || !Helodrace.Tactical.TacticalAimUtility.IsRangedVerb(__instance))
+                return;
+            Pawn pawn = __instance.CasterPawn;
+            Thing weapon = pawn?.equipment?.Primary;
+            if (weapon != null && (__instance.EquipmentSource == weapon
+                || __instance == weapon.TryGetComp<CompEquippable>()?.PrimaryVerb))
+                FluxRaiderCinematic.BeginAimingForShot(pawn);
         }
     }
 
