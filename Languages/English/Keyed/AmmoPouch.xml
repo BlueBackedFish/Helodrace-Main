@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_AmmoPouch_StoredPercent>Stored rounds: {0}</HD_AmmoPouch_StoredPercent>
+  <HD_AmmoPouch_Rounds>Rounds: {0}/{1}</HD_AmmoPouch_Rounds>
+  <HD_AmmoPouch_Replenish>Replenish ammo pouches</HD_AmmoPouch_Replenish>
+  <HD_AmmoPouch_ReplenishDesc>At the clothing workbench, replenish installed ammo pouches with carbon steel. Each missing round costs one carbon steel.</HD_AmmoPouch_ReplenishDesc>
+  <HD_AmmoPouch_ReplenishOption>{0}: {1} ({2}/{3}, carbon steel required: {4})</HD_AmmoPouch_ReplenishOption>
+  <HD_AmmoPouch_NeedSteel>need {0} carbon steel</HD_AmmoPouch_NeedSteel>
+  <HD_AmmoPouch_Replenished>Ammo pouch replenished.</HD_AmmoPouch_Replenished>
+</LanguageData>

@@ -120,6 +120,9 @@
     <defName>HD_ModularPart_RifleMagazinePouch</defName>
     <label>rifle magazine pouch module</label>
     <description>A two-cell detachable rifle magazine pouch for PALS webbing.</description>
+    <comps Inherit="False">
+      <li Class="Helodrace.ModernWar.CompProperties_AmmoPouch" />
+    </comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/Mag/FrontHigh/HD_IBTV_FrontHigh_Mag_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>45</MarketValue><Mass>0.18</Mass><WorkToMake>900</WorkToMake></statBases>
     <costList><Cloth>10</Cloth></costList>

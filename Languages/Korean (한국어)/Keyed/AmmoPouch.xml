@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_AmmoPouch_StoredPercent>저장된 탄약: {0}</HD_AmmoPouch_StoredPercent>
+  <HD_AmmoPouch_Rounds>잔탄: {0}/{1}</HD_AmmoPouch_Rounds>
+  <HD_AmmoPouch_Replenish>탄창 주머니 보충</HD_AmmoPouch_Replenish>
+  <HD_AmmoPouch_ReplenishDesc>의류 작업대에서 설치된 탄창 주머니를 탄소강으로 보충합니다. 부족한 탄약 1발마다 탄소강 1개를 사용합니다.</HD_AmmoPouch_ReplenishDesc>
+  <HD_AmmoPouch_ReplenishOption>{0}: {1} ({2}/{3}발, 필요 탄소강 {4}개)</HD_AmmoPouch_ReplenishOption>
+  <HD_AmmoPouch_NeedSteel>탄소강 {0}개 필요</HD_AmmoPouch_NeedSteel>
+  <HD_AmmoPouch_Replenished>탄창 주머니를 보충했습니다.</HD_AmmoPouch_Replenished>
+</LanguageData>

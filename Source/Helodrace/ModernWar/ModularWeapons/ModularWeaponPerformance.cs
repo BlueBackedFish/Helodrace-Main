@@ -55,8 +55,9 @@ namespace Helodrace.ModernWar
         {
             if (stat != StatDefOf.RangedWeapon_Cooldown) return;
             CompModularWeaponNode comp = thing?.TryGetComp<CompModularWeaponNode>();
-            if (comp?.Props.isAssemblyRoot != true) return;
-            comp.ApplyFireDelayToCooldown(ref __result);
+            if (comp?.Props.isAssemblyRoot == true)
+                comp.ApplyFireDelayToCooldown(ref __result);
+            AmmoPouchUtility.ApplyCooldown(thing, ref __result);
         }
     }
 }

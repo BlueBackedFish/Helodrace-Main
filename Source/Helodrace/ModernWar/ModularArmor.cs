@@ -3296,11 +3296,20 @@ namespace Helodrace.ModernWar
                 selected ? Color.yellow : new Color(0.72f, 0.76f, 0.68f),
                 selected ? 3 : 1);
             DrawPartIconAndLabel(partRect.ContractedBy(5f), record.part);
-            TooltipHandler.TipRegion(partRect,
-                "HD_ModularArmor_PalsInstalledTip".Translate(
-                    record.part.LabelCap,
-                    record.palsX + 1,
-                    record.palsY + 1));
+            string tooltip = "HD_ModularArmor_PalsInstalledTip".Translate(
+                record.part.LabelCap,
+                record.palsX + 1,
+                record.palsY + 1);
+            CompAmmoPouch pouch = record.InstalledItem?.TryGetComp<CompAmmoPouch>();
+            if (pouch != null)
+            {
+                int capacity = AmmoPouchUtility.CapacityFor(original.Wearer?.equipment?.Primary);
+                tooltip += "\n" + (capacity > 0
+                    ? "HD_AmmoPouch_Rounds".Translate(pouch.RoundsFor(capacity), capacity).ToString()
+                    : "HD_AmmoPouch_StoredPercent".Translate(
+                        pouch.RemainingFraction.ToStringPercent()).ToString());
+            }
+            TooltipHandler.TipRegion(partRect, tooltip);
         }
 
         private void DrawPlacementPreview(

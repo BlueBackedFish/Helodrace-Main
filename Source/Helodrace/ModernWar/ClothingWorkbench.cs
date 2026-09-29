@@ -72,6 +72,76 @@ namespace Helodrace.ModernWar
             if (AvailableApparel().Count == 0)
                 command.Disable("HD_ClothingBench_NoApparel".Translate());
             yield return command;
+            if (AvailableApparel().Any(armor =>
+            {
+                int capacity = AmmoPouchUtility.CapacityFor(
+                    armor.Wearer?.equipment?.Primary);
+                return capacity > 0 && armor.InstalledParts.Any(part =>
+                    part?.InstalledItem?.TryGetComp<CompAmmoPouch>()
+                        ?.MissingRounds(capacity) > 0);
+            }))
+                yield return new Command_Action
+                {
+                    defaultLabel = "HD_AmmoPouch_Replenish".Translate(),
+                    defaultDesc = "HD_AmmoPouch_ReplenishDesc".Translate(),
+                    icon = parent.def.uiIcon,
+                    action = OpenAmmoPouchMenu
+                };
+        }
+
+        private void OpenAmmoPouchMenu()
+        {
+            ThingDef carbonSteel = DefDatabase<ThingDef>.GetNamedSilentFail("HD_CarbonSteel");
+            if (carbonSteel == null || !IsAvailable) return;
+            var options = new List<FloatMenuOption>();
+            foreach (CompModularArmor armor in AvailableApparel())
+            {
+                Pawn worker = armor.Wearer;
+                ThingWithComps weapon = worker?.equipment?.Primary;
+                int capacity = AmmoPouchUtility.CapacityFor(weapon);
+                if (capacity <= 0 || !CanWorkAt(worker, parent, armor)) continue;
+                foreach (InstalledModularArmorPart installed in armor.InstalledParts)
+                {
+                    CompAmmoPouch pouch = installed?.InstalledItem?.TryGetComp<CompAmmoPouch>();
+                    if (pouch == null || pouch.MissingRounds(capacity) == 0) continue;
+                    int missing = pouch.MissingRounds(capacity);
+                    Thing source = worker.inventory?.innerContainer
+                        ?.Where(item => item.def == carbonSteel && item.stackCount > 0)
+                        .OrderByDescending(item => item.stackCount).FirstOrDefault();
+                    if (source == null)
+                        source = parent.Map.listerThings.ThingsOfDef(carbonSteel)
+                            .Where(item => item.stackCount > 0
+                                && !item.IsForbidden(worker)
+                                && worker.CanReserveAndReach(item,
+                                    PathEndMode.ClosestTouch, Danger.Some))
+                            .OrderByDescending(item => item.stackCount).FirstOrDefault();
+                    Thing selectedSource = source;
+                    Thing selectedPouch = pouch.parent;
+                    int suppliedRounds = System.Math.Min(missing, source?.stackCount ?? 0);
+                    string label = "HD_AmmoPouch_ReplenishOption".Translate(
+                        worker.LabelShortCap, installed.part.LabelCap,
+                        pouch.RoundsFor(capacity), capacity, suppliedRounds);
+                    if (selectedSource == null)
+                    {
+                        options.Add(new FloatMenuOption(label + " (" +
+                            "HD_AmmoPouch_NeedSteel".Translate(missing) + ")", null));
+                        continue;
+                    }
+                    options.Add(new FloatMenuOption(label, () =>
+                    {
+                        if (!CanWorkAt(worker, parent, armor)
+                            || !armor.InstalledParts.Any(part => part?.InstalledItem == selectedPouch))
+                            return;
+                        JobDef def = DefDatabase<JobDef>.GetNamedSilentFail("HD_ReplenishAmmoPouch");
+                        if (def == null) return;
+                        Job job = JobMaker.MakeJob(def, armor.parent, parent, selectedSource);
+                        job.targetQueueA = new List<LocalTargetInfo> { selectedPouch };
+                        job.count = suppliedRounds;
+                        worker.jobs.TryTakeOrderedJob(job);
+                    }));
+                }
+            }
+            if (options.Count > 0) Find.WindowStack.Add(new FloatMenu(options));
         }
 
         private void OpenApparelMenu()

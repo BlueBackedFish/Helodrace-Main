@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
+  <JobDef>
+    <defName>HD_ReplenishAmmoPouch</defName>
+    <driverClass>Helodrace.ModernWar.JobDriver_ReplenishAmmoPouch</driverClass>
+    <reportString>replenishing an ammo pouch at the clothing workbench.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
 
   <JobDef>
     <defName>HD_CustomizeModularArmor</defName>
