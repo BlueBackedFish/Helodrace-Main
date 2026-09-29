@@ -51,12 +51,10 @@ namespace Helodrace
     public class HelodraceBase : Mod
     {
         public static HelodraceBase Instance { get; private set; }
-        public static ModernWar.FluxRaiderCinematicSettings CinematicSettings { get; private set; }
 
         public HelodraceBase(ModContentPack content) : base(content)
         {
             Instance = this;
-            CinematicSettings = GetSettings<ModernWar.FluxRaiderCinematicSettings>();
             Log.Message("Helodrace Mod loaded.");
         }
     }

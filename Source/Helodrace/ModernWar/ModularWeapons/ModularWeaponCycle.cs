@@ -96,7 +96,6 @@ namespace Helodrace.ModernWar
         {
             if (verb == null || root?.Props.isAssemblyRoot != true) return;
             ModularWeaponMuzzleEffectUtility.NotifyShot(verb, root);
-            FluxRaiderCinematic.NotifyShot((root.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn);
             int now = Find.TickManager?.TicksGame ?? 0;
             float cycleTicks = Mathf.Max(1f, root.EffectiveBurstIntervalTicks / Mathf.Max(0.01f, root.Props.animationSpeed));
             states[root.parent.thingIDNumber] = new CycleState
@@ -114,25 +113,6 @@ namespace Helodrace.ModernWar
                 verb = verb,
                 root = root
             });
-        }
-
-        public static void NotifyCinematicShot(CompModularWeaponNode root,
-            Pawn pawn, LocalTargetInfo focus)
-        {
-            if (root?.Props.isAssemblyRoot != true || root.parent == null
-                || pawn == null) return;
-            ModularWeaponMuzzleEffectUtility.NotifyCinematicShot(
-                pawn, root.parent, root, focus);
-            FluxRaiderCinematic.NotifyShot(pawn);
-            int now = Find.TickManager?.TicksGame ?? 0;
-            float cycleTicks = Mathf.Max(1f,
-                root.EffectiveBurstIntervalTicks
-                / Mathf.Max(0.01f, root.Props.animationSpeed));
-            states[root.parent.thingIDNumber] = new CycleState
-            {
-                shotTick = now,
-                cycleTicks = cycleTicks
-            };
         }
 
         public static bool HasCustomCasingEjection(
@@ -187,11 +167,7 @@ namespace Helodrace.ModernWar
                 return root.parent.ParentHolder is Pawn_EquipmentTracker ? grip.amount : 0f;
             }
             if (kind == ModularWeaponAnimatedPartKind.Slide)
-            {
-                if (FluxRaiderCinematic.TrySlideAmount(root, out float cinematicSlide))
-                    return cinematicSlide;
                 return AnimationAmount(root, ModularWeaponAnimatedPartKind.Bolt);
-            }
             if (kind == ModularWeaponAnimatedPartKind.TiltingBarrel)
             {
                 float slide = AnimationAmount(root, ModularWeaponAnimatedPartKind.Slide);

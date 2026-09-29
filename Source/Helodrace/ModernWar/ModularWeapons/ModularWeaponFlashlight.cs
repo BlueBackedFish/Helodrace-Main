@@ -43,8 +43,6 @@ namespace Helodrace.ModernWar
             CompModularWeaponNode comp = weapon?.GetComp<CompModularWeaponNode>();
             if (comp == null || !comp.Props.isAssemblyRoot)
                 return;
-            if (!FluxRaiderCinematic.EmittersOn(pawn)) return;
-
             bool hasFlashlight = ModularWeaponFlashlightRenderer.HasFlashlight(comp);
             bool hasLaser = ModularWeaponLaserRenderer.HasLaser(comp);
             if (!hasFlashlight && !hasLaser) return;
@@ -465,8 +463,6 @@ namespace Helodrace.ModernWar
         {
             Pawn pawn = __instance.pawn;
             if (pawn == null || !pawn.Spawned) return;
-            if (!FluxRaiderCinematic.EmittersOn(pawn)) return;
-
             CompModularWeaponNode comp = __instance.Primary
                 ?.GetComp<CompModularWeaponNode>();
             if (comp == null || !comp.Props.isAssemblyRoot) return;

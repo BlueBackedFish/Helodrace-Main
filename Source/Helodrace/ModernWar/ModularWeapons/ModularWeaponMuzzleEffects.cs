@@ -151,20 +151,6 @@ namespace Helodrace.ModernWar
         {
             Pawn shooter = verb?.caster as Pawn;
             Thing equipment = verb?.EquipmentSource;
-            SpawnEffect(shooter, equipment, root,
-                verb?.CurrentTarget.CenterVector3 ?? Vector3.zero);
-        }
-
-        public static void NotifyCinematicShot(Pawn shooter, Thing equipment,
-            CompModularWeaponNode root, LocalTargetInfo focus)
-        {
-            SpawnEffect(shooter, equipment, root,
-                focus.IsValid ? focus.CenterVector3 : Vector3.zero);
-        }
-
-        private static void SpawnEffect(Pawn shooter, Thing equipment,
-            CompModularWeaponNode root, Vector3 target)
-        {
             Map map = shooter?.Map;
             if (root?.Props.isAssemblyRoot != true
                 || equipment == null
@@ -185,7 +171,7 @@ namespace Helodrace.ModernWar
             float coefficient = root.MuzzleFlashCoefficient;
             if (profile == null || coefficient <= 0.001f) return;
 
-            Vector3 shotDirection = target - shooter.DrawPos;
+            Vector3 shotDirection = verb.CurrentTarget.CenterVector3 - shooter.DrawPos;
             shotDirection.y = 0f;
             if (shotDirection.sqrMagnitude < 0.0001f)
                 shotDirection = shooter.Rotation.FacingCell.ToVector3();

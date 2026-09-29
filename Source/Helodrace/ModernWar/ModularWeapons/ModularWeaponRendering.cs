@@ -264,17 +264,13 @@ namespace Helodrace.ModernWar
             bool flipped,
             Mesh mesh)
         {
-            List<ModularRenderNode> nodes = FluxRaiderCinematic.WithVisualSpare(
-                comp, ModularWeaponVisualLayers.Expand(comp.RenderSnapshot()));
+            List<ModularRenderNode> nodes = ModularWeaponVisualLayers.Expand(comp.RenderSnapshot());
             DrawRealtimeOutlines(comp, nodes, drawLoc, bodyAngle, flipped, mesh);
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
-                bool cinematicMagazine = FluxRaiderCinematic.TryMagazinePose(
-                    comp, node, out _, out _, out float graphicLayer);
-                if (!cinematicMagazine
-                    && ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
+                if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
 
                 Graphic graphic = node.Graphic;
@@ -294,7 +290,7 @@ namespace Helodrace.ModernWar
                 if (flipped) local.x = -local.x;
                 Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
                 Vector3 position = drawLoc + new Vector3(worldOffset.x, 0f, worldOffset.y);
-                position.y += graphicLayer * LayerAltitudeStep;
+                position.y += node.GraphicLayer * LayerAltitudeStep;
 
                 Vector2 scale = AbsoluteScale(node.GraphicScale);
                 Vector3 size = new Vector3(
@@ -325,9 +321,7 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
-                if (!FluxRaiderCinematic.TryMagazinePose(comp, node,
-                    out _, out _, out _)
-                    && ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
+                if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
                 Graphic graphic = node.Graphic;
                 Material material = OutlineMaterial(node);
@@ -406,42 +400,8 @@ namespace Helodrace.ModernWar
                 ancestorComp = ancestor.parentComp;
             }
 
-            if (FluxRaiderCinematic.TryMagazinePose(root, node,
-                out Vector2 reloadOffset, out float reloadAngle, out _))
-            {
-                center += reloadOffset;
-                graphAngle += reloadAngle;
-            }
-            else
-                center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
-                    * Mathf.Max(0.01f, root.Props.assemblyScale);
-
-            if (node.thing?.def?.defName == "HD_ModularPart_Stock_FluxRaiderKit"
-                && node.attachedToRail && node.parentSocketId == "stock")
-            {
-                Pawn wielder = (root.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
-                if (FluxRaiderCinematic.Active(wielder))
-                {
-                    ModularAttachmentSocket track = node.parentComp?.Props.SocketNamed("stock");
-                    ModularAttachmentMount mount = node.Props.MountNamed(node.mountId);
-                    if (track?.isRail == true && track.railLength > 0f && mount != null)
-                    {
-                        float contactLength = mount.EffectiveRailContactLength
-                            * node.parentComp.PaletteRatioFor(node.comp);
-                        float travel = (track.railLength - Mathf.Max(0f, contactLength)) * 0.5f;
-                        if (travel > 0f)
-                        {
-                            // The render snapshot is positioned at the configured rail
-                            // offset. Move only its image along that same rail axis.
-                            float desiredOffset = Mathf.Lerp(travel, -travel,
-                                FluxRaiderCinematic.StockExtension(wielder));
-                            Vector2 railAxis = (node.railEnd - node.railStart)
-                                / track.railLength;
-                            center += railAxis * (desiredOffset - node.railOffset);
-                        }
-                    }
-                }
-            }
+            center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
+                * Mathf.Max(0.01f, root.Props.assemblyScale);
         }
 
         private static Vector2 AnimateLocalPoint(
