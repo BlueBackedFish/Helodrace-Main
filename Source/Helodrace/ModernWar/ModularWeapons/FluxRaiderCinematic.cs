@@ -110,8 +110,16 @@ namespace Helodrace.ModernWar
 
         public static void ApplyLockedDirection(Pawn pawn)
         {
-            if (TryLockedDirection(pawn, out Rot4 direction) && pawn.Rotation != direction)
-                pawn.Rotation = direction;
+            if (TryLockedDirection(pawn, out Rot4 direction))
+            {
+                if (pawn.Rotation != direction) pawn.Rotation = direction;
+                return;
+            }
+            if (TryVisualAimAngle(pawn, out float aimAngle))
+            {
+                Rot4 facing = Rot4.FromAngleFlat(aimAngle);
+                if (pawn.Rotation != facing) pawn.Rotation = facing;
+            }
         }
 
         public static void GetLowReady(Pawn pawn, out Vector2 offset, out float angle)
@@ -243,6 +251,20 @@ namespace Helodrace.ModernWar
                 && state.aimCell.IsValid)
                 return new LocalTargetInfo(state.aimCell);
             return new LocalTargetInfo(pawn.Position + facing.FacingCell * 6);
+        }
+
+        public static bool TryVisualAimAngle(Pawn pawn, out float angle)
+        {
+            angle = 0f;
+            State state = For(pawn);
+            if (state?.vanillaAim != true || state.aimMap != pawn.Map
+                || !state.aimCell.IsValid) return false;
+            Vector3 direction = new LocalTargetInfo(state.aimCell).CenterVector3
+                - pawn.DrawPos;
+            direction.y = 0f;
+            if (direction.sqrMagnitude < 0.001f) return false;
+            angle = direction.AngleFlat();
+            return true;
         }
 
         public static void SetPose(Pawn pawn, FluxCinematicPose pose)
@@ -532,6 +554,16 @@ namespace Helodrace.ModernWar
         public static void AdjustWeapon(Pawn pawn, ref Vector3 drawLoc, ref float aimAngle)
         {
             if (!Active(pawn)) return;
+            if (TryVisualAimAngle(pawn, out float targetAngle))
+            {
+                Vector3 offset = drawLoc - pawn.DrawPos;
+                float altitude = drawLoc.y;
+                offset.y = 0f;
+                drawLoc = pawn.DrawPos
+                    + offset.RotatedBy(Mathf.DeltaAngle(aimAngle, targetAngle));
+                drawLoc.y = altitude;
+                aimAngle = targetAngle;
+            }
             float raise = Raise(pawn);
             Rot4 facing = TryLockedDirection(pawn, out Rot4 locked) ? locked : pawn.Rotation;
             float side = facing == Rot4.West ? -1f : 1f;
@@ -606,6 +638,8 @@ namespace Helodrace.ModernWar
         {
             if (FluxRaiderCinematic.TryLockedDirection(___pawn, out Rot4 direction))
                 __result = direction;
+            else if (FluxRaiderCinematic.TryVisualAimAngle(___pawn, out float angle))
+                __result = Rot4.FromAngleFlat(angle);
         }
     }
 
@@ -797,7 +831,7 @@ namespace Helodrace.ModernWar
     internal static class Patch_FluxRaiderCinematicEquipmentPose
     {
         [HarmonyPrefix]
-        [HarmonyPriority(Priority.First)]
+        [HarmonyPriority(Priority.High)]
         private static void Prefix(Thing eq, ref Vector3 drawLoc, ref float aimAngle)
         {
             Pawn pawn = (eq?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
