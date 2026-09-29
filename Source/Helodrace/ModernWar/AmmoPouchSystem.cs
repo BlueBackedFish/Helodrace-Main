@@ -9,9 +9,24 @@ namespace Helodrace.ModernWar
 {
     public sealed class CompProperties_AmmoPouch : CompProperties
     {
+        // Armor pouches follow the weapon; mounted spare magazines use their own count.
+        public int fixedCapacity;
+        public ThingDef emptyEjectMoteDef;
+
         public CompProperties_AmmoPouch()
         {
             compClass = typeof(CompAmmoPouch);
+        }
+
+        public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
+        {
+            foreach (string error in base.ConfigErrors(parentDef)) yield return error;
+            if (fixedCapacity < 0)
+                yield return parentDef.defName + " has a negative fixed ammo pouch capacity.";
+            if (emptyEjectMoteDef != null && (fixedCapacity <= 0
+                || emptyEjectMoteDef.thingClass == null
+                || !typeof(MoteThrown).IsAssignableFrom(emptyEjectMoteDef.thingClass)))
+                yield return parentDef.defName + " has an invalid empty magazine ejection mote.";
         }
     }
 
@@ -22,6 +37,8 @@ namespace Helodrace.ModernWar
         private float remainingFraction = 1f;
 
         public float RemainingFraction => Mathf.Clamp01(remainingFraction);
+        public int FixedCapacity => ((CompProperties_AmmoPouch)props).fixedCapacity;
+        public ThingDef EmptyEjectMoteDef => ((CompProperties_AmmoPouch)props).emptyEjectMoteDef;
 
         public override void PostExposeData()
         {
@@ -32,10 +49,12 @@ namespace Helodrace.ModernWar
         }
 
         public int RoundsFor(int capacity) =>
-            AmmoPouchRules.RoundsFor(RemainingFraction, capacity);
+            AmmoPouchRules.RoundsFor(RemainingFraction,
+                AmmoPouchRules.Capacity(FixedCapacity, capacity));
 
         public bool ConsumeShot(int capacity)
         {
+            capacity = AmmoPouchRules.Capacity(FixedCapacity, capacity);
             int rounds = RoundsFor(capacity);
             if (rounds <= 0) return false;
             remainingFraction = AmmoPouchRules.AfterShot(rounds, capacity);
@@ -52,6 +71,8 @@ namespace Helodrace.ModernWar
 
         public override string CompInspectStringExtra()
         {
+            if (FixedCapacity > 0)
+                return "HD_AmmoPouch_Rounds".Translate(RoundsFor(0), FixedCapacity);
             return "HD_AmmoPouch_StoredPercent".Translate(
                 RemainingFraction.ToStringPercent());
         }
@@ -59,6 +80,20 @@ namespace Helodrace.ModernWar
 
     public static class AmmoPouchUtility
     {
+        private const string FrontMagazineSocket = "front_magazine";
+
+        private static ModularRenderNode FrontMagazine(ThingWithComps weapon)
+        {
+            CompModularWeaponNode root = weapon?.TryGetComp<CompModularWeaponNode>();
+            if (root?.Props.isAssemblyRoot != true) return null;
+            foreach (ModularRenderNode node in root.RenderSnapshot())
+                if (node.parentSocketId == FrontMagazineSocket
+                    && (node.thing as ThingWithComps)?.TryGetComp<CompAmmoPouch>()
+                        ?.FixedCapacity > 0)
+                    return node;
+            return null;
+        }
+
         public static int CapacityFor(ThingWithComps weapon)
         {
             if (weapon == null || !weapon.def.IsRangedWeapon) return 0;
@@ -93,6 +128,9 @@ namespace Helodrace.ModernWar
 
         public static bool HasRounds(Pawn pawn, ThingWithComps weapon)
         {
+            ModularRenderNode front = FrontMagazine(weapon);
+            if ((front?.thing as ThingWithComps)?.TryGetComp<CompAmmoPouch>()
+                ?.RoundsFor(0) > 0) return true;
             int capacity = CapacityFor(weapon);
             if (capacity <= 0) return false;
             foreach (CompAmmoPouch pouch in WornPouches(pawn))
@@ -100,12 +138,60 @@ namespace Helodrace.ModernWar
             return false;
         }
 
-        public static void ConsumeShot(Pawn pawn, ThingWithComps weapon)
+        public static void ConsumeShot(Pawn pawn, ThingWithComps weapon, Verb verb = null)
         {
+            ModularRenderNode front = FrontMagazine(weapon);
+            CompAmmoPouch frontPouch = (front?.thing as ThingWithComps)
+                ?.TryGetComp<CompAmmoPouch>();
+            if (frontPouch != null && frontPouch.ConsumeShot(0))
+            {
+                if (frontPouch.RoundsFor(0) == 0)
+                {
+                    TryAnimateEmptyMagazine(pawn, weapon, verb, front, frontPouch.EmptyEjectMoteDef);
+                    Thing spent = front.parentComp?.DetachFromSocket(FrontMagazineSocket);
+                    spent?.Destroy();
+                }
+                return;
+            }
             int capacity = CapacityFor(weapon);
             if (capacity <= 0) return;
             foreach (CompAmmoPouch pouch in WornPouches(pawn))
                 if (pouch.ConsumeShot(capacity)) return;
+        }
+
+        private static void TryAnimateEmptyMagazine(Pawn pawn, ThingWithComps weapon,
+            Verb verb, ModularRenderNode node, ThingDef moteDef)
+        {
+            if (moteDef == null || pawn?.Map == null || !pawn.Spawned || verb == null)
+                return;
+
+            Vector3 direction = verb.CurrentTarget.CenterVector3 - pawn.DrawPos;
+            direction.y = 0f;
+            if (direction.sqrMagnitude < 0.0001f)
+                direction = pawn.Rotation.FacingCell.ToVector3();
+            direction.Normalize();
+            float aimAngle = direction.AngleFlat();
+
+            Vector3 gunCenter;
+            float bodyAngle;
+            bool flipped;
+            ModularWeaponAimingPoseUtility.Resolve(weapon, pawn, aimAngle,
+                out gunCenter, out bodyAngle, out flipped);
+            Vector2 local = node.transform.TransformPoint(node.Props.graphicOffset);
+            if (flipped) local.x = -local.x;
+            Vector3 origin = gunCenter + Quaternion.AngleAxis(bodyAngle, Vector3.up)
+                * new Vector3(local.x, 0f, local.y);
+            if (!origin.ToIntVec3().InBounds(pawn.Map)) return;
+
+            MoteThrown mote = ThingMaker.MakeThing(moteDef) as MoteThrown;
+            if (mote == null) return;
+            GenSpawn.Spawn(mote, origin.ToIntVec3(), pawn.Map);
+            mote.exactPosition = origin;
+            mote.exactRotation = bodyAngle
+                + (flipped ? node.transform.angle : -node.transform.angle);
+            mote.rotationRate = Rand.Range(-250f, 250f);
+            mote.SetVelocity(aimAngle + (flipped ? -115f : 115f),
+                Rand.Range(0.6f, 0.9f));
         }
 
         public static void ApplyCooldown(Thing weapon, ref float seconds)
@@ -130,7 +216,7 @@ namespace Helodrace.ModernWar
             if (__result && __instance?.CasterPawn is Pawn pawn
                 && __instance.EquipmentSource is ThingWithComps weapon
                 && pawn.equipment?.Primary == weapon)
-                AmmoPouchUtility.ConsumeShot(pawn, weapon);
+                AmmoPouchUtility.ConsumeShot(pawn, weapon, __instance);
         }
     }
 }

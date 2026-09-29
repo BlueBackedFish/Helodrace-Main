@@ -7,6 +7,9 @@ namespace Helodrace.ModernWar
         public const float CooldownMultiplier = 0.75f;
         public const int CarbonSteelForFullMagazine = 5;
 
+        public static int Capacity(int fixedCapacity, int weaponCapacity) =>
+            fixedCapacity > 0 ? fixedCapacity : weaponCapacity;
+
         public static int EstimateCapacity(int burstShots, float projectileDamage)
         {
             // Stable fallback for weapons without an authored modular magazine.

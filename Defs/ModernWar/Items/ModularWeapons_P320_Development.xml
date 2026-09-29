@@ -27,11 +27,13 @@
         <li><id>stock</id><label>Flux stock extension track</label><tags><li>flux_raider_stock</li></tags><isRail>true</isRail><railLength>0.31</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.375,0,0.03)</position></transform></li>
         <li><id>rail_top</id><label>Flux upper rail</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.07</railLength><maxAttachments>1</maxAttachments><railSurface>Top</railSurface><transform><position>(-0.195,0,0.144)</position></transform></li>
         <li><id>rail_lower</id><label>Flux lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.075</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.16,0,0.037)</position></transform></li>
+        <li><id>front_magazine</id><label>Flux front spare magazine well</label><tags><li>flux_front_magazine</li></tags><transform><position>(0.018,0,-0.082)</position></transform></li>
       </sockets>
       <defaultAttachments>
         <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FluxRaiderKit</part><railOffset>-0.145</railOffset></li>
         <li><socketId>rail_top</socketId><part>HD_ModularPart_Mount_T2Low</part></li>
         <li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.0125</railOffset></li>
+        <li><socketId>front_magazine</socketId><part>HD_ModularPart_FrontMagazine_P32021</part></li>
       </defaultAttachments>
     </li></comps>
   </ThingDef>
@@ -171,6 +173,35 @@
       <internalStats><massKg>0.36</massKg><ergonomics>-8</ergonomics><muzzleRise>-1</muzzleRise></internalStats>
       <mounts><li><id>suppressor_mount</id><socketTags><li>p320_muzzle_9mm</li></socketTags><transform><position>(0.183,0,0.09)</position></transform></li></mounts>
     </li></comps>
+  </ThingDef>
+
+  <!-- Spare magazines are independent consumable pouches, not feed magazines.
+       Keep magazineCapacity unset so they never change the weapon's active feed. -->
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_FrontMagazine_P32017</defName><label>17-round Flux Raider spare magazine</label>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32017</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>1</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
+      <li Class="Helodrace.ModernWar.CompProperties_AmmoPouch"><fixedCapacity>17</fixedCapacity><emptyEjectMoteDef>HD_Mote_FrontMagazine_P32017</emptyEjectMoteDef></li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_FrontMagazine_P32021</defName><label>21-round Flux Raider spare magazine</label>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32021</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>1</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
+      <li Class="Helodrace.ModernWar.CompProperties_AmmoPouch"><fixedCapacity>21</fixedCapacity><emptyEjectMoteDef>HD_Mote_FrontMagazine_P32021</emptyEjectMoteDef></li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_FrontMagazine_P32030</defName><label>30-round Flux Raider spare magazine</label>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32030</texPath></graphicData>
+    <comps>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>1</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
+      <li Class="Helodrace.ModernWar.CompProperties_AmmoPouch"><fixedCapacity>30</fixedCapacity><emptyEjectMoteDef>HD_Mote_FrontMagazine_P32030</emptyEjectMoteDef></li>
+    </comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">

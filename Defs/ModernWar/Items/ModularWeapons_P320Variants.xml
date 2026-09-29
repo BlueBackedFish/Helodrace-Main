@@ -25,11 +25,13 @@
         <li><id>stock</id><label>Flux stock extension track</label><tags><li>flux_raider_stock</li></tags><isRail>true</isRail><railLength>0.31</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.375,0,0.03)</position></transform></li>
         <li><id>rail_top</id><label>Flux upper rail</label><tags><li>picatinny</li><li>top_rail</li></tags><isRail>true</isRail><railLength>0.07</railLength><maxAttachments>1</maxAttachments><railSurface>Top</railSurface><transform><position>(-0.195,0,0.144)</position></transform></li>
         <li><id>rail_lower</id><label>Flux lower rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.075</railLength><maxAttachments>1</maxAttachments><railSurface>Bottom</railSurface><transform><position>(0.16,0,0.037)</position></transform></li>
+        <li><id>front_magazine</id><label>Flux front spare magazine well</label><tags><li>flux_front_magazine</li></tags><transform><position>(0.018,0,-0.082)</position></transform></li>
       </sockets>
       <defaultAttachments>
         <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FluxRaiderKit</part><railOffset>-0.145</railOffset></li>
         <li><socketId>rail_top</socketId><part>HD_ModularPart_Mount_T2Low</part></li>
         <li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.0125</railOffset></li>
+        <li><socketId>front_magazine</socketId><part>HD_ModularPart_FrontMagazine_P32021</part></li>
       </defaultAttachments>
     </li></comps>
   </ThingDef>

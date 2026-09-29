@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
+  <!-- The spare magazine is removed from the weapon on its final shot. These
+       short-lived motes show the empty magazine falling without spawning an
+       unselectable virtual modular part on the map. -->
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_Mote_FrontMagazine_P32017</defName><label>falling 17-round P320 magazine</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32017</texPath><graphicClass>Graphic_Mote</graphicClass><drawSize>(0.5,0.5)</drawSize></graphicData>
+    <mote><fadeInTime>0</fadeInTime><solidTime>0.45</solidTime><fadeOutTime>0.2</fadeOutTime><archHeight>0.08</archHeight><archDuration>0.28</archDuration><speedPerTime>-2.8</speedPerTime></mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_Mote_FrontMagazine_P32021</defName><label>falling 21-round P320 magazine</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32021</texPath><graphicClass>Graphic_Mote</graphicClass><drawSize>(0.5,0.5)</drawSize></graphicData>
+    <mote><fadeInTime>0</fadeInTime><solidTime>0.45</solidTime><fadeOutTime>0.2</fadeOutTime><archHeight>0.08</archHeight><archDuration>0.28</archDuration><speedPerTime>-2.8</speedPerTime></mote>
+  </ThingDef>
+  <ThingDef ParentName="MoteBase">
+    <defName>HD_Mote_FrontMagazine_P32030</defName><label>falling 30-round P320 magazine</label>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32030</texPath><graphicClass>Graphic_Mote</graphicClass><drawSize>(0.5,0.5)</drawSize></graphicData>
+    <mote><fadeInTime>0</fadeInTime><solidTime>0.45</solidTime><fadeOutTime>0.2</fadeOutTime><archHeight>0.08</archHeight><archDuration>0.28</archDuration><speedPerTime>-2.8</speedPerTime></mote>
+  </ThingDef>
+
   <!-- Short-lived thrown motes used by modular ammunition selectors. The transparent
        source canvases keep each casing's authored proportions while the mote draw size
        controls its in-world scale. -->

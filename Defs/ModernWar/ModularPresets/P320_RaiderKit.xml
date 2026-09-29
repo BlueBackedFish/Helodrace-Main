@@ -56,6 +56,11 @@
             <mountId>rail_mount</mountId>
             <railOffset>0.0125</railOffset>
           </li>
+          <li>
+            <part>HD_ModularPart_FrontMagazine_P32021</part>
+            <socketId>front_magazine</socketId>
+            <mountId>front_magazine_mount</mountId>
+          </li>
         </children>
       </li>
       <li>
