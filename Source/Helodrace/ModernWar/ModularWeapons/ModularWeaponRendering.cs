@@ -264,14 +264,18 @@ namespace Helodrace.ModernWar
             bool flipped,
             Mesh mesh)
         {
-            List<ModularRenderNode> nodes = ModularWeaponVisualLayers.Expand(comp.RenderSnapshot());
+            List<ModularRenderNode> nodes = FluxRaiderCinematic.WithVisualSpare(
+                comp, ModularWeaponVisualLayers.Expand(comp.RenderSnapshot()));
             DrawRealtimeOutlines(comp, nodes, drawLoc, bodyAngle, flipped, mesh);
             for (int i = 0; i < nodes.Count; i++)
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
-                if (FluxRaiderCinematic.HideReloadNode(comp, node)) continue;
-                if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
+                if (FluxRaiderCinematic.HideDroppedMagazine(comp, node)) continue;
+                bool cinematicMagazine = FluxRaiderCinematic.TryMagazinePose(
+                    comp, node, out _, out _, out float graphicLayer);
+                if (!cinematicMagazine
+                    && ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
 
                 Graphic graphic = node.Graphic;
@@ -291,7 +295,7 @@ namespace Helodrace.ModernWar
                 if (flipped) local.x = -local.x;
                 Vector2 worldOffset = RotateForWorldYaw(local, bodyAngle);
                 Vector3 position = drawLoc + new Vector3(worldOffset.x, 0f, worldOffset.y);
-                position.y += node.GraphicLayer * LayerAltitudeStep;
+                position.y += graphicLayer * LayerAltitudeStep;
 
                 Vector2 scale = AbsoluteScale(node.GraphicScale);
                 Vector3 size = new Vector3(
@@ -322,8 +326,10 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
-                if (FluxRaiderCinematic.HideReloadNode(comp, node)) continue;
-                if (ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
+                if (FluxRaiderCinematic.HideDroppedMagazine(comp, node)) continue;
+                if (!FluxRaiderCinematic.TryMagazinePose(comp, node,
+                    out _, out _, out _)
+                    && ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
                     continue;
                 Graphic graphic = node.Graphic;
                 Material material = OutlineMaterial(node);
@@ -402,9 +408,12 @@ namespace Helodrace.ModernWar
                 ancestorComp = ancestor.parentComp;
             }
 
-            Vector2 reloadOffset;
-            if (FluxRaiderCinematic.ReloadMagazineOffset(root, node, out reloadOffset))
-                center += reloadOffset * Mathf.Max(0.01f, root.Props.assemblyScale);
+            if (FluxRaiderCinematic.TryMagazinePose(root, node,
+                out Vector2 reloadOffset, out float reloadAngle, out _))
+            {
+                center += reloadOffset;
+                graphAngle += reloadAngle;
+            }
             else
                 center += ModularWeaponCycleUtility.ReloadMagazineOffset(root, node)
                     * Mathf.Max(0.01f, root.Props.assemblyScale);
@@ -435,7 +444,6 @@ namespace Helodrace.ModernWar
                     }
                 }
             }
-            center += FluxRaiderCinematic.FrontMagazineOffset(root, node);
         }
 
         private static Vector2 AnimateLocalPoint(

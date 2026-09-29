@@ -22,18 +22,19 @@ namespace Helodrace.ModernWar
             public float fromRaise;
             public int transitionTick;
             public bool emittersOn;
-            public int reloadTick = -1000;
-            public bool frontMagazineConsumed;
+            public int reloadTick;
+            public bool reloadPlayed;
+            public float reloadPreview = -1f;
             public int lastDustTick = -1000;
             public bool directionLocked;
             public Rot4 lockedDirection;
             public Vector2 lowReadyOffset = new Vector2(0f, -0.26f);
             public float lowReadyAngle = 28f;
+            public ThingWithComps visualSpare;
         }
 
         private static readonly Dictionary<int, State> states = new Dictionary<int, State>();
         private const int RaiseTicks = 14;
-        private const int ReloadTicks = 72;
 
         public static bool IsFluxRaider(Pawn pawn)
         {
@@ -47,10 +48,16 @@ namespace Helodrace.ModernWar
 
         private static State For(Pawn pawn)
         {
-            if (!Prefs.DevMode || !IsFluxRaider(pawn)) return null;
-            int weaponId = pawn.equipment.Primary.thingIDNumber;
-            return states.TryGetValue(pawn.thingIDNumber, out State state)
-                && state.weaponId == weaponId ? state : null;
+            if (!Prefs.DevMode || pawn == null
+                || !states.TryGetValue(pawn.thingIDNumber, out State state))
+                return null;
+            if (pawn.equipment?.Primary?.thingIDNumber != state.weaponId
+                || !IsFluxRaider(pawn))
+            {
+                states.Remove(pawn.thingIDNumber);
+                return null;
+            }
+            return state;
         }
 
         private static int Now => Find.TickManager?.TicksGame ?? 0;
@@ -157,7 +164,30 @@ namespace Helodrace.ModernWar
             State state = For(pawn);
             if (state == null) return;
             state.reloadTick = Now;
-            state.frontMagazineConsumed = false;
+            state.reloadPlayed = true;
+            state.reloadPreview = -1f;
+        }
+
+        public static bool HasReloadPlayed(Pawn pawn) => For(pawn)?.reloadPlayed == true;
+
+        public static void ResetReload(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state == null) return;
+            state.reloadPlayed = false;
+            state.reloadPreview = -1f;
+        }
+
+        public static void SetReloadPreview(Pawn pawn, float progress)
+        {
+            State state = For(pawn);
+            if (state != null) state.reloadPreview = Mathf.Clamp01(progress);
+        }
+
+        public static void ClearReloadPreview(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state != null) state.reloadPreview = -1f;
         }
 
         public static void ToggleEmitters(Pawn pawn)
@@ -172,33 +202,116 @@ namespace Helodrace.ModernWar
             Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
             State state = For(pawn);
             if (state == null || state.weaponId != root.parent.thingIDNumber) return false;
-            int elapsed = Now - state.reloadTick;
-            if (elapsed >= Mathf.RoundToInt(ReloadTicks * 0.88f))
-                state.frontMagazineConsumed = true;
-            if (elapsed < 0 || elapsed >= ReloadTicks) return false;
-            progress = elapsed / (float)ReloadTicks;
+            if (state.reloadPreview >= 0f)
+            {
+                progress = state.reloadPreview;
+                return true;
+            }
+            if (!state.reloadPlayed) return false;
+            int duration = FluxRaiderReloadTimeline.Settings.reloadDurationTicks;
+            progress = Mathf.Clamp01((Now - state.reloadTick)
+                / (float)Mathf.Max(12, duration));
             return true;
         }
 
-        public static bool ReloadMagazineOffset(CompModularWeaponNode root,
-            ModularRenderNode node, out Vector2 offset)
+        public static bool TryMagazinePose(CompModularWeaponNode root,
+            ModularRenderNode node, out Vector2 offset, out float angle,
+            out float layer)
         {
             offset = Vector2.zero;
-            if (node == null || !IsMagazineNode(node) || !ReloadProgress(root, out float progress))
+            angle = 0f;
+            layer = node?.GraphicLayer ?? 0f;
+            if (node == null || !ReloadProgress(root, out float progress))
                 return false;
-            // The original magazine falls freely; the replacement comes up from the
-            // support hand and seats after the old one has cleared the frame.
-            if (progress < 0.12f) return true;
-            if (progress < 0.53f)
+            bool spare = IsFrontMagazine(node);
+            if (!spare && !IsMagazineNode(node)) return false;
+            FluxMagazineKeyframe frame = FluxRaiderReloadTimeline.Sample(
+                spare ? FluxRaiderReloadTimeline.Settings.Spare
+                    : FluxRaiderReloadTimeline.Settings.Dropped,
+                progress);
+            offset = new Vector2(frame.x, frame.z)
+                * Mathf.Max(0.01f, root.Props.assemblyScale);
+            angle = frame.angle;
+            if (spare)
             {
-                float fall = Mathf.InverseLerp(0.12f, 0.53f, progress);
-                offset = new Vector2(0.04f * fall, -0.68f * fall * fall);
-                return true;
+                ModularRenderNode magazine = root.RenderSnapshot()
+                    .FirstOrDefault(n => n.Props.magazineCapacity > 0);
+                if (magazine != null)
+                {
+                    offset += (magazine.GraphicCenter - node.GraphicCenter)
+                        * frame.travel;
+                    layer = Mathf.Lerp(node.GraphicLayer, magazine.GraphicLayer,
+                        frame.travel);
+                }
             }
-            float seat = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.53f, 0.88f, progress));
-            offset = new Vector2(-0.14f * (1f - seat), -0.42f * (1f - seat));
             return true;
         }
+
+        public static bool HideDroppedMagazine(CompModularWeaponNode root,
+            ModularRenderNode node)
+        {
+            return node != null && !IsFrontMagazine(node)
+                && IsMagazineNode(node)
+                && ReloadProgress(root, out float progress) && progress >= 1f;
+        }
+
+        public static List<ModularRenderNode> WithVisualSpare(
+            CompModularWeaponNode root, List<ModularRenderNode> visibleNodes)
+        {
+            Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
+            State state = For(pawn);
+            if (state == null || visibleNodes == null
+                || visibleNodes.Any(IsFrontMagazine)) return visibleNodes;
+
+            List<ModularRenderNode> assembly = root.RenderSnapshot();
+            ModularRenderNode receiver = assembly.FirstOrDefault(n =>
+                n.thing?.def?.defName == "HD_ModularPart_Receiver_FluxRaiderKit"
+                || n.thing?.def?.defName == "HD_ModularPart_Receiver_FluxRaiderKitTan");
+            ModularAttachmentSocket socket = receiver?.Props.SocketNamed("front_magazine");
+            if (socket == null) return visibleNodes;
+
+            if (state.visualSpare == null)
+            {
+                int capacity = assembly.FirstOrDefault(n => n.Props.magazineCapacity > 0)
+                    ?.Props.magazineCapacity ?? 21;
+                if (capacity != 17 && capacity != 21 && capacity != 30)
+                    capacity = 21;
+                ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(
+                    "HD_ModularPart_FrontMagazine_P320" + capacity);
+                state.visualSpare = def == null ? null
+                    : ThingMaker.MakeThing(def) as ThingWithComps;
+            }
+            CompModularWeaponNode spareComp = state.visualSpare
+                ?.GetComp<CompModularWeaponNode>();
+            ModularAttachmentMount mount = spareComp?.Props.MountNamed(
+                "front_magazine_mount");
+            if (mount == null) return visibleNodes;
+
+            float paletteRatio = ModularWeaponPaletteScaleUtility.Relative(
+                state.visualSpare.def, receiver.thing.def);
+            ModularTransform2D transform = receiver.transform.Attach(
+                socket.transform, mount.EffectiveTransform(socket),
+                spareComp.Props.graphicAngle, paletteRatio);
+            ModularRenderNode visual = new ModularRenderNode
+            {
+                path = receiver.path + "/front_magazine[cinematic]",
+                depth = receiver.depth + 1,
+                thing = state.visualSpare,
+                comp = spareComp,
+                transform = transform,
+                parentSocketId = "front_magazine",
+                mountId = "front_magazine_mount",
+                parentComp = receiver.comp
+            };
+            List<ModularRenderNode> result = new List<ModularRenderNode>(visibleNodes);
+            int insertAt = result.FindIndex(n => n.GraphicLayer > visual.GraphicLayer);
+            if (insertAt < 0) result.Add(visual);
+            else result.Insert(insertAt, visual);
+            return result;
+        }
+
+        private static bool IsFrontMagazine(ModularRenderNode node) =>
+            node?.thing?.def?.defName.StartsWith("HD_ModularPart_FrontMagazine_P320") == true;
 
         private static bool IsMagazineNode(ModularRenderNode node)
         {
@@ -209,33 +322,6 @@ namespace Helodrace.ModernWar
                 comp = comp.parent?.ParentHolder as CompModularWeaponNode;
             }
             return false;
-        }
-
-        public static bool HideReloadNode(CompModularWeaponNode root, ModularRenderNode node)
-        {
-            Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
-            State state = For(pawn);
-            if (state == null || node?.thing?.def == null) return false;
-            bool front = node.thing.def.defName.StartsWith("HD_ModularPart_FrontMagazine_P320");
-            if (!ReloadProgress(root, out float progress))
-                return front && state.frontMagazineConsumed;
-            if (front) return progress >= 0.88f;
-            return IsMagazineNode(node) && progress >= 0.53f && progress < 0.88f;
-        }
-
-        public static Vector2 FrontMagazineOffset(CompModularWeaponNode root,
-            ModularRenderNode node)
-        {
-            if (node?.thing?.def?.defName.StartsWith("HD_ModularPart_FrontMagazine_P320") != true
-                || !ReloadProgress(root, out float progress) || progress < 0.35f)
-                return Vector2.zero;
-            List<ModularRenderNode> nodes = root.RenderSnapshot();
-            ModularRenderNode magazine = nodes.FirstOrDefault(n => n.Props.magazineCapacity > 0);
-            if (magazine == null) return Vector2.zero;
-            float travel = Mathf.SmoothStep(0f, 1f,
-                Mathf.InverseLerp(0.35f, 0.88f, progress));
-            Vector2 delta = magazine.GraphicCenter - node.GraphicCenter;
-            return delta * travel + new Vector2(0.04f, -0.13f) * Mathf.Sin(travel * Mathf.PI);
         }
 
         public static void NotifyShot(Pawn pawn)
@@ -419,6 +505,24 @@ namespace Helodrace.ModernWar
                 icon = __instance.equipment.Primary.def.uiIcon,
                 action = () => FluxRaiderCinematic.StartReload(__instance)
             };
+            yield return new Command_Action
+            {
+                defaultLabel = "CINE: edit reload keyframes",
+                defaultDesc = "Set the drop and spare-magazine paths, then scrub a preview.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => Find.WindowStack.Add(
+                    new Dialog_FluxRaiderReloadKeyframes(__instance))
+            };
+            if (FluxRaiderCinematic.HasReloadPlayed(__instance))
+            {
+                yield return new Command_Action
+                {
+                    defaultLabel = "CINE: reset magazines",
+                    defaultDesc = "Return both magazines to their initial filming positions.",
+                    icon = __instance.equipment.Primary.def.uiIcon,
+                    action = () => FluxRaiderCinematic.ResetReload(__instance)
+                };
+            }
             yield return new Command_Action
             {
                 defaultLabel = FluxRaiderCinematic.EmittersOn(__instance)

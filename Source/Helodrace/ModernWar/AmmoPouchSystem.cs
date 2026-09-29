@@ -140,6 +140,10 @@ namespace Helodrace.ModernWar
 
         public static void ConsumeShot(Pawn pawn, ThingWithComps weapon, Verb verb = null)
         {
+            // The trailer reload moves this installed spare visually into the feed
+            // well. Keep its actual part attached during filming so ordinary shots
+            // cannot consume and destroy the prop between takes.
+            if (FluxRaiderCinematic.Active(pawn)) return;
             ModularRenderNode front = FrontMagazine(weapon);
             CompAmmoPouch frontPouch = (front?.thing as ThingWithComps)
                 ?.TryGetComp<CompAmmoPouch>();
