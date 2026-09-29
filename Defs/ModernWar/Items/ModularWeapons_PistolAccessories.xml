@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Mount_RMRLow</defName><label>RMR low Picatinny mount</label>
+    <description>A low-profile Picatinny mount with an RMR optic footprint.</description>
+    <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyUP_RMRMountLow</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost>
+      <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <graphicLayer>5</graphicLayer>
+      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.03</railOccupancy><railContactLength>0.02</railContactLength><physicalLength>0.03</physicalLength><railSurface>Top</railSurface><transform><position>(-0.2,0,0.143)</position></transform></li></mounts>
+      <sockets><li><id>optic</id><label>RMR optic footprint</label><tags><li>rmr_footprint</li></tags><transform><position>(-0.2,0,0.195)</position></transform></li></sockets>
+      <defaultAttachments><li><socketId>optic</socketId><part>HD_ModularPart_Optic_LumiconRMR</part></li></defaultAttachments>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Optic_LumiconRMR</defName><label>Lumicon RMR reflex sight</label>
+    <description>A compact reflex sight for an RMR-pattern mount.</description>
+    <graphicData><texPath>Weapons/Modular/Optics/HD_Sight_LumiconRMR</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost>
+      <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <graphicLayer>6</graphicLayer><verticalOccupancy>0.029</verticalOccupancy><verticalOccupancyOffset>0.168</verticalOccupancyOffset>
+      <sight><kind>Reflex</kind><axisOffset>(-0.2,0,0.168)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>25</selectionPriority></sight>
+      <internalStats><massKg>0.04</massKg><ergonomics>2</ergonomics><targetAcquisition>16</targetAcquisition><aimingPrecision>7</aimingPrecision><identificationDistanceMeters>45</identificationDistanceMeters></internalStats>
+      <statFactors><AccuracyShort>1.06</AccuracyShort><AccuracyMedium>1.03</AccuracyMedium></statFactors>
+      <mounts><li><id>optic_mount</id><socketTags><li>rmr_footprint</li></socketTags><transform><position>(-0.2,0,0.195)</position></transform></li></mounts>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Light_X300</defName><label>X300 pistol weapon light</label>
+    <description>A full-size pistol light for a lower Picatinny rail.</description>
+    <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyLOW_X300</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost>
+      <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <graphicLayer>5</graphicLayer><verticalOccupancy>0.033</verticalOccupancy><verticalOccupancyOffset>0.01</verticalOccupancyOffset>
+      <flashlight><emitterOffset>(0.19,0,0.025)</emitterOffset><color>(1,0.95,0.75,0.26)</color><nearWidth>0.28</nearWidth><farWidth>1.35</farWidth><circleRadius>0.65</circleRadius><closeRange>3.5</closeRange><maxRange>22</maxRange><hediff>HD_WeaponFlashlightDazzle</hediff></flashlight>
+      <internalStats><massKg>0.11</massKg><ergonomics>-2</ergonomics><targetAcquisition>2</targetAcquisition></internalStats>
+      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.065</railOccupancy><railContactLength>0.04</railContactLength><physicalLength>0.09</physicalLength><physicalCenterOffset>0.005</physicalCenterOffset><railSurface>Bottom</railSurface><transform><position>(0.1,0,0.04)</position></transform></li></mounts>
+    </li></comps>
+  </ThingDef>
+
+  <ThingDef ParentName="HD_ModularWeaponPartBase">
+    <defName>HD_ModularPart_Light_TLR7X</defName><label>TLR-7 X compact pistol light</label>
+    <description>A compact pistol light for a lower Picatinny rail.</description>
+    <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyLOW_TLR7X</texPath></graphicData>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
+      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost>
+      <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <graphicLayer>5</graphicLayer><verticalOccupancy>0.031</verticalOccupancy><verticalOccupancyOffset>0.01</verticalOccupancyOffset>
+      <flashlight><emitterOffset>(0.145,0,0.025)</emitterOffset><color>(1,0.95,0.75,0.24)</color><nearWidth>0.25</nearWidth><farWidth>1.2</farWidth><circleRadius>0.6</circleRadius><closeRange>3.5</closeRange><maxRange>20</maxRange><hediff>HD_WeaponFlashlightDazzle</hediff></flashlight>
+      <internalStats><massKg>0.075</massKg><ergonomics>-1</ergonomics><targetAcquisition>2</targetAcquisition></internalStats>
+      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.055</railOccupancy><railContactLength>0.035</railContactLength><physicalLength>0.065</physicalLength><railSurface>Bottom</railSurface><transform><position>(0.1,0,0.04)</position></transform></li></mounts>
+    </li></comps>
+  </ThingDef>
+
+</Defs>

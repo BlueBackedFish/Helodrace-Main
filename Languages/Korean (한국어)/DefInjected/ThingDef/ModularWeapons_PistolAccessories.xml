@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularPart_Mount_RMRLow.label>RMR 저상형 피카티니 마운트</HD_ModularPart_Mount_RMRLow.label>
+  <HD_ModularPart_Mount_RMRLow.description>RMR 규격 조준경을 피카티니 레일에 낮게 고정하는 마운트입니다.</HD_ModularPart_Mount_RMRLow.description>
+  <HD_ModularPart_Mount_RMRLow.comps.0.sockets.0.label>RMR 광학장비 장착 규격</HD_ModularPart_Mount_RMRLow.comps.0.sockets.0.label>
+  <HD_ModularPart_Optic_LumiconRMR.label>Lumicon RMR 반사식 조준기</HD_ModularPart_Optic_LumiconRMR.label>
+  <HD_ModularPart_Optic_LumiconRMR.description>RMR 규격 마운트에 장착하는 소형 반사식 조준기입니다.</HD_ModularPart_Optic_LumiconRMR.description>
+  <HD_ModularPart_Light_X300.label>X300 권총용 조명</HD_ModularPart_Light_X300.label>
+  <HD_ModularPart_Light_X300.description>하부 피카티니 레일에 장착하는 대형 권총용 조명입니다.</HD_ModularPart_Light_X300.description>
+  <HD_ModularPart_Light_TLR7X.label>TLR-7 X 소형 권총용 조명</HD_ModularPart_Light_TLR7X.label>
+  <HD_ModularPart_Light_TLR7X.description>하부 피카티니 레일에 장착하는 소형 권총용 조명입니다.</HD_ModularPart_Light_TLR7X.description>
+</LanguageData>
