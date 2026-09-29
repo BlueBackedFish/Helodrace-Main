@@ -96,10 +96,9 @@ namespace Helodrace.ModernWar
             new List<FluxMagazineKeyframe>
             {
                 new FluxMagazineKeyframe(0f, 0f, 0f, 0f),
-                new FluxMagazineKeyframe(0.12f, 0f, 0f, 0f),
-                new FluxMagazineKeyframe(0.3f, 0.02f, -0.3f, 8f),
-                new FluxMagazineKeyframe(0.53f, 0.04f, -0.68f, 18f),
-                new FluxMagazineKeyframe(1f, 0.04f, -0.68f, 18f)
+                new FluxMagazineKeyframe(0.27f, -0.02f, -0.07f, 0f),
+                new FluxMagazineKeyframe(0.65f, -0.11f, -0.40f, 0f),
+                new FluxMagazineKeyframe(1f, -0.05f, -1.07f, 8.93f)
             };
 
         private static List<FluxMagazineKeyframe> DefaultSpare() =>
@@ -107,9 +106,11 @@ namespace Helodrace.ModernWar
             {
                 new FluxMagazineKeyframe(0f, 0f, 0f, 0f, 0f),
                 new FluxMagazineKeyframe(0.35f, 0f, 0f, 0f, 0f),
-                new FluxMagazineKeyframe(0.53f, 0.05f, -0.2f, -8f, 0.35f),
-                new FluxMagazineKeyframe(0.8f, 0f, -0.05f, 0f, 0.9f),
-                new FluxMagazineKeyframe(0.88f, 0f, 0f, 0f, 1f),
+                new FluxMagazineKeyframe(0.51f, 0.03f, -0.11f, 0f, 0.35f),
+                new FluxMagazineKeyframe(0.66f, 0.03f, -0.26f, 0f, 0.62f),
+                new FluxMagazineKeyframe(0.80f, -0.04f, -0.19f, 16.86f, 0.90f),
+                new FluxMagazineKeyframe(0.88f, -0.03f, -0.06f, 7.93f, 0.90f),
+                new FluxMagazineKeyframe(0.93f, 0f, 0f, 0f, 1f),
                 new FluxMagazineKeyframe(1f, 0f, 0f, 0f, 1f)
             };
     }

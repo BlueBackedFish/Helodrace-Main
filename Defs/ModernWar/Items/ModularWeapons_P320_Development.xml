@@ -181,7 +181,7 @@
     <defName>HD_ModularPart_FrontMagazine_P32017</defName><label>17-round Flux Raider spare magazine</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32017</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>3</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>1</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
       <li Class="Helodrace.ModernWar.CompProperties_AmmoPouch"><fixedCapacity>17</fixedCapacity><emptyEjectMoteDef>HD_Mote_FrontMagazine_P32017</emptyEjectMoteDef></li>
     </comps>
   </ThingDef>
@@ -190,7 +190,7 @@
     <defName>HD_ModularPart_FrontMagazine_P32021</defName><label>21-round Flux Raider spare magazine</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32021</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>3</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>1</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
       <li Class="Helodrace.ModernWar.CompProperties_AmmoPouch"><fixedCapacity>21</fixedCapacity><emptyEjectMoteDef>HD_Mote_FrontMagazine_P32021</emptyEjectMoteDef></li>
     </comps>
   </ThingDef>
@@ -199,7 +199,7 @@
     <defName>HD_ModularPart_FrontMagazine_P32030</defName><label>30-round Flux Raider spare magazine</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_P32030</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>3</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch><graphicLayer>1</graphicLayer><mounts><li><id>front_magazine_mount</id><socketTags><li>flux_front_magazine</li></socketTags><transform><position>(-0.13,0,-0.04)</position></transform></li></mounts></li>
       <li Class="Helodrace.ModernWar.CompProperties_AmmoPouch"><fixedCapacity>30</fixedCapacity><emptyEjectMoteDef>HD_Mote_FrontMagazine_P32030</emptyEjectMoteDef></li>
     </comps>
   </ThingDef>

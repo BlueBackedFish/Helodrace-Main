@@ -271,7 +271,6 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
-                if (FluxRaiderCinematic.HideDroppedMagazine(comp, node)) continue;
                 bool cinematicMagazine = FluxRaiderCinematic.TryMagazinePose(
                     comp, node, out _, out _, out float graphicLayer);
                 if (!cinematicMagazine
@@ -326,7 +325,6 @@ namespace Helodrace.ModernWar
             {
                 ModularRenderNode node = nodes[i];
                 if (!ShouldDrawNode(node)) continue;
-                if (FluxRaiderCinematic.HideDroppedMagazine(comp, node)) continue;
                 if (!FluxRaiderCinematic.TryMagazinePose(comp, node,
                     out _, out _, out _)
                     && ModularWeaponCycleUtility.HideMagazineForReload(comp, node))
@@ -436,7 +434,7 @@ namespace Helodrace.ModernWar
                             // The render snapshot is positioned at the configured rail
                             // offset. Move only its image along that same rail axis.
                             float desiredOffset = Mathf.Lerp(travel, -travel,
-                                FluxRaiderCinematic.Raise(wielder));
+                                FluxRaiderCinematic.StockExtension(wielder));
                             Vector2 railAxis = (node.railEnd - node.railStart)
                                 / track.railLength;
                             center += railAxis * (desiredOffset - node.railOffset);
@@ -681,6 +679,19 @@ namespace Helodrace.ModernWar
             float max = root.def.graphicData?.onGroundRandomRotateAngle ?? 0f;
             if (max <= 0.01f) return 0f;
             return -max + (float)(root.thingIDNumber * 542) % (max * 2f);
+        }
+    }
+
+    [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAiming))]
+    internal static class Patch_DrawEquipmentAiming_HelodraceHeight
+    {
+        [HarmonyPrefix]
+        [HarmonyPriority(Priority.High)]
+        private static void Prefix(Thing eq, ref Vector3 drawLoc)
+        {
+            if (eq?.def?.IsRangedWeapon == true
+                && eq.def.modContentPack == HelodraceBase.Instance?.Content)
+                drawLoc.z += 0.05f;
         }
     }
 

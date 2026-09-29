@@ -168,7 +168,11 @@ namespace Helodrace.ModernWar
                 return root.parent.ParentHolder is Pawn_EquipmentTracker ? grip.amount : 0f;
             }
             if (kind == ModularWeaponAnimatedPartKind.Slide)
+            {
+                if (FluxRaiderCinematic.TrySlideAmount(root, out float cinematicSlide))
+                    return cinematicSlide;
                 return AnimationAmount(root, ModularWeaponAnimatedPartKind.Bolt);
+            }
             if (kind == ModularWeaponAnimatedPartKind.TiltingBarrel)
             {
                 float slide = AnimationAmount(root, ModularWeaponAnimatedPartKind.Slide);

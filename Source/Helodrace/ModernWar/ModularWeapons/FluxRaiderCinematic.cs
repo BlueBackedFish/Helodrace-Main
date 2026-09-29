@@ -20,11 +20,15 @@ namespace Helodrace.ModernWar
             public int weaponId;
             public FluxCinematicPose pose = FluxCinematicPose.LowReady;
             public float fromRaise;
+            public float fromStock;
+            public bool stockBeforeAim;
             public int transitionTick;
             public bool emittersOn;
             public int reloadTick;
             public bool reloadPlayed;
             public float reloadPreview = -1f;
+            public int slideLockTick = -1000;
+            public bool slideLocked;
             public int lastDustTick = -1000;
             public bool directionLocked;
             public Rot4 lockedDirection;
@@ -35,6 +39,7 @@ namespace Helodrace.ModernWar
 
         private static readonly Dictionary<int, State> states = new Dictionary<int, State>();
         private const int RaiseTicks = 14;
+        private const int StockLeadTicks = 10;
 
         public static bool IsFluxRaider(Pawn pawn)
         {
@@ -142,9 +147,42 @@ namespace Helodrace.ModernWar
             State state = For(pawn);
             if (state == null) return 1f;
             float target = state.pose == FluxCinematicPose.LowReady ? 0f : 1f;
-            float t = Mathf.SmoothStep(0f, 1f,
-                Mathf.Clamp01((Now - state.transitionTick) / (float)RaiseTicks));
+            int delay = target > state.fromRaise && state.stockBeforeAim
+                && state.fromStock < 0.99f
+                ? StockLeadTicks : 0;
+            float t = Ease((Now - state.transitionTick - delay) / (float)RaiseTicks);
             return Mathf.Lerp(state.fromRaise, target, t);
+        }
+
+        public static float StockExtension(Pawn pawn)
+        {
+            State state = For(pawn);
+            if (state == null) return 1f;
+            float target = state.pose == FluxCinematicPose.LowReady ? 0f : 1f;
+            int delay = target < state.fromStock && state.stockBeforeAim
+                ? RaiseTicks : 0;
+            int duration = state.stockBeforeAim ? StockLeadTicks : RaiseTicks;
+            float t = Ease((Now - state.transitionTick - delay) / (float)duration);
+            return Mathf.Lerp(state.fromStock, target, t);
+        }
+
+        private static float Ease(float progress)
+        {
+            float t = Mathf.Clamp01(progress);
+            return t * t * t * (t * (t * 6f - 15f) + 10f);
+        }
+
+        public static void SetAiming(Pawn pawn, bool stockBeforeAim)
+        {
+            State state = For(pawn);
+            if (state == null) return;
+            float currentRaise = Raise(pawn);
+            float currentStock = StockExtension(pawn);
+            state.stockBeforeAim = stockBeforeAim;
+            state.pose = FluxCinematicPose.Aiming;
+            state.fromRaise = currentRaise;
+            state.fromStock = currentStock;
+            state.transitionTick = Now;
         }
 
         public static void SetPose(Pawn pawn, FluxCinematicPose pose)
@@ -152,8 +190,10 @@ namespace Helodrace.ModernWar
             State state = For(pawn);
             if (state == null) return;
             float current = Raise(pawn);
+            float currentStock = StockExtension(pawn);
             state.pose = pose;
             state.fromRaise = current;
+            state.fromStock = currentStock;
             state.transitionTick = Now;
             if (pose == FluxCinematicPose.Lean || pose == FluxCinematicPose.Prone)
                 ThrowDust(pawn, 4);
@@ -166,6 +206,7 @@ namespace Helodrace.ModernWar
             state.reloadTick = Now;
             state.reloadPlayed = true;
             state.reloadPreview = -1f;
+            state.slideLocked = true;
         }
 
         public static bool HasReloadPlayed(Pawn pawn) => For(pawn)?.reloadPlayed == true;
@@ -176,6 +217,7 @@ namespace Helodrace.ModernWar
             if (state == null) return;
             state.reloadPlayed = false;
             state.reloadPreview = -1f;
+            state.slideLocked = false;
         }
 
         public static void SetReloadPreview(Pawn pawn, float progress)
@@ -214,6 +256,26 @@ namespace Helodrace.ModernWar
             return true;
         }
 
+        public static bool TrySlideAmount(CompModularWeaponNode root,
+            out float amount)
+        {
+            amount = 0f;
+            Pawn pawn = (root?.parent?.ParentHolder as Pawn_EquipmentTracker)?.pawn;
+            State state = For(pawn);
+            if (state == null) return false;
+            if (state.reloadPreview >= 0f
+                || (state.reloadPlayed && state.reloadTick >= state.slideLockTick))
+            {
+                ReloadProgress(root, out float progress);
+                amount = 1f - Mathf.SmoothStep(0f, 1f,
+                    Mathf.InverseLerp(0.94f, 1f, progress));
+                return true;
+            }
+            if (!state.slideLocked) return false;
+            amount = Ease((Now - state.slideLockTick) / 6f);
+            return true;
+        }
+
         public static bool TryMagazinePose(CompModularWeaponNode root,
             ModularRenderNode node, out Vector2 offset, out float angle,
             out float layer)
@@ -245,14 +307,6 @@ namespace Helodrace.ModernWar
                 }
             }
             return true;
-        }
-
-        public static bool HideDroppedMagazine(CompModularWeaponNode root,
-            ModularRenderNode node)
-        {
-            return node != null && !IsFrontMagazine(node)
-                && IsMagazineNode(node)
-                && ReloadProgress(root, out float progress) && progress >= 1f;
         }
 
         public static List<ModularRenderNode> WithVisualSpare(
@@ -327,6 +381,11 @@ namespace Helodrace.ModernWar
         public static void NotifyShot(Pawn pawn)
         {
             State state = For(pawn);
+            if (state != null)
+            {
+                state.slideLocked = true;
+                state.slideLockTick = Now;
+            }
             if (state == null || (state.pose != FluxCinematicPose.Lean
                 && state.pose != FluxCinematicPose.Prone) || Now - state.lastDustTick < 6) return;
             state.lastDustTick = Now;
@@ -353,8 +412,11 @@ namespace Helodrace.ModernWar
             Rot4 facing = TryLockedDirection(pawn, out Rot4 locked) ? locked : pawn.Rotation;
             float side = facing == Rot4.West ? -1f : 1f;
             GetLowReady(pawn, out Vector2 lowReadyOffset, out float lowReadyAngle);
-            drawLoc += new Vector3(lowReadyOffset.x, 0f, lowReadyOffset.y)
-                * (1f - raise);
+            float remaining = 1f - raise;
+            Vector2 control = lowReadyOffset + new Vector2(side * 0.12f, 0.16f);
+            Vector2 curved = lowReadyOffset * (remaining * remaining)
+                + control * (2f * remaining * raise);
+            drawLoc += new Vector3(curved.x, 0f, curved.y);
             aimAngle += side * lowReadyAngle * (1f - raise);
             if (Pose(pawn) == FluxCinematicPose.Prone)
                 drawLoc += new Vector3(0f, 0f, -0.17f);
@@ -423,19 +485,28 @@ namespace Helodrace.ModernWar
                 action = () => FluxRaiderCinematic.ToggleSession(__instance)
             };
             if (!active) yield break;
-            foreach (FluxCinematicPose pose in Enum.GetValues(typeof(FluxCinematicPose)))
+            yield return new Command_Action
             {
-                if (pose == FluxCinematicPose.Lean || pose == FluxCinematicPose.Prone)
-                    continue;
-                FluxCinematicPose choice = pose;
-                yield return new Command_Action
-                {
-                    defaultLabel = "CINE: " + choice,
-                    defaultDesc = "Set the Flux Raider recording pose.",
-                    icon = __instance.equipment.Primary.def.uiIcon,
-                    action = () => FluxRaiderCinematic.SetPose(__instance, choice)
-                };
-            }
+                defaultLabel = "CINE: LowReady",
+                defaultDesc = "Lower the weapon for the next aiming take.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.SetPose(
+                    __instance, FluxCinematicPose.LowReady)
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "CINE: aim (stock first)",
+                defaultDesc = "Extend the stock, then raise the weapon on a curved path.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.SetAiming(__instance, true)
+            };
+            yield return new Command_Action
+            {
+                defaultLabel = "CINE: aim (together)",
+                defaultDesc = "Extend the stock while raising the weapon on a curved path.",
+                icon = __instance.equipment.Primary.def.uiIcon,
+                action = () => FluxRaiderCinematic.SetAiming(__instance, false)
+            };
             yield return new Command_Action
             {
                 defaultLabel = "CINE: tune low ready",
