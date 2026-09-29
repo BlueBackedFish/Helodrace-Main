@@ -5,13 +5,14 @@ namespace Helodrace.ModernWar
     internal static class AmmoPouchRules
     {
         public const float CooldownMultiplier = 0.75f;
+        public const int CarbonSteelForFullMagazine = 5;
 
         public static int EstimateCapacity(int burstShots, float projectileDamage)
         {
             // Stable fallback for weapons without an authored modular magazine.
             return Math.Min(60, Math.Max(1,
                 (int)Math.Ceiling(Math.Max(1, burstShots) * 4f
-                    + Math.Max(0f, projectileDamage))));
+                    + 144f / Math.Max(1f, projectileDamage))));
         }
 
         public static int RoundsFor(float remainingFraction, int capacity)
@@ -28,12 +29,17 @@ namespace Helodrace.ModernWar
                 : 0f;
         }
 
-        public static float AfterReplenish(float remainingFraction, int capacity, int addedRounds)
+        public static int SteelNeeded(float remainingFraction)
         {
-            if (capacity <= 0) return remainingFraction;
-            int rounds = RoundsFor(remainingFraction, capacity);
-            return (float)Math.Min(capacity,
-                rounds + Math.Max(0, addedRounds)) / capacity;
+            return Math.Max(0, (int)Math.Ceiling(
+                (1f - Math.Max(0f, Math.Min(1f, remainingFraction)))
+                    * CarbonSteelForFullMagazine - 0.000001f));
+        }
+
+        public static float AfterReplenish(float remainingFraction, int carbonSteelCount)
+        {
+            return Math.Min(1f, Math.Max(0f, remainingFraction)
+                + Math.Max(0, carbonSteelCount) / (float)CarbonSteelForFullMagazine);
         }
 
         public static float Cooldown(float original, float mechanicalMinimum)

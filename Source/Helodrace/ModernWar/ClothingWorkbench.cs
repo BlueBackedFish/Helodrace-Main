@@ -74,11 +74,10 @@ namespace Helodrace.ModernWar
             yield return command;
             if (AvailableApparel().Any(armor =>
             {
-                int capacity = AmmoPouchUtility.CapacityFor(
-                    armor.Wearer?.equipment?.Primary);
-                return capacity > 0 && armor.InstalledParts.Any(part =>
+                return AmmoPouchUtility.CapacityFor(
+                    armor.Wearer?.equipment?.Primary) > 0 && armor.InstalledParts.Any(part =>
                     part?.InstalledItem?.TryGetComp<CompAmmoPouch>()
-                        ?.MissingRounds(capacity) > 0);
+                        ?.SteelNeeded > 0);
             }))
                 yield return new Command_Action
                 {
@@ -103,8 +102,8 @@ namespace Helodrace.ModernWar
                 foreach (InstalledModularArmorPart installed in armor.InstalledParts)
                 {
                     CompAmmoPouch pouch = installed?.InstalledItem?.TryGetComp<CompAmmoPouch>();
-                    if (pouch == null || pouch.MissingRounds(capacity) == 0) continue;
-                    int missing = pouch.MissingRounds(capacity);
+                    if (pouch == null || pouch.SteelNeeded == 0) continue;
+                    int steelNeeded = pouch.SteelNeeded;
                     Thing source = worker.inventory?.innerContainer
                         ?.Where(item => item.def == carbonSteel && item.stackCount > 0)
                         .OrderByDescending(item => item.stackCount).FirstOrDefault();
@@ -117,14 +116,14 @@ namespace Helodrace.ModernWar
                             .OrderByDescending(item => item.stackCount).FirstOrDefault();
                     Thing selectedSource = source;
                     Thing selectedPouch = pouch.parent;
-                    int suppliedRounds = System.Math.Min(missing, source?.stackCount ?? 0);
+                    int suppliedSteel = System.Math.Min(steelNeeded, source?.stackCount ?? 0);
                     string label = "HD_AmmoPouch_ReplenishOption".Translate(
                         worker.LabelShortCap, installed.part.LabelCap,
-                        pouch.RoundsFor(capacity), capacity, suppliedRounds);
+                        pouch.RoundsFor(capacity), capacity, suppliedSteel);
                     if (selectedSource == null)
                     {
                         options.Add(new FloatMenuOption(label + " (" +
-                            "HD_AmmoPouch_NeedSteel".Translate(missing) + ")", null));
+                            "HD_AmmoPouch_NeedSteel".Translate(steelNeeded) + ")", null));
                         continue;
                     }
                     options.Add(new FloatMenuOption(label, () =>
@@ -136,7 +135,7 @@ namespace Helodrace.ModernWar
                         if (def == null) return;
                         Job job = JobMaker.MakeJob(def, armor.parent, parent, selectedSource);
                         job.targetQueueA = new List<LocalTargetInfo> { selectedPouch };
-                        job.count = suppliedRounds;
+                        job.count = suppliedSteel;
                         worker.jobs.TryTakeOrderedJob(job);
                     }));
                 }

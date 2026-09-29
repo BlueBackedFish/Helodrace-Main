@@ -66,19 +66,19 @@ namespace Helodrace.ModernWar
             yield return Toils_General.Do(() =>
             {
                 int capacity = CurrentCapacity;
-                int missing = Pouch?.MissingRounds(capacity) ?? 0;
-                int suppliedRounds = System.Math.Min(missing, job.count);
+                int neededSteel = Pouch?.SteelNeeded ?? 0;
+                int suppliedSteel = System.Math.Min(neededSteel, job.count);
                 Thing carried = pawn.carryTracker?.CarriedThing;
-                if (!PouchStillInstalled || capacity <= 0 || suppliedRounds <= 0
+                if (!PouchStillInstalled || capacity <= 0 || suppliedSteel <= 0
                     || carried?.def?.defName != "HD_CarbonSteel"
-                    || carried.stackCount < suppliedRounds)
+                    || carried.stackCount < suppliedSteel)
                 {
                     EndJobWith(JobCondition.Incompletable);
                     return;
                 }
-                Thing consumed = carried.SplitOff(suppliedRounds);
+                Thing consumed = carried.SplitOff(suppliedSteel);
                 consumed.Destroy(DestroyMode.Vanish);
-                Pouch.AddRounds(capacity, suppliedRounds);
+                Pouch.AddCarbonSteel(suppliedSteel);
                 Thing leftover = pawn.carryTracker?.CarriedThing;
                 if (leftover?.def?.defName == "HD_CarbonSteel")
                 {

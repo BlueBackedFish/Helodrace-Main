@@ -42,15 +42,13 @@ namespace Helodrace.ModernWar
             return true;
         }
 
-        public void AddRounds(int capacity, int amount)
-        {
-            if (capacity > 0 && amount > 0)
-                remainingFraction = AmmoPouchRules.AfterReplenish(
-                    RemainingFraction, capacity, amount);
-        }
+        public int SteelNeeded => AmmoPouchRules.SteelNeeded(RemainingFraction);
 
-        public int MissingRounds(int capacity) =>
-            Mathf.Max(0, capacity - RoundsFor(capacity));
+        public void AddCarbonSteel(int amount)
+        {
+            if (amount > 0)
+                remainingFraction = AmmoPouchRules.AfterReplenish(RemainingFraction, amount);
+        }
 
         public override string CompInspectStringExtra()
         {

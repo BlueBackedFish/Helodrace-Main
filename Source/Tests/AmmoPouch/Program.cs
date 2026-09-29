@@ -18,7 +18,9 @@ internal static class Program
     {
         Check(AmmoPouchRules.EstimateCapacity(1, 12f) == 16, "Single shot weapon capacity");
         Check(AmmoPouchRules.EstimateCapacity(3, 12f) == 24, "Burst weapon capacity");
-        Check(AmmoPouchRules.EstimateCapacity(3, 20f) == 32, "Damage raises capacity");
+        Check(AmmoPouchRules.EstimateCapacity(3, 20f) == 20, "Damage lowers capacity");
+        Check(AmmoPouchRules.EstimateCapacity(3, 40f) == 16,
+            "Higher damage lowers capacity at the same burst count");
         Check(AmmoPouchRules.EstimateCapacity(50, 100f) == 60, "Capacity cap");
         Check(AmmoPouchRules.RoundsFor(1f, 30) == 30, "Fresh pouch");
         Check(AmmoPouchRules.RoundsFor(0f, 30) == 0, "Empty pouch");
@@ -29,10 +31,16 @@ internal static class Program
         Check(AmmoPouchRules.RoundsFor(fraction, 30) == 16, "Changing back preserves stored percent");
         Check(AmmoPouchRules.RoundsFor(AmmoPouchRules.AfterShot(1, 30), 30) == 0,
             "Last round ends bonus");
-        Check(AmmoPouchRules.RoundsFor(AmmoPouchRules.AfterReplenish(0.5f, 17, 5), 17) == 13,
-            "Partial carbon steel replenishment");
-        Check(AmmoPouchRules.RoundsFor(AmmoPouchRules.AfterReplenish(0.5f, 17, 20), 17) == 17,
-            "Replenishment cannot exceed capacity");
+        Check(AmmoPouchRules.SteelNeeded(0f) == 5, "Empty pouch costs five steel");
+        Check(AmmoPouchRules.SteelNeeded(0.5f) == 3, "Partial pouch costs less steel");
+        Check(AmmoPouchRules.SteelNeeded(0.8f) == 1, "Small deficit costs one steel");
+        Check(AmmoPouchRules.SteelNeeded(1f) == 0, "Full pouch needs no steel");
+        Check(AmmoPouchRules.RoundsFor(AmmoPouchRules.AfterReplenish(0.5f, 2), 17) == 15,
+            "Each steel restores twenty percent across weapon capacities");
+        Check(AmmoPouchRules.AfterReplenish(0.5f, 3) == 1f,
+            "Three steel fill a half-empty pouch");
+        Check(AmmoPouchRules.AfterReplenish(0.5f, 20) == 1f,
+            "Replenishment cannot exceed full capacity");
         Check(Math.Abs(AmmoPouchRules.Cooldown(2f, 0f) - 1.5f) < 0.0001f,
             "Generic weapon cooldown multiplier");
         Check(Math.Abs(AmmoPouchRules.Cooldown(0.4f, 0.35f) - 0.35f) < 0.0001f,
