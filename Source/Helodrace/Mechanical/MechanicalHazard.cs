@@ -14,7 +14,6 @@ namespace Helodrace
 
     public class CompProperties_MechanicalHazard : CompProperties
     {
-        public float rpmErrorThreshold = -1f;
         public float mtbSeconds = 30f;
         public MechanicalHazardTarget target = MechanicalHazardTarget.Area;
         public DamageDef damageDef;
@@ -34,16 +33,7 @@ namespace Helodrace
                 yield return stat;
             }
 
-            string condition = "HD_MechanicalHazard_Disabled".Translate().Resolve();
-            if (rpmErrorThreshold >= 0f)
-            {
-                condition = "HD_MechanicalHazard_ConditionUserBoth".Translate(
-                    rpmErrorThreshold.ToString("F0")).Resolve();
-            }
-            else
-            {
-                condition = "HD_MechanicalHazard_ConditionUserSpeed".Translate().Resolve();
-            }
+            string condition = "HD_MechanicalHazard_ConditionUserSpeed".Translate().Resolve();
 
             string damage = (damageDef?.label ?? DamageDefOf.Crush.label)
                 + " " + damageAmount.ToString("F0");
@@ -69,7 +59,6 @@ namespace Helodrace
 
         public void Evaluate(
             float rpm,
-            float rpmError,
             bool operating,
             float dangerousBelowRpm)
         {
@@ -88,10 +77,7 @@ namespace Helodrace
             bool lowRpm = dangerousBelowRpm > 0f
                 && rpm > 0f
                 && rpm < dangerousBelowRpm;
-            bool excessiveError = Props.rpmErrorThreshold >= 0f
-                && rpmError > Props.rpmErrorThreshold;
-
-            if (!lowRpm && !excessiveError)
+            if (!lowRpm)
             {
                 return;
             }
@@ -112,11 +98,9 @@ namespace Helodrace
 
             if (applied)
             {
-                string reason = lowRpm
-                    ? "HD_MechanicalHazard_ReasonLowRpm".Translate().Resolve()
-                    : "HD_MechanicalHazard_ReasonError".Translate().Resolve();
                 Messages.Message(
-                    "HD_MechanicalHazard_Triggered".Translate(parent.Label, reason),
+                    "HD_MechanicalHazard_Triggered".Translate(parent.Label,
+                        "HD_MechanicalHazard_ReasonLowRpm".Translate().Resolve()),
                     parent,
                     MessageTypeDefOf.NegativeEvent);
             }

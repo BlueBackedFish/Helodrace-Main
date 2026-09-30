@@ -54,7 +54,6 @@ namespace Helodrace
         public float recommendedPower = 800f;
         public float maxRPM = 500f;
         public float lowestRPM = 50f;
-        public float rpmInaccuracy = 10f;
 
         public CompProperties_MechanicalEmitter()
         {
@@ -73,7 +72,6 @@ namespace Helodrace
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRecommendedPower", recommendedPower.ToString("F0") + " W", "HD_Stat_MechanicalRecommendedPower_Desc", 2);
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalMaxPower", maxPossiblePower.ToString("F0") + " W", "HD_Stat_MechanicalMaxPower_Desc", 3);
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmRange", lowestRPM.ToString("F0") + " - " + maxRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmRange_Desc", 4);
-            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmInaccuracy", "±" + rpmInaccuracy.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmInaccuracy_Desc", 5);
         }
     }
 
@@ -249,8 +247,7 @@ namespace Helodrace
                     Props.sourceType.ToString(), 
                     PowerOutput.ToString("F0"), 
                     Props.maxPossiblePower.ToString("F0"), 
-                    CurrentRPM.ToString("F1"), 
-                    Props.rpmInaccuracy.ToString("F0")
+                    CurrentRPM.ToString("F1")
                 );
             }
 
@@ -335,8 +332,6 @@ namespace Helodrace
             : 1f;
 
         public float RealRPM => Network != null ? Network.GridRPM / AutomaticGearRatio : 0f;
-        public float RealInaccuracy => Network != null ? Network.GridInaccuracy / AutomaticGearRatio : 0f;
-        public float RealRpmError => Network != null ? Network.GridRpmError / AutomaticGearRatio : 0f;
 
         public float GridTorqueDemanded => Network != null
             ? UnityEngine.Mathf.Max(0f, Props.requireTorque)
@@ -373,7 +368,6 @@ namespace Helodrace
 
             str += "HD_MechanicalUser_SpeedInfo".Translate(
                 RealRPM.ToString("F1"),
-                RealInaccuracy.ToString("F1"),
                 (HasPower ? EffectiveRPM : 0f).ToString("F1"),
                 opStatus
             ).Resolve();
@@ -393,13 +387,10 @@ namespace Helodrace
         public float CurrentPowerOutput = 0f;
         public float CurrentMaximumPower = 0f;
         public float CurrentPowerNeeded = 0f;
-        public bool HasRpmMismatch = false;
 
         // Aggregated network stats
         public float GridRPM = 0f;
         public float NominalGridRPM = 0f;
-        public float GridInaccuracy = 0f;
-        public float GridRpmError = 0f;
 
         public void UpdateNetwork()
         {
@@ -408,19 +399,13 @@ namespace Helodrace
             CurrentPowerNeeded = 0f;
             GridRPM = 0f;
             NominalGridRPM = 0f;
-            GridInaccuracy = 0f;
-            GridRpmError = 0f;
-            HasRpmMismatch = false;
 
             List<CompMechanicalEmitter> activeEmitters = activeEmittersBuffer;
             activeEmitters.Clear();
             float normalPowerAvailable = 0f;
             float maximumPowerAvailable = 0f;
-            float totalEmitterRpm = 0f;
-            float minimumEmitterRpm = float.MaxValue;
-            float maximumEmitterRpm = float.MinValue;
 
-            // 1. Check Power Sources First
+            // Find active power sources.
             foreach (var node in nodes)
             {
                 if (node is CompMechanicalEmitter emitter && emitter.IsProducingPower)
@@ -429,111 +414,16 @@ namespace Helodrace
                 }
             }
 
-            // 2. Detect RPM mismatch in linear time by comparing each source's
-            // tolerance interval against the extreme intervals of the other sources.
-            if (activeEmitters.Count > 0)
+            // Combine active sources. Automatic gearing lets users follow the
+            // fastest shaft while each source contributes its available power.
+            foreach (var emitter in activeEmitters)
             {
-                if (activeEmitters.Count > 1)
-                {
-                    float smallestUpper = float.MaxValue;
-                    float secondSmallestUpper = float.MaxValue;
-                    int smallestUpperIndex = -1;
-                    float largestLower = float.MinValue;
-                    float secondLargestLower = float.MinValue;
-                    int largestLowerIndex = -1;
+                float emitterMaximum = UnityEngine.Mathf.Max(0f, emitter.Props.maxPossiblePower);
+                float emitterNormal = UnityEngine.Mathf.Clamp(emitter.PowerOutput, 0f, emitterMaximum);
 
-                    for (int i = 0; i < activeEmitters.Count; i++)
-                    {
-                        CompMechanicalEmitter emitter = activeEmitters[i];
-                        float tolerance = UnityEngine.Mathf.Max(0f, emitter.Props.rpmInaccuracy);
-                        float lower = emitter.TargetRPM - tolerance;
-                        float upper = emitter.TargetRPM + tolerance;
-
-                        if (upper < smallestUpper)
-                        {
-                            secondSmallestUpper = smallestUpper;
-                            smallestUpper = upper;
-                            smallestUpperIndex = i;
-                        }
-                        else if (upper < secondSmallestUpper)
-                        {
-                            secondSmallestUpper = upper;
-                        }
-
-                        if (lower > largestLower)
-                        {
-                            secondLargestLower = largestLower;
-                            largestLower = lower;
-                            largestLowerIndex = i;
-                        }
-                        else if (lower > secondLargestLower)
-                        {
-                            secondLargestLower = lower;
-                        }
-                    }
-
-                    for (int i = 0; i < activeEmitters.Count; i++)
-                    {
-                        CompMechanicalEmitter emitter = activeEmitters[i];
-                        float tolerance = UnityEngine.Mathf.Max(0f, emitter.Props.rpmInaccuracy);
-                        float lower = emitter.TargetRPM - tolerance;
-                        float upper = emitter.TargetRPM + tolerance;
-                        float otherSmallestUpper = i == smallestUpperIndex
-                            ? secondSmallestUpper
-                            : smallestUpper;
-                        float otherLargestLower = i == largestLowerIndex
-                            ? secondLargestLower
-                            : largestLower;
-
-                        bool emitterMismatched = lower > otherSmallestUpper
-                            || upper < otherLargestLower;
-                        if (emitterMismatched)
-                        {
-                            HasRpmMismatch = true;
-                            ApplyMismatchEffect(emitter);
-                        }
-                    }
-                }
-
-                // 3. Gather every source value before deciding the final grid output.
-                foreach (var emitter in activeEmitters)
-                {
-                    float emitterMaximum = UnityEngine.Mathf.Max(0f, emitter.Props.maxPossiblePower);
-                    float emitterNormal = UnityEngine.Mathf.Clamp(emitter.PowerOutput, 0f, emitterMaximum);
-
-                    normalPowerAvailable += emitterNormal;
-                    maximumPowerAvailable += emitterMaximum;
-                    totalEmitterRpm += emitter.TargetRPM;
-                    minimumEmitterRpm = UnityEngine.Mathf.Min(minimumEmitterRpm, emitter.TargetRPM);
-                    maximumEmitterRpm = UnityEngine.Mathf.Max(maximumEmitterRpm, emitter.TargetRPM);
-                    GridInaccuracy += UnityEngine.Mathf.Max(0f, emitter.Props.rpmInaccuracy);
-
-                    if (emitter.TargetRPM > GridRPM)
-                    {
-                        GridRPM = emitter.TargetRPM;
-                    }
-                }
-
-                GridRpmError = activeEmitters.Count > 1
-                    ? maximumEmitterRpm - minimumEmitterRpm
-                    : 0f;
-
-                if (HasRpmMismatch)
-                {
-                    // Average RPM, cut under 10 (floor to nearest 10)
-                    float averageRpm = totalEmitterRpm / activeEmitters.Count;
-                    GridRPM = UnityEngine.Mathf.Floor(averageRpm / 10f) * 10f;
-
-                    // Double inaccuracy
-                    GridInaccuracy *= 2f;
-
-                    // Both normal and maximum combined output receive the same
-                    // mismatch penalty before the final cap is calculated.
-                    normalPowerAvailable = UnityEngine.Mathf.Floor(
-                        normalPowerAvailable * (2f / 3f) / 10f) * 10f;
-                    maximumPowerAvailable = UnityEngine.Mathf.Floor(
-                        maximumPowerAvailable * (2f / 3f) / 10f) * 10f;
-                }
+                normalPowerAvailable += emitterNormal;
+                maximumPowerAvailable += emitterMaximum;
+                GridRPM = UnityEngine.Mathf.Max(GridRPM, emitter.TargetRPM);
             }
 
             maximumPowerAvailable = UnityEngine.Mathf.Max(0f, maximumPowerAvailable);
@@ -542,7 +432,7 @@ namespace Helodrace
             CurrentMaximumPower = maximumPowerAvailable;
             NominalGridRPM = GridRPM;
 
-            // 4. Gather every active user's demand.
+            // Gather every active user's demand.
             foreach (var node in nodes)
             {
                 if (node is CompMechanicalUser user)
@@ -555,7 +445,7 @@ namespace Helodrace
                 }
             }
 
-            // 5. Final output calculation. This is the only stage that assigns
+            // Final output calculation. This is the only stage that assigns
             // CurrentPowerOutput, and it is capped again unconditionally below.
             float torqueFulfillment = 1.0f;
             CurrentPowerOutput = normalPowerAvailable;
@@ -621,7 +511,6 @@ namespace Helodrace
                                 : -1f;
                         user.Hazard?.Evaluate(
                             user.RealRPM,
-                            user.RealRpmError,
                             user.HasPower,
                             dangerousBelowRpm);
                     }
@@ -630,35 +519,6 @@ namespace Helodrace
                     // checks, so electrical output cannot lead the mechanical
                     // calculation by one update.
                     user.Generator?.RefreshOutput();
-                }
-            }
-        }
-
-        private void ApplyMismatchEffect(CompMechanicalEmitter emitter)
-        {
-            // Source-specific building damage remains separate from the simplified
-            // user-machine hazard component.
-            if (Verse.Rand.Chance(0.05f))
-            {
-                switch (emitter.Props.sourceType)
-                {
-                    case PowerSourceType.SteamEngine:
-                        emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Crush, 15f));
-                        FleckMaker.ThrowDustPuff(emitter.parent.DrawPos, emitter.parent.Map, 1.5f);
-                        break;
-                    case PowerSourceType.Engine:
-                        emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Burn, 10f));
-                        FireUtility.TryStartFireIn(emitter.parent.Position, emitter.parent.Map, 0.5f, null);
-                        break;
-                    case PowerSourceType.Motor:
-                        FleckMaker.ThrowMicroSparks(emitter.parent.DrawPos, emitter.parent.Map);
-                        GenExplosion.DoExplosion(
-                            emitter.parent.Position,
-                            emitter.parent.Map,
-                            1.5f,
-                            DamageDefOf.EMP,
-                            emitter.parent);
-                        break;
                 }
             }
         }

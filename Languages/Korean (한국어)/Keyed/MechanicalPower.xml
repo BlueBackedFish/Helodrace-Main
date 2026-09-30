@@ -2,7 +2,7 @@
 <LanguageData>
   <!-- Mechanical Emitter -->
   <HD_MechanicalEmitter_Off>동력원: {0}\n상태: 꺼짐\n출력: 0 W</HD_MechanicalEmitter_Off>
-  <HD_MechanicalEmitter_On>동력원: {0}\n출력: {1} W / {2} W (최대)\n엔진 속도: {3} RPM (±{4} RPM)</HD_MechanicalEmitter_On>
+  <HD_MechanicalEmitter_On>동력원: {0}\n출력: {1} W / {2} W (최대)\n엔진 속도: {3} RPM</HD_MechanicalEmitter_On>
   <HD_MechanicalEmitter_TargetSpeed>목표 속도: {0} RPM</HD_MechanicalEmitter_TargetSpeed>
   <HD_MechanicalEmitter_TargetSpeedPending>목표 속도: {0} RPM (대기 중: {1} RPM)</HD_MechanicalEmitter_TargetSpeedPending>
   <HD_Command_DecreaseRPM_Desc>목표 RPM을 {0}만큼 감소시킵니다.</HD_Command_DecreaseRPM_Desc>
@@ -12,7 +12,7 @@
   <HD_MechanicalUser_TorqueStruggle> (과부하 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
   <HD_MechanicalUser_DangerNone>없음 (안전)</HD_MechanicalUser_DangerNone>
   <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}\n요구 속도: {3} - {4} RPM\n위험 요소: {5}</HD_MechanicalUser_Info>
-  <HD_MechanicalUser_SpeedInfo>실제 속도: {0} RPM (±{1} RPM)\n유효 속도: {2} RPM\n상태: {3}</HD_MechanicalUser_SpeedInfo>
+  <HD_MechanicalUser_SpeedInfo>실제 속도: {0} RPM\n유효 속도: {1} RPM\n상태: {2}</HD_MechanicalUser_SpeedInfo>
   <HD_MechanicalUser_Operating>작동 중</HD_MechanicalUser_Operating>
   <HD_MechanicalUser_Stalled>정지됨/무동력</HD_MechanicalUser_Stalled>
   <HD_HeatPump_Inspect>찬쪽 열 감소량 설정: {0} W\n실제 열 이동: 찬쪽 -{1} W / 뜨거운쪽 +{2} W\n찬쪽: {3}\n뜨거운쪽: {4}</HD_HeatPump_Inspect>
@@ -30,15 +30,13 @@
   <HD_Stat_MechanicalRole_User_Desc>기계 동력망에서 토크를 받아 작동합니다.</HD_Stat_MechanicalRole_User_Desc>
   <HD_Stat_MechanicalRole_Transmitter_Desc>인접한 기계 장치 사이에 기계 동력을 전달합니다.</HD_Stat_MechanicalRole_Transmitter_Desc>
   <HD_Stat_MechanicalSourceType>동력원 종류</HD_Stat_MechanicalSourceType>
-  <HD_Stat_MechanicalSourceType_Desc>이 장치가 사용하는 기계 동력원의 유형입니다.\n\nSteamEngine: 증기기관입니다. RPM이 맞지 않으면 기어와 구조부가 손상될 수 있고, 저RPM 고토크 과부하에서는 심각한 구조 손상이 발생할 수 있습니다.\n\nEngine: 내연기관입니다. RPM 불일치 시 과열과 화재가 발생할 수 있으며, 과부하에서는 고장나거나 내구도가 손상될 수 있습니다.\n\nMotor: 전기 모터입니다. RPM 불일치 시 EMP 방전이 발생할 수 있고, 과부하에서는 배터리를 방전시키거나 폭발시키거나 모터가 단락될 수 있습니다.</HD_Stat_MechanicalSourceType_Desc>
+  <HD_Stat_MechanicalSourceType_Desc>이 장치가 사용하는 기계 동력원의 유형입니다.\n\nSteamEngine: 증기기관입니다. 저RPM 고토크 과부하에서는 심각한 구조 손상이 발생할 수 있습니다.\n\nEngine: 내연기관입니다. 과부하에서는 고장나거나 내구도가 손상될 수 있습니다.\n\nMotor: 전기 모터입니다. 과부하에서는 배터리를 방전시키거나 폭발시키거나 모터가 단락될 수 있습니다.</HD_Stat_MechanicalSourceType_Desc>
   <HD_Stat_MechanicalRecommendedPower>권장 출력</HD_Stat_MechanicalRecommendedPower>
   <HD_Stat_MechanicalRecommendedPower_Desc>정상 안정 상태에서 이 장치가 공급할 수 있는 기계 동력 출력입니다.</HD_Stat_MechanicalRecommendedPower_Desc>
   <HD_Stat_MechanicalMaxPower>최대 출력</HD_Stat_MechanicalMaxPower>
   <HD_Stat_MechanicalMaxPower_Desc>과부하 상황에서 이 장치가 버틸 수 있는 최대 기계 동력 출력입니다.</HD_Stat_MechanicalMaxPower_Desc>
   <HD_Stat_MechanicalRpmRange>RPM 범위</HD_Stat_MechanicalRpmRange>
   <HD_Stat_MechanicalRpmRange_Desc>이 동력원이 설정할 수 있는 최소 및 최대 회전 속도입니다.</HD_Stat_MechanicalRpmRange_Desc>
-  <HD_Stat_MechanicalRpmInaccuracy>RPM 오차</HD_Stat_MechanicalRpmInaccuracy>
-  <HD_Stat_MechanicalRpmInaccuracy_Desc>동력망에서 다른 동력원과 속도를 맞출 때 허용되는 회전 속도 오차입니다.</HD_Stat_MechanicalRpmInaccuracy_Desc>
   <HD_Stat_MechanicalRequiredTorque>요구 토크</HD_Stat_MechanicalRequiredTorque>
   <HD_Stat_MechanicalRequiredTorque_Desc>자동 변속으로 권장 RPM에서 요구하는 기본 토크입니다. 열펌프는 냉각량 설정에 따라 요구량이 달라집니다.</HD_Stat_MechanicalRequiredTorque_Desc>
   <HD_Stat_MechanicalRpmRequirement>요구 RPM</HD_Stat_MechanicalRpmRequirement>
@@ -60,10 +58,9 @@
   <HD_ITab_MechanicalNetwork_PowerOutput>전체 출력 토크: {0} W</HD_ITab_MechanicalNetwork_PowerOutput>
   <HD_ITab_MechanicalNetwork_PowerNeeded>전체 요구 토크: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>
   <HD_ITab_MechanicalNetwork_PowerSurplus>그리드 잉여/부족: {0} W</HD_ITab_MechanicalNetwork_PowerSurplus>
-  <HD_ITab_MechanicalNetwork_GridRPM>그리드 RPM: {0} (±{1})</HD_ITab_MechanicalNetwork_GridRPM>
+  <HD_ITab_MechanicalNetwork_GridRPM>그리드 RPM: {0}</HD_ITab_MechanicalNetwork_GridRPM>
   <HD_ITab_MechanicalNetwork_Nodes>연결된 노드 수: {0}</HD_ITab_MechanicalNetwork_Nodes>
   <HD_ITab_MechanicalNetwork_Status>상태</HD_ITab_MechanicalNetwork_Status>
-  <HD_ITab_MechanicalNetwork_StatusMismatch>경고: RPM 불일치로 인한 심각한 손상 위험!</HD_ITab_MechanicalNetwork_StatusMismatch>
   <HD_ITab_MechanicalNetwork_StatusOverload>경고: 토크 과부하로 인한 RPM 저하 발생.</HD_ITab_MechanicalNetwork_StatusOverload>
   <HD_ITab_MechanicalNetwork_StatusStable>안정적</HD_ITab_MechanicalNetwork_StatusStable>
   <HD_ITab_MechanicalNetwork_Components>구성 요소</HD_ITab_MechanicalNetwork_Components>
