@@ -28,17 +28,8 @@
   <HD_WildWestBarrel.label>중품질 총열</HD_WildWestBarrel.label>
   <HD_WildWestBarrel.description>정교한 기계식 선반에서 정밀하게 깎고 강선을 판 중품질 금속제 총열입니다. 후장식 소총이나 연사식 화기 등 개척지 무기를 제작할 때 부품으로 쓰입니다.</HD_WildWestBarrel.description>
 
-  <HD_MoltenIronSmall.label>융선 소</HD_MoltenIronSmall.label>
-  <HD_MoltenIronSmall.description>작은 크기의 갓 주조된 융선입니다. 추가 가공 전까지 개별 덩어리로 취급해야 합니다.</HD_MoltenIronSmall.description>
-
-  <HD_MoltenIronMedium.label>융선 중</HD_MoltenIronMedium.label>
-  <HD_MoltenIronMedium.description>중간 크기의 갓 주조된 융선입니다. 추가 가공 전까지 개별 덩어리로 취급해야 합니다.</HD_MoltenIronMedium.description>
-
-  <HD_MoltenIronLarge.label>융선 대</HD_MoltenIronLarge.label>
-  <HD_MoltenIronLarge.description>큰 크기의 갓 주조된 융선입니다. 추가 가공 전까지 개별 덩어리로 취급해야 합니다.</HD_MoltenIronLarge.description>
-
   <HD_PigIron.label>주철</HD_PigIron.label>
-  <HD_PigIron.description>융선에서 주조한 탄소 함량이 높고 부서지기 쉬운 철 제품입니다. 이후 가공 가능한 철이나 강철로 정련하기 위한 중간 재료입니다.</HD_PigIron.description>
+  <HD_PigIron.description>고로에서 주조한 탄소 함량이 높고 부서지기 쉬운 철 제품입니다. 이후 가공 가능한 철이나 강철로 정련하기 위한 중간 재료입니다.</HD_PigIron.description>
   <HD_PigIron.stuffProps.stuffAdjective>주철</HD_PigIron.stuffProps.stuffAdjective>
 
   <HD_CarbonSteel.label>탄소강</HD_CarbonSteel.label>

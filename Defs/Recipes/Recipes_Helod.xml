@@ -73,10 +73,10 @@
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_SmeltMoltenIronSmall</defName>
-    <label>smelt small molten iron bloom</label>
-    <description>Smelt a small batch of steel into molten iron at a blast furnace.</description>
-    <jobString>Smelting a small molten iron bloom.</jobString>
+    <defName>HD_CastPigIronSmall</defName>
+    <label>cast small pig iron batch</label>
+    <description>Smelt steel into pig iron at a blast furnace.</description>
+    <jobString>Casting pig iron.</jobString>
     <workAmount>1800</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -100,7 +100,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HD_MoltenIronSmall>1</HD_MoltenIronSmall>
+      <HD_PigIron>40</HD_PigIron>
     </products>
     <recipeUsers>
       <li>HD_BlastFurnace</li>
@@ -108,10 +108,53 @@
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_SmeltMoltenIronMedium</defName>
-    <label>smelt medium molten iron bloom</label>
-    <description>Smelt a medium batch of steel into molten iron at a blast furnace.</description>
-    <jobString>Smelting a medium molten iron bloom.</jobString>
+    <defName>HD_RefineCarbonSteelSmall</defName>
+    <label>refine small carbon steel batch</label>
+    <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
+    <jobString>Refining carbon steel.</jobString>
+    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
+    <modExtensions>
+      <li Class="Helodrace.RecipeExtension_RequiredFacility">
+        <workTable>HD_BlastFurnace</workTable>
+        <facility>HD_Converter</facility>
+      </li>
+    </modExtensions>
+    <workAmount>4000</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodIronMaking</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>56</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_CarbonSteel>41</HD_CarbonSteel>
+    </products>
+    <recipeUsers>
+      <li>HD_BlastFurnace</li>
+      <li>HD_Converter</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_CastPigIronMedium</defName>
+    <label>cast medium pig iron batch</label>
+    <description>Smelt steel into pig iron at a blast furnace.</description>
+    <jobString>Casting pig iron.</jobString>
     <workAmount>3000</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -135,7 +178,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HD_MoltenIronMedium>1</HD_MoltenIronMedium>
+      <HD_PigIron>80</HD_PigIron>
     </products>
     <recipeUsers>
       <li>HD_BlastFurnace</li>
@@ -143,10 +186,53 @@
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_SmeltMoltenIronLarge</defName>
-    <label>smelt large molten iron bloom</label>
-    <description>Smelt a large batch of steel into molten iron at a blast furnace.</description>
-    <jobString>Smelting a large molten iron bloom.</jobString>
+    <defName>HD_RefineCarbonSteelMedium</defName>
+    <label>refine medium carbon steel batch</label>
+    <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
+    <jobString>Refining carbon steel.</jobString>
+    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
+    <modExtensions>
+      <li Class="Helodrace.RecipeExtension_RequiredFacility">
+        <workTable>HD_BlastFurnace</workTable>
+        <facility>HD_Converter</facility>
+      </li>
+    </modExtensions>
+    <workAmount>6600</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
+    <effectWorking>Cook</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <researchPrerequisite>HelodIronMaking</researchPrerequisite>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>Steel</li>
+          </thingDefs>
+        </filter>
+        <count>112</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>Steel</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <HD_CarbonSteel>82</HD_CarbonSteel>
+    </products>
+    <recipeUsers>
+      <li>HD_BlastFurnace</li>
+      <li>HD_Converter</li>
+    </recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef>
+    <defName>HD_CastPigIronLarge</defName>
+    <label>cast large pig iron batch</label>
+    <description>Smelt steel into pig iron at a blast furnace.</description>
+    <jobString>Casting pig iron.</jobString>
     <workAmount>5200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
@@ -170,7 +256,7 @@
       </thingDefs>
     </fixedIngredientFilter>
     <products>
-      <HD_MoltenIronLarge>1</HD_MoltenIronLarge>
+      <HD_PigIron>160</HD_PigIron>
     </products>
     <recipeUsers>
       <li>HD_BlastFurnace</li>
@@ -178,99 +264,18 @@
   </RecipeDef>
 
   <RecipeDef>
-    <defName>HD_RefineCarbonSteelSmall</defName>
-    <label>refine carbon steel from small molten iron bloom</label>
-    <description>Refine a small molten iron bloom with iron ore in a converter to produce carbon steel.</description>
-    <jobString>Refining carbon steel.</jobString>
-    <workAmount>2200</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Cook</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodIronMaking</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_MoltenIronSmall</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>6</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_MoltenIronSmall</li>
-        <li>Steel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_CarbonSteel>41</HD_CarbonSteel>
-    </products>
-    <recipeUsers>
-      <li>HD_Converter</li>
-    </recipeUsers>
-  </RecipeDef>
-
-  <RecipeDef>
-    <defName>HD_RefineCarbonSteelMedium</defName>
-    <label>refine carbon steel from medium molten iron bloom</label>
-    <description>Refine a medium molten iron bloom with iron ore in a converter to produce carbon steel.</description>
-    <jobString>Refining carbon steel.</jobString>
-    <workAmount>3600</workAmount>
-    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-    <workSkill>Crafting</workSkill>
-    <requiredGiverWorkType>Crafting</requiredGiverWorkType>
-    <effectWorking>Cook</effectWorking>
-    <soundWorking>Recipe_Machining</soundWorking>
-    <researchPrerequisite>HelodIronMaking</researchPrerequisite>
-    <ingredients>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>HD_MoltenIronMedium</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
-            <li>Steel</li>
-          </thingDefs>
-        </filter>
-        <count>12</count>
-      </li>
-    </ingredients>
-    <fixedIngredientFilter>
-      <thingDefs>
-        <li>HD_MoltenIronMedium</li>
-        <li>Steel</li>
-      </thingDefs>
-    </fixedIngredientFilter>
-    <products>
-      <HD_CarbonSteel>82</HD_CarbonSteel>
-    </products>
-    <recipeUsers>
-      <li>HD_Converter</li>
-    </recipeUsers>
-  </RecipeDef>
-
-  <RecipeDef>
     <defName>HD_RefineCarbonSteelLarge</defName>
-    <label>refine carbon steel from large molten iron bloom</label>
-    <description>Refine a large molten iron bloom with iron ore in a converter to produce carbon steel.</description>
+    <label>refine large carbon steel batch</label>
+    <description>Refine steel into carbon steel at a blast furnace linked to a converter.</description>
     <jobString>Refining carbon steel.</jobString>
-    <workAmount>6000</workAmount>
+    <workerClass>Helodrace.RecipeWorker_RequiresLinkedFacility</workerClass>
+    <modExtensions>
+      <li Class="Helodrace.RecipeExtension_RequiredFacility">
+        <workTable>HD_BlastFurnace</workTable>
+        <facility>HD_Converter</facility>
+      </li>
+    </modExtensions>
+    <workAmount>11200</workAmount>
     <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
     <workSkill>Crafting</workSkill>
     <requiredGiverWorkType>Crafting</requiredGiverWorkType>
@@ -281,23 +286,14 @@
       <li>
         <filter>
           <thingDefs>
-            <li>HD_MoltenIronLarge</li>
-          </thingDefs>
-        </filter>
-        <count>1</count>
-      </li>
-      <li>
-        <filter>
-          <thingDefs>
             <li>Steel</li>
           </thingDefs>
         </filter>
-        <count>24</count>
+        <count>224</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>
       <thingDefs>
-        <li>HD_MoltenIronLarge</li>
         <li>Steel</li>
       </thingDefs>
     </fixedIngredientFilter>
@@ -305,6 +301,7 @@
       <HD_CarbonSteel>165</HD_CarbonSteel>
     </products>
     <recipeUsers>
+      <li>HD_BlastFurnace</li>
       <li>HD_Converter</li>
     </recipeUsers>
   </RecipeDef>

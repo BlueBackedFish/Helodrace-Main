@@ -318,114 +318,11 @@
     </thingCategories>
   </ThingDef>
 
-  <!-- Molten Iron -->
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_MoltenIronSmall</defName>
-    <label>small molten iron bloom</label>
-    <description>A small, freshly cast mass of molten iron. It must be handled as an individual piece before further processing.</description>
-    <graphicData>
-      <texPath>Items/HD_MoltenIronSmall</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <tickerType>Rare</tickerType>
-    <stackLimit>1</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>80</MaxHitPoints>
-      <MarketValue>18</MarketValue>
-      <Mass>100</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-    <comps>
-      <li Class="CompProperties_Glower">
-        <glowRadius>4</glowRadius>
-        <glowColor>(255,115,45,0)</glowColor>
-      </li>
-      <li Class="Helodrace.CompProperties_MoltenIronCooling">
-        <ticksToCool>30000</ticksToCool>
-        <product>HD_PigIron</product>
-        <productCount>40</productCount>
-      </li>
-    </comps>
-  </ThingDef>
-
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_MoltenIronMedium</defName>
-    <label>medium molten iron bloom</label>
-    <description>A medium, freshly cast mass of molten iron. It must be handled as an individual piece before further processing.</description>
-    <graphicData>
-      <texPath>Items/HD_MoltenIronMedium</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <tickerType>Rare</tickerType>
-    <stackLimit>1</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>110</MaxHitPoints>
-      <MarketValue>36</MarketValue>
-      <Mass>200</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-    <comps>
-      <li Class="CompProperties_Glower">
-        <glowRadius>5</glowRadius>
-        <glowColor>(255,105,35,0)</glowColor>
-      </li>
-      <li Class="Helodrace.CompProperties_MoltenIronCooling">
-        <ticksToCool>30000</ticksToCool>
-        <product>HD_PigIron</product>
-        <productCount>80</productCount>
-      </li>
-    </comps>
-  </ThingDef>
-
-  <ThingDef ParentName="ResourceBase">
-    <defName>HD_MoltenIronLarge</defName>
-    <label>large molten iron bloom</label>
-    <description>A large, freshly cast mass of molten iron. It must be handled as an individual piece before further processing.</description>
-    <graphicData>
-      <texPath>Items/HD_MoltenIronLarge</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <tickerType>Rare</tickerType>
-    <stackLimit>1</stackLimit>
-    <healthAffectsPrice>false</healthAffectsPrice>
-    <statBases>
-      <MaxHitPoints>140</MaxHitPoints>
-      <MarketValue>72</MarketValue>
-      <Mass>400</Mass>
-      <Flammability>0</Flammability>
-      <DeteriorationRate>0.5</DeteriorationRate>
-    </statBases>
-    <thingCategories>
-      <li>Manufactured</li>
-    </thingCategories>
-    <comps>
-      <li Class="CompProperties_Glower">
-        <glowRadius>6</glowRadius>
-        <glowColor>(255,95,25,0)</glowColor>
-      </li>
-      <li Class="Helodrace.CompProperties_MoltenIronCooling">
-        <ticksToCool>30000</ticksToCool>
-        <product>HD_PigIron</product>
-        <productCount>160</productCount>
-      </li>
-    </comps>
-  </ThingDef>
-
   <!-- Pig Iron -->
   <ThingDef ParentName="ResourceBase">
     <defName>HD_PigIron</defName>
     <label>pig iron</label>
-    <description>A brittle, carbon-rich iron product cast from molten iron. It is an intermediate material for later refining into workable iron or steel.</description>
+    <description>A brittle, carbon-rich iron product cast at a blast furnace. It is an intermediate material for later refining into workable iron or steel.</description>
     <graphicData>
       <texPath>Items/HD_PigIron</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>

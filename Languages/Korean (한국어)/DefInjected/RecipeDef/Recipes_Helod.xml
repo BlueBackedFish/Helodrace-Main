@@ -14,28 +14,28 @@
   <HD_MakeCharcoalBulk.description>모닥불에서 많은 양의 나무를 구워 숯을 대량으로 만듭니다.</HD_MakeCharcoalBulk.description>
   <HD_MakeCharcoalBulk.jobString>숯을 대량으로 만드는 중</HD_MakeCharcoalBulk.jobString>
 
-  <HD_SmeltMoltenIronSmall.label>용선 소 제련</HD_SmeltMoltenIronSmall.label>
-  <HD_SmeltMoltenIronSmall.description>고로에서 소량의 강철을 녹여 작은 용선 덩어리를 만듭니다.</HD_SmeltMoltenIronSmall.description>
-  <HD_SmeltMoltenIronSmall.jobString>용선 소를 제련하는 중</HD_SmeltMoltenIronSmall.jobString>
+  <HD_CastPigIronSmall.label>주철 소 제련</HD_CastPigIronSmall.label>
+  <HD_CastPigIronSmall.description>고로에서 강철을 녹여 주철 40개를 만듭니다.</HD_CastPigIronSmall.description>
+  <HD_CastPigIronSmall.jobString>주철을 제련하는 중</HD_CastPigIronSmall.jobString>
 
-  <HD_SmeltMoltenIronMedium.label>용선 중 제련</HD_SmeltMoltenIronMedium.label>
-  <HD_SmeltMoltenIronMedium.description>고로에서 강철을 녹여 중간 크기의 용선 덩어리를 만듭니다.</HD_SmeltMoltenIronMedium.description>
-  <HD_SmeltMoltenIronMedium.jobString>용선 중을 제련하는 중</HD_SmeltMoltenIronMedium.jobString>
-  
-  <HD_SmeltMoltenIronLarge.label>용선 대 제련</HD_SmeltMoltenIronLarge.label>
-  <HD_SmeltMoltenIronLarge.description>고로에서 많은 강철을 녹여 큰 용선 덩어리를 만듭니다.</HD_SmeltMoltenIronLarge.description>
-  <HD_SmeltMoltenIronLarge.jobString>용선 대를 제련하는 중</HD_SmeltMoltenIronLarge.jobString>
+  <HD_CastPigIronMedium.label>주철 중 제련</HD_CastPigIronMedium.label>
+  <HD_CastPigIronMedium.description>고로에서 강철을 녹여 주철 80개를 만듭니다.</HD_CastPigIronMedium.description>
+  <HD_CastPigIronMedium.jobString>주철을 제련하는 중</HD_CastPigIronMedium.jobString>
 
-  <HD_RefineCarbonSteelSmall.label>탄소강 정련: 융선 소</HD_RefineCarbonSteelSmall.label>
-  <HD_RefineCarbonSteelSmall.description>전로에서 작은 융선과 철광석을 함께 정련하여 탄소강을 만듭니다.</HD_RefineCarbonSteelSmall.description>
+  <HD_CastPigIronLarge.label>주철 대 제련</HD_CastPigIronLarge.label>
+  <HD_CastPigIronLarge.description>고로에서 강철을 녹여 주철 160개를 만듭니다.</HD_CastPigIronLarge.description>
+  <HD_CastPigIronLarge.jobString>주철을 제련하는 중</HD_CastPigIronLarge.jobString>
+
+  <HD_RefineCarbonSteelSmall.label>탄소강 소 정련</HD_RefineCarbonSteelSmall.label>
+  <HD_RefineCarbonSteelSmall.description>전로가 연결된 고로에서 강철을 탄소강 41개로 정련합니다.</HD_RefineCarbonSteelSmall.description>
   <HD_RefineCarbonSteelSmall.jobString>탄소강을 정련하는 중</HD_RefineCarbonSteelSmall.jobString>
 
-  <HD_RefineCarbonSteelMedium.label>탄소강 정련: 융선 중</HD_RefineCarbonSteelMedium.label>
-  <HD_RefineCarbonSteelMedium.description>전로에서 중간 크기의 융선과 철광석을 함께 정련하여 탄소강을 만듭니다.</HD_RefineCarbonSteelMedium.description>
+  <HD_RefineCarbonSteelMedium.label>탄소강 중 정련</HD_RefineCarbonSteelMedium.label>
+  <HD_RefineCarbonSteelMedium.description>전로가 연결된 고로에서 강철을 탄소강 82개로 정련합니다.</HD_RefineCarbonSteelMedium.description>
   <HD_RefineCarbonSteelMedium.jobString>탄소강을 정련하는 중</HD_RefineCarbonSteelMedium.jobString>
 
-  <HD_RefineCarbonSteelLarge.label>탄소강 정련: 융선 대</HD_RefineCarbonSteelLarge.label>
-  <HD_RefineCarbonSteelLarge.description>전로에서 큰 융선과 철광석을 함께 정련하여 탄소강을 만듭니다.</HD_RefineCarbonSteelLarge.description>
+  <HD_RefineCarbonSteelLarge.label>탄소강 대 정련</HD_RefineCarbonSteelLarge.label>
+  <HD_RefineCarbonSteelLarge.description>전로가 연결된 고로에서 강철을 탄소강 165개로 정련합니다.</HD_RefineCarbonSteelLarge.description>
   <HD_RefineCarbonSteelLarge.jobString>탄소강을 정련하는 중</HD_RefineCarbonSteelLarge.jobString>
 
   <HD_ArcRefineCarbonSteelFromPigIron.label>전기아크로 탄소강 정련: 주철</HD_ArcRefineCarbonSteelFromPigIron.label>

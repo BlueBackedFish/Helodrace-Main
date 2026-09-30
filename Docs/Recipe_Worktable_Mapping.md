@@ -15,7 +15,7 @@
 | 대전기 | 프레스 성형 | M1 철모 | `HD_LineShaftHydraulicPress` |
 | 서부~현대 | 최종 조립·탄약 조립 | 총기, 전기 부품, 포탄·로켓 등 | `HD_BasicWorkbench` |
 | 서부 | 원유 분별·정제 | 연료유, 등유, 나프타, 화학연료 | `HD_DistillationTower`, `HD_BatchStill` |
-| 대전기 | 제강 | 용선, 탄소강 | `HD_BlastFurnace`, `HD_Converter` |
+| 대전기 | 제강 | 주철, 탄소강 | `HD_BlastFurnace` (전로 연결 시 탄소강), `HD_Converter` (시설물) |
 | 현대 | 고압·화학 합성 | 질산암모늄, TNT, RDX, C4 | `HD_HaberBoschHighPressureReactor`, `HD_StirredTankReactor` |
 
 ## 배치 원칙

@@ -51,9 +51,9 @@
   <HD_LineShaftRollingMachine.label>라인 샤프트 압연기</HD_LineShaftRollingMachine.label>
   <HD_LineShaftRollingMachine.description>라인 샤프트 동력망으로 구동되는 대형 압연기입니다. 가열된 금속 소재를 한 쌍의 롤러 사이로 눌러 막대, 판재, 기타 평평한 형태로 늘립니다.</HD_LineShaftRollingMachine.description>
   <HD_BlastFurnace.label>고로</HD_BlastFurnace.label>
-  <HD_BlastFurnace.description>대량의 철을 제련하기 위한 거대한 용광로입니다. 이후 성형과 정련에 사용할 융선을 생산할 수 있습니다.</HD_BlastFurnace.description>
+  <HD_BlastFurnace.description>강철을 제련해 주철을 만들고, 근처 전로가 연결되면 탄소강도 정련하는 거대한 용광로입니다.</HD_BlastFurnace.description>
   <HD_Converter.label>전로</HD_Converter.label>
-  <HD_Converter.description>융선과 철광석을 함께 정련하여 탄소강을 만드는 기울임식 제강 설비입니다.</HD_Converter.description>
+  <HD_Converter.description>근처 고로에 연결되면 탄소강 정련을 가능하게 하는 제강 설비입니다.</HD_Converter.description>
   <HD_SAFurnace.label>전기아크로</HD_SAFurnace.label>
   <HD_SAFurnace.description>전극 사이에 강력한 전기 아크를 일으켜 금속을 용해하고 정련하는 대형 전기로입니다. 많은 양을 빠르게 처리하지만 가동 중 막대한 전력을 소모합니다.</HD_SAFurnace.description>
   <HD_LineShaftMillingMachine.label>라인 샤프트 밀링 머신</HD_LineShaftMillingMachine.label>
@@ -79,9 +79,9 @@
   <HD_DistillationTower.comps.2.outOfFuelMessage>작동 불가: 디젤 부족</HD_DistillationTower.comps.2.outOfFuelMessage>
   <HD_KeroseneLamp.comps.0.fuelLabel>등유</HD_KeroseneLamp.comps.0.fuelLabel>
   <HD_KeroseneLamp.comps.0.fuelGizmoLabel>등유 연료</HD_KeroseneLamp.comps.0.fuelGizmoLabel>
-  <HD_BlastFurnace.comps.1.fuelLabel>숯</HD_BlastFurnace.comps.1.fuelLabel>
-  <HD_BlastFurnace.comps.1.fuelGizmoLabel>숯 연료</HD_BlastFurnace.comps.1.fuelGizmoLabel>
-  <HD_BlastFurnace.comps.1.outOfFuelMessage>작동 불가: 숯 부족</HD_BlastFurnace.comps.1.outOfFuelMessage>
+  <HD_BlastFurnace.comps.2.fuelLabel>숯</HD_BlastFurnace.comps.2.fuelLabel>
+  <HD_BlastFurnace.comps.2.fuelGizmoLabel>숯 연료</HD_BlastFurnace.comps.2.fuelGizmoLabel>
+  <HD_BlastFurnace.comps.2.outOfFuelMessage>작동 불가: 숯 부족</HD_BlastFurnace.comps.2.outOfFuelMessage>
   <HD_TelegraphTable.comps.1.fuelLabel>일차 전지</HD_TelegraphTable.comps.1.fuelLabel>
   <HD_TelegraphTable.comps.1.fuelGizmoLabel>일차 전지</HD_TelegraphTable.comps.1.fuelGizmoLabel>
   <HD_TelegraphTable.comps.1.outOfFuelMessage>송신 불가: 일차 전지 없음</HD_TelegraphTable.comps.1.outOfFuelMessage>

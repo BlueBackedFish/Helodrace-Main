@@ -1214,7 +1214,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_BlastFurnace</defName>
     <label>blast furnace</label>
-    <description>A large furnace used to smelt iron at industrial scale. It can produce batches of molten iron for later shaping and refining.</description>
+    <description>A large furnace that casts pig iron and refines carbon steel when linked to a nearby converter.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_BlastFurnace</texPath>
@@ -1262,7 +1262,15 @@
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
     <comps>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>HD_Converter</li>
+        </linkableFacilities>
+      </li>
       <li Class="CompProperties_Flickable"/>
       <li Class="CompProperties_Refuelable">
         <fuelConsumptionRate>400.0</fuelConsumptionRate>
@@ -1295,7 +1303,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_Converter</defName>
     <label>converter</label>
-    <description>A tilting steelmaking vessel used to refine molten iron with iron ore into carbon steel.</description>
+    <description>A steelmaking vessel that enables carbon steel recipes when linked to a nearby blast furnace.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_Converter</texPath>
@@ -1340,19 +1348,20 @@
     <researchPrerequisites>
       <li>HelodIronMaking</li>
     </researchPrerequisites>
-    <inspectorTabs>
-      <li>ITab_Bills</li>
-    </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
     <comps>
-      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>1</maxSimultaneous>
+        <maxDistance>6</maxDistance>
+      </li>
       <li Class="CompProperties_Glower">
         <glowRadius>8</glowRadius>
         <glowColor>(255,125,45,0)</glowColor>
       </li>
     </comps>
-    <building>
-      <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
-    </building>
+    <building />
   </ThingDef>
 
   <!-- Electric Arc Furnace (SAF) -->

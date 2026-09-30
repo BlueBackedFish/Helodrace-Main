@@ -32,6 +32,7 @@ foreach ($document in $documents) {
             Users = @(Values $node 'recipeUsers/li')
             Research = @((Values $node 'researchPrerequisites/li') + (Values $node 'researchPrerequisite')) | Where-Object { $_ }
             File = $document.File.FullName
+            Node = $node
         }
     }
 }
@@ -80,6 +81,24 @@ foreach ($entry in $expectedUsers.GetEnumerator()) {
     Assert (($recipes[$entry.Key].Users -join '|') -ceq ($entry.Value -join '|')) "Wrong worktable mapping: $($entry.Key)"
 }
 
+$blastFurnace = $thingDefs['HD_BlastFurnace']
+$converter = $thingDefs['HD_Converter']
+Assert ($null -ne $blastFurnace -and $null -ne $converter) 'Blast furnace and converter must exist.'
+Assert ((Values $blastFurnace 'comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities/li' -join '|') -ceq 'HD_Converter') 'Blast furnace must link to converters.'
+Assert ($null -ne $converter.SelectSingleNode('comps/li[@Class="CompProperties_Facility"]')) 'Converter must be a vanilla facility.'
+foreach ($size in @('Small', 'Medium', 'Large')) {
+    $pig = $recipes["HD_CastPigIron$size"]
+    $steel = $recipes["HD_RefineCarbonSteel$size"]
+    Assert ($null -ne $pig -and $null -ne $steel) "Missing $size ironmaking recipes."
+    Assert (($pig.Users -join '|') -ceq 'HD_BlastFurnace') "Pig iron $size must be made at the blast furnace."
+    Assert ($null -ne $pig.Node.SelectSingleNode('products/HD_PigIron')) "Pig iron $size has the wrong product."
+    Assert (($steel.Users -join '|') -ceq 'HD_BlastFurnace|HD_Converter') "Carbon steel $size must display both buildings."
+    Assert ($null -ne $steel.Node.SelectSingleNode('products/HD_CarbonSteel')) "Carbon steel $size has the wrong product."
+    Assert ((Values $steel.Node 'workerClass' -join '|') -ceq 'Helodrace.RecipeWorker_RequiresLinkedFacility') "Carbon steel $size must check the live facility connection."
+    Assert ((Values $steel.Node 'modExtensions/li/workTable' -join '|') -ceq 'HD_BlastFurnace') "Carbon steel $size has the wrong worktable requirement."
+    Assert ((Values $steel.Node 'modExtensions/li/facility' -join '|') -ceq 'HD_Converter') "Carbon steel $size has the wrong facility requirement."
+}
+
 $m1 = $thingDefs['HD_Apparel_GreatWarM1Helmet']
 Assert ($null -ne $m1) 'Missing M1 helmet ThingDef.'
 $m1Users = @(Values $m1 'recipeMaker/recipeUsers/li')
@@ -90,3 +109,4 @@ Write-Output "PASS: $($recipes.Count) explicit RecipeDefs and $($thingDefs.Count
 Write-Output "PASS: no orphan recipes; all Helod recipeUsers resolve to concrete worktables and contain no duplicate entries."
 Write-Output "PASS: base/bulk recipe families share worktables and research prerequisites."
 Write-Output "PASS: $($mappedRecipeNames.Count) process recipes and the M1 helmet match Docs/Recipe_Worktable_Mapping.md."
+Write-Output 'PASS: three pig iron and facility-gated carbon steel recipes have the expected products and worktable listings.'

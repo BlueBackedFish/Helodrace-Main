@@ -96,22 +96,6 @@
   </WorkGiverDef>
 
   <WorkGiverDef>
-    <defName>DoBillsHD_Converter</defName>
-    <label>use converter</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Crafting</workType>
-    <priorityInType>100</priorityInType>
-    <fixedBillGiverDefs>
-      <li>HD_Converter</li>
-    </fixedBillGiverDefs>
-    <verb>refine</verb>
-    <gerund>refining at</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-  </WorkGiverDef>
-
-  <WorkGiverDef>
     <defName>DoBillsHD_CampfireCrafting</defName>
     <label>use campfire for crafting</label>
     <giverClass>WorkGiver_DoBill</giverClass>
