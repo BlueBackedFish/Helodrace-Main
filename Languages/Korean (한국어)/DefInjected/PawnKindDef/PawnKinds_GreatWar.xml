@@ -9,4 +9,7 @@
   <HD_GW_HelodBazooka.label>대전기 헤로드 바주카 사수</HD_GW_HelodBazooka.label>
   <HD_GW_HelodBazookaAmmoBearer.label>대전기 헤로드 바주카 탄약수</HD_GW_HelodBazookaAmmoBearer.label>
   <HD_GW_HelodCaravanGuard.label>대전기 헤로드 상단 경비원</HD_GW_HelodCaravanGuard.label>
+  <HD_GW_HelodCaravanGuardCaptain.label>대전기 헤로드 상단 경비대장</HD_GW_HelodCaravanGuardCaptain.label>
+  <HD_GW_HelodEliteCaravanGuard.label>대전기 헤로드 상단 고급 경비원</HD_GW_HelodEliteCaravanGuard.label>
+  <HD_GW_HelodEliteCaravanGuardCaptain.label>대전기 헤로드 상단 고급 경비대장</HD_GW_HelodEliteCaravanGuardCaptain.label>
 </LanguageData>

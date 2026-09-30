@@ -444,6 +444,9 @@
       <li>HD_GreatWarSubmachineGun</li>
       <li>HD_GreatWarSMG</li>
       <li>HD_GreatWarCaravanGuard</li>
+      <li>HD_GreatWarCaravanGuardCaptain</li>
+      <li>HD_GreatWarEliteCaravanGuard</li>
+      <li>HD_GreatWarEliteCaravanGuardCaptain</li>
     </weaponTags>
     <label>M1A1 Harrington</label>
     <description>A rugged submachine gun with a heavy bolt and a fast cyclic rate. It fires hard-hitting pistol cartridges in controlled bursts.</description>
@@ -530,6 +533,8 @@
     <weaponTags>
       <li>HD_GreatWarSubmachineGun</li>
       <li>HD_GreatWarSMG</li>
+      <li>HD_GreatWarEliteCaravanGuard</li>
+      <li>HD_GreatWarEliteCaravanGuardCaptain</li>
     </weaponTags>
     <label>M3A1 submachine gun</label>
     <description>A compact stamped-metal submachine gun built for simple production and steady close-range automatic fire.</description>
@@ -1268,6 +1273,7 @@
       <li>HD_WildWestLeverActionShotgun</li>
       <li>HD_GreatWarShotgun</li>
       <li>HD_GreatWarCaravanGuard</li>
+      <li>HD_GreatWarEliteCaravanGuard</li>
     </weaponTags>
     <label>Frontier Arms M1897</label>
     <description>A pump-action shotgun fed from a tubular magazine. It can deliver rapid follow-up shots at close range.</description>
@@ -1356,6 +1362,8 @@
       <li>HD_GreatWarSemiAutoRifle</li>
       <li>HD_GreatWarM1Garand</li>
       <li>HD_GreatWarCarbine</li>
+      <li>HD_GreatWarCaravanGuardCaptain</li>
+      <li>HD_GreatWarEliteCaravanGuard</li>
     </weaponTags>
     <label>M1A1 carbine</label>
     <description>A compact, lightweight semi-automatic carbine fitted with a folding wire stock. It is quick to shoulder and easy to carry, trading the power and reach of a full-size service rifle for excellent handling.</description>
@@ -1431,6 +1439,9 @@
       <li>HD_GreatWarSubmachineGun</li>
       <li>HD_GreatWarSemiAutoRifle</li>
       <li>HD_GreatWarCarbine</li>
+      <li>HD_GreatWarCaravanGuardCaptain</li>
+      <li>HD_GreatWarEliteCaravanGuard</li>
+      <li>HD_GreatWarEliteCaravanGuardCaptain</li>
     </weaponTags>
     <label>M2 carbine</label>
     <description>A select-fire development of the lightweight service carbine. Its controllable cartridge and compact frame make it effective in close fighting, though sustained automatic fire quickly loses precision at range.</description>
@@ -1507,6 +1518,8 @@
       <li>HD_GreatWarSemiAutoRifle</li>
       <li>HD_GreatWarM1Garand</li>
       <li>HD_GreatWarRifleman</li>
+      <li>HD_GreatWarEliteCaravanGuard</li>
+      <li>HD_GreatWarEliteCaravanGuardCaptain</li>
     </weaponTags>
     <label>M1 Hartwell</label>
     <description>A semi-automatic battle rifle fed by an en-bloc clip. It gives up a little deliberate precision for rapid, powerful follow-up fire. In later stories, the adoption of small-caliber high-velocity rounds was delayed by the Dark Hartwell Order.</description>
@@ -1833,6 +1846,7 @@
     <weaponTags>
       <li>HD_GreatWarBoltActionRifle</li>
       <li>HD_GreatWarCaravanGuard</li>
+      <li>HD_GreatWarCaravanGuardCaptain</li>
     </weaponTags>
     <label>Graylock M1903</label>
     <description>A reliable and accurate bolt-action rifle that served for decades. Highly prized for its precision.</description>
@@ -1980,6 +1994,8 @@
     <weaponTags>
       <li>HD_GreatWarSemiAutoRifle</li>
       <li>HD_GreatWarCaravanGuard</li>
+      <li>HD_GreatWarCaravanGuardCaptain</li>
+      <li>HD_GreatWarEliteCaravanGuard</li>
     </weaponTags>
     <label>Graylock M1903 Whitmore device</label>
     <description>An M1903 rifle fitted with a Whitmore conversion device. It uses lighter ammunition instead of full-power rifle cartridges, allowing fast semi-automatic fire.</description>

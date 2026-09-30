@@ -273,7 +273,7 @@
     <description>A modular 7.62mm service rifle with interchangeable barrel, stock, sights, and magazine.</description>
     <thingClass>Helodrace.ModernWar.ModularWeaponThing</thingClass>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M14</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
-    <soundInteract>Interact_Rifle</soundInteract><weaponTags><li>HD_ModernWarWeapon</li></weaponTags>
+    <soundInteract>Interact_Rifle</soundInteract><weaponTags><li>HD_ModernWarWeapon</li><li>HD_GreatWarEliteCaravanGuardCaptain</li></weaponTags>
     <statBases><WorkToMake>40000</WorkToMake><Mass>4.1</Mass><MarketValue>1100</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.65</AccuracyTouch><AccuracyShort>0.80</AccuracyShort><AccuracyMedium>0.82</AccuracyMedium><AccuracyLong>0.73</AccuracyLong><RangedWeapon_Cooldown>1.6</RangedWeapon_Cooldown></statBases>
     <costList><Steel>55</Steel><ComponentIndustrial>5</ComponentIndustrial></costList>
     <recipeMaker><skillRequirements><Crafting>8</Crafting></skillRequirements><researchPrerequisite>HelodLowAutomaticRifle</researchPrerequisite><recipeUsers Inherit="False"><li>HD_BasicWorkbench</li></recipeUsers></recipeMaker>

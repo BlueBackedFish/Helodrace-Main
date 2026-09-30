@@ -616,6 +616,9 @@
         <li>HD_Apparel</li>
         <li>HD_Apparel_GW_Uniform</li>
         <li>HD_Apparel_GW_CaravanGuard</li>
+        <li>HD_Apparel_GW_CaravanGuardCaptain</li>
+        <li>HD_Apparel_GW_EliteCaravanGuard</li>
+        <li>HD_Apparel_GW_EliteCaravanGuardCaptain</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -683,6 +686,9 @@
         <li>HD_Apparel_GW_Uniform</li>
         <li>HD_Apparel_GW_Protective</li>
         <li>HD_Apparel_GW_CaravanGuard</li>
+        <li>HD_Apparel_GW_CaravanGuardCaptain</li>
+        <li>HD_Apparel_GW_EliteCaravanGuard</li>
+        <li>HD_Apparel_GW_EliteCaravanGuardCaptain</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -745,6 +751,8 @@
       <tags>
         <li>HD_Apparel</li>
         <li>HD_Apparel_GW_Uniform</li>
+        <li>HD_Apparel_GW_EliteCaravanGuard</li>
+        <li>HD_Apparel_GW_EliteCaravanGuardCaptain</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -811,6 +819,8 @@
         <li>HD_Apparel</li>
         <li>HD_Apparel_GW_Uniform</li>
         <li>HD_Apparel_GW_Protective</li>
+        <li>HD_Apparel_GW_EliteCaravanGuard</li>
+        <li>HD_Apparel_GW_EliteCaravanGuardCaptain</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -869,6 +879,8 @@
       <tags>
         <li>HD_Apparel</li>
         <li>HD_Apparel_GW_Protective</li>
+        <li>HD_Apparel_GW_EliteCaravanGuard</li>
+        <li>HD_Apparel_GW_EliteCaravanGuardCaptain</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -1240,6 +1252,9 @@
       <tags>
         <li>HD_Apparel</li>
         <li>HD_Apparel_GW_CaravanGuard</li>
+        <li>HD_Apparel_GW_CaravanGuardCaptain</li>
+        <li>HD_Apparel_GW_EliteCaravanGuard</li>
+        <li>HD_Apparel_GW_EliteCaravanGuardCaptain</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
