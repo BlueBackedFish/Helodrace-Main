@@ -423,6 +423,7 @@
         <li>HD_Apparel</li>
         <li>HD_Apparel_Casual</li>
         <li>HD_Apparel_GW_CaravanGuard</li>
+        <li>HD_Apparel_GW_CaravanGuardInner</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
@@ -499,6 +500,7 @@
         <li>HD_Apparel_Casual</li>
         <li>HD_Apparel_Formal</li>
         <li>HD_Apparel_GW_EliteCaravanGuard</li>
+        <li>HD_Apparel_GW_EliteCaravanGuardInner</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
