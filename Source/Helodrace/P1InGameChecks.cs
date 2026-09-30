@@ -119,12 +119,14 @@ namespace Helodrace
         private void CheckMechanicalTemperature()
         {
             float expected = 2f * GenTicks.TickRareInterval / GenTicks.TicksPerRealSecond;
-            float first = CompMechanicalTemperatureControl.EnergyPerRareTick(-2f, 1f);
-            Check(Math.Abs(first - expected) < 0.0001f, "heat pump converts -2 W into one complete rare-tick energy quantum");
+            float first = CompMechanicalTemperatureControl.EnergyPerRareTick(2f, 1f);
+            Check(Math.Abs(first - expected) < 0.0001f, "heat pump converts 2 W of selected cooling into one complete rare-tick energy quantum");
+            Check(Math.Abs(CompMechanicalTemperatureControl.EnergyPerRareTick(2f, 0.5f) - expected * 0.5f) < 0.0001f,
+                "heat pump cooling slows proportionally during overload");
             bool deterministic = true;
             for (int index = 0; index < 100; index++)
             {
-                deterministic &= Math.Abs(CompMechanicalTemperatureControl.EnergyPerRareTick(-2f, 1f) - first) < 0.000001f;
+                deterministic &= Math.Abs(CompMechanicalTemperatureControl.EnergyPerRareTick(2f, 1f) - first) < 0.000001f;
             }
             Check(deterministic, "heat pump rare-tick transfer is deterministic across 100 samples");
         }

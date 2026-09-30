@@ -68,7 +68,6 @@
         <requireTorque>300</requireTorque>
         <minimalRPM>100</minimalRPM>
         <recommendedRPM>100</recommendedRPM>
-        <defaultGearRatio>1.0</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>2</heatPerSecond>
@@ -474,7 +473,6 @@
         <requireTorque>10000</requireTorque>
         <minimalRPM>100</minimalRPM>
         <recommendedRPM>1200</recommendedRPM>
-        <defaultGearRatio>1</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalGenerator">
         <ratedMechanicalInput>10000</ratedMechanicalInput>
@@ -549,7 +547,6 @@
         <requireTorque>250</requireTorque>
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>60</recommendedRPM>
-        <defaultGearRatio>1.0</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>2</heatPerSecond>
@@ -956,7 +953,6 @@
         <requireTorque>250</requireTorque>
         <minimalRPM>150</minimalRPM>
         <recommendedRPM>250</recommendedRPM>
-        <defaultGearRatio>1.0</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalHazard">
         <rpmErrorThreshold>10</rpmErrorThreshold>
@@ -1034,7 +1030,6 @@
         <requireTorque>300</requireTorque>
         <minimalRPM>180</minimalRPM>
         <recommendedRPM>300</recommendedRPM>
-        <defaultGearRatio>1.0</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalHazard">
         <rpmErrorThreshold>10</rpmErrorThreshold>
@@ -1113,7 +1108,6 @@
         <requireTorque>450</requireTorque>
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>120</recommendedRPM>
-        <defaultGearRatio>1.0</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalHazard">
         <rpmErrorThreshold>10</rpmErrorThreshold>
@@ -1191,7 +1185,6 @@
         <requireTorque>500</requireTorque>
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>120</recommendedRPM>
-        <defaultGearRatio>1.0</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalHazard">
         <rpmErrorThreshold>10</rpmErrorThreshold>
@@ -1437,7 +1430,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftHeatPump</defName>
     <label>line shaft heat pump</label>
-    <description>A line-shaft-driven heat pump that fits into a wall. One side chills the air while the other dumps waste heat, with transfer strength depending on actual shaft speed.</description>
+    <description>A line-shaft-driven heat pump that fits into a wall. Set how much heat to remove from the cold side; higher settings require more mechanical power and dump more heat on the hot side.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Buildings/HD_LineShaftHeatPump</texPath>
@@ -1494,16 +1487,14 @@
       <li Class="CompProperties_Flickable"/>
       <li Class="Helodrace.CompProperties_MechanicalUser">
         <requireTorque>40</requireTorque>
-        <minimalRPM>20</minimalRPM>
+        <minimalRPM>5</minimalRPM>
         <recommendedRPM>20</recommendedRPM>
-        <defaultGearRatio>1.0</defaultGearRatio>
       </li>
       <li Class="Helodrace.CompProperties_MechanicalTemperatureControl">
-        <heatPerSecond>-2</heatPerSecond>
+        <defaultColdHeatRemovalPerSecond>2</defaultColdHeatRemovalPerSecond>
+        <maxColdHeatRemovalPerSecond>80</maxColdHeatRemovalPerSecond>
         <heatDumpFactor>1.25</heatDumpFactor>
         <outdoorSideEfficiencyMultiplier>1</outdoorSideEfficiencyMultiplier>
-        <ratedRPM>20</ratedRPM>
-        <maxHeatTransferFactor>40</maxHeatTransferFactor>
       </li>
     </comps>
   </ThingDef>

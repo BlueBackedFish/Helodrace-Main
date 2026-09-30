@@ -11,7 +11,6 @@ namespace Helodrace
 
         protected Thing Machine => job.targetA.Thing;
         protected CompMechanicalEmitter EmitterComp => Machine.TryGetComp<CompMechanicalEmitter>();
-        protected CompMechanicalUser UserComp => Machine.TryGetComp<CompMechanicalUser>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -48,10 +47,6 @@ namespace Helodrace
                     {
                         EmitterComp.ApplyPendingTargetRPM();
                     }
-                    if (UserComp != null)
-                    {
-                        UserComp.ApplyPendingGearRatio();
-                    }
                 },
                 defaultCompleteMode = ToilCompleteMode.Instant
             };
@@ -68,15 +63,8 @@ namespace Helodrace
             if (t.Faction != pawn.Faction) return false;
             
             var emitter = t.TryGetComp<CompMechanicalEmitter>();
-            var user = t.TryGetComp<CompMechanicalUser>();
 
             if (emitter != null && emitter.WantsConfiguration)
-            {
-                if (!pawn.CanReserve(t, 1, -1, null, forced)) return false;
-                return true;
-            }
-
-            if (user != null && user.WantsConfiguration)
             {
                 if (!pawn.CanReserve(t, 1, -1, null, forced)) return false;
                 return true;

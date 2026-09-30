@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -9,11 +10,34 @@ namespace Helodrace
         public CompProperties_MechanicalTemperatureControl Props => (CompProperties_MechanicalTemperatureControl)props;
 
         private CompMechanicalUser mechanicalUser;
+        private float targetColdHeatRemovalPerSecond = -1f;
+
+        public float TargetColdHeatRemovalPerSecond
+        {
+            get
+            {
+                if (targetColdHeatRemovalPerSecond < 0f)
+                {
+                    targetColdHeatRemovalPerSecond = Props.defaultColdHeatRemovalPerSecond;
+                }
+                return targetColdHeatRemovalPerSecond;
+            }
+            set => targetColdHeatRemovalPerSecond = Mathf.Clamp(value, 0f, Props.maxColdHeatRemovalPerSecond);
+        }
+
+        public float TorqueDemandFactor => TargetColdHeatRemovalPerSecond
+            / Mathf.Max(0.01f, Props.defaultColdHeatRemovalPerSecond);
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
             mechanicalUser = parent.GetComp<CompMechanicalUser>();
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Values.Look(ref targetColdHeatRemovalPerSecond, "targetColdHeatRemovalPerSecond", -1f);
         }
 
         public override void CompTickRare()
@@ -25,7 +49,7 @@ namespace Helodrace
                 return;
             }
 
-            float transferPerRareTick = EnergyPerRareTick(Props.heatPerSecond, HeatTransferFactor);
+            float transferPerRareTick = EnergyPerRareTick(TargetColdHeatRemovalPerSecond, OutputFactor);
             if (Mathf.Approximately(transferPerRareTick, 0f))
             {
                 return;
@@ -46,11 +70,12 @@ namespace Helodrace
             ApplyTemperatureChangeToRoom(HotSideCell, hotEnergyLimit, Props.hotSideTargetTemperature);
         }
 
-        internal static float EnergyPerRareTick(float heatPerSecond, float transferFactor)
+        internal static float EnergyPerRareTick(float coldHeatRemovalPerSecond, float outputFactor)
         {
             // CompTickRare runs once per 250 game ticks. GenTemperature expects the
             // total energy for that invocation, as used by vanilla heaters/coolers.
-            return Mathf.Abs(heatPerSecond) * transferFactor * GenTicks.TickRareInterval / 60f;
+            return Mathf.Max(0f, coldHeatRemovalPerSecond) * Mathf.Clamp01(outputFactor)
+                * GenTicks.TickRareInterval / GenTicks.TicksPerRealSecond;
         }
 
         private bool IsOutdoorOrInvalid(IntVec3 cell)
@@ -88,20 +113,7 @@ namespace Helodrace
 
         private IntVec3 HotSideCell => parent.Position + IntVec3.North.RotatedBy(parent.Rotation);
 
-        private float RatedRPM
-        {
-            get
-            {
-                if (Props.ratedRPM > 0f)
-                {
-                    return Props.ratedRPM;
-                }
-
-                return mechanicalUser?.Props.recommendedRPM ?? 1f;
-            }
-        }
-
-        private float HeatTransferFactor
+        private float OutputFactor
         {
             get
             {
@@ -110,8 +122,8 @@ namespace Helodrace
                     return 0f;
                 }
 
-                float ratedRPM = Mathf.Max(1f, RatedRPM);
-                return Mathf.Clamp(mechanicalUser.RealRPM / ratedRPM, 0f, Props.maxHeatTransferFactor);
+                return Mathf.Clamp01(mechanicalUser.RealRPM
+                    / Mathf.Max(1f, mechanicalUser.Props.recommendedRPM));
             }
         }
 
@@ -122,29 +134,62 @@ namespace Helodrace
                 return null;
             }
 
-            float coldPerSecond = Mathf.Abs(Props.heatPerSecond) * HeatTransferFactor;
+            float coldPerSecond = TargetColdHeatRemovalPerSecond * OutputFactor;
             float hotPerSecond = coldPerSecond * Props.heatDumpFactor;
             string coldRoom = SideRoomLabel(ColdSideCell);
             string hotRoom = SideRoomLabel(HotSideCell);
-            return "Heat pump transfer: -" + coldPerSecond.ToString("F1") + " W / +" + hotPerSecond.ToString("F1") + " W (RPM " + mechanicalUser.RealRPM.ToString("F0") + "/" + RatedRPM.ToString("F0") + ")\nCold side: " + coldRoom + "\nHot side: " + hotRoom;
+            return "HD_HeatPump_Inspect".Translate(
+                TargetColdHeatRemovalPerSecond.ToString("F1"),
+                coldPerSecond.ToString("F1"),
+                hotPerSecond.ToString("F1"),
+                coldRoom,
+                hotRoom).Resolve();
+        }
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            {
+                yield return gizmo;
+            }
+
+            if (parent.Faction != Faction.OfPlayer)
+            {
+                yield break;
+            }
+
+            foreach (int change in new[] { -10, -1, 1, 10 })
+            {
+                int step = change;
+                yield return new Command_Action
+                {
+                    action = () => TargetColdHeatRemovalPerSecond += step,
+                    defaultLabel = (step > 0 ? "+" : "") + step + " W",
+                    defaultDesc = "HD_HeatPump_AdjustCooling".Translate(step.ToString()),
+                    icon = ContentFinder<Texture2D>.Get(
+                        step < 0 ? "UI/Commands/TempLower" : "UI/Commands/TempRaise", true)
+                };
+            }
         }
 
         private string SideRoomLabel(IntVec3 cell)
         {
             if (!cell.InBounds(parent.Map))
             {
-                return "out of bounds";
+                return "HD_HeatPump_OutOfBounds".Translate().Resolve();
             }
 
             Room room = cell.GetRoom(parent.Map);
             if (room == null)
             {
-                return "no room (" + OutdoorTemperatureAt(cell).ToStringTemperature("F1") + ")";
+                return "HD_HeatPump_NoRoom".Translate(
+                    OutdoorTemperatureAt(cell).ToStringTemperature("F1")).Resolve();
             }
 
             if (room.UsesOutdoorTemperature)
             {
-                return "outdoors (" + OutdoorTemperatureAt(cell).ToStringTemperature("F1") + ")";
+                return "HD_HeatPump_Outdoors".Translate(
+                    OutdoorTemperatureAt(cell).ToStringTemperature("F1")).Resolve();
             }
 
             return room.Temperature.ToStringTemperature("F1");
@@ -158,13 +203,12 @@ namespace Helodrace
 
     public class CompProperties_MechanicalTemperatureControl : CompProperties
     {
-        public float heatPerSecond = -21f;
+        public float defaultColdHeatRemovalPerSecond = 2f;
+        public float maxColdHeatRemovalPerSecond = 80f;
         public float heatDumpFactor = 1.25f;
         public float outdoorSideEfficiencyMultiplier = 1f;
         public float coldSideTargetTemperature = -273.15f;
         public float hotSideTargetTemperature = 1000f;
-        public float ratedRPM = 0f;
-        public float maxHeatTransferFactor = 1.5f;
 
         public CompProperties_MechanicalTemperatureControl()
         {

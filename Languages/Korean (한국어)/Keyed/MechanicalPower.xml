@@ -12,13 +12,14 @@
   <HD_MechanicalUser_TorqueStruggle> (과부하 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
   <HD_MechanicalUser_DangerNone>없음 (안전)</HD_MechanicalUser_DangerNone>
   <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}\n요구 속도: {3} - {4} RPM\n위험 요소: {5}</HD_MechanicalUser_Info>
-  <HD_MechanicalUser_GearRatio>현재 기어비: {0}x</HD_MechanicalUser_GearRatio>
-  <HD_MechanicalUser_GearRatioPending>현재 기어비: {0}x (대기 중: {1}x)</HD_MechanicalUser_GearRatioPending>
   <HD_MechanicalUser_SpeedInfo>실제 속도: {0} RPM (±{1} RPM)\n유효 속도: {2} RPM\n상태: {3}</HD_MechanicalUser_SpeedInfo>
   <HD_MechanicalUser_Operating>작동 중</HD_MechanicalUser_Operating>
   <HD_MechanicalUser_Stalled>정지됨/무동력</HD_MechanicalUser_Stalled>
-  <HD_Command_DecreaseGear_Desc>기어비를 {0}만큼 감소시킵니다.</HD_Command_DecreaseGear_Desc>
-  <HD_Command_IncreaseGear_Desc>기어비를 {0}만큼 증가시킵니다.</HD_Command_IncreaseGear_Desc>
+  <HD_HeatPump_Inspect>찬쪽 열 감소량 설정: {0} W\n실제 열 이동: 찬쪽 -{1} W / 뜨거운쪽 +{2} W\n찬쪽: {3}\n뜨거운쪽: {4}</HD_HeatPump_Inspect>
+  <HD_HeatPump_AdjustCooling>찬쪽 열 감소량을 {0} W만큼 조정합니다.</HD_HeatPump_AdjustCooling>
+  <HD_HeatPump_OutOfBounds>지도 밖</HD_HeatPump_OutOfBounds>
+  <HD_HeatPump_NoRoom>방 없음 ({0})</HD_HeatPump_NoRoom>
+  <HD_HeatPump_Outdoors>실외 ({0})</HD_HeatPump_Outdoors>
 
   <!-- Mechanical info card stats -->
   <HD_Stat_MechanicalRole>기계 동력 역할</HD_Stat_MechanicalRole>
@@ -39,11 +40,9 @@
   <HD_Stat_MechanicalRpmInaccuracy>RPM 오차</HD_Stat_MechanicalRpmInaccuracy>
   <HD_Stat_MechanicalRpmInaccuracy_Desc>동력망에서 다른 동력원과 속도를 맞출 때 허용되는 회전 속도 오차입니다.</HD_Stat_MechanicalRpmInaccuracy_Desc>
   <HD_Stat_MechanicalRequiredTorque>요구 토크</HD_Stat_MechanicalRequiredTorque>
-  <HD_Stat_MechanicalRequiredTorque_Desc>권장 RPM에서 이 장치가 요구하는 기본 토크입니다.</HD_Stat_MechanicalRequiredTorque_Desc>
+  <HD_Stat_MechanicalRequiredTorque_Desc>자동 변속으로 권장 RPM에서 요구하는 기본 토크입니다. 열펌프는 냉각량 설정에 따라 요구량이 달라집니다.</HD_Stat_MechanicalRequiredTorque_Desc>
   <HD_Stat_MechanicalRpmRequirement>요구 RPM</HD_Stat_MechanicalRpmRequirement>
   <HD_Stat_MechanicalRpmRequirement_Desc>장치가 작동하기 위한 최소 RPM과 완전한 효율을 내는 권장 RPM입니다.</HD_Stat_MechanicalRpmRequirement_Desc>
-  <HD_Stat_MechanicalDefaultGearRatio>기본 기어비</HD_Stat_MechanicalDefaultGearRatio>
-  <HD_Stat_MechanicalDefaultGearRatio_Desc>건설 직후 이 장치에 적용되는 기본 기어비입니다.</HD_Stat_MechanicalDefaultGearRatio_Desc>
   <HD_Stat_MechanicalHazards>동력 위험 요소</HD_Stat_MechanicalHazards>
   <HD_Stat_MechanicalHazards_Desc>이 장치가 작동 중 가질 수 있는 기계적 위험 요소입니다.</HD_Stat_MechanicalHazards_Desc>
 

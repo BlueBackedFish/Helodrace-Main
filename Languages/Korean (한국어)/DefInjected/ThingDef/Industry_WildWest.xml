@@ -61,7 +61,7 @@
   <HD_LineShaftHydraulicPress.label>라인 샤프트 유압 프레스</HD_LineShaftHydraulicPress.label>
   <HD_LineShaftHydraulicPress.description>라인 샤프트 동력망으로 구동되는 중형 유압 프레스입니다. 강철 소재를 스프링, 압인 판재, 기타 힘으로 성형한 금속 부품으로 만듭니다.</HD_LineShaftHydraulicPress.description>
   <HD_LineShaftHeatPump.label>라인 샤프트 열펌프</HD_LineShaftHeatPump.label>
-  <HD_LineShaftHeatPump.description>벽 안에 설치되는 라인 샤프트 구동식 열펌프입니다. 한쪽은 공기를 식히고 다른 쪽은 폐열을 배출하며, 실제 축 속도에 따라 열 전달 성능이 달라집니다.</HD_LineShaftHeatPump.description>
+  <HD_LineShaftHeatPump.description>벽 안에 설치되는 라인 샤프트 구동식 열펌프입니다. 찬쪽 열 감소량을 설정할 수 있으며, 설정량이 클수록 기계 동력이 더 필요하고 뜨거운쪽에 더 많은 열을 배출합니다.</HD_LineShaftHeatPump.description>
   <HD_SmallSteamEngine.comps.2.fuelLabel>목재</HD_SmallSteamEngine.comps.2.fuelLabel>
   <HD_SmallSteamEngine.comps.2.fuelGizmoLabel>목재 연료</HD_SmallSteamEngine.comps.2.fuelGizmoLabel>
   <HD_SmallSteamEngine.comps.2.outOfFuelMessage>작동 불가: 목재 부족</HD_SmallSteamEngine.comps.2.outOfFuelMessage>

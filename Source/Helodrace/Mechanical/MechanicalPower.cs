@@ -83,7 +83,6 @@ namespace Helodrace
         public float requireTorque = 100f;
         public float minimalRPM = 50f;
         public float recommendedRPM = 300f;
-        public float defaultGearRatio = 1f;
 
         public CompProperties_MechanicalUser()
         {
@@ -100,7 +99,6 @@ namespace Helodrace
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRole", "HD_Stat_MechanicalRole_User".Translate().Resolve(), "HD_Stat_MechanicalRole_User_Desc");
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRequiredTorque", requireTorque.ToString("F0"), "HD_Stat_MechanicalRequiredTorque_Desc", 1);
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmRequirement", minimalRPM.ToString("F0") + " - " + recommendedRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmRequirement_Desc", 2);
-            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalDefaultGearRatio", defaultGearRatio.ToString("F1") + "x", "HD_Stat_MechanicalDefaultGearRatio_Desc", 3);
         }
     }
 
@@ -316,12 +314,10 @@ namespace Helodrace
         public CompFlickable Flickable { get; private set; }
         public CompMechanicalHazard Hazard { get; private set; }
         public CompMechanicalGenerator Generator { get; private set; }
+        public CompMechanicalTemperatureControl TemperatureControl { get; private set; }
         
         // This holds the actual ratio of torque the network was able to provide (1.0 = fully powered, <1.0 = overloaded)
         public float TorqueFulfillmentRatio { get; private set; } = 0f;
-
-        private float gearRatio = -1f;
-        private float pendingGearRatio = -1f;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -329,77 +325,26 @@ namespace Helodrace
             Flickable = parent.GetComp<CompFlickable>();
             Hazard = parent.GetComp<CompMechanicalHazard>();
             Generator = parent.GetComp<CompMechanicalGenerator>();
+            TemperatureControl = parent.GetComp<CompMechanicalTemperatureControl>();
         }
 
-        public float GearRatio
-        {
-            get
-            {
-                if (gearRatio < 0)
-                {
-                    gearRatio = Props.defaultGearRatio;
-                }
-                return gearRatio;
-            }
-            set
-            {
-                gearRatio = UnityEngine.Mathf.Max(0.1f, value);
-            }
-        }
+        // The transmission matches each machine's rated speed to the unloaded shaft.
+        // Under overload, GridRPM falls while this ratio stays fixed for the update.
+        private float AutomaticGearRatio => Network != null && Network.NominalGridRPM > 0f && Props.recommendedRPM > 0f
+            ? Network.NominalGridRPM / Props.recommendedRPM
+            : 1f;
 
-        public float PendingGearRatio
-        {
-            get
-            {
-                if (pendingGearRatio < 0)
-                {
-                    pendingGearRatio = GearRatio;
-                }
-                return pendingGearRatio;
-            }
-            set
-            {
-                pendingGearRatio = UnityEngine.Mathf.Max(0.1f, value);
-            }
-        }
+        public float RealRPM => Network != null ? Network.GridRPM / AutomaticGearRatio : 0f;
+        public float RealInaccuracy => Network != null ? Network.GridInaccuracy / AutomaticGearRatio : 0f;
+        public float RealRpmError => Network != null ? Network.GridRpmError / AutomaticGearRatio : 0f;
 
-        public bool WantsConfiguration => pendingGearRatio >= 0 && !UnityEngine.Mathf.Approximately(pendingGearRatio, GearRatio);
-        
-        public void ApplyPendingGearRatio()
-        {
-            if (WantsConfiguration)
-            {
-                GearRatio = pendingGearRatio;
-            }
-        }
-
-        // If the grid can't provide full torque, the user's RPM physically bogs down proportional to the missing torque.
-        public float RealRPM => Network != null ? (Network.GridRPM / GearRatio) * TorqueFulfillmentRatio : 0f;
-        public float RealInaccuracy => Network != null ? Network.GridInaccuracy / GearRatio : 0f;
-        public float RealRpmError => Network != null ? Network.GridRpmError / GearRatio : 0f;
-        
-        // Power = Torque * RPM. If RealRPM == recommendedRPM, this demands exactly requireTorque.
-        public float GridTorqueDemanded 
-        {
-            get
-            {
-                if (Network == null || Props.recommendedRPM <= 0) return 0f;
-                
-                // Calculate based on what the RPM *would* be before any overload torque drops
-                float intendedRpm = Network.GridRPM / GearRatio;
-                return Props.requireTorque * (intendedRpm / Props.recommendedRPM);
-            }
-        }
+        public float GridTorqueDemanded => Network != null
+            ? UnityEngine.Mathf.Max(0f, Props.requireTorque)
+                * (TemperatureControl?.TorqueDemandFactor ?? 1f)
+            : 0f;
         
         // Effective RPM caps at recommendedRPM. Used by other systems to calculate actual work speed.
         public float EffectiveRPM => UnityEngine.Mathf.Min(RealRPM, Props.recommendedRPM);
-
-        public override void PostExposeData()
-        {
-            base.PostExposeData();
-            Scribe_Values.Look(ref gearRatio, "gearRatio", -1f);
-            Scribe_Values.Look(ref pendingGearRatio, "pendingGearRatio", -1f);
-        }
 
         public void UpdatePowerStatus(bool isPowered, float fulfillmentRatio)
         {
@@ -424,15 +369,6 @@ namespace Helodrace
                     : "HD_MechanicalUser_DangerNone".Translate().Resolve()
             ).Resolve() + "\n";
 
-            if (WantsConfiguration)
-            {
-                str += "HD_MechanicalUser_GearRatioPending".Translate(GearRatio.ToString("F1"), PendingGearRatio.ToString("F1")).Resolve() + "\n";
-            }
-            else
-            {
-                str += "HD_MechanicalUser_GearRatio".Translate(GearRatio.ToString("F1")).Resolve() + "\n";
-            }
-
             string opStatus = HasPower ? "HD_MechanicalUser_Operating".Translate().Resolve() : "HD_MechanicalUser_Stalled".Translate().Resolve();
 
             str += "HD_MechanicalUser_SpeedInfo".Translate(
@@ -445,45 +381,6 @@ namespace Helodrace
             return str;
         }
 
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            foreach (Gizmo g in base.CompGetGizmosExtra())
-            {
-                yield return g;
-            }
-
-            if (parent.Faction == Faction.OfPlayer)
-            {
-                yield return new Command_Action
-                {
-                    action = () => PendingGearRatio -= 1f,
-                    defaultLabel = "-1.0",
-                    defaultDesc = "HD_Command_DecreaseGear_Desc".Translate("1.0"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempLower", true)
-                };
-                yield return new Command_Action
-                {
-                    action = () => PendingGearRatio -= 0.1f,
-                    defaultLabel = "-0.1",
-                    defaultDesc = "HD_Command_DecreaseGear_Desc".Translate("0.1"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempLower", true)
-                };
-                yield return new Command_Action
-                {
-                    action = () => PendingGearRatio += 0.1f,
-                    defaultLabel = "+0.1",
-                    defaultDesc = "HD_Command_IncreaseGear_Desc".Translate("0.1"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempRaise", true)
-                };
-                yield return new Command_Action
-                {
-                    action = () => PendingGearRatio += 1f,
-                    defaultLabel = "+1.0",
-                    defaultDesc = "HD_Command_IncreaseGear_Desc".Translate("1.0"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempRaise", true)
-                };
-            }
-        }
     }
 
     // --- NETWORK LOGIC ---
@@ -500,6 +397,7 @@ namespace Helodrace
 
         // Aggregated network stats
         public float GridRPM = 0f;
+        public float NominalGridRPM = 0f;
         public float GridInaccuracy = 0f;
         public float GridRpmError = 0f;
 
@@ -509,6 +407,7 @@ namespace Helodrace
             CurrentMaximumPower = 0f;
             CurrentPowerNeeded = 0f;
             GridRPM = 0f;
+            NominalGridRPM = 0f;
             GridInaccuracy = 0f;
             GridRpmError = 0f;
             HasRpmMismatch = false;
@@ -641,6 +540,7 @@ namespace Helodrace
             normalPowerAvailable = UnityEngine.Mathf.Clamp(
                 normalPowerAvailable, 0f, maximumPowerAvailable);
             CurrentMaximumPower = maximumPowerAvailable;
+            NominalGridRPM = GridRPM;
 
             // 4. Gather every active user's demand.
             foreach (var node in nodes)
