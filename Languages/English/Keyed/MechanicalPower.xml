@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_MechanicalEmitter_On>Power source: {0}\nOutput: {1} W / {2} W (maximum)</HD_MechanicalEmitter_On>
+  <HD_MechanicalUser_Info>Machine torque demand: {0}\nNetwork torque demand: {1}{2}\nRequired speed: {3} - {4} RPM</HD_MechanicalUser_Info>
   <HD_MechanicalUser_SpeedInfo>Actual speed: {0} RPM\nEffective speed: {1} RPM\nStatus: {2}</HD_MechanicalUser_SpeedInfo>
   <HD_ITab_MechanicalNetwork_GridRPM>Grid RPM: {0}</HD_ITab_MechanicalNetwork_GridRPM>
   <!-- Mechanical info card stats -->
@@ -12,7 +13,7 @@
   <HD_Stat_MechanicalRole_User_Desc>Operates by drawing torque from a mechanical network.</HD_Stat_MechanicalRole_User_Desc>
   <HD_Stat_MechanicalRole_Transmitter_Desc>Transfers mechanical power between adjacent mechanical devices.</HD_Stat_MechanicalRole_Transmitter_Desc>
   <HD_Stat_MechanicalSourceType>Power source type</HD_Stat_MechanicalSourceType>
-  <HD_Stat_MechanicalSourceType_Desc>The type of mechanical power source used by this device.\n\nSteamEngine: A steam engine. Low-RPM high-torque overload can cause severe structural damage.\n\nEngine: A combustion engine. Overload can break the engine down or damage its durability.\n\nMotor: An electric motor. Overload can drain or explode batteries and may short-circuit the motor.</HD_Stat_MechanicalSourceType_Desc>
+  <HD_Stat_MechanicalSourceType_Desc>The type of mechanical power source used by this device.\n\nSteamEngine: A steam engine. Mechanical overload can cause severe structural damage.\n\nEngine: A combustion engine. Overload can break the engine down or damage its durability.\n\nMotor: An electric motor. Overload can drain or explode batteries and may short-circuit the motor.</HD_Stat_MechanicalSourceType_Desc>
   <HD_Stat_MechanicalRecommendedPower>Recommended output</HD_Stat_MechanicalRecommendedPower>
   <HD_Stat_MechanicalRecommendedPower_Desc>The mechanical power output this device can supply during normal stable operation.</HD_Stat_MechanicalRecommendedPower_Desc>
   <HD_Stat_MechanicalMaxPower>Maximum output</HD_Stat_MechanicalMaxPower>
@@ -26,8 +27,6 @@
   <HD_HeatPump_OutOfBounds>out of bounds</HD_HeatPump_OutOfBounds>
   <HD_HeatPump_NoRoom>no room ({0})</HD_HeatPump_NoRoom>
   <HD_HeatPump_Outdoors>outdoors ({0})</HD_HeatPump_Outdoors>
-  <HD_Stat_MechanicalHazards>Mechanical hazards</HD_Stat_MechanicalHazards>
-  <HD_Stat_MechanicalHazards_Desc>The mechanical hazards this device can have while operating.</HD_Stat_MechanicalHazards_Desc>
   <HD_ITab_MechanicalNetwork_MaxPower>Maximum combined output: {0} W</HD_ITab_MechanicalNetwork_MaxPower>
 
   <!-- Sharpshooter Mode -->

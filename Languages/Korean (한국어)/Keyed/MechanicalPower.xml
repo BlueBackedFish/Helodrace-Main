@@ -6,8 +6,7 @@
 
   <!-- Mechanical User -->
   <HD_MechanicalUser_TorqueStruggle> (과부하 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
-  <HD_MechanicalUser_DangerNone>없음 (안전)</HD_MechanicalUser_DangerNone>
-  <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}\n요구 속도: {3} - {4} RPM\n위험 요소: {5}</HD_MechanicalUser_Info>
+  <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}\n요구 속도: {3} - {4} RPM</HD_MechanicalUser_Info>
   <HD_MechanicalUser_SpeedInfo>실제 속도: {0} RPM\n유효 속도: {1} RPM\n상태: {2}</HD_MechanicalUser_SpeedInfo>
   <HD_MechanicalUser_Operating>작동 중</HD_MechanicalUser_Operating>
   <HD_MechanicalUser_Stalled>정지됨/무동력</HD_MechanicalUser_Stalled>
@@ -26,7 +25,7 @@
   <HD_Stat_MechanicalRole_User_Desc>기계 동력망에서 토크를 받아 작동합니다.</HD_Stat_MechanicalRole_User_Desc>
   <HD_Stat_MechanicalRole_Transmitter_Desc>인접한 기계 장치 사이에 기계 동력을 전달합니다.</HD_Stat_MechanicalRole_Transmitter_Desc>
   <HD_Stat_MechanicalSourceType>동력원 종류</HD_Stat_MechanicalSourceType>
-  <HD_Stat_MechanicalSourceType_Desc>이 장치가 사용하는 기계 동력원의 유형입니다.\n\nSteamEngine: 증기기관입니다. 저RPM 고토크 과부하에서는 심각한 구조 손상이 발생할 수 있습니다.\n\nEngine: 내연기관입니다. 과부하에서는 고장나거나 내구도가 손상될 수 있습니다.\n\nMotor: 전기 모터입니다. 과부하에서는 배터리를 방전시키거나 폭발시키거나 모터가 단락될 수 있습니다.</HD_Stat_MechanicalSourceType_Desc>
+  <HD_Stat_MechanicalSourceType_Desc>이 장치가 사용하는 기계 동력원의 유형입니다.\n\nSteamEngine: 증기기관입니다. 기계적 과부하에서는 심각한 구조 손상이 발생할 수 있습니다.\n\nEngine: 내연기관입니다. 과부하에서는 고장나거나 내구도가 손상될 수 있습니다.\n\nMotor: 전기 모터입니다. 과부하에서는 배터리를 방전시키거나 폭발시키거나 모터가 단락될 수 있습니다.</HD_Stat_MechanicalSourceType_Desc>
   <HD_Stat_MechanicalRecommendedPower>권장 출력</HD_Stat_MechanicalRecommendedPower>
   <HD_Stat_MechanicalRecommendedPower_Desc>정상 안정 상태에서 이 장치가 공급할 수 있는 기계 동력 출력입니다.</HD_Stat_MechanicalRecommendedPower_Desc>
   <HD_Stat_MechanicalMaxPower>최대 출력</HD_Stat_MechanicalMaxPower>
@@ -35,8 +34,6 @@
   <HD_Stat_MechanicalRequiredTorque_Desc>자동 변속으로 권장 RPM에서 요구하는 기본 토크입니다. 열펌프는 냉각량 설정에 따라 요구량이 달라집니다.</HD_Stat_MechanicalRequiredTorque_Desc>
   <HD_Stat_MechanicalRpmRequirement>요구 RPM</HD_Stat_MechanicalRpmRequirement>
   <HD_Stat_MechanicalRpmRequirement_Desc>장치가 작동하기 위한 최소 RPM과 완전한 효율을 내는 권장 RPM입니다.</HD_Stat_MechanicalRpmRequirement_Desc>
-  <HD_Stat_MechanicalHazards>동력 위험 요소</HD_Stat_MechanicalHazards>
-  <HD_Stat_MechanicalHazards_Desc>이 장치가 작동 중 가질 수 있는 기계적 위험 요소입니다.</HD_Stat_MechanicalHazards_Desc>
 
   <!-- Sharpshooter Mode -->
   <HD_SharpshooterMode_Label>명사수 모드</HD_SharpshooterMode_Label>

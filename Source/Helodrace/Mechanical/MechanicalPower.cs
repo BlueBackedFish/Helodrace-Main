@@ -52,8 +52,6 @@ namespace Helodrace
         public PowerSourceType sourceType = PowerSourceType.SteamEngine;
         public float maxPossiblePower = 1000f;
         public float recommendedPower = 800f;
-        public float operatingRPM = 500f;
-        public float lowestRPM = 50f;
 
         public CompProperties_MechanicalEmitter()
         {
@@ -196,7 +194,6 @@ namespace Helodrace
         public CompProperties_MechanicalUser Props => (CompProperties_MechanicalUser)props;
         public bool HasPower { get; private set; }
         public CompFlickable Flickable { get; private set; }
-        public CompMechanicalHazard Hazard { get; private set; }
         public CompMechanicalGenerator Generator { get; private set; }
         public CompMechanicalTemperatureControl TemperatureControl { get; private set; }
         
@@ -207,7 +204,6 @@ namespace Helodrace
         {
             base.PostSpawnSetup(respawningAfterLoad);
             Flickable = parent.GetComp<CompFlickable>();
-            Hazard = parent.GetComp<CompMechanicalHazard>();
             Generator = parent.GetComp<CompMechanicalGenerator>();
             TemperatureControl = parent.GetComp<CompMechanicalTemperatureControl>();
         }
@@ -245,10 +241,7 @@ namespace Helodrace
                 GridTorqueDemanded.ToString("F1"),
                 torqueStatus,
                 Props.minimalRPM.ToString("F0"),
-                Props.recommendedRPM.ToString("F0"),
-                Hazard != null
-                    ? "HD_MechanicalUser_DangerConfigured".Translate().Resolve()
-                    : "HD_MechanicalUser_DangerNone".Translate().Resolve()
+                Props.recommendedRPM.ToString("F0")
             ).Resolve() + "\n";
 
             string opStatus = HasPower ? "HD_MechanicalUser_Operating".Translate().Resolve() : "HD_MechanicalUser_Stalled".Translate().Resolve();
@@ -268,6 +261,7 @@ namespace Helodrace
 
     public class MechanicalNetwork
     {
+        private const float OperatingRPM = 500f;
         public List<CompMechanicalNode> nodes = new List<CompMechanicalNode>();
         private readonly List<CompMechanicalEmitter> activeEmittersBuffer =
             new List<CompMechanicalEmitter>();
@@ -310,7 +304,7 @@ namespace Helodrace
 
                 normalPowerAvailable += emitterNormal;
                 maximumPowerAvailable += emitterMaximum;
-                GridRPM = UnityEngine.Mathf.Max(GridRPM, emitter.Props.operatingRPM);
+                GridRPM = OperatingRPM;
             }
 
             maximumPowerAvailable = UnityEngine.Mathf.Max(0f, maximumPowerAvailable);
@@ -356,7 +350,7 @@ namespace Helodrace
                     {
                         foreach (var emitter in activeEmitters)
                         {
-                            ApplyOverloadEffect(emitter, GridRPM);
+                            ApplyOverloadEffect(emitter, torqueFulfillment);
                         }
                     }
                 }
@@ -382,24 +376,10 @@ namespace Helodrace
                     
                     bool meetsRpm = user.RealRPM >= user.Props.minimalRPM;
                     
-                    // Below minimum RPM the machine stops completely and cannot
-                    // cause a low-speed operating accident.
+                    // Below minimum RPM the machine stops completely.
                     if (!meetsRpm)
                     {
                         user.UpdatePowerStatus(false, 0f);
-                    }
-                    else
-                    {
-                        // The dangerous operating band exists only when minimum
-                        // and recommended RPM differ.
-                        float dangerousBelowRpm =
-                            user.Props.minimalRPM < user.Props.recommendedRPM
-                                ? user.Props.recommendedRPM
-                                : -1f;
-                        user.Hazard?.Evaluate(
-                            user.RealRPM,
-                            user.HasPower,
-                            dangerousBelowRpm);
                     }
 
                     // Use the final network state after torque and minimum-RPM
@@ -410,19 +390,21 @@ namespace Helodrace
             }
         }
 
-        private void ApplyOverloadEffect(CompMechanicalEmitter emitter, float currentGridRpm)
+        private void ApplyOverloadEffect(CompMechanicalEmitter emitter, float torqueFulfillment)
         {
             switch (emitter.Props.sourceType)
             {
                 case PowerSourceType.SteamEngine:
-                    if (currentGridRpm < emitter.Props.lowestRPM)
+                    // Steam engines take structural damage only under severe
+                    // power shortage, independent of the common shaft speed.
+                    if (torqueFulfillment < 0.1f)
                     {
                         emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Crush, 25f));
                         FleckMaker.ThrowDustPuff(emitter.parent.DrawPos, emitter.parent.Map, 2.0f);
                         if (Verse.Rand.Chance(0.1f))
                         {
                             Messages.Message(
-                                "Steam engine suffered catastrophic structural damage due to low-RPM high-torque overload!",
+                                "Steam engine suffered catastrophic structural damage from mechanical overload!",
                                 emitter.parent,
                                 MessageTypeDefOf.NegativeEvent);
                             emitter.parent.TakeDamage(new DamageInfo(DamageDefOf.Crush, 300f));
