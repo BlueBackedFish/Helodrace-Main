@@ -16,11 +16,14 @@
 | 유전자 활용 능력 | 오만한 지도자 유전자는 기대치 단계에, 명사수 유전자는 비헤로드 사용자의 명사수 무기 모드 허용에 쓰인다. 헤로드의 명사수 모드 허용은 종족 판정으로도 처리한다. | [ModMain.cs](../Source/Helodrace/Core/ModMain.cs), [CompSharpshooterWeapon.cs](../Source/Helodrace/GreatWar/CompSharpshooterWeapon.cs) |
 | 출생·성장 표현 | 종족 정의에 아기·어린이 생애 단계와 임신 기간이 있고, 생성·렌더링 코드가 아기/어린이 체형, 머리, 꼬리, 침대 위치를 처리한다. 바이오테크의 자녀 플레이와 맞닿는 부분이다. | [HelodRace.xml](../Defs/Helod/Race/HelodRace.xml), [HelodPawnGeneration.cs](../Source/Helodrace/Helod/HelodPawnGeneration.cs), [HelodRendering.cs](../Source/Helodrace/Helod/HelodRendering.cs) |
 | 의상 호환 | 종족 의상 경로·허용 목록에 어린이 헬멧/롬퍼, 메카 제어·대역폭·독성 팩이 바이오테크 조건으로 들어 있다. `Apparel_Cape`는 로열티 또는 바이오테크가 있을 때 쓰는 별도 조건이다. | [HelodRaceSettings.xml](../Defs/Helod/Race/HelodRaceSettings.xml) |
+| 가스 시스템 | 포토클로로젠·스위트·CS·CN·백린 연막은 자체 `HelodGasDef`와 밀도 배열로 확산·소멸한다. 게임의 `GasGrid` 갱신·저장·건물 통과·초기화와 `GasUtility`의 폰 가스 효과 주기에 Harmony 패치를 걸어 자체 가스를 함께 처리한다. 가스 엔진이 게임의 가스 처리 경로에 직접 연결되어 있으며, 이 코드에는 별도의 `BiotechActive` 분기가 없다. | [GasDefs_Helod.xml](../Defs/GasDefs_Helod.xml), [HelodGasSystem.cs](../Source/Helodrace/Gas/HelodGasSystem.cs) |
+| 가스 노출·방호 | 포토클로로젠·CS·CN 노출은 `GasUtility.IsAffectedByExposure`와 `ToxicEnvironmentResistance`를 참조한다. 방독면 파우치는 같은 저항 수치에 보너스를 준다. 스위트 가스는 이 저항 대신 전용 방독면 보호와, 해당 수치가 존재할 때의 `VacuumResistance`를 사용한다. 따라서 다섯 가스의 방호 규칙을 모두 같은 독성 가스 면역으로 설명해서는 안 된다. | [HelodGasExposure.cs](../Source/Helodrace/Gas/HelodGasExposure.cs), [CompGasMaskPouch.cs](../Source/Helodrace/GreatWar/CompGasMaskPouch.cs) |
 | 오염·사운드 | 광염소계 핵포탄은 `ModsConfig.BiotechActive`일 때만 `PollutionUtility.GrowPollutionAt`으로 오염을 생성한다. 소이탄 사운드는 바이오테크의 `Shot_MiniFlameblaster`를 먼저 찾고 없으면 기본 사운드로 대체한다. 포탄의 나머지 폭발 처리와 사운드 대체 경로 자체는 이 조건과 분리되어 있다. | [Projectile_PhotochlorogenShell.cs](../Source/Helodrace/GreatWar/Projectile_PhotochlorogenShell.cs), [Projectile_IncendiaryGel.cs](../Source/Helodrace/GreatWar/Projectile_IncendiaryGel.cs) |
 
 ## 유지보수 시 확인할 점
 
 - 필수 DLC 정책을 바꾼다면 메타데이터만 수정해서는 안 된다. 특히 시나리오의 제노타입 설정 부분, 폰 생성·유전자 Harmony 패치, BTX 유전자 경로를 함께 재설계해야 한다.
+- 가스 시스템은 게임의 `GasGrid`·`GasUtility` 처리 경로를 이용하지만, 프로젝트 코드만으로 이 API 자체가 바이오테크 전용인지까지 단정할 수는 없다. 현재 바이오테크 필수 판정의 확실한 근거는 모드 메타데이터와 제노타입·유전자·시나리오 사용처다.
 - `HD_Gene_AmphetamineDependency`의 XML 조건은 **BlancasDrugs**이다. 이는 바이오테크 필수 조건에 더해지는 선택 연동이며, 다른 6개 자체 유전자와 구분해야 한다.
 - [CompSharpshooterWeapon.cs](../Source/Helodrace/GreatWar/CompSharpshooterWeapon.cs)와 [Projectile_IncendiaryGel.cs](../Source/Helodrace/GreatWar/Projectile_IncendiaryGel.cs)의 주석에는 바이오테크가 없어도 동작하도록 만든 시기의 설명이 남아 있다. 현재 메타데이터의 필수 정책과 혼동하지 않도록 해석해야 한다.
 - 이 조사는 정적 파일 조사다. 실제 게임에서 바이오테크를 끈 상태의 로드 성공 여부나 모든 유전자 효과의 실행 결과를 판정하지 않는다.
