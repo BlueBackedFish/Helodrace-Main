@@ -1588,7 +1588,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_GunSmithTable</defName>
     <label>gunsmith table</label>
-    <description>A dedicated workbench for assembling, repairing, and modifying firearms. Insert a weapon-parts box to modify modular weapons.</description>
+    <description>A dedicated workbench for assembling, repairing, and modifying firearms. Firearm assembly requires linked lathes and, for later designs, a milling machine. Insert a weapon-parts box to modify modular weapons.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_GunSmithTable</texPath>
@@ -1634,7 +1634,17 @@
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
     <comps>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>HD_TreadleLathe</li>
+          <li>HD_LineShaftTurretLathe</li>
+          <li>HD_LineShaftMillingMachine</li>
+        </linkableFacilities>
+      </li>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponWorkbench" />
     </comps>
     <building>

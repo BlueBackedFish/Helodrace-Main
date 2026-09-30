@@ -76,7 +76,7 @@ namespace Helodrace
 
             foreach (ThingDef worktable in recipe.recipeUsers)
             {
-                if (worktable?.defName == "HD_BasicWorkbench")
+                if (IsGunWorkbench(worktable))
                 {
                     return true;
                 }
@@ -87,7 +87,7 @@ namespace Helodrace
 
         private static bool HasGunMachineTools(RecipeDef recipe, Thing billGiver)
         {
-            if (billGiver == null || !billGiver.Spawned || billGiver.def.defName != "HD_BasicWorkbench")
+            if (billGiver == null || !billGiver.Spawned || !IsGunWorkbench(billGiver.def))
             {
                 return false;
             }
@@ -123,6 +123,12 @@ namespace Helodrace
             }
 
             return false;
+        }
+
+        private static bool IsGunWorkbench(ThingDef worktable)
+        {
+            return worktable?.defName == "HD_BasicWorkbench"
+                || worktable?.defName == "HD_GunSmithTable";
         }
 
         private static bool IsEarlyGunRecipe(RecipeDef recipe)
