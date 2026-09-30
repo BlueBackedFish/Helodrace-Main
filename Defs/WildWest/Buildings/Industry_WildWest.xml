@@ -132,7 +132,7 @@
         <maxPossiblePower>1200</maxPossiblePower>
         <recommendedPower>1000</recommendedPower>
         <sourceType>SteamEngine</sourceType>
-        <maxRPM>500</maxRPM>
+        <operatingRPM>500</operatingRPM>
         <lowestRPM>50</lowestRPM>
       </li>
       <li Class="CompProperties_Flickable"/>
@@ -219,7 +219,7 @@
         <maxPossiblePower>6000</maxPossiblePower>
         <recommendedPower>5000</recommendedPower>
         <sourceType>SteamEngine</sourceType>
-        <maxRPM>400</maxRPM>
+        <operatingRPM>400</operatingRPM>
         <lowestRPM>40</lowestRPM>
       </li>
       <li Class="CompProperties_Flickable"/>
@@ -307,7 +307,7 @@
         <maxPossiblePower>10000</maxPossiblePower>
         <recommendedPower>8000</recommendedPower>
         <sourceType>Engine</sourceType>
-        <maxRPM>900</maxRPM>
+        <operatingRPM>900</operatingRPM>
         <lowestRPM>100</lowestRPM>
       </li>
       <li Class="CompProperties_Flickable"/>
@@ -399,7 +399,7 @@
         <maxPossiblePower>10000</maxPossiblePower>
         <recommendedPower>8000</recommendedPower>
         <sourceType>Motor</sourceType>
-        <maxRPM>1200</maxRPM>
+        <operatingRPM>1200</operatingRPM>
         <lowestRPM>100</lowestRPM>
       </li>
       <li Class="CompProperties_Power">

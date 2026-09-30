@@ -52,7 +52,7 @@ namespace Helodrace
         public PowerSourceType sourceType = PowerSourceType.SteamEngine;
         public float maxPossiblePower = 1000f;
         public float recommendedPower = 800f;
-        public float maxRPM = 500f;
+        public float operatingRPM = 500f;
         public float lowestRPM = 50f;
 
         public CompProperties_MechanicalEmitter()
@@ -71,7 +71,6 @@ namespace Helodrace
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalSourceType", sourceType.ToString(), "HD_Stat_MechanicalSourceType_Desc", 1);
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRecommendedPower", recommendedPower.ToString("F0") + " W", "HD_Stat_MechanicalRecommendedPower_Desc", 2);
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalMaxPower", maxPossiblePower.ToString("F0") + " W", "HD_Stat_MechanicalMaxPower_Desc", 3);
-            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmRange", lowestRPM.ToString("F0") + " - " + maxRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmRange_Desc", 4);
         }
     }
 
@@ -141,8 +140,6 @@ namespace Helodrace
         private CompFlickable flickable;
         private CompRefuelable refuelable;
         private CompPowerTrader powerTrader;
-        private float targetRPM = -1f;
-        private float pendingTargetRPM = -1f;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -150,55 +147,6 @@ namespace Helodrace
             flickable = parent.GetComp<CompFlickable>();
             refuelable = parent.GetComp<CompRefuelable>();
             powerTrader = parent.GetComp<CompPowerTrader>();
-        }
-
-        public float TargetRPM
-        {
-            get
-            {
-                if (targetRPM < 0)
-                {
-                    targetRPM = Props.maxRPM;
-                }
-                return targetRPM;
-            }
-            set
-            {
-                targetRPM = UnityEngine.Mathf.Clamp(value, Props.lowestRPM, Props.maxRPM);
-            }
-        }
-
-        public float PendingTargetRPM
-        {
-            get
-            {
-                if (pendingTargetRPM < 0)
-                {
-                    pendingTargetRPM = TargetRPM;
-                }
-                return pendingTargetRPM;
-            }
-            set
-            {
-                pendingTargetRPM = UnityEngine.Mathf.Clamp(value, Props.lowestRPM, Props.maxRPM);
-            }
-        }
-
-        public bool WantsConfiguration => pendingTargetRPM >= 0 && !UnityEngine.Mathf.Approximately(pendingTargetRPM, TargetRPM);
-
-        public void ApplyPendingTargetRPM()
-        {
-            if (WantsConfiguration)
-            {
-                TargetRPM = pendingTargetRPM;
-            }
-        }
-
-        public override void PostExposeData()
-        {
-            base.PostExposeData();
-            Scribe_Values.Look(ref targetRPM, "targetRPM", -1f);
-            Scribe_Values.Look(ref pendingTargetRPM, "pendingTargetRPM", -1f);
         }
 
         public bool IsProducingPower
@@ -220,17 +168,7 @@ namespace Helodrace
             get
             {
                 if (!IsProducingPower) return 0f;
-                float scaledOutput = (TargetRPM / Props.maxRPM) * Props.recommendedPower;
-                return UnityEngine.Mathf.Clamp(scaledOutput, 0f, UnityEngine.Mathf.Max(0f, Props.maxPossiblePower));
-            }
-        }
-
-        public float CurrentRPM
-        {
-            get
-            {
-                if (!IsProducingPower) return 0f;
-                return TargetRPM;
+                return UnityEngine.Mathf.Clamp(Props.recommendedPower, 0f, UnityEngine.Mathf.Max(0f, Props.maxPossiblePower));
             }
         }
 
@@ -246,61 +184,10 @@ namespace Helodrace
                 str = "HD_MechanicalEmitter_On".Translate(
                     Props.sourceType.ToString(), 
                     PowerOutput.ToString("F0"), 
-                    Props.maxPossiblePower.ToString("F0"), 
-                    CurrentRPM.ToString("F1")
+                    Props.maxPossiblePower.ToString("F0")
                 );
             }
-
-            if (WantsConfiguration)
-            {
-                str += "\n" + "HD_MechanicalEmitter_TargetSpeedPending".Translate(TargetRPM.ToString("F0"), PendingTargetRPM.ToString("F0"));
-            }
-            else
-            {
-                str += "\n" + "HD_MechanicalEmitter_TargetSpeed".Translate(TargetRPM.ToString("F0"));
-            }
-
             return str;
-        }
-
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            foreach (Gizmo g in base.CompGetGizmosExtra())
-            {
-                yield return g;
-            }
-
-            if (parent.Faction == Faction.OfPlayer)
-            {
-                yield return new Command_Action
-                {
-                    action = () => PendingTargetRPM -= 50f,
-                    defaultLabel = "-50",
-                    defaultDesc = "HD_Command_DecreaseRPM_Desc".Translate("50"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempLower", true)
-                };
-                yield return new Command_Action
-                {
-                    action = () => PendingTargetRPM -= 10f,
-                    defaultLabel = "-10",
-                    defaultDesc = "HD_Command_DecreaseRPM_Desc".Translate("10"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempLower", true)
-                };
-                yield return new Command_Action
-                {
-                    action = () => PendingTargetRPM += 10f,
-                    defaultLabel = "+10",
-                    defaultDesc = "HD_Command_IncreaseRPM_Desc".Translate("10"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempRaise", true)
-                };
-                yield return new Command_Action
-                {
-                    action = () => PendingTargetRPM += 50f,
-                    defaultLabel = "+50",
-                    defaultDesc = "HD_Command_IncreaseRPM_Desc".Translate("50"),
-                    icon = ContentFinder<UnityEngine.Texture2D>.Get("UI/Commands/TempRaise", true)
-                };
-            }
         }
     }
 
@@ -423,7 +310,7 @@ namespace Helodrace
 
                 normalPowerAvailable += emitterNormal;
                 maximumPowerAvailable += emitterMaximum;
-                GridRPM = UnityEngine.Mathf.Max(GridRPM, emitter.TargetRPM);
+                GridRPM = UnityEngine.Mathf.Max(GridRPM, emitter.Props.operatingRPM);
             }
 
             maximumPowerAvailable = UnityEngine.Mathf.Max(0f, maximumPowerAvailable);

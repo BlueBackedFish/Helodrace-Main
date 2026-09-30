@@ -8,11 +8,6 @@
   <DoBillsHD_BatchStill.verb>정제</DoBillsHD_BatchStill.verb>
   <DoBillsHD_BatchStill.gerund>정제하는 중</DoBillsHD_BatchStill.gerund>
 
-  <HD_ConfigureMechanical.label>기계 장치 설정</HD_ConfigureMechanical.label>
-  <HD_ConfigureMechanical.verb>설정</HD_ConfigureMechanical.verb>
-  <HD_ConfigureMechanical.gerund>설정하는 중</HD_ConfigureMechanical.gerund>
-
-
   <DoBillsHD_TreadleLathe.label>발판식 선반 사용</DoBillsHD_TreadleLathe.label>
   <DoBillsHD_TreadleLathe.verb>제작</DoBillsHD_TreadleLathe.verb>
   <DoBillsHD_TreadleLathe.gerund>제작하는 중</DoBillsHD_TreadleLathe.gerund>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <HD_MechanicalEmitter_On>Power source: {0}\nOutput: {1} W / {2} W (maximum)\nEngine speed: {3} RPM</HD_MechanicalEmitter_On>
+  <HD_MechanicalEmitter_On>Power source: {0}\nOutput: {1} W / {2} W (maximum)</HD_MechanicalEmitter_On>
   <HD_MechanicalUser_SpeedInfo>Actual speed: {0} RPM\nEffective speed: {1} RPM\nStatus: {2}</HD_MechanicalUser_SpeedInfo>
   <HD_ITab_MechanicalNetwork_GridRPM>Grid RPM: {0}</HD_ITab_MechanicalNetwork_GridRPM>
   <!-- Mechanical info card stats -->
@@ -17,8 +17,6 @@
   <HD_Stat_MechanicalRecommendedPower_Desc>The mechanical power output this device can supply during normal stable operation.</HD_Stat_MechanicalRecommendedPower_Desc>
   <HD_Stat_MechanicalMaxPower>Maximum output</HD_Stat_MechanicalMaxPower>
   <HD_Stat_MechanicalMaxPower_Desc>The maximum mechanical power output this device can tolerate during overload.</HD_Stat_MechanicalMaxPower_Desc>
-  <HD_Stat_MechanicalRpmRange>RPM range</HD_Stat_MechanicalRpmRange>
-  <HD_Stat_MechanicalRpmRange_Desc>The minimum and maximum rotational speed this power source can be configured to use.</HD_Stat_MechanicalRpmRange_Desc>
   <HD_Stat_MechanicalRequiredTorque>Required torque</HD_Stat_MechanicalRequiredTorque>
   <HD_Stat_MechanicalRequiredTorque_Desc>The baseline torque this device demands at its recommended RPM with automatic gearing. Heat pump demand scales with its cooling setting.</HD_Stat_MechanicalRequiredTorque_Desc>
   <HD_Stat_MechanicalRpmRequirement>Required RPM</HD_Stat_MechanicalRpmRequirement>

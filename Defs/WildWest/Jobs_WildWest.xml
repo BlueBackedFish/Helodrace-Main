@@ -2,26 +2,6 @@
 <Defs>
 
   <JobDef>
-    <defName>HD_ConfigureMechanical</defName>
-    <driverClass>Helodrace.JobDriver_ConfigureMechanical</driverClass>
-    <reportString>configuring mechanical device.</reportString>
-    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
-  </JobDef>
-
-  <WorkGiverDef>
-    <defName>HD_ConfigureMechanical</defName>
-    <label>configure mechanical device</label>
-    <giverClass>Helodrace.WorkGiver_ConfigureMechanical</giverClass>
-    <workType>BasicWorker</workType>
-    <priorityInType>10</priorityInType>
-    <verb>configure</verb>
-    <gerund>configuring</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-  </WorkGiverDef>
-
-  <JobDef>
     <defName>HD_DevelopOilField</defName>
     <driverClass>Helodrace.JobDriver_DevelopOilField</driverClass>
     <reportString>developing oil field.</reportString>
