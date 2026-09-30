@@ -942,6 +942,13 @@
         <minimalRPM>150</minimalRPM>
         <recommendedRPM>250</recommendedRPM>
       </li>
+      <li Class="Helodrace.CompProperties_MechanicalHazard">
+        <mtbSeconds>20</mtbSeconds>
+        <target>Operator</target>
+        <damageDef>Cut</damageDef>
+        <damageAmount>10</damageAmount>
+        <bodyPart>Hand</bodyPart>
+      </li>
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>3</heatPerSecond>
         <heatPushMaxTemperature>55</heatPushMaxTemperature>
@@ -1010,6 +1017,13 @@
         <requireTorque>300</requireTorque>
         <minimalRPM>180</minimalRPM>
         <recommendedRPM>300</recommendedRPM>
+      </li>
+      <li Class="Helodrace.CompProperties_MechanicalHazard">
+        <mtbSeconds>20</mtbSeconds>
+        <target>Operator</target>
+        <damageDef>Cut</damageDef>
+        <damageAmount>12</damageAmount>
+        <bodyPart>Hand</bodyPart>
       </li>
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>4</heatPerSecond>
@@ -1081,6 +1095,13 @@
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>120</recommendedRPM>
       </li>
+      <li Class="Helodrace.CompProperties_MechanicalHazard">
+        <mtbSeconds>20</mtbSeconds>
+        <target>Operator</target>
+        <damageDef>Crush</damageDef>
+        <damageAmount>18</damageAmount>
+        <bodyPart>Hand</bodyPart>
+      </li>
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>5</heatPerSecond>
         <heatPushMaxTemperature>65</heatPushMaxTemperature>
@@ -1149,6 +1170,13 @@
         <requireTorque>500</requireTorque>
         <minimalRPM>60</minimalRPM>
         <recommendedRPM>120</recommendedRPM>
+      </li>
+      <li Class="Helodrace.CompProperties_MechanicalHazard">
+        <mtbSeconds>20</mtbSeconds>
+        <target>Operator</target>
+        <damageDef>Crush</damageDef>
+        <damageAmount>16</damageAmount>
+        <bodyPart>Arm</bodyPart>
       </li>
       <li Class="Helodrace.CompProperties_OperatingHeatPusher">
         <heatPerSecond>6</heatPerSecond>

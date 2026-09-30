@@ -93,7 +93,6 @@ namespace Helodrace
 
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRole", "HD_Stat_MechanicalRole_User".Translate().Resolve(), "HD_Stat_MechanicalRole_User_Desc");
             yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRequiredTorque", requireTorque.ToString("F0"), "HD_Stat_MechanicalRequiredTorque_Desc", 1);
-            yield return MechanicalStatEntries.Entry("HD_Stat_MechanicalRpmRequirement", minimalRPM.ToString("F0") + " - " + recommendedRPM.ToString("F0") + " RPM", "HD_Stat_MechanicalRpmRequirement_Desc", 2);
         }
     }
 
@@ -194,6 +193,7 @@ namespace Helodrace
         public CompProperties_MechanicalUser Props => (CompProperties_MechanicalUser)props;
         public bool HasPower { get; private set; }
         public CompFlickable Flickable { get; private set; }
+        public CompMechanicalHazard Hazard { get; private set; }
         public CompMechanicalGenerator Generator { get; private set; }
         public CompMechanicalTemperatureControl TemperatureControl { get; private set; }
         
@@ -204,6 +204,7 @@ namespace Helodrace
         {
             base.PostSpawnSetup(respawningAfterLoad);
             Flickable = parent.GetComp<CompFlickable>();
+            Hazard = parent.GetComp<CompMechanicalHazard>();
             Generator = parent.GetComp<CompMechanicalGenerator>();
             TemperatureControl = parent.GetComp<CompMechanicalTemperatureControl>();
         }
@@ -215,6 +216,11 @@ namespace Helodrace
             : 1f;
 
         public float RealRPM => Network != null ? Network.GridRPM / AutomaticGearRatio : 0f;
+
+        public bool IsOverloaded => Network != null
+            && Network.NominalGridRPM > 0f
+            && Network.GridRPM < Network.NominalGridRPM
+            && (Flickable == null || Flickable.SwitchIsOn);
 
         public float GridTorqueDemanded => Network != null
             ? UnityEngine.Mathf.Max(0f, Props.requireTorque)
@@ -239,18 +245,16 @@ namespace Helodrace
             string str = "HD_MechanicalUser_Info".Translate(
                 Props.requireTorque.ToString("F0"),
                 GridTorqueDemanded.ToString("F1"),
-                torqueStatus,
-                Props.minimalRPM.ToString("F0"),
-                Props.recommendedRPM.ToString("F0")
+                torqueStatus
             ).Resolve() + "\n";
 
-            string opStatus = HasPower ? "HD_MechanicalUser_Operating".Translate().Resolve() : "HD_MechanicalUser_Stalled".Translate().Resolve();
+            string opStatus = IsOverloaded
+                ? "HD_MechanicalUser_Overloaded".Translate().Resolve()
+                : HasPower
+                    ? "HD_MechanicalUser_Operating".Translate().Resolve()
+                    : "HD_MechanicalUser_Stalled".Translate().Resolve();
 
-            str += "HD_MechanicalUser_SpeedInfo".Translate(
-                RealRPM.ToString("F1"),
-                (HasPower ? EffectiveRPM : 0f).ToString("F1"),
-                opStatus
-            ).Resolve();
+            str += "HD_MechanicalUser_Status".Translate(opStatus).Resolve();
 
             return str;
         }
@@ -295,8 +299,7 @@ namespace Helodrace
                 }
             }
 
-            // Combine active sources. Automatic gearing lets users follow the
-            // fastest shaft while each source contributes its available power.
+            // Combine active sources at the shared nominal shaft speed.
             foreach (var emitter in activeEmitters)
             {
                 float emitterMaximum = UnityEngine.Mathf.Max(0f, emitter.Props.maxPossiblePower);
@@ -381,6 +384,8 @@ namespace Helodrace
                     {
                         user.UpdatePowerStatus(false, 0f);
                     }
+
+                    user.Hazard?.Evaluate(user.HasPower, user.IsOverloaded);
 
                     // Use the final network state after torque and minimum-RPM
                     // checks, so electrical output cannot lead the mechanical

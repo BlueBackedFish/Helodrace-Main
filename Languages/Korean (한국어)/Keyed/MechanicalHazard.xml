@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MechanicalHazard_ConditionOverload>과부하 상태에서 작동 중</HD_MechanicalHazard_ConditionOverload>
+  <HD_MechanicalHazard_TargetArea>범위 피해, 반경 {0}</HD_MechanicalHazard_TargetArea>
+  <HD_MechanicalHazard_TargetOperator>작업자 피해, 부위: {0}</HD_MechanicalHazard_TargetOperator>
+  <HD_MechanicalHazard_AnyBodyPart>무작위</HD_MechanicalHazard_AnyBodyPart>
+  <HD_MechanicalHazard_ReasonOverload>과부하</HD_MechanicalHazard_ReasonOverload>
+  <HD_MechanicalHazard_Triggered>{0}에서 {1}(으)로 기계 사고가 발생했습니다.</HD_MechanicalHazard_Triggered>
+</LanguageData>

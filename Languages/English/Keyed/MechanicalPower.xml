@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
   <HD_MechanicalEmitter_On>Power source: {0}\nOutput: {1} W / {2} W (maximum)</HD_MechanicalEmitter_On>
-  <HD_MechanicalUser_Info>Machine torque demand: {0}\nNetwork torque demand: {1}{2}\nRequired speed: {3} - {4} RPM</HD_MechanicalUser_Info>
-  <HD_MechanicalUser_SpeedInfo>Actual speed: {0} RPM\nEffective speed: {1} RPM\nStatus: {2}</HD_MechanicalUser_SpeedInfo>
-  <HD_ITab_MechanicalNetwork_GridRPM>Grid RPM: {0}</HD_ITab_MechanicalNetwork_GridRPM>
+  <HD_MechanicalUser_TorqueStruggle> (available torque {0}%)</HD_MechanicalUser_TorqueStruggle>
+  <HD_MechanicalUser_Info>Machine torque demand: {0}\nNetwork torque demand: {1}{2}</HD_MechanicalUser_Info>
+  <HD_MechanicalUser_Status>Status: {0}</HD_MechanicalUser_Status>
+  <HD_MechanicalUser_Operating>Operating</HD_MechanicalUser_Operating>
+  <HD_MechanicalUser_Stalled>Stopped / no power</HD_MechanicalUser_Stalled>
+  <HD_MechanicalUser_Overloaded>Overloaded</HD_MechanicalUser_Overloaded>
   <!-- Mechanical info card stats -->
   <HD_Stat_MechanicalRole>Mechanical power role</HD_Stat_MechanicalRole>
   <HD_Stat_MechanicalRole_Emitter>Power source</HD_Stat_MechanicalRole_Emitter>
@@ -19,15 +22,16 @@
   <HD_Stat_MechanicalMaxPower>Maximum output</HD_Stat_MechanicalMaxPower>
   <HD_Stat_MechanicalMaxPower_Desc>The maximum mechanical power output this device can tolerate during overload.</HD_Stat_MechanicalMaxPower_Desc>
   <HD_Stat_MechanicalRequiredTorque>Required torque</HD_Stat_MechanicalRequiredTorque>
-  <HD_Stat_MechanicalRequiredTorque_Desc>The baseline torque this device demands at its recommended RPM with automatic gearing. Heat pump demand scales with its cooling setting.</HD_Stat_MechanicalRequiredTorque_Desc>
-  <HD_Stat_MechanicalRpmRequirement>Required RPM</HD_Stat_MechanicalRpmRequirement>
-  <HD_Stat_MechanicalRpmRequirement_Desc>The minimum RPM required for operation and the recommended RPM for full effective speed.</HD_Stat_MechanicalRpmRequirement_Desc>
+  <HD_Stat_MechanicalRequiredTorque_Desc>The baseline torque this device demands with automatic gearing. Heat pump demand scales with its cooling setting.</HD_Stat_MechanicalRequiredTorque_Desc>
   <HD_HeatPump_Inspect>Cold-side heat removal setting: {0} W\nActual transfer: cold side -{1} W / hot side +{2} W\nCold side: {3}\nHot side: {4}</HD_HeatPump_Inspect>
   <HD_HeatPump_AdjustCooling>Adjust cold-side heat removal by {0} W.</HD_HeatPump_AdjustCooling>
   <HD_HeatPump_OutOfBounds>out of bounds</HD_HeatPump_OutOfBounds>
   <HD_HeatPump_NoRoom>no room ({0})</HD_HeatPump_NoRoom>
   <HD_HeatPump_Outdoors>outdoors ({0})</HD_HeatPump_Outdoors>
+  <HD_Stat_MechanicalHazards>Mechanical hazards</HD_Stat_MechanicalHazards>
+  <HD_Stat_MechanicalHazards_Desc>Accidents this machine can cause while operating under overload.</HD_Stat_MechanicalHazards_Desc>
   <HD_ITab_MechanicalNetwork_MaxPower>Maximum combined output: {0} W</HD_ITab_MechanicalNetwork_MaxPower>
+  <HD_ITab_MechanicalNetwork_StatusOverload>Warning: the mechanical network is overloaded.</HD_ITab_MechanicalNetwork_StatusOverload>
 
   <!-- Sharpshooter Mode -->
   <HD_SharpshooterMode_Label>Sharpshooter mode</HD_SharpshooterMode_Label>

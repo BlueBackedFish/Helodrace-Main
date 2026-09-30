@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MechanicalHazard_ConditionOverload>While operating under overload</HD_MechanicalHazard_ConditionOverload>
+  <HD_MechanicalHazard_TargetArea>Area, radius {0}</HD_MechanicalHazard_TargetArea>
+  <HD_MechanicalHazard_TargetOperator>Operator, body part: {0}</HD_MechanicalHazard_TargetOperator>
+  <HD_MechanicalHazard_AnyBodyPart>any</HD_MechanicalHazard_AnyBodyPart>
+  <HD_MechanicalHazard_ReasonOverload>overload</HD_MechanicalHazard_ReasonOverload>
+  <HD_MechanicalHazard_Triggered>{0} caused a mechanical accident due to {1}.</HD_MechanicalHazard_Triggered>
+</LanguageData>

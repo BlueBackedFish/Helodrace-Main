@@ -6,15 +6,18 @@
 
   <!-- Mechanical User -->
   <HD_MechanicalUser_TorqueStruggle> (과부하 토크 {0}%)</HD_MechanicalUser_TorqueStruggle>
-  <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}\n요구 속도: {3} - {4} RPM</HD_MechanicalUser_Info>
-  <HD_MechanicalUser_SpeedInfo>실제 속도: {0} RPM\n유효 속도: {1} RPM\n상태: {2}</HD_MechanicalUser_SpeedInfo>
+  <HD_MechanicalUser_Info>기계 요구 토크: {0}\n그리드 필요 토크: {1}{2}</HD_MechanicalUser_Info>
+  <HD_MechanicalUser_Status>상태: {0}</HD_MechanicalUser_Status>
   <HD_MechanicalUser_Operating>작동 중</HD_MechanicalUser_Operating>
   <HD_MechanicalUser_Stalled>정지됨/무동력</HD_MechanicalUser_Stalled>
+  <HD_MechanicalUser_Overloaded>과부하</HD_MechanicalUser_Overloaded>
   <HD_HeatPump_Inspect>찬쪽 열 감소량 설정: {0} W\n실제 열 이동: 찬쪽 -{1} W / 뜨거운쪽 +{2} W\n찬쪽: {3}\n뜨거운쪽: {4}</HD_HeatPump_Inspect>
   <HD_HeatPump_AdjustCooling>찬쪽 열 감소량을 {0} W만큼 조정합니다.</HD_HeatPump_AdjustCooling>
   <HD_HeatPump_OutOfBounds>지도 밖</HD_HeatPump_OutOfBounds>
   <HD_HeatPump_NoRoom>방 없음 ({0})</HD_HeatPump_NoRoom>
   <HD_HeatPump_Outdoors>실외 ({0})</HD_HeatPump_Outdoors>
+  <HD_Stat_MechanicalHazards>기계 사고 위험</HD_Stat_MechanicalHazards>
+  <HD_Stat_MechanicalHazards_Desc>과부하 상태에서 작동할 때 발생할 수 있는 사고입니다.</HD_Stat_MechanicalHazards_Desc>
 
   <!-- Mechanical info card stats -->
   <HD_Stat_MechanicalRole>기계 동력 역할</HD_Stat_MechanicalRole>
@@ -31,9 +34,7 @@
   <HD_Stat_MechanicalMaxPower>최대 출력</HD_Stat_MechanicalMaxPower>
   <HD_Stat_MechanicalMaxPower_Desc>과부하 상황에서 이 장치가 버틸 수 있는 최대 기계 동력 출력입니다.</HD_Stat_MechanicalMaxPower_Desc>
   <HD_Stat_MechanicalRequiredTorque>요구 토크</HD_Stat_MechanicalRequiredTorque>
-  <HD_Stat_MechanicalRequiredTorque_Desc>자동 변속으로 권장 RPM에서 요구하는 기본 토크입니다. 열펌프는 냉각량 설정에 따라 요구량이 달라집니다.</HD_Stat_MechanicalRequiredTorque_Desc>
-  <HD_Stat_MechanicalRpmRequirement>요구 RPM</HD_Stat_MechanicalRpmRequirement>
-  <HD_Stat_MechanicalRpmRequirement_Desc>장치가 작동하기 위한 최소 RPM과 완전한 효율을 내는 권장 RPM입니다.</HD_Stat_MechanicalRpmRequirement_Desc>
+  <HD_Stat_MechanicalRequiredTorque_Desc>자동 변속으로 요구하는 기본 토크입니다. 열펌프는 냉각량 설정에 따라 요구량이 달라집니다.</HD_Stat_MechanicalRequiredTorque_Desc>
 
   <!-- Sharpshooter Mode -->
   <HD_SharpshooterMode_Label>명사수 모드</HD_SharpshooterMode_Label>
@@ -49,10 +50,9 @@
   <HD_ITab_MechanicalNetwork_PowerOutput>전체 출력 토크: {0} W</HD_ITab_MechanicalNetwork_PowerOutput>
   <HD_ITab_MechanicalNetwork_PowerNeeded>전체 요구 토크: {0} W</HD_ITab_MechanicalNetwork_PowerNeeded>
   <HD_ITab_MechanicalNetwork_PowerSurplus>그리드 잉여/부족: {0} W</HD_ITab_MechanicalNetwork_PowerSurplus>
-  <HD_ITab_MechanicalNetwork_GridRPM>그리드 RPM: {0}</HD_ITab_MechanicalNetwork_GridRPM>
   <HD_ITab_MechanicalNetwork_Nodes>연결된 노드 수: {0}</HD_ITab_MechanicalNetwork_Nodes>
   <HD_ITab_MechanicalNetwork_Status>상태</HD_ITab_MechanicalNetwork_Status>
-  <HD_ITab_MechanicalNetwork_StatusOverload>경고: 토크 과부하로 인한 RPM 저하 발생.</HD_ITab_MechanicalNetwork_StatusOverload>
+  <HD_ITab_MechanicalNetwork_StatusOverload>경고: 기계 동력망 과부하</HD_ITab_MechanicalNetwork_StatusOverload>
   <HD_ITab_MechanicalNetwork_StatusStable>안정적</HD_ITab_MechanicalNetwork_StatusStable>
   <HD_ITab_MechanicalNetwork_Components>구성 요소</HD_ITab_MechanicalNetwork_Components>
   <HD_ITab_MechanicalNetwork_Emitters>- 동력원: {0}</HD_ITab_MechanicalNetwork_Emitters>

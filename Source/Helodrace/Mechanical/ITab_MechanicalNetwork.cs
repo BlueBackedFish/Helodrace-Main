@@ -42,7 +42,7 @@ namespace Helodrace
             Text.Font = GameFont.Small;
             listing.GapLine();
 
-            if (net.CurrentPowerNeeded > net.CurrentPowerOutput && net.CurrentPowerOutput > 0)
+            if (net.NominalGridRPM > 0f && net.GridRPM < net.NominalGridRPM)
             {
                 GUI.color = Color.yellow;
                 listing.Label("HD_ITab_MechanicalNetwork_StatusOverload".Translate().Resolve());
@@ -61,10 +61,6 @@ namespace Helodrace
             listing.Label("HD_ITab_MechanicalNetwork_PowerSurplus".Translate(surplusStr).Resolve());
             GUI.color = Color.white;
             listing.Gap();
-
-            // RPM
-            listing.Label("HD_ITab_MechanicalNetwork_GridRPM".Translate(net.GridRPM.ToString("F0")).Resolve());
-            listing.GapLine();
 
             // Connected Devices
             listing.Label("HD_ITab_MechanicalNetwork_Nodes".Translate(net.nodes.Count.ToString()).Resolve());
