@@ -832,7 +832,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_TreadleLathe</defName>
     <label>treadle lathe</label>
-    <description>A human-powered woodworking and metalworking lathe. Operated by a foot treadle, it allows for turning wooden and metallic components without requiring external mechanical power.</description>
+    <description>A human-powered lathe for turning wood and metal without external power. When linked to a basic workbench, it enables early firearm assembly.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_TreadleLathe</texPath>
@@ -878,6 +878,20 @@
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>1</maxSimultaneous>
+        <maxDistance>6</maxDistance>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Helodrace.MachineToolFacilityExtension">
+        <latheTier>1</latheTier>
+      </li>
+    </modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
@@ -887,7 +901,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftTurretLathe</defName>
     <label>line shaft turret lathe</label>
-    <description>A line-shaft turret lathe used for repeat machining of metal parts and rifling gun barrels.</description>
+    <description>A line-shaft turret lathe for repeat machining of metal parts and rifling gun barrels. It also links to a basic workbench for firearm assembly.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_LineShaftTurretLathe</texPath>
@@ -937,6 +951,10 @@
     </inspectorTabs>
     <comps>
       <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>1</maxSimultaneous>
+        <maxDistance>6</maxDistance>
+      </li>
       <li Class="Helodrace.CompProperties_MechanicalUser">
         <requireTorque>250</requireTorque>
         <minimalRPM>150</minimalRPM>
@@ -954,6 +972,14 @@
         <heatPushMaxTemperature>55</heatPushMaxTemperature>
       </li>
     </comps>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <modExtensions>
+      <li Class="Helodrace.MachineToolFacilityExtension">
+        <latheTier>2</latheTier>
+      </li>
+    </modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
@@ -963,7 +989,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_LineShaftMillingMachine</defName>
     <label>line shaft milling machine</label>
-    <description>A line-shaft-driven milling machine for precision metal shaping. Powered by the mechanical network, it can cut slots, faces, and fitted parts more quickly than hand tools.</description>
+    <description>A line-shaft milling machine for precision metal shaping. It also links to a basic workbench alongside a turret lathe for advanced firearm assembly.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_LineShaftMillingMachine</texPath>
@@ -1013,6 +1039,10 @@
     </inspectorTabs>
     <comps>
       <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>1</maxSimultaneous>
+        <maxDistance>6</maxDistance>
+      </li>
       <li Class="Helodrace.CompProperties_MechanicalUser">
         <requireTorque>300</requireTorque>
         <minimalRPM>180</minimalRPM>
@@ -1030,6 +1060,14 @@
         <heatPushMaxTemperature>60</heatPushMaxTemperature>
       </li>
     </comps>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <modExtensions>
+      <li Class="Helodrace.MachineToolFacilityExtension">
+        <millingTier>1</millingTier>
+      </li>
+    </modExtensions>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>
@@ -1487,7 +1525,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>HD_BasicWorkbench</defName>
     <label>basic workbench</label>
-    <description>A simple, hand-powered wooden workbench for basic crafting and gunsmithing tasks on the frontier. Does not require external power.</description>
+    <description>A hand-powered workbench for frontier crafting and firearm assembly. Firearms unlocked through breech-loading require a linked lathe; later firearms require a linked turret lathe and milling machine.</description>
     <thingClass>Building_WorkTable</thingClass>
     <graphicData>
       <texPath>Buildings/HD_BasicWorkbench</texPath>
@@ -1529,6 +1567,18 @@
     <inspectorTabs>
       <li>ITab_Bills</li>
     </inspectorTabs>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>HD_TreadleLathe</li>
+          <li>HD_LineShaftTurretLathe</li>
+          <li>HD_LineShaftMillingMachine</li>
+        </linkableFacilities>
+      </li>
+    </comps>
     <building>
       <spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
     </building>

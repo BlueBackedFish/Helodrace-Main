@@ -1002,7 +1002,6 @@
       <HD_GeneralMachinePart>1</HD_GeneralMachinePart>
     </products>
     <recipeUsers>
-      <li>HD_TreadleLathe</li>
       <li>HD_LineShaftTurretLathe</li>
     </recipeUsers>
     <skillRequirements>
@@ -1041,7 +1040,6 @@
       <HD_GeneralMachinePart>5</HD_GeneralMachinePart>
     </products>
     <recipeUsers>
-      <li>HD_TreadleLathe</li>
       <li>HD_LineShaftTurretLathe</li>
     </recipeUsers>
     <skillRequirements>
@@ -1080,7 +1078,6 @@
       <HD_GeneralMachinePart>10</HD_GeneralMachinePart>
     </products>
     <recipeUsers>
-      <li>HD_TreadleLathe</li>
       <li>HD_LineShaftTurretLathe</li>
     </recipeUsers>
     <skillRequirements>
@@ -1157,6 +1154,7 @@
     </products>
     <recipeUsers>
       <li>HD_TreadleLathe</li>
+      <li>HD_LineShaftTurretLathe</li>
     </recipeUsers>
   </RecipeDef>
 
@@ -1191,6 +1189,7 @@
     </products>
     <recipeUsers>
       <li>HD_TreadleLathe</li>
+      <li>HD_LineShaftTurretLathe</li>
     </recipeUsers>
   </RecipeDef>
 

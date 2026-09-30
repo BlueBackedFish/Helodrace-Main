@@ -35,10 +35,10 @@
   <HD_LineShaft.description>증기 기관에서 다른 기계로 기계적 동력을 전달하는 데 사용되는 회전 샤프트 시스템입니다.</HD_LineShaft.description>
 
   <HD_TreadleLathe.label>발판식 선반</HD_TreadleLathe.label>
-  <HD_TreadleLathe.description>인력으로 구동되는 목공 및 금속공예용 선반입니다. 발판식 디딤판으로 작동하여, 외부의 기계적 동력 없이도 목재나 금속 부품의 회전 깎기 가공을 할 수 있습니다.</HD_TreadleLathe.description>
+  <HD_TreadleLathe.description>외부 동력 없이 나무와 금속을 깎는 발판식 선반입니다. 기본 작업대와 연결하면 초기 총기를 제작할 수 있습니다.</HD_TreadleLathe.description>
 
   <HD_BasicWorkbench.label>기초 작업대</HD_BasicWorkbench.label>
-  <HD_BasicWorkbench.description>개척지에서 기본적인 수공예와 총기 제작 작업을 수행하기 위한 간단하고 인력으로 움직이는 나무 작업대입니다. 외부 전력이나 기계적 동력이 필요하지 않습니다.</HD_BasicWorkbench.description>
+  <HD_BasicWorkbench.description>기본적인 수공예와 총기 조립에 쓰는 인력 작업대입니다. 후장식 총기 연구까지의 총기는 연결된 선반이 필요하고, 이후 총기는 연결된 터릿 선반과 밀링 머신이 함께 필요합니다.</HD_BasicWorkbench.description>
 
   <HD_GunSmithTable.label>총기 작업대</HD_GunSmithTable.label>
   <HD_GunSmithTable.description>총기를 조립하고 수리하며 모듈형 총기를 개조하는 전용 작업대입니다. 모듈형 총기 개조에는 총기 파츠 상자를 작업대에 넣어야 합니다.</HD_GunSmithTable.description>
@@ -47,7 +47,7 @@
   <HD_TelegraphTable.description>개척지 석유 계약과 상업 주문, 군사 지원 요청을 송신하는 전신 설비입니다. 일차 전지를 연료로 사용합니다.</HD_TelegraphTable.description>
 
   <HD_LineShaftTurretLathe.label>라인 샤프트 터렛 선반</HD_LineShaftTurretLathe.label>
-  <HD_LineShaftTurretLathe.description>라인 샤프트로 구동하는 터렛 선반입니다. 금속 부품의 반복 절삭과 총열 강선 가공에 사용합니다.</HD_LineShaftTurretLathe.description>
+  <HD_LineShaftTurretLathe.description>라인 샤프트로 구동하는 터릿 선반입니다. 금속 부품의 반복 절삭과 총열 강선 가공에 쓰며, 기본 작업대에 연결하면 총기 제작 시설물로도 작동합니다.</HD_LineShaftTurretLathe.description>
   <HD_LineShaftRollingMachine.label>라인 샤프트 압연기</HD_LineShaftRollingMachine.label>
   <HD_LineShaftRollingMachine.description>라인 샤프트 동력망으로 구동되는 대형 압연기입니다. 가열된 금속 소재를 한 쌍의 롤러 사이로 눌러 막대, 판재, 기타 평평한 형태로 늘립니다.</HD_LineShaftRollingMachine.description>
   <HD_BlastFurnace.label>고로</HD_BlastFurnace.label>
@@ -57,7 +57,7 @@
   <HD_SAFurnace.label>전기아크로</HD_SAFurnace.label>
   <HD_SAFurnace.description>전극 사이에 강력한 전기 아크를 일으켜 금속을 용해하고 정련하는 대형 전기로입니다. 많은 양을 빠르게 처리하지만 가동 중 막대한 전력을 소모합니다.</HD_SAFurnace.description>
   <HD_LineShaftMillingMachine.label>라인 샤프트 밀링 머신</HD_LineShaftMillingMachine.label>
-  <HD_LineShaftMillingMachine.description>정밀 금속 성형을 위한 라인 샤프트 구동식 밀링 머신입니다. 기계 동력망으로 움직이며, 홈, 평면, 맞춤 부품을 수공구보다 빠르게 절삭할 수 있습니다.</HD_LineShaftMillingMachine.description>
+  <HD_LineShaftMillingMachine.description>라인 샤프트로 구동하는 정밀 밀링 머신입니다. 자체 제작 작업에 더해, 터릿 선반과 함께 기본 작업대에 연결하면 후기 총기 제작 시설물로도 작동합니다.</HD_LineShaftMillingMachine.description>
   <HD_LineShaftHydraulicPress.label>라인 샤프트 유압 프레스</HD_LineShaftHydraulicPress.label>
   <HD_LineShaftHydraulicPress.description>라인 샤프트 동력망으로 구동되는 중형 유압 프레스입니다. 강철 소재를 스프링, 압인 판재, 기타 힘으로 성형한 금속 부품으로 만듭니다.</HD_LineShaftHydraulicPress.description>
   <HD_LineShaftHeatPump.label>라인 샤프트 열펌프</HD_LineShaftHeatPump.label>

@@ -75,9 +75,11 @@ namespace Helodrace
                 { "HD_MillGeneralMachinePart", new[] { "HD_LineShaftMillingMachine" } },
                 { "HD_MillGeneralMachinePartBulk5", new[] { "HD_LineShaftMillingMachine" } },
                 { "HD_MillGeneralMachinePartBulk10", new[] { "HD_LineShaftMillingMachine" } },
-                { "HD_TurnGeneralMachinePart", new[] { "HD_TreadleLathe", "HD_LineShaftTurretLathe" } },
-                { "HD_TurnGeneralMachinePartBulk5", new[] { "HD_TreadleLathe", "HD_LineShaftTurretLathe" } },
-                { "HD_TurnGeneralMachinePartBulk10", new[] { "HD_TreadleLathe", "HD_LineShaftTurretLathe" } },
+                { "HD_TurnGeneralMachinePart", new[] { "HD_LineShaftTurretLathe" } },
+                { "HD_TurnGeneralMachinePartBulk5", new[] { "HD_LineShaftTurretLathe" } },
+                { "HD_TurnGeneralMachinePartBulk10", new[] { "HD_LineShaftTurretLathe" } },
+                { "HD_MakeLowQualityBarrel", new[] { "HD_TreadleLathe", "HD_LineShaftTurretLathe" } },
+                { "HD_MakeShotgunBarrel", new[] { "HD_TreadleLathe", "HD_LineShaftTurretLathe" } },
                 { "HD_RollUniformSteelPlate", new[] { "HD_LineShaftRollingMachine" } }
             };
 
