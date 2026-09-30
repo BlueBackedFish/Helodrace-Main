@@ -132,4 +132,14 @@
       </li>
     </modExtensions>
   </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
+    <defName>HD_GW_HelodCaravanGuard</defName>
+    <label>Great War Helod caravan guard</label>
+    <combatPower>90</combatPower>
+    <weaponTags><li>HD_GreatWarCaravanGuard</li></weaponTags>
+    <apparelTags Inherit="False"><li>HD_Apparel_GW_CaravanGuard</li></apparelTags>
+    <apparelRequired Inherit="False" />
+    <apparelMoney><min>500</min><max>1400</max></apparelMoney>
+  </PawnKindDef>
 </Defs>

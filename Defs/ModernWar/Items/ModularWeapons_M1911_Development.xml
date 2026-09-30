@@ -102,7 +102,7 @@
     <uiIconPath>Weapons/GreatWar/HD_m1911</uiIconPath>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M1911A1</texPath><graphicClass>Helodrace.ModernWar.Graphic_ModularWeaponAssembly</graphicClass><drawSize>(1,1)</drawSize></graphicData>
     <soundInteract>Interact_Revolver</soundInteract>
-    <weaponTags><li>HD_GreatWarPistol</li></weaponTags>
+    <weaponTags><li>HD_GreatWarPistol</li><li>HD_GreatWarCaravanGuard</li></weaponTags>
     <statBases><Mass>1.1</Mass><MarketValue>400</MarketValue><MaxHitPoints>100</MaxHitPoints><AccuracyTouch>0.8</AccuracyTouch><AccuracyShort>0.75</AccuracyShort><AccuracyMedium>0.5</AccuracyMedium><AccuracyLong>0.25</AccuracyLong><RangedWeapon_Cooldown>0.3</RangedWeapon_Cooldown></statBases>
     <recipeMaker Inherit="False" IsNull="True" />
     <verbs>

@@ -443,6 +443,7 @@
     <weaponTags>
       <li>HD_GreatWarSubmachineGun</li>
       <li>HD_GreatWarSMG</li>
+      <li>HD_GreatWarCaravanGuard</li>
     </weaponTags>
     <label>M1A1 Harrington</label>
     <description>A rugged submachine gun with a heavy bolt and a fast cyclic rate. It fires hard-hitting pistol cartridges in controlled bursts.</description>
@@ -1193,6 +1194,7 @@
     <defName>HD_Gun_KragJorgensen_Weapon</defName>
     <weaponTags>
       <li>HD_WildWestBoltActionRifle</li>
+      <li>HD_GreatWarCaravanGuard</li>
     </weaponTags>
     <label>Graylock M1892</label>
     <description>A Graylock Arsenal production of the Berg-Larsen rifle, a bolt-action design with a unique side-loading magazine. Famous for its smooth action.</description>
@@ -1265,6 +1267,7 @@
     <weaponTags>
       <li>HD_WildWestLeverActionShotgun</li>
       <li>HD_GreatWarShotgun</li>
+      <li>HD_GreatWarCaravanGuard</li>
     </weaponTags>
     <label>Frontier Arms M1897</label>
     <description>A pump-action shotgun fed from a tubular magazine. It can deliver rapid follow-up shots at close range.</description>
@@ -1829,6 +1832,7 @@
     <defName>HD_Gun_SprMThree_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarBoltActionRifle</li>
+      <li>HD_GreatWarCaravanGuard</li>
     </weaponTags>
     <label>Graylock M1903</label>
     <description>A reliable and accurate bolt-action rifle that served for decades. Highly prized for its precision.</description>
@@ -1975,6 +1979,7 @@
     <defName>HD_Gun_M1903Pedersen_Weapon</defName>
     <weaponTags>
       <li>HD_GreatWarSemiAutoRifle</li>
+      <li>HD_GreatWarCaravanGuard</li>
     </weaponTags>
     <label>Graylock M1903 Whitmore device</label>
     <description>An M1903 rifle fitted with a Whitmore conversion device. It uses lighter ammunition instead of full-power rifle cartridges, allowing fast semi-automatic fire.</description>

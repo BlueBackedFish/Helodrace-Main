@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="Apparel_SimpleHelmet" or defName="Apparel_Duster"]/apparel/tags</xpath>
+    <value>
+      <li>HD_Apparel_GW_CaravanGuard</li>
+    </value>
+  </Operation>
+</Patch>

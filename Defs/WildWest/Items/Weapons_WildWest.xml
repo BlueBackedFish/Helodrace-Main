@@ -129,6 +129,7 @@
     <defName>HD_Gun_ColtSAA_Weapon</defName>
     <weaponTags>
       <li>HD_WildWestRevolver</li>
+      <li>HD_GreatWarCaravanGuard</li>
     </weaponTags>
     <label>Ironfang SAA</label>
     <description>A six-shot single-action revolver made by Ironfang Arms.</description>

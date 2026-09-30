@@ -615,6 +615,7 @@
       <tags>
         <li>HD_Apparel</li>
         <li>HD_Apparel_GW_Uniform</li>
+        <li>HD_Apparel_GW_CaravanGuard</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -681,6 +682,7 @@
         <li>HD_Apparel</li>
         <li>HD_Apparel_GW_Uniform</li>
         <li>HD_Apparel_GW_Protective</li>
+        <li>HD_Apparel_GW_CaravanGuard</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -1237,6 +1239,7 @@
       </layers>
       <tags>
         <li>HD_Apparel</li>
+        <li>HD_Apparel_GW_CaravanGuard</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>

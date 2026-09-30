@@ -107,6 +107,7 @@
         <li>HD_Apparel</li>
         <li>HD_Apparel_Carvaly</li>
         <li>HD_Apparel_WW_WatchmanHeadgear</li>
+        <li>HD_Apparel_GW_CaravanGuard</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
@@ -168,6 +169,7 @@
       <tags>
         <li>HD_Apparel</li>
         <li>HD_Apparel_WW_WatchmanHeadgear</li>
+        <li>HD_Apparel_GW_CaravanGuard</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
@@ -418,6 +420,7 @@
       <tags>
         <li>HD_Apparel</li>
         <li>HD_Apparel_Casual</li>
+        <li>HD_Apparel_GW_CaravanGuard</li>
       </tags>
       <defaultOutfitTags>
         <li>Worker</li>
