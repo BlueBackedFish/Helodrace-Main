@@ -44,9 +44,17 @@ namespace Helodrace.Tactical
 
     public static class TcccUtility
     {
+        private const string TrainingDefName = "HD_TCCCTraining";
+        public static bool HasTraining(Pawn pawn)
+        {
+            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(TrainingDefName);
+            return pawn?.health?.hediffSet != null && def != null
+                && pawn.health.hediffSet.HasHediff(def);
+        }
         public static bool CanAct(Pawn pawn) => pawn != null && pawn.Spawned && !pawn.Dead && !pawn.Downed
             && pawn.Faction == Faction.OfPlayer && pawn.RaceProps.Humanlike && pawn.Drafted
-            && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && !pawn.InMentalState;
+            && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && !pawn.InMentalState
+            && HasTraining(pawn);
         public static bool CanTreat(Pawn actor, Pawn patient) => CanAct(actor) && patient != null && patient.Spawned
             && !patient.Dead && patient.Map == actor.Map && patient.RaceProps.Humanlike && !patient.HostileTo(actor);
         public static Hediff_TcccTimed Effect(Pawn pawn, string name) => pawn?.health?.hediffSet?.hediffs

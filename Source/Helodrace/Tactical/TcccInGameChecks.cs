@@ -70,6 +70,9 @@ namespace Helodrace.Tactical
                         actor = SpawnPawn(Find.CurrentMap.Center);
                         Wound(actor);
                         baselineBleed = actor.health.hediffSet.BleedRateTotal;
+                        Check(!TcccUtility.CanAct(actor) && !TcccUtility.CanTreat(actor, actor),
+                            "TCCC commands and treatments require training");
+                        actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining"));
                         Check(baselineBleed > 0 && TcccUtility.CanAct(actor), "self-care actor is capable and bleeding");
                         TcccUtility.Start(actor, actor, TcccTreatment.SelfHemostasis);
                         Next(1); break;
@@ -251,6 +254,7 @@ namespace Helodrace.Tactical
             foreach (string name in new[] { "BD_Morphine", "BD_Fentanyl", "BD_Ketamine", "BD_Laudanum" })
             {
                 Pawn patient = SpawnPawn(Find.CurrentMap.Center + new IntVec3(0, 0, -12)); Wound(patient);
+                patient.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining"));
                 float before = patient.health.hediffSet.PainTotal;
                 Thing drug = ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(name)); drug.stackCount = 3;
                 patient.inventory.innerContainer.TryAdd(drug);

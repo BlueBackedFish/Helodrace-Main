@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <HD_TCCCTraining.label>TCCC 교육</HD_TCCCTraining.label>
+  <HD_TCCCTraining.description>전술 응급처치 스킬을 사용할 수 있는 교육 자격입니다.</HD_TCCCTraining.description>
   <HD_TCCC_Pressure.label>압박 지혈 중</HD_TCCC_Pressure.label>
   <HD_TCCC_Pressure.description>자가 지혈 중입니다. 압박을 유지하는 동안 출혈량이 70% 감소합니다.</HD_TCCC_Pressure.description>
   <HD_TCCC_SelfHemostasis.label>자가 지혈</HD_TCCC_SelfHemostasis.label>
