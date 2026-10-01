@@ -18,6 +18,7 @@ namespace Helodrace
             CigaretteSmokingUtility.LogPatchStatus();
             
             RemoveQualityFromHelodraceGuns();
+            Economy.HelodMoneyTrading.AddMoneyStockToTraderKinds();
         }
 
         private static void RemoveQualityFromHelodraceGuns()
