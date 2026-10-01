@@ -257,6 +257,31 @@ internal static class Program
         Near(360, organization.GetSupportPoints(), "Invalid refund rejected");
     }
 
+    private static void TestRaidMemberDeparture()
+    {
+        var faction = new Faction();
+        var leader = Pawn(faction);
+        var deputy = Pawn(faction);
+        var member = Pawn(faction);
+        var group = Group(Single(80), "DepartingSquad", Assignment(leader, Leader, 0),
+            Assignment(deputy, Deputy, 1), Assignment(member));
+        var organization = Organization(faction, group);
+        Check(organization.RemoveMember(leader), "Departing commander must be removed");
+        Check(!organization.AllMembers.Contains(leader), "Departed pawn cannot remain in membership");
+        Check(group.commander == null && group.actingCommander == null, "Departed commander reference must clear");
+        Check(!group.successionList.Contains(leader), "Departed pawn cannot inherit command later");
+        group.UpdateCommand(0);
+        group.UpdateCommand(90);
+        Check(group.actingCommander == deputy, "Remaining squad can succeed after retreat");
+        Check(!organization.RemoveMember(leader), "Repeated exit/world transition must be harmless");
+        Check(organization.RemoveMember(deputy) && organization.RemoveMember(member),
+            "Remaining members may leave independently");
+        Check(!organization.AllMembers.Any(), "Empty raid organization has no active members");
+        var loaded = Scribe.RoundTrip(organization);
+        Check(!loaded.AllMembers.Any() && loaded.rootGroups[0].successionList.Count == 0,
+            "Departed pawn references must not reappear after loading");
+    }
+
     // Read the actual XML definitions, including inherited pawn costs and role metadata.
     private static Dictionary<string, Def> LoadDefinitions(string root)
     {
@@ -356,6 +381,7 @@ internal static class Program
         try
         {
             TestPlanning(); TestSuccession(); TestHierarchyAndPersistence(); TestQualificationAndSupport();
+            TestRaidMemberDeparture();
             TestActualDefinitions(args.Length > 0 ? args[0] : Directory.GetCurrentDirectory());
             Console.WriteLine("PASS: " + checks + " assertions (production logic, actual XML, game boundary stubs).");
             return 0;

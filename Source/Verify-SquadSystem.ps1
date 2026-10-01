@@ -61,7 +61,7 @@ Write-Output 'PASS: compiled organization classes and XML field names.'
 if ($PatchSmokeTest) {
     $taskHarmony = [HarmonyLib.Harmony]::new('Helodrace.Squads.SmokeTest')
     try {
-        foreach ($taskName in 'Patch_PawnGroupMaker_Organization', 'Patch_PawnGroupMaker_OrganizationPreview', 'Patch_DebugSettings_OrganizationOverlay') {
+        foreach ($taskName in 'Patch_PawnGroupMaker_Organization', 'Patch_PawnGroupMaker_OrganizationPreview', 'Patch_DebugSettings_OrganizationOverlay', 'Patch_PawnExitMap_ClearOrganization', 'Patch_WorldPawns_ClearOrganization') {
             $null = $taskHarmony.CreateClassProcessor($taskAssembly.GetType("Helodrace.Squads.$taskName")).Patch()
             Write-Output "PASS: Harmony installed $taskName"
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -17,11 +18,34 @@ namespace Helodrace.Squads
         public string AllocateId() => "HD_Raid_" + nextOrganizationId++;
         public CombatOrganization GetOrganization(string id) => id != null && byId.TryGetValue(id, out var value)
             ? value : null;
-        public CombatGroup GetGroup(Pawn pawn) => pawn != null && byPawn.TryGetValue(pawn, out var value)
-            ? value : null;
+        public CombatGroup GetGroup(Pawn pawn)
+        {
+            if (pawn == null || !byPawn.TryGetValue(pawn, out CombatGroup group)) return null;
+            if (!IsDepartedWorldPawn(pawn)) return group;
+            Detach(pawn);
+            return null;
+        }
+
+        private static bool IsDepartedWorldPawn(Pawn pawn) => pawn != null && !pawn.Spawned
+            && Find.WorldPawns?.Contains(pawn) == true;
+
+        public void Detach(Pawn pawn)
+        {
+            if (pawn == null || !byPawn.TryGetValue(pawn, out CombatGroup group)) return;
+            CombatOrganization organization = group.Organization;
+            organization.RemoveMember(pawn);
+            byPawn.Remove(pawn);
+            pawn.TryGetComp<PawnOrganizationComponent>()?.Clear();
+            if (!organization.AllMembers.Any())
+            {
+                organizations.Remove(organization);
+                byId.Remove(organization.id);
+            }
+        }
 
         public void Register(CombatOrganization organization)
         {
+            foreach (Pawn pawn in byPawn.Keys.Where(IsDepartedWorldPawn).ToList()) Detach(pawn);
             if (byId.ContainsKey(organization.id)) throw new InvalidOperationException("Duplicate organization ID.");
             if (organization.AllMembers.Any(pawn => byPawn.ContainsKey(pawn)))
                 throw new InvalidOperationException("Pawn is already in a combat organization.");
@@ -45,7 +69,16 @@ namespace Helodrace.Squads
         {
             byId.Clear();
             byPawn.Clear();
-            foreach (CombatOrganization organization in organizations) Index(organization);
+            foreach (CombatOrganization organization in organizations.ToList())
+            {
+                foreach (Pawn pawn in organization.AllMembers.Where(IsDepartedWorldPawn).ToList())
+                {
+                    organization.RemoveMember(pawn);
+                    pawn.TryGetComp<PawnOrganizationComponent>()?.Clear();
+                }
+                if (organization.AllMembers.Any()) Index(organization);
+                else organizations.Remove(organization);
+            }
         }
 
         public override void FinalizeInit()
@@ -112,6 +145,13 @@ namespace Helodrace.Squads
             overlayRefreshFrame = -1;
         }
 
+        public void Clear()
+        {
+            organizationId = groupId = parentGroupId = null;
+            overlayGroupLabel = overlayRoleLabel = overlayCommandLabel = null;
+            overlayRefreshFrame = -1;
+        }
+
         public override void DrawGUIOverlay()
         {
             OrganizationOverlay.Draw(this);
@@ -138,6 +178,24 @@ namespace Helodrace.Squads
                     defaultDesc = "HD_Squads_InspectDesc".Translate(),
                     action = () => Find.WindowStack.Add(new Dialog_MessageBox(OrganizationDebug.Describe(Organization)))
                 };
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn), nameof(Pawn.ExitMap))]
+    public static class Patch_PawnExitMap_ClearOrganization
+    {
+        public static void Postfix(Pawn __instance)
+        {
+            OrganizationAPI.Registry?.Detach(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(RimWorld.Planet.WorldPawns), nameof(RimWorld.Planet.WorldPawns.PassToWorld))]
+    public static class Patch_WorldPawns_ClearOrganization
+    {
+        public static void Postfix(Pawn pawn)
+        {
+            OrganizationAPI.Registry?.Detach(pawn);
         }
     }
 

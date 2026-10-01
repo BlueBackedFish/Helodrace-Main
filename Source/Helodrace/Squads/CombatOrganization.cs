@@ -262,6 +262,20 @@ namespace Helodrace.Squads
         {
             foreach (CombatGroup root in rootGroups) RestoreGroup(root, null);
         }
+
+        public bool RemoveMember(Pawn pawn)
+        {
+            if (pawn == null) return false;
+            bool removed = false;
+            foreach (CombatGroup group in AllGroups)
+            {
+                removed |= group.roleAssignments.RemoveAll(assignment => assignment.pawn == pawn) > 0;
+                if (group.commander == pawn) group.commander = null;
+                if (group.actingCommander == pawn) group.actingCommander = null;
+                group.successionList.RemoveAll(candidate => candidate == pawn);
+            }
+            return removed;
+        }
         private void RestoreGroup(CombatGroup group, CombatGroup parent)
         {
             group.Organization = this;
