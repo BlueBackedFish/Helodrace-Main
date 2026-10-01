@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_HelodCashTrade_NoBarter>Helod factions settle purchases and sales separately in Sthaler cash.</HD_HelodCashTrade_NoBarter>
+  <HD_HelodCashTrade_Minimum>The trade is worth less than one Sthaler. Increase the quantity.</HD_HelodCashTrade_Minimum>
+</LanguageData>
