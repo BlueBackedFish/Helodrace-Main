@@ -55,6 +55,7 @@
     </fixedLeaderKinds>
     <caravanTraderKinds>
       <li>HD_WW_Caravan_HelodFinancial</li>
+      <li>HD_GW_Caravan_HelodCommercial</li>
     </caravanTraderKinds>
     <techLevel>Industrial</techLevel>
     <factionNameMaker>NamerFactionOutlander</factionNameMaker>
@@ -118,16 +119,22 @@
         <kindDef>Trader</kindDef>
         <traders>
           <HD_WW_HelodFinancialTrader>1</HD_WW_HelodFinancialTrader>
+          <HD_GW_HelodCaravanMaster>2</HD_GW_HelodCaravanMaster>
         </traders>
         <carriers>
-          <Muffalo>6</Muffalo>
-          <Dromedary>5</Dromedary>
-          <Alpaca>2</Alpaca>
+          <Horse>18</Horse>
+          <Muffalo>2</Muffalo>
+          <Dromedary>1</Dromedary>
+          <Alpaca>1</Alpaca>
         </carriers>
         <guards>
-          <HD_WW_FrontierWatchman>12</HD_WW_FrontierWatchman>
-          <HD_WW_HelodSettler>4</HD_WW_HelodSettler>
-          <HD_WW_HelodUpperClass>1.5</HD_WW_HelodUpperClass>
+          <HD_WW_FrontierWatchman>6</HD_WW_FrontierWatchman>
+          <HD_GW_HelodCaravanGuard>12</HD_GW_HelodCaravanGuard>
+          <HD_GW_HelodCaravanGuardCaptain>2</HD_GW_HelodCaravanGuardCaptain>
+          <HD_GW_HelodEliteCaravanGuard>3</HD_GW_HelodEliteCaravanGuard>
+          <HD_GW_HelodEliteCaravanGuardCaptain>1</HD_GW_HelodEliteCaravanGuardCaptain>
+          <HD_GW_HelodCaravanLaborer>4</HD_GW_HelodCaravanLaborer>
+          <HD_WW_HelodSettler>2</HD_WW_HelodSettler>
         </guards>
       </li>
       <li>
