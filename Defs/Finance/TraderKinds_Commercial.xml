@@ -56,25 +56,21 @@
         <thingDef>HD_BasicElectronicComponents</thingDef>
         <countRange>20~50</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
+      <!-- Petroleum products are purchased from the colony, but are not caravan stock. -->
+      <li Class="StockGenerator_BuySingleDef">
         <thingDef>HD_CrudeOil_Low</thingDef>
-        <countRange>300~600</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
+      <li Class="StockGenerator_BuySingleDef">
         <thingDef>Chemfuel</thingDef>
-        <countRange>250~500</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
+      <li Class="StockGenerator_BuySingleDef">
         <thingDef>HD_Diesel</thingDef>
-        <countRange>120~250</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
+      <li Class="StockGenerator_BuySingleDef">
         <thingDef>HD_Kerosene</thingDef>
-        <countRange>120~250</countRange>
       </li>
-      <li Class="StockGenerator_SingleDef">
+      <li Class="StockGenerator_BuySingleDef">
         <thingDef>HD_Naphtha</thingDef>
-        <countRange>100~200</countRange>
       </li>
     </stockGenerators>
   </TraderKindDef>
