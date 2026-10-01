@@ -201,11 +201,6 @@
         <requiredTag>HD_Apparel_GW_EliteCaravanGuardInner</requiredTag>
       </li>
       <li>
-        <bodyPartGroup>Legs</bodyPartGroup>
-        <apparelLayer>OnSkin</apparelLayer>
-        <requiredTag>HD_Apparel_GW_EliteCaravanGuard</requiredTag>
-      </li>
-      <li>
         <bodyPartGroup>UpperHead</bodyPartGroup>
         <apparelLayer>Overhead</apparelLayer>
         <requiredTag>HD_Apparel_GW_EliteCaravanGuard</requiredTag>

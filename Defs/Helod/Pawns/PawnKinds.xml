@@ -176,7 +176,6 @@
 		</apparelTags>
 		<apparelRequired>
 			<li>HD_Apparel_WildWestFormalShirt</li>
-			<li>Apparel_Pants</li>
 			<li>HD_Apparel_WildWestFrockCoat</li>
 			<li>HD_Apparel_WildWestTopHat</li>
 		</apparelRequired>
@@ -250,7 +249,6 @@
 		</apparelTags>
 		<apparelRequired>
 			<li>HD_Apparel_WildWestFormalShirt</li>
-			<li>Apparel_Pants</li>
 			<li>HD_Apparel_WildWestFrockCoat</li>
 			<li>HD_Apparel_WildWestTopHat</li>
 		</apparelRequired>
