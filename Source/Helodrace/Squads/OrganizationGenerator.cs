@@ -67,6 +67,13 @@ namespace Helodrace.Squads
                         developmentalStages: parms.raidAgeRestriction?.developmentStage ?? DevelopmentalStage.Adult,
                         biologicalAgeRange: parms.raidAgeRestriction?.ageRange));
                     pawns.Add(pawn);
+                    foreach (ThingDef grenadeDef in member.slot.grenadeLoadout)
+                    {
+                        Thing grenade = ThingMaker.MakeThing(grenadeDef);
+                        if (pawn.inventory?.innerContainer == null
+                            || !pawn.inventory.innerContainer.TryAdd(grenade))
+                            grenade.Destroy(DestroyMode.Vanish);
+                    }
                     member.assignment.pawn = pawn;
                 }
                 foreach (CombatGroup root in result.rootGroups) root.InitializeCommand();

@@ -98,6 +98,9 @@ internal static class Program
         invalid.idealPersonnel = 2;
         Check(invalid.ConfigErrors().Any(), "Personnel mismatches are invalid");
         Check(FormationPlanner.Plan(1000, Doctrine(invalid)).Personnel == 0, "No invalid incomplete formation");
+        var invalidGrenade = Single(520);
+        invalidGrenade.requiredRoles[0].grenadeLoadout.Add(null);
+        Check(invalidGrenade.ConfigErrors().Any(), "Unresolved grenade loadouts are invalid");
         var cyclic = Single(520);
         cyclic.childFormations.Add(new ChildFormationSlot { formation = cyclic });
         Check(cyclic.ConfigErrors().Any(), "Cyclic formation must be rejected");
@@ -302,6 +305,12 @@ internal static class Program
             return merged;
         }
         var defs = new Dictionary<string, Def> { ["Shooting"] = Shooting };
+        var grenadeNames = XDocument.Load(Path.Combine(root, "Defs/GreatWar/Items/Grenades_GreatWar.xml"))
+            .Root.Elements("ThingDef")
+            .Where(node => (string)node.Attribute("ParentName") == "HD_GreatWarGrenadeBase")
+            .Select(node => (string)node.Element("defName")).ToHashSet();
+        foreach (string grenadeName in grenadeNames)
+            defs.Add(grenadeName, new ThingDef { defName = grenadeName });
         foreach (var node in nodes.Where(node => node.Element("defName") != null))
         {
             Def def = node.Name.LocalName switch
@@ -347,13 +356,25 @@ internal static class Program
     private static void TestActualDefinitions(string root)
     {
         var defs = LoadDefinitions(root);
+        var usedGrenades = new HashSet<string>();
         foreach (var formation in defs.Values.OfType<FormationDef>())
         {
             Check(!formation.ConfigErrors().Any(), formation.defName + " config: "
                 + string.Join(", ", formation.ConfigErrors()));
             foreach (var slot in formation.Slots)
+            {
                 Check(slot.pawnKind.defName.StartsWith("HD_GW_"), "Only Great War PawnKinds may spawn");
+                Check(slot.grenadeLoadout.Count == 1, "Each Great War raid member carries one grenade");
+                foreach (ThingDef grenade in slot.grenadeLoadout)
+                {
+                    Check(grenade.defName == "HD_Grenade_MKII" || grenade.defName == "HD_Grenade_MKIII"
+                        || grenade.defName == "HD_Grenade_M8_Item", "Only designated Great War grenades may spawn");
+                    usedGrenades.Add(grenade.defName);
+                }
+            }
         }
+        Check(usedGrenades.SetEquals(new[] { "HD_Grenade_MKII", "HD_Grenade_MKIII", "HD_Grenade_M8_Item" }),
+            "Raid formations distribute fragmentation, offensive and smoke grenades");
         var doctrine = (DoctrineDef)defs["HD_Doctrine_GreatWar"];
         Check(!doctrine.ConfigErrors().Any(), "Actual doctrine is valid");
         Near(510, ((FormationDef)defs["HD_Formation_GW_Patrol"]).FormationCost, "Actual patrol cost");
