@@ -71,7 +71,7 @@
 	</PawnKindDef>
 
 	<!-- Helod NPC settler -->
-	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+	<PawnKindDef Name="HD_WW_HelodSettlerBase" ParentName="HD_HelodBasePawnKind">
 		<defName>HD_WW_HelodSettler</defName>
 		<label>Helod settler</label>
 		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
@@ -215,7 +215,7 @@
 	</PawnKindDef>
 
 	<!-- Helod financial trader -->
-	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+	<PawnKindDef Name="HD_WW_HelodFinancialTraderBase" ParentName="HD_HelodBasePawnKind">
 		<defName>HD_WW_HelodFinancialTrader</defName>
 		<label>Helod financial trader</label>
 		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>

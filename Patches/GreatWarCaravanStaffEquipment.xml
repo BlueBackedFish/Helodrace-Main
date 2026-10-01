@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HD_Gun_M1911_Weapon" or defName="HD_Gun_M1A1Carbine_Weapon" or defName="HD_Gun_M1A1Harrington_Weapon"]/weaponTags</xpath>
+    <value><li>HD_GreatWarCaravanMaster</li></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HD_Gun_M1897_Weapon" or defName="HD_Gun_ColtSAA_Weapon" or defName="HD_Gun_SWModelThree_Weapon" or defName="HD_Gun_SprMThree_Weapon" or defName="HD_Gun_KragJorgensen_Weapon" or defName="HD_Gun_WinMNinetyFive_Weapon" or defName="HD_Gun_SprMThreeHigh_Weapon"]/weaponTags</xpath>
+    <value><li>HD_GreatWarCaravanLaborer</li></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HD_WoodenBaseballBat"]</xpath>
+    <value><weaponTags><li>HD_GreatWarCaravanLaborer</li></weaponTags></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="HD_Apparel_WildWestMaleCasual" or defName="HD_Apparel_WildWestFemaleCasual"]/apparel/tags</xpath>
+    <value><li>HD_Apparel_GW_CaravanLaborer</li></value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="Apparel_Duster" or defName="Apparel_Pants" or defName="Apparel_BasicShirt"]/apparel/tags</xpath>
+    <value><li>HD_Apparel_GW_CaravanLaborer</li></value>
+  </Operation>
+</Patch>

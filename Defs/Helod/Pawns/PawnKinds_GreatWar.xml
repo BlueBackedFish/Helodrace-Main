@@ -220,4 +220,26 @@
     </specificApparelRequirements>
     <apparelMoney><min>900</min><max>2300</max></apparelMoney>
   </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_WW_HelodFinancialTraderBase">
+    <defName>HD_GW_HelodCaravanMaster</defName>
+    <label>Great War Helod caravan master</label>
+    <weaponMoney><min>500</min><max>2500</max></weaponMoney>
+    <weaponTags Inherit="False"><li>HD_GreatWarCaravanMaster</li></weaponTags>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="HD_WW_HelodSettlerBase">
+    <defName>HD_GW_HelodCaravanLaborer</defName>
+    <label>Great War Helod caravan laborer</label>
+    <weaponMoney><min>0</min><max>1800</max></weaponMoney>
+    <weaponTags Inherit="False"><li>HD_GreatWarCaravanLaborer</li></weaponTags>
+    <apparelTags Inherit="False"><li>HD_Apparel_GW_CaravanLaborer</li></apparelTags>
+    <specificApparelRequirements Inherit="False">
+      <li>
+        <bodyPartGroup>Torso</bodyPartGroup>
+        <apparelLayer>OnSkin</apparelLayer>
+        <requiredTag>HD_Apparel_GW_CaravanLaborer</requiredTag>
+      </li>
+    </specificApparelRequirements>
+  </PawnKindDef>
 </Defs>
