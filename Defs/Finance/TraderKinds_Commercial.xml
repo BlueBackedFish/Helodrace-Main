@@ -6,7 +6,19 @@
     <stockGenerators>
       <li Class="StockGenerator_SingleDef">
         <thingDef>Silver</thingDef>
-        <countRange>2000~4000</countRange>
+        <countRange>200~400</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>HD_Money</thingDef>
+        <countRange>360~720</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>PackagedSurvivalMeal</thingDef>
+        <countRange>40~70</countRange>
+      </li>
+      <li Class="StockGenerator_SingleDef">
+        <thingDef>MedicineIndustrial</thingDef>
+        <countRange>12~24</countRange>
       </li>
       <li Class="StockGenerator_SingleDef">
         <thingDef>Steel</thingDef>

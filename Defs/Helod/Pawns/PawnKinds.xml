@@ -104,6 +104,11 @@
 				<apparelLayer>OnSkin</apparelLayer>
 				<requiredTag>HD_Apparel_Casual</requiredTag>
 			</li>
+			<li>
+				<bodyPartGroup>Legs</bodyPartGroup>
+				<apparelLayer>OnSkin</apparelLayer>
+				<requiredTag>HD_Apparel_Casual</requiredTag>
+			</li>
 		</specificApparelRequirements>
 		<apparelAllowHeadgearChance>0.5</apparelAllowHeadgearChance>
 		<apparelMoney>
@@ -171,6 +176,7 @@
 		</apparelTags>
 		<apparelRequired>
 			<li>HD_Apparel_WildWestFormalShirt</li>
+			<li>Apparel_Pants</li>
 			<li>HD_Apparel_WildWestFrockCoat</li>
 			<li>HD_Apparel_WildWestTopHat</li>
 		</apparelRequired>
@@ -244,6 +250,7 @@
 		</apparelTags>
 		<apparelRequired>
 			<li>HD_Apparel_WildWestFormalShirt</li>
+			<li>Apparel_Pants</li>
 			<li>HD_Apparel_WildWestFrockCoat</li>
 			<li>HD_Apparel_WildWestTopHat</li>
 		</apparelRequired>
@@ -317,6 +324,11 @@
 		<specificApparelRequirements>
 			<li>
 				<bodyPartGroup>Torso</bodyPartGroup>
+				<apparelLayer>OnSkin</apparelLayer>
+				<requiredTag>HD_Apparel_Casual</requiredTag>
+			</li>
+			<li>
+				<bodyPartGroup>Legs</bodyPartGroup>
 				<apparelLayer>OnSkin</apparelLayer>
 				<requiredTag>HD_Apparel_Casual</requiredTag>
 			</li>

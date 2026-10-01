@@ -20,4 +20,11 @@
     <xpath>Defs/ThingDef[defName="Apparel_Duster" or defName="Apparel_Pants" or defName="Apparel_BasicShirt"]/apparel/tags</xpath>
     <value><li>HD_Apparel_GW_CaravanLaborer</li></value>
   </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="Apparel_Pants"]/apparel/tags</xpath>
+    <value>
+      <li>HD_Apparel_Casual</li>
+      <li>HD_Apparel_GW_EliteCaravanGuard</li>
+    </value>
+  </Operation>
 </Patch>

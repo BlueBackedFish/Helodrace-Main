@@ -115,8 +115,9 @@
           <HD_WW_HelodUpperClass>45</HD_WW_HelodUpperClass>
         </options>
       </li>
-      <li>
+      <li Class="Helodrace.Economy.TraderSpecificPawnGroupMaker">
         <kindDef>Trader</kindDef>
+        <traderKindDefName>HD_WW_Caravan_HelodFinancial</traderKindDefName>
         <traders>
           <HD_WW_HelodFinancialTrader>1</HD_WW_HelodFinancialTrader>
           <HD_GW_HelodCaravanMaster>2</HD_GW_HelodCaravanMaster>
@@ -135,6 +136,26 @@
           <HD_GW_HelodEliteCaravanGuardCaptain>1</HD_GW_HelodEliteCaravanGuardCaptain>
           <HD_GW_HelodCaravanLaborer>4</HD_GW_HelodCaravanLaborer>
           <HD_WW_HelodSettler>2</HD_WW_HelodSettler>
+        </guards>
+      </li>
+      <li Class="Helodrace.Economy.TraderSpecificPawnGroupMaker">
+        <kindDef>Trader</kindDef>
+        <traderKindDefName>HD_GW_Caravan_HelodCommercial</traderKindDefName>
+        <traders>
+          <HD_GW_HelodCaravanMaster>1</HD_GW_HelodCaravanMaster>
+        </traders>
+        <carriers>
+          <Horse>18</Horse>
+          <Muffalo>2</Muffalo>
+          <Dromedary>1</Dromedary>
+          <Alpaca>1</Alpaca>
+        </carriers>
+        <guards>
+          <HD_GW_HelodCaravanGuard>12</HD_GW_HelodCaravanGuard>
+          <HD_GW_HelodCaravanGuardCaptain>2</HD_GW_HelodCaravanGuardCaptain>
+          <HD_GW_HelodEliteCaravanGuard>3</HD_GW_HelodEliteCaravanGuard>
+          <HD_GW_HelodEliteCaravanGuardCaptain>1</HD_GW_HelodEliteCaravanGuardCaptain>
+          <HD_GW_HelodCaravanLaborer>4</HD_GW_HelodCaravanLaborer>
         </guards>
       </li>
       <li>
