@@ -98,6 +98,13 @@
 		<apparelTags>
 			<li>HD_Apparel_Casual</li>
 		</apparelTags>
+		<specificApparelRequirements>
+			<li>
+				<bodyPartGroup>Torso</bodyPartGroup>
+				<apparelLayer>OnSkin</apparelLayer>
+				<requiredTag>HD_Apparel_Casual</requiredTag>
+			</li>
+		</specificApparelRequirements>
 		<apparelAllowHeadgearChance>0.5</apparelAllowHeadgearChance>
 		<apparelMoney>
 			<min>550</min>
@@ -307,6 +314,13 @@
 			<li>HD_Apparel_WW_Protective</li>
 			<li>HD_Apparel_WW_WatchmanHeadgear</li>
 		</apparelTags>
+		<specificApparelRequirements>
+			<li>
+				<bodyPartGroup>Torso</bodyPartGroup>
+				<apparelLayer>OnSkin</apparelLayer>
+				<requiredTag>HD_Apparel_Casual</requiredTag>
+			</li>
+		</specificApparelRequirements>
 		<apparelAllowHeadgearChance>1</apparelAllowHeadgearChance>
 		<apparelMoney>
 			<min>600</min>
