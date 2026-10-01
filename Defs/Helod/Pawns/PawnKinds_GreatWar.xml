@@ -135,7 +135,7 @@
 
   <PawnKindDef Name="HD_GW_HelodCaravanGuardBase" ParentName="HD_GW_HelodSoldierBase" Abstract="True">
     <invNutrition>2.8</invNutrition>
-    <invFoodDef>PackagedSurvivalMeal</invFoodDef>
+    <invFoodDef>MealSurvivalPack</invFoodDef>
     <inventoryOptions>
       <subOptionsChooseOne>
         <li><thingDef>MedicineIndustrial</thingDef><countRange>2~3</countRange></li>
@@ -235,7 +235,7 @@
     <defName>HD_GW_HelodCaravanMaster</defName>
     <label>Great War Helod caravan master</label>
     <invNutrition>2.8</invNutrition>
-    <invFoodDef>PackagedSurvivalMeal</invFoodDef>
+    <invFoodDef>MealSurvivalPack</invFoodDef>
     <inventoryOptions>
       <subOptionsChooseOne>
         <li><thingDef>MedicineIndustrial</thingDef><countRange>2~3</countRange></li>
@@ -249,7 +249,7 @@
     <defName>HD_GW_HelodCaravanLaborer</defName>
     <label>Great War Helod caravan laborer</label>
     <invNutrition>2.8</invNutrition>
-    <invFoodDef>PackagedSurvivalMeal</invFoodDef>
+    <invFoodDef>MealSurvivalPack</invFoodDef>
     <inventoryOptions>
       <subOptionsChooseOne>
         <li><thingDef>MedicineIndustrial</thingDef><countRange>2~3</countRange></li>

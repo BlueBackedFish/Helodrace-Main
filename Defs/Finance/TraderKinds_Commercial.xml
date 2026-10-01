@@ -13,7 +13,7 @@
         <countRange>360~720</countRange>
       </li>
       <li Class="StockGenerator_SingleDef">
-        <thingDef>PackagedSurvivalMeal</thingDef>
+        <thingDef>MealSurvivalPack</thingDef>
         <countRange>40~70</countRange>
       </li>
       <li Class="StockGenerator_SingleDef">
