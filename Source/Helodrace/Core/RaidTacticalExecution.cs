@@ -83,6 +83,7 @@ namespace Helodrace
             public int ExternalSupportClearedTick;
             public string DoorStateSignature;
             public int LastRoomSecurityTick;
+            public int LastDoorResponseTick;
             // Planning cache is rebuilt after a save load; execution progress is Scribed above.
             public RaidTacticalPlan ActivePlan;
 
@@ -116,6 +117,8 @@ namespace Helodrace
                 Scribe_Values.Look(ref DoorStateSignature, "doorStateSignature");
                 Scribe_Values.Look(ref LastRoomSecurityTick,
                     "lastRoomSecurityTick");
+                Scribe_Values.Look(ref LastDoorResponseTick,
+                    "lastDoorResponseTick");
             }
         }
 
@@ -500,12 +503,16 @@ namespace Helodrace
                     }
                     break;
                 case RaidExecutionPhase.SecureRoom:
-                    if (tick - state.LastRoomSecurityTick >= 180)
+                    if (tick - state.LastRoomSecurityTick >= 30)
                     {
                         string doors = NearbyDoorState(plan.Objective);
                         if (doors != state.DoorStateSignature)
                         {
                             IssueRoomSecurity(members, plan);
+                            if (tick - state.LastDoorResponseTick >= 360
+                                && TryCounterClosingDoor(members, plan,
+                                    state.DoorStateSignature))
+                                state.LastDoorResponseTick = tick;
                             state.DoorStateSignature = doors;
                             state.LastRoomSecurityTick = tick;
                         }
@@ -1156,6 +1163,57 @@ namespace Helodrace
                     && door.Position.DistanceTo(objective) <= 12f)
                 .OrderBy(door => door.thingIDNumber)
                 .Select(door => door.thingIDNumber + ":" + (door.Open ? "1" : "0")));
+        }
+
+        private bool TryCounterClosingDoor(List<Pawn> members,
+            RaidTacticalPlan plan, string previousState)
+        {
+            Room room = plan.Objective.GetRoom(map);
+            if (room == null || room.PsychologicallyOutdoors) return false;
+            HashSet<string> openIds = new HashSet<string>((previousState ?? "")
+                .Split(',').Where(value => value.EndsWith(":1"))
+                .Select(value => value.Substring(0, value.Length - 2)));
+            foreach (Building_Door door in map.listerThings.AllThings
+                .OfType<Building_Door>()
+                .Where(value => !value.Destroyed && !value.Open
+                    && value.Position.DistanceTo(plan.Objective) <= 12f
+                    && openIds.Contains(value.thingIDNumber.ToString())))
+            {
+                bool enemyOutside = map.mapPawns.AllPawnsSpawned.Any(enemy =>
+                    !enemy.Dead && !enemy.Downed && enemy.Faction != null
+                    && enemy.Faction.HostileTo(members[0].Faction)
+                    && enemy.Position.DistanceTo(door.Position) <= 4f
+                    && enemy.Position.GetRoom(map) != room);
+                if (!enemyOutside) continue;
+                IntVec3 target = new[] { IntVec3.North, IntVec3.East,
+                        IntVec3.South, IntVec3.West }
+                    .Select(direction => door.Position + direction)
+                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                        && cell.GetRoom(map) == room)
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
+                if (!target.IsValid) continue;
+                foreach (Pawn pawn in members.OrderBy(value =>
+                    value.Position.DistanceToSquared(target)))
+                {
+                    Thing smoke = InventoryGrenadeUtility.GrenadeStacks(pawn)
+                        .FirstOrDefault(item => item.def.defName == "HD_Grenade_M8_Item"
+                            || item.def.weaponTags?.Contains("GrenadeSmoke") == true);
+                    if (smoke == null) continue;
+                    bool close = InventoryGrenadeUtility.CanThrowAt(pawn, target,
+                        InventoryGrenadeUtility.CloseThrowRange);
+                    if (!close && !InventoryGrenadeUtility.CanThrowAt(pawn, target,
+                        InventoryGrenadeUtility.NormalThrowRange)) continue;
+                    JobDef job = DefDatabase<JobDef>.GetNamedSilentFail(close
+                        ? "HD_ThrowInventoryGrenadeClose"
+                        : "HD_ThrowInventoryGrenadeNormal");
+                    if (job == null) return false;
+                    pawn.jobs.StartJob(JobMaker.MakeJob(job, target, smoke),
+                        JobCondition.InterruptForced);
+                    RaidTacticalSpeech.Say(pawn, "HD_RaidTactical_Smoke");
+                    return true;
+                }
+            }
+            return false;
         }
 
         private float DoorStateScore(IntVec3 cell)

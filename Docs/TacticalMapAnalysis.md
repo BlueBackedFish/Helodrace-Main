@@ -98,6 +98,9 @@ instead of receiving a new movement order. Outdoor assaults end after entry.
 Open doors receive more immediate guard priority than closed doors. After
 indoor entry, nearby door state changes cause a bounded security reassessment;
 members engaged with nearby enemies keep fighting.
+The executor checks nearby doors every 30 ticks. If a door closes after being
+open and a defender is just outside, an available raider throws smoke onto the
+room side of that door, with a cooldown between responses.
 HIGH entry members assigned a security sector use CQB focus toward the nearest
 door, prioritizing open doors. The AI focus call does not show the player command
 message.
