@@ -171,6 +171,12 @@ namespace Helodrace
                     .ToList();
                 if (members.Count == 0) continue;
                 activeIds.Add(organization.id);
+                if (states.TryGetValue(organization.id, out ExecutionState completed)
+                    && TryExitSecuredObjective(organization, members, completed, tick))
+                {
+                    states.Remove(organization.id);
+                    continue;
+                }
                 RaidTacticalPlan plan = plans.GetPlan(organization);
                 if (plan?.Success != true)
                 {
@@ -338,6 +344,44 @@ namespace Helodrace
         {
             return organization.rootGroups.Select(root => root.EffectiveCommander)
                 .FirstOrDefault(members.Contains) ?? members[0];
+        }
+
+        private bool TryExitSecuredObjective(CombatOrganization organization,
+            List<Pawn> members, ExecutionState state, int tick)
+        {
+            if (state.ActivePlan == null || tick - state.PhaseStarted < 600
+                || (state.Phase != RaidExecutionPhase.Complete
+                    && state.Phase != RaidExecutionPhase.SecureRoom)) return false;
+
+            IntVec3 objective = state.Objective;
+            if (!objective.IsValid || !objective.InBounds(map)) return false;
+            Room room = objective.GetRoom(map);
+            bool indoors = room != null && !room.PsychologicallyOutdoors;
+            if (indoors != (state.Phase == RaidExecutionPhase.SecureRoom)) return false;
+
+            List<Pawn> entry = state.ActivePlan.Assignments
+                .Where(assignment => assignment.Task == RaidTacticalTask.Entry
+                    && members.Contains(assignment.Pawn))
+                .Select(assignment => assignment.Pawn).Distinct().ToList();
+            if (entry.Count == 0) return false;
+            int atObjective = entry.Count(pawn => indoors
+                ? pawn.Position.GetRoom(map) == room
+                : pawn.Position.DistanceTo(objective) <= 9f);
+            if (atObjective * 2 < entry.Count) return false;
+
+            float dangerRadius = indoors ? 12f : 18f;
+            if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
+                && !enemy.Downed && enemy.Faction != null
+                && enemy.Faction.HostileTo(organization.faction)
+                && (enemy.Position.DistanceTo(objective) <= dangerRadius
+                    || (indoors && enemy.Position.GetRoom(map) == room)))) return false;
+
+            Lord lord = members[0].GetLord();
+            if (lord == null || members.Any(pawn => pawn.GetLord() != lord)) return false;
+            RaidTacticalSpeech.Say(Commander(organization, members),
+                "HD_RaidTactical_Withdraw");
+            lord.SetJob(new LordJob_ExitMapBest(LocomotionUrgency.Sprint, true, true));
+            return true;
         }
 
         private void Update(CombatOrganization organization, List<Pawn> members,

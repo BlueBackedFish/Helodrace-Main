@@ -81,6 +81,11 @@ range; fire-support and security members keep their assigned positions.
 After an outdoor entry has had time to reach the objective, an isolated entry
 member rejoins the nearest member of its smallest combat group. Movement toward
 the objective and a nearby visible fight take priority over this regrouping.
+After 600 ticks in the completed outdoor assault or secured indoor room phase,
+the raid exits when at least half of its surviving entry members occupy the
+objective area and no standing hostile remains nearby. Indoor security also
+checks the entire objective room. The executor hands the squad to the game's
+existing sprinting exit-map Lord job; it does not issue separate retreat paths.
 An available sniper group takes a separate sightline within weapon range of
 the nearest current enemy. Its companion stays near the sniper and does not
 get pulled into the response group. If no reachable sightline exists, both
