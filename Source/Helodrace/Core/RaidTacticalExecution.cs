@@ -150,6 +150,7 @@ namespace Helodrace
                     || state.PlanKey != key
                     || state.Objective.DistanceTo(plan.Objective) > 8f)
                 {
+                    ExecutionState previous = state;
                     state = new ExecutionState
                     {
                         OrganizationId = organization.id,
@@ -160,6 +161,19 @@ namespace Helodrace
                         Phase = RaidExecutionPhase.Assemble,
                         PhaseStarted = tick
                     };
+                    if (previous != null
+                        && previous.Objective.DistanceTo(plan.Objective) <= 8f)
+                        state.ExternalSupportAttempted = previous.ExternalSupportAttempted;
+                    if (previous != null
+                        && previous.ExternalSupportKind != RaidExternalSupportKind.None)
+                    {
+                        state.ExternalSupportAttempted = true;
+                        state.ExternalSupportKind = previous.ExternalSupportKind;
+                        state.ExternalSupportCaller = previous.ExternalSupportCaller;
+                        state.ExternalSupportTarget = previous.ExternalSupportTarget;
+                        state.ExternalSupportTargetCell = previous.ExternalSupportTargetCell;
+                        state.ExternalSupportClearedTick = previous.ExternalSupportClearedTick;
+                    }
                     states[organization.id] = state;
                     RaidTacticalSpeech.Say(Commander(organization, members),
                         "HD_RaidTactical_Assemble");
@@ -559,6 +573,7 @@ namespace Helodrace
             state.ExternalSupportKind = RaidExternalSupportKind.None;
             state.ExternalSupportCaller = null;
             state.ExternalSupportTarget = null;
+            state.PhaseStarted = tick;
             return false;
         }
 
