@@ -55,6 +55,9 @@ their assigned positions. Once assault moves are issued, normal Lord combat
 behavior resumes. Replanning after casualties, commander succession, or a
 large objective shift restarts coordination. Execution phase and assignments
 appear in the developer plan window. Phase state is saved with the map.
+During a hold, designated response members move toward a current enemy near
+the group at bounded intervals when that enemy is outside effective firing
+range; fire-support and security members keep their assigned positions.
 The planned entry delay is honored after the support action, allowing smoke or
 grenade effects to take hold before the simultaneous entry order.
 After an indoor entry reaches the objective or its clearing timeout, available

@@ -297,7 +297,10 @@ namespace Helodrace
                     }
                     break;
                 case RaidExecutionPhase.Hold:
-                    Assemble(members, plan);
+                    bool responding = CurrentResponseTarget(members, plan) != null;
+                    Assemble(members, plan, responding);
+                    if (responding && tick % 180 == 0)
+                        IssueResponse(members, plan);
                     break;
             }
         }
@@ -342,12 +345,14 @@ namespace Helodrace
             }
         }
 
-        private void Assemble(List<Pawn> members, RaidTacticalPlan plan)
+        private void Assemble(List<Pawn> members, RaidTacticalPlan plan,
+            bool skipResponse = false)
         {
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
             {
                 Pawn pawn = assignment.Pawn;
-                if (!members.Contains(pawn) || !assignment.Position.IsValid) continue;
+                if (!members.Contains(pawn) || !assignment.Position.IsValid
+                    || (skipResponse && assignment.Task == RaidTacticalTask.Response)) continue;
                 if (pawn.Position.DistanceTo(assignment.Position) > 1.5f)
                     TryGoto(pawn, assignment.Position);
                 else if (assignment.Task == RaidTacticalTask.Withdraw
@@ -360,6 +365,52 @@ namespace Helodrace
                 else if (pawn.CurJobDef != JobDefOf.Wait_Combat)
                     pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
                         JobCondition.InterruptForced);
+            }
+        }
+
+        private Pawn CurrentResponseTarget(List<Pawn> members, RaidTacticalPlan plan)
+        {
+            return map.mapPawns.AllPawnsSpawned
+                .Where(enemy => !enemy.Dead && !enemy.Downed && enemy.Faction != null
+                    && enemy.Faction.HostileTo(members[0].Faction)
+                    && enemy.Position.DistanceTo(plan.Start) <= 25f)
+                .OrderBy(enemy => enemy.Position.DistanceToSquared(plan.Start))
+                .FirstOrDefault();
+        }
+
+        private void IssueResponse(List<Pawn> members, RaidTacticalPlan plan)
+        {
+            Pawn enemy = CurrentResponseTarget(members, plan);
+            if (enemy == null) return;
+            var occupied = new HashSet<IntVec3>();
+            foreach (RaidTacticalAssignment assignment in plan.Assignments
+                .Where(value => value.Task == RaidTacticalTask.Response))
+            {
+                Pawn pawn = assignment.Pawn;
+                if (!members.Contains(pawn) || pawn.Map != map) continue;
+                float range = pawn.equipment?.Primary?.GetComp<CompEquippable>()
+                    ?.PrimaryVerb?.verbProps?.range ?? 12f;
+                if (pawn.Position.DistanceTo(enemy.Position) <= range * 0.8f
+                    && GenSight.LineOfSight(pawn.Position, enemy.Position, map, true))
+                {
+                    if (pawn.CurJobDef == JobDefOf.Goto)
+                        pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
+                            JobCondition.InterruptForced);
+                    continue;
+                }
+                IntVec3 target = GenRadial.RadialCellsAround(enemy.Position, 11f, true)
+                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                        && cell.DistanceTo(enemy.Position) >= 5f
+                        && cell.DistanceTo(enemy.Position) <= Math.Min(9f, range)
+                        && !plan.AvoidedTrapCells.Contains(cell)
+                        && !occupied.Contains(cell))
+                    .OrderBy(cell => cell.DistanceTo(pawn.Position)
+                        + cell.DistanceTo(plan.Start) * 0.25f)
+                    .FirstOrDefault(cell => pawn.CanReach(cell,
+                        PathEndMode.OnCell, Danger.Deadly));
+                if (!target.IsValid) continue;
+                occupied.Add(target);
+                TryGoto(pawn, target);
             }
         }
 
