@@ -90,6 +90,9 @@ HIGH-doctrine wounded members with TCCC training perform self-hemostasis after
 reaching their withdrawal position when they are bleeding.
 The HIGH faction now has its own modern formation doctrine and combat pool;
 generated raid members receive CQB and TCCC training at creation.
+Modern team and squad leaders wear a ZAPER X26. During assembly, holding, and
+room security, a leader with a ready device uses its existing paired-probe job
+against a visible nearby enemy carrying a psychic shock or insanity lance.
 If an allied forward base has usable CAS or artillery, an outdoor raid can
 request the existing service against a visible hostile well clear of friendly
 and neutral pawns. The raid holds its assembly positions until the strike ends

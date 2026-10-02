@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Helodrace.Squads;
 using Helodrace.Tactical;
+using Helodrace.ModernWar;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
@@ -211,6 +212,13 @@ namespace Helodrace
         private void Update(CombatOrganization organization, List<Pawn> members,
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            if (plan.Doctrine == RaidTacticalDoctrine.High
+                && (state.Phase == RaidExecutionPhase.Assemble
+                    || state.Phase == RaidExecutionPhase.EntryWait
+                    || state.Phase == RaidExecutionPhase.ClearRoom
+                    || state.Phase == RaidExecutionPhase.Hold
+                    || state.Phase == RaidExecutionPhase.Complete))
+                TryCounterPsychicLance(members);
             switch (state.Phase)
             {
                 case RaidExecutionPhase.Assemble:
@@ -223,6 +231,7 @@ namespace Helodrace
                     {
                         foreach (Pawn pawn in members)
                             if (pawn.CurJobDef != JobDefOf.Wait_Combat
+                                && pawn.CurJobDef?.defName != "HD_ZaperX26Fire"
                                 && map.GetComponent<MapComponent_HelodCasSupport>()
                                     ?.RequiresStationaryGuidance(pawn) != true)
                                 pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
@@ -230,7 +239,9 @@ namespace Helodrace
                         break;
                     }
                     Assemble(members, plan);
-                    if (AllReady(members, plan) || tick - state.PhaseStarted >= AssembleTimeout)
+                    if (!UsingZaper(members)
+                        && (AllReady(members, plan)
+                            || tick - state.PhaseStarted >= AssembleTimeout))
                     {
                         RaidExecutionPhase next = state.Maneuver == RaidTacticalManeuver.HoldAndCounterattack
                             || state.Maneuver == RaidTacticalManeuver.Regroup
@@ -314,7 +325,8 @@ namespace Helodrace
                         Advance(state, RaidExecutionPhase.EntryWait, tick);
                     break;
                 case RaidExecutionPhase.EntryWait:
-                    if (tick - state.PhaseStarted >= plan.EntryDelayTicks)
+                    if (!UsingZaper(members)
+                        && tick - state.PhaseStarted >= plan.EntryDelayTicks)
                         Advance(state, AfterSupport(plan, state.Maneuver), tick);
                     break;
                 case RaidExecutionPhase.Flank:
@@ -339,8 +351,9 @@ namespace Helodrace
                     }
                     break;
                 case RaidExecutionPhase.ClearRoom:
-                    if (EntryMembersNear(members, plan, plan.Objective, 6f)
-                        || tick - state.PhaseStarted >= 360)
+                    if (!UsingZaper(members)
+                        && (EntryMembersNear(members, plan, plan.Objective, 6f)
+                            || tick - state.PhaseStarted >= 360))
                     {
                         IssueRoomSecurity(members, plan);
                         Advance(state, RaidExecutionPhase.Complete, tick);
@@ -403,6 +416,7 @@ namespace Helodrace
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn) || !assignment.Position.IsValid
                     || (skipResponse && assignment.Task == RaidTacticalTask.Response)) continue;
+                if (pawn.CurJobDef?.defName == "HD_ZaperX26Fire") continue;
                 if (pawn.Position.DistanceTo(assignment.Position) > 1.5f)
                     TryGoto(pawn, assignment.Position);
                 else if (assignment.Task == RaidTacticalTask.Withdraw
@@ -426,6 +440,42 @@ namespace Helodrace
                     && enemy.Position.DistanceTo(plan.Start) <= 25f)
                 .OrderBy(enemy => enemy.Position.DistanceToSquared(plan.Start))
                 .FirstOrDefault();
+        }
+
+        private void TryCounterPsychicLance(List<Pawn> members)
+        {
+            JobDef fireJob = DefDatabase<JobDef>.GetNamedSilentFail("HD_ZaperX26Fire");
+            if (fireJob == null) return;
+            List<Pawn> lanceUsers = map.mapPawns.AllPawnsSpawned
+                .Where(pawn => !pawn.Dead && !pawn.Downed && pawn.Faction != null
+                    && pawn.Faction.HostileTo(members[0].Faction)
+                    && pawn.apparel?.WornApparel.Any(apparel =>
+                        apparel.def.defName.Contains("PsychicShockLance")
+                        || apparel.def.defName.Contains("PsychicInsanityLance")) == true)
+                .ToList();
+            if (lanceUsers.Count == 0) return;
+            foreach (Pawn leader in members)
+            {
+                CompZaperX26 zaper = leader.apparel?.WornApparel
+                    .Select(apparel => apparel.TryGetComp<CompZaperX26>())
+                    .FirstOrDefault(comp => comp?.CanFireNow == true);
+                if (zaper == null || leader.CurJobDef == fireJob) continue;
+                Pawn target = lanceUsers
+                    .Where(enemy => leader.Position.DistanceTo(enemy.Position) <= 7.9f
+                        && GenSight.LineOfSight(leader.Position, enemy.Position, map))
+                    .OrderBy(enemy => enemy.Position.DistanceToSquared(leader.Position))
+                    .FirstOrDefault();
+                if (target == null) continue;
+                leader.jobs.StartJob(JobMaker.MakeJob(fireJob, target, zaper.parent),
+                    JobCondition.InterruptForced);
+                RaidTacticalSpeech.Say(leader, "HD_RaidTactical_Neutralize");
+                return;
+            }
+        }
+
+        private static bool UsingZaper(List<Pawn> members)
+        {
+            return members.Any(pawn => pawn.CurJobDef?.defName == "HD_ZaperX26Fire");
         }
 
         private void IssueResponse(List<Pawn> members, RaidTacticalPlan plan)
