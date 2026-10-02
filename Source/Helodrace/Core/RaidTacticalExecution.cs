@@ -169,9 +169,18 @@ namespace Helodrace
                 RaidTacticalPlan plan = plans.GetPlan(organization);
                 if (plan?.Success != true) continue;
                 string key = PlanKey(organization, members);
-                if (!states.TryGetValue(organization.id, out ExecutionState state)
-                    || state.PlanKey != key
-                    || state.Objective.DistanceTo(plan.Objective) > 8f)
+                states.TryGetValue(organization.id, out ExecutionState state);
+                bool idle = state != null && (state.Phase == RaidExecutionPhase.Hold
+                    || state.Phase == RaidExecutionPhase.Complete
+                    || state.Phase == RaidExecutionPhase.SecureRoom
+                    || (state.Phase == RaidExecutionPhase.Assemble
+                        && state.ApproachComplete));
+                bool changedIdlePlan = idle && !ReferenceEquals(state.ActivePlan, plan)
+                    && (state.Maneuver != plan.Selected.Maneuver
+                        || state.Objective.DistanceTo(plan.Objective) > 3f);
+                if (state == null || state.PlanKey != key
+                    || state.Objective.DistanceTo(plan.Objective) > 8f
+                    || changedIdlePlan)
                 {
                     ExecutionState previous = state;
                     state = new ExecutionState
@@ -202,6 +211,12 @@ namespace Helodrace
                         "HD_RaidTactical_Assemble");
                 }
                 if (state.ActivePlan == null) state.ActivePlan = plan;
+                else if (idle && !ReferenceEquals(state.ActivePlan, plan))
+                {
+                    state.ActivePlan = plan;
+                    state.Objective = plan.Objective;
+                    state.ReadySince = -1;
+                }
                 Update(organization, members, state.ActivePlan, state, tick);
             }
             foreach (string id in states.Keys.Where(id => !activeIds.Contains(id)).ToList())

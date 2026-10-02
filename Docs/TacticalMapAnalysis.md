@@ -51,6 +51,9 @@ Entry members follow sampled route waypoints before taking their stack-up
 positions. A waypoint has a bounded timeout so an obstructed path does not
 stall the raid. The last waypoint stays outside the final entrance; the group
 then assembles before breaching or entering.
+When a new plan is calculated, assembly and holding phases adopt its current
+field threat and assignments. A changed maneuver or displaced objective restarts
+the idle execution sequence; an active breach or support action finishes first.
 
 ## Raid execution
 
