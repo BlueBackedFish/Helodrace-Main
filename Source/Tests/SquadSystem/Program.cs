@@ -404,6 +404,10 @@ internal static class Program
             "Modern squad has two fireteams and a leader");
         Near(1185, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
             "Modern squad cost");
+        var modernLeader = ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).requiredRoles[0];
+        Check(modernLeader.grenadeLoadout.Count(item => item.defName == "HD_C4_Charge") == 3
+            && modernLeader.grenadeLoadout.Any(item => item.defName == "HD_M81Igniter"),
+            "Modern squad leader carries enough C4 and a shock-tube igniter");
         Check(((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).StandardPersonnel == 22,
             "Modern platoon has three squads and a leader");
         Near(3710, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
