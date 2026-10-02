@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Sledgehammer_Breach_Label>Breach</HD_Sledgehammer_Breach_Label>
+  <HD_Sledgehammer_Breach_Desc>Force open an ordinary door belonging to another faction or repeatedly strike a wall. Security, vault, blast and reinforced doors cannot be opened with this tool.</HD_Sledgehammer_Breach_Desc>
+  <HD_Sledgehammer_Breach_Unavailable>The sledgehammer cannot be used right now.</HD_Sledgehammer_Breach_Unavailable>
+  <HD_Sledgehammer_Breach_InvalidTarget>Select an ordinary door of another faction that cannot be opened, or a wall.</HD_Sledgehammer_Breach_InvalidTarget>
+  <HD_Sledgehammer_Breach_CannotReach>Cannot reach the selected structure.</HD_Sledgehammer_Breach_CannotReach>
+  <HD_Sledgehammer_Breach_CannotReserve>The selected structure is already reserved.</HD_Sledgehammer_Breach_CannotReserve>
+</LanguageData>

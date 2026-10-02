@@ -142,7 +142,8 @@ namespace Helodrace
                 || item.def.weaponTags?.Contains("GrenadeDestructive") == true);
             bool nonlethal = grenades.Any(item => item.def.defName == "HD_Grenade_M84_Item"
                 || item.def.defName == "HD_Grenade_M7A2_Item");
-            bool breachTool = members.Any(pawn => pawn.equipment?.Primary
+            bool breachTool = members.Any(pawn => CompSledgehammerBreach.WornBy(pawn) != null)
+                || members.Any(pawn => pawn.equipment?.Primary
                 ?.TryGetComp<CompPowerCutterBreach>() != null)
                 || members.Any(pawn => BreachExplosiveUtility.CanOperate(pawn)
                     && BreachExplosiveUtility.FindIgniter(pawn,

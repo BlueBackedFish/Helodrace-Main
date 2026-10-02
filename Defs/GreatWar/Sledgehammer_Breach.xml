@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>HD_SledgehammerBreach</defName>
+    <driverClass>Helodrace.JobDriver_SledgehammerBreach</driverClass>
+    <reportString>breaching TargetA with a sledgehammer.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+</Defs>

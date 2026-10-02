@@ -85,6 +85,16 @@ The Great War faction permits vanilla sapper raids using riflemen as eligible
 sappers. While its Lord is in the sapper or breaching toil, the tactical executor
 leaves those duties alone; after that toil ends, ordinary tactical coordination
 can take over.
+LOW patrols and rifle squads now carry one wearable sledgehammer. It leaves the
+bearer's firearm equipped. During a coordinated entry, LOW prefers this tool
+for an ordinary foreign-faction door it cannot open, then for a hostile wall if no
+usable door is nearby. A door is forced open after a short job; walls take
+repeated blunt damage until destroyed. Security, vault, blast, armored, and
+reinforced doors are excluded, with a Def extension available for other
+protected doors. The player can use the worn tool through its Breach gizmo.
+During a vanilla sapper toil, a nearby sledgehammer bearer can assist against
+the wall the sapper is actively working on. Escort positioning leaves that
+bearer's wall job alone until it finishes.
 During the sapper toil, three nearby members of the sapper's smallest combat
 group occupy reachable front-flank and rear cells around the sapper. Members
 already facing a visible nearby enemy keep fighting; other raiders retain their

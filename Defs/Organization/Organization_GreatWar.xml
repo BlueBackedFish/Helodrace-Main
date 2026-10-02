@@ -64,7 +64,7 @@
     <doctrine>HD_Doctrine_GreatWar</doctrine>
     <requiredRoles>
       <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_SquadLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_MKIII</li></grenadeLoadout></li>
-      <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_AssistantSquadLeader</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout></li>
+      <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_AssistantSquadLeader</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout><apparelLoadout><li>HD_Apparel_GW_Sledgehammer</li></apparelLoadout></li>
       <li><pawnKind>HD_GW_HelodHAR</pawnKind><combatRole>HD_Role_AutomaticRifleman</combatRole><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout></li>
       <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><count>3</count><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout></li>
     </requiredRoles>
@@ -78,7 +78,7 @@
     <doctrine>HD_Doctrine_GreatWar</doctrine>
     <requiredRoles>
       <li><pawnKind>HD_GW_HelodSMG</pawnKind><combatRole>HD_Role_SMG</combatRole><commandRole>HD_Role_SquadLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications><grenadeLoadout><li>HD_Grenade_MKIII</li></grenadeLoadout></li>
-      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_AssistantSquadLeader</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder><commandQualifications><li>HD_Role_SquadLeader</li><li>HD_Role_PlatoonLeader</li></commandQualifications><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout></li>
+      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_AssistantSquadLeader</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder><commandQualifications><li>HD_Role_SquadLeader</li><li>HD_Role_PlatoonLeader</li></commandQualifications><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout><apparelLoadout><li>HD_Apparel_GW_Sledgehammer</li></apparelLoadout></li>
       <li><pawnKind>HD_GW_HelodHAR</pawnKind><combatRole>HD_Role_AutomaticRifleman</combatRole><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout></li>
       <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><count>9</count><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout></li>
     </requiredRoles>

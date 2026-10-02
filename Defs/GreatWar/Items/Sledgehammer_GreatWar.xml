@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="ApparelNoQualityBase">
+    <defName>HD_Apparel_GW_Sledgehammer</defName>
+    <label>sledgehammer</label>
+    <description>A heavy breaching tool secured to the infantryman's field gear. It forces open ordinary doors that belong to another faction and can batter down a wall, without replacing the primary firearm.</description>
+    <graphicData>
+      <texPath>Weapons/GreatWar/HD_Sledgehammer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.0,1.0)</drawSize>
+    </graphicData>
+    <statBases>
+      <WorkToMake>1800</WorkToMake>
+      <Mass>4.2</Mass>
+      <MarketValue>95</MarketValue>
+      <MaxHitPoints>120</MaxHitPoints>
+      <EquipDelay>1.2</EquipDelay>
+    </statBases>
+    <thingCategories><li>Apparel</li></thingCategories>
+    <apparel>
+      <bodyPartGroups><li>Waist</li></bodyPartGroups>
+      <parentTagDef>ApparelBody</parentTagDef>
+      <layers><li>Belt</li></layers>
+      <tags><li>HD_Apparel</li><li>HD_Apparel_GW_BreachTool</li></tags>
+      <defaultOutfitTags><li>Soldier</li></defaultOutfitTags>
+    </apparel>
+    <costList><Steel>22</Steel><WoodLog>12</WoodLog></costList>
+    <recipeMaker>
+      <workSkill>Crafting</workSkill>
+      <skillRequirements><Crafting>2</Crafting></skillRequirements>
+      <researchPrerequisite>HelodGreatWarTech</researchPrerequisite>
+      <recipeUsers><li>HD_BasicWorkbench</li></recipeUsers>
+    </recipeMaker>
+    <comps>
+      <li Class="Helodrace.CompProperties_SledgehammerBreach">
+        <doorWorkTicks>120</doorWorkTicks>
+        <wallHitIntervalTicks>75</wallHitIntervalTicks>
+        <wallDamage>35</wallDamage>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

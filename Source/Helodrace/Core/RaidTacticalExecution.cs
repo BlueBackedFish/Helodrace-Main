@@ -32,6 +32,7 @@ namespace Helodrace
     {
         None,
         PowerCutter,
+        Sledgehammer,
         C4
     }
 
@@ -281,6 +282,7 @@ namespace Helodrace
             Pawn sapper = members.FirstOrDefault(pawn =>
                 pawn.mindState?.duty?.def?.defName == "Sapper");
             if (sapper == null) return;
+            TryAssistSapperWithSledgehammer(members, sapper);
             IntVec3 destination = (toil.data as LordToilData_AssaultColonySappers)
                 ?.sapperDest ?? IntVec3.Invalid;
             if (!destination.IsValid || destination == sapper.Position) return;
@@ -309,7 +311,9 @@ namespace Helodrace
             for (int i = 0; i < escorts.Count; i++)
             {
                 Pawn escort = escorts[i];
-                if (IsTaserOperation(escort)) continue;
+                if (IsTaserOperation(escort)
+                    || escort.CurJobDef?.defName == CompSledgehammerBreach.JobDefName)
+                    continue;
                 if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
                     && enemy.Faction != null && enemy.Faction.HostileTo(escort.Faction)
                     && enemy.Position.DistanceTo(escort.Position) <= 12f
@@ -329,6 +333,35 @@ namespace Helodrace
                 occupied.Add(cell);
                 if (escort.Position.DistanceTo(cell) > 1.5f)
                     TryGoto(escort, cell);
+            }
+        }
+
+        private static void TryAssistSapperWithSledgehammer(List<Pawn> members,
+            Pawn sapper)
+        {
+            Building target = sapper.CurJob?.targetA.Thing as Building;
+            if (target == null && sapper.CurJob?.targetA.Cell.IsValid == true)
+                target = sapper.CurJob.targetA.Cell.GetEdifice(sapper.Map) as Building;
+            if (target == null || !target.def.IsWall
+                || !target.Spawned || target.Destroyed) return;
+            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(
+                CompSledgehammerBreach.JobDefName);
+            if (jobDef == null) return;
+            foreach (Pawn pawn in members
+                .Where(pawn => pawn.Position.DistanceTo(sapper.Position) <= 12f)
+                .OrderBy(pawn => pawn == sapper ? 1 : 0)
+                .ThenBy(pawn => pawn.Position.DistanceToSquared(target.Position)))
+            {
+                CompSledgehammerBreach tool = CompSledgehammerBreach.WornBy(pawn);
+                if (tool == null || IsTaserOperation(pawn)
+                    || pawn.CurJobDef?.defName == CompSledgehammerBreach.JobDefName
+                    || !CompSledgehammerBreach.IsValidTarget(pawn, target)
+                    || !CompSledgehammerBreach.TryFindInteractionCell(pawn,
+                        target, out IntVec3 cell)
+                    || !pawn.CanReserve(target, 2, -1, null, false)) continue;
+                pawn.jobs.StartJob(JobMaker.MakeJob(jobDef, target, cell,
+                    tool.parent), JobCondition.InterruptForced);
+                return;
             }
         }
 
@@ -457,6 +490,13 @@ namespace Helodrace
                             || !state.BreachTarget.Spawned
                             || state.Breacher?.CurJobDef?.defName != "HD_PowerCutterBreach"
                             || tick - state.PhaseStarted >= BreachTimeout))
+                        Advance(state, RaidExecutionPhase.Support, tick);
+                    else if (state.BreachKind == RaidBreachKind.Sledgehammer
+                        && (state.BreachTarget == null || state.BreachTarget.Destroyed
+                            || !state.BreachTarget.Spawned
+                            || state.BreachTarget is Building_Door openedDoor && openedDoor.Open
+                            || state.Breacher?.CurJobDef?.defName
+                                != CompSledgehammerBreach.JobDefName))
                         Advance(state, RaidExecutionPhase.Support, tick);
                     break;
                 case RaidExecutionPhase.WithdrawFromCharge:
@@ -990,6 +1030,8 @@ namespace Helodrace
             ExecutionState state)
         {
             if (state.Maneuver != RaidTacticalManeuver.CoordinatedEntry) return false;
+            if (plan.Doctrine == RaidTacticalDoctrine.Low
+                && TryStartSledgehammerBreach(members, plan, state)) return true;
             Map currentMap = members[0].Map;
             Building target = GenRadial.RadialCellsAround(plan.Entry, 2.9f, true)
                 .Where(cell => cell.InBounds(currentMap))
@@ -1040,6 +1082,42 @@ namespace Helodrace
                 RaidTacticalSpeech.Say(pawn, "HD_RaidTactical_Breaching");
                 pawn.jobs.StartJob(job, JobCondition.InterruptForced);
                 return true;
+            }
+            return false;
+        }
+
+        private static bool TryStartSledgehammerBreach(List<Pawn> members,
+            RaidTacticalPlan plan, ExecutionState state)
+        {
+            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(
+                CompSledgehammerBreach.JobDefName);
+            if (jobDef == null) return false;
+            Map currentMap = members[0].Map;
+            foreach (Building target in GenRadial.RadialCellsAround(plan.Entry, 2.9f, true)
+                .Where(cell => cell.InBounds(currentMap))
+                .Select(cell => cell.GetEdifice(currentMap) as Building)
+                .Where(building => building != null && building.Faction != null
+                    && building.Faction.HostileTo(members[0].Faction))
+                .Distinct()
+                .OrderBy(building => building is Building_Door ? 0 : 1)
+                .ThenBy(building => building.Position.DistanceToSquared(plan.Entry)))
+            {
+                foreach (Pawn pawn in members)
+                {
+                    CompSledgehammerBreach tool = CompSledgehammerBreach.WornBy(pawn);
+                    if (tool == null || IsTaserOperation(pawn)
+                        || !CompSledgehammerBreach.IsValidTarget(pawn, target)
+                        || !CompSledgehammerBreach.TryFindInteractionCell(pawn,
+                            target, out IntVec3 cell)
+                        || !pawn.CanReserve(target, 1, -1, null, false)) continue;
+                    state.Breacher = pawn;
+                    state.BreachTarget = target;
+                    state.BreachKind = RaidBreachKind.Sledgehammer;
+                    RaidTacticalSpeech.Say(pawn, "HD_RaidTactical_Breaching");
+                    pawn.jobs.StartJob(JobMaker.MakeJob(jobDef, target, cell,
+                        tool.parent), JobCondition.InterruptForced);
+                    return true;
+                }
             }
             return false;
         }

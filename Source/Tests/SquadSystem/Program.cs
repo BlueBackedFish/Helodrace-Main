@@ -317,6 +317,8 @@ internal static class Program
         defs.Add("HD_M81Igniter", new ThingDef { defName = "HD_M81Igniter" });
         defs.Add("HD_Apparel_ZaperX26_Device", new ThingDef
             { defName = "HD_Apparel_ZaperX26_Device", IsApparel = true });
+        defs.Add("HD_Apparel_GW_Sledgehammer", new ThingDef
+            { defName = "HD_Apparel_GW_Sledgehammer", IsApparel = true });
         foreach (var node in nodes.Where(node => node.Element("defName") != null))
         {
             Def def = node.Name.LocalName switch
@@ -382,6 +384,37 @@ internal static class Program
         }
         Check(usedGrenades.SetEquals(new[] { "HD_Grenade_MKII", "HD_Grenade_MKIII", "HD_Grenade_M8_Item" }),
             "Raid formations distribute fragmentation, offensive and smoke grenades");
+        foreach (string name in new[] { "HD_Formation_GW_Patrol",
+            "HD_Formation_GW_RifleSquad" })
+            Check(((FormationDef)defs[name]).Slots.Sum(slot => slot.count
+                * slot.apparelLoadout.Count(item => item.defName
+                    == "HD_Apparel_GW_Sledgehammer")) == 1,
+                name + " has one sledgehammer bearer without replacing a firearm");
+        XElement hammer = XDocument.Load(Path.Combine(root,
+            "Defs/GreatWar/Items/Sledgehammer_GreatWar.xml")).Root
+            .Elements("ThingDef").Single(node =>
+                (string)node.Element("defName") == "HD_Apparel_GW_Sledgehammer");
+        Check((string)hammer.Attribute("ParentName") == "ApparelNoQualityBase"
+            && hammer.Element("tools") == null && hammer.Element("verbs") == null
+            && hammer.Element("equipmentType") == null
+            && hammer.Element("weaponTags") == null
+            && (string)hammer.Descendants("texPath").First()
+                == "Weapons/GreatWar/HD_Sledgehammer",
+            "Sledgehammer is wearable breaching gear using the supplied texture, not a weapon");
+        Check(hammer.Descendants("li").Any(node =>
+                (string)node.Attribute("Class")
+                    == "Helodrace.CompProperties_SledgehammerBreach")
+            && File.Exists(Path.Combine(root,
+                "Textures/Weapons/GreatWar/HD_Sledgehammer.png"))
+            && File.Exists(Path.Combine(root,
+                "Textures/Skill/HD_BreachSledgeHammer.png")),
+            "Sledgehammer breach component and both supplied textures exist");
+        Check(XDocument.Load(Path.Combine(root, "Defs/GreatWar/Sledgehammer_Breach.xml"))
+                .Root.Elements("JobDef").Any(node =>
+                    (string)node.Element("defName") == "HD_SledgehammerBreach"
+                    && (string)node.Element("driverClass")
+                        == "Helodrace.JobDriver_SledgehammerBreach"),
+            "Sledgehammer work job is defined");
         XElement rifleKind = XDocument.Load(Path.Combine(root,
                 "Defs/Helod/Pawns/PawnKinds_GreatWar.xml")).Root.Elements("PawnKindDef")
             .First(node => (string)node.Element("defName") == "HD_GW_HelodRifleman");
