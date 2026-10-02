@@ -5,6 +5,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 using System.Xml.Linq;
 using Helodrace.Squads;
 using RimWorld;
@@ -415,6 +417,22 @@ internal static class Program
                     && (string)node.Element("driverClass")
                         == "Helodrace.JobDriver_SledgehammerBreach"),
             "Sledgehammer work job is defined");
+        Check(XDocument.Load(Path.Combine(root,
+                "Defs/Helod/Race/HelodRaceSettings.xml")).Descendants("apparelList")
+                .Elements("li").Any(node => node.Value == "HD_Apparel_GW_Sledgehammer"),
+            "Helod apparel rules permit raid bearers to wear the sledgehammer");
+        using (var deployedDll = File.OpenRead(Path.Combine(root,
+                   "Assemblies/Helodrace.dll")))
+        using (var assembly = new PEReader(deployedDll))
+        {
+            MetadataReader metadata = assembly.GetMetadataReader();
+            HashSet<string> types = metadata.TypeDefinitions.Select(handle =>
+                metadata.GetString(metadata.GetTypeDefinition(handle).Name)).ToHashSet();
+            Check(types.Contains("CompProperties_SledgehammerBreach")
+                && types.Contains("CompSledgehammerBreach")
+                && types.Contains("JobDriver_SledgehammerBreach"),
+                "Deployed game assembly includes the sledgehammer component and job");
+        }
         XElement rifleKind = XDocument.Load(Path.Combine(root,
                 "Defs/Helod/Pawns/PawnKinds_GreatWar.xml")).Root.Elements("PawnKindDef")
             .First(node => (string)node.Element("defName") == "HD_GW_HelodRifleman");
