@@ -1003,6 +1003,18 @@ namespace Helodrace
                 if (!sector.IsValid) continue;
                 occupied.Add(sector);
                 TryGoto(pawn, sector);
+                if (plan.Doctrine == RaidTacticalDoctrine.High)
+                {
+                    Building_Door focusDoor = map.listerThings.AllThings
+                        .OfType<Building_Door>()
+                        .Where(door => !door.Destroyed && door.Position != sector
+                            && door.Position.DistanceTo(sector) <= 8f)
+                        .OrderByDescending(door => door.Open)
+                        .ThenBy(door => door.Position.DistanceToSquared(sector))
+                        .FirstOrDefault();
+                    if (focusDoor != null)
+                        TacticalAimUtility.SetFocusForAI(pawn, focusDoor.Position);
+                }
             }
         }
 

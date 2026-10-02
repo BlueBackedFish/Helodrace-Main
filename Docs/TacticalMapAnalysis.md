@@ -87,6 +87,9 @@ instead of receiving a new movement order. Outdoor assaults end after entry.
 Open doors receive more immediate guard priority than closed doors. After
 indoor entry, nearby door state changes cause a bounded security reassessment;
 members engaged with nearby enemies keep fighting.
+HIGH entry members assigned a security sector use CQB focus toward the nearest
+door, prioritizing open doors. The AI focus call does not show the player command
+message.
 For HIGH indoor assaults, entry order alternates targets on the two sides of
 the doorway several cells inside the room, with sprint movement. If no
 reachable cell exists on a side, the ordinary objective-cell selection is used.

@@ -19,6 +19,7 @@ namespace Helodrace.Tactical
 
         private float focusAngle;
         private IntVec3 focusCell = IntVec3.Invalid;
+        public IntVec3 FocusCell => focusCell;
 
         public float FocusAngle
         {
@@ -312,6 +313,16 @@ namespace Helodrace.Tactical
             ApplyFocus(pawn, angle, targetCell);
         }
 
+        public static void SetFocusForAI(Pawn pawn, IntVec3 targetCell)
+        {
+            if (!TryGetFocusAngle(pawn, targetCell, out float angle)) return;
+            Hediff_TacticalAim aim = Get(pawn);
+            if (aim?.FocusCell == targetCell || (aim == null && IsOnCooldown(pawn)))
+                return;
+            pendingAims.Remove(pawn.thingIDNumber);
+            ApplyFocus(pawn, angle, targetCell, false);
+        }
+
         private static bool TryGetFocusAngle(Pawn pawn, IntVec3 targetCell, out float angle)
         {
             angle = 0f;
@@ -331,7 +342,8 @@ namespace Helodrace.Tactical
             return true;
         }
 
-        private static void ApplyFocus(Pawn pawn, float angle, IntVec3 targetCell)
+        private static void ApplyFocus(Pawn pawn, float angle, IntVec3 targetCell,
+            bool notify = true)
         {
             Hediff_TacticalAim aim = Get(pawn);
             float startAngle = aim != null ? VisualAimAngle(pawn) : pawn.Rotation.AsAngle;
@@ -358,11 +370,12 @@ namespace Helodrace.Tactical
                 returnTick = CurrentTick,
                 turnTicks = FocusTurnTicks(startAngle, aim?.FocusAngle ?? angle)
             };
-            Messages.Message(
-                "HD_TacticalAim_Started".Translate(),
-                pawn,
-                MessageTypeDefOf.NeutralEvent,
-                false);
+            if (notify)
+                Messages.Message(
+                    "HD_TacticalAim_Started".Translate(),
+                    pawn,
+                    MessageTypeDefOf.NeutralEvent,
+                    false);
         }
 
         public static void Cancel(Pawn pawn)
