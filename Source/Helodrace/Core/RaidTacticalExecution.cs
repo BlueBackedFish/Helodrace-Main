@@ -270,15 +270,32 @@ namespace Helodrace
                     && tick - Math.Max(state.ApproachProgressTick, state.PhaseStarted)
                         >= ApproachStallTimeout)
                 {
-                    plans.GetPlan(organization, true);
-                    states.Remove(organization.id);
+                    if (state.ActivePlan.SafeStackCells.Count > 0)
+                    {
+                        RetargetBlockedStackMembers(members, state.ActivePlan);
+                        state.ApproachProgressTick = tick;
+                        state.ApproachBestRemaining = float.MaxValue;
+                    }
+                    else
+                    {
+                        plans.GetPlan(organization, true);
+                        states.Remove(organization.id);
+                    }
                 }
                 else if (state.Phase == RaidExecutionPhase.Assemble
                     && state.ApproachComplete && !AllReady(members, state.ActivePlan)
                     && tick - state.PhaseStarted >= AssembleTimeout)
                 {
-                    plans.GetPlan(organization, true);
-                    states.Remove(organization.id);
+                    if (state.ActivePlan.SafeStackCells.Count > 0)
+                    {
+                        RetargetBlockedStackMembers(members, state.ActivePlan);
+                        state.PhaseStarted = tick;
+                    }
+                    else
+                    {
+                        plans.GetPlan(organization, true);
+                        states.Remove(organization.id);
+                    }
                 }
             }
             foreach (string id in states.Keys.Where(id => !activeIds.Contains(id)).ToList())
@@ -821,7 +838,8 @@ namespace Helodrace
             foreach (RaidTacticalAssignment assignment in group)
             {
                 Pawn pawn = assignment.Pawn;
-                float distance = pawn.Position.DistanceTo(assignment.Position);
+                float distance = AtStagingPosition(assignment, plan) ? 0f
+                    : pawn.Position.DistanceTo(assignment.Position);
                 remaining += distance;
                 if (distance <= 9f || IsTaserOperation(pawn)) continue;
                 IntVec3 target = plan.BreachCell.IsValid
@@ -834,8 +852,8 @@ namespace Helodrace
                 state.ApproachBestRemaining = remaining;
                 state.ApproachProgressTick = tick;
             }
-            if (group.All(assignment => assignment.Pawn.Position
-                    .DistanceTo(assignment.Position) <= 9f))
+            if (group.All(assignment => AtStagingPosition(assignment, plan)
+                    || assignment.Pawn.Position.DistanceTo(assignment.Position) <= 9f))
             {
                 state.ApproachComplete = true;
                 state.PhaseStarted = tick;
@@ -899,8 +917,8 @@ namespace Helodrace
                 if (!members.Contains(pawn) || !assignment.Position.IsValid
                     || (skipResponse && assignment.Task == RaidTacticalTask.Response)) continue;
                 if (IsTaserOperation(pawn)) continue;
-                float readyRadius = ReadyRadius(plan, assignment);
-                if (pawn.Position.DistanceTo(assignment.Position) > readyRadius)
+                bool staged = AtStagingPosition(assignment, plan);
+                if (!staged)
                     TryGoto(pawn, assignment.Position);
                 else if (assignment.Task == RaidTacticalTask.Withdraw
                     && TcccUtility.HasTraining(pawn)
@@ -914,7 +932,7 @@ namespace Helodrace
                     HoldPosition(pawn);
                 if (plan.BreachCell.IsValid
                     && assignment.Task != RaidTacticalTask.Withdraw
-                    && pawn.Position.DistanceTo(assignment.Position) <= readyRadius)
+                    && staged)
                     FaceStackSector(pawn, plan, assignment);
             }
         }
@@ -930,8 +948,7 @@ namespace Helodrace
                     || !holdEntry && assignment.Task == RaidTacticalTask.Entry
                     || assignment.Task == RaidTacticalTask.Withdraw
                     || !assignment.Position.IsValid || IsTaserOperation(pawn)) continue;
-                if (pawn.Position.DistanceTo(assignment.Position)
-                    > ReadyRadius(plan, assignment))
+                if (!AtStagingPosition(assignment, plan))
                     TryGoto(pawn, assignment.Position);
                 else
                 {
@@ -1200,23 +1217,65 @@ namespace Helodrace
 
         private static bool AllReady(List<Pawn> members, RaidTacticalPlan plan)
         {
-            return plan.Assignments.Where(assignment => members.Contains(assignment.Pawn))
-                .All(assignment => assignment.Pawn.Position.DistanceTo(assignment.Position)
-                    <= ReadyRadius(plan, assignment));
+            return plan.Assignments.Where(assignment => members.Contains(assignment.Pawn)
+                    && assignment.Task != RaidTacticalTask.Withdraw)
+                .All(assignment => AtStagingPosition(assignment, plan));
         }
 
-        private static float ReadyRadius(RaidTacticalPlan plan,
-            RaidTacticalAssignment assignment)
+        private static bool AtStagingPosition(RaidTacticalAssignment assignment,
+            RaidTacticalPlan plan)
         {
-            if (!plan.BreachCell.IsValid || assignment.Task == RaidTacticalTask.Withdraw)
-                return 1.5f;
-            return 0.5f;
+            Pawn pawn = assignment.Pawn;
+            if (!plan.BreachCell.IsValid
+                || assignment.Task == RaidTacticalTask.Withdraw)
+                return pawn.Position.DistanceTo(assignment.Position) <= 1.5f;
+            return assignment.Task == RaidTacticalTask.Entry
+                ? plan.SafeStackCells.Count > 0
+                    ? plan.SafeStackCells.Contains(pawn.Position)
+                    : pawn.Position.DistanceTo(assignment.Position) <= 1.5f
+                : plan.SafeSupportCells.Count > 0
+                    ? plan.SafeSupportCells.Contains(pawn.Position)
+                    : pawn.Position.DistanceTo(assignment.Position) <= 3f;
+        }
+
+        private static void RetargetBlockedStackMembers(List<Pawn> members,
+            RaidTacticalPlan plan)
+        {
+            var occupied = new HashSet<IntVec3>(members.Select(pawn => pawn.Position));
+            var reserved = new HashSet<IntVec3>(plan.Assignments
+                .Where(assignment => members.Contains(assignment.Pawn)
+                    && assignment.Position.IsValid)
+                .Select(assignment => assignment.Position));
+            foreach (RaidTacticalAssignment assignment in plan.Assignments)
+            {
+                Pawn pawn = assignment.Pawn;
+                if (!members.Contains(pawn)
+                    || assignment.Task == RaidTacticalTask.Withdraw
+                    || AtStagingPosition(assignment, plan)) continue;
+                reserved.Remove(assignment.Position);
+                IEnumerable<IntVec3> safeCells = assignment.Task == RaidTacticalTask.Entry
+                    ? (IEnumerable<IntVec3>)plan.SafeStackCells
+                    : plan.SafeSupportCells;
+                foreach (IntVec3 cell in safeCells
+                    .Where(cell => cell != assignment.Position
+                        && !occupied.Contains(cell) && !reserved.Contains(cell))
+                    .OrderBy(cell => cell.DistanceToSquared(pawn.Position))
+                    .Take(32))
+                {
+                    if (!pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
+                        continue;
+                    assignment.Position = cell;
+                    occupied.Add(cell);
+                    break;
+                }
+                reserved.Add(assignment.Position);
+            }
         }
 
         private static void HoldPosition(Pawn pawn)
         {
             Job job = JobMaker.MakeJob(JobDefOf.Wait_Combat);
-            job.expiryInterval = 120;
+            job.expiryInterval = 60000;
             pawn.jobs.StartJob(job, JobCondition.InterruptForced);
         }
 

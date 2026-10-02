@@ -47,6 +47,7 @@ namespace Helodrace
         public List<IntVec3> ApproachNodes = new List<IntVec3>();
         public List<IntVec3> ApproachPath = new List<IntVec3>();
         public List<IntVec3> SafeStackCells = new List<IntVec3>();
+        public HashSet<IntVec3> SafeSupportCells = new HashSet<IntVec3>();
         public HashSet<IntVec3> AvoidedTrapCells = new HashSet<IntVec3>();
         public List<RaidTacticalOption> Options = new List<RaidTacticalOption>();
         public RaidTacticalOption Selected;
@@ -422,6 +423,8 @@ namespace Helodrace
                 ? RankedStagingCells(map, analysis, fieldThreat, avoidedTraps,
                     plan.Entry, stagingRear, 3, 18, false, true, plan)
                 : null;
+            if (rankedSupportCells != null)
+                plan.SafeSupportCells = new HashSet<IntVec3>(rankedSupportCells);
             foreach (Pawn pawn in support)
             {
                 IntVec3 supportAnchor = plan.BreachCell.IsValid
