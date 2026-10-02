@@ -34,6 +34,9 @@ pass; they are not written to the map grid. Indoor plans use geometry alone.
 HIGH doctrine also reads hostile and unowned traps during planning and excludes
 their nearby cells from route and staging candidates. LOW doctrine does not
 use this trap information. Neither doctrine caches a trap-threat grid.
+Organized HIGH assault Lords also request full trap avoidance from the game's
+path finder, so actual movement jobs follow the doctrine instead of only the
+displayed plan excluding trap cells.
 
 Direct and flank approaches use four-direction A* over standable cells, after
 RimWorld reachability checks for entry and flank waypoints. The planner compares
