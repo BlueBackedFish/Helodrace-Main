@@ -75,6 +75,9 @@ After an indoor entry reaches the objective or its clearing timeout, available
 entry members spread to separate cells near doors, wall corners, and passages
 inside the room. Members already facing a nearby enemy remain under combat AI
 instead of receiving a new movement order. Outdoor assaults end after entry.
+Open doors receive more immediate guard priority than closed doors. After
+indoor entry, nearby door state changes cause a bounded security reassessment;
+members engaged with nearby enemies keep fighting.
 For HIGH indoor assaults, entry order alternates targets on the two sides of
 the doorway several cells inside the room, with sprint movement. If no
 reachable cell exists on a side, the ordinary objective-cell selection is used.

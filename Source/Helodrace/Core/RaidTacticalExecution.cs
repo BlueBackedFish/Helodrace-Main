@@ -23,6 +23,7 @@ namespace Helodrace
         Flank,
         Assault,
         ClearRoom,
+        SecureRoom,
         Hold,
         Complete
     }
@@ -76,6 +77,8 @@ namespace Helodrace
             public Pawn ExternalSupportTarget;
             public IntVec3 ExternalSupportTargetCell;
             public int ExternalSupportClearedTick;
+            public string DoorStateSignature;
+            public int LastRoomSecurityTick;
             // Planning cache is rebuilt after a save load; execution progress is Scribed above.
             public RaidTacticalPlan ActivePlan;
 
@@ -103,6 +106,9 @@ namespace Helodrace
                 Scribe_Values.Look(ref ExternalSupportTargetCell, "externalSupportTargetCell");
                 Scribe_Values.Look(ref ExternalSupportClearedTick,
                     "externalSupportClearedTick");
+                Scribe_Values.Look(ref DoorStateSignature, "doorStateSignature");
+                Scribe_Values.Look(ref LastRoomSecurityTick,
+                    "lastRoomSecurityTick");
             }
         }
 
@@ -218,6 +224,7 @@ namespace Helodrace
                 && (state.Phase == RaidExecutionPhase.Assemble
                     || state.Phase == RaidExecutionPhase.EntryWait
                     || state.Phase == RaidExecutionPhase.ClearRoom
+                    || state.Phase == RaidExecutionPhase.SecureRoom
                     || state.Phase == RaidExecutionPhase.Hold
                     || state.Phase == RaidExecutionPhase.Complete))
                 TryCounterPsychicLance(members);
@@ -363,7 +370,21 @@ namespace Helodrace
                             || tick - state.PhaseStarted >= 360))
                     {
                         IssueRoomSecurity(members, plan);
-                        Advance(state, RaidExecutionPhase.Complete, tick);
+                        state.DoorStateSignature = NearbyDoorState(plan.Objective);
+                        state.LastRoomSecurityTick = tick;
+                        Advance(state, RaidExecutionPhase.SecureRoom, tick);
+                    }
+                    break;
+                case RaidExecutionPhase.SecureRoom:
+                    if (tick - state.LastRoomSecurityTick >= 180)
+                    {
+                        string doors = NearbyDoorState(plan.Objective);
+                        if (doors != state.DoorStateSignature)
+                        {
+                            IssueRoomSecurity(members, plan);
+                            state.DoorStateSignature = doors;
+                            state.LastRoomSecurityTick = tick;
+                        }
                     }
                     break;
                 case RaidExecutionPhase.Hold:
@@ -881,7 +902,8 @@ namespace Helodrace
                 .OrderBy(value => value.EntryOrder))
             {
                 Pawn pawn = assignment.Pawn;
-                if (!members.Contains(pawn) || !pawn.Spawned || pawn.Map != map) continue;
+                if (!members.Contains(pawn) || !pawn.Spawned || pawn.Map != map
+                    || pawn.CurJobDef?.defName == "HD_ZaperX26Fire") continue;
                 if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
                     && enemy.Faction != null && enemy.Faction.HostileTo(pawn.Faction)
                     && enemy.Position.GetRoom(map) == room
@@ -890,6 +912,7 @@ namespace Helodrace
                     .Where(cell => occupied.All(other => cell.DistanceTo(other) >= 3f))
                     .OrderByDescending(cell => analysis.At(cell).DoorThreat * 2f
                         + analysis.At(cell).WallThreat
+                        + DoorStateScore(cell)
                         + (occupied.Count == 0 ? 0f
                             : occupied.Min(other => cell.DistanceTo(other)) * 0.5f)
                         - cell.DistanceTo(plan.Objective) * 0.2f)
@@ -900,6 +923,30 @@ namespace Helodrace
                 occupied.Add(sector);
                 TryGoto(pawn, sector);
             }
+        }
+
+        private string NearbyDoorState(IntVec3 objective)
+        {
+            return string.Join(",", map.listerThings.AllThings.OfType<Building_Door>()
+                .Where(door => !door.Destroyed
+                    && door.Position.DistanceTo(objective) <= 12f)
+                .OrderBy(door => door.thingIDNumber)
+                .Select(door => door.thingIDNumber + ":" + (door.Open ? "1" : "0")));
+        }
+
+        private float DoorStateScore(IntVec3 cell)
+        {
+            IntVec3[] directions = { IntVec3.North, IntVec3.East,
+                IntVec3.South, IntVec3.West };
+            float score = 0f;
+            foreach (IntVec3 direction in directions)
+            {
+                IntVec3 adjacent = cell + direction;
+                if (!adjacent.InBounds(map)
+                    || !(adjacent.GetEdifice(map) is Building_Door door)) continue;
+                score = Math.Max(score, door.Open ? 8f : 4f);
+            }
+            return score;
         }
 
     }
