@@ -73,6 +73,12 @@
     <naturalEnemy>false</naturalEnemy>
     <permanentEnemy>false</permanentEnemy>
     <mustStartOneEnemy>false</mustStartOneEnemy>
+    <arrivalModeBlacklist>
+      <li>CenterDrop</li>
+      <li>EdgeDrop</li>
+      <li>RandomDrop</li>
+      <li>SpecificDropDebug</li>
+    </arrivalModeBlacklist>
     <disallowedRaidStrategies>
       <li>ImmediateAttackSappers</li>
       <li>ImmediateAttackBreaching</li>
@@ -211,6 +217,12 @@
     <naturalEnemy>false</naturalEnemy>
     <permanentEnemy>false</permanentEnemy>
     <mustStartOneEnemy>false</mustStartOneEnemy>
+    <arrivalModeBlacklist>
+      <li>CenterDrop</li>
+      <li>EdgeDrop</li>
+      <li>RandomDrop</li>
+      <li>SpecificDropDebug</li>
+    </arrivalModeBlacklist>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <maxCountAtGameStart>1</maxCountAtGameStart>
     <settlementGenerationWeight>1</settlementGenerationWeight>

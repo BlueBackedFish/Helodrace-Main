@@ -419,6 +419,19 @@ internal static class Program
             == "HD_Doctrine_Modern", "High faction uses the modern organization doctrine");
         Check(highFaction.Descendants("HD_MW_HelodRifleman").Any(),
             "High faction has a modern combat pawn pool");
+        foreach (string name in new[] { "HD_HelodCivilLowFaction",
+            "HD_HelodCivilHighFaction" })
+        {
+            XElement faction = XDocument.Load(Path.Combine(root,
+                "Defs/Factions/Factions_Helod.xml")).Root.Elements("FactionDef")
+                .First(node => (string)node.Element("defName") == name);
+            string[] bannedArrivals = faction.Element("arrivalModeBlacklist")
+                ?.Elements("li").Select(node => node.Value).ToArray()
+                ?? Array.Empty<string>();
+            Check(new[] { "CenterDrop", "EdgeDrop", "RandomDrop",
+                "SpecificDropDebug" }.All(bannedArrivals.Contains),
+                name + " forbids drop-pod raid arrivals");
+        }
         Check(FormationPlanner.Plan(500f, modern).Personnel == 3,
             "A small high-faction raid fields one modern fireteam");
         Check(FormationPlanner.Plan(1300f, modern).Personnel == 7,
