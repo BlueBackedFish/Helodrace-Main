@@ -42,6 +42,7 @@ namespace Helodrace.Squads
         public int explicitSuccessionOrder = -1;
         public int rankPriority;
         public List<ThingDef> grenadeLoadout = new List<ThingDef>();
+        public List<ThingDef> apparelLoadout = new List<ThingDef>();
         // combatPower already includes the usual equipment. These are optional extra costs.
         public float equipmentPointCost;
         public float specialistPointCost;
@@ -103,7 +104,9 @@ namespace Helodrace.Squads
             if (Slots.Any(slot => slot == null || slot.pawnKind == null || slot.combatRole == null
                 || slot.combatRole.isCommandRole || slot.count <= 0
                 || slot.equipmentPointCost < 0 || slot.specialistPointCost < 0
-                || slot.grenadeLoadout == null || slot.grenadeLoadout.Any(def => def == null)))
+                || slot.grenadeLoadout == null || slot.grenadeLoadout.Any(def => def == null)
+                || slot.apparelLoadout == null || slot.apparelLoadout.Any(def => def == null
+                    || !def.IsApparel)))
             {
                 yield return "Formation has an invalid role slot.";
                 yield break;

@@ -27,7 +27,7 @@ namespace Verse
     {
         public virtual IEnumerable<string> ConfigErrors() { yield break; }
     }
-    public class ThingDef : Def { }
+    public class ThingDef : Def { public bool IsApparel; }
     public class PawnKindDef : Def { public float combatPower; }
     public class Thing { public ThingDef def; }
     public class Equipment { public List<Thing> AllEquipmentListForReading = new List<Thing>(); }

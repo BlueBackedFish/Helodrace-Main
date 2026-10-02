@@ -5,7 +5,7 @@
     <minimumPersonnel>3</minimumPersonnel><idealPersonnel>3</idealPersonnel><maximumPersonnel>3</maximumPersonnel>
     <commanderRole>HD_Role_TeamLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
     <requiredRoles>
-      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_TeamLeader</commandRole><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_TeamLeader</commandRole><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><equipmentPointCost>40</equipmentPointCost><apparelLoadout><li>HD_Apparel_ZaperX26_Device</li></apparelLoadout><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>1</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M8_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>2</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M67_Item</li></grenadeLoadout></li>
     </requiredRoles>
@@ -16,7 +16,7 @@
     <minimumPersonnel>7</minimumPersonnel><idealPersonnel>7</idealPersonnel><maximumPersonnel>7</maximumPersonnel>
     <selectionPriority>100</selectionPriority><commanderRole>HD_Role_SquadLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
     <requiredRoles>
-      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_SquadLeader</commandRole><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><equipmentPointCost>100</equipmentPointCost><grenadeLoadout><li>HD_Grenade_M7A2_Item</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_M81Igniter</li></grenadeLoadout></li>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_SquadLeader</commandRole><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><equipmentPointCost>140</equipmentPointCost><apparelLoadout><li>HD_Apparel_ZaperX26_Device</li></apparelLoadout><grenadeLoadout><li>HD_Grenade_M7A2_Item</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_M81Igniter</li></grenadeLoadout></li>
     </requiredRoles>
     <childFormations>
       <li><formation>HD_Formation_MW_Fireteam</formation><count>2</count><successionPriority>0</successionPriority></li>

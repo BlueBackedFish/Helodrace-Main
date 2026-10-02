@@ -315,6 +315,8 @@ internal static class Program
             defs.Add(grenadeName, new ThingDef { defName = grenadeName });
         defs.Add("HD_C4_Charge", new ThingDef { defName = "HD_C4_Charge" });
         defs.Add("HD_M81Igniter", new ThingDef { defName = "HD_M81Igniter" });
+        defs.Add("HD_Apparel_ZaperX26_Device", new ThingDef
+            { defName = "HD_Apparel_ZaperX26_Device", IsApparel = true });
         foreach (var node in nodes.Where(node => node.Element("defName") != null))
         {
             Def def = node.Name.LocalName switch
@@ -398,11 +400,11 @@ internal static class Program
         }
         Check(((FormationDef)defs["HD_Formation_MW_Fireteam"]).StandardPersonnel == 3,
             "Modern fireteam is complete");
-        Near(465, ((FormationDef)defs["HD_Formation_MW_Fireteam"]).FormationCost,
+        Near(505, ((FormationDef)defs["HD_Formation_MW_Fireteam"]).FormationCost,
             "Modern fireteam cost");
         Check(((FormationDef)defs["HD_Formation_MW_RifleSquad"]).StandardPersonnel == 7,
             "Modern squad has two fireteams and a leader");
-        Near(1185, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
+        Near(1305, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
             "Modern squad cost");
         var modernLeader = ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).requiredRoles[0];
         Check(modernLeader.grenadeLoadout.Count(item => item.defName == "HD_C4_Charge") == 3
@@ -410,8 +412,13 @@ internal static class Program
             "Modern squad leader carries enough C4 and a shock-tube igniter");
         Check(((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).StandardPersonnel == 22,
             "Modern platoon has three squads and a leader");
-        Near(3710, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
+        Near(4070, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
             "Modern platoon cost");
+        Check(((FormationDef)defs["HD_Formation_MW_Fireteam"]).requiredRoles[0]
+                .apparelLoadout.Single().defName == "HD_Apparel_ZaperX26_Device"
+            && ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).requiredRoles[0]
+                .apparelLoadout.Single().defName == "HD_Apparel_ZaperX26_Device",
+            "Modern team and squad leaders carry a ZAPER X26");
         XElement highFaction = XDocument.Load(Path.Combine(root, "Defs/Factions/Factions_Helod.xml"))
             .Root.Elements("FactionDef").First(node => (string)node.Element("defName")
                 == "HD_HelodCivilHighFaction");

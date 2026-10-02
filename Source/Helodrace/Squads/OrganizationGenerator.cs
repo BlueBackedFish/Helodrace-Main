@@ -81,6 +81,14 @@ namespace Helodrace.Squads
                             || !pawn.inventory.innerContainer.TryAdd(grenade))
                             grenade.Destroy(DestroyMode.Vanish);
                     }
+                    foreach (ThingDef apparelDef in member.slot.apparelLoadout)
+                    {
+                        Apparel apparel = ThingMaker.MakeThing(apparelDef) as Apparel;
+                        if (apparel == null) continue;
+                        if (pawn.apparel != null)
+                            pawn.apparel.Wear(apparel, false);
+                        else apparel.Destroy(DestroyMode.Vanish);
+                    }
                     member.assignment.pawn = pawn;
                 }
                 foreach (CombatGroup root in result.rootGroups) root.InitializeCommand();
