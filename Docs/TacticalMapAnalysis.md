@@ -57,6 +57,10 @@ large objective shift restarts coordination. Execution phase and assignments
 appear in the developer plan window. Phase state is saved with the map.
 The planned entry delay is honored after the support action, allowing smoke or
 grenade effects to take hold before the simultaneous entry order.
+After an indoor entry reaches the objective or its clearing timeout, available
+entry members spread to separate cells near doors, wall corners, and passages
+inside the room. Members already facing a nearby enemy remain under combat AI
+instead of receiving a new movement order. Outdoor assaults end after entry.
 
 Grenades are used only when their target is in range and sight, and damaging
 throws are suppressed near friendlies. Indoor throws target reachable cells

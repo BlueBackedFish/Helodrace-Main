@@ -20,6 +20,7 @@ namespace Helodrace
         EntryWait,
         Flank,
         Assault,
+        ClearRoom,
         Hold,
         Complete
     }
@@ -283,6 +284,15 @@ namespace Helodrace
                         RaidTacticalSpeech.Say(Commander(organization, members),
                             "HD_RaidTactical_MoveIn");
                         IssueAssault(members, plan);
+                        Advance(state, plan.Objective.GetRoom(map)?.PsychologicallyOutdoors == false
+                            ? RaidExecutionPhase.ClearRoom : RaidExecutionPhase.Complete, tick);
+                    }
+                    break;
+                case RaidExecutionPhase.ClearRoom:
+                    if (EntryMembersNear(members, plan, plan.Objective, 6f)
+                        || tick - state.PhaseStarted >= 360)
+                    {
+                        IssueRoomSecurity(members, plan);
                         Advance(state, RaidExecutionPhase.Complete, tick);
                     }
                     break;
@@ -529,6 +539,43 @@ namespace Helodrace
                 if (!target.IsValid) target = plan.Entry;
                 occupied.Add(target);
                 TryGoto(pawn, target);
+            }
+        }
+
+        private void IssueRoomSecurity(List<Pawn> members, RaidTacticalPlan plan)
+        {
+            Room room = plan.Objective.GetRoom(map);
+            if (room == null || room.PsychologicallyOutdoors) return;
+            MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
+            if (analysis == null) return;
+            var occupied = new List<IntVec3>();
+            List<IntVec3> sectors = GenRadial.RadialCellsAround(plan.Objective, 11f, true)
+                .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                    && cell.GetRoom(map) == room && !plan.AvoidedTrapCells.Contains(cell)
+                    && cell.DistanceTo(plan.Entry) >= 2f)
+                .ToList();
+            foreach (RaidTacticalAssignment assignment in plan.Assignments
+                .Where(value => value.Task == RaidTacticalTask.Entry)
+                .OrderBy(value => value.EntryOrder))
+            {
+                Pawn pawn = assignment.Pawn;
+                if (!members.Contains(pawn) || !pawn.Spawned || pawn.Map != map) continue;
+                if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
+                    && enemy.Faction != null && enemy.Faction.HostileTo(pawn.Faction)
+                    && enemy.Position.GetRoom(map) == room
+                    && enemy.Position.DistanceTo(pawn.Position) <= 6f)) continue;
+                IntVec3 sector = sectors
+                    .Where(cell => occupied.All(other => cell.DistanceTo(other) >= 3f))
+                    .OrderByDescending(cell => analysis.At(cell).DoorThreat * 2f
+                        + analysis.At(cell).WallThreat
+                        + (occupied.Count == 0 ? 0f
+                            : occupied.Min(other => cell.DistanceTo(other)) * 0.5f)
+                        - cell.DistanceTo(plan.Objective) * 0.2f)
+                    .FirstOrDefault(cell => pawn.CanReach(cell,
+                        PathEndMode.OnCell, Danger.Deadly));
+                if (!sector.IsValid) continue;
+                occupied.Add(sector);
+                TryGoto(pawn, sector);
             }
         }
 
