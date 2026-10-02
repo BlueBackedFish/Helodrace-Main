@@ -94,7 +94,14 @@ namespace Helodrace.Squads
             {
                 // Off-map historical records do not require a tactical or command tick.
                 if (organization.doctrine == null || !organization.AllMembers.Any(pawn => pawn.Spawned)) continue;
+                var previous = organization.AllGroups.ToDictionary(group => group,
+                    group => group.actingCommander);
                 foreach (CombatGroup root in organization.rootGroups) root.UpdateCommand(tick);
+                foreach (CombatGroup group in organization.AllGroups)
+                    if (group.commandState == CommandState.ActingCommander
+                        && group.actingCommander != previous[group])
+                        RaidTacticalSpeech.Say(group.actingCommander,
+                            "HD_RaidTactical_CommandAssumed");
             }
         }
 

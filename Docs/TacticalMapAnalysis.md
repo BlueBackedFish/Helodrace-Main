@@ -31,16 +31,36 @@ primary weapon range and minimum range, and line of sight to cells considered
 for the entry, routes, staging, and withdrawal. Unarmed or melee pawns use a
 short 2.9-cell range. These pawn scores are cached only within that planning
 pass; they are not written to the map grid. Indoor plans use geometry alone.
+HIGH doctrine also reads hostile and unowned traps during planning and excludes
+their nearby cells from route and staging candidates. LOW doctrine does not
+use this trap information. Neither doctrine caches a trap-threat grid.
 
 Direct and flank approaches use four-direction A* over standable cells, after
 RimWorld reachability checks for entry and flank waypoints. The planner compares
 the average score of the actual candidate route cells plus a distance penalty,
 then marks the most exposed point as the front/security anchor. Guard and support
 positions are chosen near that anchor; entry staging stays away from the door.
-The resulting path is shown in the raid plan developer overlay. The planner
-still produces plans and display data only; it does not issue movement jobs.
-Plan changes are evaluated when the organization changes or the normal plan
-refresh expires.
+The resulting path is shown in the raid plan developer overlay. Plan changes
+are evaluated when the organization changes or the normal plan refresh expires.
+
+## Raid execution
+
+`MapComponent_RaidTacticalExecution` acts on organized hostile pawns in an
+assault-colony Lord. It moves entry and security members to their assigned
+positions, waits for the group or a bounded assembly timeout, then attempts a
+power-cutter breach and a selected inventory grenade before issuing entry moves
+to all available entry members in the same tick. A flank plan first moves its
+entry members around the flank waypoint. Hold/regroup plans maintain
+their assigned positions. Once assault moves are issued, normal Lord combat
+behavior resumes. Replanning after casualties, commander succession, or a
+large objective shift restarts coordination. Execution phase and assignments
+appear in the developer plan window. Phase state is saved with the map.
+
+Grenades are used only when their target is in range and sight, and damaging
+throws are suppressed near friendlies. Indoor throws target reachable cells
+inside the objective room near the entry. The executor uses the existing
+inventory grenade and power-cutter jobs; it does not create a separate weapon
+or projectile implementation.
 
 ## Developer tools
 
@@ -48,3 +68,16 @@ Under `Helodrace/Tactical AI`, use `Draw door and wall geometry map` to flash
 scored cells, `Inspect tactical data under mouse` for the door/wall components,
 and `Open raid tactical plans` to inspect the selected route and assignments.
 The tactical POI overlay shows strategic sites.
+
+## In-game verification
+
+Spawn an organized hostile assault in developer mode and open the raid tactical
+plan window. Check that the execution phase advances from Assemble to Breach or
+Support and then Assault/Complete; entry members should receive their movement
+orders together while security members remain at their assigned positions.
+Repeat with an enemy door and a power-cutter bearer, with an inventory grenade,
+and with HIGH doctrine traps near an approach. Save and reload during assembly
+or a breach, then confirm the phase continues instead of restarting. Down a
+member or commander and confirm that the plan and execution assignments are
+re-evaluated. These game-runtime checks are still required in addition to the
+source build and logic tests.

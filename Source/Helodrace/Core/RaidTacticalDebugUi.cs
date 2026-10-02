@@ -102,6 +102,8 @@ namespace Helodrace
             if (!plan.Success) return "Plan unavailable: " + plan.Reason;
             var report = new StringBuilder();
             report.AppendLine($"{plan.OrganizationId}  doctrine={plan.Doctrine}  tick={plan.PlannedTick}");
+            report.AppendLine("Execution=" + RaidTacticalDebugSession.Map
+                ?.GetComponent<MapComponent_RaidTacticalExecution>()?.Status(plan.OrganizationId));
             report.AppendLine($"Command efficiency={plan.CommandEfficiency:P0}  casualties={plan.CasualtyFraction:P0}");
             report.AppendLine($"Start={plan.Start}  objective={plan.Objective}  front={plan.Frontline}");
             report.AppendLine($"Flank={plan.Flank}  entry={plan.Entry}");

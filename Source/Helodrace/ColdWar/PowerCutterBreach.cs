@@ -216,7 +216,7 @@ namespace Helodrace
                 JobTag.Misc);
         }
 
-        private static bool TryFindInteractionCell(
+        public static bool TryFindInteractionCell(
             Pawn wielder,
             Building target,
             out IntVec3 interactionCell)
