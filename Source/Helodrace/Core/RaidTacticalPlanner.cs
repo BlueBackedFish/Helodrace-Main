@@ -108,7 +108,8 @@ namespace Helodrace
                 return plan;
             }
 
-            List<IntVec3> direct = FindRoute(map, plan.Start, plan.Entry, avoidedTraps);
+            List<IntVec3> direct = FindRoute(map, analysis, fieldThreat,
+                plan.Start, plan.Entry, avoidedTraps);
             if (direct.Count == 0)
             {
                 plan.Reason = "No walking route reaches the objective entrance.";
@@ -395,8 +396,10 @@ namespace Helodrace
                         TraverseParms.For(pathfinder))
                         || !map.reachability.CanReach(cell, entry, PathEndMode.OnCell,
                             TraverseParms.For(pathfinder))) continue;
-                    List<IntVec3> first = FindRoute(map, start, cell, avoidedTraps);
-                    List<IntVec3> second = FindRoute(map, cell, entry, avoidedTraps);
+                    List<IntVec3> first = FindRoute(map, analysis, fieldThreat,
+                        start, cell, avoidedTraps);
+                    List<IntVec3> second = FindRoute(map, analysis, fieldThreat,
+                        cell, entry, avoidedTraps);
                     if (first.Count == 0 || second.Count == 0) continue;
                     List<IntVec3> route = first.Concat(second.Skip(1)).ToList();
                     float score = MeanThreat(analysis, fieldThreat, route)
@@ -458,15 +461,17 @@ namespace Helodrace
                 Mathf.RoundToInt((float)list.Average(cell => cell.z)));
         }
 
-        private static List<IntVec3> FindRoute(Map map, IntVec3 from, IntVec3 to,
-            HashSet<IntVec3> avoidedTraps)
+        private static List<IntVec3> FindRoute(Map map,
+            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            IntVec3 from, IntVec3 to, HashSet<IntVec3> avoidedTraps)
         {
             if (!IsTraversable(map, from) || !IsTraversable(map, to))
                 return new List<IntVec3>();
             var frontier = new SortedDictionary<int, Queue<IntVec3>>();
             var distance = new Dictionary<IntVec3, int> { [from] = 0 };
             var previous = new Dictionary<IntVec3, IntVec3>();
-            Enqueue(from, 0);
+            Enqueue(from, 100 * (Math.Abs(from.x - to.x)
+                + Math.Abs(from.z - to.z)));
             IntVec3[] directions = { IntVec3.North, IntVec3.East,
                 IntVec3.South, IntVec3.West };
             while (frontier.Count > 0)
@@ -475,8 +480,8 @@ namespace Helodrace
                 IntVec3 cell = first.Value.Dequeue();
                 if (first.Value.Count == 0) frontier.Remove(first.Key);
                 int cost = distance[cell];
-                if (first.Key != cost + Math.Abs(cell.x - to.x)
-                    + Math.Abs(cell.z - to.z)) continue;
+                if (first.Key != cost + 100 * (Math.Abs(cell.x - to.x)
+                    + Math.Abs(cell.z - to.z))) continue;
                 if (cell == to)
                 {
                     var result = new List<IntVec3> { to };
@@ -491,14 +496,16 @@ namespace Helodrace
                 foreach (IntVec3 direction in directions)
                 {
                     IntVec3 next = cell + direction;
-                    if (!IsTraversable(map, next)
-                        || (cell != from && avoidedTraps.Contains(next))) continue;
-                    int nextCost = cost + 1;
+                    if (!IsTraversable(map, next) || avoidedTraps.Contains(next)) continue;
+                    // Distance remains dominant; door/wall geometry and the
+                    // current field-pawn snapshot can make a safer detour win.
+                    int nextCost = cost + 100 + Mathf.RoundToInt(
+                        ThreatAt(analysis, fieldThreat, next) * 10f);
                     if (distance.TryGetValue(next, out int oldCost) && nextCost >= oldCost) continue;
                     distance[next] = nextCost;
                     previous[next] = cell;
-                    Enqueue(next, nextCost + Math.Abs(next.x - to.x)
-                        + Math.Abs(next.z - to.z));
+                    Enqueue(next, nextCost + 100 * (Math.Abs(next.x - to.x)
+                        + Math.Abs(next.z - to.z)));
                 }
             }
             return new List<IntVec3>();

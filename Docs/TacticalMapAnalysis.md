@@ -39,8 +39,10 @@ path finder, so actual movement jobs follow the doctrine instead of only the
 displayed plan excluding trap cells.
 
 Direct and flank approaches use four-direction A* over standable cells, after
-RimWorld reachability checks for entry and flank waypoints. The planner compares
-the average score of the actual candidate route cells plus a distance penalty,
+RimWorld reachability checks for entry and flank waypoints. Each route step costs
+one cell plus a small door/wall geometry penalty; outdoor plans also apply the
+current hostile-pawn snapshot. The planner compares the average score of the
+actual candidate route cells plus a distance penalty,
 then marks the most exposed point as the front/security anchor. Guard and support
 positions are chosen near that anchor; entry staging stays away from the door.
 The resulting path is shown in the raid plan developer overlay. Plan changes
