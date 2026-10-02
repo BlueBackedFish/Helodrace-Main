@@ -303,6 +303,7 @@ namespace Helodrace
             for (int i = 0; i < escorts.Count; i++)
             {
                 Pawn escort = escorts[i];
+                if (IsTaserOperation(escort)) continue;
                 if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
                     && enemy.Faction != null && enemy.Faction.HostileTo(escort.Faction)
                     && enemy.Position.DistanceTo(escort.Position) <= 12f
@@ -362,7 +363,7 @@ namespace Helodrace
                     {
                         foreach (Pawn pawn in members)
                             if (pawn.CurJobDef != JobDefOf.Wait_Combat
-                                && pawn.CurJobDef?.defName != "HD_ZaperX26Fire"
+                                && !IsTaserOperation(pawn)
                                 && map.GetComponent<MapComponent_HelodCasSupport>()
                                     ?.RequiresStationaryGuidance(pawn) != true)
                                 pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
@@ -540,6 +541,7 @@ namespace Helodrace
                 .Select(assignment => assignment.Pawn).ToList();
             foreach (Pawn pawn in entry)
             {
+                if (IsTaserOperation(pawn)) continue;
                 CombatGroup group = organization.AllGroups
                     .Where(value => value.Members.Contains(pawn)
                         && value.Members.Count(entry.Contains) > 1)
@@ -624,7 +626,8 @@ namespace Helodrace
             if (state.ApproachWaypointStarted <= 0)
                 state.ApproachWaypointStarted = tick;
             foreach (Pawn pawn in entry)
-                if (pawn.Position.DistanceTo(waypoint) > 3f)
+                if (!IsTaserOperation(pawn)
+                    && pawn.Position.DistanceTo(waypoint) > 3f)
                     TryGoto(pawn, waypoint);
             if (entry.All(pawn => pawn.Position.DistanceTo(waypoint) <= 3f)
                 || tick - state.ApproachWaypointStarted >= ApproachWaypointTimeout)
@@ -642,7 +645,7 @@ namespace Helodrace
                 .Where(value => value.Task == RaidTacticalTask.Entry))
             {
                 Pawn pawn = assignment.Pawn;
-                if (!members.Contains(pawn)) continue;
+                if (!members.Contains(pawn) || IsTaserOperation(pawn)) continue;
                 IntVec3 target = GenRadial.RadialCellsAround(plan.Flank, 3f, true)
                     .Where(cell => cell.InBounds(map) && cell.Standable(map)
                         && !plan.AvoidedTrapCells.Contains(cell) && !occupied.Contains(cell))
@@ -664,7 +667,7 @@ namespace Helodrace
                 if (!members.Contains(pawn) || !assignment.Position.IsValid
                     || (skipEntry && assignment.Task == RaidTacticalTask.Entry)
                     || (skipResponse && assignment.Task == RaidTacticalTask.Response)) continue;
-                if (pawn.CurJobDef?.defName == "HD_ZaperX26Fire") continue;
+                if (IsTaserOperation(pawn)) continue;
                 if (pawn.Position.DistanceTo(assignment.Position) > 1.5f)
                     TryGoto(pawn, assignment.Position);
                 else if (assignment.Task == RaidTacticalTask.Withdraw
@@ -694,6 +697,40 @@ namespace Helodrace
         {
             JobDef fireJob = DefDatabase<JobDef>.GetNamedSilentFail("HD_ZaperX26Fire");
             if (fireJob == null) return;
+            JobDef contactJob = DefDatabase<JobDef>.GetNamedSilentFail("HD_ZaperX26Contact");
+            foreach (Pawn leader in members)
+            {
+                CompZaperX26 linked = leader.apparel?.WornApparel
+                    .Select(apparel => apparel.TryGetComp<CompZaperX26>())
+                    .FirstOrDefault(comp => comp?.TetheredTarget != null);
+                Pawn target = linked?.TetheredTarget;
+                if (target?.Spawned != true || target.Map != map || target.Dead
+                    || target.Faction == null || !target.Faction.HostileTo(leader.Faction))
+                    continue;
+                if (leader.CurJobDef == JobDefOf.Kidnap
+                    || leader.CurJobDef == contactJob) continue;
+                if (map.mapPawns.AllPawnsSpawned.Any(enemy => enemy != target
+                    && !enemy.Dead && !enemy.Downed && enemy.Faction != null
+                    && enemy.Faction.HostileTo(leader.Faction)
+                    && enemy.Position.DistanceTo(target.Position) <= 8f
+                    && GenSight.LineOfSight(leader.Position, enemy.Position, map, true)))
+                    continue;
+                if (target.Downed && leader.CanReserve(target, 1, -1, null, false)
+                    && leader.CanReach(target, PathEndMode.Touch, Danger.Deadly))
+                {
+                    leader.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Kidnap, target),
+                        JobCondition.InterruptForced);
+                    RaidTacticalSpeech.Say(leader, "HD_RaidTactical_Neutralize");
+                    return;
+                }
+                if (!target.Downed && contactJob != null && linked.CanContactNow
+                    && leader.CanReach(target, PathEndMode.Touch, Danger.Deadly))
+                {
+                    leader.jobs.StartJob(JobMaker.MakeJob(contactJob, target,
+                        linked.parent), JobCondition.InterruptForced);
+                    return;
+                }
+            }
             List<Pawn> lanceUsers = map.mapPawns.AllPawnsSpawned
                 .Where(pawn => !pawn.Dead && !pawn.Downed && pawn.Faction != null
                     && pawn.Faction.HostileTo(members[0].Faction)
@@ -707,7 +744,7 @@ namespace Helodrace
                 CompZaperX26 zaper = leader.apparel?.WornApparel
                     .Select(apparel => apparel.TryGetComp<CompZaperX26>())
                     .FirstOrDefault(comp => comp?.CanFireNow == true);
-                if (zaper == null || leader.CurJobDef == fireJob) continue;
+                if (zaper == null || IsTaserOperation(leader)) continue;
                 Pawn target = lanceUsers
                     .Where(enemy => leader.Position.DistanceTo(enemy.Position) <= 7.9f
                         && GenSight.LineOfSight(leader.Position, enemy.Position, map))
@@ -723,7 +760,15 @@ namespace Helodrace
 
         private static bool UsingZaper(List<Pawn> members)
         {
-            return members.Any(pawn => pawn.CurJobDef?.defName == "HD_ZaperX26Fire");
+            return members.Any(pawn => pawn.CurJobDef?.defName == "HD_ZaperX26Fire"
+                || pawn.CurJobDef?.defName == "HD_ZaperX26Contact");
+        }
+
+        private static bool IsTaserOperation(Pawn pawn)
+        {
+            return pawn.CurJobDef?.defName == "HD_ZaperX26Fire"
+                || pawn.CurJobDef?.defName == "HD_ZaperX26Contact"
+                || pawn.CurJobDef == JobDefOf.Kidnap;
         }
 
         private void IssueResponse(List<Pawn> members, RaidTacticalPlan plan)
@@ -735,7 +780,8 @@ namespace Helodrace
                 .Where(value => value.Task == RaidTacticalTask.Response))
             {
                 Pawn pawn = assignment.Pawn;
-                if (!members.Contains(pawn) || pawn.Map != map) continue;
+                if (!members.Contains(pawn) || pawn.Map != map
+                    || IsTaserOperation(pawn)) continue;
                 float range = pawn.equipment?.Primary?.GetComp<CompEquippable>()
                     ?.PrimaryVerb?.verbProps?.range ?? 12f;
                 if (pawn.Position.DistanceTo(enemy.Position) <= range * 0.8f
@@ -883,9 +929,11 @@ namespace Helodrace
                 .All(assignment => assignment.Pawn.Position.DistanceTo(assignment.Position) <= 1.5f);
         }
 
-        private static void TryGoto(Pawn pawn, IntVec3 cell, bool sprint = false)
+        private static void TryGoto(Pawn pawn, IntVec3 cell, bool sprint = false,
+            bool interruptTaser = false)
         {
-            if (!cell.IsValid || !cell.InBounds(pawn.Map)
+            if ((!interruptTaser && IsTaserOperation(pawn))
+                || !cell.IsValid || !cell.InBounds(pawn.Map)
                 || !pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return;
             if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == cell) return;
             Job job = JobMaker.MakeJob(JobDefOf.Goto, cell);
@@ -910,7 +958,7 @@ namespace Helodrace
             JobDef cutterJob = DefDatabase<JobDef>.GetNamedSilentFail("HD_PowerCutterBreach");
             foreach (Pawn pawn in members)
             {
-                if (cutterJob == null
+                if (IsTaserOperation(pawn) || cutterJob == null
                     || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() == null
                     || !CompPowerCutterBreach.TryFindInteractionCell(pawn, target, out IntVec3 cell)
                     || !pawn.CanReserve(target, 1, -1, null, false)) continue;
@@ -927,6 +975,7 @@ namespace Helodrace
             if (c4Job == null) return false;
             foreach (Pawn pawn in members)
             {
+                if (IsTaserOperation(pawn)) continue;
                 CompBreachIgniter igniter = BreachExplosiveUtility.FindIgniter(pawn,
                     BreachInitiationMode.ShockTube, false);
                 int required = BreachExplosiveUtility.RequiredC4For(target);
@@ -970,7 +1019,7 @@ namespace Helodrace
                     .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
                 occupied.Add(target);
-                TryGoto(pawn, target);
+                TryGoto(pawn, target, interruptTaser: true);
             }
         }
 
@@ -1007,6 +1056,7 @@ namespace Helodrace
                     && InventoryGrenadeUtility.GrenadeStacks(value)
                         .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1))
             {
+                if (IsTaserOperation(pawn)) continue;
                 Thing grenade = InventoryGrenadeUtility.GrenadeStacks(pawn).FirstOrDefault(item =>
                     smoke ? item.def.defName == "HD_Grenade_M8_Item"
                         || item.def.weaponTags?.Contains("GrenadeSmoke") == true
@@ -1052,7 +1102,7 @@ namespace Helodrace
                 .OrderBy(value => value.EntryOrder))
             {
                 Pawn pawn = assignment.Pawn;
-                if (!members.Contains(pawn)) continue;
+                if (!members.Contains(pawn) || IsTaserOperation(pawn)) continue;
                 IntVec3 target = highIndoor
                     ? FindHighEntryCell(pawn, plan, objectiveRoom, occupied)
                     : IntVec3.Invalid;
@@ -1122,7 +1172,7 @@ namespace Helodrace
             {
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn) || !pawn.Spawned || pawn.Map != map
-                    || pawn.CurJobDef?.defName == "HD_ZaperX26Fire") continue;
+                    || IsTaserOperation(pawn)) continue;
                 if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
                     && enemy.Faction != null && enemy.Faction.HostileTo(pawn.Faction)
                     && enemy.Position.GetRoom(map) == room
@@ -1195,6 +1245,7 @@ namespace Helodrace
                 foreach (Pawn pawn in members.OrderBy(value =>
                     value.Position.DistanceToSquared(target)))
                 {
+                    if (IsTaserOperation(pawn)) continue;
                     Thing smoke = InventoryGrenadeUtility.GrenadeStacks(pawn)
                         .FirstOrDefault(item => item.def.defName == "HD_Grenade_M8_Item"
                             || item.def.weaponTags?.Contains("GrenadeSmoke") == true);

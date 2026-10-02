@@ -33,6 +33,7 @@ namespace Helodrace.ModernWar
         private int nextContactUseTick;
 
         public bool HasActiveTether => activeTether != null && !activeTether.Destroyed && activeTether.Spawned;
+        public Pawn TetheredTarget => HasActiveTether ? activeTether.TargetPawn : null;
         public Pawn Wearer => (parent.ParentHolder as Pawn_ApparelTracker)?.pawn;
 
         public override void PostExposeData()
@@ -420,6 +421,7 @@ namespace Helodrace.ModernWar
         private int ticksLeft;
         private Hediff shockHediff;
         private Sustainer shockSustainer;
+        public Pawn TargetPawn => target;
 
         public static void StartOrRefresh(CompZaperX26 sourceComp, Pawn launcher, Pawn target, Map map, int durationTicks)
         {

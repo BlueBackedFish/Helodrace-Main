@@ -131,6 +131,10 @@ generated raid members receive CQB and TCCC training at creation.
 Modern team and squad leaders wear a ZAPER X26. During assembly, holding, and
 room security, a leader with a ready device uses its existing paired-probe job
 against a visible nearby enemy carrying a psychic shock or insanity lance.
+If the probe tether holds and no other visible enemy threatens the target, the
+leader attempts the existing contact-shock job. A downed target can then be
+taken with the game's kidnapping job. Tactical movement and support orders leave
+that follow-up alone, except for urgent withdrawal from a live breaching charge.
 If an allied forward base has usable CAS or artillery, an outdoor raid can
 request the existing service against a visible hostile well clear of friendly
 and neutral pawns. The raid holds its assembly positions until the strike ends
