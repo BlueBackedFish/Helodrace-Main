@@ -116,7 +116,7 @@ namespace Helodrace
             FieldThreatSnapshot fieldThreat = field ? new FieldThreatSnapshot(map, hostiles) : null;
             bool needsBreach = !map.reachability.CanReach(plan.Start, plan.Objective,
                 PathEndMode.OnCell, TraverseParms.For(pathfinder));
-            if (needsBreach && TryFindPlannedBreach(map, analysis, fieldThreat,
+            if ((needsBreach || !field) && TryFindPlannedBreach(map, analysis, fieldThreat,
                 avoidedTraps, members, pathfinder, plan, out List<IntVec3> breachRoute))
             {
                 plan.ApproachPath.AddRange(breachRoute);
@@ -152,7 +152,7 @@ namespace Helodrace
                 return plan;
             }
             float peakThreat = direct.Max(cell => ThreatAt(analysis, fieldThreat, cell));
-            plan.Frontline = peakThreat > 0f
+            plan.Frontline = plan.PlannedBreach != null ? plan.Entry : peakThreat > 0f
                 ? direct.OrderByDescending(cell => ThreatAt(analysis, fieldThreat, cell)).First()
                 : plan.Entry;
             List<IntVec3> flankRoute = new List<IntVec3>();
@@ -358,21 +358,30 @@ namespace Helodrace
                 entry.RemoveAt(entry.Count - 1);
                 support.Add(rear);
             }
+            IntVec3 stagingRear = plan.PlannedBreach != null
+                && plan.ApproachPath.Count > 1
+                ? plan.ApproachPath[Math.Max(0, plan.ApproachPath.Count - 4)]
+                : plan.Start;
 
             for (int i = 0; i < entry.Count; i++)
             {
                 IntVec3 entryAnchor = plan.Selected.Maneuver == RaidTacticalManeuver.FlankAttack
                     ? plan.Flank : plan.Entry;
                 IntVec3 cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps,
-                    entry[i], entryAnchor, plan.Start, occupied, 3, 8);
+                    entry[i], entryAnchor, stagingRear, occupied,
+                    plan.PlannedBreach != null ? 2 : 3, 8,
+                    behindAnchor: plan.PlannedBreach != null);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 { Pawn = entry[i], Task = RaidTacticalTask.Entry, Position = cell, EntryOrder = i + 1 });
             }
             foreach (Pawn pawn in support)
             {
+                IntVec3 supportAnchor = plan.PlannedBreach != null
+                    ? plan.Entry : plan.Frontline;
                 IntVec3 cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps, pawn,
-                    plan.Frontline, plan.Start, occupied, 3, 11, true);
+                    supportAnchor, stagingRear, occupied, 3, 11, true,
+                    plan.PlannedBreach != null);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 {
@@ -422,8 +431,7 @@ namespace Helodrace
                 .Where(cell => IsTraversable(map, cell) && !avoidedTraps.Contains(cell))
                 .OrderBy(cell => cell.DistanceTo(objective) * 4f
                     + cell.DistanceTo(pathfinder.Position) * 0.3f
-                    + ThreatAt(analysis, fieldThreat, cell) * 0.12f
-                    - (cell.GetEdifice(map) is Building_Door ? 18f : 0f))
+                    + ThreatAt(analysis, fieldThreat, cell) * 0.12f)
                 .Take(64))
                 if (map.reachability.CanReach(pathfinder.Position, cell,
                     PathEndMode.OnCell, TraverseParms.For(pathfinder)))
@@ -441,6 +449,9 @@ namespace Helodrace
             Building bestTarget = null;
             IntVec3 bestOutside = IntVec3.Invalid;
             IntVec3 bestInside = IntVec3.Invalid;
+            Room objectiveRoom = plan.Objective.GetRoom(map);
+            bool indoorObjective = objectiveRoom != null
+                && !objectiveRoom.PsychologicallyOutdoors;
             foreach (Building target in map.listerThings.AllThings.OfType<Building>()
                 .Where(building => (building.def.IsWall || building is Building_Door)
                     && building.Faction != null
@@ -453,6 +464,11 @@ namespace Helodrace
                 foreach (IntVec3 outside in GenAdj.CellsAdjacentCardinal(target))
                 {
                     IntVec3 inside = target.Position + (target.Position - outside);
+                    if (outside.DistanceTo(plan.Start) >= inside.DistanceTo(plan.Start)
+                        || inside.DistanceTo(plan.Objective)
+                            >= outside.DistanceTo(plan.Objective)
+                        || (indoorObjective && inside.GetRoom(map) != objectiveRoom))
+                        continue;
                     if (!CanWalkRouteCell(map, outside, pathfinder)
                         || !CanWalkRouteCell(map, inside, pathfinder)
                         || avoidedTraps.Contains(outside) || avoidedTraps.Contains(inside)
@@ -462,14 +478,17 @@ namespace Helodrace
                                 PathEndMode.OnCell, TraverseParms.For(pawn)))
                         || !map.reachability.CanReach(inside, plan.Objective,
                             PathEndMode.OnCell, TraverseParms.For(pathfinder))) continue;
-                    float score = outside.DistanceTo(plan.Start)
-                        + inside.DistanceTo(plan.Objective)
-                        + ThreatAt(analysis, fieldThreat, outside) * 0.2f
-                        + (target is Building_Door ? -12f : 0f);
-                    if (score >= bestScore) continue;
+                    float deviation = LineDeviation(outside, plan.Start, plan.Objective);
+                    if (outside.DistanceTo(plan.Start)
+                        + inside.DistanceTo(plan.Objective) + deviation * 4f
+                        >= bestScore) continue;
                     List<IntVec3> candidate = FindRoute(map, analysis, fieldThreat,
                         plan.Start, outside, avoidedTraps, pathfinder);
                     if (candidate.Count == 0) continue;
+                    float score = candidate.Count + inside.DistanceTo(plan.Objective)
+                        + deviation * 4f
+                        + ThreatAt(analysis, fieldThreat, outside) * 0.2f;
+                    if (score >= bestScore) continue;
                     bestScore = score;
                     bestTarget = target;
                     bestOutside = outside;
@@ -541,20 +560,28 @@ namespace Helodrace
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             Pawn pawn, IntVec3 anchor, IntVec3 rear,
             HashSet<IntVec3> occupied,
-            int minimumRadius, int maximumRadius, bool guardAnchor = false)
+            int minimumRadius, int maximumRadius, bool guardAnchor = false,
+            bool behindAnchor = false)
         {
             if (!anchor.IsValid) return IntVec3.Invalid;
-            foreach (IntVec3 cell in GenRadial.RadialCellsAround(anchor, maximumRadius, true)
+            IEnumerable<IntVec3> candidates = GenRadial.RadialCellsAround(anchor,
+                maximumRadius, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !occupied.Contains(cell) && !avoidedTraps.Contains(cell)
                     && cell.DistanceTo(anchor) >= minimumRadius)
                 .Where(cell => !guardAnchor || anchor.GetEdifice(map) is Building_Door
-                    || GenSight.LineOfSight(cell, anchor, map, true))
+                    || GenSight.LineOfSight(cell, anchor, map, true));
+            if (behindAnchor)
+                candidates = candidates.Where(cell =>
+                    (cell.x - anchor.x) * (rear.x - anchor.x)
+                    + (cell.z - anchor.z) * (rear.z - anchor.z) >= 0);
+            foreach (IntVec3 cell in candidates
                 .OrderBy(cell =>
                 {
                     TacticalCellData data = analysis.CachedAt(cell);
                     return ThreatAt(analysis, fieldThreat, cell) * 0.18f + data.TotalThreat * 0.5f
-                        + cell.DistanceTo(anchor) * 0.6f + cell.DistanceTo(rear) * 0.12f;
+                        + cell.DistanceTo(anchor) * 0.6f + cell.DistanceTo(rear) * 0.12f
+                        + (behindAnchor ? LineDeviation(cell, rear, anchor) * 0.3f : 0f);
                 }).Take(24))
                 if (map.reachability.CanReach(pawn.Position, cell, PathEndMode.OnCell,
                     TraverseParms.For(pawn))) return cell;
@@ -661,10 +688,10 @@ namespace Helodrace
                     IntVec3 next = cell + direction;
                     if (!CanWalkRouteCell(map, next, pathfinder)
                         || avoidedTraps.Contains(next)) continue;
-                    // Distance remains dominant; door/wall geometry and the
-                    // current field-pawn snapshot can make a safer detour win.
+                    // Prefer the shortest near-straight route. Threat informs
+                    // the breach choice, not a winding approach into a doorway.
                     int nextCost = cost + 100 + Mathf.RoundToInt(
-                        ThreatAt(analysis, fieldThreat, next) * 10f);
+                        LineDeviation(next, from, to) * 8f);
                     if (distance.TryGetValue(next, out int oldCost) && nextCost >= oldCost) continue;
                     distance[next] = nextCost;
                     previous[next] = cell;
@@ -680,6 +707,19 @@ namespace Helodrace
                     frontier.Add(priority, bucket = new Queue<IntVec3>());
                 bucket.Enqueue(cell);
             }
+        }
+
+        private static float LineDeviation(IntVec3 cell, IntVec3 from, IntVec3 to)
+        {
+            float dx = to.x - from.x;
+            float dz = to.z - from.z;
+            float lengthSquared = dx * dx + dz * dz;
+            if (lengthSquared <= 0f) return cell.DistanceTo(from);
+            float progress = Mathf.Clamp01(((cell.x - from.x) * dx
+                + (cell.z - from.z) * dz) / lengthSquared);
+            float offX = cell.x - (from.x + progress * dx);
+            float offZ = cell.z - (from.z + progress * dz);
+            return Mathf.Sqrt(offX * offX + offZ * offZ);
         }
 
         private static bool IsTraversable(Map map, IntVec3 cell)

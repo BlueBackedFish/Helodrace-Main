@@ -66,11 +66,9 @@ namespace Helodrace
             public RaidExecutionPhase Phase;
             public int PhaseStarted;
             public int ReadySince = -1;
-            public int ApproachWaypointIndex;
-            public Dictionary<int, int> MemberWaypointIndexes = new Dictionary<int, int>();
             public bool ApproachComplete;
-            public bool ApproachRallyComplete;
             public int ApproachProgressTick;
+            public float ApproachBestRemaining = float.MaxValue;
             public int BreachAttempts;
             public Pawn Breacher;
             public Building BreachTarget;
@@ -101,12 +99,10 @@ namespace Helodrace
                 Scribe_Values.Look(ref Phase, "phase");
                 Scribe_Values.Look(ref PhaseStarted, "phaseStarted");
                 Scribe_Values.Look(ref ReadySince, "readySince", -1);
-                Scribe_Values.Look(ref ApproachWaypointIndex, "approachWaypointIndex");
-                Scribe_Collections.Look(ref MemberWaypointIndexes, "memberWaypointIndexes",
-                    LookMode.Value, LookMode.Value);
                 Scribe_Values.Look(ref ApproachComplete, "approachComplete");
-                Scribe_Values.Look(ref ApproachRallyComplete, "approachRallyComplete");
                 Scribe_Values.Look(ref ApproachProgressTick, "approachProgressTick");
+                Scribe_Values.Look(ref ApproachBestRemaining, "approachBestRemaining",
+                    float.MaxValue);
                 Scribe_Values.Look(ref BreachAttempts, "breachAttempts");
                 Scribe_References.Look(ref Breacher, "breacher");
                 Scribe_References.Look(ref BreachTarget, "breachTarget");
@@ -152,11 +148,7 @@ namespace Helodrace
             if (organizationId == null || !states.TryGetValue(organizationId,
                 out ExecutionState state)) return "Inactive";
             if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete)
-            {
-                int count = state.ActivePlan == null ? 0
-                    : ApproachWaypoints(state.ActivePlan).Count;
-                if (count > 0) return $"Approach {Math.Min(state.ApproachWaypointIndex + 1, count)}/{count}";
-            }
+                return "Approach";
             return state.Phase.ToString();
         }
 
@@ -466,12 +458,12 @@ namespace Helodrace
                     if (WaitingForExternalSupport(state, members, tick))
                     {
                         foreach (Pawn pawn in members)
-                            if (pawn.CurJobDef != JobDefOf.Wait_Combat
+                            if ((pawn.CurJobDef != JobDefOf.Wait_Combat
+                                    || pawn.CurJob?.expiryInterval <= 0)
                                 && !IsTaserOperation(pawn)
                                 && map.GetComponent<MapComponent_HelodCasSupport>()
                                     ?.RequiresStationaryGuidance(pawn) != true)
-                                pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
-                                    JobCondition.InterruptForced);
+                                HoldPosition(pawn);
                         break;
                     }
                     if (!FollowApproach(members, plan, state, tick)) break;
@@ -761,79 +753,37 @@ namespace Helodrace
                 .All(assignment => assignment.Pawn.Position.DistanceTo(cell) <= radius);
         }
 
-        private static List<IntVec3> ApproachWaypoints(RaidTacticalPlan plan)
-        {
-            List<IntVec3> path = plan.ApproachPath;
-            if (path == null || path.Count < 5) return new List<IntVec3>();
-            int last = plan.Selected?.Maneuver == RaidTacticalManeuver.FlankAttack
-                ? path.IndexOf(plan.Flank) : path.Count - 4;
-            if (last < 2) return new List<IntVec3>();
-            var waypoints = new List<IntVec3>();
-            for (int i = 3; i < last; i += 3) waypoints.Add(path[i]);
-            waypoints.Add(path[last]);
-            return waypoints;
-        }
-
         private static bool FollowApproach(List<Pawn> members, RaidTacticalPlan plan,
             ExecutionState state, int tick)
         {
             if (state.ApproachComplete) return true;
-            List<IntVec3> waypoints = ApproachWaypoints(plan);
-            List<Pawn> group = plan.Assignments
+            List<RaidTacticalAssignment> group = plan.Assignments
                 .Where(assignment => assignment.Task != RaidTacticalTask.Withdraw
                     && members.Contains(assignment.Pawn))
-                .Select(assignment => assignment.Pawn).ToList();
+                .ToList();
             if (group.Count == 0)
             {
                 state.ApproachComplete = true;
                 return true;
             }
-            if (state.MemberWaypointIndexes == null)
-                state.MemberWaypointIndexes = new Dictionary<int, int>();
-            if (!state.ApproachRallyComplete)
+            float remaining = 0f;
+            foreach (RaidTacticalAssignment assignment in group)
             {
-                foreach (Pawn pawn in group)
-                    if (pawn.Position.DistanceTo(plan.Start) > 4f)
-                        TryGoto(pawn, plan.Start);
-                if (group.Any(pawn => pawn.Position.DistanceTo(plan.Start) > 4f))
-                    return false;
-                state.ApproachRallyComplete = true;
+                Pawn pawn = assignment.Pawn;
+                float distance = pawn.Position.DistanceTo(assignment.Position);
+                remaining += distance;
+                if (distance <= 9f || IsTaserOperation(pawn)) continue;
+                IntVec3 target = CorridorReturn(pawn, plan.ApproachPath,
+                    assignment.Position);
+                TryGoto(pawn, target);
+            }
+            if (remaining + 1f < state.ApproachBestRemaining)
+            {
+                state.ApproachBestRemaining = remaining;
                 state.ApproachProgressTick = tick;
             }
-            if (waypoints.Count == 0)
-            {
-                state.ApproachComplete = true;
-                state.PhaseStarted = tick;
-                state.ReadySince = -1;
-                return true;
-            }
-            int rearIndex = group.Min(pawn => state.MemberWaypointIndexes
-                .TryGetValue(pawn.thingIDNumber, out int index) ? index : 0);
-            int maximumLead = Math.Max(3, (group.Count + 2) / 3);
-            foreach (Pawn pawn in group)
-            {
-                int id = pawn.thingIDNumber;
-                state.MemberWaypointIndexes.TryGetValue(id, out int index);
-                if (index >= waypoints.Count) continue;
-                if (index >= rearIndex + maximumLead)
-                {
-                    if (pawn.CurJobDef == JobDefOf.Goto)
-                        pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
-                            JobCondition.InterruptForced);
-                    continue;
-                }
-                IntVec3 waypoint = waypoints[index];
-                if (pawn.Position.DistanceTo(waypoint) <= 1.5f)
-                {
-                    state.MemberWaypointIndexes[id] = index + 1;
-                    state.ApproachProgressTick = tick;
-                }
-                else if (!IsTaserOperation(pawn)) TryGoto(pawn, waypoint);
-            }
-            state.ApproachWaypointIndex = group.Min(pawn =>
-                state.MemberWaypointIndexes.TryGetValue(pawn.thingIDNumber,
-                    out int index) ? index : 0);
-            if (state.ApproachWaypointIndex >= waypoints.Count)
+            if (group.All(assignment => assignment.Pawn.Position
+                    .DistanceTo(assignment.Position) <= 9f))
             {
                 state.ApproachComplete = true;
                 state.PhaseStarted = tick;
@@ -841,6 +791,28 @@ namespace Helodrace
                 return true;
             }
             return false;
+        }
+
+        private static IntVec3 CorridorReturn(Pawn pawn, List<IntVec3> path,
+            IntVec3 destination)
+        {
+            if (path == null || path.Count == 0) return destination;
+            int nearest = 0;
+            float deviation = float.MaxValue;
+            for (int i = 0; i < path.Count; i++)
+            {
+                float distance = pawn.Position.DistanceToSquared(path[i]);
+                if (distance >= deviation) continue;
+                nearest = i;
+                deviation = distance;
+            }
+            // The route is a broad corridor, not a sequence of mandatory cells.
+            // Only a substantial detour calls for a return toward its forward edge.
+            if (deviation <= 64f) return destination;
+            IntVec3 returnCell = path[Math.Min(nearest + 6, path.Count - 1)];
+            return returnCell.DistanceTo(destination) > 9f
+                && pawn.CanReach(returnCell, PathEndMode.OnCell, Danger.Deadly)
+                ? returnCell : destination;
         }
 
         private void IssueFlank(List<Pawn> members, RaidTacticalPlan plan)
@@ -872,7 +844,8 @@ namespace Helodrace
                 if (!members.Contains(pawn) || !assignment.Position.IsValid
                     || (skipResponse && assignment.Task == RaidTacticalTask.Response)) continue;
                 if (IsTaserOperation(pawn)) continue;
-                if (pawn.Position.DistanceTo(assignment.Position) > 1.5f)
+                float readyRadius = ReadyRadius(plan, assignment);
+                if (pawn.Position.DistanceTo(assignment.Position) > readyRadius)
                     TryGoto(pawn, assignment.Position);
                 else if (assignment.Task == RaidTacticalTask.Withdraw
                     && TcccUtility.HasTraining(pawn)
@@ -881,9 +854,9 @@ namespace Helodrace
                     if (pawn.CurJobDef?.defName != "HD_TCCC_Treat")
                         TcccUtility.Start(pawn, pawn, TcccTreatment.SelfHemostasis);
                 }
-                else if (pawn.CurJobDef != JobDefOf.Wait_Combat)
-                    pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
-                        JobCondition.InterruptForced);
+                else if (pawn.CurJobDef != JobDefOf.Wait_Combat
+                    || pawn.CurJob?.expiryInterval <= 0)
+                    HoldPosition(pawn);
             }
         }
 
@@ -992,8 +965,7 @@ namespace Helodrace
                     && GenSight.LineOfSight(pawn.Position, enemy.Position, map, true))
                 {
                     if (pawn.CurJobDef == JobDefOf.Goto)
-                        pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
-                            JobCondition.InterruptForced);
+                        HoldPosition(pawn);
                     continue;
                 }
                 IntVec3 target = GenRadial.RadialCellsAround(enemy.Position, 11f, true)
@@ -1130,7 +1102,23 @@ namespace Helodrace
         private static bool AllReady(List<Pawn> members, RaidTacticalPlan plan)
         {
             return plan.Assignments.Where(assignment => members.Contains(assignment.Pawn))
-                .All(assignment => assignment.Pawn.Position.DistanceTo(assignment.Position) <= 1.5f);
+                .All(assignment => assignment.Pawn.Position.DistanceTo(assignment.Position)
+                    <= ReadyRadius(plan, assignment));
+        }
+
+        private static float ReadyRadius(RaidTacticalPlan plan,
+            RaidTacticalAssignment assignment)
+        {
+            if (plan.PlannedBreach == null || assignment.Task == RaidTacticalTask.Withdraw)
+                return 1.5f;
+            return assignment.Task == RaidTacticalTask.Entry ? 2.5f : 8f;
+        }
+
+        private static void HoldPosition(Pawn pawn)
+        {
+            Job job = JobMaker.MakeJob(JobDefOf.Wait_Combat);
+            job.expiryInterval = 120;
+            pawn.jobs.StartJob(job, JobCondition.InterruptForced);
         }
 
         private static void TryGoto(Pawn pawn, IntVec3 cell, bool sprint = false,
