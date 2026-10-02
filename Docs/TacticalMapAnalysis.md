@@ -70,6 +70,8 @@ throws are suppressed near friendlies. Indoor throws target reachable cells
 inside the objective room near the entry. The executor uses the existing
 inventory grenade, power-cutter, and C4 jobs; it does not create a separate
 weapon or projectile implementation.
+LOW indoor entries prefer an available MK III offensive grenade bearer over
+an MK II fragmentation grenade bearer.
 For C4, the executor uses an existing shock-tube igniter and installation job.
 It sends all available members outside the charge's fragment radius before
 triggering. If that separation cannot be achieved in time, it removes the

@@ -685,7 +685,10 @@ namespace Helodrace
                         && cell.GetRoom(currentMap) == objectiveRoom
                         && cell.DistanceTo(plan.Entry) >= 2f)
                     .OrderBy(cell => cell.DistanceTo(plan.Entry));
-            foreach (Pawn pawn in members)
+            foreach (Pawn pawn in members.OrderBy(value =>
+                entry && plan.Doctrine == RaidTacticalDoctrine.Low
+                    && InventoryGrenadeUtility.GrenadeStacks(value)
+                        .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1))
             {
                 Thing grenade = InventoryGrenadeUtility.GrenadeStacks(pawn).FirstOrDefault(item =>
                     smoke ? item.def.defName == "HD_Grenade_M8_Item"
