@@ -93,55 +93,37 @@ is intentionally not written into player saves.
   records every crossed killzone type, and returns advance/breach/avoid/air-insert.
 - `At()`, `ThreatAt()`, and `StrategicValueAt()` are the low-level path-cost APIs.
 
-## Assault planner and test UI
+## Raid tactical planning and developer view
 
-`TacticalAssaultPlanner.MakePlan()` builds either a heliborne or sabotage plan.
-Heliborne planning selects a valid MH-60 hover/rope pair near a high-value objective.
-Sabotage planning ranks map-edge ingress points, tests the six best candidates, and
-prefers power generation, batteries, communications, and defenses as objectives.
+The previous heliborne/sabotage path tester has been removed. The raid planner now
+reads a spawned `CombatOrganization`, its surviving members and command state,
+their actual grenade and breach equipment, and the tactical map analysis. It
+chooses a strategic objective, measures direct and flank exposure, and ranks the
+three best currently feasible maneuvers. Baseline choices remain available when
+the force has no special equipment. Reduced command efficiency can select the
+second or third choice.
+When no strategic site exists, the planner uses the defending force's position as
+its field objective.
 
-The A* route cost combines movement, threat exposure, doors, and selected breach
-equipment. Impassable cells are accepted only when the existing
-`BreachExplosiveUtility.IsValidWall()` or
-`CompPowerCutterBreach.IsValidBreachTarget()` accepts the structure. Explosive
-steps use the installed-charge C-4 requirement and work settings; cutter steps use
-the cutter's non-player HP curve model. The result records the selected attack
-point, insertion/hover cells, objective, complete route, every breach and method,
-total C-4, crossed killzones, cost, threat exposure, and expanded-node count.
+LOW doctrine can plan a lethal grenade before an enclosed entry unless friendly
+members are inside. HIGH doctrine favors identified nonlethal support and can
+choose trap reconnaissance before advancing. Both can consider smoke, flanking,
+defending, or regrouping. The plan assigns entry order (the available commander
+is second), security and fire-support positions, and withdrawal positions for
+critically wounded members. Staging cells stay at least three cells from the
+entry and are checked for reachability; HIGH doctrine rejects detected trap cells.
+LOW doctrine does not use trap information when it compares approaches.
+The approach lines are tactical waypoints, not a complete movement path.
+LOW doctrine adds coordination time when members are separated or blocked by walls;
+HIGH doctrine uses a shorter radio-supported allowance.
 
-After routing, the entry evaluator distinguishes direct entry, a single flank
-breach, simultaneous explosive flanks, a smoke-covered assault, and avoidance. For
-a strongly directional killzone it searches hostile walls whose breach normal is
-roughly perpendicular to the firing axis, ranks them by local threat and objective
-distance, and can nominate two or three separated C-4 points for simultaneous
-detonation. The report includes their combined C-4 requirement and reduced exposure
-estimate; this is planning data and does not itself issue breach jobs.
-
-The evaluator also counts defenders in the first breached room (falling back to the
-objective area) and scores their weapons and combat skills. It can suggest and then
-select from available support:
-
-- M111 offensive grenade (`HD_Grenade_M111_Item`) for a dense, high-threat compact
-  room when destroying a high-value objective is not a concern.
-- M84 flashbang (`HD_Grenade_M84_Item`) for close rooms or valuable objectives.
-- M7A2 CS grenade (`HD_Grenade_M7A2_Item`) for multiple defenders in a room with
-  enough volume for gas employment.
-- M8 smoke grenade (`HD_Grenade_M8_Item`) to force a ranged barrel/shooting killzone.
-  Smoke is not treated as mitigation when temperature or melee killzone traits are
-  also crossed.
-
-Open `Helodrace/Tactical AI > Open assault path tester` to use the standalone test
-window. It provides:
-
-- Heliborne or Sabotage mode.
-- Independent checkboxes for explosive charges and power cutters.
-- Independent availability checkboxes for offensive, flashbang, CS, and smoke
-  grenades.
-- Automatic or map-picked insertion and objective cells.
-- Calculation timing and detailed breach/path report.
-- Persistent route overlay: cyan route, green insertion, yellow attack point,
-  magenta objective, red C-4 breaches, amber cutter breaches, separated synchronized
-  charge rings, and the dominant incoming-fire axis.
+`MapComponent_RaidTacticalPlans` refreshes plans after changes to surviving
+members, commander, or grenade inventory, and otherwise at most every 900 ticks.
+Plans are runtime data and are rebuilt after loading a save. Open
+`Helodrace/Tactical AI > Open raid tactical plans` to inspect active organizations,
+ranked scores, assigned positions, and map nodes, or force immediate evaluation.
+The planner only produces decisions and visualizations; issuing movement, throw,
+breach, or external-support jobs belongs to a separate execution layer.
 
 Developer-mode actions under `Helodrace/Tactical AI` rebuild/summarize the maps,
 draw the 3,000 highest-value or highest-threat cells, and inspect all channels

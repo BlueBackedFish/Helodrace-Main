@@ -13,11 +13,11 @@ namespace Helodrace
 
         [DebugAction(
             "Helodrace/Tactical AI",
-            "Open assault path tester",
+            "Open raid tactical plans",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void OpenAssaultPathTester()
+        public static void OpenRaidTacticalPlans()
         {
-            TacticalAssaultTestSession.Open(Find.CurrentMap);
+            RaidTacticalDebugSession.Open(Find.CurrentMap);
         }
 
         [DebugAction(
