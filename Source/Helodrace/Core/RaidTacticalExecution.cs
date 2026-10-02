@@ -165,6 +165,10 @@ namespace Helodrace
             return state.Phase.ToString();
         }
 
+        private static RaidStructureSnapshot StructureFor(Map map, RaidTacticalPlan plan) =>
+            map.GetComponent<MapComponent_RaidTacticalPlans>()
+                ?.GetStructure(plan.OrganizationId);
+
         public override void MapComponentTick()
         {
             base.MapComponentTick();
@@ -447,8 +451,10 @@ namespace Helodrace
 
             IntVec3 objective = state.Objective;
             if (!objective.IsValid || !objective.InBounds(map)) return false;
-            Room room = objective.GetRoom(map);
-            bool indoors = room != null && !room.PsychologicallyOutdoors;
+            RaidStructureSnapshot structure = StructureFor(map, state.ActivePlan);
+            if (structure == null) return false;
+            int room = structure.RoomAt(objective);
+            bool indoors = room > 0;
             if (indoors != (state.Phase == RaidExecutionPhase.SecureRoom)) return false;
 
             List<Pawn> entry = state.ActivePlan.Assignments
@@ -457,7 +463,7 @@ namespace Helodrace
                 .Select(assignment => assignment.Pawn).Distinct().ToList();
             if (entry.Count == 0) return false;
             int atObjective = entry.Count(pawn => indoors
-                ? pawn.Position.GetRoom(map) == room
+                ? structure.RoomAt(pawn.Position) == room
                 : pawn.Position.DistanceTo(objective) <= 9f);
             if (atObjective * 2 < entry.Count) return false;
 
@@ -466,7 +472,7 @@ namespace Helodrace
                 && !enemy.Downed && enemy.Faction != null
                 && enemy.Faction.HostileTo(organization.faction)
                 && (enemy.Position.DistanceTo(objective) <= dangerRadius
-                    || (indoors && enemy.Position.GetRoom(map) == room)))) return false;
+                    || (indoors && structure.RoomAt(enemy.Position) == room)))) return false;
 
             Lord lord = members[0].GetLord();
             if (lord == null || members.Any(pawn => pawn.GetLord() != lord)) return false;
@@ -668,7 +674,7 @@ namespace Helodrace
                         RaidTacticalSpeech.Say(Commander(organization, members),
                             "HD_RaidTactical_MoveIn");
                         IssueAssault(members, plan);
-                        Advance(state, plan.Objective.GetRoom(map)?.PsychologicallyOutdoors == false
+                        Advance(state, StructureFor(map, plan)?.IsIndoor(plan.Objective) == true
                             ? RaidExecutionPhase.ClearRoom : RaidExecutionPhase.Complete, tick);
                     }
                     break;
@@ -1104,7 +1110,7 @@ namespace Helodrace
         private void TryRequestExternalSupport(CombatOrganization organization,
             List<Pawn> members, RaidTacticalPlan plan, ExecutionState state)
         {
-            if (plan.Objective.GetRoom(map)?.PsychologicallyOutdoors == false
+            if (StructureFor(map, plan)?.IsIndoor(plan.Objective) == true
                 || Find.WorldObjects == null) return;
             List<HelodForwardBase> bases = Find.WorldObjects.AllWorldObjects
                 .OfType<HelodForwardBase>()
@@ -1442,12 +1448,14 @@ namespace Helodrace
             bool fieldGrenade = maneuver == RaidTacticalManeuver.FieldGrenade;
             if (!smoke && !entry && !fieldGrenade) return null;
             Map currentMap = members[0].Map;
-            Room objectiveRoom = plan.Objective.GetRoom(currentMap);
+            RaidStructureSnapshot structure = StructureFor(currentMap, plan);
+            int objectiveRoom = structure?.RoomAt(plan.Objective) ?? 0;
             if (entry && plan.Doctrine == RaidTacticalDoctrine.Low
                 && currentMap.mapPawns.AllPawnsSpawned.Any(pawn => pawn.Faction == members[0].Faction
                     && (plan.BreachCell.IsValid
                         ? PastBreach(pawn, plan)
-                        : pawn.Position.GetRoom(currentMap) == objectiveRoom))) return null;
+                        : objectiveRoom > 0
+                            && structure.RoomAt(pawn.Position) == objectiveRoom))) return null;
             IEnumerable<IntVec3> targets = smoke
                 ? (IEnumerable<IntVec3>)new[] { plan.Frontline }
                 : fieldGrenade
@@ -1459,7 +1467,7 @@ namespace Helodrace
                         .Distinct()
                         .OrderBy(cell => cell.DistanceTo(plan.Frontline))
                         .ToList()
-                : EntryGrenadeTargets(currentMap, plan, objectiveRoom);
+                : EntryGrenadeTargets(currentMap, plan, structure, objectiveRoom);
             foreach (Pawn pawn in members.OrderBy(value => value == preferred ? -1
                 : entry && plan.Doctrine == RaidTacticalDoctrine.Low
                     && InventoryGrenadeUtility.GrenadeStacks(value)
@@ -1492,12 +1500,13 @@ namespace Helodrace
         }
 
         private static IEnumerable<IntVec3> EntryGrenadeTargets(Map map,
-            RaidTacticalPlan plan, Room objectiveRoom)
+            RaidTacticalPlan plan, RaidStructureSnapshot structure, int objectiveRoom)
         {
             if (!plan.BreachCell.IsValid)
                 return GenRadial.RadialCellsAround(plan.Entry, 7f, true)
                     .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                        && cell.GetRoom(map) == objectiveRoom
+                        && structure != null && objectiveRoom > 0
+                        && structure.RoomAt(cell) == objectiveRoom
                         && cell.DistanceTo(plan.Entry) >= 2f)
                     .OrderBy(cell => cell.DistanceTo(plan.Entry));
             IntVec3 inward = plan.BreachInside - plan.BreachCell;
@@ -1546,8 +1555,9 @@ namespace Helodrace
                 TryGoto(state.Thrower, plan.Entry);
                 return true;
             }
+            RaidStructureSnapshot structure = StructureFor(map, plan);
             List<IntVec3> targets = EntryGrenadeTargets(map, plan,
-                plan.Objective.GetRoom(map)).ToList();
+                structure, structure?.RoomAt(plan.Objective) ?? 0).ToList();
             foreach (Pawn pawn in members)
             {
                 if (IsTaserOperation(pawn)
@@ -1569,9 +1579,10 @@ namespace Helodrace
         private void IssueAssault(List<Pawn> members, RaidTacticalPlan plan)
         {
             Map currentMap = members[0].Map;
-            Room objectiveRoom = plan.Objective.GetRoom(currentMap);
+            RaidStructureSnapshot structure = StructureFor(currentMap, plan);
+            int objectiveRoom = structure?.RoomAt(plan.Objective) ?? 0;
             bool highIndoor = plan.Doctrine == RaidTacticalDoctrine.High
-                && objectiveRoom != null && !objectiveRoom.PsychologicallyOutdoors;
+                && objectiveRoom > 0;
             var occupied = new HashSet<IntVec3>();
             foreach (RaidTacticalAssignment assignment in plan.Assignments
                 .Where(value => value.Task == RaidTacticalTask.Entry)
@@ -1580,7 +1591,7 @@ namespace Helodrace
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn) || IsTaserOperation(pawn)) continue;
                 IntVec3 target = highIndoor
-                    ? FindHighEntryCell(pawn, plan, objectiveRoom, occupied)
+                    ? FindHighEntryCell(pawn, plan, structure, objectiveRoom, occupied)
                     : IntVec3.Invalid;
                 if (!target.IsValid)
                     target = GenRadial.RadialCellsAround(plan.Objective, 4f, true)
@@ -1596,7 +1607,8 @@ namespace Helodrace
         }
 
         private IntVec3 FindHighEntryCell(Pawn pawn, RaidTacticalPlan plan,
-            Room objectiveRoom, HashSet<IntVec3> occupied)
+            RaidStructureSnapshot structure, int objectiveRoom,
+            HashSet<IntVec3> occupied)
         {
             float dx = plan.Entry.x - plan.Start.x;
             float dz = plan.Entry.z - plan.Start.z;
@@ -1609,7 +1621,7 @@ namespace Helodrace
             float side = order % 2 == 1 ? 1f : -1f;
             return GenRadial.RadialCellsAround(plan.Entry, 9f, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                    && cell.GetRoom(map) == objectiveRoom
+                    && structure.RoomAt(cell) == objectiveRoom
                     && !occupied.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell))
                 .Select(cell => new
                 {
@@ -1632,14 +1644,14 @@ namespace Helodrace
 
         private void IssueRoomSecurity(List<Pawn> members, RaidTacticalPlan plan)
         {
-            Room room = plan.Objective.GetRoom(map);
-            if (room == null || room.PsychologicallyOutdoors) return;
-            MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
-            if (analysis == null) return;
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            int room = structure?.RoomAt(plan.Objective) ?? 0;
+            if (room == 0) return;
             var occupied = new List<IntVec3>();
             List<IntVec3> sectors = GenRadial.RadialCellsAround(plan.Objective, 11f, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                    && cell.GetRoom(map) == room && !plan.AvoidedTrapCells.Contains(cell)
+                    && structure.RoomAt(cell) == room
+                    && !plan.AvoidedTrapCells.Contains(cell)
                     && cell.DistanceTo(plan.Entry) >= 2f)
                 .ToList();
             foreach (RaidTacticalAssignment assignment in plan.Assignments
@@ -1651,12 +1663,12 @@ namespace Helodrace
                     || IsTaserOperation(pawn)) continue;
                 if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
                     && enemy.Faction != null && enemy.Faction.HostileTo(pawn.Faction)
-                    && enemy.Position.GetRoom(map) == room
+                    && structure.RoomAt(enemy.Position) == room
                     && enemy.Position.DistanceTo(pawn.Position) <= 6f)) continue;
                 IntVec3 sector = sectors
                     .Where(cell => occupied.All(other => cell.DistanceTo(other) >= 3f))
-                    .OrderByDescending(cell => analysis.At(cell).DoorThreat * 2f
-                        + analysis.At(cell).WallThreat
+                    .OrderByDescending(cell => structure.CachedAt(cell).DoorThreat * 2f
+                        + structure.CachedAt(cell).WallThreat
                         + DoorStateScore(cell)
                         + (occupied.Count == 0 ? 0f
                             : occupied.Min(other => cell.DistanceTo(other)) * 0.5f)
@@ -1685,34 +1697,37 @@ namespace Helodrace
         private bool RoomSecured(CombatOrganization organization, List<Pawn> members,
             RaidTacticalPlan plan)
         {
-            Room room = plan.Objective.GetRoom(map);
-            if (room == null || room.PsychologicallyOutdoors) return false;
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            int room = structure?.RoomAt(plan.Objective) ?? 0;
+            if (room == 0) return false;
             List<Pawn> entry = EntryPawns(members, plan);
             if (entry.Count == 0 || entry.Count(pawn =>
-                pawn.Position.GetRoom(map) == room) * 2 < entry.Count) return false;
+                structure.RoomAt(pawn.Position) == room) * 2 < entry.Count) return false;
             return !map.mapPawns.AllPawnsSpawned.Any(pawn => !pawn.Dead
                 && !pawn.Downed && pawn.Faction != null
                 && pawn.Faction.HostileTo(organization.faction)
-                && pawn.Position.GetRoom(map) == room);
+                && structure.RoomAt(pawn.Position) == room);
         }
 
         private bool TryPlanNextRoom(CombatOrganization organization,
             List<Pawn> members, RaidTacticalPlan current,
             ExecutionState state, int tick)
         {
+            RaidStructureSnapshot structure = StructureFor(map, current);
+            if (structure == null) return false;
             if (!state.ClearedRoomCells.Contains(current.Objective))
                 state.ClearedRoomCells.Add(current.Objective);
             state.ClearingRooms = true;
-            if (current.Objective.GetRoom(map)
-                == state.FinalObjective.GetRoom(map))
+            if (structure.RoomAt(current.Objective)
+                == structure.RoomAt(state.FinalObjective))
                 state.BedSecured = true;
             if (!state.BedSecured && state.FinalObjective.IsValid)
             {
                 RaidTacticalPlan bedPlan = RaidTacticalPlanner.MakePlan(map,
                     organization, state.FinalObjective);
                 if (bedPlan?.Success == true
-                    && bedPlan.Objective.GetRoom(map)
-                        != current.Objective.GetRoom(map))
+                    && structure.RoomAt(bedPlan.Objective)
+                        != structure.RoomAt(current.Objective))
                 {
                     ActivateNextRoomPlan(organization, members, state,
                         bedPlan, tick);
@@ -1720,23 +1735,18 @@ namespace Helodrace
                 }
             }
             IntVec3 start = members[0].Position;
-            IEnumerable<IntVec3> anchors = map.listerThings.AllThings
-                .OfType<Building>()
-                .Where(building => building.Faction == Faction.OfPlayer
-                    && !building.def.IsWall && !(building is Building_Door))
-                .Select(building => building.Position)
+            IEnumerable<IntVec3> anchors = structure.ObjectiveAnchors
                 .Concat(map.mapPawns.AllPawnsSpawned
                     .Where(pawn => !pawn.Dead && pawn.Faction != null
                         && pawn.Faction.HostileTo(organization.faction))
                     .Select(pawn => pawn.Position));
-            HashSet<Room> cleared = new HashSet<Room>(state.ClearedRoomCells
+            HashSet<int> cleared = new HashSet<int>(state.ClearedRoomCells
                 .Where(cell => cell.InBounds(map))
-                .Select(cell => cell.GetRoom(map)).Where(room => room != null));
-            foreach (IGrouping<Room, IntVec3> group in anchors
+                .Select(structure.RoomAt).Where(room => room > 0));
+            foreach (IGrouping<int, IntVec3> group in anchors
                 .Where(cell => cell.InBounds(map))
-                .GroupBy(cell => cell.GetRoom(map))
-                .Where(group => group.Key != null
-                    && !group.Key.PsychologicallyOutdoors
+                .GroupBy(structure.RoomAt)
+                .Where(group => group.Key > 0
                     && !cleared.Contains(group.Key))
                 .OrderBy(group => group.Min(cell => cell.DistanceTo(start)
                     + cell.DistanceTo(state.FinalObjective) * 0.15f)))
@@ -1744,7 +1754,7 @@ namespace Helodrace
                 IntVec3 target = group.SelectMany(anchor =>
                         GenRadial.RadialCellsAround(anchor, 6f, true))
                     .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                        && cell.GetRoom(map) == group.Key)
+                        && structure.RoomAt(cell) == group.Key)
                     .OrderBy(cell => cell.DistanceTo(start))
                     .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
@@ -1795,8 +1805,9 @@ namespace Helodrace
         private bool TryCounterClosingDoor(List<Pawn> members,
             RaidTacticalPlan plan, string previousState)
         {
-            Room room = plan.Objective.GetRoom(map);
-            if (room == null || room.PsychologicallyOutdoors) return false;
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            int room = structure?.RoomAt(plan.Objective) ?? 0;
+            if (room == 0) return false;
             HashSet<string> openIds = new HashSet<string>((previousState ?? "")
                 .Split(',').Where(value => value.EndsWith(":1"))
                 .Select(value => value.Substring(0, value.Length - 2)));
@@ -1810,13 +1821,13 @@ namespace Helodrace
                     !enemy.Dead && !enemy.Downed && enemy.Faction != null
                     && enemy.Faction.HostileTo(members[0].Faction)
                     && enemy.Position.DistanceTo(door.Position) <= 4f
-                    && enemy.Position.GetRoom(map) != room);
+                    && structure.RoomAt(enemy.Position) != room);
                 if (!enemyOutside) continue;
                 IntVec3 target = new[] { IntVec3.North, IntVec3.East,
                         IntVec3.South, IntVec3.West }
                     .Select(direction => door.Position + direction)
                     .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                        && cell.GetRoom(map) == room)
+                        && structure.RoomAt(cell) == room)
                     .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
                 foreach (Pawn pawn in members.OrderBy(value =>

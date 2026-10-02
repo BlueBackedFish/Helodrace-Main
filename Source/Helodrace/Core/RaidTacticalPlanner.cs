@@ -100,13 +100,13 @@ namespace Helodrace
                 return plan;
             }
 
-            MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
+            RaidStructureSnapshot analysis = map.GetComponent<MapComponent_RaidTacticalPlans>()
+                ?.GetStructure(organization);
             if (analysis == null)
             {
                 plan.Reason = "Tactical map analysis is unavailable.";
                 return plan;
             }
-            analysis.RequestAnalysis();
             plan.Doctrine = organization.faction?.def?.defName == "HD_HelodCivilHighFaction"
                 ? RaidTacticalDoctrine.High : RaidTacticalDoctrine.Low;
             HashSet<IntVec3> avoidedTraps = plan.Doctrine == RaidTacticalDoctrine.High
@@ -114,7 +114,7 @@ namespace Helodrace
             plan.AvoidedTrapCells = avoidedTraps;
             IntVec3 center = Center(members.Select(pawn => pawn.Position));
             Pawn pathfinder = members.OrderBy(pawn => pawn.Position.DistanceToSquared(center)).First();
-            var navigation = new RaidNavigationSnapshot(map, analysis, pathfinder);
+            var navigation = new RaidNavigationSnapshot(map, pathfinder);
             plan.Start = pathfinder.Position;
             List<Pawn> hostiles = map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.Faction != null
                 && pawn.Faction.HostileTo(organization.faction) && !pawn.Dead).ToList();
@@ -145,8 +145,8 @@ namespace Helodrace
                 plan.Reason = "No visible defender or reachable advance cell was found.";
                 return plan;
             }
-            Room objectiveRoom = plan.Objective.GetRoom(map);
-            bool field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
+            int objectiveRoom = analysis.RoomAt(plan.Objective);
+            bool field = objectiveRoom == 0;
             FieldThreatSnapshot fieldThreat = new FieldThreatSnapshot(map, hostiles);
             bool needsBreach = !map.reachability.CanReach(plan.Start, plan.Objective,
                 PathEndMode.OnCell, TraverseParms.For(pathfinder));
@@ -155,15 +155,15 @@ namespace Helodrace
                 out List<IntVec3> breachRoute))
             {
                 plan.ApproachPath.AddRange(breachRoute);
-                objectiveRoom = plan.Objective.GetRoom(map);
-                field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
+                objectiveRoom = analysis.RoomAt(plan.Objective);
+                field = objectiveRoom == 0;
             }
             else if (needsBreach && !plan.ObjectiveIsNamedBed
                 && !objectiveOverride.HasValue && contact == null && reachableAdvance.IsValid)
             {
                 plan.Objective = reachableAdvance;
-                objectiveRoom = plan.Objective.GetRoom(map);
-                field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
+                objectiveRoom = analysis.RoomAt(plan.Objective);
+                field = objectiveRoom == 0;
                 fieldThreat = new FieldThreatSnapshot(map, hostiles);
                 plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
                     plan.Objective, pathfinder);
@@ -233,10 +233,10 @@ namespace Helodrace
                         BreachInitiationMode.ShockTube, false) != null
                     && BreachExplosiveUtility.CountInInventory(pawn,
                         BreachExplosiveUtility.C4Def) > 0);
-            Room room = objectiveRoom;
             bool indoor = !field;
             bool friendlyInside = indoor && map.mapPawns.AllPawnsSpawned.Any(pawn =>
-                pawn.Faction == organization.faction && pawn.Position.GetRoom(map) == room);
+                pawn.Faction == organization.faction
+                    && analysis.RoomAt(pawn.Position) == objectiveRoom);
             bool nearbyHostile = map.mapPawns.AllPawnsSpawned.Any(pawn => pawn.Faction != null
                 && pawn.Faction.HostileTo(organization.faction)
                 && pawn.Position.DistanceTo(plan.Start) <= 18f);
@@ -321,7 +321,7 @@ namespace Helodrace
             return plan;
         }
 
-        private static void AssignPositions(Map map, MapComponent_TacticalMapAnalysis analysis,
+        private static void AssignPositions(Map map, RaidStructureSnapshot analysis,
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             CombatOrganization organization, List<Pawn> members, RaidTacticalPlan plan)
         {
@@ -471,7 +471,7 @@ namespace Helodrace
         }
 
         private static IntVec3 FindSniperCell(Map map,
-            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            RaidStructureSnapshot analysis, FieldThreatSnapshot fieldThreat,
             HashSet<IntVec3> avoidedTraps, Pawn sniper, IntVec3 center,
             IntVec3 target, HashSet<IntVec3> occupied)
         {
@@ -492,7 +492,7 @@ namespace Helodrace
             return IntVec3.Invalid;
         }
 
-        private static IntVec3 FindEntry(Map map, MapComponent_TacticalMapAnalysis analysis,
+        private static IntVec3 FindEntry(Map map, RaidStructureSnapshot analysis,
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             IntVec3 objective, Pawn pathfinder)
         {
@@ -510,7 +510,7 @@ namespace Helodrace
         }
 
         private static bool TryFindPlannedBreach(Map map,
-            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            RaidStructureSnapshot analysis, FieldThreatSnapshot fieldThreat,
             HashSet<IntVec3> avoidedTraps, CombatOrganization organization,
             List<Pawn> members, Pawn pathfinder, RaidNavigationSnapshot navigation,
             RaidTacticalPlan plan, out List<IntVec3> route)
@@ -644,7 +644,7 @@ namespace Helodrace
                     + meanExposure * 0.5f + peakExposure * 0.7f
                     + fieldThreat.At(candidate.Outside) * 0.5f
                     + (candidate.ReachesObjective ? 0f : 15f)
-                    + (candidate.Outside.GetRoom(map)?.PsychologicallyOutdoors == false
+                    + (analysis.IsIndoor(candidate.Outside)
                         && map.roofGrid.RoofAt(candidate.Outside) != null ? 24f : 0f)
                     + (candidate.Target is Building_Door
                         ? candidate.Breachers.Any(value => value.Sledge)
@@ -722,7 +722,7 @@ namespace Helodrace
             }
         }
 
-        private static bool HasWallContour(MapComponent_TacticalMapAnalysis analysis,
+        private static bool HasWallContour(RaidStructureSnapshot analysis,
             Building target,
             IntVec3 outside)
         {
@@ -740,7 +740,7 @@ namespace Helodrace
             return span >= 3;
         }
 
-        private static IntVec3 FindFlank(Map map, MapComponent_TacticalMapAnalysis analysis,
+        private static IntVec3 FindFlank(Map map, RaidStructureSnapshot analysis,
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             Pawn pathfinder, IntVec3 start, IntVec3 entry,
             out List<IntVec3> bestRoute)
@@ -779,7 +779,7 @@ namespace Helodrace
         }
 
         private static IntVec3 FindWallStackCell(Map map,
-            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            RaidStructureSnapshot analysis, FieldThreatSnapshot fieldThreat,
             HashSet<IntVec3> avoidedTraps, Pawn pawn, RaidTacticalPlan plan,
             HashSet<IntVec3> occupied, int order,
             IReadOnlyList<IntVec3> safeCells = null)
@@ -808,12 +808,12 @@ namespace Helodrace
         }
 
         private static List<IntVec3> WallStackCells(Map map,
-            MapComponent_TacticalMapAnalysis analysis, RaidTacticalPlan plan,
+            RaidStructureSnapshot analysis, RaidTacticalPlan plan,
             HashSet<IntVec3> avoidedTraps, bool checkGrenadeSafety = true)
         {
             IntVec3 outward = plan.Entry - plan.BreachCell;
             IntVec3 along = new IntVec3(-outward.z, 0, outward.x);
-            Room outsideRoom = plan.Entry.GetRoom(map);
+            int outsideRoom = analysis.RoomAt(plan.Entry);
             var result = new List<IntVec3>();
             foreach (int depth in new[] { 1, 2 })
                 for (int lateral = 2; lateral <= 8; lateral++)
@@ -821,8 +821,8 @@ namespace Helodrace
                     {
                         IntVec3 wall = plan.BreachCell + along * (side * lateral);
                         IntVec3 cell = wall + outward * depth;
-                        if (cell.InBounds(map) && analysis.CachedAt(cell).Standable
-                            && cell.GetRoom(map) == outsideRoom
+                        if (cell.InBounds(map) && cell.Standable(map)
+                            && analysis.RoomAt(cell) == outsideRoom
                             && !avoidedTraps.Contains(cell)
                             && analysis.CachedAt(wall).WallLine
                             && (!checkGrenadeSafety
@@ -844,7 +844,7 @@ namespace Helodrace
             return !GenSight.LineOfSight(plan.BreachCell, cell, map, true);
         }
 
-        private static IntVec3 FindStagingCell(Map map, MapComponent_TacticalMapAnalysis analysis,
+        private static IntVec3 FindStagingCell(Map map, RaidStructureSnapshot analysis,
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             Pawn pawn, IntVec3 anchor, IntVec3 rear,
             HashSet<IntVec3> occupied,
@@ -865,14 +865,14 @@ namespace Helodrace
         }
 
         private static List<IntVec3> RankedStagingCells(Map map,
-            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            RaidStructureSnapshot analysis, FieldThreatSnapshot fieldThreat,
             HashSet<IntVec3> avoidedTraps, IntVec3 anchor, IntVec3 rear,
             int minimumRadius, int maximumRadius, bool guardAnchor,
             bool behindAnchor, RaidTacticalPlan stackPlan)
         {
             IEnumerable<IntVec3> candidates = GenRadial.RadialCellsAround(anchor,
                 maximumRadius, true)
-                .Where(cell => cell.InBounds(map) && analysis.CachedAt(cell).Standable
+                .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !avoidedTraps.Contains(cell)
                     && cell.DistanceTo(anchor) >= minimumRadius
                     && (stackPlan == null
@@ -892,7 +892,7 @@ namespace Helodrace
                 }).ToList();
         }
 
-        private static IntVec3 FindRetreatCell(Map map, MapComponent_TacticalMapAnalysis analysis,
+        private static IntVec3 FindRetreatCell(Map map, RaidStructureSnapshot analysis,
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             Pawn pawn, IntVec3 start, IntVec3 objective,
             HashSet<IntVec3> occupied)
@@ -955,7 +955,7 @@ namespace Helodrace
         }
 
         private static List<IntVec3> FindRoute(Map map,
-            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            RaidStructureSnapshot analysis, FieldThreatSnapshot fieldThreat,
             IntVec3 from, IntVec3 to, HashSet<IntVec3> avoidedTraps,
             Pawn pathfinder, RaidNavigationSnapshot navigation = null)
         {
@@ -1051,14 +1051,14 @@ namespace Helodrace
             return result;
         }
 
-        private static float MeanThreat(MapComponent_TacticalMapAnalysis analysis,
+        private static float MeanThreat(RaidStructureSnapshot analysis,
             FieldThreatSnapshot fieldThreat, IEnumerable<IntVec3> cells)
         {
             List<IntVec3> list = cells.ToList();
             return list.Count == 0 ? 0f : list.Average(cell => ThreatAt(analysis, fieldThreat, cell));
         }
 
-        private static float ThreatAt(MapComponent_TacticalMapAnalysis analysis,
+        private static float ThreatAt(RaidStructureSnapshot analysis,
             FieldThreatSnapshot fieldThreat, IntVec3 cell)
         {
             return analysis.CachedAt(cell).TotalThreat + (fieldThreat?.At(cell) ?? 0f);
@@ -1087,8 +1087,7 @@ namespace Helodrace
             private readonly bool[] walkable;
             private readonly int[] components;
 
-            public RaidNavigationSnapshot(Map map,
-                MapComponent_TacticalMapAnalysis analysis, Pawn pathfinder)
+            public RaidNavigationSnapshot(Map map, Pawn pathfinder)
             {
                 this.map = map;
                 int count = map.cellIndices.NumGridCells;
@@ -1096,10 +1095,9 @@ namespace Helodrace
                 components = new int[count];
                 foreach (IntVec3 cell in map.AllCells)
                 {
-                    TacticalCellData data = analysis.CachedAt(cell);
-                    Building_Door door = data.Door;
+                    Building_Door door = cell.GetEdifice(map) as Building_Door;
                     walkable[map.cellIndices.CellToIndex(cell)] =
-                        (data.Standable || door != null)
+                        (cell.Standable(map) || door != null)
                         && (door == null || door.Open || door.PawnCanOpen(pathfinder));
                 }
                 int component = 0;
@@ -1196,10 +1194,47 @@ namespace Helodrace
     {
         private readonly Dictionary<string, RaidTacticalPlan> plans = new Dictionary<string, RaidTacticalPlan>();
         private readonly Dictionary<string, string> signatures = new Dictionary<string, string>();
+        private readonly Dictionary<string, RaidStructureSnapshot> structures =
+            new Dictionary<string, RaidStructureSnapshot>();
+        private List<RaidStructureSnapshot> savedStructures;
 
         public MapComponent_RaidTacticalPlans(Map map) : base(map) { }
 
         public IReadOnlyCollection<RaidTacticalPlan> Plans => plans.Values;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            if (Scribe.mode == LoadSaveMode.Saving)
+                savedStructures = structures.Values.ToList();
+            Scribe_Collections.Look(ref savedStructures, "raidStructures", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                structures.Clear();
+                foreach (RaidStructureSnapshot snapshot in savedStructures
+                    ?? new List<RaidStructureSnapshot>())
+                    if (snapshot?.OrganizationId != null && snapshot.Restore(map))
+                        structures[snapshot.OrganizationId] = snapshot;
+                savedStructures = null;
+            }
+        }
+
+        public RaidStructureSnapshot GetStructure(CombatOrganization organization)
+        {
+            if (organization == null) return null;
+            if (structures.TryGetValue(organization.id, out RaidStructureSnapshot snapshot))
+                return snapshot;
+            MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
+            if (analysis == null) return null;
+            analysis.RequestAnalysis();
+            snapshot = new RaidStructureSnapshot(map, analysis, organization.id);
+            structures.Add(organization.id, snapshot);
+            return snapshot;
+        }
+
+        public RaidStructureSnapshot GetStructure(string organizationId) =>
+            organizationId != null && structures.TryGetValue(organizationId,
+                out RaidStructureSnapshot snapshot) ? snapshot : null;
 
         public RaidTacticalPlan GetPlan(CombatOrganization organization, bool force = false)
         {
@@ -1222,9 +1257,11 @@ namespace Helodrace
             base.MapComponentTick();
             int tick = Find.TickManager?.TicksGame ?? 0;
             if (tick % 120 != 0) return;
-            var active = OrganizationAPI.Registry?.Organizations
+            GameComponent_CombatOrganizations registry = OrganizationAPI.Registry;
+            if (registry == null) return;
+            var active = registry.Organizations
                 .Where(organization => organization.AllMembers.Any(pawn => pawn.Spawned && pawn.Map == map))
-                .ToList() ?? new List<CombatOrganization>();
+                .ToList();
             foreach (CombatOrganization organization in active) GetPlan(organization);
             var activeIds = new HashSet<string>(active.Select(organization => organization.id));
             foreach (string id in plans.Keys.Where(id => !activeIds.Contains(id)).ToList())
@@ -1232,6 +1269,8 @@ namespace Helodrace
                 plans.Remove(id);
                 signatures.Remove(id);
             }
+            foreach (string id in structures.Keys.Where(id => !activeIds.Contains(id)).ToList())
+                structures.Remove(id);
         }
 
         private string Signature(CombatOrganization organization)

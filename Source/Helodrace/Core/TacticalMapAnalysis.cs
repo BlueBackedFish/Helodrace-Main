@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using RimWorld;
 using Verse;
@@ -258,6 +260,204 @@ namespace Helodrace
                 value >>= 1;
             }
             return count;
+        }
+    }
+
+    // The footprint and room boundaries seen when an organization begins its raid.
+    // Movement and whether the original breach target still exists remain live.
+    public sealed class RaidStructureSnapshot : IExposable
+    {
+        private Map map;
+        private TacticalCellData[] cells;
+        private int[] rooms;
+        private int[] structureIds;
+        private List<IntVec3> breachCells = new List<IntVec3>();
+        private List<IntVec3> objectiveAnchors = new List<IntVec3>();
+        private string packed;
+        public string OrganizationId;
+
+        public RaidStructureSnapshot() { }
+
+        public RaidStructureSnapshot(Map map, MapComponent_TacticalMapAnalysis analysis,
+            string organizationId)
+        {
+            this.map = map;
+            OrganizationId = organizationId;
+            int count = map.cellIndices.NumGridCells;
+            cells = new TacticalCellData[count];
+            rooms = new int[count];
+            structureIds = new int[count];
+            var roomIds = new Dictionary<Room, int>();
+            foreach (IntVec3 cell in map.AllCells)
+            {
+                int index = map.cellIndices.CellToIndex(cell);
+                TacticalCellData data = analysis.CachedAt(cell);
+                cells[index] = data;
+                Building edifice = cell.GetEdifice(map) as Building;
+                if (data.WallLine && edifice != null)
+                {
+                    structureIds[index] = edifice.thingIDNumber;
+                    if (edifice.def.IsWall || edifice is Building_Door)
+                        breachCells.Add(cell);
+                }
+                Room room = cell.GetRoom(map);
+                if (room == null || room.PsychologicallyOutdoors) continue;
+                if (!roomIds.TryGetValue(room, out int id))
+                    roomIds.Add(room, id = roomIds.Count + 1);
+                rooms[index] = id;
+            }
+            objectiveAnchors = map.listerThings.AllThings.OfType<Building>()
+                .Where(building => building.Faction == Faction.OfPlayer
+                    && !building.def.IsWall && !(building is Building_Door)
+                    && RoomAt(building.Position) > 0)
+                .Select(building => building.Position).Distinct().ToList();
+        }
+
+        public IReadOnlyList<IntVec3> ObjectiveAnchors => objectiveAnchors;
+
+        public TacticalCellData CachedAt(IntVec3 cell)
+        {
+            if (map == null || !cell.InBounds(map)) return default(TacticalCellData);
+            int index = map.cellIndices.CellToIndex(cell);
+            TacticalCellData data = cells[index];
+            if ((data.Structures & TacticalStructureKind.Door) != 0)
+                data.Door = CurrentStructure(cell, index) as Building_Door;
+            return data;
+        }
+
+        public int RoomAt(IntVec3 cell) => map != null && cell.InBounds(map)
+            ? rooms[map.cellIndices.CellToIndex(cell)] : 0;
+
+        public bool IsIndoor(IntVec3 cell) => RoomAt(cell) > 0;
+
+        public IEnumerable<Building> CachedBreachStructures
+        {
+            get
+            {
+                if (map == null) yield break;
+                foreach (IntVec3 cell in breachCells)
+                {
+                    int index = map.cellIndices.CellToIndex(cell);
+                    if (structureIds[index] == 0) continue;
+                    Building building = CurrentStructure(cell, index);
+                    if (building != null && (building.def.IsWall
+                        || building is Building_Door)) yield return building;
+                }
+            }
+        }
+
+        private Building CurrentStructure(IntVec3 cell, int index)
+        {
+            Building building = cell.GetEdifice(map) as Building;
+            return building != null && building.Spawned && !building.Destroyed
+                && building.thingIDNumber == structureIds[index] ? building : null;
+        }
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref OrganizationId, "organizationId");
+            if (Scribe.mode == LoadSaveMode.Saving) packed = Pack();
+            Scribe_Values.Look(ref packed, "structure");
+        }
+
+        public bool Restore(Map currentMap)
+        {
+            map = currentMap;
+            if (string.IsNullOrEmpty(packed)) return false;
+            try
+            {
+                using (var bytes = new MemoryStream(Convert.FromBase64String(packed)))
+                using (var zip = new DeflateStream(bytes, CompressionMode.Decompress))
+                using (var reader = new BinaryReader(zip))
+                {
+                    if (reader.ReadInt32() != currentMap.Size.x
+                        || reader.ReadInt32() != currentMap.Size.z) return false;
+                    int count = currentMap.cellIndices.NumGridCells;
+                    cells = new TacticalCellData[count];
+                    rooms = new int[count];
+                    structureIds = new int[count];
+                    breachCells = new List<IntVec3>();
+                    for (int i = 0; i < count; i++)
+                    {
+                        byte flags = reader.ReadByte();
+                        cells[i] = new TacticalCellData
+                        {
+                            Structures = (TacticalStructureKind)reader.ReadByte(),
+                            OpenDirections = (TacticalOpenDirection)reader.ReadByte(),
+                            Standable = (flags & 1) != 0,
+                            WallLine = (flags & 2) != 0,
+                            ExteriorAccess = (flags & 4) != 0,
+                            DoorThreat = reader.ReadByte(),
+                            WallThreat = reader.ReadByte()
+                        };
+                        rooms[i] = reader.ReadInt32();
+                        structureIds[i] = reader.ReadInt32();
+                    }
+                    foreach (IntVec3 cell in currentMap.AllCells)
+                    {
+                        int index = currentMap.cellIndices.CellToIndex(cell);
+                        if ((cells[index].Structures & TacticalStructureKind.Door) == 0)
+                        {
+                            if (structureIds[index] != 0 && cells[index].WallLine)
+                                breachCells.Add(cell);
+                        }
+                        else
+                        {
+                            breachCells.Add(cell);
+                            TacticalCellData data = cells[index];
+                            data.Door = CurrentStructure(cell, index) as Building_Door;
+                            cells[index] = data;
+                        }
+                    }
+                    objectiveAnchors = new List<IntVec3>();
+                    int anchorCount = reader.ReadInt32();
+                    if (anchorCount < 0 || anchorCount > count)
+                        return false;
+                    for (int i = 0; i < anchorCount; i++)
+                        objectiveAnchors.Add(new IntVec3(reader.ReadInt32(), 0,
+                            reader.ReadInt32()));
+                    packed = null;
+                    return true;
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Warning("[Helodrace] Could not restore raid structure: " + exception);
+                return false;
+            }
+        }
+
+        private string Pack()
+        {
+            using (var bytes = new MemoryStream())
+            {
+                using (var zip = new DeflateStream(bytes, CompressionMode.Compress, true))
+                using (var writer = new BinaryWriter(zip))
+                {
+                    writer.Write(map.Size.x);
+                    writer.Write(map.Size.z);
+                    for (int i = 0; i < cells.Length; i++)
+                    {
+                        TacticalCellData data = cells[i];
+                        writer.Write((byte)((data.Standable ? 1 : 0)
+                            | (data.WallLine ? 2 : 0)
+                            | (data.ExteriorAccess ? 4 : 0)));
+                        writer.Write((byte)data.Structures);
+                        writer.Write((byte)data.OpenDirections);
+                        writer.Write((byte)data.DoorThreat);
+                        writer.Write((byte)data.WallThreat);
+                        writer.Write(rooms[i]);
+                        writer.Write(structureIds[i]);
+                    }
+                    writer.Write(objectiveAnchors.Count);
+                    foreach (IntVec3 anchor in objectiveAnchors)
+                    {
+                        writer.Write(anchor.x);
+                        writer.Write(anchor.z);
+                    }
+                }
+                return Convert.ToBase64String(bytes.ToArray());
+            }
         }
     }
 }
