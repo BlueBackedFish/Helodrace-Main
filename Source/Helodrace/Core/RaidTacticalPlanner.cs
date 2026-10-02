@@ -137,7 +137,12 @@ namespace Helodrace
             bool nonlethal = grenades.Any(item => item.def.defName == "HD_Grenade_M84_Item"
                 || item.def.defName == "HD_Grenade_M7A2_Item");
             bool breachTool = members.Any(pawn => pawn.equipment?.Primary
-                ?.TryGetComp<CompPowerCutterBreach>() != null);
+                ?.TryGetComp<CompPowerCutterBreach>() != null)
+                || members.Any(pawn => BreachExplosiveUtility.CanOperate(pawn)
+                    && BreachExplosiveUtility.FindIgniter(pawn,
+                        BreachInitiationMode.ShockTube, false) != null
+                    && BreachExplosiveUtility.CountInInventory(pawn,
+                        BreachExplosiveUtility.C4Def) > 0);
             Room room = objectiveRoom;
             bool indoor = !field;
             bool friendlyInside = indoor && map.mapPawns.AllPawnsSpawned.Any(pawn =>

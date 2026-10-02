@@ -313,6 +313,8 @@ internal static class Program
             .Where(name => name?.StartsWith("HD_Grenade_") == true).ToHashSet();
         foreach (string grenadeName in grenadeNames)
             defs.Add(grenadeName, new ThingDef { defName = grenadeName });
+        defs.Add("HD_C4_Charge", new ThingDef { defName = "HD_C4_Charge" });
+        defs.Add("HD_M81Igniter", new ThingDef { defName = "HD_M81Igniter" });
         foreach (var node in nodes.Where(node => node.Element("defName") != null))
         {
             Def def = node.Name.LocalName switch
@@ -400,11 +402,11 @@ internal static class Program
             "Modern fireteam cost");
         Check(((FormationDef)defs["HD_Formation_MW_RifleSquad"]).StandardPersonnel == 7,
             "Modern squad has two fireteams and a leader");
-        Near(1085, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
+        Near(1185, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
             "Modern squad cost");
         Check(((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).StandardPersonnel == 22,
             "Modern platoon has three squads and a leader");
-        Near(3410, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
+        Near(3710, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
             "Modern platoon cost");
         XElement highFaction = XDocument.Load(Path.Combine(root, "Defs/Factions/Factions_Helod.xml"))
             .Root.Elements("FactionDef").First(node => (string)node.Element("defName")
@@ -415,9 +417,9 @@ internal static class Program
             "High faction has a modern combat pawn pool");
         Check(FormationPlanner.Plan(500f, modern).Personnel == 3,
             "A small high-faction raid fields one modern fireteam");
-        Check(FormationPlanner.Plan(1200f, modern).Personnel == 7,
+        Check(FormationPlanner.Plan(1300f, modern).Personnel == 7,
             "A mid-sized high-faction raid fields one complete squad");
-        Check(FormationPlanner.Plan(3500f, modern).Personnel == 22,
+        Check(FormationPlanner.Plan(3750f, modern).Personnel == 22,
             "A large high-faction raid fields one complete platoon");
         foreach (float points in Enumerable.Range(0, 400).Select(index => index * 47f))
         {

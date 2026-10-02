@@ -48,7 +48,7 @@ are evaluated when the organization changes or the normal plan refresh expires.
 `MapComponent_RaidTacticalExecution` acts on organized hostile pawns in an
 assault-colony Lord. It moves entry and security members to their assigned
 positions, waits for the group or a bounded assembly timeout, then attempts a
-power-cutter breach and a selected inventory grenade before issuing entry moves
+power-cutter or C4 breach and a selected inventory grenade before issuing entry moves
 to all available entry members in the same tick. A flank plan first moves its
 entry members around the flank waypoint. Hold/regroup plans maintain
 their assigned positions. Once assault moves are issued, normal Lord combat
@@ -59,8 +59,12 @@ appear in the developer plan window. Phase state is saved with the map.
 Grenades are used only when their target is in range and sight, and damaging
 throws are suppressed near friendlies. Indoor throws target reachable cells
 inside the objective room near the entry. The executor uses the existing
-inventory grenade and power-cutter jobs; it does not create a separate weapon
-or projectile implementation.
+inventory grenade, power-cutter, and C4 jobs; it does not create a separate
+weapon or projectile implementation.
+For C4, the executor uses an existing shock-tube igniter and installation job.
+It sends all available members outside the charge's fragment radius before
+triggering. If that separation cannot be achieved in time, it removes the
+undetonated charge and continues without an explosion.
 An outdoor plan can also rank a field grenade when armed enemies are near the
 raid and suitable grenades are carried. The executor chooses a current hostile
 position when it is ready to throw, so this target is not frozen in the map grid.

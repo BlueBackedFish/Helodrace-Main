@@ -14,6 +14,8 @@ namespace Helodrace
     {
         Assemble,
         Breach,
+        WithdrawFromCharge,
+        Detonation,
         Support,
         Flank,
         Assault,
@@ -21,10 +23,19 @@ namespace Helodrace
         Complete
     }
 
+    public enum RaidBreachKind
+    {
+        None,
+        PowerCutter,
+        C4
+    }
+
     public sealed class MapComponent_RaidTacticalExecution : MapComponent
     {
         private const int AssembleTimeout = 720;
         private const int BreachTimeout = 900;
+        private const int WithdrawalTimeout = 600;
+        private const int DetonationTimeout = 240;
         private const int SupportTimeout = 360;
         private const int FlankTimeout = 600;
         private readonly Dictionary<string, ExecutionState> states = new Dictionary<string, ExecutionState>();
@@ -36,24 +47,32 @@ namespace Helodrace
             public string OrganizationId;
             public string PlanKey;
             public IntVec3 Objective;
+            public RaidTacticalManeuver Maneuver;
             public RaidExecutionPhase Phase;
             public int PhaseStarted;
             public Pawn Breacher;
             public Building BreachTarget;
+            public RaidBreachKind BreachKind;
+            public bool WithdrawalIssued;
             public Pawn Thrower;
             public bool SupportIssued;
             public bool FlankIssued;
             public bool AssaultIssued;
+            // Planning cache is rebuilt after a save load; execution progress is Scribed above.
+            public RaidTacticalPlan ActivePlan;
 
             public void ExposeData()
             {
                 Scribe_Values.Look(ref OrganizationId, "organizationId");
                 Scribe_Values.Look(ref PlanKey, "planKey");
                 Scribe_Values.Look(ref Objective, "objective");
+                Scribe_Values.Look(ref Maneuver, "maneuver");
                 Scribe_Values.Look(ref Phase, "phase");
                 Scribe_Values.Look(ref PhaseStarted, "phaseStarted");
                 Scribe_References.Look(ref Breacher, "breacher");
                 Scribe_References.Look(ref BreachTarget, "breachTarget");
+                Scribe_Values.Look(ref BreachKind, "breachKind");
+                Scribe_Values.Look(ref WithdrawalIssued, "withdrawalIssued");
                 Scribe_References.Look(ref Thrower, "thrower");
                 Scribe_Values.Look(ref SupportIssued, "supportIssued");
                 Scribe_Values.Look(ref FlankIssued, "flankIssued");
@@ -113,6 +132,8 @@ namespace Helodrace
                         OrganizationId = organization.id,
                         PlanKey = key,
                         Objective = plan.Objective,
+                        Maneuver = plan.Selected.Maneuver,
+                        ActivePlan = plan,
                         Phase = RaidExecutionPhase.Assemble,
                         PhaseStarted = tick
                     };
@@ -120,7 +141,8 @@ namespace Helodrace
                     RaidTacticalSpeech.Say(Commander(organization, members),
                         "HD_RaidTactical_Assemble");
                 }
-                Update(organization, members, plan, state, tick);
+                if (state.ActivePlan == null) state.ActivePlan = plan;
+                Update(organization, members, state.ActivePlan, state, tick);
             }
             foreach (string id in states.Keys.Where(id => !activeIds.Contains(id)).ToList())
                 states.Remove(id);
@@ -158,8 +180,8 @@ namespace Helodrace
                     Assemble(members, plan);
                     if (AllReady(members, plan) || tick - state.PhaseStarted >= AssembleTimeout)
                     {
-                        RaidExecutionPhase next = plan.Selected.Maneuver == RaidTacticalManeuver.HoldAndCounterattack
-                            || plan.Selected.Maneuver == RaidTacticalManeuver.Regroup
+                        RaidExecutionPhase next = state.Maneuver == RaidTacticalManeuver.HoldAndCounterattack
+                            || state.Maneuver == RaidTacticalManeuver.Regroup
                             ? RaidExecutionPhase.Hold
                             : RaidExecutionPhase.Breach;
                         Advance(state, next, tick);
@@ -171,24 +193,73 @@ namespace Helodrace
                         if (!TryStartBreach(members, plan, state))
                             Advance(state, RaidExecutionPhase.Support, tick);
                     }
-                    else if (state.BreachTarget == null || state.BreachTarget.Destroyed
+                    else if (state.BreachKind == RaidBreachKind.C4
+                        && BreachExplosiveUtility.ChargeOnWall(state.BreachTarget)
+                            ?.OperatorPawn == state.Breacher)
+                        Advance(state, RaidExecutionPhase.WithdrawFromCharge, tick);
+                    else if (state.BreachKind == RaidBreachKind.C4
+                        && (state.Breacher?.CurJobDef?.defName
+                            != BreachExplosiveUtility.ShockTubeJobDefName
+                            || tick - state.PhaseStarted >= BreachTimeout))
+                        Advance(state, RaidExecutionPhase.Support, tick);
+                    else if (state.BreachKind == RaidBreachKind.PowerCutter
+                        && (state.BreachTarget == null || state.BreachTarget.Destroyed
+                            || !state.BreachTarget.Spawned
+                            || state.Breacher?.CurJobDef?.defName != "HD_PowerCutterBreach"
+                            || tick - state.PhaseStarted >= BreachTimeout))
+                        Advance(state, RaidExecutionPhase.Support, tick);
+                    break;
+                case RaidExecutionPhase.WithdrawFromCharge:
+                    CompInstalledBreachCharge charge = BreachExplosiveUtility
+                        .ChargeOnWall(state.BreachTarget);
+                    if (charge == null || charge.OperatorPawn != state.Breacher)
+                    {
+                        Advance(state, RaidExecutionPhase.Support, tick);
+                        break;
+                    }
+                    float safeRadius = Math.Max(9f,
+                        charge.Props.beyondFragmentRadius + 2f);
+                    if (!state.WithdrawalIssued)
+                    {
+                        state.WithdrawalIssued = true;
+                        IssueChargeWithdrawal(members, plan, state.BreachTarget.Position, safeRadius);
+                    }
+                    if (map.mapPawns.AllPawnsSpawned
+                            .Where(pawn => !pawn.Dead && !pawn.HostileTo(state.Breacher))
+                            .All(pawn => pawn.Position.DistanceTo(state.BreachTarget.Position)
+                                >= safeRadius)
+                        && charge.CanTrigger(out _))
+                    {
+                        RaidTacticalSpeech.Say(state.Breacher,
+                            "HD_RaidTactical_Detonate");
+                        charge.Trigger();
+                        Advance(state, RaidExecutionPhase.Detonation, tick);
+                    }
+                    else if (tick - state.PhaseStarted >= WithdrawalTimeout)
+                    {
+                        // A stranded squad must never inherit a live automated charge.
+                        charge.parent.Destroy(DestroyMode.Vanish);
+                        Advance(state, RaidExecutionPhase.Support, tick);
+                    }
+                    break;
+                case RaidExecutionPhase.Detonation:
+                    if (state.BreachTarget == null || state.BreachTarget.Destroyed
                         || !state.BreachTarget.Spawned
-                        || state.Breacher?.CurJobDef?.defName != "HD_PowerCutterBreach"
-                        || tick - state.PhaseStarted >= BreachTimeout)
+                        || tick - state.PhaseStarted >= DetonationTimeout)
                         Advance(state, RaidExecutionPhase.Support, tick);
                     break;
                 case RaidExecutionPhase.Support:
                     if (!state.SupportIssued)
                     {
                         state.SupportIssued = true;
-                        state.Thrower = TryStartSupport(members, plan);
+                        state.Thrower = TryStartSupport(members, plan, state.Maneuver);
                         if (state.Thrower == null)
-                            Advance(state, AfterSupport(plan), tick);
+                            Advance(state, AfterSupport(plan, state.Maneuver), tick);
                     }
                     else if ((state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeClose"
                         && state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeNormal")
                         || tick - state.PhaseStarted >= SupportTimeout)
-                        Advance(state, AfterSupport(plan), tick);
+                        Advance(state, AfterSupport(plan, state.Maneuver), tick);
                     break;
                 case RaidExecutionPhase.Flank:
                     if (!state.FlankIssued)
@@ -222,9 +293,10 @@ namespace Helodrace
             state.PhaseStarted = tick;
         }
 
-        private static RaidExecutionPhase AfterSupport(RaidTacticalPlan plan)
+        private static RaidExecutionPhase AfterSupport(RaidTacticalPlan plan,
+            RaidTacticalManeuver maneuver)
         {
-            return plan.Selected.Maneuver == RaidTacticalManeuver.FlankAttack
+            return maneuver == RaidTacticalManeuver.FlankAttack
                 && plan.Flank.IsValid ? RaidExecutionPhase.Flank : RaidExecutionPhase.Assault;
         }
 
@@ -294,7 +366,7 @@ namespace Helodrace
         private static bool TryStartBreach(List<Pawn> members, RaidTacticalPlan plan,
             ExecutionState state)
         {
-            if (plan.Selected.Maneuver != RaidTacticalManeuver.CoordinatedEntry) return false;
+            if (state.Maneuver != RaidTacticalManeuver.CoordinatedEntry) return false;
             Map currentMap = members[0].Map;
             Building target = GenRadial.RadialCellsAround(plan.Entry, 2.9f, true)
                 .Where(cell => cell.InBounds(currentMap))
@@ -305,28 +377,78 @@ namespace Helodrace
                 .OrderBy(building => building.Position.DistanceToSquared(plan.Entry))
                 .FirstOrDefault();
             if (target == null) return false;
-            JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail("HD_PowerCutterBreach");
-            if (jobDef == null) return false;
+            JobDef cutterJob = DefDatabase<JobDef>.GetNamedSilentFail("HD_PowerCutterBreach");
             foreach (Pawn pawn in members)
             {
-                if (pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() == null
+                if (cutterJob == null
+                    || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() == null
                     || !CompPowerCutterBreach.TryFindInteractionCell(pawn, target, out IntVec3 cell)
                     || !pawn.CanReserve(target, 1, -1, null, false)) continue;
                 state.Breacher = pawn;
                 state.BreachTarget = target;
+                state.BreachKind = RaidBreachKind.PowerCutter;
                 RaidTacticalSpeech.Say(pawn, "HD_RaidTactical_Breaching");
-                pawn.jobs.StartJob(JobMaker.MakeJob(jobDef, target, cell),
+                pawn.jobs.StartJob(JobMaker.MakeJob(cutterJob, target, cell),
                     JobCondition.InterruptForced);
+                return true;
+            }
+            JobDef c4Job = DefDatabase<JobDef>.GetNamedSilentFail(
+                BreachExplosiveUtility.ShockTubeJobDefName);
+            if (c4Job == null) return false;
+            foreach (Pawn pawn in members)
+            {
+                CompBreachIgniter igniter = BreachExplosiveUtility.FindIgniter(pawn,
+                    BreachInitiationMode.ShockTube, false);
+                int required = BreachExplosiveUtility.RequiredC4For(target);
+                if (!BreachExplosiveUtility.CanOperate(pawn) || igniter == null
+                    || BreachExplosiveUtility.CountInInventory(pawn,
+                        BreachExplosiveUtility.C4Def) < required
+                    || BreachExplosiveUtility.ActiveChargeFor(pawn) != null
+                    || BreachExplosiveUtility.ChargeOnWall(target) != null
+                    || !BreachExplosiveUtility.TryFindInteractionCell(pawn, target,
+                        out IntVec3 cell)
+                    || !pawn.CanReserve(target, 1, -1, null, false)) continue;
+                Job job = JobMaker.MakeJob(c4Job, target, cell, igniter.parent);
+                job.count = required;
+                state.Breacher = pawn;
+                state.BreachTarget = target;
+                state.BreachKind = RaidBreachKind.C4;
+                RaidTacticalSpeech.Say(pawn, "HD_RaidTactical_Breaching");
+                pawn.jobs.StartJob(job, JobCondition.InterruptForced);
                 return true;
             }
             return false;
         }
 
-        private static Pawn TryStartSupport(List<Pawn> members, RaidTacticalPlan plan)
+        private void IssueChargeWithdrawal(List<Pawn> members, RaidTacticalPlan plan,
+            IntVec3 chargeCell, float safeRadius)
         {
-            bool smoke = plan.Selected.Maneuver == RaidTacticalManeuver.SmokeAdvance;
-            bool entry = plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry;
-            bool fieldGrenade = plan.Selected.Maneuver == RaidTacticalManeuver.FieldGrenade;
+            var occupied = new HashSet<IntVec3>();
+            foreach (Pawn pawn in members.OrderBy(pawn => pawn.Position.DistanceTo(chargeCell)))
+            {
+                if (pawn.Position.DistanceTo(chargeCell) >= safeRadius) continue;
+                IntVec3 target = GenRadial.RadialCellsAround(chargeCell,
+                        safeRadius + 7f, true)
+                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                        && cell.DistanceTo(chargeCell) >= safeRadius
+                        && !plan.AvoidedTrapCells.Contains(cell)
+                        && !occupied.Contains(cell))
+                    .OrderBy(cell => cell.DistanceTo(plan.Start) * 0.6f
+                        + cell.DistanceTo(chargeCell) * 0.4f)
+                    .FirstOrDefault(cell => pawn.CanReach(cell,
+                        PathEndMode.OnCell, Danger.Deadly));
+                if (!target.IsValid) continue;
+                occupied.Add(target);
+                TryGoto(pawn, target);
+            }
+        }
+
+        private static Pawn TryStartSupport(List<Pawn> members, RaidTacticalPlan plan,
+            RaidTacticalManeuver maneuver)
+        {
+            bool smoke = maneuver == RaidTacticalManeuver.SmokeAdvance;
+            bool entry = maneuver == RaidTacticalManeuver.CoordinatedEntry;
+            bool fieldGrenade = maneuver == RaidTacticalManeuver.FieldGrenade;
             if (!smoke && !entry && !fieldGrenade) return null;
             Map currentMap = members[0].Map;
             Room objectiveRoom = plan.Objective.GetRoom(currentMap);
@@ -364,7 +486,8 @@ namespace Helodrace
                 {
                     if (!target.IsValid || !target.InBounds(currentMap)) continue;
                     if (!smoke && currentMap.mapPawns.AllPawnsSpawned.Any(ally =>
-                        ally.Faction == pawn.Faction && ally.Position.DistanceTo(target) <= 3.5f))
+                        !ally.Dead && !ally.HostileTo(pawn)
+                        && ally.Position.DistanceTo(target) <= 3.5f))
                         continue;
                     bool close = InventoryGrenadeUtility.CanThrowAt(pawn, target,
                         InventoryGrenadeUtility.CloseThrowRange);
