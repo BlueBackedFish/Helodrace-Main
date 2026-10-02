@@ -160,6 +160,8 @@ namespace Helodrace
             var activeIds = new HashSet<string>();
             foreach (CombatOrganization organization in registry.Organizations)
             {
+                if (tick % 90 == 0)
+                    KeepSapperEscortTogether(organization);
                 List<Pawn> members = organization.AllMembers
                     .Where(pawn => pawn.Spawned && pawn.Map == map && !pawn.Dead
                         && !pawn.Downed && !pawn.Destroyed && IsAssaultRaider(pawn))
@@ -258,6 +260,66 @@ namespace Helodrace
                 && (lord?.LordJob is LordJob_AssaultColony
                     || lord?.LordJob?.GetType().Name.StartsWith("LordJob_AssaultColony",
                         StringComparison.Ordinal) == true);
+        }
+
+        private void KeepSapperEscortTogether(CombatOrganization organization)
+        {
+            if (organization.faction == Faction.OfPlayer) return;
+            List<Pawn> members = organization.AllMembers.Where(pawn => pawn.Spawned
+                && pawn.Map == map && !pawn.Dead && !pawn.Downed).ToList();
+            if (members.Count < 4 || !(members[0].GetLord()?.CurLordToil
+                is LordToil_AssaultColonySappers toil)) return;
+            Pawn sapper = members.FirstOrDefault(pawn =>
+                pawn.mindState?.duty?.def?.defName == "Sapper");
+            if (sapper == null) return;
+            IntVec3 destination = (toil.data as LordToilData_AssaultColonySappers)
+                ?.sapperDest ?? IntVec3.Invalid;
+            if (!destination.IsValid || destination == sapper.Position) return;
+
+            CombatGroup group = organization.AllGroups
+                .Where(value => value.Members.Contains(sapper))
+                .OrderBy(value => value.Members.Count()).FirstOrDefault();
+            List<Pawn> escorts = (group?.Members ?? members)
+                .Where(pawn => pawn != sapper && members.Contains(pawn))
+                .OrderBy(pawn => pawn.Position.DistanceToSquared(sapper.Position))
+                .Take(3).ToList();
+            escorts.AddRange(members.Where(pawn => pawn != sapper
+                    && !escorts.Contains(pawn))
+                .OrderBy(pawn => pawn.Position.DistanceToSquared(sapper.Position))
+                .Take(3 - escorts.Count));
+
+            int dx = destination.x - sapper.Position.x;
+            int dz = destination.z - sapper.Position.z;
+            IntVec3 forward = Math.Abs(dx) >= Math.Abs(dz)
+                ? (dx >= 0 ? IntVec3.East : IntVec3.West)
+                : (dz >= 0 ? IntVec3.North : IntVec3.South);
+            IntVec3 side = new IntVec3(-forward.z, 0, forward.x);
+            IntVec3[] offsets = { forward * 2 + side * 2,
+                forward * 2 - side * 2, -forward * 2 };
+            var occupied = new HashSet<IntVec3> { sapper.Position };
+            for (int i = 0; i < escorts.Count; i++)
+            {
+                Pawn escort = escorts[i];
+                if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
+                    && enemy.Faction != null && enemy.Faction.HostileTo(escort.Faction)
+                    && enemy.Position.DistanceTo(escort.Position) <= 12f
+                    && GenSight.LineOfSight(escort.Position, enemy.Position, map, true)))
+                    continue;
+                IntVec3 ideal = sapper.Position + offsets[i];
+                IntVec3 cell = GenRadial.RadialCellsAround(ideal, 2.9f, true)
+                    .Where(value => value.InBounds(map) && value.Standable(map)
+                        && !occupied.Contains(value)
+                        && value.DistanceTo(sapper.Position) <= 5f
+                        && value.GetRoom(map) == sapper.Position.GetRoom(map))
+                    .OrderBy(value => value.DistanceToSquared(ideal))
+                    .Where(value => escort.CanReach(value,
+                        PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
+                if (!cell.IsValid) continue;
+                occupied.Add(cell);
+                if (escort.Position.DistanceTo(cell) > 1.5f)
+                    TryGoto(escort, cell);
+            }
         }
 
         private static string PlanKey(CombatOrganization organization, List<Pawn> members)

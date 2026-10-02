@@ -71,6 +71,10 @@ The Great War faction permits vanilla sapper raids using riflemen as eligible
 sappers. While its Lord is in the sapper or breaching toil, the tactical executor
 leaves those duties alone; after that toil ends, ordinary tactical coordination
 can take over.
+During the sapper toil, three nearby members of the sapper's smallest combat
+group occupy reachable front-flank and rear cells around the sapper. Members
+already facing a visible nearby enemy keep fighting; other raiders retain their
+vanilla duties. Escort positions remain on the sapper's side of a wall.
 During a hold, designated response members move toward a current enemy near
 the group at bounded intervals when that enemy is outside effective firing
 range; fire-support and security members keep their assigned positions.
