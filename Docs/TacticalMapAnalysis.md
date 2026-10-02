@@ -1,14 +1,9 @@
 # Tactical map analysis
 
-`MapComponent_TacticalMapAnalysis` stores strategic objectives and a small, static
-geometry score. It does not project pawn, turret, temperature, or trap danger across
-the map.
-
-## Strategic objectives
-
-Bedrooms, stockpiles, power, communications, production, research, medical rooms,
-and defensive installations receive strategic value. This remains separate from
-geometry. `BestObjective()` weighs target value, nearby geometry, and distance.
+`MapComponent_TacticalMapAnalysis` stores only a small, static door-and-wall
+geometry score. It does not identify valuable rooms or equipment and does not
+project pawn, turret, temperature, or trap danger across the map. There is no
+separate killzone detector.
 
 ## Door and wall geometry
 
@@ -25,6 +20,12 @@ to appear unless the developer rebuild action is used.
 
 ## Raid planning
 
+The planner targets the nearest currently visible defender within 40 cells of
+an available raider. With no visible defender, it advances toward a reachable
+cell near the map center, or toward the near side of an enclosed perimeter.
+It does not use a precomputed value map of the colony.
+The center cell is only an advance point, not a secured objective that triggers
+withdrawal. If no such cell is reachable, the plan reports why it cannot proceed.
 The planner takes a snapshot of the current hostile pawns when it makes a plan.
 If the objective is outdoors, it adds each hostile pawn's current position,
 equipped primary verb range and minimum range, and line of sight to cells considered
@@ -153,7 +154,6 @@ existing forward-base support system.
 Under `Helodrace/Tactical AI`, use `Draw door and wall geometry map` to flash
 scored cells, `Inspect tactical data under mouse` for the door/wall components,
 and `Open raid tactical plans` to inspect the selected route and assignments.
-The tactical POI overlay shows strategic sites.
 
 ## In-game verification
 

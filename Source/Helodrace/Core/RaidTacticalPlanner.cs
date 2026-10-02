@@ -32,6 +32,7 @@ namespace Helodrace
         public RaidTacticalDoctrine Doctrine;
         public IntVec3 Start;
         public IntVec3 Objective;
+        public bool ObjectiveIsObservedEnemy;
         public IntVec3 Frontline;
         public IntVec3 Flank;
         public IntVec3 Entry;
@@ -87,14 +88,18 @@ namespace Helodrace
             IntVec3 center = Center(members.Select(pawn => pawn.Position));
             Pawn pathfinder = members.OrderBy(pawn => pawn.Position.DistanceToSquared(center)).First();
             plan.Start = pathfinder.Position;
-            StrategicTarget target = analysis.BestObjective(plan.Start);
             List<Pawn> hostiles = map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.Faction != null
                 && pawn.Faction.HostileTo(organization.faction) && !pawn.Dead).ToList();
-            plan.Objective = target?.Cell ?? (hostiles.Count > 0
-                ? Center(hostiles.Select(pawn => pawn.Position)) : IntVec3.Invalid);
+            Pawn contact = hostiles.Where(pawn => !pawn.Downed && members.Any(member =>
+                    member.Position.DistanceTo(pawn.Position) <= 40f
+                    && GenSight.LineOfSight(member.Position, pawn.Position, map, true)))
+                .OrderBy(pawn => pawn.Position.DistanceToSquared(plan.Start))
+                .FirstOrDefault();
+            plan.ObjectiveIsObservedEnemy = contact != null;
+            plan.Objective = contact?.Position ?? ReachableAdvanceCell(map, pathfinder);
             if (!plan.Objective.IsValid)
             {
-                plan.Reason = "No defender or strategic objective was found.";
+                plan.Reason = "No visible defender or reachable advance cell was found.";
                 return plan;
             }
             Room objectiveRoom = plan.Objective.GetRoom(map);
@@ -459,6 +464,34 @@ namespace Helodrace
             List<IntVec3> list = cells.ToList();
             return new IntVec3(Mathf.RoundToInt((float)list.Average(cell => cell.x)), 0,
                 Mathf.RoundToInt((float)list.Average(cell => cell.z)));
+        }
+
+        private static IntVec3 ReachableAdvanceCell(Map map, Pawn pathfinder)
+        {
+            IntVec3 center = new IntVec3(map.Size.x / 2, 0, map.Size.z / 2);
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, 40f, true)
+                .Where(cell => IsTraversable(map, cell))
+                .OrderBy(cell => cell.DistanceToSquared(center)))
+                if (map.reachability.CanReach(pathfinder.Position, cell,
+                    PathEndMode.OnCell, TraverseParms.For(pathfinder)))
+                    return cell;
+
+            // A sealed perimeter can put every reachable cell farther than 40
+            // cells from center. Advance to its near side instead of losing the plan.
+            int steps = Math.Max(Math.Abs(center.x - pathfinder.Position.x),
+                Math.Abs(center.z - pathfinder.Position.z));
+            for (int step = 0; step <= steps; step++)
+            {
+                float progress = steps == 0 ? 0f : step / (float)steps;
+                IntVec3 cell = new IntVec3(
+                    Mathf.RoundToInt(Mathf.Lerp(center.x, pathfinder.Position.x, progress)),
+                    0,
+                    Mathf.RoundToInt(Mathf.Lerp(center.z, pathfinder.Position.z, progress)));
+                if (IsTraversable(map, cell) && map.reachability.CanReach(
+                    pathfinder.Position, cell, PathEndMode.OnCell,
+                    TraverseParms.For(pathfinder))) return cell;
+            }
+            return IntVec3.Invalid;
         }
 
         private static List<IntVec3> FindRoute(Map map,

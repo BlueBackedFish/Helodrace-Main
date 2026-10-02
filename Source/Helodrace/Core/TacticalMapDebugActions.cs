@@ -22,7 +22,7 @@ namespace Helodrace
 
         [DebugAction(
             "Helodrace/Tactical AI",
-            "Rebuild and summarize tactical maps",
+            "Rebuild door and wall geometry map",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void RebuildAndSummarize()
         {
@@ -31,40 +31,9 @@ namespace Helodrace
             if (analysis == null) return;
 
             analysis.ForceRebuild();
-            string objectives = string.Join(", ", analysis.StrategicTargets
-                .GroupBy(target => target.Kind)
-                .Select(group => $"{group.Key}={group.Count()}"));
-            Log.Message($"[Helodrace Tactical AI] Objectives: {(objectives.NullOrEmpty() ? "none" : objectives)}. "
-                + $"Geometry build={analysis.LastStaticBuildMilliseconds} ms.");
+            Log.Message($"[Helodrace Tactical AI] Geometry build={analysis.LastStaticBuildMilliseconds} ms.");
             Messages.Message(
-                $"Tactical maps rebuilt: {analysis.StrategicTargets.Count} objectives, "
-                    + $"{analysis.PointsOfInterest.Count} POIs.",
-                MessageTypeDefOf.NeutralEvent,
-                false);
-        }
-
-        [DebugAction(
-            "Helodrace/Tactical AI",
-            "Toggle tactical POI overlay",
-            allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void TogglePoiOverlay()
-        {
-            TacticalPoiOverlaySettings.Enabled = !TacticalPoiOverlaySettings.Enabled;
-            Messages.Message(
-                $"Tactical POI overlay: {(TacticalPoiOverlaySettings.Enabled ? "ON" : "OFF")}",
-                MessageTypeDefOf.NeutralEvent,
-                false);
-        }
-
-        [DebugAction(
-            "Helodrace/Tactical AI",
-            "Toggle strategic room POIs",
-            allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void ToggleStrategicPois()
-        {
-            TacticalPoiOverlaySettings.ShowStrategic = !TacticalPoiOverlaySettings.ShowStrategic;
-            Messages.Message(
-                $"Strategic POIs: {(TacticalPoiOverlaySettings.ShowStrategic ? "ON" : "OFF")}",
+                "Door and wall geometry map rebuilt.",
                 MessageTypeDefOf.NeutralEvent,
                 false);
         }
@@ -82,22 +51,8 @@ namespace Helodrace
             if (analysis == null || !cell.InBounds(map)) return;
 
             TacticalCellData data = analysis.At(cell);
-            List<TacticalPointOfInterest> pois = analysis.PointsOfInterest
-                .Where(poi => poi.Contains(cell) || poi.Cell.DistanceToSquared(cell) <= 2f)
-                .ToList();
-            string details = pois.Count == 0
-                ? "No POI at this cell."
-                : string.Join(" | ", pois.Select(TacticalPoiPresentation.DetailedLabel));
-            Log.Message($"[Helodrace Tactical AI] {cell}: {TacticalPoiPresentation.CellThreatLabel(data)} | {details}");
-        }
-
-        [DebugAction(
-            "Helodrace/Tactical AI",
-            "Draw strategic value map",
-            allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void DrawStrategicValueMap()
-        {
-            DrawGrid(data => data.StrategicValue, 0.5f, "value");
+            Log.Message($"[Helodrace Tactical AI] {cell}: geometry={data.TotalThreat:0.0} "
+                + $"(door={data.DoorThreat:0.0}, wall/passage={data.WallThreat:0.0})");
         }
 
         [DebugAction(

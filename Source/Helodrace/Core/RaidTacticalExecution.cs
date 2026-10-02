@@ -349,7 +349,8 @@ namespace Helodrace
         private bool TryExitSecuredObjective(CombatOrganization organization,
             List<Pawn> members, ExecutionState state, int tick)
         {
-            if (state.ActivePlan == null || tick - state.PhaseStarted < 600
+            if (state.ActivePlan == null || !state.ActivePlan.ObjectiveIsObservedEnemy
+                || tick - state.PhaseStarted < 600
                 || (state.Phase != RaidExecutionPhase.Complete
                     && state.Phase != RaidExecutionPhase.SecureRoom)) return false;
 
