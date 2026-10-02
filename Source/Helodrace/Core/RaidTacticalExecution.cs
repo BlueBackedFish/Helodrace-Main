@@ -401,7 +401,8 @@ namespace Helodrace
                     .Where(cell => cell.InBounds(map) && cell.Standable(map)
                         && !plan.AvoidedTrapCells.Contains(cell) && !occupied.Contains(cell))
                     .OrderBy(cell => cell.DistanceToSquared(plan.Flank))
-                    .FirstOrDefault(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly));
+                    .Where(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) target = plan.Flank;
                 occupied.Add(target);
                 TryGoto(pawn, target);
@@ -506,8 +507,9 @@ namespace Helodrace
                         && !occupied.Contains(cell))
                     .OrderBy(cell => cell.DistanceTo(pawn.Position)
                         + cell.DistanceTo(plan.Start) * 0.25f)
-                    .FirstOrDefault(cell => pawn.CanReach(cell,
-                        PathEndMode.OnCell, Danger.Deadly));
+                    .Where(cell => pawn.CanReach(cell,
+                        PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
                 occupied.Add(target);
                 TryGoto(pawn, target);
@@ -633,13 +635,14 @@ namespace Helodrace
                 .All(assignment => assignment.Pawn.Position.DistanceTo(assignment.Position) <= 1.5f);
         }
 
-        private static void TryGoto(Pawn pawn, IntVec3 cell)
+        private static void TryGoto(Pawn pawn, IntVec3 cell, bool sprint = false)
         {
             if (!cell.IsValid || !cell.InBounds(pawn.Map)
                 || !pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return;
             if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == cell) return;
-            pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Goto, cell),
-                JobCondition.InterruptForced);
+            Job job = JobMaker.MakeJob(JobDefOf.Goto, cell);
+            if (sprint) job.locomotionUrgency = LocomotionUrgency.Sprint;
+            pawn.jobs.StartJob(job, JobCondition.InterruptForced);
         }
 
         private static bool TryStartBreach(List<Pawn> members, RaidTacticalPlan plan,
@@ -714,8 +717,9 @@ namespace Helodrace
                         && !occupied.Contains(cell))
                     .OrderBy(cell => cell.DistanceTo(plan.Start) * 0.6f
                         + cell.DistanceTo(chargeCell) * 0.4f)
-                    .FirstOrDefault(cell => pawn.CanReach(cell,
-                        PathEndMode.OnCell, Danger.Deadly));
+                    .Where(cell => pawn.CanReach(cell,
+                        PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
                 occupied.Add(target);
                 TryGoto(pawn, target);
@@ -791,6 +795,9 @@ namespace Helodrace
         private void IssueAssault(List<Pawn> members, RaidTacticalPlan plan)
         {
             Map currentMap = members[0].Map;
+            Room objectiveRoom = plan.Objective.GetRoom(currentMap);
+            bool highIndoor = plan.Doctrine == RaidTacticalDoctrine.High
+                && objectiveRoom != null && !objectiveRoom.PsychologicallyOutdoors;
             var occupied = new HashSet<IntVec3>();
             foreach (RaidTacticalAssignment assignment in plan.Assignments
                 .Where(value => value.Task == RaidTacticalTask.Entry)
@@ -798,15 +805,55 @@ namespace Helodrace
             {
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn)) continue;
-                IntVec3 target = GenRadial.RadialCellsAround(plan.Objective, 4f, true)
+                IntVec3 target = highIndoor
+                    ? FindHighEntryCell(pawn, plan, objectiveRoom, occupied)
+                    : IntVec3.Invalid;
+                if (!target.IsValid)
+                    target = GenRadial.RadialCellsAround(plan.Objective, 4f, true)
                     .Where(cell => cell.InBounds(currentMap) && cell.Standable(currentMap)
                         && !occupied.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell))
                     .OrderBy(cell => cell.DistanceToSquared(plan.Objective))
-                    .FirstOrDefault(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly));
+                    .Where(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) target = plan.Entry;
                 occupied.Add(target);
-                TryGoto(pawn, target);
+                TryGoto(pawn, target, highIndoor);
             }
+        }
+
+        private IntVec3 FindHighEntryCell(Pawn pawn, RaidTacticalPlan plan,
+            Room objectiveRoom, HashSet<IntVec3> occupied)
+        {
+            float dx = plan.Entry.x - plan.Start.x;
+            float dz = plan.Entry.z - plan.Start.z;
+            float length = (float)Math.Sqrt(dx * dx + dz * dz);
+            if (length < 0.1f) return IntVec3.Invalid;
+            float forwardX = dx / length;
+            float forwardZ = dz / length;
+            int order = plan.Assignments.FirstOrDefault(value => value.Pawn == pawn)
+                ?.EntryOrder ?? 1;
+            float side = order % 2 == 1 ? 1f : -1f;
+            return GenRadial.RadialCellsAround(plan.Entry, 9f, true)
+                .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                    && cell.GetRoom(map) == objectiveRoom
+                    && !occupied.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell))
+                .Select(cell => new
+                {
+                    Cell = cell,
+                    Forward = (cell.x - plan.Entry.x) * forwardX
+                        + (cell.z - plan.Entry.z) * forwardZ,
+                    Side = -(cell.x - plan.Entry.x) * forwardZ
+                        + (cell.z - plan.Entry.z) * forwardX
+                })
+                .Where(value => value.Forward >= 1.5f && value.Forward <= 8f
+                    && value.Side * side >= 0.5f)
+                .OrderBy(value => Math.Abs(value.Forward - 5f)
+                    + Math.Abs(value.Side - side * 2.5f) * 0.7f
+                    + value.Cell.DistanceTo(plan.Objective) * 0.15f)
+                .Select(value => value.Cell)
+                .Where(cell => pawn.CanReach(cell,
+                    PathEndMode.OnCell, Danger.Deadly))
+                .DefaultIfEmpty(IntVec3.Invalid).First();
         }
 
         private void IssueRoomSecurity(List<Pawn> members, RaidTacticalPlan plan)
@@ -838,8 +885,9 @@ namespace Helodrace
                         + (occupied.Count == 0 ? 0f
                             : occupied.Min(other => cell.DistanceTo(other)) * 0.5f)
                         - cell.DistanceTo(plan.Objective) * 0.2f)
-                    .FirstOrDefault(cell => pawn.CanReach(cell,
-                        PathEndMode.OnCell, Danger.Deadly));
+                    .Where(cell => pawn.CanReach(cell,
+                        PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!sector.IsValid) continue;
                 occupied.Add(sector);
                 TryGoto(pawn, sector);
