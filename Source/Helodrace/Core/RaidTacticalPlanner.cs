@@ -6,6 +6,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace Helodrace
 {
@@ -36,6 +37,9 @@ namespace Helodrace
         public IntVec3 Frontline;
         public IntVec3 Flank;
         public IntVec3 Entry;
+        public Building PlannedBreach;
+        public IntVec3 BreachCell;
+        public IntVec3 BreachInside;
         public List<IntVec3> ApproachNodes = new List<IntVec3>();
         public List<IntVec3> ApproachPath = new List<IntVec3>();
         public HashSet<IntVec3> AvoidedTrapCells = new HashSet<IntVec3>();
@@ -67,6 +71,9 @@ namespace Helodrace
 
             List<Pawn> members = organization.AllMembers.Where(pawn => pawn.Spawned
                 && pawn.Map == map && !pawn.Dead && !pawn.Downed && !pawn.Destroyed).ToList();
+            List<Pawn> assaultMembers = members.Where(
+                MapComponent_RaidTacticalExecution.IsAssaultRaider).ToList();
+            if (assaultMembers.Count > 0) members = assaultMembers;
             if (members.Count == 0)
             {
                 plan.Reason = "No available raid members on this map.";
@@ -96,7 +103,9 @@ namespace Helodrace
                 .OrderBy(pawn => pawn.Position.DistanceToSquared(plan.Start))
                 .FirstOrDefault();
             plan.ObjectiveIsObservedEnemy = contact != null;
-            plan.Objective = contact?.Position ?? ReachableAdvanceCell(map, pathfinder);
+            IntVec3 reachableAdvance = contact == null
+                ? ReachableAdvanceCell(map, pathfinder) : IntVec3.Invalid;
+            plan.Objective = contact?.Position ?? CentralAdvanceCell(map);
             if (!plan.Objective.IsValid)
             {
                 plan.Reason = "No visible defender or reachable advance cell was found.";
@@ -105,7 +114,28 @@ namespace Helodrace
             Room objectiveRoom = plan.Objective.GetRoom(map);
             bool field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
             FieldThreatSnapshot fieldThreat = field ? new FieldThreatSnapshot(map, hostiles) : null;
-            plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
+            bool needsBreach = !map.reachability.CanReach(plan.Start, plan.Objective,
+                PathEndMode.OnCell, TraverseParms.For(pathfinder));
+            if (needsBreach && TryFindPlannedBreach(map, analysis, fieldThreat,
+                avoidedTraps, members, pathfinder, plan, out List<IntVec3> breachRoute))
+            {
+                plan.ApproachPath.AddRange(breachRoute);
+            }
+            else if (needsBreach && contact == null && reachableAdvance.IsValid)
+            {
+                plan.Objective = reachableAdvance;
+                objectiveRoom = plan.Objective.GetRoom(map);
+                field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
+                fieldThreat = field ? new FieldThreatSnapshot(map, hostiles) : null;
+                plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
+                    plan.Objective, pathfinder);
+            }
+            else if (needsBreach)
+            {
+                plan.Reason = "No shared, usable breach reaches the objective.";
+                return plan;
+            }
+            else plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
                 plan.Objective, pathfinder);
             if (!plan.Entry.IsValid)
             {
@@ -113,8 +143,9 @@ namespace Helodrace
                 return plan;
             }
 
-            List<IntVec3> direct = FindRoute(map, analysis, fieldThreat,
-                plan.Start, plan.Entry, avoidedTraps);
+            List<IntVec3> direct = plan.PlannedBreach != null ? plan.ApproachPath
+                : FindRoute(map, analysis, fieldThreat, plan.Start, plan.Entry,
+                    avoidedTraps, pathfinder);
             if (direct.Count == 0)
             {
                 plan.Reason = "No walking route reaches the objective entrance.";
@@ -124,8 +155,10 @@ namespace Helodrace
             plan.Frontline = peakThreat > 0f
                 ? direct.OrderByDescending(cell => ThreatAt(analysis, fieldThreat, cell)).First()
                 : plan.Entry;
-            plan.Flank = FindFlank(map, analysis, fieldThreat, avoidedTraps, pathfinder,
-                plan.Start, plan.Entry, out List<IntVec3> flankRoute);
+            List<IntVec3> flankRoute = new List<IntVec3>();
+            plan.Flank = plan.PlannedBreach == null
+                ? FindFlank(map, analysis, fieldThreat, avoidedTraps, pathfinder,
+                    plan.Start, plan.Entry, out flankRoute) : IntVec3.Invalid;
             float directThreat = MeanThreat(analysis, fieldThreat, direct);
             float flankThreat = MeanThreat(analysis, fieldThreat, flankRoute);
             int originalPersonnel = organization.rootGroups.Sum(root => root.formation?.StandardPersonnel ?? 0);
@@ -163,7 +196,7 @@ namespace Helodrace
                 Defending = plan.CasualtyFraction >= 0.35f
                     || (nearbyHostile && directThreat >= 18f),
                 FlankAvailable = plan.Flank.IsValid,
-                EntryAvailable = indoor,
+                EntryAvailable = indoor || plan.PlannedBreach != null,
                 BreachToolAvailable = breachTool,
                 SmokeAvailable = smoke,
                 FieldGrenadeAvailable = field && (plan.Doctrine == RaidTacticalDoctrine.High
@@ -172,7 +205,7 @@ namespace Helodrace
                 LethalGrenadeAvailable = lethal,
                 NonlethalGrenadeAvailable = nonlethal,
                 FriendlyInsideObjective = friendlyInside,
-                IndoorObjective = indoor,
+                IndoorObjective = indoor || plan.PlannedBreach != null,
                 DirectThreat = directThreat,
                 FlankThreat = flankThreat,
                 CasualtyFraction = plan.CasualtyFraction,
@@ -180,6 +213,22 @@ namespace Helodrace
             };
             plan.Options = RaidTacticalDecision.Rank(situation);
             plan.Selected = RaidTacticalDecision.Select(plan.Options, plan.CommandEfficiency);
+            if (plan.PlannedBreach != null)
+            {
+                RaidTacticalOption entryOption = plan.Options.FirstOrDefault(option =>
+                    option.Maneuver == RaidTacticalManeuver.CoordinatedEntry);
+                if (entryOption == null)
+                {
+                    entryOption = new RaidTacticalOption
+                    {
+                        Maneuver = RaidTacticalManeuver.CoordinatedEntry,
+                        Score = plan.Options.Count > 0 ? plan.Options[0].Score + 1f : 1f,
+                        Reason = "Gather outside one breach and cross it together."
+                    };
+                    plan.Options.Insert(0, entryOption);
+                }
+                plan.Selected = entryOption;
+            }
             if (plan.Selected == null)
             {
                 plan.Reason = "No viable maneuver was found.";
@@ -190,12 +239,14 @@ namespace Helodrace
             if (plan.Selected.Maneuver != RaidTacticalManeuver.HoldAndCounterattack
                 && plan.Selected.Maneuver != RaidTacticalManeuver.Regroup)
             {
-                plan.ApproachPath.AddRange(selectedRoute);
+                if (plan.PlannedBreach == null) plan.ApproachPath.AddRange(selectedRoute);
                 plan.ApproachNodes.AddRange(RouteTurns(selectedRoute));
             }
             else plan.ApproachNodes.Add(plan.Start);
             plan.EntrySupport = RaidTacticalDecision.EntrySupport(plan.Selected.Maneuver, situation);
-            plan.EntryMethod = plan.Entry.GetEdifice(map) is Building_Door
+            plan.EntryMethod = plan.PlannedBreach != null
+                ? "Planned " + (plan.PlannedBreach is Building_Door ? "door" : "wall") + " breach"
+                : plan.Entry.GetEdifice(map) is Building_Door
                 ? "Door" : breachTool ? "Breach equipment available" : "Open approach";
             plan.EntryDelayTicks = plan.Doctrine == RaidTacticalDoctrine.High ? 90
                 : plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry
@@ -380,6 +431,74 @@ namespace Helodrace
             return IntVec3.Invalid;
         }
 
+        private static bool TryFindPlannedBreach(Map map,
+            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            HashSet<IntVec3> avoidedTraps, List<Pawn> members, Pawn pathfinder,
+            RaidTacticalPlan plan, out List<IntVec3> route)
+        {
+            route = new List<IntVec3>();
+            float bestScore = float.MaxValue;
+            Building bestTarget = null;
+            IntVec3 bestOutside = IntVec3.Invalid;
+            IntVec3 bestInside = IntVec3.Invalid;
+            foreach (Building target in map.listerThings.AllThings.OfType<Building>()
+                .Where(building => (building.def.IsWall || building is Building_Door)
+                    && building.Faction != null
+                    && building.Faction.HostileTo(pathfinder.Faction))
+                .OrderBy(building => building.Position.DistanceToSquared(plan.Objective))
+                .Take(160))
+            {
+                List<Pawn> breachers = members.Where(pawn => CanBreach(pawn, target)).ToList();
+                if (breachers.Count == 0) continue;
+                foreach (IntVec3 outside in GenAdj.CellsAdjacentCardinal(target))
+                {
+                    IntVec3 inside = target.Position + (target.Position - outside);
+                    if (!CanWalkRouteCell(map, outside, pathfinder)
+                        || !CanWalkRouteCell(map, inside, pathfinder)
+                        || avoidedTraps.Contains(outside) || avoidedTraps.Contains(inside)
+                        || !map.reachability.CanReach(plan.Start, outside,
+                            PathEndMode.OnCell, TraverseParms.For(pathfinder))
+                        || !breachers.Any(pawn => map.reachability.CanReach(pawn.Position, outside,
+                                PathEndMode.OnCell, TraverseParms.For(pawn)))
+                        || !map.reachability.CanReach(inside, plan.Objective,
+                            PathEndMode.OnCell, TraverseParms.For(pathfinder))) continue;
+                    float score = outside.DistanceTo(plan.Start)
+                        + inside.DistanceTo(plan.Objective)
+                        + ThreatAt(analysis, fieldThreat, outside) * 0.2f
+                        + (target is Building_Door ? -12f : 0f);
+                    if (score >= bestScore) continue;
+                    List<IntVec3> candidate = FindRoute(map, analysis, fieldThreat,
+                        plan.Start, outside, avoidedTraps, pathfinder);
+                    if (candidate.Count == 0) continue;
+                    bestScore = score;
+                    bestTarget = target;
+                    bestOutside = outside;
+                    bestInside = inside;
+                    route = candidate;
+                }
+            }
+            if (bestTarget == null) return false;
+            plan.PlannedBreach = bestTarget;
+            plan.BreachCell = bestTarget.Position;
+            plan.Entry = bestOutside;
+            plan.BreachInside = bestInside;
+            return true;
+        }
+
+        private static bool CanBreach(Pawn pawn, Building target)
+        {
+            if (CompSledgehammerBreach.WornBy(pawn) != null
+                && CompSledgehammerBreach.IsValidTarget(pawn, target)) return true;
+            if (pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
+                && CompPowerCutterBreach.IsValidBreachTarget(target)) return true;
+            return target.def.IsWall && BreachExplosiveUtility.CanOperate(pawn)
+                && BreachExplosiveUtility.FindIgniter(pawn,
+                    BreachInitiationMode.ShockTube, false) != null
+                && BreachExplosiveUtility.CountInInventory(pawn,
+                    BreachExplosiveUtility.C4Def)
+                    >= BreachExplosiveUtility.RequiredC4For(target);
+        }
+
         private static IntVec3 FindFlank(Map map, MapComponent_TacticalMapAnalysis analysis,
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             Pawn pathfinder, IntVec3 start, IntVec3 entry,
@@ -403,9 +522,9 @@ namespace Helodrace
                         || !map.reachability.CanReach(cell, entry, PathEndMode.OnCell,
                             TraverseParms.For(pathfinder))) continue;
                     List<IntVec3> first = FindRoute(map, analysis, fieldThreat,
-                        start, cell, avoidedTraps);
+                        start, cell, avoidedTraps, pathfinder);
                     List<IntVec3> second = FindRoute(map, analysis, fieldThreat,
-                        cell, entry, avoidedTraps);
+                        cell, entry, avoidedTraps, pathfinder);
                     if (first.Count == 0 || second.Count == 0) continue;
                     List<IntVec3> route = first.Concat(second.Skip(1)).ToList();
                     float score = MeanThreat(analysis, fieldThreat, route)
@@ -495,11 +614,21 @@ namespace Helodrace
             return IntVec3.Invalid;
         }
 
+        private static IntVec3 CentralAdvanceCell(Map map)
+        {
+            IntVec3 center = new IntVec3(map.Size.x / 2, 0, map.Size.z / 2);
+            return GenRadial.RadialCellsAround(center, 40f, true)
+                .Where(cell => cell.InBounds(map) && cell.Standable(map))
+                .OrderBy(cell => cell.DistanceToSquared(center))
+                .DefaultIfEmpty(IntVec3.Invalid).First();
+        }
+
         private static List<IntVec3> FindRoute(Map map,
             MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
-            IntVec3 from, IntVec3 to, HashSet<IntVec3> avoidedTraps)
+            IntVec3 from, IntVec3 to, HashSet<IntVec3> avoidedTraps, Pawn pathfinder)
         {
-            if (!IsTraversable(map, from) || !IsTraversable(map, to))
+            if (!CanWalkRouteCell(map, from, pathfinder)
+                || !CanWalkRouteCell(map, to, pathfinder))
                 return new List<IntVec3>();
             var frontier = new SortedDictionary<int, Queue<IntVec3>>();
             var distance = new Dictionary<IntVec3, int> { [from] = 0 };
@@ -530,7 +659,8 @@ namespace Helodrace
                 foreach (IntVec3 direction in directions)
                 {
                     IntVec3 next = cell + direction;
-                    if (!IsTraversable(map, next) || avoidedTraps.Contains(next)) continue;
+                    if (!CanWalkRouteCell(map, next, pathfinder)
+                        || avoidedTraps.Contains(next)) continue;
                     // Distance remains dominant; door/wall geometry and the
                     // current field-pawn snapshot can make a safer detour win.
                     int nextCost = cost + 100 + Mathf.RoundToInt(
@@ -556,6 +686,13 @@ namespace Helodrace
         {
             return cell.InBounds(map)
                 && (cell.Standable(map) || cell.GetEdifice(map) is Building_Door);
+        }
+
+        private static bool CanWalkRouteCell(Map map, IntVec3 cell, Pawn pathfinder)
+        {
+            if (!IsTraversable(map, cell)) return false;
+            Building_Door door = cell.GetEdifice(map) as Building_Door;
+            return door == null || door.Open || door.PawnCanOpen(pathfinder);
         }
 
         private static HashSet<IntVec3> TrapAvoidanceCells(Map map, Faction attacker)
@@ -695,7 +832,8 @@ namespace Helodrace
             IEnumerable<Pawn> members = organization.AllMembers.Where(pawn => pawn.Spawned && pawn.Map == map);
             return string.Join(",", members.Where(pawn => !pawn.Dead && !pawn.Downed)
                 .Select(pawn => pawn.thingIDNumber + ":"
-                    + (pawn.health?.summaryHealth?.SummaryHealthPercent < 0.35f ? "W" : "A"))
+                    + (pawn.health?.summaryHealth?.SummaryHealthPercent < 0.35f ? "W" : "A")
+                    + ":" + pawn.GetLord()?.LordJob?.GetType().Name)
                 .OrderBy(id => id)) + "|"
                 + string.Join(",", organization.AllGroups.Select(group =>
                     (group.EffectiveCommander?.thingIDNumber ?? -1) + ":"

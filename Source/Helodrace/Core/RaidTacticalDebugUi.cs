@@ -107,6 +107,10 @@ namespace Helodrace
             report.AppendLine($"Command efficiency={plan.CommandEfficiency:P0}  casualties={plan.CasualtyFraction:P0}");
             report.AppendLine($"Start={plan.Start}  objective={plan.Objective}  front={plan.Frontline}");
             report.AppendLine($"Flank={plan.Flank}  entry={plan.Entry}");
+            if (plan.PlannedBreach != null)
+                report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
+                    + $"{plan.BreachCell}  outside={plan.Entry}"
+                    + $"  inside={plan.BreachInside}");
             report.AppendLine();
             report.AppendLine("Ranked maneuvers:");
             for (int i = 0; i < plan.Options.Count; i++)
@@ -151,6 +155,8 @@ namespace Helodrace
                     plan.ApproachPath[i].ToVector3Shifted(), SimpleColor.Red, 0.13f);
             GenDraw.DrawRadiusRing(plan.Objective, 1.1f, ObjectiveColor);
             GenDraw.DrawRadiusRing(plan.Entry, 1.0f, EntryColor);
+            if (plan.PlannedBreach != null)
+                GenDraw.DrawRadiusRing(plan.BreachCell, 1.0f, Color.yellow);
             if (plan.Flank.IsValid) GenDraw.DrawRadiusRing(plan.Flank, 0.9f, SecurityColor);
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
                 if (assignment.Position.IsValid)
@@ -165,6 +171,10 @@ namespace Helodrace
             if (plan == null) return;
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Objective), "OBJECTIVE", ObjectiveColor);
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Entry), "ENTRY", EntryColor);
+            if (plan.PlannedBreach != null)
+                GenMapUI.DrawThingLabel(
+                    GenMapUI.LabelDrawPosFor(plan.BreachCell),
+                    "BREACH", Color.yellow);
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Frontline), "FRONT", Color.red);
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
                 if (assignment.Position.IsValid)

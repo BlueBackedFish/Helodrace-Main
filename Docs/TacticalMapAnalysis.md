@@ -178,6 +178,10 @@ Under `Helodrace/Tactical AI`, use `Draw door and wall geometry map` to flash
 scored cells, `Inspect tactical data under mouse` for features and directions,
 `Draw exterior doors and openings` to inspect perimeter candidates, and
 `Open raid tactical plans` to inspect the selected route and assignments.
+The raid plan shows a fixed BREACH marker when the objective lies beyond an
+impassable foreign perimeter. Its report lists the chosen outside work cell
+and inside crossing cell. Approach checkpoints are shared by the entry and
+support groups; crossing waits for the selected opening and the entry group.
 
 ## In-game verification
 
@@ -191,3 +195,7 @@ or a breach, then confirm the phase continues instead of restarting. Down a
 member or commander and confirm that the plan and execution assignments are
 re-evaluated. These game-runtime checks are still required in addition to the
 source build and logic tests.
+Also test `EdgeWalkInGroups` with LOW sledgehammer carriers against both an
+ordinary closed door and a continuous player wall. Check that every active
+member first gathers at the same start, follows the same exterior checkpoints,
+and that entry members cross the marked breach before moving to the objective.
