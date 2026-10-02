@@ -81,6 +81,13 @@ HIGH-doctrine wounded members with TCCC training perform self-hemostasis after
 reaching their withdrawal position when they are bleeding.
 The HIGH faction now has its own modern formation doctrine and combat pool;
 generated raid members receive CQB and TCCC training at creation.
+If an allied forward base has usable CAS or artillery, an outdoor raid can
+request the existing service against a visible hostile well clear of friendly
+and neutral pawns. The raid holds its assembly positions until the strike ends
+and its munitions have had time to land. If friendlies move into the target
+area before impact, it recalls the airstrike when possible or cancels remaining
+artillery volleys. Service capacity and ammunition are consumed by the
+existing forward-base support system.
 
 ## Developer tools
 

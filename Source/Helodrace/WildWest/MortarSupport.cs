@@ -239,6 +239,18 @@ namespace Helodrace
         private IntVec3 lineDragEnd = IntVec3.Invalid;
         public MapComponent_HelodMortarSupport(Map map) : base(map) { }
 
+        public bool HasActiveStrike(Pawn caller)
+        {
+            return caller != null && strikes.Exists(strike =>
+                strike.Caller == caller && !strike.Finished);
+        }
+
+        public void CancelStrike(Pawn caller)
+        {
+            if (caller != null)
+                strikes.RemoveAll(strike => strike.Caller == caller);
+        }
+
         public void QueueStrike(
             IntVec3 center,
             IntVec3 lineEnd,

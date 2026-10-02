@@ -4,6 +4,7 @@ using System.Linq;
 using Helodrace.Squads;
 using Helodrace.Tactical;
 using RimWorld;
+using RimWorld.Planet;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -30,6 +31,13 @@ namespace Helodrace
         None,
         PowerCutter,
         C4
+    }
+
+    public enum RaidExternalSupportKind
+    {
+        None,
+        Air,
+        Artillery
     }
 
     public sealed class MapComponent_RaidTacticalExecution : MapComponent
@@ -60,6 +68,12 @@ namespace Helodrace
             public bool SupportIssued;
             public bool FlankIssued;
             public bool AssaultIssued;
+            public bool ExternalSupportAttempted;
+            public RaidExternalSupportKind ExternalSupportKind;
+            public Pawn ExternalSupportCaller;
+            public Pawn ExternalSupportTarget;
+            public IntVec3 ExternalSupportTargetCell;
+            public int ExternalSupportClearedTick;
             // Planning cache is rebuilt after a save load; execution progress is Scribed above.
             public RaidTacticalPlan ActivePlan;
 
@@ -79,6 +93,13 @@ namespace Helodrace
                 Scribe_Values.Look(ref SupportIssued, "supportIssued");
                 Scribe_Values.Look(ref FlankIssued, "flankIssued");
                 Scribe_Values.Look(ref AssaultIssued, "assaultIssued");
+                Scribe_Values.Look(ref ExternalSupportAttempted, "externalSupportAttempted");
+                Scribe_Values.Look(ref ExternalSupportKind, "externalSupportKind");
+                Scribe_References.Look(ref ExternalSupportCaller, "externalSupportCaller");
+                Scribe_References.Look(ref ExternalSupportTarget, "externalSupportTarget");
+                Scribe_Values.Look(ref ExternalSupportTargetCell, "externalSupportTargetCell");
+                Scribe_Values.Look(ref ExternalSupportClearedTick,
+                    "externalSupportClearedTick");
             }
         }
 
@@ -179,6 +200,21 @@ namespace Helodrace
             switch (state.Phase)
             {
                 case RaidExecutionPhase.Assemble:
+                    if (!state.ExternalSupportAttempted)
+                    {
+                        state.ExternalSupportAttempted = true;
+                        TryRequestExternalSupport(organization, members, plan, state);
+                    }
+                    if (WaitingForExternalSupport(state, members, tick))
+                    {
+                        foreach (Pawn pawn in members)
+                            if (pawn.CurJobDef != JobDefOf.Wait_Combat
+                                && map.GetComponent<MapComponent_HelodCasSupport>()
+                                    ?.RequiresStationaryGuidance(pawn) != true)
+                                pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
+                                    JobCondition.InterruptForced);
+                        break;
+                    }
                     Assemble(members, plan);
                     if (AllReady(members, plan) || tick - state.PhaseStarted >= AssembleTimeout)
                     {
@@ -412,6 +448,118 @@ namespace Helodrace
                 occupied.Add(target);
                 TryGoto(pawn, target);
             }
+        }
+
+        private void TryRequestExternalSupport(CombatOrganization organization,
+            List<Pawn> members, RaidTacticalPlan plan, ExecutionState state)
+        {
+            if (plan.Objective.GetRoom(map)?.PsychologicallyOutdoors == false
+                || Find.WorldObjects == null) return;
+            List<HelodForwardBase> bases = Find.WorldObjects.AllWorldObjects
+                .OfType<HelodForwardBase>()
+                .Where(value => value.Faction == organization.faction).ToList();
+            if (bases.Count == 0) return;
+            Pawn target = map.mapPawns.AllPawnsSpawned
+                .Where(enemy => !enemy.Dead && !enemy.Downed
+                    && enemy.Faction != null && enemy.Faction.HostileTo(organization.faction)
+                    && enemy.Position.DistanceTo(plan.Objective) <= 12f
+                    && map.mapPawns.AllPawnsSpawned.All(other => other.Dead
+                        || other.HostileTo(members[0])
+                        || other.Position.DistanceTo(enemy.Position) >= 20f))
+                .OrderBy(enemy => enemy.Position.DistanceToSquared(plan.Objective))
+                .FirstOrDefault();
+            if (target == null) return;
+            Pawn caller = members.FirstOrDefault(pawn =>
+                HelodCasSupportUtility.CanUseTalkOnTarget(pawn, map, target.Position));
+            if (caller == null) return;
+
+            if (!SCR300RadioUtility.IsBlackout(map))
+                foreach (HelodForwardBase forwardBase in bases
+                    .Where(value => HelodCasSupportUtility.CanUseBase(map, value)))
+                {
+                    HelodCasAircraftKind aircraft = HelodCasSupportUtility
+                        .AircraftForForwardBase(forwardBase);
+                    HelodCasAttackKind attack = aircraft == HelodCasAircraftKind.P47
+                        ? HelodCasAttackKind.Bombing : HelodCasAttackKind.GBU54;
+                    IntVec3 entry = new IntVec3(plan.Start.x <= target.Position.x
+                        ? 0 : map.Size.x - 1, 0, target.Position.z);
+                    HelodCasSupportUtility.ScatterFor(aircraft, attack,
+                        out float major, out float minor);
+                    var strike = new HelodCasAttackPlan(entry, target.Position,
+                        HelodCasGuidanceMode.TalkOn, map, major, minor, attack, aircraft,
+                        new[] { target.Position }, new Thing[] { target });
+                    if (HelodCasSupportUtility.TryCall(map, strike, forwardBase,
+                        caller, null))
+                    {
+                        state.ExternalSupportKind = RaidExternalSupportKind.Air;
+                        state.ExternalSupportCaller = caller;
+                        state.ExternalSupportTarget = target;
+                        state.ExternalSupportTargetCell = target.Position;
+                        RaidTacticalSpeech.Say(caller, "HD_RaidTactical_ExternalSupport");
+                        return;
+                    }
+                }
+
+            ThingDef shell = DefDatabase<ThingDef>.GetNamedSilentFail(
+                plan.Doctrine == RaidTacticalDoctrine.High
+                    ? "HD_105mmShell_M1HE" : "HD_81mmMortarShell_M43HE");
+            if (shell?.projectileWhenLoaded == null) return;
+            HelodForwardBaseService service = plan.Doctrine == RaidTacticalDoctrine.High
+                ? HelodForwardBaseService.Artillery105mmSupport
+                : HelodForwardBaseService.InfantryMortarSupport;
+            foreach (HelodForwardBase forwardBase in bases
+                .Where(value => HelodMortarSupportUtility.CanUseBase(map, value, service)))
+                if (HelodMortarSupportUtility.TryCall(map, target.Position,
+                    forwardBase, shell, default(IntVec3), null, caller, service))
+                {
+                    state.ExternalSupportKind = RaidExternalSupportKind.Artillery;
+                    state.ExternalSupportCaller = caller;
+                    state.ExternalSupportTargetCell = target.Position;
+                    RaidTacticalSpeech.Say(caller, "HD_RaidTactical_ExternalSupport");
+                    return;
+                }
+        }
+
+        private bool WaitingForExternalSupport(ExecutionState state,
+            List<Pawn> members, int tick)
+        {
+            if (state.ExternalSupportKind == RaidExternalSupportKind.None) return false;
+            IntVec3 aim = state.ExternalSupportKind == RaidExternalSupportKind.Air
+                && state.ExternalSupportTarget?.Spawned == true
+                ? state.ExternalSupportTarget.Position : state.ExternalSupportTargetCell;
+            bool unsafeToFire = aim.IsValid && map.mapPawns.AllPawnsSpawned.Any(pawn =>
+                !pawn.Dead && !pawn.HostileTo(members[0])
+                && pawn.Position.DistanceTo(aim) < 20f);
+            if (unsafeToFire)
+            {
+                if (state.ExternalSupportKind == RaidExternalSupportKind.Air)
+                {
+                    MapComponent_HelodCasSupport support = map
+                        .GetComponent<MapComponent_HelodCasSupport>();
+                    if (support?.CanCancelStrike(state.ExternalSupportCaller,
+                            out _) == true)
+                        support.TryCancelStrike(state.ExternalSupportCaller);
+                }
+                else map.GetComponent<MapComponent_HelodMortarSupport>()
+                    ?.CancelStrike(state.ExternalSupportCaller);
+            }
+            bool active = state.ExternalSupportKind == RaidExternalSupportKind.Air
+                ? map.GetComponent<MapComponent_HelodCasSupport>()
+                    ?.HasActiveStrike(state.ExternalSupportCaller) == true
+                : map.GetComponent<MapComponent_HelodMortarSupport>()
+                    ?.HasActiveStrike(state.ExternalSupportCaller) == true;
+            if (active)
+            {
+                state.ExternalSupportClearedTick = 0;
+                return true;
+            }
+            if (state.ExternalSupportClearedTick == 0)
+                state.ExternalSupportClearedTick = tick;
+            if (tick - state.ExternalSupportClearedTick < 180) return true;
+            state.ExternalSupportKind = RaidExternalSupportKind.None;
+            state.ExternalSupportCaller = null;
+            state.ExternalSupportTarget = null;
+            return false;
         }
 
         private static bool AllReady(List<Pawn> members, RaidTacticalPlan plan)
