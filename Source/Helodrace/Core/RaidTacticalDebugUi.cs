@@ -144,9 +144,9 @@ namespace Helodrace
             base.MapComponentUpdate();
             RaidTacticalPlan plan = VisiblePlan();
             if (plan == null) return;
-            for (int i = 1; i < plan.ApproachNodes.Count; i++)
-                GenDraw.DrawLineBetween(plan.ApproachNodes[i - 1].ToVector3Shifted(),
-                    plan.ApproachNodes[i].ToVector3Shifted(), SimpleColor.Red, 0.13f);
+            for (int i = 1; i < plan.ApproachPath.Count; i++)
+                GenDraw.DrawLineBetween(plan.ApproachPath[i - 1].ToVector3Shifted(),
+                    plan.ApproachPath[i].ToVector3Shifted(), SimpleColor.Red, 0.13f);
             GenDraw.DrawRadiusRing(plan.Objective, 1.1f, ObjectiveColor);
             GenDraw.DrawRadiusRing(plan.Entry, 1.0f, EntryColor);
             if (plan.Flank.IsValid) GenDraw.DrawRadiusRing(plan.Flank, 0.9f, SecurityColor);
@@ -170,7 +170,6 @@ namespace Helodrace
                         assignment.EntryOrder > 0 ? "E" + assignment.EntryOrder
                             : assignment.Task == RaidTacticalTask.FireSupport ? "F"
                             : assignment.Task == RaidTacticalTask.Response ? "R"
-                            : assignment.Task == RaidTacticalTask.Recon ? "Q"
                             : assignment.Task == RaidTacticalTask.Withdraw ? "W" : "S",
                         assignment.Task == RaidTacticalTask.Entry ? EntryColor : SecurityColor);
         }

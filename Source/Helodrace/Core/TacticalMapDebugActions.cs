@@ -34,16 +34,11 @@ namespace Helodrace
             string objectives = string.Join(", ", analysis.StrategicTargets
                 .GroupBy(target => target.Kind)
                 .Select(group => $"{group.Key}={group.Count()}"));
-            string zones = string.Join(", ", analysis.Killzones
-                .GroupBy(zone => zone.Kinds)
-                .Select(group => $"{group.Key}={group.Count()}"));
             Log.Message($"[Helodrace Tactical AI] Objectives: {(objectives.NullOrEmpty() ? "none" : objectives)}. "
-                + $"Killzones: {(zones.NullOrEmpty() ? "none" : zones)}. "
-                + $"Static={analysis.LastStaticBuildMilliseconds} ms, dynamic={analysis.LastDynamicBuildMilliseconds} ms, "
-                + $"LOS={analysis.LastLineOfSightChecks}, mobile defenders={analysis.LastMobileDefendersScored}.");
+                + $"Geometry build={analysis.LastStaticBuildMilliseconds} ms.");
             Messages.Message(
                 $"Tactical maps rebuilt: {analysis.StrategicTargets.Count} objectives, "
-                    + $"{analysis.Killzones.Count} killzones, {analysis.PointsOfInterest.Count} POIs.",
+                    + $"{analysis.PointsOfInterest.Count} POIs.",
                 MessageTypeDefOf.NeutralEvent,
                 false);
         }
@@ -70,19 +65,6 @@ namespace Helodrace
             TacticalPoiOverlaySettings.ShowStrategic = !TacticalPoiOverlaySettings.ShowStrategic;
             Messages.Message(
                 $"Strategic POIs: {(TacticalPoiOverlaySettings.ShowStrategic ? "ON" : "OFF")}",
-                MessageTypeDefOf.NeutralEvent,
-                false);
-        }
-
-        [DebugAction(
-            "Helodrace/Tactical AI",
-            "Toggle killzone POIs",
-            allowedGameStates = AllowedGameStates.PlayingOnMap)]
-        public static void ToggleKillzonePois()
-        {
-            TacticalPoiOverlaySettings.ShowKillzones = !TacticalPoiOverlaySettings.ShowKillzones;
-            Messages.Message(
-                $"Killzone POIs: {(TacticalPoiOverlaySettings.ShowKillzones ? "ON" : "OFF")}",
                 MessageTypeDefOf.NeutralEvent,
                 false);
         }
@@ -120,11 +102,11 @@ namespace Helodrace
 
         [DebugAction(
             "Helodrace/Tactical AI",
-            "Draw total threat map",
+            "Draw door and wall geometry map",
             allowedGameStates = AllowedGameStates.PlayingOnMap)]
         public static void DrawThreatMap()
         {
-            DrawGrid(data => data.TotalThreat, 4f, "threat");
+            DrawGrid(data => data.TotalThreat, 4f, "geometry");
         }
 
         private static void DrawGrid(Func<TacticalCellData, float> selector, float threshold, string label)

@@ -10,13 +10,10 @@ namespace Helodrace
     {
         public static bool Enabled;
         public static bool ShowStrategic = true;
-        public static bool ShowKillzones = true;
 
         public static bool Visible(TacticalPointOfInterest poi)
         {
-            return poi != null
-                && ((ShowStrategic && (poi.Kind & TacticalPoiKind.Strategic) != 0)
-                    || (ShowKillzones && (poi.Kind & TacticalPoiKind.Killzone) != 0));
+            return poi != null && ShowStrategic;
         }
     }
 
@@ -28,8 +25,6 @@ namespace Helodrace
         private const float PanelPadding = 8f;
 
         private static readonly Color StrategicColor = new Color(0.25f, 0.9f, 1f);
-        private static readonly Color KillzoneColor = new Color(1f, 0.3f, 0.2f);
-        private static readonly Color CombinedColor = new Color(1f, 0.35f, 0.9f);
         private static readonly Color PanelBackground = new Color(0.035f, 0.045f, 0.06f, 0.92f);
         private static readonly Color PanelOutline = new Color(0.5f, 0.8f, 0.95f, 0.9f);
 
@@ -100,9 +95,7 @@ namespace Helodrace
 
         private static Color ColorFor(TacticalPointOfInterest poi)
         {
-            bool strategic = (poi.Kind & TacticalPoiKind.Strategic) != 0;
-            bool killzone = (poi.Kind & TacticalPoiKind.Killzone) != 0;
-            return strategic && killzone ? CombinedColor : killzone ? KillzoneColor : StrategicColor;
+            return StrategicColor;
         }
 
         private static void DrawInformationPanel(string label)
@@ -129,16 +122,6 @@ namespace Helodrace
     {
         public static string ShortLabel(TacticalPointOfInterest poi)
         {
-            bool strategic = (poi.Kind & TacticalPoiKind.Strategic) != 0;
-            bool killzone = (poi.Kind & TacticalPoiKind.Killzone) != 0;
-            if (strategic && killzone)
-            {
-                return $"POI/KZ {poi.RoomRole}  V{poi.StrategicValue:0}  {poi.Killzones}";
-            }
-            if (killzone)
-            {
-                return $"KZ {poi.Killzones}  {poi.KillzoneConfidence:P0}";
-            }
             return $"POI {poi.RoomRole}  V{poi.StrategicValue:0}";
         }
 
@@ -150,46 +133,26 @@ namespace Helodrace
             builder.Append(poi.Cell);
             builder.Append("  bounds=");
             builder.Append(poi.Bounds);
-            if ((poi.Kind & TacticalPoiKind.Strategic) != 0)
+            builder.AppendLine();
+            builder.Append("Strategic value: ");
+            builder.Append(poi.StrategicValue.ToString("0.0"));
+            builder.Append("  [");
+            builder.Append(string.Join(", ", poi.StrategicKinds.OrderBy(kind => kind)));
+            builder.Append(']');
+            string sources = string.Join(", ", poi.SourceLabels.OrderBy(label => label));
+            if (!sources.NullOrEmpty())
             {
                 builder.AppendLine();
-                builder.Append("Strategic value: ");
-                builder.Append(poi.StrategicValue.ToString("0.0"));
-                builder.Append("  [");
-                builder.Append(string.Join(", ", poi.StrategicKinds.OrderBy(kind => kind)));
-                builder.Append(']');
-                string sources = string.Join(", ", poi.SourceLabels.OrderBy(label => label));
-                if (!sources.NullOrEmpty())
-                {
-                    builder.AppendLine();
-                    builder.Append("Sources: ");
-                    builder.Append(sources);
-                }
-            }
-            if ((poi.Kind & TacticalPoiKind.Killzone) != 0)
-            {
-                builder.AppendLine();
-                builder.Append("Killzone: ");
-                builder.Append(poi.Killzones);
-                builder.Append("  confidence=");
-                builder.Append(poi.KillzoneConfidence.ToString("P0"));
-                builder.Append("  expected threat=");
-                builder.Append(poi.ExpectedThreat.ToString("0.0"));
-                builder.AppendLine();
-                builder.Append("Threat direction: ");
-                builder.Append(poi.DominantThreatDirection);
-                builder.Append("  directionality=");
-                builder.Append(poi.Directionality.ToString("P0"));
+                builder.Append("Sources: ");
+                builder.Append(sources);
             }
             return builder.ToString();
         }
 
         public static string CellThreatLabel(TacticalCellData data)
         {
-            return $"Cell: value={data.StrategicValue:0.0}  threat={data.TotalThreat:0.0}\n"
-                + $"Ranged {data.RangedThreat:0.0} | Melee {data.MeleeThreat:0.0} | "
-                + $"Thermal {data.ThermalThreat:0.0} | Trap {data.TrapThreat:0.0} | Choke {data.ChokeThreat:0.0}\n"
-                + $"Fire axis {data.RangedThreatDirection} | directionality {data.RangedThreatDirectionality:P0}";
+            return $"Cell: value={data.StrategicValue:0.0}  geometry={data.TotalThreat:0.0}\n"
+                + $"Door {data.DoorThreat:0.0} | Wall/passage {data.WallThreat:0.0}";
         }
     }
 }

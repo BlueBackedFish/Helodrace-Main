@@ -11,7 +11,6 @@ namespace Helodrace
         SmokeAdvance,
         CoordinatedEntry,
         HoldAndCounterattack,
-        ReconAndClear,
         CautiousAdvance,
         Regroup
     }
@@ -34,7 +33,6 @@ namespace Helodrace
         public bool NonlethalGrenadeAvailable;
         public bool FriendlyInsideObjective;
         public bool IndoorObjective;
-        public bool MineWarning;
         public float DirectThreat;
         public float FlankThreat;
         public float CasualtyFraction;
@@ -68,28 +66,16 @@ namespace Helodrace
                 });
             }
 
-            if (situation.MineWarning && situation.Doctrine == RaidTacticalDoctrine.High)
-            {
-                options.Add(new RaidTacticalOption
-                {
-                    Maneuver = RaidTacticalManeuver.ReconAndClear,
-                    Score = 82f - casualties * 12f,
-                    Reason = "Identify and clear the trap route before the group advances."
-                });
-            }
-
             options.Add(new RaidTacticalOption
             {
                 Maneuver = RaidTacticalManeuver.DirectAssault,
-                Score = 64f - direct * 0.50f - casualties * 28f
-                    - (situation.MineWarning && situation.Doctrine == RaidTacticalDoctrine.High ? 24f : 0f),
+                Score = 64f - direct * 0.50f - casualties * 28f,
                 Reason = "Advance together along the shortest approach."
             });
             options.Add(new RaidTacticalOption
             {
                 Maneuver = RaidTacticalManeuver.CautiousAdvance,
-                Score = 52f - direct * 0.28f - casualties * 8f
-                    - (situation.MineWarning && situation.Doctrine == RaidTacticalDoctrine.High ? 20f : 0f),
+                Score = 52f - direct * 0.28f - casualties * 8f,
                 Reason = "Keep the group together and probe the approach before committing."
             });
             options.Add(new RaidTacticalOption
@@ -112,8 +98,7 @@ namespace Helodrace
                 options.Add(new RaidTacticalOption
                 {
                     Maneuver = RaidTacticalManeuver.SmokeAdvance,
-                    Score = 55f + direct * 0.30f - casualties * 15f
-                        - (situation.MineWarning && situation.Doctrine == RaidTacticalDoctrine.High ? 26f : 0f),
+                    Score = 55f + direct * 0.30f - casualties * 15f,
                     Reason = "Screen the approach before the whole group advances."
                 });
             }
@@ -127,8 +112,7 @@ namespace Helodrace
                 {
                     Maneuver = RaidTacticalManeuver.CoordinatedEntry,
                     Score = 59f + direct * 0.22f + support
-                        + (situation.BreachToolAvailable ? 8f : 0f) - casualties * 19f
-                        - (situation.MineWarning && situation.Doctrine == RaidTacticalDoctrine.High ? 30f : 0f),
+                        + (situation.BreachToolAvailable ? 8f : 0f) - casualties * 19f,
                     Reason = situation.Doctrine == RaidTacticalDoctrine.High
                         ? "Stage outside the fatal funnel, inspect the entry and clear together."
                         : safeThrow && situation.LethalGrenadeAvailable
@@ -153,8 +137,6 @@ namespace Helodrace
         {
             if (maneuver == RaidTacticalManeuver.SmokeAdvance && situation.SmokeAvailable)
                 return "Smoke grenade before crossing the front";
-            if (maneuver == RaidTacticalManeuver.ReconAndClear)
-                return "Clear detected traps before entry";
             if (maneuver != RaidTacticalManeuver.CoordinatedEntry) return "None";
             if (situation.Doctrine == RaidTacticalDoctrine.High)
                 return situation.NonlethalGrenadeAvailable ? "Nonlethal grenade after identification"

@@ -15,8 +15,7 @@ namespace Helodrace
         Security,
         FireSupport,
         Withdraw,
-        Response,
-        Recon
+        Response
     }
 
     public sealed class RaidTacticalAssignment
@@ -37,6 +36,7 @@ namespace Helodrace
         public IntVec3 Flank;
         public IntVec3 Entry;
         public List<IntVec3> ApproachNodes = new List<IntVec3>();
+        public List<IntVec3> ApproachPath = new List<IntVec3>();
         public List<RaidTacticalOption> Options = new List<RaidTacticalOption>();
         public RaidTacticalOption Selected;
         public List<RaidTacticalAssignment> Assignments = new List<RaidTacticalAssignment>();
@@ -77,13 +77,13 @@ namespace Helodrace
                 plan.Reason = "Tactical map analysis is unavailable.";
                 return plan;
             }
-            analysis.RequestAnalysis(organization.faction, 1800);
+            analysis.RequestAnalysis(1800);
             plan.Doctrine = organization.faction?.def?.defName == "HD_HelodCivilHighFaction"
                 ? RaidTacticalDoctrine.High : RaidTacticalDoctrine.Low;
             IntVec3 center = Center(members.Select(pawn => pawn.Position));
             Pawn pathfinder = members.OrderBy(pawn => pawn.Position.DistanceToSquared(center)).First();
             plan.Start = pathfinder.Position;
-            StrategicTarget target = analysis.BestObjective(organization.faction, plan.Start);
+            StrategicTarget target = analysis.BestObjective(plan.Start);
             List<Pawn> hostiles = map.mapPawns.AllPawnsSpawned.Where(pawn => pawn.Faction != null
                 && pawn.Faction.HostileTo(organization.faction) && !pawn.Dead).ToList();
             plan.Objective = target?.Cell ?? (hostiles.Count > 0
@@ -93,31 +93,30 @@ namespace Helodrace
                 plan.Reason = "No defender or strategic objective was found.";
                 return plan;
             }
-            bool detectTraps = plan.Doctrine == RaidTacticalDoctrine.High;
-            plan.Entry = FindEntry(map, analysis, plan.Objective, pathfinder, detectTraps);
+            Room objectiveRoom = plan.Objective.GetRoom(map);
+            bool field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
+            FieldThreatSnapshot fieldThreat = field ? new FieldThreatSnapshot(map, hostiles) : null;
+            plan.Entry = FindEntry(map, analysis, fieldThreat, plan.Objective, pathfinder);
             if (!plan.Entry.IsValid)
             {
                 plan.Reason = "No usable entry cell was found near the objective.";
                 return plan;
             }
 
-            List<IntVec3> direct = SampleLine(map, plan.Start, plan.Entry);
+            List<IntVec3> direct = FindRoute(map, plan.Start, plan.Entry);
             if (direct.Count == 0)
             {
                 plan.Reason = "No walking route reaches the objective entrance.";
                 return plan;
             }
-            plan.Frontline = direct.OrderByDescending(cell =>
-                    VisibleThreat(analysis.CachedAt(cell), detectTraps))
-                .FirstOrDefault();
-            if (!plan.Frontline.IsValid) plan.Frontline = plan.Entry;
-            plan.Flank = FindFlank(map, analysis, pathfinder, plan.Start, plan.Entry, detectTraps);
-            List<IntVec3> flankRoute = plan.Flank.IsValid
-                ? SampleLine(map, plan.Start, plan.Flank)
-                    .Concat(SampleLine(map, plan.Flank, plan.Entry)).Distinct().ToList()
-                : new List<IntVec3>();
-            float directThreat = MeanThreat(analysis, direct, detectTraps);
-            float flankThreat = MeanThreat(analysis, flankRoute, detectTraps);
+            float peakThreat = direct.Max(cell => ThreatAt(analysis, fieldThreat, cell));
+            plan.Frontline = peakThreat > 0f
+                ? direct.OrderByDescending(cell => ThreatAt(analysis, fieldThreat, cell)).First()
+                : plan.Entry;
+            plan.Flank = FindFlank(map, analysis, fieldThreat, pathfinder,
+                plan.Start, plan.Entry, out List<IntVec3> flankRoute);
+            float directThreat = MeanThreat(analysis, fieldThreat, direct);
+            float flankThreat = MeanThreat(analysis, fieldThreat, flankRoute);
             int originalPersonnel = organization.rootGroups.Sum(root => root.formation?.StandardPersonnel ?? 0);
             plan.CasualtyFraction = originalPersonnel == 0 ? 0f
                 : Mathf.Clamp01(1f - members.Count / (float)originalPersonnel);
@@ -136,12 +135,10 @@ namespace Helodrace
                 ?.TryGetComp<CompPowerCutterBreach>() != null)
                 || members.Any(pawn => pawn.inventory?.innerContainer
                     ?.Any(item => item.def.defName == "HD_C4_Charge") == true);
-            Room room = plan.Objective.GetRoom(map);
-            bool indoor = room != null && !room.PsychologicallyOutdoors;
+            Room room = objectiveRoom;
+            bool indoor = !field;
             bool friendlyInside = indoor && map.mapPawns.AllPawnsSpawned.Any(pawn =>
                 pawn.Faction == organization.faction && pawn.Position.GetRoom(map) == room);
-            bool mineWarning = detectTraps
-                && direct.Any(cell => analysis.CachedAt(cell).TrapThreat > 1f);
             bool nearbyHostile = map.mapPawns.AllPawnsSpawned.Any(pawn => pawn.Faction != null
                 && pawn.Faction.HostileTo(organization.faction)
                 && pawn.Position.DistanceTo(plan.Start) <= 18f);
@@ -149,7 +146,7 @@ namespace Helodrace
             {
                 Doctrine = plan.Doctrine,
                 Defending = plan.CasualtyFraction >= 0.35f
-                    || (nearbyHostile && directThreat >= 50f),
+                    || (nearbyHostile && directThreat >= 18f),
                 FlankAvailable = plan.Flank.IsValid,
                 EntryAvailable = indoor,
                 BreachToolAvailable = breachTool,
@@ -158,7 +155,6 @@ namespace Helodrace
                 NonlethalGrenadeAvailable = nonlethal,
                 FriendlyInsideObjective = friendlyInside,
                 IndoorObjective = indoor,
-                MineWarning = mineWarning,
                 DirectThreat = directThreat,
                 FlankThreat = flankThreat,
                 CasualtyFraction = plan.CasualtyFraction,
@@ -171,17 +167,15 @@ namespace Helodrace
                 plan.Reason = "No viable maneuver was found.";
                 return plan;
             }
-            plan.ApproachNodes.Add(plan.Start);
-            if (plan.Selected.Maneuver == RaidTacticalManeuver.FlankAttack)
-                plan.ApproachNodes.Add(plan.Flank);
-            else if (plan.Frontline != plan.Start && plan.Frontline != plan.Entry)
-                plan.ApproachNodes.Add(plan.Frontline);
+            List<IntVec3> selectedRoute = plan.Selected.Maneuver == RaidTacticalManeuver.FlankAttack
+                ? flankRoute : direct;
             if (plan.Selected.Maneuver != RaidTacticalManeuver.HoldAndCounterattack
                 && plan.Selected.Maneuver != RaidTacticalManeuver.Regroup)
             {
-                plan.ApproachNodes.Add(plan.Entry);
-                plan.ApproachNodes.Add(plan.Objective);
+                plan.ApproachPath.AddRange(selectedRoute);
+                plan.ApproachNodes.AddRange(RouteTurns(selectedRoute));
             }
+            else plan.ApproachNodes.Add(plan.Start);
             plan.EntrySupport = RaidTacticalDecision.EntrySupport(plan.Selected.Maneuver, situation);
             plan.EntryMethod = plan.Entry.GetEdifice(map) is Building_Door
                 ? "Door" : breachTool ? "Breach equipment available" : "Open approach";
@@ -194,7 +188,7 @@ namespace Helodrace
                 && !GenSight.LineOfSight(plan.Start, pawn.Position, map, true));
             plan.CoordinationDelayTicks = plan.Doctrine == RaidTacticalDoctrine.High ? 30
                 : 60 + (separated ? 60 : 0) + (outOfSight ? 60 : 0);
-            AssignPositions(map, analysis, organization, members, plan);
+            AssignPositions(map, analysis, fieldThreat, organization, members, plan);
             if (plan.Assignments.Count != members.Count
                 || plan.Assignments.Any(assignment => !assignment.Position.IsValid))
             {
@@ -207,6 +201,7 @@ namespace Helodrace
         }
 
         private static void AssignPositions(Map map, MapComponent_TacticalMapAnalysis analysis,
+            FieldThreatSnapshot fieldThreat,
             CombatOrganization organization, List<Pawn> members, RaidTacticalPlan plan)
         {
             var occupied = new HashSet<IntVec3>();
@@ -214,9 +209,8 @@ namespace Helodrace
                 ?.SummaryHealthPercent < 0.35f).ToList();
             foreach (Pawn pawn in wounded)
             {
-                IntVec3 cell = FindRetreatCell(map, analysis, pawn,
-                    plan.Start, plan.Objective, occupied,
-                    plan.Doctrine == RaidTacticalDoctrine.High);
+                IntVec3 cell = FindRetreatCell(map, analysis, fieldThreat, pawn,
+                    plan.Start, plan.Objective, occupied);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 { Pawn = pawn, Task = RaidTacticalTask.Withdraw, Position = cell });
@@ -224,27 +218,21 @@ namespace Helodrace
             members = members.Except(wounded).ToList();
             if (members.Count == 0) return;
             if (plan.Selected.Maneuver == RaidTacticalManeuver.HoldAndCounterattack
-                || plan.Selected.Maneuver == RaidTacticalManeuver.Regroup
-                || plan.Selected.Maneuver == RaidTacticalManeuver.ReconAndClear)
+                || plan.Selected.Maneuver == RaidTacticalManeuver.Regroup)
             {
                 bool hold = plan.Selected.Maneuver == RaidTacticalManeuver.HoldAndCounterattack;
-                bool recon = plan.Selected.Maneuver == RaidTacticalManeuver.ReconAndClear;
                 int responseCount = hold ? Math.Max(1, members.Count / 3) : 0;
                 List<Pawn> response = members.Where(pawn => !IsFireSupport(organization, pawn))
                     .Take(responseCount).ToList();
-                Pawn scout = recon ? members.FirstOrDefault(pawn => !IsFireSupport(organization, pawn))
-                    : null;
                 foreach (Pawn pawn in members)
                 {
-                    IntVec3 cell = FindStagingCell(map, analysis,
-                        pawn, pawn == scout ? plan.Frontline : plan.Start, plan.Start,
-                        occupied, plan.Doctrine == RaidTacticalDoctrine.High, 2, 9);
+                    IntVec3 cell = FindStagingCell(map, analysis, fieldThreat,
+                        pawn, plan.Start, plan.Start, occupied, 2, 9);
                     if (cell.IsValid) occupied.Add(cell);
                     plan.Assignments.Add(new RaidTacticalAssignment
                     {
                         Pawn = pawn,
-                        Task = pawn == scout ? RaidTacticalTask.Recon
-                            : response.Contains(pawn) ? RaidTacticalTask.Response
+                        Task = response.Contains(pawn) ? RaidTacticalTask.Response
                             : IsFireSupport(organization, pawn) ? RaidTacticalTask.FireSupport
                             : RaidTacticalTask.Security,
                         Position = cell
@@ -269,16 +257,16 @@ namespace Helodrace
 
             for (int i = 0; i < entry.Count; i++)
             {
-                IntVec3 cell = FindStagingCell(map, analysis, entry[i], plan.Entry, plan.Start,
-                    occupied, plan.Doctrine == RaidTacticalDoctrine.High, 3, 8);
+                IntVec3 cell = FindStagingCell(map, analysis, fieldThreat,
+                    entry[i], plan.Entry, plan.Start, occupied, 3, 8);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 { Pawn = entry[i], Task = RaidTacticalTask.Entry, Position = cell, EntryOrder = i + 1 });
             }
             foreach (Pawn pawn in support)
             {
-                IntVec3 cell = FindStagingCell(map, analysis, pawn, plan.Frontline,
-                    plan.Start, occupied, plan.Doctrine == RaidTacticalDoctrine.High, 4, 11);
+                IntVec3 cell = FindStagingCell(map, analysis, fieldThreat, pawn,
+                    plan.Frontline, plan.Start, occupied, 3, 11, true);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 {
@@ -299,13 +287,13 @@ namespace Helodrace
         }
 
         private static IntVec3 FindEntry(Map map, MapComponent_TacticalMapAnalysis analysis,
-            IntVec3 objective, Pawn pathfinder, bool detectTraps)
+            FieldThreatSnapshot fieldThreat, IntVec3 objective, Pawn pathfinder)
         {
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(objective, 9f, true)
-                .Where(cell => cell.InBounds(map) && cell.Standable(map))
+                .Where(cell => IsTraversable(map, cell))
                 .OrderBy(cell => cell.DistanceTo(objective) * 4f
                     + cell.DistanceTo(pathfinder.Position) * 0.3f
-                    + VisibleThreat(analysis.CachedAt(cell), detectTraps) * 0.12f
+                    + ThreatAt(analysis, fieldThreat, cell) * 0.12f
                     - (cell.GetEdifice(map) is Building_Door ? 18f : 0f))
                 .Take(64))
                 if (map.reachability.CanReach(pathfinder.Position, cell,
@@ -315,8 +303,10 @@ namespace Helodrace
         }
 
         private static IntVec3 FindFlank(Map map, MapComponent_TacticalMapAnalysis analysis,
-            Pawn pathfinder, IntVec3 start, IntVec3 entry, bool detectTraps)
+            FieldThreatSnapshot fieldThreat, Pawn pathfinder, IntVec3 start, IntVec3 entry,
+            out List<IntVec3> bestRoute)
         {
+            bestRoute = new List<IntVec3>();
             float dx = entry.x - start.x;
             float dz = entry.z - start.z;
             float length = Mathf.Max(1f, Mathf.Sqrt(dx * dx + dz * dz));
@@ -332,30 +322,35 @@ namespace Helodrace
                         TraverseParms.For(pathfinder))
                         || !map.reachability.CanReach(cell, entry, PathEndMode.OnCell,
                             TraverseParms.For(pathfinder))) continue;
-                    List<IntVec3> first = SampleLine(map, start, cell);
-                    List<IntVec3> second = SampleLine(map, cell, entry);
-                    float score = MeanThreat(analysis, first.Concat(second), detectTraps)
-                        + (first.Count + second.Count) * 0.25f;
+                    List<IntVec3> first = FindRoute(map, start, cell);
+                    List<IntVec3> second = FindRoute(map, cell, entry);
+                    if (first.Count == 0 || second.Count == 0) continue;
+                    List<IntVec3> route = first.Concat(second.Skip(1)).ToList();
+                    float score = MeanThreat(analysis, fieldThreat, route)
+                        + route.Count * 0.25f;
                     if (score >= bestScore) continue;
                     best = cell;
                     bestScore = score;
+                    bestRoute = route;
                 }
             return best;
         }
 
         private static IntVec3 FindStagingCell(Map map, MapComponent_TacticalMapAnalysis analysis,
-            Pawn pawn, IntVec3 anchor, IntVec3 rear, HashSet<IntVec3> occupied, bool avoidTraps,
-            int minimumRadius, int maximumRadius)
+            FieldThreatSnapshot fieldThreat, Pawn pawn, IntVec3 anchor, IntVec3 rear,
+            HashSet<IntVec3> occupied,
+            int minimumRadius, int maximumRadius, bool guardAnchor = false)
         {
             if (!anchor.IsValid) return IntVec3.Invalid;
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(anchor, maximumRadius, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !occupied.Contains(cell) && cell.DistanceTo(anchor) >= minimumRadius)
-                .Where(cell => !avoidTraps || analysis.CachedAt(cell).TrapThreat <= 1f)
+                .Where(cell => !guardAnchor || anchor.GetEdifice(map) is Building_Door
+                    || GenSight.LineOfSight(cell, anchor, map, true))
                 .OrderBy(cell =>
                 {
                     TacticalCellData data = analysis.CachedAt(cell);
-                    return VisibleThreat(data, avoidTraps) * 0.18f + data.ChokeThreat * 0.5f
+                    return ThreatAt(analysis, fieldThreat, cell) * 0.18f + data.TotalThreat * 0.5f
                         + cell.DistanceTo(anchor) * 0.6f + cell.DistanceTo(rear) * 0.12f;
                 }).Take(24))
                 if (map.reachability.CanReach(pawn.Position, cell, PathEndMode.OnCell,
@@ -364,14 +359,14 @@ namespace Helodrace
         }
 
         private static IntVec3 FindRetreatCell(Map map, MapComponent_TacticalMapAnalysis analysis,
-            Pawn pawn, IntVec3 start, IntVec3 objective, HashSet<IntVec3> occupied,
-            bool detectTraps)
+            FieldThreatSnapshot fieldThreat, Pawn pawn, IntVec3 start, IntVec3 objective,
+            HashSet<IntVec3> occupied)
         {
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(start, 14f, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !occupied.Contains(cell) && cell.DistanceTo(start) >= 5f)
                 .OrderByDescending(cell => cell.DistanceTo(objective)
-                    - VisibleThreat(analysis.CachedAt(cell), detectTraps) * 0.25f
+                    - ThreatAt(analysis, fieldThreat, cell) * 0.25f
                     - cell.DistanceTo(start) * 0.3f)
                 .Take(24))
                 if (map.reachability.CanReach(pawn.Position, cell, PathEndMode.OnCell,
@@ -386,32 +381,138 @@ namespace Helodrace
                 Mathf.RoundToInt((float)list.Average(cell => cell.z)));
         }
 
-        private static List<IntVec3> SampleLine(Map map, IntVec3 from, IntVec3 to)
+        private static List<IntVec3> FindRoute(Map map, IntVec3 from, IntVec3 to)
         {
-            int count = Math.Max(Math.Abs(to.x - from.x), Math.Abs(to.z - from.z));
-            var cells = new List<IntVec3>();
-            for (int i = 0; i <= count; i++)
+            if (!IsTraversable(map, from) || !IsTraversable(map, to))
+                return new List<IntVec3>();
+            var frontier = new SortedDictionary<int, Queue<IntVec3>>();
+            var distance = new Dictionary<IntVec3, int> { [from] = 0 };
+            var previous = new Dictionary<IntVec3, IntVec3>();
+            Enqueue(from, 0);
+            IntVec3[] directions = { IntVec3.North, IntVec3.East,
+                IntVec3.South, IntVec3.West };
+            while (frontier.Count > 0)
             {
-                float t = count == 0 ? 0f : i / (float)count;
-                var cell = new IntVec3(Mathf.RoundToInt(Mathf.Lerp(from.x, to.x, t)), 0,
-                    Mathf.RoundToInt(Mathf.Lerp(from.z, to.z, t)));
-                if (cell.InBounds(map) && (cells.Count == 0 || cells[cells.Count - 1] != cell))
-                    cells.Add(cell);
+                KeyValuePair<int, Queue<IntVec3>> first = frontier.First();
+                IntVec3 cell = first.Value.Dequeue();
+                if (first.Value.Count == 0) frontier.Remove(first.Key);
+                int cost = distance[cell];
+                if (first.Key != cost + Math.Abs(cell.x - to.x)
+                    + Math.Abs(cell.z - to.z)) continue;
+                if (cell == to)
+                {
+                    var result = new List<IntVec3> { to };
+                    while (cell != from)
+                    {
+                        cell = previous[cell];
+                        result.Add(cell);
+                    }
+                    result.Reverse();
+                    return result;
+                }
+                foreach (IntVec3 direction in directions)
+                {
+                    IntVec3 next = cell + direction;
+                    if (!IsTraversable(map, next)) continue;
+                    int nextCost = cost + 1;
+                    if (distance.TryGetValue(next, out int oldCost) && nextCost >= oldCost) continue;
+                    distance[next] = nextCost;
+                    previous[next] = cell;
+                    Enqueue(next, nextCost + Math.Abs(next.x - to.x)
+                        + Math.Abs(next.z - to.z));
+                }
             }
-            return cells;
+            return new List<IntVec3>();
+
+            void Enqueue(IntVec3 cell, int priority)
+            {
+                if (!frontier.TryGetValue(priority, out Queue<IntVec3> bucket))
+                    frontier.Add(priority, bucket = new Queue<IntVec3>());
+                bucket.Enqueue(cell);
+            }
+        }
+
+        private static bool IsTraversable(Map map, IntVec3 cell)
+        {
+            return cell.InBounds(map)
+                && (cell.Standable(map) || cell.GetEdifice(map) is Building_Door);
         }
 
         private static float MeanThreat(MapComponent_TacticalMapAnalysis analysis,
-            IEnumerable<IntVec3> cells, bool detectTraps)
+            FieldThreatSnapshot fieldThreat, IEnumerable<IntVec3> cells)
         {
             List<IntVec3> list = cells.ToList();
-            return list.Count == 0 ? 0f : list.Average(cell =>
-                VisibleThreat(analysis.CachedAt(cell), detectTraps));
+            return list.Count == 0 ? 0f : list.Average(cell => ThreatAt(analysis, fieldThreat, cell));
         }
 
-        private static float VisibleThreat(TacticalCellData data, bool detectTraps)
+        private static float ThreatAt(MapComponent_TacticalMapAnalysis analysis,
+            FieldThreatSnapshot fieldThreat, IntVec3 cell)
         {
-            return data.TotalThreat - (detectTraps ? 0f : data.TrapThreat);
+            return analysis.CachedAt(cell).TotalThreat + (fieldThreat?.At(cell) ?? 0f);
+        }
+
+        private static IEnumerable<IntVec3> RouteTurns(List<IntVec3> route)
+        {
+            if (route.Count == 0) yield break;
+            yield return route[0];
+            for (int i = 1; i < route.Count - 1; i++)
+            {
+                IntVec3 before = route[i] - route[i - 1];
+                IntVec3 after = route[i + 1] - route[i];
+                if (before != after) yield return route[i];
+            }
+            if (route.Count > 1) yield return route[route.Count - 1];
+        }
+
+        private sealed class FieldThreatSnapshot
+        {
+            private readonly Map map;
+            private readonly List<FieldThreatSource> sources;
+            private readonly Dictionary<IntVec3, float> cache = new Dictionary<IntVec3, float>();
+
+            public FieldThreatSnapshot(Map map, IEnumerable<Pawn> hostiles)
+            {
+                this.map = map;
+                sources = hostiles.Where(pawn => !pawn.Downed && !pawn.Destroyed)
+                    .Select(pawn =>
+                    {
+                        VerbProperties verb = pawn.equipment?.Primary?.def?.Verbs
+                            ?.FirstOrDefault(candidate => candidate.isPrimary);
+                        return new FieldThreatSource
+                        {
+                            Position = pawn.Position,
+                            Range = verb != null && verb.range > 2f ? verb.range : 2.9f,
+                            MinimumRange = verb != null && verb.range > 2f ? verb.minRange : 0f,
+                            Strength = verb != null && verb.range > 2f
+                                ? 8f + (pawn.skills?.GetSkill(SkillDefOf.Shooting).Level ?? 0) * 0.7f
+                                : 9f + (pawn.skills?.GetSkill(SkillDefOf.Melee).Level ?? 0) * 0.5f
+                        };
+                    }).ToList();
+            }
+
+            public float At(IntVec3 cell)
+            {
+                if (cache.TryGetValue(cell, out float cached)) return cached;
+                float score = 0f;
+                foreach (FieldThreatSource source in sources)
+                {
+                    float distance = source.Position.DistanceTo(cell);
+                    if (distance < source.MinimumRange || distance > source.Range
+                        || !GenSight.LineOfSight(source.Position, cell, map, true)) continue;
+                    score += source.Strength * Mathf.Lerp(1f, 0.42f,
+                        distance / Mathf.Max(1f, source.Range));
+                }
+                cache.Add(cell, score);
+                return score;
+            }
+
+            private struct FieldThreatSource
+            {
+                public IntVec3 Position;
+                public float Range;
+                public float MinimumRange;
+                public float Strength;
+            }
         }
     }
 

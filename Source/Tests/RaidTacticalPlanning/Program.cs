@@ -45,19 +45,6 @@ internal static class Program
                 == RaidTacticalManeuver.SmokeAdvance,
                 "Available smoke mitigates an exposed field approach");
 
-            var highMine = new RaidTacticalSituation
-            {
-                Doctrine = RaidTacticalDoctrine.High, DirectThreat = 35f,
-                SmokeAvailable = true, MineWarning = true
-            };
-            Check(RaidTacticalDecision.Rank(highMine)[0].Maneuver
-                == RaidTacticalManeuver.ReconAndClear,
-                "High doctrine clears a detected mine before advancing");
-            highMine.MineWarning = false;
-            Check(RaidTacticalDecision.Rank(highMine)[0].Maneuver
-                == RaidTacticalManeuver.SmokeAdvance,
-                "Without mines, smoke cover is again useful");
-
             var defense = new RaidTacticalSituation
             {
                 Defending = true, DirectThreat = 60f, CasualtyFraction = 0.3f
