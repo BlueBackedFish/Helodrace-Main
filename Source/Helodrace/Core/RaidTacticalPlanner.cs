@@ -233,19 +233,53 @@ namespace Helodrace
                 || plan.Selected.Maneuver == RaidTacticalManeuver.Regroup)
             {
                 bool hold = plan.Selected.Maneuver == RaidTacticalManeuver.HoldAndCounterattack;
-                int responseCount = hold ? Math.Max(1, members.Count / 3) : 0;
-                List<Pawn> response = members.Where(pawn => !IsFireSupport(organization, pawn))
-                    .Take(responseCount).ToList();
-                foreach (Pawn pawn in members)
+                var snipers = new HashSet<Pawn>();
+                var sniperCompanions = new Dictionary<Pawn, Pawn>();
+                foreach (CombatGroup group in hold ? organization.AllGroups
+                    : Enumerable.Empty<CombatGroup>())
                 {
-                    IntVec3 cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps,
-                        pawn, plan.Start, plan.Start, occupied, 2, 9);
+                    Pawn sniper = group.roleAssignments.FirstOrDefault(assignment =>
+                        assignment.combatRole?.combatFunction == "Sniper")?.pawn;
+                    if (sniper == null || !members.Contains(sniper)) continue;
+                    snipers.Add(sniper);
+                    foreach (Pawn companion in group.Members.Where(pawn =>
+                        pawn != sniper && members.Contains(pawn)))
+                        sniperCompanions[companion] = sniper;
+                }
+                int responseCount = hold ? Math.Max(1, members.Count / 3) : 0;
+                List<Pawn> response = members.Where(pawn => !IsFireSupport(organization, pawn)
+                        && !sniperCompanions.ContainsKey(pawn))
+                    .Take(responseCount).ToList();
+                Pawn nearestEnemy = map.mapPawns.AllPawnsSpawned
+                    .Where(pawn => !pawn.Dead && !pawn.Downed && pawn.Faction != null
+                        && pawn.Faction.HostileTo(organization.faction))
+                    .OrderBy(pawn => pawn.Position.DistanceToSquared(plan.Start))
+                    .FirstOrDefault();
+                var sniperPositions = new Dictionary<Pawn, IntVec3>();
+                foreach (Pawn pawn in members.OrderBy(pawn => snipers.Contains(pawn) ? 0
+                    : sniperCompanions.ContainsKey(pawn) ? 1 : 2))
+                {
+                    IntVec3 cell = snipers.Contains(pawn) && nearestEnemy != null
+                        ? FindSniperCell(map, analysis, fieldThreat, avoidedTraps,
+                            pawn, plan.Start, nearestEnemy.Position, occupied)
+                        : IntVec3.Invalid;
+                    if (!cell.IsValid && sniperCompanions.TryGetValue(pawn,
+                            out Pawn pairedSniper)
+                        && sniperPositions.TryGetValue(pairedSniper, out IntVec3 anchor))
+                        cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps,
+                            pawn, anchor, plan.Start, occupied, 1, 4);
+                    if (!cell.IsValid)
+                        cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps,
+                            pawn, plan.Start, plan.Start, occupied, 2, 9);
                     if (cell.IsValid) occupied.Add(cell);
+                    if (snipers.Contains(pawn)) sniperPositions[pawn] = cell;
                     plan.Assignments.Add(new RaidTacticalAssignment
                     {
                         Pawn = pawn,
                         Task = response.Contains(pawn) ? RaidTacticalTask.Response
-                            : IsFireSupport(organization, pawn) ? RaidTacticalTask.FireSupport
+                            : IsFireSupport(organization, pawn)
+                                || sniperCompanions.ContainsKey(pawn)
+                                ? RaidTacticalTask.FireSupport
                             : RaidTacticalTask.Security,
                         Position = cell
                     });
@@ -298,6 +332,28 @@ namespace Helodrace
                 .FirstOrDefault(assignment => assignment.pawn == pawn)?.combatRole?.combatFunction;
             return function == "MachineGun" || function == "Sniper" || function == "Bazooka"
                 || function == "RocketSupply";
+        }
+
+        private static IntVec3 FindSniperCell(Map map,
+            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            HashSet<IntVec3> avoidedTraps, Pawn sniper, IntVec3 center,
+            IntVec3 target, HashSet<IntVec3> occupied)
+        {
+            float range = sniper.equipment?.Primary?.GetComp<CompEquippable>()
+                ?.PrimaryVerb?.verbProps?.range ?? 25f;
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, 20f, true)
+                .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                    && !occupied.Contains(cell) && !avoidedTraps.Contains(cell)
+                    && cell.DistanceTo(target) >= 8f
+                    && cell.DistanceTo(target) <= range * 0.85f
+                    && GenSight.LineOfSight(cell, target, map, true))
+                .OrderBy(cell => cell.DistanceTo(center) * 0.22f
+                    - cell.DistanceTo(target) * 0.55f
+                    + ThreatAt(analysis, fieldThreat, cell) * 0.18f)
+                .Take(32))
+                if (sniper.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
+                    return cell;
+            return IntVec3.Invalid;
         }
 
         private static IntVec3 FindEntry(Map map, MapComponent_TacticalMapAnalysis analysis,

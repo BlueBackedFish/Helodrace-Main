@@ -58,6 +58,10 @@ appear in the developer plan window. Phase state is saved with the map.
 During a hold, designated response members move toward a current enemy near
 the group at bounded intervals when that enemy is outside effective firing
 range; fire-support and security members keep their assigned positions.
+An available sniper group takes a separate sightline within weapon range of
+the nearest current enemy. Its companion stays near the sniper and does not
+get pulled into the response group. If no reachable sightline exists, both
+fall back to ordinary holding positions.
 The planned entry delay is honored after the support action, allowing smoke or
 grenade effects to take hold before the simultaneous entry order.
 After an indoor entry reaches the objective or its clearing timeout, available
