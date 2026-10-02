@@ -111,6 +111,9 @@ namespace Helodrace
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"
                     + $"  inside={plan.BreachInside}");
+            else if (plan.BreachCell.IsValid)
+                report.AppendLine($"Open entry={plan.BreachCell}  outside={plan.Entry}"
+                    + $"  inside={plan.BreachInside}");
             report.AppendLine();
             report.AppendLine("Ranked maneuvers:");
             for (int i = 0; i < plan.Options.Count; i++)
@@ -155,7 +158,7 @@ namespace Helodrace
                     plan.ApproachPath[i].ToVector3Shifted(), SimpleColor.Red, 0.13f);
             GenDraw.DrawRadiusRing(plan.Objective, 1.1f, ObjectiveColor);
             GenDraw.DrawRadiusRing(plan.Entry, 1.0f, EntryColor);
-            if (plan.PlannedBreach != null)
+            if (plan.BreachCell.IsValid)
                 GenDraw.DrawRadiusRing(plan.BreachCell, 1.0f, Color.yellow);
             if (plan.Flank.IsValid) GenDraw.DrawRadiusRing(plan.Flank, 0.9f, SecurityColor);
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
@@ -171,10 +174,10 @@ namespace Helodrace
             if (plan == null) return;
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Objective), "OBJECTIVE", ObjectiveColor);
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Entry), "ENTRY", EntryColor);
-            if (plan.PlannedBreach != null)
+            if (plan.BreachCell.IsValid)
                 GenMapUI.DrawThingLabel(
                     GenMapUI.LabelDrawPosFor(plan.BreachCell),
-                    "BREACH", Color.yellow);
+                    plan.PlannedBreach != null ? "BREACH" : "OPENING", Color.yellow);
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Frontline), "FRONT", Color.red);
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
                 if (assignment.Position.IsValid)

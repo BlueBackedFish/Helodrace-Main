@@ -38,8 +38,8 @@ namespace Helodrace
         public IntVec3 Flank;
         public IntVec3 Entry;
         public Building PlannedBreach;
-        public IntVec3 BreachCell;
-        public IntVec3 BreachInside;
+        public IntVec3 BreachCell = IntVec3.Invalid;
+        public IntVec3 BreachInside = IntVec3.Invalid;
         public List<IntVec3> ApproachNodes = new List<IntVec3>();
         public List<IntVec3> ApproachPath = new List<IntVec3>();
         public HashSet<IntVec3> AvoidedTrapCells = new HashSet<IntVec3>();
@@ -113,7 +113,7 @@ namespace Helodrace
             }
             Room objectiveRoom = plan.Objective.GetRoom(map);
             bool field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
-            FieldThreatSnapshot fieldThreat = field ? new FieldThreatSnapshot(map, hostiles) : null;
+            FieldThreatSnapshot fieldThreat = new FieldThreatSnapshot(map, hostiles);
             bool needsBreach = !map.reachability.CanReach(plan.Start, plan.Objective,
                 PathEndMode.OnCell, TraverseParms.For(pathfinder));
             if ((needsBreach || !field) && TryFindPlannedBreach(map, analysis, fieldThreat,
@@ -126,7 +126,7 @@ namespace Helodrace
                 plan.Objective = reachableAdvance;
                 objectiveRoom = plan.Objective.GetRoom(map);
                 field = objectiveRoom == null || objectiveRoom.PsychologicallyOutdoors;
-                fieldThreat = field ? new FieldThreatSnapshot(map, hostiles) : null;
+                fieldThreat = new FieldThreatSnapshot(map, hostiles);
                 plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
                     plan.Objective, pathfinder);
             }
@@ -151,12 +151,24 @@ namespace Helodrace
                 plan.Reason = "No walking route reaches the objective entrance.";
                 return plan;
             }
+            if (plan.PlannedBreach == null && !field)
+            {
+                int opening = direct.FindIndex(1, direct.Count - 1,
+                    cell => analysis.CachedAt(cell).ExteriorAccess);
+                if (opening > 0 && opening < direct.Count - 1)
+                {
+                    plan.BreachCell = direct[opening];
+                    plan.BreachInside = direct[opening + 1];
+                    plan.Entry = direct[opening - 1];
+                    direct = direct.Take(opening).ToList();
+                }
+            }
             float peakThreat = direct.Max(cell => ThreatAt(analysis, fieldThreat, cell));
-            plan.Frontline = plan.PlannedBreach != null ? plan.Entry : peakThreat > 0f
+            plan.Frontline = plan.BreachCell.IsValid ? plan.Entry : peakThreat > 0f
                 ? direct.OrderByDescending(cell => ThreatAt(analysis, fieldThreat, cell)).First()
                 : plan.Entry;
             List<IntVec3> flankRoute = new List<IntVec3>();
-            plan.Flank = plan.PlannedBreach == null
+            plan.Flank = !plan.BreachCell.IsValid
                 ? FindFlank(map, analysis, fieldThreat, avoidedTraps, pathfinder,
                     plan.Start, plan.Entry, out flankRoute) : IntVec3.Invalid;
             float directThreat = MeanThreat(analysis, fieldThreat, direct);
@@ -213,7 +225,7 @@ namespace Helodrace
             };
             plan.Options = RaidTacticalDecision.Rank(situation);
             plan.Selected = RaidTacticalDecision.Select(plan.Options, plan.CommandEfficiency);
-            if (plan.PlannedBreach != null)
+            if (plan.BreachCell.IsValid)
             {
                 RaidTacticalOption entryOption = plan.Options.FirstOrDefault(option =>
                     option.Maneuver == RaidTacticalManeuver.CoordinatedEntry);
@@ -246,6 +258,7 @@ namespace Helodrace
             plan.EntrySupport = RaidTacticalDecision.EntrySupport(plan.Selected.Maneuver, situation);
             plan.EntryMethod = plan.PlannedBreach != null
                 ? "Planned " + (plan.PlannedBreach is Building_Door ? "door" : "wall") + " breach"
+                : plan.BreachCell.IsValid ? "Open exterior entry"
                 : plan.Entry.GetEdifice(map) is Building_Door
                 ? "Door" : breachTool ? "Breach equipment available" : "Open approach";
             plan.EntryDelayTicks = plan.Doctrine == RaidTacticalDoctrine.High ? 90
@@ -358,7 +371,7 @@ namespace Helodrace
                 entry.RemoveAt(entry.Count - 1);
                 support.Add(rear);
             }
-            IntVec3 stagingRear = plan.PlannedBreach != null
+            IntVec3 stagingRear = plan.BreachCell.IsValid
                 && plan.ApproachPath.Count > 1
                 ? plan.ApproachPath[Math.Max(0, plan.ApproachPath.Count - 4)]
                 : plan.Start;
@@ -367,21 +380,26 @@ namespace Helodrace
             {
                 IntVec3 entryAnchor = plan.Selected.Maneuver == RaidTacticalManeuver.FlankAttack
                     ? plan.Flank : plan.Entry;
-                IntVec3 cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps,
-                    entry[i], entryAnchor, stagingRear, occupied,
-                    plan.PlannedBreach != null ? 2 : 3, 8,
-                    behindAnchor: plan.PlannedBreach != null);
+                IntVec3 cell = plan.BreachCell.IsValid
+                    ? FindWallStackCell(map, analysis, fieldThreat, avoidedTraps,
+                        entry[i], plan, occupied, i)
+                    : IntVec3.Invalid;
+                if (!cell.IsValid)
+                    cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps,
+                        entry[i], entryAnchor, stagingRear, occupied,
+                        plan.BreachCell.IsValid ? 2 : 3, 8,
+                        behindAnchor: plan.BreachCell.IsValid);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 { Pawn = entry[i], Task = RaidTacticalTask.Entry, Position = cell, EntryOrder = i + 1 });
             }
             foreach (Pawn pawn in support)
             {
-                IntVec3 supportAnchor = plan.PlannedBreach != null
+                IntVec3 supportAnchor = plan.BreachCell.IsValid
                     ? plan.Entry : plan.Frontline;
                 IntVec3 cell = FindStagingCell(map, analysis, fieldThreat, avoidedTraps, pawn,
                     supportAnchor, stagingRear, occupied, 3, 11, true,
-                    plan.PlannedBreach != null);
+                    plan.BreachCell.IsValid);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 {
@@ -431,7 +449,8 @@ namespace Helodrace
                 .Where(cell => IsTraversable(map, cell) && !avoidedTraps.Contains(cell))
                 .OrderBy(cell => cell.DistanceTo(objective) * 4f
                     + cell.DistanceTo(pathfinder.Position) * 0.3f
-                    + ThreatAt(analysis, fieldThreat, cell) * 0.12f)
+                    + ThreatAt(analysis, fieldThreat, cell) * 0.7f
+                    + (analysis.CachedAt(cell).ExteriorAccess ? 8f : 0f))
                 .Take(64))
                 if (map.reachability.CanReach(pathfinder.Position, cell,
                     PathEndMode.OnCell, TraverseParms.For(pathfinder)))
@@ -467,7 +486,8 @@ namespace Helodrace
                     if (outside.DistanceTo(plan.Start) >= inside.DistanceTo(plan.Start)
                         || inside.DistanceTo(plan.Objective)
                             >= outside.DistanceTo(plan.Objective)
-                        || (indoorObjective && inside.GetRoom(map) != objectiveRoom))
+                        || (indoorObjective && inside.GetRoom(map) != objectiveRoom)
+                        || !IsOuterBoundary(map, target, outside, inside))
                         continue;
                     if (!CanWalkRouteCell(map, outside, pathfinder)
                         || !CanWalkRouteCell(map, inside, pathfinder)
@@ -485,9 +505,14 @@ namespace Helodrace
                     List<IntVec3> candidate = FindRoute(map, analysis, fieldThreat,
                         plan.Start, outside, avoidedTraps, pathfinder);
                     if (candidate.Count == 0) continue;
+                    float meanExposure = MeanThreat(analysis, fieldThreat, candidate);
+                    float peakExposure = candidate.Max(cell =>
+                        fieldThreat.At(cell));
                     float score = candidate.Count + inside.DistanceTo(plan.Objective)
                         + deviation * 4f
-                        + ThreatAt(analysis, fieldThreat, outside) * 0.2f;
+                        + meanExposure * 0.5f + peakExposure * 0.7f
+                        + fieldThreat.At(outside) * 0.5f
+                        + (target is Building_Door ? 6f : 0f);
                     if (score >= bestScore) continue;
                     bestScore = score;
                     bestTarget = target;
@@ -502,6 +527,26 @@ namespace Helodrace
             plan.Entry = bestOutside;
             plan.BreachInside = bestInside;
             return true;
+        }
+
+        private static bool IsOuterBoundary(Map map, Building target,
+            IntVec3 outside, IntVec3 inside)
+        {
+            Room outsideRoom = outside.GetRoom(map);
+            if (outsideRoom == inside.GetRoom(map)
+                || outsideRoom?.PsychologicallyOutdoors == false
+                    && map.roofGrid.RoofAt(outside) != null) return false;
+            IntVec3 outward = outside - target.Position;
+            IntVec3 along = new IntVec3(-outward.z, 0, outward.x);
+            int span = 1;
+            foreach (int side in new[] { -1, 1 })
+                for (int offset = 1; offset <= 5; offset++)
+                {
+                    if (!IsWallLineCell(map, target.Position + along * (side * offset)))
+                        break;
+                    span++;
+                }
+            return span >= 3;
         }
 
         private static bool CanBreach(Pawn pawn, Building target)
@@ -554,6 +599,42 @@ namespace Helodrace
                     bestRoute = route;
                 }
             return best;
+        }
+
+        private static IntVec3 FindWallStackCell(Map map,
+            MapComponent_TacticalMapAnalysis analysis, FieldThreatSnapshot fieldThreat,
+            HashSet<IntVec3> avoidedTraps, Pawn pawn, RaidTacticalPlan plan,
+            HashSet<IntVec3> occupied, int order)
+        {
+            IntVec3 outward = plan.Entry - plan.BreachCell;
+            IntVec3 along = new IntVec3(-outward.z, 0, outward.x);
+            Room outsideRoom = plan.Entry.GetRoom(map);
+            var candidates = new List<(IntVec3 Cell, float Score)>();
+            foreach (int depth in new[] { 1, 2 })
+                for (int lateral = 1; lateral <= 8; lateral++)
+                    foreach (int side in new[] { -1, 1 })
+                    {
+                        IntVec3 wall = plan.BreachCell + along * (side * lateral);
+                        IntVec3 cell = wall + outward * depth;
+                        if (!cell.InBounds(map) || !cell.Standable(map)
+                            || cell.GetRoom(map) != outsideRoom
+                            || occupied.Contains(cell) || avoidedTraps.Contains(cell)
+                            || !IsWallLineCell(map, wall)
+                            || !map.reachability.CanReach(pawn.Position, cell,
+                                PathEndMode.OnCell, TraverseParms.For(pawn))) continue;
+                        float score = lateral + (depth - 1) * 5f
+                            + ThreatAt(analysis, fieldThreat, cell) * 0.3f
+                            + (side == (order % 2 == 0 ? -1 : 1) ? 0f : 2f);
+                        candidates.Add((cell, score));
+                    }
+            return candidates.OrderBy(value => value.Score)
+                .Select(value => value.Cell).DefaultIfEmpty(IntVec3.Invalid).First();
+        }
+
+        private static bool IsWallLineCell(Map map, IntVec3 cell)
+        {
+            Building wall = cell.InBounds(map) ? cell.GetEdifice(map) as Building : null;
+            return wall != null && (wall.def.IsWall || wall is Building_Door);
         }
 
         private static IntVec3 FindStagingCell(Map map, MapComponent_TacticalMapAnalysis analysis,

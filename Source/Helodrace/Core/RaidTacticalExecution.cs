@@ -50,7 +50,7 @@ namespace Helodrace
         private const int BreachTimeout = 900;
         private const int WithdrawalTimeout = 600;
         private const int DetonationTimeout = 240;
-        private const int SupportTimeout = 360;
+        private const int SupportTimeout = 900;
         private const int FlankTimeout = 600;
         private const int ApproachStallTimeout = 1200;
         private readonly Dictionary<string, ExecutionState> states = new Dictionary<string, ExecutionState>();
@@ -483,6 +483,7 @@ namespace Helodrace
                     }
                     break;
                 case RaidExecutionPhase.Breach:
+                    MaintainStack(members, plan, state.Breacher);
                     if (state.Breacher == null && state.BreachTarget == null)
                     {
                         if (plan.PlannedBreach != null && BreachOpened(plan.PlannedBreach))
@@ -560,11 +561,21 @@ namespace Helodrace
                         FinishBreachAttempt(plan, state, tick);
                     break;
                 case RaidExecutionPhase.Support:
+                    MaintainStack(members, plan, state.Thrower);
+                    if (plan.BreachCell.IsValid && state.Thrower == null
+                        && !AllReady(members, plan)
+                        && tick - state.PhaseStarted < 600) break;
                     if (!state.SupportIssued)
                     {
-                        state.SupportIssued = true;
-                        state.Thrower = TryStartSupport(members, plan, state.Maneuver);
-                        if (state.Thrower == null)
+                        Pawn thrower = TryStartSupport(members, plan,
+                            state.Maneuver, state.Thrower);
+                        if (thrower != null)
+                        {
+                            state.Thrower = thrower;
+                            state.SupportIssued = true;
+                        }
+                        else if (tick - state.PhaseStarted >= SupportTimeout
+                            || !TryStageEntryThrower(members, plan, state))
                             Advance(state, RaidExecutionPhase.EntryWait, tick);
                     }
                     else if ((state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeClose"
@@ -573,13 +584,17 @@ namespace Helodrace
                         Advance(state, RaidExecutionPhase.EntryWait, tick);
                     break;
                 case RaidExecutionPhase.EntryWait:
+                    MaintainStack(members, plan);
                     if (!UsingZaper(members)
+                        && (!plan.BreachCell.IsValid || AllReady(members, plan)
+                            || tick - state.PhaseStarted >= 600)
                         && tick - state.PhaseStarted >= plan.EntryDelayTicks)
-                        Advance(state, plan.PlannedBreach != null
+                        Advance(state, plan.BreachCell.IsValid
                             ? RaidExecutionPhase.CrossBreach
                             : AfterSupport(plan, state.Maneuver), tick);
                     break;
                 case RaidExecutionPhase.CrossBreach:
+                    MaintainStack(members, plan, holdEntry: false);
                     if (!BreachOpened(plan.PlannedBreach))
                     {
                         state.Breacher = null;
@@ -773,8 +788,9 @@ namespace Helodrace
                 float distance = pawn.Position.DistanceTo(assignment.Position);
                 remaining += distance;
                 if (distance <= 9f || IsTaserOperation(pawn)) continue;
-                IntVec3 target = CorridorReturn(pawn, plan.ApproachPath,
-                    assignment.Position);
+                IntVec3 target = plan.BreachCell.IsValid
+                    ? assignment.Position
+                    : CorridorReturn(pawn, plan.ApproachPath, assignment.Position);
                 TryGoto(pawn, target);
             }
             if (remaining + 1f < state.ApproachBestRemaining)
@@ -811,6 +827,9 @@ namespace Helodrace
             if (deviation <= 64f) return destination;
             IntVec3 returnCell = path[Math.Min(nearest + 6, path.Count - 1)];
             return returnCell.DistanceTo(destination) > 9f
+                && returnCell.DistanceTo(destination)
+                    < pawn.Position.DistanceTo(destination)
+                && GenSight.LineOfSight(pawn.Position, returnCell, pawn.Map, true)
                 && pawn.CanReach(returnCell, PathEndMode.OnCell, Danger.Deadly)
                 ? returnCell : destination;
         }
@@ -854,6 +873,25 @@ namespace Helodrace
                     if (pawn.CurJobDef?.defName != "HD_TCCC_Treat")
                         TcccUtility.Start(pawn, pawn, TcccTreatment.SelfHemostasis);
                 }
+                else if (pawn.CurJobDef != JobDefOf.Wait_Combat
+                    || pawn.CurJob?.expiryInterval <= 0)
+                    HoldPosition(pawn);
+            }
+        }
+
+        private static void MaintainStack(List<Pawn> members, RaidTacticalPlan plan,
+            Pawn exempt = null, bool holdEntry = true)
+        {
+            if (!plan.BreachCell.IsValid) return;
+            foreach (RaidTacticalAssignment assignment in plan.Assignments)
+            {
+                Pawn pawn = assignment.Pawn;
+                if (pawn == exempt || !members.Contains(pawn)
+                    || !holdEntry && assignment.Task == RaidTacticalTask.Entry
+                    || assignment.Task == RaidTacticalTask.Withdraw
+                    || !assignment.Position.IsValid || IsTaserOperation(pawn)) continue;
+                if (pawn.Position != assignment.Position)
+                    TryGoto(pawn, assignment.Position);
                 else if (pawn.CurJobDef != JobDefOf.Wait_Combat
                     || pawn.CurJob?.expiryInterval <= 0)
                     HoldPosition(pawn);
@@ -1109,9 +1147,9 @@ namespace Helodrace
         private static float ReadyRadius(RaidTacticalPlan plan,
             RaidTacticalAssignment assignment)
         {
-            if (plan.PlannedBreach == null || assignment.Task == RaidTacticalTask.Withdraw)
+            if (!plan.BreachCell.IsValid || assignment.Task == RaidTacticalTask.Withdraw)
                 return 1.5f;
-            return assignment.Task == RaidTacticalTask.Entry ? 2.5f : 8f;
+            return assignment.Task == RaidTacticalTask.Entry ? 0.5f : 8f;
         }
 
         private static void HoldPosition(Pawn pawn)
@@ -1147,6 +1185,7 @@ namespace Helodrace
             ExecutionState state)
         {
             if (state.Maneuver != RaidTacticalManeuver.CoordinatedEntry) return false;
+            if (plan.BreachCell.IsValid && plan.PlannedBreach == null) return false;
             if (plan.Doctrine == RaidTacticalDoctrine.Low
                 && TryStartSledgehammerBreach(members, plan, state)) return true;
             Map currentMap = members[0].Map;
@@ -1276,7 +1315,7 @@ namespace Helodrace
         }
 
         private static Pawn TryStartSupport(List<Pawn> members, RaidTacticalPlan plan,
-            RaidTacticalManeuver maneuver)
+            RaidTacticalManeuver maneuver, Pawn preferred = null)
         {
             bool smoke = maneuver == RaidTacticalManeuver.SmokeAdvance;
             bool entry = maneuver == RaidTacticalManeuver.CoordinatedEntry;
@@ -1286,7 +1325,9 @@ namespace Helodrace
             Room objectiveRoom = plan.Objective.GetRoom(currentMap);
             if (entry && plan.Doctrine == RaidTacticalDoctrine.Low
                 && currentMap.mapPawns.AllPawnsSpawned.Any(pawn => pawn.Faction == members[0].Faction
-                    && pawn.Position.GetRoom(currentMap) == objectiveRoom)) return null;
+                    && (plan.BreachCell.IsValid
+                        ? PastBreach(pawn, plan)
+                        : pawn.Position.GetRoom(currentMap) == objectiveRoom))) return null;
             IEnumerable<IntVec3> targets = smoke
                 ? (IEnumerable<IntVec3>)new[] { plan.Frontline }
                 : fieldGrenade
@@ -1298,32 +1339,20 @@ namespace Helodrace
                         .Distinct()
                         .OrderBy(cell => cell.DistanceTo(plan.Frontline))
                         .ToList()
-                : GenRadial.RadialCellsAround(plan.Entry, 7f, true)
-                    .Where(cell => cell.InBounds(currentMap) && cell.Standable(currentMap)
-                        && cell.GetRoom(currentMap) == objectiveRoom
-                        && cell.DistanceTo(plan.Entry) >= 2f)
-                    .OrderBy(cell => cell.DistanceTo(plan.Entry));
-            foreach (Pawn pawn in members.OrderBy(value =>
-                entry && plan.Doctrine == RaidTacticalDoctrine.Low
+                : EntryGrenadeTargets(currentMap, plan, objectiveRoom);
+            foreach (Pawn pawn in members.OrderBy(value => value == preferred ? -1
+                : entry && plan.Doctrine == RaidTacticalDoctrine.Low
                     && InventoryGrenadeUtility.GrenadeStacks(value)
                         .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1))
             {
                 if (IsTaserOperation(pawn)) continue;
-                Thing grenade = InventoryGrenadeUtility.GrenadeStacks(pawn).FirstOrDefault(item =>
-                    smoke ? item.def.defName == "HD_Grenade_M8_Item"
-                        || item.def.weaponTags?.Contains("GrenadeSmoke") == true
-                    : plan.Doctrine == RaidTacticalDoctrine.High
-                        ? item.def.defName == "HD_Grenade_M84_Item"
-                            || item.def.defName == "HD_Grenade_M7A2_Item"
-                        : item.def.defName == "HD_Grenade_MKII"
-                            || item.def.defName == "HD_Grenade_MKIII");
+                Thing grenade = InventoryGrenadeUtility.GrenadeStacks(pawn)
+                    .FirstOrDefault(item => IsSupportGrenade(item, plan, smoke));
                 if (grenade == null) continue;
                 foreach (IntVec3 target in targets)
                 {
                     if (!target.IsValid || !target.InBounds(currentMap)) continue;
-                    if (!smoke && currentMap.mapPawns.AllPawnsSpawned.Any(ally =>
-                        !ally.Dead && !ally.HostileTo(pawn)
-                        && ally.Position.DistanceTo(target) <= 3.5f))
+                    if (!smoke && !GrenadeTargetSafe(currentMap, pawn, target))
                         continue;
                     bool close = InventoryGrenadeUtility.CanThrowAt(pawn, target,
                         InventoryGrenadeUtility.CloseThrowRange);
@@ -1340,6 +1369,81 @@ namespace Helodrace
                 }
             }
             return null;
+        }
+
+        private static IEnumerable<IntVec3> EntryGrenadeTargets(Map map,
+            RaidTacticalPlan plan, Room objectiveRoom)
+        {
+            if (!plan.BreachCell.IsValid)
+                return GenRadial.RadialCellsAround(plan.Entry, 7f, true)
+                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                        && cell.GetRoom(map) == objectiveRoom
+                        && cell.DistanceTo(plan.Entry) >= 2f)
+                    .OrderBy(cell => cell.DistanceTo(plan.Entry));
+            IntVec3 inward = plan.BreachInside - plan.BreachCell;
+            return GenRadial.RadialCellsAround(plan.BreachInside, 7f, true)
+                .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                    && GenSight.LineOfSight(plan.BreachInside, cell, map, true)
+                    && (cell.x - plan.BreachCell.x) * inward.x
+                        + (cell.z - plan.BreachCell.z) * inward.z >= 3)
+                .OrderBy(cell => cell.DistanceTo(plan.BreachInside));
+        }
+
+        private static bool IsSupportGrenade(Thing item, RaidTacticalPlan plan,
+            bool smoke)
+        {
+            return smoke ? item.def.defName == "HD_Grenade_M8_Item"
+                || item.def.weaponTags?.Contains("GrenadeSmoke") == true
+                : plan.Doctrine == RaidTacticalDoctrine.High
+                    ? item.def.defName == "HD_Grenade_M84_Item"
+                        || item.def.defName == "HD_Grenade_M7A2_Item"
+                    : item.def.defName == "HD_Grenade_MKII"
+                        || item.def.defName == "HD_Grenade_MKIII";
+        }
+
+        private static bool GrenadeTargetSafe(Map map, Pawn thrower, IntVec3 target)
+        {
+            return !map.mapPawns.AllPawnsSpawned.Any(ally => !ally.Dead
+                && !ally.HostileTo(thrower)
+                && ally.Position.DistanceTo(target) <= 3.5f);
+        }
+
+        private static bool TryStageEntryThrower(List<Pawn> members,
+            RaidTacticalPlan plan, ExecutionState state)
+        {
+            if (!plan.BreachCell.IsValid
+                || state.Maneuver != RaidTacticalManeuver.CoordinatedEntry)
+                return false;
+            Map map = members[0].Map;
+            if (plan.Doctrine == RaidTacticalDoctrine.Low
+                && map.mapPawns.AllPawnsSpawned.Any(pawn =>
+                    pawn.Faction == members[0].Faction && PastBreach(pawn, plan)))
+                return false;
+            if (state.Thrower != null)
+            {
+                if (!members.Contains(state.Thrower)
+                    || state.Thrower.Position == plan.Entry) return false;
+                TryGoto(state.Thrower, plan.Entry);
+                return true;
+            }
+            List<IntVec3> targets = EntryGrenadeTargets(map, plan,
+                plan.Objective.GetRoom(map)).ToList();
+            foreach (Pawn pawn in members)
+            {
+                if (IsTaserOperation(pawn)
+                    || !InventoryGrenadeUtility.GrenadeStacks(pawn)
+                        .Any(item => IsSupportGrenade(item, plan, false))
+                    || !pawn.CanReach(plan.Entry, PathEndMode.OnCell, Danger.Deadly))
+                    continue;
+                if (!targets.Any(target => plan.Entry.DistanceTo(target)
+                        <= InventoryGrenadeUtility.NormalThrowRange
+                    && GenSight.LineOfSight(plan.Entry, target, map, true)
+                    && GrenadeTargetSafe(map, pawn, target))) continue;
+                state.Thrower = pawn;
+                TryGoto(pawn, plan.Entry);
+                return true;
+            }
+            return false;
         }
 
         private void IssueAssault(List<Pawn> members, RaidTacticalPlan plan)
