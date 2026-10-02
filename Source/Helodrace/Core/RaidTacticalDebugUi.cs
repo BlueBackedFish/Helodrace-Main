@@ -99,7 +99,8 @@ namespace Helodrace
         private static string Report(RaidTacticalPlan plan)
         {
             if (plan == null) return "Select an active raid.";
-            if (!plan.Success) return "Plan unavailable: " + plan.Reason;
+            if (!plan.Success) return "Plan unavailable: " + plan.Reason
+                + $" ({plan.PlanningMilliseconds} ms)";
             var report = new StringBuilder();
             report.AppendLine($"{plan.OrganizationId}  doctrine={plan.Doctrine}  tick={plan.PlannedTick}");
             report.AppendLine("Execution=" + RaidTacticalDebugSession.Map
@@ -108,6 +109,9 @@ namespace Helodrace
             report.AppendLine($"Start={plan.Start}  objective={plan.Objective}  front={plan.Frontline}");
             report.AppendLine($"Flank={plan.Flank}  entry={plan.Entry}");
             report.AppendLine("Wall search: " + plan.BreachSearch);
+            report.AppendLine($"Planning={plan.PlanningMilliseconds} ms  "
+                + $"breach candidates={plan.BreachCandidates}  "
+                + $"detailed checks={plan.DetailedBreachChecks}");
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"

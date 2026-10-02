@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -30,6 +32,9 @@ namespace Helodrace
     {
         public TacticalStructureKind Structures;
         public TacticalOpenDirection OpenDirections;
+        public bool Standable;
+        public bool WallLine;
+        public Building_Door Door;
         public bool ExteriorAccess;
         public float DoorThreat;
         public float WallThreat;
@@ -40,23 +45,33 @@ namespace Helodrace
     public sealed class MapComponent_TacticalMapAnalysis : MapComponent
     {
         private TacticalCellData[] cells;
+        private List<Building> breachStructures = new List<Building>();
         private bool built;
+        private int structureSignature;
 
         public long LastStaticBuildMilliseconds { get; private set; }
+        public IReadOnlyList<Building> CachedBreachStructures => breachStructures;
 
         public MapComponent_TacticalMapAnalysis(Map map) : base(map) { }
 
-        public void RequestAnalysis() => EnsureCurrent();
+        public override void MapComponentTick()
+        {
+            base.MapComponentTick();
+            if (!built) EnsureCurrent(true);
+        }
+
+        public void RequestAnalysis() => EnsureCurrent(true);
 
         public void ForceRebuild()
         {
             AllocateGrid();
             RebuildStatic();
+            structureSignature = StructureSignature();
         }
 
         public TacticalCellData At(IntVec3 cell)
         {
-            EnsureCurrent();
+            EnsureCurrent(false);
             return CachedAt(cell);
         }
 
@@ -66,10 +81,35 @@ namespace Helodrace
                 : default(TacticalCellData);
         }
 
-        private void EnsureCurrent()
+        private void EnsureCurrent(bool checkChanges)
         {
             AllocateGrid();
-            if (!built) RebuildStatic();
+            int signature = checkChanges || !built ? StructureSignature()
+                : structureSignature;
+            if (!built || signature != structureSignature)
+            {
+                RebuildStatic();
+                structureSignature = signature;
+            }
+        }
+
+        private int StructureSignature()
+        {
+            int result = 0;
+            int count = 0;
+            foreach (Thing thing in map.listerThings.AllThings)
+            {
+                if (thing is Pawn || !(thing is Building)
+                    && thing.def.passability != Traversability.Impassable) continue;
+                unchecked
+                {
+                    int cell = map.cellIndices.CellToIndex(thing.Position);
+                    result ^= (thing.thingIDNumber * 397) ^ (cell * 7919)
+                        ^ thing.def.shortHash;
+                    count++;
+                }
+            }
+            return result ^ count * 486187739;
         }
 
         private void AllocateGrid()
@@ -84,10 +124,25 @@ namespace Helodrace
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             Array.Clear(cells, 0, cells.Length);
+            breachStructures = map.listerThings.AllThings.OfType<Building>()
+                .Where(building => building.def.IsWall
+                    || building is Building_Door).ToList();
             foreach (IntVec3 cell in map.AllCells)
             {
-                bool door = cell.GetEdifice(map) is Building_Door;
-                if (!cell.Standable(map) && !door) continue;
+                Building edifice = cell.GetEdifice(map) as Building;
+                cells[map.cellIndices.CellToIndex(cell)] = new TacticalCellData
+                {
+                    Standable = cell.Standable(map),
+                    Door = edifice as Building_Door,
+                    WallLine = edifice != null
+                        && (edifice.def.IsWall || edifice is Building_Door)
+                };
+            }
+            foreach (IntVec3 cell in map.AllCells)
+            {
+                TacticalCellData data = CachedAt(cell);
+                bool door = data.Door != null;
+                if (!data.Standable && !door) continue;
 
                 bool northWall = IsWall(cell + IntVec3.North);
                 bool eastWall = IsWall(cell + IntVec3.East);
@@ -125,14 +180,12 @@ namespace Helodrace
                     || IsDoor(cell + IntVec3.East)
                     || IsDoor(cell + IntVec3.South)
                     || IsDoor(cell + IntVec3.West);
-                cells[map.cellIndices.CellToIndex(cell)] = new TacticalCellData
-                {
-                    Structures = structures,
-                    OpenDirections = open,
-                    ExteriorAccess = (door || opening) && ConnectsExterior(cell),
-                    DoorThreat = door ? 12f : besideDoor ? 8f : 0f,
-                    WallThreat = passage ? 6f : corner ? 4f : junction ? 4f : 0f
-                };
+                data.Structures = structures;
+                data.OpenDirections = open;
+                data.ExteriorAccess = (door || opening) && ConnectsExterior(cell);
+                data.DoorThreat = door ? 12f : besideDoor ? 8f : 0f;
+                data.WallThreat = passage ? 6f : corner ? 4f : junction ? 4f : 0f;
+                cells[map.cellIndices.CellToIndex(cell)] = data;
             }
             built = true;
             stopwatch.Stop();
