@@ -67,6 +67,10 @@ their assigned positions. Once assault moves are issued, normal Lord combat
 behavior resumes. Replanning after casualties, commander succession, or a
 large objective shift restarts coordination. Execution phase and assignments
 appear in the developer plan window. Phase state is saved with the map.
+The Great War faction permits vanilla sapper raids using riflemen as eligible
+sappers. While its Lord is in the sapper or breaching toil, the tactical executor
+leaves those duties alone; after that toil ends, ordinary tactical coordination
+can take over.
 During a hold, designated response members move toward a current enemy near
 the group at bounded intervals when that enemy is outside effective firing
 range; fire-support and security members keep their assigned positions.

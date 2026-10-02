@@ -80,7 +80,6 @@
       <li>SpecificDropDebug</li>
     </arrivalModeBlacklist>
     <disallowedRaidStrategies>
-      <li>ImmediateAttackSappers</li>
       <li>ImmediateAttackBreaching</li>
       <li>ImmediateAttackBreachingSmart</li>
       <li>Siege</li>

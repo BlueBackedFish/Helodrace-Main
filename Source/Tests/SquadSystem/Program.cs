@@ -382,6 +382,17 @@ internal static class Program
         }
         Check(usedGrenades.SetEquals(new[] { "HD_Grenade_MKII", "HD_Grenade_MKIII", "HD_Grenade_M8_Item" }),
             "Raid formations distribute fragmentation, offensive and smoke grenades");
+        XElement rifleKind = XDocument.Load(Path.Combine(root,
+                "Defs/Helod/Pawns/PawnKinds_GreatWar.xml")).Root.Elements("PawnKindDef")
+            .First(node => (string)node.Element("defName") == "HD_GW_HelodRifleman");
+        Check((bool?)rifleKind.Element("canBeSapper") == true,
+            "Great War riflemen can fill the sapper duty without a separate role PawnKind");
+        XElement lowFaction = XDocument.Load(Path.Combine(root,
+                "Defs/Factions/Factions_Helod.xml")).Root.Elements("FactionDef")
+            .First(node => (string)node.Element("defName") == "HD_HelodCivilLowFaction");
+        Check(lowFaction.Element("disallowedRaidStrategies")?.Elements("li")
+                .Any(node => node.Value == "ImmediateAttackSappers") != true,
+            "Great War faction allows sapper raids");
         var doctrine = (DoctrineDef)defs["HD_Doctrine_GreatWar"];
         Check(!doctrine.ConfigErrors().Any(), "Actual doctrine is valid");
         Near(510, ((FormationDef)defs["HD_Formation_GW_Patrol"]).FormationCost, "Actual patrol cost");

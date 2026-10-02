@@ -66,6 +66,7 @@
   <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
     <defName>HD_GW_HelodRifleman</defName>
     <label>Great War Helod rifleman</label>
+    <canBeSapper>true</canBeSapper>
     <weaponTags><li>HD_GreatWarRifleman</li></weaponTags>
   </PawnKindDef>
 

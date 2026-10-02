@@ -253,6 +253,8 @@ namespace Helodrace
         {
             Lord lord = pawn.GetLord();
             return pawn.Faction != Faction.OfPlayer
+                && !(lord?.CurLordToil is LordToil_AssaultColonySappers)
+                && !(lord?.CurLordToil is LordToil_AssaultColonyBreaching)
                 && (lord?.LordJob is LordJob_AssaultColony
                     || lord?.LordJob?.GetType().Name.StartsWith("LordJob_AssaultColony",
                         StringComparison.Ordinal) == true);
