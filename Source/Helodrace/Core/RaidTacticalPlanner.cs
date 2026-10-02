@@ -79,7 +79,7 @@ namespace Helodrace
                 plan.Reason = "Tactical map analysis is unavailable.";
                 return plan;
             }
-            analysis.RequestAnalysis(1800);
+            analysis.RequestAnalysis();
             plan.Doctrine = organization.faction?.def?.defName == "HD_HelodCivilHighFaction"
                 ? RaidTacticalDoctrine.High : RaidTacticalDoctrine.Low;
             HashSet<IntVec3> avoidedTraps = plan.Doctrine == RaidTacticalDoctrine.High

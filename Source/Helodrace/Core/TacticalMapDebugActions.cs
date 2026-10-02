@@ -52,7 +52,18 @@ namespace Helodrace
 
             TacticalCellData data = analysis.At(cell);
             Log.Message($"[Helodrace Tactical AI] {cell}: geometry={data.TotalThreat:0.0} "
-                + $"(door={data.DoorThreat:0.0}, wall/passage={data.WallThreat:0.0})");
+                + $"(door={data.DoorThreat:0.0}, wall/passage={data.WallThreat:0.0}) "
+                + $"structures={data.Structures} open={data.OpenDirections} "
+                + $"exterior={data.ExteriorAccess}");
+        }
+
+        [DebugAction(
+            "Helodrace/Tactical AI",
+            "Draw exterior doors and openings",
+            allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        public static void DrawExteriorAccess()
+        {
+            DrawGrid(data => data.ExteriorAccess ? 1f : 0f, 1f, "exterior access");
         }
 
         [DebugAction(

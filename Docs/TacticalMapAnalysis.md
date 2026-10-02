@@ -1,22 +1,35 @@
 # Tactical map analysis
 
-`MapComponent_TacticalMapAnalysis` stores only a small, static door-and-wall
-geometry score. It does not identify valuable rooms or equipment and does not
+`MapComponent_TacticalMapAnalysis` stores only static structural features and
+basic door-and-wall guarding scores. It does not identify valuable rooms or equipment and does not
 project pawn, turret, temperature, or trap danger across the map. There is no
 separate killzone detector.
 
 ## Door and wall geometry
 
-Each standable cell and door cell receives only two scores:
+Each standable cell and door cell records any applicable `Door`, `Opening`,
+`Corner`, `Corridor`, and `Junction` flags. It also records the cardinal
+directions leading to traversable neighboring cells. Several flags or open
+directions can coexist at one cell, so separate doors and approach axes remain
+distinguishable instead of becoming only one combined score.
+
+An opening is a short gap between opposite wall segments rather than a
+continuing corridor. Doors and openings carry an exterior-access hint when
+their opposite sides differ in room exterior status or roofing. This hint is
+structural and does not indicate that an enemy is present. Open/closed door
+state is not cached.
+
+The existing route and guarding heuristics still use two basic scores:
 
 - Door: 12 on a door cell, 8 on a cardinally adjacent cell.
 - Wall/passage: 6 in a one-cell passage with walls on opposite sides, or 4 at
-  a wall corner.
+  a wall corner or wall-backed junction.
 
 The sum is `TotalThreat`, a route/guarding heuristic rather than an estimated
-hit probability. The grid is rebuilt on demand and, while active, at most every
-3,600 game ticks. Changes to walls or doors may therefore take up to that interval
-to appear unless the developer rebuild action is used.
+hit probability. The grid is built on first tactical use and reused for the
+life of the map. Tactical replanning and changing door states do not rebuild it.
+Later construction or destruction may leave stale features until the developer
+rebuild action is used; consumers can validate a particular structure at use time.
 
 ## Raid planning
 
@@ -152,8 +165,9 @@ existing forward-base support system.
 ## Developer tools
 
 Under `Helodrace/Tactical AI`, use `Draw door and wall geometry map` to flash
-scored cells, `Inspect tactical data under mouse` for the door/wall components,
-and `Open raid tactical plans` to inspect the selected route and assignments.
+scored cells, `Inspect tactical data under mouse` for features and directions,
+`Draw exterior doors and openings` to inspect perimeter candidates, and
+`Open raid tactical plans` to inspect the selected route and assignments.
 
 ## In-game verification
 
