@@ -509,8 +509,10 @@ namespace Helodrace
                 sources = hostiles.Where(pawn => !pawn.Downed && !pawn.Destroyed)
                     .Select(pawn =>
                     {
-                        VerbProperties verb = pawn.equipment?.Primary?.def?.Verbs
-                            ?.FirstOrDefault(candidate => candidate.isPrimary);
+                        VerbProperties verb = pawn.equipment?.Primary
+                            ?.GetComp<CompEquippable>()?.PrimaryVerb?.verbProps
+                            ?? pawn.equipment?.Primary?.def?.Verbs
+                                ?.FirstOrDefault(candidate => candidate.isPrimary);
                         return new FieldThreatSource
                         {
                             Position = pawn.Position,

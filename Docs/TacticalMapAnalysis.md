@@ -27,7 +27,7 @@ to appear unless the developer rebuild action is used.
 
 The planner takes a snapshot of the current hostile pawns when it makes a plan.
 If the objective is outdoors, it adds each hostile pawn's current position,
-primary weapon range and minimum range, and line of sight to cells considered
+equipped primary verb range and minimum range, and line of sight to cells considered
 for the entry, routes, staging, and withdrawal. Unarmed or melee pawns use a
 short 2.9-cell range. These pawn scores are cached only within that planning
 pass; they are not written to the map grid. Indoor plans use geometry alone.
