@@ -517,6 +517,47 @@ namespace Helodrace
                     if (responding && tick % 180 == 0)
                         IssueResponse(members, plan);
                     break;
+                case RaidExecutionPhase.Complete:
+                    if (tick - state.PhaseStarted >= 600 && tick % 180 == 0)
+                        MaintainEntryCohesion(organization, members, plan);
+                    break;
+            }
+        }
+
+        private void MaintainEntryCohesion(CombatOrganization organization,
+            List<Pawn> members, RaidTacticalPlan plan)
+        {
+            List<Pawn> entry = plan.Assignments
+                .Where(assignment => assignment.Task == RaidTacticalTask.Entry
+                    && members.Contains(assignment.Pawn))
+                .Select(assignment => assignment.Pawn).ToList();
+            foreach (Pawn pawn in entry)
+            {
+                CombatGroup group = organization.AllGroups
+                    .Where(value => value.Members.Contains(pawn)
+                        && value.Members.Count(entry.Contains) > 1)
+                    .OrderBy(value => value.Members.Count()).FirstOrDefault();
+                Pawn buddy = (group?.Members ?? entry)
+                    .Where(other => other != pawn && entry.Contains(other))
+                    .OrderBy(other => other.Position.DistanceToSquared(pawn.Position))
+                    .FirstOrDefault();
+                if (buddy == null || pawn.Position.DistanceTo(buddy.Position) <= 12f
+                    || (pawn.CurJobDef == JobDefOf.Goto
+                        && pawn.Position.DistanceTo(plan.Objective) > 8f)
+                    || map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
+                        && enemy.Faction != null && enemy.Faction.HostileTo(pawn.Faction)
+                        && enemy.Position.DistanceTo(pawn.Position) <= 12f
+                        && GenSight.LineOfSight(pawn.Position, enemy.Position, map, true)))
+                    continue;
+                IntVec3 cell = GenRadial.RadialCellsAround(buddy.Position, 4f, true)
+                    .Where(value => value.InBounds(map) && value.Standable(map)
+                        && value != buddy.Position
+                        && !plan.AvoidedTrapCells.Contains(value))
+                    .OrderBy(value => value.DistanceToSquared(pawn.Position))
+                    .Where(value => pawn.CanReach(value,
+                        PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
+                if (cell.IsValid) TryGoto(pawn, cell);
             }
         }
 

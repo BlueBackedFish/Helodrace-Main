@@ -78,6 +78,9 @@ vanilla duties. Escort positions remain on the sapper's side of a wall.
 During a hold, designated response members move toward a current enemy near
 the group at bounded intervals when that enemy is outside effective firing
 range; fire-support and security members keep their assigned positions.
+After an outdoor entry has had time to reach the objective, an isolated entry
+member rejoins the nearest member of its smallest combat group. Movement toward
+the objective and a nearby visible fight take priority over this regrouping.
 An available sniper group takes a separate sightline within weapon range of
 the nearest current enemy. Its companion stays near the sniper and does not
 get pulled into the response group. If no reachable sightline exists, both
