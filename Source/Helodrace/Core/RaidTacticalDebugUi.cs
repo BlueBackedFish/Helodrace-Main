@@ -107,6 +107,7 @@ namespace Helodrace
             report.AppendLine($"Command efficiency={plan.CommandEfficiency:P0}  casualties={plan.CasualtyFraction:P0}");
             report.AppendLine($"Start={plan.Start}  objective={plan.Objective}  front={plan.Frontline}");
             report.AppendLine($"Flank={plan.Flank}  entry={plan.Entry}");
+            report.AppendLine("Wall search: " + plan.BreachSearch);
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"
@@ -173,11 +174,12 @@ namespace Helodrace
             RaidTacticalPlan plan = VisiblePlan();
             if (plan == null) return;
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Objective), "OBJECTIVE", ObjectiveColor);
-            GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Entry), "ENTRY", EntryColor);
+            GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Entry),
+                plan.BreachCell.IsValid ? "OUTSIDE" : "ENTRY", EntryColor);
             if (plan.BreachCell.IsValid)
                 GenMapUI.DrawThingLabel(
                     GenMapUI.LabelDrawPosFor(plan.BreachCell),
-                    plan.PlannedBreach != null ? "BREACH" : "OPENING", Color.yellow);
+                    plan.PlannedBreach != null ? "BREACH ENTRY" : "OPEN ENTRY", Color.yellow);
             GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Frontline), "FRONT", Color.red);
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
                 if (assignment.Position.IsValid)

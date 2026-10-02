@@ -48,6 +48,7 @@ namespace Helodrace
         public List<RaidTacticalAssignment> Assignments = new List<RaidTacticalAssignment>();
         public string EntrySupport;
         public string EntryMethod;
+        public string BreachSearch;
         public string Reason;
         public float CommandEfficiency;
         public float CasualtyFraction;
@@ -116,7 +117,7 @@ namespace Helodrace
             FieldThreatSnapshot fieldThreat = new FieldThreatSnapshot(map, hostiles);
             bool needsBreach = !map.reachability.CanReach(plan.Start, plan.Objective,
                 PathEndMode.OnCell, TraverseParms.For(pathfinder));
-            if ((needsBreach || !field) && TryFindPlannedBreach(map, analysis, fieldThreat,
+            if (TryFindPlannedBreach(map, analysis, fieldThreat,
                 avoidedTraps, members, pathfinder, plan, out List<IntVec3> breachRoute))
             {
                 plan.ApproachPath.AddRange(breachRoute);
@@ -468,26 +469,30 @@ namespace Helodrace
             Building bestTarget = null;
             IntVec3 bestOutside = IntVec3.Invalid;
             IntVec3 bestInside = IntVec3.Invalid;
-            Room objectiveRoom = plan.Objective.GetRoom(map);
-            bool indoorObjective = objectiveRoom != null
-                && !objectiveRoom.PsychologicallyOutdoors;
+            int nearbyStructures = 0;
+            int equippedTargets = 0;
+            int outsideRoutes = 0;
             foreach (Building target in map.listerThings.AllThings.OfType<Building>()
                 .Where(building => (building.def.IsWall || building is Building_Door)
                     && building.Faction != null
-                    && building.Faction.HostileTo(pathfinder.Faction))
-                .OrderBy(building => building.Position.DistanceToSquared(plan.Objective))
-                .Take(160))
+                    && building.Faction.HostileTo(pathfinder.Faction)
+                    && LineDeviation(building.Position, plan.Start, plan.Objective) <= 12f)
+                .OrderBy(building => LineDeviation(building.Position,
+                    plan.Start, plan.Objective))
+                .ThenBy(building => building.Position.DistanceToSquared(plan.Start))
+                .Take(400))
             {
+                nearbyStructures++;
                 List<Pawn> breachers = members.Where(pawn => CanBreach(pawn, target)).ToList();
                 if (breachers.Count == 0) continue;
+                equippedTargets++;
                 foreach (IntVec3 outside in GenAdj.CellsAdjacentCardinal(target))
                 {
                     IntVec3 inside = target.Position + (target.Position - outside);
                     if (outside.DistanceTo(plan.Start) >= inside.DistanceTo(plan.Start)
                         || inside.DistanceTo(plan.Objective)
                             >= outside.DistanceTo(plan.Objective)
-                        || (indoorObjective && inside.GetRoom(map) != objectiveRoom)
-                        || !IsOuterBoundary(map, target, outside, inside))
+                        || !HasWallContour(map, target, outside))
                         continue;
                     if (!CanWalkRouteCell(map, outside, pathfinder)
                         || !CanWalkRouteCell(map, inside, pathfinder)
@@ -504,14 +509,22 @@ namespace Helodrace
                         >= bestScore) continue;
                     List<IntVec3> candidate = FindRoute(map, analysis, fieldThreat,
                         plan.Start, outside, avoidedTraps, pathfinder);
-                    if (candidate.Count == 0) continue;
+                    IntVec3 outward = outside - target.Position;
+                    if (candidate.Count == 0 || candidate.Any(cell =>
+                        (cell.x - target.Position.x) * outward.x
+                        + (cell.z - target.Position.z) * outward.z < 0)
+                        || candidate.Skip(1).Any(cell =>
+                            analysis.CachedAt(cell).ExteriorAccess)) continue;
+                    outsideRoutes++;
                     float meanExposure = MeanThreat(analysis, fieldThreat, candidate);
                     float peakExposure = candidate.Max(cell =>
                         fieldThreat.At(cell));
                     float score = candidate.Count + inside.DistanceTo(plan.Objective)
-                        + deviation * 4f
+                        + deviation * 4f + outside.DistanceTo(plan.Start) * 0.5f
                         + meanExposure * 0.5f + peakExposure * 0.7f
                         + fieldThreat.At(outside) * 0.5f
+                        + (outside.GetRoom(map)?.PsychologicallyOutdoors == false
+                            && map.roofGrid.RoofAt(outside) != null ? 24f : 0f)
                         + (target is Building_Door ? 6f : 0f);
                     if (score >= bestScore) continue;
                     bestScore = score;
@@ -521,21 +534,24 @@ namespace Helodrace
                     route = candidate;
                 }
             }
-            if (bestTarget == null) return false;
+            if (bestTarget == null)
+            {
+                plan.BreachSearch = $"No wall breach: {nearbyStructures} nearby structures, "
+                    + $"{equippedTargets} with tools, {outsideRoutes} exterior routes.";
+                return false;
+            }
             plan.PlannedBreach = bestTarget;
             plan.BreachCell = bestTarget.Position;
             plan.Entry = bestOutside;
             plan.BreachInside = bestInside;
+            plan.BreachSearch = $"Wall breach at {bestTarget.Position}, "
+                + $"outside={bestOutside}, route={route.Count} cells.";
             return true;
         }
 
-        private static bool IsOuterBoundary(Map map, Building target,
-            IntVec3 outside, IntVec3 inside)
+        private static bool HasWallContour(Map map, Building target,
+            IntVec3 outside)
         {
-            Room outsideRoom = outside.GetRoom(map);
-            if (outsideRoom == inside.GetRoom(map)
-                || outsideRoom?.PsychologicallyOutdoors == false
-                    && map.roofGrid.RoofAt(outside) != null) return false;
             IntVec3 outward = outside - target.Position;
             IntVec3 along = new IntVec3(-outward.z, 0, outward.x);
             int span = 1;
