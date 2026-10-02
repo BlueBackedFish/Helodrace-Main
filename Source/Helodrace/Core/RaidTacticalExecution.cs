@@ -62,6 +62,10 @@ namespace Helodrace
             public string OrganizationId;
             public string PlanKey;
             public IntVec3 Objective;
+            public IntVec3 FinalObjective;
+            public bool ClearingRooms;
+            public bool BedSecured;
+            public List<IntVec3> ClearedRoomCells = new List<IntVec3>();
             public RaidTacticalManeuver Maneuver;
             public RaidExecutionPhase Phase;
             public int PhaseStarted;
@@ -86,6 +90,7 @@ namespace Helodrace
             public int ExternalSupportClearedTick;
             public string DoorStateSignature;
             public int LastRoomSecurityTick;
+            public int LastRoomPlanTick = -600;
             public int LastDoorResponseTick;
             // Planning cache is rebuilt after a save load; execution progress is Scribed above.
             public RaidTacticalPlan ActivePlan;
@@ -95,6 +100,13 @@ namespace Helodrace
                 Scribe_Values.Look(ref OrganizationId, "organizationId");
                 Scribe_Values.Look(ref PlanKey, "planKey");
                 Scribe_Values.Look(ref Objective, "objective");
+                Scribe_Values.Look(ref FinalObjective, "finalObjective");
+                Scribe_Values.Look(ref ClearingRooms, "clearingRooms");
+                Scribe_Values.Look(ref BedSecured, "bedSecured");
+                Scribe_Collections.Look(ref ClearedRoomCells, "clearedRoomCells",
+                    LookMode.Value);
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && ClearedRoomCells == null)
+                    ClearedRoomCells = new List<IntVec3>();
                 Scribe_Values.Look(ref Maneuver, "maneuver");
                 Scribe_Values.Look(ref Phase, "phase");
                 Scribe_Values.Look(ref PhaseStarted, "phaseStarted");
@@ -122,6 +134,7 @@ namespace Helodrace
                 Scribe_Values.Look(ref DoorStateSignature, "doorStateSignature");
                 Scribe_Values.Look(ref LastRoomSecurityTick,
                     "lastRoomSecurityTick");
+                Scribe_Values.Look(ref LastRoomPlanTick, "lastRoomPlanTick", -600);
                 Scribe_Values.Look(ref LastDoorResponseTick,
                     "lastDoorResponseTick");
             }
@@ -180,7 +193,16 @@ namespace Helodrace
                     states.Remove(organization.id);
                     continue;
                 }
-                RaidTacticalPlan plan = plans.GetPlan(organization);
+                states.TryGetValue(organization.id, out ExecutionState state);
+                string key = PlanKey(organization, members);
+                RaidTacticalPlan plan = state?.ClearingRooms == true
+                    ? state.ActivePlan != null && state.PlanKey == key
+                        ? state.ActivePlan
+                        : RaidTacticalPlanner.MakePlan(map, organization, state.Objective)
+                    : state?.ActivePlan?.Success == true && state.PlanKey == key
+                        && state.Phase != RaidExecutionPhase.Hold
+                        && state.Phase != RaidExecutionPhase.Complete
+                        ? state.ActivePlan : plans.GetPlan(organization);
                 if (plan?.Success != true)
                 {
                     if (tick % 90 == 0) KeepSapperEscortTogether(organization);
@@ -191,18 +213,13 @@ namespace Helodrace
                     }
                     continue;
                 }
-                string key = PlanKey(organization, members);
-                states.TryGetValue(organization.id, out ExecutionState state);
                 bool idle = state != null && (state.Phase == RaidExecutionPhase.Hold
-                    || state.Phase == RaidExecutionPhase.Complete
-                    || state.Phase == RaidExecutionPhase.SecureRoom
-                    || (state.Phase == RaidExecutionPhase.Assemble
-                        && state.ApproachComplete));
+                    || state.Phase == RaidExecutionPhase.Complete);
                 bool changedIdlePlan = idle && !ReferenceEquals(state.ActivePlan, plan)
                     && (state.Maneuver != plan.Selected.Maneuver
                         || state.Objective.DistanceTo(plan.Objective) > 3f);
                 if (state == null || state.PlanKey != key
-                    || state.Objective.DistanceTo(plan.Objective) > 8f
+                    || idle && state.Objective.DistanceTo(plan.Objective) > 8f
                     || changedIdlePlan)
                 {
                     ExecutionState previous = state;
@@ -212,6 +229,12 @@ namespace Helodrace
                         OrganizationId = organization.id,
                         PlanKey = key,
                         Objective = plan.Objective,
+                        FinalObjective = previous?.FinalObjective.IsValid == true
+                            ? previous.FinalObjective : plan.FinalObjective,
+                        ClearingRooms = previous?.ClearingRooms == true,
+                        BedSecured = previous?.BedSecured == true,
+                        ClearedRoomCells = previous?.ClearedRoomCells
+                            ?? new List<IntVec3>(),
                         Maneuver = plan.Selected.Maneuver,
                         ActivePlan = plan,
                         Phase = RaidExecutionPhase.Assemble,
@@ -658,6 +681,19 @@ namespace Helodrace
                             state.LastRoomSecurityTick = tick;
                         }
                     }
+                    if (tick - state.PhaseStarted >= 180
+                        && tick - state.LastRoomPlanTick >= 600
+                        && RoomSecured(organization, members, plan)
+                        && (state.ClearingRooms || plan.ObjectiveIsNamedBed
+                            || plan.ObjectiveIsIntermediate))
+                    {
+                        state.LastRoomPlanTick = tick;
+                        if (!TryPlanNextRoom(organization, members, plan, state, tick))
+                        {
+                            if (state.BedSecured)
+                                Advance(state, RaidExecutionPhase.Complete, tick);
+                        }
+                    }
                     break;
                 case RaidExecutionPhase.Hold:
                     bool responding = CurrentResponseTarget(members, plan) != null;
@@ -876,6 +912,10 @@ namespace Helodrace
                 else if (pawn.CurJobDef != JobDefOf.Wait_Combat
                     || pawn.CurJob?.expiryInterval <= 0)
                     HoldPosition(pawn);
+                if (plan.BreachCell.IsValid
+                    && assignment.Task != RaidTacticalTask.Withdraw
+                    && pawn.Position.DistanceTo(assignment.Position) <= readyRadius)
+                    FaceStackSector(pawn, plan, assignment);
             }
         }
 
@@ -890,12 +930,33 @@ namespace Helodrace
                     || !holdEntry && assignment.Task == RaidTacticalTask.Entry
                     || assignment.Task == RaidTacticalTask.Withdraw
                     || !assignment.Position.IsValid || IsTaserOperation(pawn)) continue;
-                if (pawn.Position != assignment.Position)
+                if (pawn.Position.DistanceTo(assignment.Position)
+                    > ReadyRadius(plan, assignment))
                     TryGoto(pawn, assignment.Position);
-                else if (pawn.CurJobDef != JobDefOf.Wait_Combat
-                    || pawn.CurJob?.expiryInterval <= 0)
-                    HoldPosition(pawn);
+                else
+                {
+                    if (pawn.CurJobDef != JobDefOf.Wait_Combat
+                        || pawn.CurJob?.expiryInterval <= 0)
+                        HoldPosition(pawn);
+                    FaceStackSector(pawn, plan, assignment);
+                }
             }
+        }
+
+        private static void FaceStackSector(Pawn pawn, RaidTacticalPlan plan,
+            RaidTacticalAssignment assignment)
+        {
+            IntVec3 outward = plan.Entry - plan.BreachCell;
+            IntVec3 along = new IntVec3(-outward.z, 0, outward.x);
+            IntVec3 offset = pawn.Position - plan.BreachCell;
+            int side = offset.x * along.x + offset.z * along.z >= 0 ? 1 : -1;
+            IntVec3 focus = assignment.Task == RaidTacticalTask.Entry
+                && assignment.EntryOrder <= 2
+                ? plan.BreachCell + outward * 2
+                : plan.BreachCell + along * (side * 9) + outward * 3;
+            if (!focus.IsValid || pawn.Position == focus) return;
+            pawn.Rotation = Rot4.FromAngleFlat(
+                (focus - pawn.Position).ToVector3().AngleFlat());
         }
 
         private Pawn CurrentResponseTarget(List<Pawn> members, RaidTacticalPlan plan)
@@ -1149,7 +1210,7 @@ namespace Helodrace
         {
             if (!plan.BreachCell.IsValid || assignment.Task == RaidTacticalTask.Withdraw)
                 return 1.5f;
-            return assignment.Task == RaidTacticalTask.Entry ? 0.5f : 8f;
+            return 0.5f;
         }
 
         private static void HoldPosition(Pawn pawn)
@@ -1560,6 +1621,107 @@ namespace Helodrace
                         TacticalAimUtility.SetFocusForAI(pawn, focusDoor.Position);
                 }
             }
+        }
+
+        private bool RoomSecured(CombatOrganization organization, List<Pawn> members,
+            RaidTacticalPlan plan)
+        {
+            Room room = plan.Objective.GetRoom(map);
+            if (room == null || room.PsychologicallyOutdoors) return false;
+            List<Pawn> entry = EntryPawns(members, plan);
+            if (entry.Count == 0 || entry.Count(pawn =>
+                pawn.Position.GetRoom(map) == room) * 2 < entry.Count) return false;
+            return !map.mapPawns.AllPawnsSpawned.Any(pawn => !pawn.Dead
+                && !pawn.Downed && pawn.Faction != null
+                && pawn.Faction.HostileTo(organization.faction)
+                && pawn.Position.GetRoom(map) == room);
+        }
+
+        private bool TryPlanNextRoom(CombatOrganization organization,
+            List<Pawn> members, RaidTacticalPlan current,
+            ExecutionState state, int tick)
+        {
+            if (!state.ClearedRoomCells.Contains(current.Objective))
+                state.ClearedRoomCells.Add(current.Objective);
+            state.ClearingRooms = true;
+            if (current.Objective.GetRoom(map)
+                == state.FinalObjective.GetRoom(map))
+                state.BedSecured = true;
+            if (!state.BedSecured && state.FinalObjective.IsValid)
+            {
+                RaidTacticalPlan bedPlan = RaidTacticalPlanner.MakePlan(map,
+                    organization, state.FinalObjective);
+                if (bedPlan?.Success == true
+                    && bedPlan.Objective.GetRoom(map)
+                        != current.Objective.GetRoom(map))
+                {
+                    ActivateNextRoomPlan(organization, members, state,
+                        bedPlan, tick);
+                    return true;
+                }
+            }
+            IntVec3 start = members[0].Position;
+            IEnumerable<IntVec3> anchors = map.listerThings.AllThings
+                .OfType<Building>()
+                .Where(building => building.Faction == Faction.OfPlayer
+                    && !building.def.IsWall && !(building is Building_Door))
+                .Select(building => building.Position)
+                .Concat(map.mapPawns.AllPawnsSpawned
+                    .Where(pawn => !pawn.Dead && pawn.Faction != null
+                        && pawn.Faction.HostileTo(organization.faction))
+                    .Select(pawn => pawn.Position));
+            HashSet<Room> cleared = new HashSet<Room>(state.ClearedRoomCells
+                .Where(cell => cell.InBounds(map))
+                .Select(cell => cell.GetRoom(map)).Where(room => room != null));
+            foreach (IGrouping<Room, IntVec3> group in anchors
+                .Where(cell => cell.InBounds(map))
+                .GroupBy(cell => cell.GetRoom(map))
+                .Where(group => group.Key != null
+                    && !group.Key.PsychologicallyOutdoors
+                    && !cleared.Contains(group.Key))
+                .OrderBy(group => group.Min(cell => cell.DistanceTo(start)
+                    + cell.DistanceTo(state.FinalObjective) * 0.15f)))
+            {
+                IntVec3 target = group.SelectMany(anchor =>
+                        GenRadial.RadialCellsAround(anchor, 6f, true))
+                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                        && cell.GetRoom(map) == group.Key)
+                    .OrderBy(cell => cell.DistanceTo(start))
+                    .DefaultIfEmpty(IntVec3.Invalid).First();
+                if (!target.IsValid) continue;
+                RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map,
+                    organization, target);
+                if (next?.Success != true) continue;
+                ActivateNextRoomPlan(organization, members, state, next, tick);
+                return true;
+            }
+            return false;
+        }
+
+        private static void ActivateNextRoomPlan(CombatOrganization organization,
+            List<Pawn> members, ExecutionState state, RaidTacticalPlan next, int tick)
+        {
+            state.ActivePlan = next;
+            state.Objective = next.Objective;
+            state.Maneuver = next.Selected.Maneuver;
+            state.PlanKey = PlanKey(organization, members);
+            state.ReadySince = -1;
+            state.ApproachComplete = false;
+            state.ApproachProgressTick = tick;
+            state.ApproachBestRemaining = float.MaxValue;
+            state.BreachAttempts = 0;
+            state.Breacher = null;
+            state.BreachTarget = null;
+            state.BreachKind = RaidBreachKind.None;
+            state.WithdrawalIssued = false;
+            state.Thrower = null;
+            state.SupportIssued = false;
+            state.FlankIssued = false;
+            state.AssaultIssued = false;
+            state.ExternalSupportAttempted = true;
+            Advance(state, RaidExecutionPhase.Assemble, tick);
+            RaidTacticalSpeech.Say(Commander(organization, members),
+                "HD_RaidTactical_Assemble");
         }
 
         private string NearbyDoorState(IntVec3 objective)
