@@ -61,6 +61,7 @@ namespace Helodrace
             public RaidTacticalManeuver Maneuver;
             public RaidExecutionPhase Phase;
             public int PhaseStarted;
+            public int ReadySince = -1;
             public Pawn Breacher;
             public Building BreachTarget;
             public RaidBreachKind BreachKind;
@@ -86,6 +87,7 @@ namespace Helodrace
                 Scribe_Values.Look(ref Maneuver, "maneuver");
                 Scribe_Values.Look(ref Phase, "phase");
                 Scribe_Values.Look(ref PhaseStarted, "phaseStarted");
+                Scribe_Values.Look(ref ReadySince, "readySince", -1);
                 Scribe_References.Look(ref Breacher, "breacher");
                 Scribe_References.Look(ref BreachTarget, "breachTarget");
                 Scribe_Values.Look(ref BreachKind, "breachKind");
@@ -239,9 +241,14 @@ namespace Helodrace
                         break;
                     }
                     Assemble(members, plan);
+                    bool ready = AllReady(members, plan);
+                    if (ready && state.ReadySince < 0) state.ReadySince = tick;
+                    if (!ready) state.ReadySince = -1;
                     if (!UsingZaper(members)
-                        && (AllReady(members, plan)
-                            || tick - state.PhaseStarted >= AssembleTimeout))
+                        && ((ready && state.ReadySince >= 0
+                            && tick - state.ReadySince >= plan.CoordinationDelayTicks)
+                            || tick - state.PhaseStarted >= AssembleTimeout
+                                + plan.CoordinationDelayTicks))
                     {
                         RaidExecutionPhase next = state.Maneuver == RaidTacticalManeuver.HoldAndCounterattack
                             || state.Maneuver == RaidTacticalManeuver.Regroup
@@ -626,6 +633,7 @@ namespace Helodrace
             state.ExternalSupportCaller = null;
             state.ExternalSupportTarget = null;
             state.PhaseStarted = tick;
+            state.ReadySince = -1;
             return false;
         }
 

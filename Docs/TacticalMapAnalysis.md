@@ -67,6 +67,10 @@ get pulled into the response group. If no reachable sightline exists, both
 fall back to ordinary holding positions.
 The planned entry delay is honored after the support action, allowing smoke or
 grenade effects to take hold before the simultaneous entry order.
+After all assigned members assemble, HIGH waits its short radio coordination
+interval; LOW waits longer when members began separated or out of sight. The
+assembly timeout includes that interval, and readiness resets if a member
+moves away before coordination finishes.
 After an indoor entry reaches the objective or its clearing timeout, available
 entry members spread to separate cells near doors, wall corners, and passages
 inside the room. Members already facing a nearby enemy remain under combat AI
