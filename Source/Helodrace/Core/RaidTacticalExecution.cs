@@ -167,7 +167,15 @@ namespace Helodrace
                 if (members.Count == 0) continue;
                 activeIds.Add(organization.id);
                 RaidTacticalPlan plan = plans.GetPlan(organization);
-                if (plan?.Success != true) continue;
+                if (plan?.Success != true)
+                {
+                    if (states.TryGetValue(organization.id, out ExecutionState abandoned))
+                    {
+                        CancelPendingCharge(abandoned);
+                        states.Remove(organization.id);
+                    }
+                    continue;
+                }
                 string key = PlanKey(organization, members);
                 states.TryGetValue(organization.id, out ExecutionState state);
                 bool idle = state != null && (state.Phase == RaidExecutionPhase.Hold
@@ -183,6 +191,7 @@ namespace Helodrace
                     || changedIdlePlan)
                 {
                     ExecutionState previous = state;
+                    if (previous != null) CancelPendingCharge(previous);
                     state = new ExecutionState
                     {
                         OrganizationId = organization.id,
@@ -220,7 +229,24 @@ namespace Helodrace
                 Update(organization, members, state.ActivePlan, state, tick);
             }
             foreach (string id in states.Keys.Where(id => !activeIds.Contains(id)).ToList())
+            {
+                CancelPendingCharge(states[id]);
                 states.Remove(id);
+            }
+        }
+
+        private static void CancelPendingCharge(ExecutionState state)
+        {
+            if (state?.BreachKind != RaidBreachKind.C4
+                || state.Phase == RaidExecutionPhase.Detonation) return;
+            Pawn breacher = state.Breacher;
+            if (breacher?.CurJobDef?.defName
+                == BreachExplosiveUtility.ShockTubeJobDefName)
+                breacher.jobs.EndCurrentJob(JobCondition.InterruptForced);
+            CompInstalledBreachCharge charge = BreachExplosiveUtility
+                .ChargeOnWall(state.BreachTarget);
+            if (charge?.OperatorPawn == breacher)
+                charge.parent.Destroy(DestroyMode.Vanish);
         }
 
         private static bool IsAssaultRaider(Pawn pawn)
