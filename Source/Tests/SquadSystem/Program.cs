@@ -289,7 +289,7 @@ internal static class Program
     private static Dictionary<string, Def> LoadDefinitions(string root)
     {
         var nodes = new[] { "Defs/Helod/Pawns/PawnKinds.xml", "Defs/Helod/Pawns/PawnKinds_GreatWar.xml",
-            "Defs/Organization/Organization_GreatWar.xml" }
+            "Defs/Organization/Organization_GreatWar.xml", "Defs/Organization/Organization_Modern.xml" }
             .SelectMany(file => XDocument.Load(Path.Combine(root, file)).Root.Elements()).ToList();
         var templates = nodes.Where(node => node.Attribute("Name") != null)
             .ToDictionary(node => (string)node.Attribute("Name"));
@@ -305,10 +305,12 @@ internal static class Program
             return merged;
         }
         var defs = new Dictionary<string, Def> { ["Shooting"] = Shooting };
-        var grenadeNames = XDocument.Load(Path.Combine(root, "Defs/GreatWar/Items/Grenades_GreatWar.xml"))
-            .Root.Elements("ThingDef")
-            .Where(node => (string)node.Attribute("ParentName") == "HD_GreatWarGrenadeBase")
-            .Select(node => (string)node.Element("defName")).ToHashSet();
+        var grenadeNames = new[] { "Defs/GreatWar/Items/Grenades_GreatWar.xml",
+                "Defs/ColdWar/Items/Grenades_ColdWar.xml",
+                "Defs/ModernWar/Items/Grenades_ModernWar.xml" }
+            .SelectMany(file => XDocument.Load(Path.Combine(root, file)).Root.Elements("ThingDef"))
+            .Select(node => (string)node.Element("defName"))
+            .Where(name => name?.StartsWith("HD_Grenade_") == true).ToHashSet();
         foreach (string grenadeName in grenadeNames)
             defs.Add(grenadeName, new ThingDef { defName = grenadeName });
         foreach (var node in nodes.Where(node => node.Element("defName") != null))
@@ -357,7 +359,8 @@ internal static class Program
     {
         var defs = LoadDefinitions(root);
         var usedGrenades = new HashSet<string>();
-        foreach (var formation in defs.Values.OfType<FormationDef>())
+        foreach (var formation in defs.Values.OfType<FormationDef>()
+            .Where(formation => formation.defName.StartsWith("HD_Formation_GW_")))
         {
             Check(!formation.ConfigErrors().Any(), formation.defName + " config: "
                 + string.Join(", ", formation.ConfigErrors()));
@@ -381,6 +384,41 @@ internal static class Program
         Near(1000, ((FormationDef)defs["HD_Formation_GW_RifleSquad"]).FormationCost, "Actual squad cost");
         Near(3885, ((FormationDef)defs["HD_Formation_GW_RiflePlatoon"]).FormationCost, "Actual reinforced platoon cost");
         Check(((FormationDef)defs["HD_Formation_GW_RiflePlatoon"]).StandardPersonnel == 45, "Platoon is complete");
+        var modern = (DoctrineDef)defs["HD_Doctrine_Modern"];
+        Check(!modern.ConfigErrors().Any(), "Modern doctrine is valid");
+        foreach (FormationDef formation in defs.Values.OfType<FormationDef>()
+            .Where(formation => formation.defName.StartsWith("HD_Formation_MW_")))
+        {
+            Check(!formation.ConfigErrors().Any(), formation.defName + " config: "
+                + string.Join(", ", formation.ConfigErrors()));
+            Check(formation.Slots.All(slot => slot.pawnKind.defName == "HD_MW_HelodRifleman"),
+                "Modern formations use modern equipment");
+        }
+        Check(((FormationDef)defs["HD_Formation_MW_Fireteam"]).StandardPersonnel == 3,
+            "Modern fireteam is complete");
+        Near(465, ((FormationDef)defs["HD_Formation_MW_Fireteam"]).FormationCost,
+            "Modern fireteam cost");
+        Check(((FormationDef)defs["HD_Formation_MW_RifleSquad"]).StandardPersonnel == 7,
+            "Modern squad has two fireteams and a leader");
+        Near(1085, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
+            "Modern squad cost");
+        Check(((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).StandardPersonnel == 22,
+            "Modern platoon has three squads and a leader");
+        Near(3410, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
+            "Modern platoon cost");
+        XElement highFaction = XDocument.Load(Path.Combine(root, "Defs/Factions/Factions_Helod.xml"))
+            .Root.Elements("FactionDef").First(node => (string)node.Element("defName")
+                == "HD_HelodCivilHighFaction");
+        Check((string)highFaction.Descendants("doctrine").FirstOrDefault()
+            == "HD_Doctrine_Modern", "High faction uses the modern organization doctrine");
+        Check(highFaction.Descendants("HD_MW_HelodRifleman").Any(),
+            "High faction has a modern combat pawn pool");
+        Check(FormationPlanner.Plan(500f, modern).Personnel == 3,
+            "A small high-faction raid fields one modern fireteam");
+        Check(FormationPlanner.Plan(1200f, modern).Personnel == 7,
+            "A mid-sized high-faction raid fields one complete squad");
+        Check(FormationPlanner.Plan(3500f, modern).Personnel == 22,
+            "A large high-faction raid fields one complete platoon");
         foreach (float points in Enumerable.Range(0, 400).Select(index => index * 47f))
         {
             var plan = FormationPlanner.Plan(points, doctrine);

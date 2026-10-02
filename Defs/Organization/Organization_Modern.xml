@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_MW_Fireteam</defName><label>modern fireteam</label><unitLevel>Team</unitLevel>
+    <minimumPersonnel>3</minimumPersonnel><idealPersonnel>3</idealPersonnel><maximumPersonnel>3</maximumPersonnel>
+    <commanderRole>HD_Role_TeamLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_TeamLeader</commandRole><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>1</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M8_Item</li></grenadeLoadout></li>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>2</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M67_Item</li></grenadeLoadout></li>
+    </requiredRoles>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_MW_RifleSquad</defName><label>modern rifle squad</label><unitLevel>Squad</unitLevel>
+    <minimumPersonnel>7</minimumPersonnel><idealPersonnel>7</idealPersonnel><maximumPersonnel>7</maximumPersonnel>
+    <selectionPriority>100</selectionPriority><commanderRole>HD_Role_SquadLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_SquadLeader</commandRole><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M7A2_Item</li></grenadeLoadout></li>
+    </requiredRoles>
+    <childFormations>
+      <li><formation>HD_Formation_MW_Fireteam</formation><count>2</count><successionPriority>0</successionPriority></li>
+    </childFormations>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.FormationDef>
+    <defName>HD_Formation_MW_RiflePlatoon</defName><label>modern rifle platoon</label><unitLevel>Platoon</unitLevel>
+    <minimumPersonnel>22</minimumPersonnel><idealPersonnel>22</idealPersonnel><maximumPersonnel>22</maximumPersonnel>
+    <selectionPriority>200</selectionPriority><commanderRole>HD_Role_PlatoonLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
+    <requiredRoles>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_PlatoonLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
+    </requiredRoles>
+    <childFormations>
+      <li><formation>HD_Formation_MW_RifleSquad</formation><count>3</count><successionPriority>0</successionPriority></li>
+    </childFormations>
+  </Helodrace.Squads.FormationDef>
+
+  <Helodrace.Squads.DoctrineDef>
+    <defName>HD_Doctrine_Modern</defName><label>modern combined-arms doctrine</label>
+    <formationPointTolerance>0.10</formationPointTolerance>
+    <commandLossDelayTicks>45</commandLossDelayTicks><commandRecoveryTicks>180</commandRecoveryTicks>
+    <actingCommandEfficiency>0.85</actingCommandEfficiency>
+    <directControl>0.5</directControl><fireteamIndependence>0.8</fireteamIndependence>
+    <squadCohesion>0.8</squadCohesion><distributedLeadership>0.8</distributedLeadership>
+    <availableFormations>
+      <li>HD_Formation_MW_RiflePlatoon</li><li>HD_Formation_MW_RifleSquad</li><li>HD_Formation_MW_Fireteam</li>
+    </availableFormations>
+  </Helodrace.Squads.DoctrineDef>
+</Defs>

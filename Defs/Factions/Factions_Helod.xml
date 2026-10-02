@@ -178,6 +178,11 @@
 
   <FactionDef ParentName="FactionBase">
     <defName>HD_HelodCivilHighFaction</defName>
+    <modExtensions>
+      <li Class="Helodrace.Squads.FactionOrganizationExtension">
+        <doctrine>HD_Doctrine_Modern</doctrine>
+      </li>
+    </modExtensions>
     <label>베세니카 주</label>
     <fixedName>Providence State</fixedName>
     <description>A centralized Helod state whose authority extends beyond the frontier.</description>
@@ -216,6 +221,16 @@
         <li>Cloth</li>
       </thingDefs>
     </apparelStuffFilter>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <options><HD_MW_HelodRifleman>100</HD_MW_HelodRifleman></options>
+      </li>
+      <li>
+        <kindDef>Peaceful</kindDef>
+        <options><HD_WW_HelodUpperClass>100</HD_WW_HelodUpperClass></options>
+      </li>
+    </pawnGroupMakers>
   </FactionDef>
 
 </Defs>

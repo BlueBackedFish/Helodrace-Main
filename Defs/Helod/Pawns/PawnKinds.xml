@@ -447,7 +447,7 @@
 	<PawnKindDef ParentName="HD_HelodBasePawnKind">
 		<defName>HD_MW_HelodRifleman</defName>
 		<label>Modern War Helod rifleman</label>
-		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
+		<defaultFactionType>HD_HelodCivilHighFaction</defaultFactionType>
 		<combatPower>155</combatPower>
 		<isFighter>true</isFighter>
 		<weaponMoney><min>900</min><max>1600</max></weaponMoney>

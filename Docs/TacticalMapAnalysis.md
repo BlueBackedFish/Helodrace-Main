@@ -66,6 +66,8 @@ raid and suitable grenades are carried. The executor chooses a current hostile
 position when it is ready to throw, so this target is not frozen in the map grid.
 HIGH-doctrine wounded members with TCCC training perform self-hemostasis after
 reaching their withdrawal position when they are bleeding.
+The HIGH faction now has its own modern formation doctrine and combat pool;
+generated raid members receive CQB and TCCC training at creation.
 
 ## Developer tools
 
