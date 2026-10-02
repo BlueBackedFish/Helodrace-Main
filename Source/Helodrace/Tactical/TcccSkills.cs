@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using Helodrace.Squads;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -52,7 +53,10 @@ namespace Helodrace.Tactical
                 && pawn.health.hediffSet.HasHediff(def);
         }
         public static bool CanAct(Pawn pawn) => pawn != null && pawn.Spawned && !pawn.Dead && !pawn.Downed
-            && pawn.Faction == Faction.OfPlayer && pawn.RaceProps.Humanlike && pawn.Drafted
+            && ((pawn.Faction == Faction.OfPlayer && pawn.Drafted)
+                || (OrganizationAPI.GetOrganization(pawn)?.faction?.def?.defName
+                    == "HD_HelodCivilHighFaction"))
+            && pawn.RaceProps.Humanlike
             && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && !pawn.InMentalState
             && HasTraining(pawn);
         public static bool CanTreat(Pawn actor, Pawn patient) => CanAct(actor) && patient != null && patient.Spawned
@@ -279,7 +283,8 @@ namespace Helodrace.Tactical
     public static class Patch_TcccGizmos
     {
         public static void Postfix(Pawn __instance, ref IEnumerable<Gizmo> __result)
-        { if (TcccUtility.CanAct(__instance)) __result = __result.Concat(TcccUtility.Gizmos(__instance)); }
+        { if (__instance.Faction == Faction.OfPlayer && TcccUtility.CanAct(__instance))
+              __result = __result.Concat(TcccUtility.Gizmos(__instance)); }
     }
 
     [HarmonyPatch(typeof(HediffSet), nameof(HediffSet.BleedRateTotal), MethodType.Getter)]

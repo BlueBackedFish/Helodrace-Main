@@ -9,6 +9,7 @@ namespace Helodrace
         DirectAssault,
         FlankAttack,
         SmokeAdvance,
+        FieldGrenade,
         CoordinatedEntry,
         HoldAndCounterattack,
         CautiousAdvance,
@@ -29,6 +30,7 @@ namespace Helodrace
         public bool EntryAvailable;
         public bool BreachToolAvailable;
         public bool SmokeAvailable;
+        public bool FieldGrenadeAvailable;
         public bool LethalGrenadeAvailable;
         public bool NonlethalGrenadeAvailable;
         public bool FriendlyInsideObjective;
@@ -102,6 +104,15 @@ namespace Helodrace
                     Reason = "Screen the approach before the whole group advances."
                 });
             }
+            if (situation.FieldGrenadeAvailable)
+            {
+                options.Add(new RaidTacticalOption
+                {
+                    Maneuver = RaidTacticalManeuver.FieldGrenade,
+                    Score = 56f + direct * 0.12f - casualties * 18f,
+                    Reason = "Disrupt a nearby enemy field position with an available grenade."
+                });
+            }
             if (situation.EntryAvailable && situation.IndoorObjective)
             {
                 bool safeThrow = !situation.FriendlyInsideObjective;
@@ -137,6 +148,10 @@ namespace Helodrace
         {
             if (maneuver == RaidTacticalManeuver.SmokeAdvance && situation.SmokeAvailable)
                 return "Smoke grenade before crossing the front";
+            if (maneuver == RaidTacticalManeuver.FieldGrenade)
+                return situation.Doctrine == RaidTacticalDoctrine.High
+                    ? "Nonlethal grenade against a nearby field position"
+                    : "Lethal grenade against a nearby field position";
             if (maneuver != RaidTacticalManeuver.CoordinatedEntry) return "None";
             if (situation.Doctrine == RaidTacticalDoctrine.High)
                 return situation.NonlethalGrenadeAvailable ? "Nonlethal grenade after identification"

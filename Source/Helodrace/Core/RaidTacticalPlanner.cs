@@ -154,6 +154,9 @@ namespace Helodrace
                 EntryAvailable = indoor,
                 BreachToolAvailable = breachTool,
                 SmokeAvailable = smoke,
+                FieldGrenadeAvailable = field && (plan.Doctrine == RaidTacticalDoctrine.High
+                    ? nonlethal : lethal) && hostiles.Any(hostile => !hostile.Downed
+                    && members.Any(member => member.Position.DistanceTo(hostile.Position) <= 18f)),
                 LethalGrenadeAvailable = lethal,
                 NonlethalGrenadeAvailable = nonlethal,
                 FriendlyInsideObjective = friendlyInside,

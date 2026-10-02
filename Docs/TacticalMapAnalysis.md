@@ -61,6 +61,11 @@ throws are suppressed near friendlies. Indoor throws target reachable cells
 inside the objective room near the entry. The executor uses the existing
 inventory grenade and power-cutter jobs; it does not create a separate weapon
 or projectile implementation.
+An outdoor plan can also rank a field grenade when armed enemies are near the
+raid and suitable grenades are carried. The executor chooses a current hostile
+position when it is ready to throw, so this target is not frozen in the map grid.
+HIGH-doctrine wounded members with TCCC training perform self-hemostasis after
+reaching their withdrawal position when they are bleeding.
 
 ## Developer tools
 

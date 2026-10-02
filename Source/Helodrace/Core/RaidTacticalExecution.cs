@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Helodrace.Squads;
+using Helodrace.Tactical;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -262,6 +263,13 @@ namespace Helodrace
                 if (!members.Contains(pawn) || !assignment.Position.IsValid) continue;
                 if (pawn.Position.DistanceTo(assignment.Position) > 1.5f)
                     TryGoto(pawn, assignment.Position);
+                else if (assignment.Task == RaidTacticalTask.Withdraw
+                    && TcccUtility.HasTraining(pawn)
+                    && pawn.health?.hediffSet?.BleedRateTotal > 0f)
+                {
+                    if (pawn.CurJobDef?.defName != "HD_TCCC_Treat")
+                        TcccUtility.Start(pawn, pawn, TcccTreatment.SelfHemostasis);
+                }
                 else if (pawn.CurJobDef != JobDefOf.Wait_Combat)
                     pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
                         JobCondition.InterruptForced);
@@ -318,7 +326,8 @@ namespace Helodrace
         {
             bool smoke = plan.Selected.Maneuver == RaidTacticalManeuver.SmokeAdvance;
             bool entry = plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry;
-            if (!smoke && !entry) return null;
+            bool fieldGrenade = plan.Selected.Maneuver == RaidTacticalManeuver.FieldGrenade;
+            if (!smoke && !entry && !fieldGrenade) return null;
             Map currentMap = members[0].Map;
             Room objectiveRoom = plan.Objective.GetRoom(currentMap);
             if (entry && plan.Doctrine == RaidTacticalDoctrine.Low
@@ -326,6 +335,15 @@ namespace Helodrace
                     && pawn.Position.GetRoom(currentMap) == objectiveRoom)) return null;
             IEnumerable<IntVec3> targets = smoke
                 ? (IEnumerable<IntVec3>)new[] { plan.Frontline }
+                : fieldGrenade
+                    ? (IEnumerable<IntVec3>)currentMap.mapPawns.AllPawnsSpawned
+                        .Where(hostile => hostile.Faction != null
+                            && hostile.Faction.HostileTo(members[0].Faction)
+                            && !hostile.Dead && !hostile.Downed)
+                        .Select(hostile => hostile.Position)
+                        .Distinct()
+                        .OrderBy(cell => cell.DistanceTo(plan.Frontline))
+                        .ToList()
                 : GenRadial.RadialCellsAround(plan.Entry, 7f, true)
                     .Where(cell => cell.InBounds(currentMap) && cell.Standable(currentMap)
                         && cell.GetRoom(currentMap) == objectiveRoom

@@ -45,6 +45,14 @@ internal static class Program
                 == RaidTacticalManeuver.SmokeAdvance,
                 "Available smoke mitigates an exposed field approach");
 
+            var fieldGrenade = new RaidTacticalSituation
+            {
+                DirectThreat = 25f, FieldGrenadeAvailable = true
+            };
+            Check(RaidTacticalDecision.Rank(fieldGrenade)[0].Maneuver
+                == RaidTacticalManeuver.FieldGrenade,
+                "A nearby field target allows inventory grenade support");
+
             var defense = new RaidTacticalSituation
             {
                 Defending = true, DirectThreat = 60f, CasualtyFraction = 0.3f
