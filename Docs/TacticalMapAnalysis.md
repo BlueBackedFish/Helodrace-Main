@@ -47,6 +47,10 @@ then marks the most exposed point as the front/security anchor. Guard and suppor
 positions are chosen near that anchor; entry staging stays away from the door.
 The resulting path is shown in the raid plan developer overlay. Plan changes
 are evaluated when the organization changes or the normal plan refresh expires.
+Entry members follow sampled route waypoints before taking their stack-up
+positions. A waypoint has a bounded timeout so an obstructed path does not
+stall the raid. The last waypoint stays outside the final entrance; the group
+then assembles before breaching or entering.
 
 ## Raid execution
 

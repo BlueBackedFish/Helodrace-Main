@@ -50,6 +50,7 @@ namespace Helodrace
         private const int DetonationTimeout = 240;
         private const int SupportTimeout = 360;
         private const int FlankTimeout = 600;
+        private const int ApproachWaypointTimeout = 300;
         private readonly Dictionary<string, ExecutionState> states = new Dictionary<string, ExecutionState>();
         private List<ExecutionState> savedStates;
 
@@ -63,6 +64,9 @@ namespace Helodrace
             public RaidExecutionPhase Phase;
             public int PhaseStarted;
             public int ReadySince = -1;
+            public int ApproachWaypointIndex;
+            public int ApproachWaypointStarted;
+            public bool ApproachComplete;
             public Pawn Breacher;
             public Building BreachTarget;
             public RaidBreachKind BreachKind;
@@ -91,6 +95,9 @@ namespace Helodrace
                 Scribe_Values.Look(ref Phase, "phase");
                 Scribe_Values.Look(ref PhaseStarted, "phaseStarted");
                 Scribe_Values.Look(ref ReadySince, "readySince", -1);
+                Scribe_Values.Look(ref ApproachWaypointIndex, "approachWaypointIndex");
+                Scribe_Values.Look(ref ApproachWaypointStarted, "approachWaypointStarted");
+                Scribe_Values.Look(ref ApproachComplete, "approachComplete");
                 Scribe_References.Look(ref Breacher, "breacher");
                 Scribe_References.Look(ref BreachTarget, "breachTarget");
                 Scribe_Values.Look(ref BreachKind, "breachKind");
@@ -130,8 +137,15 @@ namespace Helodrace
 
         public string Status(string organizationId)
         {
-            return organizationId != null && states.TryGetValue(organizationId, out ExecutionState state)
-                ? state.Phase.ToString() : "Inactive";
+            if (organizationId == null || !states.TryGetValue(organizationId,
+                out ExecutionState state)) return "Inactive";
+            if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete)
+            {
+                int count = state.ActivePlan == null ? 0
+                    : ApproachWaypoints(state.ActivePlan).Count;
+                if (count > 0) return $"Approach {Math.Min(state.ApproachWaypointIndex + 1, count)}/{count}";
+            }
+            return state.Phase.ToString();
         }
 
         public override void MapComponentTick()
@@ -245,6 +259,11 @@ namespace Helodrace
                                     ?.RequiresStationaryGuidance(pawn) != true)
                                 pawn.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Wait_Combat),
                                     JobCondition.InterruptForced);
+                        break;
+                    }
+                    if (!FollowApproach(members, plan, state, tick))
+                    {
+                        Assemble(members, plan, skipEntry: true);
                         break;
                     }
                     Assemble(members, plan);
@@ -417,6 +436,52 @@ namespace Helodrace
                 .All(assignment => assignment.Pawn.Position.DistanceTo(cell) <= radius);
         }
 
+        private static List<IntVec3> ApproachWaypoints(RaidTacticalPlan plan)
+        {
+            List<IntVec3> path = plan.ApproachPath;
+            if (path == null || path.Count < 8) return new List<IntVec3>();
+            int last = plan.Selected?.Maneuver == RaidTacticalManeuver.FlankAttack
+                ? path.IndexOf(plan.Flank) : path.Count - 9;
+            if (last < 6) return new List<IntVec3>();
+            int stride = Math.Max(6, (last + 9) / 10);
+            var waypoints = new List<IntVec3>();
+            for (int i = stride; i < last; i += stride) waypoints.Add(path[i]);
+            waypoints.Add(path[last]);
+            return waypoints;
+        }
+
+        private static bool FollowApproach(List<Pawn> members, RaidTacticalPlan plan,
+            ExecutionState state, int tick)
+        {
+            if (state.ApproachComplete) return true;
+            List<IntVec3> waypoints = ApproachWaypoints(plan);
+            List<Pawn> entry = plan.Assignments
+                .Where(assignment => assignment.Task == RaidTacticalTask.Entry
+                    && members.Contains(assignment.Pawn))
+                .Select(assignment => assignment.Pawn).ToList();
+            if (waypoints.Count == 0 || entry.Count == 0
+                || state.ApproachWaypointIndex >= waypoints.Count)
+            {
+                state.ApproachComplete = true;
+                state.PhaseStarted = tick;
+                state.ReadySince = -1;
+                return true;
+            }
+            IntVec3 waypoint = waypoints[state.ApproachWaypointIndex];
+            if (state.ApproachWaypointStarted <= 0)
+                state.ApproachWaypointStarted = tick;
+            foreach (Pawn pawn in entry)
+                if (pawn.Position.DistanceTo(waypoint) > 3f)
+                    TryGoto(pawn, waypoint);
+            if (entry.All(pawn => pawn.Position.DistanceTo(waypoint) <= 3f)
+                || tick - state.ApproachWaypointStarted >= ApproachWaypointTimeout)
+            {
+                state.ApproachWaypointIndex++;
+                state.ApproachWaypointStarted = tick;
+            }
+            return false;
+        }
+
         private void IssueFlank(List<Pawn> members, RaidTacticalPlan plan)
         {
             var occupied = new HashSet<IntVec3>();
@@ -438,12 +503,13 @@ namespace Helodrace
         }
 
         private void Assemble(List<Pawn> members, RaidTacticalPlan plan,
-            bool skipResponse = false)
+            bool skipResponse = false, bool skipEntry = false)
         {
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
             {
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn) || !assignment.Position.IsValid
+                    || (skipEntry && assignment.Task == RaidTacticalTask.Entry)
                     || (skipResponse && assignment.Task == RaidTacticalTask.Response)) continue;
                 if (pawn.CurJobDef?.defName == "HD_ZaperX26Fire") continue;
                 if (pawn.Position.DistanceTo(assignment.Position) > 1.5f)
