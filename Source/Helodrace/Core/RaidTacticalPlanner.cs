@@ -407,11 +407,11 @@ namespace Helodrace
             {
                 IntVec3 supportAnchor = plan.BreachCell.IsValid
                     ? plan.Entry : plan.Frontline;
-                IntVec3 cell = plan.BreachCell.IsValid
-                    ? FindWallStackCell(map, analysis, fieldThreat, avoidedTraps,
-                        pawn, plan, occupied, entry.Count + support.IndexOf(pawn))
-                    : FindStagingCell(map, analysis, fieldThreat, avoidedTraps, pawn,
-                        supportAnchor, stagingRear, occupied, 3, 11, true, false);
+                IntVec3 cell = FindStagingCell(map, analysis, fieldThreat,
+                    avoidedTraps, pawn, supportAnchor, stagingRear, occupied,
+                    3, plan.BreachCell.IsValid ? 18 : 11,
+                    !plan.BreachCell.IsValid, plan.BreachCell.IsValid,
+                    plan.BreachCell.IsValid ? plan : null);
                 if (cell.IsValid) occupied.Add(cell);
                 plan.Assignments.Add(new RaidTacticalAssignment
                 {
@@ -436,6 +436,7 @@ namespace Helodrace
             int securityCount = Math.Max(1, members.Count / 4);
             while (entry.Count > 2 && members.Count - entry.Count < securityCount)
                 entry.RemoveAt(entry.Count - 1);
+            if (entry.Count > 8) entry.RemoveRange(8, entry.Count - 8);
             return entry;
         }
 
@@ -545,11 +546,10 @@ namespace Helodrace
                         !(pawn.health?.summaryHealth?.SummaryHealthPercent < 0.35f))
                         .ToList();
                     if (available.Count == 0) continue;
-                    if (WallStackCapacity(map, stackPlan, avoidedTraps)
-                        < available.Count) continue;
                     List<Pawn> entryMembers = EntryMembers(organization, available);
-                    List<Pawn> stackMembers = entryMembers.Concat(
-                        available.Except(entryMembers)).ToList();
+                    if (WallStackCapacity(map, stackPlan, avoidedTraps)
+                        < entryMembers.Count) continue;
+                    List<Pawn> stackMembers = entryMembers;
                     // A candidate is usable only if the assault element can actually
                     // occupy distinct, sheltered cells along this stretch of wall.
                     bool canStack = true;
@@ -759,14 +759,16 @@ namespace Helodrace
             Pawn pawn, IntVec3 anchor, IntVec3 rear,
             HashSet<IntVec3> occupied,
             int minimumRadius, int maximumRadius, bool guardAnchor = false,
-            bool behindAnchor = false)
+            bool behindAnchor = false, RaidTacticalPlan stackPlan = null)
         {
             if (!anchor.IsValid) return IntVec3.Invalid;
             IEnumerable<IntVec3> candidates = GenRadial.RadialCellsAround(anchor,
                 maximumRadius, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !occupied.Contains(cell) && !avoidedTraps.Contains(cell)
-                    && cell.DistanceTo(anchor) >= minimumRadius)
+                    && cell.DistanceTo(anchor) >= minimumRadius
+                    && (stackPlan == null
+                        || SafeFromEntryGrenade(map, stackPlan, cell)))
                 .Where(cell => !guardAnchor || anchor.GetEdifice(map) is Building_Door
                     || GenSight.LineOfSight(cell, anchor, map, true));
             if (behindAnchor)
