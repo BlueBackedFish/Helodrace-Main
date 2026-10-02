@@ -55,6 +55,8 @@ their assigned positions. Once assault moves are issued, normal Lord combat
 behavior resumes. Replanning after casualties, commander succession, or a
 large objective shift restarts coordination. Execution phase and assignments
 appear in the developer plan window. Phase state is saved with the map.
+The planned entry delay is honored after the support action, allowing smoke or
+grenade effects to take hold before the simultaneous entry order.
 
 Grenades are used only when their target is in range and sight, and damaging
 throws are suppressed near friendlies. Indoor throws target reachable cells

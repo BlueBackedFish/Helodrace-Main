@@ -17,6 +17,7 @@ namespace Helodrace
         WithdrawFromCharge,
         Detonation,
         Support,
+        EntryWait,
         Flank,
         Assault,
         Hold,
@@ -254,11 +255,15 @@ namespace Helodrace
                         state.SupportIssued = true;
                         state.Thrower = TryStartSupport(members, plan, state.Maneuver);
                         if (state.Thrower == null)
-                            Advance(state, AfterSupport(plan, state.Maneuver), tick);
+                            Advance(state, RaidExecutionPhase.EntryWait, tick);
                     }
                     else if ((state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeClose"
                         && state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeNormal")
                         || tick - state.PhaseStarted >= SupportTimeout)
+                        Advance(state, RaidExecutionPhase.EntryWait, tick);
+                    break;
+                case RaidExecutionPhase.EntryWait:
+                    if (tick - state.PhaseStarted >= plan.EntryDelayTicks)
                         Advance(state, AfterSupport(plan, state.Maneuver), tick);
                     break;
                 case RaidExecutionPhase.Flank:
