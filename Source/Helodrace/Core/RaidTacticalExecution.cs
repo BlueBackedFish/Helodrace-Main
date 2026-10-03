@@ -124,6 +124,7 @@ namespace Helodrace
             public int LastDoorResponseTick;
             public IntVec3 CrossingBreach = IntVec3.Invalid;
             public List<BreachCrossing> Crossings = new List<BreachCrossing>();
+            public List<RaidReactivePosition> Reactions = new List<RaidReactivePosition>();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
 
@@ -185,6 +186,9 @@ namespace Helodrace
                     "lastDoorResponseTick");
                 Scribe_Values.Look(ref CrossingBreach, "crossingBreach", IntVec3.Invalid);
                 Scribe_Collections.Look(ref Crossings, "crossings", LookMode.Deep);
+                Scribe_Collections.Look(ref Reactions, "reactions", LookMode.Deep);
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && Reactions == null)
+                    Reactions = new List<RaidReactivePosition>();
                 Scribe_Deep.Look(ref ActivePlan, "activePlan");
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Crossings == null)
                     Crossings = new List<BreachCrossing>();
@@ -382,7 +386,6 @@ namespace Helodrace
                 foreach (ExecutionState crossing in states.Values.ToList())
                 {
                     if (tick % 10 != 0 || casualties.ContainsKey(crossing.OrganizationId)
-                        || crossing.Phase != RaidExecutionPhase.CrossBreach
                         || crossing.ActivePlan?.Success != true) continue;
                     CombatOrganization organization = registry.Organizations
                         .FirstOrDefault(value => value.id == crossing.OrganizationId);
@@ -390,7 +393,8 @@ namespace Helodrace
                     List<Pawn> members = organization.AllMembers.Where(pawn => pawn.Spawned
                         && pawn.Map == map && !pawn.Dead && !pawn.Downed && !pawn.Destroyed
                         && IsTacticalRaider(pawn)).ToList();
-                    if (members.Count > 0)
+                    if (members.Count > 0 && !EmergencyReactions(members, crossing.ActivePlan, crossing, tick)
+                        && crossing.Phase == RaidExecutionPhase.CrossBreach)
                         Update(organization, members, crossing.ActivePlan, crossing, tick);
                 }
                 if (casualties.Count == 0) return;
@@ -764,6 +768,7 @@ namespace Helodrace
         private void Update(CombatOrganization organization, List<Pawn> members,
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            if (EmergencyReactions(members, plan, state, tick)) return;
             if (plan.Doctrine == RaidTacticalDoctrine.High
                 && (state.Phase == RaidExecutionPhase.Assemble
                     || state.Phase == RaidExecutionPhase.EntryWait

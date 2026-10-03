@@ -82,6 +82,7 @@ namespace Helodrace
                 || state.Phase == RaidExecutionPhase.EntryWait);
             RaidStructureSnapshot structure = map.GetComponent<MapComponent_RaidTacticalPlans>()
                 .GetStructure(order.OrganizationId);
+            if (order.Reactive) return null;
             if (order.Kind == RaidOrderKind.Fight)
             {
                 // A pawn outside the activity area must be able to return into it.

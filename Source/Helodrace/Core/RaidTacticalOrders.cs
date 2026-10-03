@@ -26,6 +26,7 @@ namespace Helodrace
         public IntVec3 LeashCenter;
         public float LeashRadius;
         public bool RefreshPending;
+        public bool Reactive;
 
         public void ExposeData()
         {
@@ -41,6 +42,7 @@ namespace Helodrace
             Scribe_Values.Look(ref Room, "room");
             Scribe_Values.Look(ref LeashCenter, "leashCenter");
             Scribe_Values.Look(ref LeashRadius, "leashRadius");
+            Scribe_Values.Look(ref Reactive, "reactive");
         }
     }
 
@@ -112,7 +114,7 @@ namespace Helodrace
         }
 
         public static bool Set(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
-            bool sprint = false, bool fightOnArrival = false, float radius = 10f)
+            bool sprint = false, bool fightOnArrival = false, float radius = 10f, bool reactive = false)
         {
             if (pawn?.Spawned != true || pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.ControlsPawn(pawn) != true) return false;
@@ -125,7 +127,7 @@ namespace Helodrace
             }
             bool changed = order.Kind != kind || order.Destination != destination
                 || order.Sprint != sprint || order.FightOnArrival != fightOnArrival
-                || order.Radius != radius;
+                || order.Radius != radius || order.Reactive != reactive;
             if (changed)
             {
                 order.Kind = kind;
@@ -133,6 +135,7 @@ namespace Helodrace
                 order.Sprint = sprint;
                 order.FightOnArrival = fightOnArrival;
                 order.Radius = radius;
+                order.Reactive = reactive;
                 order.Facing = Rot4.Invalid;
                 order.RetryAfter = 0;
                 order.RefreshPending = true;
@@ -156,6 +159,20 @@ namespace Helodrace
         }
 
         internal static bool Owned(Job job) => job?.jobGiver is JobGiver_RaidTacticalOrder;
+
+        internal static void Escape(Pawn pawn, IntVec3 destination)
+        {
+            if (pawn.CurJob?.playerForced == true) return;
+            // Install the durable destination before cancelling tool/aim jobs.
+            // Selection still runs through the resolved vanilla duty node.
+            Set(pawn, RaidOrderKind.Move, destination, sprint: true, radius: 1f, reactive: true);
+            if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == destination
+                || pawn.Position == destination && !pawn.stances.FullBodyBusy
+                    && pawn.CurJobDef == JobDefOf.Wait_Combat) return;
+            pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
+            pawn.stances.CancelBusyStanceHard();
+            pawn.jobs.CheckForJobOverride();
+        }
 
         internal static void Ended(Pawn pawn, JobCondition condition)
         {
@@ -219,7 +236,7 @@ namespace Helodrace
         {
             if (order == null || !cell.InBounds(pawn.Map) || cell.DistanceToSquared(order.Destination)
                 > order.Radius * order.Radius || !TargetInLeash(order, cell)) return false;
-            if (order.Room == 0) return true;
+            if (order.Room == 0 && !order.Reactive) return true;
             return pawn.Map.GetComponent<MapComponent_RaidTacticalPlans>()
                 ?.GetStructure(order.OrganizationId)?.RoomAt(cell) == order.Room;
         }
@@ -238,6 +255,13 @@ namespace Helodrace
             if (pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.IgnoreOwnScreeningSmoke(pawn) == true)
             {
                 __result = null;
+                return;
+            }
+            if (pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.TryEmergencyFleeDestination(pawn, out IntVec3 escape) == true)
+            {
+                if (escape == pawn.Position) __result = null;
+                else __result.targetA = escape;
                 return;
             }
             if (pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()

@@ -58,6 +58,7 @@ internal static class Program
             }
             CheckDoorFaultHooks();
             CheckCasualtyReevaluation();
+            CheckGrenadePrediction();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
@@ -93,6 +94,29 @@ internal static class Program
         Patch_BreachedDoor_AlwaysOpen.Postfix(door, ref alwaysOpen);
         if (!alwaysOpen) throw new Exception("A naturally always-open door must retain its original behavior.");
         Console.WriteLine("PASS: 6 door-fault lifecycle hook checks (unspawned real game objects)");
+    }
+
+    private static void CheckGrenadePrediction()
+    {
+        MethodInfo aim = AccessTools.DeclaredMethod(typeof(MapComponent_RaidTacticalExecution), "ExplosionAim");
+        MethodInfo radius = AccessTools.DeclaredMethod(typeof(MapComponent_RaidTacticalExecution), "ExplosionRadius");
+        var grenade = new Projectile_Explosive { Position = new IntVec3(2, 0, 2),
+            usedTarget = new LocalTargetInfo(new IntVec3(8, 0, 8)) };
+        AccessTools.FieldRefAccess<Projectile, UnityEngine.Vector3>("destination")(grenade) = new UnityEngine.Vector3(10, 0, 11);
+        if ((IntVec3)aim.Invoke(null, new object[] { grenade }) != new IntVec3(10, 0, 11))
+            throw new Exception("Airborne grenade evasion must use actual scattered landing position.");
+        AccessTools.FieldRefAccess<Projectile, bool>("landed")(grenade) = true;
+        if ((IntVec3)aim.Invoke(null, new object[] { grenade }) != grenade.Position)
+            throw new Exception("Landed grenade evasion must use actual impact position after a collision.");
+        var def = (ThingDef)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+        def.projectile = new ProjectileProperties { explosionRadius = 3f };
+        if ((float)radius.Invoke(null, new object[] { def }) != 9f)
+            throw new Exception("Ordinary grenades must retain the vanilla minimum flee distance.");
+        def.modExtensions = new List<DefModExtension> { new Helodrace.ModernWar.FragmentationGrenadeExtension {
+            radius = 8f, longRangeRadius = 12f } };
+        if ((float)radius.Invoke(null, new object[] { def }) != 14f)
+            throw new Exception("Grenade evasion must cover the mod's long-range fragments plus margin.");
+        Console.WriteLine("PASS: 4 grenade landing and fragmentation safety checks (real game classes)");
     }
 
     private static void CheckCasualtyReevaluation()
