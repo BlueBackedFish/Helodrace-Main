@@ -29,7 +29,8 @@ namespace Helodrace
         private static int frame = -1;
         private static long deadline;
         private static int remaining;
-        public static bool TakeCell()
+        public static bool TakeCell() => TakeCells(1);
+        public static bool TakeCells(int count)
         {
             if (frame != Time.frameCount)
             {
@@ -37,17 +38,19 @@ namespace Helodrace
                 deadline = Stopwatch.GetTimestamp() + Stopwatch.Frequency / 500;
                 remaining = 2048;
             }
-            if (remaining <= 0 || Stopwatch.GetTimestamp() >= deadline) return false;
-            remaining--;
+            if (remaining < count || Stopwatch.GetTimestamp() >= deadline) return false;
+            remaining -= count;
             return true;
         }
     }
 
-    public sealed class MapComponent_TacticalMapAnalysis : MapComponent
+    public sealed class MapComponent_TacticalMapAnalysis : MapComponent, IDisposable
     {
         private TacticalGeometryInput collecting;
         private readonly Dictionary<Room, int> roomIds = new Dictionary<Room, int>();
         private readonly HashSet<int> dirtyCells = new HashSet<int>();
+        private readonly HashSet<int> navigationChanges = new HashSet<int>();
+        internal IEnumerable<int> NavigationChanges => navigationChanges;
         private int cursor;
         private bool rescanRooms;
         private bool dirty = true;
@@ -76,15 +79,18 @@ namespace Helodrace
         public override void MapComponentUpdate() { base.MapComponentUpdate(); Pump(); }
         public override void MapRemoved()
         {
+            if (removed) return;
             removed = true;
             Unsubscribe();
             AbandonCalculation();
             collecting = null;
             Completed = null;
             dirtyCells.Clear();
+            navigationChanges.Clear();
             roomIds.Clear();
             base.MapRemoved();
         }
+        public void Dispose() => MapRemoved();
         // Reads and debug requests never perform a synchronous full build.
         public void RequestAnalysis() { Subscribe(); }
         public void ForceRebuild() { Subscribe(); OnRoomsChanged(); }
@@ -122,6 +128,7 @@ namespace Helodrace
             if (!cell.InBounds(map)) return;
             revision++;
             dirty = true;
+            navigationChanges.Add(map.cellIndices.CellToIndex(cell));
             if (collecting != null) dirtyCells.Add(map.cellIndices.CellToIndex(cell));
             if (calculation != null) cancellation.Cancel();
         }
@@ -154,6 +161,7 @@ namespace Helodrace
                     TacticalGeometryResult result = task.GetAwaiter().GetResult();
                     Completed = new TacticalStructureVersion(++nextVersion, result);
                     dirty = false;
+                    navigationChanges.Clear();
                     LastCaptureMilliseconds = captureMilliseconds;
                     LastCalculationMilliseconds = result.CalculationMilliseconds;
                     LastStaticBuildMilliseconds = buildWatch.ElapsedMilliseconds;

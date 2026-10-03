@@ -8,5 +8,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="../../Helodrace/Core/TacticalGeometry.cs" Link="TacticalGeometry.cs" />
     <Compile Include="../../Helodrace/Core/TacticalGeometryCodec.cs" Link="TacticalGeometryCodec.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalNavigationGraph.cs" Link="TacticalNavigationGraph.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalMovementMask.cs" Link="TacticalMovementMask.cs" />
   </ItemGroup>
 </Project>

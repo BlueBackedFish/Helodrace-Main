@@ -120,9 +120,13 @@ internal static class Program
         Check((int)AccessTools.Field(typeof(MapComponent_TacticalMapAnalysis), "nextVersion").GetValue(analysis) == 12,
             "New version IDs must not collide with retained versions after loading.");
         analysis.MapRemoved();
+        ((IDisposable)analysis).Dispose();
+        Check(analysis.BuildStatus == "Removed"
+            && AccessTools.Property(typeof(MapComponent_TacticalMapAnalysis), "Completed").GetValue(analysis) == null,
+            "Map removal and Map.Dispose must both cancel preparation idempotently.");
         Check(versionProperty.GetValue(first) == version && first.RoomAt(new IntVec3(1, 0, 1)) == 7,
             "Clearing the map cache owner cannot mutate an organization's pinned version.");
-        Console.WriteLine("PASS: 7 shared structure ownership, restore and version lifetime checks (real game classes)");
+        Console.WriteLine("PASS: 8 shared structure ownership, restore and version lifetime checks (real game classes)");
     }
 
     private static void CheckDoorFaultHooks()

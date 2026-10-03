@@ -115,7 +115,7 @@ namespace Helodrace
             plan.AvoidedTrapCells = avoidedTraps;
             IntVec3 center = Center(members.Select(pawn => pawn.Position));
             Pawn pathfinder = members.OrderBy(pawn => pawn.Position.DistanceToSquared(center)).First();
-            var navigation = new RaidNavigationSnapshot(map, pathfinder);
+            var navigation = new RaidNavigationSnapshot(map, pathfinder, analysis);
             plan.Start = pathfinder.Position;
             if (members.All(MapComponent_RaidTacticalExecution.IsDefendingRaider))
                 return MakeDefensivePlan(map, analysis, organization, members, plan, avoidedTraps);
@@ -1152,62 +1152,48 @@ namespace Helodrace
             if (route.Count > 1) yield return route[route.Count - 1];
         }
 
-        // One flood fill on the cached structural grid replaces thousands of
-        // repeated reachability queries while breach sites are being ranked.
+        // Reuse worker-built regions and connect only live doors/breach holes.
+        // Route cell validation and vanilla reachability still use the live map.
         private sealed class RaidNavigationSnapshot
         {
-            private static readonly IntVec3[] Directions = { IntVec3.North,
-                IntVec3.East, IntVec3.South, IntVec3.West };
             private readonly Map map;
-            private readonly bool[] walkable;
-            private readonly int[] components;
+            private readonly Pawn pathfinder;
+            private readonly TacticalNavigationGraph graph;
+            private readonly Dictionary<int, bool> walkable = new Dictionary<int, bool>();
 
-            public RaidNavigationSnapshot(Map map, Pawn pathfinder)
+            public RaidNavigationSnapshot(Map map, Pawn pathfinder, RaidStructureSnapshot structure)
             {
                 this.map = map;
-                int count = map.cellIndices.NumGridCells;
-                walkable = new bool[count];
-                components = new int[count];
-                foreach (IntVec3 cell in map.AllCells)
+                this.pathfinder = pathfinder;
+                MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
+                TacticalGeometryResult geometry = (analysis?.Completed ?? structure.Version).Geometry;
+                var openings = new HashSet<int>();
+                IEnumerable<int> changed = analysis?.Completed != null
+                    ? analysis.NavigationChanges : geometry.Breaches;
+                foreach (int index in geometry.Doors.Concat(changed).Distinct())
                 {
+                    IntVec3 cell = map.cellIndices.IndexToCell(index);
                     Building_Door door = cell.GetEdifice(map) as Building_Door;
-                    walkable[map.cellIndices.CellToIndex(cell)] =
-                        (cell.Standable(map) || door != null)
-                        && (door == null || door.Open || door.PawnCanOpen(pathfinder));
+                    if ((cell.Standable(map) || door != null)
+                        && (door == null || door.Open || door.PawnCanOpen(pathfinder))) openings.Add(index);
                 }
-                int component = 0;
-                var frontier = new Queue<IntVec3>();
-                foreach (IntVec3 cell in map.AllCells)
-                {
-                    int index = map.cellIndices.CellToIndex(cell);
-                    if (!walkable[index] || components[index] != 0) continue;
-                    components[index] = ++component;
-                    frontier.Enqueue(cell);
-                    while (frontier.Count > 0)
-                    {
-                        IntVec3 current = frontier.Dequeue();
-                        foreach (IntVec3 direction in Directions)
-                        {
-                            IntVec3 next = current + direction;
-                            if (!next.InBounds(map)) continue;
-                            int nextIndex = map.cellIndices.CellToIndex(next);
-                            if (!walkable[nextIndex] || components[nextIndex] != 0)
-                                continue;
-                            components[nextIndex] = component;
-                            frontier.Enqueue(next);
-                        }
-                    }
-                }
+                graph = new TacticalNavigationGraph(geometry, openings);
             }
 
-            public bool CanWalk(IntVec3 cell) => cell.InBounds(map)
-                && walkable[map.cellIndices.CellToIndex(cell)];
+            public bool CanWalk(IntVec3 cell)
+            {
+                if (!cell.InBounds(map)) return false;
+                int index = map.cellIndices.CellToIndex(cell);
+                if (walkable.TryGetValue(index, out bool value)) return value;
+                value = CanWalkRouteCell(map, cell, pathfinder);
+                walkable[index] = value;
+                return value;
+            }
 
             public bool Connected(IntVec3 first, IntVec3 second)
             {
                 return CanWalk(first) && CanWalk(second)
-                    && components[map.cellIndices.CellToIndex(first)]
-                        == components[map.cellIndices.CellToIndex(second)];
+                    && graph.Connected(map.cellIndices.CellToIndex(first), map.cellIndices.CellToIndex(second));
             }
         }
 
@@ -1270,6 +1256,7 @@ namespace Helodrace
         private int lastPlanningTick = -1;
         private readonly Dictionary<string, RaidTacticalPlan> plans = new Dictionary<string, RaidTacticalPlan>();
         private readonly Dictionary<string, string> signatures = new Dictionary<string, string>();
+        private readonly Dictionary<string, int> decisionStructureVersions = new Dictionary<string, int>();
         private readonly Dictionary<string, RaidStructureSnapshot> structures =
             new Dictionary<string, RaidStructureSnapshot>();
         private List<RaidStructureSnapshot> savedStructures;
@@ -1340,6 +1327,7 @@ namespace Helodrace
         {
             plans.Remove(organizationId);
             signatures.Remove(organizationId);
+            decisionStructureVersions.Remove(organizationId);
         }
 
         public RaidTacticalPlan GetPlan(CombatOrganization organization, bool force = false)
@@ -1361,9 +1349,12 @@ namespace Helodrace
             }
             string signature = Signature(organization);
             int tick = Find.TickManager?.TicksGame ?? 0;
+            int geometryVersion = map.GetComponent<MapComponent_TacticalMapAnalysis>()?.Completed?.Id ?? 0;
             if (force || !plans.TryGetValue(organization.id, out RaidTacticalPlan plan)
                 || !signatures.TryGetValue(organization.id, out string previous)
-                || previous != signature || tick - plan.PlannedTick >= 900)
+                || previous != signature || tick - plan.PlannedTick >= 900
+                || !plan.Success && (!decisionStructureVersions.TryGetValue(organization.id, out int plannedVersion)
+                    || plannedVersion != geometryVersion))
             {
                 // Spread independent organizations over different ticks. Explicit
                 // developer refreshes remain immediate; committed execution plans
@@ -1374,6 +1365,7 @@ namespace Helodrace
                 plan = RaidTacticalPlanner.MakePlan(map, organization);
                 plans[organization.id] = plan;
                 signatures[organization.id] = signature;
+                decisionStructureVersions[organization.id] = geometryVersion;
             }
             return plan;
         }
@@ -1396,6 +1388,7 @@ namespace Helodrace
             {
                 plans.Remove(id);
                 signatures.Remove(id);
+                decisionStructureVersions.Remove(id);
             }
             foreach (string id in structures.Keys.Where(id => !activeIds.Contains(id)).ToList())
                 structures.Remove(id);

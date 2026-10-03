@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Helodrace;
 
@@ -51,6 +52,59 @@ internal static class Program
             Check(geometry.Doors.SequenceEqual(new[] { doorIndex }), "Only actual doors enter the door overlay list");
             Check(geometry.Breaches.Length == 5, "Every original wall/door remains a breach target");
             Check(geometry.Anchors.SequenceEqual(new[] { 18 }), "Indoor objective anchors are value indices");
+            var closedGraph = new TacticalNavigationGraph(geometry, Array.Empty<int>());
+            Check(!closedGraph.Connected(14, 20), "A closed inaccessible door cannot join cached regions");
+            var openGraph = new TacticalNavigationGraph(geometry, new[] { doorIndex });
+            Check(openGraph.Connected(14, 20) && openGraph.Connected(doorIndex, 14),
+                "An open or authorized door joins both regions and its own cell");
+            Check(!closedGraph.Connected(14, 20), "A new door overlay cannot mutate another plan's closed graph");
+            var maskInput = new TacticalMovementMaskInput {
+                Width = 7, Height = 5, Structure = geometry, Roots = Array.Empty<TacticalMaskRoot>(),
+                Reactive = true, InitialRoom = 1
+            };
+            ushort[] reactionMask = TacticalMovementMask.Calculate(maskInput, CancellationToken.None);
+            Check(reactionMask[20] == 0 && reactionMask[14] == ushort.MaxValue,
+                "An emergency mask allows the original room and forbids other rooms");
+            maskInput.Reactive = false;
+            maskInput.ExteriorOnly = true;
+            maskInput.InitialRoom = 0;
+            maskInput.Roots = new[] { new TacticalMaskRoot { X = 3, Z = 2, Radius = 2 } };
+            ushort[] exteriorMask = TacticalMovementMask.Calculate(maskInput, CancellationToken.None);
+            Check(exteriorMask[16] == 0 && exteriorMask[0] == 100,
+                "A broad corridor reduces cost while off-corridor cells remain usable");
+            Check(exteriorMask[18] == ushort.MaxValue,
+                "A corridor overlapping the interior cannot override exterior staging restrictions");
+            maskInput.ExteriorOnly = false;
+            maskInput.SelectedOpeningOnly = true;
+            maskInput.BreachIndex = doorIndex;
+            ushort[] crossingMask = TacticalMovementMask.Calculate(maskInput, CancellationToken.None);
+            Check(crossingMask[doorIndex] != ushort.MaxValue && crossingMask[3] == ushort.MaxValue,
+                "Only the selected wall opening can be used while crossing");
+            maskInput.SelectedOpeningOnly = false;
+            maskInput.ExcludedRoom = 1;
+            Check(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)[18] == ushort.MaxValue,
+                "Support masks prevent entry into the grenade target room");
+            maskInput.ExcludedRoom = 0;
+            maskInput.Fight = true;
+            maskInput.FightX = 5; maskInput.FightZ = 2; maskInput.FightRadius = 2;
+            maskInput.FightRoom = 1;
+            ushort[] fightMask = TacticalMovementMask.Calculate(maskInput, CancellationToken.None);
+            Check(fightMask[19] != ushort.MaxValue && fightMask[16] == ushort.MaxValue && fightMask[0] == ushort.MaxValue,
+                "Fight masks enforce both activity radius and original room");
+            maskInput.LeashX = 5; maskInput.LeashZ = 2; maskInput.LeashRadius = 1;
+            Check(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)[5] == ushort.MaxValue,
+                "A defense leash remains effective inside the fight radius");
+            Check(geometry.ComponentCount == 2 && geometry.Components[14] != geometry.Components[20],
+                "Live door overlays do not overwrite frozen structural component IDs");
+            var breachedGraph = new TacticalNavigationGraph(geometry, new[] { 3 });
+            Check(breachedGraph.Connected(0, 6), "A destroyed wall connects original structural regions");
+            var doubleWall = Open(8, 4);
+            for (int z = 0; z < 4; z++) { Wall(doubleWall, 3, z); Wall(doubleWall, 4, z); }
+            TacticalGeometryResult doubleGeometry = TacticalGeometry.Calculate(doubleWall, CancellationToken.None);
+            Check(!new TacticalNavigationGraph(doubleGeometry, new[] { 11 }).Connected(8, 15),
+                "Breaking only half of a double wall does not open the room");
+            Check(new TacticalNavigationGraph(doubleGeometry, new[] { 11, 12 }).Connected(8, 15),
+                "Consecutive destroyed wall cells join through one another");
             Check(inputBefore == string.Join(",", divided.Cells.Select(cell => $"{cell.Flags}:{cell.Room}:{cell.StructureId}")),
                 "Calculation does not mutate the captured input");
 
@@ -72,6 +126,8 @@ internal static class Program
             wrap.Cells[3].Flags = TacticalRawFlags.Standable;
             TacticalGeometryResult edges = TacticalGeometry.Calculate(wrap, CancellationToken.None);
             Check(edges.ComponentCount == 2, "Flat indexing never connects opposite row edges");
+            Check(!new TacticalNavigationGraph(edges, new[] { -1, 6 }).Connected(2, 3),
+                "Invalid overlay cells cannot wrap graph connections across row edges");
             var furniture = Open(3, 3);
             furniture.Cells[7].Flags = TacticalRawFlags.Edifice;
             furniture.Cells[5].Flags = TacticalRawFlags.Edifice;
@@ -123,6 +179,42 @@ internal static class Program
             Check(TacticalGeometryWorker.TryStart(wrap, CancellationToken.None, out var next), "A completed worker slot is reusable by another map");
             Check(next.Wait(TimeSpan.FromSeconds(10)) && next.Result.ComponentCount == 2, "A reused slot does not return the previous map's result");
             TacticalGeometryWorker.Release(next);
+            Check(TacticalGeometryWorker.TryStart(maskInput, CancellationToken.None, out var maskTask),
+                "Movement masks use the same bounded worker slot as geometry");
+            Check(maskTask.Wait(TimeSpan.FromSeconds(10))
+                && maskTask.Result.SequenceEqual(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)),
+                "Background movement cost calculation preserves synchronous results");
+            TacticalGeometryWorker.Release(maskTask);
+            // Hold a controlled value-only job in the production scheduler to
+            // test its concurrency bound without timing a large calculation.
+            using (var entered = new ManualResetEventSlim())
+            using (var release = new ManualResetEventSlim())
+            {
+                int callerThread = Environment.CurrentManagedThreadId;
+                Func<int> blocked = () => {
+                    entered.Set();
+                    if (!release.Wait(TimeSpan.FromSeconds(10))) throw new TimeoutException();
+                    return Environment.CurrentManagedThreadId;
+                };
+                var start = typeof(TacticalGeometryWorker).GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
+                    .Single(method => method.Name == "TryStart" && method.IsGenericMethodDefinition)
+                    .MakeGenericMethod(typeof(int));
+                object[] args = { blocked, CancellationToken.None, null };
+                Check((bool)start.Invoke(null, args), "The shared scheduler accepts an idle slot");
+                var blockedTask = (System.Threading.Tasks.Task<int>)args[2];
+                Check(entered.Wait(TimeSpan.FromSeconds(10)), "The controlled worker starts off the caller thread");
+                try
+                {
+                    Check(!TacticalGeometryWorker.TryStart(divided, CancellationToken.None, out _),
+                        "A busy shared worker rejects another map's geometry without enqueueing an unbounded task");
+                    Check(!TacticalGeometryWorker.TryStart(maskInput, CancellationToken.None, out _),
+                        "Movement masks cannot add a second concurrent worker while geometry owns the slot");
+                }
+                finally { release.Set(); }
+                Check(blockedTask.Wait(TimeSpan.FromSeconds(10)) && blockedTask.Result != callerThread,
+                    "Default task scheduling runs the pure calculation on a different thread");
+                TacticalGeometryWorker.Release(blockedTask);
+            }
             Console.WriteLine($"PASS: {checks} tactical geometry, immutable input, codec and worker checks.");
             return 0;
         }

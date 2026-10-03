@@ -57,6 +57,14 @@ namespace Helodrace
         public MapComponent_RaidTacticalOrders(Map map) : base(map) { }
 
         internal void Forget(Pawn pawn) => orders.Remove(pawn);
+        internal static void PreparationReady(Pawn pawn)
+        {
+            RaidPawnOrder order = For(pawn);
+            if (order == null || order.Kind == RaidOrderKind.Hold || !Owned(pawn.CurJob)) return;
+            order.RefreshPending = true;
+            if (!Protected(pawn) && !pawn.stances.FullBodyBusy)
+                pawn.jobs.CheckForJobOverride();
+        }
 
         public override void ExposeData()
         {
@@ -226,6 +234,8 @@ namespace Helodrace
 
         internal static Job Move(Pawn pawn, RaidPawnOrder order)
         {
+            if (pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.ReadyFor(pawn) == false)
+                return Wait(pawn, order);
             if (GenTicks.TicksGame < order.RetryAfter || !order.Destination.InBounds(pawn.Map)
                 || !order.Destination.Standable(pawn.Map)
                 || !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
@@ -314,6 +324,8 @@ namespace Helodrace
         internal Job Give(Pawn pawn)
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
+            if (pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.ReadyFor(pawn) == false)
+                return MapComponent_RaidTacticalOrders.Wait(pawn, order);
             if (!MapComponent_RaidTacticalOrders.Allowed(pawn, order, pawn.Position))
                 return MapComponent_RaidTacticalOrders.Move(pawn, order);
             return base.TryGiveJob(pawn) ?? MapComponent_RaidTacticalOrders.Wait(pawn, order);

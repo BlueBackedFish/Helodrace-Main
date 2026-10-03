@@ -2321,11 +2321,7 @@ namespace Helodrace
 
         private string NearbyDoorState(IntVec3 objective)
         {
-            return string.Join(",", map.listerThings.AllThings.OfType<Building_Door>()
-                .Where(door => !door.Destroyed
-                    && door.Position.DistanceTo(objective) <= 12f)
-                .OrderBy(door => door.thingIDNumber)
-                .Select(door => door.thingIDNumber + ":" + (door.Open ? "1" : "0")));
+            return RaidLocalMapState.DoorSignature(map, objective);
         }
 
         private bool TryCounterClosingDoor(List<Pawn> members,
@@ -2337,10 +2333,8 @@ namespace Helodrace
             HashSet<string> openIds = new HashSet<string>((previousState ?? "")
                 .Split(',').Where(value => value.EndsWith(":1"))
                 .Select(value => value.Substring(0, value.Length - 2)));
-            foreach (Building_Door door in map.listerThings.AllThings
-                .OfType<Building_Door>()
-                .Where(value => !value.Destroyed && !value.Open
-                    && value.Position.DistanceTo(plan.Objective) <= 12f
+            foreach (Building_Door door in RaidLocalMapState.Doors(map, plan.Objective, 12f)
+                .Where(value => !value.Open
                     && openIds.Contains(value.thingIDNumber.ToString())))
             {
                 bool enemyOutside = map.mapPawns.AllPawnsSpawned.Any(enemy =>

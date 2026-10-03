@@ -119,7 +119,8 @@ namespace Helodrace
                 + $"detailed checks={plan.DetailedBreachChecks}");
             var movement = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidMovementAreas>();
             report.AppendLine($"Movement area requests={movement.Requests} "
-                + $"grids={movement.CachedGrids} build={movement.BuildMilliseconds} ms");
+                + $"grids={movement.CachedGrids} pending={movement.PendingGrids} "
+                + $"preparation={movement.BuildMilliseconds} ms");
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"

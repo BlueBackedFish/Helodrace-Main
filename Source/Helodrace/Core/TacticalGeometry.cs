@@ -222,8 +222,8 @@ namespace Helodrace
     internal static class TacticalGeometryWorker
     {
         private static readonly object gate = new object();
-        private static Task<TacticalGeometryResult> running;
-        public static void Release(Task<TacticalGeometryResult> task)
+        private static Task running;
+        public static void Release(Task task)
         {
             lock (gate)
                 if (ReferenceEquals(running, task) && task.IsCompleted) running = null;
@@ -233,15 +233,22 @@ namespace Helodrace
         // map owner. No task closure captures a Map, component, or game callback.
         public static bool TryStart(TacticalGeometryInput input, CancellationToken cancellation,
             out Task<TacticalGeometryResult> task)
+            => TryStart(() => TacticalGeometry.Calculate(input, cancellation), cancellation, out task);
+
+        public static bool TryStart(TacticalMovementMaskInput input, CancellationToken cancellation,
+            out Task<ushort[]> task)
+            => TryStart(() => TacticalMovementMask.Calculate(input, cancellation), cancellation, out task);
+
+        private static bool TryStart<T>(Func<T> calculate, CancellationToken cancellation, out Task<T> task)
         {
             lock (gate)
             {
                 task = null;
                 if (running != null && !running.IsCompleted) return false;
                 if (running?.IsFaulted == true) _ = running.Exception;
-                running = Task.Factory.StartNew(() => TacticalGeometry.Calculate(input, cancellation),
+                task = Task.Factory.StartNew(calculate,
                     cancellation, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
-                task = running;
+                running = task;
                 return true;
             }
         }
