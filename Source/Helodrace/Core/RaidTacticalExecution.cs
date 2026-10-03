@@ -2049,10 +2049,11 @@ namespace Helodrace
                     && InventoryGrenadeUtility.GrenadeStacks(value)
                         .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1)
                 .ThenBy(value => value.Position.DistanceToSquared(plan.Entry)).ToList();
-            // Exhaust feasible throws at the observed enemy before trying any blind sector.
+            // Contact throws keep their exact target; an unsafe/near-opening contact is skipped.
             foreach (IntVec3 target in targets.Take(16))
             {
-                if (!target.IsValid || !target.InBounds(currentMap)) continue;
+                if (!target.IsValid || !target.InBounds(currentMap)
+                    || entry && !RaidEntryObservation.EntryThrowTarget(plan, target)) continue;
                 foreach (Pawn pawn in throwers)
                 {
                     if (IsTaserOperation(pawn)) continue;
@@ -2088,12 +2089,10 @@ namespace Helodrace
             RaidTacticalPlan plan, RaidStructureSnapshot structure, int objectiveRoom, RaidEntryObservation observation)
         {
             IntVec3 center = plan.BreachCell.IsValid ? plan.BreachInside : plan.Entry;
-            IntVec3 inward = plan.BreachCell.IsValid ? plan.BreachInside - plan.BreachCell : IntVec3.Zero;
             bool InTarget(IntVec3 cell) => cell.InBounds(map) && cell.Standable(map)
-                && structure != null && objectiveRoom > 0 && structure.RoomAt(cell) == objectiveRoom
+                && objectiveRoom > 0 && OpeningRoomContains(map, structure, cell, objectiveRoom)
                 && !plan.AvoidedTrapCells.Contains(cell)
-                && (!plan.BreachCell.IsValid || (cell.x - plan.BreachCell.x) * inward.x
-                    + (cell.z - plan.BreachCell.z) * inward.z > 0);
+                && RaidEntryObservation.EntryThrowTarget(plan, cell);
             return RaidEntryObservation.ThrowTargets(observation,
                 GenRadial.RadialCellsAround(center, 13.9f, true).OrderBy(cell => cell.DistanceToSquared(center)), InTarget);
         }
@@ -2107,10 +2106,9 @@ namespace Helodrace
             return GenRadial.RadialCellsAround(center, 3f, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !plan.AvoidedTrapCells.Contains(cell)
-                    && structure != null && structure.RoomAt(cell) == room
+                    && OpeningRoomContains(map, structure, cell, room)
                     && GenSight.LineOfSight(plan.BreachInside, cell, map, true)
-                    && (cell.x - plan.BreachCell.x) * inward.x
-                        + (cell.z - plan.BreachCell.z) * inward.z >= 1
+                    && RaidEntryObservation.EntryThrowTarget(plan, cell)
                     && (cell.x - plan.BreachCell.x) * inward.x
                         + (cell.z - plan.BreachCell.z) * inward.z <= 3)
                 .OrderBy(cell => cell.DistanceToSquared(center));

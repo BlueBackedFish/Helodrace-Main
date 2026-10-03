@@ -72,6 +72,7 @@ internal static class Program
             CheckAiGrenadePreparation();
             CheckOccupiedRoomPlan();
             CheckOpeningObservation();
+            CheckOpeningDoorAndThrowTargets();
             CheckSupportMovementJobGap();
             return 0;
         }
@@ -94,6 +95,67 @@ internal static class Program
         if (Flee(flee, null, null, true) || Flee(flee, tracked, tracked, false))
             throw new Exception("Flee exceptions require a live tracked grenade and an active pre-entry support wait.");
         Console.WriteLine("PASS: support movement between-job null safety and explosion identity (4 checks)");
+    }
+
+    private static void CheckOpeningDoorAndThrowTargets()
+    {
+        int checks = 0;
+        void Check(bool condition, string message)
+        {
+            if (!condition) throw new Exception(message);
+            checks++;
+        }
+        var breach = new IntVec3(10, 0, 10);
+        MethodInfo membership = AccessTools.Method(typeof(RaidEntryObservation), "IncludesRoomCell");
+        MethodInfo side = AccessTools.Method(typeof(RaidEntryObservation), "OnObservedSide");
+        MethodInfo throwTarget = AccessTools.Method(typeof(RaidEntryObservation), "EntryThrowTarget");
+        foreach (IntVec3 inward in new[] { IntVec3.North, IntVec3.East, IntVec3.South, IntVec3.West })
+        {
+            IntVec3 lateral = new IntVec3(-inward.z, 0, inward.x);
+            var rooms = new Dictionary<IntVec3, int> { [breach] = 99,
+                [breach + inward] = 7, [breach - inward] = 8, [breach + lateral] = 99 };
+            Func<IntVec3, int> roomAt = cell => rooms.TryGetValue(cell, out int room) ? room : -1;
+            bool InRoom(IntVec3 cell, int room, bool door) => (bool)membership.Invoke(null,
+                new object[] { cell, room, door, roomAt });
+            bool OnSide(IntVec3 cell, bool door) => (bool)side.Invoke(null,
+                new object[] { cell, breach, breach + inward, door });
+            var plan = new RaidTacticalPlan { BreachCell = breach, BreachInside = breach + inward };
+            bool CanThrow(IntVec3 cell) => (bool)throwTarget.Invoke(null, new object[] { plan, cell });
+            Check(InRoom(breach, 7, true) && InRoom(breach, 8, true),
+                "A door's separate cache room ID must not hide contact from either directly adjoining room.");
+            Check(OnSide(breach, true) && !OnSide(breach, false),
+                "The entry doorway is observable at zero forward depth, without including ordinary cells on that plane.");
+            Check(InRoom(breach + inward, 7, false) && !InRoom(breach - inward, 7, false),
+                "Ordinary floor cells retain their exact room membership.");
+            Check(!InRoom(breach + lateral, 7, true),
+                "A diagonal neighbor or another doorway must not propagate room membership through a door chain.");
+            Check(!InRoom(breach, 42, true) && !OnSide(breach - inward, true),
+                "Unrelated rooms and doors behind the observation direction must remain excluded.");
+            Check(!CanThrow(breach) && !CanThrow(breach + inward)
+                && !CanThrow(breach + inward + lateral),
+                "Contact and blind targets inside two cells of the opening are never entry throw targets.");
+            Check(CanThrow(breach + inward * 2) && CanThrow(breach + inward * 3),
+                "The inclusive minimum throw distance is two cells in every entry orientation.");
+            Check(!CanThrow(breach - inward * 2) && !CanThrow(breach + lateral * 2),
+                "Distance alone cannot permit an entry grenade outside or along the opening's wall.");
+            Check(CanThrow(breach + inward + lateral * 2),
+                "Farther lateral targets inside the room use actual opening distance rather than an extra depth restriction.");
+            var contact = new RaidEntryObservation { EnemyCell = breach + inward };
+            var targets = (IEnumerable<IntVec3>)AccessTools.Method(typeof(RaidEntryObservation), "ThrowTargets")
+                .Invoke(null, new object[] { contact, new[] { breach + inward * 3 }, (Func<IntVec3, bool>)CanThrow });
+            Check(!targets.Any(), "A close enemy is still observed but its unsafe throw must not redirect to an unrelated target.");
+        }
+        Func<IntVec3, int> edgeRooms = cell => cell == breach + IntVec3.North ? 0 : -1;
+        Check((bool)membership.Invoke(null, new object[] { breach, 0, true, edgeRooms }),
+            "A doorway adjoining exterior room zero is included for outdoor observation.");
+        edgeRooms = cell => -1;
+        Check(!(bool)membership.Invoke(null, new object[] { breach, 0, true, edgeRooms }),
+            "Out-of-bounds neighbors are not mistaken for exterior room zero.");
+        var noOpening = new RaidTacticalPlan { BreachCell = IntVec3.Invalid };
+        Check((bool)throwTarget.Invoke(null, new object[] { noOpening, breach })
+            && !(bool)throwTarget.Invoke(null, new object[] { noOpening, IntVec3.Invalid }),
+            "An entry without a physical opening has no clearance origin, while invalid targets are always rejected.");
+        Console.WriteLine($"PASS: {checks} adjacent doorway observation and minimum entry throw distance checks");
     }
 
     private static void CheckOpeningObservation()

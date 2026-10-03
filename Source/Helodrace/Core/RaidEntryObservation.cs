@@ -61,6 +61,26 @@ namespace Helodrace
             yield return breach - inward - side;
         }
 
+        internal static bool IncludesRoomCell(IntVec3 cell, int room, bool doorway,
+            Func<IntVec3, int> roomAt)
+        {
+            // Door rooms have their own ID. Associate only this doorway with its
+            // directly adjoining rooms, without looking into the next room.
+            if (!doorway) return roomAt(cell) == room;
+            return GenAdj.CardinalDirections.Any(direction => roomAt(cell + direction) == room);
+        }
+
+        internal static bool OnObservedSide(IntVec3 cell, IntVec3 breach, IntVec3 inside, bool doorway)
+        {
+            IntVec3 inward = inside - breach;
+            int depth = (cell.x - breach.x) * inward.x + (cell.z - breach.z) * inward.z;
+            return depth > 0 || doorway && depth == 0;
+        }
+
+        internal static bool EntryThrowTarget(RaidTacticalPlan plan, IntVec3 target) => target.IsValid
+            && (!plan.BreachCell.IsValid || target.DistanceToSquared(plan.BreachCell) >= 4
+                && OnObservedSide(target, plan.BreachCell, plan.BreachInside, false));
+
         internal static IEnumerable<IntVec3> ThrowTargets(RaidEntryObservation observation,
             IEnumerable<IntVec3> candidates, Func<IntVec3, bool> valid)
         {
@@ -261,9 +281,10 @@ namespace Helodrace
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null || state.Observation == null || state.Observation.HasEnemyContact) return;
             int room = structure.RoomAt(plan.BreachInside);
-            IntVec3 source = state.Observation.Source, inward = plan.BreachInside - plan.BreachCell;
-            bool InTarget(IntVec3 cell) => cell.InBounds(map) && structure.RoomAt(cell) == room
-                && (cell.x - plan.BreachCell.x) * inward.x + (cell.z - plan.BreachCell.z) * inward.z > 0
+            IntVec3 source = state.Observation.Source;
+            bool InTarget(IntVec3 cell) => OpeningRoomContains(map, structure, cell, room)
+                && RaidEntryObservation.OnObservedSide(cell, plan.BreachCell, plan.BreachInside,
+                    IsOpeningDoorCell(map, structure, cell))
                 && source.DistanceToSquared(cell) <= 196;
             // Stop at the first real sighting before collecting any more room information.
             foreach (Pawn enemy in map.mapPawns.AllPawnsSpawned)
@@ -280,5 +301,14 @@ namespace Helodrace
                 if (InTarget(cell) && GenSight.LineOfSight(source, cell, map, true)) visible.Add(cell);
             state.Observation.VisibleCells = visible.ToList();
         }
+
+        private static bool IsOpeningDoorCell(Map map, RaidStructureSnapshot structure, IntVec3 cell) =>
+            cell.InBounds(map) && (cell.GetEdifice(map) is Building_Door
+                || (structure.CachedAt(cell).Structures & TacticalStructureKind.Door) != 0);
+
+        private static bool OpeningRoomContains(Map map, RaidStructureSnapshot structure, IntVec3 cell, int room) =>
+            structure != null && cell.InBounds(map) && RaidEntryObservation.IncludesRoomCell(cell, room,
+                IsOpeningDoorCell(map, structure, cell),
+                adjacent => adjacent.InBounds(map) ? structure.RoomAt(adjacent) : -1);
     }
 }
