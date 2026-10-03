@@ -142,8 +142,8 @@ namespace Helodrace
                 order.Room = pawn.Map.GetComponent<MapComponent_RaidTacticalPlans>()
                     ?.GetStructure(order.OrganizationId)?.RoomAt(destination) ?? 0;
                 var state = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.OrganizationId);
-                order.LeashCenter = state.ActivePlan.Start;
-                order.LeashRadius = state.Maneuver == RaidTacticalManeuver.HoldAndCounterattack ? 25f : 0f;
+                order.LeashCenter = state?.ActivePlan?.Start ?? pawn.Position;
+                order.LeashRadius = state?.Maneuver == RaidTacticalManeuver.HoldAndCounterattack ? 25f : 0f;
                 MapComponent_RaidTacticalTrace.Record(pawn,
                     $"directive {kind} to {destination} fightOnArrival={fightOnArrival}");
             }
