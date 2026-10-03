@@ -115,7 +115,6 @@ namespace Helodrace
             public int LastRoomPlanTick = -600;
             public int LastDoorResponseTick;
             public IntVec3 CrossingBreach = IntVec3.Invalid;
-            public Pawn CrossingPawn;
             public List<BreachCrossing> Crossings = new List<BreachCrossing>();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
@@ -169,7 +168,6 @@ namespace Helodrace
                 Scribe_Values.Look(ref LastDoorResponseTick,
                     "lastDoorResponseTick");
                 Scribe_Values.Look(ref CrossingBreach, "crossingBreach", IntVec3.Invalid);
-                Scribe_References.Look(ref CrossingPawn, "crossingPawn");
                 Scribe_Collections.Look(ref Crossings, "crossings", LookMode.Deep);
                 Scribe_Deep.Look(ref ActivePlan, "activePlan");
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Crossings == null)
@@ -1090,8 +1088,7 @@ namespace Helodrace
                 // A small room cannot physically hold the entire entry team.
                 // Keep the excess members as outside security for this room;
                 // the next room's plan assigns its own entry team again.
-                List<Pawn> admitted = entry.OrderBy(pawn =>
-                    pawn.Position.DistanceTo(plan.Entry) <= 1.5f ? 0 : 1).Take(capacity).ToList();
+                List<Pawn> admitted = entry.Take(capacity).ToList();
                 foreach (RaidTacticalAssignment assignment in plan.Assignments
                     .Where(value => value.Task == RaidTacticalTask.Entry && members.Contains(value.Pawn)
                         && !admitted.Contains(value.Pawn)))
@@ -1105,7 +1102,6 @@ namespace Helodrace
                 }
                 entry = EntryPawns(members, plan);
                 state.CrossingBreach = plan.BreachCell;
-                state.CrossingPawn = null;
                 state.Crossings.Clear();
             }
             state.Crossings.RemoveAll(crossing => crossing.Pawn == null
@@ -1136,11 +1132,15 @@ namespace Helodrace
                         "Entry waiting: no unoccupied interior clearance cell");
                 }
                 crossing.Progress = RaidBreachTraversal.Advance(crossing.Progress,
-                    false, PastBreach(pawn, plan),
+                    pawn.Position.DistanceTo(plan.Entry) <= 1.5f, PastBreach(pawn, plan),
                     pawn.Position == crossing.Destination);
                 if (IsTaserOperation(pawn)) continue;
-                if (crossing.Progress == RaidBreachProgress.Clearing)
+                if (crossing.Progress != RaidBreachProgress.Complete)
                 {
+                    // The entire ready cohort starts together. Each pawn has a
+                    // unique interior destination; vanilla movement resolves
+                    // local passage and collisions instead of a nearest-first
+                    // scheduler stopping everyone else at their stack cells.
                     if (crossing.Destination.IsValid) TryGoto(pawn, crossing.Destination, true);
                     else HoldPosition(pawn);
                 }
@@ -1153,52 +1153,7 @@ namespace Helodrace
                 }
             }
 
-            if (state.Crossings.All(crossing => crossing.Progress == RaidBreachProgress.Complete))
-                return true;
-            // Release the next pawn as soon as the previous pawn vacates the
-            // opening cells, rather than waiting for a 1.5-cell exclusion circle.
-            bool mouthBusy = state.Crossings.Any(crossing =>
-                crossing.Progress >= RaidBreachProgress.Clearing
-                && (crossing.Pawn.Position == plan.BreachInside
-                    || crossing.Pawn.Position == plan.BreachCell));
-            BreachCrossing next = state.Crossings.FirstOrDefault(crossing =>
-                crossing.Pawn == state.CrossingPawn
-                && crossing.Progress < RaidBreachProgress.Clearing
-                && crossing.Destination.IsValid);
-            if (next == null)
-            {
-                state.CrossingPawn = null;
-                if (!mouthBusy)
-                {
-                    // A grenade thrower already at the mouth goes first. Once
-                    // admitted, keep that pawn until it crosses the opening.
-                    next = entry.Select(pawn => state.Crossings.First(value => value.Pawn == pawn))
-                        .Where(crossing => crossing.Progress < RaidBreachProgress.Clearing
-                            && crossing.Destination.IsValid)
-                        .OrderBy(crossing => crossing.Pawn.Position.DistanceTo(plan.Entry)
-                            <= 1.5f ? 0 : 1).FirstOrDefault();
-                    state.CrossingPawn = next?.Pawn;
-                }
-            }
-            if (!RaidBreachTraversal.CanAdmit(next?.Destination.IsValid == true, mouthBusy)) next = null;
-            foreach (BreachCrossing crossing in state.Crossings.Where(value =>
-                value.Progress == RaidBreachProgress.Approach
-                    || value.Progress == RaidBreachProgress.Crossing))
-            {
-                Pawn pawn = crossing.Pawn;
-                if (IsTaserOperation(pawn)) continue;
-                if (crossing != next)
-                {
-                    if (pawn.CurJobDef != JobDefOf.Wait_Combat) HoldPosition(pawn);
-                    continue;
-                }
-                crossing.Progress = RaidBreachTraversal.Advance(crossing.Progress,
-                    pawn.Position.DistanceTo(plan.Entry) <= 1.5f,
-                    false, false);
-                TryGoto(pawn, crossing.Progress == RaidBreachProgress.Approach
-                    ? plan.Entry : crossing.Destination, true);
-            }
-            return false;
+            return state.Crossings.All(crossing => crossing.Progress == RaidBreachProgress.Complete);
         }
 
         private IntVec3 FindBreachClearanceCell(Pawn pawn, RaidTacticalPlan plan,
@@ -2220,7 +2175,6 @@ namespace Helodrace
             state.WithdrawalIssued = false;
             state.Thrower = null;
             state.CrossingBreach = IntVec3.Invalid;
-            state.CrossingPawn = null;
             state.Crossings.Clear();
             state.SupportIssued = false;
             state.SupportLaunched = false;

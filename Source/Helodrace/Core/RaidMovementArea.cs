@@ -15,7 +15,8 @@ namespace Helodrace
         private NativeArray<ushort> costs;
 
         public RaidMovementArea(Map map, RaidTacticalPlan plan, RaidStructureSnapshot structure,
-            bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null)
+            bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null,
+            int excludedRoom = 0, bool selectedOpeningOnly = false)
         {
             costs = new NativeArray<ushort>(map.cellIndices.NumGridCells, Allocator.Persistent);
             for (int i = 0; i < costs.Length; i++) costs[i] = 100;
@@ -30,6 +31,13 @@ namespace Helodrace
             if (exteriorOnly && structure != null)
                 foreach (IntVec3 cell in map.AllCells)
                     if (structure.RoomAt(cell) > 0 && structure.RoomAt(cell) != initialRoom)
+                        costs[map.cellIndices.CellToIndex(cell)] = ushort.MaxValue;
+            if (structure != null && (excludedRoom > 0 || selectedOpeningOnly))
+                foreach (IntVec3 cell in map.AllCells)
+                    if (excludedRoom > 0 && structure.RoomAt(cell) == excludedRoom
+                        || selectedOpeningOnly && !RaidBreachTraversal.CanUsePortal(
+                            cell == plan.BreachCell,
+                            structure.CachedAt(cell).WallLine, structure.CachedAt(cell).ExteriorAccess))
                         costs[map.cellIndices.CellToIndex(cell)] = ushort.MaxValue;
             if (fight != null)
                 foreach (IntVec3 cell in map.AllCells)
@@ -57,13 +65,18 @@ namespace Helodrace
         internal RaidMovementArea For(Pawn pawn)
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
-            if (order == null || order.Kind == RaidOrderKind.Hold
-                || pawn.CurJobDef != RimWorld.JobDefOf.Goto
-                || !MapComponent_RaidTacticalOrders.Owned(pawn.CurJob))
+            if (order == null || pawn.CurJobDef != RimWorld.JobDefOf.Goto)
                 return null;
             var state = map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.OrganizationId);
             RaidTacticalPlan plan = state?.ActivePlan;
             if (plan == null) return null;
+            bool waitingForSupport = state.Phase == RaidExecutionPhase.Support
+                || state.Phase == RaidExecutionPhase.EntryWait;
+            bool supportFlee = waitingForSupport
+                && pawn.CurJob.jobGiver is RimWorld.JobGiver_FleePotentialExplosion
+                && state.SupportProjectile != null && pawn.mindState.knownExploder == state.SupportProjectile;
+            if (!MapComponent_RaidTacticalOrders.Owned(pawn.CurJob) && !supportFlee
+                || order.Kind == RaidOrderKind.Hold && !supportFlee) return null;
             bool outside = plan.BreachCell.IsValid && (state.Phase == RaidExecutionPhase.Assemble
                 || state.Phase == RaidExecutionPhase.Breach || state.Phase == RaidExecutionPhase.Support
                 || state.Phase == RaidExecutionPhase.EntryWait);
@@ -86,13 +99,23 @@ namespace Helodrace
             }
             // Subsequent interior room breaches are not exterior approaches.
             outside &= structure?.RoomAt(plan.Entry) == 0;
-            int room = outside ? structure.RoomAt(pawn.Position) : -1;
+            int insideRoom = plan.BreachCell.IsValid ? structure?.RoomAt(plan.BreachInside) ?? 0 : 0;
+            int excludedRoom = waitingForSupport && insideRoom > 0
+                && structure.RoomAt(pawn.Position) != insideRoom ? insideRoom : 0;
+            bool selectedOpeningOnly = state.Phase == RaidExecutionPhase.CrossBreach
+                && plan.Assignments.Any(assignment => assignment.Pawn == pawn
+                    && assignment.Task == RaidTacticalTask.Entry);
+            int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;
+            int room = selectedOpeningOnly ? -2 : excludedRoom > 0 ? -3 - (outside ? initialRoom : 0)
+                : outside ? initialRoom : -1;
             if (!areas.TryGetValue(plan, out Dictionary<int, RaidMovementArea> versions))
                 areas[plan] = versions = new Dictionary<int, RaidMovementArea>();
             if (!versions.TryGetValue(room, out RaidMovementArea area))
             {
                 Stopwatch watch = Stopwatch.StartNew();
-                versions[room] = area = new RaidMovementArea(map, plan, structure, outside, room);
+                versions[room] = area = new RaidMovementArea(map, plan, structure,
+                    outside, initialRoom,
+                    excludedRoom: excludedRoom, selectedOpeningOnly: selectedOpeningOnly);
                 BuildMilliseconds += watch.ElapsedMilliseconds;
             }
             Requests++;

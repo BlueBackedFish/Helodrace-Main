@@ -50,12 +50,6 @@ internal static class Program
                 "A new destination does not inherit vanilla's unconditional Goto continuation");
             Check(!RaidOrderPolicy.ContinueMove(true, false),
                 "A required sprint change is not lost as a continuation");
-            Check(!RaidBreachTraversal.CanAdmit(false, false),
-                "An open breach without an interior clearance cell cannot admit another pawn");
-            Check(!RaidBreachTraversal.CanAdmit(true, true),
-                "A previous entrant in the mouth blocks admission even with a reserved destination");
-            Check(RaidBreachTraversal.CanAdmit(true, false),
-                "Entry resumes when both mouth and interior clearance are available");
             Check(RaidBreachTraversal.IsClearance(1, false),
                 "A lateral standing cell in a shallow room can clear the doorway");
             Check(!RaidBreachTraversal.IsClearance(1, true),
@@ -87,6 +81,14 @@ internal static class Program
             Check(RaidBreachTraversal.PlacementScore(1, 1, 1, 1, 0)
                 < RaidBreachTraversal.PlacementScore(2, 4, 0, 1, 0),
                 "A lateral wall-side slot keeps the middle of the entry lane clear");
+            Check(RaidBreachTraversal.CanUsePortal(true, true, false),
+                "The selected demolished wall remains passable in the frozen structure snapshot");
+            Check(!RaidBreachTraversal.CanUsePortal(false, true, false),
+                "Simultaneous entrants cannot take another cached door or demolished wall");
+            Check(!RaidBreachTraversal.CanUsePortal(false, false, true),
+                "Another open exterior entrance cannot bypass the selected breach");
+            Check(RaidBreachTraversal.CanUsePortal(false, false, false),
+                "Ordinary floor cells remain available without exact route checkpoints");
             Check(!RaidOrderPolicy.ReadyToEnter(true, true, true),
                 "Finishing the throw job does not permit entry while the grenade remains live");
             Check(!RaidOrderPolicy.ReadyToEnter(false, false, true),

@@ -10,8 +10,6 @@ namespace Helodrace
 
     public static class RaidBreachTraversal
     {
-        public static bool CanAdmit(bool hasClearance, bool mouthBusy) => hasClearance && !mouthBusy;
-
         public static bool IsClearance(int inwardDepth, bool atInsideMouth, bool singleCellRoom = false) =>
             inwardDepth >= 1 && (!atInsideMouth || singleCellRoom);
 
@@ -25,6 +23,9 @@ namespace Helodrace
             int lateral, int preferredLateral, float cover) =>
             depth * 5f + backWallDistance * 4f + System.Math.Abs(lateral - preferredLateral)
                 + (lateral == 0 ? 20f : 0f) - (cover >= 0.1f ? 100f + cover * 20f : 0f);
+
+        public static bool CanUsePortal(bool selectedOpening, bool wallLine, bool exteriorAccess) =>
+            selectedOpening || !wallLine && !exteriorAccess;
 
         // Crossing is latched: congestion, knockback, and a lateral path step
         // must not send an admitted pawn back to the outside staging cell.
