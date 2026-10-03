@@ -381,6 +381,8 @@ namespace Helodrace
                     continue;
                 }
                 activeIds.Add(organization.id);
+                if (!IsDefendingRaider(members[0]))
+                    RaidBreachToolRecovery.TryStart(members, organization.AllMembers, map);
                 if (states.TryGetValue(organization.id, out ExecutionState completed)
                     && TryExitSecuredObjective(organization, members, completed, tick))
                 {
@@ -603,7 +605,8 @@ namespace Helodrace
             {
                 Pawn escort = escorts[i];
                 if (IsTaserOperation(escort)
-                    || escort.CurJobDef?.defName == CompSledgehammerBreach.JobDefName)
+                    || escort.CurJobDef?.defName == CompSledgehammerBreach.JobDefName
+                    || escort.CurJobDef?.defName == RaidBreachToolRecovery.JobName)
                     continue;
                 if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
                     && enemy.Faction != null && enemy.Faction.HostileTo(escort.Faction)
@@ -759,6 +762,15 @@ namespace Helodrace
                     break;
                 case RaidExecutionPhase.Breach:
                     MaintainStack(members, plan, state.Breacher);
+                    if (RaidBreachToolRecovery.Pending(members)
+                        && (state.Breacher == null || state.Breacher.Dead || state.Breacher.Downed))
+                    {
+                        state.Breacher = null;
+                        state.BreachTarget = null;
+                        state.BreachKind = RaidBreachKind.None;
+                        state.PhaseStarted = tick;
+                        break;
+                    }
                     // Demolition can complete independently of the tool job.
                     // Do not leave an already open wall waiting on its old driver.
                     if (state.BreachKind != RaidBreachKind.C4

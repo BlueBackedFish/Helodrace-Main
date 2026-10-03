@@ -417,6 +417,12 @@ internal static class Program
                     && (string)node.Element("driverClass")
                         == "Helodrace.JobDriver_SledgehammerBreach"),
             "Sledgehammer work job is defined");
+        Check(XDocument.Load(Path.Combine(root, "Defs/GreatWar/Sledgehammer_Breach.xml"))
+            .Root.Elements("JobDef").Any(node =>
+                (string)node.Element("defName") == "HD_RecoverSledgehammer"
+                && (string)node.Element("driverClass") == "Helodrace.JobDriver_RecoverSledgehammer"
+                && (string)node.Element("forceCompleteBeforeNextJob") == "true"),
+            "Sledgehammer recovery is a protected movement and equipment job");
         Check(XDocument.Load(Path.Combine(root,
                 "Defs/Helod/Race/HelodRaceSettings.xml")).Descendants("apparelList")
                 .Elements("li").Any(node => node.Value == "HD_Apparel_GW_Sledgehammer"),
