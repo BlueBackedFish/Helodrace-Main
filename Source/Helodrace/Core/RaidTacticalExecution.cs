@@ -712,7 +712,9 @@ namespace Helodrace
                     // Demolition can complete independently of the tool job.
                     // Do not leave an already open wall waiting on its old driver.
                     if (state.BreachKind != RaidBreachKind.C4
-                        && BreachOpened(plan.PlannedBreach))
+                        && (plan.BreachCell.IsValid || plan.PlannedBreach != null
+                            || state.BreachTarget != null)
+                        && BreachOpened(plan.PlannedBreach ?? state.BreachTarget))
                     {
                         FinishBreachAttempt(plan, state, tick);
                         break;
