@@ -16,6 +16,11 @@ internal static class Program
     {
         try
         {
+            Check(RaidSmokePolicy.CarrierCount(0) == 0, "An empty formation does not create smoke carriers");
+            Check(RaidSmokePolicy.CarrierCount(1) == 1, "A one-person formation still has smoke");
+            Check(RaidSmokePolicy.CarrierCount(6) == 2, "A six-person formation guarantees two smoke carriers");
+            Check(RaidSmokePolicy.CarrierCount(7) == 3, "Incomplete thirds still receive a smoke carrier");
+            Check(RaidSmokePolicy.GrenadesPerCarrier >= 3, "A carrier has smoke for approach and external entry");
             var strip = Enumerable.Range(-4, 9)
                 .SelectMany(x => new[] { (x, 1), (x, 2) }).ToList();
             static (int x, int z)[] Neighbors((int x, int z) cell) => new[] {

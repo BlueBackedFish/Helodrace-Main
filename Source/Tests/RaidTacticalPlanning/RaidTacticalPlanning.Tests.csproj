@@ -10,5 +10,6 @@
     <Compile Include="../../Helodrace/Core/RaidBreachTraversal.cs" Link="RaidBreachTraversal.cs" />
     <Compile Include="../../Helodrace/Core/RaidOrderPolicy.cs" Link="RaidOrderPolicy.cs" />
     <Compile Include="../../Helodrace/Core/RaidFormationTopology.cs" Link="RaidFormationTopology.cs" />
+    <Compile Include="../../Helodrace/Core/RaidSmokePolicy.cs" Link="RaidSmokePolicy.cs" />
   </ItemGroup>
 </Project>

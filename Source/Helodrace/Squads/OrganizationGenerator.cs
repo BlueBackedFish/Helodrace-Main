@@ -91,6 +91,7 @@ namespace Helodrace.Squads
                     }
                     member.assignment.pawn = pawn;
                 }
+                EnsureSmokeCarriers(result);
                 foreach (CombatGroup root in result.rootGroups) root.InitializeCommand();
                 if (parms.forceOneDowned && pawns.Count > 0)
                     HealthUtility.DamageUntilDowned(pawns[0]);
@@ -106,6 +107,26 @@ namespace Helodrace.Squads
             finally
             {
                 if (parms.seed.HasValue) Rand.PopState();
+            }
+        }
+
+        private static void EnsureSmokeCarriers(CombatOrganization organization)
+        {
+            ThingDef smoke = DefDatabase<ThingDef>.GetNamed("HD_Grenade_M8_Item");
+            foreach (CombatGroup root in organization.rootGroups)
+            {
+                List<Pawn> members = root.AllMembers.ToList();
+                foreach (Pawn pawn in members.OrderBy(member =>
+                    member.inventory.innerContainer.Any(item => item.def == smoke) ? 0 : 1)
+                    .Take(RaidSmokePolicy.CarrierCount(members.Count)))
+                {
+                    int count = pawn.inventory.innerContainer.Where(item => item.def == smoke)
+                        .Sum(item => item.stackCount);
+                    if (count >= RaidSmokePolicy.GrenadesPerCarrier) continue;
+                    Thing stock = ThingMaker.MakeThing(smoke);
+                    stock.stackCount = RaidSmokePolicy.GrenadesPerCarrier - count;
+                    if (!pawn.inventory.innerContainer.TryAdd(stock)) stock.Destroy(DestroyMode.Vanish);
+                }
             }
         }
 
