@@ -64,9 +64,133 @@ internal static class Program
             CheckGrenadePrediction();
             CheckSharedStructureVersions();
             CheckSmokeGases();
+            CheckBreachToolRecovery();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckBreachToolRecovery()
+    {
+        int checks = 0;
+        void Check(bool condition, string message)
+        {
+            if (!condition) throw new Exception(message);
+            checks++;
+        }
+        Game previousGame = Current.Game;
+        var map = (Map)RuntimeHelpers.GetUninitializedObject(typeof(Map));
+        var game = (Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
+        AccessTools.Field(typeof(Game), "maps").SetValue(game, new List<Map> { map });
+        Current.Game = game;
+        try
+        {
+            var toolDef = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+            toolDef.defName = "HD_Apparel_GW_Sledgehammer";
+            Pawn Donor(int id, PawnHealthState state)
+            {
+                var pawn = new Pawn { thingIDNumber = id, def = toolDef };
+                AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)0);
+                pawn.health = (Pawn_HealthTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
+                AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(pawn.health, state);
+                pawn.apparel = new Pawn_ApparelTracker(pawn);
+                return pawn;
+            }
+            Apparel Hammer(Pawn donor, int id)
+            {
+                var tool = new Apparel { def = toolDef, thingIDNumber = id };
+                AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(tool,
+                    new List<ThingComp> { new CompSledgehammerBreach { parent = tool } });
+                var owner = (ThingOwner<Apparel>)AccessTools.Field(typeof(Pawn_ApparelTracker), "wornApparel").GetValue(donor.apparel);
+                owner.InnerListForReading.Add(tool);
+                tool.holdingOwner = owner;
+                return tool;
+            }
+            var execution = new MapComponent_RaidTacticalExecution(map);
+            var donor = Donor(100, PawnHealthState.Down);
+            var tool = Hammer(donor, 101);
+            var group = new CombatGroup { roleAssignments = new List<RoleAssignment> { new RoleAssignment { pawn = donor } } };
+            var organization = new CombatOrganization { id = "A", rootGroups = new List<CombatGroup> { group } };
+            execution.RequestCasualtyReevaluation("A", donor);
+            execution.RequestCasualtyReevaluation("A", donor);
+            var targets = (List<RaidBreachToolRecoveryTarget>)AccessTools.Field(
+                typeof(MapComponent_RaidTacticalExecution), "recoveryTargets").GetValue(execution);
+            var pending = (Dictionary<string, HashSet<Pawn>>)AccessTools.Field(
+                typeof(MapComponent_RaidTacticalExecution), "pendingCasualties").GetValue(execution);
+            Check(targets.Count == 1 && targets[0].Tool == tool && targets[0].OrganizationId == "A",
+                "Casualty callbacks capture the hammer once before membership cleanup.");
+            MethodInfo source = AccessTools.Method(typeof(RaidBreachToolRecovery), "SourceFor");
+            Check(source.Invoke(null, new object[] { tool }) == donor, "A downed carrier remains the interaction source.");
+            organization.RemoveMember(donor);
+            pending.Clear();
+            MethodInfo toolsFor = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "BreachToolsFor");
+            Check(!organization.AllMembers.Any()
+                && ((IEnumerable<Apparel>)toolsFor.Invoke(execution, new object[] { "A" })).Single() == tool,
+                "Roster detachment and consuming casualty events must not lose the recovery equipment.");
+            Check(!((IEnumerable<Apparel>)toolsFor.Invoke(execution, new object[] { "B" })).Any(),
+                "Recovery equipment remains scoped to its original organization.");
+            MethodInfo prune = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "PruneBreachTools");
+            for (int i = 0; i < 3; i++) prune.Invoke(execution, new object[] { new HashSet<string> { "A" } });
+            Check(targets.Count == 1, "Repeated retry/prune passes retain an unresolved hammer.");
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(donor.health, PawnHealthState.Dead);
+            var corpse = new Corpse();
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(corpse, (sbyte)0);
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(donor, (sbyte)-2);
+            var corpseOwner = new ThingOwner<Pawn>(corpse);
+            corpseOwner.InnerListForReading.Add(donor);
+            donor.holdingOwner = corpseOwner;
+            Check(source.Invoke(null, new object[] { tool }) == corpse, "A deceased carrier resolves through the actual corpse after detachment.");
+            var carrier = Donor(107, PawnHealthState.Mobile);
+            var carryOwner = new ThingOwner<Corpse>(new Pawn_CarryTracker(carrier));
+            carryOwner.InnerListForReading.Add(corpse);
+            corpse.holdingOwner = carryOwner;
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(corpse, (sbyte)-1);
+            prune.Invoke(execution, new object[] { new HashSet<string> { "A" } });
+            Check(!corpse.Spawned && targets.Count == 1,
+                "A temporarily carried corpse retains its claim for another recovery attempt on the same map.");
+            // Stripping the corpse preserves the exact tool even far from its donor.
+            tool.holdingOwner = null;
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(tool, (sbyte)0);
+            Check(source.Invoke(null, new object[] { tool }) == tool, "Stripped, loose equipment becomes its own interaction source.");
+            prune.Invoke(execution, new object[] { new HashSet<string> { "A" } });
+            Check(targets.Count == 1, "A stripped hammer remains tracked independently of the corpse location.");
+            var receiver = Donor(102, PawnHealthState.Mobile);
+            var receiverOwner = new ThingOwner<Apparel>(receiver.apparel);
+            receiverOwner.InnerListForReading.Add(tool);
+            tool.holdingOwner = receiverOwner;
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(tool, (sbyte)-1);
+            prune.Invoke(execution, new object[] { new HashSet<string> { "A" } });
+            Check(targets.Count == 0, "A hammer worn by a healthy replacement completes recovery.");
+            var abandoned = Hammer(Donor(103, PawnHealthState.Down), 104);
+            execution.RequestCasualtyReevaluation("A", ((Pawn_ApparelTracker)abandoned.ParentHolder).pawn);
+            prune.Invoke(execution, new object[] { new HashSet<string>() });
+            Check(targets.Count == 0, "Departed organizations must not leave stale recovery claims.");
+            var destroyed = Hammer(Donor(105, PawnHealthState.Down), 106);
+            execution.RequestCasualtyReevaluation("A", ((Pawn_ApparelTracker)destroyed.ParentHolder).pawn);
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(destroyed, (sbyte)-2);
+            prune.Invoke(execution, new object[] { new HashSet<string> { "A" } });
+            Check(targets.Count == 0, "Destroyed equipment is removed instead of retried forever.");
+            var departingDonor = Donor(108, PawnHealthState.Down);
+            Hammer(departingDonor, 109);
+            execution.RequestCasualtyReevaluation("A", departingDonor);
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(departingDonor, (sbyte)-1);
+            prune.Invoke(execution, new object[] { new HashSet<string> { "A" } });
+            Check(targets.Count == 0, "Equipment removed from the map must not leave a permanent claim.");
+
+            string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.."));
+            XElement xml = XDocument.Load(Path.Combine(root, "Defs/GreatWar/Items/Sledgehammer_GreatWar.xml")).Root.Element("ThingDef");
+            toolDef.useHitPoints = bool.Parse((string)xml.Element("useHitPoints"));
+            toolDef.apparel = new ApparelProperties {
+                careIfWornByCorpse = bool.Parse((string)xml.Element("apparel").Element("careIfWornByCorpse")) };
+            var durable = new Apparel { def = toolDef, thingIDNumber = 110, HitPoints = 120 };
+            var damage = new DamageWorker().Apply(new DamageInfo(new DamageDef { harmsHealth = true }, 50f), durable);
+            Check(durable.HitPoints == 120 && damage.totalDamageDealt == 0f && !durable.Destroyed,
+                "The XML setting must disable durability damage in the real vanilla damage worker.");
+            durable.Notify_PawnKilled();
+            Check(!durable.WornByCorpse, "The XML setting must suppress the real vanilla corpse-worn flag.");
+            Console.WriteLine($"PASS: {checks} detached casualty equipment capture, retry, source and cleanup checks (real game classes)");
+        }
+        finally { Current.Game = previousGame; }
     }
 
     private static void CheckSmokeGases()

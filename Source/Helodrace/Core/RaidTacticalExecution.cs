@@ -217,8 +217,10 @@ namespace Helodrace
             base.ExposeData();
             if (Scribe.mode == LoadSaveMode.Saving) savedStates = states.Values.ToList();
             Scribe_Collections.Look(ref savedStates, "raidTacticalExecution", LookMode.Deep);
+            Scribe_Collections.Look(ref recoveryTargets, "raidBreachToolRecovery", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
+                if (recoveryTargets == null) recoveryTargets = new List<RaidBreachToolRecoveryTarget>();
                 states.Clear();
                 foreach (ExecutionState state in savedStates ?? new List<ExecutionState>())
                     if (state?.OrganizationId != null) states[state.OrganizationId] = state;
@@ -400,6 +402,10 @@ namespace Helodrace
             var casualties = pendingCasualties.ToDictionary(pair => pair.Key, pair => pair.Value);
             pendingCasualties.Clear();
             bool regular = tick % 30 == 0;
+            if (regular)
+                PruneBreachTools(new HashSet<string>(registry.Organizations
+                    .Where(organization => organization.AllMembers.Any(pawn => pawn != null
+                        && !pawn.Dead && pawn.MapHeld == map)).Select(organization => organization.id)));
 
             // Crossing and immediate danger checks keep a lightweight cadence. Casualty notifications
             // additionally reevaluate only affected organizations on the next
@@ -459,8 +465,11 @@ namespace Helodrace
                     continue;
                 }
                 waitingStructures.Remove(organization.id);
+                foreach (Pawn fallen in organization.AllMembers.Where(pawn => pawn != null
+                    && (pawn.Downed || pawn.Dead) && pawn.MapHeld == map))
+                    RememberBreachTools(organization.id, fallen);
                 if (!IsDefendingRaider(members[0]))
-                    RaidBreachToolRecovery.TryStart(members, organization.AllMembers, map);
+                    RaidBreachToolRecovery.TryStart(members, BreachToolsFor(organization.id), map);
                 if (states.TryGetValue(organization.id, out ExecutionState completed)
                     && TryExitSecuredObjective(organization, members, completed, tick))
                 {

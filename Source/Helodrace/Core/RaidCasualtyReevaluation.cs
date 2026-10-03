@@ -17,6 +17,8 @@ namespace Helodrace
         public void RequestCasualtyReevaluation(string organizationId, Pawn pawn)
         {
             if (organizationId == null || pawn == null) return;
+            // Capture before WorldPawns clears the deceased's organization ID.
+            RememberBreachTools(organizationId, pawn);
             if (!pendingCasualties.TryGetValue(organizationId, out HashSet<Pawn> losses))
                 pendingCasualties.Add(organizationId, losses = new HashSet<Pawn>());
             losses.Add(pawn);

@@ -2,6 +2,7 @@
 <Defs>
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GW_Sledgehammer</defName>
+    <useHitPoints>false</useHitPoints>
     <label>sledgehammer</label>
     <description>A heavy breaching tool secured to the infantryman's field gear. It breaks ordinary doors of another faction so they remain open until repaired, and batters down walls without replacing the primary firearm.</description>
     <graphicData>
@@ -13,11 +14,12 @@
       <WorkToMake>1800</WorkToMake>
       <Mass>4.2</Mass>
       <MarketValue>95</MarketValue>
-      <MaxHitPoints>120</MaxHitPoints>
+      <Flammability>0</Flammability>
       <EquipDelay>1.2</EquipDelay>
     </statBases>
     <thingCategories><li>Apparel</li></thingCategories>
     <apparel>
+      <careIfWornByCorpse>false</careIfWornByCorpse>
       <bodyPartGroups><li>Waist</li></bodyPartGroups>
       <parentTagDef>ApparelBody</parentTagDef>
       <layers><li>Belt</li></layers>
