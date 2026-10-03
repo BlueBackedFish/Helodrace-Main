@@ -216,9 +216,8 @@ namespace Helodrace
             if (plan == null) return null;
             bool waitingForSupport = state.Phase == RaidExecutionPhase.ObserveOpening || state.Phase == RaidExecutionPhase.Support
                 || state.Phase == RaidExecutionPhase.EntryWait;
-            bool supportFlee = waitingForSupport
-                && pawn.CurJob.jobGiver is RimWorld.JobGiver_FleePotentialExplosion
-                && state.SupportProjectile != null && pawn.mindState.knownExploder == state.SupportProjectile;
+            bool supportFlee = IsSupportExplosionFlee(pawn.CurJob, state.SupportProjectile,
+                pawn.mindState?.knownExploder, waitingForSupport);
             bool emergencyFlee = order.Reactive && map.GetComponent<MapComponent_RaidTacticalExecution>()
                 .TryEmergencyFleeDestination(pawn, out _);
             if (!preparing && (!MapComponent_RaidTacticalOrders.Owned(pawn.CurJob) && !supportFlee && !emergencyFlee && !equipmentMove
@@ -277,6 +276,11 @@ namespace Helodrace
             }
             return area;
         }
+
+        internal static bool IsSupportExplosionFlee(Job current, Projectile supportProjectile, Thing knownExploder,
+            bool waitingForSupport) => waitingForSupport
+            && current?.jobGiver is RimWorld.JobGiver_FleePotentialExplosion
+            && supportProjectile != null && knownExploder == supportProjectile;
 
         internal void DisposeAreas()
         {

@@ -72,9 +72,28 @@ internal static class Program
             CheckAiGrenadePreparation();
             CheckOccupiedRoomPlan();
             CheckOpeningObservation();
+            CheckSupportMovementJobGap();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckSupportMovementJobGap()
+    {
+        MethodInfo method = AccessTools.Method(typeof(MapComponent_RaidMovementAreas), "IsSupportExplosionFlee");
+        var tracked = new Projectile_Explosive();
+        var flee = new Job { def = new JobDef { defName = "Flee" }, jobGiver = new JobGiver_FleePotentialExplosion() };
+        bool Flee(Job current, Projectile projectile, Thing known, bool waiting) =>
+            (bool)method.Invoke(null, new object[] { current, projectile, known, waiting });
+        if (Flee(null, tracked, tracked, true))
+            throw new Exception("The no-current-job gap after grenade release must not throw or be classified as explosion fleeing.");
+        if (!Flee(flee, tracked, tracked, true))
+            throw new Exception("Actual fleeing from the tracked support grenade still needs its safe movement area.");
+        if (Flee(flee, tracked, new Projectile_Explosive(), true))
+            throw new Exception("An unrelated hostile grenade must not inherit the support grenade's movement exception.");
+        if (Flee(flee, null, null, true) || Flee(flee, tracked, tracked, false))
+            throw new Exception("Flee exceptions require a live tracked grenade and an active pre-entry support wait.");
+        Console.WriteLine("PASS: support movement between-job null safety and explosion identity (4 checks)");
     }
 
     private static void CheckOpeningObservation()
