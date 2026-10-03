@@ -16,6 +16,34 @@ internal static class Program
     {
         try
         {
+            var progress = RaidBreachProgress.Approach;
+            progress = RaidBreachTraversal.Advance(progress, false, false, false);
+            Check(progress == RaidBreachProgress.Approach,
+                "An outside waiting pawn is not admitted before reaching the entrance");
+            progress = RaidBreachTraversal.Advance(progress, true, false, false);
+            Check(progress == RaidBreachProgress.Crossing,
+                "Arrival at the outside entrance releases a pawn toward the inside");
+            progress = RaidBreachTraversal.Advance(progress, false, false, false);
+            Check(progress == RaidBreachProgress.Crossing,
+                "A diagonal step away from the exact entrance cannot reverse the crossing");
+            progress = RaidBreachTraversal.Advance(progress, false, true, false);
+            Check(progress == RaidBreachProgress.Clearing,
+                "Passing the opening continues to the interior destination instead of stopping in the mouth");
+            progress = RaidBreachTraversal.Advance(progress, true, false, false);
+            Check(progress == RaidBreachProgress.Clearing,
+                "Knockback from the inside does not send a pawn to outside assembly");
+            progress = RaidBreachTraversal.Advance(progress, false, true, true);
+            Check(progress == RaidBreachProgress.Complete,
+                "Crossing completes only after reaching an interior clearance position");
+            Check(RaidBreachTraversal.Advance(progress, false, false, false)
+                == RaidBreachProgress.Complete, "Completed entry remains latched after displacement");
+            Check(RaidBreachTraversal.Advance(RaidBreachProgress.Approach,
+                false, true, false) == RaidBreachProgress.Clearing,
+                "A pawn already inside when the crossing resumes continues inward");
+            Check(RaidBreachTraversal.Advance(RaidBreachProgress.Crossing,
+                false, false, true) == RaidBreachProgress.Crossing,
+                "Proximity to a destination cannot count as entry while still outside");
+
             var openField = new RaidTacticalSituation { DirectThreat = 5f };
             var openOptions = RaidTacticalDecision.Rank(openField);
             Check(openOptions.Count == 3, "Three viable baseline options remain without special equipment");
@@ -93,7 +121,7 @@ internal static class Program
                 == "Hold grenades until occupants are identified",
                 "High doctrine does not substitute a lethal grenade for missing nonlethal support");
 
-            Console.WriteLine($"PASS: {checks} tactical decision assertions.");
+            Console.WriteLine($"PASS: {checks} tactical decision and breach traversal assertions.");
             return 0;
         }
         catch (Exception exception)

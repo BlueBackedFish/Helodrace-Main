@@ -170,7 +170,7 @@ namespace Helodrace
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(Target, job, 2, -1, null, errorOnFailed)
+            return pawn.Reserve(Target, job, 1, -1, null, errorOnFailed)
                 && pawn.Reserve(WorkCell, job, 1, -1, null, errorOnFailed);
         }
 

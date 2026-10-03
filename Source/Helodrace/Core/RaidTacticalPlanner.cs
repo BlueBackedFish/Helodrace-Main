@@ -790,9 +790,7 @@ namespace Helodrace
             foreach (IntVec3 cell in safeCells ?? WallStackCells(map, analysis,
                 plan, avoidedTraps))
             {
-                if (occupied.Contains(cell)
-                    || !map.reachability.CanReach(pawn.Position, cell,
-                        PathEndMode.OnCell, TraverseParms.For(pawn))) continue;
+                if (occupied.Contains(cell) || !cell.Standable(map)) continue;
                 IntVec3 offset = cell - plan.BreachCell;
                 int depth = offset.x * outward.x + offset.z * outward.z;
                 int signedLateral = offset.x * along.x + offset.z * along.z;
@@ -803,8 +801,12 @@ namespace Helodrace
                     + (side == (order % 2 == 0 ? -1 : 1) ? 0f : 2f);
                 candidates.Add((cell, score));
             }
-            return candidates.OrderBy(value => value.Score)
-                .Select(value => value.Cell).DefaultIfEmpty(IntVec3.Invalid).First();
+            // Rank the cheap geometry first; a successful first candidate avoids
+            // checking every stack cell for every member at every breach site.
+            foreach (var candidate in candidates.OrderBy(value => value.Score))
+                if (map.reachability.CanReach(pawn.Position, candidate.Cell,
+                    PathEndMode.OnCell, TraverseParms.For(pawn))) return candidate.Cell;
+            return IntVec3.Invalid;
         }
 
         private static List<IntVec3> WallStackCells(Map map,
@@ -1239,6 +1241,17 @@ namespace Helodrace
         public RaidTacticalPlan GetPlan(CombatOrganization organization, bool force = false)
         {
             if (organization == null) return null;
+            RaidTacticalPlan active = force ? null
+                : map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.ActivePlanFor(organization.id);
+            if (active != null && organization.AllMembers.Where(pawn => pawn.Spawned
+                    && pawn.Map == map && !pawn.Dead && !pawn.Downed
+                    && MapComponent_RaidTacticalExecution.IsAssaultRaider(pawn))
+                .All(pawn => active.Assignments.Any(assignment => assignment.Pawn == pawn)))
+            {
+                plans[organization.id] = active;
+                return active;
+            }
             string signature = Signature(organization);
             int tick = Find.TickManager?.TicksGame ?? 0;
             if (force || !plans.TryGetValue(organization.id, out RaidTacticalPlan plan)
@@ -1260,7 +1273,9 @@ namespace Helodrace
             GameComponent_CombatOrganizations registry = OrganizationAPI.Registry;
             if (registry == null) return;
             var active = registry.Organizations
-                .Where(organization => organization.AllMembers.Any(pawn => pawn.Spawned && pawn.Map == map))
+                .Where(organization => organization.AllMembers.Any(pawn => pawn.Spawned
+                    && pawn.Map == map && !pawn.Dead && !pawn.Downed
+                    && MapComponent_RaidTacticalExecution.IsAssaultRaider(pawn)))
                 .ToList();
             foreach (CombatOrganization organization in active) GetPlan(organization);
             var activeIds = new HashSet<string>(active.Select(organization => organization.id));

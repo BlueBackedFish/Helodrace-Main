@@ -56,6 +56,20 @@ namespace Helodrace
         private readonly Dictionary<string, ExecutionState> states = new Dictionary<string, ExecutionState>();
         private List<ExecutionState> savedStates;
 
+        public sealed class BreachCrossing : IExposable
+        {
+            public Pawn Pawn;
+            public RaidBreachProgress Progress;
+            public IntVec3 Destination = IntVec3.Invalid;
+
+            public void ExposeData()
+            {
+                Scribe_References.Look(ref Pawn, "pawn");
+                Scribe_Values.Look(ref Progress, "progress");
+                Scribe_Values.Look(ref Destination, "destination", IntVec3.Invalid);
+            }
+        }
+
         public sealed class ExecutionState : IExposable
         {
             public ExecutionState() { }
@@ -92,6 +106,9 @@ namespace Helodrace
             public int LastRoomSecurityTick;
             public int LastRoomPlanTick = -600;
             public int LastDoorResponseTick;
+            public IntVec3 CrossingBreach = IntVec3.Invalid;
+            public Pawn CrossingPawn;
+            public List<BreachCrossing> Crossings = new List<BreachCrossing>();
             // Planning cache is rebuilt after a save load; execution progress is Scribed above.
             public RaidTacticalPlan ActivePlan;
 
@@ -137,6 +154,11 @@ namespace Helodrace
                 Scribe_Values.Look(ref LastRoomPlanTick, "lastRoomPlanTick", -600);
                 Scribe_Values.Look(ref LastDoorResponseTick,
                     "lastDoorResponseTick");
+                Scribe_Values.Look(ref CrossingBreach, "crossingBreach", IntVec3.Invalid);
+                Scribe_References.Look(ref CrossingPawn, "crossingPawn");
+                Scribe_Collections.Look(ref Crossings, "crossings", LookMode.Deep);
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && Crossings == null)
+                    Crossings = new List<BreachCrossing>();
             }
         }
 
@@ -163,6 +185,14 @@ namespace Helodrace
             if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete)
                 return "Approach";
             return state.Phase.ToString();
+        }
+
+        public RaidTacticalPlan ActivePlanFor(string organizationId)
+        {
+            return organizationId != null && states.TryGetValue(organizationId,
+                out ExecutionState state) && state.Phase != RaidExecutionPhase.Hold
+                && state.Phase != RaidExecutionPhase.Complete
+                && state.ActivePlan?.Success == true ? state.ActivePlan : null;
         }
 
         private static RaidStructureSnapshot StructureFor(Map map, RaidTacticalPlan plan) =>
@@ -199,6 +229,14 @@ namespace Helodrace
                 }
                 states.TryGetValue(organization.id, out ExecutionState state);
                 string key = PlanKey(organization, members);
+                // Losing a member or changing commander must not recall pawns
+                // already breaching or crossing to a newly assigned stack.
+                if (state?.ActivePlan?.Success == true
+                    && state.Phase != RaidExecutionPhase.Hold
+                    && state.Phase != RaidExecutionPhase.Complete
+                    && members.All(pawn => state.ActivePlan.Assignments
+                        .Any(assignment => assignment.Pawn == pawn)))
+                    state.PlanKey = key;
                 RaidTacticalPlan plan = state?.ClearingRooms == true
                     ? state.ActivePlan != null && state.PlanKey == key
                         ? state.ActivePlan
@@ -420,7 +458,7 @@ namespace Helodrace
                     || !CompSledgehammerBreach.IsValidTarget(pawn, target)
                     || !CompSledgehammerBreach.TryFindInteractionCell(pawn,
                         target, out IntVec3 cell)
-                    || !pawn.CanReserve(target, 2, -1, null, false)) continue;
+                    || !pawn.CanReserve(target, 1, -1, null, false)) continue;
                 pawn.jobs.StartJob(JobMaker.MakeJob(jobDef, target, cell,
                     tool.parent), JobCondition.InterruptForced);
                 return;
@@ -648,13 +686,7 @@ namespace Helodrace
                         Advance(state, RaidExecutionPhase.Breach, tick);
                         break;
                     }
-                    List<Pawn> crossing = EntryPawns(members, plan);
-                    foreach (Pawn pawn in crossing)
-                        if (!PastBreach(pawn, plan))
-                            TryGoto(pawn, pawn.Position == plan.BreachCell
-                                ? plan.BreachInside : pawn.Position == plan.Entry
-                                    ? plan.BreachCell : plan.Entry, true);
-                    if (crossing.All(pawn => PastBreach(pawn, plan)))
+                    if (FollowBreachCrossing(members, plan, state))
                         Advance(state, RaidExecutionPhase.Assault, tick);
                     break;
                 case RaidExecutionPhase.Flank:
@@ -808,8 +840,128 @@ namespace Helodrace
         {
             IntVec3 breach = plan.BreachCell;
             IntVec3 towardInside = plan.BreachInside - breach;
-            return (pawn.Position.x - breach.x) * towardInside.x
-                + (pawn.Position.z - breach.z) * towardInside.z >= 1;
+            if ((pawn.Position.x - breach.x) * towardInside.x
+                + (pawn.Position.z - breach.z) * towardInside.z < 1) return false;
+            RaidStructureSnapshot structure = StructureFor(pawn.Map, plan);
+            int insideRoom = structure?.RoomAt(plan.BreachInside) ?? 0;
+            return insideRoom == 0 || structure.RoomAt(pawn.Position) == insideRoom;
+        }
+
+        private bool FollowBreachCrossing(List<Pawn> members, RaidTacticalPlan plan,
+            ExecutionState state)
+        {
+            List<Pawn> entry = EntryPawns(members, plan);
+            if (state.CrossingBreach != plan.BreachCell)
+            {
+                state.CrossingBreach = plan.BreachCell;
+                state.CrossingPawn = null;
+                state.Crossings.Clear();
+            }
+            state.Crossings.RemoveAll(crossing => crossing.Pawn == null
+                || !entry.Contains(crossing.Pawn));
+            var reserved = new HashSet<IntVec3>(state.Crossings
+                .Where(crossing => crossing.Destination.IsValid)
+                .Select(crossing => crossing.Destination));
+            for (int i = 0; i < entry.Count; i++)
+            {
+                Pawn pawn = entry[i];
+                BreachCrossing crossing = state.Crossings
+                    .FirstOrDefault(value => value.Pawn == pawn);
+                if (crossing == null)
+                {
+                    crossing = new BreachCrossing { Pawn = pawn };
+                    state.Crossings.Add(crossing);
+                }
+                if (!crossing.Destination.IsValid || !crossing.Destination.InBounds(map)
+                    || !crossing.Destination.Standable(map))
+                {
+                    reserved.Remove(crossing.Destination);
+                    crossing.Destination = FindBreachClearanceCell(pawn, plan, i, reserved);
+                    reserved.Add(crossing.Destination);
+                }
+                crossing.Progress = RaidBreachTraversal.Advance(crossing.Progress,
+                    false, PastBreach(pawn, plan),
+                    pawn.Position == crossing.Destination);
+                if (IsTaserOperation(pawn)) continue;
+                if (crossing.Progress == RaidBreachProgress.Clearing)
+                    TryGoto(pawn, crossing.Destination, true);
+                else if (crossing.Progress == RaidBreachProgress.Complete)
+                {
+                    if (!PastBreach(pawn, plan))
+                        TryGoto(pawn, crossing.Destination, true);
+                    else if (pawn.CurJobDef != JobDefOf.Wait_Combat)
+                        HoldPosition(pawn);
+                }
+            }
+
+            if (state.Crossings.All(crossing => crossing.Progress == RaidBreachProgress.Complete))
+                return true;
+            // The first admitted pawn moves away from the mouth before the next
+            // one is released. All others keep their current outside waiting cell.
+            bool mouthBusy = state.Crossings.Any(crossing =>
+                crossing.Progress == RaidBreachProgress.Clearing
+                && crossing.Pawn.Position.DistanceTo(plan.BreachInside) <= 1.5f);
+            BreachCrossing next = state.Crossings.FirstOrDefault(crossing =>
+                crossing.Pawn == state.CrossingPawn
+                && crossing.Progress < RaidBreachProgress.Clearing);
+            if (next == null)
+            {
+                state.CrossingPawn = null;
+                if (!mouthBusy)
+                {
+                    // A grenade thrower already at the mouth goes first. Once
+                    // admitted, keep that pawn until it crosses the opening.
+                    next = entry.Select(pawn => state.Crossings.First(value => value.Pawn == pawn))
+                        .Where(crossing => crossing.Progress < RaidBreachProgress.Clearing)
+                        .OrderBy(crossing => crossing.Pawn.Position.DistanceTo(plan.Entry)
+                            <= 1.5f ? 0 : 1).FirstOrDefault();
+                    state.CrossingPawn = next?.Pawn;
+                }
+            }
+            if (mouthBusy) next = null;
+            foreach (BreachCrossing crossing in state.Crossings.Where(value =>
+                value.Progress == RaidBreachProgress.Approach
+                    || value.Progress == RaidBreachProgress.Crossing))
+            {
+                Pawn pawn = crossing.Pawn;
+                if (IsTaserOperation(pawn)) continue;
+                if (crossing != next)
+                {
+                    if (pawn.CurJobDef != JobDefOf.Wait_Combat) HoldPosition(pawn);
+                    continue;
+                }
+                crossing.Progress = RaidBreachTraversal.Advance(crossing.Progress,
+                    pawn.Position.DistanceTo(plan.Entry) <= 1.5f,
+                    false, false);
+                TryGoto(pawn, crossing.Progress == RaidBreachProgress.Approach
+                    ? plan.Entry : plan.BreachInside, true);
+            }
+            return false;
+        }
+
+        private IntVec3 FindBreachClearanceCell(Pawn pawn, RaidTacticalPlan plan,
+            int order, HashSet<IntVec3> reserved)
+        {
+            IntVec3 inward = plan.BreachInside - plan.BreachCell;
+            IntVec3 along = new IntVec3(-inward.z, 0, inward.x);
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            int room = structure?.RoomAt(plan.BreachInside) ?? 0;
+            int side = order % 2 == 0 ? -1 : 1;
+            // Earlier entrants clear farther into the room, leaving the nearer
+            // cells for following members instead of stopping across their path.
+            IntVec3 ideal = plan.BreachInside + inward * (7 - Math.Min(4, order / 3))
+                + along * (side * (1 + order / 2 % 3));
+            IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(plan.BreachInside, 12f, true)
+                .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                    && !reserved.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell)
+                    && (cell.x - plan.BreachCell.x) * inward.x
+                        + (cell.z - plan.BreachCell.z) * inward.z >= 1
+                    && (room == 0 || structure.RoomAt(cell) == room))
+                .OrderBy(cell => cell.DistanceToSquared(ideal)
+                    + (cell.DistanceTo(plan.BreachInside) < 2f ? 100f : 0f));
+            foreach (IntVec3 cell in cells.Take(32))
+                if (pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return cell;
+            return plan.BreachInside;
         }
 
         private static RaidExecutionPhase AfterSupport(RaidTacticalPlan plan,
@@ -952,6 +1104,7 @@ namespace Helodrace
                 Pawn pawn = assignment.Pawn;
                 if (pawn == exempt || !members.Contains(pawn)
                     || !holdEntry && assignment.Task == RaidTacticalTask.Entry
+                    || assignment.Task == RaidTacticalTask.Entry && PastBreach(pawn, plan)
                     || assignment.Task == RaidTacticalTask.Withdraw
                     || !assignment.Position.IsValid || IsTaserOperation(pawn)) continue;
                 if (!AtStagingPosition(assignment, plan))
@@ -1235,6 +1388,8 @@ namespace Helodrace
             if (!plan.BreachCell.IsValid
                 || assignment.Task == RaidTacticalTask.Withdraw)
                 return pawn.Position.DistanceTo(assignment.Position) <= 1.5f;
+            if (assignment.Task == RaidTacticalTask.Entry && PastBreach(pawn, plan))
+                return true;
             return assignment.Task == RaidTacticalTask.Entry
                 ? plan.SafeStackCells.Count > 0
                     ? plan.SafeStackCells.Contains(pawn.Position)
@@ -1289,9 +1444,14 @@ namespace Helodrace
             bool interruptTaser = false)
         {
             if ((!interruptTaser && IsTaserOperation(pawn))
-                || !cell.IsValid || !cell.InBounds(pawn.Map)
-                || !pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return;
+                || !cell.IsValid || !cell.InBounds(pawn.Map)) return;
+            if (pawn.Position == cell)
+            {
+                if (pawn.CurJobDef == JobDefOf.Goto) HoldPosition(pawn);
+                return;
+            }
             if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == cell) return;
+            if (!pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return;
             Job job = JobMaker.MakeJob(JobDefOf.Goto, cell);
             if (sprint) job.locomotionUrgency = LocomotionUrgency.Sprint;
             pawn.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -1581,6 +1741,8 @@ namespace Helodrace
             Map currentMap = members[0].Map;
             RaidStructureSnapshot structure = StructureFor(currentMap, plan);
             int objectiveRoom = structure?.RoomAt(plan.Objective) ?? 0;
+            IntVec3 inward = plan.BreachCell.IsValid
+                ? plan.BreachInside - plan.BreachCell : IntVec3.Zero;
             bool highIndoor = plan.Doctrine == RaidTacticalDoctrine.High
                 && objectiveRoom > 0;
             var occupied = new HashSet<IntVec3>();
@@ -1596,11 +1758,18 @@ namespace Helodrace
                 if (!target.IsValid)
                     target = GenRadial.RadialCellsAround(plan.Objective, 4f, true)
                     .Where(cell => cell.InBounds(currentMap) && cell.Standable(currentMap)
-                        && !occupied.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell))
+                        && !occupied.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell)
+                        && (objectiveRoom == 0 || structure.RoomAt(cell) == objectiveRoom)
+                        && (!plan.BreachCell.IsValid
+                            || (cell.x - plan.BreachCell.x) * inward.x
+                                + (cell.z - plan.BreachCell.z) * inward.z >= 2))
                     .OrderBy(cell => cell.DistanceToSquared(plan.Objective))
                     .Where(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
                     .DefaultIfEmpty(IntVec3.Invalid).First();
-                if (!target.IsValid) target = plan.Entry;
+                if (!target.IsValid && plan.BreachCell.IsValid)
+                    target = FindBreachClearanceCell(pawn, plan,
+                        assignment.EntryOrder - 1, occupied);
+                if (!target.IsValid) target = pawn.Position;
                 occupied.Add(target);
                 TryGoto(pawn, target, highIndoor);
             }
@@ -1652,6 +1821,7 @@ namespace Helodrace
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && structure.RoomAt(cell) == room
                     && !plan.AvoidedTrapCells.Contains(cell)
+                    && cell != plan.BreachInside && cell != plan.BreachCell
                     && cell.DistanceTo(plan.Entry) >= 2f)
                 .ToList();
             foreach (RaidTacticalAssignment assignment in plan.Assignments
@@ -1784,6 +1954,9 @@ namespace Helodrace
             state.BreachKind = RaidBreachKind.None;
             state.WithdrawalIssued = false;
             state.Thrower = null;
+            state.CrossingBreach = IntVec3.Invalid;
+            state.CrossingPawn = null;
+            state.Crossings.Clear();
             state.SupportIssued = false;
             state.FlankIssued = false;
             state.AssaultIssued = false;

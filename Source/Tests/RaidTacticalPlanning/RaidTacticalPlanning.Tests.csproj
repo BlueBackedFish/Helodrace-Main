@@ -7,5 +7,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="../../Helodrace/Core/RaidTacticalDecision.cs" Link="RaidTacticalDecision.cs" />
+    <Compile Include="../../Helodrace/Core/RaidBreachTraversal.cs" Link="RaidBreachTraversal.cs" />
   </ItemGroup>
 </Project>
