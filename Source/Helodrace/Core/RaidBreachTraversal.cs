@@ -10,6 +10,8 @@ namespace Helodrace
 
     public static class RaidBreachTraversal
     {
+        public static bool CanAdmit(bool hasClearance, bool mouthBusy) => hasClearance && !mouthBusy;
+
         // Crossing is latched: congestion, knockback, and a lateral path step
         // must not send an admitted pawn back to the outside staging cell.
         public static RaidBreachProgress Advance(RaidBreachProgress progress,

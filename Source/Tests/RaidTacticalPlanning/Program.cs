@@ -34,6 +34,20 @@ internal static class Program
                 "A new destination does not inherit vanilla's unconditional Goto continuation");
             Check(!RaidOrderPolicy.ContinueMove(true, false),
                 "A required sprint change is not lost as a continuation");
+            Check(!RaidBreachTraversal.CanAdmit(false, false),
+                "An open breach without an interior clearance cell cannot admit another pawn");
+            Check(!RaidBreachTraversal.CanAdmit(true, true),
+                "A previous entrant in the mouth blocks admission even with a reserved destination");
+            Check(RaidBreachTraversal.CanAdmit(true, false),
+                "Entry resumes when both mouth and interior clearance are available");
+            Check(!RaidOrderPolicy.ReadyToEnter(true, true, true),
+                "Finishing the throw job does not permit entry while the grenade remains live");
+            Check(!RaidOrderPolicy.ReadyToEnter(false, false, true),
+                "An elapsed timer cannot override incomplete stack-up");
+            Check(!RaidOrderPolicy.ReadyToEnter(true, false, false),
+                "Effect completion still respects the coordinated entry delay");
+            Check(RaidOrderPolicy.ReadyToEnter(true, false, true),
+                "A prepared squad enters after the support effect and delay");
             var progress = RaidBreachProgress.Approach;
             progress = RaidBreachTraversal.Advance(progress, false, false, false);
             Check(progress == RaidBreachProgress.Approach,

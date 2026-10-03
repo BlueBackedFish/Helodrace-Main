@@ -8,5 +8,8 @@ namespace Helodrace
 
         public static bool ContinueMove(bool sameDestination, bool sameUrgency) =>
             sameDestination && sameUrgency;
+
+        public static bool ReadyToEnter(bool ready, bool projectilePending, bool delayElapsed) =>
+            ready && !projectilePending && delayElapsed;
     }
 }

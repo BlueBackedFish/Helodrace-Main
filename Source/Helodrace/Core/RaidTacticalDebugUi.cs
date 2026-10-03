@@ -134,6 +134,8 @@ namespace Helodrace
             }
             report.AppendLine();
             report.AppendLine($"Support: {plan.EntrySupport}");
+            report.AppendLine("Support execution: " + RaidTacticalDebugSession.Map
+                ?.GetComponent<MapComponent_RaidTacticalExecution>()?.SupportStatusFor(plan.OrganizationId));
             report.AppendLine($"Entry method: {plan.EntryMethod}");
             report.AppendLine($"Wait before group entry: {plan.EntryDelayTicks} ticks; "
                 + $"coordination allowance: {plan.CoordinationDelayTicks} ticks");

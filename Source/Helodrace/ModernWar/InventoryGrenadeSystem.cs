@@ -290,6 +290,12 @@ namespace Helodrace
                 return;
             }
 
+            if (MapComponent_RaidTacticalOrders.For(pawn) != null
+                && !MapComponent_RaidTacticalExecution.SafeSupportThrow(pawn, grenade, target.Cell, closeThrow))
+            {
+                MapComponent_RaidTacticalTrace.Record(pawn, "Throw cancelled: ally moved into exposure area");
+                return;
+            }
             Thing consumed = grenade.SplitOff(1);
             Projectile projectile = GenSpawn.Spawn(projectileDef, sourceCell, pawn.Map) as Projectile;
             if (projectile != null)
@@ -316,6 +322,8 @@ namespace Helodrace
                 {
                     modernGrenade.ConfigureInventoryThrow(closeThrow);
                 }
+                pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.NotifySupportLaunched(pawn, projectile);
             }
 
             consumed.Destroy(DestroyMode.Vanish);

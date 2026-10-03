@@ -61,12 +61,14 @@ namespace Helodrace
             public Pawn Pawn;
             public RaidBreachProgress Progress;
             public IntVec3 Destination = IntVec3.Invalid;
+            public int SearchAfter;
 
             public void ExposeData()
             {
                 Scribe_References.Look(ref Pawn, "pawn");
                 Scribe_Values.Look(ref Progress, "progress");
                 Scribe_Values.Look(ref Destination, "destination", IntVec3.Invalid);
+                Scribe_Values.Look(ref SearchAfter, "searchAfter");
             }
         }
 
@@ -94,6 +96,9 @@ namespace Helodrace
             public bool WithdrawalIssued;
             public Pawn Thrower;
             public bool SupportIssued;
+            public bool SupportLaunched;
+            public Projectile SupportProjectile;
+            public string SupportStatus = "Not requested";
             public bool FlankIssued;
             public bool AssaultIssued;
             public bool ExternalSupportAttempted;
@@ -139,6 +144,9 @@ namespace Helodrace
                 Scribe_Values.Look(ref WithdrawalIssued, "withdrawalIssued");
                 Scribe_References.Look(ref Thrower, "thrower");
                 Scribe_Values.Look(ref SupportIssued, "supportIssued");
+                Scribe_Values.Look(ref SupportLaunched, "supportLaunched");
+                Scribe_References.Look(ref SupportProjectile, "supportProjectile");
+                Scribe_Values.Look(ref SupportStatus, "supportStatus", "Not requested");
                 Scribe_Values.Look(ref FlankIssued, "flankIssued");
                 Scribe_Values.Look(ref AssaultIssued, "assaultIssued");
                 Scribe_Values.Look(ref ExternalSupportAttempted, "externalSupportAttempted");
@@ -207,6 +215,37 @@ namespace Helodrace
                 && states.TryGetValue(id, out ExecutionState state)
                 && state.ActivePlan?.Success == true
                 && state.ActivePlan.Assignments.Any(assignment => assignment.Pawn == pawn);
+        }
+
+        internal string SupportStatusFor(string id) => states.TryGetValue(id, out ExecutionState state)
+            ? state.SupportStatus : "Inactive";
+
+        internal void NotifySupportLaunched(Pawn pawn, Projectile projectile)
+        {
+            string id = OrganizationAPI.GetOrganization(pawn)?.id;
+            if (id == null || !states.TryGetValue(id, out ExecutionState state)
+                || state.Phase != RaidExecutionPhase.Support || state.Thrower != pawn) return;
+            state.SupportLaunched = true;
+            state.SupportProjectile = projectile;
+            state.SupportStatus = "Projectile launched; waiting for effect";
+            MapComponent_RaidTacticalTrace.Record(pawn, state.SupportStatus);
+        }
+
+        internal static bool SafeSupportThrow(Pawn pawn, Thing grenade, IntVec3 target, bool close)
+        {
+            ThingDef projectile = grenade?.def?.projectileWhenLoaded;
+            if (projectile?.projectile == null) return false;
+            float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, close,
+                pawn.Position.DistanceTo(target));
+            FragmentationGrenadeExtension fragments = projectile.GetModExtension<FragmentationGrenadeExtension>();
+            float fragmentRadius = fragments == null ? 0f : Math.Max(fragments.radius,
+                fragments.longRangeFragmentFraction > 0f ? fragments.longRangeRadius : 0f);
+            float radius = Math.Max(projectile.projectile.explosionRadius, fragmentRadius)
+                + scatter + 0.75f;
+            return !pawn.Map.mapPawns.AllPawnsSpawned.Any(ally => !ally.Dead
+                && !ally.HostileTo(pawn) && ally.Position.DistanceTo(target) <= radius
+                && (ally.Position.DistanceTo(target) <= scatter + 0.75f
+                    || GenSight.LineOfSight(target, ally.Position, pawn.Map, true)));
         }
 
         public override void MapComponentTick()
@@ -667,22 +706,30 @@ namespace Helodrace
                         {
                             state.Thrower = thrower;
                             state.SupportIssued = true;
+                            state.SupportStatus = "Throw preparation";
                         }
                         else if (tick - state.PhaseStarted >= SupportTimeout
                             || !TryStageEntryThrower(members, plan, state))
+                        {
+                            state.SupportStatus = "Skipped: no usable safe throw, equipment, or support timeout";
                             Advance(state, RaidExecutionPhase.EntryWait, tick);
+                        }
                     }
                     else if ((state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeClose"
                         && state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeNormal")
                         || tick - state.PhaseStarted >= SupportTimeout)
+                    {
+                        state.SupportStatus = state.SupportLaunched
+                            ? "Waiting for projectile effect" : "Throw failed before launch";
                         Advance(state, RaidExecutionPhase.EntryWait, tick);
+                    }
                     break;
                 case RaidExecutionPhase.EntryWait:
                     MaintainStack(members, plan);
                     if (!UsingZaper(members)
-                        && (!plan.BreachCell.IsValid || AllReady(members, plan)
-                            || tick - state.PhaseStarted >= 600)
-                        && tick - state.PhaseStarted >= plan.EntryDelayTicks)
+                        && RaidOrderPolicy.ReadyToEnter(!plan.BreachCell.IsValid || AllReady(members, plan),
+                            state.SupportProjectile?.Spawned == true,
+                            tick - state.PhaseStarted >= plan.EntryDelayTicks))
                         Advance(state, plan.BreachCell.IsValid
                             ? RaidExecutionPhase.CrossBreach
                             : AfterSupport(plan, state.Maneuver), tick);
@@ -882,19 +929,26 @@ namespace Helodrace
                     crossing = new BreachCrossing { Pawn = pawn };
                     state.Crossings.Add(crossing);
                 }
-                if (!crossing.Destination.IsValid || !crossing.Destination.InBounds(map)
+                if ((!crossing.Destination.IsValid || !crossing.Destination.InBounds(map)
                     || !crossing.Destination.Standable(map))
+                    && GenTicks.TicksGame >= crossing.SearchAfter)
                 {
                     reserved.Remove(crossing.Destination);
                     crossing.Destination = FindBreachClearanceCell(pawn, plan, i, reserved);
-                    reserved.Add(crossing.Destination);
+                    crossing.SearchAfter = GenTicks.TicksGame + 120;
+                    if (crossing.Destination.IsValid) reserved.Add(crossing.Destination);
+                    else MapComponent_RaidTacticalTrace.Record(pawn,
+                        "Entry waiting: no unoccupied interior clearance cell");
                 }
                 crossing.Progress = RaidBreachTraversal.Advance(crossing.Progress,
                     false, PastBreach(pawn, plan),
                     pawn.Position == crossing.Destination);
                 if (IsTaserOperation(pawn)) continue;
                 if (crossing.Progress == RaidBreachProgress.Clearing)
-                    TryGoto(pawn, crossing.Destination, true);
+                {
+                    if (crossing.Destination.IsValid) TryGoto(pawn, crossing.Destination, true);
+                    else HoldPosition(pawn);
+                }
                 else if (crossing.Progress == RaidBreachProgress.Complete)
                 {
                     if (!PastBreach(pawn, plan))
@@ -913,7 +967,8 @@ namespace Helodrace
                 && crossing.Pawn.Position.DistanceTo(plan.BreachInside) <= 1.5f);
             BreachCrossing next = state.Crossings.FirstOrDefault(crossing =>
                 crossing.Pawn == state.CrossingPawn
-                && crossing.Progress < RaidBreachProgress.Clearing);
+                && crossing.Progress < RaidBreachProgress.Clearing
+                && crossing.Destination.IsValid);
             if (next == null)
             {
                 state.CrossingPawn = null;
@@ -922,13 +977,14 @@ namespace Helodrace
                     // A grenade thrower already at the mouth goes first. Once
                     // admitted, keep that pawn until it crosses the opening.
                     next = entry.Select(pawn => state.Crossings.First(value => value.Pawn == pawn))
-                        .Where(crossing => crossing.Progress < RaidBreachProgress.Clearing)
+                        .Where(crossing => crossing.Progress < RaidBreachProgress.Clearing
+                            && crossing.Destination.IsValid)
                         .OrderBy(crossing => crossing.Pawn.Position.DistanceTo(plan.Entry)
                             <= 1.5f ? 0 : 1).FirstOrDefault();
                     state.CrossingPawn = next?.Pawn;
                 }
             }
-            if (mouthBusy) next = null;
+            if (!RaidBreachTraversal.CanAdmit(next?.Destination.IsValid == true, mouthBusy)) next = null;
             foreach (BreachCrossing crossing in state.Crossings.Where(value =>
                 value.Progress == RaidBreachProgress.Approach
                     || value.Progress == RaidBreachProgress.Crossing))
@@ -964,14 +1020,16 @@ namespace Helodrace
             IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(plan.BreachInside, 12f, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !reserved.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell)
+                    && map.pawnDestinationReservationManager.CanReserve(cell, pawn)
+                    && !cell.GetThingList(map).OfType<Pawn>().Any(other => other != pawn)
                     && (cell.x - plan.BreachCell.x) * inward.x
-                        + (cell.z - plan.BreachCell.z) * inward.z >= 1
+                        + (cell.z - plan.BreachCell.z) * inward.z >= 2
                     && (room == 0 || structure.RoomAt(cell) == room))
                 .OrderBy(cell => cell.DistanceToSquared(ideal)
                     + (cell.DistanceTo(plan.BreachInside) < 2f ? 100f : 0f));
             foreach (IntVec3 cell in cells.Take(32))
                 if (pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return cell;
-            return plan.BreachInside;
+            return IntVec3.Invalid;
         }
 
         private static RaidExecutionPhase AfterSupport(RaidTacticalPlan plan,
@@ -1659,6 +1717,7 @@ namespace Helodrace
                         InventoryGrenadeUtility.CloseThrowRange);
                     if (!close && !InventoryGrenadeUtility.CanThrowAt(pawn, target,
                         InventoryGrenadeUtility.NormalThrowRange)) continue;
+                    if (!SafeSupportThrow(pawn, grenade, target, close)) continue;
                     JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(close
                         ? "HD_ThrowInventoryGrenadeClose" : "HD_ThrowInventoryGrenadeNormal");
                     if (jobDef == null) return null;
@@ -1971,6 +2030,9 @@ namespace Helodrace
             state.CrossingPawn = null;
             state.Crossings.Clear();
             state.SupportIssued = false;
+            state.SupportLaunched = false;
+            state.SupportProjectile = null;
+            state.SupportStatus = "Not requested";
             state.FlankIssued = false;
             state.AssaultIssued = false;
             state.ExternalSupportAttempted = true;
