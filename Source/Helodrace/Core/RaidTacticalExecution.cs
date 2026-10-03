@@ -860,6 +860,7 @@ namespace Helodrace
         private void MaintainEntryCohesion(CombatOrganization organization,
             List<Pawn> members, RaidTacticalPlan plan)
         {
+            RaidStructureSnapshot structure = StructureFor(map, plan);
             List<Pawn> entry = plan.Assignments
                 .Where(assignment => assignment.Task == RaidTacticalTask.Entry
                     && members.Contains(assignment.Pawn))
@@ -872,7 +873,9 @@ namespace Helodrace
                         && value.Members.Count(entry.Contains) > 1)
                     .OrderBy(value => value.Members.Count()).FirstOrDefault();
                 Pawn buddy = (group?.Members ?? entry)
-                    .Where(other => other != pawn && entry.Contains(other))
+                    .Where(other => other != pawn && entry.Contains(other)
+                        && (structure == null || structure.RoomAt(other.Position) == structure.RoomAt(pawn.Position))
+                        && GenSight.LineOfSight(pawn.Position, other.Position, map, true))
                     .OrderBy(other => other.Position.DistanceToSquared(pawn.Position))
                     .FirstOrDefault();
                 if (buddy == null || pawn.Position.DistanceTo(buddy.Position) <= 12f
@@ -886,6 +889,7 @@ namespace Helodrace
                 IntVec3 cell = GenRadial.RadialCellsAround(buddy.Position, 4f, true)
                     .Where(value => value.InBounds(map) && value.Standable(map)
                         && value != buddy.Position
+                        && (structure == null || structure.RoomAt(value) == structure.RoomAt(pawn.Position))
                         && !plan.AvoidedTrapCells.Contains(value))
                     .OrderBy(value => value.DistanceToSquared(pawn.Position))
                     .Where(value => pawn.CanReach(value,
