@@ -292,10 +292,31 @@ namespace Helodrace
         {
             base.MapComponentTick();
             int tick = Find.TickManager?.TicksGame ?? 0;
-            if (tick % 30 != 0) return;
+            if (tick % 10 != 0) return;
             GameComponent_CombatOrganizations registry = OrganizationAPI.Registry;
             MapComponent_RaidTacticalPlans plans = map.GetComponent<MapComponent_RaidTacticalPlans>();
             if (registry == null || plans == null) return;
+
+            // Only the lightweight committed crossing runs more frequently.
+            // Planning, room scanning and general organization updates stay at
+            // their original cadence.
+            if (tick % 30 != 0)
+            {
+                foreach (ExecutionState crossing in states.Values.ToList())
+                {
+                    if (crossing.Phase != RaidExecutionPhase.CrossBreach
+                        || crossing.ActivePlan?.Success != true) continue;
+                    CombatOrganization organization = registry.Organizations
+                        .FirstOrDefault(value => value.id == crossing.OrganizationId);
+                    if (organization == null) continue;
+                    List<Pawn> members = organization.AllMembers.Where(pawn => pawn.Spawned
+                        && pawn.Map == map && !pawn.Dead && !pawn.Downed && !pawn.Destroyed
+                        && IsTacticalRaider(pawn)).ToList();
+                    if (members.Count > 0)
+                        Update(organization, members, crossing.ActivePlan, crossing, tick);
+                }
+                return;
+            }
 
             var activeIds = new HashSet<string>();
             foreach (CombatOrganization organization in registry.Organizations)
@@ -1065,7 +1086,7 @@ namespace Helodrace
                 }
                 else if (crossing.Progress == RaidBreachProgress.Complete)
                 {
-                    if (!PastBreach(pawn, plan))
+                    if (pawn.Position != crossing.Destination && crossing.Destination.IsValid)
                         TryGoto(pawn, crossing.Destination, true);
                     else if (pawn.CurJobDef != JobDefOf.Wait_Combat)
                         HoldPosition(pawn);
@@ -1074,11 +1095,12 @@ namespace Helodrace
 
             if (state.Crossings.All(crossing => crossing.Progress == RaidBreachProgress.Complete))
                 return true;
-            // The first admitted pawn moves away from the mouth before the next
-            // one is released. All others keep their current outside waiting cell.
+            // Release the next pawn as soon as the previous pawn vacates the
+            // opening cells, rather than waiting for a 1.5-cell exclusion circle.
             bool mouthBusy = state.Crossings.Any(crossing =>
-                crossing.Progress == RaidBreachProgress.Clearing
-                && crossing.Pawn.Position.DistanceTo(plan.BreachInside) <= 1.5f);
+                crossing.Progress >= RaidBreachProgress.Clearing
+                && (crossing.Pawn.Position == plan.BreachInside
+                    || crossing.Pawn.Position == plan.BreachCell));
             BreachCrossing next = state.Crossings.FirstOrDefault(crossing =>
                 crossing.Pawn == state.CrossingPawn
                 && crossing.Progress < RaidBreachProgress.Clearing
@@ -1114,7 +1136,7 @@ namespace Helodrace
                     pawn.Position.DistanceTo(plan.Entry) <= 1.5f,
                     false, false);
                 TryGoto(pawn, crossing.Progress == RaidBreachProgress.Approach
-                    ? plan.Entry : plan.BreachInside, true);
+                    ? plan.Entry : crossing.Destination, true);
             }
             return false;
         }
