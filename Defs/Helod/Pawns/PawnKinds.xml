@@ -15,6 +15,19 @@
 		</styleItemTags>
 	</PawnKindDef>
 
+	<!-- Trained, medically fit military recruits. Shared by all military eras. -->
+	<PawnKindDef Name="HD_HelodSoldierBase" ParentName="HD_HelodBasePawnKind" Abstract="True">
+		<minGenerationAge>18</minGenerationAge>
+		<maxGenerationAge>35</maxGenerationAge>
+		<allowOldAgeInjuries>false</allowOldAgeInjuries>
+		<skills>
+			<li>
+				<skill>Shooting</skill>
+				<range>8~12</range>
+			</li>
+		</skills>
+	</PawnKindDef>
+
 	<!-- Helod Player Colonist -->
 	<PawnKindDef ParentName="HD_HelodBasePawnKind">
 		<defName>HD_WW_HelodColonist</defName>
@@ -444,7 +457,7 @@
 
 	<!-- Modern War reference PawnKind. The extension selects one weighted package after
 	     vanilla gear generation and applies exact modular weapon/armor configurations. -->
-	<PawnKindDef ParentName="HD_HelodBasePawnKind">
+	<PawnKindDef ParentName="HD_HelodSoldierBase">
 		<defName>HD_MW_HelodRifleman</defName>
 		<label>Modern War Helod rifleman</label>
 		<defaultFactionType>HD_HelodCivilHighFaction</defaultFactionType>

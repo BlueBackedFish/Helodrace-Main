@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 	<!-- Shared equipment and generation settings for weapon-based Great War troops. -->
-	<PawnKindDef Name="HD_GW_HelodSoldierBase" ParentName="HD_HelodBasePawnKind" Abstract="True">
+	<PawnKindDef Name="HD_GW_HelodSoldierBase" ParentName="HD_HelodSoldierBase" Abstract="True">
 		<defaultFactionType>HD_HelodCivilLowFaction</defaultFactionType>
 		<combatPower>80</combatPower>
 		<isFighter>true</isFighter>
@@ -96,6 +96,12 @@
     <label>Great War Helod sniper</label>
     <combatPower>110</combatPower>
     <weaponTags><li>HD_GreatWarSniper</li></weaponTags>
+    <skills Inherit="False">
+      <li>
+        <skill>Shooting</skill>
+        <range>12~16</range>
+      </li>
+    </skills>
   </PawnKindDef>
 
   <PawnKindDef ParentName="HD_GW_HelodSoldierBase">
