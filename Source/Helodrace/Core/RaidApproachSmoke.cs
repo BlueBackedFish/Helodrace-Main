@@ -75,7 +75,7 @@ namespace Helodrace
                     state.NextApproachSmokeTick = tick + (state.ApproachSmokeLaunched ? 60 : 180);
                     MapComponent_RaidTacticalTrace.Record(state.ApproachSmokeThrower,
                         state.ApproachSmokeLaunched ? "Approach smoke released; resume movement" : "Approach smoke failed; resume movement");
-                    if (state.ApproachSmokeLaunched && state.DefenseUntil <= tick
+                    if (state.ApproachSmokeLaunched && !plan.IsDefensive && state.DefenseUntil <= tick
                         && CommitSmokeAdvance(members, plan, state, tick)) return true;
                     return false;
                 }
@@ -84,7 +84,7 @@ namespace Helodrace
                 state.PhaseStarted = tick;
                 return true;
             }
-            if (plan.IsDefensive || tick < state.NextApproachSmokeTick || RaidBreachToolRecovery.Pending(members))
+            if (plan.IsDefensive && !reacting || tick < state.NextApproachSmokeTick || RaidBreachToolRecovery.Pending(members))
                 return false;
             state.NextApproachSmokeTick = tick + 30;
             RaidStructureSnapshot structure = StructureFor(map, plan);
@@ -179,7 +179,9 @@ namespace Helodrace
             foreach (Pawn pawn in members)
             {
                 if (pawn.CurJob?.playerForced == true || (structure?.RoomAt(pawn.Position) ?? 0) != 0) continue;
-                IntVec3 goal = plan.Assignments.FirstOrDefault(value => value.Pawn == pawn)?.Position ?? plan.Entry;
+                RaidTacticalAssignment assignment = plan.Assignments.FirstOrDefault(value => value.Pawn == pawn);
+                if (assignment?.Task == RaidTacticalTask.Withdraw) continue;
+                IntVec3 goal = assignment?.Position ?? plan.Entry;
                 var local = new HashSet<IntVec3>(GenRadial.RadialCellsAround(pawn.Position, 12f, true)
                     .Where(cell => ValidReactiveCell(cell) && (structure?.RoomAt(cell) ?? 0) == 0
                         && !plan.AvoidedTrapCells.Contains(cell)));
