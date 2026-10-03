@@ -22,6 +22,7 @@ internal static class Program
             typeof(Patch_RaidTacticalDuty), typeof(Patch_RaidTacticalDutyConstant),
             typeof(Patch_RaidTacticalContinuation), typeof(Patch_RaidTacticalHoldFacing),
             typeof(Patch_RaidTacticalPendingAttack),
+            typeof(Patch_RaidTacticalSupportFlee),
             typeof(Patch_RaidMovementArea_Request), typeof(Patch_RaidMovementArea_Dispose)
         };
         try

@@ -227,6 +227,19 @@ namespace Helodrace
                 <= order.LeashRadius * order.LeashRadius);
     }
 
+    [HarmonyPatch(typeof(JobGiver_FleePotentialExplosion), "TryGiveJob")]
+    public static class Patch_RaidTacticalSupportFlee
+    {
+        public static void Postfix(Pawn pawn, ref Job __result)
+        {
+            if (__result == null || pawn?.Spawned != true) return;
+            if (pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.TrySupportFleeDestination(pawn, out IntVec3 cell) != true) return;
+            if (cell == pawn.Position) __result = null;
+            else __result.targetA = cell;
+        }
+    }
+
     public sealed class JobGiver_RaidTacticalOrder : ThinkNode_JobGiver
     {
         protected override Job TryGiveJob(Pawn pawn)

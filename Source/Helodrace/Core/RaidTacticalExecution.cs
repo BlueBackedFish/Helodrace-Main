@@ -97,6 +97,7 @@ namespace Helodrace
             public Pawn Thrower;
             public bool SupportIssued;
             public bool SupportLaunched;
+            public bool SupportReturnRequired;
             public Projectile SupportProjectile;
             public ThingDef SupportProjectileDef;
             public int SupportEffectsClearedTick = -1;
@@ -147,6 +148,7 @@ namespace Helodrace
                 Scribe_References.Look(ref Thrower, "thrower");
                 Scribe_Values.Look(ref SupportIssued, "supportIssued");
                 Scribe_Values.Look(ref SupportLaunched, "supportLaunched");
+                Scribe_Values.Look(ref SupportReturnRequired, "supportReturnRequired");
                 Scribe_References.Look(ref SupportProjectile, "supportProjectile");
                 Scribe_Defs.Look(ref SupportProjectileDef, "supportProjectileDef");
                 Scribe_Values.Look(ref SupportEffectsClearedTick, "supportEffectsClearedTick", -1);
@@ -241,8 +243,58 @@ namespace Helodrace
             state.SupportProjectile = projectile;
             state.SupportProjectileDef = projectile.def;
             state.SupportEffectsClearedTick = -1;
+            state.SupportReturnRequired = state.ActivePlan.BreachCell.IsValid;
+            ReturnSupportThrower(state);
             state.SupportStatus = "Projectile launched; waiting for effect";
             MapComponent_RaidTacticalTrace.Record(pawn, state.SupportStatus);
+        }
+
+        private bool ReturnSupportThrower(ExecutionState state)
+        {
+            if (!state.SupportReturnRequired) return false;
+            Pawn pawn = state.Thrower;
+            RaidTacticalAssignment assignment = state.ActivePlan.Assignments
+                .FirstOrDefault(value => value.Pawn == pawn);
+            if (pawn?.Spawned != true || pawn.Map != map || pawn.Dead || pawn.Downed
+                || assignment == null)
+            {
+                state.SupportReturnRequired = false;
+                return false;
+            }
+            if (!AtStagingPosition(assignment, state.ActivePlan))
+            {
+                TryGoto(pawn, assignment.Position, true);
+                return true;
+            }
+            HoldPosition(pawn);
+            state.SupportReturnRequired = false;
+            return false;
+        }
+
+        internal bool TrySupportFleeDestination(Pawn pawn, out IntVec3 cell)
+        {
+            cell = IntVec3.Invalid;
+            string id = OrganizationAPI.GetOrganization(pawn)?.id;
+            if (id == null || !states.TryGetValue(id, out ExecutionState state)
+                || state.Phase != RaidExecutionPhase.Support && state.Phase != RaidExecutionPhase.EntryWait
+                || state.SupportProjectile == null || pawn.mindState.knownExploder != state.SupportProjectile
+                || !state.ActivePlan.BreachCell.IsValid) return false;
+            RaidTacticalPlan plan = state.ActivePlan;
+            RaidTacticalAssignment assignment = plan.Assignments.FirstOrDefault(value => value.Pawn == pawn);
+            if (assignment == null) return false;
+            Thing danger = pawn.mindState.knownExploder;
+            IEnumerable<IntVec3> candidates = new[] { assignment.Position }
+                .Concat(plan.SafeStackCells).Concat(plan.SafeSupportCells).Distinct();
+            cell = candidates.Where(candidate => candidate.InBounds(map) && candidate.Standable(map)
+                    && candidate != plan.BreachCell && candidate != plan.BreachInside
+                    && (candidate.DistanceTo(danger.Position) > JobGiver_FleePotentialExplosion.FleeDist
+                        || !GenSight.LineOfSight(danger.Position, candidate, map, true))
+                    && map.pawnDestinationReservationManager.CanReserve(candidate, pawn))
+                .OrderBy(candidate => candidate == assignment.Position ? 0 : 1)
+                .ThenBy(candidate => candidate.DistanceToSquared(pawn.Position))
+                .Where(candidate => pawn.CanReach(candidate, PathEndMode.OnCell, Danger.Deadly))
+                .DefaultIfEmpty(IntVec3.Invalid).First();
+            return cell.IsValid;
         }
 
         private bool SupportEffectsPending(ExecutionState state, int tick)
@@ -797,6 +849,7 @@ namespace Helodrace
                     break;
                 case RaidExecutionPhase.Support:
                     MaintainStack(members, plan, state.Thrower);
+                    if (state.SupportLaunched) ReturnSupportThrower(state);
                     if (plan.BreachCell.IsValid && state.Thrower == null
                         && !AllReady(members, plan)
                         && tick - state.PhaseStarted < 600) break;
@@ -814,6 +867,7 @@ namespace Helodrace
                             || !TryStageEntryThrower(members, plan, state))
                         {
                             state.SupportStatus = "Skipped: no usable safe throw, equipment, or support timeout";
+                            state.SupportReturnRequired = plan.BreachCell.IsValid && state.Thrower != null;
                             Advance(state, RaidExecutionPhase.EntryWait, tick);
                         }
                     }
@@ -827,11 +881,13 @@ namespace Helodrace
                     }
                     break;
                 case RaidExecutionPhase.EntryWait:
+                    bool returningThrower = ReturnSupportThrower(state);
                     if (tick % 120 == 0)
                         RetargetBlockedStackMembers(members, plan, onlyBlocked: true);
                     MaintainStack(members, plan);
                     if (!UsingZaper(members)
-                        && RaidOrderPolicy.ReadyToEnter(!plan.BreachCell.IsValid || AllReady(members, plan),
+                        && RaidOrderPolicy.ReadyToEnter(!returningThrower
+                                && (!plan.BreachCell.IsValid || AllReady(members, plan)),
                             SupportEffectsPending(state, tick),
                             tick - state.PhaseStarted >= plan.EntryDelayTicks))
                         Advance(state, plan.BreachCell.IsValid
@@ -1305,7 +1361,6 @@ namespace Helodrace
                 Pawn pawn = assignment.Pawn;
                 if (pawn == exempt || !members.Contains(pawn)
                     || !holdEntry && assignment.Task == RaidTacticalTask.Entry
-                    || assignment.Task == RaidTacticalTask.Entry && PastBreach(pawn, plan)
                     || assignment.Task == RaidTacticalTask.Withdraw
                     || !assignment.Position.IsValid || IsTaserOperation(pawn)) continue;
                 if (!AtStagingPosition(assignment, plan))
@@ -1570,8 +1625,6 @@ namespace Helodrace
             if (!plan.BreachCell.IsValid
                 || assignment.Task == RaidTacticalTask.Withdraw)
                 return pawn.Position.DistanceTo(assignment.Position) <= 1.5f;
-            if (assignment.Task == RaidTacticalTask.Entry && PastBreach(pawn, plan))
-                return true;
             return assignment.Task == RaidTacticalTask.Entry
                 ? plan.SafeStackCells.Count > 0
                     ? plan.SafeStackCells.Contains(pawn.Position)
@@ -2151,6 +2204,7 @@ namespace Helodrace
             state.Crossings.Clear();
             state.SupportIssued = false;
             state.SupportLaunched = false;
+            state.SupportReturnRequired = false;
             state.SupportProjectile = null;
             state.SupportProjectileDef = null;
             state.SupportEffectsClearedTick = -1;
