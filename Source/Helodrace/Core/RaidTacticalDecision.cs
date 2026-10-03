@@ -41,7 +41,7 @@ namespace Helodrace
         public float CommandEfficiency = 1f;
     }
 
-    public sealed class RaidTacticalOption
+    public sealed partial class RaidTacticalOption
     {
         public RaidTacticalManeuver Maneuver;
         public float Score;

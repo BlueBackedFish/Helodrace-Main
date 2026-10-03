@@ -59,6 +59,7 @@ namespace Helodrace
     {
         public static void Prefix(Pawn ___pawn, JobCondition condition)
         {
+            MapComponent_RaidTacticalOrders.Ended(___pawn, condition);
             if (!MapComponent_RaidTacticalTrace.Enabled || !Prefs.DevMode) return;
             MapComponent_RaidTacticalTrace.Record(___pawn,
                 $"end {MapComponent_RaidTacticalTrace.Describe(___pawn.CurJob)} condition={condition}");

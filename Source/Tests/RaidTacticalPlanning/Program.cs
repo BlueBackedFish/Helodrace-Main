@@ -16,6 +16,24 @@ internal static class Program
     {
         try
         {
+            Check(!RaidOrderPolicy.Refresh(false, true, false, false),
+                "Repeating an unchanged directive keeps the current controlled job");
+            Check(RaidOrderPolicy.Refresh(true, true, false, false),
+                "A changed destination is applied even when the old job is controlled");
+            Check(!RaidOrderPolicy.Refresh(true, true, false, true),
+                "A changed directive waits for aiming or burst cooldown");
+            Check(!RaidOrderPolicy.Refresh(true, false, true, false),
+                "A tactical directive cannot recall a pawn during explosion evasion or an equipment action");
+            Check(RaidOrderPolicy.Refresh(true, true, false, false),
+                "A pending directive is applied after the busy stance ends");
+            Check(RaidOrderPolicy.Refresh(false, false, false, false),
+                "An interrupted directive resumes after the emergency job finishes");
+            Check(RaidOrderPolicy.ContinueMove(true, true),
+                "The same destination preserves path progress");
+            Check(!RaidOrderPolicy.ContinueMove(false, true),
+                "A new destination does not inherit vanilla's unconditional Goto continuation");
+            Check(!RaidOrderPolicy.ContinueMove(true, false),
+                "A required sprint change is not lost as a continuation");
             var progress = RaidBreachProgress.Approach;
             progress = RaidBreachTraversal.Advance(progress, false, false, false);
             Check(progress == RaidBreachProgress.Approach,

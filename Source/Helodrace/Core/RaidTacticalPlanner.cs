@@ -20,7 +20,7 @@ namespace Helodrace
         Response
     }
 
-    public sealed class RaidTacticalAssignment
+    public sealed partial class RaidTacticalAssignment
     {
         public Pawn Pawn;
         public RaidTacticalTask Task;
@@ -28,7 +28,7 @@ namespace Helodrace
         public int EntryOrder;
     }
 
-    public sealed class RaidTacticalPlan
+    public sealed partial class RaidTacticalPlan
     {
         public string OrganizationId;
         public RaidTacticalDoctrine Doctrine;

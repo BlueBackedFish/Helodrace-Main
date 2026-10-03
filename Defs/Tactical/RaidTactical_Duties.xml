@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <DutyDef>
+    <defName>HD_RaidTacticalControl</defName>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <thinkNode Class="Helodrace.JobGiver_RaidTacticalOrder" />
+  </DutyDef>
+</Defs>

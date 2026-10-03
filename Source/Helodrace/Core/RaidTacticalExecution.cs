@@ -109,7 +109,7 @@ namespace Helodrace
             public IntVec3 CrossingBreach = IntVec3.Invalid;
             public Pawn CrossingPawn;
             public List<BreachCrossing> Crossings = new List<BreachCrossing>();
-            // Planning cache is rebuilt after a save load; execution progress is Scribed above.
+            // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
 
             public void ExposeData()
@@ -157,6 +157,7 @@ namespace Helodrace
                 Scribe_Values.Look(ref CrossingBreach, "crossingBreach", IntVec3.Invalid);
                 Scribe_References.Look(ref CrossingPawn, "crossingPawn");
                 Scribe_Collections.Look(ref Crossings, "crossings", LookMode.Deep);
+                Scribe_Deep.Look(ref ActivePlan, "activePlan");
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Crossings == null)
                     Crossings = new List<BreachCrossing>();
             }
@@ -198,6 +199,15 @@ namespace Helodrace
         private static RaidStructureSnapshot StructureFor(Map map, RaidTacticalPlan plan) =>
             map.GetComponent<MapComponent_RaidTacticalPlans>()
                 ?.GetStructure(plan.OrganizationId);
+
+        internal bool ControlsPawn(Pawn pawn)
+        {
+            string id = OrganizationAPI.GetOrganization(pawn)?.id;
+            return id != null && IsAssaultRaider(pawn)
+                && states.TryGetValue(id, out ExecutionState state)
+                && state.ActivePlan?.Success == true
+                && state.ActivePlan.Assignments.Any(assignment => assignment.Pawn == pawn);
+        }
 
         public override void MapComponentTick()
         {
@@ -1131,8 +1141,8 @@ namespace Helodrace
                 ? plan.BreachCell + outward * 2
                 : plan.BreachCell + along * (side * 9) + outward * 3;
             if (!focus.IsValid || pawn.Position == focus) return;
-            pawn.Rotation = Rot4.FromAngleFlat(
-                (focus - pawn.Position).ToVector3().AngleFlat());
+            MapComponent_RaidTacticalOrders.Face(pawn, Rot4.FromAngleFlat(
+                (focus - pawn.Position).ToVector3().AngleFlat()));
         }
 
         private Pawn CurrentResponseTarget(List<Pawn> members, RaidTacticalPlan plan)
@@ -1435,16 +1445,19 @@ namespace Helodrace
 
         private static void HoldPosition(Pawn pawn)
         {
+            if (MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Hold, pawn.Position)) return;
             Job job = JobMaker.MakeJob(JobDefOf.Wait_Combat);
             job.expiryInterval = 60000;
             pawn.jobs.StartJob(job, JobCondition.InterruptForced);
         }
 
         private static void TryGoto(Pawn pawn, IntVec3 cell, bool sprint = false,
-            bool interruptTaser = false)
+            bool interruptTaser = false, bool fightOnArrival = false)
         {
             if ((!interruptTaser && IsTaserOperation(pawn))
                 || !cell.IsValid || !cell.InBounds(pawn.Map)) return;
+            if (MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Move,
+                cell, sprint, fightOnArrival)) return;
             if (pawn.Position == cell)
             {
                 if (pawn.CurJobDef == JobDefOf.Goto) HoldPosition(pawn);
@@ -1771,7 +1784,7 @@ namespace Helodrace
                         assignment.EntryOrder - 1, occupied);
                 if (!target.IsValid) target = pawn.Position;
                 occupied.Add(target);
-                TryGoto(pawn, target, highIndoor);
+                TryGoto(pawn, target, highIndoor, fightOnArrival: true);
             }
         }
 
