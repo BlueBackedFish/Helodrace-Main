@@ -1376,7 +1376,10 @@ namespace Helodrace
                     (group.EffectiveCommander?.thingIDNumber ?? -1) + ":"
                     + Mathf.RoundToInt(group.CommandEfficiency * 100f))) + "|"
                 + string.Join(",", members.SelectMany(InventoryGrenadeUtility.GrenadeStacks)
-                    .Select(item => item.def.defName + ":" + item.stackCount).OrderBy(value => value));
+                    .Select(item => item.def.defName + ":" + item.stackCount).OrderBy(value => value)) + "|"
+                + string.Join(",", members.Where(pawn => CompSledgehammerBreach.CanOperate(pawn)
+                    && CompSledgehammerBreach.WornBy(pawn) != null)
+                    .Select(pawn => pawn.thingIDNumber).OrderBy(value => value));
         }
     }
 }
