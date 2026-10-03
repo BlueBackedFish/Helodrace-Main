@@ -351,4 +351,18 @@ namespace Helodrace
             });
         }
     }
+
+    [HarmonyPatch(typeof(JobDriver_Wait), "CheckForAutoAttack")]
+    public static class Patch_RaidTacticalPendingAttack
+    {
+        public static bool Prefix(JobDriver_Wait __instance)
+        {
+            RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(__instance.pawn);
+            // Let the current shot/burst finish, but don't immediately begin
+            // another warmup that would starve a pending movement directive.
+            return order == null || RaidOrderPolicy.AutoAttack(
+                MapComponent_RaidTacticalOrders.Owned(__instance.pawn.CurJob),
+                order.RefreshPending, order.Kind == RaidOrderKind.Hold);
+        }
+    }
 }

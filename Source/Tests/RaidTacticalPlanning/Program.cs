@@ -48,6 +48,12 @@ internal static class Program
                 "Effect completion still respects the coordinated entry delay");
             Check(RaidOrderPolicy.ReadyToEnter(true, false, true),
                 "A prepared squad enters after the support effect and delay");
+            Check(!RaidOrderPolicy.AutoAttack(true, true, false),
+                "A deferred movement cannot be starved by repeatedly starting another automatic burst");
+            Check(RaidOrderPolicy.AutoAttack(true, true, true),
+                "Updating a hold directive does not suppress stationary defensive shooting");
+            Check(RaidOrderPolicy.AutoAttack(false, true, false),
+                "Tactical pending directives do not suppress unrelated vanilla combat");
             var progress = RaidBreachProgress.Approach;
             progress = RaidBreachTraversal.Advance(progress, false, false, false);
             Check(progress == RaidBreachProgress.Approach,
