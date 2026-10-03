@@ -21,6 +21,12 @@ internal static class Program
             Check(RaidSmokePolicy.CarrierCount(6) == 2, "A six-person formation guarantees two smoke carriers");
             Check(RaidSmokePolicy.CarrierCount(7) == 3, "Incomplete thirds still receive a smoke carrier");
             Check(RaidSmokePolicy.GrenadesPerCarrier >= 3, "A carrier has smoke for approach and external entry");
+            Check(RaidSmokePolicy.EntrySmoke(true, true),
+                "Coordinated exterior entry screens the opening with smoke");
+            Check(!RaidSmokePolicy.EntrySmoke(true, false),
+                "Internal room clearance keeps its existing grenade support");
+            Check(!RaidSmokePolicy.EntrySmoke(false, true),
+                "An exterior location alone does not change a different maneuver's support");
             Check(RaidSmokePolicy.NeedsScreen(true, 50, 40, false),
                 "A visible ranged defender covering the approach triggers smoke before the first hit");
             Check(!RaidSmokePolicy.NeedsScreen(false, 50, 40, false),

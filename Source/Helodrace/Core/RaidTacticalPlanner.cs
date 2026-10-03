@@ -298,12 +298,16 @@ namespace Helodrace
             }
             else plan.ApproachNodes.Add(plan.Start);
             plan.EntrySupport = RaidTacticalDecision.EntrySupport(plan.Selected.Maneuver, situation);
+            bool entrySmoke = RaidSmokePolicy.EntrySmoke(
+                plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry,
+                RaidSmokeUtility.ExteriorEntry(map, plan));
+            if (entrySmoke) plan.EntrySupport = "Smoke screen at the exterior opening";
             plan.EntryMethod = plan.PlannedBreach != null
                 ? "Planned " + (plan.PlannedBreach is Building_Door ? "door" : "wall") + " breach"
                 : plan.BreachCell.IsValid ? "Open exterior entry"
                 : plan.Entry.GetEdifice(map) is Building_Door
                 ? "Door" : breachTool ? "Breach equipment available" : "Open approach";
-            plan.EntryDelayTicks = plan.Doctrine == RaidTacticalDoctrine.High ? 90
+            plan.EntryDelayTicks = entrySmoke ? 30 : plan.Doctrine == RaidTacticalDoctrine.High ? 90
                 : plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry
                     && lethal && !friendlyInside ? 300
                 : plan.Selected.Maneuver == RaidTacticalManeuver.SmokeAdvance ? 120 : 30;

@@ -1874,20 +1874,21 @@ namespace Helodrace
         private static Pawn TryStartSupport(List<Pawn> members, RaidTacticalPlan plan,
             RaidTacticalManeuver maneuver, Pawn preferred = null)
         {
-            bool smoke = maneuver == RaidTacticalManeuver.SmokeAdvance;
             bool entry = maneuver == RaidTacticalManeuver.CoordinatedEntry;
+            Map currentMap = members[0].Map;
+            bool entrySmoke = RaidSmokePolicy.EntrySmoke(entry, RaidSmokeUtility.ExteriorEntry(currentMap, plan));
+            bool smoke = maneuver == RaidTacticalManeuver.SmokeAdvance || entrySmoke;
             bool fieldGrenade = maneuver == RaidTacticalManeuver.FieldGrenade;
             if (!smoke && !entry && !fieldGrenade) return null;
-            Map currentMap = members[0].Map;
             RaidStructureSnapshot structure = StructureFor(currentMap, plan);
             int objectiveRoom = structure?.RoomAt(plan.Objective) ?? 0;
-            if (entry && plan.Doctrine == RaidTacticalDoctrine.Low
+            if (entry && !smoke && plan.Doctrine == RaidTacticalDoctrine.Low
                 && currentMap.mapPawns.AllPawnsSpawned.Any(pawn => pawn.Faction == members[0].Faction
                     && (plan.BreachCell.IsValid
                         ? PastBreach(pawn, plan)
                         : objectiveRoom > 0
                             && structure.RoomAt(pawn.Position) == objectiveRoom))) return null;
-            IEnumerable<IntVec3> targets = smoke
+            IEnumerable<IntVec3> targets = entrySmoke ? EntrySmokeTargets(currentMap, plan, structure) : smoke
                 ? (IEnumerable<IntVec3>)new[] { plan.Frontline }
                 : fieldGrenade
                     ? (IEnumerable<IntVec3>)currentMap.mapPawns.AllPawnsSpawned
@@ -1902,7 +1903,7 @@ namespace Helodrace
                         .ToList()
                 : EntryGrenadeTargets(currentMap, plan, structure, objectiveRoom);
             foreach (Pawn pawn in members.OrderBy(value => value == preferred ? -1
-                : entry && plan.Doctrine == RaidTacticalDoctrine.Low
+                : entry && !smoke && plan.Doctrine == RaidTacticalDoctrine.Low
                     && InventoryGrenadeUtility.GrenadeStacks(value)
                         .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1))
             {
@@ -1952,11 +1953,28 @@ namespace Helodrace
                 .OrderBy(cell => cell.DistanceTo(plan.BreachInside));
         }
 
+        private static IEnumerable<IntVec3> EntrySmokeTargets(Map map,
+            RaidTacticalPlan plan, RaidStructureSnapshot structure)
+        {
+            IntVec3 inward = plan.BreachInside - plan.BreachCell;
+            IntVec3 center = plan.BreachInside + inward;
+            int room = structure?.RoomAt(plan.BreachInside) ?? 0;
+            return GenRadial.RadialCellsAround(center, 3f, true)
+                .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                    && !plan.AvoidedTrapCells.Contains(cell)
+                    && (room == 0 || structure.RoomAt(cell) == room)
+                    && GenSight.LineOfSight(plan.BreachInside, cell, map, true)
+                    && (cell.x - plan.BreachCell.x) * inward.x
+                        + (cell.z - plan.BreachCell.z) * inward.z >= 1
+                    && (cell.x - plan.BreachCell.x) * inward.x
+                        + (cell.z - plan.BreachCell.z) * inward.z <= 3)
+                .OrderBy(cell => cell.DistanceToSquared(center));
+        }
+
         private static bool IsSupportGrenade(Thing item, RaidTacticalPlan plan,
             bool smoke)
         {
-            return smoke ? item.def.defName == "HD_Grenade_M8_Item"
-                || item.def.weaponTags?.Contains("GrenadeSmoke") == true
+            return smoke ? RaidSmokeUtility.IsSmoke(item)
                 : plan.Doctrine == RaidTacticalDoctrine.High
                     ? item.def.defName == "HD_Grenade_M84_Item"
                         || item.def.defName == "HD_Grenade_M7A2_Item"
@@ -1978,7 +1996,8 @@ namespace Helodrace
                 || state.Maneuver != RaidTacticalManeuver.CoordinatedEntry)
                 return false;
             Map map = members[0].Map;
-            if (plan.Doctrine == RaidTacticalDoctrine.Low
+            bool smoke = RaidSmokePolicy.EntrySmoke(true, RaidSmokeUtility.ExteriorEntry(map, plan));
+            if (!smoke && plan.Doctrine == RaidTacticalDoctrine.Low
                 && map.mapPawns.AllPawnsSpawned.Any(pawn =>
                     pawn.Faction == members[0].Faction && PastBreach(pawn, plan)))
                 return false;
@@ -1990,19 +2009,20 @@ namespace Helodrace
                 return true;
             }
             RaidStructureSnapshot structure = StructureFor(map, plan);
-            List<IntVec3> targets = EntryGrenadeTargets(map, plan,
-                structure, structure?.RoomAt(plan.Objective) ?? 0).ToList();
+            List<IntVec3> targets = (smoke ? EntrySmokeTargets(map, plan, structure)
+                : EntryGrenadeTargets(map, plan,
+                    structure, structure?.RoomAt(plan.Objective) ?? 0)).ToList();
             foreach (Pawn pawn in members)
             {
                 if (IsTaserOperation(pawn)
                     || !InventoryGrenadeUtility.GrenadeStacks(pawn)
-                        .Any(item => IsSupportGrenade(item, plan, false))
+                        .Any(item => IsSupportGrenade(item, plan, smoke))
                     || !pawn.CanReach(plan.Entry, PathEndMode.OnCell, Danger.Deadly))
                     continue;
                 if (!targets.Any(target => plan.Entry.DistanceTo(target)
                         <= InventoryGrenadeUtility.NormalThrowRange
                     && GenSight.LineOfSight(plan.Entry, target, map, true)
-                    && GrenadeTargetSafe(map, pawn, target))) continue;
+                    && (smoke || GrenadeTargetSafe(map, pawn, target)))) continue;
                 state.Thrower = pawn;
                 TryGoto(pawn, plan.Entry);
                 return true;
