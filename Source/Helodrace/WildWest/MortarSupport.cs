@@ -274,6 +274,7 @@ namespace Helodrace
                 shellsPerVolley,
                 volleyIntervalTicks,
                 scatterRadius));
+            map.GetComponent<MapComponent_RaidTacticalExecution>()?.NotifySupportRequested(caller, center);
         }
 
         public void BeginSmokeLineTargeting(HelodForwardBase forwardBase, ThingDef shellDef,

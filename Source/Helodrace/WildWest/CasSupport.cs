@@ -973,6 +973,7 @@ namespace Helodrace
                 Find.TickManager.TicksGame + HelodCasSupportUtility.ArrivalDelayTicks,
                 aircraftCount);
             strikes.Add(strike);
+            map.GetComponent<MapComponent_RaidTacticalExecution>()?.NotifySupportRequested(caller, plan.CurrentAimCell(map));
             EnsureStationaryGuidanceJobs(strike);
         }
 
@@ -1208,6 +1209,8 @@ namespace Helodrace
 
         private static void EnsureStationaryGuidanceJob(Pawn pawn)
         {
+            if (pawn?.Spawned == true && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                ?.TryEmergencyFleeDestination(pawn, out _) == true) return;
             if (pawn?.jobs == null || !pawn.Spawned || pawn.Dead || pawn.Downed)
             {
                 return;

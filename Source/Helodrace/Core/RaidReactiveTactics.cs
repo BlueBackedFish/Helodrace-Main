@@ -50,6 +50,80 @@ namespace Helodrace
             return destination.IsValid;
         }
 
+        internal void NotifySupportRequested(Pawn caller, IntVec3 aim)
+        {
+            string id = OrganizationAPI.GetOrganization(caller)?.id;
+            if (id == null || !states.TryGetValue(id, out ExecutionState state)
+                || state.ActivePlan?.Success != true || !ControlsPawn(caller)) return;
+            state.DefenseCaller = caller;
+            state.DefenseAim = aim;
+            state.DefenseUntil = GenTicks.TicksGame + 600;
+            state.Reactions.RemoveAll(value => value.Kind == RaidReactionKind.Defense);
+            MapComponent_RaidTacticalTrace.Record(caller, "Support accepted; prepare local cover defense");
+        }
+
+        private bool FieldDefense(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
+        {
+            if (state.DefenseUntil == 0 && state.ExternalSupportKind == RaidExternalSupportKind.None) return false;
+            bool waiting = WaitingForExternalSupport(state, members, tick)
+                || state.DefenseCaller != null && (map.GetComponent<MapComponent_HelodCasSupport>()
+                    ?.HasActiveStrike(state.DefenseCaller) == true
+                    || map.GetComponent<MapComponent_HelodMortarSupport>()?.HasActiveStrike(state.DefenseCaller) == true);
+            List<Pawn> observed = VisibleArmedEnemies(members);
+            bool engaging = observed.Any(enemy => enemy.Position.DistanceTo(members[0].Position) <= 36f
+                && (members.Contains(enemy.mindState.enemyTarget as Pawn)
+                    || enemy.CurJobDef == JobDefOf.Goto && members.Any(pawn =>
+                        enemy.CurJob.targetA.IsValid && enemy.CurJob.targetA.Cell.DistanceToSquared(pawn.Position)
+                            + 16 < enemy.Position.DistanceToSquared(pawn.Position))));
+            if (!RaidReactivePolicy.DefenseActive(tick, ref state.DefenseUntil, waiting, engaging))
+            {
+                state.DefenseUntil = 0;
+                state.DefenseCaller = null;
+                state.Reactions.RemoveAll(value => value.Kind == RaidReactionKind.Defense);
+                PauseReaction(state, tick);
+                return false;
+            }
+            IntVec3 threat = observed.FirstOrDefault()?.Position ?? state.DefenseAim;
+            CoverReactiveTeam(members, plan, state, RaidReactionKind.Defense, threat, tick, retreat: false);
+            PauseReaction(state, tick);
+            return true;
+        }
+
+        private List<Pawn> VisibleArmedEnemies(List<Pawn> members) => map.mapPawns.AllPawnsSpawned
+            .Where(enemy => !enemy.Dead && !enemy.Downed && enemy.HostileTo(members[0])
+                && enemy.equipment?.Primary != null
+                && members.Any(pawn => pawn.Position.DistanceToSquared(enemy.Position) <= 4900
+                    && GenSight.LineOfSight(pawn.Position, enemy.Position, map, true)))
+            .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(8).ToList();
+
+        private void CoverReactiveTeam(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state,
+            RaidReactionKind kind, IntVec3 threat, int tick, bool retreat)
+        {
+            var occupied = new HashSet<IntVec3>(state.Reactions.Where(value => value.Kind == kind)
+                .Select(value => value.Destination));
+            foreach (Pawn pawn in members)
+            {
+                if (pawn.CurJob?.playerForced == true || IsTaserOperation(pawn)
+                    || map.GetComponent<MapComponent_HelodCasSupport>()?.RequiresStationaryGuidance(pawn) == true) continue;
+                RaidReactivePosition reaction = state.Reactions.FirstOrDefault(value => value.Pawn == pawn && value.Kind == kind);
+                if (reaction == null)
+                {
+                    reaction = new RaidReactivePosition { Pawn = pawn, Kind = kind };
+                    state.Reactions.Add(reaction);
+                }
+                if (!ValidReactiveCell(reaction.Destination) && tick >= reaction.SearchAfter)
+                {
+                    occupied.Remove(reaction.Destination);
+                    reaction.Destination = FindReactivePosition(pawn, plan, threat, occupied, retreat);
+                    reaction.SearchAfter = tick + 120;
+                    if (!reaction.Destination.IsValid) reaction.Destination = pawn.Position;
+                    occupied.Add(reaction.Destination);
+                }
+                MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Fight, reaction.Destination,
+                    sprint: retreat, radius: 2f, reactive: true);
+            }
+        }
+
         private bool EmergencyReactions(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
             if (explosiveScanTick != tick)
@@ -66,7 +140,7 @@ namespace Helodrace
             bool evading = false;
             foreach (Pawn pawn in members)
             {
-                if (pawn.CurJob?.playerForced == true) continue;
+                if (pawn.CurJob?.playerForced == true && pawn.CurJobDef?.defName != "HD_CASStationaryGuidance") continue;
                 List<Thing> dangers = observedExplosives.Where(projectile => projectile.Spawned
                     && projectile.Launcher?.HostileTo(pawn) == true
                     && GenSight.LineOfSight(pawn.Position, projectile.Position, map, true))

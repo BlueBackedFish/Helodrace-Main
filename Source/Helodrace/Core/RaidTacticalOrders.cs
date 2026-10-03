@@ -162,7 +162,7 @@ namespace Helodrace
 
         internal static void Escape(Pawn pawn, IntVec3 destination)
         {
-            if (pawn.CurJob?.playerForced == true) return;
+            if (pawn.CurJob?.playerForced == true && pawn.CurJobDef?.defName != "HD_CASStationaryGuidance") return;
             // Install the durable destination before cancelling tool/aim jobs.
             // Selection still runs through the resolved vanilla duty node.
             Set(pawn, RaidOrderKind.Move, destination, sprint: true, radius: 1f, reactive: true);

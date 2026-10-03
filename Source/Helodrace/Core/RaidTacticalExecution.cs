@@ -125,6 +125,9 @@ namespace Helodrace
             public IntVec3 CrossingBreach = IntVec3.Invalid;
             public List<BreachCrossing> Crossings = new List<BreachCrossing>();
             public List<RaidReactivePosition> Reactions = new List<RaidReactivePosition>();
+            public int DefenseUntil;
+            public Pawn DefenseCaller;
+            public IntVec3 DefenseAim = IntVec3.Invalid;
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
 
@@ -187,6 +190,9 @@ namespace Helodrace
                 Scribe_Values.Look(ref CrossingBreach, "crossingBreach", IntVec3.Invalid);
                 Scribe_Collections.Look(ref Crossings, "crossings", LookMode.Deep);
                 Scribe_Collections.Look(ref Reactions, "reactions", LookMode.Deep);
+                Scribe_Values.Look(ref DefenseUntil, "defenseUntil");
+                Scribe_References.Look(ref DefenseCaller, "defenseCaller");
+                Scribe_Values.Look(ref DefenseAim, "defenseAim", IntVec3.Invalid);
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Reactions == null)
                     Reactions = new List<RaidReactivePosition>();
                 Scribe_Deep.Look(ref ActivePlan, "activePlan");
@@ -215,6 +221,9 @@ namespace Helodrace
         {
             if (organizationId == null || !states.TryGetValue(organizationId,
                 out ExecutionState state)) return "Inactive";
+            if (state.Reactions.Any(value => value.Kind == RaidReactionKind.Explosion && value.Until > GenTicks.TicksGame))
+                return "Grenade evasion";
+            if (state.DefenseUntil > GenTicks.TicksGame) return "Support defense";
             if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete)
                 return "Approach";
             return state.Phase.ToString();
@@ -769,6 +778,7 @@ namespace Helodrace
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
             if (EmergencyReactions(members, plan, state, tick)) return;
+            if (FieldDefense(members, plan, state, tick)) return;
             if (plan.Doctrine == RaidTacticalDoctrine.High
                 && (state.Phase == RaidExecutionPhase.Assemble
                     || state.Phase == RaidExecutionPhase.EntryWait
@@ -785,17 +795,7 @@ namespace Helodrace
                         state.ExternalSupportAttempted = true;
                         TryRequestExternalSupport(organization, members, plan, state);
                     }
-                    if (WaitingForExternalSupport(state, members, tick))
-                    {
-                        foreach (Pawn pawn in members)
-                            if ((pawn.CurJobDef != JobDefOf.Wait_Combat
-                                    || pawn.CurJob?.expiryInterval <= 0)
-                                && !IsTaserOperation(pawn)
-                                && map.GetComponent<MapComponent_HelodCasSupport>()
-                                    ?.RequiresStationaryGuidance(pawn) != true)
-                                HoldPosition(pawn);
-                        break;
-                    }
+                    if (FieldDefense(members, plan, state, tick)) break;
                     if (ApproachScreen(members, plan, state, tick)) break;
                     if (!FollowApproach(members, plan, state, tick)) break;
                     Assemble(members, plan);

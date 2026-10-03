@@ -248,6 +248,15 @@ internal static class Program
                 "High doctrine does not substitute a lethal grenade for missing nonlethal support");
 
             Console.WriteLine($"PASS: {checks} tactical decision and breach traversal assertions.");
+            int defenseUntil = 600;
+            Check(RaidReactivePolicy.DefenseActive(10, ref defenseUntil, false, false), "Support event starts a preparation window before an enemy is visible");
+            Check(RaidReactivePolicy.DefenseActive(700, ref defenseUntil, true, false) && defenseUntil == 1000,
+                "Delayed support holds defense until after delivery");
+            Check(RaidReactivePolicy.DefenseActive(1100, ref defenseUntil, false, true) && defenseUntil == 1400,
+                "An observed enemy approaching after the strike keeps the defensive formation");
+            Check(!RaidReactivePolicy.DefenseActive(1400, ref defenseUntil, false, false),
+                "A quiet battlefield eventually resumes the committed breach plan");
+            Console.WriteLine("PASS: 4 support defense timing assertions.");
             return 0;
         }
         catch (Exception exception)
