@@ -54,6 +54,8 @@ namespace Helodrace
 
         public MapComponent_RaidTacticalOrders(Map map) : base(map) { }
 
+        internal void Forget(Pawn pawn) => orders.Remove(pawn);
+
         public override void ExposeData()
         {
             if (Scribe.mode == LoadSaveMode.Saving) saved = orders.Values.ToList();

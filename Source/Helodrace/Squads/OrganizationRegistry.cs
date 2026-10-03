@@ -94,15 +94,21 @@ namespace Helodrace.Squads
             {
                 // Off-map historical records do not require a tactical or command tick.
                 if (organization.doctrine == null || !organization.AllMembers.Any(pawn => pawn.Spawned)) continue;
-                var previous = organization.AllGroups.ToDictionary(group => group,
-                    group => group.actingCommander);
-                foreach (CombatGroup root in organization.rootGroups) root.UpdateCommand(tick);
-                foreach (CombatGroup group in organization.AllGroups)
-                    if (group.commandState == CommandState.ActingCommander
-                        && group.actingCommander != previous[group])
-                        RaidTacticalSpeech.Say(group.actingCommander,
-                            "HD_RaidTactical_CommandAssumed");
+                ReevaluateCommand(organization, tick);
             }
+        }
+
+        public void ReevaluateCommand(CombatOrganization organization, int tick)
+        {
+            if (organization?.doctrine == null) return;
+            var previous = organization.AllGroups.ToDictionary(group => group,
+                group => group.actingCommander);
+            foreach (CombatGroup root in organization.rootGroups) root.UpdateCommand(tick);
+            foreach (CombatGroup group in organization.AllGroups)
+                if (group.commandState == CommandState.ActingCommander
+                    && group.actingCommander != previous[group])
+                    RaidTacticalSpeech.Say(group.actingCommander,
+                        "HD_RaidTactical_CommandAssumed");
         }
 
         public override void ExposeData()
@@ -157,6 +163,30 @@ namespace Helodrace.Squads
             organizationId = groupId = parentGroupId = null;
             overlayGroupLabel = overlayRoleLabel = overlayCommandLabel = null;
             overlayRefreshFrame = -1;
+        }
+
+        public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
+        {
+            base.Notify_Killed(prevMap, dinfo);
+            prevMap?.GetComponent<MapComponent_RaidTacticalExecution>()
+                ?.RequestCasualtyReevaluation(organizationId, parent as Pawn);
+        }
+
+        public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
+        {
+            base.PostDeSpawn(map, mode);
+            // Capture on-map deaths before corpse disposal can pass the pawn to
+            // WorldPawns and detach its organization. Notify_Killed coalesces.
+            if (parent is Pawn pawn && pawn.Dead)
+                map?.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.RequestCasualtyReevaluation(organizationId, pawn);
+        }
+
+        public override void Notify_Downed()
+        {
+            base.Notify_Downed();
+            parent.MapHeld?.GetComponent<MapComponent_RaidTacticalExecution>()
+                ?.RequestCasualtyReevaluation(organizationId, parent as Pawn);
         }
 
         public override void DrawGUIOverlay()

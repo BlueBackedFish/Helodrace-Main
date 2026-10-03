@@ -7,6 +7,7 @@ using Helodrace;
 using RimWorld;
 using Verse;
 using System.Collections.Generic;
+using Helodrace.Squads;
 
 internal static class Program
 {
@@ -56,6 +57,7 @@ internal static class Program
                 Console.WriteLine("PASS: " + patch.Name);
             }
             CheckDoorFaultHooks();
+            CheckCasualtyReevaluation();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
@@ -91,5 +93,79 @@ internal static class Program
         Patch_BreachedDoor_AlwaysOpen.Postfix(door, ref alwaysOpen);
         if (!alwaysOpen) throw new Exception("A naturally always-open door must retain its original behavior.");
         Console.WriteLine("PASS: 6 door-fault lifecycle hook checks (unspawned real game objects)");
+    }
+
+    private static void CheckCasualtyReevaluation()
+    {
+        int checks = 0;
+        void Check(bool condition, string detail)
+        {
+            if (!condition) throw new Exception(detail);
+            checks++;
+        }
+        foreach (string notification in new[] { "Notify_Killed", "Notify_Downed", "PostDeSpawn" })
+        {
+            MethodInfo method = AccessTools.DeclaredMethod(typeof(PawnOrganizationComponent), notification);
+            Check(method != null && method.GetBaseDefinition().DeclaringType == typeof(ThingComp),
+                "The organization must receive the real vanilla " + notification + " callback.");
+        }
+        var execution = new MapComponent_RaidTacticalExecution(null);
+        // ThingDef's constructor loads Unity shaders; identity checks only need
+        // its managed defName field in this non-Unity boundary test.
+        var pawnDef = (ThingDef)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+        pawnDef.defName = "TestCasualtyPawn";
+        Pawn TestPawn(int id) => new Pawn { def = pawnDef, thingIDNumber = id };
+        var lost = TestPawn(1);
+        execution.RequestCasualtyReevaluation("A", lost);
+        execution.RequestCasualtyReevaluation("A", lost);
+        execution.RequestCasualtyReevaluation("A", TestPawn(2));
+        execution.RequestCasualtyReevaluation("B", TestPawn(3));
+        execution.RequestCasualtyReevaluation(null, TestPawn(4));
+        var pending = (Dictionary<string, HashSet<Pawn>>)AccessTools.Field(
+            typeof(MapComponent_RaidTacticalExecution), "pendingCasualties").GetValue(execution);
+        Check(pending.Count == 2 && pending["A"].Count == 2 && pending["B"].Count == 1,
+            "Repeated death/down events must coalesce without losing separate organizations or casualties.");
+        MethodInfo resetBreach = AccessTools.DeclaredMethod(typeof(MapComponent_RaidTacticalExecution), "ResetLostBreacher");
+        MethodInfo resetSupport = AccessTools.DeclaredMethod(typeof(MapComponent_RaidTacticalExecution), "ResetLostSupport");
+        var target = new Building();
+        var plan = new RaidTacticalPlan { PlannedBreach = target };
+        foreach (RaidBreachKind kind in new[] { RaidBreachKind.Sledgehammer, RaidBreachKind.PowerCutter, RaidBreachKind.C4 })
+        {
+            var state = new MapComponent_RaidTacticalExecution.ExecutionState {
+                ActivePlan = plan, Breacher = lost, BreachTarget = target, BreachKind = kind,
+                Phase = kind == RaidBreachKind.C4 ? RaidExecutionPhase.WithdrawFromCharge : RaidExecutionPhase.Breach,
+                WithdrawalIssued = true, BreachAttempts = 2 };
+            resetBreach.Invoke(null, new object[] { state, 77, false });
+            Check(state.Breacher == null && state.BreachTarget == null && state.BreachKind == RaidBreachKind.None
+                && state.Phase == RaidExecutionPhase.Breach && state.PhaseStarted == 77
+                && !state.WithdrawalIssued && state.BreachAttempts == 0
+                && state.ActivePlan == plan && plan.PlannedBreach == target,
+                "A lost " + kind + " operator must permit replacement at the committed opening without failure accumulation.");
+        }
+        var detonating = new MapComponent_RaidTacticalExecution.ExecutionState {
+            Breacher = lost, BreachTarget = target, BreachKind = RaidBreachKind.C4,
+            Phase = RaidExecutionPhase.Detonation, PhaseStarted = 42 };
+        resetBreach.Invoke(null, new object[] { detonating, 77, true });
+        Check(detonating.Breacher == null && detonating.BreachTarget == target
+            && detonating.BreachKind == RaidBreachKind.C4 && detonating.Phase == RaidExecutionPhase.Detonation
+            && detonating.PhaseStarted == 42,
+            "An already triggered charge must keep its effect wait and original timeout after the operator dies.");
+        var grenade = new Projectile_Explosive();
+        var support = new MapComponent_RaidTacticalExecution.ExecutionState {
+            Thrower = lost, SupportLaunched = true, SupportIssued = true, SupportReturnRequired = true,
+            SupportProjectile = grenade, Phase = RaidExecutionPhase.EntryWait };
+        resetSupport.Invoke(null, new object[] { support, 77 });
+        Check(support.Thrower == lost && support.SupportProjectile == grenade && support.SupportIssued
+            && support.SupportLaunched && !support.SupportReturnRequired && support.Phase == RaidExecutionPhase.EntryWait,
+            "Thrower death after launch must retain the live grenade and instigator while releasing only the return requirement.");
+        var preparation = new MapComponent_RaidTacticalExecution.ExecutionState {
+            ActivePlan = plan, Thrower = lost, SupportIssued = true, SupportReturnRequired = true,
+            Phase = RaidExecutionPhase.EntryWait };
+        resetSupport.Invoke(null, new object[] { preparation, 77 });
+        Check(preparation.Thrower == null && !preparation.SupportIssued && !preparation.SupportReturnRequired
+            && preparation.Phase == RaidExecutionPhase.Support && preparation.PhaseStarted == 77
+            && preparation.ActivePlan == plan,
+            "Thrower death before launch must select a new thrower without restarting the approach.");
+        Console.WriteLine($"PASS: {checks} casualty notification, batching and actor replacement checks (real game classes)");
     }
 }

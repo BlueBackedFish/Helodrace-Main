@@ -1312,6 +1312,12 @@ namespace Helodrace
             organizationId != null && structures.TryGetValue(organizationId,
                 out RaidStructureSnapshot snapshot) ? snapshot : null;
 
+        public void InvalidateDecision(string organizationId)
+        {
+            plans.Remove(organizationId);
+            signatures.Remove(organizationId);
+        }
+
         public RaidTacticalPlan GetPlan(CombatOrganization organization, bool force = false)
         {
             if (organization == null) return null;

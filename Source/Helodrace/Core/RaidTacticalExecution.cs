@@ -366,19 +366,23 @@ namespace Helodrace
         {
             base.MapComponentTick();
             int tick = Find.TickManager?.TicksGame ?? 0;
-            if (tick % 10 != 0) return;
+            if (tick % 10 != 0 && pendingCasualties.Count == 0) return;
             GameComponent_CombatOrganizations registry = OrganizationAPI.Registry;
             MapComponent_RaidTacticalPlans plans = map.GetComponent<MapComponent_RaidTacticalPlans>();
             if (registry == null || plans == null) return;
+            var casualties = pendingCasualties.ToDictionary(pair => pair.Key, pair => pair.Value);
+            pendingCasualties.Clear();
+            bool regular = tick % 30 == 0;
 
-            // Only the lightweight committed crossing runs more frequently.
-            // Planning, room scanning and general organization updates stay at
-            // their original cadence.
-            if (tick % 30 != 0)
+            // Crossing keeps its lightweight cadence. Casualty notifications
+            // additionally reevaluate only affected organizations on the next
+            // tick; unrelated planning and room scanning keep their cadence.
+            if (!regular)
             {
                 foreach (ExecutionState crossing in states.Values.ToList())
                 {
-                    if (crossing.Phase != RaidExecutionPhase.CrossBreach
+                    if (tick % 10 != 0 || casualties.ContainsKey(crossing.OrganizationId)
+                        || crossing.Phase != RaidExecutionPhase.CrossBreach
                         || crossing.ActivePlan?.Success != true) continue;
                     CombatOrganization organization = registry.Organizations
                         .FirstOrDefault(value => value.id == crossing.OrganizationId);
@@ -389,18 +393,32 @@ namespace Helodrace
                     if (members.Count > 0)
                         Update(organization, members, crossing.ActivePlan, crossing, tick);
                 }
-                return;
+                if (casualties.Count == 0) return;
             }
 
             var activeIds = new HashSet<string>();
             foreach (CombatOrganization organization in registry.Organizations)
             {
+                if (!regular && !casualties.ContainsKey(organization.id)) continue;
+                if (casualties.TryGetValue(organization.id, out HashSet<Pawn> losses))
+                {
+                    registry.ReevaluateCommand(organization, tick);
+                    plans.InvalidateDecision(organization.id);
+                    foreach (Pawn lost in losses)
+                        map.GetComponent<MapComponent_RaidTacticalOrders>()?.Forget(lost);
+                }
                 List<Pawn> members = organization.AllMembers
                     .Where(pawn => pawn.Spawned && pawn.Map == map && !pawn.Dead
                         && !pawn.Downed && !pawn.Destroyed && IsTacticalRaider(pawn))
                     .ToList();
                 if (members.Count == 0)
                 {
+                    if (casualties.ContainsKey(organization.id)
+                        && states.TryGetValue(organization.id, out ExecutionState empty))
+                    {
+                        CancelPendingCharge(empty);
+                        states.Remove(organization.id);
+                    }
                     if (tick % 90 == 0) KeepSapperEscortTogether(organization);
                     continue;
                 }
@@ -414,10 +432,15 @@ namespace Helodrace
                     continue;
                 }
                 states.TryGetValue(organization.id, out ExecutionState state);
+                if (state != null)
+                    ReconcileCasualties(organization, members, state, tick);
                 string key = PlanKey(organization, members);
                 if (state?.ActivePlan?.Success == true && state.Phase != RaidExecutionPhase.Hold
                     && state.Phase != RaidExecutionPhase.Complete)
+                {
                     AssignLateMembers(members, state.ActivePlan);
+                    ReplaceLostEntryTeam(state.ActivePlan, state);
+                }
                 // Losing a member or changing commander must not recall pawns
                 // already breaching or crossing to a newly assigned stack.
                 if (state?.ActivePlan?.Success == true
@@ -530,7 +553,7 @@ namespace Helodrace
                     }
                 }
             }
-            foreach (string id in states.Keys.Where(id => !activeIds.Contains(id)).ToList())
+            foreach (string id in states.Keys.Where(id => regular && !activeIds.Contains(id)).ToList())
             {
                 CancelPendingCharge(states[id]);
                 states.Remove(id);
