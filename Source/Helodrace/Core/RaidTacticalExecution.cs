@@ -922,7 +922,7 @@ namespace Helodrace
                         state.AssaultIssued = true;
                         RaidTacticalSpeech.Say(Commander(organization, members),
                             "HD_RaidTactical_MoveIn");
-                        IssueAssault(members, plan);
+                        IssueAssault(members, plan, state);
                         Advance(state, StructureFor(map, plan)?.IsIndoor(plan.Objective) == true
                             ? RaidExecutionPhase.ClearRoom : RaidExecutionPhase.Complete, tick);
                     }
@@ -1075,10 +1075,11 @@ namespace Helodrace
             ExecutionState state)
         {
             List<Pawn> entry = EntryPawns(members, plan);
+            HashSet<IntVec3> clearanceCells = null;
             if (state.CrossingBreach != plan.BreachCell)
             {
                 int capacity = RaidBreachTraversal.AdmissionLimit(entry.Count,
-                    BreachClearanceCells(plan).Count);
+                    (clearanceCells = BreachClearanceCells(plan)).Count);
                 if (capacity == 0)
                 {
                     foreach (Pawn pawn in entry)
@@ -1127,7 +1128,8 @@ namespace Helodrace
                     && GenTicks.TicksGame >= crossing.SearchAfter)
                 {
                     reserved.Remove(crossing.Destination);
-                    crossing.Destination = FindBreachClearanceCell(pawn, plan, i, reserved);
+                    crossing.Destination = FindBreachClearanceCell(pawn, plan, i, reserved,
+                        clearanceCells ?? (clearanceCells = BreachClearanceCells(plan)));
                     crossing.SearchAfter = GenTicks.TicksGame + 120;
                     if (crossing.Destination.IsValid) reserved.Add(crossing.Destination);
                     else MapComponent_RaidTacticalTrace.Record(pawn,
@@ -1200,21 +1202,23 @@ namespace Helodrace
         }
 
         private IntVec3 FindBreachClearanceCell(Pawn pawn, RaidTacticalPlan plan,
-            int order, HashSet<IntVec3> reserved)
+            int order, HashSet<IntVec3> reserved, IReadOnlyCollection<IntVec3> clearanceCells = null)
         {
             IntVec3 inward = plan.BreachInside - plan.BreachCell;
             IntVec3 along = new IntVec3(-inward.z, 0, inward.x);
             int side = order % 2 == 0 ? -1 : 1;
-            // Earlier entrants clear farther into the room, leaving the nearer
-            // cells for following members instead of stopping across their path.
-            IntVec3 ideal = plan.BreachInside + inward * (7 - Math.Min(4, order / 3))
-                + along * (side * (1 + order / 2 % 3));
-            IEnumerable<IntVec3> cells = BreachClearanceCells(plan)
+            int preferredLateral = side * (1 + order / 2);
+            IEnumerable<IntVec3> cells = (clearanceCells ?? BreachClearanceCells(plan))
                 .Where(cell => !reserved.Contains(cell)
                     && map.pawnDestinationReservationManager.CanReserve(cell, pawn)
                     && !cell.GetThingList(map).OfType<Pawn>().Any(other => other != pawn))
-                .OrderBy(cell => cell.DistanceToSquared(ideal)
-                    + (cell.DistanceTo(plan.BreachInside) < 2f ? 100f : 0f));
+                .OrderBy(cell => RaidBreachTraversal.PlacementScore(
+                    (cell.x - plan.BreachCell.x) * inward.x
+                        + (cell.z - plan.BreachCell.z) * inward.z,
+                    BackWallDistance(cell, inward),
+                    (cell.x - plan.BreachCell.x) * along.x
+                        + (cell.z - plan.BreachCell.z) * along.z,
+                    preferredLateral, EntryCover(cell, plan)));
             foreach (IntVec3 cell in cells.Take(32))
                 if (pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return cell;
             return IntVec3.Invalid;
@@ -1231,14 +1235,47 @@ namespace Helodrace
                         && !plan.AvoidedTrapCells.Contains(cell)
                         && (cell.x - plan.BreachCell.x) * inward.x
                             + (cell.z - plan.BreachCell.z) * inward.z >= 1
+                        && (cell.x - plan.BreachCell.x) * inward.x
+                            + (cell.z - plan.BreachCell.z) * inward.z <= 6
                         && (room == 0 || structure.RoomAt(cell) == room)),
                 plan.BreachInside, cell => GenAdj.CardinalDirections.Select(direction => cell + direction),
                 cell => true);
             bool singleCellRoom = connected.Count == 1;
             connected.RemoveWhere(cell => !RaidBreachTraversal.IsClearance(
                 (cell.x - plan.BreachCell.x) * inward.x
-                    + (cell.z - plan.BreachCell.z) * inward.z, cell == plan.BreachInside, singleCellRoom));
+                    + (cell.z - plan.BreachCell.z) * inward.z, cell == plan.BreachInside, singleCellRoom)
+                || !RaidBreachTraversal.PlacementDepthAllowed(
+                    (cell.x - plan.BreachCell.x) * inward.x
+                        + (cell.z - plan.BreachCell.z) * inward.z,
+                    (cell.x - plan.BreachCell.x) * inward.x
+                        + (cell.z - plan.BreachCell.z) * inward.z > 3 && EntryCover(cell, plan) >= 0.1f));
             return connected;
+        }
+
+        private int BackWallDistance(IntVec3 cell, IntVec3 inward)
+        {
+            for (int distance = 1; distance <= 3; distance++)
+            {
+                IntVec3 behind = cell - inward * distance;
+                if (!behind.InBounds(map)) break;
+                Building wall = behind.GetEdifice(map) as Building;
+                if (wall?.def.IsWall == true || wall is Building_Door door && !door.Open)
+                    return distance;
+            }
+            return 4;
+        }
+
+        private float EntryCover(IntVec3 cell, RaidTacticalPlan plan)
+        {
+            // Rear walls are the fallback, not forward cover. Only actual
+            // non-wall cover facing into the room can justify a deeper slot.
+            IntVec3 inward = plan.BreachInside - plan.BreachCell;
+            IntVec3 front = plan.BreachInside + inward * 8;
+            float best = 0f;
+            foreach (CoverInfo cover in CoverUtility.CalculateCoverGiverSet(cell, front, map))
+                if (cover.Thing?.def.IsWall != true && !(cover.Thing is Building_Door))
+                    best = Math.Max(best, cover.BlockChance);
+            return best;
         }
 
         private static RaidExecutionPhase AfterSupport(RaidTacticalPlan plan,
@@ -1681,12 +1718,12 @@ namespace Helodrace
         }
 
         private static void TryGoto(Pawn pawn, IntVec3 cell, bool sprint = false,
-            bool interruptTaser = false, bool fightOnArrival = false)
+            bool interruptTaser = false, bool fightOnArrival = false, float activityRadius = 10f)
         {
             if ((!interruptTaser && IsTaserOperation(pawn))
                 || !cell.IsValid || !cell.InBounds(pawn.Map)) return;
             if (MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Move,
-                cell, sprint, fightOnArrival)) return;
+                cell, sprint, fightOnArrival, activityRadius)) return;
             if (pawn.Position == cell)
             {
                 if (pawn.CurJobDef == JobDefOf.Goto) HoldPosition(pawn);
@@ -1981,7 +2018,7 @@ namespace Helodrace
             return false;
         }
 
-        private void IssueAssault(List<Pawn> members, RaidTacticalPlan plan)
+        private void IssueAssault(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state)
         {
             Map currentMap = members[0].Map;
             RaidStructureSnapshot structure = StructureFor(currentMap, plan);
@@ -1997,10 +2034,12 @@ namespace Helodrace
             {
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn) || IsTaserOperation(pawn)) continue;
-                IntVec3 target = highIndoor
-                    ? FindHighEntryCell(pawn, plan, structure, objectiveRoom, occupied)
-                    : IntVec3.Invalid;
-                if (!target.IsValid)
+                IntVec3 target = plan.BreachCell.IsValid
+                    ? state.Crossings.FirstOrDefault(value => value.Pawn == pawn)?.Destination
+                        ?? IntVec3.Invalid : IntVec3.Invalid;
+                if (target.IsValid && (!target.InBounds(map) || !target.Standable(map)))
+                    target = IntVec3.Invalid;
+                if (!target.IsValid && !plan.BreachCell.IsValid)
                     target = GenRadial.RadialCellsAround(plan.Objective, 4f, true)
                     .Where(cell => cell.InBounds(currentMap) && cell.Standable(currentMap)
                         && !occupied.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell)
@@ -2016,44 +2055,9 @@ namespace Helodrace
                         assignment.EntryOrder - 1, occupied);
                 if (!target.IsValid) target = pawn.Position;
                 occupied.Add(target);
-                TryGoto(pawn, target, highIndoor, fightOnArrival: true);
+                TryGoto(pawn, target, highIndoor, fightOnArrival: true,
+                    activityRadius: plan.BreachCell.IsValid ? 3f : 10f);
             }
-        }
-
-        private IntVec3 FindHighEntryCell(Pawn pawn, RaidTacticalPlan plan,
-            RaidStructureSnapshot structure, int objectiveRoom,
-            HashSet<IntVec3> occupied)
-        {
-            float dx = plan.Entry.x - plan.Start.x;
-            float dz = plan.Entry.z - plan.Start.z;
-            float length = (float)Math.Sqrt(dx * dx + dz * dz);
-            if (length < 0.1f) return IntVec3.Invalid;
-            float forwardX = dx / length;
-            float forwardZ = dz / length;
-            int order = plan.Assignments.FirstOrDefault(value => value.Pawn == pawn)
-                ?.EntryOrder ?? 1;
-            float side = order % 2 == 1 ? 1f : -1f;
-            return GenRadial.RadialCellsAround(plan.Entry, 9f, true)
-                .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                    && structure.RoomAt(cell) == objectiveRoom
-                    && !occupied.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell))
-                .Select(cell => new
-                {
-                    Cell = cell,
-                    Forward = (cell.x - plan.Entry.x) * forwardX
-                        + (cell.z - plan.Entry.z) * forwardZ,
-                    Side = -(cell.x - plan.Entry.x) * forwardZ
-                        + (cell.z - plan.Entry.z) * forwardX
-                })
-                .Where(value => value.Forward >= 1.5f && value.Forward <= 8f
-                    && value.Side * side >= 0.5f)
-                .OrderBy(value => Math.Abs(value.Forward - 5f)
-                    + Math.Abs(value.Side - side * 2.5f) * 0.7f
-                    + value.Cell.DistanceTo(plan.Objective) * 0.15f)
-                .Select(value => value.Cell)
-                .Where(cell => pawn.CanReach(cell,
-                    PathEndMode.OnCell, Danger.Deadly))
-                .DefaultIfEmpty(IntVec3.Invalid).First();
         }
 
         private void IssueRoomSecurity(List<Pawn> members, RaidTacticalPlan plan)
@@ -2061,6 +2065,22 @@ namespace Helodrace
             RaidStructureSnapshot structure = StructureFor(map, plan);
             int room = structure?.RoomAt(plan.Objective) ?? 0;
             if (room == 0) return;
+            if (plan.BreachCell.IsValid && structure.RoomAt(plan.BreachInside) == room)
+            {
+                ExecutionState state = StateFor(plan.OrganizationId);
+                foreach (RaidTacticalAssignment assignment in plan.Assignments.Where(value =>
+                    value.Task == RaidTacticalTask.Entry && members.Contains(value.Pawn)))
+                {
+                    Pawn pawn = assignment.Pawn;
+                    if (IsTaserOperation(pawn)) continue;
+                    IntVec3 center = state?.Crossings.FirstOrDefault(value => value.Pawn == pawn)
+                        ?.Destination ?? pawn.Position;
+                    if (!center.IsValid || !center.InBounds(map) || !center.Standable(map))
+                        center = pawn.Position;
+                    MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Fight, center, radius: 3f);
+                }
+                return;
+            }
             var occupied = new List<IntVec3>();
             List<IntVec3> sectors = GenRadial.RadialCellsAround(plan.Objective, 11f, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)

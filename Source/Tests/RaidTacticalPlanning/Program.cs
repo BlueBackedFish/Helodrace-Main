@@ -70,6 +70,23 @@ internal static class Program
                 "A large room retains the full entry team");
             Check(RaidBreachTraversal.AdmissionLimit(8, 0) == 0,
                 "A blocked inside mouth does not release any entrants");
+            Check(RaidBreachTraversal.PlacementDepthAllowed(3, false),
+                "An uncovered entrant can stand within three cells of the breached wall");
+            Check(!RaidBreachTraversal.PlacementDepthAllowed(4, false),
+                "An empty room does not send an entrant four cells forward");
+            Check(RaidBreachTraversal.PlacementDepthAllowed(6, true),
+                "Actual forward cover can justify a somewhat deeper entry position");
+            Check(!RaidBreachTraversal.PlacementDepthAllowed(7, true),
+                "Cover does not justify running far into the room on entry");
+            Check(RaidBreachTraversal.PlacementScore(1, 1, -1, -1, 0)
+                < RaidBreachTraversal.PlacementScore(3, 3, -1, -1, 0),
+                "Without cover, the entry-side wall wins over a deeper matching slot");
+            Check(RaidBreachTraversal.PlacementScore(5, 4, -1, -1, 0.5f)
+                < RaidBreachTraversal.PlacementScore(1, 1, -1, -1, 0),
+                "Real forward cover wins over an exposed wall-side position");
+            Check(RaidBreachTraversal.PlacementScore(1, 1, 1, 1, 0)
+                < RaidBreachTraversal.PlacementScore(2, 4, 0, 1, 0),
+                "A lateral wall-side slot keeps the middle of the entry lane clear");
             Check(!RaidOrderPolicy.ReadyToEnter(true, true, true),
                 "Finishing the throw job does not permit entry while the grenade remains live");
             Check(!RaidOrderPolicy.ReadyToEnter(false, false, true),
