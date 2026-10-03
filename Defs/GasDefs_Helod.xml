@@ -51,14 +51,25 @@
   </Helodrace.HelodGasDef>
 
   <Helodrace.HelodGasDef>
+    <defName>HD_HCSmokeGrid</defName>
+    <label>HC smoke</label>
+    <description>A thick white screening cloud produced by a burning hexachloroethane mixture. Gunfire passing through it retains 25% of its accuracy before other modifiers.</description>
+    <color>(0.90,0.90,0.90,0.48)</color>
+    <dissipationRate>4</dissipationRate>
+    <diffusionThreshold>17</diffusionThreshold>
+    <diffusionTransferDivisor>2</diffusionTransferDivisor>
+    <accuracyFactor>0.25</accuracyFactor>
+  </Helodrace.HelodGasDef>
+
+  <Helodrace.HelodGasDef>
     <defName>HD_WhitePhosphorusSmokeGrid</defName>
     <label>white phosphorus smoke</label>
-    <description>A dense, persistent cloud produced by burning white phosphorus. It obscures gunfire as effectively as an ordinary smoke screen and can ignite flammable things caught inside.</description>
+    <description>A dense, persistent cloud produced by burning white phosphorus. Gunfire passing through it retains 35% of its accuracy before other modifiers. It can ignite flammable things caught inside.</description>
     <color>(0.90,0.90,0.84,0.48)</color>
     <dissipationRate>3</dissipationRate>
     <diffusionThreshold>10</diffusionThreshold>
     <diffusionTransferDivisor>2</diffusionTransferDivisor>
-    <accuracyFactor>0.7</accuracyFactor>
+    <accuracyFactor>0.35</accuracyFactor>
     <minDensityForEffect>12</minDensityForEffect>
     <workerClass>Helodrace.HelodGasWorker_WhitePhosphorus</workerClass>
   </Helodrace.HelodGasDef>

@@ -138,6 +138,7 @@ namespace Helodrace
         public static HelodGasDef HD_SweetGasGrid;
         public static HelodGasDef HD_CSGasGrid;
         public static HelodGasDef HD_CNGasGrid;
+        public static HelodGasDef HD_HCSmokeGrid;
         public static HelodGasDef HD_WhitePhosphorusSmokeGrid;
 
         static HelodGasDefOf()
@@ -194,13 +195,16 @@ namespace Helodrace
         }
 
         public static float DensityPercentAt(IntVec3 cell, Map map, HelodGasDef gas)
+            => DensityAt(cell, map, gas) / (float)byte.MaxValue;
+
+        public static byte DensityAt(IntVec3 cell, Map map, HelodGasDef gas)
         {
             if (map == null || gas == null || !cell.InBounds(map) || !TryGet(map, out HelodGasState state))
             {
-                return 0f;
+                return 0;
             }
 
-            return state.DensityAt(cell, gas) / (float)byte.MaxValue;
+            return state.DensityAt(cell, gas);
         }
 
         public static bool GasCanMoveTo(IntVec3 cell, Map map)

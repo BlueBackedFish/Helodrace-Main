@@ -20,6 +20,7 @@ namespace Helodrace
         private int cachedSweetPercent = -1;
         private int cachedCSPercent = -1;
         private int cachedCNPercent = -1;
+        private int cachedHCPercent = -1;
         private int cachedWhitePhosphorusPercent = -1;
         private string cachedLabel;
 
@@ -52,12 +53,14 @@ namespace Helodrace
                 HelodGasStore.DensityPercentAt(cell, map, HelodGasDefOf.HD_CNGasGrid));
             int whitePhosphorusPercent = DensityPercent(
                 HelodGasStore.DensityPercentAt(cell, map, HelodGasDefOf.HD_WhitePhosphorusSmokeGrid));
-            if (photoPercent <= 0 && sweetPercent <= 0 && csPercent <= 0 && cnPercent <= 0 && whitePhosphorusPercent <= 0)
+            int hcPercent = DensityPercent(
+                HelodGasStore.DensityPercentAt(cell, map, HelodGasDefOf.HD_HCSmokeGrid));
+            if (photoPercent <= 0 && sweetPercent <= 0 && csPercent <= 0 && cnPercent <= 0 && hcPercent <= 0 && whitePhosphorusPercent <= 0)
             {
                 return;
             }
 
-            string label = GetCachedLabel(cell, photoPercent, sweetPercent, csPercent, cnPercent, whitePhosphorusPercent);
+            string label = GetCachedLabel(cell, photoPercent, sweetPercent, csPercent, cnPercent, hcPercent, whitePhosphorusPercent);
             DrawCornerLabel(label);
         }
 
@@ -77,10 +80,11 @@ namespace Helodrace
             int sweetPercent,
             int csPercent,
             int cnPercent,
+            int hcPercent,
             int whitePhosphorusPercent)
         {
             if (cell == cachedCell && photoPercent == cachedPhotoPercent && sweetPercent == cachedSweetPercent &&
-                csPercent == cachedCSPercent && cnPercent == cachedCNPercent &&
+                csPercent == cachedCSPercent && cnPercent == cachedCNPercent && hcPercent == cachedHCPercent &&
                 whitePhosphorusPercent == cachedWhitePhosphorusPercent &&
                 cachedLabel != null)
             {
@@ -92,6 +96,7 @@ namespace Helodrace
             cachedSweetPercent = sweetPercent;
             cachedCSPercent = csPercent;
             cachedCNPercent = cnPercent;
+            cachedHCPercent = hcPercent;
             cachedWhitePhosphorusPercent = whitePhosphorusPercent;
             labelBuilder.Length = 0;
             labelBuilder.Append("Gas density");
@@ -99,6 +104,7 @@ namespace Helodrace
             AppendGasLine(HelodGasDefOf.HD_SweetGasGrid, sweetPercent);
             AppendGasLine(HelodGasDefOf.HD_CSGasGrid, csPercent);
             AppendGasLine(HelodGasDefOf.HD_CNGasGrid, cnPercent);
+            AppendGasLine(HelodGasDefOf.HD_HCSmokeGrid, hcPercent);
             AppendGasLine(HelodGasDefOf.HD_WhitePhosphorusSmokeGrid, whitePhosphorusPercent);
             cachedLabel = labelBuilder.ToString();
             return cachedLabel;

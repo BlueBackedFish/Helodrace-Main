@@ -62,10 +62,15 @@
       <li Class="CompProperties_Explosive">
         <explosiveRadius>3.5</explosiveRadius>
         <explosiveDamageType>Smoke</explosiveDamageType>
-        <postExplosionGasType>BlindSmoke</postExplosionGasType>
         <requiredDamageTypeToExplode>Flame</requiredDamageTypeToExplode>
       </li>
     </comps>
+    <modExtensions>
+      <li Class="Helodrace.HelodGasOnExplosionExtension">
+        <gasDef>HD_HCSmokeGrid</gasDef>
+        <radius>3.5</radius>
+      </li>
+    </modExtensions>
   </ThingDef>
 
   <ThingDef ParentName="HD_GreatWarGrenadeBase">
@@ -217,7 +222,6 @@
       <explosionRadius>4.2</explosionRadius>
       <explosionDelay>90</explosionDelay>
       <doExplosionVFX>false</doExplosionVFX>
-      <postExplosionGasType>BlindSmoke</postExplosionGasType>
       <screenShakeFactor>0.2</screenShakeFactor>
     </projectile>
     <modExtensions>
@@ -228,6 +232,10 @@
         <fuseVarianceTicks>12</fuseVarianceTicks>
         <waitForGroundBeforeRelease>true</waitForGroundBeforeRelease>
         <smokeTrail>true</smokeTrail>
+      </li>
+      <li Class="Helodrace.HelodGasOnExplosionExtension">
+        <gasDef>HD_HCSmokeGrid</gasDef>
+        <radius>4.2</radius>
       </li>
     </modExtensions>
   </ThingDef>

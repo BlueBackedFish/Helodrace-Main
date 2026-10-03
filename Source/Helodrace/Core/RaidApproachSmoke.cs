@@ -9,13 +9,28 @@ namespace Helodrace
 {
     public static class RaidSmokeUtility
     {
-        public static bool IsScreeningProjectile(ThingDef projectile) =>
-            projectile?.projectile?.damageDef == DamageDefOf.Smoke
-            && projectile.projectile.postExplosionGasType == GasType.BlindSmoke
-            && projectile.GetModExtension<Helodrace.ModernWar.FragmentationGrenadeExtension>() == null
-            && projectile.GetModExtension<Helodrace.ModernWar.FlashbangProjectileExtension>() == null
-            && projectile.GetModExtension<HelodGasOnExplosionExtension>() == null
-            && projectile.GetModExtension<Helodrace.ModernWar.ModernGrenadeProjectileExtension>()?.gasDef == null;
+        public static bool IsScreeningProjectile(ThingDef projectile)
+        {
+            if (projectile?.projectile?.damageDef?.defName != "Smoke"
+                || projectile.GetModExtension<Helodrace.ModernWar.FragmentationGrenadeExtension>() != null
+                || projectile.GetModExtension<Helodrace.ModernWar.FlashbangProjectileExtension>() != null) return false;
+            HelodGasDef burstGas = projectile.GetModExtension<HelodGasOnExplosionExtension>()?.gasDef;
+            HelodGasDef emitterGas = projectile.GetModExtension<Helodrace.ModernWar.ModernGrenadeProjectileExtension>()?.gasDef;
+            bool hcBurst = burstGas?.defName == "HD_HCSmokeGrid";
+            bool hcEmitter = emitterGas?.defName == "HD_HCSmokeGrid";
+            return (projectile.projectile.postExplosionGasType == GasType.BlindSmoke || hcBurst || hcEmitter)
+                && (burstGas == null || hcBurst) && (emitterGas == null || hcEmitter);
+        }
+
+        // Only harmless smoke is suitable for advancing inside a screen.
+        public static bool SafeSmokeAt(Map map, IntVec3 cell, byte minimumDensity = 32) => cell.InBounds(map)
+            && (map.gasGrid.DensityAt(cell, GasType.BlindSmoke) >= minimumDensity
+                || HelodGasStore.DensityAt(cell, map, HelodGasDefOf.HD_HCSmokeGrid) >= minimumDensity);
+
+        // WP obscures fire too, but is never selected as a safe movement screen.
+        public static bool CoveringSmokeAt(Map map, IntVec3 cell, byte minimumDensity = 64) =>
+            SafeSmokeAt(map, cell, minimumDensity) || cell.InBounds(map)
+                && HelodGasStore.DensityAt(cell, map, HelodGasDefOf.HD_WhitePhosphorusSmokeGrid) >= minimumDensity;
 
         public static bool IsSmoke(Thing item) => IsScreeningProjectile(item?.def.projectileWhenLoaded);
 
@@ -25,7 +40,7 @@ namespace Helodrace
 
         public static bool SmokeAt(Map map, IntVec3 target) => target.IsValid
             && GenRadial.RadialCellsAround(target, 3f, true).Any(cell => cell.InBounds(map)
-                && map.gasGrid.DensityAt(cell, GasType.BlindSmoke) >= 32);
+                && SafeSmokeAt(map, cell));
     }
 
     public sealed partial class MapComponent_RaidTacticalExecution
@@ -110,8 +125,8 @@ namespace Helodrace
                     bool observed = GenSight.LineOfSight(pawn.Position, enemy.Position, map, true);
                     if (!observed) return false;
                     bool obscured = GenSight.PointsOnLineOfSight(enemy.Position, pawn.Position)
-                        .Any(cell => cell.InBounds(map) && map.gasGrid.DensityAt(cell, GasType.BlindSmoke) >= 64);
-                    bool insideSmoke = map.gasGrid.DensityAt(pawn.Position, GasType.BlindSmoke) >= 32;
+                        .Any(cell => RaidSmokeUtility.CoveringSmokeAt(map, cell));
+                    bool insideSmoke = RaidSmokeUtility.SafeSmokeAt(map, pawn.Position);
                     return RaidSmokePolicy.NeedsScreen(observed, weapon.EffectiveRange, distance, obscured && !insideSmoke);
                 })).OrderBy(enemy => moving.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position)))
                 .Take(3).ToList();
@@ -185,7 +200,7 @@ namespace Helodrace
                 Dictionary<IntVec3, int> connected = RaidFormationTopology.Distances(local, pawn.Position,
                     cell => GenAdj.CardinalDirections.Select(direction => cell + direction), cell => true);
                 IntVec3 destination = connected.Keys.Where(cell => connected[cell] <= 18
-                        && map.gasGrid.DensityAt(cell, GasType.BlindSmoke) >= 32
+                        && RaidSmokeUtility.SafeSmokeAt(map, cell)
                         && !occupied.Contains(cell) && cell.DistanceToSquared(state.ApproachSmokeTarget) <= 36
                         && cell.DistanceToSquared(goal) < pawn.Position.DistanceToSquared(goal)
                         && map.pawnDestinationReservationManager.CanReserve(cell, pawn))

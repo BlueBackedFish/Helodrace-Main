@@ -120,7 +120,7 @@ namespace Helodrace
         }
 
         private bool SmokeBetween(IntVec3 source, IntVec3 target) => GenSight.PointsOnLineOfSight(source, target)
-            .Any(cell => cell.InBounds(map) && map.gasGrid.DensityAt(cell, GasType.BlindSmoke) >= 64);
+            .Any(cell => RaidSmokeUtility.CoveringSmokeAt(map, cell));
 
         private bool RespondToFire(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {

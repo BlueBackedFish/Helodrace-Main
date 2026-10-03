@@ -9,5 +9,7 @@
   <HD_CNGasGrid.label>CN 가스</HD_CNGasGrid.label>
   <HD_CNGasGrid.description>CS보다 느리게 작용하는 지속성 최루 작용제 구름입니다. 심하게 노출되면 눈, 피부와 호흡기가 강하게 자극되고 경미한 조직 손상이 생길 수 있습니다. 가스 방호와 유독 환경 저항이 노출을 줄입니다.</HD_CNGasGrid.description>
   <HD_WhitePhosphorusSmokeGrid.label>백린 연막</HD_WhitePhosphorusSmokeGrid.label>
-  <HD_WhitePhosphorusSmokeGrid.description>백린이 타면서 만들어지는 짙고 오래가는 구름입니다. 일반 연막처럼 사격선을 효과적으로 가리며 내부의 가연성 물체에 불을 붙일 수 있습니다.</HD_WhitePhosphorusSmokeGrid.description>
+  <HD_HCSmokeGrid.label>HC 연막</HD_HCSmokeGrid.label>
+  <HD_HCSmokeGrid.description>헥사클로로에탄 혼합물이 타면서 만들어지는 짙은 흰색 연막입니다. 이 연막을 통과하는 사격에는 다른 보정에 앞서 명중 계수 0.25가 적용됩니다.</HD_HCSmokeGrid.description>
+  <HD_WhitePhosphorusSmokeGrid.description>백린이 타면서 만들어지는 짙고 오래가는 구름입니다. 이 연막을 통과하는 사격에는 다른 보정에 앞서 명중 계수 0.35가 적용되며 내부의 가연성 물체에 불을 붙일 수 있습니다.</HD_WhitePhosphorusSmokeGrid.description>
 </LanguageData>
