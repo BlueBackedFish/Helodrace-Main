@@ -144,8 +144,12 @@ namespace Helodrace
             state.ApproachSmokeClearedTick = -1;
             state.ApproachSmokeLaunched = false;
             state.ApproachSmokeProjectile = null;
-            JobDef jobDef = DefDatabase<JobDef>.GetNamed(close ? "HD_ThrowInventoryGrenadeClose" : "HD_ThrowInventoryGrenadeNormal");
-            thrower.jobs.StartJob(JobMaker.MakeJob(jobDef, formation.Target, grenade), JobCondition.InterruptForced);
+            if (!RaidGrenadePreparation.Start(thrower, grenade, formation.Target, thrower.Position, close))
+            {
+                state.ApproachSmokeActive = false;
+                state.NextApproachSmokeTick = tick + 60;
+                return false;
+            }
             MapComponent_RaidTacticalTrace.Record(thrower, $"Planned smoke from squad {formation.Anchor} to {formation.Target}");
             RaidTacticalSpeech.Say(thrower, "HD_RaidTactical_Smoke");
             PauseReaction(state, tick);

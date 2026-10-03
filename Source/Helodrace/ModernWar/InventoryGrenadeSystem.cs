@@ -61,6 +61,12 @@ namespace Helodrace
             float range,
             out IntVec3 sourceCell)
         {
+            return TryFindThrowSourceFrom(pawn, pawn?.Position ?? IntVec3.Invalid, targetCell, range, out sourceCell);
+        }
+
+        internal static bool TryFindThrowSourceFrom(Pawn pawn, IntVec3 throwPosition,
+            IntVec3 targetCell, float range, out IntVec3 sourceCell)
+        {
             sourceCell = IntVec3.Invalid;
             Map map = pawn?.Map;
             if (map == null
@@ -68,25 +74,26 @@ namespace Helodrace
                 || !pawn.Spawned
                 || !targetCell.IsValid
                 || !targetCell.InBounds(map)
-                || targetCell == pawn.Position
-                || pawn.Position.DistanceTo(targetCell) > range)
+                || !throwPosition.InBounds(map)
+                || targetCell == throwPosition
+                || throwPosition.DistanceTo(targetCell) > range)
             {
                 return false;
             }
 
-            if (GenSight.LineOfSight(pawn.Position, targetCell, map, true))
+            if (GenSight.LineOfSight(throwPosition, targetCell, map, true))
             {
-                sourceCell = pawn.Position;
+                sourceCell = throwPosition;
                 return true;
             }
 
             int bestDistanceSquared = int.MaxValue;
             for (int i = 0; i < LeanThrowOffsets.Length; i++)
             {
-                IntVec3 candidate = pawn.Position + LeanThrowOffsets[i];
+                IntVec3 candidate = throwPosition + LeanThrowOffsets[i];
                 if (!candidate.InBounds(map)
                     || !candidate.Standable(map)
-                    || !GenSight.LineOfSight(pawn.Position, candidate, map, true)
+                    || !GenSight.LineOfSight(throwPosition, candidate, map, true)
                     || (candidate != targetCell
                         && !GenSight.LineOfSight(candidate, targetCell, map, true)))
                 {

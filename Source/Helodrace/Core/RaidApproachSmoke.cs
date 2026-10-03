@@ -73,8 +73,7 @@ namespace Helodrace
             }
             if (state.ApproachSmokeActive)
             {
-                bool preparing = state.ApproachSmokeThrower?.CurJobDef?.defName == "HD_ThrowInventoryGrenadeClose"
-                    || state.ApproachSmokeThrower?.CurJobDef?.defName == "HD_ThrowInventoryGrenadeNormal";
+                bool preparing = RaidGrenadePreparation.IsThrowJob(state.ApproachSmokeThrower);
                 bool live = state.ApproachSmokeProjectile?.Spawned == true;
                 if (!preparing && !live && state.ApproachSmokeLaunched && state.ApproachSmokeClearedTick < 0)
                     state.ApproachSmokeClearedTick = tick;

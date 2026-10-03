@@ -11,6 +11,7 @@ using Helodrace.Squads;
 using System.Xml.Linq;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using Verse.AI;
 
 internal static class Program
 {
@@ -33,7 +34,8 @@ internal static class Program
             typeof(Patch_RaidMovementArea_Request), typeof(Patch_RaidMovementArea_Dispose),
             typeof(Patch_BreachedDoor_NoRandomBreakdown), typeof(Patch_BreachedDoor_AlwaysOpen),
             typeof(Patch_BreachedDoor_FreePassage), typeof(Patch_BreachedDoor_BreakdownRepaired),
-            typeof(Patch_BreachedDoor_OrdinaryRepair), typeof(Patch_DebugSettings_RaidTacticalOverlay)
+            typeof(Patch_BreachedDoor_OrdinaryRepair), typeof(Patch_DebugSettings_RaidTacticalOverlay),
+            typeof(Patch_RaidGrenade_NoGunCast), typeof(Patch_RaidGrenade_NoGunAvailable), typeof(Patch_RaidGrenade_DrawHeld)
         };
         try
         {
@@ -66,9 +68,104 @@ internal static class Program
             CheckSmokeGases();
             CheckBreachToolRecovery();
             CheckTacticalRoomOverlay();
+            CheckAiGrenadePreparation();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckAiGrenadePreparation()
+    {
+        int checks = 0;
+        void Check(bool condition, string message)
+        {
+            if (!condition) throw new Exception(message);
+            checks++;
+        }
+        var pawn = new Pawn();
+        pawn.jobs = new Pawn_JobTracker(pawn);
+        var definition = new JobDef { defName = RaidGrenadePreparation.JobDefName, neverShowWeapon = true };
+        var job = new Job { def = definition, targetA = new IntVec3(5, 0, 0), targetC = new IntVec3(2, 0, 0), count = 1 };
+        var grenade = new Thing();
+        job.targetB = grenade;
+        var driver = new JobDriver_RaidPrepareGrenade { pawn = pawn, job = job };
+        pawn.jobs.curJob = job; pawn.jobs.curDriver = driver;
+        var weapon = new ThingWithComps();
+        var owner = new CompEquippable { parent = weapon };
+        var verb = new Verb_Shoot { caster = pawn, verbTracker = new VerbTracker(owner),
+            verbProps = new VerbProperties { verbClass = typeof(Verb_Shoot) } };
+        bool result = true;
+        Check(!Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result) && !result,
+            "An AI preparing a grenade must not start a gun cast even before reaching the throw cell.");
+        result = true;
+        Patch_RaidGrenade_NoGunAvailable.Postfix(verb, ref result);
+        Check(!result, "Burst availability must be blocked while the grenade preparation job is active.");
+        driver.Prepared = true;
+        result = true;
+        Check(!Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result), "A held ready grenade still prevents gunfire during movement.");
+        driver.ended = true;
+        result = true;
+        Check(Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result), "Interrupting preparation immediately releases the gun restriction.");
+        driver.ended = false;
+        pawn.jobs.curJob = new Job { def = new JobDef { defName = "Flee" } };
+        Check(Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result), "An unrelated emergency job cannot inherit the stale ready state.");
+        pawn.jobs.curJob = job;
+        driver.Released = true;
+        Check(Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result), "A completed release does not retain a separate persistent firing lock.");
+        driver.Released = false;
+        verb.verbProps.verbClass = typeof(Verb_MeleeAttackDamage);
+        Check(Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result), "Gun blocking does not globally disable melee defense.");
+        verb.verbProps.verbClass = typeof(Verb_Shoot);
+        foreach (string playerJob in new[] { "HD_ThrowInventoryGrenadeClose", "HD_ThrowInventoryGrenadeNormal" })
+        {
+            pawn.jobs.curJob = new Job { def = new JobDef { defName = playerJob } };
+            Check(Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result), "Player inventory grenade jobs retain their own behavior.");
+        }
+        pawn.jobs.curJob = job;
+        var toils = ((IEnumerable<Toil>)AccessTools.Method(typeof(JobDriver_RaidPrepareGrenade), "MakeNewToils").Invoke(driver, null)).ToList();
+        Check(toils.Count == 5 && toils[2].defaultCompleteMode == ToilCompleteMode.PatherArrival,
+            "The AI job must carry readiness into an arrival-based movement stage before release.");
+        Check(toils[3].defaultDuration == 18 && toils[3].defaultCompleteMode == ToilCompleteMode.Delay,
+            "Release must take 0.3 seconds after arrival, not the player's 90/180-tick preparation.");
+        Check(toils[4].defaultCompleteMode == ToilCompleteMode.Instant && toils[3].endConditions.Count > 0,
+            "A short release still checks live throw validity/safety before the launch action.");
+        string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.."));
+        var aiXml = XDocument.Load(Path.Combine(root, "Defs/GreatWar/Jobs_RaidGrenadePreparation.xml")).Root.Element("JobDef");
+        Check(aiXml.Element("neverShowWeapon")?.Value == "true" && aiXml.Element("suspendable")?.Value == "false",
+            "The AI job must hide the gun and must not resume an interrupted preparation from a suspended queue.");
+        Check(aiXml.Element("casualInterruptible")?.Value == "true" && aiXml.Element("checkOverrideOnDamage")?.Value == "Always",
+            "The AI preparation must allow surrounding emergencies and damage overrides to interrupt it.");
+        Game previousGame = Current.Game;
+        var map = (Map)RuntimeHelpers.GetUninitializedObject(typeof(Map));
+        var game = (Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
+        var execution = new MapComponent_RaidTacticalExecution(map);
+        AccessTools.Field(typeof(Map), "components").SetValue(map, new List<MapComponent> { execution });
+        AccessTools.Field(typeof(Game), "maps").SetValue(game, new List<Map> { map });
+        var state = new MapComponent_RaidTacticalExecution.ExecutionState { OrganizationId = "A",
+            ActivePlan = new RaidTacticalPlan { PlannedTick = 42 }, Phase = RaidExecutionPhase.Support,
+            SupportIssued = true, Thrower = pawn };
+        ((Dictionary<string, MapComponent_RaidTacticalExecution.ExecutionState>)AccessTools.Field(
+            typeof(MapComponent_RaidTacticalExecution), "states").GetValue(execution))["A"] = state;
+        AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)0);
+        AccessTools.Field(typeof(JobDriver_RaidPrepareGrenade), "organizationId").SetValue(driver, "A");
+        AccessTools.Field(typeof(JobDriver_RaidPrepareGrenade), "planTick").SetValue(driver, 42);
+        AccessTools.Field(typeof(JobDriver_RaidPrepareGrenade), "ownerCaptured").SetValue(driver, true);
+        bool OwnerValid() => (bool)AccessTools.Method(typeof(JobDriver_RaidPrepareGrenade), "OwnerStillValid").Invoke(driver, null);
+        Current.Game = game;
+        try
+        {
+            Check(OwnerValid(), "Captured preparation remains owned by its current support actor and plan.");
+            state.Thrower = new Pawn();
+            Check(!OwnerValid(), "Replacing the support actor must cancel the previous actor's unlaunched grenade.");
+            state.Thrower = pawn; state.Phase = RaidExecutionPhase.Assemble;
+            Check(!OwnerValid(), "An unrelated regroup action cancels rather than carries grenade readiness into the new task.");
+            state.ApproachSmokeActive = true; state.ApproachSmokeThrower = pawn;
+            Check(OwnerValid(), "The designated field smoke actor retains preparation during the approach phase.");
+            state.ActivePlan = new RaidTacticalPlan { PlannedTick = 43 };
+            Check(!OwnerValid(), "A replaced tactical plan must not launch the grenade selected by the stale plan.");
+        }
+        finally { Current.Game = previousGame; }
+        Console.WriteLine($"PASS: {checks} AI grenade preparation, interruption, gun gating and release lifecycle checks (real game classes)");
     }
 
     private static void CheckTacticalRoomOverlay()

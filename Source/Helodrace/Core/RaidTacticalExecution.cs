@@ -352,8 +352,7 @@ namespace Helodrace
 
         private bool SupportEffectsPending(ExecutionState state, int tick)
         {
-            bool preparing = state.Thrower?.CurJobDef?.defName == "HD_ThrowInventoryGrenadeClose"
-                || state.Thrower?.CurJobDef?.defName == "HD_ThrowInventoryGrenadeNormal";
+            bool preparing = RaidGrenadePreparation.IsThrowJob(state.Thrower);
             bool live = state.SupportProjectile?.Spawned == true;
             // Projectile_Explosive destroys the projectile before starting an
             // Explosion. Its damage reaches cells on later ticks, so despawn
@@ -377,21 +376,25 @@ namespace Helodrace
         }
 
         internal static bool SafeSupportThrow(Pawn pawn, Thing grenade, IntVec3 target, bool close)
+            => SafeSupportThrowFrom(pawn, grenade, pawn.Position, target, close);
+
+        internal static bool SafeSupportThrowFrom(Pawn pawn, Thing grenade, IntVec3 position, IntVec3 target, bool close)
         {
             ThingDef projectile = grenade?.def?.projectileWhenLoaded;
             if (projectile?.projectile == null) return false;
             if (RaidSmokeUtility.IsSmoke(grenade)) return true;
             float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, close,
-                pawn.Position.DistanceTo(target));
+                position.DistanceTo(target));
             FragmentationGrenadeExtension fragments = projectile.GetModExtension<FragmentationGrenadeExtension>();
             float fragmentRadius = fragments == null ? 0f : Math.Max(fragments.radius,
                 fragments.longRangeFragmentFraction > 0f ? fragments.longRangeRadius : 0f);
             float radius = Math.Max(projectile.projectile.explosionRadius, fragmentRadius)
                 + scatter + 0.75f;
-            return !pawn.Map.mapPawns.AllPawnsSpawned.Any(ally => !ally.Dead
-                && !ally.HostileTo(pawn) && ally.Position.DistanceTo(target) <= radius
-                && (ally.Position.DistanceTo(target) <= scatter + 0.75f
-                    || GenSight.LineOfSight(target, ally.Position, pawn.Map, true)));
+            return !pawn.Map.mapPawns.AllPawnsSpawned.Any(ally => {
+                IntVec3 cell = ally == pawn ? position : ally.Position;
+                return !ally.Dead && !ally.HostileTo(pawn) && cell.DistanceTo(target) <= radius
+                    && (cell.DistanceTo(target) <= scatter + 0.75f || GenSight.LineOfSight(target, cell, pawn.Map, true));
+            });
         }
 
         public override void MapComponentTick()
@@ -1001,18 +1004,19 @@ namespace Helodrace
                             state.SupportIssued = true;
                             state.SupportStatus = "Throw preparation";
                         }
-                        else if (tick - state.PhaseStarted >= SupportTimeout
-                            || !TryStageEntryThrower(members, plan, state))
+                        else
                         {
                             state.SupportStatus = "Skipped: no usable safe throw, equipment, or support timeout";
                             state.SupportReturnRequired = plan.BreachCell.IsValid && state.Thrower != null;
                             Advance(state, RaidExecutionPhase.EntryWait, tick);
                         }
                     }
-                    else if ((state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeClose"
-                        && state.Thrower?.CurJobDef?.defName != "HD_ThrowInventoryGrenadeNormal")
+                    else if (!RaidGrenadePreparation.IsThrowJob(state.Thrower)
                         || tick - state.PhaseStarted >= SupportTimeout)
                     {
+                        if (RaidGrenadePreparation.Active(state.Thrower) != null)
+                            state.Thrower.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
+                        state.SupportReturnRequired = plan.BreachCell.IsValid && state.Thrower != null;
                         state.SupportStatus = state.SupportLaunched
                             ? "Waiting for projectile effect" : "Throw failed before launch";
                         Advance(state, RaidExecutionPhase.EntryWait, tick);
@@ -2020,30 +2024,35 @@ namespace Helodrace
             foreach (Pawn pawn in members.OrderBy(value => value == preferred ? -1
                 : entry && !smoke && plan.Doctrine == RaidTacticalDoctrine.Low
                     && InventoryGrenadeUtility.GrenadeStacks(value)
-                        .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1))
+                        .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1)
+                .ThenBy(value => value.Position.DistanceToSquared(plan.Entry)))
             {
                 if (IsTaserOperation(pawn)) continue;
                 Thing grenade = InventoryGrenadeUtility.GrenadeStacks(pawn)
                     .FirstOrDefault(item => IsSupportGrenade(item, plan, smoke));
                 if (grenade == null) continue;
-                foreach (IntVec3 target in targets)
+                foreach (IntVec3 target in targets.Take(16))
                 {
                     if (!target.IsValid || !target.InBounds(currentMap)) continue;
                     if (!smoke && !GrenadeTargetSafe(currentMap, pawn, target))
                         continue;
-                    bool close = InventoryGrenadeUtility.CanThrowAt(pawn, target,
-                        InventoryGrenadeUtility.CloseThrowRange);
-                    if (!close && !InventoryGrenadeUtility.CanThrowAt(pawn, target,
-                        InventoryGrenadeUtility.NormalThrowRange)) continue;
-                    if (!SafeSupportThrow(pawn, grenade, target, close)) continue;
-                    JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(close
-                        ? "HD_ThrowInventoryGrenadeClose" : "HD_ThrowInventoryGrenadeNormal");
-                    if (jobDef == null) return null;
-                    RaidTacticalSpeech.Say(pawn, smoke
-                        ? "HD_RaidTactical_Smoke" : "HD_RaidTactical_Grenade");
-                    pawn.jobs.StartJob(JobMaker.MakeJob(jobDef, target, grenade),
-                        JobCondition.InterruptForced);
-                    return pawn;
+                    IEnumerable<IntVec3> positions = entry && plan.BreachCell.IsValid
+                        ? new[] { pawn.Position, plan.Entry }.Concat(plan.SafeStackCells.Take(8)).Distinct()
+                        : new[] { pawn.Position };
+                    foreach (IntVec3 position in positions)
+                    {
+                        if (!position.InBounds(currentMap) || !position.Standable(currentMap)
+                            || entry && plan.BreachCell.IsValid && (position == plan.BreachCell
+                                || structure?.RoomAt(position) != structure?.RoomAt(plan.Entry))) continue;
+                        bool close = InventoryGrenadeUtility.TryFindThrowSourceFrom(pawn, position, target,
+                            InventoryGrenadeUtility.CloseThrowRange, out _);
+                        if (!close && !InventoryGrenadeUtility.TryFindThrowSourceFrom(pawn, position, target,
+                            InventoryGrenadeUtility.NormalThrowRange, out _)) continue;
+                        if (!SafeSupportThrowFrom(pawn, grenade, position, target, close)
+                            || !RaidGrenadePreparation.Start(pawn, grenade, target, position, close)) continue;
+                        RaidTacticalSpeech.Say(pawn, smoke ? "HD_RaidTactical_Smoke" : "HD_RaidTactical_Grenade");
+                        return pawn;
+                    }
                 }
             }
             return null;
@@ -2102,47 +2111,6 @@ namespace Helodrace
             return !map.mapPawns.AllPawnsSpawned.Any(ally => !ally.Dead
                 && !ally.HostileTo(thrower)
                 && ally.Position.DistanceTo(target) <= 3.5f);
-        }
-
-        private static bool TryStageEntryThrower(List<Pawn> members,
-            RaidTacticalPlan plan, ExecutionState state)
-        {
-            if (!plan.BreachCell.IsValid
-                || state.Maneuver != RaidTacticalManeuver.CoordinatedEntry)
-                return false;
-            Map map = members[0].Map;
-            bool smoke = RaidSmokePolicy.EntrySmoke(true, RaidSmokeUtility.ExteriorEntry(map, plan));
-            if (!smoke && plan.Doctrine == RaidTacticalDoctrine.Low
-                && map.mapPawns.AllPawnsSpawned.Any(pawn =>
-                    pawn.Faction == members[0].Faction && PastBreach(pawn, plan)))
-                return false;
-            if (state.Thrower != null)
-            {
-                if (!members.Contains(state.Thrower)
-                    || state.Thrower.Position == plan.Entry) return false;
-                TryGoto(state.Thrower, plan.Entry);
-                return true;
-            }
-            RaidStructureSnapshot structure = StructureFor(map, plan);
-            List<IntVec3> targets = (smoke ? EntrySmokeTargets(map, plan, structure)
-                : EntryGrenadeTargets(map, plan,
-                    structure, structure?.RoomAt(plan.Objective) ?? 0)).ToList();
-            foreach (Pawn pawn in members)
-            {
-                if (IsTaserOperation(pawn)
-                    || !InventoryGrenadeUtility.GrenadeStacks(pawn)
-                        .Any(item => IsSupportGrenade(item, plan, smoke))
-                    || !pawn.CanReach(plan.Entry, PathEndMode.OnCell, Danger.Deadly))
-                    continue;
-                if (!targets.Any(target => plan.Entry.DistanceTo(target)
-                        <= InventoryGrenadeUtility.NormalThrowRange
-                    && GenSight.LineOfSight(plan.Entry, target, map, true)
-                    && (smoke || GrenadeTargetSafe(map, pawn, target)))) continue;
-                state.Thrower = pawn;
-                TryGoto(pawn, plan.Entry);
-                return true;
-            }
-            return false;
         }
 
         private void IssueAssault(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state)
@@ -2423,12 +2391,7 @@ namespace Helodrace
                         InventoryGrenadeUtility.CloseThrowRange);
                     if (!close && !InventoryGrenadeUtility.CanThrowAt(pawn, target,
                         InventoryGrenadeUtility.NormalThrowRange)) continue;
-                    JobDef job = DefDatabase<JobDef>.GetNamedSilentFail(close
-                        ? "HD_ThrowInventoryGrenadeClose"
-                        : "HD_ThrowInventoryGrenadeNormal");
-                    if (job == null) return false;
-                    pawn.jobs.StartJob(JobMaker.MakeJob(job, target, smoke),
-                        JobCondition.InterruptForced);
+                    if (!RaidGrenadePreparation.Start(pawn, smoke, target, pawn.Position, close)) continue;
                     RaidTacticalSpeech.Say(pawn, "HD_RaidTactical_Smoke");
                     return true;
                 }
