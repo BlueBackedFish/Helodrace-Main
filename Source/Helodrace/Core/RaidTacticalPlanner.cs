@@ -856,6 +856,18 @@ namespace Helodrace
             IntVec3 outward = plan.Entry - plan.BreachCell;
             IntVec3 along = new IntVec3(-outward.z, 0, outward.x);
             int outsideRoom = analysis.RoomAt(plan.Entry);
+            var strip = new List<IntVec3>();
+            for (int depth = 1; depth <= 2; depth++)
+                for (int lateral = -8; lateral <= 8; lateral++)
+                {
+                    IntVec3 cell = plan.BreachCell + along * lateral + outward * depth;
+                    if (cell.InBounds(map) && cell.Standable(map)
+                        && analysis.RoomAt(cell) == outsideRoom
+                        && !avoidedTraps.Contains(cell)) strip.Add(cell);
+                }
+            HashSet<IntVec3> connected = RaidFormationTopology.Connected(strip,
+                plan.Entry, CardinalNeighbors,
+                cell => cell == plan.Entry || GenSight.LineOfSight(plan.Entry, cell, map, true));
             var result = new List<IntVec3>();
             foreach (int depth in new[] { 1, 2 })
                 for (int lateral = 2; lateral <= 8; lateral++)
@@ -863,15 +875,21 @@ namespace Helodrace
                     {
                         IntVec3 wall = plan.BreachCell + along * (side * lateral);
                         IntVec3 cell = wall + outward * depth;
-                        if (cell.InBounds(map) && cell.Standable(map)
-                            && analysis.RoomAt(cell) == outsideRoom
-                            && !avoidedTraps.Contains(cell)
+                        if (connected.Contains(cell)
                             && analysis.CachedAt(wall).WallLine
                             && (!checkGrenadeSafety
                                 || SafeFromEntryGrenade(map, plan, cell)))
                             result.Add(cell);
                     }
             return result;
+        }
+
+        private static IEnumerable<IntVec3> CardinalNeighbors(IntVec3 cell)
+        {
+            yield return cell + IntVec3.North;
+            yield return cell + IntVec3.South;
+            yield return cell + IntVec3.East;
+            yield return cell + IntVec3.West;
         }
 
         private static bool SafeFromEntryGrenade(Map map,
@@ -925,6 +943,17 @@ namespace Helodrace
                 candidates = candidates.Where(cell =>
                     (cell.x - anchor.x) * (rear.x - anchor.x)
                     + (cell.z - anchor.z) * (rear.z - anchor.z) >= 0);
+            if (stackPlan != null)
+            {
+                int room = analysis.RoomAt(anchor);
+                HashSet<IntVec3> connected = RaidFormationTopology.Connected(
+                    GenRadial.RadialCellsAround(anchor, maximumRadius, true)
+                        .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                            && analysis.RoomAt(cell) == room && !avoidedTraps.Contains(cell)),
+                    anchor, CardinalNeighbors,
+                    cell => cell == anchor || GenSight.LineOfSight(anchor, cell, map, true));
+                candidates = candidates.Where(connected.Contains);
+            }
             return candidates.OrderBy(cell =>
                 {
                     TacticalCellData data = analysis.CachedAt(cell);

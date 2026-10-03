@@ -16,6 +16,22 @@ internal static class Program
     {
         try
         {
+            var strip = Enumerable.Range(-4, 9)
+                .SelectMany(x => new[] { (x, 1), (x, 2) }).ToList();
+            static (int x, int z)[] Neighbors((int x, int z) cell) => new[] {
+                (cell.x - 1, cell.z), (cell.x + 1, cell.z),
+                (cell.x, cell.z - 1), (cell.x, cell.z + 1) };
+            var connected = RaidFormationTopology.Connected(strip, (0, 1), Neighbors, _ => true);
+            Check(connected.Count == 18, "Both flanks connect through the outside approach strip");
+            connected = RaidFormationTopology.Connected(strip.Where(cell => cell.Item1 != 2),
+                (0, 1), Neighbors, _ => true);
+            Check(!connected.Contains((3, 1)), "A dividing wall excludes the far side despite global reachability");
+            Check(connected.Contains((-4, 2)), "A connected second rank remains available");
+            connected = RaidFormationTopology.Connected(strip, (0, 1), Neighbors, cell => cell.Item1 <= 1);
+            Check(!connected.Contains((2, 2)), "A corner hidden from the entry cannot host the formation");
+            connected = RaidFormationTopology.Connected(strip.Where(cell => cell != (0, 1)),
+                (0, 1), Neighbors, _ => true);
+            Check(connected.Count == 0, "A blocked anchor rejects the formation instead of choosing another pocket");
             Check(!RaidOrderPolicy.Refresh(false, true, false, false),
                 "Repeating an unchanged directive keeps the current controlled job");
             Check(RaidOrderPolicy.Refresh(true, true, false, false),
