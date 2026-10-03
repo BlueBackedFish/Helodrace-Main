@@ -12,6 +12,12 @@ namespace Helodrace
     {
         public static bool CanAdmit(bool hasClearance, bool mouthBusy) => hasClearance && !mouthBusy;
 
+        public static bool IsClearance(int inwardDepth, bool atInsideMouth, bool singleCellRoom = false) =>
+            inwardDepth >= 1 && (!atInsideMouth || singleCellRoom);
+
+        public static int AdmissionLimit(int members, int clearanceCells) =>
+            System.Math.Min(members, System.Math.Max(0, clearanceCells));
+
         // Crossing is latched: congestion, knockback, and a lateral path step
         // must not send an admitted pawn back to the outside staging cell.
         public static RaidBreachProgress Advance(RaidBreachProgress progress,

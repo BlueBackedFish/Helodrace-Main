@@ -56,6 +56,20 @@ internal static class Program
                 "A previous entrant in the mouth blocks admission even with a reserved destination");
             Check(RaidBreachTraversal.CanAdmit(true, false),
                 "Entry resumes when both mouth and interior clearance are available");
+            Check(RaidBreachTraversal.IsClearance(1, false),
+                "A lateral standing cell in a shallow room can clear the doorway");
+            Check(!RaidBreachTraversal.IsClearance(1, true),
+                "The inside mouth itself cannot be reserved as a final standing cell");
+            Check(RaidBreachTraversal.IsClearance(1, true, true),
+                "A one-cell closet admits one pawn while the rest remain outside");
+            Check(!RaidBreachTraversal.IsClearance(0, false),
+                "An outside or wall-plane cell cannot complete entry");
+            Check(RaidBreachTraversal.AdmissionLimit(8, 3) == 3,
+                "A three-cell room keeps excess entrants outside as reserve security");
+            Check(RaidBreachTraversal.AdmissionLimit(4, 12) == 4,
+                "A large room retains the full entry team");
+            Check(RaidBreachTraversal.AdmissionLimit(8, 0) == 0,
+                "A blocked inside mouth does not release any entrants");
             Check(!RaidOrderPolicy.ReadyToEnter(true, true, true),
                 "Finishing the throw job does not permit entry while the grenade remains live");
             Check(!RaidOrderPolicy.ReadyToEnter(false, false, true),

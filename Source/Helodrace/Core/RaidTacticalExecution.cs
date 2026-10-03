@@ -688,6 +688,14 @@ namespace Helodrace
                     break;
                 case RaidExecutionPhase.Breach:
                     MaintainStack(members, plan, state.Breacher);
+                    // Demolition can complete independently of the tool job.
+                    // Do not leave an already open wall waiting on its old driver.
+                    if (state.BreachKind != RaidBreachKind.C4
+                        && BreachOpened(plan.PlannedBreach))
+                    {
+                        FinishBreachAttempt(plan, state, tick);
+                        break;
+                    }
                     if (state.Breacher == null && state.BreachTarget == null)
                     {
                         if (plan.PlannedBreach != null && BreachOpened(plan.PlannedBreach))
@@ -796,6 +804,8 @@ namespace Helodrace
                     }
                     break;
                 case RaidExecutionPhase.EntryWait:
+                    if (tick % 120 == 0)
+                        RetargetBlockedStackMembers(members, plan, onlyBlocked: true);
                     MaintainStack(members, plan);
                     if (!UsingZaper(members)
                         && RaidOrderPolicy.ReadyToEnter(!plan.BreachCell.IsValid || AllReady(members, plan),
@@ -950,6 +960,9 @@ namespace Helodrace
         {
             if (plan.PlannedBreach == null || BreachOpened(plan.PlannedBreach))
             {
+                state.Breacher = null;
+                state.BreachTarget = null;
+                state.BreachKind = RaidBreachKind.None;
                 Advance(state, RaidExecutionPhase.Support, tick);
                 return;
             }
@@ -985,6 +998,32 @@ namespace Helodrace
             List<Pawn> entry = EntryPawns(members, plan);
             if (state.CrossingBreach != plan.BreachCell)
             {
+                int capacity = RaidBreachTraversal.AdmissionLimit(entry.Count,
+                    BreachClearanceCells(plan).Count);
+                if (capacity == 0)
+                {
+                    foreach (Pawn pawn in entry)
+                        MapComponent_RaidTacticalTrace.Record(pawn,
+                            "Entry waiting: opening has no connected interior standing cell");
+                    return false;
+                }
+                // A small room cannot physically hold the entire entry team.
+                // Keep the excess members as outside security for this room;
+                // the next room's plan assigns its own entry team again.
+                List<Pawn> admitted = entry.OrderBy(pawn =>
+                    pawn.Position.DistanceTo(plan.Entry) <= 1.5f ? 0 : 1).Take(capacity).ToList();
+                foreach (RaidTacticalAssignment assignment in plan.Assignments
+                    .Where(value => value.Task == RaidTacticalTask.Entry && members.Contains(value.Pawn)
+                        && !admitted.Contains(value.Pawn)))
+                {
+                    assignment.Task = RaidTacticalTask.Security;
+                    plan.SafeSupportCells.Add(assignment.Position);
+                    plan.SafeSupportCells.Add(assignment.Pawn.Position);
+                    HoldPosition(assignment.Pawn);
+                    MapComponent_RaidTacticalTrace.Record(assignment.Pawn,
+                        "Small room: holding outside as reserve security");
+                }
+                entry = EntryPawns(members, plan);
                 state.CrossingBreach = plan.BreachCell;
                 state.CrossingPawn = null;
                 state.Crossings.Clear();
@@ -1085,26 +1124,41 @@ namespace Helodrace
         {
             IntVec3 inward = plan.BreachInside - plan.BreachCell;
             IntVec3 along = new IntVec3(-inward.z, 0, inward.x);
-            RaidStructureSnapshot structure = StructureFor(map, plan);
-            int room = structure?.RoomAt(plan.BreachInside) ?? 0;
             int side = order % 2 == 0 ? -1 : 1;
             // Earlier entrants clear farther into the room, leaving the nearer
             // cells for following members instead of stopping across their path.
             IntVec3 ideal = plan.BreachInside + inward * (7 - Math.Min(4, order / 3))
                 + along * (side * (1 + order / 2 % 3));
-            IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(plan.BreachInside, 12f, true)
-                .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                    && !reserved.Contains(cell) && !plan.AvoidedTrapCells.Contains(cell)
+            IEnumerable<IntVec3> cells = BreachClearanceCells(plan)
+                .Where(cell => !reserved.Contains(cell)
                     && map.pawnDestinationReservationManager.CanReserve(cell, pawn)
-                    && !cell.GetThingList(map).OfType<Pawn>().Any(other => other != pawn)
-                    && (cell.x - plan.BreachCell.x) * inward.x
-                        + (cell.z - plan.BreachCell.z) * inward.z >= 2
-                    && (room == 0 || structure.RoomAt(cell) == room))
+                    && !cell.GetThingList(map).OfType<Pawn>().Any(other => other != pawn))
                 .OrderBy(cell => cell.DistanceToSquared(ideal)
                     + (cell.DistanceTo(plan.BreachInside) < 2f ? 100f : 0f));
             foreach (IntVec3 cell in cells.Take(32))
                 if (pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)) return cell;
             return IntVec3.Invalid;
+        }
+
+        private HashSet<IntVec3> BreachClearanceCells(RaidTacticalPlan plan)
+        {
+            IntVec3 inward = plan.BreachInside - plan.BreachCell;
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            int room = structure?.RoomAt(plan.BreachInside) ?? 0;
+            HashSet<IntVec3> connected = RaidFormationTopology.Connected(
+                GenRadial.RadialCellsAround(plan.BreachInside, 12f, true)
+                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                        && !plan.AvoidedTrapCells.Contains(cell)
+                        && (cell.x - plan.BreachCell.x) * inward.x
+                            + (cell.z - plan.BreachCell.z) * inward.z >= 1
+                        && (room == 0 || structure.RoomAt(cell) == room)),
+                plan.BreachInside, cell => GenAdj.CardinalDirections.Select(direction => cell + direction),
+                cell => true);
+            bool singleCellRoom = connected.Count == 1;
+            connected.RemoveWhere(cell => !RaidBreachTraversal.IsClearance(
+                (cell.x - plan.BreachCell.x) * inward.x
+                    + (cell.z - plan.BreachCell.z) * inward.z, cell == plan.BreachInside, singleCellRoom));
+            return connected;
         }
 
         private static RaidExecutionPhase AfterSupport(RaidTacticalPlan plan,
@@ -1504,7 +1558,7 @@ namespace Helodrace
         }
 
         private static void RetargetBlockedStackMembers(List<Pawn> members,
-            RaidTacticalPlan plan)
+            RaidTacticalPlan plan, bool onlyBlocked = false)
         {
             var occupied = new HashSet<IntVec3>(members.Select(pawn => pawn.Position));
             var reserved = new HashSet<IntVec3>(plan.Assignments
@@ -1517,12 +1571,16 @@ namespace Helodrace
                 if (!members.Contains(pawn)
                     || assignment.Task == RaidTacticalTask.Withdraw
                     || AtStagingPosition(assignment, plan)) continue;
+                if (onlyBlocked && assignment.Position.IsValid
+                    && assignment.Position.InBounds(pawn.Map) && assignment.Position.Standable(pawn.Map)
+                    && (MapComponent_RaidTacticalOrders.For(pawn)?.RetryAfter ?? 0) <= GenTicks.TicksGame) continue;
                 reserved.Remove(assignment.Position);
                 IEnumerable<IntVec3> safeCells = assignment.Task == RaidTacticalTask.Entry
                     ? (IEnumerable<IntVec3>)plan.SafeStackCells
                     : plan.SafeSupportCells;
                 foreach (IntVec3 cell in safeCells
                     .Where(cell => cell != assignment.Position
+                        && cell.InBounds(pawn.Map) && cell.Standable(pawn.Map)
                         && !occupied.Contains(cell) && !reserved.Contains(cell))
                     .OrderBy(cell => cell.DistanceToSquared(pawn.Position))
                     .Take(32))
