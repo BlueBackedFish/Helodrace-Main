@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_RaidView_Layout>습격 정적 캐시 방 레이아웃</HD_RaidView_Layout>
+  <HD_RaidView_Clearance>습격 방 클리어 상태</HD_RaidView_Clearance>
+  <HD_RaidView_Nodes>습격 전술 노드</HD_RaidView_Nodes>
+  <HD_RaidView_Title>전술 표시 · {0}</HD_RaidView_Title>
+  <HD_RaidView_Summary>캐시 {0} · {1} · 확보한 방 {2}개</HD_RaidView_Summary>
+  <HD_RaidView_Legend>방: 초록 확보 / 노랑 현재 목표 / 빨강 미확보 / 회색 기록 없음.&#10;레이아웃: 방 번호·경계, 흰색 벽, 노랑 문.</HD_RaidView_Legend>
+  <HD_RaidView_Refresh>0.5초마다 갱신 · 폰을 선택하면 해당 조직으로 전환</HD_RaidView_Refresh>
+  <HD_RaidView_Clipped>중앙 64×64칸 표시 중 · 확대하거나 카메라를 이동하세요.</HD_RaidView_Clipped>
+  <HD_RaidView_Next>다음 조직</HD_RaidView_Next>
+  <HD_RaidView_Details>전술 상세</HD_RaidView_Details>
+  <HD_RaidView_NoRaid>활성 조직 없음 · 최신 맵 캐시</HD_RaidView_NoRaid>
+  <HD_RaidView_Waiting>습격 구조 캐시 대기 중</HD_RaidView_Waiting>
+  <HD_RaidView_Cleared>확보</HD_RaidView_Cleared>
+  <HD_RaidView_Current>현재 목표</HD_RaidView_Current>
+  <HD_RaidView_Uncleared>미확보</HD_RaidView_Uncleared>
+  <HD_RaidView_Unknown>기록 없음</HD_RaidView_Unknown>
+  <HD_RaidView_Start>출발</HD_RaidView_Start>
+  <HD_RaidView_Entry>집결·진입 대기</HD_RaidView_Entry>
+  <HD_RaidView_Passage>재사용 통로</HD_RaidView_Passage>
+  <HD_RaidView_Breach>돌파·개구부</HD_RaidView_Breach>
+  <HD_RaidView_Inside>진입 안쪽</HD_RaidView_Inside>
+  <HD_RaidView_Objective>현재 방 목표</HD_RaidView_Objective>
+  <HD_RaidView_Final>최종 목표</HD_RaidView_Final>
+  <HD_RaidView_Front>전선</HD_RaidView_Front>
+  <HD_RaidView_Flank>측면</HD_RaidView_Flank>
+  <HD_RaidView_Smoke>연막 계획점</HD_RaidView_Smoke>
+</LanguageData>

@@ -12,7 +12,6 @@ namespace Helodrace
     {
         public static Map Map;
         public static string SelectedOrganizationId;
-        public static bool ShowOverlay = true;
 
         public static void Open(Map map)
         {
@@ -30,8 +29,15 @@ namespace Helodrace
             ?.Organizations.FirstOrDefault(organization => organization.id == SelectedOrganizationId
                 && organization.AllMembers.Any(pawn => pawn.Spawned && pawn.Map == Map));
 
-        public static RaidTacticalPlan SelectedPlan => SelectedOrganization == null ? null
-            : Map?.GetComponent<MapComponent_RaidTacticalPlans>()?.GetPlan(SelectedOrganization);
+        public static RaidTacticalPlan SelectedPlan
+        {
+            get
+            {
+                string id = SelectedOrganization?.id;
+                return id == null ? null : Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(id)?.ActivePlan
+                    ?? Map?.GetComponent<MapComponent_RaidTacticalPlans>()?.Plans.FirstOrDefault(plan => plan.OrganizationId == id);
+            }
+        }
     }
 
     public sealed class Dialog_RaidTacticalPlans : Window
@@ -73,10 +79,14 @@ namespace Helodrace
                     RaidTacticalDebugSession.SelectedOrganizationId = organization.id;
                 y += 32f;
             }
-            bool overlay = RaidTacticalDebugSession.ShowOverlay;
+            bool overlay = RaidTacticalOverlaySettings.drawRaidTacticalNodes;
             Widgets.CheckboxLabeled(new Rect(inRect.x + 195f, inRect.y + 43f, 220f, 26f),
-                "Show tactical nodes", ref overlay);
-            RaidTacticalDebugSession.ShowOverlay = overlay;
+                "HD_RaidView_Nodes".Translate(), ref overlay);
+            RaidTacticalOverlaySettings.drawRaidTacticalNodes = overlay;
+            Widgets.CheckboxLabeled(new Rect(inRect.x + 425f, inRect.y + 77f, 300f, 26f),
+                "HD_RaidView_Layout".Translate(), ref RaidTacticalOverlaySettings.drawRaidRoomLayout);
+            Widgets.CheckboxLabeled(new Rect(inRect.x + 425f, inRect.y + 107f, 300f, 26f),
+                "HD_RaidView_Clearance".Translate(), ref RaidTacticalOverlaySettings.drawRaidRoomClearance);
             bool trace = MapComponent_RaidTacticalTrace.Enabled;
             Widgets.CheckboxLabeled(new Rect(inRect.x + 195f, inRect.y + 73f, 220f, 26f),
                 "Trace tactical job changes", ref trace);
@@ -87,7 +97,7 @@ namespace Helodrace
                 RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalPlans>()
                     .GetPlan(RaidTacticalDebugSession.SelectedOrganization, true);
             }
-            y = Mathf.Max(y + 10f, inRect.y + 90f);
+            y = Mathf.Max(y + 10f, inRect.y + 142f);
             RaidTacticalPlan plan = RaidTacticalDebugSession.SelectedPlan;
             Rect area = new Rect(inRect.x, y, inRect.width, inRect.yMax - y);
             Widgets.DrawMenuSection(area);
@@ -167,61 +177,4 @@ namespace Helodrace
         }
     }
 
-    public sealed class MapComponent_RaidTacticalOverlay : MapComponent
-    {
-        private static readonly Color EntryColor = new Color(0.15f, 0.85f, 0.25f);
-        private static readonly Color SecurityColor = new Color(0.15f, 0.7f, 1f);
-        private static readonly Color ObjectiveColor = new Color(0.9f, 0.2f, 0.8f);
-
-        public MapComponent_RaidTacticalOverlay(Map map) : base(map) { }
-
-        public override void MapComponentUpdate()
-        {
-            base.MapComponentUpdate();
-            RaidTacticalPlan plan = VisiblePlan();
-            if (plan == null) return;
-            for (int i = 1; i < plan.ApproachPath.Count; i++)
-                GenDraw.DrawLineBetween(plan.ApproachPath[i - 1].ToVector3Shifted(),
-                    plan.ApproachPath[i].ToVector3Shifted(), SimpleColor.Red, 0.13f);
-            GenDraw.DrawRadiusRing(plan.Objective, 1.1f, ObjectiveColor);
-            GenDraw.DrawRadiusRing(plan.Entry, 1.0f, EntryColor);
-            if (plan.BreachCell.IsValid)
-                GenDraw.DrawRadiusRing(plan.BreachCell, 1.0f, Color.yellow);
-            if (plan.Flank.IsValid) GenDraw.DrawRadiusRing(plan.Flank, 0.9f, SecurityColor);
-            foreach (RaidTacticalAssignment assignment in plan.Assignments)
-                if (assignment.Position.IsValid)
-                    GenDraw.DrawRadiusRing(assignment.Position, 0.45f,
-                        assignment.Task == RaidTacticalTask.Entry ? EntryColor : SecurityColor);
-        }
-
-        public override void MapComponentOnGUI()
-        {
-            base.MapComponentOnGUI();
-            RaidTacticalPlan plan = VisiblePlan();
-            if (plan == null) return;
-            GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Objective), "OBJECTIVE", ObjectiveColor);
-            GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Entry),
-                plan.BreachCell.IsValid ? "OUTSIDE" : "ENTRY", EntryColor);
-            if (plan.BreachCell.IsValid)
-                GenMapUI.DrawThingLabel(
-                    GenMapUI.LabelDrawPosFor(plan.BreachCell),
-                    plan.PlannedBreach != null ? "BREACH ENTRY" : "OPEN ENTRY", Color.yellow);
-            GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(plan.Frontline), "FRONT", Color.red);
-            foreach (RaidTacticalAssignment assignment in plan.Assignments)
-                if (assignment.Position.IsValid)
-                    GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(assignment.Position),
-                        assignment.EntryOrder > 0 ? "E" + assignment.EntryOrder
-                            : assignment.Task == RaidTacticalTask.FireSupport ? "F"
-                            : assignment.Task == RaidTacticalTask.Response ? "R"
-                            : assignment.Task == RaidTacticalTask.Withdraw ? "W" : "S",
-                        assignment.Task == RaidTacticalTask.Entry ? EntryColor : SecurityColor);
-        }
-
-        private RaidTacticalPlan VisiblePlan()
-        {
-            return Prefs.DevMode && RaidTacticalDebugSession.ShowOverlay
-                && RaidTacticalDebugSession.Map == map
-                ? RaidTacticalDebugSession.SelectedPlan : null;
-        }
-    }
 }

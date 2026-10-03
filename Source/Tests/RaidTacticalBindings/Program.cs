@@ -33,7 +33,7 @@ internal static class Program
             typeof(Patch_RaidMovementArea_Request), typeof(Patch_RaidMovementArea_Dispose),
             typeof(Patch_BreachedDoor_NoRandomBreakdown), typeof(Patch_BreachedDoor_AlwaysOpen),
             typeof(Patch_BreachedDoor_FreePassage), typeof(Patch_BreachedDoor_BreakdownRepaired),
-            typeof(Patch_BreachedDoor_OrdinaryRepair)
+            typeof(Patch_BreachedDoor_OrdinaryRepair), typeof(Patch_DebugSettings_RaidTacticalOverlay)
         };
         try
         {
@@ -65,9 +65,70 @@ internal static class Program
             CheckSharedStructureVersions();
             CheckSmokeGases();
             CheckBreachToolRecovery();
+            CheckTacticalRoomOverlay();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckTacticalRoomOverlay()
+    {
+        int checks = 0;
+        void Check(bool condition, string message)
+        {
+            if (!condition) throw new Exception(message);
+            checks++;
+        }
+        Assembly assembly = typeof(TacticalStructureVersion).Assembly;
+        Type inputType = assembly.GetType("Helodrace.TacticalGeometryInput");
+        Type rawType = assembly.GetType("Helodrace.TacticalRawCell");
+        object input = Activator.CreateInstance(inputType, new object[] { 5, 1 });
+        var cells = (Array)AccessTools.Field(inputType, "Cells").GetValue(input);
+        for (int i = 0; i < cells.Length; i++)
+        {
+            object raw = Activator.CreateInstance(rawType);
+            AccessTools.Field(rawType, "Room").SetValue(raw, i < 2 ? 7 : i > 2 ? 8 : 0);
+            cells.SetValue(raw, i);
+        }
+        object geometry = AccessTools.Method(assembly.GetType("Helodrace.TacticalGeometry"), "Calculate")
+            .Invoke(null, new object[] { input, System.Threading.CancellationToken.None });
+        var version = (TacticalStructureVersion)Activator.CreateInstance(typeof(TacticalStructureVersion),
+            BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { (object)19, geometry }, null);
+        Type dataType = assembly.GetType("Helodrace.RaidRoomDebugData");
+        object Project(MapComponent_RaidTacticalExecution.ExecutionState state) => Activator.CreateInstance(dataType,
+            BindingFlags.Instance | BindingFlags.NonPublic, null, new object[] { version, state }, null);
+        string State(object data, int room) => AccessTools.Method(dataType, "State").Invoke(data, new object[] { room }).ToString();
+        int RoomAt(object data, int x) => (int)AccessTools.Method(dataType, "RoomAt").Invoke(data, new object[] { new IntVec3(x, 0, 0) });
+        var firstState = new MapComponent_RaidTacticalExecution.ExecutionState {
+            ActivePlan = new RaidTacticalPlan { Objective = new IntVec3(4, 0, 0) },
+            ClearedRoomCells = new List<IntVec3> { new IntVec3(0, 0, 0), new IntVec3(1, 0, 0),
+                new IntVec3(-1, 0, 0), new IntVec3(99, 0, 0), new IntVec3(2, 0, 0) }
+        };
+        object first = Project(firstState);
+        Check(State(first, 7) == "Cleared" && State(first, 8) == "CurrentTarget",
+            "The overlay must project saved clearance and the current target onto pinned room IDs.");
+        Check(((HashSet<int>)AccessTools.Field(dataType, "Cleared").GetValue(first)).Count == 1,
+            "Repeated room coordinates, boundary cells and out-of-map records must not inflate clearance.");
+        Check(RoomAt(first, 0) == 7 && RoomAt(first, 4) == 8 && RoomAt(first, -1) == 0 && RoomAt(first, 5) == 0,
+            "Debug room lookup must remain bounded and use the captured layout.");
+        var secondState = new MapComponent_RaidTacticalExecution.ExecutionState {
+            ActivePlan = new RaidTacticalPlan { Objective = new IntVec3(0, 0, 0) },
+            ClearedRoomCells = new List<IntVec3> { new IntVec3(4, 0, 0) }
+        };
+        object second = Project(secondState);
+        Check(State(second, 7) == "CurrentTarget" && State(second, 8) == "Cleared" && State(first, 7) == "Cleared",
+            "Organizations sharing a structure must retain independent clearance overlays.");
+        Check(State(Project(null), 7) == "Unavailable" && State(Project(null), 0) == "Unavailable",
+            "Missing execution progress must display unknown rather than imply an uncleared room.");
+        firstState.ActivePlan.Objective = new IntVec3(0, 0, 0);
+        Check(State(Project(firstState), 7) == "Cleared", "Cleared state must take priority over a repeated current target.");
+        Check(State(Project(firstState), 8) == "Uncleared", "Other known rooms must remain uncleared.");
+        firstState.ClearedRoomCells.Add(new IntVec3(4, 0, 0));
+        Check(State(first, 8) == "CurrentTarget" && State(Project(firstState), 8) == "Cleared",
+            "A refresh must capture new clearance without mutating the previously rendered snapshot.");
+        Check(firstState.ClearedRoomCells.Count == 6 && RoomAt(first, 0) == 7 && RoomAt(first, 4) == 8,
+            "Inspecting the map must not rewrite saved progress or static room IDs.");
+        Console.WriteLine($"PASS: {checks} read-only tactical overlay room progress checks (real game classes)");
     }
 
     private static void CheckBreachToolRecovery()

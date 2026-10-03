@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_RaidView_Layout>Raid cached room layout</HD_RaidView_Layout>
+  <HD_RaidView_Clearance>Raid room clearance state</HD_RaidView_Clearance>
+  <HD_RaidView_Nodes>Raid tactical nodes</HD_RaidView_Nodes>
+  <HD_RaidView_Title>Tactical view · {0}</HD_RaidView_Title>
+  <HD_RaidView_Summary>Cache {0} · {1} · {2} cleared rooms</HD_RaidView_Summary>
+  <HD_RaidView_Legend>Rooms: green cleared / yellow target / red uncleared / gray unknown.&#10;Layout: room ID + boundary; white walls, yellow doors.</HD_RaidView_Legend>
+  <HD_RaidView_Refresh>Refresh: 0.5 seconds · select a pawn to follow its organization</HD_RaidView_Refresh>
+  <HD_RaidView_Clipped>Showing central 64×64 cells; zoom in or move the camera.</HD_RaidView_Clipped>
+  <HD_RaidView_Next>Next organization</HD_RaidView_Next>
+  <HD_RaidView_Details>Plan details</HD_RaidView_Details>
+  <HD_RaidView_NoRaid>No active organization; latest map cache</HD_RaidView_NoRaid>
+  <HD_RaidView_Waiting>Waiting for raid snapshot</HD_RaidView_Waiting>
+  <HD_RaidView_Cleared>Cleared</HD_RaidView_Cleared>
+  <HD_RaidView_Current>Current target</HD_RaidView_Current>
+  <HD_RaidView_Uncleared>Uncleared</HD_RaidView_Uncleared>
+  <HD_RaidView_Unknown>No progress data</HD_RaidView_Unknown>
+  <HD_RaidView_Start>START</HD_RaidView_Start>
+  <HD_RaidView_Entry>STACK / ENTRY</HD_RaidView_Entry>
+  <HD_RaidView_Passage>REUSED PASSAGE</HD_RaidView_Passage>
+  <HD_RaidView_Breach>BREACH / OPENING</HD_RaidView_Breach>
+  <HD_RaidView_Inside>INSIDE</HD_RaidView_Inside>
+  <HD_RaidView_Objective>ROOM TARGET</HD_RaidView_Objective>
+  <HD_RaidView_Final>FINAL TARGET</HD_RaidView_Final>
+  <HD_RaidView_Front>FRONT</HD_RaidView_Front>
+  <HD_RaidView_Flank>FLANK</HD_RaidView_Flank>
+  <HD_RaidView_Smoke>SMOKE TARGET</HD_RaidView_Smoke>
+</LanguageData>
