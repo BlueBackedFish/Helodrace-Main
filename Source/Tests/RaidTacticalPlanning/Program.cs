@@ -21,6 +21,24 @@ internal static class Program
             Check(RaidSmokePolicy.CarrierCount(6) == 2, "A six-person formation guarantees two smoke carriers");
             Check(RaidSmokePolicy.CarrierCount(7) == 3, "Incomplete thirds still receive a smoke carrier");
             Check(RaidSmokePolicy.GrenadesPerCarrier >= 3, "A carrier has smoke for approach and external entry");
+            Check(RaidSmokePolicy.NeedsScreen(true, 50, 40, false),
+                "A visible ranged defender covering the approach triggers smoke before the first hit");
+            Check(!RaidSmokePolicy.NeedsScreen(false, 50, 40, false),
+                "Unobserved defenders do not trigger smoke using hidden map knowledge");
+            Check(!RaidSmokePolicy.NeedsScreen(true, 15, 10, false),
+                "A short-range weapon does not trigger the long-range approach screen");
+            Check(!RaidSmokePolicy.NeedsScreen(true, 30, 40, false),
+                "A defender unable to reach the advancing pawn does not consume smoke");
+            Check(!RaidSmokePolicy.NeedsScreen(true, 50, 40, true),
+                "An existing smoke screen avoids repeated smoke expenditure on the same sightline");
+            Check(!RaidSmokePolicy.ScreenComplete(true, true, false, true, true, true),
+                "A live screening grenade is not abandoned on a timeout");
+            Check(!RaidSmokePolicy.ScreenComplete(false, false, true, false, false, true),
+                "A throw still in preparation keeps the team providing covering fire");
+            Check(RaidSmokePolicy.ScreenComplete(true, false, false, true, false, false),
+                "The advancing team resumes when the smoke screen forms");
+            Check(RaidSmokePolicy.ScreenComplete(false, false, false, false, false, true),
+                "A failed smoke action does not permanently stall the approach");
             var strip = Enumerable.Range(-4, 9)
                 .SelectMany(x => new[] { (x, 1), (x, 2) }).ToList();
             static (int x, int z)[] Neighbors((int x, int z) cell) => new[] {

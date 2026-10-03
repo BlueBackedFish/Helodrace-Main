@@ -233,6 +233,11 @@ namespace Helodrace
         public static void Postfix(Pawn pawn, ref Job __result)
         {
             if (__result == null || pawn?.Spawned != true) return;
+            if (pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.IgnoreOwnScreeningSmoke(pawn) == true)
+            {
+                __result = null;
+                return;
+            }
             if (pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.TrySupportFleeDestination(pawn, out IntVec3 cell) != true) return;
             if (cell == pawn.Position) __result = null;

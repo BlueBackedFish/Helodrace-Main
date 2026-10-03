@@ -44,7 +44,7 @@ namespace Helodrace
         Artillery
     }
 
-    public sealed class MapComponent_RaidTacticalExecution : MapComponent
+    public sealed partial class MapComponent_RaidTacticalExecution : MapComponent
     {
         private const int AssembleTimeout = 720;
         private const int BreachTimeout = 900;
@@ -102,6 +102,14 @@ namespace Helodrace
             public ThingDef SupportProjectileDef;
             public int SupportEffectsClearedTick = -1;
             public string SupportStatus = "Not requested";
+            public bool ApproachSmokeActive;
+            public bool ApproachSmokeLaunched;
+            public Pawn ApproachSmokeThrower;
+            public Projectile ApproachSmokeProjectile;
+            public IntVec3 ApproachSmokeTarget = IntVec3.Invalid;
+            public int ApproachSmokeStarted;
+            public int ApproachSmokeClearedTick = -1;
+            public int NextApproachSmokeTick;
             public bool FlankIssued;
             public bool AssaultIssued;
             public bool ExternalSupportAttempted;
@@ -152,6 +160,14 @@ namespace Helodrace
                 Scribe_Defs.Look(ref SupportProjectileDef, "supportProjectileDef");
                 Scribe_Values.Look(ref SupportEffectsClearedTick, "supportEffectsClearedTick", -1);
                 Scribe_Values.Look(ref SupportStatus, "supportStatus", "Not requested");
+                Scribe_Values.Look(ref ApproachSmokeActive, "approachSmokeActive");
+                Scribe_Values.Look(ref ApproachSmokeLaunched, "approachSmokeLaunched");
+                Scribe_References.Look(ref ApproachSmokeThrower, "approachSmokeThrower");
+                Scribe_References.Look(ref ApproachSmokeProjectile, "approachSmokeProjectile");
+                Scribe_Values.Look(ref ApproachSmokeTarget, "approachSmokeTarget", IntVec3.Invalid);
+                Scribe_Values.Look(ref ApproachSmokeStarted, "approachSmokeStarted");
+                Scribe_Values.Look(ref ApproachSmokeClearedTick, "approachSmokeClearedTick", -1);
+                Scribe_Values.Look(ref NextApproachSmokeTick, "nextApproachSmokeTick");
                 Scribe_Values.Look(ref FlankIssued, "flankIssued");
                 Scribe_Values.Look(ref AssaultIssued, "assaultIssued");
                 Scribe_Values.Look(ref ExternalSupportAttempted, "externalSupportAttempted");
@@ -233,8 +249,15 @@ namespace Helodrace
         internal void NotifySupportLaunched(Pawn pawn, Projectile projectile)
         {
             string id = OrganizationAPI.GetOrganization(pawn)?.id;
-            if (id == null || !states.TryGetValue(id, out ExecutionState state)
-                || (state.Phase != RaidExecutionPhase.Support
+            if (id == null || !states.TryGetValue(id, out ExecutionState state)) return;
+            if (state.ApproachSmokeActive && state.ApproachSmokeThrower == pawn)
+            {
+                state.ApproachSmokeLaunched = true;
+                state.ApproachSmokeProjectile = projectile;
+                MapComponent_RaidTacticalTrace.Record(pawn, "Approach smoke launched");
+                return;
+            }
+            if ((state.Phase != RaidExecutionPhase.Support
                     && state.Phase != RaidExecutionPhase.EntryWait)
                 || state.Thrower != pawn) return;
             state.SupportLaunched = true;
@@ -325,6 +348,7 @@ namespace Helodrace
         {
             ThingDef projectile = grenade?.def?.projectileWhenLoaded;
             if (projectile?.projectile == null) return false;
+            if (RaidSmokeUtility.IsSmoke(grenade)) return true;
             float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, close,
                 pawn.Position.DistanceTo(target));
             FragmentationGrenadeExtension fragments = projectile.GetModExtension<FragmentationGrenadeExtension>();
@@ -744,6 +768,7 @@ namespace Helodrace
                                 HoldPosition(pawn);
                         break;
                     }
+                    if (ApproachScreen(members, plan, state, tick)) break;
                     if (!FollowApproach(members, plan, state, tick)) break;
                     Assemble(members, plan);
                     bool ready = AllReady(members, plan);
