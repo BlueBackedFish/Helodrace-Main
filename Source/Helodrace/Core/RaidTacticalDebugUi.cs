@@ -123,6 +123,7 @@ namespace Helodrace
             report.AppendLine($"Command efficiency={plan.CommandEfficiency:P0}  casualties={plan.CasualtyFraction:P0}");
             report.AppendLine($"Start={plan.Start}  objective={plan.Objective}  front={plan.Frontline}");
             report.AppendLine($"Flank={plan.Flank}  entry={plan.Entry}");
+            report.AppendLine($"CQB intent={plan.CqbIntent}  occupied room=R{plan.OccupiedRoom}");
             report.AppendLine("Wall search: " + plan.BreachSearch);
             report.AppendLine($"Planning={plan.PlanningMilliseconds} ms  "
                 + $"breach candidates={plan.BreachCandidates}  "

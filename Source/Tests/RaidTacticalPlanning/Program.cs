@@ -18,6 +18,7 @@ internal static class Program
         try
         {
             CheckLocalCqb();
+            CheckCqbIntent();
             Check(RaidSmokePolicy.CarrierCount(0) == 0, "An empty formation does not create smoke carriers");
             Check(RaidSmokePolicy.CarrierCount(1) == 1, "A one-person formation still has smoke");
             Check(RaidSmokePolicy.CarrierCount(6) == 2, "A six-person formation guarantees two smoke carriers");
@@ -341,5 +342,30 @@ internal static class Program
         Check(new CqbLocalTopology(8, 3, twoRooms, twoUsable, twoPortals).Path(9, 14).Count > 0,
             "Both destroyed cells in a double wall create a route.");
         Console.WriteLine($"PASS: {checks - before} local CQB passage, stable room progress and topology refresh assertions.");
+    }
+
+    private static void CheckCqbIntent()
+    {
+        int before = checks;
+        Check(RaidCqbPolicy.Intent(2, 2, true) == RaidCqbIntent.ClearCurrentRoom, "A reachable occupied-room goal does not require entry.");
+        Check(RaidCqbPolicy.Intent(2, 2, false) == RaidCqbIntent.RemoveInteriorObstacle, "A new wall can split one static room and still require demolition.");
+        Check(RaidCqbPolicy.Intent(2, 3, true) == RaidCqbIntent.EnterRoom, "A reachable new room remains an entry action.");
+        Check(RaidCqbPolicy.Intent(0, 3, false) == RaidCqbIntent.None, "Exterior approach retains its existing planning.");
+        var cleared = new HashSet<int> { 2, 4 };
+        Check(!RaidCqbPolicy.BreachDestination(2, 2, true, true, cleared), "Do not breach back into the occupied reachable room.");
+        Check(RaidCqbPolicy.BreachDestination(2, 2, true, false, cleared), "Remove a rebuilt internal barrier even if the original room was secured.");
+        Check(!RaidCqbPolicy.BreachDestination(2, 4, true, false, cleared), "Another secured room is not a demolition destination.");
+        Check(!RaidCqbPolicy.BreachDestination(2, 3, false, false, cleared), "A candidate with an unreachable staging side is rejected.");
+        Check(!RaidCqbPolicy.BreachDestination(2, 0, true, false, cleared), "Interior breach must have an indoor destination.");
+        Check(RaidCqbPolicy.BreachDestination(2, 3, true, false, cleared), "A blocked adjacent uncleared room remains a breach destination.");
+        var topology = new CqbLocalTopology(5, 1, new[] { 1, 99, 2, 0, 3 }, Enumerable.Repeat(true, 5).ToArray(),
+            new[] { false, true, false, true, false });
+        Check(topology.NeighborTargets(0, new HashSet<int> { 1 }).SequenceEqual(new[] { 2 }),
+            "A door's own static room ID cannot become a false room-clearance goal.");
+        Check(topology.Path(0, 3, new HashSet<int> { 1 }).Count == 0,
+            "Staging cannot silently cross an uncleared room to reach a deeper wall.");
+        Check(topology.Path(0, 3, new HashSet<int> { 1, 2 }).Count == 4,
+            "Staging can use secured rooms and open doorway cells.");
+        Console.WriteLine($"PASS: {checks - before} CQB action intent and valid breach boundary assertions.");
     }
 }

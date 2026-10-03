@@ -26,7 +26,7 @@ namespace Helodrace
             if (index >= Width) yield return index - Width;
             if (index + Width < Rooms.Length) yield return index + Width;
         }
-        public int[] Distances(int start, out int[] previous)
+        public int[] Distances(int start, out int[] previous, ISet<int> allowedRooms = null)
         {
             int[] distance = Enumerable.Repeat(-1, Rooms.Length).ToArray();
             previous = Enumerable.Repeat(-1, Rooms.Length).ToArray();
@@ -37,7 +37,8 @@ namespace Helodrace
             {
                 int cell = pending.Dequeue();
                 foreach (int next in Neighbors(cell))
-                    if (Walkable[next] && distance[next] < 0)
+                    if (Walkable[next] && distance[next] < 0
+                        && (allowedRooms == null || Portals[next] || Rooms[next] == 0 || allowedRooms.Contains(Rooms[next])))
                     {
                         previous[next] = cell; distance[next] = distance[cell] + 1;
                         pending.Enqueue(next);
@@ -45,11 +46,11 @@ namespace Helodrace
             }
             return distance;
         }
-        public List<int> Path(int start, int target)
+        public List<int> Path(int start, int target, ISet<int> allowedRooms = null)
         {
             var route = new List<int>();
             if (target < 0 || target >= Rooms.Length) return route;
-            int[] distance = Distances(start, out int[] previous);
+            int[] distance = Distances(start, out int[] previous, allowedRooms);
             if (distance[target] < 0) return route;
             for (int cell = target; cell >= 0; cell = previous[cell]) route.Add(cell);
             route.Reverse();
@@ -74,7 +75,7 @@ namespace Helodrace
                             foreach (int other in Neighbors(next).Where(index => Walkable[index])) Add(other, distance[cell] + 2);
                         continue;
                     }
-                    if (Rooms[next] > 0 && Rooms[next] != current && !cleared.Contains(Rooms[next]))
+                    if (!Portals[next] && Rooms[next] > 0 && Rooms[next] != current && !cleared.Contains(Rooms[next]))
                     {
                         Add(next, distance[cell] + 1);
                         continue;
@@ -87,7 +88,7 @@ namespace Helodrace
             void Add(int cell, int cost)
             {
                 int room = Rooms[cell];
-                if (room <= 0 || room == current || cleared.Contains(room)) return;
+                if (Portals[cell] || room <= 0 || room == current || cleared.Contains(room)) return;
                 if (!candidates.TryGetValue(room, out var old) || cost < old.Cost) candidates[room] = (cell, cost);
             }
         }

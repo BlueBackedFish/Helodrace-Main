@@ -53,8 +53,8 @@ namespace Helodrace
             || cell.x >= origin.x + topology.Width || cell.z >= origin.z + topology.Height ? -1
             : cell.x - origin.x + (cell.z - origin.z) * topology.Width;
         private IntVec3 Cell(int index) => origin + new IntVec3(index % topology.Width, 0, index / topology.Width);
-        public List<IntVec3> Path(IntVec3 source, IntVec3 target) => topology == null
-            ? new List<IntVec3>() : topology.Path(Index(source), Index(target)).Select(Cell).ToList();
+        public List<IntVec3> Path(IntVec3 source, IntVec3 target, ISet<int> allowedRooms = null) => topology == null
+            ? new List<IntVec3>() : topology.Path(Index(source), Index(target), allowedRooms).Select(Cell).ToList();
         public IEnumerable<IntVec3> NeighborTargets(IntVec3 source, ISet<int> cleared) => topology == null
             ? Enumerable.Empty<IntVec3>() : topology.NeighborTargets(Index(source), cleared).Select(Cell);
         public bool IsPortal(IntVec3 cell) => Index(cell) >= 0 && topology.Portals[Index(cell)];
@@ -63,6 +63,48 @@ namespace Helodrace
 
     public sealed partial class MapComponent_RaidTacticalExecution
     {
+        private bool RecoverCqbIntent(CombatOrganization organization, List<Pawn> members,
+            RaidTacticalPlan plan, ExecutionState state, int tick)
+        {
+            if (plan.IsDefensive || state.Phase == RaidExecutionPhase.Assault || state.Phase == RaidExecutionPhase.ClearRoom
+                || state.Phase == RaidExecutionPhase.SecureRoom || state.Phase == RaidExecutionPhase.Hold
+                || state.Phase == RaidExecutionPhase.Complete || tick - state.LastCqbValidationTick < 30) return false;
+            state.LastCqbValidationTick = tick;
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            List<Pawn> entry = EntryPawns(members, plan);
+            if (structure == null || entry.Count == 0) return false;
+            var occupied = entry.GroupBy(pawn => structure.RoomAt(pawn.Position)).OrderByDescending(group => group.Count()).First();
+            if (occupied.Key <= 0) return false;
+            int objectiveRoom = structure.RoomAt(plan.Objective), insideRoom = structure.RoomAt(plan.BreachInside);
+            var cleared = new HashSet<int>(state.ClearedRoomCells.Select(structure.RoomAt).Where(room => room > 0));
+            if (objectiveRoom != occupied.Key && (plan.PlannedBreach == null
+                || insideRoom != occupied.Key && !cleared.Contains(insideRoom))) return false;
+            if (state.BreachKind == RaidBreachKind.C4 || SupportEffectsPending(state, tick) || state.SupportReturnRequired) return false;
+            Pawn observer = occupied.OrderBy(pawn => pawn.Position.DistanceToSquared(plan.Objective)).First();
+            var local = new RaidCqbLocalMap();
+            local.Refresh(map, structure, observer, observer.Position, tick, plan.AvoidedTrapCells);
+            bool alreadyInside = occupied.Count() * 2 >= entry.Count && objectiveRoom == occupied.Key
+                && local.Path(observer.Position, plan.Objective).Count > 0;
+            bool wrongBreach = plan.PlannedBreach != null && (insideRoom != occupied.Key && cleared.Contains(insideRoom)
+                || insideRoom == occupied.Key && local.Path(observer.Position, plan.BreachInside).Count > 0);
+            if (!alreadyInside && !wrongBreach) return false;
+            if (tick - state.LastLocalReplanTick < 60) return false;
+            state.LastLocalReplanTick = tick;
+            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, organization, plan.Objective);
+            if (next?.Success != true || wrongBreach && next.PlannedBreach == plan.PlannedBreach) return false;
+            if (alreadyInside && next.CqbIntent != RaidCqbIntent.ClearCurrentRoom) return false;
+            if (state.Breacher?.CurJobDef?.defName == CompSledgehammerBreach.JobDefName
+                || state.Breacher?.CurJobDef?.defName == "HD_PowerCutterBreach")
+                state.Breacher.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
+            next.ObjectiveIsIntermediate = plan.ObjectiveIsIntermediate;
+            ActivateNextRoomPlan(organization, members, state, next, tick);
+            if (next.CqbIntent == RaidCqbIntent.ClearCurrentRoom) Advance(state, RaidExecutionPhase.Assault, tick);
+            MapComponent_RaidTacticalTrace.Record(observer, alreadyInside
+                ? "CQB recovery: target room already occupied; clear without stacking or demolition"
+                : "CQB recovery: reject breach back into a reachable/cleared room");
+            return true;
+        }
+
         private bool RefreshLocalCqb(CombatOrganization organization, List<Pawn> members,
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {

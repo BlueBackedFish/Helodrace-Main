@@ -126,6 +126,7 @@ namespace Helodrace
             public int LastRoomPlanTick = -30;
             internal RaidCqbLocalMap LocalCqb;
             internal int LastLocalReplanTick = -60;
+            internal int LastCqbValidationTick = -30;
             public int LastDoorResponseTick;
             public IntVec3 CrossingBreach = IntVec3.Invalid;
             public List<BreachCrossing> Crossings = new List<BreachCrossing>();
@@ -833,6 +834,7 @@ namespace Helodrace
             if (EmergencyReactions(members, plan, state, tick)) return;
             if (RespondToFire(members, plan, state, tick)) return;
             if (FieldDefense(members, plan, state, tick)) return;
+            if (RecoverCqbIntent(organization, members, plan, state, tick)) return;
             if (RefreshLocalCqb(organization, members, plan, state, tick)) return;
             // Completed phases may hand over immediately; movement, gathering,
             // and live explosive waits still block on their actual conditions.
@@ -847,6 +849,11 @@ namespace Helodrace
         private void UpdateStep(CombatOrganization organization, List<Pawn> members,
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            if (plan.CqbIntent == RaidCqbIntent.ClearCurrentRoom && state.Phase == RaidExecutionPhase.Assemble)
+            {
+                Advance(state, RaidExecutionPhase.Assault, tick);
+                return;
+            }
             if (plan.Doctrine == RaidTacticalDoctrine.High
                 && (state.Phase == RaidExecutionPhase.Assemble
                     || state.Phase == RaidExecutionPhase.EntryWait

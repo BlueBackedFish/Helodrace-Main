@@ -43,6 +43,8 @@ namespace Helodrace
             Scribe_Values.Look(ref Entry, "entry");
             Scribe_References.Look(ref PlannedBreach, "plannedBreach");
             Scribe_Values.Look(ref ReusePassage, "reusePassage");
+            Scribe_Values.Look(ref CqbIntent, "cqbIntent");
+            Scribe_Values.Look(ref OccupiedRoom, "occupiedRoom");
             Scribe_Values.Look(ref BreachCell, "breachCell", IntVec3.Invalid);
             Scribe_Values.Look(ref BreachInside, "breachInside", IntVec3.Invalid);
             Scribe_Collections.Look(ref ApproachNodes, "approachNodes", LookMode.Value);

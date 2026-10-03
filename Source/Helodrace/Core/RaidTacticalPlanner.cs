@@ -44,6 +44,8 @@ namespace Helodrace
         public IntVec3 Entry;
         public Building PlannedBreach;
         public bool ReusePassage;
+        public RaidCqbIntent CqbIntent;
+        public int OccupiedRoom;
         public IntVec3 BreachCell = IntVec3.Invalid;
         public IntVec3 BreachInside = IntVec3.Invalid;
         public List<IntVec3> ApproachNodes = new List<IntVec3>();
@@ -115,7 +117,13 @@ namespace Helodrace
                 ? TrapAvoidanceCells(map, organization.faction) : new HashSet<IntVec3>();
             plan.AvoidedTrapCells = avoidedTraps;
             IntVec3 center = Center(members.Select(pawn => pawn.Position));
-            Pawn pathfinder = members.OrderBy(pawn => pawn.Position.DistanceToSquared(center)).First();
+            List<Pawn> entryCore = EntryMembers(organization, members);
+            int occupied = entryCore.GroupBy(pawn => analysis.RoomAt(pawn.Position))
+                .OrderByDescending(group => group.Count()).ThenBy(group => group.Min(pawn => pawn.Position.DistanceToSquared(center)))
+                .First().Key;
+            Pawn pathfinder = entryCore.Where(pawn => analysis.RoomAt(pawn.Position) == occupied)
+                .OrderBy(pawn => pawn.Position.DistanceToSquared(center)).First();
+            plan.OccupiedRoom = occupied;
             var navigation = new RaidNavigationSnapshot(map, pathfinder, analysis);
             plan.Start = pathfinder.Position;
             if (members.All(MapComponent_RaidTacticalExecution.IsDefendingRaider))
@@ -165,6 +173,8 @@ namespace Helodrace
                 localRoute = local.Path(plan.Start, plan.Objective);
                 interiorWalk = localRoute.Count > 0 || !local.Contains(plan.Objective) && !needsBreach;
                 if (local.Contains(plan.Objective) && localRoute.Count == 0) needsBreach = true;
+                if (RaidCqbPolicy.Intent(occupied, objectiveRoom, localRoute.Count > 0) == RaidCqbIntent.ClearCurrentRoom)
+                    return MakeCurrentRoomPlan(organization, members, plan);
                 if (interiorWalk)
                 {
                     plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps, plan.Objective, pathfinder);
@@ -207,6 +217,7 @@ namespace Helodrace
             }
             else if (!interiorWalk) plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
                 plan.Objective, pathfinder);
+            plan.CqbIntent = RaidCqbPolicy.Intent(occupied, objectiveRoom, interiorWalk);
             if (!plan.Entry.IsValid)
             {
                 plan.Reason = "No usable entry cell was found near the objective.";
@@ -222,7 +233,7 @@ namespace Helodrace
                 plan.Reason = "No walking route reaches the objective entrance.";
                 return plan;
             }
-            if (plan.PlannedBreach == null && !plan.ReusePassage && !field)
+            if (plan.PlannedBreach == null && !plan.ReusePassage && !field && occupied == 0)
             {
                 int opening = direct.FindIndex(1, direct.Count - 1,
                     cell => analysis.CachedAt(cell).ExteriorAccess);
@@ -356,6 +367,27 @@ namespace Helodrace
                 plan.Reason = "Not enough reachable staging and withdrawal cells for this group.";
                 return plan;
             }
+            plan.Reason = plan.Selected.Reason;
+            return plan;
+        }
+
+        private static RaidTacticalPlan MakeCurrentRoomPlan(CombatOrganization organization, List<Pawn> members, RaidTacticalPlan plan)
+        {
+            plan.CqbIntent = RaidCqbIntent.ClearCurrentRoom;
+            plan.Entry = plan.Frontline = plan.Objective;
+            plan.Flank = IntVec3.Invalid;
+            plan.CommandEfficiency = organization.rootGroups.Count == 0 ? 1f : organization.AllGroups.Min(group => group.CommandEfficiency);
+            plan.Selected = new RaidTacticalOption { Maneuver = RaidTacticalManeuver.DirectAssault, Score = 1,
+                Reason = "Target already belongs to the occupied, reachable room; clear it without stacking or demolition." };
+            plan.Options.Add(plan.Selected);
+            plan.EntrySupport = "None: entry team already occupies this room";
+            plan.EntryMethod = "Clear occupied room";
+            plan.ApproachNodes.Add(plan.Start);
+            List<Pawn> entry = EntryMembers(organization, members);
+            foreach (Pawn pawn in members)
+                plan.Assignments.Add(new RaidTacticalAssignment { Pawn = pawn, Position = pawn.Position,
+                    Task = entry.Contains(pawn) ? RaidTacticalTask.Entry : RaidTacticalTask.Security,
+                    EntryOrder = entry.Contains(pawn) ? entry.IndexOf(pawn) + 1 : 0 });
             plan.Reason = plan.Selected.Reason;
             return plan;
         }
@@ -609,6 +641,15 @@ namespace Helodrace
             if (available.Count == 0 || operators.Count == 0) return false;
             List<Pawn> entryMembers = EntryMembers(organization, available);
             bool interior = analysis.IsIndoor(plan.Start);
+            var cleared = new HashSet<int>((map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(organization.id)
+                ?.ClearedRoomCells ?? new List<IntVec3>()).Select(analysis.RoomAt).Where(room => room > 0));
+            var allowedRooms = new HashSet<int>(cleared) { plan.OccupiedRoom };
+            RaidCqbLocalMap local = null;
+            if (interior)
+            {
+                local = new RaidCqbLocalMap();
+                local.Refresh(map, analysis, pathfinder, plan.Start, plan.PlannedTick, avoidedTraps);
+            }
             IEnumerable<Building> structures = interior
                 ? GenRadial.RadialCellsAround(plan.Start, RaidCqbLocalMap.Radius, true)
                     .Where(cell => cell.InBounds(map)).Select(cell => cell.GetEdifice(map) as Building)
@@ -632,6 +673,9 @@ namespace Helodrace
                 foreach (IntVec3 outside in GenAdj.CellsAdjacentCardinal(target))
                 {
                     IntVec3 inside = target.Position + (target.Position - outside);
+                    if (interior && !RaidCqbPolicy.BreachDestination(plan.OccupiedRoom, analysis.RoomAt(inside),
+                        local.Path(plan.Start, outside, allowedRooms).Count > 0,
+                        local.Path(plan.Start, inside).Count > 0, cleared)) continue;
                     if (outside.DistanceTo(plan.Start) >= inside.DistanceTo(plan.Start)
                         || inside.DistanceTo(plan.Objective)
                             >= outside.DistanceTo(plan.Objective)
