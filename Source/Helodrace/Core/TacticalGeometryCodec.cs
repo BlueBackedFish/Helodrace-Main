@@ -50,6 +50,7 @@ namespace Helodrace
                 var breaches = new List<int>();
                 var doors = new List<int>();
                 var anchors = new List<int>();
+                var roomAreas = new Dictionary<int, int>();
                 for (int i = 0; i < cells.Length; i++)
                 {
                     byte flags = reader.ReadByte();
@@ -63,6 +64,7 @@ namespace Helodrace
                         Flags = (TacticalRawFlags)(flags & 127), Room = reader.ReadInt32(), StructureId = reader.ReadInt32()
                     };
                     components[i] = reader.ReadInt32();
+                    TacticalGeometry.CountRoomCell(input.Cells[i], roomAreas);
                     if (input.Cells[i].Room < 0 || components[i] < 0 || components[i] > componentCount)
                         throw new InvalidDataException("Invalid structure cell.");
                     if (input.Cells[i].Has(TacticalRawFlags.WallLine)) breaches.Add(i);
@@ -71,7 +73,7 @@ namespace Helodrace
                 }
                 if (reader.BaseStream.ReadByte() != -1) throw new InvalidDataException("Unexpected trailing structure data.");
                 return new TacticalGeometryResult(input, cells, components, componentCount,
-                    breaches.ToArray(), doors.ToArray(), anchors.ToArray(), 0);
+                    breaches.ToArray(), doors.ToArray(), anchors.ToArray(), 0, roomAreas);
             }
         }
     }

@@ -97,7 +97,7 @@ namespace Helodrace
                 state.NextApproachSmokeTick = tick + 180;
                 return false;
             }
-            bool reserve = RaidSmokeUtility.ExteriorEntry(map, plan);
+            bool reserve = RaidSmokeUtility.OutdoorDestination(map, plan);
             List<Pawn> team = SmokeTeam(members, plan);
             bool CanCarry(Pawn pawn) => pawn != null && team.Contains(pawn)
                 && pawn.CurJob?.playerForced != true && CompSledgehammerBreach.CanOperate(pawn)

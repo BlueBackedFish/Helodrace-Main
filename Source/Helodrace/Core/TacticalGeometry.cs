@@ -68,11 +68,12 @@ namespace Helodrace
         public readonly int[] Breaches;
         public readonly int[] Doors;
         public readonly int[] Anchors;
+        public readonly IReadOnlyDictionary<int, int> RoomAreas;
         public readonly double CalculationMilliseconds;
 
         public TacticalGeometryResult(TacticalGeometryInput input,
             TacticalGeometryCell[] cells, int[] components, int componentCount,
-            int[] breaches, int[] doors, int[] anchors, double milliseconds)
+            int[] breaches, int[] doors, int[] anchors, double milliseconds, Dictionary<int, int> roomAreas)
         {
             Input = input;
             Cells = cells;
@@ -81,6 +82,7 @@ namespace Helodrace
             Breaches = breaches;
             Doors = doors;
             Anchors = anchors;
+            RoomAreas = roomAreas;
             CalculationMilliseconds = milliseconds;
         }
     }
@@ -95,6 +97,7 @@ namespace Helodrace
             var breaches = new List<int>();
             var doors = new List<int>();
             var anchors = new List<int>();
+            var roomAreas = new Dictionary<int, int>();
             for (int z = 0; z < input.Height; z++)
             {
                 cancellation.ThrowIfCancellationRequested();
@@ -102,6 +105,7 @@ namespace Helodrace
                 {
                     int i = z * input.Width + x;
                     TacticalRawCell raw = input.Cells[i];
+                    CountRoomCell(raw, roomAreas);
                     if (raw.Has(TacticalRawFlags.WallLine)) breaches.Add(i);
                     if (raw.Has(TacticalRawFlags.Door)) doors.Add(i);
                     if (raw.Has(TacticalRawFlags.Anchor) && raw.Room > 0) anchors.Add(i);
@@ -147,7 +151,15 @@ namespace Helodrace
             // can join the small graph without repeating a full-map flood fill.
             int[] components = Components(input, cancellation, out int componentCount);
             return new TacticalGeometryResult(input, cells, components, componentCount,
-                breaches.ToArray(), doors.ToArray(), anchors.ToArray(), watch.Elapsed.TotalMilliseconds);
+                breaches.ToArray(), doors.ToArray(), anchors.ToArray(), watch.Elapsed.TotalMilliseconds, roomAreas);
+        }
+
+        internal static void CountRoomCell(TacticalRawCell raw, Dictionary<int, int> areas)
+        {
+            // Count floor area, including furniture footprints, but not doors or walls.
+            if (raw.Room <= 0 || raw.Has(TacticalRawFlags.WallLine) || raw.Has(TacticalRawFlags.Door)) return;
+            areas.TryGetValue(raw.Room, out int area);
+            areas[raw.Room] = area + 1;
         }
 
         private static int[] Components(TacticalGeometryInput input,

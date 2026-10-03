@@ -331,6 +331,7 @@ namespace Helodrace
         public int RoomAt(IntVec3 cell) => map != null && cell.InBounds(map)
             ? Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(cell)].Room : 0;
         public bool IsIndoor(IntVec3 cell) => RoomAt(cell) > 0;
+        public int RoomArea(int room) => Version.Geometry.RoomAreas.TryGetValue(room, out int area) ? area : 0;
         public IEnumerable<Building> CachedBreachStructures
         {
             get

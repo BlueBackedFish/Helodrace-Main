@@ -152,6 +152,13 @@ namespace Helodrace
             report.AppendLine($"Support: {plan.EntrySupport}");
             report.AppendLine("Support execution: " + RaidTacticalDebugSession.Map
                 ?.GetComponent<MapComponent_RaidTacticalExecution>()?.SupportStatusFor(plan.OrganizationId));
+            var observation = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                ?.StateFor(plan.OrganizationId)?.Observation;
+            if (observation != null)
+                report.AppendLine($"Opening observer={observation.Observer?.LabelShort ?? "none"} at {observation.Position} "
+                    + $"peek={observation.ObservedTicks}/90 ticks complete={observation.Complete} "
+                    + $"unavailable={observation.Unavailable} visible cells={observation.VisibleCells.Count} "
+                    + $"enemy positions={observation.EnemyCells.Count}");
             report.AppendLine($"Entry method: {plan.EntryMethod}");
             report.AppendLine($"Wait before group entry: {plan.EntryDelayTicks} ticks; "
                 + $"coordination allowance: {plan.CoordinationDelayTicks} ticks");

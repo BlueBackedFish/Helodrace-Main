@@ -112,7 +112,7 @@ namespace Helodrace
             if (replacement == null) return;
             bool waitingOutside = state.Phase == RaidExecutionPhase.Assemble
                 || state.Phase == RaidExecutionPhase.Breach || state.Phase == RaidExecutionPhase.WithdrawFromCharge
-                || state.Phase == RaidExecutionPhase.Detonation || state.Phase == RaidExecutionPhase.Support
+                || state.Phase == RaidExecutionPhase.Detonation || state.Phase == RaidExecutionPhase.ObserveOpening || state.Phase == RaidExecutionPhase.Support
                 || state.Phase == RaidExecutionPhase.EntryWait;
             if (waitingOutside && plan.BreachCell.IsValid)
             {

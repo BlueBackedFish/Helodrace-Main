@@ -34,9 +34,9 @@ namespace Helodrace
 
         public static bool IsSmoke(Thing item) => IsScreeningProjectile(item?.def.projectileWhenLoaded);
 
-        public static bool ExteriorEntry(Map map, RaidTacticalPlan plan) => plan.BreachCell.IsValid
+        public static bool OutdoorDestination(Map map, RaidTacticalPlan plan) => plan.BreachCell.IsValid
             && map.GetComponent<MapComponent_RaidTacticalPlans>().GetStructure(plan.OrganizationId)
-                ?.RoomAt(plan.Entry) == 0;
+                ?.RoomAt(plan.BreachInside) == 0;
 
         public static bool SmokeAt(Map map, IntVec3 target) => target.IsValid
             && GenRadial.RadialCellsAround(target, 3f, true).Any(cell => cell.InBounds(map)
@@ -130,7 +130,7 @@ namespace Helodrace
                 })).OrderBy(enemy => moving.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position)))
                 .Take(3).ToList();
             if (threats.Count == 0) return false;
-            bool reserve = RaidSmokeUtility.ExteriorEntry(map, plan);
+            bool reserve = RaidSmokeUtility.OutdoorDestination(map, plan);
             if (!SmokeTeam(members, plan).Any(pawn => CompSledgehammerBreach.CanOperate(pawn)
                 && InventoryGrenadeUtility.GrenadeStacks(pawn).Where(RaidSmokeUtility.IsSmoke)
                     .Sum(item => item.stackCount) > (reserve ? 1 : 0)))

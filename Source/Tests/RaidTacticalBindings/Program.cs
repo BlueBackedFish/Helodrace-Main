@@ -35,7 +35,8 @@ internal static class Program
             typeof(Patch_BreachedDoor_NoRandomBreakdown), typeof(Patch_BreachedDoor_AlwaysOpen),
             typeof(Patch_BreachedDoor_FreePassage), typeof(Patch_BreachedDoor_BreakdownRepaired),
             typeof(Patch_BreachedDoor_OrdinaryRepair), typeof(Patch_DebugSettings_RaidTacticalOverlay),
-            typeof(Patch_RaidGrenade_NoGunCast), typeof(Patch_RaidGrenade_NoGunAvailable), typeof(Patch_RaidGrenade_DrawHeld)
+            typeof(Patch_RaidGrenade_NoGunCast), typeof(Patch_RaidGrenade_NoGunAvailable), typeof(Patch_RaidGrenade_DrawHeld),
+            typeof(Patch_RaidOpeningObservation_Lean)
         };
         try
         {
@@ -70,9 +71,121 @@ internal static class Program
             CheckTacticalRoomOverlay();
             CheckAiGrenadePreparation();
             CheckOccupiedRoomPlan();
+            CheckOpeningObservation();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckOpeningObservation()
+    {
+        int checks = 0;
+        void Check(bool condition, string message)
+        {
+            if (!condition) throw new Exception(message);
+            checks++;
+        }
+        Assembly assembly = typeof(RaidEntryObservation).Assembly;
+        MethodInfo sideMethod = AccessTools.Method(typeof(RaidEntryObservation), "SidePositions");
+        var breach = new IntVec3(10, 0, 10);
+        foreach (IntVec3 inward in new[] { IntVec3.North, IntVec3.East, IntVec3.South, IntVec3.West })
+        {
+            var positions = ((IEnumerable<IntVec3>)sideMethod.Invoke(null, new object[] { breach, breach + inward })).ToList();
+            Check(positions.Count == 2 && positions.Distinct().Count() == 2 && positions.All(position =>
+                (position.x - breach.x) * inward.x + (position.z - breach.z) * inward.z == -1
+                && position.DistanceToSquared(breach) == 2),
+                "For every wall orientation, observers stand diagonally outside, never on the opening's centerline.");
+        }
+        var enemy = new IntVec3(11, 0, 11);
+        var visibleEmpty = new IntVec3(12, 0, 11);
+        var blind = new IntVec3(11, 0, 12);
+        var observation = new RaidEntryObservation { EnemyCells = new List<IntVec3> { enemy },
+            VisibleCells = new List<IntVec3> { enemy, visibleEmpty } };
+        MethodInfo targetMethod = AccessTools.Method(typeof(RaidEntryObservation), "ThrowTargets");
+        List<IntVec3> Targets(Func<IntVec3, bool> valid) => ((IEnumerable<IntVec3>)targetMethod.Invoke(null,
+            new object[] { observation, new[] { visibleEmpty, blind, enemy }, valid })).ToList();
+        Check(Targets(cell => true).SequenceEqual(new[] { enemy, blind }),
+            "The observed enemy must outrank a blind sector regardless of candidate enumeration order.");
+        Check(Targets(cell => cell != enemy).SequenceEqual(new[] { blind }),
+            "An unusable observed enemy must fall back to an unseen sector, without wasting grenades in seen empty space.");
+        observation.EnemyCells.Clear();
+        Check(Targets(cell => true).SequenceEqual(new[] { blind }), "No enemy sighting selects only unseen cells.");
+        observation.VisibleCells.Add(blind);
+        Check(Targets(cell => true).Count == 0, "A fully observed empty room has no grenade target.");
+
+        var pawn = new Pawn { Position = breach - IntVec3.North + IntVec3.East };
+        pawn.jobs = new Pawn_JobTracker(pawn);
+        var job = new Job { def = new JobDef { defName = RaidEntryObservation.JobDefName },
+            targetA = pawn.Position, targetB = breach + IntVec3.North, targetC = breach - IntVec3.North };
+        var driver = new JobDriver_RaidObserveOpening { pawn = pawn, job = job, Peeking = true };
+        pawn.jobs.curJob = job; pawn.jobs.curDriver = driver;
+        IntVec3 offset = IntVec3.Zero;
+        bool result = false;
+        Patch_RaidOpeningObservation_Lean.Postfix(pawn, ref offset, ref result);
+        Check(result && offset == IntVec3.West, "The observation job uses the native adjacent-cell lean toward the opening.");
+        driver.Peeking = false; offset = IntVec3.Zero; result = false;
+        Patch_RaidOpeningObservation_Lean.Postfix(pawn, ref offset, ref result);
+        Check(!result && offset == IntVec3.Zero, "Waiting for demolition must not peek through an intact wall.");
+        driver.Peeking = true; driver.ended = true;
+        Patch_RaidOpeningObservation_Lean.Postfix(pawn, ref offset, ref result);
+        Check(!result, "Interrupted observation cannot retain an active forced lean.");
+        driver.ended = false;
+        var toils = ((IEnumerable<Toil>)AccessTools.Method(typeof(JobDriver_RaidObserveOpening), "MakeNewToils")
+            .Invoke(driver, null)).ToList();
+        Check(toils.Count == 3 && toils[1].defaultCompleteMode == ToilCompleteMode.PatherArrival
+            && toils[2].defaultCompleteMode == ToilCompleteMode.Never,
+            "Observation first reaches its side position and then counts actual peeking time, not walking time.");
+        var weapon = new ThingWithComps();
+        var owner = new CompEquippable { parent = weapon };
+        var verb = new Verb_Shoot { caster = pawn, verbTracker = new VerbTracker(owner),
+            verbProps = new VerbProperties { verbClass = typeof(Verb_Shoot) } };
+        result = true;
+        Check(!Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result) && !result,
+            "The observer must not start a gun burst while holding a fixed observation pose.");
+        pawn.jobs.curJob = new Job { def = new JobDef { defName = "Flee" } };
+        result = true;
+        Check(Patch_RaidGrenade_NoGunCast.Prefix(verb, ref result), "An emergency override releases the observation firing gate.");
+        string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.."));
+        var definition = XDocument.Load(Path.Combine(root, "Defs/GreatWar/Jobs_RaidEntryObservation.xml")).Root.Element("JobDef");
+        Check(definition.Element("driverClass")?.Value == typeof(JobDriver_RaidObserveOpening).FullName
+            && definition.Element("suspendable")?.Value == "false"
+            && definition.Element("checkOverrideOnDamage")?.Value == "Always",
+            "The dedicated observer job binds correctly and can be cancelled for damage without stale resumption.");
+        Check(XDocument.Load(Path.Combine(root, "Languages/Korean (한국어)/DefInjected/JobDef/RaidEntryObservation.xml"))
+            .Root.Element(RaidEntryObservation.JobDefName + ".reportString") != null,
+            "The new observation job has its Korean report binding.");
+        Game previousGame = Current.Game;
+        var map = (Map)RuntimeHelpers.GetUninitializedObject(typeof(Map));
+        var game = (Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
+        var execution = new MapComponent_RaidTacticalExecution(map);
+        AccessTools.Field(typeof(Map), "components").SetValue(map, new List<MapComponent> { execution });
+        AccessTools.Field(typeof(Game), "maps").SetValue(game, new List<Map> { map });
+        var state = new MapComponent_RaidTacticalExecution.ExecutionState { OrganizationId = "ObserverTest",
+            ActivePlan = new RaidTacticalPlan { PlannedTick = 42 }, Phase = RaidExecutionPhase.Breach,
+            Observation = new RaidEntryObservation { Observer = pawn } };
+        ((Dictionary<string, MapComponent_RaidTacticalExecution.ExecutionState>)AccessTools.Field(
+            typeof(MapComponent_RaidTacticalExecution), "states").GetValue(execution))[state.OrganizationId] = state;
+        AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)0);
+        AccessTools.Field(typeof(JobDriver_RaidObserveOpening), "organizationId").SetValue(driver, state.OrganizationId);
+        job.count = 42;
+        bool OwnerValid() => (bool)AccessTools.Method(typeof(JobDriver_RaidObserveOpening), "OwnerStillValid").Invoke(driver, null);
+        Current.Game = game;
+        try
+        {
+            Check(OwnerValid(), "An assigned observer can wait beside an active engineer.");
+            state.Phase = RaidExecutionPhase.ObserveOpening;
+            Check(OwnerValid(), "The same observer remains assigned when demolition hands over to observation.");
+            state.Phase = RaidExecutionPhase.WithdrawFromCharge;
+            Check(!OwnerValid(), "C4 withdrawal must cancel the observer instead of leaving them beside the charge.");
+            state.Phase = RaidExecutionPhase.ObserveOpening;
+            state.Observation.Observer = null;
+            Check(!OwnerValid(), "Replacing the observer invalidates the previous actor's observation job.");
+            state.Observation.Observer = pawn;
+            state.ActivePlan.PlannedTick++;
+            Check(!OwnerValid(), "A new plan must not inherit the old opening's observation job.");
+        }
+        finally { Current.Game = previousGame; }
+        Console.WriteLine($"PASS: {checks} opening observation positions, target priority, native lean and interruption checks");
     }
 
     private static void CheckOccupiedRoomPlan()

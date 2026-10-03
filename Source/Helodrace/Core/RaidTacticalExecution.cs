@@ -18,6 +18,7 @@ namespace Helodrace
         Breach,
         WithdrawFromCharge,
         Detonation,
+        ObserveOpening,
         Support,
         EntryWait,
         CrossBreach,
@@ -96,6 +97,7 @@ namespace Helodrace
             public RaidBreachKind BreachKind;
             public bool WithdrawalIssued;
             public Pawn Thrower;
+            public RaidEntryObservation Observation;
             public bool SupportIssued;
             public bool SupportLaunched;
             public bool SupportReturnRequired;
@@ -166,6 +168,7 @@ namespace Helodrace
                 Scribe_Values.Look(ref BreachKind, "breachKind");
                 Scribe_Values.Look(ref WithdrawalIssued, "withdrawalIssued");
                 Scribe_References.Look(ref Thrower, "thrower");
+                Scribe_Deep.Look(ref Observation, "openingObservation");
                 Scribe_Values.Look(ref SupportIssued, "supportIssued");
                 Scribe_Values.Look(ref SupportLaunched, "supportLaunched");
                 Scribe_Values.Look(ref SupportReturnRequired, "supportReturnRequired");
@@ -915,11 +918,11 @@ namespace Helodrace
                     if (state.Breacher == null && state.BreachTarget == null)
                     {
                         if (plan.PlannedBreach != null && BreachOpened(plan))
-                            Advance(state, RaidExecutionPhase.Support, tick);
+                            Advance(state, RaidExecutionPhase.ObserveOpening, tick);
                         else if (!TryStartBreach(members, plan, state))
                         {
                             if (plan.PlannedBreach == null || BreachOpened(plan))
-                                Advance(state, RaidExecutionPhase.Support, tick);
+                                Advance(state, RaidExecutionPhase.ObserveOpening, tick);
                             else if (tick - state.PhaseStarted >= BreachTimeout)
                             {
                                 state.PhaseStarted = tick;
@@ -931,7 +934,11 @@ namespace Helodrace
                     else if (state.BreachKind == RaidBreachKind.C4
                         && BreachExplosiveUtility.ChargeOnWall(state.BreachTarget)
                             ?.OperatorPawn == state.Breacher)
+                    {
+                        CancelOpeningObservation(state);
+                        state.Observation = null;
                         Advance(state, RaidExecutionPhase.WithdrawFromCharge, tick);
+                    }
                     else if (state.BreachKind == RaidBreachKind.C4
                         && (state.Breacher?.CurJobDef?.defName
                             != BreachExplosiveUtility.ShockTubeJobDefName
@@ -948,6 +955,8 @@ namespace Helodrace
                             || state.Breacher?.CurJobDef?.defName
                                 != CompSledgehammerBreach.JobDefName))
                         FinishBreachAttempt(plan, state, tick);
+                    if (state.Phase == RaidExecutionPhase.Breach)
+                        EnsureOpeningObserver(members, plan, state, tick);
                     break;
                 case RaidExecutionPhase.WithdrawFromCharge:
                     CompInstalledBreachCharge charge = BreachExplosiveUtility
@@ -988,6 +997,9 @@ namespace Helodrace
                         || tick - state.PhaseStarted >= DetonationTimeout)
                         FinishBreachAttempt(plan, state, tick);
                     break;
+                case RaidExecutionPhase.ObserveOpening:
+                    UpdateOpeningObservation(members, plan, state, tick);
+                    break;
                 case RaidExecutionPhase.Support:
                     MaintainStack(members, plan, state.Thrower);
                     if (state.SupportLaunched) ReturnSupportThrower(state);
@@ -997,7 +1009,7 @@ namespace Helodrace
                     if (!state.SupportIssued)
                     {
                         Pawn thrower = TryStartSupport(members, plan,
-                            state.Maneuver, state.Thrower);
+                            state.Maneuver, state.Thrower, state.Observation);
                         if (thrower != null)
                         {
                             state.Thrower = thrower;
@@ -1006,7 +1018,12 @@ namespace Helodrace
                         }
                         else
                         {
-                            state.SupportStatus = "Skipped: no usable safe throw, equipment, or support timeout";
+                            RaidStructureSnapshot supportStructure = StructureFor(map, plan);
+                            int supportRoom = supportStructure?.RoomAt(plan.BreachCell.IsValid ? plan.BreachInside : plan.Objective) ?? 0;
+                            state.SupportStatus = state.Maneuver == RaidTacticalManeuver.CoordinatedEntry
+                                && supportRoom > 0 && supportStructure.RoomArea(supportRoom) <= RaidEntryObservationPolicy.SmallRoomCells
+                                ? "Skipped: target room has at most 16 floor cells; save grenade"
+                                : "Skipped: no safe observed enemy/blind-sector throw or usable equipment";
                             state.SupportReturnRequired = plan.BreachCell.IsValid && state.Thrower != null;
                             Advance(state, RaidExecutionPhase.EntryWait, tick);
                         }
@@ -1196,7 +1213,7 @@ namespace Helodrace
                 state.Breacher = null;
                 state.BreachTarget = null;
                 state.BreachKind = RaidBreachKind.None;
-                Advance(state, RaidExecutionPhase.Support, tick);
+                Advance(state, RaidExecutionPhase.ObserveOpening, tick);
                 return;
             }
             state.Breacher = null;
@@ -1507,7 +1524,7 @@ namespace Helodrace
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
             {
                 Pawn pawn = assignment.Pawn;
-                if (pawn == exempt || !members.Contains(pawn)
+                if (pawn == exempt || RaidEntryObservation.Active(pawn) != null || !members.Contains(pawn)
                     || !holdEntry && assignment.Task == RaidTacticalTask.Entry
                     || assignment.Task == RaidTacticalTask.Withdraw
                     || !assignment.Position.IsValid || IsTaserOperation(pawn)) continue;
@@ -1991,16 +2008,19 @@ namespace Helodrace
         }
 
         private static Pawn TryStartSupport(List<Pawn> members, RaidTacticalPlan plan,
-            RaidTacticalManeuver maneuver, Pawn preferred = null)
+            RaidTacticalManeuver maneuver, Pawn preferred = null, RaidEntryObservation observation = null)
         {
             bool entry = maneuver == RaidTacticalManeuver.CoordinatedEntry;
             Map currentMap = members[0].Map;
-            bool entrySmoke = RaidSmokePolicy.EntrySmoke(entry, RaidSmokeUtility.ExteriorEntry(currentMap, plan));
+            RaidStructureSnapshot structure = StructureFor(currentMap, plan);
+            int objectiveRoom = structure?.RoomAt(plan.BreachCell.IsValid ? plan.BreachInside : plan.Objective) ?? 0;
+            RaidEntrySupportKind entrySupport = RaidEntryObservationPolicy.Support(objectiveRoom == 0,
+                structure?.RoomArea(objectiveRoom) ?? 0);
+            if (entry && entrySupport == RaidEntrySupportKind.None) return null;
+            bool entrySmoke = entry && entrySupport == RaidEntrySupportKind.Smoke;
             bool smoke = maneuver == RaidTacticalManeuver.SmokeAdvance || entrySmoke;
             bool fieldGrenade = maneuver == RaidTacticalManeuver.FieldGrenade;
             if (!smoke && !entry && !fieldGrenade) return null;
-            RaidStructureSnapshot structure = StructureFor(currentMap, plan);
-            int objectiveRoom = structure?.RoomAt(plan.Objective) ?? 0;
             if (entry && !smoke && plan.Doctrine == RaidTacticalDoctrine.Low
                 && currentMap.mapPawns.AllPawnsSpawned.Any(pawn => pawn.Faction == members[0].Faction
                     && (plan.BreachCell.IsValid
@@ -2020,24 +2040,28 @@ namespace Helodrace
                         .Distinct()
                         .OrderBy(cell => cell.DistanceTo(plan.Frontline))
                         .ToList()
-                : EntryGrenadeTargets(currentMap, plan, structure, objectiveRoom);
-            foreach (Pawn pawn in members.OrderBy(value => value == preferred ? -1
+                : EntryGrenadeTargets(currentMap, plan, structure, objectiveRoom, observation);
+            preferred = preferred ?? observation?.Observer;
+            List<Pawn> throwers = members.OrderBy(value => value == preferred ? -1
                 : entry && !smoke && plan.Doctrine == RaidTacticalDoctrine.Low
                     && InventoryGrenadeUtility.GrenadeStacks(value)
                         .Any(item => item.def.defName == "HD_Grenade_MKIII") ? 0 : 1)
-                .ThenBy(value => value.Position.DistanceToSquared(plan.Entry)))
+                .ThenBy(value => value.Position.DistanceToSquared(plan.Entry)).ToList();
+            // Exhaust feasible throws at the observed enemy before trying any blind sector.
+            foreach (IntVec3 target in targets.Take(16))
             {
-                if (IsTaserOperation(pawn)) continue;
-                Thing grenade = InventoryGrenadeUtility.GrenadeStacks(pawn)
-                    .FirstOrDefault(item => IsSupportGrenade(item, plan, smoke));
-                if (grenade == null) continue;
-                foreach (IntVec3 target in targets.Take(16))
+                if (!target.IsValid || !target.InBounds(currentMap)) continue;
+                foreach (Pawn pawn in throwers)
                 {
-                    if (!target.IsValid || !target.InBounds(currentMap)) continue;
+                    if (IsTaserOperation(pawn)) continue;
+                    Thing grenade = InventoryGrenadeUtility.GrenadeStacks(pawn)
+                        .FirstOrDefault(item => IsSupportGrenade(item, plan, smoke));
+                    if (grenade == null) continue;
                     if (!smoke && !GrenadeTargetSafe(currentMap, pawn, target))
                         continue;
                     IEnumerable<IntVec3> positions = entry && plan.BreachCell.IsValid
-                        ? new[] { pawn.Position, plan.Entry }.Concat(plan.SafeStackCells.Take(8)).Distinct()
+                        ? new[] { pawn.Position, observation?.Position ?? IntVec3.Invalid, plan.Entry }
+                            .Concat(plan.SafeStackCells.Take(8)).Distinct()
                         : new[] { pawn.Position };
                     foreach (IntVec3 position in positions)
                     {
@@ -2059,22 +2083,17 @@ namespace Helodrace
         }
 
         private static IEnumerable<IntVec3> EntryGrenadeTargets(Map map,
-            RaidTacticalPlan plan, RaidStructureSnapshot structure, int objectiveRoom)
+            RaidTacticalPlan plan, RaidStructureSnapshot structure, int objectiveRoom, RaidEntryObservation observation)
         {
-            if (!plan.BreachCell.IsValid)
-                return GenRadial.RadialCellsAround(plan.Entry, 7f, true)
-                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                        && structure != null && objectiveRoom > 0
-                        && structure.RoomAt(cell) == objectiveRoom
-                        && cell.DistanceTo(plan.Entry) >= 2f)
-                    .OrderBy(cell => cell.DistanceTo(plan.Entry));
-            IntVec3 inward = plan.BreachInside - plan.BreachCell;
-            return GenRadial.RadialCellsAround(plan.BreachInside, 7f, true)
-                .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                    && GenSight.LineOfSight(plan.BreachInside, cell, map, true)
-                    && (cell.x - plan.BreachCell.x) * inward.x
-                        + (cell.z - plan.BreachCell.z) * inward.z >= 3)
-                .OrderBy(cell => cell.DistanceTo(plan.BreachInside));
+            IntVec3 center = plan.BreachCell.IsValid ? plan.BreachInside : plan.Entry;
+            IntVec3 inward = plan.BreachCell.IsValid ? plan.BreachInside - plan.BreachCell : IntVec3.Zero;
+            bool InTarget(IntVec3 cell) => cell.InBounds(map) && cell.Standable(map)
+                && structure != null && objectiveRoom > 0 && structure.RoomAt(cell) == objectiveRoom
+                && !plan.AvoidedTrapCells.Contains(cell)
+                && (!plan.BreachCell.IsValid || (cell.x - plan.BreachCell.x) * inward.x
+                    + (cell.z - plan.BreachCell.z) * inward.z > 0);
+            return RaidEntryObservation.ThrowTargets(observation,
+                GenRadial.RadialCellsAround(center, 13.9f, true).OrderBy(cell => cell.DistanceToSquared(center)), InTarget);
         }
 
         private static IEnumerable<IntVec3> EntrySmokeTargets(Map map,
@@ -2086,7 +2105,7 @@ namespace Helodrace
             return GenRadial.RadialCellsAround(center, 3f, true)
                 .Where(cell => cell.InBounds(map) && cell.Standable(map)
                     && !plan.AvoidedTrapCells.Contains(cell)
-                    && (room == 0 || structure.RoomAt(cell) == room)
+                    && structure != null && structure.RoomAt(cell) == room
                     && GenSight.LineOfSight(plan.BreachInside, cell, map, true)
                     && (cell.x - plan.BreachCell.x) * inward.x
                         + (cell.z - plan.BreachCell.z) * inward.z >= 1
@@ -2317,6 +2336,8 @@ namespace Helodrace
         private static void ActivateNextRoomPlan(CombatOrganization organization,
             List<Pawn> members, ExecutionState state, RaidTacticalPlan next, int tick)
         {
+            CancelOpeningObservation(state);
+            state.Observation = null;
             state.ActivePlan = next;
             state.Objective = next.Objective;
             state.Maneuver = next.Selected.Maneuver;

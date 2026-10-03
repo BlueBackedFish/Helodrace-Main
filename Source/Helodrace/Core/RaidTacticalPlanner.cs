@@ -337,10 +337,14 @@ namespace Helodrace
             }
             else plan.ApproachNodes.Add(plan.Start);
             plan.EntrySupport = RaidTacticalDecision.EntrySupport(plan.Selected.Maneuver, situation);
-            bool entrySmoke = RaidSmokePolicy.EntrySmoke(
-                plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry,
-                RaidSmokeUtility.ExteriorEntry(map, plan));
-            if (entrySmoke) plan.EntrySupport = "Smoke screen at the exterior opening";
+            int entryRoom = analysis.RoomAt(plan.BreachCell.IsValid ? plan.BreachInside : plan.Objective);
+            RaidEntrySupportKind entrySupport = RaidEntryObservationPolicy.Support(entryRoom == 0, analysis.RoomArea(entryRoom));
+            bool entrySmoke = plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry
+                && entrySupport == RaidEntrySupportKind.Smoke;
+            if (plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry)
+                plan.EntrySupport = entrySmoke ? "Observe opening, then smoke beyond it into outdoor space"
+                    : entrySupport == RaidEntrySupportKind.None ? "Observe opening; save grenade in room of at most 16 cells"
+                    : "Observe opening; grenade at observed enemy, otherwise a blind sector";
             plan.EntryMethod = plan.PlannedBreach != null
                 ? "Planned " + (plan.PlannedBreach is Building_Door ? "door" : "wall") + " breach"
                 : plan.ReusePassage ? "Reuse live CQB passage"
@@ -348,8 +352,7 @@ namespace Helodrace
                 : plan.Entry.GetEdifice(map) is Building_Door
                 ? "Door" : breachTool ? "Breach equipment available" : "Open approach";
             plan.EntryDelayTicks = interiorWalk ? 15 : entrySmoke ? 30 : plan.Doctrine == RaidTacticalDoctrine.High ? 90
-                : plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry
-                    && lethal && !friendlyInside ? 300
+                : plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry ? 30
                 : plan.Selected.Maneuver == RaidTacticalManeuver.SmokeAdvance ? 120 : 30;
             bool separated = members.Any(pawn => pawn.Position.DistanceTo(plan.Start) > 12f);
             bool outOfSight = members.Any(pawn => pawn.Position != plan.Start

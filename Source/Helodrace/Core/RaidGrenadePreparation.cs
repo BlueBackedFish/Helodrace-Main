@@ -22,7 +22,8 @@ namespace Helodrace
             && pawn.jobs.curDriver is JobDriver_RaidPrepareGrenade driver && !driver.ended
             && driver.job == pawn.CurJob && !driver.Released ? driver : null;
 
-        internal static bool BlocksGun(Verb verb) => Active(verb?.CasterPawn) != null
+        internal static bool BlocksGun(Verb verb) => (Active(verb?.CasterPawn) != null
+                || RaidEntryObservation.Active(verb?.CasterPawn) != null)
             && verb.EquipmentSource != null && !verb.IsMeleeAttack;
 
         internal static bool Start(Pawn pawn, Thing grenade, IntVec3 target, IntVec3 position, bool close)

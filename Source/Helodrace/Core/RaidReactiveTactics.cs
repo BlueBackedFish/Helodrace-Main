@@ -75,6 +75,7 @@ namespace Helodrace
             if (state.DefenseUntil == 0 && state.ExternalSupportKind == RaidExternalSupportKind.None)
             {
                 bool preEntry = state.Phase == RaidExecutionPhase.Assemble || state.Phase == RaidExecutionPhase.Breach
+                    || state.Phase == RaidExecutionPhase.ObserveOpening
                     || state.Phase == RaidExecutionPhase.Support || state.Phase == RaidExecutionPhase.EntryWait;
                 if (!preEntry || !engaging) return false;
                 state.DefenseAim = observed[0].Position;

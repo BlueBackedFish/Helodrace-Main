@@ -24,12 +24,20 @@ internal static class Program
             Check(RaidSmokePolicy.CarrierCount(6) == 2, "A six-person formation guarantees two smoke carriers");
             Check(RaidSmokePolicy.CarrierCount(7) == 3, "Incomplete thirds still receive a smoke carrier");
             Check(RaidSmokePolicy.GrenadesPerCarrier >= 3, "A carrier has smoke for approach and external entry");
-            Check(RaidSmokePolicy.EntrySmoke(true, true),
-                "Coordinated exterior entry screens the opening with smoke");
-            Check(!RaidSmokePolicy.EntrySmoke(true, false),
-                "Internal room clearance keeps its existing grenade support");
-            Check(!RaidSmokePolicy.EntrySmoke(false, true),
-                "An exterior location alone does not change a different maneuver's support");
+            Check(RaidEntryObservationPolicy.Support(true, 0) == RaidEntrySupportKind.Smoke,
+                "Outdoor space beyond the opening requires smoke");
+            Check(RaidEntryObservationPolicy.Support(false, 17) == RaidEntrySupportKind.Grenade,
+                "A 17-cell indoor room permits grenade support, including exterior-to-interior entry");
+            Check(RaidEntryObservationPolicy.Support(false, 16) == RaidEntrySupportKind.None,
+                "Exactly 16 floor cells must save the grenade");
+            Check(RaidEntryObservationPolicy.Support(false, 1) == RaidEntrySupportKind.None,
+                "A tiny room does not spend a grenade");
+            Check(RaidEntryObservationPolicy.Support(false, 0) == RaidEntrySupportKind.None,
+                "Unknown indoor area must not be guessed large enough for grenade use");
+            Check(RaidEntryObservationPolicy.Support(true, 16) == RaidEntrySupportKind.Smoke,
+                "The small-room threshold must not suppress an outdoor smoke screen");
+            Check(RaidEntryObservationPolicy.ObservationTicks >= 60 && RaidEntryObservationPolicy.ObservationTicks <= 120,
+                "Observation itself lasts between one and two seconds");
             Check(RaidSmokePolicy.NeedsScreen(true, 50, 40, false),
                 "A visible ranged defender covering the approach triggers smoke before the first hit");
             Check(!RaidSmokePolicy.NeedsScreen(false, 50, 40, false),

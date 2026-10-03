@@ -208,22 +208,23 @@ namespace Helodrace
         private RaidMovementArea Select(Pawn pawn, bool preparing)
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
-            if (removed || order == null || !preparing && pawn.CurJobDef != RimWorld.JobDefOf.Goto)
+            bool equipmentMove = RaidEntryObservation.Active(pawn) != null || RaidGrenadePreparation.Active(pawn) != null;
+            if (removed || order == null || !preparing && pawn.CurJobDef != RimWorld.JobDefOf.Goto && !equipmentMove)
                 return null;
             var state = map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.OrganizationId);
             RaidTacticalPlan plan = state?.ActivePlan;
             if (plan == null) return null;
-            bool waitingForSupport = state.Phase == RaidExecutionPhase.Support
+            bool waitingForSupport = state.Phase == RaidExecutionPhase.ObserveOpening || state.Phase == RaidExecutionPhase.Support
                 || state.Phase == RaidExecutionPhase.EntryWait;
             bool supportFlee = waitingForSupport
                 && pawn.CurJob.jobGiver is RimWorld.JobGiver_FleePotentialExplosion
                 && state.SupportProjectile != null && pawn.mindState.knownExploder == state.SupportProjectile;
             bool emergencyFlee = order.Reactive && map.GetComponent<MapComponent_RaidTacticalExecution>()
                 .TryEmergencyFleeDestination(pawn, out _);
-            if (!preparing && (!MapComponent_RaidTacticalOrders.Owned(pawn.CurJob) && !supportFlee && !emergencyFlee
-                || order.Kind == RaidOrderKind.Hold && !supportFlee && !emergencyFlee)) return null;
+            if (!preparing && (!MapComponent_RaidTacticalOrders.Owned(pawn.CurJob) && !supportFlee && !emergencyFlee && !equipmentMove
+                || order.Kind == RaidOrderKind.Hold && !supportFlee && !emergencyFlee && !equipmentMove)) return null;
             bool outside = plan.BreachCell.IsValid && (state.Phase == RaidExecutionPhase.Assemble
-                || state.Phase == RaidExecutionPhase.Breach || state.Phase == RaidExecutionPhase.Support
+                || state.Phase == RaidExecutionPhase.Breach || state.Phase == RaidExecutionPhase.ObserveOpening || state.Phase == RaidExecutionPhase.Support
                 || state.Phase == RaidExecutionPhase.EntryWait);
             RaidStructureSnapshot structure = map.GetComponent<MapComponent_RaidTacticalPlans>()
                 .GetStructure(order.OrganizationId);
@@ -257,7 +258,7 @@ namespace Helodrace
             // Subsequent interior room breaches are not exterior approaches.
             outside &= structure?.RoomAt(plan.Entry) == 0;
             int insideRoom = plan.BreachCell.IsValid ? structure?.RoomAt(plan.BreachInside) ?? 0 : 0;
-            int excludedRoom = waitingForSupport && insideRoom > 0
+            int excludedRoom = (waitingForSupport || equipmentMove) && insideRoom > 0
                 && structure.RoomAt(pawn.Position) != insideRoom ? insideRoom : 0;
             bool selectedOpeningOnly = !plan.ReusePassage && state.Phase == RaidExecutionPhase.CrossBreach
                 && plan.Assignments.Any(assignment => assignment.Pawn == pawn

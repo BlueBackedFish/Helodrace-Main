@@ -42,6 +42,17 @@ internal static class Program
             divided.Cells[18].Flags |= TacticalRawFlags.Anchor;
             string inputBefore = string.Join(",", divided.Cells.Select(cell => $"{cell.Flags}:{cell.Room}:{cell.StructureId}"));
             TacticalGeometryResult geometry = TacticalGeometry.Calculate(divided, CancellationToken.None);
+            Check(geometry.RoomAreas[1] == 15, "Room area is counted in the existing background geometry pass");
+            var areaInput = Open(6, 4);
+            foreach (int index in Enumerable.Range(0, 20)) areaInput.Cells[index].Room = 2;
+            areaInput.Cells[0].Flags = TacticalRawFlags.Edifice; // Furniture still occupies floor area.
+            areaInput.Cells[1].Flags = TacticalRawFlags.WallLine;
+            areaInput.Cells[2].Flags = TacticalRawFlags.Door;
+            TacticalGeometryResult areaGeometry = TacticalGeometry.Calculate(areaInput, CancellationToken.None);
+            Check(areaGeometry.RoomAreas[2] == 18 && !areaGeometry.RoomAreas.ContainsKey(0),
+                "Room floor area includes furniture but excludes wall, door and outdoor cells");
+            Check(TacticalGeometryCodec.Unpack(TacticalGeometryCodec.Pack(areaGeometry), 6, 4).RoomAreas[2] == 18,
+                "Restored fixed-room area is rebuilt while decoding, without a tactical full-map scan");
             Check(geometry.ComponentCount == 2, "A closed dividing door leaves two structural components");
             Check(geometry.Components[doorIndex] == 0, "Door cells are joined through live state, not permanently flooded");
             Check(geometry.Components[14] != geometry.Components[20], "Opposite door sides stay independent");
