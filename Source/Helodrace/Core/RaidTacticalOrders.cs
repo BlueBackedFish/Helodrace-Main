@@ -165,11 +165,22 @@ namespace Helodrace
             if (pawn.CurJob?.playerForced == true && pawn.CurJobDef?.defName != "HD_CASStationaryGuidance") return;
             // Install the durable destination before cancelling tool/aim jobs.
             // Selection still runs through the resolved vanilla duty node.
-            Set(pawn, RaidOrderKind.Move, destination, sprint: true, radius: 1f, reactive: true);
+            Set(pawn, pawn.Position == destination ? RaidOrderKind.Hold : RaidOrderKind.Move,
+                destination, sprint: true, radius: 1f, reactive: true);
             if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == destination
-                || pawn.Position == destination && !pawn.stances.FullBodyBusy
-                    && pawn.CurJobDef == JobDefOf.Wait_Combat) return;
-            pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
+                || pawn.Position == destination && pawn.CurJobDef == JobDefOf.Wait_Combat) return;
+            if (pawn.CurJob != null) pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
+            pawn.stances.CancelBusyStanceHard();
+            pawn.jobs.CheckForJobOverride();
+        }
+
+        internal static void Retreat(Pawn pawn, IntVec3 destination, bool sprint = true)
+        {
+            if (pawn.CurJob?.playerForced == true) return;
+            Set(pawn, RaidOrderKind.Fight, destination, sprint: sprint, radius: 1.5f, reactive: true);
+            if (pawn.Position.DistanceToSquared(destination) <= 2.25f
+                || pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == destination) return;
+            if (pawn.CurJob != null) pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
             pawn.stances.CancelBusyStanceHard();
             pawn.jobs.CheckForJobOverride();
         }

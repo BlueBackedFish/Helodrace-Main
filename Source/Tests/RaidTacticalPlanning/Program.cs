@@ -61,6 +61,12 @@ internal static class Program
             connected = RaidFormationTopology.Connected(strip.Where(cell => cell != (0, 1)),
                 (0, 1), Neighbors, _ => true);
             Check(connected.Count == 0, "A blocked anchor rejects the formation instead of choosing another pocket");
+            var detour = RaidFormationTopology.Distances(new[] {
+                (0, 0), (0, 1), (0, 2), (1, 2), (2, 2), (2, 1), (2, 0), (5, 5)
+            }, (0, 0), Neighbors, _ => true);
+            Check(detour[(2, 0)] == 6, "Cover beyond a wall is scored by the six-step detour rather than two-cell direct distance");
+            Check(detour[(0, 1)] == 1, "Nearby connected cover retains low travel cost");
+            Check(!detour.ContainsKey((5, 5)), "A separate cover pocket cannot become a local reaction destination");
             Check(!RaidOrderPolicy.Refresh(false, true, false, false),
                 "Repeating an unchanged directive keeps the current controlled job");
             Check(RaidOrderPolicy.Refresh(true, true, false, false),
@@ -257,6 +263,13 @@ internal static class Program
             Check(!RaidReactivePolicy.DefenseActive(1400, ref defenseUntil, false, false),
                 "A quiet battlefield eventually resumes the committed breach plan");
             Console.WriteLine("PASS: 4 support defense timing assertions.");
+            Check(RaidReactivePolicy.Outranged(true, true, false, 45f, 25f, 35f), "Observed enemy aiming outside own range requires immediate cover");
+            Check(!RaidReactivePolicy.Outranged(false, true, false, 45f, 25f, 35f), "An unobserved sniper must not reveal hidden enemy information");
+            Check(!RaidReactivePolicy.Outranged(true, false, false, 45f, 25f, 35f), "An idle distant rifle does not interrupt a stack");
+            Check(!RaidReactivePolicy.Outranged(true, true, true, 45f, 25f, 35f), "Smoke shielding the sightline permits protected movement");
+            Check(!RaidReactivePolicy.Outranged(true, true, false, 45f, 25f, 50f), "A shooter outside its own effective range is not a sniper threat");
+            Check(!RaidReactivePolicy.Outranged(true, true, false, 45f, 25f, 20f), "When the pawn can return fire it retains ordinary combat selection");
+            Console.WriteLine("PASS: 6 sniper observation and range assertions.");
             return 0;
         }
         catch (Exception exception)

@@ -107,6 +107,7 @@ namespace Helodrace
             public Pawn ApproachSmokeThrower;
             public Projectile ApproachSmokeProjectile;
             public IntVec3 ApproachSmokeTarget = IntVec3.Invalid;
+            public IntVec3 ApproachSmokeThreat = IntVec3.Invalid;
             public int ApproachSmokeStarted;
             public int ApproachSmokeClearedTick = -1;
             public int NextApproachSmokeTick;
@@ -128,6 +129,9 @@ namespace Helodrace
             public int DefenseUntil;
             public Pawn DefenseCaller;
             public IntVec3 DefenseAim = IntVec3.Invalid;
+            public int ScreenAdvanceUntil;
+            public int ObservedEnemiesTick = -30;
+            public List<Pawn> ObservedEnemies = new List<Pawn>();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
 
@@ -169,6 +173,7 @@ namespace Helodrace
                 Scribe_References.Look(ref ApproachSmokeThrower, "approachSmokeThrower");
                 Scribe_References.Look(ref ApproachSmokeProjectile, "approachSmokeProjectile");
                 Scribe_Values.Look(ref ApproachSmokeTarget, "approachSmokeTarget", IntVec3.Invalid);
+                Scribe_Values.Look(ref ApproachSmokeThreat, "approachSmokeThreat", IntVec3.Invalid);
                 Scribe_Values.Look(ref ApproachSmokeStarted, "approachSmokeStarted");
                 Scribe_Values.Look(ref ApproachSmokeClearedTick, "approachSmokeClearedTick", -1);
                 Scribe_Values.Look(ref NextApproachSmokeTick, "nextApproachSmokeTick");
@@ -193,6 +198,7 @@ namespace Helodrace
                 Scribe_Values.Look(ref DefenseUntil, "defenseUntil");
                 Scribe_References.Look(ref DefenseCaller, "defenseCaller");
                 Scribe_Values.Look(ref DefenseAim, "defenseAim", IntVec3.Invalid);
+                Scribe_Values.Look(ref ScreenAdvanceUntil, "screenAdvanceUntil");
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Reactions == null)
                     Reactions = new List<RaidReactivePosition>();
                 Scribe_Deep.Look(ref ActivePlan, "activePlan");
@@ -224,6 +230,10 @@ namespace Helodrace
             if (state.Reactions.Any(value => value.Kind == RaidReactionKind.Explosion && value.Until > GenTicks.TicksGame))
                 return "Grenade evasion";
             if (state.DefenseUntil > GenTicks.TicksGame) return "Support defense";
+            if (state.ScreenAdvanceUntil > GenTicks.TicksGame) return "Advance inside smoke";
+            if (state.ApproachSmokeActive) return "Screening smoke";
+            if (state.Reactions.Any(value => value.Kind == RaidReactionKind.Sniper && value.Until > GenTicks.TicksGame))
+                return "Sniper cover";
             if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete)
                 return "Approach";
             return state.Phase.ToString();
@@ -387,7 +397,7 @@ namespace Helodrace
             pendingCasualties.Clear();
             bool regular = tick % 30 == 0;
 
-            // Crossing keeps its lightweight cadence. Casualty notifications
+            // Crossing and immediate danger checks keep a lightweight cadence. Casualty notifications
             // additionally reevaluate only affected organizations on the next
             // tick; unrelated planning and room scanning keep their cadence.
             if (!regular)
@@ -403,6 +413,7 @@ namespace Helodrace
                         && pawn.Map == map && !pawn.Dead && !pawn.Downed && !pawn.Destroyed
                         && IsTacticalRaider(pawn)).ToList();
                     if (members.Count > 0 && !EmergencyReactions(members, crossing.ActivePlan, crossing, tick)
+                        && !RespondToFire(members, crossing.ActivePlan, crossing, tick)
                         && crossing.Phase == RaidExecutionPhase.CrossBreach)
                         Update(organization, members, crossing.ActivePlan, crossing, tick);
                 }
@@ -521,6 +532,23 @@ namespace Helodrace
                         state.ExternalSupportTarget = previous.ExternalSupportTarget;
                         state.ExternalSupportTargetCell = previous.ExternalSupportTargetCell;
                         state.ExternalSupportClearedTick = previous.ExternalSupportClearedTick;
+                    }
+                    if (previous != null)
+                    {
+                        state.Reactions = previous.Reactions;
+                        state.DefenseUntil = previous.DefenseUntil;
+                        state.DefenseCaller = previous.DefenseCaller;
+                        state.DefenseAim = previous.DefenseAim;
+                        state.ApproachSmokeActive = previous.ApproachSmokeActive;
+                        state.ApproachSmokeLaunched = previous.ApproachSmokeLaunched;
+                        state.ApproachSmokeThrower = previous.ApproachSmokeThrower;
+                        state.ApproachSmokeProjectile = previous.ApproachSmokeProjectile;
+                        state.ApproachSmokeTarget = previous.ApproachSmokeTarget;
+                        state.ApproachSmokeThreat = previous.ApproachSmokeThreat;
+                        state.ApproachSmokeStarted = previous.ApproachSmokeStarted;
+                        state.ApproachSmokeClearedTick = previous.ApproachSmokeClearedTick;
+                        state.NextApproachSmokeTick = previous.NextApproachSmokeTick;
+                        state.ScreenAdvanceUntil = previous.ScreenAdvanceUntil;
                     }
                     states[organization.id] = state;
                     RaidTacticalSpeech.Say(Commander(organization, members),
@@ -778,6 +806,7 @@ namespace Helodrace
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
             if (EmergencyReactions(members, plan, state, tick)) return;
+            if (RespondToFire(members, plan, state, tick)) return;
             if (FieldDefense(members, plan, state, tick)) return;
             if (plan.Doctrine == RaidTacticalDoctrine.High
                 && (state.Phase == RaidExecutionPhase.Assemble

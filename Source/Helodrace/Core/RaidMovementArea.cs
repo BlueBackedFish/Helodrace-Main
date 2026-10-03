@@ -16,9 +16,16 @@ namespace Helodrace
 
         public RaidMovementArea(Map map, RaidTacticalPlan plan, RaidStructureSnapshot structure,
             bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null,
-            int excludedRoom = 0, bool selectedOpeningOnly = false)
+            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false)
         {
             costs = new NativeArray<ushort>(map.cellIndices.NumGridCells, Allocator.Persistent);
+            if (reactive)
+            {
+                foreach (IntVec3 cell in map.AllCells)
+                    if (structure.RoomAt(cell) != initialRoom)
+                        costs[map.cellIndices.CellToIndex(cell)] = ushort.MaxValue;
+                return;
+            }
             for (int i = 0; i < costs.Length; i++) costs[i] = 100;
             // A broad corridor steers individual paths without pulling every
             // displaced pawn back to an exact checkpoint.
@@ -57,9 +64,12 @@ namespace Helodrace
         private readonly Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>> areas =
             new Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>>();
         private readonly Dictionary<string, RaidMovementArea> fightingAreas = new Dictionary<string, RaidMovementArea>();
+        private readonly Dictionary<RaidStructureSnapshot, Dictionary<int, RaidMovementArea>> reactiveAreas =
+            new Dictionary<RaidStructureSnapshot, Dictionary<int, RaidMovementArea>>();
         public int Requests;
         public long BuildMilliseconds;
-        public int CachedGrids => areas.Values.Sum(value => value.Count) + fightingAreas.Count;
+        public int CachedGrids => areas.Values.Sum(value => value.Count) + fightingAreas.Count
+            + reactiveAreas.Values.Sum(value => value.Count);
         public MapComponent_RaidMovementAreas(Map map) : base(map) { }
 
         internal RaidMovementArea For(Pawn pawn)
@@ -75,14 +85,30 @@ namespace Helodrace
             bool supportFlee = waitingForSupport
                 && pawn.CurJob.jobGiver is RimWorld.JobGiver_FleePotentialExplosion
                 && state.SupportProjectile != null && pawn.mindState.knownExploder == state.SupportProjectile;
-            if (!MapComponent_RaidTacticalOrders.Owned(pawn.CurJob) && !supportFlee
-                || order.Kind == RaidOrderKind.Hold && !supportFlee) return null;
+            bool emergencyFlee = order.Reactive && map.GetComponent<MapComponent_RaidTacticalExecution>()
+                .TryEmergencyFleeDestination(pawn, out _);
+            if (!MapComponent_RaidTacticalOrders.Owned(pawn.CurJob) && !supportFlee && !emergencyFlee
+                || order.Kind == RaidOrderKind.Hold && !supportFlee && !emergencyFlee) return null;
             bool outside = plan.BreachCell.IsValid && (state.Phase == RaidExecutionPhase.Assemble
                 || state.Phase == RaidExecutionPhase.Breach || state.Phase == RaidExecutionPhase.Support
                 || state.Phase == RaidExecutionPhase.EntryWait);
             RaidStructureSnapshot structure = map.GetComponent<MapComponent_RaidTacticalPlans>()
                 .GetStructure(order.OrganizationId);
-            if (order.Reactive) return null;
+            if (order.Reactive)
+            {
+                if (structure == null) return null;
+                int reactionRoom = structure.RoomAt(pawn.Position);
+                if (!reactiveAreas.TryGetValue(structure, out Dictionary<int, RaidMovementArea> rooms))
+                    reactiveAreas[structure] = rooms = new Dictionary<int, RaidMovementArea>();
+                if (!rooms.TryGetValue(reactionRoom, out RaidMovementArea reactionArea))
+                {
+                    Stopwatch watch = Stopwatch.StartNew();
+                    rooms[reactionRoom] = reactionArea = new RaidMovementArea(map, plan, structure, false, reactionRoom, reactive: true);
+                    BuildMilliseconds += watch.ElapsedMilliseconds;
+                }
+                Requests++;
+                return reactionArea;
+            }
             if (order.Kind == RaidOrderKind.Fight)
             {
                 // A pawn outside the activity area must be able to return into it.
@@ -127,8 +153,10 @@ namespace Helodrace
         {
             foreach (RaidMovementArea area in areas.Values.SelectMany(value => value.Values)) area.Dispose();
             foreach (RaidMovementArea area in fightingAreas.Values) area.Dispose();
+            foreach (RaidMovementArea area in reactiveAreas.Values.SelectMany(value => value.Values)) area.Dispose();
             areas.Clear();
             fightingAreas.Clear();
+            reactiveAreas.Clear();
         }
     }
 
