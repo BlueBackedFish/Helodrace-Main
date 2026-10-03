@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ModularPart_Receiver_P320.label>P320 풀사이즈 손잡이 모듈</HD_ModularPart_Receiver_P320.label>
-  <HD_ModularPart_Receiver_P320.description>P320 풀사이즈 손잡이 모듈은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_Receiver_P320.description>
-  <HD_ModularPart_Receiver_P320.comps.0.sockets.0.label>P320 하부 레일</HD_ModularPart_Receiver_P320.comps.0.sockets.0.label>
+  <HD_ModularPart_Receiver_P320_Part.label>P320 풀사이즈 손잡이 모듈</HD_ModularPart_Receiver_P320_Part.label>
+  <HD_ModularPart_Receiver_P320_Part.description>P320 풀사이즈 손잡이 모듈은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_Receiver_P320_Part.description>
+  <HD_ModularPart_Receiver_P320_Part.comps.0.sockets.0.label>P320 하부 레일</HD_ModularPart_Receiver_P320_Part.comps.0.sockets.0.label>
   <HD_ModularPart_Receiver_FluxRaiderKit.label>Flux Raider P320 섀시</HD_ModularPart_Receiver_FluxRaiderKit.label>
   <HD_ModularPart_Receiver_FluxRaiderKit.description>Flux Raider P320 섀시는 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_Receiver_FluxRaiderKit.description>
   <HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.0.label>Flux 개머리판 연장 레일</HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.0.label>
   <HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.1.label>Flux 상부 레일</HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.1.label>
   <HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.2.label>Flux 하부 레일</HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.2.label>
-  <HD_ModularPart_Slide_P32047.label>P320 4.7인치 슬라이드</HD_ModularPart_Slide_P32047.label>
-  <HD_ModularPart_Slide_P32047.description>P320 4.7인치 슬라이드는 발사 때 왕복하며 장전과 탄피 배출을 수행하는 슬라이드입니다.</HD_ModularPart_Slide_P32047.description>
-  <HD_ModularPart_Slide_P32047.comps.0.sockets.0.label>P320 가늠자 도브테일</HD_ModularPart_Slide_P32047.comps.0.sockets.0.label>
-  <HD_ModularPart_Slide_P32047.comps.0.sockets.1.label>P320 가늠쇠 도브테일</HD_ModularPart_Slide_P32047.comps.0.sockets.1.label>
-  <HD_ModularPart_Slide_P32047.comps.0.sockets.2.label>P320 슬라이드 광학 마운트</HD_ModularPart_Slide_P32047.comps.0.sockets.2.label>
-  <HD_ModularPart_Barrel_P32047.label>P320 4.7인치 총열</HD_ModularPart_Barrel_P32047.label>
-  <HD_ModularPart_Barrel_P32047.description>P320 4.7인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_P32047.description>
-  <HD_ModularPart_Barrel_P32047.comps.0.sockets.0.label>P320 노출 총구</HD_ModularPart_Barrel_P32047.comps.0.sockets.0.label>
+  <HD_ModularPart_Slide_P32047_Part.label>P320 4.7인치 슬라이드</HD_ModularPart_Slide_P32047_Part.label>
+  <HD_ModularPart_Slide_P32047_Part.description>P320 4.7인치 슬라이드는 발사 때 왕복하며 장전과 탄피 배출을 수행하는 슬라이드입니다.</HD_ModularPart_Slide_P32047_Part.description>
+  <HD_ModularPart_Slide_P32047_Part.comps.0.sockets.0.label>P320 가늠자 도브테일</HD_ModularPart_Slide_P32047_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Slide_P32047_Part.comps.0.sockets.1.label>P320 가늠쇠 도브테일</HD_ModularPart_Slide_P32047_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_Slide_P32047_Part.comps.0.sockets.2.label>P320 슬라이드 광학 마운트</HD_ModularPart_Slide_P32047_Part.comps.0.sockets.2.label>
+  <HD_ModularPart_Barrel_P32047_Part.label>P320 4.7인치 총열</HD_ModularPart_Barrel_P32047_Part.label>
+  <HD_ModularPart_Barrel_P32047_Part.description>P320 4.7인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_P32047_Part.description>
+  <HD_ModularPart_Barrel_P32047_Part.comps.0.sockets.0.label>P320 노출 총구</HD_ModularPart_Barrel_P32047_Part.comps.0.sockets.0.label>
   <HD_ModularPart_Barrel_P32047Threaded.label>P320 4.7인치 나사산형 총열</HD_ModularPart_Barrel_P32047Threaded.label>
   <HD_ModularPart_Barrel_P32047Threaded.description>P320 4.7인치 나사산형 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_P32047Threaded.description>
   <HD_ModularPart_Barrel_P32047Threaded.comps.0.sockets.0.label>1/2x28 총구 나사산</HD_ModularPart_Barrel_P32047Threaded.comps.0.sockets.0.label>
@@ -25,15 +25,15 @@
   <HD_ModularPart_Stock_FluxRaiderKit.label>Flux Raider 인입식 개머리판</HD_ModularPart_Stock_FluxRaiderKit.label>
   <HD_ModularPart_Mount_T2Low.label>T2 저상형 피카티니 마운트</HD_ModularPart_Mount_T2Low.label>
   <HD_ModularPart_Mount_T2Low.comps.0.sockets.0.label>T2 광학장비 장착 규격</HD_ModularPart_Mount_T2Low.comps.0.sockets.0.label>
-  <HD_ModularPart_Optic_PointSightT2.label>PointSight T2 반사식 조준기</HD_ModularPart_Optic_PointSightT2.label>
+  <HD_ModularPart_Optic_PointSightT2_Part.label>PointSight T2 반사식 조준기</HD_ModularPart_Optic_PointSightT2_Part.label>
   <HD_ModularPart_Laser_DBALPL.label>DBAL-PL 권총용 레이저</HD_ModularPart_Laser_DBALPL.label>
   <HD_ModularPart_Muzzle_9mmThreadProtector.label>9mm 나사산 보호캡</HD_ModularPart_Muzzle_9mmThreadProtector.label>
-  <HD_ModularPart_Suppressor_HelveticSRD9.label>Helvetic SRD9 소음기</HD_ModularPart_Suppressor_HelveticSRD9.label>
-  <HD_ModularPart_Magazine_P32017.label>17-탄 P320 탄창</HD_ModularPart_Magazine_P32017.label>
-  <HD_ModularPart_Magazine_P32021.label>21-탄 P320 탄창</HD_ModularPart_Magazine_P32021.label>
-  <HD_ModularPart_Magazine_P32030.label>30-탄 P320 탄창</HD_ModularPart_Magazine_P32030.label>
-  <HD_ModularPart_Ammunition_919M882_P320.label>9×19mm M882 P320 탄약</HD_ModularPart_Ammunition_919M882_P320.label>
-  <HD_ModularPart_Ammunition_919M882_P320.comps.0.ammunitionType>9x19 M882</HD_ModularPart_Ammunition_919M882_P320.comps.0.ammunitionType>
+  <HD_ModularPart_Suppressor_HelveticSRD9_Part.label>Helvetic SRD9 소음기</HD_ModularPart_Suppressor_HelveticSRD9_Part.label>
+  <HD_ModularPart_Magazine_P32017_Part.label>17-탄 P320 탄창</HD_ModularPart_Magazine_P32017_Part.label>
+  <HD_ModularPart_Magazine_P32021_Part.label>21-탄 P320 탄창</HD_ModularPart_Magazine_P32021_Part.label>
+  <HD_ModularPart_Magazine_P32030_Part.label>30-탄 P320 탄창</HD_ModularPart_Magazine_P32030_Part.label>
+  <HD_ModularPart_Ammunition_919M882_P320_Part.label>9×19mm M882 P320 탄약</HD_ModularPart_Ammunition_919M882_P320_Part.label>
+  <HD_ModularPart_Ammunition_919M882_P320_Part.comps.0.ammunitionType>9x19 M882</HD_ModularPart_Ammunition_919M882_P320_Part.comps.0.ammunitionType>
   <HD_Gun_P320_Weapon.label>P320</HD_Gun_P320_Weapon.label>
   <HD_Gun_P320_Weapon.description>모듈식 P320은 손잡이 모듈을 교체해 권총이나 Flux Raider 섀시 구성으로 사용할 수 있는 무기입니다.</HD_Gun_P320_Weapon.description>
   <HD_Gun_P320_Weapon.comps.0.sockets.0.label>P320 손잡이·섀시 모듈</HD_Gun_P320_Weapon.comps.0.sockets.0.label>

@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ModularPart_Barrel_M1422.label>M14 22인치 총열</HD_ModularPart_Barrel_M1422.label>
-  <HD_ModularPart_Barrel_M1422.description>M14 22인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_M1422.description>
-  <HD_ModularPart_Barrel_M1422.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1422.comps.0.sockets.0.label>
-  <HD_ModularPart_Barrel_M1422.comps.0.sockets.1.label>가스관</HD_ModularPart_Barrel_M1422.comps.0.sockets.1.label>
-  <HD_ModularPart_Barrel_M1418.label>M14 18인치 총열</HD_ModularPart_Barrel_M1418.label>
-  <HD_ModularPart_Barrel_M1418.description>M14 18인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_M1418.description>
-  <HD_ModularPart_Barrel_M1418.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1418.comps.0.sockets.0.label>
-  <HD_ModularPart_Barrel_M1418.comps.0.sockets.1.label>가스관</HD_ModularPart_Barrel_M1418.comps.0.sockets.1.label>
-  <HD_ModularPart_Barrel_M1A16.label>M1A SOCOM 16 총열</HD_ModularPart_Barrel_M1A16.label>
-  <HD_ModularPart_Barrel_M1A16.description>M1A SOCOM 16 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_M1A16.description>
-  <HD_ModularPart_Barrel_M1A16.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1A16.comps.0.sockets.0.label>
-  <HD_ModularPart_Barrel_M1A16.comps.0.sockets.1.label>가스관</HD_ModularPart_Barrel_M1A16.comps.0.sockets.1.label>
-  <HD_ModularPart_Bolt_M14.label>M14 노리쇠</HD_ModularPart_Bolt_M14.label>
-  <HD_ModularPart_Bolt_M14.description>M14 노리쇠는 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_Bolt_M14.description>
-  <HD_ModularPart_OperatingRod_M14.label>M14 작동봉</HD_ModularPart_OperatingRod_M14.label>
-  <HD_ModularPart_OperatingRod_M14.description>M14 작동봉은 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_OperatingRod_M14.description>
-  <HD_ModularPart_TriggerGroup_M14.label>M14 방아쇠 뭉치</HD_ModularPart_TriggerGroup_M14.label>
-  <HD_ModularPart_TriggerGroup_M14.description>M14 방아쇠 뭉치는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_TriggerGroup_M14.description>
-  <HD_ModularPart_TriggerGroup_M14.comps.0.sockets.0.label>방아쇠</HD_ModularPart_TriggerGroup_M14.comps.0.sockets.0.label>
-  <HD_ModularPart_TriggerGroup_M14.comps.0.sockets.1.label>권총손잡이 결합부</HD_ModularPart_TriggerGroup_M14.comps.0.sockets.1.label>
-  <HD_ModularPart_Trigger_M14.label>M14 방아쇠</HD_ModularPart_Trigger_M14.label>
-  <HD_ModularPart_Trigger_M14.description>M14 방아쇠는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_Trigger_M14.description>
-  <HD_ModularPart_GasTube_M14.label>M14 가스 작동계</HD_ModularPart_GasTube_M14.label>
-  <HD_ModularPart_GasTube_M14.description>M14 가스 작동계는 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasTube_M14.description>
+  <HD_ModularPart_Barrel_M1422_Part.label>M14 22인치 총열</HD_ModularPart_Barrel_M1422_Part.label>
+  <HD_ModularPart_Barrel_M1422_Part.description>M14 22인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_M1422_Part.description>
+  <HD_ModularPart_Barrel_M1422_Part.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1422_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_M1422_Part.comps.0.sockets.1.label>가스관</HD_ModularPart_Barrel_M1422_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_Barrel_M1418_Part.label>M14 18인치 총열</HD_ModularPart_Barrel_M1418_Part.label>
+  <HD_ModularPart_Barrel_M1418_Part.description>M14 18인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_M1418_Part.description>
+  <HD_ModularPart_Barrel_M1418_Part.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1418_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_M1418_Part.comps.0.sockets.1.label>가스관</HD_ModularPart_Barrel_M1418_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_Barrel_M1A16_Part.label>M1A SOCOM 16 총열</HD_ModularPart_Barrel_M1A16_Part.label>
+  <HD_ModularPart_Barrel_M1A16_Part.description>M1A SOCOM 16 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_M1A16_Part.description>
+  <HD_ModularPart_Barrel_M1A16_Part.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1A16_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_M1A16_Part.comps.0.sockets.1.label>가스관</HD_ModularPart_Barrel_M1A16_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_Bolt_M14_Part.label>M14 노리쇠</HD_ModularPart_Bolt_M14_Part.label>
+  <HD_ModularPart_Bolt_M14_Part.description>M14 노리쇠는 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_Bolt_M14_Part.description>
+  <HD_ModularPart_OperatingRod_M14_Part.label>M14 작동봉</HD_ModularPart_OperatingRod_M14_Part.label>
+  <HD_ModularPart_OperatingRod_M14_Part.description>M14 작동봉은 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_OperatingRod_M14_Part.description>
+  <HD_ModularPart_TriggerGroup_M14_Part.label>M14 방아쇠 뭉치</HD_ModularPart_TriggerGroup_M14_Part.label>
+  <HD_ModularPart_TriggerGroup_M14_Part.description>M14 방아쇠 뭉치는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_TriggerGroup_M14_Part.description>
+  <HD_ModularPart_TriggerGroup_M14_Part.comps.0.sockets.0.label>방아쇠</HD_ModularPart_TriggerGroup_M14_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_TriggerGroup_M14_Part.comps.0.sockets.1.label>권총손잡이 결합부</HD_ModularPart_TriggerGroup_M14_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_Trigger_M14_Part.label>M14 방아쇠</HD_ModularPart_Trigger_M14_Part.label>
+  <HD_ModularPart_Trigger_M14_Part.description>M14 방아쇠는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_Trigger_M14_Part.description>
+  <HD_ModularPart_GasTube_M14_Part.label>M14 가스 작동계</HD_ModularPart_GasTube_M14_Part.label>
+  <HD_ModularPart_GasTube_M14_Part.description>M14 가스 작동계는 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasTube_M14_Part.description>
   <HD_ModularPart_GasTube_MK14EBR.label>MK14 EBR 가스 작동계</HD_ModularPart_GasTube_MK14EBR.label>
   <HD_ModularPart_GasTube_MK14EBR.description>MK14 EBR 가스 작동계는 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasTube_MK14EBR.description>
-  <HD_ModularPart_GasTube_M1ASocom16.label>M1A SOCOM 16 가스 작동계</HD_ModularPart_GasTube_M1ASocom16.label>
-  <HD_ModularPart_GasTube_M1ASocom16.description>M1A SOCOM 16 가스 작동계는 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasTube_M1ASocom16.description>
+  <HD_ModularPart_GasTube_M1ASocom16_Part.label>M1A SOCOM 16 가스 작동계</HD_ModularPart_GasTube_M1ASocom16_Part.label>
+  <HD_ModularPart_GasTube_M1ASocom16_Part.description>M1A SOCOM 16 가스 작동계는 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasTube_M1ASocom16_Part.description>
   <HD_ModularPart_Stock_M14Wood.label>M14 목제 개머리판</HD_ModularPart_Stock_M14Wood.label>
   <HD_ModularPart_Stock_M14Wood.description>M14 목제 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_M14Wood.description>
   <HD_ModularPart_Stock_M14Wood.comps.0.sockets.0.label>목제 개머리판 상부 덮개</HD_ModularPart_Stock_M14Wood.comps.0.sockets.0.label>
   <HD_ModularPart_StockExt_M14WoodTopCover.label>M14 목제 개머리판 상부 덮개</HD_ModularPart_StockExt_M14WoodTopCover.label>
   <HD_ModularPart_StockExt_M14WoodTopCover.description>M14 목제 개머리판 상부 덮개는 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_StockExt_M14WoodTopCover.description>
-  <HD_ModularPart_Stock_Socom16.label>SOCOM 16 개머리판</HD_ModularPart_Stock_Socom16.label>
-  <HD_ModularPart_Stock_Socom16.description>SOCOM 16 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_Socom16.description>
-  <HD_ModularPart_Muzzle_M14.label>M14 소염기</HD_ModularPart_Muzzle_M14.label>
-  <HD_ModularPart_Muzzle_M14.description>M14 소염기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_M14.description>
+  <HD_ModularPart_Stock_Socom16_Part.label>SOCOM 16 개머리판</HD_ModularPart_Stock_Socom16_Part.label>
+  <HD_ModularPart_Stock_Socom16_Part.description>SOCOM 16 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_Socom16_Part.description>
+  <HD_ModularPart_Muzzle_M14_Part.label>M14 소염기</HD_ModularPart_Muzzle_M14_Part.label>
+  <HD_ModularPart_Muzzle_M14_Part.description>M14 소염기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_M14_Part.description>
   <HD_ModularPart_Muzzle_SEI2000V.label>SEI 2000V 제퇴기</HD_ModularPart_Muzzle_SEI2000V.label>
   <HD_ModularPart_Muzzle_SEI2000V.description>SEI 2000V 제퇴기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_SEI2000V.description>
-  <HD_ModularPart_Muzzle_Socom16.label>SOCOM 16 제퇴기</HD_ModularPart_Muzzle_Socom16.label>
-  <HD_ModularPart_Muzzle_Socom16.description>SOCOM 16 제퇴기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_Socom16.description>
+  <HD_ModularPart_Muzzle_Socom16_Part.label>SOCOM 16 제퇴기</HD_ModularPart_Muzzle_Socom16_Part.label>
+  <HD_ModularPart_Muzzle_Socom16_Part.description>SOCOM 16 제퇴기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_Socom16_Part.description>
   <HD_ModularPart_Muzzle_Socom16Thread.label>SOCOM 16 총구 나사산 어댑터</HD_ModularPart_Muzzle_Socom16Thread.label>
   <HD_ModularPart_Muzzle_Socom16Thread.description>SOCOM 16 총구 나사산 어댑터는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_Socom16Thread.description>
   <HD_ModularPart_Muzzle_Socom16Thread.comps.0.sockets.0.label>총구</HD_ModularPart_Muzzle_Socom16Thread.comps.0.sockets.0.label>
-  <HD_ModularPart_Magazine_M1420.label>20-탄 M14 탄창</HD_ModularPart_Magazine_M1420.label>
-  <HD_ModularPart_Magazine_M1420.description>20-탄 M14 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_M1420.description>
-  <HD_ModularPart_Magazine_M1420.comps.0.sockets.0.label>탄약</HD_ModularPart_Magazine_M1420.comps.0.sockets.0.label>
-  <HD_ModularPart_Ammunition_762M80.label>7.62×51mm M80 탄약</HD_ModularPart_Ammunition_762M80.label>
-  <HD_ModularPart_Ammunition_762M80.description>7.62×51mm M80 탄약은 해당 구경의 모듈식 탄창에 넣는 탄약 구성입니다.</HD_ModularPart_Ammunition_762M80.description>
-  <HD_ModularPart_Ammunition_762M80.comps.0.ammunitionType>7.62 M80</HD_ModularPart_Ammunition_762M80.comps.0.ammunitionType>
+  <HD_ModularPart_Magazine_M1420_Part.label>20-탄 M14 탄창</HD_ModularPart_Magazine_M1420_Part.label>
+  <HD_ModularPart_Magazine_M1420_Part.description>20-탄 M14 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_M1420_Part.description>
+  <HD_ModularPart_Magazine_M1420_Part.comps.0.sockets.0.label>탄약</HD_ModularPart_Magazine_M1420_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Ammunition_762M80_Part.label>7.62×51mm M80 탄약</HD_ModularPart_Ammunition_762M80_Part.label>
+  <HD_ModularPart_Ammunition_762M80_Part.description>7.62×51mm M80 탄약은 해당 구경의 모듈식 탄창에 넣는 탄약 구성입니다.</HD_ModularPart_Ammunition_762M80_Part.description>
+  <HD_ModularPart_Ammunition_762M80_Part.comps.0.ammunitionType>7.62 M80</HD_ModularPart_Ammunition_762M80_Part.comps.0.ammunitionType>
   <HD_Gun_M14_Weapon.label>M14</HD_Gun_M14_Weapon.label>
   <HD_Gun_M14_Weapon.description>총열, 개머리판, 조준기와 탄창을 교체할 수 있는 모듈식 7.62mm 제식소총입니다.</HD_Gun_M14_Weapon.description>
   <HD_Gun_M14_Weapon.tools.0.label>개머리판</HD_Gun_M14_Weapon.tools.0.label>

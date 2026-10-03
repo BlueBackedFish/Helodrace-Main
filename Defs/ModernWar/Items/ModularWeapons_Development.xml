@@ -38,7 +38,7 @@
   <!-- Full-canvas internal AR-15 parts. Their zero-point mounts preserve the
        receiver texture alignment while the renderer applies firing animation. -->
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Bolt_AR15</defName>
+    <defName>HD_ModularPart_Bolt_AR15_Part</defName>
     <label>AR-15 bolt carrier group</label>
     <description>AR-15 bolt carrier group is part of the weapon's loading and locking mechanism.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_AR15</texPath></graphicData>
@@ -53,7 +53,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Trigger_AR15</defName>
+    <defName>HD_ModularPart_Trigger_AR15_Part</defName>
     <label>AR-15 trigger</label>
     <description>AR-15 trigger transfers the firing input to the action.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_AR15</texPath></graphicData>
@@ -69,7 +69,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_UpperReceiver_M4A1</defName>
+    <defName>HD_ModularPart_UpperReceiver_M4A1_Part</defName>
     <label>M4A1 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
@@ -93,10 +93,10 @@
           <li><id>rail_receiver_top</id><label>upper receiver top rail</label><tags><li>picatinny</li><li>top_rail</li><li>receiver_rail</li></tags><isRail>true</isRail><railLength>0.152</railLength><railSurface>Top</railSurface><transform><position>(-0.114,0,0.017)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR15103</part></li>
+          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR15103_Part</part></li>
           <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_HACRISFDE</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15</part></li>
-          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Magnifier_VOTechG33</part><railOffset>-0.034</railOffset></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15_Part</part></li>
+          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Magnifier_VOTechG33_Part</part><railOffset>-0.034</railOffset></li>
           <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_Optic_VOTechEXPS</part><railOffset>0.036</railOffset></li>
         </defaultAttachments>
       </li>
@@ -104,7 +104,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Barrel_AR15103</defName>
+    <defName>HD_ModularPart_Barrel_AR15103_Part</defName>
     <label>10.3 inch AR-15 barrel</label>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1510.3</texPath></graphicData>
     <comps>
@@ -121,7 +121,7 @@
         </sockets>
         <defaultAttachments>
           <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_MK12LP</part></li>
-          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_HACNT4</part></li>
+          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_HACNT4_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -141,7 +141,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Barrel_AR15300BLK103</defName>
+    <defName>HD_ModularPart_Barrel_AR15300BLK103_Part</defName>
     <label>10.3 inch .300 BLK AR-15 barrel</label>
     <description>10.3 inch .300 BLK AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR15300BLK10.3</texPath></graphicData>
@@ -159,7 +159,7 @@
         </sockets>
         <defaultAttachments>
           <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_300BLKLP</part></li>
-          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_BrightStrikeSF3P762</part></li>
+          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_BrightStrikeSF3P762_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -180,7 +180,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Barrel_AR15145</defName>
+    <defName>HD_ModularPart_Barrel_AR15145_Part</defName>
     <label>14.5 inch AR-15 barrel</label>
     <description>14.5 inch AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1514.5</texPath></graphicData>
@@ -198,14 +198,14 @@
         </sockets>
         <defaultAttachments>
           <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_MK12LP</part></li>
-          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_HACNT4</part></li>
+          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_HACNT4_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Muzzle_HACNT4</defName>
+    <defName>HD_ModularPart_Muzzle_HACNT4_Part</defName>
     <label>HAC NT4 muzzle device</label>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_HACNT4</texPath></graphicData>
     <comps>
@@ -237,7 +237,7 @@
   </ThingDef>
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Muzzle_BrightStrikeSF3P762</defName>
+    <defName>HD_ModularPart_Muzzle_BrightStrikeSF3P762_Part</defName>
     <label>BrightStrike SF3P 7.62 flash hider</label>
     <description>BrightStrike SF3P 7.62 flash hider controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_BrightStrikeSF3P762</texPath></graphicData>
@@ -266,8 +266,8 @@
           <li><id>rail_bottom</id><label>bottom rail</label><tags><li>picatinny</li><li>bottom_rail</li></tags><isRail>true</isRail><railLength>0.185</railLength><railSurface>Bottom</railSurface><transform><position>(0.091,0,-0.023)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>rail_top_front</socketId><part>HD_ModularPart_Laser_ANPEQ15</part><railOffset>0.006</railOffset></li>
-          <li><socketId>rail_side</socketId><part>HD_ModularPart_Light_BrightStrikeM600</part><railOffset>0.038</railOffset></li>
+          <li><socketId>rail_top_front</socketId><part>HD_ModularPart_Laser_ANPEQ15_Part</part><railOffset>0.006</railOffset></li>
+          <li><socketId>rail_side</socketId><part>HD_ModularPart_Light_BrightStrikeM600_Part</part><railOffset>0.038</railOffset></li>
           <li><socketId>rail_bottom</socketId><part>HD_ModularPart_Grip_DaltonDefenseVFG</part><railOffset>0.059</railOffset></li>
         </defaultAttachments>
       </li>
@@ -346,7 +346,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Magnifier_VOTechG33</defName>
+    <defName>HD_ModularPart_Magnifier_VOTechG33_Part</defName>
     <label>VOTech G33 magnifier</label>
     <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_VOTechG33</texPath></graphicData>
     <statBases><Mass>0.31</Mass></statBases>
@@ -378,7 +378,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Laser_ANPEQ15</defName>
+    <defName>HD_ModularPart_Laser_ANPEQ15_Part</defName>
     <label>AN/PEQ-15 laser module</label>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyUP_ANPEQ15</texPath></graphicData>
     <statBases><Mass>0.21</Mass></statBases>
@@ -403,7 +403,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Light_BrightStrikeM600</defName>
+    <defName>HD_ModularPart_Light_BrightStrikeM600_Part</defName>
     <label>BrightStrike M600 weapon light</label>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyMID_BrightStrikeM600</texPath></graphicData>
     <comps>
@@ -479,7 +479,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_PistolGrip_IronFangA2</defName>
+    <defName>HD_ModularPart_PistolGrip_IronFangA2_Part</defName>
     <label>IronFang A2 pistol grip</label>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_IronFangA2</texPath></graphicData>
     <comps>
@@ -539,7 +539,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Stock_M4</defName>
+    <defName>HD_ModularPart_Stock_M4_Part</defName>
     <label>M4 collapsible stock</label>
     <description>M4 collapsible stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_M4</texPath></graphicData>
@@ -627,11 +627,11 @@
           <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M4A1</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
+          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M4A1_Part</part></li>
+          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
           <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_Colt</part></li>
           <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>

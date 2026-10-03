@@ -11,12 +11,12 @@
         <mountId>slide_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_Barrel_M1911A1</part>
+        <part>HD_ModularPart_Barrel_M1911A1_Part</part>
         <socketId>barrel</socketId>
         <mountId>barrel_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_Hammer_M1911A1</part>
+        <part>HD_ModularPart_Hammer_M1911A1_Part</part>
         <socketId>hammer</socketId>
         <mountId>hammer_mount</mountId>
       </li>
@@ -26,7 +26,7 @@
         <mountId>grip_safety_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_Trigger_M1911A1</part>
+        <part>HD_ModularPart_Trigger_M1911A1_Part</part>
         <socketId>trigger</socketId>
         <mountId>trigger_mount</mountId>
       </li>
@@ -36,12 +36,12 @@
         <mountId>grip_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_Magazine_1911GI7</part>
+        <part>HD_ModularPart_Magazine_1911GI7_Part</part>
         <socketId>magazine</socketId>
         <mountId>magazine_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Ammunition_45ACPM1911</part>
+            <part>HD_ModularPart_Ammunition_45ACPM1911_Part</part>
             <socketId>ammunition</socketId>
             <mountId>ammunition_mount</mountId>
           </li>

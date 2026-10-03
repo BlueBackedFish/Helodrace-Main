@@ -68,9 +68,9 @@ internal static class Program
             Check((string)plates[name].Element("comps").Attribute("Inherit") == "False",
                 "Plate overrides inherited comp instead of duplicating it: " + name);
         }
-        Check((string)plates["HD_ArmorPlate_RAMPART4800"].Element("comps").Element("li").Element("material") == "UHMWPE",
+        Check((string)plates["HD_ArmorPlate_RAMPART4800_Plate"].Element("comps").Element("li").Element("material") == "UHMWPE",
             "RAMPART uses memo's simplified material");
-        Check((string)plates["HD_ArmorPlate_RAMPART4800"].Element("comps").Attribute("Inherit") == "False",
+        Check((string)plates["HD_ArmorPlate_RAMPART4800_Plate"].Element("comps").Attribute("Inherit") == "False",
             "RAMPART overrides rather than duplicates inherited plate comp");
         var apparel = XDocument.Load(System.IO.Path.Combine(root, "Defs/ModernWar/Items/Apparel_ModernWar.xml"));
         foreach (var expected in new[] { ("HD_Apparel_ShieldDefenTechIIIA", 0.19f), ("HD_Apparel_ShieldIronHideIV", 0.5f) })

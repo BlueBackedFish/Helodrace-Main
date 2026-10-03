@@ -438,13 +438,13 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_FrontRear_RAMPART4800</defName>
-    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800. -->
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800_Plate. -->
     <label>IBTV RAMPART 4800 front/rear plate set</label>
     <slot>HD_MA_Slot_FrontRearPlates</slot>
     <installMode>Fixed</installMode>
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
-    <plateThingDef>HD_ArmorPlate_RAMPART4800</plateThingDef>
+    <plateThingDef>HD_ArmorPlate_RAMPART4800_Plate</plateThingDef>
     <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.65</armorRatingBlunt>
@@ -516,13 +516,13 @@
   </Helodrace.ModernWar.ModularArmorPartDef>
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_Sides_RAMPART4800</defName>
-    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800. -->
+    <!-- 방탄 참고: NIJ 0101.07 위협등급 rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. 실제 아이템 기준: HD_ArmorPlate_RAMPART4800_Plate. -->
     <label>IBTV RAMPART 4800 side plate set</label>
     <slot>HD_MA_Slot_SidePlates</slot>
     <installMode>Fixed</installMode>
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
-    <plateThingDef>HD_ArmorPlate_RAMPART4800</plateThingDef>
+    <plateThingDef>HD_ArmorPlate_RAMPART4800_Plate</plateThingDef>
     <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.65</armorRatingBlunt>

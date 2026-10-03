@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ModularPart_GPNVG18.label>GPNVG-18 헬멧 모듈</HD_ModularPart_GPNVG18.label>
-  <HD_ModularPart_GPNVG18.description>FAST MT 헬멧 장착부용 파노라마 야간투시경 모듈입니다.</HD_ModularPart_GPNVG18.description>
+  <HD_ModularPart_GPNVG18_Part.label>GPNVG-18 헬멧 모듈</HD_ModularPart_GPNVG18_Part.label>
+  <HD_ModularPart_GPNVG18_Part.description>FAST MT 헬멧 장착부용 파노라마 야간투시경 모듈입니다.</HD_ModularPart_GPNVG18_Part.description>
   <HD_ModularPart_MultiHitVisor.label>멀티히트 방탄 바이저 모듈</HD_ModularPart_MultiHitVisor.label>
   <HD_ModularPart_MultiHitVisor.description>FAST MT 헬멧용 투명 멀티히트 방탄 바이저입니다.</HD_ModularPart_MultiHitVisor.description>
   <HD_ModularPart_IBTVNeckGuard.label>IBTV 목 보호대 모듈</HD_ModularPart_IBTVNeckGuard.label>

@@ -2,10 +2,10 @@
 <LanguageData>
   <HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.3.label>Flux 전방 예비 탄창 삽입구</HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.3.label>
   <HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.3.label>Flux 전방 예비 탄창 삽입구</HD_ModularPart_Receiver_FluxRaiderKitTan.comps.0.sockets.3.label>
-  <HD_ModularPart_FrontMagazine_P32017.label>Flux Raider 예비 탄창 (17발)</HD_ModularPart_FrontMagazine_P32017.label>
-  <HD_ModularPart_FrontMagazine_P32021.label>Flux Raider 예비 탄창 (21발)</HD_ModularPart_FrontMagazine_P32021.label>
-  <HD_ModularPart_FrontMagazine_P32030.label>Flux Raider 예비 탄창 (30발)</HD_ModularPart_FrontMagazine_P32030.label>
-  <HD_Mote_FrontMagazine_P32017.label>떨어지는 P320 17발 탄창</HD_Mote_FrontMagazine_P32017.label>
-  <HD_Mote_FrontMagazine_P32021.label>떨어지는 P320 21발 탄창</HD_Mote_FrontMagazine_P32021.label>
-  <HD_Mote_FrontMagazine_P32030.label>떨어지는 P320 30발 탄창</HD_Mote_FrontMagazine_P32030.label>
+  <HD_ModularPart_FrontMagazine_P32017_Part.label>Flux Raider 예비 탄창 (17발)</HD_ModularPart_FrontMagazine_P32017_Part.label>
+  <HD_ModularPart_FrontMagazine_P32021_Part.label>Flux Raider 예비 탄창 (21발)</HD_ModularPart_FrontMagazine_P32021_Part.label>
+  <HD_ModularPart_FrontMagazine_P32030_Part.label>Flux Raider 예비 탄창 (30발)</HD_ModularPart_FrontMagazine_P32030_Part.label>
+  <HD_Mote_FrontMagazine_P32017_Mote.label>떨어지는 P320 17발 탄창</HD_Mote_FrontMagazine_P32017_Mote.label>
+  <HD_Mote_FrontMagazine_P32021_Mote.label>떨어지는 P320 21발 탄창</HD_Mote_FrontMagazine_P32021_Mote.label>
+  <HD_Mote_FrontMagazine_P32030_Mote.label>떨어지는 P320 30발 탄창</HD_Mote_FrontMagazine_P32030_Mote.label>
 </LanguageData>

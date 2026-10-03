@@ -31,7 +31,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Light_X300</defName><label>X300 pistol weapon light</label>
+    <defName>HD_ModularPart_Light_X300_Part</defName><label>X300 pistol weapon light</label>
     <description>A full-size pistol light for a lower Picatinny rail.</description>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyLOW_X300</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">

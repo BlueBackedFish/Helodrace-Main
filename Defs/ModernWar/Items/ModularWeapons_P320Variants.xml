@@ -2,7 +2,7 @@
 <Defs>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Receiver_M17</defName><label>M17 tan grip module</label>
+    <defName>HD_ModularPart_Receiver_M17_Part</defName><label>M17 tan grip module</label>
     <description>Tan M17 grip module for the P320-family fire-control unit.</description>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_Receiver_M17</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>8</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
@@ -31,13 +31,13 @@
         <li><socketId>stock</socketId><part>HD_ModularPart_Stock_FluxRaiderKit</part><railOffset>-0.145</railOffset></li>
         <li><socketId>rail_top</socketId><part>HD_ModularPart_Mount_T2Low</part></li>
         <li><socketId>rail_lower</socketId><part>HD_ModularPart_Laser_DBALPL</part><railOffset>0.0125</railOffset></li>
-        <li><socketId>front_magazine</socketId><part>HD_ModularPart_FrontMagazine_P32021</part></li>
+        <li><socketId>front_magazine</socketId><part>HD_ModularPart_FrontMagazine_P32021_Part</part></li>
       </defaultAttachments>
     </li></comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Slide_M17</defName><label>M17 tan 4.7-inch slide</label>
+    <defName>HD_ModularPart_Slide_M17_Part</defName><label>M17 tan 4.7-inch slide</label>
     <description>Tan M17 slide with front and rear sight mounts and an optic plate cut.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M17_UP</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>

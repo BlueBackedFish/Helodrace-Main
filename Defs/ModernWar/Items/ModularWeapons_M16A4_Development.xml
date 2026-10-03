@@ -4,7 +4,7 @@
   <!-- M16A4-specific parts share the M4 lower/upper interface offsets. -->
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_UpperReceiver_M16A4</defName>
+    <defName>HD_ModularPart_UpperReceiver_M16A4_Part</defName>
     <label>M16A4 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
@@ -26,17 +26,17 @@
           <li><id>rail_receiver_top</id><label>upper receiver top rail</label><tags><li>picatinny</li><li>top_rail</li><li>receiver_rail</li></tags><isRail>true</isRail><railLength>0.152</railLength><railSurface>Top</railSurface><transform><position>(-0.114,0,0.017)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520</part></li>
+          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520_Part</part></li>
           <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_HACURXUP</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15</part></li>
-          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_OpticMount_LumiconTA51</part><railOffset>-0.022</railOffset></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15_Part</part></li>
+          <li><socketId>rail_receiver_top</socketId><part>HD_ModularPart_OpticMount_LumiconTA51_Part</part><railOffset>-0.022</railOffset></li>
         </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Barrel_AR1520</defName>
+    <defName>HD_ModularPart_Barrel_AR1520_Part</defName>
     <label>20 inch AR-15 barrel</label>
     <description>20 inch AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1520</texPath></graphicData>
@@ -52,14 +52,14 @@
           <li><id>muzzle</id><label>muzzle thread</label><tags><li>muzzle_556</li></tags><transform><position>(0.417,0,-0.005)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_AR15</part></li>
+          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_GasBlock_AR15</defName>
+    <defName>HD_ModularPart_GasBlock_AR15_Part</defName>
     <label>AR-15 front sight gas block</label>
     <description>AR-15 front sight gas block routes propellant gas through the weapon's operating system.</description>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_AR15</texPath></graphicData>
@@ -143,7 +143,7 @@
         </sockets>
         <defaultAttachments>
           <li><socketId>floorplate</socketId><part>HD_ModularPart_MagazineExt_StanagGrip</part></li>
-          <li><socketId>ammunition</socketId><part>HD_Ammunition_556M855A1</part></li>
+          <li><socketId>ammunition</socketId><part>HD_Ammunition_556M855A1_Ammo</part></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -176,7 +176,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_BufferTube_ColtA2</defName>
+    <defName>HD_ModularPart_BufferTube_ColtA2_Part</defName>
     <label>Colt A2 rifle buffer tube</label>
     <description>Colt A2 rifle buffer tube connects the stock and houses the recoil buffer.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_ColtA2</texPath></graphicData>
@@ -186,14 +186,14 @@
         <mounts><li><id>buffer_mount</id><socketTags><li>ar15_buffer</li></socketTags><transform><position>(-0.211,0,-0.007)</position></transform></li></mounts>
         <sockets><li><id>stock</id><label>fixed stock placement track</label><tags><li>ar15_fixed_stock</li></tags><isRail>true</isRail><railLength>0.06</railLength><maxAttachments>1</maxAttachments><transform><position>(-0.237,0,-0.007)</position></transform></li></sockets>
         <defaultAttachments>
-          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_IronFangA2</part></li>
+          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_IronFangA2_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Stock_IronFangA2</defName>
+    <defName>HD_ModularPart_Stock_IronFangA2_Part</defName>
     <label>IronFang A2 stock</label>
     <description>IronFang A2 stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_IronFangA2</texPath></graphicData>
@@ -206,7 +206,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_OpticMount_LumiconTA51</defName>
+    <defName>HD_ModularPart_OpticMount_LumiconTA51_Part</defName>
     <label>Lumicon TA51 rail mount</label>
     <description>Lumicon TA51 rail mount secures an aiming device to a weapon rail.</description>
     <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_LumiconTA51</texPath></graphicData>
@@ -218,14 +218,14 @@
         <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.1</railOccupancy><railContactLength>0.082</railContactLength><physicalLength>0.16</physicalLength><physicalCenterOffset>-0.018</physicalCenterOffset><railSurface>Top</railSurface><transform><position>(-0.1,0,0.017)</position></transform></li></mounts>
         <sockets><li><id>scope</id><label>Lumicon scope interface</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.023)</position></transform></li></sockets>
         <defaultAttachments>
-          <li><socketId>scope</socketId><part>HD_ModularPart_Scope_LumiconTA11</part></li>
+          <li><socketId>scope</socketId><part>HD_ModularPart_Scope_LumiconTA11_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Scope_LumiconTA11</defName>
+    <defName>HD_ModularPart_Scope_LumiconTA11_Part</defName>
     <label>Lumicon TA11 scope</label>
     <description>Lumicon TA11 scope is a dedicated component of its modular weapon assembly.</description>
     <graphicData><texPath>Weapons/Modular/Optics/HD_Scope_LumiconTA11</texPath></graphicData>
@@ -352,11 +352,11 @@
           <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A4</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
-          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2</part></li>
+          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A4_Part</part></li>
+          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
+          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2_Part</part></li>
           <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>

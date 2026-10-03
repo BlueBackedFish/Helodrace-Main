@@ -6,27 +6,27 @@
     <weaponDef>HD_Gun_M4A1_Weapon</weaponDef>
     <parts>
       <li>
-        <part>HD_ModularPart_UpperReceiver_M4A1</part>
+        <part>HD_ModularPart_UpperReceiver_M4A1_Part</part>
         <socketId>upper_receiver</socketId>
         <mountId>receiver_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Bolt_AR15</part>
+            <part>HD_ModularPart_Bolt_AR15_Part</part>
             <socketId>bolt</socketId>
             <mountId>bolt_mount</mountId>
           </li>
           <li>
-            <part>HD_ModularPart_Barrel_AR15145</part>
+            <part>HD_ModularPart_Barrel_AR15145_Part</part>
             <socketId>barrel</socketId>
             <mountId>barrel_mount</mountId>
             <children>
               <li>
-                <part>HD_ModularPart_Muzzle_HACNT4</part>
+                <part>HD_ModularPart_Muzzle_HACNT4_Part</part>
                 <socketId>muzzle</socketId>
                 <mountId>thread_mount</mountId>
               </li>
               <li>
-                <part>HD_ModularPart_GasBlock_AR15</part>
+                <part>HD_ModularPart_GasBlock_AR15_Part</part>
                 <socketId>gas_block</socketId>
                 <mountId>gas_block_mount</mountId>
               </li>
@@ -69,13 +69,13 @@
             </children>
           </li>
           <li>
-            <part>HD_ModularPart_OpticMount_LumiconTA51</part>
+            <part>HD_ModularPart_OpticMount_LumiconTA51_Part</part>
             <socketId>rail_receiver_top</socketId>
             <mountId>rail_mount</mountId>
             <railOffset>0.0054</railOffset>
             <children>
               <li>
-                <part>HD_ModularPart_Scope_LumiconTA11</part>
+                <part>HD_ModularPart_Scope_LumiconTA11_Part</part>
                 <socketId>scope</socketId>
                 <mountId>ta_mount</mountId>
               </li>
@@ -84,7 +84,7 @@
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_PistolGrip_IronFangA2</part>
+        <part>HD_ModularPart_PistolGrip_IronFangA2_Part</part>
         <socketId>pistol_grip</socketId>
         <mountId>grip_mount</mountId>
       </li>
@@ -94,7 +94,7 @@
         <mountId>buffer_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Stock_M4</part>
+            <part>HD_ModularPart_Stock_M4_Part</part>
             <socketId>stock</socketId>
             <mountId>stock_mount</mountId>
           </li>
@@ -111,14 +111,14 @@
             <mountId>floorplate_mount</mountId>
           </li>
           <li>
-            <part>HD_Ammunition_556M855A1</part>
+            <part>HD_Ammunition_556M855A1_Ammo</part>
             <socketId>ammunition</socketId>
             <mountId>ammunition_mount</mountId>
           </li>
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_Trigger_AR15</part>
+        <part>HD_ModularPart_Trigger_AR15_Part</part>
         <socketId>trigger</socketId>
         <mountId>trigger_mount</mountId>
       </li>

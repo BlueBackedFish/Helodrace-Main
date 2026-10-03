@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ModularPart_UpperReceiver_M16A1.label>M16A1 상부 총몸</HD_ModularPart_UpperReceiver_M16A1.label>
-  <HD_ModularPart_UpperReceiver_M16A1.description>M16A1 상부 총몸은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_UpperReceiver_M16A1.description>
-  <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.0.label>
-  <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.1.label>
-  <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.2.label>
-  <HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.3.label>캐링핸들 ACOG 결합부</HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.3.label>
-  <HD_ModularPart_Handguard_M16A1.label>M16A1 삼각형 총열덮개</HD_ModularPart_Handguard_M16A1.label>
-  <HD_ModularPart_Handguard_M16A1.description>M16A1 삼각형 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_M16A1.description>
-  <HD_ModularPart_UpperReceiver_M16A2.label>M16A2 상부 총몸</HD_ModularPart_UpperReceiver_M16A2.label>
-  <HD_ModularPart_UpperReceiver_M16A2.description>M16A2 상부 총몸은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_UpperReceiver_M16A2.description>
-  <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.0.label>
-  <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.1.label>
-  <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.2.label>
-  <HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.3.label>캐링핸들 ACOG 결합부</HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.3.label>
+  <HD_ModularPart_UpperReceiver_M16A1_Part.label>M16A1 상부 총몸</HD_ModularPart_UpperReceiver_M16A1_Part.label>
+  <HD_ModularPart_UpperReceiver_M16A1_Part.description>M16A1 상부 총몸은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_UpperReceiver_M16A1_Part.description>
+  <HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.2.label>
+  <HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.3.label>캐링핸들 ACOG 결합부</HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.3.label>
+  <HD_ModularPart_Handguard_M16A1_Part.label>M16A1 삼각형 총열덮개</HD_ModularPart_Handguard_M16A1_Part.label>
+  <HD_ModularPart_Handguard_M16A1_Part.description>M16A1 삼각형 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_M16A1_Part.description>
+  <HD_ModularPart_UpperReceiver_M16A2_Part.label>M16A2 상부 총몸</HD_ModularPart_UpperReceiver_M16A2_Part.label>
+  <HD_ModularPart_UpperReceiver_M16A2_Part.description>M16A2 상부 총몸은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_UpperReceiver_M16A2_Part.description>
+  <HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.2.label>
+  <HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.3.label>캐링핸들 ACOG 결합부</HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.3.label>
   <HD_ModularPart_Handguard_M16A2UP.label>M16A2 상부 총열덮개</HD_ModularPart_Handguard_M16A2UP.label>
   <HD_ModularPart_Handguard_M16A2UP.description>M16A2 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_M16A2UP.description>
   <HD_ModularPart_Handguard_M16A2UP.comps.0.sockets.0.label>M16A2 하부 총열덮개 결합부</HD_ModularPart_Handguard_M16A2UP.comps.0.sockets.0.label>
@@ -23,11 +23,11 @@
   <HD_ModularPart_Barrel_AR1520Pencil.description>20인치 AR-15 펜슬 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_AR1520Pencil.description>
   <HD_ModularPart_Barrel_AR1520Pencil.comps.0.sockets.0.label>가스 블록 장착부</HD_ModularPart_Barrel_AR1520Pencil.comps.0.sockets.0.label>
   <HD_ModularPart_Barrel_AR1520Pencil.comps.0.sockets.1.label>총구 나사산</HD_ModularPart_Barrel_AR1520Pencil.comps.0.sockets.1.label>
-  <HD_ModularPart_Muzzle_M16A1.label>M16A1 소염기</HD_ModularPart_Muzzle_M16A1.label>
-  <HD_ModularPart_Muzzle_M16A1.description>M16A1 소염기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_M16A1.description>
-  <HD_ModularPart_Magazine_STANAG20.label>20-탄 STANAG 탄창</HD_ModularPart_Magazine_STANAG20.label>
-  <HD_ModularPart_Magazine_STANAG20.description>20-탄 STANAG 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_STANAG20.description>
-  <HD_ModularPart_Magazine_STANAG20.comps.0.sockets.0.label>장전 탄약</HD_ModularPart_Magazine_STANAG20.comps.0.sockets.0.label>
+  <HD_ModularPart_Muzzle_M16A1_Part.label>M16A1 소염기</HD_ModularPart_Muzzle_M16A1_Part.label>
+  <HD_ModularPart_Muzzle_M16A1_Part.description>M16A1 소염기는 총구 화염과 가스 흐름을 조절하는 총구 장치입니다.</HD_ModularPart_Muzzle_M16A1_Part.description>
+  <HD_ModularPart_Magazine_STANAG20_Part.label>20-탄 STANAG 탄창</HD_ModularPart_Magazine_STANAG20_Part.label>
+  <HD_ModularPart_Magazine_STANAG20_Part.description>20-탄 STANAG 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_STANAG20_Part.description>
+  <HD_ModularPart_Magazine_STANAG20_Part.comps.0.sockets.0.label>장전 탄약</HD_ModularPart_Magazine_STANAG20_Part.comps.0.sockets.0.label>
   <HD_Gun_M16A1_Weapon.comps.1.sockets.0.label>상부 총몸 결합부</HD_Gun_M16A1_Weapon.comps.1.sockets.0.label>
   <HD_Gun_M16A1_Weapon.comps.1.sockets.1.label>권총손잡이 결합부</HD_Gun_M16A1_Weapon.comps.1.sockets.1.label>
   <HD_Gun_M16A1_Weapon.comps.1.sockets.2.label>버퍼 튜브 결합부</HD_Gun_M16A1_Weapon.comps.1.sockets.2.label>

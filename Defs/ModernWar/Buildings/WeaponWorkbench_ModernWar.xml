@@ -58,11 +58,11 @@
           <li><thingDef>HD_ModularPart_Receiver_FluxRaiderKit</thingDef><count>1</count></li>
           <li><thingDef>HD_ModularPart_Stock_FluxRaiderKit</thingDef><count>1</count></li>
           <li><thingDef>HD_ModularPart_Mount_T2Low</thingDef><count>1</count></li>
-          <li><thingDef>HD_ModularPart_Optic_PointSightT2</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Optic_PointSightT2_Part</thingDef><count>1</count></li>
           <li><thingDef>HD_ModularPart_Laser_DBALPL</thingDef><count>1</count></li>
           <li><thingDef>HD_ModularPart_Barrel_P32047Threaded</thingDef><count>1</count></li>
-          <li><thingDef>HD_ModularPart_Suppressor_HelveticSRD9</thingDef><count>1</count></li>
-          <li><thingDef>HD_ModularPart_Magazine_P32021</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Suppressor_HelveticSRD9_Part</thingDef><count>1</count></li>
+          <li><thingDef>HD_ModularPart_Magazine_P32021_Part</thingDef><count>1</count></li>
         </initialVirtualParts>
       </li>
     </comps>

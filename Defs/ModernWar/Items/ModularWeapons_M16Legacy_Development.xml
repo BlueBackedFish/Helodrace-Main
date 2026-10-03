@@ -5,7 +5,7 @@
        established M16 lower/upper interfaces and can be refined with the live editor. -->
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_UpperReceiver_M16A1</defName>
+    <defName>HD_ModularPart_UpperReceiver_M16A1_Part</defName>
     <label>M16A1 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
@@ -27,15 +27,15 @@
         </sockets>
         <defaultAttachments>
           <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520Pencil</part></li>
-          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_M16A1</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15</part></li>
+          <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_M16A1_Part</part></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Handguard_M16A1</defName>
+    <defName>HD_ModularPart_Handguard_M16A1_Part</defName>
     <label>M16A1 triangular handguard</label>
     <description>M16A1 triangular handguard surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_M16a1</texPath></graphicData>
@@ -48,7 +48,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_UpperReceiver_M16A2</defName>
+    <defName>HD_ModularPart_UpperReceiver_M16A2_Part</defName>
     <label>M16A2 upper receiver</label>
     <selectable>true</selectable>
     <alwaysHaulable>true</alwaysHaulable>
@@ -69,9 +69,9 @@
           <li><id>carry_handle_optic</id><label>carry handle ACOG mount</label><tags><li>lumicon_ta_scope</li></tags><transform><position>(-0.103,0,0.057)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520</part></li>
+          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_AR1520_Part</part></li>
           <li><socketId>handguard</socketId><part>HD_ModularPart_Handguard_M16A2UP</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15</part></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -122,15 +122,15 @@
           <li><id>muzzle</id><label>muzzle thread</label><tags><li>muzzle_556</li></tags><transform><position>(0.417,0,-0.008)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_AR15</part></li>
-          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_M16A1</part></li>
+          <li><socketId>gas_block</socketId><part>HD_ModularPart_GasBlock_AR15_Part</part></li>
+          <li><socketId>muzzle</socketId><part>HD_ModularPart_Muzzle_M16A1_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
 <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Muzzle_M16A1</defName>
+    <defName>HD_ModularPart_Muzzle_M16A1_Part</defName>
     <label>M16A1 flash suppressor</label>
     <description>M16A1 flash suppressor controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_M16a1</texPath></graphicData>
@@ -145,7 +145,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Magazine_STANAG20</defName>
+    <defName>HD_ModularPart_Magazine_STANAG20_Part</defName>
     <label>20-round STANAG magazine</label>
     <description>20-round STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_Stanag20</texPath></graphicData>
@@ -155,7 +155,7 @@
         <magazineCapacity>20</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>stanag_magazine</li></socketTags><transform><position>(-0.075,0,-0.026)</position></transform></li></mounts>
         <sockets><li><id>ammunition</id><label>loaded ammunition</label><tags><li>stanag_ammunition</li></tags><required>true</required><transform><position>(-0.075,0,-0.090)</position></transform></li></sockets>
-        <defaultAttachments><li><socketId>ammunition</socketId><part>HD_Ammunition_556M855A1</part></li></defaultAttachments>
+        <defaultAttachments><li><socketId>ammunition</socketId><part>HD_Ammunition_556M855A1_Ammo</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -201,11 +201,11 @@
           <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A1</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
-          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2</part></li>
-          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG20</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
+          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A1_Part</part></li>
+          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
+          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2_Part</part></li>
+          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG20_Part</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -248,11 +248,11 @@
           <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A2</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
-          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2</part></li>
+          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A2_Part</part></li>
+          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
+          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2_Part</part></li>
           <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>
@@ -298,11 +298,11 @@
           <li><id>trigger</id><label>trigger group</label><tags><li>ar15_trigger</li></tags><required>true</required><transform><position>(-0.139,0,-0.051)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A2</part></li>
-          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2</part></li>
-          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2</part></li>
+          <li><socketId>upper_receiver</socketId><part>HD_ModularPart_UpperReceiver_M16A2_Part</part></li>
+          <li><socketId>pistol_grip</socketId><part>HD_ModularPart_PistolGrip_IronFangA2_Part</part></li>
+          <li><socketId>buffer_tube</socketId><part>HD_ModularPart_BufferTube_ColtA2_Part</part></li>
           <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_STANAG</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_AR15_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>

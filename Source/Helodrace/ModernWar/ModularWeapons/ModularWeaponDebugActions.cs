@@ -55,7 +55,7 @@ namespace Helodrace.ModernWar
             // This is a normal part Thing. Its Def supplies a barrel and handguard as
             // children, proving that a partial assembly can exist without a gun root.
             SpawnAndSelect(
-                "HD_ModularPart_UpperReceiver_M4A1",
+                "HD_ModularPart_UpperReceiver_M4A1_Part",
                 "assembled M4 upper receiver");
         }
 

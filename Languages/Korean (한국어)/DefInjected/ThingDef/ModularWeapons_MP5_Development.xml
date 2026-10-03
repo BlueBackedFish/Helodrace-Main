@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ModularPart_CockingTube_MP5.label>MP5 장전관</HD_ModularPart_CockingTube_MP5.label>
-  <HD_ModularPart_CockingTube_MP5.description>MP5 장전관은 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_CockingTube_MP5.description>
-  <HD_ModularPart_CockingTube_MP5.comps.0.sockets.0.label>MP5 장전관 가늠쇠 받침</HD_ModularPart_CockingTube_MP5.comps.0.sockets.0.label>
+  <HD_ModularPart_CockingTube_MP5_Part.label>MP5 장전관</HD_ModularPart_CockingTube_MP5_Part.label>
+  <HD_ModularPart_CockingTube_MP5_Part.description>MP5 장전관은 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_CockingTube_MP5_Part.description>
+  <HD_ModularPart_CockingTube_MP5_Part.comps.0.sockets.0.label>MP5 장전관 가늠쇠 받침</HD_ModularPart_CockingTube_MP5_Part.comps.0.sockets.0.label>
   <HD_ModularPart_CockingTube_MP5SD.label>MP5SD 장전관</HD_ModularPart_CockingTube_MP5SD.label>
   <HD_ModularPart_CockingTube_MP5SD.description>MP5SD 장전관은 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_CockingTube_MP5SD.description>
   <HD_ModularPart_CockingTube_MP5SD.comps.0.sockets.0.label>MP5SD 장전관 가늠쇠 받침</HD_ModularPart_CockingTube_MP5SD.comps.0.sockets.0.label>
-  <HD_ModularPart_Barrel_MP5.label>MP5 8.9인치 총열</HD_ModularPart_Barrel_MP5.label>
-  <HD_ModularPart_Barrel_MP5.description>MP5 8.9인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_MP5.description>
-  <HD_ModularPart_Barrel_MP5.comps.0.sockets.0.label>MP5 노출 총구</HD_ModularPart_Barrel_MP5.comps.0.sockets.0.label>
-  <HD_ModularPart_Barrel_MP5.comps.0.sockets.1.label>표준형 MP5 총열덮개 결합부</HD_ModularPart_Barrel_MP5.comps.0.sockets.1.label>
+  <HD_ModularPart_Barrel_MP5_Part.label>MP5 8.9인치 총열</HD_ModularPart_Barrel_MP5_Part.label>
+  <HD_ModularPart_Barrel_MP5_Part.description>MP5 8.9인치 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_MP5_Part.description>
+  <HD_ModularPart_Barrel_MP5_Part.comps.0.sockets.0.label>MP5 노출 총구</HD_ModularPart_Barrel_MP5_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_MP5_Part.comps.0.sockets.1.label>표준형 MP5 총열덮개 결합부</HD_ModularPart_Barrel_MP5_Part.comps.0.sockets.1.label>
   <HD_ModularPart_Barrel_MP5SD.label>MP5SD 포트형 총열</HD_ModularPart_Barrel_MP5SD.label>
   <HD_ModularPart_Barrel_MP5SD.description>MP5SD 포트형 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_MP5SD.description>
   <HD_ModularPart_Barrel_MP5SD.comps.0.sockets.0.label>MP5SD 총열 총구</HD_ModularPart_Barrel_MP5SD.comps.0.sockets.0.label>
@@ -21,28 +21,28 @@
   <HD_ModularPart_Handguard_MP5SD.description>MP5SD 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_MP5SD.description>
   <HD_ModularPart_Suppressor_MP5SD.label>MP5SD 일체형 소음기</HD_ModularPart_Suppressor_MP5SD.label>
   <HD_ModularPart_Suppressor_MP5SD.description>MP5SD 일체형 소음기는 총구에 달아 발사음과 화염을 줄이는 소음기입니다.</HD_ModularPart_Suppressor_MP5SD.description>
-  <HD_ModularPart_FrontSight_MP5.label>MP5 가늠쇠</HD_ModularPart_FrontSight_MP5.label>
-  <HD_ModularPart_FrontSight_MP5.description>MP5 가늠쇠는 표적 조준을 돕는 조준 장비입니다.</HD_ModularPart_FrontSight_MP5.description>
+  <HD_ModularPart_FrontSight_MP5_Part.label>MP5 가늠쇠</HD_ModularPart_FrontSight_MP5_Part.label>
+  <HD_ModularPart_FrontSight_MP5_Part.description>MP5 가늠쇠는 표적 조준을 돕는 조준 장비입니다.</HD_ModularPart_FrontSight_MP5_Part.description>
   <HD_ModularPart_FrontSight_MP5SD.label>MP5SD 가늠쇠</HD_ModularPart_FrontSight_MP5SD.label>
   <HD_ModularPart_FrontSight_MP5SD.description>MP5SD 가늠쇠는 표적 조준을 돕는 조준 장비입니다.</HD_ModularPart_FrontSight_MP5SD.description>
-  <HD_ModularPart_RearSight_MP5.label>MP5 회전식 가늠자</HD_ModularPart_RearSight_MP5.label>
-  <HD_ModularPart_RearSight_MP5.description>MP5 회전식 가늠자는 표적 조준을 돕는 조준 장비입니다.</HD_ModularPart_RearSight_MP5.description>
-  <HD_ModularPart_OpticRail_MP5.label>MP5 상부 피카티니 레일</HD_ModularPart_OpticRail_MP5.label>
-  <HD_ModularPart_OpticRail_MP5.description>MP5 상부 피카티니 레일은 표적 조준을 돕는 조준 장비입니다.</HD_ModularPart_OpticRail_MP5.description>
-  <HD_ModularPart_OpticRail_MP5.comps.0.sockets.0.label>MP5 상부 피카티니 레일</HD_ModularPart_OpticRail_MP5.comps.0.sockets.0.label>
-  <HD_ModularPart_Bolt_MP5.label>MP5 노리쇠 뭉치</HD_ModularPart_Bolt_MP5.label>
-  <HD_ModularPart_Bolt_MP5.description>MP5 노리쇠 뭉치는 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_Bolt_MP5.description>
-  <HD_ModularPart_Trigger_MP5.label>MP5 방아쇠</HD_ModularPart_Trigger_MP5.label>
-  <HD_ModularPart_Trigger_MP5.description>MP5 방아쇠는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_Trigger_MP5.description>
-  <HD_ModularPart_TriggerHousing_MP5A3.label>MP5A3 방아쇠 하우징 및 권총손잡이</HD_ModularPart_TriggerHousing_MP5A3.label>
-  <HD_ModularPart_TriggerHousing_MP5A3.description>MP5A3 방아쇠 하우징 및 권총손잡이는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_TriggerHousing_MP5A3.description>
-  <HD_ModularPart_Magazine_MP530.label>30-탄 MP5 탄창</HD_ModularPart_Magazine_MP530.label>
-  <HD_ModularPart_Magazine_MP530.description>30-탄 MP5 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_MP530.description>
-  <HD_ModularPart_Magazine_MP530.comps.0.sockets.0.label>장전된 9×19mm 탄약</HD_ModularPart_Magazine_MP530.comps.0.sockets.0.label>
-  <HD_ModularPart_Stock_MP5A2.label>MP5A2 고정형 개머리판</HD_ModularPart_Stock_MP5A2.label>
-  <HD_ModularPart_Stock_MP5A2.description>MP5A2 고정형 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_MP5A2.description>
-  <HD_ModularPart_Stock_MP5A3.label>MP5A3 인입식 개머리판</HD_ModularPart_Stock_MP5A3.label>
-  <HD_ModularPart_Stock_MP5A3.description>MP5A3 인입식 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_MP5A3.description>
+  <HD_ModularPart_RearSight_MP5_Part.label>MP5 회전식 가늠자</HD_ModularPart_RearSight_MP5_Part.label>
+  <HD_ModularPart_RearSight_MP5_Part.description>MP5 회전식 가늠자는 표적 조준을 돕는 조준 장비입니다.</HD_ModularPart_RearSight_MP5_Part.description>
+  <HD_ModularPart_OpticRail_MP5_Part.label>MP5 상부 피카티니 레일</HD_ModularPart_OpticRail_MP5_Part.label>
+  <HD_ModularPart_OpticRail_MP5_Part.description>MP5 상부 피카티니 레일은 표적 조준을 돕는 조준 장비입니다.</HD_ModularPart_OpticRail_MP5_Part.description>
+  <HD_ModularPart_OpticRail_MP5_Part.comps.0.sockets.0.label>MP5 상부 피카티니 레일</HD_ModularPart_OpticRail_MP5_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Bolt_MP5_Part.label>MP5 노리쇠 뭉치</HD_ModularPart_Bolt_MP5_Part.label>
+  <HD_ModularPart_Bolt_MP5_Part.description>MP5 노리쇠 뭉치는 장전과 폐쇄 동작을 맡는 작동부 부품입니다.</HD_ModularPart_Bolt_MP5_Part.description>
+  <HD_ModularPart_Trigger_MP5_Part.label>MP5 방아쇠</HD_ModularPart_Trigger_MP5_Part.label>
+  <HD_ModularPart_Trigger_MP5_Part.description>MP5 방아쇠는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_Trigger_MP5_Part.description>
+  <HD_ModularPart_TriggerHousing_MP5A3_Part.label>MP5A3 방아쇠 하우징 및 권총손잡이</HD_ModularPart_TriggerHousing_MP5A3_Part.label>
+  <HD_ModularPart_TriggerHousing_MP5A3_Part.description>MP5A3 방아쇠 하우징 및 권총손잡이는 격발 동작을 전달하는 방아쇠 부품입니다.</HD_ModularPart_TriggerHousing_MP5A3_Part.description>
+  <HD_ModularPart_Magazine_MP530_Part.label>30-탄 MP5 탄창</HD_ModularPart_Magazine_MP530_Part.label>
+  <HD_ModularPart_Magazine_MP530_Part.description>30-탄 MP5 탄창은 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_Magazine_MP530_Part.description>
+  <HD_ModularPart_Magazine_MP530_Part.comps.0.sockets.0.label>장전된 9×19mm 탄약</HD_ModularPart_Magazine_MP530_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Stock_MP5A2_Part.label>MP5A2 고정형 개머리판</HD_ModularPart_Stock_MP5A2_Part.label>
+  <HD_ModularPart_Stock_MP5A2_Part.description>MP5A2 고정형 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_MP5A2_Part.description>
+  <HD_ModularPart_Stock_MP5A3_Part.label>MP5A3 인입식 개머리판</HD_ModularPart_Stock_MP5A3_Part.label>
+  <HD_ModularPart_Stock_MP5A3_Part.description>MP5A3 인입식 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_MP5A3_Part.description>
   <HD_Gun_MP5_Weapon.label>MP5</HD_Gun_MP5_Weapon.label>
   <HD_Gun_MP5_Weapon.description>총열, 개머리판, 조준기와 방아쇠 하우징을 교체할 수 있는 모듈식 9mm 기관단총입니다.</HD_Gun_MP5_Weapon.description>
   <HD_Gun_MP5_Weapon.comps.0.sockets.0.label>MP5 장전관 결합부</HD_Gun_MP5_Weapon.comps.0.sockets.0.label>

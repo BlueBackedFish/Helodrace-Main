@@ -6,12 +6,12 @@
     <weaponDef>HD_Gun_P320_Weapon</weaponDef>
     <parts>
       <li>
-        <part>HD_ModularPart_Receiver_P320</part>
+        <part>HD_ModularPart_Receiver_P320_Part</part>
         <socketId>receiver</socketId>
         <mountId>receiver_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_Slide_P32047</part>
+        <part>HD_ModularPart_Slide_P32047_Part</part>
         <socketId>slide</socketId>
         <mountId>slide_mount</mountId>
         <children>
@@ -28,7 +28,7 @@
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_Barrel_P32047</part>
+        <part>HD_ModularPart_Barrel_P32047_Part</part>
         <socketId>barrel</socketId>
         <mountId>barrel_mount</mountId>
       </li>
@@ -38,12 +38,12 @@
         <mountId>trigger_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_Magazine_P32017</part>
+        <part>HD_ModularPart_Magazine_P32017_Part</part>
         <socketId>magazine</socketId>
         <mountId>magazine_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Ammunition_919M882_P320</part>
+            <part>HD_ModularPart_Ammunition_919M882_P320_Part</part>
             <socketId>ammunition</socketId>
             <mountId>ammunition_mount</mountId>
           </li>

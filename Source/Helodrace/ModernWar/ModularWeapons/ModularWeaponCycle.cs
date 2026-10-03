@@ -343,7 +343,7 @@ namespace Helodrace.ModernWar
             List<ModularRenderNode> nodes = root?.RenderSnapshot();
             if (nodes == null) return false;
             for (int i = 0; i < nodes.Count; i++)
-                if (nodes[i]?.thing?.def?.defName == "HD_ModularPart_Bolt_AR15"
+                if (nodes[i]?.thing?.def?.defName == "HD_ModularPart_Bolt_AR15_Part"
                     || nodes[i]?.Props.animatedPart == ModularWeaponAnimatedPartKind.Slide)
                     return true;
             return false;

@@ -6,12 +6,12 @@
     <weaponDef>HD_Gun_M4A1_Weapon</weaponDef>
     <parts>
       <li>
-        <part>HD_ModularPart_UpperReceiver_M4A1</part>
+        <part>HD_ModularPart_UpperReceiver_M4A1_Part</part>
         <socketId>upper_receiver</socketId>
         <mountId>receiver_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Barrel_AR15103</part>
+            <part>HD_ModularPart_Barrel_AR15103_Part</part>
             <socketId>barrel</socketId>
             <mountId>barrel_mount</mountId>
             <children>
@@ -21,7 +21,7 @@
                 <mountId>gas_block_mount</mountId>
               </li>
               <li>
-                <part>HD_ModularPart_Muzzle_HACNT4</part>
+                <part>HD_ModularPart_Muzzle_HACNT4_Part</part>
                 <socketId>muzzle</socketId>
                 <mountId>thread_mount</mountId>
               </li>
@@ -33,14 +33,14 @@
             <mountId>handguard_mount</mountId>
           </li>
           <li>
-            <part>HD_ModularPart_Bolt_AR15</part>
+            <part>HD_ModularPart_Bolt_AR15_Part</part>
             <socketId>bolt</socketId>
             <mountId>bolt_mount</mountId>
           </li>
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_PistolGrip_IronFangA2</part>
+        <part>HD_ModularPart_PistolGrip_IronFangA2_Part</part>
         <socketId>pistol_grip</socketId>
         <mountId>grip_mount</mountId>
       </li>
@@ -63,14 +63,14 @@
         <mountId>magazine_mount</mountId>
         <children>
           <li>
-            <part>HD_Ammunition_556M855A1</part>
+            <part>HD_Ammunition_556M855A1_Ammo</part>
             <socketId>ammunition</socketId>
             <mountId>ammunition_mount</mountId>
           </li>
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_Trigger_AR15</part>
+        <part>HD_ModularPart_Trigger_AR15_Part</part>
         <socketId>trigger</socketId>
         <mountId>trigger_mount</mountId>
       </li>

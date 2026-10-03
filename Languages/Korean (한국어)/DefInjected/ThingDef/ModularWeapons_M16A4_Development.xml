@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_ModularPart_UpperReceiver_M16A4.label>M16A4 상부 총몸</HD_ModularPart_UpperReceiver_M16A4.label>
-  <HD_ModularPart_UpperReceiver_M16A4.description>M16A4 상부 총몸은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_UpperReceiver_M16A4.description>
-  <HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.0.label>
-  <HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.1.label>
-  <HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.2.label>
-  <HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.3.label>상부 총몸 상단 레일</HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.3.label>
-  <HD_ModularPart_Barrel_AR1520.label>20인치 AR-15 총열</HD_ModularPart_Barrel_AR1520.label>
-  <HD_ModularPart_Barrel_AR1520.description>20인치 AR-15 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_AR1520.description>
-  <HD_ModularPart_Barrel_AR1520.comps.0.sockets.0.label>가스 블록 장착부</HD_ModularPart_Barrel_AR1520.comps.0.sockets.0.label>
-  <HD_ModularPart_Barrel_AR1520.comps.0.sockets.1.label>총구 나사산</HD_ModularPart_Barrel_AR1520.comps.0.sockets.1.label>
-  <HD_ModularPart_GasBlock_AR15.label>AR-15 가늠쇠 일체형 가스 블록</HD_ModularPart_GasBlock_AR15.label>
-  <HD_ModularPart_GasBlock_AR15.description>AR-15 가늠쇠 일체형 가스 블록은 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasBlock_AR15.description>
+  <HD_ModularPart_UpperReceiver_M16A4_Part.label>M16A4 상부 총몸</HD_ModularPart_UpperReceiver_M16A4_Part.label>
+  <HD_ModularPart_UpperReceiver_M16A4_Part.description>M16A4 상부 총몸은 총열과 작동부, 부착물을 지지하는 총몸 구성품입니다.</HD_ModularPart_UpperReceiver_M16A4_Part.description>
+  <HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.0.label>총열 연장부</HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.1.label>총열덮개 장착부</HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.2.label>노리쇠 운반체 뭉치</HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.2.label>
+  <HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.3.label>상부 총몸 상단 레일</HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.3.label>
+  <HD_ModularPart_Barrel_AR1520_Part.label>20인치 AR-15 총열</HD_ModularPart_Barrel_AR1520_Part.label>
+  <HD_ModularPart_Barrel_AR1520_Part.description>20인치 AR-15 총열은 약실에서 총구까지 탄환을 유도하는 총열입니다.</HD_ModularPart_Barrel_AR1520_Part.description>
+  <HD_ModularPart_Barrel_AR1520_Part.comps.0.sockets.0.label>가스 블록 장착부</HD_ModularPart_Barrel_AR1520_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Barrel_AR1520_Part.comps.0.sockets.1.label>총구 나사산</HD_ModularPart_Barrel_AR1520_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_GasBlock_AR15_Part.label>AR-15 가늠쇠 일체형 가스 블록</HD_ModularPart_GasBlock_AR15_Part.label>
+  <HD_ModularPart_GasBlock_AR15_Part.description>AR-15 가늠쇠 일체형 가스 블록은 발사 가스를 작동부로 보내는 가스 계통 부품입니다.</HD_ModularPart_GasBlock_AR15_Part.description>
   <HD_ModularPart_Handguard_HACURXUP.label>HAC URX 상부 총열덮개</HD_ModularPart_Handguard_HACURXUP.label>
   <HD_ModularPart_Handguard_HACURXUP.description>HAC URX 상부 총열덮개는 총열 주변을 감싸고 부착 공간을 제공하는 총열덮개입니다.</HD_ModularPart_Handguard_HACURXUP.description>
   <HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.0.label>URX 하부 총열덮개 결합부</HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.0.label>
@@ -29,16 +29,16 @@
   <HD_ModularPart_MagazineExt_StanagGrip.description>STANAG 탄창 당김 손잡이는 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_MagazineExt_StanagGrip.description>
   <HD_ModularPart_MagazineWrap_StanagTapeBlue.label>파란색 STANAG 탄창 식별 테이프</HD_ModularPart_MagazineWrap_StanagTapeBlue.label>
   <HD_ModularPart_MagazineWrap_StanagTapeBlue.description>파란색 STANAG 탄창 식별 테이프는 탄약을 보관하고 약실 쪽으로 공급하는 탈착식 탄창입니다.</HD_ModularPart_MagazineWrap_StanagTapeBlue.description>
-  <HD_ModularPart_BufferTube_ColtA2.label>Colt A2 소총 버퍼 튜브</HD_ModularPart_BufferTube_ColtA2.label>
-  <HD_ModularPart_BufferTube_ColtA2.description>Colt A2 소총 버퍼 튜브는 개머리판과 완충 장치를 연결하는 버퍼 튜브입니다.</HD_ModularPart_BufferTube_ColtA2.description>
-  <HD_ModularPart_BufferTube_ColtA2.comps.0.sockets.0.label>고정형 개머리판 배치 레일</HD_ModularPart_BufferTube_ColtA2.comps.0.sockets.0.label>
-  <HD_ModularPart_Stock_IronFangA2.label>IronFang A2 개머리판</HD_ModularPart_Stock_IronFangA2.label>
-  <HD_ModularPart_Stock_IronFangA2.description>IronFang A2 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_IronFangA2.description>
-  <HD_ModularPart_OpticMount_LumiconTA51.label>Lumicon TA51 레일 마운트</HD_ModularPart_OpticMount_LumiconTA51.label>
-  <HD_ModularPart_OpticMount_LumiconTA51.description>Lumicon TA51 레일 마운트는 조준 장비를 레일에 고정하는 마운트입니다.</HD_ModularPart_OpticMount_LumiconTA51.description>
-  <HD_ModularPart_OpticMount_LumiconTA51.comps.0.sockets.0.label>Lumicon 조준경 결합부</HD_ModularPart_OpticMount_LumiconTA51.comps.0.sockets.0.label>
-  <HD_ModularPart_Scope_LumiconTA11.label>Lumicon TA11 조준경</HD_ModularPart_Scope_LumiconTA11.label>
-  <HD_ModularPart_Scope_LumiconTA11.description>Lumicon TA11 조준경은 해당 모듈식 무기의 작동과 구성을 담당하는 전용 부품입니다.</HD_ModularPart_Scope_LumiconTA11.description>
+  <HD_ModularPart_BufferTube_ColtA2_Part.label>Colt A2 소총 버퍼 튜브</HD_ModularPart_BufferTube_ColtA2_Part.label>
+  <HD_ModularPart_BufferTube_ColtA2_Part.description>Colt A2 소총 버퍼 튜브는 개머리판과 완충 장치를 연결하는 버퍼 튜브입니다.</HD_ModularPart_BufferTube_ColtA2_Part.description>
+  <HD_ModularPart_BufferTube_ColtA2_Part.comps.0.sockets.0.label>고정형 개머리판 배치 레일</HD_ModularPart_BufferTube_ColtA2_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Stock_IronFangA2_Part.label>IronFang A2 개머리판</HD_ModularPart_Stock_IronFangA2_Part.label>
+  <HD_ModularPart_Stock_IronFangA2_Part.description>IronFang A2 개머리판은 어깨 지지와 반동 제어를 돕는 개머리판입니다.</HD_ModularPart_Stock_IronFangA2_Part.description>
+  <HD_ModularPart_OpticMount_LumiconTA51_Part.label>Lumicon TA51 레일 마운트</HD_ModularPart_OpticMount_LumiconTA51_Part.label>
+  <HD_ModularPart_OpticMount_LumiconTA51_Part.description>Lumicon TA51 레일 마운트는 조준 장비를 레일에 고정하는 마운트입니다.</HD_ModularPart_OpticMount_LumiconTA51_Part.description>
+  <HD_ModularPart_OpticMount_LumiconTA51_Part.comps.0.sockets.0.label>Lumicon 조준경 결합부</HD_ModularPart_OpticMount_LumiconTA51_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Scope_LumiconTA11_Part.label>Lumicon TA11 조준경</HD_ModularPart_Scope_LumiconTA11_Part.label>
+  <HD_ModularPart_Scope_LumiconTA11_Part.description>Lumicon TA11 조준경은 해당 모듈식 무기의 작동과 구성을 담당하는 전용 부품입니다.</HD_ModularPart_Scope_LumiconTA11_Part.description>
   <HD_ModularPart_Grip_HACVFG.label>HAC 수직 전방손잡이</HD_ModularPart_Grip_HACVFG.label>
   <HD_ModularPart_Grip_HACVFG.description>HAC 수직 전방손잡이는 사격 자세와 무기 조작을 돕는 손잡이입니다.</HD_ModularPart_Grip_HACVFG.description>
   <HD_ModularPart_RailPanel_HACURXLow.label>HAC URX 하부 레일 패널</HD_ModularPart_RailPanel_HACURXLow.label>

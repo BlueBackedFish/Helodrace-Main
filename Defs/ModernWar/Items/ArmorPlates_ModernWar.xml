@@ -142,7 +142,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ArmorPlateBase">
-    <defName>HD_ArmorPlate_RAMPART4800</defName>
+    <defName>HD_ArmorPlate_RAMPART4800_Plate</defName>
     <!-- 방탄 참고: NIJ 0101.07 위협등급 rf3; 소재: 세라믹 + UHMWPE(Spectra); 실제품: HESCO 4800. 제조사 자료의 세라믹/Spectra 조합; 세라믹 세부 종류는 미공개. -->
     <label>RAMPART 4800 plate set</label>
     <!-- Simplified gameplay material from the development memo. -->

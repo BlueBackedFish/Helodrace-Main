@@ -46,7 +46,7 @@
     <fixedPosition>HD_MH_Pos_FrontHead</fixedPosition>
     <compatibleArmorTags><li>HD_FASTMT</li></compatibleArmorTags>
     <conflictTags><li>HD_FASTMT_FrontFace</li></conflictTags>
-    <partThingDef>HD_ModularPart_GPNVG18</partThingDef>
+    <partThingDef>HD_ModularPart_GPNVG18_Part</partThingDef>
     <installWorkTicks>240</installWorkTicks>
     <ergonomics>-0.4</ergonomics>
     <ventilation>-0.2</ventilation>

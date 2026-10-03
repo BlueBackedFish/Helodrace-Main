@@ -6,7 +6,7 @@
     <weaponDef>HD_Gun_P320_Weapon</weaponDef>
     <parts>
       <li>
-        <part>HD_ModularPart_Slide_P32047</part>
+        <part>HD_ModularPart_Slide_P32047_Part</part>
         <socketId>slide</socketId>
         <mountId>slide_mount</mountId>
         <children>
@@ -44,7 +44,7 @@
             <mountId>rail_mount</mountId>
             <children>
               <li>
-                <part>HD_ModularPart_Optic_PointSightT2</part>
+                <part>HD_ModularPart_Optic_PointSightT2_Part</part>
                 <socketId>optic</socketId>
                 <mountId>optic_mount</mountId>
               </li>
@@ -57,19 +57,19 @@
             <railOffset>0.0125</railOffset>
           </li>
           <li>
-            <part>HD_ModularPart_FrontMagazine_P32021</part>
+            <part>HD_ModularPart_FrontMagazine_P32021_Part</part>
             <socketId>front_magazine</socketId>
             <mountId>front_magazine_mount</mountId>
           </li>
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_Magazine_P32030</part>
+        <part>HD_ModularPart_Magazine_P32030_Part</part>
         <socketId>magazine</socketId>
         <mountId>magazine_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Ammunition_919M882_P320</part>
+            <part>HD_ModularPart_Ammunition_919M882_P320_Part</part>
             <socketId>ammunition</socketId>
             <mountId>ammunition_mount</mountId>
           </li>
@@ -81,7 +81,7 @@
         <mountId>barrel_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Suppressor_HelveticSRD9</part>
+            <part>HD_ModularPart_Suppressor_HelveticSRD9_Part</part>
             <socketId>muzzle</socketId>
             <mountId>suppressor_mount</mountId>
           </li>

@@ -47,10 +47,10 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
-    <defName>HD_Ammunition_556M855A1</defName>
+    <defName>HD_Ammunition_556M855A1_Ammo</defName>
     <label>5.56x45mm M855A1 cartridge</label>
     <description>M855A1 ammunition for modular 5.56x45mm magazines.</description>
-    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_556M855A1_Ammo</texPath></graphicData>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <storageMode>Internal</storageMode>
@@ -60,7 +60,7 @@
         <ammunitionCaliber>556x45</ammunitionCaliber>
         <projectileDiameterMm>5.7</projectileDiameterMm>
         <projectileOverride>HD_Bullet_M16A4_Proj</projectileOverride>
-        <casingMoteDef>HD_Mote_Shell55645</casingMoteDef>
+        <casingMoteDef>HD_Mote_Shell55645_Mote</casingMoteDef>
         <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_556M855A1</feedingRoundTexPath>
         <overridePriority>20</overridePriority>
         <mounts><li><id>ammunition_mount</id><socketTags><li>stanag_ammunition</li></socketTags><transform><position>(-0.064,0,-0.097)</position></transform></li></mounts>
@@ -92,10 +92,10 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
-    <defName>HD_Ammunition_919M882</defName>
+    <defName>HD_Ammunition_919M882_Ammo</defName>
     <label>9x19mm M882 cartridge</label>
     <description>M882 ammunition for modular 9x19mm magazines.</description>
-    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_919M882_Ammo</texPath></graphicData>
     <statBases><Mass>0.012</Mass><MarketValue>2</MarketValue></statBases>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodSpecialOperationsWeapons</li></requiredResearch>
@@ -106,7 +106,7 @@
         <ammunitionCaliber>9x19</ammunitionCaliber>
         <projectileDiameterMm>9.03</projectileDiameterMm>
         <projectileOverride>HD_Bullet_Glock19_Proj</projectileOverride>
-        <casingMoteDef>HD_Mote_Shell919</casingMoteDef>
+        <casingMoteDef>HD_Mote_Shell919_Mote</casingMoteDef>
         <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_919M882</feedingRoundTexPath>
         <overridePriority>20</overridePriority>
         <mounts><li><id>ammunition_mount</id><socketTags><li>mp5_ammunition</li></socketTags><transform><position>(-0.012,0,-0.090)</position></transform></li></mounts>
@@ -115,17 +115,17 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_RifleAmmunitionBase">
-    <defName>HD_Ammunition_76251M80A1</defName>
+    <defName>HD_Ammunition_76251M80A1_Ammo</defName>
     <label>7.62x51mm M80A1 cartridge</label>
     <description>M80A1 ammunition for modular 7.62x51mm magazines.</description>
-    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1</texPath></graphicData>
+    <graphicData><texPath>Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1_Ammo</texPath></graphicData>
     <statBases><Mass>0.025</Mass><MarketValue>4</MarketValue></statBases>
     <comps>
       <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <storageMode>Internal</storageMode><hideWhenAttached>true</hideWhenAttached>
         <ammunitionType>7.62 M80A1</ammunitionType><ceAmmoDefName>Ammo_762x51mmNATO_FMJ</ceAmmoDefName>
         <ammunitionCaliber>762x51</ammunitionCaliber><projectileDiameterMm>7.82</projectileDiameterMm>
-        <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell76251</casingMoteDef>
+        <projectileOverride>HD_Bullet_76251M80A1_Proj</projectileOverride><casingMoteDef>HD_Mote_Shell76251_Mote</casingMoteDef>
         <feedingRoundTexPath>Weapons/Modular/Ammunition/HD_Bullet_76251M80A1</feedingRoundTexPath><overridePriority>30</overridePriority>
         <mounts><li><id>ammunition_mount</id><socketTags><li>m14_ammunition</li></socketTags><transform><position>(-0.035,0,-0.088)</position></transform></li></mounts>
       </li>

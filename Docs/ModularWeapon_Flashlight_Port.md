@@ -1,7 +1,7 @@
 # 모듈러 총기 플래시라이트 이식 현황
 
 - 갱신일: 2026-08-26
-- 대상 파츠: `HD_ModularPart_Light_BrightStrikeM600`
+- 대상 파츠: `HD_ModularPart_Light_BrightStrikeM600_Part`
 - 구현 상태: 코드·Def·편집기·설치본 반영 완료, 실제 게임 화면 QA 대기
 
 ## 동작

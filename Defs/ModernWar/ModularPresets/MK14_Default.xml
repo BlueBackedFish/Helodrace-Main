@@ -6,22 +6,22 @@
     <weaponDef>HD_Gun_M14_Weapon</weaponDef>
     <parts>
       <li>
-        <part>HD_ModularPart_Bolt_M14</part>
+        <part>HD_ModularPart_Bolt_M14_Part</part>
         <socketId>bolt</socketId>
         <mountId>m14_bolt_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_OperatingRod_M14</part>
+        <part>HD_ModularPart_OperatingRod_M14_Part</part>
         <socketId>operating_rod</socketId>
         <mountId>m14_operating_rod_mount</mountId>
       </li>
       <li>
-        <part>HD_ModularPart_TriggerGroup_M14</part>
+        <part>HD_ModularPart_TriggerGroup_M14_Part</part>
         <socketId>trigger_group</socketId>
         <mountId>m14_trigger_group_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Trigger_M14</part>
+            <part>HD_ModularPart_Trigger_M14_Part</part>
             <socketId>trigger</socketId>
             <mountId>m14_trigger_mount</mountId>
           </li>
@@ -40,19 +40,19 @@
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_Magazine_M1420</part>
+        <part>HD_ModularPart_Magazine_M1420_Part</part>
         <socketId>magazine</socketId>
         <mountId>m14_magazine_mount</mountId>
         <children>
           <li>
-            <part>HD_ModularPart_Ammunition_762M80</part>
+            <part>HD_ModularPart_Ammunition_762M80_Part</part>
             <socketId>ammunition</socketId>
             <mountId>m14_ammunition_mount</mountId>
           </li>
         </children>
       </li>
       <li>
-        <part>HD_ModularPart_Barrel_M1418</part>
+        <part>HD_ModularPart_Barrel_M1418_Part</part>
         <socketId>barrel</socketId>
         <mountId>m14_barrel_mount</mountId>
         <children>

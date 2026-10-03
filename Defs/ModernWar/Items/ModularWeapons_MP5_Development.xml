@@ -5,7 +5,7 @@
        canvas lets matching socket and mount coordinates preserve exact alignment. -->
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_CockingTube_MP5</defName>
+    <defName>HD_ModularPart_CockingTube_MP5_Part</defName>
     <label>MP5 cocking tube</label>
     <description>MP5 cocking tube is part of the weapon's loading and locking mechanism.</description>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_MP5CockingTube</texPath></graphicData>
@@ -17,7 +17,7 @@
         <sockets>
           <li><id>front_sight</id><label>MP5 cocking-tube front sight base</label><tags><li>mp5_front_sight_standard</li></tags><transform><position>(0.160,0,0.080)</position></transform></li>
         </sockets>
-        <defaultAttachments><li><socketId>front_sight</socketId><part>HD_ModularPart_FrontSight_MP5</part></li></defaultAttachments>
+        <defaultAttachments><li><socketId>front_sight</socketId><part>HD_ModularPart_FrontSight_MP5_Part</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
@@ -41,7 +41,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Barrel_MP5</defName>
+    <defName>HD_ModularPart_Barrel_MP5_Part</defName>
     <label>MP5 8.9 inch barrel</label>
     <description>MP5 8.9 inch barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_MP5</texPath></graphicData>
@@ -121,7 +121,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_FrontSight_MP5</defName>
+    <defName>HD_ModularPart_FrontSight_MP5_Part</defName>
     <label>MP5 front sight</label>
     <description>MP5 front sight provides a sighting reference for the weapon.</description>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_MP5FrontSight</texPath></graphicData>
@@ -149,7 +149,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_RearSight_MP5</defName>
+    <defName>HD_ModularPart_RearSight_MP5_Part</defName>
     <label>MP5 drum rear sight</label>
     <description>MP5 drum rear sight provides a sighting reference for the weapon.</description>
     <graphicData><texPath>Weapons/Modular/Optics/HD_IronSight_MP5</texPath></graphicData>
@@ -163,7 +163,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_OpticRail_MP5</defName>
+    <defName>HD_ModularPart_OpticRail_MP5_Part</defName>
     <label>MP5 upper Picatinny rail</label>
     <description>MP5 upper Picatinny rail provides a sighting reference for the weapon.</description>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_ReceiverExt_UpperPicatinnyRail</texPath></graphicData>
@@ -177,7 +177,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Bolt_MP5</defName>
+    <defName>HD_ModularPart_Bolt_MP5_Part</defName>
     <label>MP5 bolt group</label>
     <description>MP5 bolt group is part of the weapon's loading and locking mechanism.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_MP5</texPath></graphicData>
@@ -190,7 +190,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Trigger_MP5</defName>
+    <defName>HD_ModularPart_Trigger_MP5_Part</defName>
     <label>MP5 trigger</label>
     <description>MP5 trigger transfers the firing input to the action.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_MP5</texPath></graphicData>
@@ -203,7 +203,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_TriggerHousing_MP5A3</defName>
+    <defName>HD_ModularPart_TriggerHousing_MP5A3_Part</defName>
     <label>MP5A3 trigger housing and pistol grip</label>
     <description>MP5A3 trigger housing and pistol grip transfers the firing input to the action.</description>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_MP5A3</texPath></graphicData>
@@ -211,7 +211,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Magazine_MP530</defName>
+    <defName>HD_ModularPart_Magazine_MP530_Part</defName>
     <label>30-round MP5 magazine</label>
     <description>30-round MP5 magazine is a detachable magazine that stores and feeds cartridges.</description>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_MP530</texPath></graphicData>
@@ -220,13 +220,13 @@
         <partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><graphicLayer>-1</graphicLayer><magazineCapacity>30</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>mp5_magazine</li></socketTags><transform><position>(-0.012,0,0.012)</position></transform></li></mounts>
         <sockets><li><id>ammunition</id><label>loaded 9x19mm ammunition</label><tags><li>mp5_ammunition</li></tags><required>true</required><transform><position>(-0.012,0,-0.090)</position></transform></li></sockets>
-        <defaultAttachments><li><socketId>ammunition</socketId><part>HD_Ammunition_919M882</part></li></defaultAttachments>
+        <defaultAttachments><li><socketId>ammunition</socketId><part>HD_Ammunition_919M882_Ammo</part></li></defaultAttachments>
       </li>
     </comps>
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Stock_MP5A2</defName>
+    <defName>HD_ModularPart_Stock_MP5A2_Part</defName>
     <label>MP5A2 fixed stock</label>
     <description>MP5A2 fixed stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MP5A2</texPath></graphicData>
@@ -234,7 +234,7 @@
   </ThingDef>
 
   <ThingDef ParentName="HD_ModularWeaponPartBase">
-    <defName>HD_ModularPart_Stock_MP5A3</defName>
+    <defName>HD_ModularPart_Stock_MP5A3_Part</defName>
     <label>MP5A3 retractable stock</label>
     <description>MP5A3 retractable stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MP5A3</texPath></graphicData>
@@ -277,14 +277,14 @@
           <li><id>trigger</id><label>MP5 trigger group</label><tags><li>mp5_trigger</li></tags><required>true</required><transform><position>(-0.103,0,-0.043)</position></transform></li>
         </sockets>
         <defaultAttachments>
-          <li><socketId>cocking_tube</socketId><part>HD_ModularPart_CockingTube_MP5</part></li>
-          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_MP5</part></li>
-          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_MP5</part></li>
-          <li><socketId>rear_sight</socketId><part>HD_ModularPart_RearSight_MP5</part></li>
-          <li><socketId>trigger_housing</socketId><part>HD_ModularPart_TriggerHousing_MP5A3</part></li>
-          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_MP530</part></li>
-          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_MP5A3</part></li>
-          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_MP5</part></li>
+          <li><socketId>cocking_tube</socketId><part>HD_ModularPart_CockingTube_MP5_Part</part></li>
+          <li><socketId>barrel</socketId><part>HD_ModularPart_Barrel_MP5_Part</part></li>
+          <li><socketId>bolt</socketId><part>HD_ModularPart_Bolt_MP5_Part</part></li>
+          <li><socketId>rear_sight</socketId><part>HD_ModularPart_RearSight_MP5_Part</part></li>
+          <li><socketId>trigger_housing</socketId><part>HD_ModularPart_TriggerHousing_MP5A3_Part</part></li>
+          <li><socketId>magazine</socketId><part>HD_ModularPart_Magazine_MP530_Part</part></li>
+          <li><socketId>stock</socketId><part>HD_ModularPart_Stock_MP5A3_Part</part></li>
+          <li><socketId>trigger</socketId><part>HD_ModularPart_Trigger_MP5_Part</part></li>
         </defaultAttachments>
       </li>
     </comps>

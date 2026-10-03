@@ -423,46 +423,46 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
-| 239 | ThingDef | `HD_Mote_Shell55645.label` | 5.56x45mm cartridge case | 5.56×45mm 탄피 |
+| 239 | ThingDef | `HD_Mote_Shell55645_Mote.label` | 5.56x45mm cartridge case | 5.56×45mm 탄피 |
 | 240 | ThingDef | `HD_Mote_Shell300BLK.label` | .300 BLK cartridge case | .300 BLK 탄피 |
-| 241 | ThingDef | `HD_Mote_Shell3006.label` | .30-06 cartridge case | .30-06 탄피 |
-| 242 | ThingDef | `HD_Mote_Shell919.label` | 9x19mm cartridge case | 9×19mm 탄피 |
+| 241 | ThingDef | `HD_Mote_Shell3006_Mote.label` | .30-06 cartridge case | .30-06 탄피 |
+| 242 | ThingDef | `HD_Mote_Shell919_Mote.label` | 9x19mm cartridge case | 9×19mm 탄피 |
 | 243 | ThingDef | `HD_Mote_Shell45ACP.label` | .45 ACP cartridge case | .45 ACP 탄피 |
-| 244 | ThingDef | `HD_Mote_Shell76251.label` | 7.62x51mm cartridge case | 7.62×51mm 탄피 |
+| 244 | ThingDef | `HD_Mote_Shell76251_Mote.label` | 7.62x51mm cartridge case | 7.62×51mm 탄피 |
 
 ### Defs/ModernWar/Items/ModularWeapons_Development.xml
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
 | 245 | ThingCategoryDef | `HD_ModularWeaponParts.label` | modular weapon parts | 모듈식 무기 부품 |
-| 246 | ThingDef | `HD_ModularPart_Bolt_AR15.label` | AR-15 bolt carrier group | AR-15 노리쇠 운반체 뭉치 |
-| 247 | ThingDef | `HD_ModularPart_Bolt_AR15.description` | An internal AR-15 bolt carrier group animated through the firing cycle. | AR-15 노리쇠 운반체 뭉치입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 248 | ThingDef | `HD_ModularPart_Trigger_AR15.label` | AR-15 trigger | AR-15 방아쇠 |
-| 249 | ThingDef | `HD_ModularPart_Trigger_AR15.description` | An internal AR-15 trigger animated when the weapon fires. | AR-15 방아쇠입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 250 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1.label` | M4A1 upper receiver | M4A1 상부 총몸 |
-| 251 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
-| 252 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
-| 253 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
-| 254 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1.comps.0.sockets.3.label` | upper receiver top rail | 상부 총몸 상단 레일 |
-| 255 | ThingDef | `HD_ModularPart_Barrel_AR15103.label` | 10.3 inch AR-15 barrel | 10.3인치 AR-15 총열 |
-| 256 | ThingDef | `HD_ModularPart_Barrel_AR15103.comps.0.sockets.0.label` | gas block journal | 가스 블록 장착부 |
-| 257 | ThingDef | `HD_ModularPart_Barrel_AR15103.comps.0.sockets.1.label` | muzzle thread | 총구 나사산 |
+| 246 | ThingDef | `HD_ModularPart_Bolt_AR15_Part.label` | AR-15 bolt carrier group | AR-15 노리쇠 운반체 뭉치 |
+| 247 | ThingDef | `HD_ModularPart_Bolt_AR15_Part.description` | An internal AR-15 bolt carrier group animated through the firing cycle. | AR-15 노리쇠 운반체 뭉치입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 248 | ThingDef | `HD_ModularPart_Trigger_AR15_Part.label` | AR-15 trigger | AR-15 방아쇠 |
+| 249 | ThingDef | `HD_ModularPart_Trigger_AR15_Part.description` | An internal AR-15 trigger animated when the weapon fires. | AR-15 방아쇠입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 250 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1_Part.label` | M4A1 upper receiver | M4A1 상부 총몸 |
+| 251 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1_Part.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
+| 252 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1_Part.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
+| 253 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1_Part.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
+| 254 | ThingDef | `HD_ModularPart_UpperReceiver_M4A1_Part.comps.0.sockets.3.label` | upper receiver top rail | 상부 총몸 상단 레일 |
+| 255 | ThingDef | `HD_ModularPart_Barrel_AR15103_Part.label` | 10.3 inch AR-15 barrel | 10.3인치 AR-15 총열 |
+| 256 | ThingDef | `HD_ModularPart_Barrel_AR15103_Part.comps.0.sockets.0.label` | gas block journal | 가스 블록 장착부 |
+| 257 | ThingDef | `HD_ModularPart_Barrel_AR15103_Part.comps.0.sockets.1.label` | muzzle thread | 총구 나사산 |
 | 258 | ThingDef | `HD_ModularPart_GasBlock_MK12LP.label` | MK12 low-profile gas block | MK12 저상형 가스 블록 |
-| 259 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103.label` | 10.3 inch .300 BLK AR-15 barrel | 10.3인치 .300 BLK AR-15 총열 |
-| 260 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103.description` | A compact 10.3-inch AR-15 barrel chambered for .300 Blackout. | 10.3인치 .300 BLK AR-15 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 261 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103.comps.0.sockets.0.label` | pistol-length gas block journal | 권총 길이 가스 블록 장착부 |
-| 262 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103.comps.0.sockets.1.label` | 5/8x24 muzzle thread | 5/8x24 총구 나사산 |
+| 259 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103_Part.label` | 10.3 inch .300 BLK AR-15 barrel | 10.3인치 .300 BLK AR-15 총열 |
+| 260 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103_Part.description` | A compact 10.3-inch AR-15 barrel chambered for .300 Blackout. | 10.3인치 .300 BLK AR-15 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 261 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103_Part.comps.0.sockets.0.label` | pistol-length gas block journal | 권총 길이 가스 블록 장착부 |
+| 262 | ThingDef | `HD_ModularPart_Barrel_AR15300BLK103_Part.comps.0.sockets.1.label` | 5/8x24 muzzle thread | 5/8x24 총구 나사산 |
 | 263 | ThingDef | `HD_ModularPart_GasBlock_300BLKLP.label` | .300 BLK low-profile gas block | .300 BLK 저상형 가스 블록 |
 | 264 | ThingDef | `HD_ModularPart_GasBlock_300BLKLP.description` | A compact low-profile gas block positioned for a pistol-length .300 Blackout gas system. | .300 BLK 저상형 가스 블록입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 265 | ThingDef | `HD_ModularPart_Barrel_AR15145.label` | 14.5 inch AR-15 barrel | 14.5인치 AR-15 총열 |
-| 266 | ThingDef | `HD_ModularPart_Barrel_AR15145.description` | A carbine-length 14.5-inch AR-15 barrel. | 14.5인치 AR-15 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 267 | ThingDef | `HD_ModularPart_Barrel_AR15145.comps.0.sockets.0.label` | gas block journal | 가스 블록 장착부 |
-| 268 | ThingDef | `HD_ModularPart_Barrel_AR15145.comps.0.sockets.1.label` | muzzle thread | 총구 나사산 |
-| 269 | ThingDef | `HD_ModularPart_Muzzle_HACNT4.label` | HAC NT4 muzzle device | HAC NT4 총구 장치 |
-| 270 | ThingDef | `HD_ModularPart_Muzzle_HACNT4.comps.0.sockets.0.label` | NT4 suppressor interface | NT4 소음기 결합부 |
+| 265 | ThingDef | `HD_ModularPart_Barrel_AR15145_Part.label` | 14.5 inch AR-15 barrel | 14.5인치 AR-15 총열 |
+| 266 | ThingDef | `HD_ModularPart_Barrel_AR15145_Part.description` | A carbine-length 14.5-inch AR-15 barrel. | 14.5인치 AR-15 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 267 | ThingDef | `HD_ModularPart_Barrel_AR15145_Part.comps.0.sockets.0.label` | gas block journal | 가스 블록 장착부 |
+| 268 | ThingDef | `HD_ModularPart_Barrel_AR15145_Part.comps.0.sockets.1.label` | muzzle thread | 총구 나사산 |
+| 269 | ThingDef | `HD_ModularPart_Muzzle_HACNT4_Part.label` | HAC NT4 muzzle device | HAC NT4 총구 장치 |
+| 270 | ThingDef | `HD_ModularPart_Muzzle_HACNT4_Part.comps.0.sockets.0.label` | NT4 suppressor interface | NT4 소음기 결합부 |
 | 271 | ThingDef | `HD_ModularPart_Suppressor_BrightStrike4Prong.label` | BrightStrike four-prong suppressor | BrightStrike 4갈래 소음기 |
-| 272 | ThingDef | `HD_ModularPart_Muzzle_BrightStrikeSF3P762.label` | BrightStrike SF3P 7.62 flash hider | BrightStrike SF3P 7.62 소염기 |
-| 273 | ThingDef | `HD_ModularPart_Muzzle_BrightStrikeSF3P762.description` | A three-prong flash hider for 7.62 mm and .300 Blackout 5/8x24 muzzle threads. | BrightStrike SF3P 7.62 소염기입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 272 | ThingDef | `HD_ModularPart_Muzzle_BrightStrikeSF3P762_Part.label` | BrightStrike SF3P 7.62 flash hider | BrightStrike SF3P 7.62 소염기 |
+| 273 | ThingDef | `HD_ModularPart_Muzzle_BrightStrikeSF3P762_Part.description` | A three-prong flash hider for 7.62 mm and .300 Blackout 5/8x24 muzzle threads. | BrightStrike SF3P 7.62 소염기입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 274 | ThingDef | `HD_ModularPart_Handguard_HACRISFDE.label` | HAC RIS FDE handguard | HAC RIS FDE 총열덮개 |
 | 275 | ThingDef | `HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.0.label` | top rail front | 상단 전방 레일 |
 | 276 | ThingDef | `HD_ModularPart_Handguard_HACRISFDE.comps.0.sockets.1.label` | side rail | 측면 레일 |
@@ -476,19 +476,19 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 | 284 | ThingDef | `HD_ModularPart_HandguardExt_HACURXM4DOWN.label` | HAC URX M4 lower handguard | HAC URX M4 하부 총열덮개 |
 | 285 | ThingDef | `HD_ModularPart_HandguardExt_HACURXM4DOWN.description` | The removable lower section of a compact HAC URX M4 rail handguard. | HAC URX M4 하부 총열덮개입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 286 | ThingDef | `HD_ModularPart_HandguardExt_HACURXM4DOWN.comps.0.sockets.0.label` | continuous bottom rail | 연속형 하단 레일 |
-| 287 | ThingDef | `HD_ModularPart_Magnifier_VOTechG33.label` | VOTech G33 magnifier | VOTech G33 배율 확대경 |
-| 288 | ThingDef | `HD_ModularPart_Laser_ANPEQ15.label` | AN/PEQ-15 laser module | AN/PEQ-15 레이저 모듈 |
-| 289 | ThingDef | `HD_ModularPart_Light_BrightStrikeM600.label` | BrightStrike M600 weapon light | BrightStrike M600 총기 조명 |
+| 287 | ThingDef | `HD_ModularPart_Magnifier_VOTechG33_Part.label` | VOTech G33 magnifier | VOTech G33 배율 확대경 |
+| 288 | ThingDef | `HD_ModularPart_Laser_ANPEQ15_Part.label` | AN/PEQ-15 laser module | AN/PEQ-15 레이저 모듈 |
+| 289 | ThingDef | `HD_ModularPart_Light_BrightStrikeM600_Part.label` | BrightStrike M600 weapon light | BrightStrike M600 총기 조명 |
 | 290 | ThingDef | `HD_ModularPart_Laser_IZLIDUltra.label` | IZLID Ultra laser module | IZLID Ultra 레이저 모듈 |
 | 291 | ThingDef | `HD_ModularPart_Grip_DaltonDefenseVFG.label` | Dalton Defense vertical foregrip | Dalton Defense 수직 전방손잡이 |
-| 292 | ThingDef | `HD_ModularPart_PistolGrip_IronFangA2.label` | IronFang A2 pistol grip | IronFang A2 권총손잡이 |
+| 292 | ThingDef | `HD_ModularPart_PistolGrip_IronFangA2_Part.label` | IronFang A2 pistol grip | IronFang A2 권총손잡이 |
 | 293 | ThingDef | `HD_ModularPart_RailPanel_HACURXShortLow.label` | HAC URX short rail panel | HAC URX 단축 레일 패널 |
 | 294 | ThingDef | `HD_ModularPart_RailPanel_HACURXShortLow.description` | A short protective panel for a Picatinny rail. | HAC URX 단축 레일 패널입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 295 | ThingDef | `HD_ModularPart_BufferTube_Colt.label` | Colt buffer tube | Colt 버퍼 튜브 |
 | 296 | ThingDef | `HD_ModularPart_BufferTube_Colt.comps.0.sockets.0.label` | adjustable carbine stock track | 조절식 카빈 개머리판 레일 |
 | 297 | ThingDef | `HD_ModularPart_Stock_FieldFormMOEFDE.label` | FieldForm MOE FDE stock | FieldForm MOE FDE 개머리판 |
-| 298 | ThingDef | `HD_ModularPart_Stock_M4.label` | M4 collapsible stock | M4 신축식 개머리판 |
-| 299 | ThingDef | `HD_ModularPart_Stock_M4.description` | A conventional collapsible M4 carbine stock. | M4 신축식 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 298 | ThingDef | `HD_ModularPart_Stock_M4_Part.label` | M4 collapsible stock | M4 신축식 개머리판 |
+| 299 | ThingDef | `HD_ModularPart_Stock_M4_Part.description` | A conventional collapsible M4 carbine stock. | M4 신축식 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 300 | ThingDef | `HD_Gun_ModularM4_Test_Weapon.label` | modular M4 development carbine | 모듈식 M4 개발용 카빈 |
 | 301 | ThingDef | `HD_Gun_ModularM4_Test_Weapon.description` | A development weapon for authoring the tree-based modular attachment system. | 모듈식 M4 개발용 카빈입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 302 | ThingDef | `HD_Gun_ModularM4_Test_Weapon.comps.0.sockets.0.label` | upper receiver interface | 상부 총몸 결합부 |
@@ -501,56 +501,56 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
-| 307 | ThingDef | `HD_ModularPart_Barrel_M1422.label` | M14 22 inch barrel | M14 22인치 총열 |
-| 308 | ThingDef | `HD_ModularPart_Barrel_M1422.description` | M14 22 inch barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 22인치 총열입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 309 | ThingDef | `HD_ModularPart_Barrel_M1422.comps.0.sockets.0.label` | muzzle | 총구 |
-| 310 | ThingDef | `HD_ModularPart_Barrel_M1422.comps.0.sockets.1.label` | gas tube | 가스관 |
-| 311 | ThingDef | `HD_ModularPart_Barrel_M1418.label` | M14 18 inch barrel | M14 18인치 총열 |
-| 312 | ThingDef | `HD_ModularPart_Barrel_M1418.description` | M14 18 inch barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 18인치 총열입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 313 | ThingDef | `HD_ModularPart_Barrel_M1418.comps.0.sockets.0.label` | muzzle | 총구 |
-| 314 | ThingDef | `HD_ModularPart_Barrel_M1418.comps.0.sockets.1.label` | gas tube | 가스관 |
-| 315 | ThingDef | `HD_ModularPart_Barrel_M1A16.label` | M1A SOCOM 16 barrel | M1A SOCOM 16 총열 |
-| 316 | ThingDef | `HD_ModularPart_Barrel_M1A16.description` | M1A SOCOM 16 barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M1A SOCOM 16 총열입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 317 | ThingDef | `HD_ModularPart_Barrel_M1A16.comps.0.sockets.0.label` | muzzle | 총구 |
-| 318 | ThingDef | `HD_ModularPart_Barrel_M1A16.comps.0.sockets.1.label` | gas tube | 가스관 |
-| 319 | ThingDef | `HD_ModularPart_Bolt_M14.label` | M14 bolt | M14 노리쇠 |
-| 320 | ThingDef | `HD_ModularPart_Bolt_M14.description` | M14 bolt for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 노리쇠입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 321 | ThingDef | `HD_ModularPart_OperatingRod_M14.label` | M14 operating rod | M14 작동봉 |
-| 322 | ThingDef | `HD_ModularPart_OperatingRod_M14.description` | M14 operating rod for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 작동봉입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 323 | ThingDef | `HD_ModularPart_TriggerGroup_M14.label` | M14 trigger group | M14 방아쇠 뭉치 |
-| 324 | ThingDef | `HD_ModularPart_TriggerGroup_M14.description` | M14 trigger group for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 방아쇠 뭉치입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 325 | ThingDef | `HD_ModularPart_TriggerGroup_M14.comps.0.sockets.0.label` | trigger | 방아쇠 |
-| 326 | ThingDef | `HD_ModularPart_TriggerGroup_M14.comps.0.sockets.1.label` | pistol grip interface | 권총손잡이 결합부 |
-| 327 | ThingDef | `HD_ModularPart_Trigger_M14.label` | M14 trigger | M14 방아쇠 |
-| 328 | ThingDef | `HD_ModularPart_Trigger_M14.description` | M14 trigger for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 방아쇠입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 329 | ThingDef | `HD_ModularPart_GasTube_M14.label` | M14 gas system | M14 가스 작동계 |
-| 330 | ThingDef | `HD_ModularPart_GasTube_M14.description` | M14 gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 가스 작동계입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 307 | ThingDef | `HD_ModularPart_Barrel_M1422_Part.label` | M14 22 inch barrel | M14 22인치 총열 |
+| 308 | ThingDef | `HD_ModularPart_Barrel_M1422_Part.description` | M14 22 inch barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 22인치 총열입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 309 | ThingDef | `HD_ModularPart_Barrel_M1422_Part.comps.0.sockets.0.label` | muzzle | 총구 |
+| 310 | ThingDef | `HD_ModularPart_Barrel_M1422_Part.comps.0.sockets.1.label` | gas tube | 가스관 |
+| 311 | ThingDef | `HD_ModularPart_Barrel_M1418_Part.label` | M14 18 inch barrel | M14 18인치 총열 |
+| 312 | ThingDef | `HD_ModularPart_Barrel_M1418_Part.description` | M14 18 inch barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 18인치 총열입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 313 | ThingDef | `HD_ModularPart_Barrel_M1418_Part.comps.0.sockets.0.label` | muzzle | 총구 |
+| 314 | ThingDef | `HD_ModularPart_Barrel_M1418_Part.comps.0.sockets.1.label` | gas tube | 가스관 |
+| 315 | ThingDef | `HD_ModularPart_Barrel_M1A16_Part.label` | M1A SOCOM 16 barrel | M1A SOCOM 16 총열 |
+| 316 | ThingDef | `HD_ModularPart_Barrel_M1A16_Part.description` | M1A SOCOM 16 barrel for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M1A SOCOM 16 총열입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 317 | ThingDef | `HD_ModularPart_Barrel_M1A16_Part.comps.0.sockets.0.label` | muzzle | 총구 |
+| 318 | ThingDef | `HD_ModularPart_Barrel_M1A16_Part.comps.0.sockets.1.label` | gas tube | 가스관 |
+| 319 | ThingDef | `HD_ModularPart_Bolt_M14_Part.label` | M14 bolt | M14 노리쇠 |
+| 320 | ThingDef | `HD_ModularPart_Bolt_M14_Part.description` | M14 bolt for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 노리쇠입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 321 | ThingDef | `HD_ModularPart_OperatingRod_M14_Part.label` | M14 operating rod | M14 작동봉 |
+| 322 | ThingDef | `HD_ModularPart_OperatingRod_M14_Part.description` | M14 operating rod for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 작동봉입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 323 | ThingDef | `HD_ModularPart_TriggerGroup_M14_Part.label` | M14 trigger group | M14 방아쇠 뭉치 |
+| 324 | ThingDef | `HD_ModularPart_TriggerGroup_M14_Part.description` | M14 trigger group for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 방아쇠 뭉치입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 325 | ThingDef | `HD_ModularPart_TriggerGroup_M14_Part.comps.0.sockets.0.label` | trigger | 방아쇠 |
+| 326 | ThingDef | `HD_ModularPart_TriggerGroup_M14_Part.comps.0.sockets.1.label` | pistol grip interface | 권총손잡이 결합부 |
+| 327 | ThingDef | `HD_ModularPart_Trigger_M14_Part.label` | M14 trigger | M14 방아쇠 |
+| 328 | ThingDef | `HD_ModularPart_Trigger_M14_Part.description` | M14 trigger for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 방아쇠입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 329 | ThingDef | `HD_ModularPart_GasTube_M14_Part.label` | M14 gas system | M14 가스 작동계 |
+| 330 | ThingDef | `HD_ModularPart_GasTube_M14_Part.description` | M14 gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 가스 작동계입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
 | 331 | ThingDef | `HD_ModularPart_GasTube_MK14EBR.label` | MK14 EBR gas system | MK14 EBR 가스 작동계 |
 | 332 | ThingDef | `HD_ModularPart_GasTube_MK14EBR.description` | MK14 EBR gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | MK14 EBR 가스 작동계입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 333 | ThingDef | `HD_ModularPart_GasTube_M1ASocom16.label` | M1A SOCOM 16 gas system | M1A SOCOM 16 가스 작동계 |
-| 334 | ThingDef | `HD_ModularPart_GasTube_M1ASocom16.description` | M1A SOCOM 16 gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M1A SOCOM 16 가스 작동계입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 333 | ThingDef | `HD_ModularPart_GasTube_M1ASocom16_Part.label` | M1A SOCOM 16 gas system | M1A SOCOM 16 가스 작동계 |
+| 334 | ThingDef | `HD_ModularPart_GasTube_M1ASocom16_Part.description` | M1A SOCOM 16 gas system for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M1A SOCOM 16 가스 작동계입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
 | 335 | ThingDef | `HD_ModularPart_Stock_M14Wood.label` | M14 wooden stock | M14 목제 개머리판 |
 | 336 | ThingDef | `HD_ModularPart_Stock_M14Wood.description` | M14 wooden stock for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 목제 개머리판입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
 | 337 | ThingDef | `HD_ModularPart_Stock_M14Wood.comps.0.sockets.0.label` | wooden stock top cover | 목제 개머리판 상부 덮개 |
 | 338 | ThingDef | `HD_ModularPart_StockExt_M14WoodTopCover.label` | M14 wooden stock top cover | M14 목제 개머리판 상부 덮개 |
 | 339 | ThingDef | `HD_ModularPart_StockExt_M14WoodTopCover.description` | A wooden top cover fitted over the M14 stock. | M14 목제 개머리판 상부 덮개입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 340 | ThingDef | `HD_ModularPart_Stock_Socom16.label` | SOCOM 16 stock | SOCOM 16 개머리판 |
-| 341 | ThingDef | `HD_ModularPart_Stock_Socom16.description` | SOCOM 16 stock for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | SOCOM 16 개머리판입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 342 | ThingDef | `HD_ModularPart_Muzzle_M14.label` | M14 flash hider | M14 소염기 |
-| 343 | ThingDef | `HD_ModularPart_Muzzle_M14.description` | M14 flash hider for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 소염기입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 340 | ThingDef | `HD_ModularPart_Stock_Socom16_Part.label` | SOCOM 16 stock | SOCOM 16 개머리판 |
+| 341 | ThingDef | `HD_ModularPart_Stock_Socom16_Part.description` | SOCOM 16 stock for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | SOCOM 16 개머리판입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 342 | ThingDef | `HD_ModularPart_Muzzle_M14_Part.label` | M14 flash hider | M14 소염기 |
+| 343 | ThingDef | `HD_ModularPart_Muzzle_M14_Part.description` | M14 flash hider for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | M14 소염기입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
 | 344 | ThingDef | `HD_ModularPart_Muzzle_SEI2000V.label` | SEI 2000V muzzle brake | SEI 2000V 제퇴기 |
 | 345 | ThingDef | `HD_ModularPart_Muzzle_SEI2000V.description` | SEI 2000V muzzle brake for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | SEI 2000V 제퇴기입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 346 | ThingDef | `HD_ModularPart_Muzzle_Socom16.label` | SOCOM 16 muzzle brake | SOCOM 16 제퇴기 |
-| 347 | ThingDef | `HD_ModularPart_Muzzle_Socom16.description` | SOCOM 16 muzzle brake for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | SOCOM 16 제퇴기입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 346 | ThingDef | `HD_ModularPart_Muzzle_Socom16_Part.label` | SOCOM 16 muzzle brake | SOCOM 16 제퇴기 |
+| 347 | ThingDef | `HD_ModularPart_Muzzle_Socom16_Part.description` | SOCOM 16 muzzle brake for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | SOCOM 16 제퇴기입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
 | 348 | ThingDef | `HD_ModularPart_Muzzle_Socom16Thread.label` | SOCOM 16 muzzle thread adapter | SOCOM 16 총구 나사산 어댑터 |
 | 349 | ThingDef | `HD_ModularPart_Muzzle_Socom16Thread.description` | SOCOM 16 muzzle thread adapter for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | SOCOM 16 총구 나사산 어댑터입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
 | 350 | ThingDef | `HD_ModularPart_Muzzle_Socom16Thread.comps.0.sockets.0.label` | muzzle | 총구 |
-| 351 | ThingDef | `HD_ModularPart_Magazine_M1420.label` | 20-round M14 magazine | 20-탄 M14 탄창 |
-| 352 | ThingDef | `HD_ModularPart_Magazine_M1420.description` | 20-round M14 magazine for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | 20-탄 M14 탄창입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 353 | ThingDef | `HD_ModularPart_Magazine_M1420.comps.0.sockets.0.label` | ammunition | 탄약 |
-| 354 | ThingDef | `HD_ModularPart_Ammunition_762M80.label` | 7.62x51mm M80 ammunition | 7.62×51mm M80 탄약 |
-| 355 | ThingDef | `HD_ModularPart_Ammunition_762M80.description` | 7.62x51mm M80 ammunition for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | 7.62×51mm M80 탄약입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
-| 356 | ThingDef | `HD_ModularPart_Ammunition_762M80.comps.0.ammunitionType` | 7.62 M80 | 7.62 M80 |
+| 351 | ThingDef | `HD_ModularPart_Magazine_M1420_Part.label` | 20-round M14 magazine | 20-탄 M14 탄창 |
+| 352 | ThingDef | `HD_ModularPart_Magazine_M1420_Part.description` | 20-round M14 magazine for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | 20-탄 M14 탄창입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 353 | ThingDef | `HD_ModularPart_Magazine_M1420_Part.comps.0.sockets.0.label` | ammunition | 탄약 |
+| 354 | ThingDef | `HD_ModularPart_Ammunition_762M80_Part.label` | 7.62x51mm M80 ammunition | 7.62×51mm M80 탄약 |
+| 355 | ThingDef | `HD_ModularPart_Ammunition_762M80_Part.description` | 7.62x51mm M80 ammunition for the modular M14 family. Attachment placement can be adjusted in the in-game editor. | 7.62×51mm M80 탄약입니다. 부착 위치는 게임 내 편집기에서 조정할 수 있습니다. |
+| 356 | ThingDef | `HD_ModularPart_Ammunition_762M80_Part.comps.0.ammunitionType` | 7.62 M80 | 7.62 M80 |
 | 357 | ThingDef | `HD_Gun_ModularM14_Test_Weapon.label` | modular M14 development rifle | 모듈식 M14 개발용 소총 |
 | 358 | ThingDef | `HD_Gun_ModularM14_Test_Weapon.description` | A configurable M14-family rifle. Initial geometry and animation settings are editable in the attachment editor. | 모듈식 M14 개발용 소총입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 359 | ThingDef | `HD_Gun_ModularM14_Test_Weapon.tools.0.label` | stock | 개머리판 |
@@ -583,18 +583,18 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
-| 379 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4.label` | M16A4 upper receiver | M16A4 상부 총몸 |
-| 380 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4.description` | A flat-top M16A4 upper receiver for the modular AR assembly. | M16A4 상부 총몸입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 381 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
-| 382 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
-| 383 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
-| 384 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4.comps.0.sockets.3.label` | upper receiver top rail | 상부 총몸 상단 레일 |
-| 385 | ThingDef | `HD_ModularPart_Barrel_AR1520.label` | 20 inch AR-15 barrel | 20인치 AR-15 총열 |
-| 386 | ThingDef | `HD_ModularPart_Barrel_AR1520.description` | A full-length 20-inch AR-15 barrel. | 20인치 AR-15 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 387 | ThingDef | `HD_ModularPart_Barrel_AR1520.comps.0.sockets.0.label` | gas block journal | 가스 블록 장착부 |
-| 388 | ThingDef | `HD_ModularPart_Barrel_AR1520.comps.0.sockets.1.label` | muzzle thread | 총구 나사산 |
-| 389 | ThingDef | `HD_ModularPart_GasBlock_AR15.label` | AR-15 front sight gas block | AR-15 가늠쇠 일체형 가스 블록 |
-| 390 | ThingDef | `HD_ModularPart_GasBlock_AR15.description` | An AR-15 gas block with an integrated front sight tower. | AR-15 가늠쇠 일체형 가스 블록입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 379 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4_Part.label` | M16A4 upper receiver | M16A4 상부 총몸 |
+| 380 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4_Part.description` | A flat-top M16A4 upper receiver for the modular AR assembly. | M16A4 상부 총몸입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 381 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
+| 382 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
+| 383 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
+| 384 | ThingDef | `HD_ModularPart_UpperReceiver_M16A4_Part.comps.0.sockets.3.label` | upper receiver top rail | 상부 총몸 상단 레일 |
+| 385 | ThingDef | `HD_ModularPart_Barrel_AR1520_Part.label` | 20 inch AR-15 barrel | 20인치 AR-15 총열 |
+| 386 | ThingDef | `HD_ModularPart_Barrel_AR1520_Part.description` | A full-length 20-inch AR-15 barrel. | 20인치 AR-15 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 387 | ThingDef | `HD_ModularPart_Barrel_AR1520_Part.comps.0.sockets.0.label` | gas block journal | 가스 블록 장착부 |
+| 388 | ThingDef | `HD_ModularPart_Barrel_AR1520_Part.comps.0.sockets.1.label` | muzzle thread | 총구 나사산 |
+| 389 | ThingDef | `HD_ModularPart_GasBlock_AR15_Part.label` | AR-15 front sight gas block | AR-15 가늠쇠 일체형 가스 블록 |
+| 390 | ThingDef | `HD_ModularPart_GasBlock_AR15_Part.description` | An AR-15 gas block with an integrated front sight tower. | AR-15 가늠쇠 일체형 가스 블록입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 391 | ThingDef | `HD_ModularPart_Handguard_HACURXUP.label` | HAC URX upper handguard | HAC URX 상부 총열덮개 |
 | 392 | ThingDef | `HD_ModularPart_Handguard_HACURXUP.description` | The upper section of a two-piece HAC URX rail handguard. | HAC URX 상부 총열덮개입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 393 | ThingDef | `HD_ModularPart_Handguard_HACURXUP.comps.0.sockets.0.label` | URX lower handguard interface | URX 하부 총열덮개 결합부 |
@@ -612,16 +612,16 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 | 405 | ThingDef | `HD_ModularPart_MagazineExt_StanagGrip.description` | A pull grip fitted to a STANAG magazine floorplate. | STANAG 탄창 당김 손잡이입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 406 | ThingDef | `HD_ModularPart_MagazineWrap_StanagTapeBlue.label` | blue STANAG magazine tape | 파란색 STANAG 탄창 식별 테이프 |
 | 407 | ThingDef | `HD_ModularPart_MagazineWrap_StanagTapeBlue.description` | Blue identification tape wrapped around a full-size STANAG magazine body. | 파란색 STANAG 탄창 식별 테이프입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 408 | ThingDef | `HD_ModularPart_BufferTube_ColtA2.label` | Colt A2 rifle buffer tube | Colt A2 소총 버퍼 튜브 |
-| 409 | ThingDef | `HD_ModularPart_BufferTube_ColtA2.description` | A fixed-stock rifle buffer tube for an AR-pattern lower receiver. | Colt A2 소총 버퍼 튜브입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 410 | ThingDef | `HD_ModularPart_BufferTube_ColtA2.comps.0.sockets.0.label` | fixed stock placement track | 고정형 개머리판 배치 레일 |
-| 411 | ThingDef | `HD_ModularPart_Stock_IronFangA2.label` | IronFang A2 stock | IronFang A2 개머리판 |
-| 412 | ThingDef | `HD_ModularPart_Stock_IronFangA2.description` | A fixed A2-pattern rifle stock. | IronFang A2 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 413 | ThingDef | `HD_ModularPart_OpticMount_LumiconTA51.label` | Lumicon TA51 rail mount | Lumicon TA51 레일 마운트 |
-| 414 | ThingDef | `HD_ModularPart_OpticMount_LumiconTA51.description` | A Picatinny mounting base for compatible Lumicon combat optics. | Lumicon TA51 레일 마운트입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 415 | ThingDef | `HD_ModularPart_OpticMount_LumiconTA51.comps.0.sockets.0.label` | Lumicon scope interface | Lumicon 조준경 결합부 |
-| 416 | ThingDef | `HD_ModularPart_Scope_LumiconTA11.label` | Lumicon TA11 scope | Lumicon TA11 조준경 |
-| 417 | ThingDef | `HD_ModularPart_Scope_LumiconTA11.description` | A fixed-power combat optic for a compatible TA-series mount. | Lumicon TA11 조준경입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 408 | ThingDef | `HD_ModularPart_BufferTube_ColtA2_Part.label` | Colt A2 rifle buffer tube | Colt A2 소총 버퍼 튜브 |
+| 409 | ThingDef | `HD_ModularPart_BufferTube_ColtA2_Part.description` | A fixed-stock rifle buffer tube for an AR-pattern lower receiver. | Colt A2 소총 버퍼 튜브입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 410 | ThingDef | `HD_ModularPart_BufferTube_ColtA2_Part.comps.0.sockets.0.label` | fixed stock placement track | 고정형 개머리판 배치 레일 |
+| 411 | ThingDef | `HD_ModularPart_Stock_IronFangA2_Part.label` | IronFang A2 stock | IronFang A2 개머리판 |
+| 412 | ThingDef | `HD_ModularPart_Stock_IronFangA2_Part.description` | A fixed A2-pattern rifle stock. | IronFang A2 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 413 | ThingDef | `HD_ModularPart_OpticMount_LumiconTA51_Part.label` | Lumicon TA51 rail mount | Lumicon TA51 레일 마운트 |
+| 414 | ThingDef | `HD_ModularPart_OpticMount_LumiconTA51_Part.description` | A Picatinny mounting base for compatible Lumicon combat optics. | Lumicon TA51 레일 마운트입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 415 | ThingDef | `HD_ModularPart_OpticMount_LumiconTA51_Part.comps.0.sockets.0.label` | Lumicon scope interface | Lumicon 조준경 결합부 |
+| 416 | ThingDef | `HD_ModularPart_Scope_LumiconTA11_Part.label` | Lumicon TA11 scope | Lumicon TA11 조준경 |
+| 417 | ThingDef | `HD_ModularPart_Scope_LumiconTA11_Part.description` | A fixed-power combat optic for a compatible TA-series mount. | Lumicon TA11 조준경입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 418 | ThingDef | `HD_ModularPart_Grip_HACVFG.label` | HAC vertical foregrip | HAC 수직 전방손잡이 |
 | 419 | ThingDef | `HD_ModularPart_Grip_HACVFG.description` | A compact Picatinny vertical foregrip. | HAC 수직 전방손잡이입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 420 | ThingDef | `HD_ModularPart_RailPanel_HACURXLow.label` | HAC URX lower rail panel | HAC URX 하부 레일 패널 |
@@ -640,18 +640,18 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
-| 431 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1.label` | M16A1 upper receiver | M16A1 상부 총몸 |
-| 432 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1.description` | A fixed-carry-handle M16A1 upper receiver. | M16A1 상부 총몸입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 433 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
-| 434 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
-| 435 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
-| 436 | ThingDef | `HD_ModularPart_Handguard_M16A1.label` | M16A1 triangular handguard | M16A1 삼각형 총열덮개 |
-| 437 | ThingDef | `HD_ModularPart_Handguard_M16A1.description` | A full triangular M16A1 handguard assembly. | M16A1 삼각형 총열덮개입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 438 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2.label` | M16A2 upper receiver | M16A2 상부 총몸 |
-| 439 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2.description` | A fixed-carry-handle M16A2 upper receiver. | M16A2 상부 총몸입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 440 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
-| 441 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
-| 442 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
+| 431 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1_Part.label` | M16A1 upper receiver | M16A1 상부 총몸 |
+| 432 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1_Part.description` | A fixed-carry-handle M16A1 upper receiver. | M16A1 상부 총몸입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 433 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
+| 434 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
+| 435 | ThingDef | `HD_ModularPart_UpperReceiver_M16A1_Part.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
+| 436 | ThingDef | `HD_ModularPart_Handguard_M16A1_Part.label` | M16A1 triangular handguard | M16A1 삼각형 총열덮개 |
+| 437 | ThingDef | `HD_ModularPart_Handguard_M16A1_Part.description` | A full triangular M16A1 handguard assembly. | M16A1 삼각형 총열덮개입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 438 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2_Part.label` | M16A2 upper receiver | M16A2 상부 총몸 |
+| 439 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2_Part.description` | A fixed-carry-handle M16A2 upper receiver. | M16A2 상부 총몸입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 440 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.0.label` | barrel extension | 총열 연장부 |
+| 441 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.1.label` | handguard mount | 총열덮개 장착부 |
+| 442 | ThingDef | `HD_ModularPart_UpperReceiver_M16A2_Part.comps.0.sockets.2.label` | bolt carrier group | 노리쇠 운반체 뭉치 |
 | 443 | ThingDef | `HD_ModularPart_Handguard_M16A2UP.label` | M16A2 upper handguard | M16A2 상부 총열덮개 |
 | 444 | ThingDef | `HD_ModularPart_Handguard_M16A2UP.description` | The upper half of a two-piece M16A2 handguard. | M16A2 상부 총열덮개입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 445 | ThingDef | `HD_ModularPart_Handguard_M16A2UP.comps.0.sockets.0.label` | M16A2 lower handguard interface | M16A2 하부 총열덮개 결합부 |
@@ -661,11 +661,11 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 | 449 | ThingDef | `HD_ModularPart_Barrel_AR1520Pencil.description` | A lightweight 20-inch pencil-profile AR-15 barrel. | 20인치 AR-15 펜슬 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 450 | ThingDef | `HD_ModularPart_Barrel_AR1520Pencil.comps.0.sockets.0.label` | gas block journal | 가스 블록 장착부 |
 | 451 | ThingDef | `HD_ModularPart_Barrel_AR1520Pencil.comps.0.sockets.1.label` | muzzle thread | 총구 나사산 |
-| 452 | ThingDef | `HD_ModularPart_Muzzle_M16A1.label` | M16A1 flash suppressor | M16A1 소염기 |
-| 453 | ThingDef | `HD_ModularPart_Muzzle_M16A1.description` | An M16A1 birdcage flash suppressor for a 5.56 mm muzzle thread. | M16A1 소염기입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 454 | ThingDef | `HD_ModularPart_Magazine_STANAG20.label` | 20-round STANAG magazine | 20-탄 STANAG 탄창 |
-| 455 | ThingDef | `HD_ModularPart_Magazine_STANAG20.description` | A compact twenty-round STANAG-pattern rifle magazine. | 20-탄 STANAG 탄창입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 456 | ThingDef | `HD_ModularPart_Magazine_STANAG20.comps.0.sockets.0.label` | loaded ammunition | 장전 탄약 |
+| 452 | ThingDef | `HD_ModularPart_Muzzle_M16A1_Part.label` | M16A1 flash suppressor | M16A1 소염기 |
+| 453 | ThingDef | `HD_ModularPart_Muzzle_M16A1_Part.description` | An M16A1 birdcage flash suppressor for a 5.56 mm muzzle thread. | M16A1 소염기입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 454 | ThingDef | `HD_ModularPart_Magazine_STANAG20_Part.label` | 20-round STANAG magazine | 20-탄 STANAG 탄창 |
+| 455 | ThingDef | `HD_ModularPart_Magazine_STANAG20_Part.description` | A compact twenty-round STANAG-pattern rifle magazine. | 20-탄 STANAG 탄창입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 456 | ThingDef | `HD_ModularPart_Magazine_STANAG20_Part.comps.0.sockets.0.label` | loaded ammunition | 장전 탄약 |
 | 457 | ThingDef | `HD_Gun_ModularM16A1_Test_Weapon.label` | modular M16A1 development rifle | 모듈식 M16A1 개발용 소총 |
 | 458 | ThingDef | `HD_Gun_ModularM16A1_Test_Weapon.description` | A development rifle for authoring the modular M16A1 part set. | 모듈식 M16A1 개발용 소총입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 459 | ThingDef | `HD_Gun_ModularM16A1_Test_Weapon.comps.0.sockets.0.label` | upper receiver interface | 상부 총몸 결합부 |
@@ -687,15 +687,15 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 |---:|---|---|---|---|
 | 471 | ThingDef | `HD_ModularPart_Slide_M1911A1_UP.label` | M1911A1 slide | M1911A1 슬라이드 |
 | 472 | ThingDef | `HD_ModularPart_Slide_M1911A1_DOWN.label` | Slide M1911A1 DOWN | M1911A1 하부 슬라이드 |
-| 473 | ThingDef | `HD_ModularPart_Barrel_M1911A1.label` | Barrel M1911A1 | 총열 M1911A1 |
-| 474 | ThingDef | `HD_ModularPart_Barrel_M1911A1.comps.0.sockets.0.label` | muzzle | 총구 |
-| 475 | ThingDef | `HD_ModularPart_Hammer_M1911A1.label` | Hammer M1911A1 | 해머 M1911A1 |
+| 473 | ThingDef | `HD_ModularPart_Barrel_M1911A1_Part.label` | Barrel M1911A1 | 총열 M1911A1 |
+| 474 | ThingDef | `HD_ModularPart_Barrel_M1911A1_Part.comps.0.sockets.0.label` | muzzle | 총구 |
+| 475 | ThingDef | `HD_ModularPart_Hammer_M1911A1_Part.label` | Hammer M1911A1 | 해머 M1911A1 |
 | 476 | ThingDef | `HD_ModularPart_Safety_M1911A1Grip.label` | Safety M1911A1Grip | 안전장치 M1911A1손잡이 |
-| 477 | ThingDef | `HD_ModularPart_Trigger_M1911A1.label` | Trigger M1911A1 | 방아쇠 M1911A1 |
+| 477 | ThingDef | `HD_ModularPart_Trigger_M1911A1_Part.label` | Trigger M1911A1 | 방아쇠 M1911A1 |
 | 478 | ThingDef | `HD_ModularPart_PistolGrip_1911GI.label` | PistolGrip 1911GI | 권총손잡이 1911GI |
-| 479 | ThingDef | `HD_ModularPart_Magazine_1911GI7.label` | Magazine 1911GI7 | 탄창 1911GI7 |
-| 480 | ThingDef | `HD_ModularPart_Ammunition_45ACPM1911.label` | .45 ACP M1911 ammunition | .45 ACP M1911 탄약 |
-| 481 | ThingDef | `HD_ModularPart_Ammunition_45ACPM1911.comps.0.ammunitionType` | .45 ACP | .45 ACP |
+| 479 | ThingDef | `HD_ModularPart_Magazine_1911GI7_Part.label` | Magazine 1911GI7 | 탄창 1911GI7 |
+| 480 | ThingDef | `HD_ModularPart_Ammunition_45ACPM1911_Part.label` | .45 ACP M1911 ammunition | .45 ACP M1911 탄약 |
+| 481 | ThingDef | `HD_ModularPart_Ammunition_45ACPM1911_Part.comps.0.ammunitionType` | .45 ACP | .45 ACP |
 | 482 | ThingDef | `HD_Gun_ModularM1911_Test_Weapon.label` | modular M1911A1 development pistol | 모듈식 M1911A1 개발용 권총 |
 | 483 | ThingDef | `HD_Gun_ModularM1911_Test_Weapon.description` | A modular .45 ACP pistol with a reciprocating slide, tilting barrel, hammer and grip safety. | 모듈식 M1911A1 개발용 권총입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 484 | ThingDef | `HD_Gun_ModularM1911_Test_Weapon.comps.0.sockets.0.label` | slide | 슬라이드 |
@@ -710,16 +710,16 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
-| 491 | ThingDef | `HD_ModularPart_CockingTube_MP5.label` | MP5 cocking tube | MP5 장전관 |
-| 492 | ThingDef | `HD_ModularPart_CockingTube_MP5.description` | The forward receiver extension containing the MP5 cocking tube and charging-handle track. | MP5 장전관입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 493 | ThingDef | `HD_ModularPart_CockingTube_MP5.comps.0.sockets.0.label` | MP5 cocking-tube front sight base | MP5 장전관 가늠쇠 받침 |
+| 491 | ThingDef | `HD_ModularPart_CockingTube_MP5_Part.label` | MP5 cocking tube | MP5 장전관 |
+| 492 | ThingDef | `HD_ModularPart_CockingTube_MP5_Part.description` | The forward receiver extension containing the MP5 cocking tube and charging-handle track. | MP5 장전관입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 493 | ThingDef | `HD_ModularPart_CockingTube_MP5_Part.comps.0.sockets.0.label` | MP5 cocking-tube front sight base | MP5 장전관 가늠쇠 받침 |
 | 494 | ThingDef | `HD_ModularPart_CockingTube_MP5SD.label` | MP5SD cocking tube | MP5SD 장전관 |
 | 495 | ThingDef | `HD_ModularPart_CockingTube_MP5SD.description` | The MP5SD receiver extension containing the cocking tube and its dedicated front-sight interface. | MP5SD 장전관입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 496 | ThingDef | `HD_ModularPart_CockingTube_MP5SD.comps.0.sockets.0.label` | MP5SD cocking-tube front sight base | MP5SD 장전관 가늠쇠 받침 |
-| 497 | ThingDef | `HD_ModularPart_Barrel_MP5.label` | MP5 8.9 inch barrel | MP5 8.9인치 총열 |
-| 498 | ThingDef | `HD_ModularPart_Barrel_MP5.description` | A standard 9x19mm MP5 barrel and trunnion assembly. | MP5 8.9인치 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 499 | ThingDef | `HD_ModularPart_Barrel_MP5.comps.0.sockets.0.label` | MP5 bare muzzle | MP5 노출 총구 |
-| 500 | ThingDef | `HD_ModularPart_Barrel_MP5.comps.0.sockets.1.label` | standard MP5 handguard interface | 표준형 MP5 총열덮개 결합부 |
+| 497 | ThingDef | `HD_ModularPart_Barrel_MP5_Part.label` | MP5 8.9 inch barrel | MP5 8.9인치 총열 |
+| 498 | ThingDef | `HD_ModularPart_Barrel_MP5_Part.description` | A standard 9x19mm MP5 barrel and trunnion assembly. | MP5 8.9인치 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 499 | ThingDef | `HD_ModularPart_Barrel_MP5_Part.comps.0.sockets.0.label` | MP5 bare muzzle | MP5 노출 총구 |
+| 500 | ThingDef | `HD_ModularPart_Barrel_MP5_Part.comps.0.sockets.1.label` | standard MP5 handguard interface | 표준형 MP5 총열덮개 결합부 |
 | 501 | ThingDef | `HD_ModularPart_Barrel_MP5SD.label` | MP5SD ported barrel | MP5SD 포트형 총열 |
 | 502 | ThingDef | `HD_ModularPart_Barrel_MP5SD.description` | A short ported MP5SD barrel intended for use with its integral suppressor. | MP5SD 포트형 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 503 | ThingDef | `HD_ModularPart_Barrel_MP5SD.comps.0.sockets.0.label` | MP5SD barrel muzzle | MP5SD 총열 총구 |
@@ -731,28 +731,28 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 | 509 | ThingDef | `HD_ModularPart_Handguard_MP5SD.description` | A wide polymer handguard shaped around the MP5SD integral suppressor. | MP5SD 총열덮개입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 510 | ThingDef | `HD_ModularPart_Suppressor_MP5SD.label` | MP5SD integral suppressor | MP5SD 일체형 소음기 |
 | 511 | ThingDef | `HD_ModularPart_Suppressor_MP5SD.description` | The large-volume integral suppressor used with the MP5SD ported barrel. | MP5SD 일체형 소음기입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 512 | ThingDef | `HD_ModularPart_FrontSight_MP5.label` | MP5 front sight | MP5 가늠쇠 |
-| 513 | ThingDef | `HD_ModularPart_FrontSight_MP5.description` | A hooded MP5 front sight assembly for the standard barrel. | MP5 가늠쇠입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 512 | ThingDef | `HD_ModularPart_FrontSight_MP5_Part.label` | MP5 front sight | MP5 가늠쇠 |
+| 513 | ThingDef | `HD_ModularPart_FrontSight_MP5_Part.description` | A hooded MP5 front sight assembly for the standard barrel. | MP5 가늠쇠입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 514 | ThingDef | `HD_ModularPart_FrontSight_MP5SD.label` | MP5SD front sight | MP5SD 가늠쇠 |
 | 515 | ThingDef | `HD_ModularPart_FrontSight_MP5SD.description` | A shortened hooded front sight base for the MP5SD assembly. | MP5SD 가늠쇠입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 516 | ThingDef | `HD_ModularPart_RearSight_MP5.label` | MP5 drum rear sight | MP5 회전식 가늠자 |
-| 517 | ThingDef | `HD_ModularPart_RearSight_MP5.description` | The adjustable rotary diopter rear sight used by the MP5 family. | MP5 회전식 가늠자입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 518 | ThingDef | `HD_ModularPart_OpticRail_MP5.label` | MP5 upper Picatinny rail | MP5 상부 피카티니 레일 |
-| 519 | ThingDef | `HD_ModularPart_OpticRail_MP5.description` | A claw-mounted upper Picatinny rail for MP5-pattern receivers. | MP5 상부 피카티니 레일입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 520 | ThingDef | `HD_ModularPart_OpticRail_MP5.comps.0.sockets.0.label` | MP5 upper Picatinny rail | MP5 상부 피카티니 레일 |
-| 521 | ThingDef | `HD_ModularPart_Bolt_MP5.label` | MP5 bolt group | MP5 노리쇠 뭉치 |
-| 522 | ThingDef | `HD_ModularPart_Bolt_MP5.description` | A roller-delayed MP5 bolt group animated through the firing cycle. | MP5 노리쇠 뭉치입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 523 | ThingDef | `HD_ModularPart_Trigger_MP5.label` | MP5 trigger | MP5 방아쇠 |
-| 524 | ThingDef | `HD_ModularPart_Trigger_MP5.description` | An MP5 fire-control trigger animated when the weapon fires. | MP5 방아쇠입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 525 | ThingDef | `HD_ModularPart_TriggerHousing_MP5A3.label` | MP5A3 trigger housing and pistol grip | MP5A3 방아쇠 하우징 및 권총손잡이 |
-| 526 | ThingDef | `HD_ModularPart_TriggerHousing_MP5A3.description` | A polymer SEF trigger housing and pistol grip for the MP5 family. | MP5A3 방아쇠 하우징 및 권총손잡이입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 527 | ThingDef | `HD_ModularPart_Magazine_MP530.label` | 30-round MP5 magazine | 30-탄 MP5 탄창 |
-| 528 | ThingDef | `HD_ModularPart_Magazine_MP530.description` | A curved thirty-round 9x19mm magazine for MP5-pattern weapons. | 30-탄 MP5 탄창입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 529 | ThingDef | `HD_ModularPart_Magazine_MP530.comps.0.sockets.0.label` | loaded 9x19mm ammunition | 장전된 9×19mm 탄약 |
-| 530 | ThingDef | `HD_ModularPart_Stock_MP5A2.label` | MP5A2 fixed stock | MP5A2 고정형 개머리판 |
-| 531 | ThingDef | `HD_ModularPart_Stock_MP5A2.description` | A fixed polymer shoulder stock for MP5-pattern receivers. | MP5A2 고정형 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 532 | ThingDef | `HD_ModularPart_Stock_MP5A3.label` | MP5A3 retractable stock | MP5A3 인입식 개머리판 |
-| 533 | ThingDef | `HD_ModularPart_Stock_MP5A3.description` | A retractable metal shoulder stock for MP5-pattern receivers. | MP5A3 인입식 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 516 | ThingDef | `HD_ModularPart_RearSight_MP5_Part.label` | MP5 drum rear sight | MP5 회전식 가늠자 |
+| 517 | ThingDef | `HD_ModularPart_RearSight_MP5_Part.description` | The adjustable rotary diopter rear sight used by the MP5 family. | MP5 회전식 가늠자입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 518 | ThingDef | `HD_ModularPart_OpticRail_MP5_Part.label` | MP5 upper Picatinny rail | MP5 상부 피카티니 레일 |
+| 519 | ThingDef | `HD_ModularPart_OpticRail_MP5_Part.description` | A claw-mounted upper Picatinny rail for MP5-pattern receivers. | MP5 상부 피카티니 레일입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 520 | ThingDef | `HD_ModularPart_OpticRail_MP5_Part.comps.0.sockets.0.label` | MP5 upper Picatinny rail | MP5 상부 피카티니 레일 |
+| 521 | ThingDef | `HD_ModularPart_Bolt_MP5_Part.label` | MP5 bolt group | MP5 노리쇠 뭉치 |
+| 522 | ThingDef | `HD_ModularPart_Bolt_MP5_Part.description` | A roller-delayed MP5 bolt group animated through the firing cycle. | MP5 노리쇠 뭉치입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 523 | ThingDef | `HD_ModularPart_Trigger_MP5_Part.label` | MP5 trigger | MP5 방아쇠 |
+| 524 | ThingDef | `HD_ModularPart_Trigger_MP5_Part.description` | An MP5 fire-control trigger animated when the weapon fires. | MP5 방아쇠입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 525 | ThingDef | `HD_ModularPart_TriggerHousing_MP5A3_Part.label` | MP5A3 trigger housing and pistol grip | MP5A3 방아쇠 하우징 및 권총손잡이 |
+| 526 | ThingDef | `HD_ModularPart_TriggerHousing_MP5A3_Part.description` | A polymer SEF trigger housing and pistol grip for the MP5 family. | MP5A3 방아쇠 하우징 및 권총손잡이입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 527 | ThingDef | `HD_ModularPart_Magazine_MP530_Part.label` | 30-round MP5 magazine | 30-탄 MP5 탄창 |
+| 528 | ThingDef | `HD_ModularPart_Magazine_MP530_Part.description` | A curved thirty-round 9x19mm magazine for MP5-pattern weapons. | 30-탄 MP5 탄창입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 529 | ThingDef | `HD_ModularPart_Magazine_MP530_Part.comps.0.sockets.0.label` | loaded 9x19mm ammunition | 장전된 9×19mm 탄약 |
+| 530 | ThingDef | `HD_ModularPart_Stock_MP5A2_Part.label` | MP5A2 fixed stock | MP5A2 고정형 개머리판 |
+| 531 | ThingDef | `HD_ModularPart_Stock_MP5A2_Part.description` | A fixed polymer shoulder stock for MP5-pattern receivers. | MP5A2 고정형 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 532 | ThingDef | `HD_ModularPart_Stock_MP5A3_Part.label` | MP5A3 retractable stock | MP5A3 인입식 개머리판 |
+| 533 | ThingDef | `HD_ModularPart_Stock_MP5A3_Part.description` | A retractable metal shoulder stock for MP5-pattern receivers. | MP5A3 인입식 개머리판입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 534 | ThingDef | `HD_Gun_ModularMP5_Test_Weapon.label` | modular MP5 development submachine gun | 모듈식 MP5 개발용 기관단총 |
 | 535 | ThingDef | `HD_Gun_ModularMP5_Test_Weapon.description` | A roller-delayed 9x19mm submachine gun built from independently configurable MP5-family components. | 모듈식 MP5 개발용 기관단총입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 536 | ThingDef | `HD_Gun_ModularMP5_Test_Weapon.comps.0.sockets.0.label` | MP5 cocking-tube interface | MP5 장전관 결합부 |
@@ -769,20 +769,20 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 
 | 번호 | Def 유형 | 번역 키 | 영문 원문 | 임시 한국어 번역 |
 |---:|---|---|---|---|
-| 545 | ThingDef | `HD_ModularPart_Receiver_P320.label` | P320 full-size grip module | P320 풀사이즈 손잡이 모듈 |
-| 546 | ThingDef | `HD_ModularPart_Receiver_P320.description` | A standard full-size P320 grip and dust-cover module. | P320 풀사이즈 손잡이 모듈입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 547 | ThingDef | `HD_ModularPart_Receiver_P320.comps.0.sockets.0.label` | P320 lower rail | P320 하부 레일 |
+| 545 | ThingDef | `HD_ModularPart_Receiver_P320_Part.label` | P320 full-size grip module | P320 풀사이즈 손잡이 모듈 |
+| 546 | ThingDef | `HD_ModularPart_Receiver_P320_Part.description` | A standard full-size P320 grip and dust-cover module. | P320 풀사이즈 손잡이 모듈입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 547 | ThingDef | `HD_ModularPart_Receiver_P320_Part.comps.0.sockets.0.label` | P320 lower rail | P320 하부 레일 |
 | 548 | ThingDef | `HD_ModularPart_Receiver_FluxRaiderKit.label` | Flux Raider P320 chassis | Flux Raider P320 섀시 |
 | 549 | ThingDef | `HD_ModularPart_Receiver_FluxRaiderKit.description` | A PDW chassis for a P320 fire-control unit, with stock and accessory rails. | Flux Raider P320 섀시입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 550 | ThingDef | `HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.0.label` | Flux stock extension track | Flux 개머리판 연장 레일 |
 | 551 | ThingDef | `HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.1.label` | Flux upper rail | Flux 상부 레일 |
 | 552 | ThingDef | `HD_ModularPart_Receiver_FluxRaiderKit.comps.0.sockets.2.label` | Flux lower rail | Flux 하부 레일 |
-| 553 | ThingDef | `HD_ModularPart_Slide_P32047.label` | P320 4.7-inch slide | P320 4.7인치 슬라이드 |
-| 554 | ThingDef | `HD_ModularPart_Slide_P32047.description` | A full-size P320 slide whose upper and lower artwork moves as one part. | P320 4.7인치 슬라이드입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
-| 555 | ThingDef | `HD_ModularPart_Slide_P32047.comps.0.sockets.0.label` | P320 rear sight dovetail | P320 가늠자 도브테일 |
-| 556 | ThingDef | `HD_ModularPart_Slide_P32047.comps.0.sockets.1.label` | P320 front sight dovetail | P320 가늠쇠 도브테일 |
-| 557 | ThingDef | `HD_ModularPart_Barrel_P32047.label` | P320 4.7-inch barrel | P320 4.7인치 총열 |
-| 558 | ThingDef | `HD_ModularPart_Barrel_P32047.description` | A standard full-size 9x19mm P320 barrel. | P320 4.7인치 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 553 | ThingDef | `HD_ModularPart_Slide_P32047_Part.label` | P320 4.7-inch slide | P320 4.7인치 슬라이드 |
+| 554 | ThingDef | `HD_ModularPart_Slide_P32047_Part.description` | A full-size P320 slide whose upper and lower artwork moves as one part. | P320 4.7인치 슬라이드입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
+| 555 | ThingDef | `HD_ModularPart_Slide_P32047_Part.comps.0.sockets.0.label` | P320 rear sight dovetail | P320 가늠자 도브테일 |
+| 556 | ThingDef | `HD_ModularPart_Slide_P32047_Part.comps.0.sockets.1.label` | P320 front sight dovetail | P320 가늠쇠 도브테일 |
+| 557 | ThingDef | `HD_ModularPart_Barrel_P32047_Part.label` | P320 4.7-inch barrel | P320 4.7인치 총열 |
+| 558 | ThingDef | `HD_ModularPart_Barrel_P32047_Part.description` | A standard full-size 9x19mm P320 barrel. | P320 4.7인치 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 559 | ThingDef | `HD_ModularPart_Barrel_P32047Threaded.label` | P320 4.7-inch threaded barrel | P320 4.7인치 나사산형 총열 |
 | 560 | ThingDef | `HD_ModularPart_Barrel_P32047Threaded.description` | A threaded full-size 9x19mm P320 barrel. | P320 4.7인치 나사산형 총열입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 561 | ThingDef | `HD_ModularPart_Barrel_P32047Threaded.comps.0.sockets.0.label` | 1/2x28 muzzle thread | 1/2x28 총구 나사산 |
@@ -792,15 +792,15 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 | 565 | ThingDef | `HD_ModularPart_Stock_FluxRaiderKit.label` | Flux Raider retractable stock | Flux Raider 인입식 개머리판 |
 | 566 | ThingDef | `HD_ModularPart_Mount_T2Low.label` | T2 low Picatinny mount | T2 저상형 피카티니 마운트 |
 | 567 | ThingDef | `HD_ModularPart_Mount_T2Low.comps.0.sockets.0.label` | T2 optic footprint | T2 광학장비 장착 규격 |
-| 568 | ThingDef | `HD_ModularPart_Optic_PointSightT2.label` | PointSight T2 reflex sight | Point조준기 T2 반사식 조준기 |
+| 568 | ThingDef | `HD_ModularPart_Optic_PointSightT2_Part.label` | PointSight T2 reflex sight | Point조준기 T2 반사식 조준기 |
 | 569 | ThingDef | `HD_ModularPart_Laser_DBALPL.label` | DBAL-PL pistol laser | DBAL-PL 권총용 레이저 |
 | 570 | ThingDef | `HD_ModularPart_Muzzle_9mmThreadProtector.label` | 9mm thread protector | 9mm 나사산 보호캡 |
-| 571 | ThingDef | `HD_ModularPart_Suppressor_HelveticSRD9.label` | Helvetic SRD9 suppressor | Helvetic SRD9 소음기 |
-| 572 | ThingDef | `HD_ModularPart_Magazine_P32017.label` | 17-round P320 magazine | 17-탄 P320 탄창 |
-| 573 | ThingDef | `HD_ModularPart_Magazine_P32021.label` | 21-round P320 magazine | 21-탄 P320 탄창 |
-| 574 | ThingDef | `HD_ModularPart_Magazine_P32030.label` | 30-round P320 magazine | 30-탄 P320 탄창 |
-| 575 | ThingDef | `HD_ModularPart_Ammunition_919M882_P320.label` | 9x19mm M882 P320 ammunition | 9×19mm M882 P320 탄약 |
-| 576 | ThingDef | `HD_ModularPart_Ammunition_919M882_P320.comps.0.ammunitionType` | 9x19 M882 | 9x19 M882 |
+| 571 | ThingDef | `HD_ModularPart_Suppressor_HelveticSRD9_Part.label` | Helvetic SRD9 suppressor | Helvetic SRD9 소음기 |
+| 572 | ThingDef | `HD_ModularPart_Magazine_P32017_Part.label` | 17-round P320 magazine | 17-탄 P320 탄창 |
+| 573 | ThingDef | `HD_ModularPart_Magazine_P32021_Part.label` | 21-round P320 magazine | 21-탄 P320 탄창 |
+| 574 | ThingDef | `HD_ModularPart_Magazine_P32030_Part.label` | 30-round P320 magazine | 30-탄 P320 탄창 |
+| 575 | ThingDef | `HD_ModularPart_Ammunition_919M882_P320_Part.label` | 9x19mm M882 P320 ammunition | 9×19mm M882 P320 탄약 |
+| 576 | ThingDef | `HD_ModularPart_Ammunition_919M882_P320_Part.comps.0.ammunitionType` | 9x19 M882 | 9x19 M882 |
 | 577 | ThingDef | `HD_Gun_ModularP320_Test_Weapon.label` | modular P320 development pistol | 모듈식 P320 개발용 권총 |
 | 578 | ThingDef | `HD_Gun_ModularP320_Test_Weapon.description` | A modular full-size P320 pistol built around a serialized fire-control unit. | 모듈식 P320 개발용 권총입니다. 모듈식 무기 구성에 장착할 수 있습니다. |
 | 579 | ThingDef | `HD_Gun_ModularP320_Test_Weapon.comps.0.sockets.0.label` | P320 grip/chassis module | P320 손잡이·섀시 모듈 |
@@ -823,18 +823,18 @@ English Keyed의 모든 키에 대응하는 한국어 키가 존재합니다.
 | 591 | ThingDef | `HD_Bullet_300BLKTACTX_Proj.label` | .300 BLK TACTX bullet | .300 BLK TACTX 탄자 |
 | 592 | ThingDef | `HD_Bullet_76251M80A1_Proj.label` | 7.62x51mm M80A1 bullet | 7.62×51mm M80A1 탄자 |
 | 593 | ThingCategoryDef | `HD_RifleAmmunition.label` | rifle ammunition | 소총 탄약 |
-| 594 | ThingDef | `HD_Ammunition_556M855A1.label` | 5.56x45mm M855A1 cartridge | 5.56×45mm M855A1 탄약 |
-| 595 | ThingDef | `HD_Ammunition_556M855A1.description` | An enhanced-performance 5.56x45mm ammunition selection installed inside a compatible STANAG magazine. | 5.56×45mm M855A1 탄약입니다. 호환되는 모듈식 무기 탄창에 장착됩니다. |
-| 596 | ThingDef | `HD_Ammunition_556M855A1.comps.0.ammunitionType` | 5.56 M855A1 | 5.56 M855A1 |
+| 594 | ThingDef | `HD_Ammunition_556M855A1_Ammo.label` | 5.56x45mm M855A1 cartridge | 5.56×45mm M855A1 탄약 |
+| 595 | ThingDef | `HD_Ammunition_556M855A1_Ammo.description` | An enhanced-performance 5.56x45mm ammunition selection installed inside a compatible STANAG magazine. | 5.56×45mm M855A1 탄약입니다. 호환되는 모듈식 무기 탄창에 장착됩니다. |
+| 596 | ThingDef | `HD_Ammunition_556M855A1_Ammo.comps.0.ammunitionType` | 5.56 M855A1 | 5.56 M855A1 |
 | 597 | ThingDef | `HD_Ammunition_300BLKTACTX.label` | .300 BLK TACTX cartridge | .300 BLK TACTX 탄약 |
 | 598 | ThingDef | `HD_Ammunition_300BLKTACTX.description` | A copper expanding .300 Blackout ammunition selection installed inside a compatible STANAG magazine. | .300 BLK TACTX 탄약입니다. 호환되는 모듈식 무기 탄창에 장착됩니다. |
 | 599 | ThingDef | `HD_Ammunition_300BLKTACTX.comps.0.ammunitionType` | .300 BLK TACTX | .300 BLK TACTX |
-| 600 | ThingDef | `HD_Ammunition_919M882.label` | 9x19mm M882 cartridge | 9×19mm M882 탄약 |
-| 601 | ThingDef | `HD_Ammunition_919M882.description` | A NATO-pattern 9x19mm ball cartridge installed inside a compatible MP5 magazine. | 9×19mm M882 탄약입니다. 호환되는 모듈식 무기 탄창에 장착됩니다. |
-| 602 | ThingDef | `HD_Ammunition_919M882.comps.0.ammunitionType` | 9x19 M882 | 9x19 M882 |
-| 603 | ThingDef | `HD_Ammunition_76251M80A1.label` | 7.62x51mm M80A1 cartridge | 7.62×51mm M80A1 탄약 |
-| 604 | ThingDef | `HD_Ammunition_76251M80A1.description` | An enhanced-performance 7.62x51mm cartridge for modular M14 magazines. | 7.62×51mm M80A1 탄약입니다. 호환되는 모듈식 무기 탄창에 장착됩니다. |
-| 605 | ThingDef | `HD_Ammunition_76251M80A1.comps.0.ammunitionType` | 7.62 M80A1 | 7.62 M80A1 |
+| 600 | ThingDef | `HD_Ammunition_919M882_Ammo.label` | 9x19mm M882 cartridge | 9×19mm M882 탄약 |
+| 601 | ThingDef | `HD_Ammunition_919M882_Ammo.description` | A NATO-pattern 9x19mm ball cartridge installed inside a compatible MP5 magazine. | 9×19mm M882 탄약입니다. 호환되는 모듈식 무기 탄창에 장착됩니다. |
+| 602 | ThingDef | `HD_Ammunition_919M882_Ammo.comps.0.ammunitionType` | 9x19 M882 | 9x19 M882 |
+| 603 | ThingDef | `HD_Ammunition_76251M80A1_Ammo.label` | 7.62x51mm M80A1 cartridge | 7.62×51mm M80A1 탄약 |
+| 604 | ThingDef | `HD_Ammunition_76251M80A1_Ammo.description` | An enhanced-performance 7.62x51mm cartridge for modular M14 magazines. | 7.62×51mm M80A1 탄약입니다. 호환되는 모듈식 무기 탄창에 장착됩니다. |
+| 605 | ThingDef | `HD_Ammunition_76251M80A1_Ammo.comps.0.ammunitionType` | 7.62 M80A1 | 7.62 M80A1 |
 
 ### Defs/ModernWar/Items/Weapons_ModernWar.xml
 

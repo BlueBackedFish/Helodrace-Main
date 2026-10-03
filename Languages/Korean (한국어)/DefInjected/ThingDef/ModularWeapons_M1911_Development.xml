@@ -2,15 +2,15 @@
 <LanguageData>
   <HD_ModularPart_Slide_M1911A1_UP.label>M1911A1 슬라이드</HD_ModularPart_Slide_M1911A1_UP.label>
   <HD_ModularPart_Slide_M1911A1_DOWN.label>M1911A1 하부 슬라이드</HD_ModularPart_Slide_M1911A1_DOWN.label>
-  <HD_ModularPart_Barrel_M1911A1.label>총열 M1911A1</HD_ModularPart_Barrel_M1911A1.label>
-  <HD_ModularPart_Barrel_M1911A1.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1911A1.comps.0.sockets.0.label>
-  <HD_ModularPart_Hammer_M1911A1.label>해머 M1911A1</HD_ModularPart_Hammer_M1911A1.label>
+  <HD_ModularPart_Barrel_M1911A1_Part.label>총열 M1911A1</HD_ModularPart_Barrel_M1911A1_Part.label>
+  <HD_ModularPart_Barrel_M1911A1_Part.comps.0.sockets.0.label>총구</HD_ModularPart_Barrel_M1911A1_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Hammer_M1911A1_Part.label>해머 M1911A1</HD_ModularPart_Hammer_M1911A1_Part.label>
   <HD_ModularPart_Safety_M1911A1Grip.label>안전장치 M1911A1손잡이</HD_ModularPart_Safety_M1911A1Grip.label>
-  <HD_ModularPart_Trigger_M1911A1.label>방아쇠 M1911A1</HD_ModularPart_Trigger_M1911A1.label>
+  <HD_ModularPart_Trigger_M1911A1_Part.label>방아쇠 M1911A1</HD_ModularPart_Trigger_M1911A1_Part.label>
   <HD_ModularPart_PistolGrip_1911GI.label>권총손잡이 1911GI</HD_ModularPart_PistolGrip_1911GI.label>
-  <HD_ModularPart_Magazine_1911GI7.label>탄창 1911GI7</HD_ModularPart_Magazine_1911GI7.label>
-  <HD_ModularPart_Ammunition_45ACPM1911.label>.45 ACP M1911 탄약</HD_ModularPart_Ammunition_45ACPM1911.label>
-  <HD_ModularPart_Ammunition_45ACPM1911.comps.0.ammunitionType>.45 ACP</HD_ModularPart_Ammunition_45ACPM1911.comps.0.ammunitionType>
+  <HD_ModularPart_Magazine_1911GI7_Part.label>탄창 1911GI7</HD_ModularPart_Magazine_1911GI7_Part.label>
+  <HD_ModularPart_Ammunition_45ACPM1911_Part.label>.45 ACP M1911 탄약</HD_ModularPart_Ammunition_45ACPM1911_Part.label>
+  <HD_ModularPart_Ammunition_45ACPM1911_Part.comps.0.ammunitionType>.45 ACP</HD_ModularPart_Ammunition_45ACPM1911_Part.comps.0.ammunitionType>
   <HD_Gun_M1911_Weapon.comps.1.sockets.0.label>슬라이드</HD_Gun_M1911_Weapon.comps.1.sockets.0.label>
   <HD_Gun_M1911_Weapon.comps.1.sockets.1.label>총열</HD_Gun_M1911_Weapon.comps.1.sockets.1.label>
   <HD_Gun_M1911_Weapon.comps.1.sockets.2.label>해머</HD_Gun_M1911_Weapon.comps.1.sockets.2.label>
