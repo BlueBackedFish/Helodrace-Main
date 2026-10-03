@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
-using UnityEngine;
 using Verse;
 using Verse.AI;
 using Helodrace.Squads;
@@ -75,8 +73,16 @@ namespace Helodrace
                     state.NextApproachSmokeTick = tick + (state.ApproachSmokeLaunched ? 60 : 180);
                     MapComponent_RaidTacticalTrace.Record(state.ApproachSmokeThrower,
                         state.ApproachSmokeLaunched ? "Approach smoke released; resume movement" : "Approach smoke failed; resume movement");
-                    if (state.ApproachSmokeLaunched && !plan.IsDefensive && state.DefenseUntil <= tick
-                        && CommitSmokeAdvance(members, plan, state, tick)) return true;
+                    bool advancing = state.ApproachSmokeLaunched && !plan.IsDefensive && state.DefenseUntil <= tick
+                        && CommitSmokeAdvance(members, plan, state, tick);
+                    if (!state.ApproachSmokeLaunched && state.SmokeFormation != null
+                        && tick - state.SmokeFormation.CreatedTick < 720)
+                    {
+                        state.SmokeFormation.Thrower = null;
+                        return PreparePlannedSmoke(members, plan, state, tick);
+                    }
+                    state.SmokeFormation = null;
+                    if (advancing) return true;
                     return false;
                 }
                 CoverScreenTeam(members, plan, state, tick);
@@ -84,6 +90,7 @@ namespace Helodrace
                 state.PhaseStarted = tick;
                 return true;
             }
+            if (state.SmokeFormation != null) return PreparePlannedSmoke(members, plan, state, tick);
             if (plan.IsDefensive && !reacting || tick < state.NextApproachSmokeTick || RaidBreachToolRecovery.Pending(members))
                 return false;
             state.NextApproachSmokeTick = tick + 30;
@@ -109,66 +116,56 @@ namespace Helodrace
                 })).OrderBy(enemy => moving.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position)))
                 .Take(3).ToList();
             if (threats.Count == 0) return false;
-            bool reserveEntrySmoke = RaidSmokeUtility.ExteriorEntry(map, plan);
-            foreach (Pawn thrower in moving.Concat(members).Distinct())
+            bool reserve = RaidSmokeUtility.ExteriorEntry(map, plan);
+            if (!SmokeTeam(members, plan).Any(pawn => CompSledgehammerBreach.CanOperate(pawn)
+                && InventoryGrenadeUtility.GrenadeStacks(pawn).Where(RaidSmokeUtility.IsSmoke)
+                    .Sum(item => item.stackCount) > (reserve ? 1 : 0)))
             {
-                if (thrower.stances.FullBodyBusy || MapComponent_RaidTacticalOrders.Protected(thrower)
-                    || !CompSledgehammerBreach.CanOperate(thrower)) continue;
-                List<Thing> grenades = InventoryGrenadeUtility.GrenadeStacks(thrower).Where(RaidSmokeUtility.IsSmoke).ToList();
-                if (grenades.Sum(item => item.stackCount) <= (reserveEntrySmoke ? 1 : 0)) continue;
-                foreach (IntVec3 ideal in ScreenTargets(thrower, threats, plan))
-                    foreach (IntVec3 target in GenRadial.RadialCellsAround(ideal, 2f, true)
-                        .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                            && !plan.AvoidedTrapCells.Contains(cell)).OrderBy(cell => cell.DistanceToSquared(ideal)))
-                    {
-                        if (RaidSmokeUtility.SmokeAt(map, target)) continue;
-                        bool close = InventoryGrenadeUtility.CanThrowAt(thrower, target, InventoryGrenadeUtility.CloseThrowRange);
-                        if (!close && !InventoryGrenadeUtility.CanThrowAt(thrower, target, InventoryGrenadeUtility.NormalThrowRange)) continue;
-                        JobDef jobDef = DefDatabase<JobDef>.GetNamed(close
-                            ? "HD_ThrowInventoryGrenadeClose" : "HD_ThrowInventoryGrenadeNormal");
-                        state.ApproachSmokeActive = true;
-                        state.ApproachSmokeThrower = thrower;
-                        state.ApproachSmokeTarget = target;
-                        state.ApproachSmokeThreat = threats[0].Position;
-                        state.ApproachSmokeStarted = tick;
-                        state.ApproachSmokeClearedTick = -1;
-                        state.ApproachSmokeLaunched = false;
-                        state.ApproachSmokeProjectile = null;
-                        state.Reactions.RemoveAll(value => value.Kind == RaidReactionKind.Screen);
-                        thrower.jobs.StartJob(JobMaker.MakeJob(jobDef, target, grenades[0]), JobCondition.InterruptForced);
-                        CoverScreenTeam(members, plan, state, tick);
-                        RaidTacticalSpeech.Say(thrower, "HD_RaidTactical_Smoke");
-                        return true;
-                    }
+                state.NextApproachSmokeTick = tick + 180;
+                return false;
             }
-            return false;
-        }
-
-        private static IEnumerable<IntVec3> ScreenTargets(Pawn thrower, List<Pawn> threats, RaidTacticalPlan plan)
-        {
-            IntVec3 destination = plan.Assignments.FirstOrDefault(value => value.Pawn == thrower)?.Position ?? plan.Entry;
-            Vector3 forward = (destination - thrower.Position).ToVector3().normalized;
-            yield return (thrower.Position.ToVector3Shifted() + forward * 8f).ToIntVec3();
-            foreach (Pawn enemy in threats)
-            {
-                Vector3 toward = (enemy.Position - thrower.Position).ToVector3().normalized;
-                yield return (thrower.Position.ToVector3Shifted() + toward * 9f).ToIntVec3();
-            }
+            state.SmokeFormation = PlanSmokeFormation(moving, threats, plan, tick);
+            if (state.SmokeFormation == null) return false;
+            state.ApproachSmokeLaunched = false;
+            state.Reactions.RemoveAll(value => value.Kind == RaidReactionKind.Screen);
+            MapComponent_RaidTacticalTrace.Record(moving[0], $"Smoke plan committed: rally {state.SmokeFormation.Rally}, target {state.SmokeFormation.Target}");
+            return PreparePlannedSmoke(members, plan, state, tick);
         }
 
         private void CoverScreenTeam(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
-            CoverReactiveTeam(members, plan, state, RaidReactionKind.Screen,
-                state.ApproachSmokeThreat.IsValid ? state.ApproachSmokeThreat : state.ApproachSmokeTarget, tick, retreat: true);
-            foreach (Pawn pawn in members)
+            RaidSmokeFormation formation = state.SmokeFormation;
+            if (formation == null) return;
+            var occupied = new HashSet<IntVec3>(state.Reactions.Where(value => members.Contains(value.Pawn)
+                && (value.Kind == RaidReactionKind.Screen || value.Kind == RaidReactionKind.Sniper)
+                && formation.RallyCells.Contains(value.Destination)).Select(value => value.Destination));
+            occupied.Add(formation.ThrowPosition);
+            foreach (Pawn pawn in SmokeTeam(members, plan).OrderBy(value => value.Position.DistanceToSquared(formation.Rally)))
             {
-                if (pawn == state.ApproachSmokeThrower && !state.ApproachSmokeLaunched) continue;
-                if (state.Reactions.Any(value => value.Pawn == pawn && value.Kind == RaidReactionKind.Sniper && value.Until > tick)) continue;
-                RaidReactivePosition reaction = state.Reactions.FirstOrDefault(value => value.Pawn == pawn && value.Kind == RaidReactionKind.Screen);
-                if (reaction?.Destination.IsValid == true)
-                    MapComponent_RaidTacticalOrders.Retreat(pawn, reaction.Destination);
+                if (pawn == formation.Thrower && !state.ApproachSmokeLaunched) continue;
+                RaidReactivePosition reaction = state.Reactions.FirstOrDefault(value => value.Pawn == pawn && value.Kind == RaidReactionKind.Sniper)
+                    ?? state.Reactions.FirstOrDefault(value => value.Pawn == pawn && value.Kind == RaidReactionKind.Screen);
+                if (reaction == null)
+                {
+                    reaction = new RaidReactivePosition { Pawn = pawn, Kind = RaidReactionKind.Screen };
+                    state.Reactions.Add(reaction);
+                }
+                if (!ValidReactiveCell(reaction.Destination) || !formation.RallyCells.Contains(reaction.Destination))
+                {
+                    IntVec3 cell = formation.RallyCells.Where(value => ValidReactiveCell(value) && !occupied.Contains(value)
+                            && map.pawnDestinationReservationManager.CanReserve(value, pawn))
+                        .OrderByDescending(value => (!GenSight.LineOfSight(formation.Threat, value, map, true) ? 28f : 0f)
+                            + CoverUtility.CalculateOverallBlockChance(value, formation.Threat, map) * 16f
+                            - value.DistanceTo(formation.Rally) * 2f - value.DistanceTo(pawn.Position) * 0.5f)
+                        .Take(12).Where(value => pawn.CanReach(value, PathEndMode.OnCell, Danger.Deadly))
+                        .DefaultIfEmpty(IntVec3.Invalid).First();
+                    if (!cell.IsValid) continue;
+                    reaction.Destination = cell;
+                    reaction.SearchAfter = tick + 180;
+                    occupied.Add(cell);
+                }
+                MapComponent_RaidTacticalOrders.Retreat(pawn, reaction.Destination);
             }
-            ApplySniperRetreats(state);
         }
 
         private bool CommitSmokeAdvance(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
@@ -181,7 +178,7 @@ namespace Helodrace
                 if (pawn.CurJob?.playerForced == true || (structure?.RoomAt(pawn.Position) ?? 0) != 0) continue;
                 RaidTacticalAssignment assignment = plan.Assignments.FirstOrDefault(value => value.Pawn == pawn);
                 if (assignment?.Task == RaidTacticalTask.Withdraw) continue;
-                IntVec3 goal = assignment?.Position ?? plan.Entry;
+                IntVec3 goal = state.SmokeFormation?.Goal ?? plan.Entry;
                 var local = new HashSet<IntVec3>(GenRadial.RadialCellsAround(pawn.Position, 12f, true)
                     .Where(cell => ValidReactiveCell(cell) && (structure?.RoomAt(cell) ?? 0) == 0
                         && !plan.AvoidedTrapCells.Contains(cell)));

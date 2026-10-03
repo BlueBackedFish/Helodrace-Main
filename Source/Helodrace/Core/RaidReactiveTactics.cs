@@ -165,7 +165,7 @@ namespace Helodrace
                 reaction.ThreatPosition = threat.Position;
             }
             bool threatened = state.Reactions.Any(value => value.Kind == RaidReactionKind.Sniper);
-            if (state.ApproachSmokeActive || state.ScreenAdvanceUntil > 0 || threatened)
+            if (state.SmokeFormation != null || state.ApproachSmokeActive || state.ScreenAdvanceUntil > 0 || threatened)
                 if (ApproachScreen(members, plan, state, tick, reacting: threatened)) return true;
             if (!threatened)
             {

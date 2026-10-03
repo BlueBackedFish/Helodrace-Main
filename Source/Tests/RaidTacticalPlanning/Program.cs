@@ -270,6 +270,19 @@ internal static class Program
             Check(!RaidReactivePolicy.Outranged(true, true, false, 45f, 25f, 50f), "A shooter outside its own effective range is not a sniper threat");
             Check(!RaidReactivePolicy.Outranged(true, true, false, 45f, 25f, 20f), "When the pawn can return fire it retains ordinary combat selection");
             Console.WriteLine("PASS: 6 sniper observation and range assertions.");
+            float smokeAnchor = RaidSmokePlanning.DenseAnchor(new[] { 0f, 1f, 2f, 3f, 4f, -30f }, (a, b) => Math.Abs(a - b));
+            Check(smokeAnchor >= 0 && smokeAnchor <= 4, "A rear carrier thirty cells away must not drag the smoke plan out of the squad core");
+            float relocatedCarrierAnchor = RaidSmokePlanning.DenseAnchor(new[] { 0f, 1f, 2f, 3f, 4f, -50f }, (a, b) => Math.Abs(a - b));
+            Check(smokeAnchor == relocatedCarrierAnchor, "Further carrier retreat leaves the planned squad anchor unchanged");
+            var bentRoute = new[] { (0, 0), (1, 0), (2, 0), (2, 1), (2, 2), (2, 3) };
+            float RouteDistance((int x, int z) a, (int x, int z) b) => Math.Abs(a.x - b.x) + Math.Abs(a.z - b.z);
+            Check(RaidSmokePlanning.ForwardAlong(bentRoute, (0, 0), 4f, RouteDistance) == (2, 2),
+                "A common smoke waypoint follows the bent approach route instead of a carrier's forward vector");
+            Check(RaidSmokePlanning.ForwardAlong(bentRoute, (2, 1), 2f, RouteDistance) == (2, 3),
+                "The next smoke step advances from the squad's current route progress");
+            Check(RaidSmokePlanning.ForwardAlong(bentRoute, (2, 2), 8f, RouteDistance) == (2, 3),
+                "A short remaining route clamps the planned smoke at its end");
+            Console.WriteLine("PASS: 5 common squad smoke planning assertions.");
             return 0;
         }
         catch (Exception exception)

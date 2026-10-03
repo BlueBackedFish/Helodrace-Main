@@ -103,6 +103,7 @@ namespace Helodrace
             public int SupportEffectsClearedTick = -1;
             public string SupportStatus = "Not requested";
             public bool ApproachSmokeActive;
+            public RaidSmokeFormation SmokeFormation;
             public bool ApproachSmokeLaunched;
             public Pawn ApproachSmokeThrower;
             public Projectile ApproachSmokeProjectile;
@@ -169,6 +170,7 @@ namespace Helodrace
                 Scribe_Values.Look(ref SupportEffectsClearedTick, "supportEffectsClearedTick", -1);
                 Scribe_Values.Look(ref SupportStatus, "supportStatus", "Not requested");
                 Scribe_Values.Look(ref ApproachSmokeActive, "approachSmokeActive");
+                Scribe_Deep.Look(ref SmokeFormation, "smokeFormation");
                 Scribe_Values.Look(ref ApproachSmokeLaunched, "approachSmokeLaunched");
                 Scribe_References.Look(ref ApproachSmokeThrower, "approachSmokeThrower");
                 Scribe_References.Look(ref ApproachSmokeProjectile, "approachSmokeProjectile");
@@ -232,6 +234,7 @@ namespace Helodrace
             if (state.DefenseUntil > GenTicks.TicksGame) return "Support defense";
             if (state.ScreenAdvanceUntil > GenTicks.TicksGame) return "Advance inside smoke";
             if (state.ApproachSmokeActive) return "Screening smoke";
+            if (state.SmokeFormation != null) return "Smoke rally";
             if (state.Reactions.Any(value => value.Kind == RaidReactionKind.Sniper && value.Until > GenTicks.TicksGame))
                 return "Sniper cover";
             if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete)
@@ -540,6 +543,7 @@ namespace Helodrace
                         state.DefenseCaller = previous.DefenseCaller;
                         state.DefenseAim = previous.DefenseAim;
                         state.ApproachSmokeActive = previous.ApproachSmokeActive;
+                        state.SmokeFormation = previous.SmokeFormation;
                         state.ApproachSmokeLaunched = previous.ApproachSmokeLaunched;
                         state.ApproachSmokeThrower = previous.ApproachSmokeThrower;
                         state.ApproachSmokeProjectile = previous.ApproachSmokeProjectile;
