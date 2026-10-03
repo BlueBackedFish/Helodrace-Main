@@ -77,6 +77,10 @@ namespace Helodrace
             Widgets.CheckboxLabeled(new Rect(inRect.x + 195f, inRect.y + 43f, 220f, 26f),
                 "Show tactical nodes", ref overlay);
             RaidTacticalDebugSession.ShowOverlay = overlay;
+            bool trace = MapComponent_RaidTacticalTrace.Enabled;
+            Widgets.CheckboxLabeled(new Rect(inRect.x + 195f, inRect.y + 73f, 220f, 26f),
+                "Trace tactical job changes", ref trace);
+            MapComponent_RaidTacticalTrace.Enabled = trace;
             if (Widgets.ButtonText(new Rect(inRect.x + 425f, inRect.y + 42f, 175f, 29f),
                 "Re-evaluate now"))
             {
@@ -141,6 +145,10 @@ namespace Helodrace
                 report.AppendLine($"  {assignment.Pawn.LabelShort}: {assignment.Task} "
                     + (assignment.EntryOrder > 0 ? $"#{assignment.EntryOrder} " : "")
                     + $"at {assignment.Position}");
+            report.AppendLine();
+            report.AppendLine("Recent job changes (newest first):");
+            report.AppendLine(RaidTacticalDebugSession.Map
+                ?.GetComponent<MapComponent_RaidTacticalTrace>()?.Report(plan.OrganizationId));
             return report.ToString();
         }
     }
