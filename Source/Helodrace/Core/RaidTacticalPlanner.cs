@@ -173,7 +173,7 @@ namespace Helodrace
                 localRoute = local.Path(plan.Start, plan.Objective);
                 interiorWalk = localRoute.Count > 0 || !local.Contains(plan.Objective) && !needsBreach;
                 if (local.Contains(plan.Objective) && localRoute.Count == 0) needsBreach = true;
-                if (RaidCqbPolicy.Intent(occupied, objectiveRoom, localRoute.Count > 0) == RaidCqbIntent.ClearCurrentRoom)
+                if (RaidCqbPolicy.Intent(occupied, objectiveRoom, interiorWalk) == RaidCqbIntent.ClearCurrentRoom)
                     return MakeCurrentRoomPlan(organization, members, plan);
                 if (interiorWalk)
                 {

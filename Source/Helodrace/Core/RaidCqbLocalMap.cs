@@ -84,7 +84,9 @@ namespace Helodrace
             var local = new RaidCqbLocalMap();
             local.Refresh(map, structure, observer, observer.Position, tick, plan.AvoidedTrapCells);
             bool alreadyInside = occupied.Count() * 2 >= entry.Count && objectiveRoom == occupied.Key
-                && local.Path(observer.Position, plan.Objective).Count > 0;
+                && (local.Path(observer.Position, plan.Objective).Count > 0
+                    || !local.Contains(plan.Objective) && map.reachability.CanReach(observer.Position,
+                        plan.Objective, PathEndMode.OnCell, TraverseParms.For(observer)));
             bool wrongBreach = plan.PlannedBreach != null && (insideRoom != occupied.Key && cleared.Contains(insideRoom)
                 || insideRoom == occupied.Key && local.Path(observer.Position, plan.BreachInside).Count > 0);
             if (!alreadyInside && !wrongBreach) return false;

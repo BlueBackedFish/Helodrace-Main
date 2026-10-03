@@ -69,9 +69,34 @@ internal static class Program
             CheckBreachToolRecovery();
             CheckTacticalRoomOverlay();
             CheckAiGrenadePreparation();
+            CheckOccupiedRoomPlan();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckOccupiedRoomPlan()
+    {
+        // Exercise the actual assignment path rather than only the pure room policy.
+        var pawnDef = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+        pawnDef.defName = "OccupiedRoomTestPawn";
+        var members = Enumerable.Range(1, 4).Select(id => new Pawn { def = pawnDef, thingIDNumber = id,
+            Position = new IntVec3(id, 0, 1) }).ToList();
+        var seed = new RaidTacticalPlan { Start = members[0].Position,
+            Objective = new IntVec3(50, 0, 1), OccupiedRoom = 1 };
+        MethodInfo method = AccessTools.Method(typeof(RaidTacticalPlanner), "MakeCurrentRoomPlan");
+        var plan = (RaidTacticalPlan)method.Invoke(null, new object[] { new CombatOrganization(), members, seed });
+        if (!plan.Success || plan.Selected.Maneuver != RaidTacticalManeuver.DirectAssault)
+            throw new Exception("Occupied-room clearance must remain an executable direct assault even beyond the local window.");
+        if (plan.Assignments.Count != members.Count || !plan.Assignments.Any(value => value.Task == RaidTacticalTask.Entry))
+            throw new Exception("Occupied-room clearance must assign an entry team, including large rooms without stack positions.");
+        if (plan.Assignments.Any(value => value.Position != value.Pawn.Position))
+            throw new Exception("Occupied-room clearance must not relocate pawns to a new stack.");
+        if (plan.PlannedBreach != null || plan.BreachCell.IsValid || plan.ReusePassage)
+            throw new Exception("Occupied-room clearance must not carry demolition or passage-entry orders.");
+        if (plan.CqbIntent != RaidCqbIntent.ClearCurrentRoom || plan.Entry != plan.Objective)
+            throw new Exception("Occupied-room assignments must advance directly to their clearance objective.");
+        Console.WriteLine("PASS: occupied-room execution assignments (5 checks)");
     }
 
     private static void CheckAiGrenadePreparation()
