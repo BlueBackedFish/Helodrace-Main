@@ -59,9 +59,70 @@ internal static class Program
             CheckDoorFaultHooks();
             CheckCasualtyReevaluation();
             CheckGrenadePrediction();
+            CheckSharedStructureVersions();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckSharedStructureVersions()
+    {
+        static void Check(bool condition, string message)
+        {
+            if (!condition) throw new Exception(message);
+        }
+        Assembly assembly = typeof(RaidStructureSnapshot).Assembly;
+        Type inputType = assembly.GetType("Helodrace.TacticalGeometryInput", true);
+        Type rawType = assembly.GetType("Helodrace.TacticalRawCell", true);
+        Type flagsType = assembly.GetType("Helodrace.TacticalRawFlags", true);
+        var input = Activator.CreateInstance(inputType, new object[] { 3, 3 });
+        var rawCells = (Array)AccessTools.Field(inputType, "Cells").GetValue(input);
+        for (int i = 0; i < rawCells.Length; i++)
+        {
+            object raw = Activator.CreateInstance(rawType);
+            AccessTools.Field(rawType, "Flags").SetValue(raw, Enum.ToObject(flagsType, 1));
+            AccessTools.Field(rawType, "Room").SetValue(raw, 7);
+            rawCells.SetValue(raw, i);
+        }
+        object geometry = AccessTools.Method(assembly.GetType("Helodrace.TacticalGeometry"), "Calculate")
+            .Invoke(null, new object[] { input, System.Threading.CancellationToken.None });
+        var version = (TacticalStructureVersion)Activator.CreateInstance(typeof(TacticalStructureVersion),
+            BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { (object)12, geometry }, null);
+        // Map's field initializers include Unity state. These methods only need
+        // value dimensions and indexing, so no engine initialization is involved.
+        var map = (Map)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(Map));
+        map.info = new MapInfo { Size = new IntVec3(3, 1, 3) };
+        map.cellIndices = new CellIndices(3, 3);
+        RaidStructureSnapshot Snapshot(string id) => (RaidStructureSnapshot)Activator.CreateInstance(
+            typeof(RaidStructureSnapshot), BindingFlags.Instance | BindingFlags.NonPublic,
+            null, new object[] { map, version, id }, null);
+        var first = Snapshot("A");
+        var second = Snapshot("B");
+        PropertyInfo versionProperty = AccessTools.Property(typeof(RaidStructureSnapshot), "Version");
+        Check(ReferenceEquals(versionProperty.GetValue(first), versionProperty.GetValue(second)),
+            "Two organizations must share one immutable version rather than clone the map.");
+        Check(first.RoomAt(new IntVec3(1, 0, 1)) == 7 && second.RoomAt(new IntVec3(1, 0, 1)) == 7,
+            "Shared organization room lookup keeps the captured room ID.");
+        var analysis = new MapComponent_TacticalMapAnalysis(map);
+        AccessTools.Property(typeof(MapComponent_TacticalMapAnalysis), "Completed").SetValue(analysis, version);
+        Check(first.RoomAt(new IntVec3(-1, 0, 0)) == 0, "Out-of-map room lookup remains safe.");
+        var restored = new RaidStructureSnapshot { OrganizationId = "A" };
+        AccessTools.Field(typeof(RaidStructureSnapshot), "versionId").SetValue(restored, 12);
+        var versions = new Dictionary<int, TacticalStructureVersion> { [12] = version };
+        MethodInfo restore = AccessTools.Method(typeof(RaidStructureSnapshot), "Restore");
+        Check((bool)restore.Invoke(restored, new object[] { map, versions })
+            && ReferenceEquals(versionProperty.GetValue(restored), version),
+            "Restoring organization references must resolve the shared saved version.");
+        Check(!(bool)restore.Invoke(new RaidStructureSnapshot(), new object[] { map, versions }),
+            "A missing saved version cannot silently become a live-map snapshot.");
+        AccessTools.Method(typeof(MapComponent_TacticalMapAnalysis), "ReserveVersion").Invoke(analysis, new object[] { 12 });
+        AccessTools.Method(typeof(MapComponent_TacticalMapAnalysis), "ReserveVersion").Invoke(analysis, new object[] { 4 });
+        Check((int)AccessTools.Field(typeof(MapComponent_TacticalMapAnalysis), "nextVersion").GetValue(analysis) == 12,
+            "New version IDs must not collide with retained versions after loading.");
+        analysis.MapRemoved();
+        Check(versionProperty.GetValue(first) == version && first.RoomAt(new IntVec3(1, 0, 1)) == 7,
+            "Clearing the map cache owner cannot mutate an organization's pinned version.");
+        Console.WriteLine("PASS: 7 shared structure ownership, restore and version lifetime checks (real game classes)");
     }
 
     private static void CheckDoorFaultHooks()

@@ -31,9 +31,13 @@ namespace Helodrace
             if (analysis == null) return;
 
             analysis.ForceRebuild();
-            Log.Message($"[Helodrace Tactical AI] Geometry build={analysis.LastStaticBuildMilliseconds} ms.");
+            Log.Message($"[Helodrace Tactical AI] Geometry rebuild queued; state={analysis.BuildStatus}. "
+                + $"Last capture={analysis.LastCaptureMilliseconds:0.00} ms, "
+                + $"calculation={analysis.LastCalculationMilliseconds:0.00} ms, "
+                + $"max capture slice={analysis.MaximumCaptureSliceMilliseconds:0.00} ms, "
+                + $"discarded={analysis.DiscardedCalculations}.");
             Messages.Message(
-                "Door and wall geometry map rebuilt.",
+                "Door and wall geometry rebuild queued.",
                 MessageTypeDefOf.NeutralEvent,
                 false);
         }
@@ -49,6 +53,11 @@ namespace Helodrace
             IntVec3 cell = UI.MouseCell();
             MapComponent_TacticalMapAnalysis analysis = map?.GetComponent<MapComponent_TacticalMapAnalysis>();
             if (analysis == null || !cell.InBounds(map)) return;
+            Log.Message($"[Helodrace Tactical AI] Cache={analysis.BuildStatus}; "
+                + $"capture={analysis.LastCaptureMilliseconds:0.00} ms, "
+                + $"worker={analysis.LastCalculationMilliseconds:0.00} ms, "
+                + $"max slice={analysis.MaximumCaptureSliceMilliseconds:0.00} ms, "
+                + $"total preparation={analysis.LastStaticBuildMilliseconds} ms.");
 
             TacticalCellData data = analysis.At(cell);
             Log.Message($"[Helodrace Tactical AI] {cell}: geometry={data.TotalThreat:0.0} "
@@ -81,6 +90,12 @@ namespace Helodrace
             MapComponent_TacticalMapAnalysis analysis = map?.GetComponent<MapComponent_TacticalMapAnalysis>();
             if (analysis == null) return;
             analysis.RequestAnalysis();
+            if (analysis.Completed == null)
+            {
+                Messages.Message("Geometry cache is preparing: " + analysis.BuildStatus,
+                    MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
 
             List<KeyValuePair<IntVec3, float>> scored = map.AllCells
                 .Select(cell => new KeyValuePair<IntVec3, float>(cell, selector(analysis.CachedAt(cell))))

@@ -102,7 +102,8 @@ namespace Helodrace
 
         private static string Report(RaidTacticalPlan plan)
         {
-            if (plan == null) return "Select an active raid.";
+            if (plan == null) return "Waiting for tactical structure: " + RaidTacticalDebugSession.Map
+                ?.GetComponent<MapComponent_TacticalMapAnalysis>()?.BuildStatus;
             if (!plan.Success) return "Plan unavailable: " + plan.Reason
                 + $" ({plan.PlanningMilliseconds} ms)";
             var report = new StringBuilder();

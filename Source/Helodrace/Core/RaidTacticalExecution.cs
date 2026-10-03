@@ -55,6 +55,7 @@ namespace Helodrace
         private const int ApproachStallTimeout = 1200;
         private readonly Dictionary<string, ExecutionState> states = new Dictionary<string, ExecutionState>();
         private List<ExecutionState> savedStates;
+        private readonly HashSet<string> waitingStructures = new HashSet<string>();
 
         public sealed class BreachCrossing : IExposable
         {
@@ -261,9 +262,9 @@ namespace Helodrace
         {
             string id = OrganizationAPI.GetOrganization(pawn)?.id;
             return id != null && IsTacticalRaider(pawn)
-                && states.TryGetValue(id, out ExecutionState state)
+                && (waitingStructures.Contains(id) || states.TryGetValue(id, out ExecutionState state)
                 && state.ActivePlan?.Success == true
-                && state.ActivePlan.Assignments.Any(assignment => assignment.Pawn == pawn);
+                && state.ActivePlan.Assignments.Any(assignment => assignment.Pawn == pawn));
         }
 
         internal string SupportStatusFor(string id) => states.TryGetValue(id, out ExecutionState state)
@@ -450,6 +451,14 @@ namespace Helodrace
                     continue;
                 }
                 activeIds.Add(organization.id);
+                if (!plans.StructureReadyFor(organization.id))
+                {
+                    waitingStructures.Add(organization.id);
+                    foreach (Pawn member in members)
+                        MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
+                    continue;
+                }
+                waitingStructures.Remove(organization.id);
                 if (!IsDefendingRaider(members[0]))
                     RaidBreachToolRecovery.TryStart(members, organization.AllMembers, map);
                 if (states.TryGetValue(organization.id, out ExecutionState completed)
@@ -603,6 +612,7 @@ namespace Helodrace
                 CancelPendingCharge(states[id]);
                 states.Remove(id);
             }
+            if (regular) waitingStructures.RemoveWhere(id => !activeIds.Contains(id));
         }
 
         private static void CancelPendingCharge(ExecutionState state)

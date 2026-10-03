@@ -1273,6 +1273,7 @@ namespace Helodrace
         private readonly Dictionary<string, RaidStructureSnapshot> structures =
             new Dictionary<string, RaidStructureSnapshot>();
         private List<RaidStructureSnapshot> savedStructures;
+        private List<TacticalStructureVersion> savedVersions;
 
         public MapComponent_RaidTacticalPlans(Map map) : base(map) { }
 
@@ -1282,18 +1283,40 @@ namespace Helodrace
         {
             base.ExposeData();
             if (Scribe.mode == LoadSaveMode.Saving)
+            {
                 savedStructures = structures.Values.ToList();
+                savedVersions = savedStructures.Select(snapshot => snapshot.Version)
+                    .Distinct().OrderBy(version => version.Id).ToList();
+            }
+            Scribe_Collections.Look(ref savedVersions, "raidStructureVersions", LookMode.Deep);
             Scribe_Collections.Look(ref savedStructures, "raidStructures", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                savedStructures = null;
+                savedVersions = null;
+            }
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 structures.Clear();
+                var versions = new Dictionary<int, TacticalStructureVersion>();
+                MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
+                foreach (TacticalStructureVersion version in savedVersions ?? new List<TacticalStructureVersion>())
+                    if (version.Restore(map))
+                    {
+                        versions[version.Id] = version;
+                        analysis?.ReserveVersion(version.Id);
+                    }
                 foreach (RaidStructureSnapshot snapshot in savedStructures
                     ?? new List<RaidStructureSnapshot>())
-                    if (snapshot?.OrganizationId != null && snapshot.Restore(map))
+                    if (snapshot?.OrganizationId != null && snapshot.Restore(map, versions))
                         structures[snapshot.OrganizationId] = snapshot;
                 savedStructures = null;
+                savedVersions = null;
             }
         }
+
+        internal bool StructureReadyFor(string id) => structures.ContainsKey(id)
+            || map.GetComponent<MapComponent_TacticalMapAnalysis>()?.Completed != null;
 
         public RaidStructureSnapshot GetStructure(CombatOrganization organization)
         {
@@ -1303,7 +1326,8 @@ namespace Helodrace
             MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
             if (analysis == null) return null;
             analysis.RequestAnalysis();
-            snapshot = new RaidStructureSnapshot(map, analysis, organization.id);
+            if (analysis.Completed == null) return null;
+            snapshot = new RaidStructureSnapshot(map, analysis.Completed, organization.id);
             structures.Add(organization.id, snapshot);
             return snapshot;
         }
@@ -1321,6 +1345,9 @@ namespace Helodrace
         public RaidTacticalPlan GetPlan(CombatOrganization organization, bool force = false)
         {
             if (organization == null) return null;
+            // A cache still being collected is not a failed tactical decision.
+            // Retry as soon as it is ready rather than caching failure for 900 ticks.
+            if (!StructureReadyFor(organization.id)) return null;
             RaidTacticalPlan active = force ? null
                 : map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.ActivePlanFor(organization.id);
