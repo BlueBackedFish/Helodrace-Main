@@ -64,6 +64,16 @@ internal static class Program
                 "Effect completion still respects the coordinated entry delay");
             Check(RaidOrderPolicy.ReadyToEnter(true, false, true),
                 "A prepared squad enters after the support effect and delay");
+            Check(RaidOrderPolicy.SupportPending(false, true, false, true),
+                "A throw that outlives the support timeout still blocks entry before launch");
+            Check(RaidOrderPolicy.SupportPending(true, false, false, true),
+                "A live grenade blocks entry even after all entry timers elapsed");
+            Check(RaidOrderPolicy.SupportPending(false, false, true, true),
+                "An active explosion blocks entry after its projectile has been destroyed");
+            Check(RaidOrderPolicy.SupportPending(false, false, false, false),
+                "The squad waits through the effect settling interval");
+            Check(!RaidOrderPolicy.SupportPending(false, false, false, true),
+                "The squad is released once the throw, grenade and explosion have finished");
             Check(!RaidOrderPolicy.AutoAttack(true, true, false),
                 "A deferred movement cannot be starved by repeatedly starting another automatic burst");
             Check(RaidOrderPolicy.AutoAttack(true, true, true),

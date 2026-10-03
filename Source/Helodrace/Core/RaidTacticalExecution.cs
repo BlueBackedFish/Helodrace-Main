@@ -98,6 +98,8 @@ namespace Helodrace
             public bool SupportIssued;
             public bool SupportLaunched;
             public Projectile SupportProjectile;
+            public ThingDef SupportProjectileDef;
+            public int SupportEffectsClearedTick = -1;
             public string SupportStatus = "Not requested";
             public bool FlankIssued;
             public bool AssaultIssued;
@@ -146,6 +148,8 @@ namespace Helodrace
                 Scribe_Values.Look(ref SupportIssued, "supportIssued");
                 Scribe_Values.Look(ref SupportLaunched, "supportLaunched");
                 Scribe_References.Look(ref SupportProjectile, "supportProjectile");
+                Scribe_Defs.Look(ref SupportProjectileDef, "supportProjectileDef");
+                Scribe_Values.Look(ref SupportEffectsClearedTick, "supportEffectsClearedTick", -1);
                 Scribe_Values.Look(ref SupportStatus, "supportStatus", "Not requested");
                 Scribe_Values.Look(ref FlankIssued, "flankIssued");
                 Scribe_Values.Look(ref AssaultIssued, "assaultIssued");
@@ -230,11 +234,41 @@ namespace Helodrace
         {
             string id = OrganizationAPI.GetOrganization(pawn)?.id;
             if (id == null || !states.TryGetValue(id, out ExecutionState state)
-                || state.Phase != RaidExecutionPhase.Support || state.Thrower != pawn) return;
+                || (state.Phase != RaidExecutionPhase.Support
+                    && state.Phase != RaidExecutionPhase.EntryWait)
+                || state.Thrower != pawn) return;
             state.SupportLaunched = true;
             state.SupportProjectile = projectile;
+            state.SupportProjectileDef = projectile.def;
+            state.SupportEffectsClearedTick = -1;
             state.SupportStatus = "Projectile launched; waiting for effect";
             MapComponent_RaidTacticalTrace.Record(pawn, state.SupportStatus);
+        }
+
+        private bool SupportEffectsPending(ExecutionState state, int tick)
+        {
+            bool preparing = state.Thrower?.CurJobDef?.defName == "HD_ThrowInventoryGrenadeClose"
+                || state.Thrower?.CurJobDef?.defName == "HD_ThrowInventoryGrenadeNormal";
+            bool live = state.SupportProjectile?.Spawned == true;
+            // Projectile_Explosive destroys the projectile before starting an
+            // Explosion. Its damage reaches cells on later ticks, so despawn
+            // alone cannot release the squad.
+            bool exploding = state.SupportLaunched && !live && !preparing
+                && map.listerThings.ThingsOfDef(ThingDefOf.Explosion)
+                .OfType<Explosion>().Any(explosion => explosion.Spawned
+                    && explosion.instigator == state.Thrower
+                    && explosion.projectile == state.SupportProjectileDef);
+            if (live || preparing || exploding) state.SupportEffectsClearedTick = -1;
+            else if (state.SupportLaunched && state.SupportEffectsClearedTick < 0)
+                state.SupportEffectsClearedTick = tick;
+            bool settled = !state.SupportLaunched
+                || state.SupportEffectsClearedTick >= 0 && tick - state.SupportEffectsClearedTick >= 30;
+            bool pending = RaidOrderPolicy.SupportPending(live, preparing, exploding, settled);
+            if (pending) state.SupportStatus = preparing ? "Throw preparation; entry blocked"
+                : live ? "Waiting for grenade detonation"
+                : exploding ? "Waiting for explosion damage to finish" : "Effect settling";
+            else if (state.SupportLaunched) state.SupportStatus = "Support effect complete";
+            return pending;
         }
 
         internal static bool SafeSupportThrow(Pawn pawn, Thing grenade, IntVec3 target, bool close)
@@ -765,7 +799,7 @@ namespace Helodrace
                     MaintainStack(members, plan);
                     if (!UsingZaper(members)
                         && RaidOrderPolicy.ReadyToEnter(!plan.BreachCell.IsValid || AllReady(members, plan),
-                            state.SupportProjectile?.Spawned == true,
+                            SupportEffectsPending(state, tick),
                             tick - state.PhaseStarted >= plan.EntryDelayTicks))
                         Advance(state, plan.BreachCell.IsValid
                             ? RaidExecutionPhase.CrossBreach
@@ -2036,6 +2070,8 @@ namespace Helodrace
             state.SupportIssued = false;
             state.SupportLaunched = false;
             state.SupportProjectile = null;
+            state.SupportProjectileDef = null;
+            state.SupportEffectsClearedTick = -1;
             state.SupportStatus = "Not requested";
             state.FlankIssued = false;
             state.AssaultIssued = false;

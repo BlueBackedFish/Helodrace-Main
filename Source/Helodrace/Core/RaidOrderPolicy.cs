@@ -12,6 +12,10 @@ namespace Helodrace
         public static bool ReadyToEnter(bool ready, bool projectilePending, bool delayElapsed) =>
             ready && !projectilePending && delayElapsed;
 
+        public static bool SupportPending(bool projectileLive, bool throwPreparing,
+            bool explosionActive, bool effectsSettled) =>
+            projectileLive || throwPreparing || explosionActive || !effectsSettled;
+
         public static bool AutoAttack(bool controlled, bool pending, bool hold) =>
             !controlled || !pending || hold;
     }
