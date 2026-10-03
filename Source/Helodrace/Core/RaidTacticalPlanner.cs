@@ -343,7 +343,7 @@ namespace Helodrace
                 && entrySupport == RaidEntrySupportKind.Smoke;
             if (plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry)
                 plan.EntrySupport = entrySmoke ? "Observe opening, then smoke beyond it into outdoor space"
-                    : entrySupport == RaidEntrySupportKind.None ? "Observe opening; save grenade in room of at most 16 cells"
+                    : entrySupport == RaidEntrySupportKind.None ? "Observe opening; save grenade in small room unless an enemy is spotted"
                     : "Observe opening; grenade at observed enemy, otherwise a blind sector";
             plan.EntryMethod = plan.PlannedBreach != null
                 ? "Planned " + (plan.PlannedBreach is Building_Door ? "door" : "wall") + " breach"

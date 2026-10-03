@@ -157,8 +157,8 @@ namespace Helodrace
             if (observation != null)
                 report.AppendLine($"Opening observer={observation.Observer?.LabelShort ?? "none"} at {observation.Position} "
                     + $"peek={observation.ObservedTicks}/90 ticks complete={observation.Complete} "
-                    + $"unavailable={observation.Unavailable} visible cells={observation.VisibleCells.Count} "
-                    + $"enemy positions={observation.EnemyCells.Count}");
+                    + $"returned={observation.ReturnComplete} unavailable={observation.Unavailable} visible cells={observation.VisibleCells.Count} "
+                    + $"enemy contact={observation.EnemyCell}");
             report.AppendLine($"Entry method: {plan.EntryMethod}");
             report.AppendLine($"Wait before group entry: {plan.EntryDelayTicks} ticks; "
                 + $"coordination allowance: {plan.CoordinationDelayTicks} ticks");

@@ -1021,6 +1021,7 @@ namespace Helodrace
                             RaidStructureSnapshot supportStructure = StructureFor(map, plan);
                             int supportRoom = supportStructure?.RoomAt(plan.BreachCell.IsValid ? plan.BreachInside : plan.Objective) ?? 0;
                             state.SupportStatus = state.Maneuver == RaidTacticalManeuver.CoordinatedEntry
+                                && state.Observation?.HasEnemyContact != true
                                 && supportRoom > 0 && supportStructure.RoomArea(supportRoom) <= RaidEntryObservationPolicy.SmallRoomCells
                                 ? "Skipped: target room has at most 16 floor cells; save grenade"
                                 : "Skipped: no safe observed enemy/blind-sector throw or usable equipment";
@@ -2015,7 +2016,7 @@ namespace Helodrace
             RaidStructureSnapshot structure = StructureFor(currentMap, plan);
             int objectiveRoom = structure?.RoomAt(plan.BreachCell.IsValid ? plan.BreachInside : plan.Objective) ?? 0;
             RaidEntrySupportKind entrySupport = RaidEntryObservationPolicy.Support(objectiveRoom == 0,
-                structure?.RoomArea(objectiveRoom) ?? 0);
+                structure?.RoomArea(objectiveRoom) ?? 0, observation?.HasEnemyContact == true);
             if (entry && entrySupport == RaidEntrySupportKind.None) return null;
             bool entrySmoke = entry && entrySupport == RaidEntrySupportKind.Smoke;
             bool smoke = maneuver == RaidTacticalManeuver.SmokeAdvance || entrySmoke;
@@ -2027,7 +2028,8 @@ namespace Helodrace
                         ? PastBreach(pawn, plan)
                         : objectiveRoom > 0
                             && structure.RoomAt(pawn.Position) == objectiveRoom))) return null;
-            IEnumerable<IntVec3> targets = entrySmoke ? EntrySmokeTargets(currentMap, plan, structure) : smoke
+            IEnumerable<IntVec3> targets = entry && observation?.HasEnemyContact == true
+                ? new[] { observation.EnemyCell } : entrySmoke ? EntrySmokeTargets(currentMap, plan, structure) : smoke
                 ? (IEnumerable<IntVec3>)new[] { plan.Frontline }
                 : fieldGrenade
                     ? (IEnumerable<IntVec3>)currentMap.mapPawns.AllPawnsSpawned

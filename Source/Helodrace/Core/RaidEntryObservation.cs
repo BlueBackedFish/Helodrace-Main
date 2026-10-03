@@ -18,9 +18,11 @@ namespace Helodrace
         public IntVec3 Source = IntVec3.Invalid;
         public int ObservedTicks;
         public bool Complete;
+        public bool ReturnComplete;
         public bool Unavailable;
         public List<IntVec3> VisibleCells = new List<IntVec3>();
-        public List<IntVec3> EnemyCells = new List<IntVec3>();
+        public IntVec3 EnemyCell = IntVec3.Invalid;
+        public bool HasEnemyContact => EnemyCell.IsValid;
 
         public void ExposeData()
         {
@@ -29,14 +31,23 @@ namespace Helodrace
             Scribe_Values.Look(ref Source, "source", IntVec3.Invalid);
             Scribe_Values.Look(ref ObservedTicks, "observedTicks");
             Scribe_Values.Look(ref Complete, "complete");
+            Scribe_Values.Look(ref ReturnComplete, "returnComplete");
             Scribe_Values.Look(ref Unavailable, "unavailable");
             Scribe_Collections.Look(ref VisibleCells, "visibleCells", LookMode.Value);
-            Scribe_Collections.Look(ref EnemyCells, "enemyCells", LookMode.Value);
+            Scribe_Values.Look(ref EnemyCell, "enemyCell", IntVec3.Invalid);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (VisibleCells == null) VisibleCells = new List<IntVec3>();
-                if (EnemyCells == null) EnemyCells = new List<IntVec3>();
             }
+        }
+
+        internal bool RecordEnemy(IntVec3 position)
+        {
+            if (!position.IsValid || HasEnemyContact) return false;
+            EnemyCell = position;
+            VisibleCells.Clear();
+            Complete = true;
+            return true;
         }
 
         internal static JobDriver_RaidObserveOpening Active(Pawn pawn) => pawn?.CurJobDef?.defName == JobDefName
@@ -54,14 +65,16 @@ namespace Helodrace
             IEnumerable<IntVec3> candidates, Func<IntVec3, bool> valid)
         {
             var seen = new HashSet<IntVec3>(observation?.VisibleCells ?? new List<IntVec3>());
-            return (observation?.EnemyCells ?? new List<IntVec3>()).Where(valid)
-                .Concat(candidates.Where(cell => valid(cell) && !seen.Contains(cell))).Distinct();
+            if (observation?.HasEnemyContact == true)
+                return valid(observation.EnemyCell) ? new[] { observation.EnemyCell } : Enumerable.Empty<IntVec3>();
+            return candidates.Where(cell => valid(cell) && !seen.Contains(cell)).Distinct();
         }
     }
 
     public sealed class JobDriver_RaidObserveOpening : JobDriver
     {
         private string organizationId;
+        private IntVec3 returnPosition = IntVec3.Invalid;
         public bool Peeking;
         public IntVec3 LeanSource => job.targetC.Cell;
         public override bool TryMakePreToilReservations(bool errorOnFailed) =>
@@ -72,6 +85,7 @@ namespace Helodrace
             base.ExposeData();
             Scribe_Values.Look(ref organizationId, "organizationId");
             Scribe_Values.Look(ref Peeking, "peeking");
+            Scribe_Values.Look(ref returnPosition, "returnPosition", IntVec3.Invalid);
         }
 
         private MapComponent_RaidTacticalExecution.ExecutionState Owner => organizationId == null ? null
@@ -88,6 +102,8 @@ namespace Helodrace
             this.FailOn(() => !job.targetA.Cell.InBounds(pawn.Map) || !job.targetA.Cell.Standable(pawn.Map));
             yield return new Toil { initAction = () => {
                 organizationId = OrganizationAPI.GetOrganization(pawn)?.id;
+                returnPosition = Owner?.ActivePlan?.Assignments.FirstOrDefault(assignment => assignment.Pawn == pawn)
+                    ?.Position ?? pawn.Position;
                 TacticalAimUtility.Cancel(pawn);
                 foreach (Verb verb in pawn.equipment?.AllEquipmentVerbs ?? new List<Verb>()) verb.Reset();
                 pawn.stances.CancelBusyStanceHard();
@@ -110,10 +126,9 @@ namespace Helodrace
                     && GenSight.LineOfSight(LeanSource, job.targetB.Cell, pawn.Map, true);
                 if (!Peeking) return;
                 RaidEntryObservation observation = state.Observation;
-                if (observation.ObservedTicks % 30 == 0)
-                    pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>().ObserveInterior(pawn, state);
+                pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>().ObserveInterior(pawn, state);
                 observation.ObservedTicks++;
-                if (observation.ObservedTicks >= RaidEntryObservationPolicy.ObservationTicks)
+                if (observation.Complete || observation.ObservedTicks >= RaidEntryObservationPolicy.ObservationTicks)
                 {
                     observation.Complete = true;
                     Peeking = false;
@@ -121,6 +136,16 @@ namespace Helodrace
                 }
             };
             yield return observe;
+            yield return new Toil { initAction = () => {
+                Peeking = false;
+                job.SetTarget(TargetIndex.A, returnPosition);
+                job.locomotionUrgency = LocomotionUrgency.Sprint;
+                MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Move, returnPosition, sprint: true);
+            }, defaultCompleteMode = ToilCompleteMode.Instant };
+            yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+            yield return new Toil { initAction = () => {
+                if (Owner?.Observation != null) Owner.Observation.ReturnComplete = true;
+            }, defaultCompleteMode = ToilCompleteMode.Instant };
         }
     }
 
@@ -171,8 +196,9 @@ namespace Helodrace
                     state.Observation.Position = position;
                     state.Observation.Source = source;
                     state.Observation.ObservedTicks = 0;
+                    state.Observation.ReturnComplete = false;
                     state.Observation.VisibleCells.Clear();
-                    state.Observation.EnemyCells.Clear();
+                    state.Observation.EnemyCell = IntVec3.Invalid;
                     Job job = JobMaker.MakeJob(definition, position, plan.BreachInside, source);
                     job.count = plan.PlannedTick;
                     job.canUseRangedWeapon = false;
@@ -199,13 +225,24 @@ namespace Helodrace
                 return;
             }
             EnsureOpeningObserver(members, plan, state, tick);
-            MaintainStack(members, plan);
-            if (state.Observation?.Complete == true || state.Observation?.Unavailable == true
+            MaintainStack(members, plan, state.Observation?.Complete == true && !state.Observation.ReturnComplete
+                ? state.Observation.Observer : null);
+            if (state.Observation?.Complete == true && !state.Observation.ReturnComplete
+                && RaidEntryObservation.Active(state.Observation.Observer) == null)
+            {
+                Pawn observer = state.Observation.Observer;
+                RaidTacticalAssignment slot = plan.Assignments.FirstOrDefault(value => value.Pawn == observer);
+                if (!members.Contains(observer) || slot == null || observer.Position == slot.Position)
+                    state.Observation.ReturnComplete = true;
+                else TryGoto(observer, slot.Position, sprint: true);
+            }
+            if (state.Observation?.Complete == true && state.Observation.ReturnComplete || state.Observation?.Unavailable == true
                 || tick - state.PhaseStarted >= 300)
             {
                 CancelOpeningObservation(state);
                 state.SupportStatus = state.Observation?.Complete == true
-                    ? $"Opening observed: {state.Observation.EnemyCells.Count} enemy positions"
+                    ? state.Observation.HasEnemyContact ? $"Enemy spotted at {state.Observation.EnemyCell}; withdraw and throw at contact"
+                        : "Opening observed: no enemy contact"
                     : "Observation unavailable/interrupted; retain unknown interior sectors";
                 Advance(state, RaidExecutionPhase.Support, tick);
             }
@@ -222,21 +259,26 @@ namespace Helodrace
         {
             RaidTacticalPlan plan = state.ActivePlan;
             RaidStructureSnapshot structure = StructureFor(map, plan);
-            if (structure == null || state.Observation == null) return;
+            if (structure == null || state.Observation == null || state.Observation.HasEnemyContact) return;
             int room = structure.RoomAt(plan.BreachInside);
             IntVec3 source = state.Observation.Source, inward = plan.BreachInside - plan.BreachCell;
             bool InTarget(IntVec3 cell) => cell.InBounds(map) && structure.RoomAt(cell) == room
                 && (cell.x - plan.BreachCell.x) * inward.x + (cell.z - plan.BreachCell.z) * inward.z > 0
                 && source.DistanceToSquared(cell) <= 196;
+            // Stop at the first real sighting before collecting any more room information.
+            foreach (Pawn enemy in map.mapPawns.AllPawnsSpawned)
+                if (!enemy.Dead && !enemy.Downed && enemy.HostileTo(observer) && InTarget(enemy.Position)
+                    && GenSight.LineOfSight(source, enemy.Position, map, true))
+                {
+                    state.Observation.RecordEnemy(enemy.Position);
+                    MapComponent_RaidTacticalTrace.Record(observer, $"Opening contact at {enemy.Position}; end peek and withdraw immediately");
+                    return;
+                }
+            if (state.Observation.ObservedTicks % 30 != 0) return;
             var visible = new HashSet<IntVec3>();
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(source, 14f, true))
                 if (InTarget(cell) && GenSight.LineOfSight(source, cell, map, true)) visible.Add(cell);
             state.Observation.VisibleCells = visible.ToList();
-            foreach (Pawn enemy in map.mapPawns.AllPawnsSpawned)
-                if (!enemy.Dead && !enemy.Downed && enemy.HostileTo(observer) && InTarget(enemy.Position)
-                    && GenSight.LineOfSight(source, enemy.Position, map, true)
-                    && !state.Observation.EnemyCells.Contains(enemy.Position))
-                    state.Observation.EnemyCells.Add(enemy.Position);
         }
     }
 }

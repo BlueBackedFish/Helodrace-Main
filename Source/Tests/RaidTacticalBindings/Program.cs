@@ -118,19 +118,29 @@ internal static class Program
         var enemy = new IntVec3(11, 0, 11);
         var visibleEmpty = new IntVec3(12, 0, 11);
         var blind = new IntVec3(11, 0, 12);
-        var observation = new RaidEntryObservation { EnemyCells = new List<IntVec3> { enemy },
+        var observation = new RaidEntryObservation { EnemyCell = enemy,
             VisibleCells = new List<IntVec3> { enemy, visibleEmpty } };
         MethodInfo targetMethod = AccessTools.Method(typeof(RaidEntryObservation), "ThrowTargets");
         List<IntVec3> Targets(Func<IntVec3, bool> valid) => ((IEnumerable<IntVec3>)targetMethod.Invoke(null,
             new object[] { observation, new[] { visibleEmpty, blind, enemy }, valid })).ToList();
-        Check(Targets(cell => true).SequenceEqual(new[] { enemy, blind }),
-            "The observed enemy must outrank a blind sector regardless of candidate enumeration order.");
-        Check(Targets(cell => cell != enemy).SequenceEqual(new[] { blind }),
-            "An unusable observed enemy must fall back to an unseen sector, without wasting grenades in seen empty space.");
-        observation.EnemyCells.Clear();
+        Check(Targets(cell => true).SequenceEqual(new[] { enemy }),
+            "Contact observation provides only the first enemy position, with no additional blind-sector target.");
+        Check(Targets(cell => cell != enemy).Count == 0,
+            "An unsafe/unusable contact must not redirect the grenade to an unrelated blind sector.");
+        observation.EnemyCell = IntVec3.Invalid;
         Check(Targets(cell => true).SequenceEqual(new[] { blind }), "No enemy sighting selects only unseen cells.");
         observation.VisibleCells.Add(blind);
         Check(Targets(cell => true).Count == 0, "A fully observed empty room has no grenade target.");
+        MethodInfo record = AccessTools.Method(typeof(RaidEntryObservation), "RecordEnemy");
+        Check((bool)record.Invoke(observation, new object[] { enemy }), "The first actual sighting is accepted.");
+        Check(observation.Complete && observation.HasEnemyContact, "Enemy contact ends the peek immediately rather than waiting 90 ticks.");
+        Check(observation.VisibleCells.Count == 0, "An interrupted contact peek keeps no extra visible-room intelligence.");
+        Check(observation.EnemyCell == enemy, "Contact intelligence contains the first enemy's position.");
+        Check(!(bool)record.Invoke(observation, new object[] { blind }) && observation.EnemyCell == enemy,
+            "A second enemy cannot add or replace intelligence after the first-contact withdrawal.");
+        var emptyObservation = new RaidEntryObservation();
+        Check(!(bool)record.Invoke(emptyObservation, new object[] { IntVec3.Invalid }) && !emptyObservation.Complete,
+            "An invalid position cannot manufacture contact or cancel a normal peek.");
 
         var pawn = new Pawn { Position = breach - IntVec3.North + IntVec3.East };
         pawn.jobs = new Pawn_JobTracker(pawn);
@@ -151,9 +161,12 @@ internal static class Program
         driver.ended = false;
         var toils = ((IEnumerable<Toil>)AccessTools.Method(typeof(JobDriver_RaidObserveOpening), "MakeNewToils")
             .Invoke(driver, null)).ToList();
-        Check(toils.Count == 3 && toils[1].defaultCompleteMode == ToilCompleteMode.PatherArrival
+        Check(toils.Count == 6 && toils[1].defaultCompleteMode == ToilCompleteMode.PatherArrival
             && toils[2].defaultCompleteMode == ToilCompleteMode.Never,
             "Observation first reaches its side position and then counts actual peeking time, not walking time.");
+        Check(toils[3].defaultCompleteMode == ToilCompleteMode.Instant
+            && toils[4].defaultCompleteMode == ToilCompleteMode.PatherArrival,
+            "Peek completion hands directly to a return-to-stack movement stage, without an extra fixed wait.");
         var weapon = new ThingWithComps();
         var owner = new CompEquippable { parent = weapon };
         var verb = new Verb_Shoot { caster = pawn, verbTracker = new VerbTracker(owner),
@@ -194,6 +207,8 @@ internal static class Program
             Check(OwnerValid(), "An assigned observer can wait beside an active engineer.");
             state.Phase = RaidExecutionPhase.ObserveOpening;
             Check(OwnerValid(), "The same observer remains assigned when demolition hands over to observation.");
+            toils[5].initAction();
+            Check(state.Observation.ReturnComplete, "Only the post-arrival return completion action unlocks the support handoff.");
             state.Phase = RaidExecutionPhase.WithdrawFromCharge;
             Check(!OwnerValid(), "C4 withdrawal must cancel the observer instead of leaving them beside the charge.");
             state.Phase = RaidExecutionPhase.ObserveOpening;

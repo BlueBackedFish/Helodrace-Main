@@ -36,6 +36,12 @@ internal static class Program
                 "Unknown indoor area must not be guessed large enough for grenade use");
             Check(RaidEntryObservationPolicy.Support(true, 16) == RaidEntrySupportKind.Smoke,
                 "The small-room threshold must not suppress an outdoor smoke screen");
+            Check(RaidEntryObservationPolicy.Support(false, 16, true) == RaidEntrySupportKind.Grenade,
+                "An actual enemy sighting overrides the 16-cell grenade conservation threshold");
+            Check(RaidEntryObservationPolicy.Support(false, 1, true) == RaidEntrySupportKind.Grenade,
+                "Even a one-cell room permits a safe throw at an observed enemy");
+            Check(RaidEntryObservationPolicy.Support(true, 0, true) == RaidEntrySupportKind.Smoke,
+                "Outdoor contact still uses the established safe smoke type at the observed position");
             Check(RaidEntryObservationPolicy.ObservationTicks >= 60 && RaidEntryObservationPolicy.ObservationTicks <= 120,
                 "Observation itself lasts between one and two seconds");
             Check(RaidSmokePolicy.NeedsScreen(true, 50, 40, false),
