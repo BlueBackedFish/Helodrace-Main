@@ -220,6 +220,9 @@ namespace Helodrace
         internal string SupportStatusFor(string id) => states.TryGetValue(id, out ExecutionState state)
             ? state.SupportStatus : "Inactive";
 
+        internal ExecutionState StateFor(string id) => id != null && states.TryGetValue(id,
+            out ExecutionState state) ? state : null;
+
         internal void NotifySupportLaunched(Pawn pawn, Projectile projectile)
         {
             string id = OrganizationAPI.GetOrganization(pawn)?.id;
@@ -1068,10 +1071,7 @@ namespace Helodrace
                     : pawn.Position.DistanceTo(assignment.Position);
                 remaining += distance;
                 if (distance <= 9f || IsTaserOperation(pawn)) continue;
-                IntVec3 target = plan.BreachCell.IsValid
-                    ? assignment.Position
-                    : CorridorReturn(pawn, plan.ApproachPath, assignment.Position);
-                TryGoto(pawn, target);
+                TryGoto(pawn, assignment.Position);
             }
             if (remaining + 1f < state.ApproachBestRemaining)
             {
@@ -1087,31 +1087,6 @@ namespace Helodrace
                 return true;
             }
             return false;
-        }
-
-        private static IntVec3 CorridorReturn(Pawn pawn, List<IntVec3> path,
-            IntVec3 destination)
-        {
-            if (path == null || path.Count == 0) return destination;
-            int nearest = 0;
-            float deviation = float.MaxValue;
-            for (int i = 0; i < path.Count; i++)
-            {
-                float distance = pawn.Position.DistanceToSquared(path[i]);
-                if (distance >= deviation) continue;
-                nearest = i;
-                deviation = distance;
-            }
-            // The route is a broad corridor, not a sequence of mandatory cells.
-            // Only a substantial detour calls for a return toward its forward edge.
-            if (deviation <= 64f) return destination;
-            IntVec3 returnCell = path[Math.Min(nearest + 6, path.Count - 1)];
-            return returnCell.DistanceTo(destination) > 9f
-                && returnCell.DistanceTo(destination)
-                    < pawn.Position.DistanceTo(destination)
-                && GenSight.LineOfSight(pawn.Position, returnCell, pawn.Map, true)
-                && pawn.CanReach(returnCell, PathEndMode.OnCell, Danger.Deadly)
-                ? returnCell : destination;
         }
 
         private void IssueFlank(List<Pawn> members, RaidTacticalPlan plan)

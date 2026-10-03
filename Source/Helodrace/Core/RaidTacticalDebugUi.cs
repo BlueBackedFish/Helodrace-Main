@@ -116,6 +116,9 @@ namespace Helodrace
             report.AppendLine($"Planning={plan.PlanningMilliseconds} ms  "
                 + $"breach candidates={plan.BreachCandidates}  "
                 + $"detailed checks={plan.DetailedBreachChecks}");
+            var movement = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidMovementAreas>();
+            report.AppendLine($"Movement area requests={movement.Requests} "
+                + $"grids={movement.CachedGrids} build={movement.BuildMilliseconds} ms");
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"
@@ -144,9 +147,16 @@ namespace Helodrace
             report.AppendLine("Staging and security assignments:");
             foreach (RaidTacticalAssignment assignment in plan.Assignments
                 .OrderBy(value => value.Task).ThenBy(value => value.EntryOrder))
+            {
                 report.AppendLine($"  {assignment.Pawn.LabelShort}: {assignment.Task} "
                     + (assignment.EntryOrder > 0 ? $"#{assignment.EntryOrder} " : "")
                     + $"at {assignment.Position}");
+                RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(assignment.Pawn);
+                if (order != null)
+                    report.AppendLine($"    directive={order.Kind} destination={order.Destination} "
+                        + $"room={order.Room} retryAfter={order.RetryAfter} "
+                        + $"job={MapComponent_RaidTacticalTrace.Describe(assignment.Pawn.CurJob)}");
+            }
             report.AppendLine();
             report.AppendLine("Recent job changes (newest first):");
             report.AppendLine(RaidTacticalDebugSession.Map

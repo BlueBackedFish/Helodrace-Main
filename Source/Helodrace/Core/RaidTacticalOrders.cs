@@ -76,10 +76,22 @@ namespace Helodrace
 
         public override void MapComponentTick()
         {
-            if (GenTicks.TicksGame % 120 != 0) return;
+            if (GenTicks.TicksGame % 30 != 0) return;
             foreach (Pawn pawn in orders.Keys.ToList())
+            {
                 if (!pawn.Spawned || pawn.Map != map || Get(pawn) == null)
+                {
                     orders.Remove(pawn);
+                    continue;
+                }
+                RaidPawnOrder order = orders[pawn];
+                if (RaidOrderPolicy.Refresh(order.RefreshPending, Owned(pawn.CurJob),
+                    Protected(pawn), pawn.stances.FullBodyBusy))
+                {
+                    order.RefreshPending = false;
+                    pawn.jobs.CheckForJobOverride();
+                }
+            }
         }
 
         public static bool Set(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
