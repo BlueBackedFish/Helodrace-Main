@@ -3,7 +3,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_Apparel_GW_Sledgehammer</defName>
     <label>sledgehammer</label>
-    <description>A heavy breaching tool secured to the infantryman's field gear. It forces open ordinary doors that belong to another faction and can batter down a wall, without replacing the primary firearm.</description>
+    <description>A heavy breaching tool secured to the infantryman's field gear. It batters down ordinary doors that belong to another faction and walls with repeated strikes, without replacing the primary firearm.</description>
     <graphicData>
       <texPath>Weapons/GreatWar/HD_Sledgehammer</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -33,9 +33,8 @@
     </recipeMaker>
     <comps>
       <li Class="Helodrace.CompProperties_SledgehammerBreach">
-        <doorWorkTicks>120</doorWorkTicks>
-        <wallHitIntervalTicks>75</wallHitIntervalTicks>
-        <wallDamage>35</wallDamage>
+        <hitIntervalTicks>75</hitIntervalTicks>
+        <hitDamage>35</hitDamage>
       </li>
     </comps>
   </ThingDef>

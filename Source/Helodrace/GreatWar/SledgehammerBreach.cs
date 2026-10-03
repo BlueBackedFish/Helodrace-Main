@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -15,9 +13,8 @@ namespace Helodrace
 
     public sealed class CompProperties_SledgehammerBreach : CompProperties
     {
-        public int doorWorkTicks = 120;
-        public int wallHitIntervalTicks = 75;
-        public float wallDamage = 35f;
+        public int hitIntervalTicks = 75;
+        public float hitDamage = 35f;
         public string gizmoIconPath = "Skill/HD_BreachSledgeHammer";
 
         public CompProperties_SledgehammerBreach()
@@ -29,8 +26,6 @@ namespace Helodrace
     public sealed class CompSledgehammerBreach : ThingComp
     {
         public const string JobDefName = "HD_SledgehammerBreach";
-        private static readonly MethodInfo OpenDoor = AccessTools.Method(
-            typeof(Building_Door), "DoorOpen", new[] { typeof(int) });
 
         public CompProperties_SledgehammerBreach Props =>
             (CompProperties_SledgehammerBreach)props;
@@ -112,13 +107,6 @@ namespace Helodrace
             return false;
         }
 
-        public static bool TryForceOpen(Building_Door door)
-        {
-            if (door == null || !door.Spawned || OpenDoor == null) return false;
-            OpenDoor.Invoke(door, new object[] { 600 });
-            return door.Open;
-        }
-
         private void BeginTargeting()
         {
             Pawn wearer = Wearer;
@@ -183,41 +171,20 @@ namespace Helodrace
                 || !WorkCell.Standable(pawn.Map));
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
 
-            if (Target is Building_Door)
-            {
-                Toil open = Toils_General.Wait(
-                    Mathf.Max(30, Tool?.Props.doorWorkTicks ?? 120), TargetIndex.A);
-                open.handlingFacing = true;
-                open.WithProgressBarToilDelay(TargetIndex.A);
-                open.FailOn(() => pawn.Position != WorkCell);
-                yield return open;
-                yield return Toils_General.Do(() =>
-                {
-                    if (Target is Building_Door door
-                        && CompSledgehammerBreach.IsValidTarget(pawn, door))
-                    {
-                        SoundDefOf.Pawn_Melee_Punch_HitBuilding_Generic.PlayOneShot(
-                            new TargetInfo(door.Position, pawn.Map));
-                        CompSledgehammerBreach.TryForceOpen(door);
-                    }
-                });
-                yield break;
-            }
-
             Toil strike = new Toil { defaultCompleteMode = ToilCompleteMode.Never };
             strike.handlingFacing = true;
             strike.tickAction = () =>
             {
-                Building wall = Target;
-                if (wall == null || pawn.Position != WorkCell) return;
-                pawn.rotationTracker.FaceTarget(wall);
-                int interval = Mathf.Max(1, Tool?.Props.wallHitIntervalTicks ?? 75);
+                Building barrier = Target;
+                if (barrier == null || pawn.Position != WorkCell) return;
+                pawn.rotationTracker.FaceTarget(barrier);
+                int interval = Mathf.Max(1, Tool?.Props.hitIntervalTicks ?? 75);
                 if (Find.TickManager.TicksGame % interval != 0) return;
                 SoundDefOf.Pawn_Melee_Punch_HitBuilding_Generic.PlayOneShot(
-                    new TargetInfo(wall.Position, pawn.Map));
-                wall.TakeDamage(new DamageInfo(DamageDefOf.Blunt,
-                    Mathf.Max(1f, Tool?.Props.wallDamage ?? 35f), 0f, -1f, pawn));
-                if (wall.Destroyed || !wall.Spawned)
+                    new TargetInfo(barrier.Position, pawn.Map));
+                barrier.TakeDamage(new DamageInfo(DamageDefOf.Blunt,
+                    Mathf.Max(1f, Tool?.Props.hitDamage ?? 35f), 0f, -1f, pawn));
+                if (barrier.Destroyed || !barrier.Spawned)
                     EndJobWith(JobCondition.Succeeded);
             };
             strike.FailOn(() => pawn.Position != WorkCell);
