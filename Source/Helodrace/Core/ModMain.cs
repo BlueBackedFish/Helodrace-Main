@@ -14,6 +14,7 @@ namespace Helodrace
         {
             var harmony = new Harmony("YourName.Helodrace");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+            DoorBreachFaultUtility.InitializeDoorDefs();
             HelodRace.Initialize();
             CigaretteSmokingUtility.LogPatchStatus();
             

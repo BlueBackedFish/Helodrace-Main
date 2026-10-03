@@ -13,6 +13,7 @@ namespace Helodrace
 
     public sealed class CompProperties_SledgehammerBreach : CompProperties
     {
+        public int doorWorkTicks = 120;
         public int hitIntervalTicks = 75;
         public float hitDamage = 35f;
         public string gizmoIconPath = "Skill/HD_BreachSledgeHammer";
@@ -170,6 +171,27 @@ namespace Helodrace
             this.FailOn(() => !WorkCell.IsValid || !WorkCell.InBounds(pawn.Map)
                 || !WorkCell.Standable(pawn.Map));
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
+
+            if (Target is Building_Door)
+            {
+                Toil breach = Toils_General.Wait(
+                    Mathf.Max(30, Tool?.Props.doorWorkTicks ?? 120), TargetIndex.A);
+                breach.handlingFacing = true;
+                breach.WithProgressBarToilDelay(TargetIndex.A);
+                breach.FailOn(() => pawn.Position != WorkCell);
+                yield return breach;
+                yield return Toils_General.Do(() =>
+                {
+                    if (!(Target is Building_Door door)
+                        || !CompSledgehammerBreach.IsValidTarget(pawn, door)) return;
+                    SoundDefOf.Pawn_Melee_Punch_HitBuilding_Generic.PlayOneShot(
+                        new TargetInfo(door.Position, pawn.Map));
+                    if (door.GetComp<CompDoorBreachFault>()?.Jam(pawn,
+                        Mathf.RoundToInt(Tool?.Props.hitDamage ?? 35f)) != true)
+                        EndJobWith(JobCondition.Incompletable);
+                });
+                yield break;
+            }
 
             Toil strike = new Toil { defaultCompleteMode = ToilCompleteMode.Never };
             strike.handlingFacing = true;

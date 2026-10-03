@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_Sledgehammer_Breach_Label>돌파</HD_Sledgehammer_Breach_Label>
-  <HD_Sledgehammer_Breach_Desc>다른 세력의 일반 문이나 벽을 반복 타격해 파괴합니다. 보안문, 금고문, 방폭문과 강화문은 이 공구로 돌파할 수 없습니다.</HD_Sledgehammer_Breach_Desc>
+  <HD_Sledgehammer_Breach_Desc>다른 세력의 일반 문을 고장 내어 수리될 때까지 열린 상태로 고정하거나 벽을 반복 타격해 파괴합니다. 보안문, 금고문, 방폭문과 강화문은 이 공구로 돌파할 수 없습니다.</HD_Sledgehammer_Breach_Desc>
   <HD_Sledgehammer_Breach_Unavailable>지금은 슬래지해머를 사용할 수 없습니다.</HD_Sledgehammer_Breach_Unavailable>
   <HD_Sledgehammer_Breach_InvalidTarget>열 수 없는 다른 세력의 일반 문이나 벽을 선택해야 합니다.</HD_Sledgehammer_Breach_InvalidTarget>
   <HD_Sledgehammer_Breach_CannotReach>선택한 건축물에 도달할 수 없습니다.</HD_Sledgehammer_Breach_CannotReach>

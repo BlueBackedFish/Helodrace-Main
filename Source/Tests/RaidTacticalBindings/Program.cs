@@ -4,6 +4,9 @@ using System.Reflection;
 using System.Linq;
 using HarmonyLib;
 using Helodrace;
+using RimWorld;
+using Verse;
+using System.Collections.Generic;
 
 internal static class Program
 {
@@ -23,7 +26,10 @@ internal static class Program
             typeof(Patch_RaidTacticalContinuation), typeof(Patch_RaidTacticalHoldFacing),
             typeof(Patch_RaidTacticalPendingAttack),
             typeof(Patch_RaidTacticalSupportFlee),
-            typeof(Patch_RaidMovementArea_Request), typeof(Patch_RaidMovementArea_Dispose)
+            typeof(Patch_RaidMovementArea_Request), typeof(Patch_RaidMovementArea_Dispose),
+            typeof(Patch_BreachedDoor_NoRandomBreakdown), typeof(Patch_BreachedDoor_AlwaysOpen),
+            typeof(Patch_BreachedDoor_FreePassage), typeof(Patch_BreachedDoor_BreakdownRepaired),
+            typeof(Patch_BreachedDoor_OrdinaryRepair)
         };
         try
         {
@@ -49,8 +55,41 @@ internal static class Program
                     }
                 Console.WriteLine("PASS: " + patch.Name);
             }
+            CheckDoorFaultHooks();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+    }
+
+    private static void CheckDoorFaultHooks()
+    {
+        var door = new Building_Door();
+        var fault = new CompDoorBreachFault { parent = door };
+        var breakdown = new CompBreachableDoorBreakdown { parent = door };
+        AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(door,
+            new List<ThingComp> { breakdown, fault });
+        bool alwaysOpen = false;
+        Patch_BreachedDoor_AlwaysOpen.Postfix(door, ref alwaysOpen);
+        if (alwaysOpen) throw new Exception("An intact door must keep its normal closing behavior.");
+        AccessTools.Field(typeof(CompDoorBreachFault), "jammed").SetValue(fault, true);
+        Patch_BreachedDoor_AlwaysOpen.Postfix(door, ref alwaysOpen);
+        if (!alwaysOpen) throw new Exception("A breached door must stay open.");
+        bool closesSoon = true;
+        Patch_BreachedDoor_FreePassage.Postfix(door, ref closesSoon);
+        if (closesSoon) throw new Exception("Pathfinding must see a breached door as freely passable.");
+        if (Patch_BreachedDoor_NoRandomBreakdown.Prefix(breakdown)
+            || !Patch_BreachedDoor_NoRandomBreakdown.Prefix(new CompBreakdownable()))
+            throw new Exception("Added door breakdowns must be deliberate while normal machinery still breaks down.");
+        Patch_BreachedDoor_BreakdownRepaired.Postfix(breakdown);
+        alwaysOpen = false;
+        closesSoon = true;
+        Patch_BreachedDoor_AlwaysOpen.Postfix(door, ref alwaysOpen);
+        Patch_BreachedDoor_FreePassage.Postfix(door, ref closesSoon);
+        if (fault.Jammed || alwaysOpen || !closesSoon)
+            throw new Exception("Vanilla breakdown repair must restore normal closing and passage checks.");
+        alwaysOpen = true;
+        Patch_BreachedDoor_AlwaysOpen.Postfix(door, ref alwaysOpen);
+        if (!alwaysOpen) throw new Exception("A naturally always-open door must retain its original behavior.");
+        Console.WriteLine("PASS: 6 door-fault lifecycle hook checks (unspawned real game objects)");
     }
 }
