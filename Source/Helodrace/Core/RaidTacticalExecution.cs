@@ -123,7 +123,9 @@ namespace Helodrace
             public int ExternalSupportClearedTick;
             public string DoorStateSignature;
             public int LastRoomSecurityTick;
-            public int LastRoomPlanTick = -600;
+            public int LastRoomPlanTick = -30;
+            internal RaidCqbLocalMap LocalCqb;
+            internal int LastLocalReplanTick = -60;
             public int LastDoorResponseTick;
             public IntVec3 CrossingBreach = IntVec3.Invalid;
             public List<BreachCrossing> Crossings = new List<BreachCrossing>();
@@ -192,7 +194,7 @@ namespace Helodrace
                 Scribe_Values.Look(ref DoorStateSignature, "doorStateSignature");
                 Scribe_Values.Look(ref LastRoomSecurityTick,
                     "lastRoomSecurityTick");
-                Scribe_Values.Look(ref LastRoomPlanTick, "lastRoomPlanTick", -600);
+                Scribe_Values.Look(ref LastRoomPlanTick, "lastRoomPlanTick", -30);
                 Scribe_Values.Look(ref LastDoorResponseTick,
                     "lastDoorResponseTick");
                 Scribe_Values.Look(ref CrossingBreach, "crossingBreach", IntVec3.Invalid);
@@ -831,6 +833,20 @@ namespace Helodrace
             if (EmergencyReactions(members, plan, state, tick)) return;
             if (RespondToFire(members, plan, state, tick)) return;
             if (FieldDefense(members, plan, state, tick)) return;
+            if (RefreshLocalCqb(organization, members, plan, state, tick)) return;
+            // Completed phases may hand over immediately; movement, gathering,
+            // and live explosive waits still block on their actual conditions.
+            for (int transitions = 0; transitions < 4; transitions++)
+            {
+                RaidExecutionPhase before = state.Phase;
+                UpdateStep(organization, members, plan, state, tick);
+                if (state.Phase == before || state.ActivePlan != plan) break;
+            }
+        }
+
+        private void UpdateStep(CombatOrganization organization, List<Pawn> members,
+            RaidTacticalPlan plan, ExecutionState state, int tick)
+        {
             if (plan.Doctrine == RaidTacticalDoctrine.High
                 && (state.Phase == RaidExecutionPhase.Assemble
                     || state.Phase == RaidExecutionPhase.EntryWait
@@ -867,7 +883,7 @@ namespace Helodrace
                     break;
                 case RaidExecutionPhase.Breach:
                     MaintainStack(members, plan, state.Breacher);
-                    if (RaidBreachToolRecovery.Pending(members)
+                    if (RaidBreachToolRecovery.Pending(members) && !BreachOpened(plan)
                         && (state.Breacher == null || state.Breacher.Dead || state.Breacher.Downed))
                     {
                         state.Breacher = null;
@@ -881,18 +897,18 @@ namespace Helodrace
                     if (state.BreachKind != RaidBreachKind.C4
                         && (plan.BreachCell.IsValid || plan.PlannedBreach != null
                             || state.BreachTarget != null)
-                        && BreachOpened(plan.PlannedBreach ?? state.BreachTarget))
+                        && BreachOpened(plan))
                     {
                         FinishBreachAttempt(plan, state, tick);
                         break;
                     }
                     if (state.Breacher == null && state.BreachTarget == null)
                     {
-                        if (plan.PlannedBreach != null && BreachOpened(plan.PlannedBreach))
+                        if (plan.PlannedBreach != null && BreachOpened(plan))
                             Advance(state, RaidExecutionPhase.Support, tick);
                         else if (!TryStartBreach(members, plan, state))
                         {
-                            if (plan.PlannedBreach == null || BreachOpened(plan.PlannedBreach))
+                            if (plan.PlannedBreach == null || BreachOpened(plan))
                                 Advance(state, RaidExecutionPhase.Support, tick);
                             else if (tick - state.PhaseStarted >= BreachTimeout)
                             {
@@ -1011,7 +1027,7 @@ namespace Helodrace
                     break;
                 case RaidExecutionPhase.CrossBreach:
                     MaintainStack(members, plan, holdEntry: false);
-                    if (!BreachOpened(plan.PlannedBreach))
+                    if (!BreachOpened(plan))
                     {
                         state.Breacher = null;
                         state.BreachTarget = null;
@@ -1068,8 +1084,8 @@ namespace Helodrace
                             state.LastRoomSecurityTick = tick;
                         }
                     }
-                    if (tick - state.PhaseStarted >= 180
-                        && tick - state.LastRoomPlanTick >= 600
+                    if (tick - state.PhaseStarted >= 30
+                        && tick - state.LastRoomPlanTick >= 30
                         && RoomSecured(organization, members, plan)
                         && (state.ClearingRooms || plan.ObjectiveIsNamedBed
                             || plan.ObjectiveIsIntermediate))
@@ -1149,10 +1165,22 @@ namespace Helodrace
                 || target is Building_Door door && door.Open;
         }
 
-        private static void FinishBreachAttempt(RaidTacticalPlan plan,
+        private bool BreachOpened(RaidTacticalPlan plan)
+        {
+            if (!plan.BreachCell.IsValid) return BreachOpened(plan.PlannedBreach);
+            if (!plan.BreachCell.InBounds(map)) return false;
+            Building current = plan.BreachCell.GetEdifice(map) as Building;
+            bool canOpen = plan.ReusePassage && current is Building_Door door
+                && plan.Assignments.Any(assignment => assignment.Pawn?.Spawned == true
+                    && !assignment.Pawn.Dead && !assignment.Pawn.Downed
+                    && door.PawnCanOpen(assignment.Pawn));
+            return (BreachOpened(current) || canOpen) && plan.BreachCell.Walkable(map);
+        }
+
+        private void FinishBreachAttempt(RaidTacticalPlan plan,
             ExecutionState state, int tick)
         {
-            if (plan.PlannedBreach == null || BreachOpened(plan.PlannedBreach))
+            if (BreachOpened(plan))
             {
                 state.Breacher = null;
                 state.BreachTarget = null;
@@ -2248,11 +2276,28 @@ namespace Helodrace
             if (structure.RoomAt(current.Objective)
                 == structure.RoomAt(state.FinalObjective))
                 state.BedSecured = true;
+            HashSet<int> cleared = new HashSet<int>(state.ClearedRoomCells
+                .Where(cell => cell.InBounds(map)).Select(structure.RoomAt).Where(room => room > 0));
+            Pawn observer = members.Where(pawn => structure.RoomAt(pawn.Position) == structure.RoomAt(current.Objective))
+                .OrderBy(pawn => pawn.Position.DistanceToSquared(current.Objective)).FirstOrDefault() ?? members[0];
+            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
+            state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells);
+            foreach (IntVec3 target in state.LocalCqb.NeighborTargets(observer.Position, cleared)
+                .OrderBy(cell => structure.RoomAt(cell) == structure.RoomAt(state.FinalObjective) ? 0 : 1)
+                .ThenBy(cell => cell.DistanceToSquared(observer.Position)))
+            {
+                RaidTacticalPlan neighbor = RaidTacticalPlanner.MakePlan(map, organization, target);
+                if (neighbor?.Success != true || cleared.Contains(structure.RoomAt(neighbor.Objective))) continue;
+                neighbor.ObjectiveIsIntermediate = true;
+                ActivateNextRoomPlan(organization, members, state, neighbor, tick);
+                return true;
+            }
             if (!state.BedSecured && state.FinalObjective.IsValid)
             {
                 RaidTacticalPlan bedPlan = RaidTacticalPlanner.MakePlan(map,
                     organization, state.FinalObjective);
                 if (bedPlan?.Success == true
+                    && !cleared.Contains(structure.RoomAt(bedPlan.Objective))
                     && structure.RoomAt(bedPlan.Objective)
                         != structure.RoomAt(current.Objective))
                 {
@@ -2266,10 +2311,8 @@ namespace Helodrace
                 .Concat(map.mapPawns.AllPawnsSpawned
                     .Where(pawn => !pawn.Dead && pawn.Faction != null
                         && pawn.Faction.HostileTo(organization.faction))
-                    .Select(pawn => pawn.Position));
-            HashSet<int> cleared = new HashSet<int>(state.ClearedRoomCells
-                .Where(cell => cell.InBounds(map))
-                .Select(structure.RoomAt).Where(room => room > 0));
+                    .Select(pawn => pawn.Position))
+                .Where(cell => cell.DistanceTo(observer.Position) <= RaidCqbLocalMap.Radius);
             foreach (IGrouping<int, IntVec3> group in anchors
                 .Where(cell => cell.InBounds(map))
                 .GroupBy(structure.RoomAt)
@@ -2288,6 +2331,8 @@ namespace Helodrace
                 RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map,
                     organization, target);
                 if (next?.Success != true) continue;
+                if (cleared.Contains(structure.RoomAt(next.Objective))) continue;
+                next.ObjectiveIsIntermediate = true;
                 ActivateNextRoomPlan(organization, members, state, next, tick);
                 return true;
             }

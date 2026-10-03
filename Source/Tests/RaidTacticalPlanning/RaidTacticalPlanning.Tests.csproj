@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="../../Helodrace/Core/CqbLocalTopology.cs" Link="CqbLocalTopology.cs" />
     <Compile Include="../../Helodrace/Core/RaidTacticalDecision.cs" Link="RaidTacticalDecision.cs" />
     <Compile Include="../../Helodrace/Core/RaidBreachTraversal.cs" Link="RaidBreachTraversal.cs" />
     <Compile Include="../../Helodrace/Core/RaidOrderPolicy.cs" Link="RaidOrderPolicy.cs" />

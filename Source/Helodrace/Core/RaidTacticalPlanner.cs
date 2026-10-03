@@ -43,6 +43,7 @@ namespace Helodrace
         public IntVec3 Flank;
         public IntVec3 Entry;
         public Building PlannedBreach;
+        public bool ReusePassage;
         public IntVec3 BreachCell = IntVec3.Invalid;
         public IntVec3 BreachInside = IntVec3.Invalid;
         public List<IntVec3> ApproachNodes = new List<IntVec3>();
@@ -155,7 +156,33 @@ namespace Helodrace
             FieldThreatSnapshot fieldThreat = new FieldThreatSnapshot(map, hostiles);
             bool needsBreach = !map.reachability.CanReach(plan.Start, plan.Objective,
                 PathEndMode.OnCell, TraverseParms.For(pathfinder));
-            if (TryFindPlannedBreach(map, analysis, fieldThreat,
+            bool interiorWalk = false;
+            var localRoute = new List<IntVec3>();
+            if (analysis.IsIndoor(plan.Start))
+            {
+                var local = new RaidCqbLocalMap();
+                local.Refresh(map, analysis, pathfinder, plan.Start, plan.PlannedTick, avoidedTraps);
+                localRoute = local.Path(plan.Start, plan.Objective);
+                interiorWalk = localRoute.Count > 0 || !local.Contains(plan.Objective) && !needsBreach;
+                if (local.Contains(plan.Objective) && localRoute.Count == 0) needsBreach = true;
+                if (interiorWalk)
+                {
+                    plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps, plan.Objective, pathfinder);
+                    if (objectiveRoom != analysis.RoomAt(plan.Start) && localRoute.Count > 2)
+                    {
+                        int inside = localRoute.FindIndex(cell => analysis.RoomAt(cell) == objectiveRoom
+                            && !local.IsPortal(cell));
+                        if (inside > 1 && local.IsPortal(localRoute[inside - 1]))
+                        {
+                            plan.BreachCell = localRoute[inside - 1];
+                            plan.Entry = localRoute[inside - 2];
+                            plan.BreachInside = localRoute[inside];
+                            plan.ReusePassage = true;
+                        }
+                    }
+                }
+            }
+            if (!interiorWalk && TryFindPlannedBreach(map, analysis, fieldThreat,
                 avoidedTraps, organization, members, pathfinder, navigation, plan,
                 out List<IntVec3> breachRoute))
             {
@@ -163,7 +190,7 @@ namespace Helodrace
                 objectiveRoom = analysis.RoomAt(plan.Objective);
                 field = objectiveRoom == 0;
             }
-            else if (needsBreach && !plan.ObjectiveIsNamedBed
+            else if (!interiorWalk && needsBreach && !plan.ObjectiveIsNamedBed
                 && !objectiveOverride.HasValue && contact == null && reachableAdvance.IsValid)
             {
                 plan.Objective = reachableAdvance;
@@ -173,12 +200,12 @@ namespace Helodrace
                 plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
                     plan.Objective, pathfinder);
             }
-            else if (needsBreach)
+            else if (!interiorWalk && needsBreach)
             {
                 plan.Reason = "No shared, usable breach reaches the objective.";
                 return plan;
             }
-            else plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
+            else if (!interiorWalk) plan.Entry = FindEntry(map, analysis, fieldThreat, avoidedTraps,
                 plan.Objective, pathfinder);
             if (!plan.Entry.IsValid)
             {
@@ -187,6 +214,7 @@ namespace Helodrace
             }
 
             List<IntVec3> direct = plan.PlannedBreach != null ? plan.ApproachPath
+                : plan.ReusePassage ? localRoute.Take(localRoute.IndexOf(plan.Entry) + 1).ToList()
                 : FindRoute(map, analysis, fieldThreat, plan.Start, plan.Entry,
                     avoidedTraps, pathfinder);
             if (direct.Count == 0)
@@ -194,7 +222,7 @@ namespace Helodrace
                 plan.Reason = "No walking route reaches the objective entrance.";
                 return plan;
             }
-            if (plan.PlannedBreach == null && !field)
+            if (plan.PlannedBreach == null && !plan.ReusePassage && !field)
             {
                 int opening = direct.FindIndex(1, direct.Count - 1,
                     cell => analysis.CachedAt(cell).ExteriorAccess);
@@ -304,18 +332,21 @@ namespace Helodrace
             if (entrySmoke) plan.EntrySupport = "Smoke screen at the exterior opening";
             plan.EntryMethod = plan.PlannedBreach != null
                 ? "Planned " + (plan.PlannedBreach is Building_Door ? "door" : "wall") + " breach"
+                : plan.ReusePassage ? "Reuse live CQB passage"
                 : plan.BreachCell.IsValid ? "Open exterior entry"
                 : plan.Entry.GetEdifice(map) is Building_Door
                 ? "Door" : breachTool ? "Breach equipment available" : "Open approach";
-            plan.EntryDelayTicks = entrySmoke ? 30 : plan.Doctrine == RaidTacticalDoctrine.High ? 90
+            plan.EntryDelayTicks = interiorWalk ? 15 : entrySmoke ? 30 : plan.Doctrine == RaidTacticalDoctrine.High ? 90
                 : plan.Selected.Maneuver == RaidTacticalManeuver.CoordinatedEntry
                     && lethal && !friendlyInside ? 300
                 : plan.Selected.Maneuver == RaidTacticalManeuver.SmokeAdvance ? 120 : 30;
             bool separated = members.Any(pawn => pawn.Position.DistanceTo(plan.Start) > 12f);
             bool outOfSight = members.Any(pawn => pawn.Position != plan.Start
                 && !GenSight.LineOfSight(plan.Start, pawn.Position, map, true));
-            plan.CoordinationDelayTicks = plan.Doctrine == RaidTacticalDoctrine.High ? 30
+            plan.CoordinationDelayTicks = interiorWalk ? 15 : plan.Doctrine == RaidTacticalDoctrine.High ? 30
                 : 60 + (separated ? 60 : 0) + (outOfSight ? 60 : 0);
+            if (plan.BreachCell.IsValid && plan.SafeStackCells.Count == 0)
+                plan.SafeStackCells = WallStackCells(map, analysis, plan, avoidedTraps).ToList();
             AssignPositions(map, analysis, fieldThreat, avoidedTraps,
                 organization, members, plan);
             if (plan.Assignments.Count != members.Count
@@ -577,7 +608,13 @@ namespace Helodrace
                 .ToList();
             if (available.Count == 0 || operators.Count == 0) return false;
             List<Pawn> entryMembers = EntryMembers(organization, available);
-            foreach (Building target in analysis.CachedBreachStructures
+            bool interior = analysis.IsIndoor(plan.Start);
+            IEnumerable<Building> structures = interior
+                ? GenRadial.RadialCellsAround(plan.Start, RaidCqbLocalMap.Radius, true)
+                    .Where(cell => cell.InBounds(map)).Select(cell => cell.GetEdifice(map) as Building)
+                    .Where(building => building != null && (building.def.IsWall || building is Building_Door)).Distinct()
+                : analysis.CachedBreachStructures;
+            foreach (Building target in structures
                 .Where(building => building.Spawned && !building.Destroyed
                     && building.Faction != null
                     && building.Faction.HostileTo(pathfinder.Faction)
@@ -598,7 +635,7 @@ namespace Helodrace
                     if (outside.DistanceTo(plan.Start) >= inside.DistanceTo(plan.Start)
                         || inside.DistanceTo(plan.Objective)
                             >= outside.DistanceTo(plan.Objective)
-                        || !HasWallContour(analysis, target, outside))
+                        || !(interior ? HasLiveWallContour(map, target, outside) : HasWallContour(analysis, target, outside)))
                         continue;
                     if (!navigation.CanWalk(outside)
                         || !navigation.CanWalk(inside)
@@ -779,6 +816,24 @@ namespace Helodrace
                     if (!analysis.CachedAt(target.Position
                             + along * (side * offset)).WallLine)
                         break;
+                    span++;
+                }
+            return span >= 3;
+        }
+
+        private static bool HasLiveWallContour(Map map, Building target, IntVec3 outside)
+        {
+            if (target is Building_Door) return true;
+            IntVec3 outward = outside - target.Position;
+            IntVec3 along = new IntVec3(-outward.z, 0, outward.x);
+            int span = 1;
+            foreach (int side in new[] { -1, 1 })
+                for (int offset = 1; offset <= 5; offset++)
+                {
+                    IntVec3 cell = target.Position + along * (side * offset);
+                    if (!cell.InBounds(map)) break;
+                    Building adjacent = cell.GetEdifice(map) as Building;
+                    if (!(adjacent is Building_Door) && adjacent?.def.IsWall != true) break;
                     span++;
                 }
             return span >= 3;

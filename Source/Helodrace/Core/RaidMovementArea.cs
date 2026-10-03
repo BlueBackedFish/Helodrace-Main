@@ -259,7 +259,7 @@ namespace Helodrace
             int insideRoom = plan.BreachCell.IsValid ? structure?.RoomAt(plan.BreachInside) ?? 0 : 0;
             int excludedRoom = waitingForSupport && insideRoom > 0
                 && structure.RoomAt(pawn.Position) != insideRoom ? insideRoom : 0;
-            bool selectedOpeningOnly = state.Phase == RaidExecutionPhase.CrossBreach
+            bool selectedOpeningOnly = !plan.ReusePassage && state.Phase == RaidExecutionPhase.CrossBreach
                 && plan.Assignments.Any(assignment => assignment.Pawn == pawn
                     && assignment.Task == RaidTacticalTask.Entry);
             int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;

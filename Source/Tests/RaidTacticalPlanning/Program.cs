@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Helodrace;
 
 internal static class Program
@@ -16,6 +17,7 @@ internal static class Program
     {
         try
         {
+            CheckLocalCqb();
             Check(RaidSmokePolicy.CarrierCount(0) == 0, "An empty formation does not create smoke carriers");
             Check(RaidSmokePolicy.CarrierCount(1) == 1, "A one-person formation still has smoke");
             Check(RaidSmokePolicy.CarrierCount(6) == 2, "A six-person formation guarantees two smoke carriers");
@@ -290,5 +292,54 @@ internal static class Program
             Console.Error.WriteLine(exception);
             return 1;
         }
+    }
+
+    private static void CheckLocalCqb()
+    {
+        int before = checks;
+        int width = 7, height = 3;
+        int[] rooms = Enumerable.Range(0, width * height).Select(i => i % width < 3 ? 1 : i % width > 3 ? 2 : 0).ToArray();
+        bool[] usable = rooms.Select(room => room > 0).ToArray();
+        bool[] portals = rooms.Select(room => room == 0).ToArray();
+        var closed = new CqbLocalTopology(width, height, rooms, usable, portals);
+        Check(closed.Path(8, 12).Count == 0, "An intact partition is not an existing passage.");
+        Check(closed.NeighborTargets(8, new HashSet<int> { 1 }).Any(i => rooms[i] == 2),
+            "An adjoining closed room remains a local breach candidate.");
+        Check(!closed.NeighborTargets(8, new HashSet<int> { 1, 2 }).Any(),
+            "Cleared rooms are excluded even across a closed partition.");
+        bool[] openedCells = (bool[])usable.Clone(); openedCells[10] = true;
+        var opened = new CqbLocalTopology(width, height, rooms, openedCells, portals);
+        Check(opened.Path(8, 12).SequenceEqual(new[] { 8, 9, 10, 11, 12 }),
+            "An unexpected wall hole creates a local walking passage without demolition.");
+        Check(opened.Rooms[8] == 1 && opened.Rooms[12] == 2,
+            "Opening a wall does not merge room progress identities.");
+        Check(opened.NeighborTargets(8, new HashSet<int> { 1 }).Any(i => rooms[i] == 2),
+            "A reachable adjoining room is still uncleared until it is secured.");
+        Check(!opened.NeighborTargets(8, new HashSet<int> { 1, 2 }).Any(),
+            "An already cleared reachable room is not selected again.");
+        int[] chainRooms = new[] { 1, 0, 2, 0, 3 };
+        var chain = new CqbLocalTopology(5, 1, chainRooms, Enumerable.Repeat(true, 5).ToArray(),
+            new[] { false, true, false, true, false });
+        Check(chain.NeighborTargets(0, new HashSet<int> { 1 }).SequenceEqual(new[] { 2 }),
+            "An open passage must not skip the first uncleared room to target a deeper room.");
+        Check(chain.NeighborTargets(0, new HashSet<int> { 1, 2 }).SequenceEqual(new[] { 4 }),
+            "The next uncleared room becomes eligible through the secured room network.");
+        Check(!closed.SameAs(opened), "Opening a wall changes the topology revision input.");
+        Check(closed.SameAs(new CqbLocalTopology(width, height, rooms, (bool[])usable.Clone(), portals)),
+            "An unchanged local map does not trigger re-planning.");
+        Check(closed.Path(8, 12).Count == 0, "A rebuilt wall closes the previously used path.");
+        Check(opened.Path(-1, 12).Count == 0 && opened.Path(8, 100).Count == 0,
+            "Local queries outside the captured window cannot invent routes.");
+        Check(!opened.NeighborTargets(-1, new HashSet<int>()).Any(), "An outside observer produces no local room candidates.");
+        int[] twoRooms = Enumerable.Range(0, 24).Select(i => i % 8 < 3 ? 1 : i % 8 > 4 ? 2 : 0).ToArray();
+        bool[] twoUsable = twoRooms.Select(room => room > 0).ToArray();
+        bool[] twoPortals = twoRooms.Select(room => room == 0).ToArray();
+        twoUsable[11] = true;
+        Check(new CqbLocalTopology(8, 3, twoRooms, twoUsable, twoPortals).Path(9, 14).Count == 0,
+            "One destroyed cell in a double wall does not create a route.");
+        twoUsable[12] = true;
+        Check(new CqbLocalTopology(8, 3, twoRooms, twoUsable, twoPortals).Path(9, 14).Count > 0,
+            "Both destroyed cells in a double wall create a route.");
+        Console.WriteLine($"PASS: {checks - before} local CQB passage, stable room progress and topology refresh assertions.");
     }
 }
