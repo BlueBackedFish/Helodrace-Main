@@ -15,7 +15,7 @@ namespace Helodrace
         private NativeArray<ushort> costs;
 
         public RaidMovementArea(Map map, RaidTacticalPlan plan, RaidStructureSnapshot structure,
-            bool exteriorOnly, int initialRoom)
+            bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null)
         {
             costs = new NativeArray<ushort>(map.cellIndices.NumGridCells, Allocator.Persistent);
             for (int i = 0; i < costs.Length; i++) costs[i] = 100;
@@ -31,6 +31,13 @@ namespace Helodrace
                 foreach (IntVec3 cell in map.AllCells)
                     if (structure.RoomAt(cell) > 0 && structure.RoomAt(cell) != initialRoom)
                         costs[map.cellIndices.CellToIndex(cell)] = ushort.MaxValue;
+            if (fight != null)
+                foreach (IntVec3 cell in map.AllCells)
+                    if (cell.DistanceToSquared(fight.Destination) > fight.Radius * fight.Radius
+                        || fight.LeashRadius > 0f && cell.DistanceToSquared(fight.LeashCenter)
+                            > fight.LeashRadius * fight.LeashRadius
+                        || fight.Room > 0 && structure?.RoomAt(cell) != fight.Room)
+                        costs[map.cellIndices.CellToIndex(cell)] = ushort.MaxValue;
         }
 
         public NativeArray<ushort> GetOffsetGrid() => costs;
@@ -41,15 +48,18 @@ namespace Helodrace
     {
         private readonly Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>> areas =
             new Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>>();
+        private readonly Dictionary<string, RaidMovementArea> fightingAreas = new Dictionary<string, RaidMovementArea>();
         public int Requests;
         public long BuildMilliseconds;
-        public int CachedGrids => areas.Values.Sum(value => value.Count);
+        public int CachedGrids => areas.Values.Sum(value => value.Count) + fightingAreas.Count;
         public MapComponent_RaidMovementAreas(Map map) : base(map) { }
 
         internal RaidMovementArea For(Pawn pawn)
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
-            if (order?.Kind != RaidOrderKind.Move || !MapComponent_RaidTacticalOrders.Owned(pawn.CurJob))
+            if (order == null || order.Kind == RaidOrderKind.Hold
+                || pawn.CurJobDef != RimWorld.JobDefOf.Goto
+                || !MapComponent_RaidTacticalOrders.Owned(pawn.CurJob))
                 return null;
             var state = map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.OrganizationId);
             RaidTacticalPlan plan = state?.ActivePlan;
@@ -59,6 +69,21 @@ namespace Helodrace
                 || state.Phase == RaidExecutionPhase.EntryWait);
             RaidStructureSnapshot structure = map.GetComponent<MapComponent_RaidTacticalPlans>()
                 .GetStructure(order.OrganizationId);
+            if (order.Kind == RaidOrderKind.Fight)
+            {
+                // A pawn outside the activity area must be able to return into it.
+                if (!MapComponent_RaidTacticalOrders.Allowed(pawn, order, pawn.Position)) return null;
+                string key = $"{order.OrganizationId}:{order.Destination}:{order.Radius}:{order.Room}:"
+                    + $"{order.LeashCenter}:{order.LeashRadius}";
+                if (!fightingAreas.TryGetValue(key, out RaidMovementArea fightArea))
+                {
+                    Stopwatch watch = Stopwatch.StartNew();
+                    fightingAreas[key] = fightArea = new RaidMovementArea(map, plan, structure, false, -1, order);
+                    BuildMilliseconds += watch.ElapsedMilliseconds;
+                }
+                Requests++;
+                return fightArea;
+            }
             // Subsequent interior room breaches are not exterior approaches.
             outside &= structure?.RoomAt(plan.Entry) == 0;
             int room = outside ? structure.RoomAt(pawn.Position) : -1;
@@ -77,7 +102,9 @@ namespace Helodrace
         internal void DisposeAreas()
         {
             foreach (RaidMovementArea area in areas.Values.SelectMany(value => value.Values)) area.Dispose();
+            foreach (RaidMovementArea area in fightingAreas.Values) area.Dispose();
             areas.Clear();
+            fightingAreas.Clear();
         }
     }
 

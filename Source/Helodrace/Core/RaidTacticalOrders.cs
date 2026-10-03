@@ -23,6 +23,8 @@ namespace Helodrace
         public Rot4 Facing = Rot4.Invalid;
         public int RetryAfter;
         public int Room;
+        public IntVec3 LeashCenter;
+        public float LeashRadius;
         public bool RefreshPending;
 
         public void ExposeData()
@@ -37,6 +39,8 @@ namespace Helodrace
             Scribe_Values.Look(ref Facing, "facing", Rot4.Invalid);
             Scribe_Values.Look(ref RetryAfter, "retryAfter");
             Scribe_Values.Look(ref Room, "room");
+            Scribe_Values.Look(ref LeashCenter, "leashCenter");
+            Scribe_Values.Look(ref LeashRadius, "leashRadius");
         }
     }
 
@@ -57,7 +61,11 @@ namespace Helodrace
             if (Scribe.mode != LoadSaveMode.PostLoadInit) return;
             orders.Clear();
             foreach (RaidPawnOrder order in saved ?? new List<RaidPawnOrder>())
-                if (order?.Pawn != null) orders[order.Pawn] = order;
+                if (order?.Pawn != null)
+                {
+                    order.RefreshPending = true;
+                    orders[order.Pawn] = order;
+                }
             saved = null;
         }
 
@@ -85,6 +93,13 @@ namespace Helodrace
                     continue;
                 }
                 RaidPawnOrder order = orders[pawn];
+                if (order.Kind == RaidOrderKind.Fight && Owned(pawn.CurJob)
+                    && pawn.CurJobDef == JobDefOf.AttackMelee
+                    && !Allowed(pawn, order, pawn.CurJob.targetA.Cell))
+                {
+                    pawn.mindState.enemyTarget = null;
+                    pawn.jobs.EndCurrentJob(JobCondition.InterruptOptional);
+                }
                 if (RaidOrderPolicy.Refresh(order.RefreshPending, Owned(pawn.CurJob),
                     Protected(pawn), pawn.stances.FullBodyBusy))
                 {
@@ -95,7 +110,7 @@ namespace Helodrace
         }
 
         public static bool Set(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
-            bool sprint = false, bool fightOnArrival = false)
+            bool sprint = false, bool fightOnArrival = false, float radius = 10f)
         {
             if (pawn?.Spawned != true || pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.ControlsPawn(pawn) != true) return false;
@@ -107,18 +122,23 @@ namespace Helodrace
                 owner.orders[pawn] = order;
             }
             bool changed = order.Kind != kind || order.Destination != destination
-                || order.Sprint != sprint || order.FightOnArrival != fightOnArrival;
+                || order.Sprint != sprint || order.FightOnArrival != fightOnArrival
+                || order.Radius != radius;
             if (changed)
             {
                 order.Kind = kind;
                 order.Destination = destination;
                 order.Sprint = sprint;
                 order.FightOnArrival = fightOnArrival;
+                order.Radius = radius;
                 order.Facing = Rot4.Invalid;
                 order.RetryAfter = 0;
                 order.RefreshPending = true;
                 order.Room = pawn.Map.GetComponent<MapComponent_RaidTacticalPlans>()
                     ?.GetStructure(order.OrganizationId)?.RoomAt(destination) ?? 0;
+                var state = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.OrganizationId);
+                order.LeashCenter = state.ActivePlan.Start;
+                order.LeashRadius = state.Maneuver == RaidTacticalManeuver.HoldAndCounterattack ? 25f : 0f;
                 MapComponent_RaidTacticalTrace.Record(pawn,
                     $"directive {kind} to {destination} fightOnArrival={fightOnArrival}");
             }
@@ -196,11 +216,15 @@ namespace Helodrace
         internal static bool Allowed(Pawn pawn, RaidPawnOrder order, IntVec3 cell)
         {
             if (order == null || !cell.InBounds(pawn.Map) || cell.DistanceToSquared(order.Destination)
-                > order.Radius * order.Radius) return false;
+                > order.Radius * order.Radius || !TargetInLeash(order, cell)) return false;
             if (order.Room == 0) return true;
             return pawn.Map.GetComponent<MapComponent_RaidTacticalPlans>()
                 ?.GetStructure(order.OrganizationId)?.RoomAt(cell) == order.Room;
         }
+
+        internal static bool TargetInLeash(RaidPawnOrder order, IntVec3 cell) => order != null
+            && (order.LeashRadius <= 0f || cell.DistanceToSquared(order.LeashCenter)
+                <= order.LeashRadius * order.LeashRadius);
     }
 
     public sealed class JobGiver_RaidTacticalOrder : ThinkNode_JobGiver
@@ -243,6 +267,7 @@ namespace Helodrace
         protected override bool ExtraTargetValidator(Pawn pawn, Thing target) =>
             target is Pawn && base.ExtraTargetValidator(pawn, target)
             && GenSight.LineOfSight(pawn.Position, target.Position, pawn.Map, true)
+            && MapComponent_RaidTacticalOrders.TargetInLeash(MapComponent_RaidTacticalOrders.For(pawn), target.Position)
             && (pawn.TryGetAttackVerb(target)?.IsMeleeAttack == false
                 || MapComponent_RaidTacticalOrders.Allowed(pawn,
                     MapComponent_RaidTacticalOrders.For(pawn), target.Position));

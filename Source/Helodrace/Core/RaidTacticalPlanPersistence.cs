@@ -37,6 +37,7 @@ namespace Helodrace
             Scribe_Values.Look(ref ObjectiveIsObservedEnemy, "observedEnemy");
             Scribe_Values.Look(ref ObjectiveIsNamedBed, "namedBed");
             Scribe_Values.Look(ref ObjectiveIsIntermediate, "intermediate");
+            Scribe_Values.Look(ref IsDefensive, "isDefensive");
             Scribe_Values.Look(ref Frontline, "frontline");
             Scribe_Values.Look(ref Flank, "flank");
             Scribe_Values.Look(ref Entry, "entry");

@@ -43,13 +43,14 @@ namespace Helodrace
     public static class Patch_RaidTacticalTrace_StartJob
     {
         public static void Prefix(Pawn ___pawn, Job newJob,
-            JobCondition lastJobEndCondition, bool cancelBusyStances)
+            JobCondition lastJobEndCondition, bool cancelBusyStances, ThinkNode jobGiver)
         {
             if (!MapComponent_RaidTacticalTrace.Enabled || !Prefs.DevMode) return;
             MapComponent_RaidTacticalTrace.Record(___pawn,
                 $"start {MapComponent_RaidTacticalTrace.Describe(___pawn.CurJob)} -> "
                 + $"{MapComponent_RaidTacticalTrace.Describe(newJob)} "
                 + $"condition={lastJobEndCondition} cancelBusy={cancelBusyStances} "
+                + $"issuer={jobGiver?.GetType().Name ?? "direct"} "
                 + $"busy={___pawn.stances?.FullBodyBusy == true}");
         }
     }

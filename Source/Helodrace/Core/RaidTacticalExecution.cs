@@ -198,10 +198,13 @@ namespace Helodrace
 
         public RaidTacticalPlan ActivePlanFor(string organizationId)
         {
-            return organizationId != null && states.TryGetValue(organizationId,
-                out ExecutionState state) && state.Phase != RaidExecutionPhase.Hold
-                && state.Phase != RaidExecutionPhase.Complete
-                && state.ActivePlan?.Success == true ? state.ActivePlan : null;
+            if (organizationId == null || !states.TryGetValue(organizationId, out ExecutionState state)
+                || state.ActivePlan?.Success != true || state.Phase == RaidExecutionPhase.Complete
+                || state.Phase == RaidExecutionPhase.Hold && !state.ActivePlan.IsDefensive) return null;
+            if (state.ActivePlan.IsDefensive && state.ActivePlan.Assignments.Any(assignment =>
+                assignment.Pawn?.Spawned == true && !assignment.Pawn.Dead && !assignment.Pawn.Downed
+                    && !IsDefendingRaider(assignment.Pawn))) return null;
+            return state.ActivePlan;
         }
 
         private static RaidStructureSnapshot StructureFor(Map map, RaidTacticalPlan plan) =>
@@ -211,7 +214,7 @@ namespace Helodrace
         internal bool ControlsPawn(Pawn pawn)
         {
             string id = OrganizationAPI.GetOrganization(pawn)?.id;
-            return id != null && IsAssaultRaider(pawn)
+            return id != null && IsTacticalRaider(pawn)
                 && states.TryGetValue(id, out ExecutionState state)
                 && state.ActivePlan?.Success == true
                 && state.ActivePlan.Assignments.Any(assignment => assignment.Pawn == pawn);
@@ -265,7 +268,7 @@ namespace Helodrace
             {
                 List<Pawn> members = organization.AllMembers
                     .Where(pawn => pawn.Spawned && pawn.Map == map && !pawn.Dead
-                        && !pawn.Downed && !pawn.Destroyed && IsAssaultRaider(pawn))
+                        && !pawn.Downed && !pawn.Destroyed && IsTacticalRaider(pawn))
                     .ToList();
                 if (members.Count == 0)
                 {
@@ -281,6 +284,9 @@ namespace Helodrace
                 }
                 states.TryGetValue(organization.id, out ExecutionState state);
                 string key = PlanKey(organization, members);
+                if (state?.ActivePlan?.Success == true && state.Phase != RaidExecutionPhase.Hold
+                    && state.Phase != RaidExecutionPhase.Complete)
+                    AssignLateMembers(members, state.ActivePlan);
                 // Losing a member or changing commander must not recall pawns
                 // already breaching or crossing to a newly assigned stack.
                 if (state?.ActivePlan?.Success == true
@@ -310,7 +316,8 @@ namespace Helodrace
                 bool idle = state != null && (state.Phase == RaidExecutionPhase.Hold
                     || state.Phase == RaidExecutionPhase.Complete);
                 bool changedIdlePlan = idle && !ReferenceEquals(state.ActivePlan, plan)
-                    && (state.Maneuver != plan.Selected.Maneuver
+                    && (state.ActivePlan.IsDefensive != plan.IsDefensive
+                        || state.Maneuver != plan.Selected.Maneuver
                         || state.Objective.DistanceTo(plan.Objective) > 3f);
                 if (state == null || state.PlanKey != key
                     || idle && state.Objective.DistanceTo(plan.Objective) > 8f
@@ -422,6 +429,33 @@ namespace Helodrace
                     || lord?.LordJob is LordJob_SleepThenAssaultColony
                     || lord?.LordJob?.GetType().Name.StartsWith("LordJob_AssaultColony",
                         StringComparison.Ordinal) == true);
+        }
+
+        internal static bool IsDefendingRaider(Pawn pawn) => pawn.Faction != Faction.OfPlayer
+            && pawn.GetLord() != null && (pawn.mindState?.duty?.def == DutyDefOf.Defend
+                || pawn.mindState?.duty?.def == DutyDefOf.DefendBase);
+
+        internal static bool IsTacticalRaider(Pawn pawn) => IsAssaultRaider(pawn) || IsDefendingRaider(pawn);
+
+        private static void AssignLateMembers(List<Pawn> members, RaidTacticalPlan plan)
+        {
+            foreach (Pawn pawn in members.Where(member => !plan.Assignments.Any(assignment => assignment.Pawn == member)))
+            {
+                var occupied = new HashSet<IntVec3>(plan.Assignments.Select(assignment => assignment.Position));
+                IntVec3 cell = plan.SafeStackCells.Concat(plan.SafeSupportCells)
+                    .Where(candidate => candidate.InBounds(pawn.Map) && candidate.Standable(pawn.Map)
+                        && !occupied.Contains(candidate) && candidate != plan.Entry
+                        && candidate != plan.BreachInside)
+                    .OrderBy(candidate => candidate.DistanceToSquared(pawn.Position))
+                    .Take(32).Where(candidate => pawn.CanReach(candidate, PathEndMode.OnCell, Danger.Deadly))
+                    .DefaultIfEmpty(pawn.Position).First();
+                // Join as security until the next room/mission plan. Never recall
+                // existing entrants or renumber a crossing already in progress.
+                plan.Assignments.Add(new RaidTacticalAssignment { Pawn = pawn,
+                    Task = RaidTacticalTask.Security, Position = cell });
+                MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Move, cell);
+                MapComponent_RaidTacticalTrace.Record(pawn, $"Late member joins security at {cell}");
+            }
         }
 
         private void KeepSapperEscortTogether(CombatOrganization organization)
@@ -1118,6 +1152,14 @@ namespace Helodrace
                 if (!members.Contains(pawn) || !assignment.Position.IsValid
                     || (skipResponse && assignment.Task == RaidTacticalTask.Response)) continue;
                 if (IsTaserOperation(pawn)) continue;
+                ExecutionState state = StateFor(plan.OrganizationId);
+                if (state?.Phase == RaidExecutionPhase.Hold
+                    && assignment.Task != RaidTacticalTask.Withdraw)
+                {
+                    MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Fight,
+                        assignment.Position, radius: assignment.Task == RaidTacticalTask.FireSupport ? 6f : 4f);
+                    continue;
+                }
                 bool staged = AtStagingPosition(assignment, plan);
                 if (!staged)
                     TryGoto(pawn, assignment.Position);
@@ -1183,7 +1225,8 @@ namespace Helodrace
             return map.mapPawns.AllPawnsSpawned
                 .Where(enemy => !enemy.Dead && !enemy.Downed && enemy.Faction != null
                     && enemy.Faction.HostileTo(members[0].Faction)
-                    && enemy.Position.DistanceTo(plan.Start) <= 25f)
+                    && enemy.Position.DistanceTo(plan.Start) <= 25f
+                    && members.Any(member => GenSight.LineOfSight(member.Position, enemy.Position, map, true)))
                 .OrderBy(enemy => enemy.Position.DistanceToSquared(plan.Start))
                 .FirstOrDefault();
         }
@@ -1270,36 +1313,14 @@ namespace Helodrace
         {
             Pawn enemy = CurrentResponseTarget(members, plan);
             if (enemy == null) return;
-            var occupied = new HashSet<IntVec3>();
             foreach (RaidTacticalAssignment assignment in plan.Assignments
                 .Where(value => value.Task == RaidTacticalTask.Response))
             {
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn) || pawn.Map != map
                     || IsTaserOperation(pawn)) continue;
-                float range = pawn.equipment?.Primary?.GetComp<CompEquippable>()
-                    ?.PrimaryVerb?.verbProps?.range ?? 12f;
-                if (pawn.Position.DistanceTo(enemy.Position) <= range * 0.8f
-                    && GenSight.LineOfSight(pawn.Position, enemy.Position, map, true))
-                {
-                    if (pawn.CurJobDef == JobDefOf.Goto)
-                        HoldPosition(pawn);
-                    continue;
-                }
-                IntVec3 target = GenRadial.RadialCellsAround(enemy.Position, 11f, true)
-                    .Where(cell => cell.InBounds(map) && cell.Standable(map)
-                        && cell.DistanceTo(enemy.Position) >= 5f
-                        && cell.DistanceTo(enemy.Position) <= Math.Min(9f, range)
-                        && !plan.AvoidedTrapCells.Contains(cell)
-                        && !occupied.Contains(cell))
-                    .OrderBy(cell => cell.DistanceTo(pawn.Position)
-                        + cell.DistanceTo(plan.Start) * 0.25f)
-                    .Where(cell => pawn.CanReach(cell,
-                        PathEndMode.OnCell, Danger.Deadly))
-                    .DefaultIfEmpty(IntVec3.Invalid).First();
-                if (!target.IsValid) continue;
-                occupied.Add(target);
-                TryGoto(pawn, target);
+                MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Fight,
+                    plan.Start, radius: 25f);
             }
         }
 
@@ -1316,6 +1337,8 @@ namespace Helodrace
                 .Where(enemy => !enemy.Dead && !enemy.Downed
                     && enemy.Faction != null && enemy.Faction.HostileTo(organization.faction)
                     && enemy.Position.DistanceTo(plan.Objective) <= 12f
+                    && members.Any(member => member.Position.DistanceToSquared(enemy.Position) <= 1600
+                        && GenSight.LineOfSight(member.Position, enemy.Position, map, true))
                     && map.mapPawns.AllPawnsSpawned.All(other => other.Dead
                         || other.HostileTo(members[0])
                         || other.Position.DistanceTo(enemy.Position) >= 20f))
@@ -1668,7 +1691,9 @@ namespace Helodrace
                     ? (IEnumerable<IntVec3>)currentMap.mapPawns.AllPawnsSpawned
                         .Where(hostile => hostile.Faction != null
                             && hostile.Faction.HostileTo(members[0].Faction)
-                            && !hostile.Dead && !hostile.Downed)
+                            && !hostile.Dead && !hostile.Downed
+                            && members.Any(member => member.Position.DistanceToSquared(hostile.Position) <= 1600
+                                && GenSight.LineOfSight(member.Position, hostile.Position, currentMap, true)))
                         .Select(hostile => hostile.Position)
                         .Distinct()
                         .OrderBy(cell => cell.DistanceTo(plan.Frontline))
