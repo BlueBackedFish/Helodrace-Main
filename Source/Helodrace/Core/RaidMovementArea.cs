@@ -369,6 +369,8 @@ namespace Helodrace
                     && assignment.Task == RaidTacticalTask.Entry);
             int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;
             RaidMovementNode connection = map.GetComponent<MapComponent_RaidTacticalExecution>().ApproachConnection(pawn);
+            if (structure != null && connection != null)
+                initialRoom = MapComponent_RaidTacticalExecution.ConnectionRoom(map, structure, pawn.Position, connection);
             return GetArea(plan, structure, outside, initialRoom, excludedRoom: excludedRoom,
                 selectedOpeningOnly: selectedOpeningOnly, connection: connection);
         }

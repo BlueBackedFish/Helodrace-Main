@@ -122,10 +122,19 @@ namespace Helodrace
             {
                 int from = node.Id == 0 ? 0 : plan.MovementNodes[node.Id - 1].RouteIndex;
                 List<IntVec3> segment = route.Skip(from).Take(node.RouteIndex - from + 2).ToList();
-                node.AllowedRooms = segment.Select(cell => structure?.RoomAt(cell) ?? 0)
-                    .Concat(new[] { structure?.RoomAt(node.Center) ?? 0 }).Distinct().ToList();
-                node.AllowedPortals = segment.Where(cell => cell.GetEdifice(map) is Building_Door).Distinct().ToList();
+                CaptureConnection(map, structure, node, segment);
             }
+        }
+
+        internal static void CaptureConnection(Map map, RaidStructureSnapshot structure, RaidMovementNode node,
+            IEnumerable<IntVec3> segment)
+        {
+            var cells = segment.Concat(new[] { node.Center }).Distinct().ToList();
+            bool Portal(IntVec3 cell) => structure != null &&
+                (structure.Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(cell)].Has(TacticalRawFlags.WallLine)
+                    || structure.Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(cell)].Has(TacticalRawFlags.Door));
+            node.AllowedRooms = cells.Where(cell => !Portal(cell)).Select(cell => structure?.RoomAt(cell) ?? 0).Distinct().ToList();
+            node.AllowedPortals = cells.Where(Portal).ToList();
         }
 
         internal static IntVec3 ForwardPortalCenter(IReadOnlyList<IntVec3> route, int index) =>
@@ -236,12 +245,22 @@ namespace Helodrace
             // Path costs and physical crossing use this same personal connection.
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null) return true;
-            int currentRoom = structure.RoomAt(pawn.Position);
+            int currentRoom = ConnectionRoom(map, structure, pawn.Position, connection);
             // An evaded member may exit its off-route room to rejoin, but cannot use another entry as a shortcut.
             int room = structure.RoomAt(cell);
             if (connection.RestrictedCells != null && !connection.RestrictedCells.Contains(cell)) return false;
             return TacticalNodeProgress.AllowsStep(currentRoom, room, cell.GetEdifice(map) is Building_Door,
                 connection.AllowedPortals.Contains(cell), connection.AllowedRooms.Contains);
+        }
+
+        internal static int ConnectionRoom(Map map, RaidStructureSnapshot structure, IntVec3 cell, RaidMovementNode connection)
+        {
+            int room = structure.RoomAt(cell);
+            TacticalRawCell raw = structure.Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(cell)];
+            // A doorway/gap is a connector, not a whole off-route room whose
+            // ID should grant escape permission to all unrelated room-zero cells.
+            return connection != null && !connection.AllowedRooms.Contains(room)
+                && (raw.Has(TacticalRawFlags.WallLine) || raw.Has(TacticalRawFlags.Door)) ? -1 : room;
         }
 
         private static bool FollowNodes(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)

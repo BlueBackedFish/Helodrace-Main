@@ -161,6 +161,19 @@ internal static class RaidSecurityMovementTests
         var throughDoor = Join(cell => cell == innerDoor);
         Check(throughDoor != null && throughDoor.AllowedPortals.Contains(innerDoor)
             && !throughDoor.AllowedRooms.Contains(10), "A door's own frozen room number is allowed at that portal, not as an entire room.");
+        var routeConnection = new RaidMovementNode { Center = target };
+        var captureConnection = AccessTools.Method(assembly.GetType("Helodrace.RaidNodeRoute"), "CaptureConnection");
+        captureConnection.Invoke(null, new object[] { map, snapshot, routeConnection, new[] { rear, passage, target } });
+        Check(routeConnection.AllowedRooms.Contains(1) && routeConnection.AllowedRooms.Contains(2)
+            && !routeConnection.AllowedRooms.Contains(0) && routeConnection.AllowedPortals.Contains(passage),
+            "Ordinary indoor nodes also authorize the exact demolished wall without authorizing all outside cells.");
+        var effectiveRoom = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "ConnectionRoom");
+        int EffectiveRoom(IntVec3 cell, RaidMovementNode node) => (int)effectiveRoom.Invoke(null, new object[] { map, snapshot, cell, node });
+        Check(EffectiveRoom(passage, routeConnection) == -1 && EffectiveRoom(innerDoor, throughDoor) == -1,
+            "Standing on a frozen gap or door cannot turn its room ID into unrestricted escape-room permission.");
+        Check(EffectiveRoom(rear, routeConnection) == 1
+            && EffectiveRoom(new IntVec3(4, 0, 8), new RaidMovementNode { AllowedRooms = new List<int> { 0 } }) == 0,
+            "Real room floors and genuine exterior approaches retain their normal source-room permissions.");
         state.Phase = RaidExecutionPhase.Assemble;
         AccessTools.Field(typeof(RaidNodeMemberProgress), "JoinConnection").SetValue(state.NodeMembers[1], throughDoor);
         Check(Connection(tail) == throughDoor, "Physical admission and path costs use the same personal known-passage join.");

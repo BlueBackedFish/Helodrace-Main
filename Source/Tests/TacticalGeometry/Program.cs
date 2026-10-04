@@ -76,6 +76,9 @@ internal static class Program
             "A selected demolished wall is permitted at that exact connection cell");
         Check(!TacticalNodeProgress.AllowsStep(1, 0, false, false, room => room == 2),
             "Permission for a selected gap does not permit other exterior cells");
+        Check(!TacticalNodeProgress.AllowsStep(-1, 0, false, false, room => room == 1 || room == 2)
+            && TacticalNodeProgress.AllowsStep(-1, 0, false, true, room => room == 1 || room == 2),
+            "A connector source uses exact portal permission instead of granting escape to unrelated room-zero tiles");
     }
     private static void Check(bool value, string message)
     {
