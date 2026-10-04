@@ -262,12 +262,16 @@ namespace Helodrace
 
         internal static Job Move(Pawn pawn, RaidPawnOrder order)
         {
+            var execution = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>();
+            bool transit = execution?.IsExteriorTransitGoal(pawn, order.Destination) == true;
+            if (!transit && !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn))
+                execution?.ContinueExteriorIngress(pawn, order);
             if (pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.ReadyFor(pawn) == false)
                 return Wait(pawn, order);
             // Another job can reserve the temporary endpoint after the steering
             // update. Resolve a free endpoint in the same shared direction now,
             // rather than imposing the 120-tick retry on the rest of the squad.
-            if (!pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
+            if (!transit && !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
                 && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.TryNodeMoveDestination(pawn, out IntVec3 alternative) == true)
             {
@@ -277,7 +281,8 @@ namespace Helodrace
             }
             if (GenTicks.TicksGame < order.RetryAfter || !order.Destination.InBounds(pawn.Map)
                 || !order.Destination.Standable(pawn.Map)
-                || !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
+                || !RaidOrderPolicy.MovementReservationAllowed(transit,
+                    pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn))
                 || !pawn.CanReach(order.Destination, PathEndMode.OnCell, Danger.Deadly))
             {
                 if (GenTicks.TicksGame >= order.RetryAfter)
@@ -341,6 +346,10 @@ namespace Helodrace
                 return pawn.CurJob;
             if (order.Kind == RaidOrderKind.Fight)
                 return MapComponent_RaidTacticalOrders.Fighter.Give(pawn);
+            if (order.Kind == RaidOrderKind.Move && pawn.Position == order.Destination
+                && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.ContinueExteriorIngress(pawn, order) == true)
+                return MapComponent_RaidTacticalOrders.Move(pawn, order);
             if (order.Kind == RaidOrderKind.Move && pawn.Position != order.Destination)
             {
                 if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == order.Destination)

@@ -183,7 +183,7 @@ namespace Helodrace
             {
                 report.AppendLine($"Movement node: {contactsState.CurrentNode}/{plan.MovementNodes.Count}; complete={contactsState.ApproachComplete}");
                 foreach (RaidExteriorIngress ingress in contactsState.ExteriorIngress.Where(value => !value.Complete))
-                    report.AppendLine($"  Exterior join {ingress.Pawn?.LabelShort}: opening={ingress.Opening}, room={ingress.InsideRoom}, active={ingress.Active}, entered={ingress.Entered}, destination={ingress.Destination}");
+                    report.AppendLine($"  Exterior join {ingress.Pawn?.LabelShort}: opening={ingress.Opening}, room={ingress.InsideRoom}, active={ingress.Active}, entered={ingress.Entered}, waypoint={ingress.MovementDestination}, clearance={ingress.Destination}, intent={ingress.Requested}");
                 foreach (RaidMovementNode node in plan.MovementNodes)
                     report.AppendLine($"  N{node.Id} {node.Purpose}: {node.Center} → N{node.Next}; guidance={node.GuidanceCells.Count}; V{node.StructureVersion}");
                 foreach (RaidNodeMemberProgress progress in contactsState.NodeMembers)

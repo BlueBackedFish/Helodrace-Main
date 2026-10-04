@@ -2,6 +2,8 @@ namespace Helodrace
 {
     public static class RaidOrderPolicy
     {
+        public static bool MovementReservationAllowed(bool transit, bool canReserve) => transit || canReserve;
+
         public static bool Refresh(bool pending, bool currentOwned,
             bool equipmentOrEmergency, bool busy) => !equipmentOrEmergency && !busy
                 && (pending || !currentOwned);

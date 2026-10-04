@@ -19,6 +19,8 @@ namespace Helodrace
         public bool Complete;
         public bool Active;
         public IntVec3 Destination = IntVec3.Invalid;
+        public IntVec3 Requested = IntVec3.Invalid;
+        public IntVec3 MovementDestination => Entered ? Destination : Opening;
 
         public void ObservePosition(IntVec3 position, int room)
         {
@@ -27,7 +29,12 @@ namespace Helodrace
             if (!Entered) return;
             IntVec3 inward = Inside - Opening;
             int depth = (position.x - Opening.x) * inward.x + (position.z - Opening.z) * inward.z;
-            if (Entered && room == InsideRoom && depth >= 1) { Complete = true; Active = false; }
+            if (room == InsideRoom && depth >= 1)
+            {
+                // Keep moving until the mouth is clear; merely stepping inside
+                // must not hand control to a staging hold on the next update.
+                if (!Destination.IsValid || position == Destination) { Complete = true; Active = false; }
+            }
             else Entered = false;
         }
 
@@ -41,6 +48,7 @@ namespace Helodrace
             Scribe_Values.Look(ref Complete, "complete");
             Scribe_Values.Look(ref Active, "active");
             Scribe_Values.Look(ref Destination, "destination", IntVec3.Invalid);
+            Scribe_Values.Look(ref Requested, "requested", IntVec3.Invalid);
         }
     }
 
@@ -96,34 +104,63 @@ namespace Helodrace
             // Outside security orders remain outside until their normal plan calls them in.
             if (structure.RoomAt(requested) <= 0) { ingress.Active = false; return false; }
             ingress.Active = true;
-            if (!ingress.Entered && structure.RoomAt(pawn.Position) == ingress.InsideRoom)
-            {
-                destination = ingress.Opening;
-                return true;
-            }
+            ingress.Requested = requested;
             var peers = state.ExteriorIngress.Where(value => value != ingress && value.Active && !value.Complete)
                 .Select(value => value.Destination).ToList();
+            bool singleCellRoom = structure.RoomArea(ingress.InsideRoom) == 1;
             bool Valid(IntVec3 cell) => cell.InBounds(map) && cell.Standable(map)
                 && structure.RoomAt(cell) == ingress.InsideRoom && cell != ingress.Opening
+                && RaidBreachTraversal.IsClearance(
+                    (cell.x - ingress.Opening.x) * (ingress.Inside.x - ingress.Opening.x)
+                        + (cell.z - ingress.Opening.z) * (ingress.Inside.z - ingress.Opening.z),
+                    cell == ingress.Inside, singleCellRoom)
                 && !state.ActivePlan.AvoidedTrapCells.Contains(cell)
-                && map.pawnDestinationReservationManager.CanReserve(cell, pawn)
-                && RaidNodeRoute.WalkLine(map, ingress.Opening, cell);
+                && !peers.Contains(cell)
+                && !cell.GetThingList(map).OfType<Pawn>().Any(other => other != pawn)
+                && map.pawnDestinationReservationManager.CanReserve(cell, pawn);
             if (!Valid(ingress.Destination))
             {
+                // A side cell can be reachable via the mouth even when a diagonal
+                // from the opening clips the wall. Prove local cardinal connectivity.
+                var connected = RaidFormationTopology.Connected(
+                    GenRadial.RadialCellsAround(ingress.Inside, 6f, true)
+                        .Where(cell => cell.InBounds(map) && cell.Standable(map)
+                            && structure.RoomAt(cell) == ingress.InsideRoom
+                            && !state.ActivePlan.AvoidedTrapCells.Contains(cell)),
+                    ingress.Inside, cell => GenAdj.CardinalDirections.Select(offset => cell + offset), _ => true);
+                singleCellRoom = connected.Count == 1;
                 // Preserve an entry pawn's existing near-opening clearance goal;
                 // followers headed to another room first get a local joining goal.
-                ingress.Destination = GenRadial.RadialCellsAround(ingress.Inside, 3f, true)
+                ingress.Destination = GenRadial.RadialCellsAround(ingress.Inside, 5f, true)
                     .Concat(requested.DistanceToSquared(ingress.Opening) <= 49
                         ? new[] { requested } : Array.Empty<IntVec3>()).Distinct()
-                    .Where(Valid).OrderBy(cell => (cell == requested ? -100 : cell.DistanceToSquared(ingress.Inside))
+                    .Where(cell => connected.Contains(cell) && Valid(cell))
+                    .OrderBy(cell => (cell == requested ? -100 : cell.DistanceToSquared(ingress.Inside))
                         + peers.Count(other => other == cell) * 1000)
                     .Take(24).DefaultIfEmpty(IntVec3.Invalid).First();
                 MapComponent_RaidTacticalTrace.Record(pawn,
                     $"Exterior join via {ingress.Opening}: {ingress.Destination}");
             }
             // A blocked opening waits for recovery, never silently switches to an old entrance.
-            destination = ingress.Destination;
+            destination = ingress.Destination.IsValid ? ingress.MovementDestination : IntVec3.Invalid;
             return true;
+        }
+
+        internal bool ContinueExteriorIngress(Pawn pawn, RaidPawnOrder order)
+        {
+            RaidExteriorIngress ingress = ActiveExteriorIngress(pawn);
+            if (order.Reactive || ingress == null || !ingress.Requested.IsValid) return false;
+            if (!RedirectExteriorIngress(pawn, ingress.Requested, out IntVec3 next) || !next.IsValid) return false;
+            order.Destination = next;
+            order.Room = StructureFor(map, StateFor(order.UnitId).ActivePlan).RoomAt(next);
+            order.RetryAfter = 0;
+            return next != pawn.Position;
+        }
+
+        internal bool IsExteriorTransitGoal(Pawn pawn, IntVec3 destination)
+        {
+            RaidExteriorIngress ingress = ActiveExteriorIngress(pawn);
+            return ingress != null && !ingress.Entered && destination == ingress.Opening;
         }
 
         internal bool AllowsExteriorIngressStep(Pawn pawn, IntVec3 next)

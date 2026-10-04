@@ -18,6 +18,18 @@ internal static class Program
         try
         {
             CheckLocalCqb();
+            var sideClearance = RaidFormationTopology.Connected(new[] { 3, 4 }, 3,
+                cell => new[] { cell - 3, cell + 3, cell - 1, cell + 1 }, _ => true);
+            Check(sideClearance.Contains(4) && RaidBreachTraversal.IsClearance(1, false),
+                "The clearance beside a mouth is connected by cardinal movement despite a diagonal wall shoulder");
+            Check(!RaidBreachTraversal.IsClearance(1, true),
+                "An ordinary joining goal cannot end in the entrance mouth");
+            Check(RaidOrderPolicy.MovementReservationAllowed(true, false),
+                "A through-opening waypoint is not an exclusive arrival slot serializing the followers");
+            Check(!RaidOrderPolicy.MovementReservationAllowed(false, false),
+                "Interior clearance and final formation still respect destination reservations");
+            Check(RaidOrderPolicy.MovementReservationAllowed(false, true),
+                "A free ordinary destination starts movement normally");
             Check(RaidBreachTraversal.AllowsCommittedIngressStep(true, false, 0, 9, 1, true, true),
                 "The committed opening remains usable even with its own doorway room ID");
             Check(!RaidBreachTraversal.AllowsCommittedIngressStep(false, false, 0, 1, 1, false, false),
