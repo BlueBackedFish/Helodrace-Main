@@ -153,6 +153,7 @@ namespace Helodrace
                 + $"grids={movement.CachedGrids} pending={movement.PendingGrids} "
                 + $"waitingPawns={movement.WaitingPawns} peakPending={movement.PeakPendingGrids} "
                 + $"oldestWait={movement.OldestWaitFrames} frames notifications={movement.PreparedNotifications} "
+                + $"created={movement.CreatedGrids} hits={movement.CacheHits} "
                 + $"preparation wall time={movement.BuildMilliseconds} ms");
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "

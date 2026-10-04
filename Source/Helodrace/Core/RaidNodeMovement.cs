@@ -23,7 +23,6 @@ namespace Helodrace
         public List<IntVec3> AllowedPortals = new List<IntVec3>();
         // Only personal indoor joins use a bounded cell corridor.
         [NonSerialized] internal HashSet<IntVec3> RestrictedCells;
-        [NonSerialized] internal int ConnectionRevision;
         public int GuidanceRadius = 3;
         public int RefreshTicks = 60;
         public int RetryTicks = 120;
@@ -358,8 +357,6 @@ namespace Helodrace
                         if (progress.JoinConnection != null)
                         {
                             progress.JoinConnection.Id = destinationNode.Id;
-                            progress.JoinConnection.ConnectionRevision = ++map.GetComponent<MapComponent_RaidTacticalExecution>()
-                                .personalJoinRevision;
                             MapComponent_RaidTacticalTrace.Record(pawn, $"Known indoor join to {progress.JoinConnection.Center}");
                         }
                     }

@@ -35,6 +35,12 @@ namespace Helodrace
         public static ushort[] Calculate(TacticalMovementMaskInput input, CancellationToken cancellation)
         {
             var costs = new ushort[checked(input.Width * input.Height)];
+            if (!input.Reactive && !input.ExteriorOnly && input.ExcludedRoom <= 0 && !input.SelectedOpeningOnly
+                && !input.RestrictRooms && !input.RestrictPortals && !input.RestrictCells && !input.Fight)
+            {
+                cancellation.ThrowIfCancellationRequested();
+                return costs;
+            }
             var portals = new System.Collections.Generic.HashSet<int>(input.AllowedPortals);
             var rooms = new System.Collections.Generic.HashSet<int>(input.AllowedRooms);
             var cells = new System.Collections.Generic.HashSet<int>(input.AllowedCells);

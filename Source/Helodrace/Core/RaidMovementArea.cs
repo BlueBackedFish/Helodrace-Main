@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using HarmonyLib;
@@ -11,7 +12,7 @@ using Verse.AI;
 
 namespace Helodrace
 {
-    // Immutable for the lifetime of a pathfinder: queued Unity jobs can retain
+    // Immutable while published; request and native-reader leases protect
     // the custom cost array after an order changes or a room is cleared.
     internal sealed class RaidMovementArea : PathRequest.IPathGridCustomizer
     {
@@ -33,33 +34,12 @@ namespace Helodrace
         private readonly Stopwatch preparation = Stopwatch.StartNew();
         public long PreparationMilliseconds => preparation.ElapsedMilliseconds;
 
-        public RaidMovementArea(Map map, RaidTacticalPlan plan, RaidStructureSnapshot structure,
-            bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null,
-            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, RaidMovementNode connection = null,
-            int openingOverride = -1, IEnumerable<IntVec3> ingressCells = null)
+        public RaidMovementArea(Map map, TacticalMovementMaskInput captured)
         {
             owner = map.GetComponent<MapComponent_RaidMovementAreas>();
             MarkRequested();
-            input = new TacticalMovementMaskInput {
-                Width = map.Size.x, Height = map.Size.z, Structure = structure?.Version.Geometry,
-                Reactive = reactive, ExteriorOnly = exteriorOnly, InitialRoom = initialRoom,
-                ExcludedRoom = excludedRoom, SelectedOpeningOnly = selectedOpeningOnly,
-                BreachIndex = openingOverride >= 0 ? openingOverride
-                    : plan.BreachCell.InBounds(map) ? map.cellIndices.CellToIndex(plan.BreachCell) : -1,
-                RestrictRooms = connection != null,
-                AllowedRooms = connection?.AllowedRooms.ToArray() ?? Array.Empty<int>(),
-                RestrictCells = ingressCells != null || connection?.RestrictedCells != null,
-                AllowedCells = (ingressCells ?? connection?.RestrictedCells)?.Select(map.cellIndices.CellToIndex).ToArray()
-                    ?? Array.Empty<int>(),
-                RestrictPortals = connection != null,
-                AllowedPortals = connection != null ? connection.AllowedPortals.Where(cell => cell.InBounds(map))
-                    .Select(cell => map.cellIndices.CellToIndex(cell)).Distinct().ToArray() : Array.Empty<int>(),
-                Fight = fight != null, FightX = fight?.Destination.x ?? 0, FightZ = fight?.Destination.z ?? 0,
-                FightRadius = fight?.Radius ?? 0, FightRoom = fight?.Room ?? 0,
-                LeashX = fight?.LeashCenter.x ?? 0, LeashZ = fight?.LeashCenter.z ?? 0,
-                LeashRadius = fight?.LeashRadius ?? 0
-            };
-            if (reactive)
+            input = captured;
+            if (input.Reactive)
             {
                 // Explosion/sniper evasion cannot wait for deferred preparation.
                 // This rare first-room mask is shared across organizations.
@@ -148,12 +128,53 @@ namespace Helodrace
 
     public sealed class MapComponent_RaidMovementAreas : MapComponent, IDisposable
     {
-        private readonly Dictionary<RaidTacticalPlan, Dictionary<string, RaidMovementArea>> areas =
-            new Dictionary<RaidTacticalPlan, Dictionary<string, RaidMovementArea>>();
-        private readonly Dictionary<string, RaidMovementArea> fightingAreas = new Dictionary<string, RaidMovementArea>();
-        private readonly Dictionary<string, RaidMovementArea> ingressAreas = new Dictionary<string, RaidMovementArea>();
-        private readonly Dictionary<TacticalStructureVersion, Dictionary<int, RaidMovementArea>> reactiveAreas =
-            new Dictionary<TacticalStructureVersion, Dictionary<int, RaidMovementArea>>();
+        private readonly Dictionary<TacticalMovementMaskKey, RaidMovementArea> areas =
+            new Dictionary<TacticalMovementMaskKey, RaidMovementArea>();
+        private sealed class PermissionVector { internal TacticalMaskVector Value; }
+        private readonly ConditionalWeakTable<object, PermissionVector> permissionVectors =
+            new ConditionalWeakTable<object, PermissionVector>();
+        private TacticalMaskVector Vector(object source, IEnumerable<int> values)
+        {
+            if (source == null) return TacticalMaskVector.Empty;
+            if (permissionVectors.TryGetValue(source, out PermissionVector captured)) return captured.Value;
+            captured = new PermissionVector { Value = new TacticalMaskVector(values) };
+            permissionVectors.Add(source, captured);
+            return captured.Value;
+        }
+        private RaidMovementArea GetArea(RaidTacticalPlan plan, RaidStructureSnapshot structure,
+            bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null,
+            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false,
+            RaidMovementNode connection = null, int openingOverride = -1, IEnumerable<IntVec3> ingressCells = null)
+        {
+            TacticalMaskVector roomVector = Vector(connection?.AllowedRooms, connection?.AllowedRooms);
+            TacticalMaskVector portalVector = Vector(connection?.AllowedPortals,
+                connection?.AllowedPortals.Where(cell => cell.InBounds(map)).Select(map.cellIndices.CellToIndex));
+            IEnumerable<IntVec3> corridor = ingressCells ?? connection?.RestrictedCells;
+            TacticalMaskVector cellVector = Vector(corridor, corridor?.Select(map.cellIndices.CellToIndex));
+            var source = new TacticalMovementMaskInput {
+                Width = map.Size.x, Height = map.Size.z, Structure = structure?.Version.Geometry,
+                Reactive = reactive, ExteriorOnly = exteriorOnly, InitialRoom = initialRoom,
+                ExcludedRoom = excludedRoom, SelectedOpeningOnly = selectedOpeningOnly,
+                BreachIndex = openingOverride >= 0 ? openingOverride
+                    : plan.BreachCell.InBounds(map) ? map.cellIndices.CellToIndex(plan.BreachCell) : -1,
+                RestrictRooms = connection != null, RestrictPortals = connection != null,
+                RestrictCells = corridor != null,
+                Fight = fight != null, FightX = fight?.Destination.x ?? 0, FightZ = fight?.Destination.z ?? 0,
+                FightRadius = fight?.Radius ?? 0, FightRoom = fight?.Room ?? 0,
+                LeashX = fight?.LeashCenter.x ?? 0, LeashZ = fight?.LeashCenter.z ?? 0, LeashRadius = fight?.LeashRadius ?? 0
+            };
+            var key = new TacticalMovementMaskKey(source, roomVector, portalVector, cellVector);
+            if (areas.TryGetValue(key, out RaidMovementArea area) && !area.Canceled)
+            {
+                CacheHits++;
+                return area;
+            }
+            areas[key] = area = new RaidMovementArea(map, key.Input);
+            CreatedGrids++;
+            if (area.Ready) BuildMilliseconds += area.PreparationMilliseconds;
+            else Queue(area);
+            return area;
+        }
         private readonly TacticalPreparationQueue<RaidMovementArea, Pawn> pending =
             new TacticalPreparationQueue<RaidMovementArea, Pawn>(RaidPawnReferenceComparer.Instance);
         private const int MaximumPumpsPerPass = 64;
@@ -166,10 +187,10 @@ namespace Helodrace
             readingAreas.Clear();
         }
         public int Requests;
+        public int CacheHits, CreatedGrids;
         public long BuildMilliseconds;
         public int PreparedNotifications;
-        public int CachedGrids => areas.Values.Sum(value => value.Count) + fightingAreas.Count + ingressAreas.Count
-            + reactiveAreas.Values.Sum(value => value.Count);
+        public int CachedGrids => areas.Count;
         public int PendingGrids => pending.Count;
         public int WaitingPawns => pending.WaiterCount;
         public int PeakPendingGrids => pending.PeakCount;
@@ -256,15 +277,7 @@ namespace Helodrace
             if (order.Reactive)
             {
                 if (structure == null) return null;
-                int reactionRoom = structure.RoomAt(pawn.Position);
-                if (!reactiveAreas.TryGetValue(structure.Version, out Dictionary<int, RaidMovementArea> rooms))
-                    reactiveAreas[structure.Version] = rooms = new Dictionary<int, RaidMovementArea>();
-                if (!rooms.TryGetValue(reactionRoom, out RaidMovementArea reactionArea))
-                {
-                    rooms[reactionRoom] = reactionArea = new RaidMovementArea(map, plan, structure, false, reactionRoom, reactive: true);
-                    BuildMilliseconds += reactionArea.PreparationMilliseconds;
-                }
-                return reactionArea;
+                return GetArea(plan, structure, false, structure.RoomAt(pawn.Position), reactive: true);
             }
             RaidExteriorIngress ingress = map.GetComponent<MapComponent_RaidTacticalExecution>().ActiveExteriorIngress(pawn);
             if (ingress != null && structure != null)
@@ -272,19 +285,10 @@ namespace Helodrace
                 bool interior = ingress.Entered && !ingress.Waiting;
                 RaidMovementArea IngressArea(bool indoors)
                 {
-                    int connectionRevision = 0;
                     HashSet<IntVec3> connected = indoors ? map.GetComponent<MapComponent_RaidTacticalExecution>()
-                        .InteriorIngressCells(pawn, structure, ingress, out connectionRevision) : null;
-                    string ingressKey = $"{order.UnitId}:{structure.Version.Id}:{ingress.Opening}:{ingress.InsideRoom}:{indoors}:"
-                        + connectionRevision;
-                    if (!ingressAreas.TryGetValue(ingressKey, out RaidMovementArea ingressArea) || ingressArea.Canceled)
-                    {
-                        ingressAreas[ingressKey] = ingressArea = new RaidMovementArea(map, plan, structure,
-                            !indoors, ingress.InsideRoom, selectedOpeningOnly: !indoors,
-                            openingOverride: map.cellIndices.CellToIndex(ingress.Opening), ingressCells: connected);
-                        Queue(ingressArea);
-                    }
-                    return ingressArea;
+                        .InteriorIngressCells(pawn, structure, ingress, out _) : null;
+                    return GetArea(plan, structure, !indoors, ingress.InsideRoom, selectedOpeningOnly: !indoors,
+                        openingOverride: map.cellIndices.CellToIndex(ingress.Opening), ingressCells: connected);
                 }
                 RaidMovementArea currentIngressArea = IngressArea(interior);
                 if (!interior && !ingress.Waiting)
@@ -300,14 +304,7 @@ namespace Helodrace
             {
                 // A pawn outside the activity area must be able to return into it.
                 if (!MapComponent_RaidTacticalOrders.Allowed(pawn, order, pawn.Position)) return null;
-                string key = $"{order.UnitId}:{order.Destination}:{order.Radius}:{order.Room}:"
-                    + $"{order.LeashCenter}:{order.LeashRadius}";
-                if (!fightingAreas.TryGetValue(key, out RaidMovementArea fightArea) || fightArea.Canceled)
-                {
-                    fightingAreas[key] = fightArea = new RaidMovementArea(map, plan, structure, false, -1, order);
-                    Queue(fightArea);
-                }
-                return fightArea;
+                return GetArea(plan, structure, false, -1, order);
             }
             // Subsequent interior room breaches are not exterior approaches.
             outside &= structure?.RoomAt(plan.Entry) == 0;
@@ -319,17 +316,8 @@ namespace Helodrace
                     && assignment.Task == RaidTacticalTask.Entry);
             int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;
             RaidMovementNode connection = map.GetComponent<MapComponent_RaidTacticalExecution>().ApproachConnection(pawn);
-            string room = $"{outside}:{initialRoom}:{excludedRoom}:{selectedOpeningOnly}:N{connection?.Id ?? -1}:J{connection?.ConnectionRevision ?? 0}";
-            if (!areas.TryGetValue(plan, out Dictionary<string, RaidMovementArea> versions))
-                areas[plan] = versions = new Dictionary<string, RaidMovementArea>();
-            if (!versions.TryGetValue(room, out RaidMovementArea area) || area.Canceled)
-            {
-                versions[room] = area = new RaidMovementArea(map, plan, structure,
-                    outside, initialRoom,
-                    excludedRoom: excludedRoom, selectedOpeningOnly: selectedOpeningOnly, connection: connection);
-                Queue(area);
-            }
-            return area;
+            return GetArea(plan, structure, outside, initialRoom, excludedRoom: excludedRoom,
+                selectedOpeningOnly: selectedOpeningOnly, connection: connection);
         }
 
         internal static bool IsSupportExplosionFlee(Job current, Projectile supportProjectile, Thing knownExploder,
@@ -341,14 +329,8 @@ namespace Helodrace
         {
             CompleteReaders();
             Dispose();
-            foreach (RaidMovementArea area in areas.Values.SelectMany(value => value.Values)) area.Dispose();
-            foreach (RaidMovementArea area in fightingAreas.Values) area.Dispose();
-            foreach (RaidMovementArea area in ingressAreas.Values) area.Dispose();
-            foreach (RaidMovementArea area in reactiveAreas.Values.SelectMany(value => value.Values)) area.Dispose();
+            foreach (RaidMovementArea area in areas.Values) area.Dispose();
             areas.Clear();
-            fightingAreas.Clear();
-            ingressAreas.Clear();
-            reactiveAreas.Clear();
         }
     }
 

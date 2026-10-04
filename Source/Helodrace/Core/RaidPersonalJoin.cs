@@ -7,8 +7,6 @@ namespace Helodrace
 {
     public sealed partial class MapComponent_RaidTacticalExecution
     {
-        private int personalJoinRevision;
-
         // Frozen floors plus known usable interior passages. No global live
         // reachability and no permission for every exterior room-zero tile.
         internal static RaidMovementNode KnownIndoorJoin(Map map, RaidStructureSnapshot structure,

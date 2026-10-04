@@ -95,6 +95,55 @@ internal static class Program
             Flags = TacticalRawFlags.WallLine | TacticalRawFlags.Edifice, StructureId = z * input.Width + x + 1
         };
     }
+    private static void CheckMaskKeys()
+    {
+        var input = Open(8, 7);
+        for (int i = 0; i < input.Cells.Length; i++)
+        {
+            input.Cells[i].Room = i % 4;
+            if (i % 9 == 0) input.Cells[i].Flags |= TacticalRawFlags.Door | TacticalRawFlags.WallLine;
+        }
+        var geometry = TacticalGeometry.Calculate(input, CancellationToken.None);
+        var random = new Random(73);
+        for (int iteration = 0; iteration < 512; iteration++)
+        {
+            bool Flag() => random.Next(2) == 1;
+            var source = new TacticalMovementMaskInput {
+                Width = 8, Height = 7, Structure = iteration % 5 == 0 ? null : geometry,
+                Reactive = Flag(), ExteriorOnly = Flag(), InitialRoom = random.Next(4), ExcludedRoom = random.Next(-1, 4),
+                SelectedOpeningOnly = Flag(), BreachIndex = random.Next(-1, 56),
+                RestrictRooms = Flag(), AllowedRooms = new[] { 3, 1, 1 },
+                RestrictPortals = Flag(), AllowedPortals = new[] { 9, 0, 9, 18 },
+                RestrictCells = Flag(), AllowedCells = Enumerable.Range(0, 30).Reverse().ToArray(),
+                Fight = Flag(), FightX = random.Next(8), FightZ = random.Next(7), FightRoom = random.Next(4),
+                FightRadius = random.Next(1, 10), LeashX = 4, LeashZ = 3, LeashRadius = random.Next(-1, 8)
+            };
+            var key = new TacticalMovementMaskKey(source);
+            Check(TacticalMovementMask.Calculate(source, CancellationToken.None)
+                    .SequenceEqual(TacticalMovementMask.Calculate(key.Input, CancellationToken.None)),
+                "Effective-key normalization preserves complete movement permissions across combined policy modes");
+        }
+        var zeroA = new TacticalMovementMaskKey(new TacticalMovementMaskInput {
+            Width = 8, Height = 7, Structure = geometry, InitialRoom = 99, BreachIndex = 15 });
+        var zeroB = new TacticalMovementMaskKey(new TacticalMovementMaskInput {
+            Width = 8, Height = 7, InitialRoom = 2, BreachIndex = 25 });
+        Check(zeroA.Equals(zeroB) && zeroA.GetHashCode() == zeroB.GetHashCode(),
+            "Unrestricted movement shares one zero-cost grid regardless of irrelevant room, breach or plan version");
+        int[] originalRooms = { 3, 1, 1 };
+        var frozen = new TacticalMovementMaskKey(new TacticalMovementMaskInput {
+            Width = 8, Height = 7, Structure = geometry, RestrictRooms = true, AllowedRooms = originalRooms });
+        var equivalent = new TacticalMovementMaskKey(new TacticalMovementMaskInput {
+            Width = 8, Height = 7, Structure = geometry, RestrictRooms = true, AllowedRooms = new[] { 1, 3 } });
+        Check(frozen.Equals(equivalent) && frozen.GetHashCode() == equivalent.GetHashCode(),
+            "Identical room permissions coalesce across list order, duplicates and owner identity");
+        originalRooms[0] = 2;
+        Check(frozen.Equals(equivalent) && frozen.Input.AllowedRooms.SequenceEqual(new[] { 1, 3 }),
+            "Editing the source arrays cannot change a published cache key or worker input");
+        var different = new TacticalMovementMaskKey(new TacticalMovementMaskInput {
+            Width = 8, Height = 7, Structure = geometry, RestrictRooms = true, AllowedRooms = new[] { 1, 2 } });
+        Check(!frozen.Equals(different), "Different known permissions remain isolated even for the same static map");
+    }
+
     private static void CheckPreparationQueue()
     {
         var lease = new TacticalNativeLease<object>();
@@ -142,6 +191,7 @@ internal static class Program
     private static int Main()
     {
         CheckPreparationQueue();
+        CheckMaskKeys();
         try
         {
             var divided = Open(7, 5);

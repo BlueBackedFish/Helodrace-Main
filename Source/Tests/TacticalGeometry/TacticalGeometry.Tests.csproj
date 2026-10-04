@@ -13,5 +13,6 @@
     <Compile Include="../../Helodrace/Core/TacticalNodeProgress.cs" Link="TacticalNodeProgress.cs" />
     <Compile Include="../../Helodrace/Core/TacticalPreparationQueue.cs" Link="TacticalPreparationQueue.cs" />
     <Compile Include="../../Helodrace/Core/TacticalNativeLease.cs" Link="TacticalNativeLease.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalMovementMaskKey.cs" Link="TacticalMovementMaskKey.cs" />
   </ItemGroup>
 </Project>
