@@ -53,6 +53,15 @@ internal static class RaidExteriorIngressTests
         var waiting = new RaidExteriorIngress { Opening = opening, Inside = opening + IntVec3.East,
             InsideRoom = 7, Active = true, Waiting = true, Destination = opening - IntVec3.East * 3 };
         Check(waiting.MovementDestination == waiting.Destination, "A congested follower waits outside instead of taking the mouth as its endpoint.");
+        follower = new RaidExteriorIngress { Opening = opening, Inside = opening + IntVec3.East,
+            InsideRoom = 7, Active = true, Destination = opening + IntVec3.East * 4,
+            Yielding = true, YieldCell = opening - IntVec3.East * 3 };
+        Check(follower.MovementDestination == follower.YieldCell && follower.Destination != follower.YieldCell,
+            "A queued security pawn has its own outside endpoint while retaining its reserved interior goal.");
+        follower.Yielding = false;
+        Check(follower.MovementDestination == opening, "Clearing the mouth restores the committed opening rather than an old entrance.");
+        follower.ObservePosition(opening, 9);
+        Check(follower.MovementDestination == follower.Destination, "The admitted follower continues inside after the actual opening tile.");
         LoadSaveMode mode = Scribe.mode;
         XmlNode previous = Scribe.loader.curXmlParent;
         IExposable parent = Scribe.loader.curParent;
@@ -62,6 +71,7 @@ internal static class RaidExteriorIngressTests
             xml.LoadXml("<root><opening>(10, 0, 10)</opening><inside>(11, 0, 10)</inside>"
                 + "<insideRoom>7</insideRoom><entered>True</entered><active>True</active>"
                 + "<direct>True</direct><searchAfter>180</searchAfter>"
+                + "<yielding>True</yielding><yieldCell>(7, 0, 10)</yieldCell><yieldSearchAfter>240</yieldSearchAfter>"
                 + "<destination>(12, 0, 10)</destination><requested>(20, 0, 10)</requested></root>");
             var loaded = new RaidExteriorIngress();
             Scribe.mode = LoadSaveMode.LoadingVars;
@@ -72,6 +82,9 @@ internal static class RaidExteriorIngressTests
                 && loaded.Destination == new IntVec3(12, 0, 10) && loaded.Requested == new IntVec3(20, 0, 10),
                 "Real Scribe loading preserves the clearance goal, original intent and physical passage latch.");
             Check(loaded.Direct && loaded.SearchAfter == 180, "Loading preserves direct transit and its endpoint retry deadline.");
+            Check(loaded.Yielding && loaded.YieldCell == new IntVec3(7, 0, 10) && loaded.YieldSearchAfter == 240,
+                "Loading preserves the distinct outside queue endpoint and its search deadline.");
+            loaded.Yielding = false;
             loaded.ObservePosition(new IntVec3(11, 0, 10), 7);
             Check(!loaded.Complete && loaded.MovementDestination == loaded.Destination,
                 "Loading inside the mouth continues clearing instead of holding or returning to the opening.");

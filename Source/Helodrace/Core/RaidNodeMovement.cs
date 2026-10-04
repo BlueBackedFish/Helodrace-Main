@@ -100,10 +100,11 @@ namespace Helodrace
                         : RaidMovementNodePurpose.Gather : Portal(index) ? RaidMovementNodePurpose.Portal
                         : Boundary(index) && cover[index] ? RaidMovementNodePurpose.Cover : RaidMovementNodePurpose.Transit
                 };
-                // Wait beyond a portal, never occupy the door tile while the rest crosses.
-                if (node.Purpose == RaidMovementNodePurpose.Portal && route[index].GetEdifice(map) is Building_Door
-                    && index + 1 < route.Count)
-                    node.Center = route[index + 1];
+                // A demolished wall still has room 0 in the frozen layout.
+                // Every transit portal, including a new gap, must guide beyond
+                // the crossing rather than turning its mouth into a shared endpoint.
+                if (node.Purpose == RaidMovementNodePurpose.Portal)
+                    node.Center = ForwardPortalCenter(route, index);
                 node.GuidanceRadius = node.Purpose == RaidMovementNodePurpose.Portal
                     ? doctrine?.movementPortalRadius ?? 2 : doctrine?.movementGuidanceRadius ?? 3;
                 node.RefreshTicks = doctrine?.movementArrivalRefreshTicks ?? 60;
@@ -121,6 +122,9 @@ namespace Helodrace
                 node.AllowedPortals = segment.Where(cell => cell.GetEdifice(map) is Building_Door).Distinct().ToList();
             }
         }
+
+        internal static IntVec3 ForwardPortalCenter(IReadOnlyList<IntVec3> route, int index) =>
+            route[Math.Min(index + 1, route.Count - 1)];
 
         // Walkability, including diagonal shoulders: visibility alone does not prove a connection.
         internal static bool WalkLine(Map map, IntVec3 from, IntVec3 to)

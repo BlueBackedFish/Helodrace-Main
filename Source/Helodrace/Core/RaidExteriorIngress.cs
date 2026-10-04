@@ -19,10 +19,13 @@ namespace Helodrace
         public bool Complete;
         public bool Active;
         public bool Direct, Waiting, SingleCellRoom;
+        public bool Yielding;
+        public IntVec3 YieldCell = IntVec3.Invalid;
+        public int YieldSearchAfter;
         public int SearchAfter;
         public IntVec3 Destination = IntVec3.Invalid;
         public IntVec3 Requested = IntVec3.Invalid;
-        public IntVec3 MovementDestination => Waiting || Entered ? Destination : Opening;
+        public IntVec3 MovementDestination => Yielding ? YieldCell : Waiting || Entered ? Destination : Opening;
 
         public void ObservePosition(IntVec3 position, int room)
         {
@@ -56,6 +59,9 @@ namespace Helodrace
             Scribe_Values.Look(ref Active, "active");
             Scribe_Values.Look(ref Direct, "direct"); Scribe_Values.Look(ref Waiting, "waiting");
             Scribe_Values.Look(ref SingleCellRoom, "singleCellRoom"); Scribe_Values.Look(ref SearchAfter, "searchAfter");
+            Scribe_Values.Look(ref Yielding, "yielding");
+            Scribe_Values.Look(ref YieldCell, "yieldCell", IntVec3.Invalid);
+            Scribe_Values.Look(ref YieldSearchAfter, "yieldSearchAfter");
             Scribe_Values.Look(ref Destination, "destination", IntVec3.Invalid);
             Scribe_Values.Look(ref Requested, "requested", IntVec3.Invalid);
         }
@@ -156,13 +162,14 @@ namespace Helodrace
             ingress.ObservePosition(pawn.Position, structure.RoomAt(pawn.Position));
             if (ingress.Complete) return false;
             // Outside security orders remain outside until their normal plan calls them in.
-            if (structure.RoomAt(requested) <= 0) { ingress.Active = false; return false; }
+            if (structure.RoomAt(requested) <= 0) { ingress.Active = false; ingress.Yielding = false; return false; }
             ingress.Active = true;
             ingress.Requested = requested;
             var peers = states.Values.SelectMany(value => value.ExteriorIngress)
                 .Where(value => value != ingress && value.Active && !value.Complete && value.Pawn?.Spawned == true
                     && value.Pawn.Map == map && !value.Pawn.Dead && !value.Pawn.Downed)
-                .Select(value => value.Destination).ToList();
+                .SelectMany(value => value.Yielding ? new[] { value.Destination, value.YieldCell } : new[] { value.Destination })
+                .Where(cell => cell.IsValid).ToList();
             int tick = GenTicks.TicksGame;
             HashSet<IntVec3> interior = InteriorIngressCells(pawn, structure, ingress, out _);
             ingress.SingleCellRoom = structure.RoomArea(ingress.InsideRoom) == 1;
@@ -187,6 +194,7 @@ namespace Helodrace
             {
                 if (ingress.Waiting && tick < ingress.SearchAfter)
                 {
+                    ingress.Yielding = false;
                     destination = ingress.Destination;
                     return true;
                 }
@@ -231,26 +239,56 @@ namespace Helodrace
                 MapComponent_RaidTacticalTrace.Record(pawn,
                     $"Exterior join via {ingress.Opening}: {ingress.Destination}; direct={ingress.Direct} waiting={ingress.Waiting}");
             }
+            UpdateIngressYield(pawn, structure, state.ActivePlan, ingress, peers, tick);
             // A blocked opening waits for recovery, never silently switches to an old entrance.
             destination = ingress.Destination.IsValid ? ingress.MovementDestination : IntVec3.Invalid;
             return true;
         }
 
+        private void UpdateIngressYield(Pawn pawn, RaidStructureSnapshot structure, RaidTacticalPlan plan,
+            RaidExteriorIngress ingress, List<IntVec3> peers, int tick)
+        {
+            bool available = IngressOpeningAvailable(pawn, ingress,
+                cell => map.pawnDestinationReservationManager.CanReserve(cell, pawn));
+            ingress.Yielding = !ingress.Waiting && !available;
+            if (!ingress.Yielding) return;
+            IntVec3 outward = ingress.Opening - ingress.Inside;
+            bool Free(IntVec3 cell) => cell.InBounds(map) && structure.RoomAt(cell) == 0 && cell.Standable(map)
+                && cell.DistanceToSquared(ingress.Opening) >= 4
+                && (cell.x - ingress.Opening.x) * outward.x + (cell.z - ingress.Opening.z) * outward.z >= 1
+                && RaidNodeRoute.WalkLine(map, ingress.Opening + outward, cell)
+                && !plan.AvoidedTrapCells.Contains(cell) && !peers.Contains(cell)
+                && !FormationOccupied(pawn, cell) && map.pawnDestinationReservationManager.CanReserve(cell, pawn);
+            if (Free(ingress.YieldCell)) return;
+            if (tick < ingress.YieldSearchAfter) { ingress.YieldCell = IntVec3.Invalid; return; }
+            ingress.YieldSearchAfter = tick + 60;
+            ingress.YieldCell = GenRadial.RadialCellsAround(ingress.Opening, 8f, true)
+                .Where(Free).OrderBy(cell => pawn.Position.DistanceToSquared(cell)).Take(24)
+                .Where(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
+                .DefaultIfEmpty(IntVec3.Invalid).First();
+            MapComponent_RaidTacticalTrace.Record(pawn, $"Opening occupied: yield at {ingress.YieldCell} for {ingress.Opening}");
+        }
+
+        internal static bool IngressOpeningAvailable(Pawn pawn, RaidExteriorIngress ingress,
+            Func<IntVec3, bool> canReserve) => RaidBreachTraversal.OpeningAvailable(
+                pawn.Position == ingress.Opening, ingress.Entered,
+                IngressMouthOccupied(pawn, ingress.Opening) || IngressMouthOccupied(pawn, ingress.Inside),
+                !canReserve(ingress.Opening));
+
+        private static bool IngressMouthOccupied(Pawn pawn, IntVec3 cell) => !cell.InBounds(pawn.Map)
+            || cell.GetThingList(pawn.Map).OfType<Pawn>().Any(other => other != pawn && other.Spawned
+                && !other.Dead && !other.Downed);
+
         internal bool ContinueExteriorIngress(Pawn pawn, RaidPawnOrder order)
         {
             RaidExteriorIngress ingress = ActiveExteriorIngress(pawn);
             if (order.Reactive || ingress == null || !ingress.Requested.IsValid) return false;
-            if (!RedirectExteriorIngress(pawn, ingress.Requested, out IntVec3 next) || !next.IsValid) return false;
-            order.Destination = next;
-            order.Room = StructureFor(map, StateFor(order.UnitId).ActivePlan).RoomAt(next);
-            order.RetryAfter = 0;
-            return next != pawn.Position;
-        }
-
-        internal bool IsExteriorTransitGoal(Pawn pawn, IntVec3 destination)
-        {
-            RaidExteriorIngress ingress = ActiveExteriorIngress(pawn);
-            return ingress != null && !ingress.Waiting && !ingress.Entered && destination == ingress.Opening;
+            if (!RedirectExteriorIngress(pawn, ingress.Requested, out IntVec3 next)) return false;
+            IntVec3 destination = next.IsValid ? next : pawn.Position;
+            if (order.Destination != destination) order.RetryAfter = 0;
+            order.Destination = destination;
+            order.Room = StructureFor(map, StateFor(order.UnitId).ActivePlan).RoomAt(order.Destination);
+            return order.Destination != pawn.Position;
         }
 
         internal bool AllowsExteriorIngressStep(Pawn pawn, IntVec3 next)
@@ -259,6 +297,9 @@ namespace Helodrace
             if (ingress == null || !next.InBounds(map)) return true;
             var unit = Helodrace.Squads.RaidTacticalUnit.ForPawn(pawn);
             RaidStructureSnapshot structure = StructureFor(map, StateFor(unit.Id).ActivePlan);
+            if (next == ingress.Opening && !ingress.Entered)
+                return IngressOpeningAvailable(pawn, ingress,
+                    candidate => map.pawnDestinationReservationManager.CanReserve(candidate, pawn));
             TacticalCellData cell = structure.CachedAt(next);
             int room = structure.RoomAt(next);
             if (ingress.Entered && !ingress.Waiting)

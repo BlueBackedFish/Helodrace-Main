@@ -223,7 +223,8 @@ namespace Helodrace
                     if (ingress != null)
                         report.AppendLine($"    ingress active={ingress.Active} entered={ingress.Entered} opening={ingress.Opening} "
                             + $"clearance={ingress.Destination} requested={ingress.Requested} room={ingress.InsideRoom} "
-                            + $"direct={ingress.Direct} waitingOutside={ingress.Waiting} searchAfter={ingress.SearchAfter}");
+                            + $"direct={ingress.Direct} waitingOutside={ingress.Waiting} searchAfter={ingress.SearchAfter} "
+                            + $"yielding={ingress.Yielding} yieldCell={ingress.YieldCell}");
                 }
             }
             report.AppendLine();

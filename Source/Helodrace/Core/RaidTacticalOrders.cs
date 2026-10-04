@@ -155,7 +155,7 @@ namespace Helodrace
                     .RedirectExteriorIngress(pawn, destination, out IntVec3 ingressDestination))
             {
                 destination = ingressDestination.IsValid ? ingressDestination : pawn.Position;
-                kind = ingressDestination.IsValid ? RaidOrderKind.Move : RaidOrderKind.Hold;
+                kind = ingressDestination.IsValid && destination != pawn.Position ? RaidOrderKind.Move : RaidOrderKind.Hold;
                 fightOnArrival = false;
             }
             bool changed = order.Kind != kind || order.Destination != destination
@@ -263,15 +263,16 @@ namespace Helodrace
         internal static Job Move(Pawn pawn, RaidPawnOrder order)
         {
             var execution = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>();
-            bool transit = execution?.IsExteriorTransitGoal(pawn, order.Destination) == true;
-            if (!transit && !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn))
-                execution?.ContinueExteriorIngress(pawn, order);
+            // Refresh admission before starting a Goto. The shared opening is
+            // subject to ordinary reservations, just like a formation endpoint.
+            execution?.ContinueExteriorIngress(pawn, order);
+            if (order.Destination == pawn.Position) return Wait(pawn, order);
             if (pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.ReadyFor(pawn) == false)
                 return Wait(pawn, order);
             // Another job can reserve the temporary endpoint after the steering
             // update. Resolve a free endpoint in the same shared direction now,
             // rather than imposing the 120-tick retry on the rest of the squad.
-            if (!transit && !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
+            if (!pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
                 && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.TryNodeMoveDestination(pawn, out IntVec3 alternative) == true)
             {
@@ -281,8 +282,7 @@ namespace Helodrace
             }
             if (GenTicks.TicksGame < order.RetryAfter || !order.Destination.InBounds(pawn.Map)
                 || !order.Destination.Standable(pawn.Map)
-                || !RaidOrderPolicy.MovementReservationAllowed(transit,
-                    pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn))
+                || !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
                 || !pawn.CanReach(order.Destination, PathEndMode.OnCell, Danger.Deadly))
             {
                 if (GenTicks.TicksGame >= order.RetryAfter)

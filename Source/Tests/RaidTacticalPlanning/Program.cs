@@ -100,12 +100,15 @@ internal static class Program
                 "The clearance beside a mouth is connected by cardinal movement despite a diagonal wall shoulder");
             Check(!RaidBreachTraversal.IsClearance(1, true),
                 "An ordinary joining goal cannot end in the entrance mouth");
-            Check(RaidOrderPolicy.MovementReservationAllowed(true, false),
-                "A through-opening waypoint is not an exclusive arrival slot serializing the followers");
-            Check(!RaidOrderPolicy.MovementReservationAllowed(false, false),
-                "Interior clearance and final formation still respect destination reservations");
-            Check(RaidOrderPolicy.MovementReservationAllowed(false, true),
-                "A free ordinary destination starts movement normally");
+            Check(!RaidBreachTraversal.OpeningAvailable(false, false, false, true),
+                "A following security pawn cannot share another pawn's reserved opening endpoint");
+            Check(!RaidBreachTraversal.OpeningAvailable(false, false, true, false),
+                "An occupied mouth cannot admit another follower merely because its Goto reservation was released");
+            Check(RaidBreachTraversal.OpeningAvailable(false, false, false, false),
+                "A cleared mouth immediately admits the next follower");
+            Check(RaidBreachTraversal.OpeningAvailable(true, false, true, true)
+                && RaidBreachTraversal.OpeningAvailable(false, true, true, true),
+                "An already admitted pawn clears the mouth instead of being sent back to an outside queue");
             Check(RaidBreachTraversal.AllowsCommittedIngressStep(true, false, 0, 9, 1, true, true),
                 "The committed opening remains usable even with its own doorway room ID");
             Check(!RaidBreachTraversal.AllowsCommittedIngressStep(false, false, 0, 1, 1, false, false),

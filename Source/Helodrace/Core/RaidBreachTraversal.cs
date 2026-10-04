@@ -10,6 +10,9 @@ namespace Helodrace
 
     public static class RaidBreachTraversal
     {
+        public static bool OpeningAvailable(bool atOpening, bool entered,
+            bool occupied, bool reservedByOther) => atOpening || entered || !occupied && !reservedByOther;
+
         public static bool IsClearance(int inwardDepth, bool atInsideMouth, bool singleCellRoom = false) =>
             inwardDepth >= 1 && (!atInsideMouth || singleCellRoom);
 

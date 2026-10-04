@@ -82,6 +82,54 @@ internal static class RaidSecurityMovementTests
         floor.Add(innerDoor);
         Check(Connected().Contains(innerDoor) && Connected().Contains(target),
             "A passable interior door with its own room ID remains a valid connection between indoor rooms.");
+        var route = new List<IntVec3> { new IntVec3(4, 0, 8), opening, inside, new IntVec3(7, 0, 8) };
+        var forward = AccessTools.Method(assembly.GetType("Helodrace.RaidNodeRoute"), "ForwardPortalCenter");
+        var guide = (IntVec3)forward.Invoke(null, new object[] { route, 1 });
+        Check(guide == inside && snapshot.RoomAt(guide) == 1 && snapshot.RoomAt(opening) == 0,
+            "A transit guide beyond a demolished wall belongs to the destination room, never the frozen room-zero opening.");
+        Check((IntVec3)forward.Invoke(null, new object[] { route, route.Count - 1 }) == route[route.Count - 1],
+            "A terminal transit guide does not read beyond the planned path.");
+
+        // Use the native ThingGrid to exercise collision admission independently
+        // of Unity's path jobs; reservation permission is supplied explicitly.
+        map.thingGrid = new ThingGrid(map);
+        var game = (Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
+        AccessTools.Field(typeof(Game), "maps").SetValue(game, new List<Map> { map });
+        var queued = new Pawn { thingIDNumber = 41001 }; var blocker = new Pawn { thingIDNumber = 41002 };
+        foreach (Pawn value in new[] { queued, blocker })
+        {
+            AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(value, (sbyte)0);
+            value.health = (Pawn_HealthTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(value.health, PawnHealthState.Mobile);
+        }
+        var admission = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "IngressOpeningAvailable");
+        var waitingIngress = new RaidExteriorIngress { Pawn = queued, Opening = opening, Inside = inside, InsideRoom = 1 };
+        Game previousGame = Current.Game;
+        Current.Game = game;
+        try
+        {
+            AccessTools.Field(typeof(Thing), "positionInt").SetValue(queued, route[0]);
+            bool Available(bool reservationFree = true) => (bool)admission.Invoke(null, new object[] {
+                queued, waitingIngress, new Func<IntVec3, bool>(_ => reservationFree) });
+            Check(Available(), "A free opening admits the waiting security pawn.");
+            opening.GetThingList(map).Add(blocker);
+            Check(!Available(), "An actual pawn in the opening blocks admission even without a destination reservation.");
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(blocker.health, PawnHealthState.Down);
+            Check(Available(), "A downed breacher does not permanently lock passage through the opening.");
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(blocker.health, PawnHealthState.Mobile);
+            opening.GetThingList(map).Clear(); inside.GetThingList(map).Add(blocker);
+            Check(!Available(), "An occupied inside mouth prevents security from piling up in the preceding tile.");
+            waitingIngress.Entered = true;
+            Check(Available(false), "A pawn already admitted keeps clearing the mouth even when another pawn reserves it.");
+            waitingIngress.Entered = false;
+            AccessTools.Field(typeof(Thing), "positionInt").SetValue(queued, opening);
+            Check(Available(false), "A pawn already in the opening is not bounced back to an outside waiting cell.");
+            AccessTools.Field(typeof(Thing), "positionInt").SetValue(queued, route[0]);
+            inside.GetThingList(map).Clear();
+            Check(!Available(false), "A reserved opening blocks a new follower before physical overlap occurs.");
+            Check(Available(), "Releasing occupation and reservation immediately restores admission.");
+        }
+        finally { Current.Game = previousGame; }
         Console.WriteLine($"PASS: {checks} personal security movement and bounded indoor follower connection checks.");
     }
 }

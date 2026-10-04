@@ -255,20 +255,32 @@ namespace Helodrace
             if (ingress != null && structure != null)
             {
                 bool interior = ingress.Entered && !ingress.Waiting;
-                int connectionRevision = 0;
-                HashSet<IntVec3> connected = interior ? map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    .InteriorIngressCells(pawn, structure, ingress, out connectionRevision) : null;
-                string ingressKey = $"{order.UnitId}:{structure.Version.Id}:{ingress.Opening}:{ingress.InsideRoom}:{interior}:"
-                    + connectionRevision;
-                if (!ingressAreas.TryGetValue(ingressKey, out RaidMovementArea ingressArea) || ingressArea.Canceled)
+                RaidMovementArea IngressArea(bool indoors)
                 {
-                    ingressAreas[ingressKey] = ingressArea = new RaidMovementArea(map, plan, structure,
-                        !interior, ingress.InsideRoom, selectedOpeningOnly: !interior,
-                        openingOverride: map.cellIndices.CellToIndex(ingress.Opening), ingressCells: connected);
-                    Queue(ingressArea);
+                    int connectionRevision = 0;
+                    HashSet<IntVec3> connected = indoors ? map.GetComponent<MapComponent_RaidTacticalExecution>()
+                        .InteriorIngressCells(pawn, structure, ingress, out connectionRevision) : null;
+                    string ingressKey = $"{order.UnitId}:{structure.Version.Id}:{ingress.Opening}:{ingress.InsideRoom}:{indoors}:"
+                        + connectionRevision;
+                    if (!ingressAreas.TryGetValue(ingressKey, out RaidMovementArea ingressArea) || ingressArea.Canceled)
+                    {
+                        ingressAreas[ingressKey] = ingressArea = new RaidMovementArea(map, plan, structure,
+                            !indoors, ingress.InsideRoom, selectedOpeningOnly: !indoors,
+                            openingOverride: map.cellIndices.CellToIndex(ingress.Opening), ingressCells: connected);
+                        Queue(ingressArea);
+                    }
+                    ingressArea.OwnerPlan = plan;
+                    return ingressArea;
                 }
-                ingressArea.OwnerPlan = plan;
-                return ingressArea;
+                RaidMovementArea currentIngressArea = IngressArea(interior);
+                if (!interior && !ingress.Waiting)
+                {
+                    // Prepare the onward leg outside. A pawn must not stand in
+                    // the shared mouth waiting for its first indoor cost grid.
+                    RaidMovementArea onward = IngressArea(true);
+                    if (preparing && !ingress.Yielding && !onward.Ready) return onward;
+                }
+                return currentIngressArea;
             }
             if (order.Kind == RaidOrderKind.Fight)
             {
