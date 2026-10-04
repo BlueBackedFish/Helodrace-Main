@@ -361,7 +361,18 @@ namespace Helodrace
                             MapComponent_RaidTacticalTrace.Record(pawn, $"Known indoor join to {progress.JoinConnection.Center}");
                         }
                     }
-                    if (progress.JoinConnection == null) continue;
+                    if (progress.JoinConnection == null)
+                    {
+                        HoldPosition(pawn);
+                        RaidPawnOrder blocked = MapComponent_RaidTacticalOrders.For(pawn);
+                        if (blocked != null)
+                        {
+                            blocked.Movement.Request(RaidOrderKind.Move, destinationNode.Center,
+                                RaidMoveController.Formation, tick, false);
+                            blocked.Movement.Block(RaidMoveBlockReason.UnknownJoin, tick);
+                        }
+                        continue;
+                    }
                     progress.DestinationNode = next;
                     progress.Destination = progress.JoinConnection.Center;
                     TryGoto(pawn, progress.Destination);

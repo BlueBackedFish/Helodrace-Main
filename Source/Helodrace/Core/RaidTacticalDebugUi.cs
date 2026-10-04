@@ -43,6 +43,11 @@ namespace Helodrace
     public sealed class Dialog_RaidTacticalPlans : Window
     {
         private Vector2 scroll;
+        private List<RaidTacticalUnit> cachedUnits;
+        private Map cachedMap;
+        private float nextUnitsRefresh, nextReportRefresh;
+        private RaidTacticalPlan cachedPlan;
+        private string cachedReport, cachedUnitId;
         public override Vector2 InitialSize => new Vector2(790f, 720f);
 
         public Dialog_RaidTacticalPlans()
@@ -58,9 +63,16 @@ namespace Helodrace
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 32f), "Raid tactical planning");
             Text.Font = GameFont.Small;
-            List<RaidTacticalUnit> units = RaidTacticalUnit.All
-                .Where(unit => unit.Members.Any(pawn => pawn.Spawned
-                    && pawn.Map == RaidTacticalDebugSession.Map)).ToList();
+            float now = Time.realtimeSinceStartup;
+            if (cachedUnits == null || cachedMap != RaidTacticalDebugSession.Map || now >= nextUnitsRefresh)
+            {
+                cachedMap = RaidTacticalDebugSession.Map;
+                cachedUnits = RaidTacticalUnit.All.Where(unit => unit.Members.Any(pawn => pawn.Spawned
+                    && pawn.Map == cachedMap)).ToList();
+                nextUnitsRefresh = now + 0.25f;
+                nextReportRefresh = 0f;
+            }
+            List<RaidTacticalUnit> units = cachedUnits;
             float y = inRect.y + 42f;
             if (units.Count == 0)
             {
@@ -102,7 +114,13 @@ namespace Helodrace
             RaidTacticalPlan plan = RaidTacticalDebugSession.SelectedPlan;
             Rect area = new Rect(inRect.x, y, inRect.width, inRect.yMax - y);
             Widgets.DrawMenuSection(area);
-            string report = Report(plan);
+            if (cachedReport == null || cachedPlan != plan || cachedUnitId != RaidTacticalDebugSession.SelectedUnitId
+                || now >= nextReportRefresh)
+            {
+                cachedPlan = plan; cachedUnitId = RaidTacticalDebugSession.SelectedUnitId;
+                cachedReport = Report(plan); nextReportRefresh = now + 0.25f;
+            }
+            string report = cachedReport;
             float contentHeight = Mathf.Max(area.height - 16f,
                 Text.CalcHeight(report, area.width - 40f) + 24f);
             Rect content = new Rect(0f, 0f, area.width - 18f, contentHeight);
@@ -208,10 +226,17 @@ namespace Helodrace
                     + $"at {assignment.Position} group={assignment.GroupId}");
                 RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(assignment.Pawn);
                 if (order != null)
+                {
                     report.AppendLine($"    directive={order.Kind} destination={order.Destination} "
                         + $"owner={order.UnitId} group={order.GroupId} "
                         + $"room={order.Room} retryAfter={order.RetryAfter} "
                         + $"job={MapComponent_RaidTacticalTrace.Describe(assignment.Pawn.CurJob)}");
+                    report.AppendLine($"    requested={order.Movement.RequestedKind}@{order.Movement.RequestedDestination} "
+                        + $"controller={order.Movement.Controller} blocked={order.Movement.BlockReason} "
+                        + $"blockedTicks={(order.Movement.BlockedSince < 0 ? 0 : GenTicks.TicksGame - order.Movement.BlockedSince)} "
+                        + $"requestedTick={order.Movement.RequestedTick} actualGotoTick={order.Movement.StartedTick} "
+                        + $"lastStartLatency={order.Movement.LastStartLatency}");
+                }
                 if (contactsState != null)
                 {
                     RaidNodeMemberProgress progress = contactsState.NodeMembers.FirstOrDefault(value => value.Pawn == assignment.Pawn);
@@ -219,7 +244,11 @@ namespace Helodrace
                     bool personalApproachDone = plan.MovementNodes.Count > 0 && progress != null
                         && progress.Completed >= plan.MovementNodes.Count - 1;
                     report.AppendLine($"    approach unitDone={contactsState.ApproachComplete} memberDone={personalApproachDone}; "
+                        + $"participating={MapComponent_RaidTacticalExecution.ContactGuardFor(contactsState, assignment.Pawn, GenTicks.TicksGame) == null} "
                         + $"slot={assignment.Position} current={assignment.Pawn.Position}");
+                    if (progress?.JoinConnection != null)
+                        report.AppendLine($"    personalJoin={progress.JoinConnection.Center} "
+                            + $"cells={progress.JoinConnection.RestrictedCells.Count} portals={progress.JoinConnection.AllowedPortals.Count}");
                     if (ingress != null)
                         report.AppendLine($"    ingress active={ingress.Active} entered={ingress.Entered} opening={ingress.Opening} "
                             + $"clearance={ingress.Destination} requested={ingress.Requested} room={ingress.InsideRoom} "

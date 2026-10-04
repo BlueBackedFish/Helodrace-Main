@@ -42,6 +42,14 @@ namespace Helodrace
     [HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
     public static class Patch_RaidTacticalTrace_StartJob
     {
+        public static void Postfix(Pawn ___pawn)
+        {
+            Job job = ___pawn.CurJob;
+            if (job?.def != RimWorld.JobDefOf.Goto || !MapComponent_RaidTacticalOrders.Owned(job)) return;
+            RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(___pawn);
+            if (order != null && order.Destination == job.targetA.Cell) order.Movement.Started(GenTicks.TicksGame);
+        }
+
         public static void Prefix(Pawn ___pawn, Job newJob,
             JobCondition lastJobEndCondition, bool cancelBusyStances, ThinkNode jobGiver)
         {

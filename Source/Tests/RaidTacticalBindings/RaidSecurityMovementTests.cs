@@ -53,6 +53,19 @@ internal static class RaidSecurityMovementTests
             new[] { typeof(MapComponent_RaidTacticalExecution.ExecutionState), typeof(Pawn), typeof(int) });
         Check(guardLookup.Invoke(null, new object[] { state, tail, 100 }) == null,
             "Released security guards stop owning subsequent movement orders immediately.");
+        var diagnostic = new RaidMovementDiagnostics();
+        diagnostic.Request(RaidOrderKind.Move, new IntVec3(3, 0, 4), RaidMoveController.Formation, 100, true);
+        diagnostic.Block(RaidMoveBlockReason.GridPreparing, 105);
+        diagnostic.Block(RaidMoveBlockReason.GridPreparing, 120);
+        Check(diagnostic.BlockedSince == 105 && diagnostic.StartedTick == -1,
+            "Repeated grid waits preserve wait age and do not claim that a Goto has started.");
+        diagnostic.Started(130);
+        Check(diagnostic.LastStartLatency == 30 && diagnostic.StartedTick == 130 && diagnostic.BlockedSince == -1,
+            "Actual Goto start records request latency and clears the wait reason.");
+        diagnostic.Request(RaidOrderKind.Move, new IntVec3(3, 0, 4), RaidMoveController.Formation, 140, false);
+        diagnostic.Started(150);
+        Check(diagnostic.RequestedTick == 100 && diagnostic.StartedTick == 130,
+            "An unchanged directive or a continuation does not restart its movement latency measurement.");
 
         const int width = 21, height = 17;
         var assembly = typeof(RaidStructureSnapshot).Assembly;

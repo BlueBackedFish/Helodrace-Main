@@ -29,6 +29,7 @@ namespace Helodrace
         public float LeashRadius;
         public bool RefreshPending;
         public bool Reactive;
+        public RaidMovementDiagnostics Movement = new RaidMovementDiagnostics();
 
         internal bool OwnedBy(RaidTacticalUnit unit) => unit != null && UnitId == unit.Id
             && OrganizationId == unit.OrganizationId
@@ -134,8 +135,12 @@ namespace Helodrace
         {
             if (pawn?.Spawned != true || pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.ControlsPawn(pawn) != true) return false;
-            RaidContactGuard guard = !reactive ? MapComponent_RaidTacticalExecution.ContactGuardFor(pawn) : null;
-            if (guard != null)
+            RaidOrderKind requestedKind = kind;
+            IntVec3 requestedDestination = destination;
+            RaidContactGuard guard = MapComponent_RaidTacticalExecution.ContactGuardFor(pawn);
+            RaidMoveController controller = guard != null && (!reactive || destination == guard.Position)
+                ? RaidMoveController.ContactGuard : reactive ? RaidMoveController.Reaction : RaidMoveController.Formation;
+            if (guard != null && !reactive)
             {
                 kind = pawn.Position == guard.Position ? RaidOrderKind.Hold : RaidOrderKind.Move;
                 destination = guard.Position; sprint = false; fightOnArrival = false; radius = 1f; reactive = true;
@@ -157,10 +162,17 @@ namespace Helodrace
                 destination = ingressDestination.IsValid ? ingressDestination : pawn.Position;
                 kind = ingressDestination.IsValid && destination != pawn.Position ? RaidOrderKind.Move : RaidOrderKind.Hold;
                 fightOnArrival = false;
+                controller = RaidMoveController.ExteriorIngress;
             }
             bool changed = order.Kind != kind || order.Destination != destination
                 || order.Sprint != sprint || order.FightOnArrival != fightOnArrival
                 || order.Radius != radius || order.Reactive != reactive;
+            order.Movement.Request(requestedKind, requestedDestination, controller, GenTicks.TicksGame, changed);
+            if (controller == RaidMoveController.ContactGuard)
+                order.Movement.Block(RaidMoveBlockReason.ContactGuard, GenTicks.TicksGame);
+            else if (controller == RaidMoveController.ExteriorIngress && kind == RaidOrderKind.Hold)
+                order.Movement.Block(RaidMoveBlockReason.OpeningWait, GenTicks.TicksGame);
+            else if (changed) order.Movement.Block(RaidMoveBlockReason.None, GenTicks.TicksGame);
             if (changed)
             {
                 order.Kind = kind;
@@ -224,7 +236,11 @@ namespace Helodrace
                 || (condition != JobCondition.Incompletable && condition != JobCondition.Errored
                     && condition != JobCondition.ErroredPather)) return;
             RaidPawnOrder order = For(pawn);
-            if (order != null) order.RetryAfter = GenTicks.TicksGame + 120;
+            if (order != null)
+            {
+                order.RetryAfter = GenTicks.TicksGame + 120;
+                order.Movement.Block(RaidMoveBlockReason.RetryDelay, GenTicks.TicksGame);
+            }
         }
 
         internal static bool Protected(Pawn pawn)
@@ -268,7 +284,10 @@ namespace Helodrace
             execution?.ContinueExteriorIngress(pawn, order);
             if (order.Destination == pawn.Position) return Wait(pawn, order);
             if (pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.ReadyFor(pawn) == false)
+            {
+                order.Movement.Block(RaidMoveBlockReason.GridPreparing, GenTicks.TicksGame);
                 return Wait(pawn, order);
+            }
             // Another job can reserve the temporary endpoint after the steering
             // update. Resolve a free endpoint in the same shared direction now,
             // rather than imposing the 120-tick retry on the rest of the squad.
@@ -285,6 +304,12 @@ namespace Helodrace
                 || !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
                 || !pawn.CanReach(order.Destination, PathEndMode.OnCell, Danger.Deadly))
             {
+                RaidMoveBlockReason reason = GenTicks.TicksGame < order.RetryAfter ? RaidMoveBlockReason.RetryDelay
+                    : !order.Destination.InBounds(pawn.Map) || !order.Destination.Standable(pawn.Map)
+                        ? RaidMoveBlockReason.InvalidDestination
+                    : !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
+                        ? RaidMoveBlockReason.DestinationReserved : RaidMoveBlockReason.Unreachable;
+                order.Movement.Block(reason, GenTicks.TicksGame);
                 if (GenTicks.TicksGame >= order.RetryAfter)
                 {
                     order.RetryAfter = GenTicks.TicksGame + 120;
@@ -293,6 +318,7 @@ namespace Helodrace
                 return Wait(pawn, order);
             }
             Job job = JobMaker.MakeJob(JobDefOf.Goto, order.Destination);
+            order.Movement.Block(RaidMoveBlockReason.None, GenTicks.TicksGame);
             job.locomotionUrgency = order.Sprint ? LocomotionUrgency.Sprint : LocomotionUrgency.Jog;
             return job;
         }
@@ -343,7 +369,11 @@ namespace Helodrace
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
             if (order == null) return null;
             if (MapComponent_RaidTacticalOrders.Protected(pawn) || pawn.stances.FullBodyBusy)
+            {
+                order.Movement.Block(MapComponent_RaidTacticalOrders.Protected(pawn)
+                    ? RaidMoveBlockReason.ProtectedJob : RaidMoveBlockReason.Busy, GenTicks.TicksGame);
                 return pawn.CurJob;
+            }
             if (order.Kind == RaidOrderKind.Fight)
                 return MapComponent_RaidTacticalOrders.Fighter.Give(pawn);
             if (order.Kind == RaidOrderKind.Move && pawn.Position == order.Destination
