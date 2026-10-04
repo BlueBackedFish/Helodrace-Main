@@ -7,7 +7,7 @@
   <HD_RaidView_ContactPortal>LAST OBSERVED PASSAGE</HD_RaidView_ContactPortal>
   <HD_RaidView_Title>Tactical view · {0}</HD_RaidView_Title>
   <HD_RaidView_Summary>Cache {0} · {1} · {2} cleared rooms</HD_RaidView_Summary>
-  <HD_RaidView_Legend>Rooms: green cleared / yellow target / red uncleared / gray unknown.&#10;Layout: room ID + boundary; white walls, yellow doors.</HD_RaidView_Legend>
+  <HD_RaidView_Legend>Rooms: green cleared / yellow target / red uncleared / gray unknown. Pink observed threat / orange recheck needed.&#10;Layout: room ID + boundary; white walls, yellow doors.</HD_RaidView_Legend>
   <HD_RaidView_Refresh>Refresh: 0.5 seconds · select a pawn to follow its organization</HD_RaidView_Refresh>
   <HD_RaidView_Clipped>Showing central 64×64 cells; zoom in or move the camera.</HD_RaidView_Clipped>
   <HD_RaidView_Next>Next organization</HD_RaidView_Next>
@@ -16,6 +16,8 @@
   <HD_RaidView_Waiting>Waiting for raid snapshot</HD_RaidView_Waiting>
   <HD_RaidView_Cleared>Cleared</HD_RaidView_Cleared>
   <HD_RaidView_Current>Current target</HD_RaidView_Current>
+  <HD_RaidView_Threatened>Observed threat</HD_RaidView_Threatened>
+  <HD_RaidView_Recheck>Recheck needed</HD_RaidView_Recheck>
   <HD_RaidView_Uncleared>Uncleared</HD_RaidView_Uncleared>
   <HD_RaidView_Unknown>No progress data</HD_RaidView_Unknown>
   <HD_RaidView_Start>START</HD_RaidView_Start>

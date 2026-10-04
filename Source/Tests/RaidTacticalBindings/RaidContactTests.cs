@@ -77,6 +77,33 @@ internal static class RaidContactTests
             .Invoke(null, new object[] { rear, opposed, close });
         Check(Pause(true, false, false) && Pause(false, true, false) && Pause(false, false, true)
             && !Pause(false, false, false), "Only current rear, crossfire or close threats pause the operation; vanished enemies keep guards instead.");
+        memory = new RaidContactMemory();
+        contact = Observe(1, first, 4000, door);
+        Check(memory.CanTarget(1, first, 4000) && !memory.CanTarget(2, first, 4000), "A grenade target must belong to the observed identity.");
+        Observe(1, door, 4020, door);
+        Check(!memory.CanTarget(1, first, 4020) && memory.CanTarget(1, door, 4020), "A moving contact invalidates the prepared throw at its old cell.");
+        memory.FinishScan(4040, new HashSet<int>());
+        Check(memory.CanTarget(1, door, 4140) && !memory.CanTarget(1, door, 4141), "An unseen exact target expires after two seconds.");
+        contact.PositionConfirmedEmpty = true;
+        Check(!memory.CanTarget(1, door, 4050), "Observing an empty target cancels the throw even inside the recent-contact window.");
+        var rooms = new RaidRoomSecurity();
+        rooms.Observe(7, first, 4000);
+        var record = rooms.For(7);
+        Check(record.NeedsRecheck && record.RecentConcern(4000) && rooms.For(8) == null,
+            "A contact marks only its room for verification without inventing neighboring enemies.");
+        rooms.Checked(7, 4020);
+        Check(!record.NeedsRecheck, "A room sector check resolves the last recorded concern.");
+        rooms.Observe(7, door, 4040);
+        Check(record.NeedsRecheck && record.Concern == door && rooms.Rooms.Count == 1,
+            "A new rear contact reopens security assessment while retaining stable room identity.");
+        Check(record.RecentConcern(5239) && !record.RecentConcern(5240) && record.NeedsRecheck,
+            "Old concerns stop forcing revisits but cannot claim an unobserved room was verified.");
+        rooms.Observe(0, first, 4050);
+        Check(rooms.Rooms.Count == 1, "Exterior room zero cannot become a fictitious CQB room.");
+        var revisit = new RaidTacticalPlan { ObjectiveIsRecheck = true };
+        Check(AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "TryStartSupport").Invoke(null,
+            new object[] { new List<Pawn>(), revisit, RaidTacticalManeuver.CoordinatedEntry, null, null }) == null,
+            "An actual known-room recheck bypasses support grenade selection before inspecting inventory or targets.");
         Console.WriteLine($"PASS: {checks} shared contact snapshot, visibility-loss, decay and capacity checks");
     }
 }

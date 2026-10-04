@@ -89,6 +89,8 @@ namespace Helodrace
                 ScanTick = -ScanTicks;
             }
         }
+        public bool CanTarget(int enemyId, IntVec3 target, int tick) => target.IsValid && Entries.Any(contact => contact.EnemyId == enemyId
+            && contact.Position == target && !contact.PositionConfirmedEmpty && contact.Confidence(tick) <= RaidContactConfidence.Recent);
         public string Report(int tick)
         {
             var text = new StringBuilder();

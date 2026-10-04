@@ -46,7 +46,7 @@ namespace Helodrace
         }
     }
 
-    internal enum RaidDebugRoomState { Unavailable, Uncleared, CurrentTarget, Cleared }
+    internal enum RaidDebugRoomState { Unavailable, Uncleared, CurrentTarget, Cleared, Threatened, NeedsRecheck }
 
     // Read-only projection using the selected organization's pinned room IDs.
     // Never consult live Room objects or mutate the progress being inspected.
@@ -54,6 +54,7 @@ namespace Helodrace
     {
         internal readonly TacticalStructureVersion Version;
         internal readonly HashSet<int> Cleared = new HashSet<int>();
+        internal readonly HashSet<int> Threatened = new HashSet<int>(), Rechecks = new HashSet<int>();
         internal readonly int CurrentRoom;
         internal readonly bool HasProgress;
         internal RaidRoomDebugData(TacticalStructureVersion version,
@@ -69,6 +70,19 @@ namespace Helodrace
                     if (room > 0) Cleared.Add(room);
                 }
             CurrentRoom = state?.ActivePlan != null ? RoomAt(state.ActivePlan.Objective) : 0;
+            if (state?.RoomSecurity != null)
+                foreach (RaidRoomSecurityRecord record in state.RoomSecurity.Rooms.Where(value => value.NeedsRecheck)) Rechecks.Add(record.Room);
+            if (state?.Contacts != null)
+                foreach (RaidEnemyContact contact in state.Contacts.Entries.Where(value => value.Visible))
+                {
+                    if (contact.Room > 0) Threatened.Add(contact.Room);
+                    if (contact.Portal == contact.Position)
+                        foreach (IntVec3 direction in GenAdj.CardinalDirections)
+                        {
+                            int adjoining = RoomAt(contact.Position + direction);
+                            if (adjoining > 0) Threatened.Add(adjoining);
+                        }
+                }
         }
         internal int RoomAt(IntVec3 cell)
         {
@@ -77,6 +91,8 @@ namespace Helodrace
                 ? input.Cells[cell.x + cell.z * input.Width].Room : 0;
         }
         internal RaidDebugRoomState State(int room) => room <= 0 || !HasProgress ? RaidDebugRoomState.Unavailable
+            : Threatened.Contains(room) ? RaidDebugRoomState.Threatened
+            : Rechecks.Contains(room) ? RaidDebugRoomState.NeedsRecheck
             : Cleared.Contains(room) ? RaidDebugRoomState.Cleared
             : room == CurrentRoom ? RaidDebugRoomState.CurrentTarget : RaidDebugRoomState.Uncleared;
     }
@@ -236,6 +252,8 @@ namespace Helodrace
 
         private static Color RoomColor(int room) => Color.HSVToRGB((room * 0.618034f) % 1f, 0.55f, 0.9f);
         private static Color StateColor(RaidDebugRoomState state) => state == RaidDebugRoomState.Cleared ? EntryColor
+            : state == RaidDebugRoomState.Threatened ? new Color(1f, 0.05f, 0.65f)
+            : state == RaidDebugRoomState.NeedsRecheck ? new Color(1f, 0.5f, 0.05f)
             : state == RaidDebugRoomState.CurrentTarget ? Color.yellow
             : state == RaidDebugRoomState.Uncleared ? new Color(1f, 0.3f, 0.25f) : Color.gray;
 
@@ -322,6 +340,8 @@ namespace Helodrace
         }
 
         private static string RoomStateLabel(RaidDebugRoomState state) => (state == RaidDebugRoomState.Cleared ? "HD_RaidView_Cleared"
+            : state == RaidDebugRoomState.Threatened ? "HD_RaidView_Threatened"
+            : state == RaidDebugRoomState.NeedsRecheck ? "HD_RaidView_Recheck"
             : state == RaidDebugRoomState.CurrentTarget ? "HD_RaidView_Current"
             : state == RaidDebugRoomState.Uncleared ? "HD_RaidView_Uncleared" : "HD_RaidView_Unknown").Translate();
 

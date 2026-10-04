@@ -142,6 +142,7 @@ namespace Helodrace
             public RaidContactMemory Contacts = new RaidContactMemory();
             public List<RaidContactGuard> ContactGuards = new List<RaidContactGuard>();
             public bool ContactPause;
+            public RaidRoomSecurity RoomSecurity = new RaidRoomSecurity();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
 
@@ -217,6 +218,8 @@ namespace Helodrace
                 Scribe_Deep.Look(ref Contacts, "contacts");
                 Scribe_Collections.Look(ref ContactGuards, "contactGuards", LookMode.Deep);
                 Scribe_Values.Look(ref ContactPause, "contactPause");
+                Scribe_Deep.Look(ref RoomSecurity, "roomSecurity");
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && RoomSecurity == null) RoomSecurity = new RaidRoomSecurity();
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && ContactGuards == null) ContactGuards = new List<RaidContactGuard>();
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Contacts == null) Contacts = new RaidContactMemory();
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Crossings == null)
@@ -556,6 +559,7 @@ namespace Helodrace
                             ?? new List<IntVec3>(),
                         Contacts = previous?.Contacts ?? new RaidContactMemory(),
                         ContactGuards = previous?.ContactGuards ?? new List<RaidContactGuard>(),
+                        RoomSecurity = previous?.RoomSecurity ?? new RaidRoomSecurity(),
                         Maneuver = plan.Selected.Maneuver,
                         ActivePlan = plan,
                         Phase = RaidExecutionPhase.Assemble,
@@ -832,11 +836,10 @@ namespace Helodrace
             if (atObjective * 2 < entry.Count) return false;
 
             float dangerRadius = indoors ? 12f : 18f;
-            if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
-                && !enemy.Downed && enemy.Faction != null
-                && enemy.Faction.HostileTo(organization.faction)
-                && (enemy.Position.DistanceTo(objective) <= dangerRadius
-                    || (indoors && structure.RoomAt(enemy.Position) == room)))) return false;
+            RefreshContacts(members, state.ActivePlan, state, tick);
+            if (state.Contacts.Entries.Any(contact => contact.Confidence(tick) <= RaidContactConfidence.Area
+                && (contact.Position.DistanceTo(objective) <= dangerRadius || indoors && ContactRooms(structure, contact.Position).Contains(room)))) return false;
+            if (indoors && state.RoomSecurity.For(room)?.RecentConcern(tick) == true) return false;
 
             Lord lord = members[0].GetLord();
             if (lord == null || members.Any(pawn => pawn.GetLord() != lord)) return false;
@@ -854,6 +857,10 @@ namespace Helodrace
             if (RespondToFire(members, plan, state, tick)) return;
             if (RespondToCqbContacts(members, plan, state, tick)) return;
             if (FieldDefense(members, plan, state, tick)) return;
+            if (state.Phase == RaidExecutionPhase.Complete && state.ClearingRooms
+                && StructureFor(map, plan)?.IsIndoor(plan.Objective) == true
+                && state.RoomSecurity.Rooms.Any(room => room.RecentConcern(tick)))
+                Advance(state, RaidExecutionPhase.SecureRoom, tick);
             if (RecoverCqbIntent(organization, members, plan, state, tick)) return;
             if (RefreshLocalCqb(organization, members, plan, state, tick)) return;
             // Completed phases may hand over immediately; movement, gathering,
@@ -2029,6 +2036,7 @@ namespace Helodrace
             RaidTacticalManeuver maneuver, Pawn preferred = null, RaidEntryObservation observation = null)
         {
             bool entry = maneuver == RaidTacticalManeuver.CoordinatedEntry;
+            if (entry && plan.ObjectiveIsRecheck) return null;
             Map currentMap = members[0].Map;
             RaidStructureSnapshot structure = StructureFor(currentMap, plan);
             int objectiveRoom = structure?.RoomAt(plan.BreachCell.IsValid ? plan.BreachInside : plan.Objective) ?? 0;
@@ -2039,6 +2047,11 @@ namespace Helodrace
             bool smoke = maneuver == RaidTacticalManeuver.SmokeAdvance || entrySmoke;
             bool fieldGrenade = maneuver == RaidTacticalManeuver.FieldGrenade;
             if (!smoke && !entry && !fieldGrenade) return null;
+            RaidContactMemory contacts = currentMap.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(plan.OrganizationId)?.Contacts;
+            RaidEnemyContact contactTarget = entry && observation?.HasEnemyContact == true
+                ? contacts?.Entries.FirstOrDefault(contact => contact.EnemyId == observation.EnemyId) : null;
+            if (entry && observation?.HasEnemyContact == true
+                && (contactTarget == null || !contacts.CanTarget(contactTarget.EnemyId, contactTarget.Position, GenTicks.TicksGame))) return null;
             if (entry && !smoke && plan.Doctrine == RaidTacticalDoctrine.Low
                 && currentMap.mapPawns.AllPawnsSpawned.Any(pawn => pawn.Faction == members[0].Faction
                     && (plan.BreachCell.IsValid
@@ -2046,7 +2059,7 @@ namespace Helodrace
                         : objectiveRoom > 0
                             && structure.RoomAt(pawn.Position) == objectiveRoom))) return null;
             IEnumerable<IntVec3> targets = entry && observation?.HasEnemyContact == true
-                ? new[] { observation.EnemyCell } : entrySmoke ? EntrySmokeTargets(currentMap, plan, structure) : smoke
+                ? new[] { contactTarget.Position } : entrySmoke ? EntrySmokeTargets(currentMap, plan, structure) : smoke
                 ? (IEnumerable<IntVec3>)new[] { plan.Frontline }
                 : fieldGrenade
                     ? (IEnumerable<IntVec3>)currentMap.mapPawns.AllPawnsSpawned
@@ -2227,10 +2240,10 @@ namespace Helodrace
                 Pawn pawn = assignment.Pawn;
                 if (!members.Contains(pawn) || !pawn.Spawned || pawn.Map != map
                     || IsTaserOperation(pawn)) continue;
-                if (map.mapPawns.AllPawnsSpawned.Any(enemy => !enemy.Dead
-                    && enemy.Faction != null && enemy.Faction.HostileTo(pawn.Faction)
-                    && structure.RoomAt(enemy.Position) == room
-                    && enemy.Position.DistanceTo(pawn.Position) <= 6f)) continue;
+                ExecutionState securityState = StateFor(plan.OrganizationId);
+                if (securityState?.Contacts.Entries.Any(contact => contact.Confidence(GenTicks.TicksGame) == RaidContactConfidence.Visible
+                    && ContactRooms(structure, contact.Position).Contains(room)
+                    && contact.Position.DistanceToSquared(pawn.Position) <= 36) == true) continue;
                 IntVec3 sector = sectors
                     .Where(cell => occupied.All(other => cell.DistanceTo(other) >= 3f))
                     .OrderByDescending(cell => structure.CachedAt(cell).DoorThreat * 2f
@@ -2269,10 +2282,10 @@ namespace Helodrace
             List<Pawn> entry = EntryPawns(members, plan);
             if (entry.Count == 0 || entry.Count(pawn =>
                 structure.RoomAt(pawn.Position) == room) * 2 < entry.Count) return false;
-            return !map.mapPawns.AllPawnsSpawned.Any(pawn => !pawn.Dead
-                && !pawn.Downed && pawn.Faction != null
-                && pawn.Faction.HostileTo(organization.faction)
-                && structure.RoomAt(pawn.Position) == room);
+            ExecutionState state = StateFor(plan.OrganizationId);
+            int tick = GenTicks.TicksGame;
+            return state != null && !RecentRoomContact(state, structure, room, tick)
+                && CheckRoomConcern(members, plan, state, room, tick);
         }
 
         private bool TryPlanNextRoom(CombatOrganization organization,
@@ -2292,6 +2305,7 @@ namespace Helodrace
             Pawn observer = members.Where(pawn => structure.RoomAt(pawn.Position) == structure.RoomAt(current.Objective))
                 .OrderBy(pawn => pawn.Position.DistanceToSquared(current.Objective)).FirstOrDefault() ?? members[0];
             if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
+            if (TryPlanContactRecheck(organization, members, current, state, structure, cleared, observer, tick)) return true;
             state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells);
             foreach (IntVec3 target in state.LocalCqb.NeighborTargets(observer.Position, cleared)
                 .OrderBy(cell => structure.RoomAt(cell) == structure.RoomAt(state.FinalObjective) ? 0 : 1)
@@ -2319,10 +2333,8 @@ namespace Helodrace
             }
             IntVec3 start = members[0].Position;
             IEnumerable<IntVec3> anchors = structure.ObjectiveAnchors
-                .Concat(map.mapPawns.AllPawnsSpawned
-                    .Where(pawn => !pawn.Dead && pawn.Faction != null
-                        && pawn.Faction.HostileTo(organization.faction))
-                    .Select(pawn => pawn.Position))
+                .Concat(state.Contacts.Entries.Where(contact => contact.Confidence(tick) <= RaidContactConfidence.Area)
+                    .Select(contact => contact.Position))
                 .Where(cell => cell.DistanceTo(observer.Position) <= RaidCqbLocalMap.Radius);
             foreach (IGrouping<int, IntVec3> group in anchors
                 .Where(cell => cell.InBounds(map))
@@ -2405,11 +2417,11 @@ namespace Helodrace
                 .Where(value => !value.Open
                     && openIds.Contains(value.thingIDNumber.ToString())))
             {
-                bool enemyOutside = map.mapPawns.AllPawnsSpawned.Any(enemy =>
-                    !enemy.Dead && !enemy.Downed && enemy.Faction != null
-                    && enemy.Faction.HostileTo(members[0].Faction)
-                    && enemy.Position.DistanceTo(door.Position) <= 4f
-                    && structure.RoomAt(enemy.Position) != room);
+                ExecutionState state = StateFor(plan.OrganizationId);
+                bool enemyOutside = state?.Contacts.Entries.Any(contact =>
+                    contact.Confidence(GenTicks.TicksGame) <= RaidContactConfidence.Recent
+                    && contact.Position.DistanceToSquared(door.Position) <= 16
+                    && contact.Room != room) == true;
                 if (!enemyOutside) continue;
                 IntVec3 target = new[] { IntVec3.North, IntVec3.East,
                         IntVec3.South, IntVec3.West }

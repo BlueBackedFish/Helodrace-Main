@@ -22,6 +22,7 @@ namespace Helodrace
         public bool Unavailable;
         public List<IntVec3> VisibleCells = new List<IntVec3>();
         public IntVec3 EnemyCell = IntVec3.Invalid;
+        public int EnemyId;
         public bool HasEnemyContact => EnemyCell.IsValid;
 
         public void ExposeData()
@@ -35,6 +36,7 @@ namespace Helodrace
             Scribe_Values.Look(ref Unavailable, "unavailable");
             Scribe_Collections.Look(ref VisibleCells, "visibleCells", LookMode.Value);
             Scribe_Values.Look(ref EnemyCell, "enemyCell", IntVec3.Invalid);
+            Scribe_Values.Look(ref EnemyId, "enemyId");
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (VisibleCells == null) VisibleCells = new List<IntVec3>();
@@ -219,6 +221,7 @@ namespace Helodrace
                     state.Observation.ReturnComplete = false;
                     state.Observation.VisibleCells.Clear();
                     state.Observation.EnemyCell = IntVec3.Invalid;
+                    state.Observation.EnemyId = 0;
                     Job job = JobMaker.MakeJob(definition, position, plan.BreachInside, source);
                     job.count = plan.PlannedTick;
                     job.canUseRangedWeapon = false;
@@ -293,6 +296,7 @@ namespace Helodrace
                 {
                     RecordContact(observer, enemy, state, structure, GenTicks.TicksGame);
                     state.Observation.RecordEnemy(enemy.Position);
+                    state.Observation.EnemyId = enemy.thingIDNumber;
                     MapComponent_RaidTacticalTrace.Record(observer, $"Opening contact at {enemy.Position}; end peek and withdraw immediately");
                     return;
                 }

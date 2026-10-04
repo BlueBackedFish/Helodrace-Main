@@ -75,6 +75,16 @@ namespace Helodrace
                 || state.Phase == RaidExecutionPhase.SecureRoom || state.ApproachSmokeActive && state.ApproachSmokeThrower == pawn);
         }
 
+        private bool ContactTargetStillValid()
+        {
+            var state = pawn.Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(organizationId);
+            if (state == null || state.Maneuver != RaidTacticalManeuver.CoordinatedEntry
+                || state.Phase != RaidExecutionPhase.Support || state.Thrower != pawn
+                || state.ApproachSmokeActive && state.ApproachSmokeThrower == pawn
+                || state.Observation?.HasEnemyContact != true) return true;
+            return state.Contacts.CanTarget(state.Observation.EnemyId, job.targetA.Cell, GenTicks.TicksGame);
+        }
+
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOn(() => pawn.Faction == RimWorld.Faction.OfPlayer || pawn.Dead || pawn.Downed
@@ -100,6 +110,7 @@ namespace Helodrace
             yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
             Toil release = Toils_General.Wait(RaidGrenadePreparation.ReleaseTicks, TargetIndex.A);
             release.FailOn(() => !InventoryGrenadeUtility.CanThrowAt(pawn, job.targetA.Cell, Range)
+                || !ContactTargetStillValid()
                 || !MapComponent_RaidTacticalExecution.SafeSupportThrow(pawn, Grenade, job.targetA.Cell, CloseThrow));
             release.WithProgressBarToilDelay(TargetIndex.A);
             yield return release;

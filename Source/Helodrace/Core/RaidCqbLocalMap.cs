@@ -57,6 +57,12 @@ namespace Helodrace
             ? new List<IntVec3>() : topology.Path(Index(source), Index(target), allowedRooms).Select(Cell).ToList();
         public IEnumerable<IntVec3> NeighborTargets(IntVec3 source, ISet<int> cleared) => topology == null
             ? Enumerable.Empty<IntVec3>() : topology.NeighborTargets(Index(source), cleared).Select(Cell);
+        public HashSet<IntVec3> Reachable(IntVec3 source, ISet<int> allowedRooms)
+        {
+            if (topology == null) return new HashSet<IntVec3>();
+            int[] distances = topology.Distances(Index(source), out _, allowedRooms);
+            return new HashSet<IntVec3>(Enumerable.Range(0, distances.Length).Where(index => distances[index] >= 0).Select(Cell));
+        }
         public bool IsPortal(IntVec3 cell) => Index(cell) >= 0 && topology.Portals[Index(cell)];
         public bool Contains(IntVec3 cell) => Index(cell) >= 0;
     }
@@ -99,6 +105,7 @@ namespace Helodrace
                 || state.Breacher?.CurJobDef?.defName == "HD_PowerCutterBreach")
                 state.Breacher.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
             next.ObjectiveIsIntermediate = plan.ObjectiveIsIntermediate;
+            next.ObjectiveIsRecheck = plan.ObjectiveIsRecheck;
             ActivateNextRoomPlan(organization, members, state, next, tick);
             if (next.CqbIntent == RaidCqbIntent.ClearCurrentRoom) Advance(state, RaidExecutionPhase.Assault, tick);
             MapComponent_RaidTacticalTrace.Record(observer, alreadyInside
@@ -138,6 +145,7 @@ namespace Helodrace
                 || state.Breacher?.CurJobDef?.defName == "HD_PowerCutterBreach")
                 state.Breacher.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
             next.ObjectiveIsIntermediate = plan.ObjectiveIsIntermediate;
+            next.ObjectiveIsRecheck = plan.ObjectiveIsRecheck;
             ActivateNextRoomPlan(organization, members, state, next, tick);
             Assemble(members, next);
             MapComponent_RaidTacticalTrace.Record(observer, obstructed

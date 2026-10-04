@@ -460,6 +460,15 @@ internal static class Program
             "A refresh must capture new clearance without mutating the previously rendered snapshot.");
         Check(firstState.ClearedRoomCells.Count == 6 && RoomAt(first, 0) == 7 && RoomAt(first, 4) == 8,
             "Inspecting the map must not rewrite saved progress or static room IDs.");
+        firstState.RoomSecurity.Observe(7, new IntVec3(0, 0, 0), 100);
+        firstState.Contacts.Observe(123, "Rear contact", new IntVec3(0, 0, 0), 7, 1, 100, IntVec3.Invalid, true, 24f);
+        Check(State(Project(firstState), 7) == "Threatened" && firstState.ClearedRoomCells.Count == 6,
+            "A rear contact changes current security without deleting the room's clearing history.");
+        firstState.Contacts.FinishScan(120, new HashSet<int>());
+        Check(State(Project(firstState), 7) == "NeedsRecheck" && State(first, 7) == "Cleared",
+            "Losing an enemy requires rechecking while old debug snapshots stay immutable.");
+        firstState.RoomSecurity.Checked(7, 140);
+        Check(State(Project(firstState), 7) == "Cleared", "A completed local sector check restores the room's historical clear display.");
         Console.WriteLine($"PASS: {checks} read-only tactical overlay room progress checks (real game classes)");
     }
 

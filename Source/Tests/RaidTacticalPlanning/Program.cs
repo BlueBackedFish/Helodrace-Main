@@ -380,6 +380,12 @@ internal static class Program
             "Staging cannot silently cross an uncleared room to reach a deeper wall.");
         Check(topology.Path(0, 3, new HashSet<int> { 1, 2 }).Count == 4,
             "Staging can use secured rooms and open doorway cells.");
+        int[] known = topology.Distances(0, out _, new HashSet<int> { 1, 2 });
+        Check(known[2] == 2 && known[4] == -1, "Contact rechecking can revisit a cleared room without crossing an unknown room.");
+        var blocked = new CqbLocalTopology(5, 1, new[] { 1, 99, 2, 0, 3 },
+            new[] { true, false, true, true, true }, new[] { false, true, false, true, false });
+        Check(blocked.Distances(0, out _, new HashSet<int> { 1, 2 })[2] == -1,
+            "A closed/rebuilt passage cannot be treated as a known recheck route or trigger repeat demolition.");
         Console.WriteLine($"PASS: {checks - before} CQB action intent and valid breach boundary assertions.");
     }
 }

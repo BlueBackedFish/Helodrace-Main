@@ -38,6 +38,7 @@ namespace Helodrace
         public bool ObjectiveIsObservedEnemy;
         public bool ObjectiveIsNamedBed;
         public bool ObjectiveIsIntermediate;
+        public bool ObjectiveIsRecheck;
         public bool IsDefensive;
         public IntVec3 Frontline;
         public IntVec3 Flank;

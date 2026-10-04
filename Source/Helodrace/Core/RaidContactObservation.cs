@@ -48,17 +48,20 @@ namespace Helodrace
                 || structure.CachedAt(cell).WallLine && cell.Walkable(map));
             if (PortalAt(enemy.Position)) portal = enemy.Position;
             else if (previous?.Visible == true && tick - previous.SeenTick <= 40
-                && previous.Position.DistanceToSquared(enemy.Position) <= 64)
+                && previous.Position.DistanceToSquared(enemy.Position) <= 64
+                && GenSight.LineOfSight(previous.Position, enemy.Position, map, true))
                 portal = GenSight.PointsOnLineOfSight(previous.Position, enemy.Position)
                     .Where(PortalAt).DefaultIfEmpty(IntVec3.Invalid).Last();
             int room = structure.RoomAt(enemy.Position);
-            if (IsOpeningDoorCell(map, structure, enemy.Position))
+            if (PortalAt(enemy.Position))
                 room = GenAdj.CardinalDirections.Select(direction => enemy.Position + direction)
                     .Where(cell => cell.InBounds(map) && !structure.CachedAt(cell).WallLine)
                     .OrderByDescending(cell => cell.DistanceToSquared(observer.Position))
                     .Select(structure.RoomAt).DefaultIfEmpty(room).First();
             state.Contacts.Observe(enemy.thingIDNumber, enemy.LabelShort, enemy.Position, room,
                 observer.thingIDNumber, tick, portal, enemy.equipment?.Primary != null, GunRange(enemy));
+            foreach (int touchedRoom in ContactRooms(structure, enemy.Position))
+                state.RoomSecurity.Observe(touchedRoom, enemy.Position, tick);
         }
     }
 }

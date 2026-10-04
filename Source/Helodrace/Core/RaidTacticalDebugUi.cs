@@ -171,7 +171,11 @@ namespace Helodrace
                 report.AppendLine($"CQB contact pause={contactsState.ContactPause}");
                 foreach (RaidContactGuard guard in contactsState.ContactGuards)
                     report.AppendLine($"  Guard {guard.Pawn?.LabelShort}: #{guard.EnemyId} focus={guard.Focus} hold={guard.Position} until={guard.Until}");
+                foreach (RaidRoomSecurityRecord room in contactsState.RoomSecurity.Rooms)
+                    report.AppendLine($"  R{room.Room}: recheck={room.NeedsRecheck} contact={room.Concern} "
+                        + $"last threat={room.LastThreatTick} checked={room.LastCheckedTick}");
             }
+            report.AppendLine($"Known-passage recheck plan={plan.ObjectiveIsRecheck}");
             report.AppendLine($"Wait before group entry: {plan.EntryDelayTicks} ticks; "
                 + $"coordination allowance: {plan.CoordinationDelayTicks} ticks");
             report.AppendLine("Approach nodes: " + string.Join(" → ", plan.ApproachNodes));
