@@ -14,6 +14,7 @@ namespace Helodrace.ModernWar
         [HarmonyPostfix]
         public static void Postfix(Verb_LaunchProjectile __instance, ref ThingDef __result)
         {
+            if (__instance is Verb_ShootModularUnderbarrel) return;
             // CE resolves the projectile from CompAmmoUser.CurrentAmmo. Replacing that
             // result with a vanilla projectile would silently defeat CE ammo selection.
             // Keep the main assembly CE-agnostic by identifying the verb assembly.
@@ -45,6 +46,7 @@ namespace Helodrace.ModernWar
 
         public static SoundDef ResolveCast(SoundDef original, Verb verb)
         {
+            if (verb is Verb_ShootModularUnderbarrel) return original;
             SoundDef replacement = verb?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>()
                 ?.SoundCastOverride;
@@ -53,6 +55,7 @@ namespace Helodrace.ModernWar
 
         public static SoundDef ResolveTail(SoundDef original, Verb verb)
         {
+            if (verb is Verb_ShootModularUnderbarrel) return original;
             SoundDef replacement = verb?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>()
                 ?.SoundCastTailOverride;
@@ -90,7 +93,7 @@ namespace Helodrace.ModernWar
         [HarmonyPostfix]
         public static void Postfix(Verb_LaunchProjectile __instance, bool __result)
         {
-            if (!__result) return;
+            if (!__result || __instance is Verb_ShootModularUnderbarrel) return;
 
             CompModularWeaponNode comp = __instance?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>();

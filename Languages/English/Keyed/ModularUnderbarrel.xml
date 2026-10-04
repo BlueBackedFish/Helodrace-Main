@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_M203_Inspect>Underbarrel grenade: {0}\nStatus: {1}</HD_M203_Inspect>
+  <HD_M203_Fire>Fire underbarrel launcher</HD_M203_Fire>
+  <HD_M203_FireDesc>Fire the loaded 40×46mm grenade independently of the rifle.</HD_M203_FireDesc>
+  <HD_M203_Reload>Reload underbarrel launcher</HD_M203_Reload>
+  <HD_M203_DraftRequired>Draft the operator to fire the launcher.</HD_M203_DraftRequired>
+</LanguageData>

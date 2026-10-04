@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_M203_Inspect>하부 유탄: {0}\n상태: {1}</HD_M203_Inspect>
+  <HD_M203_Fire>하부 유탄발사기 발사</HD_M203_Fire>
+  <HD_M203_FireDesc>소총 사격과 별도로 장전된 40×46mm 유탄을 발사합니다.</HD_M203_FireDesc>
+  <HD_M203_Reload>하부 유탄발사기 재장전</HD_M203_Reload>
+  <HD_M203_DraftRequired>발사하려면 사수를 징집해야 합니다.</HD_M203_DraftRequired>
+</LanguageData>

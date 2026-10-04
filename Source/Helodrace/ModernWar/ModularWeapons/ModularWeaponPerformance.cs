@@ -11,6 +11,7 @@ namespace Helodrace.ModernWar
         [HarmonyPriority(Priority.Last)]
         public static void Postfix(Verb __instance, ref int __result)
         {
+            if (__instance is Verb_ShootModularUnderbarrel) return;
             CompModularWeaponNode comp = __instance?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>();
             if (comp?.Props.isAssemblyRoot != true) return;
@@ -25,6 +26,7 @@ namespace Helodrace.ModernWar
         [HarmonyPriority(Priority.Last)]
         public static void Postfix(Verb __instance, ref int __result)
         {
+            if (__instance is Verb_ShootModularUnderbarrel) return;
             CompModularWeaponNode comp = __instance?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>();
             if (comp?.Props.isAssemblyRoot != true) return;
@@ -39,6 +41,7 @@ namespace Helodrace.ModernWar
         [HarmonyPriority(Priority.Last)]
         public static void Postfix(Verb __instance, ref float __result)
         {
+            if (__instance is Verb_ShootModularUnderbarrel) return;
             CompModularWeaponNode comp = __instance?.EquipmentSource
                 ?.TryGetComp<CompModularWeaponNode>();
             if (comp?.Props.isAssemblyRoot != true) return;

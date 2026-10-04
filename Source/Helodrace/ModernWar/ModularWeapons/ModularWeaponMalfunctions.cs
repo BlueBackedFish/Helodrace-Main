@@ -106,6 +106,7 @@ namespace Helodrace.ModernWar
         [HarmonyPriority(Priority.First)]
         public static bool Prefix(Verb_LaunchProjectile __instance, ref bool __result)
         {
+            if (__instance is Verb_ShootModularUnderbarrel) return true;
             Thing weapon = __instance?.EquipmentSource;
             CompModularWeaponNode comp = weapon?.TryGetComp<CompModularWeaponNode>();
             if (comp?.Props.isAssemblyRoot != true) return true;

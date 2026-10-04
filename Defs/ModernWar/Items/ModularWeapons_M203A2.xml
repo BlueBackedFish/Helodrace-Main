@@ -4,7 +4,7 @@
        the HAC URX lower handguard; the barrel and trigger retain its alignment. -->
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Underbarrel_M203A2_Part</defName><label>M203A2 underbarrel launcher</label>
-    <description>An M203A2 assembly that replaces the HAC URX lower handguard. Its 40mm firing mechanism is not yet available.</description>
+    <description>An M203A2 assembly that replaces the HAC URX lower handguard and fires 40×46mm grenades from the operator's inventory.</description>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_UB_M203A2</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <craftCost><Steel>8</Steel><ComponentIndustrial>2</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
@@ -21,6 +21,12 @@
         <li><socketId>launcher_barrel</socketId><part>HD_ModularPart_UnderbarrelBarrel_M203A2_Part</part></li>
         <li><socketId>launcher_trigger</socketId><part>HD_ModularPart_UnderbarrelTrigger_M203A2_Part</part></li>
       </defaultAttachments>
+    </li>
+    <li Class="Helodrace.ModernWar.CompProperties_ModularUnderbarrelLauncher">
+      <allowedAmmoDefs>
+        <li>HD_40mmM381HE_Round</li><li>HD_40mmM433HEDP_Round</li><li>HD_40mmM576MP_Round</li><li>HD_40mmM651CS_Round</li><li>HD_40mmSponge_Round</li>
+      </allowedAmmoDefs>
+      <reloadTicks>90</reloadTicks>
     </li></comps>
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
