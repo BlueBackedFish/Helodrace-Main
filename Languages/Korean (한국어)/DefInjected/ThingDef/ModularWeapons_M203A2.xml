@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_ModularPart_Underbarrel_M203A2_Part.label>M203A2 하부 유탄발사기</HD_ModularPart_Underbarrel_M203A2_Part.label>
+  <HD_ModularPart_Underbarrel_M203A2_Part.description>하부 피카티니 레일에 장착하는 M203A2 유탄발사기 조립체입니다. 40mm 발사 기능은 아직 사용할 수 없습니다.</HD_ModularPart_Underbarrel_M203A2_Part.description>
+  <HD_ModularPart_Underbarrel_M203A2_Part.comps.0.sockets.0.label>M203A2 총열 결합부</HD_ModularPart_Underbarrel_M203A2_Part.comps.0.sockets.0.label>
+  <HD_ModularPart_Underbarrel_M203A2_Part.comps.0.sockets.1.label>M203A2 방아쇠 결합부</HD_ModularPart_Underbarrel_M203A2_Part.comps.0.sockets.1.label>
+  <HD_ModularPart_UnderbarrelBarrel_M203A2_Part.label>M203A2 유탄발사기 총열</HD_ModularPart_UnderbarrelBarrel_M203A2_Part.label>
+  <HD_ModularPart_UnderbarrelTrigger_M203A2_Part.label>M203A2 유탄발사기 방아쇠</HD_ModularPart_UnderbarrelTrigger_M203A2_Part.label>
+</LanguageData>
