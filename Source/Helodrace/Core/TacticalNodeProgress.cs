@@ -42,13 +42,20 @@ namespace Helodrace
             return result;
         }
 
-        public static bool CanAdvance(int active, int arrived, bool requiredReady, bool gather, int capacity = int.MaxValue)
+        public static bool Advance(bool final, int active, int arrived)
+            => active == 0 || (final ? arrived >= active : arrived > 0);
+        public static int OutsideSince(bool outside, int since, int tick) => outside ? since < 0 ? tick : since : -1;
+        public static bool NeedsCorrection(int since, int tick, int delay) => since >= 0 && tick - since >= delay;
+
+        public static int ForwardJoin(int passed, int target, Func<int, bool> required, Func<int, bool> connected)
         {
-            if (active == 0) return true;
-            if (capacity <= 0) return false;
-            if (gather) return requiredReady && arrived >= active;
-            int quorumSize = capacity < active ? Math.Max(1, capacity - 1) : active;
-            return (capacity < active || requiredReady) && arrived >= (quorumSize * 2 + 2) / 3;
+            int result = passed;
+            for (int i = passed + 1; i <= target; i++)
+            {
+                if (required(i)) break;
+                if (i > passed + 1 && connected(i)) result = i - 1;
+            }
+            return result;
         }
 
         public static bool AllowsStep(int currentRoom, int nextRoom, bool door,

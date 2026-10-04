@@ -515,7 +515,7 @@ internal static class Program
                 name + " forbids drop-pod raid arrivals");
         }
         var modernTeam = (FormationDef)defs["HD_Formation_MW_Fireteam"];
-        Check(modern.movementNodeSpan == 16 && modern.movementArrivalRadius == 3
+        Check(modern.movementNodeSpan == 16 && modern.movementGuidanceRadius == 3
             && modern.movementPortalRadius == 2 && modern.movementArrivalRefreshTicks == 60
             && modern.movementDestinationRetryTicks == 120,
             "Doctrine provides bounded movement node defaults independently of PawnKinds");

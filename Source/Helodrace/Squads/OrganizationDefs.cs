@@ -152,7 +152,10 @@ namespace Helodrace.Squads
         public float squadCohesion;
         public float distributedLeadership;
         public int movementNodeSpan = 16;
-        public int movementArrivalRadius = 3;
+        public int movementLookAhead = 6;
+        public int movementDeviationBand = 10;
+        public int movementDeviationDelayTicks = 90;
+        public int movementGuidanceRadius = 3;
         public int movementPortalRadius = 2;
         public int movementArrivalRefreshTicks = 60;
         public int movementDestinationRetryTicks = 120;
@@ -168,7 +171,9 @@ namespace Helodrace.Squads
             if (actingCommandEfficiency < 0 || actingCommandEfficiency > 1)
                 yield return "Command efficiency must be between 0 and 1.";
             if (movementNodeSpan < 1 || movementNodeSpan > 64
-                || movementArrivalRadius < 1 || movementArrivalRadius > 6
+                || movementLookAhead < 1 || movementLookAhead > 12
+                || movementDeviationBand < 6 || movementDeviationBand > 24 || movementDeviationDelayTicks < 30
+                || movementGuidanceRadius < 1 || movementGuidanceRadius > 6
                 || movementPortalRadius < 1 || movementPortalRadius > 6
                 || movementArrivalRefreshTicks < 1 || movementDestinationRetryTicks < 1)
                 yield return "Movement node settings exceed their bounded work limits.";

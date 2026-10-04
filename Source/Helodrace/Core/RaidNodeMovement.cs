@@ -18,11 +18,10 @@ namespace Helodrace
         public RaidMovementNodePurpose Purpose;
         public int RouteIndex;
         public int Next = -1;
-        public List<IntVec3> ArrivalCells = new List<IntVec3>();
+        public List<IntVec3> GuidanceCells = new List<IntVec3>();
         public List<int> AllowedRooms = new List<int>();
         public List<IntVec3> AllowedPortals = new List<IntVec3>();
-        public int Capacity => ArrivalCells.Count;
-        public int ArrivalRadius = 3;
+        public int GuidanceRadius = 3;
         public int RefreshTicks = 60;
         public int RetryTicks = 120;
         [NonSerialized] public int NextAreaRefresh;
@@ -34,10 +33,10 @@ namespace Helodrace
             Scribe_Values.Look(ref Purpose, "purpose");
             Scribe_Values.Look(ref RouteIndex, "routeIndex");
             Scribe_Values.Look(ref Next, "next", -1);
-            Scribe_Values.Look(ref ArrivalRadius, "arrivalRadius", 3);
+            Scribe_Values.Look(ref GuidanceRadius, "guidanceRadius", 3);
             Scribe_Values.Look(ref RefreshTicks, "refreshTicks", 60);
             Scribe_Values.Look(ref RetryTicks, "retryTicks", 120);
-            Scribe_Collections.Look(ref ArrivalCells, "arrivalCells", LookMode.Value);
+            Scribe_Collections.Look(ref GuidanceCells, "guidanceCells", LookMode.Value);
             Scribe_Collections.Look(ref AllowedRooms, "allowedRooms", LookMode.Value);
             Scribe_Collections.Look(ref AllowedPortals, "allowedPortals", LookMode.Value);
         }
@@ -50,6 +49,8 @@ namespace Helodrace
         public IntVec3 Destination = IntVec3.Invalid;
         public int DestinationNode = -1;
         public int RetryAfter;
+        public int OutsideSince = -1;
+        public int CorrectionAfter;
         public void ExposeData()
         {
             Scribe_References.Look(ref Pawn, "pawn");
@@ -57,6 +58,8 @@ namespace Helodrace
             Scribe_Values.Look(ref Destination, "destination", IntVec3.Invalid);
             Scribe_Values.Look(ref DestinationNode, "destinationNode", -1);
             Scribe_Values.Look(ref RetryAfter, "retryAfter");
+            Scribe_Values.Look(ref OutsideSince, "outsideSince", -1);
+            Scribe_Values.Look(ref CorrectionAfter, "correctionAfter");
         }
     }
 
@@ -82,7 +85,11 @@ namespace Helodrace
                 && (cover[i] && cover[i + 1] && cover[i + 2] && !cover[i - 1]
                     || !cover[i] && cover[i - 1] && cover[i - 2] && cover[i - 3]);
             var indices = TacticalNodeProgress.Select(route.Count, i => Portal(i) || Boundary(i),
-                (a, b) => WalkLine(map, route[a], route[b]), doctrine?.movementNodeSpan ?? 16);
+                (a, b) => WalkLine(map, route[a], route[b])
+                    || structure != null && structure.RoomAt(route[a]) > 0
+                        && structure.RoomAt(route[a]) == structure.RoomAt(route[b])
+                        && structure.RoomArea(structure.RoomAt(route[a])) <= 64,
+                doctrine?.movementNodeSpan ?? 16);
             foreach (int index in indices)
             {
                 bool last = index == route.Count - 1;
@@ -97,11 +104,11 @@ namespace Helodrace
                 if (node.Purpose == RaidMovementNodePurpose.Portal && route[index].GetEdifice(map) is Building_Door
                     && index + 1 < route.Count)
                     node.Center = route[index + 1];
-                node.ArrivalRadius = node.Purpose == RaidMovementNodePurpose.Portal
-                    ? doctrine?.movementPortalRadius ?? 2 : doctrine?.movementArrivalRadius ?? 3;
+                node.GuidanceRadius = node.Purpose == RaidMovementNodePurpose.Portal
+                    ? doctrine?.movementPortalRadius ?? 2 : doctrine?.movementGuidanceRadius ?? 3;
                 node.RefreshTicks = doctrine?.movementArrivalRefreshTicks ?? 60;
                 node.RetryTicks = doctrine?.movementDestinationRetryTicks ?? 120;
-                node.ArrivalCells = ConnectedArea(map, node.Center, node.ArrivalRadius, plan.AvoidedTrapCells);
+                node.GuidanceCells = ConnectedArea(map, node.Center, node.GuidanceRadius, plan.AvoidedTrapCells);
                 if (plan.MovementNodes.Count > 0) plan.MovementNodes.Last().Next = node.Id;
                 plan.MovementNodes.Add(node);
             }
@@ -127,7 +134,11 @@ namespace Helodrace
             ICollection<IntVec3> avoided)
         {
             var result = new List<IntVec3>();
-            if (!center.InBounds(map) || !center.Standable(map)) return result;
+            if (!center.InBounds(map)) return result;
+            if (!center.Standable(map))
+                return GenRadial.RadialCellsAround(center, radius, true)
+                    .Where(cell => cell.InBounds(map) && cell.Standable(map) && !avoided.Contains(cell)
+                        && !(cell.GetEdifice(map) is Building_Door)).ToList();
             var queue = new Queue<IntVec3>();
             var seen = new HashSet<IntVec3> { center };
             queue.Enqueue(center);
@@ -191,10 +202,10 @@ namespace Helodrace
                     state.NodeMembers.Add(new RaidNodeMemberProgress { Pawn = assignment.Pawn });
             if (plan.MovementNodes.Count == 0) return false;
             int target = Math.Min(state.CurrentNode, plan.MovementNodes.Count - 1);
-            var occupied = new HashSet<IntVec3>(state.NodeMembers.Where(progress =>
-                progress.Destination.IsValid && progress.Completed < progress.DestinationNode)
-                .Select(progress => progress.Destination));
-            occupied.UnionWith(group.Select(assignment => assignment.Pawn.Position));
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            int lookAhead = Helodrace.Squads.RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine?.movementLookAhead ?? 6;
+            var doctrine = Helodrace.Squads.RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine;
+            int band = doctrine?.movementDeviationBand ?? 10;
             float remaining = 0;
             foreach (RaidNodeMemberProgress progress in state.NodeMembers)
             {
@@ -202,11 +213,17 @@ namespace Helodrace
                 Pawn pawn = progress.Pawn;
                 // Each member crosses required nodes in order. The lead element never returns for the tail.
                 int before = progress.Completed;
-                progress.Completed = TacticalNodeProgress.Arrive(before, target, plan.MovementNodes.Count, nextIndex =>
+                // Skip ordinary guides when the forward join is physically visible.
+                progress.Completed = TacticalNodeProgress.ForwardJoin(before, target,
+                    i => plan.MovementNodes[i].Purpose == RaidMovementNodePurpose.Portal,
+                    i => RaidNodeRoute.WalkLine(map, pawn.Position, plan.MovementNodes[i].Center));
+                progress.Completed = TacticalNodeProgress.Arrive(progress.Completed, target, plan.MovementNodes.Count, nextIndex =>
                 {
                     RaidMovementNode node = plan.MovementNodes[nextIndex];
-                    bool arrived = node.ArrivalCells.Contains(pawn.Position)
-                        && RaidNodeRoute.WalkLine(map, node.Center, pawn.Position);
+                    bool arrived = pawn.Position.DistanceToSquared(node.Center) <= lookAhead * lookAhead
+                        && RaidNodeRoute.WalkLine(map, node.Center, pawn.Position)
+                        && (node.Purpose != RaidMovementNodePurpose.Portal
+                            || structure?.RoomAt(pawn.Position) == structure?.RoomAt(node.Center));
                     // A scattered raid starts from individual positions; the origin is not a mandatory rally.
                     if (nextIndex == 0 && plan.MovementNodes.Count > 1 && node.Purpose == RaidMovementNodePurpose.Transit)
                         arrived = true;
@@ -214,7 +231,12 @@ namespace Helodrace
                 });
                 if (progress.Completed > before) state.ApproachProgressTick = tick;
                 int next = progress.Completed + 1;
-                if (next > target || next >= plan.MovementNodes.Count)
+                if (next > target && next < plan.MovementNodes.Count)
+                {
+                    state.CurrentNode = target = next;
+                    state.ApproachProgressTick = tick;
+                }
+                if (next >= plan.MovementNodes.Count)
                 {
                     if (!IsTaserOperation(pawn))
                     {
@@ -224,26 +246,47 @@ namespace Helodrace
                             if (!AtStagingPosition(assignment, plan)) TryGoto(pawn, assignment.Position);
                             else { HoldPosition(pawn); FaceStackSector(pawn, plan, assignment); }
                         }
-                        else HoldPosition(pawn);
                     }
                     continue;
                 }
                 RaidMovementNode destinationNode = plan.MovementNodes[next];
                 remaining += pawn.Position.DistanceTo(destinationNode.Center);
                 if (IsTaserOperation(pawn)) continue;
+                int from = progress.Completed < 0 ? 0 : plan.MovementNodes[progress.Completed].RouteIndex;
+                var forward = plan.ApproachPath.Skip(from).Take(Math.Min(65, destinationNode.RouteIndex - from + 2))
+                    .Where(cell => cell.InBounds(map)).OrderBy(cell => pawn.Position.DistanceToSquared(cell)).Take(8)
+                    .Where(cell => RaidNodeRoute.WalkLine(map, pawn.Position, cell)).ToList();
+                float offRoute = forward.Select(cell => (float)pawn.Position.DistanceToSquared(cell))
+                    .DefaultIfEmpty(float.MaxValue).Min();
+                progress.OutsideSince = TacticalNodeProgress.OutsideSince(offRoute > band * band, progress.OutsideSince, tick);
+                if (TacticalNodeProgress.NeedsCorrection(progress.OutsideSince, tick, doctrine?.movementDeviationDelayTicks ?? 90)
+                    && tick >= progress.CorrectionAfter)
+                {
+                    IntVec3 join = forward.Where(cell => cell.Standable(map) && !plan.AvoidedTrapCells.Contains(cell)
+                            && !(cell.GetEdifice(map) is Building_Door))
+                        .OrderBy(cell => pawn.Position.DistanceToSquared(cell))
+                        .DefaultIfEmpty(IntVec3.Invalid).First();
+                    if (join.IsValid)
+                    {
+                        progress.Destination = join;
+                        progress.DestinationNode = next;
+                        progress.CorrectionAfter = tick + 120;
+                        MapComponent_RaidTacticalTrace.Record(pawn, $"Persistent approach deviation: forward join {join}");
+                    }
+                }
                 if (progress.DestinationNode != next || !progress.Destination.InBounds(map)
                     || !progress.Destination.Standable(map)
-                    || !RaidNodeRoute.WalkLine(map, destinationNode.Center, progress.Destination))
+                    || pawn.Position.DistanceToSquared(progress.Destination) <= 4)
                 {
                     if (tick < progress.RetryAfter) continue;
                     if (tick >= destinationNode.NextAreaRefresh)
                     {
-                        destinationNode.ArrivalCells = RaidNodeRoute.ConnectedArea(map, destinationNode.Center,
-                            destinationNode.ArrivalRadius, plan.AvoidedTrapCells);
+                        destinationNode.GuidanceCells = RaidNodeRoute.ConnectedArea(map, destinationNode.Center,
+                            destinationNode.GuidanceRadius, plan.AvoidedTrapCells);
                         destinationNode.NextAreaRefresh = tick + destinationNode.RefreshTicks;
                     }
-                    progress.Destination = destinationNode.ArrivalCells.Where(cell => cell.Standable(map)
-                            && !occupied.Contains(cell) && RaidNodeRoute.WalkLine(map, destinationNode.Center, cell))
+                    progress.Destination = destinationNode.GuidanceCells.Where(cell => cell.Standable(map)
+                            && (structure == null || structure.RoomAt(cell) == structure.RoomAt(destinationNode.Center)))
                         .OrderBy(cell => cell.DistanceToSquared(destinationNode.Center))
                         .Where(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
                         .DefaultIfEmpty(IntVec3.Invalid).First();
@@ -251,7 +294,6 @@ namespace Helodrace
                     if (!progress.Destination.IsValid) { progress.RetryAfter = tick + destinationNode.RetryTicks; continue; }
                     MapComponent_RaidTacticalTrace.Record(pawn, $"node {next}/{plan.MovementNodes.Count - 1} → {progress.Destination}");
                 }
-                occupied.Add(progress.Destination);
                 TryGoto(pawn, progress.Destination);
             }
             if (remaining + 1 < state.ApproachBestRemaining)
@@ -263,13 +305,9 @@ namespace Helodrace
             List<RaidNodeMemberProgress> active = state.NodeMembers.Where(progress => group.Any(a => a.Pawn == progress.Pawn)).ToList();
             bool gather = current.Purpose == RaidMovementNodePurpose.Gather
                 || current.Purpose == RaidMovementNodePurpose.BreachPreparation;
-            Pawn commander = Helodrace.Squads.RaidTacticalUnit.ForPawn(members[0])?.Commander;
-            bool required = active.Where(progress => progress.Pawn == state.Breacher || progress.Pawn == commander)
-                .All(progress => progress.Completed >= target);
             // A doorway or single-file corner is a transit point, not a place to fit the whole squad.
             // Wait for the tail at the final staging area instead of blocking its only passage.
-            if (TacticalNodeProgress.CanAdvance(active.Count, active.Count(progress => progress.Completed >= target),
-                required, gather, current.Capacity))
+            if (TacticalNodeProgress.Advance(gather, active.Count, active.Count(progress => progress.Completed >= target)))
             {
                 state.CurrentNode = target + 1;
                 state.ApproachBestRemaining = float.MaxValue;

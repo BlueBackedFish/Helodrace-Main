@@ -213,7 +213,7 @@ namespace Helodrace
                 + (state?.CurrentNode == i ? " CURRENT" : ""),
                 state != null && i < state.CurrentNode ? Color.gray : Color.cyan, false);
             if (state != null && state.CurrentNode < plan.MovementNodes.Count)
-                foreach (IntVec3 cell in plan.MovementNodes[state.CurrentNode].ArrivalCells)
+                foreach (IntVec3 cell in plan.MovementNodes[state.CurrentNode].GuidanceCells)
                     AddNode(cell, "", Color.cyan, false);
             foreach (RaidTacticalAssignment assignment in plan.Assignments.Take(100))
             {

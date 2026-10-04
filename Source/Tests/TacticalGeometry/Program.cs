@@ -20,15 +20,22 @@ internal static class Program
         Check(portals.Contains(7) && portals.Contains(8), "Required portal transitions cannot be skipped");
         var corner = TacticalNodeProgress.Select(12, _ => false, (from, to) => !(from < 5 && to > 5));
         Check(corner.Contains(5), "A blocked diagonal cannot connect nodes through a corner wall");
-        Check(TacticalNodeProgress.CanAdvance(13, 9, true, false)
-            && !TacticalNodeProgress.CanAdvance(13, 8, true, false),
-            "The lead advances with a two-thirds transit quorum without returning for the tail");
-        Check(!TacticalNodeProgress.CanAdvance(13, 12, true, true)
-            && TacticalNodeProgress.CanAdvance(13, 13, true, true),
-            "A final gather waits for active members, without requiring simultaneous exact-tile occupancy");
-        Check(!TacticalNodeProgress.CanAdvance(13, 13, false, false),
-            "A missing essential actor blocks the advance");
-        Check(TacticalNodeProgress.CanAdvance(0, 0, false, true), "No dead or downed members remain in a quorum");
+        Check(TacticalNodeProgress.Advance(false, 13, 1), "A lead member advances without a transit quorum");
+        Check(!TacticalNodeProgress.Advance(false, 13, 0), "No false physical progress");
+        Check(!TacticalNodeProgress.Advance(true, 13, 12), "Final staging still waits for active members");
+        Check(TacticalNodeProgress.Advance(true, 13, 13), "Final handoff completes");
+        Check(TacticalNodeProgress.Advance(true, 0, 0), "Unavailable members do not block movement");
+        Check(TacticalNodeProgress.OutsideSince(false, 10, 80) == -1, "Small detours clear deviation timing");
+        Check(!TacticalNodeProgress.NeedsCorrection(10, 99, 90), "Brief detours do not trigger correction");
+        Check(TacticalNodeProgress.NeedsCorrection(10, 100, 90), "Persistent deviation triggers a forward join");
+        Check(TacticalNodeProgress.ForwardJoin(1, 6, _ => false, _ => true) == 5,
+            "A tail member joins the forward aim instead of revisiting ordinary nodes");
+        Check(TacticalNodeProgress.ForwardJoin(1, 6, i => i == 3, _ => true) == 1,
+            "Forward joins cannot skip a required opening");
+        Check(TacticalNodeProgress.ForwardJoin(1, 6, _ => false, _ => false) == 1,
+            "A wall blocks false forward progress");
+        Check(TacticalNodeProgress.ForwardJoin(5, 2, _ => false, _ => true) == 5,
+            "A shared aim never pulls a member back to passed connections");
         Check(TacticalNodeProgress.Arrive(3, 5, 8, _ => false) == 3,
             "Temporary evasion cannot reset already completed nodes");
         Check(TacticalNodeProgress.Arrive(1, 5, 8, index => index != 2) == 1,
@@ -43,12 +50,7 @@ internal static class Program
             "A solid wall prevents a false straight node connection");
         Check(TacticalNodeProgress.WalkLine(0, 0, 6, 0, (_, _) => true),
             "A physically opened connection is usable without restoring a route leash");
-        Check(TacticalNodeProgress.CanAdvance(13, 2, false, false, 3),
-            "A three-cell doorway wait area releases the lead before it blocks the rest of the squad");
-        Check(!TacticalNodeProgress.CanAdvance(13, 2, true, true, 3),
-            "A final gather still tracks every living member even in a small area");
-        Check(!TacticalNodeProgress.CanAdvance(13, 0, true, false, 0),
-            "A physically blocked arrival area cannot complete a connection");
+        Check(TacticalNodeProgress.Advance(false, 13, 1), "Passage capacity is not a transit quorum");
         Check(!TacticalNodeProgress.AllowsStep(1, 0, true, false, room => room == 0 || room == 1),
             "A physically reachable but unselected door is rejected at the crossing");
         Check(TacticalNodeProgress.AllowsStep(1, 0, true, true, room => room == 0 || room == 1),

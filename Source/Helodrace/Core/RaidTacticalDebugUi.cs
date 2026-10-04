@@ -183,9 +183,9 @@ namespace Helodrace
             {
                 report.AppendLine($"Movement node: {contactsState.CurrentNode}/{plan.MovementNodes.Count}; complete={contactsState.ApproachComplete}");
                 foreach (RaidMovementNode node in plan.MovementNodes)
-                    report.AppendLine($"  N{node.Id} {node.Purpose}: {node.Center} → N{node.Next}; arrival={node.ArrivalCells.Count}; V{node.StructureVersion}");
+                    report.AppendLine($"  N{node.Id} {node.Purpose}: {node.Center} → N{node.Next}; guidance={node.GuidanceCells.Count}; V{node.StructureVersion}");
                 foreach (RaidNodeMemberProgress progress in contactsState.NodeMembers)
-                    report.AppendLine($"  {progress.Pawn?.LabelShort}: completed N{progress.Completed}, target N{progress.DestinationNode} at {progress.Destination}");
+                    report.AppendLine($"  {progress.Pawn?.LabelShort}: passed connection N{progress.Completed}, target N{progress.DestinationNode} at {progress.Destination}");
             }
             report.AppendLine();
             report.AppendLine("Staging and security assignments:");

@@ -1179,10 +1179,15 @@ namespace Helodrace
                     if (!(navigation?.CanWalk(next)
                             ?? CanWalkRouteCell(map, next, pathfinder))
                         || avoidedTraps.Contains(next)) continue;
-                    // Prefer the shortest near-straight route. Threat informs
-                    // the breach choice, not a winding approach into a doorway.
-                    int nextCost = cost + 100 + Mathf.RoundToInt(
-                        LineDeviation(next, from, to) * 8f);
+                    // Exterior approach may bend along walls. Only currently observed
+                    // enemies contribute exposure; hidden positions are not consulted.
+                    bool outside = analysis.RoomAt(next) == 0;
+                    bool wallCover = outside && GenAdj.CardinalDirections.Any(offset =>
+                        (next + offset).InBounds(map) && analysis.Version.Geometry.Input.Cells[
+                            map.cellIndices.CellToIndex(next + offset)].Has(TacticalRawFlags.Edifice));
+                    int nextCost = cost + 100 + Mathf.RoundToInt(LineDeviation(next, from, to) * 2f)
+                        + (outside && !wallCover ? 35 : 0)
+                        + (outside ? Mathf.RoundToInt(fieldThreat.At(next) * 6f) : 0);
                     if (distance.TryGetValue(next, out int oldCost) && nextCost >= oldCost) continue;
                     distance[next] = nextCost;
                     previous[next] = cell;
