@@ -19,7 +19,7 @@
       <craftCost><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighMachineGun</li></requiredResearch>
       <partCategory>Required</partCategory><graphicLayer>-2</graphicLayer><chamberCaliber>556x45</chamberCaliber><ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName><boreDiameterMm>5.7</boreDiameterMm>
       <mounts><li><id>barrel_mount</id><socketTags><li>m249_barrel</li></socketTags><transform><position>(0.02,0,0)</position></transform></li></mounts>
-      <sockets><li><id>muzzle</id><label>M249 muzzle</label><tags><li>m249_muzzle</li></tags><transform><position>(0.35,0,0.01)</position></transform></li></sockets>
+      <sockets><li><id>muzzle</id><label>M249 muzzle</label><tags><li>m249_muzzle</li><li>muzzle_556</li></tags><transform><position>(0.35,0,0.01)</position></transform></li></sockets>
     </li></comps>
   </ThingDef>
   <ThingDef ParentName="HD_ModularWeaponPartBase">
