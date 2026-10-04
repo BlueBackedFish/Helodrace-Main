@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Helodrace;
 using Verse;
+using HarmonyLib;
 
 internal static class RaidContactTests
 {
@@ -50,6 +51,32 @@ internal static class RaidContactTests
         for (int i = 0; i < 24; i++) Observe(i + 100, first, 2000 + i, IntVec3.Invalid);
         Check(memory.Entries.Count == RaidContactMemory.Capacity && memory.Entries.Min(value => value.SeenTick) == 2008,
             "Memory capacity is bounded and retains the newest contacts.");
+        var policy = typeof(RaidContactMemory).Assembly.GetType("Helodrace.RaidCqbContactPolicy");
+        bool Opposed(IntVec3 a, IntVec3 b) => (bool)AccessTools.Method(policy, "Opposed")
+            .Invoke(null, new object[] { first, a, b });
+        foreach (IntVec3 forward in new[] { IntVec3.North, IntVec3.East, IntVec3.South, IntVec3.West })
+        {
+            Check((bool)AccessTools.Method(policy, "Rear").Invoke(null, new object[] { first, forward, first - forward * 4 }),
+                "Rear attacks are detected in every assault orientation.");
+            Check(Opposed(first + forward * 5, first - forward * 5), "Two ends of a corridor require simultaneous directional coverage.");
+            Check(!Opposed(first + forward * 5, first + forward * 3), "Two enemies at the same end are not crossfire.");
+        }
+        Check(!Opposed(first + IntVec3.North * 4, first + IntVec3.East * 4), "Perpendicular doors alone do not force an opposed-direction pause.");
+        memory = new RaidContactMemory();
+        var front = Observe(11, first + IntVec3.North * 5, 3000, first + IntVec3.North * 4);
+        var back = Observe(12, first - IntVec3.North * 5, 3000, first - IntVec3.North * 4);
+        IEnumerable<RaidEnemyContact> Watch(int tick) => (IEnumerable<RaidEnemyContact>)AccessTools.Method(policy, "Watch")
+            .Invoke(null, new object[] { memory, first, tick });
+        memory.FinishScan(3020, new HashSet<int>());
+        Check(Watch(3300).Count() == 2 && front.Position != back.Position,
+            "Both vanished corridor enemies retain separate passage watches, without inventing live locations.");
+        Observe(13, first + IntVec3.North * 6, 3300, front.Portal);
+        Check(Watch(3300).Count() == 2, "Multiple contacts passing through one doorway share its watch assignment.");
+        Check(Watch(3900).Count() == 0, "Passage guards stop blocking the task once contact confidence has faded.");
+        bool Pause(bool rear, bool opposed, bool close) => (bool)AccessTools.Method(policy, "Pause")
+            .Invoke(null, new object[] { rear, opposed, close });
+        Check(Pause(true, false, false) && Pause(false, true, false) && Pause(false, false, true)
+            && !Pause(false, false, false), "Only current rear, crossfire or close threats pause the operation; vanished enemies keep guards instead.");
         Console.WriteLine($"PASS: {checks} shared contact snapshot, visibility-loss, decay and capacity checks");
     }
 }

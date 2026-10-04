@@ -66,6 +66,10 @@ namespace Helodrace
 
         private bool FieldDefense(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            // Local CQB guards own observed door contacts. Explicit support requests
+            // retain their separate defense behavior.
+            if (state.ContactGuards.Count > 0 && state.DefenseCaller == null
+                && state.ExternalSupportKind == RaidExternalSupportKind.None) return false;
             List<Pawn> observed = VisibleArmedEnemies(members, state, tick);
             bool engaging = observed.Any(enemy => members.Any(pawn => enemy.Position.DistanceToSquared(pawn.Position) <= 1296)
                 && (members.Contains(enemy.mindState.enemyTarget as Pawn)

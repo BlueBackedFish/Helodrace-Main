@@ -220,6 +220,12 @@ namespace Helodrace
                 pawn.mindState?.knownExploder, waitingForSupport);
             bool emergencyFlee = order.Reactive && map.GetComponent<MapComponent_RaidTacticalExecution>()
                 .TryEmergencyFleeDestination(pawn, out _);
+            // CQB destinations are already selected from a small connected live
+            // area. Avoid building a full-map reactive grid for every guarded room.
+            if (order.Reactive && !supportFlee && !emergencyFlee
+                && (state.ContactPause || MapComponent_RaidTacticalExecution.ContactGuardFor(pawn) != null)
+                && !state.Reactions.Any(reaction => reaction.Pawn == pawn && reaction.Until > GenTicks.TicksGame
+                    && (reaction.Kind == RaidReactionKind.Sniper || reaction.Kind == RaidReactionKind.Explosion))) return null;
             if (!preparing && (!MapComponent_RaidTacticalOrders.Owned(pawn.CurJob) && !supportFlee && !emergencyFlee && !equipmentMove
                 || order.Kind == RaidOrderKind.Hold && !supportFlee && !emergencyFlee && !equipmentMove)) return null;
             bool outside = plan.BreachCell.IsValid && (state.Phase == RaidExecutionPhase.Assemble

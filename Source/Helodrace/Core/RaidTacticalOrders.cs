@@ -126,6 +126,12 @@ namespace Helodrace
         {
             if (pawn?.Spawned != true || pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.ControlsPawn(pawn) != true) return false;
+            RaidContactGuard guard = !reactive ? MapComponent_RaidTacticalExecution.ContactGuardFor(pawn) : null;
+            if (guard != null)
+            {
+                kind = pawn.Position == guard.Position ? RaidOrderKind.Hold : RaidOrderKind.Move;
+                destination = guard.Position; sprint = false; fightOnArrival = false; radius = 1f; reactive = true;
+            }
             var owner = pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>();
             if (!owner.orders.TryGetValue(pawn, out RaidPawnOrder order))
             {
@@ -217,6 +223,9 @@ namespace Helodrace
 
         public static void Face(Pawn pawn, Rot4 facing)
         {
+            RaidContactGuard guard = MapComponent_RaidTacticalExecution.ContactGuardFor(pawn);
+            if (guard != null && guard.Focus != pawn.Position)
+                facing = Rot4.FromAngleFlat((guard.Focus - pawn.Position).ToVector3().AngleFlat());
             RaidPawnOrder order = For(pawn);
             if (order == null || order.Kind != RaidOrderKind.Hold) return;
             order.Facing = facing;

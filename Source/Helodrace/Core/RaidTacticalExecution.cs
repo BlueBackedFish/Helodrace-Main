@@ -140,6 +140,8 @@ namespace Helodrace
             public int ObservedEnemiesTick = -30;
             public List<Pawn> ObservedEnemies = new List<Pawn>();
             public RaidContactMemory Contacts = new RaidContactMemory();
+            public List<RaidContactGuard> ContactGuards = new List<RaidContactGuard>();
+            public bool ContactPause;
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
 
@@ -213,6 +215,9 @@ namespace Helodrace
                     Reactions = new List<RaidReactivePosition>();
                 Scribe_Deep.Look(ref ActivePlan, "activePlan");
                 Scribe_Deep.Look(ref Contacts, "contacts");
+                Scribe_Collections.Look(ref ContactGuards, "contactGuards", LookMode.Deep);
+                Scribe_Values.Look(ref ContactPause, "contactPause");
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && ContactGuards == null) ContactGuards = new List<RaidContactGuard>();
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Contacts == null) Contacts = new RaidContactMemory();
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Crossings == null)
                     Crossings = new List<BreachCrossing>();
@@ -437,6 +442,7 @@ namespace Helodrace
                     if (members.Count > 0) RefreshContacts(members, crossing.ActivePlan, crossing, tick);
                     if (members.Count > 0 && !EmergencyReactions(members, crossing.ActivePlan, crossing, tick)
                         && !RespondToFire(members, crossing.ActivePlan, crossing, tick)
+                        && !RespondToCqbContacts(members, crossing.ActivePlan, crossing, tick)
                         && crossing.Phase == RaidExecutionPhase.CrossBreach)
                         Update(organization, members, crossing.ActivePlan, crossing, tick);
                 }
@@ -549,6 +555,7 @@ namespace Helodrace
                         ClearedRoomCells = previous?.ClearedRoomCells
                             ?? new List<IntVec3>(),
                         Contacts = previous?.Contacts ?? new RaidContactMemory(),
+                        ContactGuards = previous?.ContactGuards ?? new List<RaidContactGuard>(),
                         Maneuver = plan.Selected.Maneuver,
                         ActivePlan = plan,
                         Phase = RaidExecutionPhase.Assemble,
@@ -845,6 +852,7 @@ namespace Helodrace
             RefreshContacts(members, plan, state, tick);
             if (EmergencyReactions(members, plan, state, tick)) return;
             if (RespondToFire(members, plan, state, tick)) return;
+            if (RespondToCqbContacts(members, plan, state, tick)) return;
             if (FieldDefense(members, plan, state, tick)) return;
             if (RecoverCqbIntent(organization, members, plan, state, tick)) return;
             if (RefreshLocalCqb(organization, members, plan, state, tick)) return;
@@ -1232,10 +1240,12 @@ namespace Helodrace
 
         private static List<Pawn> EntryPawns(List<Pawn> members, RaidTacticalPlan plan)
         {
-            return plan.Assignments.Where(assignment => assignment.Task == RaidTacticalTask.Entry
+            List<Pawn> entry = plan.Assignments.Where(assignment => assignment.Task == RaidTacticalTask.Entry
                 && members.Contains(assignment.Pawn))
                 .OrderBy(assignment => assignment.EntryOrder)
                 .Select(assignment => assignment.Pawn).ToList();
+            List<Pawn> moving = entry.Where(pawn => ContactGuardFor(pawn) == null).ToList();
+            return moving.Count > 0 ? moving : entry;
         }
 
         private static bool PastBreach(Pawn pawn, RaidTacticalPlan plan)
@@ -1786,6 +1796,7 @@ namespace Helodrace
         private static bool AllReady(List<Pawn> members, RaidTacticalPlan plan)
         {
             return plan.Assignments.Where(assignment => members.Contains(assignment.Pawn)
+                    && ContactGuardFor(assignment.Pawn) == null
                     && assignment.Task != RaidTacticalTask.Withdraw)
                 .All(assignment => AtStagingPosition(assignment, plan));
         }
@@ -2344,6 +2355,7 @@ namespace Helodrace
         {
             CancelOpeningObservation(state);
             state.Observation = null;
+            state.ContactGuards.Clear(); state.ContactPause = false;
             state.ActivePlan = next;
             state.Objective = next.Objective;
             state.Maneuver = next.Selected.Maneuver;

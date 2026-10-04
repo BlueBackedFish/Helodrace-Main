@@ -222,6 +222,8 @@ namespace Helodrace
                     + $"{(tick - contact.SeenTick) / 60f:0.0}s R{contact.Room}", color, false);
                 AddNode(contact.Portal, "HD_RaidView_ContactPortal", Color.yellow);
             }
+            foreach (RaidContactGuard guard in state.ContactGuards)
+                AddNode(guard.Position, $"{guard.Pawn?.LabelShort}: GUARD #{guard.EnemyId} → {guard.Focus}", Color.cyan, false);
         }
 
         private void AddNode(IntVec3 cell, string label, Color color, bool translate = true)

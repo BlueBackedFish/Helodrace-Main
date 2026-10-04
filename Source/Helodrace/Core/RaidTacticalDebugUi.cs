@@ -165,6 +165,13 @@ namespace Helodrace
             report.AppendLine("Shared contact memory:");
             report.Append(RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                 ?.StateFor(plan.OrganizationId)?.Contacts.Report(GenTicks.TicksGame));
+            var contactsState = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(plan.OrganizationId);
+            if (contactsState != null)
+            {
+                report.AppendLine($"CQB contact pause={contactsState.ContactPause}");
+                foreach (RaidContactGuard guard in contactsState.ContactGuards)
+                    report.AppendLine($"  Guard {guard.Pawn?.LabelShort}: #{guard.EnemyId} focus={guard.Focus} hold={guard.Position} until={guard.Until}");
+            }
             report.AppendLine($"Wait before group entry: {plan.EntryDelayTicks} ticks; "
                 + $"coordination allowance: {plan.CoordinationDelayTicks} ticks");
             report.AppendLine("Approach nodes: " + string.Join(" → ", plan.ApproachNodes));
