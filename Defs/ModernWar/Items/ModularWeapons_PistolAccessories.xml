@@ -6,7 +6,7 @@
     <description>A low-profile Picatinny mount with an RMR optic footprint.</description>
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyUP_RMRMountLow</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost>
+      <craftCost><Steel>2</Steel></craftCost>
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>5</graphicLayer>
       <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li></socketTags><railOccupancy>0.03</railOccupancy><railContactLength>0.02</railContactLength><physicalLength>0.03</physicalLength><railSurface>Top</railSurface><transform><position>(-0.2,0,0.143)</position></transform></li></mounts>
@@ -20,7 +20,7 @@
     <description>A compact reflex sight for an RMR-pattern mount.</description>
     <graphicData><texPath>Weapons/Modular/Optics/HD_Sight_LumiconRMR</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost>
+      <craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost>
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>6</graphicLayer><verticalOccupancy>0.029</verticalOccupancy><verticalOccupancyOffset>0.168</verticalOccupancyOffset>
       <sight><kind>Reflex</kind><axisOffset>(-0.2,0,0.168)</axisOffset><aimRadius>0.012</aimRadius><selectionPriority>25</selectionPriority></sight>
@@ -35,7 +35,7 @@
     <description>A full-size pistol light for a lower Picatinny rail.</description>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyLOW_X300</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost>
+      <craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost>
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>5</graphicLayer><verticalOccupancy>0.033</verticalOccupancy><verticalOccupancyOffset>0.01</verticalOccupancyOffset>
       <flashlight><emitterOffset>(0.19,0,0.025)</emitterOffset><color>(1,0.95,0.75,0.26)</color><nearWidth>0.28</nearWidth><farWidth>1.35</farWidth><circleRadius>0.65</circleRadius><closeRange>3.5</closeRange><maxRange>22</maxRange><hediff>HD_WeaponFlashlightDazzle</hediff></flashlight>
@@ -49,7 +49,7 @@
     <description>A compact pistol light for a lower Picatinny rail.</description>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyLOW_TLR7X</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
-      <craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost>
+      <craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost>
       <requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
       <graphicLayer>5</graphicLayer><verticalOccupancy>0.031</verticalOccupancy><verticalOccupancyOffset>0.01</verticalOccupancyOffset>
       <flashlight><emitterOffset>(0.145,0,0.025)</emitterOffset><color>(1,0.95,0.75,0.24)</color><nearWidth>0.25</nearWidth><farWidth>1.2</farWidth><circleRadius>0.6</circleRadius><closeRange>3.5</closeRange><maxRange>20</maxRange><hediff>HD_WeaponFlashlightDazzle</hediff></flashlight>

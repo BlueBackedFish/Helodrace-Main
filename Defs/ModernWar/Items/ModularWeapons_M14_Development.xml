@@ -6,7 +6,7 @@
     <defName>HD_ModularPart_Barrel_M1422_Part</defName><label>M14 22 inch barrel</label>
     <description>M14 22 inch barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1422</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>-4</graphicLayer><partCategory>Required</partCategory><chamberCaliber>762x51</chamberCaliber><ceAmmoSetDefName>AmmoSet_762x51mmNATO</ceAmmoSetDefName><boreDiameterMm>7.82</boreDiameterMm>
       <mounts><li><id>m14_barrel_mount</id><socketTags><li>m14_barrel</li></socketTags><transform><position>(-0.18457,0,-0.015625)</position></transform></li></mounts>
       <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>muzzle_762</li></tags><transform><position>(0.31543,0,-0.017578)</position></transform></li><li><id>gas_tube</id><label>gas tube</label><tags><li>m14_gas</li></tags><transform><position>(0.144531,0,-0.022461)</position></transform></li></sockets>
@@ -18,7 +18,7 @@
     <defName>HD_ModularPart_Barrel_M1418_Part</defName><label>M14 18 inch barrel</label>
     <description>M14 18 inch barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1418</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>-4</graphicLayer><partCategory>Required</partCategory><chamberCaliber>762x51</chamberCaliber><ceAmmoSetDefName>AmmoSet_762x51mmNATO</ceAmmoSetDefName><boreDiameterMm>7.82</boreDiameterMm>
       <mounts><li><id>m14_barrel_mount</id><socketTags><li>m14_barrel</li></socketTags><transform><position>(0.014648,0,-0.015625)</position></transform></li></mounts>
       <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>muzzle_762</li></tags><transform><position>(0.425781,0,-0.017578)</position></transform></li><li><id>gas_tube</id><label>gas tube</label><tags><li>m14_gas</li></tags><transform><position>(0.34375,0,-0.022461)</position></transform></li></sockets>
@@ -30,7 +30,7 @@
     <defName>HD_ModularPart_Barrel_M1A16_Part</defName><label>M1A SOCOM 16 barrel</label>
     <description>M1A SOCOM 16 barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1A16</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>-4</graphicLayer><partCategory>Required</partCategory><chamberCaliber>762x51</chamberCaliber><ceAmmoSetDefName>AmmoSet_762x51mmNATO</ceAmmoSetDefName><boreDiameterMm>7.82</boreDiameterMm>
       <mounts><li><id>m14_barrel_mount</id><socketTags><li>m14_barrel</li></socketTags><transform><position>(0.015,0,-0.016)</position></transform></li></mounts>
       <sockets><li><id>muzzle</id><label>muzzle</label><tags><li>m14_socom_muzzle</li></tags><transform><position>(0.384,0,-0.018)</position></transform></li><li><id>gas_tube</id><label>gas tube</label><tags><li>m14_gas_socom</li></tags><transform><position>(0.335,0,-0.022)</position></transform></li></sockets>
@@ -44,7 +44,7 @@
     <defName>HD_ModularPart_Bolt_M14_Part</defName><label>M14 bolt</label>
     <description>M14 bolt is part of the weapon's loading and locking mechanism.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_M14</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>-1</graphicLayer><partCategory>Required</partCategory><animatedPart>Bolt</animatedPart><animationTravel>(-0.044,0,0)</animationTravel>
       <mounts><li><id>m14_bolt_mount</id><socketTags><li>m14_bolt</li></socketTags><transform><position>(-0.036,0,-0.011)</position></transform></li></mounts>
       
@@ -62,7 +62,7 @@
     <defName>HD_ModularPart_OperatingRod_M14_Part</defName><label>M14 operating rod</label>
     <description>M14 operating rod is part of the weapon's loading and locking mechanism.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_M14OPRod</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>1</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions><animatedPart>Bolt</animatedPart><animationTravel>(-0.055,0,0)</animationTravel>
       <mounts><li><id>m14_operating_rod_mount</id><socketTags><li>m14_operating_rod</li></socketTags><transform><position>(0.013,0,-0.017)</position></transform></li></mounts>
       
@@ -80,7 +80,7 @@
     <defName>HD_ModularPart_TriggerGroup_M14_Part</defName><label>M14 trigger group</label>
     <description>M14 trigger group transfers the firing input to the action.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M14TriggerGroup</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>1</graphicLayer><partCategory>Required</partCategory>
       <mounts><li><id>m14_trigger_group_mount</id><socketTags><li>m14_trigger_group</li></socketTags><transform><position>(-0.11,0,-0.028)</position></transform></li></mounts>
       <sockets><li><id>trigger</id><label>trigger</label><tags><li>m14_trigger</li></tags><required>true</required><transform><position>(-0.119,0,-0.073)</position></transform></li><li><id>pistol_grip</id><label>pistol grip interface</label><tags><li>m14_pistol_grip</li></tags><transform><position>(-0.110352,0,-0.028320)</position></transform></li></sockets>
@@ -94,7 +94,7 @@
     <defName>HD_ModularPart_Trigger_M14_Part</defName><label>M14 trigger</label>
     <description>M14 trigger transfers the firing input to the action.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M14</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>1</graphicLayer><partCategory>Required</partCategory><animatedPart>Trigger</animatedPart><animationPivot>(-0.009,0,-0.011)</animationPivot><animationAngle>-12</animationAngle>
       <mounts><li><id>m14_trigger_mount</id><socketTags><li>m14_trigger</li></socketTags><transform><position>(0,0,0)</position></transform></li></mounts>
       
@@ -110,7 +110,7 @@
     <defName>HD_ModularPart_GasTube_M14_Part</defName><label>M14 gas system</label>
     <description>M14 gas system routes propellant gas through the weapon's operating system.</description>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_M14</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>-2</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions>
       <mounts><li><id>m14_gas_mount</id><socketTags><li>m14_gas</li></socketTags><transform><position>(0.144531,0,-0.022461)</position></transform></li></mounts>
       
@@ -122,7 +122,7 @@
     <defName>HD_ModularPart_GasTube_MK14EBR</defName><label>MK14 EBR gas system</label>
     <description>MK14 EBR gas system routes propellant gas through the weapon's operating system.</description>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_MK14EBR</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>-2</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions>
       <mounts><li><id>m14_gas_mount</id><socketTags><li>m14_gas</li></socketTags><transform><position>(0.34375,0,-0.022461)</position></transform></li></mounts>
       
@@ -134,7 +134,7 @@
     <defName>HD_ModularPart_GasTube_M1ASocom16_Part</defName><label>M1A SOCOM 16 gas system</label>
     <description>M1A SOCOM 16 gas system routes propellant gas through the weapon's operating system.</description>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasTube_M1ASocom16</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>-2</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SemiAutomaticOnly</li></missingFunctions>
       <mounts><li><id>m14_gas_socom_mount</id><socketTags><li>m14_gas_socom</li></socketTags><transform><position>(0.335,0,-0.022)</position></transform></li></mounts>
       
@@ -148,7 +148,7 @@
     <defName>HD_ModularPart_Stock_M14Wood</defName><label>M14 wooden stock</label>
     <description>M14 wooden stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_M14Wood</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>2</graphicLayer>
       <mounts><li><id>m14_stock_mount</id><socketTags><li>m14_stock</li></socketTags><transform><position>(-0.075195,0,-0.027344)</position></transform></li></mounts>
       <sockets><li><id>top_cover</id><label>wooden stock top cover</label><tags><li>m14_stock_top_cover</li></tags><maxAttachments>1</maxAttachments><transform><position>(0.022461,0,-0.014648)</position></transform></li></sockets>
@@ -163,7 +163,7 @@
     <label>M14 wooden stock top cover</label>
     <description>M14 wooden stock top cover provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_StockExt_M14WoodTopCover</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicOffset>(0,0,0)</graphicOffset>
       <graphicLayer>2.5</graphicLayer>
       <mounts><li><id>top_cover_mount</id><socketTags><li>m14_stock_top_cover</li></socketTags><transform><position>(0.022461,0,-0.014648)</position></transform></li></mounts>
@@ -174,7 +174,7 @@
     <defName>HD_ModularPart_Stock_Socom16_Part</defName><label>SOCOM 16 stock</label>
     <description>SOCOM 16 stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_Socom16</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>2</graphicLayer>
       <mounts><li><id>m14_stock_mount</id><socketTags><li>m14_stock</li></socketTags><transform><position>(-0.075,0,-0.027)</position></transform></li></mounts>
       
@@ -188,7 +188,7 @@
     <defName>HD_ModularPart_Muzzle_M14_Part</defName><label>M14 flash hider</label>
     <description>M14 flash hider controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_M14</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>FlashHider</muzzleEffectKind>
       <graphicLayer>3</graphicLayer>
       <mounts><li><id>m14_muzzle_mount</id><socketTags><li>muzzle_762</li></socketTags><transform><position>(0.315,0,-0.018)</position></transform></li></mounts>
@@ -203,7 +203,7 @@
     <defName>HD_ModularPart_Muzzle_SEI2000V</defName><label>SEI 2000V muzzle brake</label>
     <description>SEI 2000V muzzle brake controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_SEI2000V</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>FlashHider</muzzleEffectKind>
       <graphicLayer>3</graphicLayer>
       <mounts><li><id>m14_muzzle_mount</id><socketTags><li>muzzle_762</li></socketTags><transform><position>(0.40332,0,-0.017578)</position></transform></li></mounts>
@@ -216,7 +216,7 @@
     <defName>HD_ModularPart_Muzzle_Socom16_Part</defName><label>SOCOM 16 muzzle brake</label>
     <description>SOCOM 16 muzzle brake controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_Socom16</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>MuzzleBrake</muzzleEffectKind>
       <graphicLayer>3</graphicLayer>
       <mounts><li><id>m14_socom_muzzle_mount</id><socketTags><li>m14_socom_muzzle</li></socketTags><transform><position>(0.383789,0,-0.017578)</position></transform></li></mounts>
@@ -229,7 +229,7 @@
     <defName>HD_ModularPart_Muzzle_Socom16Thread</defName><label>SOCOM 16 muzzle thread adapter</label>
     <description>SOCOM 16 muzzle thread adapter controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_Socom16Thread</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>Bare</muzzleEffectKind>
       <graphicLayer>3</graphicLayer>
       <mounts><li><id>m14_socom_muzzle_mount</id><socketTags><li>m14_socom_muzzle</li></socketTags><transform><position>(0.384,0,-0.018)</position></transform></li></mounts>
@@ -244,7 +244,7 @@
     <defName>HD_ModularPart_Magazine_M1420_Part</defName><label>20-round M14 magazine</label>
     <description>20-round M14 magazine is a detachable magazine that stores and feeds cartridges.</description>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_M1420</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
       <graphicLayer>-1</graphicLayer><partCategory>Functional</partCategory><missingFunctions><li>SingleRoundCapacity</li></missingFunctions><magazineCapacity>20</magazineCapacity>
       <mounts><li><id>m14_magazine_mount</id><socketTags><li>m14_magazine</li></socketTags><transform><position>(-0.035,0,-0.032)</position></transform></li></mounts>
       <sockets><li><id>ammunition</id><label>ammunition</label><tags><li>m14_ammunition</li></tags><transform><position>(-0.035,0,-0.088)</position></transform></li></sockets>

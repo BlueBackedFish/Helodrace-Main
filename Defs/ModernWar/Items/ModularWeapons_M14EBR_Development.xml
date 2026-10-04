@@ -8,7 +8,7 @@
     <description>MK14 EBR chassis handguard surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_MK14EBR</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts>
@@ -31,7 +31,7 @@
     <description>MK14 EBR receiver top rail surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_MK14EBRTopRail</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>3</graphicLayer>
         <mounts>
@@ -50,7 +50,7 @@
     <description>MK14 EBR pistol grip improves the shooter's grip and weapon control.</description>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_MK14EBR</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts>
@@ -72,7 +72,7 @@
     <description>MK14 EBR adjustable stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_MK14EBR</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>1.5</graphicLayer>
         <mounts>

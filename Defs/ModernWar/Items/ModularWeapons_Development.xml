@@ -43,7 +43,7 @@
     <description>AR-15 bolt carrier group is part of the weapon's loading and locking mechanism.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Bolt_AR15</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>0.5</graphicLayer>
         <animatedPart>Bolt</animatedPart>
         <animationTravel>(-0.078,0,0)</animationTravel>
@@ -58,7 +58,7 @@
     <description>AR-15 trigger transfers the firing input to the action.</description>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_AR15</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>0.5</graphicLayer>
         <animatedPart>Trigger</animatedPart>
         <animationPivot>(-0.135,0,-0.02)</animationPivot>
@@ -76,7 +76,7 @@
     <thingCategories><li>HD_ModularWeaponParts</li></thingCategories>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a4</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>8</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <storageMode>IndependentThing</storageMode>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>1</graphicLayer>
@@ -108,7 +108,7 @@
     <label>10.3 inch AR-15 barrel</label>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1510.3</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-3</graphicLayer>
         <chamberCaliber>556x45</chamberCaliber>
@@ -132,7 +132,7 @@
     <label>MK12 low-profile gas block</label>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_MK12LP</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>gas_block_mount</id><socketTags><li>ar15_gas_block</li></socketTags><transform><position>(0.146,0,-0.006)</position></transform></li></mounts>
@@ -146,7 +146,7 @@
     <description>10.3 inch .300 BLK AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR15300BLK10.3</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-3</graphicLayer>
         <chamberCaliber>300BLK</chamberCaliber>
@@ -171,7 +171,7 @@
     <description>.300 BLK low-profile gas block routes propellant gas through the weapon's operating system.</description>
     <graphicData><texPath>Weapons/Modular/GasSystems/HD_GasBlock_300BLKLP</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>gas_block_mount</id><socketTags><li>ar15_gas_block</li></socketTags><transform><position>(0.063,0,-0.006)</position></transform></li></mounts>
@@ -185,7 +185,7 @@
     <description>14.5 inch AR-15 barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1514.5</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-3</graphicLayer>
         <chamberCaliber>556x45</chamberCaliber>
@@ -209,7 +209,7 @@
     <label>HAC NT4 muzzle device</label>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_HACNT4</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>MuzzleBrake</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
@@ -227,7 +227,7 @@
     <label>BrightStrike four-prong suppressor</label>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Supp_BrightStrike4Prong</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>Suppressor</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-1</graphicLayer>
@@ -242,7 +242,7 @@
     <description>BrightStrike SF3P 7.62 flash hider controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_BrightStrikeSF3P762</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>FlashHider</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>3</graphicLayer>
@@ -256,7 +256,7 @@
     <label>HAC RIS FDE handguard</label>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACRISFDE</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.024,0,-0.005)</position></transform></li></mounts>
@@ -280,7 +280,7 @@
     <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_VOTechEXPS</texPath></graphicData>
     <statBases><Mass>0.32</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>5</graphicLayer>
         <verticalOccupancy>0.061</verticalOccupancy>
@@ -312,7 +312,7 @@
     <description>HAC URX M4 upper handguard surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_HACURXM4UP</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.029,0,-0.005)</position></transform></li></mounts>
@@ -334,7 +334,7 @@
     <description>HAC URX M4 lower handguard surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_HACURXM4DOWN</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>1.5</graphicLayer>
         <mounts><li><id>lower_handguard_mount</id><socketTags><li>hac_urx_m4_lower</li></socketTags><transform><position>(-0.016,0,-0.014)</position></transform></li></mounts>
@@ -351,7 +351,7 @@
     <graphicData><texPath>Weapons/Modular/Optics/HD_PicatinnyUP_VOTechG33</texPath></graphicData>
     <statBases><Mass>0.31</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>6</graphicLayer>
         <verticalOccupancy>0.037</verticalOccupancy>
@@ -383,7 +383,7 @@
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyUP_ANPEQ15</texPath></graphicData>
     <statBases><Mass>0.21</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>5</graphicLayer>
         <verticalOccupancy>0.037</verticalOccupancy>
@@ -407,7 +407,7 @@
     <label>BrightStrike M600 weapon light</label>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyMID_BrightStrikeM600</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>4</graphicLayer>
         <verticalOccupancy>0.025</verticalOccupancy>
@@ -440,7 +440,7 @@
     <graphicData><texPath>Weapons/Modular/Tactical/HD_PicatinnyMID_IZLIDU</texPath></graphicData>
     <statBases><Mass>0.19</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodAdvancedWeaponOptics</li></requiredResearch>
         <!-- Keep the complete placement definition identical to the M600. -->
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>4</graphicLayer>
@@ -466,7 +466,7 @@
     <graphicData><texPath>Weapons/Modular/Grips/HD_PicatinnyLOW_DaltonDefenseVFG</texPath></graphicData>
     <statBases><Mass>0.12</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>4</graphicLayer>
         <performanceRole>Foregrip</performanceRole>
@@ -483,7 +483,7 @@
     <label>IronFang A2 pistol grip</label>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_IronFangA2</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>grip_mount</id><socketTags><li>ar15_pistol_grip</li></socketTags><transform><position>(-0.162,0,-0.049)</position></transform></li></mounts>
@@ -498,7 +498,7 @@
     <graphicData><texPath>Weapons/Modular/RailAccessories/HD_PicatinnyLOW_HACURXShortPanel</texPath></graphicData>
     <statBases><Mass>0.06</Mass></statBases>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>3</graphicLayer>
         <performanceRole>RailPanel</performanceRole>
@@ -513,7 +513,7 @@
     <label>Colt buffer tube</label>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_BufferTube_Colt</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
         <mounts><li><id>buffer_mount</id><socketTags><li>ar15_buffer</li></socketTags><transform><position>(-0.204,0,-0.006)</position></transform></li></mounts>
@@ -530,7 +530,7 @@
     <label>FieldForm MOE FDE stock</label>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_FieldFormMOEFDE</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-1</graphicLayer>
         <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.258,0,-0.01)</position></transform></li></mounts>
@@ -544,7 +544,7 @@
     <description>M4 collapsible stock provides shoulder support and helps control recoil.</description>
     <graphicData><texPath>Weapons/Modular/Stocks/HD_Stock_M4</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>3</count></li></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>3</Steel></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-1</graphicLayer>
         <mounts><li><id>stock_mount</id><socketTags><li>ar15_stock</li></socketTags><railOccupancy>0.025</railOccupancy><transform><position>(-0.315,0,-0.007)</position></transform></li></mounts>

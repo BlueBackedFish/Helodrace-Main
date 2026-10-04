@@ -13,7 +13,7 @@
     <description>M16A1 upper receiver supports the action, barrel, and compatible attachments.</description>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a1</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>8</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <storageMode>IndependentThing</storageMode>
         <graphicLayer>1</graphicLayer>
         <outlinePriority>100</outlinePriority>
@@ -40,7 +40,7 @@
     <description>M16A1 triangular handguard surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_M16a1</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.029,0,-0.005)</position></transform></li></mounts>
       </li>
@@ -56,7 +56,7 @@
     <description>M16A2 upper receiver supports the action, barrel, and compatible attachments.</description>
     <graphicData><texPath>Weapons/Modular/Receivers/HD_UpperReceiver_M16a2</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>8</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>8</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
         <storageMode>IndependentThing</storageMode>
         <graphicLayer>1</graphicLayer>
         <outlinePriority>100</outlinePriority>
@@ -83,7 +83,7 @@
     <description>M16A2 upper handguard surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuard_M16a2UP</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
         <graphicLayer>2</graphicLayer>
         <mounts><li><id>handguard_mount</id><socketTags><li>ar15_handguard</li></socketTags><transform><position>(-0.029,0,-0.005)</position></transform></li></mounts>
         <sockets><li><id>lower_extension</id><label>M16A2 lower handguard interface</label><tags><li>m16a2_handguard_lower</li></tags><transform><position>(-0.011,0,-0.006)</position></transform></li></sockets>
@@ -98,7 +98,7 @@
     <description>M16A2 lower handguard surrounds the barrel and provides attachment space.</description>
     <graphicData><texPath>Weapons/Modular/Handguards/HD_HandGuardExt_M16a2DOWN</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodMidAutomaticRifle</li></requiredResearch>
         <graphicLayer>1.5</graphicLayer>
         <mounts><li><id>lower_handguard_mount</id><socketTags><li>m16a2_handguard_lower</li></socketTags><transform><position>(-0.011,0,-0.007)</position></transform></li></mounts>
       </li>
@@ -111,7 +111,7 @@
     <description>20 inch AR-15 pencil barrel guides the projectile from the chamber to the muzzle.</description>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_AR1520Pencil</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>-3</graphicLayer>
         <chamberCaliber>556x45</chamberCaliber>
         <ceAmmoSetDefName>AmmoSet_556x45mmNATO</ceAmmoSetDefName>
@@ -135,7 +135,7 @@
     <description>M16A1 flash suppressor controls muzzle flash and escaping propellant gas.</description>
     <graphicData><texPath>Weapons/Modular/MuzzleDevices/HD_Muzzle_M16a1</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <muzzleEffectKind>FlashHider</muzzleEffectKind>
         <graphicOffset>(0,0,0)</graphicOffset>
         <graphicLayer>-2</graphicLayer>
@@ -150,7 +150,7 @@
     <description>20-round STANAG magazine is a detachable magazine that stores and feeds cartridges.</description>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_Stanag20</texPath></graphicData>
     <comps>
-      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
+      <li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodLowAutomaticRifle</li></requiredResearch>
         <graphicLayer>-1</graphicLayer>
         <magazineCapacity>20</magazineCapacity>
         <mounts><li><id>magazine_mount</id><socketTags><li>stanag_magazine</li></socketTags><transform><position>(-0.075,0,-0.026)</position></transform></li></mounts>

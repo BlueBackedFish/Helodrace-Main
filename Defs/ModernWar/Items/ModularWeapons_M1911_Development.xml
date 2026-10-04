@@ -5,7 +5,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Slide_M1911A1_UP</defName><label>M1911A1 slide</label>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_UP</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>3</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <additionalGraphics>
         <li><graphicLayer>-2</graphicLayer><graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_DOWN</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(1,1)</drawSize></graphicData></li>
@@ -18,7 +18,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Slide_M1911A1_DOWN</defName><label>Slide M1911A1 DOWN</label>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Slide_M1911A1_DOWN</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>4</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>4</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>-2</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <!-- Legacy saved lower-half item. No mount: no longer offered as a part. -->
       <hideWhenAttached>true</hideWhenAttached>
@@ -28,7 +28,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Barrel_M1911A1_Part</defName><label>Barrel M1911A1</label>
     <graphicData><texPath>Weapons/Modular/Barrels/HD_Barrel_M1911A1</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>6</count></li><li><thingDef>ComponentIndustrial</thingDef><count>1</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>6</Steel><ComponentIndustrial>1</ComponentIndustrial></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <animatedPart>TiltingBarrel</animatedPart><animationTravel>(-0.018,0,0)</animationTravel><animationPivot>(0.39,0,0.19)</animationPivot><animationAngle>4</animationAngle>
       <mounts><li><id>barrel_mount</id><socketTags><li>m1911_barrel</li></socketTags><transform><position>(0,0,0.2)</position></transform></li></mounts>
@@ -39,7 +39,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Hammer_M1911A1_Part</defName><label>Hammer M1911A1</label>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Hammer_M1911A1</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>-1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <graphicAngle>0</graphicAngle>
       <animatedPart>Hammer</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(-0.289,0,0.117)</animationPivot><animationAngle>55</animationAngle>
@@ -50,7 +50,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Safety_M1911A1Grip</defName><label>Safety M1911A1Grip</label>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Safety_M1911A1Grip</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>-1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <animatedPart>GripSafety</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(-0.342,0,0.092)</animationPivot><animationAngle>9</animationAngle>
       <mounts><li><id>grip_safety_mount</id><socketTags><li>m1911_grip_safety</li></socketTags><transform><position>(-0.346,0,0.092)</position></transform></li></mounts>
@@ -60,7 +60,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Trigger_M1911A1_Part</defName><label>Trigger M1911A1</label>
     <graphicData><texPath>Weapons/Modular/Actions/HD_Trigger_M1911A1</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>-1</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <animatedPart>Trigger</animatedPart><animationTravel>(-0.012,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
       <mounts><li><id>trigger_mount</id><socketTags><li>m1911_trigger</li></socketTags><transform><position>(-0.078,0,0.035)</position></transform></li></mounts>
@@ -70,7 +70,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_PistolGrip_1911GI</defName><label>PistolGrip 1911GI</label>
     <graphicData><texPath>Weapons/Modular/Grips/HD_PistolGrip_1911GI</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>4</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <animatedPart>None</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
       <mounts><li><id>grip_mount</id><socketTags><li>m1911_grip</li></socketTags><transform><position>(-0.195,0,0.07)</position></transform></li></mounts>
@@ -80,7 +80,7 @@
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Magazine_1911GI7_Part</defName><label>Magazine 1911GI7</label>
     <graphicData><texPath>Weapons/Modular/Magazines/HD_Magazine_1911GI7</texPath></graphicData>
-    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><li><thingDef>Steel</thingDef><count>2</count></li></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
+    <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode"><craftCost><Steel>2</Steel></craftCost><requiredResearch><li>HelodSamiAutomaticPistol</li></requiredResearch>
       <graphicLayer>-3</graphicLayer><graphicOffset>(0,0,0)</graphicOffset>
       <animatedPart>None</animatedPart><animationTravel>(0,0,0)</animationTravel><animationPivot>(0,0,0)</animationPivot><animationAngle>0</animationAngle>
       <mounts><li><id>magazine_mount</id><socketTags><li>m1911_magazine</li></socketTags><transform><position>(-0.164,0,0.156)</position></transform></li></mounts>
