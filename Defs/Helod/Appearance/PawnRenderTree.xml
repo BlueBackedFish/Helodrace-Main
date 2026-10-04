@@ -60,7 +60,7 @@
 
         <li> <!-- 머리 stump 노드 -->
           <debugLabel>Head stump</debugLabel>
-          <nodeClass>PawnRenderNode_Stump</nodeClass>
+          <nodeClass>Helodrace.PawnRenderNode_HelodStump</nodeClass>
           <workerClass>PawnRenderNodeWorker_Stump</workerClass>
           <texPath>Things/Pawn/Humanlike/Heads/None_Average_Stump</texPath>
           <baseLayer>50</baseLayer>
