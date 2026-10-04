@@ -260,8 +260,11 @@ namespace Helodrace.Squads
         }
         public void RestoreTreeLinks()
         {
+            StructureRevision++;
             foreach (CombatGroup root in rootGroups) RestoreGroup(root, null);
         }
+
+        internal int StructureRevision { get; private set; }
 
         public bool RemoveMember(Pawn pawn)
         {

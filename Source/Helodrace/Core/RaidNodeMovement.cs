@@ -182,7 +182,7 @@ namespace Helodrace
             RaidTacticalPlan plan = state?.ActivePlan;
             if (plan == null || !planning && order?.Reactive == true || state.Phase != RaidExecutionPhase.Assemble
                 || state.ApproachComplete) return false;
-            RaidNodeMemberProgress progress = state.NodeMembers.FirstOrDefault(value => value.Pawn == pawn);
+            RaidNodeMemberProgress progress = state.Indices.Node(state.NodeMembers, pawn);
             if (progress == null || progress.DestinationNode < 0
                 || progress.Completed >= plan.MovementNodes.Count - 1) return false;
             int index = Math.Min(progress.DestinationNode, plan.MovementNodes.Count - 1);
@@ -220,7 +220,7 @@ namespace Helodrace
         {
             RaidTacticalPlan plan = state?.ActivePlan;
             if (plan == null || state.Phase != RaidExecutionPhase.Assemble || state.ApproachComplete) return null;
-            RaidNodeMemberProgress progress = state.NodeMembers.FirstOrDefault(member => member.Pawn == pawn);
+            RaidNodeMemberProgress progress = state.Indices.Node(state.NodeMembers, pawn);
             int next = (progress?.Completed ?? -1) + 1;
             return progress != null && next >= 0 && next < plan.MovementNodes.Count
                 ? progress.JoinConnection ?? plan.MovementNodes[next] : null;
@@ -258,10 +258,15 @@ namespace Helodrace
                 state.ApproachComplete = true;
                 return true;
             }
-            state.NodeMembers.RemoveAll(progress => !members.Contains(progress.Pawn));
+            bool changedMembers = state.NodeMembers.RemoveAll(progress => !members.Contains(progress.Pawn)) > 0;
             foreach (RaidTacticalAssignment assignment in group)
                 if (!state.NodeMembers.Any(progress => progress.Pawn == assignment.Pawn))
+                {
                     state.NodeMembers.Add(new RaidNodeMemberProgress { Pawn = assignment.Pawn });
+                    changedMembers = true;
+                }
+            if (changedMembers) state.Indices.InvalidateNodes();
+            var assignments = group.ToDictionary(assignment => assignment.Pawn, RaidPawnReferenceComparer.Instance);
             if (plan.MovementNodes.Count == 0) return false;
             int target = Math.Min(state.CurrentNode, plan.MovementNodes.Count - 1);
             RaidStructureSnapshot structure = StructureFor(map, plan);
@@ -271,15 +276,13 @@ namespace Helodrace
             float remaining = 0;
             foreach (RaidNodeMemberProgress progress in state.NodeMembers)
             {
-                if (!group.Any(assignment => assignment.Pawn == progress.Pawn)) continue;
+                if (!assignments.TryGetValue(progress.Pawn, out RaidTacticalAssignment personalAssignment)) continue;
                 Pawn pawn = progress.Pawn;
                 if (map.GetComponent<MapComponent_RaidTacticalExecution>().ActiveExteriorIngress(pawn) != null)
                 {
-                    RaidTacticalAssignment assignment = group.First(value => value.Pawn == pawn);
-                    if (!IsTaserOperation(pawn)) TryGoto(pawn, assignment.Position);
+                    if (!IsTaserOperation(pawn)) TryGoto(pawn, personalAssignment.Position);
                     continue;
                 }
-                RaidTacticalAssignment personalAssignment = group.First(value => value.Pawn == pawn);
                 // Security assigned to its current room need not visit the
                 // entry element's next room merely to come back to this slot.
                 if (personalAssignment.Task != RaidTacticalTask.Entry && personalAssignment.Position.InBounds(map)
@@ -321,9 +324,8 @@ namespace Helodrace
                     {
                         if (progress.Completed == plan.MovementNodes.Count - 1)
                         {
-                            RaidTacticalAssignment assignment = group.First(value => value.Pawn == pawn);
-                            if (!AtStagingPosition(assignment, plan)) TryGoto(pawn, assignment.Position);
-                            else { HoldPosition(pawn); FaceStackSector(pawn, plan, assignment); }
+                            if (!AtStagingPosition(personalAssignment, plan)) TryGoto(pawn, personalAssignment.Position);
+                            else { HoldPosition(pawn); FaceStackSector(pawn, plan, personalAssignment); }
                         }
                     }
                     continue;
@@ -429,7 +431,7 @@ namespace Helodrace
                 state.ApproachProgressTick = tick;
             }
             RaidMovementNode current = plan.MovementNodes[target];
-            List<RaidNodeMemberProgress> active = state.NodeMembers.Where(progress => group.Any(a => a.Pawn == progress.Pawn)).ToList();
+            List<RaidNodeMemberProgress> active = state.NodeMembers.Where(progress => assignments.ContainsKey(progress.Pawn)).ToList();
             bool gather = current.Purpose == RaidMovementNodePurpose.Gather
                 || current.Purpose == RaidMovementNodePurpose.BreachPreparation;
             // A doorway or single-file corner is a transit point, not a place to fit the whole squad.

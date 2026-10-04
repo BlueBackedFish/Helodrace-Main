@@ -95,6 +95,14 @@ internal static class RaidTacticalUnitTests
         Check(alpha.Parent == highSquad && bravo.parentGroupId == highSquad.id && charlie.Parent == highSquad
             && highUnit.StandardPersonnel == 13,
             "Subdivision affiliation and full squad personnel must remain intact.");
+        Check(ReferenceEquals(RaidTacticalUnit.ForGroup(alpha), RaidTacticalUnit.ForGroup(bravo))
+            && ReferenceEquals(RaidTacticalUnit.ForGroup(highSquad), highUnit),
+            "Group and pawn lookups reuse the canonical squad view instead of allocating new wrappers and IDs.");
+        high.RestoreTreeLinks();
+        var restoredHigh = RaidTacticalUnit.ForGroup(alpha);
+        Check(!ReferenceEquals(restoredHigh, highUnit) && restoredHigh.Id == highUnit.Id
+            && ReferenceEquals(restoredHigh, RaidTacticalUnit.ForGroup(bravo)),
+            "Restoring the authoritative organization tree invalidates cached ownership consistently.");
         organization.SetBudget(new FormationPlan { initialRaidPoints = 100, formationPointsSpent = 40 });
         Check(ReferenceEquals(units[1].Organization, units[2].Organization)
             && units[1].Organization.TrySpendSupportPoints(40)
@@ -221,6 +229,12 @@ internal static class RaidTacticalUnitTests
         bool Owns(string id, MapComponent_RaidTacticalExecution.ExecutionState state, Pawn pawn) =>
             (bool)AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "OwnsAssignment").Invoke(null, new object[] { id, state, pawn });
         Check(Owns(first.Id, a, actor) && Owns(second.Id, b, second.Members.First()), "Each squad must own its assigned pawns independently.");
+        var originalAssignments = a.ActivePlan.Assignments;
+        a.ActivePlan.Assignments = originalAssignments.Where(assignment => assignment.Pawn != actor).ToList();
+        Check(!Owns(first.Id, a, actor), "Replacing the authoritative assignment list invalidates indexed command ownership.");
+        a.ActivePlan.Assignments.Add(new RaidTacticalAssignment { Pawn = actor });
+        Check(Owns(first.Id, a, actor), "Adding a returned member refreshes indexed ownership immediately.");
+        a.ActivePlan.Assignments = originalAssignments;
         a.ActivePlan.UnitId = second.Id;
         Check(!Owns(first.Id, a, actor), "A plan belonging to a different unit must not acquire this pawn's command authority.");
         a.ActivePlan.UnitId = first.Id;

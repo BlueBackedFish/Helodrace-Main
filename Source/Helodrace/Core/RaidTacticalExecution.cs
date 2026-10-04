@@ -93,6 +93,7 @@ namespace Helodrace
             public bool ApproachComplete;
             public int CurrentNode;
             public List<RaidNodeMemberProgress> NodeMembers = new List<RaidNodeMemberProgress>();
+            internal readonly RaidTacticalIndices Indices = new RaidTacticalIndices();
             public int ApproachProgressTick;
             public float ApproachBestRemaining = float.MaxValue;
             public int BreachAttempts;
@@ -294,8 +295,11 @@ namespace Helodrace
                 ?.GetStructure(plan.OrganizationId);
 
         internal bool ControlsPawn(Pawn pawn)
+            => ControlsPawn(pawn, RaidTacticalUnit.ForPawn(pawn));
+
+        internal bool ControlsPawn(Pawn pawn, RaidTacticalUnit unit)
         {
-            string id = RaidTacticalUnit.ForPawn(pawn)?.Id;
+            string id = unit?.Id;
             return id != null && IsTacticalRaider(pawn)
                 && (waitingStructures.Contains(id) || states.TryGetValue(id, out ExecutionState state)
                 && OwnsAssignment(id, state, pawn));
@@ -304,7 +308,7 @@ namespace Helodrace
         internal static bool OwnsAssignment(string unitId, ExecutionState state, Pawn pawn) =>
             state?.UnitId == unitId && state?.ActivePlan?.UnitId == unitId
             && state?.ActivePlan?.Success == true
-            && state.ActivePlan.Assignments.Any(assignment => assignment.Pawn == pawn);
+            && state.Indices.Assignment(state.ActivePlan, pawn) != null;
 
         internal string SupportStatusFor(string id) => states.TryGetValue(id, out ExecutionState state)
             ? state.SupportStatus : "Inactive";

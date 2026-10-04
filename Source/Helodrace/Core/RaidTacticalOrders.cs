@@ -31,9 +31,13 @@ namespace Helodrace
         public bool Reactive;
         public RaidMovementDiagnostics Movement = new RaidMovementDiagnostics();
 
-        internal bool OwnedBy(RaidTacticalUnit unit) => unit != null && UnitId == unit.Id
-            && OrganizationId == unit.OrganizationId
-            && unit.Groups.Any(group => group.id == GroupId && group.Members.Contains(Pawn));
+        internal bool OwnedBy(RaidTacticalUnit unit)
+        {
+            if (unit == null || UnitId != unit.Id || OrganizationId != unit.OrganizationId) return false;
+            CombatGroup group = OrganizationAPI.GetGroup(Pawn);
+            return group != null && group.id == GroupId && RaidTacticalUnit.ForGroup(group) == unit
+                && group.Members.Contains(Pawn);
+        }
 
         public void ExposeData()
         {
@@ -96,10 +100,11 @@ namespace Helodrace
         private RaidPawnOrder Get(Pawn pawn)
         {
             if (!orders.TryGetValue(pawn, out RaidPawnOrder order)) return null;
-            if (!order.OwnedBy(RaidTacticalUnit.ForPawn(pawn))
+            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(pawn);
+            if (!order.OwnedBy(unit)
                 || pawn.Dead || pawn.Downed || pawn.Drafted || pawn.InMentalState
                 || map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    ?.ControlsPawn(pawn) != true) return null;
+                    ?.ControlsPawn(pawn, unit) != true) return null;
             return order;
         }
 
