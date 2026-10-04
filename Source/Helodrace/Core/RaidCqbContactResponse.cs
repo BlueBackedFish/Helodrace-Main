@@ -47,8 +47,23 @@ namespace Helodrace
         internal static RaidContactGuard ContactGuardFor(Pawn pawn)
         {
             string id = pawn?.Spawned == true ? RaidTacticalUnit.ForPawn(pawn)?.Id : null;
-            return id == null ? null : pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(id)
-                ?.ContactGuards.FirstOrDefault(guard => guard.Pawn == pawn && guard.Until > GenTicks.TicksGame);
+            return id == null ? null : ContactGuardFor(pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                ?.StateFor(id), pawn, GenTicks.TicksGame);
+        }
+
+        internal static RaidContactGuard ContactGuardFor(ExecutionState state, Pawn pawn, int tick) =>
+            state?.ContactGuards.FirstOrDefault(guard => guard.Pawn == pawn && guard.Until > tick);
+
+        // One cohort policy for node completion and staging readiness. A guard
+        // holds its assigned contact until released; it is not a missing mover.
+        internal static List<RaidTacticalAssignment> ApproachAssignments(List<Pawn> members,
+            RaidTacticalPlan plan, ExecutionState state, int tick)
+        {
+            var present = new HashSet<Pawn>(members);
+            var guarding = new HashSet<Pawn>(state.ContactGuards.Where(guard => guard.Until > tick)
+                .Select(guard => guard.Pawn));
+            return plan.Assignments.Where(assignment => assignment.Task != RaidTacticalTask.Withdraw
+                && present.Contains(assignment.Pawn) && !guarding.Contains(assignment.Pawn)).ToList();
         }
 
         private bool RespondToCqbContacts(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)

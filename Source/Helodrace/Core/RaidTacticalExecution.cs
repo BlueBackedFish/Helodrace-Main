@@ -1830,9 +1830,11 @@ namespace Helodrace
 
         private static bool AllReady(List<Pawn> members, RaidTacticalPlan plan)
         {
-            return plan.Assignments.Where(assignment => members.Contains(assignment.Pawn)
-                    && ContactGuardFor(assignment.Pawn) == null
+            ExecutionState state = members.Count == 0 ? null : members[0].Map
+                .GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(plan.UnitId);
+            return (state == null ? plan.Assignments.Where(assignment => members.Contains(assignment.Pawn)
                     && assignment.Task != RaidTacticalTask.Withdraw)
+                : ApproachAssignments(members, plan, state, GenTicks.TicksGame))
                 .All(assignment => AtStagingPosition(assignment, plan));
         }
 

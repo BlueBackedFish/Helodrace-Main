@@ -13,7 +13,7 @@ internal static class RaidSecurityMovementTests
     {
         int checks = 0;
         void Check(bool condition, string message) { checks++; if (!condition) throw new Exception(message); }
-        var leader = new Pawn(); var tail = new Pawn();
+        var leader = new Pawn { thingIDNumber = 31001 }; var tail = new Pawn { thingIDNumber = 31002 };
         var plan = new RaidTacticalPlan();
         plan.MovementNodes.Add(new RaidMovementNode { Id = 0 }); plan.MovementNodes.Add(new RaidMovementNode { Id = 1 });
         var state = new MapComponent_RaidTacticalExecution.ExecutionState { ActivePlan = plan, Phase = RaidExecutionPhase.Assemble };
@@ -29,6 +29,30 @@ internal static class RaidSecurityMovementTests
         Check(Connection(tail) == null, "Completed unit approaches do not retain node portal restrictions.");
         state.ApproachComplete = false; state.Phase = RaidExecutionPhase.Breach;
         Check(Connection(tail) == null, "Stack/security positioning after approach uses normal local path costs.");
+
+        var withdrawn = new Pawn { thingIDNumber = 31003 }; var departed = new Pawn { thingIDNumber = 31004 };
+        var soldierDef = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+        soldierDef.defName = "AuditSoldier";
+        foreach (Pawn value in new[] { leader, tail, withdrawn, departed })
+            value.def = soldierDef;
+        plan.Assignments.Add(new RaidTacticalAssignment { Pawn = leader, Task = RaidTacticalTask.Entry });
+        plan.Assignments.Add(new RaidTacticalAssignment { Pawn = tail, Task = RaidTacticalTask.Security });
+        plan.Assignments.Add(new RaidTacticalAssignment { Pawn = withdrawn, Task = RaidTacticalTask.Withdraw });
+        plan.Assignments.Add(new RaidTacticalAssignment { Pawn = departed, Task = RaidTacticalTask.Entry });
+        state.ContactGuards.Add(new RaidContactGuard { Pawn = tail, Until = 600 });
+        var cohortMethod = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "ApproachAssignments");
+        List<RaidTacticalAssignment> Cohort(int tick) => (List<RaidTacticalAssignment>)cohortMethod.Invoke(null,
+            new object[] { new List<Pawn> { leader, tail, withdrawn }, plan, state, tick });
+        Check(Cohort(599).Count == 1 && Cohort(599)[0].Pawn == leader,
+            "Active security guards do not block final approach; withdrawn and departed members are excluded.");
+        Check(Cohort(600).Count == 2, "An expired contact guard rejoins the same movement/readiness cohort.");
+        state.ContactGuards.Clear();
+        Check(Cohort(100).Count == 2 && state.NodeMembers[1].Completed == -1,
+            "Releasing a guard resumes its personal progress without pretending that it already crossed the route.");
+        var guardLookup = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "ContactGuardFor",
+            new[] { typeof(MapComponent_RaidTacticalExecution.ExecutionState), typeof(Pawn), typeof(int) });
+        Check(guardLookup.Invoke(null, new object[] { state, tail, 100 }) == null,
+            "Released security guards stop owning subsequent movement orders immediately.");
 
         const int width = 21, height = 17;
         var assembly = typeof(RaidStructureSnapshot).Assembly;

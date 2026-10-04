@@ -243,8 +243,7 @@ namespace Helodrace
             RetargetBlockedStackMembers(members, plan, onlyBlocked: true);
             Map map = members[0].Map;
             RaidNodeRoute.Prepare(map, plan, Helodrace.Squads.RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine);
-            List<RaidTacticalAssignment> group = plan.Assignments.Where(assignment =>
-                assignment.Task != RaidTacticalTask.Withdraw && members.Contains(assignment.Pawn)).ToList();
+            List<RaidTacticalAssignment> group = ApproachAssignments(members, plan, state, tick);
             if (group.Count == 0)
             {
                 state.CurrentNode = plan.MovementNodes.Count;
