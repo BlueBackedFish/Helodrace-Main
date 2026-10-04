@@ -16,7 +16,7 @@
     <commanderRole>HD_Role_TeamLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
     <requiredRoles>
       <!-- Team leader operates the M203A2; the automatic rifleman carries the M249. -->
-      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Grenadier</combatRole><weaponPreset>HD_WeaponPreset_M16A4_UBGL</weaponPreset><inventoryLoadout><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li></inventoryLoadout><commandRole>HD_Role_TeamLeader</commandRole><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><equipmentPointCost>40</equipmentPointCost><apparelLoadout><li>HD_Apparel_ZaperX26_Device</li></apparelLoadout><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Grenadier</combatRole><weaponPreset>HD_WeaponPreset_M16A4_UBGL</weaponPreset><inventoryLoadout><li>HD_MilitaryTablet</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li><li>HD_40mmM381HE_Round</li></inventoryLoadout><commandRole>HD_Role_TeamLeader</commandRole><commandQualifications><li>HD_Role_SquadLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><equipmentPointCost>40</equipmentPointCost><apparelLoadout><li>HD_Apparel_ZaperX26_Device</li></apparelLoadout><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_AutomaticRifleman</combatRole><weaponPreset>HD_WeaponPreset_M249_USMC</weaponPreset><explicitSuccessionOrder>1</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M8_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_AssistantAutomaticRifleman</combatRole><apparelLoadout><li>HD_Apparel_GW_Sledgehammer</li></apparelLoadout><explicitSuccessionOrder>2</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M67_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>3</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M67_Item</li></grenadeLoadout></li>
@@ -28,7 +28,7 @@
     <minimumPersonnel>13</minimumPersonnel><idealPersonnel>13</idealPersonnel><maximumPersonnel>13</maximumPersonnel>
     <selectionPriority>100</selectionPriority><commanderRole>HD_Role_SquadLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
     <requiredRoles>
-      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_SquadLeader</commandRole><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><equipmentPointCost>140</equipmentPointCost><apparelLoadout><li>HD_Apparel_ZaperX26_Device</li></apparelLoadout><grenadeLoadout><li>HD_Grenade_M7A2_Item</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_M81Igniter</li></grenadeLoadout></li>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><inventoryLoadout><li>HD_MilitaryTablet</li></inventoryLoadout><commandRole>HD_Role_SquadLeader</commandRole><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications><explicitSuccessionOrder>0</explicitSuccessionOrder><equipmentPointCost>140</equipmentPointCost><apparelLoadout><li>HD_Apparel_ZaperX26_Device</li></apparelLoadout><grenadeLoadout><li>HD_Grenade_M7A2_Item</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_C4_Charge</li><li>HD_M81Igniter</li></grenadeLoadout></li>
     </requiredRoles>
     <childFormations>
       <li><formation>HD_Formation_MW_Fireteam</formation><count>3</count><successionPriority>0</successionPriority></li>
@@ -40,7 +40,7 @@
     <minimumPersonnel>43</minimumPersonnel><idealPersonnel>43</idealPersonnel><maximumPersonnel>43</maximumPersonnel>
     <selectionPriority>200</selectionPriority><commanderRole>HD_Role_PlatoonLeader</commanderRole><doctrine>HD_Doctrine_Modern</doctrine>
     <requiredRoles>
-      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_PlatoonLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
+      <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><inventoryLoadout><li>HD_MilitaryTablet</li></inventoryLoadout><commandRole>HD_Role_PlatoonLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M84_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandRole>HD_Role_PlatoonSergeant</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M8_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><commandQualifications><li>HD_Role_PlatoonLeader</li></commandQualifications><explicitSuccessionOrder>2</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M67_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_MW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>3</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M67_Item</li></grenadeLoadout></li>
@@ -55,6 +55,7 @@
     <formationPointTolerance>0.10</formationPointTolerance>
     <commandLossDelayTicks>45</commandLossDelayTicks><commandRecoveryTicks>180</commandRecoveryTicks>
     <actingCommandEfficiency>0.85</actingCommandEfficiency>
+    <tacticalRadio>true</tacticalRadio>
     <directControl>0.5</directControl><fireteamIndependence>0.8</fireteamIndependence>
     <squadCohesion>0.8</squadCohesion><distributedLeadership>0.8</distributedLeadership>
     <availableFormations>

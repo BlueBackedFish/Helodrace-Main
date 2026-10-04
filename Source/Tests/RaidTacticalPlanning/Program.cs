@@ -38,11 +38,44 @@ internal static class Program
         Check(slots.Available(8, 30) && !slots.Available(4, 12), "Releasing a slot does not discard unrelated owners.");
     }
 
+    private static void CheckCommunications()
+    {
+        var voice = RaidCommunicationPolicy.Delays(new[] { 1, 2, 3, 4 }, 1,
+            (a, b) => Math.Abs(a - b) == 1 && b != 4 && a != 4 ? 40 : -1);
+        Check(voice[1] == 0 && voice[2] == 40 && voice[3] == 80 && !voice.ContainsKey(4),
+            "LOW oral reports require each contact link; isolated soldiers remain unknown to command.");
+        var radio = RaidCommunicationPolicy.Delays(new[] { 1, 2, 3 }, 1,
+            (a, b) => a + b == 4 ? 20 : Math.Abs(a - b) == 1 ? 40 : -1);
+        Check(radio[3] == 20 && radio[2] == 40, "A usable radio link can bypass distant voice relays.");
+        Check(RaidCommunicationPolicy.Delays(new[] { 1, 2 }, 7, (_, _) => 20).Count == 0,
+            "Absent command does not silently connect all soldiers.");
+        Check(RaidCommunicationPolicy.RadioCompatible(true, true, true, true, false, "net", "net", 90000, 300),
+            "Compatible active equipment connects at the configured range boundary without a LOS input.");
+        Check(!RaidCommunicationPolicy.RadioCompatible(true, true, true, true, true, "net", "net", 10, 300),
+            "Radio blackout disables equipment connectivity.");
+        Check(!RaidCommunicationPolicy.RadioCompatible(true, true, false, true, false, "net", "net", 10, 300),
+            "Downed/unavailable equipment operator cannot transmit.");
+        Check(!RaidCommunicationPolicy.RadioCompatible(true, true, true, true, false, "net", "other", 10, 300),
+            "Different radio networks do not create a shared knowledge pool.");
+        Check(!RaidCommunicationPolicy.RadioCompatible(false, true, true, true, false, "net", "net", 10, 300),
+            "LOW doctrine does not gain automatic distant sharing from faction identity or a support radio.");
+        Check(!RaidCommunicationPolicy.RadioCompatible(true, true, true, true, false, "net", "net", 90001, 300),
+            "Equipment range is a real connectivity constraint.");
+        Check(RaidCommunicationPolicy.Fresh(100, 1299) && !RaidCommunicationPolicy.Fresh(100, 1300)
+            && !RaidCommunicationPolicy.Fresh(100, 99), "Memory age uses the original non-future observation timestamp.");
+        Check(RaidCommunicationPolicy.CanRelay(new[] { "A", "B" }, "B", true)
+            && !RaidCommunicationPolicy.CanRelay(new[] { "A", "B" }, "A", false),
+            "Receiving soldier-to-command forwarding preserves the route while external cycles are forbidden.");
+        Check(!RaidCommunicationPolicy.CanRelay(Enumerable.Range(0, 8).Select(i => i.ToString()).ToList(), "next", false),
+            "Relay paths have a finite hop limit.");
+    }
+
     private static int Main()
     {
         try
         {
             CheckFormationSlots();
+            CheckCommunications();
             CheckLocalCqb();
             var sideClearance = RaidFormationTopology.Connected(new[] { 3, 4 }, 3,
                 cell => new[] { cell - 3, cell + 3, cell - 1, cell + 1 }, _ => true);

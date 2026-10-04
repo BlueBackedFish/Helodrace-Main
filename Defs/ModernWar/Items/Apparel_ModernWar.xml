@@ -65,7 +65,7 @@
   <ThingDef ParentName="ApparelNoQualityBase">
     <defName>HD_MilitaryTablet</defName>
     <label>military tablet</label>
-    <description>A rugged tactical tablet with sealed controls, a hardened screen, and a compact radio antenna. Worn as command gear, it authorizes operation of Switchblade launchers.</description>
+    <description>A rugged tactical tablet with sealed controls, a hardened screen, and a compact radio antenna. Carried or worn, its radio shares tactical reports with compatible infantry sets. Worn as command gear, it also authorizes operation of Switchblade launchers.</description>
     <smeltable>false</smeltable>
     <graphicData>
       <texPath>Items/HD_MilitaryTablet</texPath>
@@ -101,6 +101,7 @@
     </apparel>
     <comps>
       <li Class="Helodrace.CompProperties_SwitchbladeTablet" />
+      <li Class="Helodrace.CompProperties_TacticalRadio"><network>ModernInfantry</network><range>300</range></li>
     </comps>
   </ThingDef>
 

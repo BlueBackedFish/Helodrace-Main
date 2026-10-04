@@ -324,6 +324,7 @@ internal static class Program
         defs.Add("HD_C4_Charge", new ThingDef { defName = "HD_C4_Charge" });
         defs.Add("HD_M81Igniter", new ThingDef { defName = "HD_M81Igniter" });
         defs.Add("HD_40mmM381HE_Round", new ThingDef { defName = "HD_40mmM381HE_Round" });
+        defs.Add("HD_MilitaryTablet", new ThingDef { defName = "HD_MilitaryTablet", IsApparel = true });
         defs.Add("HD_Apparel_ZaperX26_Device", new ThingDef
             { defName = "HD_Apparel_ZaperX26_Device", IsApparel = true });
         defs.Add("HD_Apparel_GW_Sledgehammer", new ThingDef
@@ -535,8 +536,9 @@ internal static class Program
             && modernTeam.requiredRoles[1].weaponPreset?.defName == "HD_WeaponPreset_M249_USMC"
             && modernTeam.requiredRoles.Skip(2).All(slot => slot.weaponPreset == null),
             "High specialists override their weapon presets while riflemen retain the common PawnKind loadout");
-        Check(modernTeam.requiredRoles[0].inventoryLoadout.Count == 6
-            && modernTeam.requiredRoles[0].inventoryLoadout.All(item => item.defName == "HD_40mmM381HE_Round"),
+        Check(modernTeam.requiredRoles[0].inventoryLoadout.Count == 7
+            && modernTeam.requiredRoles[0].inventoryLoadout.Count(item => item.defName == "HD_40mmM381HE_Round") == 6
+            && modernTeam.requiredRoles[0].inventoryLoadout.Count(item => item.defName == "HD_MilitaryTablet") == 1,
             "Each launcher operator receives six compatible HE rounds");
         Check(modernTeam.requiredRoles.Select(slot => slot.combatRole.defName).SequenceEqual(new[] {
             "HD_Role_Grenadier", "HD_Role_AutomaticRifleman", "HD_Role_AssistantAutomaticRifleman", "HD_Role_Rifleman" }),
