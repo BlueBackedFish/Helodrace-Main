@@ -67,6 +67,10 @@ namespace Helodrace.Squads
                         developmentalStages: parms.raidAgeRestriction?.developmentStage ?? DevelopmentalStage.Adult,
                         biologicalAgeRange: parms.raidAgeRestriction?.ageRange));
                     pawns.Add(pawn);
+                    if (member.slot.weaponPreset != null)
+                        Helodrace.ModernWar.Patch_PawnGenerator_ModularLoadout.ApplyWeapon(pawn,
+                            new Helodrace.ModernWar.ModularPawnKindLoadout
+                            { weaponPreset = member.slot.weaponPreset });
                     if (parms.faction?.def?.defName == "HD_HelodCivilHighFaction")
                         foreach (string training in new[] { "HD_CQBTraining", "HD_TCCCTraining" })
                         {
@@ -74,7 +78,7 @@ namespace Helodrace.Squads
                             if (trainingDef != null && !pawn.health.hediffSet.HasHediff(trainingDef))
                                 pawn.health.AddHediff(HediffMaker.MakeHediff(trainingDef, pawn));
                         }
-                    foreach (ThingDef grenadeDef in member.slot.grenadeLoadout)
+                    foreach (ThingDef grenadeDef in member.slot.grenadeLoadout.Concat(member.slot.inventoryLoadout))
                     {
                         Thing grenade = ThingMaker.MakeThing(grenadeDef);
                         if (pawn.inventory?.innerContainer == null

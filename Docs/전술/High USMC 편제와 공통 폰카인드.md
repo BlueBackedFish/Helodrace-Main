@@ -24,9 +24,9 @@ High 예산 허용 오차 10%는 유지한다. 예를 들어 600점이면 화력
 
 모든 슬롯은 기존 `HD_MW_HelodRifleman` 한 종류를 사용한다. 지휘 역할은 `commandRole`, 전투 보직은 `combatRole`, 수류탄과 돌파 장비는 슬롯의 추가 장비 목록으로 구분한다. 조장·분대장·보조사수 전용 폰카인드를 만들지 않는다.
 
-조장은 `HD_Role_Grenadier`와 `HD_Role_TeamLeader`를 함께 가진다. 자동소총수는 기존 `HD_Role_AutomaticRifleman`, 보조사수는 새 `HD_Role_AssistantAutomaticRifleman`을 사용한다. 이 역할 배정만으로 무기가 자동 교체되지는 않는다.
+조장은 `HD_Role_Grenadier`와 `HD_Role_TeamLeader`를 함께 가진다. 자동소총수는 기존 `HD_Role_AutomaticRifleman`, 보조사수는 새 `HD_Role_AssistantAutomaticRifleman`을 사용한다. 무장은 슬롯의 weaponPreset으로 지정하고 폰 생성 직후 기존 모듈 무기 프리셋 적용기를 통해 교체한다.
 
-현재 전원 기존 M16A4·IBTV·FASTMT 프리셋으로 생성된다. M27/M249와 유탄발사기 정의가 아직 없어 해당 무기로 바꿔 생성하지 않는다. 유탄발사기 슬롯은 화력조장에게 지정했으며 실제 무기·텍스처가 추가되면 그 보직에 연결한다. 공통 폰카인드를 유지하면서 보직별로 다른 주무기를 지급하려면 장비 적용 단계에 슬롯별 무장 지정도 연결해야 한다. 현재의 공통 장비와 보직 배정은 그 연결 전의 편제 기반이다.
+화력조장은 HD_WeaponPreset_M16A4_UBGL(M16A4＋M203A2), 자동소총수는 HD_WeaponPreset_M249_USMC를 적용한다. 나머지 인원은 기존 M16A4를 유지한다. IBTV·FASTMT 방어구는 공통이다. 조장에게 M381 HE 40mm 유탄 6발을 지급한다. 이번 연결은 생성 장비 배정이며, CQB/야전 전술에서 M203 발사를 자동 선택하는 기능은 별도 구현 대상이다.
 
 기존 조장/분대장의 ZAPER, 분대장의 C4 3개와 점화기, 연막 및 수류탄 지급은 유지한다. 추가 소총수와 본부 지원 인원도 현행 수류탄 정의를 사용한다. 역할 분리는 자동소총의 지속 화력이나 유탄발사기의 실제 발사 기능을 대신하지 않는다.
 

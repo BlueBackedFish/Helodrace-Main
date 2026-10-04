@@ -42,7 +42,9 @@ namespace Helodrace.Squads
         public int explicitSuccessionOrder = -1;
         public int rankPriority;
         public List<ThingDef> grenadeLoadout = new List<ThingDef>();
+        public List<ThingDef> inventoryLoadout = new List<ThingDef>();
         public List<ThingDef> apparelLoadout = new List<ThingDef>();
+        public Helodrace.ModernWar.ModularWeaponPresetDef weaponPreset;
         // combatPower already includes the usual equipment. These are optional extra costs.
         public float equipmentPointCost;
         public float specialistPointCost;
@@ -105,6 +107,7 @@ namespace Helodrace.Squads
                 || slot.combatRole.isCommandRole || slot.count <= 0
                 || slot.equipmentPointCost < 0 || slot.specialistPointCost < 0
                 || slot.grenadeLoadout == null || slot.grenadeLoadout.Any(def => def == null)
+                || slot.inventoryLoadout == null || slot.inventoryLoadout.Any(def => def == null)
                 || slot.apparelLoadout == null || slot.apparelLoadout.Any(def => def == null
                     || !def.IsApparel)))
             {

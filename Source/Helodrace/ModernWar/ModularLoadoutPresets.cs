@@ -576,7 +576,7 @@ namespace Helodrace.ModernWar
             return loadouts.LastOrDefault(entry => entry != null && entry.weight > 0f);
         }
 
-        private static void ApplyWeapon(Pawn pawn, ModularPawnKindLoadout loadout)
+        internal static void ApplyWeapon(Pawn pawn, ModularPawnKindLoadout loadout)
         {
             ModularWeaponPresetDef preset = loadout.weaponPreset;
             if (preset?.weaponDef == null || pawn.equipment == null) return;

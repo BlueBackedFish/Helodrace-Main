@@ -307,6 +307,12 @@ internal static class Program
             return merged;
         }
         var defs = new Dictionary<string, Def> { ["Shooting"] = Shooting };
+        foreach (string file in Directory.GetFiles(Path.Combine(root, "Defs/ModernWar/ModularPresets"), "*.xml"))
+            foreach (XElement preset in XDocument.Load(file).Root.Elements("Helodrace.ModernWar.ModularWeaponPresetDef"))
+            {
+                string name = (string)preset.Element("defName");
+                defs.Add(name, new Helodrace.ModernWar.ModularWeaponPresetDef { defName = name });
+            }
         var grenadeNames = new[] { "Defs/GreatWar/Items/Grenades_GreatWar.xml",
                 "Defs/ColdWar/Items/Grenades_ColdWar.xml",
                 "Defs/ModernWar/Items/Grenades_ModernWar.xml" }
@@ -317,6 +323,7 @@ internal static class Program
             defs.Add(grenadeName, new ThingDef { defName = grenadeName });
         defs.Add("HD_C4_Charge", new ThingDef { defName = "HD_C4_Charge" });
         defs.Add("HD_M81Igniter", new ThingDef { defName = "HD_M81Igniter" });
+        defs.Add("HD_40mmM381HE_Round", new ThingDef { defName = "HD_40mmM381HE_Round" });
         defs.Add("HD_Apparel_ZaperX26_Device", new ThingDef
             { defName = "HD_Apparel_ZaperX26_Device", IsApparel = true });
         defs.Add("HD_Apparel_GW_Sledgehammer", new ThingDef
@@ -508,6 +515,13 @@ internal static class Program
                 name + " forbids drop-pod raid arrivals");
         }
         var modernTeam = (FormationDef)defs["HD_Formation_MW_Fireteam"];
+        Check(modernTeam.requiredRoles[0].weaponPreset?.defName == "HD_WeaponPreset_M16A4_UBGL"
+            && modernTeam.requiredRoles[1].weaponPreset?.defName == "HD_WeaponPreset_M249_USMC"
+            && modernTeam.requiredRoles.Skip(2).All(slot => slot.weaponPreset == null),
+            "High specialists override their weapon presets while riflemen retain the common PawnKind loadout");
+        Check(modernTeam.requiredRoles[0].inventoryLoadout.Count == 6
+            && modernTeam.requiredRoles[0].inventoryLoadout.All(item => item.defName == "HD_40mmM381HE_Round"),
+            "Each launcher operator receives six compatible HE rounds");
         Check(modernTeam.requiredRoles.Select(slot => slot.combatRole.defName).SequenceEqual(new[] {
             "HD_Role_Grenadier", "HD_Role_AutomaticRifleman", "HD_Role_AssistantAutomaticRifleman", "HD_Role_Rifleman" }),
             "One PawnKind supplies the USMC leader/grenadier, automatic rifleman, assistant and rifleman billets");

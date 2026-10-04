@@ -15,6 +15,11 @@ namespace RimWorld
     }
     public class SkillRecord { public int Level; }
 }
+namespace Helodrace.ModernWar
+{
+    public class ModularWeaponPresetDef : Verse.Def { }
+}
+
 namespace Verse
 {
     public class Def
