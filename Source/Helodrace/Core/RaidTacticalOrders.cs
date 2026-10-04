@@ -256,6 +256,17 @@ namespace Helodrace
         {
             if (pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.ReadyFor(pawn) == false)
                 return Wait(pawn, order);
+            // Another job can reserve the temporary endpoint after the steering
+            // update. Resolve a free endpoint in the same shared direction now,
+            // rather than imposing the 120-tick retry on the rest of the squad.
+            if (!pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)
+                && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.TryNodeMoveDestination(pawn, out IntVec3 alternative) == true)
+            {
+                order.Destination = alternative;
+                order.RetryAfter = 0;
+                MapComponent_RaidTacticalTrace.Record(pawn, $"Node endpoint reserved: continue toward {alternative}");
+            }
             if (GenTicks.TicksGame < order.RetryAfter || !order.Destination.InBounds(pawn.Map)
                 || !order.Destination.Standable(pawn.Map)
                 || !pawn.Map.pawnDestinationReservationManager.CanReserve(order.Destination, pawn)

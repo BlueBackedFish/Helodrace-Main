@@ -10,6 +10,17 @@ internal static class Program
     private static int checks;
     private static void CheckMovementNodes()
     {
+        Check(TacticalNodeProgress.Endpoint(9, i => i != 0, i => i, _ => true) == 1,
+            "A reserved shared center uses a nearby endpoint without a retry wait");
+        Check(TacticalNodeProgress.Endpoint(9, _ => true, i => i == 0 ? 1000 : i, _ => true) == 1,
+            "Pending peer movement avoids same-tick endpoint collisions");
+        Check(TacticalNodeProgress.Endpoint(9, _ => true, i => i, i => i > 2) == 3,
+            "Unreachable nearby endpoints do not stop all followers");
+        Check(TacticalNodeProgress.Endpoint(9, _ => false, i => i, _ => true) == -1,
+            "A genuinely full passage does not ignore reservations");
+        int calls = 0;
+        Check(TacticalNodeProgress.Endpoint(100, _ => true, i => i, _ => { calls++; return false; }) == -1
+            && calls == 24, "Endpoint reachability work is bounded");
         Check(TacticalNodeProgress.Select(0, _ => false, (_, _) => true).Count == 0,
             "An absent route cannot fabricate a movement node");
         var open = TacticalNodeProgress.Select(65, _ => false, (_, _) => true);

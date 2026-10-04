@@ -161,6 +161,43 @@ namespace Helodrace
 
     public sealed partial class MapComponent_RaidTacticalExecution
     {
+        // Shared direction, separate temporary Goto endpoints. These are not formation slots.
+        internal bool TryNodeMoveDestination(Pawn pawn, out IntVec3 destination, bool planning = false)
+        {
+            destination = IntVec3.Invalid;
+            RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
+            string unitId = order?.UnitId ?? Helodrace.Squads.RaidTacticalUnit.ForPawn(pawn)?.Id;
+            ExecutionState state = unitId == null ? null : StateFor(unitId);
+            RaidTacticalPlan plan = state?.ActivePlan;
+            if (plan == null || !planning && order?.Reactive == true || state.Phase != RaidExecutionPhase.Assemble
+                || state.ApproachComplete) return false;
+            RaidNodeMemberProgress progress = state.NodeMembers.FirstOrDefault(value => value.Pawn == pawn);
+            if (progress == null || progress.DestinationNode < 0
+                || progress.Completed >= plan.MovementNodes.Count - 1) return false;
+            int index = Math.Min(progress.DestinationNode, plan.MovementNodes.Count - 1);
+            RaidMovementNode node = plan.MovementNodes[index];
+            RaidStructureSnapshot structure = StructureFor(map, plan);
+            var peers = state.NodeMembers.Where(value => value.Pawn != pawn && value.Pawn?.Spawned == true
+                && !value.Pawn.Dead && !value.Pawn.Downed && value.DestinationNode == index)
+                .Select(value => value.Destination).Where(cell => cell.IsValid).ToList();
+            // Soft congestion cost allows narrow passages; never waits for every personal slot.
+            List<IntVec3> cells = node.GuidanceCells;
+            int selected = TacticalNodeProgress.Endpoint(cells.Count, i => {
+                IntVec3 cell = cells[i];
+                return cell.InBounds(map) && cell.Standable(map)
+                    && cell != pawn.Position && !plan.AvoidedTrapCells.Contains(cell)
+                    && (structure == null || structure.RoomAt(cell) == structure.RoomAt(node.Center))
+                    && map.pawnDestinationReservationManager.CanReserve(cell, pawn);
+                }, i => cells[i].DistanceToSquared(node.Center) + pawn.Position.DistanceToSquared(cells[i]) * 0.15f
+                    + peers.Count(other => other == cells[i]) * 1000f,
+                i => pawn.CanReach(cells[i], PathEndMode.OnCell, Danger.Deadly));
+            destination = selected < 0 ? IntVec3.Invalid : cells[selected];
+            if (!destination.IsValid) return false;
+            progress.Destination = destination;
+            progress.RetryAfter = 0;
+            return true;
+        }
+
         internal bool AllowsNodeStep(Pawn pawn, IntVec3 cell)
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
@@ -276,6 +313,7 @@ namespace Helodrace
                 }
                 if (progress.DestinationNode != next || !progress.Destination.InBounds(map)
                     || !progress.Destination.Standable(map)
+                    || !map.pawnDestinationReservationManager.CanReserve(progress.Destination, pawn)
                     || pawn.Position.DistanceToSquared(progress.Destination) <= 4)
                 {
                     if (tick < progress.RetryAfter) continue;
@@ -285,12 +323,10 @@ namespace Helodrace
                             destinationNode.GuidanceRadius, plan.AvoidedTrapCells);
                         destinationNode.NextAreaRefresh = tick + destinationNode.RefreshTicks;
                     }
-                    progress.Destination = destinationNode.GuidanceCells.Where(cell => cell.Standable(map)
-                            && (structure == null || structure.RoomAt(cell) == structure.RoomAt(destinationNode.Center)))
-                        .OrderBy(cell => cell.DistanceToSquared(destinationNode.Center))
-                        .Where(cell => pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
-                        .DefaultIfEmpty(IntVec3.Invalid).First();
                     progress.DestinationNode = next;
+                    if (!map.GetComponent<MapComponent_RaidTacticalExecution>()
+                        .TryNodeMoveDestination(pawn, out progress.Destination, planning: true))
+                        progress.Destination = IntVec3.Invalid;
                     if (!progress.Destination.IsValid) { progress.RetryAfter = tick + destinationNode.RetryTicks; continue; }
                     MapComponent_RaidTacticalTrace.Record(pawn, $"node {next}/{plan.MovementNodes.Count - 1} → {progress.Destination}");
                 }

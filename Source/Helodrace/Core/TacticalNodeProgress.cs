@@ -1,11 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Helodrace
 {
     // Value-only policy: no Map/Pawn access and no distance leash to a moving leader.
     internal static class TacticalNodeProgress
     {
+        public static int Endpoint(int count, Func<int, bool> available, Func<int, float> score,
+            Func<int, bool> reachable)
+            => Enumerable.Range(0, count).Where(available).OrderBy(score).Take(24)
+                .Where(reachable).DefaultIfEmpty(-1).First();
+
         public static bool WalkLine(int fromX, int fromZ, int toX, int toZ, Func<int, int, bool> standable)
         {
             int steps = Math.Max(Math.Abs(toX - fromX), Math.Abs(toZ - fromZ));
