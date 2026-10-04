@@ -67,6 +67,25 @@ internal static class RaidSecurityMovementTests
         Check(diagnostic.RequestedTick == 100 && diagnostic.StartedTick == 130,
             "An unchanged directive or a continuation does not restart its movement latency measurement.");
 
+        var movementAreaType = typeof(RaidMovementDiagnostics).Assembly.GetType("Helodrace.RaidMovementArea");
+        object retainedArea = RuntimeHelpers.GetUninitializedObject(movementAreaType);
+        var leaseField = AccessTools.Field(movementAreaType, "Lease");
+        object nativeLease = Activator.CreateInstance(leaseField.FieldType);
+        leaseField.SetValue(retainedArea, nativeLease);
+        var nativeRequest = (PathRequest)RuntimeHelpers.GetUninitializedObject(typeof(PathRequest));
+        nativeRequest.customizer = (PathRequest.IPathGridCustomizer)retainedArea;
+        bool CanRetire() => (bool)AccessTools.Property(leaseField.FieldType, "CanRetire").GetValue(nativeLease);
+        Patch_RaidMovementArea_Request.Postfix(nativeRequest);
+        Check(!CanRetire(), "The actual game PathRequest creation hook acquires its movement-grid lease.");
+        AccessTools.Method(leaseField.FieldType, "BeginRead").Invoke(nativeLease, null);
+        nativeRequest.Dispose(); Patch_RaidMovementArea_RequestCancelled.Postfix(nativeRequest);
+        Check(!CanRetire(), "The actual cancellation hook releases the request but preserves the running native read.");
+        AccessTools.Method(leaseField.FieldType, "CompleteReads").Invoke(nativeLease, null);
+        Check(CanRetire(), "Native retirement becomes possible only after the completion barrier.");
+        Patch_RaidMovementArea_Request.Postfix(nativeRequest);
+        nativeRequest.Resolve(null); Patch_RaidMovementArea_RequestResolved.Postfix(nativeRequest);
+        Check(CanRetire(), "The real request resolution hook releases completed request ownership.");
+
         const int width = 21, height = 17;
         var assembly = typeof(RaidStructureSnapshot).Assembly;
         var inputType = assembly.GetType("Helodrace.TacticalGeometryInput");

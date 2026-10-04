@@ -32,6 +32,8 @@ internal static class Program
             typeof(Patch_RaidTacticalPendingAttack),
             typeof(Patch_RaidTacticalSupportFlee),
             typeof(Patch_RaidMovementArea_Request), typeof(Patch_RaidMovementArea_Dispose),
+            typeof(Patch_RaidMovementArea_RequestResolved), typeof(Patch_RaidMovementArea_RequestCancelled),
+            typeof(Patch_RaidMovementArea_ReadersCompleted),
             typeof(Patch_RaidNodeMovement_AllowedStep),
             typeof(Patch_EdgeWalkInGroups_Organization),
             typeof(Patch_BreachedDoor_NoRandomBreakdown), typeof(Patch_BreachedDoor_AlwaysOpen),

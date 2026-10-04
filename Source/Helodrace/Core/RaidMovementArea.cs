@@ -22,6 +22,9 @@ namespace Helodrace
         private ushort[] values;
         private int copied;
         private bool canceled;
+        internal readonly TacticalNativeLease<PathRequest> Lease = new TacticalNativeLease<PathRequest>();
+        private readonly MapComponent_RaidMovementAreas owner;
+        internal long NativeBytes => costs.IsCreated ? (long)costs.Length * sizeof(ushort) : 0;
         private int retryFrame;
         public bool Ready { get; private set; }
         public bool Canceled => canceled;
@@ -35,6 +38,7 @@ namespace Helodrace
             int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, RaidMovementNode connection = null,
             int openingOverride = -1, IEnumerable<IntVec3> ingressCells = null)
         {
+            owner = map.GetComponent<MapComponent_RaidMovementAreas>();
             MarkRequested();
             input = new TacticalMovementMaskInput {
                 Width = map.Size.x, Height = map.Size.z, Structure = structure?.Version.Geometry,
@@ -115,6 +119,8 @@ namespace Helodrace
         public NativeArray<ushort> GetOffsetGrid()
         {
             if (!Ready) throw new InvalidOperationException("Movement mask is not ready.");
+            Lease.BeginRead();
+            owner?.RegisterReader(this);
             return costs;
         }
         public void CancelPreparation()
@@ -152,6 +158,13 @@ namespace Helodrace
             new TacticalPreparationQueue<RaidMovementArea, Pawn>(RaidPawnReferenceComparer.Instance);
         private const int MaximumPumpsPerPass = 64;
         private bool removed;
+        private readonly HashSet<RaidMovementArea> readingAreas = new HashSet<RaidMovementArea>();
+        internal void RegisterReader(RaidMovementArea area) => readingAreas.Add(area);
+        internal void CompleteReaders()
+        {
+            foreach (RaidMovementArea area in readingAreas) area.Lease.CompleteReads();
+            readingAreas.Clear();
+        }
         public int Requests;
         public long BuildMilliseconds;
         public int PreparedNotifications;
@@ -326,6 +339,7 @@ namespace Helodrace
 
         internal void DisposeAreas()
         {
+            CompleteReaders();
             Dispose();
             foreach (RaidMovementArea area in areas.Values.SelectMany(value => value.Values)) area.Dispose();
             foreach (RaidMovementArea area in fightingAreas.Values) area.Dispose();
@@ -343,11 +357,39 @@ namespace Helodrace
         typeof(PathFinderCostTuning?), typeof(PathEndMode), typeof(PathRequest.IPathGridCustomizer) })]
     public static class Patch_RaidMovementArea_Request
     {
+        public static void Postfix(PathRequest __result)
+        {
+            if (__result?.customizer is RaidMovementArea area) area.Lease.Acquire(__result);
+        }
         public static void Prefix(Pawn pawn, ref PathRequest.IPathGridCustomizer customizer)
         {
             if (customizer != null || pawn?.Spawned != true) return;
             customizer = pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.For(pawn);
         }
+    }
+
+    [HarmonyPatch(typeof(PathRequest), nameof(PathRequest.Resolve))]
+    public static class Patch_RaidMovementArea_RequestResolved
+    {
+        public static void Postfix(PathRequest __instance)
+        {
+            if (__instance.customizer is RaidMovementArea area) area.Lease.Release(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(PathRequest), nameof(PathRequest.Dispose))]
+    public static class Patch_RaidMovementArea_RequestCancelled
+    {
+        public static void Postfix(PathRequest __instance)
+        {
+            if (__instance.customizer is RaidMovementArea area) area.Lease.Release(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(PathFinder), "ForceCompleteScheduledJobs")]
+    public static class Patch_RaidMovementArea_ReadersCompleted
+    {
+        public static void Postfix(Map ___map) => ___map.GetComponent<MapComponent_RaidMovementAreas>()?.CompleteReaders();
     }
 
     [HarmonyPatch(typeof(PathFinder), nameof(PathFinder.Dispose))]

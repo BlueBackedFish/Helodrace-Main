@@ -97,6 +97,19 @@ internal static class Program
     }
     private static void CheckPreparationQueue()
     {
+        var lease = new TacticalNativeLease<object>();
+        object request = new object();
+        Check(lease.CanRetire, "An unused native cache entry may be retired");
+        lease.Acquire(request); lease.Acquire(request);
+        Check(!lease.CanRetire && lease.Requests == 1, "Created/queued requests retain their grid, with duplicate acquisition coalesced");
+        lease.BeginRead(); lease.Release(request);
+        Check(!lease.CanRetire && lease.Requests == 0, "Cancelling a running request does not permit disposal while its grid job still reads");
+        lease.CompleteReads();
+        Check(lease.CanRetire, "The native completion barrier permits retirement after all requests release");
+        lease.Acquire(request); lease.BeginRead(); lease.CompleteReads();
+        Check(!lease.CanRetire, "A completion barrier cannot retire a grid still retained by another pending request");
+        lease.Release(request);
+        Check(lease.CanRetire, "Final request resolution releases the completed grid");
         var queue = new TacticalPreparationQueue<object, object>();
         object old = new object(), speculative = new object(), later = new object();
         object a = new object(), b = new object(), c = new object();
