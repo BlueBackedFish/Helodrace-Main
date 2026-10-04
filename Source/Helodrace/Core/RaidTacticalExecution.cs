@@ -437,6 +437,12 @@ namespace Helodrace
 
         public override void MapComponentTick()
         {
+            if (GenTicks.TicksGame % 10 != 0 && pendingCasualties.Count == 0) { base.MapComponentTick(); return; }
+            using (RaidCpuProfiler.Measure(map, RaidCpuStage.Execution)) ExecutionTick();
+        }
+
+        private void ExecutionTick()
+        {
             base.MapComponentTick();
             int tick = Find.TickManager?.TicksGame ?? 0;
             if (tick % 10 != 0 && pendingCasualties.Count == 0) return;

@@ -34,6 +34,11 @@ namespace Helodrace
 
         private void RefreshContacts(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            using (RaidCpuProfiler.Measure(map, RaidCpuStage.Observation)) RefreshContactsCore(members, plan, state, tick);
+        }
+
+        private void RefreshContactsCore(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
+        {
             if (!state.Contacts.ScanScheduled)
             {
                 state.Contacts.ScanTick = tick - RaidContactMemory.ScanTicks + RaidCommunicationPolicy.ScanOffset(state.UnitId);

@@ -17,5 +17,6 @@
     <Compile Include="../../Helodrace/Core/TacticalNativeBudget.cs" Link="TacticalNativeBudget.cs" />
     <Compile Include="../../Helodrace/Core/TacticalSpatialIndex.cs" Link="TacticalSpatialIndex.cs" />
     <Compile Include="../../Helodrace/Core/TacticalServiceBudget.cs" Link="TacticalServiceBudget.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalCpuSamples.cs" Link="TacticalCpuSamples.cs" />
   </ItemGroup>
 </Project>

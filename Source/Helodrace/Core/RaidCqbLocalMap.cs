@@ -98,6 +98,13 @@ namespace Helodrace
             IntVec3 center, int tick, ISet<IntVec3> avoided, bool force = false,
             System.Func<IntVec3, bool> observed = null)
         {
+            using (RaidCpuProfiler.Measure(map, RaidCpuStage.LocalMap))
+                return RefreshMeasured(map, structure, pawn, center, tick, avoided, force, observed);
+        }
+
+        private bool RefreshMeasured(Map map, RaidStructureSnapshot structure, Pawn pawn,
+            IntVec3 center, int tick, ISet<IntVec3> avoided, bool force, System.Func<IntVec3, bool> observed)
+        {
             Knowledge.ObservedTick = tick; Knowledge.Version = structure.Version.Id;
             if (observed == null) observed = cell => RaidObservationSight.CanSeeCell(map, pawn.Position, cell,
                 RaidContactMemory.Radius, (a, b) => GenSight.LineOfSight(a, b, map, true)

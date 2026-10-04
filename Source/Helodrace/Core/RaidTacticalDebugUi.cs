@@ -158,6 +158,11 @@ namespace Helodrace
                 + $"peak={movement.PeakNativeMemoryBytes / 1048576.0:0.00} MiB "
                 + $"evictions={movement.CacheEvictions} memoryWaits={movement.MemoryDeferrals} "
                 + $"preparation wall time={movement.BuildMilliseconds} ms");
+            var physical = RaidPhysicalMapCache.For(RaidTacticalDebugSession.Map);
+            report.AppendLine($"Physical chunks reads/hits={physical.ChunkReads}/{physical.ChunkHits} "
+                + $"spatial builds={physical.SpatialBuilds} LOS checks/hits={physical.LosChecks}/{physical.LosHits} "
+                + $"observation deferrals={physical.ObservationBudget.Deferred}");
+            report.AppendLine(RaidCpuProfiler.Report(RaidTacticalDebugSession.Map));
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"

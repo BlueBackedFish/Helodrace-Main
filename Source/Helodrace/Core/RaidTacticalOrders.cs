@@ -138,6 +138,13 @@ namespace Helodrace
         public static bool Set(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
             bool sprint = false, bool fightOnArrival = false, float radius = 10f, bool reactive = false)
         {
+            using (RaidCpuProfiler.Measure(pawn?.Map, RaidCpuStage.Orders))
+                return SetMeasured(pawn, kind, destination, sprint, fightOnArrival, radius, reactive);
+        }
+
+        private static bool SetMeasured(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
+            bool sprint, bool fightOnArrival, float radius, bool reactive)
+        {
             if (pawn?.Spawned != true || pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.ControlsPawn(pawn) != true) return false;
             RaidOrderKind requestedKind = kind;

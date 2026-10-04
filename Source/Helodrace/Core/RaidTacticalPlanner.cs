@@ -80,6 +80,11 @@ namespace Helodrace
         public static RaidTacticalPlan MakePlan(Map map, RaidTacticalUnit unit,
             IntVec3? objectiveOverride = null)
         {
+            using (RaidCpuProfiler.Measure(map, RaidCpuStage.Planning)) return MeasuredPlan(map, unit, objectiveOverride);
+        }
+
+        private static RaidTacticalPlan MeasuredPlan(Map map, RaidTacticalUnit unit, IntVec3? objectiveOverride)
+        {
             Stopwatch watch = Stopwatch.StartNew();
             RaidTacticalPlan plan = MakePlanCore(map, unit, objectiveOverride);
             if (unit != null)

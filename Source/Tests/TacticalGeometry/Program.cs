@@ -10,6 +10,11 @@ internal static class Program
     private static int checks;
     private static void CheckObservationServices()
     {
+        var cpu = new TacticalCpuSamples(4);
+        for (int sample = 1; sample <= 8; sample++) cpu.Add(sample);
+        Check(cpu.Percentiles().SequenceEqual(new[] { 6.0, 8.0, 8.0 }) && cpu.TotalSamples == 8
+            && cpu.TotalMilliseconds == 36 && cpu.Maximum == 8,
+            "CPU percentiles use bounded recent samples while counts and maximum cover the full profile");
         var index = new TacticalSpatialIndex<int>();
         var random = new Random(7231);
         var positions = Enumerable.Range(0, 400).Select(id => new { Id = id, X = random.Next(600), Z = random.Next(600) }).ToArray();

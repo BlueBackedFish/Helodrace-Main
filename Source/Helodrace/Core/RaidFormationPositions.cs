@@ -55,6 +55,13 @@ namespace Helodrace
         private static void RetargetBlockedStackMembers(List<Pawn> members,
             RaidTacticalPlan plan, bool onlyBlocked = false, Pawn exempt = null, bool holdEntry = true)
         {
+            using (RaidCpuProfiler.Measure(members.Count > 0 ? members[0].Map : null, RaidCpuStage.Formation))
+                RetargetBlockedStackMembersCore(members, plan, onlyBlocked, exempt, holdEntry);
+        }
+
+        private static void RetargetBlockedStackMembersCore(List<Pawn> members,
+            RaidTacticalPlan plan, bool onlyBlocked, Pawn exempt, bool holdEntry)
+        {
             if (members.Count == 0) return;
             Map map = members[0].Map;
             var slots = FormationClaims(map, plan);
