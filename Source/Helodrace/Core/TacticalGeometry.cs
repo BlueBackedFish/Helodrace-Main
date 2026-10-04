@@ -234,33 +234,50 @@ namespace Helodrace
     internal static class TacticalGeometryWorker
     {
         private static readonly object gate = new object();
-        private static Task running;
+        private sealed class Work { internal Task Task; internal bool Movement; }
+        private static readonly System.Collections.Generic.List<Work> running = new System.Collections.Generic.List<Work>();
+        private static int maximumConcurrency = 2;
+        internal static int MaximumConcurrency
+        {
+            get { lock (gate) return maximumConcurrency; }
+            set
+            {
+                if (value < 1 || value > 4) throw new ArgumentOutOfRangeException(nameof(value));
+                lock (gate)
+                {
+                    if (running.Exists(work => !work.Task.IsCompleted)) throw new InvalidOperationException("Workers are active.");
+                    maximumConcurrency = value;
+                }
+            }
+        }
         public static void Release(Task task)
         {
             lock (gate)
-                if (ReferenceEquals(running, task) && task.IsCompleted) running = null;
+                running.RemoveAll(work => ReferenceEquals(work.Task, task) && task.IsCompleted);
         }
 
-        // One running calculation across all maps; waiting input stays with its
+        // A bounded value-only pool across all maps; waiting input stays with its
         // map owner. No task closure captures a Map, component, or game callback.
         public static bool TryStart(TacticalGeometryInput input, CancellationToken cancellation,
             out Task<TacticalGeometryResult> task)
-            => TryStart(() => TacticalGeometry.Calculate(input, cancellation), cancellation, out task);
+            => TryStart(() => TacticalGeometry.Calculate(input, cancellation), cancellation, out task, false);
 
         public static bool TryStart(TacticalMovementMaskInput input, CancellationToken cancellation,
             out Task<ushort[]> task)
-            => TryStart(() => TacticalMovementMask.Calculate(input, cancellation), cancellation, out task);
+            => TryStart(() => TacticalMovementMask.Calculate(input, cancellation), cancellation, out task, true);
 
-        private static bool TryStart<T>(Func<T> calculate, CancellationToken cancellation, out Task<T> task)
+        private static bool TryStart<T>(Func<T> calculate, CancellationToken cancellation, out Task<T> task, bool movement)
         {
             lock (gate)
             {
                 task = null;
-                if (running != null && !running.IsCompleted) return false;
-                if (running?.IsFaulted == true) _ = running.Exception;
+                foreach (Work finished in running)
+                    if (finished.Task.IsFaulted) _ = finished.Task.Exception;
+                running.RemoveAll(work => work.Task.IsCompleted);
+                if (running.Count >= MaximumConcurrency || !movement && running.Exists(work => !work.Movement)) return false;
                 task = Task.Factory.StartNew(calculate,
                     cancellation, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
-                running = task;
+                running.Add(new Work { Task = task, Movement = movement });
                 return true;
             }
         }

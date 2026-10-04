@@ -493,16 +493,22 @@ internal static class Program
                 var start = typeof(TacticalGeometryWorker).GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
                     .Single(method => method.Name == "TryStart" && method.IsGenericMethodDefinition)
                     .MakeGenericMethod(typeof(int));
-                object[] args = { blocked, CancellationToken.None, null };
+                object[] args = { blocked, CancellationToken.None, null, false };
                 Check((bool)start.Invoke(null, args), "The shared scheduler accepts an idle slot");
                 var blockedTask = (System.Threading.Tasks.Task<int>)args[2];
                 Check(entered.Wait(TimeSpan.FromSeconds(10)), "The controlled worker starts off the caller thread");
                 try
                 {
                     Check(!TacticalGeometryWorker.TryStart(divided, CancellationToken.None, out _),
-                        "A busy shared worker rejects another map's geometry without enqueueing an unbounded task");
+                        "Static geometry cannot occupy the movement worker's reserved capacity");
+                    object[] movementArgs = { blocked, CancellationToken.None, null, true };
+                    Check((bool)start.Invoke(null, movementArgs), "A movement calculation can run alongside static geometry");
+                    var movementTask = (System.Threading.Tasks.Task<int>)movementArgs[2];
                     Check(!TacticalGeometryWorker.TryStart(maskInput, CancellationToken.None, out _),
-                        "Movement masks cannot add a second concurrent worker while geometry owns the slot");
+                        "The shared pool cannot enqueue an unbounded third calculation");
+                    release.Set();
+                    Check(movementTask.Wait(TimeSpan.FromSeconds(10)), "Both bounded workers finish after release");
+                    TacticalGeometryWorker.Release(movementTask);
                 }
                 finally { release.Set(); }
                 Check(blockedTask.Wait(TimeSpan.FromSeconds(10)) && blockedTask.Result != callerThread,

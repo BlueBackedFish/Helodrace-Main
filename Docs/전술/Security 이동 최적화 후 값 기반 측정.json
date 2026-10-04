@@ -1,0 +1,145 @@
+﻿{
+  "Runtime": ".NET 10.0.7",
+  "Scope": "Release recommended; synthetic immutable inputs, production policies; not game TPS or Unity job latency",
+  "GuardHoldingPreviousPosition": {
+    "Members": 13,
+    "GuardAwayFromFinalNode": 1,
+    "OtherMembersArrived": 12,
+    "CanAdvanceFinalNode": false,
+    "Scope": "Historical pre-fix cohort counterexample; current execution excludes the active guard",
+    "CurrentCohortCanAdvance": true
+  },
+  "OffRouteExit": [
+    {
+      "Name": "previous_room_floor",
+      "Room": 1,
+      "Permitted": true
+    },
+    {
+      "Name": "door_own_room",
+      "Room": 3,
+      "Permitted": false
+    },
+    {
+      "Name": "selected_door_own_room",
+      "Room": 3,
+      "Permitted": true
+    },
+    {
+      "Name": "demolished_wall_room_zero",
+      "Room": 0,
+      "Permitted": false
+    },
+    {
+      "Name": "next_room_floor",
+      "Room": 2,
+      "Permitted": true
+    }
+  ],
+  "OffRouteMaskPermitted": [
+    true,
+    false,
+    false,
+    true
+  ],
+  "Measurements": [
+    {
+      "Size": 250,
+      "Mode": "personal_node",
+      "Iterations": 48,
+      "MedianMs": 0.5313,
+      "P95Ms": 0.7379,
+      "AllocatedKiBPerMask": 122.58,
+      "OffsetArrayBytes": 125000,
+      "Retained64MasksMiB": 7.63,
+      "Retained256MasksMiB": 30.52,
+      "Checksum": 0
+    },
+    {
+      "Size": 250,
+      "Mode": "indoor_961_cells",
+      "Iterations": 48,
+      "MedianMs": 0.5227,
+      "P95Ms": 0.9619,
+      "AllocatedKiBPerMask": 139.81,
+      "OffsetArrayBytes": 125000,
+      "Retained64MasksMiB": 7.63,
+      "Retained256MasksMiB": 30.52,
+      "Checksum": 0
+    },
+    {
+      "Size": 400,
+      "Mode": "personal_node",
+      "Iterations": 48,
+      "MedianMs": 0.9383,
+      "P95Ms": 1.1862,
+      "AllocatedKiBPerMask": 313.01,
+      "OffsetArrayBytes": 320000,
+      "Retained64MasksMiB": 19.53,
+      "Retained256MasksMiB": 78.12,
+      "Checksum": 0
+    },
+    {
+      "Size": 400,
+      "Mode": "indoor_961_cells",
+      "Iterations": 48,
+      "MedianMs": 1.2715,
+      "P95Ms": 1.4414,
+      "AllocatedKiBPerMask": 330.24,
+      "OffsetArrayBytes": 320000,
+      "Retained64MasksMiB": 19.53,
+      "Retained256MasksMiB": 78.12,
+      "Checksum": 0
+    },
+    {
+      "Size": 600,
+      "Mode": "personal_node",
+      "Iterations": 48,
+      "MedianMs": 2.1533,
+      "P95Ms": 2.5404,
+      "AllocatedKiBPerMask": 703.67,
+      "OffsetArrayBytes": 720000,
+      "Retained64MasksMiB": 43.95,
+      "Retained256MasksMiB": 175.78,
+      "Checksum": 0
+    },
+    {
+      "Size": 600,
+      "Mode": "indoor_961_cells",
+      "Iterations": 48,
+      "MedianMs": 2.6287,
+      "P95Ms": 2.882,
+      "AllocatedKiBPerMask": 720.81,
+      "OffsetArrayBytes": 720000,
+      "Retained64MasksMiB": 43.95,
+      "Retained256MasksMiB": 175.78,
+      "Checksum": 0
+    }
+  ],
+  "WorkerComparison": [
+    {
+      "Workers": 1,
+      "UnsharedMasks": 64,
+      "EffectiveSharedMasks": 1,
+      "MedianBurstMs": 179.3287,
+      "P95BurstMs": 213.8962,
+      "Scope": "64 distinct scheduled requests before coalescing; no Unity/Mono, native publication or competing pathfinder jobs"
+    },
+    {
+      "Workers": 2,
+      "UnsharedMasks": 64,
+      "EffectiveSharedMasks": 1,
+      "MedianBurstMs": 88.6553,
+      "P95BurstMs": 94.5554,
+      "Scope": "64 distinct scheduled requests before coalescing; no Unity/Mono, native publication or competing pathfinder jobs"
+    },
+    {
+      "Workers": 4,
+      "UnsharedMasks": 64,
+      "EffectiveSharedMasks": 1,
+      "MedianBurstMs": 48.4534,
+      "P95BurstMs": 55.0909,
+      "Scope": "64 distinct scheduled requests before coalescing; no Unity/Mono, native publication or competing pathfinder jobs"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
 using Helodrace;
 
 // Analysis tool using production value-only code. No Pawn/Map/Unity simulation;
@@ -35,6 +36,7 @@ internal static class Program
         }, CancellationToken.None);
 
         var samples = new List<object>();
+        var workerSamples = new List<object>();
         foreach (int size in new[] { 250, 400, 600 })
         {
             var input = new TacticalGeometryInput(size, size);
@@ -76,6 +78,39 @@ internal static class Program
                 });
                 GC.KeepAlive(last);
             }
+            if (size == 600)
+            {
+                var masks = Enumerable.Range(0, 64).Select(id => new TacticalMovementMaskInput {
+                    Width = size, Height = size, Structure = geometry, InitialRoom = 1,
+                    RestrictCells = true, AllowedCells = local, BreachIndex = -1,
+                    RestrictPortals = false, LeashX = id // unused and normalized away
+                }).ToArray();
+                var unique = masks.Select(value => new TacticalMovementMaskKey(value)).Distinct().ToArray();
+                foreach (int workers in new[] { 1, 2, 4 })
+                {
+                    TacticalGeometryWorker.MaximumConcurrency = workers;
+                    var timings = new double[12];
+                    for (int round = -2; round < timings.Length; round++)
+                    {
+                        var clock = Stopwatch.StartNew();
+                        var active = new List<Task<ushort[]>>(); int next = 0;
+                        while (next < masks.Length || active.Count > 0)
+                        {
+                            while (next < masks.Length && TacticalGeometryWorker.TryStart(masks[next], CancellationToken.None, out var work))
+                            { active.Add(work); next++; }
+                            if (active.Count == 0) continue;
+                            Task.WaitAny(active.ToArray());
+                            foreach (var done in active.Where(work => work.IsCompleted).ToArray())
+                            { _ = done.Result; TacticalGeometryWorker.Release(done); active.Remove(done); }
+                        }
+                        if (round >= 0) timings[round] = clock.Elapsed.TotalMilliseconds;
+                    }
+                    Array.Sort(timings);
+                    workerSamples.Add(new { Workers = workers, UnsharedMasks = masks.Length, EffectiveSharedMasks = unique.Length,
+                        MedianBurstMs = timings[timings.Length / 2], P95BurstMs = timings.Last(),
+                        Scope = "64 distinct scheduled requests before coalescing; no Unity/Mono, native publication or competing pathfinder jobs" });
+                }
+            }
         }
         Console.WriteLine(JsonSerializer.Serialize(new {
             Runtime = RuntimeInformation.FrameworkDescription,
@@ -83,11 +118,13 @@ internal static class Program
             GuardHoldingPreviousPosition = new {
                 Members = 13, GuardAwayFromFinalNode = 1, OtherMembersArrived = 12,
                 CanAdvanceFinalNode = TacticalNodeProgress.Advance(true, 13, 12),
-                Scope = "Policy counterexample with the current FollowNodes cohort; not live contact-guard simulation"
+                Scope = "Historical pre-fix cohort counterexample; current execution excludes the active guard",
+                CurrentCohortCanAdvance = TacticalNodeProgress.Advance(true, 12, 12)
             },
             OffRouteExit = exitCases,
             OffRouteMaskPermitted = exitMask.Select(cost => cost != ushort.MaxValue).ToArray(),
-            Measurements = samples
+            Measurements = samples,
+            WorkerComparison = workerSamples
         }, new JsonSerializerOptions { WriteIndented = true }));
     }
 }
