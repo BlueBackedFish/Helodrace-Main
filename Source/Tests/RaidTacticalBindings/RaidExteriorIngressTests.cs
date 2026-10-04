@@ -36,6 +36,23 @@ internal static class RaidExteriorIngressTests
             ingress.ObservePosition(opening - offset, 0);
             Check(ingress.Complete, "A completed connection does not force a pawn back to the opening.");
         }
+        var follower = new RaidExteriorIngress { Opening = opening, Inside = opening + IntVec3.East,
+            InsideRoom = 7, Direct = true, Active = true, Destination = opening + IntVec3.East * 8 };
+        follower.ObservePosition(opening + IntVec3.East * 2, 7);
+        Check(!follower.Complete, "A direct follower cannot skip the physical opening through another entrance.");
+        follower.ObservePosition(opening, 9);
+        Check(follower.MovementDestination == follower.Destination, "After crossing, direct followers retain their actual goal beyond the first room.");
+        follower.ObservePosition(follower.Inside, 7);
+        Check(!follower.Complete, "The first mouth cell does not release the passage prematurely.");
+        follower.ObservePosition(follower.Inside + IntVec3.North, 7);
+        Check(follower.Complete && !follower.Active, "A lateral step clearing the mouth releases the ingress lock without reaching an artificial stop.");
+        var small = new RaidExteriorIngress { Opening = opening, Inside = opening + IntVec3.East,
+            InsideRoom = 7, Direct = true, SingleCellRoom = true, Active = true };
+        small.ObservePosition(opening, 9); small.ObservePosition(small.Inside, 7);
+        Check(small.Complete, "A one-cell vestibule releases transit on its only interior floor cell.");
+        var waiting = new RaidExteriorIngress { Opening = opening, Inside = opening + IntVec3.East,
+            InsideRoom = 7, Active = true, Waiting = true, Destination = opening - IntVec3.East * 3 };
+        Check(waiting.MovementDestination == waiting.Destination, "A congested follower waits outside instead of taking the mouth as its endpoint.");
         LoadSaveMode mode = Scribe.mode;
         XmlNode previous = Scribe.loader.curXmlParent;
         IExposable parent = Scribe.loader.curParent;
@@ -44,6 +61,7 @@ internal static class RaidExteriorIngressTests
             var xml = new XmlDocument();
             xml.LoadXml("<root><opening>(10, 0, 10)</opening><inside>(11, 0, 10)</inside>"
                 + "<insideRoom>7</insideRoom><entered>True</entered><active>True</active>"
+                + "<direct>True</direct><searchAfter>180</searchAfter>"
                 + "<destination>(12, 0, 10)</destination><requested>(20, 0, 10)</requested></root>");
             var loaded = new RaidExteriorIngress();
             Scribe.mode = LoadSaveMode.LoadingVars;
@@ -53,6 +71,7 @@ internal static class RaidExteriorIngressTests
             Check(loaded.Opening == opening && loaded.InsideRoom == 7 && loaded.Entered && loaded.Active
                 && loaded.Destination == new IntVec3(12, 0, 10) && loaded.Requested == new IntVec3(20, 0, 10),
                 "Real Scribe loading preserves the clearance goal, original intent and physical passage latch.");
+            Check(loaded.Direct && loaded.SearchAfter == 180, "Loading preserves direct transit and its endpoint retry deadline.");
             loaded.ObservePosition(new IntVec3(11, 0, 10), 7);
             Check(!loaded.Complete && loaded.MovementDestination == loaded.Destination,
                 "Loading inside the mouth continues clearing instead of holding or returning to the opening.");

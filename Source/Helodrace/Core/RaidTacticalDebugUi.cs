@@ -222,7 +222,8 @@ namespace Helodrace
                         + $"slot={assignment.Position} current={assignment.Pawn.Position}");
                     if (ingress != null)
                         report.AppendLine($"    ingress active={ingress.Active} entered={ingress.Entered} opening={ingress.Opening} "
-                            + $"clearance={ingress.Destination} requested={ingress.Requested} room={ingress.InsideRoom}");
+                            + $"clearance={ingress.Destination} requested={ingress.Requested} room={ingress.InsideRoom} "
+                            + $"direct={ingress.Direct} waitingOutside={ingress.Waiting} searchAfter={ingress.SearchAfter}");
                 }
             }
             report.AppendLine();

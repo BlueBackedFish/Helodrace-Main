@@ -15,6 +15,10 @@ namespace Helodrace
         public bool SelectedOpeningOnly;
         public int BreachIndex = -1;
         public bool RestrictPortals;
+        public bool RestrictRooms;
+        public int[] AllowedRooms = Array.Empty<int>();
+        public bool RestrictCells;
+        public int[] AllowedCells = Array.Empty<int>();
         public int[] AllowedPortals = Array.Empty<int>();
         public bool Fight;
         public int FightX;
@@ -32,6 +36,8 @@ namespace Helodrace
         {
             var costs = new ushort[checked(input.Width * input.Height)];
             var portals = new System.Collections.Generic.HashSet<int>(input.AllowedPortals);
+            var rooms = new System.Collections.Generic.HashSet<int>(input.AllowedRooms);
+            var cells = new System.Collections.Generic.HashSet<int>(input.AllowedCells);
             for (int i = 0; i < costs.Length; i++)
             {
                 if ((i & 255) == 0) cancellation.ThrowIfCancellationRequested();
@@ -41,10 +47,13 @@ namespace Helodrace
                         || input.ExcludedRoom > 0 && raw.Room == input.ExcludedRoom
                         || input.SelectedOpeningOnly && i != input.BreachIndex
                             && (raw.Has(TacticalRawFlags.WallLine) || input.Structure.Cells[i].ExteriorAccess));
-                excluded |= input.RestrictPortals && raw.Has(TacticalRawFlags.Door) && !portals.Contains(i);
+                bool escapeRoom = input.RestrictRooms && !rooms.Contains(input.InitialRoom) && raw.Room == input.InitialRoom;
+                excluded |= input.RestrictRooms && raw.Room != input.InitialRoom && !rooms.Contains(raw.Room);
+                excluded |= input.RestrictPortals && raw.Has(TacticalRawFlags.Door) && !portals.Contains(i) && !escapeRoom;
+                excluded |= input.RestrictCells && !cells.Contains(i);
                 // A frozen doorway may have its own room ID. The committed
                 // connection itself must join the outside and destination room.
-                if (input.SelectedOpeningOnly && i == input.BreachIndex) excluded = false;
+                if ((input.SelectedOpeningOnly || input.RestrictCells) && i == input.BreachIndex) excluded = false;
                 if (input.Fight)
                 {
                     int x = i % input.Width, z = i / input.Width;

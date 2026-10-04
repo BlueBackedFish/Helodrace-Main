@@ -33,8 +33,8 @@ namespace Helodrace
 
         public RaidMovementArea(Map map, RaidTacticalPlan plan, RaidStructureSnapshot structure,
             bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null,
-            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, bool nodeApproach = false,
-            int openingOverride = -1)
+            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, RaidMovementNode connection = null,
+            int openingOverride = -1, IEnumerable<IntVec3> ingressCells = null)
         {
             OwnerPlan = plan;
             MarkRequested();
@@ -44,9 +44,12 @@ namespace Helodrace
                 ExcludedRoom = excludedRoom, SelectedOpeningOnly = selectedOpeningOnly,
                 BreachIndex = openingOverride >= 0 ? openingOverride
                     : plan.BreachCell.InBounds(map) ? map.cellIndices.CellToIndex(plan.BreachCell) : -1,
-                RestrictPortals = nodeApproach && (initialRoom == 0 || plan.ApproachPath
-                    .Any(cell => structure?.RoomAt(cell) == initialRoom)),
-                AllowedPortals = nodeApproach ? plan.ApproachPath.Where(cell => cell.InBounds(map))
+                RestrictRooms = connection != null,
+                AllowedRooms = connection?.AllowedRooms.ToArray() ?? Array.Empty<int>(),
+                RestrictCells = ingressCells != null,
+                AllowedCells = ingressCells?.Select(map.cellIndices.CellToIndex).ToArray() ?? Array.Empty<int>(),
+                RestrictPortals = connection != null,
+                AllowedPortals = connection != null ? connection.AllowedPortals.Where(cell => cell.InBounds(map))
                     .Select(cell => map.cellIndices.CellToIndex(cell)).Distinct().ToArray() : Array.Empty<int>(),
                 Fight = fight != null, FightX = fight?.Destination.x ?? 0, FightZ = fight?.Destination.z ?? 0,
                 FightRadius = fight?.Radius ?? 0, FightRoom = fight?.Room ?? 0,
@@ -140,8 +143,8 @@ namespace Helodrace
 
     public sealed class MapComponent_RaidMovementAreas : MapComponent, IDisposable
     {
-        private readonly Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>> areas =
-            new Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>>();
+        private readonly Dictionary<RaidTacticalPlan, Dictionary<string, RaidMovementArea>> areas =
+            new Dictionary<RaidTacticalPlan, Dictionary<string, RaidMovementArea>>();
         private readonly Dictionary<string, RaidMovementArea> fightingAreas = new Dictionary<string, RaidMovementArea>();
         private readonly Dictionary<string, RaidMovementArea> ingressAreas = new Dictionary<string, RaidMovementArea>();
         private readonly Dictionary<TacticalStructureVersion, Dictionary<int, RaidMovementArea>> reactiveAreas =
@@ -251,12 +254,17 @@ namespace Helodrace
             RaidExteriorIngress ingress = map.GetComponent<MapComponent_RaidTacticalExecution>().ActiveExteriorIngress(pawn);
             if (ingress != null && structure != null)
             {
-                string ingressKey = $"{order.UnitId}:{structure.Version.Id}:{ingress.Opening}:{ingress.InsideRoom}";
+                bool interior = ingress.Entered && !ingress.Waiting;
+                int connectionRevision = 0;
+                HashSet<IntVec3> connected = interior ? map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    .InteriorIngressCells(pawn, structure, ingress, out connectionRevision) : null;
+                string ingressKey = $"{order.UnitId}:{structure.Version.Id}:{ingress.Opening}:{ingress.InsideRoom}:{interior}:"
+                    + connectionRevision;
                 if (!ingressAreas.TryGetValue(ingressKey, out RaidMovementArea ingressArea) || ingressArea.Canceled)
                 {
                     ingressAreas[ingressKey] = ingressArea = new RaidMovementArea(map, plan, structure,
-                        true, ingress.InsideRoom, selectedOpeningOnly: true,
-                        openingOverride: map.cellIndices.CellToIndex(ingress.Opening));
+                        !interior, ingress.InsideRoom, selectedOpeningOnly: !interior,
+                        openingOverride: map.cellIndices.CellToIndex(ingress.Opening), ingressCells: connected);
                     Queue(ingressArea);
                 }
                 ingressArea.OwnerPlan = plan;
@@ -285,17 +293,15 @@ namespace Helodrace
                 && plan.Assignments.Any(assignment => assignment.Pawn == pawn
                     && assignment.Task == RaidTacticalTask.Entry);
             int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;
-            bool nodeApproach = state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete;
-            int room = selectedOpeningOnly ? -2 : excludedRoom > 0 ? -3 - (outside ? initialRoom : 0)
-                : outside ? initialRoom : -1;
-            if (nodeApproach) room = 1000000 + initialRoom;
-            if (!areas.TryGetValue(plan, out Dictionary<int, RaidMovementArea> versions))
-                areas[plan] = versions = new Dictionary<int, RaidMovementArea>();
+            RaidMovementNode connection = map.GetComponent<MapComponent_RaidTacticalExecution>().ApproachConnection(pawn);
+            string room = $"{outside}:{initialRoom}:{excludedRoom}:{selectedOpeningOnly}:N{connection?.Id ?? -1}";
+            if (!areas.TryGetValue(plan, out Dictionary<string, RaidMovementArea> versions))
+                areas[plan] = versions = new Dictionary<string, RaidMovementArea>();
             if (!versions.TryGetValue(room, out RaidMovementArea area) || area.Canceled)
             {
                 versions[room] = area = new RaidMovementArea(map, plan, structure,
                     outside, initialRoom,
-                    excludedRoom: excludedRoom, selectedOpeningOnly: selectedOpeningOnly, nodeApproach: nodeApproach);
+                    excludedRoom: excludedRoom, selectedOpeningOnly: selectedOpeningOnly, connection: connection);
                 Queue(area);
             }
             return area;

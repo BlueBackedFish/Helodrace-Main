@@ -177,6 +177,25 @@ internal static class Program
                 "Committed ingress joins exterior, doorway room and original interior after a new room plan");
             Check(ingressMask[3] == ushort.MaxValue && ingressMask[0] == ushort.MaxValue,
                 "Old entrances and unrelated rooms stay excluded during follower ingress");
+            foreach (int currentRoom in new[] { 0, 1, 2 })
+            {
+                var connectionMask = TacticalMovementMask.Calculate(new TacticalMovementMaskInput {
+                    Width = 6, Height = 4, Structure = areaGeometry, InitialRoom = currentRoom,
+                    RestrictRooms = true, AllowedRooms = new[] { 0, 1 }, RestrictPortals = true,
+                    AllowedPortals = Array.Empty<int>()
+                }, CancellationToken.None);
+                for (int i = 0; i < connectionMask.Length; i++)
+                    Check((connectionMask[i] == 0) == TacticalNodeProgress.AllowsStep(currentRoom,
+                        areaInput.Cells[i].Room, areaInput.Cells[i].Has(TacticalRawFlags.Door), false,
+                        room => room == 0 || room == 1),
+                        "Personal connection path costs and physical entry permission agree, including escape from an off-route room");
+            }
+            var indoorTransit = TacticalMovementMask.Calculate(new TacticalMovementMaskInput {
+                Width = 7, Height = 5, Structure = geometry, RestrictCells = true,
+                AllowedCells = new[] { 18, 19, 20 }, BreachIndex = doorIndex
+            }, CancellationToken.None);
+            Check(indoorTransit[18] == 0 && indoorTransit[doorIndex] == 0 && indoorTransit[14] == ushort.MaxValue,
+                "An admitted follower uses a proved indoor connection without reopening unrelated exterior paths");
             maskInput.ExcludedRoom = 1;
             Check(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)[18] == ushort.MaxValue,
                 "Support masks prevent entry into the grenade target room");

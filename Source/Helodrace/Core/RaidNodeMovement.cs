@@ -199,22 +199,33 @@ namespace Helodrace
             return true;
         }
 
+        internal RaidMovementNode ApproachConnection(Pawn pawn)
+        {
+            RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
+            if (order == null || order.Reactive) return null;
+            return ConnectionFor(StateFor(order.UnitId), pawn);
+        }
+
+        internal static RaidMovementNode ConnectionFor(ExecutionState state, Pawn pawn)
+        {
+            RaidTacticalPlan plan = state?.ActivePlan;
+            if (plan == null || state.Phase != RaidExecutionPhase.Assemble || state.ApproachComplete) return null;
+            RaidNodeMemberProgress progress = state.NodeMembers.FirstOrDefault(member => member.Pawn == pawn);
+            int next = (progress?.Completed ?? -1) + 1;
+            return progress != null && next >= 0 && next < plan.MovementNodes.Count ? plan.MovementNodes[next] : null;
+        }
+
         internal bool AllowsNodeStep(Pawn pawn, IntVec3 cell)
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
             if (order == null || order.Reactive || !cell.InBounds(map)) return true;
             if (ActiveExteriorIngress(pawn) != null) return AllowsExteriorIngressStep(pawn, cell);
-            ExecutionState state = StateFor(order.UnitId);
-            RaidTacticalPlan plan = state?.ActivePlan;
-            if (plan == null || state.Phase != RaidExecutionPhase.Assemble || state.ApproachComplete) return true;
-            RaidNodeMemberProgress progress = state.NodeMembers.FirstOrDefault(member => member.Pawn == pawn);
-            if (progress == null || progress.Completed >= plan.MovementNodes.Count - 1) return true;
-            int next = Math.Min(progress.Completed + 1, plan.MovementNodes.Count - 1);
-            if (next < 0) return true;
-            // Physical door crossing permission is separate from path-cost preference.
+            RaidMovementNode connection = ApproachConnection(pawn);
+            if (connection == null) return true;
+            RaidTacticalPlan plan = StateFor(order.UnitId)?.ActivePlan;
+            // Path costs and physical crossing use this same personal connection.
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null) return true;
-            RaidMovementNode connection = plan.MovementNodes[next];
             int currentRoom = structure.RoomAt(pawn.Position);
             // An evaded member may exit its off-route room to rejoin, but cannot use another entry as a shortcut.
             int room = structure.RoomAt(cell);

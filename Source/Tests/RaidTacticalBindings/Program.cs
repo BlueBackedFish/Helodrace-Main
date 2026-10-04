@@ -77,6 +77,7 @@ internal static class Program
             CheckOpeningDoorAndThrowTargets();
             CheckSupportMovementJobGap();
             RaidExteriorIngressTests.Run();
+            RaidSecurityMovementTests.Run();
             RaidFormationTests.Run();
             RaidContactTests.Run();
             RaidReportTests.Run();
