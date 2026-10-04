@@ -177,7 +177,7 @@ namespace Helodrace
             if (analysis.IsIndoor(plan.Start))
             {
                 var local = new RaidCqbLocalMap(map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    ?.StateFor(unit.Id)?.LocalCqb?.Knowledge);
+                    ?.StateFor(unit.Id)?.CqbKnowledge);
                 local.Refresh(map, analysis, pathfinder, plan.Start, plan.PlannedTick, avoidedTraps);
                 localRoute = local.Path(plan.Start, plan.Objective);
                 interiorWalk = localRoute.Count > 0 || !local.Contains(plan.Objective) && !needsBreach;
@@ -658,7 +658,7 @@ namespace Helodrace
             if (interior)
             {
                 local = new RaidCqbLocalMap(map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    ?.StateFor(unit.Id)?.LocalCqb?.Knowledge);
+                    ?.StateFor(unit.Id)?.CqbKnowledge);
                 local.Refresh(map, analysis, pathfinder, plan.Start, plan.PlannedTick, avoidedTraps);
             }
             IEnumerable<Building> structures = interior

@@ -5,6 +5,7 @@ namespace Helodrace
 {
     public enum RaidReportKind { Contact, Passage, RoomChecked }
     public enum RaidCommunicationMode { Voice, Radio }
+    public enum RaidTransmissionAction { Wait, Deliver, Acknowledge, Interrupt }
 
     public static class RaidCommunicationPolicy
     {
@@ -12,6 +13,16 @@ namespace Helodrace
         public const int TickInterval = 20, PendingCapacity = 128, PairBudget = 8, QueueBudget = 16;
 
         public static bool Fresh(int observed, int now) => observed >= 0 && observed <= now && now - observed < Lifetime;
+        public static int ScanOffset(string unit)
+        {
+            int hash = 0;
+            foreach (char value in unit ?? "") hash = unchecked(hash * 31 + value) & int.MaxValue;
+            return hash % TickInterval;
+        }
+        public static RaidTransmissionAction Transmission(bool connected, int observed, int started,
+            int due, bool awaitingAck, int tick) => !connected || !Fresh(observed, tick) || tick - started > 600
+                ? RaidTransmissionAction.Interrupt : tick < due ? RaidTransmissionAction.Wait
+                : awaitingAck ? RaidTransmissionAction.Acknowledge : RaidTransmissionAction.Deliver;
         public static bool Newer(int incomingTick, bool incomingDirect, int knownTick, bool knownDirect) =>
             incomingTick > knownTick || incomingTick == knownTick && incomingDirect && !knownDirect;
         public static bool CanRelay(IList<string> route, string receiver, bool internalRelay) =>

@@ -38,6 +38,9 @@ internal static class RaidReportTests
             "A stale relay cannot overwrite newer local observation.");
         var newer = report.Copy(); newer.Revision = newer.ObservedTick = 180;
         Check(!memory.Receive(newer, 9, 200) && direct.Visible, "Equal-time direct observation wins over a relay.");
+        memory.Observe(3, "new observer", report.Position, 9, 21, 200, IntVec3.Invalid, true, 20, "B", 2);
+        Check(direct.Previous == IntVec3.Invalid && direct.Direction == IntVec3.Zero && !direct.Portal.IsValid,
+            "Observer/command replacement cannot invent a continuous trajectory from another observer's old snapshot.");
         newer.Revision = newer.ObservedTick = 220;
         Check(memory.Receive(newer, 9, 260) && !direct.Visible && direct.SeenTick == 220,
             "Newer external intelligence replaces an old sighting as unconfirmed knowledge.");

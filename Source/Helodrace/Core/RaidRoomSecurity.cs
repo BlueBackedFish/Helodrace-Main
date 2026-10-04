@@ -34,7 +34,7 @@ namespace Helodrace
         public void Checked(int room, int tick)
         {
             RaidRoomSecurityRecord record = For(room);
-            if (record != null) record.LastCheckedTick = tick;
+            if (record != null) record.LastCheckedTick = System.Math.Max(record.LastCheckedTick, tick);
         }
         public void ExposeData()
         {

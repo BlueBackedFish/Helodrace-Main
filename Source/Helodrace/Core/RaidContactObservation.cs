@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Helodrace.Squads;
 using RimWorld;
 using Verse;
 
@@ -10,9 +11,17 @@ namespace Helodrace
         private bool ClearObservationLine(IntVec3 source, IntVec3 target) =>
             GenSight.LineOfSight(source, target, map, true) && !SmokeBetween(source, target);
 
-        private bool CanObserveMapCell(List<Pawn> members, IntVec3 cell) => cell.InBounds(map)
-            && members.Any(pawn => RaidObservationSight.CanSeeCell(map, pawn.Position, cell,
-                RaidContactMemory.Radius, ClearObservationLine));
+        private bool CanObserveMapCell(List<Pawn> members, IntVec3 cell)
+        {
+            if (!cell.InBounds(map) || members.Count == 0) return false;
+            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(members[0]);
+            ExecutionState state = StateFor(unit?.Id);
+            // Other soldiers publish personal passage reports and relay them through contact.
+            // Their hidden wall/door state cannot update the command map immediately.
+            return members.Where(pawn => pawn == unit?.Commander || IsOpeningSensor(state, pawn))
+                .Any(pawn => RaidObservationSight.CanSeeCell(map, pawn.Position, cell,
+                    RaidContactMemory.Radius, ClearObservationLine));
+        }
 
         private bool CanObserveContact(Pawn observer, IntVec3 source, Pawn target, int radius) =>
             RaidObservationSight.CanSeePawn(map, source, target, radius,
@@ -24,36 +33,65 @@ namespace Helodrace
 
         private void RefreshContacts(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            if (!state.Contacts.ScanScheduled)
+            {
+                state.Contacts.ScanTick = tick - RaidContactMemory.ScanTicks + RaidCommunicationPolicy.ScanOffset(state.UnitId);
+                state.Contacts.ScanScheduled = true;
+            }
             if (tick - state.Contacts.ScanTick < RaidContactMemory.ScanTicks) return;
             state.Contacts.ScanTick = tick;
+            ConfigureCommunicationKnowledge(state);
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null) return;
+            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(members[0]);
+            int radius = unit?.Organization.doctrine?.fieldObservationRadius ?? 90;
+            int budget = unit?.Organization.doctrine?.contactLosBudget ?? 96;
+            var personalSeen = new Dictionary<int, HashSet<int>>();
             var seen = new HashSet<int>();
             var positions = new HashSet<IntVec3>();
             // Cheap distance filtering first; LOS is restricted to the local squad surroundings.
-            foreach (Pawn enemy in map.mapPawns.AllPawnsSpawned.Where(value => value.HostileTo(members[0])))
+            List<Pawn> candidates = map.mapPawns.AllPawnsSpawned.Where(value => value.HostileTo(members[0])
+                && members.Any(pawn => pawn.Position.DistanceToSquared(value.Position) <= radius * radius))
+                .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(32).ToList();
+            var linked = new HashSet<Pawn>(LinkedObservers(members, state, tick));
+            List<Pawn> sources = members.OrderBy(pawn => pawn == unit?.Commander ? 0 : linked.Contains(pawn) ? 1 : 2).ToList();
+            int start = state.ObservationCursor, processed = 0;
+            for (int i = 0; i < candidates.Count && budget > 0; i++)
             {
-                Pawn observer = members.FirstOrDefault(pawn => CanObserveContact(pawn, pawn.Position,
-                    enemy, RaidContactMemory.Radius));
-                if (observer == null) continue;
-                seen.Add(enemy.thingIDNumber); positions.Add(enemy.Position);
-                if (enemy.Dead || enemy.Downed)
+                Pawn enemy = candidates[(start + i) % candidates.Count];
+                processed++;
+                Pawn observer = null;
+                foreach (Pawn pawn in sources)
                 {
-                    state.Contacts.Entries.RemoveAll(contact => contact.EnemyId == enemy.thingIDNumber);
-                    continue;
+                    int localRadius = structure.IsIndoor(pawn.Position) && structure.IsIndoor(enemy.Position)
+                        ? RaidContactMemory.Radius : radius;
+                    if (pawn.Position.DistanceToSquared(enemy.Position) > localRadius * localRadius) continue;
+                    if (--budget < 0) break;
+                    if (CanObserveContact(pawn, pawn.Position, enemy, localRadius)) { observer = pawn; break; }
                 }
-                RecordContact(observer, enemy, state, structure, tick);
+                if (observer == null) continue;
+                positions.Add(enemy.Position);
+                if (!personalSeen.TryGetValue(observer.thingIDNumber, out HashSet<int> ids))
+                    personalSeen[observer.thingIDNumber] = ids = new HashSet<int>();
+                ids.Add(enemy.thingIDNumber);
+                if (RecordContact(observer, enemy, state, structure, tick)) seen.Add(enemy.thingIDNumber);
             }
+            state.ObservationCursor = candidates.Count > 0 ? (start + processed) % candidates.Count : 0;
+            foreach (RaidObserverMemory memory in state.Communication.Observers)
+                memory.Contacts.FinishScan(tick, personalSeen.TryGetValue(memory.PawnId, out HashSet<int> ids) ? ids : new HashSet<int>());
             state.Contacts.FinishScan(tick, seen);
             foreach (RaidEnemyContact contact in state.Contacts.Entries.Where(value => !value.Visible
                 && !value.PositionConfirmedEmpty && !positions.Contains(value.Position)))
-                if (members.Any(pawn => CanObserveContact(pawn, pawn.Position, contact.Position, RaidContactMemory.Radius)))
+                if (members.Where(pawn => pawn == unit?.Commander || IsOpeningSensor(state, pawn))
+                    .Any(pawn => CanObserveContact(pawn, pawn.Position, contact.Position, RaidContactMemory.Radius)))
                     contact.PositionConfirmedEmpty = true;
+            foreach (Pawn observer in sources) CaptureObserverPassages(observer, state, structure, tick, ref budget);
         }
 
-        private void RecordContact(Pawn observer, Pawn enemy, ExecutionState state, RaidStructureSnapshot structure, int tick)
+        private bool RecordContact(Pawn observer, Pawn enemy, ExecutionState state, RaidStructureSnapshot structure, int tick)
         {
-            RaidEnemyContact previous = state.Contacts.Entries.FirstOrDefault(value => value.EnemyId == enemy.thingIDNumber);
+            RaidObserverMemory personal = state.Communication.For(observer.thingIDNumber);
+            RaidEnemyContact previous = personal.Contacts.Entries.FirstOrDefault(value => value.EnemyId == enemy.thingIDNumber);
             IntVec3 portal = IntVec3.Invalid;
             bool PortalAt(IntVec3 cell) => cell.InBounds(map) && (IsOpeningDoorCell(map, structure, cell)
                 || structure.CachedAt(cell).WallLine && cell.Walkable(map));
@@ -69,10 +107,25 @@ namespace Helodrace
                     .Where(cell => cell.InBounds(map) && !structure.CachedAt(cell).WallLine)
                     .OrderByDescending(cell => cell.DistanceToSquared(observer.Position))
                     .Select(structure.RoomAt).DefaultIfEmpty(room).First();
-            state.Contacts.Observe(enemy.thingIDNumber, enemy.LabelShort, enemy.Position, room,
-                observer.thingIDNumber, tick, portal, enemy.equipment?.Primary != null, GunRange(enemy));
-            foreach (int touchedRoom in ContactRooms(structure, enemy.Position))
-                state.RoomSecurity.Observe(touchedRoom, enemy.Position, tick);
+            RaidEnemyContact contact = personal.Contacts.Observe(enemy.thingIDNumber, enemy.LabelShort, enemy.Position, room,
+                observer.thingIDNumber, tick, portal, enemy.equipment?.Primary != null, GunRange(enemy), state.UnitId, structure.Version.Id);
+            var report = new RaidTacticalReport { Id = contact.ReportId, OriginUnit = state.UnitId, ObserverId = observer.thingIDNumber,
+                Revision = tick, ObservedTick = tick, ReceivedTick = tick, StructureVersion = structure.Version.Id,
+                Kind = RaidReportKind.Contact, Position = enemy.Position, Room = room, EnemyId = enemy.thingIDNumber,
+                Label = contact.Label, Portal = contact.Portal, Direction = contact.Direction, Armed = contact.Armed,
+                Range = contact.Range, ConfirmedEmpty = enemy.Dead || enemy.Downed, Route = new List<string> { state.UnitId } };
+            personal.Reports.Publish(report);
+            bool direct = observer == RaidTacticalUnit.ForPawn(observer)?.Commander || IsOpeningSensor(state, observer);
+            if (direct)
+            {
+                state.Contacts.Observe(enemy.thingIDNumber, contact.Label, contact.Position, room, observer.thingIDNumber,
+                    tick, portal, contact.Armed, contact.Range, state.UnitId, structure.Version.Id);
+                state.Communication.Knowledge.Publish(report);
+                if (report.ConfirmedEmpty) state.Contacts.Entries.RemoveAll(value => value.EnemyId == enemy.thingIDNumber);
+                else foreach (int touchedRoom in ContactRooms(structure, enemy.Position))
+                        state.RoomSecurity.Observe(touchedRoom, enemy.Position, tick);
+            }
+            return direct;
         }
     }
 }

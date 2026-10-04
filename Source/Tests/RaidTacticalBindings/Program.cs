@@ -79,6 +79,7 @@ internal static class Program
             RaidFormationTests.Run();
             RaidContactTests.Run();
             RaidReportTests.Run();
+            RaidCommunicationIntegrationTests.Run();
             RaidObservationTests.Run();
             RaidCqbKnowledgeTests.Run();
             RaidTacticalUnitTests.Run();

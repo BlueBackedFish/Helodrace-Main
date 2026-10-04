@@ -240,10 +240,11 @@ namespace Helodrace
             {
                 RaidContactConfidence confidence = contact.Confidence(tick);
                 if (confidence == RaidContactConfidence.Expired) continue;
-                Color color = confidence == RaidContactConfidence.Visible ? Color.red
+                Color color = contact.Reported ? Color.cyan : confidence == RaidContactConfidence.Visible ? Color.red
                     : confidence == RaidContactConfidence.Recent ? Color.yellow : Color.gray;
                 AddNode(contact.Position, $"#{contact.EnemyId} {contact.Label} {confidence} "
-                    + $"{(tick - contact.SeenTick) / 60f:0.0}s R{contact.Room}", color, false);
+                    + $"{(tick - contact.SeenTick) / 60f:0.0}s R{contact.Room} "
+                    + $"{(contact.Reported ? "REPORT " + contact.OriginUnit : "DIRECT")}", color, false);
                 AddNode(contact.Portal, "HD_RaidView_ContactPortal", Color.yellow);
             }
             foreach (RaidContactGuard guard in state.ContactGuards)

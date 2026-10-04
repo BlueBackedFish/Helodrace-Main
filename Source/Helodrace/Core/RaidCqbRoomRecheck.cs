@@ -60,7 +60,7 @@ namespace Helodrace
                 .Where(value => value.Room != occupied && cleared.Contains(value.Room) && value.RecentConcern(tick)
                     && tick >= value.NextAttemptTick).OrderByDescending(value => value.LastThreatTick).ToList();
             if (pending.Count == 0) return false;
-            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
+            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap(state.CqbKnowledge);
             state.LocalCqb.Refresh(map, structure, observer, observer.Position, tick, current.AvoidedTrapCells,
                 observed: cell => CanObserveMapCell(members, cell));
             var allowed = new HashSet<int>(cleared) { occupied };

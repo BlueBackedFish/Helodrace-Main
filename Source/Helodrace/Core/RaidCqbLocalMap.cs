@@ -15,22 +15,67 @@ namespace Helodrace
             && Usable == other.Usable && Portal == other.Portal;
     }
 
-    internal sealed class RaidCqbKnowledge
+    internal sealed class RaidKnownCqbRecord : IExposable
     {
-        private readonly Dictionary<IntVec3, RaidKnownCqbCell> cells = new Dictionary<IntVec3, RaidKnownCqbCell>();
+        public IntVec3 Position;
+        public RaidKnownCqbCell Cell;
+        public int Tick, Version;
+        public string Origin;
+        public bool Direct;
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref Position, "position"); Scribe_Values.Look(ref Cell.Building, "building");
+            Scribe_Values.Look(ref Cell.Usable, "usable"); Scribe_Values.Look(ref Cell.Portal, "portal");
+            Scribe_Values.Look(ref Tick, "tick"); Scribe_Values.Look(ref Version, "version");
+            Scribe_Values.Look(ref Origin, "origin"); Scribe_Values.Look(ref Direct, "direct");
+        }
+    }
+
+    internal sealed class RaidCqbKnowledge : IExposable
+    {
+        private readonly Dictionary<IntVec3, RaidKnownCqbRecord> cells = new Dictionary<IntVec3, RaidKnownCqbRecord>();
+        private List<RaidKnownCqbRecord> saved;
+        internal int ObservedTick, Version;
+        internal string Origin;
+        internal System.Action<IntVec3, RaidKnownCqbCell> OnObserved;
         public RaidKnownCqbCell Read(IntVec3 cell, RaidKnownCqbCell baseline, RaidKnownCqbCell live,
             System.Func<IntVec3, bool> observed)
         {
-            if (!cells.TryGetValue(cell, out RaidKnownCqbCell known)) known = baseline;
+            RaidKnownCqbCell known = cells.TryGetValue(cell, out RaidKnownCqbRecord record) ? record.Cell : baseline;
             // Inspect LOS only for an actual state difference, not every floor tile in the window.
             if (!known.SameAs(live) && observed(cell))
             {
                 known = live;
-                cells[cell] = known;
+                cells[cell] = new RaidKnownCqbRecord { Position = cell, Cell = known, Tick = ObservedTick,
+                    Version = Version, Origin = Origin, Direct = true };
+                OnObserved?.Invoke(cell, known);
             }
             return known;
         }
         public static bool ReplaceEntry(bool obstructed, bool observed) => obstructed && observed;
+        internal void RememberDirect(IntVec3 position, RaidKnownCqbCell cell, int tick, int version, string origin) =>
+            cells[position] = new RaidKnownCqbRecord { Position = position, Cell = cell,
+                Tick = tick, Version = version, Origin = origin, Direct = true };
+        internal bool Receive(RaidTacticalReport report)
+        {
+            if (report.Kind != RaidReportKind.Passage || cells.TryGetValue(report.Position, out RaidKnownCqbRecord known)
+                && !RaidCommunicationPolicy.Newer(report.ObservedTick, false, known.Tick, known.Direct)) return false;
+            cells[report.Position] = new RaidKnownCqbRecord { Position = report.Position, Tick = report.ObservedTick,
+                Origin = report.OriginUnit, Version = report.StructureVersion, Direct = false,
+                Cell = new RaidKnownCqbCell { Building = report.Building, Usable = report.Usable, Portal = report.IsPortal } };
+            return true;
+        }
+        public void ExposeData()
+        {
+            if (Scribe.mode == LoadSaveMode.Saving) saved = cells.Values.ToList();
+            Scribe_Collections.Look(ref saved, "observedCells", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                cells.Clear();
+                foreach (RaidKnownCqbRecord record in saved ?? new List<RaidKnownCqbRecord>()) cells[record.Position] = record;
+                saved = null;
+            }
+        }
     }
 
     internal sealed class RaidCqbLocalMap
@@ -50,6 +95,7 @@ namespace Helodrace
             IntVec3 center, int tick, ISet<IntVec3> avoided, bool force = false,
             System.Func<IntVec3, bool> observed = null)
         {
+            Knowledge.ObservedTick = tick; Knowledge.Version = structure.Version.Id;
             if (observed == null) observed = cell => RaidObservationSight.CanSeeCell(map, pawn.Position, cell,
                 RaidContactMemory.Radius, (a, b) => GenSight.LineOfSight(a, b, map, true)
                     && !GenSight.PointsOnLineOfSight(a, b).Any(value => RaidSmokeUtility.CoveringSmokeAt(map, value)));
@@ -128,7 +174,7 @@ namespace Helodrace
                 || insideRoom != occupied.Key && !cleared.Contains(insideRoom))) return false;
             if (state.BreachKind == RaidBreachKind.C4 || SupportEffectsPending(state, tick) || state.SupportReturnRequired) return false;
             Pawn observer = occupied.OrderBy(pawn => pawn.Position.DistanceToSquared(plan.Objective)).First();
-            var local = new RaidCqbLocalMap(state.LocalCqb?.Knowledge);
+            var local = new RaidCqbLocalMap(state.CqbKnowledge);
             local.Refresh(map, structure, observer, observer.Position, tick, plan.AvoidedTrapCells,
                 observed: cell => CanObserveMapCell(members, cell));
             bool alreadyInside = occupied.Count() * 2 >= entry.Count && objectiveRoom == occupied.Key
@@ -162,7 +208,7 @@ namespace Helodrace
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null || !structure.IsIndoor(plan.Objective)) return false;
             Pawn observer = members.OrderBy(pawn => pawn.Position.DistanceToSquared(plan.Entry)).First();
-            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
+            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap(state.CqbKnowledge);
             IntVec3 center = state.Phase == RaidExecutionPhase.ClearRoom || state.Phase == RaidExecutionPhase.SecureRoom
                 ? plan.Objective : plan.Entry;
             state.LocalCqb.Refresh(map, structure, observer, center, tick, plan.AvoidedTrapCells,

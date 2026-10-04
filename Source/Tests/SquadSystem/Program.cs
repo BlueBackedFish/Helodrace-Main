@@ -539,7 +539,20 @@ internal static class Program
         Check(modernTeam.requiredRoles[0].inventoryLoadout.Count == 7
             && modernTeam.requiredRoles[0].inventoryLoadout.Count(item => item.defName == "HD_40mmM381HE_Round") == 6
             && modernTeam.requiredRoles[0].inventoryLoadout.Count(item => item.defName == "HD_MilitaryTablet") == 1,
-            "Each launcher operator receives six compatible HE rounds");
+            "Each launcher operator receives six compatible HE rounds and a carried tactical radio tablet");
+        int Radios(FormationDef formation) => formation.Slots.Sum(slot => slot.count
+            * slot.inventoryLoadout.Count(item => item.defName == "HD_MilitaryTablet"))
+            + formation.childFormations.Sum(child => child.count * Radios(child.formation));
+        Check(Radios(modernTeam) == 1 && Radios((FormationDef)defs["HD_Formation_MW_RifleSquad"]) == 4
+            && Radios((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]) == 13,
+            "Actual 13-person High squad equips its leader and three team leaders with radios; headquarters also has a set");
+        Check(((DoctrineDef)defs["HD_Doctrine_Modern"]).tacticalRadio && !doctrine.tacticalRadio,
+            "Actual High/LOW doctrines select equipment-based radio and physical contact respectively");
+        XElement tablet = XDocument.Load(Path.Combine(root, "Defs/ModernWar/Items/Apparel_ModernWar.xml"))
+            .Root.Elements("ThingDef").Single(node => (string)node.Element("defName") == "HD_MilitaryTablet");
+        Check(tablet.Element("comps").Elements("li").Any(node => (string)node.Attribute("Class") == "Helodrace.CompProperties_TacticalRadio"
+            && (string)node.Element("network") == "ModernInfantry" && (int?)node.Element("range") == 300),
+            "The carried tablet has real compatible radio hardware rather than a faction-name shortcut");
         Check(modernTeam.requiredRoles.Select(slot => slot.combatRole.defName).SequenceEqual(new[] {
             "HD_Role_Grenadier", "HD_Role_AutomaticRifleman", "HD_Role_AssistantAutomaticRifleman", "HD_Role_Rifleman" }),
             "One PawnKind supplies the USMC leader/grenadier, automatic rifleman, assistant and rifleman billets");

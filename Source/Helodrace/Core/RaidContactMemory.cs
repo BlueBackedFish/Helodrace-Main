@@ -54,6 +54,7 @@ namespace Helodrace
         public const int Capacity = 16, ScanTicks = 20, Radius = 24;
         public List<RaidEnemyContact> Entries = new List<RaidEnemyContact>();
         internal int ScanTick = -ScanTicks;
+        internal bool ScanScheduled;
         public RaidEnemyContact Observe(int id, string label, IntVec3 position, int room, int observer,
             int tick, IntVec3 portal, bool armed, float range, string unit = null, int version = 0)
         {
@@ -63,7 +64,8 @@ namespace Helodrace
                 contact = new RaidEnemyContact { EnemyId = id };
                 Entries.Add(contact);
             }
-            bool continuous = !contact.Reported && contact.Position.IsValid && tick - contact.SeenTick <= 40 && contact.LostTick < 0;
+            bool continuous = !contact.Reported && contact.ObserverId == observer && contact.Position.IsValid
+                && tick - contact.SeenTick <= 40 && contact.LostTick < 0;
             contact.Previous = continuous ? contact.Position : IntVec3.Invalid;
             contact.Direction = continuous ? position - contact.Position : IntVec3.Zero;
             // An unobserved interval cannot establish a route through an old doorway.
@@ -114,6 +116,7 @@ namespace Helodrace
             {
                 if (Entries == null) Entries = new List<RaidEnemyContact>();
                 ScanTick = -ScanTicks;
+                ScanScheduled = false;
             }
         }
         public bool CanTarget(int enemyId, IntVec3 target, int tick) => target.IsValid && Entries.Any(contact => contact.EnemyId == enemyId

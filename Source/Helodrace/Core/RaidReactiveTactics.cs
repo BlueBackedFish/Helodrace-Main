@@ -107,15 +107,18 @@ namespace Helodrace
 
         private List<Pawn> VisibleArmedEnemies(List<Pawn> members, ExecutionState state, int tick)
         {
-            if (tick - state.ObservedEnemiesTick < 20) return state.ObservedEnemies
-                .Where(enemy => enemy.Spawned && !enemy.Dead && !enemy.Downed
-                    && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy, 70))).ToList();
-            state.ObservedEnemiesTick = tick;
-            return state.ObservedEnemies = map.mapPawns.AllPawnsSpawned
-            .Where(enemy => !enemy.Dead && !enemy.Downed && enemy.HostileTo(members[0])
+            // CQB and field reactions use one knowledge source. Reports do not become
+            // live targets: verify the known cell against current local sight first.
+            var known = state.Contacts.Entries.Where(contact => contact.Armed && !contact.PositionConfirmedEmpty
+                && contact.Confidence(tick) <= RaidContactConfidence.Recent).ToDictionary(contact => contact.EnemyId);
+            List<Pawn> sources = LinkedObservers(members, state, tick).ToList();
+            int radius = RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine?.fieldObservationRadius ?? 90;
+            return map.mapPawns.AllPawnsSpawned.Where(enemy => known.TryGetValue(enemy.thingIDNumber, out RaidEnemyContact contact)
+                && (enemy.Position == contact.Position || !contact.Reported) && !enemy.Dead && !enemy.Downed && enemy.HostileTo(members[0])
                 && enemy.equipment?.Primary != null
-                && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy, 70)))
-            .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(8).ToList();
+                && sources.Any(pawn => (contact.Reported || pawn.thingIDNumber == contact.ObserverId)
+                    && CanObserveContact(pawn, pawn.Position, enemy, radius)))
+                .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(8).ToList();
         }
 
         private static float GunRange(Pawn pawn)

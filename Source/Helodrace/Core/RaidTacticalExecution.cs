@@ -142,9 +142,10 @@ namespace Helodrace
             public Pawn DefenseCaller;
             public IntVec3 DefenseAim = IntVec3.Invalid;
             public int ScreenAdvanceUntil;
-            public int ObservedEnemiesTick = -30;
-            public List<Pawn> ObservedEnemies = new List<Pawn>();
             public RaidContactMemory Contacts = new RaidContactMemory();
+            internal int ObservationCursor;
+            public RaidCommunicationState Communication = new RaidCommunicationState();
+            internal RaidCqbKnowledge CqbKnowledge = new RaidCqbKnowledge();
             public List<RaidContactGuard> ContactGuards = new List<RaidContactGuard>();
             public bool ContactPause;
             public RaidRoomSecurity RoomSecurity = new RaidRoomSecurity();
@@ -228,6 +229,8 @@ namespace Helodrace
                     Reactions = new List<RaidReactivePosition>();
                 Scribe_Deep.Look(ref ActivePlan, "activePlan");
                 Scribe_Deep.Look(ref Contacts, "contacts");
+                Scribe_Deep.Look(ref Communication, "communication");
+                Scribe_Deep.Look(ref CqbKnowledge, "cqbKnowledge");
                 Scribe_Collections.Look(ref ContactGuards, "contactGuards", LookMode.Deep);
                 Scribe_Values.Look(ref ContactPause, "contactPause");
                 Scribe_Deep.Look(ref RoomSecurity, "roomSecurity");
@@ -576,6 +579,8 @@ namespace Helodrace
                         ClearedRoomCells = previous?.ClearedRoomCells
                             ?? new List<IntVec3>(),
                         Contacts = previous?.Contacts ?? new RaidContactMemory(),
+                        Communication = previous?.Communication ?? new RaidCommunicationState(),
+                        CqbKnowledge = previous?.CqbKnowledge ?? new RaidCqbKnowledge(),
                         ContactGuards = previous?.ContactGuards ?? new List<RaidContactGuard>(),
                         RoomSecurity = previous?.RoomSecurity ?? new RaidRoomSecurity(),
                         LocalCqb = previous?.LocalCqb,
@@ -2276,6 +2281,7 @@ namespace Helodrace
             if (structure == null) return false;
             if (!state.ClearedRoomCells.Contains(current.Objective))
                 state.ClearedRoomCells.Add(current.Objective);
+            PublishRoomCheck(state, current.Objective, tick);
             state.ClearingRooms = true;
             if (structure.RoomAt(current.Objective)
                 == structure.RoomAt(state.FinalObjective))
@@ -2284,7 +2290,7 @@ namespace Helodrace
                 .Where(cell => cell.InBounds(map)).Select(structure.RoomAt).Where(room => room > 0));
             Pawn observer = members.Where(pawn => structure.RoomAt(pawn.Position) == structure.RoomAt(current.Objective))
                 .OrderBy(pawn => pawn.Position.DistanceToSquared(current.Objective)).FirstOrDefault() ?? members[0];
-            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
+            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap(state.CqbKnowledge);
             if (TryPlanContactRecheck(unit, members, current, state, structure, cleared, observer, tick)) return true;
             state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells,
                 observed: cell => CanObserveMapCell(members, cell));

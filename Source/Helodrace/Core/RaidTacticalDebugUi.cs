@@ -168,6 +168,15 @@ namespace Helodrace
             var contactsState = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(plan.UnitId);
             if (contactsState != null)
             {
+                report.AppendLine("Communication: " + contactsState.Communication.Status);
+                report.Append(RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalCommunications>()?.ReportFor(plan.UnitId));
+                foreach (RaidObserverMemory observer in contactsState.Communication.Observers)
+                    report.AppendLine($"  Personal #{observer.PawnId}: {observer.Contacts.Entries.Count} contacts, {observer.Reports.Reports.Count} reports");
+                foreach (RaidReportReceipt receipt in contactsState.Communication.Receipts.OrderByDescending(value => value.Tick).Take(12))
+                    report.AppendLine($"  {receipt.Status}: {receipt.Peer} {receipt.ReportId}@{receipt.Revision} tick={receipt.Tick}");
+                foreach (RaidTacticalReport known in contactsState.Communication.Knowledge.Reports.OrderByDescending(value => value.ObservedTick).Take(12))
+                    report.AppendLine($"  {known.Kind}: {known.Position} R{known.Room}/V{known.StructureVersion} "
+                        + $"source={known.OriginUnit}/#{known.ObserverId} seen={known.ObservedTick} received={known.ReceivedTick} route={string.Join(" → ", known.Route)}");
                 report.AppendLine($"CQB contact pause={contactsState.ContactPause}");
                 foreach (RaidContactGuard guard in contactsState.ContactGuards)
                     report.AppendLine($"  Guard {guard.Pawn?.LabelShort}: #{guard.EnemyId} focus={guard.Focus} hold={guard.Position} until={guard.Until}");

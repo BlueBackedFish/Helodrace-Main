@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
+using System.Xml;
 using HarmonyLib;
 using Helodrace;
 using Verse;
@@ -83,6 +85,39 @@ internal static class RaidCqbKnowledgeTests
         }
         Check(Path(false, false).SequenceEqual(Path(true, false)), "Opening the hidden opposite doorway cannot change the chosen BFS route.");
         Check(Path(true, true).SequenceEqual(new[] { 6, 7, 8 }), "After observation, the newly known opening can be used by a subsequent plan.");
+        knowledge = Activator.CreateInstance(knowledgeType, true);
+        AccessTools.Field(knowledgeType, "ObservedTick").SetValue(knowledge, 100);
+        Read(a, closedA, openA, true);
+        var passage = new RaidTacticalReport { Kind = RaidReportKind.Passage, OriginUnit = "peer", Position = a,
+            Building = 11, Usable = false, IsPortal = true, ObservedTick = 90, StructureVersion = 4 };
+        bool Receive() => (bool)AccessTools.Method(knowledgeType, "Receive").Invoke(knowledge, new object[] { passage });
+        Check(!Receive() && Usable(Read(a, closedA, openA, false)), "A stale peer door report cannot overwrite newer direct observation.");
+        passage.ObservedTick = 120;
+        Check(Receive() && !Usable(Read(a, closedA, openA, false)), "A delivered newer closure is knowledge even without local visibility.");
+        AccessTools.Field(knowledgeType, "ObservedTick").SetValue(knowledge, 140);
+        Check(Usable(Read(a, closedA, openA, true)) && !Receive(), "Current local reobservation supersedes older peer knowledge.");
+        LoadSaveMode oldMode = Scribe.mode; XmlNode oldXml = Scribe.loader.curXmlParent; IExposable oldParent = Scribe.loader.curParent;
+        try
+        {
+            var xml = new XmlDocument();
+            xml.LoadXml("<root><position>(3, 0, 1)</position><building>11</building>"
+                + "<usable>True</usable><portal>True</portal><tick>100</tick><version>4</version>"
+                + "<origin>local</origin><direct>True</direct></root>");
+            knowledge = Activator.CreateInstance(knowledgeType, true);
+            var recordType = assembly.GetType("Helodrace.RaidKnownCqbRecord");
+            var record = (IExposable)Activator.CreateInstance(recordType, true);
+            Scribe.mode = LoadSaveMode.LoadingVars; Scribe.loader.curXmlParent = xml.DocumentElement;
+            Scribe.loader.curParent = record; record.ExposeData();
+            // Native mod-type discovery needs the Unity mod loader. Supply its already
+            // parsed record list, then exercise the real post-load lookup reconstruction.
+            var parsed = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(recordType)); parsed.Add(record);
+            AccessTools.Field(knowledgeType, "saved").SetValue(knowledge, parsed);
+            Scribe.mode = LoadSaveMode.PostLoadInit; ((IExposable)knowledge).ExposeData();
+            Check(Usable(Read(a, closedA, closedA, false)), "Native Scribe record loading and lookup rebuilding retain observed door state instead of querying unseen live closure.");
+            passage.ObservedTick = 90;
+            Check(!Receive(), "Loaded direct cell provenance/time still rejects stale peer reports.");
+        }
+        finally { Scribe.mode = oldMode; Scribe.loader.curXmlParent = oldXml; Scribe.loader.curParent = oldParent; }
         Console.WriteLine($"PASS: {checks} observed CQB topology, entry commitment and door-state memory checks");
     }
 }

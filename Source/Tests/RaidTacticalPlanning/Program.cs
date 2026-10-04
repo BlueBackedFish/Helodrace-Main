@@ -40,6 +40,23 @@ internal static class Program
 
     private static void CheckCommunications()
     {
+        var offsets = Enumerable.Range(1, 13).Select(i => RaidCommunicationPolicy.ScanOffset("org::squad" + i)).ToArray();
+        Check(offsets.All(offset => offset >= 0 && offset < RaidCommunicationPolicy.TickInterval)
+            && offsets.Distinct().Count() > 1 && offsets[0] == RaidCommunicationPolicy.ScanOffset("org::squad1"),
+            "Observation work has deterministic bounded offsets across execution units.");
+        Check(RaidCommunicationPolicy.Transmission(true, 100, 120, 160, false, 159) == RaidTransmissionAction.Wait,
+            "A connected report must wait through the configured oral/radio transfer delay.");
+        Check(RaidCommunicationPolicy.Transmission(true, 100, 120, 160, false, 160) == RaidTransmissionAction.Deliver,
+            "Completion of the report delay produces reception, not an acknowledgement.");
+        Check(RaidCommunicationPolicy.Transmission(true, 100, 120, 180, true, 179) == RaidTransmissionAction.Wait
+            && RaidCommunicationPolicy.Transmission(true, 100, 120, 180, true, 180) == RaidTransmissionAction.Acknowledge,
+            "Reception and acknowledgement have separate deadlines.");
+        Check(RaidCommunicationPolicy.Transmission(false, 100, 120, 160, false, 140) == RaidTransmissionAction.Interrupt,
+            "Losing physical contact or the operator during transfer cancels an undelivered report.");
+        Check(RaidCommunicationPolicy.Transmission(false, 100, 120, 180, true, 170) == RaidTransmissionAction.Interrupt,
+            "Losing acknowledgement is distinct from losing an already delivered report.");
+        Check(RaidCommunicationPolicy.Transmission(true, 100, 120, 160, false, 1300) == RaidTransmissionAction.Interrupt,
+            "Load and delayed delivery cannot revive expired original intelligence.");
         var voice = RaidCommunicationPolicy.Delays(new[] { 1, 2, 3, 4 }, 1,
             (a, b) => Math.Abs(a - b) == 1 && b != 4 && a != 4 ? 40 : -1);
         Check(voice[1] == 0 && voice[2] == 40 && voice[3] == 80 && !voice.ContainsKey(4),
