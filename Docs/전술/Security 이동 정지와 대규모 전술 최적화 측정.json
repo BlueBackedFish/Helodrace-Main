@@ -1,0 +1,118 @@
+{
+  "Runtime": ".NET 10.0.7",
+  "Scope": "Release recommended; synthetic immutable inputs, production policies; not game TPS or Unity job latency",
+  "GuardHoldingPreviousPosition": {
+    "Members": 13,
+    "GuardAwayFromFinalNode": 1,
+    "OtherMembersArrived": 12,
+    "CanAdvanceFinalNode": false,
+    "Scope": "Policy counterexample with the current FollowNodes cohort; not live contact-guard simulation"
+  },
+  "OffRouteExit": [
+    {
+      "Name": "previous_room_floor",
+      "Room": 1,
+      "Permitted": true
+    },
+    {
+      "Name": "door_own_room",
+      "Room": 3,
+      "Permitted": false
+    },
+    {
+      "Name": "selected_door_own_room",
+      "Room": 3,
+      "Permitted": false
+    },
+    {
+      "Name": "demolished_wall_room_zero",
+      "Room": 0,
+      "Permitted": false
+    },
+    {
+      "Name": "next_room_floor",
+      "Room": 2,
+      "Permitted": true
+    }
+  ],
+  "OffRouteMaskPermitted": [
+    true,
+    false,
+    false,
+    true
+  ],
+  "Measurements": [
+    {
+      "Size": 250,
+      "Mode": "personal_node",
+      "Iterations": 48,
+      "MedianMs": 0.3956,
+      "P95Ms": 0.5034,
+      "AllocatedKiBPerMask": 122.58,
+      "OffsetArrayBytes": 125000,
+      "Retained64MasksMiB": 7.63,
+      "Retained256MasksMiB": 30.52,
+      "Checksum": 0
+    },
+    {
+      "Size": 250,
+      "Mode": "indoor_961_cells",
+      "Iterations": 48,
+      "MedianMs": 0.5024,
+      "P95Ms": 0.6821,
+      "AllocatedKiBPerMask": 139.81,
+      "OffsetArrayBytes": 125000,
+      "Retained64MasksMiB": 7.63,
+      "Retained256MasksMiB": 30.52,
+      "Checksum": 0
+    },
+    {
+      "Size": 400,
+      "Mode": "personal_node",
+      "Iterations": 48,
+      "MedianMs": 0.9656,
+      "P95Ms": 1.2578,
+      "AllocatedKiBPerMask": 313.01,
+      "OffsetArrayBytes": 320000,
+      "Retained64MasksMiB": 19.53,
+      "Retained256MasksMiB": 78.12,
+      "Checksum": 0
+    },
+    {
+      "Size": 400,
+      "Mode": "indoor_961_cells",
+      "Iterations": 48,
+      "MedianMs": 1.2105,
+      "P95Ms": 1.4982,
+      "AllocatedKiBPerMask": 330.24,
+      "OffsetArrayBytes": 320000,
+      "Retained64MasksMiB": 19.53,
+      "Retained256MasksMiB": 78.12,
+      "Checksum": 0
+    },
+    {
+      "Size": 600,
+      "Mode": "personal_node",
+      "Iterations": 48,
+      "MedianMs": 2.1674,
+      "P95Ms": 2.6324,
+      "AllocatedKiBPerMask": 703.67,
+      "OffsetArrayBytes": 720000,
+      "Retained64MasksMiB": 43.95,
+      "Retained256MasksMiB": 175.78,
+      "Checksum": 0
+    },
+    {
+      "Size": 600,
+      "Mode": "indoor_961_cells",
+      "Iterations": 48,
+      "MedianMs": 2.5573,
+      "P95Ms": 2.9165,
+      "AllocatedKiBPerMask": 720.88,
+      "OffsetArrayBytes": 720000,
+      "Retained64MasksMiB": 43.95,
+      "Retained256MasksMiB": 175.78,
+      "Checksum": 0
+    }
+  ]
+}
