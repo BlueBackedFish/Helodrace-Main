@@ -169,7 +169,8 @@ namespace Helodrace
             var localRoute = new List<IntVec3>();
             if (analysis.IsIndoor(plan.Start))
             {
-                var local = new RaidCqbLocalMap();
+                var local = new RaidCqbLocalMap(map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.StateFor(organization.id)?.LocalCqb?.Knowledge);
                 local.Refresh(map, analysis, pathfinder, plan.Start, plan.PlannedTick, avoidedTraps);
                 localRoute = local.Path(plan.Start, plan.Objective);
                 interiorWalk = localRoute.Count > 0 || !local.Contains(plan.Objective) && !needsBreach;
@@ -651,7 +652,8 @@ namespace Helodrace
             RaidCqbLocalMap local = null;
             if (interior)
             {
-                local = new RaidCqbLocalMap();
+                local = new RaidCqbLocalMap(map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.StateFor(organization.id)?.LocalCqb?.Knowledge);
                 local.Refresh(map, analysis, pathfinder, plan.Start, plan.PlannedTick, avoidedTraps);
             }
             IEnumerable<Building> structures = interior

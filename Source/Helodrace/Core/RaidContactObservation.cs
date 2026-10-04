@@ -10,6 +10,10 @@ namespace Helodrace
         private bool ClearObservationLine(IntVec3 source, IntVec3 target) =>
             GenSight.LineOfSight(source, target, map, true) && !SmokeBetween(source, target);
 
+        private bool CanObserveMapCell(List<Pawn> members, IntVec3 cell) => cell.InBounds(map)
+            && members.Any(pawn => RaidObservationSight.CanSeeCell(map, pawn.Position, cell,
+                RaidContactMemory.Radius, ClearObservationLine));
+
         private bool CanObserveContact(Pawn observer, IntVec3 source, Pawn target, int radius) =>
             RaidObservationSight.CanSeePawn(map, source, target, radius,
                 source == observer.Position, ClearObservationLine);

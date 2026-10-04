@@ -61,7 +61,8 @@ namespace Helodrace
                     && tick >= value.NextAttemptTick).OrderByDescending(value => value.LastThreatTick).ToList();
             if (pending.Count == 0) return false;
             if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
-            state.LocalCqb.Refresh(map, structure, observer, observer.Position, tick, current.AvoidedTrapCells);
+            state.LocalCqb.Refresh(map, structure, observer, observer.Position, tick, current.AvoidedTrapCells,
+                observed: cell => CanObserveMapCell(members, cell));
             var allowed = new HashSet<int>(cleared) { occupied };
             HashSet<IntVec3> reachable = state.LocalCqb.Reachable(observer.Position, allowed);
             foreach (RaidRoomSecurityRecord record in pending)

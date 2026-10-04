@@ -560,6 +560,7 @@ namespace Helodrace
                         Contacts = previous?.Contacts ?? new RaidContactMemory(),
                         ContactGuards = previous?.ContactGuards ?? new List<RaidContactGuard>(),
                         RoomSecurity = previous?.RoomSecurity ?? new RaidRoomSecurity(),
+                        LocalCqb = previous?.LocalCqb,
                         Maneuver = plan.Selected.Maneuver,
                         ActivePlan = plan,
                         Phase = RaidExecutionPhase.Assemble,
@@ -1113,8 +1114,8 @@ namespace Helodrace
                         && (EntryMembersNear(members, plan, plan.Objective, 6f)
                             || tick - state.PhaseStarted >= 360))
                     {
+                        state.DoorStateSignature = NearbyDoorState(members, plan.Objective, state.DoorStateSignature);
                         IssueRoomSecurity(members, plan);
-                        state.DoorStateSignature = NearbyDoorState(plan.Objective);
                         state.LastRoomSecurityTick = tick;
                         Advance(state, RaidExecutionPhase.SecureRoom, tick);
                     }
@@ -1122,17 +1123,18 @@ namespace Helodrace
                 case RaidExecutionPhase.SecureRoom:
                     if (tick - state.LastRoomSecurityTick >= 30)
                     {
-                        string doors = NearbyDoorState(plan.Objective);
+                        string doors = NearbyDoorState(members, plan.Objective, state.DoorStateSignature);
                         if (doors != state.DoorStateSignature)
                         {
+                            string previousDoors = state.DoorStateSignature;
+                            state.DoorStateSignature = doors;
                             IssueRoomSecurity(members, plan);
                             if (tick - state.LastDoorResponseTick >= 360
                                 && TryCounterClosingDoor(members, plan,
-                                    state.DoorStateSignature))
+                                    previousDoors))
                                 state.LastDoorResponseTick = tick;
-                            state.DoorStateSignature = doors;
-                            state.LastRoomSecurityTick = tick;
                         }
+                        state.LastRoomSecurityTick = tick;
                     }
                     if (tick - state.PhaseStarted >= 30
                         && tick - state.LastRoomPlanTick >= 30
@@ -2209,6 +2211,7 @@ namespace Helodrace
             RaidStructureSnapshot structure = StructureFor(map, plan);
             int room = structure?.RoomAt(plan.Objective) ?? 0;
             if (room == 0) return;
+            Dictionary<int, bool> knownDoors = RaidLocalMapState.KnownDoors(StateFor(plan.OrganizationId)?.DoorStateSignature);
             if (plan.BreachCell.IsValid && structure.RoomAt(plan.BreachInside) == room)
             {
                 ExecutionState state = StateFor(plan.OrganizationId);
@@ -2248,7 +2251,7 @@ namespace Helodrace
                     .Where(cell => occupied.All(other => cell.DistanceTo(other) >= 3f))
                     .OrderByDescending(cell => structure.CachedAt(cell).DoorThreat * 2f
                         + structure.CachedAt(cell).WallThreat
-                        + DoorStateScore(cell)
+                        + DoorStateScore(cell, knownDoors)
                         + (occupied.Count == 0 ? 0f
                             : occupied.Min(other => cell.DistanceTo(other)) * 0.5f)
                         - cell.DistanceTo(plan.Objective) * 0.2f)
@@ -2260,11 +2263,10 @@ namespace Helodrace
                 TryGoto(pawn, sector);
                 if (plan.Doctrine == RaidTacticalDoctrine.High)
                 {
-                    Building_Door focusDoor = map.listerThings.AllThings
-                        .OfType<Building_Door>()
+                    Building_Door focusDoor = RaidLocalMapState.Doors(map, sector, 8f)
                         .Where(door => !door.Destroyed && door.Position != sector
-                            && door.Position.DistanceTo(sector) <= 8f)
-                        .OrderByDescending(door => door.Open)
+                            && knownDoors.ContainsKey(door.thingIDNumber))
+                        .OrderByDescending(door => knownDoors[door.thingIDNumber])
                         .ThenBy(door => door.Position.DistanceToSquared(sector))
                         .FirstOrDefault();
                     if (focusDoor != null)
@@ -2306,7 +2308,8 @@ namespace Helodrace
                 .OrderBy(pawn => pawn.Position.DistanceToSquared(current.Objective)).FirstOrDefault() ?? members[0];
             if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
             if (TryPlanContactRecheck(organization, members, current, state, structure, cleared, observer, tick)) return true;
-            state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells);
+            state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells,
+                observed: cell => CanObserveMapCell(members, cell));
             foreach (IntVec3 target in state.LocalCqb.NeighborTargets(observer.Position, cleared)
                 .OrderBy(cell => structure.RoomAt(cell) == structure.RoomAt(state.FinalObjective) ? 0 : 1)
                 .ThenBy(cell => cell.DistanceToSquared(observer.Position)))
@@ -2399,9 +2402,9 @@ namespace Helodrace
                 "HD_RaidTactical_Assemble");
         }
 
-        private string NearbyDoorState(IntVec3 objective)
+        private string NearbyDoorState(List<Pawn> members, IntVec3 objective, string previous)
         {
-            return RaidLocalMapState.DoorSignature(map, objective);
+            return RaidLocalMapState.DoorSignature(map, objective, previous, cell => CanObserveMapCell(members, cell));
         }
 
         private bool TryCounterClosingDoor(List<Pawn> members,
@@ -2415,7 +2418,8 @@ namespace Helodrace
                 .Select(value => value.Substring(0, value.Length - 2)));
             foreach (Building_Door door in RaidLocalMapState.Doors(map, plan.Objective, 12f)
                 .Where(value => !value.Open
-                    && openIds.Contains(value.thingIDNumber.ToString())))
+                    && openIds.Contains(value.thingIDNumber.ToString())
+                    && CanObserveMapCell(members, value.Position)))
             {
                 ExecutionState state = StateFor(plan.OrganizationId);
                 bool enemyOutside = state?.Contacts.Entries.Any(contact =>
@@ -2450,7 +2454,7 @@ namespace Helodrace
             return false;
         }
 
-        private float DoorStateScore(IntVec3 cell)
+        private float DoorStateScore(IntVec3 cell, Dictionary<int, bool> knownDoors)
         {
             IntVec3[] directions = { IntVec3.North, IntVec3.East,
                 IntVec3.South, IntVec3.West };
@@ -2460,7 +2464,7 @@ namespace Helodrace
                 IntVec3 adjacent = cell + direction;
                 if (!adjacent.InBounds(map)
                     || !(adjacent.GetEdifice(map) is Building_Door door)) continue;
-                score = Math.Max(score, door.Open ? 8f : 4f);
+                score = Math.Max(score, knownDoors.TryGetValue(door.thingIDNumber, out bool open) && open ? 8f : 4f);
             }
             return score;
         }

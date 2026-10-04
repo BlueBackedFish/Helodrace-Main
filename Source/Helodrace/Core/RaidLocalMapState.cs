@@ -16,8 +16,27 @@ namespace Helodrace
                 if (cell.InBounds(map) && cell.GetEdifice(map) is Building_Door door
                     && door.Spawned && !door.Destroyed && seen.Add(door.thingIDNumber)) yield return door;
         }
-        public static string DoorSignature(Map map, IntVec3 center) => string.Join(",",
-            Doors(map, center, 12f).OrderBy(door => door.thingIDNumber)
-                .Select(door => door.thingIDNumber + ":" + (door.Open ? "1" : "0")));
+        public static Dictionary<int, bool> KnownDoors(string signature)
+        {
+            var known = new Dictionary<int, bool>();
+            foreach (string entry in (signature ?? "").Split(','))
+            {
+                string[] parts = entry.Split(':');
+                if (parts.Length == 2 && int.TryParse(parts[0], out int id)) known[id] = parts[1] == "1";
+            }
+            return known;
+        }
+
+        public static string ObservedDoorSignature(string previous, IEnumerable<KeyValuePair<int, bool>> observations)
+        {
+            Dictionary<int, bool> known = KnownDoors(previous);
+            foreach (KeyValuePair<int, bool> observation in observations) known[observation.Key] = observation.Value;
+            return string.Join(",", known.OrderBy(pair => pair.Key).Select(pair => pair.Key + ":" + (pair.Value ? "1" : "0")));
+        }
+
+        public static string DoorSignature(Map map, IntVec3 center, string previous,
+            System.Func<IntVec3, bool> observed) => ObservedDoorSignature(previous,
+                Doors(map, center, 12f).Where(door => observed(door.Position))
+                    .Select(door => new KeyValuePair<int, bool>(door.thingIDNumber, door.Open)));
     }
 }

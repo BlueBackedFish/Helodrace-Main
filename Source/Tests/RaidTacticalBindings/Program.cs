@@ -76,6 +76,7 @@ internal static class Program
             CheckSupportMovementJobGap();
             RaidContactTests.Run();
             RaidObservationTests.Run();
+            RaidCqbKnowledgeTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }

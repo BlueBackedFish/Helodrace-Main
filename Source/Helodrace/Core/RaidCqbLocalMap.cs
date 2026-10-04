@@ -7,6 +7,32 @@ using Helodrace.Squads;
 
 namespace Helodrace
 {
+    internal struct RaidKnownCqbCell
+    {
+        public int Building;
+        public bool Usable, Portal;
+        public bool SameAs(RaidKnownCqbCell other) => Building == other.Building
+            && Usable == other.Usable && Portal == other.Portal;
+    }
+
+    internal sealed class RaidCqbKnowledge
+    {
+        private readonly Dictionary<IntVec3, RaidKnownCqbCell> cells = new Dictionary<IntVec3, RaidKnownCqbCell>();
+        public RaidKnownCqbCell Read(IntVec3 cell, RaidKnownCqbCell baseline, RaidKnownCqbCell live,
+            System.Func<IntVec3, bool> observed)
+        {
+            if (!cells.TryGetValue(cell, out RaidKnownCqbCell known)) known = baseline;
+            // Inspect LOS only for an actual state difference, not every floor tile in the window.
+            if (!known.SameAs(live) && observed(cell))
+            {
+                known = live;
+                cells[cell] = known;
+            }
+            return known;
+        }
+        public static bool ReplaceEntry(bool obstructed, bool observed) => obstructed && observed;
+    }
+
     internal sealed class RaidCqbLocalMap
     {
         public const int Radius = 16;
@@ -15,12 +41,18 @@ namespace Helodrace
         private IntVec3 origin;
         private CqbLocalTopology topology;
         private int[] liveBuildings;
+        internal RaidCqbKnowledge Knowledge { get; }
+        public RaidCqbLocalMap(RaidCqbKnowledge knowledge = null) { Knowledge = knowledge ?? new RaidCqbKnowledge(); }
         public int Revision { get; private set; }
         public int CellCount => topology?.Rooms.Length ?? 0;
 
         public bool Refresh(Map map, RaidStructureSnapshot structure, Pawn pawn,
-            IntVec3 center, int tick, ISet<IntVec3> avoided, bool force = false)
+            IntVec3 center, int tick, ISet<IntVec3> avoided, bool force = false,
+            System.Func<IntVec3, bool> observed = null)
         {
+            if (observed == null) observed = cell => RaidObservationSight.CanSeeCell(map, pawn.Position, cell,
+                RaidContactMemory.Radius, (a, b) => GenSight.LineOfSight(a, b, map, true)
+                    && !GenSight.PointsOnLineOfSight(a, b).Any(value => RaidSmokeUtility.CoveringSmokeAt(map, value)));
             IntVec3 nextOrigin = new IntVec3(System.Math.Max(0, center.x - Radius), 0,
                 System.Math.Max(0, center.z - Radius));
             if (!force && topology != null && origin == nextOrigin && tick - lastTick < RefreshTicks) return false;
@@ -33,14 +65,23 @@ namespace Helodrace
             {
                 IntVec3 cell = nextOrigin + new IntVec3(i % width, 0, i / width);
                 Building building = cell.GetEdifice(map) as Building;
-                buildings[i] = building?.thingIDNumber ?? 0;
                 TacticalCellData cached = structure.CachedAt(cell);
                 rooms[i] = structure.RoomAt(cell);
-                portals[i] = cached.WallLine || cached.ExteriorAccess || building is Building_Door
+                bool portal = cached.WallLine || cached.ExteriorAccess || building is Building_Door
                     || building?.def.IsWall == true;
-                usable[i] = cell.Walkable(map) && (rooms[i] > 0 || portals[i])
-                    && !(avoided?.Contains(cell) == true)
-                    && (!(building is Building_Door door) || door.Open || door.PawnCanOpen(pawn));
+                RaidKnownCqbCell known = Knowledge.Read(cell, new RaidKnownCqbCell {
+                    Building = structure.Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(cell)].StructureId,
+                    Portal = cached.WallLine || cached.ExteriorAccess,
+                    // Layout knowledge does not reveal an unseen door's current open state.
+                    Usable = cached.Standable && !cached.WallLine && (rooms[i] > 0 || cached.ExteriorAccess)
+                }, new RaidKnownCqbCell {
+                    Building = portal ? building?.thingIDNumber ?? 0 : 0,
+                    Portal = portal,
+                    Usable = cell.Walkable(map) && (rooms[i] > 0 || portal)
+                        && (!(building is Building_Door door) || door.Open || door.PawnCanOpen(pawn))
+                }, observed);
+                buildings[i] = known.Building; portals[i] = known.Portal;
+                usable[i] = known.Usable && !(avoided?.Contains(cell) == true);
             }
             var next = new CqbLocalTopology(width, height, rooms, usable, portals);
             bool same = next.SameAs(topology) && liveBuildings != null && buildings.SequenceEqual(liveBuildings);
@@ -87,8 +128,9 @@ namespace Helodrace
                 || insideRoom != occupied.Key && !cleared.Contains(insideRoom))) return false;
             if (state.BreachKind == RaidBreachKind.C4 || SupportEffectsPending(state, tick) || state.SupportReturnRequired) return false;
             Pawn observer = occupied.OrderBy(pawn => pawn.Position.DistanceToSquared(plan.Objective)).First();
-            var local = new RaidCqbLocalMap();
-            local.Refresh(map, structure, observer, observer.Position, tick, plan.AvoidedTrapCells);
+            var local = new RaidCqbLocalMap(state.LocalCqb?.Knowledge);
+            local.Refresh(map, structure, observer, observer.Position, tick, plan.AvoidedTrapCells,
+                observed: cell => CanObserveMapCell(members, cell));
             bool alreadyInside = occupied.Count() * 2 >= entry.Count && objectiveRoom == occupied.Key
                 && (local.Path(observer.Position, plan.Objective).Count > 0
                     || !local.Contains(plan.Objective) && map.reachability.CanReach(observer.Position,
@@ -123,24 +165,25 @@ namespace Helodrace
             if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap();
             IntVec3 center = state.Phase == RaidExecutionPhase.ClearRoom || state.Phase == RaidExecutionPhase.SecureRoom
                 ? plan.Objective : plan.Entry;
-            bool changed = state.LocalCqb.Refresh(map, structure, observer, center, tick, plan.AvoidedTrapCells);
+            state.LocalCqb.Refresh(map, structure, observer, center, tick, plan.AvoidedTrapCells,
+                observed: cell => CanObserveMapCell(members, cell));
             bool obstructed = plan.BreachCell.InBounds(map) && !BreachOpened(plan)
                 && (plan.ReusePassage || plan.PlannedBreach != null
                     && plan.BreachCell.GetEdifice(map) != plan.PlannedBreach);
-            // Reuse a newly opened interior passage only before support starts.
-            // Never reset a launched grenade or an installed C4 sequence.
-            if ((!changed && !obstructed) || plan.PlannedBreach == null && !obstructed
+            bool entryBlocked = plan.Entry.InBounds(map) && !plan.Entry.Walkable(map);
+            // Keep the committed entrance even if another door opens. Replace only a locally
+            // observed obstruction of this entrance; never reset launched support or C4.
+            if (!RaidCqbKnowledge.ReplaceEntry(obstructed || entryBlocked,
+                    CanObserveMapCell(members, entryBlocked ? plan.Entry : plan.BreachCell))
                 || tick - state.LastLocalReplanTick < 60 || state.BreachKind == RaidBreachKind.C4
-                || state.Phase != RaidExecutionPhase.Assemble && state.Phase != RaidExecutionPhase.Breach
-                || !obstructed && (!structure.IsIndoor(observer.Position)
-                    || state.LocalCqb.Path(observer.Position, plan.Objective).Count == 0)) return false;
+                || state.Phase != RaidExecutionPhase.Assemble && state.Phase != RaidExecutionPhase.Breach) return false;
             if ((state.SupportIssued || state.SupportLaunched)
                 && (SupportEffectsPending(state, tick) || state.SupportReturnRequired)) return false;
             state.LastLocalReplanTick = tick;
             RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, organization, plan.Objective);
-            if (next?.Success != true || !obstructed && next.PlannedBreach != null
-                || obstructed && plan.PlannedBreach != null && next.PlannedBreach == plan.PlannedBreach
-                || obstructed && next.ReusePassage && !BreachOpened(next)) return false;
+            if (next?.Success != true
+                || !entryBlocked && plan.PlannedBreach != null && next.PlannedBreach == plan.PlannedBreach
+                || next.ReusePassage && !BreachOpened(next)) return false;
             if (state.Breacher?.CurJobDef?.defName == CompSledgehammerBreach.JobDefName
                 || state.Breacher?.CurJobDef?.defName == "HD_PowerCutterBreach")
                 state.Breacher.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
@@ -148,9 +191,7 @@ namespace Helodrace
             next.ObjectiveIsRecheck = plan.ObjectiveIsRecheck;
             ActivateNextRoomPlan(organization, members, state, next, tick);
             Assemble(members, next);
-            MapComponent_RaidTacticalTrace.Record(observer, obstructed
-                ? "Local CQB passage obstructed; replace stale entry plan"
-                : "Local CQB opening changed; reuse passage to the same room");
+            MapComponent_RaidTacticalTrace.Record(observer, "Observed CQB entrance obstruction; replace committed entry plan");
             return true;
         }
     }
