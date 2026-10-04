@@ -26,7 +26,6 @@ namespace Helodrace
         public bool Ready { get; private set; }
         public bool Canceled => canceled;
         public int LastRequestedFrame { get; private set; }
-        public RaidTacticalPlan OwnerPlan;
         public void MarkRequested() => LastRequestedFrame = UnityEngine.Time.frameCount;
         private readonly Stopwatch preparation = Stopwatch.StartNew();
         public long PreparationMilliseconds => preparation.ElapsedMilliseconds;
@@ -36,7 +35,6 @@ namespace Helodrace
             int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, RaidMovementNode connection = null,
             int openingOverride = -1, IEnumerable<IntVec3> ingressCells = null)
         {
-            OwnerPlan = plan;
             MarkRequested();
             input = new TacticalMovementMaskInput {
                 Width = map.Size.x, Height = map.Size.z, Structure = structure?.Version.Geometry,
@@ -150,55 +148,58 @@ namespace Helodrace
         private readonly Dictionary<string, RaidMovementArea> ingressAreas = new Dictionary<string, RaidMovementArea>();
         private readonly Dictionary<TacticalStructureVersion, Dictionary<int, RaidMovementArea>> reactiveAreas =
             new Dictionary<TacticalStructureVersion, Dictionary<int, RaidMovementArea>>();
-        private readonly HashSet<RaidMovementArea> pending = new HashSet<RaidMovementArea>();
-        private const int MaximumPendingGrids = 64;
+        private readonly TacticalPreparationQueue<RaidMovementArea, Pawn> pending =
+            new TacticalPreparationQueue<RaidMovementArea, Pawn>(RaidPawnReferenceComparer.Instance);
+        private const int MaximumPumpsPerPass = 64;
         private bool removed;
         public int Requests;
         public long BuildMilliseconds;
+        public int PreparedNotifications;
         public int CachedGrids => areas.Values.Sum(value => value.Count) + fightingAreas.Count + ingressAreas.Count
             + reactiveAreas.Values.Sum(value => value.Count);
         public int PendingGrids => pending.Count;
+        public int WaitingPawns => pending.WaiterCount;
+        public int PeakPendingGrids => pending.PeakCount;
+        public int OldestWaitFrames => pending.OldestWaitAge(UnityEngine.Time.frameCount);
         public MapComponent_RaidMovementAreas(Map map) : base(map) { }
         public override void MapComponentTick() => Pump();
         public override void MapComponentUpdate() => Pump();
         private void Pump()
         {
             if (removed) return;
-            foreach (RaidMovementArea area in pending.OrderByDescending(value => value.LastRequestedFrame).ToArray())
+            foreach (RaidMovementArea area in pending.ServiceOrder(MaximumPumpsPerPass).ToArray())
             {
                 area.Pump();
                 if (!area.Ready) continue;
                 BuildMilliseconds += area.PreparationMilliseconds;
-                pending.Remove(area);
-                foreach (Pawn pawn in area.OwnerPlan.Assignments.Select(assignment => assignment.Pawn))
+                foreach (Pawn pawn in pending.Complete(area))
                     if (pawn?.Spawned == true && pawn.Map == map && !pawn.Dead && !pawn.Downed)
+                    {
+                        PreparedNotifications++;
                         MapComponent_RaidTacticalOrders.PreparationReady(pawn);
+                    }
             }
         }
         private void Queue(RaidMovementArea area)
         {
-            if (pending.Count >= MaximumPendingGrids)
-            {
-                RaidMovementArea oldest = pending.OrderBy(value => value.LastRequestedFrame).First();
-                oldest.CancelPreparation();
-                pending.Remove(oldest);
-            }
-            pending.Add(area);
+            pending.Add(area, UnityEngine.Time.frameCount);
         }
         public override void MapRemoved() { Dispose(); base.MapRemoved(); }
         public void Dispose()
         {
             removed = true;
-            foreach (RaidMovementArea area in pending) area.CancelPreparation();
+            foreach (RaidMovementArea area in pending.Keys) area.CancelPreparation();
             pending.Clear();
             // Native grids may still be read by Unity jobs. PathFinder.Dispose's
             // postfix remains the sole owner of their actual disposal.
         }
         internal bool ReadyFor(Pawn pawn)
         {
-            if (MapComponent_RaidTacticalOrders.For(pawn)?.Reactive == true) return true;
+            if (MapComponent_RaidTacticalOrders.For(pawn)?.Reactive == true) { pending.Forget(pawn); return true; }
             RaidMovementArea area = Select(pawn, true);
             area?.MarkRequested();
+            if (area != null && !area.Ready) pending.WaitFor(pawn, area);
+            else pending.Forget(pawn);
             return area?.Ready ?? true;
         }
 
@@ -270,7 +271,6 @@ namespace Helodrace
                             openingOverride: map.cellIndices.CellToIndex(ingress.Opening), ingressCells: connected);
                         Queue(ingressArea);
                     }
-                    ingressArea.OwnerPlan = plan;
                     return ingressArea;
                 }
                 RaidMovementArea currentIngressArea = IngressArea(interior);
@@ -294,7 +294,6 @@ namespace Helodrace
                     fightingAreas[key] = fightArea = new RaidMovementArea(map, plan, structure, false, -1, order);
                     Queue(fightArea);
                 }
-                fightArea.OwnerPlan = plan;
                 return fightArea;
             }
             // Subsequent interior room breaches are not exterior approaches.

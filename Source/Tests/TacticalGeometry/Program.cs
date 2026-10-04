@@ -95,8 +95,40 @@ internal static class Program
             Flags = TacticalRawFlags.WallLine | TacticalRawFlags.Edifice, StructureId = z * input.Width + x + 1
         };
     }
+    private static void CheckPreparationQueue()
+    {
+        var queue = new TacticalPreparationQueue<object, object>();
+        object old = new object(), speculative = new object(), later = new object();
+        object a = new object(), b = new object(), c = new object();
+        queue.Add(speculative, 0); queue.Add(old, 10); queue.Add(later, 20);
+        queue.WaitFor(a, old); queue.WaitFor(b, later);
+        queue.WaitFor(a, old); queue.Add(old, 200);
+        Check(queue.Count == 3 && queue.WaiterCount == 2 && queue.ServiceOrder(1).Single() == old,
+            "Actual movement waits precede speculative preparation, with repeated requests preserving FIFO age");
+        queue.WaitFor(c, old); queue.WaitFor(a, later);
+        Check(queue.Complete(old).SequenceEqual(new[] { c }), "Ready notifications go only to current waiters, not entire plans or superseded orders");
+        Check(queue.WaiterCount == 2 && queue.OldestWaitAge(100) == 80, "Switching a waiter does not lose another pawn's pending task");
+        queue.Forget(b); queue.Forget(a);
+        Check(queue.Complete(later).Length == 0 && queue.WaiterCount == 0, "Released orders and reactive detours stop receiving preparation notifications");
+        queue.Clear();
+        object first = null;
+        for (int i = 0; i < 1000; i++)
+        {
+            object task = new object();
+            if (i == 0) first = task;
+            queue.Add(task, i); queue.WaitFor(new object(), task);
+        }
+        Check(queue.Count == 1000 && queue.PeakCount == 1000 && queue.ServiceOrder(64).Count() == 64
+            && queue.ServiceOrder(64).First() == first, "A burst above 64 requests limits service per pass without cancelling old movers");
+        queue.Complete(first);
+        Check(queue.Count == 999 && queue.WaiterCount == 999, "FIFO completion releases just the completed task and its waiters");
+        queue.Clear();
+        Check(queue.Count == 0 && queue.WaiterCount == 0 && !queue.ServiceOrder(64).Any(), "Map teardown drops all pending queue ownership");
+    }
+
     private static int Main()
     {
+        CheckPreparationQueue();
         try
         {
             var divided = Open(7, 5);
