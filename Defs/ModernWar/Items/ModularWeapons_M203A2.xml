@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
-  <!-- The three 1024px sprites are authored on one canvas. The body attaches
-       to a bottom Picatinny rail; the barrel and trigger retain that alignment. -->
+  <!-- The three 1024px sprites are authored on one canvas. The body replaces
+       the HAC URX lower handguard; the barrel and trigger retain its alignment. -->
   <ThingDef ParentName="HD_ModularWeaponPartBase">
     <defName>HD_ModularPart_Underbarrel_M203A2_Part</defName><label>M203A2 underbarrel launcher</label>
-    <description>An underbarrel M203A2 assembly. Its 40mm firing mechanism is not yet available.</description>
+    <description>An M203A2 assembly that replaces the HAC URX lower handguard. Its 40mm firing mechanism is not yet available.</description>
     <graphicData><texPath>Weapons/Modular/Tactical/HD_UB_M203A2</texPath></graphicData>
     <comps><li Class="Helodrace.ModernWar.CompProperties_ModularWeaponNode">
       <craftCost><Steel>8</Steel><ComponentIndustrial>2</ComponentIndustrial></craftCost><requiredResearch><li>HelodHighAutomaticRifle</li></requiredResearch>
       <graphicLayer>1</graphicLayer><internalStats><massKg>1.4</massKg><ergonomics>-10</ergonomics><momentOfInertia>0.015</momentOfInertia></internalStats>
-      <mounts><li><id>rail_mount</id><socketTags><li>picatinny</li><li>bottom_rail</li></socketTags><railOccupancy>0.11</railOccupancy><railContactLength>0.10</railContactLength><physicalLength>0.28</physicalLength><physicalCenterOffset>0.035</physicalCenterOffset><railSurface>Bottom</railSurface><transform><position>(0.091,0,-0.023)</position></transform></li></mounts>
+      <mounts>
+        <li><id>urx_lower_mount</id><socketTags><li>hac_urx_lower</li></socketTags><transform><position>(-0.013,0,-0.014)</position></transform></li>
+        <li><id>urx_m4_lower_mount</id><socketTags><li>hac_urx_m4_lower</li></socketTags><transform><position>(-0.016,0,-0.014)</position></transform></li>
+      </mounts>
       <sockets>
         <li><id>launcher_barrel</id><label>M203A2 barrel guide</label><tags><li>m203a2_barrel</li></tags><transform><position>(0.11,0,-0.05)</position></transform></li>
         <li><id>launcher_trigger</id><label>M203A2 trigger group</label><tags><li>m203a2_trigger</li></tags><transform><position>(-0.02,0,-0.07)</position></transform></li>
