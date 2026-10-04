@@ -113,7 +113,7 @@ namespace Helodrace
             for (int i = 0; i < rooms.Length; i++)
             {
                 IntVec3 cell = nextOrigin + new IntVec3(i % width, 0, i / width);
-                Building building = cell.GetEdifice(map) as Building;
+                RaidPhysicalMapCache.For(map).Read(cell, tick, out Building building, out bool walkable);
                 TacticalCellData cached = structure.CachedAt(cell);
                 rooms[i] = structure.RoomAt(cell);
                 bool portal = cached.WallLine || cached.ExteriorAccess || building is Building_Door
@@ -126,7 +126,7 @@ namespace Helodrace
                 }, new RaidKnownCqbCell {
                     Building = portal ? building?.thingIDNumber ?? 0 : 0,
                     Portal = portal,
-                    Usable = cell.Walkable(map) && (rooms[i] > 0 || portal)
+                    Usable = walkable && (rooms[i] > 0 || portal)
                         && (!(building is Building_Door door) || door.Open || door.PawnCanOpen(pawn))
                 }, observed);
                 buildings[i] = known.Building; portals[i] = known.Portal;

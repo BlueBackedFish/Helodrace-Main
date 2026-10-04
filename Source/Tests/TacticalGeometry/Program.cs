@@ -8,6 +8,29 @@ using Helodrace;
 internal static class Program
 {
     private static int checks;
+    private static void CheckObservationServices()
+    {
+        var index = new TacticalSpatialIndex<int>();
+        var random = new Random(7231);
+        var positions = Enumerable.Range(0, 400).Select(id => new { Id = id, X = random.Next(600), Z = random.Next(600) }).ToArray();
+        foreach (var position in positions) index.Add(position.Id, position.X, position.Z);
+        foreach (var source in positions.Take(50))
+        {
+            var candidates = index.Query(source.X, source.Z, 90).ToHashSet();
+            Check(positions.Where(value => (value.X - source.X) * (value.X - source.X)
+                + (value.Z - source.Z) * (value.Z - source.Z) <= 8100).All(value => candidates.Contains(value.Id)),
+                "Spatial broad phase cannot lose an in-range pawn at map edges or chunk boundaries");
+        }
+        index.Clear(); Check(!index.Query(0, 0, 600).Any(), "Spatial rebuild discards departed pawn entries");
+        var budget = new TacticalServiceBudget(96, 10, 32);
+        Check(budget.Grant("A", 0, 96) == 96 && budget.Grant("B", 0, 96) == 0,
+            "A burst cannot exceed the shared observation window");
+        Check(budget.Grant("C", 10, 96) == 0 && budget.Grant("B", 10, 96) == 96,
+            "An older pending unit is served before newly arriving observations");
+        Check(budget.Grant("C", 20, 96) == 96, "Repeated contention does not starve the queued unit");
+        budget.Grant("D", 20, 96);
+        Check(budget.Grant("E", 90, 96) == 96, "A departed queued unit cannot indefinitely block observation");
+    }
     private static void CheckMovementNodes()
     {
         Check(TacticalNodeProgress.Endpoint(9, i => i != 0, i => i, _ => true) == 1,
@@ -469,6 +492,7 @@ internal static class Program
                 TacticalGeometryWorker.Release(blockedTask);
             }
             CheckMovementNodes();
+            CheckObservationServices();
             Console.WriteLine($"PASS: {checks} tactical geometry, movement node, immutable input, codec and worker checks.");
             return 0;
         }

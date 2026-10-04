@@ -42,6 +42,8 @@ internal static class Program
             typeof(Patch_RaidGrenade_NoGunCast), typeof(Patch_RaidGrenade_NoGunAvailable), typeof(Patch_RaidGrenade_DrawHeld),
             typeof(Patch_RaidOpeningObservation_Lean)
         };
+        patches = patches.Concat(new[] { "Spawn", "Despawn", "DoorOpen", "DoorClose" }
+            .Select(name => typeof(RaidTacticalPlan).Assembly.GetType("Helodrace.Patch_RaidPhysicalCache_" + name, true))).ToArray();
         try
         {
             foreach (Type patch in patches)
@@ -49,7 +51,7 @@ internal static class Program
                 HarmonyMethod info = HarmonyMethod.Merge(HarmonyMethodExtensions.GetFromType(patch));
                 MethodInfo target = AccessTools.DeclaredMethod(info.declaringType, info.methodName, info.argumentTypes);
                 if (target == null) throw new Exception("Missing target: " + patch.Name);
-                foreach (MethodInfo hook in patch.GetMethods(BindingFlags.Static | BindingFlags.Public)
+                foreach (MethodInfo hook in patch.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
                     .Where(method => method.Name == "Prefix" || method.Name == "Postfix"))
                     foreach (ParameterInfo parameter in hook.GetParameters())
                     {
@@ -60,6 +62,8 @@ internal static class Program
                             expected = AccessTools.Field(info.declaringType, parameter.Name.Substring(3))?.FieldType;
                         else if (parameter.Name == "__instance") expected = info.declaringType;
                         else if (parameter.Name == "__result") expected = target.ReturnType;
+                        else if (parameter.Name == "__state") expected = AccessTools.Method(patch, "Prefix")
+                            ?.GetParameters().FirstOrDefault(value => value.Name == "__state")?.ParameterType.GetElementType();
                         else expected = target.GetParameters().FirstOrDefault(value => value.Name == parameter.Name)?.ParameterType;
                         if (expected == null || !actual.IsAssignableFrom(expected))
                             throw new Exception(patch.Name + ": invalid binding " + parameter.Name);

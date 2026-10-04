@@ -15,5 +15,7 @@
     <Compile Include="../../Helodrace/Core/TacticalNativeLease.cs" Link="TacticalNativeLease.cs" />
     <Compile Include="../../Helodrace/Core/TacticalMovementMaskKey.cs" Link="TacticalMovementMaskKey.cs" />
     <Compile Include="../../Helodrace/Core/TacticalNativeBudget.cs" Link="TacticalNativeBudget.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalSpatialIndex.cs" Link="TacticalSpatialIndex.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalServiceBudget.cs" Link="TacticalServiceBudget.cs" />
   </ItemGroup>
 </Project>

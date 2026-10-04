@@ -9,7 +9,8 @@ namespace Helodrace
     public sealed partial class MapComponent_RaidTacticalExecution
     {
         private bool ClearObservationLine(IntVec3 source, IntVec3 target) =>
-            GenSight.LineOfSight(source, target, map, true) && !SmokeBetween(source, target);
+            RaidPhysicalMapCache.For(map).ClearLine(source, target, GenTicks.TicksGame,
+                () => GenSight.LineOfSight(source, target, map, true) && !SmokeBetween(source, target));
 
         private bool CanObserveMapCell(List<Pawn> members, IntVec3 cell)
         {
@@ -39,20 +40,25 @@ namespace Helodrace
                 state.Contacts.ScanScheduled = true;
             }
             if (tick - state.Contacts.ScanTick < RaidContactMemory.ScanTicks) return;
-            state.Contacts.ScanTick = tick;
             ConfigureCommunicationKnowledge(state);
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null) return;
             RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(members[0]);
             int radius = unit?.Organization.doctrine?.fieldObservationRadius ?? 90;
             int budget = unit?.Organization.doctrine?.contactLosBudget ?? 96;
+            budget = RaidPhysicalMapCache.For(map).ObservationBudget.Grant(state.UnitId, tick, budget);
+            if (budget == 0) return;
+            state.Contacts.ScanTick = tick;
             var personalSeen = new Dictionary<int, HashSet<int>>();
             var seen = new HashSet<int>();
             var positions = new HashSet<IntVec3>();
             // Cheap distance filtering first; LOS is restricted to the local squad surroundings.
-            List<Pawn> candidates = map.mapPawns.AllPawnsSpawned.Where(value => value.HostileTo(members[0])
-                && members.Any(pawn => pawn.Position.DistanceToSquared(value.Position) <= radius * radius))
-                .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(32).ToList();
+            List<Pawn> candidates = RaidPhysicalMapCache.For(map).Nearby(members, radius, tick)
+                .Where(value => value.HostileTo(members[0]))
+                .Select(enemy => new { Enemy = enemy, Distance = members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position)) })
+                .Where(value => value.Distance <= radius * radius)
+                .OrderBy(value => value.Distance).ThenBy(value => value.Enemy.thingIDNumber)
+                .Take(32).Select(value => value.Enemy).ToList();
             var linked = new HashSet<Pawn>(LinkedObservers(members, state, tick));
             List<Pawn> sources = members.OrderBy(pawn => pawn == unit?.Commander ? 0 : linked.Contains(pawn) ? 1 : 2).ToList();
             int start = state.ObservationCursor, processed = 0;
@@ -82,9 +88,16 @@ namespace Helodrace
             state.Contacts.FinishScan(tick, seen);
             foreach (RaidEnemyContact contact in state.Contacts.Entries.Where(value => !value.Visible
                 && !value.PositionConfirmedEmpty && !positions.Contains(value.Position)))
-                if (members.Where(pawn => pawn == unit?.Commander || IsOpeningSensor(state, pawn))
-                    .Any(pawn => CanObserveContact(pawn, pawn.Position, contact.Position, RaidContactMemory.Radius)))
-                    contact.PositionConfirmedEmpty = true;
+            {
+                foreach (Pawn pawn in sources)
+                {
+                    if (pawn != unit?.Commander && !IsOpeningSensor(state, pawn)) continue;
+                    if (budget-- <= 0) break;
+                    if (CanObserveContact(pawn, pawn.Position, contact.Position, RaidContactMemory.Radius))
+                    { contact.PositionConfirmedEmpty = true; break; }
+                }
+                if (budget <= 0) break;
+            }
             foreach (Pawn observer in sources) CaptureObserverPassages(observer, state, structure, tick, ref budget);
         }
 
