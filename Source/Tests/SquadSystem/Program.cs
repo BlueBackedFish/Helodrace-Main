@@ -527,8 +527,18 @@ internal static class Program
             "One PawnKind supplies the USMC leader/grenadier, automatic rifleman, assistant and rifleman billets");
         Check(modernTeam.requiredRoles.Select(slot => slot.explicitSuccessionOrder).SequenceEqual(new[] { 0, 1, 2, 3 }),
             "The automatic rifleman succeeds the team leader before the assistant and rifleman");
-        Check(FormationPlanner.Plan(600f, modern).Personnel == 4,
-            "A small high-faction raid fields one modern fireteam");
+        Check(FormationPlanner.Plan(600f, modern).Personnel == 0,
+            "High raids below the complete squad budget cannot spawn independent fireteams");
+        Check(modern.availableFormations.All(formation => formation.unitLevel != "Team"),
+            "High fireteams are subdivisions, never independently selectable raid units");
+        foreach (float points in Enumerable.Range(0, 400).Select(index => index * 47f))
+        {
+            var highPlan = FormationPlanner.Plan(points, modern);
+            Check(highPlan.roots.All(formation => formation.unitLevel == "Squad" || formation.unitLevel == "Platoon"),
+                "Every High raid root is a complete squad or platoon");
+            Check(highPlan.Personnel == 0 || highPlan.Personnel >= 13,
+                "High never fields fewer than thirteen personnel");
+        }
         Check(FormationPlanner.Plan(2100f, modern).Personnel == 13,
             "A mid-sized high-faction raid fields one complete squad");
         Check(FormationPlanner.Plan(6800f, modern).Personnel == 43,

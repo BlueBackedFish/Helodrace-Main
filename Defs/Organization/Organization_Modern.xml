@@ -58,7 +58,7 @@
     <directControl>0.5</directControl><fireteamIndependence>0.8</fireteamIndependence>
     <squadCohesion>0.8</squadCohesion><distributedLeadership>0.8</distributedLeadership>
     <availableFormations>
-      <li>HD_Formation_MW_RiflePlatoon</li><li>HD_Formation_MW_RifleSquad</li><li>HD_Formation_MW_Fireteam</li>
+      <li>HD_Formation_MW_RiflePlatoon</li><li>HD_Formation_MW_RifleSquad</li>
     </availableFormations>
   </Helodrace.Squads.DoctrineDef>
 </Defs>
