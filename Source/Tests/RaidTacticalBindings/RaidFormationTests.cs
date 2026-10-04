@@ -28,6 +28,8 @@ internal static class RaidFormationTests
         {
             AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(value, (sbyte)0);
             AccessTools.Field(typeof(Thing), "positionInt").SetValue(value, cell);
+            value.health = (Pawn_HealthTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(value.health, PawnHealthState.Mobile);
         }
         var method = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "AtStagingPosition");
         var plan = new RaidTacticalPlan { BreachCell = cell + IntVec3.East * 2 };
@@ -58,6 +60,28 @@ internal static class RaidFormationTests
             Check(Ready(), "Non-breach regroup retains normal readiness at the assigned tile.");
             assignment.Position = IntVec3.Invalid;
             Check(!Ready(), "No valid safe slot cannot be treated as a completed formation.");
+            var execution = new MapComponent_RaidTacticalExecution(map);
+            var states = (Dictionary<string, MapComponent_RaidTacticalExecution.ExecutionState>)AccessTools.Field(
+                typeof(MapComponent_RaidTacticalExecution), "states").GetValue(execution);
+            plan.Assignments.Add(new RaidTacticalAssignment { Pawn = pawn, Task = RaidTacticalTask.Entry, Position = cell });
+            plan.Assignments.Add(new RaidTacticalAssignment { Pawn = other, Task = RaidTacticalTask.Security, Position = near });
+            var state = new MapComponent_RaidTacticalExecution.ExecutionState { UnitId = "test", ActivePlan = plan };
+            states.Add("test", state);
+            void Index()
+            {
+                AccessTools.Field(typeof(MapComponent_RaidTacticalExecution), "formationIndexTick").SetValue(execution, -1);
+                AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "IndexFormations").Invoke(execution, null);
+            }
+            var indexed = (Dictionary<IntVec3, List<RaidTacticalAssignment>>)AccessTools.Field(
+                typeof(MapComponent_RaidTacticalExecution), "formationIndex").GetValue(execution);
+            Index(); Check(indexed.Count == 2, "Active stack/security claims are indexed together.");
+            state.Phase = RaidExecutionPhase.CrossBreach;
+            Index(); Check(indexed.Count == 1 && indexed.ContainsKey(near), "Crossing entry positions no longer block following formations.");
+            AccessTools.Field(state.GetType(), "SharedOpeningWait").SetValue(state, true);
+            Index(); Check(indexed.Count == 0, "Queued teams do not retain claims on the leading team's stack workspace.");
+            AccessTools.Field(state.GetType(), "SharedOpeningWait").SetValue(state, false);
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(other.health, PawnHealthState.Down);
+            Index(); Check(indexed.Count == 0, "A downed security member releases its future formation claim.");
         }
         finally { Current.Game = previous; }
         Console.WriteLine($"PASS: {checks} native formation tile occupancy and staging readiness checks.");

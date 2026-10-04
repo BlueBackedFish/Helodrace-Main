@@ -10,6 +10,19 @@ internal static class Program
     private static int checks;
     private static void CheckObservationServices()
     {
+        var leases = new TacticalOpeningLeases<int>();
+        bool Nearby(int a, int b) => Math.Abs(a - b) <= 12;
+        Check(leases.Acquire("front", 10, Nearby) && !leases.Acquire("tail", 10, Nearby),
+            "Teams cannot simultaneously claim the same opening workspace");
+        Check(!leases.Acquire("third", 15, Nearby) && leases.Acquire("independent", 90, Nearby),
+            "Overlapping formations queue while independent entrances proceed");
+        leases.Release("front");
+        Check(leases.Acquire("tail", 10, Nearby) && !leases.Acquire("third", 15, Nearby),
+            "A released workspace goes to the oldest waiting team");
+        leases.Prune(owner => owner != "tail");
+        Check(leases.Acquire("third", 15, Nearby), "A destroyed unit does not retain an opening lease");
+        Check(leases.Acquire("third", 150, Nearby) && leases.Acquire("new", 15, Nearby),
+            "Replacing an entrance frees the old workspace instead of retaining a stale lease");
         var cpu = new TacticalCpuSamples(4);
         for (int sample = 1; sample <= 8; sample++) cpu.Add(sample);
         Check(cpu.Percentiles().SequenceEqual(new[] { 6.0, 8.0, 8.0 }) && cpu.TotalSamples == 8

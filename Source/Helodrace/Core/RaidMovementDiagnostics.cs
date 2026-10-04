@@ -4,7 +4,7 @@ namespace Helodrace
 {
     public enum RaidMoveController { Formation, ContactGuard, Reaction, ExteriorIngress }
     public enum RaidMoveBlockReason { None, ContactGuard, GridPreparing, DestinationReserved, InvalidDestination,
-        Unreachable, RetryDelay, Busy, ProtectedJob, UnknownJoin, OpeningWait }
+        Unreachable, RetryDelay, Busy, ProtectedJob, UnknownJoin, OpeningWait, OpeningQueue }
 
     // Runtime observations, not planning state. Tick arguments also allow the
     // request/start/wait lifecycle to be checked without a running game.

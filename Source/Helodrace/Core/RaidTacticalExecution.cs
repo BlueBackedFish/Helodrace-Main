@@ -149,6 +149,7 @@ namespace Helodrace
             internal RaidCqbKnowledge CqbKnowledge = new RaidCqbKnowledge();
             public List<RaidContactGuard> ContactGuards = new List<RaidContactGuard>();
             public bool ContactPause;
+            [System.NonSerialized] internal bool SharedOpeningWait;
             public RaidRoomSecurity RoomSecurity = new RaidRoomSecurity();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
@@ -925,6 +926,7 @@ namespace Helodrace
                 state.ApproachProgressTick = tick;
                 return;
             }
+            if (WaitForSharedOpening(members, plan, state, tick)) return;
             if (state.Phase == RaidExecutionPhase.Complete && state.ClearingRooms
                 && StructureFor(map, plan)?.IsIndoor(plan.Objective) == true
                 && state.RoomSecurity.Rooms.Any(room => room.RecentConcern(tick)))
