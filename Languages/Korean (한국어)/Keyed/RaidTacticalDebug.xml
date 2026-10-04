@@ -3,6 +3,8 @@
   <HD_RaidView_Layout>습격 정적 캐시 방 레이아웃</HD_RaidView_Layout>
   <HD_RaidView_Clearance>습격 방 클리어 상태</HD_RaidView_Clearance>
   <HD_RaidView_Nodes>습격 전술 노드</HD_RaidView_Nodes>
+  <HD_RaidView_Contacts>습격 적 관측 기억</HD_RaidView_Contacts>
+  <HD_RaidView_ContactPortal>마지막 관측 통로</HD_RaidView_ContactPortal>
   <HD_RaidView_Title>전술 표시 · {0}</HD_RaidView_Title>
   <HD_RaidView_Summary>캐시 {0} · {1} · 확보한 방 {2}개</HD_RaidView_Summary>
   <HD_RaidView_Legend>방: 초록 확보 / 노랑 현재 목표 / 빨강 미확보 / 회색 기록 없음.&#10;레이아웃: 방 번호·경계, 흰색 벽, 노랑 문.</HD_RaidView_Legend>

@@ -17,7 +17,8 @@ namespace Helodrace
         public static bool drawRaidRoomLayout;
         public static bool drawRaidRoomClearance;
         public static bool drawRaidTacticalNodes;
-        internal static bool Enabled => drawRaidRoomLayout || drawRaidRoomClearance || drawRaidTacticalNodes;
+        public static bool drawRaidContacts;
+        internal static bool Enabled => drawRaidRoomLayout || drawRaidRoomClearance || drawRaidTacticalNodes || drawRaidContacts;
     }
 
     [HarmonyPatch(typeof(DebugTabMenu_Settings), "InitActions")]
@@ -29,6 +30,7 @@ namespace Helodrace
             Add(__result, nameof(RaidTacticalOverlaySettings.drawRaidRoomLayout), "HD_RaidView_Layout");
             Add(__result, nameof(RaidTacticalOverlaySettings.drawRaidRoomClearance), "HD_RaidView_Clearance");
             Add(__result, nameof(RaidTacticalOverlaySettings.drawRaidTacticalNodes), "HD_RaidView_Nodes");
+            Add(__result, nameof(RaidTacticalOverlaySettings.drawRaidContacts), "HD_RaidView_Contacts");
         }
 
         private static void Add(DebugActionNode root, string fieldName, string key)
@@ -118,7 +120,8 @@ namespace Helodrace
             if (!Visible) { visibleLastFrame = false; return; }
             int enabled = (RaidTacticalOverlaySettings.drawRaidRoomLayout ? 1 : 0)
                 | (RaidTacticalOverlaySettings.drawRaidRoomClearance ? 2 : 0)
-                | (RaidTacticalOverlaySettings.drawRaidTacticalNodes ? 4 : 0);
+                | (RaidTacticalOverlaySettings.drawRaidTacticalNodes ? 4 : 0)
+                | (RaidTacticalOverlaySettings.drawRaidContacts ? 8 : 0);
             CellRect nextView = Find.CameraDriver.CurrentViewRect.ClipInsideMap(map);
             Pawn selectedPawn = Find.Selector.SingleSelectedThing as Pawn;
             string selectedId = RaidTacticalDebugSession.Map == map ? RaidTacticalDebugSession.SelectedOrganizationId : null;
@@ -133,7 +136,7 @@ namespace Helodrace
             visibleLastFrame = true;
             if (mesh != null && mesh.vertexCount > 0)
                 Graphics.DrawMesh(mesh, Vector3.zero, Quaternion.identity, material, 0);
-            if (!RaidTacticalOverlaySettings.drawRaidTacticalNodes) return;
+            if (!RaidTacticalOverlaySettings.drawRaidTacticalNodes && !RaidTacticalOverlaySettings.drawRaidContacts) return;
             for (int i = 1; i < approach.Count; i++)
                 if (view.Contains(approach[i - 1]) || view.Contains(approach[i]))
                     GenDraw.DrawLineBetween(approach[i - 1].ToVector3Shifted(), approach[i].ToVector3Shifted(), SimpleColor.Red, 0.12f);
@@ -165,6 +168,7 @@ namespace Helodrace
             plan = state?.ActivePlan ?? plans?.Plans.FirstOrDefault(value => value.OrganizationId == id);
             status = id != null ? execution?.Status(id) : "HD_RaidView_NoRaid".Translate().ToString();
             CaptureNodes(state);
+            CaptureContacts(state);
             BuildRoomMesh();
         }
 
@@ -202,6 +206,22 @@ namespace Helodrace
             AddNode(state.ApproachSmokeActive ? state.ApproachSmokeTarget : IntVec3.Invalid, "HD_RaidView_Smoke", Color.white);
             foreach (var crossing in state.Crossings.Take(100))
                 AddNode(crossing.Destination, (crossing.Pawn?.LabelShort ?? "?") + ": " + crossing.Progress, EntryColor, false);
+        }
+
+        private void CaptureContacts(MapComponent_RaidTacticalExecution.ExecutionState state)
+        {
+            if (!RaidTacticalOverlaySettings.drawRaidContacts || state?.Contacts == null) return;
+            int tick = GenTicks.TicksGame;
+            foreach (RaidEnemyContact contact in state.Contacts.Entries)
+            {
+                RaidContactConfidence confidence = contact.Confidence(tick);
+                if (confidence == RaidContactConfidence.Expired) continue;
+                Color color = confidence == RaidContactConfidence.Visible ? Color.red
+                    : confidence == RaidContactConfidence.Recent ? Color.yellow : Color.gray;
+                AddNode(contact.Position, $"#{contact.EnemyId} {contact.Label} {confidence} "
+                    + $"{(tick - contact.SeenTick) / 60f:0.0}s R{contact.Room}", color, false);
+                AddNode(contact.Portal, "HD_RaidView_ContactPortal", Color.yellow);
+            }
         }
 
         private void AddNode(IntVec3 cell, string label, Color color, bool translate = true)
@@ -282,7 +302,7 @@ namespace Helodrace
                     if (RaidTacticalOverlaySettings.drawRaidRoomClearance) label += " · " + RoomStateLabel(rooms.State(room.Key));
                     GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(room.Value), label, Color.white);
                 }
-            if (RaidTacticalOverlaySettings.drawRaidTacticalNodes)
+            if (RaidTacticalOverlaySettings.drawRaidTacticalNodes || RaidTacticalOverlaySettings.drawRaidContacts)
                 foreach (KeyValuePair<IntVec3, Node> node in nodes)
                 {
                     Vector2 position = GenMapUI.LabelDrawPosFor(node.Key);

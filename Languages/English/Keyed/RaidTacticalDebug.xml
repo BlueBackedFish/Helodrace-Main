@@ -3,6 +3,8 @@
   <HD_RaidView_Layout>Raid cached room layout</HD_RaidView_Layout>
   <HD_RaidView_Clearance>Raid room clearance state</HD_RaidView_Clearance>
   <HD_RaidView_Nodes>Raid tactical nodes</HD_RaidView_Nodes>
+  <HD_RaidView_Contacts>Raid observed contact memory</HD_RaidView_Contacts>
+  <HD_RaidView_ContactPortal>LAST OBSERVED PASSAGE</HD_RaidView_ContactPortal>
   <HD_RaidView_Title>Tactical view · {0}</HD_RaidView_Title>
   <HD_RaidView_Summary>Cache {0} · {1} · {2} cleared rooms</HD_RaidView_Summary>
   <HD_RaidView_Legend>Rooms: green cleared / yellow target / red uncleared / gray unknown.&#10;Layout: room ID + boundary; white walls, yellow doors.</HD_RaidView_Legend>

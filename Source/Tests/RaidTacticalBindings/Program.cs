@@ -74,6 +74,7 @@ internal static class Program
             CheckOpeningObservation();
             CheckOpeningDoorAndThrowTargets();
             CheckSupportMovementJobGap();
+            RaidContactTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }

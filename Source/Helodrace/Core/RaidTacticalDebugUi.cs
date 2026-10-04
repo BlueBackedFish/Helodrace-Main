@@ -87,6 +87,8 @@ namespace Helodrace
                 "HD_RaidView_Layout".Translate(), ref RaidTacticalOverlaySettings.drawRaidRoomLayout);
             Widgets.CheckboxLabeled(new Rect(inRect.x + 425f, inRect.y + 107f, 300f, 26f),
                 "HD_RaidView_Clearance".Translate(), ref RaidTacticalOverlaySettings.drawRaidRoomClearance);
+            Widgets.CheckboxLabeled(new Rect(inRect.x + 425f, inRect.y + 137f, 300f, 26f),
+                "HD_RaidView_Contacts".Translate(), ref RaidTacticalOverlaySettings.drawRaidContacts);
             bool trace = MapComponent_RaidTacticalTrace.Enabled;
             Widgets.CheckboxLabeled(new Rect(inRect.x + 195f, inRect.y + 73f, 220f, 26f),
                 "Trace tactical job changes", ref trace);
@@ -97,7 +99,7 @@ namespace Helodrace
                 RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalPlans>()
                     .GetPlan(RaidTacticalDebugSession.SelectedOrganization, true);
             }
-            y = Mathf.Max(y + 10f, inRect.y + 142f);
+            y = Mathf.Max(y + 10f, inRect.y + 172f);
             RaidTacticalPlan plan = RaidTacticalDebugSession.SelectedPlan;
             Rect area = new Rect(inRect.x, y, inRect.width, inRect.yMax - y);
             Widgets.DrawMenuSection(area);
@@ -160,6 +162,9 @@ namespace Helodrace
                     + $"returned={observation.ReturnComplete} unavailable={observation.Unavailable} visible cells={observation.VisibleCells.Count} "
                     + $"enemy contact={observation.EnemyCell}");
             report.AppendLine($"Entry method: {plan.EntryMethod}");
+            report.AppendLine("Shared contact memory:");
+            report.Append(RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                ?.StateFor(plan.OrganizationId)?.Contacts.Report(GenTicks.TicksGame));
             report.AppendLine($"Wait before group entry: {plan.EntryDelayTicks} ticks; "
                 + $"coordination allowance: {plan.CoordinationDelayTicks} ticks");
             report.AppendLine("Approach nodes: " + string.Join(" → ", plan.ApproachNodes));

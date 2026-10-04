@@ -139,6 +139,7 @@ namespace Helodrace
             public int ScreenAdvanceUntil;
             public int ObservedEnemiesTick = -30;
             public List<Pawn> ObservedEnemies = new List<Pawn>();
+            public RaidContactMemory Contacts = new RaidContactMemory();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
 
@@ -211,6 +212,8 @@ namespace Helodrace
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Reactions == null)
                     Reactions = new List<RaidReactivePosition>();
                 Scribe_Deep.Look(ref ActivePlan, "activePlan");
+                Scribe_Deep.Look(ref Contacts, "contacts");
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && Contacts == null) Contacts = new RaidContactMemory();
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && Crossings == null)
                     Crossings = new List<BreachCrossing>();
             }
@@ -431,6 +434,7 @@ namespace Helodrace
                     List<Pawn> members = organization.AllMembers.Where(pawn => pawn.Spawned
                         && pawn.Map == map && !pawn.Dead && !pawn.Downed && !pawn.Destroyed
                         && IsTacticalRaider(pawn)).ToList();
+                    if (members.Count > 0) RefreshContacts(members, crossing.ActivePlan, crossing, tick);
                     if (members.Count > 0 && !EmergencyReactions(members, crossing.ActivePlan, crossing, tick)
                         && !RespondToFire(members, crossing.ActivePlan, crossing, tick)
                         && crossing.Phase == RaidExecutionPhase.CrossBreach)
@@ -544,6 +548,7 @@ namespace Helodrace
                         BedSecured = previous?.BedSecured == true,
                         ClearedRoomCells = previous?.ClearedRoomCells
                             ?? new List<IntVec3>(),
+                        Contacts = previous?.Contacts ?? new RaidContactMemory(),
                         Maneuver = plan.Selected.Maneuver,
                         ActivePlan = plan,
                         Phase = RaidExecutionPhase.Assemble,
@@ -837,6 +842,7 @@ namespace Helodrace
         private void Update(CombatOrganization organization, List<Pawn> members,
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            RefreshContacts(members, plan, state, tick);
             if (EmergencyReactions(members, plan, state, tick)) return;
             if (RespondToFire(members, plan, state, tick)) return;
             if (FieldDefense(members, plan, state, tick)) return;

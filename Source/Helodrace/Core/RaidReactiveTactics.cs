@@ -104,13 +104,13 @@ namespace Helodrace
         private List<Pawn> VisibleArmedEnemies(List<Pawn> members, ExecutionState state, int tick)
         {
             if (tick - state.ObservedEnemiesTick < 20) return state.ObservedEnemies
-                .Where(enemy => enemy.Spawned && !enemy.Dead && !enemy.Downed).ToList();
+                .Where(enemy => enemy.Spawned && !enemy.Dead && !enemy.Downed
+                    && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy.Position, 70))).ToList();
             state.ObservedEnemiesTick = tick;
             return state.ObservedEnemies = map.mapPawns.AllPawnsSpawned
             .Where(enemy => !enemy.Dead && !enemy.Downed && enemy.HostileTo(members[0])
                 && enemy.equipment?.Primary != null
-                && members.Any(pawn => pawn.Position.DistanceToSquared(enemy.Position) <= 4900
-                    && GenSight.LineOfSight(pawn.Position, enemy.Position, map, true)))
+                && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy.Position, 70)))
             .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(8).ToList();
         }
 

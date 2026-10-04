@@ -289,8 +289,9 @@ namespace Helodrace
             // Stop at the first real sighting before collecting any more room information.
             foreach (Pawn enemy in map.mapPawns.AllPawnsSpawned)
                 if (!enemy.Dead && !enemy.Downed && enemy.HostileTo(observer) && InTarget(enemy.Position)
-                    && GenSight.LineOfSight(source, enemy.Position, map, true))
+                    && GenSight.LineOfSight(source, enemy.Position, map, true) && !SmokeBetween(source, enemy.Position))
                 {
+                    RecordContact(observer, enemy, state, structure, GenTicks.TicksGame);
                     state.Observation.RecordEnemy(enemy.Position);
                     MapComponent_RaidTacticalTrace.Record(observer, $"Opening contact at {enemy.Position}; end peek and withdraw immediately");
                     return;
