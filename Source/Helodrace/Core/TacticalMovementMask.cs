@@ -3,25 +3,19 @@ using System.Threading;
 
 namespace Helodrace
 {
-    internal struct TacticalMaskRoot
-    {
-        public int X;
-        public int Z;
-        public int Radius;
-    }
-
     internal sealed class TacticalMovementMaskInput
     {
         public TacticalGeometryResult Structure;
         public int Width;
         public int Height;
-        public TacticalMaskRoot[] Roots = Array.Empty<TacticalMaskRoot>();
         public bool Reactive;
         public bool ExteriorOnly;
         public int InitialRoom;
         public int ExcludedRoom;
         public bool SelectedOpeningOnly;
         public int BreachIndex = -1;
+        public bool RestrictPortals;
+        public int[] AllowedPortals = Array.Empty<int>();
         public bool Fight;
         public int FightX;
         public int FightZ;
@@ -37,22 +31,7 @@ namespace Helodrace
         public static ushort[] Calculate(TacticalMovementMaskInput input, CancellationToken cancellation)
         {
             var costs = new ushort[checked(input.Width * input.Height)];
-            if (!input.Reactive)
-            {
-                for (int i = 0; i < costs.Length; i++)
-                {
-                    if ((i & 255) == 0) cancellation.ThrowIfCancellationRequested();
-                    costs[i] = 100;
-                }
-                foreach (TacticalMaskRoot root in input.Roots)
-                {
-                    cancellation.ThrowIfCancellationRequested();
-                    for (int z = Math.Max(0, root.Z - root.Radius); z <= Math.Min(input.Height - 1, root.Z + root.Radius); z++)
-                        for (int x = Math.Max(0, root.X - root.Radius); x <= Math.Min(input.Width - 1, root.X + root.Radius); x++)
-                            if ((x - root.X) * (x - root.X) + (z - root.Z) * (z - root.Z) <= root.Radius * root.Radius)
-                                costs[z * input.Width + x] = 0;
-                }
-            }
+            var portals = new System.Collections.Generic.HashSet<int>(input.AllowedPortals);
             for (int i = 0; i < costs.Length; i++)
             {
                 if ((i & 255) == 0) cancellation.ThrowIfCancellationRequested();
@@ -62,6 +41,7 @@ namespace Helodrace
                         || input.ExcludedRoom > 0 && raw.Room == input.ExcludedRoom
                         || input.SelectedOpeningOnly && i != input.BreachIndex
                             && (raw.Has(TacticalRawFlags.WallLine) || input.Structure.Cells[i].ExteriorAccess));
+                excluded |= input.RestrictPortals && raw.Has(TacticalRawFlags.Door) && !portals.Contains(i);
                 if (input.Fight)
                 {
                     int x = i % input.Width, z = i / input.Width;

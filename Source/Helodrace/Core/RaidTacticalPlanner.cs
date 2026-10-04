@@ -52,7 +52,7 @@ namespace Helodrace
         public int OccupiedRoom;
         public IntVec3 BreachCell = IntVec3.Invalid;
         public IntVec3 BreachInside = IntVec3.Invalid;
-        public List<IntVec3> ApproachNodes = new List<IntVec3>();
+        public List<RaidMovementNode> MovementNodes = new List<RaidMovementNode>();
         public List<IntVec3> ApproachPath = new List<IntVec3>();
         public List<IntVec3> SafeStackCells = new List<IntVec3>();
         public HashSet<IntVec3> SafeSupportCells = new HashSet<IntVec3>();
@@ -85,6 +85,7 @@ namespace Helodrace
             if (unit != null)
                 foreach (RaidTacticalAssignment assignment in plan.Assignments)
                     assignment.GroupId = unit.Groups.FirstOrDefault(group => group.Members.Contains(assignment.Pawn))?.id;
+            if (plan.Success) RaidNodeRoute.Prepare(map, plan, unit.Organization.doctrine);
             plan.PlanningMilliseconds = watch.ElapsedMilliseconds;
             return plan;
         }
@@ -340,9 +341,9 @@ namespace Helodrace
                 && plan.Selected.Maneuver != RaidTacticalManeuver.Regroup)
             {
                 if (plan.PlannedBreach == null) plan.ApproachPath.AddRange(selectedRoute);
-                plan.ApproachNodes.AddRange(RouteTurns(selectedRoute));
+
             }
-            else plan.ApproachNodes.Add(plan.Start);
+
             plan.EntrySupport = RaidTacticalDecision.EntrySupport(plan.Selected.Maneuver, situation);
             int entryRoom = analysis.RoomAt(plan.BreachCell.IsValid ? plan.BreachInside : plan.Objective);
             RaidEntrySupportKind entrySupport = RaidEntryObservationPolicy.Support(entryRoom == 0, analysis.RoomArea(entryRoom));
@@ -392,7 +393,7 @@ namespace Helodrace
             plan.Options.Add(plan.Selected);
             plan.EntrySupport = "None: entry team already occupies this room";
             plan.EntryMethod = "Clear occupied room";
-            plan.ApproachNodes.Add(plan.Start);
+
             List<Pawn> entry = EntryMembers(unit, members);
             foreach (Pawn pawn in members)
                 plan.Assignments.Add(new RaidTacticalAssignment { Pawn = pawn, Position = pawn.Position,
@@ -1246,19 +1247,6 @@ namespace Helodrace
             FieldThreatSnapshot fieldThreat, IntVec3 cell)
         {
             return analysis.CachedAt(cell).TotalThreat + (fieldThreat?.At(cell) ?? 0f);
-        }
-
-        private static IEnumerable<IntVec3> RouteTurns(List<IntVec3> route)
-        {
-            if (route.Count == 0) yield break;
-            yield return route[0];
-            for (int i = 1; i < route.Count - 1; i++)
-            {
-                IntVec3 before = route[i] - route[i - 1];
-                IntVec3 after = route[i + 1] - route[i];
-                if (before != after) yield return route[i];
-            }
-            if (route.Count > 1) yield return route[route.Count - 1];
         }
 
         // Reuse worker-built regions and connect only live doors/breach holes.

@@ -51,7 +51,8 @@ namespace Helodrace
             Scribe_Values.Look(ref OccupiedRoom, "occupiedRoom");
             Scribe_Values.Look(ref BreachCell, "breachCell", IntVec3.Invalid);
             Scribe_Values.Look(ref BreachInside, "breachInside", IntVec3.Invalid);
-            Scribe_Collections.Look(ref ApproachNodes, "approachNodes", LookMode.Value);
+
+            Scribe_Collections.Look(ref MovementNodes, "movementNodes", LookMode.Deep);
             Scribe_Collections.Look(ref ApproachPath, "approachPath", LookMode.Value);
             Scribe_Collections.Look(ref SafeStackCells, "safeStackCells", LookMode.Value);
             Scribe_Collections.Look(ref SafeSupportCells, "safeSupportCells", LookMode.Value);

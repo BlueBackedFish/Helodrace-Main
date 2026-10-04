@@ -33,20 +33,19 @@ namespace Helodrace
 
         public RaidMovementArea(Map map, RaidTacticalPlan plan, RaidStructureSnapshot structure,
             bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null,
-            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false)
+            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, bool nodeApproach = false)
         {
             OwnerPlan = plan;
             MarkRequested();
             input = new TacticalMovementMaskInput {
                 Width = map.Size.x, Height = map.Size.z, Structure = structure?.Version.Geometry,
-                Roots = plan.ApproachPath.Concat(new[] { plan.Start, plan.Entry })
-                    .Where(cell => cell.IsValid).Distinct()
-                    .Select(cell => new TacticalMaskRoot { X = cell.x, Z = cell.z, Radius = 6 })
-                    .Concat(plan.Assignments.Select(assignment => new TacticalMaskRoot {
-                        X = assignment.Position.x, Z = assignment.Position.z, Radius = 3 })).ToArray(),
                 Reactive = reactive, ExteriorOnly = exteriorOnly, InitialRoom = initialRoom,
                 ExcludedRoom = excludedRoom, SelectedOpeningOnly = selectedOpeningOnly,
                 BreachIndex = plan.BreachCell.InBounds(map) ? map.cellIndices.CellToIndex(plan.BreachCell) : -1,
+                RestrictPortals = nodeApproach && (initialRoom == 0 || plan.ApproachPath
+                    .Any(cell => structure?.RoomAt(cell) == initialRoom)),
+                AllowedPortals = nodeApproach ? plan.ApproachPath.Where(cell => cell.InBounds(map))
+                    .Select(cell => map.cellIndices.CellToIndex(cell)).Distinct().ToArray() : Array.Empty<int>(),
                 Fight = fight != null, FightX = fight?.Destination.x ?? 0, FightZ = fight?.Destination.z ?? 0,
                 FightRadius = fight?.Radius ?? 0, FightRoom = fight?.Room ?? 0,
                 LeashX = fight?.LeashCenter.x ?? 0, LeashZ = fight?.LeashCenter.z ?? 0,
@@ -269,15 +268,17 @@ namespace Helodrace
                 && plan.Assignments.Any(assignment => assignment.Pawn == pawn
                     && assignment.Task == RaidTacticalTask.Entry);
             int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;
+            bool nodeApproach = state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete;
             int room = selectedOpeningOnly ? -2 : excludedRoom > 0 ? -3 - (outside ? initialRoom : 0)
                 : outside ? initialRoom : -1;
+            if (nodeApproach) room = 1000000 + initialRoom;
             if (!areas.TryGetValue(plan, out Dictionary<int, RaidMovementArea> versions))
                 areas[plan] = versions = new Dictionary<int, RaidMovementArea>();
             if (!versions.TryGetValue(room, out RaidMovementArea area) || area.Canceled)
             {
                 versions[room] = area = new RaidMovementArea(map, plan, structure,
                     outside, initialRoom,
-                    excludedRoom: excludedRoom, selectedOpeningOnly: selectedOpeningOnly);
+                    excludedRoom: excludedRoom, selectedOpeningOnly: selectedOpeningOnly, nodeApproach: nodeApproach);
                 Queue(area);
             }
             return area;

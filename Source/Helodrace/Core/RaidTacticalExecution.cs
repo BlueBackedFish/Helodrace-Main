@@ -91,6 +91,8 @@ namespace Helodrace
             public int PhaseStarted;
             public int ReadySince = -1;
             public bool ApproachComplete;
+            public int CurrentNode;
+            public List<RaidNodeMemberProgress> NodeMembers = new List<RaidNodeMemberProgress>();
             public int ApproachProgressTick;
             public float ApproachBestRemaining = float.MaxValue;
             public int BreachAttempts;
@@ -167,6 +169,8 @@ namespace Helodrace
                 Scribe_Values.Look(ref PhaseStarted, "phaseStarted");
                 Scribe_Values.Look(ref ReadySince, "readySince", -1);
                 Scribe_Values.Look(ref ApproachComplete, "approachComplete");
+                Scribe_Values.Look(ref CurrentNode, "currentNode");
+                Scribe_Collections.Look(ref NodeMembers, "nodeMembers", LookMode.Deep);
                 Scribe_Values.Look(ref ApproachProgressTick, "approachProgressTick");
                 Scribe_Values.Look(ref ApproachBestRemaining, "approachBestRemaining",
                     float.MaxValue);
@@ -592,6 +596,12 @@ namespace Helodrace
                     }
                     if (previous != null)
                     {
+                        if (ReferenceEquals(previous.ActivePlan, plan))
+                        {
+                            state.CurrentNode = previous.CurrentNode;
+                            state.NodeMembers = previous.NodeMembers;
+                            state.ApproachComplete = previous.ApproachComplete;
+                        }
                         state.Reactions = previous.Reactions;
                         state.DefenseUntil = previous.DefenseUntil;
                         state.DefenseCaller = previous.DefenseCaller;
@@ -621,10 +631,22 @@ namespace Helodrace
                 }
                 Update(unit, members, state.ActivePlan, state, tick);
                 if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete
+                    && !state.ApproachSmokeActive && state.DefenseUntil <= tick && !state.ContactPause
                     && tick - Math.Max(state.ApproachProgressTick, state.PhaseStarted)
                         >= ApproachStallTimeout)
                 {
-                    if (state.ActivePlan.SafeStackCells.Count > 0)
+                    if (state.ActivePlan.MovementNodes.Count > 0)
+                    {
+                        RaidTacticalPlan repaired = RaidTacticalPlanner.MakePlan(map, unit, state.Objective);
+                        if (repaired?.Success == true)
+                        {
+                            MapComponent_RaidTacticalTrace.Record(Commander(unit, members),
+                                $"Node {state.CurrentNode} stalled: repair approach from current positions");
+                            ActivateNextRoomPlan(unit, members, state, repaired, tick);
+                        }
+                        state.ApproachProgressTick = tick;
+                    }
+                    else if (state.ActivePlan.SafeStackCells.Count > 0)
                     {
                         RetargetBlockedStackMembers(members, state.ActivePlan);
                         state.ApproachProgressTick = tick;
@@ -875,10 +897,14 @@ namespace Helodrace
             if (plan.UnitId != unit.Id || state.UnitId != unit.Id) return;
             plan.Assignments.RemoveAll(assignment => !members.Contains(assignment.Pawn));
             RefreshContacts(members, plan, state, tick);
-            if (EmergencyReactions(members, plan, state, tick)) return;
-            if (RespondToFire(members, plan, state, tick)) return;
-            if (RespondToCqbContacts(members, plan, state, tick)) return;
-            if (FieldDefense(members, plan, state, tick)) return;
+            if (EmergencyReactions(members, plan, state, tick)
+                || RespondToFire(members, plan, state, tick)
+                || RespondToCqbContacts(members, plan, state, tick)
+                || FieldDefense(members, plan, state, tick))
+            {
+                state.ApproachProgressTick = tick;
+                return;
+            }
             if (state.Phase == RaidExecutionPhase.Complete && state.ClearingRooms
                 && StructureFor(map, plan)?.IsIndoor(plan.Objective) == true
                 && state.RoomSecurity.Rooms.Any(room => room.RecentConcern(tick)))
@@ -919,9 +945,13 @@ namespace Helodrace
                         state.ExternalSupportAttempted = true;
                         TryRequestExternalSupport(unit, members, plan, state);
                     }
-                    if (FieldDefense(members, plan, state, tick)) break;
-                    if (ApproachScreen(members, plan, state, tick)) break;
-                    if (!FollowApproach(members, plan, state, tick)) break;
+                    if (FieldDefense(members, plan, state, tick)
+                        || ApproachScreen(members, plan, state, tick))
+                    {
+                        state.ApproachProgressTick = tick;
+                        break;
+                    }
+                    if (!FollowNodes(members, plan, state, tick)) break;
                     Assemble(members, plan);
                     bool ready = AllReady(members, plan);
                     if (ready && state.ReadySince < 0) state.ReadySince = tick;
@@ -1466,45 +1496,6 @@ namespace Helodrace
             return plan.Assignments.Where(assignment => assignment.Task == RaidTacticalTask.Entry
                 && members.Contains(assignment.Pawn))
                 .All(assignment => assignment.Pawn.Position.DistanceTo(cell) <= radius);
-        }
-
-        private static bool FollowApproach(List<Pawn> members, RaidTacticalPlan plan,
-            ExecutionState state, int tick)
-        {
-            if (state.ApproachComplete) return true;
-            List<RaidTacticalAssignment> group = plan.Assignments
-                .Where(assignment => assignment.Task != RaidTacticalTask.Withdraw
-                    && members.Contains(assignment.Pawn))
-                .ToList();
-            if (group.Count == 0)
-            {
-                state.ApproachComplete = true;
-                return true;
-            }
-            float remaining = 0f;
-            foreach (RaidTacticalAssignment assignment in group)
-            {
-                Pawn pawn = assignment.Pawn;
-                float distance = AtStagingPosition(assignment, plan) ? 0f
-                    : pawn.Position.DistanceTo(assignment.Position);
-                remaining += distance;
-                if (distance <= 9f || IsTaserOperation(pawn)) continue;
-                TryGoto(pawn, assignment.Position);
-            }
-            if (remaining + 1f < state.ApproachBestRemaining)
-            {
-                state.ApproachBestRemaining = remaining;
-                state.ApproachProgressTick = tick;
-            }
-            if (group.All(assignment => AtStagingPosition(assignment, plan)
-                    || assignment.Pawn.Position.DistanceTo(assignment.Position) <= 9f))
-            {
-                state.ApproachComplete = true;
-                state.PhaseStarted = tick;
-                state.ReadySince = -1;
-                return true;
-            }
-            return false;
         }
 
         private void IssueFlank(List<Pawn> members, RaidTacticalPlan plan)
@@ -2398,6 +2389,8 @@ namespace Helodrace
             state.PlanKey = PlanKey(unit, members);
             state.ReadySince = -1;
             state.ApproachComplete = false;
+            state.CurrentNode = 0;
+            state.NodeMembers.Clear();
             state.ApproachProgressTick = tick;
             state.ApproachBestRemaining = float.MaxValue;
             state.BreachAttempts = 0;

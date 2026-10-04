@@ -208,8 +208,13 @@ namespace Helodrace
             AddNode(plan.FinalObjective, "HD_RaidView_Final", ObjectiveColor);
             AddNode(plan.Frontline, "HD_RaidView_Front", Color.red);
             AddNode(plan.Flank, "HD_RaidView_Flank", SecurityColor);
-            approach.AddRange(plan.ApproachNodes.Where(cell => cell.InBounds(map)).Take(128));
-            for (int i = 0; i < approach.Count; i++) AddNode(approach[i], "A" + (i + 1), Color.red, false);
+            approach.AddRange(plan.MovementNodes.Select(node => node.Center).Where(cell => cell.InBounds(map)).Take(128));
+            for (int i = 0; i < approach.Count; i++) AddNode(approach[i], "N" + i
+                + (state?.CurrentNode == i ? " CURRENT" : ""),
+                state != null && i < state.CurrentNode ? Color.gray : Color.cyan, false);
+            if (state != null && state.CurrentNode < plan.MovementNodes.Count)
+                foreach (IntVec3 cell in plan.MovementNodes[state.CurrentNode].ArrivalCells)
+                    AddNode(cell, "", Color.cyan, false);
             foreach (RaidTacticalAssignment assignment in plan.Assignments.Take(100))
             {
                 string label = assignment.Pawn?.LabelShort ?? "?";

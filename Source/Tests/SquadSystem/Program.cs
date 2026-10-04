@@ -515,6 +515,14 @@ internal static class Program
                 name + " forbids drop-pod raid arrivals");
         }
         var modernTeam = (FormationDef)defs["HD_Formation_MW_Fireteam"];
+        Check(modern.movementNodeSpan == 16 && modern.movementArrivalRadius == 3
+            && modern.movementPortalRadius == 2 && modern.movementArrivalRefreshTicks == 60
+            && modern.movementDestinationRetryTicks == 120,
+            "Doctrine provides bounded movement node defaults independently of PawnKinds");
+        modern.movementPortalRadius = 7;
+        Check(modern.ConfigErrors().Any(error => error.Contains("Movement node")),
+            "Invalid arrival sizes are rejected rather than turning local refresh into map-wide work");
+        modern.movementPortalRadius = 2;
         Check(modernTeam.requiredRoles[2].apparelLoadout.Single().defName == "HD_Apparel_GW_Sledgehammer"
             && ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).childFormations.Single().count == 3,
             "Each High fireteam assistant carries a backup hammer, giving three per squad");

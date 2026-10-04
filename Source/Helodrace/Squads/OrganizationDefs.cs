@@ -151,6 +151,11 @@ namespace Helodrace.Squads
         public float fireteamIndependence;
         public float squadCohesion;
         public float distributedLeadership;
+        public int movementNodeSpan = 16;
+        public int movementArrivalRadius = 3;
+        public int movementPortalRadius = 2;
+        public int movementArrivalRefreshTicks = 60;
+        public int movementDestinationRetryTicks = 120;
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -162,6 +167,11 @@ namespace Helodrace.Squads
                 yield return "Command delays cannot be negative.";
             if (actingCommandEfficiency < 0 || actingCommandEfficiency > 1)
                 yield return "Command efficiency must be between 0 and 1.";
+            if (movementNodeSpan < 1 || movementNodeSpan > 64
+                || movementArrivalRadius < 1 || movementArrivalRadius > 6
+                || movementPortalRadius < 1 || movementPortalRadius > 6
+                || movementArrivalRefreshTicks < 1 || movementDestinationRetryTicks < 1)
+                yield return "Movement node settings exceed their bounded work limits.";
         }
     }
 

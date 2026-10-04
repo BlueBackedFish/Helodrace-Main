@@ -8,6 +8,56 @@ using Helodrace;
 internal static class Program
 {
     private static int checks;
+    private static void CheckMovementNodes()
+    {
+        Check(TacticalNodeProgress.Select(0, _ => false, (_, _) => true).Count == 0,
+            "An absent route cannot fabricate a movement node");
+        var open = TacticalNodeProgress.Select(65, _ => false, (_, _) => true);
+        Check(open.SequenceEqual(new[] { 0, 16, 32, 48, 64 }),
+            "Open field routes use sparse waypoints rather than one order per tile");
+        var portals = TacticalNodeProgress.Select(20, index => index == 7 || index == 8,
+            (_, _) => true);
+        Check(portals.Contains(7) && portals.Contains(8), "Required portal transitions cannot be skipped");
+        var corner = TacticalNodeProgress.Select(12, _ => false, (from, to) => !(from < 5 && to > 5));
+        Check(corner.Contains(5), "A blocked diagonal cannot connect nodes through a corner wall");
+        Check(TacticalNodeProgress.CanAdvance(13, 9, true, false)
+            && !TacticalNodeProgress.CanAdvance(13, 8, true, false),
+            "The lead advances with a two-thirds transit quorum without returning for the tail");
+        Check(!TacticalNodeProgress.CanAdvance(13, 12, true, true)
+            && TacticalNodeProgress.CanAdvance(13, 13, true, true),
+            "A final gather waits for active members, without requiring simultaneous exact-tile occupancy");
+        Check(!TacticalNodeProgress.CanAdvance(13, 13, false, false),
+            "A missing essential actor blocks the advance");
+        Check(TacticalNodeProgress.CanAdvance(0, 0, false, true), "No dead or downed members remain in a quorum");
+        Check(TacticalNodeProgress.Arrive(3, 5, 8, _ => false) == 3,
+            "Temporary evasion cannot reset already completed nodes");
+        Check(TacticalNodeProgress.Arrive(1, 5, 8, index => index != 2) == 1,
+            "A late member cannot jump over an unvisited required node");
+        Check(TacticalNodeProgress.Arrive(1, 5, 8, index => index <= 3) == 3,
+            "A tail member follows its own unfinished sequence without moving the lead backwards");
+        Check(TacticalNodeProgress.Arrive(7, 99, 8, _ => true) == 7,
+            "Completed routes stay complete after restore or a repeated update");
+        Check(!TacticalNodeProgress.WalkLine(0, 0, 2, 2, (x, z) => !(x == 1 && z == 0)),
+            "A diagonal shoulder wall prevents a corner shortcut");
+        Check(!TacticalNodeProgress.WalkLine(0, 0, 6, 0, (x, z) => x != 3),
+            "A solid wall prevents a false straight node connection");
+        Check(TacticalNodeProgress.WalkLine(0, 0, 6, 0, (_, _) => true),
+            "A physically opened connection is usable without restoring a route leash");
+        Check(TacticalNodeProgress.CanAdvance(13, 2, false, false, 3),
+            "A three-cell doorway wait area releases the lead before it blocks the rest of the squad");
+        Check(!TacticalNodeProgress.CanAdvance(13, 2, true, true, 3),
+            "A final gather still tracks every living member even in a small area");
+        Check(!TacticalNodeProgress.CanAdvance(13, 0, true, false, 0),
+            "A physically blocked arrival area cannot complete a connection");
+        Check(!TacticalNodeProgress.AllowsStep(1, 0, true, false, room => room == 0 || room == 1),
+            "A physically reachable but unselected door is rejected at the crossing");
+        Check(TacticalNodeProgress.AllowsStep(1, 0, true, true, room => room == 0 || room == 1),
+            "The selected doorway is accepted");
+        Check(TacticalNodeProgress.AllowsStep(3, 0, true, false, room => room == 0 || room == 1),
+            "An evaded pawn can exit its off-route room to rejoin the valid connection");
+        Check(!TacticalNodeProgress.AllowsStep(1, 3, false, false, room => room == 0 || room == 1),
+            "A new hole into an unselected room is not silently used as a shortcut");
+    }
     private static void Check(bool value, string message)
     {
         checks++;
@@ -70,7 +120,7 @@ internal static class Program
                 "An open or authorized door joins both regions and its own cell");
             Check(!closedGraph.Connected(14, 20), "A new door overlay cannot mutate another plan's closed graph");
             var maskInput = new TacticalMovementMaskInput {
-                Width = 7, Height = 5, Structure = geometry, Roots = Array.Empty<TacticalMaskRoot>(),
+                Width = 7, Height = 5, Structure = geometry,
                 Reactive = true, InitialRoom = 1
             };
             ushort[] reactionMask = TacticalMovementMask.Calculate(maskInput, CancellationToken.None);
@@ -79,12 +129,19 @@ internal static class Program
             maskInput.Reactive = false;
             maskInput.ExteriorOnly = true;
             maskInput.InitialRoom = 0;
-            maskInput.Roots = new[] { new TacticalMaskRoot { X = 3, Z = 2, Radius = 2 } };
             ushort[] exteriorMask = TacticalMovementMask.Calculate(maskInput, CancellationToken.None);
-            Check(exteriorMask[16] == 0 && exteriorMask[0] == 100,
-                "A broad corridor reduces cost while off-corridor cells remain usable");
+            Check(exteriorMask[16] == 0 && exteriorMask[0] == 0,
+                "Waypoint movement leaves walkable detours at vanilla cost instead of pulling pawns back to a route line");
             Check(exteriorMask[18] == ushort.MaxValue,
                 "A corridor overlapping the interior cannot override exterior staging restrictions");
+            maskInput.RestrictPortals = true;
+            Check(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)[doorIndex] == ushort.MaxValue,
+                "Node approach discourages every unselected door instead of allowing a detour through a different entry");
+            maskInput.AllowedPortals = new[] { doorIndex };
+            maskInput.ExteriorOnly = false;
+            Check(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)[doorIndex] == 0,
+                "Only the planned portal retains vanilla passage cost");
+            maskInput.RestrictPortals = false;
             maskInput.ExteriorOnly = false;
             maskInput.SelectedOpeningOnly = true;
             maskInput.BreachIndex = doorIndex;
@@ -226,7 +283,8 @@ internal static class Program
                     "Default task scheduling runs the pure calculation on a different thread");
                 TacticalGeometryWorker.Release(blockedTask);
             }
-            Console.WriteLine($"PASS: {checks} tactical geometry, immutable input, codec and worker checks.");
+            CheckMovementNodes();
+            Console.WriteLine($"PASS: {checks} tactical geometry, movement node, immutable input, codec and worker checks.");
             return 0;
         }
         catch (Exception exception) { Console.Error.WriteLine(exception); return 1; }
