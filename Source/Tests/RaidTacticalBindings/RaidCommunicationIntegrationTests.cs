@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Helodrace;
+using Helodrace.ModernWar;
 using Helodrace.Squads;
 using RimWorld;
 using Verse;
@@ -49,6 +50,36 @@ internal static class RaidCommunicationIntegrationTests
             doctrine.voiceContactRange = 8; doctrine.communicationAckTicks = 20;
             var formation = (FormationDef)RuntimeHelpers.GetUninitializedObject(typeof(FormationDef)); formation.unitLevel = "Squad";
             var pawnDef = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef)); pawnDef.defName = "RadioTestPawn";
+            var armor = new Apparel { def = pawnDef };
+            var armorComp = new CompModularArmor { parent = armor, props = new CompProperties_ModularArmor() };
+            AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(armor, new List<ThingComp> { armorComp });
+            var radioDef = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef)); radioDef.useHitPoints = true;
+            var radioItem = new ThingWithComps { def = radioDef, HitPoints = 80 };
+            var installedRadio = new CompTacticalRadio { parent = radioItem, props = new CompProperties_TacticalRadio() };
+            AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(radioItem, new List<ThingComp> { installedRadio });
+            var mounted = new InstalledModularArmorPart();
+            // Supply the installed holder without invoking game-wide DLC/DefOf notifications.
+            var holder = (ThingOwner<Thing>)mounted.GetDirectlyHeldThings();
+            ((List<Thing>)AccessTools.Field(typeof(ThingOwner<Thing>), "innerList").GetValue(holder)).Add(radioItem);
+            var installed = new List<InstalledModularArmorPart> { mounted };
+            AccessTools.Field(typeof(CompModularArmor), "installedParts").SetValue(armorComp, installed);
+            List<CompTacticalRadio> MountedRadios(params Apparel[] worn) => ((IEnumerable<CompTacticalRadio>)
+                AccessTools.Method(typeof(RaidTacticalRadioUtility), "InstalledRadios").Invoke(null, new object[] { worn })).ToList();
+            Check(MountedRadios(armor).Single() == installedRadio,
+                "Actual radio item nested in worn modular armor is discovered.");
+            var tablet = new Apparel { def = pawnDef };
+            AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(tablet, new List<ThingComp> {
+                new CompTacticalRadio { parent = tablet, props = new CompProperties_TacticalRadio() } });
+            Check(MountedRadios(tablet).Count == 0, "A directly worn temporary tablet cannot substitute for an armor radio module.");
+            installed.Clear();
+            Check(MountedRadios(armor).Count == 0, "Removing the mounted module removes radio availability.");
+            installed.Add(new InstalledModularArmorPart());
+            Check(MountedRadios(armor).Count == 0, "A part record without its physical installed item does not provide a radio.");
+            installed.Clear(); installed.Add(mounted); radioItem.HitPoints = 0;
+            Check(MountedRadios(armor).Count == 0, "Broken installed radio hardware cannot communicate.");
+            radioItem.HitPoints = 80;
+            Check(MountedRadios(armor).Count == 1, "Restoring working installed radio hardware restores availability.");
+            Check(MountedRadios().Count == 0, "Removing the vest removes radio availability even though its module still exists.");
             var a = new Pawn { thingIDNumber = 51001, def = pawnDef, Position = new IntVec3(1, 0, 1) };
             var b = new Pawn { thingIDNumber = 51002, def = pawnDef, Position = new IntVec3(70, 0, 70) };
             var receivingSoldier = new Pawn { thingIDNumber = 51003, def = pawnDef, Position = new IntVec3(71, 0, 70) };

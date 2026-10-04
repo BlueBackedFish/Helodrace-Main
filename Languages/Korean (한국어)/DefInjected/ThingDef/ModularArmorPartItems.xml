@@ -17,7 +17,7 @@
   <HD_ModularPart_RifleMagazinePouch.label>소총 탄창 파우치 모듈</HD_ModularPart_RifleMagazinePouch.label>
   <HD_ModularPart_RifleMagazinePouch.description>PALS 부착망에서 2칸을 차지하는 탈착식 소총 탄창 파우치입니다.</HD_ModularPart_RifleMagazinePouch.description>
   <HD_ModularPart_WalkieTalkie.label>무전기 파우치 모듈</HD_ModularPart_WalkieTalkie.label>
-  <HD_ModularPart_WalkieTalkie.description>PALS 부착망에서 2칸을 차지하는 무전기 파우치입니다.</HD_ModularPart_WalkieTalkie.description>
+  <HD_ModularPart_WalkieTalkie.description>PALS 부착망에서 2칸을 차지하는 무전기 파우치입니다. 착용 중인 방탄복에 장착하면 호환되는 보병 무전망에서 전술 보고를 주고받을 수 있습니다.</HD_ModularPart_WalkieTalkie.description>
   <HD_ModularPart_MediL.label>대형 의료 파우치 모듈</HD_ModularPart_MediL.label>
   <HD_ModularPart_MediL.description>기본적으로 6칸을 차지하며, 가랑이처럼 좁은 부착망에서는 모든 칸을 채우는 의료 파우치입니다.</HD_ModularPart_MediL.description>
   <HD_ModularPart_AdminPouch.label>어드민 파우치 모듈</HD_ModularPart_AdminPouch.label>

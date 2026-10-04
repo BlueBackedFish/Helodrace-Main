@@ -131,7 +131,8 @@
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_WalkieTalkie</defName>
     <label>walkie-talkie pouch module</label>
-    <description>A two-cell radio pouch for PALS webbing.</description>
+    <description>A two-cell radio pouch for PALS webbing. Installed on worn body armor, its radio exchanges tactical reports with compatible infantry sets.</description>
+    <comps><li Class="Helodrace.CompProperties_TacticalRadio"><network>ModernInfantry</network><range>300</range></li></comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/WalkieTalkie/Side/HD_IBTV_Side_WalkieTalkie_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>120</MarketValue><Mass>0.35</Mass><WorkToMake>1400</WorkToMake></statBases>
     <costList><Cloth>10</Cloth><ComponentIndustrial>1</ComponentIndustrial></costList>

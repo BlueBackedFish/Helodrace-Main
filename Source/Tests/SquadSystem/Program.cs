@@ -324,7 +324,6 @@ internal static class Program
         defs.Add("HD_C4_Charge", new ThingDef { defName = "HD_C4_Charge" });
         defs.Add("HD_M81Igniter", new ThingDef { defName = "HD_M81Igniter" });
         defs.Add("HD_40mmM381HE_Round", new ThingDef { defName = "HD_40mmM381HE_Round" });
-        defs.Add("HD_MilitaryTablet", new ThingDef { defName = "HD_MilitaryTablet", IsApparel = true });
         defs.Add("HD_Apparel_ZaperX26_Device", new ThingDef
             { defName = "HD_Apparel_ZaperX26_Device", IsApparel = true });
         defs.Add("HD_Apparel_GW_Sledgehammer", new ThingDef
@@ -536,23 +535,28 @@ internal static class Program
             && modernTeam.requiredRoles[1].weaponPreset?.defName == "HD_WeaponPreset_M249_USMC"
             && modernTeam.requiredRoles.Skip(2).All(slot => slot.weaponPreset == null),
             "High specialists override their weapon presets while riflemen retain the common PawnKind loadout");
-        Check(modernTeam.requiredRoles[0].inventoryLoadout.Count == 7
-            && modernTeam.requiredRoles[0].inventoryLoadout.Count(item => item.defName == "HD_40mmM381HE_Round") == 6
-            && modernTeam.requiredRoles[0].inventoryLoadout.Count(item => item.defName == "HD_MilitaryTablet") == 1,
-            "Each launcher operator receives six compatible HE rounds and a carried tactical radio tablet");
-        int Radios(FormationDef formation) => formation.Slots.Sum(slot => slot.count
-            * slot.inventoryLoadout.Count(item => item.defName == "HD_MilitaryTablet"))
-            + formation.childFormations.Sum(child => child.count * Radios(child.formation));
-        Check(Radios(modernTeam) == 1 && Radios((FormationDef)defs["HD_Formation_MW_RifleSquad"]) == 4
-            && Radios((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]) == 13,
-            "Actual 13-person High squad equips its leader and three team leaders with radios; headquarters also has a set");
+        Check(modernTeam.requiredRoles[0].inventoryLoadout.Count == 6
+            && modernTeam.requiredRoles[0].inventoryLoadout.All(item => item.defName == "HD_40mmM381HE_Round"),
+            "Each launcher operator receives six compatible HE rounds without a temporary tablet");
+        Check(new[] { modernTeam, (FormationDef)defs["HD_Formation_MW_RifleSquad"], (FormationDef)defs["HD_Formation_MW_RiflePlatoon"] }
+            .SelectMany(formation => formation.Slots).All(slot => !slot.inventoryLoadout.Any(item => item.defName == "HD_MilitaryTablet")),
+            "High team, squad and platoon billets never issue temporary tablets");
         Check(((DoctrineDef)defs["HD_Doctrine_Modern"]).tacticalRadio && !doctrine.tacticalRadio,
             "Actual High/LOW doctrines select equipment-based radio and physical contact respectively");
         XElement tablet = XDocument.Load(Path.Combine(root, "Defs/ModernWar/Items/Apparel_ModernWar.xml"))
             .Root.Elements("ThingDef").Single(node => (string)node.Element("defName") == "HD_MilitaryTablet");
-        Check(tablet.Element("comps").Elements("li").Any(node => (string)node.Attribute("Class") == "Helodrace.CompProperties_TacticalRadio"
+        Check(!tablet.Element("comps").Elements("li").Any(node => (string)node.Attribute("Class") == "Helodrace.CompProperties_TacticalRadio"),
+            "The temporary tablet does not provide tactical radio hardware");
+        XElement radioModule = XDocument.Load(Path.Combine(root, "Defs/ModernWar/Items/ModularArmorPartItems.xml"))
+            .Root.Elements("ThingDef").Single(node => (string)node.Element("defName") == "HD_ModularPart_WalkieTalkie");
+        Check(radioModule.Element("comps").Elements("li").Any(node => (string)node.Attribute("Class") == "Helodrace.CompProperties_TacticalRadio"
             && (string)node.Element("network") == "ModernInfantry" && (int?)node.Element("range") == 300),
-            "The carried tablet has real compatible radio hardware rather than a faction-name shortcut");
+            "The armor radio module contains the actual compatible radio hardware");
+        XElement armorPreset = XDocument.Load(Path.Combine(root, "Defs/ModernWar/ModularLoadoutPresets.xml"))
+            .Root.Elements("Helodrace.ModernWar.ModularArmorPresetDef").Single(node => (string)node.Element("defName") == "HD_ArmorPreset_IBTV_Rifleman");
+        Check(armorPreset.Element("palsParts").Elements("li").Any(node => (string)node.Element("part") == "HD_IOTVPart_WalkieTalkie")
+            && highKind.Descendants("armorPresets").Elements("li").Any(node => node.Value == "HD_ArmorPreset_IBTV_Rifleman"),
+            "Every High rifleman receives the existing armor preset with an installed radio module");
         Check(modernTeam.requiredRoles.Select(slot => slot.combatRole.defName).SequenceEqual(new[] {
             "HD_Role_Grenadier", "HD_Role_AutomaticRifleman", "HD_Role_AssistantAutomaticRifleman", "HD_Role_Rifleman" }),
             "One PawnKind supplies the USMC leader/grenadier, automatic rifleman, assistant and rifleman billets");

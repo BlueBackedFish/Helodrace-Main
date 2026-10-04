@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Helodrace.ModernWar;
 using RimWorld;
 using Verse;
 
@@ -34,9 +35,14 @@ namespace Helodrace
         public static IEnumerable<CompTacticalRadio> Radios(Pawn pawn)
         {
             if (!OperatorAvailable(pawn)) return Enumerable.Empty<CompTacticalRadio>();
-            return (pawn.inventory?.innerContainer.Cast<Thing>() ?? Enumerable.Empty<Thing>())
-                .Concat(pawn.apparel?.WornApparel.Cast<Thing>() ?? Enumerable.Empty<Thing>())
-                .Select(thing => thing.TryGetComp<CompTacticalRadio>()).Where(radio => radio?.Operational == true);
+            return InstalledRadios(pawn.apparel?.WornApparel ?? Enumerable.Empty<Apparel>());
         }
+
+        internal static IEnumerable<CompTacticalRadio> InstalledRadios(IEnumerable<Apparel> worn) => worn
+            .Where(armor => !armor.Destroyed && (!armor.def.useHitPoints || armor.HitPoints > 0))
+            .Select(armor => armor.TryGetComp<CompModularArmor>()).Where(armor => armor != null)
+            .SelectMany(armor => armor.InstalledParts)
+            .Select(part => part?.InstalledItem?.TryGetComp<CompTacticalRadio>())
+            .Where(radio => radio?.Operational == true);
     }
 }
