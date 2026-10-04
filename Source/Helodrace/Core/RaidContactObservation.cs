@@ -7,9 +7,16 @@ namespace Helodrace
 {
     public sealed partial class MapComponent_RaidTacticalExecution
     {
+        private bool ClearObservationLine(IntVec3 source, IntVec3 target) =>
+            GenSight.LineOfSight(source, target, map, true) && !SmokeBetween(source, target);
+
+        private bool CanObserveContact(Pawn observer, IntVec3 source, Pawn target, int radius) =>
+            RaidObservationSight.CanSeePawn(map, source, target, radius,
+                source == observer.Position, ClearObservationLine);
+
         private bool CanObserveContact(Pawn observer, IntVec3 source, IntVec3 cell, int radius) =>
             source.DistanceToSquared(cell) <= radius * radius
-            && GenSight.LineOfSight(source, cell, map, true) && !SmokeBetween(source, cell);
+            && ClearObservationLine(source, cell);
 
         private void RefreshContacts(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
@@ -23,7 +30,7 @@ namespace Helodrace
             foreach (Pawn enemy in map.mapPawns.AllPawnsSpawned.Where(value => value.HostileTo(members[0])))
             {
                 Pawn observer = members.FirstOrDefault(pawn => CanObserveContact(pawn, pawn.Position,
-                    enemy.Position, RaidContactMemory.Radius));
+                    enemy, RaidContactMemory.Radius));
                 if (observer == null) continue;
                 seen.Add(enemy.thingIDNumber); positions.Add(enemy.Position);
                 if (enemy.Dead || enemy.Downed)

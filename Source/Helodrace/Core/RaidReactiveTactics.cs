@@ -109,12 +109,12 @@ namespace Helodrace
         {
             if (tick - state.ObservedEnemiesTick < 20) return state.ObservedEnemies
                 .Where(enemy => enemy.Spawned && !enemy.Dead && !enemy.Downed
-                    && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy.Position, 70))).ToList();
+                    && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy, 70))).ToList();
             state.ObservedEnemiesTick = tick;
             return state.ObservedEnemies = map.mapPawns.AllPawnsSpawned
             .Where(enemy => !enemy.Dead && !enemy.Downed && enemy.HostileTo(members[0])
                 && enemy.equipment?.Primary != null
-                && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy.Position, 70)))
+                && members.Any(pawn => CanObserveContact(pawn, pawn.Position, enemy, 70)))
             .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(8).ToList();
         }
 
@@ -143,7 +143,7 @@ namespace Helodrace
                         || enemy.stances.curStance is Stance_Busy stance && members.Contains(stance.focusTarg.Thing as Pawn)
                         || tick - enemy.mindState.lastAttackTargetTick <= 90
                             && members.Contains(enemy.mindState.lastAttackedTarget.Thing as Pawn);
-                    return RaidReactivePolicy.Outranged(GenSight.LineOfSight(pawn.Position, enemy.Position, map, true),
+                    return RaidReactivePolicy.Outranged(CanObserveContact(pawn, pawn.Position, enemy, 70),
                         aiming, SmokeBetween(enemy.Position, pawn.Position), GunRange(enemy), GunRange(pawn),
                         pawn.Position.DistanceTo(enemy.Position));
                 });

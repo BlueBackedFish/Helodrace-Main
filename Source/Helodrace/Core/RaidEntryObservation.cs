@@ -292,7 +292,7 @@ namespace Helodrace
             // Stop at the first real sighting before collecting any more room information.
             foreach (Pawn enemy in map.mapPawns.AllPawnsSpawned)
                 if (!enemy.Dead && !enemy.Downed && enemy.HostileTo(observer) && InTarget(enemy.Position)
-                    && GenSight.LineOfSight(source, enemy.Position, map, true) && !SmokeBetween(source, enemy.Position))
+                    && CanObserveContact(observer, source, enemy, 14))
                 {
                     RecordContact(observer, enemy, state, structure, GenTicks.TicksGame);
                     state.Observation.RecordEnemy(enemy.Position);
