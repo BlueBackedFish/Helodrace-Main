@@ -11,7 +11,7 @@ namespace Helodrace
     public static class RaidTacticalDebugSession
     {
         public static Map Map;
-        public static string SelectedOrganizationId;
+        public static string SelectedUnitId;
 
         public static void Open(Map map)
         {
@@ -19,23 +19,23 @@ namespace Helodrace
             if (Map != map)
             {
                 Map = map;
-                SelectedOrganizationId = null;
+                SelectedUnitId = null;
             }
             if (!Find.WindowStack.IsOpen<Dialog_RaidTacticalPlans>())
                 Find.WindowStack.Add(new Dialog_RaidTacticalPlans());
         }
 
-        public static CombatOrganization SelectedOrganization => OrganizationAPI.Registry
-            ?.Organizations.FirstOrDefault(organization => organization.id == SelectedOrganizationId
-                && organization.AllMembers.Any(pawn => pawn.Spawned && pawn.Map == Map));
+        public static RaidTacticalUnit SelectedUnit => RaidTacticalUnit.All
+            .FirstOrDefault(unit => unit.Id == SelectedUnitId
+                && unit.Members.Any(pawn => pawn.Spawned && pawn.Map == Map));
 
         public static RaidTacticalPlan SelectedPlan
         {
             get
             {
-                string id = SelectedOrganization?.id;
+                string id = SelectedUnit?.Id;
                 return id == null ? null : Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(id)?.ActivePlan
-                    ?? Map?.GetComponent<MapComponent_RaidTacticalPlans>()?.Plans.FirstOrDefault(plan => plan.OrganizationId == id);
+                    ?? Map?.GetComponent<MapComponent_RaidTacticalPlans>()?.Plans.FirstOrDefault(plan => plan.UnitId == id);
             }
         }
     }
@@ -58,27 +58,26 @@ namespace Helodrace
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, 32f), "Raid tactical planning");
             Text.Font = GameFont.Small;
-            List<CombatOrganization> organizations = OrganizationAPI.Registry?.Organizations
-                .Where(organization => organization.AllMembers.Any(pawn => pawn.Spawned
-                    && pawn.Map == RaidTacticalDebugSession.Map)).ToList()
-                ?? new List<CombatOrganization>();
+            List<RaidTacticalUnit> units = RaidTacticalUnit.All
+                .Where(unit => unit.Members.Any(pawn => pawn.Spawned
+                    && pawn.Map == RaidTacticalDebugSession.Map)).ToList();
             float y = inRect.y + 42f;
-            if (organizations.Count == 0)
+            if (units.Count == 0)
             {
                 Widgets.Label(new Rect(inRect.x, y, inRect.width, 50f),
                     "No active organized raid is present on this map.");
                 return;
             }
-            if (!organizations.Any(organization => organization.id == RaidTacticalDebugSession.SelectedOrganizationId))
-                RaidTacticalDebugSession.SelectedOrganizationId = organizations[0].id;
-            foreach (CombatOrganization organization in organizations.Take(5))
+            if (!units.Any(unit => unit.Id == RaidTacticalDebugSession.SelectedUnitId))
+                RaidTacticalDebugSession.SelectedUnitId = units[0].Id;
+            if (Widgets.ButtonText(new Rect(inRect.x, y, 180f, 28f),
+                RaidTacticalDebugSession.SelectedUnit?.Label ?? "Select unit"))
             {
-                string label = organization.id == RaidTacticalDebugSession.SelectedOrganizationId
-                    ? "● " + organization.id : organization.id;
-                if (Widgets.ButtonText(new Rect(inRect.x, y, 180f, 28f), label))
-                    RaidTacticalDebugSession.SelectedOrganizationId = organization.id;
-                y += 32f;
+                Find.WindowStack.Add(new FloatMenu(units.Select(unit => new FloatMenuOption(
+                    unit.Label + " [" + unit.Id + "]",
+                    () => RaidTacticalDebugSession.SelectedUnitId = unit.Id)).ToList()));
             }
+            y += 32f;
             bool overlay = RaidTacticalOverlaySettings.drawRaidTacticalNodes;
             Widgets.CheckboxLabeled(new Rect(inRect.x + 195f, inRect.y + 43f, 220f, 26f),
                 "HD_RaidView_Nodes".Translate(), ref overlay);
@@ -97,7 +96,7 @@ namespace Helodrace
                 "Re-evaluate now"))
             {
                 RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalPlans>()
-                    .GetPlan(RaidTacticalDebugSession.SelectedOrganization, true);
+                    .GetPlan(RaidTacticalDebugSession.SelectedUnit, true);
             }
             y = Mathf.Max(y + 10f, inRect.y + 172f);
             RaidTacticalPlan plan = RaidTacticalDebugSession.SelectedPlan;
@@ -119,9 +118,10 @@ namespace Helodrace
             if (!plan.Success) return "Plan unavailable: " + plan.Reason
                 + $" ({plan.PlanningMilliseconds} ms)";
             var report = new StringBuilder();
-            report.AppendLine($"{plan.OrganizationId}  doctrine={plan.Doctrine}  tick={plan.PlannedTick}");
+            report.AppendLine($"{plan.UnitId}  doctrine={plan.Doctrine}  tick={plan.PlannedTick}");
+            report.AppendLine($"unit={plan.OrganizationId}, command group={plan.GroupId}");
             report.AppendLine("Execution=" + RaidTacticalDebugSession.Map
-                ?.GetComponent<MapComponent_RaidTacticalExecution>()?.Status(plan.OrganizationId));
+                ?.GetComponent<MapComponent_RaidTacticalExecution>()?.Status(plan.UnitId));
             report.AppendLine($"Command efficiency={plan.CommandEfficiency:P0}  casualties={plan.CasualtyFraction:P0}");
             report.AppendLine($"Start={plan.Start}  objective={plan.Objective}  front={plan.Frontline}");
             report.AppendLine($"Flank={plan.Flank}  entry={plan.Entry}");
@@ -153,19 +153,19 @@ namespace Helodrace
             report.AppendLine();
             report.AppendLine($"Support: {plan.EntrySupport}");
             report.AppendLine("Support execution: " + RaidTacticalDebugSession.Map
-                ?.GetComponent<MapComponent_RaidTacticalExecution>()?.SupportStatusFor(plan.OrganizationId));
+                ?.GetComponent<MapComponent_RaidTacticalExecution>()?.SupportStatusFor(plan.UnitId));
             var observation = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()
-                ?.StateFor(plan.OrganizationId)?.Observation;
+                ?.StateFor(plan.UnitId)?.Observation;
             if (observation != null)
                 report.AppendLine($"Opening observer={observation.Observer?.LabelShort ?? "none"} at {observation.Position} "
                     + $"peek={observation.ObservedTicks}/90 ticks complete={observation.Complete} "
                     + $"returned={observation.ReturnComplete} unavailable={observation.Unavailable} visible cells={observation.VisibleCells.Count} "
                     + $"enemy contact={observation.EnemyCell}");
             report.AppendLine($"Entry method: {plan.EntryMethod}");
-            report.AppendLine("Shared contact memory:");
+            report.AppendLine("Unit contact memory:");
             report.Append(RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()
-                ?.StateFor(plan.OrganizationId)?.Contacts.Report(GenTicks.TicksGame));
-            var contactsState = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(plan.OrganizationId);
+                ?.StateFor(plan.UnitId)?.Contacts.Report(GenTicks.TicksGame));
+            var contactsState = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(plan.UnitId);
             if (contactsState != null)
             {
                 report.AppendLine($"CQB contact pause={contactsState.ContactPause}");
@@ -186,17 +186,18 @@ namespace Helodrace
             {
                 report.AppendLine($"  {assignment.Pawn.LabelShort}: {assignment.Task} "
                     + (assignment.EntryOrder > 0 ? $"#{assignment.EntryOrder} " : "")
-                    + $"at {assignment.Position}");
+                    + $"at {assignment.Position} group={assignment.GroupId}");
                 RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(assignment.Pawn);
                 if (order != null)
                     report.AppendLine($"    directive={order.Kind} destination={order.Destination} "
+                        + $"owner={order.UnitId} group={order.GroupId} "
                         + $"room={order.Room} retryAfter={order.RetryAfter} "
                         + $"job={MapComponent_RaidTacticalTrace.Describe(assignment.Pawn.CurJob)}");
             }
             report.AppendLine();
             report.AppendLine("Recent job changes (newest first):");
             report.AppendLine(RaidTacticalDebugSession.Map
-                ?.GetComponent<MapComponent_RaidTacticalTrace>()?.Report(plan.OrganizationId));
+                ?.GetComponent<MapComponent_RaidTacticalTrace>()?.Report(plan.UnitId));
             return report.ToString();
         }
     }

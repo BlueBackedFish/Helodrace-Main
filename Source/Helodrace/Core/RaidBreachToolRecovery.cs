@@ -8,12 +8,12 @@ namespace Helodrace
 {
     public sealed class RaidBreachToolRecoveryTarget : IExposable
     {
-        public string OrganizationId;
+        public string UnitId;
         public Apparel Tool;
 
         public void ExposeData()
         {
-            Scribe_Values.Look(ref OrganizationId, "organizationId");
+            Scribe_Values.Look(ref UnitId, "unitId");
             Scribe_References.Look(ref Tool, "tool");
         }
     }
@@ -24,25 +24,25 @@ namespace Helodrace
         // plans. Pawn.Kill passes the deceased to WorldPawns and detaches them.
         private List<RaidBreachToolRecoveryTarget> recoveryTargets = new List<RaidBreachToolRecoveryTarget>();
 
-        internal void RememberBreachTools(string organizationId, Pawn donor)
+        internal void RememberBreachTools(string unitId, Pawn donor)
         {
-            if (organizationId == null || donor?.apparel == null) return;
+            if (unitId == null || donor?.apparel == null) return;
             foreach (Apparel tool in donor.apparel.WornApparel)
                 if (tool.TryGetComp<CompSledgehammerBreach>() != null
                     && !recoveryTargets.Any(target => target.Tool == tool))
                     recoveryTargets.Add(new RaidBreachToolRecoveryTarget {
-                        OrganizationId = organizationId, Tool = tool });
+                        UnitId = unitId, Tool = tool });
         }
 
-        internal void PruneBreachTools(ISet<string> organizationsOnMap)
+        internal void PruneBreachTools(ISet<string> unitsOnMap)
         {
             recoveryTargets.RemoveAll(target => target == null
-                || !organizationsOnMap.Contains(target.OrganizationId)
+                || !unitsOnMap.Contains(target.UnitId)
                 || RaidBreachToolRecovery.Resolved(target.Tool, map));
         }
 
-        private IEnumerable<Apparel> BreachToolsFor(string organizationId) => recoveryTargets
-            .Where(target => target.OrganizationId == organizationId).Select(target => target.Tool);
+        private IEnumerable<Apparel> BreachToolsFor(string unitId) => recoveryTargets
+            .Where(target => target.UnitId == unitId).Select(target => target.Tool);
     }
 
     public static class RaidBreachToolRecovery

@@ -47,7 +47,7 @@ namespace Helodrace
     {
         internal bool IgnoreOwnScreeningSmoke(Pawn pawn)
         {
-            string id = OrganizationAPI.GetOrganization(pawn)?.id;
+            string id = RaidTacticalUnit.ForPawn(pawn)?.Id;
             if (id == null || !states.TryGetValue(id, out ExecutionState state)) return false;
             Thing known = pawn.mindState.knownExploder;
             return known != null && (known == state.SupportProjectile || known == state.ApproachSmokeProjectile)

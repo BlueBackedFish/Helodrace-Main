@@ -18,20 +18,20 @@ namespace Helodrace
         public static void Record(Pawn pawn, string detail)
         {
             if (!Enabled || !Prefs.DevMode || pawn?.Spawned != true) return;
-            string organization = OrganizationAPI.GetOrganization(pawn)?.id;
-            if (organization == null) return;
+            string unitId = RaidTacticalUnit.ForPawn(pawn)?.Id;
+            if (unitId == null) return;
             var trace = pawn.Map.GetComponent<MapComponent_RaidTacticalTrace>();
             if (trace.events.Count >= 128) trace.events.Dequeue();
             string phase = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
-                ?.Status(organization);
-            trace.events.Enqueue(new KeyValuePair<string, string>(organization,
+                ?.Status(unitId);
+            trace.events.Enqueue(new KeyValuePair<string, string>(unitId,
                 $"{GenTicks.TicksGame} {pawn.LabelShort} [{phase}] at {pawn.Position}: {detail}"));
         }
 
-        public string Report(string organization)
+        public string Report(string unitId)
         {
             if (!Enabled) return "Job trace disabled (enable in this window).";
-            return string.Join("\n", events.Where(value => value.Key == organization)
+            return string.Join("\n", events.Where(value => value.Key == unitId)
                 .Select(value => value.Value).Reverse().Take(24));
         }
 

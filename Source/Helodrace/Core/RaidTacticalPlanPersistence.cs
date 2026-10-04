@@ -7,6 +7,7 @@ namespace Helodrace
         public void ExposeData()
         {
             Scribe_References.Look(ref Pawn, "pawn");
+            Scribe_Values.Look(ref GroupId, "groupId");
             Scribe_Values.Look(ref Task, "task");
             Scribe_Values.Look(ref Position, "position");
             Scribe_Values.Look(ref EntryOrder, "entryOrder");
@@ -30,6 +31,8 @@ namespace Helodrace
         public void ExposeData()
         {
             Scribe_Values.Look(ref OrganizationId, "organizationId");
+            Scribe_Values.Look(ref UnitId, "unitId");
+            Scribe_Values.Look(ref GroupId, "groupId");
             Scribe_Values.Look(ref Doctrine, "doctrine");
             Scribe_Values.Look(ref Start, "start");
             Scribe_Values.Look(ref Objective, "objective");

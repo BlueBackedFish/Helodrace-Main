@@ -211,7 +211,7 @@ namespace Helodrace
             bool equipmentMove = RaidEntryObservation.Active(pawn) != null || RaidGrenadePreparation.Active(pawn) != null;
             if (removed || order == null || !preparing && pawn.CurJobDef != RimWorld.JobDefOf.Goto && !equipmentMove)
                 return null;
-            var state = map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.OrganizationId);
+            var state = map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.UnitId);
             RaidTacticalPlan plan = state?.ActivePlan;
             if (plan == null) return null;
             bool waitingForSupport = state.Phase == RaidExecutionPhase.ObserveOpening || state.Phase == RaidExecutionPhase.Support
@@ -250,7 +250,7 @@ namespace Helodrace
             {
                 // A pawn outside the activity area must be able to return into it.
                 if (!MapComponent_RaidTacticalOrders.Allowed(pawn, order, pawn.Position)) return null;
-                string key = $"{order.OrganizationId}:{order.Destination}:{order.Radius}:{order.Room}:"
+                string key = $"{order.UnitId}:{order.Destination}:{order.Radius}:{order.Room}:"
                     + $"{order.LeashCenter}:{order.LeashRadius}";
                 if (!fightingAreas.TryGetValue(key, out RaidMovementArea fightArea) || fightArea.Canceled)
                 {

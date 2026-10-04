@@ -15,6 +15,8 @@ namespace Helodrace
     {
         public Pawn Pawn;
         public string OrganizationId;
+        public string UnitId;
+        public string GroupId;
         public RaidOrderKind Kind;
         public IntVec3 Destination;
         public bool Sprint;
@@ -28,10 +30,16 @@ namespace Helodrace
         public bool RefreshPending;
         public bool Reactive;
 
+        internal bool OwnedBy(RaidTacticalUnit unit) => unit != null && UnitId == unit.Id
+            && OrganizationId == unit.OrganizationId
+            && unit.Groups.Any(group => group.id == GroupId && group.Members.Contains(Pawn));
+
         public void ExposeData()
         {
             Scribe_References.Look(ref Pawn, "pawn");
             Scribe_Values.Look(ref OrganizationId, "organization");
+            Scribe_Values.Look(ref UnitId, "unitId");
+            Scribe_Values.Look(ref GroupId, "groupId");
             Scribe_Values.Look(ref Kind, "kind");
             Scribe_Values.Look(ref Destination, "destination");
             Scribe_Values.Look(ref Sprint, "sprint");
@@ -87,8 +95,8 @@ namespace Helodrace
         private RaidPawnOrder Get(Pawn pawn)
         {
             if (!orders.TryGetValue(pawn, out RaidPawnOrder order)) return null;
-            if (pawn.Dead || pawn.Downed || pawn.Drafted || pawn.InMentalState
-                || OrganizationAPI.GetOrganization(pawn)?.id != order.OrganizationId
+            if (!order.OwnedBy(RaidTacticalUnit.ForPawn(pawn))
+                || pawn.Dead || pawn.Downed || pawn.Drafted || pawn.InMentalState
                 || map.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.ControlsPawn(pawn) != true) return null;
             return order;
@@ -133,12 +141,15 @@ namespace Helodrace
                 destination = guard.Position; sprint = false; fightOnArrival = false; radius = 1f; reactive = true;
             }
             var owner = pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>();
-            if (!owner.orders.TryGetValue(pawn, out RaidPawnOrder order))
+            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(pawn);
+            if (!owner.orders.TryGetValue(pawn, out RaidPawnOrder order) || order.UnitId != unit.Id)
             {
                 order = new RaidPawnOrder { Pawn = pawn,
-                    OrganizationId = OrganizationAPI.GetOrganization(pawn).id };
+                    OrganizationId = unit.OrganizationId, UnitId = unit.Id,
+                    GroupId = OrganizationAPI.GetGroup(pawn).id };
                 owner.orders[pawn] = order;
             }
+            order.GroupId = OrganizationAPI.GetGroup(pawn).id;
             bool changed = order.Kind != kind || order.Destination != destination
                 || order.Sprint != sprint || order.FightOnArrival != fightOnArrival
                 || order.Radius != radius || order.Reactive != reactive;
@@ -155,7 +166,7 @@ namespace Helodrace
                 order.RefreshPending = true;
                 order.Room = pawn.Map.GetComponent<MapComponent_RaidTacticalPlans>()
                     ?.GetStructure(order.OrganizationId)?.RoomAt(destination) ?? 0;
-                var state = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.OrganizationId);
+                var state = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.UnitId);
                 order.LeashCenter = state?.ActivePlan?.Start ?? pawn.Position;
                 order.LeashRadius = state?.Maneuver == RaidTacticalManeuver.HoldAndCounterattack ? 25f : 0f;
                 MapComponent_RaidTacticalTrace.Record(pawn,

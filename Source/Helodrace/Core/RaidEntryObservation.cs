@@ -95,7 +95,7 @@ namespace Helodrace
 
     public sealed class JobDriver_RaidObserveOpening : JobDriver
     {
-        private string organizationId;
+        private string unitId;
         private IntVec3 returnPosition = IntVec3.Invalid;
         public bool Peeking;
         public IntVec3 LeanSource => job.targetC.Cell;
@@ -105,25 +105,26 @@ namespace Helodrace
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref organizationId, "organizationId");
+            Scribe_Values.Look(ref unitId, "unitId");
             Scribe_Values.Look(ref Peeking, "peeking");
             Scribe_Values.Look(ref returnPosition, "returnPosition", IntVec3.Invalid);
         }
 
-        private MapComponent_RaidTacticalExecution.ExecutionState Owner => organizationId == null ? null
-            : pawn.Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(organizationId);
+        private MapComponent_RaidTacticalExecution.ExecutionState Owner => unitId == null ? null
+            : pawn.Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(unitId);
 
-        internal bool OwnerStillValid() => Owner?.ActivePlan?.PlannedTick == job.count
+        internal bool OwnerStillValid() => RaidTacticalUnit.ForPawn(pawn)?.Id == unitId
+            && Owner?.ActivePlan?.PlannedTick == job.count
             && Owner.Observation?.Observer == pawn
             && (Owner.Phase == RaidExecutionPhase.Breach || Owner.Phase == RaidExecutionPhase.ObserveOpening);
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOn(() => pawn.Dead || pawn.Downed || pawn.Faction == RimWorld.Faction.OfPlayer
-                || organizationId != null && !OwnerStillValid());
+                || unitId != null && !OwnerStillValid());
             this.FailOn(() => !job.targetA.Cell.InBounds(pawn.Map) || !job.targetA.Cell.Standable(pawn.Map));
             yield return new Toil { initAction = () => {
-                organizationId = OrganizationAPI.GetOrganization(pawn)?.id;
+                unitId = RaidTacticalUnit.ForPawn(pawn)?.Id;
                 returnPosition = Owner?.ActivePlan?.Assignments.FirstOrDefault(assignment => assignment.Pawn == pawn)
                     ?.Position ?? pawn.Position;
                 TacticalAimUtility.Cancel(pawn);

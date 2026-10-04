@@ -77,6 +77,7 @@ internal static class Program
             RaidContactTests.Run();
             RaidObservationTests.Run();
             RaidCqbKnowledgeTests.Run();
+            RaidTacticalUnitTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }
@@ -257,13 +258,14 @@ internal static class Program
         var execution = new MapComponent_RaidTacticalExecution(map);
         AccessTools.Field(typeof(Map), "components").SetValue(map, new List<MapComponent> { execution });
         AccessTools.Field(typeof(Game), "maps").SetValue(game, new List<Map> { map });
-        var state = new MapComponent_RaidTacticalExecution.ExecutionState { OrganizationId = "ObserverTest",
+        string unitId = RaidTacticalUnitTests.BindPawn(game, pawn, "ObserverTest");
+        var state = new MapComponent_RaidTacticalExecution.ExecutionState { UnitId = unitId,
             ActivePlan = new RaidTacticalPlan { PlannedTick = 42 }, Phase = RaidExecutionPhase.Breach,
             Observation = new RaidEntryObservation { Observer = pawn } };
         ((Dictionary<string, MapComponent_RaidTacticalExecution.ExecutionState>)AccessTools.Field(
-            typeof(MapComponent_RaidTacticalExecution), "states").GetValue(execution))[state.OrganizationId] = state;
+            typeof(MapComponent_RaidTacticalExecution), "states").GetValue(execution))[state.UnitId] = state;
         AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)0);
-        AccessTools.Field(typeof(JobDriver_RaidObserveOpening), "organizationId").SetValue(driver, state.OrganizationId);
+        AccessTools.Field(typeof(JobDriver_RaidObserveOpening), "unitId").SetValue(driver, state.UnitId);
         job.count = 42;
         bool OwnerValid() => (bool)AccessTools.Method(typeof(JobDriver_RaidObserveOpening), "OwnerStillValid").Invoke(driver, null);
         Current.Game = game;
@@ -297,7 +299,7 @@ internal static class Program
         var seed = new RaidTacticalPlan { Start = members[0].Position,
             Objective = new IntVec3(50, 0, 1), OccupiedRoom = 1 };
         MethodInfo method = AccessTools.Method(typeof(RaidTacticalPlanner), "MakeCurrentRoomPlan");
-        var plan = (RaidTacticalPlan)method.Invoke(null, new object[] { new CombatOrganization(), members, seed });
+        var plan = (RaidTacticalPlan)method.Invoke(null, new object[] { RaidTacticalUnit.ForOrganization(new CombatOrganization { id = "Occupied", rootGroups = new List<CombatGroup> { new CombatGroup { id = "Squad" } } }).Single(), members, seed });
         if (!plan.Success || plan.Selected.Maneuver != RaidTacticalManeuver.DirectAssault)
             throw new Exception("Occupied-room clearance must remain an executable direct assault even beyond the local window.");
         if (plan.Assignments.Count != members.Count || !plan.Assignments.Any(value => value.Task == RaidTacticalTask.Entry))
@@ -378,13 +380,14 @@ internal static class Program
         var execution = new MapComponent_RaidTacticalExecution(map);
         AccessTools.Field(typeof(Map), "components").SetValue(map, new List<MapComponent> { execution });
         AccessTools.Field(typeof(Game), "maps").SetValue(game, new List<Map> { map });
-        var state = new MapComponent_RaidTacticalExecution.ExecutionState { OrganizationId = "A",
+        string unitId = RaidTacticalUnitTests.BindPawn(game, pawn, "A");
+        var state = new MapComponent_RaidTacticalExecution.ExecutionState { UnitId = unitId,
             ActivePlan = new RaidTacticalPlan { PlannedTick = 42 }, Phase = RaidExecutionPhase.Support,
             SupportIssued = true, Thrower = pawn };
         ((Dictionary<string, MapComponent_RaidTacticalExecution.ExecutionState>)AccessTools.Field(
-            typeof(MapComponent_RaidTacticalExecution), "states").GetValue(execution))["A"] = state;
+            typeof(MapComponent_RaidTacticalExecution), "states").GetValue(execution))[unitId] = state;
         AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)0);
-        AccessTools.Field(typeof(JobDriver_RaidPrepareGrenade), "organizationId").SetValue(driver, "A");
+        AccessTools.Field(typeof(JobDriver_RaidPrepareGrenade), "unitId").SetValue(driver, unitId);
         AccessTools.Field(typeof(JobDriver_RaidPrepareGrenade), "planTick").SetValue(driver, 42);
         AccessTools.Field(typeof(JobDriver_RaidPrepareGrenade), "ownerCaptured").SetValue(driver, true);
         bool OwnerValid() => (bool)AccessTools.Method(typeof(JobDriver_RaidPrepareGrenade), "OwnerStillValid").Invoke(driver, null);
@@ -521,7 +524,7 @@ internal static class Program
                 typeof(MapComponent_RaidTacticalExecution), "recoveryTargets").GetValue(execution);
             var pending = (Dictionary<string, HashSet<Pawn>>)AccessTools.Field(
                 typeof(MapComponent_RaidTacticalExecution), "pendingCasualties").GetValue(execution);
-            Check(targets.Count == 1 && targets[0].Tool == tool && targets[0].OrganizationId == "A",
+            Check(targets.Count == 1 && targets[0].Tool == tool && targets[0].UnitId == "A",
                 "Casualty callbacks capture the hammer once before membership cleanup.");
             MethodInfo source = AccessTools.Method(typeof(RaidBreachToolRecovery), "SourceFor");
             Check(source.Invoke(null, new object[] { tool }) == donor, "A downed carrier remains the interaction source.");

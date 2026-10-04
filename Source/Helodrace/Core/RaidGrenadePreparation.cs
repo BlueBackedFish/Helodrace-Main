@@ -48,7 +48,7 @@ namespace Helodrace
     {
         public bool Prepared;
         public bool Released;
-        private string organizationId;
+        private string unitId;
         private int planTick = -1;
         private bool ownerCaptured;
         public Thing Grenade => job.targetB.Thing;
@@ -60,7 +60,7 @@ namespace Helodrace
             base.ExposeData();
             Scribe_Values.Look(ref Prepared, "prepared");
             Scribe_Values.Look(ref Released, "released");
-            Scribe_Values.Look(ref organizationId, "organizationId");
+            Scribe_Values.Look(ref unitId, "unitId");
             Scribe_Values.Look(ref planTick, "planTick", -1);
             Scribe_Values.Look(ref ownerCaptured, "ownerCaptured");
         }
@@ -69,7 +69,8 @@ namespace Helodrace
         private bool OwnerStillValid()
         {
             if (!ownerCaptured) return true; // Initial toil captures the owner.
-            var state = pawn.Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(organizationId);
+            if (RaidTacticalUnit.ForPawn(pawn)?.Id != unitId) return false;
+            var state = pawn.Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(unitId);
             return state?.ActivePlan?.PlannedTick == planTick && (state.Phase == RaidExecutionPhase.Support
                 && (state.Thrower == pawn || !state.SupportIssued)
                 || state.Phase == RaidExecutionPhase.SecureRoom || state.ApproachSmokeActive && state.ApproachSmokeThrower == pawn);
@@ -77,7 +78,7 @@ namespace Helodrace
 
         private bool ContactTargetStillValid()
         {
-            var state = pawn.Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(organizationId);
+            var state = pawn.Map?.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(unitId);
             if (state == null || state.Maneuver != RaidTacticalManeuver.CoordinatedEntry
                 || state.Phase != RaidExecutionPhase.Support || state.Thrower != pawn
                 || state.ApproachSmokeActive && state.ApproachSmokeThrower == pawn
@@ -95,8 +96,8 @@ namespace Helodrace
 
             Toil prepare = Toils_General.Wait(RaidGrenadePreparation.PreparationTicks);
             prepare.initAction += () => {
-                organizationId = OrganizationAPI.GetOrganization(pawn)?.id;
-                var state = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(organizationId);
+                unitId = RaidTacticalUnit.ForPawn(pawn)?.Id;
+                var state = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(unitId);
                 planTick = state?.ActivePlan?.PlannedTick ?? -1;
                 ownerCaptured = true;
                 TacticalAimUtility.Cancel(pawn);

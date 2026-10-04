@@ -48,7 +48,7 @@ namespace Helodrace
 
     internal enum RaidDebugRoomState { Unavailable, Uncleared, CurrentTarget, Cleared, Threatened, NeedsRecheck }
 
-    // Read-only projection using the selected organization's pinned room IDs.
+    // Read-only projection using the selected unit's pinned room IDs.
     // Never consult live Room objects or mutate the progress being inspected.
     internal sealed class RaidRoomDebugData
     {
@@ -111,7 +111,7 @@ namespace Helodrace
         private readonly List<Vector3> vertices = new List<Vector3>();
         private readonly List<int> triangles = new List<int>();
         private readonly List<Color> colors = new List<Color>();
-        private List<CombatOrganization> organizations = new List<CombatOrganization>();
+        private List<RaidTacticalUnit> units = new List<RaidTacticalUnit>();
         private RaidRoomDebugData rooms;
         private RaidTacticalPlan plan;
         private Pawn lastSelectedPawn;
@@ -121,7 +121,7 @@ namespace Helodrace
         private float refreshAt;
         private bool visibleLastFrame, clipped;
         private int switches;
-        private string organizationId, status;
+        private string unitId, status;
 
         private sealed class Node
         {
@@ -140,9 +140,9 @@ namespace Helodrace
                 | (RaidTacticalOverlaySettings.drawRaidContacts ? 8 : 0);
             CellRect nextView = Find.CameraDriver.CurrentViewRect.ClipInsideMap(map);
             Pawn selectedPawn = Find.Selector.SingleSelectedThing as Pawn;
-            string selectedId = RaidTacticalDebugSession.Map == map ? RaidTacticalDebugSession.SelectedOrganizationId : null;
+            string selectedId = RaidTacticalDebugSession.Map == map ? RaidTacticalDebugSession.SelectedUnitId : null;
             if (!visibleLastFrame || Time.unscaledTime >= refreshAt || enabled != switches
-                || selectedPawn != lastSelectedPawn || selectedId != organizationId || !nextView.Equals(view))
+                || selectedPawn != lastSelectedPawn || selectedId != unitId || !nextView.Equals(view))
             {
                 view = nextView;
                 switches = enabled;
@@ -163,25 +163,26 @@ namespace Helodrace
 
         private void Refresh(Pawn selectedPawn)
         {
-            organizations = OrganizationAPI.Registry?.Organizations.Where(organization => organization.AllMembers
-                .Any(pawn => pawn.Spawned && pawn.Map == map && !pawn.Dead)).ToList() ?? new List<CombatOrganization>();
+            units = RaidTacticalUnit.All.Where(unit => unit.Members
+                .Any(pawn => pawn.Spawned && pawn.Map == map && !pawn.Dead)).ToList();
             if (selectedPawn != lastSelectedPawn && selectedPawn?.Map == map)
             {
-                CombatOrganization selected = OrganizationAPI.GetOrganization(selectedPawn);
-                if (selected != null) Select(selected.id);
+                RaidTacticalUnit selected = RaidTacticalUnit.ForPawn(selectedPawn);
+                if (selected != null) Select(selected.Id);
             }
             lastSelectedPawn = selectedPawn;
-            string id = RaidTacticalDebugSession.Map == map ? RaidTacticalDebugSession.SelectedOrganizationId : null;
-            if (!organizations.Any(organization => organization.id == id)) id = organizations.FirstOrDefault()?.id;
+            string id = RaidTacticalDebugSession.Map == map ? RaidTacticalDebugSession.SelectedUnitId : null;
+            if (!units.Any(unit => unit.Id == id)) id = units.FirstOrDefault()?.Id;
             Select(id);
             var plans = map.GetComponent<MapComponent_RaidTacticalPlans>();
             var execution = map.GetComponent<MapComponent_RaidTacticalExecution>();
             var state = execution?.StateFor(id);
             // The string lookup does not create/pin a structure or evaluate a plan.
-            TacticalStructureVersion version = id != null ? plans?.GetStructure(id)?.Version
+            TacticalStructureVersion version = id != null
+                ? plans?.GetStructure(units.FirstOrDefault(unit => unit.Id == id)?.OrganizationId)?.Version
                 : map.GetComponent<MapComponent_TacticalMapAnalysis>()?.Completed;
             rooms = new RaidRoomDebugData(version, state);
-            plan = state?.ActivePlan ?? plans?.Plans.FirstOrDefault(value => value.OrganizationId == id);
+            plan = state?.ActivePlan ?? plans?.Plans.FirstOrDefault(value => value.UnitId == id);
             status = id != null ? execution?.Status(id) : "HD_RaidView_NoRaid".Translate().ToString();
             CaptureNodes(state);
             CaptureContacts(state);
@@ -190,9 +191,9 @@ namespace Helodrace
 
         private void Select(string id)
         {
-            organizationId = id;
+            unitId = id;
             RaidTacticalDebugSession.Map = map;
-            RaidTacticalDebugSession.SelectedOrganizationId = id;
+            RaidTacticalDebugSession.SelectedUnitId = id;
         }
 
         private void CaptureNodes(MapComponent_RaidTacticalExecution.ExecutionState state)
@@ -349,17 +350,17 @@ namespace Helodrace
         {
             Rect panel = new Rect(12, 100, 410, 150);
             Widgets.DrawWindowBackground(panel);
-            Widgets.Label(new Rect(22, 106, 390, 22), "HD_RaidView_Title".Translate(organizationId ?? "—"));
-            string cache = rooms.Version != null ? "v" + rooms.Version.Id : organizationId != null
+            Widgets.Label(new Rect(22, 106, 390, 22), "HD_RaidView_Title".Translate(unitId ?? "—"));
+            string cache = rooms.Version != null ? "v" + rooms.Version.Id : unitId != null
                 ? "HD_RaidView_Waiting".Translate().ToString() : map.GetComponent<MapComponent_TacticalMapAnalysis>()?.BuildStatus;
             Widgets.Label(new Rect(22, 128, 390, 22), "HD_RaidView_Summary".Translate(cache, status ?? "—", rooms.Cleared.Count));
             Widgets.Label(new Rect(22, 151, 390, 40), "HD_RaidView_Legend".Translate());
             Widgets.Label(new Rect(22, 191, 390, 20), clipped && (switches & 3) != 0
                 ? "HD_RaidView_Clipped".Translate() : "HD_RaidView_Refresh".Translate());
-            if (Widgets.ButtonText(new Rect(22, 215, 125, 26), "HD_RaidView_Next".Translate()) && organizations.Count > 0)
+            if (Widgets.ButtonText(new Rect(22, 215, 125, 26), "HD_RaidView_Next".Translate()) && units.Count > 0)
             {
-                int index = organizations.FindIndex(value => value.id == organizationId);
-                Select(organizations[(index + 1) % organizations.Count].id);
+                int index = units.FindIndex(value => value.Id == unitId);
+                Select(units[(index + 1) % units.Count].Id);
                 refreshAt = 0;
             }
             if (Widgets.ButtonText(new Rect(157, 215, 125, 26), "HD_RaidView_Details".Translate())) RaidTacticalDebugSession.Open(map);

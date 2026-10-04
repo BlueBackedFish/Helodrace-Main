@@ -52,7 +52,7 @@ namespace Helodrace
             return false;
         }
 
-        private bool TryPlanContactRecheck(CombatOrganization organization, List<Pawn> members, RaidTacticalPlan current,
+        private bool TryPlanContactRecheck(RaidTacticalUnit unit, List<Pawn> members, RaidTacticalPlan current,
             ExecutionState state, RaidStructureSnapshot structure, HashSet<int> cleared, Pawn observer, int tick)
         {
             int occupied = structure.RoomAt(observer.Position);
@@ -74,7 +74,7 @@ namespace Helodrace
                     .OrderBy(cell => cell.DistanceToSquared(record.Concern)).Take(16)
                     .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
-                RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, organization, target);
+                RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, target);
                 if (next?.Success != true || next.PlannedBreach != null) continue;
                 next.ObjectiveIsIntermediate = true; next.ObjectiveIsRecheck = true;
                 next.BreachCell = next.BreachInside = IntVec3.Invalid;
@@ -83,7 +83,7 @@ namespace Helodrace
                 next.Selected = new RaidTacticalOption { Maneuver = RaidTacticalManeuver.CoordinatedEntry,
                     Score = 100f, Reason = "Recheck an observed contact using an already open passage" };
                 next.Options.Add(next.Selected);
-                ActivateNextRoomPlan(organization, members, state, next, tick);
+                ActivateNextRoomPlan(unit, members, state, next, tick);
                 MapComponent_RaidTacticalTrace.Record(observer, $"CQB recheck R{record.Room}: known open route to {target}; no repeated demolition or blind grenade");
                 return true;
             }

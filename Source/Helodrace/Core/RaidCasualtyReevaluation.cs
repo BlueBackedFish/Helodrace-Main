@@ -14,17 +14,17 @@ namespace Helodrace
         private readonly Dictionary<string, HashSet<Pawn>> pendingCasualties =
             new Dictionary<string, HashSet<Pawn>>();
 
-        public void RequestCasualtyReevaluation(string organizationId, Pawn pawn)
+        public void RequestCasualtyReevaluation(string unitId, Pawn pawn)
         {
-            if (organizationId == null || pawn == null) return;
-            // Capture before WorldPawns clears the deceased's organization ID.
-            RememberBreachTools(organizationId, pawn);
-            if (!pendingCasualties.TryGetValue(organizationId, out HashSet<Pawn> losses))
-                pendingCasualties.Add(organizationId, losses = new HashSet<Pawn>());
+            if (unitId == null || pawn == null) return;
+            // Capture before WorldPawns clears the deceased's unit ID.
+            RememberBreachTools(unitId, pawn);
+            if (!pendingCasualties.TryGetValue(unitId, out HashSet<Pawn> losses))
+                pendingCasualties.Add(unitId, losses = new HashSet<Pawn>());
             losses.Add(pawn);
         }
 
-        private void ReconcileCasualties(CombatOrganization organization, List<Pawn> members,
+        private void ReconcileCasualties(RaidTacticalUnit unit, List<Pawn> members,
             ExecutionState state, int tick)
         {
             if (state.Breacher != null && !members.Contains(state.Breacher))
@@ -52,11 +52,10 @@ namespace Helodrace
             if (plan == null) return;
             int removed = plan.Assignments.RemoveAll(assignment => !members.Contains(assignment.Pawn));
             state.Crossings.RemoveAll(crossing => !members.Contains(crossing.Pawn));
-            int originalPersonnel = organization.rootGroups.Sum(root => root.formation?.StandardPersonnel ?? 0);
+            int originalPersonnel = unit.StandardPersonnel;
             plan.CasualtyFraction = originalPersonnel == 0 ? 0f
                 : Mathf.Clamp01(1f - members.Count / (float)originalPersonnel);
-            plan.CommandEfficiency = organization.rootGroups.Count == 0 ? 1f
-                : organization.AllGroups.Min(group => group.CommandEfficiency);
+            plan.CommandEfficiency = unit.CommandEfficiency;
             if (removed == 0) return;
             state.ReadySince = -1;
             ReplaceLostEntryTeam(plan, state);

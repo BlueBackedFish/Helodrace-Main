@@ -44,7 +44,7 @@ namespace Helodrace
 
         internal bool TryEmergencyFleeDestination(Pawn pawn, out IntVec3 destination)
         {
-            string id = OrganizationAPI.GetOrganization(pawn)?.id;
+            string id = RaidTacticalUnit.ForPawn(pawn)?.Id;
             RaidReactivePosition reaction = id != null && states.TryGetValue(id, out ExecutionState state)
                 ? state.Reactions.FirstOrDefault(value => value.Pawn == pawn
                     && value.Kind == RaidReactionKind.Explosion && value.Until > GenTicks.TicksGame) : null;
@@ -54,7 +54,7 @@ namespace Helodrace
 
         internal void NotifySupportRequested(Pawn caller, IntVec3 aim)
         {
-            string id = OrganizationAPI.GetOrganization(caller)?.id;
+            string id = RaidTacticalUnit.ForPawn(caller)?.Id;
             if (id == null || !states.TryGetValue(id, out ExecutionState state)
                 || state.ActivePlan?.Success != true || !ControlsPawn(caller)) return;
             state.DefenseCaller = caller;

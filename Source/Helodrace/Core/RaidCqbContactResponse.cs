@@ -46,7 +46,7 @@ namespace Helodrace
     {
         internal static RaidContactGuard ContactGuardFor(Pawn pawn)
         {
-            string id = pawn?.Spawned == true ? OrganizationAPI.GetOrganization(pawn)?.id : null;
+            string id = pawn?.Spawned == true ? RaidTacticalUnit.ForPawn(pawn)?.Id : null;
             return id == null ? null : pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.StateFor(id)
                 ?.ContactGuards.FirstOrDefault(guard => guard.Pawn == pawn && guard.Until > GenTicks.TicksGame);
         }

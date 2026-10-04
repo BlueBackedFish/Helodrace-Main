@@ -110,7 +110,7 @@ namespace Helodrace
 
     public sealed partial class MapComponent_RaidTacticalExecution
     {
-        private bool RecoverCqbIntent(CombatOrganization organization, List<Pawn> members,
+        private bool RecoverCqbIntent(RaidTacticalUnit unit, List<Pawn> members,
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
             if (plan.IsDefensive || state.Phase == RaidExecutionPhase.Assault || state.Phase == RaidExecutionPhase.ClearRoom
@@ -140,7 +140,7 @@ namespace Helodrace
             if (!alreadyInside && !wrongBreach) return false;
             if (tick - state.LastLocalReplanTick < 60) return false;
             state.LastLocalReplanTick = tick;
-            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, organization, plan.Objective);
+            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, plan.Objective);
             if (next?.Success != true || wrongBreach && next.PlannedBreach == plan.PlannedBreach) return false;
             if (alreadyInside && next.CqbIntent != RaidCqbIntent.ClearCurrentRoom) return false;
             if (state.Breacher?.CurJobDef?.defName == CompSledgehammerBreach.JobDefName
@@ -148,7 +148,7 @@ namespace Helodrace
                 state.Breacher.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
             next.ObjectiveIsIntermediate = plan.ObjectiveIsIntermediate;
             next.ObjectiveIsRecheck = plan.ObjectiveIsRecheck;
-            ActivateNextRoomPlan(organization, members, state, next, tick);
+            ActivateNextRoomPlan(unit, members, state, next, tick);
             if (next.CqbIntent == RaidCqbIntent.ClearCurrentRoom) Advance(state, RaidExecutionPhase.Assault, tick);
             MapComponent_RaidTacticalTrace.Record(observer, alreadyInside
                 ? "CQB recovery: target room already occupied; clear without stacking or demolition"
@@ -156,7 +156,7 @@ namespace Helodrace
             return true;
         }
 
-        private bool RefreshLocalCqb(CombatOrganization organization, List<Pawn> members,
+        private bool RefreshLocalCqb(RaidTacticalUnit unit, List<Pawn> members,
             RaidTacticalPlan plan, ExecutionState state, int tick)
         {
             RaidStructureSnapshot structure = StructureFor(map, plan);
@@ -180,7 +180,7 @@ namespace Helodrace
             if ((state.SupportIssued || state.SupportLaunched)
                 && (SupportEffectsPending(state, tick) || state.SupportReturnRequired)) return false;
             state.LastLocalReplanTick = tick;
-            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, organization, plan.Objective);
+            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, plan.Objective);
             if (next?.Success != true
                 || !entryBlocked && plan.PlannedBreach != null && next.PlannedBreach == plan.PlannedBreach
                 || next.ReusePassage && !BreachOpened(next)) return false;
@@ -189,7 +189,7 @@ namespace Helodrace
                 state.Breacher.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
             next.ObjectiveIsIntermediate = plan.ObjectiveIsIntermediate;
             next.ObjectiveIsRecheck = plan.ObjectiveIsRecheck;
-            ActivateNextRoomPlan(organization, members, state, next, tick);
+            ActivateNextRoomPlan(unit, members, state, next, tick);
             Assemble(members, next);
             MapComponent_RaidTacticalTrace.Record(observer, "Observed CQB entrance obstruction; replace committed entry plan");
             return true;
