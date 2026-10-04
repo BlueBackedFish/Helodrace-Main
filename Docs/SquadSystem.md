@@ -76,24 +76,23 @@ Squad
 
 이 경우 Platoon 노드는 존재하지 않는다.
 
-## 현대식 9인 분대
+## High 현대식 13인 분대 — USMC 기준
 
 ```text
 1st Squad
 ├─ Squad Leader
 │
 ├─ Alpha Fireteam
-│  ├─ Team Leader
+│  ├─ Team Leader / Grenadier
 │  ├─ Automatic Rifleman
-│  ├─ Grenadier
+│  ├─ Assistant Automatic Rifleman
 │  └─ Rifleman
 │
-└─ Bravo Fireteam
-   ├─ Team Leader
-   ├─ Automatic Rifleman
-   ├─ Grenadier
-   └─ Rifleman
+├─ Bravo Fireteam (동일한 4인 구성)
+└─ Charlie Fireteam (동일한 4인 구성)
 ```
+
+현행 High 편제는 공통 `HD_MW_HelodRifleman` 한 종류를 사용한다. 지휘자·유탄 사수·자동소총수·보조사수의 구분은 편제 역할로 지정한다. 현재 무장은 기존 M16A4 프리셋이며, 자동소총 전용 무기와 유탄발사기는 실제 장비 정의가 추가된 뒤 연결한다. 자세한 적용 범위는 [High USMC 편제와 공통 폰카인드](전술/High%20USMC%20편제와%20공통%20폰카인드.md)를 따른다.
 
 ## 소대급 투입
 
@@ -101,22 +100,29 @@ Squad
 1st Platoon
 ├─ Platoon Leader
 ├─ Platoon Sergeant
+├─ Platoon Guide
+├─ Messenger / HQ Rifleman
 │
 ├─ 1st Squad
 │  ├─ Squad Leader
 │  ├─ Alpha Fireteam
-│  └─ Bravo Fireteam
+│  ├─ Bravo Fireteam
+│  └─ Charlie Fireteam
 │
 ├─ 2nd Squad
 │  ├─ Squad Leader
 │  ├─ Alpha Fireteam
-│  └─ Bravo Fireteam
+│  ├─ Bravo Fireteam
+│  └─ Charlie Fireteam
 │
 └─ 3rd Squad
    ├─ Squad Leader
    ├─ Alpha Fireteam
-   └─ Bravo Fireteam
+   ├─ Bravo Fireteam
+   └─ Charlie Fireteam
 ```
+
+High 소대는 본부 4명과 13인 분대 3개로 총 43명이다. 본부 인원은 분대에 중복 배정하지 않는다.
 
 병력이 부족하면 완성된 소대를 억지로 만들지 않는다.
 
@@ -610,7 +616,8 @@ SquadCohesion = 높음
 Squad
 ├─ Squad Leader
 ├─ Alpha Fireteam
-└─ Bravo Fireteam
+├─ Bravo Fireteam
+└─ Charlie Fireteam
 ```
 
 특징:

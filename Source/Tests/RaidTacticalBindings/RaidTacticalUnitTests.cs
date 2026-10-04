@@ -82,15 +82,18 @@ internal static class RaidTacticalUnitTests
 
         var alpha = Group("Alpha", "Team", 4);
         var bravo = Group("Bravo", "Team", 4);
-        var highSquad = Group("HighSquad", "Squad", 1, alpha, bravo);
+        var charlie = Group("Charlie", "Team", 4);
+        var highSquad = Group("HighSquad", "Squad", 1, alpha, bravo, charlie);
         var high = new CombatOrganization { id = "High", rootGroups = new List<CombatGroup> { highSquad } };
         high.RestoreTreeLinks();
         var highUnit = RaidTacticalUnit.ForOrganization(high).Single();
-        Check(highUnit.Members.Count() == 9 && highUnit.Groups.Count() == 3,
-            "High's two Team-level fireteams must remain under their squad's single plan.");
-        Check(RaidTacticalUnit.ForGroup(alpha).Id == highUnit.Id && RaidTacticalUnit.ForGroup(bravo).Id == highUnit.Id,
+        Check(highUnit.Members.Count() == 13 && highUnit.Groups.Count() == 4,
+            "High's three Team-level fireteams must remain under their squad's single plan.");
+        Check(RaidTacticalUnit.ForGroup(alpha).Id == highUnit.Id && RaidTacticalUnit.ForGroup(bravo).Id == highUnit.Id
+            && RaidTacticalUnit.ForGroup(charlie).Id == highUnit.Id,
             "Fireteam ancestry, not its name, selects the command owner.");
-        Check(alpha.Parent == highSquad && bravo.parentGroupId == highSquad.id && highUnit.StandardPersonnel == 9,
+        Check(alpha.Parent == highSquad && bravo.parentGroupId == highSquad.id && charlie.Parent == highSquad
+            && highUnit.StandardPersonnel == 13,
             "Subdivision affiliation and full squad personnel must remain intact.");
         organization.SetBudget(new FormationPlan { initialRaidPoints = 100, formationPointsSpent = 40 });
         Check(ReferenceEquals(units[1].Organization, units[2].Organization)

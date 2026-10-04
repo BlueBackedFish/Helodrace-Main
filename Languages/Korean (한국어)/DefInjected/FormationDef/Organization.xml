@@ -6,4 +6,7 @@
   <HD_Formation_GW_BazookaTeam.label>대전기 바주카조</HD_Formation_GW_BazookaTeam.label>
   <HD_Formation_GW_SniperTeam.label>대전기 저격조</HD_Formation_GW_SniperTeam.label>
   <HD_Formation_GW_RiflePlatoon.label>대전기 증강 소총소대</HD_Formation_GW_RiflePlatoon.label>
+  <HD_Formation_MW_Fireteam.label>현대 4인 화력조</HD_Formation_MW_Fireteam.label>
+  <HD_Formation_MW_RifleSquad.label>현대 13인 소총분대</HD_Formation_MW_RifleSquad.label>
+  <HD_Formation_MW_RiflePlatoon.label>현대 43인 소총소대</HD_Formation_MW_RiflePlatoon.label>
 </LanguageData>

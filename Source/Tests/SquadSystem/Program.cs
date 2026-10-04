@@ -466,21 +466,21 @@ internal static class Program
             Check(formation.Slots.All(slot => slot.pawnKind.defName == "HD_MW_HelodRifleman"),
                 "Modern formations use modern equipment");
         }
-        Check(((FormationDef)defs["HD_Formation_MW_Fireteam"]).StandardPersonnel == 3,
+        Check(((FormationDef)defs["HD_Formation_MW_Fireteam"]).StandardPersonnel == 4,
             "Modern fireteam is complete");
-        Near(505, ((FormationDef)defs["HD_Formation_MW_Fireteam"]).FormationCost,
+        Near(660, ((FormationDef)defs["HD_Formation_MW_Fireteam"]).FormationCost,
             "Modern fireteam cost");
-        Check(((FormationDef)defs["HD_Formation_MW_RifleSquad"]).StandardPersonnel == 7,
-            "Modern squad has two fireteams and a leader");
-        Near(1305, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
+        Check(((FormationDef)defs["HD_Formation_MW_RifleSquad"]).StandardPersonnel == 13,
+            "Modern USMC-style squad has three four-person fireteams and a leader");
+        Near(2275, ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).FormationCost,
             "Modern squad cost");
         var modernLeader = ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).requiredRoles[0];
         Check(modernLeader.grenadeLoadout.Count(item => item.defName == "HD_C4_Charge") == 3
             && modernLeader.grenadeLoadout.Any(item => item.defName == "HD_M81Igniter"),
             "Modern squad leader carries enough C4 and a shock-tube igniter");
-        Check(((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).StandardPersonnel == 22,
-            "Modern platoon has three squads and a leader");
-        Near(4070, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
+        Check(((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).StandardPersonnel == 43,
+            "Modern platoon has three thirteen-person squads and four headquarters personnel");
+        Near(7445, ((FormationDef)defs["HD_Formation_MW_RiflePlatoon"]).FormationCost,
             "Modern platoon cost");
         Check(((FormationDef)defs["HD_Formation_MW_Fireteam"]).requiredRoles[0]
                 .apparelLoadout.Single().defName == "HD_Apparel_ZaperX26_Device"
@@ -507,11 +507,17 @@ internal static class Program
                 "SpecificDropDebug" }.All(bannedArrivals.Contains),
                 name + " forbids drop-pod raid arrivals");
         }
-        Check(FormationPlanner.Plan(500f, modern).Personnel == 3,
+        var modernTeam = (FormationDef)defs["HD_Formation_MW_Fireteam"];
+        Check(modernTeam.requiredRoles.Select(slot => slot.combatRole.defName).SequenceEqual(new[] {
+            "HD_Role_Grenadier", "HD_Role_AutomaticRifleman", "HD_Role_AssistantAutomaticRifleman", "HD_Role_Rifleman" }),
+            "One PawnKind supplies the USMC leader/grenadier, automatic rifleman, assistant and rifleman billets");
+        Check(modernTeam.requiredRoles.Select(slot => slot.explicitSuccessionOrder).SequenceEqual(new[] { 0, 1, 2, 3 }),
+            "The automatic rifleman succeeds the team leader before the assistant and rifleman");
+        Check(FormationPlanner.Plan(600f, modern).Personnel == 4,
             "A small high-faction raid fields one modern fireteam");
-        Check(FormationPlanner.Plan(1300f, modern).Personnel == 7,
+        Check(FormationPlanner.Plan(2100f, modern).Personnel == 13,
             "A mid-sized high-faction raid fields one complete squad");
-        Check(FormationPlanner.Plan(3750f, modern).Personnel == 22,
+        Check(FormationPlanner.Plan(6800f, modern).Personnel == 43,
             "A large high-faction raid fields one complete platoon");
         foreach (float points in Enumerable.Range(0, 400).Select(index => index * 47f))
         {
