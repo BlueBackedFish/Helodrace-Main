@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Gun_M249_Weapon.label>M249 경기관총</HD_Gun_M249_Weapon.label>
+  <HD_Gun_M249_Weapon.description>E2와 E3 구성의 총열, 덮개, 손잡이, 개머리판을 교체할 수 있는 5.56mm 탄띠 급탄식 경기관총입니다.</HD_Gun_M249_Weapon.description>
+  <HD_ModularPart_Barrel_M249E2_Part.label>M249 E2 총열 조립체</HD_ModularPart_Barrel_M249E2_Part.label>
+  <HD_ModularPart_Barrel_M249E3_Part.label>M249 E3 총열 조립체</HD_ModularPart_Barrel_M249E3_Part.label>
+  <HD_ModularPart_Handguard_M249E2_Part.label>M249 E2 핸드가드</HD_ModularPart_Handguard_M249E2_Part.label>
+  <HD_ModularPart_Handguard_M249E3_Part.label>M249 E3 레일 핸드가드</HD_ModularPart_Handguard_M249E3_Part.label>
+  <HD_ModularPart_Stock_M249E2_Part.label>M249 E2 고정 개머리판</HD_ModularPart_Stock_M249E2_Part.label>
+  <HD_ModularPart_Stock_M249E3_Part.label>M249 E3 개머리판</HD_ModularPart_Stock_M249E3_Part.label>
+  <HD_ModularPart_TopCover_M249E2_Part.label>M249 E2 급탄 덮개</HD_ModularPart_TopCover_M249E2_Part.label>
+  <HD_ModularPart_TopCover_M249E3_Part.label>M249 E3 레일 급탄 덮개</HD_ModularPart_TopCover_M249E3_Part.label>
+  <HD_ModularPart_ChargingHandle_M249_Part.label>M249 장전 손잡이</HD_ModularPart_ChargingHandle_M249_Part.label>
+  <HD_ModularPart_PistolGrip_M249_Part.label>M249 권총손잡이</HD_ModularPart_PistolGrip_M249_Part.label>
+  <HD_ModularPart_Trigger_M249_Part.label>M249 방아쇠</HD_ModularPart_Trigger_M249_Part.label>
+  <HD_ModularPart_Magazine_M249200_Part.label>M249 200발 탄통</HD_ModularPart_Magazine_M249200_Part.label>
+  <HD_ModularPart_Ammunition_M249_M855A1_Part.label>M249 M855A1 탄띠</HD_ModularPart_Ammunition_M249_M855A1_Part.label>
+</LanguageData>
