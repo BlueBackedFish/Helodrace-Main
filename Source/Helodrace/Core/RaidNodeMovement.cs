@@ -165,6 +165,7 @@ namespace Helodrace
         internal bool TryNodeMoveDestination(Pawn pawn, out IntVec3 destination, bool planning = false)
         {
             destination = IntVec3.Invalid;
+            if (ActiveExteriorIngress(pawn) != null) return false;
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
             string unitId = order?.UnitId ?? Helodrace.Squads.RaidTacticalUnit.ForPawn(pawn)?.Id;
             ExecutionState state = unitId == null ? null : StateFor(unitId);
@@ -202,6 +203,7 @@ namespace Helodrace
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
             if (order == null || order.Reactive || !cell.InBounds(map)) return true;
+            if (ActiveExteriorIngress(pawn) != null) return AllowsExteriorIngressStep(pawn, cell);
             ExecutionState state = StateFor(order.UnitId);
             RaidTacticalPlan plan = state?.ActivePlan;
             if (plan == null || state.Phase != RaidExecutionPhase.Assemble || state.ApproachComplete) return true;
@@ -248,6 +250,12 @@ namespace Helodrace
             {
                 if (!group.Any(assignment => assignment.Pawn == progress.Pawn)) continue;
                 Pawn pawn = progress.Pawn;
+                if (map.GetComponent<MapComponent_RaidTacticalExecution>().ActiveExteriorIngress(pawn) != null)
+                {
+                    RaidTacticalAssignment assignment = group.First(value => value.Pawn == pawn);
+                    if (!IsTaserOperation(pawn)) TryGoto(pawn, assignment.Position);
+                    continue;
+                }
                 // Each member crosses required nodes in order. The lead element never returns for the tail.
                 int before = progress.Completed;
                 // Skip ordinary guides when the forward join is physically visible.
@@ -363,6 +371,13 @@ namespace Helodrace
     [HarmonyPatch(typeof(Pawn_PathFollower), "TryEnterNextPathCell")]
     public static class Patch_RaidNodeMovement_AllowedStep
     {
+        public static void Postfix(Pawn ___pawn)
+        {
+            // Confirm the tile actually entered; a failed or queued step is not passage.
+            if (___pawn?.Spawned == true)
+                ___pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.ObserveExteriorIngressPosition(___pawn);
+        }
+
         public static bool Prefix(Pawn ___pawn, IntVec3 ___nextCell)
         {
             if (___pawn?.Spawned != true || !MapComponent_RaidTacticalOrders.Owned(___pawn.CurJob)

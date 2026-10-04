@@ -177,6 +177,28 @@ internal static class RaidTacticalUnitTests
                 "Durable pawn directives need both a command owner and original subgroup affiliation.");
             CheckCommandOwnership(game, map, execution, first, second, a, b);
             CheckPlanningBudget(game, plans);
+            var ingress = new RaidExteriorIngress { Pawn = first.Members.First(), Opening = new IntVec3(10, 0, 10),
+                Inside = new IntVec3(11, 0, 10), InsideRoom = 7, Active = true };
+            a.ExteriorIngress.Add(ingress);
+            var next = new RaidTacticalPlan { OrganizationId = first.OrganizationId, UnitId = first.Id,
+                GroupId = first.GroupId, Objective = new IntVec3(20, 0, 10),
+                BreachCell = new IntVec3(19, 0, 10), BreachInside = new IntVec3(20, 0, 10),
+                Selected = new RaidTacticalOption { Maneuver = RaidTacticalManeuver.CoordinatedEntry } };
+            var members = first.Members.ToList();
+            foreach (Pawn pawn in members) AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)-1);
+            try
+            {
+                AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "ActivateNextRoomPlan")
+                    .Invoke(null, new object[] { first, members, a, next, 100 });
+                Check(a.ActivePlan == next && a.ExteriorIngress.Single() == ingress && ingress.Active
+                    && ingress.Opening != next.BreachCell && ingress.InsideRoom == 7,
+                    "Replacing a room plan must preserve the outside follower's original ingress connection.");
+                Check(b.ExteriorIngress.Count == 0, "The connection must remain local to its squad.");
+            }
+            finally
+            {
+                foreach (Pawn pawn in members) AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)0);
+            }
             CheckIdentityLoading(first, alpha.id);
         }
         finally

@@ -33,7 +33,8 @@ namespace Helodrace
 
         public RaidMovementArea(Map map, RaidTacticalPlan plan, RaidStructureSnapshot structure,
             bool exteriorOnly, int initialRoom, RaidPawnOrder fight = null,
-            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, bool nodeApproach = false)
+            int excludedRoom = 0, bool selectedOpeningOnly = false, bool reactive = false, bool nodeApproach = false,
+            int openingOverride = -1)
         {
             OwnerPlan = plan;
             MarkRequested();
@@ -41,7 +42,8 @@ namespace Helodrace
                 Width = map.Size.x, Height = map.Size.z, Structure = structure?.Version.Geometry,
                 Reactive = reactive, ExteriorOnly = exteriorOnly, InitialRoom = initialRoom,
                 ExcludedRoom = excludedRoom, SelectedOpeningOnly = selectedOpeningOnly,
-                BreachIndex = plan.BreachCell.InBounds(map) ? map.cellIndices.CellToIndex(plan.BreachCell) : -1,
+                BreachIndex = openingOverride >= 0 ? openingOverride
+                    : plan.BreachCell.InBounds(map) ? map.cellIndices.CellToIndex(plan.BreachCell) : -1,
                 RestrictPortals = nodeApproach && (initialRoom == 0 || plan.ApproachPath
                     .Any(cell => structure?.RoomAt(cell) == initialRoom)),
                 AllowedPortals = nodeApproach ? plan.ApproachPath.Where(cell => cell.InBounds(map))
@@ -141,6 +143,7 @@ namespace Helodrace
         private readonly Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>> areas =
             new Dictionary<RaidTacticalPlan, Dictionary<int, RaidMovementArea>>();
         private readonly Dictionary<string, RaidMovementArea> fightingAreas = new Dictionary<string, RaidMovementArea>();
+        private readonly Dictionary<string, RaidMovementArea> ingressAreas = new Dictionary<string, RaidMovementArea>();
         private readonly Dictionary<TacticalStructureVersion, Dictionary<int, RaidMovementArea>> reactiveAreas =
             new Dictionary<TacticalStructureVersion, Dictionary<int, RaidMovementArea>>();
         private readonly HashSet<RaidMovementArea> pending = new HashSet<RaidMovementArea>();
@@ -148,7 +151,7 @@ namespace Helodrace
         private bool removed;
         public int Requests;
         public long BuildMilliseconds;
-        public int CachedGrids => areas.Values.Sum(value => value.Count) + fightingAreas.Count
+        public int CachedGrids => areas.Values.Sum(value => value.Count) + fightingAreas.Count + ingressAreas.Count
             + reactiveAreas.Values.Sum(value => value.Count);
         public int PendingGrids => pending.Count;
         public MapComponent_RaidMovementAreas(Map map) : base(map) { }
@@ -245,6 +248,20 @@ namespace Helodrace
                 }
                 return reactionArea;
             }
+            RaidExteriorIngress ingress = map.GetComponent<MapComponent_RaidTacticalExecution>().ActiveExteriorIngress(pawn);
+            if (ingress != null && structure != null)
+            {
+                string ingressKey = $"{order.UnitId}:{structure.Version.Id}:{ingress.Opening}:{ingress.InsideRoom}";
+                if (!ingressAreas.TryGetValue(ingressKey, out RaidMovementArea ingressArea) || ingressArea.Canceled)
+                {
+                    ingressAreas[ingressKey] = ingressArea = new RaidMovementArea(map, plan, structure,
+                        true, ingress.InsideRoom, selectedOpeningOnly: true,
+                        openingOverride: map.cellIndices.CellToIndex(ingress.Opening));
+                    Queue(ingressArea);
+                }
+                ingressArea.OwnerPlan = plan;
+                return ingressArea;
+            }
             if (order.Kind == RaidOrderKind.Fight)
             {
                 // A pawn outside the activity area must be able to return into it.
@@ -294,9 +311,11 @@ namespace Helodrace
             Dispose();
             foreach (RaidMovementArea area in areas.Values.SelectMany(value => value.Values)) area.Dispose();
             foreach (RaidMovementArea area in fightingAreas.Values) area.Dispose();
+            foreach (RaidMovementArea area in ingressAreas.Values) area.Dispose();
             foreach (RaidMovementArea area in reactiveAreas.Values.SelectMany(value => value.Values)) area.Dispose();
             areas.Clear();
             fightingAreas.Clear();
+            ingressAreas.Clear();
             reactiveAreas.Clear();
         }
     }

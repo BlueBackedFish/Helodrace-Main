@@ -136,6 +136,7 @@ namespace Helodrace
             public int LastDoorResponseTick;
             public IntVec3 CrossingBreach = IntVec3.Invalid;
             public List<BreachCrossing> Crossings = new List<BreachCrossing>();
+            public List<RaidExteriorIngress> ExteriorIngress = new List<RaidExteriorIngress>();
             public List<RaidReactivePosition> Reactions = new List<RaidReactivePosition>();
             public int DefenseUntil;
             public Pawn DefenseCaller;
@@ -215,6 +216,9 @@ namespace Helodrace
                     "lastDoorResponseTick");
                 Scribe_Values.Look(ref CrossingBreach, "crossingBreach", IntVec3.Invalid);
                 Scribe_Collections.Look(ref Crossings, "crossings", LookMode.Deep);
+                Scribe_Collections.Look(ref ExteriorIngress, "exteriorIngress", LookMode.Deep);
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && ExteriorIngress == null)
+                    ExteriorIngress = new List<RaidExteriorIngress>();
                 Scribe_Collections.Look(ref Reactions, "reactions", LookMode.Deep);
                 Scribe_Values.Look(ref DefenseUntil, "defenseUntil");
                 Scribe_References.Look(ref DefenseCaller, "defenseCaller");
@@ -596,6 +600,7 @@ namespace Helodrace
                     }
                     if (previous != null)
                     {
+                        state.ExteriorIngress = previous.ExteriorIngress;
                         if (ReferenceEquals(previous.ActivePlan, plan))
                         {
                             state.CurrentNode = previous.CurrentNode;
@@ -1322,6 +1327,7 @@ namespace Helodrace
         private bool FollowBreachCrossing(List<Pawn> members, RaidTacticalPlan plan,
             ExecutionState state)
         {
+            RememberExteriorIngress(members, plan, state);
             List<Pawn> entry = EntryPawns(members, plan);
             HashSet<IntVec3> clearanceCells = null;
             if (state.CrossingBreach != plan.BreachCell)

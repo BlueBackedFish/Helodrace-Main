@@ -42,6 +42,9 @@ namespace Helodrace
                         || input.SelectedOpeningOnly && i != input.BreachIndex
                             && (raw.Has(TacticalRawFlags.WallLine) || input.Structure.Cells[i].ExteriorAccess));
                 excluded |= input.RestrictPortals && raw.Has(TacticalRawFlags.Door) && !portals.Contains(i);
+                // A frozen doorway may have its own room ID. The committed
+                // connection itself must join the outside and destination room.
+                if (input.SelectedOpeningOnly && i == input.BreachIndex) excluded = false;
                 if (input.Fight)
                 {
                     int x = i % input.Width, z = i / input.Width;

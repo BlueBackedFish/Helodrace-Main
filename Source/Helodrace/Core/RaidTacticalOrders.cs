@@ -150,6 +150,14 @@ namespace Helodrace
                 owner.orders[pawn] = order;
             }
             order.GroupId = OrganizationAPI.GetGroup(pawn).id;
+            if (!reactive && (kind == RaidOrderKind.Move || kind == RaidOrderKind.Fight)
+                && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    .RedirectExteriorIngress(pawn, destination, out IntVec3 ingressDestination))
+            {
+                destination = ingressDestination.IsValid ? ingressDestination : pawn.Position;
+                kind = ingressDestination.IsValid ? RaidOrderKind.Move : RaidOrderKind.Hold;
+                fightOnArrival = false;
+            }
             bool changed = order.Kind != kind || order.Destination != destination
                 || order.Sprint != sprint || order.FightOnArrival != fightOnArrival
                 || order.Radius != radius || order.Reactive != reactive;

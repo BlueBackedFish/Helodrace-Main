@@ -162,6 +162,21 @@ internal static class Program
             Check(crossingMask[doorIndex] != ushort.MaxValue && crossingMask[3] == ushort.MaxValue,
                 "Only the selected wall opening can be used while crossing");
             maskInput.SelectedOpeningOnly = false;
+            var ingressInput = Open(7, 5);
+            for (int z = 0; z < 5; z++) Wall(ingressInput, 3, z);
+            for (int z = 0; z < 5; z++)
+                for (int x = 4; x < 7; x++) ingressInput.Cells[z * 7 + x].Room = 1;
+            ingressInput.Cells[doorIndex].Flags |= TacticalRawFlags.Door;
+            ingressInput.Cells[doorIndex].Room = 9;
+            ingressInput.Cells[0].Room = 2;
+            var ingressMask = TacticalMovementMask.Calculate(new TacticalMovementMaskInput {
+                Width = 7, Height = 5, Structure = TacticalGeometry.Calculate(ingressInput, CancellationToken.None),
+                ExteriorOnly = true, InitialRoom = 1, SelectedOpeningOnly = true, BreachIndex = doorIndex
+            }, CancellationToken.None);
+            Check(ingressMask[doorIndex] == 0 && ingressMask[18] == 0 && ingressMask[14] == 0,
+                "Committed ingress joins exterior, doorway room and original interior after a new room plan");
+            Check(ingressMask[3] == ushort.MaxValue && ingressMask[0] == ushort.MaxValue,
+                "Old entrances and unrelated rooms stay excluded during follower ingress");
             maskInput.ExcludedRoom = 1;
             Check(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)[18] == ushort.MaxValue,
                 "Support masks prevent entry into the grenade target room");

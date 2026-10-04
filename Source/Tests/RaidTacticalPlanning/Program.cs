@@ -18,6 +18,18 @@ internal static class Program
         try
         {
             CheckLocalCqb();
+            Check(RaidBreachTraversal.AllowsCommittedIngressStep(true, false, 0, 9, 1, true, true),
+                "The committed opening remains usable even with its own doorway room ID");
+            Check(!RaidBreachTraversal.AllowsCommittedIngressStep(false, false, 0, 1, 1, false, false),
+                "An unexpected gap cannot bypass the established opening");
+            Check(!RaidBreachTraversal.AllowsCommittedIngressStep(false, false, 0, 0, 1, true, true),
+                "An old exterior door cannot replace the established opening");
+            Check(RaidBreachTraversal.AllowsCommittedIngressStep(false, false, 0, 0, 1, false, false),
+                "Ordinary exterior detours remain usable while approaching the opening");
+            Check(RaidBreachTraversal.AllowsCommittedIngressStep(false, true, 0, 1, 1, false, false),
+                "A member touching the selected opening can continue inward");
+            Check(!RaidBreachTraversal.AllowsCommittedIngressStep(false, true, 1, 2, 1, false, false),
+                "Joining cannot stray into an unrelated room");
             CheckCqbIntent();
             Check(RaidSmokePolicy.CarrierCount(0) == 0, "An empty formation does not create smoke carriers");
             Check(RaidSmokePolicy.CarrierCount(1) == 1, "A one-person formation still has smoke");

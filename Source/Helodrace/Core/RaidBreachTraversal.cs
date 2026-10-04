@@ -27,6 +27,12 @@ namespace Helodrace
         public static bool CanUsePortal(bool selectedOpening, bool wallLine, bool exteriorAccess) =>
             selectedOpening || !wallLine && !exteriorAccess;
 
+        public static bool AllowsCommittedIngressStep(bool selectedOpening, bool entered,
+            int currentRoom, int nextRoom, int insideRoom, bool wallLine, bool exteriorAccess) =>
+            selectedOpening || (nextRoom == 0 || nextRoom == insideRoom)
+                && (entered || nextRoom != insideRoom || currentRoom == insideRoom)
+                && CanUsePortal(false, wallLine, exteriorAccess);
+
         // Crossing is latched: congestion, knockback, and a lateral path step
         // must not send an admitted pawn back to the outside staging cell.
         public static RaidBreachProgress Advance(RaidBreachProgress progress,

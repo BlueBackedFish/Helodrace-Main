@@ -225,6 +225,8 @@ namespace Helodrace
                 if (order != null) AddNode(order.Destination, label + ": " + order.Kind, Color.cyan, false);
             }
             if (state == null) return;
+            foreach (RaidExteriorIngress ingress in state.ExteriorIngress.Where(value => !value.Complete).Take(100))
+                AddNode(ingress.Opening, (ingress.Pawn?.LabelShort ?? "?") + ": JOIN", Color.cyan, false);
             AddNode(state.ApproachSmokeActive ? state.ApproachSmokeTarget : IntVec3.Invalid, "HD_RaidView_Smoke", Color.white);
             foreach (var crossing in state.Crossings.Take(100))
                 AddNode(crossing.Destination, (crossing.Pawn?.LabelShort ?? "?") + ": " + crossing.Progress, EntryColor, false);
