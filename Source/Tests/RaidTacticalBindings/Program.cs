@@ -33,6 +33,7 @@ internal static class Program
             typeof(Patch_RaidTacticalSupportFlee),
             typeof(Patch_RaidMovementArea_Request), typeof(Patch_RaidMovementArea_Dispose),
             typeof(Patch_RaidNodeMovement_AllowedStep),
+            typeof(Patch_EdgeWalkInGroups_Organization),
             typeof(Patch_BreachedDoor_NoRandomBreakdown), typeof(Patch_BreachedDoor_AlwaysOpen),
             typeof(Patch_BreachedDoor_FreePassage), typeof(Patch_BreachedDoor_BreakdownRepaired),
             typeof(Patch_BreachedDoor_OrdinaryRepair), typeof(Patch_DebugSettings_RaidTacticalOverlay),
@@ -83,6 +84,7 @@ internal static class Program
             RaidObservationTests.Run();
             RaidCqbKnowledgeTests.Run();
             RaidTacticalUnitTests.Run();
+            OrganizationEdgeArrivalTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }

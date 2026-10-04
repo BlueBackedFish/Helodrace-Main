@@ -212,6 +212,18 @@ namespace Helodrace
                         + $"owner={order.UnitId} group={order.GroupId} "
                         + $"room={order.Room} retryAfter={order.RetryAfter} "
                         + $"job={MapComponent_RaidTacticalTrace.Describe(assignment.Pawn.CurJob)}");
+                if (contactsState != null)
+                {
+                    RaidNodeMemberProgress progress = contactsState.NodeMembers.FirstOrDefault(value => value.Pawn == assignment.Pawn);
+                    RaidExteriorIngress ingress = contactsState.ExteriorIngress.FirstOrDefault(value => value.Pawn == assignment.Pawn && !value.Complete);
+                    bool personalApproachDone = plan.MovementNodes.Count > 0 && progress != null
+                        && progress.Completed >= plan.MovementNodes.Count - 1;
+                    report.AppendLine($"    approach unitDone={contactsState.ApproachComplete} memberDone={personalApproachDone}; "
+                        + $"slot={assignment.Position} current={assignment.Pawn.Position}");
+                    if (ingress != null)
+                        report.AppendLine($"    ingress active={ingress.Active} entered={ingress.Entered} opening={ingress.Opening} "
+                            + $"clearance={ingress.Destination} requested={ingress.Requested} room={ingress.InsideRoom}");
+                }
             }
             report.AppendLine();
             report.AppendLine("Recent job changes (newest first):");
