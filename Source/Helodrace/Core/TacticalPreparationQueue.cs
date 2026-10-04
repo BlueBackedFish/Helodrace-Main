@@ -21,6 +21,8 @@ namespace Helodrace
         public int WaiterCount => waiting.Count;
         public int PeakCount { get; private set; }
         public IEnumerable<TKey> Keys => fifo.Select(entry => entry.Key);
+        internal bool HasWaiters(TKey key) => entries.TryGetValue(key, out LinkedListNode<Entry> entry)
+            && entry.Value.Waiters.Count > 0;
 
         internal TacticalPreparationQueue(IEqualityComparer<TWaiter> comparer = null)
         {

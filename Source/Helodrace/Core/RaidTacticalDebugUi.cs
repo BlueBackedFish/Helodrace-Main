@@ -154,6 +154,9 @@ namespace Helodrace
                 + $"waitingPawns={movement.WaitingPawns} peakPending={movement.PeakPendingGrids} "
                 + $"oldestWait={movement.OldestWaitFrames} frames notifications={movement.PreparedNotifications} "
                 + $"created={movement.CreatedGrids} hits={movement.CacheHits} "
+                + $"native={movement.NativeMemoryBytes / 1048576.0:0.00} MiB "
+                + $"peak={movement.PeakNativeMemoryBytes / 1048576.0:0.00} MiB "
+                + $"evictions={movement.CacheEvictions} memoryWaits={movement.MemoryDeferrals} "
                 + $"preparation wall time={movement.BuildMilliseconds} ms");
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "

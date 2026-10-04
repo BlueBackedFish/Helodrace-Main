@@ -26,6 +26,7 @@ namespace Helodrace
         internal readonly TacticalNativeLease<PathRequest> Lease = new TacticalNativeLease<PathRequest>();
         private readonly MapComponent_RaidMovementAreas owner;
         internal long NativeBytes => costs.IsCreated ? (long)costs.Length * sizeof(ushort) : 0;
+        private readonly long requiredBytes;
         private int retryFrame;
         public bool Ready { get; private set; }
         public bool Canceled => canceled;
@@ -39,11 +40,14 @@ namespace Helodrace
             owner = map.GetComponent<MapComponent_RaidMovementAreas>();
             MarkRequested();
             input = captured;
+            requiredBytes = checked((long)input.Width * input.Height * sizeof(ushort));
             if (input.Reactive)
             {
                 // Explosion/sniper evasion cannot wait for deferred preparation.
                 // This rare first-room mask is shared across organizations.
+                owner?.CanAllocate(requiredBytes, emergency: true);
                 costs = new NativeArray<ushort>(TacticalMovementMask.Calculate(input, CancellationToken.None), Allocator.Persistent);
+                owner?.Allocated(NativeBytes);
                 Ready = true;
                 input = null;
                 preparation.Stop();
@@ -57,6 +61,7 @@ namespace Helodrace
             {
                 if (calculation == null)
                 {
+                    if (owner?.CanAllocate(requiredBytes) == false) return;
                     if (cancellation == null) cancellation = new CancellationTokenSource();
                     TacticalGeometryWorker.TryStart(input, cancellation.Token, out calculation);
                 }
@@ -76,8 +81,9 @@ namespace Helodrace
             }
             if (!costs.IsCreated)
             {
-                if (!TacticalCacheBudget.TakeCell()) return;
+                if (owner?.CanAllocate(requiredBytes) == false || !TacticalCacheBudget.TakeCell()) return;
                 costs = new NativeArray<ushort>(values.Length, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
+                owner?.Allocated(NativeBytes);
             }
             while (copied < values.Length)
             {
@@ -98,7 +104,7 @@ namespace Helodrace
 
         public NativeArray<ushort> GetOffsetGrid()
         {
-            if (!Ready) throw new InvalidOperationException("Movement mask is not ready.");
+            if (!Ready || canceled) throw new InvalidOperationException("Movement mask is not available.");
             Lease.BeginRead();
             owner?.RegisterReader(this);
             return costs;
@@ -113,7 +119,7 @@ namespace Helodrace
             values = null;
             input = null;
             // Unpublished partial buffers were never returned to PathFinder.
-            if (!Ready && costs.IsCreated) costs.Dispose();
+            if (!Ready) DisposeBuffer();
             if (source == null) return;
             source.Cancel();
             if (task == null) source.Dispose();
@@ -123,7 +129,14 @@ namespace Helodrace
                 source.Dispose();
             }, TaskScheduler.Default);
         }
-        public void Dispose() { CancelPreparation(); if (costs.IsCreated) costs.Dispose(); }
+        private void DisposeBuffer()
+        {
+            if (!costs.IsCreated) return;
+            long bytes = NativeBytes;
+            costs.Dispose();
+            owner?.Freed(bytes);
+        }
+        public void Dispose() { CancelPreparation(); DisposeBuffer(); }
     }
 
     public sealed class MapComponent_RaidMovementAreas : MapComponent, IDisposable
@@ -167,6 +180,7 @@ namespace Helodrace
             if (areas.TryGetValue(key, out RaidMovementArea area) && !area.Canceled)
             {
                 CacheHits++;
+                area.MarkRequested();
                 return area;
             }
             areas[key] = area = new RaidMovementArea(map, key.Input);
@@ -178,6 +192,44 @@ namespace Helodrace
         private readonly TacticalPreparationQueue<RaidMovementArea, Pawn> pending =
             new TacticalPreparationQueue<RaidMovementArea, Pawn>(RaidPawnReferenceComparer.Instance);
         private const int MaximumPumpsPerPass = 64;
+        private const int TargetCacheEntries = 128;
+        private readonly TacticalNativeBudget memory = new TacticalNativeBudget(64L * 1024 * 1024);
+        private int lastTrimFrame = -1;
+        public int CacheEvictions, MemoryDeferrals;
+        public long NativeMemoryBytes => memory.Bytes;
+        public long PeakNativeMemoryBytes => memory.Peak;
+        internal void Allocated(long bytes) => memory.Allocated(bytes);
+        internal void Freed(long bytes) => memory.Freed(bytes);
+        internal bool CanAllocate(long bytes, bool emergency = false)
+        {
+            if (memory.Fits(bytes)) return true;
+            Trim(bytes);
+            if (memory.Fits(bytes) || emergency) return true;
+            MemoryDeferrals++;
+            return false;
+        }
+        private void Trim(long requiredBytes = 0)
+        {
+            int frame = UnityEngine.Time.frameCount;
+            if (lastTrimFrame == frame) return;
+            lastTrimFrame = frame;
+            foreach (var pair in areas.Where(pair => TacticalNativeBudget.Retirable(pair.Value.Ready,
+                    pair.Value.Lease.CanRetire, pair.Value.LastRequestedFrame, frame))
+                .OrderBy(pair => pair.Value.LastRequestedFrame).ToArray())
+            {
+                if (areas.Count <= TargetCacheEntries && memory.Fits(requiredBytes)) break;
+                areas.Remove(pair.Key); pair.Value.Dispose(); CacheEvictions++;
+            }
+            // Obsolete speculative inputs are safe to cancel before publication.
+            // Current waiters and recently requested prewarm work remain intact.
+            if (areas.Count > TargetCacheEntries)
+                foreach (var pair in areas.Where(pair => !pair.Value.Ready && pair.Value.Lease.CanRetire
+                        && frame - pair.Value.LastRequestedFrame >= 300 && !pending.HasWaiters(pair.Value)).ToArray())
+                {
+                    pending.Complete(pair.Value); areas.Remove(pair.Key);
+                    pair.Value.Dispose(); CacheEvictions++;
+                }
+        }
         private bool removed;
         private readonly HashSet<RaidMovementArea> readingAreas = new HashSet<RaidMovementArea>();
         internal void RegisterReader(RaidMovementArea area) => readingAreas.Add(area);
@@ -213,6 +265,7 @@ namespace Helodrace
                         MapComponent_RaidTacticalOrders.PreparationReady(pawn);
                     }
             }
+            if (areas.Count > TargetCacheEntries || !memory.Fits(0)) Trim();
         }
         private void Queue(RaidMovementArea area)
         {

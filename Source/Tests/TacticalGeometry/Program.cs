@@ -147,14 +147,30 @@ internal static class Program
     private static void CheckPreparationQueue()
     {
         var lease = new TacticalNativeLease<object>();
+        var memory = new TacticalNativeBudget(100);
+        Check(memory.Fits(100), "A native allocation fitting exactly within budget is admitted");
+        memory.Allocated(80);
+        Check(memory.Fits(20) && !memory.Fits(21), "Native pressure defers normal publication instead of disposing live readers");
+        memory.Allocated(30);
+        Check(memory.Bytes == 110 && memory.Peak == 110 && !memory.Fits(0),
+            "Emergency publication may temporarily exceed the target and is reflected in memory accounting");
+        memory.Freed(80);
+        Check(memory.Bytes == 30 && memory.Fits(70) && memory.Peak == 110,
+            "Safe retirement restores capacity while preserving the measured peak");
         object request = new object();
         Check(lease.CanRetire, "An unused native cache entry may be retired");
         lease.Acquire(request); lease.Acquire(request);
         Check(!lease.CanRetire && lease.Requests == 1, "Created/queued requests retain their grid, with duplicate acquisition coalesced");
+        Check(!TacticalNativeBudget.Retirable(true, lease.CanRetire, 0, 100), "Memory pressure cannot retire a queued request's grid");
         lease.BeginRead(); lease.Release(request);
         Check(!lease.CanRetire && lease.Requests == 0, "Cancelling a running request does not permit disposal while its grid job still reads");
+        Check(!TacticalNativeBudget.Retirable(true, lease.CanRetire, 0, 100), "Memory pressure cannot retire a cancelled request's running grid");
         lease.CompleteReads();
         Check(lease.CanRetire, "The native completion barrier permits retirement after all requests release");
+        Check(TacticalNativeBudget.Retirable(true, lease.CanRetire, 0, 100)
+            && !TacticalNativeBudget.Retirable(true, lease.CanRetire, 99, 100)
+            && !TacticalNativeBudget.Retirable(false, lease.CanRetire, 0, 100),
+            "Retirement needs a completed, unleased, idle grid and preserves just-requested or unpublished entries");
         lease.Acquire(request); lease.BeginRead(); lease.CompleteReads();
         Check(!lease.CanRetire, "A completion barrier cannot retire a grid still retained by another pending request");
         lease.Release(request);
@@ -164,6 +180,8 @@ internal static class Program
         object a = new object(), b = new object(), c = new object();
         queue.Add(speculative, 0); queue.Add(old, 10); queue.Add(later, 20);
         queue.WaitFor(a, old); queue.WaitFor(b, later);
+        Check(queue.HasWaiters(old) && !queue.HasWaiters(speculative),
+            "Only obsolete speculative tasks may be cancelled; an old actual mover remains protected");
         queue.WaitFor(a, old); queue.Add(old, 200);
         Check(queue.Count == 3 && queue.WaiterCount == 2 && queue.ServiceOrder(1).Single() == old,
             "Actual movement waits precede speculative preparation, with repeated requests preserving FIFO age");
