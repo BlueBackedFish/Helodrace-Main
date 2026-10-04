@@ -70,6 +70,12 @@ internal static class Program
             "An evaded pawn can exit its off-route room to rejoin the valid connection");
         Check(!TacticalNodeProgress.AllowsStep(1, 3, false, false, room => room == 0 || room == 1),
             "A new hole into an unselected room is not silently used as a shortcut");
+        Check(TacticalNodeProgress.AllowsStep(1, 3, true, true, room => room == 2),
+            "A selected known portal may have its own frozen room ID outside the floor-room list");
+        Check(TacticalNodeProgress.AllowsStep(1, 0, false, true, room => room == 2),
+            "A selected demolished wall is permitted at that exact connection cell");
+        Check(!TacticalNodeProgress.AllowsStep(1, 0, false, false, room => room == 2),
+            "Permission for a selected gap does not permit other exterior cells");
     }
     private static void Check(bool value, string message)
     {
@@ -196,6 +202,22 @@ internal static class Program
             }, CancellationToken.None);
             Check(indoorTransit[18] == 0 && indoorTransit[doorIndex] == 0 && indoorTransit[14] == ushort.MaxValue,
                 "An admitted follower uses a proved indoor connection without reopening unrelated exterior paths");
+            var joinInput = Open(4, 1);
+            joinInput.Cells[0].Room = 1; joinInput.Cells[1].Room = 3;
+            joinInput.Cells[1].Flags |= TacticalRawFlags.Door;
+            joinInput.Cells[2].Room = 0; joinInput.Cells[3].Room = 2;
+            var joinMask = TacticalMovementMask.Calculate(new TacticalMovementMaskInput {
+                Width = 4, Height = 1, Structure = TacticalGeometry.Calculate(joinInput, CancellationToken.None),
+                InitialRoom = 1, RestrictRooms = true, AllowedRooms = new[] { 2 }, RestrictPortals = true,
+                AllowedPortals = new[] { 1, 2 }, RestrictCells = true, AllowedCells = new[] { 0, 1, 2, 3 }
+            }, CancellationToken.None);
+            Check(joinMask.All(cost => cost == 0), "Known portal exceptions connect a prior room through door and demolished-wall IDs");
+            var confinedJoin = TacticalMovementMask.Calculate(new TacticalMovementMaskInput {
+                Width = 4, Height = 1, Structure = TacticalGeometry.Calculate(joinInput, CancellationToken.None),
+                InitialRoom = 1, RestrictRooms = true, AllowedRooms = new[] { 2 }, RestrictPortals = true,
+                AllowedPortals = new[] { 1 }, RestrictCells = true, AllowedCells = new[] { 0, 1, 3 }, BreachIndex = 2
+            }, CancellationToken.None);
+            Check(confinedJoin[2] == ushort.MaxValue, "An unrelated planned breach cannot override a personal join corridor");
             maskInput.ExcludedRoom = 1;
             Check(TacticalMovementMask.Calculate(maskInput, CancellationToken.None)[18] == ushort.MaxValue,
                 "Support masks prevent entry into the grenade target room");

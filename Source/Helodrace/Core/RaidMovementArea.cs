@@ -46,8 +46,9 @@ namespace Helodrace
                     : plan.BreachCell.InBounds(map) ? map.cellIndices.CellToIndex(plan.BreachCell) : -1,
                 RestrictRooms = connection != null,
                 AllowedRooms = connection?.AllowedRooms.ToArray() ?? Array.Empty<int>(),
-                RestrictCells = ingressCells != null,
-                AllowedCells = ingressCells?.Select(map.cellIndices.CellToIndex).ToArray() ?? Array.Empty<int>(),
+                RestrictCells = ingressCells != null || connection?.RestrictedCells != null,
+                AllowedCells = (ingressCells ?? connection?.RestrictedCells)?.Select(map.cellIndices.CellToIndex).ToArray()
+                    ?? Array.Empty<int>(),
                 RestrictPortals = connection != null,
                 AllowedPortals = connection != null ? connection.AllowedPortals.Where(cell => cell.InBounds(map))
                     .Select(cell => map.cellIndices.CellToIndex(cell)).Distinct().ToArray() : Array.Empty<int>(),
@@ -306,7 +307,7 @@ namespace Helodrace
                     && assignment.Task == RaidTacticalTask.Entry);
             int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;
             RaidMovementNode connection = map.GetComponent<MapComponent_RaidTacticalExecution>().ApproachConnection(pawn);
-            string room = $"{outside}:{initialRoom}:{excludedRoom}:{selectedOpeningOnly}:N{connection?.Id ?? -1}";
+            string room = $"{outside}:{initialRoom}:{excludedRoom}:{selectedOpeningOnly}:N{connection?.Id ?? -1}:J{connection?.ConnectionRevision ?? 0}";
             if (!areas.TryGetValue(plan, out Dictionary<string, RaidMovementArea> versions))
                 areas[plan] = versions = new Dictionary<string, RaidMovementArea>();
             if (!versions.TryGetValue(room, out RaidMovementArea area) || area.Canceled)

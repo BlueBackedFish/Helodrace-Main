@@ -1146,6 +1146,13 @@ namespace Helodrace
                         Advance(state, RaidExecutionPhase.Breach, tick);
                         break;
                     }
+                    // This unit opened the passage itself; later room plans
+                    // must retain that connection for its rear security members.
+                    RaidStructureSnapshot crossedStructure = StructureFor(map, plan);
+                    if (crossedStructure != null && plan.BreachCell.InBounds(map))
+                        state.CqbKnowledge.RememberDirect(plan.BreachCell, new RaidKnownCqbCell {
+                            Building = plan.BreachCell.GetEdifice(map)?.thingIDNumber ?? 0, Portal = true, Usable = true
+                        }, tick, crossedStructure.Version.Id, state.UnitId);
                     if (FollowBreachCrossing(members, plan, state))
                         Advance(state, RaidExecutionPhase.Assault, tick);
                     break;

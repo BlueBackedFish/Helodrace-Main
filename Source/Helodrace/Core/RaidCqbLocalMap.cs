@@ -38,6 +38,9 @@ namespace Helodrace
         internal int ObservedTick, Version;
         internal string Origin;
         internal System.Action<IntVec3, RaidKnownCqbCell> OnObserved;
+        internal IEnumerable<IntVec3> KnownPassablePortals(int version) => cells.Values
+            .Where(record => record.Version == version && record.Cell.Portal && record.Cell.Usable)
+            .Select(record => record.Position);
         public RaidKnownCqbCell Read(IntVec3 cell, RaidKnownCqbCell baseline, RaidKnownCqbCell live,
             System.Func<IntVec3, bool> observed)
         {

@@ -66,7 +66,7 @@ namespace Helodrace
 
         public static bool AllowsStep(int currentRoom, int nextRoom, bool door,
             bool selectedDoor, Func<int, bool> allowedRoom)
-            => (!door || selectedDoor || !allowedRoom(currentRoom))
+            => selectedDoor || (!door || !allowedRoom(currentRoom))
                 && (nextRoom == currentRoom || allowedRoom(nextRoom));
 
         public static int Arrive(int completed, int target, int count, Func<int, bool> arrived)

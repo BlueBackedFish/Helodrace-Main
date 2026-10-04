@@ -114,6 +114,26 @@ internal static class RaidSecurityMovementTests
         Check((IntVec3)forward.Invoke(null, new object[] { route, route.Count - 1 }) == route[route.Count - 1],
             "A terminal transit guide does not read beyond the planned path.");
 
+        var knownJoin = AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "KnownIndoorJoin");
+        var rear = new IntVec3(7, 0, 8);
+        RaidMovementNode Join(Func<IntVec3, bool> known) => (RaidMovementNode)knownJoin.Invoke(null, new object[] {
+            map, snapshot, rear, target, new HashSet<int> { 1, 2 }, known, new HashSet<IntVec3>() });
+        Check(Join(_ => false) == null, "A rear member cannot join through a wall or an unobserved open doorway.");
+        var throughGap = Join(cell => cell == passage);
+        Check(throughGap != null && throughGap.AllowedPortals.Contains(passage)
+            && !throughGap.AllowedRooms.Contains(0), "The known demolished wall joins rooms without authorizing all exterior room-zero cells.");
+        var joinCells = (HashSet<IntVec3>)AccessTools.Field(typeof(RaidMovementNode), "RestrictedCells").GetValue(throughGap);
+        Check(joinCells.Contains(rear) && joinCells.Contains(passage) && joinCells.Contains(target)
+            && !joinCells.Contains(opening) && !joinCells.Contains(oldEntry) && !joinCells.Contains(new IntVec3(4, 0, 8)),
+            "The personal join corridor contains a connected indoor route and excludes both exterior entrances.");
+        var throughDoor = Join(cell => cell == innerDoor);
+        Check(throughDoor != null && throughDoor.AllowedPortals.Contains(innerDoor)
+            && !throughDoor.AllowedRooms.Contains(10), "A door's own frozen room number is allowed at that portal, not as an entire room.");
+        state.Phase = RaidExecutionPhase.Assemble;
+        AccessTools.Field(typeof(RaidNodeMemberProgress), "JoinConnection").SetValue(state.NodeMembers[1], throughDoor);
+        Check(Connection(tail) == throughDoor, "Physical admission and path costs use the same personal known-passage join.");
+        AccessTools.Field(typeof(RaidNodeMemberProgress), "JoinConnection").SetValue(state.NodeMembers[1], null);
+
         // Use the native ThingGrid to exercise collision admission independently
         // of Unity's path jobs; reservation permission is supplied explicitly.
         map.thingGrid = new ThingGrid(map);

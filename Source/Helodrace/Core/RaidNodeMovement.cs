@@ -21,6 +21,9 @@ namespace Helodrace
         public List<IntVec3> GuidanceCells = new List<IntVec3>();
         public List<int> AllowedRooms = new List<int>();
         public List<IntVec3> AllowedPortals = new List<IntVec3>();
+        // Only personal indoor joins use a bounded cell corridor.
+        [NonSerialized] internal HashSet<IntVec3> RestrictedCells;
+        [NonSerialized] internal int ConnectionRevision;
         public int GuidanceRadius = 3;
         public int RefreshTicks = 60;
         public int RetryTicks = 120;
@@ -51,6 +54,9 @@ namespace Helodrace
         public int RetryAfter;
         public int OutsideSince = -1;
         public int CorrectionAfter;
+        [NonSerialized] internal RaidMovementNode JoinConnection;
+        [NonSerialized] internal int JoinTargetNode = -1;
+        [NonSerialized] internal int JoinSearchAfter;
         public void ExposeData()
         {
             Scribe_References.Look(ref Pawn, "pawn");
@@ -180,7 +186,7 @@ namespace Helodrace
             if (progress == null || progress.DestinationNode < 0
                 || progress.Completed >= plan.MovementNodes.Count - 1) return false;
             int index = Math.Min(progress.DestinationNode, plan.MovementNodes.Count - 1);
-            RaidMovementNode node = plan.MovementNodes[index];
+            RaidMovementNode node = progress.JoinConnection ?? plan.MovementNodes[index];
             RaidStructureSnapshot structure = StructureFor(map, plan);
             var peers = state.NodeMembers.Where(value => value.Pawn != pawn && value.Pawn?.Spawned == true
                 && !value.Pawn.Dead && !value.Pawn.Downed && value.DestinationNode == index)
@@ -216,7 +222,8 @@ namespace Helodrace
             if (plan == null || state.Phase != RaidExecutionPhase.Assemble || state.ApproachComplete) return null;
             RaidNodeMemberProgress progress = state.NodeMembers.FirstOrDefault(member => member.Pawn == pawn);
             int next = (progress?.Completed ?? -1) + 1;
-            return progress != null && next >= 0 && next < plan.MovementNodes.Count ? plan.MovementNodes[next] : null;
+            return progress != null && next >= 0 && next < plan.MovementNodes.Count
+                ? progress.JoinConnection ?? plan.MovementNodes[next] : null;
         }
 
         internal bool AllowsNodeStep(Pawn pawn, IntVec3 cell)
@@ -233,6 +240,7 @@ namespace Helodrace
             int currentRoom = structure.RoomAt(pawn.Position);
             // An evaded member may exit its off-route room to rejoin, but cannot use another entry as a shortcut.
             int room = structure.RoomAt(cell);
+            if (connection.RestrictedCells != null && !connection.RestrictedCells.Contains(cell)) return false;
             return TacticalNodeProgress.AllowsStep(currentRoom, room, cell.GetEdifice(map) is Building_Door,
                 connection.AllowedPortals.Contains(cell), connection.AllowedRooms.Contains);
         }
@@ -270,6 +278,17 @@ namespace Helodrace
                     RaidTacticalAssignment assignment = group.First(value => value.Pawn == pawn);
                     if (!IsTaserOperation(pawn)) TryGoto(pawn, assignment.Position);
                     continue;
+                }
+                RaidTacticalAssignment personalAssignment = group.First(value => value.Pawn == pawn);
+                // Security assigned to its current room need not visit the
+                // entry element's next room merely to come back to this slot.
+                if (personalAssignment.Task != RaidTacticalTask.Entry && personalAssignment.Position.InBounds(map)
+                    && structure?.RoomAt(pawn.Position) > 0
+                    && structure.RoomAt(pawn.Position) == structure.RoomAt(personalAssignment.Position)
+                    && RaidNodeRoute.WalkLine(map, pawn.Position, personalAssignment.Position))
+                {
+                    progress.Completed = plan.MovementNodes.Count - 1;
+                    progress.JoinConnection = null;
                 }
                 // Each member crosses required nodes in order. The lead element never returns for the tail.
                 int before = progress.Completed;
@@ -312,6 +331,44 @@ namespace Helodrace
                 RaidMovementNode destinationNode = plan.MovementNodes[next];
                 remaining += pawn.Position.DistanceTo(destinationNode.Center);
                 if (IsTaserOperation(pawn)) continue;
+                if (structure != null && (structure.RoomAt(pawn.Position) > 0
+                        && !destinationNode.AllowedRooms.Contains(structure.RoomAt(pawn.Position))
+                    || progress.JoinConnection != null && progress.JoinTargetNode == next
+                        && progress.JoinConnection.RestrictedCells.Contains(pawn.Position)
+                        && structure.Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(pawn.Position)]
+                            .Has(TacticalRawFlags.WallLine)))
+                {
+                    if (progress.JoinConnection == null || progress.JoinTargetNode != next
+                        || !progress.JoinConnection.RestrictedCells.Contains(pawn.Position))
+                    {
+                        if (tick < progress.JoinSearchAfter && progress.JoinTargetNode == next) continue;
+                        progress.JoinTargetNode = next;
+                        progress.JoinSearchAfter = tick + 60;
+                        var rooms = new HashSet<int>(destinationNode.AllowedRooms.Where(room => room > 0));
+                        foreach (IntVec3 cleared in state.ClearedRoomCells) rooms.Add(structure.RoomAt(cleared));
+                        rooms.Add(structure.RoomAt(pawn.Position));
+                        var known = new HashSet<IntVec3>(state.CqbKnowledge.KnownPassablePortals(structure.Version.Id));
+                        foreach (RaidTacticalReport report in state.Communication.For(pawn.thingIDNumber).Reports.Reports)
+                            if (report.Kind == RaidReportKind.Passage && report.StructureVersion == structure.Version.Id
+                                && report.IsPortal && report.Usable) known.Add(report.Position);
+                        progress.JoinConnection = KnownIndoorJoin(map, structure, pawn.Position, destinationNode.Center,
+                            rooms, known.Contains, plan.AvoidedTrapCells);
+                        if (progress.JoinConnection != null)
+                        {
+                            progress.JoinConnection.Id = destinationNode.Id;
+                            progress.JoinConnection.ConnectionRevision = ++map.GetComponent<MapComponent_RaidTacticalExecution>()
+                                .personalJoinRevision;
+                            MapComponent_RaidTacticalTrace.Record(pawn, $"Known indoor join to {progress.JoinConnection.Center}");
+                        }
+                    }
+                    if (progress.JoinConnection == null) continue;
+                    progress.DestinationNode = next;
+                    progress.Destination = progress.JoinConnection.Center;
+                    TryGoto(pawn, progress.Destination);
+                    continue;
+                }
+                progress.JoinConnection = null;
+                progress.JoinTargetNode = -1;
                 int from = progress.Completed < 0 ? 0 : plan.MovementNodes[progress.Completed].RouteIndex;
                 var forward = plan.ApproachPath.Skip(from).Take(Math.Min(65, destinationNode.RouteIndex - from + 2))
                     .Where(cell => cell.InBounds(map)).OrderBy(cell => pawn.Position.DistanceToSquared(cell)).Take(8)
