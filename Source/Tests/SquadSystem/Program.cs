@@ -515,6 +515,14 @@ internal static class Program
                 name + " forbids drop-pod raid arrivals");
         }
         var modernTeam = (FormationDef)defs["HD_Formation_MW_Fireteam"];
+        Check(modernTeam.requiredRoles[2].apparelLoadout.Single().defName == "HD_Apparel_GW_Sledgehammer"
+            && ((FormationDef)defs["HD_Formation_MW_RifleSquad"]).childFormations.Single().count == 3,
+            "Each High fireteam assistant carries a backup hammer, giving three per squad");
+        XElement highKind = XDocument.Load(Path.Combine(root, "Defs/Helod/Pawns/PawnKinds.xml"))
+            .Root.Elements("PawnKindDef").Single(node => (string)node.Element("defName") == "HD_MW_HelodRifleman");
+        Check(highKind.Element("apparelRequired").Elements("li").Select(node => node.Value).ToHashSet()
+            .SetEquals(new[] { "HD_Apparel_UCPBlouse", "HD_Apparel_UCPPants", "HD_Apparel_IBTVAssault", "HD_Apparel_FASTMT" }),
+            "Every High soldier has the same explicit uniform, vest and helmet");
         Check(modernTeam.requiredRoles[0].weaponPreset?.defName == "HD_WeaponPreset_M16A4_UBGL"
             && modernTeam.requiredRoles[1].weaponPreset?.defName == "HD_WeaponPreset_M249_USMC"
             && modernTeam.requiredRoles.Skip(2).All(slot => slot.weaponPreset == null),

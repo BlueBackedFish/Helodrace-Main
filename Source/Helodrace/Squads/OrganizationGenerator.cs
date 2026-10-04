@@ -67,6 +67,23 @@ namespace Helodrace.Squads
                         developmentalStages: parms.raidAgeRestriction?.developmentStage ?? DevelopmentalStage.Adult,
                         biologicalAgeRange: parms.raidAgeRestriction?.ageRange));
                     pawns.Add(pawn);
+                    if (pawn.kindDef.defName == "HD_MW_HelodRifleman")
+                    {
+                        // Vanilla can add unrelated utility apparel and inventory gear.
+                        // Keep the explicit uniform/armor; slot equipment is added below.
+                        foreach (Apparel apparel in pawn.apparel.WornApparel.ToList())
+                            if (!pawn.kindDef.apparelRequired.Contains(apparel.def))
+                            {
+                                pawn.apparel.Remove(apparel);
+                                apparel.Destroy(DestroyMode.Vanish);
+                            }
+                        foreach (Thing item in pawn.inventory.innerContainer.ToList())
+                            if (item.def.ingestible == null)
+                            {
+                                pawn.inventory.innerContainer.Remove(item);
+                                item.Destroy(DestroyMode.Vanish);
+                            }
+                    }
                     if (member.slot.weaponPreset != null)
                         Helodrace.ModernWar.Patch_PawnGenerator_ModularLoadout.ApplyWeapon(pawn,
                             new Helodrace.ModernWar.ModularPawnKindLoadout

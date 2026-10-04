@@ -467,6 +467,8 @@
 		<weaponTags><li>IndustrialGunAdvanced</li></weaponTags>
 		<apparelMoney><min>1200</min><max>2400</max></apparelMoney>
 		<apparelRequired>
+			<li>HD_Apparel_UCPBlouse</li>
+			<li>HD_Apparel_UCPPants</li>
 			<li>HD_Apparel_IBTVAssault</li>
 			<li>HD_Apparel_FASTMT</li>
 		</apparelRequired>
