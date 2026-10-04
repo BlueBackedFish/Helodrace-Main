@@ -225,6 +225,7 @@ namespace Helodrace
         private static bool FollowNodes(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
             if (state.ApproachComplete) return true;
+            RetargetBlockedStackMembers(members, plan, onlyBlocked: true);
             Map map = members[0].Map;
             RaidNodeRoute.Prepare(map, plan, Helodrace.Squads.RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine);
             List<RaidTacticalAssignment> group = plan.Assignments.Where(assignment =>

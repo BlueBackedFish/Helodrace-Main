@@ -1351,8 +1351,8 @@ namespace Helodrace
                 {
                     assignment.Task = RaidTacticalTask.Security;
                     plan.SafeSupportCells.Add(assignment.Position);
-                    plan.SafeSupportCells.Add(assignment.Pawn.Position);
-                    HoldPosition(assignment.Pawn);
+                    if (!AtStagingPosition(assignment, plan)) TryGoto(assignment.Pawn, assignment.Position);
+                    else HoldPosition(assignment.Pawn);
                     MapComponent_RaidTacticalTrace.Record(assignment.Pawn,
                         "Small room: holding outside as reserve security");
                 }
@@ -1527,6 +1527,8 @@ namespace Helodrace
         private void Assemble(List<Pawn> members, RaidTacticalPlan plan,
             bool skipResponse = false)
         {
+            if (StateFor(plan.UnitId)?.Phase != RaidExecutionPhase.Hold)
+                RetargetBlockedStackMembers(members, plan, onlyBlocked: true);
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
             {
                 Pawn pawn = assignment.Pawn;
@@ -1565,6 +1567,7 @@ namespace Helodrace
             Pawn exempt = null, bool holdEntry = true)
         {
             if (!plan.BreachCell.IsValid) return;
+            RetargetBlockedStackMembers(members, plan, onlyBlocked: true, exempt: exempt, holdEntry: holdEntry);
             foreach (RaidTacticalAssignment assignment in plan.Assignments)
             {
                 Pawn pawn = assignment.Pawn;
@@ -1832,54 +1835,11 @@ namespace Helodrace
             RaidTacticalPlan plan)
         {
             Pawn pawn = assignment.Pawn;
-            if (!plan.BreachCell.IsValid
-                || assignment.Task == RaidTacticalTask.Withdraw)
+            if (assignment.Task == RaidTacticalTask.Withdraw)
                 return pawn.Position.DistanceTo(assignment.Position) <= 1.5f;
-            return assignment.Task == RaidTacticalTask.Entry
-                ? plan.SafeStackCells.Count > 0
-                    ? plan.SafeStackCells.Contains(pawn.Position)
-                    : pawn.Position.DistanceTo(assignment.Position) <= 1.5f
-                : plan.SafeSupportCells.Count > 0
-                    ? plan.SafeSupportCells.Contains(pawn.Position)
-                    : pawn.Position.DistanceTo(assignment.Position) <= 3f;
-        }
-
-        private static void RetargetBlockedStackMembers(List<Pawn> members,
-            RaidTacticalPlan plan, bool onlyBlocked = false)
-        {
-            var occupied = new HashSet<IntVec3>(members.Select(pawn => pawn.Position));
-            var reserved = new HashSet<IntVec3>(plan.Assignments
-                .Where(assignment => members.Contains(assignment.Pawn)
-                    && assignment.Position.IsValid)
-                .Select(assignment => assignment.Position));
-            foreach (RaidTacticalAssignment assignment in plan.Assignments)
-            {
-                Pawn pawn = assignment.Pawn;
-                if (!members.Contains(pawn)
-                    || assignment.Task == RaidTacticalTask.Withdraw
-                    || AtStagingPosition(assignment, plan)) continue;
-                if (onlyBlocked && assignment.Position.IsValid
-                    && assignment.Position.InBounds(pawn.Map) && assignment.Position.Standable(pawn.Map)
-                    && (MapComponent_RaidTacticalOrders.For(pawn)?.RetryAfter ?? 0) <= GenTicks.TicksGame) continue;
-                reserved.Remove(assignment.Position);
-                IEnumerable<IntVec3> safeCells = assignment.Task == RaidTacticalTask.Entry
-                    ? (IEnumerable<IntVec3>)plan.SafeStackCells
-                    : plan.SafeSupportCells;
-                foreach (IntVec3 cell in safeCells
-                    .Where(cell => cell != assignment.Position
-                        && cell.InBounds(pawn.Map) && cell.Standable(pawn.Map)
-                        && !occupied.Contains(cell) && !reserved.Contains(cell))
-                    .OrderBy(cell => cell.DistanceToSquared(pawn.Position))
-                    .Take(32))
-                {
-                    if (!pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
-                        continue;
-                    assignment.Position = cell;
-                    occupied.Add(cell);
-                    break;
-                }
-                reserved.Add(assignment.Position);
-            }
+            return assignment.Position.IsValid
+                && RaidFormationSlots<IntVec3>.Ready(pawn.Position, assignment.Position,
+                    pawn.Position == assignment.Position && FormationOccupied(pawn, pawn.Position));
         }
 
         private static void HoldPosition(Pawn pawn)

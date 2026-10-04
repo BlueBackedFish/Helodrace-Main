@@ -13,10 +13,36 @@ internal static class Program
         if (!condition) throw new Exception(message);
     }
 
+    private static void CheckFormationSlots()
+    {
+        var slots = new RaidFormationSlots<int>();
+        slots.Claim(4, 12); slots.Claim(4, 8); slots.Claim(5, 20);
+        Check(slots.Available(4, 8) && !slots.Available(4, 12), "Duplicate slots have one stable owner across squads.");
+        slots.Release(4, 12);
+        Check(!slots.Available(4, 12), "A losing claimant cannot remove another pawn's slot.");
+        Check(!RaidFormationSlots<int>.Ready(3, 4, false), "A neighboring safe cell is not the assigned formation slot.");
+        Check(!RaidFormationSlots<int>.Ready(4, 4, true), "An overlapping arrival cannot count as ready.");
+        Check(RaidFormationSlots<int>.Ready(4, 4, false), "An unoccupied assigned slot is ready.");
+        int searches = 0;
+        Check(slots.TryAssign(new[] { 4, 5, 6, 7, 8 }, 12, cell => cell != 6,
+            cell => { searches++; return cell != 7; }, out int assigned) && assigned == 8 && searches == 2,
+            "Replacement excludes other claims and occupied tiles before checking reachability.");
+        Check(!slots.Available(assigned, 30), "The replacement is immediately claimed before selecting the next member.");
+        searches = 0;
+        Check(!slots.TryAssign(Enumerable.Range(100, 100), 40, _ => true,
+            _ => { searches++; return false; }, out _) && searches == 32,
+            "Unreachable formation candidates have a bounded pathfinding budget.");
+        Check(!slots.TryAssign(new[] { 4, 5, 8 }, 30, _ => true, _ => true, out _),
+            "Insufficient safe cells never reuse an occupied or claimed formation slot.");
+        slots.Release(8, 12);
+        Check(slots.Available(8, 30) && !slots.Available(4, 12), "Releasing a slot does not discard unrelated owners.");
+    }
+
     private static int Main()
     {
         try
         {
+            CheckFormationSlots();
             CheckLocalCqb();
             var sideClearance = RaidFormationTopology.Connected(new[] { 3, 4 }, 3,
                 cell => new[] { cell - 3, cell + 3, cell - 1, cell + 1 }, _ => true);

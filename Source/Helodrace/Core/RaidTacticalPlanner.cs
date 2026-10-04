@@ -440,7 +440,7 @@ namespace Helodrace
             FieldThreatSnapshot fieldThreat, HashSet<IntVec3> avoidedTraps,
             RaidTacticalUnit unit, List<Pawn> members, RaidTacticalPlan plan)
         {
-            var occupied = new HashSet<IntVec3>();
+            var occupied = MapComponent_RaidTacticalExecution.OtherFormationCells(map, plan, members);
             List<Pawn> wounded = members.Where(pawn => pawn.health?.summaryHealth
                 ?.SummaryHealthPercent < 0.35f).ToList();
             foreach (Pawn pawn in wounded)
