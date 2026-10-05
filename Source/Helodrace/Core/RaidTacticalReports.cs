@@ -57,16 +57,22 @@ namespace Helodrace
             RaidTacticalReport copy = report.Copy();
             if (!internalRelay) copy.Route.Add(receiver);
             copy.ReceivedTick = tick;
-            Store(copy);
-            return true;
+            return Store(copy);
         }
         public void Publish(RaidTacticalReport report) => Store(report.Copy());
-        private void Store(RaidTacticalReport report)
+        private bool Store(RaidTacticalReport report)
         {
             Reports.RemoveAll(known => known.Id == report.Id);
             Reports.Add(report);
             if (Reports.Count > RaidCommunicationPolicy.LedgerCapacity)
-                Reports.Remove(Reports.OrderBy(known => known.ObservedTick).First());
+            {
+                RaidTacticalReport oldest = Reports.OrderBy(known => known.ObservedTick).First();
+                Reports.Remove(oldest);
+                // A delayed incoming report can itself be the discarded entry.
+                // Its caller may only apply intelligence that the ledger retained.
+                return oldest != report;
+            }
+            return true;
         }
         public void Prune(int tick) => Reports.RemoveAll(report => !RaidCommunicationPolicy.Fresh(report.ObservedTick, tick));
         public void ExposeData()

@@ -1,7 +1,7 @@
 {
     "date":  "2026-10-06",
     "sourceBase":  "f2c2ec3d",
-    "finalDllSha256":  "F3438E75B67A021F0B29E36608E3F91F3308BBE9CD9E67C343E0499E8168B5CF",
+    "finalDllSha256":  "270E724DDCA4F39359ADA14B90DA99408729C5EA6A1C4AF04CF67CC28B7D128E",
     "notes":  [
                   "Planning now records slices, not complete plans; compare total CPU and completion counts.",
                   "Planning runs in Update outside GameTick; whole-tick reductions alone do not prove lower total CPU.",
@@ -10,7 +10,8 @@
                   "400 LOW pawns share one opening and mostly wait; not 400 simultaneous CQB combatants.",
                   "Baseline C has one sequential run per speed; no general improvement percentage can be inferred.",
                   "Intermediate repeat variant excludes final enemy-position capture and pending-goal reset. Final variant is separately verified.",
-                  "Final pre-fix 50-pawn long run logged 25 communication ledger-capacity exceptions; not an error-free performance baseline. This is fixed and retested separately."
+                  "Final pre-fix 50-pawn long run logged 25 communication ledger-capacity exceptions; not an error-free performance baseline. This is fixed and retested separately.",
+                  "Capacity-fix final 50-pawn long run logged no exceptions; 47 moved and all 50 alive, five successful plans and no pending calculations."
               ],
     "baselineC":  {
                       "dllSha256":  "5B00185874DA1A3AFA5EA5B94B9EB824103347165AEA78101C6044525B1F1C98",
@@ -710,5 +711,58 @@
                                  {
                                      "complete":  true
                                  }
-                             ]
+                             ],
+    "planningServiceDllSha256":  "F3438E75B67A021F0B29E36608E3F91F3308BBE9CD9E67C343E0499E8168B5CF",
+    "final50AfterCapacityFix":  [
+                                    {
+                                        "scenario":  16,
+                                        "population":  50,
+                                        "tactical":  true,
+                                        "speed":  3,
+                                        "TPS":  178.075,
+                                        "FPS":  56.411,
+                                        "moved":  47,
+                                        "alive":  50,
+                                        "warmupTicks":  300,
+                                        "sampleTicks":  6000,
+                                        "phases":  "SecureRoom:3,Breach:1,Assemble:1",
+                                        "successfulPlans":  5,
+                                        "planningService":  {
+                                                                "pending":  0,
+                                                                "slices":  1303,
+                                                                "completed":  17,
+                                                                "discarded":  12,
+                                                                "budgetStops":  31,
+                                                                "maxSliceMs":  9.196
+                                                            },
+                                        "queueMaintenance":  {
+                                                                 "cleanupPasses":  50,
+                                                                 "leasePrunePasses":  303
+                                                             },
+                                        "planningWork":  {
+                                                             "maxBreachChecks":  1,
+                                                             "maxRouteSteps":  498,
+                                                             "limitedPlans":  0
+                                                         },
+                                        "failedPlans":  "",
+                                        "nativeBytes":  2375000,
+                                        "peakNativeBytes":  2375000,
+                                        "cacheCumulative":  {
+                                                                "created":  19,
+                                                                "hits":  857,
+                                                                "evictions":  0,
+                                                                "memoryWaits":  0,
+                                                                "peakPending":  2,
+                                                                "notifications":  50
+                                                            },
+                                        "cancelledPreparations":  0,
+                                        "peakWaitFrames":  0,
+                                        "pending":  0,
+                                        "blocked":  "None:29,OpeningWait:5,ContactGuard:3,DestinationReserved:2,RetryDelay:4,OpeningQueue:6",
+                                        "cpuCumulative":  "FPS=55.8 TPS=177.0 worst execution/frame=65.542 ms managed heap=530.3 MiB GC=9/9/9\r\n  CPU Planning: n=1303 sum=186.4 p50/p95/p99=0.004/0.446/2.583 max=9.195 ms\r\n  CPU Observation: n=3096 sum=548.9 p50/p95/p99=0.001/1.042/1.170 max=22.590 ms\r\n  CPU LocalMap: n=568 sum=134.4 p50/p95/p99=0.261/0.385/0.465 max=4.618 ms\r\n  CPU Formation: n=323 sum=27.6 p50/p95/p99=0.054/0.087/0.577 max=5.993 ms\r\n  CPU Orders: n=8500 sum=231.6 p50/p95/p99=0.009/0.166/0.255 max=4.496 ms\r\n  CPU Execution: n=631 sum=1449.8 p50/p95/p99=1.604/5.309/15.213 max=65.542 ms\r\n  CPU Navigation: n=29 sum=4.3 p50/p95/p99=0.035/0.104/3.257 max=3.257 ms\r\n  CPU BreachSearch: n=670 sum=52.1 p50/p95/p99=0.004/0.160/2.581 max=9.193 ms\r\n  CPU RouteSearch: n=78 sum=19.2 p50/p95/p99=0.135/0.195/8.369 max=8.369 ms\r\n  CPU OpeningQueue: n=1094 sum=140.6 p50/p95/p99=0.098/0.199/0.420 max=14.570 ms\r\n  CPU GameTick: n=6301 sum=17198.5 p50/p95/p99=2.034/5.572/9.046 max=68.739 ms\r\n  Goto request/start ticks: n=302 p50/p95/p99=0/60/120 max=193\r\n"
+                                    },
+                                    {
+                                        "complete":  true
+                                    }
+                                ]
 }

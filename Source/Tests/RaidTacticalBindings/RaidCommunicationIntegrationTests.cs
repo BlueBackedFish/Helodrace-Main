@@ -201,6 +201,30 @@ internal static class RaidCommunicationIntegrationTests
             Check(!pending.Any(packet => packet.Report.Id == report.Id)
                 && !stateB.Communication.Knowledge.Reports.Any(value => value.Id == report.Id),
                 "Restored/delayed packets cannot deliver expired original observations.");
+            pending.Clear();
+            stateB.Communication.Knowledge.Reports.Clear();
+            foreach (RaidObserverMemory observer in stateB.Communication.Observers) observer.Reports.Reports.Clear();
+            for (int i = 0; i < 64; i++)
+            {
+                var recent = report.Copy(); recent.Id = "B:recent:" + i;
+                recent.ObservedTick = recent.Revision = 1390;
+                recent.Route = new List<string> { stateA.UnitId, stateB.UnitId };
+                stateB.Communication.Knowledge.Publish(recent);
+            }
+            var delayed = report.Copy(); delayed.Id = "A:delayed-capacity";
+            delayed.ObservedTick = delayed.Revision = 1000;
+            Check(!stateB.Communication.Knowledge.Receive(delayed, stateB.UnitId, 1400, false)
+                && stateB.Communication.Knowledge.Reports.Count == 64,
+                "A full ledger reports rejection when the delayed incoming snapshot is itself evicted.");
+            RaidReportTransmission delayedPacket = Packet(b.thingIDNumber, 1400, delayed);
+            delayedPacket.StartedTick = 1360;
+            pending.Add(delayedPacket); Tick(1400);
+            Check(!stateB.Communication.Knowledge.Knows(delayed) && pending.Single().AwaitingAck,
+                "Actual delivery can acknowledge an evicted report without looking up or applying a nonexistent entry.");
+            Tick(1420);
+            Check(pending.Count == 0 && stateA.Communication.Receipts.Any(receipt =>
+                    receipt.ReportId == delayed.Id && receipt.Status == "Acknowledged"),
+                "Capacity eviction does not strand the transport or repeatedly retry the same delayed report.");
         }
         finally { Current.Game = previous; }
         Console.WriteLine($"PASS: {checks} native transmission delay, receipt, ACK, equipment loss, internal relay and blackout checks.");
