@@ -29,7 +29,7 @@ namespace Helodrace
         }
         private bool WaitForSharedOpeningCore(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
-            if (tick % 120 == 0 && openingCleanupTick != tick)
+            if (openingCleanupTick < 0 || tick - openingCleanupTick >= 120)
             {
                 openingCleanupTick = tick; OpeningCleanupPasses++;
                 var liveQueued = new HashSet<Pawn>(states.Values.Where(value => value.SharedOpeningWait)
@@ -39,7 +39,7 @@ namespace Helodrace
             }
             if (!plan.BreachCell.IsValid || plan.IsDefensive || state.Phase > RaidExecutionPhase.CrossBreach)
             { openingLeases.Release(state.UnitId); ReleaseOpeningQueue(members); state.SharedOpeningWait = false; return false; }
-            if (openingPruneTick != tick)
+            if (openingPruneTick < 0 || tick - openingPruneTick >= 30)
             {
                 openingPruneTick = tick; OpeningPrunePasses++;
                 openingLeases.Prune(id => states.TryGetValue(id, out ExecutionState owner)

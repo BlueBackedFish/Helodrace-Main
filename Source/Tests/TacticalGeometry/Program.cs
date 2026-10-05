@@ -10,6 +10,42 @@ internal static class Program
     private static int checks;
     private static void CheckObservationServices()
     {
+        var due = new TacticalDueQueue<string>();
+        due.Schedule("map1/unit1", 10); due.Schedule("map2/unit2", 10); due.Schedule("future", 40);
+        Check(!due.TryTake(9, out _, out _) && due.Count == 3, "Early polls do not remove future execution work.");
+        Check(due.TryTake(10, out string head, out int deadline) && head == "map1/unit1" && deadline == 10,
+            "Equal deadlines preserve insertion order across maps.");
+        due.Schedule(head, 20);
+        Check(due.TryTake(11, out head, out deadline) && head == "map2/unit2" && deadline == 10,
+            "Rescheduling an active unit cannot overtake a waiting sibling map.");
+        due.Schedule("future", 12); due.Schedule("future", 13);
+        Check(due.Count == 2 && due.OldestDelay(16) == 3 && due.TryTake(16, out head, out _) && head == "future",
+            "Deadline replacement removes old entries and reports deferred work age.");
+        due.Remove("map1/unit1"); due.Remove("map1/unit1");
+        Check(due.Count == 0 && !due.TryTake(100, out _, out _), "Cancelled owners do not leave stale queue nodes.");
+        var burst = new TacticalDueQueue<int>();
+        for (int i = 0; i < 200; i++) burst.Schedule(i, 0);
+        var serviced = new System.Collections.Generic.HashSet<int>();
+        for (int tick = 0; tick < 50; tick++)
+            for (int i = 0; i < 8 && burst.TryTake(tick, out int id, out _); i++)
+            { serviced.Add(id); burst.Schedule(id, tick + 10); }
+        Check(serviced.Count == 200 && burst.Count == 200,
+            "Overdue cold-start work survives bounded ticks without starvation from recurring updates.");
+        burst.Clear(); Check(burst.Count == 0, "Runtime queues can be rebuilt after load without stale work.");
+        var soldiers = Enumerable.Range(0, 13).ToList();
+        var observed = new System.Collections.Generic.HashSet<int>(); int observerCursor = 0;
+        for (int i = 0; i < 13; i++)
+        {
+            var selected = TacticalObserverRotation.Select(soldiers, id => id == 0 || id == 8, ref observerCursor, 4);
+            Check(selected.Count == 4 && selected.Distinct().Count() == 4 && selected.Contains(0) && selected.Contains(8),
+                "Commander and explicit opening sensor retain observation priority within the bounded scan.");
+            foreach (int id in selected) observed.Add(id);
+        }
+        Check(observed.Count == 13, "Ordinary fireteam members are not permanently starved of personal observations.");
+        observerCursor = 0;
+        Check(TacticalObserverRotation.Select(new int[] { 4 }, _ => false, ref observerCursor, 4).SequenceEqual(new[] { 4 })
+            && TacticalObserverRotation.Select(new int[0], _ => false, ref observerCursor, 4).Count == 0,
+            "Small or empty squads do not duplicate observers or access an invalid cursor.");
         var slices = new TacticalSliceQueue<string>();
         var trace = new System.Collections.Generic.List<string>();
         slices.Add("map1/long"); slices.Add("map2/short"); slices.Add("map1/long");

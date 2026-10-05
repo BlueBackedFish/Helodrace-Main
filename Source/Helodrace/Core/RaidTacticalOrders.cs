@@ -64,12 +64,15 @@ namespace Helodrace
     public sealed class MapComponent_RaidTacticalOrders : MapComponent
     {
         private readonly Dictionary<Pawn, RaidPawnOrder> orders = new Dictionary<Pawn, RaidPawnOrder>();
+        private readonly TacticalDueQueue<Pawn> reviews = new TacticalDueQueue<Pawn>();
+        internal long ReviewCount;
+        internal int MaximumReviewDelay;
         private List<RaidPawnOrder> saved;
         internal static readonly JobGiver_RaidTacticalFight Fighter = new JobGiver_RaidTacticalFight();
 
         public MapComponent_RaidTacticalOrders(Map map) : base(map) { }
 
-        internal void Forget(Pawn pawn) => orders.Remove(pawn);
+        internal void Forget(Pawn pawn) { orders.Remove(pawn); reviews.Remove(pawn); }
         internal static void PreparationReady(Pawn pawn)
         {
             RaidPawnOrder order = For(pawn);
@@ -89,12 +92,13 @@ namespace Helodrace
             if (Scribe.mode == LoadSaveMode.Saving) saved = orders.Values.ToList();
             Scribe_Collections.Look(ref saved, "raidPawnOrders", LookMode.Deep);
             if (Scribe.mode != LoadSaveMode.PostLoadInit) return;
-            orders.Clear();
+            orders.Clear(); reviews.Clear();
             foreach (RaidPawnOrder order in saved ?? new List<RaidPawnOrder>())
                 if (order?.Pawn != null)
                 {
                     order.RefreshPending = true;
                     orders[order.Pawn] = order;
+                    reviews.Schedule(order.Pawn, GenTicks.TicksGame + (order.Pawn.thingIDNumber & int.MaxValue) % 30);
                 }
             saved = null;
         }
@@ -115,9 +119,11 @@ namespace Helodrace
 
         public override void MapComponentTick()
         {
-            if (GenTicks.TicksGame % 30 != 0) return;
-            foreach (Pawn pawn in orders.Keys.ToList())
+            int tick = GenTicks.TicksGame;
+            for (int i = 0; i < 16 && reviews.TryTake(tick, out Pawn pawn, out int deadline); i++)
             {
+                ReviewCount++;
+                MaximumReviewDelay = System.Math.Max(MaximumReviewDelay, tick - deadline);
                 if (!pawn.Spawned || pawn.Map != map || Get(pawn) == null)
                 {
                     orders.Remove(pawn);
@@ -137,7 +143,22 @@ namespace Helodrace
                     order.RefreshPending = false;
                     pawn.jobs.CheckForJobOverride();
                 }
+                reviews.Schedule(pawn, tick + 30);
             }
+        }
+
+        internal string PendingMovesReport()
+        {
+            int tick = GenTicks.TicksGame;
+            var pending = orders.Values.Where(order => order.Pawn?.Spawned == true && order.Pawn.Map == map
+                && !order.Pawn.Dead && !order.Pawn.Downed && order.Movement.RequestedKind == RaidOrderKind.Move
+                && order.Movement.RequestedTick >= 0 && order.Movement.StartedTick < 0
+                && order.Pawn.Position != order.Movement.RequestedDestination
+                && !(order.Pawn.CurJobDef == JobDefOf.Goto && order.Pawn.CurJob.targetA.Cell == order.Destination)).ToList();
+            int age = pending.Select(order => tick - order.Movement.RequestedTick).DefaultIfEmpty(0).Max();
+            return $"unstarted moves={pending.Count} max age={age} ticks reasons="
+                + string.Join(",", pending.GroupBy(order => order.Movement.BlockReason)
+                    .Select(group => group.Key + ":" + group.Count()));
         }
 
         public static bool Set(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
@@ -170,6 +191,7 @@ namespace Helodrace
                     OrganizationId = unit.OrganizationId, UnitId = unit.Id,
                     GroupId = OrganizationAPI.GetGroup(pawn).id };
                 owner.orders[pawn] = order;
+                owner.reviews.Schedule(pawn, GenTicks.TicksGame + (pawn.thingIDNumber & int.MaxValue) % 30);
             }
             order.GroupId = OrganizationAPI.GetGroup(pawn).id;
             if (!reactive && (kind == RaidOrderKind.Move || kind == RaidOrderKind.Fight)

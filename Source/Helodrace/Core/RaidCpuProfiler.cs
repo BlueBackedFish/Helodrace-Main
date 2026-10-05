@@ -9,7 +9,7 @@ using Verse;
 namespace Helodrace
 {
     internal enum RaidCpuStage { Planning, Observation, LocalMap, Formation, Orders, Execution,
-        Navigation, BreachSearch, RouteSearch, OpeningQueue, GameTick }
+        Navigation, BreachSearch, RouteSearch, OpeningQueue, GameTick, ExecutionMaintenance }
     internal sealed class RaidCpuProfiler
     {
         internal static bool Enabled;

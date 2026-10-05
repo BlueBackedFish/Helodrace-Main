@@ -94,6 +94,7 @@ namespace Helodrace
             public int CurrentNode;
             public List<RaidNodeMemberProgress> NodeMembers = new List<RaidNodeMemberProgress>();
             internal readonly RaidTacticalIndices Indices = new RaidTacticalIndices();
+            internal int ObserverCursor;
             public int ApproachProgressTick;
             public float ApproachBestRemaining = float.MaxValue;
             public int BreachAttempts;
@@ -156,7 +157,6 @@ namespace Helodrace
             public List<RaidContactGuard> ContactGuards = new List<RaidContactGuard>();
             public bool ContactPause;
             [System.NonSerialized] internal bool SharedOpeningWait;
-            internal int NextQueueReviewTick;
             public RaidRoomSecurity RoomSecurity = new RaidRoomSecurity();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
@@ -445,300 +445,214 @@ namespace Helodrace
             });
         }
 
-        public override void MapComponentTick()
+        private void ExecuteUnit(RaidTacticalUnit unit, List<Pawn> members, int tick, bool fallbackDue)
         {
-            if (GenTicks.TicksGame % 10 != 0 && pendingCasualties.Count == 0) { base.MapComponentTick(); return; }
-            using (RaidCpuProfiler.Measure(map, RaidCpuStage.Execution)) ExecutionTick();
-        }
-
-        private void ExecutionTick()
-        {
-            base.MapComponentTick();
-            int tick = Find.TickManager?.TicksGame ?? 0;
-            if (tick % 10 != 0 && pendingCasualties.Count == 0) return;
-            GameComponent_CombatOrganizations registry = OrganizationAPI.Registry;
             MapComponent_RaidTacticalPlans plans = map.GetComponent<MapComponent_RaidTacticalPlans>();
-            if (registry == null || plans == null) return;
-            List<RaidTacticalUnit> units = registry.Organizations.SelectMany(RaidTacticalUnit.ForOrganization).ToList();
-            var casualties = pendingCasualties.ToDictionary(pair => pair.Key, pair => pair.Value);
-            pendingCasualties.Clear();
-            bool regular = tick % 30 == 0;
-            if (regular)
-                PruneBreachTools(new HashSet<string>(units.Where(unit => unit.Members.Any(pawn => pawn != null
-                        && !pawn.Dead && pawn.MapHeld == map)).Select(unit => unit.Id)));
-
-            // Crossing and immediate danger checks keep a lightweight cadence. Casualty notifications
-            // additionally reevaluate only affected units on the next
-            // tick; unrelated planning and room scanning keep their cadence.
-            if (!regular)
+            if (members.Count == 0)
             {
-                var unitsById = units.ToDictionary(unit => unit.Id);
-                foreach (ExecutionState crossing in states.Values.ToList())
+                if (states.TryGetValue(unit.Id, out ExecutionState empty))
                 {
-                    if (tick % 10 != 0 || casualties.ContainsKey(crossing.UnitId)
-                        || crossing.ActivePlan?.Success != true) continue;
-                    if (!unitsById.TryGetValue(crossing.UnitId, out RaidTacticalUnit unit)) continue;
-                    List<Pawn> members = unit.Members.Where(pawn => pawn.Spawned
-                        && pawn.Map == map && !pawn.Dead && !pawn.Downed && !pawn.Destroyed
-                        && IsTacticalRaider(pawn)).ToList();
-                    if (members.Count > 0) RefreshContacts(members, crossing.ActivePlan, crossing, tick);
-                    if (members.Count > 0 && !EmergencyReactions(members, crossing.ActivePlan, crossing, tick)
-                        && !RespondToFire(members, crossing.ActivePlan, crossing, tick)
-                        && !RespondToCqbContacts(members, crossing.ActivePlan, crossing, tick)
-                        && crossing.Phase == RaidExecutionPhase.CrossBreach)
-                        Update(unit, members, crossing.ActivePlan, crossing, tick);
-                }
-                if (casualties.Count == 0) return;
-            }
-
-            var activeIds = new HashSet<string>();
-            foreach (RaidTacticalUnit unit in units)
-            {
-                if (!regular && !casualties.ContainsKey(unit.Id)) continue;
-                if (casualties.TryGetValue(unit.Id, out HashSet<Pawn> losses))
-                {
-                    registry.ReevaluateCommand(unit.Organization, tick);
-                    plans.InvalidateDecision(unit.Id);
-                    foreach (Pawn lost in losses)
-                        map.GetComponent<MapComponent_RaidTacticalOrders>()?.Forget(lost);
-                }
-                List<Pawn> members = unit.Members
-                    .Where(pawn => pawn.Spawned && pawn.Map == map && !pawn.Dead
-                        && !pawn.Downed && !pawn.Destroyed && IsTacticalRaider(pawn))
-                    .ToList();
-                if (members.Count == 0)
-                {
-                    if (casualties.ContainsKey(unit.Id)
-                        && states.TryGetValue(unit.Id, out ExecutionState empty))
-                    {
-                        CancelPendingCharge(empty);
-                        states.Remove(unit.Id);
-                    }
-                    if (tick % 90 == 0) KeepSapperEscortTogether(unit);
-                    continue;
-                }
-                activeIds.Add(unit.Id);
-                if (!plans.StructureReadyFor(unit.OrganizationId))
-                {
-                    waitingStructures.Add(unit.Id);
-                    foreach (Pawn member in members)
-                        MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
-                    continue;
-                }
-                waitingStructures.Remove(unit.Id);
-                // Waiting squads keep their committed orders. Admission and danger
-                // still run at the normal cadence; equipment/assignment reconciliation
-                // only needs a staggered safety review unless a casualty wakes the unit.
-                if (states.TryGetValue(unit.Id, out ExecutionState queued)
-                    && queued.SharedOpeningWait && queued.ActivePlan?.Success == true
-                    && !casualties.ContainsKey(unit.Id) && tick < queued.NextQueueReviewTick
-                    && !queued.ContactPause && queued.DefenseUntil <= tick
-                    && !queued.ApproachSmokeActive && queued.Reactions.Count == 0)
-                {
-                    RefreshContacts(members, queued.ActivePlan, queued, tick);
-                    if (!EmergencyReactions(members, queued.ActivePlan, queued, tick)
-                        && !RespondToFire(members, queued.ActivePlan, queued, tick)
-                        && !RespondToCqbContacts(members, queued.ActivePlan, queued, tick)
-                        && !FieldDefense(members, queued.ActivePlan, queued, tick)
-                        && WaitForSharedOpening(members, queued.ActivePlan, queued, tick)) continue;
-                }
-                foreach (Pawn fallen in unit.Members.Where(pawn => pawn != null
-                    && (pawn.Downed || pawn.Dead) && pawn.MapHeld == map))
-                    RememberBreachTools(unit.Id, fallen);
-                if (!IsDefendingRaider(members[0]))
-                    RaidBreachToolRecovery.TryStart(members, BreachToolsFor(unit.Id), map);
-                if (states.TryGetValue(unit.Id, out ExecutionState completed)
-                    && TryExitSecuredObjective(unit, members, completed, tick))
-                {
+                    CancelPendingCharge(empty);
                     states.Remove(unit.Id);
-                    continue;
                 }
-                states.TryGetValue(unit.Id, out ExecutionState state);
-                if (state != null)
-                    ReconcileCasualties(unit, members, state, tick);
-                string key = PlanKey(unit, members);
-                if (state?.ActivePlan?.Success == true && state.Phase != RaidExecutionPhase.Hold
-                    && state.Phase != RaidExecutionPhase.Complete)
-                {
-                    AssignLateMembers(members, state.ActivePlan);
-                    ReplaceLostEntryTeam(state.ActivePlan, state);
-                }
-                // Losing a member or changing commander must not recall pawns
-                // already breaching or crossing to a newly assigned stack.
-                if (state?.ActivePlan?.Success == true
+                if (fallbackDue) KeepSapperEscortTogether(unit);
+                return;
+            }
+            if (!plans.StructureReadyFor(unit.OrganizationId))
+            {
+                waitingStructures.Add(unit.Id);
+                foreach (Pawn member in members)
+                    MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
+                return;
+            }
+            waitingStructures.Remove(unit.Id);
+            foreach (Pawn fallen in unit.Members.Where(pawn => pawn != null
+                && (pawn.Downed || pawn.Dead) && pawn.MapHeld == map))
+                RememberBreachTools(unit.Id, fallen);
+            if (!IsDefendingRaider(members[0]))
+                RaidBreachToolRecovery.TryStart(members, BreachToolsFor(unit.Id), map);
+            if (states.TryGetValue(unit.Id, out ExecutionState completed)
+                && TryExitSecuredObjective(unit, members, completed, tick))
+            {
+                states.Remove(unit.Id);
+                return;
+            }
+            states.TryGetValue(unit.Id, out ExecutionState state);
+            if (state != null)
+                ReconcileCasualties(unit, members, state, tick);
+            string key = PlanKey(unit, members);
+            if (state?.ActivePlan?.Success == true && state.Phase != RaidExecutionPhase.Hold
+                && state.Phase != RaidExecutionPhase.Complete)
+            {
+                AssignLateMembers(members, state.ActivePlan);
+                ReplaceLostEntryTeam(state.ActivePlan, state);
+            }
+            // Losing a member or changing commander must not recall pawns
+            // already breaching or crossing to a newly assigned stack.
+            if (state?.ActivePlan?.Success == true
+                && state.Phase != RaidExecutionPhase.Hold
+                && state.Phase != RaidExecutionPhase.Complete
+                && members.All(pawn => state.ActivePlan.Assignments
+                    .Any(assignment => assignment.Pawn == pawn)))
+                state.PlanKey = key;
+            RaidTacticalPlan plan = state?.ClearingRooms == true
+                ? state.ActivePlan != null && state.PlanKey == key
+                    ? state.ActivePlan
+                    : map.GetComponent<MapComponent_RaidPlanningService>().Request(unit, "roster", state.Objective, state.ActivePlan)
+                : state?.ActivePlan?.Success == true && state.PlanKey == key
                     && state.Phase != RaidExecutionPhase.Hold
                     && state.Phase != RaidExecutionPhase.Complete
-                    && members.All(pawn => state.ActivePlan.Assignments
-                        .Any(assignment => assignment.Pawn == pawn)))
-                    state.PlanKey = key;
-                RaidTacticalPlan plan = state?.ClearingRooms == true
-                    ? state.ActivePlan != null && state.PlanKey == key
-                        ? state.ActivePlan
-                        : map.GetComponent<MapComponent_RaidPlanningService>().Request(unit, "roster", state.Objective, state.ActivePlan)
-                    : state?.ActivePlan?.Success == true && state.PlanKey == key
-                        && state.Phase != RaidExecutionPhase.Hold
-                        && state.Phase != RaidExecutionPhase.Complete
-                        ? state.ActivePlan : plans.GetPlan(unit);
-                if (plan?.Success != true)
-                {
-                    if (plans.DecisionQueuedFor(unit.Id))
-                    {
-                        if (state?.ActivePlan?.Success != true)
-                            foreach (Pawn member in members)
-                                MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
-                        continue;
-                    }
-                    if (tick % 90 == 0) KeepSapperEscortTogether(unit);
-                    if (states.TryGetValue(unit.Id, out ExecutionState abandoned))
-                    {
-                        CancelPendingCharge(abandoned);
-                        states.Remove(unit.Id);
-                    }
-                    continue;
-                }
-                bool idle = state != null && (state.Phase == RaidExecutionPhase.Hold
-                    || state.Phase == RaidExecutionPhase.Complete);
-                bool changedIdlePlan = idle && !ReferenceEquals(state.ActivePlan, plan)
-                    && (state.ActivePlan.IsDefensive != plan.IsDefensive
-                        || state.Maneuver != plan.Selected.Maneuver
-                        || state.Objective.DistanceTo(plan.Objective) > 3f);
-                if (state == null || state.PlanKey != key
-                    || idle && state.Objective.DistanceTo(plan.Objective) > 8f
-                    || changedIdlePlan)
-                {
-                    ExecutionState previous = state;
-                    if (previous != null) CancelPendingCharge(previous);
-                    state = new ExecutionState
-                    {
-                        OrganizationId = unit.OrganizationId,
-                        UnitId = unit.Id,
-                        GroupId = unit.GroupId,
-                        PlanKey = key,
-                        Objective = plan.Objective,
-                        FinalObjective = previous?.FinalObjective.IsValid == true
-                            ? previous.FinalObjective : plan.FinalObjective,
-                        ClearingRooms = previous?.ClearingRooms == true,
-                        BedSecured = previous?.BedSecured == true,
-                        ClearedRoomCells = previous?.ClearedRoomCells
-                            ?? new List<IntVec3>(),
-                        Contacts = previous?.Contacts ?? new RaidContactMemory(),
-                        Communication = previous?.Communication ?? new RaidCommunicationState(),
-                        CqbKnowledge = previous?.CqbKnowledge ?? new RaidCqbKnowledge(),
-                        ContactGuards = previous?.ContactGuards ?? new List<RaidContactGuard>(),
-                        RoomSecurity = previous?.RoomSecurity ?? new RaidRoomSecurity(),
-                        LocalCqb = previous?.LocalCqb,
-                        Maneuver = plan.Selected.Maneuver,
-                        ActivePlan = plan,
-                        Phase = RaidExecutionPhase.Assemble,
-                        PhaseStarted = tick,
-                        ApproachProgressTick = tick
-                    };
-                    if (previous != null
-                        && previous.Objective.DistanceTo(plan.Objective) <= 8f)
-                        state.ExternalSupportAttempted = previous.ExternalSupportAttempted;
-                    if (previous != null
-                        && previous.ExternalSupportKind != RaidExternalSupportKind.None)
-                    {
-                        state.ExternalSupportAttempted = true;
-                        state.ExternalSupportKind = previous.ExternalSupportKind;
-                        state.ExternalSupportCaller = previous.ExternalSupportCaller;
-                        state.ExternalSupportTarget = previous.ExternalSupportTarget;
-                        state.ExternalSupportTargetCell = previous.ExternalSupportTargetCell;
-                        state.ExternalSupportClearedTick = previous.ExternalSupportClearedTick;
-                    }
-                    if (previous != null)
-                    {
-                        state.ExteriorIngress = previous.ExteriorIngress;
-                        if (ReferenceEquals(previous.ActivePlan, plan))
-                        {
-                            state.CurrentNode = previous.CurrentNode;
-                            state.NodeMembers = previous.NodeMembers;
-                            state.ApproachComplete = previous.ApproachComplete;
-                        }
-                        state.Reactions = previous.Reactions;
-                        state.DefenseUntil = previous.DefenseUntil;
-                        state.DefenseCaller = previous.DefenseCaller;
-                        state.DefenseAim = previous.DefenseAim;
-                        state.ApproachSmokeActive = previous.ApproachSmokeActive;
-                        state.SmokeFormation = previous.SmokeFormation;
-                        state.ApproachSmokeLaunched = previous.ApproachSmokeLaunched;
-                        state.ApproachSmokeThrower = previous.ApproachSmokeThrower;
-                        state.ApproachSmokeProjectile = previous.ApproachSmokeProjectile;
-                        state.ApproachSmokeTarget = previous.ApproachSmokeTarget;
-                        state.ApproachSmokeThreat = previous.ApproachSmokeThreat;
-                        state.ApproachSmokeStarted = previous.ApproachSmokeStarted;
-                        state.ApproachSmokeClearedTick = previous.ApproachSmokeClearedTick;
-                        state.NextApproachSmokeTick = previous.NextApproachSmokeTick;
-                        state.ScreenAdvanceUntil = previous.ScreenAdvanceUntil;
-                    }
-                    states[unit.Id] = state;
-                    RaidTacticalSpeech.Say(Commander(unit, members),
-                        "HD_RaidTactical_Assemble");
-                }
-                if (state.ActivePlan == null) state.ActivePlan = plan;
-                else if (idle && !ReferenceEquals(state.ActivePlan, plan))
-                {
-                    state.ActivePlan = plan;
-                    state.Objective = plan.Objective;
-                    state.PendingRoomGoal = state.PendingRecheckGoal = IntVec3.Invalid;
-                    state.ReadySince = -1;
-                }
-                Update(unit, members, state.ActivePlan, state, tick);
-                if (state.SharedOpeningWait && tick >= state.NextQueueReviewTick)
-                    state.NextQueueReviewTick = tick + (state.NextQueueReviewTick == 0
-                        ? 30 * (1 + (unit.Id.GetHashCode() & int.MaxValue) % 6) : 180);
-                if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete
-                    && !state.ApproachSmokeActive && state.DefenseUntil <= tick && !state.ContactPause
-                    && tick - Math.Max(state.ApproachProgressTick, state.PhaseStarted)
-                        >= ApproachStallTimeout)
-                {
-                    if (state.ActivePlan.MovementNodes.Count > 0)
-                    {
-                        RaidTacticalPlan repaired = map.GetComponent<MapComponent_RaidPlanningService>()
-                            .Request(unit, "repair", state.Objective, state.ActivePlan);
-                        if (repaired == null) continue;
-                        if (repaired?.Success == true)
-                        {
-                            MapComponent_RaidTacticalTrace.Record(Commander(unit, members),
-                                $"Node {state.CurrentNode} stalled: repair approach from current positions");
-                            ActivateNextRoomPlan(unit, members, state, repaired, tick);
-                        }
-                        state.ApproachProgressTick = tick;
-                    }
-                    else if (state.ActivePlan.SafeStackCells.Count > 0)
-                    {
-                        RetargetBlockedStackMembers(members, state.ActivePlan);
-                        state.ApproachProgressTick = tick;
-                        state.ApproachBestRemaining = float.MaxValue;
-                    }
-                    else
-                    {
-                        plans.GetPlan(unit, true);
-                        states.Remove(unit.Id);
-                    }
-                }
-                else if (state.Phase == RaidExecutionPhase.Assemble
-                    && state.ApproachComplete && !AllReady(members, state.ActivePlan)
-                    && tick - state.PhaseStarted >= AssembleTimeout)
-                {
-                    if (state.ActivePlan.SafeStackCells.Count > 0)
-                    {
-                        RetargetBlockedStackMembers(members, state.ActivePlan);
-                        state.PhaseStarted = tick;
-                    }
-                    else
-                    {
-                        plans.GetPlan(unit, true);
-                        states.Remove(unit.Id);
-                    }
-                }
-            }
-            foreach (string id in states.Keys.Where(id => regular && !activeIds.Contains(id)).ToList())
+                    ? state.ActivePlan : plans.GetPlan(unit);
+            if (plan?.Success != true)
             {
-                CancelPendingCharge(states[id]);
-                states.Remove(id);
+                if (plans.DecisionQueuedFor(unit.Id))
+                {
+                    if (state?.ActivePlan?.Success != true)
+                        foreach (Pawn member in members)
+                            MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
+                    return;
+                }
+                if (fallbackDue) KeepSapperEscortTogether(unit);
+                if (states.TryGetValue(unit.Id, out ExecutionState abandoned))
+                {
+                    CancelPendingCharge(abandoned);
+                    states.Remove(unit.Id);
+                }
+                return;
             }
-            if (regular) waitingStructures.RemoveWhere(id => !activeIds.Contains(id));
+            bool idle = state != null && (state.Phase == RaidExecutionPhase.Hold
+                || state.Phase == RaidExecutionPhase.Complete);
+            bool changedIdlePlan = idle && !ReferenceEquals(state.ActivePlan, plan)
+                && (state.ActivePlan.IsDefensive != plan.IsDefensive
+                    || state.Maneuver != plan.Selected.Maneuver
+                    || state.Objective.DistanceTo(plan.Objective) > 3f);
+            if (state == null || state.PlanKey != key
+                || idle && state.Objective.DistanceTo(plan.Objective) > 8f
+                || changedIdlePlan)
+            {
+                ExecutionState previous = state;
+                if (previous != null) CancelPendingCharge(previous);
+                state = new ExecutionState
+                {
+                    OrganizationId = unit.OrganizationId,
+                    UnitId = unit.Id,
+                    GroupId = unit.GroupId,
+                    PlanKey = key,
+                    Objective = plan.Objective,
+                    FinalObjective = previous?.FinalObjective.IsValid == true
+                        ? previous.FinalObjective : plan.FinalObjective,
+                    ClearingRooms = previous?.ClearingRooms == true,
+                    BedSecured = previous?.BedSecured == true,
+                    ClearedRoomCells = previous?.ClearedRoomCells
+                        ?? new List<IntVec3>(),
+                    Contacts = previous?.Contacts ?? new RaidContactMemory(),
+                    Communication = previous?.Communication ?? new RaidCommunicationState(),
+                    CqbKnowledge = previous?.CqbKnowledge ?? new RaidCqbKnowledge(),
+                    ContactGuards = previous?.ContactGuards ?? new List<RaidContactGuard>(),
+                    RoomSecurity = previous?.RoomSecurity ?? new RaidRoomSecurity(),
+                    LocalCqb = previous?.LocalCqb,
+                    Maneuver = plan.Selected.Maneuver,
+                    ActivePlan = plan,
+                    Phase = RaidExecutionPhase.Assemble,
+                    PhaseStarted = tick,
+                    ApproachProgressTick = tick
+                };
+                if (previous != null
+                    && previous.Objective.DistanceTo(plan.Objective) <= 8f)
+                    state.ExternalSupportAttempted = previous.ExternalSupportAttempted;
+                if (previous != null
+                    && previous.ExternalSupportKind != RaidExternalSupportKind.None)
+                {
+                    state.ExternalSupportAttempted = true;
+                    state.ExternalSupportKind = previous.ExternalSupportKind;
+                    state.ExternalSupportCaller = previous.ExternalSupportCaller;
+                    state.ExternalSupportTarget = previous.ExternalSupportTarget;
+                    state.ExternalSupportTargetCell = previous.ExternalSupportTargetCell;
+                    state.ExternalSupportClearedTick = previous.ExternalSupportClearedTick;
+                }
+                if (previous != null)
+                {
+                    state.ExteriorIngress = previous.ExteriorIngress;
+                    if (ReferenceEquals(previous.ActivePlan, plan))
+                    {
+                        state.CurrentNode = previous.CurrentNode;
+                        state.NodeMembers = previous.NodeMembers;
+                        state.ApproachComplete = previous.ApproachComplete;
+                    }
+                    state.Reactions = previous.Reactions;
+                    state.DefenseUntil = previous.DefenseUntil;
+                    state.DefenseCaller = previous.DefenseCaller;
+                    state.DefenseAim = previous.DefenseAim;
+                    state.ApproachSmokeActive = previous.ApproachSmokeActive;
+                    state.SmokeFormation = previous.SmokeFormation;
+                    state.ApproachSmokeLaunched = previous.ApproachSmokeLaunched;
+                    state.ApproachSmokeThrower = previous.ApproachSmokeThrower;
+                    state.ApproachSmokeProjectile = previous.ApproachSmokeProjectile;
+                    state.ApproachSmokeTarget = previous.ApproachSmokeTarget;
+                    state.ApproachSmokeThreat = previous.ApproachSmokeThreat;
+                    state.ApproachSmokeStarted = previous.ApproachSmokeStarted;
+                    state.ApproachSmokeClearedTick = previous.ApproachSmokeClearedTick;
+                    state.NextApproachSmokeTick = previous.NextApproachSmokeTick;
+                    state.ScreenAdvanceUntil = previous.ScreenAdvanceUntil;
+                }
+                states[unit.Id] = state;
+                RaidTacticalSpeech.Say(Commander(unit, members),
+                    "HD_RaidTactical_Assemble");
+            }
+            if (state.ActivePlan == null) state.ActivePlan = plan;
+            else if (idle && !ReferenceEquals(state.ActivePlan, plan))
+            {
+                state.ActivePlan = plan;
+                state.Objective = plan.Objective;
+                state.PendingRoomGoal = state.PendingRecheckGoal = IntVec3.Invalid;
+                state.ReadySince = -1;
+            }
+            Update(unit, members, state.ActivePlan, state, tick);
+            if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete
+                && !state.ApproachSmokeActive && state.DefenseUntil <= tick && !state.ContactPause
+                && tick - Math.Max(state.ApproachProgressTick, state.PhaseStarted)
+                    >= ApproachStallTimeout)
+            {
+                if (state.ActivePlan.MovementNodes.Count > 0)
+                {
+                    RaidTacticalPlan repaired = map.GetComponent<MapComponent_RaidPlanningService>()
+                        .Request(unit, "repair", state.Objective, state.ActivePlan);
+                    if (repaired == null) return;
+                    if (repaired?.Success == true)
+                    {
+                        MapComponent_RaidTacticalTrace.Record(Commander(unit, members),
+                            $"Node {state.CurrentNode} stalled: repair approach from current positions");
+                        ActivateNextRoomPlan(unit, members, state, repaired, tick);
+                    }
+                    state.ApproachProgressTick = tick;
+                }
+                else if (state.ActivePlan.SafeStackCells.Count > 0)
+                {
+                    RetargetBlockedStackMembers(members, state.ActivePlan);
+                    state.ApproachProgressTick = tick;
+                    state.ApproachBestRemaining = float.MaxValue;
+                }
+                else
+                {
+                    plans.GetPlan(unit, true);
+                    states.Remove(unit.Id);
+                }
+            }
+            else if (state.Phase == RaidExecutionPhase.Assemble
+                && state.ApproachComplete && !AllReady(members, state.ActivePlan)
+                && tick - state.PhaseStarted >= AssembleTimeout)
+            {
+                if (state.ActivePlan.SafeStackCells.Count > 0)
+                {
+                    RetargetBlockedStackMembers(members, state.ActivePlan);
+                    state.PhaseStarted = tick;
+                }
+                else
+                {
+                    plans.GetPlan(unit, true);
+                    states.Remove(unit.Id);
+                }
+            }
         }
 
         private static void CancelPendingCharge(ExecutionState state)

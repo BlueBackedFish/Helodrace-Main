@@ -49,10 +49,10 @@ namespace Helodrace
                 && !state.Contacts.Entries.Any(contact => contact.Armed && contact.Visible)
                 ? 90 : RaidContactMemory.ScanTicks;
             if (tick - state.Contacts.ScanTick < scanTicks) return;
-            ConfigureCommunicationKnowledge(state);
+            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(members[0]);
+            ConfigureCommunicationKnowledge(state, unit?.Commander);
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null) return;
-            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(members[0]);
             int radius = unit?.Organization.doctrine?.fieldObservationRadius ?? 90;
             int budget = unit?.Organization.doctrine?.contactLosBudget ?? 96;
             budget = RaidPhysicalMapCache.For(map).ObservationBudget.Grant(state.UnitId, tick, budget);
@@ -68,8 +68,8 @@ namespace Helodrace
                 .Where(value => value.Distance <= radius * radius)
                 .OrderBy(value => value.Distance).ThenBy(value => value.Enemy.thingIDNumber)
                 .Take(32).Select(value => value.Enemy).ToList();
-            var linked = new HashSet<Pawn>(LinkedObservers(members, state, tick));
-            List<Pawn> sources = members.OrderBy(pawn => pawn == unit?.Commander ? 0 : linked.Contains(pawn) ? 1 : 2).ToList();
+            List<Pawn> sources = TacticalObserverRotation.Select(members,
+                pawn => pawn == unit?.Commander || IsOpeningSensor(state, pawn), ref state.ObserverCursor, 4);
             int start = state.ObservationCursor, processed = 0;
             for (int i = 0; i < candidates.Count && budget > 0; i++)
             {

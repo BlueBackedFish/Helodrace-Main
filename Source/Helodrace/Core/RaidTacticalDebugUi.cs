@@ -174,6 +174,12 @@ namespace Helodrace
             report.AppendLine($"Planning service (all maps): pending={scheduler.Pending} slices={scheduler.Slices} "
                 + $"completed={scheduler.Completed} discarded={scheduler.Discarded} budget stops={scheduler.BudgetStops} "
                 + $"max slice={scheduler.MaxSliceMilliseconds:0.000} ms");
+            var executionScheduler = Current.Game.GetComponent<GameComponent_RaidExecutionScheduler>();
+            report.AppendLine($"Execution service (all maps): queued={executionScheduler.Pending} updates={executionScheduler.Updates} "
+                + $"urgent={executionScheduler.UrgentUpdates} budget stops={executionScheduler.BudgetStops} "
+                + $"delay current/max={executionScheduler.OldestDelay}/{executionScheduler.MaximumDelay} ticks "
+                + $"max unit={executionScheduler.MaximumUnitMilliseconds:0.000} ms");
+            report.AppendLine(RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidTacticalOrders>().PendingMovesReport());
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"

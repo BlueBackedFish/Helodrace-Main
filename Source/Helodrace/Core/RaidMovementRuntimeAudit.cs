@@ -70,7 +70,14 @@ namespace Helodrace
                     foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList()) if (pawn != owner) pawn.Destroy(DestroyMode.Vanish);
                     foreach (IntVec3 cell in CellRect.FromLimits(new IntVec3(45, 0, 65), new IntVec3(155, 0, 170)))
                     {
-                        foreach (Thing thing in cell.GetThingList(map).ToList()) if (!(thing is Pawn)) thing.Destroy(DestroyMode.Vanish);
+                        foreach (Thing thing in cell.GetThingList(map).ToList())
+                            if (!(thing is Pawn))
+                            {
+                                // Steam geysers cannot be destroyed and otherwise leave
+                                // random non-standable tiles in the isolated test corridor.
+                                if (thing.def.destroyable) thing.Destroy(DestroyMode.Vanish);
+                                else thing.DeSpawn();
+                            }
                         map.terrainGrid.SetTerrain(cell, TerrainDefOf.Concrete);
                         map.roofGrid.SetRoof(cell, null);
                     }
@@ -182,6 +189,8 @@ namespace Helodrace
             var plans = map.GetComponent<MapComponent_RaidTacticalPlans>();
             var execution = map.GetComponent<MapComponent_RaidTacticalExecution>();
             var scheduler = Current.Game.GetComponent<GameComponent_RaidPlanScheduler>();
+            var executionScheduler = Current.Game.GetComponent<GameComponent_RaidExecutionScheduler>();
+            var orders = map.GetComponent<MapComponent_RaidTacticalOrders>();
             var phases = plans.Plans.GroupBy(plan => execution.StateFor(plan.UnitId)?.Phase.ToString() ?? "NoState")
                 .Select(group => group.Key + ":" + group.Count());
             var blocks = raiders.Where(pawn => pawn.Spawned).Select(MapComponent_RaidTacticalOrders.For)
@@ -200,6 +209,13 @@ namespace Helodrace
                 + ",\"completed\":" + scheduler.Completed + ",\"discarded\":" + scheduler.Discarded
                 + ",\"budgetStops\":" + scheduler.BudgetStops + ",\"maxSliceMs\":"
                 + scheduler.MaxSliceMilliseconds.ToString("0.000", CultureInfo.InvariantCulture) + "}"
+                + ",\"executionService\":{\"pending\":" + executionScheduler.Pending
+                + ",\"updates\":" + executionScheduler.Updates + ",\"urgent\":" + executionScheduler.UrgentUpdates
+                + ",\"budgetStops\":" + executionScheduler.BudgetStops + ",\"maxDelayTicks\":" + executionScheduler.MaximumDelay
+                + ",\"oldestDelayTicks\":" + executionScheduler.OldestDelay + ",\"maxUnitMs\":"
+                + executionScheduler.MaximumUnitMilliseconds.ToString("0.000", CultureInfo.InvariantCulture) + "}"
+                + ",\"orderReviews\":{\"count\":" + orders.ReviewCount + ",\"maxDelayTicks\":" + orders.MaximumReviewDelay + "}"
+                + ",\"unstartedMoves\":\"" + Escape(orders.PendingMovesReport()) + "\""
                 + ",\"queueMaintenance\":{\"cleanupPasses\":" + execution.OpeningCleanupPasses
                 + ",\"leasePrunePasses\":" + execution.OpeningPrunePasses + "}"
                 + ",\"planningWork\":{\"maxBreachChecks\":" + plans.Plans.Select(plan => plan.Work.BreachChecks).DefaultIfEmpty().Max()

@@ -8,10 +8,9 @@ namespace Helodrace
 {
     public sealed partial class MapComponent_RaidTacticalExecution
     {
-        private void ConfigureCommunicationKnowledge(ExecutionState state)
+        private void ConfigureCommunicationKnowledge(ExecutionState state, Pawn commander)
         {
             state.CqbKnowledge.Origin = state.UnitId;
-            Pawn commander = RaidTacticalUnit.All.FirstOrDefault(unit => unit.Id == state.UnitId)?.Commander;
             int observerId = commander?.thingIDNumber ?? 0;
             state.CqbKnowledge.OnObserved = (cell, known) => {
                 int tick = GenTicks.TicksGame;
@@ -36,7 +35,8 @@ namespace Helodrace
             RaidStructureSnapshot structure = StructureFor(map, state.ActivePlan);
             int room = structure?.RoomAt(cell) ?? 0;
             if (room <= 0) return;
-            Pawn commander = RaidTacticalUnit.All.FirstOrDefault(unit => unit.Id == state.UnitId)?.Commander;
+            Pawn commander = executionTickets.TryGetValue(state.UnitId, out RaidExecutionTicket ticket)
+                ? ticket.Unit.Commander : null;
             state.Communication.Knowledge.Publish(new RaidTacticalReport { Id = state.UnitId + ":room:" + room,
                 OriginUnit = state.UnitId, ObserverId = commander?.thingIDNumber ?? 0, Revision = tick,
                 ObservedTick = tick, ReceivedTick = tick, Kind = RaidReportKind.RoomChecked, Position = cell,

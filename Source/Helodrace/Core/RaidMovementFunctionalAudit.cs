@@ -76,7 +76,10 @@ namespace Helodrace
                 if (tick - stageStarted > 1800)
                     throw new InvalidOperationException("Security functional stage " + stage + " stalled: "
                         + string.Join(";", pawns.Select(pawn => pawn.Position + "/" + pawn.CurJobDef?.defName
-                            + "/" + MapComponent_RaidTacticalOrders.For(pawn)?.Movement.BlockReason)));
+                            + "/" + MapComponent_RaidTacticalOrders.For(pawn)?.Movement.BlockReason
+                            + "/edifice=" + pawn.Position.GetEdifice(map)?.def.defName
+                            + "/frozenStandable=" + structure.Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(pawn.Position)]
+                                .Has(TacticalRawFlags.Standable))));
                 return false;
             }
             bool movedRequired = stage == 4 ? startedMoving.Contains(pawns.Last()) : startedMoving.Count == pawns.Count;
