@@ -1,0 +1,40 @@
+{
+    "date":  "2026-10-05",
+    "scope":  "Native Unity Security movement fixtures with controlled tactical assignments; not a complete natural combat scenario",
+    "tests":  [
+                  {
+                      "functionalStage":  1,
+                      "passed":  true,
+                      "pawns":  11,
+                      "arrivalTicks":  401
+                  },
+                  {
+                      "functionalStage":  2,
+                      "passed":  true,
+                      "pawns":  11,
+                      "arrivalTicks":  482
+                  },
+                  {
+                      "functionalStage":  3,
+                      "passed":  true,
+                      "pawns":  11,
+                      "arrivalTicks":  524
+                  },
+                  {
+                      "functionalStage":  4,
+                      "passed":  true,
+                      "pawns":  11,
+                      "arrivalTicks":  235
+                  },
+                  {
+                      "functionalStage":  5,
+                      "passed":  true,
+                      "pawns":  11,
+                      "arrivalTicks":  434
+                  },
+                  {
+                      "complete":  true
+                  }
+              ],
+    "sourceReference":  "Movement logic at 88a5a265; audit fixture sources finalized in 8b3768bd. Run preceded final diagnostic counter additions."
+}

@@ -1,0 +1,40 @@
+{
+    "date":  "2026-10-05",
+    "sourceCommit":  "8b3768bd",
+    "scope":  "Native 50 pawn raid, 5 units; 300 warmup and 6000 sampled ticks; actual breaching, shared workspace queuing, ingress and room clearing; not a proof all rooms were cleared",
+    "scenarios":  [
+                      {
+                          "scenario":  16,
+                          "population":  50,
+                          "tactical":  true,
+                          "speed":  3,
+                          "TPS":  136.839,
+                          "FPS":  58.658,
+                          "moved":  50,
+                          "alive":  50,
+                          "warmupTicks":  300,
+                          "sampleTicks":  6000,
+                          "phases":  "ClearRoom:2,SecureRoom:1,CrossBreach:1,Assemble:1",
+                          "successfulPlans":  5,
+                          "failedPlans":  "",
+                          "nativeBytes":  3375000,
+                          "peakNativeBytes":  3375000,
+                          "cacheCumulative":  {
+                                                  "created":  27,
+                                                  "hits":  1467,
+                                                  "evictions":  0,
+                                                  "memoryWaits":  0,
+                                                  "peakPending":  2,
+                                                  "notifications":  87
+                                              },
+                          "cancelledPreparations":  0,
+                          "peakWaitFrames":  1,
+                          "pending":  0,
+                          "blocked":  "None:31,Busy:3,ContactGuard:2,OpeningWait:3,GridPreparing:5,OpeningQueue:6",
+                          "cpuCumulative":  "FPS=58.2 TPS=137.7 worst execution/frame=174.184 ms managed heap=500.8 MiB GC=15/15/15\r\n  CPU Planning: n=32 sum=481.9 p50/p95/p99=13.305/28.207/96.891 max=96.891 ms\r\n  CPU Observation: n=3118 sum=661.5 p50/p95/p99=0.001/0.936/1.115 max=32.813 ms\r\n  CPU LocalMap: n=538 sum=132.7 p50/p95/p99=0.264/0.382/0.632 max=5.296 ms\r\n  CPU Formation: n=350 sum=29.9 p50/p95/p99=0.053/0.082/0.624 max=6.042 ms\r\n  CPU Orders: n=10281 sum=300.1 p50/p95/p99=0.007/0.142/0.294 max=7.253 ms\r\n  CPU Execution: n=630 sum=2191.5 p50/p95/p99=2.024/11.034/25.760 max=174.184 ms\r\n  Goto request/start ticks: n=505 p50/p95/p99=0/1/2 max=269\r\n"
+                      },
+                      {
+                          "complete":  true
+                      }
+                  ]
+}
