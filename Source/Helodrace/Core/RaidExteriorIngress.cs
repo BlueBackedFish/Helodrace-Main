@@ -279,18 +279,6 @@ namespace Helodrace
             || cell.GetThingList(pawn.Map).OfType<Pawn>().Any(other => other != pawn && other.Spawned
                 && !other.Dead && !other.Downed);
 
-        internal bool ContinueExteriorIngress(Pawn pawn, RaidPawnOrder order)
-        {
-            RaidExteriorIngress ingress = ActiveExteriorIngress(pawn);
-            if (order.Reactive || ingress == null || !ingress.Requested.IsValid) return false;
-            if (!RedirectExteriorIngress(pawn, ingress.Requested, out IntVec3 next)) return false;
-            IntVec3 destination = next.IsValid ? next : pawn.Position;
-            if (order.Destination != destination) order.RetryAfter = 0;
-            order.Destination = destination;
-            order.Room = StructureFor(map, StateFor(order.UnitId).ActivePlan).RoomAt(order.Destination);
-            return order.Destination != pawn.Position;
-        }
-
         internal bool AllowsExteriorIngressStep(Pawn pawn, IntVec3 next)
         {
             RaidExteriorIngress ingress = ActiveExteriorIngress(pawn);

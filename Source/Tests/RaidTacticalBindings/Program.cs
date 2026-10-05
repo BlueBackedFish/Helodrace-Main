@@ -99,6 +99,7 @@ internal static class Program
             RaidPlanningWorkTests.Run();
             RaidResumableRouteTests.Run();
             RaidExecutionSchedulerTests.Run();
+        RaidPawnCommandTests.Run();
             CheckSmokeGases();
             CheckBreachToolRecovery();
             CheckTacticalRoomOverlay();

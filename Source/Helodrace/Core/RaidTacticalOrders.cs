@@ -29,6 +29,8 @@ namespace Helodrace
         public float LeashRadius;
         public bool RefreshPending;
         public bool Reactive;
+        public RaidPawnCommand Command = new RaidPawnCommand();
+        internal int ResolveAfter;
         public RaidMovementDiagnostics Movement = new RaidMovementDiagnostics();
 
         internal bool OwnedBy(RaidTacticalUnit unit)
@@ -56,6 +58,7 @@ namespace Helodrace
             Scribe_Values.Look(ref LeashCenter, "leashCenter");
             Scribe_Values.Look(ref LeashRadius, "leashRadius");
             Scribe_Values.Look(ref Reactive, "reactive");
+            Scribe_Deep.Look(ref Command, "command");
         }
     }
 
@@ -130,6 +133,11 @@ namespace Helodrace
                     continue;
                 }
                 RaidPawnOrder order = orders[pawn];
+                Resolve(order);
+                if (RaidOrderPolicy.RecoverMove(order.Kind == RaidOrderKind.Move, pawn.Position == order.Destination,
+                    pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == order.Destination,
+                    GenTicks.TicksGame < order.RetryAfter))
+                    order.RefreshPending = true;
                 if (order.Kind == RaidOrderKind.Fight && Owned(pawn.CurJob)
                     && pawn.CurJobDef == JobDefOf.AttackMelee
                     && !Allowed(pawn, order, pawn.CurJob.targetA.Cell))
@@ -171,68 +179,29 @@ namespace Helodrace
         private static bool SetMeasured(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
             bool sprint, bool fightOnArrival, float radius, bool reactive)
         {
-            if (pawn?.Spawned != true || pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    ?.ControlsPawn(pawn) != true) return false;
-            RaidOrderKind requestedKind = kind;
-            IntVec3 requestedDestination = destination;
-            RaidContactGuard guard = MapComponent_RaidTacticalExecution.ContactGuardFor(pawn);
-            RaidMoveController controller = guard != null && (!reactive || destination == guard.Position)
-                ? RaidMoveController.ContactGuard : reactive ? RaidMoveController.Reaction : RaidMoveController.Formation;
-            if (guard != null && !reactive)
-            {
-                kind = pawn.Position == guard.Position ? RaidOrderKind.Hold : RaidOrderKind.Move;
-                destination = guard.Position; sprint = false; fightOnArrival = false; radius = 1f; reactive = true;
-            }
-            var owner = pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>();
+            if (pawn?.Spawned != true) return false;
+            var execution = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>();
             RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(pawn);
+            if (execution?.ControlsPawn(pawn, unit) != true) return false;
+            var owner = pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>();
             if (!owner.orders.TryGetValue(pawn, out RaidPawnOrder order) || order.UnitId != unit.Id)
             {
-                order = new RaidPawnOrder { Pawn = pawn,
-                    OrganizationId = unit.OrganizationId, UnitId = unit.Id,
-                    GroupId = OrganizationAPI.GetGroup(pawn).id };
+                order = new RaidPawnOrder { Pawn = pawn, OrganizationId = unit.OrganizationId,
+                    UnitId = unit.Id, GroupId = OrganizationAPI.GetGroup(pawn).id };
                 owner.orders[pawn] = order;
                 owner.reviews.Schedule(pawn, GenTicks.TicksGame + (pawn.thingIDNumber & int.MaxValue) % 30);
             }
             order.GroupId = OrganizationAPI.GetGroup(pawn).id;
-            if (!reactive && (kind == RaidOrderKind.Move || kind == RaidOrderKind.Fight)
-                && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    .RedirectExteriorIngress(pawn, destination, out IntVec3 ingressDestination))
-            {
-                destination = ingressDestination.IsValid ? ingressDestination : pawn.Position;
-                kind = ingressDestination.IsValid && destination != pawn.Position ? RaidOrderKind.Move : RaidOrderKind.Hold;
-                fightOnArrival = false;
-                controller = RaidMoveController.ExteriorIngress;
-            }
-            bool changed = order.Kind != kind || order.Destination != destination
-                || order.Sprint != sprint || order.FightOnArrival != fightOnArrival
-                || order.Radius != radius || order.Reactive != reactive;
-            order.Movement.Request(requestedKind, requestedDestination, controller, GenTicks.TicksGame, changed);
-            if (controller == RaidMoveController.ContactGuard)
-                order.Movement.Block(RaidMoveBlockReason.ContactGuard, GenTicks.TicksGame);
-            else if (controller == RaidMoveController.ExteriorIngress && kind == RaidOrderKind.Hold)
-                order.Movement.Block(RaidMoveBlockReason.OpeningWait, GenTicks.TicksGame);
-            else if (changed) order.Movement.Block(RaidMoveBlockReason.None, GenTicks.TicksGame);
-            if (changed)
-            {
-                order.Kind = kind;
-                order.Destination = destination;
-                order.Sprint = sprint;
-                order.FightOnArrival = fightOnArrival;
-                order.Radius = radius;
-                order.Reactive = reactive;
-                order.Facing = Rot4.Invalid;
-                order.RetryAfter = 0;
-                order.RefreshPending = true;
-                order.Room = pawn.Map.GetComponent<MapComponent_RaidTacticalPlans>()
-                    ?.GetStructure(order.OrganizationId)?.RoomAt(destination) ?? 0;
-                var state = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.UnitId);
-                order.LeashCenter = state?.ActivePlan?.Start ?? pawn.Position;
-                order.LeashRadius = state?.Maneuver == RaidTacticalManeuver.HoldAndCounterattack ? 25f : 0f;
-                MapComponent_RaidTacticalTrace.Record(pawn,
-                    $"directive {kind} to {destination} fightOnArrival={fightOnArrival}");
-            }
-            // Constant-tree emergency jobs and equipment actions finish first.
-            // Returning from them goes through the same directive, not AssaultColony.
+            var state = execution.StateFor(unit.Id);
+            RaidCommandOwner commandOwner = reactive ? state?.SharedOpeningWait == true
+                ? RaidCommandOwner.OpeningQueue : RaidCommandOwner.Reaction
+                : state?.Phase == RaidExecutionPhase.CrossBreach ? RaidCommandOwner.Breach
+                : state?.Phase >= RaidExecutionPhase.Assault ? RaidCommandOwner.Assault
+                : state?.Indices.Assignment(state.ActivePlan, pawn)?.Task == RaidTacticalTask.Security
+                    ? RaidCommandOwner.Security : RaidCommandOwner.Approach;
+            bool changed = order.Command.Assign(commandOwner, kind, destination, sprint, fightOnArrival,
+                radius, reactive, null);
+            Resolve(order, changed);
             if (RaidOrderPolicy.Refresh(order.RefreshPending, Owned(pawn.CurJob),
                 Protected(pawn), pawn.stances.FullBodyBusy))
             {
@@ -242,6 +211,56 @@ namespace Helodrace
             return true;
         }
 
+        internal static void Resolve(RaidPawnOrder order, bool force = false)
+        {
+            int tick = GenTicks.TicksGame;
+            if (!force && tick < order.ResolveAfter) return;
+            order.ResolveAfter = tick + 30;
+            Pawn pawn = order.Pawn;
+            RaidPawnCommand command = order.Command;
+            if (!command.Destination.IsValid) return;
+            RaidOrderKind kind = command.Kind;
+            IntVec3 destination = command.Destination;
+            bool sprint = command.Sprint, fightOnArrival = command.FightOnArrival, reactive = command.Reactive;
+            float radius = command.Radius;
+            var execution = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>();
+            RaidContactGuard guard = MapComponent_RaidTacticalExecution.ContactGuardFor(pawn);
+            RaidMoveController controller = guard != null && (!reactive || destination == guard.Position)
+                ? RaidMoveController.ContactGuard : reactive ? RaidMoveController.Reaction : RaidMoveController.Formation;
+            if (guard != null && !reactive)
+            {
+                kind = pawn.Position == guard.Position ? RaidOrderKind.Hold : RaidOrderKind.Move;
+                destination = guard.Position; sprint = false; fightOnArrival = false; radius = 1f; reactive = true;
+            }
+            if (!reactive && (kind == RaidOrderKind.Move || kind == RaidOrderKind.Fight)
+                && execution.RedirectExteriorIngress(pawn, destination, out IntVec3 ingressDestination))
+            {
+                destination = ingressDestination.IsValid ? ingressDestination : pawn.Position;
+                kind = destination != pawn.Position ? RaidOrderKind.Move : RaidOrderKind.Hold;
+                fightOnArrival = false; controller = RaidMoveController.ExteriorIngress;
+            }
+            if (kind == RaidOrderKind.Move && destination == pawn.Position)
+                kind = fightOnArrival ? RaidOrderKind.Fight : RaidOrderKind.Hold;
+            bool changed = order.Kind != kind || order.Destination != destination || order.Sprint != sprint
+                || order.FightOnArrival != fightOnArrival || order.Radius != radius || order.Reactive != reactive;
+            order.Movement.Request(command.Kind, command.Destination, controller, tick, changed);
+            if (controller == RaidMoveController.ContactGuard)
+                order.Movement.Block(RaidMoveBlockReason.ContactGuard, tick);
+            else if (controller == RaidMoveController.ExteriorIngress && kind == RaidOrderKind.Hold)
+                order.Movement.Block(RaidMoveBlockReason.OpeningWait, tick);
+            else if (changed) order.Movement.Block(RaidMoveBlockReason.None, tick);
+            if (!changed) return;
+            order.Kind = kind; order.Destination = destination; order.Sprint = sprint;
+            order.FightOnArrival = fightOnArrival; order.Radius = radius; order.Reactive = reactive;
+            order.Facing = Rot4.Invalid; order.RetryAfter = 0; order.RefreshPending = true;
+            order.Room = pawn.Map.GetComponent<MapComponent_RaidTacticalPlans>()
+                ?.GetStructure(order.OrganizationId)?.RoomAt(destination) ?? 0;
+            var state = execution.StateFor(order.UnitId);
+            order.LeashCenter = state?.ActivePlan?.Start ?? pawn.Position;
+            order.LeashRadius = state?.Maneuver == RaidTacticalManeuver.HoldAndCounterattack ? 25f : 0f;
+            MapComponent_RaidTacticalTrace.Record(pawn,
+                $"command {command.Owner}#{command.Revision}: {kind} to {destination}");
+        }
         internal static bool Owned(Job job) => job?.jobGiver is JobGiver_RaidTacticalOrder;
 
         internal static void Escape(Pawn pawn, IntVec3 destination)
@@ -318,9 +337,6 @@ namespace Helodrace
         internal static Job Move(Pawn pawn, RaidPawnOrder order)
         {
             var execution = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>();
-            // Refresh admission before starting a Goto. The shared opening is
-            // subject to ordinary reservations, just like a formation endpoint.
-            execution?.ContinueExteriorIngress(pawn, order);
             if (order.Destination == pawn.Position) return Wait(pawn, order);
             if (pawn.Map.GetComponent<MapComponent_RaidMovementAreas>()?.ReadyFor(pawn) == false)
             {
@@ -407,6 +423,8 @@ namespace Helodrace
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
             if (order == null) return null;
+            MapComponent_RaidTacticalOrders.Resolve(order, pawn.Position == order.Destination
+                && order.Command.Kind == RaidOrderKind.Move && order.Command.Destination != order.Destination);
             if (MapComponent_RaidTacticalOrders.Protected(pawn) || pawn.stances.FullBodyBusy)
             {
                 order.Movement.Block(MapComponent_RaidTacticalOrders.Protected(pawn)
@@ -415,10 +433,6 @@ namespace Helodrace
             }
             if (order.Kind == RaidOrderKind.Fight)
                 return MapComponent_RaidTacticalOrders.Fighter.Give(pawn);
-            if (order.Kind == RaidOrderKind.Move && pawn.Position == order.Destination
-                && pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    ?.ContinueExteriorIngress(pawn, order) == true)
-                return MapComponent_RaidTacticalOrders.Move(pawn, order);
             if (order.Kind == RaidOrderKind.Move && pawn.Position != order.Destination)
             {
                 if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == order.Destination)

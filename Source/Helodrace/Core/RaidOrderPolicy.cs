@@ -2,6 +2,8 @@ namespace Helodrace
 {
     public static class RaidOrderPolicy
     {
+        public static bool RecoverMove(bool move, bool arrived, bool sameGoto, bool retrying) =>
+            move && !arrived && !sameGoto && !retrying;
         public static bool Refresh(bool pending, bool currentOwned,
             bool equipmentOrEmergency, bool busy) => !equipmentOrEmergency && !busy
                 && (pending || !currentOwned);
