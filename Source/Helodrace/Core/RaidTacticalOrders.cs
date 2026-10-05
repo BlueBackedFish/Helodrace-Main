@@ -73,10 +73,15 @@ namespace Helodrace
         internal static void PreparationReady(Pawn pawn)
         {
             RaidPawnOrder order = For(pawn);
-            if (order == null || order.Kind == RaidOrderKind.Hold || !Owned(pawn.CurJob)) return;
+            if (order == null) return;
+            if (order.Movement.BlockReason == RaidMoveBlockReason.GridPreparing)
+                order.Movement.Block(RaidMoveBlockReason.None, GenTicks.TicksGame);
+            if (order.Kind == RaidOrderKind.Hold || !Owned(pawn.CurJob)) return;
             order.RefreshPending = true;
             if (!Protected(pawn) && !pawn.stances.FullBodyBusy)
                 pawn.jobs.CheckForJobOverride();
+            else order.Movement.Block(Protected(pawn) ? RaidMoveBlockReason.ProtectedJob
+                : RaidMoveBlockReason.Busy, GenTicks.TicksGame);
         }
 
         public override void ExposeData()
