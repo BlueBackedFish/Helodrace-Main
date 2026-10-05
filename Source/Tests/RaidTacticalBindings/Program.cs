@@ -15,6 +15,25 @@ using Verse.AI;
 
 internal static class Program
 {
+    private sealed class GameDependentStock : StockGenerator_SingleDef
+    {
+        public override bool HandlesThingDef(ThingDef def) => throw new Exception("No storyteller at startup.");
+    }
+    private static void CheckStartupStockGenerators()
+    {
+        Type trading = typeof(RaidTacticalPlan).Assembly.GetType("Helodrace.Economy.HelodMoneyTrading", true);
+        var check = AccessTools.Method(trading, "ExistingMoneyStock");
+        var money = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+        bool Existing(StockGenerator generator) => (bool)check.Invoke(null, new object[] { generator, money });
+        if (Existing(new GameDependentStock()) || Existing(new StockGenerator_Tomes()))
+            throw new Exception("Game-dependent subclass should not be queried during static initialization.");
+        var simple = new StockGenerator_SingleDef();
+        AccessTools.Field(typeof(StockGenerator_SingleDef), "thingDef").SetValue(simple, money);
+        if (!Existing(simple) || !Existing((StockGenerator)Activator.CreateInstance(typeof(RaidTacticalPlan).Assembly
+            .GetType("Helodrace.Economy.StockGenerator_HelodMoney", true), true)))
+            throw new Exception("Existing money generators must prevent duplicate registration.");
+        Console.WriteLine("PASS: 4 startup stock-generator isolation and money registration checks.");
+    }
     private static int Main()
     {
         // Check target signatures and injected private fields against the real
@@ -71,6 +90,7 @@ internal static class Program
                 Console.WriteLine("PASS: " + patch.Name);
             }
             CheckDoorFaultHooks();
+            CheckStartupStockGenerators();
             CheckCasualtyReevaluation();
             CheckGrenadePrediction();
             CheckSharedStructureVersions();
