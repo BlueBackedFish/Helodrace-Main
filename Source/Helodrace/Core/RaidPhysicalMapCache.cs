@@ -120,4 +120,9 @@ namespace Helodrace
         private static void Postfix(Building_Door __instance, bool __state)
         { if (__state != __instance.Open) RaidPhysicalMapCache.Dirty(__instance.Map, __instance.Position); }
     }
+    [HarmonyPatch(typeof(TerrainGrid), nameof(TerrainGrid.SetTerrain))]
+    internal static class Patch_RaidPhysicalCache_Terrain
+    {
+        private static void Postfix(Map ___map, IntVec3 c) => RaidPhysicalMapCache.Dirty(___map, c);
+    }
 }

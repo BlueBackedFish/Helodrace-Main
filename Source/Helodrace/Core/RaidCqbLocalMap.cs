@@ -89,6 +89,8 @@ namespace Helodrace
         private IntVec3 origin;
         private CqbLocalTopology topology;
         private int[] liveBuildings;
+        private int[] spareRooms, spareBuildings;
+        private bool[] spareUsable, sparePortals;
         internal RaidCqbKnowledge Knowledge { get; }
         public RaidCqbLocalMap(RaidCqbKnowledge knowledge = null) { Knowledge = knowledge ?? new RaidCqbKnowledge(); }
         public int Revision { get; private set; }
@@ -114,13 +116,16 @@ namespace Helodrace
             if (!force && topology != null && origin == nextOrigin && tick - lastTick < RefreshTicks) return false;
             int width = System.Math.Min(map.Size.x, center.x + Radius + 1) - nextOrigin.x;
             int height = System.Math.Min(map.Size.z, center.z + Radius + 1) - nextOrigin.z;
-            int[] rooms = new int[width * height];
-            int[] buildings = new int[rooms.Length];
-            bool[] usable = new bool[rooms.Length], portals = new bool[rooms.Length];
+            int length = width * height;
+            int[] rooms = spareRooms?.Length == length ? spareRooms : new int[length];
+            int[] buildings = spareBuildings?.Length == length ? spareBuildings : new int[length];
+            bool[] usable = spareUsable?.Length == length ? spareUsable : new bool[length];
+            bool[] portals = sparePortals?.Length == length ? sparePortals : new bool[length];
+            var physical = RaidPhysicalMapCache.For(map);
             for (int i = 0; i < rooms.Length; i++)
             {
                 IntVec3 cell = nextOrigin + new IntVec3(i % width, 0, i / width);
-                RaidPhysicalMapCache.For(map).Read(cell, tick, out Building building, out bool walkable);
+                physical.Read(cell, tick, out Building building, out bool walkable);
                 TacticalCellData cached = structure.CachedAt(cell);
                 rooms[i] = structure.RoomAt(cell);
                 bool portal = cached.WallLine || cached.ExteriorAccess || building is Building_Door
@@ -143,6 +148,10 @@ namespace Helodrace
             bool same = next.SameAs(topology) && liveBuildings != null && buildings.SequenceEqual(liveBuildings);
             bool changed = topology != null && origin == nextOrigin && !same;
             if (topology == null || origin != nextOrigin || !same) Revision++;
+            // Only this main-thread local map owns these buffers. Compare first,
+            // then recycle the previous published arrays for the next refresh.
+            spareRooms = topology?.Rooms; spareUsable = topology?.Walkable;
+            sparePortals = topology?.Portals; spareBuildings = liveBuildings;
             topology = next; liveBuildings = buildings; origin = nextOrigin; lastTick = tick;
             return changed;
         }
