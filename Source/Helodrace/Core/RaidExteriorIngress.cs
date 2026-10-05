@@ -279,21 +279,5 @@ namespace Helodrace
             || cell.GetThingList(pawn.Map).OfType<Pawn>().Any(other => other != pawn && other.Spawned
                 && !other.Dead && !other.Downed);
 
-        internal bool AllowsExteriorIngressStep(Pawn pawn, IntVec3 next)
-        {
-            RaidExteriorIngress ingress = ActiveExteriorIngress(pawn);
-            if (ingress == null || !next.InBounds(map)) return true;
-            var unit = Helodrace.Squads.RaidTacticalUnit.ForPawn(pawn);
-            RaidStructureSnapshot structure = StructureFor(map, StateFor(unit.Id).ActivePlan);
-            if (next == ingress.Opening && !ingress.Entered)
-                return IngressOpeningAvailable(pawn, ingress,
-                    candidate => map.pawnDestinationReservationManager.CanReserve(candidate, pawn));
-            TacticalCellData cell = structure.CachedAt(next);
-            int room = structure.RoomAt(next);
-            if (ingress.Entered && !ingress.Waiting)
-                return next == ingress.Opening || InteriorIngressCells(pawn, structure, ingress, out _).Contains(next);
-            return RaidBreachTraversal.AllowsCommittedIngressStep(next == ingress.Opening, false,
-                structure.RoomAt(pawn.Position), room, ingress.InsideRoom, cell.WallLine, cell.ExteriorAccess);
-        }
     }
 }

@@ -82,14 +82,14 @@ internal static class RaidSecurityMovementTests
         var nativeRequest = (PathRequest)RuntimeHelpers.GetUninitializedObject(typeof(PathRequest));
         nativeRequest.customizer = (PathRequest.IPathGridCustomizer)retainedArea;
         bool CanRetire() => (bool)AccessTools.Property(leaseField.FieldType, "CanRetire").GetValue(nativeLease);
-        Patch_RaidMovementArea_Request.Postfix(nativeRequest);
+        Patch_RaidMovementArea_Request.Postfix(nativeRequest, null);
         Check(!CanRetire(), "The actual game PathRequest creation hook acquires its movement-grid lease.");
         AccessTools.Method(leaseField.FieldType, "BeginRead").Invoke(nativeLease, null);
         nativeRequest.Dispose(); Patch_RaidMovementArea_RequestCancelled.Postfix(nativeRequest);
         Check(!CanRetire(), "The actual cancellation hook releases the request but preserves the running native read.");
         AccessTools.Method(leaseField.FieldType, "CompleteReads").Invoke(nativeLease, null);
         Check(CanRetire(), "Native retirement becomes possible only after the completion barrier.");
-        Patch_RaidMovementArea_Request.Postfix(nativeRequest);
+        Patch_RaidMovementArea_Request.Postfix(nativeRequest, null);
         nativeRequest.Resolve(null); Patch_RaidMovementArea_RequestResolved.Postfix(nativeRequest);
         Check(CanRetire(), "The real request resolution hook releases completed request ownership.");
 

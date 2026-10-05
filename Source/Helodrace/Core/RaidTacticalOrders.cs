@@ -31,6 +31,9 @@ namespace Helodrace
         public bool Reactive;
         public RaidPawnCommand Command = new RaidPawnCommand();
         internal int ResolveAfter;
+        internal TacticalMovementPermission PathPermission;
+        internal RaidExteriorIngress PathIngress;
+        internal int PathRevision = -1;
         public RaidMovementDiagnostics Movement = new RaidMovementDiagnostics();
 
         internal bool OwnedBy(RaidTacticalUnit unit)
@@ -200,7 +203,8 @@ namespace Helodrace
                 : state?.Indices.Assignment(state.ActivePlan, pawn)?.Task == RaidTacticalTask.Security
                     ? RaidCommandOwner.Security : RaidCommandOwner.Approach;
             bool changed = order.Command.Assign(commandOwner, kind, destination, sprint, fightOnArrival,
-                radius, reactive, null);
+                radius, reactive, reactive ? null : MapComponent_RaidTacticalExecution.ConnectionFor(state, pawn));
+            if (changed) order.RefreshPending = true;
             Resolve(order, changed);
             if (RaidOrderPolicy.Refresh(order.RefreshPending, Owned(pawn.CurJob),
                 Protected(pawn), pawn.stances.FullBodyBusy))
@@ -435,7 +439,8 @@ namespace Helodrace
                 return MapComponent_RaidTacticalOrders.Fighter.Give(pawn);
             if (order.Kind == RaidOrderKind.Move && pawn.Position != order.Destination)
             {
-                if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == order.Destination)
+                if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == order.Destination
+                    && order.PathRevision == order.Command.Revision)
                     return pawn.CurJob;
                 return MapComponent_RaidTacticalOrders.Move(pawn, order);
             }
@@ -516,8 +521,12 @@ namespace Helodrace
         {
             Job current = __instance.pawn.CurJob;
             if (MapComponent_RaidTacticalOrders.Owned(current) && current.def == JobDefOf.Goto)
-                __result = __result && RaidOrderPolicy.ContinueMove(current.targetA == j.targetA,
-                    current.locomotionUrgency == j.locomotionUrgency);
+            {
+                RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(__instance.pawn);
+                __result = __result && order != null && order.PathRevision == order.Command.Revision
+                    && RaidOrderPolicy.ContinueMove(current.targetA == j.targetA,
+                        current.locomotionUrgency == j.locomotionUrgency);
+            }
         }
     }
 

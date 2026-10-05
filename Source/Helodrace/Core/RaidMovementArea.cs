@@ -18,6 +18,7 @@ namespace Helodrace
     {
         private NativeArray<ushort> costs;
         private TacticalMovementMaskInput input;
+        internal readonly TacticalMovementPermission Permission;
         private Task<ushort[]> calculation;
         private CancellationTokenSource cancellation;
         private ushort[] values;
@@ -40,6 +41,7 @@ namespace Helodrace
             owner = map.GetComponent<MapComponent_RaidMovementAreas>();
             MarkRequested();
             input = captured;
+            Permission = new TacticalMovementPermission(captured);
             requiredBytes = checked((long)input.Width * input.Height * sizeof(ushort));
             if (input.Reactive)
             {
@@ -399,9 +401,15 @@ namespace Helodrace
         typeof(PathFinderCostTuning?), typeof(PathEndMode), typeof(PathRequest.IPathGridCustomizer) })]
     public static class Patch_RaidMovementArea_Request
     {
-        public static void Postfix(PathRequest __result)
+        public static void Postfix(PathRequest __result, Pawn pawn)
         {
             if (__result?.customizer is RaidMovementArea area) area.Lease.Acquire(__result);
+            RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
+            if (order == null || !MapComponent_RaidTacticalOrders.Owned(pawn.CurJob)) return;
+            order.PathPermission = (__result?.customizer as RaidMovementArea)?.Permission;
+            order.PathRevision = order.Command.Revision;
+            order.PathIngress = order.Reactive ? null : pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                .ActiveExteriorIngress(pawn);
         }
         public static void Prefix(Pawn pawn, ref PathRequest.IPathGridCustomizer customizer)
         {

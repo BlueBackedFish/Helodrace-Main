@@ -22,7 +22,7 @@ namespace Helodrace
         public List<int> AllowedRooms = new List<int>();
         public List<IntVec3> AllowedPortals = new List<IntVec3>();
         // Only personal indoor joins use a bounded cell corridor.
-        [NonSerialized] internal HashSet<IntVec3> RestrictedCells;
+        internal HashSet<IntVec3> RestrictedCells;
         public int GuidanceRadius = 3;
         public int RefreshTicks = 60;
         public int RetryTicks = 120;
@@ -41,6 +41,10 @@ namespace Helodrace
             Scribe_Collections.Look(ref GuidanceCells, "guidanceCells", LookMode.Value);
             Scribe_Collections.Look(ref AllowedRooms, "allowedRooms", LookMode.Value);
             Scribe_Collections.Look(ref AllowedPortals, "allowedPortals", LookMode.Value);
+            List<IntVec3> corridor = Scribe.mode == LoadSaveMode.Saving ? RestrictedCells?.ToList() : null;
+            Scribe_Collections.Look(ref corridor, "restrictedCells", LookMode.Value);
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+                RestrictedCells = corridor == null ? null : new HashSet<IntVec3>(corridor);
         }
     }
 
@@ -223,7 +227,7 @@ namespace Helodrace
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
             if (order == null || order.Reactive) return null;
-            return ConnectionFor(StateFor(order.UnitId), pawn);
+            return order.Command.Connection;
         }
 
         internal static RaidMovementNode ConnectionFor(ExecutionState state, Pawn pawn)
@@ -239,22 +243,16 @@ namespace Helodrace
         internal bool AllowsNodeStep(Pawn pawn, IntVec3 cell)
         {
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
-            if (order == null || order.Reactive || !cell.InBounds(map)) return true;
-            if (ActiveExteriorIngress(pawn) != null) return AllowsExteriorIngressStep(pawn, cell);
-            RaidMovementNode connection = ApproachConnection(pawn);
-            if (connection == null) return true;
-            RaidTacticalPlan plan = StateFor(order.UnitId)?.ActivePlan;
-            // Path costs and physical crossing use this same personal connection.
-            RaidStructureSnapshot structure = StructureFor(map, plan);
-            if (structure == null) return true;
-            int currentRoom = ConnectionRoom(map, structure, pawn.Position, connection);
-            // An evaded member may exit its off-route room to rejoin, but cannot use another entry as a shortcut.
-            int room = structure.RoomAt(cell);
-            if (connection.RestrictedCells != null && !connection.RestrictedCells.Contains(cell)) return false;
-            return TacticalNodeProgress.AllowsStep(currentRoom, room, cell.GetEdifice(map) is Building_Door,
-                connection.AllowedPortals.Contains(cell), connection.AllowedRooms.Contains);
+            if (order == null) return true;
+            if (!cell.InBounds(map)) return false;
+            // This is the exact immutable permission used by the current path
+            // request, rather than a second interpretation of the unit's phase.
+            if (order.PathPermission?.Allows(map.cellIndices.CellToIndex(cell)) == false) return false;
+            RaidExteriorIngress ingress = order.PathIngress;
+            return ingress == null || ingress.Complete || cell != ingress.Opening || ingress.Entered
+                || IngressOpeningAvailable(pawn, ingress,
+                    candidate => map.pawnDestinationReservationManager.CanReserve(candidate, pawn));
         }
-
         internal static int ConnectionRoom(Map map, RaidStructureSnapshot structure, IntVec3 cell, RaidMovementNode connection)
         {
             int room = structure.RoomAt(cell);

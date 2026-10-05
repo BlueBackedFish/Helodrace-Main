@@ -25,6 +25,7 @@ namespace Helodrace
         private RaidStructureSnapshot structure;
         private Building_Door hiddenDoor;
         private readonly HashSet<Pawn> startedMoving = new HashSet<Pawn>();
+        private readonly HashSet<Pawn> permissionBindings = new HashSet<Pawn>();
         private readonly Dictionary<Pawn, IntVec3> stagePositions = new Dictionary<Pawn, IntVec3>();
         private bool hiddenDoorSeen, wrongPortal;
         internal RaidMovementFunctionalAudit(Map map, List<Pawn> pawns, Pawn owner, string output)
@@ -48,6 +49,9 @@ namespace Helodrace
             }
             foreach (Pawn pawn in pawns)
             {
+                RaidPawnOrder movementOrder = MapComponent_RaidTacticalOrders.For(pawn);
+                if (movementOrder?.PathPermission != null && movementOrder.PathRevision == movementOrder.Command.Revision
+                    && pawn.CurJobDef == JobDefOf.Goto) permissionBindings.Add(pawn);
                 if (pawn.Position != stagePositions[pawn] || pawn.CurJobDef == JobDefOf.Goto
                     || MapComponent_RaidTacticalOrders.For(pawn)?.Movement.StartedTick >= stageStarted) startedMoving.Add(pawn);
                 if (pawn.Position == hiddenDoor.Position) wrongPortal = true;
@@ -83,14 +87,16 @@ namespace Helodrace
                 return false;
             }
             bool movedRequired = stage == 4 ? startedMoving.Contains(pawns.Last()) : startedMoving.Count == pawns.Count;
-            if (!movedRequired || wrongPortal || stage == 3 && hiddenDoorSeen
+            if (!movedRequired || (stage == 4 ? !permissionBindings.Contains(pawns.Last()) : permissionBindings.Count != pawns.Count)
+                || wrongPortal || stage == 3 && hiddenDoorSeen
                 || stage == 4 && state.ContactGuards.Count != 0
                 || stage == 5 && !RaidSmokeUtility.CoveringSmokeAt(map, new IntVec3(120, 0, 112)))
                 throw new InvalidOperationException("Invalid functional arrival: started=" + startedMoving.Count
                     + " wrongPortal=" + wrongPortal + " hiddenDoorSeen=" + hiddenDoorSeen
                     + " HC density=" + HelodGasStore.DensityAt(new IntVec3(120, 0, 112), map, HelodGasDefOf.HD_HCSmokeGrid));
             File.AppendAllText(output, "{\"functionalStage\":" + stage + ",\"passed\":true,\"pawns\":"
-                + pawns.Count + ",\"arrivalTicks\":" + (tick - stageStarted) + "}\n");
+                + pawns.Count + ",\"arrivalTicks\":" + (tick - stageStarted)
+                + ",\"permissionBindings\":" + permissionBindings.Count + "}\n");
             if (stage == 5) { File.AppendAllText(output, "{\"complete\":true}\n"); return true; }
             Begin(stage + 1);
             return false;
@@ -100,6 +106,7 @@ namespace Helodrace
         private void Begin(int next)
         {
             stage = next; stageStarted = GenTicks.TicksGame; startedMoving.Clear(); wrongPortal = hiddenDoorSeen = false;
+            permissionBindings.Clear();
             int z = stage == 1 ? 116 : 112;
             IntVec3 portal = new IntVec3(120, 0, z), destination = new IntVec3(126, 0, z);
             var door = (Building_Door)new IntVec3(120, 0, 116).GetEdifice(map);

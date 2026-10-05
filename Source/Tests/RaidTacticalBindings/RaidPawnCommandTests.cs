@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Helodrace;
 using Verse;
@@ -30,6 +31,28 @@ internal static class RaidPawnCommandTests
             && !RaidOrderPolicy.RecoverMove(true, false, false, true)
             && !RaidOrderPolicy.RecoverMove(false, false, false, false),
             "Stable paths, arrival, retry windows and intended holds do not cause repeated job replacement.");
+        var assembly = typeof(RaidPawnOrder).Assembly;
+        var inputType = assembly.GetType("Helodrace.TacticalMovementMaskInput");
+        object input = Activator.CreateInstance(inputType);
+        void Field(string name, object value) => AccessTools.Field(inputType, name).SetValue(input, value);
+        Field("Width", 5); Field("Height", 1); Field("RestrictCells", true);
+        var allowed = new[] { 1, 2 }; Field("AllowedCells", allowed); Field("BreachIndex", 3);
+        var keyType = assembly.GetType("Helodrace.TacticalMovementMaskKey");
+        object key = Activator.CreateInstance(keyType, System.Reflection.BindingFlags.Instance
+            | System.Reflection.BindingFlags.NonPublic, null, new object[] { input, null, null, null }, null);
+        var permissionType = assembly.GetType("Helodrace.TacticalMovementPermission");
+        object permission = Activator.CreateInstance(permissionType, System.Reflection.BindingFlags.Instance
+            | System.Reflection.BindingFlags.NonPublic, null, new[] { AccessTools.Field(keyType, "Input").GetValue(key) }, null);
+        bool Allows(int index) => (bool)AccessTools.Method(permissionType, "Allows").Invoke(permission, new object[] { index });
+        Check(Allows(1) && Allows(2) && Allows(3) && !Allows(0) && !Allows(4),
+            "A captured path admits its indoor corridor and selected mouth, but excludes other tiles.");
+        allowed[0] = 4;
+        Check(Allows(1) && !Allows(4), "Later caller edits cannot mutate a captured path's permissions.");
+        object area = RuntimeHelpers.GetUninitializedObject(assembly.GetType("Helodrace.RaidMovementArea"));
+        AccessTools.Field(area.GetType(), "Permission").SetValue(area, permission);
+        AccessTools.Method(area.GetType(), "CancelPreparation").Invoke(area, null);
+        Check(ReferenceEquals(AccessTools.Field(area.GetType(), "Permission").GetValue(area), permission) && Allows(3),
+            "Retiring native preparation cannot invalidate the managed permission retained by a walking pawn.");
         LoadSaveMode mode = Scribe.mode;
         XmlNode parent = Scribe.loader.curXmlParent;
         IExposable exposable = Scribe.loader.curParent;
