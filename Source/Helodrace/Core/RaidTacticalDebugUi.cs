@@ -147,7 +147,8 @@ namespace Helodrace
             report.AppendLine("Wall search: " + plan.BreachSearch);
             report.AppendLine($"Planning={plan.PlanningMilliseconds} ms  "
                 + $"breach candidates={plan.BreachCandidates}  "
-                + $"detailed checks={plan.DetailedBreachChecks}");
+                + $"detailed checks={plan.DetailedBreachChecks}/{RaidPlanningWork.BreachCheckLimit}  "
+                + $"route steps={plan.Work.RouteSteps}/{RaidPlanningWork.RouteLimit} limited={plan.Work.Limited}");
             var movement = RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidMovementAreas>();
             report.AppendLine($"Movement area requests={movement.Requests} "
                 + $"grids={movement.CachedGrids} pending={movement.PendingGrids} "

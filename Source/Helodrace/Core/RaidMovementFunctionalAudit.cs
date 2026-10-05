@@ -54,7 +54,10 @@ namespace Helodrace
                 if (RaidObservationSight.CanSeeCell(map, pawn.Position, hiddenDoor.Position, RaidContactMemory.Radius,
                         (a, b) => GenSight.LineOfSight(a, b, map, true))) hiddenDoorSeen = true;
             }
-            if (stage == 5 && tick % 10 == 0)
+            // Update can skip any particular tick at accelerated game speeds.
+            // Maintain the fixture's smoke every sampled frame, not only when
+            // the last tick happens to be divisible by ten.
+            if (stage == 5)
                 HelodGasStore.AddGas(new IntVec3(120, 0, 112), map, HelodGasDefOf.HD_HCSmokeGrid, 1f);
             if (!ReferenceEquals(map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(state.UnitId), state))
                 throw new InvalidOperationException("Functional fixture execution state was replaced.");
@@ -81,7 +84,8 @@ namespace Helodrace
                 || stage == 4 && state.ContactGuards.Count != 0
                 || stage == 5 && !RaidSmokeUtility.CoveringSmokeAt(map, new IntVec3(120, 0, 112)))
                 throw new InvalidOperationException("Invalid functional arrival: started=" + startedMoving.Count
-                    + " wrongPortal=" + wrongPortal + " hiddenDoorSeen=" + hiddenDoorSeen);
+                    + " wrongPortal=" + wrongPortal + " hiddenDoorSeen=" + hiddenDoorSeen
+                    + " HC density=" + HelodGasStore.DensityAt(new IntVec3(120, 0, 112), map, HelodGasDefOf.HD_HCSmokeGrid));
             File.AppendAllText(output, "{\"functionalStage\":" + stage + ",\"passed\":true,\"pawns\":"
                 + pawns.Count + ",\"arrivalTicks\":" + (tick - stageStarted) + "}\n");
             if (stage == 5) { File.AppendAllText(output, "{\"complete\":true}\n"); return true; }

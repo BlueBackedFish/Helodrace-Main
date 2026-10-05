@@ -131,6 +131,10 @@ namespace Helodrace
             public string DoorStateSignature;
             public int LastRoomSecurityTick;
             public int LastRoomPlanTick = -30;
+            internal readonly RaidRoomPlanAttempts<IntVec3> RoomPlanAttempts = new RaidRoomPlanAttempts<IntVec3>();
+            internal RaidTacticalPlan RoomSearchPlan;
+            internal int RoomSearchRevision = -1;
+            internal List<IntVec3> RoomSearchTargets;
             internal RaidCqbLocalMap LocalCqb;
             internal int LastLocalReplanTick = -60;
             internal int LastCqbValidationTick = -30;
@@ -2313,8 +2317,10 @@ namespace Helodrace
             // that every remaining room has already been cleared.
             if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "next-room")) return true;
             if (!state.ClearedRoomCells.Contains(current.Objective))
+            {
                 state.ClearedRoomCells.Add(current.Objective);
-            PublishRoomCheck(state, current.Objective, tick);
+                PublishRoomCheck(state, current.Objective, tick);
+            }
             state.ClearingRooms = true;
             if (structure.RoomAt(current.Objective)
                 == structure.RoomAt(state.FinalObjective))
@@ -2327,31 +2333,37 @@ namespace Helodrace
             if (TryPlanContactRecheck(unit, members, current, state, structure, cleared, observer, tick)) return true;
             state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells,
                 observed: cell => CanObserveMapCell(members, cell));
-            foreach (IntVec3 target in state.LocalCqb.NeighborTargets(observer.Position, cleared)
-                .OrderBy(cell => structure.RoomAt(cell) == structure.RoomAt(state.FinalObjective) ? 0 : 1)
-                .ThenBy(cell => cell.DistanceToSquared(observer.Position)))
+            if (state.RoomSearchPlan != current || state.RoomSearchRevision != state.LocalCqb.Revision)
             {
-                RaidTacticalPlan neighbor = RaidTacticalPlanner.MakePlan(map, unit, target);
-                if (neighbor?.Success != true || cleared.Contains(structure.RoomAt(neighbor.Objective))) continue;
-                neighbor.ObjectiveIsIntermediate = true;
-                ActivateNextRoomPlan(unit, members, state, neighbor, tick);
+                state.RoomSearchPlan = current;
+                state.RoomSearchRevision = state.LocalCqb.Revision;
+                state.RoomPlanAttempts.Clear();
+                var rooms = new HashSet<int>(cleared) { structure.RoomAt(observer.Position) };
+                state.RoomSearchTargets = NextRoomTargets(state, structure, observer, cleared, tick)
+                    .Where(cell => cell.InBounds(map) && rooms.Add(structure.RoomAt(cell)))
+                    .Take(12).ToList();
+            }
+            if (!state.RoomPlanAttempts.TrySelect(state.RoomSearchTargets, tick,
+                    out IntVec3 target, out bool pending)) return pending;
+            // Exactly one full plan per room update, even if every candidate fails.
+            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, target);
+            if (next?.Success != true || cleared.Contains(structure.RoomAt(next.Objective)))
+            {
+                state.RoomPlanAttempts.Failed(target, tick);
                 return true;
             }
-            if (!state.BedSecured && state.FinalObjective.IsValid)
-            {
-                RaidTacticalPlan bedPlan = RaidTacticalPlanner.MakePlan(map,
-                    unit, state.FinalObjective);
-                if (bedPlan?.Success == true
-                    && !cleared.Contains(structure.RoomAt(bedPlan.Objective))
-                    && structure.RoomAt(bedPlan.Objective)
-                        != structure.RoomAt(current.Objective))
-                {
-                    ActivateNextRoomPlan(unit, members, state,
-                        bedPlan, tick);
-                    return true;
-                }
-            }
-            IntVec3 start = members[0].Position;
+            next.ObjectiveIsIntermediate = true;
+            ActivateNextRoomPlan(unit, members, state, next, tick);
+            return true;
+        }
+
+        private IEnumerable<IntVec3> NextRoomTargets(ExecutionState state,
+            RaidStructureSnapshot structure, Pawn observer, HashSet<int> cleared, int tick)
+        {
+            foreach (IntVec3 target in state.LocalCqb.NeighborTargets(observer.Position, cleared)
+                .OrderBy(cell => structure.RoomAt(cell) == structure.RoomAt(state.FinalObjective) ? 0 : 1)
+                .ThenBy(cell => cell.DistanceToSquared(observer.Position)).Take(8)) yield return target;
+            if (!state.BedSecured && state.FinalObjective.InBounds(map)) yield return state.FinalObjective;
             IEnumerable<IntVec3> anchors = structure.ObjectiveAnchors
                 .Concat(state.Contacts.Entries.Where(contact => contact.Confidence(tick) <= RaidContactConfidence.Area)
                     .Select(contact => contact.Position))
@@ -2361,25 +2373,16 @@ namespace Helodrace
                 .GroupBy(structure.RoomAt)
                 .Where(group => group.Key > 0
                     && !cleared.Contains(group.Key))
-                .OrderBy(group => group.Min(cell => cell.DistanceTo(start)
-                    + cell.DistanceTo(state.FinalObjective) * 0.15f)))
+                .Take(12))
             {
                 IntVec3 target = group.SelectMany(anchor =>
                         GenRadial.RadialCellsAround(anchor, 6f, true))
                     .Where(cell => cell.InBounds(map) && cell.Standable(map)
                         && structure.RoomAt(cell) == group.Key)
-                    .OrderBy(cell => cell.DistanceTo(start))
                     .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
-                RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map,
-                    unit, target);
-                if (next?.Success != true) continue;
-                if (cleared.Contains(structure.RoomAt(next.Objective))) continue;
-                next.ObjectiveIsIntermediate = true;
-                ActivateNextRoomPlan(unit, members, state, next, tick);
-                return true;
+                yield return target;
             }
-            return false;
         }
 
         private static void ActivateNextRoomPlan(RaidTacticalUnit unit,

@@ -91,6 +91,7 @@ internal static class Program
     {
         try
         {
+            CheckBoundedRoomPlanning();
             CheckFormationSlots();
             CheckCommunications();
             CheckLocalCqb();
@@ -410,6 +411,49 @@ internal static class Program
             Console.Error.WriteLine(exception);
             return 1;
         }
+    }
+
+    private static void CheckBoundedRoomPlanning()
+    {
+        var attempts = new RaidRoomPlanAttempts<int>();
+        int[] targets = { 11, 22, 33 };
+        Check(attempts.TrySelect(targets, 0, out int target, out bool pending) && target == 11 && pending,
+            "The first available room is selected without comparing complete plans.");
+        attempts.Failed(target, 0);
+        Check(attempts.TrySelect(targets, 30, out target, out pending) && target == 22,
+            "A failed first room must not starve a usable neighbor on the next update.");
+        attempts.Failed(target, 30); attempts.Failed(33, 60);
+        Check(!attempts.TrySelect(targets, 90, out _, out pending) && pending,
+            "Backoff of all remaining rooms is not evidence that the building is cleared.");
+        Check(attempts.TrySelect(targets, RaidRoomPlanAttempts<int>.RetryTicks, out target, out _) && target == 11,
+            "An unchanged failed target is retried only after its backoff.");
+        attempts.Clear();
+        Check(attempts.TrySelect(targets, 91, out target, out _) && target == 11,
+            "A newly observed topology or a new room plan invalidates failed-candidate backoff.");
+        Check(!attempts.TrySelect(Array.Empty<int>(), 91, out _, out pending) && !pending,
+            "No remaining room is different from rooms waiting for retry.");
+
+        var work = new RaidPlanningWork();
+        var window = new RaidCandidateWindow();
+        var visited = new HashSet<int>();
+        for (int batch = 0; batch < 3; batch++)
+        {
+            int start = window.Start(100);
+            int count = Math.Min(RaidPlanningWork.StructureLimit, 100 - start);
+            foreach (int value in Enumerable.Range(start, count)) visited.Add(value);
+            window.Advance(count, 100);
+        }
+        Check(visited.Count == 100 && window.Start(100) == 0,
+            "Bounded retries inspect later wall candidates instead of repeating the first failed window forever.");
+        Check(window.Start(0) == 0, "Removing all candidates safely clears the search window.");
+        for (int candidate = 0; candidate < 3; candidate++)
+            for (int step = 0; step < 1800 && work.TryRouteStep(); step++) { }
+        Check(work.RouteSteps == RaidPlanningWork.RouteLimit && work.Limited && !work.TryRouteStep(),
+            "Alternative paths share one total expansion allowance; failed searches cannot multiply it.");
+        int checks = 0;
+        while (work.TryBreachCheck()) checks++;
+        Check(checks == RaidPlanningWork.BreachCheckLimit && work.Limited,
+            "An arbitrarily long list of invalid walls has a bounded number of detailed checks.");
     }
 
     private static void CheckLocalCqb()

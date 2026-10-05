@@ -7,13 +7,14 @@ using Verse;
 
 namespace Helodrace
 {
-    internal enum RaidCpuStage { Planning, Observation, LocalMap, Formation, Orders, Execution }
+    internal enum RaidCpuStage { Planning, Observation, LocalMap, Formation, Orders, Execution,
+        Navigation, BreachSearch, RouteSearch }
     internal sealed class RaidCpuProfiler
     {
         internal static bool Enabled;
         internal static void Reset(Map map) => maps.Remove(map);
         private static readonly ConditionalWeakTable<Map, RaidCpuProfiler> maps = new ConditionalWeakTable<Map, RaidCpuProfiler>();
-        private readonly TacticalCpuSamples[] samples = new TacticalCpuSamples[6];
+        private readonly TacticalCpuSamples[] samples = new TacticalCpuSamples[Enum.GetValues(typeof(RaidCpuStage)).Length];
         private readonly TacticalCpuSamples gotoDelays = new TacticalCpuSamples();
         internal static void RecordGoto(Map map, int ticks)
         { if (Enabled && ticks >= 0 && maps.TryGetValue(map, out RaidCpuProfiler owner)) owner.gotoDelays.Add(ticks); }

@@ -75,7 +75,9 @@ namespace Helodrace
                     .DefaultIfEmpty(IntVec3.Invalid).First();
                 if (!target.IsValid) continue;
                 RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, target);
-                if (next?.Success != true || next.PlannedBreach != null) continue;
+                // An attempted recheck consumes this update's plan allowance.
+                // The room stays pending; try another room on a later update.
+                if (next?.Success != true || next.PlannedBreach != null) return true;
                 next.ObjectiveIsIntermediate = true; next.ObjectiveIsRecheck = true;
                 next.BreachCell = next.BreachInside = IntVec3.Invalid;
                 next.ReusePassage = false;
