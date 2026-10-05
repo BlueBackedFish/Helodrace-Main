@@ -45,6 +45,7 @@ internal static class Program
             return File.Exists(path) ? Assembly.LoadFrom(path) : null;
         };
         Type[] patches = {
+            typeof(Patch_RaidTacticalTickCpu),
             typeof(Patch_RaidTacticalTrace_StartJob), typeof(Patch_RaidTacticalTrace_EndJob),
             typeof(Patch_RaidTacticalDuty), typeof(Patch_RaidTacticalDutyConstant),
             typeof(Patch_RaidTacticalContinuation), typeof(Patch_RaidTacticalHoldFacing),

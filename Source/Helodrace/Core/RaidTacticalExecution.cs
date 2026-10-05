@@ -154,6 +154,7 @@ namespace Helodrace
             public List<RaidContactGuard> ContactGuards = new List<RaidContactGuard>();
             public bool ContactPause;
             [System.NonSerialized] internal bool SharedOpeningWait;
+            internal int NextQueueReviewTick;
             public RaidRoomSecurity RoomSecurity = new RaidRoomSecurity();
             // Persist committed positions together with the execution progress.
             public RaidTacticalPlan ActivePlan;
@@ -523,6 +524,22 @@ namespace Helodrace
                     continue;
                 }
                 waitingStructures.Remove(unit.Id);
+                // Waiting squads keep their committed orders. Admission and danger
+                // still run at the normal cadence; equipment/assignment reconciliation
+                // only needs a staggered safety review unless a casualty wakes the unit.
+                if (states.TryGetValue(unit.Id, out ExecutionState queued)
+                    && queued.SharedOpeningWait && queued.ActivePlan?.Success == true
+                    && !casualties.ContainsKey(unit.Id) && tick < queued.NextQueueReviewTick
+                    && !queued.ContactPause && queued.DefenseUntil <= tick
+                    && !queued.ApproachSmokeActive && queued.Reactions.Count == 0)
+                {
+                    RefreshContacts(members, queued.ActivePlan, queued, tick);
+                    if (!EmergencyReactions(members, queued.ActivePlan, queued, tick)
+                        && !RespondToFire(members, queued.ActivePlan, queued, tick)
+                        && !RespondToCqbContacts(members, queued.ActivePlan, queued, tick)
+                        && !FieldDefense(members, queued.ActivePlan, queued, tick)
+                        && WaitForSharedOpening(members, queued.ActivePlan, queued, tick)) continue;
+                }
                 foreach (Pawn fallen in unit.Members.Where(pawn => pawn != null
                     && (pawn.Downed || pawn.Dead) && pawn.MapHeld == map))
                     RememberBreachTools(unit.Id, fallen);
@@ -663,6 +680,9 @@ namespace Helodrace
                     state.ReadySince = -1;
                 }
                 Update(unit, members, state.ActivePlan, state, tick);
+                if (state.SharedOpeningWait && tick >= state.NextQueueReviewTick)
+                    state.NextQueueReviewTick = tick + (state.NextQueueReviewTick == 0
+                        ? 30 * (1 + (unit.Id.GetHashCode() & int.MaxValue) % 6) : 180);
                 if (state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete
                     && !state.ApproachSmokeActive && state.DefenseUntil <= tick && !state.ContactPause
                     && tick - Math.Max(state.ApproachProgressTick, state.PhaseStarted)

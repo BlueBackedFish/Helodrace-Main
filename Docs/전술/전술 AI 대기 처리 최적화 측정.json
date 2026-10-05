@@ -1,0 +1,332 @@
+﻿{
+    "date":  "2026-10-06",
+    "sourceBase":  "b446b3ef",
+    "finalDllSha256":  "5B00185874DA1A3AFA5EA5B94B9EB824103347165AEA78101C6044525B1F1C98",
+    "notes":  [
+                  "Single sequential runs; no general improvement percentage or capacity guarantee.",
+                  "400-pawn scenarios largely queue at one shared opening; not simultaneous CQB by all squads.",
+                  "Intermediate DLL contains queue indices and tick profiling only; its SHA-256 was not captured.",
+                  "Final DLL adds waiting review cadence, observation cadence and no-threat fast paths.",
+                  "CPU counts/totals/max include warmup; percentiles retain the latest 2048 samples per stage.",
+                  "GameTick is inclusive whole-game DoSingleTick on the current map, not just tactical code.",
+                  "queueMaintenance and native cache counters are cumulative across scenarios on the same map.",
+                  "Earlier A results ran a different case sequence and did not record GameTick."
+              ],
+    "earlierA400":  [
+                        {
+                            "scenario":  9,
+                            "population":  400,
+                            "tactical":  true,
+                            "speed":  1,
+                            "TPS":  33.401,
+                            "FPS":  17.090,
+                            "moved":  256,
+                            "alive":  377,
+                            "warmupTicks":  300,
+                            "sampleTicks":  600,
+                            "phases":  "Assemble:36,Breach:1",
+                            "successfulPlans":  37,
+                            "planningWork":  {
+                                                 "maxBreachChecks":  1,
+                                                 "maxRouteSteps":  568,
+                                                 "limitedPlans":  0
+                                             },
+                            "failedPlans":  "",
+                            "nativeBytes":  375000,
+                            "peakNativeBytes":  375000,
+                            "cacheCumulative":  {
+                                                    "created":  3,
+                                                    "hits":  956,
+                                                    "evictions":  0,
+                                                    "memoryWaits":  0,
+                                                    "peakPending":  1,
+                                                    "notifications":  3
+                                                },
+                            "cancelledPreparations":  0,
+                            "peakWaitFrames":  0,
+                            "pending":  0,
+                            "blocked":  "None:19,OpeningQueue:358",
+                            "cpuCumulative":  "FPS=16.0 TPS=30.6 worst execution/frame=134.317 ms managed heap=582.4 MiB GC=7/7/7\r\n  CPU Planning: n=38 sum=346.0 p50/p95/p99=6.967/24.936/72.815 max=72.815 ms\r\n  CPU Observation: n=2872 sum=852.6 p50/p95/p99=0.014/1.117/1.786 max=16.081 ms\r\n  CPU LocalMap: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Formation: n=268 sum=42.3 p50/p95/p99=0.094/0.310/1.183 max=5.162 ms\r\n  CPU Orders: n=11420 sum=310.1 p50/p95/p99=0.007/0.011/0.016 max=3.923 ms\r\n  CPU Execution: n=112 sum=2367.9 p50/p95/p99=12.467/68.667/105.887 max=134.317 ms\r\n  CPU Navigation: n=38 sum=4.2 p50/p95/p99=0.032/0.104/2.904 max=2.904 ms\r\n  CPU BreachSearch: n=38 sum=117.3 p50/p95/p99=1.799/18.152/28.229 max=28.229 ms\r\n  CPU RouteSearch: n=37 sum=76.6 p50/p95/p99=1.291/8.885/17.360 max=17.360 ms\r\n  Goto request/start ticks: n=559 p50/p95/p99=0/150/270 max=270\r\n"
+                        },
+                        {
+                            "scenario":  19,
+                            "population":  400,
+                            "tactical":  true,
+                            "speed":  3,
+                            "TPS":  38.820,
+                            "FPS":  14.557,
+                            "moved":  361,
+                            "alive":  400,
+                            "warmupTicks":  300,
+                            "sampleTicks":  600,
+                            "phases":  "Assemble:36,Breach:1",
+                            "successfulPlans":  37,
+                            "planningWork":  {
+                                                 "maxBreachChecks":  1,
+                                                 "maxRouteSteps":  568,
+                                                 "limitedPlans":  0
+                                             },
+                            "failedPlans":  "",
+                            "nativeBytes":  750000,
+                            "peakNativeBytes":  750000,
+                            "cacheCumulative":  {
+                                                    "created":  6,
+                                                    "hits":  2130,
+                                                    "evictions":  0,
+                                                    "memoryWaits":  0,
+                                                    "peakPending":  1,
+                                                    "notifications":  16
+                                                },
+                            "cancelledPreparations":  0,
+                            "peakWaitFrames":  0,
+                            "pending":  0,
+                            "blocked":  "None:11,OpeningQueue:389",
+                            "cpuCumulative":  "FPS=14.1 TPS=36.4 worst execution/frame=95.027 ms managed heap=603.2 MiB GC=6/6/6\r\n  CPU Planning: n=37 sum=290.2 p50/p95/p99=7.247/10.533/26.693 max=26.693 ms\r\n  CPU Observation: n=2839 sum=562.1 p50/p95/p99=0.014/0.963/1.231 max=9.403 ms\r\n  CPU LocalMap: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Formation: n=148 sum=20.6 p50/p95/p99=0.091/0.368/0.523 max=0.526 ms\r\n  CPU Orders: n=11541 sum=255.2 p50/p95/p99=0.007/0.010/0.012 max=1.014 ms\r\n  CPU Execution: n=90 sum=1757.4 p50/p95/p99=13.633/54.868/95.027 max=95.027 ms\r\n  CPU Navigation: n=37 sum=1.2 p50/p95/p99=0.031/0.039/0.055 max=0.055 ms\r\n  CPU BreachSearch: n=37 sum=85.3 p50/p95/p99=1.746/4.234/19.760 max=19.760 ms\r\n  CPU RouteSearch: n=37 sum=65.2 p50/p95/p99=1.246/3.685/18.821 max=18.821 ms\r\n  Goto request/start ticks: n=713 p50/p95/p99=0/0/0 max=195\r\n"
+                        }
+                    ],
+    "intermediateQueueOnly":  [
+                                  {
+                                      "scenario":  9,
+                                      "population":  400,
+                                      "tactical":  true,
+                                      "speed":  1,
+                                      "TPS":  23.981,
+                                      "FPS":  12.190,
+                                      "moved":  380,
+                                      "alive":  400,
+                                      "warmupTicks":  300,
+                                      "sampleTicks":  600,
+                                      "phases":  "Breach:1,Assemble:36",
+                                      "successfulPlans":  37,
+                                      "queueMaintenance":  {
+                                                               "cleanupPasses":  6,
+                                                               "leasePrunePasses":  26
+                                                           },
+                                      "planningWork":  {
+                                                           "maxBreachChecks":  1,
+                                                           "maxRouteSteps":  568,
+                                                           "limitedPlans":  0
+                                                       },
+                                      "failedPlans":  "",
+                                      "nativeBytes":  500000,
+                                      "peakNativeBytes":  500000,
+                                      "cacheCumulative":  {
+                                                              "created":  4,
+                                                              "hits":  1268,
+                                                              "evictions":  0,
+                                                              "memoryWaits":  0,
+                                                              "peakPending":  1,
+                                                              "notifications":  12
+                                                          },
+                                      "cancelledPreparations":  0,
+                                      "peakWaitFrames":  0,
+                                      "pending":  0,
+                                      "blocked":  "None:11,OpeningQueue:389",
+                                      "cpuCumulative":  "FPS=12.4 TPS=24.4 worst execution/frame=185.794 ms managed heap=553.0 MiB GC=11/11/11\r\n  CPU Planning: n=37 sum=356.1 p50/p95/p99=6.829/10.748/97.399 max=97.399 ms\r\n  CPU Observation: n=2623 sum=1116.4 p50/p95/p99=0.016/1.500/2.157 max=24.160 ms\r\n  CPU LocalMap: n=130 sum=39.4 p50/p95/p99=0.247/0.382/1.345 max=5.466 ms\r\n  CPU Formation: n=132 sum=31.7 p50/p95/p99=0.114/0.605/1.438 max=5.299 ms\r\n  CPU Orders: n=11588 sum=295.4 p50/p95/p99=0.007/0.013/0.022 max=6.682 ms\r\n  CPU Execution: n=90 sum=2476.2 p50/p95/p99=26.242/63.426/185.794 max=185.794 ms\r\n  CPU Navigation: n=37 sum=6.4 p50/p95/p99=0.052/0.116/4.434 max=4.434 ms\r\n  CPU BreachSearch: n=37 sum=109.8 p50/p95/p99=1.889/3.796/40.740 max=40.740 ms\r\n  CPU RouteSearch: n=37 sum=61.4 p50/p95/p99=1.330/2.945/14.455 max=14.455 ms\r\n  CPU OpeningQueue: n=899 sum=216.6 p50/p95/p99=0.165/0.617/1.906 max=6.236 ms\r\n  CPU GameTick: n=901 sum=24292.8 p50/p95/p99=22.885/54.338/81.950 max=221.720 ms\r\n  Goto request/start ticks: n=769 p50/p95/p99=0/0/0 max=188\r\n"
+                                  },
+                                  {
+                                      "scenario":  19,
+                                      "population":  400,
+                                      "tactical":  true,
+                                      "speed":  3,
+                                      "TPS":  27.178,
+                                      "FPS":  11.415,
+                                      "moved":  372,
+                                      "alive":  400,
+                                      "warmupTicks":  300,
+                                      "sampleTicks":  600,
+                                      "phases":  "Assemble:36,Breach:1",
+                                      "successfulPlans":  37,
+                                      "queueMaintenance":  {
+                                                               "cleanupPasses":  13,
+                                                               "leasePrunePasses":  53
+                                                           },
+                                      "planningWork":  {
+                                                           "maxBreachChecks":  1,
+                                                           "maxRouteSteps":  568,
+                                                           "limitedPlans":  0
+                                                       },
+                                      "failedPlans":  "",
+                                      "nativeBytes":  875000,
+                                      "peakNativeBytes":  875000,
+                                      "cacheCumulative":  {
+                                                              "created":  7,
+                                                              "hits":  2405,
+                                                              "evictions":  0,
+                                                              "memoryWaits":  0,
+                                                              "peakPending":  1,
+                                                              "notifications":  24
+                                                          },
+                                      "cancelledPreparations":  0,
+                                      "peakWaitFrames":  0,
+                                      "pending":  0,
+                                      "blocked":  "None:11,OpeningQueue:389",
+                                      "cpuCumulative":  "FPS=11.2 TPS=27.5 worst execution/frame=101.476 ms managed heap=577.4 MiB GC=10/10/10\r\n  CPU Planning: n=37 sum=288.3 p50/p95/p99=7.293/12.718/12.833 max=12.833 ms\r\n  CPU Observation: n=2707 sum=1542.7 p50/p95/p99=0.002/1.446/6.337 max=17.389 ms\r\n  CPU LocalMap: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Formation: n=133 sum=21.5 p50/p95/p99=0.107/0.448/0.521 max=0.540 ms\r\n  CPU Orders: n=11562 sum=268.5 p50/p95/p99=0.007/0.013/0.022 max=0.668 ms\r\n  CPU Execution: n=90 sum=2458.6 p50/p95/p99=23.266/67.309/101.476 max=101.476 ms\r\n  CPU Navigation: n=37 sum=2.2 p50/p95/p99=0.052/0.086/0.113 max=0.113 ms\r\n  CPU BreachSearch: n=37 sum=80.7 p50/p95/p99=1.897/5.711/5.746 max=5.746 ms\r\n  CPU RouteSearch: n=37 sum=57.2 p50/p95/p99=1.332/4.776/5.011 max=5.011 ms\r\n  CPU OpeningQueue: n=927 sum=205.3 p50/p95/p99=0.165/0.315/1.926 max=3.327 ms\r\n  CPU GameTick: n=901 sum=23011.9 p50/p95/p99=21.503/49.203/84.073 max=302.475 ms\r\n  Goto request/start ticks: n=677 p50/p95/p99=0/0/0 max=222\r\n"
+                                  },
+                                  {
+                                      "complete":  true
+                                  }
+                              ],
+    "finalQueueCadence":  [
+                              {
+                                  "scenario":  9,
+                                  "population":  400,
+                                  "tactical":  true,
+                                  "speed":  1,
+                                  "TPS":  30.938,
+                                  "FPS":  15.469,
+                                  "moved":  367,
+                                  "alive":  400,
+                                  "warmupTicks":  300,
+                                  "sampleTicks":  600,
+                                  "phases":  "Breach:1,Assemble:36",
+                                  "successfulPlans":  37,
+                                  "queueMaintenance":  {
+                                                           "cleanupPasses":  6,
+                                                           "leasePrunePasses":  26
+                                                       },
+                                  "planningWork":  {
+                                                       "maxBreachChecks":  1,
+                                                       "maxRouteSteps":  568,
+                                                       "limitedPlans":  0
+                                                   },
+                                  "failedPlans":  "",
+                                  "nativeBytes":  500000,
+                                  "peakNativeBytes":  500000,
+                                  "cacheCumulative":  {
+                                                          "created":  4,
+                                                          "hits":  1188,
+                                                          "evictions":  0,
+                                                          "memoryWaits":  0,
+                                                          "peakPending":  1,
+                                                          "notifications":  12
+                                                      },
+                                  "cancelledPreparations":  0,
+                                  "peakWaitFrames":  0,
+                                  "pending":  0,
+                                  "blocked":  "None:11,OpeningQueue:389",
+                                  "cpuCumulative":  "FPS=14.6 TPS=28.9 worst execution/frame=283.367 ms managed heap=570.2 MiB GC=8/8/8\r\n  CPU Planning: n=37 sum=524.9 p50/p95/p99=10.106/19.620/146.654 max=146.654 ms\r\n  CPU Observation: n=2636 sum=795.2 p50/p95/p99=0.000/1.034/6.574 max=38.415 ms\r\n  CPU LocalMap: n=137 sum=49.1 p50/p95/p99=0.257/0.421/1.960 max=9.372 ms\r\n  CPU Formation: n=139 sum=43.9 p50/p95/p99=0.172/0.610/2.189 max=9.171 ms\r\n  CPU Orders: n=11573 sum=314.7 p50/p95/p99=0.007/0.010/0.013 max=11.971 ms\r\n  CPU Execution: n=90 sum=1859.3 p50/p95/p99=11.796/84.599/283.367 max=283.367 ms\r\n  CPU Navigation: n=37 sum=8.2 p50/p95/p99=0.069/0.128/5.816 max=5.816 ms\r\n  CPU BreachSearch: n=37 sum=154.0 p50/p95/p99=2.267/8.483/59.358 max=59.358 ms\r\n  CPU RouteSearch: n=37 sum=87.8 p50/p95/p99=1.488/7.326/20.974 max=20.974 ms\r\n  CPU OpeningQueue: n=904 sum=214.8 p50/p95/p99=0.159/0.340/2.379 max=6.000 ms\r\n  CPU GameTick: n=901 sum=21435.0 p50/p95/p99=20.367/40.942/94.032 max=307.758 ms\r\n  Goto request/start ticks: n=714 p50/p95/p99=0/0/0 max=0\r\n"
+                              },
+                              {
+                                  "scenario":  19,
+                                  "population":  400,
+                                  "tactical":  true,
+                                  "speed":  3,
+                                  "TPS":  33.892,
+                                  "FPS":  12.766,
+                                  "moved":  361,
+                                  "alive":  400,
+                                  "warmupTicks":  300,
+                                  "sampleTicks":  600,
+                                  "phases":  "Assemble:36,Breach:1",
+                                  "successfulPlans":  37,
+                                  "queueMaintenance":  {
+                                                           "cleanupPasses":  13,
+                                                           "leasePrunePasses":  53
+                                                       },
+                                  "planningWork":  {
+                                                       "maxBreachChecks":  1,
+                                                       "maxRouteSteps":  568,
+                                                       "limitedPlans":  0
+                                                   },
+                                  "failedPlans":  "",
+                                  "nativeBytes":  875000,
+                                  "peakNativeBytes":  875000,
+                                  "cacheCumulative":  {
+                                                          "created":  7,
+                                                          "hits":  2293,
+                                                          "evictions":  0,
+                                                          "memoryWaits":  0,
+                                                          "peakPending":  1,
+                                                          "notifications":  24
+                                                      },
+                                  "cancelledPreparations":  0,
+                                  "peakWaitFrames":  0,
+                                  "pending":  0,
+                                  "blocked":  "None:11,OpeningQueue:389",
+                                  "cpuCumulative":  "FPS=12.4 TPS=33.4 worst execution/frame=81.003 ms managed heap=619.4 MiB GC=7/7/7\r\n  CPU Planning: n=37 sum=282.6 p50/p95/p99=7.457/10.340/11.200 max=11.200 ms\r\n  CPU Observation: n=2692 sum=680.1 p50/p95/p99=0.000/1.054/6.288 max=26.327 ms\r\n  CPU LocalMap: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Formation: n=139 sum=20.7 p50/p95/p99=0.096/0.417/0.460 max=0.505 ms\r\n  CPU Orders: n=11530 sum=273.4 p50/p95/p99=0.007/0.010/0.016 max=3.184 ms\r\n  CPU Execution: n=90 sum=1322.2 p50/p95/p99=9.322/61.044/81.003 max=81.003 ms\r\n  CPU Navigation: n=37 sum=1.9 p50/p95/p99=0.046/0.091/0.119 max=0.119 ms\r\n  CPU BreachSearch: n=37 sum=72.8 p50/p95/p99=1.864/3.372/3.595 max=3.595 ms\r\n  CPU RouteSearch: n=37 sum=49.9 p50/p95/p99=1.305/2.216/2.305 max=2.305 ms\r\n  CPU OpeningQueue: n=922 sum=186.2 p50/p95/p99=0.159/0.276/1.764 max=2.275 ms\r\n  CPU GameTick: n=900 sum=20008.4 p50/p95/p99=19.449/37.034/70.407 max=386.573 ms\r\n  Goto request/start ticks: n=664 p50/p95/p99=0/0/0 max=199\r\n"
+                              },
+                              {
+                                  "complete":  true
+                              }
+                          ],
+    "finalSecurityRegression":  [
+                                    {
+                                        "functionalStage":  1,
+                                        "passed":  true,
+                                        "pawns":  11,
+                                        "arrivalTicks":  362
+                                    },
+                                    {
+                                        "functionalStage":  2,
+                                        "passed":  true,
+                                        "pawns":  11,
+                                        "arrivalTicks":  378
+                                    },
+                                    {
+                                        "functionalStage":  3,
+                                        "passed":  true,
+                                        "pawns":  11,
+                                        "arrivalTicks":  433
+                                    },
+                                    {
+                                        "functionalStage":  4,
+                                        "passed":  true,
+                                        "pawns":  11,
+                                        "arrivalTicks":  276
+                                    },
+                                    {
+                                        "functionalStage":  5,
+                                        "passed":  true,
+                                        "pawns":  11,
+                                        "arrivalTicks":  445
+                                    },
+                                    {
+                                        "complete":  true
+                                    }
+                                ],
+    "final50PawnLongRun":  [
+                               {
+                                   "scenario":  16,
+                                   "population":  50,
+                                   "tactical":  true,
+                                   "speed":  3,
+                                   "TPS":  179.561,
+                                   "FPS":  57.699,
+                                   "moved":  50,
+                                   "alive":  50,
+                                   "warmupTicks":  300,
+                                   "sampleTicks":  6000,
+                                   "phases":  "SecureRoom:3,Breach:1,Assemble:1",
+                                   "successfulPlans":  5,
+                                   "queueMaintenance":  {
+                                                            "cleanupPasses":  45,
+                                                            "leasePrunePasses":  248
+                                                        },
+                                   "planningWork":  {
+                                                        "maxBreachChecks":  1,
+                                                        "maxRouteSteps":  498,
+                                                        "limitedPlans":  0
+                                                    },
+                                   "failedPlans":  "",
+                                   "nativeBytes":  2375000,
+                                   "peakNativeBytes":  2375000,
+                                   "cacheCumulative":  {
+                                                           "created":  19,
+                                                           "hits":  867,
+                                                           "evictions":  0,
+                                                           "memoryWaits":  0,
+                                                           "peakPending":  2,
+                                                           "notifications":  62
+                                                       },
+                                   "cancelledPreparations":  0,
+                                   "peakWaitFrames":  1,
+                                   "pending":  0,
+                                   "blocked":  "None:33,ContactGuard:3,DestinationReserved:5,OpeningWait:3,OpeningQueue:6",
+                                   "cpuCumulative":  "FPS=56.8 TPS=177.7 worst execution/frame=156.165 ms managed heap=493.1 MiB GC=11/11/11\r\n  CPU Planning: n=17 sum=150.5 p50/p95/p99=4.038/82.988/82.988 max=82.988 ms\r\n  CPU Observation: n=3110 sum=594.0 p50/p95/p99=0.001/0.979/1.277 max=28.799 ms\r\n  CPU LocalMap: n=469 sum=114.1 p50/p95/p99=0.257/0.382/0.531 max=5.205 ms\r\n  CPU Formation: n=275 sum=25.6 p50/p95/p99=0.056/0.087/1.187 max=5.345 ms\r\n  CPU Orders: n=8790 sum=227.5 p50/p95/p99=0.008/0.154/0.258 max=18.989 ms\r\n  CPU Execution: n=630 sum=1814.5 p50/p95/p99=1.696/6.711/17.638 max=156.165 ms\r\n  CPU Navigation: n=17 sum=4.1 p50/p95/p99=0.033/3.589/3.589 max=3.589 ms\r\n  CPU BreachSearch: n=14 sum=50.2 p50/p95/p99=0.704/34.284/34.284 max=34.284 ms\r\n  CPU RouteSearch: n=9 sum=18.9 p50/p95/p99=1.337/12.052/12.052 max=12.052 ms\r\n  CPU OpeningQueue: n=928 sum=91.4 p50/p95/p99=0.085/0.184/0.812 max=5.042 ms\r\n  CPU GameTick: n=6304 sum=17899.2 p50/p95/p99=2.412/5.831/9.976 max=159.712 ms\r\n  Goto request/start ticks: n=300 p50/p95/p99=0/1/171 max=192\r\n"
+                               },
+                               {
+                                   "complete":  true
+                               }
+                           ]
+}

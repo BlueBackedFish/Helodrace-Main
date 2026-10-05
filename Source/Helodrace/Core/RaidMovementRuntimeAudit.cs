@@ -195,6 +195,8 @@ namespace Helodrace
                 + ",\"warmupTicks\":" + warmupTicks + ",\"sampleTicks\":" + sampleTicks
                 + ",\"phases\":\"" + Escape(string.Join(",", phases)) + "\""
                 + ",\"successfulPlans\":" + plans.Plans.Count(plan => plan.Success)
+                + ",\"queueMaintenance\":{\"cleanupPasses\":" + execution.OpeningCleanupPasses
+                + ",\"leasePrunePasses\":" + execution.OpeningPrunePasses + "}"
                 + ",\"planningWork\":{\"maxBreachChecks\":" + plans.Plans.Select(plan => plan.Work.BreachChecks).DefaultIfEmpty().Max()
                 + ",\"maxRouteSteps\":" + plans.Plans.Select(plan => plan.Work.RouteSteps).DefaultIfEmpty().Max()
                 + ",\"limitedPlans\":" + plans.Plans.Count(plan => plan.Work.Limited) + "}"

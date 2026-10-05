@@ -44,7 +44,11 @@ namespace Helodrace
                 state.Contacts.ScanTick = tick - RaidContactMemory.ScanTicks + RaidCommunicationPolicy.ScanOffset(state.UnitId);
                 state.Contacts.ScanScheduled = true;
             }
-            if (tick - state.Contacts.ScanTick < RaidContactMemory.ScanTicks) return;
+            int scanTicks = state.SharedOpeningWait && state.Reactions.Count == 0
+                && !state.ContactPause && state.DefenseUntil <= tick
+                && !state.Contacts.Entries.Any(contact => contact.Armed && contact.Visible)
+                ? 90 : RaidContactMemory.ScanTicks;
+            if (tick - state.Contacts.ScanTick < scanTicks) return;
             ConfigureCommunicationKnowledge(state);
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null) return;

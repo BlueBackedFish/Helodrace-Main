@@ -266,6 +266,7 @@ internal static class Program
         CheckMaskKeys();
         try
         {
+            CheckQueuePositions();
             var divided = Open(7, 5);
             for (int z = 0; z < 5; z++) Wall(divided, 3, z);
             int doorIndex = 2 * 7 + 3;
@@ -531,5 +532,24 @@ internal static class Program
             return 0;
         }
         catch (Exception exception) { Console.Error.WriteLine(exception); return 1; }
+    }
+
+    private static void CheckQueuePositions()
+    {
+        var queue = new TacticalQueuePositions<int, int>();
+        Check(queue.Assign(1, 10) && queue.Assign(2, 20), "Waiting destinations have individual stable owners.");
+        Check(!queue.Assign(3, 10) && queue.Available(1, 10) && !queue.Available(2, 10),
+            "Neither a sibling nor another squad can claim an occupied waiting destination.");
+        Check(!queue.Assign(1, 20) && queue.TryGet(1, out int retained) && retained == 10,
+            "A failed retarget keeps the existing claim until explicitly released.");
+        Check(queue.Assign(1, 30) && queue.Available(3, 10) && !queue.Available(3, 30),
+            "Changing a waiting destination releases its old reverse-index entry.");
+        queue.Release(3);
+        Check(!queue.Available(3, 30), "A non-owner cannot release another pawn's waiting tile.");
+        queue.Prune(actor => actor == 2);
+        Check(queue.Count == 1 && queue.Available(3, 30) && !queue.TryGet(1, out _),
+            "Casualty/removal cleanup drops both directions without releasing surviving actors.");
+        queue.Release(2); queue.Release(2);
+        Check(queue.Count == 0 && queue.Available(1, 20), "Releasing admission or cancelling a queue is idempotent.");
     }
 }

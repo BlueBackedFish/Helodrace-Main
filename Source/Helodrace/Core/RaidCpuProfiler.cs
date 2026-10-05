@@ -2,13 +2,14 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using HarmonyLib;
 using UnityEngine;
 using Verse;
 
 namespace Helodrace
 {
     internal enum RaidCpuStage { Planning, Observation, LocalMap, Formation, Orders, Execution,
-        Navigation, BreachSearch, RouteSearch }
+        Navigation, BreachSearch, RouteSearch, OpeningQueue, GameTick }
     internal sealed class RaidCpuProfiler
     {
         internal static bool Enabled;
@@ -75,5 +76,13 @@ namespace Helodrace
                 + $"p50/p95/p99={latency[0]:0}/{latency[1]:0}/{latency[2]:0} max={owner.gotoDelays.Maximum:0}");
             return text.ToString();
         }
+    }
+
+    [HarmonyPatch(typeof(TickManager), "DoSingleTick")]
+    public static class Patch_RaidTacticalTickCpu
+    {
+        internal static void Prefix(out RaidCpuProfiler.Scope __state)
+            => __state = RaidCpuProfiler.Enabled ? RaidCpuProfiler.Measure(Find.CurrentMap, RaidCpuStage.GameTick) : default;
+        internal static void Postfix(RaidCpuProfiler.Scope __state) => __state.Dispose();
     }
 }

@@ -111,6 +111,7 @@ namespace Helodrace
             // live targets: verify the known cell against current local sight first.
             var known = state.Contacts.Entries.Where(contact => contact.Armed && !contact.PositionConfirmedEmpty
                 && contact.Confidence(tick) <= RaidContactConfidence.Recent).ToDictionary(contact => contact.EnemyId);
+            if (known.Count == 0) return new List<Pawn>();
             List<Pawn> sources = LinkedObservers(members, state, tick).ToList();
             int radius = RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine?.fieldObservationRadius ?? 90;
             return map.mapPawns.AllPawnsSpawned.Where(enemy => known.TryGetValue(enemy.thingIDNumber, out RaidEnemyContact contact)
@@ -244,6 +245,10 @@ namespace Helodrace
             }
             state.Reactions.RemoveAll(value => !members.Contains(value.Pawn)
                 || value.Kind == RaidReactionKind.Explosion && value.Until <= tick);
+            if (observedExplosives.Count == 0
+                && !state.Reactions.Any(value => value.Kind == RaidReactionKind.Explosion)
+                && !members.Any(pawn => pawn.mindState.knownExploder?.Spawned == true
+                    && !RaidSmokeUtility.IsScreeningProjectile(pawn.mindState.knownExploder.def))) return false;
             var occupied = new HashSet<IntVec3>(state.Reactions.Select(value => value.Destination));
             bool evading = false;
             foreach (Pawn pawn in members)
