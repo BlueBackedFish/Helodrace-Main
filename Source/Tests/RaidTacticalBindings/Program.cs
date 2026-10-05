@@ -61,8 +61,9 @@ internal static class Program
             typeof(Patch_RaidGrenade_NoGunCast), typeof(Patch_RaidGrenade_NoGunAvailable), typeof(Patch_RaidGrenade_DrawHeld),
             typeof(Patch_RaidOpeningObservation_Lean)
         };
-        patches = patches.Concat(new[] { "Spawn", "Despawn", "DoorOpen", "DoorClose" }
+        patches = patches.Concat(new[] { "Spawn", "Despawn", "DoorOpen", "DoorClose", "Terrain" }
             .Select(name => typeof(RaidTacticalPlan).Assembly.GetType("Helodrace.Patch_RaidPhysicalCache_" + name, true))).ToArray();
+        patches = patches.Append(typeof(RaidTacticalPlan).Assembly.GetType("Helodrace.Patch_RaidRuntimeAudit_Owner", true)).ToArray();
         try
         {
             foreach (Type patch in patches)
