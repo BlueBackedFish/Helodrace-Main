@@ -195,7 +195,7 @@ namespace Helodrace
         private const int TargetCacheEntries = 128;
         private readonly TacticalNativeBudget memory = new TacticalNativeBudget(64L * 1024 * 1024);
         private int lastTrimFrame = -1;
-        public int CacheEvictions, MemoryDeferrals;
+        public int CacheEvictions, MemoryDeferrals, CancelledPreparations, PeakWaitFrames;
         public long NativeMemoryBytes => memory.Bytes;
         public long PeakNativeMemoryBytes => memory.Peak;
         internal void Allocated(long bytes) => memory.Allocated(bytes);
@@ -227,7 +227,7 @@ namespace Helodrace
                         && frame - pair.Value.LastRequestedFrame >= 300 && !pending.HasWaiters(pair.Value)).ToArray())
                 {
                     pending.Complete(pair.Value); areas.Remove(pair.Key);
-                    pair.Value.Dispose(); CacheEvictions++;
+                    pair.Value.Dispose(); CacheEvictions++; CancelledPreparations++;
                 }
         }
         private bool removed;
@@ -253,6 +253,7 @@ namespace Helodrace
         private void Pump()
         {
             if (removed) return;
+            PeakWaitFrames = Math.Max(PeakWaitFrames, pending.OldestWaitAge(UnityEngine.Time.frameCount));
             foreach (RaidMovementArea area in pending.ServiceOrder(MaximumPumpsPerPass).ToArray())
             {
                 area.Pump();
@@ -275,7 +276,11 @@ namespace Helodrace
         public void Dispose()
         {
             removed = true;
-            foreach (RaidMovementArea area in pending.Keys) area.CancelPreparation();
+            foreach (RaidMovementArea area in pending.Keys)
+            {
+                if (!area.Canceled && !area.Ready) CancelledPreparations++;
+                area.CancelPreparation();
+            }
             pending.Clear();
             // Native grids may still be read by Unity jobs. PathFinder.Dispose's
             // postfix remains the sole owner of their actual disposal.

@@ -11,8 +11,12 @@ namespace Helodrace
     internal sealed class RaidCpuProfiler
     {
         internal static bool Enabled;
+        internal static void Reset(Map map) => maps.Remove(map);
         private static readonly ConditionalWeakTable<Map, RaidCpuProfiler> maps = new ConditionalWeakTable<Map, RaidCpuProfiler>();
         private readonly TacticalCpuSamples[] samples = new TacticalCpuSamples[6];
+        private readonly TacticalCpuSamples gotoDelays = new TacticalCpuSamples();
+        internal static void RecordGoto(Map map, int ticks)
+        { if (Enabled && ticks >= 0 && maps.TryGetValue(map, out RaidCpuProfiler owner)) owner.gotoDelays.Add(ticks); }
         private readonly int[] startingGc = { GC.CollectionCount(0), GC.CollectionCount(1), GC.CollectionCount(2) };
         private int frame = -1, rateFrame, rateTick;
         private double frameCost, worstFrameCost;
@@ -65,6 +69,9 @@ namespace Helodrace
                 text.AppendLine($"  CPU {(RaidCpuStage)i}: n={sample.TotalSamples} sum={sample.TotalMilliseconds:0.0} "
                     + $"p50/p95/p99={p[0]:0.000}/{p[1]:0.000}/{p[2]:0.000} max={sample.Maximum:0.000} ms");
             }
+            double[] latency = owner.gotoDelays.Percentiles();
+            text.AppendLine($"  Goto request/start ticks: n={owner.gotoDelays.TotalSamples} "
+                + $"p50/p95/p99={latency[0]:0}/{latency[1]:0}/{latency[2]:0} max={owner.gotoDelays.Maximum:0}");
             return text.ToString();
         }
     }

@@ -157,6 +157,7 @@ namespace Helodrace
                 + $"native={movement.NativeMemoryBytes / 1048576.0:0.00} MiB "
                 + $"peak={movement.PeakNativeMemoryBytes / 1048576.0:0.00} MiB "
                 + $"evictions={movement.CacheEvictions} memoryWaits={movement.MemoryDeferrals} "
+                + $"cancelled={movement.CancelledPreparations} peakWaitFrames={movement.PeakWaitFrames} "
                 + $"preparation wall time={movement.BuildMilliseconds} ms");
             var physical = RaidPhysicalMapCache.For(RaidTacticalDebugSession.Map);
             report.AppendLine($"Physical chunks reads/hits={physical.ChunkReads}/{physical.ChunkHits} "

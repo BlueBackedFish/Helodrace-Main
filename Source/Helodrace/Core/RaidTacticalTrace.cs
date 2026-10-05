@@ -47,7 +47,12 @@ namespace Helodrace
             Job job = ___pawn.CurJob;
             if (job?.def != RimWorld.JobDefOf.Goto || !MapComponent_RaidTacticalOrders.Owned(job)) return;
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(___pawn);
-            if (order != null && order.Destination == job.targetA.Cell) order.Movement.Started(GenTicks.TicksGame);
+            if (order != null && order.Destination == job.targetA.Cell)
+            {
+                bool firstStart = order.Movement.StartedTick < 0;
+                order.Movement.Started(GenTicks.TicksGame);
+                if (firstStart) RaidCpuProfiler.RecordGoto(___pawn.Map, order.Movement.LastStartLatency);
+            }
         }
 
         public static void Prefix(Pawn ___pawn, Job newJob,
