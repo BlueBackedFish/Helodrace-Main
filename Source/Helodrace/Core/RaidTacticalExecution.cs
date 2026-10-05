@@ -302,7 +302,9 @@ namespace Helodrace
         {
             string id = unit?.Id;
             return id != null && IsTacticalRaider(pawn)
-                && (waitingStructures.Contains(id) || states.TryGetValue(id, out ExecutionState state)
+                && (waitingStructures.Contains(id)
+                || map.GetComponent<MapComponent_RaidTacticalPlans>()?.DecisionQueuedFor(id) == true
+                || states.TryGetValue(id, out ExecutionState state)
                 && OwnsAssignment(id, state, pawn));
         }
 
@@ -556,6 +558,12 @@ namespace Helodrace
                         ? state.ActivePlan : plans.GetPlan(unit);
                 if (plan?.Success != true)
                 {
+                    if (plans.DecisionQueuedFor(unit.Id))
+                    {
+                        foreach (Pawn member in members)
+                            MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
+                        continue;
+                    }
                     if (tick % 90 == 0) KeepSapperEscortTogether(unit);
                     if (states.TryGetValue(unit.Id, out ExecutionState abandoned))
                     {
@@ -658,6 +666,7 @@ namespace Helodrace
                 {
                     if (state.ActivePlan.MovementNodes.Count > 0)
                     {
+                        if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "repair")) continue;
                         RaidTacticalPlan repaired = RaidTacticalPlanner.MakePlan(map, unit, state.Objective);
                         if (repaired?.Success == true)
                         {
@@ -2300,6 +2309,9 @@ namespace Helodrace
         {
             RaidStructureSnapshot structure = StructureFor(map, current);
             if (structure == null) return false;
+            // Deferred room planning keeps this phase active; it is not proof
+            // that every remaining room has already been cleared.
+            if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "next-room")) return true;
             if (!state.ClearedRoomCells.Contains(current.Objective))
                 state.ClearedRoomCells.Add(current.Objective);
             PublishRoomCheck(state, current.Objective, tick);

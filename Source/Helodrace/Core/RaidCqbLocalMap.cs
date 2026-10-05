@@ -195,6 +195,7 @@ namespace Helodrace
                 || insideRoom == occupied.Key && local.Path(observer.Position, plan.BreachInside).Count > 0);
             if (!alreadyInside && !wrongBreach) return false;
             if (tick - state.LastLocalReplanTick < 60) return false;
+            if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "intent")) return false;
             state.LastLocalReplanTick = tick;
             RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, plan.Objective);
             if (next?.Success != true || wrongBreach && next.PlannedBreach == plan.PlannedBreach) return false;
@@ -235,6 +236,7 @@ namespace Helodrace
                 || state.Phase != RaidExecutionPhase.Assemble && state.Phase != RaidExecutionPhase.Breach) return false;
             if ((state.SupportIssued || state.SupportLaunched)
                 && (SupportEffectsPending(state, tick) || state.SupportReturnRequired)) return false;
+            if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "entrance")) return false;
             state.LastLocalReplanTick = tick;
             RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, plan.Objective);
             if (next?.Success != true

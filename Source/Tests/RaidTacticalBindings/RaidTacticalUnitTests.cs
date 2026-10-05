@@ -278,6 +278,14 @@ internal static class RaidTacticalUnitTests
         plans.InvalidateDecision(units[0].Id);
         Check(plans.GetPlan(units[0]) == null && plans.GetPlan(units[1])?.UnitId == units[1].Id,
             "An unstable first unit must not starve a queued sibling's initial plan.");
+        bool queued(string id) => (bool)AccessTools.Method(typeof(MapComponent_RaidTacticalPlans), "DecisionQueuedFor")
+            .Invoke(plans, new object[] { id });
+        Check(queued(units[0].Id) && !queued(units[1].Id),
+            "Only pending decisions must retain their live unit view and pending ownership.");
+        AccessTools.Field(typeof(TickManager), "ticksGameInt").SetValue(game.tickManager, 2);
+        plans.MapComponentUpdate();
+        Check(!queued(units[0].Id) && plans.Plans.Any(plan => plan.UnitId == units[0].Id),
+            "A queued plan must be serviced on the next frame without a 30-tick execution sweep.");
     }
 
     private static void CheckIdentityLoading(RaidTacticalUnit unit, string memberGroup)

@@ -163,6 +163,7 @@ namespace Helodrace
                 + $"spatial builds={physical.SpatialBuilds} LOS checks/hits={physical.LosChecks}/{physical.LosHits} "
                 + $"observation deferrals={physical.ObservationBudget.Deferred}");
             report.AppendLine(RaidCpuProfiler.Report(RaidTacticalDebugSession.Map));
+            report.AppendLine($"Planning admission deferrals={RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidPlanningBudget>().Deferred}");
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"

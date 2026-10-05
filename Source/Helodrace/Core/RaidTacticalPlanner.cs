@@ -86,13 +86,17 @@ namespace Helodrace
         private static RaidTacticalPlan MeasuredPlan(Map map, RaidTacticalUnit unit, IntVec3? objectiveOverride)
         {
             Stopwatch watch = Stopwatch.StartNew();
-            RaidTacticalPlan plan = MakePlanCore(map, unit, objectiveOverride);
-            if (unit != null)
-                foreach (RaidTacticalAssignment assignment in plan.Assignments)
-                    assignment.GroupId = unit.Groups.FirstOrDefault(group => group.Members.Contains(assignment.Pawn))?.id;
-            if (plan.Success) RaidNodeRoute.Prepare(map, plan, unit.Organization.doctrine);
-            plan.PlanningMilliseconds = watch.ElapsedMilliseconds;
-            return plan;
+            try
+            {
+                RaidTacticalPlan plan = MakePlanCore(map, unit, objectiveOverride);
+                if (unit != null)
+                    foreach (RaidTacticalAssignment assignment in plan.Assignments)
+                        assignment.GroupId = unit.Groups.FirstOrDefault(group => group.Members.Contains(assignment.Pawn))?.id;
+                if (plan.Success) RaidNodeRoute.Prepare(map, plan, unit.Organization.doctrine);
+                plan.PlanningMilliseconds = watch.ElapsedMilliseconds;
+                return plan;
+            }
+            finally { MapComponent_RaidPlanningBudget.Record(map, watch.ElapsedTicks); }
         }
 
         private static RaidTacticalPlan MakePlanCore(Map map,
@@ -738,7 +742,8 @@ namespace Helodrace
                 .OrderBy(value => value.PreliminaryScore).Take(32)
                 .Concat(candidates.Where(value => value.Target is Building_Door)
                     .OrderBy(value => value.PreliminaryScore).Take(8))
-                .Distinct();
+                .Distinct().OrderBy(value => value.PreliminaryScore);
+            int feasibleCandidates = 0;
             foreach (BreachCandidate candidate in shortlist)
             {
                 plan.DetailedBreachChecks++;
@@ -790,14 +795,20 @@ namespace Helodrace
                     + (candidate.Target is Building_Door
                         ? candidate.Breachers.Any(value => value.Sledge)
                             ? -18f : 6f : 0f);
-                if (score >= bestScore) continue;
-                bestScore = score;
-                bestTarget = candidate.Target;
-                bestOutside = candidate.Outside;
-                bestInside = candidate.Inside;
-                bestStackCells = candidate.StackCells;
-                bestInsideReachesObjective = candidate.ReachesObjective;
-                route = routeCandidate;
+                if (score < bestScore)
+                {
+                    bestScore = score;
+                    bestTarget = candidate.Target;
+                    bestOutside = candidate.Outside;
+                    bestInside = candidate.Inside;
+                    bestStackCells = candidate.StackCells;
+                    bestInsideReachesObjective = candidate.ReachesObjective;
+                    route = routeCandidate;
+                }
+                // Failures still try the remaining shortlist. Once three fully
+                // usable routes exist, stop doing full A* and per-pawn staging
+                // checks for dozens of almost equivalent neighboring walls.
+                if (++feasibleCandidates >= 3) break;
             }
             if (bestTarget == null)
             {
@@ -1362,6 +1373,8 @@ namespace Helodrace
     {
         private int lastPlanningTick = -1;
         private readonly List<string> pendingUnitPlans = new List<string>();
+        private readonly Dictionary<string, RaidTacticalUnit> pendingUnitViews =
+            new Dictionary<string, RaidTacticalUnit>();
         private readonly Dictionary<string, RaidTacticalPlan> plans = new Dictionary<string, RaidTacticalPlan>();
         private readonly Dictionary<string, string> signatures = new Dictionary<string, string>();
         private readonly Dictionary<string, int> decisionStructureVersions = new Dictionary<string, int>();
@@ -1373,6 +1386,26 @@ namespace Helodrace
         public MapComponent_RaidTacticalPlans(Map map) : base(map) { }
 
         public IReadOnlyCollection<RaidTacticalPlan> Plans => plans.Values;
+
+        internal bool DecisionQueuedFor(string id) => id != null && pendingUnitViews.ContainsKey(id);
+
+        private void ForgetPending(string id)
+        {
+            pendingUnitPlans.Remove(id);
+            pendingUnitViews.Remove(id);
+        }
+
+        public override void MapComponentUpdate()
+        {
+            base.MapComponentUpdate();
+            // Drain the admitted head every frame, rather than waiting for the
+            // 30-tick execution sweep. Views retain live membership; no registry
+            // enumeration or planning for every waiting unit is needed here.
+            if (pendingUnitPlans.Count == 0) return;
+            string id = pendingUnitPlans[0];
+            if (pendingUnitViews.TryGetValue(id, out RaidTacticalUnit unit)) GetPlan(unit);
+            else ForgetPending(id);
+        }
 
         public override void ExposeData()
         {
@@ -1411,7 +1444,7 @@ namespace Helodrace
         }
 
         internal bool StructureReadyFor(string id) => structures.ContainsKey(id)
-            || map.GetComponent<MapComponent_TacticalMapAnalysis>()?.Completed != null;
+            || map.GetComponent<MapComponent_TacticalMapAnalysis>()?.CurrentReady == true;
 
         public RaidStructureSnapshot GetStructure(CombatOrganization organization)
         {
@@ -1421,7 +1454,7 @@ namespace Helodrace
             MapComponent_TacticalMapAnalysis analysis = map.GetComponent<MapComponent_TacticalMapAnalysis>();
             if (analysis == null) return null;
             analysis.RequestAnalysis();
-            if (analysis.Completed == null) return null;
+            if (!analysis.CurrentReady) return null;
             snapshot = new RaidStructureSnapshot(map, analysis.Completed, organization.id);
             structures.Add(organization.id, snapshot);
             return snapshot;
@@ -1452,7 +1485,7 @@ namespace Helodrace
                     && MapComponent_RaidTacticalExecution.IsTacticalRaider(pawn))
                 .All(pawn => active.Assignments.Any(assignment => assignment.Pawn == pawn)))
             {
-                pendingUnitPlans.Remove(unit.Id);
+                ForgetPending(unit.Id);
                 plans[unit.Id] = active;
                 return active;
             }
@@ -1469,16 +1502,19 @@ namespace Helodrace
                 // developer refreshes remain immediate; committed execution plans
                 // are returned above and never discarded for this budget.
                 if (!pendingUnitPlans.Contains(unit.Id)) pendingUnitPlans.Add(unit.Id);
+                pendingUnitViews[unit.Id] = unit;
                 if (!force && (lastPlanningTick == tick || pendingUnitPlans[0] != unit.Id))
                     return plans.TryGetValue(unit.Id, out RaidTacticalPlan deferred) ? deferred : null;
-                pendingUnitPlans.Remove(unit.Id);
+                if (!force && !MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "initial"))
+                    return plans.TryGetValue(unit.Id, out RaidTacticalPlan postponed) ? postponed : null;
+                ForgetPending(unit.Id);
                 lastPlanningTick = tick;
                 plan = RaidTacticalPlanner.MakePlan(map, unit);
                 plans[unit.Id] = plan;
                 signatures[unit.Id] = signature;
                 decisionStructureVersions[unit.Id] = geometryVersion;
             }
-            pendingUnitPlans.Remove(unit.Id);
+            ForgetPending(unit.Id);
             return plan;
         }
 
@@ -1496,6 +1532,8 @@ namespace Helodrace
                 .ToList();
             var activeIds = new HashSet<string>(active.Select(unit => unit.Id));
             pendingUnitPlans.RemoveAll(id => !activeIds.Contains(id));
+            foreach (string id in pendingUnitViews.Keys.Where(id => !activeIds.Contains(id)).ToList())
+                pendingUnitViews.Remove(id);
             foreach (RaidTacticalUnit unit in active) GetPlan(unit);
             foreach (string id in plans.Keys.Where(id => !activeIds.Contains(id)).ToList())
             {

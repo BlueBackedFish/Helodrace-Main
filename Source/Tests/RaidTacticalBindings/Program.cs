@@ -712,8 +712,10 @@ internal static class Program
 
     private static void CheckSharedStructureVersions()
     {
-        static void Check(bool condition, string message)
+        int checks = 0;
+        void Check(bool condition, string message)
         {
+            checks++;
             if (!condition) throw new Exception(message);
         }
         Assembly assembly = typeof(RaidStructureSnapshot).Assembly;
@@ -749,6 +751,27 @@ internal static class Program
         Check(first.RoomAt(new IntVec3(1, 0, 1)) == 7 && second.RoomAt(new IntVec3(1, 0, 1)) == 7,
             "Shared organization room lookup keeps the captured room ID.");
         var analysis = new MapComponent_TacticalMapAnalysis(map);
+        var currentReady = AccessTools.Property(analysis.GetType(), "CurrentReady");
+        Check(!(bool)currentReady.GetValue(analysis), "An initial or dirty analysis is not an available raid-start snapshot.");
+        AccessTools.Property(analysis.GetType(), "Completed").SetValue(analysis, version);
+        Check(!(bool)currentReady.GetValue(analysis), "An older completed version cannot be pinned while current structures are dirty.");
+        AccessTools.Field(analysis.GetType(), "dirty").SetValue(analysis, false);
+        Check((bool)currentReady.GetValue(analysis), "A completed current structure version can start a new raid organization.");
+        var plans = new MapComponent_RaidTacticalPlans(map);
+        map.components = new List<MapComponent> { analysis, plans };
+        var oldOrganization = new CombatOrganization { id = "Pinned" };
+        var newOrganization = new CombatOrganization { id = "New" };
+        RaidStructureSnapshot pinned = plans.GetStructure(oldOrganization);
+        AccessTools.Field(analysis.GetType(), "dirty").SetValue(analysis, true);
+        Check(plans.GetStructure(newOrganization) == null, "A new organization cannot freeze stale wall instance IDs during a rebuild.");
+        Check(ReferenceEquals(plans.GetStructure(oldOrganization), pinned), "Existing raids retain their initial room IDs during later map changes.");
+        var latestVersion = (TacticalStructureVersion)Activator.CreateInstance(typeof(TacticalStructureVersion),
+            BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { (object)13, geometry }, null);
+        AccessTools.Property(analysis.GetType(), "Completed").SetValue(analysis, latestVersion);
+        AccessTools.Field(analysis.GetType(), "dirty").SetValue(analysis, false);
+        Check(versionProperty.GetValue(plans.GetStructure(newOrganization)) == latestVersion,
+            "A new raid pins the newly completed layout when collection finishes.");
+        Check(versionProperty.GetValue(pinned) == version, "Publishing the new layout cannot replace an earlier raid's version.");
         AccessTools.Property(typeof(MapComponent_TacticalMapAnalysis), "Completed").SetValue(analysis, version);
         Check(first.RoomAt(new IntVec3(-1, 0, 0)) == 0, "Out-of-map room lookup remains safe.");
         var restored = new RaidStructureSnapshot { OrganizationId = "A" };
@@ -771,7 +794,7 @@ internal static class Program
             "Map removal and Map.Dispose must both cancel preparation idempotently.");
         Check(versionProperty.GetValue(first) == version && first.RoomAt(new IntVec3(1, 0, 1)) == 7,
             "Clearing the map cache owner cannot mutate an organization's pinned version.");
-        Console.WriteLine("PASS: 8 shared structure ownership, restore and version lifetime checks (real game classes)");
+        Console.WriteLine($"PASS: {checks} shared structure ownership, current raid-start snapshots, restore and version lifetime checks (real game classes)");
     }
 
     private static void CheckDoorFaultHooks()

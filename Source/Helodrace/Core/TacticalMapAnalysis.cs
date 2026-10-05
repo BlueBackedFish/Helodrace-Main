@@ -65,6 +65,7 @@ namespace Helodrace
         private Stopwatch buildWatch;
         private int retryAfterFrame;
         internal TacticalStructureVersion Completed { get; private set; }
+        internal bool CurrentReady => Completed != null && !dirty && collecting == null && calculation == null && !removed;
         public long LastStaticBuildMilliseconds { get; private set; }
         public double LastCaptureMilliseconds { get; private set; }
         public double LastCalculationMilliseconds { get; private set; }

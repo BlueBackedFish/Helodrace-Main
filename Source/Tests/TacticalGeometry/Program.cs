@@ -10,6 +10,16 @@ internal static class Program
     private static int checks;
     private static void CheckObservationServices()
     {
+        var workBudget = new TacticalWorkBudget(3000, 2);
+        Check(workBudget.Admit("A", 0), "An ordinary planning action is admitted before the budget is spent");
+        workBudget.Record(5000, 0);
+        Check(!workBudget.Admit("B", 0) && !workBudget.Admit("C", 0),
+            "One indivisible planner may overrun, but it prevents another ordinary action in the same frame");
+        Check(!workBudget.Admit("A", 1) && workBudget.Admit("B", 1) && workBudget.Admit("C", 1),
+            "Already waiting units get the next frame before repeated planning from an earlier caller");
+        Check(workBudget.Admit("A", 2), "A deferred planning action remains eligible rather than becoming a failed objective");
+        Check(workBudget.Admit("D", 2) && !workBudget.Admit("E", 2), "Action count caps tiny planning work too");
+        Check(workBudget.Admit("F", 130), "A caller that stops requesting planning cannot lock all remaining units forever");
         var leases = new TacticalOpeningLeases<int>();
         bool Nearby(int a, int b) => Math.Abs(a - b) <= 12;
         Check(leases.Acquire("front", 10, Nearby) && !leases.Acquire("tail", 10, Nearby),
