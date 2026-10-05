@@ -465,12 +465,12 @@ namespace Helodrace
             // tick; unrelated planning and room scanning keep their cadence.
             if (!regular)
             {
+                var unitsById = units.ToDictionary(unit => unit.Id);
                 foreach (ExecutionState crossing in states.Values.ToList())
                 {
                     if (tick % 10 != 0 || casualties.ContainsKey(crossing.UnitId)
                         || crossing.ActivePlan?.Success != true) continue;
-                    RaidTacticalUnit unit = units.FirstOrDefault(value => value.Id == crossing.UnitId);
-                    if (unit == null) continue;
+                    if (!unitsById.TryGetValue(crossing.UnitId, out RaidTacticalUnit unit)) continue;
                     List<Pawn> members = unit.Members.Where(pawn => pawn.Spawned
                         && pawn.Map == map && !pawn.Dead && !pawn.Downed && !pawn.Destroyed
                         && IsTacticalRaider(pawn)).ToList();
