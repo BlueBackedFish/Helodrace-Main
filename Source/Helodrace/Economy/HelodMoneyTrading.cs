@@ -24,6 +24,12 @@ namespace Helodrace.Economy
 
         internal static bool IsHelodTrade => IsHelodFaction(TradeSession.trader?.Faction);
 
+        // Derived generators such as Tomes consult a live storyteller. Startup
+        // has no game yet, so only the plain single-def implementation is safe.
+        internal static bool ExistingMoneyStock(StockGenerator existing, ThingDef money) =>
+            existing is StockGenerator_HelodMoney || existing?.GetType() == typeof(StockGenerator_SingleDef)
+                && existing.HandlesThingDef(money);
+
         internal static void AddMoneyStockToTraderKinds()
         {
             ThingDef money = MoneyDef;
@@ -39,8 +45,7 @@ namespace Helodrace.Economy
                     kind.stockGenerators = new List<StockGenerator>();
                 }
 
-                if (kind.stockGenerators.Any(existing =>
-                    existing is StockGenerator_SingleDef && existing.HandlesThingDef(money)))
+                if (kind.stockGenerators.Any(existing => ExistingMoneyStock(existing, money)))
                 {
                     continue;
                 }
