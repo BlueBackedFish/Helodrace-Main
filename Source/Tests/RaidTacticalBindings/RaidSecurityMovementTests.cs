@@ -57,9 +57,9 @@ internal static class RaidSecurityMovementTests
         leadingProgress.Completed = 1;
         AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "ResumeReleasedGuardApproach")
             .Invoke(null, new object[] { state, plan, tail });
-        Check(!state.ApproachComplete && state.CurrentNode == 1 && leadingProgress.Completed == 1
-            && state.NodeMembers[1].Completed == 0 && Connection(tail) == plan.MovementNodes[1],
-            "A released guard restores only its final personal join even after the lead completed; old origin nodes stay skipped.");
+        Check(state.ApproachComplete && state.CurrentNode == 2 && leadingProgress.Completed == 1
+            && state.NodeMembers[1].Completed == 0 && Connection(tail) == null,
+            "A released guard creates personal final-join work without reopening the unit or recalling the lead.");
         var diagnostic = new RaidMovementDiagnostics();
         diagnostic.Request(RaidOrderKind.Move, new IntVec3(3, 0, 4), RaidMoveController.Formation, 100, true);
         diagnostic.Block(RaidMoveBlockReason.GridPreparing, 105);
@@ -183,6 +183,7 @@ internal static class RaidSecurityMovementTests
             "Real room floors and genuine exterior approaches retain their normal source-room permissions.");
         state.Phase = RaidExecutionPhase.Assemble;
         AccessTools.Field(typeof(RaidNodeMemberProgress), "JoinConnection").SetValue(state.NodeMembers[1], throughDoor);
+        state.ApproachComplete = false;
         Check(Connection(tail) == throughDoor, "Physical admission and path costs use the same personal known-passage join.");
         AccessTools.Field(typeof(RaidNodeMemberProgress), "JoinConnection").SetValue(state.NodeMembers[1], null);
 

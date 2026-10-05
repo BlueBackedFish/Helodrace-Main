@@ -58,6 +58,9 @@ namespace Helodrace
                 if (RaidObservationSight.CanSeeCell(map, pawn.Position, hiddenDoor.Position, RaidContactMemory.Radius,
                         (a, b) => GenSight.LineOfSight(a, b, map, true))) hiddenDoorSeen = true;
             }
+            if (stage == 4 && (!state.ApproachComplete || state.CurrentNode != 1
+                || state.NodeMembers.Take(pawns.Count - 1).Any(progress => progress.Completed != 0)))
+                throw new InvalidOperationException("Late Security join reopened completed lead approach work.");
             // Update can skip any particular tick at accelerated game speeds.
             // Maintain the fixture's smoke every sampled frame, not only when
             // the last tick happens to be divisible by ten.

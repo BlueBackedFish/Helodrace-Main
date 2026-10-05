@@ -173,14 +173,14 @@ namespace Helodrace
         }
 
         public static bool Set(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
-            bool sprint = false, bool fightOnArrival = false, float radius = 10f, bool reactive = false)
+            bool sprint = false, bool fightOnArrival = false, float radius = 10f, bool reactive = false, bool independentJoin = false)
         {
             using (RaidCpuProfiler.Measure(pawn?.Map, RaidCpuStage.Orders))
-                return SetMeasured(pawn, kind, destination, sprint, fightOnArrival, radius, reactive);
+                return SetMeasured(pawn, kind, destination, sprint, fightOnArrival, radius, reactive, independentJoin);
         }
 
         private static bool SetMeasured(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
-            bool sprint, bool fightOnArrival, float radius, bool reactive)
+            bool sprint, bool fightOnArrival, float radius, bool reactive, bool independentJoin)
         {
             if (pawn?.Spawned != true) return false;
             var execution = pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>();
@@ -198,12 +198,18 @@ namespace Helodrace
             var state = execution.StateFor(unit.Id);
             RaidCommandOwner commandOwner = reactive ? state?.SharedOpeningWait == true
                 ? RaidCommandOwner.OpeningQueue : RaidCommandOwner.Reaction
+                : state?.Indices.Assignment(state.ActivePlan, pawn)?.Task == RaidTacticalTask.Security
+                    ? RaidCommandOwner.Security
                 : state?.Phase == RaidExecutionPhase.CrossBreach ? RaidCommandOwner.Breach
                 : state?.Phase >= RaidExecutionPhase.Assault ? RaidCommandOwner.Assault
-                : state?.Indices.Assignment(state.ActivePlan, pawn)?.Task == RaidTacticalTask.Security
-                    ? RaidCommandOwner.Security : RaidCommandOwner.Approach;
+                : RaidCommandOwner.Approach;
+            independentJoin |= !reactive && order.Command.IndependentJoin && order.Command.Destination == destination
+                && order.Command.Owner == commandOwner;
+            RaidMovementNode connection = reactive ? null : independentJoin
+                ? order.Command.IndependentJoin && order.Command.Destination == destination ? order.Command.Connection : null
+                : MapComponent_RaidTacticalExecution.ConnectionFor(state, pawn);
             bool changed = order.Command.Assign(commandOwner, kind, destination, sprint, fightOnArrival,
-                radius, reactive, reactive ? null : MapComponent_RaidTacticalExecution.ConnectionFor(state, pawn));
+                radius, reactive, connection, independentJoin);
             if (changed) order.RefreshPending = true;
             Resolve(order, changed);
             if (RaidOrderPolicy.Refresh(order.RefreshPending, Owned(pawn.CurJob),
@@ -243,6 +249,9 @@ namespace Helodrace
                 kind = destination != pawn.Position ? RaidOrderKind.Move : RaidOrderKind.Hold;
                 fightOnArrival = false; controller = RaidMoveController.ExteriorIngress;
             }
+            bool unknownJoin = !reactive && command.IndependentJoin && controller == RaidMoveController.Formation
+                && kind != RaidOrderKind.Hold && !execution.ResolvePersonalJoin(order);
+            if (unknownJoin) { kind = RaidOrderKind.Hold; destination = pawn.Position; fightOnArrival = false; }
             if (kind == RaidOrderKind.Move && destination == pawn.Position)
                 kind = fightOnArrival ? RaidOrderKind.Fight : RaidOrderKind.Hold;
             bool changed = order.Kind != kind || order.Destination != destination || order.Sprint != sprint
@@ -250,6 +259,7 @@ namespace Helodrace
             order.Movement.Request(command.Kind, command.Destination, controller, tick, changed);
             if (controller == RaidMoveController.ContactGuard)
                 order.Movement.Block(RaidMoveBlockReason.ContactGuard, tick);
+            else if (unknownJoin) order.Movement.Block(RaidMoveBlockReason.UnknownJoin, tick);
             else if (controller == RaidMoveController.ExteriorIngress && kind == RaidOrderKind.Hold)
                 order.Movement.Block(RaidMoveBlockReason.OpeningWait, tick);
             else if (changed) order.Movement.Block(RaidMoveBlockReason.None, tick);

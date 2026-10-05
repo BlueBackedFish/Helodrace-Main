@@ -185,11 +185,9 @@ namespace Helodrace
                 ResumeReleasedGuardApproach(state, plan, guard.Pawn);
                 bool entered = state.Phase == RaidExecutionPhase.Assault || state.Phase == RaidExecutionPhase.ClearRoom
                     || state.Phase == RaidExecutionPhase.SecureRoom || state.Phase == RaidExecutionPhase.Complete;
-                bool joining = state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete;
-                MapComponent_RaidTacticalOrders.Set(guard.Pawn, joining ? RaidOrderKind.Hold
-                    : entered ? RaidOrderKind.Fight : RaidOrderKind.Move,
-                    joining || entered ? guard.Pawn.Position : assignment?.Position ?? guard.Pawn.Position,
-                    radius: entered ? 3f : 10f);
+                MapComponent_RaidTacticalOrders.Set(guard.Pawn, RaidOrderKind.Move,
+                    assignment?.Position ?? guard.Pawn.Position, fightOnArrival: entered,
+                    radius: entered ? 3f : 10f, independentJoin: true);
             }
         }
 
@@ -210,9 +208,8 @@ namespace Helodrace
             progress.Completed = last - 1;
             progress.JoinConnection = null; progress.JoinTargetNode = -1; progress.JoinSearchAfter = 0;
             progress.Destination = IntVec3.Invalid; progress.DestinationNode = -1; progress.RetryAfter = 0;
-            state.ApproachComplete = false;
-            state.CurrentNode = System.Math.Min(state.CurrentNode, last);
-            state.ApproachBestRemaining = float.MaxValue;
+            // Only this member's unfinished final join changes. The unit and
+            // its leading members never reopen completed approach work.
         }
 
         private IntVec3 FindContactGuardPosition(Pawn pawn, RaidTacticalPlan plan, IntVec3 focus,

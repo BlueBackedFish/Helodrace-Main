@@ -15,7 +15,7 @@ internal static class RaidPawnCommandTests
         var target = new IntVec3(20, 0, 20);
         var assign = AccessTools.Method(typeof(RaidPawnCommand), "Assign");
         bool Assign(IntVec3 destination, RaidMovementNode connection = null) => (bool)assign.Invoke(order.Command,
-            new object[] { RaidCommandOwner.Security, RaidOrderKind.Move, destination, false, true, 3f, false, connection });
+            new object[] { RaidCommandOwner.Security, RaidOrderKind.Move, destination, false, true, 3f, false, connection, false });
         Check(Assign(target) && order.Command.Revision == 1, "A role owns a newly committed movement intent.");
         order.Kind = RaidOrderKind.Hold; order.Destination = new IntVec3(10, 0, 10);
         Check(order.Command.Kind == RaidOrderKind.Move && order.Command.Destination == target,

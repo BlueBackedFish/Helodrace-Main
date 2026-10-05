@@ -15,15 +15,19 @@ namespace Helodrace
         public float Radius = 10f;
         public int Revision;
         public RaidMovementNode Connection;
+        public bool IndependentJoin;
+        internal int JoinSearchAfter;
 
         internal bool Assign(RaidCommandOwner owner, RaidOrderKind kind, IntVec3 destination,
-            bool sprint, bool fightOnArrival, float radius, bool reactive, RaidMovementNode connection)
+            bool sprint, bool fightOnArrival, float radius, bool reactive, RaidMovementNode connection, bool independentJoin = false)
         {
             bool changed = Owner != owner || Kind != kind || Destination != destination || Sprint != sprint
-                || FightOnArrival != fightOnArrival || Radius != radius || Reactive != reactive || Connection != connection;
+                || FightOnArrival != fightOnArrival || Radius != radius || Reactive != reactive || Connection != connection
+                || IndependentJoin != independentJoin;
             if (!changed) return false;
             Owner = owner; Kind = kind; Destination = destination; Sprint = sprint;
             FightOnArrival = fightOnArrival; Radius = radius; Reactive = reactive; Connection = connection;
+            IndependentJoin = independentJoin; JoinSearchAfter = 0;
             Revision++;
             return true;
         }
@@ -35,6 +39,7 @@ namespace Helodrace
             Scribe_Values.Look(ref Reactive, "reactive"); Scribe_Values.Look(ref Radius, "radius", 10f);
             Scribe_Values.Look(ref Revision, "revision");
             Scribe_Deep.Look(ref Connection, "connection");
+            Scribe_Values.Look(ref IndependentJoin, "independentJoin");
         }
     }
 }
