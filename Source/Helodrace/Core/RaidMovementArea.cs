@@ -348,6 +348,8 @@ namespace Helodrace
                     HashSet<IntVec3> connected = indoors ? map.GetComponent<MapComponent_RaidTacticalExecution>()
                         .InteriorIngressCells(pawn, structure, ingress, out _) : null;
                     return GetArea(plan, structure, !indoors, ingress.InsideRoom, selectedOpeningOnly: !indoors,
+                        excludedRoom: waitingForSupport && structure.RoomAt(pawn.Position) != structure.RoomAt(plan.BreachInside)
+                            ? structure.RoomAt(plan.BreachInside) : 0,
                         openingOverride: map.cellIndices.CellToIndex(ingress.Opening), ingressCells: connected);
                 }
                 RaidMovementArea currentIngressArea = IngressArea(interior);
@@ -371,7 +373,7 @@ namespace Helodrace
             int insideRoom = plan.BreachCell.IsValid ? structure?.RoomAt(plan.BreachInside) ?? 0 : 0;
             int excludedRoom = (waitingForSupport || equipmentMove) && insideRoom > 0
                 && structure.RoomAt(pawn.Position) != insideRoom ? insideRoom : 0;
-            bool selectedOpeningOnly = !plan.ReusePassage && state.Phase == RaidExecutionPhase.CrossBreach
+            bool selectedOpeningOnly = state.Phase == RaidExecutionPhase.CrossBreach
                 && plan.Assignments.Any(assignment => assignment.Pawn == pawn
                     && assignment.Task == RaidTacticalTask.Entry);
             int initialRoom = structure?.RoomAt(pawn.Position) ?? 0;

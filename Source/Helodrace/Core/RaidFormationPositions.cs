@@ -80,6 +80,7 @@ namespace Helodrace
                     if (pair.Value.Any(value => !present.Contains(value.Pawn) && !queuedPeers.Contains(value.Pawn))) result.Add(pair.Key);
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
                 if (!present.Contains(pawn) && !queuedPeers.Contains(pawn)) result.Add(pawn.Position);
+            if (execution != null) result.UnionWith(execution.transitMouths);
             return result;
         }
 
@@ -113,6 +114,7 @@ namespace Helodrace
                     || assignment.Task == RaidTacticalTask.Withdraw) continue;
                 IntVec3 old = assignment.Position;
                 bool usable = old.IsValid && old.InBounds(map) && old.Standable(map)
+                    && execution?.TransitMouth(old) != true
                     && slots.Available(old, pawn.thingIDNumber)
                     && !FormationOccupied(pawn, old, stationaryOnly: true);
                 if (usable && AtStagingPosition(assignment, plan)) continue;
@@ -129,7 +131,8 @@ namespace Helodrace
                         && GenSight.LineOfSight(old, cell, map, true)
                         && !(cell.GetEdifice(map) is Building_Trap));
                 // Preserve the previous claim unless a replacement actually exists.
-                if (slots.TryAssign(safe.Where(cell => cell != old && cell.InBounds(map) && cell.Standable(map))
+                if (slots.TryAssign(safe.Where(cell => cell != old && cell.InBounds(map) && cell.Standable(map)
+                        && execution?.TransitMouth(cell) != true)
                         .OrderBy(cell => cell.DistanceToSquared(old.IsValid ? old : pawn.Position)),
                     pawn.thingIDNumber,
                     cell => !FormationOccupied(pawn, cell)

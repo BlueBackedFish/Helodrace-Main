@@ -148,12 +148,14 @@ namespace Helodrace
             { CancelPendingCharge(states[id]); states.Remove(id); }
             waitingStructures.RemoveWhere(id => !live.Contains(id));
             PruneBreachTools(toolOwners);
+            PrunePassageTraffic(tick);
         }
 
         public override void MapRemoved()
         {
             foreach (RaidExecutionTicket ticket in executionTickets.Values) ExecutionScheduler.Cancel(ticket);
             executionTickets.Clear(); pendingCasualties.Clear();
+            passageTraffic.Clear(); ingressGoals.Prune(_ => false); ingressYields.Prune(_ => false); transitMouths.Clear();
             base.MapRemoved();
         }
 

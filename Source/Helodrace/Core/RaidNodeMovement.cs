@@ -240,18 +240,26 @@ namespace Helodrace
                 ? progress.JoinConnection ?? plan.MovementNodes[next] : null;
         }
 
-        internal bool AllowsNodeStep(Pawn pawn, IntVec3 cell)
+        internal bool AllowsNodeStep(Pawn pawn, RaidPawnOrder order, IntVec3 cell)
         {
-            RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
             if (order == null) return true;
             if (!cell.InBounds(map)) return false;
             // This is the exact immutable permission used by the current path
             // request, rather than a second interpretation of the unit's phase.
             if (order.PathPermission?.Allows(map.cellIndices.CellToIndex(cell)) == false) return false;
+            ExecutionState state = StateFor(order.UnitId);
+            if (!order.Reactive && state?.ActivePlan?.BreachCell.IsValid == true
+                && (state.Phase == RaidExecutionPhase.ObserveOpening || state.Phase == RaidExecutionPhase.Support
+                    || state.Phase == RaidExecutionPhase.EntryWait))
+            {
+                RaidStructureSnapshot structure = StructureFor(map, state.ActivePlan);
+                int targetRoom = structure?.RoomAt(state.ActivePlan.BreachInside) ?? 0;
+                if (targetRoom > 0 && structure.RoomAt(pawn.Position) != targetRoom && structure.RoomAt(cell) == targetRoom)
+                    return false;
+            }
             RaidExteriorIngress ingress = order.PathIngress;
             return ingress == null || ingress.Complete || cell != ingress.Opening || ingress.Entered
-                || IngressOpeningAvailable(pawn, ingress,
-                    candidate => map.pawnDestinationReservationManager.CanReserve(candidate, pawn));
+                || CanEnterPassage(pawn, ingress);
         }
         internal static int ConnectionRoom(Map map, RaidStructureSnapshot structure, IntVec3 cell, RaidMovementNode connection)
         {
@@ -475,15 +483,21 @@ namespace Helodrace
         {
             // Confirm the tile actually entered; a failed or queued step is not passage.
             if (___pawn?.Spawned == true)
-                ___pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.ObserveExteriorIngressPosition(___pawn);
+            {
+                RaidPawnOrder order = ___pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>()?.MovingOrder(___pawn);
+                if (order?.PathIngress?.Complete == false)
+                    ___pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()?.ObserveExteriorIngressPosition(___pawn, order);
+            }
         }
 
         public static bool Prefix(Pawn ___pawn, IntVec3 ___nextCell)
         {
-            if (___pawn?.Spawned != true || !MapComponent_RaidTacticalOrders.Owned(___pawn.CurJob)
-                || ___pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    ?.AllowsNodeStep(___pawn, ___nextCell) != false) return true;
+            if (___pawn?.Spawned != true) return true;
+            RaidPawnOrder order = ___pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>()?.MovingOrder(___pawn);
+            if (order == null || ___pawn.Map.GetComponent<MapComponent_RaidTacticalExecution>()
+                    ?.AllowsNodeStep(___pawn, order, ___nextCell) != false) return true;
             MapComponent_RaidTacticalTrace.Record(___pawn, $"Node connection rejects crossing at {___nextCell}");
+            order.RejectedStep = ___nextCell; order.RejectedStepTick = GenTicks.TicksGame;
             ___pawn.pather.StopDead();
             ___pawn.jobs.EndCurrentJob(JobCondition.Incompletable);
             return false;

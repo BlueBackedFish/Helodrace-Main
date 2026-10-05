@@ -13,6 +13,21 @@ using Verse.AI.Group;
 
 namespace Helodrace
 {
+    [StaticConstructorOnStartup]
+    internal static class RaidMovementAuditBootstrap
+    {
+        static RaidMovementAuditBootstrap()
+        {
+            // Hidden audits must keep pumping startup before a map exists.
+            // Normal player sessions retain their own background preference.
+            if (GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _))
+            {
+                Prefs.RunInBackground = true;
+                Application.runInBackground = true;
+            }
+        }
+    }
+
     // Explicit command-line audit only. Never changes a normal player session.
     public sealed class MapComponent_RaidMovementRuntimeAudit : MapComponent
     {
@@ -216,6 +231,8 @@ namespace Helodrace
                 + executionScheduler.MaximumUnitMilliseconds.ToString("0.000", CultureInfo.InvariantCulture) + "}"
                 + ",\"orderReviews\":{\"count\":" + orders.ReviewCount + ",\"maxDelayTicks\":" + orders.MaximumReviewDelay + "}"
                 + ",\"unstartedMoves\":\"" + Escape(orders.PendingMovesReport()) + "\""
+                + ",\"unstartedMoveDetails\":\"" + Escape(orders.PendingMovesDetail()) + "\""
+                + ",\"passageTraffic\":{\"waiting\":" + execution.PassageWaiting + "}"
                 + ",\"queueMaintenance\":{\"cleanupPasses\":" + execution.OpeningCleanupPasses
                 + ",\"leasePrunePasses\":" + execution.OpeningPrunePasses + "}"
                 + ",\"planningWork\":{\"maxBreachChecks\":" + plans.Plans.Select(plan => plan.Work.BreachChecks).DefaultIfEmpty().Max()

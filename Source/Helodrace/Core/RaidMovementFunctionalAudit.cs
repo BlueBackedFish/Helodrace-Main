@@ -77,7 +77,8 @@ namespace Helodrace
             }
             bool arrived = pawns.All(pawn => structure.RoomAt(pawn.Position) == targetRoom
                 && active.Assignments.Any(assignment => assignment.Pawn == pawn
-                    && pawn.Position.DistanceToSquared(assignment.Position) <= 2));
+                    && (stage >= 6 ? pawn.Position == assignment.Position && pawn.CurJobDef == JobDefOf.Wait_Combat
+                        : pawn.Position.DistanceToSquared(assignment.Position) <= 2)));
             if (!arrived)
             {
                 if (tick - stageStarted > 1800)
@@ -89,9 +90,12 @@ namespace Helodrace
                                 .Has(TacticalRawFlags.Standable))));
                 return false;
             }
-            bool movedRequired = stage == 4 ? startedMoving.Contains(pawns.Last()) : startedMoving.Count == pawns.Count;
-            if (!movedRequired || (stage == 4 ? !permissionBindings.Contains(pawns.Last()) : permissionBindings.Count != pawns.Count)
+            bool movedRequired = stage == 4 ? startedMoving.Contains(pawns.Last())
+                : stage == 7 ? startedMoving.Count >= pawns.Count - 1 : startedMoving.Count == pawns.Count;
+            if (!movedRequired || (stage == 4 ? !permissionBindings.Contains(pawns.Last())
+                    : permissionBindings.Count < (stage == 7 ? pawns.Count - 1 : pawns.Count))
                 || wrongPortal || stage == 3 && hiddenDoorSeen
+                || stage >= 6 && pawns.Select(pawn => pawn.Position).Distinct().Count() != pawns.Count
                 || stage == 4 && state.ContactGuards.Count != 0
                 || stage == 5 && !RaidSmokeUtility.CoveringSmokeAt(map, new IntVec3(120, 0, 112)))
                 throw new InvalidOperationException("Invalid functional arrival: started=" + startedMoving.Count
@@ -100,7 +104,7 @@ namespace Helodrace
             File.AppendAllText(output, "{\"functionalStage\":" + stage + ",\"passed\":true,\"pawns\":"
                 + pawns.Count + ",\"arrivalTicks\":" + (tick - stageStarted)
                 + ",\"permissionBindings\":" + permissionBindings.Count + "}\n");
-            if (stage == 5) { File.AppendAllText(output, "{\"complete\":true}\n"); return true; }
+            if (stage == 7) { File.AppendAllText(output, "{\"complete\":true}\n"); return true; }
             Begin(stage + 1);
             return false;
         }
@@ -143,6 +147,7 @@ namespace Helodrace
                 GroupId = RaidTacticalUnit.ForPawn(pawn).GroupId, Task = RaidTacticalTask.Security,
                 Position = new IntVec3(125 + i % 4, 0, z - 1 + i / 4) }).ToList();
             active.SafeStackCells = active.Assignments.Select(assignment => assignment.Position).ToList();
+            active.SafeSupportCells = new HashSet<IntVec3>(active.SafeStackCells);
             active.ApproachPath = new List<IntVec3> { destination };
             targetRoom = structure.RoomAt(destination);
             active.MovementNodes = new List<RaidMovementNode> { new RaidMovementNode { Id = 0,
@@ -172,6 +177,37 @@ namespace Helodrace
             }
             if (stage == 5)
                 HelodGasStore.AddGas(portal, map, HelodGasDefOf.HD_HCSmokeGrid, 1f);
+            if (stage >= 6)
+            {
+                IntVec3 opening = new IntVec3(100, 0, 112), inside = opening + IntVec3.East;
+                opening.GetEdifice(map)?.Destroy(DestroyMode.Vanish);
+                targetRoom = structure.RoomAt(inside);
+                active.Entry = new IntVec3(105, 0, 112);
+                active.Assignments = pawns.Select((pawn, i) => new RaidTacticalAssignment { Pawn = pawn,
+                    GroupId = RaidTacticalUnit.ForPawn(pawn).GroupId, Task = RaidTacticalTask.Security,
+                    Position = new IntVec3(104 + i % 4, 0, 111 + i / 4) }).ToList();
+                active.SafeStackCells = active.Assignments.Select(assignment => assignment.Position).ToList();
+                active.SafeSupportCells = new HashSet<IntVec3>(active.SafeStackCells);
+                state.ApproachComplete = true; state.CurrentNode = 1;
+                state.NodeMembers = pawns.Select(pawn => new RaidNodeMemberProgress { Pawn = pawn, Completed = 0 }).ToList();
+                state.Indices.InvalidateNodes();
+                state.ExteriorIngress.Clear();
+                foreach (Pawn pawn in pawns)
+                {
+                    int i = pawns.IndexOf(pawn);
+                    pawn.Position = new IntVec3(90 + i % 4, 0, 111 + i / 4);
+                    pawn.Notify_Teleported(endCurrentJob: false);
+                    state.ExteriorIngress.Add(new RaidExteriorIngress { Pawn = pawn, Opening = opening,
+                        Inside = inside, InsideRoom = targetRoom });
+                }
+                if (stage == 7)
+                {
+                    active.Assignments[1].Position = active.Assignments[0].Position;
+                    pawns[0].Position = active.Assignments[0].Position;
+                    pawns[0].Notify_Teleported(endCurrentJob: false);
+                    state.ExteriorIngress.RemoveAll(ingress => ingress.Pawn == pawns[0]);
+                }
+            }
             stagePositions.Clear();
             foreach (Pawn pawn in pawns) stagePositions[pawn] = pawn.Position;
             if (structure.RoomAt(pawns.Last().Position) == targetRoom)

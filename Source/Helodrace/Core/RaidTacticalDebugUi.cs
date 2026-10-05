@@ -259,6 +259,9 @@ namespace Helodrace
                         + $"owner={order.UnitId} group={order.GroupId} "
                         + $"room={order.Room} retryAfter={order.RetryAfter} "
                         + $"job={MapComponent_RaidTacticalTrace.Describe(assignment.Pawn.CurJob)}");
+                    report.AppendLine($"    task={order.Command.Owner}#{order.Command.Revision} "
+                        + $"intent={order.Command.Kind}@{order.Command.Destination} independentJoin={order.Command.IndependentJoin} "
+                        + $"pathGeneration={order.PathRevision}");
                     report.AppendLine($"    requested={order.Movement.RequestedKind}@{order.Movement.RequestedDestination} "
                         + $"controller={order.Movement.Controller} blocked={order.Movement.BlockReason} "
                         + $"blockedTicks={(order.Movement.BlockedSince < 0 ? 0 : GenTicks.TicksGame - order.Movement.BlockedSince)} "

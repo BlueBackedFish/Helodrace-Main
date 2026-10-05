@@ -8,6 +8,26 @@ using Helodrace;
 internal static class Program
 {
     private static int checks;
+    private static void CheckPassageAdmissions()
+    {
+        var traffic = new TacticalPassageAdmissions<int, int>();
+        Check(traffic.Request(1, 7, 0) && !traffic.Request(2, 7, 0), "One physical mouth admits only its first waiting actor.");
+        Check(traffic.Request(1, 7, 30) && traffic.Count == 2, "Repeated requests neither duplicate nor reorder existing traffic.");
+        Check(traffic.Request(3, 8, 30), "Independent openings do not share an admission bottleneck.");
+        traffic.Release(1);
+        Check(traffic.First(2, 7), "Clearing the mouth immediately promotes the next actor.");
+        traffic.Request(2, 8, 40);
+        Check(!traffic.First(2, 8) && traffic.Count == 2, "Changing a passage relinquishes the old token and joins the new tail.");
+        traffic.Prune(50, actor => actor != 3);
+        Check(traffic.First(2, 8) && traffic.Count == 1, "A casualty or withdrawn task cannot permanently hold admission.");
+        traffic.Prune(131, _ => true);
+        Check(traffic.Count == 0, "A task which no longer requests entry loses its stale traffic ticket.");
+        for (int actor = 0; actor < 200; actor++) traffic.Request(actor, 9, 150);
+        for (int actor = 0; actor < 200; actor++)
+        { Check(traffic.First(actor, 9), "A large waiting cohort retains FIFO fairness without cycling leaders."); traffic.Release(actor); }
+        Check(traffic.Count == 0, "Admission completion leaves no retained traffic references.");
+        traffic.Request(1, 7, 200); traffic.Clear(); Check(traffic.Count == 0, "Map teardown clears derived passage traffic.");
+    }
     private static void CheckObservationServices()
     {
         var due = new TacticalDueQueue<string>();
@@ -307,6 +327,7 @@ internal static class Program
     private static int Main()
     {
         CheckPreparationQueue();
+        CheckPassageAdmissions();
         CheckMaskKeys();
         try
         {

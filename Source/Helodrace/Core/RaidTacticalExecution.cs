@@ -1303,6 +1303,7 @@ namespace Helodrace
         private bool FollowBreachCrossing(List<Pawn> members, RaidTacticalPlan plan,
             ExecutionState state)
         {
+            RememberTransitMouth(plan);
             RememberExteriorIngress(members, plan, state);
             List<Pawn> entry = EntryPawns(members, plan);
             HashSet<IntVec3> clearanceCells = null;
@@ -1352,7 +1353,10 @@ namespace Helodrace
                     state.Crossings.Add(crossing);
                 }
                 if ((!crossing.Destination.IsValid || !crossing.Destination.InBounds(map)
-                    || !crossing.Destination.Standable(map))
+                    || !crossing.Destination.Standable(map)
+                    || crossing.Progress != RaidBreachProgress.Complete
+                        && (!map.pawnDestinationReservationManager.CanReserve(crossing.Destination, pawn)
+                            || FormationOccupied(pawn, crossing.Destination, stationaryOnly: true)))
                     && GenTicks.TicksGame >= crossing.SearchAfter)
                 {
                     reserved.Remove(crossing.Destination);

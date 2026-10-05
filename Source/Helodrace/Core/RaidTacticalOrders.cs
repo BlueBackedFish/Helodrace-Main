@@ -34,6 +34,8 @@ namespace Helodrace
         internal TacticalMovementPermission PathPermission;
         internal RaidExteriorIngress PathIngress;
         internal int PathRevision = -1;
+        internal IntVec3 RejectedStep = IntVec3.Invalid;
+        internal int RejectedStepTick = -1;
         public RaidMovementDiagnostics Movement = new RaidMovementDiagnostics();
 
         internal bool OwnedBy(RaidTacticalUnit unit)
@@ -112,6 +114,17 @@ namespace Helodrace
         internal static RaidPawnOrder For(Pawn pawn) => pawn?.Spawned == true
             ? pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>()?.Get(pawn) : null;
 
+        // A path belongs to an already-issued tactical Job. Ordinary review and
+        // Job selection validate unit control; individual tile steps only need
+        // the bound actor and group, not another full unit/member lookup.
+        internal RaidPawnOrder MovingOrder(Pawn pawn)
+        {
+            if (pawn?.Spawned != true || pawn.Map != map || pawn.Dead || pawn.Downed
+                || pawn.Drafted || pawn.InMentalState || !Owned(pawn.CurJob)
+                || !orders.TryGetValue(pawn, out RaidPawnOrder order)) return null;
+            return OrganizationAPI.GetGroup(pawn)?.id == order.GroupId ? order : null;
+        }
+
         private RaidPawnOrder Get(Pawn pawn)
         {
             if (!orders.TryGetValue(pawn, out RaidPawnOrder order)) return null;
@@ -172,6 +185,17 @@ namespace Helodrace
                     .Select(group => group.Key + ":" + group.Count()));
         }
 
+        internal string PendingMovesDetail() => string.Join(";", orders.Values.Where(order => order.Pawn?.Spawned == true
+                && order.Pawn.Map == map && !order.Pawn.Dead && !order.Pawn.Downed
+                && order.Command.Kind == RaidOrderKind.Move && order.Pawn.Position != order.Command.Destination
+                && !(order.Pawn.CurJobDef == JobDefOf.Goto && order.Pawn.CurJob.targetA.Cell == order.Destination))
+            .Take(24).Select(order => $"{order.Pawn.thingIDNumber}:{order.Command.Owner}#{order.Command.Revision}"
+                + $" pos={order.Pawn.Position} goal={order.Command.Destination} leg={order.Kind}/{order.Destination}"
+                + $" job={order.Pawn.CurJobDef?.defName}/{order.Pawn.CurJob?.targetA} block={order.Movement.BlockReason}"
+                + $" age={GenTicks.TicksGame - order.Movement.RequestedTick} pathGeneration={order.PathRevision}"
+                + $" independent={order.Command.IndependentJoin} rejectedStep={order.RejectedStep}@{order.RejectedStepTick}"
+                + $" goalAllowed={(!order.Destination.InBounds(map) ? false : order.PathPermission?.Allows(map.cellIndices.CellToIndex(order.Destination)) ?? true)}"));
+
         public static bool Set(Pawn pawn, RaidOrderKind kind, IntVec3 destination,
             bool sprint = false, bool fightOnArrival = false, float radius = 10f, bool reactive = false, bool independentJoin = false)
         {
@@ -197,7 +221,8 @@ namespace Helodrace
             order.GroupId = OrganizationAPI.GetGroup(pawn).id;
             var state = execution.StateFor(unit.Id);
             RaidCommandOwner commandOwner = reactive ? state?.SharedOpeningWait == true
-                ? RaidCommandOwner.OpeningQueue : RaidCommandOwner.Reaction
+                ? RaidCommandOwner.OpeningQueue : state != null && state.ContactGuards.Any(guard => guard.Pawn == pawn && guard.Position == destination && guard.Until > GenTicks.TicksGame)
+                    ? RaidCommandOwner.Guard : RaidCommandOwner.Reaction
                 : state?.Indices.Assignment(state.ActivePlan, pawn)?.Task == RaidTacticalTask.Security
                     ? RaidCommandOwner.Security
                 : state?.Phase == RaidExecutionPhase.CrossBreach ? RaidCommandOwner.Breach

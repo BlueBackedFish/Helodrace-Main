@@ -60,15 +60,39 @@ internal static class RaidPawnCommandTests
         {
             var xml = new XmlDocument();
             xml.LoadXml("<command><owner>Security</owner><kind>Move</kind><destination>(20, 0, 20)</destination>"
-                + "<fightOnArrival>True</fightOnArrival><radius>3</radius><revision>8</revision></command>");
+                + "<fightOnArrival>True</fightOnArrival><radius>3</radius><revision>8</revision>"
+                + "<independentJoin>True</independentJoin></command>");
             var command = new RaidPawnCommand();
             Scribe.mode = LoadSaveMode.LoadingVars; Scribe.loader.curXmlParent = xml.DocumentElement;
             Scribe.loader.curParent = command; command.ExposeData();
             Check(command.Owner == RaidCommandOwner.Security && command.Kind == RaidOrderKind.Move
                 && command.Destination == target && command.FightOnArrival && command.Radius == 3f && command.Revision == 8,
                 "Real Scribe restores task ownership and intent, rather than only the temporary hold.");
+            Check(command.IndependentJoin, "Scribe restores independent Security work instead of reopening the unit.");
+            // The standalone host has no initialized Unity deep-loading graph.
+            // Load the connection's real value fields separately; full game
+            // save/load and reference resolution remain integration coverage.
+            xml.LoadXml("<connection><structureVersion>73</structureVersion><center>(20, 0, 20)</center>"
+                + "<restrictedCells><li>(19, 0, 20)</li><li>(20, 0, 20)</li></restrictedCells></connection>");
+            command.Connection = new RaidMovementNode();
+            Scribe.loader.curXmlParent = xml.DocumentElement; Scribe.loader.curParent = command.Connection;
+            command.Connection.ExposeData();
+            var corridor = (System.Collections.Generic.HashSet<IntVec3>)AccessTools.Field(typeof(RaidMovementNode), "RestrictedCells")
+                .GetValue(command.Connection);
+            Check(command.Connection.StructureVersion == 73 && corridor.Count == 2 && corridor.Contains(target)
+                && !corridor.Contains(new IntVec3(21, 0, 20)),
+                "The restored connection retains its exact indoor corridor instead of becoming unrestricted.");
         }
         finally { Scribe.mode = mode; Scribe.loader.curXmlParent = parent; Scribe.loader.curParent = exposable; }
+        var detached = new Pawn { thingIDNumber = 31333 };
+        var retired = new RaidPawnOrder { Pawn = detached, UnitId = "retired-unit" };
+        AccessTools.Field(typeof(RaidPawnOrder), "PathIngress").SetValue(retired,
+            new RaidExteriorIngress { Pawn = detached, Entered = true, Active = true });
+        var execution = new MapComponent_RaidTacticalExecution(null);
+        AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "ObserveExteriorIngressPosition")
+            .Invoke(execution, new object[] { detached, retired });
+        Check((int)AccessTools.Property(typeof(MapComponent_RaidTacticalExecution), "PassageWaiting").GetValue(execution) == 0,
+            "A retired unit's captured ingress releases derived traffic without reading a missing structure.");
         Console.WriteLine($"PASS: {checks} durable role intent, transient hold and movement recovery checks.");
     }
 }

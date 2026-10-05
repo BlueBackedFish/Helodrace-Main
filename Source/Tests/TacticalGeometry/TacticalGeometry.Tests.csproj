@@ -23,5 +23,6 @@
     <Compile Include="../../Helodrace/Core/TacticalSliceQueue.cs" Link="TacticalSliceQueue.cs" />
     <Compile Include="../../Helodrace/Core/TacticalDueQueue.cs" Link="TacticalDueQueue.cs" />
     <Compile Include="../../Helodrace/Core/TacticalObserverRotation.cs" Link="TacticalObserverRotation.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalPassageAdmissions.cs" Link="TacticalPassageAdmissions.cs" />
   </ItemGroup>
 </Project>
