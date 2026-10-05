@@ -182,11 +182,37 @@ namespace Helodrace
             foreach (RaidContactGuard guard in removed.Where(guard => members.Contains(guard.Pawn)))
             {
                 RaidTacticalAssignment assignment = plan.Assignments.FirstOrDefault(value => value.Pawn == guard.Pawn);
+                ResumeReleasedGuardApproach(state, plan, guard.Pawn);
                 bool entered = state.Phase == RaidExecutionPhase.Assault || state.Phase == RaidExecutionPhase.ClearRoom
                     || state.Phase == RaidExecutionPhase.SecureRoom || state.Phase == RaidExecutionPhase.Complete;
-                MapComponent_RaidTacticalOrders.Set(guard.Pawn, entered ? RaidOrderKind.Fight : RaidOrderKind.Move,
-                    entered ? guard.Pawn.Position : assignment?.Position ?? guard.Pawn.Position, radius: entered ? 3f : 10f);
+                bool joining = state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete;
+                MapComponent_RaidTacticalOrders.Set(guard.Pawn, joining ? RaidOrderKind.Hold
+                    : entered ? RaidOrderKind.Fight : RaidOrderKind.Move,
+                    joining || entered ? guard.Pawn.Position : assignment?.Position ?? guard.Pawn.Position,
+                    radius: entered ? 3f : 10f);
             }
+        }
+
+        internal static void ResumeReleasedGuardApproach(ExecutionState state, RaidTacticalPlan plan, Pawn pawn)
+        {
+            if (state.Phase != RaidExecutionPhase.Assemble || plan.MovementNodes.Count == 0) return;
+            RaidNodeMemberProgress progress = state.Indices.Node(state.NodeMembers, pawn);
+            if (progress == null)
+            {
+                progress = new RaidNodeMemberProgress { Pawn = pawn };
+                state.NodeMembers.Add(progress);
+                state.Indices.InvalidateNodes();
+            }
+            // The lead element may have completed while this guard was excluded.
+            // Join the current final approach from here; never revisit old outdoor
+            // origin nodes or recall members that already reached their slots.
+            int last = plan.MovementNodes.Count - 1;
+            progress.Completed = last - 1;
+            progress.JoinConnection = null; progress.JoinTargetNode = -1; progress.JoinSearchAfter = 0;
+            progress.Destination = IntVec3.Invalid; progress.DestinationNode = -1; progress.RetryAfter = 0;
+            state.ApproachComplete = false;
+            state.CurrentNode = System.Math.Min(state.CurrentNode, last);
+            state.ApproachBestRemaining = float.MaxValue;
         }
 
         private IntVec3 FindContactGuardPosition(Pawn pawn, RaidTacticalPlan plan, IntVec3 focus,

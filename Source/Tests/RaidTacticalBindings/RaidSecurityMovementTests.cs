@@ -53,6 +53,13 @@ internal static class RaidSecurityMovementTests
             new[] { typeof(MapComponent_RaidTacticalExecution.ExecutionState), typeof(Pawn), typeof(int) });
         Check(guardLookup.Invoke(null, new object[] { state, tail, 100 }) == null,
             "Released security guards stop owning subsequent movement orders immediately.");
+        state.Phase = RaidExecutionPhase.Assemble; state.ApproachComplete = true; state.CurrentNode = 2;
+        leadingProgress.Completed = 1;
+        AccessTools.Method(typeof(MapComponent_RaidTacticalExecution), "ResumeReleasedGuardApproach")
+            .Invoke(null, new object[] { state, plan, tail });
+        Check(!state.ApproachComplete && state.CurrentNode == 1 && leadingProgress.Completed == 1
+            && state.NodeMembers[1].Completed == 0 && Connection(tail) == plan.MovementNodes[1],
+            "A released guard restores only its final personal join even after the lead completed; old origin nodes stay skipped.");
         var diagnostic = new RaidMovementDiagnostics();
         diagnostic.Request(RaidOrderKind.Move, new IntVec3(3, 0, 4), RaidMoveController.Formation, 100, true);
         diagnostic.Block(RaidMoveBlockReason.GridPreparing, 105);
