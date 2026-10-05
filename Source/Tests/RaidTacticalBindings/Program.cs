@@ -97,6 +97,7 @@ internal static class Program
             CheckGrenadePrediction();
             CheckSharedStructureVersions();
             RaidPlanningWorkTests.Run();
+            RaidResumableRouteTests.Run();
             CheckSmokeGases();
             CheckBreachToolRecovery();
             CheckTacticalRoomOverlay();

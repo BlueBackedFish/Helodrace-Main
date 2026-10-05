@@ -184,10 +184,14 @@ internal static class RaidTacticalUnitTests
             Check(typeof(RaidPawnOrder).GetField("UnitId") != null && typeof(RaidPawnOrder).GetField("GroupId") != null,
                 "Durable pawn directives need both a command owner and original subgroup affiliation.");
             CheckCommandOwnership(game, map, execution, first, second, a, b);
-            CheckPlanningBudget(game, plans);
+            CheckPlanningService(game, plans);
             var ingress = new RaidExteriorIngress { Pawn = first.Members.First(), Opening = new IntVec3(10, 0, 10),
                 Inside = new IntVec3(11, 0, 10), InsideRoom = 7, Active = true };
             a.ExteriorIngress.Add(ingress);
+            var pendingRoomGoal = AccessTools.Field(a.GetType(), "PendingRoomGoal");
+            var pendingRecheckGoal = AccessTools.Field(a.GetType(), "PendingRecheckGoal");
+            pendingRoomGoal.SetValue(a, new IntVec3(9, 0, 9));
+            pendingRecheckGoal.SetValue(a, new IntVec3(9, 0, 9));
             var next = new RaidTacticalPlan { OrganizationId = first.OrganizationId, UnitId = first.Id,
                 GroupId = first.GroupId, Objective = new IntVec3(20, 0, 10),
                 BreachCell = new IntVec3(19, 0, 10), BreachInside = new IntVec3(20, 0, 10),
@@ -202,6 +206,8 @@ internal static class RaidTacticalUnitTests
                     && ingress.Opening != next.BreachCell && ingress.InsideRoom == 7,
                     "Replacing a room plan must preserve the outside follower's original ingress connection.");
                 Check(b.ExteriorIngress.Count == 0, "The connection must remain local to its squad.");
+                Check(!((IntVec3)pendingRoomGoal.GetValue(a)).IsValid && !((IntVec3)pendingRecheckGoal.GetValue(a)).IsValid,
+                    "Replacing a committed plan must release goals belonging to its old pending generation.");
             }
             finally
             {
@@ -259,35 +265,56 @@ internal static class RaidTacticalUnitTests
                 .GetValue(OrganizationAPI.Registry))[pawn] = group;
     }
 
-    private static void CheckPlanningBudget(Game game, MapComponent_RaidTacticalPlans plans)
+    private static void CheckPlanningService(Game game, MapComponent_RaidTacticalPlans plans)
     {
         game.tickManager = (TickManager)RuntimeHelpers.GetUninitializedObject(typeof(TickManager));
+        Map map = ((List<Map>)AccessTools.Field(typeof(Game), "maps").GetValue(game))[0];
+        var service = new MapComponent_RaidPlanningService(map);
+        ((List<MapComponent>)AccessTools.Field(typeof(Map), "components").GetValue(map)).Add(service);
+        var scheduler = new GameComponent_RaidPlanScheduler(game); game.components.Add(scheduler);
         var organization = new CombatOrganization { id = "Queue", rootGroups = new List<CombatGroup>
             { Group("Q1", "Squad", 0), Group("Q2", "Squad", 0) } };
         organization.RestoreTreeLinks();
         var units = RaidTacticalUnit.ForOrganization(organization).ToList();
-        // No active members means a cheap, real failed plan; the scheduler still
-        // needs to give the second unit a turn if the first keeps invalidating.
         ((Dictionary<string, RaidStructureSnapshot>)AccessTools.Field(typeof(MapComponent_RaidTacticalPlans), "structures")
             .GetValue(plans))[organization.id] = new RaidStructureSnapshot { OrganizationId = organization.id };
-        RaidTacticalPlan first = plans.GetPlan(units[0]);
-        Check(first?.UnitId == units[0].Id && first.OrganizationId == organization.id,
-            "Planning must write separate unit and shared geometry identities.");
-        Check(plans.GetPlan(units[1]) == null, "The common planning budget must still limit expensive decisions to one per tick.");
-        AccessTools.Field(typeof(TickManager), "ticksGameInt").SetValue(game.tickManager, 1);
-        plans.InvalidateDecision(units[0].Id);
-        Check(plans.GetPlan(units[0]) == null && plans.GetPlan(units[1])?.UnitId == units[1].Id,
-            "An unstable first unit must not starve a queued sibling's initial plan.");
-        bool queued(string id) => (bool)AccessTools.Method(typeof(MapComponent_RaidTacticalPlans), "DecisionQueuedFor")
-            .Invoke(plans, new object[] { id });
-        Check(queued(units[0].Id) && !queued(units[1].Id),
-            "Only pending decisions must retain their live unit view and pending ownership.");
-        AccessTools.Field(typeof(TickManager), "ticksGameInt").SetValue(game.tickManager, 2);
-        plans.MapComponentUpdate();
-        Check(!queued(units[0].Id) && plans.Plans.Any(plan => plan.UnitId == units[0].Id),
-            "A queued plan must be serviced on the next frame without a 30-tick execution sweep.");
+        var jobs = (System.Collections.IDictionary)AccessTools.Field(service.GetType(), "jobs").GetValue(service);
+        bool queued(string id) => (bool)AccessTools.Method(plans.GetType(), "DecisionQueuedFor").Invoke(plans, new object[] { id });
+        object Request(int i, string purpose, IntVec3? target = null, RaidTacticalPlan context = null) =>
+            AccessTools.Method(service.GetType(), "Request").Invoke(service, new object[] { units[i], purpose, target, context });
+        bool Step(object job) => (bool)AccessTools.Method(scheduler.GetType(), "Step").Invoke(scheduler, new[] { job });
+        Check(plans.GetPlan(units[0]) == null && plans.GetPlan(units[1]) == null && queued(units[0].Id) && queued(units[1].Id),
+            "All initial plans are submitted without calculating synchronously and retain tactical ownership.");
+        object first = jobs[units[0].Id], second = jobs[units[1].Id];
+        Check(Step(first) && !Step(first) && queued(units[1].Id),
+            "A real planner continuation yields before collection, and completion cannot erase its sibling request.");
+        RaidTacticalPlan completed = plans.GetPlan(units[0]);
+        Check(completed?.UnitId == units[0].Id && completed.OrganizationId == organization.id && !queued(units[0].Id),
+            "Only fully completed results enter the decision cache with separate unit and geometry identity.");
+        plans.InvalidateDecision(units[1].Id);
+        Check(!queued(units[1].Id) && AccessTools.Field(second.GetType(), "Steps").GetValue(second) == null,
+            "Casualty invalidation disposes the affected continuation immediately.");
+        Request(1, "repair"); object repair = jobs[units[1].Id]; Request(1, "repair");
+        Check(jobs[units[1].Id] == repair, "Polling a pending request reuses its saved frontier instead of restarting.");
+        Request(1, "next-room", new IntVec3(4, 0, 4));
+        Check(jobs[units[1].Id] != repair && (bool)AccessTools.Field(repair.GetType(), "Cancelled").GetValue(repair),
+            "A changed task or objective cancels the old generation before enqueueing its replacement.");
+        var execution = map.GetComponent<MapComponent_RaidTacticalExecution>();
+        var states = (Dictionary<string, MapComponent_RaidTacticalExecution.ExecutionState>)AccessTools.Field(execution.GetType(), "states").GetValue(execution);
+        var context = new RaidTacticalPlan(); states[units[1].Id] = new MapComponent_RaidTacticalExecution.ExecutionState { ActivePlan = context };
+        Request(1, "entrance", new IntVec3(4, 0, 4), context); object entrance = jobs[units[1].Id];
+        states[units[1].Id].ActivePlan = new RaidTacticalPlan();
+        Check(!(bool)AccessTools.Method(service.GetType(), "Valid").Invoke(service, new[] { entrance }),
+            "A result from a replaced committed plan cannot overwrite the new mission.");
+        Request(1, "initial"); object initial = jobs[units[1].Id];
+        AccessTools.Field(initial.GetType(), "Signature").SetValue(initial, "outdated input generation");
+        Check(Step(initial) && !Step(initial) && queued(units[1].Id),
+            "Discarding a stale first decision retains safe waiting ownership until it can be reissued.");
+        Check(plans.GetPlan(units[1]) == null && jobs[units[1].Id] != initial,
+            "Polling a discarded generation immediately queues a fresh continuation rather than admitting the stale result.");
+        service.MapRemoved();
+        Check(jobs.Count == 0, "Map removal releases all pending and completed runtime requests.");
     }
-
     private static void CheckIdentityLoading(RaidTacticalUnit unit, string memberGroup)
     {
         var document = new XmlDocument();

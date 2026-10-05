@@ -70,12 +70,12 @@ namespace Helodrace
 
     internal static class RaidNodeRoute
     {
-        internal static void Prepare(Map map, RaidTacticalPlan plan, Helodrace.Squads.DoctrineDef doctrine = null)
+        internal static IEnumerable<int> PrepareSteps(Map map, RaidTacticalPlan plan, Helodrace.Squads.DoctrineDef doctrine = null)
         {
-            if (plan.MovementNodes.Count > 0) return;
+            if (plan.MovementNodes.Count > 0) yield break;
             List<IntVec3> route = plan.ApproachPath.Where(cell => cell.InBounds(map)).ToList();
             if (route.Count == 0) route.Add(plan.Entry);
-            if (route.Any(cell => !cell.InBounds(map))) return;
+            if (route.Any(cell => !cell.InBounds(map))) yield break;
             RaidStructureSnapshot structure = map.GetComponent<MapComponent_RaidTacticalPlans>()
                 .GetStructure(plan.OrganizationId);
             bool Portal(int i) => route[i].GetEdifice(map) is Building_Door
@@ -97,6 +97,7 @@ namespace Helodrace
                 doctrine?.movementNodeSpan ?? 16);
             foreach (int index in indices)
             {
+                yield return 0;
                 bool last = index == route.Count - 1;
                 var node = new RaidMovementNode {
                     Id = plan.MovementNodes.Count, RouteIndex = index, Center = route[index],
@@ -120,6 +121,7 @@ namespace Helodrace
             }
             foreach (RaidMovementNode node in plan.MovementNodes)
             {
+                yield return 0;
                 int from = node.Id == 0 ? 0 : plan.MovementNodes[node.Id - 1].RouteIndex;
                 List<IntVec3> segment = route.Skip(from).Take(node.RouteIndex - from + 2).ToList();
                 CaptureConnection(map, structure, node, segment);
@@ -268,7 +270,6 @@ namespace Helodrace
             if (state.ApproachComplete) return true;
             RetargetBlockedStackMembers(members, plan, onlyBlocked: true);
             Map map = members[0].Map;
-            RaidNodeRoute.Prepare(map, plan, Helodrace.Squads.RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine);
             List<RaidTacticalAssignment> group = ApproachAssignments(members, plan, state, tick);
             if (group.Count == 0)
             {

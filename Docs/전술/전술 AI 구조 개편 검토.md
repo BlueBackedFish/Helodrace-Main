@@ -230,6 +230,6 @@ CQB와 야전은 임무·작업 생성 정책을 달리하고 같은 실행기�
 
 - [실행 상태와 단계 전환](../../Source/Helodrace/Core/RaidTacticalExecution.cs), [개인 노드 진행](../../Source/Helodrace/Core/RaidNodeMovement.cs), [접촉 경계 대응](../../Source/Helodrace/Core/RaidCqbContactResponse.cs).
 - [폰 명령과 Job 선택](../../Source/Helodrace/Core/RaidTacticalOrders.cs), [외벽 합류](../../Source/Helodrace/Core/RaidExteriorIngress.cs), [공유 돌파 공간](../../Source/Helodrace/Core/RaidSharedOpening.cs).
-- [계획 생성](../../Source/Helodrace/Core/RaidTacticalPlanner.cs), [계획 입장 예산](../../Source/Helodrace/Core/RaidPlanningBudget.cs), [국소 CQB 지도/복구](../../Source/Helodrace/Core/RaidCqbLocalMap.cs).
+- [계획 생성](../../Source/Helodrace/Core/RaidTacticalPlanner.cs), [공통 계획 요청과 분할 처리](../../Source/Helodrace/Core/RaidPlanningService.cs), [국소 CQB 지도/복구](../../Source/Helodrace/Core/RaidCqbLocalMap.cs).
 - [이동 비용과 Native 수명](../../Source/Helodrace/Core/RaidMovementArea.cs), [불변 값 워커](../../Source/Helodrace/Core/TacticalGeometry.cs), [물리 캐시와 관측 예산](../../Source/Helodrace/Core/RaidPhysicalMapCache.cs).
 - [지향점과 은엄폐 접근 기준](2단계%20수정%20방향%20-%20지향점과%20은엄폐%20접근.md), [바닐라 전투 구조 분석](바닐라%20전투%20구조와%20전술%20AI%20개선안.md), [8단계 통합 계획](분대%20협력%20진입과%20야전%20전술%20통합%20계획.md).

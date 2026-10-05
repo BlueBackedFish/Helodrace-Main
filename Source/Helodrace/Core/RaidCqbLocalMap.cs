@@ -204,9 +204,10 @@ namespace Helodrace
                 || insideRoom == occupied.Key && local.Path(observer.Position, plan.BreachInside).Count > 0);
             if (!alreadyInside && !wrongBreach) return false;
             if (tick - state.LastLocalReplanTick < 60) return false;
-            if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "intent")) return false;
+            RaidTacticalPlan next = map.GetComponent<MapComponent_RaidPlanningService>()
+                .Request(unit, "intent", plan.Objective, plan);
+            if (next == null) { HoldInvalidPlan(members, state); return true; }
             state.LastLocalReplanTick = tick;
-            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, plan.Objective);
             if (next?.Success != true || wrongBreach && next.PlannedBreach == plan.PlannedBreach) return false;
             if (alreadyInside && next.CqbIntent != RaidCqbIntent.ClearCurrentRoom) return false;
             if (state.Breacher?.CurJobDef?.defName == CompSledgehammerBreach.JobDefName
@@ -245,9 +246,10 @@ namespace Helodrace
                 || state.Phase != RaidExecutionPhase.Assemble && state.Phase != RaidExecutionPhase.Breach) return false;
             if ((state.SupportIssued || state.SupportLaunched)
                 && (SupportEffectsPending(state, tick) || state.SupportReturnRequired)) return false;
-            if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "entrance")) return false;
+            RaidTacticalPlan next = map.GetComponent<MapComponent_RaidPlanningService>()
+                .Request(unit, "entrance", plan.Objective, plan);
+            if (next == null) { HoldInvalidPlan(members, state); return true; }
             state.LastLocalReplanTick = tick;
-            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, plan.Objective);
             if (next?.Success != true
                 || !entryBlocked && plan.PlannedBreach != null && next.PlannedBreach == plan.PlannedBreach
                 || next.ReusePassage && !BreachOpened(next)) return false;
@@ -260,6 +262,16 @@ namespace Helodrace
             Assemble(members, next);
             MapComponent_RaidTacticalTrace.Record(observer, "Observed CQB entrance obstruction; replace committed entry plan");
             return true;
+        }
+
+        private static void HoldInvalidPlan(List<Pawn> members, ExecutionState state)
+        {
+            if (state.Breacher?.CurJobDef?.defName == CompSledgehammerBreach.JobDefName
+                || state.Breacher?.CurJobDef?.defName == "HD_PowerCutterBreach")
+                state.Breacher.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false);
+            foreach (Pawn pawn in members)
+                if (!MapComponent_RaidTacticalOrders.Protected(pawn))
+                    MapComponent_RaidTacticalOrders.Set(pawn, RaidOrderKind.Hold, pawn.Position);
         }
     }
 }

@@ -59,37 +59,44 @@ namespace Helodrace
             List<RaidRoomSecurityRecord> pending = state.RoomSecurity.Rooms
                 .Where(value => value.Room != occupied && cleared.Contains(value.Room) && value.RecentConcern(tick)
                     && tick >= value.NextAttemptTick).OrderByDescending(value => value.LastThreatTick).ToList();
-            if (pending.Count == 0) return false;
-            if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap(state.CqbKnowledge);
-            state.LocalCqb.Refresh(map, structure, observer, observer.Position, tick, current.AvoidedTrapCells,
-                observed: cell => CanObserveMapCell(members, cell));
-            var allowed = new HashSet<int>(cleared) { occupied };
-            HashSet<IntVec3> reachable = state.LocalCqb.Reachable(observer.Position, allowed);
-            foreach (RaidRoomSecurityRecord record in pending)
+            if (pending.Count == 0 && !state.PendingRecheckGoal.IsValid) return false;
+            if (!state.PendingRecheckGoal.IsValid)
             {
-                record.NextAttemptTick = tick + 180;
-                IntVec3 target = GenRadial.RadialCellsAround(record.Concern, 3f, true)
-                    .Where(cell => ValidReactiveCell(cell) && structure.RoomAt(cell) == record.Room
-                        && reachable.Contains(cell) && !current.AvoidedTrapCells.Contains(cell))
-                    .OrderBy(cell => cell.DistanceToSquared(record.Concern)).Take(16)
-                    .DefaultIfEmpty(IntVec3.Invalid).First();
-                if (!target.IsValid) continue;
-                RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, target);
-                // An attempted recheck consumes this update's plan allowance.
-                // The room stays pending; try another room on a later update.
-                if (next?.Success != true || next.PlannedBreach != null) return true;
-                next.ObjectiveIsIntermediate = true; next.ObjectiveIsRecheck = true;
-                next.BreachCell = next.BreachInside = IntVec3.Invalid;
-                next.ReusePassage = false;
-                next.EntryDelayTicks = next.CoordinationDelayTicks = 0;
-                next.Selected = new RaidTacticalOption { Maneuver = RaidTacticalManeuver.CoordinatedEntry,
-                    Score = 100f, Reason = "Recheck an observed contact using an already open passage" };
-                next.Options.Add(next.Selected);
-                ActivateNextRoomPlan(unit, members, state, next, tick);
-                MapComponent_RaidTacticalTrace.Record(observer, $"CQB recheck R{record.Room}: known open route to {target}; no repeated demolition or blind grenade");
-                return true;
+                if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap(state.CqbKnowledge);
+                state.LocalCqb.Refresh(map, structure, observer, observer.Position, tick, current.AvoidedTrapCells,
+                    observed: cell => CanObserveMapCell(members, cell));
+                var allowed = new HashSet<int>(cleared) { occupied };
+                HashSet<IntVec3> reachable = state.LocalCqb.Reachable(observer.Position, allowed);
+                foreach (RaidRoomSecurityRecord record in pending)
+                {
+                    record.NextAttemptTick = tick + 180;
+                    IntVec3 target = GenRadial.RadialCellsAround(record.Concern, 3f, true)
+                        .Where(cell => ValidReactiveCell(cell) && structure.RoomAt(cell) == record.Room
+                            && reachable.Contains(cell) && !current.AvoidedTrapCells.Contains(cell))
+                        .OrderBy(cell => cell.DistanceToSquared(record.Concern)).Take(16)
+                        .DefaultIfEmpty(IntVec3.Invalid).First();
+                    if (!target.IsValid) continue;
+                    state.PendingRecheckGoal = target;
+                    break;
+                }
             }
-            return false;
+            if (!state.PendingRecheckGoal.IsValid) return false;
+            IntVec3 requested = state.PendingRecheckGoal;
+            RaidTacticalPlan next = map.GetComponent<MapComponent_RaidPlanningService>()
+                .Request(unit, "recheck", requested, current);
+            if (next == null) return true;
+            state.PendingRecheckGoal = IntVec3.Invalid;
+            if (!next.Success || next.PlannedBreach != null) return true;
+            next.ObjectiveIsIntermediate = true; next.ObjectiveIsRecheck = true;
+            next.BreachCell = next.BreachInside = IntVec3.Invalid;
+            next.ReusePassage = false;
+            next.EntryDelayTicks = next.CoordinationDelayTicks = 0;
+            next.Selected = new RaidTacticalOption { Maneuver = RaidTacticalManeuver.CoordinatedEntry,
+                Score = 100f, Reason = "Recheck an observed contact using an already open passage" };
+            next.Options.Add(next.Selected);
+            ActivateNextRoomPlan(unit, members, state, next, tick);
+            MapComponent_RaidTacticalTrace.Record(observer, $"CQB recheck R{structure.RoomAt(requested)}: known open route to {requested}; no repeated demolition or blind grenade");
+            return true;
         }
     }
 }

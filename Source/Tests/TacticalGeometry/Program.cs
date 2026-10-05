@@ -10,16 +10,24 @@ internal static class Program
     private static int checks;
     private static void CheckObservationServices()
     {
-        var workBudget = new TacticalWorkBudget(3000, 2);
-        Check(workBudget.Admit("A", 0), "An ordinary planning action is admitted before the budget is spent");
-        workBudget.Record(5000, 0);
-        Check(!workBudget.Admit("B", 0) && !workBudget.Admit("C", 0),
-            "One indivisible planner may overrun, but it prevents another ordinary action in the same frame");
-        Check(!workBudget.Admit("A", 1) && workBudget.Admit("B", 1) && workBudget.Admit("C", 1),
-            "Already waiting units get the next frame before repeated planning from an earlier caller");
-        Check(workBudget.Admit("A", 2), "A deferred planning action remains eligible rather than becoming a failed objective");
-        Check(workBudget.Admit("D", 2) && !workBudget.Admit("E", 2), "Action count caps tiny planning work too");
-        Check(workBudget.Admit("F", 130), "A caller that stops requesting planning cannot lock all remaining units forever");
+        var slices = new TacticalSliceQueue<string>();
+        var trace = new System.Collections.Generic.List<string>();
+        slices.Add("map1/long"); slices.Add("map2/short"); slices.Add("map1/long");
+        int remaining = 4;
+        int count = slices.Run(10, () => remaining-- > 0, id => { trace.Add(id); return id.EndsWith("long"); });
+        Check(count == 4 && trace.SequenceEqual(new[] { "map1/long", "map2/short", "map1/long", "map1/long" }),
+            "Suspended long plans yield to another map, while duplicate submission cannot multiply work.");
+        Check(slices.Count == 1, "Finished requests leave the queue; suspended requests retain their continuation.");
+        slices.Add("cancelled"); slices.Remove("cancelled"); trace.Clear();
+        Check(slices.Run(1, () => true, id => { trace.Add(id); return true; }) == 1 && trace[0] == "map1/long",
+            "Cancelled and replaced work never executes a stale continuation.");
+        Check(slices.Run(10, () => false, _ => throw new Exception("Paused work executed")) == 0 && slices.Count == 1,
+            "A paused or spent global allowance neither executes nor loses pending work.");
+        Check(slices.Run(3, () => true, _ => true) == 3 && slices.Count == 1,
+            "Even tiny continuations cannot exceed the frame slice count limit.");
+        slices.Remove("map1/long"); slices.Remove("map1/long");
+        Check(slices.Count == 0 && slices.Run(3, () => true, _ => true) == 0,
+            "Removal is idempotent and an empty scheduler performs no work.");
         var leases = new TacticalOpeningLeases<int>();
         bool Nearby(int a, int b) => Math.Abs(a - b) <= 12;
         Check(leases.Acquire("front", 10, Nearby) && !leases.Acquire("tail", 10, Nearby),

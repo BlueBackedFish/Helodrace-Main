@@ -181,6 +181,7 @@ namespace Helodrace
             var movement = map.GetComponent<MapComponent_RaidMovementAreas>();
             var plans = map.GetComponent<MapComponent_RaidTacticalPlans>();
             var execution = map.GetComponent<MapComponent_RaidTacticalExecution>();
+            var scheduler = Current.Game.GetComponent<GameComponent_RaidPlanScheduler>();
             var phases = plans.Plans.GroupBy(plan => execution.StateFor(plan.UnitId)?.Phase.ToString() ?? "NoState")
                 .Select(group => group.Key + ":" + group.Count());
             var blocks = raiders.Where(pawn => pawn.Spawned).Select(MapComponent_RaidTacticalOrders.For)
@@ -195,6 +196,10 @@ namespace Helodrace
                 + ",\"warmupTicks\":" + warmupTicks + ",\"sampleTicks\":" + sampleTicks
                 + ",\"phases\":\"" + Escape(string.Join(",", phases)) + "\""
                 + ",\"successfulPlans\":" + plans.Plans.Count(plan => plan.Success)
+                + ",\"planningService\":{\"pending\":" + scheduler.Pending + ",\"slices\":" + scheduler.Slices
+                + ",\"completed\":" + scheduler.Completed + ",\"discarded\":" + scheduler.Discarded
+                + ",\"budgetStops\":" + scheduler.BudgetStops + ",\"maxSliceMs\":"
+                + scheduler.MaxSliceMilliseconds.ToString("0.000", CultureInfo.InvariantCulture) + "}"
                 + ",\"queueMaintenance\":{\"cleanupPasses\":" + execution.OpeningCleanupPasses
                 + ",\"leasePrunePasses\":" + execution.OpeningPrunePasses + "}"
                 + ",\"planningWork\":{\"maxBreachChecks\":" + plans.Plans.Select(plan => plan.Work.BreachChecks).DefaultIfEmpty().Max()

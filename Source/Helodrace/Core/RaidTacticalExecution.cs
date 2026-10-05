@@ -135,6 +135,8 @@ namespace Helodrace
             internal RaidTacticalPlan RoomSearchPlan;
             internal int RoomSearchRevision = -1;
             internal List<IntVec3> RoomSearchTargets;
+            internal IntVec3 PendingRoomGoal = IntVec3.Invalid;
+            internal IntVec3 PendingRecheckGoal = IntVec3.Invalid;
             internal RaidCqbLocalMap LocalCqb;
             internal int LastLocalReplanTick = -60;
             internal int LastCqbValidationTick = -30;
@@ -572,7 +574,7 @@ namespace Helodrace
                 RaidTacticalPlan plan = state?.ClearingRooms == true
                     ? state.ActivePlan != null && state.PlanKey == key
                         ? state.ActivePlan
-                        : RaidTacticalPlanner.MakePlan(map, unit, state.Objective)
+                        : map.GetComponent<MapComponent_RaidPlanningService>().Request(unit, "roster", state.Objective, state.ActivePlan)
                     : state?.ActivePlan?.Success == true && state.PlanKey == key
                         && state.Phase != RaidExecutionPhase.Hold
                         && state.Phase != RaidExecutionPhase.Complete
@@ -581,8 +583,9 @@ namespace Helodrace
                 {
                     if (plans.DecisionQueuedFor(unit.Id))
                     {
-                        foreach (Pawn member in members)
-                            MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
+                        if (state?.ActivePlan?.Success != true)
+                            foreach (Pawn member in members)
+                                MapComponent_RaidTacticalOrders.Set(member, RaidOrderKind.Hold, member.Position);
                         continue;
                     }
                     if (tick % 90 == 0) KeepSapperEscortTogether(unit);
@@ -677,6 +680,7 @@ namespace Helodrace
                 {
                     state.ActivePlan = plan;
                     state.Objective = plan.Objective;
+                    state.PendingRoomGoal = state.PendingRecheckGoal = IntVec3.Invalid;
                     state.ReadySince = -1;
                 }
                 Update(unit, members, state.ActivePlan, state, tick);
@@ -690,8 +694,9 @@ namespace Helodrace
                 {
                     if (state.ActivePlan.MovementNodes.Count > 0)
                     {
-                        if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "repair")) continue;
-                        RaidTacticalPlan repaired = RaidTacticalPlanner.MakePlan(map, unit, state.Objective);
+                        RaidTacticalPlan repaired = map.GetComponent<MapComponent_RaidPlanningService>()
+                            .Request(unit, "repair", state.Objective, state.ActivePlan);
+                        if (repaired == null) continue;
                         if (repaired?.Success == true)
                         {
                             MapComponent_RaidTacticalTrace.Record(Commander(unit, members),
@@ -2335,7 +2340,6 @@ namespace Helodrace
             if (structure == null) return false;
             // Deferred room planning keeps this phase active; it is not proof
             // that every remaining room has already been cleared.
-            if (!MapComponent_RaidPlanningBudget.Admit(map, unit.Id, "next-room")) return true;
             if (!state.ClearedRoomCells.Contains(current.Objective))
             {
                 state.ClearedRoomCells.Add(current.Objective);
@@ -2350,26 +2354,33 @@ namespace Helodrace
             Pawn observer = members.Where(pawn => structure.RoomAt(pawn.Position) == structure.RoomAt(current.Objective))
                 .OrderBy(pawn => pawn.Position.DistanceToSquared(current.Objective)).FirstOrDefault() ?? members[0];
             if (state.LocalCqb == null) state.LocalCqb = new RaidCqbLocalMap(state.CqbKnowledge);
-            if (TryPlanContactRecheck(unit, members, current, state, structure, cleared, observer, tick)) return true;
-            state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells,
-                observed: cell => CanObserveMapCell(members, cell));
-            if (state.RoomSearchPlan != current || state.RoomSearchRevision != state.LocalCqb.Revision)
+            if (!state.PendingRoomGoal.IsValid)
             {
-                state.RoomSearchPlan = current;
-                state.RoomSearchRevision = state.LocalCqb.Revision;
-                state.RoomPlanAttempts.Clear();
-                var rooms = new HashSet<int>(cleared) { structure.RoomAt(observer.Position) };
-                state.RoomSearchTargets = NextRoomTargets(state, structure, observer, cleared, tick)
-                    .Where(cell => cell.InBounds(map) && rooms.Add(structure.RoomAt(cell)))
-                    .Take(12).ToList();
+                if (TryPlanContactRecheck(unit, members, current, state, structure, cleared, observer, tick)) return true;
+                state.LocalCqb.Refresh(map, structure, observer, current.Objective, tick, current.AvoidedTrapCells,
+                    observed: cell => CanObserveMapCell(members, cell));
+                if (state.RoomSearchPlan != current || state.RoomSearchRevision != state.LocalCqb.Revision)
+                {
+                    state.RoomSearchPlan = current;
+                    state.RoomSearchRevision = state.LocalCqb.Revision;
+                    state.RoomPlanAttempts.Clear();
+                    var rooms = new HashSet<int>(cleared) { structure.RoomAt(observer.Position) };
+                    state.RoomSearchTargets = NextRoomTargets(state, structure, observer, cleared, tick)
+                        .Where(cell => cell.InBounds(map) && rooms.Add(structure.RoomAt(cell)))
+                        .Take(12).ToList();
+                }
+                if (!state.RoomPlanAttempts.TrySelect(state.RoomSearchTargets, tick,
+                        out IntVec3 target, out bool pending)) return pending;
+                state.PendingRoomGoal = target;
             }
-            if (!state.RoomPlanAttempts.TrySelect(state.RoomSearchTargets, tick,
-                    out IntVec3 target, out bool pending)) return pending;
-            // Exactly one full plan per room update, even if every candidate fails.
-            RaidTacticalPlan next = RaidTacticalPlanner.MakePlan(map, unit, target);
+            IntVec3 requested = state.PendingRoomGoal;
+            RaidTacticalPlan next = map.GetComponent<MapComponent_RaidPlanningService>()
+                .Request(unit, "next-room", requested, current);
+            if (next == null) return true;
+            state.PendingRoomGoal = IntVec3.Invalid;
             if (next?.Success != true || cleared.Contains(structure.RoomAt(next.Objective)))
             {
-                state.RoomPlanAttempts.Failed(target, tick);
+                state.RoomPlanAttempts.Failed(requested, tick);
                 return true;
             }
             next.ObjectiveIsIntermediate = true;
@@ -2413,6 +2424,7 @@ namespace Helodrace
             state.ContactGuards.Clear(); state.ContactPause = false;
             state.ActivePlan = next;
             state.Objective = next.Objective;
+            state.PendingRoomGoal = state.PendingRecheckGoal = IntVec3.Invalid;
             state.Maneuver = next.Selected.Maneuver;
             state.PlanKey = PlanKey(unit, members);
             state.ReadySince = -1;

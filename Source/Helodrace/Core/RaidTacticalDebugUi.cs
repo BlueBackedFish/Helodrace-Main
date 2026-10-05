@@ -131,8 +131,13 @@ namespace Helodrace
 
         private static string Report(RaidTacticalPlan plan)
         {
-            if (plan == null) return "Waiting for tactical structure: " + RaidTacticalDebugSession.Map
-                ?.GetComponent<MapComponent_TacticalMapAnalysis>()?.BuildStatus;
+            if (plan == null)
+            {
+                var pending = Current.Game.GetComponent<GameComponent_RaidPlanScheduler>();
+                return $"Waiting for structure or planning request: pending={pending.Pending}, slices={pending.Slices}, "
+                    + $"max slice={pending.MaxSliceMilliseconds:0.000} ms\n"
+                    + RaidTacticalDebugSession.Map?.GetComponent<MapComponent_TacticalMapAnalysis>()?.BuildStatus;
+            }
             if (!plan.Success) return "Plan unavailable: " + plan.Reason
                 + $" ({plan.PlanningMilliseconds} ms)";
             var report = new StringBuilder();
@@ -165,7 +170,10 @@ namespace Helodrace
                 + $"spatial builds={physical.SpatialBuilds} LOS checks/hits={physical.LosChecks}/{physical.LosHits} "
                 + $"observation deferrals={physical.ObservationBudget.Deferred}");
             report.AppendLine(RaidCpuProfiler.Report(RaidTacticalDebugSession.Map));
-            report.AppendLine($"Planning admission deferrals={RaidTacticalDebugSession.Map.GetComponent<MapComponent_RaidPlanningBudget>().Deferred}");
+            var scheduler = Current.Game.GetComponent<GameComponent_RaidPlanScheduler>();
+            report.AppendLine($"Planning service (all maps): pending={scheduler.Pending} slices={scheduler.Slices} "
+                + $"completed={scheduler.Completed} discarded={scheduler.Discarded} budget stops={scheduler.BudgetStops} "
+                + $"max slice={scheduler.MaxSliceMilliseconds:0.000} ms");
             if (plan.PlannedBreach != null)
                 report.AppendLine($"Breach={plan.PlannedBreach.LabelShort} at "
                     + $"{plan.BreachCell}  outside={plan.Entry}"
