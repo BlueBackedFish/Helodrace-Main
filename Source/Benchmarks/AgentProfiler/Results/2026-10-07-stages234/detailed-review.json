@@ -1,0 +1,50 @@
+﻿[
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-stages234\\detailed-before\\profiles\\capture-200.json",
+        "scenario":  18,
+        "population":  200,
+        "alive":  200,
+        "moved":  200,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-stages234\\detailed-before\\profiles\\capture-50.json",
+        "scenario":  16,
+        "population":  50,
+        "alive":  50,
+        "moved":  50,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-stages234\\detailed-after\\profiles\\capture-200.json",
+        "scenario":  18,
+        "population":  200,
+        "alive":  200,
+        "moved":  200,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-stages234\\detailed-after\\profiles\\capture-50.json",
+        "scenario":  16,
+        "population":  50,
+        "alive":  50,
+        "moved":  50,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    }
+]
