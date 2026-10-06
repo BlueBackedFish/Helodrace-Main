@@ -10,6 +10,11 @@ $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fi
 $response = & dotnet $cli compare $Capture $fixture
 if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'target sets differ') { throw 'Different target set was not rejected.' }
 $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
+$sample.reference.workload = 'different reference workload'
+$sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+$response = & dotnet $cli compare $Capture $fixture
+if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'reference') { throw 'Different Core reference was not rejected.' }
+$sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 $sample.endTick = $sample.startTick
 $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
 $response = & dotnet $cli compare $Capture $fixture
@@ -18,6 +23,7 @@ $response = & dotnet $cli hotspots $fixture inclusive 1
 if ($LASTEXITCODE -ne 0) { throw 'Zero-tick hotspot query failed.' }
 $hotspot = ($response -join "`n") | ConvertFrom-Json
 if ($null -ne $hotspot.methods[0].inclusiveMsPerTick) { throw 'Zero ticks did not produce null normalization.' }
+if ($null -ne $hotspot.methods[0].referencePercentPerTick) { throw 'Zero ticks did not produce null reference normalization.' }
 Remove-Item -LiteralPath $fixture
-Write-Output 'CLI checks passed: complete self comparison, differing targets rejected, zero ticks rejected, paused hotspot normalization.'
+Write-Output 'CLI checks passed: self comparison, differing targets/reference rejected, zero ticks rejected, paused reference normalization.'
 exit 0

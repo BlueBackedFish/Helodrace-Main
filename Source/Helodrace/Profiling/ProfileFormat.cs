@@ -10,11 +10,12 @@ namespace Helodrace.Profiling
         [DataMember] public bool cpuMeasured;
         [DataMember] public long calls, exceptions;
         [DataMember] public double inclusiveMs, trackedSelfMs, maxMs, threadCpuMs;
+        [DataMember] public double? referencePercentPerCall, referencePercentPerTick;
     }
     [DataContract]
     public sealed class ProfileSnapshot
     {
-        [DataMember] public int schema = 1;
+        [DataMember] public int schema = 2;
         [DataMember] public string label, utc, assemblySha256, gameVersion, runtime, operatingSystem, cpuSource;
         [DataMember] public string[] mods;
         [DataMember] public int startTick, endTick, startFrame, endFrame, population, scenario, speed, mapId;
@@ -22,6 +23,7 @@ namespace Helodrace.Profiling
         [DataMember] public long dropped;
         [DataMember] public bool complete;
         [DataMember] public ProfileMethod[] methods;
+        [DataMember] public ProfileReference reference;
     }
     [DataContract]
     public sealed class ProfileStatus

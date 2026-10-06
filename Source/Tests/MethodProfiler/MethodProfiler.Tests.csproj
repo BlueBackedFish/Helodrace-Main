@@ -4,5 +4,6 @@
     <Compile Include="../../Helodrace/Profiling/MethodCapture.cs" Link="MethodCapture.cs" />
     <Compile Include="../../Helodrace/Profiling/WindowsMethodClock.cs" Link="WindowsMethodClock.cs" />
     <Compile Include="../../Helodrace/Profiling/ProfileFormat.cs" Link="ProfileFormat.cs" />
+    <Compile Include="../../Helodrace/Profiling/ProfileReference.cs" Link="ProfileReference.cs" />
   </ItemGroup>
 </Project>

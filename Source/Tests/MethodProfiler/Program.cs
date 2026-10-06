@@ -24,6 +24,15 @@ using var stream = new MemoryStream();
 var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot)); serializer.WriteObject(stream, snapshot); stream.Position = 0;
 Check(((ProfileSnapshot)serializer.ReadObject(stream)).methods[0].method == "a\"한글", "structured JSON roundtrip");
 Console.WriteLine("Method profiler checks passed: nesting, exceptions, double finalizer, depth budget, stop drain, thread rejection, JSON.");
+var reference = new ProfileReference { method = "core", workload = "fixed", iterations = 10000, sampleMs = new[] { 1.0, 2.0, 100.0 } };
+Check(reference.MedianBatchMs == 2 && ReferenceMetrics.Percent(10, 10, reference) == 50, "median reference percentage");
+var slowerReference = new ProfileReference { method = "core", workload = "fixed", iterations = 10000, sampleMs = new[] { 2.0, 4.0, 200.0 } };
+Check(ReferenceMetrics.Percent(20, 10, slowerReference) == ReferenceMetrics.Percent(10, 10, reference), "common slowdown cancels");
+Check(ReferenceMetrics.Percent(10, 0, reference) == null && ReferenceMetrics.Percent(10, 1, null) == null, "missing/zero units do not divide");
+Check(ReferenceMetrics.Comparable(reference, slowerReference), "same reference workload");
+slowerReference.iterations = 1; Check(!ReferenceMetrics.Comparable(reference, slowerReference), "different workload rejected");
+reference.sampleMs = new[] { double.NaN }; Check(reference.MedianBatchMs == null, "invalid reference rejected");
+Console.WriteLine("Core reference checks passed: robust median, environmental scale, invalid data and workload validation.");
 if (OperatingSystem.IsWindows())
 {
     var windows = new WindowsMethodClock();

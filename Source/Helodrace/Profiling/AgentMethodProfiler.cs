@@ -29,8 +29,9 @@ namespace Helodrace.Profiling
         private static bool initialized, failed;
         private static MethodCapture capture;
         private static ProfileSnapshot snapshot;
+        private static CoreReferenceCalibration reference;
         private static long started;
-        private static double deadline, nextPoll;
+        private static double deadline, nextPoll, nextReference;
 
         internal static bool Initialize()
         {
@@ -40,6 +41,7 @@ namespace Helodrace.Profiling
             try
             {
                 root = Path.GetFullPath(path); Directory.CreateDirectory(root);
+                CoreReferenceCalibration.WarmUp();
                 using (var sha = SHA256.Create())
                     hash = BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(typeof(AgentMethodProfiler).Assembly.Location))).Replace("-", "").ToLowerInvariant();
                 bool detailed = GenCommandLine.TryGetCommandLineArg("hdMethodProfilePreset", out string preset) && preset == "detailed";
@@ -79,6 +81,8 @@ namespace Helodrace.Profiling
                 foreach (MethodInfo target in targets)
                     harmony.Patch(target, prefix: new HarmonyMethod(typeof(AgentMethodProfiler), nameof(Enter)),
                         finalizer: new HarmonyMethod(typeof(AgentMethodProfiler), nameof(Leave)));
+                if (targets.Any(m => m.DeclaringType == typeof(GenRadial) && m.Name == nameof(GenRadial.NumCellsInRadius)))
+                    throw new ArgumentException("The Core calibration method cannot also be instrumented.");
                 Write("capabilities.json", new ProfileSnapshot { label = "main-thread selective instrumentation; no native sampler",
                     assemblySha256 = hash, cpuSource = "GetThreadTimes (coarse); elapsed Stopwatch; self excludes tracked children only",
                     methods = targets.Select((m, i) => new ProfileMethod { id = i, method = Signature(m), cpuMeasured = CpuTarget(m) }).ToArray() });
@@ -125,6 +129,8 @@ namespace Helodrace.Profiling
                 cpuSource = cpu ? "Windows GetThreadTimes; user+kernel, 100ns units, coarse resolution" : "disabled",
                 startTick = GenTicks.TicksGame, startFrame = Time.frameCount, scenario = scenario, population = population, speed = speed,
                 mapId = Find.CurrentMap?.uniqueID ?? -1 };
+            reference = new CoreReferenceCalibration(); reference.Sample();
+            nextReference = Time.realtimeSinceStartup + 1;
             started = clock.Timestamp(); deadline = Time.realtimeSinceStartup + Math.Max(1, Math.Min(300, seconds));
             capture = new MethodCapture(clock, targets.Select(m => cpu && CpuTarget(m)).ToArray());
             Status();
@@ -138,11 +144,14 @@ namespace Helodrace.Profiling
             capture = null;
             snapshot.endTick = GenTicks.TicksGame; snapshot.endFrame = Time.frameCount;
             snapshot.wallSeconds = (clock.Timestamp() - started) / (double)clock.Frequency;
+            reference.Sample(); snapshot.reference = reference.Snapshot();
             snapshot.dropped = current.Dropped; snapshot.complete = current.Dropped == 0;
             snapshot.methods = targets.Select((m, i) => new ProfileMethod { id = i, method = Signature(m),
                 cpuMeasured = snapshot.cpuSource != "disabled" && CpuTarget(m), calls = current.Calls[i], exceptions = current.Errors[i],
                 inclusiveMs = current.Milliseconds(current.Inclusive[i]), trackedSelfMs = current.Milliseconds(current.TrackedSelf[i]),
-                maxMs = current.Milliseconds(current.Maximum[i]), threadCpuMs = current.CpuTicks[i] / 10000.0 }).ToArray();
+                maxMs = current.Milliseconds(current.Maximum[i]), threadCpuMs = current.CpuTicks[i] / 10000.0,
+                referencePercentPerCall = ReferenceMetrics.Percent(current.Milliseconds(current.Inclusive[i]), current.Calls[i], snapshot.reference),
+                referencePercentPerTick = ReferenceMetrics.Percent(current.Milliseconds(current.Inclusive[i]), snapshot.endTick - snapshot.startTick, snapshot.reference) }).ToArray();
             latest = "capture-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff") + "-" + snapshot.startTick + ".json";
             Write(latest, snapshot); Status();
         }
@@ -152,6 +161,13 @@ namespace Helodrace.Profiling
             try
             {
                 if (capture != null && Time.realtimeSinceStartup >= deadline) End();
+                if (capture != null && Time.realtimeSinceStartup >= nextReference)
+                {
+                    // Exclude calibration (and any patched callees) from target statistics.
+                    MethodCapture current = capture; capture = null;
+                    try { reference.Sample(); } finally { capture = current; }
+                    nextReference = Time.realtimeSinceStartup + 1;
+                }
                 if (Time.realtimeSinceStartup < nextPoll) return;
                 nextPoll = Time.realtimeSinceStartup + 0.25;
                 string command = Path.Combine(root, "command.json");

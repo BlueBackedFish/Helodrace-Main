@@ -6,5 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../Helodrace/Profiling/ProfileFormat.cs" Link="ProfileFormat.cs" />
+    <Compile Include="../../Helodrace/Profiling/ProfileReference.cs" Link="ProfileReference.cs" />
   </ItemGroup>
 </Project>
