@@ -113,6 +113,23 @@ internal static class Program
                 + (value.Z - source.Z) * (value.Z - source.Z) <= 8100).All(value => candidates.Contains(value.Id)),
                 "Spatial broad phase cannot lose an in-range pawn at map edges or chunk boundaries");
         }
+        foreach (var group in positions.Chunk(13))
+        {
+            int minX = group.Min(p => p.X) - 90, minZ = group.Min(p => p.Z) - 90;
+            int maxX = group.Max(p => p.X) + 90, maxZ = group.Max(p => p.Z) + 90;
+            var candidates = index.QueryBounds(minX, minZ, maxX, maxZ).ToArray();
+            var oldUnion = group.SelectMany(p => index.Query(p.X, p.Z, 90)).Distinct().ToArray();
+            Check(candidates.Length == candidates.Distinct().Count() && oldUnion.All(candidates.Contains),
+                "One squad rectangle preserves every member's broad-phase candidate without duplicates");
+            bool InRange(int id) => group.Any(p => (positions[id].X - p.X) * (positions[id].X - p.X)
+                + (positions[id].Z - p.Z) * (positions[id].Z - p.Z) <= 8100);
+            Check(candidates.Where(InRange).Order().SequenceEqual(oldUnion.Where(InRange).Order()),
+                "Exact distance filtering preserves the old observation candidates for scattered squads");
+        }
+        index.Add(400, -17, -1);
+        index.Add(401, 0, 0);
+        Check(index.QueryBounds(-17, -1, -17, -1).SequenceEqual(new[] { 400 })
+            && !index.QueryBounds(10, 10, 0, 0).Any(), "Negative bucket boundaries and empty rectangles are safe");
         index.Clear(); Check(!index.Query(0, 0, 600).Any(), "Spatial rebuild discards departed pawn entries");
         var budget = new TacticalServiceBudget(96, 10, 32);
         Check(budget.Grant("A", 0, 96) == 96 && budget.Grant("B", 0, 96) == 0,

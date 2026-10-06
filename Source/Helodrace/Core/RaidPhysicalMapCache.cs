@@ -83,10 +83,16 @@ namespace Helodrace
                     pawns.Add(pawn, pawn.Position.x, pawn.Position.z);
                 pawnTick = tick; pawnCount = map.mapPawns.AllPawnsSpawned.Count; SpatialBuilds++;
             }
-            var seen = new HashSet<Pawn>();
+            int minX = int.MaxValue, minZ = int.MaxValue, maxX = int.MinValue, maxZ = int.MinValue;
             foreach (Pawn member in members)
-                foreach (Pawn pawn in pawns.Query(member.Position.x, member.Position.z, radius + 16))
-                    if (pawn.Spawned && pawn.Map == map && seen.Add(pawn)) yield return pawn;
+            {
+                minX = Math.Min(minX, member.Position.x); minZ = Math.Min(minZ, member.Position.z);
+                maxX = Math.Max(maxX, member.Position.x); maxZ = Math.Max(maxZ, member.Position.z);
+            }
+            if (minX == int.MaxValue) yield break;
+            int margin = radius + 16;
+            foreach (Pawn pawn in pawns.QueryBounds(minX - margin, minZ - margin, maxX + margin, maxZ + margin))
+                if (pawn.Spawned && pawn.Map == map) yield return pawn;
         }
         internal bool ClearLine(IntVec3 source, IntVec3 target, int tick, Func<bool> calculate)
         {

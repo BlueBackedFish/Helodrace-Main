@@ -19,10 +19,15 @@ namespace Helodrace
             values.Add(value);
         }
         // Caller does exact circle/distance/hostility checks after this broad phase.
-        internal IEnumerable<T> Query(int x, int z, int radius)
+        internal IEnumerable<T> Query(int x, int z, int radius) =>
+            QueryBounds(x - radius, z - radius, x + radius, z + radius);
+        // A squad's encompassing rectangle visits each bucket and candidate once.
+        // Extra candidates are harmless: the caller still filters exact distance.
+        internal IEnumerable<T> QueryBounds(int minX, int minZ, int maxX, int maxZ)
         {
-            for (int bx = Bucket(x - radius); bx <= Bucket(x + radius); bx++)
-                for (int bz = Bucket(z - radius); bz <= Bucket(z + radius); bz++)
+            if (minX > maxX || minZ > maxZ) yield break;
+            for (int bx = Bucket(minX); bx <= Bucket(maxX); bx++)
+                for (int bz = Bucket(minZ); bz <= Bucket(maxZ); bz++)
                     if (buckets.TryGetValue(Key(bx, bz), out List<T> values))
                         foreach (T value in values) yield return value;
         }
