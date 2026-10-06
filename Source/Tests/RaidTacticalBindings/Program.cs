@@ -56,6 +56,7 @@ internal static class Program
             typeof(Patch_RaidMovementArea_ReadersCompleted),
             typeof(Patch_RaidNodeMovement_AllowedStep),
             typeof(Patch_EdgeWalkInGroups_Organization),
+            typeof(Patch_RaidStrategy_OrganizationMinimum),
             typeof(Patch_BreachedDoor_NoRandomBreakdown), typeof(Patch_BreachedDoor_AlwaysOpen),
             typeof(Patch_BreachedDoor_FreePassage), typeof(Patch_BreachedDoor_BreakdownRepaired),
             typeof(Patch_BreachedDoor_OrdinaryRepair), typeof(Patch_DebugSettings_RaidTacticalOverlay),
@@ -98,6 +99,7 @@ internal static class Program
             CheckSharedStructureVersions();
             RaidPlanningWorkTests.Run();
             RaidResumableRouteTests.Run();
+            RaidSpawnGenerationTests.Run();
             RaidExecutionSchedulerTests.Run();
         RaidPawnCommandTests.Run();
             CheckSmokeGases();

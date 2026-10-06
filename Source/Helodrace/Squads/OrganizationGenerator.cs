@@ -210,4 +210,22 @@ namespace Helodrace.Squads
             return false;
         }
     }
+
+    // Native incidents adjust their points before GeneratePawns. A complete
+    // organization cannot use the vanilla minimum cost of one individual pawn.
+    [HarmonyPatch(typeof(RaidStrategyWorker), nameof(RaidStrategyWorker.MinimumPoints))]
+    public static class Patch_RaidStrategy_OrganizationMinimum
+    {
+        public static bool Prefix(Faction faction, PawnGroupKindDef groupKind, ref float __result)
+        {
+            DoctrineDef doctrine = faction?.def?.GetModExtension<FactionOrganizationExtension>()?.doctrine;
+            if (groupKind != PawnGroupKindDefOf.Combat || doctrine == null) return true;
+            List<FormationDef> candidates = doctrine.availableFormations
+                .Where(formation => formation != null && !formation.ConfigErrors().Any()).ToList();
+            if (candidates.Count == 0) return true;
+            __result = candidates.Min(formation => formation.FormationCost)
+                / (1f + doctrine.formationPointTolerance);
+            return false;
+        }
+    }
 }

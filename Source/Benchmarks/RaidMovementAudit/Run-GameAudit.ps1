@@ -4,7 +4,8 @@ param(
     [string]$Cases = '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19',
     [int]$WarmupTicks = 300,
     [int]$SampleTicks = 600,
-    [switch]$Functional
+    [switch]$Functional,
+    [switch]$SpawnCommands
 )
 $ErrorActionPreference = 'Stop'
 if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) {
@@ -34,6 +35,7 @@ $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -Wo
     ("-hdRaidMovementAuditCases=$Cases"),
     ("-hdRaidMovementAuditWarmup=$WarmupTicks"), ("-hdRaidMovementAuditSample=$SampleTicks"),
     $(if ($Functional) { '-hdRaidMovementAuditFunctional=true' } else { '-hdRaidMovementAuditFunctionalDisabled=true' }),
+    $(if ($SpawnCommands) { '-hdRaidSpawnAudit=true' } else { '-hdRaidSpawnAuditDisabled=true' }),
     '-logFile', ('"' + $auditPath + '\Player.log"'), '-screen-width', '800', '-screen-height', '600', '-screen-fullscreen', '0'
 )
 $process.Id | Set-Content -LiteralPath (Join-Path $auditPath 'process-id.txt')

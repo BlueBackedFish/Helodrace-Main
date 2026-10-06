@@ -46,12 +46,15 @@ namespace Helodrace
         private bool initialized, finished;
         private readonly int warmupTicks = 300, sampleTicks = 600;
         private readonly bool functional;
+        private readonly bool spawnCommands;
+        private RaidSpawnRuntimeAudit spawnAudit;
         private RaidMovementFunctionalAudit functionalAudit;
         private readonly int[] populations = { 0, 50, 100, 200, 400 };
         public MapComponent_RaidMovementRuntimeAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out output);
             functional = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditFunctional", out _);
+            spawnCommands = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidSpawnAudit", out _);
             if (output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditWarmup", out string warmup))
                 warmupTicks = int.Parse(warmup);
             if (output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSample", out string sample))
@@ -98,8 +101,14 @@ namespace Helodrace
                     }
                     BeginCase();
                 }
-                Find.TickManager.CurTimeSpeed = functional ? TimeSpeed.Superfast
+                Find.TickManager.CurTimeSpeed = functional || spawnCommands ? TimeSpeed.Superfast
                     : scenario < 10 ? TimeSpeed.Normal : TimeSpeed.Fast;
+                if (spawnCommands)
+                {
+                    if (spawnAudit == null) spawnAudit = new RaidSpawnRuntimeAudit(map, owner, output, PrepareCaseBuildings);
+                    if (spawnAudit.Update()) { finished = true; Application.Quit(); }
+                    return;
+                }
                 if (functional)
                 {
                     if (functionalAudit == null) functionalAudit = new RaidMovementFunctionalAudit(map, raiders, owner, output);
@@ -134,29 +143,8 @@ namespace Helodrace
             scenario = cases[sequenceIndex];
             int count = populations[scenario % 5]; bool tactical = scenario % 10 >= 5;
             if (functional) { count = 11; tactical = true; }
-            void Place(ThingDef def, IntVec3 position)
-            {
-                Building building = (Building)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.Steel : null);
-                building.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(building, position, map, WipeMode.Vanish);
-                buildings.Add(building);
-            }
-            for (int x = 100; x <= 140; x++) { Place(ThingDefOf.Wall, new IntVec3(x, 0, 100)); Place(ThingDefOf.Wall, new IntVec3(x, 0, 136)); }
-            for (int z = 101; z < 136; z++)
-            {
-                Place(ThingDefOf.Wall, new IntVec3(100, 0, z)); Place(ThingDefOf.Wall, new IntVec3(140, 0, z));
-                Place(z == 116 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(120, 0, z));
-            }
-            for (int x = 101; x < 140; x++) for (int z = 101; z < 136; z++)
-                map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
-            if (functional)
-            {
-                new IntVec3(120, 0, 130).GetEdifice(map).Destroy(DestroyMode.Vanish);
-                Place(ThingDefOf.Door, new IntVec3(120, 0, 130));
-                for (int x = 101; x < 140; x++) if (x != 120) Place(ThingDefOf.Wall, new IntVec3(x, 0, 123));
-            }
-            Place(ThingDefOf.Bed, new IntVec3(134, 0, 117));
-            ((Building_Bed)buildings.Last()).CompAssignableToPawn.TryAssignPawn(owner);
-            owner.pather.StopDead(); owner.Position = new IntVec3(133, 0, 116);
+            if (spawnCommands) count = 0;
+            PrepareCaseBuildings();
             var formation = DefDatabase<FormationDef>.GetNamed("HD_Formation_GW_RifleSquad");
             var doctrine = DefDatabase<DoctrineDef>.GetNamed("HD_Doctrine_GreatWar");
             var rifle = DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman");
@@ -196,6 +184,34 @@ namespace Helodrace
             caseTick = GenTicks.TicksGame; measuredTick = -1;
             RaidCpuProfiler.Reset(map);
             Log.Message($"Raid audit case {scenario}: count={count}, tactical={tactical}, speed={(scenario < 10 ? 1 : 3)}");
+        }
+        private void PrepareCaseBuildings()
+        {
+            foreach (Building building in buildings) if (!building.Destroyed) building.Destroy(DestroyMode.Vanish);
+            buildings.Clear();
+            void Place(ThingDef def, IntVec3 position)
+            {
+                Building building = (Building)ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.Steel : null);
+                building.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(building, position, map, WipeMode.Vanish);
+                buildings.Add(building);
+            }
+            for (int x = 100; x <= 140; x++) { Place(ThingDefOf.Wall, new IntVec3(x, 0, 100)); Place(ThingDefOf.Wall, new IntVec3(x, 0, 136)); }
+            for (int z = 101; z < 136; z++)
+            {
+                Place(ThingDefOf.Wall, new IntVec3(100, 0, z)); Place(ThingDefOf.Wall, new IntVec3(140, 0, z));
+                Place(z == 116 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(120, 0, z));
+            }
+            for (int x = 101; x < 140; x++) for (int z = 101; z < 136; z++)
+                map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
+            if (functional)
+            {
+                new IntVec3(120, 0, 130).GetEdifice(map).Destroy(DestroyMode.Vanish);
+                Place(ThingDefOf.Door, new IntVec3(120, 0, 130));
+                for (int x = 101; x < 140; x++) if (x != 120) Place(ThingDefOf.Wall, new IntVec3(x, 0, 123));
+            }
+            Place(ThingDefOf.Bed, new IntVec3(134, 0, 117));
+            ((Building_Bed)buildings.Last()).CompAssignableToPawn.TryAssignPawn(owner);
+            owner.pather.StopDead(); owner.Position = new IntVec3(133, 0, 116);
         }
         private void FinishCase()
         {

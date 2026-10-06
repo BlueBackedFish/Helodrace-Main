@@ -1194,8 +1194,14 @@ namespace Helodrace
             var frontier = new SortedDictionary<int, Queue<IntVec3>>();
             var distance = new Dictionary<IntVec3, int> { [from] = 0 };
             var previous = new Dictionary<IntVec3, IntVec3>();
-            Enqueue(from, 100 * (Math.Abs(from.x - to.x)
-                + Math.Abs(from.z - to.z)));
+            // Outdoor walking already costs at least 135 on exposed ground.
+            // A 100-cost heuristic spreads across thousands of unrelated cells
+            // on long map-edge approaches and can exhaust every retry's limit.
+            // Prefer progress toward the goal outdoors; cover/exposure still
+            // contribute to actual costs. Indoor searches retain their weight.
+            int heuristicCost = analysis.IsIndoor(from) ? 100 : 150;
+            int Heuristic(IntVec3 cell) => heuristicCost * (Math.Abs(cell.x - to.x) + Math.Abs(cell.z - to.z));
+            Enqueue(from, Heuristic(from));
             IntVec3[] directions = { IntVec3.North, IntVec3.East,
                 IntVec3.South, IntVec3.West };
             int slice = 0;
@@ -1206,8 +1212,7 @@ namespace Helodrace
                 IntVec3 cell = first.Value.Dequeue();
                 if (first.Value.Count == 0) frontier.Remove(first.Key);
                 int cost = distance[cell];
-                if (first.Key != cost + 100 * (Math.Abs(cell.x - to.x)
-                    + Math.Abs(cell.z - to.z))) continue;
+                if (first.Key != cost + Heuristic(cell)) continue;
                 if (cell == to)
                 {
                     result.Add(to);
@@ -1238,8 +1243,7 @@ namespace Helodrace
                     if (distance.TryGetValue(next, out int oldCost) && nextCost >= oldCost) continue;
                     distance[next] = nextCost;
                     previous[next] = cell;
-                    Enqueue(next, nextCost + 100 * (Math.Abs(next.x - to.x)
-                        + Math.Abs(next.z - to.z)));
+                    Enqueue(next, nextCost + Heuristic(next));
                 }
             }
             yield break;

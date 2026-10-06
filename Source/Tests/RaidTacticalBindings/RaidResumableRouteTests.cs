@@ -61,6 +61,40 @@ internal static class RaidResumableRouteTests
         while ((bool)AccessTools.Method(work.GetType(), "TryRouteStep").Invoke(work, null)) { }
         Check(!Run().MoveNext() && result.Count == 0 && (bool)AccessTools.Property(work.GetType(), "Limited").GetValue(work),
             "Exhausting the common allowance cannot start a fresh unbounded route on another slice.");
-        Console.WriteLine($"PASS: {checks} real resumable route frontier, reconstruction and shared allowance checks.");
+        // A native edge raid starts far farther out than the old 75x5 corridor.
+        // Exercise real outdoor cost/heuristic with the same 4096-node allowance.
+        const int outdoorSize = 210;
+        input = Activator.CreateInstance(inputType, new object[] { outdoorSize, outdoorSize });
+        cells = (Array)AccessTools.Field(inputType, "Cells").GetValue(input);
+        for (int i = 0; i < cells.Length; i++)
+        {
+            object cell = Activator.CreateInstance(rawType);
+            AccessTools.Field(rawType, "Flags").SetValue(cell, Enum.Parse(flagsType, "Standable"));
+            cells.SetValue(cell, i);
+        }
+        geometry = AccessTools.Method(assembly.GetType("Helodrace.TacticalGeometry"), "Calculate")
+            .Invoke(null, new object[] { input, CancellationToken.None });
+        version = (TacticalStructureVersion)Activator.CreateInstance(typeof(TacticalStructureVersion),
+            BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { (object)20, geometry }, null);
+        map.info.Size = new IntVec3(outdoorSize, 1, outdoorSize);
+        map.cellIndices = new CellIndices(outdoorSize, outdoorSize);
+        snapshot = (RaidStructureSnapshot)Activator.CreateInstance(typeof(RaidStructureSnapshot),
+            BindingFlags.Instance | BindingFlags.NonPublic, null, new object[] { map, version, "OutdoorRouteTest" }, null);
+        walkable.Clear(); for (int i = 0; i < cells.Length; i++) walkable[i] = true;
+        work = Activator.CreateInstance(assembly.GetType("Helodrace.RaidPlanningWork"), true);
+        AccessTools.Field(navType, "Work").SetValue(nav, work);
+        Type threatType = typeof(RaidTacticalPlanner).GetNestedType("FieldThreatSnapshot", BindingFlags.NonPublic);
+        object threat = Activator.CreateInstance(threatType, new object[] { map, Array.Empty<Pawn>() });
+        from = new IntVec3(3, 0, 3); to = new IntVec3(190, 0, 180);
+        result.Clear(); traps.Clear(); traps.Add(new IntVec3(190, 0, 179));
+        route = ((IEnumerable)AccessTools.Method(typeof(RaidTacticalPlanner), "RouteCoreSteps")
+            .Invoke(null, new object[] { map, snapshot, threat, from, to, traps, null, nav, result })).GetEnumerator();
+        resumes = 0; while (route.MoveNext()) { if (++resumes > 200) throw new Exception("Outdoor route never completed"); }
+        Check(result.Count > 0 && result[0] == from && result[result.Count - 1] == to,
+            "A distant native map-edge approach completes instead of exhausting every repeated first decision.");
+        Check(Steps() < 4096 && !(bool)AccessTools.Property(work.GetType(), "Limited").GetValue(work),
+            "The actual exposed-ground route fits the unchanged shared planning allowance.");
+        Check(!result.Contains(new IntVec3(190, 0, 179)), "Goal-directed outdoor searches still enforce trap avoidance.");
+        Console.WriteLine($"PASS: {checks} real resumable indoor/outdoor route, reconstruction and shared allowance checks.");
     }
 }
