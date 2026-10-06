@@ -20,7 +20,7 @@ namespace Helodrace
         internal static Exception Leave(Exception error, bool entered) { if (entered) Rand.PopState(); return error; }
         internal static string Fingerprint(Map map)
         {
-            var text = new StringBuilder().Append(map.Size).Append('|').Append(map.Tile);
+            var text = new StringBuilder().Append(map.Size);
             foreach (IntVec3 cell in map.AllCells)
                 text.Append('|').Append(map.terrainGrid.TerrainAt(cell).defName).Append(':')
                     .Append(cell.GetEdifice(map)?.def.defName).Append(':').Append(map.roofGrid.RoofAt(cell)?.defName);

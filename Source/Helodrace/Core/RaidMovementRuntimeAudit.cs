@@ -91,7 +91,7 @@ namespace Helodrace
                     if (!faction.HostileTo(Faction.OfPlayer)) throw new InvalidOperationException("Audit faction is not hostile.");
                     owner = map.mapPawns.FreeColonists.First(); ProtectedOwner = owner;
                     foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList()) if (pawn != owner) pawn.Destroy(DestroyMode.Vanish);
-                    foreach (IntVec3 cell in CellRect.FromLimits(new IntVec3(45, 0, 65), new IntVec3(155, 0, 170)))
+                    foreach (IntVec3 cell in map.AllCells)
                     {
                         foreach (Thing thing in cell.GetThingList(map).ToList())
                             if (!(thing is Pawn))
@@ -126,7 +126,7 @@ namespace Helodrace
                     measuredTick = GenTicks.TicksGame; measuredFrame = Time.frameCount; measuredTime = Stopwatch.GetTimestamp();
                     RaidCpuProfiler.Reset(map);
                     GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out string seed);
-                    benchmark = new Profiling.ProfileBenchmark { seed = seed, mapFingerprint = fingerprint,
+                    benchmark = new Profiling.ProfileBenchmark { fixtureVersion = 2, seed = seed, mapFingerprint = fingerprint,
                         faction = faction.def.defName, requestedPopulation = populations[scenario % 5],
                         warmupTicks = warmupTicks, sampleTicks = sampleTicks, startPhases = Phases(),
                         unitCount = map.GetComponent<MapComponent_RaidTacticalPlans>().Plans.Count(),

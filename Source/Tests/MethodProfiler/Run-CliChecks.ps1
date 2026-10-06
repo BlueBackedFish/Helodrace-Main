@@ -26,6 +26,10 @@ $response = & dotnet $cli compare $Capture $fixture
 if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'benchmark') { throw 'Different benchmark phase was not rejected.' }
 $response = & dotnet $cli aggregate $Capture $Capture
 if ($LASTEXITCODE -ne 0 -or (($response -join "`n") | ConvertFrom-Json).groups[0].runs -ne 2) { throw 'Repeated compatible captures did not aggregate.' }
+$response = & dotnet $cli benchmark-compare $Capture $Capture
+if ($LASTEXITCODE -ne 0 -or (($response -join "`n") | ConvertFrom-Json).groups[0].methods[0].deltaReferencePercentagePoints -ne 0) { throw 'Repeated self comparison was not zero.' }
+$response = & dotnet $cli benchmark-compare $Capture $fixture
+if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'matching benchmark') { throw 'Different phase aggregated comparison was not rejected.' }
 $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 $sample.endTick = $sample.startTick
 $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture

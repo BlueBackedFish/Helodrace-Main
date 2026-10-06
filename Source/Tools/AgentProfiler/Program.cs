@@ -33,6 +33,8 @@ internal static class Program
         }
     }
     private static void Print(object value) => Console.WriteLine(JsonSerializer.Serialize(value, options));
+    private static ProfileSnapshot[] Captures(IEnumerable<string> paths) => paths.SelectMany(path => Directory.Exists(path)
+        ? Directory.GetFiles(path, "capture-*.json", SearchOption.AllDirectories) : new[] { path }).Select(Read<ProfileSnapshot>).ToArray();
     private static int Main(string[] args)
     {
         try
@@ -58,6 +60,8 @@ internal static class Program
                                 inclusiveMsPerTick = ticks > 0 ? m.inclusiveMs / ticks : (double?)null,
                                 referencePercentPerCall = ReferenceMetrics.Percent(m.inclusiveMs, m.calls, capture.reference),
                                 referencePercentPerTick = ReferenceMetrics.Percent(m.inclusiveMs, ticks, capture.reference),
+                                p95ReferencePercent = ReferenceMetrics.Percent(m.p95Ms, 1, capture.reference),
+                                p99ReferencePercent = ReferenceMetrics.Percent(m.p99Ms, 1, capture.reference),
                                 selfReferencePercentPerTick = ReferenceMetrics.Percent(m.trackedSelfMs, ticks, capture.reference) }) }); break;
                 case "compare":
                     var before = Read<ProfileSnapshot>(args[1]); var after = Read<ProfileSnapshot>(args[2]);
@@ -94,11 +98,16 @@ internal static class Program
                             deltaReferencePercentagePoints = ReferenceMetrics.Percent(m.inclusiveMs, after.endTick - after.startTick, after.reference)
                                 - ReferenceMetrics.Percent(old[m.method].inclusiveMs, before.endTick - before.startTick, before.reference),
                             beforeP95Ms = old[m.method].p95Ms, afterP95Ms = m.p95Ms,
-                            beforeP99Ms = old[m.method].p99Ms, afterP99Ms = m.p99Ms })
+                            beforeP99Ms = old[m.method].p99Ms, afterP99Ms = m.p99Ms,
+                            beforeP95ReferencePercent = ReferenceMetrics.Percent(old[m.method].p95Ms, 1, before.reference),
+                            afterP95ReferencePercent = ReferenceMetrics.Percent(m.p95Ms, 1, after.reference),
+                            beforeP99ReferencePercent = ReferenceMetrics.Percent(old[m.method].p99Ms, 1, before.reference),
+                            afterP99ReferencePercent = ReferenceMetrics.Percent(m.p99Ms, 1, after.reference) })
                             .OrderByDescending(m => Math.Abs(m.deltaReferencePercentagePoints ?? 0)).Take(25) }); break;
                 case "aggregate":
-                    Print(BenchmarkAggregate.Summarize(args.Skip(1).SelectMany(path => Directory.Exists(path)
-                        ? Directory.GetFiles(path, "capture-*.json", SearchOption.AllDirectories) : new[] { path }).Select(Read<ProfileSnapshot>).ToArray())); break;
+                    Print(BenchmarkAggregate.Summarize(Captures(args.Skip(1)))); break;
+                case "benchmark-compare":
+                    Print(BenchmarkAggregate.Compare(Captures(new[] { args[1] }), Captures(new[] { args[2] }))); break;
                 case "start": case "stop": case "status":
                     var root = Path.GetFullPath(args[1]);
                     if (!File.Exists(Path.Combine(root, "capabilities.json"))) throw new ArgumentException("No profiler handshake. Launch the game with -hdMethodProfile=ROOT first.");
