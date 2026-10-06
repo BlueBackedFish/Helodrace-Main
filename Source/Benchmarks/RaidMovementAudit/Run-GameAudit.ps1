@@ -5,7 +5,12 @@ param(
     [int]$WarmupTicks = 300,
     [int]$SampleTicks = 600,
     [switch]$Functional,
-    [switch]$SpawnCommands
+    [switch]$SpawnCommands,
+    [switch]$MethodProfile,
+    [switch]$ProfileElapsedOnly,
+    [switch]$ProfileManual,
+    [ValidateSet('detailed', 'coarse')][string]$ProfilePreset = 'detailed',
+    [string]$ProfileTargets = ''
 )
 $ErrorActionPreference = 'Stop'
 if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) {
@@ -36,6 +41,11 @@ $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -Wo
     ("-hdRaidMovementAuditWarmup=$WarmupTicks"), ("-hdRaidMovementAuditSample=$SampleTicks"),
     $(if ($Functional) { '-hdRaidMovementAuditFunctional=true' } else { '-hdRaidMovementAuditFunctionalDisabled=true' }),
     $(if ($SpawnCommands) { '-hdRaidSpawnAudit=true' } else { '-hdRaidSpawnAuditDisabled=true' }),
+    $(if ($MethodProfile) { '"-hdMethodProfile=' + $auditPath + '\profiles"' } else { '-hdMethodProfileDisabled=true' }),
+    $(if ($ProfileElapsedOnly) { '-hdMethodProfileElapsedOnly=true' } else { '-hdMethodProfileCpu=true' }),
+    $(if ($ProfileManual) { '-hdMethodProfileManual=true' } else { '-hdMethodProfileAuto=true' }),
+    ("-hdMethodProfilePreset=$ProfilePreset"),
+    $(if ($ProfileTargets) { '"-hdMethodProfileTargets=' + $ProfileTargets + '"' } else { '-hdMethodProfileTargetsDisabled=true' }),
     '-logFile', ('"' + $auditPath + '\Player.log"'), '-screen-width', '800', '-screen-height', '600', '-screen-fullscreen', '0'
 )
 $process.Id | Set-Content -LiteralPath (Join-Path $auditPath 'process-id.txt')

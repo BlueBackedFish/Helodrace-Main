@@ -6,6 +6,8 @@
 /Source/Helodrace/obj/
 /Source/Tests/**/bin/
 /Source/Tests/**/obj/
+/Source/Tools/**/bin/
+/Source/Tools/**/obj/
 /outputs/itemwiki_20260926/node_modules/
 **/__pycache__/
 **/~$*.xlsx

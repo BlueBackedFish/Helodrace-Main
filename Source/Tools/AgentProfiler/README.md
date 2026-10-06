@@ -1,0 +1,61 @@
+# 에이전트용 메서드 프로파일러
+
+Helodrace에 선택적으로 연결되는 개발용 수집기와 .NET 10 CLI다. Dubs/RimDoctor 코드를 복사하거나 해당 모드를 요구하지 않는다. 현재 수집기는 게임 DLL에 포함되고 `-hdMethodProfile=절대경로`가 있을 때만 Harmony 계측을 설치한다. 일반 실행에는 이 계측 패치와 파일 폴링을 설치하지 않는다.
+
+## 빌드와 격리 실행
+
+```powershell
+dotnet build Source/Helodrace/Helodrace.csproj --no-restore -p:EnableSourceLink=false
+dotnet build Source/Tools/AgentProfiler/AgentProfiler.csproj
+powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/RaidMovementAudit/Run-GameAudit.ps1 -Cases '16,17,15' -WarmupTicks 120 -SampleTicks 900 -MethodProfile
+```
+
+50명·100명·인원 제거 후 0명 순서로 실행한다. 실행기는 기존 게임이 열려 있으면 중단하며, CreatorTemp의 새 저장·설정 폴더를 사용한다. 저장소 DLL/PDB를 설치된 모드에 배포하므로 먼저 빌드해야 한다. 기존 게임 로그/저장을 재사용하지 않는다. 각 구간의 준비 틱 이후에 수집을 시작하며 `measurements.ndjson`과 `profiles/capture-*.json`을 남긴다.
+
+`-ProfileElapsedOnly`는 OS CPU 조회를 끈다. `-ProfilePreset coarse`는 연결 간선·음성 LOS·연막 등 짧은 내부 메서드를 제외해 계측 비용을 줄인다. 세부 분석에는 기본값 `detailed`를 사용한다. `-MethodProfile` 없이 같은 실행기를 돌리면 신규 수집기 자체가 비활성인 대조군이다. 기존 개발자 단계 계측은 양쪽 모두 켜져 있다.
+
+추가 메서드는 실행 시 선택한다. 메서드 이름에 해당하는 구체적 선언의 오버로드를 모두 등록하고, 전체 서명은 capabilities에서 확인한다. 지원 어셈블리는 Helodrace와 게임 Assembly-CSharp이며 제네릭/추상 메서드와 수집기 자체는 제외한다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/RaidMovementAudit/Run-GameAudit.ps1 -Cases '16,17,15' -MethodProfile -ProfileElapsedOnly -ProfileTargets 'Helodrace.MapComponent_RaidTacticalExecution::ExecuteUnit;Helodrace.MapComponent_RaidTacticalExecution::UpdateStep'
+```
+
+일반 개발 플레이에서도 `-hdMethodProfile=C:\...\profiles`로 활성화할 수 있다. 선택 옵션은 `-hdMethodProfilePreset=coarse`와 `-hdMethodProfileTargets=타입::메서드;타입::메서드`다. 이미 실행 중인 게임에 외부 주입하는 방식이 아니며, 실행 전 인자가 필요하다.
+
+## CLI
+
+아래 `$root`는 게임이 생성한 profiles 폴더, `$capture`는 수집 JSON 경로다.
+
+```powershell
+$cli = 'Source/Tools/AgentProfiler/bin/Debug/net10.0/AgentProfiler.dll'
+dotnet $cli capabilities $root
+dotnet $cli search $root RefreshFrames
+dotnet $cli start $root 10 cpu
+dotnet $cli status $root
+dotnet $cli stop $root
+dotnet $cli hotspots $capture inclusive 25
+dotnet $cli hotspots $capture self 25
+dotnet $cli hotspots $capture cpu 5
+dotnet $cli hotspots $capture calls 25
+dotnet $cli compare $before $after
+```
+
+출력은 JSON이고 오류 시 종료 코드는 1이다. `start`의 `cpu`를 생략하면 경과 시간만 수집한다. 명령은 단일 대기 파일을 사용하고 기존 대기 명령은 덮어쓰지 않는다. 15초 응답 제한이 지나도 명령이 나중에 실행될 수 있으므로 무조건 재전송하지 말고 게임 상태/대기 파일을 확인한다. 상태 파일에는 `latestCapture`가 있다.
+
+CLI 제어 시험은 `Run-ControlSmoke.ps1 -ProfileRoot ...`로 수행한다. 자동 구간 수집과 CLI 수집을 동시에 시작하지 않는다. 감사 실행 중 CLI를 시험하려면 `Run-GameAudit.ps1 -MethodProfile -ProfileManual`을 사용한다. 프로파일러는 한 번에 한 세션만 허용한다.
+
+## 값의 의미와 제한
+
+- `inclusiveMs`: 선택 메서드 본문과 하위 호출의 경과 시간 합계. 상하위 값을 더하면 중복된다.
+- `trackedSelfMs`: 선택된 중첩 하위 메서드의 경과 시간을 뺀 값. 미계측 하위 작업과 계측 비용을 포함하며 진짜 self CPU가 아니다.
+- `threadCpuMs`: Windows `GetThreadTimes`의 user+kernel CPU 차이. 기본 대상은 전체 게임 틱 `DoSingleTick`뿐이다. 짧은 메서드는 Windows 시간 해상도로 잘못 귀속될 수 있으므로 CPU 값으로 순위를 매기지 않는다. CPU 미계측 메서드의 0은 무비용을 의미하지 않는다.
+- `calls`, `exceptions`, `maxMs`: 완료된 호출만 집계한다. 재귀는 호출마다 별도 스택 슬롯을 사용하며 Harmony finalizer에서 예외를 원래대로 돌려준다.
+- 반환된 iterator/Task의 후속 작업은 생성 메서드 시간에 포함되지 않는다. 자체 compiler iterator는 가능한 경우 `MoveNext`도 등록하지만 공용 LINQ 전체를 자동 계측하지 않는다.
+
+현재 대상 스레드는 게임 메인 스레드 하나다. 다른 스레드 호출은 제외하고 `dropped`를 증가시킨다. 대상 128개, 중첩 128단계, 수집 시간 1~300초로 제한한다. `complete=false`나 dropped가 있는 결과는 정상 비교 대상으로 쓰지 않는다. 방법 목록·메타데이터·집계 외에 호출별 문자열/무제한 이벤트 로그는 저장하지 않는다. 계측 중 게임 객체를 다른 스레드에서 읽지 않는다.
+
+메서드 진입에서는 준비된 MethodBase→정수 ID 사전 조회와 고정 배열을 사용한다. 메서드 이름/Reflection/JSON 생성은 등록과 종료 단계에서만 수행한다. 결과 직렬화는 종료 시 메인 스레드에서 동기 수행하고, 그 비용은 수집 기간 밖에 둔다. 독립 모드 배포, 다중 스레드 수집, 호출 간선 트레이스, 네이티브 샘플러와 MCP 서버는 아직 구현하지 않았다.
+
+`compare`는 인원·시나리오·속도·게임 버전·활성 모드가 다르거나 틱이 없거나 불완전하면 거부한다. 빌드 차이는 출력하며 동일 조건의 메서드별 ms/tick 차이를 보여준다. 메서드 목록이 다르면 self 값은 직접 비교하지 않는다. 같은 시나리오 번호만으로 지도/전투 단계/시스템 부하가 같다고 보증할 수 없으므로 원래 감사 결과도 함께 확인한다. 일시 정지 수집의 ms/tick은 null로 표시한다.
+
+수집기는 성능 개선이 필요한 위치를 좁히는 도구다. 세부 패치가 특히 짧은 메서드의 비용을 높일 수 있으므로 coarse와 비활성 대조군을 함께 확인하고, 계측 시간을 추정치로 일괄 차감하지 않는다.

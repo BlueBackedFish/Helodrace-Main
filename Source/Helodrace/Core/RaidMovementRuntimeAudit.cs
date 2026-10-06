@@ -117,7 +117,13 @@ namespace Helodrace
                 }
                 int age = GenTicks.TicksGame - caseTick;
                 if (measuredTick < 0 && age >= warmupTicks)
-                { measuredTick = GenTicks.TicksGame; measuredFrame = Time.frameCount; measuredTime = Stopwatch.GetTimestamp(); }
+                {
+                    measuredTick = GenTicks.TicksGame; measuredFrame = Time.frameCount; measuredTime = Stopwatch.GetTimestamp();
+                    RaidCpuProfiler.Reset(map);
+                    if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfileManual", out _))
+                        Profiling.AgentMethodProfiler.Begin("raid-audit-" + scenario, scenario, populations[scenario % 5], scenario < 10 ? 1 : 3,
+                            cpu: !GenCommandLine.TryGetCommandLineArg("hdMethodProfileElapsedOnly", out _), seconds: 300);
+                }
                 if (measuredTick >= 0 && GenTicks.TicksGame - measuredTick >= sampleTicks)
                 { FinishCase(); BeginCase(); }
             }
@@ -215,6 +221,7 @@ namespace Helodrace
         }
         private void FinishCase()
         {
+            if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfileManual", out _)) Profiling.AgentMethodProfiler.End();
             double seconds = (Stopwatch.GetTimestamp() - measuredTime) / (double)Stopwatch.Frequency;
             var movement = map.GetComponent<MapComponent_RaidMovementAreas>();
             var plans = map.GetComponent<MapComponent_RaidTacticalPlans>();
