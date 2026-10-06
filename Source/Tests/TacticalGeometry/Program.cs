@@ -264,6 +264,21 @@ internal static class Program
 
     private static void CheckPreparationQueue()
     {
+        var cadence = new TacticalPreparationQueue<object, object>();
+        object cadenceFirst = new object(), cadenceSecond = new object(), cadenceWaiter = new object();
+        Check(!cadence.TryBeginService(20), "An empty preparation queue never begins work");
+        cadence.Add(cadenceFirst, 20); cadence.WaitFor(cadenceWaiter, cadenceFirst);
+        Check(cadence.TryBeginService(20) && !cadence.TryBeginService(20), "Tick and update share one preparation pass per frame");
+        cadence.Add(cadenceFirst, 20);
+        Check(!cadence.TryBeginService(20), "A duplicate request cannot reopen the same-frame budget");
+        cadence.Add(cadenceSecond, 20);
+        Check(cadence.TryBeginService(20) && !cadence.TryBeginService(20), "New work may start immediately even later in the same frame");
+        Check(cadence.TryBeginService(21), "An incomplete worker is reviewed again next frame");
+        Check(cadence.Complete(cadenceFirst).SequenceEqual(new[] { cadenceWaiter }), "Frame gating preserves preparation completion notifications");
+        cadence.Complete(cadenceSecond);
+        Check(!cadence.TryBeginService(22), "A drained queue returns to zero service passes");
+        cadence.Clear(); cadence.Add(cadenceFirst, 21);
+        Check(cadence.TryBeginService(21), "Clear resets frame state for a new raid");
         var lease = new TacticalNativeLease<object>();
         var memory = new TacticalNativeBudget(100);
         Check(memory.Fits(100), "A native allocation fitting exactly within budget is admitted");

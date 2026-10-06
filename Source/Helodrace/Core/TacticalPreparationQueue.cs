@@ -17,6 +17,7 @@ namespace Helodrace
         private readonly Dictionary<TKey, LinkedListNode<Entry>> entries = new Dictionary<TKey, LinkedListNode<Entry>>();
         private readonly Dictionary<TWaiter, TKey> waiting;
         private readonly IEqualityComparer<TWaiter> waiterComparer;
+        private int servicedFrame = int.MinValue;
         public int Count => entries.Count;
         public int WaiterCount => waiting.Count;
         public int PeakCount { get; private set; }
@@ -33,6 +34,7 @@ namespace Helodrace
         {
             if (entries.ContainsKey(key)) return;
             entries[key] = fifo.AddLast(new Entry { Key = key, Frame = frame, Waiters = new HashSet<TWaiter>(waiterComparer) });
+            servicedFrame = int.MinValue; // A new request may start even after this frame's normal pass.
             PeakCount = System.Math.Max(PeakCount, Count);
         }
         internal void WaitFor(TWaiter waiter, TKey key)
@@ -74,6 +76,11 @@ namespace Helodrace
         }
         internal int OldestWaitAge(int frame) => fifo.Where(entry => entry.Waiters.Count > 0)
             .Select(entry => System.Math.Max(0, frame - entry.Frame)).DefaultIfEmpty(0).Max();
-        internal void Clear() { fifo.Clear(); entries.Clear(); waiting.Clear(); }
+        internal bool TryBeginService(int frame)
+        {
+            if (Count == 0 || servicedFrame == frame) return false;
+            servicedFrame = frame; return true;
+        }
+        internal void Clear() { fifo.Clear(); entries.Clear(); waiting.Clear(); servicedFrame = int.MinValue; }
     }
 }

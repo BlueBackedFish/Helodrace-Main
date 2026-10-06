@@ -40,6 +40,7 @@ namespace Helodrace
         private Pawn owner;
         internal static Pawn ProtectedOwner;
         private int scenario = -1, caseTick, measuredTick, measuredFrame;
+        private long measuredPreparationPasses;
         private int sequenceIndex = -1;
         private readonly int[] cases = Enumerable.Range(0, 20).ToArray();
         private long measuredTime;
@@ -120,6 +121,7 @@ namespace Helodrace
                 {
                     measuredTick = GenTicks.TicksGame; measuredFrame = Time.frameCount; measuredTime = Stopwatch.GetTimestamp();
                     RaidCpuProfiler.Reset(map);
+                    measuredPreparationPasses = map.GetComponent<MapComponent_RaidMovementAreas>().PreparationServicePasses;
                     if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfileManual", out _))
                         Profiling.AgentMethodProfiler.Begin("raid-audit-" + scenario, scenario, populations[scenario % 5], scenario < 10 ? 1 : 3,
                             cpu: !GenCommandLine.TryGetCommandLineArg("hdMethodProfileElapsedOnly", out _), seconds: 300);
@@ -269,7 +271,8 @@ namespace Helodrace
                 + ",\"peakPending\":" + movement.PeakPendingGrids + ",\"notifications\":" + movement.PreparedNotifications + "}"
                 + ",\"cancelledPreparations\":" + movement.CancelledPreparations + ",\"peakWaitFrames\":" + movement.PeakWaitFrames
                 + ",\"pending\":" + movement.PendingGrids + ",\"blocked\":\"" + Escape(string.Join(",", blocks))
-                + "\",\"cpuCumulative\":\"" + Escape(RaidCpuProfiler.Report(map)) + "\"}\n";
+                + "\",\"preparationServicePasses\":" + (movement.PreparationServicePasses - measuredPreparationPasses)
+                + ",\"cpuCumulative\":\"" + Escape(RaidCpuProfiler.Report(map)) + "\"}\n";
             File.AppendAllText(output, json); Log.Message("Raid audit sample: " + json);
             if (scenario % 10 >= 5 && populations[scenario % 5] > 0 && !plans.Plans.Any(plan => plan.Success))
                 throw new InvalidOperationException("Invalid audit: tactical plans all failed; these values are not a tactical benchmark.");

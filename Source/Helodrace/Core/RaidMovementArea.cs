@@ -244,6 +244,7 @@ namespace Helodrace
         public int CacheHits, CreatedGrids;
         public long BuildMilliseconds;
         public int PreparedNotifications;
+        public long PreparationServicePasses;
         public int CachedGrids => areas.Count;
         public int PendingGrids => pending.Count;
         public int WaitingPawns => pending.WaiterCount;
@@ -255,18 +256,22 @@ namespace Helodrace
         private void Pump()
         {
             if (removed) return;
-            PeakWaitFrames = Math.Max(PeakWaitFrames, pending.OldestWaitAge(UnityEngine.Time.frameCount));
-            foreach (RaidMovementArea area in pending.ServiceOrder(MaximumPumpsPerPass).ToArray())
+            if (pending.Count > 0 && pending.TryBeginService(UnityEngine.Time.frameCount))
             {
-                area.Pump();
-                if (!area.Ready) continue;
-                BuildMilliseconds += area.PreparationMilliseconds;
-                foreach (Pawn pawn in pending.Complete(area))
-                    if (pawn?.Spawned == true && pawn.Map == map && !pawn.Dead && !pawn.Downed)
-                    {
-                        PreparedNotifications++;
-                        MapComponent_RaidTacticalOrders.PreparationReady(pawn);
-                    }
+                PreparationServicePasses++;
+                PeakWaitFrames = Math.Max(PeakWaitFrames, pending.OldestWaitAge(UnityEngine.Time.frameCount));
+                foreach (RaidMovementArea area in pending.ServiceOrder(MaximumPumpsPerPass).ToArray())
+                {
+                    area.Pump();
+                    if (!area.Ready) continue;
+                    BuildMilliseconds += area.PreparationMilliseconds;
+                    foreach (Pawn pawn in pending.Complete(area))
+                        if (pawn?.Spawned == true && pawn.Map == map && !pawn.Dead && !pawn.Downed)
+                        {
+                            PreparedNotifications++;
+                            MapComponent_RaidTacticalOrders.PreparationReady(pawn);
+                        }
+                }
             }
             if (areas.Count > TargetCacheEntries || !memory.Fits(0)) Trim();
         }
@@ -308,9 +313,11 @@ namespace Helodrace
 
         private RaidMovementArea Select(Pawn pawn, bool preparing)
         {
+            if (removed) return null;
             RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
+            if (order == null) return null;
             bool equipmentMove = RaidEntryObservation.Active(pawn) != null || RaidGrenadePreparation.Active(pawn) != null;
-            if (removed || order == null || !preparing && pawn.CurJobDef != RimWorld.JobDefOf.Goto && !equipmentMove)
+            if (!preparing && pawn.CurJobDef != RimWorld.JobDefOf.Goto && !equipmentMove)
                 return null;
             var state = map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(order.UnitId);
             RaidTacticalPlan plan = state?.ActivePlan;

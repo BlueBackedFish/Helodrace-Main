@@ -1,0 +1,258 @@
+{
+  "beforeBuild": "53ad1251eb04323ad0d8b97db5176ea7592402af5dfcb5b72ecb04595c5abd78",
+  "afterBuild": "c7b93334414fbf4ee8c6a760f6874f403979e8b9daef0252a6d5311b1149139b",
+  "warning": "Scenario metadata cannot prove identical map, phase, or machine load; check audit evidence. Self comparisons require identical target sets.",
+  "sameTargets": true,
+  "beforeReference": {
+    "MedianBatchMs": 0.27325,
+    "method": "Verse.GenRadial.NumCellsInRadius(System.Single)",
+    "workload": "radius=8\u002B(i%16); iterations=10000; v1",
+    "iterations": 10000,
+    "patchOwners": [],
+    "sampleMs": [
+      0.277,
+      0.2718,
+      0.2724,
+      0.2723,
+      0.2734,
+      0.2731,
+      0.2826,
+      0.2755
+    ]
+  },
+  "afterReference": {
+    "MedianBatchMs": 0.27805,
+    "method": "Verse.GenRadial.NumCellsInRadius(System.Single)",
+    "workload": "radius=8\u002B(i%16); iterations=10000; v1",
+    "iterations": 10000,
+    "patchOwners": [],
+    "sampleMs": [
+      0.2711,
+      0.2758,
+      0.272,
+      0.2789,
+      0.2772,
+      0.294,
+      0.2872,
+      0.3156
+    ]
+  },
+  "methods": [
+    {
+      "method": "Verse.TickManager.DoSingleTick()",
+      "beforeMsPerTick": 3.9769988333333335,
+      "afterMsPerTick": 4.187020049916805,
+      "deltaMsPerTick": 0.21002121658347184,
+      "beforeReferencePercentPerTick": 1455.4433058859408,
+      "afterReferencePercentPerTick": 1505.8514835162039,
+      "deltaReferencePercentagePoints": 50.408177630263026
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.Pump()",
+      "beforeMsPerTick": 0.014002916666666667,
+      "afterMsPerTick": 0.0027780366056572377,
+      "deltaMsPerTick": -0.01122488006100943,
+      "beforeReferencePercentPerTick": 5.124580664836841,
+      "afterReferencePercentPerTick": 0.9991140462712597,
+      "deltaReferencePercentagePoints": -4.125466618565581
+    },
+    {
+      "method": "Helodrace.GameComponent_RaidPlanScheduler.GameComponentUpdate()",
+      "beforeMsPerTick": 0.033207,
+      "afterMsPerTick": 0.04477487520798669,
+      "deltaMsPerTick": 0.011567875207986689,
+      "beforeReferencePercentPerTick": 12.152607502287282,
+      "afterReferencePercentPerTick": 16.103173964390106,
+      "deltaReferencePercentagePoints": 3.950566462102824
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.MapComponentTick()",
+      "beforeMsPerTick": 0.012345916666666666,
+      "afterMsPerTick": 0.003394509151414309,
+      "deltaMsPerTick": -0.008951407515252358,
+      "beforeReferencePercentPerTick": 4.518176273254041,
+      "afterReferencePercentPerTick": 1.2208268841626717,
+      "deltaReferencePercentagePoints": -3.2973493890913694
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.MapComponentUpdate()",
+      "beforeMsPerTick": 0.0026847499999999996,
+      "afterMsPerTick": 0.00038544093178036605,
+      "deltaMsPerTick": -0.0022993090682196337,
+      "beforeReferencePercentPerTick": 0.9825251601097894,
+      "afterReferencePercentPerTick": 0.13862288501361844,
+      "deltaReferencePercentagePoints": -0.843902275096171
+    },
+    {
+      "method": "Helodrace.GameComponent_RaidExecutionScheduler.GameComponentTick()",
+      "beforeMsPerTick": 0.23457699999999998,
+      "afterMsPerTick": 0.24088718801996672,
+      "deltaMsPerTick": 0.006310188019966745,
+      "beforeReferencePercentPerTick": 85.8470265324794,
+      "afterReferencePercentPerTick": 86.63448589101482,
+      "deltaReferencePercentagePoints": 0.7874593585354148
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalCommunications.ProcessTick(System.Int32)",
+      "beforeMsPerTick": 0.07966625000000001,
+      "afterMsPerTick": 0.07951331114808652,
+      "deltaMsPerTick": -0.00015293885191348944,
+      "beforeReferencePercentPerTick": 29.15507776761208,
+      "afterReferencePercentPerTick": 28.596767181473297,
+      "deltaReferencePercentagePoints": -0.5583105861387843
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalCommunications.MapComponentTick()",
+      "beforeMsPerTick": 0.07982966666666666,
+      "afterMsPerTick": 0.0797355241264559,
+      "deltaMsPerTick": -9.414254021075652E-05,
+      "beforeReferencePercentPerTick": 29.21488258615431,
+      "afterReferencePercentPerTick": 28.676685533701097,
+      "deltaReferencePercentagePoints": -0.5381970524532136
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalPlans.MapComponentTick()",
+      "beforeMsPerTick": 0.008852083333333333,
+      "afterMsPerTick": 0.007611397670549084,
+      "deltaMsPerTick": -0.0012406856627842494,
+      "beforeReferencePercentPerTick": 3.2395547422994815,
+      "afterReferencePercentPerTick": 2.737420489318138,
+      "deltaReferencePercentagePoints": -0.5021342529813433
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalOrders.MapComponentTick()",
+      "beforeMsPerTick": 0.044810083333333334,
+      "afterMsPerTick": 0.046626788685524126,
+      "deltaMsPerTick": 0.0018167053521907922,
+      "beforeReferencePercentPerTick": 16.39893260140287,
+      "afterReferencePercentPerTick": 16.76921010088981,
+      "deltaReferencePercentagePoints": 0.3702774994869422
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.ReadyFor(Verse.Pawn)",
+      "beforeMsPerTick": 0.005789333333333333,
+      "afterMsPerTick": 0.0056238768718802,
+      "deltaMsPerTick": -0.0001654564614531331,
+      "beforeReferencePercentPerTick": 2.11869472400122,
+      "afterReferencePercentPerTick": 2.0226135126344897,
+      "deltaReferencePercentagePoints": -0.0960812113667302
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalCommunications.RefreshFrames(System.Int32)",
+      "beforeMsPerTick": 0.07260899999999999,
+      "afterMsPerTick": 0.0736765391014975,
+      "deltaMsPerTick": 0.001067539101497511,
+      "beforeReferencePercentPerTick": 26.572369624885635,
+      "afterReferencePercentPerTick": 26.49758644182611,
+      "deltaReferencePercentagePoints": -0.07478318305952669
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.Select(Verse.Pawn,System.Boolean)",
+      "beforeMsPerTick": 0.009627916666666667,
+      "afterMsPerTick": 0.009619966722129784,
+      "deltaMsPerTick": -7.949944536882886E-06,
+      "beforeReferencePercentPerTick": 3.523482769136932,
+      "afterReferencePercentPerTick": 3.4597974184965947,
+      "deltaReferencePercentagePoints": -0.0636853506403372
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.For(Verse.Pawn)",
+      "beforeMsPerTick": 0.005250833333333333,
+      "afterMsPerTick": 0.005415141430948419,
+      "deltaMsPerTick": 0.00016430809761508632,
+      "beforeReferencePercentPerTick": 1.9216224458676423,
+      "afterReferencePercentPerTick": 1.94754232366424,
+      "deltaReferencePercentagePoints": 0.025919877796597657
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalCommunications.Share(Helodrace.RaidCommunicationFrame,Helodrace.RaidCommunicationFrame,System.Int32)",
+      "beforeMsPerTick": 0.00044124999999999996,
+      "afterMsPerTick": 0.00042004991680532445,
+      "deltaMsPerTick": -2.1200083194675514E-05,
+      "beforeReferencePercentPerTick": 0.16148215919487646,
+      "afterReferencePercentPerTick": 0.1510699215268205,
+      "deltaReferencePercentagePoints": -0.010412237668055963
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalExecution.MapComponentTick()",
+      "beforeMsPerTick": 0.002614,
+      "afterMsPerTick": 0.0026355241264559067,
+      "deltaMsPerTick": 2.1524126455906706E-05,
+      "beforeReferencePercentPerTick": 0.956633119853614,
+      "afterReferencePercentPerTick": 0.9478597829368482,
+      "deltaReferencePercentagePoints": -0.00877333691676574
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalCommunications.Validate(Helodrace.RaidReportTransmission,Helodrace.RaidCommunicationFrame\u0026,Helodrace.RaidCommunicationFrame\u0026)",
+      "beforeMsPerTick": 1.5499999999999997E-05,
+      "afterMsPerTick": 0,
+      "deltaMsPerTick": -1.5499999999999997E-05,
+      "beforeReferencePercentPerTick": 0.005672461116193961,
+      "afterReferencePercentPerTick": 0,
+      "deltaReferencePercentagePoints": -0.005672461116193961
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalCommunications.Queue(Helodrace.RaidCommunicationFrame,Helodrace.RaidCommunicationFrame,System.Int32,System.Int32,Helodrace.RaidTacticalReport,Helodrace.RaidCommunicationMode,System.Int32,System.Int32)",
+      "beforeMsPerTick": 1.4333333333333334E-05,
+      "afterMsPerTick": 0,
+      "deltaMsPerTick": -1.4333333333333334E-05,
+      "beforeReferencePercentPerTick": 0.005245501677340653,
+      "afterReferencePercentPerTick": 0,
+      "deltaReferencePercentagePoints": -0.005245501677340653
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalCommunications.Frame(System.String,System.Int32)",
+      "beforeMsPerTick": 7.833333333333333E-06,
+      "afterMsPerTick": 0,
+      "deltaMsPerTick": -7.833333333333333E-06,
+      "beforeReferencePercentPerTick": 0.002866727660872217,
+      "afterReferencePercentPerTick": 0,
+      "deltaReferencePercentagePoints": -0.002866727660872217
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.CompleteReaders()",
+      "beforeMsPerTick": 0.0006898333333333333,
+      "afterMsPerTick": 0.0007068219633943428,
+      "deltaMsPerTick": 1.698863006100945E-05,
+      "beforeReferencePercentPerTick": 0.25245501677340654,
+      "afterReferencePercentPerTick": 0.25420678417347337,
+      "deltaReferencePercentagePoints": 0.0017517674000668282
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidTacticalOverlay.MapComponentUpdate()",
+      "beforeMsPerTick": 0.00013641666666666668,
+      "afterMsPerTick": 0.00013452579034941764,
+      "deltaMsPerTick": -1.8908763172490416E-06,
+      "beforeReferencePercentPerTick": 0.049923757243061924,
+      "afterReferencePercentPerTick": 0.0483818702929033,
+      "deltaReferencePercentagePoints": -0.0015418869501586246
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.GetArea(Helodrace.RaidTacticalPlan,Helodrace.RaidStructureSnapshot,System.Boolean,System.Int32,Helodrace.RaidPawnOrder,System.Int32,System.Boolean,System.Boolean,Helodrace.RaidMovementNode,System.Int32,System.Collections.Generic.IEnumerable\u00601[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]])",
+      "beforeMsPerTick": 0.00155125,
+      "afterMsPerTick": 0.0015811148086522463,
+      "deltaMsPerTick": 2.98648086522464E-05,
+      "beforeReferencePercentPerTick": 0.5677035681610247,
+      "afterReferencePercentPerTick": 0.5686440599360713,
+      "deltaReferencePercentagePoints": 0.0009404917750465147
+    },
+    {
+      "method": "Helodrace.RaidMovementArea.Pump()",
+      "beforeMsPerTick": 0.00020908333333333334,
+      "afterMsPerTick": 0.00021247920133111482,
+      "deltaMsPerTick": 3.3958679977814834E-06,
+      "beforeReferencePercentPerTick": 0.07651723086306801,
+      "afterReferencePercentPerTick": 0.07641762320845705,
+      "deltaReferencePercentagePoints": -9.960765461096421E-05
+    },
+    {
+      "method": "Helodrace.MapComponent_RaidMovementAreas.Trim(System.Int64)",
+      "beforeMsPerTick": 0,
+      "afterMsPerTick": 0,
+      "deltaMsPerTick": 0,
+      "beforeReferencePercentPerTick": 0,
+      "afterReferencePercentPerTick": 0,
+      "deltaReferencePercentagePoints": 0
+    }
+  ]
+}
