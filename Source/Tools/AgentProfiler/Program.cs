@@ -14,7 +14,8 @@ internal static class Program
             try
             {
                 using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-                return (T)new DataContractJsonSerializer(typeof(T)).ReadObject(stream);
+                using var reader = new StreamReader(stream);
+                return JsonSerializer.Deserialize<T>(reader.ReadToEnd(), options);
             }
             catch (IOException) when (attempt < 40) { Thread.Sleep(25); }
         }
@@ -59,12 +60,17 @@ internal static class Program
                     var before = Read<ProfileSnapshot>(args[1]); var after = Read<ProfileSnapshot>(args[2]);
                     if (!before.complete || !after.complete || before.population != after.population || before.scenario != after.scenario
                         || before.speed != after.speed || before.gameVersion != after.gameVersion
+                        || before.cpuSource != after.cpuSource || before.runtime != after.runtime || before.operatingSystem != after.operatingSystem
                         || !before.mods.SequenceEqual(after.mods) || before.endTick <= before.startTick || after.endTick <= after.startTick)
                         throw new ArgumentException("Comparison rejected: incomplete capture, no ticks, or differing scenario/population/speed/game/mods.");
+                    bool sameTargets = before.methods.Select(m => m.method).OrderBy(name => name, StringComparer.Ordinal)
+                        .SequenceEqual(after.methods.Select(m => m.method).OrderBy(name => name, StringComparer.Ordinal));
+                    if (!sameTargets)
+                        throw new ArgumentException("Comparison rejected: instrumentation target sets differ; use the same preset and additional targets.");
                     var old = before.methods.ToDictionary(m => m.method);
                     Print(new { beforeBuild = before.assemblySha256, afterBuild = after.assemblySha256,
                         warning = "Scenario metadata cannot prove identical map, phase, or machine load; check audit evidence. Self comparisons require identical target sets.",
-                        sameTargets = before.methods.Select(m => m.method).SequenceEqual(after.methods.Select(m => m.method)),
+                        sameTargets,
                         methods = after.methods.Where(m => old.ContainsKey(m.method)).Select(m => new { m.method,
                             beforeMsPerTick = old[m.method].inclusiveMs / (before.endTick - before.startTick),
                             afterMsPerTick = m.inclusiveMs / (after.endTick - after.startTick),

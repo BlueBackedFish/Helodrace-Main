@@ -9,7 +9,7 @@ param(
     [switch]$MethodProfile,
     [switch]$ProfileElapsedOnly,
     [switch]$ProfileManual,
-    [ValidateSet('detailed', 'coarse')][string]$ProfilePreset = 'detailed',
+    [ValidateSet('detailed', 'coarse')][string]$ProfilePreset = 'coarse',
     [string]$ProfileTargets = ''
 )
 $ErrorActionPreference = 'Stop'

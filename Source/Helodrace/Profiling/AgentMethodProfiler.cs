@@ -42,7 +42,7 @@ namespace Helodrace.Profiling
                 root = Path.GetFullPath(path); Directory.CreateDirectory(root);
                 using (var sha = SHA256.Create())
                     hash = BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(typeof(AgentMethodProfiler).Assembly.Location))).Replace("-", "").ToLowerInvariant();
-                bool detailed = !GenCommandLine.TryGetCommandLineArg("hdMethodProfilePreset", out string preset) || preset != "coarse";
+                bool detailed = GenCommandLine.TryGetCommandLineArg("hdMethodProfilePreset", out string preset) && preset == "detailed";
                 if (preset != null && preset != "coarse" && preset != "detailed") throw new ArgumentException("Unknown profiler preset.");
                 Add(typeof(TickManager), "DoSingleTick");
                 Add(typeof(MapComponent_RaidTacticalCommunications), "MapComponentTick", "Frame", "RefreshFrames", "ProcessTick", "Validate", "Share", "Queue");
