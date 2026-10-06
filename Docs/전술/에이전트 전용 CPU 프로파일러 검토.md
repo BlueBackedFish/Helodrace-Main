@@ -160,4 +160,6 @@ flowchart LR
 
 1~2단계를 먼저 만든다. 현재 병목으로 보고된 `communications:RefreshFrames`와 `raidmovementareas`의 호출 횟수·누적 경과 시간·큰 구간의 스레드 CPU를 분리하면 바로 최적화 판단에 사용할 수 있다. GUI 없는 제어와 구조화된 결과를 처음부터 제공하고, 실제 샘플링은 초기 로딩 실험의 성공 여부에 따라 추가한다.
 
+Dubs Performance Analyzer와 RimDoctor의 실제 소스도 검토했다. RimDoctor의 타임스탬프·주기 집계 구조와 Dubs의 선택적 내부 호출 분해 방식을 참고하되, 예외 종료·재귀·스레드 상태·조회 스냅샷은 독립적으로 설계한다. 세부 근거와 재사용 범위는 [Dubs 및 RimDoctor 프로파일링 참고 검토](Dubs%20및%20RimDoctor%20프로파일링%20참고%20검토.md)에 정리했다.
+
 이번 검토에서는 게임 코드와 프로파일러를 구현하거나 네이티브 콜백을 실행하지 않았다. Mono DLL의 export 존재 확인까지 완료했고, 그 API의 실행 가능성은 아직 검증하지 않았다.
