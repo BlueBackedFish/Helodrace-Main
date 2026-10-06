@@ -34,11 +34,24 @@ namespace Helodrace
         public Dictionary<int, Pawn> Members;
         public Dictionary<int, int> CommandDelays;
         public Dictionary<int, List<CompTacticalRadio>> Radios;
+        internal int BuiltTick, StructureRevision;
+        internal bool Blackout;
+        internal readonly Dictionary<int, IntVec3> Positions = new Dictionary<int, IntVec3>();
         public DoctrineDef Doctrine => Unit.Organization.doctrine;
         private readonly Dictionary<long, int> edges = new Dictionary<long, int>();
 
+        internal bool Reusable(List<Pawn> members, Pawn commander, Dictionary<int, List<CompTacticalRadio>> radios,
+            int tick, int revision, bool blackout) => Commander == commander && Blackout == blackout
+            && StructureRevision == revision && tick >= BuiltTick && tick - BuiltTick < 60 && Members.Count == members.Count
+            && members.All(pawn => Members.TryGetValue(pawn.thingIDNumber, out Pawn old) && old == pawn
+                && Positions.TryGetValue(pawn.thingIDNumber, out IntVec3 position) && position == pawn.Position
+                && (Doctrine?.tacticalRadio != true || radios != null
+                    && Radios.TryGetValue(pawn.thingIDNumber, out List<CompTacticalRadio> previous)
+                    && previous.SequenceEqual(radios[pawn.thingIDNumber])));
+
         public bool RadioTo(RaidCommunicationFrame other, Pawn a, Pawn b, bool blackout) =>
-            Radios.TryGetValue(a.thingIDNumber, out List<CompTacticalRadio> radiosA)
+            !blackout && Doctrine?.tacticalRadio == true && other.Doctrine?.tacticalRadio == true
+            && Radios.TryGetValue(a.thingIDNumber, out List<CompTacticalRadio> radiosA)
             && other.Radios.TryGetValue(b.thingIDNumber, out List<CompTacticalRadio> radiosB)
             && radiosA.Any(first => radiosB.Any(second => RaidCommunicationPolicy.RadioCompatible(
                 Doctrine?.tacticalRadio == true, other.Doctrine?.tacticalRadio == true,
@@ -67,6 +80,8 @@ namespace Helodrace
         private Dictionary<string, RaidCommunicationFrame> frames = new Dictionary<string, RaidCommunicationFrame>();
         private int frameTick = -1, pairCursor, deliveryCursor, queued;
         private bool blackout;
+        private readonly HashSet<string> activeFrames = new HashSet<string>();
+        private readonly HashSet<string> transmitting = new HashSet<string>();
         public MapComponent_RaidTacticalCommunications(Map map) : base(map) { }
 
         internal RaidCommunicationFrame Frame(string unitId, int tick)
@@ -79,28 +94,42 @@ namespace Helodrace
         {
             if (frameTick >= 0 && tick - frameTick < RaidCommunicationPolicy.TickInterval) return;
             frameTick = tick; blackout = SCR300RadioUtility.IsBlackout(map);
-            frames.Clear();
             var execution = map.GetComponent<MapComponent_RaidTacticalExecution>();
             if (execution == null) return;
-            foreach (RaidTacticalUnit unit in RaidTacticalUnit.All)
+            activeFrames.Clear(); transmitting.Clear();
+            foreach (var packet in pending) { transmitting.Add(packet.FromUnit); transmitting.Add(packet.ToUnit); }
+            int revision = RaidPhysicalMapCache.For(map).StructureRevision;
+            foreach (RaidExecutionTicket ticket in execution.CommunicationRoster)
             {
+                RaidTacticalUnit unit = ticket.Unit;
                 var state = execution.StateFor(unit.Id);
                 if (state?.ActivePlan?.Success != true) continue;
-                List<Pawn> members = unit.Members.Where(pawn => pawn?.Spawned == true && pawn.Map == map
+                List<Pawn> members = ticket.Members.Where(pawn => pawn?.Spawned == true && pawn.Map == map
                     && !pawn.Dead && !pawn.Downed && !pawn.InMentalState && execution.ControlsPawn(pawn)
                     && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Consciousness)).ToList();
                 if (members.Count == 0) continue;
+                activeFrames.Add(unit.Id);
+                Pawn commander = members.Contains(unit.Commander) ? unit.Commander : null;
+                bool radioEnabled = unit.Organization.doctrine?.tacticalRadio == true;
+                var radios = radioEnabled ? members.ToDictionary(pawn => pawn.thingIDNumber,
+                    pawn => RaidTacticalRadioUtility.Radios(pawn).ToList()) : null;
+                if (!transmitting.Contains(unit.Id) && frames.TryGetValue(unit.Id, out RaidCommunicationFrame previous)
+                    && previous.State == state && previous.Unit.Organization.doctrine == unit.Organization.doctrine
+                    && previous.Reusable(members, commander, radios, tick, revision, blackout))
+                { previous.Unit = unit; continue; }
                 var frame = new RaidCommunicationFrame { Unit = unit, State = state,
-                    Commander = members.Contains(unit.Commander) ? unit.Commander : null,
+                    Commander = commander, BuiltTick = tick, StructureRevision = revision, Blackout = blackout,
                     Members = members.ToDictionary(pawn => pawn.thingIDNumber),
-                    Radios = members.ToDictionary(pawn => pawn.thingIDNumber, pawn => RaidTacticalRadioUtility.Radios(pawn).ToList()) };
+                    Radios = radios ?? new Dictionary<int, List<CompTacticalRadio>>() };
+                foreach (Pawn pawn in members) frame.Positions.Add(pawn.thingIDNumber, pawn.Position);
                 frame.CommandDelays = frame.Commander != null
                     ? RaidCommunicationPolicy.Delays(frame.Members.Keys.ToList(), frame.Commander.thingIDNumber,
                         (a, b) => frame.Edge(a, b, blackout)) : new Dictionary<int, int>();
                 frames[unit.Id] = frame;
-                state.Communication.Status = $"Command={(frame.Commander?.LabelShort ?? "none")}; connected {frame.CommandDelays.Count}/{members.Count}; "
+                if (Prefs.DevMode) state.Communication.Status = $"Command={(frame.Commander?.LabelShort ?? "none")}; connected {frame.CommandDelays.Count}/{members.Count}; "
                     + $"radio operators={frame.Radios.Count(value => value.Value.Count > 0)}; blackout={blackout}";
             }
+            foreach (string id in frames.Keys.Where(id => !activeFrames.Contains(id)).ToList()) frames.Remove(id);
         }
 
         public override void ExposeData()

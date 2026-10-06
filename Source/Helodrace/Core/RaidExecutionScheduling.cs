@@ -74,6 +74,7 @@ namespace Helodrace
     public sealed partial class MapComponent_RaidTacticalExecution
     {
         private readonly Dictionary<string, RaidExecutionTicket> executionTickets = new Dictionary<string, RaidExecutionTicket>();
+        internal IEnumerable<RaidExecutionTicket> CommunicationRoster => executionTickets.Values;
         private int rosterAfter;
         private GameComponent_RaidExecutionScheduler ExecutionScheduler =>
             Verse.Current.Game.GetComponent<GameComponent_RaidExecutionScheduler>();

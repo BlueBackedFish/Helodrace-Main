@@ -26,6 +26,7 @@ namespace Helodrace
         private readonly TacticalSpatialIndex<Pawn> pawns = new TacticalSpatialIndex<Pawn>();
         private readonly Dictionary<long, bool> lines = new Dictionary<long, bool>();
         private int pawnTick = -1, lineTick = -1;
+        internal int StructureRevision { get; private set; }
         internal readonly TacticalServiceBudget ObservationBudget = new TacticalServiceBudget(2048, 10, 32);
         internal long ChunkReads, ChunkHits, SpatialBuilds, LosChecks, LosHits;
         private RaidPhysicalMapCache(Map map) { this.map = map; }
@@ -36,6 +37,7 @@ namespace Helodrace
             if (map == null || !cell.InBounds(map) || !maps.TryGetValue(map, out RaidPhysicalMapCache cache)) return;
             if (cache.chunks.TryGetValue(cache.ChunkId(cell), out Chunk chunk)) chunk.Dirty = true;
             cache.lines.Clear();
+            cache.StructureRevision++;
         }
         internal static void Dirty(Building building)
         {

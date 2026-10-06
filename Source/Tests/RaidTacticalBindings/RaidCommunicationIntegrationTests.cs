@@ -121,6 +121,26 @@ internal static class RaidCommunicationIntegrationTests
                 return frame;
             }
             object frameA = MakeFrame("A", a, a), frameB = MakeFrame("B", b, b, receivingSoldier);
+            var positions = (Dictionary<int, IntVec3>)AccessTools.Field(frameType, "Positions").GetValue(frameB);
+            positions[b.thingIDNumber] = b.Position; positions[receivingSoldier.thingIDNumber] = receivingSoldier.Position;
+            var reusableRadios = (Dictionary<int, List<CompTacticalRadio>>)AccessTools.Field(frameType, "Radios").GetValue(frameB);
+            bool Reusable(List<Pawn> people, Pawn leader, int tick = 20, int revision = 0, bool blackout = false) =>
+                (bool)AccessTools.Method(frameType, "Reusable").Invoke(frameB,
+                    new object[] { people, leader, reusableRadios, tick, revision, blackout });
+            var people = new List<Pawn> { b, receivingSoldier };
+            Check(Reusable(people, b), "A stationary unchanged personnel graph is reused within its short TTL.");
+            Check(!Reusable(people, b, 60), "Smoke/unknown physical changes cannot outlive the 60-tick graph TTL.");
+            Check(!Reusable(people, b, revision: 1), "Door, wall and terrain revisions invalidate stationary graphs.");
+            Check(!Reusable(people, b, blackout: true), "Blackout invalidates cached radio graphs.");
+            Check(!Reusable(people, receivingSoldier), "Commander succession invalidates cached delays.");
+            Check(!Reusable(new List<Pawn> { b }, b), "A lost member invalidates the cached graph.");
+            positions[receivingSoldier.thingIDNumber] = receivingSoldier.Position + IntVec3.East;
+            Check(!Reusable(people, b), "Movement invalidates the cached personnel graph.");
+            positions[receivingSoldier.thingIDNumber] = receivingSoldier.Position;
+            var candidateRadios = reusableRadios.ToDictionary(pair => pair.Key, pair => new List<CompTacticalRadio>(pair.Value));
+            candidateRadios[b.thingIDNumber].Clear();
+            Check(!(bool)AccessTools.Method(frameType, "Reusable").Invoke(frameB,
+                new object[] { people, b, candidateRadios, 20, 0, false }), "Removed/failed installed equipment invalidates cached delays.");
             var stateA = (MapComponent_RaidTacticalExecution.ExecutionState)AccessTools.Field(frameType, "State").GetValue(frameA);
             var stateB = (MapComponent_RaidTacticalExecution.ExecutionState)AccessTools.Field(frameType, "State").GetValue(frameB);
             var frames = (IDictionary)AccessTools.Field(typeof(MapComponent_RaidTacticalCommunications), "frames").GetValue(communications);
