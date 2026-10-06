@@ -55,9 +55,11 @@ namespace Helodrace
         public List<RaidEnemyContact> Entries = new List<RaidEnemyContact>();
         internal int ScanTick = -ScanTicks;
         internal bool ScanScheduled;
+        internal int ChangeRevision;
         public RaidEnemyContact Observe(int id, string label, IntVec3 position, int room, int observer,
             int tick, IntVec3 portal, bool armed, float range, string unit = null, int version = 0)
         {
+            ChangeRevision++;
             RaidEnemyContact contact = Entries.FirstOrDefault(value => value.EnemyId == id);
             if (contact == null)
             {
@@ -87,6 +89,7 @@ namespace Helodrace
             if (report.Kind != RaidReportKind.Contact || !RaidCommunicationPolicy.Fresh(report.ObservedTick, tick)) return false;
             RaidEnemyContact known = Entries.FirstOrDefault(value => value.EnemyId == report.EnemyId);
             if (known != null && !RaidCommunicationPolicy.Newer(report.ObservedTick, false, known.SeenTick, !known.Reported)) return false;
+            ChangeRevision++;
             if (known == null) Entries.Add(known = new RaidEnemyContact { EnemyId = report.EnemyId });
             known.Label = report.Label; known.Position = report.Position; known.Room = room;
             known.ObserverId = report.ObserverId; known.SeenTick = report.ObservedTick;
@@ -104,10 +107,10 @@ namespace Helodrace
             foreach (RaidEnemyContact contact in Entries)
                 if (!observed.Contains(contact.EnemyId) && contact.SeenTick != tick)
                 {
-                    if (contact.Visible) contact.LostTick = tick;
+                    if (contact.Visible) { contact.LostTick = tick; ChangeRevision++; }
                     contact.Visible = false;
                 }
-            Entries.RemoveAll(contact => contact.Confidence(tick) == RaidContactConfidence.Expired);
+            if (Entries.RemoveAll(contact => contact.Confidence(tick) == RaidContactConfidence.Expired) > 0) ChangeRevision++;
         }
         public void ExposeData()
         {

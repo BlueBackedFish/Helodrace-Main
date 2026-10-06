@@ -608,6 +608,19 @@ internal static class Program
             }
             CheckMovementNodes();
             CheckObservationServices();
+            var reactionCadence = new TacticalReactionCadence();
+            Check(reactionCadence.Due(0, 0, 0, false), "Initial reaction review is due.");
+            reactionCadence.Record(0, 0, 0, false);
+            Check(!reactionCadence.Due(10, 0, 0, false) && !reactionCadence.Due(20, 0, 0, false)
+                && reactionCadence.Due(30, 0, 0, false), "Quiet reaction reviews have a bounded 30-tick interval.");
+            Check(reactionCadence.Due(10, 1, 0, false), "A received or observed contact bypasses quiet cadence.");
+            Check(reactionCadence.Due(10, 0, 1, false), "A phase transition triggers a fresh tactical reaction.");
+            Check(reactionCadence.Due(10, 0, 0, true), "Active smoke or contact guards retain rapid reaction checks.");
+            reactionCadence.Record(10, 1, 1, true);
+            Check(!reactionCadence.Due(10, 1, 1, true) && reactionCadence.Due(20, 1, 1, false),
+                "Same-tick evaluation is coalesced but an earlier active result is revalidated.");
+            reactionCadence.Invalidate();
+            Check(reactionCadence.Due(10, 1, 1, false), "Urgent casualties bypass a quiet deadline.");
             Console.WriteLine($"PASS: {checks} tactical geometry, movement node, immutable input, codec and worker checks.");
             return 0;
         }

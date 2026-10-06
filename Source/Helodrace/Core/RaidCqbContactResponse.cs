@@ -68,6 +68,7 @@ namespace Helodrace
 
         private bool RespondToCqbContacts(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            if (state.Contacts.Entries.Count == 0 && state.ContactGuards.Count == 0 && !state.ContactPause) return false;
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null || plan.IsDefensive || !members.Any(pawn => structure.IsIndoor(pawn.Position)))
             {

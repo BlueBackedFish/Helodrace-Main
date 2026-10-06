@@ -169,12 +169,12 @@ namespace Helodrace
                 || RaidTacticalUnit.ForPawn(pawn)?.Id != unit.Id);
             List<Pawn> members = ticket.Members;
             states.TryGetValue(unit.Id, out ExecutionState state);
+            if (urgent) state?.RoutineReactions.Invalidate();
             if (!review && state?.ActivePlan?.Success == true && members.Count > 0)
             {
                 RefreshContacts(members, state.ActivePlan, state, tick);
                 bool reacting = EmergencyReactions(members, state.ActivePlan, state, tick)
-                    || RespondToFire(members, state.ActivePlan, state, tick)
-                    || RespondToCqbContacts(members, state.ActivePlan, state, tick);
+                    || RoutineContactReactions(members, state.ActivePlan, state, tick);
                 if (!reacting && state.Phase == RaidExecutionPhase.CrossBreach)
                     Update(unit, members, state.ActivePlan, state, tick);
                 if (!reacting && state.SharedOpeningWait && tick >= ticket.AdmissionAfter)
@@ -198,6 +198,17 @@ namespace Helodrace
                 : state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete ? 60 : 30;
             ticket.ReviewAfter = tick + interval;
             ticket.AdmissionAfter = tick + 30;
+        }
+
+        private bool RoutineContactReactions(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
+        {
+            bool active = state.Reactions.Count > 0 || state.ContactGuards.Count > 0 || state.ContactPause
+                || state.ApproachSmokeActive;
+            var cadence = state.RoutineReactions;
+            if (!cadence.Due(tick, state.Contacts.ChangeRevision, (int)state.Phase, active)) return cadence.Result;
+            bool result = RespondToFire(members, plan, state, tick) || RespondToCqbContacts(members, plan, state, tick);
+            cadence.Record(tick, state.Contacts.ChangeRevision, (int)state.Phase, result);
+            return result;
         }
     }
 }

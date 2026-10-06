@@ -133,6 +133,8 @@ namespace Helodrace
 
         private bool RespondToFire(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
         {
+            if (state.Reactions.Count == 0 && !state.Contacts.Entries.Any(contact => contact.Armed
+                && !contact.PositionConfirmedEmpty && contact.Confidence(tick) <= RaidContactConfidence.Recent)) return false;
             state.Reactions.RemoveAll(value => value.Kind == RaidReactionKind.Sniper && value.Until <= tick);
             var occupied = new HashSet<IntVec3>(state.Reactions.Where(value => value.Kind == RaidReactionKind.Sniper)
                 .Select(value => value.Destination));
@@ -238,10 +240,11 @@ namespace Helodrace
             if (explosiveScanTick != tick)
             {
                 explosiveScanTick = tick;
-                observedExplosives = map.listerThings.ThingsInGroup(ThingRequestGroup.Projectile)
-                    .OfType<Projectile>().Where(projectile => !RaidSmokeUtility.IsScreeningProjectile(projectile.def)
+                observedExplosives.Clear();
+                foreach (Thing thing in map.listerThings.ThingsInGroup(ThingRequestGroup.Projectile))
+                    if (thing is Projectile projectile && !RaidSmokeUtility.IsScreeningProjectile(projectile.def)
                         && (projectile.def.projectile.explosionDelay > 0
-                            || projectile.def.GetModExtension<ModernGrenadeProjectileExtension>() != null)).ToList();
+                            || projectile.def.GetModExtension<ModernGrenadeProjectileExtension>() != null)) observedExplosives.Add(projectile);
             }
             state.Reactions.RemoveAll(value => !members.Contains(value.Pawn)
                 || value.Kind == RaidReactionKind.Explosion && value.Until <= tick);

@@ -151,6 +151,7 @@ namespace Helodrace
             public IntVec3 DefenseAim = IntVec3.Invalid;
             public int ScreenAdvanceUntil;
             public RaidContactMemory Contacts = new RaidContactMemory();
+            internal readonly TacticalReactionCadence RoutineReactions = new TacticalReactionCadence();
             internal int ObservationCursor;
             public RaidCommunicationState Communication = new RaidCommunicationState();
             internal RaidCqbKnowledge CqbKnowledge = new RaidCqbKnowledge();
@@ -871,8 +872,7 @@ namespace Helodrace
             plan.Assignments.RemoveAll(assignment => !members.Contains(assignment.Pawn));
             RefreshContacts(members, plan, state, tick);
             if (EmergencyReactions(members, plan, state, tick)
-                || RespondToFire(members, plan, state, tick)
-                || RespondToCqbContacts(members, plan, state, tick)
+                || RoutineContactReactions(members, plan, state, tick)
                 || FieldDefense(members, plan, state, tick))
             {
                 state.ApproachProgressTick = tick;

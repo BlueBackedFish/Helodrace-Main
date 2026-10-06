@@ -25,7 +25,7 @@ namespace Helodrace
         private readonly Dictionary<int, Chunk> chunks = new Dictionary<int, Chunk>();
         private readonly TacticalSpatialIndex<Pawn> pawns = new TacticalSpatialIndex<Pawn>();
         private readonly Dictionary<long, bool> lines = new Dictionary<long, bool>();
-        private int pawnTick = -1, lineTick = -1;
+        private int pawnTick = -1, pawnCount, lineTick = -1;
         internal int StructureRevision { get; private set; }
         internal readonly TacticalServiceBudget ObservationBudget = new TacticalServiceBudget(2048, 10, 32);
         internal long ChunkReads, ChunkHits, SpatialBuilds, LosChecks, LosHits;
@@ -73,17 +73,20 @@ namespace Helodrace
         }
         internal IEnumerable<Pawn> Nearby(IEnumerable<Pawn> members, int radius, int tick)
         {
-            if (pawnTick != tick)
+            // Broad-phase candidates only. Actual positions, hostility and firing
+            // sight are checked live by callers. Movement margin covers ordinary
+            // movement; a same-count teleport can defer detection by at most 10 ticks.
+            if (pawnTick < 0 || tick < pawnTick || tick - pawnTick >= 10 || pawnCount != map.mapPawns.AllPawnsSpawned.Count)
             {
                 pawns.Clear();
                 foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
                     pawns.Add(pawn, pawn.Position.x, pawn.Position.z);
-                pawnTick = tick; SpatialBuilds++;
+                pawnTick = tick; pawnCount = map.mapPawns.AllPawnsSpawned.Count; SpatialBuilds++;
             }
             var seen = new HashSet<Pawn>();
             foreach (Pawn member in members)
-                foreach (Pawn pawn in pawns.Query(member.Position.x, member.Position.z, radius))
-                    if (seen.Add(pawn)) yield return pawn;
+                foreach (Pawn pawn in pawns.Query(member.Position.x, member.Position.z, radius + 16))
+                    if (pawn.Spawned && pawn.Map == map && seen.Add(pawn)) yield return pawn;
         }
         internal bool ClearLine(IntVec3 source, IntVec3 target, int tick, Func<bool> calculate)
         {
