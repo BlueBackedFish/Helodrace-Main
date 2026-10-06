@@ -33,6 +33,20 @@ Check(ReferenceMetrics.Comparable(reference, slowerReference), "same reference w
 slowerReference.iterations = 1; Check(!ReferenceMetrics.Comparable(reference, slowerReference), "different workload rejected");
 reference.sampleMs = new[] { double.NaN }; Check(reference.MedianBatchMs == null, "invalid reference rejected");
 Console.WriteLine("Core reference checks passed: robust median, environmental scale, invalid data and workload validation.");
+capture = new MethodCapture(clock, new[] { false });
+for (int i = 1; i <= 100; i++)
+{
+    outer = capture.Enter(0); clock.Time += i; capture.Leave(outer, false);
+}
+var quantiles = capture.Percentiles(0);
+Check(quantiles.SequenceEqual(new[] { 50.0, 95.0, 99.0 }), "nearest rank call distribution");
+Check(capture.SlowElapsed.Count(v => v > 0) == 16 && capture.SlowElapsed.Min() == 85, "bounded longest calls");
+for (int i = 0; i < MethodCapture.DistributionCapacity; i++)
+{
+    outer = capture.Enter(0); clock.Time += 2; capture.Leave(outer, false);
+}
+Check(capture.Percentiles(0).All(v => v == 2), "distribution retains last bounded calls");
+Console.WriteLine("Distribution checks passed: nearest rank, bounded longest calls, ring replacement.");
 if (OperatingSystem.IsWindows())
 {
     var windows = new WindowsMethodClock();

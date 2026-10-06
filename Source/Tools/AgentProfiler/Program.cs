@@ -51,10 +51,10 @@ internal static class Program
                     double Value(ProfileMethod m) => metric switch { "inclusive" => m.inclusiveMs, "self" => m.trackedSelfMs,
                         "cpu" => m.threadCpuMs, "calls" => m.calls, _ => throw new ArgumentException("Unknown metric.") };
                     int ticks = capture.endTick - capture.startTick;
-                    Print(new { capture.label, capture.complete, capture.dropped, ticks, capture.wallSeconds, capture.reference,
+                    Print(new { capture.label, capture.complete, capture.dropped, ticks, capture.wallSeconds, capture.reference, capture.benchmark, capture.slowCalls,
                         warning = "Inclusive times overlap. Tracked self includes uninstrumented children and profiler overhead. CPU is coarse and only present for cpuMeasured scopes.",
                         methods = capture.methods.Where(m => m.calls > 0 && (metric != "cpu" || m.cpuMeasured)).OrderByDescending(Value).Take(top)
-                            .Select(m => new { m.method, m.calls, m.exceptions, m.inclusiveMs, m.trackedSelfMs, m.maxMs, m.cpuMeasured, m.threadCpuMs,
+                            .Select(m => new { m.method, m.calls, m.exceptions, m.inclusiveMs, m.trackedSelfMs, m.maxMs, m.distributionSamples, m.p50Ms, m.p95Ms, m.p99Ms, m.cpuMeasured, m.threadCpuMs,
                                 inclusiveMsPerTick = ticks > 0 ? m.inclusiveMs / ticks : (double?)null,
                                 referencePercentPerCall = ReferenceMetrics.Percent(m.inclusiveMs, m.calls, capture.reference),
                                 referencePercentPerTick = ReferenceMetrics.Percent(m.inclusiveMs, ticks, capture.reference),
@@ -72,6 +72,15 @@ internal static class Program
                         throw new ArgumentException("Comparison rejected: instrumentation target sets differ; use the same preset and additional targets.");
                     if (!ReferenceMetrics.Comparable(before.reference, after.reference))
                         throw new ArgumentException("Comparison rejected: missing/invalid Core reference or different reference workload/patches.");
+                    if (before.benchmark != null || after.benchmark != null)
+                    {
+                        var a = before.benchmark; var b = after.benchmark;
+                        if (a == null || b == null || a.fixtureVersion != b.fixtureVersion || a.seed != b.seed
+                            || a.mapFingerprint != b.mapFingerprint || a.faction != b.faction || a.startPhases != b.startPhases
+                            || a.warmupTicks != b.warmupTicks || a.sampleTicks != b.sampleTicks
+                            || a.unitCount != b.unitCount || a.radioOperators != b.radioOperators)
+                            throw new ArgumentException("Comparison rejected: benchmark map/phase/preparation/organization differs.");
+                    }
                     var old = before.methods.ToDictionary(m => m.method);
                     Print(new { beforeBuild = before.assemblySha256, afterBuild = after.assemblySha256,
                         warning = "Scenario metadata cannot prove identical map, phase, or machine load; check audit evidence. Self comparisons require identical target sets.",
@@ -83,8 +92,13 @@ internal static class Program
                             beforeReferencePercentPerTick = ReferenceMetrics.Percent(old[m.method].inclusiveMs, before.endTick - before.startTick, before.reference),
                             afterReferencePercentPerTick = ReferenceMetrics.Percent(m.inclusiveMs, after.endTick - after.startTick, after.reference),
                             deltaReferencePercentagePoints = ReferenceMetrics.Percent(m.inclusiveMs, after.endTick - after.startTick, after.reference)
-                                - ReferenceMetrics.Percent(old[m.method].inclusiveMs, before.endTick - before.startTick, before.reference) })
+                                - ReferenceMetrics.Percent(old[m.method].inclusiveMs, before.endTick - before.startTick, before.reference),
+                            beforeP95Ms = old[m.method].p95Ms, afterP95Ms = m.p95Ms,
+                            beforeP99Ms = old[m.method].p99Ms, afterP99Ms = m.p99Ms })
                             .OrderByDescending(m => Math.Abs(m.deltaReferencePercentagePoints ?? 0)).Take(25) }); break;
+                case "aggregate":
+                    Print(BenchmarkAggregate.Summarize(args.Skip(1).SelectMany(path => Directory.Exists(path)
+                        ? Directory.GetFiles(path, "capture-*.json", SearchOption.AllDirectories) : new[] { path }).Select(Read<ProfileSnapshot>).ToArray())); break;
                 case "start": case "stop": case "status":
                     var root = Path.GetFullPath(args[1]);
                     if (!File.Exists(Path.Combine(root, "capabilities.json"))) throw new ArgumentException("No profiler handshake. Launch the game with -hdMethodProfile=ROOT first.");

@@ -10,7 +10,10 @@ param(
     [switch]$ProfileElapsedOnly,
     [switch]$ProfileManual,
     [ValidateSet('detailed', 'coarse')][string]$ProfilePreset = 'coarse',
-    [string]$ProfileTargets = ''
+    [string]$ProfileTargets = '',
+    [string]$Seed = 'hd-perf-20261007',
+    [switch]$High,
+    [string]$AssemblyDirectory = ''
 )
 $ErrorActionPreference = 'Stop'
 if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) {
@@ -28,7 +31,7 @@ New-Item -ItemType Directory -Path (Join-Path $auditPath 'Config') -Force | Out-
 <ModsConfigData><version>1.6.4871 rev590</version><activeMods><li>brrainz.harmony</li><li>ludeon.rimworld</li><li>ludeon.rimworld.royalty</li><li>ludeon.rimworld.ideology</li><li>ludeon.rimworld.biotech</li><li>ludeon.rimworld.anomaly</li><li>ludeon.rimworld.odyssey</li><li>bluebackedfish.helodrace.main</li></activeMods><knownExpansions><li>ludeon.rimworld.biotech</li></knownExpansions></ModsConfigData>
 '@ | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'Config\ModsConfig.xml')
 foreach ($name in @('Helodrace.dll', 'Helodrace.pdb')) {
-    $sourcePath = Join-Path $repository "Assemblies\$name"
+    $sourcePath = if ($AssemblyDirectory) { Join-Path $AssemblyDirectory $name } else { Join-Path $repository "Assemblies\$name" }
     $targetPath = Join-Path $GameRoot "Mods\HelodRace-Main\Assemblies\$name"
     Copy-Item -LiteralPath $sourcePath -Destination $targetPath -Force
     if ((Get-FileHash -LiteralPath $sourcePath).Hash -ne (Get-FileHash -LiteralPath $targetPath).Hash) {
@@ -38,6 +41,8 @@ foreach ($name in @('Helodrace.dll', 'Helodrace.pdb')) {
 $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru -ArgumentList @(
     '-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdRaidMovementAudit=' + $auditPath + '\measurements.ndjson"'),
     ("-hdRaidMovementAuditCases=$Cases"),
+    ('"-hdRaidMovementAuditSeed=' + $Seed + '"'),
+    $(if ($High) { '-hdRaidMovementAuditHigh=true' } else { '-hdRaidMovementAuditLow=true' }),
     ("-hdRaidMovementAuditWarmup=$WarmupTicks"), ("-hdRaidMovementAuditSample=$SampleTicks"),
     $(if ($Functional) { '-hdRaidMovementAuditFunctional=true' } else { '-hdRaidMovementAuditFunctionalDisabled=true' }),
     $(if ($SpawnCommands) { '-hdRaidSpawnAudit=true' } else { '-hdRaidSpawnAuditDisabled=true' }),

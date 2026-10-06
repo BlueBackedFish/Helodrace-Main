@@ -47,6 +47,9 @@ namespace Helodrace
         private bool initialized, finished;
         private readonly int warmupTicks = 300, sampleTicks = 600;
         private readonly bool functional;
+        private readonly bool high;
+        private Profiling.ProfileBenchmark benchmark;
+        private string fingerprint;
         private readonly bool spawnCommands;
         private RaidSpawnRuntimeAudit spawnAudit;
         private RaidMovementFunctionalAudit functionalAudit;
@@ -54,6 +57,7 @@ namespace Helodrace
         public MapComponent_RaidMovementRuntimeAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out output);
+            high = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditHigh", out _);
             functional = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditFunctional", out _);
             spawnCommands = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidSpawnAudit", out _);
             if (output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditWarmup", out string warmup))
@@ -80,7 +84,7 @@ namespace Helodrace
                     Application.runInBackground = true; Application.targetFrameRate = 60; QualitySettings.vSyncCount = 0;
                     Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(output)));
                     File.WriteAllText(output, "");
-                    faction = Find.FactionManager.AllFactionsListForReading.First(value => value.def.defName == "HD_HelodCivilLowFaction");
+                    faction = Find.FactionManager.AllFactionsListForReading.First(value => value.def.defName == (high ? "HD_HelodCivilHighFaction" : "HD_HelodCivilLowFaction"));
                     faction.SetRelation(new FactionRelation(Faction.OfPlayer, FactionRelationKind.Hostile) { baseGoodwill = -100 });
                     faction.RelationWith(Faction.OfPlayer).baseGoodwill = -100;
                     Faction.OfPlayer.RelationWith(faction).baseGoodwill = -100;
@@ -121,10 +125,16 @@ namespace Helodrace
                 {
                     measuredTick = GenTicks.TicksGame; measuredFrame = Time.frameCount; measuredTime = Stopwatch.GetTimestamp();
                     RaidCpuProfiler.Reset(map);
+                    GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out string seed);
+                    benchmark = new Profiling.ProfileBenchmark { seed = seed, mapFingerprint = fingerprint,
+                        faction = faction.def.defName, requestedPopulation = populations[scenario % 5],
+                        warmupTicks = warmupTicks, sampleTicks = sampleTicks, startPhases = Phases(),
+                        unitCount = map.GetComponent<MapComponent_RaidTacticalPlans>().Plans.Count(),
+                        radioOperators = raiders.Count(pawn => RaidTacticalRadioUtility.Radios(pawn).Any()) };
                     measuredPreparationPasses = map.GetComponent<MapComponent_RaidMovementAreas>().PreparationServicePasses;
                     if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfileManual", out _))
-                        Profiling.AgentMethodProfiler.Begin("raid-audit-" + scenario, scenario, populations[scenario % 5], scenario < 10 ? 1 : 3,
-                            cpu: !GenCommandLine.TryGetCommandLineArg("hdMethodProfileElapsedOnly", out _), seconds: 300);
+                        Profiling.AgentMethodProfiler.Begin("raid-audit-" + scenario, scenario, raiders.Count, scenario < 10 ? 1 : 3,
+                            cpu: !GenCommandLine.TryGetCommandLineArg("hdMethodProfileElapsedOnly", out _), seconds: 300, benchmark: benchmark);
                 }
                 if (measuredTick >= 0 && GenTicks.TicksGame - measuredTick >= sampleTicks)
                 { FinishCase(); BeginCase(); }
@@ -150,9 +160,11 @@ namespace Helodrace
             if (sequenceIndex >= cases.Length) { finished = true; File.AppendAllText(output, "{\"complete\":true}\n"); Application.Quit(); return; }
             scenario = cases[sequenceIndex];
             int count = populations[scenario % 5]; bool tactical = scenario % 10 >= 5;
+            if (high && count > 0) count = ((count + 12) / 13) * 13;
             if (functional) { count = 11; tactical = true; }
             if (spawnCommands) count = 0;
             PrepareCaseBuildings();
+            fingerprint = RaidAuditSeed.Fingerprint(map);
             var formation = DefDatabase<FormationDef>.GetNamed("HD_Formation_GW_RifleSquad");
             var doctrine = DefDatabase<DoctrineDef>.GetNamed("HD_Doctrine_GreatWar");
             var rifle = DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman");
@@ -162,9 +174,10 @@ namespace Helodrace
             Rand.PushState(347001);
             try
             {
+                List<Pawn> modern = high && count > 0 ? GenerateHigh(count, tactical) : null;
                 for (int i = 0; i < count; i++)
                 {
-                    Pawn pawn = PawnGenerator.GeneratePawn(new PawnGenerationRequest(rifle, faction, PawnGenerationContext.NonPlayer,
+                    Pawn pawn = modern != null ? modern[i] : PawnGenerator.GeneratePawn(new PawnGenerationRequest(rifle, faction, PawnGenerationContext.NonPlayer,
                         forceGenerateNewPawn: true, allowDead: false, allowDowned: false, mustBeCapableOfViolence: true));
                     if (i % 11 == 1 || i == count - 1 && i % 11 == 0)
                         pawn.apparel.Wear((Apparel)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_Apparel_GW_Sledgehammer")));
@@ -176,14 +189,14 @@ namespace Helodrace
                     }
                     IntVec3 cell = new IntVec3(66 + i % 16, 0, 90 + i / 16);
                     GenSpawn.Spawn(pawn, cell, map); raiders.Add(pawn); starts[pawn] = cell;
-                    if (tactical)
+                    if (tactical && !high)
                     {
                         if (i % 11 == 0) organization.rootGroups.Add(new CombatGroup { id = organization.id + "/" + i / 11, formation = formation });
                         organization.rootGroups.Last().roleAssignments.Add(new RoleAssignment { pawn = pawn, combatRole = soldierRole,
                             commandRole = i % 11 == 0 ? leaderRole : null, explicitSuccessionOrder = i % 11 });
                     }
                 }
-                if (tactical && count > 0)
+                if (tactical && !high && count > 0)
                 { organization.RestoreTreeLinks(); foreach (CombatGroup group in organization.rootGroups) group.InitializeCommand(); OrganizationAPI.Registry.Register(organization); }
             }
             finally { Rand.PopState(); }
@@ -193,6 +206,25 @@ namespace Helodrace
             RaidCpuProfiler.Reset(map);
             Log.Message($"Raid audit case {scenario}: count={count}, tactical={tactical}, speed={(scenario < 10 ? 1 : 3)}");
         }
+        private List<Pawn> GenerateHigh(int count, bool tactical)
+        {
+            var result = new List<Pawn>();
+            FormationDef squad = DefDatabase<FormationDef>.GetNamed("HD_Formation_MW_RifleSquad");
+            for (int index = 0; index < count / 13; index++)
+            {
+                var generated = OrganizationGenerator.Generate(new PawnGroupMakerParms { faction = faction,
+                    groupKind = PawnGroupKindDefOf.Combat, raidStrategy = RaidStrategyDefOf.ImmediateAttack,
+                    points = squad.FormationCost, tile = map.Tile, seed = 347001 + index }, out CombatOrganization org);
+                if (generated.Count != 13 || org.rootGroups.Count != 1 || org.rootGroups[0].children.Count != 3)
+                    throw new InvalidOperationException("HIGH audit must use a full 13-person squad with three fireteams.");
+                if (!tactical) foreach (Pawn pawn in generated) OrganizationAPI.Registry.Detach(pawn);
+                result.AddRange(generated);
+            }
+            return result;
+        }
+        private string Phases() => string.Join(",", map.GetComponent<MapComponent_RaidTacticalPlans>().Plans
+            .GroupBy(plan => map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(plan.UnitId)?.Phase.ToString() ?? "NoState")
+            .OrderBy(group => group.Key).Select(group => group.Key + ":" + group.Count()));
         private void PrepareCaseBuildings()
         {
             foreach (Building building in buildings) if (!building.Destroyed) building.Destroy(DestroyMode.Vanish);
@@ -223,6 +255,7 @@ namespace Helodrace
         }
         private void FinishCase()
         {
+            if (benchmark != null) benchmark.endPhases = Phases();
             if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfileManual", out _)) Profiling.AgentMethodProfiler.End();
             double seconds = (Stopwatch.GetTimestamp() - measuredTime) / (double)Stopwatch.Frequency;
             var movement = map.GetComponent<MapComponent_RaidMovementAreas>();
@@ -236,7 +269,10 @@ namespace Helodrace
             var blocks = raiders.Where(pawn => pawn.Spawned).Select(MapComponent_RaidTacticalOrders.For)
                 .Where(order => order != null).GroupBy(order => order.Movement.BlockReason)
                 .Select(group => group.Key + ":" + group.Count());
-            string json = "{\"scenario\":" + scenario + ",\"population\":" + populations[scenario % 5]
+            string json = "{\"faction\":\"" + faction.def.defName + "\",\"actualPopulation\":" + raiders.Count
+                + ",\"mapFingerprint\":\"" + fingerprint + "\",\"startPhases\":\"" + Escape(benchmark?.startPhases ?? "")
+                + "\",\"radioOperators\":" + (benchmark?.radioOperators ?? 0)
+                + ",\"scenario\":" + scenario + ",\"population\":" + populations[scenario % 5]
                 + ",\"tactical\":" + (scenario % 10 >= 5 ? "true" : "false") + ",\"speed\":" + (scenario < 10 ? 1 : 3)
                 + ",\"TPS\":" + ((GenTicks.TicksGame - measuredTick) / seconds).ToString("0.000", CultureInfo.InvariantCulture)
                 + ",\"FPS\":" + ((Time.frameCount - measuredFrame) / seconds).ToString("0.000", CultureInfo.InvariantCulture)

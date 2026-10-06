@@ -28,6 +28,10 @@ namespace Helodrace.Profiling
         private int depth, serial;
         private bool accepting = true;
         public readonly long[] Calls, Errors, Inclusive, TrackedSelf, Maximum, CpuTicks;
+        private readonly long[][] distribution;
+        public const int DistributionCapacity = 2048;
+        public readonly int[] SlowMethods = new int[16];
+        public readonly long[] SlowElapsed = new long[16];
         public long Dropped;
         public bool Ready => !accepting && depth == 0;
 
@@ -37,6 +41,8 @@ namespace Helodrace.Profiling
             int n = cpu.Length;
             Calls = new long[n]; Errors = new long[n]; Inclusive = new long[n];
             TrackedSelf = new long[n]; Maximum = new long[n]; CpuTicks = new long[n];
+            distribution = new long[n][];
+            for (int i = 0; i < n; i++) distribution[i] = new long[DistributionCapacity];
         }
         public MethodToken Enter(int id)
         {
@@ -57,6 +63,13 @@ namespace Helodrace.Profiling
             long elapsed = Math.Max(0, clock.Timestamp() - entry.Start);
             int id = entry.Id;
             Calls[id]++; if (error) Errors[id]++;
+            distribution[id][(int)((Calls[id] - 1) % DistributionCapacity)] = elapsed;
+            if (elapsed >= clock.Frequency / 200)
+            {
+                int minimum = 0;
+                for (int i = 1; i < SlowElapsed.Length; i++) if (SlowElapsed[i] < SlowElapsed[minimum]) minimum = i;
+                if (elapsed > SlowElapsed[minimum]) { SlowMethods[minimum] = id; SlowElapsed[minimum] = elapsed; }
+            }
             Inclusive[id] += elapsed; TrackedSelf[id] += Math.Max(0, elapsed - entry.Children);
             Maximum[id] = Math.Max(Maximum[id], elapsed);
             if (entry.Cpu >= 0) CpuTicks[id] += Math.Max(0, clock.Cpu100ns() - entry.Cpu);
@@ -64,5 +77,13 @@ namespace Helodrace.Profiling
         }
         public void Stop() { accepting = false; }
         public double Milliseconds(long ticks) => ticks * 1000.0 / clock.Frequency;
+        public double[] Percentiles(int id)
+        {
+            int count = (int)Math.Min(Calls[id], DistributionCapacity);
+            if (count == 0) return new double[3];
+            var values = new long[count]; Array.Copy(distribution[id], values, count); Array.Sort(values);
+            return new[] { Milliseconds(values[(int)Math.Ceiling(count * .50) - 1]),
+                Milliseconds(values[(int)Math.Ceiling(count * .95) - 1]), Milliseconds(values[(int)Math.Ceiling(count * .99) - 1]) };
+        }
     }
 }

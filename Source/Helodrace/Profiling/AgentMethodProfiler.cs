@@ -117,7 +117,8 @@ namespace Helodrace.Profiling
             __state.Owner?.Leave(__state, __exception != null);
             return __exception;
         }
-        internal static void Begin(string label, int scenario = -1, int population = -1, int speed = -1, bool cpu = true, double seconds = 120)
+        internal static void Begin(string label, int scenario = -1, int population = -1, int speed = -1, bool cpu = true, double seconds = 120,
+            ProfileBenchmark benchmark = null)
         {
             if (!Initialize()) return;
             if (capture != null) throw new InvalidOperationException("A method capture is already active.");
@@ -128,7 +129,7 @@ namespace Helodrace.Profiling
                 mods = LoadedModManager.RunningModsListForReading.Select(mod => mod.PackageId).ToArray(),
                 cpuSource = cpu ? "Windows GetThreadTimes; user+kernel, 100ns units, coarse resolution" : "disabled",
                 startTick = GenTicks.TicksGame, startFrame = Time.frameCount, scenario = scenario, population = population, speed = speed,
-                mapId = Find.CurrentMap?.uniqueID ?? -1 };
+                mapId = Find.CurrentMap?.uniqueID ?? -1, benchmark = benchmark };
             reference = new CoreReferenceCalibration(); reference.Sample();
             nextReference = Time.realtimeSinceStartup + 1;
             started = clock.Timestamp(); deadline = Time.realtimeSinceStartup + Math.Max(1, Math.Min(300, seconds));
@@ -146,12 +147,15 @@ namespace Helodrace.Profiling
             snapshot.wallSeconds = (clock.Timestamp() - started) / (double)clock.Frequency;
             reference.Sample(); snapshot.reference = reference.Snapshot();
             snapshot.dropped = current.Dropped; snapshot.complete = current.Dropped == 0;
-            snapshot.methods = targets.Select((m, i) => new ProfileMethod { id = i, method = Signature(m),
+            snapshot.methods = targets.Select((m, i) => { double[] p = current.Percentiles(i); return new ProfileMethod { id = i, method = Signature(m),
                 cpuMeasured = snapshot.cpuSource != "disabled" && CpuTarget(m), calls = current.Calls[i], exceptions = current.Errors[i],
                 inclusiveMs = current.Milliseconds(current.Inclusive[i]), trackedSelfMs = current.Milliseconds(current.TrackedSelf[i]),
                 maxMs = current.Milliseconds(current.Maximum[i]), threadCpuMs = current.CpuTicks[i] / 10000.0,
                 referencePercentPerCall = ReferenceMetrics.Percent(current.Milliseconds(current.Inclusive[i]), current.Calls[i], snapshot.reference),
-                referencePercentPerTick = ReferenceMetrics.Percent(current.Milliseconds(current.Inclusive[i]), snapshot.endTick - snapshot.startTick, snapshot.reference) }).ToArray();
+                referencePercentPerTick = ReferenceMetrics.Percent(current.Milliseconds(current.Inclusive[i]), snapshot.endTick - snapshot.startTick, snapshot.reference),
+                distributionSamples = (int)Math.Min(current.Calls[i], MethodCapture.DistributionCapacity), p50Ms = p[0], p95Ms = p[1], p99Ms = p[2] }; }).ToArray();
+            snapshot.slowCalls = current.SlowElapsed.Select((value, i) => new ProfileSlowCall { methodId = current.SlowMethods[i], milliseconds = current.Milliseconds(value) })
+                .Where(value => value.milliseconds > 0).OrderByDescending(value => value.milliseconds).ToArray();
             latest = "capture-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff") + "-" + snapshot.startTick + ".json";
             Write(latest, snapshot); Status();
         }

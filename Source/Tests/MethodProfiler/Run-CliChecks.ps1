@@ -15,6 +15,18 @@ $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fi
 $response = & dotnet $cli compare $Capture $fixture
 if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'reference') { throw 'Different Core reference was not rejected.' }
 $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
+$sample.benchmark.mapFingerprint = 'different map'
+$sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+$response = & dotnet $cli compare $Capture $fixture
+if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'benchmark') { throw 'Different benchmark map was not rejected.' }
+$sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
+$sample.benchmark.startPhases = 'different phase'
+$sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+$response = & dotnet $cli compare $Capture $fixture
+if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'benchmark') { throw 'Different benchmark phase was not rejected.' }
+$response = & dotnet $cli aggregate $Capture $Capture
+if ($LASTEXITCODE -ne 0 -or (($response -join "`n") | ConvertFrom-Json).groups[0].runs -ne 2) { throw 'Repeated compatible captures did not aggregate.' }
+$sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 $sample.endTick = $sample.startTick
 $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
 $response = & dotnet $cli compare $Capture $fixture
