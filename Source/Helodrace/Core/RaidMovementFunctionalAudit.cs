@@ -58,6 +58,8 @@ namespace Helodrace
                 if (RaidObservationSight.CanSeeCell(map, pawn.Position, hiddenDoor.Position, RaidContactMemory.Radius,
                         (a, b) => GenSight.LineOfSight(a, b, map, true))) hiddenDoorSeen = true;
             }
+            if (stage == 1 && ((Building_Door)new IntVec3(120, 0, 116).GetEdifice(map)).Open != true)
+                throw new InvalidOperationException("The explicitly open doorway fixture unexpectedly closed.");
             if (stage == 4 && (!state.ApproachComplete || state.CurrentNode != 1
                 || state.NodeMembers.Take(pawns.Count - 1).Any(progress => progress.Completed != 0)))
                 throw new InvalidOperationException("Late Security join reopened completed lead approach work.");
@@ -82,10 +84,15 @@ namespace Helodrace
             if (!arrived)
             {
                 if (tick - stageStarted > 1800)
-                    throw new InvalidOperationException("Security functional stage " + stage + " stalled: "
+                    throw new InvalidOperationException("Security functional stage " + stage + " stalled phase=" + state.Phase
+                        + " approach=" + state.ApproachComplete + " node=" + state.CurrentNode + " guards=" + state.ContactGuards.Count
+                        + " reactions=" + state.Reactions.Count + ": "
                         + string.Join(";", pawns.Select(pawn => pawn.Position + "/" + pawn.CurJobDef?.defName
                             + "/" + MapComponent_RaidTacticalOrders.For(pawn)?.Movement.BlockReason
                             + "/edifice=" + pawn.Position.GetEdifice(map)?.def.defName
+                            + "/assignment=" + active.Assignments.FirstOrDefault(a => a.Pawn == pawn)?.Position
+                            + "/command=" + MapComponent_RaidTacticalOrders.For(pawn)?.Command.Kind
+                            + "/destination=" + MapComponent_RaidTacticalOrders.For(pawn)?.Destination
                             + "/frozenStandable=" + structure.Version.Geometry.Input.Cells[map.cellIndices.CellToIndex(pawn.Position)]
                                 .Has(TacticalRawFlags.Standable))));
                 return false;
@@ -126,6 +133,10 @@ namespace Helodrace
                 pawn.Position = new IntVec3(110 + i % 4, 0, z - 1 + i / 4);
                 pawn.Notify_Teleported(endCurrentJob: false);
             }
+            // Pawn traffic resets vanilla ticksUntilClose to its short normal
+            // delay. A large initial timer alone does not keep an open-door
+            // fixture open until its slower followers arrive.
+            AccessTools.Field(typeof(Building_Door), "holdOpenInt").SetValue(door, stage == 1);
             if (stage == 1) Open(door);
             else
             {
