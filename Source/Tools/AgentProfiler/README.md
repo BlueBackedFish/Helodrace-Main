@@ -73,3 +73,11 @@ CLI 제어 시험은 `Run-ControlSmoke.ps1 -ProfileRoot ...`로 수행한다. �
 호출 분포는 메서드별 마지막 2048회만 보관하며 p50/p95/p99는 nearest-rank 방식이다. 5ms 이상 호출 중 가장 긴 16개도 보관한다. 중첩 호출은 서로 시간이 겹친다. 반복 집계의 p95/p99는 각 실행 분위수의 중앙값이며 전체 호출을 합친 분위수가 아니다. 프로파일링이 비활성화된 일반 세션에는 이 기록을 만들지 않는다.
 
 반복 비교는 `benchmark-compare BEFORE_ROOT AFTER_ROOT`로 수행한다. 조건이 다른 그룹은 unmatched로 기록하며 일치하는 시작 단계만 비교한다. 호출 p95/p99에도 Core 대비 비율을 함께 출력한다. 완료된 같은 조건을 재사용하려면 반복 실행기의 `-Resume`을 사용한다. 고정 전장 버전 2는 지도 전체의 지형·건물·지붕을 정리해 물리 지도 해시를 동일하게 만든다.
+
+최적화 근거로 사용하기 전에는 감사 결과도 검사한다. `Compare-ReviewedBenchmarks.ps1`은 각 실행의 `measurements.ndjson`과 인접한 `profiles/capture-*.json`을 연결해 수집 예외/dropped, 불완전 감사, 메타데이터 불일치, 사상자, 95% 미만 이동 기록을 제외한다. 원본을 변경하지 않고 CreatorTemp의 새 폴더에 선택 기록, `review.json`, 조건을 다시 맞춘 `comparison.json`을 만든다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/AgentProfiler/Compare-ReviewedBenchmarks.ps1 -BeforeRoot $before -AfterRoot $after
+```
+
+95% 이동은 정지한 실행을 개선으로 오인하지 않기 위한 최소 검사다. 적절한 대형, 집결 도착, 목표 클리어, 동일한 전술 작업량을 보증하지 않는다. 종료 단계와 긴 호출은 계속 원본 감사와 함께 검토한다. 분위수 0인 미호출 메서드도 개선으로 해석하지 않는다.
