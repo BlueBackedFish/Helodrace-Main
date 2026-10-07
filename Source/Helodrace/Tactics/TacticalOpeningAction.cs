@@ -193,9 +193,7 @@ namespace Helodrace.Tactics
                 if (SupportEffectsPending(command, tick)) { SupportWaits++; return; }
                 if (command.ReplanAfterSupport)
                 {
-                    command.ReplanAfterSupport = false; ReleaseClaims(command); command.Plan = null;
-                    command.OpeningAction = null; command.Phase = TacticalCommandPhase.Pending;
-                    foreach (TacticalMemberCommand member in command.Members) member.Passed = member.Crossed = member.Entered = false;
+                    ResetAfterSupport(command, tick);
                     return;
                 }
                 command.Phase = TacticalCommandPhase.Enter;

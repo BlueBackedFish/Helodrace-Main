@@ -51,4 +51,18 @@
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalInstallCharge</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalInstallCharge</driverClass>
+    <reportString>C4 돌파 폭약을 설치하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalTriggerCharge</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalTriggerCharge</driverClass>
+    <reportString>안전 거리에서 돌파 폭약을 기폭하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
 </Defs>

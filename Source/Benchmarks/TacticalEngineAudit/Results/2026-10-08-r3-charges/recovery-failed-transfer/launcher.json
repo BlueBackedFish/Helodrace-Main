@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "charge-recovery",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceCharge;Helodrace.Tactics.MapComponent_TacticalCommands::ChargeEffectsPending;Helodrace.Tactics.MapComponent_TacticalCommands::PrepareChargeWithdrawal;Helodrace.Tactics.MapComponent_TacticalCommands::ChargeSafeToTrigger;Helodrace.Tactics.MapComponent_TacticalCommands::RecoverBreachTool;Helodrace.CompInstalledBreachCharge::DetonateNow",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "2522bc7f8e62590e2f9981101fa8371377b8c732c0058c6b16d6b8a9c25bdb8b",
+    "high":  false,
+    "sampleTicks":  3600,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

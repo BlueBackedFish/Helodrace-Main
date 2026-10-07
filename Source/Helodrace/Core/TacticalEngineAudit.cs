@@ -29,6 +29,7 @@ namespace Helodrace
         [DataMember] public long newJobsIssued, newJobFailures, newPlansAttempted;
         [DataMember] public long newObservations, newObservationContacts, newSupportThrows, newSupportWaits, newSupportReturns, newUnsafeEntries;
         [DataMember] public long newToolRecoveriesStarted, newToolRecoveriesCompleted, newCutterJobsStarted;
+        [DataMember] public long newChargesInstalled, newChargeDetonations, newChargeOperatorTransfers, newChargeWaits;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
         [DataMember] public bool newPhysicalPlansValid;
         [DataMember] public int newAllCompleteTick = -1;
@@ -135,7 +136,8 @@ namespace Helodrace
             result.fixtureCase = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditCase", out string fixtureCase) ? fixtureCase : "normal";
             if (result.fixtureCase != "normal" && result.fixtureCase != "interrupt" && result.fixtureCase != "casualty"
                 && result.fixtureCase != "rocks" && result.fixtureCase != "narrow" && result.fixtureCase != "contact" && result.fixtureCase != "field"
-                && result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
+                && result.fixtureCase != "charge-recovery" && result.fixtureCase != "charge-fuse-casualty" && result.fixtureCase != "charge-change") throw new ArgumentException("Unknown audit case.");
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -235,17 +237,29 @@ namespace Helodrace
         }
         private void ConfigureBreachEquipment()
         {
-            if (result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery") return;
+            bool charge = result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal);
+            if (result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery" && !charge) return;
             bool cutter = result.fixtureCase.StartsWith("cutter", StringComparison.Ordinal);
             bool kept = false;
             foreach (Pawn pawn in raiders)
                 foreach (Apparel apparel in pawn.apparel.WornApparel.ToArray())
                     if (apparel.TryGetComp<CompSledgehammerBreach>() != null)
                     {
-                        if (!cutter && !kept) { kept = true; continue; }
+                        if (!cutter && !charge && !kept) { kept = true; continue; }
                         pawn.apparel.Remove(apparel); apparel.Destroy();
                     }
-            if (!cutter && !kept) throw new InvalidOperationException("Recovery fixture needs one real worn hammer.");
+            if (!cutter && !charge && !kept) throw new InvalidOperationException("Recovery fixture needs one real worn hammer.");
+            if (charge)
+            {
+                foreach (Pawn pawn in raiders)
+                    foreach (Thing item in pawn.inventory.innerContainer.ToArray())
+                        if (item.def == BreachExplosiveUtility.C4Def || (item as ThingWithComps)?.TryGetComp<CompBreachIgniter>() != null)
+                        { pawn.inventory.innerContainer.Remove(item); item.Destroy(); }
+                Thing c4 = ThingMaker.MakeThing(BreachExplosiveUtility.C4Def); c4.stackCount = 3;
+                raiders[0].inventory.innerContainer.TryAdd(c4);
+                raiders[0].inventory.innerContainer.TryAdd(ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(
+                    result.fixtureCase == "charge-recovery" ? "HD_M81Igniter" : "HD_M60Igniter")));
+            }
             if (cutter)
             {
                 Pawn pawn = raiders[0];
@@ -265,10 +279,24 @@ namespace Helodrace
                 { result.returnOutsideTick = GenTicks.TicksGame - started; result.returnOutsideJob = interruptedPawn.CurJobDef?.defName; }
             }
             if (result.fixtureCase != "interrupt" && result.fixtureCase != "casualty" && result.fixtureCase != "contact"
-                && result.fixtureCase != "recovery" && result.fixtureCase != "cutter-recovery") return;
+                && result.fixtureCase != "recovery" && result.fixtureCase != "cutter-recovery"
+                && !result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal)) return;
             if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
-            if (result.fixtureCase == "contact")
+            if (result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal))
+            {
+                var command = service.Commands.FirstOrDefault(item => item.ChargeAction != null
+                    && (result.fixtureCase == "charge-recovery" ? item.ChargeAction.Charge == null
+                        && item.ChargeAction.Installer?.CurJobDef?.defName == "HD_NewTacticalInstallCharge"
+                        : result.fixtureCase == "charge-change" ? item.ChargeAction.Detonated && !item.ChargeAction.EffectsCleared
+                        : item.ChargeAction.Charge != null && !item.ChargeAction.Detonated));
+                if (command == null) return;
+                result.caseTriggered = true;
+                if (result.fixtureCase == "charge-change")
+                { service.SetObjective(command.Goal + new IntVec3(1,0,1)); command.ChargeAction.Charge.OperatorPawn.Kill(null); }
+                else command.ChargeAction.Installer.Kill(null);
+            }
+            else if (result.fixtureCase == "contact")
             {
                 var command = service.Commands.FirstOrDefault(item => item.Phase == Tactics.TacticalCommandPhase.Observe && item.Plan != null);
                 if (command == null) return;
@@ -363,6 +391,8 @@ namespace Helodrace
                 result.newToolRecoveriesStarted = newService.ToolRecoveriesStarted;
                 result.newToolRecoveriesCompleted = newService.ToolRecoveriesCompleted;
                 result.newCutterJobsStarted = newService.CutterJobsStarted;
+                result.newChargesInstalled = newService.ChargesInstalled; result.newChargeDetonations = newService.ChargeDetonations;
+                result.newChargeOperatorTransfers = newService.ChargeOperatorTransfers; result.newChargeWaits = newService.ChargeWaits;
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid

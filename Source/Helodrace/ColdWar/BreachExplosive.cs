@@ -116,6 +116,15 @@ namespace Helodrace
         public int C4Count => c4Count;
         public float TetherRange => tetherRange;
         public bool Triggered => triggered;
+        public readonly List<Projectile> Fragments = new List<Projectile>(18);
+
+        public bool TryAssignOperator(Pawn successor)
+        {
+            if (!IsActive || triggered || !BreachExplosiveUtility.CanOperate(successor) || successor.Map != parent.Map
+                || operatorPawn != successor && operatorPawn?.Spawned == true && operatorPawn.Map == parent.Map
+                    && !operatorPawn.Dead && !operatorPawn.Downed && !operatorPawn.InMentalState) return false;
+            operatorPawn = successor; return true;
+        }
 
         public bool IsActive => parent.Spawned
             && targetWall != null
@@ -453,7 +462,8 @@ namespace Helodrace
                     instigator,
                     parent,
                     beyondDirection.ToVector3(),
-                    Props.beyondFragmentConeDegrees);
+                    Props.beyondFragmentConeDegrees,
+                    Fragments);
             }
             catch (System.Exception exception)
             {
@@ -929,7 +939,7 @@ namespace Helodrace
         private CompBreachIgniter IgniterComp =>
             Igniter?.TryGetComp<CompBreachIgniter>();
 
-        private BreachInitiationMode Mode =>
+        protected virtual BreachInitiationMode Mode =>
             job.def.defName == BreachExplosiveUtility.ShockTubeJobDefName
                 ? BreachInitiationMode.ShockTube
                 : BreachInitiationMode.TimeFuse;
@@ -1054,6 +1064,7 @@ namespace Helodrace
                 Mode,
                 requiredC4,
                 range);
+            map.GetComponent<Helodrace.Tactics.MapComponent_TacticalCommands>()?.ChargeInstalled(pawn, job, installed);
 
             Messages.Message(
                 "HD_BreachExplosive_Installed".Translate(

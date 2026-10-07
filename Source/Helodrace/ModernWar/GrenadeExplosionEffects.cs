@@ -242,7 +242,8 @@ namespace Helodrace.ModernWar
             Thing instigator,
             Thing shotCaster,
             Vector3 direction,
-            float coneDegrees)
+            float coneDegrees,
+            ICollection<Projectile> launched = null)
         {
             ThingDef fragmentDef = extension?.fragmentProjectile;
             direction.y = 0f;
@@ -283,7 +284,7 @@ namespace Helodrace.ModernWar
                 }
 
                 LocalTargetInfo target = new LocalTargetInfo(targetCell);
-                LaunchFragment(
+                Projectile fragment = LaunchFragment(
                     center,
                     map,
                     fragmentDef,
@@ -292,6 +293,7 @@ namespace Helodrace.ModernWar
                     target,
                     target,
                     null);
+                if (fragment != null) launched?.Add(fragment);
             }
         }
 
@@ -387,7 +389,7 @@ namespace Helodrace.ModernWar
             return launched;
         }
 
-        private static void LaunchFragment(
+        private static Projectile LaunchFragment(
             IntVec3 center,
             Map map,
             ThingDef fragmentDef,
@@ -418,6 +420,7 @@ namespace Helodrace.ModernWar
                 false,
                 null,
                 targetCoverDef);
+            return fragment;
         }
 
         private static Thing FirstBlockingEdificeOnLine(

@@ -29,7 +29,7 @@ namespace Helodrace.Tactics
                     if (CompSledgehammerBreach.WornBy(pawn)?.parent != apparel)
                     { EndJobWith(JobCondition.Incompletable); return; }
                 }
-                else
+                else if ((tool as ThingWithComps)?.TryGetComp<CompPowerCutterBreach>() != null)
                 {
                     ThingWithComps primary = pawn.equipment.Primary;
                     if (primary != null && !pawn.equipment.TryDropEquipment(primary, out _, pawn.Position, false))
@@ -37,6 +37,17 @@ namespace Helodrace.Tactics
                     if (tool.ParentHolder is Pawn_EquipmentTracker holder) holder.Remove((ThingWithComps)tool);
                     if (tool.Spawned) tool.DeSpawn();
                     pawn.equipment.AddEquipment((ThingWithComps)tool);
+                }
+                else
+                {
+                    // Death can scatter inventory onto the map. Unlike Wear,
+                    // ThingOwner transfer does not pick up a spawned item.
+                    if (tool.Spawned) tool.DeSpawn();
+                    if (!pawn.inventory.innerContainer.TryAddOrTransfer(tool))
+                    {
+                        if (!tool.Spawned && tool.holdingOwner == null) GenPlace.TryPlaceThing(tool, pawn.Position, pawn.Map, ThingPlaceMode.Near);
+                        EndJobWith(JobCondition.Incompletable); return;
+                    }
                 }
                 recovered = true;
                 pawn.Map.GetComponent<MapComponent_TacticalCommands>().ToolRecovered(pawn, tool);
@@ -66,5 +77,43 @@ namespace Helodrace.Tactics
             yield return gate;
             foreach (Toil toil in base.MakeNewToils()) yield return toil;
         }
+    }
+
+    public sealed class JobDriver_TacticalInstallCharge : JobDriver_InstallBreachCharge
+    {
+        protected override BreachInitiationMode Mode => (job.targetC.Thing as ThingWithComps)?.TryGetComp<CompBreachIgniter>()
+            ?.Supports(BreachInitiationMode.ShockTube) == true ? BreachInitiationMode.ShockTube : BreachInitiationMode.TimeFuse;
+        protected override IEnumerable<Toil> MakeNewToils()
+        {
+            MapComponent_TacticalCommands owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>(); Job owned = job;
+            AddFinishAction(condition => owner?.JobFinished(pawn, owned, condition)); job.canUseRangedWeapon = false;
+            this.FailOn(() => pawn.Downed || pawn.InMentalState || !BreachExplosiveUtility.CanOperate(pawn));
+            var gate = ToilMaker.MakeToil("TacticalChargeMovementBudget"); gate.defaultCompleteMode = ToilCompleteMode.Never;
+            gate.initAction = () => pawn.pather.StopDead();
+            gate.tickAction = () =>
+            { if (Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.TryPath(GenTicks.TicksGame)) ReadyForNextToil(); };
+            yield return gate;
+            foreach (Toil toil in base.MakeNewToils()) yield return toil;
+        }
+    }
+
+    public sealed class JobDriver_TacticalTriggerCharge : TacticalJobDriver
+    {
+        private bool triggered;
+        private CompInstalledBreachCharge Charge => (job.targetA.Thing as ThingWithComps)?.TryGetComp<CompInstalledBreachCharge>();
+        protected override IEnumerable<Toil> MakeNewToils()
+        {
+            BindOwner(); job.canUseRangedWeapon = false;
+            this.FailOn(() => !triggered && (Charge?.OperatorPawn != pawn || !Charge.CanTrigger(out _)));
+            yield return Toils_General.Wait(Charge?.Props.triggerWorkTicks ?? 60, TargetIndex.A);
+            yield return Toils_General.Do(() =>
+            {
+                triggered = pawn.Map.GetComponent<MapComponent_TacticalCommands>().TriggerCharge(pawn, job);
+                if (!triggered) EndJobWith(JobCondition.Incompletable);
+            });
+            yield return Hold(job.targetA.Cell);
+        }
+        public override void ExposeData()
+        { base.ExposeData(); Scribe_Values.Look(ref triggered, "tacticalChargeTriggered"); }
     }
 }

@@ -38,6 +38,7 @@ namespace Helodrace.Tactics
         public bool DeferredWork;
         public TacticalPlanFailure LastPlanFailure;
         public TacticalOpeningAction OpeningAction;
+        public TacticalChargeAction ChargeAction;
         public bool ReplanAfterSupport;
         public readonly List<Thing> BreachTools = new List<Thing>();
         public int RecoveryRetryAt, RecoveryCandidateCursor;
@@ -152,13 +153,16 @@ namespace Helodrace.Tactics
         {
             if (!goal.InBounds(map)) throw new ArgumentException("Objective is outside this map.");
             explicitGoal = goal;
-            knownOpenings.Clear();
+            // A different objective does not erase a physically secured portal.
+            // ReuseOpening still validates its face, occupancy and live passage.
             foreach (TacticalSquadCommand command in squads.Values.ToArray())
             {
                 if (command.Terminal) { squads.Remove(command.Id); continue; }
                 // Never erase an already launched grenade's safety state.
-                if (command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
+                if (command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
+                    || command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared)
                 { command.ReplanAfterSupport = true; command.Goal = goal; command.Due = GenTicks.TicksGame + 1; continue; }
+                AbandonCharge(command);
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
                 command.Phase = TacticalCommandPhase.Pending; command.Due = GenTicks.TicksGame;
@@ -216,6 +220,7 @@ namespace Helodrace.Tactics
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.Plan == null) return;
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
             if (member?.Job == job && command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) UnsafeEntries++;
+            if (member?.Job == job && command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared) UnsafeEntries++;
             if (member?.Job == job && at == command.Plan.Opening) member.Passed = true;
         }
         internal void CrossedInside(Pawn pawn, Job job)
@@ -242,13 +247,17 @@ namespace Helodrace.Tactics
         {
             if (command.Phase == TacticalCommandPhase.Returning)
             {
-                if (SupportEffectsPending(command, tick)) { command.Due = tick + 15; return; }
+                if (SupportEffectsPending(command, tick) || ChargeEffectsPending(command, tick)) { command.Due = tick + 15; return; }
+                AbandonCharge(command);
+                if (command.ReplanAfterSupport) { ResetAfterSupport(command, tick); return; }
                 ReturnMembers(command, tick); return;
             }
             command.Due = tick + (command.Phase == TacticalCommandPhase.Enter ? 30 : 120);
             var active = command.Members.Where(member => Available(member, map)).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
+            if (command.Phase == TacticalCommandPhase.Breach && command.ChargeAction != null)
+            { AdvanceCharge(command, active, tick); return; }
             foreach (TacticalMemberCommand member in active)
             {
                 if (member.Pawn.Position != member.LastPosition)
@@ -294,7 +303,8 @@ namespace Helodrace.Tactics
                 TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
                 Pawn leader = active[0].Pawn;
                 Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => BreachExplosiveUtility.CanOperate(pawn)
-                    && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null));
+                    && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
+                        || BreachExplosiveUtility.CountInInventory(pawn, BreachExplosiveUtility.C4Def) > 0 && TacticalBreachTools.IgniterFor(pawn) != null));
                 if (hammer == null && tick - command.PhaseStarted < 1200 && RecoverBreachTool(command, active, tick))
                 {
                     foreach (TacticalMemberCommand member in active)
@@ -387,6 +397,13 @@ namespace Helodrace.Tactics
                     bool cutter = worker.Pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
                         && (!(current.Barrier is Building_Door) || CompSledgehammerBreach.WornBy(worker.Pawn) == null
                             || !CompSledgehammerBreach.IsValidTarget(worker.Pawn, current.Barrier));
+                    bool hammerDoor = current.Barrier is Building_Door && CompSledgehammerBreach.WornBy(worker.Pawn) != null
+                        && CompSledgehammerBreach.IsValidTarget(worker.Pawn, current.Barrier);
+                    if (!cutter && !hammerDoor && TacticalBreachTools.CanCharge(worker.Pawn, current.Barrier))
+                    {
+                        if (BeginCharge(command, worker, tick)) { AdvanceCharge(command, active, tick); return; }
+                        if (CompSledgehammerBreach.WornBy(worker.Pawn) == null) { Release(command); return; }
+                    }
                     string breachJob = cutter ? TacticalBreachTools.CutterJob : "HD_NewTacticalBreach";
                     if (worker.Job?.def.defName != breachJob || worker.Pawn.CurJob != worker.Job)
                     {
