@@ -1,0 +1,15 @@
+﻿{
+    "warmupTicks":  1200,
+    "fixtureCase":  "normal",
+    "methodProfile":  true,
+    "targets":  "Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "86f0c4460de9923d89b436d0dc5395e682cee2016fc60f5c9b634d271925e195",
+    "high":  false,
+    "sampleTicks":  600,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "spikes",
+    "requestedPopulation":  204,
+    "workload":  "sapper-wall"
+}

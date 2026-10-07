@@ -17,7 +17,7 @@ namespace Helodrace.Profiling
     [DataContract]
     public sealed class ProfileSnapshot
     {
-        [DataMember] public int schema = 4;
+        [DataMember] public int schema = 5;
         [DataMember] public string label, utc, assemblySha256, gameVersion, runtime, operatingSystem, cpuSource;
         [DataMember] public string[] mods;
         [DataMember] public int startTick, endTick, startFrame, endFrame, population, scenario, speed, mapId;
@@ -31,12 +31,29 @@ namespace Helodrace.Profiling
         [DataMember] public ProfileReference reference;
         [DataMember] public ProfileBenchmark benchmark;
         [DataMember] public ProfileSlowCall[] slowCalls;
+        [DataMember] public bool spikeTracing, spikeTraceSupported;
+        [DataMember] public double spikeThresholdMs;
+        [DataMember] public int spikeCapacity, spikeCallCapacity;
+        [DataMember] public long spikeCandidates;
+        [DataMember] public ProfileTickSpike[] tickSpikes;
     }
     [DataContract]
     public sealed class ProfileSlowCall
     {
         [DataMember] public int methodId;
         [DataMember] public double milliseconds;
+        [DataMember] public int callId, parentCallId, rootCallId, depth, tick, frame, mapId, pawnId;
+        [DataMember] public string squadId, phase, job;
+        [DataMember] public double startMs, trackedSelfMs;
+        [DataMember] public double? threadCpuMs;
+    }
+    [DataContract]
+    public sealed class ProfileTickSpike
+    {
+        [DataMember] public ProfileSlowCall root;
+        [DataMember] public ProfileSlowCall[] calls;
+        [DataMember] public int callsSeen, detailsDropped, gc0, gc1, gc2;
+        [DataMember] public bool detailsComplete;
     }
     [DataContract]
     public sealed class ProfileBenchmark
@@ -59,5 +76,7 @@ namespace Helodrace.Profiling
         [DataMember] public string label;
         [DataMember] public double seconds = 10;
         [DataMember] public bool cpu;
+        [DataMember] public bool? spikes;
+        [DataMember] public double? spikeThresholdMs;
     }
 }

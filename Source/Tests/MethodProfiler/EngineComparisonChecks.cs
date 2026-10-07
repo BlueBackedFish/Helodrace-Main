@@ -18,7 +18,7 @@ internal static class EngineComparisonChecks
             throw new Exception("R1 fallback must never pass the new AI performance gate.");
         // Phases are deliberately different across engines; the comparison above must accept them.
         Reject(() => EngineComparison.Compare(candidate, baseline), "non-vanilla baseline");
-        foreach (string fault in new[] { "build", "map", "equipment", "engine", "targets", "dropped", "cpu", "partial-tick", "leak", "unmoved", "audit-error", "no-audit", "reference", "missing-legacy", "sapper-ineligible" })
+        foreach (string fault in new[] { "build", "map", "equipment", "engine", "targets", "dropped", "cpu", "partial-tick", "leak", "unmoved", "audit-error", "no-audit", "reference", "missing-legacy", "sapper-ineligible", "spikes", "spike-threshold" })
         {
             string bad = Write(root, fault, "new", 150, 1);
             string capturePath = Path.Combine(bad, "profiles/capture-0.json"), auditPath = Path.Combine(bad, "audit.json");
@@ -28,6 +28,8 @@ internal static class EngineComparisonChecks
             switch (fault)
             {
                 case "build": capture.assemblySha256 = "different build"; break;
+                case "spikes": capture.spikeTracing = true; break;
+                case "spike-threshold": capture.spikeThresholdMs = 20; break;
                 case "map": capture.benchmark.mapFingerprint = "different geometry"; Audit("mapFingerprint", "different geometry"); break;
                 case "equipment": capture.benchmark.pawnFingerprint = "different gear"; Audit("pawnFingerprint", "different gear"); break;
                 case "engine": capture.selectedEngine = "legacy"; break;
@@ -80,7 +82,7 @@ internal static class EngineComparisonChecks
         File.WriteAllText(r2Audit, JsonSerializer.Serialize(stalled));
         group = JsonSerializer.SerializeToElement(EngineComparison.Compare(r2Baseline, r2)).GetProperty("groups")[0];
         if (group.GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean()) throw new Exception("Partially entered R2 passed the gate.");
-        Console.WriteLine("Engine comparison checks passed: same fixture/different phases, CPU ratio/range, fallback and stalled gates, 15 invalid-condition rejections.");
+        Console.WriteLine("Engine comparison checks passed: same fixture/different phases, CPU ratio/range, fallback and stalled gates, 17 invalid-condition rejections.");
     }
     private static void Reject(Func<object> action, string label)
     {

@@ -1,0 +1,266 @@
+{
+  "purpose": "tool validation only; not a before/after performance comparison",
+  "captureAssemblySha256": "86f0c4460de9923d89b436d0dc5395e682cee2016fc60f5c9b634d271925e195",
+  "schema": 5,
+  "ticks": 600,
+  "registeredMethods": 52,
+  "spikeCandidates": 281,
+  "retainedTicks": 8,
+  "detailsDropped": 0,
+  "exceptions": 0,
+  "dropped": 0,
+  "meanTickThreadCpuMs": 5.208333333333333,
+  "meanTickElapsedMs": 5.334099166666666,
+  "coreBatchMedianMs": 0.2764,
+  "validation": "parent/root identities, tick normalization, nesting time ranges, actor/squad/phase and complete bounded trees passed",
+  "spikes": [
+    {
+      "tick": 1584,
+      "elapsedMs": 22.2939,
+      "rootThreadCpuMs": 15.625,
+      "corePercent": 8065.810419681621,
+      "selectedCalls": 298,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 109152,
+        "depth": 2,
+        "frame": 4190,
+        "job": "Wait_MaintainPosture",
+        "mapId": 0,
+        "methodId": 9,
+        "milliseconds": 16.5381,
+        "parentCallId": 109143,
+        "pawnId": 845,
+        "phase": null,
+        "rootCallId": 109139,
+        "squadId": null,
+        "startMs": 2275.7648,
+        "threadCpuMs": null,
+        "tick": 1584,
+        "trackedSelfMs": 16.5381,
+        "method": "Verse.Pawn.TickInterval(System.Int32)"
+      }
+    },
+    {
+      "tick": 1761,
+      "elapsedMs": 16.2388,
+      "rootThreadCpuMs": 15.625,
+      "corePercent": 5875.108538350218,
+      "selectedCalls": 308,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 164116,
+        "depth": 5,
+        "frame": 4576,
+        "job": "Goto",
+        "mapId": 0,
+        "methodId": 16,
+        "milliseconds": 7.2094,
+        "parentCallId": 164115,
+        "pawnId": 4414,
+        "phase": null,
+        "rootCallId": 164103,
+        "squadId": null,
+        "startMs": 5179.1281,
+        "threadCpuMs": null,
+        "tick": 1761,
+        "trackedSelfMs": 7.2094,
+        "method": "RimWorld.JobGiver_AIFightEnemy.TryGiveJob(Verse.Pawn)"
+      }
+    },
+    {
+      "tick": 1592,
+      "elapsedMs": 14.2791,
+      "rootThreadCpuMs": 15.625,
+      "corePercent": 5166.0998552822,
+      "selectedCalls": 286,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 111470,
+        "depth": 5,
+        "frame": 4195,
+        "job": "Goto",
+        "mapId": 0,
+        "methodId": 16,
+        "milliseconds": 7.8598,
+        "parentCallId": 111469,
+        "pawnId": 4417,
+        "phase": null,
+        "rootCallId": 111455,
+        "squadId": null,
+        "startMs": 2367.1582,
+        "threadCpuMs": null,
+        "tick": 1592,
+        "trackedSelfMs": 7.8598,
+        "method": "RimWorld.JobGiver_AIFightEnemy.TryGiveJob(Verse.Pawn)"
+      }
+    },
+    {
+      "tick": 1303,
+      "elapsedMs": 14.0844,
+      "rootThreadCpuMs": 15.625,
+      "corePercent": 5095.658465991318,
+      "selectedCalls": 307,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 28655,
+        "depth": 2,
+        "frame": 4141,
+        "job": "HD_NewTacticalPost",
+        "mapId": 0,
+        "methodId": 9,
+        "milliseconds": 5.6803,
+        "parentCallId": 28443,
+        "pawnId": 39852,
+        "phase": "Pending",
+        "rootCallId": 28439,
+        "squadId": "HD_Raid_14::HD_Raid_14_Group_1",
+        "startMs": 633.0478,
+        "threadCpuMs": null,
+        "tick": 1303,
+        "trackedSelfMs": 5.6715,
+        "method": "Verse.Pawn.TickInterval(System.Int32)"
+      }
+    },
+    {
+      "tick": 1500,
+      "elapsedMs": 10.9512,
+      "rootThreadCpuMs": 15.625,
+      "corePercent": 3962.083936324168,
+      "selectedCalls": 287,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 85323,
+        "depth": 2,
+        "frame": 4176,
+        "job": "HD_NewTacticalPost",
+        "mapId": 0,
+        "methodId": 9,
+        "milliseconds": 2.7415,
+        "parentCallId": 85177,
+        "pawnId": 39383,
+        "phase": "Pending",
+        "rootCallId": 85173,
+        "squadId": "HD_Raid_10::HD_Raid_10_Group_1",
+        "startMs": 1767.4966,
+        "threadCpuMs": null,
+        "tick": 1500,
+        "trackedSelfMs": 2.7366,
+        "method": "Verse.Pawn.TickInterval(System.Int32)"
+      }
+    },
+    {
+      "tick": 1396,
+      "elapsedMs": 10.8405,
+      "rootThreadCpuMs": 15.625,
+      "corePercent": 3922.033285094067,
+      "selectedCalls": 299,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 55270,
+        "depth": 2,
+        "frame": 4157,
+        "job": "HD_NewTacticalPost",
+        "mapId": 0,
+        "methodId": 9,
+        "milliseconds": 2.6672,
+        "parentCallId": 55213,
+        "pawnId": 38733,
+        "phase": "Pending",
+        "rootCallId": 55209,
+        "squadId": "HD_Raid_3::HD_Raid_3_Group_1",
+        "startMs": 1168.7712,
+        "threadCpuMs": null,
+        "tick": 1396,
+        "trackedSelfMs": 2.6562,
+        "method": "Verse.Pawn.TickInterval(System.Int32)"
+      }
+    },
+    {
+      "tick": 1492,
+      "elapsedMs": 10.7819,
+      "rootThreadCpuMs": 0,
+      "corePercent": 3900.832127351665,
+      "selectedCalls": 307,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 83055,
+        "depth": 2,
+        "frame": 4174,
+        "job": "HD_NewTacticalPost",
+        "mapId": 0,
+        "methodId": 9,
+        "milliseconds": 3.0882,
+        "parentCallId": 82892,
+        "pawnId": 39400,
+        "phase": "Pending",
+        "rootCallId": 82888,
+        "squadId": "HD_Raid_10::HD_Raid_10_Group_1",
+        "startMs": 1711.5763,
+        "threadCpuMs": null,
+        "tick": 1492,
+        "trackedSelfMs": 3.0839,
+        "method": "Verse.Pawn.TickInterval(System.Int32)"
+      }
+    },
+    {
+      "tick": 1642,
+      "elapsedMs": 10.7163,
+      "rootThreadCpuMs": 0,
+      "corePercent": 3877.0984081041975,
+      "selectedCalls": 308,
+      "gc": [
+        0,
+        0,
+        0
+      ],
+      "costliestActor": {
+        "callId": 127007,
+        "depth": 2,
+        "frame": 4312,
+        "job": "HD_NewTacticalIngress",
+        "mapId": 0,
+        "methodId": 9,
+        "milliseconds": 2.9839,
+        "parentCallId": 126955,
+        "pawnId": 38693,
+        "phase": "Enter",
+        "rootCallId": 126951,
+        "squadId": "HD_Raid_3::HD_Raid_3_Group_1",
+        "startMs": 3192.4189,
+        "threadCpuMs": null,
+        "tick": 1642,
+        "trackedSelfMs": 2.971,
+        "method": "Verse.Pawn.TickInterval(System.Int32)"
+      }
+    }
+  ]
+}

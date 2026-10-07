@@ -8,6 +8,8 @@ param(
     [ValidateSet('normal','interrupt','casualty','rocks','narrow','field')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
+    [ValidateSet('coarse','detailed','spikes')][string]$ProfilePreset = 'coarse',
+    [ValidateRange(0.1,1000)][double]$SpikeThresholdMs = 5,
     [string]$ProfileTargets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest',
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-engine-audit-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string]$GameRoot = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld'
@@ -31,7 +33,7 @@ foreach ($name in @('Helodrace.dll','Helodrace.pdb')) {
 }
 $newJobPath = Join-Path $repository 'Defs\Organization\NewTacticalJobs.xml'
 Copy-Item -LiteralPath $newJobPath -Destination (Join-Path $GameRoot 'Mods\HelodRace-Main\Defs\Organization\NewTacticalJobs.xml') -Force
-$manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedPopulation=$Population; high=[bool]$High; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
+$manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedPopulation=$Population; high=[bool]$High; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); profilePreset=$ProfilePreset; spikeThresholdMs=$SpikeThresholdMs; targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
 $manifest | ConvertTo-Json | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'launcher.json')
 $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTacticalEngineAudit=' + $auditPath + '\audit.json"'),
     "-hdTacticalEngine=$Engine", "-hdTacticalAuditWorkload=$Workload", "-hdTacticalAuditPopulation=$Population",
@@ -39,7 +41,7 @@ $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTac
     "-hdTacticalAuditCase=$Case",
     $(if ($High) { '-hdTacticalAuditHigh=true' } else { '-hdTacticalAuditLow=true' }),
     $(if ($NoMethodProfile) { '-hdMethodProfileDisabled=true' } else { '"-hdMethodProfile=' + $auditPath + '\profiles"' }),
-    '-hdMethodProfilePreset=coarse', ('"-hdMethodProfileTargets=' + $ProfileTargets + '"'),
+    "-hdMethodProfilePreset=$ProfilePreset", ('-hdMethodProfileSpikeThresholdMs=' + $SpikeThresholdMs.ToString([Globalization.CultureInfo]::InvariantCulture)), ('"-hdMethodProfileTargets=' + $ProfileTargets + '"'),
     '-screen-fullscreen','0','-screen-width','800','-screen-height','600',
     '-logFile', ('"' + $auditPath + '\Player.log"'))
 $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru -ArgumentList $arguments

@@ -25,7 +25,7 @@ var snapshot = new ProfileSnapshot { complete = true, mainThreadWindowCpuMs = 12
 using var stream = new MemoryStream();
 var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot)); serializer.WriteObject(stream, snapshot); stream.Position = 0;
 var roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
-Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 4
+Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 5
     && roundtrip.mainThreadWindowCpuMs == 123.5 && roundtrip.processWindowCpuMs == 456.75
     && roundtrip.selectedEngine == "new" && roundtrip.effectiveEngine == "vanilla-fallback"
     && !roundtrip.newEngineImplemented, "structured JSON and whole-window CPU roundtrip");
@@ -53,6 +53,40 @@ for (int i = 0; i < MethodCapture.DistributionCapacity; i++)
 }
 Check(capture.Percentiles(0).All(v => v == 2), "distribution retains last bounded calls");
 Console.WriteLine("Distribution checks passed: nearest rank, bounded longest calls, ring replacement.");
+clock = new FakeClock { Time = 100 };
+capture = new MethodCapture(clock, new[] { true, false, false }, traceSpikes: true, originTimestamp: 100);
+outer = capture.Enter(0, new ProfileCallContext { Tick = 42, Frame = 7, PawnId = -1, MapId = -1, Phase = -1 });
+clock.Time += 2;
+inner = capture.Enter(1, new ProfileCallContext { Tick = 41, Frame = 7, PawnId = 99, MapId = 3, Phase = 2, SquadId = "squad", Job = "Breach", Identity = true });
+var child = capture.Enter(2, new ProfileCallContext { Tick = 41, Frame = 7 });
+clock.Time += 6; capture.Leave(child, true); clock.Time += 1; capture.Leave(inner, false);
+clock.Time += 1; clock.Cpu = 100; capture.Leave(outer, false);
+var tree = capture.TickSpikes.Single(s => s.Count > 0);
+var actor = tree.Calls[0]; var parent = tree.Calls[1];
+Check(tree.Root.Context.Tick == 42 && actor.Context.Tick == 42 && actor.Context.PawnId == 99
+    && actor.Context.SquadId == "squad" && actor.Context.Phase == 2 && actor.Context.Job == "Breach", "normalized tick and actor inheritance");
+Check(actor.ParentId == parent.CallId && parent.ParentId == tree.Root.CallId && actor.RootId == tree.Root.CallId
+    && actor.Start == 2 && actor.Depth == 2 && tree.Root.Self == 3 && tree.Root.Cpu == 100, "timeline nesting and accounting");
+Check(tree.Count == 3 && tree.Seen == 3 && capture.Errors[2] == 1 && capture.Dropped == 0, "trace preserves exception stats");
+for (int duration = 11; duration <= 20; duration++)
+{ outer = capture.Enter(0); clock.Time += duration; capture.Leave(outer, false); }
+Check(capture.SpikeCandidates == 11 && capture.TickSpikes.Count(s => s.Count > 0) == 8
+    && capture.TickSpikes.Min(s => s.Root.Elapsed) == 13, "eight largest tick trees retained");
+outer = capture.Enter(0);
+for (int i = 0; i < 700; i++) { inner = capture.Enter(1); clock.Time++; capture.Leave(inner, false); }
+capture.Stop(); capture.Leave(outer, false);
+tree = capture.TickSpikes.Single(s => s.Root.Elapsed == 700);
+Check(tree.Count == 512 && tree.Seen == 701 && tree.Calls[511].CallId == tree.Root.CallId
+    && capture.Ready && capture.Dropped == 0, "bounded trace reserves root, truncation distinct from stats loss, stop drain");
+snapshot.spikeTracing = true; snapshot.spikeCandidates = capture.SpikeCandidates;
+snapshot.tickSpikes = new[] { new ProfileTickSpike { root = new ProfileSlowCall { tick = 42, pawnId = 99, phase = "Breach", parentCallId = 1, startMs = 2 },
+    calls = Array.Empty<ProfileSlowCall>(), callsSeen = 701, detailsDropped = 189, detailsComplete = false } };
+stream.SetLength(0); stream.Position = 0; serializer.WriteObject(stream, snapshot); stream.Position = 0;
+roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
+Check(roundtrip.spikeTracing && roundtrip.tickSpikes[0].root.pawnId == 99 && roundtrip.tickSpikes[0].detailsDropped == 189,
+    "spike JSON roundtrip");
+Check(!new MethodCapture(clock, new[] { false }).Tracing, "trace buffers opt-in");
+Console.WriteLine("Spike checks passed: timeline, tick and actor inheritance, top-eight retention, bounded truncation, drain, JSON and opt-in buffers.");
 if (OperatingSystem.IsWindows())
 {
     var windows = new WindowsMethodClock();

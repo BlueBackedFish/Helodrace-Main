@@ -5,6 +5,31 @@ $fixture = Join-Path 'C:\Users\Public\Documents\ESTsoft\CreatorTemp' ('hd-profil
 $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 $response = & dotnet $cli compare $Capture $Capture
 if ($LASTEXITCODE -ne 0) { throw 'Identical complete capture comparison failed.' }
+$sample | Add-Member -NotePropertyName spikeTracing -NotePropertyValue (-not [bool]$sample.spikeTracing) -Force
+$sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+$response = & dotnet $cli compare $Capture $fixture
+if ($LASTEXITCODE -ne 1) { throw 'Different spike tracing overhead was not rejected.' }
+$response = & dotnet $cli benchmark-compare $Capture $fixture
+if ($LASTEXITCODE -ne 1) { throw 'Different tracing modes were aggregated.' }
+$sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
+if ($sample.spikeTracing) {
+    $response = & dotnet $cli spikes $Capture
+    if ($LASTEXITCODE -ne 0) { throw 'Spike query failed.' }
+    if ($sample.tickSpikes.Count -gt 0) {
+        $tick = $sample.tickSpikes[0].root.tick
+        $response = & dotnet $cli spikes $Capture $tick
+        if ($LASTEXITCODE -ne 0) { throw 'Tick-filtered spike query failed.' }
+        $filtered = ($response -join "`n") | ConvertFrom-Json
+        if ($filtered.spikes.Count -ne 1 -or $filtered.spikes[0].root.tick -ne $tick -or
+            $filtered.spikes[0].calls.Count -ne $sample.tickSpikes[0].calls.Count -or
+            -not $filtered.spikes[0].root.method.Contains('DoSingleTick')) { throw 'Spike timeline/filter/name mapping failed.' }
+    }
+    $sample.spikeTracing = $false
+    $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+    $response = & dotnet $cli spikes $fixture
+    if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'disabled') { throw 'Disabled tracing query was accepted.' }
+}
+$sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 $sample.methods = @($sample.methods | Select-Object -Skip 1)
 $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
 $response = & dotnet $cli compare $Capture $fixture
@@ -41,5 +66,5 @@ $hotspot = ($response -join "`n") | ConvertFrom-Json
 if ($null -ne $hotspot.methods[0].inclusiveMsPerTick) { throw 'Zero ticks did not produce null normalization.' }
 if ($null -ne $hotspot.methods[0].referencePercentPerTick) { throw 'Zero ticks did not produce null reference normalization.' }
 Remove-Item -LiteralPath $fixture
-Write-Output 'CLI checks passed: self comparison, differing targets/reference rejected, zero ticks rejected, paused reference normalization.'
+Write-Output 'CLI checks passed: spike mode comparison guards, spike timeline/filter, self comparison, targets/reference, zero ticks.'
 exit 0

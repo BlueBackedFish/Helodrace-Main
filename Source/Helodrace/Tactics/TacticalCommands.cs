@@ -134,6 +134,14 @@ namespace Helodrace.Tactics
         public bool HasExplicitGoal => explicitGoal.IsValid;
         public MapComponent_TacticalCommands(Map map) : base(map) { }
 
+        // Profiler-only read: never register or rebuild an organization.
+        internal bool TryProfileContext(Pawn pawn, out string id, out TacticalCommandPhase phase)
+        {
+            if (byPawn.TryGetValue(pawn, out TacticalSquadCommand command))
+            { id = command.Id; phase = command.Phase; return true; }
+            id = null; phase = default; return false;
+        }
+
         // Public/debug mission input. This also permits an AI-v-AI target.
         public void SetObjective(IntVec3 goal)
         {

@@ -39,7 +39,7 @@ internal static class Program
     {
         try
         {
-            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | compare BEFORE AFTER | engine-compare VANILLA_ROOT CANDIDATE_ROOT | aggregate ROOT... | benchmark-compare BEFORE_ROOT AFTER_ROOT | start ROOT [SECONDS] [cpu] | stop ROOT | status ROOT");
+            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | spikes CAPTURE [TICK] | compare BEFORE AFTER | engine-compare VANILLA_ROOT CANDIDATE_ROOT | aggregate ROOT... | benchmark-compare BEFORE_ROOT AFTER_ROOT | start ROOT [SECONDS] [cpu] [spikes] [threshold=MS] | stop ROOT | status ROOT");
             switch (args[0])
             {
                 case "capabilities": Print(Read<ProfileSnapshot>(Path.Combine(args[1], "capabilities.json"))); break;
@@ -65,6 +65,23 @@ internal static class Program
                                 p95ReferencePercent = ReferenceMetrics.Percent(m.p95Ms, 1, capture.reference),
                                 p99ReferencePercent = ReferenceMetrics.Percent(m.p99Ms, 1, capture.reference),
                                 selfReferencePercentPerTick = ReferenceMetrics.Percent(m.trackedSelfMs, ticks, capture.reference) }) }); break;
+                case "spikes":
+                    var traced = Read<ProfileSnapshot>(args[1]);
+                    if (!traced.spikeTracing) throw new ArgumentException("Spike tracing was disabled. Capture with preset=spikes or start ... spikes.");
+                    int? requestedTick = args.Length > 2 ? int.Parse(args[2]) : null;
+                    var names = traced.methods.ToDictionary(m => m.id, m => m.method);
+                    object Describe(ProfileSlowCall c) => new { method = names.GetValueOrDefault(c.methodId, "unknown"),
+                        c.callId, c.parentCallId, c.rootCallId, c.depth, c.tick, c.frame, c.mapId, c.pawnId, c.squadId, c.phase, c.job,
+                        c.startMs, c.milliseconds, c.trackedSelfMs, c.threadCpuMs,
+                        referencePercentPerCall = ReferenceMetrics.Percent(c.milliseconds, 1, traced.reference) };
+                    Print(new { traced.complete, traced.dropped, traced.spikeThresholdMs, traced.spikeCandidates,
+                        traced.spikeCapacity, traced.spikeCallCapacity,
+                        warning = "Only selected main-thread calls are recorded. Inclusive durations overlap; elapsed is not CPU. Root CPU is coarse. GC deltas indicate coincidence, not causation. Truncated trees may omit parents.",
+                        spikes = (traced.tickSpikes ?? Array.Empty<ProfileTickSpike>()).Where(s => requestedTick == null || s.root.tick == requestedTick)
+                            .Select(s => new { root = Describe(s.root), s.callsSeen, s.detailsDropped, s.detailsComplete, s.gc0, s.gc1, s.gc2,
+                                costlyPawnCalls = s.calls.Where(c => c.pawnId >= 0).OrderByDescending(c => c.trackedSelfMs).Take(12).Select(Describe),
+                                calls = s.calls.Select(Describe) }),
+                        longestCalls = (traced.slowCalls ?? Array.Empty<ProfileSlowCall>()).Where(c => requestedTick == null || c.tick == requestedTick).Select(Describe) }); break;
                 case "engine-compare": Print(EngineComparison.Compare(args[1], args[2])); break;
                 case "compare":
                     var before = Read<ProfileSnapshot>(args[1]); var after = Read<ProfileSnapshot>(args[2]);
@@ -74,6 +91,7 @@ internal static class Program
                         || before.population != after.population || before.scenario != after.scenario
                         || before.speed != after.speed || before.gameVersion != after.gameVersion
                         || before.cpuSource != after.cpuSource || before.runtime != after.runtime || before.operatingSystem != after.operatingSystem
+                        || before.spikeTracing != after.spikeTracing || before.spikeThresholdMs != after.spikeThresholdMs
                         || !before.mods.SequenceEqual(after.mods) || before.endTick <= before.startTick || after.endTick <= after.startTick)
                         throw new ArgumentException("Comparison rejected: incomplete capture, no ticks, or differing scenario/population/speed/game/mods.");
                     bool sameTargets = before.methods.Select(m => m.method).OrderBy(name => name, StringComparer.Ordinal)
@@ -120,7 +138,12 @@ internal static class Program
                     var root = Path.GetFullPath(args[1]);
                     if (!File.Exists(Path.Combine(root, "capabilities.json"))) throw new ArgumentException("No profiler handshake. Launch the game with -hdMethodProfile=ROOT first.");
                     var command = new ProfileCommand { action = args[0], label = "agent-cli", cpu = args.Contains("cpu"),
+                        spikes = args.Contains("spikes") ? true : (bool?)null,
+                        spikeThresholdMs = args.FirstOrDefault(a => a.StartsWith("threshold=", StringComparison.Ordinal)) is string thresholdArgument
+                            ? double.Parse(thresholdArgument.Substring(10), System.Globalization.CultureInfo.InvariantCulture) : (double?)null,
                         seconds = args.Length > 2 && args[0] == "start" ? double.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 10 };
+                    if (command.spikeThresholdMs is double thresholdValue && (!double.IsFinite(thresholdValue) || thresholdValue < .1 || thresholdValue > 1000))
+                        throw new ArgumentException("Spike threshold must be finite and between 0.1 and 1000ms.");
                     string path = Path.Combine(root, "command.json"), temporary = Path.Combine(root, "command-" + Guid.NewGuid().ToString("N") + ".tmp");
                     if (File.Exists(path)) throw new InvalidOperationException("A command is pending. Do not overwrite it.");
                     if (File.Exists(Path.Combine(root, "error.json"))) File.Delete(Path.Combine(root, "error.json"));

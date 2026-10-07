@@ -61,13 +61,32 @@ CLI 제어 시험은 `Run-ControlSmoke.ps1 -ProfileRoot ...`로 수행한다. �
 - `calls`, `exceptions`, `maxMs`: 완료된 호출만 집계한다. 재귀는 호출마다 별도 스택 슬롯을 사용하며 Harmony finalizer에서 예외를 원래대로 돌려준다.
 - 반환된 iterator/Task의 후속 작업은 생성 메서드 시간에 포함되지 않는다. 자체 compiler iterator는 가능한 경우 `MoveNext`도 등록하지만 공용 LINQ 전체를 자동 계측하지 않는다.
 
-현재 대상 스레드는 게임 메인 스레드 하나다. 다른 스레드 호출은 제외하고 `dropped`를 증가시킨다. 대상 128개, 중첩 128단계, 일반 수집 시간은 1~300초로 제한한다. 명시적인 `hdTacticalEngineAudit` 격리 시험에 한해 최대 1,800초를 허용해 대규모 고정 틱 창이 300초에서 잘리지 않게 한다. `complete=false`나 dropped가 있는 결과는 정상 비교 대상으로 쓰지 않는다. 방법 목록·메타데이터·집계 외에 호출별 문자열/무제한 이벤트 로그는 저장하지 않는다. 계측 중 게임 객체를 다른 스레드에서 읽지 않는다.
+현재 대상 스레드는 게임 메인 스레드 하나다. 다른 스레드 호출은 제외하고 `dropped`를 증가시킨다. 대상 128개, 중첩 128단계, 일반 수집 시간은 1~300초로 제한한다. 명시적인 `hdTacticalEngineAudit` 격리 시험에 한해 최대 1,800초를 허용해 대규모 고정 틱 창이 300초에서 잘리지 않게 한다. `complete=false`나 dropped가 있는 결과는 정상 비교 대상으로 쓰지 않는다. 무제한 이벤트 로그는 저장하지 않는다. 계측 중 게임 객체를 다른 스레드에서 읽지 않는다.
 
-메서드 진입에서는 준비된 MethodBase→정수 ID 사전 조회와 고정 배열을 사용한다. 메서드 이름/Reflection/JSON 생성은 등록과 종료 단계에서만 수행한다. 결과 직렬화는 종료 시 메인 스레드에서 동기 수행하고, 그 비용은 수집 기간 밖에 둔다. 독립 모드 배포, 다중 스레드 수집, 호출 간선 트레이스, 네이티브 샘플러와 MCP 서버는 아직 구현하지 않았다.
+메서드 진입에서는 준비된 MethodBase→정수 ID 사전 조회와 고정 배열을 사용한다. 메서드 이름/Reflection/JSON 생성은 등록과 종료 단계에서만 수행한다. 결과 직렬화는 종료 시 메인 스레드에서 동기 수행하고, 그 비용은 수집 기간 밖에 둔다. 독립 모드 배포, 다중 스레드 수집, 네이티브 샘플러와 MCP 서버는 아직 구현하지 않았다.
 
 `compare`는 인원·시나리오·속도·게임/런타임/OS 버전·활성 모드·CPU 수집 모드·계측 메서드 집합이 다르거나 틱이 없거나 불완전하면 거부한다. 빌드 차이는 출력하며 동일 조건의 메서드별 ms/tick 차이를 보여준다. 같은 시나리오 번호만으로 지도/전투 단계/시스템 부하가 같다고 보증할 수 없으므로 원래 감사 결과도 함께 확인한다. 일시 정지 수집의 ms/tick은 null로 표시한다.
 
 수집기는 성능 개선이 필요한 위치를 좁히는 도구다. 세부 패치가 특히 짧은 메서드의 비용을 높일 수 있으므로 coarse와 비활성 대조군을 함께 확인하고, 계측 시간을 추정치로 일괄 차감하지 않는다.
+
+## 틱 스파이크 추적 (schema 5)
+
+`spikes` 프리셋은 전체 틱·맵/게임 컴포넌트 경계에 바닐라 `TickList.Tick`, `Pawn.TickInterval`, 작업 시작/종료/검색, `ThinkNode_JobGiver`, 교전 JobGiver, `PatherTick`, PathFinder 작업 완료/요청과 New 전술 판단/복귀/명령을 더한다. 기존 coarse의 Legacy 통신·이동 내부 목록은 제외한다. 실제 등록된 오버로드는 capabilities를 확인한다. 이는 긴 바닐라 작업 검색과 TickList 지연을 폰 및 전술 명령까지 연결하기 위한 진단 모드다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/TacticalEngineAudit/Run-EngineAudit.ps1 -Engine new -Workload sapper-wall -Population 204 -WarmupTicks 1200 -SampleTicks 600 -ProfilePreset spikes
+dotnet $cli spikes $capture
+dotnet $cli spikes $capture 12345
+dotnet $cli start $root 10 cpu spikes threshold=5
+```
+
+일반 플레이는 `-hdMethodProfilePreset=spikes`로 켠다. `-hdMethodProfileSpikes=true/false`로 기록만 별도 선택할 수 있고 `-hdMethodProfileSpikeThresholdMs=5`로 느린 틱 기준을 바꾼다(0.1~1000ms). CLI start의 spikes는 이미 설치된 대상의 기록만 켜며 새 계측 패치를 추가하지 않는다. 생략하면 시작 옵션을 따른다. 기존 coarse/detailed 기본 기록은 꺼져 있다.
+
+기준 이상 `DoSingleTick` 중 가장 긴 8개만 보존하며, 각각 선택된 완료 호출 512개까지 기록한다. 매 틱 GC 컬렉션 카운터를 읽고 고정 배열에 구조체를 기록한다. 종료 시에만 JSON을 만든다. 마지막 슬롯은 루트 틱을 위해 예약한다. `spikeCandidates`는 기준 이상 틱 전체 수, `callsSeen`은 해당 틱의 선택된 완료 호출 수, `detailsDropped`는 512개 한도로 잘린 세부 호출 수다. 이는 집계 손실인 `dropped`와 다르며 집계와 분위수는 계속 전체 호출을 처리한다. 기록은 처음 완료된 호출부터 채우므로 긴 틱의 후반부는 잘릴 수 있다. 전체 메서드의 긴 호출 16개는 별도로 유지하며 추적 모드에서 동일한 문맥을 붙인다.
+
+각 호출에는 `callId/parentCallId/rootCallId/depth`, 캡처 시작 기준 `startMs`, 경과·선택 하위 제외 시간, 틱·렌더 프레임, 가능한 폰/맵 ID·분대 ID·진입 당시 단계·작업 DefName을 저장한다. Pawn 인스턴스, 트래커의 pawn 필드, pawn/member/command 매개변수를 typed Harmony prefix로 연결한다. 선택된 부모의 문맥은 내부 호출에 상속한다. New의 기존 byPawn 사전만 읽으며 조직 생성·계획 재계산은 하지 않는다. 알 수 없는 ID는 -1, 문자열은 null이다. 루트 진입이 게임 틱 증가보다 빠르므로 루트의 다음 틱 번호를 자식 전체에 통일한다. 기록된 간선은 **선택된 호출 간 관계**이며 미계측 내부 호출을 복원하지 않는다.
+
+CLI는 메서드 이름과 Core 대비 호출 비용을 붙이고, 해당 틱의 폰 호출 중 선택 하위를 뺀 비용 상위 12개도 보여준다. `gc0/1/2`는 그 틱 중 컬렉션 횟수 차이로 원인 확정값이 아니다. 개별 호출은 elapsed이며 루트의 `threadCpuMs`만 기존 Windows의 거친 CPU 계수다. 스케줄링 대기·경로 워커 대기와 CPU 연산을 구분할 때 두 값을 함께 본다. 추적 on/off 및 임계값이 다른 결과는 compare/aggregate/engine-compare에서 같은 조건으로 묶지 않는다.
 
 ## 고정 조건 반복 감사와 호출 분포
 

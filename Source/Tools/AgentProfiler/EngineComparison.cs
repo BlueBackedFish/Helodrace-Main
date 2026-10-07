@@ -60,6 +60,7 @@ internal static class EngineComparison
     private static bool Positive(double? value) => value.HasValue && double.IsFinite(value.Value) && value.Value > 0;
     private static string Key(ProfileSnapshot c) => JsonSerializer.Serialize(new {
         c.assemblySha256, c.population, c.scenario, c.speed, c.gameVersion, c.cpuSource, c.runtime, c.operatingSystem,
+        c.spikeTracing, c.spikeThresholdMs,
         mods = string.Join(";",c.mods), targets = string.Join(";",c.methods.Select(m=>m.method).Order()),
         c.benchmark.fixtureVersion,c.benchmark.seed,c.benchmark.mapFingerprint,c.benchmark.pawnFingerprint,
         c.benchmark.faction,c.benchmark.workload,c.benchmark.requestedPopulation,c.benchmark.warmupTicks,
