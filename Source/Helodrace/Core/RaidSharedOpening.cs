@@ -16,6 +16,13 @@ namespace Helodrace
         private readonly TacticalOpeningLeases<SharedOpeningKey> openingLeases = new TacticalOpeningLeases<SharedOpeningKey>();
         private readonly TacticalQueuePositions<Pawn, IntVec3> openingQueuePositions = new TacticalQueuePositions<Pawn, IntVec3>();
         private int openingCleanupTick = -1, openingPruneTick = -1;
+        private void WakeOpeningQueue(int tick)
+        {
+            foreach (var pair in states)
+                if (pair.Value.SharedOpeningWait) WakeUnit(pair.Key, tick);
+        }
+        private void ReleaseOpeningLease(string id, int tick)
+        { if (openingLeases.Release(id)) WakeOpeningQueue(tick); }
         internal int OpeningCleanupPasses { get; private set; }
         internal int OpeningPrunePasses { get; private set; }
         private bool WaitForSharedOpening(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)
@@ -38,14 +45,14 @@ namespace Helodrace
                     && pawn.Spawned && pawn.Map == map && !pawn.Dead && !pawn.Downed);
             }
             if (!plan.BreachCell.IsValid || plan.IsDefensive || state.Phase > RaidExecutionPhase.CrossBreach)
-            { openingLeases.Release(state.UnitId); ReleaseOpeningQueue(members); state.SharedOpeningWait = false; return false; }
-            if (openingPruneTick < 0 || tick - openingPruneTick >= 30)
+            { ReleaseOpeningLease(state.UnitId, tick); ReleaseOpeningQueue(members); state.SharedOpeningWait = false; return false; }
+            if (openingPruneTick < 0 || tick - openingPruneTick >= 180)
             {
                 openingPruneTick = tick; OpeningPrunePasses++;
-                openingLeases.Prune(id => states.TryGetValue(id, out ExecutionState owner)
+                if (openingLeases.Prune(id => states.TryGetValue(id, out ExecutionState owner)
                     && owner.ActivePlan?.BreachCell.IsValid == true && owner.Phase <= RaidExecutionPhase.CrossBreach
                     && owner.ActivePlan.Assignments.Any(value => value.Pawn?.Spawned == true
-                        && !value.Pawn.Dead && !value.Pawn.Downed));
+                        && !value.Pawn.Dead && !value.Pawn.Downed)) > 0) WakeOpeningQueue(tick);
             }
             if (openingLeases.Acquire(state.UnitId, new SharedOpeningKey(members[0].Faction, plan.BreachCell),
                 (a, b) => a.Faction == b.Faction && a.Cell.DistanceToSquared(b.Cell) <= 144))
@@ -90,9 +97,15 @@ namespace Helodrace
                         cell = pawn.Position;
                     }
                 }
-                MapComponent_RaidTacticalOrders.Set(pawn, cell == pawn.Position ? RaidOrderKind.Hold : RaidOrderKind.Move,
-                    cell, radius: 1f, reactive: true);
-                MapComponent_RaidTacticalOrders.For(pawn)?.Movement.Block(RaidMoveBlockReason.OpeningQueue, tick);
+                RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
+                if (order?.Reactive != true || order.Command.Owner != RaidCommandOwner.OpeningQueue
+                    || order.Command.Destination != cell)
+                {
+                    MapComponent_RaidTacticalOrders.Set(pawn, cell == pawn.Position ? RaidOrderKind.Hold : RaidOrderKind.Move,
+                        cell, radius: 1f, reactive: true);
+                    order = MapComponent_RaidTacticalOrders.For(pawn);
+                }
+                order?.Movement.Block(RaidMoveBlockReason.OpeningQueue, tick);
             }
             return true;
         }

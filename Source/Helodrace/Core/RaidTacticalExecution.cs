@@ -153,6 +153,8 @@ namespace Helodrace
             public RaidContactMemory Contacts = new RaidContactMemory();
             internal readonly TacticalReactionCadence RoutineReactions = new TacticalReactionCadence();
             internal int ObservationCursor;
+            internal int VisibleEnemiesTick = -1000, VisibleEnemiesRevision = -1;
+            internal List<Pawn> VisibleEnemies = new List<Pawn>();
             public RaidCommunicationState Communication = new RaidCommunicationState();
             internal RaidCqbKnowledge CqbKnowledge = new RaidCqbKnowledge();
             public List<RaidContactGuard> ContactGuards = new List<RaidContactGuard>();

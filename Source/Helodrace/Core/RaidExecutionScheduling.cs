@@ -13,7 +13,7 @@ namespace Helodrace
         internal readonly MapComponent_RaidTacticalExecution Owner;
         internal RaidTacticalUnit Unit;
         internal List<Pawn> Members;
-        internal int ReviewAfter, AdmissionAfter, FallbackAfter;
+        internal int ReviewAfter, AdmissionAfter, FallbackAfter, ScheduledAfter;
         internal RaidExecutionTicket(Map map, MapComponent_RaidTacticalExecution owner, RaidTacticalUnit unit)
         { Map = map; Owner = owner; Unit = unit; }
     }
@@ -29,7 +29,14 @@ namespace Helodrace
         internal double MaximumUnitMilliseconds;
         private int processedTick = -1;
         public GameComponent_RaidExecutionScheduler(Game game) { }
-        internal void Schedule(RaidExecutionTicket ticket, int due) => queue.Schedule(ticket, due);
+        internal void Schedule(RaidExecutionTicket ticket, int due)
+        { ticket.ScheduledAfter = due; queue.Schedule(ticket, due); }
+        internal void Wake(RaidExecutionTicket ticket, int tick)
+        {
+            ticket.ReviewAfter = Math.Min(ticket.ReviewAfter, tick + 1);
+            // Many reports in one tick still leave exactly one pending callback.
+            if (ticket.ScheduledAfter > tick + 1) Schedule(ticket, tick + 1);
+        }
         internal void Cancel(RaidExecutionTicket ticket) => queue.Remove(ticket);
         internal int OldestDelay => queue.OldestDelay(GenTicks.TicksGame);
         public override void GameComponentTick()
@@ -66,7 +73,7 @@ namespace Helodrace
             {
                 MaximumUnitMilliseconds = Math.Max(MaximumUnitMilliseconds,
                     (Stopwatch.GetTimestamp() - started) * 1000.0 / Stopwatch.Frequency);
-                if (ticket.Owner.CurrentTicket(ticket)) queue.Schedule(ticket, tick + 10);
+                if (ticket.Owner.CurrentTicket(ticket)) Schedule(ticket, ticket.Owner.NextExecutionTick(ticket, tick));
             }
         }
     }
@@ -80,6 +87,31 @@ namespace Helodrace
             Verse.Current.Game.GetComponent<GameComponent_RaidExecutionScheduler>();
         internal bool CurrentTicket(RaidExecutionTicket ticket) =>
             executionTickets.TryGetValue(ticket.Unit.Id, out RaidExecutionTicket current) && current == ticket;
+
+        internal void WakeUnit(string id, int tick)
+        {
+            if (id == null || !executionTickets.TryGetValue(id, out RaidExecutionTicket ticket)) return;
+            if (states.TryGetValue(id, out ExecutionState state))
+            { state.RoutineReactions.Invalidate(); state.VisibleEnemiesTick = -1000; }
+            ExecutionScheduler.Wake(ticket, tick);
+        }
+
+        private static bool ActiveReaction(ExecutionState state, int tick) => state != null
+            && (state.ContactPause || state.DefenseUntil > tick || state.ApproachSmokeActive || state.Reactions.Count > 0);
+
+        internal int NextExecutionTick(RaidExecutionTicket ticket, int tick)
+        {
+            states.TryGetValue(ticket.Unit.Id, out ExecutionState state);
+            if (state == null || state.Phase > RaidExecutionPhase.CrossBreach)
+                ReleaseOpeningLease(ticket.Unit.Id, tick);
+            // Native jobs keep moving/working while tactical decisions sleep.
+            // Crossing and live reactions retain their short progress/emergency checks.
+            int interval = state?.Phase == RaidExecutionPhase.CrossBreach || ActiveReaction(state, tick) ? 10
+                : state?.SharedOpeningWait == true ? 180
+                : state == null || state.Phase == RaidExecutionPhase.Hold || state.Phase == RaidExecutionPhase.Complete ? 180
+                : state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete ? 60 : 30;
+            return Math.Max(tick + 1, Math.Min(ticket.ReviewAfter, tick + interval));
+        }
 
         private RaidExecutionTicket RegisterUnit(RaidTacticalUnit unit, int tick)
         {
@@ -140,13 +172,14 @@ namespace Helodrace
                 && !pendingCasualties.ContainsKey(id)).ToList())
             {
                 ExecutionScheduler.Cancel(executionTickets[id]); executionTickets.Remove(id);
+                ReleaseOpeningLease(id, tick);
                 if (states.TryGetValue(id, out ExecutionState removed)) CancelPendingCharge(removed);
                 states.Remove(id); waitingStructures.Remove(id);
             }
             // Loaded execution state can predate any runtime ticket registration.
             foreach (string id in states.Keys.Where(id => !live.Contains(id)
                 && !pendingCasualties.ContainsKey(id)).ToList())
-            { CancelPendingCharge(states[id]); states.Remove(id); }
+            { ReleaseOpeningLease(id, tick); CancelPendingCharge(states[id]); states.Remove(id); }
             waitingStructures.RemoveWhere(id => !live.Contains(id));
             PruneBreachTools(toolOwners);
             PrunePassageTraffic(tick);
@@ -179,7 +212,7 @@ namespace Helodrace
                     Update(unit, members, state.ActivePlan, state, tick);
                 if (!reacting && state.SharedOpeningWait && tick >= ticket.AdmissionAfter)
                 {
-                    ticket.AdmissionAfter = tick + 30;
+                    ticket.AdmissionAfter = tick + 180;
                     if (!FieldDefense(members, state.ActivePlan, state, tick)
                         && !WaitForSharedOpening(members, state.ActivePlan, state, tick)) review = true;
                 }
@@ -190,14 +223,12 @@ namespace Helodrace
             if (fallbackDue) ticket.FallbackAfter = tick + 90;
             ExecuteUnit(unit, members, tick, fallbackDue);
             states.TryGetValue(unit.Id, out state);
-            int interval = state?.SharedOpeningWait == true && !state.ContactPause
-                && state.DefenseUntil <= tick && !state.ApproachSmokeActive && state.Reactions.Count == 0 ? 180
-                : state != null && (state.ContactPause || state.DefenseUntil > tick
-                    || state.ApproachSmokeActive || state.Reactions.Count > 0) ? 30
-                : state == null || state.Phase == RaidExecutionPhase.Hold || state.Phase == RaidExecutionPhase.Complete ? 90
+            int interval = state?.SharedOpeningWait == true && !ActiveReaction(state, tick) ? 300
+                : ActiveReaction(state, tick) ? 30
+                : state == null || state.Phase == RaidExecutionPhase.Hold || state.Phase == RaidExecutionPhase.Complete ? 180
                 : state.Phase == RaidExecutionPhase.Assemble && !state.ApproachComplete ? 60 : 30;
             ticket.ReviewAfter = tick + interval;
-            ticket.AdmissionAfter = tick + 30;
+            ticket.AdmissionAfter = tick + 180;
         }
 
         private bool RoutineContactReactions(List<Pawn> members, RaidTacticalPlan plan, ExecutionState state, int tick)

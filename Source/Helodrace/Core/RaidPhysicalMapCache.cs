@@ -24,8 +24,15 @@ namespace Helodrace
         }
         private readonly Dictionary<int, Chunk> chunks = new Dictionary<int, Chunk>();
         private readonly TacticalSpatialIndex<Pawn> pawns = new TacticalSpatialIndex<Pawn>();
-        private readonly Dictionary<long, bool> lines = new Dictionary<long, bool>();
-        private int pawnTick = -1, pawnCount, lineTick = -1;
+        private readonly Dictionary<int, Pawn> pawnIds = new Dictionary<int, Pawn>();
+        private readonly struct SightResult
+        {
+            internal readonly int Tick;
+            internal readonly bool Visible;
+            internal SightResult(int tick, bool visible) { Tick = tick; Visible = visible; }
+        }
+        private readonly Dictionary<long, SightResult> lines = new Dictionary<long, SightResult>();
+        private int pawnTick = -1, pawnCount;
         internal int StructureRevision { get; private set; }
         internal readonly TacticalServiceBudget ObservationBudget = new TacticalServiceBudget(2048, 10, 32);
         internal long ChunkReads, ChunkHits, SpatialBuilds, LosChecks, LosHits;
@@ -36,7 +43,8 @@ namespace Helodrace
         {
             if (map == null || !cell.InBounds(map) || !maps.TryGetValue(map, out RaidPhysicalMapCache cache)) return;
             if (cache.chunks.TryGetValue(cache.ChunkId(cell), out Chunk chunk)) chunk.Dirty = true;
-            cache.lines.Clear();
+            // Observation may use stale sight for up to 60 ticks. Physical path
+            // permissions still use the dirty chunk; unrelated doors do not flush sight.
             cache.StructureRevision++;
         }
         internal static void Dirty(Building building)
@@ -71,18 +79,29 @@ namespace Helodrace
             int local = cell.x % ChunkSize + cell.z % ChunkSize * ChunkSize;
             building = chunk.Buildings[local]; walkable = chunk.Walkable[local];
         }
-        internal IEnumerable<Pawn> Nearby(IEnumerable<Pawn> members, int radius, int tick)
+        private void RefreshPawns(int tick)
         {
-            // Broad-phase candidates only. Actual positions, hostility and firing
-            // sight are checked live by callers. Movement margin covers ordinary
-            // movement; a same-count teleport can defer detection by at most 10 ticks.
-            if (pawnTick < 0 || tick < pawnTick || tick - pawnTick >= 10 || pawnCount != map.mapPawns.AllPawnsSpawned.Count)
+            if (pawnTick < 0 || tick < pawnTick || tick - pawnTick >= 60 || pawnCount != map.mapPawns.AllPawnsSpawned.Count)
             {
-                pawns.Clear();
+                pawns.Clear(); pawnIds.Clear();
                 foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
+                {
                     pawns.Add(pawn, pawn.Position.x, pawn.Position.z);
+                    pawnIds[pawn.thingIDNumber] = pawn;
+                }
                 pawnTick = tick; pawnCount = map.mapPawns.AllPawnsSpawned.Count; SpatialBuilds++;
             }
+        }
+        internal Pawn FindPawn(int id, int tick)
+        {
+            RefreshPawns(tick);
+            return pawnIds.TryGetValue(id, out Pawn pawn) && pawn.Spawned && pawn.Map == map ? pawn : null;
+        }
+        internal IEnumerable<Pawn> Nearby(IEnumerable<Pawn> members, int radius, int tick)
+        {
+            // Shared broad phase only, not squad knowledge. A movement margin
+            // covers ordinary movement in this intentionally stale snapshot.
+            RefreshPawns(tick);
             int minX = int.MaxValue, minZ = int.MaxValue, maxX = int.MinValue, maxZ = int.MinValue;
             foreach (Pawn member in members)
             {
@@ -90,19 +109,19 @@ namespace Helodrace
                 maxX = Math.Max(maxX, member.Position.x); maxZ = Math.Max(maxZ, member.Position.z);
             }
             if (minX == int.MaxValue) yield break;
-            int margin = radius + 16;
+            int margin = radius + 32;
             foreach (Pawn pawn in pawns.QueryBounds(minX - margin, minZ - margin, maxX + margin, maxZ + margin))
                 if (pawn.Spawned && pawn.Map == map) yield return pawn;
         }
         internal bool ClearLine(IntVec3 source, IntVec3 target, int tick, Func<bool> calculate)
         {
-            // Smoke and moving lean geometry are never reused across simulation ticks.
-            if (lineTick != tick) { lines.Clear(); lineTick = tick; }
             long key = ((long)map.cellIndices.CellToIndex(source) << 32)
                 | (uint)map.cellIndices.CellToIndex(target);
-            if (lines.TryGetValue(key, out bool visible)) { LosHits++; return visible; }
-            LosChecks++; visible = calculate();
-            if (lines.Count < 8192) lines.Add(key, visible);
+            if (lines.TryGetValue(key, out SightResult cached) && tick >= cached.Tick && tick - cached.Tick < 60)
+            { LosHits++; return cached.Visible; }
+            LosChecks++; bool visible = calculate();
+            if (lines.Count >= 8192 && !lines.ContainsKey(key)) lines.Clear();
+            lines[key] = new SightResult(tick, visible);
             return visible;
         }
     }

@@ -47,14 +47,14 @@ namespace Helodrace
             int scanTicks = state.SharedOpeningWait && state.Reactions.Count == 0
                 && !state.ContactPause && state.DefenseUntil <= tick
                 && !state.Contacts.Entries.Any(contact => contact.Armed && contact.Visible)
-                ? 90 : RaidContactMemory.ScanTicks;
+                ? 180 : 60;
             if (tick - state.Contacts.ScanTick < scanTicks) return;
             RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(members[0]);
             ConfigureCommunicationKnowledge(state, unit?.Commander);
             RaidStructureSnapshot structure = StructureFor(map, plan);
             if (structure == null) return;
             int radius = unit?.Organization.doctrine?.fieldObservationRadius ?? 90;
-            int budget = unit?.Organization.doctrine?.contactLosBudget ?? 96;
+            int budget = System.Math.Min(32, unit?.Organization.doctrine?.contactLosBudget ?? 96);
             budget = RaidPhysicalMapCache.For(map).ObservationBudget.Grant(state.UnitId, tick, budget);
             if (budget == 0) return;
             state.Contacts.ScanTick = tick;
@@ -67,9 +67,9 @@ namespace Helodrace
                 .Select(enemy => new { Enemy = enemy, Distance = members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position)) })
                 .Where(value => value.Distance <= radius * radius)
                 .OrderBy(value => value.Distance).ThenBy(value => value.Enemy.thingIDNumber)
-                .Take(32).Select(value => value.Enemy).ToList();
+                .Take(16).Select(value => value.Enemy).ToList();
             List<Pawn> sources = TacticalObserverRotation.Select(members,
-                pawn => pawn == unit?.Commander || IsOpeningSensor(state, pawn), ref state.ObserverCursor, 4);
+                pawn => pawn == unit?.Commander || IsOpeningSensor(state, pawn), ref state.ObserverCursor, 2);
             int start = state.ObservationCursor, processed = 0;
             for (int i = 0; i < candidates.Count && budget > 0; i++)
             {

@@ -1,0 +1,74 @@
+﻿[
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-cadence-read-20261007\\before\\profiles\\capture-20261007-083630-524-601.json",
+        "scenario":  18,
+        "population":  200,
+        "alive":  200,
+        "moved":  199,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-cadence-read-20261007\\before\\profiles\\capture-20261007-083716-853-2102.json",
+        "scenario":  19,
+        "population":  400,
+        "alive":  400,
+        "moved":  400,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-cadence-read-20261007\\before\\profiles\\capture-20261007-083725-605-3607.json",
+        "scenario":  15,
+        "population":  0,
+        "alive":  0,
+        "moved":  0,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-cadence-read-20261007\\after-final\\profiles\\capture-20261007-084755-125-601.json",
+        "scenario":  18,
+        "population":  200,
+        "alive":  200,
+        "moved":  200,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-cadence-read-20261007\\after-final\\profiles\\capture-20261007-084849-394-2101.json",
+        "scenario":  19,
+        "population":  400,
+        "alive":  400,
+        "moved":  399,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-cadence-read-20261007\\after-final\\profiles\\capture-20261007-084914-787-3601.json",
+        "scenario":  15,
+        "population":  0,
+        "alive":  0,
+        "moved":  0,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    }
+]

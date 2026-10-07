@@ -61,6 +61,7 @@ namespace Helodrace
             state.DefenseAim = aim;
             state.DefenseUntil = GenTicks.TicksGame + 600;
             state.Reactions.RemoveAll(value => value.Kind == RaidReactionKind.Defense);
+            WakeUnit(id, GenTicks.TicksGame);
             MapComponent_RaidTacticalTrace.Record(caller, "Support accepted; prepare local cover defense");
         }
 
@@ -107,19 +108,35 @@ namespace Helodrace
 
         private List<Pawn> VisibleArmedEnemies(List<Pawn> members, ExecutionState state, int tick)
         {
+            if (tick >= state.VisibleEnemiesTick && tick - state.VisibleEnemiesTick < 60
+                && state.VisibleEnemiesRevision == state.Contacts.ChangeRevision)
+            {
+                // Reuse only this unit's previously sight-verified targets. Live
+                // validity remains cheap; firing jobs still validate actual shots.
+                state.VisibleEnemies.RemoveAll(enemy => !enemy.Spawned || enemy.Map != map || enemy.Dead || enemy.Downed
+                    || enemy.Destroyed || !enemy.HostileTo(members[0]) || enemy.equipment?.Primary == null);
+                return state.VisibleEnemies;
+            }
+            state.VisibleEnemiesTick = tick;
+            state.VisibleEnemiesRevision = state.Contacts.ChangeRevision;
             // CQB and field reactions use one knowledge source. Reports do not become
             // live targets: verify the known cell against current local sight first.
             var known = state.Contacts.Entries.Where(contact => contact.Armed && !contact.PositionConfirmedEmpty
-                && contact.Confidence(tick) <= RaidContactConfidence.Recent).ToDictionary(contact => contact.EnemyId);
-            if (known.Count == 0) return new List<Pawn>();
+                && contact.Confidence(tick) <= RaidContactConfidence.Recent).ToList();
+            if (known.Count == 0) { state.VisibleEnemies.Clear(); return state.VisibleEnemies; }
             List<Pawn> sources = LinkedObservers(members, state, tick).ToList();
             int radius = RaidTacticalUnit.ForPawn(members[0])?.Organization.doctrine?.fieldObservationRadius ?? 90;
-            return map.mapPawns.AllPawnsSpawned.Where(enemy => known.TryGetValue(enemy.thingIDNumber, out RaidEnemyContact contact)
-                && (enemy.Position == contact.Position || !contact.Reported) && !enemy.Dead && !enemy.Downed && enemy.HostileTo(members[0])
+            RaidPhysicalMapCache physical = RaidPhysicalMapCache.For(map);
+            state.VisibleEnemies = known.Select(contact => new { Contact = contact, Enemy = physical.FindPawn(contact.EnemyId, tick) })
+                .Where(value => {
+                    Pawn enemy = value.Enemy; RaidEnemyContact contact = value.Contact;
+                    return enemy != null && (enemy.Position == contact.Position || !contact.Reported) && !enemy.Dead && !enemy.Downed && enemy.HostileTo(members[0])
                 && enemy.equipment?.Primary != null
                 && sources.Any(pawn => (contact.Reported || pawn.thingIDNumber == contact.ObserverId)
-                    && CanObserveContact(pawn, pawn.Position, enemy, radius)))
+                    && CanObserveContact(pawn, pawn.Position, enemy, radius));
+                }).Select(value => value.Enemy)
                 .OrderBy(enemy => members.Min(pawn => pawn.Position.DistanceToSquared(enemy.Position))).Take(8).ToList();
+            return state.VisibleEnemies;
         }
 
         private static float GunRange(Pawn pawn)

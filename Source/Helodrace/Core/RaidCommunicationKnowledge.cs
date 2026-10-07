@@ -49,9 +49,13 @@ namespace Helodrace
             if (structure == null || !report.Position.InBounds(map)) return;
             // Reported room IDs are never trusted across static layout versions.
             int room = report.StructureVersion == structure.Version.Id ? report.Room : structure.RoomAt(report.Position);
-            if (report.Kind == RaidReportKind.Contact && state.Contacts.Receive(report, room, tick) && !report.ConfirmedEmpty)
-                foreach (int touched in ContactRooms(structure, report.Position))
-                    state.RoomSecurity.Observe(touched, report.Position, report.ObservedTick);
+            if (report.Kind == RaidReportKind.Contact && state.Contacts.Receive(report, room, tick))
+            {
+                if (!report.ConfirmedEmpty)
+                    foreach (int touched in ContactRooms(structure, report.Position))
+                        state.RoomSecurity.Observe(touched, report.Position, report.ObservedTick);
+                WakeUnit(state.UnitId, tick);
+            }
             else if (report.Kind == RaidReportKind.Passage) state.CqbKnowledge.Receive(report);
             else if (report.Kind == RaidReportKind.RoomChecked && room > 0)
                 state.RoomSecurity.Checked(room, report.ObservedTick);

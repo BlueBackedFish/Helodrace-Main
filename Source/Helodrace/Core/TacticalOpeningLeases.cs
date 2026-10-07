@@ -20,7 +20,7 @@ namespace Helodrace
             }
             return false;
         }
-        internal void Release(string owner) => requests.RemoveAll(value => value.Owner == owner);
-        internal void Prune(Func<string, bool> live) => requests.RemoveAll(value => !live(value.Owner));
+        internal bool Release(string owner) => requests.RemoveAll(value => value.Owner == owner) > 0;
+        internal int Prune(Func<string, bool> live) => requests.RemoveAll(value => !live(value.Owner));
     }
 }
