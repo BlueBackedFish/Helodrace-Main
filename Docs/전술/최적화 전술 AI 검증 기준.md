@@ -1,6 +1,6 @@
 # 최적화 전술 AI 검증 기준
 
-2026-10-07. 새 체계의 검증 계획이며 새 측정 결과는 아직 없다. [로드맵](최적화%20전술%20AI%20로드맵.md)의 각 단계에서 적용한다.
+2026-10-07. [로드맵](최적화%20전술%20AI%20로드맵.md)의 각 단계에서 적용한다. R1에서 대조 실행/수집을 구현 중이며 New의 전술 실행은 R2부터 구현한다.
 
 ## 대조군과 2배의 의미
 
@@ -41,28 +41,25 @@ N = 새 전술 AI를 활성화한 습격의 평균 메인 틱 CPU ms/tick
 
 `MapComponentUpdate`는 `Map.MapUpdate`에서 실행되고 `GameComponentUpdate`도 프레임 측 작업이므로 전체 틱만 수집해서는 해당 비용을 확인할 수 없다. 현재 계획 스케줄러의 `GameComponentUpdate`, 이동 영역의 Tick/Update 양쪽 호출, 지도 분석의 Tick/Update 호출을 함께 확인한다. Dubs 화면의 `MapComponentTick`이 전체 컴포넌트 호출기인지 개별 구현인지도 구분한다.
 
-현재 [프로파일러 등록 코드](../../Source/Helodrace/Profiling/AgentMethodProfiler.cs)는 이름에 `Raid`가 있는 Helodrace Map/GameComponent의 구체적인 Tick/Update 구현을 기본 선택한다. 모든 컴포넌트를 선택하는 구조가 아니다. 다음 수집 범위를 R1에 명시한다.
+현재 [프로파일러 등록 코드](../../Source/Helodrace/Profiling/AgentMethodProfiler.cs)는 Helodrace Map/GameComponent의 구체적인 Tick/Update 구현을 기본 선택한다. 이전 Raid 이름 필터를 제거했고 수집기 자신과 감사 도구는 제외한다. 모든 모드/Unity 메서드를 자동 선택하는 것은 아니다.
 
 | 범위 | 현재 지원과 확인 방법 |
 |---|---|
 | 전술 실행·명령·계획·통신·이동 영역 컴포넌트 | 기본 등록됨. 구체적 콜백과 해당 내부 작업의 총 경과/호출/틱당 비용 확인 |
 | 전술 실행 GameComponentTick·계획 GameComponentUpdate | 기본 등록됨. 맵 콜백 밖의 전술 작업도 포함 |
-| `Helodrace.MapComponent_TacticalMapAnalysis`의 Tick/Update/Pump | 이름에 Raid가 없어 기본 자동 선택에서 빠짐. 추가 대상으로 지정 |
-| `Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick` | 기본 자동 선택에서 빠짐. 지휘 승계 등 조직 갱신도 추가 지정 |
-| `Verse.Map`의 PreTick/PostTick/Update | 추가 지정으로 맵 처리 상위 구간 확인 |
-| `Verse.MapComponentUtility`·`Verse.GameComponentUtility`의 Tick/Update 호출기 | 추가 지정으로 전체 컴포넌트 묶음 비용 확인. 개별 콜백과 중복 합산 금지 |
+| `Helodrace.MapComponent_TacticalMapAnalysis`의 Tick/Update/Pump | Tick/Update 기본 등록. 내부 Pump는 필요시 추가 선택 |
+| `Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick` | 기본 등록. 공통 조직 유지 비용도 확인 |
+| `Verse.Map`의 PreTick/PostTick/Update | 기본 등록으로 맵 처리 상위 구간 확인 |
+| `Verse.MapComponentUtility`·`Verse.GameComponentUtility`의 Tick/Update 호출기 | 기본 등록. 전체 컴포넌트와 개별 콜백 중복 합산 금지 |
 | Pawn·Job·PathFinder 등의 바닐라 메서드 | 실제 선언 타입과 메서드 이름을 추가 지정. 지휘 비용 감소가 바닐라 재경로 비용 증가로 바뀌는지 확인 |
 | 다른 모드/Unity DLL·워커 메서드 | 현재 추가 대상 어셈블리 제한 또는 메인 스레드 전용 수집으로 직접 지원하지 않음. 필요하면 R1의 수집 보완 범위로 분리 |
 
-추가 선택은 실행 인자 `-hdMethodProfileTargets=타입::메서드;타입::메서드` 또는 감사 실행기의 `-ProfileTargets`로 가능하다. 예를 들어 기존 기본 목록에서 빠지는 관련 작업과 전체 맵 컴포넌트 묶음을 확인할 수 있다.
+추가 선택은 실행 인자 `-hdMethodProfileTargets=타입::메서드;타입::메서드` 또는 감사 실행기의 `-ProfileTargets`로 가능하다. 기본 콜백에서 비싼 구간을 찾은 뒤 내부 처리와 바닐라 작업을 추가한다.
 
 ```text
-Helodrace.MapComponent_TacticalMapAnalysis::MapComponentTick;
-Helodrace.MapComponent_TacticalMapAnalysis::MapComponentUpdate;
 Helodrace.MapComponent_TacticalMapAnalysis::Pump;
-Helodrace.Squads.GameComponent_CombatOrganizations::GameComponentTick;
-Verse.MapComponentUtility::MapComponentTick;
-Verse.MapComponentUtility::MapComponentUpdate
+Verse.AI.Pawn_JobTracker::StartJob;
+Verse.PathFinder::CreateRequest
 ```
 
 위 목록은 한 줄의 세미콜론 구분 값으로 전달한다. 메서드는 초기화 때 등록되므로 새로운 대상을 추가하려면 게임을 다시 실행한다. CLI `search`/`capabilities`는 등록된 대상 확인용이며 실행 중 임의 메서드 패치를 추가하는 기능이 아니다.

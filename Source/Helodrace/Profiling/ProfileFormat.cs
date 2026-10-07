@@ -17,11 +17,14 @@ namespace Helodrace.Profiling
     [DataContract]
     public sealed class ProfileSnapshot
     {
-        [DataMember] public int schema = 3;
+        [DataMember] public int schema = 4;
         [DataMember] public string label, utc, assemblySha256, gameVersion, runtime, operatingSystem, cpuSource;
         [DataMember] public string[] mods;
         [DataMember] public int startTick, endTick, startFrame, endFrame, population, scenario, speed, mapId;
         [DataMember] public double wallSeconds;
+        [DataMember] public double? mainThreadWindowCpuMs, processWindowCpuMs;
+        [DataMember] public string selectedEngine, effectiveEngine;
+        [DataMember] public bool newEngineImplemented;
         [DataMember] public long dropped;
         [DataMember] public bool complete;
         [DataMember] public ProfileMethod[] methods;
@@ -39,6 +42,8 @@ namespace Helodrace.Profiling
     public sealed class ProfileBenchmark
     {
         [DataMember] public string seed, mapFingerprint, faction, startPhases, endPhases;
+        [DataMember] public string engine, effectiveEngine, workload, pawnFingerprint;
+        [DataMember] public bool newEngineImplemented;
         [DataMember] public int fixtureVersion = 1, requestedPopulation, warmupTicks, sampleTicks, unitCount, radioOperators;
     }
     [DataContract]

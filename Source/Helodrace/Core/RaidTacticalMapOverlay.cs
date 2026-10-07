@@ -21,6 +21,7 @@ namespace Helodrace
         internal static bool Enabled => drawRaidRoomLayout || drawRaidRoomClearance || drawRaidTacticalNodes || drawRaidContacts;
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(DebugTabMenu_Settings), "InitActions")]
     public static class Patch_DebugSettings_RaidTacticalOverlay
     {
@@ -97,6 +98,7 @@ namespace Helodrace
             : room == CurrentRoom ? RaidDebugRoomState.CurrentTarget : RaidDebugRoomState.Uncleared;
     }
 
+    [LegacyTactical]
     public sealed class MapComponent_RaidTacticalOverlay : MapComponent
     {
         private const float RefreshSeconds = 0.5f;

@@ -126,16 +126,19 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(Building), nameof(Building.SpawnSetup))]
     internal static class Patch_RaidPhysicalCache_Spawn
     {
         private static void Postfix(Building __instance) => RaidPhysicalMapCache.Dirty(__instance);
     }
+    [LegacyTactical]
     [HarmonyPatch(typeof(Building), nameof(Building.DeSpawn))]
     internal static class Patch_RaidPhysicalCache_Despawn
     {
         private static void Prefix(Building __instance) => RaidPhysicalMapCache.Dirty(__instance);
     }
+    [LegacyTactical]
     [HarmonyPatch(typeof(Building_Door), "DoorOpen")]
     internal static class Patch_RaidPhysicalCache_DoorOpen
     {
@@ -143,6 +146,7 @@ namespace Helodrace
         private static void Postfix(Building_Door __instance, bool __state)
         { if (__state != __instance.Open) RaidPhysicalMapCache.Dirty(__instance.Map, __instance.Position); }
     }
+    [LegacyTactical]
     [HarmonyPatch(typeof(Building_Door), "DoorTryClose")]
     internal static class Patch_RaidPhysicalCache_DoorClose
     {
@@ -150,6 +154,7 @@ namespace Helodrace
         private static void Postfix(Building_Door __instance, bool __state)
         { if (__state != __instance.Open) RaidPhysicalMapCache.Dirty(__instance.Map, __instance.Position); }
     }
+    [LegacyTactical]
     [HarmonyPatch(typeof(TerrainGrid), nameof(TerrainGrid.SetTerrain))]
     internal static class Patch_RaidPhysicalCache_Terrain
     {

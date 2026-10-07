@@ -1406,6 +1406,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     public sealed class MapComponent_RaidTacticalPlans : MapComponent
     {
         private readonly Dictionary<string, RaidTacticalPlan> plans = new Dictionary<string, RaidTacticalPlan>();

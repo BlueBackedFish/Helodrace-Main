@@ -13,5 +13,9 @@ namespace Helodrace.Profiling
         public long Timestamp() => Stopwatch.GetTimestamp();
         public long Cpu100ns() => Environment.OSVersion.Platform == PlatformID.Win32NT
             && GetThreadTimes(GetCurrentThread(), out _, out _, out long kernel, out long user) ? kernel + user : -1;
+        public long ProcessCpu100ns()
+        {
+            using (Process process = Process.GetCurrentProcess()) return process.TotalProcessorTime.Ticks;
+        }
     }
 }

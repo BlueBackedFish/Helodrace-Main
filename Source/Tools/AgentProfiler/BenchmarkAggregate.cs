@@ -20,6 +20,7 @@ internal static class BenchmarkAggregate
         mods = string.Join(";", c.mods), targets = string.Join(";", c.methods.Select(m => m.method).Order()),
         c.benchmark.fixtureVersion, c.benchmark.seed, c.benchmark.mapFingerprint, c.benchmark.faction,
         c.benchmark.startPhases, c.benchmark.warmupTicks, c.benchmark.sampleTicks, c.benchmark.unitCount, c.benchmark.radioOperators,
+        c.selectedEngine, c.effectiveEngine, c.newEngineImplemented, c.benchmark.workload, c.benchmark.pawnFingerprint,
         reference = c.reference.method + ":" + c.reference.workload + ":" + c.reference.iterations + ":" + string.Join(";", (c.reference.patchOwners ?? Array.Empty<string>()).Order()) });
     private static ProfileMethod Method(ProfileSnapshot c, string method) => c.methods.Single(m => m.method == method);
     private static double Percent(ProfileSnapshot c, string method) => ReferenceMetrics.Percent(Method(c, method).inclusiveMs, c.endTick - c.startTick, c.reference)!.Value;

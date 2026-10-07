@@ -31,6 +31,9 @@ namespace Helodrace.Profiling
         private static ProfileSnapshot snapshot;
         private static CoreReferenceCalibration reference;
         private static long started;
+        private static long windowCpu, windowProcessCpu;
+        private static bool ending;
+        internal static bool Capturing => capture != null;
         private static double deadline, nextPoll, nextReference;
 
         internal static bool Initialize()
@@ -47,6 +50,9 @@ namespace Helodrace.Profiling
                 bool detailed = GenCommandLine.TryGetCommandLineArg("hdMethodProfilePreset", out string preset) && preset == "detailed";
                 if (preset != null && preset != "coarse" && preset != "detailed") throw new ArgumentException("Unknown profiler preset.");
                 Add(typeof(TickManager), "DoSingleTick");
+                Add(typeof(Map), "MapPreTick", "MapPostTick", "MapUpdate");
+                Add(typeof(MapComponentUtility), "MapComponentTick", "MapComponentUpdate");
+                Add(typeof(GameComponentUtility), "GameComponentTick", "GameComponentUpdate");
                 Add(typeof(MapComponent_RaidTacticalCommunications), "MapComponentTick", "Frame", "RefreshFrames", "ProcessTick", "Validate", "Share", "Queue");
                 if (detailed)
                 {
@@ -62,7 +68,7 @@ namespace Helodrace.Profiling
                 // Resolve concrete overrides, not the empty MapComponent base method.
                 foreach (Type type in typeof(AgentMethodProfiler).Assembly.GetTypes().Where(type => !type.ContainsGenericParameters
                     && (typeof(MapComponent).IsAssignableFrom(type) || typeof(GameComponent).IsAssignableFrom(type))
-                    && type.Name.Contains("Raid") && !type.Name.Contains("Audit")))
+                    && type.Namespace != typeof(AgentMethodProfiler).Namespace && !type.Name.Contains("Audit")))
                     Add(type, "MapComponentTick", "MapComponentUpdate", "GameComponentTick", "GameComponentUpdate");
                 if (GenCommandLine.TryGetCommandLineArg("hdMethodProfileTargets", out string extra))
                     foreach (string selector in extra.Split(';'))
@@ -128,11 +134,16 @@ namespace Helodrace.Profiling
                 gameVersion = VersionControl.CurrentVersionString, runtime = Environment.Version.ToString(), operatingSystem = Environment.OSVersion.ToString(),
                 mods = LoadedModManager.RunningModsListForReading.Select(mod => mod.PackageId).ToArray(),
                 cpuSource = cpu ? "Windows GetThreadTimes; user+kernel, 100ns units, coarse resolution" : "disabled",
+                selectedEngine = TacticalEngineSelection.Kind.ToString().ToLowerInvariant(),
+                effectiveEngine = TacticalEngineSelection.EffectiveEngine, newEngineImplemented = TacticalEngineSelection.NewImplemented,
                 startTick = GenTicks.TicksGame, startFrame = Time.frameCount, scenario = scenario, population = population, speed = speed,
                 mapId = Find.CurrentMap?.uniqueID ?? -1, benchmark = benchmark };
+            ending = false;
             reference = new CoreReferenceCalibration(); reference.Sample();
             nextReference = Time.realtimeSinceStartup + 1;
             started = clock.Timestamp(); deadline = Time.realtimeSinceStartup + Math.Max(1, Math.Min(300, seconds));
+            windowProcessCpu = cpu ? clock.ProcessCpu100ns() : -1;
+            windowCpu = cpu ? clock.Cpu100ns() : -1;
             capture = new MethodCapture(clock, targets.Select(m => cpu && CpuTarget(m)).ToArray());
             Status();
         }
@@ -140,11 +151,18 @@ namespace Helodrace.Profiling
         {
             MethodCapture current = capture;
             if (current == null) return;
+            if (!ending)
+            {
+                ending = true;
+                snapshot.endTick = GenTicks.TicksGame; snapshot.endFrame = Time.frameCount;
+                snapshot.wallSeconds = (clock.Timestamp() - started) / (double)clock.Frequency;
+                long endingCpu = windowCpu >= 0 ? clock.Cpu100ns() : -1;
+                snapshot.mainThreadWindowCpuMs = endingCpu >= 0 ? (endingCpu - windowCpu) / 10000.0 : (double?)null;
+                snapshot.processWindowCpuMs = windowProcessCpu >= 0 ? (clock.ProcessCpu100ns() - windowProcessCpu) / 10000.0 : (double?)null;
+            }
             current.Stop();
             if (!current.Ready) return; // Never snapshot a half-written frame.
             capture = null;
-            snapshot.endTick = GenTicks.TicksGame; snapshot.endFrame = Time.frameCount;
-            snapshot.wallSeconds = (clock.Timestamp() - started) / (double)clock.Frequency;
             reference.Sample(); snapshot.reference = reference.Snapshot();
             snapshot.dropped = current.Dropped; snapshot.complete = current.Dropped == 0;
             snapshot.methods = targets.Select((m, i) => { double[] p = current.Percentiles(i); return new ProfileMethod { id = i, method = Signature(m),

@@ -141,6 +141,7 @@ namespace Helodrace
         public void Dispose() { CancelPreparation(); DisposeBuffer(); }
     }
 
+    [LegacyTactical]
     public sealed class MapComponent_RaidMovementAreas : MapComponent, IDisposable
     {
         private readonly Dictionary<TacticalMovementMaskKey, RaidMovementArea> areas =
@@ -405,6 +406,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(PathFinder), nameof(PathFinder.CreateRequest), new[] {
         typeof(IntVec3), typeof(LocalTargetInfo), typeof(IntVec3?), typeof(Pawn),
         typeof(PathFinderCostTuning?), typeof(PathEndMode), typeof(PathRequest.IPathGridCustomizer) })]
@@ -427,6 +429,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(PathRequest), nameof(PathRequest.Resolve))]
     public static class Patch_RaidMovementArea_RequestResolved
     {
@@ -436,6 +439,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(PathRequest), nameof(PathRequest.Dispose))]
     public static class Patch_RaidMovementArea_RequestCancelled
     {
@@ -445,12 +449,14 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(PathFinder), "ForceCompleteScheduledJobs")]
     public static class Patch_RaidMovementArea_ReadersCompleted
     {
         public static void Postfix(Map ___map) => ___map.GetComponent<MapComponent_RaidMovementAreas>()?.CompleteReaders();
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(PathFinder), nameof(PathFinder.Dispose))]
     public static class Patch_RaidMovementArea_Dispose
     {

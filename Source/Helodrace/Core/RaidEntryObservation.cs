@@ -173,6 +173,7 @@ namespace Helodrace
     }
 
     // Use the game's existing smoothed half-cell lean, without moving into the opening.
+    [LegacyTactical]
     [HarmonyPatch(typeof(PawnLeaner), nameof(PawnLeaner.ShouldLean))]
     public static class Patch_RaidOpeningObservation_Lean
     {

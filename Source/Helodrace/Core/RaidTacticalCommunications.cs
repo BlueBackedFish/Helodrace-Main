@@ -74,6 +74,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     public sealed partial class MapComponent_RaidTacticalCommunications : MapComponent
     {
         private List<RaidReportTransmission> pending = new List<RaidReportTransmission>();

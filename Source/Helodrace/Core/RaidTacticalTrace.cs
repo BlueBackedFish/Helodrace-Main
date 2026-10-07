@@ -7,6 +7,7 @@ using Verse.AI;
 
 namespace Helodrace
 {
+    [LegacyTactical]
     public sealed class MapComponent_RaidTacticalTrace : MapComponent
     {
         public static bool Enabled;
@@ -39,6 +40,7 @@ namespace Helodrace
             : $"{job.def.defName} A={job.targetA} source={job.jobGiver?.GetType().Name ?? "direct"}";
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
     public static class Patch_RaidTacticalTrace_StartJob
     {
@@ -68,6 +70,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.EndCurrentJob))]
     public static class Patch_RaidTacticalTrace_EndJob
     {

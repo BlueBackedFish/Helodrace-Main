@@ -16,6 +16,12 @@ namespace Helodrace
         public static void Open(Map map)
         {
             if (map == null) return;
+            if (TacticalEngineSelection.Kind != TacticalEngineKind.Legacy)
+            {
+                Messages.Message("Legacy tactical plans are disabled for engine: " + TacticalEngineSelection.EffectiveEngine,
+                    MessageTypeDefOf.NeutralEvent, false);
+                return;
+            }
             if (Map != map)
             {
                 Map = map;

@@ -45,6 +45,7 @@ namespace Helodrace
         Artillery
     }
 
+    [LegacyTactical]
     public sealed partial class MapComponent_RaidTacticalExecution : MapComponent
     {
         private const int AssembleTimeout = 720;

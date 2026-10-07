@@ -20,6 +20,7 @@ namespace Helodrace
 
     // Shared across maps; a busy first map cannot consume a separate allowance
     // before all other maps. Only main-thread tick work is scheduled here.
+    [LegacyTactical]
     public sealed class GameComponent_RaidExecutionScheduler : GameComponent
     {
         private readonly TacticalDueQueue<RaidExecutionTicket> queue = new TacticalDueQueue<RaidExecutionTicket>();

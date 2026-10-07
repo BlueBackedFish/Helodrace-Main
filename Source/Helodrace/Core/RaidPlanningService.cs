@@ -34,6 +34,7 @@ namespace Helodrace
 
     // One frame allowance for the game, shared fairly across every map.
     // No Pawn/Map access is moved off the main thread.
+    [LegacyTactical]
     public sealed class GameComponent_RaidPlanScheduler : GameComponent
     {
         private readonly TacticalSliceQueue<RaidPlanningJob> queue = new TacticalSliceQueue<RaidPlanningJob>();
@@ -93,6 +94,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     public sealed class MapComponent_RaidPlanningService : MapComponent
     {
         private readonly Dictionary<string, RaidPlanningJob> jobs = new Dictionary<string, RaidPlanningJob>();

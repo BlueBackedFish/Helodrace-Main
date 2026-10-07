@@ -13,7 +13,7 @@ namespace Helodrace
         static HelodraceMod()
         {
             var harmony = new Harmony("YourName.Helodrace");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            TacticalEngineSelection.InstallPatches(harmony, Assembly.GetExecutingAssembly());
             DoorBreachFaultUtility.InitializeDoorDefs();
             HelodRace.Initialize();
             CigaretteSmokingUtility.LogPatchStatus();

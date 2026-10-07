@@ -20,7 +20,8 @@ namespace Helodrace
         {
             // Hidden audits must keep pumping startup before a map exists.
             // Normal player sessions retain their own background preference.
-            if (GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _))
+            if (GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _)
+                || GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _))
             {
                 Prefs.RunInBackground = true;
                 Application.runInBackground = true;

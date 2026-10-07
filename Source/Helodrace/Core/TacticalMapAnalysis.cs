@@ -44,6 +44,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     public sealed class MapComponent_TacticalMapAnalysis : MapComponent, IDisposable
     {
         private TacticalGeometryInput collecting;

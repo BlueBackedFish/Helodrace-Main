@@ -24,6 +24,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/RaidMoveme
 
 ## CLI
 
+R1에서는 Helodrace Map/GameComponent의 구체적인 Tick/Update 콜백(감사·수집기 제외), Map PreTick/PostTick/Update, MapComponentUtility/GameComponentUtility 호출기가 기본 대상이다. 지도 분석·조직 유지도 자동 등록된다. schema 4의 `mainThreadWindowCpuMs`·`processWindowCpuMs`는 전체 측정 창의 실제 메인/프로세스 CPU다. 렌더링·기준 배치·다른 시스템도 포함하며 개별 메서드 CPU와 혼동하지 않는다.
+
+`engine-compare VANILLA_ROOT CANDIDATE_ROOT`는 [R1 실행기](../../Benchmarks/TacticalEngineAudit/README.md)의 audit와 capture를 함께 검증한다. 같은 DLL·지도·장비·편제·준비·수집 조건을 요구하며 엔진별 시작 단계 차이는 허용한다. 일반 `compare`/`benchmark-compare`는 엔진을 섞지 않는다. New의 `vanilla-fallback`은 새 전술 AI 합격으로 판정하지 않는다.
+
 아래 `$root`는 게임이 생성한 profiles 폴더, `$capture`는 수집 JSON 경로다.
 
 ```powershell
@@ -38,6 +42,7 @@ dotnet $cli hotspots $capture self 25
 dotnet $cli hotspots $capture cpu 5
 dotnet $cli hotspots $capture calls 25
 dotnet $cli compare $before $after
+dotnet $cli engine-compare $vanillaRoot $candidateRoot
 ```
 
 출력은 JSON이고 오류 시 종료 코드는 1이다. `start`의 `cpu`를 생략하면 경과 시간만 수집한다. 명령은 단일 대기 파일을 사용하고 기존 대기 명령은 덮어쓰지 않는다. 15초 응답 제한이 지나도 명령이 나중에 실행될 수 있으므로 무조건 재전송하지 말고 게임 상태/대기 파일을 확인한다. 상태 파일에는 `latestCapture`가 있다.

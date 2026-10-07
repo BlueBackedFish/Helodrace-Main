@@ -19,10 +19,16 @@ var otherThread = new Thread(() => capture.Enter(0)); otherThread.Start(); other
 Check(capture.Dropped == 1 && capture.Calls[0] == 0, "foreign thread rejected");
 outer = capture.Enter(0); capture.Leave(outer, false); capture.Stop();
 Check(capture.Ready && capture.Calls[0] == 1, "foreign thread does not corrupt stack");
-var snapshot = new ProfileSnapshot { complete = true, methods = new[] { new ProfileMethod { calls = 2, method = "a\"한글" } } };
+var snapshot = new ProfileSnapshot { complete = true, mainThreadWindowCpuMs = 123.5, processWindowCpuMs = 456.75,
+    selectedEngine = "new", effectiveEngine = "vanilla-fallback", newEngineImplemented = false,
+    methods = new[] { new ProfileMethod { calls = 2, method = "a\"한글" } } };
 using var stream = new MemoryStream();
 var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot)); serializer.WriteObject(stream, snapshot); stream.Position = 0;
-Check(((ProfileSnapshot)serializer.ReadObject(stream)).methods[0].method == "a\"한글", "structured JSON roundtrip");
+var roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
+Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 4
+    && roundtrip.mainThreadWindowCpuMs == 123.5 && roundtrip.processWindowCpuMs == 456.75
+    && roundtrip.selectedEngine == "new" && roundtrip.effectiveEngine == "vanilla-fallback"
+    && !roundtrip.newEngineImplemented, "structured JSON and whole-window CPU roundtrip");
 Console.WriteLine("Method profiler checks passed: nesting, exceptions, double finalizer, depth budget, stop drain, thread rejection, JSON.");
 var reference = new ProfileReference { method = "core", workload = "fixed", iterations = 10000, sampleMs = new[] { 1.0, 2.0, 100.0 } };
 Check(reference.MedianBatchMs == 2 && ReferenceMetrics.Percent(10, 10, reference) == 50, "median reference percentage");
@@ -50,14 +56,17 @@ Console.WriteLine("Distribution checks passed: nearest rank, bounded longest cal
 if (OperatingSystem.IsWindows())
 {
     var windows = new WindowsMethodClock();
+    long startProcessCpu = windows.ProcessCpu100ns();
     long startCpu = windows.Cpu100ns(); Thread.Sleep(150);
     double sleepCpuMs = (windows.Cpu100ns() - startCpu) / 10000.0;
     startCpu = windows.Cpu100ns(); var timer = System.Diagnostics.Stopwatch.StartNew();
     while (timer.ElapsedMilliseconds < 150) { }
     double busyCpuMs = (windows.Cpu100ns() - startCpu) / 10000.0;
     Check(busyCpuMs > 20 && busyCpuMs > sleepCpuMs, "OS thread CPU distinguishes sleep and busy work");
+    Check(windows.ProcessCpu100ns() >= startProcessCpu, "process CPU clock is monotonic");
     Console.WriteLine($"Windows CPU check passed: sleep={sleepCpuMs:0.00}ms busy={busyCpuMs:0.00}ms (each 150ms elapsed).");
 }
+EngineComparisonChecks.Run();
 
 sealed class FakeClock : IMethodClock
 {

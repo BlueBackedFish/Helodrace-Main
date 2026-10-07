@@ -5,5 +5,6 @@
     <Compile Include="../../Helodrace/Profiling/WindowsMethodClock.cs" Link="WindowsMethodClock.cs" />
     <Compile Include="../../Helodrace/Profiling/ProfileFormat.cs" Link="ProfileFormat.cs" />
     <Compile Include="../../Helodrace/Profiling/ProfileReference.cs" Link="ProfileReference.cs" />
+    <Compile Include="../../Tools/AgentProfiler/EngineComparison.cs" Link="EngineComparison.cs" />
   </ItemGroup>
 </Project>

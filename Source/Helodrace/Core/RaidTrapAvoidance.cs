@@ -5,6 +5,7 @@ using RimWorld;
 
 namespace Helodrace
 {
+    [LegacyTactical]
     [HarmonyPatch(typeof(LordJob_AssaultColony), "get_AvoidTrapRatio")]
     public static class Patch_OrganizedHighRaidAvoidsTraps
     {

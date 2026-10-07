@@ -476,6 +476,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(Pawn_PathFollower), "TryEnterNextPathCell")]
     public static class Patch_RaidNodeMovement_AllowedStep
     {

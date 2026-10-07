@@ -77,6 +77,7 @@ namespace Helodrace
 
     // Orders are durable directives. Vanilla job drivers still perform movement,
     // reservations and shooting; only the duty's job selection is replaced.
+    [LegacyTactical]
     public sealed class MapComponent_RaidTacticalOrders : MapComponent
     {
         private readonly Dictionary<Pawn, RaidPawnOrder> orders = new Dictionary<Pawn, RaidPawnOrder>();
@@ -503,6 +504,7 @@ namespace Helodrace
                 <= order.LeashRadius * order.LeashRadius);
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(JobGiver_FleePotentialExplosion), "TryGiveJob")]
     public static class Patch_RaidTacticalSupportFlee
     {
@@ -602,6 +604,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(ThinkNode_Duty), nameof(ThinkNode_Duty.TryIssueJobPackage))]
     public static class Patch_RaidTacticalDuty
     {
@@ -621,6 +624,7 @@ namespace Helodrace
     // JobDriver's default continuation accepts any destination. For directives,
     // a new destination must actually replace the old Goto, without resetting
     // an unchanged path every coordinator tick.
+    [LegacyTactical]
     [HarmonyPatch(typeof(JobDriver), nameof(JobDriver.IsContinuation))]
     public static class Patch_RaidTacticalContinuation
     {
@@ -637,6 +641,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(ThinkNode_DutyConstant), nameof(ThinkNode_DutyConstant.TryIssueJobPackage))]
     public static class Patch_RaidTacticalDutyConstant
     {
@@ -648,6 +653,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(JobDriver_Wait), nameof(JobDriver_Wait.DecorateWaitToil))]
     public static class Patch_RaidTacticalHoldFacing
     {
@@ -669,6 +675,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(JobDriver_Wait), "CheckForAutoAttack")]
     public static class Patch_RaidTacticalPendingAttack
     {

@@ -39,7 +39,7 @@ internal static class Program
     {
         try
         {
-            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | compare BEFORE AFTER | start ROOT [SECONDS] [cpu] | stop ROOT | status ROOT");
+            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | compare BEFORE AFTER | engine-compare VANILLA_ROOT CANDIDATE_ROOT | aggregate ROOT... | benchmark-compare BEFORE_ROOT AFTER_ROOT | start ROOT [SECONDS] [cpu] | stop ROOT | status ROOT");
             switch (args[0])
             {
                 case "capabilities": Print(Read<ProfileSnapshot>(Path.Combine(args[1], "capabilities.json"))); break;
@@ -53,7 +53,9 @@ internal static class Program
                     double Value(ProfileMethod m) => metric switch { "inclusive" => m.inclusiveMs, "self" => m.trackedSelfMs,
                         "cpu" => m.threadCpuMs, "calls" => m.calls, _ => throw new ArgumentException("Unknown metric.") };
                     int ticks = capture.endTick - capture.startTick;
-                    Print(new { capture.label, capture.complete, capture.dropped, ticks, capture.wallSeconds, capture.reference, capture.benchmark, capture.slowCalls,
+                    Print(new { capture.label, capture.complete, capture.dropped, ticks, capture.wallSeconds,
+                        capture.selectedEngine, capture.effectiveEngine, capture.newEngineImplemented,
+                        capture.mainThreadWindowCpuMs, capture.processWindowCpuMs, capture.reference, capture.benchmark, capture.slowCalls,
                         warning = "Inclusive times overlap. Tracked self includes uninstrumented children and profiler overhead. CPU is coarse and only present for cpuMeasured scopes.",
                         methods = capture.methods.Where(m => m.calls > 0 && (metric != "cpu" || m.cpuMeasured)).OrderByDescending(Value).Take(top)
                             .Select(m => new { m.method, m.calls, m.exceptions, m.inclusiveMs, m.trackedSelfMs, m.maxMs, m.distributionSamples, m.p50Ms, m.p95Ms, m.p99Ms, m.cpuMeasured, m.threadCpuMs,
@@ -63,9 +65,13 @@ internal static class Program
                                 p95ReferencePercent = ReferenceMetrics.Percent(m.p95Ms, 1, capture.reference),
                                 p99ReferencePercent = ReferenceMetrics.Percent(m.p99Ms, 1, capture.reference),
                                 selfReferencePercentPerTick = ReferenceMetrics.Percent(m.trackedSelfMs, ticks, capture.reference) }) }); break;
+                case "engine-compare": Print(EngineComparison.Compare(args[1], args[2])); break;
                 case "compare":
                     var before = Read<ProfileSnapshot>(args[1]); var after = Read<ProfileSnapshot>(args[2]);
-                    if (!before.complete || !after.complete || before.population != after.population || before.scenario != after.scenario
+                    if (!before.complete || !after.complete || before.dropped != 0 || after.dropped != 0
+                        || before.selectedEngine != after.selectedEngine || before.effectiveEngine != after.effectiveEngine
+                        || before.newEngineImplemented != after.newEngineImplemented
+                        || before.population != after.population || before.scenario != after.scenario
                         || before.speed != after.speed || before.gameVersion != after.gameVersion
                         || before.cpuSource != after.cpuSource || before.runtime != after.runtime || before.operatingSystem != after.operatingSystem
                         || !before.mods.SequenceEqual(after.mods) || before.endTick <= before.startTick || after.endTick <= after.startTick)
@@ -81,6 +87,8 @@ internal static class Program
                         var a = before.benchmark; var b = after.benchmark;
                         if (a == null || b == null || a.fixtureVersion != b.fixtureVersion || a.seed != b.seed
                             || a.mapFingerprint != b.mapFingerprint || a.faction != b.faction || a.startPhases != b.startPhases
+                            || a.pawnFingerprint != b.pawnFingerprint || a.workload != b.workload || a.requestedPopulation != b.requestedPopulation
+                            || a.engine != b.engine || a.effectiveEngine != b.effectiveEngine || a.newEngineImplemented != b.newEngineImplemented
                             || a.warmupTicks != b.warmupTicks || a.sampleTicks != b.sampleTicks
                             || a.unitCount != b.unitCount || a.radioOperators != b.radioOperators)
                             throw new ArgumentException("Comparison rejected: benchmark map/phase/preparation/organization differs.");

@@ -124,6 +124,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(Verb), nameof(Verb.TryStartCastOn), new[] {
         typeof(LocalTargetInfo), typeof(LocalTargetInfo), typeof(bool), typeof(bool), typeof(bool), typeof(bool) })]
     public static class Patch_RaidGrenade_NoGunCast
@@ -136,6 +137,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(Verb), nameof(Verb.Available))]
     public static class Patch_RaidGrenade_NoGunAvailable
     {
@@ -145,6 +147,7 @@ namespace Helodrace
         }
     }
 
+    [LegacyTactical]
     [HarmonyPatch(typeof(PawnRenderUtility), nameof(PawnRenderUtility.DrawEquipmentAndApparelExtras))]
     public static class Patch_RaidGrenade_DrawHeld
     {
