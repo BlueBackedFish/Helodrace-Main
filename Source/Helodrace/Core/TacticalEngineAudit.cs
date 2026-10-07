@@ -47,6 +47,7 @@ namespace Helodrace
     {
         internal static readonly HashSet<Pawn> ProtectedRaiders = new HashSet<Pawn>();
         internal static bool GeneratingFixture;
+        internal static int FixturePawnIndex;
         private readonly string output;
         private readonly List<Pawn> raiders = new List<Pawn>();
         private readonly Dictionary<Pawn, IntVec3> starts = new Dictionary<Pawn, IntVec3>();
@@ -184,6 +185,7 @@ namespace Helodrace
             {
                 List<Pawn> members;
                 CombatOrganization organization;
+                FixturePawnIndex = raiders.Count;
                 GeneratingFixture = true;
                 try { members = OrganizationGenerator.Generate(new PawnGroupMakerParms { faction = faction,
                     groupKind = PawnGroupKindDefOf.Combat, raidStrategy = RaidStrategyDefOf.ImmediateAttack,
@@ -218,7 +220,7 @@ namespace Helodrace
             if (result.fixtureCase == "field") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal + new IntVec3(1,0,1));
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
-            benchmark = new ProfileBenchmark { fixtureVersion = 8, seed = result.seed, mapFingerprint = result.mapFingerprint,
+            benchmark = new ProfileBenchmark { fixtureVersion = 9, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
                 radioOperators = result.radioOperators, warmupTicks = result.warmupTicks, sampleTicks = result.sampleTicks,
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,

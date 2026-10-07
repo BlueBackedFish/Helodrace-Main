@@ -1,22 +1,46 @@
 using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using HarmonyLib;
+using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
 namespace Helodrace
 {
     [HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GeneratePawn), new[] { typeof(PawnGenerationRequest) })]
-    internal static class Patch_TacticalAudit_NoRelations
+    internal static class Patch_TacticalAudit_PawnRequest
     {
         internal static void Prefix(ref PawnGenerationRequest request)
         {
-            // World-pawn enumeration can change which sampled relation succeeds,
-            // consuming a different amount of RNG despite the same generation seed.
-            // Only the synchronous benchmark formation generation is constrained.
-            if (MapComponent_TacticalEngineAudit.GeneratingFixture)
-                request.CanGeneratePawnRelations = false;
+            if (!MapComponent_TacticalEngineAudit.GeneratingFixture) return;
+            // The benchmark is a controlled population, not a test of random
+            // biography/trait generation or world-pawn name/relation pools.
+            int index = MapComponent_TacticalEngineAudit.FixturePawnIndex++;
+            request.CanGeneratePawnRelations = false;
+            request.FixedBiologicalAge = 18 + index % 18;
+            request.FixedChronologicalAge = request.FixedBiologicalAge;
+            request.FixedGender = Gender.Female;
+            request.ForceNoBackstory = true;
+            request.ForceNoIdeo = true; request.FixedIdeo = null;
+            var xenotypes = HelodRace.HelodXenotypes.OrderBy(def => def.defName, StringComparer.Ordinal).ToArray();
+            request.ForcedXenotype = xenotypes[index % xenotypes.Length];
+        }
+    }
+    [HarmonyPatch(typeof(PawnGenerator), "GenerateTraits")]
+    internal static class Patch_TacticalAudit_NoRandomTraits
+    {
+        internal static bool Prefix() => !MapComponent_TacticalEngineAudit.GeneratingFixture;
+    }
+    [HarmonyPatch(typeof(PawnBioAndNameGenerator), nameof(PawnBioAndNameGenerator.GiveAppropriateBioAndNameTo))]
+    internal static class Patch_TacticalAudit_FixedBio
+    {
+        internal static bool Prefix(Pawn pawn)
+        {
+            if (!MapComponent_TacticalEngineAudit.GeneratingFixture) return true;
+            pawn.Name = new NameTriple("Audit", "Audit", pawn.thingIDNumber.ToString());
+            return false;
         }
     }
     internal static class RaidAuditSeed

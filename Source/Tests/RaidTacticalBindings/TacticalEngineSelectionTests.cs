@@ -68,20 +68,26 @@ internal static class TacticalEngineSelectionTests
         string differentGear = (string)canonical.Invoke(null, new object[] { firstPreset.Replace("M16A4", "M4") });
         if (first != second || first == differentGear || !first.Contains("<slot>radio</slot>"))
             throw new Exception("Equipment hash canonicalization removed gear or retained the export timestamp.");
-        Type fixturePatch = typeof(TacticalEngineSelection).Assembly.GetType("Helodrace.Patch_TacticalAudit_NoRelations", true);
+        Type fixturePatch = typeof(TacticalEngineSelection).Assembly.GetType("Helodrace.Patch_TacticalAudit_PawnRequest", true);
         var constrain = AccessTools.Method(fixturePatch, "Prefix");
         var generating = AccessTools.Field(typeof(MapComponent_TacticalEngineAudit), "GeneratingFixture");
         object[] requestArgs = { new PawnGenerationRequest { CanGeneratePawnRelations = true } };
         constrain.Invoke(null, requestArgs);
         if (!((PawnGenerationRequest)requestArgs[0]).CanGeneratePawnRelations)
             throw new Exception("Audit relation constraint leaked into normal pawn generation.");
+        Type race = typeof(TacticalEngineSelection).Assembly.GetType("Helodrace.HelodRace", true);
+        var xenotypes = (System.Collections.Generic.List<XenotypeDef>)AccessTools.Field(race, "HelodXenotypes").GetValue(null);
+        var testXenotype = (XenotypeDef)RuntimeHelpers.GetUninitializedObject(typeof(XenotypeDef));
+        testXenotype.defName = "Audit_test"; xenotypes.Add(testXenotype);
         try
         {
             generating.SetValue(null, true); constrain.Invoke(null, requestArgs);
-            if (((PawnGenerationRequest)requestArgs[0]).CanGeneratePawnRelations)
-                throw new Exception("Audit formation generation retained world-dependent relations.");
+            var constrained = (PawnGenerationRequest)requestArgs[0];
+            if (constrained.CanGeneratePawnRelations || !constrained.ForceNoBackstory || !constrained.ForceNoIdeo
+                || constrained.FixedBiologicalAge < 18 || constrained.FixedBiologicalAge > 35 || constrained.ForcedXenotype == null)
+                throw new Exception("Audit formation generation retained uncontrolled state.");
         }
-        finally { generating.SetValue(null, false); }
+        finally { generating.SetValue(null, false); xenotypes.Remove(testXenotype); }
         Console.WriteLine("PASS: engine selection, 11 components/25 patch classes isolation, shared metadata, real FillComponents targets, stable gear fingerprint.");
     }
 }
