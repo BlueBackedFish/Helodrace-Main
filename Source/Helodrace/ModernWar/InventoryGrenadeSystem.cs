@@ -280,7 +280,7 @@ namespace Helodrace
                 : intendedTarget;
         }
 
-        public static void Launch(
+        public static Projectile Launch(
             Pawn pawn,
             Thing grenade,
             LocalTargetInfo target,
@@ -294,14 +294,14 @@ namespace Helodrace
                 || !target.IsValid
                 || !TryFindThrowSource(pawn, target.Cell, range, out IntVec3 sourceCell))
             {
-                return;
+                return null;
             }
 
             if (MapComponent_RaidTacticalOrders.For(pawn) != null
                 && !MapComponent_RaidTacticalExecution.SafeSupportThrow(pawn, grenade, target.Cell, closeThrow))
             {
                 MapComponent_RaidTacticalTrace.Record(pawn, "Throw cancelled: ally moved into exposure area");
-                return;
+                return null;
             }
             Thing consumed = grenade.SplitOff(1);
             Projectile projectile = GenSpawn.Spawn(projectileDef, sourceCell, pawn.Map) as Projectile;
@@ -334,6 +334,7 @@ namespace Helodrace
             }
 
             consumed.Destroy(DestroyMode.Vanish);
+            return projectile;
         }
     }
 

@@ -27,10 +27,12 @@ namespace Helodrace
         [DataMember] public int newPlannedUnits, newCompletedUnits, newPassedOpening, newEnteredByOrder, newRearPassedOpening;
         [DataMember] public int newDoorFaults;
         [DataMember] public long newJobsIssued, newJobFailures, newPlansAttempted;
+        [DataMember] public long newObservations, newObservationContacts, newSupportThrows, newSupportWaits, newSupportReturns, newUnsafeEntries;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
         [DataMember] public bool newPhysicalPlansValid;
         [DataMember] public int newAllCompleteTick = -1;
         [DataMember] public string[] newCommands, newComponents, installedNewHooks;
+        [DataMember] public string newLastJobFailure;
         [DataMember] public double? uninstrumentedMainCpuMs, uninstrumentedProcessCpuMs;
         [DataMember] public bool complete, isolationVerified, newEngineImplemented;
         [DataMember] public string engine, effectiveEngine, workload, seed, mapFingerprint, pawnFingerprint, error, fixtureCase;
@@ -131,7 +133,7 @@ namespace Helodrace
             GenCommandLine.TryGetCommandLineArg("hdTacticalAuditWorkload", out result.workload);
             result.fixtureCase = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditCase", out string fixtureCase) ? fixtureCase : "normal";
             if (result.fixtureCase != "normal" && result.fixtureCase != "interrupt" && result.fixtureCase != "casualty"
-                && result.fixtureCase != "rocks" && result.fixtureCase != "narrow" && result.fixtureCase != "field") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "rocks" && result.fixtureCase != "narrow" && result.fixtureCase != "contact" && result.fixtureCase != "field") throw new ArgumentException("Unknown audit case.");
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -156,7 +158,8 @@ namespace Helodrace
                 Thing thing = ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.Steel : null);
                 thing.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(thing, position, map, WipeMode.Vanish);
             }
-            int right = result.fixtureCase == "narrow" ? 105 : 140, top = result.fixtureCase == "narrow" ? 105 : 136;
+            bool small = result.fixtureCase == "narrow" || result.fixtureCase == "contact";
+            int right = small ? 105 : 140, top = small ? 105 : 136;
             fixtureRight = right; fixtureTop = top;
             if (result.fixtureCase != "field")
             {
@@ -173,7 +176,7 @@ namespace Helodrace
             }
             if (result.fixtureCase == "rocks")
                 for (int z = 105; z <= 114; z += 2) Place(ThingDefOf.Wall, new IntVec3(99, 0, z));
-            IntVec3 goal = result.fixtureCase == "narrow" ? new IntVec3(103,0,103) : new IntVec3(120, 0, 118);
+            IntVec3 goal = small ? new IntVec3(103,0,103) : new IntVec3(120, 0, 118);
             Place(ThingDefOf.Bed, goal);
             ((Building_Bed)goal.GetEdifice(map)).CompAssignableToPawn.TryAssignPawn(owner);
             owner.Position = goal; owner.drafter.Drafted = true; owner.equipment.DestroyAllEquipment();
@@ -237,10 +240,18 @@ namespace Helodrace
                 if (result.returnOutsideTick < 0)
                 { result.returnOutsideTick = GenTicks.TicksGame - started; result.returnOutsideJob = interruptedPawn.CurJobDef?.defName; }
             }
-            if (result.fixtureCase != "interrupt" && result.fixtureCase != "casualty") return;
+            if (result.fixtureCase != "interrupt" && result.fixtureCase != "casualty" && result.fixtureCase != "contact") return;
             if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
-            if (result.fixtureCase == "interrupt")
+            if (result.fixtureCase == "contact")
+            {
+                var command = service.Commands.FirstOrDefault(item => item.Phase == Tactics.TacticalCommandPhase.Observe && item.Plan != null);
+                if (command == null) return;
+                // Place the stationary fixture enemy on the opening sight line
+                // before observation. Keep the named bed as the mission goal.
+                owner.Position = command.Plan.Inside + command.Plan.Inward * 2; result.caseTriggered = true;
+            }
+            else if (result.fixtureCase == "interrupt")
             {
                 var member = service.Commands.SelectMany(command => command.Members)
                     .LastOrDefault(item => item.Crossed && !item.Entered && item.Pawn.jobs.curDriver is Tactics.JobDriver_TacticalIngress driver && !driver.AtPost);
@@ -319,7 +330,11 @@ namespace Helodrace
                         || command.Plan.Opening.z == 100 || command.Plan.Opening.z == fixtureTop)
                         && !Interior(command.Plan.Outside) && Interior(command.Plan.Inside)));
                 result.newJobsIssued = newService.JobsIssued; result.newJobFailures = newService.JobFailures;
+                result.newLastJobFailure = newService.LastJobFailure;
                 result.newPlansAttempted = newService.PlansAttempted;
+                result.newObservations = newService.Observations; result.newObservationContacts = newService.ObservationContacts;
+                result.newSupportThrows = newService.SupportThrows; result.newSupportWaits = newService.SupportWaits;
+                result.newSupportReturns = newService.SupportReturns; result.newUnsafeEntries = newService.UnsafeEntries;
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid
@@ -402,7 +417,11 @@ namespace Helodrace
             result.isolationVerified = legacy ? result.legacyComponents.Length == 11 && result.installedLegacyHooks.Length > 0
                 : result.legacyComponents.Length == 0 && result.installedLegacyHooks.Length == 0;
             result.isolationVerified &= result.newComponents.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? 2 : 0);
-            result.isolationVerified &= result.installedNewHooks.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? 1 : 0);
+            // R3 adds narrow presentation/weapon hooks; these must still be
+            // absent in Vanilla/Legacy, with every concrete New patch present.
+            int expectedHooks = typeof(TacticalEngineSelection).Assembly.GetTypes().Count(type => type.IsDefined(typeof(NewTacticalAttribute), false)
+                && type.IsDefined(typeof(HarmonyPatch), false));
+            result.isolationVerified &= result.installedNewHooks.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? expectedHooks : 0);
             if (!result.isolationVerified) throw new InvalidOperationException("Tactical engine isolation failed.");
         }
         private void Write()

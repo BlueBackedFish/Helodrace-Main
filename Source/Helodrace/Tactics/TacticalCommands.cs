@@ -11,7 +11,7 @@ using Verse.AI.Group;
 
 namespace Helodrace.Tactics
 {
-    public enum TacticalCommandPhase { Pending, Stack, Breach, Enter, Returning, Complete, Released }
+    public enum TacticalCommandPhase { Pending, Stack, Breach, Observe, Support, BlastWait, Enter, Returning, Complete, Released }
     public sealed class TacticalMemberCommand
     {
         public Pawn Pawn;
@@ -37,6 +37,8 @@ namespace Helodrace.Tactics
         public bool ReleaseAfterReturn;
         public bool DeferredWork;
         public TacticalPlanFailure LastPlanFailure;
+        public TacticalOpeningAction OpeningAction;
+        public bool ReplanAfterSupport;
         public bool Terminal => Phase == TacticalCommandPhase.Released;
     }
 
@@ -120,7 +122,7 @@ namespace Helodrace.Tactics
     }
 
     [NewTactical]
-    public sealed class MapComponent_TacticalCommands : MapComponent
+    public sealed partial class MapComponent_TacticalCommands : MapComponent
     {
         private readonly Dictionary<string, TacticalSquadCommand> squads = new Dictionary<string, TacticalSquadCommand>();
         private readonly Dictionary<Pawn, TacticalSquadCommand> byPawn = new Dictionary<Pawn, TacticalSquadCommand>();
@@ -130,6 +132,7 @@ namespace Helodrace.Tactics
         private IntVec3 explicitGoal = IntVec3.Invalid, automaticGoal = IntVec3.Invalid;
         private int goalRetry;
         public long JobsIssued, JobFailures, PlansAttempted, PlansBuilt;
+        public string LastJobFailure;
         public IEnumerable<TacticalSquadCommand> Commands => squads.Values;
         public bool HasExplicitGoal => explicitGoal.IsValid;
         public MapComponent_TacticalCommands(Map map) : base(map) { }
@@ -151,7 +154,11 @@ namespace Helodrace.Tactics
             foreach (TacticalSquadCommand command in squads.Values.ToArray())
             {
                 if (command.Terminal) { squads.Remove(command.Id); continue; }
+                // Never erase an already launched grenade's safety state.
+                if (command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
+                { command.ReplanAfterSupport = true; command.Goal = goal; command.Due = GenTicks.TicksGame + 1; continue; }
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
+                command.OpeningAction = null;
                 command.Phase = TacticalCommandPhase.Pending; command.Due = GenTicks.TicksGame;
                 command.ReturnCursor = 0; command.ReleaseAfterReturn = false;
                 command.PlanRetryAt = 0;
@@ -195,13 +202,17 @@ namespace Helodrace.Tactics
             if (member == null || member.Job != job) return;
             member.Job = null;
             if (condition != JobCondition.Succeeded)
-            { JobFailures++; member.RetryTick = GenTicks.TicksGame + 180; }
+            {
+                JobFailures++; member.RetryTick = GenTicks.TicksGame + 180;
+                LastJobFailure = job.def.defName + ":" + condition + " pawn=" + pawn.thingIDNumber;
+            }
             Wake(pawn);
         }
         internal void PassedOpening(Pawn pawn, Job job, IntVec3 at)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.Plan == null) return;
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
+            if (member?.Job == job && command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) UnsafeEntries++;
             if (member?.Job == job && at == command.Plan.Opening) member.Passed = true;
         }
         internal void CrossedInside(Pawn pawn, Job job)
@@ -227,7 +238,10 @@ namespace Helodrace.Tactics
         private void AdvanceCore(TacticalSquadCommand command, int tick)
         {
             if (command.Phase == TacticalCommandPhase.Returning)
-            { ReturnMembers(command, tick); return; }
+            {
+                if (SupportEffectsPending(command, tick)) { command.Due = tick + 15; return; }
+                ReturnMembers(command, tick); return;
+            }
             command.Due = tick + (command.Phase == TacticalCommandPhase.Enter ? 30 : 120);
             var active = command.Members.Where(member => Available(member, map)).ToList();
             if (active.Count == 0) { Release(command); return; }
@@ -305,6 +319,7 @@ namespace Helodrace.Tactics
                     command.Due = command.PlanRetryAt; return;
                 }
                 ReleaseClaims(command); command.Plan = plan; PlansBuilt++; command.PhaseStarted = tick;
+                command.OpeningAction = null;
                 if (plan.Direct)
                 {
                     foreach (IntVec3 cell in plan.Positions) claims[cell] = command;
@@ -319,7 +334,7 @@ namespace Helodrace.Tactics
                     claims[plan.Opening] = command;
                     command.HadConnectedStack = TacticalLocalPlanner.Connected(plan.Stack);
                     command.Breacher = hammer;
-                    command.Phase = plan.ExistingOpening ? TacticalCommandPhase.Enter : TacticalCommandPhase.Stack;
+                    command.Phase = plan.ExistingOpening ? TacticalCommandPhase.Observe : TacticalCommandPhase.Stack;
                 }
             }
             TacticalLocalPlan current = command.Plan;
@@ -334,7 +349,7 @@ namespace Helodrace.Tactics
                     if (AtPost(member)) ready++;
                 }
                 if (OpeningUsable(current))
-                { RememberOpening(current); command.Phase = TacticalCommandPhase.Enter; command.PhaseStarted = tick; }
+                { RememberOpening(current); command.Phase = TacticalCommandPhase.Observe; command.PhaseStarted = tick; }
                 else if (command.Phase == TacticalCommandPhase.Stack)
                 {
                     // A lost straggler must not keep the entire squad frozen.
@@ -372,7 +387,14 @@ namespace Helodrace.Tactics
                     return;
                 }
             }
+            if (command.Phase == TacticalCommandPhase.Observe || command.Phase == TacticalCommandPhase.Support
+                || command.Phase == TacticalCommandPhase.BlastWait)
+            {
+                AdvanceOpeningAction(command, active, tick);
+                if (command.Phase != TacticalCommandPhase.Enter) return;
+            }
             if (command.Phase != TacticalCommandPhase.Enter) return;
+            AvoidObservedOccupiedPost(command);
             if (!current.Direct && !OpeningUsable(current))
             {
                 // Local obstruction, not global topology refresh. Keep the
@@ -454,6 +476,7 @@ namespace Helodrace.Tactics
                 var plan = new TacticalLocalPlan { Opening = known.Opening, Inward = known.Inward, ExistingOpening = true,
                     Barrier = known.Opening.GetEdifice(map) };
                 for (int i = 0; i < count; i++) { plan.Stack.Add(known.Stack[i]); plan.Positions.Add(known.Positions[i]); }
+                plan.Interior.UnionWith(known.Interior);
                 failure = TacticalPlanFailure.None; return plan;
             }
             return null;

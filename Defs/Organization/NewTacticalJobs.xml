@@ -23,4 +23,18 @@
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalObserve</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalObserve</driverClass>
+    <reportString>개구부 옆에서 내부를 관측하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalThrow</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalThrow</driverClass>
+    <reportString>수류탄을 준비하고 투척 후 복귀하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
 </Defs>

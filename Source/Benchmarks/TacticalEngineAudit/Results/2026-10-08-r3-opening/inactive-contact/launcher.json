@@ -1,0 +1,15 @@
+﻿{
+    "warmupTicks":  0,
+    "fixtureCase":  "contact",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceOpeningAction;Helodrace.Tactics.MapComponent_TacticalCommands::SupportEffectsPending;Helodrace.Tactics.MapComponent_TacticalCommands::PrepareThrowStack;Helodrace.Tactics.MapComponent_TacticalCommands::SafeOpeningThrow;Helodrace.Tactics.TacticalOpeningPolicy::ClassifySize",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "85e69f9f31003a2c1fa3e758ecb53fde63097288453c0931be3c254b35a6c6f7",
+    "high":  false,
+    "sampleTicks":  2400,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

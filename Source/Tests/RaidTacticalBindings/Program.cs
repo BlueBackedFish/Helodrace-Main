@@ -63,6 +63,8 @@ internal static class Program
             typeof(Patch_RaidGrenade_NoGunCast), typeof(Patch_RaidGrenade_NoGunAvailable), typeof(Patch_RaidGrenade_DrawHeld),
             typeof(Patch_RaidOpeningObservation_Lean)
         };
+        patches = patches.Concat(typeof(RaidTacticalPlan).Assembly.GetTypes().Where(type => type.Namespace == "Helodrace.Tactics"
+            && type.Name.StartsWith("Patch_NewTactical_") && type.IsDefined(typeof(HarmonyPatch), false))).ToArray();
         patches = patches.Concat(new[] { "Spawn", "Despawn", "DoorOpen", "DoorClose", "Terrain" }
             .Select(name => typeof(RaidTacticalPlan).Assembly.GetType("Helodrace.Patch_RaidPhysicalCache_" + name, true))).ToArray();
         patches = patches.Append(typeof(RaidTacticalPlan).Assembly.GetType("Helodrace.Patch_RaidRuntimeAudit_Owner", true)).ToArray();
@@ -126,6 +128,7 @@ internal static class Program
             OrganizationEdgeArrivalTests.Run();
             TacticalEngineSelectionTests.Run();
             TacticalWorkBudgetTests.Run();
+            TacticalOpeningTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }

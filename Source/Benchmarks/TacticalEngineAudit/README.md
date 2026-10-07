@@ -38,6 +38,12 @@ $targets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;H
 
 `newFunctionalComplete`는 모든 분대 완료·생존 멤버 실내 자리 도착·연결 대형·실제 구조에 맞는 계획을 요구한다. 실제 개구부 통과/후미 통과를 별도 기록한다. 직접 야외 이동은 개구부 통과를 요구하지 않는다. 문은 `newDoorFaults=1`, 중단은 활성 새 임무 동안 외부 복귀 없음, 공병 사망은 12명 생존 완료를 추가 확인한다. `moved`나 stock AI의 뒤늦은 실내 접근만으로 성공하지 않는다.
 
+## R3 관측·지원 약식 시험
+
+`-Case contact -Population 12 -SampleTicks 2400 -WarmupTicks 0`은 16칸 방을 만든 뒤 관측 단계에 고정 적을 개구부 시야 안에 배치한다. `narrow`는 기존 위치를 유지하므로 시야 밖 적으로 절약 규칙을 해제하지 않는 대조다. 일반 큰 방의 관측·지원은 `-Case normal`로 확인한다. 동적 적 추격이나 다방 정리 시험은 아니다.
+
+`newObservations/newObservationContacts/newSupportThrows/newSupportReturns/newSupportWaits/newUnsafeEntries`를 남긴다. `newUnsafeEntries=0`과 실제 투척·복귀 횟수 및 전원 내부 고유 자리 완료를 함께 확인한다. `newLastJobFailure`는 마지막 실패/중단 종류이며 exceptions와 구분한다. New 컴포넌트는 2개, R3 현재 훅은 습격 등록 및 준비/관측 표현·사격의 6개다. Vanilla/Legacy에는 New 훅을 설치하지 않는다. 단계 진행 기록은 [R3 문서](../../../Docs/전술/R3%20CQB%20구현과%20검증.md)에 있다.
+
 ## CPU 비교
 
 ```powershell

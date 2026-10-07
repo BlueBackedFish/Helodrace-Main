@@ -17,6 +17,7 @@ namespace Helodrace.Tactics
         public Building Barrier;
         public readonly List<IntVec3> Stack = new List<IntVec3>();
         public readonly List<IntVec3> Positions = new List<IntVec3>();
+        public readonly HashSet<IntVec3> Interior = new HashSet<IntVec3>();
         public bool Direct, ExistingOpening;
     }
 
@@ -178,7 +179,8 @@ namespace Helodrace.Tactics
         internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed)
         {
             IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
-            var reachable = new HashSet<IntVec3> { plan.Inside };
+            var reachable = plan.Interior;
+            reachable.Clear(); reachable.Add(plan.Inside);
             var queue = new Queue<IntVec3>(); queue.Enqueue(plan.Inside);
             // Small near-wall patch, not a live room graph. Expansion is
             // bounded; only cells connected to the inside mouth are selected.
@@ -193,6 +195,7 @@ namespace Helodrace.Tactics
                     int width = delta.x * lateral.x + delta.z * lateral.z;
                     if (depth < 1 || depth > 4 || Math.Abs(width) > 8 || !cell.InBounds(map)
                         || !cell.Standable(map) || reachable.Contains(cell)) continue;
+                    if (reachable.Count >= 81) break;
                     reachable.Add(cell); queue.Enqueue(cell);
                 }
             }

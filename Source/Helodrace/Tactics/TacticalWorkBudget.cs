@@ -6,8 +6,8 @@ namespace Helodrace.Tactics
     // Accounting is for completed synchronous operations, not preemption.
     public sealed class TacticalWorkBudget
     {
-        public const int JobLimit = 2, ReturnLimit = 1, PathLimit = 4, PlanLimit = 1;
-        private int tick = int.MinValue, jobs, returns, paths, plans;
+        public const int JobLimit = 2, ReturnLimit = 1, PathLimit = 4, PlanLimit = 1, ObserveLimit = 1;
+        private int tick = int.MinValue, jobs, returns, paths, plans, observations;
         private long elapsed;
         private readonly long elapsedLimit;
         public TacticalWorkBudget(long elapsedLimitTicks = 0)
@@ -15,7 +15,7 @@ namespace Helodrace.Tactics
         private void BeginTick(int now)
         {
             if (tick == now) return;
-            tick = now; jobs = returns = paths = plans = 0; elapsed = 0;
+            tick = now; jobs = returns = paths = plans = observations = 0; elapsed = 0;
         }
         public bool TryJob(int now, bool returning = false)
         {
@@ -38,5 +38,11 @@ namespace Helodrace.Tactics
         }
         public void Account(int now, long cost)
         { BeginTick(now); if (cost > 0) elapsed += cost; }
+        public bool TryObserve(int now)
+        {
+            BeginTick(now);
+            if (elapsed >= elapsedLimit || observations >= ObserveLimit) return false;
+            observations++; return true;
+        }
     }
 }

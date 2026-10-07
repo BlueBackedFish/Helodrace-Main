@@ -49,6 +49,11 @@ $sample.benchmark.startPhases = 'different phase'
 $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
 $response = & dotnet $cli compare $Capture $fixture
 if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'benchmark') { throw 'Different benchmark phase was not rejected.' }
+$sample.benchmark.fixtureCase = 'different event'
+$sample.benchmark.startPhases = (Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json).benchmark.startPhases
+$sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+$response = & dotnet $cli compare $Capture $fixture
+if ($LASTEXITCODE -ne 1 -or ($response -join "`n") -notmatch 'benchmark') { throw 'Different event fixture was not rejected.' }
 $response = & dotnet $cli aggregate $Capture $Capture
 if ($LASTEXITCODE -ne 0 -or (($response -join "`n") | ConvertFrom-Json).groups[0].runs -ne 2) { throw 'Repeated compatible captures did not aggregate.' }
 $response = & dotnet $cli benchmark-compare $Capture $Capture

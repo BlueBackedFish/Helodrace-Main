@@ -105,7 +105,7 @@ internal static class Program
                         var a = before.benchmark; var b = after.benchmark;
                         if (a == null || b == null || a.fixtureVersion != b.fixtureVersion || a.seed != b.seed
                             || a.mapFingerprint != b.mapFingerprint || a.faction != b.faction || a.startPhases != b.startPhases
-                            || a.pawnFingerprint != b.pawnFingerprint || a.workload != b.workload || a.requestedPopulation != b.requestedPopulation
+                            || a.pawnFingerprint != b.pawnFingerprint || a.workload != b.workload || a.fixtureCase != b.fixtureCase || a.requestedPopulation != b.requestedPopulation
                             || a.engine != b.engine || a.effectiveEngine != b.effectiveEngine || a.newEngineImplemented != b.newEngineImplemented
                             || a.warmupTicks != b.warmupTicks || a.sampleTicks != b.sampleTicks
                             || a.unitCount != b.unitCount || a.radioOperators != b.radioOperators)
