@@ -141,7 +141,8 @@ namespace Helodrace.Profiling
             ending = false;
             reference = new CoreReferenceCalibration(); reference.Sample();
             nextReference = Time.realtimeSinceStartup + 1;
-            started = clock.Timestamp(); deadline = Time.realtimeSinceStartup + Math.Max(1, Math.Min(300, seconds));
+            double limit = GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _) ? 1800 : 300;
+            started = clock.Timestamp(); deadline = Time.realtimeSinceStartup + Math.Max(1, Math.Min(limit, seconds));
             windowProcessCpu = cpu ? clock.ProcessCpu100ns() : -1;
             windowCpu = cpu ? clock.Cpu100ns() : -1;
             capture = new MethodCapture(clock, targets.Select(m => cpu && CpuTarget(m)).ToArray());

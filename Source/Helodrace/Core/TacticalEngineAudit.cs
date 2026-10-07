@@ -28,11 +28,16 @@ namespace Helodrace
         [DataMember] public int newDoorFaults;
         [DataMember] public long newJobsIssued, newJobFailures, newPlansAttempted;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
-        [DataMember] public string[] newCommands, newComponents;
+        [DataMember] public bool newPhysicalPlansValid;
+        [DataMember] public int newAllCompleteTick = -1;
+        [DataMember] public string[] newCommands, newComponents, installedNewHooks;
         [DataMember] public double? uninstrumentedMainCpuMs, uninstrumentedProcessCpuMs;
         [DataMember] public bool complete, isolationVerified, newEngineImplemented;
         [DataMember] public string engine, effectiveEngine, workload, seed, mapFingerprint, pawnFingerprint, error, fixtureCase;
         [DataMember] public bool caseTriggered, returnedOutsideAfterInterruption;
+        [DataMember] public int interruptionTick = -1, returnOutsideTick = -1;
+        [DataMember] public string returnOutsideJob;
+        [DataMember] public string finalBoundarySketch;
         [DataMember] public string[] legacyComponents, installedLegacyHooks, finalPawnJobs;
     }
 
@@ -47,6 +52,7 @@ namespace Helodrace
         private readonly HashSet<Pawn> entered = new HashSet<Pawn>(), arrived = new HashSet<Pawn>();
         private Pawn owner;
         private Pawn interruptedPawn;
+        private Tactics.TacticalSquadCommand interruptedCommand;
         private IntVec3 interruptionOpening;
         private int fixtureRight = 140, fixtureTop = 136;
         private int started, measured = -1, nextProgress;
@@ -87,7 +93,7 @@ namespace Helodrace
                     measured = tick;
                     benchmark.startPhases = Phases();
                     AgentMethodProfiler.Begin("engine-audit", result.workload == "open-approach" ? 100 : 101,
-                        raiders.Count, 3, seconds: 300, benchmark: benchmark);
+                        raiders.Count, 3, seconds: 1800, benchmark: benchmark);
                     if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfile", out _))
                     {
                         uninstrumentedProcessStart = windowClock.ProcessCpu100ns();
@@ -123,7 +129,7 @@ namespace Helodrace
             GenCommandLine.TryGetCommandLineArg("hdTacticalAuditWorkload", out result.workload);
             result.fixtureCase = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditCase", out string fixtureCase) ? fixtureCase : "normal";
             if (result.fixtureCase != "normal" && result.fixtureCase != "interrupt" && result.fixtureCase != "casualty"
-                && result.fixtureCase != "rocks" && result.fixtureCase != "narrow") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "rocks" && result.fixtureCase != "narrow" && result.fixtureCase != "field") throw new ArgumentException("Unknown audit case.");
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -150,6 +156,8 @@ namespace Helodrace
             }
             int right = result.fixtureCase == "narrow" ? 105 : 140, top = result.fixtureCase == "narrow" ? 105 : 136;
             fixtureRight = right; fixtureTop = top;
+            if (result.fixtureCase != "field")
+            {
             for (int x = 100; x <= right; x++)
             { Place(ThingDefOf.Wall, new IntVec3(x, 0, 100)); Place(ThingDefOf.Wall, new IntVec3(x, 0, top)); }
             for (int z = 101; z < top; z++)
@@ -160,6 +168,7 @@ namespace Helodrace
             }
             for (int x = 101; x < right; x++) for (int z = 101; z < top; z++)
                 map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
+            }
             if (result.fixtureCase == "rocks")
                 for (int z = 105; z <= 114; z += 2) Place(ThingDefOf.Wall, new IntVec3(99, 0, z));
             IntVec3 goal = result.fixtureCase == "narrow" ? new IntVec3(103,0,103) : new IntVec3(120, 0, 118);
@@ -201,6 +210,7 @@ namespace Helodrace
                 if (result.sapperEligiblePawns == 0) throw new InvalidOperationException("Fixture has no eligible vanilla sapper.");
             }
             result.pawnFingerprint = PawnFingerprint();
+            if (result.fixtureCase == "field") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal + new IntVec3(1,0,1));
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
             benchmark = new ProfileBenchmark { fixtureVersion = 7, seed = result.seed, mapFingerprint = result.mapFingerprint,
@@ -212,8 +222,15 @@ namespace Helodrace
         }
         private void ApplyCase()
         {
-            if (interruptedPawn?.Spawned == true && interruptedPawn.Position.x < interruptionOpening.x + 1)
+            if (interruptedPawn?.Spawned == true && interruptedCommand.Phase != Tactics.TacticalCommandPhase.Complete
+                && interruptedCommand.Phase != Tactics.TacticalCommandPhase.Released
+                && interruptedPawn.Position.x < interruptionOpening.x + 1)
+            {
                 result.returnedOutsideAfterInterruption = true;
+                if (result.returnOutsideTick < 0)
+                { result.returnOutsideTick = GenTicks.TicksGame - started; result.returnOutsideJob = interruptedPawn.CurJobDef?.defName; }
+            }
+            if (result.fixtureCase != "interrupt" && result.fixtureCase != "casualty") return;
             if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
             if (result.fixtureCase == "interrupt")
@@ -222,8 +239,10 @@ namespace Helodrace
                     .LastOrDefault(item => item.Crossed && !item.Entered && item.Pawn.jobs.curDriver is Tactics.JobDriver_TacticalIngress driver && !driver.AtPost);
                 if (member == null) return;
                 interruptedPawn = member.Pawn;
-                interruptionOpening = service.Commands.First(command => command.Members.Contains(member)).Plan.Opening;
+                interruptedCommand = service.Commands.First(command => command.Members.Contains(member));
+                interruptionOpening = interruptedCommand.Plan.Opening;
                 result.caseTriggered = true;
+                result.interruptionTick = GenTicks.TicksGame - started;
                 interruptedPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
             }
             else if (result.fixtureCase == "casualty")
@@ -279,14 +298,22 @@ namespace Helodrace
                 result.newEnteredByOrder = commands.Sum(command => command.Members.Count(member => member.Entered));
                 result.newRearPassedOpening = commands.Sum(command => command.Members.Count(member => member.Passed && member.Rear));
                 result.newConnectedStacks = commands.All(command => command.Plan != null && (command.Plan.Direct || command.HadConnectedStack));
+                bool Interior(IntVec3 cell) => cell.x > 100 && cell.x < fixtureRight && cell.z > 100 && cell.z < fixtureTop;
+                result.newPhysicalPlansValid = commands.All(command => command.Plan != null
+                    && command.Plan.Positions.All(Interior) && command.Plan.Positions.Distinct().Count() == command.Members.Count
+                    && (command.Plan.Direct || (command.Plan.Opening.x == 100 || command.Plan.Opening.x == fixtureRight
+                        || command.Plan.Opening.z == 100 || command.Plan.Opening.z == fixtureTop)
+                        && !Interior(command.Plan.Outside) && Interior(command.Plan.Inside)));
                 result.newJobsIssued = newService.JobsIssued; result.newJobFailures = newService.JobFailures;
                 result.newPlansAttempted = newService.PlansAttempted;
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
-                    && result.newEnteredByOrder == result.alive && result.newConnectedStacks
+                    && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid
                     && commands.All(command => command.Plan.Direct || command.Members.All(member => member.Pawn.Dead || member.Pawn.Downed || member.Passed));
                 result.newCommands = commands.Select(command => command.Id + ":" + command.Phase + " opening=" + command.Plan?.Opening
-                    + " direct=" + command.Plan?.Direct + " failures=" + command.Failures + " members="
+                    + " direct=" + command.Plan?.Direct + " failures=" + command.Failures + " lastFailure=" + command.LastPlanFailure
+                    + " tools=" + command.Members.Count(member => CompSledgehammerBreach.WornBy(member.Pawn) != null)
+                    + " members="
                     + string.Join(";", command.Members.Select((member, index) => member.Pawn.Position + ":" + member.Pawn.CurJobDef
                         + ":passed=" + member.Passed + ":entered=" + member.Entered + ":slot="
                         + (command.Plan == null ? "none" : command.Plan.Positions[index].ToString())))).ToArray();
@@ -295,6 +322,19 @@ namespace Helodrace
                 + pawn.CurJob?.def?.defName + "->" + pawn.CurJob?.targetA.ToString()).ToArray();
             result.breachedWallCells = Enumerable.Range(101,fixtureTop - 101).Count(z => new IntVec3(100,0,z).GetEdifice(map) == null
                 && (result.workload != "open-approach" || z != 118));
+            var sketch = new StringBuilder("x=96..108, rows z=98.." + (fixtureTop + 1) + "\n");
+            for (int z = 98; z <= fixtureTop + 1; z++)
+            {
+                sketch.Append(z).Append(' ');
+                for (int x = 96; x <= 108; x++)
+                {
+                    var cell = new IntVec3(x,0,z); Building building = cell.GetEdifice(map);
+                    sketch.Append(building is Building_Door ? 'D' : building?.def.IsWall == true ? '#'
+                        : !cell.Standable(map) ? 'X' : cell.GetFirstPawn(map) != null ? 'p' : '.');
+                }
+                sketch.Append('\n');
+            }
+            result.finalBoundarySketch = sketch.ToString();
         }
         private string Phases() => TacticalEngineSelection.Kind == TacticalEngineKind.New
             ? string.Join(",", map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands.GroupBy(command => command.Phase)
@@ -305,6 +345,12 @@ namespace Helodrace
                 .OrderBy(group => group.Key).Select(group => group.Key + ":" + group.Count()));
         private void Progress(int tick)
         {
+            if (result.newAllCompleteTick < 0 && result.units > 0 && TacticalEngineSelection.Kind == TacticalEngineKind.New)
+            {
+                var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
+                if (service.Commands.Count() == result.units && service.Commands.All(command => command.Phase == Tactics.TacticalCommandPhase.Complete))
+                    result.newAllCompleteTick = tick - started;
+            }
             foreach (Pawn pawn in raiders.Where(pawn => pawn.Spawned && !pawn.Dead && !pawn.Downed))
             {
                 if (pawn.Position.x > 100 && pawn.Position.x < fixtureRight && pawn.Position.z > 100 && pawn.Position.z < fixtureTop
@@ -332,9 +378,17 @@ namespace Helodrace
             result.newComponents = map.components.Cast<object>().Concat(Current.Game.components)
                 .Where(value => value.GetType().IsDefined(typeof(NewTacticalAttribute), false))
                 .Select(value => value.GetType().FullName).OrderBy(name => name).ToArray();
+            result.installedNewHooks = Harmony.GetAllPatchedMethods().SelectMany(method =>
+            {
+                Patches patches = Harmony.GetPatchInfo(method);
+                return patches.Prefixes.Concat(patches.Postfixes).Concat(patches.Transpilers).Concat(patches.Finalizers)
+                    .Where(patch => patch.PatchMethod.DeclaringType.IsDefined(typeof(NewTacticalAttribute), false))
+                    .Select(patch => method.DeclaringType.FullName + "." + method.Name + " <- " + patch.PatchMethod.DeclaringType.FullName);
+            }).OrderBy(name => name).ToArray();
             result.isolationVerified = legacy ? result.legacyComponents.Length == 11 && result.installedLegacyHooks.Length > 0
                 : result.legacyComponents.Length == 0 && result.installedLegacyHooks.Length == 0;
             result.isolationVerified &= result.newComponents.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? 2 : 0);
+            result.isolationVerified &= result.installedNewHooks.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? 1 : 0);
             if (!result.isolationVerified) throw new InvalidOperationException("Tactical engine isolation failed.");
         }
         private void Write()

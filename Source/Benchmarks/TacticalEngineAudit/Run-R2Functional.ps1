@@ -1,16 +1,17 @@
 param(
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r2-functional-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
-    [ValidateSet('door','narrow','rocks','interrupt','casualty','crowd200')][string[]]$Cases = @('door','narrow','rocks','interrupt','casualty','crowd200')
+    [ValidateSet('door','narrow','rocks','interrupt','casualty','crowd200','field')][string[]]$Cases = @('field','door','narrow','rocks','interrupt','casualty','crowd200')
 )
 $ErrorActionPreference = 'Stop'
 $records = @()
 $scenarios = @(
+    @{Name='field'; Workload='open-approach'; Case='field'; Population=12; High=$false; Ticks=2000},
     @{Name='door'; Workload='sapper-door'; Case='normal'; Population=12; High=$false; Ticks=3000},
     @{Name='narrow'; Workload='sapper-wall'; Case='narrow'; Population=12; High=$false; Ticks=4000},
     @{Name='rocks'; Workload='sapper-wall'; Case='rocks'; Population=12; High=$false; Ticks=4000},
     @{Name='interrupt'; Workload='sapper-wall'; Case='interrupt'; Population=12; High=$false; Ticks=4000},
     @{Name='casualty'; Workload='sapper-wall'; Case='casualty'; Population=13; High=$true; Ticks=5000},
-    @{Name='crowd200'; Workload='sapper-wall'; Case='normal'; Population=200; High=$false; Ticks=10000}
+    @{Name='crowd200'; Workload='sapper-wall'; Case='normal'; Population=200; High=$false; Ticks=6000}
 )
 foreach ($case in $scenarios) {
     if ($Cases -notcontains $case.Name) { continue }

@@ -67,6 +67,9 @@ internal static class EngineComparisonChecks
             string pathAudit = Path.Combine(directory, "audit.json");
             var audit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(pathAudit))!;
             audit["newFunctionalComplete"] = JsonSerializer.SerializeToElement(true);
+            audit["newPhysicalPlansValid"] = JsonSerializer.SerializeToElement(true);
+            audit["newCompletedUnits"] = JsonSerializer.SerializeToElement(1);
+            audit["newEnteredByOrder"] = JsonSerializer.SerializeToElement(12);
             File.WriteAllText(pathAudit, JsonSerializer.Serialize(audit));
         }
         group = JsonSerializer.SerializeToElement(EngineComparison.Compare(r2Baseline, r2)).GetProperty("groups")[0];

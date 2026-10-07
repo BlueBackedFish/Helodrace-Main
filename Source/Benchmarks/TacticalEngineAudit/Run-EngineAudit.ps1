@@ -5,7 +5,7 @@ param(
     [ValidateRange(0,10000)][int]$WarmupTicks = 600,
     [ValidateRange(1,10000)][int]$SampleTicks = 1200,
     [string]$Seed = 'hd-r1-20261007',
-    [ValidateSet('normal','interrupt','casualty','rocks','narrow')][string]$Case = 'normal',
+    [ValidateSet('normal','interrupt','casualty','rocks','narrow','field')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
     [string]$ProfileTargets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest',

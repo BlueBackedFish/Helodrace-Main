@@ -6,6 +6,8 @@ using Verse;
 
 namespace Helodrace.Tactics
 {
+    [Flags]
+    public enum TacticalPlanFailure { None = 0, Busy = 1, NotBoundary = 2, Tool = 4, Obstructed = 8, Stack = 16, Inside = 32, Unreachable = 64 }
     // Only the small physical footprint of one command. No topology/grid cache.
     public sealed class TacticalLocalPlan
     {
@@ -15,7 +17,7 @@ namespace Helodrace.Tactics
         public Building Barrier;
         public readonly List<IntVec3> Stack = new List<IntVec3>();
         public readonly List<IntVec3> Positions = new List<IntVec3>();
-        public bool Direct;
+        public bool Direct, ExistingOpening;
     }
 
     public static class TacticalLocalPlanner
@@ -40,8 +42,9 @@ namespace Helodrace.Tactics
             cell.InBounds(map) && cell.Standable(map) && !claimed(cell);
 
         internal static TacticalLocalPlan Find(Map map, Pawn leader, Pawn hammer, IntVec3 goal,
-            int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased)
+            int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, out TacticalPlanFailure failure)
         {
+            failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
             IntVec3 preferred = Math.Abs(goal.x - from.x) >= Math.Abs(goal.z - from.z)
                 ? new IntVec3(Math.Sign(goal.x - from.x), 0, 0) : new IntVec3(0, 0, Math.Sign(goal.z - from.z));
@@ -77,34 +80,40 @@ namespace Helodrace.Tactics
                             IntVec3 cell = goal + new IntVec3(x, 0, z);
                             if (Free(map, cell, claimed)) direct.Positions.Add(cell);
                         }
-                return direct.Positions.Count == count && leader.CanReach(direct.Positions[0],
-                    Verse.AI.PathEndMode.OnCell, Danger.Deadly) ? direct : null;
+                if (direct.Positions.Count != count) { failure = TacticalPlanFailure.Inside; return null; }
+                if (leader.CanReach(direct.Positions[0], Verse.AI.PathEndMode.OnCell, Danger.Deadly)) return direct;
+                failure = TacticalPlanFailure.Unreachable; return null;
             }
             var candidates = new List<TacticalLocalPlan>(8);
             foreach (int offset in Offsets)
             {
                 IntVec3 opening = first + tangent * offset;
-                if (!opening.InBounds(map) || leased(opening)) continue;
+                if (!opening.InBounds(map)) { failure |= TacticalPlanFailure.NotBoundary; continue; }
+                if (leased(opening)) { failure |= TacticalPlanFailure.Busy; continue; }
                 Building barrier = opening.GetEdifice(map);
                 if (barrier == null)
                 {
                     IntVec3 edgeA = opening - tangent, edgeB = opening + tangent;
                     if (!edgeA.InBounds(map) || !edgeB.InBounds(map) || edgeA.GetEdifice(map)?.def.IsWall != true
-                        || edgeB.GetEdifice(map)?.def.IsWall != true) continue;
+                        || edgeB.GetEdifice(map)?.def.IsWall != true) { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 }
                 bool openDoor = barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
-                if (barrier != null && !openDoor && (hammer == null || !CompSledgehammerBreach.IsValidTarget(hammer, barrier))) continue;
-                if (barrier == null && !opening.Standable(map)) continue;
+                if (barrier != null && !openDoor && (hammer == null || !CompSledgehammerBreach.IsValidTarget(hammer, barrier)))
+                { failure |= TacticalPlanFailure.Tool; continue; }
+                if (barrier == null && !opening.Standable(map)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier };
-                if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed)) continue;
-                if (!BuildStack(map, plan, count, claimed) || !BuildPositions(map, plan, count, claimed)) continue;
+                if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed)) { failure |= TacticalPlanFailure.Obstructed; continue; }
+                if (!BuildStack(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Stack; continue; }
+                if (!BuildPositions(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Inside; continue; }
                 candidates.Add(plan);
             }
             // Prefer a suitable ordinary door; never spend more than two final
             // reachability probes per command attempt.
             candidates.Sort((a, b) => Score(a, from).CompareTo(Score(b, from)));
             for (int i = 0; i < Math.Min(2, candidates.Count); i++)
-                if (leader.CanReach(candidates[i].Outside, Verse.AI.PathEndMode.OnCell, Danger.Deadly)) return candidates[i];
+                if (leader.CanReach(candidates[i].Outside, Verse.AI.PathEndMode.OnCell, Danger.Deadly))
+                { failure = TacticalPlanFailure.None; return candidates[i]; }
+            if (candidates.Count > 0) failure |= TacticalPlanFailure.Unreachable;
             return null;
         }
         private static int Score(TacticalLocalPlan plan, IntVec3 from) => plan.Outside.DistanceToSquared(from)

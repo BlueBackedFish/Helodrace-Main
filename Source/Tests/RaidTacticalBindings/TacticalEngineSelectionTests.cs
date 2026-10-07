@@ -3,6 +3,9 @@ using System.Linq;
 using HarmonyLib;
 using Helodrace;
 using Verse;
+using Verse.AI.Group;
+using System.Runtime.CompilerServices;
+using RimWorld;
 
 internal static class TacticalEngineSelectionTests
 {
@@ -30,7 +33,8 @@ internal static class TacticalEngineSelectionTests
             if (!TacticalEngineSelection.Install(type, TacticalEngineKind.Legacy)
                 || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)
                 || TacticalEngineSelection.Install(type, TacticalEngineKind.New)) throw new Exception("Legacy filter failed: " + type);
-        foreach (Type type in new[] { typeof(Helodrace.Tactics.MapComponent_TacticalCommands), typeof(Helodrace.Tactics.GameComponent_TacticalCommands) })
+        foreach (Type type in new[] { typeof(Helodrace.Tactics.MapComponent_TacticalCommands), typeof(Helodrace.Tactics.GameComponent_TacticalCommands),
+            typeof(Helodrace.Tactics.Patch_NewTactical_RaidCreated) })
             if (!TacticalEngineSelection.Install(type, TacticalEngineKind.New)
                 || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)
                 || TacticalEngineSelection.Install(type, TacticalEngineKind.Legacy)) throw new Exception("New engine component isolation failed: " + type);
@@ -39,6 +43,15 @@ internal static class TacticalEngineSelectionTests
             || Helodrace.Tactics.TacticalLocalPlanner.Connected(new[] { connected[0], connected[2] })
             || Helodrace.Tactics.TacticalLocalPlanner.Connected(new[] { connected[0], connected[0] }))
             throw new Exception("A stack must be cardinally connected with unique positions; diagonal contact is insufficient.");
+        var job = (LordJob)RuntimeHelpers.GetUninitializedObject(typeof(LordJob_AssaultColony));
+        foreach (Type toil in new[] { typeof(LordToil_AssaultColony), typeof(LordToil_AssaultColonySappers), typeof(LordToil_AssaultColonyBreaching) })
+        {
+            if (!Helodrace.Tactics.GameComponent_TacticalCommands.IsAssaultPhase(job,
+                (LordToil)RuntimeHelpers.GetUninitializedObject(toil))) throw new Exception("Active assault was excluded.");
+        }
+        if (Helodrace.Tactics.GameComponent_TacticalCommands.IsAssaultPhase(job,
+            (LordToil)RuntimeHelpers.GetUninitializedObject(typeof(LordToil_ExitMap))))
+            throw new Exception("An assault LordJob in ExitMap must relinquish tactical ownership.");
         foreach (Type type in new[] { typeof(Patch_TacticalEngine_MapComponents), typeof(Patch_TacticalEngine_GameComponents),
             typeof(MapComponent_TacticalEngineAudit), typeof(Helodrace.Squads.GameComponent_CombatOrganizations) })
             if (Enum.GetValues<TacticalEngineKind>().Any(engine => !TacticalEngineSelection.Install(type, engine)))

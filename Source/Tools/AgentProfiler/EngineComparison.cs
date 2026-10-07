@@ -93,7 +93,10 @@ internal static class EngineComparison
                 double windowRatio=Median(bv.Select(WindowCpu))/Median(av.Select(WindowCpu));
                 bool progression=av.Concat(bv).All(r=>r.Capture.population==0 || r.Audit.GetProperty("entered").GetInt32()>0);
                 bool functional=bv.All(r=>r.Capture.benchmark.fixtureVersion >= 7
-                    && r.Audit.TryGetProperty("newFunctionalComplete", out var done) && done.GetBoolean());
+                    && r.Audit.TryGetProperty("newFunctionalComplete", out var done) && done.GetBoolean()
+                    && r.Audit.TryGetProperty("newPhysicalPlansValid", out var physical) && physical.GetBoolean()
+                    && r.Audit.GetProperty("newCompletedUnits").GetInt32() == r.Capture.benchmark.unitCount
+                    && r.Audit.GetProperty("newEnteredByOrder").GetInt32() == r.Capture.population);
                 bool eligible=bv.All(r=>r.Capture.selectedEngine=="new" && r.Capture.newEngineImplemented)
                     && av.Length>=3 && bv.Length>=3 && progression && functional;
                 return new {conditions=JsonSerializer.Deserialize<JsonElement>(k),baselineRuns=av.Length,candidateRuns=bv.Length,
