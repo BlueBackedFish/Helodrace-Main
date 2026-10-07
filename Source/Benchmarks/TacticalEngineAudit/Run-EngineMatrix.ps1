@@ -30,7 +30,9 @@ foreach ($workload in $Workloads) {
             }
             $audit = Get-Content -LiteralPath (Join-Path $runRoot 'audit.json') -Raw | ConvertFrom-Json
             if (-not $audit.complete -or -not $audit.isolationVerified -or $audit.error) { throw "Audit failed: $runRoot" }
+            if ($engine -eq 'new' -and $SampleTicks -ge 1000 -and -not $audit.newFunctionalComplete) { throw "New functional progress failed; preserve this run: $runRoot" }
             $records += @{ root=$runRoot; engine=$engine; workload=$workload; repeat=$repeat; population=$audit.population; entered=$audit.entered; objectiveReached=$audit.objectiveReached }
+            $records | ConvertTo-Json -Depth 6 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $root 'matrix.json')
             Write-Output "Completed $engine/$workload repeat=$repeat actual=$($audit.population) entered=$($audit.entered) reached=$($audit.objectiveReached)"
         }
     }

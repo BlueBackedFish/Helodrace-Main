@@ -46,6 +46,7 @@ namespace Helodrace
     public sealed class MapComponent_TacticalEngineAudit : MapComponent
     {
         internal static readonly HashSet<Pawn> ProtectedRaiders = new HashSet<Pawn>();
+        internal static bool GeneratingFixture;
         private readonly string output;
         private readonly List<Pawn> raiders = new List<Pawn>();
         private readonly Dictionary<Pawn, IntVec3> starts = new Dictionary<Pawn, IntVec3>();
@@ -181,9 +182,13 @@ namespace Helodrace
             FormationDef formation = DefDatabase<FormationDef>.GetNamed(high ? "HD_Formation_MW_RifleSquad" : "HD_Formation_GW_RifleSquad");
             while (raiders.Count < result.requestedPopulation)
             {
-                List<Pawn> members = OrganizationGenerator.Generate(new PawnGroupMakerParms { faction = faction,
+                List<Pawn> members;
+                CombatOrganization organization;
+                GeneratingFixture = true;
+                try { members = OrganizationGenerator.Generate(new PawnGroupMakerParms { faction = faction,
                     groupKind = PawnGroupKindDefOf.Combat, raidStrategy = RaidStrategyDefOf.ImmediateAttack,
-                    points = formation.FormationCost, tile = map.Tile, seed = 347001 + result.units }, out CombatOrganization organization);
+                    points = formation.FormationCost, tile = map.Tile, seed = 347001 + result.units }, out organization); }
+                finally { GeneratingFixture = false; }
                 if (members.Count != OrganizationGenerator.KindsFor(formation).Count() || organization.rootGroups.Count != 1
                     || organization.rootGroups[0].formation != formation) throw new InvalidOperationException("Fixture requires a complete rifle squad.");
                 result.units++;
@@ -213,7 +218,7 @@ namespace Helodrace
             if (result.fixtureCase == "field") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal + new IntVec3(1,0,1));
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
-            benchmark = new ProfileBenchmark { fixtureVersion = 7, seed = result.seed, mapFingerprint = result.mapFingerprint,
+            benchmark = new ProfileBenchmark { fixtureVersion = 8, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
                 radioOperators = result.radioOperators, warmupTicks = result.warmupTicks, sampleTicks = result.sampleTicks,
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,
@@ -259,8 +264,15 @@ namespace Helodrace
             foreach (Pawn pawn in raiders)
             {
                 text.Append(pawn.kindDef.defName).Append('|').Append(pawn.kindDef.canBeSapper).Append('|')
-                    .Append(pawn.ageTracker.AgeBiologicalTicks).Append('|');
-                foreach (var skill in pawn.skills.skills) text.Append(skill.def.defName).Append(':').Append(skill.Level).Append(';');
+                    .Append(pawn.ageTracker.AgeBiologicalTicks).Append('|').Append(pawn.gender).Append('|')
+                    .Append(pawn.story.Childhood?.defName).Append('|').Append(pawn.story.Adulthood?.defName).Append('|');
+                foreach (var trait in pawn.story.traits.allTraits)
+                    text.Append(trait.def.defName).Append(':').Append(trait.Degree).Append(';');
+                if (pawn.genes != null)
+                    foreach (var gene in pawn.genes.GenesListForReading)
+                        text.Append(gene.def.defName).Append(':').Append(gene.Active).Append(';');
+                foreach (var skill in pawn.skills.skills) text.Append(skill.def.defName).Append(':').Append(skill.Level)
+                    .Append(':').Append(skill.passion).Append(';');
                 foreach (Thing item in pawn.apparel.WornApparel.Cast<Thing>().Concat(pawn.equipment.AllEquipmentListForReading)
                     .Concat(pawn.inventory.innerContainer).OrderBy(item => item.def.defName))
                 {

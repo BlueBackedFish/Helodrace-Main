@@ -68,6 +68,20 @@ internal static class TacticalEngineSelectionTests
         string differentGear = (string)canonical.Invoke(null, new object[] { firstPreset.Replace("M16A4", "M4") });
         if (first != second || first == differentGear || !first.Contains("<slot>radio</slot>"))
             throw new Exception("Equipment hash canonicalization removed gear or retained the export timestamp.");
+        Type fixturePatch = typeof(TacticalEngineSelection).Assembly.GetType("Helodrace.Patch_TacticalAudit_NoRelations", true);
+        var constrain = AccessTools.Method(fixturePatch, "Prefix");
+        var generating = AccessTools.Field(typeof(MapComponent_TacticalEngineAudit), "GeneratingFixture");
+        object[] requestArgs = { new PawnGenerationRequest { CanGeneratePawnRelations = true } };
+        constrain.Invoke(null, requestArgs);
+        if (!((PawnGenerationRequest)requestArgs[0]).CanGeneratePawnRelations)
+            throw new Exception("Audit relation constraint leaked into normal pawn generation.");
+        try
+        {
+            generating.SetValue(null, true); constrain.Invoke(null, requestArgs);
+            if (((PawnGenerationRequest)requestArgs[0]).CanGeneratePawnRelations)
+                throw new Exception("Audit formation generation retained world-dependent relations.");
+        }
+        finally { generating.SetValue(null, false); }
         Console.WriteLine("PASS: engine selection, 11 components/25 patch classes isolation, shared metadata, real FillComponents targets, stable gear fingerprint.");
     }
 }

@@ -7,6 +7,18 @@ using Verse;
 
 namespace Helodrace
 {
+    [HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GeneratePawn), new[] { typeof(PawnGenerationRequest) })]
+    internal static class Patch_TacticalAudit_NoRelations
+    {
+        internal static void Prefix(ref PawnGenerationRequest request)
+        {
+            // World-pawn enumeration can change which sampled relation succeeds,
+            // consuming a different amount of RNG despite the same generation seed.
+            // Only the synchronous benchmark formation generation is constrained.
+            if (MapComponent_TacticalEngineAudit.GeneratingFixture)
+                request.CanGeneratePawnRelations = false;
+        }
+    }
     internal static class RaidAuditSeed
     {
         internal static bool Enter()
