@@ -338,32 +338,10 @@ namespace Helodrace
             && cell.DistanceToSquared(ExplosionAim(danger)) <= Math.Pow(ExplosionRadius(danger.def), 2)
             && GenSight.LineOfSight(ExplosionAim(danger), cell, map, true);
 
-        // Small local search, same frozen room, cardinally connected walkable cells.
-        // The committed result is retained; no full-map plan/NativeArray is built.
+        // Sparse local candidates and shared physical scores; committed results
+        // still survive ordinary review callbacks.
         private IntVec3 FindReactivePosition(Pawn pawn, RaidTacticalPlan plan, IntVec3 threat,
             HashSet<IntVec3> occupied, bool retreat, List<Thing> dangers = null, float radius = 8f)
-        {
-            RaidStructureSnapshot structure = StructureFor(map, plan);
-            int room = structure?.RoomAt(pawn.Position) ?? 0;
-            var candidates = new HashSet<IntVec3>(GenRadial.RadialCellsAround(pawn.Position, radius, true)
-                .Where(cell => ValidReactiveCell(cell) && !plan.AvoidedTrapCells.Contains(cell)
-                    && (structure?.RoomAt(cell) ?? 0) == room));
-            var connected = RaidFormationTopology.Distances(candidates, pawn.Position,
-                cell => GenAdj.CardinalDirections.Select(direction => cell + direction), cell => true);
-            float distance = pawn.Position.DistanceTo(threat);
-            return connected.Keys.Where(cell => !occupied.Contains(cell)
-                    && map.pawnDestinationReservationManager.CanReserve(cell, pawn))
-                .Select(cell => new
-                {
-                    Cell = cell,
-                    Safe = dangers == null || dangers.All(value => !ExposedToExplosion(cell, value)),
-                    Score = (!GenSight.LineOfSight(threat, cell, map, true) ? 28f : 0f)
-                        + CoverUtility.CalculateOverallBlockChance(cell, threat, map) * 16f
-                        + (retreat ? Math.Max(-8f, Math.Min(8f, cell.DistanceTo(threat) - distance)) * 2f : 0f)
-                        - connected[cell] * 1.2f - cell.GetTerrain(map).pathCost * 0.08f
-                }).OrderByDescending(value => value.Safe).ThenByDescending(value => value.Score)
-                .Take(12).Where(value => pawn.CanReach(value.Cell, PathEndMode.OnCell, Danger.Deadly))
-                .Select(value => value.Cell).DefaultIfEmpty(IntVec3.Invalid).First();
-        }
+            => BoundedReactivePosition(pawn,plan,threat,occupied,retreat,dangers,radius);
     }
 }

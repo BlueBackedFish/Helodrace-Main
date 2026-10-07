@@ -1,0 +1,74 @@
+﻿[
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-reactive-search\\before\\low\\profiles\\capture-20261007-093947-930-1801.json",
+        "scenario":  18,
+        "population":  200,
+        "alive":  199,
+        "moved":  199,
+        "eligible":  false,
+        "reasons":  [
+                        "casualties during measurement"
+                    ]
+    },
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-reactive-search\\before\\low\\profiles\\capture-20261007-094101-170-4502.json",
+        "scenario":  19,
+        "population":  400,
+        "alive":  397,
+        "moved":  396,
+        "eligible":  false,
+        "reasons":  [
+                        "casualties during measurement"
+                    ]
+    },
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-reactive-search\\before\\low\\profiles\\capture-20261007-094146-516-7203.json",
+        "scenario":  15,
+        "population":  0,
+        "alive":  0,
+        "moved":  0,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-reactive-search\\after\\low\\profiles\\capture-20261007-094556-460-1801.json",
+        "scenario":  18,
+        "population":  200,
+        "alive":  200,
+        "moved":  200,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-reactive-search\\after\\low\\profiles\\capture-20261007-094720-433-4501.json",
+        "scenario":  19,
+        "population":  400,
+        "alive":  400,
+        "moved":  397,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-reactive-search\\after\\low\\profiles\\capture-20261007-094805-836-7202.json",
+        "scenario":  15,
+        "population":  0,
+        "alive":  0,
+        "moved":  0,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    }
+]

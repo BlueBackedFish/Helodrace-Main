@@ -181,6 +181,7 @@ namespace Helodrace
                 && !pendingCasualties.ContainsKey(id)).ToList())
             { ReleaseOpeningLease(id, tick); CancelPendingCharge(states[id]); states.Remove(id); }
             waitingStructures.RemoveWhere(id => !live.Contains(id));
+            if (executionTickets.Count == 0) reactiveScores.Clear();
             PruneBreachTools(toolOwners);
             PrunePassageTraffic(tick);
         }
@@ -188,7 +189,7 @@ namespace Helodrace
         public override void MapRemoved()
         {
             foreach (RaidExecutionTicket ticket in executionTickets.Values) ExecutionScheduler.Cancel(ticket);
-            executionTickets.Clear(); pendingCasualties.Clear();
+            executionTickets.Clear(); pendingCasualties.Clear(); reactiveScores.Clear();
             passageTraffic.Clear(); ingressGoals.Prune(_ => false); ingressYields.Prune(_ => false); transitMouths.Clear();
             base.MapRemoved();
         }

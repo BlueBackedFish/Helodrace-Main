@@ -47,6 +47,8 @@ namespace Helodrace
         private bool initialized, finished;
         private readonly int warmupTicks = 300, sampleTicks = 600;
         private readonly bool functional;
+        private readonly bool reactive;
+        private int reactiveRequests;
         private readonly bool high;
         private Profiling.ProfileBenchmark benchmark;
         private string fingerprint;
@@ -59,6 +61,7 @@ namespace Helodrace
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out output);
             high = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditHigh", out _);
             functional = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditFunctional", out _);
+            reactive = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidReactiveAudit", out _);
             spawnCommands = output != null && GenCommandLine.TryGetCommandLineArg("hdRaidSpawnAudit", out _);
             if (output != null && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditWarmup", out string warmup))
                 warmupTicks = int.Parse(warmup);
@@ -126,7 +129,7 @@ namespace Helodrace
                     measuredTick = GenTicks.TicksGame; measuredFrame = Time.frameCount; measuredTime = Stopwatch.GetTimestamp();
                     RaidCpuProfiler.Reset(map);
                     GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out string seed);
-                    benchmark = new Profiling.ProfileBenchmark { fixtureVersion = 2, seed = seed, mapFingerprint = fingerprint,
+                    benchmark = new Profiling.ProfileBenchmark { fixtureVersion = reactive ? 3 : 2, seed = seed, mapFingerprint = fingerprint,
                         faction = faction.def.defName, requestedPopulation = populations[scenario % 5],
                         warmupTicks = warmupTicks, sampleTicks = sampleTicks, startPhases = Phases(),
                         unitCount = map.GetComponent<MapComponent_RaidTacticalPlans>().Plans.Count(),
@@ -135,6 +138,19 @@ namespace Helodrace
                     if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfileManual", out _))
                         Profiling.AgentMethodProfiler.Begin("raid-audit-" + scenario, scenario, raiders.Count, scenario < 10 ? 1 : 3,
                             cpu: !GenCommandLine.TryGetCommandLineArg("hdMethodProfileElapsedOnly", out _), seconds: 300, benchmark: benchmark);
+                    if (reactive)
+                    {
+                        reactiveRequests = 0;
+                        var execution = map.GetComponent<MapComponent_RaidTacticalExecution>();
+                        foreach (RaidTacticalUnit unit in RaidTacticalUnit.All)
+                            if (unit.Commander?.Spawned == true && unit.Commander.Map == map
+                                && execution.StateFor(unit.Id)?.ActivePlan?.Success == true)
+                            {
+                                execution.NotifySupportRequested(unit.Commander, unit.Commander.Position + IntVec3.East * 20);
+                                reactiveRequests++;
+                            }
+                        if (raiders.Count > 0 && reactiveRequests == 0) throw new InvalidOperationException("Reactive audit has no eligible unit.");
+                    }
                 }
                 if (measuredTick >= 0 && GenTicks.TicksGame - measuredTick >= sampleTicks)
                 { FinishCase(); BeginCase(); }
@@ -164,6 +180,15 @@ namespace Helodrace
             if (functional) { count = 11; tactical = true; }
             if (spawnCommands) count = 0;
             PrepareCaseBuildings();
+            if (reactive)
+                for (int x = 64; x < 100; x += 7)
+                    for (int z = 94; z < 134; z += 7)
+                    {
+                        var cover = (Building)ThingMaker.MakeThing(ThingDefOf.Sandbags,
+                            ThingDefOf.Sandbags.MadeFromStuff ? ThingDefOf.Cloth : null);
+                        cover.SetFaction(Faction.OfPlayer);
+                        GenSpawn.Spawn(cover, new IntVec3(x, 0, z), map, WipeMode.Vanish); buildings.Add(cover);
+                    }
             fingerprint = RaidAuditSeed.Fingerprint(map);
             var formation = DefDatabase<FormationDef>.GetNamed("HD_Formation_GW_RifleSquad");
             var doctrine = DefDatabase<DoctrineDef>.GetNamed("HD_Doctrine_GreatWar");
@@ -279,6 +304,7 @@ namespace Helodrace
                 + ",\"moved\":" + raiders.Count(pawn => pawn.Spawned && pawn.Position != starts[pawn])
                 + ",\"alive\":" + raiders.Count(pawn => pawn.Spawned && !pawn.Dead && !pawn.Downed)
                 + ",\"warmupTicks\":" + warmupTicks + ",\"sampleTicks\":" + sampleTicks
+                + ",\"reactiveRequests\":" + reactiveRequests
                 + ",\"phases\":\"" + Escape(string.Join(",", phases)) + "\""
                 + ",\"successfulPlans\":" + plans.Plans.Count(plan => plan.Success)
                 + ",\"planningService\":{\"pending\":" + scheduler.Pending + ",\"slices\":" + scheduler.Slices

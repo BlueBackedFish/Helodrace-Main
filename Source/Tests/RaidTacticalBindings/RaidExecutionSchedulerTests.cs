@@ -106,12 +106,20 @@ internal static class RaidExecutionSchedulerTests
             Check((int)AccessTools.Field(first.GetType(), "ReviewAfter").GetValue(first) < 1000
                 && (int)AccessTools.Field(second.GetType(), "ReviewAfter").GetValue(second) == 1000,
                 "Urgent reconciliation changes only the affected unit's regular review deadline.");
+            AccessTools.Method(execution.GetType(), "ScoresFor").Invoke(execution,
+                new object[] { new RaidTacticalPlan(), new IntVec3(8,0,20), 50 });
+            var reactiveContexts = (System.Collections.IDictionary)AccessTools.Field(execution.GetType(), "reactiveScores").GetValue(execution);
+            Check(reactiveContexts.Count == 1, "A map owns its actual reactive physical score cache.");
             execution.MapRemoved();
+            Check(reactiveContexts.Count == 0, "Map removal releases the shared physical score cache.");
             Check((int)AccessTools.Property(scheduler.GetType(), "Pending").GetValue(scheduler) == 0,
                 "Removing a map cancels all its recurring work and releases retained map references.");
             states["orphan-from-load"] = new MapComponent_RaidTacticalExecution.ExecutionState();
+            AccessTools.Method(execution.GetType(), "ScoresFor").Invoke(execution,
+                new object[] { new RaidTacticalPlan(), new IntVec3(8,0,20), 50 });
             AccessTools.Method(execution.GetType(), "RefreshExecutionRoster").Invoke(execution, new object[] { 50 });
             Check(states.Count == 0, "Roster reconciliation removes loaded orphan state even without an existing runtime ticket.");
+            Check(reactiveContexts.Count == 0, "An empty execution roster drops old reactive physical scores.");
             var orders = new MapComponent_RaidTacticalOrders(map);
             var directives = (Dictionary<Pawn, RaidPawnOrder>)AccessTools.Field(orders.GetType(), "orders").GetValue(orders);
             object reviews = AccessTools.Field(orders.GetType(), "reviews").GetValue(orders);

@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="../../Helodrace/Core/TacticalReactiveSearch.cs" Link="TacticalReactiveSearch.cs" />
     <Compile Include="../../Helodrace/Core/TacticalGeometry.cs" Link="TacticalGeometry.cs" />
     <Compile Include="../../Helodrace/Core/TacticalGeometryCodec.cs" Link="TacticalGeometryCodec.cs" />
     <Compile Include="../../Helodrace/Core/TacticalNavigationGraph.cs" Link="TacticalNavigationGraph.cs" />

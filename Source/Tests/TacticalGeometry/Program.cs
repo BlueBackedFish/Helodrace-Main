@@ -623,6 +623,7 @@ internal static class Program
                     "Default task scheduling runs the pure calculation on a different thread");
                 TacticalGeometryWorker.Release(blockedTask);
             }
+            CheckReactiveSearch();
             CheckMovementNodes();
             CheckObservationServices();
             var reactionCadence = new TacticalReactionCadence();
@@ -642,6 +643,40 @@ internal static class Program
             return 0;
         }
         catch (Exception exception) { Console.Error.WriteLine(exception); return 1; }
+    }
+
+    private static void CheckReactiveSearch()
+    {
+        var cells = TacticalReactiveSearch.Cells(10, 20, 8f).ToList();
+        Check(cells.Count <= 25 && cells.Distinct().Count() == cells.Count && cells.Contains((10, 20)),
+            "Reactive samples keep the current cell and a small distinct neighborhood.");
+        Check(cells.All(cell => Math.Sqrt(Math.Pow(cell.x-10, 2)+Math.Pow(cell.z-20, 2)) <= 9)
+            && cells.Any(cell => cell.x > 10) && cells.Any(cell => cell.x < 10)
+            && cells.Any(cell => cell.z > 20) && cells.Any(cell => cell.z < 20),
+            "Retreat choices cover every direction within the local search tolerance.");
+        Check(TacticalReactiveSearch.Cells(0,0,0.2f).Count() == 1,
+            "Tiny spaces do not create repeated destination requests.");
+        int reachCalls = 0;
+        Check(TacticalReactiveSearch.Choose(new[] {1,2,3,4}, cell => cell != 4,
+            cell => (cell != 1, cell == 1 ? 1000f : cell), cell => { reachCalls++; return true; }, out int safe)
+            && safe == 3 && reachCalls == 1,
+            "A safe free cell outranks an unsafe high score and an occupied cell.");
+        reachCalls = 0;
+        Check(TacticalReactiveSearch.Choose(new[] {1,2,3}, _ => true, cell => (true,(float)cell),
+            cell => { reachCalls++; return cell == 2; }, out int reachable) && reachable == 2 && reachCalls == 2,
+            "An unreachable best choice can use one validated runner-up.");
+        reachCalls = 0;
+        Check(!TacticalReactiveSearch.Choose(new[] {1,2,3}, _ => true, cell => (true,(float)cell),
+            cell => { reachCalls++; return cell == 1; }, out _) && reachCalls == 2,
+            "Blocked finalists return failure without an exhaustive fallback path search.");
+        int evaluated = 0;
+        Check(TacticalReactiveSearch.Choose(Enumerable.Range(0,100), _ => true,
+            cell => { evaluated++; return (true,(float)cell); }, _ => true, out _) && evaluated <= 32,
+            "Unexpectedly large input cannot expand the scoring budget.");
+        reachCalls = 0;
+        Check(!TacticalReactiveSearch.Choose(Array.Empty<int>(), _ => true, cell => (true,(float)cell),
+            _ => { reachCalls++; return true; }, out _) && reachCalls == 0,
+            "An empty neighborhood causes no native path validation.");
     }
 
     private static void CheckQueuePositions()

@@ -101,6 +101,7 @@ internal static class Program
             RaidResumableRouteTests.Run();
             RaidSpawnGenerationTests.Run();
             RaidExecutionSchedulerTests.Run();
+            RaidReactiveCacheTests.Run();
             RaidObservationCacheTests.Run();
         RaidPawnCommandTests.Run();
             CheckSmokeGases();

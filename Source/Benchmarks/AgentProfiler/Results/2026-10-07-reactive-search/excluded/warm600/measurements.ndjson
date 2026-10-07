@@ -1,0 +1,1 @@
+{"error":"System.InvalidOperationException: Reactive audit has no eligible unit.\r\n[Ref B7D473B8]\n  at Helodrace.MapComponent_RaidMovementRuntimeAudit.MapComponentUpdate () [0x00666] in C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Core\\RaidMovementRuntimeAudit.cs:152 "}
