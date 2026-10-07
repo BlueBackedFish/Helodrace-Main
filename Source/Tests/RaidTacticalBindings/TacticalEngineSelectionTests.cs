@@ -30,6 +30,15 @@ internal static class TacticalEngineSelectionTests
             if (!TacticalEngineSelection.Install(type, TacticalEngineKind.Legacy)
                 || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)
                 || TacticalEngineSelection.Install(type, TacticalEngineKind.New)) throw new Exception("Legacy filter failed: " + type);
+        foreach (Type type in new[] { typeof(Helodrace.Tactics.MapComponent_TacticalCommands), typeof(Helodrace.Tactics.GameComponent_TacticalCommands) })
+            if (!TacticalEngineSelection.Install(type, TacticalEngineKind.New)
+                || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)
+                || TacticalEngineSelection.Install(type, TacticalEngineKind.Legacy)) throw new Exception("New engine component isolation failed: " + type);
+        var connected = new[] { new IntVec3(0,0,0), new IntVec3(1,0,0), new IntVec3(1,0,1) };
+        if (!Helodrace.Tactics.TacticalLocalPlanner.Connected(connected)
+            || Helodrace.Tactics.TacticalLocalPlanner.Connected(new[] { connected[0], connected[2] })
+            || Helodrace.Tactics.TacticalLocalPlanner.Connected(new[] { connected[0], connected[0] }))
+            throw new Exception("A stack must be cardinally connected with unique positions; diagonal contact is insufficient.");
         foreach (Type type in new[] { typeof(Patch_TacticalEngine_MapComponents), typeof(Patch_TacticalEngine_GameComponents),
             typeof(MapComponent_TacticalEngineAudit), typeof(Helodrace.Squads.GameComponent_CombatOrganizations) })
             if (Enum.GetValues<TacticalEngineKind>().Any(engine => !TacticalEngineSelection.Install(type, engine)))

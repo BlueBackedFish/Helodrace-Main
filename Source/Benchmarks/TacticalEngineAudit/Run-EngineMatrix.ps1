@@ -1,12 +1,13 @@
 param(
     [ValidateRange(1,10)][int]$Repeats = 3,
     [ValidateSet('vanilla','legacy','new')][string[]]$Engines = @('vanilla','legacy','new'),
-    [ValidateSet('open-approach','sapper-wall')][string[]]$Workloads = @('open-approach','sapper-wall'),
+    [ValidateSet('open-approach','sapper-wall','sapper-door')][string[]]$Workloads = @('open-approach','sapper-wall'),
     [ValidateRange(0,400)][int]$Population = 50,
     [int]$WarmupTicks = 600,
     [int]$SampleTicks = 1200,
     [switch]$High,
     [switch]$NoMethodProfile,
+    [string]$ProfileTargets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest',
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-engine-matrix-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string]$Seed = 'hd-r1-20261007'
 )
@@ -20,7 +21,7 @@ foreach ($workload in $Workloads) {
         for ($slot=0; $slot -lt $Engines.Count; $slot++) {
             $engine = $Engines[($slot + $repeat - 1) % $Engines.Count]
             $runRoot = Join-Path $root "$workload\$engine\run-$repeat"
-            & (Join-Path $PSScriptRoot 'Run-EngineAudit.ps1') -Engine $engine -Workload $workload -Population $Population -WarmupTicks $WarmupTicks -SampleTicks $SampleTicks -High:$High -NoMethodProfile:$NoMethodProfile -Seed $Seed -AuditRoot $runRoot
+            & (Join-Path $PSScriptRoot 'Run-EngineAudit.ps1') -Engine $engine -Workload $workload -Population $Population -WarmupTicks $WarmupTicks -SampleTicks $SampleTicks -High:$High -NoMethodProfile:$NoMethodProfile -ProfileTargets $ProfileTargets -Seed $Seed -AuditRoot $runRoot
             $auditProcess = [int](Get-Content -LiteralPath (Join-Path $runRoot 'process-id.txt'))
             $deadline = (Get-Date).AddMinutes(30)
             while (Get-Process -Id $auditProcess -ErrorAction SilentlyContinue) {

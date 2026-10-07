@@ -10,6 +10,8 @@ namespace Helodrace
 
     [AttributeUsage(AttributeTargets.Class)]
     internal sealed class LegacyTacticalAttribute : Attribute { }
+    [AttributeUsage(AttributeTargets.Class)]
+    internal sealed class NewTacticalAttribute : Attribute { }
 
     // Fixed before patches/components are installed. Never switch a live raid's owner.
     public static class TacticalEngineSelection
@@ -17,7 +19,7 @@ namespace Helodrace
         private static TacticalEngineKind? selected;
         public static TacticalEngineKind Kind => selected ?? (selected = Parse(
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngine", out string value) ? value : null)).Value;
-        public static bool NewImplemented => false; // R2 supplies the first execution slice.
+        public static bool NewImplemented => true;
         public static string EffectiveEngine => Kind == TacticalEngineKind.New && !NewImplemented
             ? "vanilla-fallback" : Kind.ToString().ToLowerInvariant();
 
@@ -33,7 +35,9 @@ namespace Helodrace
             }
         }
         public static bool IsLegacy(Type type) => type.IsDefined(typeof(LegacyTacticalAttribute), false);
-        public static bool Install(Type type, TacticalEngineKind engine) => engine == TacticalEngineKind.Legacy || !IsLegacy(type);
+        public static bool Install(Type type, TacticalEngineKind engine) =>
+            (!IsLegacy(type) || engine == TacticalEngineKind.Legacy)
+            && (!type.IsDefined(typeof(NewTacticalAttribute), false) || engine == TacticalEngineKind.New);
         internal static void InstallPatches(Harmony harmony, Assembly assembly)
         {
             foreach (Type type in assembly.GetTypes())
@@ -43,8 +47,7 @@ namespace Helodrace
         }
         internal static void Filter(Map map)
         {
-            if (Kind == TacticalEngineKind.Legacy) return;
-            foreach (MapComponent component in map.components.Where(value => IsLegacy(value.GetType())).ToArray())
+            foreach (MapComponent component in map.components.Where(value => !Install(value.GetType(), Kind)).ToArray())
             {
                 component.MapRemoved();
                 map.components.Remove(component);
@@ -52,8 +55,7 @@ namespace Helodrace
         }
         internal static void Filter(Game game)
         {
-            if (Kind != TacticalEngineKind.Legacy)
-                game.components.RemoveAll(component => IsLegacy(component.GetType()));
+            game.components.RemoveAll(component => !Install(component.GetType(), Kind));
         }
     }
 

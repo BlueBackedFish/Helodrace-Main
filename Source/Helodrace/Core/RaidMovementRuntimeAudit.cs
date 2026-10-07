@@ -346,7 +346,8 @@ namespace Helodrace
     {
         private static bool Prefix(Thing __instance, ref DamageWorker.DamageResult __result)
         {
-            if (__instance != MapComponent_RaidMovementRuntimeAudit.ProtectedOwner) return true;
+            if (__instance != MapComponent_RaidMovementRuntimeAudit.ProtectedOwner
+                && !(__instance is Pawn pawn && MapComponent_TacticalEngineAudit.ProtectedRaiders.Contains(pawn))) return true;
             __result = new DamageWorker.DamageResult(); return false;
         }
     }

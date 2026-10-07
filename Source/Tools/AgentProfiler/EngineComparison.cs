@@ -13,7 +13,7 @@ internal static class EngineComparison
             string audit = System.IO.Path.Combine(Directory.GetParent(System.IO.Path.GetDirectoryName(path)!)!.FullName, "audit.json");
             if (!File.Exists(audit)) throw new ArgumentException("Missing isolation/progress audit: " + path);
             JsonElement a = JsonDocument.Parse(File.ReadAllText(audit)).RootElement.Clone();
-            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion != 5
+            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7)
                 || c.methods == null || c.mods == null || c.methods.Select(m => m.method).Distinct().Count() != c.methods.Length
                 || c.methods.Any(m => m.exceptions > 0) || !a.GetProperty("complete").GetBoolean()
                 || !a.GetProperty("isolationVerified").GetBoolean() || a.GetProperty("error").ValueKind != JsonValueKind.Null
@@ -63,6 +63,7 @@ internal static class EngineComparison
         mods = string.Join(";",c.mods), targets = string.Join(";",c.methods.Select(m=>m.method).Order()),
         c.benchmark.fixtureVersion,c.benchmark.seed,c.benchmark.mapFingerprint,c.benchmark.pawnFingerprint,
         c.benchmark.faction,c.benchmark.workload,c.benchmark.requestedPopulation,c.benchmark.warmupTicks,
+        c.benchmark.fixtureCase,
         c.benchmark.sampleTicks,c.benchmark.unitCount,c.benchmark.radioOperators,
         reference=c.reference.method+":"+c.reference.workload+":"+c.reference.iterations+":"+string.Join(";",(c.reference.patchOwners ?? Array.Empty<string>()).Order()) });
     private static double Median(IEnumerable<double> values)
@@ -91,8 +92,10 @@ internal static class EngineComparison
                 var av=a[k].ToArray();var bv=b[k].ToArray();double tickRatio=Median(bv.Select(TickCpu))/Median(av.Select(TickCpu));
                 double windowRatio=Median(bv.Select(WindowCpu))/Median(av.Select(WindowCpu));
                 bool progression=av.Concat(bv).All(r=>r.Capture.population==0 || r.Audit.GetProperty("entered").GetInt32()>0);
+                bool functional=bv.All(r=>r.Capture.benchmark.fixtureVersion >= 7
+                    && r.Audit.TryGetProperty("newFunctionalComplete", out var done) && done.GetBoolean());
                 bool eligible=bv.All(r=>r.Capture.selectedEngine=="new" && r.Capture.newEngineImplemented)
-                    && av.Length>=3 && bv.Length>=3 && progression;
+                    && av.Length>=3 && bv.Length>=3 && progression && functional;
                 return new {conditions=JsonSerializer.Deserialize<JsonElement>(k),baselineRuns=av.Length,candidateRuns=bv.Length,
                     baselineTickCpuMs=Median(av.Select(TickCpu)),candidateTickCpuMs=Median(bv.Select(TickCpu)),tickCpuRatio=tickRatio,
                     baselineWindowCpuMs=Median(av.Select(WindowCpu)),candidateWindowCpuMs=Median(bv.Select(WindowCpu)),windowCpuRatio=windowRatio,
@@ -100,7 +103,7 @@ internal static class EngineComparison
                     cpuMsPerTickRange=new { baselineTick=Range(av,TickCpu), candidateTick=Range(bv,TickCpu),
                         baselineWindow=Range(av,WindowCpu), candidateWindow=Range(bv,WindowCpu),
                         baselineProcess=Range(av,ProcessCpu), candidateProcess=Range(bv,ProcessCpu) },
-                    actualEntryProgress=progression,newAiPerformanceGateEligible=eligible,
+                    actualEntryProgress=progression,newAiFunctionalComplete=functional,newAiPerformanceGateEligible=eligible,
                     within2x=tickRatio<=2 && windowRatio<=2,newAiFixedWindowCpuGatePassed=eligible && tickRatio<=2 && windowRatio<=2,
                     baselineProgress=av.Select(r=>r.Audit),candidateProgress=bv.Select(r=>r.Audit),
                     methods=bv[0].Capture.methods.Select(m=>new {m.method,

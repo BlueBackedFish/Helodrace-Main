@@ -42,7 +42,7 @@ namespace Helodrace.Profiling
     public sealed class ProfileBenchmark
     {
         [DataMember] public string seed, mapFingerprint, faction, startPhases, endPhases;
-        [DataMember] public string engine, effectiveEngine, workload, pawnFingerprint;
+        [DataMember] public string engine, effectiveEngine, workload, pawnFingerprint, fixtureCase;
         [DataMember] public bool newEngineImplemented;
         [DataMember] public int fixtureVersion = 1, requestedPopulation, warmupTicks, sampleTicks, unitCount, radioOperators;
     }

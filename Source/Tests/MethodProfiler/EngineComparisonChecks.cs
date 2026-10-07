@@ -54,6 +54,29 @@ internal static class EngineComparisonChecks
         group = JsonSerializer.SerializeToElement(EngineComparison.Compare(baseline, noEntry)).GetProperty("groups")[0];
         if (group.GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean())
             throw new Exception("A stalled implemented engine must not pass the CPU gate.");
+        string r2 = Write(root, "r2-complete", "new", 150, 3, implemented: true);
+        string r2Baseline = Write(root, "r2-baseline", "vanilla", 100, 3, implemented: true);
+        foreach (string directory in new[] { r2, r2Baseline })
+        {
+            foreach (string path in Directory.GetFiles(Path.Combine(directory, "profiles"), "capture-*.json"))
+            {
+                var capture = JsonSerializer.Deserialize<ProfileSnapshot>(File.ReadAllText(path), Options)!;
+                capture.benchmark.fixtureVersion = 7; capture.benchmark.fixtureCase = "normal";
+                File.WriteAllText(path, JsonSerializer.Serialize(capture, Options));
+            }
+            string pathAudit = Path.Combine(directory, "audit.json");
+            var audit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(pathAudit))!;
+            audit["newFunctionalComplete"] = JsonSerializer.SerializeToElement(true);
+            File.WriteAllText(pathAudit, JsonSerializer.Serialize(audit));
+        }
+        group = JsonSerializer.SerializeToElement(EngineComparison.Compare(r2Baseline, r2)).GetProperty("groups")[0];
+        if (!group.GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean()) throw new Exception("Complete R2 CPU gate failed.");
+        string r2Audit = Path.Combine(r2, "audit.json");
+        var stalled = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(r2Audit))!;
+        stalled["newFunctionalComplete"] = JsonSerializer.SerializeToElement(false);
+        File.WriteAllText(r2Audit, JsonSerializer.Serialize(stalled));
+        group = JsonSerializer.SerializeToElement(EngineComparison.Compare(r2Baseline, r2)).GetProperty("groups")[0];
+        if (group.GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean()) throw new Exception("Partially entered R2 passed the gate.");
         Console.WriteLine("Engine comparison checks passed: same fixture/different phases, CPU ratio/range, fallback and stalled gates, 15 invalid-condition rejections.");
     }
     private static void Reject(Func<object> action, string label)

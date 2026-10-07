@@ -1,10 +1,11 @@
 param(
     [ValidateSet('vanilla','legacy','new')][string]$Engine = 'vanilla',
-    [ValidateSet('open-approach','sapper-wall')][string]$Workload = 'open-approach',
+    [ValidateSet('open-approach','sapper-wall','sapper-door')][string]$Workload = 'open-approach',
     [ValidateRange(0,400)][int]$Population = 50,
     [ValidateRange(0,10000)][int]$WarmupTicks = 600,
     [ValidateRange(1,10000)][int]$SampleTicks = 1200,
     [string]$Seed = 'hd-r1-20261007',
+    [ValidateSet('normal','interrupt','casualty','rocks','narrow')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
     [string]$ProfileTargets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest',
@@ -28,11 +29,14 @@ foreach ($name in @('Helodrace.dll','Helodrace.pdb')) {
     Copy-Item -LiteralPath $sourcePath -Destination $targetPath -Force
     if ((Get-FileHash -LiteralPath $sourcePath).Hash -ne (Get-FileHash -LiteralPath $targetPath).Hash) { throw "Deployment hash mismatch: $name" }
 }
-$manifest = @{ engine=$Engine; workload=$Workload; requestedPopulation=$Population; high=[bool]$High; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
+$newJobPath = Join-Path $repository 'Defs\Organization\NewTacticalJobs.xml'
+Copy-Item -LiteralPath $newJobPath -Destination (Join-Path $GameRoot 'Mods\HelodRace-Main\Defs\Organization\NewTacticalJobs.xml') -Force
+$manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedPopulation=$Population; high=[bool]$High; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
 $manifest | ConvertTo-Json | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'launcher.json')
 $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTacticalEngineAudit=' + $auditPath + '\audit.json"'),
     "-hdTacticalEngine=$Engine", "-hdTacticalAuditWorkload=$Workload", "-hdTacticalAuditPopulation=$Population",
     "-hdTacticalAuditWarmup=$WarmupTicks", "-hdTacticalAuditSample=$SampleTicks", "-hdRaidMovementAuditSeed=$Seed",
+    "-hdTacticalAuditCase=$Case",
     $(if ($High) { '-hdTacticalAuditHigh=true' } else { '-hdTacticalAuditLow=true' }),
     $(if ($NoMethodProfile) { '-hdMethodProfileDisabled=true' } else { '"-hdMethodProfile=' + $auditPath + '\profiles"' }),
     '-hdMethodProfilePreset=coarse', ('"-hdMethodProfileTargets=' + $ProfileTargets + '"'),

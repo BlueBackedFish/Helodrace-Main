@@ -172,6 +172,7 @@ namespace Helodrace.Squads
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
         {
             base.Notify_Killed(prevMap, dinfo);
+            prevMap?.GetComponent<Tactics.MapComponent_TacticalCommands>()?.Wake(parent as Pawn);
             prevMap?.GetComponent<MapComponent_RaidTacticalExecution>()
                 ?.RequestCasualtyReevaluation(RaidTacticalUnit.ForGroup(Group)?.Id, parent as Pawn);
         }
@@ -179,6 +180,7 @@ namespace Helodrace.Squads
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map, mode);
+            map?.GetComponent<Tactics.MapComponent_TacticalCommands>()?.Wake(parent as Pawn);
             // Capture on-map deaths before corpse disposal can pass the pawn to
             // WorldPawns and detach its organization. Notify_Killed coalesces.
             if (parent is Pawn pawn && pawn.Dead)
@@ -190,6 +192,7 @@ namespace Helodrace.Squads
         public override void Notify_Downed()
         {
             base.Notify_Downed();
+            parent.MapHeld?.GetComponent<Tactics.MapComponent_TacticalCommands>()?.Wake(parent as Pawn);
             parent.MapHeld?.GetComponent<MapComponent_RaidTacticalExecution>()
                 ?.RequestCasualtyReevaluation(RaidTacticalUnit.ForGroup(Group)?.Id, parent as Pawn);
         }

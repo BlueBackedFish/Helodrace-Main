@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef>
+    <defName>HD_NewTacticalPost</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalPost</driverClass>
+    <reportString>집결하여 경계하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+  </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalIngress</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalIngress</driverClass>
+    <reportString>확보한 개구부로 진입하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+  </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalBreach</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalBreach</driverClass>
+    <reportString>슬레지 해머로 돌파하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+</Defs>
