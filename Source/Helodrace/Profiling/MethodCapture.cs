@@ -31,7 +31,7 @@ namespace Helodrace.Profiling
     {
         public RecordedProfileCall Root;
         public readonly RecordedProfileCall[] Calls = new RecordedProfileCall[MethodCapture.SpikeCallCapacity];
-        public int Count, Seen, Gc0, Gc1, Gc2;
+        public int Count, Seen, Filtered, Gc0, Gc1, Gc2;
     }
 
     // One game-main-thread capture. Other threads are explicitly rejected rather
@@ -60,8 +60,9 @@ namespace Helodrace.Profiling
         public readonly RecordedTickSpike[] TickSpikes;
         private readonly RecordedProfileCall[] tickCalls;
         private readonly int tickMethod;
+        private readonly int? spikePawnId;
         private readonly long threshold, origin;
-        private int traceDepth = -1, traceRoot, traceCount, traceSeen, gc0, gc1, gc2;
+        private int traceDepth = -1, traceRoot, traceCount, traceSeen, traceFiltered, gc0, gc1, gc2;
         public long SpikeCandidates;
         public bool Tracing => TickSpikes != null;
         public bool OnCaptureThread => Thread.CurrentThread.ManagedThreadId == thread;
@@ -69,11 +70,13 @@ namespace Helodrace.Profiling
         public bool Ready => !accepting && depth == 0;
 
         public MethodCapture(IMethodClock clock, bool[] cpu, int maximumDepth = 128,
-            bool traceSpikes = false, int tickMethodId = 0, double spikeThresholdMs = 5, long? originTimestamp = null)
+            bool traceSpikes = false, int tickMethodId = 0, double spikeThresholdMs = 5, long? originTimestamp = null, int? spikePawnId = null)
         {
             if (double.IsNaN(spikeThresholdMs) || double.IsInfinity(spikeThresholdMs) || spikeThresholdMs < .1 || spikeThresholdMs > 1000)
                 throw new ArgumentOutOfRangeException(nameof(spikeThresholdMs));
             this.clock = clock; this.cpu = (bool[])cpu.Clone(); stack = new Entry[maximumDepth];
+            if (spikePawnId < 0) throw new ArgumentOutOfRangeException(nameof(spikePawnId));
+            this.spikePawnId = spikePawnId;
             origin = originTimestamp ?? clock.Timestamp(); tickMethod = tickMethodId;
             threshold = (long)Math.Ceiling(clock.Frequency * spikeThresholdMs / 1000);
             if (traceSpikes)
@@ -105,7 +108,7 @@ namespace Helodrace.Profiling
                 }
                 if (id == tickMethod && traceDepth < 0)
                 {
-                    traceDepth = slot; traceRoot = serial + 1; traceCount = traceSeen = 0;
+                    traceDepth = slot; traceRoot = serial + 1; traceCount = traceSeen = traceFiltered = 0;
                     gc0 = GC.CollectionCount(0); gc1 = GC.CollectionCount(1); gc2 = GC.CollectionCount(2);
                 }
                 else if (traceDepth >= 0) context.Tick = stack[traceDepth].Context.Tick;
@@ -142,10 +145,11 @@ namespace Helodrace.Profiling
             }
             if (Tracing && traceDepth >= 0)
             {
-                traceSeen++;
+                bool include = !spikePawnId.HasValue || record.Context.PawnId == spikePawnId.Value || depth == traceDepth;
+                if (include) traceSeen++; else traceFiltered++;
                 // Reserve the last slot for the enclosing tick even on overflow.
                 if (depth == traceDepth) tickCalls[traceCount++] = record;
-                else if (traceCount < SpikeCallCapacity - 1) tickCalls[traceCount++] = record;
+                else if (include && traceCount < SpikeCallCapacity - 1) tickCalls[traceCount++] = record;
                 if (depth == traceDepth)
                 {
                     if (elapsed >= threshold)
@@ -157,7 +161,7 @@ namespace Helodrace.Profiling
                         if (elapsed > TickSpikes[minimum].Root.Elapsed)
                         {
                             RecordedTickSpike spike = TickSpikes[minimum];
-                            spike.Root = record; spike.Count = traceCount; spike.Seen = traceSeen;
+                            spike.Root = record; spike.Count = traceCount; spike.Seen = traceSeen; spike.Filtered = traceFiltered;
                             spike.Gc0 = GC.CollectionCount(0) - gc0; spike.Gc1 = GC.CollectionCount(1) - gc1;
                             spike.Gc2 = GC.CollectionCount(2) - gc2;
                             Array.Copy(tickCalls, spike.Calls, traceCount);

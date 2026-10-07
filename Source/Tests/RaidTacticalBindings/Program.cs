@@ -129,6 +129,7 @@ internal static class Program
             TacticalEngineSelectionTests.Run();
             TacticalWorkBudgetTests.Run();
             TacticalOpeningTests.Run();
+            PawnProfilerBindingTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }

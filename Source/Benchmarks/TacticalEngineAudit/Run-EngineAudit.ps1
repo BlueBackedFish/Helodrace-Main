@@ -8,8 +8,9 @@ param(
     [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
-    [ValidateSet('coarse','detailed','spikes')][string]$ProfilePreset = 'coarse',
+    [ValidateSet('coarse','detailed','spikes','pawn-spikes')][string]$ProfilePreset = 'coarse',
     [ValidateRange(0.1,1000)][double]$SpikeThresholdMs = 5,
+    [ValidateRange(0,2147483647)][Nullable[int]]$SpikePawnId = $null,
     [string]$ProfileTargets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest',
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-engine-audit-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string]$GameRoot = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld'
@@ -33,7 +34,7 @@ foreach ($name in @('Helodrace.dll','Helodrace.pdb')) {
 }
 $newJobPath = Join-Path $repository 'Defs\Organization\NewTacticalJobs.xml'
 Copy-Item -LiteralPath $newJobPath -Destination (Join-Path $GameRoot 'Mods\HelodRace-Main\Defs\Organization\NewTacticalJobs.xml') -Force
-$manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedPopulation=$Population; high=[bool]$High; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); profilePreset=$ProfilePreset; spikeThresholdMs=$SpikeThresholdMs; targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
+$manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedPopulation=$Population; high=[bool]$High; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); profilePreset=$ProfilePreset; spikeThresholdMs=$SpikeThresholdMs; spikePawnId=$SpikePawnId; targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
 $manifest | ConvertTo-Json | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'launcher.json')
 $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTacticalEngineAudit=' + $auditPath + '\audit.json"'),
     "-hdTacticalEngine=$Engine", "-hdTacticalAuditWorkload=$Workload", "-hdTacticalAuditPopulation=$Population",
@@ -44,6 +45,7 @@ $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTac
     "-hdMethodProfilePreset=$ProfilePreset", ('-hdMethodProfileSpikeThresholdMs=' + $SpikeThresholdMs.ToString([Globalization.CultureInfo]::InvariantCulture)), ('"-hdMethodProfileTargets=' + $ProfileTargets + '"'),
     '-screen-fullscreen','0','-screen-width','800','-screen-height','600',
     '-logFile', ('"' + $auditPath + '\Player.log"'))
+if ($null -ne $SpikePawnId) { $arguments += "-hdMethodProfileSpikePawnId=$SpikePawnId" }
 $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru -ArgumentList $arguments
 $process.Id | Set-Content -LiteralPath (Join-Path $auditPath 'process-id.txt')
 Write-Output "Engine audit started: pid=$($process.Id) engine=$Engine workload=$Workload root=$auditPath"

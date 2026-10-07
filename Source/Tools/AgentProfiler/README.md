@@ -105,3 +105,28 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/AgentProfi
 ```
 
 95% 이동은 정지한 실행을 개선으로 오인하지 않기 위한 최소 검사다. 적절한 대형, 집결 도착, 목표 클리어, 동일한 전술 작업량을 보증하지 않는다. 종료 단계와 긴 호출은 계속 원본 감사와 함께 검토한다. 분위수 0인 미호출 메서드도 개선으로 해석하지 않는다.
+
+## 폰 내부 스파이크 진단 (schema 6)
+
+`pawn-spikes`는 `spikes`에 폰 내부 트래커와 작업 실행을 추가한다. 설치된 게임의 Pawn.Tick/TickInterval, ThingWithComps.Tick/TickInterval, JobTrackerTick/JobTrackerTickInterval의 원본 IL에서 직접 호출되는 Tick 메서드만 등록한다. DriverTick/DriverTickInterval, 건강·정신·욕구·장비·유전자 트래커 등을 포함한다. Reflection/IL 분석은 시작 시 한 번만 수행하며 프로퍼티 getter나 게임 전체 메서드를 계측하지 않는다. 상시/주기 작업 판단과 경로 시작·재생성 메서드도 추가한다. 구체적인 등록 서명은 capabilities를 확인한다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/TacticalEngineAudit/Run-EngineAudit.ps1 -Engine new -Workload sapper-wall -Population 60 -WarmupTicks 600 -SampleTicks 180 -ProfilePreset pawn-spikes
+dotnet $cli spikes $capture
+dotnet $cli pawn $capture 845
+dotnet $cli pawn $capture 845 1584
+```
+
+`pawn`은 보존된 느린 틱에서 해당 ID의 호출을 작업·전술 단계·분대별로 묶고, 호출 수/평균/최대/누적 경과 시간/선택 하위 제외 시간/Core 대비 값을 반환한다. 시간순 호출 ID와 부모 ID도 유지한다. 전체 수집 기간의 폰별 총비용이 아니며, 기록이 없다는 이유로 무비용으로 판단하면 안 된다. 가장 긴 호출 목록에만 남은 호출은 별도로 출력해 이중 집계하지 않는다.
+
+많은 트래커 호출 때문에 512개 세부 기록이 잘리면, 다음 수집을 특정 폰으로 제한한다.
+
+```powershell
+dotnet $cli start $root 10 cpu spikes pawn=845 threshold=5
+```
+
+일반 플레이 실행 인자는 `-hdMethodProfilePreset=pawn-spikes -hdMethodProfileSpikePawnId=845`다. ID는 새 게임/다른 습격에서 바뀔 수 있으므로 현재 캡처에서 확인한다. 필터는 **느린 틱의 세부 기록만** 제한하며 전체 메서드 집계·분위수·루트 틱 CPU·긴 호출 16개는 계속 수집한다. `callsSeen`은 루트를 포함한 필터 통과 호출 수, `callsFiltered`는 의도적으로 제외한 호출 수, `detailsDropped`는 통과 호출 중 512개 상한으로 잘린 수다. 필터 모드에서는 다른 폰/전역 부모가 누락될 수 있다. 느린 틱 상위 8개는 여전히 전체 틱 시간으로 선정한다.
+
+격리 감사 실행기에서는 `-SpikePawnId 845`를 사용한다. 재현된 같은 폰 ID가 맞는지 원본 기록으로 확인한다.
+
+필터 ID가 다른 캡처는 비교/반복 집계/엔진 비교의 같은 조건으로 묶지 않는다. 진단 프리셋은 계측 비용이 크므로 평소 CPU 게이트 판정 대신 원인 분해에 짧게 사용한다. 각 트래커 값은 elapsed이며 개별 메서드의 정밀 CPU 샘플링으로 해석하지 않는다.

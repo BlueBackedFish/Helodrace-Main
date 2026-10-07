@@ -1,0 +1,55 @@
+{
+  "purpose": "profiler validation only; no AI optimization or whole-mission CPU gate",
+  "runs": [
+    {
+      "name": "all",
+      "assemblySha256": "e6773d81617be49ea5a53b16715392319b228cce75ed298bcd715b3616b932c2",
+      "schema": 6,
+      "tickSpan": 181,
+      "methods": 116,
+      "spikePawnId": null,
+      "complete": true,
+      "dropped": 0,
+      "exceptions": 0,
+      "spikeCandidates": 52,
+      "detailsDropped": 14918,
+      "callsFiltered": 0,
+      "callsPerTree": [
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512,
+        512
+      ],
+      "referenceBatchMedianMs": 0.2847
+    },
+    {
+      "name": "pawn-845",
+      "assemblySha256": "e6773d81617be49ea5a53b16715392319b228cce75ed298bcd715b3616b932c2",
+      "schema": 6,
+      "tickSpan": 183,
+      "methods": 116,
+      "spikePawnId": 845,
+      "complete": true,
+      "dropped": 0,
+      "exceptions": 0,
+      "spikeCandidates": 74,
+      "detailsDropped": 0,
+      "callsFiltered": 20292,
+      "callsPerTree": [
+        87,
+        21,
+        21,
+        86,
+        21,
+        86,
+        21,
+        21
+      ],
+      "referenceBatchMedianMs": 0.2793
+    }
+  ]
+}

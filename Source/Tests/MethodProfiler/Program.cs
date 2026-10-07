@@ -25,7 +25,7 @@ var snapshot = new ProfileSnapshot { complete = true, mainThreadWindowCpuMs = 12
 using var stream = new MemoryStream();
 var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot)); serializer.WriteObject(stream, snapshot); stream.Position = 0;
 var roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
-Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 5
+Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 6
     && roundtrip.mainThreadWindowCpuMs == 123.5 && roundtrip.processWindowCpuMs == 456.75
     && roundtrip.selectedEngine == "new" && roundtrip.effectiveEngine == "vanilla-fallback"
     && !roundtrip.newEngineImplemented, "structured JSON and whole-window CPU roundtrip");
@@ -86,6 +86,21 @@ roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
 Check(roundtrip.spikeTracing && roundtrip.tickSpikes[0].root.pawnId == 99 && roundtrip.tickSpikes[0].detailsDropped == 189,
     "spike JSON roundtrip");
 Check(!new MethodCapture(clock, new[] { false }).Tracing, "trace buffers opt-in");
+capture = new MethodCapture(clock, new[] { false, false, false }, traceSpikes: true, spikePawnId: 99);
+outer = capture.Enter(0);
+for (int i = 0; i < 700; i++)
+{ inner = capture.Enter(1, new ProfileCallContext { Identity = true, PawnId = 7 }); clock.Time++; capture.Leave(inner, false); }
+inner = capture.Enter(1, new ProfileCallContext { Identity = true, PawnId = 99, Job = "Breach", Phase = 2 });
+var nested = capture.Enter(2); clock.Time += 8; capture.Leave(nested, false); clock.Time++; capture.Leave(inner, false);
+capture.Leave(outer, false); capture.Stop();
+tree = capture.TickSpikes.Single(s => s.Count > 0);
+Check(tree.Count == 3 && tree.Seen == 3 && tree.Filtered == 700 && capture.Calls[1] == 701
+    && tree.Calls.Any(c => c.Method == 2 && c.Context.PawnId == 99) && capture.Dropped == 0,
+    "pawn filter preserves late calls, inherited identity, root and whole-capture stats");
+snapshot.spikePawnId = 99;
+stream.SetLength(0); stream.Position = 0; serializer.WriteObject(stream, snapshot); stream.Position = 0;
+Check(((ProfileSnapshot)serializer.ReadObject(stream)).spikePawnId == 99, "pawn filter JSON roundtrip");
+PawnDiagnosticsChecks.Run();
 Console.WriteLine("Spike checks passed: timeline, tick and actor inheritance, top-eight retention, bounded truncation, drain, JSON and opt-in buffers.");
 if (OperatingSystem.IsWindows())
 {

@@ -39,7 +39,7 @@ internal static class Program
     {
         try
         {
-            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | spikes CAPTURE [TICK] | compare BEFORE AFTER | engine-compare VANILLA_ROOT CANDIDATE_ROOT | aggregate ROOT... | benchmark-compare BEFORE_ROOT AFTER_ROOT | start ROOT [SECONDS] [cpu] [spikes] [threshold=MS] | stop ROOT | status ROOT");
+            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | spikes CAPTURE [TICK] | pawn CAPTURE PAWN_ID [TICK] | compare BEFORE AFTER | engine-compare VANILLA_ROOT CANDIDATE_ROOT | aggregate ROOT... | benchmark-compare BEFORE_ROOT AFTER_ROOT | start ROOT [SECONDS] [cpu] [spikes] [threshold=MS] [pawn=ID] | stop ROOT | status ROOT");
             switch (args[0])
             {
                 case "capabilities": Print(Read<ProfileSnapshot>(Path.Combine(args[1], "capabilities.json"))); break;
@@ -74,14 +74,18 @@ internal static class Program
                         c.callId, c.parentCallId, c.rootCallId, c.depth, c.tick, c.frame, c.mapId, c.pawnId, c.squadId, c.phase, c.job,
                         c.startMs, c.milliseconds, c.trackedSelfMs, c.threadCpuMs,
                         referencePercentPerCall = ReferenceMetrics.Percent(c.milliseconds, 1, traced.reference) };
-                    Print(new { traced.complete, traced.dropped, traced.spikeThresholdMs, traced.spikeCandidates,
+                    Print(new { traced.complete, traced.dropped, traced.spikeThresholdMs, traced.spikeCandidates, traced.spikePawnId,
                         traced.spikeCapacity, traced.spikeCallCapacity,
                         warning = "Only selected main-thread calls are recorded. Inclusive durations overlap; elapsed is not CPU. Root CPU is coarse. GC deltas indicate coincidence, not causation. Truncated trees may omit parents.",
                         spikes = (traced.tickSpikes ?? Array.Empty<ProfileTickSpike>()).Where(s => requestedTick == null || s.root.tick == requestedTick)
-                            .Select(s => new { root = Describe(s.root), s.callsSeen, s.detailsDropped, s.detailsComplete, s.gc0, s.gc1, s.gc2,
+                            .Select(s => new { root = Describe(s.root), s.callsSeen, s.callsFiltered, s.detailsDropped, s.detailsComplete, s.gc0, s.gc1, s.gc2,
                                 costlyPawnCalls = s.calls.Where(c => c.pawnId >= 0).OrderByDescending(c => c.trackedSelfMs).Take(12).Select(Describe),
                                 calls = s.calls.Select(Describe) }),
                         longestCalls = (traced.slowCalls ?? Array.Empty<ProfileSlowCall>()).Where(c => requestedTick == null || c.tick == requestedTick).Select(Describe) }); break;
+                case "pawn":
+                    if (args.Length < 3) throw new ArgumentException("Usage: pawn CAPTURE PAWN_ID [TICK]");
+                    Print(PawnDiagnostics.Describe(Read<ProfileSnapshot>(args[1]), int.Parse(args[2]),
+                        args.Length > 3 ? int.Parse(args[3]) : (int?)null)); break;
                 case "engine-compare": Print(EngineComparison.Compare(args[1], args[2])); break;
                 case "compare":
                     var before = Read<ProfileSnapshot>(args[1]); var after = Read<ProfileSnapshot>(args[2]);
@@ -92,6 +96,7 @@ internal static class Program
                         || before.speed != after.speed || before.gameVersion != after.gameVersion
                         || before.cpuSource != after.cpuSource || before.runtime != after.runtime || before.operatingSystem != after.operatingSystem
                         || before.spikeTracing != after.spikeTracing || before.spikeThresholdMs != after.spikeThresholdMs
+                        || before.spikePawnId != after.spikePawnId
                         || !before.mods.SequenceEqual(after.mods) || before.endTick <= before.startTick || after.endTick <= after.startTick)
                         throw new ArgumentException("Comparison rejected: incomplete capture, no ticks, or differing scenario/population/speed/game/mods.");
                     bool sameTargets = before.methods.Select(m => m.method).OrderBy(name => name, StringComparer.Ordinal)
@@ -141,9 +146,12 @@ internal static class Program
                         spikes = args.Contains("spikes") ? true : (bool?)null,
                         spikeThresholdMs = args.FirstOrDefault(a => a.StartsWith("threshold=", StringComparison.Ordinal)) is string thresholdArgument
                             ? double.Parse(thresholdArgument.Substring(10), System.Globalization.CultureInfo.InvariantCulture) : (double?)null,
+                        spikePawnId = args.FirstOrDefault(a => a.StartsWith("pawn=", StringComparison.Ordinal)) is string pawnArgument
+                            ? int.Parse(pawnArgument.Substring(5), System.Globalization.CultureInfo.InvariantCulture) : (int?)null,
                         seconds = args.Length > 2 && args[0] == "start" ? double.Parse(args[2], System.Globalization.CultureInfo.InvariantCulture) : 10 };
                     if (command.spikeThresholdMs is double thresholdValue && (!double.IsFinite(thresholdValue) || thresholdValue < .1 || thresholdValue > 1000))
                         throw new ArgumentException("Spike threshold must be finite and between 0.1 and 1000ms.");
+                    if (command.spikePawnId < 0) throw new ArgumentException("Spike pawn ID must be nonnegative.");
                     string path = Path.Combine(root, "command.json"), temporary = Path.Combine(root, "command-" + Guid.NewGuid().ToString("N") + ".tmp");
                     if (File.Exists(path)) throw new InvalidOperationException("A command is pending. Do not overwrite it.");
                     if (File.Exists(Path.Combine(root, "error.json"))) File.Delete(Path.Combine(root, "error.json"));

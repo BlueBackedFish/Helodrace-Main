@@ -38,6 +38,7 @@ namespace Helodrace.Profiling
         private static bool ending;
         private static bool defaultSpikes;
         private static double defaultSpikeThreshold = 5;
+        private static int? defaultSpikePawnId;
         internal static bool Capturing => capture != null;
         private static double deadline, nextPoll, nextReference;
 
@@ -53,8 +54,13 @@ namespace Helodrace.Profiling
                 using (var sha = SHA256.Create())
                     hash = BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(typeof(AgentMethodProfiler).Assembly.Location))).Replace("-", "").ToLowerInvariant();
                 bool detailed = GenCommandLine.TryGetCommandLineArg("hdMethodProfilePreset", out string preset) && preset == "detailed";
-                if (preset != null && preset != "coarse" && preset != "detailed" && preset != "spikes") throw new ArgumentException("Unknown profiler preset.");
-                defaultSpikes = preset == "spikes";
+                if (preset != null && preset != "coarse" && preset != "detailed" && preset != "spikes" && preset != "pawn-spikes") throw new ArgumentException("Unknown profiler preset.");
+                defaultSpikes = preset == "spikes" || preset == "pawn-spikes";
+                if (GenCommandLine.TryGetCommandLineArg("hdMethodProfileSpikePawnId", out string pawnFilter))
+                {
+                    defaultSpikePawnId = int.Parse(pawnFilter, CultureInfo.InvariantCulture);
+                    if (defaultSpikePawnId < 0) throw new ArgumentException("Spike pawn ID must be nonnegative.");
+                }
                 if (GenCommandLine.TryGetCommandLineArg("hdMethodProfileSpikes", out string trace)) defaultSpikes = bool.Parse(trace);
                 if (GenCommandLine.TryGetCommandLineArg("hdMethodProfileSpikeThresholdMs", out string threshold))
                     defaultSpikeThreshold = double.Parse(threshold, CultureInfo.InvariantCulture);
@@ -63,7 +69,7 @@ namespace Helodrace.Profiling
                 Add(typeof(Map), "MapPreTick", "MapPostTick", "MapUpdate");
                 Add(typeof(MapComponentUtility), "MapComponentTick", "MapComponentUpdate");
                 Add(typeof(GameComponentUtility), "GameComponentTick", "GameComponentUpdate");
-                if (preset == "spikes")
+                if (preset == "spikes" || preset == "pawn-spikes")
                 {
                     Add(typeof(TickList), "Tick");
                     Add(typeof(Pawn), "TickInterval");
@@ -73,6 +79,12 @@ namespace Helodrace.Profiling
                     Add(typeof(JobGiver_AIFightEnemy), "TryGiveJob");
                     Add(typeof(PathFinder), "PathFinderTick", "ForceCompleteScheduledJobs", "CreateRequest");
                     Add(typeof(MapComponent_TacticalCommands), "Advance", "ReturnMembers", "EndOwned", "Issue", "Find");
+                    if (preset == "pawn-spikes")
+                    {
+                        foreach (MethodInfo method in PawnProfileTargets.Resolve()) Add(method.DeclaringType, method.Name);
+                        Add(typeof(Pawn_JobTracker), "DetermineNextConstantThinkTreeJob", "CheckForJobOverride");
+                        Add(typeof(Pawn_PathFollower), "StartPath", "TrySetNewPath", "NeedNewPath");
+                    }
                 }
                 else
                 {
@@ -115,6 +127,7 @@ namespace Helodrace.Profiling
                     throw new ArgumentException("The Core calibration method cannot also be instrumented.");
                 Write("capabilities.json", new ProfileSnapshot { label = "main-thread selective instrumentation; no native sampler",
                     spikeTraceSupported = true, spikeTracing = defaultSpikes, spikeThresholdMs = defaultSpikeThreshold,
+                    spikePawnId = defaultSpikePawnId,
                     spikeCapacity = MethodCapture.SpikeCapacity, spikeCallCapacity = MethodCapture.SpikeCallCapacity,
                     assemblySha256 = hash, cpuSource = "GetThreadTimes (coarse); elapsed Stopwatch; self excludes tracked children only",
                     methods = targets.Select((m, i) => new ProfileMethod { id = i, method = Signature(m), cpuMeasured = CpuTarget(m) }).ToArray() });
@@ -201,7 +214,7 @@ namespace Helodrace.Profiling
             return __exception;
         }
         internal static void Begin(string label, int scenario = -1, int population = -1, int speed = -1, bool cpu = true, double seconds = 120,
-            ProfileBenchmark benchmark = null, bool? spikes = null, double? spikeThresholdMs = null)
+            ProfileBenchmark benchmark = null, bool? spikes = null, double? spikeThresholdMs = null, int? spikePawnId = null)
         {
             if (!Initialize()) return;
             if (capture != null) throw new InvalidOperationException("A method capture is already active.");
@@ -209,6 +222,8 @@ namespace Helodrace.Profiling
             cpu = cpu && clock.Cpu100ns() >= 0;
             bool tracing = spikes ?? defaultSpikes;
             double threshold = spikeThresholdMs ?? defaultSpikeThreshold; ValidateThreshold(threshold);
+            int? pawnId = spikePawnId ?? defaultSpikePawnId;
+            if (pawnId < 0) throw new ArgumentException("Spike pawn ID must be nonnegative.");
             snapshot = new ProfileSnapshot { label = label, utc = DateTime.UtcNow.ToString("O"), assemblySha256 = hash,
                 gameVersion = VersionControl.CurrentVersionString, runtime = Environment.Version.ToString(), operatingSystem = Environment.OSVersion.ToString(),
                 mods = LoadedModManager.RunningModsListForReading.Select(mod => mod.PackageId).ToArray(),
@@ -218,6 +233,7 @@ namespace Helodrace.Profiling
                 startTick = GenTicks.TicksGame, startFrame = Time.frameCount, scenario = scenario, population = population, speed = speed,
                 mapId = Find.CurrentMap?.uniqueID ?? -1, benchmark = benchmark,
                 spikeTracing = tracing, spikeTraceSupported = true, spikeThresholdMs = tracing ? threshold : 0,
+                spikePawnId = tracing ? pawnId : null,
                 spikeCapacity = tracing ? MethodCapture.SpikeCapacity : 0, spikeCallCapacity = tracing ? MethodCapture.SpikeCallCapacity : 0 };
             ending = false;
             reference = new CoreReferenceCalibration(); reference.Sample();
@@ -227,7 +243,7 @@ namespace Helodrace.Profiling
             windowProcessCpu = cpu ? clock.ProcessCpu100ns() : -1;
             windowCpu = cpu ? clock.Cpu100ns() : -1;
             capture = new MethodCapture(clock, targets.Select(m => cpu && CpuTarget(m)).ToArray(), traceSpikes: tracing,
-                tickMethodId: targets.FindIndex(CpuTarget), spikeThresholdMs: threshold, originTimestamp: started);
+                tickMethodId: targets.FindIndex(CpuTarget), spikeThresholdMs: threshold, originTimestamp: started, spikePawnId: pawnId);
             Status();
         }
         internal static void End()
@@ -262,6 +278,7 @@ namespace Helodrace.Profiling
                 .Select(s => new ProfileTickSpike { root = Call(current, s.Root),
                     calls = s.Calls.Take(s.Count).OrderBy(c => c.Start).ThenBy(c => c.CallId).Select(c => Call(current, c)).ToArray(),
                     callsSeen = s.Seen, detailsDropped = s.Seen - s.Count, detailsComplete = s.Seen == s.Count,
+                    callsFiltered = s.Filtered,
                     gc0 = s.Gc0, gc1 = s.Gc1, gc2 = s.Gc2 }).ToArray();
             latest = "capture-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff") + "-" + snapshot.startTick + ".json";
             Write(latest, snapshot); Status();
@@ -295,7 +312,7 @@ namespace Helodrace.Profiling
                 using (var stream = File.OpenRead(command)) request = (ProfileCommand)new DataContractJsonSerializer(typeof(ProfileCommand)).ReadObject(stream);
                 File.Delete(command);
                 if (request.action == "start") Begin(request.label ?? "cli", cpu: request.cpu, seconds: request.seconds,
-                    spikes: request.spikes, spikeThresholdMs: request.spikeThresholdMs);
+                    spikes: request.spikes, spikeThresholdMs: request.spikeThresholdMs, spikePawnId: request.spikePawnId);
                 else if (request.action == "stop") End();
                 else if (request.action != "status") throw new ArgumentException("Unknown profiler action.");
                 Status();

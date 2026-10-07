@@ -12,6 +12,13 @@ if ($LASTEXITCODE -ne 1) { throw 'Different spike tracing overhead was not rejec
 $response = & dotnet $cli benchmark-compare $Capture $fixture
 if ($LASTEXITCODE -ne 1) { throw 'Different tracing modes were aggregated.' }
 $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
+$sample | Add-Member -NotePropertyName spikePawnId -NotePropertyValue 999999 -Force
+$sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+$response = & dotnet $cli compare $Capture $fixture
+if ($LASTEXITCODE -ne 1) { throw 'Different pawn detail filter was accepted.' }
+$response = & dotnet $cli benchmark-compare $Capture $fixture
+if ($LASTEXITCODE -ne 1) { throw 'Different pawn detail filters were aggregated.' }
+$sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 if ($sample.spikeTracing) {
     $response = & dotnet $cli spikes $Capture
     if ($LASTEXITCODE -ne 0) { throw 'Spike query failed.' }
@@ -23,6 +30,15 @@ if ($sample.spikeTracing) {
         if ($filtered.spikes.Count -ne 1 -or $filtered.spikes[0].root.tick -ne $tick -or
             $filtered.spikes[0].calls.Count -ne $sample.tickSpikes[0].calls.Count -or
             -not $filtered.spikes[0].root.method.Contains('DoSingleTick')) { throw 'Spike timeline/filter/name mapping failed.' }
+        $actor = $sample.tickSpikes[0].calls | Where-Object pawnId -GE 0 | Select-Object -First 1
+        if ($null -ne $actor) {
+            $response = & dotnet $cli pawn $Capture $actor.pawnId $tick
+            if ($LASTEXITCODE -ne 0) { throw 'Pawn query failed.' }
+            $pawnResult = ($response -join "`n") | ConvertFrom-Json
+            $expected = @($sample.tickSpikes[0].calls | Where-Object pawnId -EQ $actor.pawnId)
+            if ($pawnResult.calls.Count -ne $expected.Count -or
+                @($pawnResult.calls | Where-Object tick -NE $tick).Count -ne 0) { throw 'Pawn ID/tick filter failed.' }
+        }
     }
     $sample.spikeTracing = $false
     $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
@@ -71,5 +87,5 @@ $hotspot = ($response -join "`n") | ConvertFrom-Json
 if ($null -ne $hotspot.methods[0].inclusiveMsPerTick) { throw 'Zero ticks did not produce null normalization.' }
 if ($null -ne $hotspot.methods[0].referencePercentPerTick) { throw 'Zero ticks did not produce null reference normalization.' }
 Remove-Item -LiteralPath $fixture
-Write-Output 'CLI checks passed: spike mode comparison guards, spike timeline/filter, self comparison, targets/reference, zero ticks.'
+Write-Output 'CLI checks passed: tracing/pawn-filter comparison guards, spike and pawn queries, self comparison, targets/reference, zero ticks.'
 exit 0

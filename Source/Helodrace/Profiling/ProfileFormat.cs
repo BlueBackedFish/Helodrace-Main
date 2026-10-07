@@ -17,7 +17,7 @@ namespace Helodrace.Profiling
     [DataContract]
     public sealed class ProfileSnapshot
     {
-        [DataMember] public int schema = 5;
+        [DataMember] public int schema = 6;
         [DataMember] public string label, utc, assemblySha256, gameVersion, runtime, operatingSystem, cpuSource;
         [DataMember] public string[] mods;
         [DataMember] public int startTick, endTick, startFrame, endFrame, population, scenario, speed, mapId;
@@ -33,6 +33,7 @@ namespace Helodrace.Profiling
         [DataMember] public ProfileSlowCall[] slowCalls;
         [DataMember] public bool spikeTracing, spikeTraceSupported;
         [DataMember] public double spikeThresholdMs;
+        [DataMember] public int? spikePawnId;
         [DataMember] public int spikeCapacity, spikeCallCapacity;
         [DataMember] public long spikeCandidates;
         [DataMember] public ProfileTickSpike[] tickSpikes;
@@ -52,7 +53,7 @@ namespace Helodrace.Profiling
     {
         [DataMember] public ProfileSlowCall root;
         [DataMember] public ProfileSlowCall[] calls;
-        [DataMember] public int callsSeen, detailsDropped, gc0, gc1, gc2;
+        [DataMember] public int callsSeen, callsFiltered, detailsDropped, gc0, gc1, gc2;
         [DataMember] public bool detailsComplete;
     }
     [DataContract]
@@ -78,5 +79,6 @@ namespace Helodrace.Profiling
         [DataMember] public bool cpu;
         [DataMember] public bool? spikes;
         [DataMember] public double? spikeThresholdMs;
+        [DataMember] public int? spikePawnId;
     }
 }

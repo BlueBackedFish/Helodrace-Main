@@ -10,7 +10,7 @@ param(
     [switch]$MethodProfile,
     [switch]$ProfileElapsedOnly,
     [switch]$ProfileManual,
-    [ValidateSet('detailed', 'coarse')][string]$ProfilePreset = 'coarse',
+    [ValidateSet('detailed', 'coarse', 'spikes', 'pawn-spikes')][string]$ProfilePreset = 'coarse',
     [string]$ProfileTargets = '',
     [string]$Seed = 'hd-perf-20261007',
     [switch]$High,

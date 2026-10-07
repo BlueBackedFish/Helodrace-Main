@@ -9,7 +9,7 @@ param(
     [switch]$Resume,
     [string]$AssemblyDirectory = '',
     [string]$ProfileTargets = '',
-    [ValidateSet('coarse','detailed')][string]$ProfilePreset = 'coarse'
+    [ValidateSet('coarse','detailed','spikes','pawn-spikes')][string]$ProfilePreset = 'coarse'
 )
 $ErrorActionPreference = 'Stop'
 $auditScript = Join-Path $PSScriptRoot '..\RaidMovementAudit\Run-GameAudit.ps1'
