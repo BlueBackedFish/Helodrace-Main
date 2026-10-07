@@ -1,0 +1,744 @@
+﻿{
+  "warning": "Matched fixed-window CPU comparison, not proof of equivalent tactics. New fallback cannot pass the new AI gate. Core percentages are elapsed-time normalization, not CPU occupancy.",
+  "baselineEngine": "vanilla",
+  "candidateEngine": "new",
+  "unmatchedBaseline": [],
+  "unmatchedCandidate": [],
+  "groups": [
+    {
+      "conditions": {
+        "assemblySha256": "8678c209a3501b44adc3363ddf7dea7e232822553acc34881bb655c05dfbb32e",
+        "population": 13,
+        "scenario": 101,
+        "speed": 3,
+        "gameVersion": "1.6.4871",
+        "cpuSource": "Windows GetThreadTimes; user\u002Bkernel, 100ns units, coarse resolution",
+        "runtime": "4.0.30319.42000",
+        "operatingSystem": "Microsoft Windows NT 10.0.26200.0",
+        "mods": "brrainz.harmony;ludeon.rimworld;ludeon.rimworld.royalty;ludeon.rimworld.ideology;ludeon.rimworld.biotech;ludeon.rimworld.anomaly;ludeon.rimworld.odyssey;bluebackedfish.helodrace.main",
+        "targets": "Helodrace.GameComponent_RaidExecutionScheduler.GameComponentTick();Helodrace.GameComponent_RaidPlanScheduler.GameComponentUpdate();Helodrace.HelodMarketState.GameComponentTick();Helodrace.MapComponent_HelodCasSupport.MapComponentTick();Helodrace.MapComponent_HelodCasSupport.MapComponentUpdate();Helodrace.MapComponent_HelodMortarSupport.MapComponentTick();Helodrace.MapComponent_HelodMortarSupport.MapComponentUpdate();Helodrace.MapComponent_HelodSniperSupport.MapComponentTick();Helodrace.MapComponent_HelodSniperSupport.MapComponentUpdate();Helodrace.MapComponent_PersistentTargetingOverlay.MapComponentUpdate();Helodrace.MapComponent_RaidMovementAreas.CompleteReaders();Helodrace.MapComponent_RaidMovementAreas.For(Verse.Pawn);Helodrace.MapComponent_RaidMovementAreas.GetArea(Helodrace.RaidTacticalPlan,Helodrace.RaidStructureSnapshot,System.Boolean,System.Int32,Helodrace.RaidPawnOrder,System.Int32,System.Boolean,System.Boolean,Helodrace.RaidMovementNode,System.Int32,System.Collections.Generic.IEnumerable\u00601[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]]);Helodrace.MapComponent_RaidMovementAreas.MapComponentTick();Helodrace.MapComponent_RaidMovementAreas.MapComponentUpdate();Helodrace.MapComponent_RaidMovementAreas.Pump();Helodrace.MapComponent_RaidMovementAreas.ReadyFor(Verse.Pawn);Helodrace.MapComponent_RaidMovementAreas.Select(Verse.Pawn,System.Boolean);Helodrace.MapComponent_RaidMovementAreas.Trim(System.Int64);Helodrace.MapComponent_RaidTacticalCommunications.Frame(System.String,System.Int32);Helodrace.MapComponent_RaidTacticalCommunications.MapComponentTick();Helodrace.MapComponent_RaidTacticalCommunications.ProcessTick(System.Int32);Helodrace.MapComponent_RaidTacticalCommunications.Queue(Helodrace.RaidCommunicationFrame,Helodrace.RaidCommunicationFrame,System.Int32,System.Int32,Helodrace.RaidTacticalReport,Helodrace.RaidCommunicationMode,System.Int32,System.Int32);Helodrace.MapComponent_RaidTacticalCommunications.RefreshFrames(System.Int32);Helodrace.MapComponent_RaidTacticalCommunications.Share(Helodrace.RaidCommunicationFrame,Helodrace.RaidCommunicationFrame,System.Int32);Helodrace.MapComponent_RaidTacticalCommunications.Validate(Helodrace.RaidReportTransmission,Helodrace.RaidCommunicationFrame\u0026,Helodrace.RaidCommunicationFrame\u0026);Helodrace.MapComponent_RaidTacticalExecution.MapComponentTick();Helodrace.MapComponent_RaidTacticalOrders.MapComponentTick();Helodrace.MapComponent_RaidTacticalOverlay.MapComponentUpdate();Helodrace.MapComponent_RaidTacticalPlans.MapComponentTick();Helodrace.MapComponent_TacticalMapAnalysis.MapComponentTick();Helodrace.MapComponent_TacticalMapAnalysis.MapComponentUpdate();Helodrace.MechanicalNetworkManager.MapComponentTick();Helodrace.ModernWar.ModularWeaponFlashlightDrawer.MapComponentUpdate();Helodrace.ModernWar.ModularWeaponMuzzleEffectDrawer.MapComponentUpdate();Helodrace.RaidMovementArea.Pump();Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick();Helodrace.Tactical.MapComponent_TacticalCoordinatedAim.MapComponentUpdate();Helodrace.Tactical.MapComponent_TacticalPreemptiveFire.MapComponentUpdate();Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick();Verse.AI.Pawn_JobTracker.StartJob(Verse.AI.Job,Verse.AI.JobCondition,Verse.AI.ThinkNode,System.Boolean,System.Boolean,Verse.ThinkTreeDef,System.Nullable\u00601[[Verse.AI.JobTag, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],System.Boolean,System.Boolean,System.Nullable\u00601[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Boolean,System.Boolean,System.Boolean);Verse.GameComponentUtility.GameComponentTick();Verse.GameComponentUtility.GameComponentUpdate();Verse.Map.MapPostTick();Verse.Map.MapPreTick();Verse.Map.MapUpdate();Verse.MapComponentUtility.MapComponentTick(Verse.Map);Verse.MapComponentUtility.MapComponentUpdate(Verse.Map);Verse.PathFinder.CreateRequest(Verse.IntVec3,Verse.LocalTargetInfo,System.Nullable\u00601[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.Pawn,System.Nullable\u00601[[Verse.PathFinderCostTuning, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.AI.PathEndMode,Verse.PathRequest\u002BIPathGridCustomizer);Verse.PathFinder.CreateRequest(Verse.IntVec3,Verse.LocalTargetInfo,System.Nullable\u00601[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.TraverseParms,System.Nullable\u00601[[Verse.PathFinderCostTuning, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.AI.PathEndMode,Verse.Pawn,Verse.PathRequest\u002BIPathGridCustomizer);Verse.TickManager.DoSingleTick()",
+        "fixtureVersion": 5,
+        "seed": "hd-r1-20261007",
+        "mapFingerprint": "F0D5796EDDCFFF62A3B1A93134646EA103C28FA8F9C254D3FFDD468E3A6DCB50",
+        "pawnFingerprint": "DC533A476BC6FE2BAE27E177643DE1D8CA56A7CC7225A86EA44E668CEAAEF4D2",
+        "faction": "HD_HelodCivilHighFaction",
+        "workload": "sapper-wall",
+        "requestedPopulation": 13,
+        "warmupTicks": 600,
+        "sampleTicks": 1800,
+        "unitCount": 1,
+        "radioOperators": 13,
+        "reference": "Verse.GenRadial.NumCellsInRadius(System.Single):radius=8\u002B(i%16); iterations=10000; v1:10000:"
+      },
+      "baselineRuns": 3,
+      "candidateRuns": 3,
+      "baselineTickCpuMs": 0.8940972222222222,
+      "candidateTickCpuMs": 0.9114583333333334,
+      "tickCpuRatio": 1.0194174757281553,
+      "baselineWindowCpuMs": 11.753472222222221,
+      "candidateWindowCpuMs": 11.293402777777779,
+      "windowCpuRatio": 0.9608567208271789,
+      "baselineProcessCpuMs": 20.052083333333332,
+      "candidateProcessCpuMs": 19.453125,
+      "cpuMsPerTickRange": {
+        "baselineTick": {
+          "median": 0.8940972222222222,
+          "min": 0.625,
+          "max": 0.9809027777777778,
+          "values": [
+            0.9809027777777778,
+            0.8940972222222222,
+            0.625
+          ]
+        },
+        "candidateTick": {
+          "median": 0.9114583333333334,
+          "min": 0.6423611111111112,
+          "max": 1.1197916666666667,
+          "values": [
+            0.6423611111111112,
+            1.1197916666666667,
+            0.9114583333333334
+          ]
+        },
+        "baselineWindow": {
+          "median": 11.753472222222221,
+          "min": 8.802083333333334,
+          "max": 12.32638888888889,
+          "values": [
+            8.802083333333334,
+            12.32638888888889,
+            11.753472222222221
+          ]
+        },
+        "candidateWindow": {
+          "median": 11.293402777777779,
+          "min": 10.434027777777779,
+          "max": 11.380208333333334,
+          "values": [
+            11.380208333333334,
+            10.434027777777779,
+            11.293402777777779
+          ]
+        },
+        "baselineProcess": {
+          "median": 20.052083333333332,
+          "min": 15.260416666666666,
+          "max": 20.885416666666668,
+          "values": [
+            15.260416666666666,
+            20.885416666666668,
+            20.052083333333332
+          ]
+        },
+        "candidateProcess": {
+          "median": 19.453125,
+          "min": 17.552083333333332,
+          "max": 20.01736111111111,
+          "values": [
+            20.01736111111111,
+            17.552083333333332,
+            19.453125
+          ]
+        }
+      },
+      "actualEntryProgress": true,
+      "newAiPerformanceGateEligible": false,
+      "within2x": true,
+      "newAiFixedWindowCpuGatePassed": false,
+      "baselineProgress": [
+        {
+          "alive": 13,
+          "breachedWallCells": 1,
+          "complete": true,
+          "effectiveEngine": "vanilla",
+          "engine": "vanilla",
+          "entered": 11,
+          "error": null,
+          "finalPawnJobs": [
+            "HD_MW_HelodRifleman@(119, 0, 117):AttackMelee-\u003EThing_Helod845",
+            "HD_MW_HelodRifleman@(119, 0, 97):GotoWander-\u003E(125, 0, 98)",
+            "HD_MW_HelodRifleman@(120, 0, 121):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(122, 0, 119):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(119, 0, 122):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(122, 0, 99):Wait_Combat-\u003Enull",
+            "HD_MW_HelodRifleman@(122, 0, 113):GotoWander-\u003E(124, 0, 115)",
+            "HD_MW_HelodRifleman@(114, 0, 103):GotoWander-\u003E(121, 0, 110)",
+            "HD_MW_HelodRifleman@(115, 0, 109):GotoWander-\u003E(116, 0, 110)",
+            "HD_MW_HelodRifleman@(108, 0, 113):GotoWander-\u003E(113, 0, 118)",
+            "HD_MW_HelodRifleman@(120, 0, 117):GotoWander-\u003E(121, 0, 119)",
+            "HD_MW_HelodRifleman@(110, 0, 106):GotoWander-\u003E(122, 0, 112)",
+            "HD_MW_HelodRifleman@(108, 0, 113):GotoWander-\u003E(115, 0, 120)"
+          ],
+          "firstEntryTick": 961,
+          "firstObjectiveTick": 1232,
+          "installedLegacyHooks": [],
+          "isolationVerified": true,
+          "lastProgressTick": 2400,
+          "legacyComponents": [],
+          "mapFingerprint": "F0D5796EDDCFFF62A3B1A93134646EA103C28FA8F9C254D3FFDD468E3A6DCB50",
+          "moved": 13,
+          "newEngineImplemented": false,
+          "objectiveReached": 6,
+          "pawnFingerprint": "DC533A476BC6FE2BAE27E177643DE1D8CA56A7CC7225A86EA44E668CEAAEF4D2",
+          "population": 13,
+          "radioOperators": 13,
+          "requestedPopulation": 13,
+          "sampleTicks": 1800,
+          "sapperEligiblePawns": 2,
+          "schema": 1,
+          "seed": "hd-r1-20261007",
+          "units": 1,
+          "warmupTicks": 600,
+          "workload": "sapper-wall"
+        },
+        {
+          "alive": 13,
+          "breachedWallCells": 1,
+          "complete": true,
+          "effectiveEngine": "vanilla",
+          "engine": "vanilla",
+          "entered": 11,
+          "error": null,
+          "finalPawnJobs": [
+            "HD_MW_HelodRifleman@(119, 0, 117):AttackMelee-\u003EThing_Helod845",
+            "HD_MW_HelodRifleman@(105, 0, 106):GotoWander-\u003E(112, 0, 117)",
+            "HD_MW_HelodRifleman@(116, 0, 105):GotoWander-\u003E(124, 0, 113)",
+            "HD_MW_HelodRifleman@(114, 0, 106):GotoWander-\u003E(122, 0, 112)",
+            "HD_MW_HelodRifleman@(113, 0, 113):GotoWander-\u003E(120, 0, 122)",
+            "HD_MW_HelodRifleman@(113, 0, 122):GotoWander-\u003E(114, 0, 123)",
+            "HD_MW_HelodRifleman@(110, 0, 99):FollowClose-\u003EThing_Helod38506",
+            "HD_MW_HelodRifleman@(119, 0, 121):GotoWander-\u003E(119, 0, 123)",
+            "HD_MW_HelodRifleman@(119, 0, 108):GotoWander-\u003E(125, 0, 114)",
+            "HD_MW_HelodRifleman@(113, 0, 107):GotoWander-\u003E(121, 0, 115)",
+            "HD_MW_HelodRifleman@(120, 0, 111):GotoWander-\u003E(126, 0, 117)",
+            "HD_MW_HelodRifleman@(99, 0, 100):Wait_Combat-\u003Enull",
+            "HD_MW_HelodRifleman@(122, 0, 112):GotoWander-\u003E(126, 0, 116)"
+          ],
+          "firstEntryTick": 910,
+          "firstObjectiveTick": 1183,
+          "installedLegacyHooks": [],
+          "isolationVerified": true,
+          "lastProgressTick": 1963,
+          "legacyComponents": [],
+          "mapFingerprint": "F0D5796EDDCFFF62A3B1A93134646EA103C28FA8F9C254D3FFDD468E3A6DCB50",
+          "moved": 13,
+          "newEngineImplemented": false,
+          "objectiveReached": 2,
+          "pawnFingerprint": "DC533A476BC6FE2BAE27E177643DE1D8CA56A7CC7225A86EA44E668CEAAEF4D2",
+          "population": 13,
+          "radioOperators": 13,
+          "requestedPopulation": 13,
+          "sampleTicks": 1800,
+          "sapperEligiblePawns": 2,
+          "schema": 1,
+          "seed": "hd-r1-20261007",
+          "units": 1,
+          "warmupTicks": 600,
+          "workload": "sapper-wall"
+        },
+        {
+          "alive": 13,
+          "breachedWallCells": 1,
+          "complete": true,
+          "effectiveEngine": "vanilla",
+          "engine": "vanilla",
+          "entered": 13,
+          "error": null,
+          "finalPawnJobs": [
+            "HD_MW_HelodRifleman@(119, 0, 117):Wait_MaintainPosture-\u003Enull",
+            "HD_MW_HelodRifleman@(109, 0, 105):GotoWander-\u003E(125, 0, 112)",
+            "HD_MW_HelodRifleman@(122, 0, 113):GotoWander-\u003E(124, 0, 111)",
+            "HD_MW_HelodRifleman@(114, 0, 119):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(125, 0, 113):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(118, 0, 123):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(109, 0, 107):GotoWander-\u003E(115, 0, 113)",
+            "HD_MW_HelodRifleman@(125, 0, 120):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(107, 0, 115):GotoWander-\u003E(114, 0, 122)",
+            "HD_MW_HelodRifleman@(116, 0, 112):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(121, 0, 111):GotoWander-\u003E(126, 0, 116)",
+            "HD_MW_HelodRifleman@(116, 0, 124):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(118, 0, 119):GotoWander-\u003E(126, 0, 115)"
+          ],
+          "firstEntryTick": 937,
+          "firstObjectiveTick": 1207,
+          "installedLegacyHooks": [],
+          "isolationVerified": true,
+          "lastProgressTick": 2107,
+          "legacyComponents": [],
+          "mapFingerprint": "F0D5796EDDCFFF62A3B1A93134646EA103C28FA8F9C254D3FFDD468E3A6DCB50",
+          "moved": 13,
+          "newEngineImplemented": false,
+          "objectiveReached": 7,
+          "pawnFingerprint": "DC533A476BC6FE2BAE27E177643DE1D8CA56A7CC7225A86EA44E668CEAAEF4D2",
+          "population": 13,
+          "radioOperators": 13,
+          "requestedPopulation": 13,
+          "sampleTicks": 1800,
+          "sapperEligiblePawns": 2,
+          "schema": 1,
+          "seed": "hd-r1-20261007",
+          "units": 1,
+          "warmupTicks": 600,
+          "workload": "sapper-wall"
+        }
+      ],
+      "candidateProgress": [
+        {
+          "alive": 13,
+          "breachedWallCells": 1,
+          "complete": true,
+          "effectiveEngine": "vanilla-fallback",
+          "engine": "new",
+          "entered": 13,
+          "error": null,
+          "finalPawnJobs": [
+            "HD_MW_HelodRifleman@(119, 0, 117):Wait_MaintainPosture-\u003Enull",
+            "HD_MW_HelodRifleman@(114, 0, 115):GotoWander-\u003E(121, 0, 122)",
+            "HD_MW_HelodRifleman@(119, 0, 121):GotoWander-\u003E(120, 0, 122)",
+            "HD_MW_HelodRifleman@(110, 0, 103):GotoWander-\u003E(123, 0, 111)",
+            "HD_MW_HelodRifleman@(110, 0, 110):GotoWander-\u003E(121, 0, 123)",
+            "HD_MW_HelodRifleman@(106, 0, 110):GotoWander-\u003E(111, 0, 117)",
+            "HD_MW_HelodRifleman@(113, 0, 109):GotoWander-\u003E(115, 0, 111)",
+            "HD_MW_HelodRifleman@(115, 0, 112):GotoWander-\u003E(118, 0, 115)",
+            "HD_MW_HelodRifleman@(117, 0, 123):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(116, 0, 122):GotoWander-\u003E(118, 0, 124)",
+            "HD_MW_HelodRifleman@(119, 0, 114):GotoWander-\u003E(120, 0, 115)",
+            "HD_MW_HelodRifleman@(113, 0, 113):GotoWander-\u003E(122, 0, 122)",
+            "HD_MW_HelodRifleman@(116, 0, 111):GotoWander-\u003E(118, 0, 113)"
+          ],
+          "firstEntryTick": 931,
+          "firstObjectiveTick": 1203,
+          "installedLegacyHooks": [],
+          "isolationVerified": true,
+          "lastProgressTick": 2373,
+          "legacyComponents": [],
+          "mapFingerprint": "F0D5796EDDCFFF62A3B1A93134646EA103C28FA8F9C254D3FFDD468E3A6DCB50",
+          "moved": 13,
+          "newEngineImplemented": false,
+          "objectiveReached": 5,
+          "pawnFingerprint": "DC533A476BC6FE2BAE27E177643DE1D8CA56A7CC7225A86EA44E668CEAAEF4D2",
+          "population": 13,
+          "radioOperators": 13,
+          "requestedPopulation": 13,
+          "sampleTicks": 1800,
+          "sapperEligiblePawns": 2,
+          "schema": 1,
+          "seed": "hd-r1-20261007",
+          "units": 1,
+          "warmupTicks": 600,
+          "workload": "sapper-wall"
+        },
+        {
+          "alive": 13,
+          "breachedWallCells": 1,
+          "complete": true,
+          "effectiveEngine": "vanilla-fallback",
+          "engine": "new",
+          "entered": 13,
+          "error": null,
+          "finalPawnJobs": [
+            "HD_MW_HelodRifleman@(119, 0, 117):AttackMelee-\u003EThing_Helod845",
+            "HD_MW_HelodRifleman@(108, 0, 110):GotoWander-\u003E(111, 0, 110)",
+            "HD_MW_HelodRifleman@(117, 0, 121):GotoWander-\u003E(119, 0, 123)",
+            "HD_MW_HelodRifleman@(121, 0, 118):Wait_Combat-\u003Enull",
+            "HD_MW_HelodRifleman@(120, 0, 120):Wait_Combat-\u003Enull",
+            "HD_MW_HelodRifleman@(117, 0, 116):GotoWander-\u003E(115, 0, 118)",
+            "HD_MW_HelodRifleman@(115, 0, 106):GotoWander-\u003E(124, 0, 114)",
+            "HD_MW_HelodRifleman@(114, 0, 113):Wait_Combat-\u003Enull",
+            "HD_MW_HelodRifleman@(110, 0, 118):GotoWander-\u003E(113, 0, 121)",
+            "HD_MW_HelodRifleman@(121, 0, 120):Wait_Combat-\u003Enull",
+            "HD_MW_HelodRifleman@(121, 0, 119):AttackMelee-\u003EThing_Helod845",
+            "HD_MW_HelodRifleman@(118, 0, 121):Wait_Combat-\u003Enull",
+            "HD_MW_HelodRifleman@(110, 0, 118):GotoWander-\u003E(112, 0, 120)"
+          ],
+          "firstEntryTick": 931,
+          "firstObjectiveTick": 1201,
+          "installedLegacyHooks": [],
+          "isolationVerified": true,
+          "lastProgressTick": 2251,
+          "legacyComponents": [],
+          "mapFingerprint": "F0D5796EDDCFFF62A3B1A93134646EA103C28FA8F9C254D3FFDD468E3A6DCB50",
+          "moved": 13,
+          "newEngineImplemented": false,
+          "objectiveReached": 8,
+          "pawnFingerprint": "DC533A476BC6FE2BAE27E177643DE1D8CA56A7CC7225A86EA44E668CEAAEF4D2",
+          "population": 13,
+          "radioOperators": 13,
+          "requestedPopulation": 13,
+          "sampleTicks": 1800,
+          "sapperEligiblePawns": 2,
+          "schema": 1,
+          "seed": "hd-r1-20261007",
+          "units": 1,
+          "warmupTicks": 600,
+          "workload": "sapper-wall"
+        },
+        {
+          "alive": 13,
+          "breachedWallCells": 1,
+          "complete": true,
+          "effectiveEngine": "vanilla-fallback",
+          "engine": "new",
+          "entered": 13,
+          "error": null,
+          "finalPawnJobs": [
+            "HD_MW_HelodRifleman@(119, 0, 117):AttackMelee-\u003EThing_Helod845",
+            "HD_MW_HelodRifleman@(118, 0, 121):GotoWander-\u003E(120, 0, 123)",
+            "HD_MW_HelodRifleman@(123, 0, 114):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(105, 0, 103):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(125, 0, 121):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(123, 0, 121):GotoWander-\u003E(124, 0, 122)",
+            "HD_MW_HelodRifleman@(115, 0, 118):GotoWander-\u003E(119, 0, 122)",
+            "HD_MW_HelodRifleman@(115, 0, 114):GotoWander-\u003E(120, 0, 114)",
+            "HD_MW_HelodRifleman@(119, 0, 124):Wait_Wander-\u003Enull",
+            "HD_MW_HelodRifleman@(108, 0, 112):GotoWander-\u003E(116, 0, 120)",
+            "HD_MW_HelodRifleman@(121, 0, 117):AttackMelee-\u003EThing_Helod845",
+            "HD_MW_HelodRifleman@(118, 0, 117):GotoWander-\u003E(125, 0, 122)",
+            "HD_MW_HelodRifleman@(119, 0, 107):GotoWander-\u003E(125, 0, 113)"
+          ],
+          "firstEntryTick": 931,
+          "firstObjectiveTick": 1201,
+          "installedLegacyHooks": [],
+          "isolationVerified": true,
+          "lastProgressTick": 2373,
+          "legacyComponents": [],
+          "mapFingerprint": "F0D5796EDDCFFF62A3B1A93134646EA103C28FA8F9C254D3FFDD468E3A6DCB50",
+          "moved": 13,
+          "newEngineImplemented": false,
+          "objectiveReached": 9,
+          "pawnFingerprint": "DC533A476BC6FE2BAE27E177643DE1D8CA56A7CC7225A86EA44E668CEAAEF4D2",
+          "population": 13,
+          "radioOperators": 13,
+          "requestedPopulation": 13,
+          "sampleTicks": 1800,
+          "sapperEligiblePawns": 2,
+          "schema": 1,
+          "seed": "hd-r1-20261007",
+          "units": 1,
+          "warmupTicks": 600,
+          "workload": "sapper-wall"
+        }
+      ],
+      "methods": [
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "baselineCorePercentPerTick": 507.3928994784258,
+          "candidateCorePercentPerTick": 480.70121590410196,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Verse.Map.MapPreTick()",
+          "baselineCorePercentPerTick": 56.27951512279872,
+          "candidateCorePercentPerTick": 55.77796865754261,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Verse.Map.MapPostTick()",
+          "baselineCorePercentPerTick": 42.298132354102506,
+          "candidateCorePercentPerTick": 42.51768501021206,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Verse.Map.MapUpdate()",
+          "baselineCorePercentPerTick": 1728.7206230751008,
+          "candidateCorePercentPerTick": 1535.1662944511252,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Verse.MapComponentUtility.MapComponentUpdate(Verse.Map)",
+          "baselineCorePercentPerTick": 33.26167641325535,
+          "candidateCorePercentPerTick": 34.427914256809636,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+          "baselineCorePercentPerTick": 5.474078022585485,
+          "candidateCorePercentPerTick": 5.38139685811907,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Verse.GameComponentUtility.GameComponentUpdate()",
+          "baselineCorePercentPerTick": 4.681197188659876,
+          "candidateCorePercentPerTick": 4.45927580217221,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Verse.GameComponentUtility.GameComponentTick()",
+          "baselineCorePercentPerTick": 4.91522546000158,
+          "candidateCorePercentPerTick": 5.102197026093264,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalCommunications.Frame(System.String,System.Int32)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalCommunications.RefreshFrames(System.Int32)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalCommunications.MapComponentTick()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalCommunications.ProcessTick(System.Int32)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalCommunications.Validate(Helodrace.RaidReportTransmission,Helodrace.RaidCommunicationFrame\u0026,Helodrace.RaidCommunicationFrame\u0026)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalCommunications.Share(Helodrace.RaidCommunicationFrame,Helodrace.RaidCommunicationFrame,System.Int32)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalCommunications.Queue(Helodrace.RaidCommunicationFrame,Helodrace.RaidCommunicationFrame,System.Int32,System.Int32,Helodrace.RaidTacticalReport,Helodrace.RaidCommunicationMode,System.Int32,System.Int32)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.GetArea(Helodrace.RaidTacticalPlan,Helodrace.RaidStructureSnapshot,System.Boolean,System.Int32,Helodrace.RaidPawnOrder,System.Int32,System.Boolean,System.Boolean,Helodrace.RaidMovementNode,System.Int32,System.Collections.Generic.IEnumerable\u00601[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]])",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.Trim(System.Int64)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.CompleteReaders()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.MapComponentTick()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.Pump()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.ReadyFor(Verse.Pawn)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.For(Verse.Pawn)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidMovementAreas.Select(Verse.Pawn,System.Boolean)",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.RaidMovementArea.Pump()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalExecution.MapComponentTick()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.GameComponent_RaidExecutionScheduler.GameComponentTick()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.GameComponent_RaidPlanScheduler.GameComponentUpdate()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalOverlay.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalOrders.MapComponentTick()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_RaidTacticalPlans.MapComponentTick()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_TacticalMapAnalysis.MapComponentTick()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.MapComponent_TacticalMapAnalysis.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0,
+          "candidateCorePercentPerTick": 0,
+          "baselineCalls": 0,
+          "candidateCalls": 0
+        },
+        {
+          "method": "Helodrace.HelodMarketState.GameComponentTick()",
+          "baselineCorePercentPerTick": 0.09354749486328433,
+          "candidateCorePercentPerTick": 0.09353048472852872,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+          "baselineCorePercentPerTick": 0.15466319197662481,
+          "candidateCorePercentPerTick": 0.1301227356887896,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.MapComponent_PersistentTargetingOverlay.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0.24167641325536057,
+          "candidateCorePercentPerTick": 0.2657237206283761,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Helodrace.MapComponent_HelodCasSupport.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0.2216891731817105,
+          "candidateCorePercentPerTick": 0.19911126634843015,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+          "baselineCorePercentPerTick": 0.14118908382066275,
+          "candidateCorePercentPerTick": 0.169279872331937,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.MapComponent_HelodMortarSupport.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0.12216694306246548,
+          "candidateCorePercentPerTick": 0.13353948347935635,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+          "baselineCorePercentPerTick": 0.06307992202729044,
+          "candidateCorePercentPerTick": 0.06333390597262784,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+          "baselineCorePercentPerTick": 0.10799220272904485,
+          "candidateCorePercentPerTick": 0.10175800263414075,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.MapComponent_HelodSniperSupport.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0.1399557452189031,
+          "candidateCorePercentPerTick": 0.13871932974266907,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Helodrace.Tactical.MapComponent_TacticalCoordinatedAim.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0.5490253411306042,
+          "candidateCorePercentPerTick": 0.47235106606348665,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Helodrace.Tactical.MapComponent_TacticalPreemptiveFire.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0.37357752489331436,
+          "candidateCorePercentPerTick": 0.362770209958474,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+          "baselineCorePercentPerTick": 0.07804232804232804,
+          "candidateCorePercentPerTick": 0.07598244564133255,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()",
+          "baselineCorePercentPerTick": 0.7376411592829504,
+          "candidateCorePercentPerTick": 0.7155127984882322,
+          "baselineCalls": 5400,
+          "candidateCalls": 5400
+        },
+        {
+          "method": "Helodrace.ModernWar.ModularWeaponFlashlightDrawer.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 17.280019493177388,
+          "candidateCorePercentPerTick": 18.2025616064441,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Helodrace.ModernWar.ModularWeaponMuzzleEffectDrawer.MapComponentUpdate()",
+          "baselineCorePercentPerTick": 0.8248343079922026,
+          "candidateCorePercentPerTick": 0.14195728110862968,
+          "baselineCalls": 10416,
+          "candidateCalls": 10792
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.StartJob(Verse.AI.Job,Verse.AI.JobCondition,Verse.AI.ThinkNode,System.Boolean,System.Boolean,Verse.ThinkTreeDef,System.Nullable\u00601[[Verse.AI.JobTag, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],System.Boolean,System.Boolean,System.Nullable\u00601[[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Boolean,System.Boolean,System.Boolean)",
+          "baselineCorePercentPerTick": 2.477680311890838,
+          "candidateCorePercentPerTick": 2.19479280001527,
+          "baselineCalls": 566,
+          "candidateCalls": 606
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest(Verse.IntVec3,Verse.LocalTargetInfo,System.Nullable\u00601[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.Pawn,System.Nullable\u00601[[Verse.PathFinderCostTuning, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.AI.PathEndMode,Verse.PathRequest\u002BIPathGridCustomizer)",
+          "baselineCorePercentPerTick": 0.059317738791423,
+          "candidateCorePercentPerTick": 0.07608467426368129,
+          "baselineCalls": 208,
+          "candidateCalls": 266
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest(Verse.IntVec3,Verse.LocalTargetInfo,System.Nullable\u00601[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.TraverseParms,System.Nullable\u00601[[Verse.PathFinderCostTuning, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null]],Verse.AI.PathEndMode,Verse.Pawn,Verse.PathRequest\u002BIPathGridCustomizer)",
+          "baselineCorePercentPerTick": 0.01573099415204678,
+          "candidateCorePercentPerTick": 0.024069938345835953,
+          "baselineCalls": 212,
+          "candidateCalls": 271
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+﻿Method profiler checks passed: nesting, exceptions, double finalizer, depth budget, stop drain, thread rejection, JSON.
+Core reference checks passed: robust median, environmental scale, invalid data and workload validation.
+Distribution checks passed: nearest rank, bounded longest calls, ring replacement.
+Windows CPU check passed: sleep=0.00ms busy=156.25ms (each 150ms elapsed).
+Engine comparison checks passed: same fixture/different phases, CPU ratio/range, fallback and stalled gates, 15 invalid-condition rejections.
