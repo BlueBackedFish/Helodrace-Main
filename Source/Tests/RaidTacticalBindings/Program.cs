@@ -125,6 +125,7 @@ internal static class Program
             RaidOrderLookupTests.Run();
             OrganizationEdgeArrivalTests.Run();
             TacticalEngineSelectionTests.Run();
+            TacticalWorkBudgetTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }

@@ -11,7 +11,7 @@ using Verse.AI.Group;
 
 namespace Helodrace.Tactics
 {
-    public enum TacticalCommandPhase { Pending, Stack, Breach, Enter, Complete, Released }
+    public enum TacticalCommandPhase { Pending, Stack, Breach, Enter, Returning, Complete, Released }
     public sealed class TacticalMemberCommand
     {
         public Pawn Pawn;
@@ -29,10 +29,13 @@ namespace Helodrace.Tactics
         public TacticalCommandPhase Phase;
         public TacticalLocalPlan Plan;
         public IntVec3 Goal;
-        public int Due, PhaseStarted, Failures;
+        public int Due, PhaseStarted, Failures, PlanRetryAt;
         public bool HadConnectedStack;
         public Pawn Breacher;
         public int BarrierHitPoints = -1;
+        public int ReturnCursor;
+        public bool ReleaseAfterReturn;
+        public bool DeferredWork;
         public TacticalPlanFailure LastPlanFailure;
         public bool Terminal => Phase == TacticalCommandPhase.Released;
     }
@@ -42,7 +45,11 @@ namespace Helodrace.Tactics
     public sealed class GameComponent_TacticalCommands : GameComponent
     {
         private readonly List<TacticalSquadCommand> commands = new List<TacticalSquadCommand>();
-        private int cursor, discoverAt;
+        private int cursor, discoverAt, discoverOrganization;
+        private IEnumerator<RaidTacticalUnit> discovery;
+        private CombatOrganization discovering;
+        private int discoveryRevision;
+        public readonly TacticalWorkBudget WorkBudget = new TacticalWorkBudget();
         public long Advances, BudgetStops;
         public GameComponent_TacticalCommands(Game game) { }
         public static bool IsAssaultPhase(LordJob job, LordToil toil) => job is LordJob_AssaultColony
@@ -65,23 +72,7 @@ namespace Helodrace.Tactics
         public override void GameComponentTick()
         {
             int tick = GenTicks.TicksGame;
-            if (tick >= discoverAt)
-            {
-                discoverAt = tick + 300;
-                foreach (RaidTacticalUnit unit in RaidTacticalUnit.All)
-                {
-                    Pawn pawn = unit.Members.FirstOrDefault(member => member.Spawned && !member.Dead);
-                    if (pawn == null || !IsAssaultLord(pawn.GetLord())) continue;
-                    MapComponent_TacticalCommands service = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
-                    if (service != null && (unit.Faction.HostileTo(Faction.OfPlayer) || service.HasExplicitGoal))
-                    {
-                        TacticalSquadCommand command = service.Register(unit, tick);
-                        if (command != null) commands.Add(command);
-                    }
-                }
-                commands.RemoveAll(command => command.Terminal || command.Owner.map.Disposed);
-                if (cursor >= commands.Count) cursor = 0;
-            }
+            DiscoverOne(tick);
             if (commands.Count == 0) return;
             long started = Stopwatch.GetTimestamp();
             int visited = 0, processed = 0;
@@ -89,12 +80,42 @@ namespace Helodrace.Tactics
             while (visited++ < Math.Min(4, commands.Count) && processed < 2)
             {
                 if (cursor >= commands.Count) cursor = 0;
-                TacticalSquadCommand command = commands[cursor++];
-                if (command.Terminal || command.Due > tick) continue;
+                TacticalSquadCommand command = commands[cursor];
+                if (command.Terminal || command.Owner.map.Disposed)
+                { commands.RemoveAt(cursor); continue; }
+                cursor++;
+                if (command.Due > tick) continue;
                 command.Owner.Advance(command, tick); Advances++; processed++;
                 if (Stopwatch.GetTimestamp() - started > Stopwatch.Frequency * .0015)
                 { BudgetStops++; break; }
             }
+        }
+        private void DiscoverOne(int tick)
+        {
+            if (tick < discoverAt) return;
+            GameComponent_CombatOrganizations registry = OrganizationAPI.Registry;
+            if (registry == null) { discoverAt = tick + 300; return; }
+            if (discovering != null && (registry.GetOrganization(discovering.id) != discovering
+                || discovering.StructureRevision != discoveryRevision))
+            { discovery?.Dispose(); discovery = null; discovering = null; }
+            if (discovery == null)
+            {
+                if (discoverOrganization >= registry.Organizations.Count)
+                { discoverOrganization = 0; discoverAt = tick + 300; return; }
+                discovering = registry.Organizations[discoverOrganization++];
+                discoveryRevision = discovering.StructureRevision;
+                discovery = RaidTacticalUnit.ForOrganization(discovering).GetEnumerator();
+            }
+            // A registration sweep is spread over ticks, including after load.
+            if (!discovery.MoveNext())
+            { discovery.Dispose(); discovery = null; discovering = null; return; }
+            RaidTacticalUnit unit = discovery.Current;
+            Pawn pawn = unit.Members.FirstOrDefault(member => member.Spawned && !member.Dead);
+            if (pawn == null || !IsAssaultLord(pawn.GetLord())) return;
+            MapComponent_TacticalCommands service = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
+            if (service == null || !unit.Faction.HostileTo(Faction.OfPlayer) && !service.HasExplicitGoal) return;
+            TacticalSquadCommand command = service.Register(unit, tick);
+            if (command != null) commands.Add(command);
         }
     }
 
@@ -124,10 +145,13 @@ namespace Helodrace.Tactics
                 if (command.Terminal) { squads.Remove(command.Id); continue; }
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.Phase = TacticalCommandPhase.Pending; command.Due = GenTicks.TicksGame;
+                command.ReturnCursor = 0; command.ReleaseAfterReturn = false;
+                command.PlanRetryAt = 0;
                 foreach (TacticalMemberCommand member in command.Members)
                 {
                     member.Passed = member.Crossed = member.Entered = false;
-                    member.RetryTick = 0; member.Job = null;
+                    // Preserve ownership until a replacement job is admitted.
+                    member.RetryTick = 0;
                 }
             }
         }
@@ -184,6 +208,18 @@ namespace Helodrace.Tactics
 
         public void Advance(TacticalSquadCommand command, int tick)
         {
+            command.DeferredWork = false;
+            try { AdvanceCore(command, tick); }
+            finally
+            {
+                if (command.DeferredWork && !command.Terminal)
+                    command.Due = Math.Min(command.Due, tick + 1);
+            }
+        }
+        private void AdvanceCore(TacticalSquadCommand command, int tick)
+        {
+            if (command.Phase == TacticalCommandPhase.Returning)
+            { ReturnMembers(command, tick); return; }
             command.Due = tick + (command.Phase == TacticalCommandPhase.Enter ? 30 : 120);
             var active = command.Members.Where(member => Available(member, map)).ToList();
             if (active.Count == 0) { Release(command); return; }
@@ -196,13 +232,20 @@ namespace Helodrace.Tactics
                     && !driver.AtPost && !(driver is JobDriver_TacticalBreach) && tick - member.LastProgressTick > 1200)
                 {
                     // A live but stalled path must also have a bounded retry.
-                    EndOwned(member); JobFailures++; member.RetryTick = tick + 180; member.LastProgressTick = tick;
+                    // Replace a stalled job directly, without a transient vanilla
+                    // think-tree search between cancelling it and issuing a post.
+                    if (!CanIssue(member)) continue;
+                    IntVec3 post = RetryPost(command, member);
+                    if (Issue(member, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), post, command.Goal)))
+                    { JobFailures++; member.RetryTick = tick + 180; member.LastProgressTick = tick; }
+                    continue;
                 }
                 if (member.Job == null && tick < member.RetryTick && member.Pawn.CurJob?.playerForced != true)
                 {
                     // Do not let a failed tactical job briefly acquire vanilla
                     // escort/wander orders while its bounded retry is pending.
                     // Reuse the existing assigned post; no plan is recalculated.
+                    if (!CanIssue(member)) continue;
                     IntVec3 post = member.Pawn.Position;
                     if (command.Plan != null)
                     {
@@ -214,17 +257,33 @@ namespace Helodrace.Tactics
             }
             if (command.Phase == TacticalCommandPhase.Pending)
             {
+                if (tick < command.PlanRetryAt)
+                {
+                    // Deferred parking jobs must not turn a 240-tick plan retry
+                    // into a new geometric search every tick.
+                    foreach (TacticalMemberCommand member in active) EnsureParking(command, member, tick);
+                    command.Due = command.PlanRetryAt; return;
+                }
                 command.Goal = Goal(tick);
                 if (!command.Goal.IsValid) { command.Due = tick + 300; return; }
+                TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+                if (!budget.TryPlan(tick)) { command.Due = tick + 1; return; }
                 Pawn leader = active[0].Pawn;
                 Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => CompSledgehammerBreach.WornBy(pawn) != null
                     && CompSledgehammerBreach.CanOperate(pawn));
                 PlansAttempted++;
                 bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
-                TacticalLocalPlan plan = ReuseOpening(leader, command.Goal, command.Members.Count, Claimed,
-                    out bool triedKnown, out TacticalPlanFailure failure);
-                if (!triedKnown) plan = TacticalLocalPlanner.Find(map, leader, hammer, command.Goal, command.Members.Count,
-                    Claimed, cell => leases.ContainsKey(cell), out failure);
+                long planStarted = Stopwatch.GetTimestamp();
+                TacticalLocalPlan plan;
+                TacticalPlanFailure failure;
+                try
+                {
+                    plan = ReuseOpening(leader, command.Goal, command.Members.Count, Claimed,
+                        out bool triedKnown, out failure);
+                    if (!triedKnown) plan = TacticalLocalPlanner.Find(map, leader, hammer, command.Goal, command.Members.Count,
+                        Claimed, cell => leases.ContainsKey(cell), out failure);
+                }
+                finally { budget.Account(tick, Stopwatch.GetTimestamp() - planStarted); }
                 command.LastPlanFailure = failure;
                 if (plan == null)
                 {
@@ -234,7 +293,8 @@ namespace Helodrace.Tactics
                     // vanilla wander through an unrelated entrance in the meantime.
                     foreach (TacticalMemberCommand member in active)
                         EnsureParking(command, member, tick);
-                    command.Failures++; command.Due = tick + 240; return;
+                    command.Failures++; command.PlanRetryAt = tick + 240;
+                    command.Due = command.PlanRetryAt; return;
                 }
                 ReleaseClaims(command); command.Plan = plan; PlansBuilt++; command.PhaseStarted = tick;
                 if (plan.Direct)
@@ -295,6 +355,7 @@ namespace Helodrace.Tactics
                     if (worker.Job?.def.defName != "HD_NewTacticalBreach" || worker.Pawn.CurJob != worker.Job)
                     {
                         if (tick < worker.RetryTick) return;
+                        if (!CanIssue(worker)) return;
                         Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalBreach"), current.Barrier,
                             current.Outside, CompSledgehammerBreach.WornBy(worker.Pawn).parent);
                         Issue(worker, job);
@@ -322,6 +383,7 @@ namespace Helodrace.Tactics
                     || member.Pawn.jobs.curDriver is TacticalJobDriver stopped && stopped.AtPost)
                 {
                     if (tick < member.RetryTick) continue;
+                    if (!CanIssue(member)) continue;
                     Job ingress = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalIngress"),
                         current.Outside, current.Opening, current.Positions[i]);
                     ingress.targetQueueA = new List<LocalTargetInfo> { current.Inside };
@@ -331,10 +393,9 @@ namespace Helodrace.Tactics
             }
             if (active.All(member => member.Entered))
             {
-                command.Phase = TacticalCommandPhase.Complete; command.Due = tick + 600;
-                ReleaseClaims(command);
-                // Completed local mission hands combat back to the vanilla AI.
-                foreach (TacticalMemberCommand member in active) EndOwned(member);
+                // Keep the footprint until the final owned post is released.
+                // Vanilla next-job selection must not run for a whole squad here.
+                BeginReturn(command, tick, false);
             }
         }
         private IntVec3 Goal(int tick)
@@ -398,6 +459,7 @@ namespace Helodrace.Tactics
                 && member.Job.targetA.Cell == position
                 && (!(member.Pawn.jobs.curDriver is TacticalJobDriver driver) || !driver.AtPost || member.Pawn.Position == position)) return;
             if (member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) return;
+            if (!CanIssue(member)) return;
             Issue(member, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), position, face));
         }
         private void EnsureParking(TacticalSquadCommand command, TacticalMemberCommand member, int tick)
@@ -420,20 +482,49 @@ namespace Helodrace.Tactics
             }
             if (member.Parking.IsValid) EnsurePost(member, member.Parking, command.Goal, tick);
         }
-        private void Issue(TacticalMemberCommand member, Job job)
+        private static IntVec3 RetryPost(TacticalSquadCommand command, TacticalMemberCommand member)
         {
+            if (command.Plan == null) return member.Pawn.Position;
+            int index = command.Members.IndexOf(member);
+            return member.Crossed || command.Plan.Direct ? command.Plan.Positions[index] : command.Plan.Stack[index];
+        }
+        private bool Issue(TacticalMemberCommand member, Job job)
+        {
+            int tick = GenTicks.TicksGame;
+            TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+            if (!budget.TryJob(tick))
+            {
+                Defer(member);
+                return false;
+            }
             // Set ownership before StartJob; an old job's finish notification
             // cannot clear the replacement. One owner, one persistent job.
             member.Job = job; JobsIssued++;
             member.LastPosition = member.Pawn.Position; member.LastProgressTick = GenTicks.TicksGame;
             job.locomotionUrgency = LocomotionUrgency.Jog;
-            member.Pawn.jobs.StartJob(job, JobCondition.InterruptForced, resumeCurJobAfterwards: false,
-                cancelBusyStances: true, keepCarryingThingOverride: true);
+            long started = Stopwatch.GetTimestamp();
+            try
+            {
+                member.Pawn.jobs.StartJob(job, JobCondition.InterruptForced, resumeCurJobAfterwards: false,
+                    cancelBusyStances: true, keepCarryingThingOverride: true);
+            }
+            finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
+            return true;
         }
-        private static void EndOwned(TacticalMemberCommand member)
+        private bool CanIssue(TacticalMemberCommand member)
+        {
+            if (Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.CanJob(GenTicks.TicksGame)) return true;
+            Defer(member); return false;
+        }
+        private void Defer(TacticalMemberCommand member)
+        {
+            if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand command)) command.DeferredWork = true;
+        }
+        private static void EndOwned(TacticalMemberCommand member, bool startNewJob = true)
         {
             Job owned = member.Job; member.Job = null;
-            if (owned != null && member.Pawn.CurJob == owned) member.Pawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
+            if (owned != null && member.Pawn.CurJob == owned)
+                member.Pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: startNewJob);
         }
         private void ReleaseClaims(TacticalSquadCommand command)
         {
@@ -442,12 +533,41 @@ namespace Helodrace.Tactics
         }
         private void Release(TacticalSquadCommand command)
         {
-            command.Phase = TacticalCommandPhase.Released; ReleaseClaims(command);
-            foreach (TacticalMemberCommand member in command.Members) { byPawn.Remove(member.Pawn); EndOwned(member); }
+            BeginReturn(command, GenTicks.TicksGame, true);
+        }
+        private static void BeginReturn(TacticalSquadCommand command, int tick, bool release)
+        {
+            command.Phase = TacticalCommandPhase.Returning; command.ReleaseAfterReturn = release;
+            command.ReturnCursor = 0; command.Due = tick + 1;
+        }
+        private void ReturnMembers(TacticalSquadCommand command, int tick)
+        {
+            command.Due = tick + 1;
+            TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+            while (command.ReturnCursor < command.Members.Count)
+            {
+                TacticalMemberCommand member = command.Members[command.ReturnCursor];
+                if (member.Job != null && member.Pawn.Spawned && member.Pawn.Map == map && member.Pawn.CurJob == member.Job)
+                {
+                    if (!budget.TryJob(tick, returning: true)) return;
+                    long started = Stopwatch.GetTimestamp();
+                    try { EndOwned(member); }
+                    finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
+                }
+                else member.Job = null;
+                if (command.ReleaseAfterReturn) byPawn.Remove(member.Pawn);
+                command.ReturnCursor++;
+            }
+            ReleaseClaims(command);
+            command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released : TacticalCommandPhase.Complete;
+            command.Due = tick + 600;
         }
         public override void MapRemoved()
         {
-            foreach (TacticalSquadCommand command in squads.Values) Release(command);
+            // A removed map cannot keep a deferred queue alive. Clean ownership
+            // without doing a new vanilla job search on a map being disposed.
+            foreach (TacticalSquadCommand command in squads.Values)
+                foreach (TacticalMemberCommand member in command.Members) EndOwned(member, false);
             squads.Clear(); byPawn.Clear(); claims.Clear(); leases.Clear(); knownOpenings.Clear();
         }
     }

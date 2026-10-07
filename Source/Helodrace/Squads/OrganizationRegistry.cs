@@ -13,6 +13,8 @@ namespace Helodrace.Squads
         private int nextOrganizationId = 1;
         private readonly Dictionary<string, CombatOrganization> byId = new Dictionary<string, CombatOrganization>();
         private readonly Dictionary<Pawn, CombatGroup> byPawn = new Dictionary<Pawn, CombatGroup>();
+        private readonly Dictionary<CombatOrganization, int> commandDue = new Dictionary<CombatOrganization, int>();
+        private int commandCursor;
         public GameComponent_CombatOrganizations(Game game) { }
         public IReadOnlyList<CombatOrganization> Organizations => organizations;
         public string AllocateId() => "HD_Raid_" + nextOrganizationId++;
@@ -41,6 +43,7 @@ namespace Helodrace.Squads
             {
                 organizations.Remove(organization);
                 byId.Remove(organization.id);
+                commandDue.Remove(organization);
             }
         }
 
@@ -70,6 +73,7 @@ namespace Helodrace.Squads
         {
             byId.Clear();
             byPawn.Clear();
+            commandDue.Clear(); commandCursor = 0;
             foreach (CombatOrganization organization in organizations.ToList())
             {
                 foreach (Pawn pawn in organization.AllMembers.Where(IsDepartedWorldPawn).ToList())
@@ -90,6 +94,22 @@ namespace Helodrace.Squads
         public override void GameComponentTick()
         {
             int tick = Find.TickManager.TicksGame;
+            if (TacticalEngineSelection.Kind == TacticalEngineKind.New)
+            {
+                // The comparison engines retain their original cadence. New
+                // spreads organization maintenance instead of a 15-tick burst.
+                int checkedCount = 0, processed = 0;
+                while (checkedCount++ < Math.Min(4, organizations.Count) && processed < 2)
+                {
+                    if (commandCursor >= organizations.Count) commandCursor = 0;
+                    CombatOrganization organization = organizations[commandCursor++];
+                    if (commandDue.TryGetValue(organization, out int due) && due > tick) continue;
+                    commandDue[organization] = tick + 15; processed++;
+                    if (organization.doctrine != null && organization.AllMembers.Any(pawn => pawn.Spawned))
+                        ReevaluateCommand(organization, tick);
+                }
+                return;
+            }
             if (tick % 15 != 0) return;
             foreach (CombatOrganization organization in organizations)
             {

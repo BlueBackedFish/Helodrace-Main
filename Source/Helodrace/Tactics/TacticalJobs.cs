@@ -18,6 +18,18 @@ namespace Helodrace.Tactics
             AddFinishAction(condition => owner?.JobFinished(pawn, owned, condition));
             this.FailOn(() => pawn.Downed || pawn.InMentalState);
         }
+        protected Toil AdmitMovement()
+        {
+            var gate = ToilMaker.MakeToil("TacticalMovementBudget");
+            gate.defaultCompleteMode = ToilCompleteMode.Never;
+            gate.initAction = () => pawn.pather.StopDead();
+            gate.tickAction = () =>
+            {
+                GameComponent_TacticalCommands scheduler = Current.Game.GetComponent<GameComponent_TacticalCommands>();
+                if (scheduler == null || scheduler.WorkBudget.TryPath(GenTicks.TicksGame)) ReadyForNextToil();
+            };
+            return gate;
+        }
         protected Toil Hold(IntVec3 face)
         {
             var hold = ToilMaker.MakeToil("TacticalHold");
@@ -43,6 +55,7 @@ namespace Helodrace.Tactics
         protected override IEnumerable<Toil> MakeNewToils()
         {
             BindOwner();
+            yield return AdmitMovement();
             yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
             yield return Hold(job.targetB.Cell);
         }
@@ -55,14 +68,20 @@ namespace Helodrace.Tactics
             // Mandatory outside -> actual opening -> inside, then ONE final
             // near-wall destination. Every pawn including rear security uses it.
             Crossed |= job.count >= 2;
-            if (job.count < 1) yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+            if (job.count < 1)
+            {
+                yield return AdmitMovement();
+                yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+            }
             if (job.count < 2)
             {
+                yield return AdmitMovement();
                 yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
                 yield return Toils_General.Do(() =>
                 {
                     pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PassedOpening(pawn, job, pawn.Position);
                 });
+                yield return AdmitMovement();
                 yield return Toils_Goto.GotoCell(job.targetQueueA[0].Cell, PathEndMode.OnCell);
                 yield return Toils_General.Do(() =>
                 {
@@ -70,6 +89,7 @@ namespace Helodrace.Tactics
                     pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.CrossedInside(pawn, job);
                 });
             }
+            yield return AdmitMovement();
             yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
             yield return Hold(job.targetB.Cell);
         }
@@ -82,6 +102,7 @@ namespace Helodrace.Tactics
         {
             BindOwner();
             this.FailOn(() => Tool?.Wearer != pawn || !CompSledgehammerBreach.CanOperate(pawn));
+            yield return AdmitMovement();
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
             Toil wait = Toils_General.Wait(Barrier is Building_Door ? Tool.Props.doorWorkTicks : Tool.Props.hitIntervalTicks);
             wait.handlingFacing = true;
