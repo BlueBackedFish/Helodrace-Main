@@ -1,6 +1,6 @@
-﻿# 명령 조회 캐시 전후 간단 검증
+# 명령 조회 캐시 전후 간단 검증
 
-[변경·검증 결과](../../../../../Docs/전술/1순위%20명령%20조회%20캐시%20적용%20결과.md).
+[변경·검증 결과](../../../../../Docs/%EC%A0%84%EC%88%A0/Archive/2026-10-07/1%EC%88%9C%EC%9C%84%20%EB%AA%85%EB%A0%B9%20%EC%A1%B0%ED%9A%8C%20%EC%BA%90%EC%8B%9C%20%EC%A0%81%EC%9A%A9%20%EA%B2%B0%EA%B3%BC.md).
 
 각각 LOW 400명→0명, 준비 600틱, 측정 900틱, seed hd-perf-20261007. extra target은 `Helodrace.MapComponent_RaidTacticalOrders::For` 한 개이며 preset=coarse의 기본 맥락은 동일하다. 이전 광범위 타깃 목록을 사용하지 않았다.
 

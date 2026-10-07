@@ -21,7 +21,7 @@
 | intermediate / detailed-after | `6ca3ae51fe56ddb3b76d50ff01c0b26368fcc64b50fa77b661a4f314a1466b0b` |
 | after | `4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178` |
 
-functional-final-audit는 최종 DLL의 7단계 통과 기록이다. functional-audit는 앞선 진단 통과, initial/before/held-failed는 문 자동 닫힘 및 대형 도착 실패 기록이다. 상세 해석과 남은 과제는 [검증 결과 문서](../../../../../Docs/전술/통신과%20실행%20반응%20최적화%20및%20반복%20검증%20결과.md)에 있다.
+functional-final-audit는 최종 DLL의 7단계 통과 기록이다. functional-audit는 앞선 진단 통과, initial/before/held-failed는 문 자동 닫힘 및 대형 도착 실패 기록이다. 상세 해석과 남은 과제는 [검증 결과 문서](../../../../../Docs/%EC%A0%84%EC%88%A0/Archive/2026-10-07/%ED%86%B5%EC%8B%A0%EA%B3%BC%20%EC%8B%A4%ED%96%89%20%EB%B0%98%EC%9D%91%20%EC%B5%9C%EC%A0%81%ED%99%94%20%EB%B0%8F%20%EB%B0%98%EB%B3%B5%20%EA%B2%80%EC%A6%9D%20%EA%B2%B0%EA%B3%BC.md)에 있다.
 
 ```powershell
 $root = 'Source/Benchmarks/AgentProfiler/Results/2026-10-07-stages234'

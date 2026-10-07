@@ -12,4 +12,4 @@ HIGH403 selected union: 0.3417→0.1089 ms/tick, Core125.77→40.21% (68.0% redu
 
 Behavior is not identical: HIGH moved one fewer pawn in each populated case; LOW moved two fewer and ended in EntryWait instead of Support. All survived. HIGH403 transport validation increased from 0 to 720 calls. Whole-tick CPU also decreased, but its larger change cannot be attributed solely to the roughly 0.23/0.11ms per-tick communication savings.
 
-Intermediate after3-high and the unrelated reactive benchmark are excluded from this dataset. See [application report](../../../../../Docs/전술/3순위%20통신%20분산%20갱신%20적용%20결과.md) for behavioral tradeoffs and boundary tests.
+Intermediate after3-high and the unrelated reactive benchmark are excluded from this dataset. See [application report](../../../../../Docs/%EC%A0%84%EC%88%A0/Archive/2026-10-07/3%EC%88%9C%EC%9C%84%20%ED%86%B5%EC%8B%A0%20%EB%B6%84%EC%82%B0%20%EA%B0%B1%EC%8B%A0%20%EC%A0%81%EC%9A%A9%20%EA%B2%B0%EA%B3%BC.md) for behavioral tradeoffs and boundary tests.

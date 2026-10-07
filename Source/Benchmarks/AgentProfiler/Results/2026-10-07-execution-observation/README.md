@@ -1,6 +1,6 @@
 # 대기 실행·관측 캐시 전후 검증
 
-[변경과 해석](../../../../../Docs/전술/2순위%20대기%20실행과%20관측%20캐시%20적용%20결과.md).
+[변경과 해석](../../../../../Docs/%EC%A0%84%EC%88%A0/Archive/2026-10-07/2%EC%88%9C%EC%9C%84%20%EB%8C%80%EA%B8%B0%20%EC%8B%A4%ED%96%89%EA%B3%BC%20%EA%B4%80%EC%B8%A1%20%EC%BA%90%EC%8B%9C%20%EC%A0%81%EC%9A%A9%20%EA%B2%B0%EA%B3%BC.md).
 
 LOW 200→400→0명, 준비 600틱, 요청 측정 900틱, 동일 seed·지형·속도. coarse 기본 맥락 외 추가 대상은 RunScheduledUnit, RefreshContactsCore, VisibleArmedEnemies, WaitForSharedOpeningCore 네 개뿐이다.
 
