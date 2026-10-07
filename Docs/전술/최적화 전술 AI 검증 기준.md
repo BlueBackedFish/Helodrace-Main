@@ -33,7 +33,43 @@ N = 새 전술 AI를 활성화한 습격의 평균 메인 틱 CPU ms/tick
 
 현재 도구의 Core 기준은 `Verse.GenRadial.NumCellsInRadius(float)` 10,000회 고정 배치다. 반지름 `8+(i%16)`, 준비 호출, 배치 중앙값을 유지한다. 메서드 경과 비용은 `누적 경과 ms / 틱 수 / 기준 배치 ms ×100`으로 보고한다. 실제 CPU ms와 이 경과 시간 비율을 같은 단위로 섞어 합산하지 않는다. Core 보정은 작업량·GC·스케줄링 차이를 없애 주지 않는다.
 
-현재 프로파일러의 실제 스레드 CPU 수집은 주로 `DoSingleTick`에 한정되고 대상은 메인 스레드다. 메서드 p95/p99는 마지막 2048회 호출의 분포다. 워커 CPU/틱 전체 분포를 이미 수집한다고 가정하지 않는다. R1에서 필요한 보조 수집 범위를 확인하고 부족한 항목은 미측정으로 명시한다.
+현재 프로파일러의 실제 스레드 CPU 수집은 `DoSingleTick`에만 적용되고 대상은 메인 스레드다. 메서드 p95/p99는 마지막 2048회 호출의 분포다. 워커 CPU/틱 전체 분포를 이미 수집한다고 가정하지 않는다. R1에서 필요한 보조 수집 범위를 확인하고 부족한 항목은 미측정으로 명시한다.
+
+## MapComponentTick와 다른 메서드의 수집 범위
+
+맵 컴포넌트 비용은 필수 확인 대상이다. 로컬 바닐라 코드에서 확인한 호출 관계는 `TickManager.DoSingleTick → Map.MapPostTick → MapComponentUtility.MapComponentTick → 각 컴포넌트의 MapComponentTick`이다. 따라서 이 경계 안의 컴포넌트 비용은 전체 틱 CPU에 이미 포함된다. 개별 콜백과 내부 메서드를 따로 계측해 어느 컴포넌트가 비용을 만드는지 분해한다. 부모인 전체 틱과 자식 컴포넌트 시간을 더하지 않는다.
+
+`MapComponentUpdate`는 `Map.MapUpdate`에서 실행되고 `GameComponentUpdate`도 프레임 측 작업이므로 전체 틱만 수집해서는 해당 비용을 확인할 수 없다. 현재 계획 스케줄러의 `GameComponentUpdate`, 이동 영역의 Tick/Update 양쪽 호출, 지도 분석의 Tick/Update 호출을 함께 확인한다. Dubs 화면의 `MapComponentTick`이 전체 컴포넌트 호출기인지 개별 구현인지도 구분한다.
+
+현재 [프로파일러 등록 코드](../../Source/Helodrace/Profiling/AgentMethodProfiler.cs)는 이름에 `Raid`가 있는 Helodrace Map/GameComponent의 구체적인 Tick/Update 구현을 기본 선택한다. 모든 컴포넌트를 선택하는 구조가 아니다. 다음 수집 범위를 R1에 명시한다.
+
+| 범위 | 현재 지원과 확인 방법 |
+|---|---|
+| 전술 실행·명령·계획·통신·이동 영역 컴포넌트 | 기본 등록됨. 구체적 콜백과 해당 내부 작업의 총 경과/호출/틱당 비용 확인 |
+| 전술 실행 GameComponentTick·계획 GameComponentUpdate | 기본 등록됨. 맵 콜백 밖의 전술 작업도 포함 |
+| `Helodrace.MapComponent_TacticalMapAnalysis`의 Tick/Update/Pump | 이름에 Raid가 없어 기본 자동 선택에서 빠짐. 추가 대상으로 지정 |
+| `Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick` | 기본 자동 선택에서 빠짐. 지휘 승계 등 조직 갱신도 추가 지정 |
+| `Verse.Map`의 PreTick/PostTick/Update | 추가 지정으로 맵 처리 상위 구간 확인 |
+| `Verse.MapComponentUtility`·`Verse.GameComponentUtility`의 Tick/Update 호출기 | 추가 지정으로 전체 컴포넌트 묶음 비용 확인. 개별 콜백과 중복 합산 금지 |
+| Pawn·Job·PathFinder 등의 바닐라 메서드 | 실제 선언 타입과 메서드 이름을 추가 지정. 지휘 비용 감소가 바닐라 재경로 비용 증가로 바뀌는지 확인 |
+| 다른 모드/Unity DLL·워커 메서드 | 현재 추가 대상 어셈블리 제한 또는 메인 스레드 전용 수집으로 직접 지원하지 않음. 필요하면 R1의 수집 보완 범위로 분리 |
+
+추가 선택은 실행 인자 `-hdMethodProfileTargets=타입::메서드;타입::메서드` 또는 감사 실행기의 `-ProfileTargets`로 가능하다. 예를 들어 기존 기본 목록에서 빠지는 관련 작업과 전체 맵 컴포넌트 묶음을 확인할 수 있다.
+
+```text
+Helodrace.MapComponent_TacticalMapAnalysis::MapComponentTick;
+Helodrace.MapComponent_TacticalMapAnalysis::MapComponentUpdate;
+Helodrace.MapComponent_TacticalMapAnalysis::Pump;
+Helodrace.Squads.GameComponent_CombatOrganizations::GameComponentTick;
+Verse.MapComponentUtility::MapComponentTick;
+Verse.MapComponentUtility::MapComponentUpdate
+```
+
+위 목록은 한 줄의 세미콜론 구분 값으로 전달한다. 메서드는 초기화 때 등록되므로 새로운 대상을 추가하려면 게임을 다시 실행한다. CLI `search`/`capabilities`는 등록된 대상 확인용이며 실행 중 임의 메서드 패치를 추가하는 기능이 아니다.
+
+현재 추가 대상은 Helodrace 또는 Assembly-CSharp의 구체적 메서드 본문으로 제한된다. public/private, static/instance는 선택할 수 있고 같은 이름의 오버로드는 함께 등록된다. 상속받은 메서드는 실제 선언 타입을 지정해야 한다. 빈 기반 MapComponent 메서드만 측정해서 개별 override 비용을 알 수 있다고 보지 않는다. 전체 등록 상한은 기본 대상 포함 128개라 필요하면 묶음을 나눠 수집한다.
+
+메서드별 총 경과·호출·평균·최대·p95/p99·Core 비율은 현재 도구로 확인 가능하지만 **각 메서드의 실제 OS CPU 시간은 현재 수집되지 않는다.** `cpuMeasured=false`의 0을 무비용으로 해석하지 않는다. R1에서는 전체 CPU 판정, 구체적 컴포넌트/내부 메서드의 경과 시간 분해, 틱 밖 작업 측정을 구분한다. 저빈도 전체 호출기와 비싼 내부 작업부터 좁혀 짧은 메서드 과다 계측을 피한다.
 
 ## 실험 절차
 
@@ -45,7 +81,7 @@ N = 새 전술 AI를 활성화한 습격의 평균 메인 틱 CPU ms/tick
 6. 프로파일러 비활성 대조도 측정해 계측 자체 영향을 확인한다. 상세 타깃은 병목 진단용 별도 실행에만 넓히고 최종 CPU 판정과 섞지 않는다.
 7. 실패/사상자/불완전/조건 불일치/무진행 기록은 원본을 보존하고 제외 이유를 쓴다. 교전 시험의 사상자는 기능 결과로 별도 보고하며 다른 생존 인원 조건의 비용을 동일 그룹으로 묶지 않는다.
 
-기존 실행기의 quicktest·관련 메서드 선택·반복 수집·검사 후 비교는 재사용 후보다. 현재 비교기는 엔진/시작 단계 차이를 거부할 수 있으므로 비교 허용 조건을 명시적으로 조정한다. 기존 JSON에서 단순히 metadata를 지워 통과시키지 않는다. 그 변경은 R1 구현 범위다.
+기존 실행기의 quicktest·관련 메서드 선택·반복 수집·검사 후 비교는 재사용 후보다. R1에서 새/구형 전술뿐 아니라 조직 관리·지도 분석·전체 컴포넌트 호출기·틱 밖 작업의 수집 목록을 먼저 확정한다. 현재 비교기는 엔진/시작 단계 차이를 거부할 수 있으므로 비교 허용 조건을 명시적으로 조정한다. 기존 JSON에서 단순히 metadata를 지워 통과시키지 않는다. 그 변경은 R1 구현 범위다.
 
 ## 기능과 부하 행렬
 
