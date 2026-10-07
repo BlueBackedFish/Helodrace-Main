@@ -64,7 +64,7 @@ namespace Helodrace
             get
             {
                 Pawn wielder = Wielder;
-                return wielder?.CurJobDef?.defName == BreachJobDefName
+                return wielder?.jobs?.curDriver is JobDriver_PowerCutterBreach
                     && wielder.equipment?.Primary == parent;
             }
         }

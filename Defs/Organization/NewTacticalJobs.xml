@@ -37,4 +37,18 @@
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalRecoverTool</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalRecoverTool</driverClass>
+    <reportString>쓰러진 공병의 돌파 장비를 회수하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
+    <defName>HD_NewTacticalCut</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalCut</driverClass>
+    <reportString>절단기로 돌파하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
 </Defs>

@@ -42,8 +42,9 @@ namespace Helodrace.Tactics
         internal static bool Free(Map map, IntVec3 cell, Func<IntVec3, bool> claimed) =>
             cell.InBounds(map) && cell.Standable(map) && !claimed(cell);
 
-        internal static TacticalLocalPlan Find(Map map, Pawn leader, Pawn hammer, IntVec3 goal,
-            int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, out TacticalPlanFailure failure)
+        internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
+            int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
+            out TacticalPlanFailure failure)
         {
             failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
@@ -99,7 +100,7 @@ namespace Helodrace.Tactics
                         || edgeB.GetEdifice(map)?.def.IsWall != true) { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 }
                 bool openDoor = barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
-                if (barrier != null && !openDoor && (hammer == null || !CompSledgehammerBreach.IsValidTarget(hammer, barrier)))
+                if (barrier != null && !openDoor && !canBreach(barrier))
                 { failure |= TacticalPlanFailure.Tool; continue; }
                 if (barrier == null && !opening.Standable(map)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier };

@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "cutter-recovery",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::RecoverBreachTool;Helodrace.Tactics.TacticalBreachTools::CanUse;Helodrace.JobDriver_PowerCutterBreach::MakeNewToils;Helodrace.JobDriver_PowerCutterBreach::FinishBreach",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "8c2de367b6ea4a1d9f68b627914bb71e817f672abcd6374f9a8169e219d4c873",
+    "high":  false,
+    "sampleTicks":  3000,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

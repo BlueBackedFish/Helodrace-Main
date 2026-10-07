@@ -39,6 +39,8 @@ namespace Helodrace.Tactics
         public TacticalPlanFailure LastPlanFailure;
         public TacticalOpeningAction OpeningAction;
         public bool ReplanAfterSupport;
+        public readonly List<Thing> BreachTools = new List<Thing>();
+        public int RecoveryRetryAt, RecoveryCandidateCursor;
         public bool Terminal => Phase == TacticalCommandPhase.Released;
     }
 
@@ -179,11 +181,12 @@ namespace Helodrace.Tactics
         internal TacticalSquadCommand Register(RaidTacticalUnit unit, int tick)
         {
             if (squads.ContainsKey(unit.Id)) return null;
-            var command = new TacticalSquadCommand { Id = unit.Id, Owner = this, Due = tick };
+            var command = new TacticalSquadCommand { Id = unit.Id, Owner = this, Due = tick, PhaseStarted = tick };
             foreach (Pawn pawn in unit.Members)
                 if (pawn.Spawned && pawn.Map == map && !pawn.Dead && !byPawn.ContainsKey(pawn))
                 {
                     command.Members.Add(new TacticalMemberCommand { Pawn = pawn });
+                    TacticalBreachTools.Remember(command, pawn);
                     byPawn[pawn] = command;
                 }
             if (command.Members.Count == 0) return null;
@@ -289,10 +292,16 @@ namespace Helodrace.Tactics
                 command.Goal = Goal(tick);
                 if (!command.Goal.IsValid) { command.Due = tick + 300; return; }
                 TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
-                if (!budget.TryPlan(tick)) { command.Due = tick + 1; return; }
                 Pawn leader = active[0].Pawn;
-                Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => CompSledgehammerBreach.WornBy(pawn) != null
-                    && CompSledgehammerBreach.CanOperate(pawn));
+                Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => BreachExplosiveUtility.CanOperate(pawn)
+                    && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null));
+                if (hammer == null && tick - command.PhaseStarted < 1200 && RecoverBreachTool(command, active, tick))
+                {
+                    foreach (TacticalMemberCommand member in active)
+                        if (member.Pawn != command.Breacher) EnsureParking(command, member, tick);
+                    command.Due = tick + 30; return;
+                }
+                if (!budget.TryPlan(tick)) { command.Due = tick + 1; return; }
                 PlansAttempted++;
                 bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
                 long planStarted = Stopwatch.GetTimestamp();
@@ -302,8 +311,9 @@ namespace Helodrace.Tactics
                 {
                     plan = ReuseOpening(leader, command.Goal, command.Members.Count, Claimed,
                         out bool triedKnown, out failure);
-                    if (!triedKnown) plan = TacticalLocalPlanner.Find(map, leader, hammer, command.Goal, command.Members.Count,
-                        Claimed, cell => leases.ContainsKey(cell), out failure);
+                    if (!triedKnown) plan = TacticalLocalPlanner.Find(map, leader, command.Goal, command.Members.Count,
+                        Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
+                        out failure);
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - planStarted); }
                 command.LastPlanFailure = failure;
@@ -365,24 +375,29 @@ namespace Helodrace.Tactics
                     if (tick - command.PhaseStarted > 1200)
                     { Release(command); return; }
                     TacticalMemberCommand worker = active.FirstOrDefault(member => member.Pawn == command.Breacher
-                        && CompSledgehammerBreach.WornBy(member.Pawn) != null && CompSledgehammerBreach.CanOperate(member.Pawn));
-                    worker = worker ?? active.FirstOrDefault(member => CompSledgehammerBreach.WornBy(member.Pawn) != null
-                        && CompSledgehammerBreach.CanOperate(member.Pawn));
+                        && TacticalBreachTools.CanUse(member.Pawn, current.Barrier));
+                    worker = worker ?? active.FirstOrDefault(member => TacticalBreachTools.CanUse(member.Pawn, current.Barrier));
                     if (worker == null || !CompSledgehammerBreach.CanOperate(worker.Pawn))
                     {
-                        // R3 adds dropped-tool recovery. R2 relinquishes the
-                        // assignment instead of trapping every survivor forever.
-                        Release(command); return;
+                        if (!RecoverBreachTool(command, active, tick)) Release(command);
+                        else command.Due = Math.Min(command.Due, tick + 30);
+                        return;
                     }
                     command.Breacher = worker.Pawn;
-                    if (worker.Job?.def.defName != "HD_NewTacticalBreach" || worker.Pawn.CurJob != worker.Job)
+                    bool cutter = worker.Pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
+                        && (!(current.Barrier is Building_Door) || CompSledgehammerBreach.WornBy(worker.Pawn) == null
+                            || !CompSledgehammerBreach.IsValidTarget(worker.Pawn, current.Barrier));
+                    string breachJob = cutter ? TacticalBreachTools.CutterJob : "HD_NewTacticalBreach";
+                    if (worker.Job?.def.defName != breachJob || worker.Pawn.CurJob != worker.Job)
                     {
                         if (tick < worker.RetryTick) return;
                         if (!CanIssue(worker)) return;
-                        Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalBreach"), current.Barrier,
-                            current.Outside, CompSledgehammerBreach.WornBy(worker.Pawn).parent);
-                        Issue(worker, job);
+                        Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(breachJob), current.Barrier,
+                            current.Outside, cutter ? worker.Pawn.equipment.Primary : CompSledgehammerBreach.WornBy(worker.Pawn).parent);
+                        if (Issue(worker, job) && cutter) { CutterJobsStarted++; command.PhaseStarted = tick; }
                     }
+                    else if (worker.Pawn.jobs.curDriver is JobDriver_TacticalCut cutting && cutting.CuttingActive)
+                        command.PhaseStarted = tick;
                     command.Due = Math.Min(command.Due, tick + 30);
                     return;
                 }

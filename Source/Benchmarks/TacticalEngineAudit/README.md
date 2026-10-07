@@ -46,6 +46,8 @@ $targets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;H
 
 ## CPU 비교
 
+R3 장비 회귀: `-Case recovery`는 유일한 해머 공병을 돌파 작업 발행 뒤 죽이고 시체의 장비 회수를 확인한다. `-Case cutter-recovery`는 해머를 제거하고 절단기 하나를 지급한 뒤 같은 작업 승계/회수를 확인한다. `-Case cutter`는 사망 이벤트 없이 절단기를 사용한다. fixture 장비 변경은 모든 엔진에서 폰 지문 생성 전에 적용한다. 사망 이벤트는 New 전용 기능 검사이며 바닐라 CPU 대조로 사용하지 않는다. `newToolRecoveriesStarted/newToolRecoveriesCompleted/newCutterJobsStarted`와 생존자 전원 진입/기능 완료를 함께 확인한다.
+
 ```powershell
 $cli = 'Source/Tools/AgentProfiler/bin/Debug/net10.0/AgentProfiler.dll'
 dotnet $cli engine-compare "$matrix/open-approach/vanilla" "$matrix/open-approach/new"

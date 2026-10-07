@@ -1,0 +1,33 @@
+{
+  "purpose": "R3 equipment functional and targeted elapsed verification; not a multiroom or CPU gate",
+  "runs": [
+    {
+      "case": "recovery",
+      "captureComplete": true,
+      "dropped": 0,
+      "methodExceptions": 0,
+      "functionalComplete": true,
+      "survivors": 11,
+      "entered": 11,
+      "recoveryStarted": 1,
+      "recoveryCompleted": 1,
+      "cutterJobs": 0,
+      "isolationVerified": true,
+      "physicalPlansValid": true
+    },
+    {
+      "case": "cutter-recovery",
+      "captureComplete": true,
+      "dropped": 0,
+      "methodExceptions": 0,
+      "functionalComplete": true,
+      "survivors": 11,
+      "entered": 11,
+      "recoveryStarted": 1,
+      "recoveryCompleted": 1,
+      "cutterJobs": 2,
+      "isolationVerified": true,
+      "physicalPlansValid": true
+    }
+  ]
+}
