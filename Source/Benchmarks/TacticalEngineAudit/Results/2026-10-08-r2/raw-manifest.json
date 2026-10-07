@@ -1,0 +1,2147 @@
+[
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/comparison-open-approach.json.gz",
+    "originalBytes": 90153,
+    "sha256": "bf60d2e3171a410d97e70091c39ae09ca0fe65799e2487367e71a9a8a6fd3425"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/comparison-sapper-wall.json.gz",
+    "originalBytes": 88881,
+    "sha256": "22e3b26ea043faa22aef51a6da27151b9ac638bc619a0e1055a8ef90eb60939b"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/matrix.json.gz",
+    "originalBytes": 3836,
+    "sha256": "e9fde2d27b7bd717dfd52d0da16264fe262061c443eecd029d5ee002b29c5fa6"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-1/audit.json.gz",
+    "originalBytes": 10784,
+    "sha256": "224b34eeec7cf9fe4b0ccee100340010ea50cc39833b5ad024e3cb2b8b33eed2"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-1/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "65a254070cae5e589b924a7415e62b09a179b6bf02b14f1e6b1f00e30ba141e5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 52035,
+    "sha256": "f8319fcaf9fc307cbe4ed089cf983fb6028a5e0b78bb22679d91c7475a8dd837"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-1/Player.log.gz",
+    "originalBytes": 29771,
+    "sha256": "8527aa5d0e2ab09f9c92e4ae7ce278911e0d053664711fea27fabd6a81d52fb5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-1/profiles/capture-20261007-174739-091-1.json.gz",
+    "originalBytes": 24237,
+    "sha256": "721d8db004715f8b8704953807ebe8ef065dfcddd07aeeb690ccce6c6593e70b"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "34e8cbf4a51d26e5796028c0c879fa529c1960313de2e17a3d86cda1c3104baa"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-2/audit.json.gz",
+    "originalBytes": 10772,
+    "sha256": "6c774e121ab1c9e1e223b0c5b5ac644ce776033aeddede825a1d04d1266ab3c8"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-2/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "65a254070cae5e589b924a7415e62b09a179b6bf02b14f1e6b1f00e30ba141e5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 52035,
+    "sha256": "f8319fcaf9fc307cbe4ed089cf983fb6028a5e0b78bb22679d91c7475a8dd837"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-2/Player.log.gz",
+    "originalBytes": 29795,
+    "sha256": "a45ac6a9629911ea38097627e8ab7fe7fe8d5408cd660c6aa6cecc183a9ea4d0"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-2/profiles/capture-20261007-175006-038-1.json.gz",
+    "originalBytes": 24266,
+    "sha256": "598bcd2f2ff2100d4e5115bbe74b87214642231f955681dd426945f92faa505e"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "c4cc16fce06af760b9944e10da39392c80928bc12e2052eea5ecc13f5bc211e3"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-3/audit.json.gz",
+    "originalBytes": 10776,
+    "sha256": "938fe91324810e721591d18906836e1f5117e3ec723499295ceadfed9b5ed1ba"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-3/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "65a254070cae5e589b924a7415e62b09a179b6bf02b14f1e6b1f00e30ba141e5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 52035,
+    "sha256": "f8319fcaf9fc307cbe4ed089cf983fb6028a5e0b78bb22679d91c7475a8dd837"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-3/Player.log.gz",
+    "originalBytes": 29802,
+    "sha256": "3cd4bda4e4d07dc956d6ebbe794cba1be5f3103df5a7d4cdb8a6d8bfd663d5cb"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-3/profiles/capture-20261007-175743-577-1.json.gz",
+    "originalBytes": 24237,
+    "sha256": "3b408049c5bae972cbe0bf6c42ec9dd02905c667e276328fe73f26ca13258db7"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/new/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "80c6d5d3a0d619ff89201168b02e965017cd83f877bdabc3a2673218bfe1bc1a"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/audit.json.gz",
+    "originalBytes": 5883,
+    "sha256": "c480b6419a60a53c7efebbcda4758f47b663b2f991d52356bd1ba22ee8b4f5b0"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 665,
+    "sha256": "7d23e744d0aa22a93115b57ac28f23436f83edd3d754274232a7200ebf65e171"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 52035,
+    "sha256": "f8319fcaf9fc307cbe4ed089cf983fb6028a5e0b78bb22679d91c7475a8dd837"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/Player.log.gz",
+    "originalBytes": 30171,
+    "sha256": "5f437bcf2bb70f5a86ca7a7e51cc6fbf81cb249cd4918a823ca2daefc6602121"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/profiles/capture-20261007-174511-934-1.json.gz",
+    "originalBytes": 23992,
+    "sha256": "ec2b4b3e62b32d18f28f9c7bd3ff27537fcef37989affcdf43f7e287b00cadd2"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "8f1519ce011917bf653d08601042ec5e35eafe02466cd8b55b5b8b5d2c2fe965"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/audit.json.gz",
+    "originalBytes": 5852,
+    "sha256": "98b5641c4cfef1a333ec97d3a37681074989e5455dd48b13daf78e169069b538"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/launcher.json.gz",
+    "originalBytes": 665,
+    "sha256": "7d23e744d0aa22a93115b57ac28f23436f83edd3d754274232a7200ebf65e171"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 52035,
+    "sha256": "f8319fcaf9fc307cbe4ed089cf983fb6028a5e0b78bb22679d91c7475a8dd837"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/Player.log.gz",
+    "originalBytes": 29836,
+    "sha256": "cf94d986218f370b205d80a033ff2c8bb14c3d0e269170955a3bebd93c09188a"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/profiles/capture-20261007-175238-681-1.json.gz",
+    "originalBytes": 23956,
+    "sha256": "4e7c64fd7e64a15156400d9515d0de632c122344b2493a53e35bc149c1d8374e"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "a9bc367b40bc5c613ae631cad5a172a4ab3825c2b94583c6d7ac06fa540a46d8"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/audit.json.gz",
+    "originalBytes": 5865,
+    "sha256": "0734ed295a35dc303ff7405ec982abd8bf28c5d351b78ffa6ed4103f235d7a7c"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/launcher.json.gz",
+    "originalBytes": 665,
+    "sha256": "7d23e744d0aa22a93115b57ac28f23436f83edd3d754274232a7200ebf65e171"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 52035,
+    "sha256": "f8319fcaf9fc307cbe4ed089cf983fb6028a5e0b78bb22679d91c7475a8dd837"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/Player.log.gz",
+    "originalBytes": 29838,
+    "sha256": "c21048286dbbdd7f9ee9f1fadd673a095c7ec1f3107f6262a7ff5f73fa17dbca"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/profiles/capture-20261007-175514-823-1.json.gz",
+    "originalBytes": 23979,
+    "sha256": "affdf82a9bab4dc2ca7f701819d08ed0a32aa835793b47ec61c145adf5940eeb"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "eed5463d8372751824b376e4e9586a5869599421bd4a38772f149971bff2f855"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/audit.json.gz",
+    "originalBytes": 10598,
+    "sha256": "4a6bad7d489cfebc3188e073d9903f89420079111b90162e4b9c183d591442c3"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/launcher.json.gz",
+    "originalBytes": 659,
+    "sha256": "cc42872d1564e3381ab1df9e86374c43021587535725dfd493fbc7f17aed5683"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 52031,
+    "sha256": "98e5ee5c0191048b23f15a795f4358cb0a85f4409c0e891bf88320646a0a50af"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/Player.log.gz",
+    "originalBytes": 30089,
+    "sha256": "a341b0389b5625430f24bcbe7439826777040218c8ba5cbbf55133cee4f17f4d"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/profiles/capture-20261007-180237-532-1.json.gz",
+    "originalBytes": 24232,
+    "sha256": "a7269ff681b47f513a0464d441b84d54adc8542873209de5eda3959593f3c068"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "df8b82e7bbd2eee57c8db6b077ef8f3d28527bec3651dbded7a21b46e6c9d28d"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/audit.json.gz",
+    "originalBytes": 10569,
+    "sha256": "cbcfc8e27654db76d18274501533f0c3008b4e409d724b7a2b01d2d6d04b4120"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/launcher.json.gz",
+    "originalBytes": 659,
+    "sha256": "cc42872d1564e3381ab1df9e86374c43021587535725dfd493fbc7f17aed5683"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 52031,
+    "sha256": "98e5ee5c0191048b23f15a795f4358cb0a85f4409c0e891bf88320646a0a50af"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/Player.log.gz",
+    "originalBytes": 29775,
+    "sha256": "a7188e9014e63f3f5aa24c2e79d89e5b8752819a86cd9411d892290b2d80ecf3"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/profiles/capture-20261007-180503-658-1.json.gz",
+    "originalBytes": 24242,
+    "sha256": "a8a62c6ee212046d1f169199553c60506297e3dceb0816a8fe46e48ef270caa7"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "f4f02b77b8b4d06e81c8326ed1a7c4be947c1728d1324239ecad9a290d62d154"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/audit.json.gz",
+    "originalBytes": 10589,
+    "sha256": "1e328aa99d371c67a8b4c978426666205b638f1ec8622f429297b190cff64dd0"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/launcher.json.gz",
+    "originalBytes": 659,
+    "sha256": "cc42872d1564e3381ab1df9e86374c43021587535725dfd493fbc7f17aed5683"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 52031,
+    "sha256": "98e5ee5c0191048b23f15a795f4358cb0a85f4409c0e891bf88320646a0a50af"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/Player.log.gz",
+    "originalBytes": 29752,
+    "sha256": "6efae8f4ac496483aeab480b19f03a788a878ec7a3f93d6edeefedd44a821715"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/profiles/capture-20261007-181240-412-1.json.gz",
+    "originalBytes": 24280,
+    "sha256": "1482a68bda308d1d4949cbcdcb1f7fc4a8f3ec87ecd14ff61dbc219c69772c39"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "9da1301ddbcdd056c4fccf51f748a5d35f8e546eebee62bcafb8b1eb5698f877"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/audit.json.gz",
+    "originalBytes": 5658,
+    "sha256": "5b228686a8704b0cc0bc1e709a7700578972665cbe00775b0a620ab63d515dff"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 663,
+    "sha256": "bdfb653e66031060407eb9ad729e935f3c2f095d004c1b12c04a9f71d28bf039"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 52031,
+    "sha256": "98e5ee5c0191048b23f15a795f4358cb0a85f4409c0e891bf88320646a0a50af"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/Player.log.gz",
+    "originalBytes": 30122,
+    "sha256": "fc96e2a01de5e621ed27eb98e3319048d330f3d7c686448b49a5aa3a8734ad46"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/profiles/capture-20261007-180011-682-1.json.gz",
+    "originalBytes": 23953,
+    "sha256": "02c08b79c2e43f909485ffa1af6834565f1b9f5c870767af8a0ef736ea3c2d34"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "933000e52d31670e6f30b0ba813b7afc24357768c838fa151b94593c1c56fcb8"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/audit.json.gz",
+    "originalBytes": 5654,
+    "sha256": "885f377f3ad2d18eeddaa04e16283bccebaefa7234dca0f6421dd31e1856fdb2"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/launcher.json.gz",
+    "originalBytes": 663,
+    "sha256": "bdfb653e66031060407eb9ad729e935f3c2f095d004c1b12c04a9f71d28bf039"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 52031,
+    "sha256": "98e5ee5c0191048b23f15a795f4358cb0a85f4409c0e891bf88320646a0a50af"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/Player.log.gz",
+    "originalBytes": 29791,
+    "sha256": "cb28b02ce08cb12dc27f3404d245772bfc7644d32c33bf932c8fca10485a0ae8"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/profiles/capture-20261007-180726-105-1.json.gz",
+    "originalBytes": 23896,
+    "sha256": "7d6edb60d41180258a3f378397a2544ead859f6914b284c9b44d1c1908a4e82c"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "99553198a8e02418e226956a4d68dc1f437ca31f25e3d3273d36bfd312cc7d67"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/audit.json.gz",
+    "originalBytes": 5614,
+    "sha256": "cc3fb2bd378a35ce638045e7c81297a1432d7839f1f756ac616d748862bbc0ca"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/launcher.json.gz",
+    "originalBytes": 663,
+    "sha256": "bdfb653e66031060407eb9ad729e935f3c2f095d004c1b12c04a9f71d28bf039"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 52031,
+    "sha256": "98e5ee5c0191048b23f15a795f4358cb0a85f4409c0e891bf88320646a0a50af"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/Player.log.gz",
+    "originalBytes": 29791,
+    "sha256": "8934750cee2720d2530e5ac5aa8fdc089b9f9e0e7b3c66dbd09278fe387fe270"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/profiles/capture-20261007-180953-683-1.json.gz",
+    "originalBytes": 23928,
+    "sha256": "1767a7a2f6f30db0e308908e2b90e972b0131a5e4a892fd2173c31881847cb0f"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "fa2bad29368d5f60d66a77228307819bf2809dba883e9d49d1fd7a9b703ff6d6"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/comparison-open-approach.json.gz",
+    "originalBytes": 193939,
+    "sha256": "35d73b279b9de8d340531fd2ba5b1b8b53f5c8700b0bdeb2b90140d6ebc6ac51"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/comparison-sapper-wall.json.gz",
+    "originalBytes": 190629,
+    "sha256": "1d4b576465e64984254ec04107013f0c5408dae6ffa362171592927dd1bb9793"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/matrix.json.gz",
+    "originalBytes": 3882,
+    "sha256": "24a4e8bbc9e2826bf3a4cd3673cac4ffa87894743375dee24f175d46f1ad5bdb"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-1/audit.json.gz",
+    "originalBytes": 30921,
+    "sha256": "142544bc10dd807eb687a029d14947cb04f2e7e70cc77aeb386db8d9ac8677f0"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-1/launcher.json.gz",
+    "originalBytes": 662,
+    "sha256": "e8eb1c5c4e5a67561d72619a5919f39128b3f921183798740ea9b5b4827a957e"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 176958,
+    "sha256": "edeb6cab832047806270ad988c002f4ac9cbc8a648929046a656b4b58c1838c9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-1/Player.log.gz",
+    "originalBytes": 29830,
+    "sha256": "10cda70f046a34685facc2d331d11002211413cd1107967e898824a381480e47"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-1/profiles/capture-20261007-181828-630-1.json.gz",
+    "originalBytes": 24240,
+    "sha256": "debc3202e50767f55b583e6ae04416e5732cb55c6f4b89ddf71194c975644e45"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "7bbb1934ded9c155b850ff762ad3d74b57591e7e08fa9e2b14d4469af8c53144"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-2/audit.json.gz",
+    "originalBytes": 31108,
+    "sha256": "af4791925c14a5ebef6023f44d7e65a54d3b95b98dc6bbdba70929877e0c0c3e"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-2/launcher.json.gz",
+    "originalBytes": 662,
+    "sha256": "e8eb1c5c4e5a67561d72619a5919f39128b3f921183798740ea9b5b4827a957e"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 176958,
+    "sha256": "edeb6cab832047806270ad988c002f4ac9cbc8a648929046a656b4b58c1838c9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-2/Player.log.gz",
+    "originalBytes": 29834,
+    "sha256": "85105f1df0ff848eac14aa0658950d5d34e1e643b5d76f79e93cef0eb00b944a"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-2/profiles/capture-20261007-182100-581-1.json.gz",
+    "originalBytes": 24236,
+    "sha256": "b5a15442463d72fc27dcff8e91c0fa6a4d47e4f1ad56a7b53ed43fc9effcc60c"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "167a3241d933ba06128b9bd5f373b2d9b78d07e7b420e14c73f9dbb9b3bfdec5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-3/audit.json.gz",
+    "originalBytes": 31365,
+    "sha256": "1edce79f161ab23552f9b778ee3155bec8287d2639bb7dcc7e1d5be47ec99786"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-3/launcher.json.gz",
+    "originalBytes": 662,
+    "sha256": "e8eb1c5c4e5a67561d72619a5919f39128b3f921183798740ea9b5b4827a957e"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 176958,
+    "sha256": "edeb6cab832047806270ad988c002f4ac9cbc8a648929046a656b4b58c1838c9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-3/Player.log.gz",
+    "originalBytes": 29866,
+    "sha256": "ac19bb3ede62c063fd61ba947f06352e3027b9a1e7c502c5f8782b2fa5facfb8"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-3/profiles/capture-20261007-183245-468-1.json.gz",
+    "originalBytes": 24739,
+    "sha256": "38821dda0d9e14407c87051ebbac5f50e5d4623c14e8d3a0c8c734a29b9ee31a"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/new/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "3ea6e8b754951ca9759779e1a78710269134f39c51775bbc0c0b27a1fc40b450"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/audit.json.gz",
+    "originalBytes": 13772,
+    "sha256": "ed9d6607d95c05e77106ffd2dacf93777982510ffde64e742e6954d32e1a714b"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 666,
+    "sha256": "e203edbb46b6d1e7fa691a074887ef4aae3473909e5a0bd57a8d12400b9fd7a5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 176958,
+    "sha256": "edeb6cab832047806270ad988c002f4ac9cbc8a648929046a656b4b58c1838c9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/Player.log.gz",
+    "originalBytes": 30205,
+    "sha256": "66aa7191e2b1b4ca96feb9b56f52adfebfd3257986f5eabcb4abe465c53b8d7a"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/profiles/capture-20261007-181559-394-1.json.gz",
+    "originalBytes": 24137,
+    "sha256": "ccffa313a80a6a6e6524f046fad2a1eda0474f9d746a360fe21b50204f504189"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "298be9ada0d38a799846e93fe3dc40e3bb82b1b3d93181823b53be5ed98f0162"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/audit.json.gz",
+    "originalBytes": 14835,
+    "sha256": "96af80659ee21743a1442b3d715233fac2f1d5bad391758becd9a7861930aa10"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/launcher.json.gz",
+    "originalBytes": 666,
+    "sha256": "e203edbb46b6d1e7fa691a074887ef4aae3473909e5a0bd57a8d12400b9fd7a5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 176958,
+    "sha256": "edeb6cab832047806270ad988c002f4ac9cbc8a648929046a656b4b58c1838c9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/Player.log.gz",
+    "originalBytes": 29906,
+    "sha256": "0829064df2da061f72bb36a0f442dcdc0e5decaa5c0d262557cc489f133ac0c0"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/profiles/capture-20261007-182447-713-1.json.gz",
+    "originalBytes": 24462,
+    "sha256": "06953ec61739a46c8a8ae56f9ea2681558900cb0c58f541c21833e61cdde2c27"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "5f440b1d3d35c4bf2c889b5f8f2b3884a7d9ed54e0d257cc143ac7b830c93043"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/audit.json.gz",
+    "originalBytes": 14798,
+    "sha256": "43726cdf1aaea65d7ce635092dadc59bc3d7d50965d2078ca532eb78ad3999f6"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/launcher.json.gz",
+    "originalBytes": 666,
+    "sha256": "e203edbb46b6d1e7fa691a074887ef4aae3473909e5a0bd57a8d12400b9fd7a5"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 176958,
+    "sha256": "edeb6cab832047806270ad988c002f4ac9cbc8a648929046a656b4b58c1838c9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/Player.log.gz",
+    "originalBytes": 29904,
+    "sha256": "eca0f42c5ac068a33b6e57e8a3d812df3ae3b3245828c95fedff7ec0b73d64db"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/profiles/capture-20261007-182859-121-1.json.gz",
+    "originalBytes": 24592,
+    "sha256": "90b23c369c59b578f87bbd587d4a6679cdb513f2d7a24c4879d0d4465e057275"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "e8a349b87765ed67353edf48a92d319bdfcfb7c730ae07869b94cad5e38a2ffc"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/audit.json.gz",
+    "originalBytes": 30258,
+    "sha256": "2f74a5fe0dae19bb47f713100630dac765a7592c6187f21db06d01305e9328c4"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/launcher.json.gz",
+    "originalBytes": 660,
+    "sha256": "535c1e706409ac5ad6a114fafdc2e898f1152529b8f6044edbc3427b003f0691"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 176942,
+    "sha256": "200026890b92be09634482c1d356dd488a51bed8e1d1e7e14022829f6ca48452"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/Player.log.gz",
+    "originalBytes": 29788,
+    "sha256": "3233a0b2b48cc0d22091393448c35768d94c953ed1180fe7c5c7c73585486c0d"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/profiles/capture-20261007-183952-035-1.json.gz",
+    "originalBytes": 24395,
+    "sha256": "65170ef6cb4633e6db694776782fe339f547e6e4106c530ce4310cef1836c1c9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "bcfe05d497dba26f6f15820b830dc1a9868132bcff8fd22560a280ff7b5509b9"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/audit.json.gz",
+    "originalBytes": 30462,
+    "sha256": "156650a391de3d038213f1aaf028250ff7bc893340145e206f7d9d78895cb31d"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/launcher.json.gz",
+    "originalBytes": 660,
+    "sha256": "535c1e706409ac5ad6a114fafdc2e898f1152529b8f6044edbc3427b003f0691"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 176942,
+    "sha256": "200026890b92be09634482c1d356dd488a51bed8e1d1e7e14022829f6ca48452"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/Player.log.gz",
+    "originalBytes": 29816,
+    "sha256": "fec7a56a2d7687d8d4cb4e396a68fdf8b86fd58e0b74f5b98e6587be420c105f"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/profiles/capture-20261007-184245-934-1.json.gz",
+    "originalBytes": 24359,
+    "sha256": "235c4b6cd63c51caf799c6ebc58b3c0665b00bd27eb72cbf93cab1e6f5f2143e"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "c0948863f4c7abffa1f4c8acffa5fd63f03306b94043563f9d5170189733fe3d"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/audit.json.gz",
+    "originalBytes": 30454,
+    "sha256": "38b27c6ec19131343ef87facfabc0674fbc0aa0052cd217fb1a9fe3694f6aeca"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/launcher.json.gz",
+    "originalBytes": 660,
+    "sha256": "535c1e706409ac5ad6a114fafdc2e898f1152529b8f6044edbc3427b003f0691"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 176942,
+    "sha256": "200026890b92be09634482c1d356dd488a51bed8e1d1e7e14022829f6ca48452"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/Player.log.gz",
+    "originalBytes": 29812,
+    "sha256": "fccfd43ae43a7fb0e1fdf259df234a312517a1b2f71601dc9f7906f33d5f846a"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/profiles/capture-20261007-185144-409-1.json.gz",
+    "originalBytes": 24248,
+    "sha256": "ccaa57367d9083c5e10e30f8b1678e25f8048a67ae8f883410427b93968add85"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "30d07da9548c23076d80253309daf462df0b3ddcf52b6f33808adbded20d52df"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/audit.json.gz",
+    "originalBytes": 13984,
+    "sha256": "6efb7c749d09094a7c171fb615622b84784094f89cc2092e77c68d8b9ab8ea71"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 664,
+    "sha256": "f9ccd451b020784e68ed0d7511fbb7a1dff92ae9c85adbf500ce4b33a7048855"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 176942,
+    "sha256": "200026890b92be09634482c1d356dd488a51bed8e1d1e7e14022829f6ca48452"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/Player.log.gz",
+    "originalBytes": 30164,
+    "sha256": "79de84833a6bc5be4ca4fe15c86506d45e4a7cacdd6ea784efc991a11c87e72b"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/profiles/capture-20261007-183654-919-1.json.gz",
+    "originalBytes": 24516,
+    "sha256": "2ff800db6b34658717d7f1ef4c447805198a82647ba7d45c2570ee3390c5b775"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "2327012cf35275c0c9e2f38744934a69fc4654c1550e2b0f4d09bd5b6efcfabc"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/audit.json.gz",
+    "originalBytes": 14156,
+    "sha256": "c17e265ad9a09653831c9f217aaf8d2bc6fa7eb7ef665e6ed308532a70cc1086"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/launcher.json.gz",
+    "originalBytes": 664,
+    "sha256": "f9ccd451b020784e68ed0d7511fbb7a1dff92ae9c85adbf500ce4b33a7048855"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 176942,
+    "sha256": "200026890b92be09634482c1d356dd488a51bed8e1d1e7e14022829f6ca48452"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/Player.log.gz",
+    "originalBytes": 29855,
+    "sha256": "e94edbac02b99c2f906c8e5a03c6bfedd1be8d81a945ad855be8643916844e08"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/profiles/capture-20261007-184616-635-1.json.gz",
+    "originalBytes": 24335,
+    "sha256": "6eb3d2642fb17a3984f0dc4150ace89f8ec75b44fe262a3a36b51f21acf454db"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "0531f02d3286749a4400cc6d3e251444dc163bd1fc586a826907a9b0d73896c6"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/audit.json.gz",
+    "originalBytes": 14270,
+    "sha256": "aaa83bc406060e3e811ea8e4b80c69d432e614c9ccf4ef1cbae0ecb2c462b13f"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/launcher.json.gz",
+    "originalBytes": 664,
+    "sha256": "f9ccd451b020784e68ed0d7511fbb7a1dff92ae9c85adbf500ce4b33a7048855"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 176942,
+    "sha256": "200026890b92be09634482c1d356dd488a51bed8e1d1e7e14022829f6ca48452"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/Player.log.gz",
+    "originalBytes": 29852,
+    "sha256": "d9a597da9d9e76de64ca331842af09f59af1ac2bc54825ab9c7ecd5153baae35"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "d3e1e737a5a8ec76efc33cd37f77ee6d1d917844383bb9712dafd17e3fdf1571"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/profiles/capture-20261007-184911-299-1.json.gz",
+    "originalBytes": 24095,
+    "sha256": "961658166ba8ac3ef7fca392101d5171e7c4c2998b19a67561ad80cafb281008"
+  },
+  {
+    "path": "raw/verified/hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "3979bdf45c210e5593fa2babc27731e28abfa7b510ed00e797504a0304cbaee8"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/casualty/audit.json.gz",
+    "originalBytes": 4026,
+    "sha256": "e598ddb55e6a3ba6b30ee4c91320b64ce418c4e2520131726839c0ef6be3bba6"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/casualty/launcher.json.gz",
+    "originalBytes": 598,
+    "sha256": "330d50c3deeb4b8a2fa613d7343119359823a0ee4acbdaf9d8cfc0290c3ec24a"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/casualty/pawn-manifest.txt.gz",
+    "originalBytes": 95723,
+    "sha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/casualty/Player.log.gz",
+    "originalBytes": 30297,
+    "sha256": "e2decbf4a0f08e82da98f9a69eb09526ee0c2f2d0d7cac37ed29ae600d5a9601"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/casualty/profiles/capabilities.json.gz",
+    "originalBytes": 19553,
+    "sha256": "c7b7db5b14db9ab94fa91d58ace66437dac00bf386a868f6a7da09c7a3f52313"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/casualty/profiles/capture-20261007-190308-870-1.json.gz",
+    "originalBytes": 23460,
+    "sha256": "ea3e8f5e9400e7ca892403937ed53958eb324cedd04e60dcad754e7802e656fa"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/casualty/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "dc4fb20945bfb58d58d61bf49114a32291f9b11729f1a0dc6736494c9f1af48f"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/checks.json.gz",
+    "originalBytes": 1564,
+    "sha256": "34c089cc9af986ab28d9a9e8cbf56d5de9e2b267708c88ce96a7b5ad292f4ee0"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/door/audit.json.gz",
+    "originalBytes": 3889,
+    "sha256": "c1ee2347f717e03698a70c473e2ab61df6124737ab664569f68f7087bc08476c"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/door/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "cfecc6e5b8d3f4df65b02bec92a3a2ee4c0abae12b8f4df66e611c23f13cd595"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/door/pawn-manifest.txt.gz",
+    "originalBytes": 10381,
+    "sha256": "3633942c4807afc64e04ad9d548c33ebbc67e5cc439325ea351e9198d25828bc"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/door/Player.log.gz",
+    "originalBytes": 29625,
+    "sha256": "cff802147e68f47b44b0376c0c2fc9b410afddc7b152cc478da789ca2c1e7213"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/door/profiles/capabilities.json.gz",
+    "originalBytes": 19553,
+    "sha256": "c7b7db5b14db9ab94fa91d58ace66437dac00bf386a868f6a7da09c7a3f52313"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/door/profiles/capture-20261007-185510-770-1.json.gz",
+    "originalBytes": 23241,
+    "sha256": "99641bc77e3754abbe6dbc00b70eaea0c8a69873a3bd5a4905aedd149ef45e14"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/door/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "86cd1915da49282bea18278e4f6ab52cf656ef47c4c8cee7ff0eccc5c4753a3d"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/field/audit.json.gz",
+    "originalBytes": 3947,
+    "sha256": "b18c5461db9e5965a22440969ac84072c41c10bc61bdd0f99bb356b8ffd14264"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/field/launcher.json.gz",
+    "originalBytes": 598,
+    "sha256": "f90140228f40e8895e7a45c02f70eb0302e2c3e26ab3a4b81b3871fe3422b370"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/field/pawn-manifest.txt.gz",
+    "originalBytes": 10381,
+    "sha256": "e6398f5e411dcdc9070e87210dd10f3ef0a9ef84a918ec54456c472672c6054b"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/field/Player.log.gz",
+    "originalBytes": 29946,
+    "sha256": "fbbae37aeb3a5a5d20c52a6ed2a4c20caa946a537d3d75a60589bfb6bdba5dad"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/field/profiles/capabilities.json.gz",
+    "originalBytes": 19553,
+    "sha256": "c7b7db5b14db9ab94fa91d58ace66437dac00bf386a868f6a7da09c7a3f52313"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/field/profiles/capture-20261007-185328-370-1.json.gz",
+    "originalBytes": 23146,
+    "sha256": "ea7c34da0af6785c74df1e18de6243d097b1b45faad7f4675c0acbb006afba6b"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/field/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "597058c934066b5a1ec85398948e69b8e997f0822c1211ae433240dd8d4e18d4"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/interrupt/audit.json.gz",
+    "originalBytes": 3955,
+    "sha256": "6aee0caf7aa593428e2e39077c86919c381bbb081946a4911c068a9413f500d0"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/interrupt/launcher.json.gz",
+    "originalBytes": 600,
+    "sha256": "3bd7b137fb1fb6824b9c0a2a4585a17464cf595447715f8cf89c5a24e17c79b5"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/interrupt/pawn-manifest.txt.gz",
+    "originalBytes": 10381,
+    "sha256": "3633942c4807afc64e04ad9d548c33ebbc67e5cc439325ea351e9198d25828bc"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/interrupt/Player.log.gz",
+    "originalBytes": 29696,
+    "sha256": "5d4ed5b172d01d4c500a76a608f76a18a0e5a39d8fa5c8b4abab7a46616e36a1"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/interrupt/profiles/capabilities.json.gz",
+    "originalBytes": 19553,
+    "sha256": "c7b7db5b14db9ab94fa91d58ace66437dac00bf386a868f6a7da09c7a3f52313"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/interrupt/profiles/capture-20261007-190058-976-1.json.gz",
+    "originalBytes": 23313,
+    "sha256": "5a5314516f3f6b434506afb31f70ff9dc81eb12fec126c003dffc8ece5381a42"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/interrupt/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "a4278412c1edab6764321d3d6b09f182cfdacd6dcbe0d2be0c1f4f397709c709"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/narrow/audit.json.gz",
+    "originalBytes": 3319,
+    "sha256": "27cf4860f811bea2bff4f7202cd0862d3cf65faf59a0cb2962bc15a2bbb5903b"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/narrow/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "3dbc09c300b82ff62fe9c3d15c2becd112bc39fc847ded4400175aba666f7fc2"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/narrow/pawn-manifest.txt.gz",
+    "originalBytes": 10381,
+    "sha256": "3633942c4807afc64e04ad9d548c33ebbc67e5cc439325ea351e9198d25828bc"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/narrow/Player.log.gz",
+    "originalBytes": 29675,
+    "sha256": "f1bc9f6ac9c51a0d837f3fb1a2bf3251d5e1fc984ec54fa739108e843861585e"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/narrow/profiles/capabilities.json.gz",
+    "originalBytes": 19553,
+    "sha256": "c7b7db5b14db9ab94fa91d58ace66437dac00bf386a868f6a7da09c7a3f52313"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/narrow/profiles/capture-20261007-185716-098-1.json.gz",
+    "originalBytes": 23352,
+    "sha256": "56e783448bf420fab08c124576aeb1b5cb58905c668945cd7d763d820728ab3a"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/narrow/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "1309b26b2723370d63d1ebf382e77a20a3f10b3dc064490c477abb5928c44ae0"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/rocks/audit.json.gz",
+    "originalBytes": 3937,
+    "sha256": "9ce28fa5608ec695db2261ee03d8887353f3254ac61a81133e898674aa0b70c3"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/rocks/launcher.json.gz",
+    "originalBytes": 596,
+    "sha256": "c06999fda869a7db01291372c2d5e5631532f7b7b3d6f51f833634383ea576ef"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/rocks/pawn-manifest.txt.gz",
+    "originalBytes": 10381,
+    "sha256": "3633942c4807afc64e04ad9d548c33ebbc67e5cc439325ea351e9198d25828bc"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/rocks/Player.log.gz",
+    "originalBytes": 29724,
+    "sha256": "0566c8beeb9702bec63a09fa4cd2f70fdf429cc876be4fc19a31e13f7988a29d"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/rocks/profiles/capabilities.json.gz",
+    "originalBytes": 19553,
+    "sha256": "c7b7db5b14db9ab94fa91d58ace66437dac00bf386a868f6a7da09c7a3f52313"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/rocks/profiles/capture-20261007-185906-839-1.json.gz",
+    "originalBytes": 23305,
+    "sha256": "9b6dd0f3d20a1b3de98f9673f12a2b15b11cd7befb7372d22e32e240654156c4"
+  },
+  {
+    "path": "raw/verified/hd-r2-functional-final-v9-20261008/rocks/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "e490f02c9e84a5baaa8b06d72dc26c09e8cd2c827ed90e5553da51e271cc4490"
+  },
+  {
+    "path": "raw/excluded/hd-r2-crowd-cache-v7/audit.json.gz",
+    "originalBytes": 30526,
+    "sha256": "97437c7902c2c2568804a5fd7080384fd59c9be1bd35a4889d8e2f85b0448195"
+  },
+  {
+    "path": "raw/excluded/hd-r2-crowd-cache-v7/launcher.json.gz",
+    "originalBytes": 660,
+    "sha256": "e15c2f61de4c828fb33891be3e7f32e1662e817f530716f3ad29ea38e909144f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-crowd-cache-v7/pawn-manifest.txt.gz",
+    "originalBytes": 90777,
+    "sha256": "29cb349256e55a8c0323ad504cfb4eaed43842a72f672c0d71a78e577147ae83"
+  },
+  {
+    "path": "raw/excluded/hd-r2-crowd-cache-v7/Player.log.gz",
+    "originalBytes": 29607,
+    "sha256": "0c581c39dc98c3194e03442e17b9e50938db7d1b9a781ab4f871a48eb3e7a909"
+  },
+  {
+    "path": "raw/excluded/hd-r2-crowd-cache-v7/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "5408f144e0adf090ad1c07daff9fba21e2404a64f920d89a20dc2e52ab421388"
+  },
+  {
+    "path": "raw/excluded/hd-r2-crowd-cache-v7/profiles/capture-20261007-164129-530-1.json.gz",
+    "originalBytes": 24252,
+    "sha256": "4906492ccd0a5efa84328f694f687cc592b737eb9134715cd8170de8d1c6d885"
+  },
+  {
+    "path": "raw/excluded/hd-r2-crowd-cache-v7/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "dc6227902322ad5d5818ff420cc4f594e52e5bfe2e30c158747a7a29c7ba6eed"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/checks.json.gz",
+    "originalBytes": 222,
+    "sha256": "026a325d9fcc64c1d2fbba7093fecbf67cbbdde77ed8d4889029cd181e975770"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/field/audit.json.gz",
+    "originalBytes": 3955,
+    "sha256": "1143d3823274edcacc2d892be128d07e4dc5d7c0bd7d2878dd5da4c96d43acb3"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/field/launcher.json.gz",
+    "originalBytes": 598,
+    "sha256": "9331a08de750b0d0be245fbe70dc523fb13206444c6ef6143c87b05f47a3f04f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/field/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "9ed9af6349e0f8689bc7abc0e2dda22b1b5a4df0a22b176ec2222614a68dd6b1"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/field/Player.log.gz",
+    "originalBytes": 29572,
+    "sha256": "56ca120716f6b2d72def8f23f4f7bca2c6cb285d402484f3a1dd3bd2f358bcf8"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/field/profiles/capabilities.json.gz",
+    "originalBytes": 19553,
+    "sha256": "27e54210112fd00269afa63020481ae61eea990b7ebda24be6ba3316f62e4bb3"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/field/profiles/capture-20261007-165111-217-1.json.gz",
+    "originalBytes": 23144,
+    "sha256": "6f24a1b1b991f5868f64b9fa8848183c7bc5cd714d80f9d811ee14ea9fd34fe3"
+  },
+  {
+    "path": "raw/excluded/hd-r2-field-final-v7-20261007/field/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "21a6afb0542d83d33cb25b6c247744ba274eb7a2baacea6b82515e830cbc1b08"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/checks.json.gz",
+    "originalBytes": 511,
+    "sha256": "c9d583ff21fd00a2c1f9ffac107ec6ad165ae96e0f1bd2777952353679330f2a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/door/audit.json.gz",
+    "originalBytes": 2874,
+    "sha256": "439ab5156ac869672d9480a0c904d495bba5f0718331516f84939121cd1d9821"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/door/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "5085518c815576bc6e93fa9e3f2943cc669d80c7ef1c7fa6bbdcceeb25001913"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/door/pawn-manifest.txt.gz",
+    "originalBytes": 5284,
+    "sha256": "acf6b5ab246d19769061a185b6552abfbf44e17a210fda4529569a04788c3992"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/door/Player.log.gz",
+    "originalBytes": 29895,
+    "sha256": "d34fe676cc4f010a763b4d3773fc4a845bdc352dd918945b3d5d85619ad71058"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/door/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "6a62f9232ebf3b914f638335ad88fa833b0d3c59a8fb84ac55026f10d16a456e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/door/profiles/capture-20261007-155000-524-1.json.gz",
+    "originalBytes": 23184,
+    "sha256": "5ae2e31c9649301647f638c6ac3f61ed746160407b809bf5848baf13d3d4bfd3"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/door/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "e42e8594b1f9e515abbacbca687f2061201edc46bb6b518a557ea9706d87c8f9"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/narrow/audit.json.gz",
+    "originalBytes": 2852,
+    "sha256": "c51672e859dab5b9756b7355e7839d75cb8c6c5ad4896e41ec7196e55dd433d5"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/narrow/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "12e420ec8e79c5dc4b9a8bfef85dcddb7a020edfeb2c972fc259a5e948d5e655"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/narrow/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/narrow/Player.log.gz",
+    "originalBytes": 29637,
+    "sha256": "ba30c21713e555d0b092f016bf4a76c3477afa7e3a9780a68966a6612e36524c"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/narrow/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "6a62f9232ebf3b914f638335ad88fa833b0d3c59a8fb84ac55026f10d16a456e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/narrow/profiles/capture-20261007-155216-303-1.json.gz",
+    "originalBytes": 23325,
+    "sha256": "a11ee834fbe42ac29e9cad71278b0f290d2cae0555710b2505d100d4299b7804"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v6-20261007/narrow/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "e9be7df644e4c0e75b234960c67385719739d5591478c1495e0c64b79526e1ee"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/checks.json.gz",
+    "originalBytes": 511,
+    "sha256": "f32b828960057c9642b4167fb90260ea68048fe73d21ec37796caf79e107b91f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/door/audit.json.gz",
+    "originalBytes": 2876,
+    "sha256": "b147ed9ff350f55475c7f6b6a99e53bbf4d6402b765e7021c87e95ba9747e571"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/door/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "46c36462a5f5f794bd81a6ec9705e00653ad88b17582288a231ad465b85daede"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/door/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/door/Player.log.gz",
+    "originalBytes": 29618,
+    "sha256": "7d9ddaeba72a1bde949d4cbeb9f35a2f1a37164374009861b0c8645c575bf572"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/door/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "6f80ed6833c73dee72cadbc4254a486dd6ba42b4feb193b78c69c1faa38174e4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/door/profiles/capture-20261007-155804-610-1.json.gz",
+    "originalBytes": 23179,
+    "sha256": "4da891bcb0a04ed15c894f6c3a33bfc1da93fb1d9aa4c3af0b4b9f834d2e00fe"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/door/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "40d9309305c429b5c7b44157bdbfe4c949745c2a3e8f0fbf3b9b59d33082eaae"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/narrow/audit.json.gz",
+    "originalBytes": 2913,
+    "sha256": "f165337044017e445bf7377f3b57c4405dbb579a6b5a909a3e6e4a5a8561eb14"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/narrow/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "d67c55de13765f2df5c1617cb74aa6165175e974080c61a0863f8de66aa54d8a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/narrow/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/narrow/Player.log.gz",
+    "originalBytes": 29571,
+    "sha256": "ce543e2f1c5094bc2a82e42df82627e04af673bc1820c3bef73b5746efb6abf9"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/narrow/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "6f80ed6833c73dee72cadbc4254a486dd6ba42b4feb193b78c69c1faa38174e4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/narrow/profiles/capture-20261007-155949-609-1.json.gz",
+    "originalBytes": 23090,
+    "sha256": "b77de437497cef90fb04588102a38fe62513ab359a6f9a8f35687738ed338c32"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7-20261007/narrow/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "6d132fc4ab53a3b6dfff2cb949e6517663f2b464fe82cab498183da1ae200a3e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/checks.json.gz",
+    "originalBytes": 775,
+    "sha256": "ba0d5a935bfd9021d9bee995a8d76257cfbc81c16ea48b18003c7b112191a8f2"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/interrupt/audit.json.gz",
+    "originalBytes": 2872,
+    "sha256": "d6441f4736884029e31c9b302439d83d265e292720d8d65b12356ca7e90f5c51"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/interrupt/launcher.json.gz",
+    "originalBytes": 600,
+    "sha256": "acaf8073147f6c244998231a2b5215ba0c0677e3bc897de662154d92720c177c"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/interrupt/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/interrupt/Player.log.gz",
+    "originalBytes": 29663,
+    "sha256": "f9f9b100865af441215400ec875b0da7ecffe1eb76ccefdd31f56dcafaf8cb15"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/interrupt/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "0760f20f2d35b646e13929f5921a831d994fb5a3851ed67063ace0ae1b9c277d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/interrupt/profiles/capture-20261007-160813-344-1.json.gz",
+    "originalBytes": 23279,
+    "sha256": "10db078b305c79b70244713818ca8cbe5c169aea791f100f2bd86fc00414fcc4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/interrupt/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "fe10b36d1b72dbf2bd915634fb07b77730c3a89ed7efdcf0515161f487f6cb3e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/narrow/audit.json.gz",
+    "originalBytes": 2882,
+    "sha256": "30c02c3df4a1281460ccf809c08678cc7e539fb5b720c082c238d8b8bc468179"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/narrow/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "aa56cbba3128460e240e4de7ce1a13c167e8320cb413d98b9cf9f78e6181a3aa"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/narrow/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/narrow/Player.log.gz",
+    "originalBytes": 29617,
+    "sha256": "a9d1e467a5f15742bc8001aa4175a3e7d7529ea68aa03807fa03dc7dac605203"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/narrow/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "0760f20f2d35b646e13929f5921a831d994fb5a3851ed67063ace0ae1b9c277d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/narrow/profiles/capture-20261007-160341-774-1.json.gz",
+    "originalBytes": 23315,
+    "sha256": "549470d325e84b488ece222057a01b7a7ba36be849b1f11dac801b5f52d9cdfc"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/narrow/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "1071d31af50e2e9314722874175526a161222fab0d76627e4be16e123883eb24"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/rocks/audit.json.gz",
+    "originalBytes": 2893,
+    "sha256": "bef7a90822286e0925eb54fdc41f45ff923a530579a53bab2190eb06e6383f11"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/rocks/launcher.json.gz",
+    "originalBytes": 596,
+    "sha256": "ff036472bef5f20f2d2bf27bf94b76970e411ca863aa82cd27764891e7eb6d7d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/rocks/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/rocks/Player.log.gz",
+    "originalBytes": 30245,
+    "sha256": "152b6bb637a007bff21916b3cde21de0be094a2ebfe042996a640694367ad150"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/rocks/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "0760f20f2d35b646e13929f5921a831d994fb5a3851ed67063ace0ae1b9c277d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/rocks/profiles/capture-20261007-160600-379-1.json.gz",
+    "originalBytes": 23257,
+    "sha256": "0a815b999556162f8c6fbf8f41909db6d8fe4d4097e3cd3193ca40cbb55336ed"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7b-20261007/rocks/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "254ab5e200343f99ffca5241ebf944424e6999b746a6911900e42866a33213bc"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/casualty/audit.json.gz",
+    "originalBytes": 3053,
+    "sha256": "79d77a2d96dd27f222be674e2b25898f3bf08d1667f63e429b3d9b40a55718c2"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/casualty/launcher.json.gz",
+    "originalBytes": 598,
+    "sha256": "52e929f6b7f4804af286bbfb77176826293fe6f7044d61da54e791853aa0c4d2"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/casualty/pawn-manifest.txt.gz",
+    "originalBytes": 90233,
+    "sha256": "c21cfec10805d4ada475b6647064c43cd24bd9327d668cbfbdd5cbadda59c514"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/casualty/Player.log.gz",
+    "originalBytes": 29986,
+    "sha256": "252bc5b29748e4be33bf197f6978e28986dad44e29573aef7e21d1d8c965758a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/casualty/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "cc7cebb4b3bb61278eefe8e3192ea82dcba97d55afb5bf7b5c96ee8cd2148f81"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/casualty/profiles/capture-20261007-161651-405-1.json.gz",
+    "originalBytes": 23436,
+    "sha256": "eeaa6dcf1a7759abac930c277c963fbf0ebc26ed742b10606cce54d7e1d94361"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/casualty/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "0a977a4b522df6b9f9ebee7f831af0231eaaa7bf83932edc01a1fe441e48dd49"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/checks.json.gz",
+    "originalBytes": 787,
+    "sha256": "cb6c4bf4d6f744c2aa1a0482dddf80516025fd552d744b7b1a917141bda03435"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/crowd200/audit.json.gz",
+    "originalBytes": 28827,
+    "sha256": "5e115d0b023cc05279021eab5ccc129c2d4cf1ffbff1ff272b7ede6d09283f13"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/crowd200/launcher.json.gz",
+    "originalBytes": 599,
+    "sha256": "4f8c32013300b1d4a555710723496bad84f353fac833455091b2b5375227472a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/crowd200/pawn-manifest.txt.gz",
+    "originalBytes": 90645,
+    "sha256": "e8bf7257dabb8a236e22c1d9d049aafce8866e69b391a08ca9c5aa4f088abc97"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/crowd200/Player.log.gz",
+    "originalBytes": 29979,
+    "sha256": "ff8890c615e5ced8c4c5b1fa6c67d0f759ed9c833294a95e73823fcc48ce9fbf"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/crowd200/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "cc7cebb4b3bb61278eefe8e3192ea82dcba97d55afb5bf7b5c96ee8cd2148f81"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/crowd200/profiles/capture-20261007-162319-978-1.json.gz",
+    "originalBytes": 25028,
+    "sha256": "49c7693dc60670b474e861425e5bea6f78a2da1e1d209818d05b76a4c1915db0"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/crowd200/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "427ff5113728fc631f44c6350d5b3e1e065064c6001b1b8e34f09bf0789127ac"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/interrupt/audit.json.gz",
+    "originalBytes": 2936,
+    "sha256": "5eb648ab3dd350f458b797b6daaa326df5f8e82382e05441be524c922afd38c5"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/interrupt/launcher.json.gz",
+    "originalBytes": 600,
+    "sha256": "3647194a6b946a0f2fb0e704f4dcd7f9bd519e738102d847de3b4bdaf3dca82a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/interrupt/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/interrupt/Player.log.gz",
+    "originalBytes": 30251,
+    "sha256": "8cce89521d6f30fa324aca294f453933de5f8ae6388cb4db8bcd91d8cbec29d4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/interrupt/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "cc7cebb4b3bb61278eefe8e3192ea82dcba97d55afb5bf7b5c96ee8cd2148f81"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/interrupt/profiles/capture-20261007-161414-175-1.json.gz",
+    "originalBytes": 23287,
+    "sha256": "f22ca8e8688ef0864800e356bb62db8e59b6bf25ca614b155a2d67faba3b8466"
+  },
+  {
+    "path": "raw/excluded/hd-r2-functional-v7c-20261007/interrupt/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "1978b62e86d2d72eba21c259bd0a94796915ad788858c4d9e3ccbacbee130ada"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/matrix.json.gz",
+    "originalBytes": 1284,
+    "sha256": "3348d8191ad17f76cd7d4f5d4a2e431c4ffb533d4a1a204f664c78878f84255c"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-1/audit.json.gz",
+    "originalBytes": 31827,
+    "sha256": "46687b536c7d8624fdaeb648f9ee5d039cd3eb4a290ea07583341e00be3f06ce"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-1/launcher.json.gz",
+    "originalBytes": 442,
+    "sha256": "b9e5ab5e8876ed9acd02b37272ce0523082195ce679147ad95a8c35623f94dc4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 90431,
+    "sha256": "8bea34b20a10d687c56f7043c091a313fd0856d9ae346a90bcb5cc5305c78b2a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-1/Player.log.gz",
+    "originalBytes": 29321,
+    "sha256": "96648bc7f35fd280c9b2113c5398b2508563c4d52b093d2c16a5fae80e4756d8"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-2/audit.json.gz",
+    "originalBytes": 31830,
+    "sha256": "efcc9f01fd11f35c8b8dbf018258b4c2a6c08d0c0e1738c9145b860f0d0755a4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-2/launcher.json.gz",
+    "originalBytes": 442,
+    "sha256": "b9e5ab5e8876ed9acd02b37272ce0523082195ce679147ad95a8c35623f94dc4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 90431,
+    "sha256": "8bea34b20a10d687c56f7043c091a313fd0856d9ae346a90bcb5cc5305c78b2a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/new/run-2/Player.log.gz",
+    "originalBytes": 29344,
+    "sha256": "50ee8a4e812e5f559009136aa3d686d7dc2352394ab5f207e115a23040828fa8"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-1/audit.json.gz",
+    "originalBytes": 14365,
+    "sha256": "b8c8cdefd6615b425a855e67f19d0e8acbd0c3719403e9c98fd54d8b2256afa5"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 446,
+    "sha256": "98353696207e23d31d25b5913c5ff424e383b42472351dfc57c5cb010a6e29c6"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 90431,
+    "sha256": "8bea34b20a10d687c56f7043c091a313fd0856d9ae346a90bcb5cc5305c78b2a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-1/Player.log.gz",
+    "originalBytes": 29349,
+    "sha256": "9d4149938f99dda12206fe0dc7231e944f5f5251f2ac64e73476906df10582b4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-2/audit.json.gz",
+    "originalBytes": 14151,
+    "sha256": "5e9987a7271dda94eb277c444462626eb4869371e1658f1376c99bf4d4224a3a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-2/launcher.json.gz",
+    "originalBytes": 446,
+    "sha256": "98353696207e23d31d25b5913c5ff424e383b42472351dfc57c5cb010a6e29c6"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 90431,
+    "sha256": "8bea34b20a10d687c56f7043c091a313fd0856d9ae346a90bcb5cc5305c78b2a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-generation-v8-check/open-approach/vanilla/run-2/Player.log.gz",
+    "originalBytes": 29350,
+    "sha256": "96854bd15fb1cd493d4909e212890fb4b19fd6f6f10e1f098810eb817e278a7d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-1/audit.json.gz",
+    "originalBytes": 10722,
+    "sha256": "1f3f7c95712e8880961668ba3b86710d2c2bf42c3b097d62340223d828d7d1ad"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-1/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "13149d46774537c49419e9dfa0d1c1e7c3e682baf42947024ef7db98ad315964"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 26685,
+    "sha256": "1f3fb58a1704c852bd4c086d49c98bde1ce812c4cf2425b5e0c477d349bbd99d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-1/Player.log.gz",
+    "originalBytes": 29795,
+    "sha256": "f603c1c297ad6ae3d4190b571902130a232400d90b7f62f487950e8a03a4ae81"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-1/profiles/capture-20261007-170224-313-1.json.gz",
+    "originalBytes": 24357,
+    "sha256": "1f2dc400e2bde29ec8b394727837aaab1df642f32a6290234a5a630965070f3e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "2471d2e91224191dcf570dab8c4a4c308e2c99dd9ba12b6529a353ed67cf1ff4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-2/audit.json.gz",
+    "originalBytes": 10797,
+    "sha256": "64a1ce7bf9e36d00233c0fd230d534005316021b541aa6d3432d1f8a13be738f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-2/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "13149d46774537c49419e9dfa0d1c1e7c3e682baf42947024ef7db98ad315964"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 26454,
+    "sha256": "d65acab039759a0bdbe769ac95a37f07d79a4d124e197c58a2d4dc48b340f1f6"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-2/Player.log.gz",
+    "originalBytes": 29800,
+    "sha256": "8657e5b67945b3e67af691a1f6e21ab8f6e4f0d406fe48394c222b9747f0e915"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-2/profiles/capture-20261007-170520-680-1.json.gz",
+    "originalBytes": 24301,
+    "sha256": "d0f662c7c7cfaf560b6e27682e9a671c99fabd76f49f5059dee0d6a6954f8ded"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "be4dcfe304405874e9aa315b7bd923814ed57722f75f6dc34f95126aa043658c"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-3/audit.json.gz",
+    "originalBytes": 10713,
+    "sha256": "c04f01c66c22bc73c3856e5e875d6dcb2160bf46b3a16036c16c49cac19d79b9"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-3/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "13149d46774537c49419e9dfa0d1c1e7c3e682baf42947024ef7db98ad315964"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 26664,
+    "sha256": "d828d30337dc14597bbbb11f4698c6f1e95d09658e4c68a5c01949f161301567"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-3/Player.log.gz",
+    "originalBytes": 29762,
+    "sha256": "26b03036293685b7e5b2651163ac9d28ebfc953e138f1bf29f63004e7c14fdfe"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-3/profiles/capture-20261007-171405-131-1.json.gz",
+    "originalBytes": 24213,
+    "sha256": "d9a8f6cbf5815747d190a6be035ec831f9a8db30410bcc2bdbf453a9056672c1"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/new/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "1ba0e45aaf793736528f4dbddd1ff78d96206564d1ec80ca1ba7c7b7dbd39d5f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-1/audit.json.gz",
+    "originalBytes": 5840,
+    "sha256": "0c7f7135f289fb670771d02148e54b9f39b54591d656d5a9614829352a465248"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 665,
+    "sha256": "f4c471c5639e2af3f217d334669caa1a82835b133c0ee331279c9c44d5cde529"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 26685,
+    "sha256": "1f3fb58a1704c852bd4c086d49c98bde1ce812c4cf2425b5e0c477d349bbd99d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-1/Player.log.gz",
+    "originalBytes": 29836,
+    "sha256": "2ce877d7d5f1c71360ec4826398c84e5cd88520b73c041efaf7900375a320af9"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-1/profiles/capture-20261007-165916-365-1.json.gz",
+    "originalBytes": 23966,
+    "sha256": "c084744deb3c6bb0e10cf957f792183b18bdcf93518d08fbd18fb5b799108d5a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "62f76a613894cd42802b344d10f762e649abb96d4c1f41bf9889659e2c846e76"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-2/audit.json.gz",
+    "originalBytes": 5866,
+    "sha256": "c97c322cc8d4c1427799f95d8a3cd664a51bac83ad6e63276728dbe824b71439"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-2/launcher.json.gz",
+    "originalBytes": 665,
+    "sha256": "f4c471c5639e2af3f217d334669caa1a82835b133c0ee331279c9c44d5cde529"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 26652,
+    "sha256": "d185079930e0c1736a47ee929181310e17abd65799b2531010fb348caf35b5d1"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-2/Player.log.gz",
+    "originalBytes": 29804,
+    "sha256": "98b9064a91181881944166571977612c8dc53c3580d5ca2439cd4de450e62b64"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-2/profiles/capture-20261007-170817-628-1.json.gz",
+    "originalBytes": 23984,
+    "sha256": "e130fc6c52e0291feff6bb8ca624d4071345306ad874cc886c7fb2c26ca62a3c"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "9ff2926ee9c4b2a5902ad8d23a1ee489f25f6821d03d9d16123b0c19631292be"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-3/audit.json.gz",
+    "originalBytes": 5881,
+    "sha256": "8b663fe759bc0f9d1bfa78ab4bfaed3e9e3f6a5e6fdd1ede018132803a94af97"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-3/launcher.json.gz",
+    "originalBytes": 665,
+    "sha256": "f4c471c5639e2af3f217d334669caa1a82835b133c0ee331279c9c44d5cde529"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-3/pawn-manifest.txt.gz",
+    "originalBytes": 26693,
+    "sha256": "96cc2da2b5b2df45f35b4887e7f974b37ee99580be21b1b1a2e944ca6f7b645f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-3/Player.log.gz",
+    "originalBytes": 29799,
+    "sha256": "2880376be50202380bb50a211ead131d2a517570539634a5ff8c4fb8f27e3e84"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-3/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-3/profiles/capture-20261007-171115-644-1.json.gz",
+    "originalBytes": 23966,
+    "sha256": "35d168b383e8dc05e3aa70029dfa68e850452cf3d03ab8118abf58d1d31677f9"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/open-approach/vanilla/run-3/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "dda698318bba8ac9cb797f940708532681626bea066c465a9ea843c44383b980"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/new/run-1/audit.json.gz",
+    "originalBytes": 10625,
+    "sha256": "aa0db7dd655da9928ea283e30d8efddd9dec6af79d763247bed4cf9d7bee663d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/new/run-1/launcher.json.gz",
+    "originalBytes": 659,
+    "sha256": "2342fda8df8701f7139ee18485fc425ff5b936d231c1dc191a87315763ef977b"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 26448,
+    "sha256": "2f04c108978840f4a712556702aca86b728a37427477330a7f51c53782f4e435"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/new/run-1/Player.log.gz",
+    "originalBytes": 29780,
+    "sha256": "241e9dc211ecc522f49f341d52d6271f80350e3cae8f30a9cb2b7d6247a52824"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/new/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/new/run-1/profiles/capture-20261007-171955-144-1.json.gz",
+    "originalBytes": 24228,
+    "sha256": "81b1073d220d33be4b9b217a20de97a7bcdb1d4c0018d189a29116cb5e9c450a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/new/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "046dab5275d931bdf8873871b1ecfb0a554e37112533014e1490ae6cd48bb83e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/vanilla/run-1/audit.json.gz",
+    "originalBytes": 5583,
+    "sha256": "bfd09083aae529b0f1f0d170bdf5f10f80b68d7573e73d2fa933e0c57664a5b8"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 663,
+    "sha256": "e610777975c3ffd8d8ed248072ea78072a77bde032390ef4ca9a658e65db4e55"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 26681,
+    "sha256": "8d74bc9834197b7450ef491573428d5a835b708afc682a425c077c9d29f5ed47"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/vanilla/run-1/Player.log.gz",
+    "originalBytes": 29791,
+    "sha256": "eef0e2e856cdab00204fc5f4acb79ea33a30c83b966552ca05f77a9bef7f503e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/vanilla/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "adb827604fc21efe5f5312e89891418c44e95ce2ab6a83410ae978ec36809830"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/vanilla/run-1/profiles/capture-20261007-171659-611-1.json.gz",
+    "originalBytes": 23945,
+    "sha256": "d144857a529dd565aa619add7fdd09e0e7b9f29d7b74c4f0e2feca0bee76ad10"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v7-20261007/sapper-wall/vanilla/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "06c10d541aa354b75983f287bd80cca3b4f187c5c1d31f71a8b1fb39f971fd48"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/matrix.json.gz",
+    "originalBytes": 650,
+    "sha256": "43c1b60aff8662aa36fc6c113547c173082fa4b73c07995b3c14e39a042ea732"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-1/audit.json.gz",
+    "originalBytes": 10736,
+    "sha256": "87fdb8901efb91029585b99b6a135884f26e2c184cd9c7a2712b8b57295e33e8"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-1/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "db062cebbfb4cdc16c6f204f8f9c53449a64ee600e1b9db916adb61137bd8f58"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 56879,
+    "sha256": "67f4dfb7eff0ccafee383f2f5f8c86510ef777b6b67cbd8066ae7f2c2648ee60"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-1/Player.log.gz",
+    "originalBytes": 30426,
+    "sha256": "b5ecf176cddcfe97ddc780ccfa088403512833d610e0be588fe117316f3400a4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "394599d17dbaae43fbf129a5bc2b7c311396b015cf4c1bfa59b5d3666a2f37fa"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-1/profiles/capture-20261007-173544-040-1.json.gz",
+    "originalBytes": 24241,
+    "sha256": "30659d38cfcb67ceb9d57f2dbf16f8cf195c8a225e5f877b8cce79674e107a66"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "8bf27e8e9500225950c5a6a5e19a0c218d3ecf94d4ed0c5ae9ddea67a25553d9"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-2/audit.json.gz",
+    "originalBytes": 10852,
+    "sha256": "53f0fe0230a1e5e396ae8aabf19d547f4a2054fea940cfcece50d136b4da6789"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-2/launcher.json.gz",
+    "originalBytes": 661,
+    "sha256": "db062cebbfb4cdc16c6f204f8f9c53449a64ee600e1b9db916adb61137bd8f58"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-2/pawn-manifest.txt.gz",
+    "originalBytes": 56734,
+    "sha256": "620191fff436a5505da2d6f9f6951b7b93a25dde3786559691509d80383a5c2e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-2/Player.log.gz",
+    "originalBytes": 30423,
+    "sha256": "1169fabeb88267dd1bcfcdecae026695b2b311471f88b64c30caf6efca817d68"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-2/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "394599d17dbaae43fbf129a5bc2b7c311396b015cf4c1bfa59b5d3666a2f37fa"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-2/profiles/capture-20261007-173828-407-1.json.gz",
+    "originalBytes": 24247,
+    "sha256": "c3bc750e41bea4bab9d7a8eb17ec14f019cedcfecd3f8879e0b596ad2ce3d48b"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/new/run-2/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "c196d912945c22cad6c7bfae6642df57ba38b047d6847cfe75a4736766716b2a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/vanilla/run-1/audit.json.gz",
+    "originalBytes": 5864,
+    "sha256": "6aa0207c7e8d923ea6c08804877b244f7dd058904d03932806be29ca34519e41"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/vanilla/run-1/launcher.json.gz",
+    "originalBytes": 665,
+    "sha256": "82a16c795a80e8029ca4dbd92c2a8520783556dbf30f538e0349c3f32527af32"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/vanilla/run-1/pawn-manifest.txt.gz",
+    "originalBytes": 56734,
+    "sha256": "620191fff436a5505da2d6f9f6951b7b93a25dde3786559691509d80383a5c2e"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/vanilla/run-1/Player.log.gz",
+    "originalBytes": 29865,
+    "sha256": "be3c1c03fbc36380370e03f76b45311ae603d8b2e969ab182d57e0ea53ad5afd"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/vanilla/run-1/profiles/capabilities.json.gz",
+    "originalBytes": 20154,
+    "sha256": "394599d17dbaae43fbf129a5bc2b7c311396b015cf4c1bfa59b5d3666a2f37fa"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/vanilla/run-1/profiles/capture-20261007-173302-582-1.json.gz",
+    "originalBytes": 23998,
+    "sha256": "ba13a7c41ba282aca1a13f6ddb1d087218938559bf899aaef309ede65a7b00cf"
+  },
+  {
+    "path": "raw/excluded/hd-r2-matrix50-v8-20261008/open-approach/vanilla/run-1/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "3caccc6d2ded9b5afdbc63fd59c60e928e547c5e3bd1bd93b5c8091561d5edd4"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-50-v6/audit.json.gz",
+    "originalBytes": 9456,
+    "sha256": "67580b8bf28404d3e243c567045e4ddde72ee94e3d2f12461e3fcc2f30a0a624"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-50-v6/launcher.json.gz",
+    "originalBytes": 597,
+    "sha256": "0cf14939781b1872f2ba8298c92fb63e241c4023b31342698c0db1b423b57fcc"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-50-v6/pawn-manifest.txt.gz",
+    "originalBytes": 26648,
+    "sha256": "afd02b9c89ab53874d48c943bfbbd6023c9a496465d128a7aefefa70f784869f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-50-v6/Player.log.gz",
+    "originalBytes": 29525,
+    "sha256": "c6a55be601aebc6dd05aadb5ce02b87dba9ff8161e47ca28e2a7cce2a22c29c9"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-50-v6/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "a9e2aa0893da2e23deb3ff2ea37faab683088a07a1b0919bc7f4aca255cfd268"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-50-v6/profiles/capture-20261007-154542-005-1.json.gz",
+    "originalBytes": 23403,
+    "sha256": "a8475e82ee36f5e9c81141f6c35ba0a1869a37f789187daa25b9c8524276b59d"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-50-v6/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "e5f57fa9177f516c43ce67b63672e3dc37a80c7e488f18458914540180d204a2"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6/audit.json.gz",
+    "originalBytes": 2802,
+    "sha256": "49fd496e155e88de9a216ccf116fcf9a0f99b3814262ee2c8ff22d7633d49183"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6/launcher.json.gz",
+    "originalBytes": 566,
+    "sha256": "435e832212c2099372de93ccb06cc7b85eaf20a0df6ea30d51c82dd861d51467"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6/Player.log.gz",
+    "originalBytes": 29477,
+    "sha256": "7607e262b8a4a8487b8fdda266205506cf48e2d6035782e4ded93cb2d83c5788"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "7684e93b77b9dfe77f9cc807ece84c2b0a8fe5ac07aa587b643bee6681ec8276"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6/profiles/capture-20261007-153732-838-1.json.gz",
+    "originalBytes": 23028,
+    "sha256": "4b7c3e1e967ddb65dbcedc9a2649a0d749b733d4922612a0ba584a5da0c042b5"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "37ae5bf3836c5bba032ada5cd1a27bb27f1615a2fd04591c007e189171f4ab29"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6b/audit.json.gz",
+    "originalBytes": 2798,
+    "sha256": "b7c0fb73f6bc1021cb60be68791e6c20e3089b4b7adf0f4947bff083124ecd7b"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6b/launcher.json.gz",
+    "originalBytes": 566,
+    "sha256": "413b7d7a790747c7f491b933af43fab3cdb897e8fe6f641b8c5571e02d99452c"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6b/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6b/Player.log.gz",
+    "originalBytes": 29482,
+    "sha256": "feaa9b7ab1f0bbf9a8e58ec860db21f79c1af1fd6818a1457774e4d345bf21d2"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6b/profiles/capabilities.json.gz",
+    "originalBytes": 19514,
+    "sha256": "522785aa59b39afebc1005edf7cebf32ecd4023ae077c155bf09c033126ecdbc"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6b/profiles/capture-20261007-154022-115-1.json.gz",
+    "originalBytes": 23082,
+    "sha256": "970bd05c5e539d40c8f945578f1dc322527261da1aa47279248a06e735b07a9b"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-door-v6b/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "232c605d571db46ce1a70733b33c048de1f0111bbc85c7c2cc826ca529a309bd"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-wall-v6/audit.json.gz",
+    "originalBytes": 2795,
+    "sha256": "1a0b6b8cf31e3aa9b748700549e66df8f5e69e272225e628f9f4dad3f9a0aee8"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-wall-v6/launcher.json.gz",
+    "originalBytes": 409,
+    "sha256": "df5a3ed0dda384b42f44995fe677ce506508c8552f7894ac0d3fc0053b587792"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-wall-v6/pawn-manifest.txt.gz",
+    "originalBytes": 5274,
+    "sha256": "a9ebe0e06b4c087ffbb53a61f9aa9abc31ee851b01119000481c96ceaaf89a9f"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-wall-v6/Player.log.gz",
+    "originalBytes": 29346,
+    "sha256": "0d3bb18ea7f496d7205a77ee4f1554ac5e9eaf7f62d2242aa54d5bc547b37df6"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-wall-v6/profiles/capabilities.json.gz",
+    "originalBytes": 18059,
+    "sha256": "b929404a6d7957f743d6b519836b70ce9497311c33b9af3fbf262bf12721d915"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-wall-v6/profiles/capture-20261007-153406-468-1.json.gz",
+    "originalBytes": 21388,
+    "sha256": "dbc979012b73baf84697494bfe5079965e199c4c8f21ef3802a7c68c4af9724a"
+  },
+  {
+    "path": "raw/excluded/hd-r2-smoke-wall-v6/profiles/status.json.gz",
+    "originalBytes": 223,
+    "sha256": "e49f8e3230cfc587f071b28a1be1c29271c39fb48e7d0ff70320d78e82985706"
+  }
+]

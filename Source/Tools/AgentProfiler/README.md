@@ -26,7 +26,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/RaidMoveme
 
 R1에서는 Helodrace Map/GameComponent의 구체적인 Tick/Update 콜백(감사·수집기 제외), Map PreTick/PostTick/Update, MapComponentUtility/GameComponentUtility 호출기가 기본 대상이다. 지도 분석·조직 유지도 자동 등록된다. schema 4의 `mainThreadWindowCpuMs`·`processWindowCpuMs`는 전체 측정 창의 실제 메인/프로세스 CPU다. 렌더링·기준 배치·다른 시스템도 포함하며 개별 메서드 CPU와 혼동하지 않는다.
 
-`engine-compare VANILLA_ROOT CANDIDATE_ROOT`는 [R1 실행기](../../Benchmarks/TacticalEngineAudit/README.md)의 audit와 capture를 함께 검증한다. 같은 DLL·지도·장비·편제·준비·수집 조건을 요구하며 엔진별 시작 단계 차이는 허용한다. 일반 `compare`/`benchmark-compare`는 엔진을 섞지 않는다. New의 `vanilla-fallback`은 새 전술 AI 합격으로 판정하지 않는다.
+`engine-compare VANILLA_ROOT CANDIDATE_ROOT`는 [R1 실행기](../../Benchmarks/TacticalEngineAudit/README.md)의 audit와 capture를 함께 검증한다. 같은 DLL·지도·장비·편제·준비·수집 조건을 요구하며 엔진별 시작 단계 차이는 허용한다. 일반 `compare`/`benchmark-compare`는 엔진을 섞지 않는다. New의 `vanilla-fallback`은 새 전술 AI 합격으로 판정하지 않는다. R2의 구현된 New는 fixture의 모든 분대 완료·실내 자리 도착·실제 구조에 맞는 계획을 요구한다. 같은 조건 3회 이상 대조에서 전체 틱/전체 메인 창 CPU 비율 모두 ≤2일 때만 CPU 게이트를 통과한다. fixture v9의 제어된 생성 조건은 [R2 실행 안내](../../Benchmarks/TacticalEngineAudit/README.md)에 있다.
 
 아래 `$root`는 게임이 생성한 profiles 폴더, `$capture`는 수집 JSON 경로다.
 
@@ -61,7 +61,7 @@ CLI 제어 시험은 `Run-ControlSmoke.ps1 -ProfileRoot ...`로 수행한다. �
 - `calls`, `exceptions`, `maxMs`: 완료된 호출만 집계한다. 재귀는 호출마다 별도 스택 슬롯을 사용하며 Harmony finalizer에서 예외를 원래대로 돌려준다.
 - 반환된 iterator/Task의 후속 작업은 생성 메서드 시간에 포함되지 않는다. 자체 compiler iterator는 가능한 경우 `MoveNext`도 등록하지만 공용 LINQ 전체를 자동 계측하지 않는다.
 
-현재 대상 스레드는 게임 메인 스레드 하나다. 다른 스레드 호출은 제외하고 `dropped`를 증가시킨다. 대상 128개, 중첩 128단계, 수집 시간 1~300초로 제한한다. `complete=false`나 dropped가 있는 결과는 정상 비교 대상으로 쓰지 않는다. 방법 목록·메타데이터·집계 외에 호출별 문자열/무제한 이벤트 로그는 저장하지 않는다. 계측 중 게임 객체를 다른 스레드에서 읽지 않는다.
+현재 대상 스레드는 게임 메인 스레드 하나다. 다른 스레드 호출은 제외하고 `dropped`를 증가시킨다. 대상 128개, 중첩 128단계, 일반 수집 시간은 1~300초로 제한한다. 명시적인 `hdTacticalEngineAudit` 격리 시험에 한해 최대 1,800초를 허용해 대규모 고정 틱 창이 300초에서 잘리지 않게 한다. `complete=false`나 dropped가 있는 결과는 정상 비교 대상으로 쓰지 않는다. 방법 목록·메타데이터·집계 외에 호출별 문자열/무제한 이벤트 로그는 저장하지 않는다. 계측 중 게임 객체를 다른 스레드에서 읽지 않는다.
 
 메서드 진입에서는 준비된 MethodBase→정수 ID 사전 조회와 고정 배열을 사용한다. 메서드 이름/Reflection/JSON 생성은 등록과 종료 단계에서만 수행한다. 결과 직렬화는 종료 시 메인 스레드에서 동기 수행하고, 그 비용은 수집 기간 밖에 둔다. 독립 모드 배포, 다중 스레드 수집, 호출 간선 트레이스, 네이티브 샘플러와 MCP 서버는 아직 구현하지 않았다.
 

@@ -61,7 +61,7 @@ internal static class EngineComparisonChecks
             foreach (string path in Directory.GetFiles(Path.Combine(directory, "profiles"), "capture-*.json"))
             {
                 var capture = JsonSerializer.Deserialize<ProfileSnapshot>(File.ReadAllText(path), Options)!;
-                capture.benchmark.fixtureVersion = 7; capture.benchmark.fixtureCase = "normal";
+                capture.benchmark.fixtureVersion = 9; capture.benchmark.fixtureCase = "normal";
                 File.WriteAllText(path, JsonSerializer.Serialize(capture, Options));
             }
             string pathAudit = Path.Combine(directory, "audit.json");

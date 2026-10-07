@@ -1,0 +1,66 @@
+PASS: Patch_RaidTacticalTickCpu
+PASS: Patch_RaidTacticalTrace_StartJob
+PASS: Patch_RaidTacticalTrace_EndJob
+PASS: Patch_RaidTacticalDuty
+PASS: Patch_RaidTacticalDutyConstant
+PASS: Patch_RaidTacticalContinuation
+PASS: Patch_RaidTacticalHoldFacing
+PASS: Patch_RaidTacticalPendingAttack
+PASS: Patch_RaidTacticalSupportFlee
+PASS: Patch_RaidMovementArea_Request
+PASS: Patch_RaidMovementArea_Dispose
+PASS: Patch_RaidMovementArea_RequestResolved
+PASS: Patch_RaidMovementArea_RequestCancelled
+PASS: Patch_RaidMovementArea_ReadersCompleted
+PASS: Patch_RaidNodeMovement_AllowedStep
+PASS: Patch_EdgeWalkInGroups_Organization
+PASS: Patch_RaidStrategy_OrganizationMinimum
+PASS: Patch_BreachedDoor_NoRandomBreakdown
+PASS: Patch_BreachedDoor_AlwaysOpen
+PASS: Patch_BreachedDoor_FreePassage
+PASS: Patch_BreachedDoor_BreakdownRepaired
+PASS: Patch_BreachedDoor_OrdinaryRepair
+PASS: Patch_DebugSettings_RaidTacticalOverlay
+PASS: Patch_RaidGrenade_NoGunCast
+PASS: Patch_RaidGrenade_NoGunAvailable
+PASS: Patch_RaidGrenade_DrawHeld
+PASS: Patch_RaidOpeningObservation_Lean
+PASS: Patch_RaidPhysicalCache_Spawn
+PASS: Patch_RaidPhysicalCache_Despawn
+PASS: Patch_RaidPhysicalCache_DoorOpen
+PASS: Patch_RaidPhysicalCache_DoorClose
+PASS: Patch_RaidPhysicalCache_Terrain
+PASS: Patch_RaidRuntimeAudit_Owner
+PASS: 6 door-fault lifecycle hook checks (unspawned real game objects)
+PASS: 4 startup stock-generator isolation and money registration checks.
+PASS: 10 casualty notification, batching and actor replacement checks (real game classes)
+PASS: 4 grenade landing and fragmentation safety checks (real game classes)
+PASS: 15 shared structure ownership, current raid-start snapshots, restore and version lifetime checks (real game classes)
+PASS: 10 bounded breach retry windows and limited-plan ownership checks (real game classes).
+PASS: 8 real resumable indoor/outdoor route, reconstruction and shared allowance checks.
+PASS: 6 actual raid minimum and complete-formation generation checks.
+PASS: 19 native execution deadline, recurring ticket, casualty bypass and map disposal checks.
+PASS: 6 native reactive score sharing, expiry and capacity checks.
+PASS: 11 native stale LOS, bounded cache, shared pawn index and knowledge isolation checks.
+PASS: 13 durable role intent, transient hold and movement recovery checks.
+PASS: 14 HC/WP grenade selection and shot-line checks (XML and real game classes)
+PASS: 15 detached casualty equipment capture, retry, source and cleanup checks (real game classes)
+PASS: 12 read-only tactical overlay room progress checks (real game classes)
+PASS: 19 AI grenade preparation, interruption, gun gating and release lifecycle checks (real game classes)
+PASS: occupied-room execution assignments (5 checks)
+PASS: 29 opening observation positions, target priority, native lean and interruption checks
+PASS: 43 adjacent doorway observation and minimum entry throw distance checks
+PASS: support movement between-job null safety and explosion identity (4 checks)
+PASS: 50 exterior ingress physical passage and native persistence checks.
+PASS: 40 personal security movement and bounded indoor follower connection checks.
+PASS: 19 native formation tile occupancy and staging readiness checks.
+PASS: 43 shared contact snapshot, visibility-loss, decay and capacity checks
+PASS: 20 tactical report isolation, merge, forwarding, expiry and native persistence checks.
+PASS: 39 native transmission delay, receipt, ACK, equipment loss, internal relay and blackout checks.
+PASS: 6 actual distributed communication frame, coalescing and departure checks.
+PASS: 19 doorway observation ray, smoke and explicit peek-source checks
+PASS: 62 observed CQB topology, entry commitment and door-state memory checks
+PASS: 44 tactical unit partition, memory, casualty, command, persistence and High affiliation checks
+PASS: 16 cached order lookup, deadline, actor availability, rebinding and cleanup checks
+PASS: 10 organization edge arrival, squad/fireteam integrity and vanilla fallback checks.
+PASS: engine selection, 11 components/25 patch classes isolation, shared metadata, real FillComponents targets, stable gear fingerprint.

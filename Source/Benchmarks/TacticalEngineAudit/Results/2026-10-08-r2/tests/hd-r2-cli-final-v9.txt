@@ -1,0 +1,1 @@
+CLI checks passed: self comparison, differing targets/reference rejected, zero ticks rejected, paused reference normalization.

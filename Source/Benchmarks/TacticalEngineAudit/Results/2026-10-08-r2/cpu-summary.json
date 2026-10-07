@@ -1,0 +1,925 @@
+{
+  "warning": "Whole tick/window CPU is actual Windows thread CPU. Methods and percentiles are elapsed; Core percentages use the 10000-call batch, not CPU occupancy. P95/P99 use final 2048 calls. Fixed protected fixture, not complete combat equivalence.",
+  "groups": [
+    {
+      "baselineRuns": 3,
+      "candidateRuns": 3,
+      "baselineTickCpuMs": 2.0885416666666665,
+      "candidateTickCpuMs": 1.9166666666666667,
+      "tickCpuRatio": 0.917705735660848,
+      "baselineWindowCpuMs": 13.088541666666666,
+      "candidateWindowCpuMs": 13.403645833333334,
+      "windowCpuRatio": 1.024074810982889,
+      "baselineProcessCpuMs": 23.580729166666668,
+      "candidateProcessCpuMs": 24.3515625,
+      "cpuMsPerTickRange": {
+        "baselineTick": {
+          "median": 2.0885416666666665,
+          "min": 1.9583333333333333,
+          "max": 2.0963541666666665,
+          "values": [
+            2.0885416666666665,
+            1.9583333333333333,
+            2.0963541666666665
+          ]
+        },
+        "candidateTick": {
+          "median": 1.9166666666666667,
+          "min": 1.9010416666666667,
+          "max": 1.9817708333333333,
+          "values": [
+            1.9010416666666667,
+            1.9166666666666667,
+            1.9817708333333333
+          ]
+        },
+        "baselineWindow": {
+          "median": 13.088541666666666,
+          "min": 12.705729166666666,
+          "max": 13.9140625,
+          "values": [
+            13.088541666666666,
+            13.9140625,
+            12.705729166666666
+          ]
+        },
+        "candidateWindow": {
+          "median": 13.403645833333334,
+          "min": 12.450520833333334,
+          "max": 13.578125,
+          "values": [
+            12.450520833333334,
+            13.403645833333334,
+            13.578125
+          ]
+        },
+        "baselineProcess": {
+          "median": 23.580729166666668,
+          "min": 22.989583333333332,
+          "max": 25.236979166666668,
+          "values": [
+            23.580729166666668,
+            25.236979166666668,
+            22.989583333333332
+          ]
+        },
+        "candidateProcess": {
+          "median": 24.3515625,
+          "min": 22.578125,
+          "max": 24.885416666666668,
+          "values": [
+            22.578125,
+            24.3515625,
+            24.885416666666668
+          ]
+        }
+      },
+      "actualEntryProgress": true,
+      "newAiFunctionalComplete": true,
+      "newAiPerformanceGateEligible": true,
+      "within2x": true,
+      "newAiFixedWindowCpuGatePassed": true,
+      "requested": 50,
+      "actual": 60,
+      "units": 5,
+      "workload": "open-approach",
+      "build": "0fc21ff73dadb2009947190503e38043b5c22406fa08da7dc80b0be10716ccc1",
+      "progress": [
+        {
+          "newAllCompleteTick": 2495,
+          "newPassedOpening": 60,
+          "newRearPassedOpening": 20,
+          "newEnteredByOrder": 60,
+          "newCompletedUnits": 5,
+          "newPlansAttempted": 24,
+          "newJobsIssued": 124,
+          "newJobFailures": 1
+        },
+        {
+          "newAllCompleteTick": 2618,
+          "newPassedOpening": 60,
+          "newRearPassedOpening": 20,
+          "newEnteredByOrder": 60,
+          "newCompletedUnits": 5,
+          "newPlansAttempted": 24,
+          "newJobsIssued": 122,
+          "newJobFailures": 0
+        },
+        {
+          "newAllCompleteTick": 2553,
+          "newPassedOpening": 60,
+          "newRearPassedOpening": 20,
+          "newEnteredByOrder": 60,
+          "newCompletedUnits": 5,
+          "newPlansAttempted": 23,
+          "newJobsIssued": 122,
+          "newJobFailures": 0
+        }
+      ],
+      "methods": [
+        {
+          "method": "Verse.TickManager.DoSingleTick",
+          "corePercentPerTick": 824.9623762973691,
+          "medianMsPerTick": 2.3349541333333335,
+          "medianCalls": 6000,
+          "medianAverageMs": 2.3349541333333335,
+          "medianP95Ms": 3.5715,
+          "medianP99Ms": 4.3394,
+          "worstMaxMs": 89.0153
+        },
+        {
+          "method": "Verse.MapComponentUtility.MapComponentTick",
+          "corePercentPerTick": 4.516430646332608,
+          "medianMsPerTick": 0.01250835,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.01250835,
+          "medianP95Ms": 0.0172,
+          "medianP99Ms": 0.021,
+          "worstMaxMs": 0.0481
+        },
+        {
+          "method": "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick",
+          "corePercentPerTick": 2.626707699734492,
+          "medianMsPerTick": 0.007254966666666667,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.007254966666666667,
+          "medianP95Ms": 0.001,
+          "medianP99Ms": 0.0097,
+          "worstMaxMs": 13.1112
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.StartJob",
+          "corePercentPerTick": 2.5106276055051113,
+          "medianMsPerTick": 0.007327266666666667,
+          "medianCalls": 827,
+          "medianAverageMs": 0.053926368876080696,
+          "medianP95Ms": 0.0942,
+          "medianP99Ms": 0.7612,
+          "worstMaxMs": 6.5399
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 0.3378469707941105,
+          "medianMsPerTick": 0.0009331333333333333,
+          "medianCalls": 1800,
+          "medianAverageMs": 0.0031104444444444443,
+          "medianP95Ms": 0.0053,
+          "medianP99Ms": 0.0102,
+          "worstMaxMs": 0.1165
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 0.09858797972483707,
+          "medianMsPerTick": 0.0002723,
+          "medianCalls": 1800,
+          "medianAverageMs": 0.0008361604584527221,
+          "medianP95Ms": 0.0016,
+          "medianP99Ms": 0.0037,
+          "worstMaxMs": 0.1144
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Advance",
+          "corePercentPerTick": 2.1746017378711078,
+          "medianMsPerTick": 0.00600625,
+          "medianCalls": 215,
+          "medianAverageMs": 0.16803018867924527,
+          "medianP95Ms": 0.5983,
+          "medianP99Ms": 2.9385,
+          "worstMaxMs": 13.091
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalLocalPlanner.Find",
+          "corePercentPerTick": 0.29458626006510197,
+          "medianMsPerTick": 0.0008526666666666666,
+          "medianCalls": 14,
+          "medianAverageMs": 0.3654285714285714,
+          "medianP95Ms": 4.7873,
+          "medianP99Ms": 4.7873,
+          "worstMaxMs": 4.8407
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Issue",
+          "corePercentPerTick": 0.39902347096111024,
+          "medianMsPerTick": 0.0011433,
+          "medianCalls": 122,
+          "medianAverageMs": 0.05622786885245901,
+          "medianP95Ms": 0.0798,
+          "medianP99Ms": 1.3189,
+          "worstMaxMs": 1.5915
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.ReuseOpening",
+          "corePercentPerTick": 0.01200820661356505,
+          "medianMsPerTick": 3.316666666666667e-05,
+          "medianCalls": 24,
+          "medianAverageMs": 0.008291666666666668,
+          "medianP95Ms": 0.0359,
+          "medianP99Ms": 0.0456,
+          "worstMaxMs": 0.0478
+        }
+      ],
+      "wholeTickElapsedDistributions": {
+        "vanilla": {
+          "medianP95Ms": 3.6204,
+          "medianP99Ms": 4.8587,
+          "worstMaxMs": 104.2913
+        },
+        "new": {
+          "medianP95Ms": 3.5715,
+          "medianP99Ms": 4.3394,
+          "worstMaxMs": 89.0153
+        }
+      }
+    },
+    {
+      "baselineRuns": 3,
+      "candidateRuns": 3,
+      "baselineTickCpuMs": 1.8776041666666667,
+      "candidateTickCpuMs": 1.8619791666666667,
+      "tickCpuRatio": 0.9916782246879334,
+      "baselineWindowCpuMs": 12.395833333333334,
+      "candidateWindowCpuMs": 12.395833333333334,
+      "windowCpuRatio": 1,
+      "baselineProcessCpuMs": 22.604166666666668,
+      "candidateProcessCpuMs": 22.4140625,
+      "cpuMsPerTickRange": {
+        "baselineTick": {
+          "median": 1.8776041666666667,
+          "min": 1.8697916666666667,
+          "max": 2.1770833333333335,
+          "values": [
+            2.1770833333333335,
+            1.8697916666666667,
+            1.8776041666666667
+          ]
+        },
+        "candidateTick": {
+          "median": 1.8619791666666667,
+          "min": 1.7630208333333333,
+          "max": 2.2317708333333335,
+          "values": [
+            1.7630208333333333,
+            1.8619791666666667,
+            2.2317708333333335
+          ]
+        },
+        "baselineWindow": {
+          "median": 12.395833333333334,
+          "min": 11.505208333333334,
+          "max": 13.421875,
+          "values": [
+            13.421875,
+            11.505208333333334,
+            12.395833333333334
+          ]
+        },
+        "candidateWindow": {
+          "median": 12.395833333333334,
+          "min": 11.28125,
+          "max": 14.114583333333334,
+          "values": [
+            11.28125,
+            12.395833333333334,
+            14.114583333333334
+          ]
+        },
+        "baselineProcess": {
+          "median": 22.604166666666668,
+          "min": 20.8203125,
+          "max": 24.7421875,
+          "values": [
+            24.7421875,
+            20.8203125,
+            22.604166666666668
+          ]
+        },
+        "candidateProcess": {
+          "median": 22.4140625,
+          "min": 20.692708333333332,
+          "max": 24.880208333333332,
+          "values": [
+            20.692708333333332,
+            22.4140625,
+            24.880208333333332
+          ]
+        }
+      },
+      "actualEntryProgress": true,
+      "newAiFunctionalComplete": true,
+      "newAiPerformanceGateEligible": true,
+      "within2x": true,
+      "newAiFixedWindowCpuGatePassed": true,
+      "requested": 50,
+      "actual": 60,
+      "units": 5,
+      "workload": "sapper-wall",
+      "build": "0fc21ff73dadb2009947190503e38043b5c22406fa08da7dc80b0be10716ccc1",
+      "progress": [
+        {
+          "newAllCompleteTick": 2495,
+          "newPassedOpening": 60,
+          "newRearPassedOpening": 20,
+          "newEnteredByOrder": 60,
+          "newCompletedUnits": 5,
+          "newPlansAttempted": 23,
+          "newJobsIssued": 122,
+          "newJobFailures": 0
+        },
+        {
+          "newAllCompleteTick": 2432,
+          "newPassedOpening": 60,
+          "newRearPassedOpening": 20,
+          "newEnteredByOrder": 60,
+          "newCompletedUnits": 5,
+          "newPlansAttempted": 23,
+          "newJobsIssued": 122,
+          "newJobFailures": 0
+        },
+        {
+          "newAllCompleteTick": 2491,
+          "newPassedOpening": 60,
+          "newRearPassedOpening": 20,
+          "newEnteredByOrder": 60,
+          "newCompletedUnits": 5,
+          "newPlansAttempted": 23,
+          "newJobsIssued": 122,
+          "newJobFailures": 0
+        }
+      ],
+      "methods": [
+        {
+          "method": "Verse.TickManager.DoSingleTick",
+          "corePercentPerTick": 789.0867615273775,
+          "medianMsPerTick": 2.19050485,
+          "medianCalls": 6000,
+          "medianAverageMs": 2.19050485,
+          "medianP95Ms": 3.4006,
+          "medianP99Ms": 3.9809,
+          "worstMaxMs": 98.0919
+        },
+        {
+          "method": "Verse.MapComponentUtility.MapComponentTick",
+          "corePercentPerTick": 4.8691402497598455,
+          "medianMsPerTick": 0.013516733333333333,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.013516733333333333,
+          "medianP95Ms": 0.015,
+          "medianP99Ms": 0.0203,
+          "worstMaxMs": 0.2781
+        },
+        {
+          "method": "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick",
+          "corePercentPerTick": 2.611161143131604,
+          "medianMsPerTick": 0.0072485833333333334,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.0072485833333333334,
+          "medianP95Ms": 0.001,
+          "medianP99Ms": 0.0107,
+          "worstMaxMs": 16.6396
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.StartJob",
+          "corePercentPerTick": 4.544998799231507,
+          "medianMsPerTick": 0.012616916666666665,
+          "medianCalls": 1710,
+          "medianAverageMs": 0.04615945121951219,
+          "medianP95Ms": 0.0469,
+          "medianP99Ms": 0.7897,
+          "worstMaxMs": 9.5541
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 0.16582330018030594,
+          "medianMsPerTick": 0.0004643833333333334,
+          "medianCalls": 748,
+          "medianAverageMs": 0.003406234718826406,
+          "medianP95Ms": 0.0055,
+          "medianP99Ms": 0.0101,
+          "worstMaxMs": 0.03
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 0.03212935497004595,
+          "medianMsPerTick": 9.206666666666666e-05,
+          "medianCalls": 750,
+          "medianAverageMs": 0.0007369512195121951,
+          "medianP95Ms": 0.0014,
+          "medianP99Ms": 0.0035,
+          "worstMaxMs": 0.0154
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Advance",
+          "corePercentPerTick": 2.1996097502401537,
+          "medianMsPerTick": 0.006106116666666666,
+          "medianCalls": 213,
+          "medianAverageMs": 0.17281462264150943,
+          "medianP95Ms": 0.6702,
+          "medianP99Ms": 2.1908,
+          "worstMaxMs": 16.6109
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalLocalPlanner.Find",
+          "corePercentPerTick": 0.30106268011527376,
+          "medianMsPerTick": 0.00083575,
+          "medianCalls": 14,
+          "medianAverageMs": 0.3581785714285714,
+          "medianP95Ms": 4.6824,
+          "medianP99Ms": 4.6824,
+          "worstMaxMs": 5.3635
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Issue",
+          "corePercentPerTick": 0.4259498981181829,
+          "medianMsPerTick": 0.0011845666666666667,
+          "medianCalls": 122,
+          "medianAverageMs": 0.05825737704918033,
+          "medianP95Ms": 0.0783,
+          "medianP99Ms": 1.1261,
+          "worstMaxMs": 2.3771
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.ReuseOpening",
+          "corePercentPerTick": 0.011129090255303847,
+          "medianMsPerTick": 3.095e-05,
+          "medianCalls": 23,
+          "medianAverageMs": 0.008073913043478261,
+          "medianP95Ms": 0.0368,
+          "medianP99Ms": 0.0472,
+          "worstMaxMs": 0.0812
+        }
+      ],
+      "wholeTickElapsedDistributions": {
+        "vanilla": {
+          "medianP95Ms": 3.4079,
+          "medianP99Ms": 4.2128,
+          "worstMaxMs": 85.5741
+        },
+        "new": {
+          "medianP95Ms": 3.4006,
+          "medianP99Ms": 3.9809,
+          "worstMaxMs": 98.0919
+        }
+      }
+    },
+    {
+      "baselineRuns": 3,
+      "candidateRuns": 3,
+      "baselineTickCpuMs": 6.205729166666667,
+      "candidateTickCpuMs": 5.294270833333333,
+      "tickCpuRatio": 0.8531263113722198,
+      "baselineWindowCpuMs": 26.197916666666668,
+      "candidateWindowCpuMs": 13.888020833333334,
+      "windowCpuRatio": 0.5301192842942346,
+      "baselineProcessCpuMs": 43.716145833333336,
+      "candidateProcessCpuMs": 21.7734375,
+      "cpuMsPerTickRange": {
+        "baselineTick": {
+          "median": 6.205729166666667,
+          "min": 6.098958333333333,
+          "max": 6.205729166666667,
+          "values": [
+            6.098958333333333,
+            6.205729166666667,
+            6.205729166666667
+          ]
+        },
+        "candidateTick": {
+          "median": 5.294270833333333,
+          "min": 5.268229166666667,
+          "max": 5.6171875,
+          "values": [
+            5.268229166666667,
+            5.294270833333333,
+            5.6171875
+          ]
+        },
+        "baselineWindow": {
+          "median": 26.197916666666668,
+          "min": 18.96875,
+          "max": 29.661458333333332,
+          "values": [
+            18.96875,
+            26.197916666666668,
+            29.661458333333332
+          ]
+        },
+        "candidateWindow": {
+          "median": 13.888020833333334,
+          "min": 13.572916666666666,
+          "max": 25.153645833333332,
+          "values": [
+            13.888020833333334,
+            13.572916666666666,
+            25.153645833333332
+          ]
+        },
+        "baselineProcess": {
+          "median": 43.716145833333336,
+          "min": 30.208333333333332,
+          "max": 50.028645833333336,
+          "values": [
+            30.208333333333332,
+            43.716145833333336,
+            50.028645833333336
+          ]
+        },
+        "candidateProcess": {
+          "median": 21.7734375,
+          "min": 21.255208333333332,
+          "max": 42.2421875,
+          "values": [
+            21.7734375,
+            21.255208333333332,
+            42.2421875
+          ]
+        }
+      },
+      "actualEntryProgress": true,
+      "newAiFunctionalComplete": true,
+      "newAiPerformanceGateEligible": true,
+      "within2x": true,
+      "newAiFixedWindowCpuGatePassed": true,
+      "requested": 200,
+      "actual": 204,
+      "units": 17,
+      "workload": "open-approach",
+      "build": "0fc21ff73dadb2009947190503e38043b5c22406fa08da7dc80b0be10716ccc1",
+      "progress": [
+        {
+          "newAllCompleteTick": 4705,
+          "newPassedOpening": 204,
+          "newRearPassedOpening": 68,
+          "newEnteredByOrder": 204,
+          "newCompletedUnits": 17,
+          "newPlansAttempted": 169,
+          "newJobsIssued": 411,
+          "newJobFailures": 0
+        },
+        {
+          "newAllCompleteTick": 4682,
+          "newPassedOpening": 204,
+          "newRearPassedOpening": 68,
+          "newEnteredByOrder": 204,
+          "newCompletedUnits": 17,
+          "newPlansAttempted": 169,
+          "newJobsIssued": 411,
+          "newJobFailures": 0
+        },
+        {
+          "newAllCompleteTick": 4708,
+          "newPassedOpening": 204,
+          "newRearPassedOpening": 68,
+          "newEnteredByOrder": 204,
+          "newCompletedUnits": 17,
+          "newPlansAttempted": 169,
+          "newJobsIssued": 411,
+          "newJobFailures": 0
+        }
+      ],
+      "methods": [
+        {
+          "method": "Verse.TickManager.DoSingleTick",
+          "corePercentPerTick": 2032.3842317896772,
+          "medianMsPerTick": 5.701716716666667,
+          "medianCalls": 6000,
+          "medianAverageMs": 5.701716716666667,
+          "medianP95Ms": 9.6693,
+          "medianP99Ms": 11.9075,
+          "worstMaxMs": 152.5342
+        },
+        {
+          "method": "Verse.MapComponentUtility.MapComponentTick",
+          "corePercentPerTick": 5.240409845582259,
+          "medianMsPerTick": 0.015045216666666666,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.015045216666666666,
+          "medianP95Ms": 0.0218,
+          "medianP99Ms": 0.0258,
+          "worstMaxMs": 0.3091
+        },
+        {
+          "method": "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick",
+          "corePercentPerTick": 5.763096482061999,
+          "medianMsPerTick": 0.01654585,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.01654585,
+          "medianP95Ms": 0.0114,
+          "medianP99Ms": 0.0294,
+          "worstMaxMs": 16.9158
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.StartJob",
+          "corePercentPerTick": 3.912661093695576,
+          "medianMsPerTick": 0.01123325,
+          "medianCalls": 1766,
+          "medianAverageMs": 0.03816506228765572,
+          "medianP95Ms": 0.0553,
+          "medianP99Ms": 0.1655,
+          "worstMaxMs": 8.4911
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 1.119880656977431,
+          "medianMsPerTick": 0.0031591833333333335,
+          "medianCalls": 6323,
+          "medianAverageMs": 0.0029960030627871363,
+          "medianP95Ms": 0.0055,
+          "medianP99Ms": 0.0102,
+          "worstMaxMs": 0.0922
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 0.3522973950795948,
+          "medianMsPerTick": 0.0009903833333333334,
+          "medianCalls": 6323,
+          "medianAverageMs": 0.000955622331171912,
+          "medianP95Ms": 0.0022,
+          "medianP99Ms": 0.0044,
+          "worstMaxMs": 0.0914
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Advance",
+          "corePercentPerTick": 5.188720538720538,
+          "medianMsPerTick": 0.014896816666666667,
+          "medianCalls": 653,
+          "medianAverageMs": 0.13750907692307693,
+          "medianP95Ms": 0.3657,
+          "medianP99Ms": 2.3591,
+          "worstMaxMs": 16.8921
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalLocalPlanner.Find",
+          "corePercentPerTick": 0.4063925321989838,
+          "medianMsPerTick": 0.0011464333333333332,
+          "medianCalls": 59,
+          "medianAverageMs": 0.1165864406779661,
+          "medianP95Ms": 0.1179,
+          "medianP99Ms": 5.6647,
+          "worstMaxMs": 6.1402
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Issue",
+          "corePercentPerTick": 0.7586890979257117,
+          "medianMsPerTick": 0.0021250333333333333,
+          "medianCalls": 411,
+          "medianAverageMs": 0.031022384428223842,
+          "medianP95Ms": 0.0524,
+          "medianP99Ms": 0.2906,
+          "worstMaxMs": 1.5074
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.ReuseOpening",
+          "corePercentPerTick": 0.09935011225333805,
+          "medianMsPerTick": 0.0002802666666666667,
+          "medianCalls": 169,
+          "medianAverageMs": 0.009950295857988166,
+          "medianP95Ms": 0.028,
+          "medianP99Ms": 0.0454,
+          "worstMaxMs": 0.1545
+        }
+      ],
+      "wholeTickElapsedDistributions": {
+        "vanilla": {
+          "medianP95Ms": 10.1698,
+          "medianP99Ms": 13.4224,
+          "worstMaxMs": 198.0812
+        },
+        "new": {
+          "medianP95Ms": 9.6693,
+          "medianP99Ms": 11.9075,
+          "worstMaxMs": 152.5342
+        }
+      }
+    },
+    {
+      "baselineRuns": 3,
+      "candidateRuns": 3,
+      "baselineTickCpuMs": 6.768229166666667,
+      "candidateTickCpuMs": 5.1015625,
+      "tickCpuRatio": 0.7537514428626394,
+      "baselineWindowCpuMs": 23.5859375,
+      "candidateWindowCpuMs": 17.078125,
+      "windowCpuRatio": 0.7240808214640609,
+      "baselineProcessCpuMs": 38.2734375,
+      "candidateProcessCpuMs": 27.380208333333332,
+      "cpuMsPerTickRange": {
+        "baselineTick": {
+          "median": 6.768229166666667,
+          "min": 6.471354166666667,
+          "max": 6.815104166666667,
+          "values": [
+            6.815104166666667,
+            6.768229166666667,
+            6.471354166666667
+          ]
+        },
+        "candidateTick": {
+          "median": 5.1015625,
+          "min": 5.09375,
+          "max": 5.322916666666667,
+          "values": [
+            5.322916666666667,
+            5.09375,
+            5.1015625
+          ]
+        },
+        "baselineWindow": {
+          "median": 23.5859375,
+          "min": 18.265625,
+          "max": 27.877604166666668,
+          "values": [
+            27.877604166666668,
+            23.5859375,
+            18.265625
+          ]
+        },
+        "candidateWindow": {
+          "median": 17.078125,
+          "min": 13.684895833333334,
+          "max": 18.015625,
+          "values": [
+            18.015625,
+            17.078125,
+            13.684895833333334
+          ]
+        },
+        "baselineProcess": {
+          "median": 38.2734375,
+          "min": 28.182291666666668,
+          "max": 45.479166666666664,
+          "values": [
+            45.479166666666664,
+            38.2734375,
+            28.182291666666668
+          ]
+        },
+        "candidateProcess": {
+          "median": 27.380208333333332,
+          "min": 20.924479166666668,
+          "max": 28.6953125,
+          "values": [
+            28.6953125,
+            27.380208333333332,
+            20.924479166666668
+          ]
+        }
+      },
+      "actualEntryProgress": true,
+      "newAiFunctionalComplete": true,
+      "newAiPerformanceGateEligible": true,
+      "within2x": true,
+      "newAiFixedWindowCpuGatePassed": true,
+      "requested": 200,
+      "actual": 204,
+      "units": 17,
+      "workload": "sapper-wall",
+      "build": "0fc21ff73dadb2009947190503e38043b5c22406fa08da7dc80b0be10716ccc1",
+      "progress": [
+        {
+          "newAllCompleteTick": 4685,
+          "newPassedOpening": 204,
+          "newRearPassedOpening": 68,
+          "newEnteredByOrder": 204,
+          "newCompletedUnits": 17,
+          "newPlansAttempted": 169,
+          "newJobsIssued": 411,
+          "newJobFailures": 0
+        },
+        {
+          "newAllCompleteTick": 4690,
+          "newPassedOpening": 204,
+          "newRearPassedOpening": 68,
+          "newEnteredByOrder": 204,
+          "newCompletedUnits": 17,
+          "newPlansAttempted": 169,
+          "newJobsIssued": 411,
+          "newJobFailures": 0
+        },
+        {
+          "newAllCompleteTick": 4715,
+          "newPassedOpening": 204,
+          "newRearPassedOpening": 68,
+          "newEnteredByOrder": 204,
+          "newCompletedUnits": 17,
+          "newPlansAttempted": 169,
+          "newJobsIssued": 411,
+          "newJobFailures": 0
+        }
+      ],
+      "methods": [
+        {
+          "method": "Verse.TickManager.DoSingleTick",
+          "corePercentPerTick": 2019.9052857493257,
+          "medianMsPerTick": 5.543258583333333,
+          "medianCalls": 6000,
+          "medianAverageMs": 5.543258583333333,
+          "medianP95Ms": 10.6618,
+          "medianP99Ms": 13.4122,
+          "worstMaxMs": 99.7743
+        },
+        {
+          "method": "Verse.MapComponentUtility.MapComponentTick",
+          "corePercentPerTick": 5.282627323195753,
+          "medianMsPerTick": 0.014590616666666667,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.014590616666666667,
+          "medianP95Ms": 0.0215,
+          "medianP99Ms": 0.0256,
+          "worstMaxMs": 0.2456
+        },
+        {
+          "method": "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick",
+          "corePercentPerTick": 5.23781076514603,
+          "medianMsPerTick": 0.014466833333333333,
+          "medianCalls": 6000,
+          "medianAverageMs": 0.014466833333333333,
+          "medianP95Ms": 0.0096,
+          "medianP99Ms": 0.0256,
+          "worstMaxMs": 14.8943
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.StartJob",
+          "corePercentPerTick": 10.169961380642047,
+          "medianMsPerTick": 0.0277134,
+          "medianCalls": 3978,
+          "medianAverageMs": 0.0418,
+          "medianP95Ms": 0.0645,
+          "medianP99Ms": 0.0954,
+          "worstMaxMs": 12.5408
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 0.42709713024282564,
+          "medianMsPerTick": 0.00116085,
+          "medianCalls": 2057,
+          "medianAverageMs": 0.0034117735470941884,
+          "medianP95Ms": 0.0057,
+          "medianP99Ms": 0.0086,
+          "worstMaxMs": 0.0515
+        },
+        {
+          "method": "Verse.PathFinder.CreateRequest",
+          "corePercentPerTick": 0.09350364963503649,
+          "medianMsPerTick": 0.00025749999999999997,
+          "medianCalls": 2059,
+          "medianAverageMs": 0.0007524201355275895,
+          "medianP95Ms": 0.0015,
+          "medianP99Ms": 0.0035,
+          "worstMaxMs": 0.0144
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Advance",
+          "corePercentPerTick": 4.678994689838281,
+          "medianMsPerTick": 0.012923383333333333,
+          "medianCalls": 669,
+          "medianAverageMs": 0.11590478325859492,
+          "medianP95Ms": 0.38,
+          "medianP99Ms": 1.8562,
+          "worstMaxMs": 14.8728
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalLocalPlanner.Find",
+          "corePercentPerTick": 0.35870745836350465,
+          "medianMsPerTick": 0.0009907499999999999,
+          "medianCalls": 59,
+          "medianAverageMs": 0.10075423728813558,
+          "medianP95Ms": 0.0882,
+          "medianP99Ms": 4.9279,
+          "worstMaxMs": 5.9216
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Issue",
+          "corePercentPerTick": 0.8800205165339127,
+          "medianMsPerTick": 0.0024306166666666668,
+          "medianCalls": 411,
+          "medianAverageMs": 0.03548345498783455,
+          "medianP95Ms": 0.0547,
+          "medianP99Ms": 0.3143,
+          "worstMaxMs": 2.0292
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.ReuseOpening",
+          "corePercentPerTick": 0.11186338402124063,
+          "medianMsPerTick": 0.0003089666666666666,
+          "medianCalls": 169,
+          "medianAverageMs": 0.01096923076923077,
+          "medianP95Ms": 0.032,
+          "medianP99Ms": 0.0522,
+          "worstMaxMs": 0.0613
+        }
+      ],
+      "wholeTickElapsedDistributions": {
+        "vanilla": {
+          "medianP95Ms": 11.4274,
+          "medianP99Ms": 14.6537,
+          "worstMaxMs": 90.5467
+        },
+        "new": {
+          "medianP95Ms": 10.6618,
+          "medianP99Ms": 13.4122,
+          "worstMaxMs": 99.7743
+        }
+      }
+    }
+  ]
+}

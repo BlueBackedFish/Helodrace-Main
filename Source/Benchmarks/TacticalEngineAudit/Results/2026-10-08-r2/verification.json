@@ -1,0 +1,28 @@
+{
+  "build": "0fc21ff73dadb2009947190503e38043b5c22406fa08da7dc80b0be10716ccc1",
+  "fixtureVersion": 9,
+  "finalRuns": 30,
+  "cpuMatrixRuns": 24,
+  "functionalCases": 6,
+  "rawFileHashesVerified": 429,
+  "replayedCpuGroups": 4,
+  "gameBuildWarnings": 0,
+  "gameBuildErrors": 0,
+  "validation": [
+    "Native bindings and engine selection",
+    "Method profiler and CPU gate fixture v9",
+    "CLI rejection/self comparison checks",
+    "Compressed raw hash and four comparison roundtrip"
+  ],
+  "sourceCommits": [
+    "346f9f37",
+    "d8e904a4",
+    "8388e3ba",
+    "c2064d36"
+  ],
+  "logReview": {
+    "runtimeExceptions": 0,
+    "afterProfilerReadyErrors": 0,
+    "sharedStartupMissingTextureMessages": 5
+  }
+}
