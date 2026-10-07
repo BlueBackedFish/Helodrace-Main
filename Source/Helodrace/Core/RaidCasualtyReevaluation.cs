@@ -22,6 +22,7 @@ namespace Helodrace
             if (!pendingCasualties.TryGetValue(unitId, out HashSet<Pawn> losses))
                 pendingCasualties.Add(unitId, losses = new HashSet<Pawn>());
             losses.Add(pawn);
+            map?.GetComponent<MapComponent_RaidTacticalCommunications>()?.InvalidateUnit(unitId);
         }
 
         private void ReconcileCasualties(RaidTacticalUnit unit, List<Pawn> members,

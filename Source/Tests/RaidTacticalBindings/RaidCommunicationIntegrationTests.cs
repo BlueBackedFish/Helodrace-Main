@@ -84,7 +84,12 @@ internal static class RaidCommunicationIntegrationTests
             var b = new Pawn { thingIDNumber = 51002, def = pawnDef, Position = new IntVec3(70, 0, 70) };
             var receivingSoldier = new Pawn { thingIDNumber = 51003, def = pawnDef, Position = new IntVec3(71, 0, 70) };
             foreach (Pawn pawn in new[] { a, b, receivingSoldier })
+            {
                 AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(pawn, (sbyte)0);
+                pawn.health = (Pawn_HealthTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
+                AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(pawn.health, PawnHealthState.Mobile);
+                pawn.apparel = new Pawn_ApparelTracker(pawn);
+            }
             bool Voice() => (bool)AccessTools.Method(frameType, "VoiceTo").Invoke(null, new object[] { a, b, 8 });
             Check(!Voice(), "LOW physical contact is impossible outside the local voice radius.");
             AccessTools.Field(typeof(Thing), "positionInt").SetValue(b, new IntVec3(3, 0, 1));
@@ -112,12 +117,21 @@ internal static class RaidCommunicationIntegrationTests
                 Set("Unit", unit); Set("State", state); Set("Commander", commander);
                 Set("Members", members.ToDictionary(pawn => pawn.thingIDNumber));
                 Set("CommandDelays", members.ToDictionary(pawn => pawn.thingIDNumber, pawn => pawn == commander ? 0 : 40));
-                CompTacticalRadio Radio()
+                CompTacticalRadio Radio(Pawn wearer)
                 {
                     var thing = new ThingWithComps { def = pawnDef };
-                    return new CompTacticalRadio { parent = thing, props = new CompProperties_TacticalRadio { network = "test", range = 300 } };
+                    var component = new CompTacticalRadio { parent = thing, props = new CompProperties_TacticalRadio { network = "test", range = 300 } };
+                    AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(thing, new List<ThingComp> { component });
+                    var vest = new Apparel { def = pawnDef };
+                    var modular = new CompModularArmor { parent = vest, props = new CompProperties_ModularArmor() };
+                    AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(vest, new List<ThingComp> { modular });
+                    var part = new InstalledModularArmorPart();
+                    ((List<Thing>)AccessTools.Field(typeof(ThingOwner<Thing>), "innerList").GetValue(part.GetDirectlyHeldThings())).Add(thing);
+                    AccessTools.Field(typeof(CompModularArmor), "installedParts").SetValue(modular, new List<InstalledModularArmorPart> { part });
+                    ((List<Apparel>)wearer.apparel.WornApparel).Add(vest);
+                    return component;
                 }
-                Set("Radios", members.ToDictionary(pawn => pawn.thingIDNumber, pawn => new List<CompTacticalRadio> { Radio() }));
+                Set("Radios", members.ToDictionary(pawn => pawn.thingIDNumber, pawn => new List<CompTacticalRadio> { Radio(pawn) }));
                 return frame;
             }
             object frameA = MakeFrame("A", a, a), frameB = MakeFrame("B", b, b, receivingSoldier);
@@ -129,13 +143,15 @@ internal static class RaidCommunicationIntegrationTests
                     new object[] { people, leader, reusableRadios, tick, revision, blackout });
             var people = new List<Pawn> { b, receivingSoldier };
             Check(Reusable(people, b), "A stationary unchanged personnel graph is reused within its short TTL.");
-            Check(!Reusable(people, b, 60), "Smoke/unknown physical changes cannot outlive the 60-tick graph TTL.");
-            Check(!Reusable(people, b, revision: 1), "Door, wall and terrain revisions invalidate stationary graphs.");
+            Check(Reusable(people, b, 299) && !Reusable(people, b, 300), "A stale graph is reused until its bounded 300-tick lifetime.");
+            Check(Reusable(people, b, revision: 1), "An unrelated door revision does not flush every squad's graph.");
             Check(!Reusable(people, b, blackout: true), "Blackout invalidates cached radio graphs.");
             Check(!Reusable(people, receivingSoldier), "Commander succession invalidates cached delays.");
             Check(!Reusable(new List<Pawn> { b }, b), "A lost member invalidates the cached graph.");
             positions[receivingSoldier.thingIDNumber] = receivingSoldier.Position + IntVec3.East;
-            Check(!Reusable(people, b), "Movement invalidates the cached personnel graph.");
+            Check(Reusable(people, b), "One-cell movement does not invalidate the cached personnel graph.");
+            positions[receivingSoldier.thingIDNumber] = receivingSoldier.Position + IntVec3.East * 5;
+            Check(!Reusable(people, b), "Moving farther than four cells invalidates the cached personnel graph.");
             positions[receivingSoldier.thingIDNumber] = receivingSoldier.Position;
             var candidateRadios = reusableRadios.ToDictionary(pair => pair.Key, pair => new List<CompTacticalRadio>(pair.Value));
             candidateRadios[b.thingIDNumber].Clear();
@@ -245,6 +261,25 @@ internal static class RaidCommunicationIntegrationTests
             Check(pending.Count == 0 && stateA.Communication.Receipts.Any(receipt =>
                     receipt.ReportId == delayed.Id && receipt.Status == "Acknowledged"),
                 "Capacity eviction does not strand the transport or repeatedly retry the same delayed report.");
+            var fresh = report.Copy(); fresh.Id = "A:hardware-removed"; fresh.ObservedTick = fresh.Revision = 1440;
+            var worn = (List<Apparel>)a.apparel.WornApparel;
+            var savedVest = worn.Single(); worn.Clear();
+            pending.Add(Packet(b.thingIDNumber, 1460, fresh)); Tick(1440);
+            Check(pending.Count == 0 && !stateB.Communication.Knowledge.Knows(fresh),
+                "A physically removed vest interrupts transmission even when a stale frame still lists its intact radio.");
+            worn.Add(savedVest);
+            fresh.Id = "A:operator-downed"; fresh.ObservedTick = fresh.Revision = 1460;
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(a.health, PawnHealthState.Down);
+            pending.Add(Packet(b.thingIDNumber, 1480, fresh)); Tick(1460);
+            Check(pending.Count == 0, "A downed operator cannot deliver using a stale personnel frame.");
+            AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(a.health, PawnHealthState.Mobile);
+            fresh.Id = "A:voice-blocked"; fresh.ObservedTick = fresh.Revision = 1480;
+            AccessTools.Field(typeof(Thing), "positionInt").SetValue(b, new IntVec3(3, 0, 1));
+            map.edificeGrid.InnerArray[map.cellIndices.CellToIndex(wallCell)] = new Building { def = wall };
+            var voicePacket = Packet(b.thingIDNumber, 1500, fresh); voicePacket.Mode = RaidCommunicationMode.Voice;
+            pending.Add(voicePacket); Tick(1480);
+            Check(pending.Count == 0 && !stateB.Communication.Knowledge.Knows(fresh),
+                "A stale graph never permits inter-squad voice delivery through a currently closed wall.");
         }
         finally { Current.Game = previous; }
         Console.WriteLine($"PASS: {checks} native transmission delay, receipt, ACK, equipment loss, internal relay and blackout checks.");

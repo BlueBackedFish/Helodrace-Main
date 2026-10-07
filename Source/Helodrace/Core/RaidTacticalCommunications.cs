@@ -42,9 +42,9 @@ namespace Helodrace
 
         internal bool Reusable(List<Pawn> members, Pawn commander, Dictionary<int, List<CompTacticalRadio>> radios,
             int tick, int revision, bool blackout) => Commander == commander && Blackout == blackout
-            && StructureRevision == revision && tick >= BuiltTick && tick - BuiltTick < 60 && Members.Count == members.Count
+            && tick >= BuiltTick && tick - BuiltTick < 300 && Members.Count == members.Count
             && members.All(pawn => Members.TryGetValue(pawn.thingIDNumber, out Pawn old) && old == pawn
-                && Positions.TryGetValue(pawn.thingIDNumber, out IntVec3 position) && position == pawn.Position
+                && Positions.TryGetValue(pawn.thingIDNumber, out IntVec3 position) && position.DistanceToSquared(pawn.Position) <= 16
                 && (Doctrine?.tacticalRadio != true || radios != null
                     && Radios.TryGetValue(pawn.thingIDNumber, out List<CompTacticalRadio> previous)
                     && previous.SequenceEqual(radios[pawn.thingIDNumber])));
@@ -74,14 +74,12 @@ namespace Helodrace
         }
     }
 
-    public sealed class MapComponent_RaidTacticalCommunications : MapComponent
+    public sealed partial class MapComponent_RaidTacticalCommunications : MapComponent
     {
         private List<RaidReportTransmission> pending = new List<RaidReportTransmission>();
         private Dictionary<string, RaidCommunicationFrame> frames = new Dictionary<string, RaidCommunicationFrame>();
-        private int frameTick = -1, pairCursor, deliveryCursor, queued;
+        private int frameTick = -1, pairCursor, deliveryCursor, reportCursor, queued;
         private bool blackout;
-        private readonly HashSet<string> activeFrames = new HashSet<string>();
-        private readonly HashSet<string> transmitting = new HashSet<string>();
         public MapComponent_RaidTacticalCommunications(Map map) : base(map) { }
 
         internal RaidCommunicationFrame Frame(string unitId, int tick)
@@ -92,46 +90,10 @@ namespace Helodrace
 
         private void RefreshFrames(int tick)
         {
-            if (frameTick >= 0 && tick - frameTick < RaidCommunicationPolicy.TickInterval) return;
-            frameTick = tick; blackout = SCR300RadioUtility.IsBlackout(map);
-            var execution = map.GetComponent<MapComponent_RaidTacticalExecution>();
-            if (execution == null) return;
-            activeFrames.Clear(); transmitting.Clear();
-            foreach (var packet in pending) { transmitting.Add(packet.FromUnit); transmitting.Add(packet.ToUnit); }
-            int revision = RaidPhysicalMapCache.For(map).StructureRevision;
-            foreach (RaidExecutionTicket ticket in execution.CommunicationRoster)
-            {
-                RaidTacticalUnit unit = ticket.Unit;
-                var state = execution.StateFor(unit.Id);
-                if (state?.ActivePlan?.Success != true) continue;
-                List<Pawn> members = ticket.Members.Where(pawn => pawn?.Spawned == true && pawn.Map == map
-                    && !pawn.Dead && !pawn.Downed && !pawn.InMentalState && execution.ControlsPawn(pawn)
-                    && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Consciousness)).ToList();
-                if (members.Count == 0) continue;
-                activeFrames.Add(unit.Id);
-                Pawn commander = members.Contains(unit.Commander) ? unit.Commander : null;
-                bool radioEnabled = unit.Organization.doctrine?.tacticalRadio == true;
-                var radios = radioEnabled ? members.ToDictionary(pawn => pawn.thingIDNumber,
-                    pawn => RaidTacticalRadioUtility.Radios(pawn).ToList()) : null;
-                if (!transmitting.Contains(unit.Id) && frames.TryGetValue(unit.Id, out RaidCommunicationFrame previous)
-                    && previous.State == state && previous.Unit.Organization.doctrine == unit.Organization.doctrine
-                    && previous.Reusable(members, commander, radios, tick, revision, blackout))
-                { previous.Unit = unit; continue; }
-                var frame = new RaidCommunicationFrame { Unit = unit, State = state,
-                    Commander = commander, BuiltTick = tick, StructureRevision = revision, Blackout = blackout,
-                    Members = members.ToDictionary(pawn => pawn.thingIDNumber),
-                    Radios = radios ?? new Dictionary<int, List<CompTacticalRadio>>() };
-                foreach (Pawn pawn in members) frame.Positions.Add(pawn.thingIDNumber, pawn.Position);
-                frame.CommandDelays = frame.Commander != null
-                    ? RaidCommunicationPolicy.Delays(frame.Members.Keys.ToList(), frame.Commander.thingIDNumber,
-                        (a, b) => frame.Edge(a, b, blackout)) : new Dictionary<int, int>();
-                frames[unit.Id] = frame;
-                if (Prefs.DevMode) state.Communication.Status = $"Command={(frame.Commander?.LabelShort ?? "none")}; connected {frame.CommandDelays.Count}/{members.Count}; "
-                    + $"radio operators={frame.Radios.Count(value => value.Value.Count > 0)}; blackout={blackout}";
-            }
-            foreach (string id in frames.Keys.Where(id => !activeFrames.Contains(id)).ToList()) frames.Remove(id);
+            if (frameTick == tick) return;
+            frameTick = tick;
+            PumpFrames(tick);
         }
-
         public override void ExposeData()
         {
             Scribe_Collections.Look(ref pending, "raidReportTransmissions", LookMode.Deep);
@@ -139,23 +101,23 @@ namespace Helodrace
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 pending = pending ?? new List<RaidReportTransmission>();
-                frameTick = -1; frames.Clear();
+                frameTick = -1; frames.Clear(); frameWork.Clear(); frameTickets.Clear(); equipment.Clear(); deliveryEquipment.Clear();
+                rosterAfter = blackoutAfter = 0;
             }
         }
 
         public override void MapComponentTick()
         {
             int tick = GenTicks.TicksGame;
+            if (frameTickets.Count == 0 && frames.Count == 0 && pending.Count == 0 && tick < rosterAfter) return;
+            RefreshFrames(tick);
             if (tick % RaidCommunicationPolicy.TickInterval != 0) return;
-            // Observation can populate a frame between communication ticks. Never let
-            // that cache defer operator/equipment revalidation at a delivery deadline.
-            frameTick = -1;
             ProcessTick(tick);
         }
 
         private void ProcessTick(int tick)
         {
-            RefreshFrames(tick); queued = 0;
+            RefreshFrames(tick); queued = 0; deliveryEquipment.Clear();
             // Every resumed transmission revalidates the current people, equipment and contact.
             for (int attempts = 0, count = Math.Min(16, pending.Count); attempts < count && pending.Count > 0; attempts++)
             {
@@ -192,9 +154,10 @@ namespace Helodrace
                 deliveryCursor++;
             }
             List<RaidCommunicationFrame> available = frames.Values.OrderBy(frame => frame.Unit.Id).ToList();
-            for (int frameIndex = 0; frameIndex < available.Count; frameIndex++)
+            int reportCount = System.Math.Min(2, available.Count);
+            for (int frameIndex = 0; frameIndex < reportCount; frameIndex++)
             {
-                RaidCommunicationFrame frame = available[(frameIndex + tick / RaidCommunicationPolicy.TickInterval) % available.Count];
+                RaidCommunicationFrame frame = available[(frameIndex + reportCursor) % available.Count];
                 var comm = frame.State.Communication;
                 comm.Knowledge.Prune(tick);
                 comm.Observers.RemoveAll(observer => !frame.Members.ContainsKey(observer.PawnId));
@@ -211,6 +174,7 @@ namespace Helodrace
                                 ? RaidCommunicationMode.Radio : RaidCommunicationMode.Voice, delay, tick);
                 }
             }
+            if (available.Count > 0) reportCursor = (reportCursor + reportCount) % available.Count;
             int pairCount = available.Count * Math.Max(0, available.Count - 1);
             for (int checkedPairs = 0; checkedPairs < Math.Min(RaidCommunicationPolicy.PairBudget, pairCount); checkedPairs++)
             {
@@ -224,13 +188,16 @@ namespace Helodrace
 
         private bool Validate(RaidReportTransmission packet, out RaidCommunicationFrame source, out RaidCommunicationFrame receiver)
         {
-            source = Frame(packet.FromUnit, frameTick); receiver = Frame(packet.ToUnit, frameTick);
+            frames.TryGetValue(packet.FromUnit, out source); frames.TryGetValue(packet.ToUnit, out receiver);
             if (source == null || receiver == null || packet.Report == null
                 || !source.Members.TryGetValue(packet.FromPawn, out Pawn a)
-                || !receiver.Members.TryGetValue(packet.ToPawn, out Pawn b)) return false;
+                || !receiver.Members.TryGetValue(packet.ToPawn, out Pawn b)
+                || !a.Spawned || !b.Spawned || a.Map != map || b.Map != map || a.Dead || b.Dead || a.Downed || b.Downed) return false;
             // A newly slower relay must start its own delay. In particular, losing radio
             // cannot complete a 20-tick report through a replacement 40-tick voice route.
             if (!source.CommandDelays.TryGetValue(packet.FromPawn, out int delay) || delay > packet.CommandDelay) return false;
+            bool radioValid = packet.Mode != RaidCommunicationMode.Radio || DeliveryRadioContact(source, receiver, a, b);
+            if (!radioValid) return false;
             if (source == receiver) return receiver.Commander == b;
             if (!Friendly(source, receiver)) return false;
             return packet.Mode == RaidCommunicationMode.Radio ? source.RadioTo(receiver, a, b, blackout)

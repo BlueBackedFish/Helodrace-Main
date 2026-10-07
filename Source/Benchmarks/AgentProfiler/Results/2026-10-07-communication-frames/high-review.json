@@ -1,0 +1,74 @@
+﻿[
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-communication-frames\\before\\high\\profiles\\capture-20261007-091021-841-601.json",
+        "scenario":  18,
+        "population":  208,
+        "alive":  208,
+        "moved":  208,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-communication-frames\\before\\high\\profiles\\capture-20261007-091150-106-2101.json",
+        "scenario":  19,
+        "population":  403,
+        "alive":  403,
+        "moved":  403,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "before",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-communication-frames\\before\\high\\profiles\\capture-20261007-091159-962-3601.json",
+        "scenario":  15,
+        "population":  0,
+        "alive":  0,
+        "moved":  0,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-communication-frames\\after\\high\\profiles\\capture-20261007-092729-943-602.json",
+        "scenario":  18,
+        "population":  208,
+        "alive":  208,
+        "moved":  207,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-communication-frames\\after\\high\\profiles\\capture-20261007-092821-904-2106.json",
+        "scenario":  19,
+        "population":  403,
+        "alive":  403,
+        "moved":  402,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    },
+    {
+        "side":  "after",
+        "capture":  "C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Benchmarks\\AgentProfiler\\Results\\2026-10-07-communication-frames\\after\\high\\profiles\\capture-20261007-092840-504-3609.json",
+        "scenario":  15,
+        "population":  0,
+        "alive":  0,
+        "moved":  0,
+        "eligible":  true,
+        "reasons":  [
+
+                    ]
+    }
+]

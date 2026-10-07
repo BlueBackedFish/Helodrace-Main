@@ -117,6 +117,7 @@ internal static class Program
             RaidContactTests.Run();
             RaidReportTests.Run();
             RaidCommunicationIntegrationTests.Run();
+            RaidCommunicationSchedulingTests.Run();
             RaidObservationTests.Run();
             RaidCqbKnowledgeTests.Run();
             RaidTacticalUnitTests.Run();
@@ -531,6 +532,7 @@ internal static class Program
         }
         Game previousGame = Current.Game;
         var map = (Map)RuntimeHelpers.GetUninitializedObject(typeof(Map));
+        AccessTools.Field(typeof(Map), "components").SetValue(map, new List<MapComponent>());
         var game = (Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
         AccessTools.Field(typeof(Game), "maps").SetValue(game, new List<Map> { map });
         Current.Game = game;
