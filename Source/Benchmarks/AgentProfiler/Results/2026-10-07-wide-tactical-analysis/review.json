@@ -1,0 +1,1967 @@
+﻿{
+    "schema":  1,
+    "date":  "2026-10-07",
+    "scope":  "Investigation only; no production source, build or deployment changes",
+    "captures":  44,
+    "targetSignatures":  350,
+    "hitSignatures":  260,
+    "modSignatures":  336,
+    "engineSignatures":  14,
+    "sourceFilesChecked":  130,
+    "sourceFilesChanged":  0,
+    "repositoryDllSha256":  "4DC08F5F64226EF5BECF8B20F8AFA00FA12EE520E5F471E9D8383CEA43E93178",
+    "installedDllSha256":  "4DC08F5F64226EF5BECF8B20F8AFA00FA12EE520E5F471E9D8383CEA43E93178",
+    "runReview":  [
+                      {
+                          "run":  "coarse-low-control",
+                          "auditComplete":  true,
+                          "sampleCases":  2,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  400,
+                                            "moved":  399,
+                                            "startPhases":  "Assemble:37",
+                                            "endPhases":  "EntryWait:1,Assemble:36",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "400-only case sequence; not identical history to verify-low population sequence; no before/after implementation claim."
+                      },
+                      {
+                          "run":  "communications-high",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  52,
+                                            "alive":  52,
+                                            "moved":  52,
+                                            "startPhases":  "Assemble:4",
+                                            "endPhases":  "Hold:1,Assemble:3",
+                                            "radioOperators":  52,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  208,
+                                            "alive":  208,
+                                            "moved":  208,
+                                            "startPhases":  "Assemble:16",
+                                            "endPhases":  "Hold:1,Assemble:15",
+                                            "radioOperators":  208,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  403,
+                                            "alive":  403,
+                                            "moved":  403,
+                                            "startPhases":  "Assemble:31",
+                                            "endPhases":  "Assemble:30,Hold:1",
+                                            "radioOperators":  401,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "execution-high",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  52,
+                                            "alive":  52,
+                                            "moved":  52,
+                                            "startPhases":  "Assemble:4",
+                                            "endPhases":  "Hold:1,Assemble:3",
+                                            "radioOperators":  52,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  208,
+                                            "alive":  208,
+                                            "moved":  208,
+                                            "startPhases":  "Assemble:16",
+                                            "endPhases":  "Hold:1,Assemble:15",
+                                            "radioOperators":  208,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  403,
+                                            "alive":  403,
+                                            "moved":  402,
+                                            "startPhases":  "Assemble:31",
+                                            "endPhases":  "Assemble:30,WithdrawFromCharge:1",
+                                            "radioOperators":  403,
+                                            "unstartedMoves":  "unstarted moves=10 max age=640 ticks reasons=DestinationReserved:8,RetryDelay:2",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "execution-low",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  50,
+                                            "alive":  50,
+                                            "moved":  50,
+                                            "startPhases":  "Assemble:5",
+                                            "endPhases":  "CrossBreach:1,Assemble:4",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=5 max age=142 ticks reasons=OpeningWait:5",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  200,
+                                            "alive":  200,
+                                            "moved":  197,
+                                            "startPhases":  "Assemble:19",
+                                            "endPhases":  "Assemble:18,Support:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=1 max age=974 ticks reasons=None:1",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  400,
+                                            "moved":  399,
+                                            "startPhases":  "Assemble:37",
+                                            "endPhases":  "Assemble:36,EntryWait:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "functional-movement",
+                          "auditComplete":  false,
+                          "sampleCases":  0,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+
+                                    ],
+                          "notes":  "Functional context: 11 LOW pawns, one squad; manual captures use default -1 metadata. These are not steady population comparisons."
+                      },
+                      {
+                          "run":  "functional-movement-profile",
+                          "auditComplete":  false,
+                          "sampleCases":  0,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+                                              "System.InvalidOperationException: Security functional stage 1 stalled phase=Assemble approach=True node=1 guards=0 reactions=0: (125, 0, 115)/Wait_Combat/None/edifice=/assignment=(125, 0, 115)/command=Hold/destination=(125, 0, 115)/frozenStandable=True;(126, 0, 115)/Wait_Combat/None/edifice=/assignment=(126, 0, 115)/command=Move/destination=(126, 0, 115)/frozenStandable=True;(127, 0, 115)/Wait_Combat/None/edifice=/assignment=(127, 0, 115)/command=Move/destination=(127, 0, 115)/frozenStandable=True;(124, 0, 115)/Goto/None/edifice=/assignment=(128, 0, 115)/command=Move/destination=(128, 0, 115)/frozenStandable=True;(125, 0, 116)/Wait_Combat/None/edifice=/assignment=(125, 0, 116)/command=Move/destination=(125, 0, 116)/frozenStandable=True;(126, 0, 116)/Wait_Combat/None/edifice=/assignment=(126, 0, 116)/command=Move/destination=(126, 0, 116)/frozenStandable=True;(127, 0, 116)/Wait_Combat/None/edifice=/assignment=(127, 0, 116)/command=Hold/destination=(127, 0, 116)/frozenStandable=True;(128, 0, 116)/Wait_Combat/None/edifice=/assignment=(128, 0, 116)/command=Hold/destination=(128, 0, 116)/frozenStandable=True;(125, 0, 117)/Wait_Combat/None/edifice=/assignment=(125, 0, 117)/command=Move/destination=(125, 0, 117)/frozenStandable=True;(126, 0, 117)/Wait_Combat/None/edifice=/assignment=(126, 0, 117)/command=Move/destination=(126, 0, 117)/frozenStandable=True;(127, 0, 117)/Wait_Combat/None/edifice=/assignment=(127, 0, 117)/command=Move/destination=(127, 0, 117)/frozenStandable=True\r\n[Ref 6A46491F]\n  at Helodrace.RaidMovementFunctionalAudit.Update () [0x00458] in C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Core\\RaidMovementFunctionalAudit.cs:87 \n  at Helodrace.MapComponent_RaidMovementRuntimeAudit.MapComponentUpdate () [0x00365] in C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Core\\RaidMovementRuntimeAudit.cs:120 "
+                                          ],
+                          "cases":  [
+
+                                    ],
+                          "notes":  "Functional context: 11 LOW pawns, one squad; manual captures use default -1 metadata. These are not steady population comparisons."
+                      },
+                      {
+                          "run":  "functional-movement-retry",
+                          "auditComplete":  true,
+                          "sampleCases":  0,
+                          "functionalStagesPassed":  7,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+
+                                    ],
+                          "notes":  "Functional context: 11 LOW pawns, one squad; manual captures use default -1 metadata. These are not steady population comparisons."
+                      },
+                      {
+                          "run":  "lifecycle-low",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  50,
+                                            "alive":  50,
+                                            "moved":  50,
+                                            "startPhases":  "Assemble:5",
+                                            "endPhases":  "EntryWait:1,Assemble:4",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  200,
+                                            "alive":  200,
+                                            "moved":  200,
+                                            "startPhases":  "Assemble:5,NoState:14",
+                                            "endPhases":  "Assemble:17,Breach:1,Support:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=3 max age=319 ticks reasons=None:3",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  400,
+                                            "moved":  396,
+                                            "startPhases":  "Assemble:37",
+                                            "endPhases":  "Assemble:36,EntryWait:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "movement-low",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  50,
+                                            "alive":  50,
+                                            "moved":  50,
+                                            "startPhases":  "Assemble:5",
+                                            "endPhases":  "CrossBreach:1,Assemble:4",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=5 max age=143 ticks reasons=OpeningWait:5",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  200,
+                                            "alive":  200,
+                                            "moved":  200,
+                                            "startPhases":  "Assemble:19",
+                                            "endPhases":  "Assemble:18,Complete:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  400,
+                                            "moved":  398,
+                                            "startPhases":  "Assemble:37",
+                                            "endPhases":  "Assemble:36,CrossBreach:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=3 max age=28 ticks reasons=OpeningWait:3",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "planning-cold-low",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  50,
+                                            "alive":  50,
+                                            "moved":  50,
+                                            "startPhases":  "",
+                                            "endPhases":  "Breach:1,Assemble:4",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=1 max age=388 ticks reasons=None:1",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  200,
+                                            "alive":  200,
+                                            "moved":  200,
+                                            "startPhases":  "Assemble:4,NoState:1",
+                                            "endPhases":  "Assemble:18,Breach:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=2 max age=444 ticks reasons=None:2",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  400,
+                                            "moved":  397,
+                                            "startPhases":  "Assemble:18,Breach:1",
+                                            "endPhases":  "Assemble:36,Breach:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "Assemble:36,Breach:1",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "support-low",
+                          "auditComplete":  true,
+                          "sampleCases":  3,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  50,
+                                            "alive":  50,
+                                            "moved":  50,
+                                            "startPhases":  "Assemble:5",
+                                            "endPhases":  "CrossBreach:1,Assemble:4",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=6 max age=89 ticks reasons=None:1,OpeningWait:5",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  394,
+                                            "moved":  393,
+                                            "startPhases":  "Assemble:37",
+                                            "endPhases":  "Assemble:36,CrossBreach:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  false,
+                                            "exclusionReasons":  [
+                                                                     "casualties"
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "unprofiled-low-control",
+                          "auditComplete":  true,
+                          "sampleCases":  2,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  400,
+                                            "moved":  393,
+                                            "startPhases":  "Assemble:37",
+                                            "endPhases":  "Assemble:36,EntryWait:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "400-only case sequence; not identical history to verify-low population sequence; no before/after implementation claim."
+                      },
+                      {
+                          "run":  "vanilla-high",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  52,
+                                            "alive":  52,
+                                            "moved":  52,
+                                            "startPhases":  "Assemble:4",
+                                            "endPhases":  "Hold:1,Assemble:3",
+                                            "radioOperators":  52,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  208,
+                                            "alive":  208,
+                                            "moved":  208,
+                                            "startPhases":  "Assemble:16",
+                                            "endPhases":  "Hold:1,Assemble:15",
+                                            "radioOperators":  208,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  403,
+                                            "alive":  403,
+                                            "moved":  401,
+                                            "startPhases":  "Assemble:31",
+                                            "endPhases":  "Assemble:30,Hold:1",
+                                            "radioOperators":  403,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "verify-high",
+                          "auditComplete":  false,
+                          "sampleCases":  2,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  52,
+                                            "alive":  52,
+                                            "moved":  52,
+                                            "startPhases":  "Assemble:4",
+                                            "endPhases":  "Hold:1,Assemble:3",
+                                            "radioOperators":  52,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  false,
+                                            "exclusionReasons":  [
+                                                                     "incomplete-run"
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  208,
+                                            "alive":  208,
+                                            "moved":  208,
+                                            "startPhases":  "Assemble:16",
+                                            "endPhases":  "Hold:1,Assemble:15",
+                                            "radioOperators":  208,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  false,
+                                            "exclusionReasons":  [
+                                                                     "incomplete-run"
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Completed 52/208 captures in incomplete run, descriptive only; 403 recaptured separately."
+                      },
+                      {
+                          "run":  "verify-high-retry",
+                          "auditComplete":  true,
+                          "sampleCases":  2,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  403,
+                                            "alive":  403,
+                                            "moved":  403,
+                                            "startPhases":  "Assemble:31",
+                                            "endPhases":  "WithdrawFromCharge:1,Assemble:30",
+                                            "radioOperators":  403,
+                                            "unstartedMoves":  "unstarted moves=10 max age=606 ticks reasons=RetryDelay:7,DestinationReserved:3",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      },
+                      {
+                          "run":  "verify-low",
+                          "auditComplete":  true,
+                          "sampleCases":  4,
+                          "functionalStagesPassed":  0,
+                          "auditErrors":  [
+
+                                          ],
+                          "cases":  [
+                                        {
+                                            "scenario":  16,
+                                            "actualPopulation":  50,
+                                            "alive":  50,
+                                            "moved":  50,
+                                            "startPhases":  "Assemble:5",
+                                            "endPhases":  "CrossBreach:1,Assemble:4",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=6 max age=119 ticks reasons=OpeningWait:6",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  18,
+                                            "actualPopulation":  200,
+                                            "alive":  200,
+                                            "moved":  198,
+                                            "startPhases":  "Assemble:19",
+                                            "endPhases":  "Assemble:19",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=2 max age=42 ticks reasons=Busy:1,None:1",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  19,
+                                            "actualPopulation":  400,
+                                            "alive":  400,
+                                            "moved":  399,
+                                            "startPhases":  "Assemble:37",
+                                            "endPhases":  "Assemble:36,CrossBreach:1",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=6 max age=75 ticks reasons=OpeningWait:4,Busy:2",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        },
+                                        {
+                                            "scenario":  15,
+                                            "actualPopulation":  0,
+                                            "alive":  0,
+                                            "moved":  0,
+                                            "startPhases":  "",
+                                            "endPhases":  "",
+                                            "radioOperators":  0,
+                                            "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                                            "eligibleDescriptiveScaling":  true,
+                                            "exclusionReasons":  [
+
+                                                                 ]
+                                        }
+                                    ],
+                          "notes":  "Separate target/phase group; no mixed-group before/after claim."
+                      }
+                  ],
+    "captureReview":  [
+                          {
+                              "path":  "coarse-low-control/profiles/capture-20261007-011113-809-601.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  400,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:36,EntryWait:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:37",
+                                                "unitCount":  37,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "coarse-low-control/profiles/capture-20261007-011144-535-2401.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "communications-high/profiles/capture-20261006-224410-331-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  52,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:3,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  52,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:4",
+                                                "unitCount":  4,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "communications-high/profiles/capture-20261006-224436-308-2401.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1203,
+                              "population":  208,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:15,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  208,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:16",
+                                                "unitCount":  16,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "communications-high/profiles/capture-20261006-224538-960-4204.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  403,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:30,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  401,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:31",
+                                                "unitCount":  31,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "communications-high/profiles/capture-20261006-224551-136-6004.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1201,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-high/profiles/capture-20261006-225001-787-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  52,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:3,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  52,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:4",
+                                                "unitCount":  4,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-high/profiles/capture-20261006-225028-457-2401.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1204,
+                              "population":  208,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:15,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  208,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:16",
+                                                "unitCount":  16,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-high/profiles/capture-20261006-225142-389-4205.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1201,
+                              "population":  403,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:30,WithdrawFromCharge:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  403,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:31",
+                                                "unitCount":  31,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-high/profiles/capture-20261006-225202-855-6006.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1201,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-low/profiles/capture-20261006-223412-951-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1202,
+                              "population":  50,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:4,CrossBreach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:5",
+                                                "unitCount":  5,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-low/profiles/capture-20261006-223440-864-2403.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1203,
+                              "population":  200,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:18,Support:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:19",
+                                                "unitCount":  19,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-low/profiles/capture-20261006-223550-984-4206.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  400,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:36,EntryWait:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:37",
+                                                "unitCount":  37,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "execution-low/profiles/capture-20261006-223621-717-6006.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "functional-movement-profile/profiles/capture-20261007-011448-825-4.json",
+                              "label":  "functional-window-1",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  299,
+                              "population":  -1,
+                              "scenario":  -1,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  false,
+                              "benchmark":  null,
+                              "benchmarkAuditEligible":  false,
+                              "exclusionReasons":  "functional-or-no-benchmark-case"
+                          },
+                          {
+                              "path":  "functional-movement-profile/profiles/capture-20261007-011454-005-314.json",
+                              "label":  "functional-window-2",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  300,
+                              "population":  -1,
+                              "scenario":  -1,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  false,
+                              "benchmark":  null,
+                              "benchmarkAuditEligible":  false,
+                              "exclusionReasons":  "functional-or-no-benchmark-case"
+                          },
+                          {
+                              "path":  "functional-movement-profile/profiles/capture-20261007-011459-420-639.json",
+                              "label":  "functional-window-3",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  467,
+                              "population":  -1,
+                              "scenario":  -1,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  false,
+                              "benchmark":  null,
+                              "benchmarkAuditEligible":  false,
+                              "exclusionReasons":  "functional-or-no-benchmark-case"
+                          },
+                          {
+                              "path":  "lifecycle-low/profiles/capture-20261006-224701-620-603.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  50,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:4,EntryWait:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:5",
+                                                "unitCount":  5,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "lifecycle-low/profiles/capture-20261006-224721-500-2404.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1203,
+                              "population":  200,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:17,Breach:1,Support:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:5,NoState:14",
+                                                "unitCount":  19,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "lifecycle-low/profiles/capture-20261006-224822-499-4207.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  400,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:36,EntryWait:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:37",
+                                                "unitCount":  37,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "lifecycle-low/profiles/capture-20261006-224833-227-6007.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "movement-low/profiles/capture-20261006-223738-233-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1201,
+                              "population":  50,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:4,CrossBreach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:5",
+                                                "unitCount":  5,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "movement-low/profiles/capture-20261006-223811-191-2402.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1202,
+                              "population":  200,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:18,Complete:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:19",
+                                                "unitCount":  19,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "movement-low/profiles/capture-20261006-223926-075-4205.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  400,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:36,CrossBreach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:37",
+                                                "unitCount":  37,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "movement-low/profiles/capture-20261006-223945-693-6005.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1201,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "planning-cold-low/profiles/capture-20261006-224105-224-1.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  50,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:4,Breach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  0
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "planning-cold-low/profiles/capture-20261006-224129-101-1202.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  200,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:18,Breach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:4,NoState:1",
+                                                "unitCount":  5,
+                                                "warmupTicks":  0
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "planning-cold-low/profiles/capture-20261006-224220-261-2404.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1201,
+                              "population":  400,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:36,Breach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:18,Breach:1",
+                                                "unitCount":  19,
+                                                "warmupTicks":  0
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "planning-cold-low/profiles/capture-20261006-224241-025-3606.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:36,Breach:1",
+                                                "unitCount":  37,
+                                                "warmupTicks":  0
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "support-low/profiles/capture-20261006-225331-267-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  50,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:4,CrossBreach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:5",
+                                                "unitCount":  5,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "support-low/profiles/capture-20261006-225427-392-2402.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  400,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:36,CrossBreach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:37",
+                                                "unitCount":  37,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  false,
+                              "exclusionReasons":  "casualties"
+                          },
+                          {
+                              "path":  "support-low/profiles/capture-20261006-225437-763-4203.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1202,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "vanilla-high/profiles/capture-20261006-225607-845-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  52,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:3,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  52,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:4",
+                                                "unitCount":  4,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "vanilla-high/profiles/capture-20261006-225636-435-2401.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1204,
+                              "population":  208,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:15,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  208,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:16",
+                                                "unitCount":  16,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "vanilla-high/profiles/capture-20261006-225743-560-4205.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  403,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:30,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  403,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:31",
+                                                "unitCount":  31,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "vanilla-high/profiles/capture-20261006-225803-943-6005.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1202,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "verify-high/profiles/capture-20261006-230306-087-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  52,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  false,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:3,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  52,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:4",
+                                                "unitCount":  4,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  false,
+                              "exclusionReasons":  "incomplete-run"
+                          },
+                          {
+                              "path":  "verify-high/profiles/capture-20261006-230338-580-2401.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  208,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  false,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:15,Hold:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  208,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:16",
+                                                "unitCount":  16,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  false,
+                              "exclusionReasons":  "incomplete-run"
+                          },
+                          {
+                              "path":  "verify-high-retry/profiles/capture-20261007-010738-787-602.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1201,
+                              "population":  403,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:30,WithdrawFromCharge:1",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  403,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:31",
+                                                "unitCount":  31,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "verify-high-retry/profiles/capture-20261007-010759-265-2403.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1202,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilHighFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "verify-low/profiles/capture-20261006-225933-345-601.json",
+                              "label":  "raid-audit-16",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  50,
+                              "scenario":  16,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:4,CrossBreach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  50,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:5",
+                                                "unitCount":  5,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "verify-low/profiles/capture-20261006-230007-685-2401.json",
+                              "label":  "raid-audit-18",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  200,
+                              "scenario":  18,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:19",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  200,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:19",
+                                                "unitCount":  19,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "verify-low/profiles/capture-20261006-230110-197-4201.json",
+                              "label":  "raid-audit-19",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  400,
+                              "scenario":  19,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "Assemble:36,CrossBreach:1",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  400,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "Assemble:37",
+                                                "unitCount":  37,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          },
+                          {
+                              "path":  "verify-low/profiles/capture-20261006-230140-900-6001.json",
+                              "label":  "raid-audit-15",
+                              "complete":  true,
+                              "dropped":  0,
+                              "methodExceptions":  0,
+                              "ticks":  1200,
+                              "population":  0,
+                              "scenario":  15,
+                              "assemblySha256":  "4dc08f5f64226ef5becf8b20f8afa00fa12ee520e5f471e9d8383cea43e93178",
+                              "auditComplete":  true,
+                              "benchmark":  {
+                                                "endPhases":  "",
+                                                "faction":  "HD_HelodCivilLowFaction",
+                                                "fixtureVersion":  2,
+                                                "mapFingerprint":  "2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787",
+                                                "radioOperators":  0,
+                                                "requestedPopulation":  0,
+                                                "sampleTicks":  1200,
+                                                "seed":  "hd-perf-20261007",
+                                                "startPhases":  "",
+                                                "unitCount":  0,
+                                                "warmupTicks":  600
+                                            },
+                              "benchmarkAuditEligible":  true,
+                              "exclusionReasons":  null
+                          }
+                      ]
+}

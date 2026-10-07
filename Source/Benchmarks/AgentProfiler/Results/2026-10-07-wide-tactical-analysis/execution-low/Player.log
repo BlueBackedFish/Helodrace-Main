@@ -1,0 +1,479 @@
+Mono path[0] = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/Managed'
+Mono config path = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld/MonoBleedingEdge/etc'
+[PhysX] Initialized MultithreadedTaskDispatcher with 12 workers.
+Initialize engine version: 2022.3.35f1 (011206c7a712)
+[Subsystems] Discovering subsystems at path C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2484)
+    Vendor:   NVIDIA
+    VRAM:     8018 MB
+    Driver:   32.0.15.9579
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.140 seconds
+- Finished resetting the current domain, in  0.002 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+[PhysX] Initialized MultithreadedTaskDispatcher with 12 workers.
+UnloadTime: 1.244500 ms
+Command line arguments: -quicktest -savedatafolder=C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-tactical-analysis\execution-low -hdRaidMovementAudit=C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-tactical-analysis\execution-low\measurements.ndjson -hdRaidMovementAuditCases=16,18,19,15 -hdRaidMovementAuditSeed=hd-perf-20261007 -hdRaidMovementAuditLow=true -hdRaidMovementAuditWarmup=600 -hdRaidMovementAuditSample=1200 -hdRaidMovementAuditFunctionalDisabled=true -hdRaidSpawnAuditDisabled=true -hdMethodProfile=C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-tactical-analysis\execution-low\profiles -hdMethodProfileCpu=true -hdMethodProfileAuto=true -hdMethodProfilePreset=coarse -hdMethodProfileTargets=Helodrace.MapComponent_RaidTacticalExecution::RunScheduledUnit;Helodrace.MapComponent_RaidTacticalExecution::ExecuteUnit;Helodrace.MapComponent_RaidTacticalExecution::Update;Helodrace.MapComponent_RaidTacticalExecution::UpdateStep;Helodrace.MapComponent_RaidTacticalExecution::RefreshContactsCore;Helodrace.MapComponent_RaidTacticalExecution::CaptureObserverPassages;Helodrace.MapComponent_RaidTacticalExecution::LinkedObservers;Helodrace.MapComponent_RaidTacticalExecution::ClearObservationLine;Helodrace.MapComponent_RaidTacticalExecution::CanObserveMapCell;Helodrace.MapComponent_RaidTacticalExecution::CanObserveContact;Helodrace.MapComponent_RaidTacticalExecution::RecordContact;Helodrace.MapComponent_RaidTacticalExecution::RespondToCqbContacts;Helodrace.MapComponent_RaidTacticalExecution::FindContactGuardPosition;Helodrace.MapComponent_RaidTacticalExecution::RecoverCqbIntent;Helodrace.MapComponent_RaidTacticalExecution::RefreshLocalCqb;Helodrace.MapComponent_RaidTacticalExecution::CheckRoomConcern;Helodrace.MapComponent_RaidTacticalExecution::TryPlanContactRecheck;Helodrace.MapComponent_RaidTacticalExecution::ObserveInterior;Helodrace.MapComponent_RaidTacticalExecution::UpdateOpeningObservation;Helodrace.MapComponent_RaidTacticalExecution::RoutineContactReactions;Helodrace.MapComponent_RaidTacticalExecution::RespondToFire;Helodrace.MapComponent_RaidTacticalExecution::EmergencyReactions;Helodrace.MapComponent_RaidTacticalExecution::FieldDefense;Helodrace.MapComponent_RaidTacticalExecution::VisibleArmedEnemies;Helodrace.MapComponent_RaidTacticalExecution::SmokeBetween;Helodrace.MapComponent_RaidTacticalExecution::ApplySniperRetreats;Helodrace.MapComponent_RaidTacticalExecution::FindReactivePosition;Helodrace.MapComponent_RaidTacticalExecution::ReconcileCasualties;Helodrace.MapComponent_RaidTacticalExecution::RefreshExecutionRoster;Helodrace.MapComponent_RaidTacticalExecution::WaitForSharedOpeningCore;Helodrace.MapComponent_RaidTacticalExecution::TryPlanNextRoom;Helodrace.MapComponent_RaidTacticalExecution::RoomSecured;Helodrace.MapComponent_RaidTacticalExecution::CurrentResponseTarget;Helodrace.MapComponent_RaidTacticalExecution::LiveMembers;Helodrace.MapComponent_RaidTacticalExecution::Commander;Helodrace.MapComponent_RaidTacticalExecution::PlanKey;Helodrace.MapComponent_RaidTacticalExecution::AssignLateMembers;Helodrace.MapComponent_RaidTacticalExecution::IssueResponse;Helodrace.MapComponent_RaidTacticalExecution::IndexFormations;Helodrace.MapComponent_RaidTacticalExecution::RetargetBlockedStackMembersCore -logFile C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-tactical-analysis\execution-low\Player.log -screen-width 800 -screen-height 600 -screen-fullscreen 0
+RimWorld 1.6.4871 rev591
+Save data folder overridden to C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-tactical-analysis\execution-low
+Mod Helodrace - Combat Extended dependency (BlueBackedFish.Helodrace.Main) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Facial Animation dependency (Nals.FacialAnimation) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Facial Animation dependency (BlueBackedFish.Helodrace.Main) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Lobos Arsenal dependency (bluebackedfish.helodrace.main) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Lobos Arsenal dependency (smashphil.vehicleframework) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Kilo's RJW retexture dependency (rim.job.world) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RJW-SexSlaveCraft dependency (rim.job.world) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RJW-SexSlaveCraft dependency (brrainz.harmony) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Mechanoid Milk dependency (brrainz.harmony) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RimTalk+The Forbbiden One dependency (rim.job.world) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Maidnoid CE Patch dependency (silversol.consti) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Maidnoid CE Patch dependency (CETeam.CombatExtended) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RimThunder - Westline Green (CE Edition) dependency (CETeam.CombatExtended) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RimThunder - Westline Green (CE Edition) dependency (SmashPhil.VehicleFramework) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden has a dependency (issaczhuang.muzzleflash) with empty display name.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden dependency (issaczhuang.muzzleflash) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden has a dependency (BreadMo.Cinders) with empty display name.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden dependency (BreadMo.Cinders) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod korossa CE patch dependency (gyun.0.6.3.1) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Fallback handler could not load library C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/MonoBleedingEdge/data-000001E67240E060.dll
+Fallback handler could not load library C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/MonoBleedingEdge/data-000001E69656A220.dll
+Helodrace Mod loaded.
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Baby_east.psd], Length 285496 and internal path: Helod/Bodies/Naked_Baby_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Baby_north.psd], Length 226210 and internal path: Helod/Bodies/Naked_Baby_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Baby_south.psd], Length 294172 and internal path: Helod/Bodies/Naked_Baby_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Child_east.psd], Length 665302 and internal path: Helod/Bodies/Naked_Child_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Child_north.psd], Length 748750 and internal path: Helod/Bodies/Naked_Child_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Child_south.psd], Length 570863 and internal path: Helod/Bodies/Naked_Child_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Female_east.psd], Length 12273496 and internal path: Helod/Bodies/Naked_Female_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Female_north.psd], Length 11639899 and internal path: Helod/Bodies/Naked_Female_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Female_south.psd], Length 12147713 and internal path: Helod/Bodies/Naked_Female_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Hair\헤롤드 헤어_east.psd], Length 8518682 and internal path: Helod/Hair/헤롤드 헤어_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Baby_east.psd], Length 66566 and internal path: Helod/Tails/HelodTail_Baby_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Baby_north.psd], Length 138604 and internal path: Helod/Tails/HelodTail_Baby_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Baby_south.psd], Length 133706 and internal path: Helod/Tails/HelodTail_Baby_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Child_east.psd], Length 307461 and internal path: Helod/Tails/HelodTail_Child_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Child_north.psd], Length 248350 and internal path: Helod/Tails/HelodTail_Child_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Child_south.psd], Length 218174 and internal path: Helod/Tails/HelodTail_Child_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_east.psd], Length 172600 and internal path: Helod/Tails/HelodTail_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_north.psd], Length 167307 and internal path: Helod/Tails/HelodTail_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_south.psd], Length 144266 and internal path: Helod/Tails/HelodTail_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Left\Ear1Left_east.psd], Length 250880 and internal path: Helod/Ears/Left/Ear1Left_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Left\Ear1Left_north.psd], Length 177974 and internal path: Helod/Ears/Left/Ear1Left_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Left\Ear1Left_south.psd], Length 249351 and internal path: Helod/Ears/Left/Ear1Left_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Right\Ear1Right_east.psd], Length 200309 and internal path: Helod/Ears/Right/Ear1Right_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\WarMask\WarMask_east.psd], Length 42343 and internal path: Helod/VanillaApparel/WarMask/WarMask_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\WarMask\WarMask_north.psd], Length 44570 and internal path: Helod/VanillaApparel/WarMask/WarMask_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\WarMask\WarMask_south.psd], Length 49701 and internal path: Helod/VanillaApparel/WarMask/WarMask_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\BroadshieldPack\BroadshieldPack_east.psd], Length 107860 and internal path: Helod/VanillaApparel/Royalty/BroadshieldPack/BroadshieldPack_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CorsetRoyal\CorsetRoyal_Female_east.psd], Length 34097 and internal path: Helod/VanillaApparel/Royalty/CorsetRoyal/CorsetRoyal_Female_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CorsetRoyal\CorsetRoyal_Female_north.psd], Length 36637 and internal path: Helod/VanillaApparel/Royalty/CorsetRoyal/CorsetRoyal_Female_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CorsetRoyal\CorsetRoyal_Female_south.psd], Length 35355 and internal path: Helod/VanillaApparel/Royalty/CorsetRoyal/CorsetRoyal_Female_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\Crown\Crown_east.psd], Length 41419 and internal path: Helod/VanillaApparel/Royalty/Crown/Crown_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\Crown\Crown_north.psd], Length 41325 and internal path: Helod/VanillaApparel/Royalty/Crown/Crown_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\Crown\Crown_south.psd], Length 40081 and internal path: Helod/VanillaApparel/Royalty/Crown/Crown_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CrownStellic\CrownStellic_east.psd], Length 46723 and internal path: Helod/VanillaApparel/Royalty/CrownStellic/CrownStellic_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CrownStellic\CrownStellic_north.psd], Length 67651 and internal path: Helod/VanillaApparel/Royalty/CrownStellic/CrownStellic_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CrownStellic\CrownStellic_south.psd], Length 62684 and internal path: Helod/VanillaApparel/Royalty/CrownStellic/CrownStellic_south
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_556M855A1_Ammo' for def 'HD_ModularPart_Ammunition_762M80_Part' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_919M882_Ammo' for def 'HD_ModularPart_Ammunition_919M882_P320_Part' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_556M855A1_Ammo' for def 'HD_Ammunition_556M855A1_Ammo' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_919M882_Ammo' for def 'HD_Ammunition_919M882_Ammo' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1_Ammo' for def 'HD_Ammunition_76251M80A1_Ammo' in any active mod or in base resources.
+MatFrom with null sourceTex.
+[Helodrace] Standalone race initialized: 9 heads, 41 apparel graphics, 133 operations.
+[HD Cigarette] diagnostics enabled. DrawCarriedThing prefix active=True, assembly=C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Assemblies\Helodrace.dll
+Helodrace initialized. Removed quality comp from 39 Helodrace guns.
+Unloading 5 Unused Serialized files (Serialized files now loaded: 5)
+Unloading 135 unused Assets to reduce memory usage. Loaded Objects now: 29115.
+Total: 259.582400 ms (FindLiveObjects: 2.602000 ms CreateObjectMapping: 3.971400 ms MarkObjects: 252.542400 ms  DeleteObjects: 0.466300 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 5)
+[PhysX] Initialized MultithreadedTaskDispatcher with 12 workers.
+UnloadTime: 0.828200 ms
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 29139.
+Total: 255.908500 ms (FindLiveObjects: 1.234900 ms CreateObjectMapping: 2.392700 ms MarkObjects: 252.222900 ms  DeleteObjects: 0.057500 ms)
+
+Direct3D: detected that using refresh rate causes time drift. Will stop trusting refresh rate until the game window is moved.
+Direct3D: detected that vsync is broken (it does not limit frame rate properly). Delta time will now be calculated using cpu-side time stampling until the game window is moved.
+Initializing new game with mods:
+  - brrainz.harmony
+  - Ludeon.RimWorld
+  - Ludeon.RimWorld.Royalty
+  - Ludeon.RimWorld.Ideology
+  - Ludeon.RimWorld.Biotech
+  - Ludeon.RimWorld.Anomaly
+  - Ludeon.RimWorld.Odyssey
+  - BlueBackedFish.Helodrace.Main
+Unloading 1 Unused Serialized files (Serialized files now loaded: 5)
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 35682.
+Total: 235.949900 ms (FindLiveObjects: 2.087200 ms CreateObjectMapping: 2.766100 ms MarkObjects: 231.020600 ms  DeleteObjects: 0.075700 ms)
+
+Raid audit case 16: count=50, tactical=True, speed=3
+Agent method profiler ready: C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-tactical-analysis\execution-low\profiles
+Raid audit sample: {"faction":"HD_HelodCivilLowFaction","actualPopulation":50,"mapFingerprint":"2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787","startPhases":"Assemble:5","radioOperators":0,"scenario":16,"population":50,"tactical":true,"speed":3,"TPS":94.317,"FPS":59.399,"moved":50,"alive":50,"warmupTicks":600,"sampleTicks":1200,"phases":"CrossBreach:1,Assemble:4","successfulPlans":5,"planningService":{"pending":0,"slices":482,"completed":5,"discarded":0,"budgetStops":16,"maxSliceMs":10.656},"executionService":{"pending":5,"updates":872,"urgent":0,"budgetStops":0,"maxDelayTicks":0,"oldestDelayTicks":0,"maxUnitMs":42.998},"orderReviews":{"count":2898,"maxDelayTicks":1},"unstartedMoves":"unstarted moves=5 max age=142 ticks reasons=OpeningWait:5","unstartedMoveDetails":"37918:Breach#6 pos=(98, 0, 100) goal=(101, 0, 105) leg=Hold/(98, 0, 100) job=Wait_Combat/null block=OpeningWait age=119 pathGeneration=6 independent=False rejectedStep=(-1000, -1000, -1000)@-1 goalAllowed=True;37928:Breach#11 pos=(99, 0, 99) goal=(101, 0, 106) leg=Hold/(99, 0, 99) job=Wait_Combat/null block=OpeningWait age=137 pathGeneration=11 independent=False rejectedStep=(-1000, -1000, -1000)@-1 goalAllowed=True;37936:Breach#6 pos=(98, 0, 99) goal=(101, 0, 107) leg=Hold/(98, 0, 99) job=Wait_Combat/null block=OpeningWait age=101 pathGeneration=6 independent=False rejectedStep=(-1000, -1000, -1000)@-1 goalAllowed=True;37944:Breach#6 pos=(97, 0, 101) goal=(101, 0, 108) leg=Hold/(97, 0, 101) job=Wait_Combat/null block=OpeningWait age=142 pathGeneration=6 independent=False rejectedStep=(-1000, -1000, -1000)@-1 goalAllowed=True;37953:Breach#6 pos=(98, 0, 103) goal=(101, 0, 109) leg=Hold/(98, 0, 103) job=Wait_Combat/null block=OpeningWait age=89 pathGeneration=6 independent=False rejectedStep=(-1000, -1000, -1000)@-1 goalAllowed=True","passageTraffic":{"waiting":3},"queueMaintenance":{"cleanupPasses":14,"leasePrunePasses":55},"planningWork":{"maxBreachChecks":1,"maxRouteSteps":40,"limitedPlans":0},"failedPlans":"","nativeBytes":750000,"peakNativeBytes":750000,"cacheCumulative":{"created":6,"hits":292,"evictions":0,"memoryWaits":0,"peakPending":2,"notifications":21},"cancelledPreparations":0,"peakWaitFrames":1,"pending":0,"blocked":"None:3,OpeningWait:5,Busy:3,OpeningQueue:39","preparationServicePasses":4,"cpuCumulative":"FPS=59.4 TPS=94.4 worst execution/frame=19.305 ms managed heap=501.3 MiB GC=1/1/1\r\n  CPU Planning: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Observation: n=614 sum=59.7 p50/p95/p99=0.003/0.302/0.441 max=3.899 ms\r\n  CPU LocalMap: n=53 sum=14.3 p50/p95/p99=0.275/0.418/1.621 max=1.621 ms\r\n  CPU Formation: n=58 sum=4.1 p50/p95/p99=0.065/0.114/0.274 max=0.274 ms\r\n  CPU Orders: n=1718 sum=29.5 p50/p95/p99=0.009/0.016/0.162 max=6.175 ms\r\n  CPU Execution: n=602 sum=239.7 p50/p95/p99=0.236/0.944/3.142 max=17.772 ms\r\n  CPU Navigation: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU BreachSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU RouteSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU OpeningQueue: n=214 sum=31.1 p50/p95/p99=0.191/0.217/0.359 max=0.412 ms\r\n  CPU GameTick: n=1202 sum=3234.9 p50/p95/p99=2.398/4.442/6.861 max=24.818 ms\r\n  CPU ExecutionMaintenance: n=20 sum=2.2 p50/p95/p99=0.087/0.178/0.316 max=0.316 ms\r\n  Goto request/start ticks: n=19 p50/p95/p99=3/377/377 max=377\r\n"}
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Raid audit case 18: count=200, tactical=True, speed=3
+Raid audit sample: {"faction":"HD_HelodCivilLowFaction","actualPopulation":200,"mapFingerprint":"2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787","startPhases":"Assemble:19","radioOperators":0,"scenario":18,"population":200,"tactical":true,"speed":3,"TPS":89.992,"FPS":27.529,"moved":197,"alive":200,"warmupTicks":600,"sampleTicks":1200,"phases":"Assemble:18,Support:1","successfulPlans":19,"planningService":{"pending":0,"slices":2344,"completed":24,"discarded":0,"budgetStops":21,"maxSliceMs":10.656},"executionService":{"pending":19,"updates":4175,"urgent":0,"budgetStops":82,"maxDelayTicks":8,"oldestDelayTicks":0,"maxUnitMs":42.998},"orderReviews":{"count":14293,"maxDelayTicks":1},"unstartedMoves":"unstarted moves=1 max age=974 ticks reasons=None:1","unstartedMoveDetails":"38959:Security#6 pos=(87, 0, 84) goal=(99, 0, 95) leg=Move/(99, 0, 95) job=Wait_MaintainPosture/null block=None age=974 pathGeneration=4 independent=False rejectedStep=(-1000, -1000, -1000)@-1 goalAllowed=True","passageTraffic":{"waiting":0},"queueMaintenance":{"cleanupPasses":28,"leasePrunePasses":109},"planningWork":{"maxBreachChecks":1,"maxRouteSteps":41,"limitedPlans":0},"failedPlans":"","nativeBytes":1125000,"peakNativeBytes":1125000,"cacheCumulative":{"created":9,"hits":1094,"evictions":0,"memoryWaits":0,"peakPending":2,"notifications":35},"cancelledPreparations":0,"peakWaitFrames":1,"pending":0,"blocked":"OpeningQueue:178,None:20,Busy:2","preparationServicePasses":0,"cpuCumulative":"FPS=27.5 TPS=90.1 worst execution/frame=27.087 ms managed heap=551.0 MiB GC=4/4/4\r\n  CPU Planning: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Observation: n=2282 sum=331.9 p50/p95/p99=0.003/0.518/0.701 max=3.481 ms\r\n  CPU LocalMap: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Formation: n=43 sum=3.1 p50/p95/p99=0.066/0.108/0.170 max=0.170 ms\r\n  CPU Orders: n=7621 sum=129.5 p50/p95/p99=0.009/0.063/0.158 max=3.260 ms\r\n  CPU Execution: n=2282 sum=1036.3 p50/p95/p99=0.300/1.020/2.045 max=22.445 ms\r\n  CPU Navigation: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU BreachSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU RouteSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU OpeningQueue: n=557 sum=120.9 p50/p95/p99=0.192/0.324/1.546 max=4.005 ms\r\n  CPU GameTick: n=1203 sum=10595.0 p50/p95/p99=8.043/13.970/17.996 max=36.311 ms\r\n  CPU ExecutionMaintenance: n=20 sum=5.3 p50/p95/p99=0.252/0.383/0.395 max=0.395 ms\r\n  Goto request/start ticks: n=191 p50/p95/p99=0/0/120 max=144\r\n"}
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Could not get new name (first rule pack: HD_NamerPersonHelod)
+Raid audit case 19: count=400, tactical=True, speed=3
+Raid audit sample: {"faction":"HD_HelodCivilLowFaction","actualPopulation":400,"mapFingerprint":"2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787","startPhases":"Assemble:37","radioOperators":0,"scenario":19,"population":400,"tactical":true,"speed":3,"TPS":43.760,"FPS":17.869,"moved":399,"alive":400,"warmupTicks":600,"sampleTicks":1200,"phases":"Assemble:36,EntryWait:1","successfulPlans":37,"planningService":{"pending":0,"slices":5963,"completed":61,"discarded":0,"budgetStops":50,"maxSliceMs":16.411},"executionService":{"pending":37,"updates":10540,"urgent":0,"budgetStops":244,"maxDelayTicks":21,"oldestDelayTicks":0,"maxUnitMs":42.998},"orderReviews":{"count":37497,"maxDelayTicks":1},"unstartedMoves":"unstarted moves=0 max age=0 ticks reasons=","unstartedMoveDetails":"","passageTraffic":{"waiting":0},"queueMaintenance":{"cleanupPasses":42,"leasePrunePasses":164},"planningWork":{"maxBreachChecks":1,"maxRouteSteps":41,"limitedPlans":0},"failedPlans":"","nativeBytes":1625000,"peakNativeBytes":1625000,"cacheCumulative":{"created":13,"hits":2062,"evictions":0,"memoryWaits":0,"peakPending":2,"notifications":47},"cancelledPreparations":0,"peakWaitFrames":1,"pending":0,"blocked":"OpeningQueue:389,None:11","preparationServicePasses":2,"cpuCumulative":"FPS=17.8 TPS=43.8 worst execution/frame=7.452 ms managed heap=585.0 MiB GC=5/5/5\r\n  CPU Planning: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Observation: n=4439 sum=329.4 p50/p95/p99=0.001/0.666/0.905 max=3.744 ms\r\n  CPU LocalMap: n=40 sum=11.9 p50/p95/p99=0.273/0.389/0.392 max=0.392 ms\r\n  CPU Formation: n=44 sum=3.3 p50/p95/p99=0.071/0.116/0.197 max=0.197 ms\r\n  CPU Orders: n=15574 sum=130.7 p50/p95/p99=0.009/0.013/0.015 max=0.334 ms\r\n  CPU Execution: n=4439 sum=775.8 p50/p95/p99=0.052/0.818/1.197 max=6.194 ms\r\n  CPU Navigation: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU BreachSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU RouteSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU OpeningQueue: n=1480 sum=282.1 p50/p95/p99=0.191/0.251/0.363 max=0.484 ms\r\n  CPU GameTick: n=1200 sum=22676.8 p50/p95/p99=17.458/29.389/38.571 max=46.662 ms\r\n  CPU ExecutionMaintenance: n=20 sum=9.7 p50/p95/p99=0.430/0.698/1.028 max=1.028 ms\r\n  Goto request/start ticks: n=5 p50/p95/p99=29/79/79 max=79\r\n"}
+Raid audit case 15: count=0, tactical=True, speed=3
+Raid audit sample: {"faction":"HD_HelodCivilLowFaction","actualPopulation":0,"mapFingerprint":"2DCA10EF6A532BA820CA2CFA41B18D21E564655193AC63E429759ED9D0135787","startPhases":"","radioOperators":0,"scenario":15,"population":0,"tactical":true,"speed":3,"TPS":59.954,"FPS":59.904,"moved":0,"alive":0,"warmupTicks":600,"sampleTicks":1200,"phases":"","successfulPlans":0,"planningService":{"pending":0,"slices":5963,"completed":61,"discarded":0,"budgetStops":50,"maxSliceMs":16.411},"executionService":{"pending":0,"updates":10734,"urgent":0,"budgetStops":244,"maxDelayTicks":21,"oldestDelayTicks":0,"maxUnitMs":42.998},"orderReviews":{"count":37897,"maxDelayTicks":1},"unstartedMoves":"unstarted moves=0 max age=0 ticks reasons=","unstartedMoveDetails":"","passageTraffic":{"waiting":0},"queueMaintenance":{"cleanupPasses":42,"leasePrunePasses":164},"planningWork":{"maxBreachChecks":0,"maxRouteSteps":0,"limitedPlans":0},"failedPlans":"","nativeBytes":1625000,"peakNativeBytes":1625000,"cacheCumulative":{"created":13,"hits":2062,"evictions":0,"memoryWaits":0,"peakPending":2,"notifications":47},"cancelledPreparations":0,"peakWaitFrames":1,"pending":0,"blocked":"","preparationServicePasses":0,"cpuCumulative":"FPS=59.9 TPS=60.0 worst execution/frame=0.000 ms managed heap=597.5 MiB GC=2/2/2\r\n  CPU Planning: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Observation: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU LocalMap: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Formation: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Orders: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Execution: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU Navigation: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU BreachSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU RouteSearch: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU OpeningQueue: n=0 sum=0.0 p50/p95/p99=0.000/0.000/0.000 max=0.000 ms\r\n  CPU GameTick: n=1200 sum=2296.6 p50/p95/p99=1.866/2.510/3.149 max=3.927 ms\r\n  CPU ExecutionMaintenance: n=20 sum=0.5 p50/p95/p99=0.023/0.027/0.027 max=0.027 ms\r\n  Goto request/start ticks: n=0 p50/p95/p99=0/0/0 max=0\r\n"}
+Memory Statistics:
+[ALLOC_TEMP_TLS] TLS Allocator
+  StackAllocators : 
+    [ALLOC_TEMP_MAIN]
+      Peak usage frame count: [0-1.0 KB]: 3809 frames, [1.0 KB-2.0 KB]: 3 frames, [2.0 KB-4.0 KB]: 4786 frames, [4.0 KB-8.0 KB]: 53 frames, [8.0 KB-16.0 KB]: 2 frames, [64.0 KB-128.0 KB]: 5 frames, [128.0 KB-256.0 KB]: 1 frames, [2.0 MB-4.0 MB]: 3 frames, [4.0 MB-8.0 MB]: 1 frames
+      Initial Block Size 4.0 MB
+      Current Block Size 4.1 MB
+      Peak Allocated Bytes 4.1 MB
+      Overflow Count 1
+    [ALLOC_TEMP_Loading.AsyncRead]
+      Initial Block Size 64.0 KB
+      Current Block Size 120.0 KB
+      Peak Allocated Bytes 117.2 KB
+      Overflow Count 0
+    [ALLOC_TEMP_Loading.PreloadManager]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 3.8 KB
+      Overflow Count 8
+    [ALLOC_TEMP_Background Job.Worker 8]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 6]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 144 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 0]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 144 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 10]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 9]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 5]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 176 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 14]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 6]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 4]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 3]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 144 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 12]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_EnlightenWorker] x 6
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 15]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 1]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 2]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 7]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_UnityGfxDeviceWorker]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 10.3 KB
+      Overflow Count 0
+    [ALLOC_TEMP_AssetGarbageCollectorHelper] x 11
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 138 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 5]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 9]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 13]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 8]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 176 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 7]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 176 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 1]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 507 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 2]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 480 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 3]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 11]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 10]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 144 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 0]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 4]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_BatchDeleteObjects]
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+[ALLOC_DEFAULT] Dual Thread Allocator
+  Peak main deferred allocation count 30418
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 58740
+        32B: 34 Subsections = 17408 buckets. Failed count: 98986
+        48B: 49 Subsections = 16725 buckets. Failed count: 145624
+        64B: 40 Subsections = 10240 buckets. Failed count: 45825
+        80B: 85 Subsections = 17408 buckets. Failed count: 39604
+        96B: 28 Subsections = 4778 buckets. Failed count: 44171
+        112B: 10 Subsections = 1462 buckets. Failed count: 14514
+        128B: 6 Subsections = 768 buckets. Failed count: 17693
+    [ALLOC_DEFAULT_MAIN]
+      Peak usage frame count: [16.0 MB-32.0 MB]: 1001 frames, [32.0 MB-64.0 MB]: 1 frames, [128.0 MB-256.0 MB]: 5203 frames, [256.0 MB-0.50 GB]: 2458 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 15
+      Peak Allocated memory 258.2 MB
+      Peak Large allocation bytes 31.2 MB
+    [ALLOC_DEFAULT_THREAD]
+      Peak usage frame count: [8.0 MB-16.0 MB]: 1124 frames, [16.0 MB-32.0 MB]: 22 frames, [32.0 MB-64.0 MB]: 2672 frames, [64.0 MB-128.0 MB]: 4845 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 6
+      Peak Allocated memory 79.5 MB
+      Peak Large allocation bytes 10.0 MB
+[ALLOC_TEMP_JOB_1_FRAME]
+  Initial Block Size 2.0 MB
+  Used Block Count 0
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_2_FRAMES]
+  Initial Block Size 2.0 MB
+  Used Block Count 0
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_4_FRAMES (JobTemp)]
+  Initial Block Size 2.0 MB
+  Used Block Count 1
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_ASYNC (Background)]
+  Initial Block Size 1.0 MB
+  Used Block Count 1
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_GFX] Dual Thread Allocator
+  Peak main deferred allocation count 32
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 58740
+        32B: 34 Subsections = 17408 buckets. Failed count: 98986
+        48B: 49 Subsections = 16725 buckets. Failed count: 145624
+        64B: 40 Subsections = 10240 buckets. Failed count: 45825
+        80B: 85 Subsections = 17408 buckets. Failed count: 39604
+        96B: 28 Subsections = 4778 buckets. Failed count: 44171
+        112B: 10 Subsections = 1462 buckets. Failed count: 14514
+        128B: 6 Subsections = 768 buckets. Failed count: 17693
+    [ALLOC_GFX_MAIN]
+      Peak usage frame count: [64.0 KB-128.0 KB]: 1 frames, [2.0 MB-4.0 MB]: 3816 frames, [32.0 MB-64.0 MB]: 4845 frames, [256.0 MB-0.50 GB]: 1 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 4
+      Peak Allocated memory 387.1 MB
+      Peak Large allocation bytes 383.6 MB
+    [ALLOC_GFX_THREAD]
+      Peak usage frame count: [0-1.0 KB]: 1004 frames, [1.0 KB-2.0 KB]: 2814 frames, [8.0 KB-16.0 KB]: 1 frames, [32.0 KB-64.0 KB]: 4844 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 1
+      Peak Allocated memory 61.7 KB
+      Peak Large allocation bytes 0 B
+[ALLOC_CACHEOBJECTS] Dual Thread Allocator
+  Peak main deferred allocation count 109
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 58740
+        32B: 34 Subsections = 17408 buckets. Failed count: 98986
+        48B: 49 Subsections = 16725 buckets. Failed count: 145624
+        64B: 40 Subsections = 10240 buckets. Failed count: 45825
+        80B: 85 Subsections = 17408 buckets. Failed count: 39604
+        96B: 28 Subsections = 4778 buckets. Failed count: 44171
+        112B: 10 Subsections = 1462 buckets. Failed count: 14514
+        128B: 6 Subsections = 768 buckets. Failed count: 17693
+    [ALLOC_CACHEOBJECTS_MAIN]
+      Peak usage frame count: [4.0 MB-8.0 MB]: 1 frames, [8.0 MB-16.0 MB]: 1001 frames, [16.0 MB-32.0 MB]: 7661 frames
+      Requested Block Size 4.0 MB
+      Peak Block count 5
+      Peak Allocated memory 17.2 MB
+      Peak Large allocation bytes 0 B
+    [ALLOC_CACHEOBJECTS_THREAD]
+      Peak usage frame count: [4.0 KB-8.0 KB]: 1001 frames, [32.0 KB-64.0 KB]: 1 frames, [64.0 KB-128.0 KB]: 7659 frames, [256.0 KB-0.5 MB]: 1 frames, [0.5 MB-1.0 MB]: 1 frames
+      Requested Block Size 4.0 MB
+      Peak Block count 1
+      Peak Allocated memory 0.6 MB
+      Peak Large allocation bytes 0 B
+[ALLOC_TYPETREE] Dual Thread Allocator
+  Peak main deferred allocation count 0
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 58740
+        32B: 34 Subsections = 17408 buckets. Failed count: 98986
+        48B: 49 Subsections = 16725 buckets. Failed count: 145624
+        64B: 40 Subsections = 10240 buckets. Failed count: 45825
+        80B: 85 Subsections = 17408 buckets. Failed count: 39604
+        96B: 28 Subsections = 4778 buckets. Failed count: 44171
+        112B: 10 Subsections = 1462 buckets. Failed count: 14514
+        128B: 6 Subsections = 768 buckets. Failed count: 17693
+    [ALLOC_TYPETREE_MAIN]
+      Peak usage frame count: [4.0 KB-8.0 KB]: 1 frames, [8.0 KB-16.0 KB]: 1001 frames, [32.0 KB-64.0 KB]: 7661 frames
+      Requested Block Size 2.0 MB
+      Peak Block count 1
+      Peak Allocated memory 49.8 KB
+      Peak Large allocation bytes 0 B
+    [ALLOC_TYPETREE_THREAD]
+      Peak usage frame count: [0-1.0 KB]: 8663 frames
+      Requested Block Size 2.0 MB
+      Peak Block count 0
+      Peak Allocated memory 0 B
+      Peak Large allocation bytes 0 B
