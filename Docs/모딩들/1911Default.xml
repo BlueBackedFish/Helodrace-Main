@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Helodrace.ModernWar.ModularWeaponPresetDef>
+    <defName>HD_WeaponPreset_Exported_HD_Gun_M1911_Weapon_20260928_190914_275</defName>
+    <label>exported 아이언팽 M1911 preset</label>
+    <weaponDef>HD_Gun_M1911_Weapon</weaponDef>
+    <parts>
+      <li>
+        <part>HD_ModularPart_Slide_M1911A1_UP</part>
+        <socketId>slide</socketId>
+        <mountId>slide_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Barrel_M1911A1</part>
+        <socketId>barrel</socketId>
+        <mountId>barrel_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Hammer_M1911A1</part>
+        <socketId>hammer</socketId>
+        <mountId>hammer_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Safety_M1911A1Grip</part>
+        <socketId>grip_safety</socketId>
+        <mountId>grip_safety_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Trigger_M1911A1</part>
+        <socketId>trigger</socketId>
+        <mountId>trigger_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_PistolGrip_1911GI</part>
+        <socketId>grip</socketId>
+        <mountId>grip_mount</mountId>
+      </li>
+      <li>
+        <part>HD_ModularPart_Magazine_1911GI7</part>
+        <socketId>magazine</socketId>
+        <mountId>magazine_mount</mountId>
+        <children>
+          <li>
+            <part>HD_ModularPart_Ammunition_45ACPM1911</part>
+            <socketId>ammunition</socketId>
+            <mountId>ammunition_mount</mountId>
+          </li>
+        </children>
+      </li>
+    </parts>
+  </Helodrace.ModernWar.ModularWeaponPresetDef>
+</Defs>

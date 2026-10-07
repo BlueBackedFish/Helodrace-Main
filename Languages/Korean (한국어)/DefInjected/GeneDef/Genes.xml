@@ -11,7 +11,7 @@
 
   <!-- Sharpshooter Gene -->
   <HD_Gene_Sharpshooter.label>명사수</HD_Gene_Sharpshooter.label>
-  <HD_Gene_Sharpshooter.description>"아아, 이 서늘하고도 묵직한 감각..." (총기의 특수 조작을 사용할 수 있습니다)</HD_Gene_Sharpshooter.description>
+  <HD_Gene_Sharpshooter.description>총을 잘 다루는 정도의 능력 (총기의 특수 조작을 사용할 수 있습니다)</HD_Gene_Sharpshooter.description>
 
   <!-- Arrogant Leader Gene -->
   <HD_Gene_ArrogantLeader.label>오만한 지도자</HD_Gene_ArrogantLeader.label>

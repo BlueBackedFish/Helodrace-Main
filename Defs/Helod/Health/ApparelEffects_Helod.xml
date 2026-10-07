@@ -35,7 +35,7 @@
       <li>
         <label>ears uncomfortably covered</label>
         <description>My ears are pinned down and every sound is muffled. I hate being cut off from my surroundings like this.</description>
-        <baseMoodEffect>-6</baseMoodEffect>
+        <baseMoodEffect>-2</baseMoodEffect>
       </li>
     </stages>
   </ThoughtDef>

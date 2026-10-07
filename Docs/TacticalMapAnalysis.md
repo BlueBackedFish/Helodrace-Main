@@ -1,4 +1,4 @@
-# Tactical map analysis
+﻿# Tactical map analysis
 
 `MapComponent_TacticalMapAnalysis` stores only static structural features and
 basic door-and-wall guarding scores. It does not identify valuable rooms or equipment and does not
@@ -67,107 +67,7 @@ stall the raid. The last waypoint stays outside the final entrance; the group
 then assembles before breaching or entering.
 When a new plan is calculated, assembly and holding phases adopt its current
 field threat and assignments. A changed maneuver or displaced objective restarts
-the idle execution sequence; an active breach or support action finishes first.
-
-## Raid execution
-
-`MapComponent_RaidTacticalExecution` acts on organized hostile pawns in an
-assault-colony Lord. It moves entry and security members to their assigned
-positions, waits for the group or a bounded assembly timeout, then attempts a
-power-cutter or C4 breach and a selected inventory grenade before issuing entry moves
-to all available entry members in the same tick. A flank plan first moves its
-entry members around the flank waypoint. Hold/regroup plans maintain
-their assigned positions. Once assault moves are issued, normal Lord combat
-behavior resumes. Replanning after casualties, commander succession, or a
-large objective shift restarts coordination. Execution phase and assignments
-appear in the developer plan window. Phase state is saved with the map.
-The Great War faction permits vanilla sapper raids using riflemen as eligible
-sappers. While its Lord is in the sapper or breaching toil, the tactical executor
-leaves those duties alone; after that toil ends, ordinary tactical coordination
-can take over.
-LOW patrols and rifle squads now carry one wearable sledgehammer. It leaves the
-bearer's firearm equipped. During a coordinated entry, LOW prefers this tool
-for an ordinary foreign-faction door it cannot open, then for a hostile wall if no
-usable door is nearby. A door is forced open after a short job; walls take
-repeated blunt damage until destroyed. Security, vault, blast, armored, and
-reinforced doors are excluded, with a Def extension available for other
-protected doors. The player can use the worn tool through its Breach gizmo.
-During a vanilla sapper toil, a nearby sledgehammer bearer can assist against
-the wall the sapper is actively working on. Escort positioning leaves that
-bearer's wall job alone until it finishes.
-During the sapper toil, three nearby members of the sapper's smallest combat
-group occupy reachable front-flank and rear cells around the sapper. Members
-already facing a visible nearby enemy keep fighting; other raiders retain their
-vanilla duties. Escort positions remain on the sapper's side of a wall.
-During a hold, designated response members move toward a current enemy near
-the group at bounded intervals when that enemy is outside effective firing
-range; fire-support and security members keep their assigned positions.
-After an outdoor entry has had time to reach the objective, an isolated entry
-member rejoins the nearest member of its smallest combat group. Movement toward
-the objective and a nearby visible fight take priority over this regrouping.
-After 600 ticks in the completed outdoor assault or secured indoor room phase,
-the raid exits when at least half of its surviving entry members occupy the
-objective area and no standing hostile remains nearby. Indoor security also
-checks the entire objective room. The executor hands the squad to the game's
-existing sprinting exit-map Lord job; it does not issue separate retreat paths.
-An available sniper group takes a separate sightline within weapon range of
-the nearest current enemy. Its companion stays near the sniper and does not
-get pulled into the response group. If no reachable sightline exists, both
-fall back to ordinary holding positions.
-The planned entry delay is honored after the support action, allowing smoke or
-grenade effects to take hold before the simultaneous entry order.
-After all assigned members assemble, HIGH waits its short radio coordination
-interval; LOW waits longer when members began separated or out of sight. The
-assembly timeout includes that interval, and readiness resets if a member
-moves away before coordination finishes.
-After an indoor entry reaches the objective or its clearing timeout, available
-entry members spread to separate cells near doors, wall corners, and passages
-inside the room. Members already facing a nearby enemy remain under combat AI
-instead of receiving a new movement order. Outdoor assaults end after entry.
-Open doors receive more immediate guard priority than closed doors. After
-indoor entry, nearby door state changes cause a bounded security reassessment;
-members engaged with nearby enemies keep fighting.
-The executor checks nearby doors every 30 ticks. If a door closes after being
-open and a defender is just outside, an available raider throws smoke onto the
-room side of that door, with a cooldown between responses.
-HIGH entry members assigned a security sector use CQB focus toward the nearest
-door, prioritizing open doors. The AI focus call does not show the player command
-message.
-For HIGH indoor assaults, entry order alternates targets on the two sides of
-the doorway several cells inside the room, with sprint movement. If no
-reachable cell exists on a side, the ordinary objective-cell selection is used.
-
-Grenades are used only when their target is in range and sight, and damaging
-throws are suppressed near friendlies. Indoor throws target reachable cells
-inside the objective room near the entry. The executor uses the existing
-inventory grenade, power-cutter, and C4 jobs; it does not create a separate
-weapon or projectile implementation.
-LOW indoor entries prefer an available MK III offensive grenade bearer over
-an MK II fragmentation grenade bearer.
-For C4, the executor uses an existing shock-tube igniter and installation job.
-It sends all available members outside the charge's fragment radius before
-triggering. If that separation cannot be achieved in time, it removes the
-undetonated charge and continues without an explosion. An installed automated
-charge is also removed if its raid execution state is discarded after a replan,
-failed plan, or the departure of the raiders.
-An outdoor plan can also rank a field grenade when armed enemies are near the
-raid and suitable grenades are carried. The executor chooses a current hostile
-position when it is ready to throw, so this target is not frozen in the map grid.
-HIGH-doctrine wounded members with TCCC training perform self-hemostasis after
-reaching their withdrawal position when they are bleeding.
-The HIGH faction now has its own modern formation doctrine and combat pool;
-generated raid members receive CQB and TCCC training at creation.
-Modern team and squad leaders wear a ZAPER X26. During assembly, holding, and
-room security, a leader with a ready device uses its existing paired-probe job
-against a visible nearby enemy carrying a psychic shock or insanity lance.
-If the probe tether holds and no other visible enemy threatens the target, the
-leader attempts the existing contact-shock job. A downed target can then be
-taken with the game's kidnapping job. Tactical movement and support orders leave
-that follow-up alone, except for urgent withdrawal from a live breaching charge.
-If an allied forward base has usable CAS or artillery, an outdoor raid can
-request the existing service against a visible hostile well clear of friendly
-and neutral pawns. The raid holds its assembly positions until the strike ends
-and its munitions have had time to land. If friendlies move into the target
+the idle execution sequence; an active breach or support a  and its munitions have had time to land. If friendlies move into the target
 area before impact, it recalls the airstrike when possible or cancels remaining
 artillery volleys. Service capacity and ammunition are consumed by the
 existing forward-base support system.
