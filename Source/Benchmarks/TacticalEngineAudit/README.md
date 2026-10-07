@@ -21,7 +21,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/TacticalEn
 & Source/Benchmarks/TacticalEngineAudit/Run-EngineMatrix.ps1 -Repeats 3 -Population 13 -High -Workloads sapper-wall -WarmupTicks 600 -SampleTicks 1800
 ```
 
-`-NoMethodProfile`은 계측 없는 기능 대조, `-Population 0`은 전술 대상 없는 유휴 대조다. 단일 실행기의 `-ProfileTargets '실제선언타입::메서드;실제선언타입::메서드'`로 추가 선택한다. 기본 추가 대상은 `Verse.AI.Pawn_JobTracker.StartJob`과 `Verse.PathFinder.CreateRequest`다.
+`-NoMethodProfile`은 메서드 계측 없는 대조다. audit에 측정 틱 수와 `uninstrumentedMainCpuMs`·`uninstrumentedProcessCpuMs`를 저장하며 창 시작/끝에서만 OS CPU를 읽는다. 메서드별/틱별 CPU나 Core 배치는 없다. `-Population 0`은 전술 대상 없는 유휴 대조다. 단일 실행기의 `-ProfileTargets '실제선언타입::메서드;실제선언타입::메서드'`로 추가 선택한다. 기본 추가 대상은 `Verse.AI.Pawn_JobTracker.StartJob`과 `Verse.PathFinder.CreateRequest`다.
 
 ## 조건과 격리
 

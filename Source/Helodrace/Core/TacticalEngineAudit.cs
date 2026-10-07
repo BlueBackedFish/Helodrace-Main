@@ -23,6 +23,8 @@ namespace Helodrace
         [DataMember] public int schema = 1, requestedPopulation, population, units, radioOperators, moved, entered, objectiveReached, alive;
         [DataMember] public int warmupTicks, sampleTicks, firstEntryTick = -1, firstObjectiveTick = -1, lastProgressTick;
         [DataMember] public int sapperEligiblePawns, breachedWallCells;
+        [DataMember] public int measuredTicks;
+        [DataMember] public double? uninstrumentedMainCpuMs, uninstrumentedProcessCpuMs;
         [DataMember] public bool complete, isolationVerified, newEngineImplemented;
         [DataMember] public string engine, effectiveEngine, workload, seed, mapFingerprint, pawnFingerprint, error;
         [DataMember] public string[] legacyComponents, installedLegacyHooks, finalPawnJobs;
@@ -38,6 +40,8 @@ namespace Helodrace
         private readonly HashSet<Pawn> entered = new HashSet<Pawn>(), arrived = new HashSet<Pawn>();
         private Pawn owner;
         private int started, measured = -1, nextProgress;
+        private long uninstrumentedMainStart = -1, uninstrumentedProcessStart;
+        private readonly WindowsMethodClock windowClock = new WindowsMethodClock();
         private bool initialized, finishing, finished;
         private ProfileBenchmark benchmark;
         private readonly TacticalEngineAuditResult result = new TacticalEngineAuditResult();
@@ -73,10 +77,21 @@ namespace Helodrace
                     benchmark.startPhases = Phases();
                     AgentMethodProfiler.Begin("engine-audit", result.workload == "open-approach" ? 100 : 101,
                         raiders.Count, 3, seconds: 300, benchmark: benchmark);
+                    if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfile", out _))
+                    {
+                        uninstrumentedProcessStart = windowClock.ProcessCpu100ns();
+                        uninstrumentedMainStart = windowClock.Cpu100ns();
+                    }
                 }
                 if (measured < 0 || tick - measured < result.sampleTicks) return;
                 Progress(tick);
                 benchmark.endPhases = Phases();
+                result.measuredTicks = tick - measured;
+                if (uninstrumentedMainStart >= 0)
+                {
+                    result.uninstrumentedMainCpuMs = (windowClock.Cpu100ns() - uninstrumentedMainStart) / 10000.0;
+                    result.uninstrumentedProcessCpuMs = (windowClock.ProcessCpu100ns() - uninstrumentedProcessStart) / 10000.0;
+                }
                 AgentMethodProfiler.End(); finishing = true;
             }
             catch (Exception error)
