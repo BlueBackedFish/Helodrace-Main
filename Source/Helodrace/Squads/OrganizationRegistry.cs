@@ -31,6 +31,7 @@ namespace Helodrace.Squads
 
         public void Detach(Pawn pawn)
         {
+            MapComponent_RaidTacticalOrders.ForgetPawn(pawn);
             if (pawn == null || !byPawn.TryGetValue(pawn, out CombatGroup group)) return;
             CombatOrganization organization = group.Organization;
             organization.RemoveMember(pawn);
@@ -152,6 +153,8 @@ namespace Helodrace.Squads
 
         public void Bind(string organization, string group, string parentGroup)
         {
+            if (organizationId != organization || groupId != group || parentGroupId != parentGroup)
+                MapComponent_RaidTacticalOrders.ForgetPawn(parent as Pawn);
             organizationId = organization;
             groupId = group;
             parentGroupId = parentGroup;
@@ -160,6 +163,7 @@ namespace Helodrace.Squads
 
         public void Clear()
         {
+            MapComponent_RaidTacticalOrders.ForgetPawn(parent as Pawn);
             organizationId = groupId = parentGroupId = null;
             overlayGroupLabel = overlayRoleLabel = overlayCommandLabel = null;
             overlayRefreshFrame = -1;
@@ -180,6 +184,7 @@ namespace Helodrace.Squads
             if (parent is Pawn pawn && pawn.Dead)
                 map?.GetComponent<MapComponent_RaidTacticalExecution>()
                     ?.RequestCasualtyReevaluation(RaidTacticalUnit.ForGroup(Group)?.Id, pawn);
+            MapComponent_RaidTacticalOrders.ForgetPawn(parent as Pawn);
         }
 
         public override void Notify_Downed()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Helodrace.Squads;
 using RimWorld;
@@ -37,6 +38,13 @@ namespace Helodrace
         internal IntVec3 RejectedStep = IntVec3.Invalid;
         internal int RejectedStepTick = -1;
         public RaidMovementDiagnostics Movement = new RaidMovementDiagnostics();
+        // Runtime-only binding. Reads reuse the last control verdict; the due
+        // review still validates against the real organization and execution.
+        internal MapComponent_RaidTacticalOrders Owner;
+        internal RaidTacticalUnit ValidatedUnit;
+        internal int ValidatedStructureRevision;
+        internal int ControlValidUntil;
+        internal bool ControlValid;
 
         internal bool OwnedBy(RaidTacticalUnit unit)
         {
@@ -72,6 +80,8 @@ namespace Helodrace
     public sealed class MapComponent_RaidTacticalOrders : MapComponent
     {
         private readonly Dictionary<Pawn, RaidPawnOrder> orders = new Dictionary<Pawn, RaidPawnOrder>();
+        private static readonly ConditionalWeakTable<Pawn, RaidPawnOrder> bindings =
+            new ConditionalWeakTable<Pawn, RaidPawnOrder>();
         private readonly TacticalDueQueue<Pawn> reviews = new TacticalDueQueue<Pawn>();
         internal long ReviewCount;
         internal int MaximumReviewDelay;
@@ -80,7 +90,39 @@ namespace Helodrace
 
         public MapComponent_RaidTacticalOrders(Map map) : base(map) { }
 
-        internal void Forget(Pawn pawn) { orders.Remove(pawn); reviews.Remove(pawn); }
+        internal void Forget(Pawn pawn)
+        {
+            orders.Remove(pawn); reviews.Remove(pawn);
+            if (bindings.TryGetValue(pawn, out RaidPawnOrder bound) && bound.Owner == this)
+            { bindings.Remove(pawn); bound.Owner = null; }
+        }
+
+        internal static void ForgetPawn(Pawn pawn)
+        {
+            if (pawn != null && bindings.TryGetValue(pawn, out RaidPawnOrder bound)) bound.Owner?.Forget(pawn);
+        }
+
+        private void Bind(RaidPawnOrder order)
+        {
+            if (bindings.TryGetValue(order.Pawn, out RaidPawnOrder previous))
+            {
+                if (previous == order && previous.Owner == this) return;
+                if (previous.Owner != this) previous.Owner?.Forget(order.Pawn);
+                previous.Owner = null;
+                bindings.Remove(order.Pawn);
+            }
+            order.Owner = this;
+            order.ValidatedUnit = null;
+            order.ControlValid = false;
+            order.ControlValidUntil = 0;
+            bindings.Add(order.Pawn, order);
+        }
+
+        public override void MapRemoved()
+        {
+            foreach (Pawn pawn in orders.Keys.ToList()) Forget(pawn);
+            base.MapRemoved();
+        }
         internal static void PreparationReady(Pawn pawn)
         {
             RaidPawnOrder order = For(pawn);
@@ -100,19 +142,52 @@ namespace Helodrace
             if (Scribe.mode == LoadSaveMode.Saving) saved = orders.Values.ToList();
             Scribe_Collections.Look(ref saved, "raidPawnOrders", LookMode.Deep);
             if (Scribe.mode != LoadSaveMode.PostLoadInit) return;
+            foreach (Pawn pawn in orders.Keys.ToList()) Forget(pawn);
             orders.Clear(); reviews.Clear();
             foreach (RaidPawnOrder order in saved ?? new List<RaidPawnOrder>())
                 if (order?.Pawn != null)
                 {
                     order.RefreshPending = true;
                     orders[order.Pawn] = order;
+                    Bind(order);
                     reviews.Schedule(order.Pawn, GenTicks.TicksGame + (order.Pawn.thingIDNumber & int.MaxValue) % 30);
                 }
             saved = null;
         }
 
         internal static RaidPawnOrder For(Pawn pawn) => pawn?.Spawned == true
-            ? pawn.Map.GetComponent<MapComponent_RaidTacticalOrders>()?.Get(pawn) : null;
+            && bindings.TryGetValue(pawn, out RaidPawnOrder order) ? order.Owner?.Read(pawn, order) : null;
+
+        private RaidPawnOrder Read(Pawn pawn, RaidPawnOrder order)
+        {
+            if (pawn.Map != map || pawn.Dead || pawn.Downed || pawn.Drafted || pawn.InMentalState) return null;
+            int tick = GenTicks.TicksGame;
+            RaidTacticalUnit unit = order.ValidatedUnit;
+            if (tick >= order.ControlValidUntil || unit != null
+                && unit.Organization.StructureRevision != order.ValidatedStructureRevision)
+                Validate(order, tick);
+            return order.ControlValid ? order : null;
+        }
+
+        private void Validated(RaidPawnOrder order, RaidTacticalUnit unit, bool controlled, int tick)
+        {
+            order.ValidatedUnit = unit;
+            order.ValidatedStructureRevision = unit?.Organization.StructureRevision ?? -1;
+            order.ControlValid = controlled;
+            // Stagger fallback checks when reviews are delayed by a large raid.
+            order.ControlValidUntil = tick + 60 + (order.Pawn.thingIDNumber & int.MaxValue) % 30;
+        }
+
+        private bool Validate(RaidPawnOrder order, int tick)
+        {
+            Pawn pawn = order.Pawn;
+            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(pawn);
+            bool controlled = order.OwnedBy(unit)
+                && !pawn.Dead && !pawn.Downed && !pawn.Drafted && !pawn.InMentalState
+                && map.GetComponent<MapComponent_RaidTacticalExecution>()?.ControlsPawn(pawn, unit) == true;
+            Validated(order, unit, controlled, tick);
+            return controlled;
+        }
 
         // A path belongs to an already-issued tactical Job. Ordinary review and
         // Job selection validate unit control; individual tile steps only need
@@ -128,12 +203,7 @@ namespace Helodrace
         private RaidPawnOrder Get(Pawn pawn)
         {
             if (!orders.TryGetValue(pawn, out RaidPawnOrder order)) return null;
-            RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(pawn);
-            if (!order.OwnedBy(unit)
-                || pawn.Dead || pawn.Downed || pawn.Drafted || pawn.InMentalState
-                || map.GetComponent<MapComponent_RaidTacticalExecution>()
-                    ?.ControlsPawn(pawn, unit) != true) return null;
-            return order;
+            return Validate(order, GenTicks.TicksGame) ? order : null;
         }
 
         public override void MapComponentTick()
@@ -145,7 +215,7 @@ namespace Helodrace
                 MaximumReviewDelay = System.Math.Max(MaximumReviewDelay, tick - deadline);
                 if (!pawn.Spawned || pawn.Map != map || Get(pawn) == null)
                 {
-                    orders.Remove(pawn);
+                    Forget(pawn);
                     continue;
                 }
                 RaidPawnOrder order = orders[pawn];
@@ -219,6 +289,8 @@ namespace Helodrace
                 owner.reviews.Schedule(pawn, GenTicks.TicksGame + (pawn.thingIDNumber & int.MaxValue) % 30);
             }
             order.GroupId = OrganizationAPI.GetGroup(pawn).id;
+            owner.Bind(order);
+            owner.Validated(order, unit, true, GenTicks.TicksGame);
             var state = execution.StateFor(unit.Id);
             RaidCommandOwner commandOwner = reactive ? state?.SharedOpeningWait == true
                 ? RaidCommandOwner.OpeningQueue : state != null && state.ContactGuards.Any(guard => guard.Pawn == pawn && guard.Position == destination && guard.Until > GenTicks.TicksGame)
@@ -586,6 +658,9 @@ namespace Helodrace
             wait.handlingFacing = false;
             wait.AddPreTickAction(() =>
             {
+                // Sector facing is cosmetic between shots. Do not look up and
+                // revalidate every waiting pawn on every tick.
+                if ((GenTicks.TicksGame + pawn.thingIDNumber) % 30 != 0) return;
                 RaidPawnOrder order = MapComponent_RaidTacticalOrders.For(pawn);
                 if (order?.Kind == RaidOrderKind.Hold && order.Facing.IsValid
                     && !pawn.stances.FullBodyBusy)

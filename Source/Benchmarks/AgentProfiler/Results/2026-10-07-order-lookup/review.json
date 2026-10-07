@@ -1,0 +1,54 @@
+﻿[
+    {
+        "phase":  "before",
+        "complete":  true,
+        "cases":  [
+                      {
+                          "scenario":  19,
+                          "actualPopulation":  400,
+                          "alive":  400,
+                          "moved":  399,
+                          "startPhases":  "Assemble:37",
+                          "phases":  "Support:1,Assemble:36",
+                          "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                          "radioOperators":  0
+                      },
+                      {
+                          "scenario":  15,
+                          "actualPopulation":  0,
+                          "alive":  0,
+                          "moved":  0,
+                          "startPhases":  "",
+                          "phases":  "",
+                          "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                          "radioOperators":  0
+                      }
+                  ]
+    },
+    {
+        "phase":  "after",
+        "complete":  true,
+        "cases":  [
+                      {
+                          "scenario":  19,
+                          "actualPopulation":  400,
+                          "alive":  400,
+                          "moved":  398,
+                          "startPhases":  "Assemble:37",
+                          "phases":  "ObserveOpening:1,Assemble:36",
+                          "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                          "radioOperators":  0
+                      },
+                      {
+                          "scenario":  15,
+                          "actualPopulation":  0,
+                          "alive":  0,
+                          "moved":  0,
+                          "startPhases":  "",
+                          "phases":  "",
+                          "unstartedMoves":  "unstarted moves=0 max age=0 ticks reasons=",
+                          "radioOperators":  0
+                      }
+                  ]
+    }
+]

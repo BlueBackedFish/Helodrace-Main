@@ -119,6 +119,7 @@ internal static class Program
             RaidObservationTests.Run();
             RaidCqbKnowledgeTests.Run();
             RaidTacticalUnitTests.Run();
+            RaidOrderLookupTests.Run();
             OrganizationEdgeArrivalTests.Run();
             return 0;
         }
