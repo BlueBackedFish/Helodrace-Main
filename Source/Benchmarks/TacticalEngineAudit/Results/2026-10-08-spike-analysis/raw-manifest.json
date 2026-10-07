@@ -1,0 +1,37 @@
+[
+  {
+    "path": "raw/audit.json.gz",
+    "originalBytes": 31289,
+    "sha256": "009436cce21d070db9dbd654c2c7e3d30c0dc5f4d63a00c205273ebf7379fdf8"
+  },
+  {
+    "path": "raw/launcher.json.gz",
+    "originalBytes": 1112,
+    "sha256": "d45322d461b46998377ab2abaf19b21a17eb779e3564451c71dc8c32c113a30e"
+  },
+  {
+    "path": "raw/Player.log.gz",
+    "originalBytes": 30123,
+    "sha256": "ab1d724e40786223d9990d19cf2648baa0949ce35454820a011e0d133345feb3"
+  },
+  {
+    "path": "raw/profiles/capture-20261007-203051-954-1206.json.gz",
+    "originalBytes": 27212,
+    "sha256": "a123266eb3a65a2d544b7e3e0f3636cdf7e6f76b06671bc6b38a281a19f31d7d"
+  },
+  {
+    "path": "raw/profiles/capabilities.json.gz",
+    "originalBytes": 23194,
+    "sha256": "f7dae183a0a7e987a513d3466933fbdabb801fb6bcf7ef239db0bfe5864a0320"
+  },
+  {
+    "path": "raw/profiles/status.json.gz",
+    "originalBytes": 229,
+    "sha256": "2eb25cef5096c493199e3b7597ec248ee97871dc63a5a8eeb57e815cfb27e1f3"
+  },
+  {
+    "path": "raw/native-calls.txt.gz",
+    "originalBytes": 5768,
+    "sha256": "1ff9068e92c309593faa6bd6417d6eaea412c2ab2537e479ffd2c8424b48347c"
+  }
+]

@@ -1,0 +1,1310 @@
+{
+  "purpose": "One short diagnostic run, not a functional completion or repeated CPU gate. Method costs are elapsed, inclusive scopes overlap. No tick/phase identity in existing slow-call records; independent maxima must not be added or assumed simultaneous.",
+  "assemblySha256": "0fc21ff73dadb2009947190503e38043b5c22406fa08da7dc80b0be10716ccc1",
+  "warmupTicks": 1200,
+  "sampleTicks": 1200,
+  "actualPopulation": 204,
+  "units": 17,
+  "startTick": 1206,
+  "endTick": 2406,
+  "captureComplete": true,
+  "dropped": 0,
+  "wholeTickCpuMsPerTick": 5.15625,
+  "elapsedCaptureSeconds": 16.7600132,
+  "progress": {
+    "newCompletedUnits": 6,
+    "newPlannedUnits": 8,
+    "newPassedOpening": 80,
+    "newEnteredByOrder": 76,
+    "newJobsIssued": 312,
+    "newJobFailures": 5,
+    "newPlansAttempted": 131,
+    "newFunctionalComplete": false,
+    "newPhysicalPlansValid": false,
+    "isolationVerified": true
+  },
+  "endOwnedFractionOfAdvanceInclusive": 0.8465159198279242,
+  "methods": [
+    {
+      "calls": 1200,
+      "cpuMeasured": true,
+      "distributionSamples": 1200,
+      "exceptions": 0,
+      "id": 0,
+      "inclusiveMs": 6684.5614,
+      "maxMs": 38.2043,
+      "method": "Verse.TickManager.DoSingleTick()",
+      "p50Ms": 4.8782,
+      "p95Ms": 9.4376,
+      "p99Ms": 13.0387,
+      "referencePercentPerCall": 1893.4289032404258,
+      "referencePercentPerTick": 1893.4289032404258,
+      "threadCpuMs": 6187.5,
+      "trackedSelfMs": 433.5873,
+      "msPerTick": 5.570467833333333,
+      "callsPerTick": 1.0
+    },
+    {
+      "calls": 3600,
+      "cpuMeasured": false,
+      "distributionSamples": 2048,
+      "exceptions": 0,
+      "id": 62,
+      "inclusiveMs": 5779.4458,
+      "maxMs": 37.5816,
+      "method": "Verse.TickList.Tick()",
+      "p50Ms": 0.0008,
+      "p95Ms": 6.8222,
+      "p99Ms": 10.2543,
+      "referencePercentPerCall": 545.6837563260065,
+      "referencePercentPerTick": 1637.0512689780196,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 5601.334,
+      "msPerTick": 4.816204833333334,
+      "callsPerTick": 3.0
+    },
+    {
+      "calls": 1200,
+      "cpuMeasured": false,
+      "distributionSamples": 1200,
+      "exceptions": 0,
+      "id": 1,
+      "inclusiveMs": 188.8605,
+      "maxMs": 0.8965,
+      "method": "Verse.Map.MapPreTick()",
+      "p50Ms": 0.118,
+      "p95Ms": 0.3212,
+      "p99Ms": 0.4425,
+      "referencePercentPerCall": 53.4954962610469,
+      "referencePercentPerTick": 53.4954962610469,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 188.7506,
+      "msPerTick": 0.15738375,
+      "callsPerTick": 1.0
+    },
+    {
+      "calls": 1010,
+      "cpuMeasured": false,
+      "distributionSamples": 1010,
+      "exceptions": 0,
+      "id": 3,
+      "inclusiveMs": 4929.6585,
+      "maxMs": 8.9389,
+      "method": "Verse.Map.MapUpdate()",
+      "p50Ms": 4.7521,
+      "p95Ms": 6.4407,
+      "p99Ms": 7.644,
+      "referencePercentPerCall": 1659.0244731475184,
+      "referencePercentPerTick": 1396.345598232495,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 4797.8007,
+      "msPerTick": 4.10804875,
+      "callsPerTick": 0.8416666666666667
+    },
+    {
+      "calls": 1200,
+      "cpuMeasured": false,
+      "distributionSamples": 1200,
+      "exceptions": 0,
+      "id": 42,
+      "inclusiveMs": 47.6764,
+      "maxMs": 21.3996,
+      "method": "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+      "p50Ms": 0.0007,
+      "p95Ms": 0.0256,
+      "p99Ms": 0.1097,
+      "referencePercentPerCall": 13.504532064355313,
+      "referencePercentPerTick": 13.504532064355313,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 1.5107,
+      "msPerTick": 0.03973033333333333,
+      "callsPerTick": 1.0
+    },
+    {
+      "calls": 177,
+      "cpuMeasured": false,
+      "distributionSamples": 177,
+      "exceptions": 0,
+      "id": 49,
+      "inclusiveMs": 46.1657,
+      "maxMs": 21.3975,
+      "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Advance(Helodrace.Tactics.TacticalSquadCommand,System.Int32)",
+      "p50Ms": 0.0187,
+      "p95Ms": 0.2913,
+      "p99Ms": 14.4997,
+      "referencePercentPerCall": 88.65505229157304,
+      "referencePercentPerTick": 13.076620213007024,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 4.6654,
+      "msPerTick": 0.03847141666666667,
+      "callsPerTick": 0.1475
+    },
+    {
+      "calls": 48,
+      "cpuMeasured": false,
+      "distributionSamples": 48,
+      "exceptions": 0,
+      "id": 51,
+      "inclusiveMs": 39.08,
+      "maxMs": 3.0684,
+      "method": "Helodrace.Tactics.MapComponent_TacticalCommands.EndOwned(Helodrace.Tactics.TacticalMemberCommand)",
+      "p50Ms": 0.258,
+      "p95Ms": 2.0635,
+      "p99Ms": 3.0684,
+      "referencePercentPerCall": 276.73917969635164,
+      "referencePercentPerTick": 11.069567187854066,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 0.0552,
+      "msPerTick": 0.03256666666666667,
+      "callsPerTick": 0.04
+    },
+    {
+      "calls": 69,
+      "cpuMeasured": false,
+      "distributionSamples": 69,
+      "exceptions": 0,
+      "id": 50,
+      "inclusiveMs": 2.2059,
+      "maxMs": 0.0997,
+      "method": "Helodrace.Tactics.MapComponent_TacticalCommands.Issue(Helodrace.Tactics.TacticalMemberCommand,Verse.AI.Job)",
+      "p50Ms": 0.0211,
+      "p95Ms": 0.0631,
+      "p99Ms": 0.0997,
+      "referencePercentPerCall": 10.866609523246535,
+      "referencePercentPerTick": 0.6248300475866757,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 0.0501,
+      "msPerTick": 0.0018382500000000003,
+      "callsPerTick": 0.0575
+    },
+    {
+      "calls": 9,
+      "cpuMeasured": false,
+      "distributionSamples": 9,
+      "exceptions": 0,
+      "id": 52,
+      "inclusiveMs": 0.2131,
+      "maxMs": 0.0549,
+      "method": "Helodrace.Tactics.MapComponent_TacticalCommands.ReleaseClaims(Helodrace.Tactics.TacticalSquadCommand)",
+      "p50Ms": 0.0217,
+      "p95Ms": 0.0549,
+      "p99Ms": 0.0549,
+      "referencePercentPerCall": 8.04819095097817,
+      "referencePercentPerTick": 0.060361432132336273,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 0.2131,
+      "msPerTick": 0.00017758333333333333,
+      "callsPerTick": 0.0075
+    },
+    {
+      "calls": 260,
+      "cpuMeasured": false,
+      "distributionSamples": 260,
+      "exceptions": 0,
+      "id": 58,
+      "inclusiveMs": 164.8424,
+      "maxMs": 18.4434,
+      "method": "Verse.AI.Pawn_JobTracker.EndCurrentJob(Verse.AI.JobCondition,System.Boolean,System.Boolean)",
+      "p50Ms": 0.1863,
+      "p95Ms": 2.0766,
+      "p99Ms": 2.9438,
+      "referencePercentPerCall": 215.50279767818856,
+      "referencePercentPerTick": 46.69227283027419,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 2.683,
+      "msPerTick": 0.13736866666666667,
+      "callsPerTick": 0.21666666666666667
+    },
+    {
+      "calls": 193,
+      "cpuMeasured": false,
+      "distributionSamples": 193,
+      "exceptions": 0,
+      "id": 59,
+      "inclusiveMs": 160.2965,
+      "maxMs": 18.4331,
+      "method": "Verse.AI.Pawn_JobTracker.TryFindAndStartJob()",
+      "p50Ms": 0.2716,
+      "p95Ms": 2.1771,
+      "p99Ms": 3.058,
+      "referencePercentPerCall": 282.3085701806603,
+      "referencePercentPerTick": 45.40462837072287,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 125.9162,
+      "msPerTick": 0.13358041666666667,
+      "callsPerTick": 0.16083333333333333
+    },
+    {
+      "calls": 1200,
+      "cpuMeasured": false,
+      "distributionSamples": 1200,
+      "exceptions": 0,
+      "id": 46,
+      "inclusiveMs": 7.6985,
+      "maxMs": 0.1946,
+      "method": "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()",
+      "p50Ms": 0.0001,
+      "p95Ms": 0.0833,
+      "p99Ms": 0.1047,
+      "referencePercentPerCall": 2.1806310899614774,
+      "referencePercentPerTick": 2.1806310899614774,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 4.8552,
+      "msPerTick": 0.0064154166666666665,
+      "callsPerTick": 1.0
+    },
+    {
+      "calls": 871412,
+      "cpuMeasured": false,
+      "distributionSamples": 2048,
+      "exceptions": 0,
+      "id": 63,
+      "inclusiveMs": 70.3269,
+      "maxMs": 0.0154,
+      "method": "Verse.RegionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms()",
+      "p50Ms": 0.0001,
+      "p95Ms": 0.0002,
+      "p99Ms": 0.0004,
+      "referencePercentPerCall": 0.02743186088007635,
+      "referencePercentPerTick": 19.92037729435758,
+      "threadCpuMs": 0,
+      "trackedSelfMs": 70.3269,
+      "msPerTick": 0.05860575,
+      "callsPerTick": 726.1766666666666
+    }
+  ],
+  "previousColdRuns": [
+    {
+      "source": "hd-r2-matrix200-v9-20261008/open-approach/new/run-1/profiles/capture-20261007-181828-630-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 34210.3003,
+          "maxMs": 152.5342,
+          "p99Ms": 11.6157
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1812.1627,
+          "maxMs": 54.6948,
+          "p99Ms": 0.994
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 5497,
+          "inclusiveMs": 25080.2904,
+          "maxMs": 70.7553,
+          "p99Ms": 8.5858
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 99.482,
+          "maxMs": 16.6614,
+          "p99Ms": 0.0294
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 653,
+          "inclusiveMs": 90.2968,
+          "maxMs": 16.6296,
+          "p99Ms": 2.3543
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 59,
+          "inclusiveMs": 6.8786,
+          "maxMs": 5.6647,
+          "p99Ms": 5.6647
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/open-approach/new/run-2/profiles/capture-20261007-182100-581-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 33705.0601,
+          "maxMs": 131.678,
+          "p99Ms": 11.9075
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1709.4084,
+          "maxMs": 47.7594,
+          "p99Ms": 1.0048
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 7578,
+          "inclusiveMs": 22708.5467,
+          "maxMs": 41.4874,
+          "p99Ms": 7.2221
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 90.7932,
+          "maxMs": 14.4252,
+          "p99Ms": 0.0283
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 666,
+          "inclusiveMs": 81.3153,
+          "maxMs": 14.3987,
+          "p99Ms": 2.3591
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 59,
+          "inclusiveMs": 6.2319,
+          "maxMs": 5.1995,
+          "p99Ms": 5.1995
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/open-approach/new/run-3/profiles/capture-20261007-183245-468-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 36296.765,
+          "maxMs": 152.3708,
+          "p99Ms": 13.3484
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1855.1689,
+          "maxMs": 50.9632,
+          "p99Ms": 0.9906
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 11996,
+          "inclusiveMs": 56291.2253,
+          "maxMs": 108.4395,
+          "p99Ms": 8.9013
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 99.2751,
+          "maxMs": 16.9158,
+          "p99Ms": 0.0305
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 650,
+          "inclusiveMs": 89.3809,
+          "maxMs": 16.8921,
+          "p99Ms": 2.4243
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 59,
+          "inclusiveMs": 7.2368,
+          "maxMs": 6.1402,
+          "p99Ms": 6.1402
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-1/profiles/capture-20261007-181559-394-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 38306.5249,
+          "maxMs": 100.9328,
+          "p99Ms": 12.2061
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1887.6277,
+          "maxMs": 42.4988,
+          "p99Ms": 0.7851
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 8188,
+          "inclusiveMs": 37100.2896,
+          "maxMs": 76.2163,
+          "p99Ms": 8.3079
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-2/profiles/capture-20261007-182447-713-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 39586.865,
+          "maxMs": 113.4464,
+          "p99Ms": 13.4224
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 2070.4264,
+          "maxMs": 46.3143,
+          "p99Ms": 1.0007
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 12785,
+          "inclusiveMs": 58109.1561,
+          "maxMs": 39.3097,
+          "p99Ms": 8.1534
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/open-approach/vanilla/run-3/profiles/capture-20261007-182859-121-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 39579.9507,
+          "maxMs": 198.0812,
+          "p99Ms": 13.4633
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 2052.029,
+          "maxMs": 50.8878,
+          "p99Ms": 1.0562
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13125,
+          "inclusiveMs": 69458.2239,
+          "maxMs": 41.0915,
+          "p99Ms": 8.328
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/sapper-wall/new/run-1/profiles/capture-20261007-183952-035-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 34059.067,
+          "maxMs": 91.0146,
+          "p99Ms": 13.4122
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1100.7598,
+          "maxMs": 41.6228,
+          "p99Ms": 0.5028
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 8540,
+          "inclusiveMs": 35052.5819,
+          "maxMs": 82.9989,
+          "p99Ms": 6.8846
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 89.0287,
+          "maxMs": 14.8943,
+          "p99Ms": 0.0261
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 669,
+          "inclusiveMs": 79.5998,
+          "maxMs": 14.8728,
+          "p99Ms": 1.6484
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 59,
+          "inclusiveMs": 7.0318,
+          "maxMs": 5.9216,
+          "p99Ms": 5.9216
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/sapper-wall/new/run-2/profiles/capture-20261007-184245-934-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 33259.5515,
+          "maxMs": 87.6941,
+          "p99Ms": 14.1017
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1096.6708,
+          "maxMs": 36.9244,
+          "p99Ms": 0.5054
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 9306,
+          "inclusiveMs": 31725.2705,
+          "maxMs": 43.458,
+          "p99Ms": 6.4252
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 86.801,
+          "maxMs": 14.4386,
+          "p99Ms": 0.0256
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 669,
+          "inclusiveMs": 77.5403,
+          "maxMs": 14.4143,
+          "p99Ms": 1.8562
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 59,
+          "inclusiveMs": 5.9445,
+          "maxMs": 4.9279,
+          "p99Ms": 4.9279
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/sapper-wall/new/run-3/profiles/capture-20261007-185144-409-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 32940.6154,
+          "maxMs": 99.7743,
+          "p99Ms": 12.2864
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1056.0494,
+          "maxMs": 32.991,
+          "p99Ms": 0.5396
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 6522,
+          "inclusiveMs": 23299.4573,
+          "maxMs": 44.4778,
+          "p99Ms": 6.7959
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 84.3152,
+          "maxMs": 13.2146,
+          "p99Ms": 0.0234
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 668,
+          "inclusiveMs": 75.0637,
+          "maxMs": 13.1927,
+          "p99Ms": 1.8857
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 59,
+          "inclusiveMs": 5.6561,
+          "maxMs": 4.6944,
+          "p99Ms": 4.6944
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-1/profiles/capture-20261007-183654-919-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 43869.6074,
+          "maxMs": 90.5467,
+          "p99Ms": 14.6537
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1152.4332,
+          "maxMs": 33.5059,
+          "p99Ms": 0.5295
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13474,
+          "inclusiveMs": 58475.3349,
+          "maxMs": 40.052,
+          "p99Ms": 6.4303
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-2/profiles/capture-20261007-184616-635-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 42738.7716,
+          "maxMs": 78.176,
+          "p99Ms": 13.7801
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1218.5221,
+          "maxMs": 35.2477,
+          "p99Ms": 0.5309
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 10557,
+          "inclusiveMs": 47433.2431,
+          "maxMs": 84.7048,
+          "p99Ms": 6.5127
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix200-v9-20261008/sapper-wall/vanilla/run-3/profiles/capture-20261007-184911-299-1.json.gz",
+      "actualPopulation": 204,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 41778.0806,
+          "maxMs": 60.03,
+          "p99Ms": 15.4237
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1166.0407,
+          "maxMs": 30.3452,
+          "p99Ms": 0.5673
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 7268,
+          "inclusiveMs": 33004.2962,
+          "maxMs": 37.4045,
+          "p99Ms": 7.3985
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/open-approach/new/run-1/profiles/capture-20261007-174739-091-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 14009.7248,
+          "maxMs": 77.9282,
+          "p99Ms": 4.3394
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1278.5781,
+          "maxMs": 50.2735,
+          "p99Ms": 0.9095
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13610,
+          "inclusiveMs": 22820.7935,
+          "maxMs": 46.5466,
+          "p99Ms": 3.4058
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 42.343,
+          "maxMs": 12.2045,
+          "p99Ms": 0.0107
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 212,
+          "inclusiveMs": 35.6224,
+          "maxMs": 12.1842,
+          "p99Ms": 2.9385
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 14,
+          "inclusiveMs": 5.116,
+          "maxMs": 4.7873,
+          "p99Ms": 4.7873
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/open-approach/new/run-2/profiles/capture-20261007-175006-038-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 13671.2765,
+          "maxMs": 81.4758,
+          "p99Ms": 4.3042
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1179.5338,
+          "maxMs": 52.68,
+          "p99Ms": 0.7759
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13476,
+          "inclusiveMs": 26764.5639,
+          "maxMs": 40.6843,
+          "p99Ms": 3.2533
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 43.5298,
+          "maxMs": 12.0782,
+          "p99Ms": 0.0097
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 215,
+          "inclusiveMs": 36.0375,
+          "maxMs": 12.0583,
+          "p99Ms": 2.8303
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 14,
+          "inclusiveMs": 4.6633,
+          "maxMs": 4.342,
+          "p99Ms": 4.342
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/open-approach/new/run-3/profiles/capture-20261007-175743-577-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 14420.238,
+          "maxMs": 89.0153,
+          "p99Ms": 4.5781
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1165.9128,
+          "maxMs": 50.3699,
+          "p99Ms": 0.8044
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13330,
+          "inclusiveMs": 27031.9444,
+          "maxMs": 35.8426,
+          "p99Ms": 3.1843
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 48.1621,
+          "maxMs": 13.1112,
+          "p99Ms": 0.0097
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 219,
+          "inclusiveMs": 41.484,
+          "maxMs": 13.091,
+          "p99Ms": 3.1084
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 14,
+          "inclusiveMs": 5.1585,
+          "maxMs": 4.8407,
+          "p99Ms": 4.8407
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-1/profiles/capture-20261007-174511-934-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 14317.5689,
+          "maxMs": 52.5813,
+          "p99Ms": 5.1041
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1285.6838,
+          "maxMs": 33.5422,
+          "p99Ms": 1.0832
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 14980,
+          "inclusiveMs": 24468.1599,
+          "maxMs": 38.6089,
+          "p99Ms": 2.9102
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-2/profiles/capture-20261007-175238-681-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 14251.8908,
+          "maxMs": 104.2913,
+          "p99Ms": 4.6332
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1199.0801,
+          "maxMs": 37.3686,
+          "p99Ms": 0.8673
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 14973,
+          "inclusiveMs": 26709.807,
+          "maxMs": 46.981,
+          "p99Ms": 2.8216
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/open-approach/vanilla/run-3/profiles/capture-20261007-175514-823-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 14379.4804,
+          "maxMs": 57.9089,
+          "p99Ms": 4.8587
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1241.4751,
+          "maxMs": 43.0015,
+          "p99Ms": 0.8405
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 14996,
+          "inclusiveMs": 22445.7861,
+          "maxMs": 43.6846,
+          "p99Ms": 2.9743
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/sapper-wall/new/run-1/profiles/capture-20261007-180237-532-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 12538.0659,
+          "maxMs": 60.0843,
+          "p99Ms": 3.9452
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1145.2963,
+          "maxMs": 29.1074,
+          "p99Ms": 0.4792
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13722,
+          "inclusiveMs": 19865.6395,
+          "maxMs": 34.2763,
+          "p99Ms": 2.1995
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 42.8283,
+          "maxMs": 13.3438,
+          "p99Ms": 0.0107
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 213,
+          "inclusiveMs": 36.2842,
+          "maxMs": 13.3213,
+          "p99Ms": 2.0237
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 14,
+          "inclusiveMs": 4.9617,
+          "maxMs": 4.6427,
+          "p99Ms": 4.6427
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/sapper-wall/new/run-2/profiles/capture-20261007-180503-658-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 13143.0291,
+          "maxMs": 93.9328,
+          "p99Ms": 3.9809
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1080.1154,
+          "maxMs": 28.4515,
+          "p99Ms": 0.428
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13679,
+          "inclusiveMs": 22930.8383,
+          "maxMs": 40.5305,
+          "p99Ms": 2.291
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 43.4915,
+          "maxMs": 12.1961,
+          "p99Ms": 0.005
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 212,
+          "inclusiveMs": 36.6367,
+          "maxMs": 12.1724,
+          "p99Ms": 2.1908
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 14,
+          "inclusiveMs": 5.0145,
+          "maxMs": 4.6824,
+          "p99Ms": 4.6824
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/sapper-wall/new/run-3/profiles/capture-20261007-181240-412-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "new",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 14681.4335,
+          "maxMs": 98.0919,
+          "p99Ms": 5.2361
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 984.5686,
+          "maxMs": 46.5121,
+          "p99Ms": 0.5288
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13151,
+          "inclusiveMs": 26039.4465,
+          "maxMs": 66.224,
+          "p99Ms": 3.2755
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 6000,
+          "inclusiveMs": 54.7916,
+          "maxMs": 16.6396,
+          "p99Ms": 0.013
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 213,
+          "inclusiveMs": 46.679,
+          "maxMs": 16.6109,
+          "p99Ms": 2.8601
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 14,
+          "inclusiveMs": 5.73,
+          "maxMs": 5.3635,
+          "p99Ms": 5.3635
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-1/profiles/capture-20261007-180011-682-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 14579.9268,
+          "maxMs": 47.3533,
+          "p99Ms": 4.3346
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1079.477,
+          "maxMs": 37.7407,
+          "p99Ms": 0.4746
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13861,
+          "inclusiveMs": 26617.8195,
+          "maxMs": 77.668,
+          "p99Ms": 2.353
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-2/profiles/capture-20261007-180726-105-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 13866.7814,
+          "maxMs": 85.5741,
+          "p99Ms": 4.1424
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1052.0002,
+          "maxMs": 2.8597,
+          "p99Ms": 0.461
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 13269,
+          "inclusiveMs": 20316.8318,
+          "maxMs": 35.7399,
+          "p99Ms": 2.1403
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    },
+    {
+      "source": "hd-r2-matrix50-v9-20261008/sapper-wall/vanilla/run-3/profiles/capture-20261007-180953-683-1.json.gz",
+      "actualPopulation": 60,
+      "engine": "vanilla",
+      "metrics": {
+        "Verse.TickManager.DoSingleTick": {
+          "calls": 6000,
+          "inclusiveMs": 13397.7603,
+          "maxMs": 64.7148,
+          "p99Ms": 4.2128
+        },
+        "Verse.Map.MapPreTick": {
+          "calls": 6000,
+          "inclusiveMs": 1105.6681,
+          "maxMs": 28.9251,
+          "p99Ms": 0.478
+        },
+        "Verse.Map.MapUpdate": {
+          "calls": 14093,
+          "inclusiveMs": 21742.225,
+          "maxMs": 35.1899,
+          "p99Ms": 2.1215
+        },
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        },
+        "Helodrace.Tactics.TacticalLocalPlanner.Find": {
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "p99Ms": 0
+        }
+      }
+    }
+  ]
+}
