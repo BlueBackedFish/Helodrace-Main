@@ -1,0 +1,430 @@
+Mono path[0] = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/Managed'
+Mono config path = 'C:/Program Files (x86)/Steam/steamapps/common/RimWorld/MonoBleedingEdge/etc'
+[PhysX] Initialized MultithreadedTaskDispatcher with 12 workers.
+Initialize engine version: 2022.3.35f1 (011206c7a712)
+[Subsystems] Discovering subsystems at path C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3070 (ID=0x2484)
+    Vendor:   NVIDIA
+    VRAM:     8018 MB
+    Driver:   32.0.15.9579
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.144 seconds
+- Finished resetting the current domain, in  0.002 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+[PhysX] Initialized MultithreadedTaskDispatcher with 12 workers.
+UnloadTime: 1.199900 ms
+Command line arguments: -quicktest -savedatafolder=C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r6-smoke-low-01 -hdTacticalEngineAudit=C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r6-smoke-low-01\audit.json -hdTacticalEngine=new -hdTacticalAuditWorkload=sapper-wall -hdTacticalAuditPopulation=12 -hdTacticalAuditWarmup=0 -hdTacticalAuditSample=4800 -hdRaidMovementAuditSeed=hd-r1-20261007 -hdTacticalAuditCase=r6-smoke-drill -hdTacticalAuditLow=true -hdMethodProfile=C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r6-smoke-low-01\profiles -hdMethodProfilePreset=coarse -hdMethodProfileSpikeThresholdMs=5 -hdMethodProfileTargets=Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceFieldResponse;Helodrace.Tactics.MapComponent_TacticalCommands::PlanFieldSmoke;Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceFieldSmoke;Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceFieldBoundPosts;Helodrace.Tactics.JobDriver_TacticalContactGuard::TickGuard -screen-fullscreen 0 -screen-width 800 -screen-height 600 -logFile C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r6-smoke-low-01\Player.log
+RimWorld 1.6.4871 rev591
+Save data folder overridden to C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r6-smoke-low-01
+Mod Helodrace - Combat Extended dependency (BlueBackedFish.Helodrace.Main) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Facial Animation dependency (Nals.FacialAnimation) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Facial Animation dependency (BlueBackedFish.Helodrace.Main) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Lobos Arsenal dependency (bluebackedfish.helodrace.main) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Helodrace - Lobos Arsenal dependency (smashphil.vehicleframework) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Kilo's RJW retexture dependency (rim.job.world) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RJW-SexSlaveCraft dependency (rim.job.world) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RJW-SexSlaveCraft dependency (brrainz.harmony) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Mechanoid Milk dependency (brrainz.harmony) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RimTalk+The Forbbiden One dependency (rim.job.world) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Maidnoid CE Patch dependency (silversol.consti) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Maidnoid CE Patch dependency (CETeam.CombatExtended) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RimThunder - Westline Green (CE Edition) dependency (CETeam.CombatExtended) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod RimThunder - Westline Green (CE Edition) dependency (SmashPhil.VehicleFramework) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden has a dependency (issaczhuang.muzzleflash) with empty display name.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden dependency (issaczhuang.muzzleflash) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden has a dependency (BreadMo.Cinders) with empty display name.
+Mod Wood's Muzzle Flash for Cinders of the Embergarden dependency (BreadMo.Cinders) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Mod korossa CE patch dependency (gyun.0.6.3.1) needs to have <downloadUrl> and/or <steamWorkshopUrl> specified.
+Fallback handler could not load library C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/MonoBleedingEdge/data-000001AA8BF08820.dll
+Fallback handler could not load library C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/MonoBleedingEdge/data-000001AA8C155EE0.dll
+Helodrace Mod loaded.
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Baby_east.psd], Length 285496 and internal path: Helod/Bodies/Naked_Baby_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Baby_north.psd], Length 226210 and internal path: Helod/Bodies/Naked_Baby_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Baby_south.psd], Length 294172 and internal path: Helod/Bodies/Naked_Baby_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Child_east.psd], Length 665302 and internal path: Helod/Bodies/Naked_Child_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Child_north.psd], Length 748750 and internal path: Helod/Bodies/Naked_Child_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Child_south.psd], Length 570863 and internal path: Helod/Bodies/Naked_Child_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Female_east.psd], Length 12273496 and internal path: Helod/Bodies/Naked_Female_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Female_north.psd], Length 11639899 and internal path: Helod/Bodies/Naked_Female_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Bodies\Naked_Female_south.psd], Length 12147713 and internal path: Helod/Bodies/Naked_Female_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Hair\헤롤드 헤어_east.psd], Length 8518682 and internal path: Helod/Hair/헤롤드 헤어_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Baby_east.psd], Length 66566 and internal path: Helod/Tails/HelodTail_Baby_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Baby_north.psd], Length 138604 and internal path: Helod/Tails/HelodTail_Baby_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Baby_south.psd], Length 133706 and internal path: Helod/Tails/HelodTail_Baby_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Child_east.psd], Length 307461 and internal path: Helod/Tails/HelodTail_Child_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Child_north.psd], Length 248350 and internal path: Helod/Tails/HelodTail_Child_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_Child_south.psd], Length 218174 and internal path: Helod/Tails/HelodTail_Child_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_east.psd], Length 172600 and internal path: Helod/Tails/HelodTail_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_north.psd], Length 167307 and internal path: Helod/Tails/HelodTail_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Tails\HelodTail_south.psd], Length 144266 and internal path: Helod/Tails/HelodTail_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Left\Ear1Left_east.psd], Length 250880 and internal path: Helod/Ears/Left/Ear1Left_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Left\Ear1Left_north.psd], Length 177974 and internal path: Helod/Ears/Left/Ear1Left_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Left\Ear1Left_south.psd], Length 249351 and internal path: Helod/Ears/Left/Ear1Left_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\Ears\Right\Ear1Right_east.psd], Length 200309 and internal path: Helod/Ears/Right/Ear1Right_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\WarMask\WarMask_east.psd], Length 42343 and internal path: Helod/VanillaApparel/WarMask/WarMask_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\WarMask\WarMask_north.psd], Length 44570 and internal path: Helod/VanillaApparel/WarMask/WarMask_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\WarMask\WarMask_south.psd], Length 49701 and internal path: Helod/VanillaApparel/WarMask/WarMask_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\BroadshieldPack\BroadshieldPack_east.psd], Length 107860 and internal path: Helod/VanillaApparel/Royalty/BroadshieldPack/BroadshieldPack_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CorsetRoyal\CorsetRoyal_Female_east.psd], Length 34097 and internal path: Helod/VanillaApparel/Royalty/CorsetRoyal/CorsetRoyal_Female_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CorsetRoyal\CorsetRoyal_Female_north.psd], Length 36637 and internal path: Helod/VanillaApparel/Royalty/CorsetRoyal/CorsetRoyal_Female_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CorsetRoyal\CorsetRoyal_Female_south.psd], Length 35355 and internal path: Helod/VanillaApparel/Royalty/CorsetRoyal/CorsetRoyal_Female_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\Crown\Crown_east.psd], Length 41419 and internal path: Helod/VanillaApparel/Royalty/Crown/Crown_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\Crown\Crown_north.psd], Length 41325 and internal path: Helod/VanillaApparel/Royalty/Crown/Crown_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\Crown\Crown_south.psd], Length 40081 and internal path: Helod/VanillaApparel/Royalty/Crown/Crown_south
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CrownStellic\CrownStellic_east.psd], Length 46723 and internal path: Helod/VanillaApparel/Royalty/CrownStellic/CrownStellic_east
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CrownStellic\CrownStellic_north.psd], Length 67651 and internal path: Helod/VanillaApparel/Royalty/CrownStellic/CrownStellic_north
+Tried to load duplicate UnityEngine.Texture2D with path: FilesystemFile [C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Textures\Helod\VanillaApparel\Royalty\CrownStellic\CrownStellic_south.psd], Length 62684 and internal path: Helod/VanillaApparel/Royalty/CrownStellic/CrownStellic_south
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_556M855A1_Ammo' for def 'HD_ModularPart_Ammunition_762M80_Part' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_919M882_Ammo' for def 'HD_ModularPart_Ammunition_919M882_P320_Part' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_556M855A1_Ammo' for def 'HD_Ammunition_556M855A1_Ammo' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_919M882_Ammo' for def 'HD_Ammunition_919M882_Ammo' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Could not load Texture2D at 'Weapons/Modular/Ammunition/HD_Ammunition_76251M80A1_Ammo' for def 'HD_Ammunition_76251M80A1_Ammo' in any active mod or in base resources.
+MatFrom with null sourceTex.
+Helodrace tactical engine: New (effective=new).
+[Helodrace] Standalone race initialized: 9 heads, 41 apparel graphics, 133 operations.
+[HD Cigarette] diagnostics enabled. DrawCarriedThing prefix active=True, assembly=C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\HelodRace-Main\Assemblies\Helodrace.dll
+Helodrace initialized. Removed quality comp from 39 Helodrace guns.
+Unloading 5 Unused Serialized files (Serialized files now loaded: 5)
+Unloading 135 unused Assets to reduce memory usage. Loaded Objects now: 29115.
+Total: 267.590600 ms (FindLiveObjects: 2.427200 ms CreateObjectMapping: 2.587900 ms MarkObjects: 262.123800 ms  DeleteObjects: 0.451300 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 5)
+[PhysX] Initialized MultithreadedTaskDispatcher with 12 workers.
+UnloadTime: 0.884300 ms
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 29139.
+Total: 261.706100 ms (FindLiveObjects: 1.329000 ms CreateObjectMapping: 2.386600 ms MarkObjects: 257.921800 ms  DeleteObjects: 0.068400 ms)
+
+Direct3D: detected that using refresh rate causes time drift. Will stop trusting refresh rate until the game window is moved.
+Direct3D: detected that vsync is broken (it does not limit frame rate properly). Delta time will now be calculated using cpu-side time stampling until the game window is moved.
+Initializing new game with mods:
+  - brrainz.harmony
+  - Ludeon.RimWorld
+  - Ludeon.RimWorld.Royalty
+  - Ludeon.RimWorld.Ideology
+  - Ludeon.RimWorld.Biotech
+  - Ludeon.RimWorld.Anomaly
+  - Ludeon.RimWorld.Odyssey
+  - BlueBackedFish.Helodrace.Main
+Unloading 1 Unused Serialized files (Serialized files now loaded: 5)
+Unloading 1 unused Assets to reduce memory usage. Loaded Objects now: 35563.
+Total: 233.619400 ms (FindLiveObjects: 1.654900 ms CreateObjectMapping: 2.741200 ms MarkObjects: 229.145000 ms  DeleteObjects: 0.077900 ms)
+
+Agent method profiler ready: C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r6-smoke-low-01\profiles
+R6 field drill 404:exterior actor exposed (84, 0, 160)
+R6 field drill 406:field response outside range=34.9 distance=56.29387
+R6 field drill 768:screen established; movement segments=1
+R6 field drill 1256:screen established; movement segments=2
+R6 field drill 1374:actor approached (84, 0, 155)
+R6 field drill 1406:motion observed; actor hidden
+R6 field drill 1661:CQB mission resumed; original opening=(100, 0, 102)
+Memory Statistics:
+[ALLOC_TEMP_TLS] TLS Allocator
+  StackAllocators : 
+    [ALLOC_TEMP_MAIN]
+      Peak usage frame count: [0-1.0 KB]: 3856 frames, [1.0 KB-2.0 KB]: 4 frames, [2.0 KB-4.0 KB]: 4588 frames, [4.0 KB-8.0 KB]: 101 frames, [64.0 KB-128.0 KB]: 1 frames, [128.0 KB-256.0 KB]: 1 frames, [2.0 MB-4.0 MB]: 3 frames, [4.0 MB-8.0 MB]: 1 frames
+      Initial Block Size 4.0 MB
+      Current Block Size 4.1 MB
+      Peak Allocated Bytes 4.1 MB
+      Overflow Count 1
+    [ALLOC_TEMP_Loading.AsyncRead]
+      Initial Block Size 64.0 KB
+      Current Block Size 120.0 KB
+      Peak Allocated Bytes 117.2 KB
+      Overflow Count 0
+    [ALLOC_TEMP_Loading.PreloadManager]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 3.8 KB
+      Overflow Count 8
+    [ALLOC_TEMP_Background Job.Worker 8]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 9]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 0]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 10]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 6]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 5]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 176 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 14]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 6]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 4]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 3]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 12]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_EnlightenWorker] x 6
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 15]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 1]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 2]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 7]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_UnityGfxDeviceWorker]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 10.3 KB
+      Overflow Count 0
+    [ALLOC_TEMP_AssetGarbageCollectorHelper] x 11
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 138 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 5]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 9]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 176 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 13]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 8]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 176 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 7]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 1]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 507 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 2]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 480 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 3]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 11]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 10]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 160 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 0]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 4]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+    [ALLOC_TEMP_BatchDeleteObjects]
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 54 B
+      Overflow Count 0
+[ALLOC_DEFAULT] Dual Thread Allocator
+  Peak main deferred allocation count 30418
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 45475
+        32B: 34 Subsections = 17408 buckets. Failed count: 96387
+        48B: 49 Subsections = 16725 buckets. Failed count: 127321
+        64B: 40 Subsections = 10240 buckets. Failed count: 38106
+        80B: 85 Subsections = 17408 buckets. Failed count: 37952
+        96B: 28 Subsections = 4778 buckets. Failed count: 45570
+        112B: 10 Subsections = 1462 buckets. Failed count: 12981
+        128B: 6 Subsections = 768 buckets. Failed count: 17627
+    [ALLOC_DEFAULT_MAIN]
+      Peak usage frame count: [16.0 MB-32.0 MB]: 1004 frames, [32.0 MB-64.0 MB]: 1 frames, [128.0 MB-256.0 MB]: 7550 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 12
+      Peak Allocated memory 209.1 MB
+      Peak Large allocation bytes 31.2 MB
+    [ALLOC_DEFAULT_THREAD]
+      Peak usage frame count: [8.0 MB-16.0 MB]: 1126 frames, [16.0 MB-32.0 MB]: 24 frames, [32.0 MB-64.0 MB]: 2716 frames, [64.0 MB-128.0 MB]: 4689 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 6
+      Peak Allocated memory 79.4 MB
+      Peak Large allocation bytes 10.0 MB
+[ALLOC_TEMP_JOB_1_FRAME]
+  Initial Block Size 2.0 MB
+  Used Block Count 0
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_2_FRAMES]
+  Initial Block Size 2.0 MB
+  Used Block Count 0
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_4_FRAMES (JobTemp)]
+  Initial Block Size 2.0 MB
+  Used Block Count 1
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_ASYNC (Background)]
+  Initial Block Size 1.0 MB
+  Used Block Count 1
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_GFX] Dual Thread Allocator
+  Peak main deferred allocation count 42
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 45475
+        32B: 34 Subsections = 17408 buckets. Failed count: 96387
+        48B: 49 Subsections = 16725 buckets. Failed count: 127321
+        64B: 40 Subsections = 10240 buckets. Failed count: 38106
+        80B: 85 Subsections = 17408 buckets. Failed count: 37952
+        96B: 28 Subsections = 4778 buckets. Failed count: 45570
+        112B: 10 Subsections = 1462 buckets. Failed count: 12981
+        128B: 6 Subsections = 768 buckets. Failed count: 17627
+    [ALLOC_GFX_MAIN]
+      Peak usage frame count: [64.0 KB-128.0 KB]: 1 frames, [2.0 MB-4.0 MB]: 3864 frames, [32.0 MB-64.0 MB]: 4689 frames, [256.0 MB-0.50 GB]: 1 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 4
+      Peak Allocated memory 387.1 MB
+      Peak Large allocation bytes 383.6 MB
+    [ALLOC_GFX_THREAD]
+      Peak usage frame count: [0-1.0 KB]: 1007 frames, [1.0 KB-2.0 KB]: 2859 frames, [8.0 KB-16.0 KB]: 1 frames, [16.0 KB-32.0 KB]: 1666 frames, [32.0 KB-64.0 KB]: 3022 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 1
+      Peak Allocated memory 33.5 KB
+      Peak Large allocation bytes 0 B
+[ALLOC_CACHEOBJECTS] Dual Thread Allocator
+  Peak main deferred allocation count 109
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 45475
+        32B: 34 Subsections = 17408 buckets. Failed count: 96387
+        48B: 49 Subsections = 16725 buckets. Failed count: 127321
+        64B: 40 Subsections = 10240 buckets. Failed count: 38106
+        80B: 85 Subsections = 17408 buckets. Failed count: 37952
+        96B: 28 Subsections = 4778 buckets. Failed count: 45570
+        112B: 10 Subsections = 1462 buckets. Failed count: 12981
+        128B: 6 Subsections = 768 buckets. Failed count: 17627
+    [ALLOC_CACHEOBJECTS_MAIN]
+      Peak usage frame count: [4.0 MB-8.0 MB]: 1 frames, [8.0 MB-16.0 MB]: 1004 frames, [16.0 MB-32.0 MB]: 7550 frames
+      Requested Block Size 4.0 MB
+      Peak Block count 5
+      Peak Allocated memory 17.2 MB
+      Peak Large allocation bytes 0 B
+    [ALLOC_CACHEOBJECTS_THREAD]
+      Peak usage frame count: [4.0 KB-8.0 KB]: 1004 frames, [32.0 KB-64.0 KB]: 1 frames, [64.0 KB-128.0 KB]: 7548 frames, [256.0 KB-0.5 MB]: 1 frames, [0.5 MB-1.0 MB]: 1 frames
+      Requested Block Size 4.0 MB
+      Peak Block count 1
+      Peak Allocated memory 0.6 MB
+      Peak Large allocation bytes 0 B
+[ALLOC_TYPETREE] Dual Thread Allocator
+  Peak main deferred allocation count 0
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 4 Subsections = 4096 buckets. Failed count: 45475
+        32B: 34 Subsections = 17408 buckets. Failed count: 96387
+        48B: 49 Subsections = 16725 buckets. Failed count: 127321
+        64B: 40 Subsections = 10240 buckets. Failed count: 38106
+        80B: 85 Subsections = 17408 buckets. Failed count: 37952
+        96B: 28 Subsections = 4778 buckets. Failed count: 45570
+        112B: 10 Subsections = 1462 buckets. Failed count: 12981
+        128B: 6 Subsections = 768 buckets. Failed count: 17627
+    [ALLOC_TYPETREE_MAIN]
+      Peak usage frame count: [4.0 KB-8.0 KB]: 1 frames, [8.0 KB-16.0 KB]: 1004 frames, [32.0 KB-64.0 KB]: 7550 frames
+      Requested Block Size 2.0 MB
+      Peak Block count 1
+      Peak Allocated memory 49.8 KB
+      Peak Large allocation bytes 0 B
+    [ALLOC_TYPETREE_THREAD]
+      Peak usage frame count: [0-1.0 KB]: 8555 frames
+      Requested Block Size 2.0 MB
+      Peak Block count 0
+      Peak Allocated memory 0 B
+      Peak Large allocation bytes 0 B

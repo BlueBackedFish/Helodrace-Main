@@ -8,6 +8,7 @@ namespace Helodrace
 {
     public sealed partial class MapComponent_TacticalEngineAudit
     {
+        private bool FieldFixture => result.fixtureCase == "r6-field-drill" || result.fixtureCase == "r6-smoke-drill";
         private int fieldStep, fieldStepAt;
         private TacticalSquadCommand fieldCommand;
         private TacticalLocalPlan fieldPlan;
@@ -15,6 +16,8 @@ namespace Helodrace
         private readonly List<string> fieldEvents = new List<string>();
         private bool fieldPostsUnique = true, fieldSingleTeam = true, fieldFrozen = true;
         private long fieldBoundBaseline;
+        private bool fieldSmokeTargets = true;
+        private long fieldSmokeLogged;
 
         private void FieldEvent(string value)
         {
@@ -52,6 +55,17 @@ namespace Helodrace
                         .Select(m => m.Fireteam).Distinct().ToArray();
                     fieldSingleTeam &= moving.All(team => team == field.MovingTeam);
                 }
+                if (field.Screen != null)
+                {
+                    fieldSmokeTargets &= field.Screen.Target == field.Anchor + field.Forward * 8;
+                    if (field.Screen.Launched && RaidSmokeUtility.SmokeAt(map, field.Screen.Target))
+                        result.newFieldSmokeSeen = true;
+                }
+                if (service.FieldSmokeAdvances > fieldSmokeLogged)
+                {
+                    fieldSmokeLogged = service.FieldSmokeAdvances;
+                    FieldEvent("screen established; movement segments=" + fieldSmokeLogged);
+                }
             }
             if (fieldStep == 1)
             {
@@ -65,6 +79,7 @@ namespace Helodrace
             {
                 if (field == null || field.Stage != TacticalFieldStage.Defending) return;
                 if (field.High && service.FieldBounds <= fieldBoundBaseline) return;
+                if (result.fixtureCase == "r6-smoke-drill" && service.FieldSmokeAdvances < 2) return;
                 // Real second sighting, without modifying memory/controller.
                 fieldSeen += new IntVec3(0,0,-5); owner.Position = fieldSeen;
                 fieldStepAt = tick; fieldStep = 3; FieldEvent("actor approached " + fieldSeen); return;
@@ -86,7 +101,7 @@ namespace Helodrace
         }
         private void FinishFieldDrill()
         {
-            if (result.fixtureCase != "r6-field-drill") return;
+            if (!FieldFixture) return;
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
             result.newFieldResponses = service.FieldResponses; result.newFieldResumes = service.FieldResumes;
             result.newFieldBounds = service.FieldBounds; result.newFieldGuardJobs = service.FieldGuardJobs;
@@ -96,6 +111,9 @@ namespace Helodrace
                 && (fieldCommand.Link.Unit.Faction.def.defName != "HD_HelodCivilHighFaction" || service.FieldBounds > 0);
             result.newFieldMemoryFrozen = fieldFrozen && fieldStep == 5;
             result.newFieldEvents = fieldEvents.ToArray();
+            result.newFieldSmokePlans = service.FieldSmokePlans; result.newFieldSmokeThrows = service.FieldSmokeThrows;
+            result.newFieldSmokeAdvances = service.FieldSmokeAdvances;
+            result.newFieldSmokeSharedTargets = fieldSmokeTargets && service.FieldSmokeThrows >= 2;
         }
     }
 }

@@ -75,6 +75,7 @@ namespace Helodrace.Tactics
 
         internal void Launched(Pawn pawn, Job job, Projectile projectile)
         {
+            if (FieldSmokeLaunched(pawn, job, projectile)) return;
             if (projectile == null || !byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
                 || command.OpeningAction?.Thrower != pawn || pawn.CurJob != job) return;
             TacticalOpeningAction action = command.OpeningAction;
@@ -84,6 +85,7 @@ namespace Helodrace.Tactics
         }
         internal void SupportReturned(Pawn pawn, Job job)
         {
+            if (FieldSmokeReturned(pawn, job)) return;
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.OpeningAction?.Thrower != pawn
                 || pawn.CurJob != job || pawn.Position != command.OpeningAction.ReturnPosition) return;
             if (!command.OpeningAction.Returned) SupportReturns++;

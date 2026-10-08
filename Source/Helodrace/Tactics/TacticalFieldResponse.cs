@@ -8,7 +8,7 @@ using Verse.AI;
 namespace Helodrace.Tactics
 {
     public enum TacticalObservedMotion { Unknown, Stationary, Approaching, Crossing, Leaving }
-    public enum TacticalFieldStage { Forming, Defending, Moving }
+    public enum TacticalFieldStage { Forming, Defending, Screening, Moving }
 
     // No enemy references, orders, threat grid or room graph. All predictions
     // are based on the two reported/observed value samples only.
@@ -46,7 +46,8 @@ namespace Helodrace.Tactics
 
     public sealed class TacticalFieldResponse
     {
-        public int Started, LastSeen, EnemyId, FocusAt, Assigned, MovingTeam = -1, NextMove, MoveStarted;
+        public int Started, LastSeen, EnemyId, FocusAt, Assigned, MovingTeam = -1, NextMove, MoveStarted, SmokeRetryAt, BoundCursor;
+        public bool BoundPending;
         public TacticalFieldStage Stage;
         public TacticalObservedMotion Motion;
         public bool High;
@@ -55,6 +56,7 @@ namespace Helodrace.Tactics
         public readonly List<int> Order = new List<int>();
         public readonly HashSet<int> FireGroup = new HashSet<int>();
         public readonly HashSet<IntVec3> Occupied = new HashSet<IntVec3>();
+        public TacticalFieldSmoke Screen;
     }
 
     public sealed partial class MapComponent_TacticalCommands
@@ -132,6 +134,7 @@ namespace Helodrace.Tactics
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
             }
+            AdvanceFieldBoundPosts(command, field, tick);
             int ready = 0, coverReady = 0, coverCount = 0, movers = 0, moversReady = 0;
             float range = 0;
             foreach (TacticalMemberCommand member in active)
@@ -140,10 +143,12 @@ namespace Helodrace.Tactics
                 IntVec3 post = field.Posts[index];
                 bool at = post.IsValid && AtPost(member) && member.Pawn.Position == post;
                 if (at) ready++;
-                if (member.Fireteam == field.MovingTeam && field.MovingTeam >= 0)
+                if (FieldMover(field, member, index))
                 { movers++; if (at) moversReady++; }
                 else { coverCount++; if (at) coverReady++; }
                 range = Math.Max(range, member.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.verbProps.range ?? 0);
+                if (field.Screen?.Thrower == member.Pawn && field.Screen.Job == member.Pawn.CurJob
+                    && !field.Screen.Returned) continue;
                 if (!post.IsValid) { EnsureParking(command, member, tick); continue; }
                 if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalContactGuard"
                     && member.Job.targetA.Cell == post)
@@ -153,51 +158,84 @@ namespace Helodrace.Tactics
             }
             if (field.Assigned < field.Order.Count) return true;
             if (field.Stage == TacticalFieldStage.Forming && ready == active.Count) field.Stage = TacticalFieldStage.Defending;
-            if (field.Stage == TacticalFieldStage.Moving && (moversReady == movers || tick - field.MoveStarted >= 600))
+            if (field.Stage == TacticalFieldStage.Screening)
+            {
+                if (AdvanceFieldSmoke(command, active, field, tick))
+                {
+                    if (field.Motion == TacticalObservedMotion.Approaching)
+                    {
+                        field.Screen = null; field.Stage = TacticalFieldStage.Defending;
+                        field.NextMove = tick + 180; return true;
+                    }
+                    if (BeginFieldBound(command, active, field, tick))
+                    { field.Screen = null; FieldSmokeAdvances++; }
+                }
+                return true;
+            }
+            if (field.Stage == TacticalFieldStage.Moving && !field.BoundPending
+                && (moversReady == movers || tick - field.MoveStarted >= 600))
             {
                 field.Stage = TacticalFieldStage.Defending; field.NextMove = tick + TacticalFieldPolicy.MoveInterval;
             }
             // HIGH: only one real child team moves; the other teams must already
             // be at their guard posts. Never invent teams from pawn index/modulo.
-            if (field.High && field.Stage == TacticalFieldStage.Defending && tick >= field.NextMove
+            if (field.Stage == TacticalFieldStage.Defending && tick >= field.NextMove
                 && ready == active.Count && coverReady == coverCount && field.Motion != TacticalObservedMotion.Approaching
                 && field.Anchor.DistanceToSquared(field.Focus) > Math.Max(100, range * range * .64f))
-                BeginFieldBound(command, active, field, tick);
+            {
+                if (tick >= field.SmokeRetryAt && PlanFieldSmoke(command, active, field, tick)) return true;
+                // HIGH can advance with an established covering team even if
+                // smoke is unavailable. LOW keeps its defensive group instead.
+                if (field.High) BeginFieldBound(command, active, field, tick);
+                else field.NextMove = tick + 180;
+            }
             return true;
         }
 
-        private void BeginFieldBound(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick)
+        private bool BeginFieldBound(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick)
         {
-            TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
-            if (!budget.TryPlan(tick)) return;
-            int team = -1;
-            for (int offset = 1; offset <= 3; offset++)
+            int team = field.High ? -1 : field.MovingTeam == -2 ? -3 : -2;
+            for (int offset = 1; field.High && offset <= 3; offset++)
             {
                 int candidate = (field.MovingTeam + offset) % 3;
                 if (active.Exists(m => m.Fireteam == candidate)) { team = candidate; break; }
             }
-            if (team < 0) { field.NextMove = tick + 600; return; }
+            if (field.High && team < 0) { field.NextMove = tick + 600; return false; }
+            field.MovingTeam = team; field.Stage = TacticalFieldStage.Moving;
+            field.BoundCursor = 0; field.BoundPending = true;
+            field.MoveStarted = tick; FieldBounds++; return true;
+        }
+
+        private void AdvanceFieldBoundPosts(TacticalSquadCommand command, TacticalFieldResponse field, int tick)
+        {
+            if (!field.BoundPending) return;
+            TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+            if (!budget.TryPlan(tick)) return;
             long started = Stopwatch.GetTimestamp();
             try
             {
-                // A bounded team has four members in the current HIGH roster.
-                // One small search per mover; no path request until job admission.
-                int moved = 0;
-                foreach (TacticalMemberCommand member in active)
+                int assigned = 0;
+                while (field.BoundCursor < command.Members.Count && assigned < 2)
                 {
-                    if (member.Fireteam != team || moved++ >= 4) continue;
-                    int index = command.Members.IndexOf(member);
+                    int index = field.BoundCursor++;
+                    TacticalMemberCommand member = command.Members[index];
+                    if (!Available(member, map) || !FieldMover(field, member, index)) continue;
+                    assigned++;
                     IntVec3 old = field.Posts[index];
                     if (!old.IsValid) continue;
                     AssignFieldPost(command, member, field, index, old + field.Forward * 5);
                 }
-                field.MovingTeam = team; field.Stage = TacticalFieldStage.Moving;
-                field.MoveStarted = tick; FieldBounds++;
-                // Anchor advances only after a full cover/move exchange.
-                if (team == 2) field.Anchor += field.Forward * 5;
+                field.BoundPending = field.BoundCursor < command.Members.Count;
+                if (!field.BoundPending && (field.MovingTeam == 2 || field.MovingTeam == -3))
+                    field.Anchor += field.Forward * 5;
             }
             finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
         }
+
+        private static bool FieldMover(TacticalFieldResponse field, TacticalMemberCommand member, int index) => field.High
+            ? field.MovingTeam >= 0 && member.Fireteam == field.MovingTeam
+            : field.MovingTeam == -2 && !field.FireGroup.Contains(index)
+                || field.MovingTeam == -3 && field.FireGroup.Contains(index);
 
         private void AssignFieldPost(TacticalSquadCommand command, TacticalMemberCommand member,
             TacticalFieldResponse field, int index, IntVec3 desired)
