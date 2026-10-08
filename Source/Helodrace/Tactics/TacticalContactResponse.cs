@@ -7,15 +7,15 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
-    public sealed class TacticalContactResponse
+    public sealed partial class TacticalContactResponse
     {
         public int Started, LastSeen, Assigned, SecuredCount, FirstId, SecondId = -1, FocusUpdatedAt;
         public TacticalLocalPlan Plan;
         public TacticalCommandPhase Phase;
         public IntVec3 Anchor, First, Second = IntVec3.Invalid;
         public bool Rear, Opposed, Door;
-        public readonly List<IntVec3> Posts = new List<IntVec3>();
-        public readonly HashSet<IntVec3> Occupied = new HashSet<IntVec3>();
+        public List<IntVec3> Posts = new List<IntVec3>();
+        public HashSet<IntVec3> Occupied = new HashSet<IntVec3>();
     }
 
     public sealed partial class MapComponent_TacticalCommands

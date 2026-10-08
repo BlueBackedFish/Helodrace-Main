@@ -18,7 +18,7 @@ namespace Helodrace.Tactics
         public static bool SafePhase(TacticalCommandPhase phase, bool scanDone, TacticalFieldStage? fieldStage) =>
             fieldStage == TacticalFieldStage.Defending || phase == TacticalCommandPhase.Clear && scanDone && fieldStage == null;
     }
-    public sealed class TacticalMedicalCare
+    public sealed partial class TacticalMedicalCare
     {
         public TacticalMemberCommand Patient, Helper;
         public Job Job;

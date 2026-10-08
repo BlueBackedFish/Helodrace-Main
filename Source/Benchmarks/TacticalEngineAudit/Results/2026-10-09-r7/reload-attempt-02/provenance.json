@@ -1,0 +1,43 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-reload-02",
+  "classification": "incomplete protected opponent engagement",
+  "files": {
+    "audit.json": {
+      "sha256": "4d22765c6210c9d8a86dae8ec2260bd2efdb7e8c2fd67faf849c540ec2ac169a",
+      "uncompressedSha256": "4d22765c6210c9d8a86dae8ec2260bd2efdb7e8c2fd67faf849c540ec2ac169a",
+      "uncompressedBytes": 10025
+    },
+    "launcher.json": {
+      "sha256": "665ea6052f37d7a7b217337858bace33ee00ef85707f8594fc1b7e3cd14a1ee3",
+      "uncompressedSha256": "665ea6052f37d7a7b217337858bace33ee00ef85707f8594fc1b7e3cd14a1ee3",
+      "uncompressedBytes": 536
+    },
+    "Player.log.gz": {
+      "sha256": "81de378547e80942ec69cdfe83929c71680874e3e7d9e093124d341c9274a5b7",
+      "uncompressedSha256": "a7f937a58deeeb45bddda80f9a1283e5c210c2b5096371575446a8955f259513",
+      "uncompressedBytes": 34738
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "ed914ff0d39c2ec8b84fd9bb26759e8757995f2b34e019782908d27bb6a129a3",
+      "bytes": 3351857,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "b915967c2276fcaa3208060a228a33b41c0255d3d706647c9e95fce3c2817718",
+      "bytes": 3424661,
+      "archived": false
+    },
+    "R7TacticalCheckpoint3.rws": {
+      "sha256": "ddb7ea238a9f17c37de12565c86f44246bc949b0273a07f0b8f7bf68bd6b5c8e",
+      "bytes": 3428364,
+      "archived": false
+    }
+  }
+}

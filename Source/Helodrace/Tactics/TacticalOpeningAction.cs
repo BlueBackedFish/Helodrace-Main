@@ -8,7 +8,7 @@ using Verse.AI;
 namespace Helodrace.Tactics
 {
     // One small action record per opening. No live room graph or enemy tracking.
-    public sealed class TacticalOpeningAction
+    public sealed partial class TacticalOpeningAction
     {
         public Pawn Observer, Thrower;
         public IntVec3 ObservationPosition = IntVec3.Invalid, Source = IntVec3.Invalid, Enemy = IntVec3.Invalid,

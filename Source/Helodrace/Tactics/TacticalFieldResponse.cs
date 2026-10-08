@@ -54,7 +54,7 @@ namespace Helodrace.Tactics
         }
     }
 
-    public sealed class TacticalFieldResponse
+    public sealed partial class TacticalFieldResponse
     {
         public int Started, LastSeen, EnemyId, FocusAt, Assigned, MovingTeam = -1, NextMove, MoveStarted, SmokeRetryAt, BoundCursor;
         public bool BoundPending;
@@ -62,10 +62,10 @@ namespace Helodrace.Tactics
         public TacticalObservedMotion Motion;
         public bool High;
         public IntVec3 Anchor, Focus, Forward;
-        public readonly List<IntVec3> Posts = new List<IntVec3>();
-        public readonly List<int> Order = new List<int>();
-        public readonly HashSet<int> FireGroup = new HashSet<int>();
-        public readonly HashSet<IntVec3> Occupied = new HashSet<IntVec3>();
+        public List<IntVec3> Posts = new List<IntVec3>();
+        public List<int> Order = new List<int>();
+        public HashSet<int> FireGroup = new HashSet<int>();
+        public HashSet<IntVec3> Occupied = new HashSet<IntVec3>();
         public TacticalFieldSmoke Screen;
     }
 

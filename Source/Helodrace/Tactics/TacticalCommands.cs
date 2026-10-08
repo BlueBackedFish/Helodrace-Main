@@ -12,7 +12,7 @@ using Verse.AI.Group;
 namespace Helodrace.Tactics
 {
     public enum TacticalCommandPhase { Pending, Stack, Breach, Observe, Support, BlastWait, Enter, Clear, Returning, Complete, Released }
-    public sealed class TacticalMemberCommand
+    public sealed partial class TacticalMemberCommand
     {
         public Pawn Pawn;
         public Job Job;
@@ -25,11 +25,11 @@ namespace Helodrace.Tactics
         public int LastCareAt = -6000;
         public bool MedicalRejoinPending;
     }
-    public sealed class TacticalSquadCommand
+    public sealed partial class TacticalSquadCommand
     {
         public string Id;
-        public readonly TacticalSquadLink Link = new TacticalSquadLink();
-        public readonly List<TacticalMemberCommand> Members = new List<TacticalMemberCommand>();
+        public TacticalSquadLink Link = new TacticalSquadLink();
+        public List<TacticalMemberCommand> Members = new List<TacticalMemberCommand>();
         public MapComponent_TacticalCommands Owner;
         public Lord RaidLord;
         public TacticalCommandPhase Phase;
@@ -44,7 +44,7 @@ namespace Helodrace.Tactics
         public bool DeferredWork;
         public TacticalPlanFailure LastPlanFailure;
         public TacticalOpeningAction OpeningAction;
-        public readonly TacticalContactState Contacts = new TacticalContactState();
+        public TacticalContactState Contacts = new TacticalContactState();
         public TacticalContactResponse ContactResponse;
         public TacticalFieldResponse FieldResponse;
         public TacticalMedicalCare MedicalCare;
@@ -55,13 +55,13 @@ namespace Helodrace.Tactics
         public int ContactHandledAt = -1, ContactCloseAt = int.MinValue / 2;
         public TacticalChargeAction ChargeAction;
         public bool ReplanAfterSupport;
-        public readonly List<Thing> BreachTools = new List<Thing>();
+        public List<Thing> BreachTools = new List<Thing>();
         public int RecoveryRetryAt, RecoveryCandidateCursor;
         public TacticalRoomScan RoomScan;
-        public readonly HashSet<IntVec3> SecuredCells = new HashSet<IntVec3>();
-        public readonly List<TacticalLocalPlan> SecuredPlans = new List<TacticalLocalPlan>();
-        public readonly List<TacticalRoomFrontier> Frontiers = new List<TacticalRoomFrontier>();
-        public readonly HashSet<IntVec3> FrontierKeys = new HashSet<IntVec3>();
+        public HashSet<IntVec3> SecuredCells = new HashSet<IntVec3>();
+        public List<TacticalLocalPlan> SecuredPlans = new List<TacticalLocalPlan>();
+        public List<TacticalRoomFrontier> Frontiers = new List<TacticalRoomFrontier>();
+        public HashSet<IntVec3> FrontierKeys = new HashSet<IntVec3>();
         public bool GoalSecured, FrontierBusy;
         public int FrontierCursor;
         public TacticalRoomFrontier RecoveryFrontier;
@@ -71,7 +71,7 @@ namespace Helodrace.Tactics
 
     // One fair bounded scheduler for ALL maps. No per-map tactical tick/update.
     [NewTactical]
-    public sealed class GameComponent_TacticalCommands : GameComponent
+    public sealed partial class GameComponent_TacticalCommands : GameComponent
     {
         private readonly List<TacticalSquadCommand> commands = new List<TacticalSquadCommand>();
         private int cursor, discoverAt, discoverOrganization;
@@ -102,6 +102,7 @@ namespace Helodrace.Tactics
         }
         public override void GameComponentTick()
         {
+            RestorePackets();
             int tick = GenTicks.TicksGame;
             DiscoverOne(tick);
             if (commands.Count == 0) return;
@@ -224,12 +225,6 @@ namespace Helodrace.Tactics
                 }
             }
         }
-        public override void ExposeData()
-        {
-            Scribe_Values.Look(ref explicitGoal, "newTacticalExplicitGoal", IntVec3.Invalid);
-            // Execution is rebuilt after load; persisted vanilla JobDrivers keep
-            // their own progress. No legacy save compatibility is needed.
-        }
         internal TacticalSquadCommand Register(RaidTacticalUnit unit, int tick)
         {
             if (squads.ContainsKey(unit.Id)) return null;
@@ -283,7 +278,7 @@ namespace Helodrace.Tactics
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
             if (member?.Job == job) member.Crossed = true;
         }
-        private static bool Available(TacticalMemberCommand member, Map map) => member.Pawn.Spawned
+        private static bool Available(TacticalMemberCommand member, Map map) => member.Pawn?.Spawned == true
             && member.Pawn.Map == map && !member.Pawn.Dead && !member.Pawn.Downed && !member.Pawn.InMentalState
             && GameComponent_TacticalCommands.IsAssaultLord(member.Pawn.GetLord());
 
@@ -691,7 +686,7 @@ namespace Helodrace.Tactics
         private static void EndOwned(TacticalMemberCommand member, bool startNewJob = true)
         {
             Job owned = member.Job; member.Job = null;
-            if (owned != null && member.Pawn.CurJob == owned)
+            if (owned != null && member.Pawn?.CurJob == owned)
                 member.Pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: startNewJob);
         }
         private void ReleaseClaims(TacticalSquadCommand command)

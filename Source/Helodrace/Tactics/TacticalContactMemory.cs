@@ -5,7 +5,7 @@ using Verse;
 namespace Helodrace.Tactics
 {
     // Value-only knowledge: no enemy Pawn reference or future job/destination.
-    public sealed class TacticalContact
+    public sealed partial class TacticalContact
     {
         public int EnemyId, SeenTick, PreviousTick = -1;
         public IntVec3 PreviousPosition = IntVec3.Invalid;
@@ -17,10 +17,10 @@ namespace Helodrace.Tactics
             PreviousPosition = PreviousPosition, PreviousTick = PreviousTick };
     }
 
-    public sealed class TacticalContactMemory
+    public sealed partial class TacticalContactMemory
     {
         public const int Limit = 8, FreshTicks = 240, RetentionTicks = 1800;
-        private readonly List<TacticalContact> entries = new List<TacticalContact>(Limit);
+        private List<TacticalContact> entries = new List<TacticalContact>(Limit);
         public IReadOnlyList<TacticalContact> Entries => entries;
         public void Remember(int enemyId, IntVec3 position, IntVec3 area, bool door, int tick, string origin = null)
         {
@@ -65,11 +65,11 @@ namespace Helodrace.Tactics
         public static bool Fresh(TacticalContact contact, int tick) => tick - contact.SeenTick < FreshTicks;
     }
 
-    public sealed class TacticalContactState
+    public sealed partial class TacticalContactState
     {
         public const int ScanInterval = 45, CandidateLimit = 16, Radius = 28;
-        public readonly TacticalContactMemory Memory = new TacticalContactMemory();
-        public readonly List<IntVec3> Destinations = new List<IntVec3>(5), Sources = new List<IntVec3>(5);
+        public TacticalContactMemory Memory = new TacticalContactMemory();
+        public List<IntVec3> Destinations = new List<IntVec3>(5), Sources = new List<IntVec3>(5);
         public int NextScan, ObserverCursor, CandidateCursor;
     }
 

@@ -18,7 +18,7 @@ namespace Helodrace.Tactics
                 && command.SecuredPlans.Select(plan => plan.Opening).Distinct().Count() == command.SecuredPlans.Count;
     }
 
-    public sealed class TacticalRoomFrontier
+    public sealed partial class TacticalRoomFrontier
     {
         public IntVec3 Opening, Inward;
         public int Preference;
@@ -137,6 +137,13 @@ namespace Helodrace.Tactics
             long started = Stopwatch.GetTimestamp();
             try
             {
+                if (command.SurveyPending)
+                {
+                    // Recreate only the interrupted bounded local survey. All
+                    // already secured rooms/frontiers and native Jobs survive.
+                    command.SurveyPending = false; BeginRoomClear(command, tick);
+                    return;
+                }
                 if (command.RoomScan != null)
                 {
                     RoomScanSteps++;

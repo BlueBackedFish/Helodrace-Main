@@ -8,22 +8,22 @@ using Verse;
 
 namespace Helodrace.Tactics
 {
-    public sealed class TacticalSquadLink
+    public sealed partial class TacticalSquadLink
     {
         public RaidTacticalUnit Unit;
         public Pawn Liaison;
         public CompTacticalRadio Radio;
         public int SelectionCursor, PeerCursor, ExchangeAt, PartnerExchangeAt, PartnerProbeAt, OpportunityUntil;
         public TacticalSquadCommand Peer;
-        public readonly TacticalCooperationState Cooperation = new TacticalCooperationState();
-        public readonly HashSet<IntVec3> KnownPortals = new HashSet<IntVec3>();
-        public readonly Dictionary<string, int> Identified = new Dictionary<string, int>();
+        public TacticalCooperationState Cooperation = new TacticalCooperationState();
+        public HashSet<IntVec3> KnownPortals = new HashSet<IntVec3>();
+        public Dictionary<string, int> Identified = new Dictionary<string, int>();
         public int IdentifyUntil, IdentifyStarted;
         public bool ResetPlan, IdentificationHolding;
         public string LastChannel = "none";
     }
 
-    public sealed class TacticalMessage
+    public sealed partial class TacticalMessage
     {
         public TacticalSquadCommand From, To;
         public int FromPawn, ToPawn, Sent, Due;
@@ -37,9 +37,9 @@ namespace Helodrace.Tactics
     }
 
     // Shared bounded service, not a per-map component or pawn-pair graph.
-    public sealed class TacticalCommunications
+    public sealed partial class TacticalCommunications
     {
-        private readonly List<TacticalMessage> pending = new List<TacticalMessage>(TacticalCommunicationPolicy.QueueLimit);
+        private List<TacticalMessage> pending = new List<TacticalMessage>(TacticalCommunicationPolicy.QueueLimit);
         private int sourceCursor, deliveryCursor, nextPair;
         public long PairChecks, MessagesSent, MessagesDelivered, MessagesDropped, QueueRejected, ReportsReceived;
         public long OffersAccepted, AgreementsConfirmed, StartMessages, Identifications, OperatorChanges;

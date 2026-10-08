@@ -9,18 +9,18 @@ namespace Helodrace.Tactics
     [Flags]
     public enum TacticalPlanFailure { None = 0, Busy = 1, NotBoundary = 2, Tool = 4, Obstructed = 8, Stack = 16, Inside = 32, Unreachable = 64, Unsecured = 128 }
     // Only the small physical footprint of one command. No topology/grid cache.
-    public sealed class TacticalLocalPlan
+    public sealed partial class TacticalLocalPlan
     {
         public IntVec3 Opening, Inward;
         public IntVec3 EntryLane = IntVec3.Invalid;
         public IntVec3 Outside => Opening - Inward;
         public IntVec3 Inside => Opening + Inward;
         public Building Barrier;
-        public readonly List<IntVec3> Stack = new List<IntVec3>();
-        public readonly List<IntVec3> Positions = new List<IntVec3>();
+        public List<IntVec3> Stack = new List<IntVec3>();
+        public List<IntVec3> Positions = new List<IntVec3>();
         // Member indices held on the secured approach face during a small-room entry.
-        public readonly HashSet<int> RetainedOutside = new HashSet<int>();
-        public readonly HashSet<IntVec3> Interior = new HashSet<IntVec3>();
+        public HashSet<int> RetainedOutside = new HashSet<int>();
+        public HashSet<IntVec3> Interior = new HashSet<IntVec3>();
         public bool Direct, ExistingOpening;
     }
 

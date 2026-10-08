@@ -18,7 +18,7 @@ using Verse.AI.Group;
 namespace Helodrace
 {
     [DataContract]
-    public sealed class TacticalEngineAuditResult
+    public sealed partial class TacticalEngineAuditResult
     {
         [DataMember] public int schema = 1, requestedPopulation, population, units, radioOperators, moved, entered, objectiveReached, alive;
         [DataMember] public int warmupTicks, sampleTicks, firstEntryTick = -1, firstObjectiveTick = -1, lastProgressTick;
@@ -97,10 +97,10 @@ namespace Helodrace
         internal static bool GeneratingFixture;
         internal static int FixturePawnIndex;
         private readonly string output;
-        private readonly List<Pawn> raiders = new List<Pawn>();
-        private readonly Dictionary<Pawn, IntVec3> starts = new Dictionary<Pawn, IntVec3>();
-        private readonly HashSet<Pawn> entered = new HashSet<Pawn>(), arrived = new HashSet<Pawn>();
-        private readonly HashSet<string> unexpected = new HashSet<string>();
+        private List<Pawn> raiders = new List<Pawn>();
+        private Dictionary<Pawn, IntVec3> starts = new Dictionary<Pawn, IntVec3>();
+        private HashSet<Pawn> entered = new HashSet<Pawn>(), arrived = new HashSet<Pawn>();
+        private HashSet<string> unexpected = new HashSet<string>();
         private Pawn owner;
         private Pawn interruptedPawn;
         private Tactics.TacticalSquadCommand interruptedCommand;
@@ -113,11 +113,11 @@ namespace Helodrace
         private readonly WindowsMethodClock windowClock = new WindowsMethodClock();
         private bool initialized, finishing, finished;
         private ProfileBenchmark benchmark;
-        private readonly TacticalEngineAuditResult result = new TacticalEngineAuditResult();
+        private TacticalEngineAuditResult result = new TacticalEngineAuditResult();
         private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
             || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery" || result.fixtureCase == "tiny-adjacent"
             || result.fixtureCase == "r4-contact-drill" || result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-radio-loss"
-            || MedicalFixture;
+            || MedicalFixture || ReloadFixture;
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
@@ -194,13 +194,14 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
             if (MedicalFixture) result.fixtureVersion = 23;
             if (TimedFieldFixture) result.fixtureVersion = 24;
             if (LifecycleFixture) result.fixtureVersion = 25;
+            if (ReloadFixture) result.fixtureVersion = 26;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -382,6 +383,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (ReloadFixture) { ApplyReloadDrill(); return; }
             if (LifecycleFixture) { ApplyLifecycleDrill(); return; }
             if (TimedFieldFixture) return;
             if (MedicalFixture) { ApplyMedicalDrill(); return; }

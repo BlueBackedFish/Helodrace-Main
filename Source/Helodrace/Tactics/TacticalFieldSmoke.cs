@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
-    public sealed class TacticalFieldSmoke
+    public sealed partial class TacticalFieldSmoke
     {
         public Pawn Thrower;
         public Job Job;

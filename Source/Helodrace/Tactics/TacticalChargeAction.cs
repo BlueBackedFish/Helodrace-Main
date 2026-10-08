@@ -7,12 +7,12 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
-    public sealed class TacticalChargeAction
+    public sealed partial class TacticalChargeAction
     {
         public Pawn Installer;
         public Job Installation;
         public CompInstalledBreachCharge Charge;
-        public readonly List<IntVec3> OriginalStack = new List<IntVec3>(), Withdrawal = new List<IntVec3>();
+        public List<IntVec3> OriginalStack = new List<IntVec3>(), Withdrawal = new List<IntVec3>();
         public int Deadline, SettledAt = -1;
         public bool Withdrawing, Detonated, EffectsCleared;
         public float Radius;

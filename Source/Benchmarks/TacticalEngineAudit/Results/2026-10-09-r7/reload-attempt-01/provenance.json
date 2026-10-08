@@ -1,0 +1,33 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-reload-01",
+  "classification": "failed harness",
+  "files": {
+    "audit.json": {
+      "sha256": "4019f3e5600a54af134f93ece03450952febc908a7e0490d5df8c23f4dacccd5",
+      "uncompressedSha256": "4019f3e5600a54af134f93ece03450952febc908a7e0490d5df8c23f4dacccd5",
+      "uncompressedBytes": 6522
+    },
+    "launcher.json": {
+      "sha256": "e25f062637ec70911c720db2a84655be1d1a58f2c1d27f2ac4ba8f275b4bd658",
+      "uncompressedSha256": "e25f062637ec70911c720db2a84655be1d1a58f2c1d27f2ac4ba8f275b4bd658",
+      "uncompressedBytes": 536
+    },
+    "Player.log.gz": {
+      "sha256": "d49e872d3e75b17a2af694dcac7c669526b203127286d9f7c03a8f67116b08d0",
+      "uncompressedSha256": "d4e8a1ad992d1482ee3a8dedecf5de6b2b1cfd8c828024b2aba373c4620f94ff",
+      "uncompressedBytes": 33006
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "66d91b1304a67cfa078fdd15c9886d7d1998a524bffeba0b5077091219206df7",
+      "bytes": 3469302,
+      "archived": false
+    }
+  }
+}

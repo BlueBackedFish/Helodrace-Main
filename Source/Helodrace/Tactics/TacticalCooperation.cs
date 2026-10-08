@@ -8,11 +8,11 @@ namespace Helodrace.Tactics
     public enum TacticalChannel { None, Voice, Radio }
 
     // Immutable, pre-agreed values; neither party's changing state is shared.
-    public sealed class TacticalCooperationAgenda
+    public sealed partial class TacticalCooperationAgenda
     {
-        public readonly string Id, First, Second;
-        public readonly IntVec3 Goal, Forward;
-        public readonly int StartAt, Deadline;
+        public string Id, First, Second;
+        public IntVec3 Goal, Forward;
+        public int StartAt, Deadline;
         public TacticalCooperationAgenda(string id, string first, string second, IntVec3 goal, IntVec3 forward,
             int startAt, int deadline)
         { Id = id; First = first; Second = second; Goal = goal; Forward = forward; StartAt = startAt; Deadline = deadline; }
@@ -21,7 +21,7 @@ namespace Helodrace.Tactics
         public IntVec3 Area(string own) => Goal + new IntVec3(-Forward.z, 0, Forward.x) * (Side(own) * 12);
     }
 
-    public sealed class TacticalCooperationState
+    public sealed partial class TacticalCooperationState
     {
         public TacticalCooperationAgenda Agenda;
         public TacticalAgreementStage Stage;

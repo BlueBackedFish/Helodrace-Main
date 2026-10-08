@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "r7-save-load",
+    "methodProfile":  false,
+    "targets":  "Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "06c79820f17bca69c4d36710e60f30f8d4532c268a7bbc4c1296bfd404a2e645",
+    "high":  false,
+    "sampleTicks":  4800,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}
