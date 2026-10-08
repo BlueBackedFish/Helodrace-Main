@@ -44,6 +44,12 @@ internal static class Program
             string path = Path.Combine(managed, new AssemblyName(args.Name).Name + ".dll");
             return File.Exists(path) ? Assembly.LoadFrom(path) : null;
         };
+        return RunReferencedTests(commandLineArgs);
+    }
+    // Resolve installed Unity/game assemblies before JIT examines game types.
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static int RunReferencedTests(string[] commandLineArgs)
+    {
         if (commandLineArgs.Contains("--r4"))
         {
             TacticalContactTests.Run();

@@ -6,10 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Helodrace"><HintPath>../../../Assemblies/Helodrace.dll</HintPath></Reference>
-    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldManaged)\Assembly-CSharp.dll</HintPath></Reference>
-    <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldManaged)\UnityEngine.CoreModule.dll</HintPath></Reference>
-    <Reference Include="Unity.Collections"><HintPath>$(RimWorldManaged)\Unity.Collections.dll</HintPath></Reference>
-    <Reference Include="UnityEngine"><HintPath>$(RimWorldManaged)\UnityEngine.dll</HintPath></Reference>
+    <!-- Program resolves these from the installed game, without cloning Unity. -->
+    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldManaged)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldManaged)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.Collections"><HintPath>$(RimWorldManaged)\Unity.Collections.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(RimWorldManaged)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
     <PackageReference Include="Lib.Harmony" Version="2.3.3" />
   </ItemGroup>
 </Project>
