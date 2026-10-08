@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "small-unseen",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceOpeningAction;Helodrace.Tactics.MapComponent_TacticalCommands::Observed;Helodrace.Tactics.MapComponent_TacticalCommands::SafeOpeningThrow;Helodrace.Tactics.MapComponent_TacticalCommands::SupportEffectsPending;Helodrace.Tactics.TacticalOpeningPolicy::ClassifySize",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "ae4d97aa0a52cea8c8ef2b18cedb5509d69f337d1fa33b1a4ac8a8c61a5f0a07",
+    "high":  false,
+    "sampleTicks":  2400,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

@@ -95,7 +95,9 @@ namespace Helodrace.Tactics
                 command.OpeningAction = new TacticalOpeningAction { Started = tick, Source = plan.Outside,
                     Outdoors = !plan.Inside.Roofed(map) };
                 command.OpeningAction.RoomCells = TacticalOpeningPolicy.ClassifySize(plan.Inside,
-                    cell => cell.InBounds(map) && cell != plan.Opening && cell.Standable(map) && !(cell.GetEdifice(map) is Building_Door));
+                    // Furniture belongs to the room's floor area, even though
+                    // its cells cannot be assigned as standing formation slots.
+                    cell => cell.InBounds(map) && cell != plan.Opening && cell.Walkable(map) && !(cell.GetEdifice(map) is Building_Door));
             }
             TacticalOpeningAction action = command.OpeningAction;
             // A completed observation records one fixed enemy location. Do not

@@ -33,8 +33,12 @@ namespace Helodrace
         [DataMember] public long newRoomScanSteps, newRoomsSecured, newRoomPlansAttempted;
         [DataMember] public bool newRoomProgressComplete;
         [DataMember] public bool newUnexpectedOpeningReused, newDirectObjectiveCleared;
+        [DataMember] public bool newDoorContactObserved, newOutdoorSmokeUsed, newOutdoorSmokeSeen;
+        [DataMember] public bool newSmallRoomSupportSaved;
+        [DataMember] public int[] newClassifiedRoomCells;
+        [DataMember] public string caseContactTile;
         [DataMember] public string[] newSecuredPortals;
-        [DataMember] public int fixtureVersion = 13;
+        [DataMember] public int fixtureVersion = 15;
         [DataMember] public bool environmentControlled;
         [DataMember] public string[] unexpectedPawns;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
@@ -68,6 +72,7 @@ namespace Helodrace
         private Pawn interruptedPawn;
         private Tactics.TacticalSquadCommand interruptedCommand;
         private IntVec3 interruptionOpening;
+        private IntVec3 doorwayContact = IntVec3.Invalid;
         private int fixtureRight = 140, fixtureTop = 136;
         private int started, measured = -1, nextProgress;
         private long uninstrumentedMainStart = -1, uninstrumentedProcessStart;
@@ -149,7 +154,8 @@ namespace Helodrace
                 && result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
                 && result.fixtureCase != "charge-recovery" && result.fixtureCase != "charge-fuse-casualty" && result.fixtureCase != "charge-change"
                 && result.fixtureCase != "multiroom" && result.fixtureCase != "unexpected-hole"
-                && result.fixtureCase != "inside-goal") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "inside-goal" && result.fixtureCase != "door-contact"
+                && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen") throw new ArgumentException("Unknown audit case.");
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -185,7 +191,7 @@ namespace Helodrace
                 Thing thing = ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.Steel : null);
                 thing.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(thing, position, map, WipeMode.Vanish);
             }
-            bool small = result.fixtureCase == "narrow" || result.fixtureCase == "contact";
+            bool small = result.fixtureCase == "narrow" || result.fixtureCase == "contact" || result.fixtureCase == "small-unseen";
             int right = small ? 105 : 140, top = small ? 105 : 136;
             fixtureRight = right; fixtureTop = top;
             if (result.fixtureCase != "field")
@@ -199,7 +205,8 @@ namespace Helodrace
                 Place(ThingDefOf.Wall, new IntVec3(right, 0, z));
             }
             for (int x = 101; x < right; x++) for (int z = 101; z < top; z++)
-                map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
+                if (result.fixtureCase != "outdoor-opening")
+                    map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
             }
             if (MultiRoomFixture)
             {
@@ -217,6 +224,9 @@ namespace Helodrace
             // Keep the named bed as objective, but avoid intentionally aiming a
             // grenade beside the final partition in the three-separate-room case.
             if (MultiRoomFixture && result.fixtureCase != "inside-goal") owner.Position = new IntVec3(120,0,110);
+            // A named bed remains the objective, but no hostile pawn can be
+            // observed inside the small room to override grenade conservation.
+            if (result.fixtureCase == "small-unseen") owner.Position = new IntVec3(120,0,118);
             if (MultiRoomFixture && Enumerable.Range(115, right - 115).Any(x =>
                 {
                     Building partition = new IntVec3(x,0,119).GetEdifice(map);
@@ -268,7 +278,7 @@ namespace Helodrace
             if (result.fixtureCase == "inside-goal") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal);
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
-            benchmark = new ProfileBenchmark { fixtureVersion = 13, seed = result.seed, mapFingerprint = result.mapFingerprint,
+            benchmark = new ProfileBenchmark { fixtureVersion = 15, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
                 radioOperators = result.radioOperators, warmupTicks = result.warmupTicks, sampleTicks = result.sampleTicks,
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,
@@ -310,6 +320,10 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (result.fixtureCase == "outdoor-opening" && !result.newOutdoorSmokeSeen
+                && TacticalEngineSelection.Kind == TacticalEngineKind.New)
+                result.newOutdoorSmokeSeen = map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands
+                    .Any(command => command.OpeningAction?.Launched == true && RaidSmokeUtility.SmokeAt(map, command.OpeningAction.Target));
             if (interruptedPawn?.Spawned == true && interruptedCommand.Phase != Tactics.TacticalCommandPhase.Complete
                 && interruptedCommand.Phase != Tactics.TacticalCommandPhase.Released
                 && interruptedPawn.Position.x < interruptionOpening.x + 1)
@@ -320,6 +334,7 @@ namespace Helodrace
             }
             if (result.fixtureCase != "interrupt" && result.fixtureCase != "casualty" && result.fixtureCase != "contact"
                 && result.fixtureCase != "recovery" && result.fixtureCase != "cutter-recovery" && result.fixtureCase != "unexpected-hole"
+                && result.fixtureCase != "door-contact"
                 && !result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal)) return;
             if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
@@ -348,13 +363,25 @@ namespace Helodrace
                 { service.SetObjective(command.Goal + new IntVec3(1,0,1)); command.ChargeAction.Charge.OperatorPawn.Kill(null); }
                 else command.ChargeAction.Installer.Kill(null);
             }
-            else if (result.fixtureCase == "contact")
+            else if (result.fixtureCase == "contact" || result.fixtureCase == "door-contact")
             {
                 var command = service.Commands.FirstOrDefault(item => item.Phase == Tactics.TacticalCommandPhase.Observe && item.Plan != null);
                 if (command == null) return;
                 // Place the stationary fixture enemy on the opening sight line
                 // before observation. Keep the named bed as the mission goal.
-                owner.Position = command.Plan.Inside + command.Plan.Inward * 2; result.caseTriggered = true;
+                IntVec3 contact = command.Plan.Inside + command.Plan.Inward * 2;
+                if (result.fixtureCase == "door-contact")
+                {
+                    // Use the actual door and native opening method, rather
+                    // than replacing the observation LOS with a test predicate.
+                    Building_Door door = (Building_Door)ThingMaker.MakeThing(ThingDefOf.Door, ThingDefOf.Steel);
+                    door.SetFaction(Faction.OfPlayer); GenSpawn.Spawn(door, contact, map, WipeMode.Vanish);
+                    owner.Position = contact; door.StartManualOpenBy(owner);
+                    doorwayContact = contact; result.caseContactTile = contact.ToString();
+                    if (!door.Open || contact.GetEdifice(map) != door) throw new InvalidOperationException("Door-contact fixture must use a real open door tile.");
+                }
+                else owner.Position = contact;
+                result.caseTriggered = true;
             }
             else if (result.fixtureCase == "interrupt")
             {
@@ -463,10 +490,21 @@ namespace Helodrace
                 result.newDirectObjectiveCleared = result.fixtureCase != "inside-goal" || commands.All(command => command.GoalSecured
                     && command.SecuredPlans.FirstOrDefault()?.Direct == true
                     && command.SecuredPlans[0].Positions.All(cell => cell.x > 100 && cell.x < 114));
+                result.newDoorContactObserved = result.fixtureCase != "door-contact" || result.caseTriggered
+                    && commands.Any(command => command.OpeningAction?.Enemy == doorwayContact && command.OpeningAction.EnemyId == owner.thingIDNumber);
+                result.newOutdoorSmokeUsed = result.fixtureCase != "outdoor-opening" || result.newOutdoorSmokeSeen
+                    && commands.All(command => command.OpeningAction?.Outdoors == true
+                    && command.OpeningAction.Launched && command.OpeningAction.ProjectileDef?.defName == "HD_Projectile_M8_Round"
+                    && command.OpeningAction.Returned && command.OpeningAction.EffectsCleared);
+                result.newClassifiedRoomCells = commands.Select(command => command.OpeningAction?.RoomCells ?? -1).ToArray();
+                result.newSmallRoomSupportSaved = result.fixtureCase != "small-unseen" || commands.All(command => command.OpeningAction?.Outdoors == false
+                    && command.OpeningAction.RoomCells == 16 && !command.OpeningAction.Enemy.IsValid && !command.OpeningAction.Launched);
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid && result.newRoomProgressComplete
                     && result.newUnexpectedOpeningReused && result.newDirectObjectiveCleared
+                    && result.newDoorContactObserved && result.newOutdoorSmokeUsed
+                    && result.newSmallRoomSupportSaved
                     && commands.All(command => command.Plan.Direct || command.Members.All(member => member.Pawn.Dead || member.Pawn.Downed || member.Passed));
                 result.newCommands = commands.Select(command => command.Id + ":" + command.Phase + " opening=" + command.Plan?.Opening
                     + " outside=" + command.Plan?.Outside + ":walkable=" + (command.Plan?.Outside.Standable(map))

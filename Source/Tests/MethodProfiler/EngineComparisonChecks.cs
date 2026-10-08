@@ -88,13 +88,13 @@ internal static class EngineComparisonChecks
             foreach (string path in Directory.GetFiles(Path.Combine(directory, "profiles"), "capture-*.json"))
             {
                 var capture = JsonSerializer.Deserialize<ProfileSnapshot>(File.ReadAllText(path), Options)!;
-                capture.benchmark.fixtureVersion = 11;
+                capture.benchmark.fixtureVersion = 15;
                 File.WriteAllText(path, JsonSerializer.Serialize(capture, Options));
             }
             string pathAudit = Path.Combine(directory, "audit.json");
             var audit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(pathAudit))!;
             audit["newFunctionalComplete"] = JsonSerializer.SerializeToElement(true);
-            audit["fixtureVersion"] = JsonSerializer.SerializeToElement(11);
+            audit["fixtureVersion"] = JsonSerializer.SerializeToElement(15);
             audit["environmentControlled"] = JsonSerializer.SerializeToElement(true);
             audit["unexpectedPawns"] = JsonSerializer.SerializeToElement(Array.Empty<string>());
             File.WriteAllText(pathAudit, JsonSerializer.Serialize(audit));

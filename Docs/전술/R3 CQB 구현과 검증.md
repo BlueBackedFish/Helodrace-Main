@@ -7,8 +7,8 @@
 | 요구 | 상태 |
 |---|---|
 | 개구부 옆 1~2초 관측, 적 하나 발견 시 즉시 복귀 | 구현: 90틱 작업, 첫 접촉 후 관측 종료/lean 복귀 |
-| 문칸 적과 사격 LOS에 맞는 식별 | 부분: native ShootLeanUtility의 피격 가능 칸 사용. 문칸 실제 회귀는 남음 |
-| 실내 수류탄·야외 연막, 16칸 이하 절약·관측 적 예외 | 구현: 17칸 상한 분류와 정책. 야외 연막 실제 시험은 남음 |
+| 문칸 적과 사격 LOS에 맞는 식별 | 구현: native ShootLeanUtility의 피격 가능 칸 사용. 실제 열린 문 타일 적 약식 관측 통과 |
+| 실내 수류탄·야외 연막, 16칸 이하 절약·관측 적 예외 | 구현: 17칸 상한 분류와 정책. 야외 M8 가스/진입과 16칸 절약 약식 통과 |
 | 준비 중 총 숨김/사격 차단, 도착 후 0.3초 투척 | 구현: 준비 30틱/투척 18틱, New 전용 훅 |
 | 투척자 복귀·발사체/폭발 효과 종료 전 진입 금지 | 구현: 실제 Projectile/Explosion 참조와 30틱 안정화 |
 | 투척 목표 LOS가 닿지 않는 연결 스택 | 구현: 필요할 때 한 번만 같은 벽면의 작은 BFS로 재구성 |
@@ -141,3 +141,41 @@ LOW 12명/준비 0 약식 실제 실행을 사용했다. 예상 밖 구멍은 �
 |inside-goal|DestinationFootprint.Find|1|0.7006|0.7006|0.0847|
 
 상하위 inclusive는 중복되고 각 메서드 값은 경과 시간이다. Core 기준은 각 실행의 동일한 10,000회 고정 배치 중앙값이다. 지도·빌드·수집 창이 다른 실행 간 개선율이나 CPU 2배 합격을 계산하지 않는다. [원본·실패·약식 요약](../../Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-local-recovery)을 보존한다. 열린 구멍 시험은 새 구역 조사 전의 변화이며 이미 완료된 조사 후의 변화 전부를 검증한 것은 아니다. 문칸 실제 관측·야외 연막·장비 중단/승계·아주 작은 인접 구역·다인원 다방 CPU 대조가 남아 R3는 계속 진행 중이다.
+
+## 문 타일 관측·야외 연막·16칸 절약 회귀
+
+fixture v14는 실제 열린 문 위에 고정 적을 놓는 door-contact와, 외벽 너머 공간을 지붕 없는 야외로 만드는 outdoor-opening을 추가했다. door-contact는 native StartManualOpenBy로 문을 열고, 관측에 native ShootLeanUtility/GenSight를 그대로 사용한다. 관측한 위치와 적 ID가 문 위에 배치한 적과 일치해야 한다. 야외 시험은 실제 M8 발사체, 투척자 복귀, 효과 종료와 실제 안전 연막 밀도 확인을 모두 요구한다. 모의 LOS나 가스 생성 대체 함수는 쓰지 않는다.
+
+방 면적 분류는 Standable 대신 Walkable로 침대 같은 가구 칸까지 포함한다. 대형 자리는 계속 Standable이어야 한다. fixture v15의 small-unseen은 이름 있는 침대가 있는 4×4 실내를 목표로 유지하고, 적은 관측 범위 밖에 둔다. 정확히 16칸으로 분류하고 적을 관측하지 않으며 폭발물을 쓰지 않아야 한다. 문 타일 사례와 달리 실제 접촉이 절약 조건을 해제하지 않는 대조다.
+
+세 사례는 LOW 12명/준비 0/수집 2400틱으로 각각 한 번 실행했다. 문 타일 (103,102) 접촉은 관측 1명·투척/복귀 1/1·대기 판단 27회, 1623틱에 전원 완료했다. 야외는 M8 투척/복귀 1/1·실제 연막 가스 확인·대기 판단 11회, 1474틱에 전원 완료했다. 작은 방은 면적 16·접촉 0·투척 0, 1237틱에 전원 완료했다. 모두 연결 대형·실제 계획·고유 자리·격리 검사를 통과하고 안전 완료 전 진입 및 비시험 폰은 0명이다. capture complete=true/dropped=0/메서드 예외 0이다.
+
+게임 바인딩·기존 관측/지원 정책·프로파일러 및 최신 fixture 환경 검증을 통과했다. 게임/CLI 빌드 경고·오류 0개다. 초기 두 시험 뒤에는 audit 가스 검증/작은 방 대조 기록을 추가했으므로 빌드 SHA가 다르다. 각 원본 SHA와 fixture 버전을 그대로 보존하며 실행 간 개선율은 계산하지 않는다. 가스 확인은 이 기능 시험의 audit Update 비용이므로 바닐라 CPU 대조의 대체로 사용하지 않는다.
+
+|사례|관련 메서드|호출|누적 경과 ms|최대 ms|Core 배치 대비 %/틱|
+|---|---|---:|---:|---:|---:|
+|door-contact|GameComponentTick|2400|56.1124|20.4111|8.5548|
+|door-contact|AdvanceOpeningAction|36|6.8023|3.3482|1.0371|
+|door-contact|Observed|1|0.0134|0.0134|0.0020|
+|door-contact|SafeOpeningThrow|2|0.2558|0.2233|0.0390|
+|door-contact|SupportEffectsPending|40|0.1137|0.0516|0.0173|
+|door-contact|ClassifySize|1|0.1475|0.1475|0.0225|
+|outdoor-opening|GameComponentTick|2400|46.0876|17.6100|6.5095|
+|outdoor-opening|AdvanceOpeningAction|24|5.6556|3.7143|0.7988|
+|outdoor-opening|SafeOpeningThrow|2|0.0106|0.0055|0.0015|
+|outdoor-opening|SupportEffectsPending|24|0.1024|0.0514|0.0145|
+|outdoor-opening|ClassifySize|1|0.1637|0.1637|0.0231|
+|small-unseen|GameComponentTick|2400|54.8314|18.7892|7.7367|
+|small-unseen|AdvanceOpeningAction|9|3.1997|2.4427|0.4515|
+|small-unseen|SupportEffectsPending|12|0.0144|0.0045|0.0020|
+|small-unseen|ClassifySize|1|0.1826|0.1826|0.0258|
+
+|사례|전체 틱 평균 경과 ms|p95 ms|p99 ms|최대 ms|
+|---|---:|---:|---:|---:|
+|door-contact|1.1166|1.6201|3.0761|53.2760|
+|outdoor-opening|1.1738|1.7166|2.7245|49.9528|
+|small-unseen|1.1818|1.7428|2.6451|79.5892|
+
+전체 틱 최대 49.95~79.59ms의 긴 호출은 남아 있다. 이 시험은 준비 0틱으로 초기 실행도 포함하며 상세 틱 추적은 켜지 않아 그 원인을 확정하지 않는다. 새 GameComponentTick 최대도 17.61~20.41ms여서 스파이크 해결을 주장하지 않는다. p95/p99는 마지막 최대 2048개 호출 표본이고 평균과 최대는 전체 수집 집계다.
+
+inclusive 상하위 시간은 중복된다. 개별 메서드와 틱 분포는 경과 시간이므로 CPU 점유율로 읽지 않는다. Core 기준은 동일한 10,000회 배치의 실행별 중앙값이고 틱 분포는 수집기의 제한된 표본이다. 실제 전체 틱/창 CPU도 [원본과 요약](../../Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-support-regressions)에 보존했으나 Vanilla 대조가 없어 2배 합격을 선언하지 않는다. 두터운 벽·닫힌 문·여러 관측 적의 모든 변형을 이 한 문 사례로 검증했다고 보지 않는다. 남은 R3는 장비 실제 작업 중단/추가 구역 계획 중 승계, 아주 작은 인접 구역과 다인원 다방 진행/CPU 대조다.
