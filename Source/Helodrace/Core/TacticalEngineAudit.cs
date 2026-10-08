@@ -384,7 +384,11 @@ namespace Helodrace
 
         private void ApplyCase()
         {
-            if (ReloadFixture) { ApplyReloadDrill(); return; }
+            if (ReloadFixture)
+            {
+                ApplyReloadDrill();
+                if (reloadPending || !FieldFixture && !MedicalFixture) return;
+            }
             if (LifecycleFixture) { ApplyLifecycleDrill(); return; }
             if (TimedFieldFixture) return;
             if (MedicalFixture) { ApplyMedicalDrill(); return; }

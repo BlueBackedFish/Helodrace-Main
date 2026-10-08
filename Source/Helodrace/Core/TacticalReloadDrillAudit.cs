@@ -10,6 +10,7 @@ using System.Text;
 using Helodrace.Profiling;
 using Helodrace.Tactics;
 using Verse;
+using Verse.AI;
 
 namespace Helodrace
 {
@@ -21,14 +22,17 @@ namespace Helodrace
         [DataMember] public bool r7ReloadResponsePreserved = true;
         [DataMember] public bool r7ReloadChargePreserved = true;
         [DataMember] public string[] r7ChargeEvents;
+        [DataMember] public bool r7ReloadCarePreserved = true, r7ReloadFieldPreserved = true, r7ReloadToilStatePreserved = true;
     }
     public sealed partial class MapComponent_TacticalEngineAudit
     {
-        private bool ReloadFixture => result.fixtureCase == "r7-save-load" || result.fixtureCase == "r7-charge-load";
-        private int RequiredReloads => result.fixtureCase == "r7-charge-load" ? 3 : 4;
+        private bool ReloadFixture => result.fixtureCase == "r7-save-load" || result.fixtureCase == "r7-charge-load"
+            || GenCommandLine.TryGetCommandLineArg("hdTacticalAuditReload", out _) && (FieldFixture || MedicalFixture);
+        private int RequiredReloads => FieldFixture || MedicalFixture ? 2 : result.fixtureCase == "r7-charge-load" ? 3 : 4;
         private int reloadStep;
         private bool reloadPending;
-        private string reloadHistory, reloadContacts, reloadResponse, reloadCharge;
+        private string reloadHistory, reloadContacts, reloadResponse, reloadCharge, reloadCare, reloadField, reloadJobs;
+        private string savedMedicalCommand, savedFieldCommand;
         private IntVec3 reloadOpening;
         private bool reloadHadLiveGrenade;
         private int nextChargeTrace;
@@ -65,7 +69,10 @@ namespace Helodrace
             Scribe_Values.Look(ref reloadHistory, "reloadHistory"); Scribe_Values.Look(ref reloadContacts, "reloadContacts");
             Scribe_Values.Look(ref reloadResponse, "reloadResponse");
             Scribe_Values.Look(ref reloadCharge, "reloadCharge");
+            Scribe_Values.Look(ref reloadCare, "reloadCare"); Scribe_Values.Look(ref reloadField, "reloadField");
+            Scribe_Values.Look(ref reloadJobs, "reloadJobs");
             Scribe_Values.Look(ref reloadOpening, "reloadOpening"); Scribe_Values.Look(ref reloadHadLiveGrenade, "reloadHadLiveGrenade");
+            ExposeReloadDrillState();
             if (Scribe.mode == LoadSaveMode.PostLoadInit) measured = -1;
         }
         public override void FinalizeInit()
@@ -74,6 +81,9 @@ namespace Helodrace
             ProtectedRaiders.Clear(); foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
             MapComponent_RaidMovementRuntimeAudit.ProtectedOwner = owner;
             map.GetComponent<MapComponent_TacticalCommands>()?.RestoreSavedCommands();
+            medicalCommand = map.GetComponent<MapComponent_TacticalCommands>()?.SavedCommand(savedMedicalCommand);
+            fieldCommand = map.GetComponent<MapComponent_TacticalCommands>()?.SavedCommand(savedFieldCommand);
+            fieldPlan = fieldCommand?.Plan;
             benchmark = new ProfileBenchmark { fixtureVersion = result.fixtureVersion, seed = result.seed,
                 mapFingerprint = result.mapFingerprint, pawnFingerprint = result.pawnFingerprint,
                 faction = raiders[0].Faction.def.defName, requestedPopulation = result.requestedPopulation,
@@ -95,6 +105,49 @@ namespace Helodrace
             .OrderBy(c => c.x).ThenBy(c => c.z)) + "|" + string.Join(";", command.SecuredPlans.Select(p => p.Opening)));
         private static string Contacts(TacticalSquadCommand command) => string.Join(";", command.Contacts.Memory.Entries
             .Select(c => c.EnemyId + ":" + c.Position + ":" + c.SeenTick + ":" + c.PreviousPosition + ":" + c.PreviousTick));
+        private void ExposeReloadDrillState()
+        {
+            if (Scribe.mode == LoadSaveMode.Saving)
+            { savedMedicalCommand = medicalCommand?.Id; savedFieldCommand = fieldCommand?.Id; }
+            Scribe_Values.Look(ref savedMedicalCommand, "drillMedicalCommand"); Scribe_Values.Look(ref savedFieldCommand, "drillFieldCommand");
+            Scribe_Values.Look(ref medicalStep, "drillMedicalStep"); Scribe_Values.Look(ref medicalStarted, "drillMedicalStarted");
+            Scribe_References.Look(ref medicalPatient, "drillMedicalPatient");
+            Scribe_Collections.Look(ref medicalWounds, "drillMedicalWounds", LookMode.Reference);
+            Scribe_Collections.Look(ref medicalEvents, "drillMedicalEvents", LookMode.Value);
+            Scribe_Values.Look(ref medicalGuards, "drillMedicalGuards", true);
+            Scribe_Values.Look(ref medicalObserved, "drillMedicalObserved");
+            Scribe_Values.Look(ref medicalLoggedCompletions, "drillMedicalLoggedCompletions");
+            Scribe_Values.Look(ref medicalThreatExposed, "drillMedicalThreatExposed");
+            Scribe_Values.Look(ref fieldStep, "drillFieldStep"); Scribe_Values.Look(ref fieldStepAt, "drillFieldStepAt");
+            Scribe_Values.Look(ref fieldSeen, "drillFieldSeen");
+            Scribe_Collections.Look(ref fieldEvents, "drillFieldEvents", LookMode.Value);
+            Scribe_Values.Look(ref fieldPostsUnique, "drillFieldPostsUnique", true);
+            Scribe_Values.Look(ref fieldSingleTeam, "drillFieldSingleTeam", true);
+            Scribe_Values.Look(ref fieldFrozen, "drillFieldFrozen", true);
+            Scribe_Values.Look(ref fieldBoundBaseline, "drillFieldBoundBaseline");
+            Scribe_Values.Look(ref fieldSmokeTargets, "drillFieldSmokeTargets", true);
+            Scribe_Values.Look(ref fieldSmokeLogged, "drillFieldSmokeLogged");
+        }
+        private static string NativeJobs(TacticalSquadCommand command) => string.Join(";", command.Members.Where(m => m.Job != null)
+            .Select(m => m.Pawn.thingIDNumber + ":" + m.Job.loadID + ":" + m.Pawn.jobs.curDriver?.CurToilIndex + ":"
+                + AccessTools.Field(typeof(JobDriver), "ticksLeftThisToil").GetValue(m.Pawn.jobs.curDriver)));
+        private static string CareState(TacticalSquadCommand command)
+        {
+            TacticalMedicalCare care = command.MedicalCare;
+            return care == null ? "none" : care.Patient?.Pawn.thingIDNumber + ":" + care.Helper?.Pawn.thingIDNumber
+                + ":" + care.Job?.loadID + ":" + care.Started + ":" + care.Plasma + ":" + care.Finished + ":" + care.Successful;
+        }
+        private static string FieldState(TacticalSquadCommand command)
+        {
+            TacticalFieldResponse field = command.FieldResponse;
+            if (field == null) return "none";
+            TacticalFieldSmoke smoke = field.Screen;
+            return field.Stage + ":" + field.Anchor + ":" + field.Focus + ":" + field.MovingTeam
+                + ":" + field.Assigned + ":" + string.Join(";", field.Posts) + ":" + string.Join(";", field.FireGroup)
+                + ":" + smoke?.Target + ":" + smoke?.Thrower?.thingIDNumber + ":" + smoke?.Job?.loadID
+                + ":" + smoke?.Launched + ":" + smoke?.Returned
+                + ":" + (smoke?.Projectile?.Spawned == true ? smoke.Projectile.thingIDNumber : -1);
+        }
         private static string Response(TacticalSquadCommand command)
         {
             TacticalContactResponse response = command.ContactResponse;
@@ -131,6 +184,9 @@ namespace Helodrace
             result.r7ReloadContactsPreserved = Contacts(command) == reloadContacts;
             result.r7ReloadResponsePreserved &= Response(command) == reloadResponse;
             result.r7ReloadChargePreserved &= ChargeState(command) == reloadCharge;
+            result.r7ReloadCarePreserved &= CareState(command) == reloadCare;
+            result.r7ReloadFieldPreserved &= FieldState(command) == reloadField;
+            result.r7ReloadToilStatePreserved &= NativeJobs(command) == reloadJobs;
             if (!result.r7ReloadChargePreserved) Log.Error("R7 charge before=" + reloadCharge + " after=" + ChargeState(command));
             result.r7Reloads++; reloadPending = false;
             Log.Message("R7 reload " + result.r7Reloads + " jobs=" + result.r7ReloadJobsBound
@@ -138,7 +194,8 @@ namespace Helodrace
                 + " live=" + result.r7ReloadLiveGrenadePreserved + " contacts=" + result.r7ReloadContactsPreserved);
             if (!result.r7ReloadJobsBound || !result.r7ReloadHistoryPreserved || !result.r7ReloadOpeningPreserved
                 || reloadHadLiveGrenade && !result.r7ReloadLiveGrenadePreserved || !result.r7ReloadContactsPreserved
-                || !result.r7ReloadResponsePreserved || !result.r7ReloadChargePreserved)
+                || !result.r7ReloadResponsePreserved || !result.r7ReloadChargePreserved || !result.r7ReloadCarePreserved
+                || !result.r7ReloadFieldPreserved || !result.r7ReloadToilStatePreserved)
                 throw new InvalidOperationException("R7 checkpoint did not restore the actual command/Job/effect state.");
         }
         private void ApplyReloadDrill()
@@ -149,7 +206,8 @@ namespace Helodrace
                 // A protected visible opponent intentionally keeps contact guards
                 // engaged. Withdraw it physically after restoring that engagement
                 // to test stale memory and subsequent mission resumption.
-                owner.Position = new IntVec3(180, 0, 180); return;
+                if (!FieldFixture && !MedicalFixture) owner.Position = new IntVec3(180, 0, 180);
+                return;
             }
             TacticalSquadCommand command = map.GetComponent<MapComponent_TacticalCommands>()?.Commands.FirstOrDefault();
             if (command == null) return;
@@ -182,11 +240,25 @@ namespace Helodrace
                     : reloadStep == 1 ? action?.Charge?.Triggered == true && action.Charge.parent.Spawned
                     : action?.Detonated == true && action.Charge?.parent.Destroyed == true && !action.EffectsCleared;
             }
+            else if (MedicalFixture)
+            {
+                TacticalMedicalCare care = command.MedicalCare;
+                checkpoint = care?.Job != null && !care.Finished && care.Helper.Pawn.CurJob == care.Job
+                    && GenTicks.TicksGame - care.Started > (reloadStep == 0 ? 1200 : 60)
+                    && care.Plasma == (reloadStep == 1);
+            }
+            else if (FieldFixture)
+            {
+                TacticalFieldResponse field = command.FieldResponse;
+                checkpoint = reloadStep == 0 ? field?.Screen?.Launched == true && field.Screen.Projectile?.Spawned == true
+                    : field?.Stage == TacticalFieldStage.Moving;
+            }
             if (!checkpoint) return;
             result.caseTriggered = true; reloadOpening = command.Plan.Opening;
             reloadHistory = History(command); reloadContacts = Contacts(command);
             reloadResponse = Response(command);
             reloadCharge = ChargeState(command);
+            reloadCare = CareState(command); reloadField = FieldState(command); reloadJobs = NativeJobs(command);
             reloadHadLiveGrenade = command.OpeningAction?.Launched == true && command.OpeningAction.Projectile?.Spawned == true;
             reloadStep++; reloadPending = true;
             Log.Message("R7 saving checkpoint " + reloadStep + " phase=" + command.Phase + " secured=" + command.SecuredCells.Count);

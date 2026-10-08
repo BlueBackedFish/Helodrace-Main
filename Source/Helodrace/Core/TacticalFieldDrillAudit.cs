@@ -14,7 +14,7 @@ namespace Helodrace
         private TacticalSquadCommand fieldCommand;
         private TacticalLocalPlan fieldPlan;
         private IntVec3 fieldSeen;
-        private readonly List<string> fieldEvents = new List<string>();
+        private List<string> fieldEvents = new List<string>();
         private bool fieldPostsUnique = true, fieldSingleTeam = true, fieldFrozen = true;
         private long fieldBoundBaseline;
         private bool fieldSmokeTargets = true;

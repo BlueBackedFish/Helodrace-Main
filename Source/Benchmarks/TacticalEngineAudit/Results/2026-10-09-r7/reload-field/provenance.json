@@ -1,0 +1,38 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-load-01",
+  "classification": "two native field checkpoints and mission completion; headless functional only",
+  "files": {
+    "audit.json": {
+      "sha256": "56d07a64ddb7fcaae04ef140741e1d963dd4c19f630507fc87c6f2f20954e3ac",
+      "uncompressedSha256": "56d07a64ddb7fcaae04ef140741e1d963dd4c19f630507fc87c6f2f20954e3ac",
+      "uncompressedBytes": 9897
+    },
+    "launcher.json": {
+      "sha256": "fab706f4459f35165140e566a5680b0c62945bc0a1f3af79c05c6557209b9098",
+      "uncompressedSha256": "fab706f4459f35165140e566a5680b0c62945bc0a1f3af79c05c6557209b9098",
+      "uncompressedBytes": 785
+    },
+    "Player.log.gz": {
+      "sha256": "572c595f4ecc3aa3f80be2a317d6dba3a747a1d8fd38703bd7c7d4a2b7b52c7c",
+      "uncompressedSha256": "c74eac841b4cca7633e7a37914657e892f943c7a9d3b6723fc4771b32ac7a19b",
+      "uncompressedBytes": 602139
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "3717b4d2a7c89e066a49f89724e6610819db77f336867118cba3259c3dbb763b",
+      "bytes": 3896206,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "f7596631676c14ab118a9ba745a7c6bfa78f4accc1d6ac1b14b0494569edac48",
+      "bytes": 3922587,
+      "archived": false
+    }
+  }
+}

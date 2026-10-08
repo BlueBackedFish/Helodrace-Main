@@ -14,8 +14,8 @@ namespace Helodrace
         private int medicalStep, medicalStarted;
         private Pawn medicalPatient;
         private TacticalSquadCommand medicalCommand;
-        private readonly List<Hediff_Injury> medicalWounds = new List<Hediff_Injury>();
-        private readonly List<string> medicalEvents = new List<string>();
+        private List<Hediff_Injury> medicalWounds = new List<Hediff_Injury>();
+        private List<string> medicalEvents = new List<string>();
         private bool medicalGuards = true, medicalObserved;
         private long medicalLoggedCompletions;
         private bool medicalThreatExposed;
