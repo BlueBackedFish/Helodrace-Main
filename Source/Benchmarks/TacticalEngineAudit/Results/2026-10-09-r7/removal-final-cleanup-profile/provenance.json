@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-retirement-final-cleanup-profile-01",
+  "classification": "Final retirement build: actual default engine, twelve-pawn CQB completion followed by real ExitMap/WorldPawns cleanup and no continued planning/communication; 42 detailed native profiler scopes; diagnostic cold-start single-squad window including long idle tail, not eligible for final N/V CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "d331037889f78b23c4345abce0e6b0798abfe22ee8de16b240bda1cd22748dcd",
+      "uncompressedSha256": "d331037889f78b23c4345abce0e6b0798abfe22ee8de16b240bda1cd22748dcd",
+      "uncompressedBytes": 8450
+    },
+    "launcher.json": {
+      "sha256": "2205b642b54bff81c14163ca06e018382344f18e4747505445f9e0ad6d25b70e",
+      "uncompressedSha256": "2205b642b54bff81c14163ca06e018382344f18e4747505445f9e0ad6d25b70e",
+      "uncompressedBytes": 918
+    },
+    "Player.log.gz": {
+      "sha256": "5eba85879f9ea80cd5bc5952879c8ad29c38d00c46ebb5b3e8aa3362833917fc",
+      "uncompressedSha256": "4980e59016ed0037366b15f8adc12d53ac78d79b40e0a5f4699c9aa0d9e37f86",
+      "uncompressedBytes": 29493
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "profiles/capabilities.json.gz": {
+      "sha256": "64b6621a171b44369aafc45f211f726c53515243e4d7c55c04ec8065acac0296",
+      "uncompressedSha256": "69a6b1d0d7c5d84e60e02fa0f667d6d84855775b5287d02a8f124387ac77e7e0",
+      "uncompressedBytes": 18061
+    },
+    "profiles/capture-20261008-224128-953-1.json.gz": {
+      "sha256": "ad339631e8a9e7a0b9f8f1fccb22e9fa5e7dfdab4033b150e83caca5f631a5e2",
+      "uncompressedSha256": "bd8e2efacb9135c3fd1a3f3a655857c3efa72fa47b3f0834ca43c93489249457",
+      "uncompressedBytes": 25623
+    },
+    "profiles/status.json.gz": {
+      "sha256": "110fa3a70304850c083110ea6655f5e2c05035386c5925af02b774c3bc7335e5",
+      "uncompressedSha256": "77826996dda5a33fcef1fc8ee49150a967844659ba2d3135ab5178d5eabd86e9",
+      "uncompressedBytes": 223
+    }
+  }
+}

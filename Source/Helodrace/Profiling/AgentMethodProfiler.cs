@@ -92,18 +92,16 @@ namespace Helodrace.Profiling
                 }
                 else
                 {
-                    Add(typeof(MapComponent_RaidTacticalCommunications), "MapComponentTick", "Frame", "RefreshFrames", "ProcessTick", "Validate", "Share", "Queue");
+                    Add(typeof(GameComponent_TacticalCommands), "GameComponentTick");
+                    Add(typeof(MapComponent_TacticalCommands), "Advance", "AdvanceCore", "ReturnMembers");
+                    Add(typeof(TacticalCommunications), "Pump");
                     if (detailed)
                     {
-                        Add(typeof(RaidCommunicationFrame), "Edge", "VoiceTo", "RadioTo");
-                        Add(typeof(RaidCommunicationPolicy), "Delays");
+                        Add(typeof(MapComponent_TacticalCommands), "ScanContacts", "AdvanceFieldResponse", "RespondToContacts",
+                            "AdvanceCoordination", "AdvanceRoomClear", "AdvanceMedicalCare", "Issue");
                         Add(typeof(RaidTacticalRadioUtility), "Radios", "InstalledRadios", "OperatorAvailable");
-                        foreach (Type type in typeof(RaidTacticalRadioUtility).GetNestedTypes(BindingFlags.NonPublic))
-                            if (type.Name.Contains("<Radios>") || type.Name.Contains("<InstalledRadios>")) Add(type, "MoveNext");
                         Add(typeof(RaidSmokeUtility), "CoveringSmokeAt");
                     }
-                    Add(typeof(MapComponent_RaidMovementAreas), "MapComponentTick", "MapComponentUpdate", "Pump", "Trim", "Select", "For", "ReadyFor", "GetArea", "CompleteReaders");
-                    Add(typeof(RaidMovementArea), "Pump");
                 }
                 // Resolve concrete overrides, not the empty MapComponent base method.
                 foreach (Type type in typeof(AgentMethodProfiler).Assembly.GetTypes().Where(type => !type.ContainsGenericParameters

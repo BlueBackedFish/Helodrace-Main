@@ -208,7 +208,7 @@ namespace Helodrace
             if (OfferRetirementFixture) result.fixtureVersion = 30;
             if (ExternalSupportFixture) result.fixtureVersion = 31;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
-            GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
+            GenCommandLine.TryGetCommandLineArg("hdTacticalAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
             Faction faction = Find.FactionManager.FirstFactionOfDef(DefDatabase<FactionDef>.GetNamed(
                 high ? "HD_HelodCivilHighFaction" : "HD_HelodCivilLowFaction"));
@@ -696,10 +696,7 @@ namespace Helodrace
         private string Phases() => TacticalEngineSelection.Kind == TacticalEngineKind.New
             ? string.Join(",", map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands.GroupBy(command => command.Phase)
                 .OrderBy(group => group.Key).Select(group => group.Key + ":" + group.Count()))
-            : TacticalEngineSelection.Kind != TacticalEngineKind.Legacy ? result.effectiveEngine
-            : string.Join(",", map.GetComponent<MapComponent_RaidTacticalPlans>().Plans
-                .GroupBy(plan => map.GetComponent<MapComponent_RaidTacticalExecution>().StateFor(plan.UnitId)?.Phase.ToString() ?? "NoState")
-                .OrderBy(group => group.Key).Select(group => group.Key + ":" + group.Count()));
+            : result.effectiveEngine;
         private void Progress(int tick)
         {
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
@@ -725,15 +722,14 @@ namespace Helodrace
         private void VerifyIsolation()
         {
             result.legacyComponents = map.components.Cast<object>().Concat(Current.Game.components)
-                .Select(value => value.GetType()).Where(TacticalEngineSelection.IsLegacy).Select(type => type.FullName).OrderBy(name => name).ToArray();
+                .Select(value => value.GetType()).Where(type => TacticalRetirementAudit.IsRetired(type)).Select(type => type.FullName).OrderBy(name => name).ToArray();
             result.installedLegacyHooks = Harmony.GetAllPatchedMethods().SelectMany(method =>
             {
                 Patches patches = Harmony.GetPatchInfo(method);
                 return patches.Prefixes.Concat(patches.Postfixes).Concat(patches.Transpilers).Concat(patches.Finalizers)
-                    .Where(patch => TacticalEngineSelection.IsLegacy(patch.PatchMethod.DeclaringType))
+                    .Where(patch => TacticalRetirementAudit.IsRetired(patch.PatchMethod.DeclaringType))
                     .Select(patch => method.DeclaringType.FullName + "." + method.Name + " <- " + patch.PatchMethod.DeclaringType.FullName);
             }).OrderBy(name => name).ToArray();
-            bool legacy = TacticalEngineSelection.Kind == TacticalEngineKind.Legacy;
             result.newComponents = map.components.Cast<object>().Concat(Current.Game.components)
                 .Where(value => value.GetType().IsDefined(typeof(NewTacticalAttribute), false))
                 .Select(value => value.GetType().FullName).OrderBy(name => name).ToArray();
@@ -744,11 +740,16 @@ namespace Helodrace
                     .Where(patch => patch.PatchMethod.DeclaringType.IsDefined(typeof(NewTacticalAttribute), false))
                     .Select(patch => method.DeclaringType.FullName + "." + method.Name + " <- " + patch.PatchMethod.DeclaringType.FullName);
             }).OrderBy(name => name).ToArray();
-            result.isolationVerified = legacy ? result.legacyComponents.Length == 11 && result.installedLegacyHooks.Length > 0
-                : result.legacyComponents.Length == 0 && result.installedLegacyHooks.Length == 0;
+            result.r7RetiredTypesAbsent = TacticalRetirementAudit.TypesAbsent();
+            result.r7RetiredDefinitionsAbsent = DefDatabase<DutyDef>.GetNamedSilentFail("HD_RaidTacticalControl") == null
+                && DefDatabase<JobDef>.GetNamedSilentFail("HD_RaidPrepareGrenade") == null
+                && DefDatabase<JobDef>.GetNamedSilentFail("HD_RecoverSledgehammer") == null
+                && DefDatabase<JobDef>.GetNamedSilentFail("HD_RaidObserveOpening") == null;
+            result.isolationVerified = result.legacyComponents.Length == 0 && result.installedLegacyHooks.Length == 0
+                && result.r7RetiredTypesAbsent && result.r7RetiredDefinitionsAbsent;
             result.isolationVerified &= result.newComponents.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? 2 : 0);
             // R3 adds narrow presentation/weapon hooks; these must still be
-            // absent in Vanilla/Legacy, with every concrete New patch present.
+            // absent in Vanilla, with every concrete New patch present.
             int expectedHooks = typeof(TacticalEngineSelection).Assembly.GetTypes().Count(type => type.IsDefined(typeof(NewTacticalAttribute), false)
                 && type.IsDefined(typeof(HarmonyPatch), false));
             result.isolationVerified &= result.installedNewHooks.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? expectedHooks : 0);

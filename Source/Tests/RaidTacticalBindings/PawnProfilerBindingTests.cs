@@ -12,7 +12,7 @@ internal static class PawnProfilerBindingTests
 {
     internal static void Run()
     {
-        var assembly = typeof(RaidTacticalPlan).Assembly;
+        var assembly = typeof(TacticalEngineSelection).Assembly;
         var targets = (MethodInfo[])AccessTools.Method(assembly.GetType("Helodrace.Profiling.PawnProfileTargets", true), "Resolve")
             .Invoke(null, null);
         string[] required = { "JobTrackerTick", "JobTrackerTickInterval", "DriverTick", "DriverTickInterval",

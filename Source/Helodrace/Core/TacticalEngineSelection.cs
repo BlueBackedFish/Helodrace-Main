@@ -6,10 +6,7 @@ using Verse;
 
 namespace Helodrace
 {
-    public enum TacticalEngineKind { Vanilla, Legacy, New }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    internal sealed class LegacyTacticalAttribute : Attribute { }
+    public enum TacticalEngineKind { Vanilla, New }
     [AttributeUsage(AttributeTargets.Class)]
     internal sealed class NewTacticalAttribute : Attribute { }
 
@@ -20,24 +17,20 @@ namespace Helodrace
         public static TacticalEngineKind Kind => selected ?? (selected = Parse(
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngine", out string value) ? value : null)).Value;
         public static bool NewImplemented => true;
-        public static string EffectiveEngine => Kind == TacticalEngineKind.New && !NewImplemented
-            ? "vanilla-fallback" : Kind.ToString().ToLowerInvariant();
+        public static string EffectiveEngine => Kind.ToString().ToLowerInvariant();
 
         public static TacticalEngineKind Parse(string value)
         {
-            if (value == null) return TacticalEngineKind.Legacy;
+            if (value == null) return TacticalEngineKind.New;
             switch (value.ToLowerInvariant())
             {
                 case "vanilla": return TacticalEngineKind.Vanilla;
-                case "legacy": return TacticalEngineKind.Legacy;
                 case "new": return TacticalEngineKind.New;
-                default: throw new ArgumentException("hdTacticalEngine must be vanilla, legacy, or new.");
+                default: throw new ArgumentException("hdTacticalEngine must be vanilla or new.");
             }
         }
-        public static bool IsLegacy(Type type) => type.IsDefined(typeof(LegacyTacticalAttribute), false);
         public static bool Install(Type type, TacticalEngineKind engine) =>
-            (!IsLegacy(type) || engine == TacticalEngineKind.Legacy)
-            && (!type.IsDefined(typeof(NewTacticalAttribute), false) || engine == TacticalEngineKind.New);
+            !type.IsDefined(typeof(NewTacticalAttribute), false) || engine == TacticalEngineKind.New;
         internal static void InstallPatches(Harmony harmony, Assembly assembly)
         {
             foreach (Type type in assembly.GetTypes())

@@ -1,0 +1,43 @@
+{
+  "sourceRoot": "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-retirement-final-default-01",
+  "classification": "Final retirement build failed audit after first native reload because an old method capture remained active; preserved failure, excluded from functional and CPU gates.",
+  "files": {
+    "audit.json": {
+      "sha256": "e7c3aa4ae39a85797e770c31093301f439308979c1482e8427762f67c72e4d88",
+      "uncompressedSha256": "e7c3aa4ae39a85797e770c31093301f439308979c1482e8427762f67c72e4d88",
+      "uncompressedBytes": 7915
+    },
+    "launcher.json": {
+      "sha256": "85013eb7ab908aa809d81e779dafcc2113192415d8975a5f5bb621edfa05c53f",
+      "uncompressedSha256": "85013eb7ab908aa809d81e779dafcc2113192415d8975a5f5bb621edfa05c53f",
+      "uncompressedBytes": 920
+    },
+    "Player.log.gz": {
+      "sha256": "95f16022960235d84fce1fd8e12bf5d5abfd13d3a45e5aee6750ba4b0dfb9acc",
+      "uncompressedSha256": "dad22e554a93a264d8042c439e1c24ee77cd8f3d86f5490cce34d39bd439b70a",
+      "uncompressedBytes": 32041
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "profiles/capabilities.json.gz": {
+      "sha256": "64b6621a171b44369aafc45f211f726c53515243e4d7c55c04ec8065acac0296",
+      "uncompressedSha256": "69a6b1d0d7c5d84e60e02fa0f667d6d84855775b5287d02a8f124387ac77e7e0",
+      "uncompressedBytes": 18061
+    },
+    "profiles/status.json.gz": {
+      "sha256": "be8a806ef3c42b763fbe5a48b3754bd619cf3e43d7d582d32a36151bd4662dcb",
+      "uncompressedSha256": "26543a834b77d7490b307c2c8befc53ed454f0612a33cd1f0237c0ccb2325297",
+      "uncompressedBytes": 193
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "d32c1867063d172270329f7885b0d9846ac662585bede158c205884c2611a602",
+      "bytes": 3507341,
+      "archived": false
+    }
+  }
+}

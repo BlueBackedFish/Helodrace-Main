@@ -1,0 +1,48 @@
+{
+  "sourceRoot": "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-retirement-default-02",
+  "classification": "Preliminary 79-source retirement build: actual default selection, four native reloads and three-room completion; unused CqbLocalTopology still present; not final-build CPU evidence.",
+  "files": {
+    "audit.json": {
+      "sha256": "7b0bfa9fc99da8de05d9400d6231190ea15d051451ec9128eceb83a67807b53b",
+      "uncompressedSha256": "7b0bfa9fc99da8de05d9400d6231190ea15d051451ec9128eceb83a67807b53b",
+      "uncompressedBytes": 10802
+    },
+    "launcher.json": {
+      "sha256": "593e12a3bdeac14229d34f508e31338b49f25b9b4c9b0c13403373acdc857f0a",
+      "uncompressedSha256": "593e12a3bdeac14229d34f508e31338b49f25b9b4c9b0c13403373acdc857f0a",
+      "uncompressedBytes": 918
+    },
+    "Player.log.gz": {
+      "sha256": "baa3fd829e73943510ff4f814dfc2bd9fe5e70785e48001f12841f2169a23c60",
+      "uncompressedSha256": "3167b4471c02d1977e3e9b1bb4bd054b3fabb7bf9cc9462f9a18ff090adcd1f6",
+      "uncompressedBytes": 525791
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "a2d88e66f9f57ccd41172f8b80dc22e44a1b2fd7e0ccd3c673832e9352054663",
+      "bytes": 3402258,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "a132036533c0630c132ba34357841ac1ca2465a4c20bccb8e5cfc3d9860f40af",
+      "bytes": 3473309,
+      "archived": false
+    },
+    "R7TacticalCheckpoint3.rws": {
+      "sha256": "7ff8a36e7ab573c325c7cdbea01541c11050512ef090dfa9af8ed371d0086eac",
+      "bytes": 3476914,
+      "archived": false
+    },
+    "R7TacticalCheckpoint4.rws": {
+      "sha256": "ae73de2b1c9dc82a8f6a62c98056ea082b7aa7f30edb5307570be705d138c22a",
+      "bytes": 3483155,
+      "archived": false
+    }
+  }
+}

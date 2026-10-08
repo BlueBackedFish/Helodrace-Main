@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-retirement-final-vanilla-01",
+  "classification": "Same final retirement DLL: explicit vanilla engine, new components/hooks absent, all 534 retired native types and retired Job/Duty definitions absent, 42 profiler scopes installed; short 300-tick sanity check only, no matched final CPU comparison.",
+  "files": {
+    "audit.json": {
+      "sha256": "bd9095fd4df6e06c65b5f58b30107b8ff4d489f9139c3706c24fb7525d82d354",
+      "uncompressedSha256": "bd9095fd4df6e06c65b5f58b30107b8ff4d489f9139c3706c24fb7525d82d354",
+      "uncompressedBytes": 7959
+    },
+    "launcher.json": {
+      "sha256": "41d8c50076b9f11cf408590fb00e30f627d585d5d396d85a04c253aa54c65813",
+      "uncompressedSha256": "41d8c50076b9f11cf408590fb00e30f627d585d5d396d85a04c253aa54c65813",
+      "uncompressedBytes": 921
+    },
+    "Player.log.gz": {
+      "sha256": "bb485fdedcea5220cdec0beb0c1309e6fcc4c8430f280ca537941be056ffec2d",
+      "uncompressedSha256": "425c37f36f4444ea97e00e0886d76a35614509944720fe6827f31b1793dd94d6",
+      "uncompressedBytes": 29805
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "3a2e885a5e3f09fed286dd0963624c59eb750a60f766c870aefc1e2ce9dc3297",
+      "uncompressedSha256": "21e58e63e3fecfc90b943c1276136fcec0e19223a86c0aa5db87e62806cf738a",
+      "uncompressedBytes": 10399
+    },
+    "profiles/capabilities.json.gz": {
+      "sha256": "64b6621a171b44369aafc45f211f726c53515243e4d7c55c04ec8065acac0296",
+      "uncompressedSha256": "69a6b1d0d7c5d84e60e02fa0f667d6d84855775b5287d02a8f124387ac77e7e0",
+      "uncompressedBytes": 18061
+    },
+    "profiles/capture-20261008-224308-242-61.json.gz": {
+      "sha256": "b665142ac4eed9eeaeff80929b52f87b50d9babca2f5efa0de2772ccc934d268",
+      "uncompressedSha256": "e3e9e2882adbd18651a85ff76e7925f1ff7d04d14acb38e089c8821dc88e0581",
+      "uncompressedBytes": 20907
+    },
+    "profiles/status.json.gz": {
+      "sha256": "5471df7b601560eb6d681f04119792ae53697d0a3b17351f20c317e9ada843c4",
+      "uncompressedSha256": "7df2dde354bf03005a9b7b39fc0193e9780f0e71f5b6da27e8b269f7ff357bba",
+      "uncompressedBytes": 224
+    }
+  }
+}

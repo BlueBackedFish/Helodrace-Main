@@ -1,0 +1,592 @@
+{
+  "baseCommit": "958f1688",
+  "files": [
+    {
+      "path": "Source/Helodrace/Core/RaidApproachSmoke.cs",
+      "sha256": "4678459bb205d9a65dee0e81e1d466feb0de89f0c73bf0df2b548975f126ab85",
+      "lines": 197
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidBreachToolRecovery.cs",
+      "sha256": "374ddaf591e370daf8694273e6b77caa9acb49d3093e32bc40179c194b1847c2",
+      "lines": 134
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidBreachTraversal.cs",
+      "sha256": "2e4cd0aad0450cee3bc81a2f7a9700e596d30afa68474ed2d63c9152839065f2",
+      "lines": 52
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCasualtyReevaluation.cs",
+      "sha256": "b7b39be8ea7e84c54a85d5168ae3208e43d6236de2993469d261b172d3d1a99e",
+      "lines": 136
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCommandJoin.cs",
+      "sha256": "a049cc34104ba377abeaca567bf40348f6c0b5891a7b22003ba2f57c7b3ebcfa",
+      "lines": 40
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCommunicationKnowledge.cs",
+      "sha256": "e695522c009cd08fd98f9e2f3d4a017bd19595617b01e561409db1966cb0cfef",
+      "lines": 105
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCommunicationPolicy.cs",
+      "sha256": "d5ac112c8cfed5ded5741f1b75f01ac572cd35a1b48ebf1b6151ca7f839b18aa",
+      "lines": 65
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCommunicationScheduling.cs",
+      "sha256": "d6efaeeb11eef8d56fd882798d748167f3e8fa6685592d81d748082b2917d9fa",
+      "lines": 131
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidContactMemory.cs",
+      "sha256": "ddb7b37bf1c209188552d3bd3939d33a1d4dace7db5b44a106f54321a88ee9e1",
+      "lines": 140
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidContactObservation.cs",
+      "sha256": "ba020cb9b22f072f8a42b123a7beff2c95a8b46b4d505e98be89d1072be16ff8",
+      "lines": 153
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCpuProfiler.cs",
+      "sha256": "35dece7ad22ee902bec898593b7d79ba59c049007002c1ad8810e37c55fb7782",
+      "lines": 88
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCqbContactResponse.cs",
+      "sha256": "cc2df48b2ca97a053c740a2bf8bef7f622f45ef208f8361853450ce936aeedeb",
+      "lines": 239
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCqbLocalMap.cs",
+      "sha256": "e32dfa24d728fa53e307be29be0e4b4220a3f90778a7663d987036d68b33fb5e",
+      "lines": 277
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCqbPolicy.cs",
+      "sha256": "6a64409952263577c01f4824ed61607eb72286906eece4bc1f3c1e9bf7630224",
+      "lines": 21
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidCqbRoomRecheck.cs",
+      "sha256": "32374df1f38e49d0aec9841918e9b37d2ecc3560646a67caf2e350dcf203b4a0",
+      "lines": 102
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidEntryObservation.cs",
+      "sha256": "c62cd66fff1f5b0e1484f23e894896e499766e00d440e186fa1be28f67fb1eb5",
+      "lines": 321
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidEntryObservationPolicy.cs",
+      "sha256": "6b211a016996379015c86e77ab22122f43f1bc560f5cab99d009bedf5d7498f9",
+      "lines": 14
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidExecutionScheduling.cs",
+      "sha256": "351971935ee7712fec3e519e497ff77add18e244a880cd423c0265e4e5b072e3",
+      "lines": 247
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidExteriorIngress.cs",
+      "sha256": "0d8f69862cdf8a6a21ec0865185f2c3cbd1b1e1fd575eb45673120707f79b181",
+      "lines": 292
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidFormationPositions.cs",
+      "sha256": "7d0b2e12504e4b36952d27ddd9d65582ac9ec4b99e292e8cbd0e480529f26622",
+      "lines": 151
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidFormationSlots.cs",
+      "sha256": "56a0b39a69e256a79aa6a458987b94afd83ae3fb7aae125b1fa2dbfb7f87ffde",
+      "lines": 46
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidFormationTopology.cs",
+      "sha256": "848cb47038e23d0257a222b4951e338a9ba81a1f3d0481f78a7a668691260a7f",
+      "lines": 36
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidGrenadePreparation.cs",
+      "sha256": "6ebbbd25e6b4d190f3f173b94fe5e6be06e34283d6fee5cf88d65e7034a83698",
+      "lines": 164
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidLocalMapState.cs",
+      "sha256": "18457e27cde0fff6e482ec6d0d4aafa3c5183ee8b03bfb797b1ee8d817fcc891",
+      "lines": 42
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidMovementArea.cs",
+      "sha256": "5f696153eedc634694fc134f39db7103fabea71fa2cb0d1a0e31bec0decc387d",
+      "lines": 467
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidMovementDiagnostics.cs",
+      "sha256": "9506530167828f3cedacaddd12135f18bf7a081d05546f3826a27f94c90e6561",
+      "lines": 40
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidMovementFunctionalAudit.cs",
+      "sha256": "2566bb5cbabd4da2baeff6824dd264ee706bb7c9741b8ca39b778d8768ae4665",
+      "lines": 228
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidMovementRuntimeAudit.cs",
+      "sha256": "41958ebcfa5233ada6ff5b7f7105d7081f0d3b195d016783254283e222b0df93",
+      "lines": 327
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidNodeMovement.cs",
+      "sha256": "c0fb02d25749d94891f922eac038e4e280e674d01ade6d594ecb92f83ea8d902",
+      "lines": 507
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidObservationSight.cs",
+      "sha256": "2401f569648dce7333ff5d6cead28d888561d992532245557db404d71d45890f",
+      "lines": 57
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidOrderPolicy.cs",
+      "sha256": "f251fa06117c7c4ae72cefb0e61a1ddabc8b42f931165652148af34feeb795e0",
+      "lines": 24
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidPassageTraffic.cs",
+      "sha256": "2248b5746e3a52066bb28ad38b7407574f5d8733d3e7dca7885c9a6bffcdbd5b",
+      "lines": 53
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidPawnCommand.cs",
+      "sha256": "3d41f08b4307f0bb14c2936bb2349c83b89bb98897ad4312c3f65a63c1684add",
+      "lines": 45
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidPersonalJoin.cs",
+      "sha256": "e9c5071c1315cd50c04c057bcf9f8acd2121729cbe9a80ce4626dfeef83211dd",
+      "lines": 64
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidPhysicalMapCache.cs",
+      "sha256": "3af33e5cd13848b36df2e47c837ae053a595761f522dd31e3c6cee80bf04eeeb",
+      "lines": 163
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidPlanningService.cs",
+      "sha256": "db34d1efe456cd9dfb90d79c89af267c8ec171d0a3cd99b25719cad6c403ca92",
+      "lines": 169
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidPlanningWork.cs",
+      "sha256": "b91909fc156c705921596ab1debb9eb8d187346d362a65fa243622ca026d4d59",
+      "lines": 57
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidReactivePolicy.cs",
+      "sha256": "50b9f86607c76aa931693370f2e882defc9bd8b005c9d28e9d8e887495154bbc",
+      "lines": 17
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidReactiveSearchCache.cs",
+      "sha256": "033d7af8768306d8733430622badee71a4e3873734959e28a2347be6821b6057",
+      "lines": 80
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidReactiveTactics.cs",
+      "sha256": "7e82c538fd59463613c9c4b7222a88a030573f7abbc27b2f9dc123bfb4da00a6",
+      "lines": 347
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidRoomSecurity.cs",
+      "sha256": "c18b82b6714130d68f511c7361b188f982662d2d7a00492b9aeca7a581c8f87f",
+      "lines": 45
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidSharedOpening.cs",
+      "sha256": "746a8f9235900db8b26a57cd76654a33469d037b0d8cf5029b84f86e2a130ef8",
+      "lines": 113
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidSmokeFormation.cs",
+      "sha256": "efe93d12f87c689f3a48c2b9dc990a26a92521df6f389871266b55d19ab7c231",
+      "lines": 165
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidSmokePlanning.cs",
+      "sha256": "fbd059d6c555079c119c07cfeb1ab8af60e60b8fa75e6da601eef8f9f05291f3",
+      "lines": 32
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidSpawnRuntimeAudit.cs",
+      "sha256": "e94f3c97c1fd0d30c0a805825aabf0d26c64d9fb0309d4c753b8923b71c5c3a6",
+      "lines": 135
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalCommunications.cs",
+      "sha256": "e6434d31bbd714db64ffb82b240254c1416743f8b5a245692351ecd0dab8ebe2",
+      "lines": 266
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalDebugUi.cs",
+      "sha256": "fdbd30f73a39172b6345c87de4306f12091f8a99b7ed51884ede5908b65e7154",
+      "lines": 304
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalDecision.cs",
+      "sha256": "e24ca23b8c6439b31c28160248433179cd7175f42e91dd9d1daf9a0e08ed982a",
+      "lines": 164
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalExecution.cs",
+      "sha256": "862b77cab522723069cea4a08bc303fabc9426c3ef239539551e12bcc96d145f",
+      "lines": 2449
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalIndices.cs",
+      "sha256": "05fa38e4947e35e4eca9cf93dce39d81f8b1ac792ebe86307f3f773e64cb1a03",
+      "lines": 52
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalMapOverlay.cs",
+      "sha256": "96b7752ad8092d1d30993208d7b7662d2ca9d2a9c99437d11753658ec6c93038",
+      "lines": 387
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalOrders.cs",
+      "sha256": "83cb9f89275bce1d6dd9177e1ca8fd8270bb79169ad06a153a4354290e56cd36",
+      "lines": 692
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalPlanner.cs",
+      "sha256": "5fe3b9ddb66a8896b6be52628d51d7a8153dbdfccaf42087b266294015270f7b",
+      "lines": 1616
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalPlanPersistence.cs",
+      "sha256": "d69989a979bd737523585b5075c49f3584543e6d7d6eb3fad62897310a21a56d",
+      "lines": 80
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalReports.cs",
+      "sha256": "ae0ba5c877fa72ddc5b46062b0ba2934d4151e51d68bd70de3a6bda5e7b2f6af",
+      "lines": 135
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTacticalTrace.cs",
+      "sha256": "21befde475d912eec0ea295dc1337201656cd3e1a7abfdba62eab744607f9aaf",
+      "lines": 85
+    },
+    {
+      "path": "Source/Helodrace/Core/RaidTrapAvoidance.cs",
+      "sha256": "f1249c11ec10dad24b686e46149deaddd4e10141a57fe41f940f2a6cd3c36627",
+      "lines": 20
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalCpuSamples.cs",
+      "sha256": "34a13ca0a8640889a6b3ee227a00bf194aacb8382c70a2f7e6abf5ef02bf2249",
+      "lines": 27
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalDueQueue.cs",
+      "sha256": "326e536f46e27d18a3eec29da4ff07c9cc406c30f2cca1303c0a8da080d9601e",
+      "lines": 45
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalGeometry.cs",
+      "sha256": "4db873b1315e8b24bc06a22269fcdbe8ef5e62a03533c3f38ee2ab22ae4d5936",
+      "lines": 285
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalGeometryCodec.cs",
+      "sha256": "c336d654399ed6928836b3c62f3468cff556b1429b96aed24b071d1d9adda7de",
+      "lines": 80
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalMapAnalysis.cs",
+      "sha256": "3a895684e42cf413aa86dcba97f45b8582b7eac64ee76705aed77d6431d531a2",
+      "lines": 361
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalMapDebugActions.cs",
+      "sha256": "91450fd770d0a7a6a813e8bfc411ba71e88bbeabe9f555f2f238ac297d00bda5",
+      "lines": 118
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalMovementMask.cs",
+      "sha256": "4182e3330ceafabce59aeb69568c328f8e3ad8878a0f791398cf9c348c00465b",
+      "lines": 97
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalMovementMaskKey.cs",
+      "sha256": "82cad2d82d39874403d283aa862c4b485926151986fe2e5f455009d18312aef0",
+      "lines": 85
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalNativeBudget.cs",
+      "sha256": "e9126c412f320806b8fa74f9cd9150f8da6f9215ceb370dfb913cc4c12f59afb",
+      "lines": 25
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalNativeLease.cs",
+      "sha256": "cc2f50686a0c4602c2447215681ad3d19a2eaab7d8a80e37edf0f4a962985555",
+      "lines": 18
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalNavigationGraph.cs",
+      "sha256": "00cfa07b5da8b77846809cccd04472497afaa0be9f5189f7252607021ee214d5",
+      "lines": 58
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalNodeProgress.cs",
+      "sha256": "8715b96aa9411811987c5e4428aff8e4ccb6a63e01d703be1c488b0cf7a89cb6",
+      "lines": 79
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalObserverRotation.cs",
+      "sha256": "2c2c22d8352929f6dc45122147537be0a92d1618464b9de8ff3b8d3c61d0b704",
+      "lines": 26
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalOpeningLeases.cs",
+      "sha256": "2b41ad69cbb5cd6d5e7cdbf6c19ac27396e884d6ecf7c9399c284a70e835d5e0",
+      "lines": 26
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalPassageAdmissions.cs",
+      "sha256": "b3878d4528de8d7e6a10589d636819833e1e06537258ce45a441baeda1e05b58",
+      "lines": 51
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalPreparationQueue.cs",
+      "sha256": "32588492fa2115ec518b3aeaaf4d3f867a72819a15ed8939cd8654d6dd295e08",
+      "lines": 86
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalQueuePositions.cs",
+      "sha256": "c8c17e6af3e10df5591b317b83938785b72051d1a75755636c85d1b5e2d2b5f5",
+      "lines": 35
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalReactionCadence.cs",
+      "sha256": "8a2629f12a5f386b5f045df8dfe4a9431aa61e604f0ebe377f3b0d27b5e71fcc",
+      "lines": 16
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalReactiveSearch.cs",
+      "sha256": "0ece933848d7bbdf61f22f144bf222beecad5ab95c866b374f8dd743a22f5bfa",
+      "lines": 50
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalServiceBudget.cs",
+      "sha256": "84a35ca36c45c3bbd136f3fc4a3e22d91b105ac0918f6118f9859d796a468bbc",
+      "lines": 31
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalSliceQueue.cs",
+      "sha256": "85d946063d69c0613701862276bdca0a1bc5d8bef6c41b1063b5927bcb4f35b3",
+      "lines": 35
+    },
+    {
+      "path": "Source/Helodrace/Core/TacticalSpatialIndex.cs",
+      "sha256": "6292674143314f15b9841d711e6918ca21f3bae840bd8dfa9a92ee7215fc5594",
+      "lines": 35
+    },
+    {
+      "path": "Source/Helodrace/Core/CqbLocalTopology.cs",
+      "sha256": "293a17b61c8bf6e7bf728b0fde78828d48abb2a3229a2fa15cbfea89114955ea",
+      "lines": 99
+    }
+  ],
+  "declaredRootNames": [
+    "BreachCandidate",
+    "BreachCrossing",
+    "BreachOperator",
+    "BreachSearchWindow",
+    "Chunk",
+    "Dialog_RaidTacticalPlans",
+    "Entry",
+    "EquipmentSnapshot",
+    "ExecutionState",
+    "FieldThreatSnapshot",
+    "FieldThreatSource",
+    "GameComponent_RaidExecutionScheduler",
+    "GameComponent_RaidPlanScheduler",
+    "JobDriver_RaidObserveOpening",
+    "JobDriver_RaidPrepareGrenade",
+    "JobDriver_RecoverSledgehammer",
+    "JobGiver_RaidTacticalFight",
+    "JobGiver_RaidTacticalOrder",
+    "MapComponent_RaidMovementAreas",
+    "MapComponent_RaidMovementRuntimeAudit",
+    "MapComponent_RaidPlanningService",
+    "MapComponent_RaidTacticalCommunications",
+    "MapComponent_RaidTacticalExecution",
+    "MapComponent_RaidTacticalOrders",
+    "MapComponent_RaidTacticalOverlay",
+    "MapComponent_RaidTacticalPlans",
+    "MapComponent_RaidTacticalTrace",
+    "MapComponent_TacticalMapAnalysis",
+    "Node",
+    "Patch_DebugSettings_RaidTacticalOverlay",
+    "Patch_OrganizedHighRaidAvoidsTraps",
+    "Patch_RaidGrenade_DrawHeld",
+    "Patch_RaidGrenade_NoGunAvailable",
+    "Patch_RaidGrenade_NoGunCast",
+    "Patch_RaidMovementArea_Dispose",
+    "Patch_RaidMovementArea_ReadersCompleted",
+    "Patch_RaidMovementArea_Request",
+    "Patch_RaidMovementArea_RequestCancelled",
+    "Patch_RaidMovementArea_RequestResolved",
+    "Patch_RaidNodeMovement_AllowedStep",
+    "Patch_RaidOpeningObservation_Lean",
+    "Patch_RaidPhysicalCache_Despawn",
+    "Patch_RaidPhysicalCache_DoorClose",
+    "Patch_RaidPhysicalCache_DoorOpen",
+    "Patch_RaidPhysicalCache_Spawn",
+    "Patch_RaidPhysicalCache_Terrain",
+    "Patch_RaidTacticalContinuation",
+    "Patch_RaidTacticalDuty",
+    "Patch_RaidTacticalDutyConstant",
+    "Patch_RaidTacticalHoldFacing",
+    "Patch_RaidTacticalPendingAttack",
+    "Patch_RaidTacticalSupportFlee",
+    "Patch_RaidTacticalTickCpu",
+    "Patch_RaidTacticalTrace_EndJob",
+    "Patch_RaidTacticalTrace_StartJob",
+    "PermissionVector",
+    "RaidBreachKind",
+    "RaidBreachProgress",
+    "RaidBreachToolRecovery",
+    "RaidBreachToolRecoveryTarget",
+    "RaidBreachTraversal",
+    "RaidCandidateWindow",
+    "RaidCommandOwner",
+    "RaidCommunicationFrame",
+    "RaidCommunicationMode",
+    "RaidCommunicationPolicy",
+    "RaidCommunicationState",
+    "RaidContactConfidence",
+    "RaidContactGuard",
+    "RaidContactMemory",
+    "RaidCpuProfiler",
+    "RaidCpuStage",
+    "RaidCqbContactPolicy",
+    "RaidCqbIntent",
+    "RaidCqbKnowledge",
+    "RaidCqbLocalMap",
+    "RaidCqbPolicy",
+    "RaidDebugRoomState",
+    "RaidEnemyContact",
+    "RaidEntryObservation",
+    "RaidEntryObservationPolicy",
+    "RaidEntrySupportKind",
+    "RaidExecutionPhase",
+    "RaidExecutionTicket",
+    "RaidExteriorIngress",
+    "RaidExternalSupportKind",
+    "RaidFormationSlots",
+    "RaidFormationTopology",
+    "RaidGrenadePreparation",
+    "RaidKnownCqbCell",
+    "RaidKnownCqbRecord",
+    "RaidLocalMapState",
+    "RaidMoveBlockReason",
+    "RaidMoveController",
+    "RaidMovementArea",
+    "RaidMovementDiagnostics",
+    "RaidMovementFunctionalAudit",
+    "RaidMovementNode",
+    "RaidMovementNodePurpose",
+    "RaidNavigationSnapshot",
+    "RaidNodeMemberProgress",
+    "RaidNodeRoute",
+    "RaidObservationSight",
+    "RaidObserverMemory",
+    "RaidOrderKind",
+    "RaidOrderPolicy",
+    "RaidPawnCommand",
+    "RaidPawnOrder",
+    "RaidPawnReferenceComparer",
+    "RaidPhysicalMapCache",
+    "RaidPlanningJob",
+    "RaidPlanningWork",
+    "RaidReactionKind",
+    "RaidReactivePolicy",
+    "RaidReactivePosition",
+    "RaidReportKind",
+    "RaidReportLedger",
+    "RaidReportReceipt",
+    "RaidReportTransmission",
+    "RaidRoomDebugData",
+    "RaidRoomPlanAttempts",
+    "RaidRoomSecurity",
+    "RaidRoomSecurityRecord",
+    "RaidSmokeFormation",
+    "RaidSmokePlanning",
+    "RaidSpawnRuntimeAudit",
+    "RaidStructureSnapshot",
+    "RaidTacticalAssignment",
+    "RaidTacticalDebugSession",
+    "RaidTacticalDecision",
+    "RaidTacticalDoctrine",
+    "RaidTacticalIndices",
+    "RaidTacticalManeuver",
+    "RaidTacticalOption",
+    "RaidTacticalOverlaySettings",
+    "RaidTacticalPlan",
+    "RaidTacticalPlanner",
+    "RaidTacticalReport",
+    "RaidTacticalSituation",
+    "RaidTacticalTask",
+    "RaidTransmissionAction",
+    "ReactiveCellScore",
+    "ReactiveScores",
+    "Request",
+    "Scope",
+    "SharedOpeningKey",
+    "SightResult",
+    "TacticalCacheBudget",
+    "TacticalCellData",
+    "TacticalCpuSamples",
+    "TacticalDueQueue",
+    "TacticalGeometry",
+    "TacticalGeometryCell",
+    "TacticalGeometryCodec",
+    "TacticalGeometryInput",
+    "TacticalGeometryResult",
+    "TacticalGeometryWorker",
+    "TacticalMapDebugActions",
+    "TacticalMaskVector",
+    "TacticalMovementMask",
+    "TacticalMovementMaskInput",
+    "TacticalMovementMaskKey",
+    "TacticalMovementPermission",
+    "TacticalNativeBudget",
+    "TacticalNativeLease",
+    "TacticalNavigationGraph",
+    "TacticalNodeProgress",
+    "TacticalObserverRotation",
+    "TacticalOpenDirection",
+    "TacticalOpeningLeases",
+    "TacticalPassageAdmissions",
+    "TacticalPreparationQueue",
+    "TacticalQueuePositions",
+    "TacticalRawCell",
+    "TacticalRawFlags",
+    "TacticalReactionCadence",
+    "TacticalReactiveSearch",
+    "TacticalServiceBudget",
+    "TacticalSliceQueue",
+    "TacticalSpatialIndex",
+    "TacticalStructureKind",
+    "TacticalStructureVersion",
+    "Work",
+    "where"
+  ],
+  "supplementalTypeInventory": "retired-cqb-types.json"
+}

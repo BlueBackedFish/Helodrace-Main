@@ -16,8 +16,7 @@ namespace Helodrace
         {
             // Hidden audits must keep pumping startup before a map exists.
             // Normal player sessions retain their own background preference.
-            if (GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _)
-                || GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _))
+            if (GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _))
             {
                 Prefs.RunInBackground = true;
                 Application.runInBackground = true;
@@ -28,8 +27,7 @@ namespace Helodrace
     [HarmonyPatch(typeof(Thing), nameof(Thing.TakeDamage))]
     internal static class Patch_RaidRuntimeAudit_Owner
     {
-        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _)
-            || GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _);
+        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _);
         private static bool Prefix(Thing __instance, ref DamageWorker.DamageResult __result)
         {
             if (__instance != TacticalAuditProtection.ProtectedOwner

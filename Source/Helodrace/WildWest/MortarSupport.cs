@@ -274,7 +274,6 @@ namespace Helodrace
                 shellsPerVolley,
                 volleyIntervalTicks,
                 scatterRadius));
-            map.GetComponent<MapComponent_RaidTacticalExecution>()?.NotifySupportRequested(caller, center);
             map.GetComponent<Helodrace.Tactics.MapComponent_TacticalCommands>()?.NotifySupportRequested(caller, center);
         }
 

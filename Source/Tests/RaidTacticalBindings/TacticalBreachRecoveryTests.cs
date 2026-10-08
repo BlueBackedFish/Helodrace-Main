@@ -29,7 +29,7 @@ internal static class TacticalBreachRecoveryTests
                 new List<ThingComp> { new CompSledgehammerBreach { parent = hammer } });
             var owner = (ThingOwner<Apparel>)donor.apparel.GetDirectlyHeldThings();
             owner.InnerListForReading.Add(hammer); hammer.holdingOwner = owner;
-            var tools = typeof(RaidTacticalPlan).Assembly.GetType("Helodrace.Tactics.TacticalBreachTools", true);
+            var tools = typeof(TacticalEngineSelection).Assembly.GetType("Helodrace.Tactics.TacticalBreachTools", true);
             MethodInfo source = AccessTools.Method(tools, "SourceFor");
             MethodInfo remember = AccessTools.Method(tools, "Remember");
             var command = new TacticalSquadCommand();

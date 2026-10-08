@@ -1,6 +1,6 @@
 param(
     [ValidateRange(1,10)][int]$Repeats = 3,
-    [ValidateSet('vanilla','legacy','new')][string[]]$Engines = @('vanilla','legacy','new'),
+    [ValidateSet('vanilla','new')][string[]]$Engines = @('vanilla','new'),
     [ValidateSet('open-approach','sapper-wall','sapper-door')][string[]]$Workloads = @('open-approach','sapper-wall'),
     [ValidateRange(0,400)][int]$Population = 50,
     [int]$WarmupTicks = 600,

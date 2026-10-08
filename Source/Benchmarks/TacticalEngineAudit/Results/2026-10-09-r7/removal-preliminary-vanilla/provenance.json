@@ -1,0 +1,42 @@
+{
+  "sourceRoot": "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-retirement-vanilla-01",
+  "classification": "Preliminary retirement build: explicit vanilla isolation and 42 detailed profiler scopes. Unused CqbLocalTopology not yet removed; short smoke test only, not a final CPU comparison.",
+  "files": {
+    "audit.json": {
+      "sha256": "dc78772308f7d2660454702027c5ea68bbe9a33b01680467d5e7949ea12d1833",
+      "uncompressedSha256": "dc78772308f7d2660454702027c5ea68bbe9a33b01680467d5e7949ea12d1833",
+      "uncompressedBytes": 7974
+    },
+    "launcher.json": {
+      "sha256": "ad316167ca36d3afbb5d0fd5750cc00e61d614df6f45905e1978de0d5e583b9a",
+      "uncompressedSha256": "ad316167ca36d3afbb5d0fd5750cc00e61d614df6f45905e1978de0d5e583b9a",
+      "uncompressedBytes": 921
+    },
+    "Player.log.gz": {
+      "sha256": "72d9d120ae3953ce425c2f0271a2b12b67c8f9bee288bcbd28b57ce0801f1224",
+      "uncompressedSha256": "8fffeb93915dca900f200def07e8057ffbe0ae9bc36da43f4f76c56e81fb10ed",
+      "uncompressedBytes": 29712
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "3a2e885a5e3f09fed286dd0963624c59eb750a60f766c870aefc1e2ce9dc3297",
+      "uncompressedSha256": "21e58e63e3fecfc90b943c1276136fcec0e19223a86c0aa5db87e62806cf738a",
+      "uncompressedBytes": 10399
+    },
+    "profiles/capabilities.json.gz": {
+      "sha256": "b79f512f8ba1526442ad4213463225933a644d93efca629766bf092f9b8007c8",
+      "uncompressedSha256": "d9bde6d758b6d63610cace860eba21f197c340d2758030ea24661a57fb17e527",
+      "uncompressedBytes": 18061
+    },
+    "profiles/capture-20261008-223421-609-61.json.gz": {
+      "sha256": "1c39cd4b62f089f0c1cfff6009b7a663ef21f8aeb41a45f55c0cd824af76e8f8",
+      "uncompressedSha256": "7a297a5bb54cb7a2c7b8588614ac5f08b36439d010819af29135c22849f53fb6",
+      "uncompressedBytes": 20889
+    },
+    "profiles/status.json.gz": {
+      "sha256": "2c50735a0d6924abb1363a85eea018c22e60e40efd835630f4cbb783e7405657",
+      "uncompressedSha256": "ebbc99d411d0c49da9d96ddcd548ae662250767a51afc2749468f9f15e8ff9dd",
+      "uncompressedBytes": 224
+    }
+  },
+  "checkpointFiles": {}
+}

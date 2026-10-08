@@ -47,9 +47,8 @@ namespace Helodrace
     {
         internal static bool Enter()
         {
-            if ((!GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _)
-                && !GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _))
-                || !GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out string seed)) return false;
+            if (!GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _)
+                || !GenCommandLine.TryGetCommandLineArg("hdTacticalAuditSeed", out string seed)) return false;
             uint hash = 2166136261;
             foreach (char value in seed) hash = unchecked((hash ^ value) * 16777619);
             Rand.PushState(unchecked((int)hash)); return true;
@@ -82,9 +81,8 @@ namespace Helodrace
     {
         private static void Prefix(ref string seedString)
         {
-            if ((GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _)
-                || GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _))
-                && GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out string seed)) seedString = seed;
+            if (GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _)
+                && GenCommandLine.TryGetCommandLineArg("hdTacticalAuditSeed", out string seed)) seedString = seed;
         }
     }
 }

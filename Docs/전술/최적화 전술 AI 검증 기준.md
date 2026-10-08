@@ -50,15 +50,15 @@ N = 새 전술 AI를 활성화한 습격의 평균 메인 틱 CPU ms/tick
 
 맵 컴포넌트 비용은 필수 확인 대상이다. 로컬 바닐라 코드에서 확인한 호출 관계는 `TickManager.DoSingleTick → Map.MapPostTick → MapComponentUtility.MapComponentTick → 각 컴포넌트의 MapComponentTick`이다. 따라서 이 경계 안의 컴포넌트 비용은 전체 틱 CPU에 이미 포함된다. 개별 콜백과 내부 메서드를 따로 계측해 어느 컴포넌트가 비용을 만드는지 분해한다. 부모인 전체 틱과 자식 컴포넌트 시간을 더하지 않는다.
 
-`MapComponentUpdate`는 `Map.MapUpdate`에서 실행되고 `GameComponentUpdate`도 프레임 측 작업이므로 전체 틱만 수집해서는 해당 비용을 확인할 수 없다. 현재 계획 스케줄러의 `GameComponentUpdate`, 이동 영역의 Tick/Update 양쪽 호출, 지도 분석의 Tick/Update 호출을 함께 확인한다. Dubs 화면의 `MapComponentTick`이 전체 컴포넌트 호출기인지 개별 구현인지도 구분한다.
+`MapComponentUpdate`는 `Map.MapUpdate`에서 실행되고 `GameComponentUpdate`도 프레임 측 작업이므로 전체 틱만 수집해서는 해당 비용을 확인할 수 없다. R7 구형 제거 후에는 신규 명령 스케줄러와 실제 남아 있는 Map/GameComponent의 Tick/Update를 확인한다. 구형 계획·이동 영역·지도 분석 컴포넌트는 제거 대상이며 정상 실행에 남겨 측정하지 않는다. Dubs 화면의 `MapComponentTick`이 전체 컴포넌트 호출기인지 개별 구현인지도 구분한다.
 
 현재 [프로파일러 등록 코드](../../Source/Helodrace/Profiling/AgentMethodProfiler.cs)는 Helodrace Map/GameComponent의 구체적인 Tick/Update 구현을 기본 선택한다. 이전 Raid 이름 필터를 제거했고 수집기 자신과 감사 도구는 제외한다. 모든 모드/Unity 메서드를 자동 선택하는 것은 아니다.
 
 | 범위 | 현재 지원과 확인 방법 |
 |---|---|
-| 전술 실행·명령·계획·통신·이동 영역 컴포넌트 | 기본 등록됨. 구체적 콜백과 해당 내부 작업의 총 경과/호출/틱당 비용 확인 |
-| 전술 실행 GameComponentTick·계획 GameComponentUpdate | 기본 등록됨. 맵 콜백 밖의 전술 작업도 포함 |
-| `Helodrace.MapComponent_TacticalMapAnalysis`의 Tick/Update/Pump | Tick/Update 기본 등록. 내부 Pump는 필요시 추가 선택 |
+| 신규 전술 스케줄러·분대 실행·통신 | `GameComponent_TacticalCommands.GameComponentTick`, `MapComponent_TacticalCommands.Advance/AdvanceCore/ReturnMembers`, `TacticalCommunications.Pump` 기본 등록 |
+| 신규 관측·연락 협력·방 정리·야전·치료·Job 발행 | detailed에서 `ScanContacts/RespondToContacts/AdvanceCoordination/AdvanceRoomClear/AdvanceFieldResponse/AdvanceMedicalCare/Issue` 추가 등록 |
+| 구형 계획·이동 영역·지도 분석·통신 컴포넌트 | R7에서 제거. 과거 결과의 대상이며 현재 등록 목록에 없어야 함 |
 | `Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick` | 기본 등록. 공통 조직 유지 비용도 확인 |
 | `Verse.Map`의 PreTick/PostTick/Update | 기본 등록으로 맵 처리 상위 구간 확인 |
 | `Verse.MapComponentUtility`·`Verse.GameComponentUtility`의 Tick/Update 호출기 | 기본 등록. 전체 컴포넌트와 개별 콜백 중복 합산 금지 |
@@ -68,7 +68,7 @@ N = 새 전술 AI를 활성화한 습격의 평균 메인 틱 CPU ms/tick
 추가 선택은 실행 인자 `-hdMethodProfileTargets=타입::메서드;타입::메서드` 또는 감사 실행기의 `-ProfileTargets`로 가능하다. 기본 콜백에서 비싼 구간을 찾은 뒤 내부 처리와 바닐라 작업을 추가한다.
 
 ```text
-Helodrace.MapComponent_TacticalMapAnalysis::Pump;
+Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceRoomClear;
 Verse.AI.Pawn_JobTracker::StartJob;
 Verse.PathFinder::CreateRequest
 ```
@@ -81,13 +81,15 @@ Verse.PathFinder::CreateRequest
 
 ## 실험 절차
 
-1. 엔진 선택만 다른 Vanilla/Legacy/New로 지도·생성 시드·실제 인원·편제·장비·무전 보유·목표·진입 방식·배속·게임 버전·모드 목록을 고정한다. 지도 해시와 DLL SHA256를 기록한다.
+1. 엔진 선택만 다른 Vanilla/New로 지도·생성 시드·실제 인원·편제·장비·무전 보유·목표·진입 방식·배속·게임 버전·모드 목록을 고정한다. 지도 해시와 DLL SHA256를 기록한다. Legacy 실행은 R7에서 제거하며 과거 비교 기록만 보존한다.
 2. 생성/처음 계획/돌파 시작의 cold 구간과 준비 후 steady 구간을 분리한다. 기존 기본 준비 600틱/측정 1200틱부터 시작하되 새 AI가 측정 전에 모든 작업을 끝내는 fixture는 길이/전장을 조정한다.
 3. 고정 틱 창의 CPU와 전체 목표 완료까지의 CPU·틱 수를 둘 다 기록한다. 엔진별 종료 단계는 달라도 실제 작업 진행을 보여 준다. 정지한 구간만 골라 비교하지 않는다.
 4. 최소 구현 R2는 한 분대 기능 시험 → 약 50명 → 약 200명 순서다. High는 13인 단위의 실제 52/208명 등을 기록하며 LOW 50/200명과 같은 인원이라고 쓰지 않는다.
 5. 후속 작업은 위 약식 검증을 기본으로 한다. 정식 최종 검증 또는 사용자가 요청한 반복 대조에만 동일 조건 최소 3회와 교대 실행을 적용하고 중앙값·반복 범위를 보존한다.
 6. 프로파일러 비활성 대조도 측정해 계측 자체 영향을 확인한다. 상세 타깃은 병목 진단용 별도 실행에만 넓히고 최종 CPU 판정과 섞지 않는다.
 7. 실패/사상자/불완전/조건 불일치/무진행 기록은 원본을 보존하고 제외 이유를 쓴다. 교전 시험의 사상자는 기능 결과로 별도 보고하며 다른 생존 인원 조건의 비용을 동일 그룹으로 묶지 않는다.
+
+실제 저장/로드 기능 시험은 `-NoMethodProfile`로 실행한다. 프로파일러의 전역 활성 세션은 새 게임/맵 수집기 인스턴스로 자동 승계되지 않으므로 로드를 가로지르는 계측은 지원하지 않는다. 해당 잘못된 조합은 런처에서 거부한다. 메서드 등록·실행 수집은 저장하지 않는 별도 실행으로 확인하며, 저장 비용과 재시작한 틱 창을 최종 CPU 비교에 섞지 않는다.
 
 기존 실행기의 quicktest·관련 메서드 선택·반복 수집·검사 후 비교는 재사용 후보다. R1에서 새/구형 전술뿐 아니라 조직 관리·지도 분석·전체 컴포넌트 호출기·틱 밖 작업의 수집 목록을 먼저 확정한다. 현재 비교기는 엔진/시작 단계 차이를 거부할 수 있으므로 비교 허용 조건을 명시적으로 조정한다. 기존 JSON에서 단순히 metadata를 지워 통과시키지 않는다. 그 변경은 R1 구현 범위다.
 

@@ -11,7 +11,7 @@ internal static class TacticalEngineSelectionTests
 {
     internal static void Run()
     {
-        if (TacticalEngineSelection.Parse(null) != TacticalEngineKind.Legacy
+        if (TacticalEngineSelection.Parse(null) != TacticalEngineKind.New
             || TacticalEngineSelection.Parse("VANILLA") != TacticalEngineKind.Vanilla
             || TacticalEngineSelection.Parse("new") != TacticalEngineKind.New)
             throw new Exception("Engine selection parser/default failed.");
@@ -24,20 +24,10 @@ internal static class TacticalEngineSelectionTests
                 | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Instance)
                 .Any(method => method.IsDefined(typeof(HarmonyPatch), false)))
                 throw new Exception("Patch discovery would omit a method-only target: " + type);
-        var marked = types.Where(TacticalEngineSelection.IsLegacy).ToArray();
-        var components = marked.Where(type => typeof(MapComponent).IsAssignableFrom(type)
-            || typeof(GameComponent).IsAssignableFrom(type)).ToArray();
-        var patches = marked.Where(type => type.IsDefined(typeof(HarmonyPatch), false)).ToArray();
-        if (components.Length != 11 || patches.Length != 25) throw new Exception("Legacy isolation manifest changed: " + components.Length + "/" + patches.Length);
-        foreach (Type type in marked)
-            if (!TacticalEngineSelection.Install(type, TacticalEngineKind.Legacy)
-                || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)
-                || TacticalEngineSelection.Install(type, TacticalEngineKind.New)) throw new Exception("Legacy filter failed: " + type);
         foreach (Type type in new[] { typeof(Helodrace.Tactics.MapComponent_TacticalCommands), typeof(Helodrace.Tactics.GameComponent_TacticalCommands),
             typeof(Helodrace.Tactics.Patch_NewTactical_RaidCreated) })
             if (!TacticalEngineSelection.Install(type, TacticalEngineKind.New)
-                || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)
-                || TacticalEngineSelection.Install(type, TacticalEngineKind.Legacy)) throw new Exception("New engine component isolation failed: " + type);
+                || TacticalEngineSelection.Install(type, TacticalEngineKind.Vanilla)) throw new Exception("New engine component isolation failed: " + type);
         var connected = new[] { new IntVec3(0,0,0), new IntVec3(1,0,0), new IntVec3(1,0,1) };
         if (!Helodrace.Tactics.TacticalLocalPlanner.Connected(connected)
             || Helodrace.Tactics.TacticalLocalPlanner.Connected(new[] { connected[0], connected[2] })
@@ -88,6 +78,6 @@ internal static class TacticalEngineSelectionTests
                 throw new Exception("Audit formation generation retained uncontrolled state.");
         }
         finally { generating.SetValue(null, false); xenotypes.Remove(testXenotype); }
-        Console.WriteLine("PASS: engine selection, 11 components/25 patch classes isolation, shared metadata, real FillComponents targets, stable gear fingerprint.");
+        Console.WriteLine("PASS: engine selection, new default/vanilla isolation, shared metadata, real FillComponents targets, stable gear fingerprint.");
     }
 }

@@ -1,0 +1,48 @@
+{
+  "sourceRoot": "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-retirement-final-default-02",
+  "classification": "Final 80-source retirement build: actual production-default new engine without engine CLI override; four native CQB saves/loads, three-room and all twelve-pawn completion; headless functional only, excluded from final CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "4d5816fae2a07812919d19dcf738a939e30e0da8d8aa9fc85fd0b2d3a9625e20",
+      "uncompressedSha256": "4d5816fae2a07812919d19dcf738a939e30e0da8d8aa9fc85fd0b2d3a9625e20",
+      "uncompressedBytes": 10801
+    },
+    "launcher.json": {
+      "sha256": "a36323b3a6454e818552738f36f0a096054737eab5bf736e8847ee7439def2f7",
+      "uncompressedSha256": "a36323b3a6454e818552738f36f0a096054737eab5bf736e8847ee7439def2f7",
+      "uncompressedBytes": 918
+    },
+    "Player.log.gz": {
+      "sha256": "12369e7df92b2f415e57e82075d1925b57954c9cb2fcb4df65c0bd7b3add4c75",
+      "uncompressedSha256": "2c9850caed2dc10195fcddf77bb28f83df0146119cc65264221d86332b0e0441",
+      "uncompressedBytes": 525817
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "185a93a50d40faf621950aed5216b4c28cf1062f85d0565c1d7e185bf66defc0",
+      "bytes": 3426456,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "785f171f43ae197b13778877ef5ba705e3162e4e9eab113881be3f96d1d4e981",
+      "bytes": 3501234,
+      "archived": false
+    },
+    "R7TacticalCheckpoint3.rws": {
+      "sha256": "b220dc61798b4e7900a55aaefe69465f5e433966a6f99d5fd98001db75c8517e",
+      "bytes": 3504716,
+      "archived": false
+    },
+    "R7TacticalCheckpoint4.rws": {
+      "sha256": "01d720989657b9366b5c5f6743c9b7758500c8e060b160bf232596eb2b0fd4ad",
+      "bytes": 3510670,
+      "archived": false
+    }
+  }
+}
