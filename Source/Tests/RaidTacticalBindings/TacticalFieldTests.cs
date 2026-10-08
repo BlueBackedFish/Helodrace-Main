@@ -38,6 +38,11 @@ internal static class TacticalFieldTests
             throw new Exception("Bow formation is not unique, symmetric and forward-curved.");
         if (TacticalFieldPolicy.SightRadius <= TacticalContactState.Radius)
             throw new Exception("Field sight does not extend the CQB radius.");
+        if (TacticalFieldPolicy.NextMover(-1,7,true)!=0 || TacticalFieldPolicy.NextMover(0,7,true)!=1
+            || TacticalFieldPolicy.NextMover(2,7,true)!=0 || TacticalFieldPolicy.NextMover(0,5,true)!=2
+            || TacticalFieldPolicy.NextMover(2,4,true)!=2 || TacticalFieldPolicy.NextMover(-1,0,false)!=-3
+            || TacticalFieldPolicy.NextMover(-1,0,true)!=-2 || TacticalFieldPolicy.NextMover(-2,0,true)!=-3)
+            throw new Exception("Absent child teams or reserves must not create a frozen/empty movement wave.");
         if (!TacticalMedicalPolicy.Urgent(.4f) || TacticalMedicalPolicy.Urgent(.399f)
             || !TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, true, null)
             || TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, false, null)

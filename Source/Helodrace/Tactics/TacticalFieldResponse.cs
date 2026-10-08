@@ -42,6 +42,16 @@ namespace Helodrace.Tactics
             return anchor + side * (int)Math.Round(u * width)
                 + forward * (int)Math.Round(1 - 3 * u * u);
         }
+        public static int NextMover(int previous, int liveTeams, bool reserves)
+        {
+            if (liveTeams == 0) return reserves && previous != -2 ? -2 : -3;
+            for (int step = 1; step <= 3; step++)
+            {
+                int team = (Math.Max(-1, previous) + step) % 3;
+                if ((liveTeams & (1 << team)) != 0) return team;
+            }
+            return -1;
+        }
     }
 
     public sealed class TacticalFieldResponse
@@ -88,14 +98,16 @@ namespace Helodrace.Tactics
                     Anchor = observer.Position, Focus = nearest.Position, FocusAt = tick, NextMove = tick + 180,
                     Forward = TacticalFieldPolicy.Direction(observer.Position, nearest.Position),
                     Motion = TacticalFieldPolicy.Motion(nearest, observer.Position),
-                    High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction" };
+                    High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
+                        && active.Exists(m => m.Fireteam >= 0) };
                 for (int i = 0; i < command.Members.Count; i++) field.Posts.Add(IntVec3.Invalid);
                 // LOW forms one temporary group around an actual automatic
                 // weapon role. This does not mutate the organization tree.
                 for (int i = 0; i < command.Members.Count; i++)
                     if (command.Members[i].AutomaticWeapon && Available(command.Members[i], map)) field.Order.Add(i);
                 for (int i = 0; i < command.Members.Count; i++) if (!field.Order.Contains(i)) field.Order.Add(i);
-                for (int i = 0; i < Math.Min(4, field.Order.Count); i++) field.FireGroup.Add(field.Order[i]);
+                for (int i = 0; i < field.Order.Count && field.FireGroup.Count < 4; i++)
+                    if (Available(command.Members[field.Order[i]], map)) field.FireGroup.Add(field.Order[i]);
                 command.FieldResponse = field; FieldResponses++;
                 command.Link.Cooperation.LocalReady = false;
             }
@@ -113,6 +125,7 @@ namespace Helodrace.Tactics
             if (tick - field.LastSeen >= TacticalContactMemory.FreshTicks)
             { EndFieldResponse(command, tick); return false; }
             command.Due = Math.Min(command.Due, tick + 30);
+            if (field.High && !active.Exists(m => m.Fireteam >= 0)) field.High = false;
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (field.Assigned < field.Order.Count && budget.TryPlan(tick))
             {
@@ -141,6 +154,20 @@ namespace Helodrace.Tactics
             {
                 int index = command.Members.IndexOf(member);
                 IntVec3 post = field.Posts[index];
+                if (!post.IsValid && field.Assigned == field.Order.Count && budget.TryPlan(tick))
+                {
+                    // A previously downed member can recover after the initial
+                    // template has finished. Admit one missing local assignment
+                    // without rebuilding any other member's stable post.
+                    long started = Stopwatch.GetTimestamp();
+                    try
+                    {
+                        AssignFieldPost(command, member, field, index,
+                            TacticalFieldPolicy.Arc(field.Anchor, field.Forward, index, command.Members.Count, 6));
+                        post = field.Posts[index];
+                    }
+                    finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
+                }
                 bool at = post.IsValid && AtPost(member) && member.Pawn.Position == post;
                 if (at) ready++;
                 if (FieldMover(field, member, index))
@@ -194,12 +221,13 @@ namespace Helodrace.Tactics
 
         private bool BeginFieldBound(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick)
         {
-            int team = field.High ? -1 : field.MovingTeam == -2 ? -3 : -2;
-            for (int offset = 1; field.High && offset <= 3; offset++)
+            int liveTeams = 0; bool reserves = false;
+            foreach (TacticalMemberCommand member in active)
             {
-                int candidate = (field.MovingTeam + offset) % 3;
-                if (active.Exists(m => m.Fireteam == candidate)) { team = candidate; break; }
+                if (field.High && member.Fireteam >= 0 && member.Fireteam < 3) liveTeams |= 1 << member.Fireteam;
+                reserves |= !field.FireGroup.Contains(command.Members.IndexOf(member));
             }
+            int team = TacticalFieldPolicy.NextMover(field.MovingTeam, liveTeams, reserves);
             if (field.High && team < 0) { field.NextMove = tick + 600; return false; }
             field.MovingTeam = team; field.Stage = TacticalFieldStage.Moving;
             field.BoundCursor = 0; field.BoundPending = true;

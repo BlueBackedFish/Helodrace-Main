@@ -9,6 +9,7 @@ namespace Helodrace
     public sealed partial class MapComponent_TacticalEngineAudit
     {
         private bool FieldFixture => result.fixtureCase == "r6-field-drill" || result.fixtureCase == "r6-smoke-drill";
+        private bool TimedFieldFixture => result.fixtureCase == "r6-field-cpu";
         private int fieldStep, fieldStepAt;
         private TacticalSquadCommand fieldCommand;
         private TacticalLocalPlan fieldPlan;
@@ -18,6 +19,31 @@ namespace Helodrace
         private long fieldBoundBaseline;
         private bool fieldSmokeTargets = true;
         private long fieldSmokeLogged;
+
+        // Engine-independent external inputs at fixed ticks. The functional
+        // drills above deliberately wait for stages; those windows are not a
+        // matched vanilla/new CPU comparison.
+        public override void MapComponentTick()
+        {
+            if (!initialized || !TimedFieldFixture || finishing || finished) return;
+            int age = GenTicks.TicksGame - started;
+            if (fieldStep == 0 && age >= 400)
+            {
+                owner.Position = new IntVec3(84,0,150); fieldStep = 1; result.caseTriggered = true;
+                FieldEvent("fixed exterior actor exposed " + owner.Position);
+            }
+            else if (fieldStep == 1 && age >= 1500)
+            {
+                owner.Position = new IntVec3(84,0,125); fieldStep = 2;
+                FieldEvent("fixed exterior actor approached " + owner.Position);
+            }
+            else if (fieldStep == 2 && age >= 2200)
+            {
+                owner.Position = new IntVec3(180,0,180); fieldStep = 3;
+                FieldEvent("fixed exterior actor hidden");
+            }
+            result.newFieldEvents = fieldEvents.ToArray();
+        }
 
         private void FieldEvent(string value)
         {
@@ -51,9 +77,9 @@ namespace Helodrace
                 if (field.Stage == TacticalFieldStage.Moving)
                 {
                     var moving = fieldCommand.Members.Where(m => m.Pawn.Spawned && !m.Pawn.Downed && !m.Pawn.Dead
-                        && m.Pawn.pather.Moving && m.Job?.def.defName == "HD_NewTacticalContactGuard")
-                        .Select(m => m.Fireteam).Distinct().ToArray();
-                    fieldSingleTeam &= moving.All(team => team == field.MovingTeam);
+                        && m.Pawn.pather.Moving && m.Job?.def.defName == "HD_NewTacticalContactGuard");
+                    fieldSingleTeam &= moving.All(m => field.High ? m.Fireteam == field.MovingTeam
+                        : field.FireGroup.Contains(fieldCommand.Members.IndexOf(m)) == (field.MovingTeam == -3));
                 }
                 if (field.Screen != null)
                 {
@@ -88,9 +114,10 @@ namespace Helodrace
             }
             if (fieldStep == 3)
             {
-                if (field == null || field.Motion != TacticalObservedMotion.Approaching || seen?.Position != fieldSeen) return;
+                if (field != null && field.Motion == TacticalObservedMotion.Approaching && seen?.Position == fieldSeen)
+                    result.newFieldMotionObserved = true;
+                if (field == null || !result.newFieldMotionObserved || seen?.Position != fieldSeen) return;
                 if (result.fixtureCase == "r6-smoke-drill" && service.FieldShots == 0) return;
-                result.newFieldMotionObserved = true;
                 owner.Position = new IntVec3(180,0,180); fieldStepAt = tick; fieldStep = 4;
                 FieldEvent("motion observed; actor hidden"); return;
             }

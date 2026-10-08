@@ -1,0 +1,52 @@
+{
+  "assemblySha256": "84f7a6ac7fd88943e4116ed5b2a7f7d47dd5dc26f7f198db4bc432651cb1701d",
+  "ticks": 4800,
+  "completeTick": 3204,
+  "methods": [
+    {
+      "method": "Verse.TickManager.DoSingleTick()",
+      "calls": 4800,
+      "inclusiveMs": 6843.7257,
+      "maxMs": 74.6034,
+      "p95Ms": 2.2835,
+      "p99Ms": 2.9816,
+      "cpuMeasured": true,
+      "threadCpuMs": 5546.875,
+      "exceptions": 0,
+      "meanMs": 1.4257761875,
+      "elapsedMsPerTick": 1.4257761875,
+      "callsPerTick": 1.0,
+      "corePercentPerTick": 511.9483617594254
+    },
+    {
+      "method": "Helodrace.Tactics.MapComponent_TacticalCommands.AdvanceFieldResponse(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],System.Int32)",
+      "calls": 254,
+      "inclusiveMs": 21.8503,
+      "maxMs": 4.7118,
+      "p95Ms": 0.3152,
+      "p99Ms": 2.8193,
+      "cpuMeasured": false,
+      "threadCpuMs": 0,
+      "exceptions": 0,
+      "meanMs": 0.0860248031496063,
+      "elapsedMsPerTick": 0.004552145833333333,
+      "callsPerTick": 0.05291666666666667,
+      "corePercentPerTick": 1.634522740873728
+    },
+    {
+      "method": "Helodrace.Tactics.JobDriver_TacticalContactGuard.TickGuard()",
+      "calls": 15881,
+      "inclusiveMs": 42.2687,
+      "maxMs": 8.4752,
+      "p95Ms": 0.0007,
+      "p99Ms": 0.0112,
+      "cpuMeasured": false,
+      "threadCpuMs": 0,
+      "exceptions": 0,
+      "meanMs": 0.0026615893205717525,
+      "elapsedMsPerTick": 0.008805979166666667,
+      "callsPerTick": 3.3085416666666667,
+      "corePercentPerTick": 3.1619314781567924
+    }
+  ]
+}

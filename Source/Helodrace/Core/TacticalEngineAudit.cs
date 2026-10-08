@@ -192,11 +192,12 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture && !MedicalFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
             if (MedicalFixture) result.fixtureVersion = 23;
+            if (TimedFieldFixture) result.fixtureVersion = 24;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -314,7 +315,7 @@ namespace Helodrace
             ProtectedRaiders.Clear(); foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
             if (result.fixtureCase == "r4-contact-drill") InitializeContactDrill();
             if (CooperationFixture) InitializeCooperationDrill();
-            if (FieldFixture) owner.Position = new IntVec3(180,0,180);
+            if (FieldFixture || TimedFieldFixture) owner.Position = new IntVec3(180,0,180);
             if (MedicalFixture) owner.Position = new IntVec3(180,0,180);
             result.radioOperators = raiders.Count(pawn => RaidTacticalRadioUtility.Radios(pawn).Any());
             if (result.workload.StartsWith("sapper-", StringComparison.Ordinal) && raiders.Count > 0)
@@ -378,6 +379,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (TimedFieldFixture) return;
             if (MedicalFixture) { ApplyMedicalDrill(); return; }
             if (FieldFixture) { ApplyFieldDrill(); return; }
             if (CooperationFixture) { ApplyCooperationDrill(); return; }

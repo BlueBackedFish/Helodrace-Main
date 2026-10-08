@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "r6-smoke-drill",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceFieldResponse;Helodrace.Tactics.JobDriver_NewTacticalContactGuard::TickGuard",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "2fe14e69d57f5e909926d65a937b149ecfaf7c30073ee1bf44a4cc22980f8c32",
+    "high":  false,
+    "sampleTicks":  4800,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}
