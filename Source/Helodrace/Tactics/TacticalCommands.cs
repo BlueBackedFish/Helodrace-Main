@@ -81,6 +81,7 @@ namespace Helodrace.Tactics
         public readonly TacticalWorkBudget WorkBudget = new TacticalWorkBudget();
         public readonly TacticalCommunications Communications = new TacticalCommunications();
         public long Advances, BudgetStops;
+        public int ScheduledCount => commands.Count;
         public GameComponent_TacticalCommands(Game game) { }
         public static bool IsAssaultPhase(LordJob job, LordToil toil) => job is LordJob_AssaultColony
             && (toil is LordToil_AssaultColony || toil is LordToil_AssaultColonySappers || toil is LordToil_AssaultColonyBreaching);
@@ -114,13 +115,23 @@ namespace Helodrace.Tactics
                 if (cursor >= commands.Count) cursor = 0;
                 TacticalSquadCommand command = commands[cursor];
                 if (command.Terminal || command.Owner.map.Disposed)
-                { commands.RemoveAt(cursor); continue; }
+                { command.Owner.Retire(command); continue; }
                 cursor++;
                 if (command.Due > tick) continue;
                 command.Owner.Advance(command, tick); Advances++; processed++;
                 if (Stopwatch.GetTimestamp() - started > Stopwatch.Frequency * .0015)
                 { BudgetStops++; break; }
             }
+        }
+        internal void Forget(TacticalSquadCommand command)
+        {
+            int index = commands.IndexOf(command);
+            if (index >= 0)
+            {
+                commands.RemoveAt(index);
+                if (index < cursor) cursor--;
+            }
+            Communications.Forget(command);
         }
         private void DiscoverOne(int tick)
         {
@@ -164,6 +175,10 @@ namespace Helodrace.Tactics
         public long JobsIssued, JobFailures, PlansAttempted, PlansBuilt;
         public string LastJobFailure;
         public IEnumerable<TacticalSquadCommand> Commands => squads.Values;
+        public int OwnedPawnCount => byPawn.Count;
+        public int ClaimCount => claims.Count;
+        public int LeaseCount => leases.Count;
+        public int KnownOpeningCount => knownOpenings.Count;
         public bool HasExplicitGoal => explicitGoal.IsValid;
         public MapComponent_TacticalCommands(Map map) : base(map) { }
 
@@ -293,7 +308,7 @@ namespace Helodrace.Tactics
             }
             command.Due = tick + (command.Phase == TacticalCommandPhase.Enter ? 30 : 120);
             RejoinTreatedMembers(command, tick);
-            var active = command.Members.Where(member => Available(member, map)).ToList();
+            var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
             ScanContacts(command, active, tick);
@@ -716,13 +731,33 @@ namespace Helodrace.Tactics
             command.MedicalCare = null;
             command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released : TacticalCommandPhase.Complete;
             command.Due = tick + 600;
+            if (command.Terminal) Retire(command);
+        }
+        internal void Retire(TacticalSquadCommand command)
+        {
+            command.Phase = TacticalCommandPhase.Released;
+            foreach (TacticalMemberCommand member in command.Members)
+                if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner) && owner == command)
+                    byPawn.Remove(member.Pawn);
+            ReleaseClaims(command);
+            squads.Remove(command.Id);
+            Current.Game?.GetComponent<GameComponent_TacticalCommands>()?.Forget(command);
+            if (squads.Count == 0)
+            {
+                claims.Clear(); leases.Clear(); knownOpenings.Clear();
+                automaticGoal = IntVec3.Invalid; goalRetry = 0;
+            }
         }
         public override void MapRemoved()
         {
             // A removed map cannot keep a deferred queue alive. Clean ownership
             // without doing a new vanilla job search on a map being disposed.
             foreach (TacticalSquadCommand command in squads.Values)
+            {
                 foreach (TacticalMemberCommand member in command.Members) EndOwned(member, false);
+                command.Phase = TacticalCommandPhase.Released;
+                Current.Game?.GetComponent<GameComponent_TacticalCommands>()?.Forget(command);
+            }
             squads.Clear(); byPawn.Clear(); claims.Clear(); leases.Clear(); knownOpenings.Clear();
         }
     }

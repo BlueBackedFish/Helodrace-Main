@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "r7-cleanup",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::Retire;Helodrace.Tactics.TacticalCommunications::Forget",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "6326014fd51df93db25f0ada6387f4e419a1959b02fe32799c51f2f8120d04e8",
+    "high":  false,
+    "sampleTicks":  3600,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

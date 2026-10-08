@@ -47,6 +47,19 @@ namespace Helodrace.Tactics
         public int LastInvalidSender = -1;
         public string LastDropReason;
         public int PendingCount => pending.Count;
+        internal void Forget(TacticalSquadCommand command)
+        {
+            // The queue is globally capped at 64. Retirement happens once per
+            // command, never in each pawn's tick or normal communication probe.
+            MessagesDropped += pending.RemoveAll(message => message.From == command || message.To == command);
+            if (command.Link.Peer?.Link.Peer == command)
+            {
+                command.Link.Peer.Link.Peer = null;
+                command.Link.Peer.Link.Cooperation.Abort();
+                command.Link.Peer.Due = Math.Min(command.Link.Peer.Due, GenTicks.TicksGame + 1);
+            }
+            command.Link.Peer = null; command.Link.Liaison = null; command.Link.Radio = null;
+        }
         public void Pump(IList<TacticalSquadCommand> commands, TacticalWorkBudget budget, int tick)
         {
             int visited = 0, delivered = 0;

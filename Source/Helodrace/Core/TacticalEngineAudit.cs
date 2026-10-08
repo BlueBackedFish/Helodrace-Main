@@ -72,6 +72,8 @@ namespace Helodrace
         [DataMember] public int fixtureVersion = 17;
         [DataMember] public bool environmentControlled;
         [DataMember] public string[] unexpectedPawns;
+        [DataMember] public bool r7CleanupComplete, r7WorldOrganizationsCleared, r7IdleStable;
+        [DataMember] public int r7CleanupAt = -1, r7RemainingCommands, r7RemainingOwners, r7RemainingClaims, r7RemainingLeases, r7RemainingOpenings, r7RemainingMessages;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
         [DataMember] public bool newPhysicalPlansValid;
         [DataMember] public int newAllCompleteTick = -1;
@@ -192,12 +194,13 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
             if (MedicalFixture) result.fixtureVersion = 23;
             if (TimedFieldFixture) result.fixtureVersion = 24;
+            if (LifecycleFixture) result.fixtureVersion = 25;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -379,6 +382,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (LifecycleFixture) { ApplyLifecycleDrill(); return; }
             if (TimedFieldFixture) return;
             if (MedicalFixture) { ApplyMedicalDrill(); return; }
             if (FieldFixture) { ApplyFieldDrill(); return; }
