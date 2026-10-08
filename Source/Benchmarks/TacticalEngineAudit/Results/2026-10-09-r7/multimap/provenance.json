@@ -1,0 +1,31 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-multimap-02",
+  "classification": "native maps each with 12 LOW members; actual shared tick budget caps, native map removal, exact surviving jobs/plan/history/claims and remaining mission completion; headless functional only, reflected per-tick budget probe excluded from CPU gate",
+  "files": {
+    "audit.json": {
+      "sha256": "af411873afbb65d1d539c858836775d4fc0c8eebdbf5942f9f5fbccd2e723db8",
+      "uncompressedSha256": "af411873afbb65d1d539c858836775d4fc0c8eebdbf5942f9f5fbccd2e723db8",
+      "uncompressedBytes": 10310
+    },
+    "launcher.json": {
+      "sha256": "02f180aea19242628c76910da0844cd246365a969c5c5cf35334fcfc1c74b4df",
+      "uncompressedSha256": "02f180aea19242628c76910da0844cd246365a969c5c5cf35334fcfc1c74b4df",
+      "uncompressedBytes": 784
+    },
+    "Player.log.gz": {
+      "sha256": "5c0f757b5fae3c872bafe6add197bdc7f67770933cffa27587cd6d4b235c1317",
+      "uncompressedSha256": "1f243a3070253f43f24b45c70730e41028e056dcbaacd2134497bacb61d09dee",
+      "uncompressedBytes": 517105
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "secondary-pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

@@ -194,7 +194,7 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
@@ -203,6 +203,7 @@ namespace Helodrace
             if (LifecycleFixture) result.fixtureVersion = 25;
             if (ReloadFixture) result.fixtureVersion = 26;
             if (result.fixtureCase == "r7-charge-load") result.fixtureVersion = 27;
+            if (MultiMapFixture) result.fixtureVersion = 28;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -347,6 +348,7 @@ namespace Helodrace
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,
                 workload = result.workload, pawnFingerprint = result.pawnFingerprint, fixtureCase = result.fixtureCase };
             VerifyIsolation(); started = GenTicks.TicksGame;
+            if (MultiMapFixture && !secondaryMapFixture) InitializeMultiMapDrill();
         }
         private void ConfigureBreachEquipment()
         {
@@ -384,6 +386,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (MultiMapFixture) { ApplyMultiMapDrill(); return; }
             if (ReloadFixture)
             {
                 ApplyReloadDrill();
@@ -525,7 +528,8 @@ namespace Helodrace
                     text.Append(hediff.def.defName).Append(':').Append(hediff.Severity.ToString("R",System.Globalization.CultureInfo.InvariantCulture)).Append(';');
                 text.Append('\n');
             }
-            File.WriteAllText(Path.Combine(Path.GetDirectoryName(output), "pawn-manifest.txt"), text.ToString());
+            File.WriteAllText(Path.Combine(Path.GetDirectoryName(output), secondaryMapFixture
+                ? "secondary-pawn-manifest.txt" : "pawn-manifest.txt"), text.ToString());
             using (var sha = SHA256.Create()) return BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(text.ToString()))).Replace("-", "");
         }
         internal static string CanonicalPreset(string xml)

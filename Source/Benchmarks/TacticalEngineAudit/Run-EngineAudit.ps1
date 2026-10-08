@@ -5,7 +5,7 @@ param(
     [ValidateRange(0,10000)][int]$WarmupTicks = 600,
     [ValidateRange(1,20000)][int]$SampleTicks = 1200,
     [string]$Seed = 'hd-r1-20261007',
-    [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen','room-recovery','cutter-active-recovery','tiny-adjacent','r4-contact-drill','r5-low-coop','r5-shared','r5-radio-loss','r6-field-drill','r6-smoke-drill','r6-field-cpu','r6-care-drill','r6-care-interrupt','r7-cleanup','r7-save-load','r7-charge-load')][string]$Case = 'normal',
+    [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen','room-recovery','cutter-active-recovery','tiny-adjacent','r4-contact-drill','r5-low-coop','r5-shared','r5-radio-loss','r6-field-drill','r6-smoke-drill','r6-field-cpu','r6-care-drill','r6-care-interrupt','r7-cleanup','r7-save-load','r7-charge-load','r7-multimap')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
     [switch]$Headless,

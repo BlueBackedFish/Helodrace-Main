@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-multimap-01",
+  "classification": "initial native two-map lifecycle and global budgets passed; recorder has no separate secondary population/fingerprints and both fixtures write the same identical pawn manifest; headless functional only",
+  "files": {
+    "audit.json": {
+      "sha256": "960b92fd4e24c0c04d73d10e407f36b2de8f27e06493153bbccfba4efd9e4e35",
+      "uncompressedSha256": "960b92fd4e24c0c04d73d10e407f36b2de8f27e06493153bbccfba4efd9e4e35",
+      "uncompressedBytes": 10024
+    },
+    "launcher.json": {
+      "sha256": "6fe282ffa25b6672c921d29873fb3817b9efc67c59299d9e1419d170d21c8ba6",
+      "uncompressedSha256": "6fe282ffa25b6672c921d29873fb3817b9efc67c59299d9e1419d170d21c8ba6",
+      "uncompressedBytes": 784
+    },
+    "Player.log.gz": {
+      "sha256": "a128f2edf1336c6ec3cad9a9fc54884ee4fc32b700941be631f27bbc208d9c33",
+      "uncompressedSha256": "1f85c23d415e606439656cbec4574b2eded10d152348a1e52451a57095afe04a",
+      "uncompressedBytes": 517089
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}
