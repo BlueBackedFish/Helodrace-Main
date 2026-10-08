@@ -295,6 +295,7 @@ namespace Helodrace.Tactics
             foreach (IntVec3 cell in plan.Stack)
                 if (claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command) claims.Remove(cell);
             plan.Stack.Clear(); plan.Stack.AddRange(slots);
+            TacticalEntryAllocation.SyncOutside(plan);
             foreach (IntVec3 cell in slots) claims[cell] = command;
             return true;
         }

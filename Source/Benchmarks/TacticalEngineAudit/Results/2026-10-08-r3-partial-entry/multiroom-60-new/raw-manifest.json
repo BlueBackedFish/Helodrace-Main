@@ -1,0 +1,38 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-60-progression-20261008\\profiles\\capture-20261008-050521-679-1.json",
+    "file": "capture-20261008-050521-679-1.json.gz",
+    "bytes": 24676,
+    "sha256": "26eec91b491498ed00535d9fe9945d5e85353133d8cda7338a4ff9a1c561f6f7"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-60-progression-20261008\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "bytes": 17803,
+    "sha256": "6eeb550b48426654f67399f713b1522ac056dacce544544565d3b3f918ef6183"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-60-progression-20261008\\profiles\\status.json",
+    "file": "status.json.gz",
+    "bytes": 223,
+    "sha256": "2b283c23e5e887f4fcb2536562df002879178593f8216833850dc2f143bfa4d8"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-60-progression-20261008\\audit.json",
+    "file": "audit.json.gz",
+    "bytes": 17254,
+    "sha256": "4fca3ad4df5026010eff0c231f4b1a4925de25adf33c9865b5f3b03e58e0f2f3"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-60-progression-20261008\\launcher.json",
+    "file": "launcher.json.gz",
+    "bytes": 649,
+    "sha256": "083140f9c0a0665313cba39334cc53847d80645d64347f608e4551c95a6f3f75"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-60-progression-20261008\\Player.log",
+    "file": "Player.log.gz",
+    "bytes": 29657,
+    "sha256": "d10f0100efff2ef4ac567b9e9e5d5c3ff6a647c2abe5525e01561f10b679aa2b"
+  }
+]

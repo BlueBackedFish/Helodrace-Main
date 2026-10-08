@@ -214,7 +214,8 @@ namespace Helodrace.Tactics
             command.RoomScan = null; command.GoalSecured = command.SecuredCells.Contains(command.Goal);
             command.Due = tick + 1; command.PhaseStarted = tick; command.PlanRetryAt = 0;
             command.ReturnCursor = 0; command.ReleaseAfterReturn = false;
-            foreach (TacticalMemberCommand member in command.Members) member.Passed = member.Crossed = member.Entered = false;
+            foreach (TacticalMemberCommand member in command.Members)
+                member.Passed = member.Crossed = member.Entered = member.EntryAssignmentDone = false;
         }
     }
 }

@@ -54,7 +54,7 @@ dotnet $cli engine-compare "$matrix/open-approach/vanilla" "$matrix/open-approac
 dotnet $cli engine-compare "$matrix/sapper-wall/vanilla" "$matrix/sapper-wall/new"
 ```
 
-`engine-compare`는 fixture v5~v16 원본을 읽되 같은 버전·DLL·지도·폰 지문·편제·준비/측정 틱·수집 대상·Core 작업만 묶는다. 시작 단계는 엔진마다 달라도 된다. CPU/틱 누락, 부분 창, 오류, dropped, 격리 실패, 95% 미만 이동은 거부한다. v11 이상은 환경 통제 기록과 비시험 폰 없음도 요구한다.
+`engine-compare`는 fixture v5~v17 원본을 읽되 같은 버전·DLL·지도·폰 지문·편제·준비/측정 틱·수집 대상·Core 작업만 묶는다. 시작 단계는 엔진마다 달라도 된다. CPU/틱 누락, 부분 창, 오류, dropped, 격리 실패, 95% 미만 이동은 거부한다. v11 이상은 환경 통제 기록과 비시험 폰 없음도 요구한다.
 
 새 엔진 합격에는 같은 조건의 Vanilla/New 최소 3회씩과 실제 진입 진행, 모든 새 분대의 기능 완료가 필요하다. 실제 전체 틱 CPU와 **틱 밖을 포함한 측정 창 메인 CPU** 중앙값 비율 모두 ≤2여야 한다. 프로세스 CPU도 별도 보존한다. unmatched를 없애기 위해 메타데이터를 다시 쓰지 않는다. v7 이상의 기능 완료 검사를 적용하며 v9는 제어된 생성 조건과 확대된 폰 지문 때문에 이전 버전과 묶지 않는다.
 
@@ -74,3 +74,5 @@ fixture v13의 `-Case unexpected-hole`은 두 번째 구역 관측 중 다른 �
 fixture v14~v15의 관측·지원 회귀는 LOW 12명/준비 0/수집 2400틱으로 약식 실행한다. `door-contact`는 관측 단계에 실제 열린 문 위 적을 놓고 `newDoorContactObserved`로 좌표/적 ID 일치를 검사한다. `outdoor-opening`은 외벽 너머 지붕을 없애며 `newOutdoorSmokeUsed/newOutdoorSmokeSeen`으로 실제 M8 투척·가스·복귀·안전 대기를 검사한다. `small-unseen`은 이름 있는 침대가 있는 16칸 실내와 범위 밖 적을 사용하며 `newClassifiedRoomCells=[16]`, `newSmallRoomSupportSaved`, 접촉/투척 0을 요구한다. 모두 전원 기능 완료와 안전 완료 전 진입 0을 함께 확인한다. 가스 확인은 기능 시험의 audit Update 작업이며 엔진 CPU 대조로 사용하지 않는다.
 
 fixture v16의 `room-recovery`는 세 방 지도에 해머 하나만 남기고 첫 방의 Clear 조사 단계에 공병을 죽인다. `newRoomRecoveryContinued`는 해당 단계의 사망, 실제 회수 완료, 후속 구역 계획의 회수 대기와 세 구역/목표 확보를 요구한다. `cutter-active-recovery`는 절단기의 실제 CuttingActive 관측 후 20틱 시점에 사망을 발생시켜 `newActiveCutterRecovered`로 회수와 절단 작업 재발행을 검사한다. LOW 12명/준비 0에서 각각 4200틱·3000틱으로 약식 실행하며 생존자 전원 완료와 안전 진입을 함께 확인한다. 사망 이벤트는 New 기능 회귀이며 바닐라 CPU 대조로 사용하지 않는다. 진단 문자열은 제거된 사망 폰의 트래커도 null 안전하게 기록한다.
+
+fixture v17의 `tiny-adjacent`는 큰 첫 방과 이름 있는 침대가 있는 3×3(9칸) 인접 방을 만든다. LOW 12명/준비 0/수집 3600틱의 기능 시험이다. 작은 방 안의 실내 고유 자리와 확보한 첫 방의 외부 경계 자리를 구분한다. `newEnteredByOrder`는 현재 방의 실제 진입 인원, `newHeldOutside`는 현재 계획의 경계 배정 수, `newEntryAssignmentsComplete`는 살아 있는 진입·경계 인원의 실제 자리 도착, `newEverEnteredByOrder`는 살아 있는 인원의 과거 실제 진입이다. `newTinyAdjacentCleared`는 두 구역/목표 확보와 경계 인원이 진입·통과로 집계되지 않았음을 요구한다. 일반 전체 인원 진입의 CPU 게이트는 그대로 유지하므로 이 부분 진입 사례로 CPU 게이트를 대체하지 않는다.

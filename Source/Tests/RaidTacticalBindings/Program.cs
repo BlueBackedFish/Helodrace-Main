@@ -133,6 +133,7 @@ internal static class Program
             TacticalBreachRecoveryTests.Run();
             TacticalChargeTests.Run();
             TacticalRoomScanTests.Run();
+            TacticalEntryAllocationTests.Run();
             return 0;
         }
         catch (Exception error) { Console.Error.WriteLine(error); return 1; }

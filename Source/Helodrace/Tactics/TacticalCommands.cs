@@ -19,7 +19,7 @@ namespace Helodrace.Tactics
         public int RetryTick;
         public int LastProgressTick;
         public IntVec3 LastPosition, Parking = IntVec3.Invalid;
-        public bool Passed, Crossed, Entered, Rear;
+        public bool Passed, Crossed, Entered, EverEntered, EntryAssignmentDone, Rear;
     }
     public sealed class TacticalSquadCommand
     {
@@ -181,7 +181,7 @@ namespace Helodrace.Tactics
                 command.PlanRetryAt = 0;
                 foreach (TacticalMemberCommand member in command.Members)
                 {
-                    member.Passed = member.Crossed = member.Entered = false;
+                    member.Passed = member.Crossed = member.Entered = member.EntryAssignmentDone = false;
                     // Preserve ownership until a replacement job is admitted.
                     member.RetryTick = 0;
                 }
@@ -448,11 +448,32 @@ namespace Helodrace.Tactics
                 current.Barrier = current.Opening.GetEdifice(map);
                 command.Phase = TacticalCommandPhase.Breach; command.Due = tick + 180; return;
             }
+            if (current.RetainedOutside.Count > 0 && active.All(m => current.RetainedOutside.Contains(command.Members.IndexOf(m))))
+            {
+                int vacant = command.Members.FindIndex(m => !Available(m, map)
+                    && !current.RetainedOutside.Contains(command.Members.IndexOf(m)));
+                if (vacant >= 0)
+                {
+                    TacticalMemberCommand replacement = active[0];
+                    if (TacticalEntryAllocation.Promote(current, command.Members.IndexOf(replacement), vacant))
+                    {
+                        replacement.EntryAssignmentDone = false;
+                        TacticalMemberCommand lost = command.Members[vacant];
+                        lost.Passed = lost.Crossed = lost.Entered = lost.EntryAssignmentDone = false;
+                    }
+                }
+            }
             for (int i = 0; i < command.Members.Count; i++)
             {
                 TacticalMemberCommand member = command.Members[i]; if (!Available(member, map)) continue;
+                if (current.RetainedOutside.Contains(i))
+                {
+                    member.EntryAssignmentDone = AtPost(member) && member.Pawn.Position == current.Positions[i];
+                    EnsurePost(member, current.Positions[i], current.Opening, tick); continue;
+                }
                 if (member.Pawn.jobs.curDriver is TacticalJobDriver driver && member.Pawn.CurJob == member.Job && driver.AtPost)
                     member.Entered |= member.Pawn.Position == current.Positions[i] && (current.Direct || member.Crossed && member.Passed);
+                member.EverEntered |= member.Entered; member.EntryAssignmentDone = member.Entered;
                 if (member.Entered) continue;
                 if (current.Direct) EnsurePost(member, current.Positions[i], command.Goal, tick);
                 else if (member.Job?.def.defName != "HD_NewTacticalIngress" || member.Pawn.CurJob != member.Job
@@ -468,7 +489,7 @@ namespace Helodrace.Tactics
                     Issue(member, ingress);
                 }
             }
-            if (active.All(member => member.Entered))
+            if (active.All(member => member.EntryAssignmentDone) && active.Any(member => member.Entered))
             {
                 // Keep the footprint until the final owned post is released.
                 // Vanilla next-job selection must not run for a whole squad here.
@@ -502,6 +523,8 @@ namespace Helodrace.Tactics
             tried = false; failure = TacticalPlanFailure.None; int probes = 0;
             foreach (TacticalLocalPlan known in knownOpenings)
             {
+                // Guard assignments depend on this squad's secured history.
+                if (known.RetainedOutside.Count > 0) continue;
                 IntVec3 travel = goal - leader.Position, relative = leader.Position - known.Opening;
                 // Reuse only the same approach face, never route an already
                 // indoor squad back out or an opposite-edge squad around a base.

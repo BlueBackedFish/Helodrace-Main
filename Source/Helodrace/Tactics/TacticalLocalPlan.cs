@@ -18,6 +18,8 @@ namespace Helodrace.Tactics
         public Building Barrier;
         public readonly List<IntVec3> Stack = new List<IntVec3>();
         public readonly List<IntVec3> Positions = new List<IntVec3>();
+        // Member indices held on the secured approach face during a small-room entry.
+        public readonly HashSet<int> RetainedOutside = new HashSet<int>();
         public readonly HashSet<IntVec3> Interior = new HashSet<IntVec3>();
         public bool Direct, ExistingOpening;
     }

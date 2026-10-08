@@ -1,0 +1,36 @@
+{
+  "population": 60,
+  "units": 5,
+  "alive": 60,
+  "entered": 60,
+  "moved": 60,
+  "objectiveReached": 60,
+  "isolationVerified": true,
+  "environmentControlled": true,
+  "assemblySha256": "c612bd4f63d8bee5771cdf58686f6ea8a1e5216b8e3d7971b85316a5c26805b6",
+  "fixtureVersion": 17,
+  "profileComplete": true,
+  "dropped": 0,
+  "methodExceptions": 0,
+  "actualProfileTicks": 6000,
+  "coreBatchMedianMs": 0.27515,
+  "methods": [
+    {
+      "calls": 6000,
+      "cpuMeasured": true,
+      "distributionSamples": 2048,
+      "exceptions": 0,
+      "id": 0,
+      "inclusiveMs": 13680.1881,
+      "maxMs": 50.0474,
+      "method": "Verse.TickManager.DoSingleTick()",
+      "p50Ms": 2.1654,
+      "p95Ms": 3.3878,
+      "p99Ms": 4.0782,
+      "referencePercentPerCall": 828.650318008359,
+      "referencePercentPerTick": 828.650318008359,
+      "threadCpuMs": 11046.875,
+      "trackedSelfMs": 11731.5501
+    }
+  ]
+}

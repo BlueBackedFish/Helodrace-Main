@@ -1,0 +1,38 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-tiny-adjacent-20261008\\profiles\\capture-20261008-050141-589-1.json",
+    "file": "capture-20261008-050141-589-1.json.gz",
+    "bytes": 24406,
+    "sha256": "e72670c47e6f20c00382ee8ef5b380c62d55209d971e45c2150c43468e81fe85"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-tiny-adjacent-20261008\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "bytes": 17803,
+    "sha256": "c423b27b5b96ecbf66b1cfd7086da3ec4f65144bdffa68f9737fc2116307f00d"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-tiny-adjacent-20261008\\profiles\\status.json",
+    "file": "status.json.gz",
+    "bytes": 223,
+    "sha256": "3628ff08aa45f65fdb26527afc97080830f4cda2858d7f18b2b921fd6936bbf2"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-tiny-adjacent-20261008\\audit.json",
+    "file": "audit.json.gz",
+    "bytes": 6503,
+    "sha256": "71e1247be2b256cdd2cc24cdf1ded1175bacf9f47558a3a3165680093e8c6d73"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-tiny-adjacent-20261008\\launcher.json",
+    "file": "launcher.json.gz",
+    "bytes": 653,
+    "sha256": "b04ccc3447df0f3d7e1485620bb7cfd65b0c0125ab798eb59810c7cfa918af1c"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-tiny-adjacent-20261008\\Player.log",
+    "file": "Player.log.gz",
+    "bytes": 29867,
+    "sha256": "537c14b793f215b71e20b92a1309c8c5482f3d9d3013e42755622e6d001b3751"
+  }
+]

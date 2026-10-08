@@ -166,7 +166,7 @@ namespace Helodrace.Tactics
                     command.HadConnectedStack &= TacticalLocalPlanner.Connected(plan.Stack);
                     command.Breacher = active.Find(m => TacticalBreachTools.CanUse(m.Pawn, plan.Barrier))?.Pawn;
                     foreach (TacticalMemberCommand member in command.Members)
-                    { member.Passed = member.Crossed = member.Entered = false; member.Parking = IntVec3.Invalid; }
+                    { member.Passed = member.Crossed = member.Entered = member.EntryAssignmentDone = false; member.Parking = IntVec3.Invalid; }
                     command.BarrierHitPoints = -1; command.PhaseStarted = tick;
                     command.Phase = plan.ExistingOpening ? TacticalCommandPhase.Observe : TacticalCommandPhase.Stack;
                     return;
@@ -201,16 +201,28 @@ namespace Helodrace.Tactics
             { missingTool = true; return null; }
             if (leases.TryGetValue(frontier.Opening, out TacticalSquadCommand owner) && owner != command)
             { occupied = true; return null; }
-            bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand other) && other != command;
+            bool touchedClaim = false;
+            bool Claimed(IntVec3 cell)
+            {
+                bool blocked = claims.TryGetValue(cell, out TacticalSquadCommand other) && other != command;
+                touchedClaim |= blocked; return blocked;
+            }
             bool OutsideBlocked(IntVec3 cell) => !command.SecuredCells.Contains(cell) || Claimed(cell);
             bool InsideBlocked(IntVec3 cell) => command.SecuredCells.Contains(cell) || Claimed(cell);
             var plan = new TacticalLocalPlan { Opening = frontier.Opening, Inward = frontier.Inward, Barrier = barrier,
                 ExistingOpening = opened };
             if (!TacticalLocalPlanner.Free(map, plan.Outside, OutsideBlocked) || !TacticalLocalPlanner.Free(map, plan.Inside, InsideBlocked))
             { occupied = Claimed(plan.Outside) || Claimed(plan.Inside); return null; }
-            if (!TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, OutsideBlocked)
-                || !TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
-                    cell => cell.Roofed(map) && !command.SecuredCells.Contains(cell))) return null;
+            if (!TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, OutsideBlocked))
+            { occupied = touchedClaim; return null; }
+            if (!TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
+                cell => cell.Roofed(map) && !command.SecuredCells.Contains(cell)))
+            {
+                if (touchedClaim) { occupied = true; return null; }
+                var eligible = active.OrderByDescending(m => m.Pawn == command.Breacher).ThenBy(m => m.Rear)
+                    .Select(m => command.Members.IndexOf(m)).ToArray();
+                if (!TacticalEntryAllocation.Allocate(plan, eligible)) return null;
+            }
             if (!active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) return null;
             return plan;
         }

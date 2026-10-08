@@ -24,7 +24,9 @@ namespace Helodrace.Tactics
                         + " observed=" + command.OpeningAction?.Enemy + " throw=" + command.OpeningAction?.Launched
                         + " returned=" + command.OpeningAction?.Returned + " safe=" + command.OpeningAction?.EffectsCleared
                         + " passed=" + command.Members.Count(member => member.Passed) + " entered="
-                        + command.Members.Count(member => member.Entered)))));
+                        + command.Members.Count(member => member.Entered)
+                        + " outside guards=" + command.Plan?.RetainedOutside.Count
+                        + " assignments arrived=" + command.Members.Count(member => member.EntryAssignmentDone)))));
         }
     }
 }
