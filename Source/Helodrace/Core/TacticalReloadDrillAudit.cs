@@ -27,8 +27,8 @@ namespace Helodrace
     public sealed partial class MapComponent_TacticalEngineAudit
     {
         private bool ReloadFixture => result.fixtureCase == "r7-save-load" || result.fixtureCase == "r7-charge-load"
-            || GenCommandLine.TryGetCommandLineArg("hdTacticalAuditReload", out _) && (FieldFixture || MedicalFixture);
-        private int RequiredReloads => FieldFixture || MedicalFixture ? 2 : result.fixtureCase == "r7-charge-load" ? 3 : 4;
+            || GenCommandLine.TryGetCommandLineArg("hdTacticalAuditReload", out _) && (FieldFixture || MedicalFixture || CooperationFixture);
+        private int RequiredReloads => FieldFixture || MedicalFixture || CooperationFixture ? 2 : result.fixtureCase == "r7-charge-load" ? 3 : 4;
         private int reloadStep;
         private bool reloadPending;
         private string reloadHistory, reloadContacts, reloadResponse, reloadCharge, reloadCare, reloadField, reloadJobs;
@@ -73,6 +73,7 @@ namespace Helodrace
             Scribe_Values.Look(ref reloadJobs, "reloadJobs");
             Scribe_Values.Look(ref reloadOpening, "reloadOpening"); Scribe_Values.Look(ref reloadHadLiveGrenade, "reloadHadLiveGrenade");
             ExposeReloadDrillState();
+            ExposeCommunicationReloadState();
             if (Scribe.mode == LoadSaveMode.PostLoadInit) measured = -1;
         }
         public override void FinalizeInit()
@@ -173,6 +174,7 @@ namespace Helodrace
         private void VerifyReload()
         {
             if (!reloadPending) return;
+            if (CooperationFixture) { VerifyCommunicationReload(); return; }
             TacticalSquadCommand command = map.GetComponent<MapComponent_TacticalCommands>().Commands.Single();
             result.r7ReloadJobsBound &= command.Members.Where(m => m.SavedJobId >= 0)
                 .All(m => m.Job != null && m.Job == m.Pawn.CurJob && m.Job.loadID == m.SavedJobId);
@@ -201,6 +203,7 @@ namespace Helodrace
         private void ApplyReloadDrill()
         {
             if (reloadPending) return;
+            if (CooperationFixture) { ApplyCommunicationReload(); return; }
             if (reloadStep >= RequiredReloads)
             {
                 // A protected visible opponent intentionally keeps contact guards

@@ -929,7 +929,16 @@ namespace Helodrace.ModernWar
 
                     palsGridDoubled = true;
                 }
-                ValidateConfiguration();
+                // Loading runs in a long-event worker. PALS validation checks
+                // authored textures, which ContentFinder only permits on the
+                // main thread. A worker lookup returns null and would remove
+                // every valid pouch/radio from the loaded armor.
+                LongEventHandler.ExecuteWhenFinished(() =>
+                {
+                    if (parent.Destroyed) return;
+                    ValidateConfiguration();
+                    NotifyConfigurationChanged();
+                });
             }
         }
 

@@ -387,7 +387,7 @@ namespace Helodrace
             if (ReloadFixture)
             {
                 ApplyReloadDrill();
-                if (reloadPending || !FieldFixture && !MedicalFixture) return;
+                if (reloadPending || !FieldFixture && !MedicalFixture && !CooperationFixture) return;
             }
             if (LifecycleFixture) { ApplyLifecycleDrill(); return; }
             if (TimedFieldFixture) return;

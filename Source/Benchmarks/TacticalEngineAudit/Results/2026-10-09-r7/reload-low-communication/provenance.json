@@ -1,0 +1,38 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-low-communication-load-01",
+  "classification": "two native voice packet checkpoints, restored agreements, distinct entrances, split/recontact and mission completion; headless functional only",
+  "files": {
+    "audit.json": {
+      "sha256": "2c1113369880b995c096482a832d851de4f2f7460df29d39ed749564c4c251c3",
+      "uncompressedSha256": "2c1113369880b995c096482a832d851de4f2f7460df29d39ed749564c4c251c3",
+      "uncompressedBytes": 13999
+    },
+    "launcher.json": {
+      "sha256": "0ba305495919abfec1f7cc5569419858f68e730c9cdd5932068e294c796de3e3",
+      "uncompressedSha256": "0ba305495919abfec1f7cc5569419858f68e730c9cdd5932068e294c796de3e3",
+      "uncompressedBytes": 783
+    },
+    "Player.log.gz": {
+      "sha256": "a815dc1e36023864a5cb81b3b38805ffac76ea2fb409b08c5be169bab77c1061",
+      "uncompressedSha256": "4e3b66a4e77318f443a37b2d0892f81d02cd0563ed12f972754118a8809b5565",
+      "uncompressedBytes": 522749
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "2f642686a33d0916355626949a62be7c4d4424f12e8bf088c31b0ad7e3779711",
+      "bytes": 3628656,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "068ddae1bf5a8adf80a306dea85f51e69ca7e7b8a9b6bb71f85f918c8413717e",
+      "bytes": 3691970,
+      "archived": false
+    }
+  }
+}

@@ -18,7 +18,7 @@ param(
     [string]$GameRoot = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld'
 )
 $ErrorActionPreference = 'Stop'
-if ($Reload -and $Case -notin @('r6-field-drill','r6-smoke-drill','r6-care-drill')) { throw 'Optional reload supports field/smoke/care functional drills only.' }
+if ($Reload -and $Case -notin @('r6-field-drill','r6-smoke-drill','r6-care-drill','r5-low-coop','r5-shared')) { throw 'Optional reload supports field/smoke/care and LOW/shared cooperation functional drills only.' }
 if ($Headless -and (-not $NoMethodProfile -or -not $Case.StartsWith('r7-') -and -not $Reload)) { throw 'Headless mode is only for unprofiled R7 functional audits, not CPU comparisons.' }
 if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'An existing RimWorld process is running. Preserve it and run the isolated audit after it exits.' }
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))

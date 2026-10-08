@@ -1,0 +1,33 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-high-communication-load-01",
+  "classification": "incomplete: radio offer bytes restore, channel drops after native load, only one checkpoint, no agreement; headless functional only",
+  "files": {
+    "audit.json": {
+      "sha256": "ded07f7f10bd0cd2280995bde32cf206eaaf3de3f37f3a4a416f8e508f68cc20",
+      "uncompressedSha256": "ded07f7f10bd0cd2280995bde32cf206eaaf3de3f37f3a4a416f8e508f68cc20",
+      "uncompressedBytes": 13105
+    },
+    "launcher.json": {
+      "sha256": "7d3eea28e44298fcc52e10d7a37c4b5155c1f0d987ecf189fccb2b8402e515f4",
+      "uncompressedSha256": "7d3eea28e44298fcc52e10d7a37c4b5155c1f0d987ecf189fccb2b8402e515f4",
+      "uncompressedBytes": 780
+    },
+    "Player.log.gz": {
+      "sha256": "90196f4781cca0057496b8a07b64666619eb1e75014956c4d9c2fa2c6b4a012a",
+      "uncompressedSha256": "28fdbe04e4ff9882fe56de0bb4345ff36703a6fc6e82e3de23dcbedb75106c76",
+      "uncompressedBytes": 678111
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "746765c4869709c208470f7effc403d7c29d5060ba071e2abb8747a1bb06888a",
+      "bytes": 4297537,
+      "archived": false
+    }
+  }
+}

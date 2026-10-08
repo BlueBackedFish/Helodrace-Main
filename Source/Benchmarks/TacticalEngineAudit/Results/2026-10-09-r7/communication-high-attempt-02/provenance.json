@@ -1,0 +1,33 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-high-communication-load-02",
+  "classification": "failed: normal graphics reproduces PostLoadInit worker ContentFinder returning null and removing real PALS pouches/radios; packet and agreement bytes preserve, physical gear does not",
+  "files": {
+    "audit.json": {
+      "sha256": "92802347dafa7b26326f8b1a833917a72ef325f547b237b966552b1c987c2dcd",
+      "uncompressedSha256": "92802347dafa7b26326f8b1a833917a72ef325f547b237b966552b1c987c2dcd",
+      "uncompressedBytes": 6637
+    },
+    "launcher.json": {
+      "sha256": "fd8fda9209467077b22cf8aa98fc70958f34e6706b013d0b34f52723b494900e",
+      "uncompressedSha256": "fd8fda9209467077b22cf8aa98fc70958f34e6706b013d0b34f52723b494900e",
+      "uncompressedBytes": 781
+    },
+    "Player.log.gz": {
+      "sha256": "ddb7473612c10f24477d9d1a1d47e19a529d2e5e63345bff5389631a1d4f2021",
+      "uncompressedSha256": "befdfa7c3b345e8640db87dd735a36a2e959b9ec0a837cabf11129ad3334b22f",
+      "uncompressedBytes": 212865
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "046ef3ff469cc3f7ee7a70f4b7ee1993beb177d87d0d2223ed0550ea8d60204b",
+      "bytes": 4212727,
+      "archived": false
+    }
+  }
+}

@@ -14,7 +14,7 @@ namespace Helodrace
     {
         private bool CooperationFixture => result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-shared"
             || result.fixtureCase == "r5-radio-loss";
-        private readonly List<string> cooperationEvents = new List<string>();
+        private List<string> cooperationEvents = new List<string>();
         private readonly List<KeyValuePair<InstalledModularArmorPart, Thing>> removedRadios = new List<KeyValuePair<InstalledModularArmorPart, Thing>>();
         private int splitAt = -1, splitReportA, splitReportB, radioStep, radioKilledAt, identificationBaseline;
         private long radioDroppedBaseline;

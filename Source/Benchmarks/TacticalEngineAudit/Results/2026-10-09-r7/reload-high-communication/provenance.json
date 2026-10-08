@@ -1,0 +1,38 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-high-communication-load-03",
+  "classification": "two native radio packet checkpoints, exact worn gear and agreements, shared entrance and mission completion; normal graphics functional only, save/load windows excluded from CPU gate",
+  "files": {
+    "audit.json": {
+      "sha256": "a171c820e0192270cb3e493d40fd515eefc5da2d92b60fa5bd0ce151a5b75afe",
+      "uncompressedSha256": "a171c820e0192270cb3e493d40fd515eefc5da2d92b60fa5bd0ce151a5b75afe",
+      "uncompressedBytes": 13564
+    },
+    "launcher.json": {
+      "sha256": "719210003db0527061d2c11fb80432897beaa991a0662c96c9abc72f4bbf87a4",
+      "uncompressedSha256": "719210003db0527061d2c11fb80432897beaa991a0662c96c9abc72f4bbf87a4",
+      "uncompressedBytes": 781
+    },
+    "Player.log.gz": {
+      "sha256": "54f2466a5902b3bbfe6fa2b449970d0f0a7551b59b306e168ae39de79f277971",
+      "uncompressedSha256": "a5abe0e8e148a5923b95d9d3deaaa9b781ee25843f3cbc8bf4b62044ceee9e27",
+      "uncompressedBytes": 35086
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "2fa4d4ef691f89458c3bffac9f494c86a376606e439c8f5775e56e50089f9c46",
+      "bytes": 4468004,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "23e0544a5110885b7dc5a96544c9c878599ef0be9fc2ac61cb93b1586c575f49",
+      "bytes": 4526828,
+      "archived": false
+    }
+  }
+}
