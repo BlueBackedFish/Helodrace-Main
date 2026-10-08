@@ -45,6 +45,10 @@ namespace Helodrace
         [DataMember] public long newContactResponses, newRearResponses, newDoorResponses, newOpposedResponses, newContactResumes, newContactGuardJobs;
         [DataMember] public bool newContactDrillComplete, newContactMemoryFrozen, newContactPlanPreserved, newUnseenDoorIgnored;
         [DataMember] public string[] newContactEvents;
+        [DataMember] public long newFieldResponses, newFieldResumes, newFieldBounds, newFieldGuardJobs, newFieldPostCandidates;
+        [DataMember] public bool newFieldEarlySight, newFieldMotionObserved, newFieldUniquePosts, newFieldSingleTeamBounds;
+        [DataMember] public bool newFieldMemoryFrozen, newFieldMissionResumed;
+        [DataMember] public string[] newFieldEvents;
         [DataMember] public bool newCooperationComplete, newCooperationDistinctEntrances, newCooperationOwnedAreas;
         [DataMember] public bool newCooperationSplitBlocked, newCooperationIdentification, newSharedEntranceProgress;
         [DataMember] public bool newRadioBlackoutBlocked, newRadioRestored, newRadioDeadPacketDropped, newRadioSuccessor;
@@ -179,9 +183,10 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && result.fixtureCase != "r6-field-drill") throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
+            if (result.fixtureCase == "r6-field-drill") result.fixtureVersion = 20;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -299,6 +304,7 @@ namespace Helodrace
             ProtectedRaiders.Clear(); foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
             if (result.fixtureCase == "r4-contact-drill") InitializeContactDrill();
             if (CooperationFixture) InitializeCooperationDrill();
+            if (result.fixtureCase == "r6-field-drill") owner.Position = new IntVec3(180,0,180);
             result.radioOperators = raiders.Count(pawn => RaidTacticalRadioUtility.Radios(pawn).Any());
             if (result.workload.StartsWith("sapper-", StringComparison.Ordinal) && raiders.Count > 0)
             {
@@ -361,6 +367,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (result.fixtureCase == "r6-field-drill") { ApplyFieldDrill(); return; }
             if (CooperationFixture) { ApplyCooperationDrill(); return; }
             if (result.fixtureCase == "r4-contact-drill") { ApplyContactDrill(); return; }
             if (result.fixtureCase == "outdoor-opening" && !result.newOutdoorSmokeSeen
@@ -543,6 +550,7 @@ namespace Helodrace
                 result.newDoorResponses = newService.DoorResponses; result.newOpposedResponses = newService.OpposedResponses;
                 result.newContactResumes = newService.ContactResumes; result.newContactGuardJobs = newService.ContactGuardJobs;
                 FinishContactDrill();
+                FinishFieldDrill();
                 result.newSupportThrows = newService.SupportThrows; result.newSupportWaits = newService.SupportWaits;
                 result.newSupportReturns = newService.SupportReturns; result.newUnsafeEntries = newService.UnsafeEntries;
                 result.newToolRecoveriesStarted = newService.ToolRecoveriesStarted;

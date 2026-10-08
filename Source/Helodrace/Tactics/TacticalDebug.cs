@@ -34,6 +34,8 @@ namespace Helodrace.Tactics
                         + " peer report age=" + (command.Link.Cooperation.PeerStatusAt < 0 ? -1
                             : GenTicks.TicksGame - command.Link.Cooperation.PeerStatusAt)
                         + " contact response=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
+                        + " field=" + command.FieldResponse?.Stage + " motion=" + command.FieldResponse?.Motion
+                        + " focus=" + command.FieldResponse?.Focus + " moving team=" + command.FieldResponse?.MovingTeam
                         + " contacts=[" + string.Join(";", command.Contacts.Memory.Entries.Select(contact => contact.EnemyId
                             + "@" + contact.Position + " age=" + (GenTicks.TicksGame - contact.SeenTick)
                             + (contact.Door ? " door-area=" + contact.Area : ""))) + "]"))));

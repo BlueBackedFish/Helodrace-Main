@@ -20,6 +20,8 @@ namespace Helodrace.Tactics
         public int LastProgressTick;
         public IntVec3 LastPosition, Parking = IntVec3.Invalid;
         public bool Passed, Crossed, Entered, EverEntered, EntryAssignmentDone, Rear;
+        public int Fireteam = -1;
+        public bool AutomaticWeapon;
     }
     public sealed class TacticalSquadCommand
     {
@@ -41,6 +43,7 @@ namespace Helodrace.Tactics
         public TacticalOpeningAction OpeningAction;
         public readonly TacticalContactState Contacts = new TacticalContactState();
         public TacticalContactResponse ContactResponse;
+        public TacticalFieldResponse FieldResponse;
         public bool ContactRestoring;
         public int ContactHandledAt = -1, ContactCloseAt = int.MinValue / 2;
         public TacticalChargeAction ChargeAction;
@@ -181,6 +184,7 @@ namespace Helodrace.Tactics
                     || command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared)
                 { command.ReplanAfterSupport = true; command.Goal = goal; command.Due = GenTicks.TicksGame + 1; continue; }
                 AbandonCharge(command);
+                EndFieldResponse(command, GenTicks.TicksGame);
                 command.ContactResponse = null; command.ContactRestoring = false;
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
@@ -211,7 +215,11 @@ namespace Helodrace.Tactics
             foreach (Pawn pawn in unit.Members)
                 if (pawn.Spawned && pawn.Map == map && !pawn.Dead && !byPawn.ContainsKey(pawn))
                 {
-                    command.Members.Add(new TacticalMemberCommand { Pawn = pawn });
+                    CombatGroup group = OrganizationAPI.GetGroup(pawn);
+                    string function = group?.roleAssignments.FirstOrDefault(a => a.pawn == pawn)?.combatRole?.combatFunction;
+                    command.Members.Add(new TacticalMemberCommand { Pawn = pawn,
+                        Fireteam = unit.Group.children.IndexOf(group),
+                        AutomaticWeapon = function == "HAR" || function == "MachineGun" });
                     TacticalBreachTools.Remember(command, pawn);
                     byPawn[pawn] = command;
                 }
@@ -280,6 +288,7 @@ namespace Helodrace.Tactics
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
+            if (AdvanceFieldResponse(command, active, tick)) return;
             if (RespondToContacts(command, active, tick)) return;
             if (RestoreContactPosts(command, active, tick)) return;
             if (AdvanceCoordination(command, active, tick)) return;

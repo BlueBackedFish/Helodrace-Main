@@ -31,7 +31,8 @@ namespace Helodrace.Tactics
                 if (enemy == null || enemy.Dead || enemy.Downed || !enemy.HostileTo(pawn)) return;
                 GameComponent_TacticalCommands scheduler = Current.Game.GetComponent<GameComponent_TacticalCommands>();
                 if (scheduler == null || !scheduler.WorkBudget.TryObserve(tick)) return;
-                if (!TacticalContactSight.CanSee(pawn.Map, pawn.Position, enemy, sight)) return;
+                if (!TacticalContactSight.CanSee(pawn.Map, pawn.Position, enemy, sight,
+                    pawn.Position.Roofed(pawn.Map) ? TacticalContactState.Radius : TacticalFieldPolicy.SightRadius)) return;
                 Verb verb = pawn.equipment.PrimaryEq.PrimaryVerb;
                 if (verb != null && !verb.IsMeleeAttack && verb.Available() && verb.CanHitTarget(enemy))
                     verb.TryStartCastOn(enemy);

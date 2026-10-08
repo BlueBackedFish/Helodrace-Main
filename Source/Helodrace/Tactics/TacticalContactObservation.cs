@@ -23,6 +23,7 @@ namespace Helodrace.Tactics
                 // pawn-pair graph or repeated all-member LOS calculation.
                 int station = state.ObserverCursor++ % 3;
                 Pawn observer = active[station == 0 ? 0 : station == 1 ? active.Count - 1 : active.Count / 2].Pawn;
+                int radius = observer.Position.Roofed(map) ? TacticalContactState.Radius : TacticalFieldPolicy.SightRadius;
                 var pawns = map.mapPawns.AllPawnsSpawned;
                 int observed = 0;
                 for (int i = 0; i < System.Math.Min(TacticalContactState.CandidateLimit, pawns.Count); i++)
@@ -30,7 +31,7 @@ namespace Helodrace.Tactics
                     if (state.CandidateCursor >= pawns.Count) state.CandidateCursor = 0;
                     Pawn enemy = pawns[state.CandidateCursor++]; ContactCandidates++;
                     if (enemy.Dead || enemy.Downed || !enemy.HostileTo(observer)
-                        || !TacticalContactSight.CanSee(map, observer.Position, enemy, state)) continue;
+                        || !TacticalContactSight.CanSee(map, observer.Position, enemy, state, radius)) continue;
                     RecordContact(command, enemy.thingIDNumber, enemy.Position, observer.Position, tick);
                     if (++observed == 2) break;
                 }

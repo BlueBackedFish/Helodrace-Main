@@ -7,12 +7,14 @@ namespace Helodrace.Tactics
     // Value-only knowledge: no enemy Pawn reference or future job/destination.
     public sealed class TacticalContact
     {
-        public int EnemyId, SeenTick;
+        public int EnemyId, SeenTick, PreviousTick = -1;
+        public IntVec3 PreviousPosition = IntVec3.Invalid;
         public IntVec3 Position, Area;
         public bool Door;
         public string Origin;
         public TacticalContact Copy() => new TacticalContact { EnemyId = EnemyId, SeenTick = SeenTick,
-            Position = Position, Area = Area, Door = Door, Origin = Origin };
+            Position = Position, Area = Area, Door = Door, Origin = Origin,
+            PreviousPosition = PreviousPosition, PreviousTick = PreviousTick };
     }
 
     public sealed class TacticalContactMemory
@@ -23,6 +25,7 @@ namespace Helodrace.Tactics
         public void Remember(int enemyId, IntVec3 position, IntVec3 area, bool door, int tick, string origin = null)
         {
             TacticalContact contact = entries.Find(value => value.EnemyId == enemyId);
+            bool existing = contact != null;
             if (contact == null)
             {
                 if (entries.Count == Limit)
@@ -34,6 +37,10 @@ namespace Helodrace.Tactics
                 }
                 entries.Add(contact = new TacticalContact { EnemyId = enemyId });
             }
+            if (existing && tick > contact.SeenTick && tick - contact.SeenTick < FreshTicks && contact.Origin == origin)
+            { contact.PreviousPosition = contact.Position; contact.PreviousTick = contact.SeenTick; }
+            else if (tick > contact.SeenTick)
+            { contact.PreviousPosition = IntVec3.Invalid; contact.PreviousTick = -1; }
             contact.Position = position; contact.Area = area; contact.Door = door; contact.SeenTick = tick; contact.Origin = origin;
         }
         public bool Receive(TacticalContact report, int now)
@@ -42,6 +49,8 @@ namespace Helodrace.Tactics
             TacticalContact own = entries.Find(value => value.EnemyId == report.EnemyId);
             if (own != null && own.SeenTick >= report.SeenTick) return false;
             Remember(report.EnemyId, report.Position, report.Area, report.Door, report.SeenTick, report.Origin);
+            own = entries.Find(value => value.EnemyId == report.EnemyId);
+            own.PreviousPosition = report.PreviousPosition; own.PreviousTick = report.PreviousTick;
             return true;
         }
         public void Expire(int tick) => entries.RemoveAll(value => tick - value.SeenTick >= RetentionTicks);
