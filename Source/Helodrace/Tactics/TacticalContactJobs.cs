@@ -35,7 +35,7 @@ namespace Helodrace.Tactics
                     pawn.Position.Roofed(pawn.Map) ? TacticalContactState.Radius : TacticalFieldPolicy.SightRadius)) return;
                 Verb verb = pawn.equipment.PrimaryEq.PrimaryVerb;
                 if (verb != null && !verb.IsMeleeAttack && verb.Available() && verb.CanHitTarget(enemy))
-                    verb.TryStartCastOn(enemy);
+                    if (verb.TryStartCastOn(enemy)) pawn.Map.GetComponent<MapComponent_TacticalCommands>()?.ContactShot(pawn);
         }
     }
 }

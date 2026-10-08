@@ -47,6 +47,18 @@ namespace Helodrace
         private int PlasmaSupplyCost => Props.plasmaSupplyCost > 0 ? Props.plasmaSupplyCost : Props.plasmaMedicineCost;
 
         public Pawn CurrentWearer => Wearer;
+        public bool HemostasisAvailable => storedSupplies >= HemostasisSupplyCost;
+        public bool PlasmaAvailable => storedSupplies >= PlasmaSupplyCost && Props.plasmaTransfusionHediff != null;
+        public bool AllowsHemostasisPart(BodyPartDef part) => !IsExcludedHemostasisPart(part);
+
+        // Tactical care loads only an actual item carried by this bag's wearer;
+        // no map search and no generated/free stock.
+        public bool TryLoadInventorySupply(Thing supply)
+        {
+            if (Wearer?.inventory == null || supply == null || supply.def != SupplyDef
+                || !Wearer.inventory.Contains(supply) || storedSupplies >= MaxStoredSupplies) return false;
+            ConsumeSupplyThing(supply); return true;
+        }
 
         public override void PostExposeData()
         {
@@ -185,7 +197,7 @@ namespace Helodrace
             wearer.jobs.TryTakeOrderedJob(job, JobTag.Misc);
         }
 
-        public bool TryApplyHemostasis(Pawn target)
+        public bool TryApplyHemostasis(Pawn target, bool onlyUncovered = false)
         {
             Pawn wearer = Wearer;
             if (!CanUseOn(wearer, target) || !TryConsumeSupplies(HemostasisSupplyCost))
@@ -194,7 +206,8 @@ namespace Helodrace
             }
 
             List<IGrouping<BodyPartRecord, Hediff>> bleedingParts = target.health.hediffSet.hediffs
-                .Where(hediff => hediff.BleedRate > 0f && hediff.Part != null && !IsExcludedHemostasisPart(hediff.Part.def))
+                .Where(hediff => hediff.BleedRate > 0f && hediff.Part != null && !IsExcludedHemostasisPart(hediff.Part.def)
+                    && (!onlyUncovered || !Tactical.PartHemostasis.HasDressing(target.health.hediffSet, hediff.Part, Find.TickManager.TicksGame)))
                 .GroupBy(hediff => hediff.Part)
                 .OrderByDescending(group => group.Sum(hediff => hediff.BleedRate))
                 .Take(Props.hemostasisPartCount)
@@ -377,7 +390,7 @@ namespace Helodrace
         protected override int TreatmentDuration(CompMedibag medibag) => Tactical.TcccRules.HemostasisTicks;
         protected override bool ApplyTreatment(CompMedibag medibag, Pawn target)
         {
-            return medibag.TryApplyHemostasis(target);
+            return medibag.TryApplyHemostasis(target, Tactics.TacticalCareBridge.Owned(pawn, job));
         }
     }
 
@@ -440,11 +453,14 @@ namespace Helodrace
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOn(() => Patient == null || Patient.Dead);
+            Job owned = job;
+            AddFinishAction(condition => Tactics.TacticalCareBridge.Finished(pawn, owned, condition));
             this.FailOn(() => MedibagThing?.TryGetComp<CompMedibag>() == null);
             this.FailOn(() => MedibagThing?.TryGetComp<CompMedibag>()?.CurrentWearer != pawn);
 
             if (Patient != pawn)
             {
+                yield return Tactics.TacticalCareBridge.Movement(pawn, job, () => ReadyForNextToil());
                 yield return Toils_Goto.GotoThing(PatientInd, PathEndMode.Touch);
             }
 
@@ -455,6 +471,8 @@ namespace Helodrace
                 defaultDuration = TreatmentDuration(medibag)
             };
             treatment.WithProgressBarToilDelay(PatientInd);
+            treatment.AddFailCondition(() => Patient != pawn && (!Patient.Spawned || Patient.Map != pawn.Map
+                || !pawn.Position.AdjacentTo8WayOrInside(Patient.Position)));
             yield return treatment;
 
             yield return new Toil

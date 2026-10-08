@@ -36,6 +36,9 @@ namespace Helodrace.Tactics
                         + " contact response=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
                         + " field=" + command.FieldResponse?.Stage + " motion=" + command.FieldResponse?.Motion
                         + " focus=" + command.FieldResponse?.Focus + " moving team=" + command.FieldResponse?.MovingTeam
+                        + " treatment=" + command.MedicalCare?.Job.def.defName
+                        + " patient=" + command.MedicalCare?.Patient.Pawn.thingIDNumber
+                        + " medic=" + command.MedicalCare?.Helper.Pawn.thingIDNumber
                         + " contacts=[" + string.Join(";", command.Contacts.Memory.Entries.Select(contact => contact.EnemyId
                             + "@" + contact.Position + " age=" + (GenTicks.TicksGame - contact.SeenTick)
                             + (contact.Door ? " door-area=" + contact.Area : ""))) + "]"))));

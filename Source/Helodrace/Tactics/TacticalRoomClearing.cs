@@ -152,14 +152,20 @@ namespace Helodrace.Tactics
                                 command.Frontiers.Add(frontier);
                     }
                     command.RoomScan = null;
-                    if (AllocatedAreaSecured(command))
-                    { AllocatedAreasSecured++; BeginReturn(command, tick, false); return; }
                     command.Frontiers.RemoveAll(f => command.SecuredCells.Contains(f.Inside));
                     // Goal-directed progress first, then adjacent unentered rooms.
                     // The order is latched once per completed entry, not refreshed.
                     command.Frontiers.Sort((a, b) => FrontierScore(a, command).CompareTo(FrontierScore(b, command)));
                     command.FrontierCursor = 0;
+                    command.MedicalWindowUntil = tick + 3600;
+                    command.NextMedicalCheck = tick + 1; command.MedicalCursor = 0;
+                    command.MedicalCandidate = null; command.MedicalCandidateScore = 0;
+                    // Give bounded care selection an opportunity before choosing
+                    // the next room or returning a completed allocated mission.
+                    return;
                 }
+                if (AllocatedAreaSecured(command))
+                { AllocatedAreasSecured++; BeginReturn(command, tick, false); return; }
                 if (tick < command.PlanRetryAt) { command.Due = command.PlanRetryAt; return; }
                 bool busy = false;
                 for (int examined = 0; examined < 2 && command.FrontierCursor < command.Frontiers.Count; examined++)

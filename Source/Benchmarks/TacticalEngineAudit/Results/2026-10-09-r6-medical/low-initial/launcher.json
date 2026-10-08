@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "r6-care-drill",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceMedicalCare;Helodrace.Tactics.MapComponent_TacticalCommands::TryBeginMedicalCare;Helodrace.Tactics.MapComponent_TacticalCommands::MedicalSafe;Helodrace.Tactics.MapComponent_TacticalCommands::GuardDuringCare;Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceRoomClear",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "4f8f2080c507d0b5f809f0e2695b2981fce6a80a8fa1dc8f00671b1a34d45dbb",
+    "high":  false,
+    "sampleTicks":  7200,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Helodrace.Tactics;
 using Verse;
+using HarmonyLib;
 
 internal static class TacticalFieldTests
 {
@@ -37,6 +38,18 @@ internal static class TacticalFieldTests
             throw new Exception("Bow formation is not unique, symmetric and forward-curved.");
         if (TacticalFieldPolicy.SightRadius <= TacticalContactState.Radius)
             throw new Exception("Field sight does not extend the CQB radius.");
+        if (!TacticalMedicalPolicy.Urgent(.4f) || TacticalMedicalPolicy.Urgent(.399f)
+            || !TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, true, null)
+            || TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, false, null)
+            || TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.BlastWait, true, null)
+            || TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Stack, true, null)
+            || !TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Stack, true, TacticalFieldStage.Defending)
+            || TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, true, TacticalFieldStage.Screening)
+            || TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, true, TacticalFieldStage.Moving))
+            throw new Exception("Care may only interrupt a secured room or a settled field defense.");
+        if (AccessTools.DeclaredMethod(typeof(Pawn_HealthTracker), "MakeUndowned") == null
+            || AccessTools.Field(typeof(Pawn_HealthTracker), "pawn")?.FieldType != typeof(Pawn))
+            throw new Exception("Native recovery wake binding is missing.");
         Console.WriteLine("PASS: R6 first-sample, approach/cross/leave/stationary, stale-gap, copied report history, origin change and bow geometry checks.");
     }
 }

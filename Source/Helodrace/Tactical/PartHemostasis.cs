@@ -104,13 +104,13 @@ namespace Helodrace.Tactical
             return marker;
         }
 
-        public static List<BodyPartRecord> BleedingParts(Pawn patient, int limit = int.MaxValue)
+        public static List<BodyPartRecord> BleedingParts(Pawn patient, int limit = int.MaxValue, Func<BodyPartRecord, bool> eligible = null)
         {
             var parts = new Dictionary<BodyPartRecord, float>();
             if (patient?.health?.hediffSet == null) return new List<BodyPartRecord>();
             foreach (Hediff hediff in patient.health.hediffSet.hediffs)
             {
-                if (hediff.Part == null) continue;
+                if (hediff.Part == null || eligible != null && !eligible(hediff.Part)) continue;
                 float rate = hediff.BleedRate;
                 if (rate <= 0f) continue;
                 parts.TryGetValue(hediff.Part, out float previous);
@@ -127,6 +127,8 @@ namespace Helodrace.Tactical
             float local = part != null && cache.factors.TryGetValue(part, out float result) ? result : 1f;
             return local * cache.systemicFactor;
         }
+        public static bool HasDressing(HediffSet set, BodyPartRecord part, int tick) => set != null && part != null
+            && GetCache(set, tick).factors.TryGetValue(part, out float factor) && factor <= DressingFactor;
 
         public static float PainOffset(HediffSet set, Hediff_PartHemostasis marker, int tick)
             => set != null && GetCache(set, tick).painOwners.Contains(marker) ? PainPerPart : 0f;

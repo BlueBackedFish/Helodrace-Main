@@ -88,6 +88,9 @@ internal static class PartHemostasisTests
             "Hemostasis chooses six largest summed body-part bleed rates, including brain.");
         Check(PartHemostasis.BleedingParts(patient).Count==8 && PartHemostasis.BleedingParts(patient,0).Count==0,
             "Repeated wounds count once per part and explicit selection limit is respected.");
+        var untreated=PartHemostasis.BleedingParts(patient,6,part=>part!=parts[0] && part!=parts[7]);
+        Check(untreated.Count==6 && !untreated.Contains(parts[0]) && !untreated.Contains(parts[7]),
+            "AI selection may omit already dressed parts without changing the six-part cap or player selection.");
         var duration=AccessTools.Method(typeof(JobDriver_MedibagTreatment),"TreatmentDuration");
         var bag=new CompMedibag { props=new CompProperties_Medibag { treatmentTicks=180 } };
         Check((int)duration.Invoke(new JobDriver_MedibagHemostasis(),new object[]{bag})==TcccRules.HemostasisTicks

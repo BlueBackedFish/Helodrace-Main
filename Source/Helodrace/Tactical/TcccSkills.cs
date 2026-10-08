@@ -221,6 +221,8 @@ namespace Helodrace.Tactical
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOn(() => !TcccUtility.CanTreat(pawn, Patient));
+            Job owned = job;
+            AddFinishAction(condition => Tactics.TacticalCareBridge.Finished(pawn, owned, condition));
             AddFinishAction(condition =>
             {
                 if (pressureApplied && Patient?.health?.hediffSet != null)
@@ -244,10 +246,15 @@ namespace Helodrace.Tactical
                 // Keep the exact same toil sequence after save/load, even once the supply
                 // has moved into inventory. Conditional list construction shifts saved indices.
                 yield return Toils_Jump.JumpIf(collectSupply, () => job.targetB.Thing?.ParentHolder == pawn.inventory);
+                yield return Tactics.TacticalCareBridge.Movement(pawn, job, () => ReadyForNextToil());
                 yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch);
                 yield return collectSupply;
             }
-            if (Patient != pawn) yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+            if (Patient != pawn)
+            {
+                yield return Tactics.TacticalCareBridge.Movement(pawn, job, () => ReadyForNextToil());
+                yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+            }
             int duration = Treatment == TcccTreatment.Hemostasis ? TcccRules.HemostasisTicks
                 : Treatment == TcccTreatment.Hemostatic ? TcccRules.HemostaticTicks
                 : Treatment == TcccTreatment.Mist ? 300 : 120;
@@ -259,7 +266,9 @@ namespace Helodrace.Tactical
                     if (treatedPartIndices != null && treatedPartIndices.Count > 0) return;
                     // Latch actual bleeding parts when care starts, not when it finishes:
                     // a later wound on another part is not retroactively treated.
-                    treatedPartIndices = PartHemostasis.BleedingParts(Patient, TcccRules.HemostasisMaxParts)
+                    bool tactical = Tactics.TacticalCareBridge.Owned(pawn, job);
+                    treatedPartIndices = PartHemostasis.BleedingParts(Patient, TcccRules.HemostasisMaxParts,
+                        tactical ? (Func<BodyPartRecord, bool>)(part => !PartHemostasis.HasDressing(Patient.health.hediffSet, part, Find.TickManager.TicksGame)) : null)
                         .Select(part => Patient.RaceProps.body.AllParts.IndexOf(part)).Where(index => index >= 0).ToList();
                     if (treatedPartIndices.Count == 0) EndJobWith(JobCondition.Incompletable);
                 });

@@ -22,6 +22,8 @@ namespace Helodrace.Tactics
         public bool Passed, Crossed, Entered, EverEntered, EntryAssignmentDone, Rear;
         public int Fireteam = -1;
         public bool AutomaticWeapon;
+        public int LastCareAt = -6000;
+        public bool MedicalRejoinPending;
     }
     public sealed class TacticalSquadCommand
     {
@@ -29,6 +31,7 @@ namespace Helodrace.Tactics
         public readonly TacticalSquadLink Link = new TacticalSquadLink();
         public readonly List<TacticalMemberCommand> Members = new List<TacticalMemberCommand>();
         public MapComponent_TacticalCommands Owner;
+        public Lord RaidLord;
         public TacticalCommandPhase Phase;
         public TacticalLocalPlan Plan;
         public IntVec3 Goal;
@@ -44,6 +47,10 @@ namespace Helodrace.Tactics
         public readonly TacticalContactState Contacts = new TacticalContactState();
         public TacticalContactResponse ContactResponse;
         public TacticalFieldResponse FieldResponse;
+        public TacticalMedicalCare MedicalCare;
+        public int MedicalCursor, MedicalWindowUntil, NextMedicalCheck;
+        public TacticalMemberCommand MedicalCandidate;
+        public float MedicalCandidateScore;
         public bool ContactRestoring;
         public int ContactHandledAt = -1, ContactCloseAt = int.MinValue / 2;
         public TacticalChargeAction ChargeAction;
@@ -184,6 +191,7 @@ namespace Helodrace.Tactics
                     || command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared)
                 { command.ReplanAfterSupport = true; command.Goal = goal; command.Due = GenTicks.TicksGame + 1; continue; }
                 AbandonCharge(command);
+                if (command.MedicalCare != null) command.MedicalCare.CancelRequested = true;
                 EndFieldResponse(command, GenTicks.TicksGame);
                 command.ContactResponse = null; command.ContactRestoring = false;
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
@@ -212,6 +220,7 @@ namespace Helodrace.Tactics
             if (squads.ContainsKey(unit.Id)) return null;
             var command = new TacticalSquadCommand { Id = unit.Id, Owner = this, Due = tick, PhaseStarted = tick };
             command.Link.Unit = unit; command.Link.OpportunityUntil = tick + 600; command.Goal = Goal(tick);
+            command.RaidLord = unit.Members.Select(p => p.GetLord()).FirstOrDefault(GameComponent_TacticalCommands.IsAssaultLord);
             foreach (Pawn pawn in unit.Members)
                 if (pawn.Spawned && pawn.Map == map && !pawn.Dead && !byPawn.ContainsKey(pawn))
                 {
@@ -283,11 +292,13 @@ namespace Helodrace.Tactics
                 ReturnMembers(command, tick); return;
             }
             command.Due = tick + (command.Phase == TacticalCommandPhase.Enter ? 30 : 120);
+            RejoinTreatedMembers(command, tick);
             var active = command.Members.Where(member => Available(member, map)).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
+            if (AdvanceMedicalCare(command, active, tick)) return;
             if (AdvanceFieldResponse(command, active, tick)) return;
             if (RespondToContacts(command, active, tick)) return;
             if (RestoreContactPosts(command, active, tick)) return;
@@ -702,6 +713,7 @@ namespace Helodrace.Tactics
                 command.ReturnCursor++;
             }
             ReleaseClaims(command);
+            command.MedicalCare = null;
             command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released : TacticalCommandPhase.Complete;
             command.Due = tick + 600;
         }

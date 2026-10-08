@@ -51,6 +51,12 @@ namespace Helodrace
         [DataMember] public string[] newFieldEvents;
         [DataMember] public long newFieldSmokePlans, newFieldSmokeThrows, newFieldSmokeAdvances;
         [DataMember] public bool newFieldSmokeSharedTargets, newFieldSmokeSeen;
+        [DataMember] public long newMedicalMemberChecks, newMedicalTreatments, newMedicalCompleted, newMedicalAborted, newMedicalPlasma;
+        [DataMember] public long newMedicalRejoins;
+        [DataMember] public long newContactShots, newFieldShots;
+        [DataMember] public bool newMedicalDressings, newMedicalPlasmaApplied, newMedicalNoVanillaTend, newMedicalGuardsHeld, newMedicalMissionResumed;
+        [DataMember] public string[] newMedicalEvents;
+        [DataMember] public bool newMedicalInterruptionSafe;
         [DataMember] public bool newCooperationComplete, newCooperationDistinctEntrances, newCooperationOwnedAreas;
         [DataMember] public bool newCooperationSplitBlocked, newCooperationIdentification, newSharedEntranceProgress;
         [DataMember] public bool newRadioBlackoutBlocked, newRadioRestored, newRadioDeadPacketDropped, newRadioSuccessor;
@@ -108,7 +114,8 @@ namespace Helodrace
         private readonly TacticalEngineAuditResult result = new TacticalEngineAuditResult();
         private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
             || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery" || result.fixtureCase == "tiny-adjacent"
-            || result.fixtureCase == "r4-contact-drill" || result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-radio-loss";
+            || result.fixtureCase == "r4-contact-drill" || result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-radio-loss"
+            || MedicalFixture;
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
@@ -185,10 +192,11 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
+            if (MedicalFixture) result.fixtureVersion = 23;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -307,6 +315,7 @@ namespace Helodrace
             if (result.fixtureCase == "r4-contact-drill") InitializeContactDrill();
             if (CooperationFixture) InitializeCooperationDrill();
             if (FieldFixture) owner.Position = new IntVec3(180,0,180);
+            if (MedicalFixture) owner.Position = new IntVec3(180,0,180);
             result.radioOperators = raiders.Count(pawn => RaidTacticalRadioUtility.Radios(pawn).Any());
             if (result.workload.StartsWith("sapper-", StringComparison.Ordinal) && raiders.Count > 0)
             {
@@ -369,6 +378,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (MedicalFixture) { ApplyMedicalDrill(); return; }
             if (FieldFixture) { ApplyFieldDrill(); return; }
             if (CooperationFixture) { ApplyCooperationDrill(); return; }
             if (result.fixtureCase == "r4-contact-drill") { ApplyContactDrill(); return; }
@@ -551,8 +561,10 @@ namespace Helodrace
                 result.newContactResponses = newService.ContactResponses; result.newRearResponses = newService.RearResponses;
                 result.newDoorResponses = newService.DoorResponses; result.newOpposedResponses = newService.OpposedResponses;
                 result.newContactResumes = newService.ContactResumes; result.newContactGuardJobs = newService.ContactGuardJobs;
+                result.newContactShots = newService.ContactShots; result.newFieldShots = newService.FieldShots;
                 FinishContactDrill();
                 FinishFieldDrill();
+                FinishMedicalDrill();
                 result.newSupportThrows = newService.SupportThrows; result.newSupportWaits = newService.SupportWaits;
                 result.newSupportReturns = newService.SupportReturns; result.newUnsafeEntries = newService.UnsafeEntries;
                 result.newToolRecoveriesStarted = newService.ToolRecoveriesStarted;

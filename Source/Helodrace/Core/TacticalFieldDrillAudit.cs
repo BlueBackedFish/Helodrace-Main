@@ -81,12 +81,15 @@ namespace Helodrace
                 if (field.High && service.FieldBounds <= fieldBoundBaseline) return;
                 if (result.fixtureCase == "r6-smoke-drill" && service.FieldSmokeAdvances < 2) return;
                 // Real second sighting, without modifying memory/controller.
-                fieldSeen += new IntVec3(0,0,-5); owner.Position = fieldSeen;
+                fieldSeen = result.fixtureCase == "r6-smoke-drill" ? field.Anchor + field.Forward * 12
+                    : fieldSeen + new IntVec3(0,0,-5);
+                owner.Position = fieldSeen;
                 fieldStepAt = tick; fieldStep = 3; FieldEvent("actor approached " + fieldSeen); return;
             }
             if (fieldStep == 3)
             {
                 if (field == null || field.Motion != TacticalObservedMotion.Approaching || seen?.Position != fieldSeen) return;
+                if (result.fixtureCase == "r6-smoke-drill" && service.FieldShots == 0) return;
                 result.newFieldMotionObserved = true;
                 owner.Position = new IntVec3(180,0,180); fieldStepAt = tick; fieldStep = 4;
                 FieldEvent("motion observed; actor hidden"); return;

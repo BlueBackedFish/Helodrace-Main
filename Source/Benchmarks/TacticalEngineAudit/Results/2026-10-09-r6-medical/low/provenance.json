@@ -1,0 +1,9 @@
+{
+  "audit.json": "4de1ca1fda2504b9b09df2421e320be816eb78a8b3766011e9664e303de0ab2e",
+  "launcher.json": "459abbc31e15e64010476365daba750864325b4cd705365babec6175fb1bf0bc",
+  "capture.json": "52c869014cc5ffe28f7d5e50a664e14dd8ef0816e0b0875c4a8acbc640cbb825",
+  "Player.log.gz": {
+    "archiveSha256": "00198711289e2bf5f4ea46862252bf327138b9c7772fed98c98af01eaefa20fe",
+    "uncompressedSha256": "82384516d5c17653325fba9aef80a9b0bc6e192efb8d9cf06879c2d17e48d457"
+  }
+}

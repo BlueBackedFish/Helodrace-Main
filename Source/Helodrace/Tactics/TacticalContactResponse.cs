@@ -22,6 +22,12 @@ namespace Helodrace.Tactics
     {
         public long ContactResponses, RearResponses, OpposedResponses, DoorResponses, ContactResumes, ContactGuardJobs;
         public long ContactPostCandidates;
+        public long ContactShots, FieldShots;
+        internal void ContactShot(Pawn pawn)
+        {
+            if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return;
+            if (command.FieldResponse != null) FieldShots++; else ContactShots++;
+        }
         private bool RespondToContacts(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
             // Never preempt a launched throw or any C4 installation/safety
@@ -155,11 +161,45 @@ namespace Helodrace.Tactics
             bool ready = true;
             foreach (TacticalMemberCommand member in active)
             {
-                IntVec3 post = command.Plan.Positions[command.Members.IndexOf(member)];
-                EnsurePost(member, post, command.Plan.Opening, tick);
-                ready &= AtPost(member) && member.Pawn.Position == post;
+                int index = command.Members.IndexOf(member);
+                TacticalLocalPlan plan = command.Plan;
+                IntVec3 post = plan.Positions[index];
+                bool Held() => member.Pawn.CurJob == member.Job && member.Pawn.jobs.curDriver is TacticalJobDriver driver
+                    && driver.AtPost && member.Pawn.Position == post;
+                if (!Held())
+                {
+                    if (plan.Direct || member.Crossed || plan.RetainedOutside.Contains(index)) EnsurePost(member, post, plan.Opening, tick);
+                    else if ((member.Pawn.CurJob != member.Job || member.Job?.def.defName != "HD_NewTacticalIngress")
+                        && member.Pawn.CurJob?.playerForced != true && tick >= member.RetryTick && CanIssue(member))
+                    {
+                        // A treated straggler can still be in the previous room.
+                        // Resume through the same mandatory portal, not a plain
+                        // post path that might use a different open entrance.
+                        Job ingress = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalIngress"),
+                            plan.Outside, plan.Opening, post);
+                        ingress.targetQueueA = new List<LocalTargetInfo> { plan.Inside };
+                        if (plan.EntryLane.IsValid) ingress.targetQueueA.Add(plan.EntryLane);
+                        ingress.count = member.Passed ? 1 : 0;
+                        Issue(member, ingress);
+                    }
+                }
+                ready &= Held() && (plan.Direct || plan.RetainedOutside.Contains(index) || member.Passed && member.Crossed);
             }
-            if (ready) { command.ContactRestoring = false; return false; }
+            if (ready)
+            {
+                // A resumed clear-phase post is still a completed ingress.
+                // Contact/care overlays clear these flags while moving, so
+                // restore them from the retained crossing and actual position.
+                foreach (TacticalMemberCommand member in active)
+                {
+                    int index = command.Members.IndexOf(member);
+                    member.EntryAssignmentDone = true;
+                    member.Entered = !command.Plan.RetainedOutside.Contains(index)
+                        && (command.Plan.Direct || member.Passed && member.Crossed);
+                    member.EverEntered |= member.Entered;
+                }
+                command.ContactRestoring = false; return false;
+            }
             command.Due = tick + 30; return true;
         }
 

@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "r6-care-interrupt",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceMedicalCare;Helodrace.Tactics.MapComponent_TacticalCommands::MedicalSafe;Helodrace.Tactics.MapComponent_TacticalCommands::RejoinTreatedMembers;Helodrace.Tactics.MapComponent_TacticalCommands::RespondToContacts;Helodrace.Tactics.JobDriver_TacticalContactGuard::TickGuard",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "211a7541a4341dbf33a412bcca904d0367b5a0e8073c55e72c7a369d4c26bcd8",
+    "high":  true,
+    "sampleTicks":  9000,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  13,
+    "workload":  "sapper-wall"
+}
