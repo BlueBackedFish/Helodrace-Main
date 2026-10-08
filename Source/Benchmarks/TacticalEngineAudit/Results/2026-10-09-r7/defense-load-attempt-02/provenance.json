@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-defense-load-02",
+  "classification": "native defense and timed assault completed; no saves/loads because ApplyCase returned before reload drill; incomplete reload evidence, excluded from CPU gate",
+  "files": {
+    "audit.json": {
+      "sha256": "c1c1fd1b36e6fa4835fa4b062194ba75d5f70fb75ef28e53033707fe159530c7",
+      "uncompressedSha256": "c1c1fd1b36e6fa4835fa4b062194ba75d5f70fb75ef28e53033707fe159530c7",
+      "uncompressedBytes": 13581
+    },
+    "launcher.json": {
+      "sha256": "16dced7e2746ee7bf74e87620d9034560581898c76c2e39f1231df599e509321",
+      "uncompressedSha256": "16dced7e2746ee7bf74e87620d9034560581898c76c2e39f1231df599e509321",
+      "uncompressedBytes": 793
+    },
+    "Player.log.gz": {
+      "sha256": "760f118162734815801e6621e6309070000434ba36d9135d3540ed7d54e316f0",
+      "uncompressedSha256": "c398de8e2992baaa948e80ebc9294208416f19791fef153eb82c0802b7cf806b",
+      "uncompressedBytes": 517140
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    }
+  }
+}

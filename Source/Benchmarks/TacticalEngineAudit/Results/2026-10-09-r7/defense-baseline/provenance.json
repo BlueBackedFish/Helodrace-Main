@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-defense-01",
+  "classification": "native Defend/DefendBase idle, contact/shots and return passed; initial fixed-defense build; functional only",
+  "files": {
+    "audit.json": {
+      "sha256": "f778fd997f2ef0979056b7f4a1cd59b5a4263cfda41c8f2d0dac1c7d17f5f02d",
+      "uncompressedSha256": "f778fd997f2ef0979056b7f4a1cd59b5a4263cfda41c8f2d0dac1c7d17f5f02d",
+      "uncompressedBytes": 12906
+    },
+    "launcher.json": {
+      "sha256": "a9142ad9b0e2e763c760c0e0f52658af2007e99aba7227b9bc9cb7c841862d30",
+      "uncompressedSha256": "a9142ad9b0e2e763c760c0e0f52658af2007e99aba7227b9bc9cb7c841862d30",
+      "uncompressedBytes": 783
+    },
+    "Player.log.gz": {
+      "sha256": "e85e780eef6f0a7d2dedab834e6e20d414eb63fe99b55c33f29820a0fda99aeb",
+      "uncompressedSha256": "56867883b067120b421c2f7b2b9ce6177a099b5fd98234ed4905e5272aacf34c",
+      "uncompressedBytes": 516875
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    }
+  }
+}

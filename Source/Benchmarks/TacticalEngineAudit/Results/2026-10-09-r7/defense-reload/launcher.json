@@ -1,0 +1,20 @@
+﻿{
+    "requestedPopulation":  24,
+    "engine":  "new",
+    "targets":  "Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest",
+    "headless":  true,
+    "reload":  true,
+    "workload":  "sapper-wall",
+    "spikePawnId":  null,
+    "profilePreset":  "coarse",
+    "assemblySha256":  "2430fb614b25f01f8e27b7b74402469b8a151f65abefb7d12d729b1a9bdf3708",
+    "newJobDefinitionsSha256":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3",
+    "high":  false,
+    "sampleTicks":  5400,
+    "spikeThresholdMs":  5,
+    "fixtureCase":  "r7-defense-transition",
+    "breachDefinitionsSha256":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+    "seed":  "hd-r1-20261007",
+    "methodProfile":  false,
+    "warmupTicks":  0
+}

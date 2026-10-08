@@ -46,6 +46,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Failures, "failures");
             Scribe_Values.Look(ref PlanRetryAt, "planRetryAt");
             Scribe_Values.Look(ref HadConnectedStack, "hadConnectedStack");
+            Scribe_Values.Look(ref Defensive, "defensive");
+            Scribe_Values.Look(ref DefenseRestoring, "defenseRestoring");
+            Scribe_Values.Look(ref DefenseAnchor, "defenseAnchor", IntVec3.Invalid);
             Scribe_Values.Look(ref BarrierHitPoints, "barrierHitPoints");
             Scribe_Values.Look(ref ReturnCursor, "returnCursor");
             Scribe_Values.Look(ref ReleaseAfterReturn, "releaseAfterReturn");

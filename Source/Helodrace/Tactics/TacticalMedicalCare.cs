@@ -16,7 +16,7 @@ namespace Helodrace.Tactics
         public const int ScanMembers = 2, ScanInterval = 600, RetryInterval = 1800, MaximumCareTicks = 2400;
         public static bool Urgent(float bloodLoss) => bloodLoss >= .4f;
         public static bool SafePhase(TacticalCommandPhase phase, bool scanDone, TacticalFieldStage? fieldStage) =>
-            fieldStage == TacticalFieldStage.Defending || phase == TacticalCommandPhase.Clear && scanDone && fieldStage == null;
+            (phase == TacticalCommandPhase.Defending && fieldStage == null) || fieldStage == TacticalFieldStage.Defending || phase == TacticalCommandPhase.Clear && scanDone && fieldStage == null;
     }
     public sealed partial class TacticalMedicalCare
     {

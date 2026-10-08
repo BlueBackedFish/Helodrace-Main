@@ -54,7 +54,7 @@ namespace Helodrace.Tactics
                     rear |= behind; door |= otherDoor;
                     if (close) command.ContactCloseAt = contact.SeenTick;
                 }
-                if (first == null || !rear && !opposed && !door && tick - command.ContactCloseAt >= TacticalContactMemory.FreshTicks)
+                if (first == null || !command.Defensive && !rear && !opposed && !door && tick - command.ContactCloseAt >= TacticalContactMemory.FreshTicks)
                     return false;
                 response = new TacticalContactResponse { Started = tick, LastSeen = first.SeenTick,
                     Anchor = anchor.Position, First = first.Position, Second = second?.Position ?? IntVec3.Invalid,
@@ -116,6 +116,7 @@ namespace Helodrace.Tactics
                 foreach (IntVec3 cell in response.Occupied)
                     if (!OriginalClaim(command.Plan, cell) && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command)
                         claims.Remove(cell);
+                command.DefenseRestoring |= command.Defensive;
                 command.ContactHandledAt = tick; command.ContactResponse = null; ContactResumes++;
                 command.ContactRestoring = command.Phase == TacticalCommandPhase.Clear && command.Plan != null;
                 command.Due = tick + 1; return false;

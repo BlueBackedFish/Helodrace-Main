@@ -194,7 +194,7 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture && !DefenseFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
@@ -204,6 +204,7 @@ namespace Helodrace
             if (ReloadFixture) result.fixtureVersion = 26;
             if (result.fixtureCase == "r7-charge-load") result.fixtureVersion = 27;
             if (MultiMapFixture) result.fixtureVersion = 28;
+            if (DefenseFixture) result.fixtureVersion = 29;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -311,6 +312,7 @@ namespace Helodrace
                 {
                     int index = raiders.Count;
                     IntVec3 cell = result.fixtureCase == "inside-goal" ? new IntVec3(104 + index % 4,0,104 + index / 4)
+                        : DefenseFixture ? new IntVec3(68 + (result.units - 1) * 18 + members.IndexOf(pawn) % 4, 0, 104 + members.IndexOf(pawn) / 4)
                         : CooperationFixture ? new IntVec3(70 + (result.units - 1) * (high ? 12 : 5) + members.IndexOf(pawn) % 4,
                             0, (result.fixtureCase == "r5-shared" ? 108 : 106) + members.IndexOf(pawn) / 4)
                         : new IntVec3(66 + index % 16, 0, 90 + index / 16);
@@ -321,7 +323,7 @@ namespace Helodrace
             ProtectedRaiders.Clear(); foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
             if (result.fixtureCase == "r4-contact-drill") InitializeContactDrill();
             if (CooperationFixture) InitializeCooperationDrill();
-            if (FieldFixture || TimedFieldFixture) owner.Position = new IntVec3(180,0,180);
+            if (FieldFixture || TimedFieldFixture || DefenseFixture) owner.Position = new IntVec3(180,0,180);
             if (MedicalFixture) owner.Position = new IntVec3(180,0,180);
             result.radioOperators = raiders.Count(pawn => RaidTacticalRadioUtility.Radios(pawn).Any());
             if (result.workload.StartsWith("sapper-", StringComparison.Ordinal) && raiders.Count > 0)
@@ -340,7 +342,8 @@ namespace Helodrace
             result.pawnFingerprint = PawnFingerprint();
             if (result.fixtureCase == "field") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal + new IntVec3(1,0,1));
             if (result.fixtureCase == "inside-goal") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal);
-            if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
+            if (DefenseFixture) InitializeDefenseDrill(faction);
+            else if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
             benchmark = new ProfileBenchmark { fixtureVersion = result.fixtureVersion, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
@@ -390,8 +393,9 @@ namespace Helodrace
             if (ReloadFixture)
             {
                 ApplyReloadDrill();
-                if (reloadPending || !FieldFixture && !MedicalFixture && !CooperationFixture) return;
+                if (reloadPending || !FieldFixture && !MedicalFixture && !CooperationFixture && !DefenseFixture) return;
             }
+            if (DefenseFixture) { ApplyDefenseDrill(); return; }
             if (LifecycleFixture) { ApplyLifecycleDrill(); return; }
             if (TimedFieldFixture) return;
             if (MedicalFixture) { ApplyMedicalDrill(); return; }

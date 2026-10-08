@@ -95,7 +95,7 @@ namespace Helodrace.Tactics
                 }
                 if (nearest == null) return false;
                 field = new TacticalFieldResponse { Started = tick, LastSeen = nearest.SeenTick, EnemyId = nearest.EnemyId,
-                    Anchor = observer.Position, Focus = nearest.Position, FocusAt = tick, NextMove = tick + 180,
+                    Anchor = command.Defensive ? command.DefenseAnchor : observer.Position, Focus = nearest.Position, FocusAt = tick, NextMove = tick + 180,
                     Forward = TacticalFieldPolicy.Direction(observer.Position, nearest.Position),
                     Motion = TacticalFieldPolicy.Motion(nearest, observer.Position),
                     High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
@@ -206,7 +206,7 @@ namespace Helodrace.Tactics
             }
             // HIGH: only one real child team moves; the other teams must already
             // be at their guard posts. Never invent teams from pawn index/modulo.
-            if (field.Stage == TacticalFieldStage.Defending && tick >= field.NextMove
+            if (!command.Defensive && field.Stage == TacticalFieldStage.Defending && tick >= field.NextMove
                 && ready == active.Count && coverReady == coverCount && field.Motion != TacticalObservedMotion.Approaching
                 && field.Anchor.DistanceToSquared(field.Focus) > Math.Max(100, range * range * .64f))
             {
@@ -328,6 +328,7 @@ namespace Helodrace.Tactics
                     command.Phase = TacticalCommandPhase.Observe;
             }
             command.ContactRestoring = command.Phase == TacticalCommandPhase.Clear && command.Plan != null;
+            command.DefenseRestoring |= command.Defensive;
             command.ContactHandledAt = tick; command.FieldResponse = null; command.Due = tick + 1; FieldResumes++;
         }
     }

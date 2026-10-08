@@ -1,0 +1,38 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-defense-load-03",
+  "classification": "two actual native defense save/load checkpoints, fixed defense restoration, timed assault transition and CQB completion; headless functional only, excluded from final CPU gate",
+  "files": {
+    "audit.json": {
+      "sha256": "aae7ffd3c31860d6b7955eb5a6725e0e78c2412022af7aeb712fdf0b4a0935e7",
+      "uncompressedSha256": "aae7ffd3c31860d6b7955eb5a6725e0e78c2412022af7aeb712fdf0b4a0935e7",
+      "uncompressedBytes": 13595
+    },
+    "launcher.json": {
+      "sha256": "162a37cd9fb7e2c7a84fa29c318d53f8071c8027e98569d7da2d3a99f8af43e7",
+      "uncompressedSha256": "162a37cd9fb7e2c7a84fa29c318d53f8071c8027e98569d7da2d3a99f8af43e7",
+      "uncompressedBytes": 793
+    },
+    "Player.log.gz": {
+      "sha256": "3cf518203c36e2be861bbbc3b10f0f245571175b2de30dec49fca537d5064c51",
+      "uncompressedSha256": "02a5aebe78e9d41b61e85b10d89de6cfd0b0d1a541c5d40520657d396f12163c",
+      "uncompressedBytes": 522271
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "22659caaa7f5fbafc2e4acedc9c3067f70b18a97b00d46ef5f5e46d84865870c",
+      "bytes": 3741853,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "acab9ebeaffe02a2d71536d3b50186f9bc87a8a96f77161aff79d62d613e7413",
+      "bytes": 3791932,
+      "archived": false
+    }
+  }
+}

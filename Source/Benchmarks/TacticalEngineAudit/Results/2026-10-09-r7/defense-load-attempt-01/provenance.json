@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-defense-load-01",
+  "classification": "save gate incomplete: functional defense and transition pass, checkpoint condition never satisfied, zero native saves/loads; not reload proof",
+  "files": {
+    "audit.json": {
+      "sha256": "1ed807400f772a0bffacf07af0a8794d1914dbd7ee6de4d6c357b806ab07b37e",
+      "uncompressedSha256": "1ed807400f772a0bffacf07af0a8794d1914dbd7ee6de4d6c357b806ab07b37e",
+      "uncompressedBytes": 13557
+    },
+    "launcher.json": {
+      "sha256": "af3cb1bea4e742b01695da049e0e4947fb54c2934b9ed34a3d6b5e7bfb61713b",
+      "uncompressedSha256": "af3cb1bea4e742b01695da049e0e4947fb54c2934b9ed34a3d6b5e7bfb61713b",
+      "uncompressedBytes": 793
+    },
+    "Player.log.gz": {
+      "sha256": "d1a03d2bbb901b01d054ef484cbc89bc84f73c285758a026a495a7750116b1a3",
+      "uncompressedSha256": "6f6a4b523e6f824d199f7596bdb53f2b739429aad20a9bac377670ff2f92f4f9",
+      "uncompressedBytes": 517144
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    }
+  }
+}

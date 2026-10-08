@@ -155,7 +155,7 @@ namespace Helodrace.Tactics
                 if (RaidSmokeUtility.CoveringSmokeAt(a.Owner.map, cell)) return false;
             return true;
         }
-        private static bool Negotiate(TacticalSquadCommand command) => Active(command) && command.ContactResponse == null
+        private static bool Negotiate(TacticalSquadCommand command) => Active(command) && !command.Defensive && command.ContactResponse == null
             && (command.Phase == TacticalCommandPhase.Pending || command.Phase == TacticalCommandPhase.Stack
                 || command.Phase == TacticalCommandPhase.Clear && command.RoomScan == null);
         private void ProbePair(TacticalSquadCommand source, TacticalSquadCommand receiver, int tick)

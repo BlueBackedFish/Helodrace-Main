@@ -54,6 +54,10 @@ internal static class Program
         {
             TacticalPersistenceTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
         }
+        if (commandLineArgs.Contains("--defense"))
+        {
+            TacticalDefenseTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
+        }
         if (commandLineArgs.Contains("--r6"))
         {
             TacticalFieldTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0;

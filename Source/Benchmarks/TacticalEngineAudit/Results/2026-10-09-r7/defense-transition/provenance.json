@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-defense-transition-01",
+  "classification": "native timed DefendBase to Assault and CQB completion while the other unit guards; functional only",
+  "files": {
+    "audit.json": {
+      "sha256": "9b02c97292892ed839e91a63cf3c2c55b2afc3f35575f42ec7d4b925700d5cc7",
+      "uncompressedSha256": "9b02c97292892ed839e91a63cf3c2c55b2afc3f35575f42ec7d4b925700d5cc7",
+      "uncompressedBytes": 13565
+    },
+    "launcher.json": {
+      "sha256": "6a0dd9d135bdcbbaa541f777495414364a1dc2b0ff6bb468f9d89c720f157d1e",
+      "uncompressedSha256": "6a0dd9d135bdcbbaa541f777495414364a1dc2b0ff6bb468f9d89c720f157d1e",
+      "uncompressedBytes": 794
+    },
+    "Player.log.gz": {
+      "sha256": "32d6c7d38da9989ed33de4363de9b7fd5d713dc6eaf1ed21d6a5bcbdda2e6adc",
+      "uncompressedSha256": "9c73a84271854b2a64375d2475433ee7e7b7231c30b1ecdf6f92f162158f05b6",
+      "uncompressedBytes": 517140
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    }
+  }
+}

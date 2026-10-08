@@ -11,7 +11,7 @@ using Verse.AI.Group;
 
 namespace Helodrace.Tactics
 {
-    public enum TacticalCommandPhase { Pending, Stack, Breach, Observe, Support, BlastWait, Enter, Clear, Returning, Complete, Released }
+    public enum TacticalCommandPhase { Pending, Stack, Breach, Observe, Support, BlastWait, Enter, Clear, Returning, Complete, Released, Defending }
     public sealed partial class TacticalMemberCommand
     {
         public Pawn Pawn;
@@ -66,6 +66,8 @@ namespace Helodrace.Tactics
         public int FrontierCursor;
         public TacticalRoomFrontier RecoveryFrontier;
         public int RoomRecoveryUntil;
+        public bool Defensive, DefenseRestoring;
+        public IntVec3 DefenseAnchor = IntVec3.Invalid;
         public bool Terminal => Phase == TacticalCommandPhase.Released;
     }
 
@@ -83,19 +85,19 @@ namespace Helodrace.Tactics
         public long Advances, BudgetStops;
         public int ScheduledCount => commands.Count;
         public GameComponent_TacticalCommands(Game game) { }
-        public static bool IsAssaultPhase(LordJob job, LordToil toil) => job is LordJob_AssaultColony
+        public static bool IsAssaultPhase(LordJob job, LordToil toil) => job != null
             && (toil is LordToil_AssaultColony || toil is LordToil_AssaultColonySappers || toil is LordToil_AssaultColonyBreaching);
         public static bool IsAssaultLord(Lord lord) => lord != null && IsAssaultPhase(lord.LordJob, lord.CurLordToil);
         public void RegisterLord(Lord lord)
         {
-            if (!IsAssaultLord(lord)) return;
+            if (!IsTacticalLord(lord)) return;
             var seen = new HashSet<string>();
             foreach (Pawn pawn in lord.ownedPawns)
             {
                 RaidTacticalUnit unit = RaidTacticalUnit.ForPawn(pawn);
                 if (unit == null || !seen.Add(unit.Id)) continue;
                 MapComponent_TacticalCommands service = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
-                if (service == null || !unit.Faction.HostileTo(Faction.OfPlayer) && !service.HasExplicitGoal) continue;
+                if (service == null || !CanControlMission(IsDefensiveLord(lord), unit.Faction.HostileTo(Faction.OfPlayer), service.HasExplicitGoal)) continue;
                 TacticalSquadCommand command = service.Register(unit, GenTicks.TicksGame);
                 if (command != null) commands.Add(command);
             }
@@ -155,9 +157,9 @@ namespace Helodrace.Tactics
             { discovery.Dispose(); discovery = null; discovering = null; return; }
             RaidTacticalUnit unit = discovery.Current;
             Pawn pawn = unit.Members.FirstOrDefault(member => member.Spawned && !member.Dead);
-            if (pawn == null || !IsAssaultLord(pawn.GetLord())) return;
+            if (pawn == null || !IsTacticalLord(pawn.GetLord())) return;
             MapComponent_TacticalCommands service = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
-            if (service == null || !unit.Faction.HostileTo(Faction.OfPlayer) && !service.HasExplicitGoal) return;
+            if (service == null || !CanControlMission(IsDefensiveLord(pawn.GetLord()), unit.Faction.HostileTo(Faction.OfPlayer), service.HasExplicitGoal)) return;
             TacticalSquadCommand command = service.Register(unit, tick);
             if (command != null) commands.Add(command);
         }
@@ -201,6 +203,7 @@ namespace Helodrace.Tactics
             foreach (TacticalSquadCommand command in squads.Values.ToArray())
             {
                 if (command.Terminal) { squads.Remove(command.Id); continue; }
+                if (command.Defensive) continue;
                 Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, GenTicks.TicksGame, true);
                 // Never erase an already launched grenade's safety state.
                 if (command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
@@ -230,7 +233,7 @@ namespace Helodrace.Tactics
             if (squads.ContainsKey(unit.Id)) return null;
             var command = new TacticalSquadCommand { Id = unit.Id, Owner = this, Due = tick, PhaseStarted = tick };
             command.Link.Unit = unit; command.Link.OpportunityUntil = tick + 600; command.Goal = Goal(tick);
-            command.RaidLord = unit.Members.Select(p => p.GetLord()).FirstOrDefault(GameComponent_TacticalCommands.IsAssaultLord);
+            command.RaidLord = unit.Members.Select(p => p.GetLord()).FirstOrDefault(GameComponent_TacticalCommands.IsTacticalLord);
             foreach (Pawn pawn in unit.Members)
                 if (pawn.Spawned && pawn.Map == map && !pawn.Dead && !byPawn.ContainsKey(pawn))
                 {
@@ -244,6 +247,7 @@ namespace Helodrace.Tactics
                 }
             if (command.Members.Count == 0) return null;
             for (int i = command.Members.Count * 2 / 3; i < command.Members.Count; i++) command.Members[i].Rear = true;
+            if (GameComponent_TacticalCommands.IsDefensiveLord(command.RaidLord)) BeginDefense(command, tick);
             squads.Add(command.Id, command); return command;
         }
         public void Wake(Pawn pawn)
@@ -280,7 +284,7 @@ namespace Helodrace.Tactics
         }
         private static bool Available(TacticalMemberCommand member, Map map) => member.Pawn?.Spawned == true
             && member.Pawn.Map == map && !member.Pawn.Dead && !member.Pawn.Downed && !member.Pawn.InMentalState
-            && GameComponent_TacticalCommands.IsAssaultLord(member.Pawn.GetLord());
+            && GameComponent_TacticalCommands.IsTacticalPawn(member.Pawn);
 
         public void Advance(TacticalSquadCommand command, int tick)
         {
@@ -305,6 +309,7 @@ namespace Helodrace.Tactics
             RejoinTreatedMembers(command, tick);
             var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
             if (active.Count == 0) { Release(command); return; }
+            if (UpdateDefensiveMission(command, tick)) return;
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
@@ -312,6 +317,7 @@ namespace Helodrace.Tactics
             if (AdvanceFieldResponse(command, active, tick)) return;
             if (RespondToContacts(command, active, tick)) return;
             if (RestoreContactPosts(command, active, tick)) return;
+            if (command.Defensive) { AdvanceDefenseIdle(command, active, tick); return; }
             if (AdvanceCoordination(command, active, tick)) return;
             if (command.Phase == TacticalCommandPhase.Clear)
             { AdvanceRoomClear(command, active, tick); return; }
@@ -724,7 +730,8 @@ namespace Helodrace.Tactics
             }
             ReleaseClaims(command);
             command.MedicalCare = null;
-            command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released : TacticalCommandPhase.Complete;
+            command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released
+                : command.Defensive ? TacticalCommandPhase.Defending : TacticalCommandPhase.Complete;
             command.Due = tick + 600;
             if (command.Terminal) Retire(command);
         }
