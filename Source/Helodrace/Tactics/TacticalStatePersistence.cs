@@ -49,6 +49,11 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Defensive, "defensive");
             Scribe_Values.Look(ref DefenseRestoring, "defenseRestoring");
             Scribe_Values.Look(ref DefenseAnchor, "defenseAnchor", IntVec3.Invalid);
+            Scribe_References.Look(ref SupportCaller, "supportCaller");
+            Scribe_Values.Look(ref SupportAim, "supportAim", IntVec3.Invalid);
+            Scribe_Values.Look(ref SupportUntil, "supportUntil");
+            Scribe_Values.Look(ref SupportCheckAt, "supportCheckAt");
+            Scribe_Values.Look(ref SupportStrikeActive, "supportStrikeActive");
             Scribe_Values.Look(ref BarrierHitPoints, "barrierHitPoints");
             Scribe_Values.Look(ref ReturnCursor, "returnCursor");
             Scribe_Values.Look(ref ReleaseAfterReturn, "releaseAfterReturn");

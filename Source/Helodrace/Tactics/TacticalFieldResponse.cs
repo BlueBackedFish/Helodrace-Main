@@ -80,11 +80,12 @@ namespace Helodrace.Tactics
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
                 return false;
             TacticalFieldResponse field = command.FieldResponse;
+            bool support = WaitingForSupport(command, tick);
             if (field == null)
             {
                 if (command.ContactResponse != null) return false;
                 Pawn observer = active[active.Count / 2].Pawn;
-                if (observer.Position.Roofed(map)) return false;
+                if (!support && observer.Position.Roofed(map)) return false;
                 TacticalContact nearest = null;
                 foreach (TacticalContact contact in command.Contacts.Memory.Entries)
                 {
@@ -93,10 +94,11 @@ namespace Helodrace.Tactics
                     if (nearest == null || observer.Position.DistanceToSquared(contact.Position)
                         < observer.Position.DistanceToSquared(nearest.Position)) nearest = contact;
                 }
-                if (nearest == null) return false;
-                field = new TacticalFieldResponse { Started = tick, LastSeen = nearest.SeenTick, EnemyId = nearest.EnemyId,
-                    Anchor = command.Defensive ? command.DefenseAnchor : observer.Position, Focus = nearest.Position, FocusAt = tick, NextMove = tick + 180,
-                    Forward = TacticalFieldPolicy.Direction(observer.Position, nearest.Position),
+                if (nearest == null && !support) return false;
+                IntVec3 focus = nearest?.Position ?? command.SupportAim;
+                field = new TacticalFieldResponse { Started = tick, LastSeen = nearest?.SeenTick ?? tick, EnemyId = nearest?.EnemyId ?? -1,
+                    Anchor = command.Defensive ? command.DefenseAnchor : observer.Position, Focus = focus, FocusAt = tick, NextMove = tick + 180,
+                    Forward = TacticalFieldPolicy.Direction(observer.Position, focus),
                     Motion = TacticalFieldPolicy.Motion(nearest, observer.Position),
                     High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
                         && active.Exists(m => m.Fireteam >= 0) };
@@ -122,7 +124,7 @@ namespace Helodrace.Tactics
                         field.FocusAt = tick;
                     }
                 }
-            if (tick - field.LastSeen >= TacticalContactMemory.FreshTicks)
+            if (!support && (field.EnemyId < 0 || tick - field.LastSeen >= TacticalContactMemory.FreshTicks))
             { EndFieldResponse(command, tick); return false; }
             command.Due = Math.Min(command.Due, tick + 30);
             if (field.High && !active.Exists(m => m.Fireteam >= 0)) field.High = false;
@@ -147,7 +149,9 @@ namespace Helodrace.Tactics
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
             }
-            AdvanceFieldBoundPosts(command, field, tick);
+            if (support && field.Stage == TacticalFieldStage.Moving)
+            { field.BoundPending = false; field.Stage = TacticalFieldStage.Defending; }
+            if (!support) AdvanceFieldBoundPosts(command, field, tick);
             int ready = 0, coverReady = 0, coverCount = 0, movers = 0, moversReady = 0;
             float range = 0;
             foreach (TacticalMemberCommand member in active)
@@ -189,7 +193,7 @@ namespace Helodrace.Tactics
             {
                 if (AdvanceFieldSmoke(command, active, field, tick))
                 {
-                    if (field.Motion == TacticalObservedMotion.Approaching)
+                    if (!TacticalSupportPolicy.CanAdvance(command.Defensive, support) || field.Motion == TacticalObservedMotion.Approaching)
                     {
                         field.Screen = null; field.Stage = TacticalFieldStage.Defending;
                         field.NextMove = tick + 180; return true;
@@ -206,7 +210,7 @@ namespace Helodrace.Tactics
             }
             // HIGH: only one real child team moves; the other teams must already
             // be at their guard posts. Never invent teams from pawn index/modulo.
-            if (!command.Defensive && field.Stage == TacticalFieldStage.Defending && tick >= field.NextMove
+            if (TacticalSupportPolicy.CanAdvance(command.Defensive, support) && field.Stage == TacticalFieldStage.Defending && tick >= field.NextMove
                 && ready == active.Count && coverReady == coverCount && field.Motion != TacticalObservedMotion.Approaching
                 && field.Anchor.DistanceToSquared(field.Focus) > Math.Max(100, range * range * .64f))
             {
@@ -276,7 +280,7 @@ namespace Helodrace.Tactics
             for (int x = -2; x <= 2; x++) for (int z = -2; z <= 2; z++)
             {
                 IntVec3 cell = (pass == 0 ? desired : member.Pawn.Position) + new IntVec3(x, 0, z); FieldPostCandidates++;
-                if (!cell.InBounds(map) || !cell.Standable(map) || cell.Roofed(map)
+                if (!cell.InBounds(map) || !cell.Standable(map) || cell.Roofed(map) && command.SupportCaller == null
                     || field.Occupied.Contains(cell) && cell != old
                     || claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command) continue;
                 Pawn occupant = cell.GetFirstPawn(map);

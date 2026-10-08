@@ -659,6 +659,7 @@ namespace Helodrace.Tactics
         }
         private bool Issue(TacticalMemberCommand member, Job job)
         {
+            if (StationaryGuidance(member)) return false;
             int tick = GenTicks.TicksGame;
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (!budget.TryJob(tick))
@@ -682,6 +683,7 @@ namespace Helodrace.Tactics
         }
         private bool CanIssue(TacticalMemberCommand member)
         {
+            if (StationaryGuidance(member)) return false;
             if (Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.CanJob(GenTicks.TicksGame)) return true;
             Defer(member); return false;
         }

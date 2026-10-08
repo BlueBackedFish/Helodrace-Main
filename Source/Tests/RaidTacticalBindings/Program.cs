@@ -60,7 +60,7 @@ internal static class Program
         }
         if (commandLineArgs.Contains("--r6"))
         {
-            TacticalFieldTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
+            TacticalFieldTests.Run(); TacticalSupportTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
         }
         if (commandLineArgs.Contains("--hemostasis"))
         {

@@ -1,0 +1,38 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-support-load-01",
+  "classification": "actual mortar and CAS requests, native stationary guidance, two native support saves/loads and full original CQB mission completion; headless functional only, excluded from final CPU gate",
+  "files": {
+    "audit.json": {
+      "sha256": "387c6675dbd9f1dcb037da985f0a77051bd4bd62d3e341f972ee89079587e6f1",
+      "uncompressedSha256": "387c6675dbd9f1dcb037da985f0a77051bd4bd62d3e341f972ee89079587e6f1",
+      "uncompressedBytes": 11398
+    },
+    "launcher.json": {
+      "sha256": "bc93415d76c724cfe95f23c90f4ffdc2eea4c3dd06fb6c3b2cb54dc6bcd154a0",
+      "uncompressedSha256": "bc93415d76c724cfe95f23c90f4ffdc2eea4c3dd06fb6c3b2cb54dc6bcd154a0",
+      "uncompressedBytes": 782
+    },
+    "Player.log.gz": {
+      "sha256": "ff7ab1d64e5c804a205629e41aff1fd58a47630d0431e5a154db90a3098a6f50",
+      "uncompressedSha256": "c1dd526fcf404f12a5afdf0bddef8e37a5ae48d6288ab039c4f75ad45d950c86",
+      "uncompressedBytes": 522238
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "80bf85b40b8dc4d3fb6d61f8cb87fbc7baa80d850479fb00df7241cbaa2edbc2",
+      "bytes": 3389082,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "f5d8295f3f879eba668ddd3d8f9a43f7bbc2b50fcdabeb53937273b225038741",
+      "bytes": 3453970,
+      "archived": false
+    }
+  }
+}

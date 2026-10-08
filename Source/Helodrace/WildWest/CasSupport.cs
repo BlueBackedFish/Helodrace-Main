@@ -974,6 +974,7 @@ namespace Helodrace
                 aircraftCount);
             strikes.Add(strike);
             map.GetComponent<MapComponent_RaidTacticalExecution>()?.NotifySupportRequested(caller, plan.CurrentAimCell(map));
+            map.GetComponent<Helodrace.Tactics.MapComponent_TacticalCommands>()?.NotifySupportRequested(caller, plan.CurrentAimCell(map));
             EnsureStationaryGuidanceJobs(strike);
         }
 
