@@ -1,0 +1,38 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-current-interrupt-20261008\\profiles\\capture-20261008-093706-465-1.json",
+    "file": "capture-20261008-093706-465-1.json.gz",
+    "bytes": 26349,
+    "sha256": "f0fc2cc6695e23134d0adbbc0047f1b00c386985412254b3d0afb2226854379a"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-current-interrupt-20261008\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "bytes": 19390,
+    "sha256": "78b805161a1aa06c7022b85c189c954c1268c12b5d508e1ffee44675f192ddaf"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-current-interrupt-20261008\\profiles\\status.json",
+    "file": "status.json.gz",
+    "bytes": 223,
+    "sha256": "25741755d68957b96481de3b24944b2ffa94eb3809544ba39f2028f9c014eef4"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-current-interrupt-20261008\\audit.json",
+    "file": "audit.json.gz",
+    "bytes": 6666,
+    "sha256": "3d1c24c1511257ba240f1c1c236ab1a7b84cdd44af5641e41d62f78f5c320f6c"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-current-interrupt-20261008\\launcher.json",
+    "file": "launcher.json.gz",
+    "bytes": 606,
+    "sha256": "ad16f83081bdee52319b8e7ec500ec9e9b5b17cb1251ad983e042d385880efac"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-current-interrupt-20261008\\Player.log",
+    "file": "Player.log.gz",
+    "bytes": 29540,
+    "sha256": "15e68a7492a9cb459d5eed137bf730ccbb7500d36186fe53e0c9b61200516539"
+  }
+]
