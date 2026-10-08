@@ -27,7 +27,7 @@ for directory in sorted(base.glob("removal-*")):
 
 folders = ["removal-final-default", "removal-final-cleanup-profile", "removal-final-vanilla"]
 hashes = {read(base / folder / "launcher.json")["assemblySha256"] for folder in folders}
-assert len(hashes) == 1 and sha((repo / "Assemblies/Helodrace.dll").read_bytes()) in hashes
+assert hashes == {"ef50e4501a76c4e5474b2f81d50705df3e066b3f3ce0e5b6be18cf15a9415e3a"}
 for folder in folders:
     audit = read(base / folder / "audit.json")
     assert audit["complete"] and audit["error"] is None and audit["isolationVerified"]

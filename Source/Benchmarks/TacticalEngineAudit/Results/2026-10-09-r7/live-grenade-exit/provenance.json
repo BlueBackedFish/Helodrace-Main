@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-live-grenade-exit-01",
+  "classification": "Actual live-effect departure through ExitMap/WorldPawns: autonomous grenade/C4 detonation and effect drain before bounded safety ownership retirement; headless functional only, excluded from final CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "89959b9bdf5bde7c4d0610c659c8a5befa8310af9378ddef3d81f83b78fc5989",
+      "uncompressedSha256": "89959b9bdf5bde7c4d0610c659c8a5befa8310af9378ddef3d81f83b78fc5989",
+      "uncompressedBytes": 8742
+    },
+    "launcher.json": {
+      "sha256": "a4e41f9c3c6d56db8034b271a76264aa08cfead5d18e8eb447592e52c3db695a",
+      "uncompressedSha256": "a4e41f9c3c6d56db8034b271a76264aa08cfead5d18e8eb447592e52c3db695a",
+      "uncompressedBytes": 924
+    },
+    "Player.log.gz": {
+      "sha256": "5ef86e26d0f9f49455120a8df333ca8256cb9474879da29ea92e6fdfa5d15176",
+      "uncompressedSha256": "9609bd1fd3cfaf32c117e845fd3c84c15806f1cc3f64d8ea8885586107e5316c",
+      "uncompressedBytes": 516594
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

@@ -207,6 +207,7 @@ namespace Helodrace
             if (DefenseFixture) result.fixtureVersion = 29;
             if (OfferRetirementFixture) result.fixtureVersion = 30;
             if (ExternalSupportFixture) result.fixtureVersion = 31;
+            if (result.fixtureCase == "r7-cleanup-grenade" || result.fixtureCase == "r7-cleanup-charge") result.fixtureVersion = 32;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdTacticalAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -357,7 +358,8 @@ namespace Helodrace
         }
         private void ConfigureBreachEquipment()
         {
-            bool charge = result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal) || result.fixtureCase == "r7-charge-load";
+            bool charge = result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal) || result.fixtureCase == "r7-charge-load"
+                || result.fixtureCase == "r7-cleanup-charge";
             if (result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
                 && result.fixtureCase != "cutter-active-recovery" && result.fixtureCase != "room-recovery" && !charge) return;
             bool cutter = result.fixtureCase.StartsWith("cutter", StringComparison.Ordinal);
