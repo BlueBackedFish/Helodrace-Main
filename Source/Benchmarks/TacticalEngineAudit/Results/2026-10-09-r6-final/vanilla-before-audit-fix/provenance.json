@@ -1,10 +1,13 @@
 {
   "audit.json": "bfa1393e63fd8274052dab58d2a1800ff2ff3f7839d945793e4fe01c5c54297f",
   "launcher.json": "7caab82271bf3386584a6aa397e2f88b97e9b376ed2183471a58c1011cce9d06",
-  "pawn-manifest.txt": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
   "Player.log.gz": {
     "archiveSha256": "3dda67426d20db7679f556c476fc9ca5f9e7495736531efd5d906a652cc4ed85",
     "uncompressedSha256": "d5f0cbed3bb94288c34eebd2dae90243764ed949c0b2579740532fcd6cc25601"
   },
-  "capture.json": "0ea506fd8017a49fca246d161f6855344659dfd2945341ff00d7bdabad7236c4"
+  "capture.json": "0ea506fd8017a49fca246d161f6855344659dfd2945341ff00d7bdabad7236c4",
+  "pawn-manifest.txt.gz": {
+    "archiveSha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+    "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93"
+  }
 }

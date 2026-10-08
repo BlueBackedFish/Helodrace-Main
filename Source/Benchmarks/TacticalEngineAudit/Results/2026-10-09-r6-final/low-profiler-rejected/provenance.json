@@ -1,9 +1,12 @@
 {
   "audit.json": "1c33eb449de03287439c22484b84be49c60b12ec10f74fcf96cf9d051a72b7ee",
   "launcher.json": "df5fc399dcb09ab9db2929ba7c546f49a3c6df5d2cae613964e732b57e5e0873",
-  "pawn-manifest.txt": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
   "Player.log.gz": {
     "archiveSha256": "b0318b968a0c796c5412d29badc8d45515aea8748f7bed63f6ee5e008b0fb7ac",
     "uncompressedSha256": "c1110709b7c9a482ac28eb18cd303584cf70732d357a11cc0bdc484b67b09739"
+  },
+  "pawn-manifest.txt.gz": {
+    "archiveSha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+    "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f"
   }
 }

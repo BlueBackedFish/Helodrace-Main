@@ -1,0 +1,72 @@
+{
+  "assemblySha256": "84f7a6ac7fd88943e4116ed5b2a7f7d47dd5dc26f7f198db4bc432651cb1701d",
+  "ticks": 3600,
+  "tickCpuMsPerTick": 1.1892361111111112,
+  "mainWindowCpuMsPerTick": 5.455729166666667,
+  "processCpuMsPerTick": 9.348958333333334,
+  "fullMissionCompleted": null,
+  "endPhases": "vanilla",
+  "fieldShots": 0,
+  "methods": [
+    {
+      "method": "Verse.TickManager.DoSingleTick()",
+      "calls": 3600,
+      "inclusiveMs": 4346.3093,
+      "maxMs": 54.6597,
+      "p95Ms": 1.9407,
+      "p99Ms": 2.9375,
+      "cpuMeasured": true,
+      "threadCpuMs": 4281.25,
+      "exceptions": 0,
+      "meanMs": 1.2073081388888889,
+      "elapsedMsPerTick": 1.2073081388888889,
+      "callsPerTick": 1.0,
+      "corePercentPerTick": 430.71999246838703
+    },
+    {
+      "method": "Helodrace.Tactics.MapComponent_TacticalCommands.AdvanceFieldResponse(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],System.Int32)",
+      "calls": 0,
+      "inclusiveMs": 0,
+      "maxMs": 0,
+      "p95Ms": 0,
+      "p99Ms": 0,
+      "cpuMeasured": false,
+      "threadCpuMs": 0,
+      "exceptions": 0,
+      "meanMs": 0.0,
+      "elapsedMsPerTick": 0.0,
+      "callsPerTick": 0.0,
+      "corePercentPerTick": 0
+    },
+    {
+      "method": "Helodrace.Tactics.MapComponent_TacticalCommands.AdvanceMedicalCare(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],System.Int32)",
+      "calls": 0,
+      "inclusiveMs": 0,
+      "maxMs": 0,
+      "p95Ms": 0,
+      "p99Ms": 0,
+      "cpuMeasured": false,
+      "threadCpuMs": 0,
+      "exceptions": 0,
+      "meanMs": 0.0,
+      "elapsedMsPerTick": 0.0,
+      "callsPerTick": 0.0,
+      "corePercentPerTick": 0
+    },
+    {
+      "method": "Helodrace.Tactics.JobDriver_TacticalContactGuard.TickGuard()",
+      "calls": 0,
+      "inclusiveMs": 0,
+      "maxMs": 0,
+      "p95Ms": 0,
+      "p99Ms": 0,
+      "cpuMeasured": false,
+      "threadCpuMs": 0,
+      "exceptions": 0,
+      "meanMs": 0.0,
+      "elapsedMsPerTick": 0.0,
+      "callsPerTick": 0.0,
+      "corePercentPerTick": 0
+    }
+  ]
+}

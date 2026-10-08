@@ -1,0 +1,29 @@
+{
+  "singlePair": true,
+  "sameAssemblyMapPawnsInputs": true,
+  "new": {
+    "assemblySha256": "84f7a6ac7fd88943e4116ed5b2a7f7d47dd5dc26f7f198db4bc432651cb1701d",
+    "ticks": 3601,
+    "tickCpuMsPerTick": 1.301721743960011,
+    "mainWindowCpuMsPerTick": 9.723861427381284,
+    "processCpuMsPerTick": 16.397354901416275,
+    "fullMissionCompleted": false,
+    "endPhases": "Enter:1",
+    "fieldShots": 75
+  },
+  "vanilla": {
+    "assemblySha256": "84f7a6ac7fd88943e4116ed5b2a7f7d47dd5dc26f7f198db4bc432651cb1701d",
+    "ticks": 3600,
+    "tickCpuMsPerTick": 1.1892361111111112,
+    "mainWindowCpuMsPerTick": 5.455729166666667,
+    "processCpuMsPerTick": 9.348958333333334,
+    "fullMissionCompleted": null,
+    "endPhases": "vanilla",
+    "fieldShots": 0
+  },
+  "newOverVanilla": {
+    "tickCpuMsPerTick": 1.0945864591546954,
+    "mainWindowCpuMsPerTick": 1.7823211399114143,
+    "processCpuMsPerTick": 1.7539231983687602
+  }
+}
