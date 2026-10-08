@@ -27,6 +27,12 @@ namespace Helodrace.Tactics
                         + command.Members.Count(member => member.Entered)
                         + " outside guards=" + command.Plan?.RetainedOutside.Count
                         + " assignments arrived=" + command.Members.Count(member => member.EntryAssignmentDone)
+                        + " cooperation=" + command.Link.Cooperation.Stage + " channel=" + command.Link.LastChannel
+                        + " liaison=" + command.Link.Liaison?.thingIDNumber + " peer=" + command.Link.Peer?.Id
+                        + " area=" + command.Link.Cooperation.Agenda?.Area(command.Id)
+                        + " ready=" + command.Link.Cooperation.LocalReady + "/" + command.Link.Cooperation.PeerReady
+                        + " peer report age=" + (command.Link.Cooperation.PeerStatusAt < 0 ? -1
+                            : GenTicks.TicksGame - command.Link.Cooperation.PeerStatusAt)
                         + " contact response=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
                         + " contacts=[" + string.Join(";", command.Contacts.Memory.Entries.Select(contact => contact.EnemyId
                             + "@" + contact.Position + " age=" + (GenTicks.TicksGame - contact.SeenTick)

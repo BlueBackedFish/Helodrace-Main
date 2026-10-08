@@ -11,15 +11,17 @@ internal static class TacticalWorkBudgetTests
             || !budget.TryJob(1) || budget.CanJob(1) || budget.TryJob(1))
             throw new Exception("Return and issue limits must be shared across squads/maps.");
         if (!budget.TryObserve(1) || budget.TryObserve(1)) throw new Exception("Observation scans must be bounded globally.");
+        if (!budget.TryCommunication(1) || !budget.TryCommunication(1) || budget.TryCommunication(1))
+            throw new Exception("Communication work must be limited to two global operations per tick.");
         if (!budget.TryPlan(1) || budget.TryPlan(1))
             throw new Exception("Cold planning must be limited independently of job count.");
         for (int i = 0; i < TacticalWorkBudget.PathLimit; i++)
             if (!budget.TryPath(1)) throw new Exception("Movement was denied before its limit.");
         if (budget.TryPath(1)) throw new Exception("Too many movement stages were admitted.");
-        if (!budget.TryJob(2, true) || !budget.TryPlan(2) || !budget.TryPath(2) || !budget.TryObserve(2))
+        if (!budget.TryJob(2, true) || !budget.TryPlan(2) || !budget.TryPath(2) || !budget.TryObserve(2) || !budget.TryCommunication(2))
             throw new Exception("A new tick must replenish every budget.");
         budget.Account(2, 100);
-        if (budget.CanJob(2) || budget.TryJob(2) || budget.TryPlan(2) || budget.TryPath(2) || budget.TryObserve(2))
+        if (budget.CanJob(2) || budget.TryJob(2) || budget.TryPlan(2) || budget.TryPath(2) || budget.TryObserve(2) || budget.TryCommunication(2))
             throw new Exception("A long synchronous operation must defer subsequent work.");
         if (!budget.TryJob(3) || !budget.TryPath(3) || !budget.TryPlan(3))
             throw new Exception("Elapsed accounting must not starve future ticks.");

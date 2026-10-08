@@ -10,6 +10,9 @@ namespace Helodrace.Tactics
         public int EnemyId, SeenTick;
         public IntVec3 Position, Area;
         public bool Door;
+        public string Origin;
+        public TacticalContact Copy() => new TacticalContact { EnemyId = EnemyId, SeenTick = SeenTick,
+            Position = Position, Area = Area, Door = Door, Origin = Origin };
     }
 
     public sealed class TacticalContactMemory
@@ -17,7 +20,7 @@ namespace Helodrace.Tactics
         public const int Limit = 8, FreshTicks = 240, RetentionTicks = 1800;
         private readonly List<TacticalContact> entries = new List<TacticalContact>(Limit);
         public IReadOnlyList<TacticalContact> Entries => entries;
-        public void Remember(int enemyId, IntVec3 position, IntVec3 area, bool door, int tick)
+        public void Remember(int enemyId, IntVec3 position, IntVec3 area, bool door, int tick, string origin = null)
         {
             TacticalContact contact = entries.Find(value => value.EnemyId == enemyId);
             if (contact == null)
@@ -31,7 +34,15 @@ namespace Helodrace.Tactics
                 }
                 entries.Add(contact = new TacticalContact { EnemyId = enemyId });
             }
-            contact.Position = position; contact.Area = area; contact.Door = door; contact.SeenTick = tick;
+            contact.Position = position; contact.Area = area; contact.Door = door; contact.SeenTick = tick; contact.Origin = origin;
+        }
+        public bool Receive(TacticalContact report, int now)
+        {
+            if (report == null || !report.Position.IsValid || report.SeenTick > now || now - report.SeenTick >= RetentionTicks) return false;
+            TacticalContact own = entries.Find(value => value.EnemyId == report.EnemyId);
+            if (own != null && own.SeenTick >= report.SeenTick) return false;
+            Remember(report.EnemyId, report.Position, report.Area, report.Door, report.SeenTick, report.Origin);
+            return true;
         }
         public void Expire(int tick) => entries.RemoveAll(value => tick - value.SeenTick >= RetentionTicks);
         public static bool Rear(IntVec3 anchor, IntVec3 forward, IntVec3 target) =>

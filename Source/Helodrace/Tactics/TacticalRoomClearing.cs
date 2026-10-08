@@ -152,6 +152,8 @@ namespace Helodrace.Tactics
                                 command.Frontiers.Add(frontier);
                     }
                     command.RoomScan = null;
+                    if (AllocatedAreaSecured(command))
+                    { AllocatedAreasSecured++; BeginReturn(command, tick, false); return; }
                     command.Frontiers.RemoveAll(f => command.SecuredCells.Contains(f.Inside));
                     // Goal-directed progress first, then adjacent unentered rooms.
                     // The order is latched once per completed entry, not refreshed.
@@ -174,6 +176,7 @@ namespace Helodrace.Tactics
                     }
                     if (plan == null) continue;
                     ReleaseClaims(command); command.Plan = plan; PlansBuilt++;
+                    command.Link.Cooperation.LocalReady = false;
                     foreach (IntVec3 cell in plan.Stack.Concat(plan.Positions)) claims[cell] = command;
                     claims[plan.Outside] = claims[plan.Opening] = claims[plan.Inside] = command;
                     if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
@@ -209,7 +212,7 @@ namespace Helodrace.Tactics
             // Latched structural preference plus actual contact knowledge.
             // Never reorder entrances by an unseen door's current Open state.
             return (command.GoalSecured ? frontier.Opening.DistanceToSquared(command.Plan.Inside)
-                : frontier.Inside.DistanceToSquared(command.Goal)) - frontier.Preference - observedThreat;
+                : frontier.Inside.DistanceToSquared(CooperativeGoal(command))) - frontier.Preference - observedThreat;
         }
 
         private TacticalLocalPlan PlanRoomFrontier(TacticalSquadCommand command, List<TacticalMemberCommand> active,

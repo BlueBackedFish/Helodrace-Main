@@ -47,7 +47,7 @@ namespace Helodrace.Tactics
 
         internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
-            out TacticalPlanFailure failure)
+            out TacticalPlanFailure failure, int frontage = 0)
         {
             failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
@@ -89,7 +89,7 @@ namespace Helodrace.Tactics
             var candidates = new List<TacticalLocalPlan>(8);
             foreach (int offset in Offsets)
             {
-                IntVec3 opening = first + tangent * offset;
+                IntVec3 opening = first + tangent * (offset + frontage);
                 if (!opening.InBounds(map)) { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 if (leased(opening)) { failure |= TacticalPlanFailure.Busy; continue; }
                 Building barrier = opening.GetEdifice(map);

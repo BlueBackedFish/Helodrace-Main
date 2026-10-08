@@ -7,7 +7,7 @@ namespace Helodrace.Tactics
     public sealed class TacticalWorkBudget
     {
         public const int JobLimit = 2, ReturnLimit = 1, PathLimit = 4, PlanLimit = 1, ObserveLimit = 1;
-        private int tick = int.MinValue, jobs, returns, paths, plans, observations;
+        private int tick = int.MinValue, jobs, returns, paths, plans, observations, communications;
         private long elapsed;
         private readonly long elapsedLimit;
         public TacticalWorkBudget(long elapsedLimitTicks = 0)
@@ -15,7 +15,7 @@ namespace Helodrace.Tactics
         private void BeginTick(int now)
         {
             if (tick == now) return;
-            tick = now; jobs = returns = paths = plans = observations = 0; elapsed = 0;
+            tick = now; jobs = returns = paths = plans = observations = communications = 0; elapsed = 0;
         }
         public bool TryJob(int now, bool returning = false)
         {
@@ -43,6 +43,12 @@ namespace Helodrace.Tactics
             BeginTick(now);
             if (elapsed >= elapsedLimit || observations >= ObserveLimit) return false;
             observations++; return true;
+        }
+        public bool TryCommunication(int now)
+        {
+            BeginTick(now);
+            if (elapsed >= elapsedLimit || communications >= 2) return false;
+            communications++; return true;
         }
     }
 }

@@ -50,6 +50,13 @@ internal static class Program
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static int RunReferencedTests(string[] commandLineArgs)
     {
+        if (commandLineArgs.Contains("--r5"))
+        {
+            TacticalCooperationTests.Run();
+            TacticalWorkBudgetTests.Run();
+            TacticalContactTests.Run();
+            return 0;
+        }
         if (commandLineArgs.Contains("--r4"))
         {
             TacticalContactTests.Run();
