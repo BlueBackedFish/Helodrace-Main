@@ -134,7 +134,7 @@ namespace Helodrace.Tactics
                 commands.RemoveAt(index);
                 if (index < cursor) cursor--;
             }
-            Communications.Forget(command);
+            Communications.Forget(command, commands, GenTicks.TicksGame);
         }
         private void DiscoverOne(int tick)
         {

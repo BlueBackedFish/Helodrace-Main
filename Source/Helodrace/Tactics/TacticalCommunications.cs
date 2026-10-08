@@ -47,16 +47,21 @@ namespace Helodrace.Tactics
         public int LastInvalidSender = -1;
         public string LastDropReason;
         public int PendingCount => pending.Count;
-        internal void Forget(TacticalSquadCommand command)
+        internal void Forget(TacticalSquadCommand command, IList<TacticalSquadCommand> remaining, int tick)
         {
             // The queue is globally capped at 64. Retirement happens once per
             // command, never in each pawn's tick or normal communication probe.
             MessagesDropped += pending.RemoveAll(message => message.From == command || message.To == command);
-            if (command.Link.Peer?.Link.Peer == command)
+            // An undelivered offer has only an incoming reference: the retiring
+            // receiver may never have linked back. Check the remaining roster
+            // once at retirement, rather than retaining that peer until timeout.
+            foreach (TacticalSquadCommand other in remaining)
             {
-                command.Link.Peer.Link.Peer = null;
-                command.Link.Peer.Link.Cooperation.Abort();
-                command.Link.Peer.Due = Math.Min(command.Link.Peer.Due, GenTicks.TicksGame + 1);
+                other.Link.Identified.Remove(command.Id);
+                if (other.Link.Peer != command && other.Link.Cooperation.Agenda?.Peer(other.Id) != command.Id) continue;
+                other.Link.Peer = null;
+                other.Link.Cooperation.Abort();
+                other.Due = Math.Min(other.Due, tick + 1);
             }
             command.Link.Peer = null; command.Link.Liaison = null; command.Link.Radio = null;
         }

@@ -52,7 +52,7 @@ internal static class Program
     {
         if (commandLineArgs.Contains("--r7"))
         {
-            TacticalPersistenceTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
+            TacticalPersistenceTests.Run(); TacticalRetirementTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
         }
         if (commandLineArgs.Contains("--defense"))
         {

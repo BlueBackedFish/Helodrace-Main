@@ -194,7 +194,7 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture && !DefenseFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture && !DefenseFixture && !OfferRetirementFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
@@ -205,6 +205,7 @@ namespace Helodrace
             if (result.fixtureCase == "r7-charge-load") result.fixtureVersion = 27;
             if (MultiMapFixture) result.fixtureVersion = 28;
             if (DefenseFixture) result.fixtureVersion = 29;
+            if (OfferRetirementFixture) result.fixtureVersion = 30;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -285,7 +286,7 @@ namespace Helodrace
             // observed inside the small room to override grenade conservation.
             if (result.fixtureCase == "small-unseen") owner.Position = new IntVec3(120,0,118);
             if (result.fixtureCase == "tiny-adjacent") owner.Position = new IntVec3(120,0,118);
-            if (CooperationFixture) owner.Position = new IntVec3(155,0,155);
+            if (CooperationFixture || OfferRetirementFixture) owner.Position = new IntVec3(155,0,155);
             if (MultiRoomFixture && result.fixtureCase != "tiny-adjacent" && Enumerable.Range(115, right - 115).Any(x =>
                 {
                     Building partition = new IntVec3(x,0,119).GetEdifice(map);
@@ -313,7 +314,7 @@ namespace Helodrace
                     int index = raiders.Count;
                     IntVec3 cell = result.fixtureCase == "inside-goal" ? new IntVec3(104 + index % 4,0,104 + index / 4)
                         : DefenseFixture ? new IntVec3(68 + (result.units - 1) * 18 + members.IndexOf(pawn) % 4, 0, 104 + members.IndexOf(pawn) / 4)
-                        : CooperationFixture ? new IntVec3(70 + (result.units - 1) * (high ? 12 : 5) + members.IndexOf(pawn) % 4,
+                        : (CooperationFixture || OfferRetirementFixture) ? new IntVec3(70 + (result.units - 1) * (high ? 12 : 5) + members.IndexOf(pawn) % 4,
                             0, (result.fixtureCase == "r5-shared" ? 108 : 106) + members.IndexOf(pawn) / 4)
                         : new IntVec3(66 + index % 16, 0, 90 + index / 16);
                     GenSpawn.Spawn(pawn, cell, map); raiders.Add(pawn); starts[pawn] = cell;
@@ -389,6 +390,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (OfferRetirementFixture) { ApplyOfferRetirementDrill(); return; }
             if (MultiMapFixture) { ApplyMultiMapDrill(); return; }
             if (ReloadFixture)
             {

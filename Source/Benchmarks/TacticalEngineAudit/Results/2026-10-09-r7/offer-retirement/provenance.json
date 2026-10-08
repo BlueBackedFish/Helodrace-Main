@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-offer-retirement-01",
+  "classification": "native undelivered one-sided cooperation offer receiver retirement and surviving squad CQB completion; headless functional only, excluded from CPU gate",
+  "files": {
+    "audit.json": {
+      "sha256": "3993e81e7f3a25c263623b8c7d71e0321b2424c8a1044d733a5ccfc990ac0944",
+      "uncompressedSha256": "3993e81e7f3a25c263623b8c7d71e0321b2424c8a1044d733a5ccfc990ac0944",
+      "uncompressedBytes": 11179
+    },
+    "launcher.json": {
+      "sha256": "d2d905d1017348ebaaf8ccc3712c86f1046ce7363ca611e175997cbba1467092",
+      "uncompressedSha256": "d2d905d1017348ebaaf8ccc3712c86f1046ce7363ca611e175997cbba1467092",
+      "uncompressedBytes": 792
+    },
+    "Player.log.gz": {
+      "sha256": "38cde6d1288620ed80d4b206bcb5faf9d67b22dacb69088619333ecfbc5d4a3e",
+      "uncompressedSha256": "84568244bca72045b6f9a4f00915abfee0b0d8c11e3e776c75fade0e17ca3bfa",
+      "uncompressedBytes": 516910
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    }
+  }
+}

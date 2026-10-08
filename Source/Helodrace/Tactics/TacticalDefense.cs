@@ -46,6 +46,7 @@ namespace Helodrace.Tactics
                 || command.ChargeAction?.Charge?.Triggered == true && !command.ChargeAction.EffectsCleared)
                 return false;
             AbandonCharge(command);
+            Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, tick, true);
             EndFieldResponse(command, tick);
             ReleaseClaims(command); command.Plan = null; command.OpeningAction = null;
             command.ContactResponse = null; command.ContactRestoring = false;
