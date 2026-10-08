@@ -3,7 +3,7 @@ param(
     [ValidateSet('open-approach','sapper-wall','sapper-door')][string]$Workload = 'open-approach',
     [ValidateRange(0,400)][int]$Population = 50,
     [ValidateRange(0,10000)][int]$WarmupTicks = 600,
-    [ValidateRange(1,10000)][int]$SampleTicks = 1200,
+    [ValidateRange(1,20000)][int]$SampleTicks = 1200,
     [string]$Seed = 'hd-r1-20261007',
     [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen','room-recovery','cutter-active-recovery','tiny-adjacent')][string]$Case = 'normal',
     [switch]$High,

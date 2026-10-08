@@ -1,0 +1,38 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-204-diagnostics-20261008\\profiles\\capture-20261008-052458-171-1.json",
+    "file": "capture-20261008-052458-171-1.json.gz",
+    "bytes": 25769,
+    "sha256": "ba4458eb21b4fc63015b9191c01afec3242361bae3f312df9cc3fa9d2536396f"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-204-diagnostics-20261008\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "bytes": 17803,
+    "sha256": "716f88e8876ee7d8d1f8909bcf71ce00c94aea6ca6bee9efc852d409499ca938"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-204-diagnostics-20261008\\profiles\\status.json",
+    "file": "status.json.gz",
+    "bytes": 224,
+    "sha256": "6c1643238ea2de8d937d7eed6cdb2e3a8a0160501379ebea701f82646ad8e585"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-204-diagnostics-20261008\\audit.json",
+    "file": "audit.json.gz",
+    "bytes": 53115,
+    "sha256": "c65cf562c6fb829be70262cbee1dc3a462cf85a349c663b61970c72af2787945"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-204-diagnostics-20261008\\launcher.json",
+    "file": "launcher.json.gz",
+    "bytes": 651,
+    "sha256": "56fe352eaa7df4d79848c940adea04f969eca8679979e39d375155b751a7f5f2"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r3-multiroom-204-diagnostics-20261008\\Player.log",
+    "file": "Player.log.gz",
+    "bytes": 30010,
+    "sha256": "ad96d62714b511f138aebda93b785613a49d9762c71088b98c7430719a5c35f9"
+  }
+]

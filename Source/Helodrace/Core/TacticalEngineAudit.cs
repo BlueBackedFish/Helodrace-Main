@@ -44,6 +44,7 @@ namespace Helodrace
         [DataMember] public int[] newClassifiedRoomCells;
         [DataMember] public string caseContactTile;
         [DataMember] public string[] newSecuredPortals;
+        [DataMember] public string[] newRoomDiagnostics;
         [DataMember] public int fixtureVersion = 17;
         [DataMember] public bool environmentControlled;
         [DataMember] public string[] unexpectedPawns;
@@ -528,9 +529,17 @@ namespace Helodrace
                 IntVec3[] representatives = result.fixtureCase == "tiny-adjacent"
                     ? new[] { new IntVec3(108,0,110), new IntVec3(116,0,108) }
                     : new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) };
-                result.newRoomProgressComplete = !MultiRoomFixture || commands.All(command => command.GoalSecured
-                    && representatives.All(command.SecuredCells.Contains) && command.SecuredPlans.Count >= representatives.Length
-                    && command.SecuredPlans.Select(plan => plan.Opening).Distinct().Count() == command.SecuredPlans.Count);
+                result.newRoomProgressComplete = !MultiRoomFixture || commands.All(command => Tactics.TacticalRoomProgress.CoversGoal(command, representatives));
+                result.newRoomDiagnostics = commands.Select(command => command.Id + ":" + command.Phase
+                    + " phaseAge=" + (GenTicks.TicksGame - command.PhaseStarted) + " due=" + command.Due
+                    + " planRetry=" + command.PlanRetryAt + " goal=" + command.GoalSecured
+                    + " representatives=" + string.Join(",", representatives.Select(cell => command.SecuredCells.Contains(cell)))
+                    + " secured=" + command.SecuredCells.Count + " scans=" + command.SecuredPlans.Count
+                    + " survey=" + (command.RoomScan == null ? "none" : command.RoomScan.Cells.Count + ":finished=" + command.RoomScan.Finished)
+                    + " frontierCursor=" + command.FrontierCursor + "/" + command.Frontiers.Count + " busy=" + command.FrontierBusy
+                    + " pending=" + string.Join(";", command.Frontiers.Where(f => !command.SecuredCells.Contains(f.Inside)).Take(8)
+                        .Select(f => f.Opening + "->" + f.Inside + ":roof=" + f.Inside.Roofed(map) + ":walk=" + f.Inside.Walkable(map))))
+                    .ToArray();
                 result.newTinyAdjacentCleared = result.fixtureCase != "tiny-adjacent" || commands.All(command => command.Plan != null
                     && command.Plan.RetainedOutside.Count > 0 && command.Plan.RetainedOutside.Count < command.Members.Count
                     && command.Plan.Positions.Where((cell, i) => !command.Plan.RetainedOutside.Contains(i)).All(cell => cell.x >= 115 && cell.x <= 117 && cell.z >= 107 && cell.z <= 109)

@@ -1,0 +1,137 @@
+{
+  "note": "Inspected original archived native audits/captures; historical builds, not a performance comparison. Current observation/support/charge/recovery implementation reviewed separately.",
+  "cases": [
+    {
+      "requirementCase": "hammer-recovery",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-breach-tools/recovery/audit.json",
+      "auditSha256": "6c80ef21ef0497e5a3fab7d116ac3a076431308c17a224fdf0f80d77d04a499b",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-breach-tools/recovery/profiles/capture-20261007-222426-475-1.json",
+      "assemblySha256": "8c2de367b6ea4a1d9f68b627914bb71e817f672abcd6374f9a8169e219d4c873",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "cutter-recovery",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-breach-tools/cutter-recovery/audit.json",
+      "auditSha256": "004f8d2468b04baf783b94b7e01c874e470191da3949232e25d4349b52e910f4",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-breach-tools/cutter-recovery/profiles/capture-20261007-222628-028-1.json",
+      "assemblySha256": "8c2de367b6ea4a1d9f68b627914bb71e817f672abcd6374f9a8169e219d4c873",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "C4-recovery",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-charges/recovery/audit.json",
+      "auditSha256": "27d8d27d536b4863916549d451eeb65bc53e7536c1cdb892d95b96208bdf33c1",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-charges/recovery/profiles/capture-20261007-224629-294-1.json",
+      "assemblySha256": "65a217e8c1cc9cb9fe163e63a4b16e74dd843c2e716a650fa0a97d1caf1d1634",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "C4-fuse-succession",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-charges/fuse-casualty/audit.json",
+      "auditSha256": "119c7574843ca9f74c32fba69af951fa2ed8632ed1d1aed9e4fb3bddc0f069e9",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-charges/fuse-casualty/profiles/capture-20261007-225013-603-1.json",
+      "assemblySha256": "c243b7481200909e32dff585ca0452a1c47bd26a6a097694df2be90154738105",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "C4-goal-change",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-charges/goal-change/audit.json",
+      "auditSha256": "1d305f718ee9807337a48e486426f45917f298334ea7a4caa1772d84d1750840",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-charges/goal-change/profiles/capture-20261007-230144-252-1.json",
+      "assemblySha256": "27f18c304a88d40e7cd80d196104975c9a2b05046f24de2a8385ccf5013e9977",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "inside-goal",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-local-recovery/inside-goal/audit.json",
+      "auditSha256": "3a80f3704d6bc20dd303ea219a374cdf6890b08f73fecb8df5750ca7a5afa1ba",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-local-recovery/inside-goal/profiles/capture-20261008-040545-441-1.json",
+      "assemblySha256": "ddc70908d3e407a89595656cb0e00fbc40fc9d0fb51e80e8dd6bc69f61118ee3",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "unexpected-hole",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-local-recovery/unexpected-hole/audit.json",
+      "auditSha256": "48a3ed6ed263c918b022ea649f67bb9ee2071677ba1fa9d01b75da8d1188451b",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-local-recovery/unexpected-hole/profiles/capture-20261008-035906-635-1.json",
+      "assemblySha256": "8db6a1e09ec9078bea48b70f6c350a6fd773dc40543d8d6ca10af935c52da625",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "door-contact",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-support-regressions/door-contact/audit.json",
+      "auditSha256": "7791fbf4fe8686da34f86a3412bd28570941f65e2d02a1e71111a18375beab03",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-support-regressions/door-contact/profiles/capture-20261008-041213-548-1.json",
+      "assemblySha256": "de67638949eb947689417413199e99069bb7883ea77bf8c14d51a73782b8b1fa",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "outdoor-HC",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-support-regressions/outdoor-opening/audit.json",
+      "auditSha256": "6e902c3c8ceb6335278310adf8172de324500c05a204e4f1c44a9c87fe8cfeae",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-support-regressions/outdoor-opening/profiles/capture-20261008-041441-450-1.json",
+      "assemblySha256": "f073bf3cf77fdadb893686e448609e1d448e2ca671384d28774fab9e283697da",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "16-cell-conservation",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-support-regressions/small-unseen/audit.json",
+      "auditSha256": "2487082217235424409ad140b665d190efb32e18bdf3cb7ac53ec2f8a2677ee7",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-support-regressions/small-unseen/profiles/capture-20261008-041753-229-1.json",
+      "assemblySha256": "ae4d97aa0a52cea8c8ef2b18cedb5509d69f337d1fa33b1a4ac8a8c61a5f0a07",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "room-plan-recovery",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-room-tool-recovery/room-recovery/audit.json",
+      "auditSha256": "bcb5c83af0fc8464996b19535a230003347252fc6eee0cb6ca0d112aabe71ecc",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-room-tool-recovery/room-recovery/profiles/capture-20261008-043023-778-1.json",
+      "assemblySha256": "c1eb5c030cbfb4f5abe44cdc7c12db3aee6bd97d51e7636fa6f4443893dcb660",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    },
+    {
+      "requirementCase": "active-cutter-loss",
+      "audit": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-room-tool-recovery/cutter-active-recovery/audit.json",
+      "auditSha256": "e6f1abb9fe5667b3d2f145ce16a6ba111e3b4ce8e5e551cc937ef3a21752be34",
+      "capture": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-08-r3-room-tool-recovery/cutter-active-recovery/profiles/capture-20261008-043324-632-1.json",
+      "assemblySha256": "c1eb5c030cbfb4f5abe44cdc7c12db3aee6bd97d51e7636fa6f4443893dcb660",
+      "functionalComplete": true,
+      "unsafeEntries": 0,
+      "captureComplete": true,
+      "dropped": 0
+    }
+  ]
+}

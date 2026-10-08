@@ -8,6 +8,16 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
+    public static class TacticalRoomProgress
+    {
+        // A later blast can join two former rooms. Require all requested floor
+        // regions and actual entry history, rather than an obsolete room count.
+        public static bool CoversGoal(TacticalSquadCommand command, IList<IntVec3> regions) =>
+            command.GoalSecured && regions.Count > 0 && regions.All(command.SecuredCells.Contains)
+                && command.SecuredPlans.Count > 0
+                && command.SecuredPlans.Select(plan => plan.Opening).Distinct().Count() == command.SecuredPlans.Count;
+    }
+
     public sealed class TacticalRoomFrontier
     {
         public IntVec3 Opening, Inward;

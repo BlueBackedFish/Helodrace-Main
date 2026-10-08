@@ -67,6 +67,21 @@ internal static class TacticalRoomScanTests
         if (bounded.Count != TacticalDestinationFootprint.CellLimit || visitedFloor > TacticalDestinationFootprint.CellLimit
             || bounded.Any(c => Math.Abs(c.x - objective.x) > 8 || Math.Abs(c.z - objective.z) > 8))
             throw new Exception("Direct footprint work must remain bounded by its local extent.");
+        var regions = new[] { new IntVec3(1,0,1), new IntVec3(21,0,1), new IntVec3(31,0,1) };
+        var merged = new TacticalSquadCommand { GoalSecured = true };
+        merged.SecuredCells.UnionWith(regions);
+        merged.SecuredPlans.Add(new TacticalLocalPlan { Opening = new IntVec3(0,0,1) });
+        merged.SecuredPlans.Add(new TacticalLocalPlan { Opening = new IntVec3(20,0,1) });
+        if (!TacticalRoomProgress.CoversGoal(merged, regions))
+            throw new Exception("Two entered connected regions can cover three former rooms after an unexpected opening.");
+        merged.SecuredCells.Remove(regions[2]);
+        if (TacticalRoomProgress.CoversGoal(merged, regions)) throw new Exception("Missing requested floor must remain incomplete.");
+        merged.SecuredCells.Add(regions[2]); merged.GoalSecured = false;
+        if (TacticalRoomProgress.CoversGoal(merged, regions)) throw new Exception("Room coverage must not replace the goal.");
+        merged.GoalSecured = true; merged.SecuredPlans.Add(merged.SecuredPlans[0]);
+        if (TacticalRoomProgress.CoversGoal(merged, regions)) throw new Exception("Repeated entry into the same opening must not certify progression.");
+        merged.SecuredPlans.Clear();
+        if (TacticalRoomProgress.CoversGoal(merged, regions)) throw new Exception("Stored floor without actual entry history must not certify progression.");
         Console.WriteLine("PASS: bounded local room scan, closed boundaries, unexpected-hole merging, stale snapshot and squad isolation.");
     }
 }
