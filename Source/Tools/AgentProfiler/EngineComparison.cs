@@ -13,7 +13,7 @@ internal static class EngineComparison
             string audit = System.IO.Path.Combine(Directory.GetParent(System.IO.Path.GetDirectoryName(path)!)!.FullName, "audit.json");
             if (!File.Exists(audit)) throw new ArgumentException("Missing isolation/progress audit: " + path);
             JsonElement a = JsonDocument.Parse(File.ReadAllText(audit)).RootElement.Clone();
-            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9)
+            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9 or 10 or 11 or 12)
                 || c.methods == null || c.mods == null || c.methods.Select(m => m.method).Distinct().Count() != c.methods.Length
                 || c.methods.Any(m => m.exceptions > 0) || !a.GetProperty("complete").GetBoolean()
                 || !a.GetProperty("isolationVerified").GetBoolean() || a.GetProperty("error").ValueKind != JsonValueKind.Null
@@ -22,6 +22,10 @@ internal static class EngineComparison
                 || string.IsNullOrWhiteSpace(c.benchmark.pawnFingerprint))
                 throw new ArgumentException("Incomplete/invalid engine measurement: " + path);
             var b = c.benchmark;
+            if (b.fixtureVersion >= 11 && (!a.TryGetProperty("fixtureVersion", out var fixture) || fixture.GetInt32() != b.fixtureVersion
+                || !a.TryGetProperty("environmentControlled", out var controlled) || !controlled.GetBoolean()
+                || !a.TryGetProperty("unexpectedPawns", out var extras) || extras.GetArrayLength() != 0))
+                throw new ArgumentException("Uncontrolled ambient pawns/incidents in engine fixture: " + path);
             if (b.engine is not ("vanilla" or "legacy" or "new")
                 || b.effectiveEngine != (b.engine == "new" && !b.newEngineImplemented ? "vanilla-fallback" : b.engine))
                 throw new ArgumentException("Unknown/inconsistent engine: " + path);

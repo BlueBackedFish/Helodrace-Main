@@ -11,7 +11,7 @@ using Verse.AI.Group;
 
 namespace Helodrace.Tactics
 {
-    public enum TacticalCommandPhase { Pending, Stack, Breach, Observe, Support, BlastWait, Enter, Returning, Complete, Released }
+    public enum TacticalCommandPhase { Pending, Stack, Breach, Observe, Support, BlastWait, Enter, Clear, Returning, Complete, Released }
     public sealed class TacticalMemberCommand
     {
         public Pawn Pawn;
@@ -42,6 +42,13 @@ namespace Helodrace.Tactics
         public bool ReplanAfterSupport;
         public readonly List<Thing> BreachTools = new List<Thing>();
         public int RecoveryRetryAt, RecoveryCandidateCursor;
+        public TacticalRoomScan RoomScan;
+        public readonly HashSet<IntVec3> SecuredCells = new HashSet<IntVec3>();
+        public readonly List<TacticalLocalPlan> SecuredPlans = new List<TacticalLocalPlan>();
+        public readonly List<TacticalRoomFrontier> Frontiers = new List<TacticalRoomFrontier>();
+        public readonly HashSet<IntVec3> FrontierKeys = new HashSet<IntVec3>();
+        public bool GoalSecured, FrontierBusy;
+        public int FrontierCursor;
         public bool Terminal => Phase == TacticalCommandPhase.Released;
     }
 
@@ -165,6 +172,7 @@ namespace Helodrace.Tactics
                 AbandonCharge(command);
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
+                command.RoomScan = null; command.GoalSecured = command.SecuredCells.Contains(goal);
                 command.Phase = TacticalCommandPhase.Pending; command.Due = GenTicks.TicksGame;
                 command.ReturnCursor = 0; command.ReleaseAfterReturn = false;
                 command.PlanRetryAt = 0;
@@ -256,6 +264,8 @@ namespace Helodrace.Tactics
             var active = command.Members.Where(member => Available(member, map)).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
+            if (command.Phase == TacticalCommandPhase.Clear)
+            { AdvanceRoomClear(command, active, tick); return; }
             if (command.Phase == TacticalCommandPhase.Breach && command.ChargeAction != null)
             { AdvanceCharge(command, active, tick); return; }
             foreach (TacticalMemberCommand member in active)
@@ -351,6 +361,7 @@ namespace Helodrace.Tactics
                     foreach (IntVec3 cell in plan.Stack.Concat(plan.Positions)) claims[cell] = command;
                     claims[plan.Outside] = command;
                     claims[plan.Inside] = command;
+                    if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
                     claims[plan.Opening] = command;
                     command.HadConnectedStack = TacticalLocalPlanner.Connected(plan.Stack);
                     command.Breacher = hammer;
@@ -449,6 +460,7 @@ namespace Helodrace.Tactics
                     Job ingress = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalIngress"),
                         current.Outside, current.Opening, current.Positions[i]);
                     ingress.targetQueueA = new List<LocalTargetInfo> { current.Inside };
+                    if (current.EntryLane.IsValid) ingress.targetQueueA.Add(current.EntryLane);
                     ingress.count = member.Crossed ? 2 : member.Passed ? 1 : 0;
                     Issue(member, ingress);
                 }
@@ -457,7 +469,7 @@ namespace Helodrace.Tactics
             {
                 // Keep the footprint until the final owned post is released.
                 // Vanilla next-job selection must not run for a whole squad here.
-                BeginReturn(command, tick, false);
+                BeginRoomClear(command, tick);
             }
         }
         private IntVec3 Goal(int tick)
@@ -495,18 +507,20 @@ namespace Helodrace.Tactics
                     || known.Outside.DistanceToSquared(leader.Position) > goal.DistanceToSquared(leader.Position)
                     || known.Stack.Count < count || known.Positions.Count < count || !OpeningUsable(known)) continue;
                 bool physical = known.Outside.Standable(map) && known.Inside.Standable(map);
+                physical &= !known.EntryLane.IsValid || known.EntryLane.Standable(map);
                 for (int i = 0; physical && i < count; i++)
                     physical = known.Stack[i].Standable(map) && known.Positions[i].Standable(map);
                 if (!physical) continue; // Changed obstruction: allow a fresh bounded plan.
                 tried = true;
                 bool busy = leases.ContainsKey(known.Opening) || claimed(known.Outside) || claimed(known.Inside);
+                busy |= known.EntryLane.IsValid && claimed(known.EntryLane);
                 for (int i = 0; !busy && i < count; i++) busy = claimed(known.Stack[i]) || claimed(known.Positions[i]);
                 if (busy) { failure |= TacticalPlanFailure.Busy; continue; }
                 if (probes++ >= 2) break;
                 if (!leader.CanReach(known.Outside, PathEndMode.OnCell, Danger.Deadly))
                 { failure |= TacticalPlanFailure.Unreachable; continue; }
                 var plan = new TacticalLocalPlan { Opening = known.Opening, Inward = known.Inward, ExistingOpening = true,
-                    Barrier = known.Opening.GetEdifice(map) };
+                    Barrier = known.Opening.GetEdifice(map), EntryLane = known.EntryLane };
                 for (int i = 0; i < count; i++) { plan.Stack.Add(known.Stack[i]); plan.Positions.Add(known.Positions[i]); }
                 plan.Interior.UnionWith(known.Interior);
                 failure = TacticalPlanFailure.None; return plan;

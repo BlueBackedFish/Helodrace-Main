@@ -83,7 +83,38 @@ internal static class EngineComparisonChecks
         File.WriteAllText(r2Audit, JsonSerializer.Serialize(stalled));
         group = JsonSerializer.SerializeToElement(EngineComparison.Compare(r2Baseline, r2)).GetProperty("groups")[0];
         if (group.GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean()) throw new Exception("Partially entered R2 passed the gate.");
-        Console.WriteLine("Engine comparison checks passed: same fixture/different phases, CPU ratio/range, fallback and stalled gates, 17 invalid-condition rejections.");
+        foreach (string directory in new[] { r2, r2Baseline })
+        {
+            foreach (string path in Directory.GetFiles(Path.Combine(directory, "profiles"), "capture-*.json"))
+            {
+                var capture = JsonSerializer.Deserialize<ProfileSnapshot>(File.ReadAllText(path), Options)!;
+                capture.benchmark.fixtureVersion = 11;
+                File.WriteAllText(path, JsonSerializer.Serialize(capture, Options));
+            }
+            string pathAudit = Path.Combine(directory, "audit.json");
+            var audit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(pathAudit))!;
+            audit["newFunctionalComplete"] = JsonSerializer.SerializeToElement(true);
+            audit["fixtureVersion"] = JsonSerializer.SerializeToElement(11);
+            audit["environmentControlled"] = JsonSerializer.SerializeToElement(true);
+            audit["unexpectedPawns"] = JsonSerializer.SerializeToElement(Array.Empty<string>());
+            File.WriteAllText(pathAudit, JsonSerializer.Serialize(audit));
+        }
+        group = JsonSerializer.SerializeToElement(EngineComparison.Compare(r2Baseline, r2)).GetProperty("groups")[0];
+        if (!group.GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean()) throw new Exception("Controlled fixture gate failed.");
+        var controlledAudit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(r2Audit))!;
+        string pristine = JsonSerializer.Serialize(controlledAudit);
+        controlledAudit["environmentControlled"] = JsonSerializer.SerializeToElement(false);
+        File.WriteAllText(r2Audit, JsonSerializer.Serialize(controlledAudit));
+        Reject(() => EngineComparison.Compare(r2Baseline, r2), "uncontrolled incidents");
+        controlledAudit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(pristine)!;
+        controlledAudit["unexpectedPawns"] = JsonSerializer.SerializeToElement(new[] { "Mech_999" });
+        File.WriteAllText(r2Audit, JsonSerializer.Serialize(controlledAudit));
+        Reject(() => EngineComparison.Compare(r2Baseline, r2), "unexpected pawns");
+        controlledAudit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(pristine)!;
+        controlledAudit.Remove("environmentControlled");
+        File.WriteAllText(r2Audit, JsonSerializer.Serialize(controlledAudit));
+        Reject(() => EngineComparison.Compare(r2Baseline, r2), "missing environment audit");
+        Console.WriteLine("Engine comparison checks passed: same fixture/different phases, CPU ratio/range, fallback/stalled gates, controlled environment and invalid-condition rejections.");
     }
     private static void Reject(Func<object> action, string label)
     {

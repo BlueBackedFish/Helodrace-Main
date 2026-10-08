@@ -30,6 +30,12 @@ namespace Helodrace
         [DataMember] public long newObservations, newObservationContacts, newSupportThrows, newSupportWaits, newSupportReturns, newUnsafeEntries;
         [DataMember] public long newToolRecoveriesStarted, newToolRecoveriesCompleted, newCutterJobsStarted;
         [DataMember] public long newChargesInstalled, newChargeDetonations, newChargeOperatorTransfers, newChargeWaits;
+        [DataMember] public long newRoomScanSteps, newRoomsSecured, newRoomPlansAttempted;
+        [DataMember] public bool newRoomProgressComplete;
+        [DataMember] public string[] newSecuredPortals;
+        [DataMember] public int fixtureVersion = 12;
+        [DataMember] public bool environmentControlled;
+        [DataMember] public string[] unexpectedPawns;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
         [DataMember] public bool newPhysicalPlansValid;
         [DataMember] public int newAllCompleteTick = -1;
@@ -56,6 +62,7 @@ namespace Helodrace
         private readonly List<Pawn> raiders = new List<Pawn>();
         private readonly Dictionary<Pawn, IntVec3> starts = new Dictionary<Pawn, IntVec3>();
         private readonly HashSet<Pawn> entered = new HashSet<Pawn>(), arrived = new HashSet<Pawn>();
+        private readonly HashSet<string> unexpected = new HashSet<string>();
         private Pawn owner;
         private Pawn interruptedPawn;
         private Tactics.TacticalSquadCommand interruptedCommand;
@@ -137,7 +144,8 @@ namespace Helodrace
             if (result.fixtureCase != "normal" && result.fixtureCase != "interrupt" && result.fixtureCase != "casualty"
                 && result.fixtureCase != "rocks" && result.fixtureCase != "narrow" && result.fixtureCase != "contact" && result.fixtureCase != "field"
                 && result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
-                && result.fixtureCase != "charge-recovery" && result.fixtureCase != "charge-fuse-casualty" && result.fixtureCase != "charge-change") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "charge-recovery" && result.fixtureCase != "charge-fuse-casualty" && result.fixtureCase != "charge-change"
+                && result.fixtureCase != "multiroom") throw new ArgumentException("Unknown audit case.");
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -149,6 +157,14 @@ namespace Helodrace
             Faction.OfPlayer.RelationWith(faction).kind = FactionRelationKind.Hostile;
             if (!faction.HostileTo(Faction.OfPlayer)) throw new InvalidOperationException("Audit faction must be hostile.");
             owner = map.mapPawns.FreeColonists.First();
+            // The isolated fixture must not acquire an unrelated raid/disease
+            // midway through a longer CQB window. These flags are audit-only;
+            // this process quits when the capture ends.
+            DebugSettings.enableStoryteller = false;
+            DebugSettings.enableRandomDiseases = false;
+            DebugSettings.enableRandomMentalStates = false;
+            DebugSettings.noAnimals = true;
+            Find.Storyteller.incidentQueue = new IncidentQueue();
             MapComponent_RaidMovementRuntimeAudit.ProtectedOwner = owner;
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList()) if (pawn != owner) pawn.Destroy(DestroyMode.Vanish);
             foreach (IntVec3 cell in map.AllCells)
@@ -157,6 +173,9 @@ namespace Helodrace
                 { if (thing.def.destroyable) thing.Destroy(DestroyMode.Vanish); else thing.DeSpawn(); }
                 map.terrainGrid.SetTerrain(cell, TerrainDefOf.Concrete); map.roofGrid.SetRoof(cell, null);
             }
+            // Destroying an ancient casket during the building cleanup can spawn
+            // its sleeping pawn. Clear those before generating the fixture force.
+            foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList()) if (pawn != owner) pawn.Destroy(DestroyMode.Vanish);
             void Place(ThingDef def, IntVec3 position)
             {
                 Thing thing = ThingMaker.MakeThing(def, def.MadeFromStuff ? ThingDefOf.Steel : null);
@@ -178,12 +197,26 @@ namespace Helodrace
             for (int x = 101; x < right; x++) for (int z = 101; z < top; z++)
                 map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
             }
+            if (result.fixtureCase == "multiroom")
+            {
+                for (int z = 101; z < top; z++) Place(z == 108 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(114, 0, z));
+                for (int x = 115; x < right; x++) Place(x == 126 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(x, 0, 119));
+            }
             if (result.fixtureCase == "rocks")
                 for (int z = 105; z <= 114; z += 2) Place(ThingDefOf.Wall, new IntVec3(99, 0, z));
-            IntVec3 goal = small ? new IntVec3(103,0,103) : new IntVec3(120, 0, 118);
+            IntVec3 goal = small ? new IntVec3(103,0,103)
+                : result.fixtureCase == "multiroom" ? new IntVec3(120,0,116) : new IntVec3(120, 0, 118);
             Place(ThingDefOf.Bed, goal);
             ((Building_Bed)goal.GetEdifice(map)).CompAssignableToPawn.TryAssignPawn(owner);
             owner.Position = goal; owner.drafter.Drafted = true; owner.equipment.DestroyAllEquipment();
+            // Keep the named bed as objective, but avoid intentionally aiming a
+            // grenade beside the final partition in the three-separate-room case.
+            if (result.fixtureCase == "multiroom") owner.Position = new IntVec3(120,0,110);
+            if (result.fixtureCase == "multiroom" && Enumerable.Range(115, right - 115).Any(x =>
+                {
+                    Building partition = new IntVec3(x,0,119).GetEdifice(map);
+                    return partition?.def.IsWall != true && !(partition is Building_Door);
+                })) throw new InvalidOperationException("The named bed must not wipe the multiroom partition.");
             Job wait = JobMaker.MakeJob(JobDefOf.Wait_MaintainPosture); wait.expiryInterval = 1000000;
             owner.jobs.StartJob(wait, JobCondition.InterruptForced);
             result.mapFingerprint = RaidAuditSeed.Fingerprint(map);
@@ -228,7 +261,7 @@ namespace Helodrace
             if (result.fixtureCase == "field") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal + new IntVec3(1,0,1));
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
-            benchmark = new ProfileBenchmark { fixtureVersion = 9, seed = result.seed, mapFingerprint = result.mapFingerprint,
+            benchmark = new ProfileBenchmark { fixtureVersion = 12, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
                 radioOperators = result.radioOperators, warmupTicks = result.warmupTicks, sampleTicks = result.sampleTicks,
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,
@@ -377,11 +410,17 @@ namespace Helodrace
                 result.newRearPassedOpening = commands.Sum(command => command.Members.Count(member => member.Passed && member.Rear));
                 result.newConnectedStacks = commands.All(command => command.Plan != null && (command.Plan.Direct || command.HadConnectedStack));
                 bool Interior(IntVec3 cell) => cell.x > 100 && cell.x < fixtureRight && cell.z > 100 && cell.z < fixtureTop;
+                bool Physical(Tactics.TacticalLocalPlan plan, int count) => plan.Positions.All(Interior)
+                    && plan.Positions.Distinct().Count() == count && (plan.Direct || Interior(plan.Inside)
+                        && (result.fixtureCase == "multiroom" || !Interior(plan.Outside)));
                 result.newPhysicalPlansValid = commands.All(command => command.Plan != null
                     && command.Plan.Positions.All(Interior) && command.Plan.Positions.Distinct().Count() == command.Members.Count
                     && (command.Plan.Direct || (command.Plan.Opening.x == 100 || command.Plan.Opening.x == fixtureRight
                         || command.Plan.Opening.z == 100 || command.Plan.Opening.z == fixtureTop)
                         && !Interior(command.Plan.Outside) && Interior(command.Plan.Inside)));
+                if (result.fixtureCase == "multiroom")
+                    result.newPhysicalPlansValid = commands.All(command => command.Plan != null && Physical(command.Plan, command.Members.Count)
+                        && command.SecuredPlans.All(plan => Physical(plan, command.Members.Count) && (plan.Direct || Tactics.TacticalLocalPlanner.Connected(plan.Stack))));
                 result.newJobsIssued = newService.JobsIssued; result.newJobFailures = newService.JobFailures;
                 result.newLastJobFailure = newService.LastJobFailure;
                 result.newPlansAttempted = newService.PlansAttempted;
@@ -393,20 +432,39 @@ namespace Helodrace
                 result.newCutterJobsStarted = newService.CutterJobsStarted;
                 result.newChargesInstalled = newService.ChargesInstalled; result.newChargeDetonations = newService.ChargeDetonations;
                 result.newChargeOperatorTransfers = newService.ChargeOperatorTransfers; result.newChargeWaits = newService.ChargeWaits;
+                result.newRoomScanSteps = newService.RoomScanSteps; result.newRoomsSecured = newService.RoomsSecured;
+                result.newRoomPlansAttempted = newService.RoomPlansAttempted;
+                result.newSecuredPortals = commands.Select(command => command.Id + ":" + string.Join(";", command.SecuredPlans
+                    .Select(plan => plan.Opening.ToString()))).ToArray();
+                result.newRoomProgressComplete = result.fixtureCase != "multiroom" || commands.All(command => command.GoalSecured
+                    && new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) }.All(command.SecuredCells.Contains)
+                    && command.SecuredPlans.Count >= 3 && command.SecuredPlans.Select(plan => plan.Opening).Distinct().Count() == command.SecuredPlans.Count);
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
-                    && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid
+                    && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid && result.newRoomProgressComplete
                     && commands.All(command => command.Plan.Direct || command.Members.All(member => member.Pawn.Dead || member.Pawn.Downed || member.Passed));
                 result.newCommands = commands.Select(command => command.Id + ":" + command.Phase + " opening=" + command.Plan?.Opening
+                    + " outside=" + command.Plan?.Outside + ":walkable=" + (command.Plan?.Outside.Standable(map))
+                    + ":edifice=" + command.Plan?.Outside.GetEdifice(map)
+                    + " barrier=" + (command.Plan?.Opening.GetEdifice(map) is Building_Door entryDoor
+                        ? entryDoor + ":open=" + entryDoor.Open + ":jam=" + DoorBreachFaultUtility.Jammed(entryDoor) : "wall/gap")
                     + " direct=" + command.Plan?.Direct + " failures=" + command.Failures + " lastFailure=" + command.LastPlanFailure
                     + " tools=" + command.Members.Count(member => CompSledgehammerBreach.WornBy(member.Pawn) != null)
                     + " members="
                     + string.Join(";", command.Members.Select((member, index) => member.Pawn.Position + ":" + member.Pawn.CurJobDef
                         + ":passed=" + member.Passed + ":entered=" + member.Entered + ":slot="
-                        + (command.Plan == null ? "none" : command.Plan.Positions[index].ToString())))).ToArray();
+                        + (command.Plan == null ? "none" : command.Plan.Positions[index].ToString())
+                        + ":jobA=" + member.Pawn.CurJob?.targetA + ":jobB=" + member.Pawn.CurJob?.targetB
+                        + ":jobC=" + member.Pawn.CurJob?.targetC + ":toil=" + member.Pawn.jobs.curDriver?.CurToilIndex
+                        + ":moving=" + member.Pawn.pather.Moving + ":dest=" + member.Pawn.pather.Destination))).ToArray();
             }
             result.finalPawnJobs = raiders.Select(pawn => pawn.kindDef.defName + "@" + pawn.Position + ":"
                 + pawn.CurJob?.def?.defName + "->" + pawn.CurJob?.targetA.ToString()).ToArray();
+            foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
+                if (pawn != owner && !ProtectedRaiders.Contains(pawn)) unexpected.Add(pawn.ThingID + ":" + pawn.kindDef.defName);
+            result.unexpectedPawns = unexpected.OrderBy(id => id).ToArray();
+            result.environmentControlled = unexpected.Count == 0 && !DebugSettings.enableStoryteller
+                && !DebugSettings.enableRandomDiseases && !DebugSettings.enableRandomMentalStates && DebugSettings.noAnimals;
             result.breachedWallCells = Enumerable.Range(101,fixtureTop - 101).Count(z => new IntVec3(100,0,z).GetEdifice(map) == null
                 && (result.workload != "open-approach" || z != 118));
             var sketch = new StringBuilder("x=96..108, rows z=98.." + (fixtureTop + 1) + "\n");
@@ -432,6 +490,8 @@ namespace Helodrace
                 .OrderBy(group => group.Key).Select(group => group.Key + ":" + group.Count()));
         private void Progress(int tick)
         {
+            foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
+                if (pawn != owner && !ProtectedRaiders.Contains(pawn)) unexpected.Add(pawn.ThingID + ":" + pawn.kindDef.defName);
             if (result.newAllCompleteTick < 0 && result.units > 0 && TacticalEngineSelection.Kind == TacticalEngineKind.New)
             {
                 var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();

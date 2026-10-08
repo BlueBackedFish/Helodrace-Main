@@ -89,6 +89,13 @@ namespace Helodrace.Tactics
                     pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.CrossedInside(pawn, job);
                 });
             }
+            if (job.targetQueueA.Count > 1)
+            {
+                // Clear the mouth into the unoccupied inner lane before turning
+                // toward the wall posts. No hold between these movement legs.
+                yield return AdmitMovement();
+                yield return Toils_Goto.GotoCell(job.targetQueueA[1].Cell, PathEndMode.OnCell);
+            }
             yield return AdmitMovement();
             yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
             yield return Hold(job.targetB.Cell);

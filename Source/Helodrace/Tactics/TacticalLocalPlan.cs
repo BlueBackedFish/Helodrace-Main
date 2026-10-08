@@ -7,11 +7,12 @@ using Verse;
 namespace Helodrace.Tactics
 {
     [Flags]
-    public enum TacticalPlanFailure { None = 0, Busy = 1, NotBoundary = 2, Tool = 4, Obstructed = 8, Stack = 16, Inside = 32, Unreachable = 64 }
+    public enum TacticalPlanFailure { None = 0, Busy = 1, NotBoundary = 2, Tool = 4, Obstructed = 8, Stack = 16, Inside = 32, Unreachable = 64, Unsecured = 128 }
     // Only the small physical footprint of one command. No topology/grid cache.
     public sealed class TacticalLocalPlan
     {
         public IntVec3 Opening, Inward;
+        public IntVec3 EntryLane = IntVec3.Invalid;
         public IntVec3 Outside => Opening - Inward;
         public IntVec3 Inside => Opening + Inward;
         public Building Barrier;
@@ -134,6 +135,9 @@ namespace Helodrace.Tactics
                 {
                     IntVec3 wallCell = plan.Opening + lateral * (column * side);
                     Building support = wallCell.InBounds(map) ? wallCell.GetEdifice(map) : null;
+                    // A blast-made opening can span several cells. Begin the
+                    // connected covered patch at its intact edge, not in the gap.
+                    if (support == null && plan.ExistingOpening && column <= 3 && wallCell.InBounds(map) && wallCell.Standable(map)) continue;
                     if (support == null || !(support.def.IsWall || support is Building_Door)) break;
                     for (int depth = 1; depth <= 3 && plan.Stack.Count < count; depth++)
                     {
@@ -177,7 +181,8 @@ namespace Helodrace.Tactics
             plan.Stack.Clear(); return false;
         }
 
-        internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed)
+        internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,
+            Func<IntVec3, bool> insideAllowed = null)
         {
             IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
             var reachable = plan.Interior;
@@ -195,7 +200,8 @@ namespace Helodrace.Tactics
                     int depth = delta.x * plan.Inward.x + delta.z * plan.Inward.z;
                     int width = delta.x * lateral.x + delta.z * lateral.z;
                     if (depth < 1 || depth > 4 || Math.Abs(width) > 8 || !cell.InBounds(map)
-                        || !cell.Standable(map) || reachable.Contains(cell)) continue;
+                        || !cell.Standable(map) || cell.GetEdifice(map) is Building_Door || reachable.Contains(cell)
+                        || insideAllowed != null && !insideAllowed(cell)) continue;
                     if (reachable.Count >= 81) break;
                     reachable.Add(cell); queue.Enqueue(cell);
                 }
@@ -212,9 +218,14 @@ namespace Helodrace.Tactics
                     }
             // A tiny room cannot fit a full squad if every center-line tile is
             // discarded. Only the first inside mouth must remain clear.
+            // Keep a second mouth cell free: pawn avoidance can otherwise strand
+            // a late entrant behind the stationary near-wall posts on both sides.
+            IntVec3 lane = plan.Inside + plan.Inward;
+            if (reachable.Contains(lane) && Free(map, lane, claimed)) plan.EntryLane = lane;
             for (int depth = 2; depth <= 4 && plan.Positions.Count < count; depth++)
             {
                 IntVec3 cell = plan.Opening + plan.Inward * depth;
+                if (cell == plan.EntryLane) continue;
                 if (reachable.Contains(cell) && Free(map, cell, claimed)) plan.Positions.Add(cell);
             }
             return plan.Positions.Count == count;

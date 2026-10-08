@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "multiroom",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceRoomClear;Helodrace.Tactics.TacticalRoomScan::Step;Helodrace.Tactics.TacticalRoomScan::CopyCellsTo;Helodrace.Tactics.MapComponent_TacticalCommands::PlanRoomFrontier;Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceOpeningAction",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "adb5702a79e011a8866abd53c900e5ec3bf8129c7403799447a6cb59da62f6a0",
+    "high":  false,
+    "sampleTicks":  6000,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}
