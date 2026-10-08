@@ -69,7 +69,7 @@ namespace Helodrace
         [DataMember] public string caseContactTile;
         [DataMember] public string[] newSecuredPortals;
         [DataMember] public string[] newRoomDiagnostics;
-        [DataMember] public int fixtureVersion = 17;
+        [DataMember] public int fixtureVersion = 33;
         [DataMember] public bool environmentControlled;
         [DataMember] public string[] unexpectedPawns;
         [DataMember] public bool r7CleanupComplete, r7WorldOrganizationsCleared, r7IdleStable;
@@ -141,7 +141,7 @@ namespace Helodrace
                     VerifyIsolation(); FinalDiagnostics(); result.complete = true;
                     Write(); finished = true; Application.Quit(); return;
                 }
-                Find.TickManager.CurTimeSpeed = TimeSpeed.Fast;
+                Find.TickManager.CurTimeSpeed = AuditTimeSpeed(result.speed);
                 int tick = GenTicks.TicksGame;
                 ApplyCase();
                 if (tick >= nextProgress) { Progress(tick); nextProgress = tick + 30; }
@@ -150,7 +150,7 @@ namespace Helodrace
                     measured = tick;
                     benchmark.startPhases = Phases();
                     AgentMethodProfiler.Begin("engine-audit", result.workload == "open-approach" ? 100 : 101,
-                        raiders.Count, 3, seconds: 1800, benchmark: benchmark);
+                        raiders.Count, result.speed, seconds: 1800, benchmark: benchmark);
                     if (!GenCommandLine.TryGetCommandLineArg("hdMethodProfile", out _))
                     {
                         uninstrumentedProcessStart = windowClock.ProcessCpu100ns();
@@ -182,6 +182,8 @@ namespace Helodrace
             result.requestedPopulation = Argument("hdTacticalAuditPopulation", 50);
             result.warmupTicks = Argument("hdTacticalAuditWarmup", 600);
             result.sampleTicks = Argument("hdTacticalAuditSample", 1200);
+            result.speed = Argument("hdTacticalAuditSpeed", 3); AuditTimeSpeed(result.speed);
+            result.headless = Environment.GetCommandLineArgs().Any(arg => arg.Equals("-nographics", StringComparison.OrdinalIgnoreCase));
             if (result.sampleTicks == 0) throw new ArgumentException("Audit sample ticks must be positive.");
             GenCommandLine.TryGetCommandLineArg("hdTacticalAuditWorkload", out result.workload);
             result.fixtureCase = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditCase", out string fixtureCase) ? fixtureCase : "normal";
@@ -226,6 +228,9 @@ namespace Helodrace
             DebugSettings.enableRandomDiseases = false;
             DebugSettings.enableRandomMentalStates = false;
             DebugSettings.noAnimals = true;
+            // Native combat slowdown otherwise changes Fast to 1x for
+            // 240/800 ticks. Control actual speed in this isolated CLI process.
+            DebugViewSettings.neverForceNormalSpeed = true;
             Find.Storyteller.incidentQueue = new IncidentQueue();
             TacticalAuditProtection.ProtectedOwner = owner;
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList()) if (pawn != owner) pawn.Destroy(DestroyMode.Vanish);
@@ -701,6 +706,7 @@ namespace Helodrace
             : result.effectiveEngine;
         private void Progress(int tick)
         {
+            SampleScaling(tick);
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
                 if (pawn != owner && !ProtectedRaiders.Contains(pawn)) unexpected.Add(pawn.ThingID + ":" + pawn.kindDef.defName);
             if (result.newAllCompleteTick < 0 && result.units > 0 && TacticalEngineSelection.Kind == TacticalEngineKind.New)

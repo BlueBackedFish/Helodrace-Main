@@ -52,7 +52,7 @@ internal static class Program
     {
         try
         {
-            if (args.Contains("--r7")) { TacticalPersistenceTests.Run(); TacticalRetirementTests.Run(); TacticalAuditProtectionTests.Run(); TacticalRemovalTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
+            if (args.Contains("--r7")) { TacticalEngineSelectionTests.Run(); TacticalPersistenceTests.Run(); TacticalRetirementTests.Run(); TacticalAuditProtectionTests.Run(); TacticalRemovalTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--defense")) { TacticalDefenseTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--r6")) { TacticalFieldTests.Run(); TacticalSupportTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--smoke")) { CheckSmokeGases(); return 0; }

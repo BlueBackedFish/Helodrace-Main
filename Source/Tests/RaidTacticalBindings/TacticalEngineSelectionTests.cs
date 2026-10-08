@@ -17,6 +17,29 @@ internal static class TacticalEngineSelectionTests
             throw new Exception("Engine selection parser/default failed.");
         try { TacticalEngineSelection.Parse("garbage"); throw new Exception("Invalid engine accepted."); }
         catch (ArgumentException) { }
+        var auditSpeed = AccessTools.Method(typeof(MapComponent_TacticalEngineAudit), "AuditTimeSpeed");
+        if ((TimeSpeed)auditSpeed.Invoke(null, new object[] { 1 }) != TimeSpeed.Normal
+            || (TimeSpeed)auditSpeed.Invoke(null, new object[] { 3 }) != TimeSpeed.Fast)
+            throw new Exception("Audit requested speed does not map to the real native game speed.");
+        bool originalSlowdown = DebugViewSettings.neverForceNormalSpeed;
+        try
+        {
+            var manager = (TickManager)RuntimeHelpers.GetUninitializedObject(typeof(TickManager));
+            var slower = RuntimeHelpers.GetUninitializedObject(typeof(TimeSlower));
+            AccessTools.Field(typeof(TickManager), "slower").SetValue(manager, slower);
+            AccessTools.Field(typeof(TimeSlower), "forceNormalSpeedUntil").SetValue(slower, int.MaxValue);
+            DebugViewSettings.neverForceNormalSpeed = true;
+            foreach (int speed in new[] { 1, 3 })
+            {
+                // The native setter needs a live Game/gravship controller;
+                // seed its backing field and exercise the real rate getter.
+                AccessTools.Field(typeof(TickManager), "curTimeSpeed").SetValue(manager,
+                    (TimeSpeed)auditSpeed.Invoke(null, new object[] { speed }));
+                if (manager.TickRateMultiplier != speed)
+                    throw new Exception("Native speed control did not override the combat slowdown.");
+            }
+        }
+        finally { DebugViewSettings.neverForceNormalSpeed = originalSlowdown; }
         var types = typeof(TacticalEngineSelection).Assembly.GetTypes();
         foreach (Type type in types)
             if (!type.IsDefined(typeof(HarmonyPatch), false) && type.GetMethods(System.Reflection.BindingFlags.DeclaredOnly

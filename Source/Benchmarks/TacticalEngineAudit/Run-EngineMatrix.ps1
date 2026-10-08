@@ -3,6 +3,8 @@ param(
     [ValidateSet('vanilla','new')][string[]]$Engines = @('vanilla','new'),
     [ValidateSet('open-approach','sapper-wall','sapper-door')][string[]]$Workloads = @('open-approach','sapper-wall'),
     [ValidateRange(0,400)][int]$Population = 50,
+    [ValidateSet(1,3)][int]$Speed = 3,
+    [string]$Case = 'normal',
     [int]$WarmupTicks = 600,
     [int]$SampleTicks = 1200,
     [switch]$High,
@@ -21,7 +23,7 @@ foreach ($workload in $Workloads) {
         for ($slot=0; $slot -lt $Engines.Count; $slot++) {
             $engine = $Engines[($slot + $repeat - 1) % $Engines.Count]
             $runRoot = Join-Path $root "$workload\$engine\run-$repeat"
-            & (Join-Path $PSScriptRoot 'Run-EngineAudit.ps1') -Engine $engine -Workload $workload -Population $Population -WarmupTicks $WarmupTicks -SampleTicks $SampleTicks -High:$High -NoMethodProfile:$NoMethodProfile -ProfileTargets $ProfileTargets -Seed $Seed -AuditRoot $runRoot
+            & (Join-Path $PSScriptRoot 'Run-EngineAudit.ps1') -Engine $engine -Workload $workload -Population $Population -Speed $Speed -Case $Case -WarmupTicks $WarmupTicks -SampleTicks $SampleTicks -High:$High -NoMethodProfile:$NoMethodProfile -ProfileTargets $ProfileTargets -Seed $Seed -AuditRoot $runRoot
             $auditProcess = [int](Get-Content -LiteralPath (Join-Path $runRoot 'process-id.txt'))
             $deadline = (Get-Date).AddMinutes(30)
             while (Get-Process -Id $auditProcess -ErrorAction SilentlyContinue) {
@@ -30,8 +32,8 @@ foreach ($workload in $Workloads) {
             }
             $audit = Get-Content -LiteralPath (Join-Path $runRoot 'audit.json') -Raw | ConvertFrom-Json
             if (-not $audit.complete -or -not $audit.isolationVerified -or $audit.error) { throw "Audit failed: $runRoot" }
-            if ($engine -eq 'new' -and $SampleTicks -ge 1000 -and -not $audit.newFunctionalComplete) { throw "New functional progress failed; preserve this run: $runRoot" }
-            $records += @{ root=$runRoot; engine=$engine; workload=$workload; repeat=$repeat; population=$audit.population; entered=$audit.entered; objectiveReached=$audit.objectiveReached }
+            if ($engine -eq 'new' -and $audit.population -gt 0 -and $SampleTicks -ge 1000 -and -not $audit.newFunctionalComplete) { throw "New functional progress failed; preserve this run: $runRoot" }
+            $records += @{ root=$runRoot; engine=$engine; workload=$workload; repeat=$repeat; population=$audit.population; entered=$audit.entered; objectiveReached=$audit.objectiveReached; speed=$Speed; fixtureCase=$Case }
             $records | ConvertTo-Json -Depth 6 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $root 'matrix.json')
             Write-Output "Completed $engine/$workload repeat=$repeat actual=$($audit.population) entered=$($audit.entered) reached=$($audit.objectiveReached)"
         }

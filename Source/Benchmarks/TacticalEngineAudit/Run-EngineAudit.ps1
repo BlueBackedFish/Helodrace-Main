@@ -2,6 +2,7 @@
     [ValidateSet('vanilla','new')][string]$Engine = 'vanilla',
     [ValidateSet('open-approach','sapper-wall','sapper-door')][string]$Workload = 'open-approach',
     [ValidateRange(0,400)][int]$Population = 50,
+    [ValidateSet(1,3)][int]$Speed = 3,
     [ValidateRange(0,10000)][int]$WarmupTicks = 600,
     [ValidateRange(1,20000)][int]$SampleTicks = 1200,
     [string]$Seed = 'hd-r1-20261007',
@@ -57,11 +58,12 @@ $manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedP
 $manifest.breachDefinitionsSha256 = (Get-FileHash -LiteralPath $breachDefPath).Hash.ToLowerInvariant()
 $manifest.hammerJobDefinitionsSha256 = (Get-FileHash -LiteralPath $hammerJobsPath).Hash.ToLowerInvariant()
 $manifest.reload = [bool]$Reload
+$manifest.speed = $Speed
 $manifest.defaultEngine = [bool]$DefaultEngine
 $manifest.newJobDefinitionsSha256 = (Get-FileHash -LiteralPath $newJobPath).Hash.ToLowerInvariant()
 $manifest | ConvertTo-Json | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'launcher.json')
 $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTacticalEngineAudit=' + $auditPath + '\audit.json"'),
-    "-hdTacticalAuditWorkload=$Workload", "-hdTacticalAuditPopulation=$Population",
+    "-hdTacticalAuditWorkload=$Workload", "-hdTacticalAuditPopulation=$Population", "-hdTacticalAuditSpeed=$Speed",
     "-hdTacticalAuditWarmup=$WarmupTicks", "-hdTacticalAuditSample=$SampleTicks", "-hdTacticalAuditSeed=$Seed",
     "-hdTacticalAuditCase=$Case",
     $(if ($High) { '-hdTacticalAuditHigh=true' } else { '-hdTacticalAuditLow=true' }),
@@ -73,6 +75,8 @@ if ($null -ne $SpikePawnId) { $arguments += "-hdMethodProfileSpikePawnId=$SpikeP
 if (-not $DefaultEngine) { $arguments += "-hdTacticalEngine=$Engine" }
 if ($Headless) { $arguments += @('-batchmode','-nographics') }
 if ($Reload) { $arguments += '-hdTacticalAuditReload=true' }
+$manifest.arguments = $arguments
+$manifest | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'launcher.json')
 $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru -ArgumentList $arguments
 $process.Id | Set-Content -LiteralPath (Join-Path $auditPath 'process-id.txt')
 Write-Output "Engine audit started: pid=$($process.Id) engine=$Engine workload=$Workload root=$auditPath"

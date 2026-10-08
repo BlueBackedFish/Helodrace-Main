@@ -1,0 +1,141 @@
+﻿CALLS Verse.TickManager.get_TickRateMultiplier
+  IL ldarg.0
+  IL ldfld 67114029
+  FIELD Verse.TickManager.slower
+  IL callvirt 100668876
+  callvirt Verse.TimeSlower.get_ForcedNormalSpeed
+  IL brfalse.s
+  IL ldarg.0
+  IL ldfld 67114021
+  FIELD Verse.TickManager.curTimeSpeed
+  IL brtrue.s
+  IL ldc.r4 0
+  IL ret
+  IL ldc.r4 1065353216
+  IL ret
+  IL ldarg.0
+  IL ldfld 67114021
+  FIELD Verse.TickManager.curTimeSpeed
+  IL stloc.0
+  IL ldloc.0
+  IL switch
+  IL br.s
+  IL ldc.r4 0
+  IL ret
+  IL ldc.r4 1065353216
+  IL ret
+  IL ldc.r4 1077936128
+  IL ret
+  IL call 100684809
+  call Verse.Find.get_Maps
+  IL callvirt 167772425
+  callvirt TypeSpecification.get_Count
+  IL brtrue.s
+  IL ldc.r4 1099956224
+  IL ret
+  IL ldarg.0
+  IL call 100668860
+  call Verse.TickManager.NothingHappeningInGame
+  IL brfalse.s
+  IL ldc.r4 1094713344
+  IL ret
+  IL ldc.r4 1086324736
+  IL ret
+  IL call 100684809
+  call Verse.Find.get_Maps
+  IL callvirt 167772425
+  callvirt TypeSpecification.get_Count
+  IL brfalse.s
+  IL ldsfld 67114017
+  FIELD Verse.TickManager.UltraSpeedBoost
+  IL brfalse.s
+  IL ldc.r4 1125515264
+  IL ret
+  IL ldc.r4 1097859072
+  IL ret
+  IL ldc.r4 -1082130432
+  IL ret
+CALLS Verse.TickManager.get_ForcePaused
+  IL call 100684794
+  call Verse.Find.get_WindowStack
+  IL brfalse.s
+  IL call 100684794
+  call Verse.Find.get_WindowStack
+  IL callvirt 100683961
+  callvirt Verse.WindowStack.get_WindowsForcePause
+  IL brtrue.s
+  IL call 100665804
+  call Verse.LongEventHandler.get_ForcePause
+  IL brtrue.s
+  IL call 100684863
+  call Verse.Find.get_TilePicker
+  IL callvirt 100741600
+  callvirt RimWorld.TilePicker.get_Active
+  IL brtrue.s
+  IL call 100666248
+  call Verse.WorldComponent_GravshipController.get_CutsceneInProgress
+  IL brtrue.s
+  IL call 100684858
+  call Verse.Find.get_GravshipController
+  IL dup
+  IL brtrue.s
+  IL pop
+  IL ldc.i4.0
+  IL br.s
+  IL call 100666254
+  call Verse.WorldComponent_GravshipController.get_LandingAreaConfirmationInProgress
+  IL brtrue.s
+  IL ldsfld 67115810
+  FIELD Verse.MapGenerator.debugMode
+  IL ret
+  IL ldc.i4.1
+  IL ret
+CALLS Verse.TimeSlower.get_ForcedNormalSpeed
+  IL ldsfld 67124299
+  FIELD Verse.DebugViewSettings.neverForceNormalSpeed
+  IL brfalse.s
+  IL ldc.i4.0
+  IL ret
+  IL call 100684827
+  call Verse.Find.get_TickManager
+  IL callvirt 100668842
+  callvirt Verse.TickManager.get_TicksGame
+  IL ldarg.0
+  IL ldfld 67114038
+  FIELD Verse.TimeSlower.forceNormalSpeedUntil
+  IL clt
+  IL ret
+CALLS Verse.TimeSlower.SignalForceNormalSpeed
+  IL ldarg.0
+  IL ldc.i4.1
+  IL newarr 16777249
+  IL dup
+  IL ldc.i4.0
+  IL call 100684827
+  call Verse.Find.get_TickManager
+  IL callvirt 100668842
+  callvirt Verse.TickManager.get_TicksGame
+  IL ldc.i4 800
+  IL add
+  IL stelem.i4
+  IL call 167773181
+  call UnityEngine.Mathf.Max
+  IL stfld 67114038
+  FIELD Verse.TimeSlower.forceNormalSpeedUntil
+  IL ret
+CALLS Verse.TimeSlower.SignalForceNormalSpeedShort
+  IL ldarg.0
+  IL ldarg.0
+  IL ldfld 67114038
+  FIELD Verse.TimeSlower.forceNormalSpeedUntil
+  IL call 100684827
+  call Verse.Find.get_TickManager
+  IL callvirt 100668842
+  callvirt Verse.TickManager.get_TicksGame
+  IL ldc.i4 240
+  IL add
+  IL call 167772363
+  call UnityEngine.Mathf.Max
+  IL stfld 67114038
+  FIELD Verse.TimeSlower.forceNormalSpeedUntil
+  IL ret

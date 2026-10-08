@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-scale-408-vanilla-3x-01",
+  "classification": "Preliminary matched same-DLL 408-pawn diagnostic; excluded from final CPU gate because actual speed varied 1..3 and new engine functional progress failed. Preserve both raw runs, not a passing performance result.",
+  "files": {
+    "audit.json": {
+      "sha256": "0c1feb6a2d710911430d71056df87e6c24c84417e2c0e77cbe8b99125f927b11",
+      "uncompressedSha256": "0c1feb6a2d710911430d71056df87e6c24c84417e2c0e77cbe8b99125f927b11",
+      "uncompressedBytes": 31414
+    },
+    "launcher.json": {
+      "sha256": "92f5b85fb7abda74d48dab59b9a112a201d768b5e9c2b14170d21a6d4673938e",
+      "uncompressedSha256": "92f5b85fb7abda74d48dab59b9a112a201d768b5e9c2b14170d21a6d4673938e",
+      "uncompressedBytes": 2544
+    },
+    "Player.log.gz": {
+      "sha256": "156e2337154af80c7063f5a6671d5cdd1e57fa2e8a21d413f53486676449bbc7",
+      "uncompressedSha256": "a97de7f3ed369b9aaf2fc311758daca4be7e3d8b27e9ce630716a83daa5dfa47",
+      "uncompressedBytes": 29574
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/status.json": {
+      "sha256": "844026a3fdcc2a723235c93469874459ed4628d7a8193edab87d5c30326c5464",
+      "uncompressedSha256": "844026a3fdcc2a723235c93469874459ed4628d7a8193edab87d5c30326c5464",
+      "uncompressedBytes": 227
+    },
+    "profiles/capabilities.json": {
+      "sha256": "b2954cd24a5a549533218885481c5db147a2f2bf5b0ec5279de0dd36a1d1eee1",
+      "uncompressedSha256": "b2954cd24a5a549533218885481c5db147a2f2bf5b0ec5279de0dd36a1d1eee1",
+      "uncompressedBytes": 12855
+    },
+    "profiles/capture-20261008-230705-344-604.json": {
+      "sha256": "5b2ca356eea4b624b9c1a1416e8a988e8f48e69ff100a3ddd41c48f13aaa73fa",
+      "uncompressedSha256": "5b2ca356eea4b624b9c1a1416e8a988e8f48e69ff100a3ddd41c48f13aaa73fa",
+      "uncompressedBytes": 20667
+    }
+  }
+}

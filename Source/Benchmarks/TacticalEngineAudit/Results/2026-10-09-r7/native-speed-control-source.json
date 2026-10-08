@@ -1,0 +1,6 @@
+﻿{
+    "extraction":  "Read-only PEReader/MetadataReader method IL for TickRateMultiplier, ForcedNormalSpeed and SignalForceNormalSpeed; native fields resolved from metadata.",
+    "sha256":  "5cf1b5be399d5b1c9c56ca72c9d35b4ecf307feacf5859d04ac5a1aa5926356a",
+    "source":  "Installed RimWorld 1.6 Assembly-CSharp.dll",
+    "excerptSha256":  "46d68e2d259c1d9057e313befd8649a941c8a66ae47daefd8ed94cd70ddba22a"
+}

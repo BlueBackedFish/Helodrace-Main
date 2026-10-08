@@ -1,0 +1,36 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-speed-empty-new-3x-01",
+  "classification": "Actual native requested/observed speed and empty idle smoke test with combat slowdown disabled in CLI audit only; not a full scaling or repeated final CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "773bb31266bcd5510449e12a16565758048bcc704c4b2395f74aff265ffbce60",
+      "uncompressedSha256": "773bb31266bcd5510449e12a16565758048bcc704c4b2395f74aff265ffbce60",
+      "uncompressedBytes": 8506
+    },
+    "launcher.json": {
+      "sha256": "fa0c5cf557ed7e27c5017cf72fb108fd7661db07387e45709c37e7f16e59f1c4",
+      "uncompressedSha256": "fa0c5cf557ed7e27c5017cf72fb108fd7661db07387e45709c37e7f16e59f1c4",
+      "uncompressedBytes": 2471
+    },
+    "Player.log.gz": {
+      "sha256": "a9f0b468f55b4fbcb4c5f3a6bc53fc43d6be65cb3234d87fb814a059d6a74261",
+      "uncompressedSha256": "8552279cd2ab487950a07d347934f4cc2dab9b40bed7c38a7df767cb91d418f5",
+      "uncompressedBytes": 29422
+    },
+    "profiles/status.json": {
+      "sha256": "bf88f2ecb855a44ce69aa30b056e429774668fcaa4676c2acf5c77d1b3514db1",
+      "uncompressedSha256": "bf88f2ecb855a44ce69aa30b056e429774668fcaa4676c2acf5c77d1b3514db1",
+      "uncompressedBytes": 224
+    },
+    "profiles/capabilities.json": {
+      "sha256": "3b6b6347f0f9fefbbb25a4f6557f7eb96378214b27d15d44ebaad123be41c4da",
+      "uncompressedSha256": "3b6b6347f0f9fefbbb25a4f6557f7eb96378214b27d15d44ebaad123be41c4da",
+      "uncompressedBytes": 12855
+    },
+    "profiles/capture-20261008-231052-104-61.json": {
+      "sha256": "18df65b72fb7ac1b375b088ec6b92a124419018873233543e228a2d6fef43082",
+      "uncompressedSha256": "18df65b72fb7ac1b375b088ec6b92a124419018873233543e228a2d6fef43082",
+      "uncompressedBytes": 15508
+    }
+  }
+}

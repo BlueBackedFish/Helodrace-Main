@@ -13,7 +13,7 @@ internal static class EngineComparison
             string audit = System.IO.Path.Combine(Directory.GetParent(System.IO.Path.GetDirectoryName(path)!)!.FullName, "audit.json");
             if (!File.Exists(audit)) throw new ArgumentException("Missing isolation/progress audit: " + path);
             JsonElement a = JsonDocument.Parse(File.ReadAllText(audit)).RootElement.Clone();
-            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13 or 14 or 15 or 16 or 17)
+            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13 or 14 or 15 or 16 or 17 or 24 or 33)
                 || c.methods == null || c.mods == null || c.methods.Select(m => m.method).Distinct().Count() != c.methods.Length
                 || c.methods.Any(m => m.exceptions > 0) || !a.GetProperty("complete").GetBoolean()
                 || !a.GetProperty("isolationVerified").GetBoolean() || a.GetProperty("error").ValueKind != JsonValueKind.Null
@@ -22,6 +22,16 @@ internal static class EngineComparison
                 || string.IsNullOrWhiteSpace(c.benchmark.pawnFingerprint))
                 throw new ArgumentException("Incomplete/invalid engine measurement: " + path);
             var b = c.benchmark;
+            if (b.fixtureVersion == 33 && (b.engine is not ("vanilla" or "new") || !b.newEngineImplemented
+                || !a.TryGetProperty("headless", out var headless) || headless.GetBoolean()
+                || !a.TryGetProperty("r7AutoSlowdownDisabled", out var slowdown) || !slowdown.GetBoolean()
+                || !a.TryGetProperty("speed", out var speed) || speed.GetInt32() != c.speed || c.speed is not (1 or 3)
+                || !a.TryGetProperty("r7RateSamples", out var samples) || samples.GetInt32() < 1
+                || !a.TryGetProperty("r7TickRateMinimum", out var minimum) || minimum.GetDouble() != c.speed
+                || !a.TryGetProperty("r7TickRateMaximum", out var maximum) || maximum.GetDouble() != c.speed
+                || !a.TryGetProperty("r7RetiredTypesAbsent", out var typesGone) || !typesGone.GetBoolean()
+                || !a.TryGetProperty("r7RetiredDefinitionsAbsent", out var defsGone) || !defsGone.GetBoolean()))
+                throw new ArgumentException("R7 requires the actual 1/3 speed, normal graphics, removed legacy types/defs and an implemented engine: " + path);
             if (b.fixtureVersion >= 11 && (!a.TryGetProperty("fixtureVersion", out var fixture) || fixture.GetInt32() != b.fixtureVersion
                 || !a.TryGetProperty("environmentControlled", out var controlled) || !controlled.GetBoolean()
                 || !a.TryGetProperty("unexpectedPawns", out var extras) || extras.GetArrayLength() != 0))
@@ -98,7 +108,11 @@ internal static class EngineComparison
                 var av=a[k].ToArray();var bv=b[k].ToArray();double tickRatio=Median(bv.Select(TickCpu))/Median(av.Select(TickCpu));
                 double windowRatio=Median(bv.Select(WindowCpu))/Median(av.Select(WindowCpu));
                 bool progression=av.Concat(bv).All(r=>r.Capture.population==0 || r.Audit.GetProperty("entered").GetInt32()>0);
-                bool functional=bv.All(r=>r.Capture.benchmark.fixtureVersion >= 7
+                bool functional=bv.All(r=>(r.Capture.population == 0 && r.Capture.benchmark.fixtureVersion == 33
+                    && r.Capture.benchmark.unitCount == 0 && r.Audit.GetProperty("newCompletedUnits").GetInt32() == 0
+                    && r.Audit.GetProperty("newEnteredByOrder").GetInt32() == 0
+                    && r.Audit.GetProperty("newCommands").GetArrayLength() == 0 && r.Audit.GetProperty("newJobsIssued").GetInt64() == 0
+                    && r.Audit.GetProperty("r7SchedulerAdvances").GetInt64() == 0) || r.Capture.population > 0 && r.Capture.benchmark.fixtureVersion >= 7
                     && r.Audit.TryGetProperty("newFunctionalComplete", out var done) && done.GetBoolean()
                     && r.Audit.TryGetProperty("newPhysicalPlansValid", out var physical) && physical.GetBoolean()
                     && r.Audit.GetProperty("newCompletedUnits").GetInt32() == r.Capture.benchmark.unitCount
