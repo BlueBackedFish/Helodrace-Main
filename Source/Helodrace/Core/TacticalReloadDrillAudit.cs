@@ -82,7 +82,7 @@ namespace Helodrace
         {
             if (output == null || !initialized || !ReloadFixture) return;
             ProtectedRaiders.Clear(); foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
-            MapComponent_RaidMovementRuntimeAudit.ProtectedOwner = owner;
+            TacticalAuditProtection.ProtectedOwner = owner;
             map.GetComponent<MapComponent_TacticalCommands>()?.RestoreSavedCommands();
             medicalCommand = map.GetComponent<MapComponent_TacticalCommands>()?.SavedCommand(savedMedicalCommand);
             fieldCommand = map.GetComponent<MapComponent_TacticalCommands>()?.SavedCommand(savedFieldCommand);

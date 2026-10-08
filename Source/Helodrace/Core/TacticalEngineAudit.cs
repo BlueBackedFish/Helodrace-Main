@@ -226,7 +226,7 @@ namespace Helodrace
             DebugSettings.enableRandomMentalStates = false;
             DebugSettings.noAnimals = true;
             Find.Storyteller.incidentQueue = new IncidentQueue();
-            MapComponent_RaidMovementRuntimeAudit.ProtectedOwner = owner;
+            TacticalAuditProtection.ProtectedOwner = owner;
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList()) if (pawn != owner) pawn.Destroy(DestroyMode.Vanish);
             foreach (IntVec3 cell in map.AllCells)
             {

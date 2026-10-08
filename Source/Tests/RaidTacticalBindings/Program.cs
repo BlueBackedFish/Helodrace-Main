@@ -52,7 +52,7 @@ internal static class Program
     {
         if (commandLineArgs.Contains("--r7"))
         {
-            TacticalPersistenceTests.Run(); TacticalRetirementTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
+            TacticalPersistenceTests.Run(); TacticalRetirementTests.Run(); TacticalAuditProtectionTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
         }
         if (commandLineArgs.Contains("--defense"))
         {
@@ -61,6 +61,10 @@ internal static class Program
         if (commandLineArgs.Contains("--r6"))
         {
             TacticalFieldTests.Run(); TacticalSupportTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
+        }
+        if (commandLineArgs.Contains("--smoke"))
+        {
+            CheckSmokeGases(); return 0;
         }
         if (commandLineArgs.Contains("--hemostasis"))
         {

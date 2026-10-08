@@ -58,7 +58,7 @@ namespace Helodrace
             result.r7SecondaryPawnFingerprint = fixture.result.pawnFingerprint;
             foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
             owner.Position = fixture.owner.Position = new IntVec3(180, 0, 180);
-            MapComponent_RaidMovementRuntimeAudit.ProtectedOwner = owner;
+            TacticalAuditProtection.ProtectedOwner = owner;
             Current.Game.CurrentMap = map;
             result.r7TwoActualMaps = Current.Game.Maps.Contains(map) && Current.Game.Maps.Contains(secondaryMap)
                 && map != secondaryMap && map.uniqueID != secondaryMap.uniqueID

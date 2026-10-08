@@ -13,22 +13,6 @@ using Verse.AI.Group;
 
 namespace Helodrace
 {
-    [StaticConstructorOnStartup]
-    internal static class RaidMovementAuditBootstrap
-    {
-        static RaidMovementAuditBootstrap()
-        {
-            // Hidden audits must keep pumping startup before a map exists.
-            // Normal player sessions retain their own background preference.
-            if (GenCommandLine.TryGetCommandLineArg("hdRaidMovementAudit", out _)
-                || GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _))
-            {
-                Prefs.RunInBackground = true;
-                Application.runInBackground = true;
-            }
-        }
-    }
-
     // Explicit command-line audit only. Never changes a normal player session.
     public sealed class MapComponent_RaidMovementRuntimeAudit : MapComponent
     {
@@ -39,7 +23,6 @@ namespace Helodrace
         private Lord lord;
         private Faction faction;
         private Pawn owner;
-        internal static Pawn ProtectedOwner;
         private int scenario = -1, caseTick, measuredTick, measuredFrame;
         private long measuredPreparationPasses;
         private int sequenceIndex = -1;
@@ -93,7 +76,7 @@ namespace Helodrace
                     faction.RelationWith(Faction.OfPlayer).baseGoodwill = -100;
                     Faction.OfPlayer.RelationWith(faction).baseGoodwill = -100;
                     if (!faction.HostileTo(Faction.OfPlayer)) throw new InvalidOperationException("Audit faction is not hostile.");
-                    owner = map.mapPawns.FreeColonists.First(); ProtectedOwner = owner;
+                    owner = map.mapPawns.FreeColonists.First(); TacticalAuditProtection.ProtectedOwner = owner;
                     foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList()) if (pawn != owner) pawn.Destroy(DestroyMode.Vanish);
                     foreach (IntVec3 cell in map.AllCells)
                     {
@@ -339,16 +322,6 @@ namespace Helodrace
             File.AppendAllText(output, json); Log.Message("Raid audit sample: " + json);
             if (scenario % 10 >= 5 && populations[scenario % 5] > 0 && !plans.Plans.Any(plan => plan.Success))
                 throw new InvalidOperationException("Invalid audit: tactical plans all failed; these values are not a tactical benchmark.");
-        }
-    }
-    [HarmonyPatch(typeof(Thing), nameof(Thing.TakeDamage))]
-    internal static class Patch_RaidRuntimeAudit_Owner
-    {
-        private static bool Prefix(Thing __instance, ref DamageWorker.DamageResult __result)
-        {
-            if (__instance != MapComponent_RaidMovementRuntimeAudit.ProtectedOwner
-                && !(__instance is Pawn pawn && MapComponent_TacticalEngineAudit.ProtectedRaiders.Contains(pawn))) return true;
-            __result = new DamageWorker.DamageResult(); return false;
         }
     }
 }
