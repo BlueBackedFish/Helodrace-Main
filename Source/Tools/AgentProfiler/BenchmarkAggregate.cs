@@ -18,6 +18,7 @@ internal static class BenchmarkAggregate
     private static string Key(ProfileSnapshot c, bool build) => JsonSerializer.Serialize(new {
         assemblySha256 = build ? c.assemblySha256 : null, c.population, c.scenario, c.speed, c.gameVersion, c.cpuSource, c.runtime, c.operatingSystem,
         c.spikeTracing, c.spikeThresholdMs, c.spikePawnId,
+        traceSchema = c.spikeTracing ? c.schema : (int?)null,
         mods = string.Join(";", c.mods), targets = string.Join(";", c.methods.Select(m => m.method).Order()),
         c.benchmark.fixtureVersion, c.benchmark.seed, c.benchmark.mapFingerprint, c.benchmark.faction,
         c.benchmark.startPhases, c.benchmark.warmupTicks, c.benchmark.sampleTicks, c.benchmark.unitCount, c.benchmark.radioOperators,

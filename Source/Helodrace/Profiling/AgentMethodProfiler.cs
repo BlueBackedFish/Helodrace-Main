@@ -279,6 +279,11 @@ namespace Helodrace.Profiling
                     calls = s.Calls.Take(s.Count).OrderBy(c => c.Start).ThenBy(c => c.CallId).Select(c => Call(current, c)).ToArray(),
                     callsSeen = s.Seen, detailsDropped = s.Seen - s.Count, detailsComplete = s.Seen == s.Count,
                     callsFiltered = s.Filtered,
+                    methodsComplete = s.MethodsComplete,
+                    methods = s.Methods.Select((m, i) => new ProfileTickMethod { methodId = i,
+                        calls = m.Calls, exceptions = m.Errors, inclusiveMs = current.Milliseconds(m.Inclusive),
+                        trackedSelfMs = current.Milliseconds(m.Self), maxMs = current.Milliseconds(m.Maximum) })
+                        .Where(m => m.calls > 0).ToArray(),
                     gc0 = s.Gc0, gc1 = s.Gc1, gc2 = s.Gc2 }).ToArray();
             latest = "capture-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff") + "-" + snapshot.startTick + ".json";
             Write(latest, snapshot); Status();

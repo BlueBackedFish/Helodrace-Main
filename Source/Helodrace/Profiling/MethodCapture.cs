@@ -31,7 +31,14 @@ namespace Helodrace.Profiling
     {
         public RecordedProfileCall Root;
         public readonly RecordedProfileCall[] Calls = new RecordedProfileCall[MethodCapture.SpikeCallCapacity];
+        public readonly RecordedTickMethod[] Methods;
+        public bool MethodsComplete;
         public int Count, Seen, Filtered, Gc0, Gc1, Gc2;
+        internal RecordedTickSpike(int methodCount) { Methods = new RecordedTickMethod[methodCount]; }
+    }
+    public struct RecordedTickMethod
+    {
+        public long Calls, Errors, Inclusive, Self, Maximum;
     }
 
     // One game-main-thread capture. Other threads are explicitly rejected rather
@@ -59,6 +66,8 @@ namespace Helodrace.Profiling
         public const int SpikeCapacity = 8, SpikeCallCapacity = 512;
         public readonly RecordedTickSpike[] TickSpikes;
         private readonly RecordedProfileCall[] tickCalls;
+        private readonly RecordedTickMethod[] tickMethods;
+        private long tickDropped;
         private readonly int tickMethod;
         private readonly int? spikePawnId;
         private readonly long threshold, origin;
@@ -82,8 +91,9 @@ namespace Helodrace.Profiling
             if (traceSpikes)
             {
                 tickCalls = new RecordedProfileCall[SpikeCallCapacity];
+                tickMethods = new RecordedTickMethod[cpu.Length];
                 TickSpikes = new RecordedTickSpike[SpikeCapacity];
-                for (int i = 0; i < TickSpikes.Length; i++) TickSpikes[i] = new RecordedTickSpike();
+                for (int i = 0; i < TickSpikes.Length; i++) TickSpikes[i] = new RecordedTickSpike(cpu.Length);
             }
             int n = cpu.Length;
             Calls = new long[n]; Errors = new long[n]; Inclusive = new long[n];
@@ -109,6 +119,7 @@ namespace Helodrace.Profiling
                 if (id == tickMethod && traceDepth < 0)
                 {
                     traceDepth = slot; traceRoot = serial + 1; traceCount = traceSeen = traceFiltered = 0;
+                    Array.Clear(tickMethods, 0, tickMethods.Length); tickDropped = Interlocked.Read(ref Dropped);
                     gc0 = GC.CollectionCount(0); gc1 = GC.CollectionCount(1); gc2 = GC.CollectionCount(2);
                 }
                 else if (traceDepth >= 0) context.Tick = stack[traceDepth].Context.Tick;
@@ -145,6 +156,12 @@ namespace Helodrace.Profiling
             }
             if (Tracing && traceDepth >= 0)
             {
+                // Whole-tick method totals survive detail truncation and pawn filtering.
+                // No per-call allocations, dictionary lookups or game-object reads.
+                ref RecordedTickMethod totals = ref tickMethods[id];
+                totals.Calls++; if (error) totals.Errors++;
+                totals.Inclusive += elapsed; totals.Self += self;
+                totals.Maximum = Math.Max(totals.Maximum, elapsed);
                 bool include = !spikePawnId.HasValue || record.Context.PawnId == spikePawnId.Value || depth == traceDepth;
                 if (include) traceSeen++; else traceFiltered++;
                 // Reserve the last slot for the enclosing tick even on overflow.
@@ -165,6 +182,8 @@ namespace Helodrace.Profiling
                             spike.Gc0 = GC.CollectionCount(0) - gc0; spike.Gc1 = GC.CollectionCount(1) - gc1;
                             spike.Gc2 = GC.CollectionCount(2) - gc2;
                             Array.Copy(tickCalls, spike.Calls, traceCount);
+                            Array.Copy(tickMethods, spike.Methods, tickMethods.Length);
+                            spike.MethodsComplete = Interlocked.Read(ref Dropped) == tickDropped;
                         }
                     }
                     traceDepth = -1;

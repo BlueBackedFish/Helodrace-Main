@@ -17,7 +17,7 @@ namespace Helodrace.Profiling
     [DataContract]
     public sealed class ProfileSnapshot
     {
-        [DataMember] public int schema = 6;
+        [DataMember] public int schema = 7;
         [DataMember] public string label, utc, assemblySha256, gameVersion, runtime, operatingSystem, cpuSource;
         [DataMember] public string[] mods;
         [DataMember] public int startTick, endTick, startFrame, endFrame, population, scenario, speed, mapId;
@@ -55,6 +55,15 @@ namespace Helodrace.Profiling
         [DataMember] public ProfileSlowCall[] calls;
         [DataMember] public int callsSeen, callsFiltered, detailsDropped, gc0, gc1, gc2;
         [DataMember] public bool detailsComplete;
+        [DataMember] public ProfileTickMethod[] methods;
+        [DataMember] public bool methodsComplete;
+    }
+    [DataContract]
+    public sealed class ProfileTickMethod
+    {
+        [DataMember] public int methodId;
+        [DataMember] public long calls, exceptions;
+        [DataMember] public double inclusiveMs, trackedSelfMs, maxMs;
     }
     [DataContract]
     public sealed class ProfileBenchmark

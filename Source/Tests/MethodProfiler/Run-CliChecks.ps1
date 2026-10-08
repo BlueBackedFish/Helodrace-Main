@@ -20,6 +20,13 @@ $response = & dotnet $cli benchmark-compare $Capture $fixture
 if ($LASTEXITCODE -ne 1) { throw 'Different pawn detail filters were aggregated.' }
 $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 if ($sample.spikeTracing) {
+    $sample.schema = $sample.schema - 1
+    $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
+    $response = & dotnet $cli compare $Capture $fixture
+    if ($LASTEXITCODE -ne 1) { throw 'Different tracing schema overhead was accepted.' }
+    $response = & dotnet $cli benchmark-compare $Capture $fixture
+    if ($LASTEXITCODE -ne 1) { throw 'Different tracing schema overhead was aggregated.' }
+    $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
     $response = & dotnet $cli spikes $Capture
     if ($LASTEXITCODE -ne 0) { throw 'Spike query failed.' }
     if ($sample.tickSpikes.Count -gt 0) {
@@ -30,6 +37,17 @@ if ($sample.spikeTracing) {
         if ($filtered.spikes.Count -ne 1 -or $filtered.spikes[0].root.tick -ne $tick -or
             $filtered.spikes[0].calls.Count -ne $sample.tickSpikes[0].calls.Count -or
             -not $filtered.spikes[0].root.method.Contains('DoSingleTick')) { throw 'Spike timeline/filter/name mapping failed.' }
+        if ($sample.schema -ge 7) {
+            if (-not $filtered.spikes[0].methodsComplete -or
+                $filtered.spikes[0].wholeTickMethods.Count -ne $sample.tickSpikes[0].methods.Count) { throw 'Whole-tick method totals missing.' }
+            $totalSelf = ($filtered.spikes[0].wholeTickMethods | Measure-Object trackedSelfMs -Sum).Sum
+            if ([Math]::Abs($totalSelf - $sample.tickSpikes[0].root.milliseconds) -gt 0.0001) { throw 'Whole-tick self accounting failed.' }
+            foreach ($method in $filtered.spikes[0].wholeTickMethods) {
+                if ($method.method -eq 'unknown' -or $method.calls -le 0 -or $null -eq $method.referencePercentPerTick) {
+                    throw 'Whole-tick names/counts/Core reference mapping failed.'
+                }
+            }
+        }
         $actor = $sample.tickSpikes[0].calls | Where-Object pawnId -GE 0 | Select-Object -First 1
         if ($null -ne $actor) {
             $response = & dotnet $cli pawn $Capture $actor.pawnId $tick

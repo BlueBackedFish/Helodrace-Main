@@ -1,0 +1,44 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profile-tick-totals-20261008\\profiles\\capture-20261008-045159-633-121.json",
+    "file": "capture-20261008-045159-633-121.json.gz",
+    "bytes": 1301125,
+    "sha256": "c87c6562c68a613a596cb09626784901f5c36d37fddef55fd1ab68688e3cfed3"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profile-tick-totals-20261008\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "bytes": 36824,
+    "sha256": "6b0e10eaac25bb3562e9e784c2850e225dae3de3d6d8f7b0a41c8e03e1c61e9a"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profile-tick-totals-20261008\\profiles\\status.json",
+    "file": "status.json.gz",
+    "bytes": 226,
+    "sha256": "31c5ee4aff7373965bb55eb97f890fb5de61ac4c146ba1cc2a646e5e9710b45a"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profile-tick-totals-20261008\\audit.json",
+    "file": "audit.json.gz",
+    "bytes": 17852,
+    "sha256": "e72197a262df2979eb44d711daa574cd636a5c01e65f5527186ad2f2ba0b77d2"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profile-tick-totals-20261008\\launcher.json",
+    "file": "launcher.json.gz",
+    "bytes": 537,
+    "sha256": "e2724cf6e7cd9be84107c817c79ac03a913796ea38d761c115b4ae9b7b714b8f"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profile-tick-totals-20261008\\Player.log",
+    "file": "Player.log.gz",
+    "bytes": 29756,
+    "sha256": "18415ee43866daed84d85771bb50fdc9c1b52e2e333bf9041ff84ac71886b0b8"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profile-tick-totals-20261008\\pawn-manifest.txt",
+    "file": "pawn-manifest.txt.gz",
+    "bytes": 52004,
+    "sha256": "cb8290313fa3537732a21b5b069762ff2c3fc17e571f15780c4780e65be678f3"
+  }
+]

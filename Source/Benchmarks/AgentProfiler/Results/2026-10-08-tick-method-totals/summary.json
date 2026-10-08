@@ -1,0 +1,978 @@
+{
+  "purpose": "Profiler diagnostics only; no gameplay changes or performance improvement comparison",
+  "assemblySha256": "25980de95b0fd7e18ff3fa95635fd3b5cfa7f5a2bb4107734fc018ed1b38fdd6",
+  "schema": 7,
+  "fixtureVersion": 16,
+  "population": 60,
+  "unitCount": 5,
+  "requestedWarmupTicks": 120,
+  "requestedSampleTicks": 120,
+  "actualProfileTicks": 122,
+  "methodCount": 116,
+  "complete": true,
+  "dropped": 0,
+  "exceptions": 0,
+  "auditComplete": true,
+  "auditError": null,
+  "environmentControlled": true,
+  "reference": {
+    "iterations": 10000,
+    "method": "Verse.GenRadial.NumCellsInRadius(System.Single)",
+    "patchOwners": [],
+    "sampleMs": [
+      0.2802,
+      0.2845
+    ],
+    "workload": "radius=8+(i%16); iterations=10000; v1"
+  },
+  "maxDetailsDropped": 2031,
+  "maxAggregateCalls": 2543,
+  "invariants": "All 8 retained ticks: complete totals; aggregate calls = seen + filtered; sum tracked self = root elapsed within 1e-6ms",
+  "spikes": [
+    {
+      "tick": 150,
+      "elapsedMs": 23.9857,
+      "detailsDropped": 1612,
+      "detailCalls": 512,
+      "aggregateCalls": 2124,
+      "wholeMethodCount": 72,
+      "detailMethodCount": 56,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.AI.ThinkNode_JobGiver.TryIssueJobPackage(Verse.Pawn,Verse.AI.JobIssueParams)",
+        "Helodrace.Tactics.MapComponent_TacticalCommands.Advance(Helodrace.Tactics.TacticalSquadCommand,System.Int32)",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Verse.AI.Pawn_PathFollower.NeedNewPath()",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 31.25,
+      "wholeTickMethods": [
+        {
+          "method": "RimWorld.Pawn_NeedsTracker.NeedsTrackerTickInterval(System.Int32)",
+          "calls": 6,
+          "exceptions": 0,
+          "inclusiveMs": 19.7334,
+          "maxMs": 19.7295,
+          "methodId": 40,
+          "trackedSelfMs": 19.7326
+        },
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 2.6935,
+          "maxMs": 0.1083,
+          "methodId": 66,
+          "trackedSelfMs": 1.7671
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 6,
+          "exceptions": 0,
+          "inclusiveMs": 20.4394,
+          "maxMs": 19.8936,
+          "methodId": 9,
+          "trackedSelfMs": 0.3549
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 23.3313,
+          "maxMs": 23.33,
+          "methodId": 8,
+          "trackedSelfMs": 0.3237
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 23.9857,
+          "maxMs": 23.9857,
+          "methodId": 0,
+          "trackedSelfMs": 0.2096
+        },
+        {
+          "method": "Verse.AI.Pawn_PathFollower.PatherTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.147,
+          "maxMs": 0.0666,
+          "methodId": 14,
+          "trackedSelfMs": 0.137
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.1544,
+          "maxMs": 0.0038,
+          "methodId": 80,
+          "trackedSelfMs": 0.1335
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.JobTrackerTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.1825,
+          "maxMs": 0.0052,
+          "methodId": 53,
+          "trackedSelfMs": 0.1276
+        },
+        {
+          "method": "Verse.Pawn_EquipmentTracker.EquipmentTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.1567,
+          "maxMs": 0.0044,
+          "methodId": 71,
+          "trackedSelfMs": 0.1255
+        },
+        {
+          "method": "RimWorld.Pawn_GeneTracker.GeneTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.1118,
+          "maxMs": 0.0024,
+          "methodId": 30,
+          "trackedSelfMs": 0.1118
+        }
+      ]
+    },
+    {
+      "tick": 234,
+      "elapsedMs": 7.1812,
+      "detailsDropped": 2031,
+      "detailCalls": 512,
+      "aggregateCalls": 2543,
+      "wholeMethodCount": 71,
+      "detailMethodCount": 58,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 0,
+      "wholeTickMethods": [
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 2.7491,
+          "maxMs": 0.0991,
+          "methodId": 66,
+          "trackedSelfMs": 1.7864
+        },
+        {
+          "method": "RimWorld.Pawn_StyleObserverTracker.StyleObserverTickInterval(System.Int32)",
+          "calls": 13,
+          "exceptions": 0,
+          "inclusiveMs": 0.9671,
+          "maxMs": 0.958,
+          "methodId": 47,
+          "trackedSelfMs": 0.9656
+        },
+        {
+          "method": "RimWorld.Pawn_NeedsTracker.NeedsTrackerTickInterval(System.Int32)",
+          "calls": 13,
+          "exceptions": 0,
+          "inclusiveMs": 0.8759,
+          "maxMs": 0.2613,
+          "methodId": 40,
+          "trackedSelfMs": 0.8741
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 13,
+          "exceptions": 0,
+          "inclusiveMs": 3.5428,
+          "maxMs": 1.3828,
+          "methodId": 9,
+          "trackedSelfMs": 0.6698
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 6.393,
+          "maxMs": 6.3918,
+          "methodId": 8,
+          "trackedSelfMs": 0.3544
+        },
+        {
+          "method": "Verse.AI.Pawn_MindState.MindStateTickInterval(System.Int32)",
+          "calls": 13,
+          "exceptions": 0,
+          "inclusiveMs": 0.2975,
+          "maxMs": 0.1171,
+          "methodId": 55,
+          "trackedSelfMs": 0.2893
+        },
+        {
+          "method": "Verse.Pawn_HealthTracker.HealthTickInterval(System.Int32)",
+          "calls": 13,
+          "exceptions": 0,
+          "inclusiveMs": 0.2384,
+          "maxMs": 0.051,
+          "methodId": 73,
+          "trackedSelfMs": 0.2324
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 7.1812,
+          "maxMs": 7.1812,
+          "methodId": 0,
+          "trackedSelfMs": 0.2205
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.1802,
+          "maxMs": 0.0037,
+          "methodId": 80,
+          "trackedSelfMs": 0.1596
+        },
+        {
+          "method": "Verse.AI.Pawn_PathFollower.PatherTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.168,
+          "maxMs": 0.0585,
+          "methodId": 14,
+          "trackedSelfMs": 0.1547
+        }
+      ]
+    },
+    {
+      "tick": 132,
+      "elapsedMs": 6.5522,
+      "detailsDropped": 1716,
+      "detailCalls": 512,
+      "aggregateCalls": 2228,
+      "wholeMethodCount": 71,
+      "detailMethodCount": 58,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 15.625,
+      "wholeTickMethods": [
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 2.8178,
+          "maxMs": 0.1074,
+          "methodId": 66,
+          "trackedSelfMs": 1.7907
+        },
+        {
+          "method": "RimWorld.Pawn_StyleObserverTracker.StyleObserverTickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 1.033,
+          "maxMs": 1.0279,
+          "methodId": 47,
+          "trackedSelfMs": 1.0319
+        },
+        {
+          "method": "RimWorld.Pawn_NeedsTracker.NeedsTrackerTickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 0.6125,
+          "maxMs": 0.6068,
+          "methodId": 40,
+          "trackedSelfMs": 0.6115
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 2.8306,
+          "maxMs": 1.9311,
+          "methodId": 9,
+          "trackedSelfMs": 0.3949
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 5.763,
+          "maxMs": 5.7617,
+          "methodId": 8,
+          "trackedSelfMs": 0.3453
+        },
+        {
+          "method": "Verse.AI.Pawn_MindState.MindStateTickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 0.2688,
+          "maxMs": 0.0978,
+          "methodId": 55,
+          "trackedSelfMs": 0.2635
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 6.5522,
+          "maxMs": 6.5522,
+          "methodId": 0,
+          "trackedSelfMs": 0.2331
+        },
+        {
+          "method": "Verse.AI.Pawn_PathFollower.PatherTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.2022,
+          "maxMs": 0.0664,
+          "methodId": 14,
+          "trackedSelfMs": 0.1738
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.1852,
+          "maxMs": 0.0045,
+          "methodId": 80,
+          "trackedSelfMs": 0.1636
+        },
+        {
+          "method": "Verse.Pawn_EquipmentTracker.EquipmentTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.1825,
+          "maxMs": 0.0047,
+          "methodId": 71,
+          "trackedSelfMs": 0.1466
+        }
+      ]
+    },
+    {
+      "tick": 198,
+      "elapsedMs": 6.4876,
+      "detailsDropped": 1908,
+      "detailCalls": 512,
+      "aggregateCalls": 2420,
+      "wholeMethodCount": 70,
+      "detailMethodCount": 55,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.AI.ThinkNode_JobGiver.TryIssueJobPackage(Verse.Pawn,Verse.AI.JobIssueParams)",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Verse.AI.Pawn_JobTracker.DetermineNextConstantThinkTreeJob()",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 15.625,
+      "wholeTickMethods": [
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 2.8288,
+          "maxMs": 0.1123,
+          "methodId": 66,
+          "trackedSelfMs": 1.7733
+        },
+        {
+          "method": "RimWorld.Pawn_StyleObserverTracker.StyleObserverTickInterval(System.Int32)",
+          "calls": 11,
+          "exceptions": 0,
+          "inclusiveMs": 1.0745,
+          "maxMs": 1.0667,
+          "methodId": 47,
+          "trackedSelfMs": 1.0731
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 11,
+          "exceptions": 0,
+          "inclusiveMs": 2.7227,
+          "maxMs": 1.7459,
+          "methodId": 9,
+          "trackedSelfMs": 0.5659
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 5.7373,
+          "maxMs": 5.736,
+          "methodId": 8,
+          "trackedSelfMs": 0.3555
+        },
+        {
+          "method": "RimWorld.Pawn_NeedsTracker.NeedsTrackerTickInterval(System.Int32)",
+          "calls": 11,
+          "exceptions": 0,
+          "inclusiveMs": 0.3246,
+          "maxMs": 0.3169,
+          "methodId": 40,
+          "trackedSelfMs": 0.3231
+        },
+        {
+          "method": "Verse.AI.Pawn_PathFollower.PatherTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.2544,
+          "maxMs": 0.0662,
+          "methodId": 14,
+          "trackedSelfMs": 0.251
+        },
+        {
+          "method": "Verse.AI.Pawn_MindState.MindStateTickInterval(System.Int32)",
+          "calls": 11,
+          "exceptions": 0,
+          "inclusiveMs": 0.2387,
+          "maxMs": 0.1612,
+          "methodId": 55,
+          "trackedSelfMs": 0.2312
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 6.4876,
+          "maxMs": 6.4876,
+          "methodId": 0,
+          "trackedSelfMs": 0.2207
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.183,
+          "maxMs": 0.0039,
+          "methodId": 80,
+          "trackedSelfMs": 0.1617
+        },
+        {
+          "method": "Verse.Pawn_EquipmentTracker.EquipmentTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.1706,
+          "maxMs": 0.0044,
+          "methodId": 71,
+          "trackedSelfMs": 0.1373
+        }
+      ]
+    },
+    {
+      "tick": 236,
+      "elapsedMs": 6.216,
+      "detailsDropped": 1727,
+      "detailCalls": 512,
+      "aggregateCalls": 2239,
+      "wholeMethodCount": 70,
+      "detailMethodCount": 57,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 0,
+      "wholeTickMethods": [
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 2.862,
+          "maxMs": 0.2399,
+          "methodId": 66,
+          "trackedSelfMs": 1.796
+        },
+        {
+          "method": "RimWorld.Pawn_StyleObserverTracker.StyleObserverTickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 0.9586,
+          "maxMs": 0.9532,
+          "methodId": 47,
+          "trackedSelfMs": 0.9577
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 2.438,
+          "maxMs": 1.4203,
+          "methodId": 9,
+          "trackedSelfMs": 0.425
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 5.3944,
+          "maxMs": 5.3933,
+          "methodId": 8,
+          "trackedSelfMs": 0.3489
+        },
+        {
+          "method": "Verse.Pawn_HealthTracker.HealthTickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 0.2669,
+          "maxMs": 0.0755,
+          "methodId": 73,
+          "trackedSelfMs": 0.2629
+        },
+        {
+          "method": "RimWorld.Pawn_NeedsTracker.NeedsTrackerTickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 0.262,
+          "maxMs": 0.2565,
+          "methodId": 40,
+          "trackedSelfMs": 0.261
+        },
+        {
+          "method": "Verse.AI.Pawn_PathFollower.PatherTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.2776,
+          "maxMs": 0.193,
+          "methodId": 14,
+          "trackedSelfMs": 0.2583
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 6.216,
+          "maxMs": 6.216,
+          "methodId": 0,
+          "trackedSelfMs": 0.2293
+        },
+        {
+          "method": "Verse.AI.Pawn_MindState.MindStateTickInterval(System.Int32)",
+          "calls": 8,
+          "exceptions": 0,
+          "inclusiveMs": 0.1742,
+          "maxMs": 0.0984,
+          "methodId": 55,
+          "trackedSelfMs": 0.1684
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.1745,
+          "maxMs": 0.0041,
+          "methodId": 80,
+          "trackedSelfMs": 0.1528
+        }
+      ]
+    },
+    {
+      "tick": 181,
+      "elapsedMs": 6.1434,
+      "detailsDropped": 1637,
+      "detailCalls": 512,
+      "aggregateCalls": 2149,
+      "wholeMethodCount": 69,
+      "detailMethodCount": 54,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.AI.ThinkNode_JobGiver.TryIssueJobPackage(Verse.Pawn,Verse.AI.JobIssueParams)",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Verse.AI.Pawn_JobTracker.DetermineNextConstantThinkTreeJob()",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 0,
+      "wholeTickMethods": [
+        {
+          "method": "Verse.Map.MapPostTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 1.9107,
+          "maxMs": 1.9107,
+          "methodId": 2,
+          "trackedSelfMs": 1.8949
+        },
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 2.7114,
+          "maxMs": 0.1143,
+          "methodId": 66,
+          "trackedSelfMs": 1.763
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 3.4972,
+          "maxMs": 3.4963,
+          "methodId": 8,
+          "trackedSelfMs": 0.3446
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 0.6988,
+          "maxMs": 0.2181,
+          "methodId": 9,
+          "trackedSelfMs": 0.2835
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 6.1434,
+          "maxMs": 6.1434,
+          "methodId": 0,
+          "trackedSelfMs": 0.2366
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.183,
+          "maxMs": 0.0041,
+          "methodId": 80,
+          "trackedSelfMs": 0.1621
+        },
+        {
+          "method": "Verse.Pawn_EquipmentTracker.EquipmentTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.1798,
+          "maxMs": 0.0042,
+          "methodId": 71,
+          "trackedSelfMs": 0.1454
+        },
+        {
+          "method": "Verse.AI.Pawn_PathFollower.PatherTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.1336,
+          "maxMs": 0.0733,
+          "methodId": 14,
+          "trackedSelfMs": 0.1305
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.JobTrackerTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.1817,
+          "maxMs": 0.0045,
+          "methodId": 53,
+          "trackedSelfMs": 0.1265
+        },
+        {
+          "method": "Verse.AI.Pawn_MindState.MindStateTickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 0.1272,
+          "maxMs": 0.0925,
+          "methodId": 55,
+          "trackedSelfMs": 0.1233
+        }
+      ]
+    },
+    {
+      "tick": 226,
+      "elapsedMs": 5.8725,
+      "detailsDropped": 1638,
+      "detailCalls": 512,
+      "aggregateCalls": 2150,
+      "wholeMethodCount": 70,
+      "detailMethodCount": 57,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 0,
+      "wholeTickMethods": [
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 2.8111,
+          "maxMs": 0.1815,
+          "methodId": 66,
+          "trackedSelfMs": 1.7799
+        },
+        {
+          "method": "RimWorld.Pawn_StyleObserverTracker.StyleObserverTickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 0.9649,
+          "maxMs": 0.9604,
+          "methodId": 47,
+          "trackedSelfMs": 0.9642
+        },
+        {
+          "method": "RimWorld.Pawn_NeedsTracker.NeedsTrackerTickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 0.4792,
+          "maxMs": 0.2496,
+          "methodId": 40,
+          "trackedSelfMs": 0.4783
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 5.1141,
+          "maxMs": 5.1133,
+          "methodId": 8,
+          "trackedSelfMs": 0.3257
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 2.2279,
+          "maxMs": 1.4706,
+          "methodId": 9,
+          "trackedSelfMs": 0.2825
+        },
+        {
+          "method": "Verse.AI.Pawn_PathFollower.PatherTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.2746,
+          "maxMs": 0.1373,
+          "methodId": 14,
+          "trackedSelfMs": 0.2665
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 5.8725,
+          "maxMs": 5.8725,
+          "methodId": 0,
+          "trackedSelfMs": 0.1998
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.1732,
+          "maxMs": 0.0038,
+          "methodId": 80,
+          "trackedSelfMs": 0.1523
+        },
+        {
+          "method": "Verse.AI.Pawn_MindState.MindStateTickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 0.1565,
+          "maxMs": 0.0851,
+          "methodId": 55,
+          "trackedSelfMs": 0.1521
+        },
+        {
+          "method": "Verse.Pawn_EquipmentTracker.EquipmentTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.1606,
+          "maxMs": 0.0037,
+          "methodId": 71,
+          "trackedSelfMs": 0.1274
+        }
+      ]
+    },
+    {
+      "tick": 211,
+      "elapsedMs": 5.7778,
+      "detailsDropped": 1637,
+      "detailCalls": 512,
+      "aggregateCalls": 2149,
+      "wholeMethodCount": 69,
+      "detailMethodCount": 54,
+      "methodsAbsentFromDetails": [
+        "Verse.Map.MapPostTick()",
+        "Verse.MapComponentUtility.MapComponentTick(Verse.Map)",
+        "Verse.GameComponentUtility.GameComponentTick()",
+        "Verse.TickList.Tick()",
+        "Verse.AI.ThinkNode_JobGiver.TryIssueJobPackage(Verse.Pawn,Verse.AI.JobIssueParams)",
+        "Verse.Gen.IsHashIntervalTick(Verse.Map,System.Int32)",
+        "Verse.AI.Pawn_JobTracker.DetermineNextConstantThinkTreeJob()",
+        "Helodrace.HelodMarketState.GameComponentTick()",
+        "Helodrace.MechanicalNetworkManager.MapComponentTick()",
+        "Helodrace.MapComponent_HelodCasSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodMortarSupport.MapComponentTick()",
+        "Helodrace.MapComponent_HelodSniperSupport.MapComponentTick()",
+        "Helodrace.Tactics.GameComponent_TacticalCommands.GameComponentTick()",
+        "Helodrace.Tactical.MapComponent_TcccDragging.MapComponentTick()",
+        "Helodrace.Squads.GameComponent_CombatOrganizations.GameComponentTick()"
+      ],
+      "rootThreadCpuMs": 0,
+      "wholeTickMethods": [
+        {
+          "method": "Verse.Pawn.Tick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 3.4921,
+          "maxMs": 0.0757,
+          "methodId": 66,
+          "trackedSelfMs": 2.3732
+        },
+        {
+          "method": "Verse.TickList.Tick()",
+          "calls": 3,
+          "exceptions": 0,
+          "inclusiveMs": 4.6798,
+          "maxMs": 4.6781,
+          "methodId": 8,
+          "trackedSelfMs": 0.4633
+        },
+        {
+          "method": "Verse.Pawn.TickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 1.2544,
+          "maxMs": 0.3206,
+          "methodId": 9,
+          "trackedSelfMs": 0.4105
+        },
+        {
+          "method": "Verse.Pawn_HealthTracker.HealthTickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 0.2531,
+          "maxMs": 0.0786,
+          "methodId": 73,
+          "trackedSelfMs": 0.2488
+        },
+        {
+          "method": "Verse.TickManager.DoSingleTick()",
+          "calls": 1,
+          "exceptions": 0,
+          "inclusiveMs": 5.7778,
+          "maxMs": 5.7778,
+          "methodId": 0,
+          "trackedSelfMs": 0.2199
+        },
+        {
+          "method": "Verse.ThingWithComps.Tick()",
+          "calls": 162,
+          "exceptions": 0,
+          "inclusiveMs": 0.2263,
+          "maxMs": 0.004,
+          "methodId": 80,
+          "trackedSelfMs": 0.1989
+        },
+        {
+          "method": "Verse.Pawn_EquipmentTracker.EquipmentTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.2252,
+          "maxMs": 0.0049,
+          "methodId": 71,
+          "trackedSelfMs": 0.183
+        },
+        {
+          "method": "Verse.AI.Pawn_JobTracker.JobTrackerTick()",
+          "calls": 61,
+          "exceptions": 0,
+          "inclusiveMs": 0.2368,
+          "maxMs": 0.006,
+          "methodId": 53,
+          "trackedSelfMs": 0.1687
+        },
+        {
+          "method": "RimWorld.Pawn_NeedsTracker.NeedsTrackerTickInterval(System.Int32)",
+          "calls": 7,
+          "exceptions": 0,
+          "inclusiveMs": 0.1619,
+          "maxMs": 0.1562,
+          "methodId": 40,
+          "trackedSelfMs": 0.1609
+        },
+        {
+          "method": "RimWorld.Pawn_GeneTracker.GeneTrackerTick()",
+          "calls": 78,
+          "exceptions": 0,
+          "inclusiveMs": 0.1326,
+          "maxMs": 0.0037,
+          "methodId": 30,
+          "trackedSelfMs": 0.1326
+        }
+      ]
+    }
+  ]
+}

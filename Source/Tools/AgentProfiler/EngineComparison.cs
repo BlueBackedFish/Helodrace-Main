@@ -65,6 +65,7 @@ internal static class EngineComparison
     private static string Key(ProfileSnapshot c) => JsonSerializer.Serialize(new {
         c.assemblySha256, c.population, c.scenario, c.speed, c.gameVersion, c.cpuSource, c.runtime, c.operatingSystem,
         c.spikeTracing, c.spikeThresholdMs, c.spikePawnId,
+        traceSchema = c.spikeTracing ? c.schema : (int?)null,
         mods = string.Join(";",c.mods), targets = string.Join(";",c.methods.Select(m=>m.method).Order()),
         c.benchmark.fixtureVersion,c.benchmark.seed,c.benchmark.mapFingerprint,c.benchmark.pawnFingerprint,
         c.benchmark.faction,c.benchmark.workload,c.benchmark.requestedPopulation,c.benchmark.warmupTicks,

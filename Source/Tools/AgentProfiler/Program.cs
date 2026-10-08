@@ -76,9 +76,16 @@ internal static class Program
                         referencePercentPerCall = ReferenceMetrics.Percent(c.milliseconds, 1, traced.reference) };
                     Print(new { traced.complete, traced.dropped, traced.spikeThresholdMs, traced.spikeCandidates, traced.spikePawnId,
                         traced.spikeCapacity, traced.spikeCallCapacity,
-                        warning = "Only selected main-thread calls are recorded. Inclusive durations overlap; elapsed is not CPU. Root CPU is coarse. GC deltas indicate coincidence, not causation. Truncated trees may omit parents.",
+                        warning = "Only selected main-thread calls are recorded. Whole-tick method totals include truncated and pawn-filtered details. Inclusive durations overlap; elapsed is not CPU. Tracked self includes uninstrumented work and overhead. Root CPU is coarse. GC deltas indicate coincidence, not causation. Truncated trees may omit parents.",
                         spikes = (traced.tickSpikes ?? Array.Empty<ProfileTickSpike>()).Where(s => requestedTick == null || s.root.tick == requestedTick)
                             .Select(s => new { root = Describe(s.root), s.callsSeen, s.callsFiltered, s.detailsDropped, s.detailsComplete, s.gc0, s.gc1, s.gc2,
+                                s.methodsComplete,
+                                wholeTickMethods = s.methods?.OrderByDescending(m => m.trackedSelfMs).Select(m => new {
+                                    method = names.GetValueOrDefault(m.methodId, "unknown"), m.calls, m.exceptions,
+                                    m.inclusiveMs, m.trackedSelfMs, m.maxMs, meanMs = m.inclusiveMs / m.calls,
+                                    trackedSelfPercentOfTick = s.root.milliseconds > 0 ? m.trackedSelfMs / s.root.milliseconds * 100 : (double?)null,
+                                    referencePercentPerCall = ReferenceMetrics.Percent(m.inclusiveMs, m.calls, traced.reference),
+                                    referencePercentPerTick = ReferenceMetrics.Percent(m.inclusiveMs, 1, traced.reference) }),
                                 costlyPawnCalls = s.calls.Where(c => c.pawnId >= 0).OrderByDescending(c => c.trackedSelfMs).Take(12).Select(Describe),
                                 calls = s.calls.Select(Describe) }),
                         longestCalls = (traced.slowCalls ?? Array.Empty<ProfileSlowCall>()).Where(c => requestedTick == null || c.tick == requestedTick).Select(Describe) }); break;
@@ -97,6 +104,7 @@ internal static class Program
                         || before.cpuSource != after.cpuSource || before.runtime != after.runtime || before.operatingSystem != after.operatingSystem
                         || before.spikeTracing != after.spikeTracing || before.spikeThresholdMs != after.spikeThresholdMs
                         || before.spikePawnId != after.spikePawnId
+                        || (before.spikeTracing && before.schema != after.schema)
                         || !before.mods.SequenceEqual(after.mods) || before.endTick <= before.startTick || after.endTick <= after.startTick)
                         throw new ArgumentException("Comparison rejected: incomplete capture, no ticks, or differing scenario/population/speed/game/mods.");
                     bool sameTargets = before.methods.Select(m => m.method).OrderBy(name => name, StringComparer.Ordinal)

@@ -25,7 +25,7 @@ var snapshot = new ProfileSnapshot { complete = true, mainThreadWindowCpuMs = 12
 using var stream = new MemoryStream();
 var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot)); serializer.WriteObject(stream, snapshot); stream.Position = 0;
 var roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
-Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 6
+Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 7
     && roundtrip.mainThreadWindowCpuMs == 123.5 && roundtrip.processWindowCpuMs == 456.75
     && roundtrip.selectedEngine == "new" && roundtrip.effectiveEngine == "vanilla-fallback"
     && !roundtrip.newEngineImplemented, "structured JSON and whole-window CPU roundtrip");
@@ -68,6 +68,8 @@ Check(tree.Root.Context.Tick == 42 && actor.Context.Tick == 42 && actor.Context.
 Check(actor.ParentId == parent.CallId && parent.ParentId == tree.Root.CallId && actor.RootId == tree.Root.CallId
     && actor.Start == 2 && actor.Depth == 2 && tree.Root.Self == 3 && tree.Root.Cpu == 100, "timeline nesting and accounting");
 Check(tree.Count == 3 && tree.Seen == 3 && capture.Errors[2] == 1 && capture.Dropped == 0, "trace preserves exception stats");
+Check(tree.MethodsComplete && tree.Methods[2].Errors == 1 && tree.Methods[1].Inclusive == 7
+    && tree.Methods.Sum(m => m.Self) == tree.Root.Elapsed, "nested tick method totals partition tracked time without inclusive double counting");
 for (int duration = 11; duration <= 20; duration++)
 { outer = capture.Enter(0); clock.Time += duration; capture.Leave(outer, false); }
 Check(capture.SpikeCandidates == 11 && capture.TickSpikes.Count(s => s.Count > 0) == 8
@@ -78,13 +80,19 @@ capture.Stop(); capture.Leave(outer, false);
 tree = capture.TickSpikes.Single(s => s.Root.Elapsed == 700);
 Check(tree.Count == 512 && tree.Seen == 701 && tree.Calls[511].CallId == tree.Root.CallId
     && capture.Ready && capture.Dropped == 0, "bounded trace reserves root, truncation distinct from stats loss, stop drain");
+Check(tree.MethodsComplete && tree.Methods[1].Calls == 700 && tree.Methods[1].Inclusive == 700
+    && tree.Methods[1].Self == 700 && tree.Methods[1].Maximum == 1 && tree.Methods[2].Calls == 0,
+    "whole-tick totals retain truncated tail and clear previous tick data");
 snapshot.spikeTracing = true; snapshot.spikeCandidates = capture.SpikeCandidates;
 snapshot.tickSpikes = new[] { new ProfileTickSpike { root = new ProfileSlowCall { tick = 42, pawnId = 99, phase = "Breach", parentCallId = 1, startMs = 2 },
-    calls = Array.Empty<ProfileSlowCall>(), callsSeen = 701, detailsDropped = 189, detailsComplete = false } };
+    calls = Array.Empty<ProfileSlowCall>(), callsSeen = 701, detailsDropped = 189, detailsComplete = false,
+    methodsComplete = true, methods = new[] { new ProfileTickMethod { methodId = 1, calls = 700, inclusiveMs = 700, maxMs = 1 } } } };
 stream.SetLength(0); stream.Position = 0; serializer.WriteObject(stream, snapshot); stream.Position = 0;
 roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
 Check(roundtrip.spikeTracing && roundtrip.tickSpikes[0].root.pawnId == 99 && roundtrip.tickSpikes[0].detailsDropped == 189,
     "spike JSON roundtrip");
+Check(roundtrip.tickSpikes[0].methodsComplete && roundtrip.tickSpikes[0].methods[0].calls == 700
+    && roundtrip.tickSpikes[0].methods[0].maxMs == 1, "whole-tick totals JSON roundtrip");
 Check(!new MethodCapture(clock, new[] { false }).Tracing, "trace buffers opt-in");
 capture = new MethodCapture(clock, new[] { false, false, false }, traceSpikes: true, spikePawnId: 99);
 outer = capture.Enter(0);
@@ -97,9 +105,28 @@ tree = capture.TickSpikes.Single(s => s.Count > 0);
 Check(tree.Count == 3 && tree.Seen == 3 && tree.Filtered == 700 && capture.Calls[1] == 701
     && tree.Calls.Any(c => c.Method == 2 && c.Context.PawnId == 99) && capture.Dropped == 0,
     "pawn filter preserves late calls, inherited identity, root and whole-capture stats");
+Check(tree.MethodsComplete && tree.Methods[1].Calls == 701 && tree.Methods[1].Inclusive == 709
+    && tree.Methods[1].Self == 701 && tree.Methods[2].Inclusive == 8 && tree.Methods.Sum(m => m.Self) == tree.Root.Elapsed,
+    "whole-tick aggregates ignore pawn detail filter and retain nested partition");
 snapshot.spikePawnId = 99;
 stream.SetLength(0); stream.Position = 0; serializer.WriteObject(stream, snapshot); stream.Position = 0;
 Check(((ProfileSnapshot)serializer.ReadObject(stream)).spikePawnId == 99, "pawn filter JSON roundtrip");
+capture = new MethodCapture(clock, new[] { false, false, false }, maximumDepth: 2, traceSpikes: true);
+// Expensive tail has no detail slot, but must still appear in per-tick totals.
+outer = capture.Enter(0);
+for (int i = 0; i < 600; i++) { inner = capture.Enter(1); clock.Time++; capture.Leave(inner, false); }
+inner = capture.Enter(2); clock.Time += 50; capture.Leave(inner, true); capture.Leave(outer, false);
+tree = capture.TickSpikes.Single(s => s.Count > 0);
+Check(!tree.Calls.Take(tree.Count).Any(c => c.Method == 2) && tree.Methods[2].Calls == 1
+    && tree.Methods[2].Maximum == 50 && tree.Methods[2].Errors == 1 && tree.MethodsComplete,
+    "expensive unseen tail survives bounded detail overflow");
+inner = capture.Enter(2); clock.Time += 1000; capture.Leave(inner, false); // Outside any tick.
+outer = capture.Enter(0); inner = capture.Enter(1); overflow = capture.Enter(2);
+clock.Time += 2000; capture.Leave(inner, false); capture.Leave(outer, false);
+tree = capture.TickSpikes.Single(s => s.Root.Elapsed == 2000);
+Check(!tree.MethodsComplete && tree.Methods[2].Calls == 0 && tree.Methods[1].Calls == 1,
+    "lost scopes mark totals incomplete; outside-tick calls do not leak into aggregates");
+Console.WriteLine("Whole-tick checks passed: truncated expensive tail, filtered calls, nested accounting, reset, scope loss and JSON.");
 PawnDiagnosticsChecks.Run();
 Console.WriteLine("Spike checks passed: timeline, tick and actor inheritance, top-eight retention, bounded truncation, drain, JSON and opt-in buffers.");
 if (OperatingSystem.IsWindows())
