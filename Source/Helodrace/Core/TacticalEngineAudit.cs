@@ -45,6 +45,14 @@ namespace Helodrace
         [DataMember] public long newContactResponses, newRearResponses, newDoorResponses, newOpposedResponses, newContactResumes, newContactGuardJobs;
         [DataMember] public bool newContactDrillComplete, newContactMemoryFrozen, newContactPlanPreserved, newUnseenDoorIgnored;
         [DataMember] public string[] newContactEvents;
+        [DataMember] public bool newCooperationComplete, newCooperationDistinctEntrances, newCooperationOwnedAreas;
+        [DataMember] public bool newCooperationSplitBlocked, newCooperationIdentification, newSharedEntranceProgress;
+        [DataMember] public bool newRadioBlackoutBlocked, newRadioRestored, newRadioDeadPacketDropped, newRadioSuccessor;
+        [DataMember] public bool newContactReportShared, newContactReportWithoutLocalSight;
+        [DataMember] public long newCommunicationChecks, newMessagesSent, newMessagesDelivered, newMessagesDropped, newReportsReceived;
+        [DataMember] public long newAgreementsConfirmed, newCooperationStarts, newIdentificationHolds, newOperatorChanges;
+        [DataMember] public int newPendingMessages;
+        [DataMember] public string[] newCooperationEvents, newCooperationStates;
         [DataMember] public int[] newClassifiedRoomCells;
         [DataMember] public string caseContactTile;
         [DataMember] public string[] newSecuredPortals;
@@ -94,7 +102,7 @@ namespace Helodrace
         private readonly TacticalEngineAuditResult result = new TacticalEngineAuditResult();
         private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
             || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery" || result.fixtureCase == "tiny-adjacent"
-            || result.fixtureCase == "r4-contact-drill";
+            || result.fixtureCase == "r4-contact-drill" || result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-radio-loss";
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
@@ -170,8 +178,10 @@ namespace Helodrace
                 && result.fixtureCase != "inside-goal" && result.fixtureCase != "door-contact"
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
-                && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
+                && !CooperationFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
+            if (CooperationFixture) result.fixtureVersion = 19;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -252,6 +262,7 @@ namespace Helodrace
             // observed inside the small room to override grenade conservation.
             if (result.fixtureCase == "small-unseen") owner.Position = new IntVec3(120,0,118);
             if (result.fixtureCase == "tiny-adjacent") owner.Position = new IntVec3(120,0,118);
+            if (CooperationFixture) owner.Position = new IntVec3(155,0,155);
             if (MultiRoomFixture && result.fixtureCase != "tiny-adjacent" && Enumerable.Range(115, right - 115).Any(x =>
                 {
                     Building partition = new IntVec3(x,0,119).GetEdifice(map);
@@ -278,6 +289,8 @@ namespace Helodrace
                 {
                     int index = raiders.Count;
                     IntVec3 cell = result.fixtureCase == "inside-goal" ? new IntVec3(104 + index % 4,0,104 + index / 4)
+                        : CooperationFixture ? new IntVec3(70 + (result.units - 1) * (high ? 12 : 5) + members.IndexOf(pawn) % 4,
+                            0, (result.fixtureCase == "r5-shared" ? 108 : 106) + members.IndexOf(pawn) / 4)
                         : new IntVec3(66 + index % 16, 0, 90 + index / 16);
                     GenSpawn.Spawn(pawn, cell, map); raiders.Add(pawn); starts[pawn] = cell;
                 }
@@ -285,6 +298,7 @@ namespace Helodrace
             result.population = raiders.Count;
             ProtectedRaiders.Clear(); foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
             if (result.fixtureCase == "r4-contact-drill") InitializeContactDrill();
+            if (CooperationFixture) InitializeCooperationDrill();
             result.radioOperators = raiders.Count(pawn => RaidTacticalRadioUtility.Radios(pawn).Any());
             if (result.workload.StartsWith("sapper-", StringComparison.Ordinal) && raiders.Count > 0)
             {
@@ -347,6 +361,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (CooperationFixture) { ApplyCooperationDrill(); return; }
             if (result.fixtureCase == "r4-contact-drill") { ApplyContactDrill(); return; }
             if (result.fixtureCase == "outdoor-opening" && !result.newOutdoorSmokeSeen
                 && TacticalEngineSelection.Kind == TacticalEngineKind.New)
@@ -543,7 +558,9 @@ namespace Helodrace
                 IntVec3[] representatives = result.fixtureCase == "tiny-adjacent"
                     ? new[] { new IntVec3(108,0,110), new IntVec3(116,0,108) }
                     : new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) };
-                result.newRoomProgressComplete = !MultiRoomFixture || commands.All(command => Tactics.TacticalRoomProgress.CoversGoal(command, representatives));
+                result.newRoomProgressComplete = !MultiRoomFixture || (CooperationFixture
+                    ? representatives.All(cell => commands.Any(c => c.SecuredCells.Contains(cell))) && commands.Any(c => c.GoalSecured)
+                    : commands.All(command => Tactics.TacticalRoomProgress.CoversGoal(command, representatives)));
                 result.newRoomDiagnostics = commands.Select(command => command.Id + ":" + command.Phase
                     + " phaseAge=" + (GenTicks.TicksGame - command.PhaseStarted) + " due=" + command.Due
                     + " planRetry=" + command.PlanRetryAt + " goal=" + command.GoalSecured
@@ -578,6 +595,7 @@ namespace Helodrace
                 result.newActiveCutterRecovered = result.fixtureCase != "cutter-active-recovery" || result.caseTriggered && result.caseCuttingTicks >= 20
                     && result.newCutterJobsStarted >= 2 && result.newToolRecoveriesCompleted > 0;
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
+                if (CooperationFixture) FinalCooperationDiagnostics(commands);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEntryAssignmentsComplete == result.alive && result.newEnteredByOrder > 0
                     && result.newConnectedStacks && result.newPhysicalPlansValid && result.newRoomProgressComplete && result.newTinyAdjacentCleared
@@ -587,6 +605,7 @@ namespace Helodrace
                     && result.newRoomRecoveryContinued && result.newActiveCutterRecovered
                     && (result.fixtureCase != "r4-contact-drill" || result.newContactDrillComplete && result.newContactMemoryFrozen
                         && result.newContactPlanPreserved && result.newUnseenDoorIgnored)
+                    && (!CooperationFixture || result.newCooperationComplete)
                     && commands.All(command => command.Plan.Direct || command.Members.Select((member, i) =>
                         member.Pawn.Dead || member.Pawn.Downed || member.Passed || command.Plan.RetainedOutside.Contains(i)).All(done => done));
                 result.newCommands = commands.Select(command => command.Id + ":" + command.Phase + " opening=" + command.Plan?.Opening

@@ -43,6 +43,9 @@ namespace Helodrace.Tactics
         private int sourceCursor, deliveryCursor, nextPair;
         public long PairChecks, MessagesSent, MessagesDelivered, MessagesDropped, QueueRejected, ReportsReceived;
         public long OffersAccepted, AgreementsConfirmed, StartMessages, Identifications, OperatorChanges;
+        public long EndpointDrops;
+        public int LastInvalidSender = -1;
+        public string LastDropReason;
         public int PendingCount => pending.Count;
         public void Pump(IList<TacticalSquadCommand> commands, TacticalWorkBudget budget, int tick)
         {
@@ -219,21 +222,22 @@ namespace Helodrace.Tactics
         private void Deliver(TacticalMessage message, int tick)
         {
             TacticalChannel channel = Channel(message.From, message.To);
-            if (tick - message.Sent >= TacticalCommunicationPolicy.PacketLife || channel != message.Channel
-                || message.From.Link.Liaison?.thingIDNumber != message.FromPawn || message.To.Link.Liaison?.thingIDNumber != message.ToPawn)
-            { MessagesDropped++; return; }
+            if (message.From.Link.Liaison?.thingIDNumber != message.FromPawn || message.To.Link.Liaison?.thingIDNumber != message.ToPawn)
+            { MessagesDropped++; EndpointDrops++; LastInvalidSender = message.FromPawn; LastDropReason = "endpoint"; return; }
+            if (tick - message.Sent >= TacticalCommunicationPolicy.PacketLife || channel != message.Channel)
+            { MessagesDropped++; LastDropReason = channel != message.Channel ? "channel" : "expired"; return; }
             TacticalSquadCommand receiver = message.To;
             if (message.Kind == TacticalMessageKind.Contact)
             {
                 if (receiver.Contacts.Memory.Receive(message.Contact, tick)) { ReportsReceived++; receiver.Due = Math.Min(receiver.Due, tick + 1); }
                 MessagesDelivered++; return;
             }
-            if (message.Kind == TacticalMessageKind.Offer && !Negotiate(receiver)) { MessagesDropped++; return; }
+            if (message.Kind == TacticalMessageKind.Offer && !Negotiate(receiver)) { MessagesDropped++; LastDropReason = "recipient-busy"; return; }
             TacticalCooperationState own = receiver.Link.Cooperation;
             bool activeBefore = own.Active;
             if (!own.Receive(message.Kind, message.Agenda, receiver.Id, receiver.Goal, tick,
                 message.Ready, message.Finished, message.GoalSecured, message.Opening, message.StartAt, message.Sent))
-            { MessagesDropped++; return; }
+            { MessagesDropped++; LastDropReason = "protocol"; return; }
             receiver.Link.Peer = message.From; MessagesDelivered++;
             receiver.Due = Math.Min(receiver.Due, tick + 1);
             if (!activeBefore && own.Active) { receiver.Link.ResetPlan = receiver.Phase == TacticalCommandPhase.Stack; AgreementsConfirmed++; }

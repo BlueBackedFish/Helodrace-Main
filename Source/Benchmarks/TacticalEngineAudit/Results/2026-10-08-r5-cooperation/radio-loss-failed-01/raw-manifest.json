@@ -1,0 +1,32 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-radio-loss-01\\audit.json",
+    "file": "audit.json.gz",
+    "sha256": "e233a61924ec32aff72107c736fe0c3a748e6d2353efa0c3d07a47dbd5460dd2",
+    "bytes": 11437
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-radio-loss-01\\launcher.json",
+    "file": "launcher.json.gz",
+    "sha256": "3fbddceeb6a5fae493af777dfa772f93ec06b94a17f464ba396eb92670023ce2",
+    "bytes": 818
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-radio-loss-01\\Player.log",
+    "file": "Player.log.gz",
+    "sha256": "d44f805afc865c8c9a950381aa5aac3ab4c45602d74ebc4b224e5133360478bf",
+    "bytes": 30857
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-radio-loss-01\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "sha256": "83ff0737c603834ecd41c65feac6631f10c24a103d9b1090b487d94564225c14",
+    "bytes": 21265
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-radio-loss-01\\profiles\\capture-20261008-141444-750-1.json",
+    "file": "capture-20261008-141444-750-1.json.gz",
+    "sha256": "a66e111f1956d1d4a421df53f9e37c2523b8b1745268f49712f2b323596bf914",
+    "bytes": 28540
+  }
+]

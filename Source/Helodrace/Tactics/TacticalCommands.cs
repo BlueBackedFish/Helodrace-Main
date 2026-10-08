@@ -207,7 +207,7 @@ namespace Helodrace.Tactics
         {
             if (squads.ContainsKey(unit.Id)) return null;
             var command = new TacticalSquadCommand { Id = unit.Id, Owner = this, Due = tick, PhaseStarted = tick };
-            command.Link.Unit = unit; command.Link.OpportunityUntil = tick + 240; command.Goal = Goal(tick);
+            command.Link.Unit = unit; command.Link.OpportunityUntil = tick + 600; command.Goal = Goal(tick);
             foreach (Pawn pawn in unit.Members)
                 if (pawn.Spawned && pawn.Map == map && !pawn.Dead && !byPawn.ContainsKey(pawn))
                 {
@@ -552,7 +552,7 @@ namespace Helodrace.Tactics
                 if (!command.Link.KnownPortals.Contains(known.Opening)
                     && !command.SecuredPlans.Any(p => p.Opening == known.Opening)
                     && (leader.Position.DistanceToSquared(known.Opening) > 784
-                        || !GenSight.LineOfSight(leader.Position, known.Outside, map, true))) continue;
+                        || !GenSight.LineOfSight(leader.Position, known.Opening, map, true))) continue;
                 // Guard assignments depend on this squad's secured history.
                 if (known.RetainedOutside.Count > 0) continue;
                 IntVec3 travel = goal - leader.Position, relative = leader.Position - known.Opening;

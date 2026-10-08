@@ -22,7 +22,7 @@ namespace Helodrace.Tactics
                 {
                     ReleaseClaims(command); command.Plan = null;
                     command.Phase = TacticalCommandPhase.Pending; command.PlanRetryAt = 0;
-                    command.PhaseStarted = tick;
+                    command.PhaseStarted = tick; command.Failures = 0;
                     foreach (TacticalMemberCommand member in command.Members) member.Parking = IntVec3.Invalid;
                 }
             }
@@ -49,12 +49,14 @@ namespace Helodrace.Tactics
             {
                 link.IdentificationHolding = false;
                 command.PhaseStarted += System.Math.Max(0, tick - link.IdentifyStarted);
-                foreach (TacticalMemberCommand member in active) member.Parking = IntVec3.Invalid;
-                // Remove temporary positions but keep the original footprint.
-                var extra = new List<IntVec3>();
-                foreach (var claim in claims)
-                    if (claim.Value == command && !OriginalClaim(command.Plan, claim.Key)) extra.Add(claim.Key);
-                foreach (IntVec3 cell in extra) claims.Remove(cell);
+                // Only this squad's temporary positions; never scan all map claims.
+                foreach (TacticalMemberCommand member in command.Members)
+                {
+                    IntVec3 cell = member.Parking;
+                    if (cell.IsValid && !OriginalClaim(command.Plan, cell)
+                        && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command) claims.Remove(cell);
+                    member.Parking = IntVec3.Invalid;
+                }
                 command.ContactRestoring = command.Phase == TacticalCommandPhase.Clear && command.Plan != null;
             }
             if (command.Phase == TacticalCommandPhase.Pending && (agreement.Negotiating

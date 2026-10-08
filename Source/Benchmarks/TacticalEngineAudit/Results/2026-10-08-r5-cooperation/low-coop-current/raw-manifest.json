@@ -1,0 +1,32 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-low-coop-02\\audit.json",
+    "file": "audit.json.gz",
+    "sha256": "b6f27a5a9d871b84ed1da45236c67bf356af1529d03abbe876472dce2a74ec78",
+    "bytes": 11815
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-low-coop-02\\launcher.json",
+    "file": "launcher.json.gz",
+    "sha256": "4503d66712bf04680967fef75b74c69f4f4ad65337b2f639d04955abd4aeb467",
+    "bytes": 817
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-low-coop-02\\Player.log",
+    "file": "Player.log.gz",
+    "sha256": "d92b4741feccc25fab2cd25a02b3361ed9fb9b4d517af1e99faf1567b1dd4495",
+    "bytes": 30329
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-low-coop-02\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "sha256": "f33f7eb9346d8fa20bb963825616592c8346a3a412b41768f71a732b8c643cf7",
+    "bytes": 21265
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r5-low-coop-02\\profiles\\capture-20261008-142832-721-1.json",
+    "file": "capture-20261008-142832-721-1.json.gz",
+    "sha256": "4b91c081f188c0b7233054aa6c7b447cebd0a7d5b9a3d233a9e6b746d3b7f175",
+    "bytes": 28402
+  }
+]

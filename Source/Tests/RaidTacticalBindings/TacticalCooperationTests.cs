@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using Helodrace;
 using Helodrace.ModernWar;
+using Helodrace.Squads;
 using Helodrace.Tactics;
 using RimWorld;
 using Verse;
@@ -70,6 +71,27 @@ internal static class TacticalCooperationTests
         var tablet=new Apparel {def=armor.def};
         AccessTools.Field(typeof(ThingWithComps),"comps").SetValue(tablet,new List<ThingComp>{new CompTacticalRadio{parent=tablet,props=new CompProperties_TacticalRadio()}});
         Check(Radios(tablet)==0,"Temporary directly worn tablet is not armor radio hardware.");
+        var doctrine=(DoctrineDef)RuntimeHelpers.GetUninitializedObject(typeof(DoctrineDef)); doctrine.voiceReportTicks=40;
+        var group=new CombatGroup {id="source"};
+        var organization=new CombatOrganization {id="org",doctrine=doctrine,rootGroups=new List<CombatGroup>{group}};
+        organization.RestoreTreeLinks();
+        var from=new TacticalSquadCommand {Id="source",Goal=goal};
+        from.Link.Unit=RaidTacticalUnit.ForGroup(group); from.Link.Liaison=new Pawn {thingIDNumber=123};
+        from.Link.Cooperation.Agenda=agenda; from.Link.Cooperation.LocalReady=true;
+        var network=new TacticalCommunications(); var receivers=new List<TacticalSquadCommand>();
+        var send=AccessTools.Method(typeof(TacticalCommunications),"Send");
+        for (int i=0;i<70;i++)
+        {
+            var to=new TacticalSquadCommand {Id="recipient"+i}; to.Link.Liaison=new Pawn {thingIDNumber=200+i}; receivers.Add(to);
+            send.Invoke(network,new object[]{from,to,TacticalMessageKind.Contact,400,TacticalChannel.Voice,report});
+        }
+        Check(network.PendingCount==64 && network.QueueRejected==6,"Pending packet queue must remain bounded under overload.");
+        var queued=(List<TacticalMessage>)AccessTools.Field(typeof(TacticalCommunications),"pending").GetValue(network);
+        Check(queued[0].Contact!=report && queued[0].Contact.SeenTick==100 && queued[0].Due==440,"Packet creation detaches report and preserves voice delay.");
+        from.Link.Cooperation.LocalReady=false;
+        Check(queued[0].Ready && queued[0].FromPawn==123,"Changing sender state cannot mutate an in-flight readiness/endpoint snapshot.");
+        send.Invoke(network,new object[]{from,receivers[0],TacticalMessageKind.Contact,410,TacticalChannel.Voice,report});
+        Check(network.PendingCount==64 && network.QueueRejected==6,"Duplicate in-flight reports must coalesce before consuming queue space.");
         Console.WriteLine("PASS: "+checks+" R5 agreement, report freshness, isolated state, role allocation and physical armor radio checks.");
     }
 }
