@@ -50,6 +50,10 @@ internal static class Program
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static int RunReferencedTests(string[] commandLineArgs)
     {
+        if (commandLineArgs.Contains("--hemostasis"))
+        {
+            PartHemostasisTests.Run(); return 0;
+        }
         if (commandLineArgs.Contains("--r5"))
         {
             TacticalCooperationTests.Run();

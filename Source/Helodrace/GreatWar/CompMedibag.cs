@@ -20,8 +20,8 @@ namespace Helodrace
         public int plasmaSupplyCost = -1;
         public int plasmaMedicineCost = 1;
         public int hemostasisPartCount = 4;
-        public float hemostasisQuality = 0.35f;
-        public float hemostasisMaxQuality = 0.60f;
+        public float hemostasisBleedingFactor = 0.30f;
+        public int hemostasisDurationTicks = 15000;
         public float bloodLossReduction = 0.60f;
         public int treatmentTicks = 180;
         public List<BodyPartDef> excludedHemostasisParts;
@@ -38,18 +38,7 @@ namespace Helodrace
 
         public CompProperties_Medibag Props => (CompProperties_Medibag)props;
 
-        private Pawn Wearer
-        {
-            get
-            {
-                if (parent.ParentHolder is Pawn_ApparelTracker apparelTracker)
-                {
-                    return apparelTracker.pawn;
-                }
-
-                return null;
-            }
-        }
+        private Pawn Wearer => (parent as Apparel)?.Wearer;
 
         private ThingDef SupplyDef => Props.supplyDef ?? Props.medicineDef ?? ThingDefOf.MedicineHerbal;
 
@@ -216,14 +205,9 @@ namespace Helodrace
             int treatedParts = 0;
             foreach (IGrouping<BodyPartRecord, Hediff> partGroup in bleedingParts)
             {
-                bool treatedAny = false;
-                foreach (Hediff hediff in partGroup)
-                {
-                    hediff.Tended(Props.hemostasisQuality, Props.hemostasisMaxQuality);
-                    treatedAny = true;
-                }
-
-                if (treatedAny)
+                // One marker per body part, shared with TCCC. No vanilla tending.
+                if (Tactical.PartHemostasis.Apply(target, partGroup.Key,
+                    "HD_FieldHemostasis", Props.hemostasisBleedingFactor, Props.hemostasisDurationTicks) != null)
                 {
                     treatedParts++;
                 }

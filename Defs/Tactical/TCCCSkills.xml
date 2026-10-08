@@ -16,15 +16,23 @@
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Pressure</defName><label>applying pressure</label>
-    <description>Self-hemostasis is in progress. Bleeding is reduced by 70% while pressure is maintained.</description>
+    <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
+    <description>Self-hemostasis is in progress on this body part. Bleeding from this part is reduced by 70% while pressure is maintained.</description>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_SelfHemostasis</defName><label>self-hemostasis</label>
-    <description>Bleeding is reduced by 95% for 18 hours. Wounds still require treatment.</description>
+    <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
+    <description>Bleeding from this treated body part is reduced by 95% for 18 hours. Wounds still require treatment.</description>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Hemostatic</defName><label>hemostatic agent</label>
-    <description>Bleeding is reduced by 70% for 6 hours. Does not multiply with other TCCC bleeding reductions.</description>
+    <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
+    <description>Bleeding from this treated body part is reduced by 70% for 6 hours. Only the strongest active hemostasis on this part applies.</description>
+  </HediffDef>
+  <HediffDef ParentName="HD_TCCC_TimedBase">
+    <defName>HD_FieldHemostasis</defName><label>field hemostasis</label>
+    <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
+    <description>A medic bag dressing reduces bleeding from this body part by 70% for 6 hours. Does not tend or heal wounds. Only the strongest active hemostasis on this part applies.</description>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Mist</defName><label>MIST handover prepared</label>
@@ -53,7 +61,7 @@
   </JobDef>
   <ThingDef ParentName="ResourceBase">
     <defName>HD_TCCC_HemostaticAgent</defName><label>hemostatic agent</label>
-    <description>A field hemostatic dose. Administer with the TCCC menu in 3 seconds to reduce bleeding by 70% for 6 hours. Does not heal injuries or replace lost blood.</description>
+    <description>A field hemostatic dose. Administer with the TCCC menu in 3 seconds to reduce bleeding from the treated body parts by 70% for 6 hours. Does not heal injuries or replace lost blood.</description>
     <graphicData><texPath>Things/Item/Resource/Medicine/MedicineIndustrial</texPath><graphicClass>Graphic_StackCount</graphicClass><color>(0.95,0.45,0.40)</color></graphicData>
     <techLevel>Industrial</techLevel><stackLimit>25</stackLimit>
     <thingCategories><li>Manufactured</li></thingCategories>

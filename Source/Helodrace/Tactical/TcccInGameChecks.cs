@@ -250,7 +250,6 @@ namespace Helodrace.Tactical
         {
             Check(TcccRules.SelfHemostasisTicks == 1800 && TcccRules.PartialHemostasisTicks == 1200
                 && TcccRules.SelfEffectTicks == 45000 && TcccRules.DrugEffectTicks == 15000, "all specified timing constants");
-            Check(TcccRules.BleedingFactor(true, true, true) == .05f, "bleeding reductions do not multiply");
             foreach (string name in new[] { "BD_Morphine", "BD_Fentanyl", "BD_Ketamine", "BD_Laudanum" })
             {
                 Pawn patient = SpawnPawn(Find.CurrentMap.Center + new IntVec3(0, 0, -12)); Wound(patient);

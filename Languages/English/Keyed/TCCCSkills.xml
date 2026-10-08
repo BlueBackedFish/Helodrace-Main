@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <HD_Hemostasis_Reduction>Bleeding reduction on this body part: {0}</HD_Hemostasis_Reduction>
   <HD_TCCC_Menu>TCCC</HD_TCCC_Menu>
   <HD_TCCC_MenuDesc>Tactical casualty care. Self-hemostasis takes 30 seconds: 70% less bleeding after 20 seconds, then 95% less for 18 hours on completion. A casualty tether leaves your hands free, but slows movement and other actions. Titrated Blanca's Drugs analgesics target 10% pain, conserve unused doses and halve dose-adjusted addiction risk. A hemostatic dose takes 3 seconds and reduces bleeding by 70% for 6 hours. MIST preparation takes 5 seconds and improves MEDEVAC response and handover.</HD_TCCC_MenuDesc>
   <HD_TCCC_SelfHemostasis>Self-hemostasis (30 sec)</HD_TCCC_SelfHemostasis>

@@ -25,11 +25,9 @@ namespace Helodrace.Tactical
         { return Mathf.Clamp01((pain - TargetPain) / Mathf.Max(.01f, 1f - fullDosePainFactor)); }
         public static float AddictionChance(float fullDoseChance, float fraction, bool skilled)
         { return Mathf.Clamp01(fullDoseChance * Mathf.Clamp01(fraction) * (skilled ? .5f : 1f)); }
-        public static float BleedingFactor(bool pressure, bool completed, bool hemostatic)
-        { return completed ? .05f : pressure || hemostatic ? .30f : 1f; }
     }
 
-    public sealed class Hediff_TcccTimed : Hediff
+    public class Hediff_TcccTimed : Hediff
     {
         public int expiresTick;
         public string report;
@@ -198,10 +196,25 @@ namespace Helodrace.Tactical
     {
         private int treatmentTicks;
         private bool pressureApplied;
+        private List<int> treatedPartIndices = new List<int>();
         private TcccTreatment Treatment => (TcccTreatment)job.count;
         private Pawn Patient => job.targetA.Pawn;
         public override void ExposeData()
-        { base.ExposeData(); Scribe_Values.Look(ref treatmentTicks, "treatmentTicks"); Scribe_Values.Look(ref pressureApplied, "pressureApplied"); }
+        {
+            base.ExposeData(); Scribe_Values.Look(ref treatmentTicks, "treatmentTicks");
+            Scribe_Values.Look(ref pressureApplied, "pressureApplied");
+            Scribe_Collections.Look(ref treatedPartIndices, "treatedPartIndices", LookMode.Value);
+        }
+
+        private int ApplyToSelectedParts(string effect, float factor, int duration)
+        {
+            int applied = 0;
+            List<BodyPartRecord> body = Patient.RaceProps.body.AllParts;
+            foreach (int index in treatedPartIndices)
+                if (index >= 0 && index < body.Count
+                    && PartHemostasis.Apply(Patient, body[index], effect, factor, duration) != null) applied++;
+            return applied;
+        }
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             return (Patient == pawn || pawn.Reserve(Patient, job, 1, -1, null, errorOnFailed))
@@ -240,6 +253,18 @@ namespace Helodrace.Tactical
                 : Treatment == TcccTreatment.Hemostatic ? TcccRules.HemostaticTicks
                 : Treatment == TcccTreatment.Mist ? 300 : 120;
             Toil treatment = Toils_General.Wait(duration, TargetIndex.A);
+            if (Treatment == TcccTreatment.SelfHemostasis || Treatment == TcccTreatment.Hemostatic)
+            {
+                treatment.AddPreInitAction(() =>
+                {
+                    if (treatedPartIndices != null && treatedPartIndices.Count > 0) return;
+                    // Latch actual bleeding parts when care starts, not when it finishes:
+                    // a later wound on another part is not retroactively treated.
+                    treatedPartIndices = PartHemostasis.BleedingParts(Patient)
+                        .Select(part => Patient.RaceProps.body.AllParts.IndexOf(part)).Where(index => index >= 0).ToList();
+                    if (treatedPartIndices.Count == 0) EndJobWith(JobCondition.Incompletable);
+                });
+            }
             treatment.WithProgressBarToilDelay(TargetIndex.A);
             treatment.FailOn(() => Patient != pawn && !pawn.Position.AdjacentTo8WayOrInside(Patient.Position));
             treatment.tickAction = () =>
@@ -248,7 +273,7 @@ namespace Helodrace.Tactical
                 if (Treatment == TcccTreatment.SelfHemostasis && treatmentTicks >= TcccRules.PartialHemostasisTicks && !pressureApplied)
                 {
                     pressureApplied = true;
-                    TcccUtility.ApplyTimed(pawn, "HD_TCCC_Pressure", TcccRules.SelfHemostasisTicks);
+                    ApplyToSelectedParts("HD_TCCC_Pressure", .30f, TcccRules.SelfHemostasisTicks);
                 }
             };
             yield return treatment;
@@ -259,15 +284,15 @@ namespace Helodrace.Tactical
             switch (Treatment)
             {
                 case TcccTreatment.SelfHemostasis:
-                    TcccUtility.ApplyTimed(pawn, "HD_TCCC_SelfHemostasis", TcccRules.SelfEffectTicks);
+                    ApplyToSelectedParts("HD_TCCC_SelfHemostasis", .05f, TcccRules.SelfEffectTicks);
                     break;
                 case TcccTreatment.AttachDrag:
                     if (!pawn.Map.GetComponent<MapComponent_TcccDragging>().Attach(pawn, Patient)) TcccUtility.Reject("HD_TCCC_CannotDrag");
                     break;
                 case TcccTreatment.Hemostatic:
                     if (Patient.health.hediffSet.BleedRateTotal <= 0f) { TcccUtility.Reject("HD_TCCC_NoBleeding"); return; }
-                    TcccUtility.ApplyTimed(Patient, "HD_TCCC_Hemostatic", TcccRules.DrugEffectTicks);
-                    job.targetB.Thing.SplitOff(1).Destroy();
+                    if (ApplyToSelectedParts("HD_TCCC_Hemostatic", .30f, TcccRules.DrugEffectTicks) > 0)
+                        job.targetB.Thing.SplitOff(1).Destroy();
                     break;
                 case TcccTreatment.Analgesic:
                     TcccDrugs.Administer(pawn, Patient, job.targetB.Thing);
@@ -287,16 +312,4 @@ namespace Helodrace.Tactical
               __result = __result.Concat(TcccUtility.Gizmos(__instance)); }
     }
 
-    [HarmonyPatch(typeof(HediffSet), nameof(HediffSet.BleedRateTotal), MethodType.Getter)]
-    public static class Patch_TcccBleeding
-    {
-        public static void Postfix(HediffSet __instance, ref float __result)
-        {
-            if (__result <= 0f) return;
-            Pawn pawn = __instance.pawn;
-            __result *= TcccRules.BleedingFactor(TcccUtility.Effect(pawn, "HD_TCCC_Pressure") != null,
-                TcccUtility.Effect(pawn, "HD_TCCC_SelfHemostasis") != null,
-                TcccUtility.Effect(pawn, "HD_TCCC_Hemostatic") != null);
-        }
-    }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
+  <HD_Hemostasis_Reduction>이 부위의 출혈 감소: {0}</HD_Hemostasis_Reduction>
   <HD_TCCC_Menu>TCCC 전술 응급처치</HD_TCCC_Menu>
   <HD_TCCC_MenuDesc>자가 지혈: 30초 소요. 20초부터 출혈량 70% 감소, 완료 후 18시간 동안 95% 감소합니다. 부상자 연결: 손을 비운 채 끌고 이동하지만 이동속도가 감소하고 다른 행동이 느려집니다. 진통제: Blanca's Drugs 약물을 나누어 투여해 고통 10%를 목표로 완화합니다. 잔량은 보존하며 중독 확률은 사용량에 비례하고 일반 투여의 절반입니다. 지혈제: 3초 투여 후 6시간 동안 출혈량 70% 감소. MIST: 5초간 후송 인계서를 작성해 MEDEVAC 도착 및 환자 인계를 돕습니다.</HD_TCCC_MenuDesc>
   <HD_TCCC_SelfHemostasis>자가 지혈 (30초)</HD_TCCC_SelfHemostasis>
