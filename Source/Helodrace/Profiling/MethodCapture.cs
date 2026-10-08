@@ -24,6 +24,7 @@ namespace Helodrace.Profiling
     public struct RecordedProfileCall
     {
         public int Method, CallId, ParentId, RootId, Depth;
+        public long Invocation;
         public long Start, Elapsed, Self, Cpu;
         public ProfileCallContext Context;
     }
@@ -48,6 +49,7 @@ namespace Helodrace.Profiling
         private struct Entry
         {
             internal int Id, Serial, Parent, Root, Depth;
+            internal long Invocation;
             internal long Start, Children, Cpu;
             internal ProfileCallContext Context;
         }
@@ -58,11 +60,15 @@ namespace Helodrace.Profiling
         private int depth, serial;
         private bool accepting = true;
         public readonly long[] Calls, Errors, Inclusive, TrackedSelf, Maximum, CpuTicks;
+        public readonly long[] ForeignThreadCalls, DepthLimitCalls;
         private readonly long[][] distribution;
         public const int DistributionCapacity = 2048;
         public readonly int[] SlowMethods = new int[16];
         public readonly long[] SlowElapsed = new long[16];
         public readonly RecordedProfileCall[] SlowRecords = new RecordedProfileCall[16];
+        public const int InitialCallCapacity = 8;
+        public readonly RecordedProfileCall[][] InitialRecords;
+        private readonly long[] invocations;
         public const int SpikeCapacity = 8, SpikeCallCapacity = 512;
         public readonly RecordedTickSpike[] TickSpikes;
         private readonly RecordedProfileCall[] tickCalls;
@@ -90,6 +96,9 @@ namespace Helodrace.Profiling
             threshold = (long)Math.Ceiling(clock.Frequency * spikeThresholdMs / 1000);
             if (traceSpikes)
             {
+                invocations = new long[cpu.Length];
+                InitialRecords = new RecordedProfileCall[cpu.Length][];
+                for (int i = 0; i < cpu.Length; i++) InitialRecords[i] = new RecordedProfileCall[InitialCallCapacity];
                 tickCalls = new RecordedProfileCall[SpikeCallCapacity];
                 tickMethods = new RecordedTickMethod[cpu.Length];
                 TickSpikes = new RecordedTickSpike[SpikeCapacity];
@@ -98,15 +107,17 @@ namespace Helodrace.Profiling
             int n = cpu.Length;
             Calls = new long[n]; Errors = new long[n]; Inclusive = new long[n];
             TrackedSelf = new long[n]; Maximum = new long[n]; CpuTicks = new long[n];
+            ForeignThreadCalls = new long[n]; DepthLimitCalls = new long[n];
             distribution = new long[n][];
             for (int i = 0; i < n; i++) distribution[i] = new long[DistributionCapacity];
         }
         public MethodToken Enter(int id, ProfileCallContext context = default)
         {
             if (!accepting) return default;
-            if (Thread.CurrentThread.ManagedThreadId != thread) { Interlocked.Increment(ref Dropped); return default; }
-            if (depth == stack.Length) { Dropped++; return default; }
             if (id < 0 || id >= Calls.Length) throw new ArgumentOutOfRangeException(nameof(id));
+            if (Thread.CurrentThread.ManagedThreadId != thread)
+            { Interlocked.Increment(ref ForeignThreadCalls[id]); Interlocked.Increment(ref Dropped); return default; }
+            if (depth == stack.Length) { DepthLimitCalls[id]++; Dropped++; return default; }
             int slot = depth++;
             if (Tracing)
             {
@@ -125,6 +136,7 @@ namespace Helodrace.Profiling
                 else if (traceDepth >= 0) context.Tick = stack[traceDepth].Context.Tick;
             }
             stack[slot] = new Entry { Id = id, Serial = ++serial,
+                Invocation = Tracing ? ++invocations[id] : 0,
                 Parent = slot > 0 ? stack[slot - 1].Serial : 0,
                 Root = traceDepth >= 0 ? traceRoot : slot > 0 ? stack[slot - 1].Root : serial,
                 Depth = slot, Context = context,
@@ -143,8 +155,13 @@ namespace Helodrace.Profiling
             RecordedProfileCall record = default;
             if (Tracing || elapsed >= clock.Frequency / 200)
                 record = new RecordedProfileCall { Method = id, CallId = entry.Serial, ParentId = entry.Parent,
+                    Invocation = entry.Invocation,
                     RootId = entry.Root, Depth = entry.Depth, Start = entry.Start - origin, Elapsed = elapsed,
                     Self = self, Cpu = cpuCost, Context = entry.Context };
+            // Entry order (not completion order) keeps recursion and exceptions
+            // unambiguous. Independent of slow-tick retention and the pawn filter.
+            if (Tracing && entry.Invocation <= InitialCallCapacity)
+                InitialRecords[id][(int)entry.Invocation - 1] = record;
             Calls[id]++; if (error) Errors[id]++;
             distribution[id][(int)((Calls[id] - 1) % DistributionCapacity)] = elapsed;
             if (elapsed >= clock.Frequency / 200)

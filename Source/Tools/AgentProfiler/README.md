@@ -140,3 +140,30 @@ dotnet $cli start $root 10 cpu spikes pawn=845 threshold=5
 원본 `tickSpikes[].methods`는 메서드 ID와 합계를 보존한다. `methodsComplete`는 해당 틱 안에서 계측 대상 호출을 깊이 제한/스레드 제한 등으로 잃지 않았다는 뜻이다. `detailsComplete=false` 또는 `callsFiltered>0`인 틱에서도 `methodsComplete=true`일 수 있다. 미계측 메서드까지 측정했다는 뜻은 아니다. 집계는 여전히 가장 긴 틱 8개에만 보존된다.
 
 추적 모드에서만 시작 시 고정 배열을 할당하고, 매 호출은 배열 항목만 갱신한다. 최대 128개 메서드 기준 추가 데이터 배열은 약 45KiB다. 틱마다 현재 집계를 비우고 보존 순위에 들어갈 때만 복사하며, JSON은 수집 종료 후 생성한다. 추적 schema가 다른 수집은 compare/반복 집계/엔진 비교에서 같은 계측 조건으로 묶지 않는다. 일반 coarse/detailed의 추적 비활성 실행에는 이 배열과 집계가 없다.
+
+## 좁은 내부 진단과 초기 호출 (schema 8)
+
+`needs-spikes`, `jobs-spikes`, `path-spikes`는 `spikes`의 기본 틱·컴포넌트·폰·작업 경계에 아래 대상만 추가한다. `pawn-spikes`의 모든 트래커를 동시에 등록하지 않는다. 게임 시작 시 선택하며 CLI `start`에서 프리셋을 바꾸거나 새 패치를 설치하지 않는다.
+
+| 프리셋 | 추가로 확인할 범위 |
+|---|---|
+| `needs-spikes` | 욕구 트래커와 게임/Helodrace의 구체적인 `NeedInterval` 구현. 음식·휴식·기분 등을 개별적으로 구분 |
+| `jobs-spikes` | 다음 작업 판단, 전투 JobGiver, 사격 위치 검색과 이 메서드들이 원본 IL에서 직접 호출하는 메서드 한 단계 |
+| `path-spikes` | 경로 요청·시작·갱신·완료 대기와 원본 IL의 직접 호출 한 단계. Unity 워커의 실행 시간은 수집하지 않음 |
+
+Reflection/IL 분석은 등록 때 한 번만 수행한다. 직접 호출 확장은 같은 클래스·Verse.AI·JobGiver 구현으로 제한해 공용 난수/수학 보조 함수를 따라가지 않는다. getter·추상/제네릭 메서드·Unity/프레임워크 호출은 추가하지 않으며, 전체 대상 128개 상한을 넘으면 명시적으로 초기화를 거부한다. `capabilities`에 실제 등록된 전체 서명이 나온다. 욕구 프리셋은 다른 모드의 자체 Need 구현을 자동 등록하지 않는다. 필요한 구체적인 게임/Helodrace 메서드는 `-ProfileTargets`로 추가할 수 있다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/TacticalEngineAudit/Run-EngineAudit.ps1 -Engine new -Workload sapper-wall -Population 60 -WarmupTicks 120 -SampleTicks 180 -ProfilePreset needs-spikes -SpikeThresholdMs 0.1
+dotnet $cli initial $capture
+dotnet $cli initial $capture NeedInterval
+dotnet $cli spikes $capture
+```
+
+추적이 켜지면 메서드마다 **수집 중 최초 8회 진입**의 완료 결과를 별도 고정 배열에 보존한다. 느린 틱 상위 8개·상세 호출 512개·폰 필터와 독립적이며, 빠른 호출이나 틱 밖의 호출도 남는다. 일반 추적 비활성 수집에는 이 배열을 할당하지 않는다. 각 상세 호출의 `invocation`은 메서드별 진입 순서다. 재귀 호출도 진입 순서대로 번호를 부여한다. 미완료 호출은 종료 시 배출을 기다리며 정상 완료된 결과만 기록한다.
+
+`initial CAPTURE [METHOD_TEXT]`는 초기 호출의 시점·폰/작업/단계·경과 시간, 초기 평균/최대/Core 비율, 초기 표본을 제외한 전체 호출의 평균과 빈도를 반환한다. `largestRetainedLaterCallMs`는 이후 호출 전체의 최대가 아니라 보존된 느린 호출/틱에서 찾은 최대다. 기록이 없으면 null이다. `hotspots`에는 `meanMs`와 `callsPerTick`도 나온다.
+
+**수집 초반 호출은 JIT/콜드 캐시 판정이 아니다.** 준비 틱 전에 이미 같은 메서드가 실행됐을 수 있다. 초기 단발 비용인지 반복 비용인지 조사할 실마리이며, 준비 0/준비 후 수집과 게임 문맥을 함께 검토한다. 메서드별 값은 경과 시간이고 실제 CPU를 의미하지 않는다. 추적 스키마가 다른 실행의 성능 수치를 직접 비교하지 않는다.
+
+메서드별 `foreignThreadCalls`와 `depthLimitCalls`는 각각 다른 스레드/중첩 상한으로 제외된 호출 수다. `hotspots`의 `excludedMethods`에는 완료 호출이 하나도 없는 제외 메서드도 나온다. 이유별 통계를 추가해도 `dropped`와 불완전 캡처 비교 거부 규칙은 유지한다. 워커 호출은 CPU/문맥 기록에 포함하지 않고 카운터만 원자적으로 증가시킨다.

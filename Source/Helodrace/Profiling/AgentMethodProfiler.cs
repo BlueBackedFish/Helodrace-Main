@@ -54,8 +54,10 @@ namespace Helodrace.Profiling
                 using (var sha = SHA256.Create())
                     hash = BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(typeof(AgentMethodProfiler).Assembly.Location))).Replace("-", "").ToLowerInvariant();
                 bool detailed = GenCommandLine.TryGetCommandLineArg("hdMethodProfilePreset", out string preset) && preset == "detailed";
-                if (preset != null && preset != "coarse" && preset != "detailed" && preset != "spikes" && preset != "pawn-spikes") throw new ArgumentException("Unknown profiler preset.");
-                defaultSpikes = preset == "spikes" || preset == "pawn-spikes";
+                bool focused = preset == "needs-spikes" || preset == "jobs-spikes" || preset == "path-spikes";
+                if (preset != null && preset != "coarse" && preset != "detailed" && preset != "spikes" && preset != "pawn-spikes" && !focused)
+                    throw new ArgumentException("Unknown profiler preset.");
+                defaultSpikes = preset == "spikes" || preset == "pawn-spikes" || focused;
                 if (GenCommandLine.TryGetCommandLineArg("hdMethodProfileSpikePawnId", out string pawnFilter))
                 {
                     defaultSpikePawnId = int.Parse(pawnFilter, CultureInfo.InvariantCulture);
@@ -69,7 +71,7 @@ namespace Helodrace.Profiling
                 Add(typeof(Map), "MapPreTick", "MapPostTick", "MapUpdate");
                 Add(typeof(MapComponentUtility), "MapComponentTick", "MapComponentUpdate");
                 Add(typeof(GameComponentUtility), "GameComponentTick", "GameComponentUpdate");
-                if (preset == "spikes" || preset == "pawn-spikes")
+                if (preset == "spikes" || preset == "pawn-spikes" || focused)
                 {
                     Add(typeof(TickList), "Tick");
                     Add(typeof(Pawn), "TickInterval");
@@ -85,6 +87,8 @@ namespace Helodrace.Profiling
                         Add(typeof(Pawn_JobTracker), "DetermineNextConstantThinkTreeJob", "CheckForJobOverride");
                         Add(typeof(Pawn_PathFollower), "StartPath", "TrySetNewPath", "NeedNewPath");
                     }
+                    if (focused)
+                        foreach (MethodInfo method in FocusedProfileTargets.Resolve(preset)) Add(method.DeclaringType, method.Name);
                 }
                 else
                 {
@@ -266,6 +270,7 @@ namespace Helodrace.Profiling
             snapshot.dropped = current.Dropped; snapshot.complete = current.Dropped == 0;
             snapshot.methods = targets.Select((m, i) => { double[] p = current.Percentiles(i); return new ProfileMethod { id = i, method = Signature(m),
                 cpuMeasured = snapshot.cpuSource != "disabled" && CpuTarget(m), calls = current.Calls[i], exceptions = current.Errors[i],
+                foreignThreadCalls = System.Threading.Interlocked.Read(ref current.ForeignThreadCalls[i]), depthLimitCalls = current.DepthLimitCalls[i],
                 inclusiveMs = current.Milliseconds(current.Inclusive[i]), trackedSelfMs = current.Milliseconds(current.TrackedSelf[i]),
                 maxMs = current.Milliseconds(current.Maximum[i]), threadCpuMs = current.CpuTicks[i] / 10000.0,
                 referencePercentPerCall = ReferenceMetrics.Percent(current.Milliseconds(current.Inclusive[i]), current.Calls[i], snapshot.reference),
@@ -274,6 +279,13 @@ namespace Helodrace.Profiling
             snapshot.slowCalls = current.SlowRecords.Select(value => Call(current, value))
                 .Where(value => value.milliseconds > 0).OrderByDescending(value => value.milliseconds).ToArray();
             snapshot.spikeCandidates = current.SpikeCandidates;
+            if (current.Tracing)
+            {
+                snapshot.initialCallCapacity = MethodCapture.InitialCallCapacity;
+                snapshot.initialCalls = current.InitialRecords.SelectMany(calls => calls)
+                    .Where(c => c.CallId > 0).Select(c => Call(current, c))
+                    .OrderBy(c => c.callId).ToArray();
+            }
             if (current.Tracing) snapshot.tickSpikes = current.TickSpikes.Where(s => s.Count > 0).OrderByDescending(s => s.Root.Elapsed)
                 .Select(s => new ProfileTickSpike { root = Call(current, s.Root),
                     calls = s.Calls.Take(s.Count).OrderBy(c => c.Start).ThenBy(c => c.CallId).Select(c => Call(current, c)).ToArray(),
@@ -291,6 +303,7 @@ namespace Helodrace.Profiling
         private static ProfileSlowCall Call(MethodCapture current, RecordedProfileCall call) => new ProfileSlowCall {
             methodId = call.Method, milliseconds = current.Milliseconds(call.Elapsed), trackedSelfMs = current.Milliseconds(call.Self),
             callId = call.CallId, parentCallId = call.ParentId, rootCallId = call.RootId, depth = call.Depth,
+            invocation = call.Invocation,
             startMs = current.Milliseconds(call.Start), threadCpuMs = call.Cpu >= 0 ? call.Cpu / 10000.0 : (double?)null,
             tick = current.Tracing ? call.Context.Tick : -1, frame = current.Tracing ? call.Context.Frame : -1,
             mapId = current.Tracing ? call.Context.MapId : -1, pawnId = current.Tracing ? call.Context.PawnId : -1,

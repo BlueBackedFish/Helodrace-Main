@@ -9,6 +9,7 @@ namespace Helodrace.Profiling
         [DataMember] public string method;
         [DataMember] public bool cpuMeasured;
         [DataMember] public long calls, exceptions;
+        [DataMember] public long foreignThreadCalls, depthLimitCalls;
         [DataMember] public double inclusiveMs, trackedSelfMs, maxMs, threadCpuMs;
         [DataMember] public double? referencePercentPerCall, referencePercentPerTick;
         [DataMember] public int distributionSamples;
@@ -17,7 +18,7 @@ namespace Helodrace.Profiling
     [DataContract]
     public sealed class ProfileSnapshot
     {
-        [DataMember] public int schema = 7;
+        [DataMember] public int schema = 8;
         [DataMember] public string label, utc, assemblySha256, gameVersion, runtime, operatingSystem, cpuSource;
         [DataMember] public string[] mods;
         [DataMember] public int startTick, endTick, startFrame, endFrame, population, scenario, speed, mapId;
@@ -37,6 +38,8 @@ namespace Helodrace.Profiling
         [DataMember] public int spikeCapacity, spikeCallCapacity;
         [DataMember] public long spikeCandidates;
         [DataMember] public ProfileTickSpike[] tickSpikes;
+        [DataMember] public int initialCallCapacity;
+        [DataMember] public ProfileSlowCall[] initialCalls;
     }
     [DataContract]
     public sealed class ProfileSlowCall
@@ -44,6 +47,7 @@ namespace Helodrace.Profiling
         [DataMember] public int methodId;
         [DataMember] public double milliseconds;
         [DataMember] public int callId, parentCallId, rootCallId, depth, tick, frame, mapId, pawnId;
+        [DataMember] public long invocation;
         [DataMember] public string squadId, phase, job;
         [DataMember] public double startMs, trackedSelfMs;
         [DataMember] public double? threadCpuMs;

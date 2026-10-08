@@ -1,0 +1,17 @@
+[
+  {
+    "file": "initial.json.gz",
+    "bytes": 220039,
+    "sha256": "ce4c197d69f692a5f0b333a73307bfdc5d692ce143a95ae2d55c529302d2aa62"
+  },
+  {
+    "file": "spikes.json.gz",
+    "bytes": 543484,
+    "sha256": "0c3c0e9878c853a52b927ba083b42595cb4bea87d3e706fa319d328217df7c55"
+  },
+  {
+    "file": "hotspots.json.gz",
+    "bytes": 21319,
+    "sha256": "26fbe0ed48250d5773731d9e3daf1d3c9e49f61bfa50fd72a147cd5f5434c428"
+  }
+]

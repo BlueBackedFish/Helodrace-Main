@@ -20,6 +20,27 @@ $response = & dotnet $cli benchmark-compare $Capture $fixture
 if ($LASTEXITCODE -ne 1) { throw 'Different pawn detail filters were aggregated.' }
 $sample = Get-Content -LiteralPath $Capture -Raw | ConvertFrom-Json
 if ($sample.spikeTracing) {
+    if ($sample.schema -ge 8) {
+        $rejectedThreads = ($sample.methods | Measure-Object foreignThreadCalls -Sum).Sum
+        $rejectedDepth = ($sample.methods | Measure-Object depthLimitCalls -Sum).Sum
+        if ($sample.dropped -ne ($rejectedThreads + $rejectedDepth)) { throw 'Rejection reason accounting failed.' }
+        $response = & dotnet $cli initial $Capture
+        if ($LASTEXITCODE -ne 0) { throw 'Initial-call query failed.' }
+        $initial = ($response -join "`n") | ConvertFrom-Json
+        if ($initial.methods.Count -ne $sample.methods.Count -or $initial.initialCallCapacity -ne 8) {
+            throw 'Initial-call method/capacity mapping failed.'
+        }
+        foreach ($method in $initial.methods) {
+            if ($method.initialRecordedCalls -gt 8 -or $method.laterCalls -lt 0 -or
+                @($method.initialCalls | Where-Object { $_.invocation -lt 1 -or $_.invocation -gt 8 }).Count -gt 0) {
+                throw 'Initial-call bounds or invocation mapping failed.'
+            }
+        }
+        $response = & dotnet $cli initial $Capture DoSingleTick
+        if ($LASTEXITCODE -ne 0 -or (($response -join "`n") | ConvertFrom-Json).methods.Count -ne 1) {
+            throw 'Initial-call method filter failed.'
+        }
+    }
     $sample.schema = $sample.schema - 1
     $sample | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 -LiteralPath $fixture
     $response = & dotnet $cli compare $Capture $fixture

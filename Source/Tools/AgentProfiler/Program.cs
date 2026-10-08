@@ -39,7 +39,7 @@ internal static class Program
     {
         try
         {
-            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | spikes CAPTURE [TICK] | pawn CAPTURE PAWN_ID [TICK] | compare BEFORE AFTER | engine-compare VANILLA_ROOT CANDIDATE_ROOT | aggregate ROOT... | benchmark-compare BEFORE_ROOT AFTER_ROOT | start ROOT [SECONDS] [cpu] [spikes] [threshold=MS] [pawn=ID] | stop ROOT | status ROOT");
+            if (args.Length < 2) throw new ArgumentException("Usage: capabilities ROOT | search ROOT TEXT | hotspots CAPTURE [inclusive|self|cpu|calls] [TOP] | spikes CAPTURE [TICK] | initial CAPTURE [METHOD_TEXT] | pawn CAPTURE PAWN_ID [TICK] | compare BEFORE AFTER | engine-compare VANILLA_ROOT CANDIDATE_ROOT | aggregate ROOT... | benchmark-compare BEFORE_ROOT AFTER_ROOT | start ROOT [SECONDS] [cpu] [spikes] [threshold=MS] [pawn=ID] | stop ROOT | status ROOT");
             switch (args[0])
             {
                 case "capabilities": Print(Read<ProfileSnapshot>(Path.Combine(args[1], "capabilities.json"))); break;
@@ -56,9 +56,14 @@ internal static class Program
                     Print(new { capture.label, capture.complete, capture.dropped, ticks, capture.wallSeconds,
                         capture.selectedEngine, capture.effectiveEngine, capture.newEngineImplemented,
                         capture.mainThreadWindowCpuMs, capture.processWindowCpuMs, capture.reference, capture.benchmark, capture.slowCalls,
+                        excludedMethods = capture.methods.Where(m => m.foreignThreadCalls > 0 || m.depthLimitCalls > 0)
+                            .Select(m => new { m.method, m.foreignThreadCalls, m.depthLimitCalls }),
                         warning = "Inclusive times overlap. Tracked self includes uninstrumented children and profiler overhead. CPU is coarse and only present for cpuMeasured scopes.",
                         methods = capture.methods.Where(m => m.calls > 0 && (metric != "cpu" || m.cpuMeasured)).OrderByDescending(Value).Take(top)
-                            .Select(m => new { m.method, m.calls, m.exceptions, m.inclusiveMs, m.trackedSelfMs, m.maxMs, m.distributionSamples, m.p50Ms, m.p95Ms, m.p99Ms, m.cpuMeasured, m.threadCpuMs,
+                            .Select(m => new { m.method, m.calls, m.exceptions, m.foreignThreadCalls, m.depthLimitCalls,
+                                m.inclusiveMs, m.trackedSelfMs, m.maxMs, m.distributionSamples, m.p50Ms, m.p95Ms, m.p99Ms, m.cpuMeasured, m.threadCpuMs,
+                                meanMs = m.calls > 0 ? m.inclusiveMs / m.calls : (double?)null,
+                                callsPerTick = ticks > 0 ? m.calls / (double)ticks : (double?)null,
                                 inclusiveMsPerTick = ticks > 0 ? m.inclusiveMs / ticks : (double?)null,
                                 referencePercentPerCall = ReferenceMetrics.Percent(m.inclusiveMs, m.calls, capture.reference),
                                 referencePercentPerTick = ReferenceMetrics.Percent(m.inclusiveMs, ticks, capture.reference),
@@ -72,6 +77,7 @@ internal static class Program
                     var names = traced.methods.ToDictionary(m => m.id, m => m.method);
                     object Describe(ProfileSlowCall c) => new { method = names.GetValueOrDefault(c.methodId, "unknown"),
                         c.callId, c.parentCallId, c.rootCallId, c.depth, c.tick, c.frame, c.mapId, c.pawnId, c.squadId, c.phase, c.job,
+                        c.invocation,
                         c.startMs, c.milliseconds, c.trackedSelfMs, c.threadCpuMs,
                         referencePercentPerCall = ReferenceMetrics.Percent(c.milliseconds, 1, traced.reference) };
                     Print(new { traced.complete, traced.dropped, traced.spikeThresholdMs, traced.spikeCandidates, traced.spikePawnId,
@@ -89,6 +95,8 @@ internal static class Program
                                 costlyPawnCalls = s.calls.Where(c => c.pawnId >= 0).OrderByDescending(c => c.trackedSelfMs).Take(12).Select(Describe),
                                 calls = s.calls.Select(Describe) }),
                         longestCalls = (traced.slowCalls ?? Array.Empty<ProfileSlowCall>()).Where(c => requestedTick == null || c.tick == requestedTick).Select(Describe) }); break;
+                case "initial":
+                    Print(InitialCallDiagnostics.Describe(Read<ProfileSnapshot>(args[1]), args.ElementAtOrDefault(2))); break;
                 case "pawn":
                     if (args.Length < 3) throw new ArgumentException("Usage: pawn CAPTURE PAWN_ID [TICK]");
                     Print(PawnDiagnostics.Describe(Read<ProfileSnapshot>(args[1]), int.Parse(args[2]),

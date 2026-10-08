@@ -1,0 +1,38 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profiler-focused-jobs-final-20261008\\profiles\\capture-20261008-055024-473-1.json",
+    "file": "capture-20261008-055024-473-1.json.gz",
+    "bytes": 313658,
+    "sha256": "ccee94b19ad05cd61969ef5f3b617eefbb71d8b01a115a6f3ddfe1171e38f0d0"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profiler-focused-jobs-final-20261008\\profiles\\capabilities.json",
+    "file": "capabilities.json.gz",
+    "bytes": 26874,
+    "sha256": "c2a9540f9b5e155763006664c9e0e00799fa113c56027efad39726602b8976a3"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profiler-focused-jobs-final-20261008\\profiles\\status.json",
+    "file": "status.json.gz",
+    "bytes": 222,
+    "sha256": "cfe3061cf4dc7f809e9b4c7df808af08cf15b802f360a83d17639c30a607cd05"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profiler-focused-jobs-final-20261008\\audit.json",
+    "file": "audit.json.gz",
+    "bytes": 10013,
+    "sha256": "6ab57311b950f3d00e112d0e4f97eaf1d4eccdd45eeee9d04f9b0eb7349144df"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profiler-focused-jobs-final-20261008\\launcher.json",
+    "file": "launcher.json.gz",
+    "bytes": 535,
+    "sha256": "bfa70789974dfd53ecdd7f87a8a735838e1f29d56eef0c3e1f81be0b29988d27"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-profiler-focused-jobs-final-20261008\\Player.log",
+    "file": "Player.log.gz",
+    "bytes": 29803,
+    "sha256": "6a6d176f90310e2518e42253f7accd08262ee82726a78d746bf521f73168484a"
+  }
+]

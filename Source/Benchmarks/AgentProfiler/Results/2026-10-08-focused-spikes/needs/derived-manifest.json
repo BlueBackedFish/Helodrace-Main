@@ -1,0 +1,12 @@
+[
+  {
+    "file": "initial.json.gz",
+    "bytes": 47069,
+    "sha256": "7eb8ffe00fa1013037521c2f0b892180d713d341ed0edf23b53428d312f54a39"
+  },
+  {
+    "file": "spikes.json.gz",
+    "bytes": 732594,
+    "sha256": "d8227f89d240ff6b7221d71056ab1b4b429dfa540da8755f20ed9db27142e686"
+  }
+]

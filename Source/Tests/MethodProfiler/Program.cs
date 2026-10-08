@@ -11,24 +11,27 @@ clock.Time = 10; clock.Cpu = 50; capture.Leave(outer, false);
 Check(capture.Calls[0] == 2 && capture.Errors[0] == 1, "recursive close and exception");
 Check(capture.Inclusive[0] == 13 && capture.TrackedSelf[0] == 10 && capture.CpuTicks[0] == 70, "inclusive/self/cpu nesting");
 outer = capture.Enter(0); inner = capture.Enter(1); var overflow = capture.Enter(1);
-Check(overflow.Equals(default(MethodToken)) && capture.Dropped == 1, "depth budget");
+Check(overflow.Equals(default(MethodToken)) && capture.Dropped == 1 && capture.DepthLimitCalls[1] == 1
+    && capture.ForeignThreadCalls.Sum() == 0, "depth budget and rejection reason");
 capture.Stop(); Check(!capture.Ready && capture.Enter(0).Equals(default(MethodToken)), "stop drains open calls");
 capture.Leave(inner, false); capture.Leave(outer, false); Check(capture.Ready, "drained");
 capture = new MethodCapture(clock, new[] { false });
 var otherThread = new Thread(() => capture.Enter(0)); otherThread.Start(); otherThread.Join();
-Check(capture.Dropped == 1 && capture.Calls[0] == 0, "foreign thread rejected");
+Check(capture.Dropped == 1 && capture.Calls[0] == 0 && capture.ForeignThreadCalls[0] == 1
+    && capture.DepthLimitCalls.Sum() == 0, "foreign thread rejected with method identity");
 outer = capture.Enter(0); capture.Leave(outer, false); capture.Stop();
 Check(capture.Ready && capture.Calls[0] == 1, "foreign thread does not corrupt stack");
 var snapshot = new ProfileSnapshot { complete = true, mainThreadWindowCpuMs = 123.5, processWindowCpuMs = 456.75,
     selectedEngine = "new", effectiveEngine = "vanilla-fallback", newEngineImplemented = false,
-    methods = new[] { new ProfileMethod { calls = 2, method = "a\"한글" } } };
+    methods = new[] { new ProfileMethod { calls = 2, method = "a\"한글", foreignThreadCalls = 3, depthLimitCalls = 4 } } };
 using var stream = new MemoryStream();
 var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot)); serializer.WriteObject(stream, snapshot); stream.Position = 0;
 var roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
-Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 7
+Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 8
     && roundtrip.mainThreadWindowCpuMs == 123.5 && roundtrip.processWindowCpuMs == 456.75
     && roundtrip.selectedEngine == "new" && roundtrip.effectiveEngine == "vanilla-fallback"
-    && !roundtrip.newEngineImplemented, "structured JSON and whole-window CPU roundtrip");
+    && !roundtrip.newEngineImplemented && roundtrip.methods[0].foreignThreadCalls == 3
+    && roundtrip.methods[0].depthLimitCalls == 4, "structured JSON, rejection reasons and whole-window CPU roundtrip");
 Console.WriteLine("Method profiler checks passed: nesting, exceptions, double finalizer, depth budget, stop drain, thread rejection, JSON.");
 var reference = new ProfileReference { method = "core", workload = "fixed", iterations = 10000, sampleMs = new[] { 1.0, 2.0, 100.0 } };
 Check(reference.MedianBatchMs == 2 && ReferenceMetrics.Percent(10, 10, reference) == 50, "median reference percentage");
@@ -128,6 +131,7 @@ Check(!tree.MethodsComplete && tree.Methods[2].Calls == 0 && tree.Methods[1].Cal
     "lost scopes mark totals incomplete; outside-tick calls do not leak into aggregates");
 Console.WriteLine("Whole-tick checks passed: truncated expensive tail, filtered calls, nested accounting, reset, scope loss and JSON.");
 PawnDiagnosticsChecks.Run();
+InitialCallChecks.Run();
 Console.WriteLine("Spike checks passed: timeline, tick and actor inheritance, top-eight retention, bounded truncation, drain, JSON and opt-in buffers.");
 if (OperatingSystem.IsWindows())
 {

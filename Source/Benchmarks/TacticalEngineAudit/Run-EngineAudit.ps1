@@ -8,7 +8,7 @@ param(
     [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen','room-recovery','cutter-active-recovery','tiny-adjacent')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
-    [ValidateSet('coarse','detailed','spikes','pawn-spikes')][string]$ProfilePreset = 'coarse',
+    [ValidateSet('coarse','detailed','spikes','pawn-spikes','needs-spikes','jobs-spikes','path-spikes')][string]$ProfilePreset = 'coarse',
     [ValidateRange(0.1,1000)][double]$SpikeThresholdMs = 5,
     [ValidateRange(0,2147483647)][Nullable[int]]$SpikePawnId = $null,
     [string]$ProfileTargets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest',

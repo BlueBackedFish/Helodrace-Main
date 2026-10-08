@@ -17,6 +17,7 @@ internal static class PawnDiagnostics
             && (!tick.HasValue || c.tick == tick) && !calls.Any(d => d.callId == c.callId)).ToArray();
         object Call(ProfileSlowCall c) => new {
             method = methods.GetValueOrDefault(c.methodId, "unknown"), c.tick, c.callId, c.parentCallId, c.rootCallId,
+            c.invocation,
             c.phase, c.job, c.squadId, c.startMs, c.milliseconds, c.trackedSelfMs,
             referencePercentPerCall = ReferenceMetrics.Percent(c.milliseconds, 1, capture.reference)
         };

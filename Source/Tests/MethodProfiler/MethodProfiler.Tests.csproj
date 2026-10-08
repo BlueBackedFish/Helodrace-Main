@@ -7,5 +7,6 @@
     <Compile Include="../../Helodrace/Profiling/ProfileReference.cs" Link="ProfileReference.cs" />
     <Compile Include="../../Tools/AgentProfiler/EngineComparison.cs" Link="EngineComparison.cs" />
     <Compile Include="../../Tools/AgentProfiler/PawnDiagnostics.cs" Link="PawnDiagnostics.cs" />
+    <Compile Include="../../Tools/AgentProfiler/InitialCallDiagnostics.cs" Link="InitialCallDiagnostics.cs" />
   </ItemGroup>
 </Project>
