@@ -18,8 +18,8 @@ namespace Helodrace.Tactical
         public const int PartialHemostasisTicks = 1200;
         public const int SelfHemostasisTicks = 1800;
         public const int HemostaticTicks = 180;
-        public const int SelfEffectTicks = 45000;
         public const int DrugEffectTicks = 15000;
+        public const float HemostaticBleedingFactor = .30f;
         public const float TargetPain = .10f;
         public static float DoseFor(float pain, float fullDosePainFactor)
         { return Mathf.Clamp01((pain - TargetPain) / Mathf.Max(.01f, 1f - fullDosePainFactor)); }
@@ -72,6 +72,7 @@ namespace Helodrace.Tactical
                 pawn.health.AddHediff(effect);
             }
             else effect.expiresTick = Find.TickManager.TicksGame + duration;
+            if (effect is Hediff_SystemicHemostatic) PartHemostasis.Invalidate(pawn.health.hediffSet);
             pawn.health.hediffSet.DirtyCache();
             return effect;
         }
@@ -253,7 +254,7 @@ namespace Helodrace.Tactical
                 : Treatment == TcccTreatment.Hemostatic ? TcccRules.HemostaticTicks
                 : Treatment == TcccTreatment.Mist ? 300 : 120;
             Toil treatment = Toils_General.Wait(duration, TargetIndex.A);
-            if (Treatment == TcccTreatment.SelfHemostasis || Treatment == TcccTreatment.Hemostatic)
+            if (Treatment == TcccTreatment.SelfHemostasis)
             {
                 treatment.AddPreInitAction(() =>
                 {
@@ -284,15 +285,15 @@ namespace Helodrace.Tactical
             switch (Treatment)
             {
                 case TcccTreatment.SelfHemostasis:
-                    ApplyToSelectedParts("HD_TCCC_SelfHemostasis", .05f, TcccRules.SelfEffectTicks);
+                    ApplyToSelectedParts(PartHemostasis.DressingDefName, PartHemostasis.DressingFactor, PartHemostasis.DressingTicks);
                     break;
                 case TcccTreatment.AttachDrag:
                     if (!pawn.Map.GetComponent<MapComponent_TcccDragging>().Attach(pawn, Patient)) TcccUtility.Reject("HD_TCCC_CannotDrag");
                     break;
                 case TcccTreatment.Hemostatic:
                     if (Patient.health.hediffSet.BleedRateTotal <= 0f) { TcccUtility.Reject("HD_TCCC_NoBleeding"); return; }
-                    if (ApplyToSelectedParts("HD_TCCC_Hemostatic", .30f, TcccRules.DrugEffectTicks) > 0)
-                        job.targetB.Thing.SplitOff(1).Destroy();
+                    TcccUtility.ApplyTimed(Patient, "HD_TCCC_Hemostatic", TcccRules.DrugEffectTicks);
+                    job.targetB.Thing.SplitOff(1).Destroy();
                     break;
                 case TcccTreatment.Analgesic:
                     TcccDrugs.Administer(pawn, Patient, job.targetB.Thing);

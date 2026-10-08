@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
+using RimWorld;
 using Verse;
 
 namespace Helodrace.Tactical
@@ -10,6 +11,7 @@ namespace Helodrace.Tactical
     public sealed class Hediff_PartHemostasis : Hediff_TcccTimed
     {
         public float bleedingFactor = 1f;
+        public override float PainOffset => PartHemostasis.PainOffset(pawn?.health?.hediffSet, this, Find.TickManager.TicksGame);
         public override string TipStringExtra => base.TipStringExtra + "\n"
             + "HD_Hemostasis_Reduction".Translate((1f - bleedingFactor).ToString("P0"));
         public override void ExposeData()
@@ -30,15 +32,39 @@ namespace Helodrace.Tactical
         }
     }
 
+    public sealed class Hediff_SystemicHemostatic : Hediff_TcccTimed
+    {
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            if (Scribe.mode == LoadSaveMode.PostLoadInit) PartHemostasis.Invalidate(pawn?.health?.hediffSet);
+        }
+        public override void PostAdd(DamageInfo? dinfo)
+        { base.PostAdd(dinfo); PartHemostasis.Invalidate(pawn?.health?.hediffSet); }
+        public override void PostRemoved()
+        { base.PostRemoved(); PartHemostasis.Invalidate(pawn?.health?.hediffSet); }
+    }
+
     public static class PartHemostasis
     {
+        public const string DressingDefName = "HD_FieldHemostasis";
+        public const float DressingFactor = .20f;
+        public const int DressingTicks = 12 * GenDate.TicksPerHour;
+        public const float PainPerPart = .05f;
+        public const int MaxPainfulParts = 4;
         private sealed class Cache
         {
             public Cache() { }
             public bool dirty = true;
             public int validUntil;
+            public float systemicFactor;
             public readonly Dictionary<BodyPartRecord, float> factors = new Dictionary<BodyPartRecord, float>();
+            public readonly HashSet<BodyPartRecord> painfulParts = new HashSet<BodyPartRecord>();
+            public readonly HashSet<Hediff_PartHemostasis> painOwners = new HashSet<Hediff_PartHemostasis>();
         }
+
+        public static Hediff_PartHemostasis ApplyDressing(Pawn patient, BodyPartRecord part)
+            => Apply(patient, part, DressingDefName, DressingFactor, DressingTicks);
         // Weak keys: no global pawn list, idle tick, or retained world pawns.
         private static readonly ConditionalWeakTable<HediffSet, Cache> caches = new ConditionalWeakTable<HediffSet, Cache>();
 
@@ -89,23 +115,42 @@ namespace Helodrace.Tactical
 
         public static float Factor(HediffSet set, BodyPartRecord part, int tick)
         {
-            if (set == null || part == null) return 1f;
+            if (set == null) return 1f;
+            Cache cache = GetCache(set, tick);
+            float local = part != null && cache.factors.TryGetValue(part, out float result) ? result : 1f;
+            return local * cache.systemicFactor;
+        }
+
+        public static float PainOffset(HediffSet set, Hediff_PartHemostasis marker, int tick)
+            => set != null && GetCache(set, tick).painOwners.Contains(marker) ? PainPerPart : 0f;
+
+        private static Cache GetCache(HediffSet set, int tick)
+        {
             Cache cache = caches.GetOrCreateValue(set);
             if (cache.dirty || tick >= cache.validUntil)
             {
                 cache.factors.Clear();
+                cache.painfulParts.Clear(); cache.painOwners.Clear(); cache.systemicFactor = 1f;
                 cache.validUntil = int.MaxValue;
                 foreach (Hediff hediff in set.hediffs)
                 {
+                    if (hediff is Hediff_SystemicHemostatic drug && drug.expiresTick > tick)
+                    {
+                        cache.systemicFactor = TcccRules.HemostaticBleedingFactor;
+                        cache.validUntil = Math.Min(cache.validUntil, drug.expiresTick);
+                        continue;
+                    }
                     if (!(hediff is Hediff_PartHemostasis marker) || marker.Part == null || marker.expiresTick <= tick) continue;
                     cache.validUntil = Math.Min(cache.validUntil, marker.expiresTick);
                     float factor = Math.Max(0f, Math.Min(1f, marker.bleedingFactor));
                     if (!cache.factors.TryGetValue(marker.Part, out float previous) || factor < previous)
                         cache.factors[marker.Part] = factor;
+                    if (marker.def?.defName == DressingDefName && cache.painfulParts.Count < MaxPainfulParts
+                        && cache.painfulParts.Add(marker.Part)) cache.painOwners.Add(marker);
                 }
                 cache.dirty = false;
             }
-            return cache.factors.TryGetValue(part, out float result) ? result : 1f;
+            return cache;
         }
     }
 
@@ -122,7 +167,7 @@ namespace Helodrace.Tactical
         }
         public static void Postfix(Hediff __instance, ref float __result)
         {
-            if (__result <= 0f || __instance.Part == null) return;
+            if (__result <= 0f) return;
             __result *= PartHemostasis.Factor(__instance.pawn?.health?.hediffSet,
                 __instance.Part, Find.TickManager.TicksGame);
         }

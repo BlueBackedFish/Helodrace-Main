@@ -85,17 +85,17 @@ namespace Helodrace.Tactical
                         Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - .30f) < .02f, "70 percent reduction starts at 20 seconds");
                         Next(3); break;
                     case 3:
-                        if (TcccUtility.Effect(actor, "HD_TCCC_SelfHemostasis") == null) break;
-                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - .05f) < .02f, "95 percent reduction after completed self-care");
-                        Check(TcccUtility.Effect(actor, "HD_TCCC_SelfHemostasis").expiresTick - Find.TickManager.TicksGame >= 44998, "completed effect lasts 18 hours");
-                        TcccUtility.RemoveEffect(actor, "HD_TCCC_SelfHemostasis");
+                        if (TcccUtility.Effect(actor, PartHemostasis.DressingDefName) == null) break;
+                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - .20f) < .02f, "80 percent reduction after completed self-care");
+                        Check(TcccUtility.Effect(actor, PartHemostasis.DressingDefName).expiresTick - Find.TickManager.TicksGame >= 29998, "completed effect lasts 12 hours");
+                        TcccUtility.RemoveEffect(actor, PartHemostasis.DressingDefName);
                         TcccUtility.Start(actor, actor, TcccTreatment.SelfHemostasis);
                         Next(4); break;
                     case 4:
                         if (WorkTicks < 1201) break;
                         actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
                         Check(TcccUtility.Effect(actor, "HD_TCCC_Pressure") == null
-                            && TcccUtility.Effect(actor, "HD_TCCC_SelfHemostasis") == null, "interruption removes temporary pressure without granting completed effect");
+                            && TcccUtility.Effect(actor, PartHemostasis.DressingDefName) == null, "interruption removes temporary pressure without granting completed effect");
                         Thing agent = ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_TCCC_HemostaticAgent"));
                         actor.inventory.innerContainer.TryAdd(agent);
                         TcccUtility.Start(actor, actor, TcccTreatment.Hemostatic, agent);
@@ -249,7 +249,7 @@ namespace Helodrace.Tactical
         private void RulesAndDrugs()
         {
             Check(TcccRules.SelfHemostasisTicks == 1800 && TcccRules.PartialHemostasisTicks == 1200
-                && TcccRules.SelfEffectTicks == 45000 && TcccRules.DrugEffectTicks == 15000, "all specified timing constants");
+                && PartHemostasis.DressingTicks == 30000 && TcccRules.DrugEffectTicks == 15000, "all specified timing constants");
             foreach (string name in new[] { "BD_Morphine", "BD_Fentanyl", "BD_Ketamine", "BD_Laudanum" })
             {
                 Pawn patient = SpawnPawn(Find.CurrentMap.Center + new IntVec3(0, 0, -12)); Wound(patient);

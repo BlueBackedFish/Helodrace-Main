@@ -15,6 +15,7 @@ namespace Helodrace.Tactical
         private Pawn actor;
         private BodyPartRecord left, right;
         private Hediff leftWound, rightWound;
+        private Hediff_PartHemostasis completedDressing;
         private Apparel bag;
         private int phase, started;
         private bool finished, addedLater;
@@ -37,7 +38,8 @@ namespace Helodrace.Tactical
         {
             actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
             foreach (Hediff h in actor.health.hediffSet.hediffs.ToArray())
-                if (h is Hediff_Injury || h is Hediff_PartHemostasis || h.def==HediffDefOf.BloodLoss) actor.health.RemoveHediff(h);
+                if (h is Hediff_Injury || h is Hediff_PartHemostasis || h is Hediff_SystemicHemostatic
+                    || h.def==HediffDefOf.BloodLoss) actor.health.RemoveHediff(h);
             leftWound=Wound(left); rightWound=null;
         }
         public override void GameComponentUpdate()
@@ -51,10 +53,9 @@ namespace Helodrace.Tactical
                 switch (phase)
                 {
                     case 0:
-                        File.WriteAllText(Results,"Part-specific hemostasis native checks\n");
-                        // The real bag is Helod-only apparel. A human colonist fixture
-                        // cannot equip it and would invalidate the bag-job test.
+                        File.WriteAllText(Results,"Unified dressings and systemic hemostatic native checks\n");
                         actor=PawnGenerator.GeneratePawn(DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman"),Faction.OfPlayer);
+                        actor.story.traits.allTraits.Clear();
                         GenSpawn.Spawn(actor,Find.CurrentMap.Center,Find.CurrentMap);
                         actor.drafter.Drafted=true;
                         actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining"));
@@ -63,69 +64,95 @@ namespace Helodrace.Tactical
                         leftWound=Wound(left); rightWound=Wound(right);
                         float leftBefore=leftWound.BleedRate, rightBefore=rightWound.BleedRate;
                         float leftScaled=leftWound.BleedRateScaled, totalBefore=actor.health.hediffSet.BleedRateTotal;
-                        var weak=PartHemostasis.Apply(actor,left,"HD_FieldHemostasis",.30f,15000);
-                        Check(Math.Abs(leftWound.BleedRate/leftBefore-.30f)<.001f && Math.Abs(rightWound.BleedRate/rightBefore-1f)<.001f,
-                            "Actual patched getters reduce only the treated arm");
-                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal-(totalBefore-leftScaled*.70f))<.0001f,
-                            "Actual total bleeding uses the part factor once");
-                        var strong=PartHemostasis.Apply(actor,left,"HD_TCCC_SelfHemostasis",.05f,45000);
-                        Check(Math.Abs(leftWound.BleedRate/leftBefore-.05f)<.001f,"TCCC and bag on one part select strongest without multiplying");
-                        strong.expiresTick=GenTicks.TicksGame; PartHemostasis.Invalidate(actor.health.hediffSet);
-                        Check(Math.Abs(leftWound.BleedRate/leftBefore-.30f)<.001f,"Expired strong marker exposes weaker active dressing");
-                        actor.health.RemoveHediff(weak);
-                        Check(Math.Abs(leftWound.BleedRate/leftBefore-1f)<.001f,"Removing dressing restores native part bleeding");
-                        Check(!leftWound.IsTended(),"Direct dressing does not tend the wound");
+                        float painBefore=actor.health.hediffSet.PainTotal;
+                        var dressing=PartHemostasis.ApplyDressing(actor,left);
+                        Check(Math.Abs(leftWound.BleedRate/leftBefore-.20f)<.001f && Math.Abs(rightWound.BleedRate/rightBefore-1f)<.001f,
+                            "Dressing reduces only treated arm bleeding by 80 percent");
+                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal-(totalBefore-leftScaled*.80f))<.0001f,
+                            "Total bleeding applies the local factor once");
+                        Check(dressing.expiresTick-GenTicks.TicksGame==30000,"Shared dressing lasts 12 hours");
+                        Check(ReferenceEquals(dressing,PartHemostasis.ApplyDressing(actor,left))
+                            && actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Count()==1,
+                            "Reapplying a dressing refreshes the same part marker");
+                        Check(Math.Abs(actor.health.hediffSet.PainTotal-painBefore-.05f)<.001f,
+                            "One actual dressing adds five percentage points of native pain");
+                        float bloodBefore=actor.health.capacities.GetLevel(PawnCapacityDefOf.BloodPumping);
+                        float consciousnessBefore=actor.health.capacities.GetLevel(PawnCapacityDefOf.Consciousness);
+                        var drug=TcccUtility.ApplyTimed(actor,"HD_TCCC_Hemostatic",TcccRules.DrugEffectTicks);
+                        Check(drug.Part==null && Math.Abs(leftWound.BleedRate/leftBefore-.06f)<.001f
+                            && Math.Abs(rightWound.BleedRate/rightBefore-.30f)<.001f,
+                            "Systemic drug combines with dressing: six percent bleeding on treated arm, thirty elsewhere");
+                        Check(drug.CurStage.capMods.Any(c=>c.capacity==PawnCapacityDefOf.BloodPumping && c.offset==-.10f)
+                            && drug.CurStage.capMods.Any(c=>c.capacity==PawnCapacityDefOf.Consciousness && c.offset==-.05f),
+                            "Loaded drug stage has blood pumping minus ten and consciousness minus five percentage points");
+                        Check(actor.health.capacities.GetLevel(PawnCapacityDefOf.BloodPumping)<=bloodBefore-.099f
+                            && actor.health.capacities.GetLevel(PawnCapacityDefOf.Consciousness)<=consciousnessBefore-.049f,
+                            "Actual native capacities reflect drug penalties");
+                        var leg=actor.RaceProps.body.AllParts.First(p=>p.def==BodyPartDefOf.Leg);
+                        var later=Wound(leg); float laterDrugBleed=later.BleedRate;
+                        actor.health.RemoveHediff(drug);
+                        Check(Math.Abs(laterDrugBleed/later.BleedRate-.30f)<.001f,
+                            "Systemic drug also reduces a wound acquired after administration");
+                        Check(Math.Abs(leftWound.BleedRate/leftBefore-.20f)<.001f
+                            && actor.health.capacities.GetLevel(PawnCapacityDefOf.BloodPumping)>=bloodBefore-.001f,
+                            "Removing drug preserves local dressing and releases circulation penalty");
+                        float painBase=actor.health.hediffSet.PainTotal-.05f;
+                        foreach (var part in actor.RaceProps.body.AllParts.Where(p=>p!=left).Take(5)) PartHemostasis.ApplyDressing(actor,part);
+                        Check(Math.Abs(actor.health.hediffSet.PainTotal-painBase-.20f)<.001f,
+                            "Six actual dressed parts cap added native pain at twenty percent");
+                        Check(!leftWound.IsTended(),"Dressings do not tend the wound");
                         Reset();
+                        Check(Math.Abs(actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Sum(h=>h.PainOffset))<.001f,
+                            "Removing dressings releases all dressing pain");
                         Thing dose=ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_TCCC_HemostaticAgent"));
                         dose.stackCount=2; actor.inventory.innerContainer.TryAdd(dose);
                         TcccUtility.Start(actor,actor,TcccTreatment.Hemostatic,dose); Next(1); break;
                     case 1:
                         if (WorkTicks>=40 && !addedLater) {rightWound=Wound(right); addedLater=true;}
                         if (TcccUtility.Effect(actor,"HD_TCCC_Hemostatic")==null) break;
-                        Check(addedLater && actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>()
-                            .Count(h=>h.def.defName=="HD_TCCC_Hemostatic" && h.Part==left)==1
-                            && PartHemostasis.Factor(actor.health.hediffSet,right,GenTicks.TicksGame)==1f,
-                            "Real 3-second TCCC job latches treated parts and excludes a later opposite-arm wound");
+                        Check(addedLater && TcccUtility.Effect(actor,"HD_TCCC_Hemostatic") is Hediff_SystemicHemostatic
+                            && !actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Any()
+                            && PartHemostasis.Factor(actor.health.hediffSet,right,GenTicks.TicksGame)==.30f,
+                            "Real three-second drug job creates one systemic effect covering the other arm");
                         Check(actor.inventory.innerContainer.Where(t=>t.def.defName=="HD_TCCC_HemostaticAgent").Sum(t=>t.stackCount)==1,
-                            "Real TCCC job consumes exactly one dose");
+                            "Real drug job consumes exactly one dose");
                         Reset(); TcccUtility.Start(actor,actor,TcccTreatment.SelfHemostasis); Next(2); break;
                     case 2:
                         if (WorkTicks<1201) break;
                         Check(TcccUtility.Effect(actor,"HD_TCCC_Pressure")?.Part==left
                             && PartHemostasis.Factor(actor.health.hediffSet,left,GenTicks.TicksGame)==.30f,
-                            "Real 20-second pressure phase uses a part marker");
+                            "Twenty-second temporary pressure stage remains part-specific");
                         actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
                         Check(TcccUtility.Effect(actor,"HD_TCCC_Pressure")==null
                             && PartHemostasis.Factor(actor.health.hediffSet,left,GenTicks.TicksGame)==1f,
-                            "Interruption removes temporary pressure and cached reduction");
+                            "Interruption removes temporary pressure and its cached reduction");
                         Reset(); TcccUtility.Start(actor,actor,TcccTreatment.SelfHemostasis); Next(3); break;
                     case 3:
                         if (WorkTicks>=1201 && !addedLater) {rightWound=Wound(right); addedLater=true;}
-                        if (TcccUtility.Effect(actor,"HD_TCCC_SelfHemostasis")==null) break;
-                        Check(addedLater && TcccUtility.Effect(actor,"HD_TCCC_SelfHemostasis")?.Part==left
-                            && PartHemostasis.Factor(actor.health.hediffSet,left,GenTicks.TicksGame)==.05f
+                        if (TcccUtility.Effect(actor,PartHemostasis.DressingDefName)==null) break;
+                        completedDressing=(Hediff_PartHemostasis)TcccUtility.Effect(actor,PartHemostasis.DressingDefName);
+                        Check(addedLater && completedDressing.Part==left
+                            && PartHemostasis.Factor(actor.health.hediffSet,left,GenTicks.TicksGame)==.20f
                             && PartHemostasis.Factor(actor.health.hediffSet,right,GenTicks.TicksGame)==1f
                             && TcccUtility.Effect(actor,"HD_TCCC_Pressure")==null,
-                            "Real 30-second self-care retains its treated part, excludes new wounds elsewhere and removes pressure");
-                        Reset(); rightWound=Wound(right);
+                            "Completed self-care creates shared dressing on latched part, not the later opposite-arm wound");
                         ThingDef bagDef=DefDatabase<ThingDef>.GetNamed("HD_Apparel_GreatWarMedibag");
                         bag=(Apparel)ThingMaker.MakeThing(bagDef,GenStuff.DefaultStuffFor(bagDef)); actor.apparel.Wear(bag);
                         Check(bag.Wearer==actor && bag.TryGetComp<CompMedibag>().CurrentWearer==actor,
-                            "Real Helod soldier can wear the bag and its comp resolves the actual wearer");
-                        var comp=bag.TryGetComp<CompMedibag>();
-                        AccessTools.Field(typeof(CompMedibag),"storedSupplies").SetValue(comp,2);
+                            "Real Helod soldier wears the bag and its comp resolves wearer");
+                        AccessTools.Field(typeof(CompMedibag),"storedSupplies").SetValue(bag.TryGetComp<CompMedibag>(),2);
                         actor.jobs.TryTakeOrderedJob(JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_MedibagHemostasis"),actor,bag),JobTag.Misc);
                         Next(4); break;
                     case 4:
-                        if (GenTicks.TicksGame-started <= 300 && (GenTicks.TicksGame-started)%15==0)
-                            File.AppendAllText(Results,"TRACE bag t="+(GenTicks.TicksGame-started)+" job="+actor.CurJob
-                                +" wearer="+(bag.TryGetComp<CompMedibag>().CurrentWearer==actor)
-                                +" supplies="+AccessTools.Field(typeof(CompMedibag),"storedSupplies").GetValue(bag.TryGetComp<CompMedibag>())+"\n");
-                        if (!actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Any(h=>h.def.defName=="HD_FieldHemostasis")) break;
-                        Check(actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Count(h=>h.def.defName=="HD_FieldHemostasis")==2
-                            && !leftWound.IsTended() && !rightWound.IsTended(),"Real medic bag job dresses two parts without vanilla tending");
+                        if (actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Count(h=>h.def.defName==PartHemostasis.DressingDefName)<2) break;
+                        Check(actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Count()==2
+                            && actor.health.hediffSet.hediffs.Contains(completedDressing)
+                            && !leftWound.IsTended() && !rightWound.IsTended(),
+                            "Real bag job reuses self-care dressing and adds only one new part without tending");
                         Check((int)AccessTools.Field(typeof(CompMedibag),"storedSupplies").GetValue(bag.TryGetComp<CompMedibag>())==1,
-                            "Real medic bag job consumes one loaded supply");
+                            "Real bag job consumes one loaded supply");
+                        Check(Math.Abs(actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Sum(h=>h.PainOffset)-.10f)<.001f,
+                            "Two shared dressings add ten percent pain, not three markers worth");
                         File.AppendAllText(Results,"COMPLETE\n"); finished=true; Root.Shutdown(); break;
                 }
             }

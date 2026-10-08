@@ -231,8 +231,6 @@
         <hemostasisSupplyCost>1</hemostasisSupplyCost>
         <plasmaSupplyCost>1</plasmaSupplyCost>
         <hemostasisPartCount>4</hemostasisPartCount>
-        <hemostasisBleedingFactor>0.30</hemostasisBleedingFactor>
-        <hemostasisDurationTicks>15000</hemostasisDurationTicks>
         <bloodLossReduction>0.60</bloodLossReduction>
         <treatmentTicks>180</treatmentTicks>
         <excludedHemostasisParts>

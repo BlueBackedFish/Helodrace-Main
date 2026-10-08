@@ -20,8 +20,6 @@ namespace Helodrace
         public int plasmaSupplyCost = -1;
         public int plasmaMedicineCost = 1;
         public int hemostasisPartCount = 4;
-        public float hemostasisBleedingFactor = 0.30f;
-        public int hemostasisDurationTicks = 15000;
         public float bloodLossReduction = 0.60f;
         public int treatmentTicks = 180;
         public List<BodyPartDef> excludedHemostasisParts;
@@ -206,8 +204,7 @@ namespace Helodrace
             foreach (IGrouping<BodyPartRecord, Hediff> partGroup in bleedingParts)
             {
                 // One marker per body part, shared with TCCC. No vanilla tending.
-                if (Tactical.PartHemostasis.Apply(target, partGroup.Key,
-                    "HD_FieldHemostasis", Props.hemostasisBleedingFactor, Props.hemostasisDurationTicks) != null)
+                if (Tactical.PartHemostasis.ApplyDressing(target, partGroup.Key) != null)
                 {
                     treatedParts++;
                 }

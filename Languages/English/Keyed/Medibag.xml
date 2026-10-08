@@ -7,7 +7,7 @@
   <HD_Medibag_Load_NoSupplies>No {0} in the wearer's inventory.</HD_Medibag_Load_NoSupplies>
   <HD_Medibag_NotEnoughSupplies>The medic bag needs loaded {0}.</HD_Medibag_NotEnoughSupplies>
   <HD_Medibag_Hemostasis_Label>Hemostasis</HD_Medibag_Hemostasis_Label>
-  <HD_Medibag_Hemostasis_Desc>Apply dressings to up to {0} non-vital body parts, reducing their bleeding by 70% for 6 hours without tending wounds. Uses {1} loaded treatment supplies.</HD_Medibag_Hemostasis_Desc>
+  <HD_Medibag_Hemostasis_Desc>Apply the same dressing as self-care to up to {0} non-vital parts: 80% less bleeding for 12 hours. Each dressed part adds 5% pain, capped at 20%. Combines with systemic hemostatic agents. Uses {1} loaded supplies without tending wounds.</HD_Medibag_Hemostasis_Desc>
   <HD_Medibag_Hemostasis_NoBleeding>{0} has no eligible bleeding wounds.</HD_Medibag_Hemostasis_NoBleeding>
   <HD_Medibag_Hemostasis_Applied>{0} stabilized bleeding on {1}: {2} parts treated.</HD_Medibag_Hemostasis_Applied>
   <HD_Medibag_Plasma_Label>Plasma transfusion</HD_Medibag_Plasma_Label>

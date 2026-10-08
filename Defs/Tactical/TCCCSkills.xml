@@ -20,19 +20,18 @@
     <description>Self-hemostasis is in progress on this body part. Bleeding from this part is reduced by 70% while pressure is maintained.</description>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
-    <defName>HD_TCCC_SelfHemostasis</defName><label>self-hemostasis</label>
-    <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
-    <description>Bleeding from this treated body part is reduced by 95% for 18 hours. Wounds still require treatment.</description>
-  </HediffDef>
-  <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Hemostatic</defName><label>hemostatic agent</label>
-    <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
-    <description>Bleeding from this treated body part is reduced by 70% for 6 hours. Only the strongest active hemostasis on this part applies.</description>
+    <hediffClass>Helodrace.Tactical.Hediff_SystemicHemostatic</hediffClass>
+    <description>Reduces bleeding throughout the body by 70% for 6 hours, including new wounds. Combines with body-part hemostasis. Blood pumping -10%, consciousness -5%.</description>
+    <stages><li><capMods>
+      <li><capacity>BloodPumping</capacity><offset>-0.10</offset></li>
+      <li><capacity>Consciousness</capacity><offset>-0.05</offset></li>
+    </capMods></li></stages>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
-    <defName>HD_FieldHemostasis</defName><label>field hemostasis</label>
+    <defName>HD_FieldHemostasis</defName><label>hemostasis dressing</label>
     <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
-    <description>A medic bag dressing reduces bleeding from this body part by 70% for 6 hours. Does not tend or heal wounds. Only the strongest active hemostasis on this part applies.</description>
+    <description>Self-care and medic bags share this dressing. Reduces bleeding from this body part by 80% for 12 hours without tending wounds. Each dressed part adds 5% pain, up to 20% in total. Reapplication refreshes the same dressing. Combines with systemic hemostatic agents.</description>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Mist</defName><label>MIST handover prepared</label>
@@ -61,7 +60,7 @@
   </JobDef>
   <ThingDef ParentName="ResourceBase">
     <defName>HD_TCCC_HemostaticAgent</defName><label>hemostatic agent</label>
-    <description>A field hemostatic dose. Administer with the TCCC menu in 3 seconds to reduce bleeding from the treated body parts by 70% for 6 hours. Does not heal injuries or replace lost blood.</description>
+    <description>A field hemostatic dose. Administer with the TCCC menu in 3 seconds to reduce all bleeding by 70% for 6 hours. Combines with body-part hemostasis. Blood pumping -10%, consciousness -5%. Does not heal injuries or replace lost blood.</description>
     <graphicData><texPath>Things/Item/Resource/Medicine/MedicineIndustrial</texPath><graphicClass>Graphic_StackCount</graphicClass><color>(0.95,0.45,0.40)</color></graphicData>
     <techLevel>Industrial</techLevel><stackLimit>25</stackLimit>
     <thingCategories><li>Manufactured</li></thingCategories>

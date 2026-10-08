@@ -1,28 +1,24 @@
-Part-specific hemostasis native checks
-PASS Actual patched getters reduce only the treated arm
-PASS Actual total bleeding uses the part factor once
-PASS TCCC and bag on one part select strongest without multiplying
-PASS Expired strong marker exposes weaker active dressing
-PASS Removing dressing restores native part bleeding
-PASS Direct dressing does not tend the wound
-PASS Real 3-second TCCC job latches treated parts and excludes a later opposite-arm wound
-PASS Real TCCC job consumes exactly one dose
-PASS Real 20-second pressure phase uses a part marker
-PASS Interruption removes temporary pressure and cached reduction
-PASS Real 30-second self-care retains its treated part, excludes new wounds elsewhere and removes pressure
-PASS Real Helod soldier can wear the bag and its comp resolves the actual wearer
-TRACE bag t=15 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=30 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=45 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=60 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=75 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=90 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=105 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=120 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=135 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=150 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=165 job=HD_MedibagHemostasis (Job_1740) A = Thing_Helod38194 B = Thing_HD_Apparel_GreatWarMedibag38264 Giver = ThinkNode_QueuedJob [workGiverDef: null] wearer=True supplies=2
-TRACE bag t=180 job=Wait_MaintainPosture (Job_1821) wearer=True supplies=1
-PASS Real medic bag job dresses two parts without vanilla tending
-PASS Real medic bag job consumes one loaded supply
+Unified dressings and systemic hemostatic native checks
+PASS Dressing reduces only treated arm bleeding by 80 percent
+PASS Total bleeding applies the local factor once
+PASS Shared dressing lasts 12 hours
+PASS Reapplying a dressing refreshes the same part marker
+PASS One actual dressing adds five percentage points of native pain
+PASS Systemic drug combines with dressing: six percent bleeding on treated arm, thirty elsewhere
+PASS Loaded drug stage has blood pumping minus ten and consciousness minus five percentage points
+PASS Actual native capacities reflect drug penalties
+PASS Systemic drug also reduces a wound acquired after administration
+PASS Removing drug preserves local dressing and releases circulation penalty
+PASS Six actual dressed parts cap added native pain at twenty percent
+PASS Dressings do not tend the wound
+PASS Removing dressings releases all dressing pain
+PASS Real three-second drug job creates one systemic effect covering the other arm
+PASS Real drug job consumes exactly one dose
+PASS Twenty-second temporary pressure stage remains part-specific
+PASS Interruption removes temporary pressure and its cached reduction
+PASS Completed self-care creates shared dressing on latched part, not the later opposite-arm wound
+PASS Real Helod soldier wears the bag and its comp resolves wearer
+PASS Real bag job reuses self-care dressing and adds only one new part without tending
+PASS Real bag job consumes one loaded supply
+PASS Two shared dressings add ten percent pain, not three markers worth
 COMPLETE
