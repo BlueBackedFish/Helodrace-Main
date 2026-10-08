@@ -164,7 +164,9 @@ namespace Helodrace.Tactics
         }
         private int FrontierScore(TacticalRoomFrontier frontier, TacticalSquadCommand command) =>
             (command.GoalSecured ? frontier.Opening.DistanceToSquared(command.Plan.Inside) : frontier.Inside.DistanceToSquared(command.Goal))
-                - (frontier.Opening.GetEdifice(map) is Building_Door ? 400 : 0);
+                - (frontier.Opening.GetEdifice(map) == null ? 800
+                    : frontier.Opening.GetEdifice(map) is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door)) ? 800
+                    : frontier.Opening.GetEdifice(map) is Building_Door ? 400 : 0);
 
         private TacticalLocalPlan PlanRoomFrontier(TacticalSquadCommand command, List<TacticalMemberCommand> active,
             TacticalRoomFrontier frontier, out bool occupied)

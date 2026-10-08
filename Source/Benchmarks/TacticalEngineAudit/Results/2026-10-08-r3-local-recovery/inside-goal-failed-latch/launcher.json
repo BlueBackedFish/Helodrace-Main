@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "inside-goal",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceRoomClear;Helodrace.Tactics.MapComponent_TacticalCommands::PlanRoomFrontier;Helodrace.Tactics.TacticalDestinationFootprint::Find",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "8db6a1e09ec9078bea48b70f6c350a6fd773dc40543d8d6ca10af935c52da625",
+    "high":  false,
+    "sampleTicks":  3600,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

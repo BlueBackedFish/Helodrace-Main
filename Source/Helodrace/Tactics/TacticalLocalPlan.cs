@@ -74,15 +74,12 @@ namespace Helodrace.Tactics
             if (!first.IsValid)
             {
                 var direct = new TacticalLocalPlan { Direct = true, Opening = goal, Inward = IntVec3.North };
-                // A direct move uses one destination per pawn, no stopping nodes.
-                for (int radius = 0; radius <= 8 && direct.Positions.Count < count; radius++)
-                    for (int x = -radius; x <= radius && direct.Positions.Count < count; x++)
-                        for (int z = -radius; z <= radius && direct.Positions.Count < count; z++)
-                        {
-                            if (Math.Max(Math.Abs(x), Math.Abs(z)) != radius) continue;
-                            IntVec3 cell = goal + new IntVec3(x, 0, z);
-                            if (Free(map, cell, claimed)) direct.Positions.Add(cell);
-                        }
+                // Keep the posts in the objective's connected local space.
+                // Radial standability alone could put them across a nearby wall.
+                bool roofed = goal.Roofed(map);
+                direct.Positions.AddRange(TacticalDestinationFootprint.Find(goal, count,
+                    cell => cell.InBounds(map) && cell.Walkable(map) && cell.Roofed(map) == roofed
+                        && !(cell.GetEdifice(map) is Building_Door), cell => Free(map, cell, claimed)));
                 if (direct.Positions.Count != count) { failure = TacticalPlanFailure.Inside; return null; }
                 if (leader.CanReach(direct.Positions[0], Verse.AI.PathEndMode.OnCell, Danger.Deadly)) return direct;
                 failure = TacticalPlanFailure.Unreachable; return null;

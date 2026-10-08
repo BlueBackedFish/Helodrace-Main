@@ -54,6 +54,19 @@ internal static class TacticalRoomScanTests
         var command = new TacticalSquadCommand(); command.SecuredCells.UnionWith(scan.Cells);
         var other = new TacticalSquadCommand();
         if (other.SecuredCells.Count != 0) throw new Exception("Secured history must belong to a squad.");
+        var objective = new IntVec3(18,0,10);
+        var posts = TacticalDestinationFootprint.Find(objective, 12,
+            cell => Roof(cell) && cell.x < 20, cell => cell != objective);
+        if (posts.Count != 12 || posts.Distinct().Count() != 12 || posts.Any(c => c.x >= 20 || c == objective))
+            throw new Exception("Direct objective posts must stay in connected floor and skip furniture.");
+        var tiny = TacticalDestinationFootprint.Find(objective, 12,
+            cell => cell.x >= 17 && cell.x <= 19 && cell.z == 10, cell => cell != objective);
+        if (tiny.Count != 2) throw new Exception("Insufficient local floor must not spill posts into another room.");
+        int visitedFloor = 0;
+        var bounded = TacticalDestinationFootprint.Find(objective, 1000, cell => { visitedFloor++; return true; }, cell => true);
+        if (bounded.Count != TacticalDestinationFootprint.CellLimit || visitedFloor > TacticalDestinationFootprint.CellLimit
+            || bounded.Any(c => Math.Abs(c.x - objective.x) > 8 || Math.Abs(c.z - objective.z) > 8))
+            throw new Exception("Direct footprint work must remain bounded by its local extent.");
         Console.WriteLine("PASS: bounded local room scan, closed boundaries, unexpected-hole merging, stale snapshot and squad isolation.");
     }
 }

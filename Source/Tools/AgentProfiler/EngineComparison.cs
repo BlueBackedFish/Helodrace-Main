@@ -13,7 +13,7 @@ internal static class EngineComparison
             string audit = System.IO.Path.Combine(Directory.GetParent(System.IO.Path.GetDirectoryName(path)!)!.FullName, "audit.json");
             if (!File.Exists(audit)) throw new ArgumentException("Missing isolation/progress audit: " + path);
             JsonElement a = JsonDocument.Parse(File.ReadAllText(audit)).RootElement.Clone();
-            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9 or 10 or 11 or 12)
+            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13)
                 || c.methods == null || c.mods == null || c.methods.Select(m => m.method).Distinct().Count() != c.methods.Length
                 || c.methods.Any(m => m.exceptions > 0) || !a.GetProperty("complete").GetBoolean()
                 || !a.GetProperty("isolationVerified").GetBoolean() || a.GetProperty("error").ValueKind != JsonValueKind.Null

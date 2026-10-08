@@ -1,0 +1,201 @@
+{
+  "purpose": "R3 local objective and unexpected opening regressions; failed latches retained; different conditions and builds are not a CPU comparison",
+  "runs": [
+    {
+      "run": "unexpected-hole",
+      "assemblySha256": "8db6a1e09ec9078bea48b70f6c350a6fd773dc40543d8d6ca10af935c52da625",
+      "fixtureVersion": 13,
+      "ticks": 4800,
+      "coreBatchMedianMs": 0.2781,
+      "captureComplete": true,
+      "dropped": 0,
+      "exceptions": 0,
+      "targetMethods": [
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.AdvanceRoomClear(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],System.Int32)",
+          "calls": 21,
+          "inclusiveMs": 7.5716,
+          "maxMs": 3.7775,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.PlanRoomFrontier(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],Helodrace.Tactics.TacticalRoomFrontier,System.Boolean&)",
+          "calls": 2,
+          "inclusiveMs": 1.35,
+          "maxMs": 1.2758,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalDestinationFootprint.Find(Verse.IntVec3,System.Int32,System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])",
+          "calls": 0,
+          "inclusiveMs": 0,
+          "maxMs": 0,
+          "cpuMeasured": false
+        }
+      ],
+      "newFunctionalComplete": true,
+      "newPhysicalPlansValid": true,
+      "newConnectedStacks": true,
+      "newUnexpectedOpeningReused": true,
+      "newDirectObjectiveCleared": true,
+      "newRoomProgressComplete": true,
+      "newAllCompleteTick": 3275,
+      "newEnteredByOrder": 12,
+      "newRoomsSecured": 3,
+      "newSecuredPortals": [
+        "HD_Raid_1::HD_Raid_1_Group_1:(100, 0, 103);(114, 0, 108);(120, 0, 119)"
+      ],
+      "newUnsafeEntries": 0,
+      "environmentControlled": true,
+      "unexpectedPawns": [],
+      "isolationVerified": true
+    },
+    {
+      "run": "inside-goal-failed-latch",
+      "assemblySha256": "8db6a1e09ec9078bea48b70f6c350a6fd773dc40543d8d6ca10af935c52da625",
+      "fixtureVersion": 13,
+      "ticks": 3600,
+      "coreBatchMedianMs": 0.275,
+      "captureComplete": true,
+      "dropped": 0,
+      "exceptions": 0,
+      "targetMethods": [
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.AdvanceRoomClear(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],System.Int32)",
+          "calls": 21,
+          "inclusiveMs": 9.9759,
+          "maxMs": 6.4483,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.PlanRoomFrontier(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],Helodrace.Tactics.TacticalRoomFrontier,System.Boolean&)",
+          "calls": 2,
+          "inclusiveMs": 4.4232,
+          "maxMs": 4.3213,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalDestinationFootprint.Find(Verse.IntVec3,System.Int32,System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])",
+          "calls": 1,
+          "inclusiveMs": 0.824,
+          "maxMs": 0.824,
+          "cpuMeasured": false
+        }
+      ],
+      "newFunctionalComplete": false,
+      "newPhysicalPlansValid": true,
+      "newConnectedStacks": false,
+      "newUnexpectedOpeningReused": true,
+      "newDirectObjectiveCleared": true,
+      "newRoomProgressComplete": true,
+      "newAllCompleteTick": 2340,
+      "newEnteredByOrder": 12,
+      "newRoomsSecured": 3,
+      "newSecuredPortals": [
+        "HD_Raid_1::HD_Raid_1_Group_1:(108, 0, 110);(114, 0, 108);(126, 0, 119)"
+      ],
+      "newUnsafeEntries": 0,
+      "environmentControlled": true,
+      "unexpectedPawns": [],
+      "isolationVerified": true
+    },
+    {
+      "run": "inside-goal-failed-branch",
+      "assemblySha256": "ff7c951d3449b5dd3269199cbec3468dd40f7a696233622b5a6ab21f225b6fc8",
+      "fixtureVersion": 13,
+      "ticks": 3000,
+      "coreBatchMedianMs": 0.288,
+      "captureComplete": true,
+      "dropped": 0,
+      "exceptions": 0,
+      "targetMethods": [
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.AdvanceRoomClear(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],System.Int32)",
+          "calls": 21,
+          "inclusiveMs": 11.488,
+          "maxMs": 7.4249,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.PlanRoomFrontier(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],Helodrace.Tactics.TacticalRoomFrontier,System.Boolean&)",
+          "calls": 2,
+          "inclusiveMs": 5.2667,
+          "maxMs": 5.1084,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalDestinationFootprint.Find(Verse.IntVec3,System.Int32,System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])",
+          "calls": 1,
+          "inclusiveMs": 0.7005,
+          "maxMs": 0.7005,
+          "cpuMeasured": false
+        }
+      ],
+      "newFunctionalComplete": false,
+      "newPhysicalPlansValid": true,
+      "newConnectedStacks": false,
+      "newUnexpectedOpeningReused": true,
+      "newDirectObjectiveCleared": true,
+      "newRoomProgressComplete": true,
+      "newAllCompleteTick": 2371,
+      "newEnteredByOrder": 12,
+      "newRoomsSecured": 3,
+      "newSecuredPortals": [
+        "HD_Raid_1::HD_Raid_1_Group_1:(108, 0, 110);(114, 0, 108);(126, 0, 119)"
+      ],
+      "newUnsafeEntries": 0,
+      "environmentControlled": true,
+      "unexpectedPawns": [],
+      "isolationVerified": true
+    },
+    {
+      "run": "inside-goal",
+      "assemblySha256": "ddc70908d3e407a89595656cb0e00fbc40fc9d0fb51e80e8dd6bc69f61118ee3",
+      "fixtureVersion": 13,
+      "ticks": 3000,
+      "coreBatchMedianMs": 0.2756,
+      "captureComplete": true,
+      "dropped": 0,
+      "exceptions": 0,
+      "targetMethods": [
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.AdvanceRoomClear(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],System.Int32)",
+          "calls": 21,
+          "inclusiveMs": 10.3331,
+          "maxMs": 6.7133,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.MapComponent_TacticalCommands.PlanRoomFrontier(Helodrace.Tactics.TacticalSquadCommand,System.Collections.Generic.List`1[[Helodrace.Tactics.TacticalMemberCommand, Helodrace, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]],Helodrace.Tactics.TacticalRoomFrontier,System.Boolean&)",
+          "calls": 2,
+          "inclusiveMs": 4.5469,
+          "maxMs": 4.4416,
+          "cpuMeasured": false
+        },
+        {
+          "method": "Helodrace.Tactics.TacticalDestinationFootprint.Find(Verse.IntVec3,System.Int32,System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],System.Func`2[[Verse.IntVec3, Assembly-CSharp, Version=1.6.9676.17735, Culture=neutral, PublicKeyToken=null],[System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]])",
+          "calls": 1,
+          "inclusiveMs": 0.7006,
+          "maxMs": 0.7006,
+          "cpuMeasured": false
+        }
+      ],
+      "newFunctionalComplete": true,
+      "newPhysicalPlansValid": true,
+      "newConnectedStacks": true,
+      "newUnexpectedOpeningReused": true,
+      "newDirectObjectiveCleared": true,
+      "newRoomProgressComplete": true,
+      "newAllCompleteTick": 2431,
+      "newEnteredByOrder": 12,
+      "newRoomsSecured": 3,
+      "newSecuredPortals": [
+        "HD_Raid_1::HD_Raid_1_Group_1:(108, 0, 110);(114, 0, 108);(126, 0, 119)"
+      ],
+      "newUnsafeEntries": 0,
+      "environmentControlled": true,
+      "unexpectedPawns": [],
+      "isolationVerified": true
+    }
+  ]
+}

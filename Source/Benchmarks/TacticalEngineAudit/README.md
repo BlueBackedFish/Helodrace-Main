@@ -54,7 +54,7 @@ dotnet $cli engine-compare "$matrix/open-approach/vanilla" "$matrix/open-approac
 dotnet $cli engine-compare "$matrix/sapper-wall/vanilla" "$matrix/sapper-wall/new"
 ```
 
-`engine-compare`는 fixture v5~v9 원본을 읽되 같은 버전·DLL·지도·폰 지문·편제·준비/측정 틱·수집 대상·Core 작업만 묶는다. 시작 단계는 엔진마다 달라도 된다. CPU/틱 누락, 부분 창, 오류, dropped, 격리 실패, 95% 미만 이동은 거부한다.
+`engine-compare`는 fixture v5~v13 원본을 읽되 같은 버전·DLL·지도·폰 지문·편제·준비/측정 틱·수집 대상·Core 작업만 묶는다. 시작 단계는 엔진마다 달라도 된다. CPU/틱 누락, 부분 창, 오류, dropped, 격리 실패, 95% 미만 이동은 거부한다. v11 이상은 환경 통제 기록과 비시험 폰 없음도 요구한다.
 
 새 엔진 합격에는 같은 조건의 Vanilla/New 최소 3회씩과 실제 진입 진행, 모든 새 분대의 기능 완료가 필요하다. 실제 전체 틱 CPU와 **틱 밖을 포함한 측정 창 메인 CPU** 중앙값 비율 모두 ≤2여야 한다. 프로세스 CPU도 별도 보존한다. unmatched를 없애기 위해 메타데이터를 다시 쓰지 않는다. v7 이상의 기능 완료 검사를 적용하며 v9는 제어된 생성 조건과 확대된 폰 지문 때문에 이전 버전과 묶지 않는다.
 
@@ -68,3 +68,5 @@ dotnet $cli engine-compare "$matrix/sapper-wall/vanilla" "$matrix/sapper-wall/ne
 `-Case multiroom -Population 12 -WarmupTicks 0 -SampleTicks 4800`으로 외벽과 내부 문 두 곳을 포함한 세 방을 시험한다. 이름 있는 침대는 두 칸 크기를 고려해 칸막이에서 떨어뜨려 두며, 생성 시 칸막이가 지워지지 않았는지 검사한다. 목표 구역과 세 대표 구역, 중복 없는 진입 이력, 고유 자리·연결 스택, 실제 안전 대기를 검사한다. 완료 뒤 바닐라 AI로 반환하므로 마지막 폰 위치만으로 진입 완료 여부를 판단하지 않는다.
 
 fixture v12는 우발 사건·야생동물을 차단하고 비시험 폰을 기록한다. `environmentControlled=false` 또는 `unexpectedPawns`가 비어 있지 않으면 CPU 대조로 사용하지 않는다. v9~v12 또는 DLL/지도/장비/수집 창이 다른 원본을 같은 조건으로 비교하지 않는다. R3 약식 한 분대 시험은 전체 CPU 2배 게이트가 아니다.
+
+fixture v13의 `-Case unexpected-hole`은 두 번째 구역 관측 중 다른 내부 벽 한 칸을 제거한다. `newUnexpectedOpeningReused`는 해당 개구부를 열린 통로로 재사용한 진입 이력을 요구한다. `-Case inside-goal`은 첫 구역 안에서 분대가 시작하고 그 구역의 이름 있는 침대를 명시 목표로 준다. `newDirectObjectiveCleared`는 첫 진입이 Direct이고 목표 확보 및 첫 구역 안의 자리 배치를 요구한다. 두 사례 모두 세 구역 확보와 전원 완료를 함께 확인하며 바닐라 CPU 대조의 대체물이 아니다.

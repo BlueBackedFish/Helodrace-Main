@@ -32,8 +32,9 @@ namespace Helodrace
         [DataMember] public long newChargesInstalled, newChargeDetonations, newChargeOperatorTransfers, newChargeWaits;
         [DataMember] public long newRoomScanSteps, newRoomsSecured, newRoomPlansAttempted;
         [DataMember] public bool newRoomProgressComplete;
+        [DataMember] public bool newUnexpectedOpeningReused, newDirectObjectiveCleared;
         [DataMember] public string[] newSecuredPortals;
-        [DataMember] public int fixtureVersion = 12;
+        [DataMember] public int fixtureVersion = 13;
         [DataMember] public bool environmentControlled;
         [DataMember] public string[] unexpectedPawns;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
@@ -74,6 +75,8 @@ namespace Helodrace
         private bool initialized, finishing, finished;
         private ProfileBenchmark benchmark;
         private readonly TacticalEngineAuditResult result = new TacticalEngineAuditResult();
+        private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
+            || result.fixtureCase == "inside-goal";
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
@@ -145,7 +148,8 @@ namespace Helodrace
                 && result.fixtureCase != "rocks" && result.fixtureCase != "narrow" && result.fixtureCase != "contact" && result.fixtureCase != "field"
                 && result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
                 && result.fixtureCase != "charge-recovery" && result.fixtureCase != "charge-fuse-casualty" && result.fixtureCase != "charge-change"
-                && result.fixtureCase != "multiroom") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "multiroom" && result.fixtureCase != "unexpected-hole"
+                && result.fixtureCase != "inside-goal") throw new ArgumentException("Unknown audit case.");
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -197,7 +201,7 @@ namespace Helodrace
             for (int x = 101; x < right; x++) for (int z = 101; z < top; z++)
                 map.roofGrid.SetRoof(new IntVec3(x, 0, z), RoofDefOf.RoofConstructed);
             }
-            if (result.fixtureCase == "multiroom")
+            if (MultiRoomFixture)
             {
                 for (int z = 101; z < top; z++) Place(z == 108 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(114, 0, z));
                 for (int x = 115; x < right; x++) Place(x == 126 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(x, 0, 119));
@@ -205,14 +209,15 @@ namespace Helodrace
             if (result.fixtureCase == "rocks")
                 for (int z = 105; z <= 114; z += 2) Place(ThingDefOf.Wall, new IntVec3(99, 0, z));
             IntVec3 goal = small ? new IntVec3(103,0,103)
-                : result.fixtureCase == "multiroom" ? new IntVec3(120,0,116) : new IntVec3(120, 0, 118);
+                : result.fixtureCase == "inside-goal" ? new IntVec3(108,0,110)
+                : MultiRoomFixture ? new IntVec3(120,0,116) : new IntVec3(120, 0, 118);
             Place(ThingDefOf.Bed, goal);
             ((Building_Bed)goal.GetEdifice(map)).CompAssignableToPawn.TryAssignPawn(owner);
             owner.Position = goal; owner.drafter.Drafted = true; owner.equipment.DestroyAllEquipment();
             // Keep the named bed as objective, but avoid intentionally aiming a
             // grenade beside the final partition in the three-separate-room case.
-            if (result.fixtureCase == "multiroom") owner.Position = new IntVec3(120,0,110);
-            if (result.fixtureCase == "multiroom" && Enumerable.Range(115, right - 115).Any(x =>
+            if (MultiRoomFixture && result.fixtureCase != "inside-goal") owner.Position = new IntVec3(120,0,110);
+            if (MultiRoomFixture && Enumerable.Range(115, right - 115).Any(x =>
                 {
                     Building partition = new IntVec3(x,0,119).GetEdifice(map);
                     return partition?.def.IsWall != true && !(partition is Building_Door);
@@ -237,7 +242,8 @@ namespace Helodrace
                 foreach (Pawn pawn in members)
                 {
                     int index = raiders.Count;
-                    IntVec3 cell = new IntVec3(66 + index % 16, 0, 90 + index / 16);
+                    IntVec3 cell = result.fixtureCase == "inside-goal" ? new IntVec3(104 + index % 4,0,104 + index / 4)
+                        : new IntVec3(66 + index % 16, 0, 90 + index / 16);
                     GenSpawn.Spawn(pawn, cell, map); raiders.Add(pawn); starts[pawn] = cell;
                 }
             }
@@ -259,9 +265,10 @@ namespace Helodrace
             ConfigureBreachEquipment();
             result.pawnFingerprint = PawnFingerprint();
             if (result.fixtureCase == "field") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal + new IntVec3(1,0,1));
+            if (result.fixtureCase == "inside-goal") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal);
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
-            benchmark = new ProfileBenchmark { fixtureVersion = 12, seed = result.seed, mapFingerprint = result.mapFingerprint,
+            benchmark = new ProfileBenchmark { fixtureVersion = 13, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
                 radioOperators = result.radioOperators, warmupTicks = result.warmupTicks, sampleTicks = result.sampleTicks,
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,
@@ -312,11 +319,23 @@ namespace Helodrace
                 { result.returnOutsideTick = GenTicks.TicksGame - started; result.returnOutsideJob = interruptedPawn.CurJobDef?.defName; }
             }
             if (result.fixtureCase != "interrupt" && result.fixtureCase != "casualty" && result.fixtureCase != "contact"
-                && result.fixtureCase != "recovery" && result.fixtureCase != "cutter-recovery"
+                && result.fixtureCase != "recovery" && result.fixtureCase != "cutter-recovery" && result.fixtureCase != "unexpected-hole"
                 && !result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal)) return;
             if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
-            if (result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal))
+            if (result.fixtureCase == "unexpected-hole")
+            {
+                // Change a different boundary after the squad commits to its
+                // second entry, before that room's one-shot structural survey.
+                var command = service.Commands.FirstOrDefault(item => item.SecuredPlans.Count == 1
+                    && item.Phase == Tactics.TacticalCommandPhase.Observe && item.Plan?.Opening.x == 114);
+                if (command == null) return;
+                var hole = new IntVec3(120,0,119);
+                Building wall = hole.GetEdifice(map);
+                if (wall?.def.IsWall != true) throw new InvalidOperationException("Unexpected-hole fixture must begin with an intact wall.");
+                wall.Destroy(DestroyMode.Vanish); result.caseTriggered = true;
+            }
+            else if (result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal))
             {
                 var command = service.Commands.FirstOrDefault(item => item.ChargeAction != null
                     && (result.fixtureCase == "charge-recovery" ? item.ChargeAction.Charge == null
@@ -412,13 +431,13 @@ namespace Helodrace
                 bool Interior(IntVec3 cell) => cell.x > 100 && cell.x < fixtureRight && cell.z > 100 && cell.z < fixtureTop;
                 bool Physical(Tactics.TacticalLocalPlan plan, int count) => plan.Positions.All(Interior)
                     && plan.Positions.Distinct().Count() == count && (plan.Direct || Interior(plan.Inside)
-                        && (result.fixtureCase == "multiroom" || !Interior(plan.Outside)));
+                        && (MultiRoomFixture || !Interior(plan.Outside)));
                 result.newPhysicalPlansValid = commands.All(command => command.Plan != null
                     && command.Plan.Positions.All(Interior) && command.Plan.Positions.Distinct().Count() == command.Members.Count
                     && (command.Plan.Direct || (command.Plan.Opening.x == 100 || command.Plan.Opening.x == fixtureRight
                         || command.Plan.Opening.z == 100 || command.Plan.Opening.z == fixtureTop)
                         && !Interior(command.Plan.Outside) && Interior(command.Plan.Inside)));
-                if (result.fixtureCase == "multiroom")
+                if (MultiRoomFixture)
                     result.newPhysicalPlansValid = commands.All(command => command.Plan != null && Physical(command.Plan, command.Members.Count)
                         && command.SecuredPlans.All(plan => Physical(plan, command.Members.Count) && (plan.Direct || Tactics.TacticalLocalPlanner.Connected(plan.Stack))));
                 result.newJobsIssued = newService.JobsIssued; result.newJobFailures = newService.JobFailures;
@@ -436,12 +455,18 @@ namespace Helodrace
                 result.newRoomPlansAttempted = newService.RoomPlansAttempted;
                 result.newSecuredPortals = commands.Select(command => command.Id + ":" + string.Join(";", command.SecuredPlans
                     .Select(plan => plan.Opening.ToString()))).ToArray();
-                result.newRoomProgressComplete = result.fixtureCase != "multiroom" || commands.All(command => command.GoalSecured
+                result.newRoomProgressComplete = !MultiRoomFixture || commands.All(command => command.GoalSecured
                     && new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) }.All(command.SecuredCells.Contains)
                     && command.SecuredPlans.Count >= 3 && command.SecuredPlans.Select(plan => plan.Opening).Distinct().Count() == command.SecuredPlans.Count);
+                result.newUnexpectedOpeningReused = result.fixtureCase != "unexpected-hole" || result.caseTriggered
+                    && commands.All(command => command.SecuredPlans.Any(plan => plan.Opening == new IntVec3(120,0,119) && plan.ExistingOpening));
+                result.newDirectObjectiveCleared = result.fixtureCase != "inside-goal" || commands.All(command => command.GoalSecured
+                    && command.SecuredPlans.FirstOrDefault()?.Direct == true
+                    && command.SecuredPlans[0].Positions.All(cell => cell.x > 100 && cell.x < 114));
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid && result.newRoomProgressComplete
+                    && result.newUnexpectedOpeningReused && result.newDirectObjectiveCleared
                     && commands.All(command => command.Plan.Direct || command.Members.All(member => member.Pawn.Dead || member.Pawn.Downed || member.Passed));
                 result.newCommands = commands.Select(command => command.Id + ":" + command.Phase + " opening=" + command.Plan?.Opening
                     + " outside=" + command.Plan?.Outside + ":walkable=" + (command.Plan?.Outside.Standable(map))

@@ -350,6 +350,7 @@ namespace Helodrace.Tactics
                 }
                 ReleaseClaims(command); command.Plan = plan; PlansBuilt++; command.PhaseStarted = tick;
                 command.OpeningAction = null;
+                command.HadConnectedStack = plan.Direct || TacticalLocalPlanner.Connected(plan.Stack);
                 if (plan.Direct)
                 {
                     foreach (IntVec3 cell in plan.Positions) claims[cell] = command;
@@ -363,7 +364,6 @@ namespace Helodrace.Tactics
                     claims[plan.Inside] = command;
                     if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
                     claims[plan.Opening] = command;
-                    command.HadConnectedStack = TacticalLocalPlanner.Connected(plan.Stack);
                     command.Breacher = hammer;
                     command.Phase = plan.ExistingOpening ? TacticalCommandPhase.Observe : TacticalCommandPhase.Stack;
                 }
