@@ -26,7 +26,11 @@ namespace Helodrace.Tactics
                         + " passed=" + command.Members.Count(member => member.Passed) + " entered="
                         + command.Members.Count(member => member.Entered)
                         + " outside guards=" + command.Plan?.RetainedOutside.Count
-                        + " assignments arrived=" + command.Members.Count(member => member.EntryAssignmentDone)))));
+                        + " assignments arrived=" + command.Members.Count(member => member.EntryAssignmentDone)
+                        + " contact response=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
+                        + " contacts=[" + string.Join(";", command.Contacts.Memory.Entries.Select(contact => contact.EnemyId
+                            + "@" + contact.Position + " age=" + (GenTicks.TicksGame - contact.SeenTick)
+                            + (contact.Door ? " door-area=" + contact.Area : ""))) + "]"))));
         }
     }
 }

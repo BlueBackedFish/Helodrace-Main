@@ -29,6 +29,13 @@ internal static class TacticalRoomScanTests
             || opened.Frontiers.Any(f => !opened.Cells.Contains(f.Inside)))
             throw new Exception("Unexpected hole must merge reachable space and make old breach fronts redundant.");
         if (scan.Cells.Count != 400) throw new Exception("Other squad's snapshot must not refresh through shared live state.");
+        int currentDoorPreference = 400;
+        var latched = new TacticalRoomScan(new IntVec3(0,0,10), IntVec3.Invalid, Floor, walls.Contains,
+            cell => currentDoorPreference);
+        while (!latched.Step()) { }
+        currentDoorPreference = 800;
+        if (latched.Frontiers.Any(f => f.Preference != 400))
+            throw new Exception("A hidden door update must not refresh a stored frontier's preference.");
         var secured = new HashSet<IntVec3>();
         if (opened.CopyCellsTo(secured) || secured.Count != TacticalRoomScan.CellsPerStep)
             throw new Exception("Secured history copying must also yield between bounded chunks.");

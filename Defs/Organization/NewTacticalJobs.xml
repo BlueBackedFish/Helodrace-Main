@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <JobDef>
+    <defName>HD_NewTacticalContactGuard</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalContactGuard</driverClass>
+    <reportString>목격한 위협 방향을 경계하는 중.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+  </JobDef>
+  <JobDef>
     <defName>HD_NewTacticalPost</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalPost</driverClass>
     <reportString>집결하여 경계하는 중.</reportString>

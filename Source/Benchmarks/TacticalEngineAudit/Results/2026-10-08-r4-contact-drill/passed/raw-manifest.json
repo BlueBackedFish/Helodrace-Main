@@ -1,0 +1,32 @@
+[
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r4-contact-drill-03\\audit.json",
+    "stored": "audit.json.gz",
+    "uncompressedBytes": 7557,
+    "sha256": "cb9c491cffd7542313fcfa9aef118e0ffedb47fecba70f90acf4ac70947beafb"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r4-contact-drill-03\\launcher.json",
+    "stored": "launcher.json.gz",
+    "uncompressedBytes": 842,
+    "sha256": "4335ba5782af9e915901ae6578e8d666a718a60b5d757d15434195f740c2e23d"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r4-contact-drill-03\\Player.log",
+    "stored": "Player.log.gz",
+    "uncompressedBytes": 30454,
+    "sha256": "c4b681a1e952e428f3c0c99e9349467dbf942b154faacc220e63c5e2db683024"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r4-contact-drill-03\\profiles\\capture-20261008-125757-498-1.json",
+    "stored": "capture-20261008-125757-498-1.json.gz",
+    "uncompressedBytes": 28530,
+    "sha256": "1a67afd15c2011d816cfac81770732a1d8d175c491c78946d1f9e4d60eb5c2a3"
+  },
+  {
+    "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r4-contact-drill-03\\profiles\\capabilities.json",
+    "stored": "capabilities.json.gz",
+    "uncompressedBytes": 21320,
+    "sha256": "35388c79e449504eaa8f35863a2ee2aaab7d0141b7597f1bfa144760bef27f1c"
+  }
+]

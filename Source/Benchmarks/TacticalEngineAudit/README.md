@@ -2,6 +2,12 @@
 
 같은 DLL/콘텐츠에서 `vanilla`, `legacy`, `new`를 선택한다. 기본 플레이는 `legacy`이고 선택은 프로세스 시작 시 고정한다. 현재 `new`는 R2의 분대 지휘·지속 작업·연결 스택·해머 돌파·필수 개구부 통과를 실행한다. R1의 `vanilla-fallback` 기록은 새 AI 합격 증거가 아니다.
 
+## R4 대표 접촉 시험
+
+현재 New에는 R3 연속 CQB와 R4 접촉 기억·대응이 추가됐다. `-Case r4-contact-drill -Workload sapper-door -Population 12 -WarmupTicks 0 -SampleTicks 4800`은 한 분대에서 후방, 다른 실제 문칸, 개구부 앞뒤 위협을 순차 노출하고 숨긴다. 발생/관측/소실/복귀 이벤트와 12명 전원 세 방 완료를 함께 요구한다. 기억을 직접 삽입하지 않으며 실제 LOS/lean을 사용한다.
+
+추가 수집 대상은 `Helodrace.Tactics.MapComponent_TacticalCommands::ScanContacts;Helodrace.Tactics.MapComponent_TacticalCommands::RespondToContacts;Helodrace.Tactics.MapComponent_TacticalCommands::FindContactPost;Helodrace.Tactics.TacticalContactSight::CanSee;Helodrace.Tactics.MapComponent_TacticalCommands::RestoreContactPosts;Helodrace.Tactics.JobDriver_TacticalContactGuard::TickGuard`다. fixture v18은 이 동적 기능 시험에만 적용한다. 일반 대조 fixture v17과 섞지 않는다. 이 시험의 메서드 비용은 경과 시간이며 전체 틱/창 CPU 및 Core 기준과 구분한다. 정식 N/V 반복 CPU 판정은 R7에서 한다. [R4 결과](Results/2026-10-08-r4-contact-drill/README.md)를 참조한다.
+
 ## 실행
 
 게임 DLL과 CLI를 먼저 빌드한다. 실행기는 DLL/PDB 및 신규 JobDefs를 설치된 모드에 복사하고 DLL 해시를 확인한다. 기존 RimWorld 프로세스가 있으면 시작하지 않는다. CreatorTemp의 새 저장·설정·로그 폴더에서 실행하고 자체 종료한다.

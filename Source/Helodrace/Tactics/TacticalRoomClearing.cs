@@ -21,6 +21,7 @@ namespace Helodrace.Tactics
     public sealed class TacticalRoomFrontier
     {
         public IntVec3 Opening, Inward;
+        public int Preference;
         public IntVec3 Inside => Opening + Inward;
     }
 
@@ -34,13 +35,15 @@ namespace Helodrace.Tactics
         private readonly Queue<IntVec3> pending = new Queue<IntVec3>();
         private readonly HashSet<IntVec3> boundaries = new HashSet<IntVec3>();
         private readonly Func<IntVec3, bool> floor, barrier;
+        private readonly Func<IntVec3, int> preference;
         private readonly IntVec3 entry;
         private HashSet<IntVec3>.Enumerator copy;
         private bool copying;
         public bool Finished { get; private set; }
-        public TacticalRoomScan(IntVec3 seed, IntVec3 entry, Func<IntVec3, bool> floor, Func<IntVec3, bool> barrier)
+        public TacticalRoomScan(IntVec3 seed, IntVec3 entry, Func<IntVec3, bool> floor, Func<IntVec3, bool> barrier,
+            Func<IntVec3, int> preference = null)
         {
-            this.entry = entry; this.floor = floor; this.barrier = barrier;
+            this.entry = entry; this.floor = floor; this.barrier = barrier; this.preference = preference;
             if (floor(seed)) { Cells.Add(seed); pending.Enqueue(seed); }
         }
         public bool Step()
@@ -57,7 +60,8 @@ namespace Helodrace.Tactics
                     if (barrier(next))
                     {
                         if (floor(next + direction) && boundaries.Add(next))
-                            Frontiers.Add(new TacticalRoomFrontier { Opening = next, Inward = direction });
+                            Frontiers.Add(new TacticalRoomFrontier { Opening = next, Inward = direction,
+                                Preference = preference?.Invoke(next) ?? 0 });
                     }
                     else if (floor(next) && Cells.Add(next)) pending.Enqueue(next);
                 }
@@ -94,16 +98,18 @@ namespace Helodrace.Tactics
                 if (cell.InBounds(map))
                 {
                     Building building = cell.GetEdifice(map);
-                    if (building?.def.IsWall == true || building is Building_Door) kind = 2;
+                    if (building is Building_Door) kind = 3;
+                    else if (building?.def.IsWall == true) kind = 2;
                     // Furniture belongs to the floor; a short empty wall gap is
                     // a portal, so opening it does not silently clear both rooms.
                     else if (cell.Roofed(map) && cell.Walkable(map))
-                        kind = building == null && TacticalPortalGeometry.IsGap(cell, wall, walkable) ? (byte)2 : (byte)1;
+                        kind = building == null && TacticalPortalGeometry.IsGap(cell, wall, walkable) ? (byte)4 : (byte)1;
                 }
                 geometry[cell] = kind; return kind;
             }
             command.RoomScan = new TacticalRoomScan(seed, plan.Direct ? IntVec3.Invalid : plan.Opening,
-                cell => Kind(cell) == 1, cell => Kind(cell) == 2);
+                cell => Kind(cell) == 1, cell => Kind(cell) >= 2,
+                cell => Kind(cell) == 4 ? 800 : Kind(cell) == 3 ? 400 : 0);
             command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
             command.Phase = TacticalCommandPhase.Clear; command.PhaseStarted = tick; command.Due = tick + 1;
         }
@@ -195,11 +201,16 @@ namespace Helodrace.Tactics
             }
             finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
         }
-        private int FrontierScore(TacticalRoomFrontier frontier, TacticalSquadCommand command) =>
-            (command.GoalSecured ? frontier.Opening.DistanceToSquared(command.Plan.Inside) : frontier.Inside.DistanceToSquared(command.Goal))
-                - (frontier.Opening.GetEdifice(map) == null ? 800
-                    : frontier.Opening.GetEdifice(map) is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door)) ? 800
-                    : frontier.Opening.GetEdifice(map) is Building_Door ? 400 : 0);
+        private int FrontierScore(TacticalRoomFrontier frontier, TacticalSquadCommand command)
+        {
+            int observedThreat = 0;
+            foreach (TacticalContact contact in command.Contacts.Memory.Entries)
+                if (contact.Door && contact.Position == frontier.Opening) { observedThreat = 600; break; }
+            // Latched structural preference plus actual contact knowledge.
+            // Never reorder entrances by an unseen door's current Open state.
+            return (command.GoalSecured ? frontier.Opening.DistanceToSquared(command.Plan.Inside)
+                : frontier.Inside.DistanceToSquared(command.Goal)) - frontier.Preference - observedThreat;
+        }
 
         private TacticalLocalPlan PlanRoomFrontier(TacticalSquadCommand command, List<TacticalMemberCommand> active,
             TacticalRoomFrontier frontier, out bool occupied, out bool missingTool)

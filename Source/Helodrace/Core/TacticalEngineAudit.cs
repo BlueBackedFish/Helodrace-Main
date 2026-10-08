@@ -41,6 +41,10 @@ namespace Helodrace
         [DataMember] public bool newUnexpectedOpeningReused, newDirectObjectiveCleared;
         [DataMember] public bool newDoorContactObserved, newOutdoorSmokeUsed, newOutdoorSmokeSeen;
         [DataMember] public bool newSmallRoomSupportSaved;
+        [DataMember] public long newContactScans, newContactCandidates, newContactsSeen, newDoorContactsSeen;
+        [DataMember] public long newContactResponses, newRearResponses, newDoorResponses, newOpposedResponses, newContactResumes, newContactGuardJobs;
+        [DataMember] public bool newContactDrillComplete, newContactMemoryFrozen, newContactPlanPreserved, newUnseenDoorIgnored;
+        [DataMember] public string[] newContactEvents;
         [DataMember] public int[] newClassifiedRoomCells;
         [DataMember] public string caseContactTile;
         [DataMember] public string[] newSecuredPortals;
@@ -65,7 +69,7 @@ namespace Helodrace
 
     // A new fixture independent of legacy plan/order getters. All engines receive
     // the same actual organizations, equipment, Lord and world geometry.
-    public sealed class MapComponent_TacticalEngineAudit : MapComponent
+    public sealed partial class MapComponent_TacticalEngineAudit : MapComponent
     {
         internal static readonly HashSet<Pawn> ProtectedRaiders = new HashSet<Pawn>();
         internal static bool GeneratingFixture;
@@ -89,7 +93,8 @@ namespace Helodrace
         private ProfileBenchmark benchmark;
         private readonly TacticalEngineAuditResult result = new TacticalEngineAuditResult();
         private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
-            || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery" || result.fixtureCase == "tiny-adjacent";
+            || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery" || result.fixtureCase == "tiny-adjacent"
+            || result.fixtureCase == "r4-contact-drill";
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
@@ -165,7 +170,8 @@ namespace Helodrace
                 && result.fixtureCase != "inside-goal" && result.fixtureCase != "door-contact"
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
-                && result.fixtureCase != "tiny-adjacent") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill") throw new ArgumentException("Unknown audit case.");
+            if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -278,6 +284,7 @@ namespace Helodrace
             }
             result.population = raiders.Count;
             ProtectedRaiders.Clear(); foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
+            if (result.fixtureCase == "r4-contact-drill") InitializeContactDrill();
             result.radioOperators = raiders.Count(pawn => RaidTacticalRadioUtility.Radios(pawn).Any());
             if (result.workload.StartsWith("sapper-", StringComparison.Ordinal) && raiders.Count > 0)
             {
@@ -297,7 +304,7 @@ namespace Helodrace
             if (result.fixtureCase == "inside-goal") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal);
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
-            benchmark = new ProfileBenchmark { fixtureVersion = 17, seed = result.seed, mapFingerprint = result.mapFingerprint,
+            benchmark = new ProfileBenchmark { fixtureVersion = result.fixtureVersion, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
                 radioOperators = result.radioOperators, warmupTicks = result.warmupTicks, sampleTicks = result.sampleTicks,
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,
@@ -340,6 +347,7 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            if (result.fixtureCase == "r4-contact-drill") { ApplyContactDrill(); return; }
             if (result.fixtureCase == "outdoor-opening" && !result.newOutdoorSmokeSeen
                 && TacticalEngineSelection.Kind == TacticalEngineKind.New)
                 result.newOutdoorSmokeSeen = map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands
@@ -514,6 +522,12 @@ namespace Helodrace
                 result.newLastJobFailure = newService.LastJobFailure;
                 result.newPlansAttempted = newService.PlansAttempted;
                 result.newObservations = newService.Observations; result.newObservationContacts = newService.ObservationContacts;
+                result.newContactScans = newService.ContactScans; result.newContactCandidates = newService.ContactCandidates;
+                result.newContactsSeen = newService.ContactsSeen; result.newDoorContactsSeen = newService.DoorContactsSeen;
+                result.newContactResponses = newService.ContactResponses; result.newRearResponses = newService.RearResponses;
+                result.newDoorResponses = newService.DoorResponses; result.newOpposedResponses = newService.OpposedResponses;
+                result.newContactResumes = newService.ContactResumes; result.newContactGuardJobs = newService.ContactGuardJobs;
+                FinishContactDrill();
                 result.newSupportThrows = newService.SupportThrows; result.newSupportWaits = newService.SupportWaits;
                 result.newSupportReturns = newService.SupportReturns; result.newUnsafeEntries = newService.UnsafeEntries;
                 result.newToolRecoveriesStarted = newService.ToolRecoveriesStarted;
@@ -571,6 +585,8 @@ namespace Helodrace
                     && result.newDoorContactObserved && result.newOutdoorSmokeUsed
                     && result.newSmallRoomSupportSaved
                     && result.newRoomRecoveryContinued && result.newActiveCutterRecovered
+                    && (result.fixtureCase != "r4-contact-drill" || result.newContactDrillComplete && result.newContactMemoryFrozen
+                        && result.newContactPlanPreserved && result.newUnseenDoorIgnored)
                     && commands.All(command => command.Plan.Direct || command.Members.Select((member, i) =>
                         member.Pawn.Dead || member.Pawn.Downed || member.Passed || command.Plan.RetainedOutside.Contains(i)).All(done => done));
                 result.newCommands = commands.Select(command => command.Id + ":" + command.Phase + " opening=" + command.Plan?.Opening

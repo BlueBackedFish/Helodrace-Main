@@ -39,6 +39,9 @@ namespace Helodrace.Tactics
         public TacticalPlanFailure LastPlanFailure;
         public TacticalOpeningAction OpeningAction;
         public readonly TacticalContactState Contacts = new TacticalContactState();
+        public TacticalContactResponse ContactResponse;
+        public bool ContactRestoring;
+        public int ContactHandledAt = -1, ContactCloseAt = int.MinValue / 2;
         public TacticalChargeAction ChargeAction;
         public bool ReplanAfterSupport;
         public readonly List<Thing> BreachTools = new List<Thing>();
@@ -173,6 +176,7 @@ namespace Helodrace.Tactics
                     || command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared)
                 { command.ReplanAfterSupport = true; command.Goal = goal; command.Due = GenTicks.TicksGame + 1; continue; }
                 AbandonCharge(command);
+                command.ContactResponse = null; command.ContactRestoring = false;
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
                 command.RoomScan = null; command.GoalSecured = command.SecuredCells.Contains(goal);
@@ -270,6 +274,8 @@ namespace Helodrace.Tactics
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
+            if (RespondToContacts(command, active, tick)) return;
+            if (RestoreContactPosts(command, active, tick)) return;
             if (command.Phase == TacticalCommandPhase.Clear)
             { AdvanceRoomClear(command, active, tick); return; }
             if (command.Phase == TacticalCommandPhase.Breach && command.ChargeAction != null)

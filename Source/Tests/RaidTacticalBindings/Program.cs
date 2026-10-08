@@ -49,6 +49,7 @@ internal static class Program
             TacticalContactTests.Run();
             TacticalWorkBudgetTests.Run();
             TacticalOpeningTests.Run();
+            TacticalRoomScanTests.Run();
             return 0;
         }
         Type[] patches = {
