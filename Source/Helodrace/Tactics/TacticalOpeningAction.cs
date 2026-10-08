@@ -60,7 +60,11 @@ namespace Helodrace.Tactics
                 || pawn.CurJob != job || command.Phase != TacticalCommandPhase.Observe) return;
             command.OpeningAction.ObservationDone = true;
             command.OpeningAction.Enemy = enemy; command.OpeningAction.EnemyId = id;
-            if (enemy.IsValid) ObservationContacts++;
+            if (enemy.IsValid)
+            {
+                ObservationContacts++;
+                RecordContact(command, id, enemy, command.OpeningAction.Source, GenTicks.TicksGame);
+            }
             Wake(pawn);
         }
         internal void ObservationFinished(Pawn pawn, Job job)

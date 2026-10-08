@@ -38,6 +38,7 @@ namespace Helodrace.Tactics
         public bool DeferredWork;
         public TacticalPlanFailure LastPlanFailure;
         public TacticalOpeningAction OpeningAction;
+        public readonly TacticalContactState Contacts = new TacticalContactState();
         public TacticalChargeAction ChargeAction;
         public bool ReplanAfterSupport;
         public readonly List<Thing> BreachTools = new List<Thing>();
@@ -267,6 +268,8 @@ namespace Helodrace.Tactics
             var active = command.Members.Where(member => Available(member, map)).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (command.Phase == TacticalCommandPhase.Complete) { command.Due = tick + 600; return; }
+            ScanContacts(command, active, tick);
+            command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
             if (command.Phase == TacticalCommandPhase.Clear)
             { AdvanceRoomClear(command, active, tick); return; }
             if (command.Phase == TacticalCommandPhase.Breach && command.ChargeAction != null)

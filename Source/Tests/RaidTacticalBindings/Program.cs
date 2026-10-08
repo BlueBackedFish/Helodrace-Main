@@ -34,7 +34,7 @@ internal static class Program
             throw new Exception("Existing money generators must prevent duplicate registration.");
         Console.WriteLine("PASS: 4 startup stock-generator isolation and money registration checks.");
     }
-    private static int Main()
+    private static int Main(string[] commandLineArgs)
     {
         // Check target signatures and injected private fields against the real
         // installed game. This is not a Unity/Mono runtime patch simulation.
@@ -44,6 +44,13 @@ internal static class Program
             string path = Path.Combine(managed, new AssemblyName(args.Name).Name + ".dll");
             return File.Exists(path) ? Assembly.LoadFrom(path) : null;
         };
+        if (commandLineArgs.Contains("--r4"))
+        {
+            TacticalContactTests.Run();
+            TacticalWorkBudgetTests.Run();
+            TacticalOpeningTests.Run();
+            return 0;
+        }
         Type[] patches = {
             typeof(Patch_RaidTacticalTickCpu),
             typeof(Patch_RaidTacticalTrace_StartJob), typeof(Patch_RaidTacticalTrace_EndJob),
