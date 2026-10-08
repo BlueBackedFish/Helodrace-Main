@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using RimWorld;
@@ -103,14 +104,20 @@ namespace Helodrace.Tactical
             return marker;
         }
 
-        public static List<BodyPartRecord> BleedingParts(Pawn patient)
+        public static List<BodyPartRecord> BleedingParts(Pawn patient, int limit = int.MaxValue)
         {
-            var parts = new List<BodyPartRecord>();
-            if (patient?.health?.hediffSet == null) return parts;
+            var parts = new Dictionary<BodyPartRecord, float>();
+            if (patient?.health?.hediffSet == null) return new List<BodyPartRecord>();
             foreach (Hediff hediff in patient.health.hediffSet.hediffs)
-                if (hediff.Part != null && hediff.BleedRate > 0f && !parts.Contains(hediff.Part))
-                    parts.Add(hediff.Part);
-            return parts;
+            {
+                if (hediff.Part == null) continue;
+                float rate = hediff.BleedRate;
+                if (rate <= 0f) continue;
+                parts.TryGetValue(hediff.Part, out float previous);
+                parts[hediff.Part] = previous + rate;
+            }
+            return parts.OrderByDescending(entry => entry.Value).Take(Math.Max(0, limit))
+                .Select(entry => entry.Key).ToList();
         }
 
         public static float Factor(HediffSet set, BodyPartRecord part, int tick)

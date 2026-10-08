@@ -8,7 +8,7 @@
   <HD_Medibag_Load_NoReachableSupplies>가져올 수 있는 {0}이(가) 맵에 없습니다.</HD_Medibag_Load_NoReachableSupplies>
   <HD_Medibag_NotEnoughSupplies>메딕 가방에 적재된 {0}이 필요합니다.</HD_Medibag_NotEnoughSupplies>
   <HD_Medibag_Hemostasis_Label>지혈</HD_Medibag_Hemostasis_Label>
-  <HD_Medibag_Hemostasis_Desc>주요 장기가 아닌 부위 최대 {0}곳에 자가 지혈과 같은 표시를 남깁니다. 12시간 동안 해당 부위의 출혈량이 80% 감소하고 부위당 고통 5%가 추가됩니다(최대 20%). 전신 지혈제와 함께 사용할 수 있습니다. 적재된 구성품 {1}개를 사용하며 상처 자체를 치료하지는 않습니다.</HD_Medibag_Hemostasis_Desc>
+  <HD_Medibag_Hemostasis_Desc>30초 동안 주요 장기가 아닌 부위 최대 {0}곳에 지혈 스킬과 같은 표시를 남깁니다. 12시간 동안 해당 부위의 출혈량이 80% 감소하고 부위당 고통 5%가 추가됩니다(최대 20%). 전신 지혈제와 함께 사용할 수 있습니다. 적재된 구성품 {1}개를 사용하며 상처 자체를 치료하지는 않습니다.</HD_Medibag_Hemostasis_Desc>
   <HD_Medibag_Hemostasis_NoBleeding>{0}에게 지혈 가능한 출혈 상처가 없습니다.</HD_Medibag_Hemostasis_NoBleeding>
   <HD_Medibag_Hemostasis_Applied>{0}이 {1}의 출혈을 안정화했습니다. 처치한 부위: {2}곳.</HD_Medibag_Hemostasis_Applied>
   <HD_Medibag_Plasma_Label>혈장 수혈</HD_Medibag_Plasma_Label>

@@ -2,8 +2,8 @@
 <LanguageData>
   <HD_Hemostasis_Reduction>Bleeding reduction on this body part: {0}</HD_Hemostasis_Reduction>
   <HD_TCCC_Menu>TCCC</HD_TCCC_Menu>
-  <HD_TCCC_MenuDesc>Self-hemostasis takes 30 seconds: temporary pressure reduces local bleeding by 70% after 20 seconds, then the shared dressing reduces local bleeding by 80% for 12 hours. Each dressed part adds 5% pain, capped at 20%. Casualty tethers allow hands-free movement at reduced speed. Measured analgesics target 10% pain. A hemostatic dose takes 3 seconds and reduces systemic bleeding by 70% for 6 hours, with blood pumping -10% and consciousness -5%; it combines with local dressings. MIST preparation takes 5 seconds.</HD_TCCC_MenuDesc>
-  <HD_TCCC_SelfHemostasis>Self-hemostasis (30 sec)</HD_TCCC_SelfHemostasis>
+  <HD_TCCC_MenuDesc>Hemostasis takes 30 seconds on yourself or another friendly pawn, treating up to six of the most heavily bleeding parts without body-part exclusions. Temporary pressure starts after 20 seconds; completed dressings reduce local bleeding by 80% for 12 hours. Each part adds 5% pain, capped at 20%. Medic bag hemostasis also takes 30 seconds but retains its non-vital, four-part limit. Casualty tethers allow hands-free movement at reduced speed. Measured analgesics target 10% pain. A hemostatic agent takes 3 seconds and reduces systemic bleeding by 70% for 6 hours with blood pumping -10% and consciousness -5%; it combines with local dressings. MIST preparation takes 5 seconds.</HD_TCCC_MenuDesc>
+  <HD_TCCC_Hemostasis>Hemostasis (30 sec)</HD_TCCC_Hemostasis>
   <HD_TCCC_AttachDrag>Attach casualty tether</HD_TCCC_AttachDrag>
   <HD_TCCC_Analgesic>Administer measured analgesic</HD_TCCC_Analgesic>
   <HD_TCCC_Hemostatic>Administer hemostatic agent (3 sec)</HD_TCCC_Hemostatic>

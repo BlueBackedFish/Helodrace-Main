@@ -74,7 +74,7 @@ namespace Helodrace.Tactical
                             "TCCC commands and treatments require training");
                         actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining"));
                         Check(baselineBleed > 0 && TcccUtility.CanAct(actor), "self-care actor is capable and bleeding");
-                        TcccUtility.Start(actor, actor, TcccTreatment.SelfHemostasis);
+                        TcccUtility.Start(actor, actor, TcccTreatment.Hemostasis);
                         Next(1); break;
                     case 1:
                         if (WorkTicks < 1199) break;
@@ -89,7 +89,7 @@ namespace Helodrace.Tactical
                         Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - .20f) < .02f, "80 percent reduction after completed self-care");
                         Check(TcccUtility.Effect(actor, PartHemostasis.DressingDefName).expiresTick - Find.TickManager.TicksGame >= 29998, "completed effect lasts 12 hours");
                         TcccUtility.RemoveEffect(actor, PartHemostasis.DressingDefName);
-                        TcccUtility.Start(actor, actor, TcccTreatment.SelfHemostasis);
+                        TcccUtility.Start(actor, actor, TcccTreatment.Hemostasis);
                         Next(4); break;
                     case 4:
                         if (WorkTicks < 1201) break;
@@ -248,7 +248,7 @@ namespace Helodrace.Tactical
         }
         private void RulesAndDrugs()
         {
-            Check(TcccRules.SelfHemostasisTicks == 1800 && TcccRules.PartialHemostasisTicks == 1200
+            Check(TcccRules.HemostasisTicks == 1800 && TcccRules.PartialHemostasisTicks == 1200
                 && PartHemostasis.DressingTicks == 30000 && TcccRules.DrugEffectTicks == 15000, "all specified timing constants");
             foreach (string name in new[] { "BD_Morphine", "BD_Fentanyl", "BD_Ketamine", "BD_Laudanum" })
             {

@@ -1534,7 +1534,7 @@ namespace Helodrace
                     && pawn.health?.hediffSet?.BleedRateTotal > 0f)
                 {
                     if (pawn.CurJobDef?.defName != "HD_TCCC_Treat")
-                        TcccUtility.Start(pawn, pawn, TcccTreatment.SelfHemostasis);
+                        TcccUtility.Start(pawn, pawn, TcccTreatment.Hemostasis);
                 }
                 else if (pawn.CurJobDef != JobDefOf.Wait_Combat
                     || pawn.CurJob?.expiryInterval <= 0)

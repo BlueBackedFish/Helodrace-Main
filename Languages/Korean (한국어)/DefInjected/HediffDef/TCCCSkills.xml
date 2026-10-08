@@ -7,7 +7,7 @@
   <HD_TCCC_Hemostatic.label>지혈제 효과</HD_TCCC_Hemostatic.label>
   <HD_TCCC_Hemostatic.description>6시간 동안 전신의 출혈량이 70% 감소하며, 이후 생긴 상처에도 적용됩니다. 부위별 지혈 처치와 함께 사용할 수 있습니다. 혈액순환 -10%, 의식 -5%.</HD_TCCC_Hemostatic.description>
   <HD_FieldHemostasis.label>지혈 처치</HD_FieldHemostasis.label>
-  <HD_FieldHemostasis.description>자가 지혈과 매딕가방이 공유하는 부위별 지혈 처치입니다. 해당 부위의 출혈량이 12시간 동안 80% 감소합니다. 처치 부위당 고통이 5% 추가되며 총 20%까지 증가합니다. 같은 부위의 재처치는 지속시간만 갱신하고, 전신 지혈제와 함께 사용할 수 있습니다. 상처 자체를 치료하지는 않습니다.</HD_FieldHemostasis.description>
+  <HD_FieldHemostasis.description>지혈 스킬과 매딕가방이 공유하는 부위별 지혈 처치입니다. 해당 부위의 출혈량이 12시간 동안 80% 감소합니다. 처치 부위당 고통이 5% 추가되며 총 20%까지 증가합니다. 같은 부위의 재처치는 지속시간만 갱신하고, 전신 지혈제와 함께 사용할 수 있습니다. 상처 자체를 치료하지는 않습니다.</HD_FieldHemostasis.description>
   <HD_TCCC_Mist.label>MIST 후송 인계 준비</HD_TCCC_Mist.label>
   <HD_TCCC_Mist.description>손상 기전, 부상, 징후와 처치를 정리한 MIST 후송 인계서입니다. 구조대와 의료진이 환자 상태를 빠르게 파악해 후송을 원활히 진행할 수 있습니다.</HD_TCCC_Mist.description>
   <HD_TCCC_Dragging.label>부상자 견인 중</HD_TCCC_Dragging.label>

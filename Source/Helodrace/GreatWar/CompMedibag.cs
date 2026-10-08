@@ -374,6 +374,7 @@ namespace Helodrace
 
     public class JobDriver_MedibagHemostasis : JobDriver_MedibagTreatment
     {
+        protected override int TreatmentDuration(CompMedibag medibag) => Tactical.TcccRules.HemostasisTicks;
         protected override bool ApplyTreatment(CompMedibag medibag, Pawn target)
         {
             return medibag.TryApplyHemostasis(target);
@@ -429,6 +430,7 @@ namespace Helodrace
 
         protected Pawn Patient => job.GetTarget(PatientInd).Pawn;
         protected Thing MedibagThing => job.GetTarget(MedibagInd).Thing;
+        protected virtual int TreatmentDuration(CompMedibag medibag) => medibag.Props.treatmentTicks;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -450,7 +452,7 @@ namespace Helodrace
             Toil treatment = new Toil
             {
                 defaultCompleteMode = ToilCompleteMode.Delay,
-                defaultDuration = medibag.Props.treatmentTicks
+                defaultDuration = TreatmentDuration(medibag)
             };
             treatment.WithProgressBarToilDelay(PatientInd);
             yield return treatment;

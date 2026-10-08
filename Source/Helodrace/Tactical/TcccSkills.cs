@@ -10,13 +10,14 @@ using Verse.AI;
 
 namespace Helodrace.Tactical
 {
-    public enum TcccTreatment { SelfHemostasis, AttachDrag, Analgesic, Hemostatic, Mist }
+    public enum TcccTreatment { Hemostasis, AttachDrag, Analgesic, Hemostatic, Mist }
 
     // Pure rules are kept separate from jobs so boundary values can be regression-tested.
     public static class TcccRules
     {
         public const int PartialHemostasisTicks = 1200;
-        public const int SelfHemostasisTicks = 1800;
+        public const int HemostasisTicks = 1800;
+        public const int HemostasisMaxParts = 6;
         public const int HemostaticTicks = 180;
         public const int DrugEffectTicks = 15000;
         public const float HemostaticBleedingFactor = .30f;
@@ -85,7 +86,7 @@ namespace Helodrace.Tactical
         public static void Start(Pawn actor, Pawn patient, TcccTreatment treatment, Thing supply = null)
         {
             if (!CanTreat(actor, patient)) return;
-            if ((treatment == TcccTreatment.SelfHemostasis || treatment == TcccTreatment.Hemostatic)
+            if ((treatment == TcccTreatment.Hemostasis || treatment == TcccTreatment.Hemostatic)
                 && patient.health.hediffSet.BleedRateTotal <= 0f) { Reject("HD_TCCC_NoBleeding"); return; }
             var job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_TCCC_Treat"), patient);
             job.count = (int)treatment;
@@ -146,11 +147,7 @@ namespace Helodrace.Tactical
                     defaultLabel = ("HD_TCCC_" + local).Translate(),
                     defaultDesc = "HD_TCCC_MenuDesc".Translate(),
                     icon = IconFor(local),
-                    action = () =>
-                    {
-                        if (local == TcccTreatment.SelfHemostasis) Start(pawn, pawn, local);
-                        else Target(pawn, local);
-                    }
+                    action = () => Target(pawn, local)
                 };
             }
             if (pawn.Map.GetComponent<MapComponent_TcccDragging>().IsDragging(pawn))
@@ -168,7 +165,7 @@ namespace Helodrace.Tactical
             string skillIcon;
             switch (treatment)
             {
-                case TcccTreatment.SelfHemostasis: skillIcon = "Skill/HD_TCCC_SelfHemostasis"; break;
+                case TcccTreatment.Hemostasis: skillIcon = "Skill/HD_TCCC_SelfHemostasis"; break;
                 case TcccTreatment.AttachDrag: skillIcon = "Skill/HD_TCCC_Dragging"; break;
                 case TcccTreatment.Hemostatic: skillIcon = "Skill/HD_TCCC_Hemostatic"; break;
                 case TcccTreatment.Mist: skillIcon = "Skill/HD_TCCC_MIST"; break;
@@ -226,7 +223,8 @@ namespace Helodrace.Tactical
             this.FailOn(() => !TcccUtility.CanTreat(pawn, Patient));
             AddFinishAction(condition =>
             {
-                if (pressureApplied) TcccUtility.RemoveEffect(pawn, "HD_TCCC_Pressure");
+                if (pressureApplied && Patient?.health?.hediffSet != null)
+                    TcccUtility.RemoveEffect(Patient, "HD_TCCC_Pressure");
             });
             if (Treatment == TcccTreatment.Analgesic || Treatment == TcccTreatment.Hemostatic)
             {
@@ -250,18 +248,18 @@ namespace Helodrace.Tactical
                 yield return collectSupply;
             }
             if (Patient != pawn) yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-            int duration = Treatment == TcccTreatment.SelfHemostasis ? TcccRules.SelfHemostasisTicks
+            int duration = Treatment == TcccTreatment.Hemostasis ? TcccRules.HemostasisTicks
                 : Treatment == TcccTreatment.Hemostatic ? TcccRules.HemostaticTicks
                 : Treatment == TcccTreatment.Mist ? 300 : 120;
             Toil treatment = Toils_General.Wait(duration, TargetIndex.A);
-            if (Treatment == TcccTreatment.SelfHemostasis)
+            if (Treatment == TcccTreatment.Hemostasis)
             {
                 treatment.AddPreInitAction(() =>
                 {
                     if (treatedPartIndices != null && treatedPartIndices.Count > 0) return;
                     // Latch actual bleeding parts when care starts, not when it finishes:
                     // a later wound on another part is not retroactively treated.
-                    treatedPartIndices = PartHemostasis.BleedingParts(Patient)
+                    treatedPartIndices = PartHemostasis.BleedingParts(Patient, TcccRules.HemostasisMaxParts)
                         .Select(part => Patient.RaceProps.body.AllParts.IndexOf(part)).Where(index => index >= 0).ToList();
                     if (treatedPartIndices.Count == 0) EndJobWith(JobCondition.Incompletable);
                 });
@@ -271,10 +269,10 @@ namespace Helodrace.Tactical
             treatment.tickAction = () =>
             {
                 treatmentTicks++;
-                if (Treatment == TcccTreatment.SelfHemostasis && treatmentTicks >= TcccRules.PartialHemostasisTicks && !pressureApplied)
+                if (Treatment == TcccTreatment.Hemostasis && treatmentTicks >= TcccRules.PartialHemostasisTicks && !pressureApplied)
                 {
                     pressureApplied = true;
-                    ApplyToSelectedParts("HD_TCCC_Pressure", .30f, TcccRules.SelfHemostasisTicks);
+                    ApplyToSelectedParts("HD_TCCC_Pressure", .30f, TcccRules.HemostasisTicks);
                 }
             };
             yield return treatment;
@@ -284,7 +282,7 @@ namespace Helodrace.Tactical
         {
             switch (Treatment)
             {
-                case TcccTreatment.SelfHemostasis:
+                case TcccTreatment.Hemostasis:
                     ApplyToSelectedParts(PartHemostasis.DressingDefName, PartHemostasis.DressingFactor, PartHemostasis.DressingTicks);
                     break;
                 case TcccTreatment.AttachDrag:

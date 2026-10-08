@@ -17,7 +17,7 @@
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Pressure</defName><label>applying pressure</label>
     <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
-    <description>Self-hemostasis is in progress on this body part. Bleeding from this part is reduced by 70% while pressure is maintained.</description>
+    <description>Hemostasis is in progress on this body part. Bleeding from this part is reduced by 70% while pressure is maintained.</description>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Hemostatic</defName><label>hemostatic agent</label>
@@ -31,7 +31,7 @@
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_FieldHemostasis</defName><label>hemostasis dressing</label>
     <hediffClass>Helodrace.Tactical.Hediff_PartHemostasis</hediffClass>
-    <description>Self-care and medic bags share this dressing. Reduces bleeding from this body part by 80% for 12 hours without tending wounds. Each dressed part adds 5% pain, up to 20% in total. Reapplication refreshes the same dressing. Combines with systemic hemostatic agents.</description>
+    <description>Hemostasis skills and medic bags share this dressing. Reduces bleeding from this body part by 80% for 12 hours without tending wounds. Each dressed part adds 5% pain, up to 20% in total. Reapplication refreshes the same dressing. Combines with systemic hemostatic agents.</description>
   </HediffDef>
   <HediffDef ParentName="HD_TCCC_TimedBase">
     <defName>HD_TCCC_Mist</defName><label>MIST handover prepared</label>

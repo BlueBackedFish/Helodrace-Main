@@ -17,6 +17,8 @@ namespace Helodrace.Tactical
         private Hediff leftWound, rightWound;
         private Hediff_PartHemostasis completedDressing;
         private Apparel bag;
+        private Pawn patient;
+        private BodyPartRecord[] patientWoundedParts;
         private int phase, started;
         private bool finished, addedLater;
         private string Results => Path.Combine(GenFilePaths.SaveDataFolderPath,"part-hemostasis-results.txt");
@@ -54,6 +56,8 @@ namespace Helodrace.Tactical
                 {
                     case 0:
                         File.WriteAllText(Results,"Unified dressings and systemic hemostatic native checks\n");
+                        foreach (var colonist in Find.CurrentMap.mapPawns.FreeColonistsSpawned)
+                            if (colonist.drafter != null && !colonist.Downed) colonist.drafter.Drafted=true;
                         actor=PawnGenerator.GeneratePawn(DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman"),Faction.OfPlayer);
                         actor.story.traits.allTraits.Clear();
                         GenSpawn.Spawn(actor,Find.CurrentMap.Center,Find.CurrentMap);
@@ -116,7 +120,7 @@ namespace Helodrace.Tactical
                             "Real three-second drug job creates one systemic effect covering the other arm");
                         Check(actor.inventory.innerContainer.Where(t=>t.def.defName=="HD_TCCC_HemostaticAgent").Sum(t=>t.stackCount)==1,
                             "Real drug job consumes exactly one dose");
-                        Reset(); TcccUtility.Start(actor,actor,TcccTreatment.SelfHemostasis); Next(2); break;
+                        Reset(); TcccUtility.Start(actor,actor,TcccTreatment.Hemostasis); Next(2); break;
                     case 2:
                         if (WorkTicks<1201) break;
                         Check(TcccUtility.Effect(actor,"HD_TCCC_Pressure")?.Part==left
@@ -126,7 +130,7 @@ namespace Helodrace.Tactical
                         Check(TcccUtility.Effect(actor,"HD_TCCC_Pressure")==null
                             && PartHemostasis.Factor(actor.health.hediffSet,left,GenTicks.TicksGame)==1f,
                             "Interruption removes temporary pressure and its cached reduction");
-                        Reset(); TcccUtility.Start(actor,actor,TcccTreatment.SelfHemostasis); Next(3); break;
+                        Reset(); TcccUtility.Start(actor,actor,TcccTreatment.Hemostasis); Next(3); break;
                     case 3:
                         if (WorkTicks>=1201 && !addedLater) {rightWound=Wound(right); addedLater=true;}
                         if (TcccUtility.Effect(actor,PartHemostasis.DressingDefName)==null) break;
@@ -151,8 +155,46 @@ namespace Helodrace.Tactical
                             "Real bag job reuses self-care dressing and adds only one new part without tending");
                         Check((int)AccessTools.Field(typeof(CompMedibag),"storedSupplies").GetValue(bag.TryGetComp<CompMedibag>())==1,
                             "Real bag job consumes one loaded supply");
+                        Check(GenTicks.TicksGame-started>=1800 && GenTicks.TicksGame-started<1830,
+                            "Actual bag hemostasis takes thirty seconds");
                         Check(Math.Abs(actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Sum(h=>h.PainOffset)-.10f)<.001f,
                             "Two shared dressings add ten percent pain, not three markers worth");
+                        patient=PawnGenerator.GeneratePawn(DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman"),Faction.OfPlayer);
+                        GenSpawn.Spawn(patient,actor.Position+IntVec3.East,actor.Map);
+                        patient.health.AddHediff(HediffDefOf.Anesthetic);
+                        var targets=patient.RaceProps.body.AllParts.Where(p=>new[]{"Brain","Heart","Liver","Lung","Arm","Leg"}
+                            .Contains(p.def.defName)).Take(8).ToArray();
+                        patientWoundedParts=targets;
+                        Check(targets.Length==8,"Other-pawn fixture has eight distinct bleeding body parts");
+                        foreach (var part in targets)
+                        {
+                            var wound=HediffMaker.MakeHediff(HediffDefOf.Cut,patient,part);
+                            wound.Severity=part.def.defName=="Brain" ? 4f : 2f; patient.health.AddHediff(wound);
+                        }
+                        var selectedPatientParts=PartHemostasis.BleedingParts(patient,TcccRules.HemostasisMaxParts).ToArray();
+                        Check(TcccUtility.CanTreat(actor,patient) && selectedPatientParts.Length==6
+                            && selectedPatientParts.Any(p=>p.def.defName=="Brain"),
+                            "Other pawn is eligible and vital brain part is not excluded from six-part skill selection");
+                        TcccUtility.Start(actor,patient,TcccTreatment.Hemostasis); Next(5); break;
+                    case 5:
+                        if (WorkTicks<1201) break;
+                        Check(patient.health.hediffSet.hediffs.Count(h=>h.def.defName=="HD_TCCC_Pressure")==6
+                            && TcccUtility.Effect(actor,"HD_TCCC_Pressure")==null,
+                            "Actual other-pawn hemostasis applies pressure to six patient parts, never the caregiver");
+                        actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
+                        Check(TcccUtility.Effect(patient,"HD_TCCC_Pressure")==null,
+                            "Interrupted other-pawn hemostasis removes patient pressure");
+                        TcccUtility.Start(actor,patient,TcccTreatment.Hemostasis); Next(6); break;
+                    case 6:
+                        var dressings=patient.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>()
+                            .Where(h=>h.def.defName==PartHemostasis.DressingDefName).ToArray();
+                        if (dressings.Length==0) break;
+                        File.AppendAllText(Results,"TRACE patient completed parts="+string.Join(",",dressings.Select(h=>h.Part.def.defName))
+                            +" pressure="+(TcccUtility.Effect(patient,"HD_TCCC_Pressure")!=null)+"\n");
+                        Check(dressings.Length==6 && dressings.All(h=>patientWoundedParts.Contains(h.Part))
+                            && dressings.Any(h=>h.Part.def.defName=="Brain")
+                            && TcccUtility.Effect(patient,"HD_TCCC_Pressure")==null,
+                            "Actual other-pawn thirty-second skill dresses exactly six wounded parts including brain");
                         File.AppendAllText(Results,"COMPLETE\n"); finished=true; Root.Shutdown(); break;
                 }
             }

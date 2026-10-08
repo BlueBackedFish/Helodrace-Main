@@ -1,11 +1,18 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
+using Helodrace;
 using Helodrace.Tactical;
 using Verse;
 
 internal static class PartHemostasisTests
 {
+    private sealed class BleedingTestHediff : Hediff
+    {
+        public float rate;
+        public override float BleedRate => rate;
+    }
     internal static void Run()
     {
         int checks = 0;
@@ -63,6 +70,29 @@ internal static class PartHemostasisTests
             "Expired dressings no longer contribute pain.");
         Check(PartHemostasis.DressingTicks==30000 && PartHemostasis.DressingFactor==.20f,
             "Both dressing sources share 12 hours and 80 percent reduction.");
+        var patient = new Pawn();
+        patient.health = (Pawn_HealthTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
+        patient.health.hediffSet = new HediffSet(patient);
+        var parts = new BodyPartRecord[8];
+        for (int i=0;i<8;i++)
+        {
+            parts[i]=new BodyPartRecord { def=new BodyPartDef { defName=i==0 ? "Brain" : "Part"+i } };
+            var wound=new BleedingTestHediff { rate=i+1 };
+            AccessTools.Field(typeof(Hediff),"part").SetValue(wound,parts[i]);
+            patient.health.hediffSet.hediffs.Add(wound);
+        }
+        var extra=new BleedingTestHediff { rate=20f };
+        AccessTools.Field(typeof(Hediff),"part").SetValue(extra,parts[0]); patient.health.hediffSet.hediffs.Add(extra);
+        var chosen=PartHemostasis.BleedingParts(patient,TcccRules.HemostasisMaxParts);
+        Check(chosen.Count==6 && chosen[0]==parts[0] && !chosen.Contains(parts[1]) && !chosen.Contains(parts[2]),
+            "Hemostasis chooses six largest summed body-part bleed rates, including brain.");
+        Check(PartHemostasis.BleedingParts(patient).Count==8 && PartHemostasis.BleedingParts(patient,0).Count==0,
+            "Repeated wounds count once per part and explicit selection limit is respected.");
+        var duration=AccessTools.Method(typeof(JobDriver_MedibagTreatment),"TreatmentDuration");
+        var bag=new CompMedibag { props=new CompProperties_Medibag { treatmentTicks=180 } };
+        Check((int)duration.Invoke(new JobDriver_MedibagHemostasis(),new object[]{bag})==TcccRules.HemostasisTicks
+            && (int)duration.Invoke(new JobDriver_MedibagPlasmaTransfusion(),new object[]{bag})==180,
+            "Bag hemostasis shares thirty-second skill time without slowing plasma transfusion.");
         var targets = Patch_PartHemostasis_Bleeding.TargetMethods().ToArray();
         Check(targets.Length==3 && targets.All(method=>method!=null) && targets.Distinct().Count()==3,
             "Real installed injury/missing-part/base bleeding getters bind independently.");

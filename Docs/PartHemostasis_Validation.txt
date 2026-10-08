@@ -20,5 +20,12 @@ PASS Completed self-care creates shared dressing on latched part, not the later 
 PASS Real Helod soldier wears the bag and its comp resolves wearer
 PASS Real bag job reuses self-care dressing and adds only one new part without tending
 PASS Real bag job consumes one loaded supply
+PASS Actual bag hemostasis takes thirty seconds
 PASS Two shared dressings add ten percent pain, not three markers worth
+PASS Other-pawn fixture has eight distinct bleeding body parts
+PASS Other pawn is eligible and vital brain part is not excluded from six-part skill selection
+PASS Actual other-pawn hemostasis applies pressure to six patient parts, never the caregiver
+PASS Interrupted other-pawn hemostasis removes patient pressure
+TRACE patient completed parts=Heart,Brain,Lung,Lung,Arm,Leg pressure=False
+PASS Actual other-pawn thirty-second skill dresses exactly six wounded parts including brain
 COMPLETE
