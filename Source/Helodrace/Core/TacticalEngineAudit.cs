@@ -29,6 +29,10 @@ namespace Helodrace
         [DataMember] public long newJobsIssued, newJobFailures, newPlansAttempted;
         [DataMember] public long newObservations, newObservationContacts, newSupportThrows, newSupportWaits, newSupportReturns, newUnsafeEntries;
         [DataMember] public long newToolRecoveriesStarted, newToolRecoveriesCompleted, newCutterJobsStarted;
+        [DataMember] public long newRoomToolRecoveryWaits;
+        [DataMember] public bool newRoomRecoveryContinued, newActiveCutterRecovered;
+        [DataMember] public string caseLossPhase;
+        [DataMember] public int caseCuttingTicks;
         [DataMember] public long newChargesInstalled, newChargeDetonations, newChargeOperatorTransfers, newChargeWaits;
         [DataMember] public long newRoomScanSteps, newRoomsSecured, newRoomPlansAttempted;
         [DataMember] public bool newRoomProgressComplete;
@@ -38,7 +42,7 @@ namespace Helodrace
         [DataMember] public int[] newClassifiedRoomCells;
         [DataMember] public string caseContactTile;
         [DataMember] public string[] newSecuredPortals;
-        [DataMember] public int fixtureVersion = 15;
+        [DataMember] public int fixtureVersion = 16;
         [DataMember] public bool environmentControlled;
         [DataMember] public string[] unexpectedPawns;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
@@ -75,13 +79,14 @@ namespace Helodrace
         private IntVec3 doorwayContact = IntVec3.Invalid;
         private int fixtureRight = 140, fixtureTop = 136;
         private int started, measured = -1, nextProgress;
+        private int firstActiveCut = -1;
         private long uninstrumentedMainStart = -1, uninstrumentedProcessStart;
         private readonly WindowsMethodClock windowClock = new WindowsMethodClock();
         private bool initialized, finishing, finished;
         private ProfileBenchmark benchmark;
         private readonly TacticalEngineAuditResult result = new TacticalEngineAuditResult();
         private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
-            || result.fixtureCase == "inside-goal";
+            || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery";
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
@@ -155,7 +160,8 @@ namespace Helodrace
                 && result.fixtureCase != "charge-recovery" && result.fixtureCase != "charge-fuse-casualty" && result.fixtureCase != "charge-change"
                 && result.fixtureCase != "multiroom" && result.fixtureCase != "unexpected-hole"
                 && result.fixtureCase != "inside-goal" && result.fixtureCase != "door-contact"
-                && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen") throw new ArgumentException("Unknown audit case.");
+                && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
+                && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery") throw new ArgumentException("Unknown audit case.");
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -278,7 +284,7 @@ namespace Helodrace
             if (result.fixtureCase == "inside-goal") map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.SetObjective(goal);
             if (raiders.Count > 0) LordMaker.MakeNewLord(faction, new LordJob_AssaultColony(faction, canKidnap: false,
                 canTimeoutOrFlee: false, sappers: result.workload.StartsWith("sapper-", StringComparison.Ordinal), canSteal: false), map, raiders);
-            benchmark = new ProfileBenchmark { fixtureVersion = 15, seed = result.seed, mapFingerprint = result.mapFingerprint,
+            benchmark = new ProfileBenchmark { fixtureVersion = 16, seed = result.seed, mapFingerprint = result.mapFingerprint,
                 faction = faction.def.defName, requestedPopulation = result.requestedPopulation, unitCount = result.units,
                 radioOperators = result.radioOperators, warmupTicks = result.warmupTicks, sampleTicks = result.sampleTicks,
                 engine = result.engine, effectiveEngine = result.effectiveEngine, newEngineImplemented = result.newEngineImplemented,
@@ -288,7 +294,8 @@ namespace Helodrace
         private void ConfigureBreachEquipment()
         {
             bool charge = result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal);
-            if (result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery" && !charge) return;
+            if (result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
+                && result.fixtureCase != "cutter-active-recovery" && result.fixtureCase != "room-recovery" && !charge) return;
             bool cutter = result.fixtureCase.StartsWith("cutter", StringComparison.Ordinal);
             bool kept = false;
             foreach (Pawn pawn in raiders)
@@ -334,11 +341,29 @@ namespace Helodrace
             }
             if (result.fixtureCase != "interrupt" && result.fixtureCase != "casualty" && result.fixtureCase != "contact"
                 && result.fixtureCase != "recovery" && result.fixtureCase != "cutter-recovery" && result.fixtureCase != "unexpected-hole"
-                && result.fixtureCase != "door-contact"
+                && result.fixtureCase != "door-contact" && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && !result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal)) return;
             if (result.caseTriggered || TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
-            if (result.fixtureCase == "unexpected-hole")
+            if (result.fixtureCase == "room-recovery")
+            {
+                var command = service.Commands.FirstOrDefault(item => item.Phase == Tactics.TacticalCommandPhase.Clear
+                    && item.RoomScan != null && item.SecuredPlans.Count == 0);
+                Pawn engineer = command?.Members.Select(m => m.Pawn).FirstOrDefault(p => !p.Dead && CompSledgehammerBreach.WornBy(p) != null);
+                if (engineer == null) return;
+                result.caseLossPhase = command.Phase.ToString(); result.caseTriggered = true; engineer.Kill(null);
+            }
+            else if (result.fixtureCase == "cutter-active-recovery")
+            {
+                var command = service.Commands.FirstOrDefault(item => item.Phase == Tactics.TacticalCommandPhase.Breach
+                    && item.Breacher?.jobs.curDriver is Tactics.JobDriver_TacticalCut cutting && cutting.CuttingActive);
+                if (command == null) return;
+                if (firstActiveCut < 0) firstActiveCut = GenTicks.TicksGame;
+                result.caseCuttingTicks = GenTicks.TicksGame - firstActiveCut;
+                if (result.caseCuttingTicks < 20) return;
+                result.caseLossPhase = command.Phase.ToString(); result.caseTriggered = true; command.Breacher.Kill(null);
+            }
+            else if (result.fixtureCase == "unexpected-hole")
             {
                 // Change a different boundary after the squad commits to its
                 // second entry, before that room's one-shot structural survey.
@@ -476,6 +501,7 @@ namespace Helodrace
                 result.newToolRecoveriesStarted = newService.ToolRecoveriesStarted;
                 result.newToolRecoveriesCompleted = newService.ToolRecoveriesCompleted;
                 result.newCutterJobsStarted = newService.CutterJobsStarted;
+                result.newRoomToolRecoveryWaits = newService.RoomToolRecoveryWaits;
                 result.newChargesInstalled = newService.ChargesInstalled; result.newChargeDetonations = newService.ChargeDetonations;
                 result.newChargeOperatorTransfers = newService.ChargeOperatorTransfers; result.newChargeWaits = newService.ChargeWaits;
                 result.newRoomScanSteps = newService.RoomScanSteps; result.newRoomsSecured = newService.RoomsSecured;
@@ -499,12 +525,17 @@ namespace Helodrace
                 result.newClassifiedRoomCells = commands.Select(command => command.OpeningAction?.RoomCells ?? -1).ToArray();
                 result.newSmallRoomSupportSaved = result.fixtureCase != "small-unseen" || commands.All(command => command.OpeningAction?.Outdoors == false
                     && command.OpeningAction.RoomCells == 16 && !command.OpeningAction.Enemy.IsValid && !command.OpeningAction.Launched);
+                result.newRoomRecoveryContinued = result.fixtureCase != "room-recovery" || result.caseTriggered && result.caseLossPhase == "Clear"
+                    && result.newToolRecoveriesCompleted > 0 && result.newRoomToolRecoveryWaits > 0 && result.newRoomProgressComplete;
+                result.newActiveCutterRecovered = result.fixtureCase != "cutter-active-recovery" || result.caseTriggered && result.caseCuttingTicks >= 20
+                    && result.newCutterJobsStarted >= 2 && result.newToolRecoveriesCompleted > 0;
                 result.newDoorFaults = map.listerThings.AllThings.OfType<Building_Door>().Count(DoorBreachFaultUtility.Jammed);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEnteredByOrder == result.alive && result.newConnectedStacks && result.newPhysicalPlansValid && result.newRoomProgressComplete
                     && result.newUnexpectedOpeningReused && result.newDirectObjectiveCleared
                     && result.newDoorContactObserved && result.newOutdoorSmokeUsed
                     && result.newSmallRoomSupportSaved
+                    && result.newRoomRecoveryContinued && result.newActiveCutterRecovered
                     && commands.All(command => command.Plan.Direct || command.Members.All(member => member.Pawn.Dead || member.Pawn.Downed || member.Passed));
                 result.newCommands = commands.Select(command => command.Id + ":" + command.Phase + " opening=" + command.Plan?.Opening
                     + " outside=" + command.Plan?.Outside + ":walkable=" + (command.Plan?.Outside.Standable(map))
@@ -514,15 +545,15 @@ namespace Helodrace
                     + " direct=" + command.Plan?.Direct + " failures=" + command.Failures + " lastFailure=" + command.LastPlanFailure
                     + " tools=" + command.Members.Count(member => CompSledgehammerBreach.WornBy(member.Pawn) != null)
                     + " members="
-                    + string.Join(";", command.Members.Select((member, index) => member.Pawn.Position + ":" + member.Pawn.CurJobDef
+                    + string.Join(";", command.Members.Select((member, index) => member.Pawn.Position + ":" + member.Pawn.jobs?.curJob?.def?.defName
                         + ":passed=" + member.Passed + ":entered=" + member.Entered + ":slot="
                         + (command.Plan == null ? "none" : command.Plan.Positions[index].ToString())
-                        + ":jobA=" + member.Pawn.CurJob?.targetA + ":jobB=" + member.Pawn.CurJob?.targetB
-                        + ":jobC=" + member.Pawn.CurJob?.targetC + ":toil=" + member.Pawn.jobs.curDriver?.CurToilIndex
-                        + ":moving=" + member.Pawn.pather.Moving + ":dest=" + member.Pawn.pather.Destination))).ToArray();
+                        + ":jobA=" + member.Pawn.jobs?.curJob?.targetA + ":jobB=" + member.Pawn.jobs?.curJob?.targetB
+                        + ":jobC=" + member.Pawn.jobs?.curJob?.targetC + ":toil=" + member.Pawn.jobs?.curDriver?.CurToilIndex
+                        + ":moving=" + member.Pawn.pather?.Moving + ":dest=" + member.Pawn.pather?.Destination))).ToArray();
             }
             result.finalPawnJobs = raiders.Select(pawn => pawn.kindDef.defName + "@" + pawn.Position + ":"
-                + pawn.CurJob?.def?.defName + "->" + pawn.CurJob?.targetA.ToString()).ToArray();
+                + pawn.jobs?.curJob?.def?.defName + "->" + pawn.jobs?.curJob?.targetA.ToString()).ToArray();
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
                 if (pawn != owner && !ProtectedRaiders.Contains(pawn)) unexpected.Add(pawn.ThingID + ":" + pawn.kindDef.defName);
             result.unexpectedPawns = unexpected.OrderBy(id => id).ToArray();

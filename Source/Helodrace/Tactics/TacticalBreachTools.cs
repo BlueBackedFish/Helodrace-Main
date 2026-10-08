@@ -63,7 +63,12 @@ namespace Helodrace.Tactics
         internal void ToolRecovered(Pawn pawn, Thing tool)
         {
             if (byPawn.TryGetValue(pawn, out TacticalSquadCommand command) && command.BreachTools.Contains(tool))
-            { ToolRecoveriesCompleted++; command.PhaseStarted = GenTicks.TicksGame; Wake(pawn); }
+            {
+                // Inventory transfer may merge C4 into a different stack and
+                // destroy the captured source. Retain the actual successor gear.
+                TacticalBreachTools.Remember(command, pawn);
+                ToolRecoveriesCompleted++; command.PhaseStarted = GenTicks.TicksGame; Wake(pawn);
+            }
         }
 
         private bool RecoverBreachTool(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)

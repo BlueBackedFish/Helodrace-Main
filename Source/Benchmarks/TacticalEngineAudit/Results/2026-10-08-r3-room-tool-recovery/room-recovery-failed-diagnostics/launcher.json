@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "room-recovery",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceRoomClear;Helodrace.Tactics.MapComponent_TacticalCommands::PlanRoomFrontier;Helodrace.Tactics.MapComponent_TacticalCommands::RecoverBreachTool;Helodrace.Tactics.MapComponent_TacticalCommands::ToolRecovered;Helodrace.Tactics.TacticalBreachTools::Remember",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "d76af687757002c1d9f60a8b3cd0162a052250cbffcbe983314a7baa9f3054ee",
+    "high":  false,
+    "sampleTicks":  4800,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}

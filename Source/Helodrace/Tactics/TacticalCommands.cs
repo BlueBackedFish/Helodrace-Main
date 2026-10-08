@@ -49,6 +49,8 @@ namespace Helodrace.Tactics
         public readonly HashSet<IntVec3> FrontierKeys = new HashSet<IntVec3>();
         public bool GoalSecured, FrontierBusy;
         public int FrontierCursor;
+        public TacticalRoomFrontier RecoveryFrontier;
+        public int RoomRecoveryUntil;
         public bool Terminal => Phase == TacticalCommandPhase.Released;
     }
 
@@ -173,6 +175,7 @@ namespace Helodrace.Tactics
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
                 command.RoomScan = null; command.GoalSecured = command.SecuredCells.Contains(goal);
+                command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
                 command.Phase = TacticalCommandPhase.Pending; command.Due = GenTicks.TicksGame;
                 command.ReturnCursor = 0; command.ReleaseAfterReturn = false;
                 command.PlanRetryAt = 0;

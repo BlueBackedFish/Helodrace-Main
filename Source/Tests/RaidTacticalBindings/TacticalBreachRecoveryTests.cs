@@ -24,7 +24,7 @@ internal static class TacticalBreachRecoveryTests
             donor.equipment = new Pawn_EquipmentTracker(donor);
             donor.health = (Pawn_HealthTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
             AccessTools.Field(typeof(Pawn_HealthTracker), "healthState").SetValue(donor.health, PawnHealthState.Down);
-            var hammer = new Apparel { def = definition };
+            var hammer = new Apparel { def = definition, thingIDNumber = 101 };
             AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(hammer,
                 new List<ThingComp> { new CompSledgehammerBreach { parent = hammer } });
             var owner = (ThingOwner<Apparel>)donor.apparel.GetDirectlyHeldThings();
@@ -48,6 +48,18 @@ internal static class TacticalBreachRecoveryTests
             if (source.Invoke(null, new object[] { hammer }) != hammer) throw new Exception("Loose tool must become the source.");
             AccessTools.Field(typeof(Thing), "mapIndexOrState").SetValue(hammer, (sbyte)-2);
             if (source.Invoke(null, new object[] { hammer }) != null) throw new Exception("Destroyed gear cannot be recovered.");
+            donor.inventory = new Pawn_InventoryTracker(donor);
+            var replacement = new ThingWithComps { def = definition, thingIDNumber = 102 };
+            AccessTools.Field(typeof(ThingWithComps), "comps").SetValue(replacement,
+                new List<ThingComp> { new CompBreachIgniter { parent = replacement } });
+            var inventory = donor.inventory.innerContainer;
+            inventory.InnerListForReading.Add(replacement); replacement.holdingOwner = inventory;
+            remember.Invoke(null, new object[] { command, donor }); remember.Invoke(null, new object[] { command, donor });
+            if (!command.BreachTools.Contains(replacement) || command.BreachTools.Count != 2
+                || source.Invoke(null, new object[] { replacement }) != corpse)
+                throw new Exception("A successor's actual inventory item must be retained for another casualty, without duplicates: count="
+                    + command.BreachTools.Count + " contains=" + command.BreachTools.Contains(replacement)
+                    + " parent=" + replacement.ParentHolder?.GetType().Name + " source=" + source.Invoke(null, new object[] { replacement })?.GetType().Name);
             Console.WriteLine("PASS: New corpse/downed/loose tool resolution, healthy-carrier rejection and reference retention.");
         }
         finally { Current.Game = previous; }

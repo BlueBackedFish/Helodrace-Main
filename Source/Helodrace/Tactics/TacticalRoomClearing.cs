@@ -69,7 +69,7 @@ namespace Helodrace.Tactics
 
     public sealed partial class MapComponent_TacticalCommands
     {
-        public long RoomScanSteps, RoomsSecured, RoomPlansAttempted;
+        public long RoomScanSteps, RoomsSecured, RoomPlansAttempted, RoomToolRecoveryWaits;
         private void BeginRoomClear(TacticalSquadCommand command, int tick)
         {
             TacticalLocalPlan plan = command.Plan;
@@ -94,12 +94,29 @@ namespace Helodrace.Tactics
             }
             command.RoomScan = new TacticalRoomScan(seed, plan.Direct ? IntVec3.Invalid : plan.Opening,
                 cell => Kind(cell) == 1, cell => Kind(cell) == 2);
+            command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
             command.Phase = TacticalCommandPhase.Clear; command.PhaseStarted = tick; command.Due = tick + 1;
         }
         private void AdvanceRoomClear(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             command.Due = tick + 1;
+            // Recovery also needs Plan allowance for its native reach probe.
+            // Resume it before consuming that allowance for the room survey.
+            if (command.RecoveryFrontier != null)
+            {
+                Building barrier = command.RecoveryFrontier.Opening.GetEdifice(map);
+                bool opened = barrier == null || barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
+                if (opened || active.Any(m => TacticalBreachTools.CanUse(m.Pawn, barrier)))
+                { command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0; }
+                else if (tick < command.RoomRecoveryUntil && RecoverBreachTool(command, active, tick))
+                { RoomToolRecoveryWaits++; command.Due = tick + 30; return; }
+                else
+                {
+                    command.RecoveryFrontier = null; command.RoomRecoveryUntil = -1;
+                    command.FrontierCursor++; command.LastPlanFailure |= TacticalPlanFailure.Tool;
+                }
+            }
             if (!budget.TryPlan(tick)) return;
             long started = Stopwatch.GetTimestamp();
             try
@@ -131,8 +148,14 @@ namespace Helodrace.Tactics
                 {
                     TacticalRoomFrontier frontier = command.Frontiers[command.FrontierCursor++];
                     if (command.SecuredCells.Contains(frontier.Inside)) continue;
-                    TacticalLocalPlan plan = PlanRoomFrontier(command, active, frontier, out bool occupied);
+                    TacticalLocalPlan plan = PlanRoomFrontier(command, active, frontier, out bool occupied, out bool missingTool);
                     busy |= occupied; RoomPlansAttempted++;
+                    if (plan == null && missingTool && command.RoomRecoveryUntil >= 0
+                        && command.BreachTools.Any(tool => TacticalBreachTools.SourceFor(tool)?.Spawned == true))
+                    {
+                        command.RecoveryFrontier = frontier; command.RoomRecoveryUntil = tick + 1200;
+                        command.FrontierCursor--; return;
+                    }
                     if (plan == null) continue;
                     ReleaseClaims(command); command.Plan = plan; PlansBuilt++;
                     foreach (IntVec3 cell in plan.Stack.Concat(plan.Positions)) claims[cell] = command;
@@ -169,12 +192,13 @@ namespace Helodrace.Tactics
                     : frontier.Opening.GetEdifice(map) is Building_Door ? 400 : 0);
 
         private TacticalLocalPlan PlanRoomFrontier(TacticalSquadCommand command, List<TacticalMemberCommand> active,
-            TacticalRoomFrontier frontier, out bool occupied)
+            TacticalRoomFrontier frontier, out bool occupied, out bool missingTool)
         {
-            occupied = false;
+            occupied = missingTool = false;
             Building barrier = frontier.Opening.GetEdifice(map);
             bool opened = barrier == null || barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
-            if (!opened && !active.Any(m => TacticalBreachTools.CanUse(m.Pawn, barrier))) return null;
+            if (!opened && !active.Any(m => TacticalBreachTools.CanUse(m.Pawn, barrier)))
+            { missingTool = true; return null; }
             if (leases.TryGetValue(frontier.Opening, out TacticalSquadCommand owner) && owner != command)
             { occupied = true; return null; }
             bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand other) && other != command;

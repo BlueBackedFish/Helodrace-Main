@@ -5,7 +5,7 @@ param(
     [ValidateRange(0,10000)][int]$WarmupTicks = 600,
     [ValidateRange(1,10000)][int]$SampleTicks = 1200,
     [string]$Seed = 'hd-r1-20261007',
-    [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen')][string]$Case = 'normal',
+    [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen','room-recovery','cutter-active-recovery')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
     [ValidateSet('coarse','detailed','spikes','pawn-spikes')][string]$ProfilePreset = 'coarse',

@@ -1,0 +1,16 @@
+﻿{
+    "spikePawnId":  null,
+    "warmupTicks":  0,
+    "fixtureCase":  "cutter-active-recovery",
+    "methodProfile":  true,
+    "targets":  "Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceRoomClear;Helodrace.Tactics.MapComponent_TacticalCommands::PlanRoomFrontier;Helodrace.Tactics.MapComponent_TacticalCommands::RecoverBreachTool;Helodrace.Tactics.MapComponent_TacticalCommands::ToolRecovered;Helodrace.Tactics.TacticalBreachTools::Remember;Helodrace.JobDriver_PowerCutterBreach::FinishBreach",
+    "spikeThresholdMs":  5,
+    "assemblySha256":  "c1eb5c030cbfb4f5abe44cdc7c12db3aee6bd97d51e7636fa6f4443893dcb660",
+    "high":  false,
+    "sampleTicks":  3000,
+    "engine":  "new",
+    "seed":  "hd-r1-20261007",
+    "profilePreset":  "coarse",
+    "requestedPopulation":  12,
+    "workload":  "sapper-wall"
+}
