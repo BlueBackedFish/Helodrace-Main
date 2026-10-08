@@ -1,0 +1,43 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-charge-load-04",
+  "classification": "three C4 states restored including 18 live fragments; final multiroom incomplete with one consumable igniter",
+  "files": {
+    "audit.json": {
+      "sha256": "5878d845b5e3454850ec0a992fec19433de88894df8a13bdc9148a86c3f993d5",
+      "uncompressedSha256": "5878d845b5e3454850ec0a992fec19433de88894df8a13bdc9148a86c3f993d5",
+      "uncompressedBytes": 19835
+    },
+    "launcher.json": {
+      "sha256": "7d0088e113c11e8d71d74516402a02a182799e43c0054b0efd7aed7ee565e28e",
+      "uncompressedSha256": "7d0088e113c11e8d71d74516402a02a182799e43c0054b0efd7aed7ee565e28e",
+      "uncompressedBytes": 562
+    },
+    "Player.log.gz": {
+      "sha256": "d30e539eeb665af10f437bb34ed83c8ed1052d6ac3572918b7ac551170879053",
+      "uncompressedSha256": "23260c453271da177b70b003e9880e6ae12079de4ea325709f2a6c5798f42a31",
+      "uncompressedBytes": 533485
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "af2d2f11d3240ef0b040d1970eb2e7fd7a15e2e0d9f80c8d13ea5056b5970954",
+      "bytes": 3484901,
+      "archived": false
+    },
+    "R7TacticalCheckpoint2.rws": {
+      "sha256": "b9631547c59e18d3f688350a6e1ae7a0baaefc2023cd7cab29ea6c685ee2895f",
+      "bytes": 3534582,
+      "archived": false
+    },
+    "R7TacticalCheckpoint3.rws": {
+      "sha256": "484432756c0b31cfb0b1c543b7abe26baf7257241302f0229cd5bc2c8335851b",
+      "bytes": 3557987,
+      "archived": false
+    }
+  }
+}

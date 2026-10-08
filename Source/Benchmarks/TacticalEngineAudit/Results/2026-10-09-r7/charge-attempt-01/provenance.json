@@ -1,0 +1,33 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-charge-load-01",
+  "classification": "incomplete: load skipped target wall",
+  "files": {
+    "audit.json": {
+      "sha256": "0ebd8b5224065fd6723fb8aa3efa33a0dc97e01a9683eaf4c4419c160aa25026",
+      "uncompressedSha256": "0ebd8b5224065fd6723fb8aa3efa33a0dc97e01a9683eaf4c4419c160aa25026",
+      "uncompressedBytes": 9716
+    },
+    "launcher.json": {
+      "sha256": "0abc508640edb1671cc2c31af550bdacd3af9d52b42c0fe772c0116d4033a6d8",
+      "uncompressedSha256": "0abc508640edb1671cc2c31af550bdacd3af9d52b42c0fe772c0116d4033a6d8",
+      "uncompressedBytes": 562
+    },
+    "Player.log.gz": {
+      "sha256": "5510166b0b1cdb5dfe40959fa241715e016b07aaf8de28872802569053ded6ab",
+      "uncompressedSha256": "03e4b5c5d454762d97b41cecee18257c2a036d533bdd56421017ee472e0b37e2",
+      "uncompressedBytes": 519687
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "d0cd168e94806a9b2592abcee2ef3b6ac1220dcbd21a09ca0e63a58d7d54492d",
+      "bytes": 3435648,
+      "archived": false
+    }
+  }
+}

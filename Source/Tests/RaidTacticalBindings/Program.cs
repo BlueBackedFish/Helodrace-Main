@@ -50,6 +50,10 @@ internal static class Program
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static int RunReferencedTests(string[] commandLineArgs)
     {
+        if (commandLineArgs.Contains("--r7"))
+        {
+            TacticalPersistenceTests.Run(); TacticalWorkBudgetTests.Run(); return 0;
+        }
         if (commandLineArgs.Contains("--r6"))
         {
             TacticalFieldTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0;

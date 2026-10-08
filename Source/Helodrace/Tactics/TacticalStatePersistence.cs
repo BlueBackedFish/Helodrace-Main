@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace Helodrace.Tactics
@@ -173,8 +174,16 @@ namespace Helodrace.Tactics
             Scribe_References.Look(ref Installer, "installer");
             Scribe_Collections.Look(ref OriginalStack, "originalStack", LookMode.Value);
             Scribe_Collections.Look(ref Withdrawal, "withdrawal", LookMode.Value);
-            if (Scribe.mode == LoadSaveMode.Saving) SavedCharge = Charge?.parent?.Destroyed == false ? Charge.parent : null;
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                SavedCharge = Charge?.parent?.Destroyed == false ? Charge.parent : null;
+                if (Charge != null) EffectOperator = Charge.OperatorPawn;
+                SavedFragments = SavedFragments.Concat(Charge?.Fragments ?? Enumerable.Empty<Projectile>())
+                    .Where(projectile => projectile?.Spawned == true).Distinct().ToList();
+            }
             Scribe_References.Look(ref SavedCharge, "installedCharge");
+            Scribe_References.Look(ref EffectOperator, "effectOperator");
+            Scribe_Collections.Look(ref SavedFragments, "liveFragments", LookMode.Reference);
         }
     }
 

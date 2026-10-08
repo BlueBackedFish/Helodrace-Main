@@ -1,0 +1,33 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-charge-load-02",
+  "classification": "incomplete: tracing target wall loss",
+  "files": {
+    "audit.json": {
+      "sha256": "1e0ea83570fc06c2986b5187e325f1d924d411365cdf054e9af54bf133605935",
+      "uncompressedSha256": "1e0ea83570fc06c2986b5187e325f1d924d411365cdf054e9af54bf133605935",
+      "uncompressedBytes": 34400
+    },
+    "launcher.json": {
+      "sha256": "55a741340c11258f0cf9525721ca2dfd77302bf28e11fc79c3471e5941b0ed15",
+      "uncompressedSha256": "55a741340c11258f0cf9525721ca2dfd77302bf28e11fc79c3471e5941b0ed15",
+      "uncompressedBytes": 562
+    },
+    "Player.log.gz": {
+      "sha256": "f53569c8749a7b92653eebad39fd764a2d71462262c544503491a50f1c304dbc",
+      "uncompressedSha256": "c7140fdabece0f3c3770644dd3154bf8171a2774630d459320dc46d9326dfbff",
+      "uncompressedBytes": 544419
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    }
+  },
+  "checkpointFiles": {
+    "R7TacticalCheckpoint1.rws": {
+      "sha256": "f64f97a8a83eb024e135d7ad16a36041d456845adc65c9080256f5f14f9bcb90",
+      "bytes": 3417398,
+      "archived": false
+    }
+  }
+}

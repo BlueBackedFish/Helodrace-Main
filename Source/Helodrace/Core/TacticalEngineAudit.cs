@@ -117,7 +117,7 @@ namespace Helodrace
         private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
             || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery" || result.fixtureCase == "tiny-adjacent"
             || result.fixtureCase == "r4-contact-drill" || result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-radio-loss"
-            || MedicalFixture || ReloadFixture;
+            || MedicalFixture || result.fixtureCase == "r7-save-load";
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
@@ -202,6 +202,7 @@ namespace Helodrace
             if (TimedFieldFixture) result.fixtureVersion = 24;
             if (LifecycleFixture) result.fixtureVersion = 25;
             if (ReloadFixture) result.fixtureVersion = 26;
+            if (result.fixtureCase == "r7-charge-load") result.fixtureVersion = 27;
             if (result.workload != "open-approach" && result.workload != "sapper-wall" && result.workload != "sapper-door") throw new ArgumentException("Unknown workload.");
             GenCommandLine.TryGetCommandLineArg("hdRaidMovementAuditSeed", out result.seed);
             bool high = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditHigh", out _);
@@ -349,7 +350,7 @@ namespace Helodrace
         }
         private void ConfigureBreachEquipment()
         {
-            bool charge = result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal);
+            bool charge = result.fixtureCase.StartsWith("charge-", StringComparison.Ordinal) || result.fixtureCase == "r7-charge-load";
             if (result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
                 && result.fixtureCase != "cutter-active-recovery" && result.fixtureCase != "room-recovery" && !charge) return;
             bool cutter = result.fixtureCase.StartsWith("cutter", StringComparison.Ordinal);

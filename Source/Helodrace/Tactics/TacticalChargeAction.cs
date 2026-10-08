@@ -12,6 +12,10 @@ namespace Helodrace.Tactics
         public Pawn Installer;
         public Job Installation;
         public CompInstalledBreachCharge Charge;
+        // A detonated parent is destroyed and cannot be a Scribe reference.
+        // Keep the safety dependencies independently through save/load.
+        public Pawn EffectOperator;
+        public List<Projectile> SavedFragments = new List<Projectile>();
         public List<IntVec3> OriginalStack = new List<IntVec3>(), Withdrawal = new List<IntVec3>();
         public int Deadline, SettledAt = -1;
         public bool Withdrawing, Detonated, EffectsCleared;
@@ -42,6 +46,7 @@ namespace Helodrace.Tactics
                 || command.ChargeAction.Charge.parent != job.targetA.Thing || command.Phase != TacticalCommandPhase.Breach
                 || command.ChargeAction.Detonated || !ChargeSafeToTrigger(command)) return false;
             TacticalChargeAction action = command.ChargeAction;
+            action.EffectOperator = action.Charge.OperatorPawn;
             action.Detonated = true; action.SettledAt = -1; ChargeDetonations++;
             action.Charge.Trigger(); Wake(pawn); return true;
         }
@@ -182,9 +187,12 @@ namespace Helodrace.Tactics
         {
             TacticalChargeAction action = command.ChargeAction;
             if (action?.Detonated != true || action.EffectsCleared) return false;
-            bool charge = action.Charge.parent.Spawned, fragments = action.Charge.Fragments.Any(p => p.Spawned), explosion = false;
+            bool charge = action.Charge?.parent.Spawned == true;
+            bool fragments = action.Charge?.Fragments.Any(p => p?.Spawned == true) == true
+                || action.SavedFragments.Any(p => p?.Spawned == true);
+            bool explosion = false;
             foreach (Thing thing in map.listerThings.ThingsOfDef(ThingDefOf.Explosion))
-                if (thing is Explosion effect && effect.Spawned && effect.instigator == action.Charge.OperatorPawn
+                if (thing is Explosion effect && effect.Spawned && effect.instigator == (action.Charge?.OperatorPawn ?? action.EffectOperator)
                     && effect.Position == command.Plan.Opening) { explosion = true; break; }
             if (charge || fragments || explosion) action.SettledAt = -1;
             else if (action.SettledAt < 0) action.SettledAt = tick;

@@ -5,9 +5,10 @@ param(
     [ValidateRange(0,10000)][int]$WarmupTicks = 600,
     [ValidateRange(1,20000)][int]$SampleTicks = 1200,
     [string]$Seed = 'hd-r1-20261007',
-    [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen','room-recovery','cutter-active-recovery','tiny-adjacent','r4-contact-drill','r5-low-coop','r5-shared','r5-radio-loss','r6-field-drill','r6-smoke-drill','r6-field-cpu','r6-care-drill','r6-care-interrupt','r7-cleanup','r7-save-load')][string]$Case = 'normal',
+    [ValidateSet('normal','interrupt','casualty','rocks','narrow','contact','field','recovery','cutter','cutter-recovery','charge-recovery','charge-fuse-casualty','charge-change','multiroom','unexpected-hole','inside-goal','door-contact','outdoor-opening','small-unseen','room-recovery','cutter-active-recovery','tiny-adjacent','r4-contact-drill','r5-low-coop','r5-shared','r5-radio-loss','r6-field-drill','r6-smoke-drill','r6-field-cpu','r6-care-drill','r6-care-interrupt','r7-cleanup','r7-save-load','r7-charge-load')][string]$Case = 'normal',
     [switch]$High,
     [switch]$NoMethodProfile,
+    [switch]$Headless,
     [ValidateSet('coarse','detailed','spikes','pawn-spikes','needs-spikes','jobs-spikes','path-spikes')][string]$ProfilePreset = 'coarse',
     [ValidateRange(0.1,1000)][double]$SpikeThresholdMs = 5,
     [ValidateRange(0,2147483647)][Nullable[int]]$SpikePawnId = $null,
@@ -16,6 +17,7 @@ param(
     [string]$GameRoot = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld'
 )
 $ErrorActionPreference = 'Stop'
+if ($Headless -and (-not $NoMethodProfile -or -not $Case.StartsWith('r7-'))) { throw 'Headless mode is only for unprofiled R7 functional audits, not CPU comparisons.' }
 if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'An existing RimWorld process is running. Preserve it and run the isolated audit after it exits.' }
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 $auditPath = [IO.Path]::GetFullPath($AuditRoot)
@@ -34,7 +36,11 @@ foreach ($name in @('Helodrace.dll','Helodrace.pdb')) {
 }
 $newJobPath = Join-Path $repository 'Defs\Organization\NewTacticalJobs.xml'
 Copy-Item -LiteralPath $newJobPath -Destination (Join-Path $GameRoot 'Mods\HelodRace-Main\Defs\Organization\NewTacticalJobs.xml') -Force
-$manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedPopulation=$Population; high=[bool]$High; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); profilePreset=$ProfilePreset; spikeThresholdMs=$SpikeThresholdMs; spikePawnId=$SpikePawnId; targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
+$breachDefPath = Join-Path $repository 'Defs\ColdWar\BreachExplosive_ColdWar.xml'
+Copy-Item -LiteralPath $breachDefPath -Destination (Join-Path $GameRoot 'Mods\HelodRace-Main\Defs\ColdWar\BreachExplosive_ColdWar.xml') -Force
+$manifest = @{ engine=$Engine; workload=$Workload; fixtureCase=$Case; requestedPopulation=$Population; high=[bool]$High; headless=[bool]$Headless; warmupTicks=$WarmupTicks; sampleTicks=$SampleTicks; seed=$Seed; methodProfile=(-not $NoMethodProfile); profilePreset=$ProfilePreset; spikeThresholdMs=$SpikeThresholdMs; spikePawnId=$SpikePawnId; targets=$ProfileTargets; assemblySha256=(Get-FileHash -LiteralPath (Join-Path $repository 'Assemblies\Helodrace.dll')).Hash.ToLowerInvariant() }
+$manifest.breachDefinitionsSha256 = (Get-FileHash -LiteralPath $breachDefPath).Hash.ToLowerInvariant()
+$manifest.newJobDefinitionsSha256 = (Get-FileHash -LiteralPath $newJobPath).Hash.ToLowerInvariant()
 $manifest | ConvertTo-Json | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'launcher.json')
 $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTacticalEngineAudit=' + $auditPath + '\audit.json"'),
     "-hdTacticalEngine=$Engine", "-hdTacticalAuditWorkload=$Workload", "-hdTacticalAuditPopulation=$Population",
@@ -46,6 +52,7 @@ $arguments = @('-quicktest', ('"-savedatafolder=' + $auditPath + '"'), ('"-hdTac
     '-screen-fullscreen','0','-screen-width','800','-screen-height','600',
     '-logFile', ('"' + $auditPath + '\Player.log"'))
 if ($null -ne $SpikePawnId) { $arguments += "-hdMethodProfileSpikePawnId=$SpikePawnId" }
+if ($Headless) { $arguments += @('-batchmode','-nographics') }
 $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru -ArgumentList $arguments
 $process.Id | Set-Content -LiteralPath (Join-Path $auditPath 'process-id.txt')
 Write-Output "Engine audit started: pid=$($process.Id) engine=$Engine workload=$Workload root=$auditPath"

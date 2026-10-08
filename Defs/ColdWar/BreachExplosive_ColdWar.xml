@@ -27,7 +27,9 @@
     <label>installed breaching charge</label>
     <description>C-4 fixed to a wall or door and linked to a nearby operator. Firing it immediately destroys the target structure, suppresses the far side with confined blast pressure, and drives fragments through the breach. Blast damage is limited to the target's remaining hit points, wasting any excess charge strength.</description>
     <thingClass>Helodrace.Thing_InstalledBreachCharge</thingClass>
-    <category>Item</category>
+    <!-- Loading spawns non-buildings first. An Item on this tile prevents
+         the wall from loading, because the wall would wipe that item. -->
+    <category>Ethereal</category>
     <tickerType>Normal</tickerType>
     <drawerType>MapMeshOnly</drawerType>
     <altitudeLayer>BuildingOnTop</altitudeLayer>

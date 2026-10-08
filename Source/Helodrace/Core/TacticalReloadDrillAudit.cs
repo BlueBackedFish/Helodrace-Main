@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using HarmonyLib;
+using RimWorld;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
@@ -17,15 +19,19 @@ namespace Helodrace
         [DataMember] public bool r7ReloadJobsBound = true, r7ReloadHistoryPreserved = true, r7ReloadOpeningPreserved = true;
         [DataMember] public bool r7ReloadLiveGrenadePreserved, r7ReloadContactsPreserved;
         [DataMember] public bool r7ReloadResponsePreserved = true;
+        [DataMember] public bool r7ReloadChargePreserved = true;
+        [DataMember] public string[] r7ChargeEvents;
     }
     public sealed partial class MapComponent_TacticalEngineAudit
     {
-        private bool ReloadFixture => result.fixtureCase == "r7-save-load";
+        private bool ReloadFixture => result.fixtureCase == "r7-save-load" || result.fixtureCase == "r7-charge-load";
+        private int RequiredReloads => result.fixtureCase == "r7-charge-load" ? 3 : 4;
         private int reloadStep;
         private bool reloadPending;
-        private string reloadHistory, reloadContacts, reloadResponse;
+        private string reloadHistory, reloadContacts, reloadResponse, reloadCharge;
         private IntVec3 reloadOpening;
         private bool reloadHadLiveGrenade;
+        private int nextChargeTrace;
         private System.Collections.Generic.List<Pawn> savedStartPawns;
         private System.Collections.Generic.List<IntVec3> savedStartPositions;
         public override void ExposeData()
@@ -58,6 +64,7 @@ namespace Helodrace
             Scribe_Values.Look(ref reloadStep, "reloadStep"); Scribe_Values.Look(ref reloadPending, "reloadPending");
             Scribe_Values.Look(ref reloadHistory, "reloadHistory"); Scribe_Values.Look(ref reloadContacts, "reloadContacts");
             Scribe_Values.Look(ref reloadResponse, "reloadResponse");
+            Scribe_Values.Look(ref reloadCharge, "reloadCharge");
             Scribe_Values.Look(ref reloadOpening, "reloadOpening"); Scribe_Values.Look(ref reloadHadLiveGrenade, "reloadHadLiveGrenade");
             if (Scribe.mode == LoadSaveMode.PostLoadInit) measured = -1;
         }
@@ -73,7 +80,12 @@ namespace Helodrace
                 unitCount = result.units, radioOperators = result.radioOperators, warmupTicks = result.warmupTicks,
                 sampleTicks = result.sampleTicks, engine = result.engine, effectiveEngine = result.effectiveEngine,
                 newEngineImplemented = result.newEngineImplemented, workload = result.workload, fixtureCase = result.fixtureCase };
-            VerifyReload();
+            try { VerifyReload(); }
+            catch (Exception exception)
+            {
+                result.error = exception.ToString(); Write(); finished = true;
+                Log.Error("R7 reload verification failed: " + exception); UnityEngine.Application.Quit();
+            }
         }
         private static string Digest(string text)
         {
@@ -89,6 +101,22 @@ namespace Helodrace
             return response == null ? "none" : response.Started + ":" + response.LastSeen + ":" + response.Assigned
                 + ":" + response.First + ":" + response.Second + ":" + string.Join(";", response.Posts);
         }
+        private static string ChargeState(TacticalSquadCommand command)
+        {
+            TacticalChargeAction action = command.ChargeAction;
+            if (action == null) return "none";
+            CompInstalledBreachCharge charge = action.Charge;
+            bool live = charge?.parent.Spawned == true;
+            var fragments = action.SavedFragments.Concat(charge?.Fragments ?? Enumerable.Empty<Projectile>())
+                .Where(p => p?.Spawned == true).Select(p => p.thingIDNumber).Distinct().OrderBy(id => id);
+            return action.Detonated + ":" + action.EffectsCleared + ":" + action.SettledAt + ":" + live
+                + ":" + (live ? charge.parent.thingIDNumber : -1) + ":" + (charge?.OperatorPawn ?? action.EffectOperator)?.thingIDNumber
+                + ":" + (live ? AccessTools.Field(typeof(CompInstalledBreachCharge), "ticksToDetonation").GetValue(charge) : -1)
+                + ":" + string.Join(";", fragments)
+                + ":target=" + (live ? charge?.TargetWall?.Spawned + "/" + charge?.TargetWall?.Destroyed : "none")
+                + ":edifice=" + command.Plan.Opening.GetEdifice(command.Owner.map)?.def.defName
+                + ":walkable=" + command.Plan.Opening.Walkable(command.Owner.map);
+        }
         private void VerifyReload()
         {
             if (!reloadPending) return;
@@ -102,19 +130,21 @@ namespace Helodrace
                     && !command.OpeningAction.EffectsCleared && command.OpeningAction.Projectile?.Spawned == true;
             result.r7ReloadContactsPreserved = Contacts(command) == reloadContacts;
             result.r7ReloadResponsePreserved &= Response(command) == reloadResponse;
+            result.r7ReloadChargePreserved &= ChargeState(command) == reloadCharge;
+            if (!result.r7ReloadChargePreserved) Log.Error("R7 charge before=" + reloadCharge + " after=" + ChargeState(command));
             result.r7Reloads++; reloadPending = false;
             Log.Message("R7 reload " + result.r7Reloads + " jobs=" + result.r7ReloadJobsBound
                 + " secured=" + result.r7ReloadHistoryPreserved + " opening=" + result.r7ReloadOpeningPreserved
                 + " live=" + result.r7ReloadLiveGrenadePreserved + " contacts=" + result.r7ReloadContactsPreserved);
             if (!result.r7ReloadJobsBound || !result.r7ReloadHistoryPreserved || !result.r7ReloadOpeningPreserved
                 || reloadHadLiveGrenade && !result.r7ReloadLiveGrenadePreserved || !result.r7ReloadContactsPreserved
-                || !result.r7ReloadResponsePreserved)
+                || !result.r7ReloadResponsePreserved || !result.r7ReloadChargePreserved)
                 throw new InvalidOperationException("R7 checkpoint did not restore the actual command/Job/effect state.");
         }
         private void ApplyReloadDrill()
         {
             if (reloadPending) return;
-            if (reloadStep >= 4)
+            if (reloadStep >= RequiredReloads)
             {
                 // A protected visible opponent intentionally keeps contact guards
                 // engaged. Withdraw it physically after restoring that engagement
@@ -123,15 +153,40 @@ namespace Helodrace
             }
             TacticalSquadCommand command = map.GetComponent<MapComponent_TacticalCommands>()?.Commands.FirstOrDefault();
             if (command == null) return;
+            if (result.fixtureCase == "r7-charge-load" && GenTicks.TicksGame >= nextChargeTrace)
+            {
+                nextChargeTrace = GenTicks.TicksGame + 120;
+                TacticalChargeAction action = command.ChargeAction;
+                string reason = "no charge";
+                bool canTrigger = action?.Charge?.CanTrigger(out reason) == true;
+                string trace = GenTicks.TicksGame + ":" + command.Phase + " step=" + reloadStep
+                    + " charge=" + action?.Charge?.parent.Spawned + " trigger=" + canTrigger + "/" + reason
+                    + " deadline=" + action?.Deadline + " withdrawing=" + action?.Withdrawing
+                    + " worker=" + action?.Installer?.CurJob?.def.defName + " positions="
+                    + string.Join(";", command.Members.Select(m => m.Pawn.Position + ":" + m.Job?.def.defName
+                        + ":" + m.Pawn.CurJob?.loadID + "/" + m.Job?.loadID + ":held="
+                        + (m.Pawn.jobs.curDriver as TacticalJobDriver)?.AtPost));
+                var events = result.r7ChargeEvents ?? new string[0];
+                if (events.Length < 40) result.r7ChargeEvents = events.Concat(new[] { trace }).ToArray();
+                Log.Message("R7 charge trace " + trace);
+            }
             bool checkpoint = reloadStep == 0 ? command.OpeningAction?.Launched == true
                 && command.OpeningAction.Projectile?.Spawned == true
                 : reloadStep == 1 ? command.SecuredPlans.Count >= 1 && command.Phase == TacticalCommandPhase.Stack
                 : reloadStep == 2 ? command.OpeningAction?.Enemy.IsValid == true && command.Phase == TacticalCommandPhase.Support
                 : command.ContactResponse != null && command.ContactResponse.Assigned == command.Members.Count;
+            if (result.fixtureCase == "r7-charge-load")
+            {
+                TacticalChargeAction action = command.ChargeAction;
+                checkpoint = reloadStep == 0 ? action?.Charge?.parent.Spawned == true && !action.Detonated
+                    : reloadStep == 1 ? action?.Charge?.Triggered == true && action.Charge.parent.Spawned
+                    : action?.Detonated == true && action.Charge?.parent.Destroyed == true && !action.EffectsCleared;
+            }
             if (!checkpoint) return;
             result.caseTriggered = true; reloadOpening = command.Plan.Opening;
             reloadHistory = History(command); reloadContacts = Contacts(command);
             reloadResponse = Response(command);
+            reloadCharge = ChargeState(command);
             reloadHadLiveGrenade = command.OpeningAction?.Launched == true && command.OpeningAction.Projectile?.Spawned == true;
             reloadStep++; reloadPending = true;
             Log.Message("R7 saving checkpoint " + reloadStep + " phase=" + command.Phase + " secured=" + command.SecuredCells.Count);
