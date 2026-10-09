@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-allocation-resume-new-408-3x-attempt-05",
+  "classification": "Expired/failed allocated completion resumes original latched mission. Actual408/34/3x/20k fixed-input test: all34 commands and all room/goal coverage valid, but functional false because two completed squads retain ContactRestoring and24 unfinished current entry flags; ever-entered408. Root CPU and main window are diagnostic only, no Vanilla counterpart or final gate.102 surveys vs101 retained plans also keep history-loss investigation open.",
+  "files": {
+    "audit.json": {
+      "sha256": "d2915c9c17b719458ae5f4b7ca0fbff95b664dcae57b7b2928b0b4b52e923d7a",
+      "uncompressedSha256": "d2915c9c17b719458ae5f4b7ca0fbff95b664dcae57b7b2928b0b4b52e923d7a",
+      "uncompressedBytes": 124262
+    },
+    "launcher.json": {
+      "sha256": "77ebdef1ccb80041acc3c3c87b49dd4b35091c540f03e3b76ee878a5a1309773",
+      "uncompressedSha256": "77ebdef1ccb80041acc3c3c87b49dd4b35091c540f03e3b76ee878a5a1309773",
+      "uncompressedBytes": 2699
+    },
+    "Player.log.gz": {
+      "sha256": "dfba0b4a4e23bc5cea36df1ddd9ce78446eb8a9c844d76268e8a486b82386f97",
+      "uncompressedSha256": "c7ae4d2347fedd082c137bf70a7134f2c3c1158ac385ee883d9e9eeaf98a9efe",
+      "uncompressedBytes": 29924
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "7d3f1099c2cce3ae7daa0bf3788692184190f59e3f23c293d3672ec7c102dd07",
+      "uncompressedSha256": "7d3f1099c2cce3ae7daa0bf3788692184190f59e3f23c293d3672ec7c102dd07",
+      "uncompressedBytes": 11736
+    },
+    "profiles/capture-20261009-052354-860-604.json": {
+      "sha256": "9e943e0af7e0a0737cb5a86e3377596af455b16ac5cdb16904e13585f7617f85",
+      "uncompressedSha256": "9e943e0af7e0a0737cb5a86e3377596af455b16ac5cdb16904e13585f7617f85",
+      "uncompressedBytes": 21045
+    },
+    "profiles/status.json": {
+      "sha256": "e221c416a9c5d72955195392421f6ec3a57ec521acf1966e6c5ce1217ca14a40",
+      "uncompressedSha256": "e221c416a9c5d72955195392421f6ec3a57ec521acf1966e6c5ce1217ca14a40",
+      "uncompressedBytes": 228
+    }
+  }
+}

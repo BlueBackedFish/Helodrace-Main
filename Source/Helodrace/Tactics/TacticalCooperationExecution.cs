@@ -87,6 +87,28 @@ namespace Helodrace.Tactics
         }
         private static bool AllocatedAreaSecured(TacticalSquadCommand command) => command.Link.Cooperation.Active
             && command.SecuredCells.Contains(command.Link.Cooperation.Agenda.Area(command.Id));
+        private static bool ResumeExpiredAllocation(TacticalSquadCommand command, int tick)
+        {
+            TacticalCooperationState agreement = command.Link.Cooperation;
+            if (command.Phase != TacticalCommandPhase.Complete || command.Defensive || command.Plan == null
+                || command.SecuredPlans.Count == 0 || agreement.Agenda == null
+                || agreement.Stage != TacticalAgreementStage.Finished && agreement.Stage != TacticalAgreementStage.Aborted
+                || agreement.Stage != TacticalAgreementStage.Aborted && tick < agreement.Agenda.Deadline)
+                return false;
+            // A local allocated area is not a promise that an unavailable peer
+            // finished the mission. Use only received reports, never peer state.
+            if (agreement.Stage == TacticalAgreementStage.Finished && agreement.PeerFinished
+                && (command.GoalSecured || agreement.PeerGoalSecured)) return false;
+            if (command.GoalSecured && !command.Frontiers.Exists(f => !command.SecuredCells.Contains(f.Inside)))
+                return false;
+            agreement.Abort();
+            command.Phase = TacticalCommandPhase.Clear; command.PhaseStarted = tick;
+            command.FrontierCursor = 0; command.FrontierBusy = false;
+            command.PlanRetryAt = 0; command.Due = tick + 1;
+            // The completed entry's local snapshot, secured cells and crossing
+            // history survive. Do not re-register, resurvey or reclaim old posts.
+            return true;
+        }
         private static IntVec3 CooperativeGoal(TacticalSquadCommand command) => command.Link.Cooperation.Active
             ? command.Link.Cooperation.Agenda.Area(command.Id) : command.Goal;
     }

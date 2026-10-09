@@ -283,3 +283,28 @@ assert any(":agreement=Aborted:" in value for value in forward["r7MissionAssignm
 find = next(m for m in frc["methods"] if "TacticalLocalPlanner.Find(" in m["method"])
 assert find["calls"] == 741 and find["inclusiveMs"] == 36.7434
 print("PASS: forward planner records all 408 ingress in extended window but preserves failed cooperative room coverage; not a final gate or comparable12k improvement.")
+
+resumed, rsc, rsl = run("allocation-resume-new-408-3x-attempt-05", fixture_version=34)
+assert rsc["assemblySha256"] == "b11c0256d584b0c48fc1649ae4bfe148a886d9c4a9b3786e7f03b537f2484a13"
+assert resumed["mapFingerprint"] == forward["mapFingerprint"] and resumed["pawnFingerprint"] == forward["pawnFingerprint"]
+assert resumed["population"] == resumed["alive"] == 408 and resumed["units"] == 34
+assert resumed["sampleTicks"] == 20000 and rsc["endTick"] - rsc["startTick"] == 20000
+assert resumed["r7CqbEvents"] == cqb_events and resumed["r7CqbStimulusComplete"] and resumed["r7WildlifeSpawnerDisabled"]
+assert resumed["r7TickRateMinimum"] == resumed["r7TickRateMaximum"] == 3
+assert resumed["newCompletedUnits"] == 34 and resumed["newRoomProgressComplete"]
+assert all("goal=True representatives=True,True,True" in value for value in resumed["newRoomDiagnostics"])
+assert resumed["newPhysicalPlansValid"] and resumed["newConnectedStacks"] and resumed["newUnsafeEntries"] == 0
+assert resumed["newEnteredByOrder"] == resumed["newEntryAssignmentsComplete"] == 384
+assert resumed["newEverEnteredByOrder"] == 408 and not resumed["newFunctionalComplete"]
+assert resumed["newAllCompleteTick"] == 16320 and resumed["newJobFailures"] == 135
+assert sum(":contactRestoring=True:" in value for value in resumed["r7CommandLayers"]) == 2
+for unit in (15, 30):
+    prefix = f"HD_Raid_{unit}::HD_Raid_{unit}_Group_1:"
+    assert next(value for value in resumed["newCommands"] if value.startswith(prefix)).count(":entered=False:") == 12
+    assert ":Complete:" in next(value for value in resumed["r7CommandLayers"] if value.startswith(prefix))
+    assert ":contactRestoring=True:" in next(value for value in resumed["r7CommandLayers"] if value.startswith(prefix))
+resume = next(m for m in rsc["methods"] if ".ResumeExpiredAllocation(" in m["method"])
+assert resume["calls"] == 552 and resume["inclusiveMs"] == 1.0975
+assert resumed["newRoomsSecured"] == 102
+assert sum(len(re.findall(r"\(-?\d+, 0, -?\d+\)", value)) for value in resumed["newSecuredPortals"]) == 101
+print("PASS: allocation fallback achieves all34 actual goal/room coverage while preserving two interrupted-restoration failures and history discrepancy; no final pass fabricated.")
