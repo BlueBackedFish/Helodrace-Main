@@ -6,6 +6,13 @@
 )
 $ErrorActionPreference = 'Stop'
 # Collect evidence only. Successful collection is not final R7 acceptance.
+# Dedicated cooperation-drill counters are not filled for fixed CPU cases.
+# Record actual send/delivery attempts and the readiness predicate called only
+# with an active agreement, rather than interpreting default zeros as no work.
+# Counts do not establish successful delivery or a completed joint mission.
+$profileTargets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;' +
+    'Helodrace.Tactics.TacticalCommunications::Send;Helodrace.Tactics.TacticalCommunications::Deliver;' +
+    'Helodrace.Tactics.TacticalCooperationState::CanStart'
 $specs = @()
 foreach ($speed in @(1,3)) {
     foreach ($population in @(0,12,50,100,200,400)) {
@@ -35,7 +42,7 @@ $selected = @($specs | Where-Object { $Groups.Count -eq 0 -or $Groups -contains 
 if ($Preview) {
     [pscustomobject]@{ scope='Collection plan only'; finalR7Complete=$false; cpuGateEvaluated=$false;
         groups=$selected; nativeRuns=($selected | Measure-Object -Property repeats -Sum).Sum * 2;
-        requiresFinalFunctionalPass=$true } | ConvertTo-Json -Depth 8
+        requiresFinalFunctionalPass=$true; profileTargets=$profileTargets } | ConvertTo-Json -Depth 8
     return
 }
 $root = [IO.Path]::GetFullPath($AuditRoot)
@@ -63,7 +70,7 @@ New-Item -ItemType Directory -Path $root | Out-Null
 $records = @()
 function Write-Journal {
     [pscustomobject]@{ scope='R7 CPU scaling and repeated comparison collection only'; finalR7Complete=$false; cpuGateEvaluated=$false;
-        functionalRoot=$FunctionalRoot; pinned=$pinned; requestedGroups=@($selected.name); records=$records;
+        functionalRoot=$FunctionalRoot; pinned=$pinned; requestedGroups=@($selected.name); profileTargets=$profileTargets; records=$records;
         allSpecifiedCollected=($records.Count -eq $selected.Count -and @($records | Where-Object { $_.status -ne 'collected' }).Count -eq 0)
     } | ConvertTo-Json -Depth 12 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $root 'checks.json')
 }
@@ -83,7 +90,7 @@ foreach ($spec in $selected) {
         & (Join-Path $PSScriptRoot 'Run-EngineMatrix.ps1') -Repeats $spec.repeats -Engines vanilla,new `
             -Workloads $spec.workload -Population $spec.population -Speed $spec.speed -Case $spec.fixtureCase `
             -WarmupTicks 0 -SampleTicks $spec.ticks -High:$spec.high -NoMethodProfile:(-not $spec.methodProfile) `
-            -CpuWindows -Seed hd-r1-20261007 -AuditRoot $groupRoot
+            -CpuWindows -ProfileTargets $profileTargets -Seed hd-r1-20261007 -AuditRoot $groupRoot
         $matrix = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $groupRoot 'checks.json') -Raw | ConvertFrom-Json
         if (-not $matrix.allSpecifiedPassed) { throw "Matrix incomplete: $groupRoot" }
         $record.status='collected'; Write-Journal
