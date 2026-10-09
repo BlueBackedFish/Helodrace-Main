@@ -71,6 +71,7 @@ namespace Helodrace
         [DataMember] public string[] newRoomDiagnostics;
         [DataMember] public int fixtureVersion = 33;
         [DataMember] public bool environmentControlled;
+        [DataMember] public bool r7WildlifeSpawnerDisabled;
         [DataMember] public string[] unexpectedPawns;
         [DataMember] public bool r7CleanupComplete, r7WorldOrganizationsCleared, r7IdleStable;
         [DataMember] public int r7CleanupAt = -1, r7RemainingCommands, r7RemainingOwners, r7RemainingClaims, r7RemainingLeases, r7RemainingOpenings, r7RemainingMessages;
@@ -115,7 +116,7 @@ namespace Helodrace
         private bool initialized, finishing, finished;
         private ProfileBenchmark benchmark;
         private TacticalEngineAuditResult result = new TacticalEngineAuditResult();
-        private bool MultiRoomFixture => result.fixtureCase == "multiroom" || result.fixtureCase == "unexpected-hole"
+        private bool MultiRoomFixture => result.fixtureCase == "multiroom" || TimedCqbFixture || result.fixtureCase == "unexpected-hole"
             || result.fixtureCase == "inside-goal" || result.fixtureCase == "room-recovery" || result.fixtureCase == "tiny-adjacent"
             || result.fixtureCase == "r4-contact-drill" || result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-radio-loss"
             || MedicalFixture || result.fixtureCase == "r7-save-load";
@@ -197,12 +198,13 @@ namespace Helodrace
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
                 && result.fixtureCase != "tiny-adjacent" && result.fixtureCase != "r4-contact-drill"
-                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture && !DefenseFixture && !OfferRetirementFixture && !ExternalSupportFixture) throw new ArgumentException("Unknown audit case.");
+                && !CooperationFixture && !FieldFixture && !MedicalFixture && !TimedFieldFixture && !TimedCqbFixture && !LifecycleFixture && !ReloadFixture && !MultiMapFixture && !DefenseFixture && !OfferRetirementFixture && !ExternalSupportFixture) throw new ArgumentException("Unknown audit case.");
             if (result.fixtureCase == "r4-contact-drill") result.fixtureVersion = 18;
             if (CooperationFixture) result.fixtureVersion = 19;
             if (FieldFixture) result.fixtureVersion = 21;
             if (MedicalFixture) result.fixtureVersion = 23;
             if (TimedFieldFixture) result.fixtureVersion = 24;
+            if (TimedCqbFixture) result.fixtureVersion = 34;
             if (LifecycleFixture) result.fixtureVersion = 25;
             if (ReloadFixture) result.fixtureVersion = 26;
             if (result.fixtureCase == "r7-charge-load") result.fixtureVersion = 27;
@@ -414,7 +416,7 @@ namespace Helodrace
             if (DefenseFixture) { ApplyDefenseDrill(); return; }
             if (ExternalSupportFixture) { ApplyExternalSupportDrill(); return; }
             if (LifecycleFixture) { ApplyLifecycleDrill(); return; }
-            if (TimedFieldFixture) return;
+            if (TimedFieldFixture || TimedCqbFixture) return;
             if (MedicalFixture) { ApplyMedicalDrill(); return; }
             if (FieldFixture) { ApplyFieldDrill(); return; }
             if (CooperationFixture) { ApplyCooperationDrill(); return; }
@@ -622,7 +624,8 @@ namespace Helodrace
                 IntVec3[] representatives = result.fixtureCase == "tiny-adjacent"
                     ? new[] { new IntVec3(108,0,110), new IntVec3(116,0,108) }
                     : new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) };
-                result.newRoomProgressComplete = !MultiRoomFixture || (CooperationFixture
+                result.newRoomProgressComplete = !MultiRoomFixture || (TimedCqbFixture
+                    ? TimedCqbMissionCoverage(commands, representatives) : CooperationFixture
                     ? representatives.All(cell => commands.Any(c => c.SecuredCells.Contains(cell))) && commands.Any(c => c.GoalSecured)
                     : commands.All(command => Tactics.TacticalRoomProgress.CoversGoal(command, representatives)));
                 result.newRoomDiagnostics = commands.Select(command => command.Id + ":" + command.Phase
@@ -666,6 +669,7 @@ namespace Helodrace
                     && result.newUnexpectedOpeningReused && result.newDirectObjectiveCleared
                     && result.newDoorContactObserved && result.newOutdoorSmokeUsed
                     && result.newSmallRoomSupportSaved
+                    && (!TimedCqbFixture || result.r7CqbStimulusComplete)
                     && result.newRoomRecoveryContinued && result.newActiveCutterRecovered
                     && (result.fixtureCase != "r4-contact-drill" || result.newContactDrillComplete && result.newContactMemoryFrozen
                         && result.newContactPlanPreserved && result.newUnseenDoorIgnored)
@@ -692,8 +696,12 @@ namespace Helodrace
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
                 if (pawn != owner && !ProtectedRaiders.Contains(pawn)) unexpected.Add(pawn.ThingID + ":" + pawn.kindDef.defName);
             result.unexpectedPawns = unexpected.OrderBy(id => id).ToArray();
+            result.r7WildlifeSpawnerDisabled = Harmony.GetPatchInfo(AccessTools.Method(typeof(WildAnimalSpawner),
+                nameof(WildAnimalSpawner.WildAnimalSpawnerTick)))?.Prefixes
+                .Any(patch => patch.PatchMethod.DeclaringType == typeof(Patch_RaidRuntimeAudit_Wildlife)) == true;
             result.environmentControlled = unexpected.Count == 0 && !DebugSettings.enableStoryteller
-                && !DebugSettings.enableRandomDiseases && !DebugSettings.enableRandomMentalStates && DebugSettings.noAnimals;
+                && !DebugSettings.enableRandomDiseases && !DebugSettings.enableRandomMentalStates && DebugSettings.noAnimals
+                && result.r7WildlifeSpawnerDisabled;
             result.breachedWallCells = Enumerable.Range(101,fixtureTop - 101).Count(z => new IntVec3(100,0,z).GetEdifice(map) == null
                 && (result.workload != "open-approach" || z != 118));
             var sketch = new StringBuilder("x=96..108, rows z=98.." + (fixtureTop + 1) + "\n");

@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-timed-cqb-new-48-3x-attempt-03",
+  "classification": "Controlled New timed CQB, actual 3x, 4/4 squads complete, 48/48 entered, connected/physical/joint and actual allocation checks pass, five fixed inputs, no ambient pawns. Single pair is within2x but not eligible for final repeated CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "2751c991ece8d9b425a9bba897b652284847e4a7603eaa82e8a13759feea9479",
+      "uncompressedSha256": "2751c991ece8d9b425a9bba897b652284847e4a7603eaa82e8a13759feea9479",
+      "uncompressedBytes": 23635
+    },
+    "launcher.json": {
+      "sha256": "0928368a77be84bee1c6c31a42940f77c0fa7c1d5fec27c7580dd84ee6fa3940",
+      "uncompressedSha256": "0928368a77be84bee1c6c31a42940f77c0fa7c1d5fec27c7580dd84ee6fa3940",
+      "uncompressedBytes": 2522
+    },
+    "Player.log.gz": {
+      "sha256": "2a14a05e54d35df27ce2f81248f32fa9c1382a433ba95f100df0c65083700409",
+      "uncompressedSha256": "fe1e9b0888f5491fd5127783d987011e06b403f9b163bc8cb5d169d137b7f05d",
+      "uncompressedBytes": 29698
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "profiles/capabilities.json": {
+      "sha256": "73a616664a61d023bd7936f8b43e2c58a2714181896c9238fc122e35365cc641",
+      "uncompressedSha256": "73a616664a61d023bd7936f8b43e2c58a2714181896c9238fc122e35365cc641",
+      "uncompressedBytes": 11823
+    },
+    "profiles/capture-20261009-042726-412-601.json": {
+      "sha256": "4d19f23beae828592f5c16c55cf7d6941136fa5c561dc55f1a3b24daeb51f4ff",
+      "uncompressedSha256": "4d19f23beae828592f5c16c55cf7d6941136fa5c561dc55f1a3b24daeb51f4ff",
+      "uncompressedBytes": 19339
+    },
+    "profiles/status.json": {
+      "sha256": "a502e97c1535ee8d53c0715c1631b109c373824e523cfea81223c68c750fa882",
+      "uncompressedSha256": "a502e97c1535ee8d53c0715c1631b109c373824e523cfea81223c68c750fa882",
+      "uncompressedBytes": 228
+    }
+  }
+}

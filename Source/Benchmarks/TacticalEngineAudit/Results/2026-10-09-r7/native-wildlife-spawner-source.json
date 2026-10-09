@@ -1,0 +1,13 @@
+{
+  "assembly": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\RimWorldWin64_Data\\Managed\\Assembly-CSharp.dll",
+  "assemblySha256": "5cf1b5be399d5b1c9c56ca72c9d35b4ecf307feacf5859d04ac5a1aa5926356a",
+  "excerpt": "native-wildlife-spawner-il.txt.gz",
+  "excerptSha256": "6abfe5fd0ae68992bf09c7d2fcc60d098272a8db5d3d2ffcc57eb517735fb5a5",
+  "uncompressedSha256": "a67f05887a603249c277fe36a43cc58dd7daf65bb264f52b7191f5455b366395",
+  "methods": [
+    "RimWorld.WildAnimalSpawner.get_DesiredAnimalDensity",
+    "RimWorld.WildAnimalSpawner.WildAnimalSpawnerTick",
+    "RimWorld.WildAnimalSpawner.SpawnRandomWildAnimalAt"
+  ],
+  "finding": "WildAnimalSpawnerTick performs its 1213-tick ecosystem/density/chance test without consulting DebugSettings.noAnimals. Explicit audit-only spawner suppression is needed."
+}

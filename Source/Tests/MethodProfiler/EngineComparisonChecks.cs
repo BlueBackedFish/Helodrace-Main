@@ -146,6 +146,7 @@ internal static class EngineComparisonChecks
             JsonElement Group() => JsonSerializer.SerializeToElement(EngineComparison.Compare(baseline, candidate)).GetProperty("groups")[0];
             if (!Group().GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean())
                 throw new Exception("Valid R7 speed gate failed: " + speed);
+            TimedCqbChecks(baseline, candidate);
             string pathAudit = Path.Combine(candidate, "audit.json");
             string pristine = File.ReadAllText(pathAudit);
             foreach (var fault in new (string Key, object Value)[] {
@@ -203,6 +204,61 @@ internal static class EngineComparisonChecks
                 File.WriteAllText(pathAudit, empty);
             }
         }
+    }
+    private static void TimedCqbChecks(string baseline, string candidate)
+    {
+        var paths = new[] { baseline, candidate }.SelectMany(directory =>
+            Directory.GetFiles(Path.Combine(directory, "profiles"), "capture-*.json")
+                .Append(Path.Combine(directory, "audit.json"))).ToDictionary(path => path, File.ReadAllText);
+        string[] events = { "3000:(180, 0, 180)", "4200:(114, 0, 108)", "5100:(180, 0, 180)",
+            "6500:(99, 0, 108)", "7500:(180, 0, 180)" };
+        try
+        {
+            foreach (var pair in paths)
+            {
+                if (Path.GetFileName(pair.Key) != "audit.json")
+                {
+                    var capture = JsonSerializer.Deserialize<ProfileSnapshot>(pair.Value, Options)!;
+                    capture.benchmark.fixtureVersion = 34; capture.benchmark.fixtureCase = "r7-cqb-cpu";
+                    capture.benchmark.sampleTicks = 9000; capture.endTick = capture.startTick + 9000;
+                    capture.methods.Single(m => m.cpuMeasured).calls = 9000;
+                    File.WriteAllText(pair.Key, JsonSerializer.Serialize(capture, Options));
+                }
+                else
+                {
+                    var audit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(pair.Value)!;
+                    audit["fixtureVersion"] = JsonSerializer.SerializeToElement(34);
+                    audit["fixtureCase"] = JsonSerializer.SerializeToElement("r7-cqb-cpu");
+                    audit["sampleTicks"] = JsonSerializer.SerializeToElement(9000);
+                    audit["r7CqbStimulusComplete"] = JsonSerializer.SerializeToElement(true);
+                    audit["r7WildlifeSpawnerDisabled"] = JsonSerializer.SerializeToElement(true);
+                    audit["r7CqbEvents"] = JsonSerializer.SerializeToElement(events);
+                    File.WriteAllText(pair.Key, JsonSerializer.Serialize(audit));
+                }
+            }
+            var group = JsonSerializer.SerializeToElement(EngineComparison.Compare(baseline, candidate)).GetProperty("groups")[0];
+            if (!group.GetProperty("newAiFixedWindowCpuGatePassed").GetBoolean())
+                throw new Exception("Valid fixed-input CQB comparison did not pass.");
+            foreach (string directory in new[] { baseline, candidate })
+            {
+                string auditPath = Path.Combine(directory, "audit.json"), pristine = File.ReadAllText(auditPath);
+                foreach (var fault in new (string Key, object Value)[] {
+                    ("r7CqbStimulusComplete", false), ("r7WildlifeSpawnerDisabled", false), ("r7CqbEvents", events.Take(4).ToArray()),
+                    ("r7CqbEvents", events.Select(e => e.Replace("3000:", "3001:")).ToArray()),
+                    ("r7CqbEvents", events.Select(e => e.Replace("(99, 0, 108)", "(100, 0, 108)")).ToArray()),
+                    ("fixtureCase", "multiroom") })
+                {
+                    var audit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(pristine)!;
+                    audit[fault.Key] = JsonSerializer.SerializeToElement(fault.Value);
+                    File.WriteAllText(auditPath, JsonSerializer.Serialize(audit));
+                    Reject(() => EngineComparison.Compare(baseline,candidate), "CQB " + fault.Key);
+                    audit.Remove(fault.Key); File.WriteAllText(auditPath, JsonSerializer.Serialize(audit));
+                    Reject(() => EngineComparison.Compare(baseline,candidate), "CQB missing " + fault.Key);
+                }
+                File.WriteAllText(auditPath, pristine);
+            }
+        }
+        finally { foreach (var pair in paths) File.WriteAllText(pair.Key, pair.Value); }
     }
     private static void Reject(Func<object> action, string label)
     {

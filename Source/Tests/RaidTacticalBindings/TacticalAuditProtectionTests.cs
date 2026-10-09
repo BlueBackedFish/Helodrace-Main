@@ -28,6 +28,14 @@ internal static class TacticalAuditProtectionTests
                 throw new Exception("Extracted protection must protect only the explicit audit owner.");
         }
         finally { ownerField.SetValue(null, previous); }
+        var wildlife = assembly.GetType("Helodrace.Patch_RaidRuntimeAudit_Wildlife", true);
+        if ((bool)AccessTools.Method(wildlife, "Prepare").Invoke(null, null))
+            throw new Exception("Audit wildlife suppression must never install in a normal game.");
+        HarmonyMethod wildlifeTarget = HarmonyMethod.Merge(HarmonyMethodExtensions.GetFromType(wildlife));
+        if (wildlifeTarget.declaringType != typeof(RimWorld.WildAnimalSpawner)
+            || AccessTools.DeclaredMethod(wildlifeTarget.declaringType, wildlifeTarget.methodName) == null
+            || (bool)AccessTools.Method(wildlife, "Prefix").Invoke(null, null))
+            throw new Exception("Audit control must target the actual native routine and suppress ambient spawns.");
         Console.WriteLine("PASS: shared native audit damage target, normal-session exclusion and explicit-owner-only protection.");
     }
 }

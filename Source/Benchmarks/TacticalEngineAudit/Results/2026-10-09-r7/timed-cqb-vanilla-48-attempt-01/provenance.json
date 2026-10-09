@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-timed-cqb-vanilla-48-3x-attempt-01",
+  "classification": "Rejected ambient-spawn control: Crow38712:Crow appeared despite noAnimals; same timed inputs and build as New attempt 02, but CPU pair is invalid. Preserve without claiming a ratio or gate pass.",
+  "files": {
+    "audit.json": {
+      "sha256": "240f9410f5c863deb54d69c983986b10c8ac565037434b0c7be6dfea1b865bb4",
+      "uncompressedSha256": "240f9410f5c863deb54d69c983986b10c8ac565037434b0c7be6dfea1b865bb4",
+      "uncompressedBytes": 11075
+    },
+    "launcher.json": {
+      "sha256": "48d5040e0a5aad085f47b30df6e729adff42dc1cbfdccff7292400e694b4fa39",
+      "uncompressedSha256": "48d5040e0a5aad085f47b30df6e729adff42dc1cbfdccff7292400e694b4fa39",
+      "uncompressedBytes": 2546
+    },
+    "Player.log.gz": {
+      "sha256": "dcd896d10ce4b241e47b2f9ca344bb9026f0f677c9ed7f60ded63c38c92c8d12",
+      "uncompressedSha256": "71c78fe2cc5b0c53cb8237c176ed32ce8adeb7be7e518e3436bf45921a79695f",
+      "uncompressedBytes": 29760
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "profiles/capabilities.json": {
+      "sha256": "93cd3813c949dfb985ac97e810b0b68f7b986e9a5a003254321b10cbf5e52e51",
+      "uncompressedSha256": "93cd3813c949dfb985ac97e810b0b68f7b986e9a5a003254321b10cbf5e52e51",
+      "uncompressedBytes": 11823
+    },
+    "profiles/capture-20261009-041305-692-601.json": {
+      "sha256": "124b5ee508ca97c55b68964cb141c67942cd530656df20ee8360b99f21c5b4e8",
+      "uncompressedSha256": "124b5ee508ca97c55b68964cb141c67942cd530656df20ee8360b99f21c5b4e8",
+      "uncompressedBytes": 18913
+    },
+    "profiles/status.json": {
+      "sha256": "b959974f86ce2544f2f82931840503f445d637833b7d24062e389e1e201f4cff",
+      "uncompressedSha256": "b959974f86ce2544f2f82931840503f445d637833b7d24062e389e1e201f4cff",
+      "uncompressedBytes": 228
+    }
+  }
+}

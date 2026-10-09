@@ -4,6 +4,8 @@ using Helodrace.Profiling;
 internal static class EngineComparison
 {
     private static readonly JsonSerializerOptions Options = new() { IncludeFields = true };
+    private static readonly string[] CqbEvents = { "3000:(180, 0, 180)", "4200:(114, 0, 108)",
+        "5100:(180, 0, 180)", "6500:(99, 0, 108)", "7500:(180, 0, 180)" };
     private sealed record Run(ProfileSnapshot Capture, JsonElement Audit, string Path);
     private static Run[] Read(string root)
     {
@@ -13,7 +15,7 @@ internal static class EngineComparison
             string audit = System.IO.Path.Combine(Directory.GetParent(System.IO.Path.GetDirectoryName(path)!)!.FullName, "audit.json");
             if (!File.Exists(audit)) throw new ArgumentException("Missing isolation/progress audit: " + path);
             JsonElement a = JsonDocument.Parse(File.ReadAllText(audit)).RootElement.Clone();
-            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13 or 14 or 15 or 16 or 17 or 24 or 33)
+            if (c.schema < 4 || !c.complete || c.dropped != 0 || c.endTick <= c.startTick || c.benchmark?.fixtureVersion is not (5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13 or 14 or 15 or 16 or 17 or 24 or 33 or 34)
                 || c.methods == null || c.mods == null || c.methods.Select(m => m.method).Distinct().Count() != c.methods.Length
                 || c.methods.Any(m => m.exceptions > 0) || !a.GetProperty("complete").GetBoolean()
                 || !a.GetProperty("isolationVerified").GetBoolean() || a.GetProperty("error").ValueKind != JsonValueKind.Null
@@ -22,7 +24,7 @@ internal static class EngineComparison
                 || string.IsNullOrWhiteSpace(c.benchmark.pawnFingerprint))
                 throw new ArgumentException("Incomplete/invalid engine measurement: " + path);
             var b = c.benchmark;
-            if (b.fixtureVersion == 33 && (b.engine is not ("vanilla" or "new") || !b.newEngineImplemented
+            if (b.fixtureVersion is 33 or 34 && (b.engine is not ("vanilla" or "new") || !b.newEngineImplemented
                 || !a.TryGetProperty("headless", out var headless) || headless.GetBoolean()
                 || !a.TryGetProperty("r7AutoSlowdownDisabled", out var slowdown) || !slowdown.GetBoolean()
                 || !a.TryGetProperty("speed", out var speed) || speed.GetInt32() != c.speed || c.speed is not (1 or 3)
@@ -32,6 +34,13 @@ internal static class EngineComparison
                 || !a.TryGetProperty("r7RetiredTypesAbsent", out var typesGone) || !typesGone.GetBoolean()
                 || !a.TryGetProperty("r7RetiredDefinitionsAbsent", out var defsGone) || !defsGone.GetBoolean()))
                 throw new ArgumentException("R7 requires the actual 1/3 speed, normal graphics, removed legacy types/defs and an implemented engine: " + path);
+            if (b.fixtureVersion == 34 && (b.fixtureCase != "r7-cqb-cpu" || b.warmupTicks + b.sampleTicks < 7500
+                || !a.TryGetProperty("fixtureCase", out var cqbCase) || cqbCase.GetString() != b.fixtureCase
+                || !a.TryGetProperty("r7CqbStimulusComplete", out var inputsComplete) || !inputsComplete.GetBoolean()
+                || !a.TryGetProperty("r7WildlifeSpawnerDisabled", out var wildlifeDisabled) || !wildlifeDisabled.GetBoolean()
+                || !a.TryGetProperty("r7CqbEvents", out var inputs) || inputs.ValueKind != JsonValueKind.Array
+                || !inputs.EnumerateArray().Select(input => input.GetString()).SequenceEqual(CqbEvents)))
+                throw new ArgumentException("R7 CQB requires identical fixed-tick actor inputs, a completed input timeline and the three-room fixture: " + path);
             if (b.fixtureVersion >= 11 && (!a.TryGetProperty("fixtureVersion", out var fixture) || fixture.GetInt32() != b.fixtureVersion
                 || !a.TryGetProperty("environmentControlled", out var controlled) || !controlled.GetBoolean()
                 || !a.TryGetProperty("unexpectedPawns", out var extras) || extras.GetArrayLength() != 0))
@@ -108,7 +117,7 @@ internal static class EngineComparison
                 var av=a[k].ToArray();var bv=b[k].ToArray();double tickRatio=Median(bv.Select(TickCpu))/Median(av.Select(TickCpu));
                 double windowRatio=Median(bv.Select(WindowCpu))/Median(av.Select(WindowCpu));
                 bool progression=av.Concat(bv).All(r=>r.Capture.population==0 || r.Audit.GetProperty("entered").GetInt32()>0);
-                bool functional=bv.All(r=>(r.Capture.population == 0 && r.Capture.benchmark.fixtureVersion == 33
+                bool functional=bv.All(r=>(r.Capture.population == 0 && r.Capture.benchmark.fixtureVersion is 33 or 34
                     && r.Capture.benchmark.unitCount == 0 && r.Audit.GetProperty("newCompletedUnits").GetInt32() == 0
                     && r.Audit.GetProperty("newEnteredByOrder").GetInt32() == 0
                     && r.Audit.GetProperty("newCommands").GetArrayLength() == 0 && r.Audit.GetProperty("newJobsIssued").GetInt64() == 0

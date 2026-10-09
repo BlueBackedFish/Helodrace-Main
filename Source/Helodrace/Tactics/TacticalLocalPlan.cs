@@ -110,7 +110,12 @@ namespace Helodrace.Tactics
                     ExistingOpening = barrier == null || openDoor };
                 if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 if (!BuildStack(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Stack; continue; }
-                if (!BuildPositions(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Inside; continue; }
+                // A blast at a corner can connect the local flood to outdoors.
+                // Keep this footprint on the inside mouth's roof/floor space,
+                // as the direct objective and later room-entry planners do.
+                bool insideRoofed = plan.Inside.Roofed(map);
+                if (!BuildPositions(map, plan, count, claimed, cell => cell.Roofed(map) == insideRoofed))
+                { failure |= TacticalPlanFailure.Inside; continue; }
                 candidates.Add(plan);
             }
             // Prefer a suitable ordinary door; never spend more than two final

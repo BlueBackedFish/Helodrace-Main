@@ -25,7 +25,9 @@ namespace Helodrace
         // matched vanilla/new CPU comparison.
         public override void MapComponentTick()
         {
-            if (!initialized || !TimedFieldFixture || finishing || finished) return;
+            if (!initialized || finishing || finished) return;
+            if (TimedCqbFixture) { ApplyTimedCqbStimulus(); return; }
+            if (!TimedFieldFixture) return;
             int age = GenTicks.TicksGame - started;
             if (fieldStep == 0 && age >= 400)
             {

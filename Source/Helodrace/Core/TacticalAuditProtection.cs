@@ -35,4 +35,13 @@ namespace Helodrace
             __result = new DamageWorker.DamageResult(); return false;
         }
     }
+
+    [HarmonyPatch(typeof(RimWorld.WildAnimalSpawner), nameof(RimWorld.WildAnimalSpawner.WildAnimalSpawnerTick))]
+    internal static class Patch_RaidRuntimeAudit_Wildlife
+    {
+        // The installed game's ordinary spawner does not consult noAnimals.
+        // Install only in the isolated audit process, equally in both engines.
+        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _);
+        private static bool Prefix() => false;
+    }
 }

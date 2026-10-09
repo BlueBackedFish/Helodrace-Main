@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-timed-cqb-vanilla-48-3x-attempt-02",
+  "classification": "Controlled Vanilla timed CQB, 48 pawns, actual 3x, fixed five inputs, audit-only wildlife patch installed, no ambient pawns. One run pending matched New result; not final repeated CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "65c6fb8492d18491670b953b7f7f00ad95472c4c79e96a061a8ff60cd9b09579",
+      "uncompressedSha256": "65c6fb8492d18491670b953b7f7f00ad95472c4c79e96a061a8ff60cd9b09579",
+      "uncompressedBytes": 10991
+    },
+    "launcher.json": {
+      "sha256": "189935c0f5efde11f7bb55cba98ec3fb46dd0e0b17cd31fe2377b4736888c5bb",
+      "uncompressedSha256": "189935c0f5efde11f7bb55cba98ec3fb46dd0e0b17cd31fe2377b4736888c5bb",
+      "uncompressedBytes": 2546
+    },
+    "Player.log.gz": {
+      "sha256": "ab50af8c70a2f6aba204ff115a2b411c9da041dde9c920e30ec7dce3d2580189",
+      "uncompressedSha256": "3ea784e58738aa65ca1d1c8adce3d4f8af120013ee1aa97bb3a7aa8771b6af9e",
+      "uncompressedBytes": 30037
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "profiles/capabilities.json": {
+      "sha256": "73a616664a61d023bd7936f8b43e2c58a2714181896c9238fc122e35365cc641",
+      "uncompressedSha256": "73a616664a61d023bd7936f8b43e2c58a2714181896c9238fc122e35365cc641",
+      "uncompressedBytes": 11823
+    },
+    "profiles/capture-20261009-042444-504-601.json": {
+      "sha256": "8ae2cba7718dac3697e7f288541b8cc806561996563d02c7f8b0d24869ae4da3",
+      "uncompressedSha256": "8ae2cba7718dac3697e7f288541b8cc806561996563d02c7f8b0d24869ae4da3",
+      "uncompressedBytes": 18671
+    },
+    "profiles/status.json": {
+      "sha256": "ba1d156a879b15cfd7154c128712754b13fb4dafb2a696054c429246f1e4e438",
+      "uncompressedSha256": "ba1d156a879b15cfd7154c128712754b13fb4dafb2a696054c429246f1e4e438",
+      "uncompressedBytes": 228
+    }
+  }
+}

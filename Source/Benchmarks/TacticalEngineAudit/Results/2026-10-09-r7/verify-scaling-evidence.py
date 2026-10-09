@@ -18,7 +18,7 @@ assert b"Verse.DebugViewSettings.neverForceNormalSpeed" in native_il
 assert b"Verse.TimeSlower.get_ForcedNormalSpeed" in native_il
 
 
-def run(name, fixture_version=33):
+def run(name, fixture_version=33, controlled=True):
     directory = base / name
     provenance = read(directory / "provenance.json")
     for relative, expected in provenance["files"].items():
@@ -36,7 +36,8 @@ def run(name, fixture_version=33):
     assert capture["complete"] and capture["dropped"] == 0 and all(m["exceptions"] == 0 for m in capture["methods"])
     assert not launcher["headless"] and launcher["methodProfile"]
     assert audit["fixtureVersion"] == capture["benchmark"]["fixtureVersion"] == fixture_version
-    assert audit["environmentControlled"] and not audit["unexpectedPawns"]
+    assert audit["environmentControlled"] == controlled
+    assert (not audit["unexpectedPawns"]) == controlled
     assert audit["r7RetiredTypesAbsent"] and audit["r7RetiredDefinitionsAbsent"]
     assert audit["speed"] == capture["speed"] == launcher["speed"]
     assert audit["r7RateSamples"] > 0
@@ -147,3 +148,62 @@ assert any(":phase=Complete:" in c and ":goalSecured=False:" in c for c in audit
 assert sum(":Enter:" in c and ":contact=(120, 0, 110):" in c for c in audit["r7CommandLayers"]) == 2
 assert audit["newContactResponses"] > audit["newContactResumes"]
 print("PASS: actual cooperative area completion and live-contact holds recorded separately; no whole-mission pass fabricated.")
+
+wildlife = read(base / "native-wildlife-spawner-source.json")
+raw = (base / wildlife["excerpt"]).read_bytes()
+assert hashlib.sha256(raw).hexdigest() == wildlife["excerptSha256"]
+il = gzip.decompress(raw)
+assert hashlib.sha256(il).hexdigest() == wildlife["uncompressedSha256"]
+assert b"METHOD RimWorld.WildAnimalSpawner.WildAnimalSpawnerTick" in il
+assert b"noAnimals" not in il
+
+cqb_events = ["3000:(180, 0, 180)", "4200:(114, 0, 108)", "5100:(180, 0, 180)",
+              "6500:(99, 0, 108)", "7500:(180, 0, 180)"]
+for name, functional, physical in (("timed-cqb-new-48-attempt-01", False, False),
+                                    ("timed-cqb-new-48-attempt-02", True, True)):
+    audit, capture, launcher = run(name, fixture_version=34)
+    assert audit["population"] == audit["alive"] == 48 and audit["units"] == 4
+    assert audit["fixtureCase"] == "r7-cqb-cpu" and audit["r7CqbStimulusComplete"]
+    assert audit["r7CqbEvents"] == cqb_events
+    assert audit["newCompletedUnits"] == 4 and audit["newEnteredByOrder"] == 48
+    assert audit["newPhysicalPlansValid"] == physical and audit["newFunctionalComplete"] == functional
+    assert audit["newUnsafeEntries"] == 0 and audit["r7TickRateMinimum"] == audit["r7TickRateMaximum"] == 3
+    assert "r7WildlifeSpawnerDisabled" not in audit  # Before the ambient-spawner correction.
+    print("PASS:", name, "preserves footprint failure/fixed functional evidence; not final CPU gate.")
+
+rejected, rejected_capture, rejected_launcher = run("timed-cqb-vanilla-48-attempt-01", fixture_version=34, controlled=False)
+fixed, fixed_capture, fixed_launcher = run("timed-cqb-new-48-attempt-02", fixture_version=34)
+assert rejected["unexpectedPawns"] == ["Crow38712:Crow"]
+assert rejected["r7CqbStimulusComplete"] and rejected["r7CqbEvents"] == cqb_events
+assert rejected_launcher["assemblySha256"] == fixed_launcher["assemblySha256"]
+assert rejected["mapFingerprint"] == fixed["mapFingerprint"] and rejected["pawnFingerprint"] == fixed["pawnFingerprint"]
+assert "Uncontrolled ambient pawns/incidents" in read(base / "timed-cqb-48-rejected-comparison.json")["error"]
+print("PASS: same-build CQB Vanilla ambient crow and rejected comparison preserved; no CPU pass fabricated.")
+
+audit, capture, launcher = run("timed-cqb-controlled-vanilla-48-3x", fixture_version=34)
+assert audit["engine"] == "vanilla" and audit["population"] == audit["alive"] == audit["entered"] == 48
+assert audit["r7WildlifeSpawnerDisabled"] and audit["r7CqbStimulusComplete"] and audit["r7CqbEvents"] == cqb_events
+assert audit["r7TickRateMinimum"] == audit["r7TickRateMaximum"] == 3
+assert not audit["newCommands"] and audit["newJobsIssued"] == audit["r7SchedulerAdvances"] == 0
+print("PASS: corrected native Vanilla controls actual wildlife routine; zero ambient pawns and all fixed inputs/48 entries.")
+
+new, nc, nl = run("timed-cqb-controlled-new-48-3x", fixture_version=34)
+vanilla, vc, vl = run("timed-cqb-controlled-vanilla-48-3x", fixture_version=34)
+assert nc["assemblySha256"] == vc["assemblySha256"] == "7ec756256741d4617817ef87d0f1c365e27e19b2edc8cb54710f29dc3e8a4ef1"
+assert new["mapFingerprint"] == vanilla["mapFingerprint"] and new["pawnFingerprint"] == vanilla["pawnFingerprint"]
+assert new["r7WildlifeSpawnerDisabled"] and new["r7CqbStimulusComplete"] and new["r7CqbEvents"] == cqb_events
+assert new["newCompletedUnits"] == 4 and new["newEnteredByOrder"] == 48 and new["newFunctionalComplete"]
+assert new["newPhysicalPlansValid"] and new["newConnectedStacks"] and new["newRoomProgressComplete"]
+assert new["newAllCompleteTick"] == 5953 and new["newJobFailures"] == 41 and new["newUnsafeEntries"] == 0
+assert new["r7TickRateMinimum"] == new["r7TickRateMaximum"] == 3
+group = read(base / "timed-cqb-controlled-48-single-comparison.json")["groups"][0]
+assert group["baselineRuns"] == group["candidateRuns"] == 1
+assert group["within2x"] and group["newAiFunctionalComplete"]
+assert not group["newAiPerformanceGateEligible"] and not group["newAiFixedWindowCpuGatePassed"]
+def cpu_per_tick(capture, window=False):
+    cpu = capture["mainThreadWindowCpuMs"] if window else next(m["threadCpuMs"] for m in capture["methods"]
+        if m["method"].startswith("Verse.TickManager.DoSingleTick("))
+    return cpu / (capture["endTick"] - capture["startTick"])
+assert abs(group["tickCpuRatio"] - cpu_per_tick(nc) / cpu_per_tick(vc)) < 1e-12
+assert abs(group["windowCpuRatio"] - cpu_per_tick(nc, True) / cpu_per_tick(vc, True)) < 1e-12
+print("PASS: controlled same-build 48-pawn CPU pair matches raw OS CPU; single-run evidence remains ineligible for final gate.")

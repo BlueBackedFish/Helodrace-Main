@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-timed-cqb-new-48-3x-attempt-01",
+  "classification": "Pre-fix timed CQB diagnosis, all 4 squads/48 pawns entered, but physical footprint leaks outside and old whole-room-per-squad audit fails. Preserve failure; excluded from CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "6dfccfe93b5e33185cf87f62cb1c7b908842343b8c7491cf36de1bc0ed64c786",
+      "uncompressedSha256": "6dfccfe93b5e33185cf87f62cb1c7b908842343b8c7491cf36de1bc0ed64c786",
+      "uncompressedBytes": 23536
+    },
+    "launcher.json": {
+      "sha256": "c3283b6886121cc81d36edb4a85fac4e839eea50ba956d615d2ce2e94c241a50",
+      "uncompressedSha256": "c3283b6886121cc81d36edb4a85fac4e839eea50ba956d615d2ce2e94c241a50",
+      "uncompressedBytes": 2649
+    },
+    "Player.log.gz": {
+      "sha256": "0491e6f91a8b86f3a25e8de5a0feb44c09d8c5418baa2e5f788826beef7a2f3f",
+      "uncompressedSha256": "f5b37a12ae4ff71d445e9a92c9977a7c4c7bc1e620d7ee98df90a0b6aad2dea7",
+      "uncompressedBytes": 30097
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "profiles/capabilities.json": {
+      "sha256": "3890f4812df2f70864fd43bd06abf25b32ef458bb5d9908a3148f3c151b197aa",
+      "uncompressedSha256": "3890f4812df2f70864fd43bd06abf25b32ef458bb5d9908a3148f3c151b197aa",
+      "uncompressedBytes": 11931
+    },
+    "profiles/capture-20261009-040416-234-601.json": {
+      "sha256": "1fceb68f786830b79a8ac894dbf1257ccf5396a9f37c096b918524e9d7d9c326",
+      "uncompressedSha256": "1fceb68f786830b79a8ac894dbf1257ccf5396a9f37c096b918524e9d7d9c326",
+      "uncompressedBytes": 19499
+    },
+    "profiles/status.json": {
+      "sha256": "6d74cd1a9cfb0d8b6050012773b5374bad7464230cf6215758d0f18bc4832027",
+      "uncompressedSha256": "6d74cd1a9cfb0d8b6050012773b5374bad7464230cf6215758d0f18bc4832027",
+      "uncompressedBytes": 228
+    }
+  }
+}
