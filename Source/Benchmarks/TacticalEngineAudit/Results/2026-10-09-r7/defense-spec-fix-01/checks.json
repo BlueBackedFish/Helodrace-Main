@@ -1,0 +1,35 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "continueOnFailure":  false,
+    "collectionComplete":  true,
+    "failedCases":  [
+
+                    ],
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "ce4726913aa9446da2b25d6f947a560c805ded7a262749616c6a6628a611a1fa",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "reload-defense"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  true,
+    "records":  [
+                    {
+                        "name":  "reload-defense",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-defense-spec-fix-01\\reload-defense",
+                        "pid":  45272,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  1,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  2,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  0
+                    }
+                ]
+}

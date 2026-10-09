@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-defense-spec-fix-01",
+  "classification": "Actual targeted two-squad LOW24 defense native2-load regression on unchanged ce472 DLL. Corrects runner population only; native fixed defense/return and timed assault transition pass, no exceptions. Earlier9050 setup failure remains preserved. Not final44/CPU/R7 acceptance.",
+  "files": {
+    "checks.json": {
+      "sha256": "e394f710bc8e782d13080c073b7640e98b66b3aea28702257e4078473e4ad43c",
+      "uncompressedSha256": "e394f710bc8e782d13080c073b7640e98b66b3aea28702257e4078473e4ad43c",
+      "uncompressedBytes": 1599
+    },
+    "reload-defense/audit.json": {
+      "sha256": "ec15563e5402168ce8f51a58a6a6276e87f5be350b8cf73efc4f8c9a6fa8dc5d",
+      "uncompressedSha256": "ec15563e5402168ce8f51a58a6a6276e87f5be350b8cf73efc4f8c9a6fa8dc5d",
+      "uncompressedBytes": 16222
+    },
+    "reload-defense/launcher.json": {
+      "sha256": "91bd0a45e7c884947fc82cd3dbfadd7e96af57fbd2fbe0c100557ee8e14629c1",
+      "uncompressedSha256": "91bd0a45e7c884947fc82cd3dbfadd7e96af57fbd2fbe0c100557ee8e14629c1",
+      "uncompressedBytes": 2572
+    },
+    "reload-defense/Player.log.gz": {
+      "sha256": "ce4f55c46f85d58b187bab57dfc96f848fdd176183761e0a0779e4e82dadae5b",
+      "uncompressedSha256": "51548c8e4b36cb70c35062772019845e124fe94c7bdce6cc78c37c5bd6c15e0e",
+      "uncompressedBytes": 34015
+    },
+    "reload-defense/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-defense/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "82d1d5a10659dc2a449b8e03cf4e85c0d71d1c5b2542f0fd16f1b1981ed355ab",
+      "uncompressedSha256": "5ee3633645870bc79ffb271650c20661654ca187a0eb7138aa9bf57a799a3661",
+      "uncompressedBytes": 3686852
+    },
+    "reload-defense/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "14a3efca81ffbf90c83d3d87b7b78504d844ac59fc7534136281df657912123a",
+      "uncompressedSha256": "d1ad535e5e87e2742278688f1a3934c2c6dfa9de09085d6d715dcc4c3caae7a1",
+      "uncompressedBytes": 3736688
+    }
+  }
+}

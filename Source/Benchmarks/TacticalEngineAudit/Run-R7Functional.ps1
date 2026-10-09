@@ -88,7 +88,7 @@ $packetFlags = $reloadFlags + @('r7ReloadAgreementPreserved','r7ReloadPacketsPre
 Add-Case reload-low r5-low-coop -Population 24 -Reload $true -Reloads 2 -Ticks 12000 -Flags ($packetFlags + $cooperationFlags) -Minimums $cooperationMinimums
 Add-Case reload-high r5-shared -Workload sapper-door -Population 26 -High $true -Reload $true -Reloads 2 -Ticks 10000 -Flags (
     $packetFlags + $cooperationFlags + 'r7ReloadWornEquipmentPreserved') -Minimums $cooperationMinimums
-Add-Case reload-defense r7-defense-transition -Reload $true -Reloads 2 -Ticks 10000 -Functional $false -Flags (
+Add-Case reload-defense r7-defense-transition -Population 24 -Reload $true -Reloads 2 -Ticks 10000 -Functional $false -Flags (
     $reloadFlags + @('r7ReloadDefensePreserved','r7DefenseComplete','r7DefenseAssaultTransition','r7DefenseAssaultComplete'))
 Add-Case reload-support r7-support -Reload $true -Reloads 2 -Ticks 14000 -Flags (
     $reloadFlags + @('r7ReloadSupportPreserved','r7MortarRequestBound','r7CasRequestBound','r7GuidanceJobPreserved',
