@@ -17,7 +17,7 @@ namespace Helodrace
         [DataMember] public int r7BudgetTicks, r7TwoMapTicks, r7MaxGlobalJobs, r7MaxGlobalReturns, r7MaxGlobalPaths;
         [DataMember] public int r7MaxGlobalPlans, r7MaxGlobalObservations, r7MaxGlobalCommunications;
         [DataMember] public string[] r7MultiMapEvents;
-        [DataMember] public int r7SecondaryPopulation, r7PrimaryJobsBeforeRemoval, r7SecondaryJobsBeforeRemoval;
+        [DataMember] public int r7SecondaryPopulation, r7SecondaryUnits, r7PrimaryJobsBeforeRemoval, r7SecondaryJobsBeforeRemoval;
         [DataMember] public string r7SecondaryMapFingerprint, r7SecondaryPawnFingerprint;
     }
 
@@ -38,8 +38,8 @@ namespace Helodrace
         }
         private void InitializeMultiMapDrill()
         {
-            if (result.units != 1 || TacticalEngineSelection.Kind != TacticalEngineKind.New)
-                throw new InvalidOperationException("Multi-map drill requires one complete squad per actual map and the new engine.");
+            if (result.units < 1 || TacticalEngineSelection.Kind != TacticalEngineKind.New)
+                throw new InvalidOperationException("Multi-map drill requires complete squads on both actual maps and the new engine.");
             var neighbors = new List<PlanetTile>(); Find.WorldGrid.GetTileNeighbors(map.Tile, neighbors);
             PlanetTile tile = neighbors.First(t => !Find.WorldGrid[t].WaterCovered
                 && Find.WorldGrid[t].hilliness != Hilliness.Impassable && Find.WorldObjects.MapParentAt(t) == null);
@@ -54,6 +54,7 @@ namespace Helodrace
             GenSpawn.Spawn(colonist, new IntVec3(155, 0, 155), secondaryMap);
             fixture.Initialize(); fixture.initialized = true;
             result.r7SecondaryPopulation = fixture.result.population;
+            result.r7SecondaryUnits = fixture.result.units;
             result.r7SecondaryMapFingerprint = fixture.result.mapFingerprint;
             result.r7SecondaryPawnFingerprint = fixture.result.pawnFingerprint;
             foreach (Pawn pawn in raiders) ProtectedRaiders.Add(pawn);
@@ -62,27 +63,37 @@ namespace Helodrace
             Current.Game.CurrentMap = map;
             result.r7TwoActualMaps = Current.Game.Maps.Contains(map) && Current.Game.Maps.Contains(secondaryMap)
                 && map != secondaryMap && map.uniqueID != secondaryMap.uniqueID
-                && map.GetComponent<MapComponent_TacticalCommands>().Commands.Count() == 1
-                && secondaryMap.GetComponent<MapComponent_TacticalCommands>().Commands.Count() == 1;
+                && map.GetComponent<MapComponent_TacticalCommands>().Commands.Count() == result.units
+                && secondaryMap.GetComponent<MapComponent_TacticalCommands>().Commands.Count() == result.r7SecondaryUnits;
             result.r7CrossMapCommunicationBlocked = result.r7RemainingMapPreserved = result.r7GlobalBudgetShared = true;
             MultiMapOwner = this;
-            MultiMapEvent("created actual maps " + map.uniqueID + "/" + secondaryMap.uniqueID + " squads=1/1 population="
+            MultiMapEvent("created actual maps " + map.uniqueID + "/" + secondaryMap.uniqueID + " squads="
+                + result.units + "/" + result.r7SecondaryUnits + " population="
                 + result.population + "/" + result.r7SecondaryPopulation);
             if (!result.r7TwoActualMaps) throw new InvalidOperationException("Multi-map drill did not register both native maps.");
         }
         private void ApplyMultiMapDrill()
         {
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
-            TacticalSquadCommand survivor = service.Commands.Single();
+            TacticalSquadCommand[] survivors = service.Commands.ToArray();
             if (removedMapAt < 0)
             {
                 MapComponent_TacticalCommands other = secondaryMap.GetComponent<MapComponent_TacticalCommands>();
                 TacticalCommunications network = Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
-                result.r7CrossMapCommunicationBlocked &= network.MessagesSent == 0
-                    && service.Commands.Concat(other.Commands).All(c => c.Link.Cooperation.Agenda == null);
+                TacticalSquadCommand[] others = other.Commands.ToArray();
+                var pending = (List<TacticalMessage>)AccessTools.Field(typeof(TacticalCommunications), "pending").GetValue(network);
+                TacticalChannel crossMap = (TacticalChannel)AccessTools.Method(typeof(TacticalCommunications), "Channel")
+                    .Invoke(network, new object[] { survivors[0], others[0] });
+                // Same-map exchanges are valid at larger scale. Inspect actual
+                // endpoints/peer/agenda identities instead of requiring silence.
+                result.r7CrossMapCommunicationBlocked &= crossMap == TacticalChannel.None
+                    && pending.All(message => message.From.Owner == message.To.Owner)
+                    && survivors.Concat(others).All(command => (command.Link.Peer == null || command.Link.Peer.Owner == command.Owner)
+                        && (command.Link.Cooperation.Agenda == null || (command.Owner == service ? survivors : others)
+                            .Any(peer => peer.Id == command.Link.Cooperation.Agenda.Peer(command.Id))));
                 if (service.JobsIssued < 10 || other.JobsIssued < 10 || result.r7TwoMapTicks < 120) return;
-                string jobs = NativeJobs(survivor), history = History(survivor);
-                TacticalLocalPlan plan = survivor.Plan;
+                var snapshots = survivors.Select(command => new { command, jobs = NativeJobs(command),
+                    history = History(command), plan = command.Plan }).ToArray();
                 int claims = service.ClaimCount, leases = service.LeaseCount, owners = service.OwnedPawnCount;
                 removedService = other; removedMapAt = GenTicks.TicksGame;
                 result.r7PrimaryJobsBeforeRemoval = (int)service.JobsIssued;
@@ -93,18 +104,20 @@ namespace Helodrace
                 result.r7RemovedMapClean = secondaryMap.Disposed && !Current.Game.Maps.Contains(secondaryMap)
                     && !other.Commands.Any() && other.OwnedPawnCount == 0 && other.ClaimCount == 0
                     && other.LeaseCount == 0 && other.KnownOpeningCount == 0
-                    && Current.Game.GetComponent<GameComponent_TacticalCommands>().ScheduledCount == 1;
-                result.r7RemainingMapPreserved &= service.Commands.Single() == survivor && survivor.Plan == plan
-                    && NativeJobs(survivor) == jobs && History(survivor) == history
+                    && Current.Game.GetComponent<GameComponent_TacticalCommands>().ScheduledCount == result.units;
+                result.r7RemainingMapPreserved &= service.Commands.Count() == snapshots.Length
+                    && snapshots.All(saved => service.Commands.Contains(saved.command) && saved.command.Plan == saved.plan
+                        && NativeJobs(saved.command) == saved.jobs && History(saved.command) == saved.history)
                     && service.ClaimCount == claims && service.LeaseCount == leases && service.OwnedPawnCount == owners;
                 MultiMapEvent("removed second map; clean=" + result.r7RemovedMapClean + " survivor=" + result.r7RemainingMapPreserved);
                 if (!result.r7RemovedMapClean || !result.r7RemainingMapPreserved)
                     throw new InvalidOperationException("Removing a native map leaked commands or changed the remaining map.");
             }
             result.r7RemainingMapPreserved &= removedService.OwnedPawnCount == 0 && !removedService.Commands.Any()
-                && Current.Game.GetComponent<GameComponent_TacticalCommands>().ScheduledCount == 1;
-            if (!result.r7RemainingMapCompleted && survivor.Phase == TacticalCommandPhase.Complete
-                && survivor.Members.All(m => m.EntryAssignmentDone))
+                && Current.Game.GetComponent<GameComponent_TacticalCommands>().ScheduledCount == result.units;
+            if (!result.r7RemainingMapCompleted && survivors.Length == result.units
+                && survivors.All(command => command.Phase == TacticalCommandPhase.Complete
+                    && command.Members.All(member => member.EntryAssignmentDone)))
             {
                 result.r7RemainingMapCompleted = true;
                 MultiMapEvent("remaining map completed all native entry assignments");

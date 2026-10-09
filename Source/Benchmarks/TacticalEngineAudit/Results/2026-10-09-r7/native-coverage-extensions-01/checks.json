@@ -1,0 +1,43 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "4c9a76329188e8ccfc698c07441a5bc8112719fd023ab3efa9b5ed98ebd55fb9",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "multi-map-scale",
+                           "reload-retained"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  true,
+    "records":  [
+                    {
+                        "name":  "multi-map-scale",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-native-coverage-extensions-01\\multi-map-scale",
+                        "pid":  34344,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "reload-retained",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-native-coverage-extensions-01\\reload-retained",
+                        "pid":  43996,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  1,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  4,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    }
+                ]
+}

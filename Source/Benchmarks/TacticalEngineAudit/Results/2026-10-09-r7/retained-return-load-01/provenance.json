@@ -1,0 +1,31 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-retained-return-load-01",
+  "classification": "Native four-load CQB regression deliberately saves the real bounded return path at second checkpoint. Save XML retains Returning/replanAfterReturn=True with455 secured cells and one plan; same mission resumes Pending and all12 complete all3 rooms. Includes exact gzipped native checkpoint for independent XML inspection. Normal graphics, unprofiled, functional-only. Earlier audit DLL before late native-error diary; not final CPU/full R7.",
+  "files": {
+    "audit.json": {
+      "sha256": "16c54f53c60ebcbe56fa0383eb76360d7e7f7354fc5008bf15d000266f0a555e",
+      "uncompressedSha256": "16c54f53c60ebcbe56fa0383eb76360d7e7f7354fc5008bf15d000266f0a555e",
+      "uncompressedBytes": 12195
+    },
+    "launcher.json": {
+      "sha256": "e35a5d2b92b727246d05fc93cca772ea940897f995e039ad59bce4e1185d1f81",
+      "uncompressedSha256": "e35a5d2b92b727246d05fc93cca772ea940897f995e039ad59bce4e1185d1f81",
+      "uncompressedBytes": 2499
+    },
+    "Player.log.gz": {
+      "sha256": "0e0bf9e8dfc799141b6c29dcdc8893e162fb5e5546d488c7d17329831a6af2bc",
+      "uncompressedSha256": "cdee0c4f84380fa50b8fd59c814c450a453d0638368fe1f9261c917758088505",
+      "uncompressedBytes": 35990
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "230b6f1da4aaf696a518b6640ca34529ad18f411c90c4bec8f4ac1113e374907",
+      "uncompressedSha256": "afe94c55e67b9514b32da0d3c70d639afc5557226377922c21794021e719dcdd",
+      "uncompressedBytes": 3457214
+    }
+  }
+}

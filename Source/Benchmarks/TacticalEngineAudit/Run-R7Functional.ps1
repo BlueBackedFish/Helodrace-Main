@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 $specs = @()
 function Add-Case([string]$Name, [string]$Case, [int]$Population = 12, [int]$Ticks = 8000,
     [string]$Workload = 'sapper-wall', [bool]$High = $false, [bool]$Reload = $false,
-    [string[]]$Flags = @(), [bool]$Functional = $true, [int]$Reloads = 0) {
+    [string[]]$Flags = @(), [bool]$Functional = $true, [int]$Reloads = 0, [bool]$Retained = $false) {
     $script:specs += [pscustomobject]@{ name=$Name; case=$Case; population=$Population; ticks=$Ticks;
-        workload=$Workload; high=$High; reload=$Reload; flags=$Flags; functional=$Functional; reloads=$Reloads }
+        workload=$Workload; high=$High; reload=$Reload; flags=$Flags; functional=$Functional; reloads=$Reloads; retained=$Retained }
 }
 Add-Case door normal -Workload sapper-door
 foreach ($case in @('narrow','rocks','interrupt','recovery','cutter','cutter-active-recovery',
@@ -36,12 +36,16 @@ foreach ($effect in @('grenade','charge')) {
     Add-Case "cleanup-$effect" "r7-cleanup-$effect" -Ticks 8000 -Functional $false -Flags (
         $cleanupFlags + @('r7EffectSurvivedExit','r7EffectDetonated','r7EffectDrained','r7ExitDuringLiveEffect'))
 }
-Add-Case multi-map r7-multimap -Flags @('r7TwoActualMaps','r7GlobalBudgetShared','r7CrossMapCommunicationBlocked',
+$multiMapFlags = @('r7TwoActualMaps','r7GlobalBudgetShared','r7CrossMapCommunicationBlocked',
     'r7RemovedMapClean','r7RemainingMapPreserved','r7RemainingMapCompleted')
+Add-Case multi-map r7-multimap -Flags $multiMapFlags
+Add-Case multi-map-scale r7-multimap -Population 48 -Ticks 10000 -Flags $multiMapFlags
 Add-Case offer-retirement r7-offer-retirement -Population 24 -Functional $false -Flags @(
     'r7OneSidedOfferSeen','r7RetiredPeerClean','r7OfferSurvivorComplete','r7WorldOrganizationsCleared')
 $reloadFlags = @('r7ReloadHistoryPreserved','r7ReloadJobsBound','r7ReloadOpeningPreserved','r7ReloadResponsePreserved')
 Add-Case reload-cqb r7-save-load -Ticks 10000 -Reloads 4 -Flags ($reloadFlags + 'r7ReloadLiveGrenadePreserved')
+Add-Case reload-retained r7-save-load -Ticks 12000 -Reloads 4 -Retained $true -Flags (
+    $reloadFlags + @('r7ReloadLiveGrenadePreserved','r7ReloadRetainedReplanPreserved','r7RetainedReplanResumed'))
 Add-Case reload-charge r7-charge-load -Ticks 10000 -Reloads 3 -Flags ($reloadFlags + 'r7ReloadChargePreserved')
 Add-Case reload-field r6-smoke-drill -Population 13 -High $true -Reload $true -Reloads 2 -Ticks 10000 -Flags (
     $reloadFlags + @('r7ReloadFieldPreserved','r7ReloadToilStatePreserved'))
@@ -91,7 +95,7 @@ foreach ($spec in $selected) {
     }
     $runRoot = Join-Path $root $spec.name
     & $launcher -Engine new -DefaultEngine -Workload $spec.workload -Case $spec.case -Population $spec.population `
-        -High:$spec.high -Reload:$spec.reload -Speed 3 -WarmupTicks 0 -SampleTicks $spec.ticks -NoMethodProfile `
+        -High:$spec.high -Reload:$spec.reload -RetainedReload:$spec.retained -Speed 3 -WarmupTicks 0 -SampleTicks $spec.ticks -NoMethodProfile `
         -Seed hd-r1-20261007 -AuditRoot $runRoot
     $pidValue = [int](Get-Content -LiteralPath (Join-Path $runRoot 'process-id.txt'))
     $record = [pscustomobject]@{ name=$spec.name; root=$runRoot; pid=$pidValue; status='running'; error=$null;

@@ -23,6 +23,7 @@ namespace Helodrace
         [DataMember] public bool r7ReloadChargePreserved = true;
         [DataMember] public string[] r7ChargeEvents;
         [DataMember] public bool r7ReloadCarePreserved = true, r7ReloadFieldPreserved = true, r7ReloadToilStatePreserved = true;
+        [DataMember] public bool r7ReloadRetainedReplanPreserved, r7RetainedReplanResumed;
     }
     public sealed partial class MapComponent_TacticalEngineAudit
     {
@@ -35,6 +36,10 @@ namespace Helodrace
         private string savedMedicalCommand, savedFieldCommand;
         private IntVec3 reloadOpening;
         private bool reloadHadLiveGrenade;
+        private bool RetainedReload => result.fixtureCase == "r7-save-load"
+            && GenCommandLine.TryGetCommandLineArg("hdTacticalAuditRetainedReload", out _);
+        private bool reloadReplan;
+        private string reloadRetainedId;
         private int nextChargeTrace;
         private System.Collections.Generic.List<Pawn> savedStartPawns;
         private System.Collections.Generic.List<IntVec3> savedStartPositions;
@@ -72,6 +77,7 @@ namespace Helodrace
             Scribe_Values.Look(ref reloadCare, "reloadCare"); Scribe_Values.Look(ref reloadField, "reloadField");
             Scribe_Values.Look(ref reloadJobs, "reloadJobs");
             Scribe_Values.Look(ref reloadOpening, "reloadOpening"); Scribe_Values.Look(ref reloadHadLiveGrenade, "reloadHadLiveGrenade");
+            Scribe_Values.Look(ref reloadReplan, "reloadReplan"); Scribe_Values.Look(ref reloadRetainedId, "reloadRetainedId");
             ExposeReloadDrillState();
             ExposeCommunicationReloadState();
             ExposeDefenseReloadState();
@@ -193,6 +199,14 @@ namespace Helodrace
             result.r7ReloadCarePreserved &= CareState(command) == reloadCare;
             result.r7ReloadFieldPreserved &= FieldState(command) == reloadField;
             result.r7ReloadToilStatePreserved &= NativeJobs(command) == reloadJobs;
+            if (reloadReplan)
+            {
+                result.r7ReloadRetainedReplanPreserved = command.ReplanAfterReturn && !command.ReleaseAfterReturn
+                    && command.Phase == TacticalCommandPhase.Returning && command.Id == reloadRetainedId
+                    && command.SecuredPlans.Count > 0 && result.r7ReloadHistoryPreserved;
+                if (!result.r7ReloadRetainedReplanPreserved)
+                    throw new InvalidOperationException("Retained return/replan intent or secured mission was lost on native load.");
+            }
             if (!result.r7ReloadChargePreserved) Log.Error("R7 charge before=" + reloadCharge + " after=" + ChargeState(command));
             result.r7Reloads++; reloadPending = false;
             Log.Message("R7 reload " + result.r7Reloads + " jobs=" + result.r7ReloadJobsBound
@@ -207,6 +221,16 @@ namespace Helodrace
         private void ApplyReloadDrill()
         {
             if (reloadPending) return;
+            if (RetainedReload && result.r7ReloadRetainedReplanPreserved && !result.r7RetainedReplanResumed)
+            {
+                TacticalSquadCommand retained = map.GetComponent<MapComponent_TacticalCommands>().Commands.FirstOrDefault();
+                if (retained?.Id == reloadRetainedId && retained.Phase == TacticalCommandPhase.Pending
+                    && !retained.ReplanAfterReturn && History(retained) == reloadHistory)
+                {
+                    result.r7RetainedReplanResumed = true;
+                    Log.Message("R7 restored retained mission resumed with unchanged secured history " + retained.Id);
+                }
+            }
             if (CooperationFixture) { ApplyCommunicationReload(); return; }
             if (DefenseFixture) { ApplyDefenseReload(); return; }
             if (ExternalSupportFixture) { ApplyExternalSupportReload(); return; }
@@ -263,6 +287,16 @@ namespace Helodrace
                     : field?.Stage == TacticalFieldStage.Moving;
             }
             if (!checkpoint) return;
+            reloadReplan = RetainedReload && reloadStep == 1;
+            if (reloadReplan)
+            {
+                // Use the real bounded return path while the next room's stack
+                // is live. Save its true intent before any return work executes.
+                // No secured cells, jobs or scheduler dictionaries are fabricated.
+                reloadRetainedId = command.Id;
+                AccessTools.Method(typeof(MapComponent_TacticalCommands), "BeginReturn").Invoke(null,
+                    new object[] { command, GenTicks.TicksGame, false, true });
+            }
             result.caseTriggered = true; reloadOpening = command.Plan.Opening;
             reloadHistory = History(command); reloadContacts = Contacts(command);
             reloadResponse = Response(command);

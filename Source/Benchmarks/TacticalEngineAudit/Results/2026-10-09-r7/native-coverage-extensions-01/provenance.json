@@ -1,0 +1,56 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-native-coverage-extensions-01",
+  "classification": "Pinned same audit DLL two-case native functional queue only. Actual two maps48/48 pawns and4/4 squads share global work limits; second-map removal preserves every survivor command/job/history/plan and all48 finish. Native retained-return four-load regression preserves true saved flag455 secured cells/one plan, resumes same mission and completes all12/three rooms. Zero native exception lines. Not full44-case final regression, no CPU gate.",
+  "files": {
+    "checks.json": {
+      "sha256": "5c9e2b16fd07b4541d6e75782d3c109f284b74add2b9324395d0a1ba944a8712",
+      "uncompressedSha256": "5c9e2b16fd07b4541d6e75782d3c109f284b74add2b9324395d0a1ba944a8712",
+      "uncompressedBytes": 2154
+    },
+    "multi-map-scale/audit.json": {
+      "sha256": "f3ec961f18e85ecd857e64f37f7e8b23ae13c2295e7717a41e132982ed4fb72c",
+      "uncompressedSha256": "f3ec961f18e85ecd857e64f37f7e8b23ae13c2295e7717a41e132982ed4fb72c",
+      "uncompressedBytes": 22607
+    },
+    "multi-map-scale/launcher.json": {
+      "sha256": "3dfec6489d721b3438ca4c6d53eea2f6b91077bc7b8461e4cf8298b1431453e2",
+      "uncompressedSha256": "3dfec6489d721b3438ca4c6d53eea2f6b91077bc7b8461e4cf8298b1431453e2",
+      "uncompressedBytes": 2505
+    },
+    "multi-map-scale/Player.log.gz": {
+      "sha256": "397e3b5cdac9aa757736225729a97b46a93c61d20e2e9b3f7b30d98584756542",
+      "uncompressedSha256": "cc44b7c7ab47d7cedf83abaa9976373709038b8cc5f5bc0fa96ef9fbed2d2dd2",
+      "uncompressedBytes": 30216
+    },
+    "multi-map-scale/pawn-manifest.txt.gz": {
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "reload-retained/audit.json": {
+      "sha256": "de1c88b553f6d41e1b559b54ce66cfc60ff08dd209217569b2742946c98bb95a",
+      "uncompressedSha256": "de1c88b553f6d41e1b559b54ce66cfc60ff08dd209217569b2742946c98bb95a",
+      "uncompressedBytes": 12060
+    },
+    "reload-retained/launcher.json": {
+      "sha256": "be7dabac997f50b19a6d5df3fa2947b519baba7465322bf01f930ecc9519f8f9",
+      "uncompressedSha256": "be7dabac997f50b19a6d5df3fa2947b519baba7465322bf01f930ecc9519f8f9",
+      "uncompressedBytes": 2568
+    },
+    "reload-retained/Player.log.gz": {
+      "sha256": "b96f78ffea2ddecb68c4ae82a81a17db2c8827bce2715df8878934812f1bb7fb",
+      "uncompressedSha256": "8af5f6878fe0bf14a630d5bd28254399fd0ca548252870a6e56dca22633063e1",
+      "uncompressedBytes": 36047
+    },
+    "reload-retained/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "49cf47347e4d6a70fbfd82bcd9090b0465c2fdc275b1112b1910861d64599b9a",
+      "uncompressedSha256": "17913f4b62a7ed42cd30ceeafc6f9722631831a276450698a1a3a97f8c40f87b",
+      "uncompressedBytes": 3608148
+    }
+  }
+}

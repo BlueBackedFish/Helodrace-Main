@@ -1,0 +1,31 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cleanup-diary-01",
+  "classification": "Actual12-pawn exit/WorldPawns and idle cleanup functional retry on same4c9 audit DLL. Cleanup/idle/organization checks pass with zero exception lines. Previous [Ref1780740F] was not reproduced, not claimed fixed or understood. Bounded CLI-only error diary enabled; no errors produced so no diary file. No CPU/full R7 gate.",
+  "files": {
+    "checks.json": {
+      "sha256": "ce54a7820a42cab8fc00815fad7135f6637a8a0d369a3abb472682fb06c27289",
+      "uncompressedSha256": "ce54a7820a42cab8fc00815fad7135f6637a8a0d369a3abb472682fb06c27289",
+      "uncompressedBytes": 1458
+    },
+    "cleanup/audit.json": {
+      "sha256": "66166958bb9eaeba812dce8ab91524fbe6a65a76dc76406b36eecab68c987b9e",
+      "uncompressedSha256": "66166958bb9eaeba812dce8ab91524fbe6a65a76dc76406b36eecab68c987b9e",
+      "uncompressedBytes": 9355
+    },
+    "cleanup/launcher.json": {
+      "sha256": "b74957938f23b8beb1edb4b4f20757f632a3666c945adc108cc026394f1c3b26",
+      "uncompressedSha256": "b74957938f23b8beb1edb4b4f20757f632a3666c945adc108cc026394f1c3b26",
+      "uncompressedBytes": 2438
+    },
+    "cleanup/Player.log.gz": {
+      "sha256": "73ac49a6837a340e144ceab2b1414e1330c6813ad2126e8cea640a55d0dfe63e",
+      "uncompressedSha256": "01245c11243eebbd465568aba1a88028b27011500700718cc230267cdfc8ee43",
+      "uncompressedBytes": 29597
+    },
+    "cleanup/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

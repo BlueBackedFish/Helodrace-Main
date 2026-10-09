@@ -123,6 +123,7 @@ namespace Helodrace
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
+            if (output != null) TacticalAuditNativeErrors.Start(output);
         }
         private static int Argument(string name, int fallback)
         {
