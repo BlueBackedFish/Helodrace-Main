@@ -1,0 +1,92 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-actor-withdrawal-01",
+  "classification": "Actual4c657f three-case diagnostic: all FAILED. LOW/High reach predeadline milestone but WorldPawns actor withdrawal changes faction/bed ownership and throws, a fixture candidate bug. Radio-loss fails beforehand: installed C4 trigger Incompletable, zero detonations, abort before allocation; actual radio recovery/contact report succeed but not joint mission. Preserve source candidate patch relative a68985a9, actual raw output and saves. No passing regression/CPU/final R7 proof.",
+  "candidatePatchSha256": "205d687c89ec436003734b2527b5060a4abb42adf31fbeb06da6ca00bf8c9cd8",
+  "files": {
+    "checks.json": {
+      "sha256": "ac13032bf6e91ee72a601f29d49f2c06ddcf3efc76ca3c905b539b82173d5fb6",
+      "uncompressedSha256": "ac13032bf6e91ee72a601f29d49f2c06ddcf3efc76ca3c905b539b82173d5fb6",
+      "uncompressedBytes": 3215
+    },
+    "radio-loss/audit.json": {
+      "sha256": "400fcff4030c743807f324ff5825f8272635686a842e95d353d5d6fcee7e6c84",
+      "uncompressedSha256": "400fcff4030c743807f324ff5825f8272635686a842e95d353d5d6fcee7e6c84",
+      "uncompressedBytes": 77323
+    },
+    "radio-loss/launcher.json": {
+      "sha256": "a72b5e9008db0c347358f5828fcdb89622f2e692becde4ead90cfabd633e4ff0",
+      "uncompressedSha256": "a72b5e9008db0c347358f5828fcdb89622f2e692becde4ead90cfabd633e4ff0",
+      "uncompressedBytes": 2527
+    },
+    "radio-loss/Player.log.gz": {
+      "sha256": "ef22f4be785e357dd5e32b61d911d7e1ec137818d046b34830291a04d404acc6",
+      "uncompressedSha256": "8b5b304f06d6c5af294c5c6208b3928cdd8f6a84652e139c30064187cf6ecafb",
+      "uncompressedBytes": 92565
+    },
+    "radio-loss/pawn-manifest.txt.gz": {
+      "sha256": "330616e28845ae43e9ff9d6045c839196f5916dcf800f780b3d0c836f00084a1",
+      "uncompressedSha256": "0e994de7dbcb524edb15bd3895910ab636898587baa9caabf3f636d5345e7ad2",
+      "uncompressedBytes": 192436
+    },
+    "reload-low/audit.json": {
+      "sha256": "95c6d90037271bc5e97065af28b5a4bacc7ef90438b650e702739916b3417987",
+      "uncompressedSha256": "95c6d90037271bc5e97065af28b5a4bacc7ef90438b650e702739916b3417987",
+      "uncompressedBytes": 28298
+    },
+    "reload-low/launcher.json": {
+      "sha256": "b8d7d2a38b2279d44cc46fd3a73963db71fbdd4bc501b930348e7530d009279b",
+      "uncompressedSha256": "b8d7d2a38b2279d44cc46fd3a73963db71fbdd4bc501b930348e7530d009279b",
+      "uncompressedBytes": 2576
+    },
+    "reload-low/Player.log.gz": {
+      "sha256": "adec53f695cf217c7a468912f1461910b2e84f7e3beba9fa8438502b5ea7aca2",
+      "uncompressedSha256": "353a6602705db79e50f33ee7736c76215baf9db76c1d44ff108f18d8381cf484",
+      "uncompressedBytes": 52676
+    },
+    "reload-low/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-low/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "68bcdfadd4304086639a894b1ca578f23925a20ac50b86e7e81ef9d275f886fd",
+      "uncompressedSha256": "fb1ba6c2ad56c025dc43c87bf2902a184e8d172364ebdf9e227c8473ebcc3d5b",
+      "uncompressedBytes": 3650748
+    },
+    "reload-low/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "77008af2a1235183def41e64fd18fecda032c7ffcfc744222aa8dc46a624004c",
+      "uncompressedSha256": "e3bb0be5d8ebaada5853fd618527cb1f78a66faab51340e74bcdb760e1609d91",
+      "uncompressedBytes": 3715434
+    },
+    "reload-high/audit.json": {
+      "sha256": "349567748aa5e6b09ea94cdd035df6f3e4b58406040ac64e5edbc4aa61230c16",
+      "uncompressedSha256": "349567748aa5e6b09ea94cdd035df6f3e4b58406040ac64e5edbc4aa61230c16",
+      "uncompressedBytes": 22133
+    },
+    "reload-high/launcher.json": {
+      "sha256": "55db14b550aa81bd42b60408ceea46ce28ca9d65288d0c8aaf53e4707ed98f18",
+      "uncompressedSha256": "55db14b550aa81bd42b60408ceea46ce28ca9d65288d0c8aaf53e4707ed98f18",
+      "uncompressedBytes": 2575
+    },
+    "reload-high/Player.log.gz": {
+      "sha256": "12c0ed4c235d99ce504e5c3e64b0fad1f382d23e4c8aef4f6e716e6733edfc75",
+      "uncompressedSha256": "ae1b0628cfb9160a8551ffcdabee2b7bb07a07aee7f776a533d058315f1113a8",
+      "uncompressedBytes": 46875
+    },
+    "reload-high/pawn-manifest.txt.gz": {
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    },
+    "reload-high/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "94af1447dd33089a614f6e095137864cc2453e8ebd3bf3d620ea986a5dd41255",
+      "uncompressedSha256": "049b188b155d99967fdfbd882400a4596f95db93294f55ad7962c2ca0b091c4b",
+      "uncompressedBytes": 4314507
+    },
+    "reload-high/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "c81f8ccf490a38305e06bf7fb8ac85d1b504c277307e7111afbfb83b148e7624",
+      "uncompressedSha256": "54d3029f46193bcd4f9c4f98758e966ddaf7dcbd6880da9e7ea624bbdb9c6463",
+      "uncompressedBytes": 4366536
+    }
+  }
+}

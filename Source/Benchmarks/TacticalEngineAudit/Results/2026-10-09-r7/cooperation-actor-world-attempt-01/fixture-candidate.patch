@@ -1,0 +1,48 @@
+diff --git a/Source/Benchmarks/TacticalEngineAudit/Run-R7Functional.ps1 b/Source/Benchmarks/TacticalEngineAudit/Run-R7Functional.ps1
+index f2841c9d..382012ce 100644
+--- a/Source/Benchmarks/TacticalEngineAudit/Run-R7Functional.ps1
++++ b/Source/Benchmarks/TacticalEngineAudit/Run-R7Functional.ps1
+@@ -40,7 +40,7 @@ foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recov
+     Add-Case $case $case -Ticks 10000 -Flags $flags -Minimums $minimums
+ }
+ Add-Case casualty casualty -Population 13 -High $true -Flags @('caseTriggered','newCasualtyContinued') -Minimums @{ caseLossTick=1 }
+-$cooperationFlags=@('newCooperationComplete','newCooperationMilestonePreserved')
++$cooperationFlags=@('newCooperationComplete','newCooperationMilestonePreserved','r7FixtureActorWithdrawn')
+ $cooperationMinimums=@{ newCooperationCompletedTick=1; newAgreementsConfirmed=2; newCooperationStarts=2 }
+ Add-Case low-cooperation r5-low-coop -Population 24 -Ticks 12000 -Flags $cooperationFlags -Minimums $cooperationMinimums
+ Add-Case shared-entry r5-shared -Workload sapper-door -Population 24 -Ticks 12000 -Flags $cooperationFlags -Minimums $cooperationMinimums
+diff --git a/Source/Helodrace/Core/TacticalCooperationDrillAudit.cs b/Source/Helodrace/Core/TacticalCooperationDrillAudit.cs
+index 8edad540..41c30bd8 100644
+--- a/Source/Helodrace/Core/TacticalCooperationDrillAudit.cs
++++ b/Source/Helodrace/Core/TacticalCooperationDrillAudit.cs
+@@ -6,6 +6,7 @@ using HarmonyLib;
+ using Helodrace.ModernWar;
+ using Helodrace.Tactics;
+ using RimWorld;
++using RimWorld.Planet;
+ using Verse;
+ 
+ namespace Helodrace
+@@ -121,6 +122,22 @@ namespace Helodrace
+             TacticalSquadCommand a=commands[0], b=commands[1];
+             TacticalCommunications network=Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
+             ObserveCooperationCompletion(commands, tick);
++            if (result.newCooperationCompletedTick >= 0 && owner.Spawned)
++            {
++                // A completed squad returns to vanilla combat and can approach
++                // this immortal stimulus. Remove the actor only after actual
++                // joint room/bed/entry coverage; otherwise an unrelated endless
++                // field engagement contaminates the subsequent expiry test.
++                // Keep the living named bed owner and save reference in WorldPawns.
++                owner.DeSpawn();
++                Find.WorldPawns.PassToWorld(owner, PawnDiscardDecideMode.KeepForever);
++                if (!map.listerThings.AllThings.OfType<Building_Bed>().Any(bed => bed.Position == commands[0].Goal
++                    && bed.OwnersForReading.Contains(owner) && owner.Name != null))
++                    throw new InvalidOperationException("Cooperation actor withdrawal lost the named bed objective.");
++                result.r7FixtureActorWithdrawn = true;
++                result.r7FixtureActorWithdrawTick = tick - started;
++                CooperationEvent("completed cooperation actor withdrawn to world; named bed owner retained");
++            }
+             if (network.MessagesDropped>lastLoggedDrops)
+             {
+                 lastLoggedDrops=network.MessagesDropped;

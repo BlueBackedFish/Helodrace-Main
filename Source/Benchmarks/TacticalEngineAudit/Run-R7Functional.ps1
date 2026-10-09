@@ -40,7 +40,7 @@ foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recov
     Add-Case $case $case -Ticks 10000 -Flags $flags -Minimums $minimums
 }
 Add-Case casualty casualty -Population 13 -High $true -Flags @('caseTriggered','newCasualtyContinued') -Minimums @{ caseLossTick=1 }
-$cooperationFlags=@('newCooperationComplete','newCooperationMilestonePreserved')
+$cooperationFlags=@('newCooperationComplete','newCooperationMilestonePreserved','r7FixtureActorWithdrawn')
 $cooperationMinimums=@{ newCooperationCompletedTick=1; newAgreementsConfirmed=2; newCooperationStarts=2 }
 Add-Case low-cooperation r5-low-coop -Population 24 -Ticks 12000 -Flags $cooperationFlags -Minimums $cooperationMinimums
 Add-Case shared-entry r5-shared -Workload sapper-door -Population 24 -Ticks 12000 -Flags $cooperationFlags -Minimums $cooperationMinimums

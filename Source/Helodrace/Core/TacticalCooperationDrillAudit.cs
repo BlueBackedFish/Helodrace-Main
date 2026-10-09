@@ -19,8 +19,14 @@ namespace Helodrace
     }
 
     // Scripted physical stimuli only; never insert cooperation or contact state.
-    public sealed partial class MapComponent_TacticalEngineAudit
+    public sealed partial class MapComponent_TacticalEngineAudit : IThingHolder
     {
+        private ThingOwner<Pawn> withdrawnCooperationActors;
+        public IThingHolder ParentHolder => null;
+        public ThingOwner GetDirectlyHeldThings() => withdrawnCooperationActors
+            ?? (withdrawnCooperationActors = new ThingOwner<Pawn>(this, LookMode.Deep, false));
+        public void GetChildHolders(List<IThingHolder> children) =>
+            ThingOwnerUtility.AppendThingHoldersFromThings(children, GetDirectlyHeldThings());
         private bool CooperationFixture => result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-shared"
             || result.fixtureCase == "r5-radio-loss";
         private List<string> cooperationEvents = new List<string>();
@@ -121,6 +127,24 @@ namespace Helodrace
             TacticalSquadCommand a=commands[0], b=commands[1];
             TacticalCommunications network=Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
             ObserveCooperationCompletion(commands, tick);
+            if (result.newCooperationCompletedTick >= 0 && owner.Spawned)
+            {
+                // A completed squad returns to vanilla combat and can approach
+                // this immortal stimulus. Remove the actor only after actual
+                // joint room/bed/entry coverage; otherwise an unrelated endless
+                // field engagement contaminates the subsequent expiry test.
+                // Keep the living named bed owner in the deep-saved fixture
+                // holder. WorldPawns can change a player pawn's faction/ownership.
+                Building_Bed bedObjective = map.listerThings.AllThings.OfType<Building_Bed>()
+                    .FirstOrDefault(bed => bed.Position == commands[0].Goal && bed.OwnersForReading.Contains(owner));
+                owner.DeSpawn();
+                if (!GetDirectlyHeldThings().TryAdd(owner) || owner.Faction != Faction.OfPlayer
+                    || bedObjective != null && !bedObjective.OwnersForReading.Contains(owner))
+                    throw new InvalidOperationException("Cooperation actor withdrawal lost the named bed objective.");
+                result.r7FixtureActorWithdrawn = true;
+                result.r7FixtureActorWithdrawTick = tick - started;
+                CooperationEvent("completed cooperation actor withdrawn into fixture holder; player faction and existing named bed owner retained");
+            }
             if (network.MessagesDropped>lastLoggedDrops)
             {
                 lastLoggedDrops=network.MessagesDropped;

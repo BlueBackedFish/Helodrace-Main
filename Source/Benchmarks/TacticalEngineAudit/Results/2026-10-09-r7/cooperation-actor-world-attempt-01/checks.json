@@ -1,0 +1,63 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "continueOnFailure":  true,
+    "collectionComplete":  true,
+    "failedCases":  [
+                        "radio-loss",
+                        "reload-low",
+                        "reload-high"
+                    ],
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "4c657f478b628ccb369be75a8338a3b0824b1635c26c61d7061ea59e6c9dcdd3",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "radio-loss",
+                           "reload-low",
+                           "reload-high"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  false,
+    "records":  [
+                    {
+                        "name":  "radio-loss",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-actor-withdrawal-01\\radio-loss",
+                        "pid":  4544,
+                        "status":  "failed",
+                        "error":  "Full native functional completion failed.",
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "reload-low",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-actor-withdrawal-01\\reload-low",
+                        "pid":  49632,
+                        "status":  "failed",
+                        "error":  "Native run, content, environment, retirement, fixture, speed or safety check failed.",
+                        "actualMinimumSpeed":  1,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  2,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  1
+                    },
+                    {
+                        "name":  "reload-high",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-actor-withdrawal-01\\reload-high",
+                        "pid":  42196,
+                        "status":  "failed",
+                        "error":  "Native run, content, environment, retirement, fixture, speed or safety check failed.",
+                        "actualMinimumSpeed":  1,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  2,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  1
+                    }
+                ]
+}

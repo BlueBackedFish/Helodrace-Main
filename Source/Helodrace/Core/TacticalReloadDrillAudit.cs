@@ -46,6 +46,7 @@ namespace Helodrace
         public override void ExposeData()
         {
             if (output == null) return;
+            GetDirectlyHeldThings().ExposeData();
             string state = null;
             if (Scribe.mode == LoadSaveMode.Saving)
             {
