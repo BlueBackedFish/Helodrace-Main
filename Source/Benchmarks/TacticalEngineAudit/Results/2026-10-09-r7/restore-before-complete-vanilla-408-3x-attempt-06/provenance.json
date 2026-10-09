@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-restore-before-complete-vanilla-408-3x-attempt-06",
+  "classification": "Native408 Vanilla counterpart of functional restore-before-complete6b7 DLL; same map/gear/fixed inputs/3x/warm600/sample20k,408 entered, new commands/jobs/scheduler zero. One pair rootCPU ratio0.81356 and main window0.79406, positive but not final eligible gate and includes post-completion window.",
+  "files": {
+    "audit.json": {
+      "sha256": "84f22b548166ee48c688540dc242aae27037f7e6803d7bc6ed0c25daca428e76",
+      "uncompressedSha256": "84f22b548166ee48c688540dc242aae27037f7e6803d7bc6ed0c25daca428e76",
+      "uncompressedBytes": 31977
+    },
+    "launcher.json": {
+      "sha256": "51496fb33a6c6ac3cf46de96785ef0c7239d1ccb597feaa0b235666644f88de9",
+      "uncompressedSha256": "51496fb33a6c6ac3cf46de96785ef0c7239d1ccb597feaa0b235666644f88de9",
+      "uncompressedBytes": 2794
+    },
+    "Player.log.gz": {
+      "sha256": "6057045ba8a523742b7e7357019af4e2f2195a905118056284d85ac920fb238d",
+      "uncompressedSha256": "afe5d514581ce73c27dd441aee48c680eb8211c27d4c764da0ffd1580735746e",
+      "uncompressedBytes": 29911
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "8af95016ef56d2bd271b35f972d0e4501a06bccb250caf914eb3310685453a4f",
+      "uncompressedSha256": "8af95016ef56d2bd271b35f972d0e4501a06bccb250caf914eb3310685453a4f",
+      "uncompressedBytes": 11878
+    },
+    "profiles/capture-20261009-082413-498-602.json": {
+      "sha256": "3f28d8b123c7cb64a035b9d42d0f8c47db458d00cfb1b00cf64578e6b31c12ca",
+      "uncompressedSha256": "3f28d8b123c7cb64a035b9d42d0f8c47db458d00cfb1b00cf64578e6b31c12ca",
+      "uncompressedBytes": 20708
+    },
+    "profiles/status.json": {
+      "sha256": "f898c8a9527ad44df2201df176a77e336dc64cd4f5bbf8fc806a951757c88059",
+      "uncompressedSha256": "f898c8a9527ad44df2201df176a77e336dc64cd4f5bbf8fc806a951757c88059",
+      "uncompressedBytes": 228
+    }
+  }
+}

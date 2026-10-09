@@ -327,3 +327,18 @@ assert restored["newRoomsSecured"] == 74
 assert sum(len(re.findall(r"\(-?\d+, 0, -?\d+\)", value)) for value in restored["newSecuredPortals"]) == 72
 assert next(m for m in rtc["methods"] if ".RestoreContactPosts(" in m["method"])["calls"] == 7955
 print("PASS: identification restoration order completes native408 current ingress, full room coverage and safety; single functional proof, history discrepancy/full R7 gate remain open.")
+
+counterpart, cpc, cpl = run("restore-before-complete-vanilla-408-3x-attempt-06", fixture_version=34)
+assert cpc["assemblySha256"] == rtc["assemblySha256"]
+assert counterpart["mapFingerprint"] == restored["mapFingerprint"] and counterpart["pawnFingerprint"] == restored["pawnFingerprint"]
+assert counterpart["population"] == counterpart["alive"] == counterpart["entered"] == 408
+assert counterpart["r7TickRateMinimum"] == counterpart["r7TickRateMaximum"] == 3
+assert counterpart["r7CqbStimulusComplete"] and counterpart["r7CqbEvents"] == cqb_events and counterpart["r7WildlifeSpawnerDisabled"]
+assert not counterpart["newCommands"] and counterpart["r7SchedulerAdvances"] == counterpart["newJobsIssued"] == 0
+group = read(base / "restore-before-complete-408-single-comparison.json")["groups"][0]
+assert group["baselineRuns"] == group["candidateRuns"] == 1
+assert group["within2x"] and group["newAiFunctionalComplete"]
+assert not group["newAiPerformanceGateEligible"] and not group["newAiFixedWindowCpuGatePassed"]
+assert abs(group["tickCpuRatio"] - cpu_per_tick(rtc) / cpu_per_tick(cpc)) < 1e-12
+assert abs(group["windowCpuRatio"] - cpu_per_tick(rtc, True) / cpu_per_tick(cpc, True)) < 1e-12
+print("PASS: same-DLL native408 Vanilla counterpart reproduces raw OS CPU ratios; single pair and post-completion window remain non-final.")
