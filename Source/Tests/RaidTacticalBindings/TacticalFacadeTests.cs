@@ -45,8 +45,19 @@ internal static class TacticalFacadeTests
                 throw new Exception("Initial cooperative frontage and bounded search extent must survive retries.");
             if (failures >= 2) bands.Add(band);
         }
-        if (!bands.SetEquals(new[] { -24, -12, 0, 12, 24 }) || Band(int.MinValue) != 0 || Math.Abs(Band(int.MaxValue)) > 24)
+        if (!new HashSet<int> { -24, -12, 0, 12, 24 }.IsSubsetOf(bands) || Band(int.MinValue) != 0 || Math.Abs(Band(int.MaxValue)) > 24)
             throw new Exception("Retry sampling must cover both flanks instead of repeating a permanently obstructed frontage.");
+        var offsets = (int[])AccessTools.Field(typeof(TacticalLocalPlanner), "Offsets").GetValue(null);
+        if (offsets.Length > 8) throw new Exception("Retry coverage must not increase the per-attempt candidate budget.");
+        // Native High13 shared-door failure: the two approach rays meet the wall
+        // at z115/z113; their only open door is z108. Both must be sampled early.
+        foreach (int doorOffset in new[] { -7, -5 })
+        {
+            bool sampled = false;
+            for (int failures = 2; failures <= 3; failures++)
+                foreach (int offset in offsets) sampled |= offset + Band(failures) == doorOffset;
+            if (!sampled) throw new Exception("Nearby open door is skipped by bounded retries: " + doorOffset);
+        }
         Console.WriteLine("PASS: diagonal/fragmented wall and widened-gap normals, isolated-block rejection and bounded retry frontage coverage.");
     }
 }

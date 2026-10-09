@@ -1,0 +1,71 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-nearby-door-fix-01",
+  "classification": "Actual same42306 LOW24/High26 native2-load regressions after bounded dense-nearby retry bands. Both pass same mandatory cooperation/entry/history safety checks, no method profiling/normal graphics/defaultNew. Does not replace full44 or final CPU/R7 gates. Previous failures are preserved.",
+  "files": {
+    "checks.json": {
+      "sha256": "63e23f9273fbbad5da2a22779b46aee87bc7e83b376dc77751e2aa88a3211c94",
+      "uncompressedSha256": "63e23f9273fbbad5da2a22779b46aee87bc7e83b376dc77751e2aa88a3211c94",
+      "uncompressedBytes": 2221
+    },
+    "reload-low/audit.json": {
+      "sha256": "3cbf71d19a0c4a68bc0d0d6ad6d8b255076f92febb680afe1d4b5a97be4c8121",
+      "uncompressedSha256": "3cbf71d19a0c4a68bc0d0d6ad6d8b255076f92febb680afe1d4b5a97be4c8121",
+      "uncompressedBytes": 72046
+    },
+    "reload-low/launcher.json": {
+      "sha256": "2216190be8d54a049d96efb15c8de5e2e7a557ecbbed8d275dda9e1011527baf",
+      "uncompressedSha256": "2216190be8d54a049d96efb15c8de5e2e7a557ecbbed8d275dda9e1011527baf",
+      "uncompressedBytes": 2537
+    },
+    "reload-low/Player.log.gz": {
+      "sha256": "3379ac67ca03e1ad7419d454518907742f77772cbe9b0c0262a9753c025630f8",
+      "uncompressedSha256": "3f52de32c5df384ca0cb54042b80b11463ed29cb5ef541e5312a66553fcb0290",
+      "uncompressedBytes": 90006
+    },
+    "reload-low/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-low/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "f4e38aab7ce9db14ef7d3ddda578d8723dc9665b5f78f2b2b107f4303c1888ea",
+      "uncompressedSha256": "1a13d1f027c16f8f558e41b370d80e22ed031148751866aeaf9419af7d418116",
+      "uncompressedBytes": 3593112
+    },
+    "reload-low/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "267156923dc75001b07d7879f5cf4447c7d80bb45d0322a3314b21bb8b14cae8",
+      "uncompressedSha256": "7dbc623af14dcd96eca1f6537a72356e7ffac769b12f5e2ac3b1e6f581ffc8ba",
+      "uncompressedBytes": 3658586
+    },
+    "reload-high/audit.json": {
+      "sha256": "14244e204273f2db607e004a86ba629dedcb198d92518f3cc3c295409cbf2de4",
+      "uncompressedSha256": "14244e204273f2db607e004a86ba629dedcb198d92518f3cc3c295409cbf2de4",
+      "uncompressedBytes": 62270
+    },
+    "reload-high/launcher.json": {
+      "sha256": "5c170faae36b38ab7e9d2a72d2b868452b794d645b54e5d9939c470230944b1d",
+      "uncompressedSha256": "5c170faae36b38ab7e9d2a72d2b868452b794d645b54e5d9939c470230944b1d",
+      "uncompressedBytes": 2536
+    },
+    "reload-high/Player.log.gz": {
+      "sha256": "4822046af18f1dc75a84c4b3705da5688aeeed5b8199b6bd0c98a32881cb106e",
+      "uncompressedSha256": "406ba584c3aae8523fc3c493f9c89be3dbf7e05e2bf72b876f5865c3b22dbe7c",
+      "uncompressedBytes": 79914
+    },
+    "reload-high/pawn-manifest.txt.gz": {
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    },
+    "reload-high/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "7e3a5fa327f2ec74fef62f8de54760933e62bdd91d490a93e1a616cd14d7c9ca",
+      "uncompressedSha256": "4ee70197daef9461045c4eb26a8808ed5a87f0e421c490788c5399c2ab1129fd",
+      "uncompressedBytes": 4233687
+    },
+    "reload-high/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "146d302678d8a64fca39ee94e922482884c4f381842ff7c5a1a87d36de57d850",
+      "uncompressedSha256": "d9cb5f4cd15e54ac05b783443e3957eaab30eacf0c856dd3d7bac8ae101abf55",
+      "uncompressedBytes": 4287418
+    }
+  }
+}

@@ -27,7 +27,9 @@ namespace Helodrace.Tactics
     public static class TacticalLocalPlanner
     {
         private static readonly int[] Offsets = { 0, -1, 1, -3, 3, -6, 6, 10 };
-        private static readonly int[] RetryBands = { 0, -12, 12, -24, 24 };
+        // Sample between sparse offsets before moving to a distant frontage.
+        // Otherwise a visible door at offset -7 or -5 is never considered.
+        private static readonly int[] RetryBands = { 0, -1, 1, -2, 2, -12, 12, -24, 24 };
         internal static int SearchBand(int failedAttempts) => failedAttempts < 2 ? 0 : RetryBands[(failedAttempts - 1) % RetryBands.Length];
         internal static bool SearchFreshOpening(bool triedKnown, TacticalPlanFailure failure, int failedAttempts) =>
             !triedKnown || failedAttempts >= 2 && failure == TacticalPlanFailure.Busy;
