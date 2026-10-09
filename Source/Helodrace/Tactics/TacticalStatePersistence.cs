@@ -57,6 +57,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref BarrierHitPoints, "barrierHitPoints");
             Scribe_Values.Look(ref ReturnCursor, "returnCursor");
             Scribe_Values.Look(ref ReleaseAfterReturn, "releaseAfterReturn");
+            Scribe_Values.Look(ref ReplanAfterReturn, "replanAfterReturn");
             Scribe_Values.Look(ref DeferredWork, "deferredWork");
             Scribe_Values.Look(ref ContactRestoring, "contactRestoring");
             Scribe_Values.Look(ref ContactHandledAt, "contactHandledAt");

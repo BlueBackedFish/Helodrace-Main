@@ -236,7 +236,7 @@ namespace Helodrace.Tactics
                 bool unfinished = command.SecuredPlans.Count > 0 && (!command.GoalSecured
                     || command.Frontiers.Any(f => !command.SecuredCells.Contains(f.Inside)));
                 if (unfinished) command.LastPlanFailure |= TacticalPlanFailure.Unsecured;
-                BeginReturn(command, tick, unfinished);
+                BeginReturn(command, tick, false, replan: unfinished);
             }
             finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
         }

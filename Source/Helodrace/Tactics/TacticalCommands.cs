@@ -41,6 +41,7 @@ namespace Helodrace.Tactics
         public int BarrierHitPoints = -1;
         public int ReturnCursor;
         public bool ReleaseAfterReturn;
+        public bool ReplanAfterReturn;
         public bool DeferredWork;
         public TacticalPlanFailure LastPlanFailure;
         public TacticalOpeningAction OpeningAction;
@@ -367,7 +368,8 @@ namespace Helodrace.Tactics
                 command.Goal = Goal(tick);
                 if (!command.Goal.IsValid) { command.Due = tick + 300; return; }
                 TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
-                Pawn leader = PendingPlanner(active, command.Goal);
+                IntVec3 planningGoal = PendingGoal(command);
+                Pawn leader = PendingPlanner(active, planningGoal);
                 Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => BreachExplosiveUtility.CanOperate(pawn)
                     && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
                         || BreachExplosiveUtility.CountInInventory(pawn, BreachExplosiveUtility.C4Def) > 0 && TacticalBreachTools.IgniterFor(pawn) != null));
@@ -388,7 +390,7 @@ namespace Helodrace.Tactics
                     int frontage = command.Link.Cooperation.Active && command.Failures < 2
                         ? command.Link.Cooperation.Agenda.Side(command.Id) * 12 : 0;
                     bool triedKnown = false; failure = TacticalPlanFailure.None;
-                    plan = frontage == 0 ? ReuseOpening(command, leader, command.Goal, command.Members.Count, Claimed,
+                    plan = frontage == 0 ? ReuseOpening(command, leader, planningGoal, command.Members.Count, Claimed,
                         out triedKnown, out failure) : null;
                     if (TacticalLocalPlanner.SearchFreshOpening(triedKnown, failure, command.Failures))
                     {
@@ -399,9 +401,9 @@ namespace Helodrace.Tactics
                         // it must not add another search in this plan allowance.
                         TacticalPlanFailure knownFailure = failure;
                         if (triedKnown) BusyOpeningFallbacks++;
-                        plan = TacticalLocalPlanner.Find(map, leader, command.Goal, command.Members.Count,
+                        plan = TacticalLocalPlanner.Find(map, leader, planningGoal, command.Members.Count,
                             Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
-                            out failure, command.Failures, frontage);
+                            out failure, command.Failures, frontage, command.SecuredCells.Count == 0 ? null : (Func<IntVec3, bool>)command.SecuredCells.Contains);
                         if (plan == null) failure |= knownFailure;
                     }
                 }
@@ -410,7 +412,11 @@ namespace Helodrace.Tactics
                 if (plan == null)
                 {
                     if ((hammer == null && !command.Link.Cooperation.Active || command.Failures >= 4) && leases.Count == 0)
-                    { Release(command); return; }
+                    {
+                        if (command.SecuredPlans.Count > 0) BeginReturn(command, tick, false, replan: true);
+                        else Release(command);
+                        return;
+                    }
                     // Waiting for another squad's physical footprint does not let
                     // vanilla wander through an unrelated entrance in the meantime.
                     foreach (TacticalMemberCommand member in active)
@@ -585,6 +591,13 @@ namespace Helodrace.Tactics
             }
             return nearest;
         }
+        private static IntVec3 PendingGoal(TacticalSquadCommand command)
+        {
+            if (command.GoalSecured)
+                foreach (TacticalRoomFrontier frontier in command.Frontiers)
+                    if (!command.SecuredCells.Contains(frontier.Inside)) return frontier.Inside;
+            return command.Goal;
+        }
         private IntVec3 Goal(int tick)
         {
             if (explicitGoal.IsValid) return explicitGoal;
@@ -612,6 +625,7 @@ namespace Helodrace.Tactics
             tried = false; failure = TacticalPlanFailure.None; int probes = 0;
             foreach (TacticalLocalPlan known in knownOpenings)
             {
+                if (command.SecuredCells.Contains(known.Inside)) continue;
                 if (!command.Link.KnownPortals.Contains(known.Opening)
                     && !command.SecuredPlans.Any(p => p.Opening == known.Opening)
                     && (leader.Position.DistanceToSquared(known.Opening) > 784
@@ -733,10 +747,11 @@ namespace Helodrace.Tactics
         {
             BeginReturn(command, GenTicks.TicksGame, true);
         }
-        private static void BeginReturn(TacticalSquadCommand command, int tick, bool release)
+        private static void BeginReturn(TacticalSquadCommand command, int tick, bool release, bool replan = false)
         {
-            Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, tick, release);
+            Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, tick, release || replan);
             command.Phase = TacticalCommandPhase.Returning; command.ReleaseAfterReturn = release;
+            command.ReplanAfterReturn = replan;
             command.ReturnCursor = 0; command.Due = tick + 1;
         }
         private void ReturnMembers(TacticalSquadCommand command, int tick)
@@ -759,10 +774,27 @@ namespace Helodrace.Tactics
             }
             ReleaseClaims(command);
             command.MedicalCare = null;
+            if (command.ReplanAfterReturn) { RestartRetainedMission(command, tick); return; }
             command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released
                 : command.Defensive ? TacticalCommandPhase.Defending : TacticalCommandPhase.Complete;
             command.Due = tick + 600;
             if (command.Terminal) Retire(command);
+        }
+        private static void RestartRetainedMission(TacticalSquadCommand command, int tick)
+        {
+            command.ReplanAfterReturn = false; command.ReleaseAfterReturn = false;
+            command.Plan = null; command.OpeningAction = null; command.RoomScan = null;
+            command.ContactRestoring = false; command.Breacher = null;
+            command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
+            command.Phase = TacticalCommandPhase.Pending; command.PhaseStarted = tick;
+            command.PlanRetryAt = command.Due = tick + 240; command.Failures = 0;
+            foreach (TacticalMemberCommand member in command.Members)
+            {
+                member.Passed = member.Crossed = member.Entered = member.EntryAssignmentDone = false;
+                member.Parking = IntVec3.Invalid; member.RetryTick = 0;
+            }
+            // Same scheduler/member ownership and secured history. No terminal
+            // retirement, repeated registration or replacement knowledge graph.
         }
         internal void Retire(TacticalSquadCommand command)
         {

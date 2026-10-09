@@ -1,0 +1,61 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-retained-mission-new-408-3x-attempt-07",
+  "classification": "Retain original command, secured cells/plans and observed frontiers through bounded return/replan instead of retirement/re-registration. Actual408/34/3x/20k fixed-input functional success; two production retained-mission restarts;98 cumulative room secures equals98 retained records, zero per-command duplicate portals. No same-DLL Vanilla counterpart or final R7 CPU gate. Single diagnostic and post-completion window remain excluded from final performance claim.",
+  "files": {
+    "audit.json": {
+      "sha256": "803afcde3e69cb47c11c4b4cc8be8f760d5828e84310905d0e5816d864ba38b3",
+      "uncompressedSha256": "803afcde3e69cb47c11c4b4cc8be8f760d5828e84310905d0e5816d864ba38b3",
+      "uncompressedBytes": 123464
+    },
+    "Config/KeyPrefs.xml": {
+      "sha256": "f49b2ae8095aa729cc37bda09803850d34314e1f89a348646986f3c5c1cd83b6",
+      "uncompressedSha256": "f49b2ae8095aa729cc37bda09803850d34314e1f89a348646986f3c5c1cd83b6",
+      "uncompressedBytes": 10747
+    },
+    "Config/Knowledge.xml": {
+      "sha256": "972dc82b0b77d82e6613a60474e1cff42ad99857ef593c070c20347032b3e7c4",
+      "uncompressedSha256": "972dc82b0b77d82e6613a60474e1cff42ad99857ef593c070c20347032b3e7c4",
+      "uncompressedBytes": 6736
+    },
+    "Config/LastPlayedVersion.txt": {
+      "sha256": "462373df31d9e2029ccad7981cbe8b2453e36c7c4f5f05ba6de7580e9a093258",
+      "uncompressedSha256": "462373df31d9e2029ccad7981cbe8b2453e36c7c4f5f05ba6de7580e9a093258",
+      "uncompressedBytes": 8
+    },
+    "Config/ModsConfig.xml": {
+      "sha256": "ddf77f47632b1b48138e53e10e98682a2007e0e4611153f9b0ccb20b129548d2",
+      "uncompressedSha256": "ddf77f47632b1b48138e53e10e98682a2007e0e4611153f9b0ccb20b129548d2",
+      "uncompressedBytes": 678
+    },
+    "launcher.json": {
+      "sha256": "58e9261262405937d8146170a7e5ef7f9d26ede4239e803a913ac067f9542552",
+      "uncompressedSha256": "58e9261262405937d8146170a7e5ef7f9d26ede4239e803a913ac067f9542552",
+      "uncompressedBytes": 2651
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "Player.log.gz": {
+      "sha256": "9a8374753e53599ca7b1a58981f9d6c6fbd1d3dc46c82bc98ce82be8ed3417cd",
+      "uncompressedSha256": "70dd24b99a7e2fc59e466d2c32b94a3e40d1ad8f19273247e3f2e517314ff40e",
+      "uncompressedBytes": 30192
+    },
+    "profiles/capabilities.json": {
+      "sha256": "a446be3dac238f22857679665ecd34199d481ce7b6d5e57161dd9d95d100cb78",
+      "uncompressedSha256": "a446be3dac238f22857679665ecd34199d481ce7b6d5e57161dd9d95d100cb78",
+      "uncompressedBytes": 12449
+    },
+    "profiles/capture-20261009-083609-420-604.json": {
+      "sha256": "627707d166f64550f29e1f2cf42817dd715f748e09e5764bcf6c2f19af571afb",
+      "uncompressedSha256": "627707d166f64550f29e1f2cf42817dd715f748e09e5764bcf6c2f19af571afb",
+      "uncompressedBytes": 21719
+    },
+    "profiles/status.json": {
+      "sha256": "5bb132b2c202e910bd4d40300abdd027c661bba4cbad9c8be368cb535566f234",
+      "uncompressedSha256": "5bb132b2c202e910bd4d40300abdd027c661bba4cbad9c8be368cb535566f234",
+      "uncompressedBytes": 228
+    }
+  }
+}

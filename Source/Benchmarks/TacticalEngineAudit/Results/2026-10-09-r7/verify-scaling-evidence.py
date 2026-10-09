@@ -342,3 +342,25 @@ assert not group["newAiPerformanceGateEligible"] and not group["newAiFixedWindow
 assert abs(group["tickCpuRatio"] - cpu_per_tick(rtc) / cpu_per_tick(cpc)) < 1e-12
 assert abs(group["windowCpuRatio"] - cpu_per_tick(rtc, True) / cpu_per_tick(cpc, True)) < 1e-12
 print("PASS: same-DLL native408 Vanilla counterpart reproduces raw OS CPU ratios; single pair and post-completion window remain non-final.")
+
+retained, rmc, rml = run("retained-mission-new-408-3x-attempt-07", fixture_version=34)
+assert rmc["assemblySha256"] == "ab1487ea04c48d258becca0f9b934388276f0bd0a49d3eace6e86a21e69a06b0"
+assert retained["mapFingerprint"] == restored["mapFingerprint"] and retained["pawnFingerprint"] == restored["pawnFingerprint"]
+assert retained["population"] == retained["alive"] == 408 and retained["units"] == 34
+assert retained["sampleTicks"] == rmc["endTick"] - rmc["startTick"] == 20000
+assert retained["r7CqbEvents"] == cqb_events and retained["r7CqbStimulusComplete"] and retained["r7WildlifeSpawnerDisabled"]
+assert retained["r7TickRateMinimum"] == retained["r7TickRateMaximum"] == 3
+assert retained["newFunctionalComplete"] and retained["newRoomProgressComplete"]
+assert retained["newCompletedUnits"] == 34 and retained["newEnteredByOrder"] == retained["newEntryAssignmentsComplete"] == 408
+assert retained["newEverEnteredByOrder"] == 408 and retained["newAllCompleteTick"] == 15763
+assert retained["newPhysicalPlansValid"] and retained["newConnectedStacks"] and retained["newUnsafeEntries"] == 0
+assert retained["newContactResponses"] == retained["newContactResumes"] == 4 and retained["newJobFailures"] == 172
+assert all("goal=True representatives=True,True,True" in value for value in retained["newRoomDiagnostics"])
+assert all(":contactRestoring=False:" in value and ":identifying=False:" in value for value in retained["r7CommandLayers"])
+portals = [re.findall(r"\(-?\d+, 0, -?\d+\)", value) for value in retained["newSecuredPortals"]]
+assert retained["newRoomsSecured"] == sum(map(len, portals)) == 98
+assert all(len(values) == len(set(values)) for values in portals)
+restart = next(m for m in rmc["methods"] if ".RestartRetainedMission(" in m["method"])
+assert restart["calls"] == 2 and restart["inclusiveMs"] == 0.0203
+assert retained["r7MaximumDueDelay"] == 9 and retained["r7MaximumDueCommands"] == 12
+print("PASS: actual retained-mission fallback executes twice and preserves all98 secured plans with no duplicate portal; native408 functional success, no same-DLL/final CPU gate fabricated.")

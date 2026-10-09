@@ -51,7 +51,7 @@ namespace Helodrace.Tactics
 
         internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
-            out TacticalPlanFailure failure, int failedAttempts, int frontage = 0)
+            out TacticalPlanFailure failure, int failedAttempts, int frontage = 0, Func<IntVec3, bool> secured = null)
         {
             failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
@@ -94,7 +94,7 @@ namespace Helodrace.Tactics
                 bool roofed = goal.Roofed(map);
                 direct.Positions.AddRange(TacticalDestinationFootprint.Find(goal, count,
                     cell => cell.InBounds(map) && cell.Walkable(map) && cell.Roofed(map) == roofed
-                        && !(cell.GetEdifice(map) is Building_Door), cell => Free(map, cell, claimed)));
+                        && !(cell.GetEdifice(map) is Building_Door) && secured?.Invoke(cell) != true, cell => Free(map, cell, claimed)));
                 if (direct.Positions.Count != count) { failure = TacticalPlanFailure.Inside; return null; }
                 if (leader.CanReach(direct.Positions[0], Verse.AI.PathEndMode.OnCell, Danger.Deadly)) return direct;
                 failure = TacticalPlanFailure.Unreachable; return null;
@@ -121,13 +121,14 @@ namespace Helodrace.Tactics
                 if (barrier == null && !opening.Standable(map)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier,
                     ExistingOpening = barrier == null || openDoor };
+                if (secured?.Invoke(plan.Inside) == true) { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 if (!BuildStack(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Stack; continue; }
                 // A blast at a corner can connect the local flood to outdoors.
                 // Keep this footprint on the inside mouth's roof/floor space,
                 // as the direct objective and later room-entry planners do.
                 bool insideRoofed = plan.Inside.Roofed(map);
-                if (!BuildPositions(map, plan, count, claimed, cell => cell.Roofed(map) == insideRoofed))
+                if (!BuildPositions(map, plan, count, claimed, cell => cell.Roofed(map) == insideRoofed && secured?.Invoke(cell) != true))
                 { failure |= TacticalPlanFailure.Inside; continue; }
                 candidates.Add(plan);
             }
