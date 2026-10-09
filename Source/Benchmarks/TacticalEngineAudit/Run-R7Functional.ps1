@@ -39,9 +39,11 @@ foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recov
     Add-Case $case $case -Ticks 10000 -Flags $flags -Minimums $minimums
 }
 Add-Case casualty casualty -Population 13 -High $true -Flags @('caseTriggered','newCasualtyContinued') -Minimums @{ caseLossTick=1 }
-Add-Case low-cooperation r5-low-coop -Population 24 -Ticks 12000
-Add-Case shared-entry r5-shared -Population 24 -Ticks 12000
-Add-Case radio-loss r5-radio-loss -Population 26 -High $true -Ticks 14000
+$cooperationFlags=@('newCooperationComplete','newCooperationMilestonePreserved')
+$cooperationMinimums=@{ newCooperationCompletedTick=1; newAgreementsConfirmed=2; newCooperationStarts=2 }
+Add-Case low-cooperation r5-low-coop -Population 24 -Ticks 12000 -Flags $cooperationFlags -Minimums $cooperationMinimums
+Add-Case shared-entry r5-shared -Workload sapper-door -Population 24 -Ticks 12000 -Flags $cooperationFlags -Minimums $cooperationMinimums
+Add-Case radio-loss r5-radio-loss -Population 26 -High $true -Ticks 14000 -Flags $cooperationFlags -Minimums $cooperationMinimums
 foreach ($high in @($false,$true)) {
     $size = 12; $label = 'low'
     if ($high) { $size = 13; $label = 'high' }
@@ -82,9 +84,9 @@ Add-Case reload-care r6-care-drill -Reload $true -Reloads 2 -Ticks 14000 -Flags 
     newMedicalTreatments=2; newMedicalCompleted=2; newMedicalPlasma=1; newMedicalRejoins=1 }
 $packetFlags = $reloadFlags + @('r7ReloadAgreementPreserved','r7ReloadPacketsPreserved',
     'r7ReloadPacketEndpointsBound','r7ReloadPacketsDelivered')
-Add-Case reload-low r5-low-coop -Population 24 -Reload $true -Reloads 2 -Ticks 12000 -Flags $packetFlags
-Add-Case reload-high r5-shared -Population 26 -High $true -Reload $true -Reloads 2 -Ticks 10000 -Flags (
-    $packetFlags + 'r7ReloadWornEquipmentPreserved')
+Add-Case reload-low r5-low-coop -Population 24 -Reload $true -Reloads 2 -Ticks 12000 -Flags ($packetFlags + $cooperationFlags) -Minimums $cooperationMinimums
+Add-Case reload-high r5-shared -Workload sapper-door -Population 26 -High $true -Reload $true -Reloads 2 -Ticks 10000 -Flags (
+    $packetFlags + $cooperationFlags + 'r7ReloadWornEquipmentPreserved') -Minimums $cooperationMinimums
 Add-Case reload-defense r7-defense-transition -Reload $true -Reloads 2 -Ticks 10000 -Functional $false -Flags (
     $reloadFlags + @('r7ReloadDefensePreserved','r7DefenseComplete','r7DefenseAssaultTransition','r7DefenseAssaultComplete'))
 Add-Case reload-support r7-support -Reload $true -Reloads 2 -Ticks 14000 -Flags (

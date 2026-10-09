@@ -1,0 +1,50 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-lifecycle-01",
+  "classification": "Native LOW actual joint milestone3948 and final12000 passed. Following shared-entry failed during Initialize because launcher used sapper-wall instead of required sapper-door. Invalid shared fixture input excluded from functional/CPU acceptance; original error retained. Selected queue incomplete, no final44/R7/CPU claim.",
+  "archivedCases": [
+    "low-cooperation",
+    "shared-entry"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "1c86c5f95fd22c519eaf994e1e3c5a3538760d5ca695e9c04fd7701182aacdb9",
+      "uncompressedSha256": "1c86c5f95fd22c519eaf994e1e3c5a3538760d5ca695e9c04fd7701182aacdb9",
+      "uncompressedBytes": 2359
+    },
+    "low-cooperation/audit.json": {
+      "sha256": "9d97815e8c354e1688f02673e88d09fb788ca6a9ebe3763f3be011a3969f88d5",
+      "uncompressedSha256": "9d97815e8c354e1688f02673e88d09fb788ca6a9ebe3763f3be011a3969f88d5",
+      "uncompressedBytes": 17552
+    },
+    "low-cooperation/launcher.json": {
+      "sha256": "d8d31d0d6041b07b39bd1eb7e95d754926bbe0cb5bc349762533ff3b78ae6318",
+      "uncompressedSha256": "d8d31d0d6041b07b39bd1eb7e95d754926bbe0cb5bc349762533ff3b78ae6318",
+      "uncompressedBytes": 2517
+    },
+    "low-cooperation/Player.log.gz": {
+      "sha256": "33d2a419e172337bf78d4adbc629647d7d8fca268aa30a1b0b1bb3daeabdb144",
+      "uncompressedSha256": "d90aadb39da75e022d61d93c95e0eedaf4e45712dad0e4627dcf84aa5c196aef",
+      "uncompressedBytes": 29776
+    },
+    "low-cooperation/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "shared-entry/audit.json": {
+      "sha256": "36ddf3c4517ade2b9403dff75ddf4d42a3bed49ffe3223d978ce8bc5a893332e",
+      "uncompressedSha256": "36ddf3c4517ade2b9403dff75ddf4d42a3bed49ffe3223d978ce8bc5a893332e",
+      "uncompressedBytes": 8473
+    },
+    "shared-entry/launcher.json": {
+      "sha256": "3dd068dbcbbdfdc3dd2917ee4087571b4c288e2afd768f5a703037b16e3d2675",
+      "uncompressedSha256": "3dd068dbcbbdfdc3dd2917ee4087571b4c288e2afd768f5a703037b16e3d2675",
+      "uncompressedBytes": 2504
+    },
+    "shared-entry/Player.log.gz": {
+      "sha256": "78823726241535798a393afbf7474b2d490112afb97130b9610b310236d5c896",
+      "uncompressedSha256": "8bc503268636e207f03c6b669dfd09d773035353b0a5532fc151bb4888450eb3",
+      "uncompressedBytes": 29420
+    }
+  }
+}

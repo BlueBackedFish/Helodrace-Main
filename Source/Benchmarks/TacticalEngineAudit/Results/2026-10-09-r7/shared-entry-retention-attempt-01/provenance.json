@@ -1,0 +1,34 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-shared-entry-retention-01",
+  "classification": "Retaining active agreement prevented early release, but native shared entry still failed. A remained Pending past deadline then lost original command; existing open entrance accepted directly into Observe was not recorded by RememberOpening, so later reuse had no known physical portal and sparse fresh samples missed door. Original runtime failure retained; not functional/CPU acceptance.",
+  "archivedCases": [
+    "shared-entry"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "7885ea39fc3742c98504790509052de45a48c65f5fe5b15766606c639bd9a095",
+      "uncompressedSha256": "7885ea39fc3742c98504790509052de45a48c65f5fe5b15766606c639bd9a095",
+      "uncompressedBytes": 1522
+    },
+    "shared-entry/audit.json": {
+      "sha256": "ce4fbb38e6f0d553ef15529bc508006af0bca13cd625cf3304bed243f1a2d8dd",
+      "uncompressedSha256": "ce4fbb38e6f0d553ef15529bc508006af0bca13cd625cf3304bed243f1a2d8dd",
+      "uncompressedBytes": 16569
+    },
+    "shared-entry/launcher.json": {
+      "sha256": "60f8c4824033b82c8821572548b8e66693ba3e935e35bd5a77692bca839c5f04",
+      "uncompressedSha256": "60f8c4824033b82c8821572548b8e66693ba3e935e35bd5a77692bca839c5f04",
+      "uncompressedBytes": 2507
+    },
+    "shared-entry/Player.log.gz": {
+      "sha256": "0754b0488795282e9a39719e7afa3e3bdc878d3b5af9a310c178249b1e3bea1d",
+      "uncompressedSha256": "109c85745d815f8510a6c181e503369e62c1e14799fbb4d58bf6bcdfad6cbdc5",
+      "uncompressedBytes": 30069
+    },
+    "shared-entry/pawn-manifest.txt.gz": {
+      "sha256": "81a2f5885a5367849449c060ed765f5c55e55456ba048b986a996fc9756946be",
+      "uncompressedSha256": "c59bcb4392a311152fa92ee2554247a6079dcdd4c920b5ed2f2a251f24734594",
+      "uncompressedBytes": 20755
+    }
+  }
+}

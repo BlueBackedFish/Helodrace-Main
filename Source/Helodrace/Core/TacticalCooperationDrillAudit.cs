@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using HarmonyLib;
 using Helodrace.ModernWar;
 using Helodrace.Tactics;
@@ -9,6 +10,13 @@ using Verse;
 
 namespace Helodrace
 {
+    public sealed partial class TacticalEngineAuditResult
+    {
+        [DataMember] public int newCooperationCompletedTick = -1;
+        [DataMember] public bool newCooperationMilestonePreserved;
+        [DataMember] public string[] newCooperationCompletionAgendas, newCooperationCompletionStates;
+    }
+
     // Scripted physical stimuli only; never insert cooperation or contact state.
     public sealed partial class MapComponent_TacticalEngineAudit
     {
@@ -86,6 +94,7 @@ namespace Helodrace
             if (commands.Length != 2) return;
             TacticalSquadCommand a=commands[0], b=commands[1];
             TacticalCommunications network=Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
+            ObserveCooperationCompletion(commands, tick);
             if (network.MessagesDropped>lastLoggedDrops)
             {
                 lastLoggedDrops=network.MessagesDropped;
@@ -185,8 +194,73 @@ namespace Helodrace
             CooperationEvent("radio contact received with original observed tick " + (received.SeenTick-started));
             owner.Position=new IntVec3(155,0,155);
         }
+        private IntVec3[] CooperationRegions(TacticalSquadCommand[] commands) => MultiRoomFixture
+            ? new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) }
+            : new[] { commands[0].Goal };
+
+        // Audit history, never an input to the AI. A later deadline recovery
+        // must not erase an actually completed, jointly covered allocation.
+        // Conversely two Finished flags alone do not establish that milestone.
+        internal static bool CooperationCompletionReady(TacticalSquadCommand[] commands, IntVec3[] regions, int tick)
+        {
+            return commands.Length == 2 && commands.All(c => c.Link.Cooperation.Agenda != null
+                && c.Link.Cooperation.Stage == TacticalAgreementStage.Finished
+                && tick < c.Link.Cooperation.Agenda.Deadline
+                && c.Goal == c.Link.Cooperation.Agenda.Goal
+                && c.Link.Peer?.Id == c.Link.Cooperation.Agenda.Peer(c.Id)
+                && c.SecuredCells.Contains(c.Link.Cooperation.Agenda.Area(c.Id))
+                && c.Members.Count > 0 && c.Members.All(m => m.Pawn != null && (m.Pawn.Dead || m.Pawn.Downed
+                    || m.EntryAssignmentDone && m.Passed && m.Crossed && m.EverEntered)))
+                && Agenda(commands[0].Link.Cooperation.Agenda) == Agenda(commands[1].Link.Cooperation.Agenda)
+                && TimedCqbMissionCoverage(commands, regions);
+        }
+
+        internal static bool CooperationCompletionPreserved(TacticalEngineAuditResult evidence,
+            TacticalSquadCommand[] commands, IntVec3[] regions, int startedAt, int tick)
+        {
+            if (evidence.newCooperationCompletedTick < 0 || evidence.newCooperationCompletionAgendas?.Length != 2
+                || evidence.newCooperationCompletionStates?.Length != 2 || commands.Length != 2
+                || commands.Select(c => c.Id).Distinct().Count() != 2
+                || startedAt + evidence.newCooperationCompletedTick > tick) return false;
+            for (int i = 0; i < commands.Length; i++)
+            {
+                TacticalSquadCommand command = commands[i];
+                TacticalCooperationState agreement = command.Link.Cooperation;
+                if (agreement.Agenda == null || evidence.newCooperationCompletionAgendas[i] != Agenda(agreement.Agenda)
+                    || !evidence.newCooperationCompletionStates[i].StartsWith(command.Id + ":Finished ", StringComparison.Ordinal)
+                    || startedAt + evidence.newCooperationCompletedTick >= agreement.Agenda.Deadline
+                    || command.Goal != agreement.Agenda.Goal || command.Phase != TacticalCommandPhase.Complete
+                    || agreement.Stage != TacticalAgreementStage.Finished
+                        && (agreement.Stage != TacticalAgreementStage.Aborted || tick < agreement.Agenda.Deadline)
+                    || !command.SecuredCells.Contains(agreement.Agenda.Area(command.Id))
+                    || command.SecuredPlans.Count == 0
+                    || command.SecuredPlans.Select(p => p.Opening).Distinct().Count() != command.SecuredPlans.Count)
+                    return false;
+            }
+            return regions.All(cell => commands.Any(c => c.SecuredCells.Contains(cell)))
+                && commands.Any(c => c.GoalSecured && c.SecuredCells.Contains(c.Goal));
+        }
+
+        private void ObserveCooperationCompletion(TacticalSquadCommand[] commands, int tick)
+        {
+            if (result.newCooperationCompletedTick >= 0 || !CooperationCompletionReady(commands, CooperationRegions(commands), tick)) return;
+            TacticalCommunications network = Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
+            MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
+            if (network.AgreementsConfirmed < 2 || service.CooperationStarts < 2) return;
+            result.newCooperationCompletedTick = tick - started;
+            result.newCooperationCompletionAgendas = commands.Select(c => Agenda(c.Link.Cooperation.Agenda)).ToArray();
+            result.newCooperationCompletionStates = commands.Select(c => c.Id + ":Finished phase=" + c.Phase
+                + " ownAreaSecured=True goal=" + c.GoalSecured + " peerFinished=" + c.Link.Cooperation.PeerFinished
+                + " peerGoalReported=" + c.Link.Cooperation.PeerGoalSecured
+                + " rooms=" + string.Join(",", CooperationRegions(commands).Select(c.SecuredCells.Contains))
+                + " secured=" + c.SecuredCells.Count + " entries=" + c.Members.Count(m => m.EntryAssignmentDone && m.EverEntered)
+                + " plans=" + string.Join(";", c.SecuredPlans.Select(p => p.Opening))).ToArray();
+            CooperationEvent("joint mission completed before deadline; local Finished states and actual room/bed/entry coverage recorded");
+        }
+
         private void FinalCooperationDiagnostics(TacticalSquadCommand[] commands)
         {
+            commands = commands.OrderBy(c => c.Id).ToArray();
             TacticalCommunications network=Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
             MapComponent_TacticalCommands service=map.GetComponent<MapComponent_TacticalCommands>();
             result.newCommunicationChecks=network.PairChecks; result.newMessagesSent=network.MessagesSent;
@@ -201,8 +275,10 @@ namespace Helodrace
             result.newSharedEntranceProgress=commands.Length==2 && commands.All(c=>c.SecuredPlans.Count>0
                 && c.SecuredPlans[0].Opening==new IntVec3(100,0,108)
                 && c.Members.All(m=>m.Passed && m.Crossed && m.EverEntered));
+            result.newCooperationMilestonePreserved = CooperationCompletionPreserved(result, commands,
+                CooperationRegions(commands), started, GenTicks.TicksGame);
             result.newCooperationComplete=network.AgreementsConfirmed>=2 && service.CooperationStarts>=2
-                && commands.All(c=>c.Link.Cooperation.Stage==TacticalAgreementStage.Finished)
+                && result.newCooperationMilestonePreserved
                 && (result.fixtureCase=="r5-shared" ? result.newSharedEntranceProgress
                     : result.newCooperationDistinctEntrances && result.newCooperationOwnedAreas)
                 && (result.fixtureCase!="r5-low-coop" || result.newCooperationSplitBlocked && result.newCooperationIdentification)

@@ -411,7 +411,7 @@ namespace Helodrace.Tactics
                 command.LastPlanFailure = failure;
                 if (plan == null)
                 {
-                    if ((hammer == null && !command.Link.Cooperation.Active || command.Failures >= 4) && leases.Count == 0)
+                    if (MayAbandonPendingPlan(hammer != null, command.Link.Cooperation.Active, command.Failures, leases.Count))
                     {
                         if (command.SecuredPlans.Count > 0) BeginReturn(command, tick, false, replan: true);
                         else Release(command);
@@ -442,6 +442,11 @@ namespace Helodrace.Tactics
                     if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
                     claims[plan.Opening] = command;
                     command.Breacher = hammer;
+                    // Already-open doors/gaps skip Stack/Breach, whose normal
+                    // transition records the portal. Keep the validated local
+                    // footprint for later squads as well; ReuseOpening still
+                    // requires their own history, received report or actual LOS.
+                    if (plan.ExistingOpening) RememberOpening(plan);
                     command.Phase = plan.ExistingOpening ? TacticalCommandPhase.Observe : TacticalCommandPhase.Stack;
                 }
             }
@@ -663,6 +668,15 @@ namespace Helodrace.Tactics
         private static bool AtPost(TacticalMemberCommand member) => member.Pawn.CurJob == member.Job
             && member.Pawn.jobs.curDriver is TacticalJobDriver driver && driver.AtPost
             && member.Pawn.Position == member.Job.targetA.Cell;
+        private static bool MayAbandonPendingPlan(bool hasTool, bool activeAgreement, int failures, int leasedOpenings)
+        {
+            // An allocated partner may still be clearing its physical posts
+            // after releasing the portal lease. Keep the same command through
+            // the already bounded agreement window instead of retiring it and
+            // letting vanilla walk inside before discovery re-registers it.
+            // AdvanceCoordination expires the agreement before planning.
+            return !activeAgreement && (!hasTool || failures >= 4) && leasedOpenings == 0;
+        }
         private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick)
         {
             if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalPost"

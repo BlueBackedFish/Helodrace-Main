@@ -1,0 +1,55 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-lifecycle-02",
+  "classification": "Actual LOW milestone3919 and final12000 passed. Shared-entry now uses required sapper-door and ran full12000 without exceptions but failed: initial command released after repeated plan failures, lost agreement/first passage; final replacement A has direct plan/None agreement. B actually used door, 24 entered, only1 cooperation start, shared progress false. Not acceptance, preserved before runtime fix.",
+  "archivedCases": [
+    "low-cooperation",
+    "shared-entry"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "cb149660c819aa938ce7e0f71f90bd3e2a9b878cda155e53e952100e3f8469e0",
+      "uncompressedSha256": "cb149660c819aa938ce7e0f71f90bd3e2a9b878cda155e53e952100e3f8469e0",
+      "uncompressedBytes": 2303
+    },
+    "low-cooperation/audit.json": {
+      "sha256": "aa188ee828bf5fa172d996027aac5faa69cd407f81c4408c85b02d314f6678df",
+      "uncompressedSha256": "aa188ee828bf5fa172d996027aac5faa69cd407f81c4408c85b02d314f6678df",
+      "uncompressedBytes": 17659
+    },
+    "low-cooperation/launcher.json": {
+      "sha256": "22b0622930e009ac985c89efe7af20f4beae8bd1ed5753e78a61baa28cec6bb0",
+      "uncompressedSha256": "22b0622930e009ac985c89efe7af20f4beae8bd1ed5753e78a61baa28cec6bb0",
+      "uncompressedBytes": 2517
+    },
+    "low-cooperation/Player.log.gz": {
+      "sha256": "2ebfb0a299d7d8fa8f9119870e1c4f738137d6e8180d26d32cbfe188b5271f59",
+      "uncompressedSha256": "45b8d2d6970c7e8237c2fe5c1c014764f9dfd5c775d9d61e1a8d88a67b2e5396",
+      "uncompressedBytes": 30066
+    },
+    "low-cooperation/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "shared-entry/audit.json": {
+      "sha256": "97b6f3acec3f9ba5437d742fd0ea48c41f2ba6ee08a4ad41a80a903fddaaa169",
+      "uncompressedSha256": "97b6f3acec3f9ba5437d742fd0ea48c41f2ba6ee08a4ad41a80a903fddaaa169",
+      "uncompressedBytes": 16434
+    },
+    "shared-entry/launcher.json": {
+      "sha256": "c4708051f10be6763f8539a3a874379d3b7aeb77e9685200c65271f17e1c3a2b",
+      "uncompressedSha256": "c4708051f10be6763f8539a3a874379d3b7aeb77e9685200c65271f17e1c3a2b",
+      "uncompressedBytes": 2504
+    },
+    "shared-entry/Player.log.gz": {
+      "sha256": "cd5532b7e38fe1dd3b7003468f81ca50955b1220aba7a8c82c4963e7df0276d9",
+      "uncompressedSha256": "e9fe478eed9eb51597efd32ff9780a10a1e1fdd2c7d86acafe1f95cf52902095",
+      "uncompressedBytes": 29903
+    },
+    "shared-entry/pawn-manifest.txt.gz": {
+      "sha256": "81a2f5885a5367849449c060ed765f5c55e55456ba048b986a996fc9756946be",
+      "uncompressedSha256": "c59bcb4392a311152fa92ee2554247a6079dcdd4c920b5ed2f2a251f24734594",
+      "uncompressedBytes": 20755
+    }
+  }
+}

@@ -45,6 +45,16 @@ internal static class TacticalRetainedMissionTests
         object plan = AccessTools.Method(service.GetType(), "ReuseOpening").Invoke(service, args);
         if (plan != null || (bool)args[5] || (TacticalPlanFailure)args[6] != TacticalPlanFailure.None)
             throw new Exception("Already secured portal must not be retried as another room entry.");
+        var abandon = AccessTools.Method(service.GetType(), "MayAbandonPendingPlan");
+        bool Abandon(bool tool, bool agreed, int failures, int leases) => (bool)abandon.Invoke(null,
+            new object[] { tool, agreed, failures, leases });
+        foreach (int failures in new[] { 0, 3, 4, 20, 100 })
+            if (Abandon(false, true, failures, 0) || Abandon(true, true, failures, 0))
+                throw new Exception("A live shared-entry agreement must retain its original command until coordination expires it.");
+        if (!Abandon(false, false, 0, 0) || !Abandon(true, false, 4, 0)
+            || Abandon(true, false, 3, 0) || Abandon(false, false, 20, 1))
+            throw new Exception("Ordinary/expired impossible plans retain the existing release threshold and occupied-portal wait.");
         Console.WriteLine("PASS: retained geometric retry preserves secured/observed mission identity, continues unknown frontiers and skips already secured portal reuse.");
+        Console.WriteLine("PASS: shared-entry retries preserve active allocation and original command; expired/ordinary impossible plans retain bounded release policy.");
     }
 }

@@ -1,0 +1,30 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "9a078b9cf6a2f3a1e12523f2e55c65b5eb2364c95619670acd182d4a3386730b",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "shared-entry"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  false,
+    "records":  [
+                    {
+                        "name":  "shared-entry",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-shared-entry-retention-01\\shared-entry",
+                        "pid":  18928,
+                        "status":  "failed",
+                        "error":  "Full native functional completion failed.",
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  0
+                    }
+                ]
+}

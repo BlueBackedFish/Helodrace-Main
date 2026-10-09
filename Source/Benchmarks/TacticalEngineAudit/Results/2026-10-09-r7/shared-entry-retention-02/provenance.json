@@ -1,0 +1,34 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-shared-entry-retention-02",
+  "classification": "Native defaultNew/normalgraphics/unprofiled/actual3/12000 shared-entry passed. Actual two original complete LOW squads/all24 passed same door100108, 2 confirmed/2 starts, same allocation/entry history and joint objective milestone3076; final coverage retained, no unsafe entries/exceptions. Selected1 verification of existing-portal record + active-allocation retention; not final44 or CPU/R7 acceptance.",
+  "archivedCases": [
+    "shared-entry"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "09c47ebaba09760e6b20c94fa21ddb1a860d6590a4ed220ec1aee31440c19911",
+      "uncompressedSha256": "09c47ebaba09760e6b20c94fa21ddb1a860d6590a4ed220ec1aee31440c19911",
+      "uncompressedBytes": 1481
+    },
+    "shared-entry/audit.json": {
+      "sha256": "d6121855cab32202814659b2a3f3f9dcca37818b95423fc64239dc0442f09d75",
+      "uncompressedSha256": "d6121855cab32202814659b2a3f3f9dcca37818b95423fc64239dc0442f09d75",
+      "uncompressedBytes": 17455
+    },
+    "shared-entry/launcher.json": {
+      "sha256": "eb46dd31b00a8735bf2f9e6a6727d1ec3d18af8017b23c93c99a8daf5626e826",
+      "uncompressedSha256": "eb46dd31b00a8735bf2f9e6a6727d1ec3d18af8017b23c93c99a8daf5626e826",
+      "uncompressedBytes": 2507
+    },
+    "shared-entry/Player.log.gz": {
+      "sha256": "755f8154337456bff5f6d4242f904c32782aee0970ae40a8522f9fd26b6a03c6",
+      "uncompressedSha256": "878f6bcab5bad1f001db582cfedcd05d358b8e0a02fe26abf920d5d88cf2cda4",
+      "uncompressedBytes": 29793
+    },
+    "shared-entry/pawn-manifest.txt.gz": {
+      "sha256": "81a2f5885a5367849449c060ed765f5c55e55456ba048b986a996fc9756946be",
+      "uncompressedSha256": "c59bcb4392a311152fa92ee2554247a6079dcdd4c920b5ed2f2a251f24734594",
+      "uncompressedBytes": 20755
+    }
+  }
+}
