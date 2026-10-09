@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-timed-cqb-new-408-3x-attempt-01",
+  "classification": "Controlled 408-pawn/34-squad fixed-input CQB diagnosis: 24 complete, 312 entered, 3 Pending without plan; overall functional/physical/room progress fail, no live contact holds, unsafe entry 0. Same build as 48 pair, but no matching Vanilla/complete progress; excluded from final CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "d16fd8c7e3de9ee20eb83faa2fd1dae9da38daaaeaccdebd4eca009f46655afc",
+      "uncompressedSha256": "d16fd8c7e3de9ee20eb83faa2fd1dae9da38daaaeaccdebd4eca009f46655afc",
+      "uncompressedBytes": 146152
+    },
+    "launcher.json": {
+      "sha256": "049c66a46255b3c652ca815d71a6dd1295cd9432726b0d9d771ab96eb1a42128",
+      "uncompressedSha256": "049c66a46255b3c652ca815d71a6dd1295cd9432726b0d9d771ab96eb1a42128",
+      "uncompressedBytes": 2479
+    },
+    "Player.log.gz": {
+      "sha256": "3ef1ba7a939367a9ad4c62febdac06a3cd1bccd5c6fa5e20159e81a3382f5c92",
+      "uncompressedSha256": "dcfc995e326fe8a30beac361cf5a6f921803ac1bbc30c6f41f0784e2dca1caa4",
+      "uncompressedBytes": 30040
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "73a616664a61d023bd7936f8b43e2c58a2714181896c9238fc122e35365cc641",
+      "uncompressedSha256": "73a616664a61d023bd7936f8b43e2c58a2714181896c9238fc122e35365cc641",
+      "uncompressedBytes": 11823
+    },
+    "profiles/capture-20261009-043121-989-604.json": {
+      "sha256": "70a1fee4bc6bd6acffb59e140f76194605dfc43738c1f97e2dd1eb5540cbed9e",
+      "uncompressedSha256": "70a1fee4bc6bd6acffb59e140f76194605dfc43738c1f97e2dd1eb5540cbed9e",
+      "uncompressedBytes": 19968
+    },
+    "profiles/status.json": {
+      "sha256": "28229ec6a3ad542bc1acf76e612b607a8714dedcac30970bad8bdf9afb82d007",
+      "uncompressedSha256": "28229ec6a3ad542bc1acf76e612b607a8714dedcac30970bad8bdf9afb82d007",
+      "uncompressedBytes": 228
+    }
+  }
+}

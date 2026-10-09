@@ -3,6 +3,7 @@ from pathlib import Path
 import gzip
 import hashlib
 import json
+import re
 
 base = Path(__file__).resolve().parent
 
@@ -207,3 +208,40 @@ def cpu_per_tick(capture, window=False):
 assert abs(group["tickCpuRatio"] - cpu_per_tick(nc) / cpu_per_tick(vc)) < 1e-12
 assert abs(group["windowCpuRatio"] - cpu_per_tick(nc, True) / cpu_per_tick(vc, True)) < 1e-12
 print("PASS: controlled same-build 48-pawn CPU pair matches raw OS CPU; single-run evidence remains ineligible for final gate.")
+
+audit, capture, launcher = run("timed-cqb-controlled-new-408-3x-attempt-01", fixture_version=34)
+assert capture["assemblySha256"] == nc["assemblySha256"]
+assert launcher["defaultEngine"] and not any(arg.startswith("-hdTacticalEngine=") for arg in launcher["arguments"])
+assert audit["population"] == audit["alive"] == 408 and audit["units"] == 34
+assert audit["r7CqbStimulusComplete"] and audit["r7CqbEvents"] == cqb_events and audit["r7WildlifeSpawnerDisabled"]
+assert audit["r7TickRateMinimum"] == audit["r7TickRateMaximum"] == 3
+assert not audit["newFunctionalComplete"] and not audit["newRoomProgressComplete"]
+assert not audit["newPhysicalPlansValid"] and not audit["newConnectedStacks"]
+assert audit["newCompletedUnits"] == 24 and audit["newEnteredByOrder"] == 312
+assert sum(":Pending opening=" in command for command in audit["newCommands"]) == 3
+assert audit["newBusyOpeningFallbacks"] == 302 and audit["newJobFailures"] == 116
+assert audit["newContactResponses"] == audit["newContactResumes"] == 6 and audit["newUnsafeEntries"] == 0
+assert all(":contact=none:" in s and ":contactRestoring=False:" in s for s in audit["r7CommandLayers"])
+assert audit["r7MaximumDueDelay"] == 10 and audit["r7MaximumDueCommands"] == 16
+print("PASS: fixed-input 408-pawn test preserves unfinished progress after enemy retreat; not a final performance/functional pass.")
+
+fixed, fc, fl = run("identification-phase-new-408-3x-attempt-02", fixture_version=34)
+assert fc["assemblySha256"] == "281597c35a2442688efd3fb753b99036f4994e1eed81cac9544075db3f43a198"
+assert fixed["mapFingerprint"] == audit["mapFingerprint"] and fixed["pawnFingerprint"] == audit["pawnFingerprint"]
+assert fixed["r7CqbStimulusComplete"] and fixed["r7CqbEvents"] == cqb_events and fixed["r7WildlifeSpawnerDisabled"]
+assert fixed["population"] == fixed["alive"] == 408 and fixed["units"] == 34
+assert fixed["r7TickRateMinimum"] == fixed["r7TickRateMaximum"] == 3
+assert not fixed["newFunctionalComplete"] and fixed["newAllCompleteTick"] == -1
+assert fixed["newCompletedUnits"] == 30 and fixed["newEnteredByOrder"] == 360 and fixed["newEverEnteredByOrder"] == 384
+assert sum(":Pending opening=" in command for command in fixed["newCommands"]) == 2
+assert sum(":identifying=True:" in command for command in fixed["r7CommandLayers"]) == 2
+assert fixed["newJobFailures"] == 64 and fixed["newUnsafeEntries"] == 0
+assert fixed["newContactResponses"] == fixed["newContactResumes"] == 10
+assert fixed["r7MaximumDueDelay"] == 10 and fixed["r7MaximumDueCommands"] == 16
+old_repeated = [re.findall(r"\(-?\d+, 0, -?\d+\)", value) for value in audit["newSecuredPortals"]]
+assert sum(len(portals) != len(set(portals)) for portals in old_repeated) == 3
+for value in fixed["newSecuredPortals"]:
+    portals = re.findall(r"\(-?\d+, 0, -?\d+\)", value)
+    assert len(portals) == len(set(portals))
+assert next(m for m in fc["methods"] if ".AdvanceCoordination(" in m["method"])["calls"] == 8126
+print("PASS: identification fix retains unique current opening histories and records 30/34 completion without claiming final CPU/progression success.")

@@ -40,7 +40,14 @@ namespace Helodrace.Tactics
                         member.Entered = member.EntryAssignmentDone = false;
                     }
                     if (command.OpeningAction != null)
-                    { command.OpeningAction = null; command.Phase = TacticalCommandPhase.Observe; }
+                    {
+                        // Identification interrupts an unfinished observation
+                        // or preparation, not ingress or an already secured room.
+                        // A completed opening action can still be retained there.
+                        command.OpeningAction = null;
+                        if (command.Phase == TacticalCommandPhase.Observe || command.Phase == TacticalCommandPhase.Support)
+                            command.Phase = TacticalCommandPhase.Observe;
+                    }
                 }
                 foreach (TacticalMemberCommand member in active) EnsureParking(command, member, tick);
                 command.Due = tick + 1; return true;

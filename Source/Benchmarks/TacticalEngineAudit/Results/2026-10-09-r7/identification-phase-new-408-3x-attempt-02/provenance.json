@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-identification-new-408-3x-attempt-02",
+  "classification": "Identification phase fix diagnosis: fixed actual 3x, 408 pawns/34 squads, 30 complete, 360 entered/384 ever entered, 2 Pending and two live identification holds; overall incomplete, not a CPU gate. No matching Vanilla on this DLL/target set.",
+  "files": {
+    "audit.json": {
+      "sha256": "ce59588203a21691036610d5b73f86542f63e0bba74c529f9e147c7df1c24c5e",
+      "uncompressedSha256": "ce59588203a21691036610d5b73f86542f63e0bba74c529f9e147c7df1c24c5e",
+      "uncompressedBytes": 133373
+    },
+    "launcher.json": {
+      "sha256": "96988650a0459c01cba321758b2df59182a515861fa533439de3d29f8fee1024",
+      "uncompressedSha256": "96988650a0459c01cba321758b2df59182a515861fa533439de3d29f8fee1024",
+      "uncompressedBytes": 2547
+    },
+    "Player.log.gz": {
+      "sha256": "d477fcbd948a69a09c5ffbbdd61974a1a9e29e0dc3db6825616408ace0e030e7",
+      "uncompressedSha256": "6d9d3dbb175394bd573478adee910dc43bf29c96fbc72cad64d4ff28267a3f3b",
+      "uncompressedBytes": 29817
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "f7b6af161d34e70ba4b941d51a3f8abe8523fafc38371053764946250f389aea",
+      "uncompressedSha256": "f7b6af161d34e70ba4b941d51a3f8abe8523fafc38371053764946250f389aea",
+      "uncompressedBytes": 11329
+    },
+    "profiles/capture-20261009-043953-597-605.json": {
+      "sha256": "71a695fe4e6747819d8e6c41c4d5862ff2be068646b63de944b281627fe9a477",
+      "uncompressedSha256": "71a695fe4e6747819d8e6c41c4d5862ff2be068646b63de944b281627fe9a477",
+      "uncompressedBytes": 19482
+    },
+    "profiles/status.json": {
+      "sha256": "496825084be5b6a0ea4082224e655b701333966ee4ac10e4384ca192245d491e",
+      "uncompressedSha256": "496825084be5b6a0ea4082224e655b701333966ee4ac10e4384ca192245d491e",
+      "uncompressedBytes": 228
+    }
+  }
+}
