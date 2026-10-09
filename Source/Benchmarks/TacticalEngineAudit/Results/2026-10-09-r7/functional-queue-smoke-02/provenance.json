@@ -1,0 +1,31 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-functional-queue-smoke-02",
+  "classification": "Corrected functional-only queue preserves actual1..3 load rates, verifies four native CQB reloads and full room/entry progress on pinned DLL. Only selected smoke case, not full42 regression or final CPU/R7 gate.",
+  "files": {
+    "checks.json": {
+      "sha256": "85eb6dbfc631ecc42508bd6b25abcedb9e793538954ef9313484a4da9446990c",
+      "uncompressedSha256": "85eb6dbfc631ecc42508bd6b25abcedb9e793538954ef9313484a4da9446990c",
+      "uncompressedBytes": 1426
+    },
+    "reload-cqb/audit.json": {
+      "sha256": "24e8a70a1bb05fd62f312977392704d8b221fe4fb7f5396b9ded572ab6df1435",
+      "uncompressedSha256": "24e8a70a1bb05fd62f312977392704d8b221fe4fb7f5396b9ded572ab6df1435",
+      "uncompressedBytes": 11991
+    },
+    "reload-cqb/launcher.json": {
+      "sha256": "6378ae90d74b71cf05131791037d90c8bbd6b93a1c8cdaff346a8417846d8b98",
+      "uncompressedSha256": "6378ae90d74b71cf05131791037d90c8bbd6b93a1c8cdaff346a8417846d8b98",
+      "uncompressedBytes": 2449
+    },
+    "reload-cqb/Player.log.gz": {
+      "sha256": "5e42d683e7dc183fe9b2559aa0faac85f696fd884960ac4cf5017ecb0a76b883",
+      "uncompressedSha256": "c4794717078b3e1bec9a4dc239b08524c04ca99c8937b15fa3259444402b8862",
+      "uncompressedBytes": 35872
+    },
+    "reload-cqb/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

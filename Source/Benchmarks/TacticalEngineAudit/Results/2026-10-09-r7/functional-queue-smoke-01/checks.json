@@ -1,0 +1,33 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "ab1487ea04c48d258becca0f9b934388276f0bd0a49d3eace6e86a21e69a06b0",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "cleanup",
+                           "reload-cqb"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  false,
+    "records":  [
+                    {
+                        "name":  "cleanup",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-functional-queue-smoke-01\\cleanup",
+                        "pid":  40012,
+                        "status":  "passed",
+                        "error":  null
+                    },
+                    {
+                        "name":  "reload-cqb",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-functional-queue-smoke-01\\reload-cqb",
+                        "pid":  7252,
+                        "status":  "failed",
+                        "error":  "Native run, content, environment, retirement, speed or safety check failed."
+                    }
+                ]
+}

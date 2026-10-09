@@ -1,0 +1,51 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-functional-queue-smoke-01",
+  "classification": "Unprofiled functional orchestration smoke only. Preserves cleanup pass and CQB four native reload/full functional success rejected by first queue speed policy (actual1..3 on load). Not a gameplay failure or CPU run.",
+  "files": {
+    "checks.json": {
+      "sha256": "f99c3e7d7c9f4d5bb88b78529b577f252ba12599d5b8683a58d7f2f7c5c14944",
+      "uncompressedSha256": "f99c3e7d7c9f4d5bb88b78529b577f252ba12599d5b8683a58d7f2f7c5c14944",
+      "uncompressedBytes": 1690
+    },
+    "cleanup/audit.json": {
+      "sha256": "8869df3826545855edcd4334866062e24cb8a2683043b3166f08742c18512c77",
+      "uncompressedSha256": "8869df3826545855edcd4334866062e24cb8a2683043b3166f08742c18512c77",
+      "uncompressedBytes": 9257
+    },
+    "cleanup/launcher.json": {
+      "sha256": "5bff7713b7537e40eaee863768cd180a55d344c3b95dc23b91f315558c517296",
+      "uncompressedSha256": "5bff7713b7537e40eaee863768cd180a55d344c3b95dc23b91f315558c517296",
+      "uncompressedBytes": 2434
+    },
+    "cleanup/Player.log.gz": {
+      "sha256": "96c2e6a236b61d5a03b21a42f2d8fbcaac2c541db1b8d6fb54e7825e2e1c5e6d",
+      "uncompressedSha256": "31684f02195b295d2a35ead4fb9bf350de10c3ac2b6cf6b7ef0bb297b9f53d67",
+      "uncompressedBytes": 29772
+    },
+    "cleanup/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-cqb/audit.json": {
+      "sha256": "9c537986904fc08a9c775f876d80013e228b09ebe59dc83525775bf414268ebc",
+      "uncompressedSha256": "9c537986904fc08a9c775f876d80013e228b09ebe59dc83525775bf414268ebc",
+      "uncompressedBytes": 11990
+    },
+    "reload-cqb/launcher.json": {
+      "sha256": "37411b234042a399230406d86bbdb78da982e78f8c65308d99183dfce7f0a9d0",
+      "uncompressedSha256": "37411b234042a399230406d86bbdb78da982e78f8c65308d99183dfce7f0a9d0",
+      "uncompressedBytes": 2449
+    },
+    "reload-cqb/Player.log.gz": {
+      "sha256": "160cd7d9678d8bac5f89d9941cac2303c6f6fc79c1182fd40377321fb8b4575e",
+      "uncompressedSha256": "c5040acd4a2a961fcc7d0d0c9d103bef5f29bece84f0d6edb01dd46527221a8f",
+      "uncompressedBytes": 35904
+    },
+    "reload-cqb/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}
