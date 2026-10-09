@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 using Helodrace.Tactics;
 using RimWorld;
 using Verse;
@@ -17,6 +18,9 @@ namespace Helodrace
         private long contactGuardBaseline;
         private TacticalSquadCommand contactCommand;
         private TacticalLocalPlan contactPlan;
+        private Building_Door contactHeldDoor;
+        private bool contactDoorWasHeld;
+        private readonly TacticalContactState contactFixtureSight = new TacticalContactState();
         private int contactSecuredCount;
         private IntVec3 contactFirst = IntVec3.Invalid, contactSecond = IntVec3.Invalid;
         private readonly List<string> contactEvents = new List<string>();
@@ -78,7 +82,14 @@ namespace Helodrace
                 ContactEvent("observed " + contactStep + " at " + first.Position + " area=" + first.Area
                     + " rear=" + contactCommand.ContactResponse.Rear + " opposed=" + contactCommand.ContactResponse.Opposed);
                 contactResumeBaseline = service.ContactResumes;
-                HideContactActors(); contactStep++; ContactEvent("actors hidden"); return;
+                HideContactActors();
+                if (contactStep == 7 && contactHeldDoor != null)
+                {
+                    AccessTools.Field(typeof(Building_Door), "holdOpenInt").SetValue(contactHeldDoor, contactDoorWasHeld);
+                    ContactEvent("opposed doorway hold restored=" + contactDoorWasHeld);
+                    contactHeldDoor = null;
+                }
+                contactStep++; ContactEvent("actors hidden"); return;
             }
             if (contactStep == 2 || contactStep == 5 || contactStep == 8)
             {
@@ -124,12 +135,38 @@ namespace Helodrace
                 contactPlan = contactCommand.Plan; contactSecuredCount = contactCommand.SecuredCells.Count;
                 Building_Door door = contactPlan.Opening.GetEdifice(map) as Building_Door;
                 if (door == null) return;
-                door.StartManualOpenBy(owner);
-                Pawn anchor = contactCommand.Members[contactCommand.Members.Count / 2].Pawn;
+                // Wait for the real formation to return and the next native
+                // observer slice. Exposing the rear actor earlier can pull all
+                // stations away before anyone sees the actor across the door.
+                var active = contactCommand.Members.Where(m => m.Pawn.Spawned && !m.Pawn.Dead && !m.Pawn.Downed).ToArray();
+                if (active.Length == 0 || active.Count(m => contactPlan.Stack.Contains(m.Pawn.Position)) < 8
+                    || contactCommand.Due > tick + 1 || contactCommand.Contacts.NextScan > tick + 1) return;
+                Pawn anchor = active[active.Length / 2].Pawn;
+                int station = contactCommand.Contacts.ObserverCursor % 3;
+                Pawn witness = active[station == 0 ? 0 : station == 1 ? active.Length - 1 : active.Length / 2].Pawn;
                 contactFirst = anchor.Position - contactPlan.Inward * 3;
                 contactSecond = contactPlan.Inside + contactPlan.Inward * 2;
-                if (!contactFirst.Standable(map) || !contactSecond.Standable(map)) return;
+                if (!contactFirst.Standable(map) || !contactSecond.Standable(map)
+                    || !TacticalContactMemory.Opposed(anchor.Position, contactFirst, contactSecond)) return;
+                // Three bounded observer stations need time to sample both
+                // sides. A single manual open can close before that happens.
+                // Hold the real door only for this exposure, restoring its
+                // original setting after actual two-actor observation.
+                contactHeldDoor = door;
+                contactDoorWasHeld = (bool)AccessTools.Field(typeof(Building_Door), "holdOpenInt").GetValue(door);
+                AccessTools.Field(typeof(Building_Door), "holdOpenInt").SetValue(door, true);
+                door.StartManualOpenBy(owner);
                 owner.Position = contactFirst; contactActor.Position = contactSecond;
+                if (!TacticalContactSight.CanSee(map, witness.Position, owner, contactFixtureSight)
+                    || !TacticalContactSight.CanSee(map, witness.Position, contactActor, contactFixtureSight))
+                {
+                    HideContactActors();
+                    AccessTools.Field(typeof(Building_Door), "holdOpenInt").SetValue(door, contactDoorWasHeld);
+                    contactHeldDoor = null;
+                    return;
+                }
+                ContactEvent("opposed doorway held " + door.Position + " open=" + door.Open);
+                ContactEvent("opposed LOS witness " + witness.thingIDNumber + " at " + witness.Position + " station=" + station);
                 contactGuardBaseline = service.ContactGuardJobs;
                 contactStepAt = tick; contactStep = 7; ContactEvent("opposed exposed " + contactFirst + " / " + contactSecond);
             }

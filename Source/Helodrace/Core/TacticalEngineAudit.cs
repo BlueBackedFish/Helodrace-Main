@@ -34,6 +34,9 @@ namespace Helodrace
         [DataMember] public long newRoomToolRecoveryWaits;
         [DataMember] public bool newRoomRecoveryContinued, newActiveCutterRecovered;
         [DataMember] public string caseLossPhase;
+        [DataMember] public string caseLossJob;
+        [DataMember] public int caseLossPawnId, caseLossTick = -1;
+        [DataMember] public bool newCasualtyContinued;
         [DataMember] public int caseCuttingTicks;
         [DataMember] public long newChargesInstalled, newChargeDetonations, newChargeOperatorTransfers, newChargeWaits;
         [DataMember] public long newRoomScanSteps, newRoomsSecured, newRoomPlansAttempted;
@@ -573,7 +576,30 @@ namespace Helodrace
                 result.interruptionTick = GenTicks.TicksGame - started;
                 interruptedPawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
             }
-            else if (result.fixtureCase == "casualty" || result.fixtureCase == "recovery" || result.fixtureCase == "cutter-recovery")
+            else if (result.fixtureCase == "casualty")
+            {
+                // Keep the real High loadout and kill the operator of the
+                // chosen breach method, before an installed charge exists.
+                // Waiting only for a hammer job never triggers when C4 wins.
+                foreach (var command in service.Commands)
+                {
+                    if (command.Phase != Tactics.TacticalCommandPhase.Breach) continue;
+                    Pawn engineer = command.ChargeAction == null ? command.Breacher : command.ChargeAction.Installer;
+                    if (engineer?.Spawned != true || engineer.Dead || engineer.Downed) continue;
+                    string job = engineer.CurJobDef?.defName;
+                    bool charging = command.ChargeAction != null && command.ChargeAction.Charge == null
+                        && !command.ChargeAction.Detonated && job == "HD_NewTacticalInstallCharge"
+                        && engineer.CurJob == command.ChargeAction.Installation;
+                    if (!charging && (command.ChargeAction != null || job != "HD_NewTacticalBreach" && job != "HD_NewTacticalCut")) continue;
+                    result.caseLossPhase = command.Phase.ToString(); result.caseLossJob = job;
+                    result.caseLossPawnId = engineer.thingIDNumber; result.caseLossTick = GenTicks.TicksGame - started;
+                    engineer.Kill(null); result.caseTriggered = engineer.Dead;
+                    Log.Message("R7 casualty operator loss tick=" + result.caseLossTick + " pawn=" + result.caseLossPawnId
+                        + " phase=" + result.caseLossPhase + " job=" + job + " dead=" + engineer.Dead);
+                    break;
+                }
+            }
+            else if (result.fixtureCase == "recovery" || result.fixtureCase == "cutter-recovery")
             {
                 var command = service.Commands.FirstOrDefault(item => item.Phase == Tactics.TacticalCommandPhase.Breach
                     && item.Breacher?.CurJobDef?.defName == (result.fixtureCase == "cutter-recovery" ? "HD_NewTacticalCut" : "HD_NewTacticalBreach"));
@@ -676,6 +702,13 @@ namespace Helodrace
                 result.newRoomToolRecoveryWaits = newService.RoomToolRecoveryWaits;
                 result.newChargesInstalled = newService.ChargesInstalled; result.newChargeDetonations = newService.ChargeDetonations;
                 result.newChargeOperatorTransfers = newService.ChargeOperatorTransfers; result.newChargeWaits = newService.ChargeWaits;
+                result.newCasualtyContinued = result.fixtureCase != "casualty" || result.caseTriggered
+                    && result.caseLossPhase == "Breach" && result.caseLossTick >= 0
+                    && raiders.Any(pawn => pawn.thingIDNumber == result.caseLossPawnId && pawn.Dead)
+                    && result.alive == result.population - 1 && result.newCompletedUnits == result.units
+                    && result.newEntryAssignmentsComplete == result.alive && result.newEnteredByOrder == result.alive
+                    && (result.caseLossJob == "HD_NewTacticalInstallCharge" ? result.newChargesInstalled > 0 && result.newChargeDetonations > 0
+                        : result.caseLossJob == "HD_NewTacticalBreach" || result.caseLossJob == "HD_NewTacticalCut");
                 result.newRoomScanSteps = newService.RoomScanSteps; result.newRoomsSecured = newService.RoomsSecured;
                 result.newRoomPlansAttempted = newService.RoomPlansAttempted;
                 result.newSecuredPortals = commands.Select(command => command.Id + ":" + string.Join(";", command.SecuredPlans

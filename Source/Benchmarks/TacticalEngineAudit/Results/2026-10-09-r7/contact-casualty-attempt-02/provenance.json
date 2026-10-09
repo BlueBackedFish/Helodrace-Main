@@ -1,0 +1,34 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-contact-casualty-02",
+  "classification": "9307 selected queue stopped at first contact drill: door held Open=True, but rear response moved observer stations before second actor was seen. OpposedResponses0/Resumes2. High casualty was not executed. No exceptions/unsafe entry. Excluded from final functional/CPU/R7 proof.",
+  "archivedCases": [
+    "r4-contact-drill"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "40fd0190e9db06f97fc5959ad6e30a46b88512a895980af1ed78babde2db5866",
+      "uncompressedSha256": "40fd0190e9db06f97fc5959ad6e30a46b88512a895980af1ed78babde2db5866",
+      "uncompressedBytes": 1568
+    },
+    "r4-contact-drill/audit.json": {
+      "sha256": "1ff123faf8e44d2ec95caacac4a9c3c188fa526066a7a1a36fe8d138fab3d84d",
+      "uncompressedSha256": "1ff123faf8e44d2ec95caacac4a9c3c188fa526066a7a1a36fe8d138fab3d84d",
+      "uncompressedBytes": 16349
+    },
+    "r4-contact-drill/launcher.json": {
+      "sha256": "932e681b256e7fc197e199f91caa47837be2e3b3ce0f57a346418076b85e2d47",
+      "uncompressedSha256": "932e681b256e7fc197e199f91caa47837be2e3b3ce0f57a346418076b85e2d47",
+      "uncompressedBytes": 2515
+    },
+    "r4-contact-drill/Player.log.gz": {
+      "sha256": "f441040195fb59763e50818a10044b24cf6e6fa128fcd346b992e96e5c20dad0",
+      "uncompressedSha256": "11f0f0ac880273f5a83bc4c17e4e314b6be1cd0f9183d169db3c398287675689",
+      "uncompressedBytes": 29985
+    },
+    "r4-contact-drill/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

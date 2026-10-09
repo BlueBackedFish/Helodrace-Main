@@ -1,0 +1,43 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "e4e4c4d6621a056a77ca16dfb4a5777a64c0277517887c0bff7593e5a0e4e841",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "r4-contact-drill",
+                           "casualty"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  true,
+    "records":  [
+                    {
+                        "name":  "r4-contact-drill",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-contact-casualty-03\\r4-contact-drill",
+                        "pid":  33084,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "casualty",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-contact-casualty-03\\casualty",
+                        "pid":  43912,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    }
+                ]
+}

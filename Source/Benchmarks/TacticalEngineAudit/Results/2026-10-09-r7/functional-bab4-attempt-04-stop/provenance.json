@@ -1,0 +1,34 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-functional-bab4-04",
+  "classification": "Full44 BAB4 queue stopped at19th R4 contact drill. Journal records18 passes; only failed contact-drill raw archived here. Rear and other-door sightings/resumptions completed; third two-sided exposure remained at step7, second actor beyond closed committed door; OpposedResponses0, ContactResumes2, final contact still visible. No exceptions or unsafe entry. Not final functional/CPU/R7 proof.",
+  "archivedCases": [
+    "r4-contact-drill"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "da04924fcae5f1930ec793555bc8fcf15b34b4c198dd2baa72ead929c249b8fd",
+      "uncompressedSha256": "da04924fcae5f1930ec793555bc8fcf15b34b4c198dd2baa72ead929c249b8fd",
+      "uncompressedBytes": 14232
+    },
+    "r4-contact-drill/audit.json": {
+      "sha256": "fb709b44993c14fac376fc40c9a981346c977d0d6127b451587de93712c62efe",
+      "uncompressedSha256": "fb709b44993c14fac376fc40c9a981346c977d0d6127b451587de93712c62efe",
+      "uncompressedBytes": 16216
+    },
+    "r4-contact-drill/launcher.json": {
+      "sha256": "f44ce2da34354ef188d109c49fb55c8aeafb946e310b191ade2e22d6dfd3533a",
+      "uncompressedSha256": "f44ce2da34354ef188d109c49fb55c8aeafb946e310b191ade2e22d6dfd3533a",
+      "uncompressedBytes": 2530
+    },
+    "r4-contact-drill/Player.log.gz": {
+      "sha256": "94682083874a30b717ee24d1ec8db148f131be7db5d1b223d1091a7ffe420d18",
+      "uncompressedSha256": "1f47b46a742aa5ebdb2ad78b7e6709a658f313af52d283553c52d88bd4dcecac",
+      "uncompressedBytes": 30215
+    },
+    "r4-contact-drill/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

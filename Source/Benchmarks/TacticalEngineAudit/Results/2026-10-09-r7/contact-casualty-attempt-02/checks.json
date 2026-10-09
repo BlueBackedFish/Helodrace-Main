@@ -1,0 +1,31 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "930711ad45e692b9abc68ac480641a3c7da7ace043ecd1d54bf5434bb9b53934",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "r4-contact-drill",
+                           "casualty"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  false,
+    "records":  [
+                    {
+                        "name":  "r4-contact-drill",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-contact-casualty-02\\r4-contact-drill",
+                        "pid":  14160,
+                        "status":  "failed",
+                        "error":  "Full native functional completion failed.",
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  0
+                    }
+                ]
+}

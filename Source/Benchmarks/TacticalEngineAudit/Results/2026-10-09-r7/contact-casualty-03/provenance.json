@@ -1,0 +1,55 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-contact-casualty-03",
+  "classification": "Two selected E4E4 native cases passed actual3/normalgraphics/unprofiled/defaultNew: verified common native LOS before two-actor exposure, actual rear/door/opposed responses and 3 resumptions, doorway restored; actual High chosen C4 installer death before installation, survivor progression. No production AI, LOS, contact-memory injection or gear changes. Not final all44/CPU/R7 proof.",
+  "archivedCases": [
+    "r4-contact-drill",
+    "casualty"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "946d51ed16dd80c65cc882496b73e493cbff88ade7058609701a6fccf9f66257",
+      "uncompressedSha256": "946d51ed16dd80c65cc882496b73e493cbff88ade7058609701a6fccf9f66257",
+      "uncompressedBytes": 2116
+    },
+    "r4-contact-drill/audit.json": {
+      "sha256": "09a7efac9f36fe251ac3bb173a340ff1a0e2cdc03333d8caead947f630558fff",
+      "uncompressedSha256": "09a7efac9f36fe251ac3bb173a340ff1a0e2cdc03333d8caead947f630558fff",
+      "uncompressedBytes": 13104
+    },
+    "r4-contact-drill/launcher.json": {
+      "sha256": "d0a7963fb75076918fdb000a84e35d6b0fd5aacb8ecaab5d507071a214023f15",
+      "uncompressedSha256": "d0a7963fb75076918fdb000a84e35d6b0fd5aacb8ecaab5d507071a214023f15",
+      "uncompressedBytes": 2515
+    },
+    "r4-contact-drill/Player.log.gz": {
+      "sha256": "c380671d6a2fd608735bdb3ccec00ac45f1baf5b69a9a0426429819e7ec86043",
+      "uncompressedSha256": "e4d38d669111ededef881a5c566d78eaece97e24f89864cb8dda62afaa048b7a",
+      "uncompressedBytes": 30590
+    },
+    "r4-contact-drill/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "casualty/audit.json": {
+      "sha256": "3df9df67e6b1f9a17f3698a920dba2eec578747431abb1e07e2a3b33a1122c62",
+      "uncompressedSha256": "3df9df67e6b1f9a17f3698a920dba2eec578747431abb1e07e2a3b33a1122c62",
+      "uncompressedBytes": 12685
+    },
+    "casualty/launcher.json": {
+      "sha256": "34e4480bc906bd7b2006f790e00a3dcfe6f81872f46bce2d5a1c0c72b30e2a1f",
+      "uncompressedSha256": "34e4480bc906bd7b2006f790e00a3dcfe6f81872f46bce2d5a1c0c72b30e2a1f",
+      "uncompressedBytes": 2473
+    },
+    "casualty/Player.log.gz": {
+      "sha256": "a6df142d5946f5d1a56a085707cf45bed80f790c78b672bcf810d2f288e58a60",
+      "uncompressedSha256": "a0e24671fd72f5355cfa6cf72f0303d2f68a44d9da0cfffedbfdb9ed96559e45",
+      "uncompressedBytes": 29719
+    },
+    "casualty/pawn-manifest.txt.gz": {
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    }
+  }
+}

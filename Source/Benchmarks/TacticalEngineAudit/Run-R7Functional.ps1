@@ -34,10 +34,11 @@ foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recov
         'door-contact' { $flags=@('r7FixtureActorWithdrawn','newDoorContactObserved'); $minimums=@{ newSupportThrows=1; newSupportWaits=1 } }
         'small-unseen' { $flags=@('newSmallRoomSupportSaved') }
         'outdoor-opening' { $flags=@('r7FixtureActorWithdrawn','r7FixtureContactBeforeWithdrawal','newOutdoorSmokeSeen','newOutdoorSmokeUsed'); $minimums=@{ newSupportThrows=1; newSupportWaits=1; newSupportReturns=1; newFieldResponses=1; newFieldResumes=1 } }
+        'r4-contact-drill' { $flags=@('caseTriggered','newContactDrillComplete','newContactMemoryFrozen','newContactPlanPreserved','newUnseenDoorIgnored'); $minimums=@{ newRearResponses=1; newDoorResponses=1; newOpposedResponses=1; newContactResumes=3; newContactGuardJobs=6 } }
     }
     Add-Case $case $case -Ticks 10000 -Flags $flags -Minimums $minimums
 }
-Add-Case casualty casualty -Population 13 -High $true -Flags caseTriggered
+Add-Case casualty casualty -Population 13 -High $true -Flags @('caseTriggered','newCasualtyContinued') -Minimums @{ caseLossTick=1 }
 Add-Case low-cooperation r5-low-coop -Population 24 -Ticks 12000
 Add-Case shared-entry r5-shared -Population 24 -Ticks 12000
 Add-Case radio-loss r5-radio-loss -Population 26 -High $true -Ticks 14000
