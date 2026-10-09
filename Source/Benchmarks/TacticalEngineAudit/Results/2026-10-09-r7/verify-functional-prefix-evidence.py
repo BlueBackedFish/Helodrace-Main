@@ -9,6 +9,7 @@ import sys
 builds = {
     "functional-b766-prefix-10": "b766672aebc910fa5ae82e5a7ee4ae477cde4b61485fa5c9324f54a453db21a1",
     "functional-e4e4-prefix-10": "e4e4c4d6621a056a77ca16dfb4a5777a64c0277517887c0bff7593e5a0e4e841",
+    "functional-00f5-prefix-10": "00f59d8951df8b8a1236b542b5b1e9e5665603ee62643af13a037545c122557a",
 }
 name = sys.argv[1] if len(sys.argv) > 1 else "functional-b766-prefix-10"
 assert len(sys.argv) <= 2 and name in builds, "Select one known archived prefix, never mix builds."
