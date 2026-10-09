@@ -1,0 +1,205 @@
+{
+  "scope": "CPU-window collector smoke, not final performance gate",
+  "finalR7Complete": false,
+  "cpuGatePassed": false,
+  "assemblySha256": "899e853a1fe8501fa77aab69ddb8de8b7100512a8f64288b92bb44b3d0b7718d",
+  "groupRatios": {
+    "tickCpuRatio": 1.2048192771084338,
+    "windowCpuRatio": 0.9717898832684825,
+    "newAiPerformanceGateEligible": false,
+    "newAiFixedWindowCpuGatePassed": false
+  },
+  "intervals": {
+    "cpu-windows-new-smoke-01": [
+      {
+        "fromTick": 1,
+        "toTick": 501,
+        "requestedTo": 500,
+        "fromPhase": "Pending:1",
+        "toPhase": "Breach:1",
+        "tickCpuMsPerTick": 0.6875,
+        "mainCpuMsPerTick": 4.3125,
+        "rootElapsedCorePercent": 507.402464661109
+      },
+      {
+        "fromTick": 501,
+        "toTick": 1001,
+        "requestedTo": 1000,
+        "fromPhase": "Breach:1",
+        "toPhase": "Observe:1",
+        "tickCpuMsPerTick": 0.15625,
+        "mainCpuMsPerTick": 3.875,
+        "rootElapsedCorePercent": 349.57397607828926
+      },
+      {
+        "fromTick": 1001,
+        "toTick": 1501,
+        "requestedTo": 1500,
+        "fromPhase": "Observe:1",
+        "toPhase": "Enter:1",
+        "tickCpuMsPerTick": 0.25,
+        "mainCpuMsPerTick": 3.5,
+        "rootElapsedCorePercent": 386.22812613265666
+      },
+      {
+        "fromTick": 1501,
+        "toTick": 2001,
+        "requestedTo": 2000,
+        "fromPhase": "Enter:1",
+        "toPhase": "Complete:1",
+        "tickCpuMsPerTick": 0.5,
+        "mainCpuMsPerTick": 4.0,
+        "rootElapsedCorePercent": 393.75592606016664
+      },
+      {
+        "fromTick": 2001,
+        "toTick": 2501,
+        "requestedTo": 2500,
+        "fromPhase": "Complete:1",
+        "toPhase": "Complete:1",
+        "tickCpuMsPerTick": 0.28125,
+        "mainCpuMsPerTick": 3.65625,
+        "rootElapsedCorePercent": 387.9609278724176
+      },
+      {
+        "fromTick": 2501,
+        "toTick": 3001,
+        "requestedTo": 3000,
+        "fromPhase": "Complete:1",
+        "toPhase": "Complete:1",
+        "tickCpuMsPerTick": 0.15625,
+        "mainCpuMsPerTick": 3.875,
+        "rootElapsedCorePercent": 365.01515041681756
+      },
+      {
+        "fromTick": 3001,
+        "toTick": 3501,
+        "requestedTo": 3500,
+        "fromPhase": "Complete:1",
+        "toPhase": "Complete:1",
+        "tickCpuMsPerTick": 0.625,
+        "mainCpuMsPerTick": 4.09375,
+        "rootElapsedCorePercent": 387.1503443276548
+      },
+      {
+        "fromTick": 3501,
+        "toTick": 4001,
+        "requestedTo": 4000,
+        "fromPhase": "Complete:1",
+        "toPhase": "Complete:1",
+        "tickCpuMsPerTick": 0.46875,
+        "mainCpuMsPerTick": 3.90625,
+        "rootElapsedCorePercent": 377.2577745559984
+      }
+    ],
+    "cpu-windows-vanilla-smoke-01": [
+      {
+        "fromTick": 1,
+        "toTick": 501,
+        "requestedTo": 500,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.5625,
+        "mainCpuMsPerTick": 4.03125,
+        "rootElapsedCorePercent": 446.96200975962415
+      },
+      {
+        "fromTick": 501,
+        "toTick": 1001,
+        "requestedTo": 1000,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.15625,
+        "mainCpuMsPerTick": 3.71875,
+        "rootElapsedCorePercent": 366.6139887945056
+      },
+      {
+        "fromTick": 1001,
+        "toTick": 1501,
+        "requestedTo": 1500,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.3125,
+        "mainCpuMsPerTick": 3.90625,
+        "rootElapsedCorePercent": 395.9165732875475
+      },
+      {
+        "fromTick": 1501,
+        "toTick": 2001,
+        "requestedTo": 2000,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.25,
+        "mainCpuMsPerTick": 4.15625,
+        "rootElapsedCorePercent": 374.9761069943973
+      },
+      {
+        "fromTick": 2001,
+        "toTick": 2501,
+        "requestedTo": 2500,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.34375,
+        "mainCpuMsPerTick": 4.0625,
+        "rootElapsedCorePercent": 375.0515814205676
+      },
+      {
+        "fromTick": 2501,
+        "toTick": 3001,
+        "requestedTo": 3000,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.25,
+        "mainCpuMsPerTick": 3.96875,
+        "rootElapsedCorePercent": 373.29889752394706
+      },
+      {
+        "fromTick": 3001,
+        "toTick": 3501,
+        "requestedTo": 3500,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.15625,
+        "mainCpuMsPerTick": 4.0,
+        "rootElapsedCorePercent": 369.46083499005977
+      },
+      {
+        "fromTick": 3501,
+        "toTick": 4001,
+        "requestedTo": 4000,
+        "fromPhase": "vanilla",
+        "toPhase": "vanilla",
+        "tickCpuMsPerTick": 0.5625,
+        "mainCpuMsPerTick": 4.25,
+        "rootElapsedCorePercent": 391.7640339779505
+      }
+    ]
+  },
+  "coldFixture": {
+    "cpu-windows-new-smoke-01": {
+      "r7ColdMainCpuMs": 17953.125,
+      "r7ColdProcessCpuMs": 18640.625,
+      "r7ColdWallMs": 18304.7222
+    },
+    "cpu-windows-vanilla-smoke-01": {
+      "r7ColdMainCpuMs": 14921.875,
+      "r7ColdProcessCpuMs": 15562.5,
+      "r7ColdWallMs": 15273.953
+    },
+    "cpu-windows-unprofiled-smoke-01": {
+      "r7ColdMainCpuMs": 15046.875,
+      "r7ColdProcessCpuMs": 15203.125,
+      "r7ColdWallMs": 15088.1477
+    }
+  },
+  "first1500Ratios": {
+    "tickCpu": 1.0606060606060606,
+    "mainCpu": 1.0
+  },
+  "notes": [
+    "Per-method/Core percentages are elapsed time, not OS CPU occupancy; do not sum parent/child elapsed time.",
+    "Cold fixture includes geometry cleanup, pawn/gear generation and registration; excludes world/Unity startup and profiler initialization.",
+    "Activity is sampled at checkpoints, not a continuous activity trace. Final-input/expiry reactivation remains visible only in later fixed samples.",
+    "One unprofiled new run validates missing root CPU values and whole main/process sums; not a matched repeated instrumentation-overhead estimate."
+  ]
+}

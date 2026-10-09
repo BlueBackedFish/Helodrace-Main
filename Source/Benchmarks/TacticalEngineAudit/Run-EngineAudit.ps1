@@ -12,6 +12,7 @@
     [switch]$Headless,
     [switch]$Reload,
     [switch]$RetainedReload,
+    [switch]$CpuWindows,
     [switch]$DefaultEngine,
     [ValidateSet('coarse','detailed','spikes','pawn-spikes','needs-spikes','jobs-spikes','path-spikes')][string]$ProfilePreset = 'coarse',
     [ValidateRange(0.1,1000)][double]$SpikeThresholdMs = 5,
@@ -22,6 +23,8 @@
 )
 $ErrorActionPreference = 'Stop'
 if ($DefaultEngine -and $Engine -ne 'new') { throw 'Default-engine verification requires the new engine.' }
+if ($CpuWindows -and ($Reload -or $Case -in @('r7-save-load','r7-charge-load','r7-multimap'))) { throw 'CPU windows require a single map without native reloads.' }
+if ($CpuWindows -and $Case -notin @('normal','r7-cqb-cpu','r6-field-cpu')) { throw 'CPU windows support normal or fixed-input CQB/field comparisons only.' }
 if ($RetainedReload -and ($Case -ne 'r7-save-load' -or $Engine -ne 'new')) { throw 'Retained mission reload requires the new CQB save/load functional case.' }
 if (($Reload -or $Case -in @('r7-save-load','r7-charge-load')) -and -not $NoMethodProfile) { throw 'Native save/load audits require NoMethodProfile; a method capture cannot span game reloads.' }
 if ($Reload -and $Case -notin @('r6-field-drill','r6-smoke-drill','r6-care-drill','r5-low-coop','r5-shared','r7-defense','r7-defense-transition','r7-support')) { throw 'Optional reload supports field/smoke/care and cooperation/defense functional drills only.' }
@@ -61,6 +64,7 @@ $manifest.breachDefinitionsSha256 = (Get-FileHash -LiteralPath $breachDefPath).H
 $manifest.hammerJobDefinitionsSha256 = (Get-FileHash -LiteralPath $hammerJobsPath).Hash.ToLowerInvariant()
 $manifest.reload = [bool]$Reload
 $manifest.retainedReload = [bool]$RetainedReload
+$manifest.cpuWindows = [bool]$CpuWindows
 $manifest.speed = $Speed
 $manifest.defaultEngine = [bool]$DefaultEngine
 $manifest.newJobDefinitionsSha256 = (Get-FileHash -LiteralPath $newJobPath).Hash.ToLowerInvariant()
@@ -79,6 +83,7 @@ if (-not $DefaultEngine) { $arguments += "-hdTacticalEngine=$Engine" }
 if ($Headless) { $arguments += @('-batchmode','-nographics') }
 if ($Reload) { $arguments += '-hdTacticalAuditReload=true' }
 if ($RetainedReload) { $arguments += '-hdTacticalAuditRetainedReload=true' }
+if ($CpuWindows) { $arguments += '-hdTacticalAuditCpuWindows=true' }
 $manifest.arguments = $arguments
 $manifest | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $auditPath 'launcher.json')
 $process = Start-Process -FilePath (Join-Path $GameRoot 'RimWorldWin64.exe') -WorkingDirectory $GameRoot -WindowStyle Hidden -PassThru -ArgumentList $arguments

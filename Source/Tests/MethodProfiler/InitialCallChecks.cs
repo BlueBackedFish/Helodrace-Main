@@ -38,7 +38,7 @@ internal static class InitialCallChecks
         var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot));
         serializer.WriteObject(stream, sample); stream.Position = 0;
         sample = (ProfileSnapshot)serializer.ReadObject(stream);
-        Check(sample.schema == 8 && sample.initialCalls[7].invocation == 8, "Initial records serialize on game and CLI formats.");
+        Check(sample.schema == 9 && sample.initialCalls[7].invocation == 8, "Initial records serialize on game and CLI formats.");
         var json = JsonSerializer.SerializeToElement(InitialCallDiagnostics.Describe(sample, "need"));
         var method = json.GetProperty("methods")[0];
         Check(method.GetProperty("laterCalls").GetInt64() == 2 && method.GetProperty("laterMeanMs").GetDouble() == 2

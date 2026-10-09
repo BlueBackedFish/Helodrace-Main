@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cpu-windows-unprofiled-smoke-01",
+  "classification": "Actual CPU-window collector smoke only:12 pawns/single-room/3x/warm0/4000 ticks; generation fixture CPU and500-tick cumulative closed-root/main/process points. New/V single pair and new unprofiled control only. Not representative final CQB/field/cooperation, scaling or3-repeat final R7 CPU gate. First verified completion is a milestone, not guaranteed permanent inactivity.",
+  "files": {
+    "audit.json": {
+      "sha256": "2047244a4e38a927de27c50d9d1e39cd254f9a87b6df6cd2eea99ec013922bbc",
+      "uncompressedSha256": "2047244a4e38a927de27c50d9d1e39cd254f9a87b6df6cd2eea99ec013922bbc",
+      "uncompressedBytes": 14757
+    },
+    "launcher.json": {
+      "sha256": "7bd4bef23488e3b4c341a76119894e377ca66ab5ec78bd6b8159633de839033f",
+      "uncompressedSha256": "7bd4bef23488e3b4c341a76119894e377ca66ab5ec78bd6b8159633de839033f",
+      "uncompressedBytes": 2532
+    },
+    "Player.log.gz": {
+      "sha256": "44b967c8d3512864f7e817f7412bed7faabe44ac280a5522e5a574e2eb4b71a4",
+      "uncompressedSha256": "c96d9a21647611204db005525218cfde7e9c49f3cd197eb36b59092ac699da39",
+      "uncompressedBytes": 29475
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

@@ -23,16 +23,38 @@ outer = capture.Enter(0); capture.Leave(outer, false); capture.Stop();
 Check(capture.Ready && capture.Calls[0] == 1, "foreign thread does not corrupt stack");
 var snapshot = new ProfileSnapshot { complete = true, mainThreadWindowCpuMs = 123.5, processWindowCpuMs = 456.75,
     selectedEngine = "new", effectiveEngine = "vanilla-fallback", newEngineImplemented = false,
-    methods = new[] { new ProfileMethod { calls = 2, method = "a\"한글", foreignThreadCalls = 3, depthLimitCalls = 4 } } };
+    methods = new[] { new ProfileMethod { calls = 2, method = "a\"한글", foreignThreadCalls = 3, depthLimitCalls = 4 } },
+    cpuCheckpoints = new[] { new ProfileCpuCheckpoint { label = "fixed", requestedOffset = 500, tick = 510,
+        tickCalls = 500, tickCpuMs = 20, mainCpuMs = 30, processCpuMs = 40, activeCommands = 4 } } };
 using var stream = new MemoryStream();
 var serializer = new DataContractJsonSerializer(typeof(ProfileSnapshot)); serializer.WriteObject(stream, snapshot); stream.Position = 0;
 var roundtrip = (ProfileSnapshot)serializer.ReadObject(stream);
-Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 8
+Check(roundtrip.methods[0].method == "a\"한글" && roundtrip.schema == 9
     && roundtrip.mainThreadWindowCpuMs == 123.5 && roundtrip.processWindowCpuMs == 456.75
     && roundtrip.selectedEngine == "new" && roundtrip.effectiveEngine == "vanilla-fallback"
     && !roundtrip.newEngineImplemented && roundtrip.methods[0].foreignThreadCalls == 3
     && roundtrip.methods[0].depthLimitCalls == 4, "structured JSON, rejection reasons and whole-window CPU roundtrip");
+Check(roundtrip.cpuCheckpoints[0].tickCalls == 500 && roundtrip.cpuCheckpoints[0].tickCpuMs == 20
+    && roundtrip.cpuCheckpoints[0].mainCpuMs == 30 && roundtrip.cpuCheckpoints[0].activeCommands == 4,
+    "cumulative CPU checkpoint JSON preserves actual tick count, CPU and sampled activity");
 Console.WriteLine("Method profiler checks passed: nesting, exceptions, double finalizer, depth budget, stop drain, thread rejection, JSON.");
+clock = new FakeClock { Cpu = 5 };
+capture = new MethodCapture(clock, new[] { true, false });
+var update = capture.Enter(1);
+outer = capture.Enter(0);
+Check(!capture.TryReadClosedCpu(0, out _, out _, out _), "an open root tick must never be sampled partially");
+clock.Time = 15; clock.Cpu = 35; capture.Leave(outer, false);
+Check(!capture.Ready && capture.TryReadClosedCpu(0, out var closedCalls, out var closedElapsed, out var closedCpu)
+    && closedCalls == 1 && closedElapsed == 15 && closedCpu == 30,
+    "completed root totals are readable inside an unrelated Update frame");
+bool foreignRead = true;
+otherThread = new Thread(() => foreignRead = capture.TryReadClosedCpu(0, out _, out _, out _));
+otherThread.Start(); otherThread.Join();
+Check(!foreignRead && !capture.TryReadClosedCpu(1, out _, out _, out _) && !capture.TryReadClosedCpu(-1, out _, out _, out _),
+    "foreign threads, unmeasured CPU methods and invalid ids cannot produce checkpoint evidence");
+capture.Stop(); capture.Leave(update, false);
+Check(capture.Ready && capture.Dropped == 0 && capture.Calls[0] == 1, "checkpoint reads do not mutate capture accounting");
+Console.WriteLine("Closed CPU checkpoint checks passed: open-root rejection, unrelated frame, owning thread and counter preservation.");
 var reference = new ProfileReference { method = "core", workload = "fixed", iterations = 10000, sampleMs = new[] { 1.0, 2.0, 100.0 } };
 Check(reference.MedianBatchMs == 2 && ReferenceMetrics.Percent(10, 10, reference) == 50, "median reference percentage");
 var slowerReference = new ProfileReference { method = "core", workload = "fixed", iterations = 10000, sampleMs = new[] { 2.0, 4.0, 200.0 } };

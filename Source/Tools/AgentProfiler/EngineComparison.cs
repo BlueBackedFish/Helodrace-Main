@@ -69,6 +69,26 @@ internal static class EngineComparison
             if (!tick.cpuMeasured || !Positive(tick.threadCpuMs) || tick.calls != c.endTick - c.startTick
                 || c.endTick - c.startTick < b.sampleTicks || c.endTick - c.startTick > b.sampleTicks + 10)
                 throw new ArgumentException("Missing/partial actual tick CPU: " + path);
+            if (c.cpuCheckpoints != null)
+            {
+                var points = c.cpuCheckpoints;
+                bool Nonnegative(double? value) => value.HasValue && double.IsFinite(value.Value) && value.Value >= 0;
+                if (points.Length < 2 || points.Length > 128 || points[0].label != "start" || points[0].tick != c.startTick
+                    || points[^1].label != "end" || points[^1].tick != c.endTick
+                    || points.Any(p => p.tickCalls != p.tick - c.startTick || !Nonnegative(p.tickCpuMs)
+                        || !Nonnegative(p.tickElapsedMs) || !Nonnegative(p.mainCpuMs) || !Nonnegative(p.processCpuMs))
+                    || points.Zip(points.Skip(1)).Any(pair => pair.First.tick > pair.Second.tick
+                        || pair.First.tickCpuMs > pair.Second.tickCpuMs || pair.First.mainCpuMs > pair.Second.mainCpuMs
+                        || pair.First.processCpuMs > pair.Second.processCpuMs)
+                    || points[^1].tickCpuMs != tick.threadCpuMs
+                    || !a.TryGetProperty("r7ColdMainCpuMs", out var coldMain) || coldMain.ValueKind != JsonValueKind.Number || coldMain.GetDouble() < 0
+                    || !a.TryGetProperty("r7ColdProcessCpuMs", out var coldProcess) || coldProcess.ValueKind != JsonValueKind.Number || coldProcess.GetDouble() < 0
+                    || !a.TryGetProperty("r7ColdWallMs", out var coldWall) || coldWall.ValueKind != JsonValueKind.Number || coldWall.GetDouble() < 0
+                    || !a.TryGetProperty("r7CpuCheckpoints", out var auditPoints)
+                    || JsonSerializer.Serialize(points, Options) != JsonSerializer.Serialize(
+                        JsonSerializer.Deserialize<ProfileCpuCheckpoint[]>(auditPoints.GetRawText(), Options), Options))
+                    throw new ArgumentException("Incomplete/inconsistent cumulative CPU windows: " + path);
+            }
             if (b.engine != "legacy" && (a.GetProperty("legacyComponents").GetArrayLength() != 0
                 || a.GetProperty("installedLegacyHooks").GetArrayLength() != 0))
                 throw new ArgumentException("Legacy engine leaked into control: " + path);
@@ -83,7 +103,7 @@ internal static class EngineComparison
     private static bool Positive(double? value) => value.HasValue && double.IsFinite(value.Value) && value.Value > 0;
     private static string Key(ProfileSnapshot c) => JsonSerializer.Serialize(new {
         c.assemblySha256, c.population, c.scenario, c.speed, c.gameVersion, c.cpuSource, c.runtime, c.operatingSystem,
-        c.spikeTracing, c.spikeThresholdMs, c.spikePawnId,
+        c.spikeTracing, c.spikeThresholdMs, c.spikePawnId, cpuWindows = c.cpuCheckpoints != null,
         traceSchema = c.spikeTracing ? c.schema : (int?)null,
         mods = string.Join(";",c.mods), targets = string.Join(";",c.methods.Select(m=>m.method).Order()),
         c.benchmark.fixtureVersion,c.benchmark.seed,c.benchmark.mapFingerprint,c.benchmark.pawnFingerprint,
@@ -138,6 +158,7 @@ internal static class EngineComparison
                     actualEntryProgress=progression,newAiFunctionalComplete=functional,newAiPerformanceGateEligible=eligible,
                     within2x=tickRatio<=2 && windowRatio<=2,newAiFixedWindowCpuGatePassed=eligible && tickRatio<=2 && windowRatio<=2,
                     baselineProgress=av.Select(r=>r.Audit),candidateProgress=bv.Select(r=>r.Audit),
+                    baselineCpuCheckpoints=av.Select(r=>r.Capture.cpuCheckpoints),candidateCpuCheckpoints=bv.Select(r=>r.Capture.cpuCheckpoints),
                     methods=bv[0].Capture.methods.Select(m=>new {m.method,
                         baselineCorePercentPerTick=Median(av.Select(r=>ReferenceMetrics.Percent(r.Capture.methods.Single(x=>x.method==m.method).inclusiveMs,r.Capture.endTick-r.Capture.startTick,r.Capture.reference)!.Value)),
                         candidateCorePercentPerTick=Median(bv.Select(r=>ReferenceMetrics.Percent(r.Capture.methods.Single(x=>x.method==m.method).inclusiveMs,r.Capture.endTick-r.Capture.startTick,r.Capture.reference)!.Value)),

@@ -115,7 +115,60 @@ internal static class EngineComparisonChecks
         File.WriteAllText(r2Audit, JsonSerializer.Serialize(controlledAudit));
         Reject(() => EngineComparison.Compare(r2Baseline, r2), "missing environment audit");
         R7Checks(root);
+        CpuWindowChecks(root);
         Console.WriteLine("Engine comparison checks passed: same fixture/different phases, CPU ratio/range, fallback/stalled gates, controlled environment and invalid-condition rejections.");
+    }
+    private static void CpuWindowChecks(string root)
+    {
+        string baseline = Write(root, "windows-baseline", "vanilla", 100, 1);
+        string candidate = Write(root, "windows-candidate", "new", 150, 1);
+        void Populate(string directory)
+        {
+            string path = Path.Combine(directory, "profiles/capture-0.json");
+            var c = JsonSerializer.Deserialize<ProfileSnapshot>(File.ReadAllText(path), Options)!;
+            c.cpuCheckpoints = new[] {
+                new ProfileCpuCheckpoint { label = "start", tick = c.startTick, requestedOffset = 0,
+                    tickCalls = 0, tickCpuMs = 0, tickElapsedMs = 0, mainCpuMs = 0, processCpuMs = 0 },
+                new ProfileCpuCheckpoint { label = "fixed", tick = c.startTick + 500, requestedOffset = 500,
+                    tickCalls = 500, tickCpuMs = c.methods[0].threadCpuMs / 2, tickElapsedMs = c.methods[0].inclusiveMs / 2,
+                    mainCpuMs = c.mainThreadWindowCpuMs / 2, processCpuMs = c.processWindowCpuMs / 2 },
+                new ProfileCpuCheckpoint { label = "end", tick = c.endTick, requestedOffset = 1200,
+                    tickCalls = 1200, tickCpuMs = c.methods[0].threadCpuMs, tickElapsedMs = c.methods[0].inclusiveMs,
+                    mainCpuMs = c.mainThreadWindowCpuMs, processCpuMs = c.processWindowCpuMs }
+            };
+            File.WriteAllText(path, JsonSerializer.Serialize(c, Options));
+            string auditPath = Path.Combine(directory, "audit.json");
+            var audit = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(auditPath))!;
+            audit["r7CpuCheckpoints"] = JsonSerializer.SerializeToElement(c.cpuCheckpoints, Options);
+            audit["r7ColdMainCpuMs"] = audit["r7ColdProcessCpuMs"] = audit["r7ColdWallMs"] = JsonSerializer.SerializeToElement(10.0);
+            File.WriteAllText(auditPath, JsonSerializer.Serialize(audit));
+        }
+        Populate(baseline); Populate(candidate);
+        var result = JsonSerializer.SerializeToElement(EngineComparison.Compare(baseline, candidate)).GetProperty("groups")[0];
+        if (result.GetProperty("candidateCpuCheckpoints")[0].GetArrayLength() != 3)
+            throw new Exception("Valid cumulative CPU checkpoints must be preserved in the comparison.");
+        string capturePath = Path.Combine(candidate, "profiles/capture-0.json"), auditFile = Path.Combine(candidate, "audit.json");
+        string pristineCapture = File.ReadAllText(capturePath), pristineAudit = File.ReadAllText(auditFile);
+        foreach (string fault in new[] { "partial", "decrease", "missing-end", "unmeasured", "end-total", "audit-diff", "missing-audit", "missing-cold", "mode" })
+        {
+            var c = JsonSerializer.Deserialize<ProfileSnapshot>(pristineCapture, Options)!;
+            var a = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(pristineAudit)!;
+            switch (fault)
+            {
+                case "partial": c.cpuCheckpoints[1].tickCalls--; break;
+                case "decrease": c.cpuCheckpoints[1].mainCpuMs = c.cpuCheckpoints[2].mainCpuMs + 1; break;
+                case "missing-end": c.cpuCheckpoints = c.cpuCheckpoints.Take(2).ToArray(); break;
+                case "unmeasured": c.cpuCheckpoints[1].tickCpuMs = null; break;
+                case "end-total": c.cpuCheckpoints[2].tickCpuMs--; break;
+                case "audit-diff": a["r7CpuCheckpoints"] = JsonSerializer.SerializeToElement(Array.Empty<ProfileCpuCheckpoint>()); break;
+                case "missing-audit": a.Remove("r7CpuCheckpoints"); break;
+                case "missing-cold": a.Remove("r7ColdMainCpuMs"); break;
+                case "mode": c.cpuCheckpoints = null; break;
+            }
+            File.WriteAllText(capturePath, JsonSerializer.Serialize(c, Options)); File.WriteAllText(auditFile, JsonSerializer.Serialize(a));
+            Reject(() => EngineComparison.Compare(baseline, candidate), "CPU windows " + fault);
+        }
+        Console.WriteLine("CPU window comparison checks passed: cumulative scope alignment, audit equality, cold evidence and incompatible-mode rejection.");
     }
     private static void R7Checks(string root)
     {

@@ -32,6 +32,7 @@ namespace Helodrace.Profiling
         private static bool initialized, failed;
         private static MethodCapture capture;
         private static ProfileSnapshot snapshot;
+        private static List<ProfileCpuCheckpoint> cpuCheckpoints;
         private static CoreReferenceCalibration reference;
         private static long started;
         private static long windowCpu, windowProcessCpu;
@@ -246,7 +247,23 @@ namespace Helodrace.Profiling
             windowCpu = cpu ? clock.Cpu100ns() : -1;
             capture = new MethodCapture(clock, targets.Select(m => cpu && CpuTarget(m)).ToArray(), traceSpikes: tracing,
                 tickMethodId: targets.FindIndex(CpuTarget), spikeThresholdMs: threshold, originTimestamp: started, spikePawnId: pawnId);
+            cpuCheckpoints = GenCommandLine.TryGetCommandLineArg("hdTacticalAuditCpuWindows", out _)
+                ? new List<ProfileCpuCheckpoint>(64) : null;
             Status();
+        }
+        internal static ProfileCpuCheckpoint CpuCheckpoint(string label, int requestedOffset, int activeCommands, string phases)
+        {
+            MethodCapture current = capture;
+            int rootId = targets.FindIndex(CpuTarget);
+            if (current == null || ending || cpuCheckpoints == null || cpuCheckpoints.Count >= 128
+                || !current.TryReadClosedCpu(rootId, out long calls, out long elapsed, out long cpu)) return null;
+            var point = new ProfileCpuCheckpoint { label = label, tick = GenTicks.TicksGame, frame = Time.frameCount,
+                requestedOffset = requestedOffset, activeCommands = activeCommands, phases = phases, tickCalls = calls,
+                tickCpuMs = cpu / 10000.0, tickElapsedMs = current.Milliseconds(elapsed),
+                mainCpuMs = windowCpu >= 0 ? (clock.Cpu100ns() - windowCpu) / 10000.0 : (double?)null,
+                processCpuMs = windowProcessCpu >= 0 ? (clock.ProcessCpu100ns() - windowProcessCpu) / 10000.0 : (double?)null,
+                wallSeconds = (clock.Timestamp() - started) / (double)clock.Frequency };
+            cpuCheckpoints.Add(point); return point;
         }
         internal static void End()
         {
@@ -266,6 +283,7 @@ namespace Helodrace.Profiling
             capture = null;
             reference.Sample(); snapshot.reference = reference.Snapshot();
             snapshot.dropped = current.Dropped; snapshot.complete = current.Dropped == 0;
+            snapshot.cpuCheckpoints = cpuCheckpoints?.ToArray();
             snapshot.methods = targets.Select((m, i) => { double[] p = current.Percentiles(i); return new ProfileMethod { id = i, method = Signature(m),
                 cpuMeasured = snapshot.cpuSource != "disabled" && CpuTarget(m), calls = current.Calls[i], exceptions = current.Errors[i],
                 foreignThreadCalls = System.Threading.Interlocked.Read(ref current.ForeignThreadCalls[i]), depthLimitCalls = current.DepthLimitCalls[i],

@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cpu-windows-vanilla-smoke-01",
+  "classification": "Actual CPU-window collector smoke only:12 pawns/single-room/3x/warm0/4000 ticks; generation fixture CPU and500-tick cumulative closed-root/main/process points. New/V single pair and new unprofiled control only. Not representative final CQB/field/cooperation, scaling or3-repeat final R7 CPU gate. First verified completion is a milestone, not guaranteed permanent inactivity.",
+  "files": {
+    "audit.json": {
+      "sha256": "342d77157fc94b46b5ac86f5f8a1be786f045850f7f2155221791e028dd7e647",
+      "uncompressedSha256": "342d77157fc94b46b5ac86f5f8a1be786f045850f7f2155221791e028dd7e647",
+      "uncompressedBytes": 11317
+    },
+    "launcher.json": {
+      "sha256": "be81b8ebfcc43ae8df9bc86cb39038e94e7f93088939f68d2af271cf64fa8201",
+      "uncompressedSha256": "be81b8ebfcc43ae8df9bc86cb39038e94e7f93088939f68d2af271cf64fa8201",
+      "uncompressedBytes": 2667
+    },
+    "Player.log.gz": {
+      "sha256": "180749cba0a5f8d9dc5d1c5dfe2d61a85b6e546db808232dcbadf90502424a93",
+      "uncompressedSha256": "ffd16708075825946ac952d3d46bbc265762147f676c2781533be48ec487acac",
+      "uncompressedBytes": 29564
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "profiles/capabilities.json": {
+      "sha256": "d83b6cbe5d0608d3651a388b96da588485dfc9e558ab7a7ce69bdf1cfc66b99d",
+      "uncompressedSha256": "d83b6cbe5d0608d3651a388b96da588485dfc9e558ab7a7ce69bdf1cfc66b99d",
+      "uncompressedBytes": 12877
+    },
+    "profiles/capture-20261009-093336-629-1.json": {
+      "sha256": "e82c480bfb4b2b651fd57f853546d9ff54b4bca014abe24e48ed6f46f2467d04",
+      "uncompressedSha256": "e82c480bfb4b2b651fd57f853546d9ff54b4bca014abe24e48ed6f46f2467d04",
+      "uncompressedBytes": 21815
+    },
+    "profiles/status.json": {
+      "sha256": "319a3b32b2807968bbb0305d9009330132f919454027dc7a4e1bb3d3fc79310d",
+      "uncompressedSha256": "319a3b32b2807968bbb0305d9009330132f919454027dc7a4e1bb3d3fc79310d",
+      "uncompressedBytes": 223
+    }
+  }
+}

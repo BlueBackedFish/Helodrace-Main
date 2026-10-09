@@ -123,6 +123,8 @@ namespace Helodrace
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
+            cpuWindows = output != null && GenCommandLine.TryGetCommandLineArg("hdTacticalAuditCpuWindows", out _);
+            if (cpuWindows) cpuWindowPoints = new List<ProfileCpuCheckpoint>(64);
             if (output != null) TacticalAuditNativeErrors.Start(output);
         }
         private static int Argument(string name, int fallback)
@@ -136,7 +138,19 @@ namespace Helodrace
             if (output == null || finished) return;
             try
             {
-                if (!initialized) { Initialize(); initialized = true; }
+                if (!initialized)
+                {
+                    long coldCpu = cpuWindows ? windowClock.Cpu100ns() : -1;
+                    long coldProcess = cpuWindows ? windowClock.ProcessCpu100ns() : -1;
+                    long coldWall = cpuWindows ? windowClock.Timestamp() : 0;
+                    Initialize(); initialized = true;
+                    if (coldCpu >= 0)
+                    {
+                        result.r7ColdMainCpuMs = (windowClock.Cpu100ns() - coldCpu) / 10000.0;
+                        result.r7ColdProcessCpuMs = (windowClock.ProcessCpu100ns() - coldProcess) / 10000.0;
+                        result.r7ColdWallMs = (windowClock.Timestamp() - coldWall) * 1000.0 / windowClock.Frequency;
+                    }
+                }
                 if (finishing)
                 {
                     AgentMethodProfiler.End();
@@ -159,11 +173,15 @@ namespace Helodrace
                         uninstrumentedProcessStart = windowClock.ProcessCpu100ns();
                         uninstrumentedMainStart = windowClock.Cpu100ns();
                     }
+                    cpuWindowStarted = windowClock.Timestamp();
+                    if (cpuWindows) RecordCpuWindow("start", 0);
                 }
+                SampleCpuWindows(tick);
                 if (measured < 0 || tick - measured < result.sampleTicks) return;
                 Progress(tick);
                 benchmark.endPhases = Phases();
                 result.measuredTicks = tick - measured;
+                if (cpuWindows) RecordCpuWindow("end", tick - measured);
                 if (uninstrumentedMainStart >= 0)
                 {
                     result.uninstrumentedMainCpuMs = (windowClock.Cpu100ns() - uninstrumentedMainStart) / 10000.0;
@@ -745,6 +763,7 @@ namespace Helodrace
             result.entered = entered.Count; result.objectiveReached = arrived.Count;
             result.moved = raiders.Count(pawn => pawn.Spawned && pawn.Position != starts[pawn]);
             result.alive = raiders.Count(pawn => pawn.Spawned && !pawn.Dead && !pawn.Downed);
+            MissionCpuWindow(tick);
         }
         private void VerifyIsolation()
         {
@@ -784,6 +803,7 @@ namespace Helodrace
         }
         private void Write()
         {
+            result.r7CpuCheckpoints = cpuWindowPoints?.ToArray();
             using (var stream = new MemoryStream())
             {
                 new DataContractJsonSerializer(typeof(TacticalEngineAuditResult)).WriteObject(stream, result);

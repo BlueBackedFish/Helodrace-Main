@@ -84,6 +84,17 @@ namespace Helodrace.Profiling
         public long Dropped;
         public bool Ready => !accepting && depth == 0;
 
+        // Read only a completed CPU scope on its owning thread. An unrelated
+        // Update frame may still be open; an open tick scope must be rejected.
+        public bool TryReadClosedCpu(int id, out long calls, out long elapsed, out long cpu100ns)
+        {
+            calls = elapsed = cpu100ns = 0;
+            if (!OnCaptureThread || id < 0 || id >= Calls.Length || !cpu[id]) return false;
+            for (int i = 0; i < depth; i++) if (stack[i].Id == id) return false;
+            calls = Calls[id]; elapsed = Inclusive[id]; cpu100ns = CpuTicks[id];
+            return true;
+        }
+
         public MethodCapture(IMethodClock clock, bool[] cpu, int maximumDepth = 128,
             bool traceSpikes = false, int tickMethodId = 0, double spikeThresholdMs = 5, long? originTimestamp = null, int? spikePawnId = null)
         {

@@ -18,7 +18,7 @@ namespace Helodrace.Profiling
     [DataContract]
     public sealed class ProfileSnapshot
     {
-        [DataMember] public int schema = 8;
+        [DataMember] public int schema = 9;
         [DataMember] public string label, utc, assemblySha256, gameVersion, runtime, operatingSystem, cpuSource;
         [DataMember] public string[] mods;
         [DataMember] public int startTick, endTick, startFrame, endFrame, population, scenario, speed, mapId;
@@ -40,6 +40,16 @@ namespace Helodrace.Profiling
         [DataMember] public ProfileTickSpike[] tickSpikes;
         [DataMember] public int initialCallCapacity;
         [DataMember] public ProfileSlowCall[] initialCalls;
+        [DataMember] public ProfileCpuCheckpoint[] cpuCheckpoints;
+    }
+    [DataContract]
+    public sealed class ProfileCpuCheckpoint
+    {
+        [DataMember] public string label, phases;
+        [DataMember] public int tick, frame, requestedOffset, activeCommands;
+        [DataMember] public long? tickCalls;
+        [DataMember] public double? tickCpuMs, tickElapsedMs, mainCpuMs, processCpuMs;
+        [DataMember] public double wallSeconds;
     }
     [DataContract]
     public sealed class ProfileSlowCall
