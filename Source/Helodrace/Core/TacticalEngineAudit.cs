@@ -75,6 +75,7 @@ namespace Helodrace
         [DataMember] public string[] unexpectedPawns;
         [DataMember] public bool r7CleanupComplete, r7WorldOrganizationsCleared, r7IdleStable;
         [DataMember] public int r7CleanupAt = -1, r7RemainingCommands, r7RemainingOwners, r7RemainingClaims, r7RemainingLeases, r7RemainingOpenings, r7RemainingMessages;
+        [DataMember] public bool r7FixtureActorWithdrawn, r7FixtureContactBeforeWithdrawal;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
         [DataMember] public bool newPhysicalPlansValid;
         [DataMember] public bool newWideOpeningReused;
@@ -425,6 +426,23 @@ namespace Helodrace
 
         private void ApplyCase()
         {
+            // The narrow geometry fixture has an invulnerable stationary
+            // defender. Require actual contact, then withdraw it on a fixed
+            // tick so entry resumption can be tested without disabling combat.
+            if (result.fixtureCase == "narrow")
+            {
+                if (!result.r7FixtureActorWithdrawn && GenTicks.TicksGame - started >= 6000)
+                {
+                    var narrowService = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
+                    result.r7FixtureContactBeforeWithdrawal = narrowService != null && narrowService.Commands.Any(command =>
+                        command.Contacts.Memory.Entries.Any(contact => contact.EnemyId == owner.thingIDNumber));
+                    owner.Position = new IntVec3(180, 0, 180);
+                    result.caseTriggered = result.r7FixtureActorWithdrawn = true;
+                    Log.Message("R7 narrow defender withdrawn at " + (GenTicks.TicksGame - started)
+                        + " observed=" + result.r7FixtureContactBeforeWithdrawal);
+                }
+                return;
+            }
             if (OfferRetirementFixture) { ApplyOfferRetirementDrill(); return; }
             if (MultiMapFixture) { ApplyMultiMapDrill(); return; }
             if (ReloadFixture)

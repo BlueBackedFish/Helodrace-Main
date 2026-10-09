@@ -1,0 +1,51 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-functional-899e-01",
+  "classification": "Stopped final functional attempt on DLL899e: door passed; narrow failed full entry because the invulnerable named-bed actor remained visible. Actual observed contact/45shots/no resumption retained. No final R7/CPU acceptance.",
+  "files": {
+    "checks.json": {
+      "sha256": "ba9c3a7a733b99ea778723bced26391981936805fd66df3422c8720e0dd7343d",
+      "uncompressedSha256": "ba9c3a7a733b99ea778723bced26391981936805fd66df3422c8720e0dd7343d",
+      "uncompressedBytes": 3972
+    },
+    "door/audit.json": {
+      "sha256": "9079314a837e44855b2df588fe1781e30915d7212bef0b0f272bd92ada5fac89",
+      "uncompressedSha256": "9079314a837e44855b2df588fe1781e30915d7212bef0b0f272bd92ada5fac89",
+      "uncompressedBytes": 12273
+    },
+    "door/launcher.json": {
+      "sha256": "a126bc3cd95362d11facffc11b15fc0250590b4b02bedbab4278eef54f79bea9",
+      "uncompressedSha256": "a126bc3cd95362d11facffc11b15fc0250590b4b02bedbab4278eef54f79bea9",
+      "uncompressedBytes": 2472
+    },
+    "door/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "door/Player.log.gz": {
+      "sha256": "9ffd815ee677420761b3cb2c365053394a9e33d50e4db2113bc500c4983e1198",
+      "uncompressedSha256": "1f431ad6fae7a88ac2bafd3da2e04a41a540cc405f0981d13c2f72d0459dae55",
+      "uncompressedBytes": 29441
+    },
+    "narrow/audit.json": {
+      "sha256": "41895f3d9a96c09eb688e826b8391fe720cbc86848b0a78e42bc2a2a24e63930",
+      "uncompressedSha256": "41895f3d9a96c09eb688e826b8391fe720cbc86848b0a78e42bc2a2a24e63930",
+      "uncompressedBytes": 14461
+    },
+    "narrow/launcher.json": {
+      "sha256": "b5696a522690c99eb5bf89b3544f14bcf2601c5dd2f7945a5fc53b73b5fdcad9",
+      "uncompressedSha256": "b5696a522690c99eb5bf89b3544f14bcf2601c5dd2f7945a5fc53b73b5fdcad9",
+      "uncompressedBytes": 2480
+    },
+    "narrow/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "narrow/Player.log.gz": {
+      "sha256": "2cf43bc04b51d5962a804a320a9b90d161cf0067badff604a4c32d143abfe143",
+      "uncompressedSha256": "30095d97bf424ae6d1c49e91265c959c9c29bd40f0d85b027085e0176b8b7295",
+      "uncompressedBytes": 29599
+    }
+  }
+}

@@ -13,7 +13,8 @@ function Add-Case([string]$Name, [string]$Case, [int]$Population = 12, [int]$Tic
         workload=$Workload; high=$High; reload=$Reload; flags=$Flags; functional=$Functional; reloads=$Reloads; retained=$Retained }
 }
 Add-Case door normal -Workload sapper-door
-foreach ($case in @('narrow','rocks','interrupt','recovery','cutter','cutter-active-recovery',
+Add-Case narrow narrow -Ticks 10000 -Flags @('caseTriggered','r7FixtureActorWithdrawn','r7FixtureContactBeforeWithdrawal')
+foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recovery',
     'charge-recovery','charge-fuse-casualty','charge-change','wide-opening','unexpected-hole','inside-goal',
     'tiny-adjacent','room-recovery','door-contact','small-unseen','outdoor-opening','r4-contact-drill')) {
     Add-Case $case $case -Ticks 10000
@@ -130,6 +131,9 @@ foreach ($spec in $selected) {
         }
         if ($spec.functional -and -not $audit.newFunctionalComplete) { throw 'Full native functional completion failed.' }
         foreach ($flag in $spec.flags) { if ($audit.$flag -ne $true) { throw "Required native proof missing: $flag" } }
+        if ($spec.name -eq 'narrow' -and ($audit.newContactResponses -lt 1 -or $audit.newContactResumes -lt 1)) {
+            throw 'Narrow fixture must actually respond to its observed defender and resume after withdrawal.'
+        }
         if ($audit.r7Reloads -lt $spec.reloads) { throw 'Required actual save/load count missing.' }
         $record.status = 'passed'; Write-Journal
         Write-Output "R7 functional passed: $($spec.name)"

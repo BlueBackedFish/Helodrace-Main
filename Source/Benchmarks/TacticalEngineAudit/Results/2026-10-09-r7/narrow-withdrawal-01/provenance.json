@@ -1,0 +1,31 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-narrow-withdrawal-01",
+  "classification": "Actual narrow12-pawn functional retry: original actor/geometry, observed and shot until fixed6000-tick withdrawal; real response resumed and full entry at6455. No tactical AI weakening. Single selected-case proof only, no final R7/CPU acceptance.",
+  "files": {
+    "checks.json": {
+      "sha256": "fc692d7ca71c9f4b75212a8146e24ef96f2f5d8545092bf7e6aedef586fe4fad",
+      "uncompressedSha256": "fc692d7ca71c9f4b75212a8146e24ef96f2f5d8545092bf7e6aedef586fe4fad",
+      "uncompressedBytes": 1458
+    },
+    "narrow/audit.json": {
+      "sha256": "34aefa12a8ebe5de5acd5e9e491854478fb5874d1a6e10ba83f04f0c94c4ba7a",
+      "uncompressedSha256": "34aefa12a8ebe5de5acd5e9e491854478fb5874d1a6e10ba83f04f0c94c4ba7a",
+      "uncompressedBytes": 11658
+    },
+    "narrow/launcher.json": {
+      "sha256": "2e23b8636f266cd205df80b2254df7ea2ae66ba60edff3795c401948221f1266",
+      "uncompressedSha256": "2e23b8636f266cd205df80b2254df7ea2ae66ba60edff3795c401948221f1266",
+      "uncompressedBytes": 2468
+    },
+    "narrow/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "narrow/Player.log.gz": {
+      "sha256": "39bb26c37dadfc029867b7cdd4e31460b459fbcbebccf75e4b3e87f228a7037a",
+      "uncompressedSha256": "74c839fa7d3494ee500f550d69837ccd51948dca4ef8039b803c8b4a31dd731e",
+      "uncompressedBytes": 29607
+    }
+  }
+}
