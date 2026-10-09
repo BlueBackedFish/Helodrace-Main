@@ -1,0 +1,464 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-tail-9050-02",
+  "classification": "Completed actual cases29-44 diagnostic queue:12 pass/4 fail, no fixes applied during collection. Current same9050 DLL and3definitions; actual normal graphics/unprofiled/defaultNew. Failures are preserved. This is not final44 coverage, CPU acceptance or R7 completion.",
+  "archivedCases": [
+    "care-interrupt",
+    "cleanup",
+    "cleanup-grenade",
+    "cleanup-charge",
+    "multi-map",
+    "multi-map-scale",
+    "offer-retirement",
+    "reload-cqb",
+    "reload-retained",
+    "reload-charge",
+    "reload-field",
+    "reload-care",
+    "reload-low",
+    "reload-high",
+    "reload-defense",
+    "reload-support"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "964fceb4f378e4c0dad6ce3e61d2bc63ed51cd6b4b2e9c33766d09bc997dd25f",
+      "uncompressedSha256": "964fceb4f378e4c0dad6ce3e61d2bc63ed51cd6b4b2e9c33766d09bc997dd25f",
+      "uncompressedBytes": 11717
+    },
+    "case-specifications.json": {
+      "sha256": "50594ed1cd2fde58a742f378d78995241a583e258b61d7ffd399063bced4655e",
+      "uncompressedSha256": "50594ed1cd2fde58a742f378d78995241a583e258b61d7ffd399063bced4655e",
+      "uncompressedBytes": 13375
+    },
+    "diagnostic-summary.json": {
+      "sha256": "364db2bf51e490a95b895006b8bd30689fddd310f03de572ecda9014dabf1c5d",
+      "uncompressedSha256": "364db2bf51e490a95b895006b8bd30689fddd310f03de572ecda9014dabf1c5d",
+      "uncompressedBytes": 11155
+    },
+    "care-interrupt/audit.json": {
+      "sha256": "f7a7b2375fddf48f1e51772af692fd3580e1f3a3fc94ccdeba0a4aca44acf3f2",
+      "uncompressedSha256": "f7a7b2375fddf48f1e51772af692fd3580e1f3a3fc94ccdeba0a4aca44acf3f2",
+      "uncompressedBytes": 12970
+    },
+    "care-interrupt/launcher.json": {
+      "sha256": "701ab42ab3b771dbe9d0fa6a5369897e0bed1b66a948fb26b9267c85227fd0ba",
+      "uncompressedSha256": "701ab42ab3b771dbe9d0fa6a5369897e0bed1b66a948fb26b9267c85227fd0ba",
+      "uncompressedBytes": 2523
+    },
+    "care-interrupt/Player.log.gz": {
+      "sha256": "263eb85c522f0dfe0bfa6b900ba2a1d1fd01154af2e736909cd5ab6ac6dc66c5",
+      "uncompressedSha256": "c44ffe6790016be7101da74add5e6ede632216f71acb7bd0e83e9c65ede4df3f",
+      "uncompressedBytes": 29774
+    },
+    "care-interrupt/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "cleanup/audit.json": {
+      "sha256": "2690737794175055b9af9f7345fa835e806d263e85dbb5e8dcdd0396d0cc09a9",
+      "uncompressedSha256": "2690737794175055b9af9f7345fa835e806d263e85dbb5e8dcdd0396d0cc09a9",
+      "uncompressedBytes": 9847
+    },
+    "cleanup/launcher.json": {
+      "sha256": "b2c55462870c72e848d7e3933d63b6a388d9a6eefed7876787a430b7a340576f",
+      "uncompressedSha256": "b2c55462870c72e848d7e3933d63b6a388d9a6eefed7876787a430b7a340576f",
+      "uncompressedBytes": 2486
+    },
+    "cleanup/Player.log.gz": {
+      "sha256": "440afbdbcd341a7e3d8d0e5de212392a2f4b7a63ff98103c468e36565f18d096",
+      "uncompressedSha256": "97f5066b919425d6e036fabb89b4ff885c490b922adfd8410818256ae0f7f3a2",
+      "uncompressedBytes": 29622
+    },
+    "cleanup/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "cleanup-grenade/audit.json": {
+      "sha256": "4500e0cf41e48277c6b63fe01b3c38446718fc41d5466898e3da6f9b11f3b2e3",
+      "uncompressedSha256": "4500e0cf41e48277c6b63fe01b3c38446718fc41d5466898e3da6f9b11f3b2e3",
+      "uncompressedBytes": 9847
+    },
+    "cleanup-grenade/launcher.json": {
+      "sha256": "2c42ce98566c7e4d8272bbbf06d4131b13d9844f71055514efe7c0573ce60a2c",
+      "uncompressedSha256": "2c42ce98566c7e4d8272bbbf06d4131b13d9844f71055514efe7c0573ce60a2c",
+      "uncompressedBytes": 2526
+    },
+    "cleanup-grenade/Player.log.gz": {
+      "sha256": "71fc9413a096fbd8fdb03852d223aad0295049991aa7186a67d9ef5edc2165fa",
+      "uncompressedSha256": "da8e61ab93b5fb8e6dec72ecc8a414b1d2be6207dafbd181c75bb1e3d3ccb54d",
+      "uncompressedBytes": 29369
+    },
+    "cleanup-grenade/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "cleanup-charge/audit.json": {
+      "sha256": "fbd3765d9239e02bc2bfabbe8c18552c5ebcfacc1b7ded5c4dfe58193936f2f6",
+      "uncompressedSha256": "fbd3765d9239e02bc2bfabbe8c18552c5ebcfacc1b7ded5c4dfe58193936f2f6",
+      "uncompressedBytes": 9844
+    },
+    "cleanup-charge/launcher.json": {
+      "sha256": "632f3ab8cf91172fae4f5e0076c0fd3438c757fe6a77e420fc55e35abba458a6",
+      "uncompressedSha256": "632f3ab8cf91172fae4f5e0076c0fd3438c757fe6a77e420fc55e35abba458a6",
+      "uncompressedBytes": 2521
+    },
+    "cleanup-charge/Player.log.gz": {
+      "sha256": "fb0ddddba45b94676602944b369f58504fc06c14033135026372c6f735baf56b",
+      "uncompressedSha256": "c957801a226519542b28a2103cffa1015c5ee810020d57d2d2eb8f1f017a65b7",
+      "uncompressedBytes": 29639
+    },
+    "cleanup-charge/pawn-manifest.txt.gz": {
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    },
+    "multi-map/audit.json": {
+      "sha256": "a5a4b61602573cc763c85203ab24efc604ec135c21ad3de869afa3d37f12d811",
+      "uncompressedSha256": "a5a4b61602573cc763c85203ab24efc604ec135c21ad3de869afa3d37f12d811",
+      "uncompressedBytes": 12866
+    },
+    "multi-map/launcher.json": {
+      "sha256": "69aebcbd11be20942d60449f43576c7e6d42ea1763bb01d62b79997a88283bca",
+      "uncompressedSha256": "69aebcbd11be20942d60449f43576c7e6d42ea1763bb01d62b79997a88283bca",
+      "uncompressedBytes": 2494
+    },
+    "multi-map/Player.log.gz": {
+      "sha256": "34b68fd43373b3cbded3327effc624782bdef963743d2a91569358ed2f1db55d",
+      "uncompressedSha256": "67f1140033e0d68985988c4d405755ab914f32d7e7e47917a1aa8e0364f9cb97",
+      "uncompressedBytes": 30168
+    },
+    "multi-map/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "multi-map-scale/audit.json": {
+      "sha256": "3df96ad999223179c22b8b67064cffd8d589acd866ad491752284a1f1765aba8",
+      "uncompressedSha256": "3df96ad999223179c22b8b67064cffd8d589acd866ad491752284a1f1765aba8",
+      "uncompressedBytes": 23738
+    },
+    "multi-map-scale/launcher.json": {
+      "sha256": "13f12c678e3bfa1c0b8306c2b30a19897cf3d4a50f96e7abe20a3e9a963446ea",
+      "uncompressedSha256": "13f12c678e3bfa1c0b8306c2b30a19897cf3d4a50f96e7abe20a3e9a963446ea",
+      "uncompressedBytes": 2514
+    },
+    "multi-map-scale/Player.log.gz": {
+      "sha256": "7e33e5e1ca6c7da80090ab06d7878f1da16b4c342a29571b5e407e0c86de9fb4",
+      "uncompressedSha256": "3cb7a4d68b747de1c6408c94cc40f772d6b49bde8c036d4633389874a190f840",
+      "uncompressedBytes": 29886
+    },
+    "multi-map-scale/pawn-manifest.txt.gz": {
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "offer-retirement/audit.json": {
+      "sha256": "796a490ce8974b84475a5d7179f7d340012adef090318adfd65a3856f5188cd2",
+      "uncompressedSha256": "796a490ce8974b84475a5d7179f7d340012adef090318adfd65a3856f5188cd2",
+      "uncompressedBytes": 13446
+    },
+    "offer-retirement/launcher.json": {
+      "sha256": "a86d661a6a9f91d71429a09622f8d9756d06015f55004a68f3486147fbdad882",
+      "uncompressedSha256": "a86d661a6a9f91d71429a09622f8d9756d06015f55004a68f3486147fbdad882",
+      "uncompressedBytes": 2531
+    },
+    "offer-retirement/Player.log.gz": {
+      "sha256": "023d04d0e48f017f6590bc3bba7ba6f64b226fe7e13d367644d442665f6166d9",
+      "uncompressedSha256": "b33256b86281b0c5a1eecf70cf428de662f311753ae4baf2bc0264ece50979c2",
+      "uncompressedBytes": 29668
+    },
+    "offer-retirement/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-cqb/audit.json": {
+      "sha256": "6be05a9da6d7acff6bdc9d0b0a72b7698de81ed7666cd92edc3c41f6880c899e",
+      "uncompressedSha256": "6be05a9da6d7acff6bdc9d0b0a72b7698de81ed7666cd92edc3c41f6880c899e",
+      "uncompressedBytes": 12576
+    },
+    "reload-cqb/launcher.json": {
+      "sha256": "2847676a813895bd922c35e15d415a82da8c131af0d27e48a1ce8afa90f33d2e",
+      "uncompressedSha256": "2847676a813895bd922c35e15d415a82da8c131af0d27e48a1ce8afa90f33d2e",
+      "uncompressedBytes": 2501
+    },
+    "reload-cqb/Player.log.gz": {
+      "sha256": "4696ce54c00fa3550f7f11d6b5fbbe8cf894988cc913c12b1006b367fbb8d428",
+      "uncompressedSha256": "3809d72605e7ff34f3ea7eb7628c46166399f385456cad2edbea7eef585d6425",
+      "uncompressedBytes": 35895
+    },
+    "reload-cqb/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "aa691be3c258607efd6f812922764806a6c3610bb6c86bcdfb52ddbc83543d5f",
+      "uncompressedSha256": "0a4b3600eaba0b642baeb4ca6316867fc8858a7e8bb410174dad50c4b98e9b08",
+      "uncompressedBytes": 3403299
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "801c35b39397f74a7f67783f45c43395e083c6999ddb341b9893f0244de348ec",
+      "uncompressedSha256": "d1b63d6c4a73949b52b42388d557d4334e0f3efe2b0a34094e0035b6ea2f8ca1",
+      "uncompressedBytes": 3476863
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint3.rws.gz": {
+      "sha256": "5a9c22eee4cb4b4eeeb119efddc51a7857287d6f2ed719326d9b0388aaed2392",
+      "uncompressedSha256": "01924e3a21a7332126e6aded8e0fae8a559a2b57b426c77cea7ea80c09a6d473",
+      "uncompressedBytes": 3479789
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint4.rws.gz": {
+      "sha256": "5f7307f001f35ed3e57eb12138d6fbc61624afa8d65e6de26e32604a9917883e",
+      "uncompressedSha256": "2b5f81ef07e8153fd6a263dbc69578820d91070187ec3d61a447e3df0fa9f343",
+      "uncompressedBytes": 3485491
+    },
+    "reload-retained/audit.json": {
+      "sha256": "9506690daebcea3e0b116e58afe058d131ee70f33602f183578b42f57293efd4",
+      "uncompressedSha256": "9506690daebcea3e0b116e58afe058d131ee70f33602f183578b42f57293efd4",
+      "uncompressedBytes": 12574
+    },
+    "reload-retained/launcher.json": {
+      "sha256": "614dd0accf8de3a4ea61f48f65918d38a84c9e21a70f8b4f18340b480ac1cd62",
+      "uncompressedSha256": "614dd0accf8de3a4ea61f48f65918d38a84c9e21a70f8b4f18340b480ac1cd62",
+      "uncompressedBytes": 2577
+    },
+    "reload-retained/Player.log.gz": {
+      "sha256": "3b574b5e11ee154c8903d31e4c85966b79067a665e5c1e452dfbc17d1002225e",
+      "uncompressedSha256": "16c6edaa60a16821f6d5dff2308697b5483bea6c25b398cba5931878e45e2bd3",
+      "uncompressedBytes": 36023
+    },
+    "reload-retained/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "8ec0d65d6f200151723ddab926d5800e57204504f0a95fbd762b274b33eaa06e",
+      "uncompressedSha256": "80c2b8be22367b139de3f15d2a44786abcd8ea72e1f21f656d9fdaa4077c5e64",
+      "uncompressedBytes": 3444080
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "3250a4b5f19fec44c86392d9dc71fc90858f5cbb18dd5592753d4532dd24288c",
+      "uncompressedSha256": "567ef6414ea859d87e28cce25a0ab36b166315eb82ae56795f95c1dc97441fa2",
+      "uncompressedBytes": 3514979
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint3.rws.gz": {
+      "sha256": "813f63400484909308127a80f3e383228dea0acee1e685fe4e845e2af11a8f63",
+      "uncompressedSha256": "719ead0dd2b784a5dd39e3422df943ce5feff7a49d1e1e7b48f4ab6466b3b840",
+      "uncompressedBytes": 3521170
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint4.rws.gz": {
+      "sha256": "97b06823cd78954ff484c8d1ac0df2384200a75201402a7bfe27f22ccc533d48",
+      "uncompressedSha256": "8d9376b91c3daa5bf391d24654d5fbff7e7fe52f366d61dfbf3bab0ffe202b2d",
+      "uncompressedBytes": 3524954
+    },
+    "reload-charge/audit.json": {
+      "sha256": "bba2bd897d8072c8b0c53bd945741fbe850f6448ed35ae58938410c7cdacd6ac",
+      "uncompressedSha256": "bba2bd897d8072c8b0c53bd945741fbe850f6448ed35ae58938410c7cdacd6ac",
+      "uncompressedBytes": 22213
+    },
+    "reload-charge/launcher.json": {
+      "sha256": "49deb242482f1a805b23799883b1a81ce283803985d384b8915617de022c27e9",
+      "uncompressedSha256": "49deb242482f1a805b23799883b1a81ce283803985d384b8915617de022c27e9",
+      "uncompressedBytes": 2514
+    },
+    "reload-charge/Player.log.gz": {
+      "sha256": "d680a805819e1369208af9520137e8f305b3f470da216b3b65180e23ccd93092",
+      "uncompressedSha256": "4e8b059f16400890dacb173855f295553d58c8d2457e9ba9a7b370ae72780406",
+      "uncompressedBytes": 44571
+    },
+    "reload-charge/pawn-manifest.txt.gz": {
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    },
+    "reload-charge/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "8535c96e104fe02dfe4e598be66ef75880d7137fa5fc0be02dfa7dbfe429cf0f",
+      "uncompressedSha256": "65e7fcd39fff4ae241ab41a2e0072de1bcc0348ebd0828a87ea0e2cc29f959a4",
+      "uncompressedBytes": 3395706
+    },
+    "reload-charge/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "eb89b9f48c8d517752b07f6f69634e973343bbee2c003e95f762cdb011c84c26",
+      "uncompressedSha256": "601fa2383f44a729950172631785c9ecfb15c88ef97163c8f769445ec826f21e",
+      "uncompressedBytes": 3448076
+    },
+    "reload-charge/Saves/R7TacticalCheckpoint3.rws.gz": {
+      "sha256": "e758c186ca017c4b0107cefebed1549c8948851b3c15118df08e9011ec327033",
+      "uncompressedSha256": "358e6a13629c23895cd451038cf1662dd37d967f2c927b363d0129c8c859917e",
+      "uncompressedBytes": 3471659
+    },
+    "reload-field/audit.json": {
+      "sha256": "d8aec63452bf7f4d570afb69c60c10adb5f8bb303e6edacb8203ced4071f4a7f",
+      "uncompressedSha256": "d8aec63452bf7f4d570afb69c60c10adb5f8bb303e6edacb8203ced4071f4a7f",
+      "uncompressedBytes": 13022
+    },
+    "reload-field/launcher.json": {
+      "sha256": "368c36c3ec3a30df061d0deb5035331cf74227d7d7295b104b64cc76976bf609",
+      "uncompressedSha256": "368c36c3ec3a30df061d0deb5035331cf74227d7d7295b104b64cc76976bf609",
+      "uncompressedBytes": 2564
+    },
+    "reload-field/Player.log.gz": {
+      "sha256": "1fc756d3c4a58845b04872cd47b1fd40b5f9eba3778e7de20cdcf3a6e9f82b5a",
+      "uncompressedSha256": "3ef29403d7e8980be59cab4f7b8bb1b007ad0741649b4fdb48293430e3d654d1",
+      "uncompressedBytes": 35091
+    },
+    "reload-field/pawn-manifest.txt.gz": {
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    },
+    "reload-field/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "12efef31210d3933b7141980cc533973ccd1b2be5822550234636e3c8622670c",
+      "uncompressedSha256": "c0e1160cc6832f978a144b37b18708c88dd680e40936c6856d6132914dd6cb23",
+      "uncompressedBytes": 3632065
+    },
+    "reload-field/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "54b18c703d72b1157627a999e3535b2f6de7cd53ea96d36b233b2c8df53e9877",
+      "uncompressedSha256": "f5b178fb779924f8d662c17145a20b1e37489dd49bd7a99b5a8b9c16de25a3f4",
+      "uncompressedBytes": 3678867
+    },
+    "reload-care/audit.json": {
+      "sha256": "5f7984a73c767b5e305c5a7f9eba07c5a1287ea9f0c64cbb1b327ce4b7178ef4",
+      "uncompressedSha256": "5f7984a73c767b5e305c5a7f9eba07c5a1287ea9f0c64cbb1b327ce4b7178ef4",
+      "uncompressedBytes": 13501
+    },
+    "reload-care/launcher.json": {
+      "sha256": "90b4f602905becde651b82854ff58565f5e6dd29fbfdf76c667007d34cd7e721",
+      "uncompressedSha256": "90b4f602905becde651b82854ff58565f5e6dd29fbfdf76c667007d34cd7e721",
+      "uncompressedBytes": 2559
+    },
+    "reload-care/Player.log.gz": {
+      "sha256": "0b0d2abf2489c891244c7657e6fc04f5a819891856aaccb3271cf0334376c7a6",
+      "uncompressedSha256": "80ea57a2ecea91db7a0f3f7fa104c93101e9790466dee493da1b874594995743",
+      "uncompressedBytes": 34287
+    },
+    "reload-care/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-care/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "8c1563193e1bd3a9443ded045715a5a26cfb16b76f46e50994068f3c5d720fca",
+      "uncompressedSha256": "c0198601344083cffdd8ce09f24d181b27c6d56469958ffb9077ea42acb27fb7",
+      "uncompressedBytes": 3417345
+    },
+    "reload-care/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "077430c08b1cff13881bffe793ab4f5bb3aa8d423f87941ace08545bbef91d65",
+      "uncompressedSha256": "200a4ffe01a6d0b5a215d1aa49d7d3a08ccf01538c9f8b404d4dbd89cadd9e2e",
+      "uncompressedBytes": 3470520
+    },
+    "reload-low/audit.json": {
+      "sha256": "ef0d47a248c68a0f2baedc8adfb691cf3a27e8e2d1ad45fb7a1f9336aa968ded",
+      "uncompressedSha256": "ef0d47a248c68a0f2baedc8adfb691cf3a27e8e2d1ad45fb7a1f9336aa968ded",
+      "uncompressedBytes": 20636
+    },
+    "reload-low/launcher.json": {
+      "sha256": "f781a009772adc1fe3c527aff4f4eda78184b76658372887df7eace39f2693eb",
+      "uncompressedSha256": "f781a009772adc1fe3c527aff4f4eda78184b76658372887df7eace39f2693eb",
+      "uncompressedBytes": 2552
+    },
+    "reload-low/Player.log.gz": {
+      "sha256": "beb10160fbac1276702a8094b9c157c08ee560902a6ed11dd891ecdd6ab514ea",
+      "uncompressedSha256": "1a96dbc5402e114901ee0a6f66d3610f03748329c032be98ee19994f2759606c",
+      "uncompressedBytes": 34483
+    },
+    "reload-low/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-low/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "b0da40edd3d6150f2cbfc799c48bc3872b3c73e89dda11cf2925e682dfabbe97",
+      "uncompressedSha256": "3eca70eb35a9395b0cd00e55648066f56a6b35717eefacc389ba85f33451df18",
+      "uncompressedBytes": 3672190
+    },
+    "reload-low/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "7c68139f50eb050fb7be26abdf138692954cf03ef4180a869bb168ea660f65e1",
+      "uncompressedSha256": "92c435060a16feab78ac1e4f9f3d3d200fcaf71eb0a7fb6ddfb521ec29c85726",
+      "uncompressedBytes": 3734839
+    },
+    "reload-high/audit.json": {
+      "sha256": "c6308aa85749b08d0cce7073a0c669fcc2354252b46aefee3f09431a92e57bfd",
+      "uncompressedSha256": "c6308aa85749b08d0cce7073a0c669fcc2354252b46aefee3f09431a92e57bfd",
+      "uncompressedBytes": 16795
+    },
+    "reload-high/launcher.json": {
+      "sha256": "b41e9493da0d9bb43778d1051011b15e85f1e8d773a32574021fcfd117e54c38",
+      "uncompressedSha256": "b41e9493da0d9bb43778d1051011b15e85f1e8d773a32574021fcfd117e54c38",
+      "uncompressedBytes": 2551
+    },
+    "reload-high/Player.log.gz": {
+      "sha256": "a666370f64c4b2dde64eafcfbf7ca63cbbd56718f2bd5efbe0b3c1baed8c7f2a",
+      "uncompressedSha256": "2a7aeeccf822c2578c1be6991da18cf2eb723682e5adbd930ca9fb8cb86a7a32",
+      "uncompressedBytes": 34050
+    },
+    "reload-high/pawn-manifest.txt.gz": {
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    },
+    "reload-high/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "894d8e0106634c1904e5697883cc169830368ec685069fec1ab4b9853cba0b79",
+      "uncompressedSha256": "61ca400a5c543d67991d260da4394c2380a8837b2d15ab420e12838e28aad5e2",
+      "uncompressedBytes": 4321235
+    },
+    "reload-high/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "a0a8827c88ab4f519651df879ff47bd298b1413c3aa0f6040d2ec84c414da753",
+      "uncompressedSha256": "50076ea3bb16bf9c47da38e3d1729da820c470008510e08eb8d7825c684f0dfa",
+      "uncompressedBytes": 4373414
+    },
+    "reload-defense/audit.json": {
+      "sha256": "78dfbe8a5a29848f9bc0de8f9160c9d568f87f88a00f192a31bafceb1cbc4cf0",
+      "uncompressedSha256": "78dfbe8a5a29848f9bc0de8f9160c9d568f87f88a00f192a31bafceb1cbc4cf0",
+      "uncompressedBytes": 8600
+    },
+    "reload-defense/launcher.json": {
+      "sha256": "61f6771d54b266978fbb834c46ad3a4829a059fccfe0fba42fdaaeef87ecf23c",
+      "uncompressedSha256": "61f6771d54b266978fbb834c46ad3a4829a059fccfe0fba42fdaaeef87ecf23c",
+      "uncompressedBytes": 2584
+    },
+    "reload-defense/Player.log.gz": {
+      "sha256": "b1951d09fb22a64feef19b4a73b4c04833fc9247bca52a516f22b88a89573078",
+      "uncompressedSha256": "6895f2720efb6ad1147d4130dac197fc4a6b6b3e895299ec70879d690240cf99",
+      "uncompressedBytes": 29498
+    },
+    "reload-defense/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-support/audit.json": {
+      "sha256": "fe4599c48cd904293dd8cd1c2f5d265c7b00e003eb2ae8b763582b6363e7a61e",
+      "uncompressedSha256": "fe4599c48cd904293dd8cd1c2f5d265c7b00e003eb2ae8b763582b6363e7a61e",
+      "uncompressedBytes": 13121
+    },
+    "reload-support/launcher.json": {
+      "sha256": "dd71806adb58a702b868a117814edf5466b25432c9fdf4e5ee70f0892632e44f",
+      "uncompressedSha256": "dd71806adb58a702b868a117814edf5466b25432c9fdf4e5ee70f0892632e44f",
+      "uncompressedBytes": 2562
+    },
+    "reload-support/Player.log.gz": {
+      "sha256": "b0e4be4e4a8ccde568785ff8f00c2dd67646997ec2cf8d33dd9ba5ca0e998d92",
+      "uncompressedSha256": "12b548c585ff4676a15c6d89501258de5bdcf8537823296cb24476ca6796ef99",
+      "uncompressedBytes": 33692
+    },
+    "reload-support/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-support/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "f553b1029aa60c0ba977aa9c42d9082dc21dbd89bd434a0f7c76e5394cebfa33",
+      "uncompressedSha256": "27287f31e242b81ac81fcfbcd55e7ef705fc8b4d9de59286aceb6fb6a61ca52c",
+      "uncompressedBytes": 3519726
+    },
+    "reload-support/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "48db4284ef50dd606dddd97a59dc5bdfbeb9ea87bf2189d20e219ce77aee2c2a",
+      "uncompressedSha256": "dde175c77e9e5108dda2483118d04482ecd59aa6aefc614651ccab6dd5583b16",
+      "uncompressedBytes": 3579314
+    }
+  }
+}

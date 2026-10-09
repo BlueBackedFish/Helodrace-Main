@@ -1,0 +1,416 @@
+{
+  "scope": "Cases29-44 diagnostic collection only",
+  "finalR7Complete": false,
+  "cpuGateEvaluated": false,
+  "passed": 12,
+  "failed": 4,
+  "records": [
+    {
+      "name": "care-interrupt",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 14000,
+      "measuredTicks": 14000,
+      "actualReloads": 0,
+      "requiredReloads": 0,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 12,
+      "entryAssignments": 11,
+      "actualSpeed": [
+        3,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "cleanup",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 6000,
+      "measuredTicks": 6000,
+      "actualReloads": 0,
+      "requiredReloads": 0,
+      "functionalComplete": false,
+      "completedUnits": 0,
+      "units": 1,
+      "entered": 0,
+      "entryAssignments": 0,
+      "actualSpeed": [
+        3,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "cleanup-grenade",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 8000,
+      "measuredTicks": 8000,
+      "actualReloads": 0,
+      "requiredReloads": 0,
+      "functionalComplete": false,
+      "completedUnits": 0,
+      "units": 1,
+      "entered": 0,
+      "entryAssignments": 0,
+      "actualSpeed": [
+        3,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "cleanup-charge",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 8000,
+      "measuredTicks": 8000,
+      "actualReloads": 0,
+      "requiredReloads": 0,
+      "functionalComplete": false,
+      "completedUnits": 0,
+      "units": 1,
+      "entered": 0,
+      "entryAssignments": 0,
+      "actualSpeed": [
+        3,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "multi-map",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 8000,
+      "measuredTicks": 8000,
+      "actualReloads": 0,
+      "requiredReloads": 0,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 12,
+      "entryAssignments": 12,
+      "actualSpeed": [
+        3,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "multi-map-scale",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 10000,
+      "measuredTicks": 10000,
+      "actualReloads": 0,
+      "requiredReloads": 0,
+      "functionalComplete": true,
+      "completedUnits": 4,
+      "units": 4,
+      "entered": 48,
+      "entryAssignments": 48,
+      "actualSpeed": [
+        3,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "offer-retirement",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 8000,
+      "measuredTicks": 8000,
+      "actualReloads": 0,
+      "requiredReloads": 0,
+      "functionalComplete": false,
+      "completedUnits": 1,
+      "units": 2,
+      "entered": 12,
+      "entryAssignments": 12,
+      "actualSpeed": [
+        3,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-cqb",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 10000,
+      "measuredTicks": 10000,
+      "actualReloads": 4,
+      "requiredReloads": 4,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 12,
+      "entryAssignments": 12,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-retained",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 12000,
+      "measuredTicks": 12000,
+      "actualReloads": 4,
+      "requiredReloads": 4,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 12,
+      "entryAssignments": 12,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-charge",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 10000,
+      "measuredTicks": 10000,
+      "actualReloads": 3,
+      "requiredReloads": 3,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 12,
+      "entryAssignments": 12,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-field",
+      "status": "failed",
+      "primaryError": "Native run, content, environment, retirement, fixture, speed or safety check failed.",
+      "auditError": null,
+      "nativeErrorLines": [
+        "Could not do PostLoadInit on Verse.GasGrid: System.NullReferenceException: Object reference not set to an instance of an object"
+      ],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 10000,
+      "measuredTicks": 10000,
+      "actualReloads": 2,
+      "requiredReloads": 2,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 13,
+      "entryAssignments": 13,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-care",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 14000,
+      "measuredTicks": 14000,
+      "actualReloads": 2,
+      "requiredReloads": 2,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 12,
+      "entryAssignments": 12,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-low",
+      "status": "failed",
+      "primaryError": "Full native functional completion failed.",
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [
+        "newCooperationComplete",
+        "newCooperationMilestonePreserved"
+      ],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 12000,
+      "measuredTicks": 12000,
+      "actualReloads": 2,
+      "requiredReloads": 2,
+      "functionalComplete": false,
+      "completedUnits": 1,
+      "units": 2,
+      "entered": 24,
+      "entryAssignments": 24,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-high",
+      "status": "failed",
+      "primaryError": "Full native functional completion failed.",
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [
+        "newCooperationComplete",
+        "newCooperationMilestonePreserved"
+      ],
+      "belowMinimums": {
+        "newCooperationStarts": {
+          "required": 2,
+          "actual": 0
+        },
+        "newCooperationCompletedTick": {
+          "required": 1,
+          "actual": -1
+        }
+      },
+      "complete": true,
+      "requestedTicks": 10000,
+      "measuredTicks": 10000,
+      "actualReloads": 2,
+      "requiredReloads": 2,
+      "functionalComplete": false,
+      "completedUnits": 2,
+      "units": 2,
+      "entered": 26,
+      "entryAssignments": 26,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-defense",
+      "status": "failed",
+      "primaryError": "Native run, content, environment, retirement, fixture, speed or safety check failed.",
+      "auditError": "System.InvalidOperationException: Defense drill requires exactly two complete squads and the new engine.\r\n[Ref FDAB66B5]\n  at Helodrace.MapComponent_TacticalEngineAudit.InitializeDefenseDrill (RimWorld.Faction faction) [0x000e9] in C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Core\\TacticalDefenseDrillAudit.cs:41 \n  at Helodrace.MapComponent_TacticalEngineAudit.Initialize () [0x01459] in C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Core\\TacticalEngineAudit.cs:388 \n  at Helodrace.MapComponent_TacticalEngineAudit.MapComponentUpdate () [0x00078] in C:\\Users\\human\\Documents\\GitHub\\Helodrace-Main\\Source\\Helodrace\\Core\\TacticalEngineAudit.cs:153 ",
+      "nativeErrorLines": [
+        "Tactical engine audit: System.InvalidOperationException: Defense drill requires exactly two complete squads and the new engine."
+      ],
+      "missingFlags": [
+        "r7DefenseComplete",
+        "r7DefenseAssaultTransition",
+        "r7DefenseAssaultComplete"
+      ],
+      "belowMinimums": {},
+      "complete": false,
+      "requestedTicks": 10000,
+      "measuredTicks": 0,
+      "actualReloads": 0,
+      "requiredReloads": 2,
+      "functionalComplete": false,
+      "completedUnits": 0,
+      "units": 1,
+      "entered": 0,
+      "entryAssignments": 0,
+      "actualSpeed": [
+        3.40282347e+38,
+        0
+      ],
+      "unsafeEntries": 0
+    },
+    {
+      "name": "reload-support",
+      "status": "passed",
+      "primaryError": null,
+      "auditError": null,
+      "nativeErrorLines": [],
+      "missingFlags": [],
+      "belowMinimums": {},
+      "complete": true,
+      "requestedTicks": 14000,
+      "measuredTicks": 14000,
+      "actualReloads": 2,
+      "requiredReloads": 2,
+      "functionalComplete": true,
+      "completedUnits": 1,
+      "units": 1,
+      "entered": 12,
+      "entryAssignments": 12,
+      "actualSpeed": [
+        1,
+        3
+      ],
+      "unsafeEntries": 0
+    }
+  ]
+}
