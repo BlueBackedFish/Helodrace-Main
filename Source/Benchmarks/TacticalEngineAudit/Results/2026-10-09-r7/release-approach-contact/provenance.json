@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-release-approach-contact-new-3x-01",
+  "classification": "Final approach/temporary-overlay ownership cleanup DLL, normal-graphics LOW 12-pawn rear/door/opposed contact drill. All contact and entry gates passed. Narrow regression evidence only, not final 408-pawn progress or CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "0238eb55cd91a3a30a1cd00fd7c8faa5b991e20ff7547909fbf392da5526ffff",
+      "uncompressedSha256": "0238eb55cd91a3a30a1cd00fd7c8faa5b991e20ff7547909fbf392da5526ffff",
+      "uncompressedBytes": 12219
+    },
+    "launcher.json": {
+      "sha256": "8be416a7c1631d9945bac40587d616fc979d67891ab4c2e5a44923ae5618b1fa",
+      "uncompressedSha256": "8be416a7c1631d9945bac40587d616fc979d67891ab4c2e5a44923ae5618b1fa",
+      "uncompressedBytes": 2681
+    },
+    "Player.log.gz": {
+      "sha256": "872fd52b32e782b33a9f371d8fca097c57967c3eba33263eddeeb3fa3943cc43",
+      "uncompressedSha256": "9b1ad565995c6691f7e3edaf17555f5be89d97e2e36f38da75193adbfce61c87",
+      "uncompressedBytes": 30346
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "profiles/capabilities.json": {
+      "sha256": "92f07f928120c9c8aa0cdcb86cf5d276d1a529959909450e686ddeff4a6c650c",
+      "uncompressedSha256": "92f07f928120c9c8aa0cdcb86cf5d276d1a529959909450e686ddeff4a6c650c",
+      "uncompressedBytes": 11720
+    },
+    "profiles/capture-20261009-034422-424-301.json": {
+      "sha256": "bc72954791c42e3c7f3101ec9e9fe770b670c48b0baa3517521cb5b0c053f916",
+      "uncompressedSha256": "bc72954791c42e3c7f3101ec9e9fe770b670c48b0baa3517521cb5b0c053f916",
+      "uncompressedBytes": 19028
+    },
+    "profiles/status.json": {
+      "sha256": "1adb07f68755f730de9304f20016ded3a6989ddc95f932d4c671864f7ca9cd2b",
+      "uncompressedSha256": "1adb07f68755f730de9304f20016ded3a6989ddc95f932d4c671864f7ca9cd2b",
+      "uncompressedBytes": 227
+    }
+  }
+}

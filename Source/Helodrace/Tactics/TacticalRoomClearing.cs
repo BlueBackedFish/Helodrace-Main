@@ -87,6 +87,7 @@ namespace Helodrace.Tactics
         private void BeginRoomClear(TacticalSquadCommand command, int tick)
         {
             TacticalLocalPlan plan = command.Plan;
+            RetireEntryApproach(command);
             IntVec3 seed = plan.Direct ? command.Members.First(m => Available(m, map)).Pawn.Position : plan.Inside;
             var geometry = new Dictionary<IntVec3, byte>();
             Func<IntVec3, bool> wall = cell => cell.InBounds(map) && cell.GetEdifice(map)?.def.IsWall == true;
@@ -112,6 +113,28 @@ namespace Helodrace.Tactics
                 cell => Kind(cell) == 4 ? 800 : Kind(cell) == 3 ? 400 : 0);
             command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
             command.Phase = TacticalCommandPhase.Clear; command.PhaseStarted = tick; command.Due = tick + 1;
+        }
+        // All live members have completed their ingress before this transition.
+        // Keep their assigned posts (including small-room exterior guards), but
+        // stop reserving the unused approach/mouth throughout the room survey.
+        // Bound work to this one footprint; never sweep the map's claim table.
+        private void RetireEntryApproach(TacticalSquadCommand command)
+        {
+            TacticalLocalPlan plan = command.Plan;
+            if (plan == null || plan.Direct) return;
+            bool Held(IntVec3 cell) => plan.Positions.Contains(cell)
+                || command.ContactResponse?.Occupied.Contains(cell) == true
+                || command.FieldResponse?.Occupied.Contains(cell) == true;
+            void Remove(IntVec3 cell)
+            {
+                if (!Held(cell) && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command)
+                    claims.Remove(cell);
+            }
+            foreach (IntVec3 cell in plan.Stack) Remove(cell);
+            Remove(plan.Outside); Remove(plan.Opening); Remove(plan.Inside);
+            if (plan.EntryLane.IsValid) Remove(plan.EntryLane);
+            if (leases.TryGetValue(plan.Opening, out TacticalSquadCommand lease) && lease == command)
+                leases.Remove(plan.Opening);
         }
         private void AdvanceRoomClear(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {

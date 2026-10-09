@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-scale-408-release-approach-new-3x-04",
+  "classification": "Fixed 3x, 408 pawns, 12000 ticks. Entry approach retirement before temporary-overlay cleanup adjustment. Completed 24/34 with 313 entered; still fails full progress. No clear-phase leases at final snapshot. Additional diagnosis only; excluded from CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "4fd4a21686f63eb647ba717d317686b1a7c09511590f94e07378152afbbd5c30",
+      "uncompressedSha256": "4fd4a21686f63eb647ba717d317686b1a7c09511590f94e07378152afbbd5c30",
+      "uncompressedBytes": 138030
+    },
+    "launcher.json": {
+      "sha256": "ad880e09a76999822b342a38abf85cb45c80991e9069e4753618a90ba7ffb6b3",
+      "uncompressedSha256": "ad880e09a76999822b342a38abf85cb45c80991e9069e4753618a90ba7ffb6b3",
+      "uncompressedBytes": 2801
+    },
+    "Player.log.gz": {
+      "sha256": "6d6cf3014fd5ac548255ba47666f7ee24c38e7e623c98a2b9e1f59d5adf4f049",
+      "uncompressedSha256": "45dccb3824643e452b3502551cc8518ee10b6c72a16bdfbbc94468671a7f5393",
+      "uncompressedBytes": 29884
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "df2b3fdd9e59ab1d266485d89fa4517c7f9d4dd9bd864b8fce712b047e46871b",
+      "uncompressedSha256": "df2b3fdd9e59ab1d266485d89fa4517c7f9d4dd9bd864b8fce712b047e46871b",
+      "uncompressedBytes": 12460
+    },
+    "profiles/capture-20261009-034108-744-604.json": {
+      "sha256": "2446f0bae017478e039bc2a615796ac7f595dbf30654e3207e66d63943833691",
+      "uncompressedSha256": "2446f0bae017478e039bc2a615796ac7f595dbf30654e3207e66d63943833691",
+      "uncompressedBytes": 21383
+    },
+    "profiles/status.json": {
+      "sha256": "d72e7ad318764702df04f989c29f4086c8574c0f7be9e74f597f850d3f2edfcb",
+      "uncompressedSha256": "d72e7ad318764702df04f989c29f4086c8574c0f7be9e74f597f850d3f2edfcb",
+      "uncompressedBytes": 228
+    }
+  }
+}

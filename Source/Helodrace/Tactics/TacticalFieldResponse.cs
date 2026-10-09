@@ -307,7 +307,7 @@ namespace Helodrace.Tactics
             if (old.IsValid)
             {
                 field.Occupied.Remove(old);
-                if (!OriginalClaim(command.Plan, old) && claims.TryGetValue(old, out TacticalSquadCommand owner) && owner == command)
+                if (!OriginalClaim(command, old) && claims.TryGetValue(old, out TacticalSquadCommand owner) && owner == command)
                     claims.Remove(old);
             }
             field.Posts[index] = best; field.Occupied.Add(best); claims[best] = command;
@@ -319,7 +319,7 @@ namespace Helodrace.Tactics
             if (field == null) return;
             command.PhaseStarted += tick - field.Started;
             foreach (IntVec3 cell in field.Occupied)
-                if (!OriginalClaim(command.Plan, cell) && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command)
+                if (!OriginalClaim(command, cell) && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command)
                     claims.Remove(cell);
             foreach (TacticalMemberCommand member in command.Members)
             {

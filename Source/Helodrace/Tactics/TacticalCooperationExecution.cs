@@ -53,7 +53,7 @@ namespace Helodrace.Tactics
                 foreach (TacticalMemberCommand member in command.Members)
                 {
                     IntVec3 cell = member.Parking;
-                    if (cell.IsValid && !OriginalClaim(command.Plan, cell)
+                    if (cell.IsValid && !OriginalClaim(command, cell)
                         && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command) claims.Remove(cell);
                     member.Parking = IntVec3.Invalid;
                 }

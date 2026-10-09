@@ -553,7 +553,7 @@ namespace Helodrace.Tactics
             }
             if (active.All(member => member.EntryAssignmentDone) && active.Any(member => member.Entered))
             {
-                // Keep the footprint until the final owned post is released.
+                // Keep owned posts while freeing the unused entry approach.
                 // Vanilla next-job selection must not run for a whole squad here.
                 BeginRoomClear(command, tick);
             }

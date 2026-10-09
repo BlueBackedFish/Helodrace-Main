@@ -114,7 +114,7 @@ namespace Helodrace.Tactics
                     member.LastProgressTick = tick;
                 }
                 foreach (IntVec3 cell in response.Occupied)
-                    if (!OriginalClaim(command.Plan, cell) && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command)
+                    if (!OriginalClaim(command, cell) && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command)
                         claims.Remove(cell);
                 command.DefenseRestoring |= command.Defensive;
                 command.ContactHandledAt = tick; command.ContactResponse = null; ContactResumes++;
@@ -152,9 +152,15 @@ namespace Helodrace.Tactics
             }
             return true;
         }
-        private static bool OriginalClaim(TacticalLocalPlan plan, IntVec3 cell) => plan != null
-            && (plan.Stack.Contains(cell) || plan.Positions.Contains(cell) || cell == plan.Outside
-                || cell == plan.Inside || cell == plan.Opening || cell == plan.EntryLane);
+        private static bool OriginalClaim(TacticalSquadCommand command, IntVec3 cell)
+        {
+            TacticalLocalPlan plan = command.Plan;
+            // The Clear transition retired the unused approach. Temporary
+            // contact/identification posts must not preserve it as an old claim.
+            return plan != null && (plan.Positions.Contains(cell) || command.Phase != TacticalCommandPhase.Clear
+                && (plan.Stack.Contains(cell) || cell == plan.Outside || cell == plan.Inside
+                    || cell == plan.Opening || cell == plan.EntryLane));
+        }
 
         private bool RestoreContactPosts(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
