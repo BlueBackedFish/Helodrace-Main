@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-own-area-expiry-fix-01",
+  "classification": "Actual f6e030 LOW24 native2-load regression of completed own-side expiry guard. Guard preserves A Complete/Finished, but whole functional FAIL: B resumes and observes the immortal exterior fixture actor, continuing field response (247 shots, no resume). No unsafe entries or native exceptions. Unit/build checks pass; not final regression or CPU proof. Original failure preserved; fixture isolation remains to be verified.",
+  "files": {
+    "checks.json": {
+      "sha256": "0366af6e0cb7b85ae48907be300d082e3abe83a9366b1396614de9a0cacaffd8",
+      "uncompressedSha256": "0366af6e0cb7b85ae48907be300d082e3abe83a9366b1396614de9a0cacaffd8",
+      "uncompressedBytes": 1665
+    },
+    "reload-low/audit.json": {
+      "sha256": "b068618913c0feff13cfe940dc0076e92d0e3b4e3a1c09d26f3bcd098354c8fa",
+      "uncompressedSha256": "b068618913c0feff13cfe940dc0076e92d0e3b4e3a1c09d26f3bcd098354c8fa",
+      "uncompressedBytes": 74422
+    },
+    "reload-low/launcher.json": {
+      "sha256": "db4a8c2c6336b19127fc79d3c0288519fd57b00e6f752b1062e8018fe38a5a56",
+      "uncompressedSha256": "db4a8c2c6336b19127fc79d3c0288519fd57b00e6f752b1062e8018fe38a5a56",
+      "uncompressedBytes": 2549
+    },
+    "reload-low/Player.log.gz": {
+      "sha256": "cc83483418ad915e38523f55422ad6144498f678d1c4598bc72c8f7103d4e7de",
+      "uncompressedSha256": "32f76c10272d36a32b33bc08e8f9116a55afc0908a706de1865fa10c25189e13",
+      "uncompressedBytes": 89577
+    },
+    "reload-low/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-low/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "430296b6cb9a8af06d87a9369029324a772e840a5c0c2690df68cd12016d99d1",
+      "uncompressedSha256": "8f0ea721e3855d60d2f3ed65ea4168fd03c560a5feab3967f30616b1bf877d9a",
+      "uncompressedBytes": 3685494
+    },
+    "reload-low/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "01ab4389392eb70b09374c3fc5f5940bd2369f876d791db4638e8420affe4f1c",
+      "uncompressedSha256": "734d9e04b563515b2b03a1b22f95c460f696dc083e0db9de9c26cbb39ad0876b",
+      "uncompressedBytes": 3751812
+    }
+  }
+}

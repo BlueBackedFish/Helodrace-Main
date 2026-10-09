@@ -106,6 +106,13 @@ namespace Helodrace.Tactics
             // finished the mission. Use only received reports, never peer state.
             if (agreement.Stage == TacticalAgreementStage.Finished && agreement.PeerFinished
                 && (command.GoalSecured || agreement.PeerGoalSecured)) return false;
+            // Expiry alone does not reassign the peer's rooms to a squad that
+            // secured its own area and the goal. Explicit abort still recovers
+            // the whole mission, including rooms on the peer's agreed side.
+            if (agreement.Stage == TacticalAgreementStage.Finished && command.GoalSecured
+                && command.SecuredCells.Contains(agreement.Agenda.Area(command.Id))
+                && !command.Frontiers.Exists(f => !command.SecuredCells.Contains(f.Inside)
+                    && agreement.Agenda.OwnsSide(command.Id, f.Inside))) return false;
             if (command.GoalSecured && !command.Frontiers.Exists(f => !command.SecuredCells.Contains(f.Inside)))
                 return false;
             agreement.Abort();

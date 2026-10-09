@@ -19,6 +19,10 @@ namespace Helodrace.Tactics
         public string Peer(string own) => own == First ? Second : First;
         public int Side(string own) => own == First ? -1 : 1;
         public IntVec3 Area(string own) => Goal + new IntVec3(-Forward.z, 0, Forward.x) * (Side(own) * 12);
+        // The shared centre line remains both parties' responsibility. This is
+        // agreed geometry, not knowledge of the peer's current room progress.
+        public bool OwnsSide(string own, IntVec3 cell) => Side(own)
+            * ((cell.x - Goal.x) * -Forward.z + (cell.z - Goal.z) * Forward.x) >= 0;
     }
 
     public sealed partial class TacticalCooperationState

@@ -40,6 +40,38 @@ internal static class TacticalAllocationResumeTests
         c = Make(); c.GoalSecured = true; c.SecuredCells.Add(c.Goal);
         c.Frontiers.Add(new TacticalRoomFrontier { Opening = new IntVec3(25,0,10), Inward = IntVec3.East });
         if (!Resume(c, 1000)) throw new Exception("Unfinished adjacent rooms still require clearing after unconfirmed cooperation expires.");
+        TacticalSquadCommand CompletedSide()
+        {
+            var done = Make(); done.GoalSecured = true;
+            done.SecuredCells.Add(done.Goal);
+            done.SecuredCells.Add(done.Link.Cooperation.Agenda.Area(done.Id));
+            done.Frontiers.Add(new TacticalRoomFrontier { Opening = new IntVec3(25,0,15), Inward = IntVec3.East });
+            return done;
+        }
+        c = CompletedSide();
+        if (Resume(c, 1000) || c.Phase != TacticalCommandPhase.Complete
+            || c.Link.Cooperation.Stage != TacticalAgreementStage.Finished)
+            throw new Exception("Expiry must not reopen completed own area/goal solely for the peer's rooms.");
+        c = CompletedSide(); c.GoalSecured = false;
+        if (!Resume(c, 1000)) throw new Exception("An unsecured mission goal still requires independent recovery.");
+        c = CompletedSide(); c.SecuredCells.Remove(c.Link.Cooperation.Agenda.Area(c.Id));
+        if (!Resume(c, 1000)) throw new Exception("An unsecured assigned area cannot be delegated to the peer.");
+        c = CompletedSide(); c.Link.Cooperation.Stage = TacticalAgreementStage.Aborted;
+        if (!Resume(c, 200)) throw new Exception("Explicit abort must recover peer-side rooms even after local completion.");
+        foreach (int z in new[] { 5, 10 })
+        {
+            c = CompletedSide();
+            c.Frontiers.Add(new TacticalRoomFrontier { Opening = new IntVec3(25,0,z), Inward = IntVec3.East });
+            if (!Resume(c, 1000)) throw new Exception("Own-side and centre-line unknown rooms still require clearing.");
+        }
+        foreach (IntVec3 forward in new[] { IntVec3.East, IntVec3.West, IntVec3.North, IntVec3.South })
+        {
+            var agenda = new TacticalCooperationAgenda("pair", "a", "b", new IntVec3(20,0,10), forward, 90, 1000);
+            foreach (string own in new[] { "a", "b" })
+                if (!agenda.OwnsSide(own, agenda.Area(own)) || !agenda.OwnsSide(own, agenda.Goal)
+                    || agenda.OwnsSide(own, agenda.Area(agenda.Peer(own))))
+                    throw new Exception("Agreed responsibility must rotate with approach and keep the centre line shared.");
+        }
         foreach (TacticalCommandPhase phase in new[] { TacticalCommandPhase.Pending, TacticalCommandPhase.Enter,
             TacticalCommandPhase.Clear, TacticalCommandPhase.BlastWait, TacticalCommandPhase.Returning, TacticalCommandPhase.Released })
         { c = Make(); c.Phase = phase; if (Resume(c, 1000)) throw new Exception("Only completed allocations may be resumed: " + phase); }
