@@ -1,0 +1,71 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-trace-01",
+  "classification": "Actual bounded drill-only execution trace on eb36 DLL; production tactics unchanged from ce472. LOW passes this reproduction but prior9050 LOW failure is not fixed or erased. High repeats real candidate planning failure with0 starts. No final44/CPU/R7 acceptance.",
+  "files": {
+    "checks.json": {
+      "sha256": "18a04d01d4d520ec9c3189b686298d96a3cb8368e0d2b9ac7756223c73445d34",
+      "uncompressedSha256": "18a04d01d4d520ec9c3189b686298d96a3cb8368e0d2b9ac7756223c73445d34",
+      "uncompressedBytes": 2302
+    },
+    "reload-low/audit.json": {
+      "sha256": "20782ff0c0b95c8a1c89830bd16afcf528878b37f20ef1f49094ed869b406bba",
+      "uncompressedSha256": "20782ff0c0b95c8a1c89830bd16afcf528878b37f20ef1f49094ed869b406bba",
+      "uncompressedBytes": 71707
+    },
+    "reload-low/launcher.json": {
+      "sha256": "c355937bd374bc8822fd6f9892bec4f77ad0f4abc8b7521699e66108a091ad79",
+      "uncompressedSha256": "c355937bd374bc8822fd6f9892bec4f77ad0f4abc8b7521699e66108a091ad79",
+      "uncompressedBytes": 2543
+    },
+    "reload-low/Player.log.gz": {
+      "sha256": "02bf2890b24bd19b20f7813edab1e921c9265c78dd7a821812349811e6acafe4",
+      "uncompressedSha256": "c04c44748855da51dd744297bbb5eb0c029e47112404cd6cd7795a9b65d33da5",
+      "uncompressedBytes": 89905
+    },
+    "reload-low/pawn-manifest.txt.gz": {
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-low/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "79aafb826de7858b72c9d19aee78c212147cef664551ea6aa3ec8a53b407551d",
+      "uncompressedSha256": "76f25929aeb3e97914c175b9e040d7d2590a808d2136c2e28ad4774bc849b0a3",
+      "uncompressedBytes": 3565730
+    },
+    "reload-low/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "e1c1dce4a1b2b14ffb543935c2785e89d33e1586dee7354f4f0c0083f89de4de",
+      "uncompressedSha256": "88e2f3c1960226bdf16148d9d205f5f21291bb8bb7bc34145056b4ae89d9f4a8",
+      "uncompressedBytes": 3630685
+    },
+    "reload-high/audit.json": {
+      "sha256": "3917d1805cf15d933e2bfd3ce4be321ab7f83e3fe1b8e2d70dcbbc838fd502be",
+      "uncompressedSha256": "3917d1805cf15d933e2bfd3ce4be321ab7f83e3fe1b8e2d70dcbbc838fd502be",
+      "uncompressedBytes": 57160
+    },
+    "reload-high/launcher.json": {
+      "sha256": "bc8b86f7da3930ef9b46aca4d7270acd0cb8c98ad327302f9a7f70aa3987f3c2",
+      "uncompressedSha256": "bc8b86f7da3930ef9b46aca4d7270acd0cb8c98ad327302f9a7f70aa3987f3c2",
+      "uncompressedBytes": 2542
+    },
+    "reload-high/Player.log.gz": {
+      "sha256": "70ef88a1919c471e296a7773670b30cb795b8b6b1d9c9a0cdfa87e522d3ab216",
+      "uncompressedSha256": "ea7790696ca809485a18beeaa06cc72cf808a7450d0e001f36b2dbb5295eb862",
+      "uncompressedBytes": 75772
+    },
+    "reload-high/pawn-manifest.txt.gz": {
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    },
+    "reload-high/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "5bc24fc6db787732f66b7c13cdea5044fec66323a1cbe6e031014e0358e64aaa",
+      "uncompressedSha256": "0ef8f4490567cc3d8e7df8f6badd3bbc65321afa0bc84480fc822e977aaa67ee",
+      "uncompressedBytes": 4286235
+    },
+    "reload-high/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "374f3285da37416e52f06eb497c841f862ef6213353dac8b0612d3a91ed9711e",
+      "uncompressedSha256": "e508a4e87ab2d5d964ed616be8f3ba8e55ef003c0e14319e3aed05b5421ac08d",
+      "uncompressedBytes": 4338306
+    }
+  }
+}

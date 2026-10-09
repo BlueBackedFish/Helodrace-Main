@@ -1,0 +1,48 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "continueOnFailure":  true,
+    "collectionComplete":  true,
+    "failedCases":  [
+                        "reload-high"
+                    ],
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "eb36e3a38b32c5c9f738e3fc41c931b572e71cb50154e65ac552de43e715c8fa",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "reload-low",
+                           "reload-high"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  false,
+    "records":  [
+                    {
+                        "name":  "reload-low",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-trace-01\\reload-low",
+                        "pid":  9332,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  1,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  2,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "reload-high",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-cooperation-trace-01\\reload-high",
+                        "pid":  46432,
+                        "status":  "failed",
+                        "error":  "Full native functional completion failed.",
+                        "actualMinimumSpeed":  1,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  2,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  0
+                    }
+                ]
+}

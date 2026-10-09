@@ -15,6 +15,7 @@ namespace Helodrace
         [DataMember] public int newCooperationCompletedTick = -1;
         [DataMember] public bool newCooperationMilestonePreserved;
         [DataMember] public string[] newCooperationCompletionAgendas, newCooperationCompletionStates;
+        [DataMember] public string[] newCooperationExecutionTrace;
     }
 
     // Scripted physical stimuli only; never insert cooperation or contact state.
@@ -23,6 +24,8 @@ namespace Helodrace
         private bool CooperationFixture => result.fixtureCase == "r5-low-coop" || result.fixtureCase == "r5-shared"
             || result.fixtureCase == "r5-radio-loss";
         private List<string> cooperationEvents = new List<string>();
+        private List<string> cooperationExecutionTrace = new List<string>();
+        private int nextCooperationExecutionTrace;
         private readonly List<KeyValuePair<InstalledModularArmorPart, Thing>> removedRadios = new List<KeyValuePair<InstalledModularArmorPart, Thing>>();
         private int splitAt = -1, splitReportA, splitReportB, radioStep, radioKilledAt, identificationBaseline;
         private long radioDroppedBaseline;
@@ -86,12 +89,35 @@ namespace Helodrace
                 && GenSight.LineOfSight(x.Position,y.Position,x.Map,true)
                 && !GenSight.PointsOnLineOfSight(x.Position,y.Position).Any(c => RaidSmokeUtility.CoveringSmokeAt(x.Map,c));
         }
+        private void TraceCooperationExecution(TacticalSquadCommand[] commands, int tick)
+        {
+            // Functional drill only. Fixed-input CPU cases never enter this path.
+            if (cooperationExecutionTrace.Count == 0 && result.newCooperationExecutionTrace != null)
+                cooperationExecutionTrace.AddRange(result.newCooperationExecutionTrace);
+            if (tick < nextCooperationExecutionTrace || cooperationExecutionTrace.Count >= 128) return;
+            nextCooperationExecutionTrace = tick + 120;
+            string entry = (tick - started) + ":" + string.Join(" | ", commands.Select(command =>
+                command.Id + " phase=" + command.Phase + "/" + command.Link.Cooperation.Stage
+                + " ready=" + command.Link.Cooperation.LocalReady + "/" + command.Link.Cooperation.PeerReady
+                + " opening=" + command.Plan?.Opening + " direct=" + command.Plan?.Direct
+                + " existing=" + command.Plan?.ExistingOpening + " failures=" + command.Failures
+                + " reason=" + command.LastPlanFailure + " retry=" + (command.PlanRetryAt - tick)
+                + " goal=" + command.GoalSecured + " secured=" + command.SecuredCells.Count
+                + " plans=" + command.SecuredPlans.Count + " scan=" + (command.RoomScan != null)
+                + " frontier=" + command.FrontierCursor + "/" + command.Frontiers.Count
+                + " unknown=" + command.Frontiers.Count(f => !command.SecuredCells.Contains(f.Inside))
+                + " busy=" + command.FrontierBusy + " entered=" + command.Members.Count(m => m.EntryAssignmentDone)
+                + " deadline=" + (command.Link.Cooperation.Agenda?.Deadline - tick)));
+            cooperationExecutionTrace.Add(entry); result.newCooperationExecutionTrace = cooperationExecutionTrace.ToArray();
+            Log.Message("R7 cooperation execution " + entry);
+        }
         private void ApplyCooperationDrill()
         {
             if (TacticalEngineSelection.Kind != TacticalEngineKind.New) return;
             int tick = GenTicks.TicksGame;
             var commands = map.GetComponent<MapComponent_TacticalCommands>().Commands.OrderBy(c=>c.Id).ToArray();
             if (commands.Length != 2) return;
+            TraceCooperationExecution(commands, tick);
             TacticalSquadCommand a=commands[0], b=commands[1];
             TacticalCommunications network=Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
             ObserveCooperationCompletion(commands, tick);
