@@ -1,0 +1,51 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-functional-b766-02",
+  "classification": "Stopped same-DLL functional attempt:11 passed, unexpected-hole failed full completion. Actual second-room permanent protected-actor contact prevented resumption; new hole did trigger. Earlier10 cases archived separately. No final R7/CPU acceptance.",
+  "files": {
+    "checks.json": {
+      "sha256": "4dc3de379451b731abc563aef4aebc2ae4f4da6b203572ab6cf0b9c159821d8f",
+      "uncompressedSha256": "4dc3de379451b731abc563aef4aebc2ae4f4da6b203572ab6cf0b9c159821d8f",
+      "uncompressedBytes": 10002
+    },
+    "wide-opening/audit.json": {
+      "sha256": "72e3bfb1c748faa29bcd3b9917b0deea176bbb03f5ded18bed162aab64098e31",
+      "uncompressedSha256": "72e3bfb1c748faa29bcd3b9917b0deea176bbb03f5ded18bed162aab64098e31",
+      "uncompressedBytes": 12246
+    },
+    "wide-opening/launcher.json": {
+      "sha256": "ddaba4767f6b9e786ba6d1a6488ba9d74f7efd699f7f1f353d46e4aba2e72262",
+      "uncompressedSha256": "ddaba4767f6b9e786ba6d1a6488ba9d74f7efd699f7f1f353d46e4aba2e72262",
+      "uncompressedBytes": 2510
+    },
+    "wide-opening/Player.log.gz": {
+      "sha256": "72328014490ebe60cdb8354e0a6f73389ad4749a4d399a81e6da72f664b6a80b",
+      "uncompressedSha256": "e7a927a6e98c61b4ad94fd4eefaf6238b784df844b27fac7a1fb89d7b9e5d1dc",
+      "uncompressedBytes": 29328
+    },
+    "wide-opening/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "unexpected-hole/audit.json": {
+      "sha256": "44d97c3c2f307a7c5f258eb75cafa7d84d0e4c734d72e5556297c633b197f748",
+      "uncompressedSha256": "44d97c3c2f307a7c5f258eb75cafa7d84d0e4c734d72e5556297c633b197f748",
+      "uncompressedBytes": 15880
+    },
+    "unexpected-hole/launcher.json": {
+      "sha256": "b5bc2e8145cd30c5e1f71b3659dc5a73f18588e6bbba685030b09d63acdc991e",
+      "uncompressedSha256": "b5bc2e8145cd30c5e1f71b3659dc5a73f18588e6bbba685030b09d63acdc991e",
+      "uncompressedBytes": 2525
+    },
+    "unexpected-hole/Player.log.gz": {
+      "sha256": "db6ed0c2d0a22019c2ad8c87dd44435d8300bf084717dbcea06ab402edaaeb5c",
+      "uncompressedSha256": "894c73571672f2d353d67488c60cc11b2a0ee4d5844820c929f156744227bc69",
+      "uncompressedBytes": 29988
+    },
+    "unexpected-hole/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

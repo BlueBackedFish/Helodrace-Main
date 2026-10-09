@@ -1,0 +1,82 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "eeb5b979a8ccc9143c0400a22e1e0a04f55ceed7dd2c95ba1f2329064e919378",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "narrow",
+                           "unexpected-hole",
+                           "inside-goal",
+                           "room-recovery",
+                           "door-contact"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  true,
+    "records":  [
+                    {
+                        "name":  "narrow",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-structural-withdrawal-01\\narrow",
+                        "pid":  4604,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "unexpected-hole",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-structural-withdrawal-01\\unexpected-hole",
+                        "pid":  50960,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "inside-goal",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-structural-withdrawal-01\\inside-goal",
+                        "pid":  36552,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "room-recovery",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-structural-withdrawal-01\\room-recovery",
+                        "pid":  39012,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "door-contact",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-structural-withdrawal-01\\door-contact",
+                        "pid":  36368,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    }
+                ]
+}

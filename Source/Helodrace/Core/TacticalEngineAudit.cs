@@ -76,6 +76,7 @@ namespace Helodrace
         [DataMember] public bool r7CleanupComplete, r7WorldOrganizationsCleared, r7IdleStable;
         [DataMember] public int r7CleanupAt = -1, r7RemainingCommands, r7RemainingOwners, r7RemainingClaims, r7RemainingLeases, r7RemainingOpenings, r7RemainingMessages;
         [DataMember] public bool r7FixtureActorWithdrawn, r7FixtureContactBeforeWithdrawal;
+        [DataMember] public int r7FixtureActorWithdrawTick = -1;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
         [DataMember] public bool newPhysicalPlansValid;
         [DataMember] public bool newWideOpeningReused;
@@ -424,25 +425,37 @@ namespace Helodrace
             }
         }
 
+        private void ApplyStructuralActorWithdrawal()
+        {
+            string fixture = result.fixtureCase;
+            if (fixture != "narrow" && fixture != "unexpected-hole" && fixture != "inside-goal"
+                && fixture != "room-recovery" && fixture != "door-contact") return;
+            var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
+            // Preserve an actual observation even if a later contact response
+            // restarts the opening action. Never fabricate an enemy sample.
+            if (fixture == "door-contact" && result.caseTriggered && service != null)
+                result.newDoorContactObserved |= service.Commands.Any(command =>
+                    command.OpeningAction?.Enemy == doorwayContact && command.OpeningAction.EnemyId == owner.thingIDNumber);
+            // Structural functional fixtures protect their stationary actor
+            // from damage. Give it a finite fixed-tick exposure, retaining
+            // combat behavior and requiring actual post-contact progression.
+            // Normal/fixed CPU, save/load and dedicated drills keep their inputs.
+            if (!result.r7FixtureActorWithdrawn && GenTicks.TicksGame - started >= 6000)
+            {
+                result.r7FixtureContactBeforeWithdrawal = service != null && service.Commands.Any(command =>
+                    command.Contacts.Memory.Entries.Any(contact => contact.EnemyId == owner.thingIDNumber));
+                owner.Position = new IntVec3(180, 0, 180);
+                result.r7FixtureActorWithdrawn = true;
+                result.r7FixtureActorWithdrawTick = GenTicks.TicksGame - started;
+                if (fixture == "narrow") result.caseTriggered = true;
+                Log.Message("R7 " + fixture + " defender withdrawn at " + result.r7FixtureActorWithdrawTick
+                    + " observed=" + result.r7FixtureContactBeforeWithdrawal);
+            }
+        }
         private void ApplyCase()
         {
-            // The narrow geometry fixture has an invulnerable stationary
-            // defender. Require actual contact, then withdraw it on a fixed
-            // tick so entry resumption can be tested without disabling combat.
-            if (result.fixtureCase == "narrow")
-            {
-                if (!result.r7FixtureActorWithdrawn && GenTicks.TicksGame - started >= 6000)
-                {
-                    var narrowService = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
-                    result.r7FixtureContactBeforeWithdrawal = narrowService != null && narrowService.Commands.Any(command =>
-                        command.Contacts.Memory.Entries.Any(contact => contact.EnemyId == owner.thingIDNumber));
-                    owner.Position = new IntVec3(180, 0, 180);
-                    result.caseTriggered = result.r7FixtureActorWithdrawn = true;
-                    Log.Message("R7 narrow defender withdrawn at " + (GenTicks.TicksGame - started)
-                        + " observed=" + result.r7FixtureContactBeforeWithdrawal);
-                }
-                return;
-            }
+            ApplyStructuralActorWithdrawal();
+            if (result.fixtureCase == "narrow") return;
             if (OfferRetirementFixture) { ApplyOfferRetirementDrill(); return; }
             if (MultiMapFixture) { ApplyMultiMapDrill(); return; }
             if (ReloadFixture)
@@ -685,7 +698,7 @@ namespace Helodrace
                 result.newDirectObjectiveCleared = result.fixtureCase != "inside-goal" || commands.All(command => command.GoalSecured
                     && command.SecuredPlans.FirstOrDefault()?.Direct == true
                     && command.SecuredPlans[0].Positions.All(cell => cell.x > 100 && cell.x < 114));
-                result.newDoorContactObserved = result.fixtureCase != "door-contact" || result.caseTriggered
+                result.newDoorContactObserved = result.fixtureCase != "door-contact" || result.newDoorContactObserved || result.caseTriggered
                     && commands.Any(command => command.OpeningAction?.Enemy == doorwayContact && command.OpeningAction.EnemyId == owner.thingIDNumber);
                 result.newOutdoorSmokeUsed = result.fixtureCase != "outdoor-opening" || result.newOutdoorSmokeSeen
                     && commands.All(command => command.OpeningAction?.Outdoors == true

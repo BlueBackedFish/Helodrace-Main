@@ -28,6 +28,10 @@ foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recov
         'charge-recovery' { $flags=@('caseTriggered'); $minimums=@{ newChargesInstalled=1; newChargeDetonations=1; newChargeWaits=1; newToolRecoveriesCompleted=1 } }
         'charge-fuse-casualty' { $flags=@('caseTriggered'); $minimums=@{ newChargesInstalled=1; newChargeDetonations=1; newChargeWaits=1; newChargeOperatorTransfers=1 } }
         'charge-change' { $flags=@('caseTriggered'); $minimums=@{ newChargesInstalled=1; newChargeDetonations=1; newChargeWaits=1 } }
+        'unexpected-hole' { $flags=@('caseTriggered','r7FixtureActorWithdrawn','r7FixtureContactBeforeWithdrawal'); $minimums=@{ newContactResponses=1; newContactResumes=1 } }
+        'inside-goal' { $flags=@('r7FixtureActorWithdrawn','newDirectObjectiveCleared') }
+        'room-recovery' { $flags=@('r7FixtureActorWithdrawn','newRoomRecoveryContinued') }
+        'door-contact' { $flags=@('r7FixtureActorWithdrawn','newDoorContactObserved'); $minimums=@{ newSupportThrows=1; newSupportWaits=1 } }
     }
     Add-Case $case $case -Ticks 10000 -Flags $flags -Minimums $minimums
 }

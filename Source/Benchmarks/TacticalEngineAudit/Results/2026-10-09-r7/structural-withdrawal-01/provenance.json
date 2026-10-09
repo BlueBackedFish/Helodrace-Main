@@ -1,0 +1,111 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-structural-withdrawal-01",
+  "classification": "Actual5 selected structural functional cases on EEB5: fixed6000-tick protected-actor withdrawal, actual contact and full post-withdrawal progression, direct first-room goal, tool recovery afterClear casualty and latched actual doorway observation. No production tactics or CPU fixture inputs changed. Not full44 or final R7/CPU acceptance.",
+  "files": {
+    "checks.json": {
+      "sha256": "e93bf2d412cc4b06f0722fa0bc6277a305a8247095ecc5322258397d8fe99625",
+      "uncompressedSha256": "e93bf2d412cc4b06f0722fa0bc6277a305a8247095ecc5322258397d8fe99625",
+      "uncompressedBytes": 4054
+    },
+    "narrow/audit.json": {
+      "sha256": "ac0afa31310fa7f00b05517011544d275a61f303e24be465ee600ff0b55c1a3b",
+      "uncompressedSha256": "ac0afa31310fa7f00b05517011544d275a61f303e24be465ee600ff0b55c1a3b",
+      "uncompressedBytes": 11777
+    },
+    "narrow/launcher.json": {
+      "sha256": "2cd7ce137c39b55de3f35f30075f52e4f11e853eaa32d0c82cb8211fb00ba9d1",
+      "uncompressedSha256": "2cd7ce137c39b55de3f35f30075f52e4f11e853eaa32d0c82cb8211fb00ba9d1",
+      "uncompressedBytes": 2480
+    },
+    "narrow/Player.log.gz": {
+      "sha256": "25955f599c642dd8e52b57a7197b9a27bb3ae18da74683d9da73caa8d304bd5a",
+      "uncompressedSha256": "1d2a51b1adfdd3b7b6a90383a0bf9e91f944584b622c6e346590e6813f9b1af0",
+      "uncompressedBytes": 29651
+    },
+    "narrow/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "unexpected-hole/audit.json": {
+      "sha256": "d0aa220dd2410cc69fbb274d9e17895b5c2a68288d2f778099100bccba686387",
+      "uncompressedSha256": "d0aa220dd2410cc69fbb274d9e17895b5c2a68288d2f778099100bccba686387",
+      "uncompressedBytes": 12403
+    },
+    "unexpected-hole/launcher.json": {
+      "sha256": "3cdbb83c1701a298d6c6a1730a041db58de04396187619d15acfbaa297215eaf",
+      "uncompressedSha256": "3cdbb83c1701a298d6c6a1730a041db58de04396187619d15acfbaa297215eaf",
+      "uncompressedBytes": 2525
+    },
+    "unexpected-hole/Player.log.gz": {
+      "sha256": "f0e1982fbaee8b5431f88b5b51bbe583ef298d085988ed58a39d0c7817cc5716",
+      "uncompressedSha256": "a62fbcec0634c0422afaccf4ef3403c267a85d3d61016bb0d9e1a624c7852956",
+      "uncompressedBytes": 29793
+    },
+    "unexpected-hole/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "inside-goal/audit.json": {
+      "sha256": "34a17b073a3dbb9cd8d8be8adc23f29954afbc2757e69b24cc163cbbc9a76731",
+      "uncompressedSha256": "34a17b073a3dbb9cd8d8be8adc23f29954afbc2757e69b24cc163cbbc9a76731",
+      "uncompressedBytes": 12500
+    },
+    "inside-goal/launcher.json": {
+      "sha256": "9bac50f58adcb56cf5cbefd3dc594eb0dfff9a6eb4e00ce2e5f260ec9b4bf2fb",
+      "uncompressedSha256": "9bac50f58adcb56cf5cbefd3dc594eb0dfff9a6eb4e00ce2e5f260ec9b4bf2fb",
+      "uncompressedBytes": 2505
+    },
+    "inside-goal/Player.log.gz": {
+      "sha256": "33b76e7dbbfbe5bcce9ced5589580d964ee741378647866f11a2ec72ffd2da82",
+      "uncompressedSha256": "ffdeaaac8c4d83f836ef555e237ea9cc828cbbc56f9445c1490b44573458096e",
+      "uncompressedBytes": 29683
+    },
+    "inside-goal/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "room-recovery/audit.json": {
+      "sha256": "7cb3972571a17b1923f289fbe612034028824a85455241c82b28bd2c5e6f2716",
+      "uncompressedSha256": "7cb3972571a17b1923f289fbe612034028824a85455241c82b28bd2c5e6f2716",
+      "uncompressedBytes": 12460
+    },
+    "room-recovery/launcher.json": {
+      "sha256": "d1d05a84297817292fb4b35320a632b97865bffffc2b9b55e66df78f3b618ecd",
+      "uncompressedSha256": "d1d05a84297817292fb4b35320a632b97865bffffc2b9b55e66df78f3b618ecd",
+      "uncompressedBytes": 2515
+    },
+    "room-recovery/Player.log.gz": {
+      "sha256": "e371bd24b3ac44d193e8bcd56b604122e24219b0187ad7bdb14807ba9dab307d",
+      "uncompressedSha256": "c1e54cf038335169fc3793691081480a4552f94e8c77a0d3b3ab5deedf562a68",
+      "uncompressedBytes": 29389
+    },
+    "room-recovery/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "door-contact/audit.json": {
+      "sha256": "ae4d7416dd429d619e7fb41f8eec6c0390eabe2d4dae1b7a251154b84da13486",
+      "uncompressedSha256": "ae4d7416dd429d619e7fb41f8eec6c0390eabe2d4dae1b7a251154b84da13486",
+      "uncompressedBytes": 12350
+    },
+    "door-contact/launcher.json": {
+      "sha256": "35117ec12cac837f5d5f2c00c52887d4c1b6075634188782785dd7b709bd9aa3",
+      "uncompressedSha256": "35117ec12cac837f5d5f2c00c52887d4c1b6075634188782785dd7b709bd9aa3",
+      "uncompressedBytes": 2510
+    },
+    "door-contact/Player.log.gz": {
+      "sha256": "5d32afde7c9129f5066992f258413f7a9134d7871986ce89694524c7fe3ff841",
+      "uncompressedSha256": "f3e9dd8d0aa33f6a49f2d87cf94a960e33e0f78a11cf9497fb72a48a623199b0",
+      "uncompressedBytes": 29413
+    },
+    "door-contact/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}
