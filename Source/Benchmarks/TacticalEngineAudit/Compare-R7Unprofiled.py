@@ -62,7 +62,10 @@ def read_run(path):
         require(l.get(field) == a.get(field), "Launcher/audit mismatch: " + field)
     require(a["speed"] in (1, 3) and a.get("r7RateSamples", 0) > 0
             and a.get("r7TickRateMinimum") == a["speed"] == a.get("r7TickRateMaximum"), "Actual speed mismatch")
-    require(a.get("warmupTicks") == 0 and a.get("measuredTicks") == a["sampleTicks"]
+    # Like the profiled comparator, allow the audit's frame-level close to
+    # overshoot the requested window by at most ten actual game ticks.
+    # Checkpoints/totals and CPU-per-tick retain the actual measured length.
+    require(a.get("warmupTicks") == 0 and a["sampleTicks"] <= a.get("measuredTicks", 0) <= a["sampleTicks"] + 10
             and a.get("alive") == a["population"], "Preparation/window/population mismatch")
     for field in CONTENT:
         require(isinstance(l.get(field), str) and re.fullmatch(r"[0-9a-f]{64}", l[field]), "Missing content hash: " + field)

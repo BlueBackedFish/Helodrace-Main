@@ -158,6 +158,17 @@ class CollectionTests(unittest.TestCase):
             for name,value in (("audit.json",a),("launcher.json",l),("profiles/capture-synthetic.json",c)):
                 (path/name).write_text(json.dumps(value),encoding="utf-8")
             self.assertEqual(module.inspect_run(path,row,s,self.pinned),module.canonical(row["root"]))
+            for extra in (1,10):
+                a["measuredTicks"]=s["ticks"]+extra
+                (path/"audit.json").write_text(json.dumps(a),encoding="utf-8")
+                self.assertEqual(module.inspect_run(path,row,s,self.pinned),module.canonical(row["root"]))
+            for extra in (-1,11):
+                a["measuredTicks"]=s["ticks"]+extra
+                (path/"audit.json").write_text(json.dumps(a),encoding="utf-8")
+                with self.assertRaisesRegex(ValueError,"actual native window"):
+                    module.inspect_run(path,row,s,self.pinned)
+            a["measuredTicks"]=s["ticks"]
+            (path/"audit.json").write_text(json.dumps(a),encoding="utf-8")
             c["methods"].pop()
             (path/"profiles/capture-synthetic.json").write_text(json.dumps(c),encoding="utf-8")
             with self.assertRaisesRegex(ValueError,"not registered"):

@@ -10,6 +10,7 @@ builds = {
     "functional-b766-prefix-10": "b766672aebc910fa5ae82e5a7ee4ae477cde4b61485fa5c9324f54a453db21a1",
     "functional-e4e4-prefix-10": "e4e4c4d6621a056a77ca16dfb4a5777a64c0277517887c0bff7593e5a0e4e841",
     "functional-00f5-prefix-10": "00f59d8951df8b8a1236b542b5b1e9e5665603ee62643af13a037545c122557a",
+    "functional-9050-prefix-10": "9050f5f934e58a6b4fc14ec4573bb77c20a56e677cdcd2179517e7eff2344a38",
 }
 name = sys.argv[1] if len(sys.argv) > 1 else "functional-b766-prefix-10"
 assert len(sys.argv) <= 2 and name in builds, "Select one known archived prefix, never mix builds."
@@ -54,7 +55,10 @@ for name in names:
     assert a["r7RetiredTypesAbsent"] and a["r7RetiredDefinitionsAbsent"] and not a["unexpectedPawns"]
     assert a["newUnsafeEntries"] == 0 and a["newCompletedUnits"] == a["units"] == 1
     assert a["population"] == 12 and a["newEntryAssignmentsComplete"] == a["newEnteredByOrder"] == a["alive"]
-    assert 0 <= a["newAllCompleteTick"] <= a["measuredTicks"] == a["sampleTicks"]
+    # MapComponentUpdate closes the window after the frame's game ticks.
+    # Preserve the actual measured length, including bounded frame overshoot.
+    assert 0 <= a["newAllCompleteTick"] <= a["measuredTicks"]
+    assert a["sampleTicks"] <= a["measuredTicks"] <= a["sampleTicks"] + 10
     assert a["r7TickRateMinimum"] == a["r7TickRateMaximum"] == 3 and a["warmupTicks"] == 0
     assert a["engine"] == a["effectiveEngine"] == "new" and l["defaultEngine"] and not l["methodProfile"] and not l["headless"]
     assert a["fixtureCase"] == ("normal" if name == "door" else name)

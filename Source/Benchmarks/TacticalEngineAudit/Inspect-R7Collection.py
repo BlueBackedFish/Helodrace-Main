@@ -125,7 +125,7 @@ def inspect_run(path, row, spec, pinned):
     require(a.get("complete") and a.get("error") is None and a.get("isolationVerified")
             and a.get("environmentControlled") and a.get("unexpectedPawns") == []
             and a.get("r7TickRateMinimum") == a.get("r7TickRateMaximum") == spec["speed"]
-            and a.get("r7RateSamples", 0) > 0 and a.get("measuredTicks") == spec["ticks"],
+            and a.get("r7RateSamples", 0) > 0 and spec["ticks"] <= a.get("measuredTicks", 0) <= spec["ticks"] + 10,
             "Uncontrolled, incomplete or different actual native window")
     require(all(row.get(k) == a.get(k) for k in ("population", "entered", "objectiveReached")),
             "Matrix/native progression record differs")

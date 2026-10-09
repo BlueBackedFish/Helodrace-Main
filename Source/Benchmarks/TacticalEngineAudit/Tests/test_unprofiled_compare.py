@@ -60,6 +60,28 @@ class CompareTests(unittest.TestCase):
     def test_inconsistent_total_rejected(self):
         self.rejected_mutation(lambda a, l: a.update(uninstrumentedMainCpuMs=1), "CPU total/checkpoint mismatch")
 
+    def test_bounded_frame_overshoot_uses_actual_ticks(self):
+        # Explicitly synthetic frame-close timing derived from an archived
+        # native run. It is comparator validation, not a CPU measurement.
+        for extra in (1, 10):
+            a = json.loads(module.text(native / "audit.json"))
+            l = json.loads(module.text(native / "launcher.json"))
+            a["measuredTicks"] += extra
+            a["r7CpuCheckpoints"][-1]["tick"] += extra
+            with tempfile.TemporaryDirectory() as root:
+                p=Path(root)
+                (p/"audit.json").write_text(json.dumps(a),encoding="utf-8")
+                (p/"launcher.json").write_text(json.dumps(l),encoding="utf-8")
+                (p/"Player.log").write_text(module.text(native/"Player.log"),encoding="utf-8")
+                result=module.read_run(p)
+                self.assertEqual(result["mainCpuMsPerTick"],a["uninstrumentedMainCpuMs"]/a["measuredTicks"])
+        for extra in (-1, 11):
+            self.rejected_mutation(lambda a,l:a.update(measuredTicks=a["sampleTicks"]+extra),
+                                   "Preparation/window/population")
+
+    def test_frame_overshoot_still_requires_actual_checkpoint_length(self):
+        self.rejected_mutation(lambda a,l:a.update(measuredTicks=a["sampleTicks"]+1), "CPU window bounds")
+
     def test_graphics_mismatch_rejected(self):
         self.rejected_mutation(lambda a, l: l["arguments"].__setitem__(l["arguments"].index("800"), "1600"), "Graphics")
 
