@@ -1,7 +1,8 @@
 ﻿param(
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r7-functional-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string[]]$Cases = @(),
-    [switch]$Preview
+    [switch]$Preview,
+    [switch]$ContinueOnFailure
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'R7FunctionalEvidence.ps1')
@@ -113,12 +114,15 @@ New-Item -ItemType Directory -Path $root | Out-Null
 $records = @()
 function Write-Journal {
     [pscustomobject]@{ scope='R7 functional regression only'; finalR7Complete=$false; cpuGateEvaluated=$false;
+        continueOnFailure=[bool]$ContinueOnFailure; collectionComplete=($records.Count -eq $selected.Count -and @($records | Where-Object { $_.status -eq 'running' }).Count -eq 0);
+        failedCases=@($records | Where-Object { $_.status -eq 'failed' } | ForEach-Object { $_.name });
         pinned=$pinned; requestedCases=@($selected.name); fullFunctionalQueue=($Cases.Count -eq 0);
         allSpecifiedPassed=($records.Count -eq $selected.Count -and @($records | Where-Object { $_.status -ne 'passed' }).Count -eq 0);
         records=$records } | ConvertTo-Json -Depth 12 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $root 'checks.json')
 }
 Write-Journal
 foreach ($spec in $selected) {
+    if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'Preserve a remaining native process; do not advance the queue.' }
     foreach ($file in $content) {
         if ((Get-FileHash -LiteralPath (Join-Path $repository $file)).Hash.ToLowerInvariant() -ne $pinned[$file]) {
             throw "Content changed during queue; preserve completed runs and restart a new final-code queue: $file"
@@ -146,6 +150,12 @@ foreach ($spec in $selected) {
         $record.status = 'passed'; Write-Journal
         Write-Output "R7 functional passed: $($spec.name)"
     }
-    catch { $record.status='failed'; $record.error=$_.Exception.Message; Write-Journal; throw }
+    catch {
+        $record.status='failed'; $record.error=$_.Exception.Message; Write-Journal
+        if (-not $ContinueOnFailure) { throw }
+        Write-Warning "R7 functional failed; continuing diagnostic collection: $($spec.name): $($record.error)"
+    }
 }
+$failed = @($records | Where-Object { $_.status -eq 'failed' })
+if ($failed.Count) { Write-Warning "Diagnostic collection finished with $($failed.Count) failed cases: $($failed.name -join ', '). This is not a passing regression." }
 Write-Output "R7 functional queue complete. No CPU or whole-R7 completion claim: $root"
