@@ -1,3 +1,4 @@
 *.json -text whitespace=cr-at-eol
 *.gz -text
+*.patch -text
 native-speed-control-il.txt -text whitespace=cr-at-eol
