@@ -4,8 +4,15 @@ import gzip
 import hashlib
 import json
 import re
+import sys
 
-root = Path(__file__).resolve().parent / "functional-b766-prefix-10"
+builds = {
+    "functional-b766-prefix-10": "b766672aebc910fa5ae82e5a7ee4ae477cde4b61485fa5c9324f54a453db21a1",
+    "functional-e4e4-prefix-10": "e4e4c4d6621a056a77ca16dfb4a5777a64c0277517887c0bff7593e5a0e4e841",
+}
+name = sys.argv[1] if len(sys.argv) > 1 else "functional-b766-prefix-10"
+assert len(sys.argv) <= 2 and name in builds, "Select one known archived prefix, never mix builds."
+root = Path(__file__).resolve().parent / name
 
 
 def read(path):
@@ -23,7 +30,7 @@ j = read(root / "checks.json")
 names = p["archivedCases"]
 assert len(names) == 10 and len(set(names)) == 10 and len(j["requestedCases"]) == 44
 assert not j["finalR7Complete"] and not j["cpuGateEvaluated"] and not j["allSpecifiedPassed"]
-assert j["pinned"]["Assemblies\\Helodrace.dll"] == "b766672aebc910fa5ae82e5a7ee4ae477cde4b61485fa5c9324f54a453db21a1"
+assert j["pinned"]["Assemblies\\Helodrace.dll"] == builds[name]
 assert [r["name"] for r in j["records"][:10]] == names
 assert all(r["status"] == "passed" and r["nativeExceptions"] == 0 for r in j["records"][:10])
 minimums = {
