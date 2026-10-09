@@ -1,0 +1,223 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-functional-00f5-06",
+  "classification": "Native final00F5 full44 queue cases11-20 only: completed original audit/launcher/log/gear. Same defaultNew/normalgraphics/unprofiled/actual3. Full44 and CPU/R7 gates remain unproven; later journal rows are not archived coverage. Tiny9-cell room holds six outside while all12 have placement/earlier-entry history; do not assert all12 currently inside. Non-case default booleans are not action evidence.",
+  "archivedCases": [
+    "wide-opening",
+    "unexpected-hole",
+    "inside-goal",
+    "tiny-adjacent",
+    "room-recovery",
+    "door-contact",
+    "small-unseen",
+    "outdoor-opening",
+    "r4-contact-drill",
+    "casualty"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "5b4e4032e9ecacabbb8e55abe38111c0afc17eb3e5106804de9a630f4e6a2352",
+      "uncompressedSha256": "5b4e4032e9ecacabbb8e55abe38111c0afc17eb3e5106804de9a630f4e6a2352",
+      "uncompressedBytes": 15403
+    },
+    "wide-opening/audit.json": {
+      "sha256": "d2a45745c9ae7fdd3e84160e09ab3f4d01faf4ccd4e1dc0204388330b722bdb4",
+      "uncompressedSha256": "d2a45745c9ae7fdd3e84160e09ab3f4d01faf4ccd4e1dc0204388330b722bdb4",
+      "uncompressedBytes": 12598
+    },
+    "wide-opening/launcher.json": {
+      "sha256": "46e56be14e13cf2d69a67861510f4784f53bf55c60a56e7833151f5edbbcf96c",
+      "uncompressedSha256": "46e56be14e13cf2d69a67861510f4784f53bf55c60a56e7833151f5edbbcf96c",
+      "uncompressedBytes": 2510
+    },
+    "wide-opening/Player.log.gz": {
+      "sha256": "b482e9d17d41e7f6a281f1ad37a2acdfd2203b893afca1430a6cb663e30b9a9d",
+      "uncompressedSha256": "fc5579c2ecdcb8b3db626ec97fe869195f5eee99c70ddc7ccbea4f685b1e5798",
+      "uncompressedBytes": 29355
+    },
+    "wide-opening/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "unexpected-hole/audit.json": {
+      "sha256": "2e03bfe316fede1b5141f9b9340d420d7af45dfcb4b416185bd8db9480461a45",
+      "uncompressedSha256": "2e03bfe316fede1b5141f9b9340d420d7af45dfcb4b416185bd8db9480461a45",
+      "uncompressedBytes": 12746
+    },
+    "unexpected-hole/launcher.json": {
+      "sha256": "eed25553b0ca1bc6f5c3d126e1fe5acbf866272eaa9b04623b4de47f55d24bf0",
+      "uncompressedSha256": "eed25553b0ca1bc6f5c3d126e1fe5acbf866272eaa9b04623b4de47f55d24bf0",
+      "uncompressedBytes": 2525
+    },
+    "unexpected-hole/Player.log.gz": {
+      "sha256": "4c5649ed3f10ee1d0705d268dd2c2263535579b6bddac68500cc999f448f9d60",
+      "uncompressedSha256": "9e9e09c6c286bd2dc43fa35a2bb55d7f9aeca1dba29d99b1282737fc1e10bdcb",
+      "uncompressedBytes": 29404
+    },
+    "unexpected-hole/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "inside-goal/audit.json": {
+      "sha256": "0dfee65117c60809d3642c978dd867654089d86a14414d24ea7afc7bd31e5d53",
+      "uncompressedSha256": "0dfee65117c60809d3642c978dd867654089d86a14414d24ea7afc7bd31e5d53",
+      "uncompressedBytes": 12684
+    },
+    "inside-goal/launcher.json": {
+      "sha256": "d2feb023387ca812ecc03c6473334d940038d06d934922e86dda3f720a8c7e64",
+      "uncompressedSha256": "d2feb023387ca812ecc03c6473334d940038d06d934922e86dda3f720a8c7e64",
+      "uncompressedBytes": 2505
+    },
+    "inside-goal/Player.log.gz": {
+      "sha256": "37ba05fcfb22d0ff8cadd826ba832347a40df7c39acdf30865f70920e46f7283",
+      "uncompressedSha256": "d712cf9b84a65f22fd7f17d4ee0f986e98c1bf81de84cb43a53f87b182a43329",
+      "uncompressedBytes": 29377
+    },
+    "inside-goal/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "tiny-adjacent/audit.json": {
+      "sha256": "3a4c187a576cbc90f1e0f2a30f6bbc69cded25a65ad1ae7a48968bb6834177cd",
+      "uncompressedSha256": "3a4c187a576cbc90f1e0f2a30f6bbc69cded25a65ad1ae7a48968bb6834177cd",
+      "uncompressedBytes": 12673
+    },
+    "tiny-adjacent/launcher.json": {
+      "sha256": "67f6613171ea34db84c3551cf4943d715a7865ded4382fa4c01715e016d2f8ab",
+      "uncompressedSha256": "67f6613171ea34db84c3551cf4943d715a7865ded4382fa4c01715e016d2f8ab",
+      "uncompressedBytes": 2515
+    },
+    "tiny-adjacent/Player.log.gz": {
+      "sha256": "23621cd62d24aaae59796292e4cd656fe5f92bed2e16ac64583e85cc1f303a9b",
+      "uncompressedSha256": "755d0ac3a6137c92ea57e20e959a9c0ebf8a414ed4b46e3019e1ca2eb24c9fba",
+      "uncompressedBytes": 29361
+    },
+    "tiny-adjacent/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "room-recovery/audit.json": {
+      "sha256": "83e817223e60c60621fd01bd275c7d93e71431af5957be34789b3efc38417285",
+      "uncompressedSha256": "83e817223e60c60621fd01bd275c7d93e71431af5957be34789b3efc38417285",
+      "uncompressedBytes": 12694
+    },
+    "room-recovery/launcher.json": {
+      "sha256": "87f8fe5d4f2f3e33433c0a5cfa3b2e8a2b44278d817b131c48692379980f5cea",
+      "uncompressedSha256": "87f8fe5d4f2f3e33433c0a5cfa3b2e8a2b44278d817b131c48692379980f5cea",
+      "uncompressedBytes": 2515
+    },
+    "room-recovery/Player.log.gz": {
+      "sha256": "a1a700a4bdba86fb865f48383f5a952d3453a8d504332ab90a1b958c347bf631",
+      "uncompressedSha256": "d0d511f603da801760bf82d05c62554836b2ff76cd6056311a3aab5f281d4bc3",
+      "uncompressedBytes": 29420
+    },
+    "room-recovery/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "door-contact/audit.json": {
+      "sha256": "af0eb9b26e6f519968c23cf3640e6aa5e1150a5c5837531d0974e83e849d21a9",
+      "uncompressedSha256": "af0eb9b26e6f519968c23cf3640e6aa5e1150a5c5837531d0974e83e849d21a9",
+      "uncompressedBytes": 12745
+    },
+    "door-contact/launcher.json": {
+      "sha256": "8f77c347e232b3fa4909699a00843daabc1bf8fb735e4102f7c6e5fa0a879d39",
+      "uncompressedSha256": "8f77c347e232b3fa4909699a00843daabc1bf8fb735e4102f7c6e5fa0a879d39",
+      "uncompressedBytes": 2510
+    },
+    "door-contact/Player.log.gz": {
+      "sha256": "ecb807d412a7c2c494f6cc383845b251b45b33e36ba1d53297c3ef8a6d404725",
+      "uncompressedSha256": "099438ef41593a92ee3516c2db33b39f0d2074798dc3a3f89fad932c9798dc7b",
+      "uncompressedBytes": 29354
+    },
+    "door-contact/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "small-unseen/audit.json": {
+      "sha256": "32d1e21d57072aa7956303a148bda58e6ab666f49f05f9894e58dc06a276b37e",
+      "uncompressedSha256": "32d1e21d57072aa7956303a148bda58e6ab666f49f05f9894e58dc06a276b37e",
+      "uncompressedBytes": 11980
+    },
+    "small-unseen/launcher.json": {
+      "sha256": "529de6c683fdf071e3aec361b29da09f96951db7d2534740341d35097587f99f",
+      "uncompressedSha256": "529de6c683fdf071e3aec361b29da09f96951db7d2534740341d35097587f99f",
+      "uncompressedBytes": 2510
+    },
+    "small-unseen/Player.log.gz": {
+      "sha256": "f2c0bf87b8358a801079e8a1b9b6ca17e42a6a52036ded1b49d39a4538183822",
+      "uncompressedSha256": "cec1d7fd22b6ceab1fd7f5ef4d7b0834578c02e7d37ef51763615e0cc415da4b",
+      "uncompressedBytes": 29324
+    },
+    "small-unseen/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "outdoor-opening/audit.json": {
+      "sha256": "14fee91180eb8d4eecebd35aa3424b0789f91dd4d13391290e0c158f6ba83a73",
+      "uncompressedSha256": "14fee91180eb8d4eecebd35aa3424b0789f91dd4d13391290e0c158f6ba83a73",
+      "uncompressedBytes": 12689
+    },
+    "outdoor-opening/launcher.json": {
+      "sha256": "8eecbfd9b12afc2720227f59af658c08873fb61434227ea22fd39567c469cd91",
+      "uncompressedSha256": "8eecbfd9b12afc2720227f59af658c08873fb61434227ea22fd39567c469cd91",
+      "uncompressedBytes": 2525
+    },
+    "outdoor-opening/Player.log.gz": {
+      "sha256": "b4b0739ffe0f945477b4c9abeec47e83d87d97d568848df856edef433291d341",
+      "uncompressedSha256": "55ed48d027ab0f6dfd8e13ed3ca38335a445c549de9d64047062b012d3b7c35f",
+      "uncompressedBytes": 29499
+    },
+    "outdoor-opening/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "r4-contact-drill/audit.json": {
+      "sha256": "63fe45682f51ff221c33a9cff9c04e60165ca537263e1ecc8fac70b711fe663c",
+      "uncompressedSha256": "63fe45682f51ff221c33a9cff9c04e60165ca537263e1ecc8fac70b711fe663c",
+      "uncompressedBytes": 13381
+    },
+    "r4-contact-drill/launcher.json": {
+      "sha256": "579d81e66065a2cd157d23563a24f4cf3ebb704e94ee39dd4232fcaf9aa62e67",
+      "uncompressedSha256": "579d81e66065a2cd157d23563a24f4cf3ebb704e94ee39dd4232fcaf9aa62e67",
+      "uncompressedBytes": 2530
+    },
+    "r4-contact-drill/Player.log.gz": {
+      "sha256": "07bd20a9c61d7af6040242f7c3c7c6e53d5401e0433a5a301145de3ab8f18197",
+      "uncompressedSha256": "523785b2211082888b94c6fec3b6b1a7d56885f22e008e070a2548a46ebdb129",
+      "uncompressedBytes": 30248
+    },
+    "r4-contact-drill/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "casualty/audit.json": {
+      "sha256": "1bb2d4c1a20e03e888ff19f1e85d3be586e3fcc9054e7b02f6ffe33ef45b8d79",
+      "uncompressedSha256": "1bb2d4c1a20e03e888ff19f1e85d3be586e3fcc9054e7b02f6ffe33ef45b8d79",
+      "uncompressedBytes": 12816
+    },
+    "casualty/launcher.json": {
+      "sha256": "676de063f893407ea4993ec3a445b561d74b3b76c321e8e0c58e4deeb27aca16",
+      "uncompressedSha256": "676de063f893407ea4993ec3a445b561d74b3b76c321e8e0c58e4deeb27aca16",
+      "uncompressedBytes": 2488
+    },
+    "casualty/Player.log.gz": {
+      "sha256": "0f5b10b6af9c74b816107d0bf7390cd13c2e9d287e4bc8f5a61d66e606f015b8",
+      "uncompressedSha256": "3a67245c611a9d904cf31266b3e41a9d751993ec8411da11f39e30b52261c4fd",
+      "uncompressedBytes": 30042
+    },
+    "casualty/pawn-manifest.txt.gz": {
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    }
+  }
+}

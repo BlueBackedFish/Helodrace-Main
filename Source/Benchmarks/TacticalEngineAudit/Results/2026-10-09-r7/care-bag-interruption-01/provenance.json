@@ -1,0 +1,34 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-care-bag-interrupt-01",
+  "classification": "Selected actual normalgraphics/unprofiled/defaultNew/3x bag-treatment interruption PASS on9050. Actual threat during treatment, cancellation before dressing, guard shot, no vanilla tend, recovery/next-room completion. This is one selected case, not final44 or CPU/R7 acceptance; full44 must use this same new DLL.",
+  "archivedCases": [
+    "care-interrupt"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "fc7a4029c4e9442880c1665bfb698a9b7ea5b6713084667ce0f733a6d4b9ddcd",
+      "uncompressedSha256": "fc7a4029c4e9442880c1665bfb698a9b7ea5b6713084667ce0f733a6d4b9ddcd",
+      "uncompressedBytes": 1483
+    },
+    "care-interrupt/audit.json": {
+      "sha256": "24f0634a1bea38093804055663e8cf793c5e6f460ee78a29168f386e108b28ae",
+      "uncompressedSha256": "24f0634a1bea38093804055663e8cf793c5e6f460ee78a29168f386e108b28ae",
+      "uncompressedBytes": 13104
+    },
+    "care-interrupt/launcher.json": {
+      "sha256": "9b06031f2f7a8df685ccbe3a1f81ebba50cd403356e8939a0f7255bf6a370357",
+      "uncompressedSha256": "9b06031f2f7a8df685ccbe3a1f81ebba50cd403356e8939a0f7255bf6a370357",
+      "uncompressedBytes": 2517
+    },
+    "care-interrupt/Player.log.gz": {
+      "sha256": "04e052ca92667e3ef8c3ff53c92193175c77ce1bc7c6a3a46af8871d8205537c",
+      "uncompressedSha256": "fe326076c5be38b3b5e923b9300d873c7645aee825612fb40a9513cce96807a7",
+      "uncompressedBytes": 29733
+    },
+    "care-interrupt/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

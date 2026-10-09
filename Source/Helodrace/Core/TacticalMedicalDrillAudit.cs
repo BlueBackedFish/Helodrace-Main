@@ -5,6 +5,7 @@ using Helodrace.Tactical;
 using Helodrace.Tactics;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Helodrace
 {
@@ -19,6 +20,10 @@ namespace Helodrace
         private bool medicalGuards = true, medicalObserved;
         private long medicalLoggedCompletions;
         private bool medicalThreatExposed;
+
+        private static bool MedicalInterruptionReady(bool pressure, bool ownedBagTreatment,
+            bool treatmentToil, int remainingTicks) => pressure || ownedBagTreatment && treatmentToil
+                && remainingTicks > 0 && remainingTicks <= TcccRules.HemostasisTicks - TcccRules.PartialHemostasisTicks;
 
         private void MedicalEvent(string value)
         {
@@ -84,15 +89,23 @@ namespace Helodrace
                 if (result.fixtureCase == "r6-care-interrupt")
                 {
                     bool pressure = medicalPatient.health.hediffSet.hediffs.Any(h => h.def.defName == "HD_TCCC_Pressure");
-                    if (!medicalThreatExposed && care != null && pressure)
+                    JobDriver driver = care?.Helper.Pawn.jobs.curDriver;
+                    // Other-pawn bag care has movement gate, goto, then the
+                    // delayed treatment toil. It never creates TCCC pressure.
+                    bool bagTreatment = care != null && !care.Finished && care.Helper.Pawn.CurJob == care.Job
+                        && driver is JobDriver_MedibagHemostasis;
+                    if (!medicalThreatExposed && care != null && MedicalInterruptionReady(pressure, bagTreatment,
+                        driver?.CurToilIndex == 2, driver?.ticksLeftThisToil ?? 0))
                     {
                         IntVec3 threat = GenAdj.CardinalDirections.Select(d => medicalPatient.Position + d * 3)
                             .First(c => c.Standable(map) && c.GetFirstPawn(map) == null
                                 && GenSight.LineOfSight(medicalPatient.Position, c, map, true));
                         owner.Position = threat; medicalThreatExposed = true;
-                        MedicalEvent("visible close threat exposed during partial pressure " + threat); return;
+                        MedicalEvent("visible close threat exposed during owned treatment " + care.Job.def.defName
+                            + " remaining=" + driver?.ticksLeftThisToil + " pressure=" + pressure + " at=" + threat); return;
                     }
-                    if (!medicalThreatExposed || service.MedicalAborted == 0 || pressure || service.ContactShots == 0) return;
+                    if (!medicalThreatExposed || service.MedicalAborted == 0 || care != null || pressure || service.ContactShots == 0
+                        || medicalWounds.Any(w => PartHemostasis.HasDressing(medicalPatient.health.hediffSet, w.Part, tick))) return;
                     result.newMedicalInterruptionSafe = true; result.newMedicalNoVanillaTend = medicalWounds.All(w => !w.IsTended());
                     owner.Position = new IntVec3(180,0,180);
                     foreach (Hediff anesthesia in medicalPatient.health.hediffSet.hediffs.Where(h => h.def == HediffDefOf.Anesthetic).ToArray())
@@ -120,6 +133,7 @@ namespace Helodrace
             result.newMedicalPlasma = service.MedicalPlasma;
             result.newMedicalRejoins = service.MedicalRejoins;
             result.newMedicalGuardsHeld = medicalObserved && medicalGuards;
+            result.newMedicalNoVanillaTend = medicalObserved && medicalWounds.Count == 4 && medicalWounds.All(w => !w.IsTended());
             result.newMedicalEvents = medicalEvents.ToArray();
         }
     }
