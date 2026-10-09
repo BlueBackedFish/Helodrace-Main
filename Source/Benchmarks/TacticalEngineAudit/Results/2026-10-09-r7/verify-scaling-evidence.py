@@ -245,3 +245,22 @@ for value in fixed["newSecuredPortals"]:
     assert len(portals) == len(set(portals))
 assert next(m for m in fc["methods"] if ".AdvanceCoordination(" in m["method"])["calls"] == 8126
 print("PASS: identification fix retains unique current opening histories and records 30/34 completion without claiming final CPU/progression success.")
+
+facade, fac, fal = run("facade-sweep-new-408-3x-attempt-03", fixture_version=34)
+assert fac["assemblySha256"] == "e74b3449443910b57bbf04df9c6f89905bd80b8409d9212761824edc2a427da7"
+assert facade["mapFingerprint"] == fixed["mapFingerprint"] and facade["pawnFingerprint"] == fixed["pawnFingerprint"]
+assert facade["population"] == facade["alive"] == 408 and facade["units"] == 34
+assert facade["r7CqbStimulusComplete"] and facade["r7CqbEvents"] == cqb_events and facade["r7WildlifeSpawnerDisabled"]
+assert facade["r7TickRateMinimum"] == facade["r7TickRateMaximum"] == 3
+assert not facade["newFunctionalComplete"] and not facade["newPhysicalPlansValid"] and not facade["newRoomProgressComplete"]
+assert facade["newCompletedUnits"] == 28 and facade["newEnteredByOrder"] == 364
+assert facade["newJobFailures"] == 192 and facade["newUnsafeEntries"] == 0
+assert sum(":Pending opening=" in command for command in facade["newCommands"]) == 2
+for unit in (6, 9):
+    prefix = f"HD_Raid_{unit}::HD_Raid_{unit}_Group_1:"
+    assert next(s for s in fixed["newCommands"] if s.startswith(prefix)).startswith(prefix + "Pending ")
+    summary = next(s for s in facade["newRoomDiagnostics"] if s.startswith(prefix))
+    assert summary.startswith(prefix + "Complete ") and "goal=True representatives=True,True,True" in summary
+find = next(m for m in fac["methods"] if "TacticalLocalPlanner.Find(" in m["method"])
+assert find["calls"] == 853 and find["inclusiveMs"] > 0
+print("PASS: bounded facade retry resolves two recorded initial waits but preserves worse overall completion/failures; no whole-system improvement fabricated.")

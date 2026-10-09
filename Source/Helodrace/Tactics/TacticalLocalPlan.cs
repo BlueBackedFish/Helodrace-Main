@@ -27,6 +27,8 @@ namespace Helodrace.Tactics
     public static class TacticalLocalPlanner
     {
         private static readonly int[] Offsets = { 0, -1, 1, -3, 3, -6, 6, 10 };
+        private static readonly int[] RetryBands = { 0, -12, 12, -24, 24 };
+        internal static int SearchBand(int failedAttempts) => failedAttempts < 2 ? 0 : RetryBands[(failedAttempts - 1) % RetryBands.Length];
         internal static bool SearchFreshOpening(bool triedKnown, TacticalPlanFailure failure, int failedAttempts) =>
             !triedKnown || failedAttempts >= 2 && failure == TacticalPlanFailure.Busy;
         public static bool Connected(IList<IntVec3> cells)
@@ -49,14 +51,16 @@ namespace Helodrace.Tactics
 
         internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
-            out TacticalPlanFailure failure, int frontage = 0)
+            out TacticalPlanFailure failure, int failedAttempts, int frontage = 0)
         {
             failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
             IntVec3 preferred = Math.Abs(goal.x - from.x) >= Math.Abs(goal.z - from.z)
                 ? new IntVec3(Math.Sign(goal.x - from.x), 0, 0) : new IntVec3(0, 0, Math.Sign(goal.z - from.z));
-            IntVec3 tangent = new IntVec3(-preferred.z, 0, preferred.x);
+            IntVec3 travel = goal - from;
             bool Wall(IntVec3 cell) => cell.InBounds(map) && cell.GetEdifice(map)?.def.IsWall == true;
+            bool Support(IntVec3 cell) => cell.InBounds(map)
+                && (cell.GetEdifice(map)?.def.IsWall == true || cell.GetEdifice(map) is Building_Door);
             bool Walkable(IntVec3 cell) => cell.InBounds(map) && cell.Walkable(map);
             IntVec3 first = IntVec3.Invalid;
             int steps = Math.Max(Math.Abs(goal.x - from.x), Math.Abs(goal.z - from.z));
@@ -66,16 +70,21 @@ namespace Helodrace.Tactics
                 var cell = new IntVec3(from.x + (int)Math.Round((goal.x - from.x) * (double)i / steps), 0,
                     from.z + (int)Math.Round((goal.z - from.z) * (double)i / steps));
                 Building building = cell.GetEdifice(map);
-                IntVec3 left = cell - tangent, right = cell + tangent;
-                bool adjacentWalls = left.InBounds(map) && right.InBounds(map)
-                    && left.GetEdifice(map)?.def.IsWall == true && right.GetEdifice(map)?.def.IsWall == true;
                 // Ignore an isolated rock/block in front of the actual facade.
                 // The local footprint validator still rejects obstructed slots.
-                if (building is Building_Door || building?.def.IsWall == true && adjacentWalls) { first = cell; break; }
+                if (building is Building_Door || building?.def.IsWall == true)
+                {
+                    bool face = TacticalPortalGeometry.TryWallNormal(cell, travel, Support, out IntVec3 normal);
+                    if (face || building is Building_Door)
+                    { if (face) preferred = normal; first = cell; break; }
+                }
                 // An already opened wall gap is still a portal. Do not turn
                 // later squads into unconstrained vanilla destination paths.
-                if (building == null && TacticalPortalGeometry.IsGap(cell, Wall, Walkable))
-                { first = cell; break; }
+                if (building == null && TacticalPortalGeometry.TryGapNormal(cell, Wall, Walkable, out IntVec3 gapNormal))
+                {
+                    int heading = gapNormal.x * travel.x + gapNormal.z * travel.z;
+                    if (heading != 0) { preferred = gapNormal * Math.Sign(heading); first = cell; break; }
+                }
             }
             if (!first.IsValid)
             {
@@ -91,9 +100,13 @@ namespace Helodrace.Tactics
                 failure = TacticalPlanFailure.Unreachable; return null;
             }
             var candidates = new List<TacticalLocalPlan>(8);
+            IntVec3 tangent = new IntVec3(-preferred.z, 0, preferred.x);
+            // Change the sampled frontage after repeated failures; never add
+            // candidates, native reach probes or an unbounded facade search.
+            int band = SearchBand(failedAttempts);
             foreach (int offset in Offsets)
             {
-                IntVec3 opening = first + tangent * (offset + frontage);
+                IntVec3 opening = first + tangent * (offset + frontage + band);
                 if (!opening.InBounds(map)) { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 if (leased(opening)) { failure |= TacticalPlanFailure.Busy; continue; }
                 Building barrier = opening.GetEdifice(map);

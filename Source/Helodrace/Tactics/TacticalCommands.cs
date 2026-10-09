@@ -400,7 +400,7 @@ namespace Helodrace.Tactics
                         if (triedKnown) BusyOpeningFallbacks++;
                         plan = TacticalLocalPlanner.Find(map, leader, command.Goal, command.Members.Count,
                             Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
-                            out failure, frontage);
+                            out failure, command.Failures, frontage);
                         if (plan == null) failure |= knownFailure;
                     }
                 }

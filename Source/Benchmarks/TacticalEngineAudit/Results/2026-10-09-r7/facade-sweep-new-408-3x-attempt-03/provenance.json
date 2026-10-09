@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-facade-sweep-new-408-3x-attempt-03",
+  "classification": "Actual-face and bounded frontage sweep diagnosis, same fixed CQB inputs/408 pawns/34 squads/3x. Prior Pending units 6 and 9 complete goal and all regions, but only 28 squads complete/364 currently entered; two other Pending, overall physical/functional/room/connected fail, job failures 192. No overall progress or CPU improvement claimed; excluded from final gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "289f68f22fc645a678d77dd11aaa568b75746b1cd3d8964b6ffedfa20411d420",
+      "uncompressedSha256": "289f68f22fc645a678d77dd11aaa568b75746b1cd3d8964b6ffedfa20411d420",
+      "uncompressedBytes": 136587
+    },
+    "launcher.json": {
+      "sha256": "85e90904d0a03c8714400e6ee89b2dc8ede79490fa572a23e69156286a0b6205",
+      "uncompressedSha256": "85e90904d0a03c8714400e6ee89b2dc8ede79490fa572a23e69156286a0b6205",
+      "uncompressedBytes": 2491
+    },
+    "Player.log.gz": {
+      "sha256": "1a7087fd7455d8ddf66f2ab10f92b9aaa54b2e0e6af4d5b8acf86dd58867a703",
+      "uncompressedSha256": "a257d3e95d91e6df7264744dcf8c38545707b6714f960a5a70b0b5ccc7ecebd1",
+      "uncompressedBytes": 29762
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "8c96bee6ec4c143bc9c7ac181730eedd36792010f9092b9168d2723ba1f44b7a",
+      "uncompressedSha256": "8c96bee6ec4c143bc9c7ac181730eedd36792010f9092b9168d2723ba1f44b7a",
+      "uncompressedBytes": 11836
+    },
+    "profiles/capture-20261009-045249-898-601.json": {
+      "sha256": "17b95feb90f244a74ded45425f7e701d6217afe4bfd91d4ed71c059a75e89e12",
+      "uncompressedSha256": "17b95feb90f244a74ded45425f7e701d6217afe4bfd91d4ed71c059a75e89e12",
+      "uncompressedBytes": 20610
+    },
+    "profiles/status.json": {
+      "sha256": "c20c690b2108d1aa86626a531daeefcc96303ebd9bcfeaed0d6dce9a605493e5",
+      "uncompressedSha256": "c20c690b2108d1aa86626a531daeefcc96303ebd9bcfeaed0d6dce9a605493e5",
+      "uncompressedBytes": 228
+    }
+  }
+}
