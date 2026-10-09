@@ -1,0 +1,55 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-small-outdoor-03",
+  "classification": "Latest BAB4 audit DLL two selected native cases passed. Actual16-cell/no-contact/no-throw/no-field conservation, plus actual M8 smoke action reference retained through field response; fixed6000 actor withdrawal, response/resume and all12 completion. Same initial structure/raid gear as failed fixtures; small-room owner intentionally relocated. Not full44 or final CPU/R7.",
+  "archivedCases": [
+    "small-unseen",
+    "outdoor-opening"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "ca31913fdd05df8dbdc287b34dfabaf42eb0b8880bb0736e308ccc6fcc856515",
+      "uncompressedSha256": "ca31913fdd05df8dbdc287b34dfabaf42eb0b8880bb0736e308ccc6fcc856515",
+      "uncompressedBytes": 2119
+    },
+    "small-unseen/audit.json": {
+      "sha256": "aa675ba24cfd847da9592e90a93b606590693247f0a7534f760c87fa42298f5c",
+      "uncompressedSha256": "aa675ba24cfd847da9592e90a93b606590693247f0a7534f760c87fa42298f5c",
+      "uncompressedBytes": 11840
+    },
+    "small-unseen/launcher.json": {
+      "sha256": "d672dd0ce92117772db4c1acf88f03f69cdee68e045015b383f87950255637ff",
+      "uncompressedSha256": "d672dd0ce92117772db4c1acf88f03f69cdee68e045015b383f87950255637ff",
+      "uncompressedBytes": 2486
+    },
+    "small-unseen/Player.log.gz": {
+      "sha256": "3a4720207e40f07c604a83965870738e6608de427219d824220409637bde3bf6",
+      "uncompressedSha256": "693fb7fbdb07eaaca5f70214148b6bdffb13ded33fd93f0b4680a7ab95c1bd46",
+      "uncompressedBytes": 29568
+    },
+    "small-unseen/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "outdoor-opening/audit.json": {
+      "sha256": "83f2d77a0d6978fbaf6266c9b3e84fb2fe8475f415a0b8c409e24209b3c7bf18",
+      "uncompressedSha256": "83f2d77a0d6978fbaf6266c9b3e84fb2fe8475f415a0b8c409e24209b3c7bf18",
+      "uncompressedBytes": 12664
+    },
+    "outdoor-opening/launcher.json": {
+      "sha256": "bd836c73a1d667a4bf993fa5589264848a7d4f7e2b9f17dd9c8b2d3b1d9161af",
+      "uncompressedSha256": "bd836c73a1d667a4bf993fa5589264848a7d4f7e2b9f17dd9c8b2d3b1d9161af",
+      "uncompressedBytes": 2501
+    },
+    "outdoor-opening/Player.log.gz": {
+      "sha256": "add718bfbcbc96e801818521a33e3584032e8a6c5803786bdfc0a9051396377c",
+      "uncompressedSha256": "7e58049cac6eb138c7e532cc16168e85e62232aa4ce8603cd30465e6014b362a",
+      "uncompressedBytes": 29673
+    },
+    "outdoor-opening/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

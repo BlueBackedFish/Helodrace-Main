@@ -133,18 +133,20 @@ namespace Helodrace
         }
         private void FinishFieldDrill()
         {
-            if (!FieldFixture) return;
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
             result.newFieldResponses = service.FieldResponses; result.newFieldResumes = service.FieldResumes;
             result.newFieldBounds = service.FieldBounds; result.newFieldGuardJobs = service.FieldGuardJobs;
             result.newFieldPostCandidates = service.FieldPostCandidates;
+            result.newFieldSmokePlans = service.FieldSmokePlans; result.newFieldSmokeThrows = service.FieldSmokeThrows;
+            result.newFieldSmokeAdvances = service.FieldSmokeAdvances;
+            // General CQB/CPU fixtures can also interrupt into field response.
+            // Record real counters before restricting drill-specific proofs.
+            if (!FieldFixture) return;
             result.newFieldUniquePosts = fieldPostsUnique && fieldStep == 5;
             result.newFieldSingleTeamBounds = fieldSingleTeam && fieldStep == 5
                 && (fieldCommand.Link.Unit.Faction.def.defName != "HD_HelodCivilHighFaction" || service.FieldBounds > 0);
             result.newFieldMemoryFrozen = fieldFrozen && fieldStep == 5;
             result.newFieldEvents = fieldEvents.ToArray();
-            result.newFieldSmokePlans = service.FieldSmokePlans; result.newFieldSmokeThrows = service.FieldSmokeThrows;
-            result.newFieldSmokeAdvances = service.FieldSmokeAdvances;
             result.newFieldSmokeSharedTargets = fieldSmokeTargets && service.FieldSmokeThrows >= 2;
         }
     }

@@ -1,0 +1,34 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-functional-eeb5-03",
+  "classification": "Full44 EEb queue stopped at17th small-unseen. Journal records16 passes, but only failed small-unseen raw is archived here. Protected actor at(120,118) outdoors repeatedly observed, field Defending persists. No final functional or CPU acceptance. Later audit fixture changes require fresh final-DLL proof.",
+  "archivedCases": [
+    "small-unseen"
+  ],
+  "files": {
+    "checks.json": {
+      "sha256": "2c8f742b2c6722416d4af26e3b886f23eab71a687df2c471eafa291af313a8c7",
+      "uncompressedSha256": "2c8f742b2c6722416d4af26e3b886f23eab71a687df2c471eafa291af313a8c7",
+      "uncompressedBytes": 13012
+    },
+    "small-unseen/audit.json": {
+      "sha256": "0514ef2800619b59ed7424e573c0dfd50ca0358a82cd44238851b93d265e0ca4",
+      "uncompressedSha256": "0514ef2800619b59ed7424e573c0dfd50ca0358a82cd44238851b93d265e0ca4",
+      "uncompressedBytes": 15932
+    },
+    "small-unseen/launcher.json": {
+      "sha256": "62724394f41cff6d59dbf99129a9abbe5396ab0ea172e2b55f9e0f3ff5cdc384",
+      "uncompressedSha256": "62724394f41cff6d59dbf99129a9abbe5396ab0ea172e2b55f9e0f3ff5cdc384",
+      "uncompressedBytes": 2510
+    },
+    "small-unseen/Player.log.gz": {
+      "sha256": "614a9834882c219b525e175d9d5e116a596cf3c66a5ab7fddb6453741e2a2dfc",
+      "uncompressedSha256": "07ff489de36f6432271dd3bef333dfca452ee63e574b827672036a0b5149fdcd",
+      "uncompressedBytes": 29483
+    },
+    "small-unseen/pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    }
+  }
+}

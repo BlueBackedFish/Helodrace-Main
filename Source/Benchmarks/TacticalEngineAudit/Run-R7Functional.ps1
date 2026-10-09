@@ -32,6 +32,8 @@ foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recov
         'inside-goal' { $flags=@('r7FixtureActorWithdrawn','newDirectObjectiveCleared') }
         'room-recovery' { $flags=@('r7FixtureActorWithdrawn','newRoomRecoveryContinued') }
         'door-contact' { $flags=@('r7FixtureActorWithdrawn','newDoorContactObserved'); $minimums=@{ newSupportThrows=1; newSupportWaits=1 } }
+        'small-unseen' { $flags=@('newSmallRoomSupportSaved') }
+        'outdoor-opening' { $flags=@('r7FixtureActorWithdrawn','r7FixtureContactBeforeWithdrawal','newOutdoorSmokeSeen','newOutdoorSmokeUsed'); $minimums=@{ newSupportThrows=1; newSupportWaits=1; newSupportReturns=1; newFieldResponses=1; newFieldResumes=1 } }
     }
     Add-Case $case $case -Ticks 10000 -Flags $flags -Minimums $minimums
 }

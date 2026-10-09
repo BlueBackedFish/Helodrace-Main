@@ -40,6 +40,7 @@ namespace Helodrace
         [DataMember] public bool newRoomProgressComplete;
         [DataMember] public bool newUnexpectedOpeningReused, newDirectObjectiveCleared;
         [DataMember] public bool newDoorContactObserved, newOutdoorSmokeUsed, newOutdoorSmokeSeen;
+        [DataMember] public string[] newOutdoorSmokeActions;
         [DataMember] public bool newSmallRoomSupportSaved;
         [DataMember] public long newContactScans, newContactCandidates, newContactsSeen, newDoorContactsSeen;
         [DataMember] public long newContactResponses, newRearResponses, newDoorResponses, newOpposedResponses, newContactResumes, newContactGuardJobs;
@@ -110,6 +111,7 @@ namespace Helodrace
         private Tactics.TacticalSquadCommand interruptedCommand;
         private IntVec3 interruptionOpening;
         private IntVec3 doorwayContact = IntVec3.Invalid;
+        private readonly Dictionary<string, Tactics.TacticalOpeningAction> outdoorSmokeActions = new Dictionary<string, Tactics.TacticalOpeningAction>();
         private int fixtureRight = 140, fixtureTop = 136;
         private int started, measured = -1, nextProgress;
         private int firstActiveCut = -1;
@@ -318,9 +320,10 @@ namespace Helodrace
             // Keep the named bed as objective, but avoid intentionally aiming a
             // grenade beside the final partition in the three-separate-room case.
             if (MultiRoomFixture && result.fixtureCase != "inside-goal") owner.Position = new IntVec3(120,0,110);
-            // A named bed remains the objective, but no hostile pawn can be
-            // observed inside the small room to override grenade conservation.
-            if (result.fixtureCase == "small-unseen") owner.Position = new IntVec3(120,0,118);
+            // Keep the named bed, but put its owner beyond local observation.
+            // (120,118) is outdoors beside this 16-cell building: field sight
+            // can see it and correctly interrupt the grenade-conservation test.
+            if (result.fixtureCase == "small-unseen") owner.Position = new IntVec3(180,0,180);
             if (result.fixtureCase == "tiny-adjacent") owner.Position = new IntVec3(120,0,118);
             if (CooperationFixture || OfferRetirementFixture) owner.Position = new IntVec3(155,0,155);
             if (MultiRoomFixture && result.fixtureCase != "tiny-adjacent" && Enumerable.Range(115, right - 115).Any(x =>
@@ -429,7 +432,7 @@ namespace Helodrace
         {
             string fixture = result.fixtureCase;
             if (fixture != "narrow" && fixture != "unexpected-hole" && fixture != "inside-goal"
-                && fixture != "room-recovery" && fixture != "door-contact") return;
+                && fixture != "room-recovery" && fixture != "door-contact" && fixture != "outdoor-opening") return;
             var service = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
             // Preserve an actual observation even if a later contact response
             // restarts the opening action. Never fabricate an enemy sample.
@@ -471,10 +474,16 @@ namespace Helodrace
             if (FieldFixture) { ApplyFieldDrill(); return; }
             if (CooperationFixture) { ApplyCooperationDrill(); return; }
             if (result.fixtureCase == "r4-contact-drill") { ApplyContactDrill(); return; }
-            if (result.fixtureCase == "outdoor-opening" && !result.newOutdoorSmokeSeen
-                && TacticalEngineSelection.Kind == TacticalEngineKind.New)
-                result.newOutdoorSmokeSeen = map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands
-                    .Any(command => command.OpeningAction?.Launched == true && RaidSmokeUtility.SmokeAt(map, command.OpeningAction.Target));
+            if (result.fixtureCase == "outdoor-opening" && TacticalEngineSelection.Kind == TacticalEngineKind.New)
+                foreach (var command in map.GetComponent<Tactics.MapComponent_TacticalCommands>().Commands)
+                {
+                    var action = command.OpeningAction;
+                    if (action?.Launched != true || !action.Outdoors || action.ProjectileDef?.defName != "HD_Projectile_M8_Round") continue;
+                    // Keep the actual launched action alive for evidence: a
+                    // later field-response resume legitimately replaces it.
+                    if (!outdoorSmokeActions.ContainsKey(command.Id)) outdoorSmokeActions.Add(command.Id, action);
+                    result.newOutdoorSmokeSeen |= RaidSmokeUtility.SmokeAt(map, action.Target);
+                }
             if (interruptedPawn?.Spawned == true && interruptedCommand.Phase != Tactics.TacticalCommandPhase.Complete
                 && interruptedCommand.Phase != Tactics.TacticalCommandPhase.Released
                 && interruptedPawn.Position.x < interruptionOpening.x + 1)
@@ -701,12 +710,17 @@ namespace Helodrace
                 result.newDoorContactObserved = result.fixtureCase != "door-contact" || result.newDoorContactObserved || result.caseTriggered
                     && commands.Any(command => command.OpeningAction?.Enemy == doorwayContact && command.OpeningAction.EnemyId == owner.thingIDNumber);
                 result.newOutdoorSmokeUsed = result.fixtureCase != "outdoor-opening" || result.newOutdoorSmokeSeen
-                    && commands.All(command => command.OpeningAction?.Outdoors == true
-                    && command.OpeningAction.Launched && command.OpeningAction.ProjectileDef?.defName == "HD_Projectile_M8_Round"
-                    && command.OpeningAction.Returned && command.OpeningAction.EffectsCleared);
+                    && commands.All(command => outdoorSmokeActions.TryGetValue(command.Id, out var action) && action.Outdoors
+                    && action.Launched && action.ProjectileDef?.defName == "HD_Projectile_M8_Round"
+                    && action.Returned && action.EffectsCleared);
+                result.newOutdoorSmokeActions = outdoorSmokeActions.Select(item => item.Key + ":started=" + item.Value.Started
+                    + ":target=" + item.Value.Target + ":projectile=" + item.Value.ProjectileDef?.defName
+                    + ":launched=" + item.Value.Launched + ":outdoors=" + item.Value.Outdoors
+                    + ":returned=" + item.Value.Returned + ":effectsCleared=" + item.Value.EffectsCleared).ToArray();
                 result.newClassifiedRoomCells = commands.Select(command => command.OpeningAction?.RoomCells ?? -1).ToArray();
                 result.newSmallRoomSupportSaved = result.fixtureCase != "small-unseen" || commands.All(command => command.OpeningAction?.Outdoors == false
-                    && command.OpeningAction.RoomCells == 16 && !command.OpeningAction.Enemy.IsValid && !command.OpeningAction.Launched);
+                    && command.OpeningAction.RoomCells == 16 && !command.OpeningAction.Enemy.IsValid && !command.OpeningAction.Launched)
+                    && result.newContactsSeen == 0 && result.newSupportThrows == 0 && result.newFieldResponses == 0;
                 result.newRoomRecoveryContinued = result.fixtureCase != "room-recovery" || result.caseTriggered && result.caseLossPhase == "Clear"
                     && result.newToolRecoveriesCompleted > 0 && result.newRoomToolRecoveryWaits > 0 && result.newRoomProgressComplete;
                 result.newActiveCutterRecovered = result.fixtureCase != "cutter-active-recovery" || result.caseTriggered && result.caseCuttingTicks >= 20
