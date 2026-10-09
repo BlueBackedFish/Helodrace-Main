@@ -156,6 +156,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref JobFailures, "JobFailuresCounter");
             Scribe_Values.Look(ref PlansAttempted, "PlansAttemptedCounter");
             Scribe_Values.Look(ref PlansBuilt, "PlansBuiltCounter");
+            Scribe_Values.Look(ref BusyOpeningFallbacks, "BusyOpeningFallbacksCounter");
             Scribe_Values.Look(ref ContactScans, "ContactScansCounter");
             Scribe_Values.Look(ref ContactCandidates, "ContactCandidatesCounter");
             Scribe_Values.Look(ref ContactsSeen, "ContactsSeenCounter");

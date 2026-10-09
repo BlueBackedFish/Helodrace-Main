@@ -127,3 +127,23 @@ assert audit["newContactResumes"] == 3 and audit["newUnsafeEntries"] == 0
 assert not audit["r7PortalLeases"] and not audit["r7ClaimOwners"]
 assert next(m for m in capture["methods"] if ".RetireEntryApproach(" in m["method"])["calls"] == 3
 print("PASS: final approach/overlay cleanup DLL completes native three-direction contact regression; not full R7/CPU gate.")
+
+audit, capture, launcher = run("scale-408-busy-fallback-new-3x-attempt-05")
+assert launcher["assemblySha256"] == "12d4f08526fa1d5547ce30a3e06290b13092bc537ddf44d6c3652a30149334ca"
+assert audit["population"] == audit["alive"] == 408 and audit["units"] == 34
+assert not audit["newFunctionalComplete"] and audit["newCompletedUnits"] == 15
+assert audit["newEnteredByOrder"] == 276 and audit["newBusyOpeningFallbacks"] == 308
+assert audit["newUnsafeEntries"] == 0 and audit["r7TickRateMinimum"] == audit["r7TickRateMaximum"] == 3
+assert sum(":Pending opening=" in c for c in audit["newCommands"]) == 5
+print("PASS: busy-only fallback executes in native 408-pawn test; incomplete overall progress remains excluded.")
+
+audit, capture, launcher = run("busy-fallback-assignment")
+assert launcher["assemblySha256"] == "613f39692396ce1919d6f85fbc55db08575baeb32df98e086f6a2da57f47283f"
+assert audit["population"] == audit["alive"] == 48 and audit["units"] == 4
+assert not audit["newFunctionalComplete"] and audit["newCompletedUnits"] == 2
+assert len(audit["r7MissionAssignments"]) == 4
+assert sum(":agreement=Finished:" in c and ":areaSecured=True:" in c for c in audit["r7MissionAssignments"]) == 2
+assert any(":phase=Complete:" in c and ":goalSecured=False:" in c for c in audit["r7MissionAssignments"])
+assert sum(":Enter:" in c and ":contact=(120, 0, 110):" in c for c in audit["r7CommandLayers"]) == 2
+assert audit["newContactResponses"] > audit["newContactResumes"]
+print("PASS: actual cooperative area completion and live-contact holds recorded separately; no whole-mission pass fabricated.")

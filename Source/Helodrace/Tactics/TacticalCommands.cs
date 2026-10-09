@@ -175,7 +175,7 @@ namespace Helodrace.Tactics
         private readonly List<TacticalLocalPlan> knownOpenings = new List<TacticalLocalPlan>(8);
         private IntVec3 explicitGoal = IntVec3.Invalid, automaticGoal = IntVec3.Invalid;
         private int goalRetry;
-        public long JobsIssued, JobFailures, PlansAttempted, PlansBuilt;
+        public long JobsIssued, JobFailures, PlansAttempted, PlansBuilt, BusyOpeningFallbacks;
         public string LastJobFailure;
         public IEnumerable<TacticalSquadCommand> Commands => squads.Values;
         public int OwnedPawnCount => byPawn.Count;
@@ -389,9 +389,20 @@ namespace Helodrace.Tactics
                     bool triedKnown = false; failure = TacticalPlanFailure.None;
                     plan = frontage == 0 ? ReuseOpening(command, leader, command.Goal, command.Members.Count, Claimed,
                         out triedKnown, out failure) : null;
-                    if (!triedKnown) plan = TacticalLocalPlanner.Find(map, leader, command.Goal, command.Members.Count,
-                        Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
-                        out failure, frontage);
+                    if (TacticalLocalPlanner.SearchFreshOpening(triedKnown, failure, command.Failures))
+                    {
+                        // Busy-only reuse did not run CanReach. After two failed
+                        // attempts, allow the same bounded fresh search rather
+                        // than reserving this squad in an endless 240-tick wait.
+                        // An unreachable reuse already consumed reach probes;
+                        // it must not add another search in this plan allowance.
+                        TacticalPlanFailure knownFailure = failure;
+                        if (triedKnown) BusyOpeningFallbacks++;
+                        plan = TacticalLocalPlanner.Find(map, leader, command.Goal, command.Members.Count,
+                            Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
+                            out failure, frontage);
+                        if (plan == null) failure |= knownFailure;
+                    }
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - planStarted); }
                 command.LastPlanFailure = failure;

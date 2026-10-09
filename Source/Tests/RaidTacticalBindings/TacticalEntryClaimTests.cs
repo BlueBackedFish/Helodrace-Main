@@ -49,6 +49,18 @@ internal static class TacticalEntryClaimTests
         plan.Direct = true; claims.Add(vacant, command);
         retire.Invoke(service, new object[] { command });
         if (!claims.ContainsKey(vacant)) throw new Exception("Direct field posts have no entry approach to retire.");
+        var search = AccessTools.Method(typeof(TacticalLocalPlanner), "SearchFreshOpening");
+        bool Search(bool tried, TacticalPlanFailure failure, int failures) =>
+            (bool)search.Invoke(null, new object[] { tried, failure, failures });
+        if (!Search(false, TacticalPlanFailure.None, 0) || Search(true, TacticalPlanFailure.None, 50)
+            || Search(true, TacticalPlanFailure.Busy, 0) || Search(true, TacticalPlanFailure.Busy, 1)
+            || !Search(true, TacticalPlanFailure.Busy, 2) || !Search(true, TacticalPlanFailure.Busy, 49))
+            throw new Exception("Occupied known portals must retain short waits but cannot suppress fresh search indefinitely.");
+        for (int mask = 0; mask <= 255; mask++)
+            if (((TacticalPlanFailure)mask & TacticalPlanFailure.Unreachable) != 0
+                && Search(true, (TacticalPlanFailure)mask, 49))
+                throw new Exception("Reuse reachability failure must never add another fresh-plan probe pair.");
         Console.WriteLine("PASS: completed entry releases unused approach; guards, interior posts, overlays, foreign owners and reload idempotence retained.");
+        Console.WriteLine("PASS: bounded known-portal wait falls back after failed attempts without adding reach probes after unreachable reuse.");
     }
 }

@@ -27,6 +27,8 @@ namespace Helodrace.Tactics
     public static class TacticalLocalPlanner
     {
         private static readonly int[] Offsets = { 0, -1, 1, -3, 3, -6, 6, 10 };
+        internal static bool SearchFreshOpening(bool triedKnown, TacticalPlanFailure failure, int failedAttempts) =>
+            !triedKnown || failedAttempts >= 2 && failure == TacticalPlanFailure.Busy;
         public static bool Connected(IList<IntVec3> cells)
         {
             if (cells.Count == 0) return false;

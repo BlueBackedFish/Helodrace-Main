@@ -120,11 +120,16 @@ internal static class TacticalEngineSelectionTests
         claims.Add(new IntVec3(9, 0, 10), command); leases.Add(command.Plan.Opening, command); squads.Add(command.Id, command);
         var audit = RuntimeHelpers.GetUninitializedObject(typeof(MapComponent_TacticalEngineAudit));
         var result = new TacticalEngineAuditResult();
+        command.Link.Cooperation.Agenda = new Helodrace.Tactics.TacticalCooperationAgenda("Agenda_A", command.Id,
+            "Peer_B", new IntVec3(20,0,20), IntVec3.East, 0, 1000);
+        command.SecuredCells.Add(command.Link.Cooperation.Agenda.Area(command.Id));
         AccessTools.Field(typeof(MapComponent_TacticalEngineAudit), "result").SetValue(audit, result);
         AccessTools.Method(typeof(MapComponent_TacticalEngineAudit), "FinalScalingDiagnostics").Invoke(audit, new object[] { service });
         if (result.r7ClaimOwners.Length != 1 || !result.r7ClaimOwners[0].Contains("Owner_A:Clear")
             || result.r7PortalLeases.Length != 1 || !result.r7PortalLeases[0].Contains("(10, 0, 10)=Owner_A")
             || result.r7CommandLayers.Length != 1 || !result.r7CommandLayers[0].Contains("contactRestoring=True")
+            || result.r7MissionAssignments.Length != 1 || !result.r7MissionAssignments[0].Contains("agenda=Agenda_A")
+            || !result.r7MissionAssignments[0].Contains("peer=Peer_B") || !result.r7MissionAssignments[0].Contains("areaSecured=True")
             || claims.Count != 1 || leases.Count != 1 || command.Phase != Helodrace.Tactics.TacticalCommandPhase.Clear)
             throw new Exception("Final audit must identify owners/overlays without modifying the tactical state.");
     }

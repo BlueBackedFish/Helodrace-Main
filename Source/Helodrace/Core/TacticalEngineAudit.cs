@@ -28,7 +28,7 @@ namespace Helodrace
         [DataMember] public int newEntryAssignmentsComplete, newEverEnteredByOrder, newHeldOutside;
         [DataMember] public bool newTinyAdjacentCleared;
         [DataMember] public int newDoorFaults;
-        [DataMember] public long newJobsIssued, newJobFailures, newPlansAttempted;
+        [DataMember] public long newJobsIssued, newJobFailures, newPlansAttempted, newBusyOpeningFallbacks;
         [DataMember] public long newObservations, newObservationContacts, newSupportThrows, newSupportWaits, newSupportReturns, newUnsafeEntries;
         [DataMember] public long newToolRecoveriesStarted, newToolRecoveriesCompleted, newCutterJobsStarted;
         [DataMember] public long newRoomToolRecoveryWaits;
@@ -596,6 +596,7 @@ namespace Helodrace
                     && commands.All(command => command.Plan?.ExistingOpening == true && command.Plan.Opening == new IntVec3(100, 0, 118));
                 result.newLastJobFailure = newService.LastJobFailure;
                 result.newPlansAttempted = newService.PlansAttempted;
+                result.newBusyOpeningFallbacks = newService.BusyOpeningFallbacks;
                 result.newObservations = newService.Observations; result.newObservationContacts = newService.ObservationContacts;
                 result.newContactScans = newService.ContactScans; result.newContactCandidates = newService.ContactCandidates;
                 result.newContactsSeen = newService.ContactsSeen; result.newDoorContactsSeen = newService.DoorContactsSeen;

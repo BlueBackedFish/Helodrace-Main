@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-busy-fallback-assignment-new-3x-01",
+  "classification": "Final mission-diagnostic DLL, 48-pawn multiroom, 6000 ticks. Two of four squads complete their agreed area; two maintain contact guard against indefinitely visible protected defender. Overall progress gate fails and is not softened. Diagnostic only; no final CPU claim.",
+  "files": {
+    "audit.json": {
+      "sha256": "bdb26a4c9991eac852594cd2a59dee83e0d6608c0d5f902a31269205efcc1743",
+      "uncompressedSha256": "bdb26a4c9991eac852594cd2a59dee83e0d6608c0d5f902a31269205efcc1743",
+      "uncompressedBytes": 29455
+    },
+    "launcher.json": {
+      "sha256": "6282638bbd9e667caf84ea5247f127529653b37f0032b9f425d459c75151c8a2",
+      "uncompressedSha256": "6282638bbd9e667caf84ea5247f127529653b37f0032b9f425d459c75151c8a2",
+      "uncompressedBytes": 2609
+    },
+    "Player.log.gz": {
+      "sha256": "99429e381346b2853cc63c0f97373ef250208e99018a8e86390ed8f5c0015451",
+      "uncompressedSha256": "024c7ed09bb3d163880799edcdb3dec07a9150927eb21f4d0bf094bbae62e21c",
+      "uncompressedBytes": 29890
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "profiles/capabilities.json": {
+      "sha256": "ef09c0a802e291443697d52a97585261687ebdb8450f14646f24fb2cc16c75d4",
+      "uncompressedSha256": "ef09c0a802e291443697d52a97585261687ebdb8450f14646f24fb2cc16c75d4",
+      "uncompressedBytes": 12506
+    },
+    "profiles/capture-20261009-035557-099-302.json": {
+      "sha256": "5985283098947081cc24ade11a3ab4d8c792c98c1fb7fc360451920623d86b52",
+      "uncompressedSha256": "5985283098947081cc24ade11a3ab4d8c792c98c1fb7fc360451920623d86b52",
+      "uncompressedBytes": 19802
+    },
+    "profiles/status.json": {
+      "sha256": "d0208c41b33bab7bf85708fd871af5ea5783a38a0688e64853d1021bdd75f28b",
+      "uncompressedSha256": "d0208c41b33bab7bf85708fd871af5ea5783a38a0688e64853d1021bdd75f28b",
+      "uncompressedBytes": 227
+    }
+  }
+}

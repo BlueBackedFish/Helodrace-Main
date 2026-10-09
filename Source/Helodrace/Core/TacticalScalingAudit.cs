@@ -17,7 +17,7 @@ namespace Helodrace
         [DataMember] public float r7TickRateMinimum = float.MaxValue, r7TickRateMaximum;
         [DataMember] public int r7RateSamples, r7QueueSamples, r7MaximumDueDelay, r7MaximumDueCommands, r7MaximumPhaseAge;
         [DataMember] public long r7SchedulerAdvances, r7SchedulerBudgetStops;
-        [DataMember] public string[] r7ClaimOwners, r7PortalLeases, r7CommandLayers;
+        [DataMember] public string[] r7ClaimOwners, r7PortalLeases, r7CommandLayers, r7MissionAssignments;
     }
     public sealed partial class MapComponent_TacticalEngineAudit
     {
@@ -75,6 +75,18 @@ namespace Helodrace
                 + ":identifying=" + command.Link.IdentificationHolding
                 + ":identifyUntil=" + command.Link.IdentifyUntil
                 + ":agreement=" + command.Link.Cooperation.Stage).ToArray();
+            result.r7MissionAssignments = service.Commands.Select(command =>
+            {
+                TacticalCooperationState agreement = command.Link.Cooperation;
+                TacticalCooperationAgenda agenda = agreement.Agenda;
+                return command.Id + ":phase=" + command.Phase + ":goal=" + command.Goal
+                    + ":goalSecured=" + command.GoalSecured + ":agreement=" + agreement.Stage
+                    + ":agenda=" + agenda?.Id + ":agendaGoal=" + agenda?.Goal
+                    + ":peer=" + agenda?.Peer(command.Id) + ":area=" + agenda?.Area(command.Id)
+                    + ":areaSecured=" + (agenda != null && command.SecuredCells.Contains(agenda.Area(command.Id)))
+                    + ":peerFinished=" + agreement.PeerFinished + ":peerGoalReported=" + agreement.PeerGoalSecured
+                    + ":peerStatusAt=" + agreement.PeerStatusAt;
+            }).ToArray();
         }
     }
 }

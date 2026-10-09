@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-scale-408-busy-fallback-new-3x-05",
+  "classification": "Fixed actual 3x, 408 pawns, 12000 ticks. Busy-only reuse fallback runs 308 times; 15/34 completed, 276 entered, functional gate still fails. Different DLL/target scopes; not final CPU gate or aggregate improvement proof. No mission-assignment diagnostic in this DLL.",
+  "files": {
+    "audit.json": {
+      "sha256": "94ebeafe3e9c548fb60cfed6d80acff75e1ec7447217fc85227bf35efe93f52b",
+      "uncompressedSha256": "94ebeafe3e9c548fb60cfed6d80acff75e1ec7447217fc85227bf35efe93f52b",
+      "uncompressedBytes": 152059
+    },
+    "launcher.json": {
+      "sha256": "2b017bd8f66edf8da76fffd0ffa1af7fa3de56e9eb5f8c91e1cb2a98c063d3cc",
+      "uncompressedSha256": "2b017bd8f66edf8da76fffd0ffa1af7fa3de56e9eb5f8c91e1cb2a98c063d3cc",
+      "uncompressedBytes": 2609
+    },
+    "Player.log.gz": {
+      "sha256": "bdf892e8b81cf67b969d1efbcf3acf795fbb01089a0135c04ec3f9e2399361f2",
+      "uncompressedSha256": "9c4043b8b804138ad00a658df5642d87d7ab90335578a9224b5457ac46952b97",
+      "uncompressedBytes": 29762
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "ed88a6c060bbb169a1c19909099a532da28c86941b8f450ff4f1184591e69e14",
+      "uncompressedSha256": "ed88a6c060bbb169a1c19909099a532da28c86941b8f450ff4f1184591e69e14",
+      "uncompressedBytes": 12506
+    },
+    "profiles/capture-20261009-035327-334-604.json": {
+      "sha256": "dfda854ae74e854a1ed45c542d8f0914c44722d436234a558a4f303712b3e5e0",
+      "uncompressedSha256": "dfda854ae74e854a1ed45c542d8f0914c44722d436234a558a4f303712b3e5e0",
+      "uncompressedBytes": 21409
+    },
+    "profiles/status.json": {
+      "sha256": "52b61898e8bd400d28a12179ebcbfb2fd4544ef77b46a81f0d6298e16cf8a192",
+      "uncompressedSha256": "52b61898e8bd400d28a12179ebcbfb2fd4544ef77b46a81f0d6298e16cf8a192",
+      "uncompressedBytes": 228
+    }
+  }
+}
