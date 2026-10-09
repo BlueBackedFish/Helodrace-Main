@@ -1,0 +1,152 @@
+﻿{
+    "scope":  "R7 functional regression only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "continueOnFailure":  true,
+    "collectionComplete":  true,
+    "failedCases":  [
+                        "radio-loss"
+                    ],
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "7477143d1844c4b401c95419545da1eed9cc9f89e30f5a7ea67a697631ad7d9a",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedCases":  [
+                           "r4-contact-drill",
+                           "casualty",
+                           "low-cooperation",
+                           "shared-entry",
+                           "radio-loss",
+                           "field-low",
+                           "smoke-low",
+                           "field-high",
+                           "smoke-high",
+                           "care"
+                       ],
+    "fullFunctionalQueue":  false,
+    "allSpecifiedPassed":  false,
+    "records":  [
+                    {
+                        "name":  "r4-contact-drill",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\r4-contact-drill",
+                        "pid":  22208,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "casualty",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\casualty",
+                        "pid":  16436,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "low-cooperation",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\low-cooperation",
+                        "pid":  33744,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "shared-entry",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\shared-entry",
+                        "pid":  32700,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "radio-loss",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\radio-loss",
+                        "pid":  20336,
+                        "status":  "failed",
+                        "error":  "Full native functional completion failed.",
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  false,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "field-low",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\field-low",
+                        "pid":  52572,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "smoke-low",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\smoke-low",
+                        "pid":  53428,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "field-high",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\field-high",
+                        "pid":  38500,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "smoke-high",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\smoke-high",
+                        "pid":  52132,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    },
+                    {
+                        "name":  "care",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-diagnostic-middle-7477-01\\care",
+                        "pid":  46008,
+                        "status":  "passed",
+                        "error":  null,
+                        "actualMinimumSpeed":  3,
+                        "actualMaximumSpeed":  3,
+                        "reloads":  0,
+                        "functionalComplete":  true,
+                        "nativeExceptions":  0
+                    }
+                ]
+}
