@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-forward-planner-new-408-3x-attempt-04",
+  "classification": "Forward geometric planner diagnosis, same fixed CQB inputs/408 pawns/34 squads/3x, extended 20,000-tick window. All 34 commands/408 ingress complete at tick13744 with physical/connected safety valid, but cooperative mission room coverage remains false; incomplete allocated parties paired with aborted peers retained. No whole-system/CPU gate pass; longer window cannot be compared directly with prior12,000-tick runs.",
+  "files": {
+    "audit.json": {
+      "sha256": "a43b143c641b86a0a0ba80ad8276d57203988dc0e2f3f4957ebcf4e499e6fe3c",
+      "uncompressedSha256": "a43b143c641b86a0a0ba80ad8276d57203988dc0e2f3f4957ebcf4e499e6fe3c",
+      "uncompressedBytes": 126502
+    },
+    "launcher.json": {
+      "sha256": "f1bc2447ce14802808eb4e18ab52004b4f82b6fc062b84be54ed1c4f3545fdfc",
+      "uncompressedSha256": "f1bc2447ce14802808eb4e18ab52004b4f82b6fc062b84be54ed1c4f3545fdfc",
+      "uncompressedBytes": 2503
+    },
+    "Player.log.gz": {
+      "sha256": "7c6d64cfe0d308d9daad841ff2164ecd169ddca25c9fce5cb51e8aa034e605dd",
+      "uncompressedSha256": "71f9b1e6f25d9e6efc869061b7176e083d72685195928157aa233f699c8f5f0c",
+      "uncompressedBytes": 29810
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "9100367f25a54c7b14b71f0384475955ea83496a34eb9b9421e59f780e4d56b5",
+      "uncompressedSha256": "9100367f25a54c7b14b71f0384475955ea83496a34eb9b9421e59f780e4d56b5",
+      "uncompressedBytes": 11836
+    },
+    "profiles/capture-20261009-050918-165-604.json": {
+      "sha256": "55f67d5f4321de66600118922370d0f13e992d728091167fb04b3db612005297",
+      "uncompressedSha256": "55f67d5f4321de66600118922370d0f13e992d728091167fb04b3db612005297",
+      "uncompressedBytes": 21066
+    },
+    "profiles/status.json": {
+      "sha256": "6c1fb66a212112b0766737ed066667067824f6581d97736b0ae7c4d11ae7f519",
+      "uncompressedSha256": "6c1fb66a212112b0766737ed066667067824f6581d97736b0ae7c4d11ae7f519",
+      "uncompressedBytes": 228
+    }
+  }
+}

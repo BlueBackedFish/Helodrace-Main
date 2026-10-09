@@ -366,7 +366,7 @@ namespace Helodrace.Tactics
                 command.Goal = Goal(tick);
                 if (!command.Goal.IsValid) { command.Due = tick + 300; return; }
                 TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
-                Pawn leader = active[0].Pawn;
+                Pawn leader = PendingPlanner(active, command.Goal);
                 Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => BreachExplosiveUtility.CanOperate(pawn)
                     && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
                         || BreachExplosiveUtility.CountInInventory(pawn, BreachExplosiveUtility.C4Def) > 0 && TacticalBreachTools.IgniterFor(pawn) != null));
@@ -568,6 +568,21 @@ namespace Helodrace.Tactics
                 // Vanilla next-job selection must not run for a whole squad here.
                 BeginRoomClear(command, tick);
             }
+        }
+        private static Pawn PendingPlanner(IList<TacticalMemberCommand> active, IntVec3 goal)
+        {
+            // A formation may span the local portal-recognition range. Use a
+            // forward member's actual position, not a rear roster index. The
+            // caller already filtered availability; no extra LOS/reach query.
+            Pawn nearest = active[0].Pawn;
+            int distance = nearest.Position.DistanceToSquared(goal);
+            for (int i = 1; i < active.Count; i++)
+            {
+                Pawn pawn = active[i].Pawn;
+                int candidate = pawn.Position.DistanceToSquared(goal);
+                if (candidate < distance) { nearest = pawn; distance = candidate; }
+            }
+            return nearest;
         }
         private IntVec3 Goal(int tick)
         {

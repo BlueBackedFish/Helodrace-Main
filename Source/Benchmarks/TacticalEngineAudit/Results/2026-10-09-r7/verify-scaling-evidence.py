@@ -264,3 +264,22 @@ for unit in (6, 9):
 find = next(m for m in fac["methods"] if "TacticalLocalPlanner.Find(" in m["method"])
 assert find["calls"] == 853 and find["inclusiveMs"] > 0
 print("PASS: bounded facade retry resolves two recorded initial waits but preserves worse overall completion/failures; no whole-system improvement fabricated.")
+
+forward, frc, frl = run("forward-planner-new-408-3x-attempt-04", fixture_version=34)
+assert frc["assemblySha256"] == "ccc7f629b94101ebb9d53ee388bb7b46e2d45e1e1bd6fe0890de121ff62fc091"
+assert forward["mapFingerprint"] == facade["mapFingerprint"] and forward["pawnFingerprint"] == facade["pawnFingerprint"]
+assert forward["population"] == forward["alive"] == 408 and forward["units"] == 34
+assert forward["sampleTicks"] == 20000 and frc["endTick"] - frc["startTick"] == 20002
+assert forward["r7CqbStimulusComplete"] and forward["r7CqbEvents"] == cqb_events and forward["r7WildlifeSpawnerDisabled"]
+assert forward["r7TickRateMinimum"] == forward["r7TickRateMaximum"] == 3
+assert forward["newCompletedUnits"] == 34 and forward["newEnteredByOrder"] == forward["newEverEnteredByOrder"] == 408
+assert forward["newAllCompleteTick"] == 13744 and forward["newPhysicalPlansValid"] and forward["newConnectedStacks"]
+assert not forward["newFunctionalComplete"] and not forward["newRoomProgressComplete"]
+assert forward["newUnsafeEntries"] == 0 and forward["newJobFailures"] == 128
+assert forward["newContactResponses"] == forward["newContactResumes"] == 4
+assert all(":Complete opening=" in value for value in forward["newCommands"])
+assert any(":goalSecured=False:agreement=Finished:" in value for value in forward["r7MissionAssignments"])
+assert any(":agreement=Aborted:" in value for value in forward["r7MissionAssignments"])
+find = next(m for m in frc["methods"] if "TacticalLocalPlanner.Find(" in m["method"])
+assert find["calls"] == 741 and find["inclusiveMs"] == 36.7434
+print("PASS: forward planner records all 408 ingress in extended window but preserves failed cooperative room coverage; not a final gate or comparable12k improvement.")
