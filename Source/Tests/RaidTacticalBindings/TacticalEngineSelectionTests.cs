@@ -101,6 +101,31 @@ internal static class TacticalEngineSelectionTests
                 throw new Exception("Audit formation generation retained uncontrolled state.");
         }
         finally { generating.SetValue(null, false); xenotypes.Remove(testXenotype); }
+        CheckFinalOwnershipDiagnostics();
         Console.WriteLine("PASS: engine selection, new default/vanilla isolation, shared metadata, real FillComponents targets, stable gear fingerprint.");
+    }
+    private static void CheckFinalOwnershipDiagnostics()
+    {
+        var service = new Helodrace.Tactics.MapComponent_TacticalCommands(null);
+        var command = new Helodrace.Tactics.TacticalSquadCommand { Id = "Owner_A",
+            Phase = Helodrace.Tactics.TacticalCommandPhase.Clear,
+            Plan = new Helodrace.Tactics.TacticalLocalPlan { Opening = new IntVec3(10, 0, 10) },
+            ContactRestoring = true };
+        var claims = (System.Collections.Generic.IDictionary<IntVec3, Helodrace.Tactics.TacticalSquadCommand>)
+            AccessTools.Field(service.GetType(), "claims").GetValue(service);
+        var leases = (System.Collections.Generic.IDictionary<IntVec3, Helodrace.Tactics.TacticalSquadCommand>)
+            AccessTools.Field(service.GetType(), "leases").GetValue(service);
+        var squads = (System.Collections.Generic.IDictionary<string, Helodrace.Tactics.TacticalSquadCommand>)
+            AccessTools.Field(service.GetType(), "squads").GetValue(service);
+        claims.Add(new IntVec3(9, 0, 10), command); leases.Add(command.Plan.Opening, command); squads.Add(command.Id, command);
+        var audit = RuntimeHelpers.GetUninitializedObject(typeof(MapComponent_TacticalEngineAudit));
+        var result = new TacticalEngineAuditResult();
+        AccessTools.Field(typeof(MapComponent_TacticalEngineAudit), "result").SetValue(audit, result);
+        AccessTools.Method(typeof(MapComponent_TacticalEngineAudit), "FinalScalingDiagnostics").Invoke(audit, new object[] { service });
+        if (result.r7ClaimOwners.Length != 1 || !result.r7ClaimOwners[0].Contains("Owner_A:Clear")
+            || result.r7PortalLeases.Length != 1 || !result.r7PortalLeases[0].Contains("(10, 0, 10)=Owner_A")
+            || result.r7CommandLayers.Length != 1 || !result.r7CommandLayers[0].Contains("contactRestoring=True")
+            || claims.Count != 1 || leases.Count != 1 || command.Phase != Helodrace.Tactics.TacticalCommandPhase.Clear)
+            throw new Exception("Final audit must identify owners/overlays without modifying the tactical state.");
     }
 }

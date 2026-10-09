@@ -76,6 +76,7 @@ namespace Helodrace
         [DataMember] public int r7CleanupAt = -1, r7RemainingCommands, r7RemainingOwners, r7RemainingClaims, r7RemainingLeases, r7RemainingOpenings, r7RemainingMessages;
         [DataMember] public bool newConnectedStacks, newFunctionalComplete;
         [DataMember] public bool newPhysicalPlansValid;
+        [DataMember] public bool newWideOpeningReused;
         [DataMember] public int newAllCompleteTick = -1;
         [DataMember] public string[] newCommands, newComponents, installedNewHooks;
         [DataMember] public string newLastJobFailure;
@@ -191,7 +192,7 @@ namespace Helodrace
                 && result.fixtureCase != "rocks" && result.fixtureCase != "narrow" && result.fixtureCase != "contact" && result.fixtureCase != "field"
                 && result.fixtureCase != "recovery" && result.fixtureCase != "cutter" && result.fixtureCase != "cutter-recovery"
                 && result.fixtureCase != "charge-recovery" && result.fixtureCase != "charge-fuse-casualty" && result.fixtureCase != "charge-change"
-                && result.fixtureCase != "multiroom" && result.fixtureCase != "unexpected-hole"
+                && result.fixtureCase != "multiroom" && result.fixtureCase != "wide-opening" && result.fixtureCase != "unexpected-hole"
                 && result.fixtureCase != "inside-goal" && result.fixtureCase != "door-contact"
                 && result.fixtureCase != "outdoor-opening" && result.fixtureCase != "small-unseen"
                 && result.fixtureCase != "room-recovery" && result.fixtureCase != "cutter-active-recovery"
@@ -277,6 +278,11 @@ namespace Helodrace
                 }
                 else for (int x = 115; x < right; x++) Place(x == 126 ? ThingDefOf.Door : ThingDefOf.Wall, new IntVec3(x, 0, 119));
             }
+            if (result.fixtureCase == "wide-opening")
+            {
+                for (int z = 116; z <= 120; z++) new IntVec3(100, 0, z).GetEdifice(map).Destroy(DestroyMode.Vanish);
+                result.caseTriggered = true;
+            }
             if (result.fixtureCase == "rocks")
                 for (int z = 105; z <= 114; z += 2) Place(ThingDefOf.Wall, new IntVec3(99, 0, z));
             IntVec3 goal = small ? new IntVec3(103,0,103)
@@ -323,7 +329,7 @@ namespace Helodrace
                         : DefenseFixture ? new IntVec3(68 + (result.units - 1) * 18 + members.IndexOf(pawn) % 4, 0, 104 + members.IndexOf(pawn) / 4)
                         : (CooperationFixture || OfferRetirementFixture) ? new IntVec3(70 + (result.units - 1) * (high ? 12 : 5) + members.IndexOf(pawn) % 4,
                             0, (result.fixtureCase == "r5-shared" ? 108 : 106) + members.IndexOf(pawn) / 4)
-                        : new IntVec3(66 + index % 16, 0, 90 + index / 16);
+                        : new IntVec3(66 + index % 16, 0, (result.fixtureCase == "wide-opening" ? 118 : 90) + index / 16);
                     GenSpawn.Spawn(pawn, cell, map); raiders.Add(pawn); starts[pawn] = cell;
                 }
             }
@@ -560,6 +566,7 @@ namespace Helodrace
             var newService = map.GetComponent<Tactics.MapComponent_TacticalCommands>();
             if (newService != null)
             {
+                FinalScalingDiagnostics(newService);
                 var commands = newService.Commands.ToArray();
                 result.newPlannedUnits = commands.Count(command => command.Plan != null);
                 result.newCompletedUnits = commands.Count(command => command.Phase == Tactics.TacticalCommandPhase.Complete);
@@ -585,6 +592,8 @@ namespace Helodrace
                     result.newPhysicalPlansValid = commands.All(command => command.Plan != null && Physical(command.Plan, command.Members.Count)
                         && command.SecuredPlans.All(plan => Physical(plan, command.Members.Count) && (plan.Direct || Tactics.TacticalLocalPlanner.Connected(plan.Stack))));
                 result.newJobsIssued = newService.JobsIssued; result.newJobFailures = newService.JobFailures;
+                result.newWideOpeningReused = result.fixtureCase != "wide-opening" || result.caseTriggered
+                    && commands.All(command => command.Plan?.ExistingOpening == true && command.Plan.Opening == new IntVec3(100, 0, 118));
                 result.newLastJobFailure = newService.LastJobFailure;
                 result.newPlansAttempted = newService.PlansAttempted;
                 result.newObservations = newService.Observations; result.newObservationContacts = newService.ObservationContacts;
@@ -652,7 +661,7 @@ namespace Helodrace
                 if (CooperationFixture) FinalCooperationDiagnostics(commands);
                 result.newFunctionalComplete = commands.Length == result.units && result.newCompletedUnits == result.units
                     && result.newEntryAssignmentsComplete == result.alive && result.newEnteredByOrder > 0
-                    && result.newConnectedStacks && result.newPhysicalPlansValid && result.newRoomProgressComplete && result.newTinyAdjacentCleared
+                    && result.newConnectedStacks && result.newPhysicalPlansValid && result.newWideOpeningReused && result.newRoomProgressComplete && result.newTinyAdjacentCleared
                     && result.newUnexpectedOpeningReused && result.newDirectObjectiveCleared
                     && result.newDoorContactObserved && result.newOutdoorSmokeUsed
                     && result.newSmallRoomSupportSaved

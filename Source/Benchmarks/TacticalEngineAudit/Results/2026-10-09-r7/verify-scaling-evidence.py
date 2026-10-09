@@ -75,3 +75,37 @@ for speed in (1, 3):
     assert not audit["newFunctionalComplete"]  # No fabricated nonempty entry success.
     print("PASS: actual native speed", speed, "and zero-pawn idle; smoke test, not full scaling/CPU gate.")
 assert hashes == {"4dce23a94f2fc490eac51c648f7abe64f32b041c3ed90860cd1076ba71186fa9"}
+
+for name, completed, entered, pending, sha in (
+    ("scale-408-new-3x-long-attempt-02", 25, 335, 3,
+     "4dce23a94f2fc490eac51c648f7abe64f32b041c3ed90860cd1076ba71186fa9"),
+    ("scale-408-gapfix-new-3x-attempt-03", 17, 252, 9,
+     "45193f460c7606f8b2ef0787cf5bf4bf6d8ac4fb2463190b0a17446903a1bc96"),
+):
+    audit, capture, launcher = run(name)
+    assert launcher["assemblySha256"] == sha
+    assert audit["population"] == audit["alive"] == 408 and audit["units"] == 34
+    assert audit["r7AutoSlowdownDisabled"]
+    assert audit["r7TickRateMinimum"] == audit["r7TickRateMaximum"] == 3
+    assert not audit["newFunctionalComplete"]
+    assert audit["newCompletedUnits"] == completed and audit["newEnteredByOrder"] == entered
+    assert sum(":Pending opening=" in command for command in audit["newCommands"]) == pending
+    assert audit["newUnsafeEntries"] == 0
+    assert audit["newContactResponses"] == audit["newContactResumes"]
+    if "gapfix" in name:
+        assert any("(100, 0, 104)=" in item and ":Clear:" in item for item in audit["r7PortalLeases"])
+        assert any("(97, 0, 105)=" in item and "HD_Raid_15::" in item for item in audit["r7ClaimOwners"])
+        assert len(audit["r7CommandLayers"]) == len(audit["newCommands"])
+    print("PASS:", name, "preserves actual fixed speed, incomplete progress and diagnostic-only classification.")
+
+audit, capture, launcher = run("wide-opening")
+assert audit["fixtureCase"] == "wide-opening" and audit["caseTriggered"]
+assert audit["population"] == audit["alive"] == 12 and audit["units"] == 1
+assert audit["newWideOpeningReused"] and audit["newFunctionalComplete"]
+assert audit["newCompletedUnits"] == 1 and audit["newEnteredByOrder"] == 12
+assert audit["newConnectedStacks"] and audit["newPhysicalPlansValid"] and audit["newRoomProgressComplete"]
+assert audit["newUnsafeEntries"] == 0
+assert "opening=(100, 0, 118)" in audit["newCommands"][0]
+assert audit["r7AutoSlowdownDisabled"] and audit["r7TickRateMinimum"] == audit["r7TickRateMaximum"] == 3
+assert any("TacticalLocalPlanner.Find(" in method["method"] for method in capture["methods"])
+print("PASS: native five-cell opening regression; 12-pawn functional proof, not final CPU/scaling gate.")

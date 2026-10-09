@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-scale-408-gapfix-new-3x-03",
+  "classification": "Fixed actual 3x, 408 pawns, 12000 measured ticks with wall-gap recognition change and after-capture ownership diagnostics. 17/34 completed; functional gate fails. Different DLL/window and no paired baseline; excluded from final CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "85cc266c826bc6294d655e4140e41ab5a5e321e4b1444498f349879cd49a5da6",
+      "uncompressedSha256": "85cc266c826bc6294d655e4140e41ab5a5e321e4b1444498f349879cd49a5da6",
+      "uncompressedBytes": 144612
+    },
+    "launcher.json": {
+      "sha256": "61c1f0298f9798b1ae21958c98e913e8ff07d88691564a3118717e5ba9755f8d",
+      "uncompressedSha256": "61c1f0298f9798b1ae21958c98e913e8ff07d88691564a3118717e5ba9755f8d",
+      "uncompressedBytes": 2847
+    },
+    "Player.log.gz": {
+      "sha256": "f913789fd764edc8d9d4d4b4c4fda6bbcfaeb00d65e2e644987ea3d704d4c7df",
+      "uncompressedSha256": "5a494adba14d210c43830c42f6237f6589822884123a2de88dcd2952c65afa91",
+      "uncompressedBytes": 29667
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "922a503a8e8dd8191f405b24c6600844e85e5e1fcec63488cd7f5b2bdaaec44d",
+      "uncompressedSha256": "922a503a8e8dd8191f405b24c6600844e85e5e1fcec63488cd7f5b2bdaaec44d",
+      "uncompressedBytes": 15185
+    },
+    "profiles/capture-20261009-032245-454-601.json": {
+      "sha256": "96b30b4be39139a267f982602f5950e390ef5b6ca29848fc9f77d327a473efc7",
+      "uncompressedSha256": "96b30b4be39139a267f982602f5950e390ef5b6ca29848fc9f77d327a473efc7",
+      "uncompressedBytes": 23605
+    },
+    "profiles/status.json": {
+      "sha256": "af1f3c27ed7cef10492aa621f402a2e1f446817f186846ee2f75a7abe2eaabb4",
+      "uncompressedSha256": "af1f3c27ed7cef10492aa621f402a2e1f446817f186846ee2f75a7abe2eaabb4",
+      "uncompressedBytes": 228
+    }
+  }
+}

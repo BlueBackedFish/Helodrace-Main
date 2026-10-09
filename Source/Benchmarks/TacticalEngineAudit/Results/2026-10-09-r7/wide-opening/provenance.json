@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-wide-opening-new-3x-01",
+  "classification": "Native normal-graphics LOW 12-pawn regression: preexisting five-cell exterior opening reused at its center, all members complete entry. Functional evidence only; not representative 408-pawn progress or final CPU comparison.",
+  "files": {
+    "audit.json": {
+      "sha256": "124a22393dfd22d27b6849fb66e14b833ca237ee076d2097ad61447e3a7fba5f",
+      "uncompressedSha256": "124a22393dfd22d27b6849fb66e14b833ca237ee076d2097ad61447e3a7fba5f",
+      "uncompressedBytes": 11681
+    },
+    "launcher.json": {
+      "sha256": "88633d7fb8f685565e9dadd20bcf495174a996737fdf998703dde8e6842771c2",
+      "uncompressedSha256": "88633d7fb8f685565e9dadd20bcf495174a996737fdf998703dde8e6842771c2",
+      "uncompressedBytes": 2443
+    },
+    "Player.log.gz": {
+      "sha256": "8409284090eeae6abea92e5e2204a3cc1b736dfff6ef139190d89769e69da9f9",
+      "uncompressedSha256": "b8d84409b1fa66319105d03e6c272fd515b13a2ebf99a139bcc58372a69028b8",
+      "uncompressedBytes": 29450
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "profiles/capabilities.json": {
+      "sha256": "58f2da3d88212f7598d5af8c5612a5bb5ac0fc93df7e034bf545fc1c7a36c861",
+      "uncompressedSha256": "58f2da3d88212f7598d5af8c5612a5bb5ac0fc93df7e034bf545fc1c7a36c861",
+      "uncompressedBytes": 11823
+    },
+    "profiles/capture-20261009-033202-139-301.json": {
+      "sha256": "d63b79f7b2d93414733a9ca27d2e24d298a2a800d2bf9e62273ed123d52f7301",
+      "uncompressedSha256": "d63b79f7b2d93414733a9ca27d2e24d298a2a800d2bf9e62273ed123d52f7301",
+      "uncompressedBytes": 15995
+    },
+    "profiles/status.json": {
+      "sha256": "14cf6cb558cbf9036d1477bc80a6016d120dc166f50816bb3db36d19ecf7e2ae",
+      "uncompressedSha256": "14cf6cb558cbf9036d1477bc80a6016d120dc166f50816bb3db36d19ecf7e2ae",
+      "uncompressedBytes": 227
+    }
+  }
+}

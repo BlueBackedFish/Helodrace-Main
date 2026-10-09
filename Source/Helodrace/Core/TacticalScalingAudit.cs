@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using HarmonyLib;
 using Helodrace.Tactics;
 using Verse;
 
@@ -15,6 +17,7 @@ namespace Helodrace
         [DataMember] public float r7TickRateMinimum = float.MaxValue, r7TickRateMaximum;
         [DataMember] public int r7RateSamples, r7QueueSamples, r7MaximumDueDelay, r7MaximumDueCommands, r7MaximumPhaseAge;
         [DataMember] public long r7SchedulerAdvances, r7SchedulerBudgetStops;
+        [DataMember] public string[] r7ClaimOwners, r7PortalLeases, r7CommandLayers;
     }
     public sealed partial class MapComponent_TacticalEngineAudit
     {
@@ -49,6 +52,29 @@ namespace Helodrace
                 result.r7MaximumDueDelay = Math.Max(result.r7MaximumDueDelay, tick - command.Due);
             }
             result.r7MaximumDueCommands = Math.Max(result.r7MaximumDueCommands, due);
+        }
+        // Capture ownership only after End() has drained the profiling window.
+        // No additional scan, string allocation or reflection in a tactical tick.
+        private void FinalScalingDiagnostics(MapComponent_TacticalCommands service)
+        {
+            string Owner(TacticalSquadCommand command) => command.Id + ":" + command.Phase
+                + ":opening=" + command.Plan?.Opening;
+            foreach (string name in new[] { "claims", "leases" })
+            {
+                var owners = (IDictionary<IntVec3, TacticalSquadCommand>)AccessTools.Field(
+                    typeof(MapComponent_TacticalCommands), name).GetValue(service);
+                string[] entries = owners.Select(pair => pair.Key + "=" + Owner(pair.Value)).OrderBy(value => value).ToArray();
+                if (name == "claims") result.r7ClaimOwners = entries; else result.r7PortalLeases = entries;
+            }
+            result.r7CommandLayers = service.Commands.Select(command => Owner(command)
+                + ":contact=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
+                + ":contactLastSeen=" + command.ContactResponse?.LastSeen
+                + ":contactRestoring=" + command.ContactRestoring
+                + ":field=" + command.FieldResponse?.Stage
+                + ":medical=" + command.MedicalCare?.Job?.def.defName
+                + ":identifying=" + command.Link.IdentificationHolding
+                + ":identifyUntil=" + command.Link.IdentifyUntil
+                + ":agreement=" + command.Link.Cooperation.Stage).ToArray();
         }
     }
 }

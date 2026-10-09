@@ -45,6 +45,14 @@ internal static class TacticalRoomScanTests
         walls.Remove(new IntVec3(20,0,10)); walls.Remove(new IntVec3(20,0,11));
         if (!TacticalPortalGeometry.IsGap(new IntVec3(20,0,10), walls.Contains, Floor))
             throw new Exception("A three-cell blast gap must still separate the two room faces.");
+        var facade = new HashSet<IntVec3>(Enumerable.Range(0, 25).Select(z => new IntVec3(10, 0, z)));
+        foreach (int z in Enumerable.Range(8, 5)) facade.Remove(new IntVec3(10, 0, z));
+        bool FacadeFloor(IntVec3 cell) => cell.x >= 0 && cell.x < 25 && cell.z >= 0 && cell.z < 25 && !facade.Contains(cell);
+        if (!TacticalPortalGeometry.IsGap(new IntVec3(10, 0, 10), facade.Contains, FacadeFloor))
+            throw new Exception("A five-cell opening must retain a bounded wall-face portal, including its middle.");
+        facade.Remove(new IntVec3(10, 0, 13));
+        if (TacticalPortalGeometry.IsGap(new IntVec3(10, 0, 10), facade.Contains, FacadeFloor))
+            throw new Exception("Portal detection must keep its three-cell-per-side limit instead of scanning an unbounded facade.");
         var gapScan = new TacticalRoomScan(new IntVec3(5,0,10), IntVec3.Invalid, Floor,
             cell => walls.Contains(cell) || Floor(cell) && TacticalPortalGeometry.IsGap(cell, walls.Contains, Floor));
         steps = 0;

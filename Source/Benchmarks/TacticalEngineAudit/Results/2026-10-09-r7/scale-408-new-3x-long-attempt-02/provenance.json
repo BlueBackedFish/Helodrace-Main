@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-scale-408-new-3x-long-02",
+  "classification": "Actual fixed 3x 408-pawn, 18000-tick diagnosis. Progress improves to 25 completed units but functional gate still fails; extra focused targets and no matching baseline, excluded from final CPU gate.",
+  "files": {
+    "audit.json": {
+      "sha256": "d19475121fc0a5d6350ffa7e51dde0b087a544741749c6c82195180916b64001",
+      "uncompressedSha256": "d19475121fc0a5d6350ffa7e51dde0b087a544741749c6c82195180916b64001",
+      "uncompressedBytes": 112816
+    },
+    "launcher.json": {
+      "sha256": "85aadeae6c27a4dea86e324b39d668090af30ebe9d350cb7eba8bf2bf35b1f34",
+      "uncompressedSha256": "85aadeae6c27a4dea86e324b39d668090af30ebe9d350cb7eba8bf2bf35b1f34",
+      "uncompressedBytes": 2875
+    },
+    "Player.log.gz": {
+      "sha256": "e3375e89ac1dd4cc0a0ec911b7b68f204717b790556d05ed1e1ee217c52dae1c",
+      "uncompressedSha256": "760be454723d197e9356d110cfbef031207f79321906d6a14c7ac380baac29d5",
+      "uncompressedBytes": 29986
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/status.json": {
+      "sha256": "382b3a55e7ace2c014ee8e2a091422334d7d80638b70203fb7b56c00def266f1",
+      "uncompressedSha256": "382b3a55e7ace2c014ee8e2a091422334d7d80638b70203fb7b56c00def266f1",
+      "uncompressedBytes": 228
+    },
+    "profiles/capabilities.json": {
+      "sha256": "b919b8dc05d704de69cf9c33000b58c908ece0af568d094706c0ae23122ac64d",
+      "uncompressedSha256": "b919b8dc05d704de69cf9c33000b58c908ece0af568d094706c0ae23122ac64d",
+      "uncompressedBytes": 14529
+    },
+    "profiles/capture-20261008-231826-707-601.json": {
+      "sha256": "ccec42e92ba1db2faea81a12f12c3d5891328951064f5229cc75071288136d46",
+      "uncompressedSha256": "ccec42e92ba1db2faea81a12f12c3d5891328951064f5229cc75071288136d46",
+      "uncompressedBytes": 23545
+    }
+  }
+}

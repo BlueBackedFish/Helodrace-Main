@@ -54,6 +54,8 @@ namespace Helodrace.Tactics
             IntVec3 preferred = Math.Abs(goal.x - from.x) >= Math.Abs(goal.z - from.z)
                 ? new IntVec3(Math.Sign(goal.x - from.x), 0, 0) : new IntVec3(0, 0, Math.Sign(goal.z - from.z));
             IntVec3 tangent = new IntVec3(-preferred.z, 0, preferred.x);
+            bool Wall(IntVec3 cell) => cell.InBounds(map) && cell.GetEdifice(map)?.def.IsWall == true;
+            bool Walkable(IntVec3 cell) => cell.InBounds(map) && cell.Walkable(map);
             IntVec3 first = IntVec3.Invalid;
             int steps = Math.Max(Math.Abs(goal.x - from.x), Math.Abs(goal.z - from.z));
             // One directional probe, capped at 256 cells. It does not run A*.
@@ -70,7 +72,7 @@ namespace Helodrace.Tactics
                 if (building is Building_Door || building?.def.IsWall == true && adjacentWalls) { first = cell; break; }
                 // An already opened wall gap is still a portal. Do not turn
                 // later squads into unconstrained vanilla destination paths.
-                if (building == null && adjacentWalls)
+                if (building == null && TacticalPortalGeometry.IsGap(cell, Wall, Walkable))
                 { first = cell; break; }
             }
             if (!first.IsValid)
@@ -95,15 +97,15 @@ namespace Helodrace.Tactics
                 Building barrier = opening.GetEdifice(map);
                 if (barrier == null)
                 {
-                    IntVec3 edgeA = opening - tangent, edgeB = opening + tangent;
-                    if (!edgeA.InBounds(map) || !edgeB.InBounds(map) || edgeA.GetEdifice(map)?.def.IsWall != true
-                        || edgeB.GetEdifice(map)?.def.IsWall != true) { failure |= TacticalPlanFailure.NotBoundary; continue; }
+                    if (!TacticalPortalGeometry.IsGap(opening, Wall, Walkable))
+                    { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 }
                 bool openDoor = barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
                 if (barrier != null && !openDoor && !canBreach(barrier))
                 { failure |= TacticalPlanFailure.Tool; continue; }
                 if (barrier == null && !opening.Standable(map)) { failure |= TacticalPlanFailure.Obstructed; continue; }
-                var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier };
+                var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier,
+                    ExistingOpening = barrier == null || openDoor };
                 if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 if (!BuildStack(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Stack; continue; }
                 if (!BuildPositions(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Inside; continue; }
