@@ -7,6 +7,7 @@ using Helodrace.ModernWar;
 using Helodrace.Tactics;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Helodrace
 {
@@ -32,6 +33,7 @@ namespace Helodrace
         private List<string> cooperationEvents = new List<string>();
         private List<string> cooperationExecutionTrace = new List<string>();
         private int nextCooperationExecutionTrace;
+        private readonly HashSet<Job> tracedCooperationChargeJobs = new HashSet<Job>();
         private readonly List<KeyValuePair<InstalledModularArmorPart, Thing>> removedRadios = new List<KeyValuePair<InstalledModularArmorPart, Thing>>();
         private int splitAt = -1, splitReportA, splitReportB, radioStep, radioKilledAt, identificationBaseline;
         private long radioDroppedBaseline;
@@ -124,6 +126,7 @@ namespace Helodrace
             var commands = map.GetComponent<MapComponent_TacticalCommands>().Commands.OrderBy(c=>c.Id).ToArray();
             if (commands.Length != 2) return;
             TraceCooperationExecution(commands, tick);
+            TraceCooperationChargeJobs(commands);
             TacticalSquadCommand a=commands[0], b=commands[1];
             TacticalCommunications network=Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
             ObserveCooperationCompletion(commands, tick);
@@ -215,6 +218,41 @@ namespace Helodrace
             if (recontactTriggered && network.Identifications>identificationBaseline
                 && map.GetComponent<MapComponent_TacticalCommands>().IdentificationHolds>0)
                 result.newCooperationIdentification=true;
+        }
+        private void TraceCooperationChargeJobs(TacticalSquadCommand[] commands)
+        {
+            // This diagnostic fixture has no native reload. Observe the existing
+            // driver once; do not change its toils, result, safety checks or retry.
+            // Fixed CPU fixtures and normal play never call this drill method.
+            if (result.fixtureCase != "r5-radio-loss" || tracedCooperationChargeJobs.Count >= 16) return;
+            foreach (TacticalSquadCommand command in commands)
+            {
+                TacticalChargeAction action = command.ChargeAction;
+                CompInstalledBreachCharge charge = action?.Charge;
+                Pawn controller = charge?.OperatorPawn;
+                Job job = controller?.CurJob;
+                if (!(controller?.jobs.curDriver is JobDriver_TacticalTriggerCharge driver)
+                    || !command.Members.Any(m => m.Pawn == controller && m.Job == job)
+                    || !tracedCooperationChargeJobs.Add(job)) continue;
+                IntVec3 position = charge.parent.Position;
+                CooperationEvent("C4 trigger observed " + command.Id + " at=" + position
+                    + " controller=" + controller.thingIDNumber + " remaining=" + (action.Deadline - GenTicks.TicksGame));
+                driver.AddFinishAction(condition =>
+                {
+                    bool canTrigger = charge.CanTrigger(out string reason);
+                    Pawn nearby = map.mapPawns.AllPawnsSpawned.FirstOrDefault(p => p.Faction != null
+                        && controller.Faction != null && !p.HostileTo(controller)
+                        && p.Position.DistanceToSquared(position) <= action.Radius * action.Radius);
+                    CooperationEvent("C4 trigger exit " + condition + " " + command.Id
+                        + " phase=" + command.Phase + " sameAction=" + (command.ChargeAction == action)
+                        + " chargeSpawned=" + charge.parent.Spawned + " active=" + charge.IsActive
+                        + " detonated=" + action.Detonated + " canTrigger=" + canTrigger + " reason=" + reason
+                        + " controller=" + controller.thingIDNumber + " at=" + controller.Position
+                        + " range=" + charge.TetherRange + " radius=" + action.Radius
+                        + " nearbyFriendly=" + (nearby == null ? "none" : nearby.thingIDNumber + "@" + nearby.Position)
+                        + " remaining=" + (action.Deadline - GenTicks.TicksGame));
+                });
+            }
         }
         private void ApplyRadioContactReport(TacticalSquadCommand a, TacticalSquadCommand b, int tick)
         {

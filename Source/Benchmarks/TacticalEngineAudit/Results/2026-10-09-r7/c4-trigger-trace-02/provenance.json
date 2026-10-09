@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-c4-trigger-trace-02",
+  "classification": "Actual fb191e passive C4 exit trace, 8002ticks, sameAI as7477. Exact failed trigger at7986: current action/live charge/active target/valid controller at90,117 withrange30; friendly38684 at101,109 is inside radius9 ofcharge100,117, so native safety rejects trigger. Cooperation already expired after delayed6902 report; no predeadline starts. Diagnostic proof of guard, not whole-case regression/CPU/R7 pass. Original3600-window with no C4 also preserved.",
+  "files": {
+    "audit.json": {
+      "sha256": "e4a3ef55e0e1ce3ff559d1419b3c5be4ba4ea08e5e48a5bedbb49f17b4f18b6b",
+      "uncompressedSha256": "e4a3ef55e0e1ce3ff559d1419b3c5be4ba4ea08e5e48a5bedbb49f17b4f18b6b",
+      "uncompressedBytes": 60187
+    },
+    "launcher.json": {
+      "sha256": "3105da50028cdca4d693c59ea43cc06a00e4c42a5bacb7ee856d223f4460eb48",
+      "uncompressedSha256": "3105da50028cdca4d693c59ea43cc06a00e4c42a5bacb7ee856d223f4460eb48",
+      "uncompressedBytes": 2453
+    },
+    "Player.log.gz": {
+      "sha256": "e56cc1339f41ba3aef0f3aa88e56abcb666d5edda9ef3aeceef0e31280f418bd",
+      "uncompressedSha256": "32da625265d3d8d3f256fef7b85cc081772f490abbd1bfbfe8fd1a35535e9ae6",
+      "uncompressedBytes": 67892
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "330616e28845ae43e9ff9d6045c839196f5916dcf800f780b3d0c836f00084a1",
+      "uncompressedSha256": "0e994de7dbcb524edb15bd3895910ab636898587baa9caabf3f636d5345e7ad2",
+      "uncompressedBytes": 192436
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-c4-trigger-trace-01",
+  "classification": "Actual 3600-tick short diagnostic with passive C4 driver finish tracing. Complete sample but NO installed charge/trigger in window, delayed radio contact delivery2933. Does not prove the trigger trace works or a failure guard, and is not a regression/CPU/R7 pass. Preserve original, extend this same case to8000 because target action was not observed.",
+  "files": {
+    "audit.json": {
+      "sha256": "dc9ab4b247d64e68d33baf6b6135a87b9d3105fa4fa4caea151bbd9e7e9c8b66",
+      "uncompressedSha256": "dc9ab4b247d64e68d33baf6b6135a87b9d3105fa4fa4caea151bbd9e7e9c8b66",
+      "uncompressedBytes": 39631
+    },
+    "launcher.json": {
+      "sha256": "41facd24dc1e765d3ef3d0b8b06bf83fbe6ad74053fa08bdccb8e48268e1e8bd",
+      "uncompressedSha256": "41facd24dc1e765d3ef3d0b8b06bf83fbe6ad74053fa08bdccb8e48268e1e8bd",
+      "uncompressedBytes": 2453
+    },
+    "Player.log.gz": {
+      "sha256": "06817bc8a6d1619c3e92d65a8ce1b31771b76fde0c7a14de08e01adba4c36966",
+      "uncompressedSha256": "4fb77c3be7c3ad3ecd5d5363aeea20903e2c48c3d530f6f0932b3adf90134ebc",
+      "uncompressedBytes": 46400
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "330616e28845ae43e9ff9d6045c839196f5916dcf800f780b3d0c836f00084a1",
+      "uncompressedSha256": "0e994de7dbcb524edb15bd3895910ab636898587baa9caabf3f636d5345e7ad2",
+      "uncompressedBytes": 192436
+    }
+  }
+}
