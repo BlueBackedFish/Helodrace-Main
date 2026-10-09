@@ -64,10 +64,11 @@ foreach ($workload in $Workloads) {
             & $launcher -Engine $engine -DefaultEngine:($engine -eq 'new') -Workload $workload -Population $Population -Speed $Speed -Case $Case -WarmupTicks $WarmupTicks -SampleTicks $SampleTicks -High:$High -NoMethodProfile:$NoMethodProfile -CpuWindows:$CpuWindows -ProfileTargets $ProfileTargets -Seed $Seed -AuditRoot $runRoot
             $auditProcess = [int](Get-Content -LiteralPath (Join-Path $runRoot 'process-id.txt'))
             $record = [pscustomobject]@{ root=$runRoot; engine=$engine; workload=$workload; repeat=$repeat; pid=$auditProcess;
-                status='running'; error=$null; population=$null; entered=$null; objectiveReached=$null; speed=$Speed; fixtureCase=$Case }
+                status='running'; error=$null; startedUtc=$null; population=$null; entered=$null; objectiveReached=$null; speed=$Speed; fixtureCase=$Case }
             $records += $record; Write-Journal
             $process = Get-Process -Id $auditProcess -ErrorAction SilentlyContinue
             $creation = if ($process) { $process.StartTime } else { $null }
+            if ($process) { $record.startedUtc=$process.StartTime.ToUniversalTime().ToString('o'); Write-Journal }
             $deadline = (Get-Date).AddMinutes(30)
             while ($process) {
                 if ($process.ProcessName -ne 'RimWorldWin64' -or $process.StartTime -ne $creation) { break }
