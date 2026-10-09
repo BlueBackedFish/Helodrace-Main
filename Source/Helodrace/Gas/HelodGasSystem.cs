@@ -514,10 +514,8 @@ namespace Helodrace
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 RecalculateActiveCounts();
-                if (HasGas)
-                {
-                    map.mapDrawer.WholeMapChanged(MapMeshFlagDefOf.Gas);
-                }
+                // Map.FinalizeInit regenerates all layers after loading. The
+                // drawer's sections do not exist yet during PostLoadInit.
             }
         }
 

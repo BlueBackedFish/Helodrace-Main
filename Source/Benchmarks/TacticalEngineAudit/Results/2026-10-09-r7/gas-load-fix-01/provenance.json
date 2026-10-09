@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-gas-load-fix-01",
+  "classification": "Actual targeted High smoke native2-load regression after removing premature post-load gas mesh invalidation. Same ce472 candidate DLL for entire run, no exceptions, passes all required actions. Does not replace final44/CPU/R7 verification. Earlier9050 failure remains preserved.",
+  "files": {
+    "checks.json": {
+      "sha256": "80575d4c3ff99f88b9893fffa2743a76ddfc8abf7fd406ee0e60d87ffb27ea71",
+      "uncompressedSha256": "80575d4c3ff99f88b9893fffa2743a76ddfc8abf7fd406ee0e60d87ffb27ea71",
+      "uncompressedBytes": 1588
+    },
+    "reload-field/audit.json": {
+      "sha256": "82f19e8d274cdbed7a118b869c33449be8404d11588514994448848e8cff2849",
+      "uncompressedSha256": "82f19e8d274cdbed7a118b869c33449be8404d11588514994448848e8cff2849",
+      "uncompressedBytes": 13156
+    },
+    "reload-field/launcher.json": {
+      "sha256": "3144f9241ccd448346e2552d7718f5c28fbcd4a763ba29f6625131ea0d886a52",
+      "uncompressedSha256": "3144f9241ccd448346e2552d7718f5c28fbcd4a763ba29f6625131ea0d886a52",
+      "uncompressedBytes": 2540
+    },
+    "reload-field/Player.log.gz": {
+      "sha256": "3f196c791442bc00b21475e9ff798f4d47906f912591bccd53b926f5532d2a27",
+      "uncompressedSha256": "0e602a25c6bc7d84b6087e3eb5d7e71c6210b0557745973ddef33f2c2dc0d0cd",
+      "uncompressedBytes": 33857
+    },
+    "reload-field/pawn-manifest.txt.gz": {
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    },
+    "reload-field/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "sha256": "caa33cdd5a6e8687cdc93a0a1f4e87e3b67de65e0a990362054b0f9ba846e7eb",
+      "uncompressedSha256": "8711fadba624ceda0108a33ed704f3dd1f319fe0aea4efa69d36f47183727dd2",
+      "uncompressedBytes": 3955996
+    },
+    "reload-field/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "sha256": "4287c2cad7c69fba959bce4d5624223d0f0c013e4283bc9c261942a4254f7f76",
+      "uncompressedSha256": "4b26496631d69e5d945aa480f4bc42cb428af3f6160527ddc38e1071d1a10ac2",
+      "uncompressedBytes": 4008422
+    }
+  }
+}
