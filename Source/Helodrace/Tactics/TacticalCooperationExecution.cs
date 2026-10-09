@@ -65,6 +65,13 @@ namespace Helodrace.Tactics
                     member.Parking = IntVec3.Invalid;
                 }
                 command.ContactRestoring = command.Phase == TacticalCommandPhase.Clear && command.Plan != null;
+                if (command.ContactRestoring)
+                {
+                    // AdvanceCore restores posts before coordination. Yield now
+                    // so this newly requested restoration runs next tick before
+                    // clearing can return a supposedly completed squad.
+                    command.Due = tick + 1; return true;
+                }
             }
             if (command.Phase == TacticalCommandPhase.Pending && (agreement.Negotiating
                 || agreement.Stage == TacticalAgreementStage.None && squads.Count > 1 && tick < link.OpportunityUntil))

@@ -32,11 +32,13 @@ internal static class TacticalIdentificationTests
                 || !command.Link.IdentificationHolding || !ReferenceEquals(scan, command.RoomScan)
                 || command.SecuredPlans.Count != 1 || !command.SecuredCells.Contains(inside) || !command.GoalSecured)
                 throw new Exception("Identification must not rewind ingress/clear or replace secured progress: " + phase);
-            if (Held(145) || command.Phase != expected || command.Link.IdentificationHolding
+            if (Held(145) != (phase == TacticalCommandPhase.Clear) || command.Phase != expected || command.Link.IdentificationHolding
                 || command.ContactRestoring != (phase == TacticalCommandPhase.Clear)
                 || command.PhaseStarted != 125 || !member.Passed || !member.Crossed || !member.EverEntered
                 || !ReferenceEquals(scan, command.RoomScan) || command.SecuredPlans.Count != 1)
                 throw new Exception("Identification must resume the same phase, survey and actual crossing history: " + phase);
+            if (phase == TacticalCommandPhase.Clear && command.Due != 146)
+                throw new Exception("Clear must yield to post restoration next tick before it may complete/return.");
         }
         var live = new TacticalSquadCommand { Phase = TacticalCommandPhase.BlastWait,
             OpeningAction = new TacticalOpeningAction { Launched = true, EffectsCleared = false } };

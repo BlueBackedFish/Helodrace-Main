@@ -1,0 +1,41 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-restore-before-complete-new-408-3x-attempt-06",
+  "classification": "Identification exit yields before Clear so pending post restoration runs before mission completion/return. Actual408/34/3x/20k fixed-input test fully functional including current408 entry assignments, room/goal, connected/physical plans and zero unsafe entry. First all-complete tick14394. Single diagnostic no Vanilla comparison or final R7 gate; retained72 plan records vs74 cumulative secured-room counter keeps history-loss audit open.",
+  "files": {
+    "audit.json": {
+      "sha256": "b0d6826e03c9227345f8460290377de2c958e7b0a6e8093a9b1348851cee1ffe",
+      "uncompressedSha256": "b0d6826e03c9227345f8460290377de2c958e7b0a6e8093a9b1348851cee1ffe",
+      "uncompressedBytes": 128722
+    },
+    "launcher.json": {
+      "sha256": "37eccd4f74025cd75c9f9cd6ed6daf77da059701dd07900a467bb7cbc8008e8b",
+      "uncompressedSha256": "37eccd4f74025cd75c9f9cd6ed6daf77da059701dd07900a467bb7cbc8008e8b",
+      "uncompressedBytes": 2721
+    },
+    "Player.log.gz": {
+      "sha256": "6e1fd33c77ee9218ba3fbf11e3268c75e0e9f6c677dd64b54e9a9f9ed2acbdc3",
+      "uncompressedSha256": "84d0481c5b89e6ede683f7d03d7478185700ae62255aa99b502f84f425fa6e0f",
+      "uncompressedBytes": 30252
+    },
+    "pawn-manifest.txt.gz": {
+      "sha256": "8adb2be62578c48fbd1d323e05a164015a8edfcb2446da5a6dd7efb08cf6ff55",
+      "uncompressedSha256": "faf969beeb3a022eece8e3dbe5f2d7b630e34505003768b089900167cf6ea90d",
+      "uncompressedBytes": 354904
+    },
+    "profiles/capabilities.json": {
+      "sha256": "8af95016ef56d2bd271b35f972d0e4501a06bccb250caf914eb3310685453a4f",
+      "uncompressedSha256": "8af95016ef56d2bd271b35f972d0e4501a06bccb250caf914eb3310685453a4f",
+      "uncompressedBytes": 11878
+    },
+    "profiles/capture-20261009-053336-120-603.json": {
+      "sha256": "70011af6785c4704b5099b76227694c9055432c93d89e1be87e5d7bdf6cd6746",
+      "uncompressedSha256": "70011af6785c4704b5099b76227694c9055432c93d89e1be87e5d7bdf6cd6746",
+      "uncompressedBytes": 20924
+    },
+    "profiles/status.json": {
+      "sha256": "4a242b9ed430f4821ba3532ab646f7d09dc1a33c967e10182c17f58da7e94b8e",
+      "uncompressedSha256": "4a242b9ed430f4821ba3532ab646f7d09dc1a33c967e10182c17f58da7e94b8e",
+      "uncompressedBytes": 228
+    }
+  }
+}

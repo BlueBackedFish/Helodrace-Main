@@ -308,3 +308,22 @@ assert resume["calls"] == 552 and resume["inclusiveMs"] == 1.0975
 assert resumed["newRoomsSecured"] == 102
 assert sum(len(re.findall(r"\(-?\d+, 0, -?\d+\)", value)) for value in resumed["newSecuredPortals"]) == 101
 print("PASS: allocation fallback achieves all34 actual goal/room coverage while preserving two interrupted-restoration failures and history discrepancy; no final pass fabricated.")
+
+restored, rtc, rtl = run("restore-before-complete-new-408-3x-attempt-06", fixture_version=34)
+assert rtc["assemblySha256"] == "6b7bef18ea54f51c6a8de8e9e4bea00f2961bd1d717923c38d78edbe2db3c94d"
+assert restored["mapFingerprint"] == resumed["mapFingerprint"] and restored["pawnFingerprint"] == resumed["pawnFingerprint"]
+assert restored["population"] == restored["alive"] == 408 and restored["units"] == 34
+assert restored["sampleTicks"] == 20000 and rtc["endTick"] - rtc["startTick"] == 20002
+assert restored["r7CqbEvents"] == cqb_events and restored["r7CqbStimulusComplete"] and restored["r7WildlifeSpawnerDisabled"]
+assert restored["r7TickRateMinimum"] == restored["r7TickRateMaximum"] == 3
+assert restored["newFunctionalComplete"] and restored["newRoomProgressComplete"]
+assert restored["newCompletedUnits"] == 34 and restored["newEnteredByOrder"] == restored["newEntryAssignmentsComplete"] == 408
+assert restored["newEverEnteredByOrder"] == 408 and restored["newAllCompleteTick"] == 14394
+assert restored["newPhysicalPlansValid"] and restored["newConnectedStacks"] and restored["newUnsafeEntries"] == 0
+assert restored["newContactResponses"] == restored["newContactResumes"] == 6 and restored["newJobFailures"] == 156
+assert all(":contactRestoring=False:" in value and ":identifying=False:" in value for value in restored["r7CommandLayers"])
+assert all("goal=True representatives=True,True,True" in value for value in restored["newRoomDiagnostics"])
+assert restored["newRoomsSecured"] == 74
+assert sum(len(re.findall(r"\(-?\d+, 0, -?\d+\)", value)) for value in restored["newSecuredPortals"]) == 72
+assert next(m for m in rtc["methods"] if ".RestoreContactPosts(" in m["method"])["calls"] == 7955
+print("PASS: identification restoration order completes native408 current ingress, full room coverage and safety; single functional proof, history discrepancy/full R7 gate remain open.")
