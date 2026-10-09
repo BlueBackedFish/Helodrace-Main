@@ -4,20 +4,32 @@
     [switch]$Preview
 )
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'R7FunctionalEvidence.ps1')
 # Functional queue only. No CPU gate and no claim of whole R7 completion.
 $specs = @()
 function Add-Case([string]$Name, [string]$Case, [int]$Population = 12, [int]$Ticks = 8000,
     [string]$Workload = 'sapper-wall', [bool]$High = $false, [bool]$Reload = $false,
-    [string[]]$Flags = @(), [bool]$Functional = $true, [int]$Reloads = 0, [bool]$Retained = $false) {
+    [string[]]$Flags = @(), [bool]$Functional = $true, [int]$Reloads = 0, [bool]$Retained = $false,
+    [hashtable]$Minimums = @{}) {
     $script:specs += [pscustomobject]@{ name=$Name; case=$Case; population=$Population; ticks=$Ticks;
-        workload=$Workload; high=$High; reload=$Reload; flags=$Flags; functional=$Functional; reloads=$Reloads; retained=$Retained }
+        workload=$Workload; high=$High; reload=$Reload; flags=$Flags; functional=$Functional; reloads=$Reloads; retained=$Retained; minimums=$Minimums }
 }
-Add-Case door normal -Workload sapper-door
-Add-Case narrow narrow -Ticks 10000 -Flags @('caseTriggered','r7FixtureActorWithdrawn','r7FixtureContactBeforeWithdrawal')
+Add-Case door normal -Workload sapper-door -Minimums @{ newDoorFaults=1 }
+Add-Case narrow narrow -Ticks 10000 -Flags @('caseTriggered','r7FixtureActorWithdrawn','r7FixtureContactBeforeWithdrawal') -Minimums @{ newContactResponses=1; newContactResumes=1 }
 foreach ($case in @('rocks','interrupt','recovery','cutter','cutter-active-recovery',
     'charge-recovery','charge-fuse-casualty','charge-change','wide-opening','unexpected-hole','inside-goal',
     'tiny-adjacent','room-recovery','door-contact','small-unseen','outdoor-opening','r4-contact-drill')) {
-    Add-Case $case $case -Ticks 10000
+    $flags=@(); $minimums=@{}
+    switch ($case) {
+        interrupt { $flags=@('caseTriggered'); $minimums=@{ interruptionTick=1 } }
+        recovery { $flags=@('caseTriggered'); $minimums=@{ newToolRecoveriesStarted=1; newToolRecoveriesCompleted=1 } }
+        cutter { $minimums=@{ newCutterJobsStarted=1 } }
+        'cutter-active-recovery' { $flags=@('newActiveCutterRecovered'); $minimums=@{ newCutterJobsStarted=2; newToolRecoveriesCompleted=1 } }
+        'charge-recovery' { $flags=@('caseTriggered'); $minimums=@{ newChargesInstalled=1; newChargeDetonations=1; newChargeWaits=1; newToolRecoveriesCompleted=1 } }
+        'charge-fuse-casualty' { $flags=@('caseTriggered'); $minimums=@{ newChargesInstalled=1; newChargeDetonations=1; newChargeWaits=1; newChargeOperatorTransfers=1 } }
+        'charge-change' { $flags=@('caseTriggered'); $minimums=@{ newChargesInstalled=1; newChargeDetonations=1; newChargeWaits=1 } }
+    }
+    Add-Case $case $case -Ticks 10000 -Flags $flags -Minimums $minimums
 }
 Add-Case casualty casualty -Population 13 -High $true -Flags caseTriggered
 Add-Case low-cooperation r5-low-coop -Population 24 -Ticks 12000
@@ -26,11 +38,18 @@ Add-Case radio-loss r5-radio-loss -Population 26 -High $true -Ticks 14000
 foreach ($high in @($false,$true)) {
     $size = 12; $label = 'low'
     if ($high) { $size = 13; $label = 'high' }
-    Add-Case "field-$label" r6-field-drill -Population $size -High $high -Ticks 10000
-    Add-Case "smoke-$label" r6-smoke-drill -Population $size -High $high -Ticks 10000
+    $fieldFlags=@('caseTriggered','newFieldEarlySight','newFieldMotionObserved','newFieldUniquePosts',
+        'newFieldSingleTeamBounds','newFieldMemoryFrozen','newFieldMissionResumed')
+    Add-Case "field-$label" r6-field-drill -Population $size -High $high -Ticks 10000 -Flags $fieldFlags -Minimums @{ newFieldResponses=1; newFieldResumes=1 }
+    Add-Case "smoke-$label" r6-smoke-drill -Population $size -High $high -Ticks 10000 -Flags (
+        $fieldFlags + @('newFieldSmokeSharedTargets','newFieldSmokeSeen')) -Minimums @{
+        newFieldResponses=1; newFieldResumes=1; newFieldSmokeThrows=2; newFieldSmokeAdvances=2; newFieldShots=1 }
 }
-Add-Case care r6-care-drill -Ticks 14000
-Add-Case care-interrupt r6-care-interrupt -Ticks 14000
+$careFlags=@('caseTriggered','newMedicalNoVanillaTend','newMedicalGuardsHeld','newMedicalMissionResumed')
+Add-Case care r6-care-drill -Ticks 14000 -Flags ($careFlags + @('newMedicalDressings','newMedicalPlasmaApplied')) -Minimums @{
+    newMedicalTreatments=2; newMedicalCompleted=2; newMedicalPlasma=1; newMedicalRejoins=1 }
+Add-Case care-interrupt r6-care-interrupt -Ticks 14000 -Flags ($careFlags + 'newMedicalInterruptionSafe') -Minimums @{
+    newMedicalTreatments=1; newMedicalAborted=1; newContactShots=1 }
 $cleanupFlags = @('r7CleanupComplete','r7IdleStable','r7WorldOrganizationsCleared')
 Add-Case cleanup r7-cleanup -Ticks 6000 -Functional $false -Flags $cleanupFlags
 foreach ($effect in @('grenade','charge')) {
@@ -49,9 +68,11 @@ Add-Case reload-retained r7-save-load -Ticks 12000 -Reloads 4 -Retained $true -F
     $reloadFlags + @('r7ReloadLiveGrenadePreserved','r7ReloadRetainedReplanPreserved','r7RetainedReplanResumed'))
 Add-Case reload-charge r7-charge-load -Ticks 10000 -Reloads 3 -Flags ($reloadFlags + 'r7ReloadChargePreserved')
 Add-Case reload-field r6-smoke-drill -Population 13 -High $true -Reload $true -Reloads 2 -Ticks 10000 -Flags (
-    $reloadFlags + @('r7ReloadFieldPreserved','r7ReloadToilStatePreserved'))
+    $reloadFlags + $fieldFlags + @('r7ReloadFieldPreserved','r7ReloadToilStatePreserved','newFieldSmokeSharedTargets','newFieldSmokeSeen')) -Minimums @{
+    newFieldResponses=1; newFieldResumes=1; newFieldSmokeThrows=2; newFieldSmokeAdvances=2; newFieldShots=1 }
 Add-Case reload-care r6-care-drill -Reload $true -Reloads 2 -Ticks 14000 -Flags (
-    $reloadFlags + @('r7ReloadCarePreserved','r7ReloadToilStatePreserved'))
+    $reloadFlags + $careFlags + @('r7ReloadCarePreserved','r7ReloadToilStatePreserved','newMedicalDressings','newMedicalPlasmaApplied')) -Minimums @{
+    newMedicalTreatments=2; newMedicalCompleted=2; newMedicalPlasma=1; newMedicalRejoins=1 }
 $packetFlags = $reloadFlags + @('r7ReloadAgreementPreserved','r7ReloadPacketsPreserved',
     'r7ReloadPacketEndpointsBound','r7ReloadPacketsDelivered')
 Add-Case reload-low r5-low-coop -Population 24 -Reload $true -Reloads 2 -Ticks 12000 -Flags $packetFlags
@@ -112,29 +133,7 @@ foreach ($spec in $selected) {
         $process = Get-Process -Id $pidValue -ErrorAction SilentlyContinue
     }
     try {
-        $audit = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $runRoot 'audit.json') -Raw | ConvertFrom-Json
-        $manifest = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $runRoot 'launcher.json') -Raw | ConvertFrom-Json
-        $record.actualMinimumSpeed = $audit.r7TickRateMinimum; $record.actualMaximumSpeed = $audit.r7TickRateMaximum
-        $record.reloads = $audit.r7Reloads; $record.functionalComplete = $audit.newFunctionalComplete
-        $record.nativeExceptions = @(Select-String -LiteralPath (Join-Path $runRoot 'Player.log') -Pattern 'Exception:|Exception while|Error in ' -Encoding UTF8).Count
-        # Loading can produce a normal-speed sample even with forced combat
-        # slowdown disabled. Preserve actual rates; this queue never measures
-        # the CPU gate. Non-reload cases still require the requested actual3x.
-        $speedValid = $audit.speed -eq 3 -and $audit.r7RateSamples -gt 0 -and
-            $audit.r7TickRateMinimum -ge 1 -and $audit.r7TickRateMaximum -le 3 -and
-            ($spec.reloads -gt 0 -or ($audit.r7TickRateMinimum -eq 3 -and $audit.r7TickRateMaximum -eq 3))
-        if (-not $audit.complete -or $audit.error -or -not $audit.isolationVerified -or -not $audit.environmentControlled -or
-            -not $audit.r7RetiredTypesAbsent -or -not $audit.r7RetiredDefinitionsAbsent -or
-            $manifest.assemblySha256 -ne $pinned['Assemblies\Helodrace.dll'] -or $manifest.methodProfile -or
-            $audit.newUnsafeEntries -ne 0 -or -not $speedValid -or $record.nativeExceptions -gt 0) {
-            throw 'Native run, content, environment, retirement, speed or safety check failed.'
-        }
-        if ($spec.functional -and -not $audit.newFunctionalComplete) { throw 'Full native functional completion failed.' }
-        foreach ($flag in $spec.flags) { if ($audit.$flag -ne $true) { throw "Required native proof missing: $flag" } }
-        if ($spec.name -eq 'narrow' -and ($audit.newContactResponses -lt 1 -or $audit.newContactResumes -lt 1)) {
-            throw 'Narrow fixture must actually respond to its observed defender and resume after withdrawal.'
-        }
-        if ($audit.r7Reloads -lt $spec.reloads) { throw 'Required actual save/load count missing.' }
+        Assert-R7FunctionalRun $spec $runRoot $pinned $record | Out-Null
         $record.status = 'passed'; Write-Journal
         Write-Output "R7 functional passed: $($spec.name)"
     }

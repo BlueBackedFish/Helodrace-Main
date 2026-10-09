@@ -44,6 +44,7 @@ if (-not $root.StartsWith('C:\Users\Public\Documents\ESTsoft\CreatorTemp\', [Str
 if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'Preserve the existing RimWorld process; do not start another queue.' }
 if (-not $FunctionalRoot) { throw 'Supply the completed final-DLL44-case functional root before collecting final performance.' }
 $functional = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $FunctionalRoot 'checks.json') -Raw | ConvertFrom-Json
+& (Join-Path $PSScriptRoot 'Verify-R7Functional.ps1') -Root $FunctionalRoot -RequireFinal | Out-Null
 if (-not $functional.fullFunctionalQueue -or -not $functional.allSpecifiedPassed -or
     $functional.requestedCases.Count -ne 44 -or $functional.records.Count -ne 44 -or
     @($functional.records | Where-Object { $_.status -ne 'passed' -or $_.nativeExceptions -ne 0 }).Count) {
