@@ -1,0 +1,132 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02",
+  "classification": "Actual204/17LOW squads,14000ticks,normal wall fixture,1x,single pair. Full44 skipped. Not repeated CPU acceptance.",
+  "files": {
+    "checks.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\checks.json",
+      "classification": "actual completed native matrix journal",
+      "sha256": "7db586f0b43c57ed3ac45b3db6413e5241e062e41d217d1d153028852a92adbb",
+      "uncompressedSha256": "7db586f0b43c57ed3ac45b3db6413e5241e062e41d217d1d153028852a92adbb",
+      "uncompressedBytes": 3351
+    },
+    "queue-partial-original.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\checks.json",
+      "classification": "actual partial resumed queue snapshot; subsequent group running",
+      "sha256": "6950135030eeb760fd38cca55a5c5a7ae2f896b70099c8c0c4295083aa95a7a7",
+      "uncompressedSha256": "6950135030eeb760fd38cca55a5c5a7ae2f896b70099c8c0c4295083aa95a7a7",
+      "uncompressedBytes": 4121
+    },
+    "comparison.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-scale-200-1x-comparison.json",
+      "classification": "derived AgentProfiler comparison; single pair not acceptance",
+      "sha256": "1a9b8e3a598342f5e0490993a2614a4c1569614a2fe72b9fa2e320872b5293a5",
+      "uncompressedSha256": "1a9b8e3a598342f5e0490993a2614a4c1569614a2fe72b9fa2e320872b5293a5",
+      "uncompressedBytes": 180711
+    },
+    "vanilla/run-1/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\vanilla\\run-1\\audit.json",
+      "classification": "actual completed native original",
+      "sha256": "76ec7833a35d0c8cc72de4fd750ce718627546eb99ea0bd8f329ea74d876ddc9",
+      "uncompressedSha256": "76ec7833a35d0c8cc72de4fd750ce718627546eb99ea0bd8f329ea74d876ddc9",
+      "uncompressedBytes": 27911
+    },
+    "vanilla/run-1/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\vanilla\\run-1\\launcher.json",
+      "classification": "actual completed native original",
+      "sha256": "171b07eea7a9f0e85888d8f7fa5b46c66b48a9d45e6865b5e59bd18aaea09b1e",
+      "uncompressedSha256": "171b07eea7a9f0e85888d8f7fa5b46c66b48a9d45e6865b5e59bd18aaea09b1e",
+      "uncompressedBytes": 3107
+    },
+    "vanilla/run-1/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\vanilla\\run-1\\Player.log",
+      "classification": "actual completed native original",
+      "sha256": "0332400fdc4fd115bfeeec8b63d3bb1042f534acdb656c11bbcc51f55dc4f131",
+      "uncompressedSha256": "50d89be21f14f65beb315d8d5399ae4dc632bd56c58d244b7098f65a1c8d4261",
+      "uncompressedBytes": 29912
+    },
+    "vanilla/run-1/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\vanilla\\run-1\\pawn-manifest.txt",
+      "classification": "actual completed native original",
+      "sha256": "a02a4868dc5b5eaaf1cf7951fdf7f322d8e9e48ef573f358a5521b2a1d3e4e18",
+      "uncompressedSha256": "d6d2486d502bd6637bc8d8415a37ddcc3cdbe7a447224eefb6753be7c903842c",
+      "uncompressedBytes": 177369
+    },
+    "vanilla/run-1/profiles/capabilities.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\vanilla\\run-1\\profiles\\capabilities.json",
+      "classification": "actual completed native original",
+      "sha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedSha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedBytes": 14154
+    },
+    "vanilla/run-1/profiles/capture-20261010-092141-586-1.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\vanilla\\run-1\\profiles\\capture-20261010-092141-586-1.json",
+      "classification": "actual completed native original",
+      "sha256": "60f38875214a91a7f4a9106d4650fda0e8b04c2583e0b181aaf8cfee5968ca20",
+      "uncompressedSha256": "60f38875214a91a7f4a9106d4650fda0e8b04c2583e0b181aaf8cfee5968ca20",
+      "uncompressedBytes": 29859
+    },
+    "vanilla/run-1/profiles/status.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\vanilla\\run-1\\profiles\\status.json",
+      "classification": "actual completed native original",
+      "sha256": "f3f188a08bd7da68806e3d888509fdce90d049f6eb89ccad7df174f53fb11720",
+      "uncompressedSha256": "f3f188a08bd7da68806e3d888509fdce90d049f6eb89ccad7df174f53fb11720",
+      "uncompressedBytes": 224
+    },
+    "new/run-1/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\new\\run-1\\audit.json",
+      "classification": "actual completed native original",
+      "sha256": "b13a280855931b23878a18b61dfde97a7b6e34ee529b0a6298016fb66edec7a7",
+      "uncompressedSha256": "b13a280855931b23878a18b61dfde97a7b6e34ee529b0a6298016fb66edec7a7",
+      "uncompressedBytes": 74486
+    },
+    "new/run-1/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\new\\run-1\\launcher.json",
+      "classification": "actual completed native original",
+      "sha256": "71b184959c1c99a681594384fcaa4b0d5906a1b1100f774b238eea295b0cf82e",
+      "uncompressedSha256": "71b184959c1c99a681594384fcaa4b0d5906a1b1100f774b238eea295b0cf82e",
+      "uncompressedBytes": 3034
+    },
+    "new/run-1/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\new\\run-1\\Player.log",
+      "classification": "actual completed native original",
+      "sha256": "534bcec7722c3586f3abf2a9f1975119e7708cdbdf5d1e0216961b86da7303fb",
+      "uncompressedSha256": "ef8a4f0e46475518ced5da8a46e98b0a007b6ddd8bcaf8731ff3cd546a649eb5",
+      "uncompressedBytes": 29825
+    },
+    "new/run-1/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\new\\run-1\\pawn-manifest.txt",
+      "classification": "actual completed native original",
+      "sha256": "a02a4868dc5b5eaaf1cf7951fdf7f322d8e9e48ef573f358a5521b2a1d3e4e18",
+      "uncompressedSha256": "d6d2486d502bd6637bc8d8415a37ddcc3cdbe7a447224eefb6753be7c903842c",
+      "uncompressedBytes": 177369
+    },
+    "new/run-1/profiles/capabilities.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\new\\run-1\\profiles\\capabilities.json",
+      "classification": "actual completed native original",
+      "sha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedSha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedBytes": 14154
+    },
+    "new/run-1/profiles/capture-20261010-092638-276-1.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\new\\run-1\\profiles\\capture-20261010-092638-276-1.json",
+      "classification": "actual completed native original",
+      "sha256": "69a7658cc23eee3043bd5966d4d88833e3fa2d693631d295ab14bf50e0a1958c",
+      "uncompressedSha256": "69a7658cc23eee3043bd5966d4d88833e3fa2d693631d295ab14bf50e0a1958c",
+      "uncompressedBytes": 31129
+    },
+    "new/run-1/profiles/status.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-200-1x\\sapper-wall\\new\\run-1\\profiles\\status.json",
+      "classification": "actual completed native original",
+      "sha256": "074e1cde57fe900c522b5c6af18bb622511ddcf1661b65f8caf3d9af4baac429",
+      "uncompressedSha256": "074e1cde57fe900c522b5c6af18bb622511ddcf1661b65f8caf3d9af4baac429",
+      "uncompressedBytes": 224
+    },
+    "derived-summary.json": {
+      "source": "actual native originals + comparison",
+      "classification": "derived diagnostic; method elapsed/Core values are not OS CPU; equal tick spans not equivalent tactical phases",
+      "sha256": "d9320a76b4c2dc72e604bea04714c5e70836afd8fa18fab11c1503bbdb6ffa7e",
+      "uncompressedSha256": "d9320a76b4c2dc72e604bea04714c5e70836afd8fa18fab11c1503bbdb6ffa7e",
+      "uncompressedBytes": 75295
+    }
+  }
+}
