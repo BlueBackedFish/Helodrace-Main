@@ -1,0 +1,1009 @@
+﻿[
+    {
+        "name":  "door",
+        "case":  "normal",
+        "population":  12,
+        "ticks":  8000,
+        "workload":  "sapper-door",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newDoorFaults":  1
+                     }
+    },
+    {
+        "name":  "narrow",
+        "case":  "narrow",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "r7FixtureActorWithdrawn",
+                      "r7FixtureContactBeforeWithdrawal"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newContactResponses":  1,
+                         "newContactResumes":  1
+                     }
+    },
+    {
+        "name":  "rocks",
+        "case":  "rocks",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "interrupt",
+        "case":  "interrupt",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "interruptionTick":  1
+                     }
+    },
+    {
+        "name":  "recovery",
+        "case":  "recovery",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newToolRecoveriesStarted":  1,
+                         "newToolRecoveriesCompleted":  1
+                     }
+    },
+    {
+        "name":  "cutter",
+        "case":  "cutter",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCutterJobsStarted":  1
+                     }
+    },
+    {
+        "name":  "cutter-active-recovery",
+        "case":  "cutter-active-recovery",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "newActiveCutterRecovered"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCutterJobsStarted":  2,
+                         "newToolRecoveriesCompleted":  1
+                     }
+    },
+    {
+        "name":  "charge-recovery",
+        "case":  "charge-recovery",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newChargeDetonations":  1,
+                         "newChargesInstalled":  1,
+                         "newChargeWaits":  1,
+                         "newToolRecoveriesCompleted":  1
+                     }
+    },
+    {
+        "name":  "charge-fuse-casualty",
+        "case":  "charge-fuse-casualty",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newChargeDetonations":  1,
+                         "newChargesInstalled":  1,
+                         "newChargeWaits":  1,
+                         "newChargeOperatorTransfers":  1
+                     }
+    },
+    {
+        "name":  "charge-change",
+        "case":  "charge-change",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newChargeDetonations":  1,
+                         "newChargesInstalled":  1,
+                         "newChargeWaits":  1
+                     }
+    },
+    {
+        "name":  "wide-opening",
+        "case":  "wide-opening",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "unexpected-hole",
+        "case":  "unexpected-hole",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "r7FixtureActorWithdrawn",
+                      "r7FixtureContactBeforeWithdrawal"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newContactResponses":  1,
+                         "newContactResumes":  1
+                     }
+    },
+    {
+        "name":  "inside-goal",
+        "case":  "inside-goal",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7FixtureActorWithdrawn",
+                      "newDirectObjectiveCleared"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "tiny-adjacent",
+        "case":  "tiny-adjacent",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "room-recovery",
+        "case":  "room-recovery",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7FixtureActorWithdrawn",
+                      "newRoomRecoveryContinued"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "door-contact",
+        "case":  "door-contact",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7FixtureActorWithdrawn",
+                      "newDoorContactObserved"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newSupportWaits":  1,
+                         "newSupportThrows":  1
+                     }
+    },
+    {
+        "name":  "small-unseen",
+        "case":  "small-unseen",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "newSmallRoomSupportSaved"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "outdoor-opening",
+        "case":  "outdoor-opening",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7FixtureActorWithdrawn",
+                      "r7FixtureContactBeforeWithdrawal",
+                      "newOutdoorSmokeSeen",
+                      "newOutdoorSmokeUsed"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldResponses":  1,
+                         "newSupportWaits":  1,
+                         "newSupportReturns":  1,
+                         "newSupportThrows":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "r4-contact-drill",
+        "case":  "r4-contact-drill",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newContactDrillComplete",
+                      "newContactMemoryFrozen",
+                      "newContactPlanPreserved",
+                      "newUnseenDoorIgnored"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newOpposedResponses":  1,
+                         "newContactResumes":  3,
+                         "newRearResponses":  1,
+                         "newContactGuardJobs":  6,
+                         "newDoorResponses":  1
+                     }
+    },
+    {
+        "name":  "casualty",
+        "case":  "casualty",
+        "population":  13,
+        "ticks":  8000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newCasualtyContinued"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "caseLossTick":  1
+                     }
+    },
+    {
+        "name":  "low-cooperation",
+        "case":  "r5-low-coop",
+        "population":  24,
+        "ticks":  12000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "shared-entry",
+        "case":  "r5-shared",
+        "population":  24,
+        "ticks":  12000,
+        "workload":  "sapper-door",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "radio-loss",
+        "case":  "r5-radio-loss",
+        "population":  26,
+        "ticks":  14000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "field-low",
+        "case":  "r6-field-drill",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldResponses":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "smoke-low",
+        "case":  "r6-smoke-drill",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed",
+                      "newFieldSmokeSharedTargets",
+                      "newFieldSmokeSeen"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldSmokeThrows":  2,
+                         "newFieldSmokeAdvances":  2,
+                         "newFieldResponses":  1,
+                         "newFieldShots":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "field-high",
+        "case":  "r6-field-drill",
+        "population":  13,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldResponses":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "smoke-high",
+        "case":  "r6-smoke-drill",
+        "population":  13,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed",
+                      "newFieldSmokeSharedTargets",
+                      "newFieldSmokeSeen"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldSmokeThrows":  2,
+                         "newFieldSmokeAdvances":  2,
+                         "newFieldResponses":  1,
+                         "newFieldShots":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "care",
+        "case":  "r6-care-drill",
+        "population":  12,
+        "ticks":  14000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newMedicalNoVanillaTend",
+                      "newMedicalGuardsHeld",
+                      "newMedicalMissionResumed",
+                      "newMedicalDressings",
+                      "newMedicalPlasmaApplied"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newMedicalCompleted":  2,
+                         "newMedicalPlasma":  1,
+                         "newMedicalTreatments":  2,
+                         "newMedicalRejoins":  1
+                     }
+    },
+    {
+        "name":  "care-interrupt",
+        "case":  "r6-care-interrupt",
+        "population":  12,
+        "ticks":  14000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newMedicalNoVanillaTend",
+                      "newMedicalGuardsHeld",
+                      "newMedicalMissionResumed",
+                      "newMedicalInterruptionSafe"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newContactShots":  1,
+                         "newMedicalTreatments":  1,
+                         "newMedicalAborted":  1
+                     }
+    },
+    {
+        "name":  "cleanup",
+        "case":  "r7-cleanup",
+        "population":  12,
+        "ticks":  6000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7CleanupComplete",
+                      "r7IdleStable",
+                      "r7WorldOrganizationsCleared"
+                  ],
+        "functional":  false,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "cleanup-grenade",
+        "case":  "r7-cleanup-grenade",
+        "population":  12,
+        "ticks":  8000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7CleanupComplete",
+                      "r7IdleStable",
+                      "r7WorldOrganizationsCleared",
+                      "r7EffectSurvivedExit",
+                      "r7EffectDetonated",
+                      "r7EffectDrained",
+                      "r7ExitDuringLiveEffect"
+                  ],
+        "functional":  false,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "cleanup-charge",
+        "case":  "r7-cleanup-charge",
+        "population":  12,
+        "ticks":  8000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7CleanupComplete",
+                      "r7IdleStable",
+                      "r7WorldOrganizationsCleared",
+                      "r7EffectSurvivedExit",
+                      "r7EffectDetonated",
+                      "r7EffectDrained",
+                      "r7ExitDuringLiveEffect"
+                  ],
+        "functional":  false,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "multi-map",
+        "case":  "r7-multimap",
+        "population":  12,
+        "ticks":  8000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7TwoActualMaps",
+                      "r7GlobalBudgetShared",
+                      "r7CrossMapCommunicationBlocked",
+                      "r7RemovedMapClean",
+                      "r7RemainingMapPreserved",
+                      "r7RemainingMapCompleted"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "multi-map-scale",
+        "case":  "r7-multimap",
+        "population":  48,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7TwoActualMaps",
+                      "r7GlobalBudgetShared",
+                      "r7CrossMapCommunicationBlocked",
+                      "r7RemovedMapClean",
+                      "r7RemainingMapPreserved",
+                      "r7RemainingMapCompleted"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "offer-retirement",
+        "case":  "r7-offer-retirement",
+        "population":  24,
+        "ticks":  8000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7OneSidedOfferSeen",
+                      "r7RetiredPeerClean",
+                      "r7OfferSurvivorComplete",
+                      "r7WorldOrganizationsCleared"
+                  ],
+        "functional":  false,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "reload-cqb",
+        "case":  "r7-save-load",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "r7ReloadLiveGrenadePreserved"
+                  ],
+        "functional":  true,
+        "reloads":  4,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "reload-retained",
+        "case":  "r7-save-load",
+        "population":  12,
+        "ticks":  12000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "r7ReloadLiveGrenadePreserved",
+                      "r7ReloadRetainedReplanPreserved",
+                      "r7RetainedReplanResumed"
+                  ],
+        "functional":  true,
+        "reloads":  4,
+        "retained":  true,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "reload-charge",
+        "case":  "r7-charge-load",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "r7ReloadChargePreserved"
+                  ],
+        "functional":  true,
+        "reloads":  3,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "reload-field",
+        "case":  "r6-smoke-drill",
+        "population":  13,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  true,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed",
+                      "r7ReloadFieldPreserved",
+                      "r7ReloadToilStatePreserved",
+                      "newFieldSmokeSharedTargets",
+                      "newFieldSmokeSeen"
+                  ],
+        "functional":  true,
+        "reloads":  2,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldSmokeThrows":  2,
+                         "newFieldSmokeAdvances":  2,
+                         "newFieldResponses":  1,
+                         "newFieldShots":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "reload-care",
+        "case":  "r6-care-drill",
+        "population":  12,
+        "ticks":  14000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  true,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "caseTriggered",
+                      "newMedicalNoVanillaTend",
+                      "newMedicalGuardsHeld",
+                      "newMedicalMissionResumed",
+                      "r7ReloadCarePreserved",
+                      "r7ReloadToilStatePreserved",
+                      "newMedicalDressings",
+                      "newMedicalPlasmaApplied"
+                  ],
+        "functional":  true,
+        "reloads":  2,
+        "retained":  false,
+        "minimums":  {
+                         "newMedicalCompleted":  2,
+                         "newMedicalPlasma":  1,
+                         "newMedicalTreatments":  2,
+                         "newMedicalRejoins":  1
+                     }
+    },
+    {
+        "name":  "reload-low",
+        "case":  "r5-low-coop",
+        "population":  24,
+        "ticks":  12000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  true,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "r7ReloadAgreementPreserved",
+                      "r7ReloadPacketsPreserved",
+                      "r7ReloadPacketEndpointsBound",
+                      "r7ReloadPacketsDelivered",
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn"
+                  ],
+        "functional":  true,
+        "reloads":  2,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "reload-high",
+        "case":  "r5-shared",
+        "population":  26,
+        "ticks":  10000,
+        "workload":  "sapper-door",
+        "high":  true,
+        "reload":  true,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "r7ReloadAgreementPreserved",
+                      "r7ReloadPacketsPreserved",
+                      "r7ReloadPacketEndpointsBound",
+                      "r7ReloadPacketsDelivered",
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn",
+                      "r7ReloadWornEquipmentPreserved"
+                  ],
+        "functional":  true,
+        "reloads":  2,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "reload-defense",
+        "case":  "r7-defense-transition",
+        "population":  24,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  true,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "r7ReloadDefensePreserved",
+                      "r7DefenseComplete",
+                      "r7DefenseAssaultTransition",
+                      "r7DefenseAssaultComplete"
+                  ],
+        "functional":  false,
+        "reloads":  2,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    },
+    {
+        "name":  "reload-support",
+        "case":  "r7-support",
+        "population":  12,
+        "ticks":  14000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  true,
+        "flags":  [
+                      "r7ReloadHistoryPreserved",
+                      "r7ReloadJobsBound",
+                      "r7ReloadOpeningPreserved",
+                      "r7ReloadResponsePreserved",
+                      "r7ReloadSupportPreserved",
+                      "r7MortarRequestBound",
+                      "r7CasRequestBound",
+                      "r7GuidanceJobPreserved",
+                      "r7SupportMissionComplete",
+                      "r7SupportNoAdvance",
+                      "r7SupportLongStrikeHeld"
+                  ],
+        "functional":  true,
+        "reloads":  2,
+        "retained":  false,
+        "minimums":  {
+
+                     }
+    }
+]

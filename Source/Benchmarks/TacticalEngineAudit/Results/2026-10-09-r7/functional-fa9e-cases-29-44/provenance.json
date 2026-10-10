@@ -1,0 +1,635 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01",
+  "classification": "Final fa9e full44 diagnostic collection: 43 passed, one failed; tail cases29-44 originals with actual save files. Partial verifier validates only passed runs. First28 archived separately. No CPU gate or R7 completion.",
+  "files": {
+    "care-interrupt/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care-interrupt\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "2ab5af6d3564f644a74fe577e10d20900ac8fe4a785558de5636b559dd8cec84",
+      "uncompressedSha256": "2ab5af6d3564f644a74fe577e10d20900ac8fe4a785558de5636b559dd8cec84",
+      "uncompressedBytes": 13031
+    },
+    "care-interrupt/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care-interrupt\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "88d39b82a8374a5c292721ade1194b54699d14a9c5f16303a2d4e079960d976d",
+      "uncompressedSha256": "88d39b82a8374a5c292721ade1194b54699d14a9c5f16303a2d4e079960d976d",
+      "uncompressedBytes": 2508
+    },
+    "care-interrupt/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care-interrupt\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "7e261160cf0fc24b363d4c944224056c37d0171eb14661c47f27b4a8ba5566e0",
+      "uncompressedSha256": "d91bbfa06541f3740b41c42d3ea66ee9d9120807522413670bade72d06172fe0",
+      "uncompressedBytes": 30115
+    },
+    "care-interrupt/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care-interrupt\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "cleanup/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "f372dd52d0ea3b280b103e23b8ebaf584b9f6ad390a2fdfb38543d7c24a5ad16",
+      "uncompressedSha256": "f372dd52d0ea3b280b103e23b8ebaf584b9f6ad390a2fdfb38543d7c24a5ad16",
+      "uncompressedBytes": 9884
+    },
+    "cleanup/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "a87b97b91ff7680642e1128a7d660824abb2324b7f1bf0789f347d25cc5ccc63",
+      "uncompressedSha256": "a87b97b91ff7680642e1128a7d660824abb2324b7f1bf0789f347d25cc5ccc63",
+      "uncompressedBytes": 2471
+    },
+    "cleanup/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "393b4456af5284931bb0971a1390ae99a5725e3adf9ad6028978c10ffb8011c9",
+      "uncompressedSha256": "ed4e2d6945826bacacf1c9eddaf1cd743a08e98fd9c4355de79186cded22379f",
+      "uncompressedBytes": 29602
+    },
+    "cleanup/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "cleanup-grenade/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-grenade\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "9e1605c528e142685ecbc12cc61096d5d24b63083d8224a8ea360fced2842925",
+      "uncompressedSha256": "9e1605c528e142685ecbc12cc61096d5d24b63083d8224a8ea360fced2842925",
+      "uncompressedBytes": 9883
+    },
+    "cleanup-grenade/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-grenade\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "f5e189da2c090808ea55d4d8d2d5ab9beeaa32cf366e7aa6ca67c5adcbb5462c",
+      "uncompressedSha256": "f5e189da2c090808ea55d4d8d2d5ab9beeaa32cf366e7aa6ca67c5adcbb5462c",
+      "uncompressedBytes": 2511
+    },
+    "cleanup-grenade/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-grenade\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "3c46bce1402342226e5a3e9ca4487f7969b8ee6b34fa2d4490a239a3cde69e2a",
+      "uncompressedSha256": "a966b836a83878543592d3bc5b7474011a0c2ad02a1ca11218c007e37c25641d",
+      "uncompressedBytes": 29911
+    },
+    "cleanup-grenade/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-grenade\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "cleanup-charge/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-charge\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "98f760ce2623fa21bba376beb9fb871e0c666a129664f2f375be1658e0da06a0",
+      "uncompressedSha256": "98f760ce2623fa21bba376beb9fb871e0c666a129664f2f375be1658e0da06a0",
+      "uncompressedBytes": 9880
+    },
+    "cleanup-charge/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-charge\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "4bd2f05bc0896dbafbfc00854b608c7916333a71a919b0b8af2d671bfab8962c",
+      "uncompressedSha256": "4bd2f05bc0896dbafbfc00854b608c7916333a71a919b0b8af2d671bfab8962c",
+      "uncompressedBytes": 2506
+    },
+    "cleanup-charge/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-charge\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "35625caecbc24b06854c16e3bbd9423a7e8eca9bde28ca70fab2ae3a76da6ecf",
+      "uncompressedSha256": "c07b5c87fb7ed5835f06c0b389f528722fc7d99124aaa9ad1d7ba3baffa66683",
+      "uncompressedBytes": 29932
+    },
+    "cleanup-charge/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\cleanup-charge\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    },
+    "multi-map/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "c2b641a1eeb97cac900de17b215d07eac9cb36594fd063cb5ef72243348e06e4",
+      "uncompressedSha256": "c2b641a1eeb97cac900de17b215d07eac9cb36594fd063cb5ef72243348e06e4",
+      "uncompressedBytes": 12964
+    },
+    "multi-map/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "eb2053b95772b52c0a40de76c0a077bd0c1f5d1e32ef9852903af246098884b9",
+      "uncompressedSha256": "eb2053b95772b52c0a40de76c0a077bd0c1f5d1e32ef9852903af246098884b9",
+      "uncompressedBytes": 2479
+    },
+    "multi-map/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "7cb0e188f657d6df465c620275b2f35c999d3d7fec79dd899832cec571395230",
+      "uncompressedSha256": "86399c0b7601e4e17e7ff61e7a1d8d5b6e29480e189e6b71d09fcd5cbc67ec63",
+      "uncompressedBytes": 30431
+    },
+    "multi-map/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "multi-map-scale/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map-scale\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "1337cba83ae803544f80e4f15690e2574c07b2ff234d47b2382a6eb7498f5faa",
+      "uncompressedSha256": "1337cba83ae803544f80e4f15690e2574c07b2ff234d47b2382a6eb7498f5faa",
+      "uncompressedBytes": 23049
+    },
+    "multi-map-scale/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map-scale\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "a86483f845098a95c967388429740adfb546d7cd50ddf8cf73519a54f845cfe7",
+      "uncompressedSha256": "a86483f845098a95c967388429740adfb546d7cd50ddf8cf73519a54f845cfe7",
+      "uncompressedBytes": 2499
+    },
+    "multi-map-scale/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map-scale\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "116866c8e1cf5faf3e76862057d2ce69055ae41bceed3f3371c31c25fd7b4cf9",
+      "uncompressedSha256": "c394b35a0bc6401c01973f66b88c5dfcdd9383bd94fd53bc1cc9807493a04bf2",
+      "uncompressedBytes": 30485
+    },
+    "multi-map-scale/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\multi-map-scale\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "6e6ccc1b302859e89f57c8bf3514c45f2d7a53deb20577f2ca4429e3751c80f4",
+      "uncompressedSha256": "3e44d705cd579ab6577863843e4da17faf5b9b85bd36146e3d0409a372bffce6",
+      "uncompressedBytes": 41571
+    },
+    "offer-retirement/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\offer-retirement\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "5e42eaa3bd2946c348f589f29d9045ddf7745aaa5c914a2bebe0ed707865c01c",
+      "uncompressedSha256": "5e42eaa3bd2946c348f589f29d9045ddf7745aaa5c914a2bebe0ed707865c01c",
+      "uncompressedBytes": 13469
+    },
+    "offer-retirement/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\offer-retirement\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "a2af89a76bd954ce62547ccea9dddb35678cc81e6fe7070c1e87154f5dcb8658",
+      "uncompressedSha256": "a2af89a76bd954ce62547ccea9dddb35678cc81e6fe7070c1e87154f5dcb8658",
+      "uncompressedBytes": 2516
+    },
+    "offer-retirement/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\offer-retirement\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "c4d42877d983667b32cd9be0704c868c9408094bdaf3cbba210f7020948e0e9a",
+      "uncompressedSha256": "749b7ade1088531724842637802d1c39dc57cf1c7cf5278900a4cb314fcc7181",
+      "uncompressedBytes": 30238
+    },
+    "offer-retirement/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\offer-retirement\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-cqb/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "79dd90385ce859699502374f2798331c27ae2446067a2bfc9781ff27c558a656",
+      "uncompressedSha256": "79dd90385ce859699502374f2798331c27ae2446067a2bfc9781ff27c558a656",
+      "uncompressedBytes": 12673
+    },
+    "reload-cqb/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "16d9d0ab7cfd5e3e8504775757977faff6be6780dde952ec9244c9f69707ec33",
+      "uncompressedSha256": "16d9d0ab7cfd5e3e8504775757977faff6be6780dde952ec9244c9f69707ec33",
+      "uncompressedBytes": 2486
+    },
+    "reload-cqb/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "066839a4cea971c43a3bb1b61a1dc5839f9d44b10edbc6905bcc5e0a085dbf56",
+      "uncompressedSha256": "b2d81d0d40d71a53bf7eca9fe302dfa9f094ba81cff83a63ed4909fed8453459",
+      "uncompressedBytes": 36465
+    },
+    "reload-cqb/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "9b2245a10dc246be1d251c0b80111a4f9dabdb274342e5e67f1246e9137e8bca",
+      "uncompressedSha256": "ffa2bf560f1fff515d5866aeba0e07b6ade1b25d1b3fdc50287c55ea663bd237",
+      "uncompressedBytes": 3437385
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "5d0a3f7801cb03bd2734ae99c619b12a8cb5993b9b4359131f58fdb22c72260f",
+      "uncompressedSha256": "507d50302f024991424d599546625d82f02c837d432c37338e6eb444f4aaebab",
+      "uncompressedBytes": 3508603
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint3.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\Saves\\R7TacticalCheckpoint3.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "f5ab984d12795aac20a04dba98fe5ff9a47692b5384fe78ab6c667ef8396a199",
+      "uncompressedSha256": "1f9a4735f09c9d5ea4b614fa93be0e8de2ef0398f41144e2d46273dac46817b1",
+      "uncompressedBytes": 3513716
+    },
+    "reload-cqb/Saves/R7TacticalCheckpoint4.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-cqb\\Saves\\R7TacticalCheckpoint4.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "e787fff5ab5316013613485dd5b1e88b7ada94678ac07936e0761b0eef1f0c95",
+      "uncompressedSha256": "25b5e87d857eead2d7d746b57d0dc4fa4b46e4c105bb33f42b06a6ba4b66d670",
+      "uncompressedBytes": 3520608
+    },
+    "reload-retained/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "a01565d8c23df10677c68f7f82a7b03b5e47104c0d8dc99112629a709a5c1f52",
+      "uncompressedSha256": "a01565d8c23df10677c68f7f82a7b03b5e47104c0d8dc99112629a709a5c1f52",
+      "uncompressedBytes": 12612
+    },
+    "reload-retained/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "1e9610a9ea198a940364299ee59dd4d0b6a894b8755b2f1179a2d442f19da271",
+      "uncompressedSha256": "1e9610a9ea198a940364299ee59dd4d0b6a894b8755b2f1179a2d442f19da271",
+      "uncompressedBytes": 2562
+    },
+    "reload-retained/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "28c2ee9071ea443486f3aa4dfb27ead68a5c32dbf46b16c7559c8e8927813f1c",
+      "uncompressedSha256": "259d3858e192a3b94c3308bb31b205efb54baf474ed17ba8bd2988c6ebb75fb1",
+      "uncompressedBytes": 37847
+    },
+    "reload-retained/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "9f24f24416ac36c8a497873f2f520f5a734aa6d05e7d24b16f7a88ba6b9faa8a",
+      "uncompressedSha256": "94ec9a4cc4148fefb280ee4f41a6c7c2a5ff6399a6d579572d713414b470bd77",
+      "uncompressedBytes": 3470864
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "f81830a3bd1e1a0d28f2de652f2d9c5fc0e2aa2778a04caf75bb551ee527eb74",
+      "uncompressedSha256": "52f3f1d7e43ae53add8d8eaafa4ca5b204573b0abf601f5085ffc18cc4974bb1",
+      "uncompressedBytes": 3541789
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint3.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\Saves\\R7TacticalCheckpoint3.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "f89cb761342b2927105510d363f2530a451a697d464b2ea57363814954d6974e",
+      "uncompressedSha256": "03c9d51fd0c3a61468be822881c25f109403647e004c040c714fac18f5b7797a",
+      "uncompressedBytes": 3545192
+    },
+    "reload-retained/Saves/R7TacticalCheckpoint4.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-retained\\Saves\\R7TacticalCheckpoint4.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "3347b4cd6178f50fea0c3672291bc18c4aa1f2cf74aa603f252ddd8ef8582cfc",
+      "uncompressedSha256": "1d8bc00d966cec12c306db666442460c5eabea2171c785af628700e95be31bbb",
+      "uncompressedBytes": 3549818
+    },
+    "reload-charge/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-charge\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "37779bac631bcf4bd501c742537f1c3d45e0d7886bb9cbccd5ed8aa51257746e",
+      "uncompressedSha256": "37779bac631bcf4bd501c742537f1c3d45e0d7886bb9cbccd5ed8aa51257746e",
+      "uncompressedBytes": 22215
+    },
+    "reload-charge/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-charge\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "11c15d3a88bb368507acdd727ce0705d96b40e4278f1c46c9cb3c040cc4ef8f3",
+      "uncompressedSha256": "11c15d3a88bb368507acdd727ce0705d96b40e4278f1c46c9cb3c040cc4ef8f3",
+      "uncompressedBytes": 2499
+    },
+    "reload-charge/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-charge\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "41b390933497ff1ed21cfc90b10ddcb6e3d340e433b532f24f0be604af574557",
+      "uncompressedSha256": "1fef12e396eabad08275b5ae7f279d68fa462a17c2953c30d03daf85ba6b6184",
+      "uncompressedBytes": 44858
+    },
+    "reload-charge/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-charge\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    },
+    "reload-charge/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-charge\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "5b6242bbd8cf9c55ef648b44c0c7e217f0dd15e4966d43476eb66d1610f96680",
+      "uncompressedSha256": "969f0624afbe719745c22ed8b0f195d58ff68bedd6c0cc2880104e247ec10fc6",
+      "uncompressedBytes": 3545497
+    },
+    "reload-charge/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-charge\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "44d8d54203fef496d1cb77b126c77d8717441b6094a0238f2ae3ac9c9f183ecb",
+      "uncompressedSha256": "ee773e732f7a0dfde120fd21f130310197217f299a20d95e843bb41a841b2c50",
+      "uncompressedBytes": 3595905
+    },
+    "reload-charge/Saves/R7TacticalCheckpoint3.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-charge\\Saves\\R7TacticalCheckpoint3.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "00995ae911e82e7abc300b59f29c574c22e2aab3c987beb16a88ecf10be2548b",
+      "uncompressedSha256": "9b62d21aef44706ab81daa69be5c3adb770d3764e7cbca1c7441a2a49df0d9d3",
+      "uncompressedBytes": 3620416
+    },
+    "reload-field/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-field\\audit.json",
+      "classification": "actual native original; failed",
+      "sha256": "0ba1af220a1799de338d366cd05e1140b463a28fb7be2d3efe7a9d6655452add",
+      "uncompressedSha256": "0ba1af220a1799de338d366cd05e1140b463a28fb7be2d3efe7a9d6655452add",
+      "uncompressedBytes": 9115
+    },
+    "reload-field/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-field\\launcher.json",
+      "classification": "actual native original; failed",
+      "sha256": "417fd263df4da801a4394eace9100133ba0a1c1e11e291872a6c242f72e9c0b7",
+      "uncompressedSha256": "417fd263df4da801a4394eace9100133ba0a1c1e11e291872a6c242f72e9c0b7",
+      "uncompressedBytes": 2549
+    },
+    "reload-field/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-field\\Player.log",
+      "classification": "actual native original; failed",
+      "sha256": "9cd4d4571e54d86930d6df35e96edb1cdc903d7599cf9a34714b280f6913175e",
+      "uncompressedSha256": "f72de175a7db2aafcf279f61e0f4b7624b9a8b6ae14c2bf1d7b4e991ba5a1844",
+      "uncompressedBytes": 32955
+    },
+    "reload-field/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-field\\pawn-manifest.txt",
+      "classification": "actual native original; failed",
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    },
+    "reload-field/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-field\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; failed",
+      "sha256": "46dfa333f98e95e3dd7d9b9d4d5a22ddb3ff265f32f52b6ee36e22d9e2c86a8d",
+      "uncompressedSha256": "b2552cb62f5451d448bf7138f149717a781e36c8278e7760ecb1a62f40e323ba",
+      "uncompressedBytes": 3806845
+    },
+    "reload-care/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-care\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "80d24929a7b4129da5c84df4081604b5828fc425bdd88ba7b09ec1aaebb080e2",
+      "uncompressedSha256": "80d24929a7b4129da5c84df4081604b5828fc425bdd88ba7b09ec1aaebb080e2",
+      "uncompressedBytes": 13326
+    },
+    "reload-care/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-care\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "4c3d4273db5251f274376559743fd006a183ef6805406193c627dfc66427e7c0",
+      "uncompressedSha256": "4c3d4273db5251f274376559743fd006a183ef6805406193c627dfc66427e7c0",
+      "uncompressedBytes": 2544
+    },
+    "reload-care/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-care\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "97e7d47d03e672a6d177aba15f929d02ad423c4a7c8d906500fe6934d272ed3d",
+      "uncompressedSha256": "b0d436bbd410cebe176f80387e51360095611975bb358f6d7cb1e61ac678a201",
+      "uncompressedBytes": 34589
+    },
+    "reload-care/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-care\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-care/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-care\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "61039ec41ab82d0d7ec093855b386d26ae4d8b4b56b96e0f4c1cf79a152e8f4b",
+      "uncompressedSha256": "0016a0df982a20d834a3a55f3b9186c40f223ae4fb0416e7b1f9dd1d1e7fa39f",
+      "uncompressedBytes": 3460657
+    },
+    "reload-care/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-care\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "4900abf81f7a2d1a31af0329d1c22ff4acda05b25324369eefc889968d29d6c0",
+      "uncompressedSha256": "7262653f8c73867719a9940917252f806a8bd3c109d5bf77404668498e145325",
+      "uncompressedBytes": 3515767
+    },
+    "reload-low/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-low\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "dbdefefae62e4967a746bce26afea4b28d36e0428a71fe166f29497e6b0ec37e",
+      "uncompressedSha256": "dbdefefae62e4967a746bce26afea4b28d36e0428a71fe166f29497e6b0ec37e",
+      "uncompressedBytes": 72514
+    },
+    "reload-low/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-low\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "5dbced1d34cbe2a9b598f77cdccfdb333ad3ec29e0e57deee1f1d862c85b04f6",
+      "uncompressedSha256": "5dbced1d34cbe2a9b598f77cdccfdb333ad3ec29e0e57deee1f1d862c85b04f6",
+      "uncompressedBytes": 2537
+    },
+    "reload-low/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-low\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "8b06a4cafdb57c0de387cb6201f2c978c59adfbdead9ed7fcf289ecfa80c540e",
+      "uncompressedSha256": "5bb577186995d4af386f0753c56e41ab622c40f5ffd0dd42fa16df18e5e68497",
+      "uncompressedBytes": 90531
+    },
+    "reload-low/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-low\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-low/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-low\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "57b99b8f568424496e9bfa7ca4ac4c2273e03ca84e8bdd5838f06c49947fb51e",
+      "uncompressedSha256": "1c6480650604114747d027df768192e642eafb194f25a2b90f73da6d8408bb2b",
+      "uncompressedBytes": 3524353
+    },
+    "reload-low/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-low\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "325bb3eab7d2ce533cdcaa25769fb30c49ec8a5927056f8baab25f7fd310bf0d",
+      "uncompressedSha256": "e664ac627907faf493ff183d577042c31dd60efa9db9cf6d64177d5492b361bb",
+      "uncompressedBytes": 3587076
+    },
+    "reload-high/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-high\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "011020bc8d5b4657a3715afa350b1e6d8f147533e949703956f36e9fad7fe488",
+      "uncompressedSha256": "011020bc8d5b4657a3715afa350b1e6d8f147533e949703956f36e9fad7fe488",
+      "uncompressedBytes": 62330
+    },
+    "reload-high/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-high\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "994bbca3e559a62f196e9da820bc63d9b291372f1d8f7b11686ddcb2cca55c73",
+      "uncompressedSha256": "994bbca3e559a62f196e9da820bc63d9b291372f1d8f7b11686ddcb2cca55c73",
+      "uncompressedBytes": 2536
+    },
+    "reload-high/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-high\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "36bd30734991e199832773a1d449bb8b3931588611b4c27293d7f54db68d85ac",
+      "uncompressedSha256": "4e24f6de6ada4069edc6ced86f34fd7417df0c6a007e015f62e13131c51b298a",
+      "uncompressedBytes": 80032
+    },
+    "reload-high/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-high\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "26bac7a2c82ee50877d07a21debfb6116a8fbb4acc47b70a516485f601cad60c",
+      "uncompressedSha256": "6a6cbd16b5470fab8ea2afdbc6b443ecf7e1fe10b4101ae0fe6e4ca49460c8d5",
+      "uncompressedBytes": 191240
+    },
+    "reload-high/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-high\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "204e2bd7b5d021a70abd44ff56439d8dfc248e0810c2367de5594dfa391fadfa",
+      "uncompressedSha256": "bdae403cd2a627b7dd51f3f121f9879e95b31923b7f44ac678e4676c5cdce08c",
+      "uncompressedBytes": 4330303
+    },
+    "reload-high/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-high\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "1870f4803e9e8c0379903a8fcf964da26bbfc66aa1d9a4029fb34119a6c20ec2",
+      "uncompressedSha256": "0eec0c19338d5f0f09a46c6bc377dee8f5b7e0020e55e731902b1ad3d3a40a10",
+      "uncompressedBytes": 4382518
+    },
+    "reload-defense/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-defense\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "02f0503d595237b0248bc2ec5285d421f3e1dfe6f2ed660c399193c4fc23a335",
+      "uncompressedSha256": "02f0503d595237b0248bc2ec5285d421f3e1dfe6f2ed660c399193c4fc23a335",
+      "uncompressedBytes": 16245
+    },
+    "reload-defense/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-defense\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "be68a1bb271d19d0d3f48156a20d075f47406bdfa1359a7137667d0b147a2e6b",
+      "uncompressedSha256": "be68a1bb271d19d0d3f48156a20d075f47406bdfa1359a7137667d0b147a2e6b",
+      "uncompressedBytes": 2569
+    },
+    "reload-defense/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-defense\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "b76be0bca64ddb6ce9862f9a1ecc5a2344a5cdc9729ed066c1755aa5efccd568",
+      "uncompressedSha256": "35642a43222f0946013dfd725674d7dce9a2416cd32312ae7414f578ad3d3ad8",
+      "uncompressedBytes": 34294
+    },
+    "reload-defense/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-defense\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "reload-defense/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-defense\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "8d8f0c0b6a6aa0cc8fe80c1d11390b429716a5fdfc5346edc8d2215772286a7b",
+      "uncompressedSha256": "5f27c538ba90df3b85a0f6778ce6d51b6750aaf3b551b40ee134dae2df768167",
+      "uncompressedBytes": 3707641
+    },
+    "reload-defense/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-defense\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "c798a76f0fd1f142cd2ed236b164b3e49e037c9f1212b21f4c4b37d3e798cb53",
+      "uncompressedSha256": "71ccd4ee336331b637a2e3d83f30b348a4ca99e9f8732659a765b73853cf4007",
+      "uncompressedBytes": 3760901
+    },
+    "reload-support/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-support\\audit.json",
+      "classification": "actual native original; passed",
+      "sha256": "69e388f3b2fa3c059fe16c9a0fa4eb0355df88aa01ed595a5b0dd6111045916a",
+      "uncompressedSha256": "69e388f3b2fa3c059fe16c9a0fa4eb0355df88aa01ed595a5b0dd6111045916a",
+      "uncompressedBytes": 13120
+    },
+    "reload-support/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-support\\launcher.json",
+      "classification": "actual native original; passed",
+      "sha256": "903aa6757ffe9a8332c252a07585a6009c5956a733aeb1c8a47f2a52f6993fd7",
+      "uncompressedSha256": "903aa6757ffe9a8332c252a07585a6009c5956a733aeb1c8a47f2a52f6993fd7",
+      "uncompressedBytes": 2547
+    },
+    "reload-support/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-support\\Player.log",
+      "classification": "actual native original; passed",
+      "sha256": "954f98ff14413aa49e2524fde6bf2445cc7b346732ee9e23f0a521bd8f7e3ef0",
+      "uncompressedSha256": "7072ae54eacf16cca2df1d1e60ce50af7cbeb31d728c672a9905bb6e238cf30a",
+      "uncompressedBytes": 33988
+    },
+    "reload-support/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-support\\pawn-manifest.txt",
+      "classification": "actual native original; passed",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "reload-support/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-support\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "12fd27448bfd0eab8e4d30d6c902e2d925e60b45cdb1871adbafcc3eaa45933b",
+      "uncompressedSha256": "177b7a6262267ef7611c51bb254347d99c7d2d35f1d0aa224dad4ae00e46a255",
+      "uncompressedBytes": 3473275
+    },
+    "reload-support/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\reload-support\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game; passed",
+      "sha256": "7b02667af43c08a729a51bb0c023a423a231d850e6ffdad8300953a740c78483",
+      "uncompressedSha256": "d9da6e0574cbbbfb5031391aedec3a2c1b79bef83d65d0c7c9d0998e8b2891b1",
+      "uncompressedBytes": 3533573
+    },
+    "queue-final.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\checks.json",
+      "classification": "actual terminal full44 queue journal, 43 passed / one failed",
+      "sha256": "fc4ff11ce2c97fa3c7b9599a9c51f9f993045732d6b19537c8d8a35e52e6c2d2",
+      "uncompressedSha256": "fc4ff11ce2c97fa3c7b9599a9c51f9f993045732d6b19537c8d8a35e52e6c2d2",
+      "uncompressedBytes": 29194
+    },
+    "partial-verification.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-fa9e-partial-43-verification.json",
+      "classification": "derived common verification of 43 passed runs; skips the failed run; not final functional pass",
+      "sha256": "b2abb64e705298d08d4567f447becabc142a3ffb04f173bde8c6af59965a4e06",
+      "uncompressedSha256": "b2abb64e705298d08d4567f447becabc142a3ffb04f173bde8c6af59965a4e06",
+      "uncompressedBytes": 15242
+    },
+    "case-specs.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-fa9e-specs.json",
+      "classification": "derived current execution specs, not native measurement",
+      "sha256": "9e454ada34812662f190d57351601d35c2073de42a6e733815cb791eed0e7724",
+      "uncompressedSha256": "9e454ada34812662f190d57351601d35c2073de42a6e733815cb791eed0e7724",
+      "uncompressedBytes": 31572
+    },
+    "diagnostic-summary.json": {
+      "classification": "derived analysis, not native measurement",
+      "sha256": "227428000052e792714c13a03befca4da58bc013d8156d2a1df4263469e4b1f4",
+      "uncompressedSha256": "227428000052e792714c13a03befca4da58bc013d8156d2a1df4263469e4b1f4",
+      "uncompressedBytes": 18907
+    }
+  }
+}
