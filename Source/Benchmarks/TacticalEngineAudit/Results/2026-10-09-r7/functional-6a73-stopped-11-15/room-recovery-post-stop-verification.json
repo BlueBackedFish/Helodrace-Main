@@ -1,0 +1,8 @@
+﻿{
+    "name":  "room-recovery",
+    "actualMinimumSpeed":  3,
+    "actualMaximumSpeed":  3,
+    "reloads":  0,
+    "functionalComplete":  true,
+    "nativeExceptions":  0
+}

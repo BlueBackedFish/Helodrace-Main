@@ -1,0 +1,173 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01",
+  "classification": "Native cases11-15, full44 explicitly skipped by user. Original halted journal retains running final record; separate raw verification proves natural completion. Actual complete15 only, no full44 or CPU acceptance.",
+  "files": {
+    "wide-opening/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\wide-opening\\audit.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "2bcd388e55b024cee4dbe8c907dac2e6ea9782639aee5f223aef68a0f030b3d6",
+      "uncompressedSha256": "2bcd388e55b024cee4dbe8c907dac2e6ea9782639aee5f223aef68a0f030b3d6",
+      "uncompressedBytes": 12576
+    },
+    "wide-opening/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\wide-opening\\launcher.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "f3cd87616016dade2a5c6e6b02e80bc3934da3bf57ab3d17b8bbe278973f8c8a",
+      "uncompressedSha256": "f3cd87616016dade2a5c6e6b02e80bc3934da3bf57ab3d17b8bbe278973f8c8a",
+      "uncompressedBytes": 2492
+    },
+    "wide-opening/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\wide-opening\\Player.log",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "821770e9ab90f093e4826f7efe944a539f1bab35e1d883322e116dcbb3e240bb",
+      "uncompressedSha256": "023abd08bfaf5a15f3c7087c96673138f45937295adbc3ba3a71fbc7a8fe8e49",
+      "uncompressedBytes": 29331
+    },
+    "wide-opening/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\wide-opening\\pawn-manifest.txt",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "unexpected-hole/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\unexpected-hole\\audit.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "0a88a43bb693ea4c2d9ccc10751019f53e4696020b53079132e744a0f53beb8a",
+      "uncompressedSha256": "0a88a43bb693ea4c2d9ccc10751019f53e4696020b53079132e744a0f53beb8a",
+      "uncompressedBytes": 12725
+    },
+    "unexpected-hole/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\unexpected-hole\\launcher.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "402ade865218b69d1baf309251bc850939057a12272aa3d661d0d004322e853a",
+      "uncompressedSha256": "402ade865218b69d1baf309251bc850939057a12272aa3d661d0d004322e853a",
+      "uncompressedBytes": 2507
+    },
+    "unexpected-hole/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\unexpected-hole\\Player.log",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "5c6cef955dad1a59b50ae1010849dc3d2fff088dcefb7954f71040f3394ee845",
+      "uncompressedSha256": "458bf004948012034d70485c95d6e32de8de3813b99abbfff6ad586fd3bbee31",
+      "uncompressedBytes": 30002
+    },
+    "unexpected-hole/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\unexpected-hole\\pawn-manifest.txt",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "inside-goal/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\inside-goal\\audit.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "dcfa0b66632061ba909f49e59eb9cb7b966c87faf48afac75dfaa8a8dc28d906",
+      "uncompressedSha256": "dcfa0b66632061ba909f49e59eb9cb7b966c87faf48afac75dfaa8a8dc28d906",
+      "uncompressedBytes": 12810
+    },
+    "inside-goal/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\inside-goal\\launcher.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "3b88be3d3f19c3ece9acc534b39144ea6d2283e5973b08b21195e07d963dcf2f",
+      "uncompressedSha256": "3b88be3d3f19c3ece9acc534b39144ea6d2283e5973b08b21195e07d963dcf2f",
+      "uncompressedBytes": 2487
+    },
+    "inside-goal/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\inside-goal\\Player.log",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "408e9aa657560a8ae85575bd982962ff64ec6ecf7fffb096642fbb64d167b48c",
+      "uncompressedSha256": "a654a1115e9badf3a8168390089cdb04ce570cf95dbbbc8854050571906c2eea",
+      "uncompressedBytes": 29979
+    },
+    "inside-goal/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\inside-goal\\pawn-manifest.txt",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "tiny-adjacent/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\tiny-adjacent\\audit.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "02683d782f93701bf0a31beb20ac47d7310973beda4b559e3c8de708867e20bf",
+      "uncompressedSha256": "02683d782f93701bf0a31beb20ac47d7310973beda4b559e3c8de708867e20bf",
+      "uncompressedBytes": 12707
+    },
+    "tiny-adjacent/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\tiny-adjacent\\launcher.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "3cb97029989ea116c39190db06980869ad19597410f1eab6a921d4aef0edef44",
+      "uncompressedSha256": "3cb97029989ea116c39190db06980869ad19597410f1eab6a921d4aef0edef44",
+      "uncompressedBytes": 2497
+    },
+    "tiny-adjacent/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\tiny-adjacent\\Player.log",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "bee0018501eeb1705fcbb226f4414b5038f38ba4e4881af96d4e6e82275e6352",
+      "uncompressedSha256": "fa4dddb9876b2e3ef7752a6c1b2447f60c4c5d85d9733b4b1568d69a5373999a",
+      "uncompressedBytes": 30258
+    },
+    "tiny-adjacent/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\tiny-adjacent\\pawn-manifest.txt",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "room-recovery/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\room-recovery\\audit.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "73ae905a16d8325fc207a07fe81823b0866b6d49a862354be7f909aef2923263",
+      "uncompressedSha256": "73ae905a16d8325fc207a07fe81823b0866b6d49a862354be7f909aef2923263",
+      "uncompressedBytes": 12684
+    },
+    "room-recovery/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\room-recovery\\launcher.json",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "a6fd9cddae33ed888fdb425bf9b5686f5ea024ba2181221a3dbe261ee7ca3e73",
+      "uncompressedSha256": "a6fd9cddae33ed888fdb425bf9b5686f5ea024ba2181221a3dbe261ee7ca3e73",
+      "uncompressedBytes": 2497
+    },
+    "room-recovery/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\room-recovery\\Player.log",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "8061f04b769311558db5d32b4b8a22a2939997216703b79266851cfd74f9e6c1",
+      "uncompressedSha256": "e64aa4b510512ba92189e9eb30c5b9e2e47c64dc66248fc9463e66a1d1e5537b",
+      "uncompressedBytes": 30012
+    },
+    "room-recovery/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\room-recovery\\pawn-manifest.txt",
+      "classification": "actual completed native original, last case finished after queue parent stopped",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "queue-stopped-original.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-6a73-full-01\\checks.json",
+      "classification": "actual stopped full44 queue journal:14 passed and one running at parent stop; do not rewrite as full44 pass",
+      "sha256": "5e849902ff7871cb1fdabf2fd99cb1c4ee6a76516aa6797129c43b9f7c1e41b9",
+      "uncompressedSha256": "5e849902ff7871cb1fdabf2fd99cb1c4ee6a76516aa6797129c43b9f7c1e41b9",
+      "uncompressedBytes": 11807
+    },
+    "partial-14-verification.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-stopped-14-proof.json",
+      "classification": "derived common verification of 14 passed queue records; first10 archived separately",
+      "sha256": "330b5bd9027ade68e352bf311e0f789f4327ea25278ac7494b3d40a19713cd02",
+      "uncompressedSha256": "330b5bd9027ade68e352bf311e0f789f4327ea25278ac7494b3d40a19713cd02",
+      "uncompressedBytes": 5121
+    },
+    "room-recovery-post-stop-verification.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-stopped-room-recovery-proof.json",
+      "classification": "derived common native case15 verification after its natural termination; original journal remains untouched",
+      "sha256": "5f1d6a394a178b2d5ab22982dc58a41eb4d1f82fd1ac4d6fbd98d5dcc3461f00",
+      "uncompressedSha256": "5f1d6a394a178b2d5ab22982dc58a41eb4d1f82fd1ac4d6fbd98d5dcc3461f00",
+      "uncompressedBytes": 184
+    },
+    "diagnostic-summary.json": {
+      "classification": "derived analysis, not native measurement",
+      "sha256": "ee5d0770530ac60eb331352ea694cd0fb37e71fe23ac7b00f85ec49c0dc7e0fb",
+      "uncompressedSha256": "ee5d0770530ac60eb331352ea694cd0fb37e71fe23ac7b00f85ec49c0dc7e0fb",
+      "uncompressedBytes": 4588
+    }
+  }
+}
