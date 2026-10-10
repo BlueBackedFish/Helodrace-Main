@@ -310,7 +310,8 @@ namespace Helodrace.Tactics
         {
             if (!InventoryGrenadeUtility.CanUseGrenades(pawn) || pawn.inventory == null) return null;
             foreach (Thing item in pawn.inventory.innerContainer)
-                if (InventoryGrenadeUtility.IsInventoryGrenade(item.def) && RaidSmokeUtility.IsSmoke(item) == smoke
+                if (InventoryGrenadeUtility.IsInventoryGrenade(item.def)
+                    && TacticalGrenadePolicy.AllowsAutomatic(pawn.Faction?.def, item.def) && RaidSmokeUtility.IsSmoke(item) == smoke
                     && (smoke || item.def.defName == "HD_Grenade_MKII" || item.def.defName == "HD_Grenade_MKIII"
                         || item.def.defName == "HD_Grenade_M84_Item" || item.def.defName == "HD_Grenade_M7A2_Item")) return item;
             return null;
