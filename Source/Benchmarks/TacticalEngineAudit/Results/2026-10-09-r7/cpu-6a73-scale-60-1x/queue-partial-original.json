@@ -1,0 +1,87 @@
+﻿{
+    "scope":  "R7 CPU scaling and repeated comparison collection only",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "functionalRoot":  "C:/Users/Public/Documents/ESTsoft/CreatorTemp/hd-r7-final-6a73-full-01",
+    "finalFunctionalSkipped":  true,
+    "verifiedFunctionalCases":  [
+                                    "door",
+                                    "narrow",
+                                    "rocks",
+                                    "interrupt",
+                                    "recovery",
+                                    "cutter",
+                                    "cutter-active-recovery",
+                                    "charge-recovery",
+                                    "charge-fuse-casualty",
+                                    "charge-change",
+                                    "wide-opening",
+                                    "unexpected-hole",
+                                    "inside-goal",
+                                    "tiny-adjacent"
+                                ],
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "6a737c2bd3ae84d19c99929ec459f160adf60f59b85f42b9bc6ce14d8c423e4b",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "requestedGroups":  [
+                            "scale-0-1x",
+                            "scale-12-1x",
+                            "scale-50-1x",
+                            "scale-100-1x",
+                            "scale-200-1x",
+                            "scale-400-1x",
+                            "scale-0-3x",
+                            "scale-12-3x",
+                            "scale-50-3x",
+                            "scale-100-3x",
+                            "scale-200-3x",
+                            "scale-400-3x",
+                            "cqb-low-profiled",
+                            "cqb-high-profiled",
+                            "field-low-profiled",
+                            "field-high-profiled",
+                            "ordinary-open-profiled",
+                            "cqb-400-profiled",
+                            "cqb-low-unprofiled",
+                            "cqb-high-unprofiled",
+                            "field-low-unprofiled",
+                            "field-high-unprofiled",
+                            "ordinary-open-unprofiled",
+                            "cqb-400-unprofiled"
+                        ],
+    "profileTargets":  "Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;Helodrace.Tactics.TacticalCommunications::Send;Helodrace.Tactics.TacticalCommunications::Deliver;Helodrace.Tactics.TacticalCooperationState::CanStart",
+    "records":  [
+                    {
+                        "name":  "scale-0-1x",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-0-1x",
+                        "category":  "scale",
+                        "status":  "collected",
+                        "error":  null
+                    },
+                    {
+                        "name":  "scale-12-1x",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-12-1x",
+                        "category":  "scale",
+                        "status":  "collected",
+                        "error":  null
+                    },
+                    {
+                        "name":  "scale-50-1x",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-50-1x",
+                        "category":  "scale",
+                        "status":  "collected",
+                        "error":  null
+                    },
+                    {
+                        "name":  "scale-100-1x",
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x",
+                        "category":  "scale",
+                        "status":  "running",
+                        "error":  null
+                    }
+                ],
+    "allSpecifiedCollected":  false
+}

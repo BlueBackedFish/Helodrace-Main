@@ -1,0 +1,269 @@
+{
+  "classification": "Read-only fixed-offset checkpoint deltas. Equal tick spans, not equivalent tactical phases. Later completion does not prove permanent inactivity. Single pairs not acceptance.",
+  "windows": [
+    {
+      "requestedPopulation": 12,
+      "startTickOffset": 0,
+      "endTickOffset": 500,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 1.0625,
+          "mainCpuMs": 16.65625,
+          "processCpuMs": 32.71875
+        },
+        "new": {
+          "tickCpuMs": 0.875,
+          "mainCpuMs": 10.21875,
+          "processCpuMs": 19.34375
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Breach:1",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.8235294117647058,
+        "mainCpuMs": 0.6135084427767354,
+        "processCpuMs": 0.5912129894937918
+      }
+    },
+    {
+      "requestedPopulation": 12,
+      "startTickOffset": 500,
+      "endTickOffset": 1000,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 0.84375,
+          "mainCpuMs": 16.5,
+          "processCpuMs": 31.375
+        },
+        "new": {
+          "tickCpuMs": 0.78125,
+          "mainCpuMs": 14.375,
+          "processCpuMs": 26.96875
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Observe:1",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.9259259259259259,
+        "mainCpuMs": 0.8712121212121212,
+        "processCpuMs": 0.8595617529880478
+      }
+    },
+    {
+      "requestedPopulation": 12,
+      "startTickOffset": 1000,
+      "endTickOffset": 1500,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 0.65625,
+          "mainCpuMs": 13.875,
+          "processCpuMs": 27.3125
+        },
+        "new": {
+          "tickCpuMs": 0.375,
+          "mainCpuMs": 10.0625,
+          "processCpuMs": 19.5
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Enter:1",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.5714285714285714,
+        "mainCpuMs": 0.7252252252252253,
+        "processCpuMs": 0.7139588100686499
+      }
+    },
+    {
+      "requestedPopulation": 12,
+      "startTickOffset": 0,
+      "endTickOffset": 1500,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 0.8541666666666666,
+          "mainCpuMs": 15.677083333333334,
+          "processCpuMs": 30.46875
+        },
+        "new": {
+          "tickCpuMs": 0.6770833333333334,
+          "mainCpuMs": 11.552083333333334,
+          "processCpuMs": 21.9375
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Enter:1",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.7926829268292683,
+        "mainCpuMs": 0.7368770764119601,
+        "processCpuMs": 0.72
+      }
+    },
+    {
+      "requestedPopulation": 12,
+      "startTickOffset": 2000,
+      "endTickOffset": 6000,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 0.75390625,
+          "mainCpuMs": 13.90625,
+          "processCpuMs": 26.47265625
+        },
+        "new": {
+          "tickCpuMs": 0.66015625,
+          "mainCpuMs": 10.62109375,
+          "processCpuMs": 19.58984375
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Complete:1",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.8756476683937824,
+        "mainCpuMs": 0.7637640449438202,
+        "processCpuMs": 0.7400029511583296
+      }
+    },
+    {
+      "requestedPopulation": 50,
+      "startTickOffset": 0,
+      "endTickOffset": 500,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 2.59375,
+          "mainCpuMs": 16.5625,
+          "processCpuMs": 30.9375
+        },
+        "new": {
+          "tickCpuMs": 2.625,
+          "mainCpuMs": 16.75,
+          "processCpuMs": 29.875
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Pending:2,Stack:3",
+      "newToVanillaRatio": {
+        "tickCpuMs": 1.0120481927710843,
+        "mainCpuMs": 1.0113207547169811,
+        "processCpuMs": 0.9656565656565657
+      }
+    },
+    {
+      "requestedPopulation": 50,
+      "startTickOffset": 500,
+      "endTickOffset": 1000,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 1.875,
+          "mainCpuMs": 16.25,
+          "processCpuMs": 31.90625
+        },
+        "new": {
+          "tickCpuMs": 1.5,
+          "mainCpuMs": 16.3125,
+          "processCpuMs": 29.28125
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Pending:2,Stack:2,Breach:1",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.8,
+        "mainCpuMs": 1.0038461538461538,
+        "processCpuMs": 0.9177277179236043
+      }
+    },
+    {
+      "requestedPopulation": 50,
+      "startTickOffset": 1000,
+      "endTickOffset": 1500,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 2.34375,
+          "mainCpuMs": 16.4375,
+          "processCpuMs": 30.34375
+        },
+        "new": {
+          "tickCpuMs": 1.71875,
+          "mainCpuMs": 16.09375,
+          "processCpuMs": 31.875
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Pending:2,Breach:1,Observe:2",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.7333333333333333,
+        "mainCpuMs": 0.9790874524714829,
+        "processCpuMs": 1.050463439752832
+      }
+    },
+    {
+      "requestedPopulation": 50,
+      "startTickOffset": 0,
+      "endTickOffset": 1500,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 2.2708333333333335,
+          "mainCpuMs": 16.416666666666668,
+          "processCpuMs": 31.0625
+        },
+        "new": {
+          "tickCpuMs": 1.9479166666666667,
+          "mainCpuMs": 16.385416666666668,
+          "processCpuMs": 30.34375
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Pending:2,Breach:1,Observe:2",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.8577981651376146,
+        "mainCpuMs": 0.9980964467005076,
+        "processCpuMs": 0.9768611670020121
+      }
+    },
+    {
+      "requestedPopulation": 50,
+      "startTickOffset": 0,
+      "endTickOffset": 3000,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 2.3854166666666665,
+          "mainCpuMs": 16.15625,
+          "processCpuMs": 30.015625
+        },
+        "new": {
+          "tickCpuMs": 1.9791666666666667,
+          "mainCpuMs": 15.578125,
+          "processCpuMs": 28.744791666666668
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Support:1,BlastWait:1,Complete:3",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.8296943231441049,
+        "mainCpuMs": 0.9642166344294004,
+        "processCpuMs": 0.9576609404823877
+      }
+    },
+    {
+      "requestedPopulation": 50,
+      "startTickOffset": 4000,
+      "endTickOffset": 8000,
+      "perTick": {
+        "vanilla": {
+          "tickCpuMs": 2.27734375,
+          "mainCpuMs": 16.2265625,
+          "processCpuMs": 30.171875
+        },
+        "new": {
+          "tickCpuMs": 2.12109375,
+          "mainCpuMs": 16.27734375,
+          "processCpuMs": 29.6796875
+        }
+      },
+      "vanillaEndPhases": "vanilla",
+      "newEndPhases": "Complete:5",
+      "newToVanillaRatio": {
+        "tickCpuMs": 0.9313893653516295,
+        "mainCpuMs": 1.003129513721714,
+        "processCpuMs": 0.9836872087001554
+      }
+    }
+  ]
+}
