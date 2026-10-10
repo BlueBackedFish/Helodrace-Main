@@ -115,7 +115,11 @@ namespace Helodrace.Tactics
                 AbandonCharge(command); RememberOpening(plan); command.Phase = TacticalCommandPhase.Observe;
                 command.PhaseStarted = tick; return;
             }
-            if (tick > action.Deadline) { AbandonCharge(command); Release(command); return; }
+            if (tick > action.Deadline)
+            {
+                if (!TryChargeHammerFallback(command, active, tick)) { AbandonCharge(command); Release(command); }
+                return;
+            }
             if (action.Charge == null)
             {
                 TacticalMemberCommand installer = active.Find(m => m.Pawn == action.Installer);
@@ -171,6 +175,34 @@ namespace Helodrace.Tactics
             if (worker.Pawn.CurJob == worker.Job && worker.Job?.def.defName == TacticalBreachTools.TriggerJob) return;
             if (active.Any(m => !AtPost(m)) || !ChargeSafeToTrigger(command) || tick < worker.RetryTick || !CanIssue(worker)) return;
             Issue(worker, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(TacticalBreachTools.TriggerJob), action.Charge.parent));
+        }
+
+        private static bool CanBreachPlan(Pawn pawn, TacticalLocalPlan plan) => plan.HammerFallback
+            ? CompSledgehammerBreach.WornBy(pawn) != null && CompSledgehammerBreach.IsValidTarget(pawn, plan.Barrier)
+            : TacticalBreachTools.CanUse(pawn, plan.Barrier);
+
+        private bool TryChargeHammerFallback(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
+        {
+            TacticalChargeAction action = command.ChargeAction;
+            if (action == null || action.Detonated || action.Charge?.Triggered == true) return false;
+            TacticalMemberCommand hammer = active.Find(m => CompSledgehammerBreach.WornBy(m.Pawn) != null
+                && CompSledgehammerBreach.IsValidTarget(m.Pawn, command.Plan.Barrier));
+            if (hammer == null) return false;
+            // Cancel only the old unlit explosive work. Keep posts, the same
+            // command, room history and cooperation allocation intact.
+            foreach (TacticalMemberCommand member in active)
+                if (member.Job?.def.defName == TacticalBreachTools.InstallJob
+                    || member.Job?.def.defName == TacticalBreachTools.TriggerJob) EndOwned(member, false);
+            AbandonCharge(command);
+            ResumeHammerBreach(command, hammer.Pawn, tick);
+            return true;
+        }
+
+        private static void ResumeHammerBreach(TacticalSquadCommand command, Pawn hammer, int tick)
+        {
+            command.Plan.HammerFallback = true;
+            command.Breacher = hammer; command.BarrierHitPoints = -1;
+            command.Phase = TacticalCommandPhase.Breach; command.PhaseStarted = tick; command.Due = tick + 1;
         }
 
         private bool ChargeSafeToTrigger(TacticalSquadCommand command)

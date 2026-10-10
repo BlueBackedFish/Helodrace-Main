@@ -117,6 +117,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref EntryLane, "entryLane");
             Scribe_Values.Look(ref Direct, "direct");
             Scribe_Values.Look(ref ExistingOpening, "existingOpening");
+            Scribe_Values.Look(ref HammerFallback, "hammerFallback");
             Scribe_References.Look(ref Barrier, "barrier");
             Scribe_Collections.Look(ref Stack, "stack", LookMode.Value);
             Scribe_Collections.Look(ref Positions, "positions", LookMode.Value);

@@ -1,0 +1,71 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-charge-hammer-fallback-01",
+  "classification": "Actual native same fa9e44 DLL related three-case regression passed; full requested native speed3 no method profiling. Unlit charge timeout keeps command/allocation and continues hammer; radio predeadline5055 joint completion retained to14k. Fuse casualty and changing wall stilldetonate/wait. Partial regression only, not final44 or CPU gate.",
+  "files": {
+    "charge-change/audit.json": {
+      "sha256": "3ed124da4e678000b27947e010467a34f951550ca5a55271bab5c5353fe76ebb",
+      "uncompressedSha256": "3ed124da4e678000b27947e010467a34f951550ca5a55271bab5c5353fe76ebb",
+      "uncompressedBytes": 12688
+    },
+    "charge-change/launcher.json": {
+      "sha256": "727e8550aa1ea719cf0c8367f4754e5526d5f6c6d7af0544a0867ee08a8f6fc2",
+      "uncompressedSha256": "727e8550aa1ea719cf0c8367f4754e5526d5f6c6d7af0544a0867ee08a8f6fc2",
+      "uncompressedBytes": 2518
+    },
+    "charge-change/pawn-manifest.txt.gz": {
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    },
+    "charge-change/Player.log.gz": {
+      "sha256": "ec0edc604250a982ce3bb17a6e5244d54afbcd617a5bb6e638c9622707e5de37",
+      "uncompressedSha256": "b14f572df5ed673633ad967bc9ec1ee90cda397979fd2fc5862f3919df8da103",
+      "uncompressedBytes": 29364
+    },
+    "charge-fuse-casualty/audit.json": {
+      "sha256": "fd6d8d979f375bb5d0ec9d055a182f3882d683b0cf9418d7a5af5ebe084f7c7f",
+      "uncompressedSha256": "fd6d8d979f375bb5d0ec9d055a182f3882d683b0cf9418d7a5af5ebe084f7c7f",
+      "uncompressedBytes": 12639
+    },
+    "charge-fuse-casualty/launcher.json": {
+      "sha256": "b5a6f3ff3d64dfd620f97fb32650ade3678b62c8ec7ac0bbdc6d6582e0cf68ee",
+      "uncompressedSha256": "b5a6f3ff3d64dfd620f97fb32650ade3678b62c8ec7ac0bbdc6d6582e0cf68ee",
+      "uncompressedBytes": 2553
+    },
+    "charge-fuse-casualty/pawn-manifest.txt.gz": {
+      "sha256": "9ec8047822afb47cb398e9661d71a1c1d0c34e737426c03670acb647bc68d04a",
+      "uncompressedSha256": "46c48b58774fc6904578ec937477207b4a5c0e06dc0a3ec2e6c542c8fc28c33a",
+      "uncompressedBytes": 10406
+    },
+    "charge-fuse-casualty/Player.log.gz": {
+      "sha256": "bf270b0cfc12a581d2b785386ca4219d657d721417ee40b5d7bcc5bf1c4fb78d",
+      "uncompressedSha256": "039f92d152fc8eab9c86fa518c4c288f1aab03db9a94c0fe9f13a2707300d445",
+      "uncompressedBytes": 29704
+    },
+    "checks.json": {
+      "sha256": "1d0b901bde39a63ce0230172c8d790fc09e96ff5c9c648bc764d0af6fef72875",
+      "uncompressedSha256": "1d0b901bde39a63ce0230172c8d790fc09e96ff5c9c648bc764d0af6fef72875",
+      "uncompressedBytes": 2912
+    },
+    "radio-loss/audit.json": {
+      "sha256": "38c2f456d1c54adf23d21f8d73caa424f5117871316e7cf81f8120ebb9fa203a",
+      "uncompressedSha256": "38c2f456d1c54adf23d21f8d73caa424f5117871316e7cf81f8120ebb9fa203a",
+      "uncompressedBytes": 80748
+    },
+    "radio-loss/launcher.json": {
+      "sha256": "937abeafb9fdeb563ac0c91ea289b134b85b6ef9fe51c7d9501f2b04752cd688",
+      "uncompressedSha256": "937abeafb9fdeb563ac0c91ea289b134b85b6ef9fe51c7d9501f2b04752cd688",
+      "uncompressedBytes": 2509
+    },
+    "radio-loss/pawn-manifest.txt.gz": {
+      "sha256": "330616e28845ae43e9ff9d6045c839196f5916dcf800f780b3d0c836f00084a1",
+      "uncompressedSha256": "0e994de7dbcb524edb15bd3895910ab636898587baa9caabf3f636d5345e7ad2",
+      "uncompressedBytes": 192436
+    },
+    "radio-loss/Player.log.gz": {
+      "sha256": "7740d106714220407c8b45a9dcfd884a8c60a25f3147814448efb22b481ecc56",
+      "uncompressedSha256": "4c1c815dbd4ab520622354e3e00566d79da488170e7c0289fd3b58361d702484",
+      "uncompressedBytes": 94602
+    }
+  }
+}

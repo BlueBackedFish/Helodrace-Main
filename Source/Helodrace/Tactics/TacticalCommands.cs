@@ -482,8 +482,8 @@ namespace Helodrace.Tactics
                     if (tick - command.PhaseStarted > 1200)
                     { Release(command); return; }
                     TacticalMemberCommand worker = active.FirstOrDefault(member => member.Pawn == command.Breacher
-                        && TacticalBreachTools.CanUse(member.Pawn, current.Barrier));
-                    worker = worker ?? active.FirstOrDefault(member => TacticalBreachTools.CanUse(member.Pawn, current.Barrier));
+                        && CanBreachPlan(member.Pawn, current));
+                    worker = worker ?? active.FirstOrDefault(member => CanBreachPlan(member.Pawn, current));
                     if (worker == null || !CompSledgehammerBreach.CanOperate(worker.Pawn))
                     {
                         if (!RecoverBreachTool(command, active, tick)) Release(command);
@@ -496,7 +496,7 @@ namespace Helodrace.Tactics
                             || !CompSledgehammerBreach.IsValidTarget(worker.Pawn, current.Barrier));
                     bool hammerDoor = current.Barrier is Building_Door && CompSledgehammerBreach.WornBy(worker.Pawn) != null
                         && CompSledgehammerBreach.IsValidTarget(worker.Pawn, current.Barrier);
-                    if (!cutter && !hammerDoor && TacticalBreachTools.CanCharge(worker.Pawn, current.Barrier))
+                    if (!current.HammerFallback && !cutter && !hammerDoor && TacticalBreachTools.CanCharge(worker.Pawn, current.Barrier))
                     {
                         if (BeginCharge(command, worker, tick)) { AdvanceCharge(command, active, tick); return; }
                         if (CompSledgehammerBreach.WornBy(worker.Pawn) == null) { Release(command); return; }

@@ -22,6 +22,8 @@ namespace Helodrace.Tactics
         public HashSet<int> RetainedOutside = new HashSet<int>();
         public HashSet<IntVec3> Interior = new HashSet<IntVec3>();
         public bool Direct, ExistingOpening;
+        // A failed unlit charge must not be selected again for this same barrier.
+        public bool HammerFallback;
     }
 
     public static class TacticalLocalPlanner
