@@ -178,7 +178,7 @@ namespace Helodrace.Tactics
                 { movers++; if (at) moversReady++; }
                 else { coverCount++; if (at) coverReady++; }
                 range = Math.Max(range, member.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.verbProps.range ?? 0);
-                if (field.Screen?.Thrower == member.Pawn && field.Screen.Job == member.Pawn.CurJob
+                if (field.Screen?.Thrower == member.Pawn && field.Screen.ActiveJob != null
                     && !field.Screen.Returned) continue;
                 if (!post.IsValid) { EnsureParking(command, member, tick); continue; }
                 if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalContactGuard"

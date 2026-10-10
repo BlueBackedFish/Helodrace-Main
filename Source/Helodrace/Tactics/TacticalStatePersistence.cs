@@ -290,7 +290,9 @@ namespace Helodrace.Tactics
             if (Scribe.mode == LoadSaveMode.Saving)
             {
                 if (Projectile?.Destroyed == true) Projectile = null;
+                SavedJobId = ActiveJob?.loadID ?? -1;
             }
+            Scribe_Values.Look(ref SavedJobId, "activeJobId", -1);
             Scribe_Values.Look(ref Target, "target");
             Scribe_Values.Look(ref ReturnPosition, "returnPosition");
             Scribe_Values.Look(ref Started, "started");

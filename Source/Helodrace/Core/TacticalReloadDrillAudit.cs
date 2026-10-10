@@ -154,7 +154,7 @@ namespace Helodrace
             TacticalFieldSmoke smoke = field.Screen;
             return field.Stage + ":" + field.Anchor + ":" + field.Focus + ":" + field.MovingTeam
                 + ":" + field.Assigned + ":" + string.Join(";", field.Posts) + ":" + string.Join(";", field.FireGroup)
-                + ":" + smoke?.Target + ":" + smoke?.Thrower?.thingIDNumber + ":" + smoke?.Job?.loadID
+                + ":" + smoke?.Target + ":" + smoke?.Thrower?.thingIDNumber + ":" + smoke?.ActiveJob?.loadID
                 + ":" + smoke?.Launched + ":" + smoke?.Returned
                 + ":" + (smoke?.Projectile?.Spawned == true ? smoke.Projectile.thingIDNumber : -1);
         }

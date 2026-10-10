@@ -13,6 +13,15 @@ namespace Helodrace.Tactics
         public IntVec3 Target, ReturnPosition;
         public int Started;
         public bool Launched, Returned;
+        internal int SavedJobId = -1;
+        // The screen outlives the throw/return Job while its projectile is live.
+        // A later guard Job belongs to the member, not to this smoke action.
+        internal Job ActiveJob => Job != null && Thrower?.CurJob == Job ? Job : null;
+        internal void RestoreJob(Job ownedJob)
+        {
+            Job = ownedJob != null && ownedJob.loadID == SavedJobId && Thrower?.CurJob == ownedJob
+                ? ownedJob : null;
+        }
     }
 
     public sealed partial class MapComponent_TacticalCommands
@@ -58,7 +67,7 @@ namespace Helodrace.Tactics
             if (screen == null) { field.Stage = TacticalFieldStage.Defending; return false; }
             bool live = screen.Projectile != null && screen.Projectile.Spawned && !screen.Projectile.Destroyed;
             bool working = screen.Thrower?.Spawned == true && !screen.Thrower.Dead && !screen.Thrower.Downed
-                && screen.Thrower.CurJob == screen.Job;
+                && screen.ActiveJob != null;
             if (!screen.Launched && !working || tick - screen.Started >= 600)
             {
                 field.Screen = null; field.Stage = TacticalFieldStage.Defending;

@@ -1,0 +1,17 @@
+﻿{
+    "scope":  "Read-only native functional evidence verification",
+    "partial":  false,
+    "finalFunctionalVerified":  false,
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "verified":  [
+                     {
+                         "name":  "reload-field",
+                         "actualMinimumSpeed":  1,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  2,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     }
+                 ]
+}

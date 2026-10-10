@@ -1,0 +1,62 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01",
+  "classification": "Actual native related field smoke reload regression on DLL6a737c2b. Two actual saves/restores; field/native jobs/toils preserved, throws/advances2, shots1, resume1, mission complete, failures/unsafe/exceptions0. Final44 and CPU gate not yet verified.",
+  "files": {
+    "reload-field/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01\\reload-field\\audit.json",
+      "classification": "actual native related regression original",
+      "sha256": "c38e7dc2420d98208b2816156239d3610c1210330975d52521aa68c38c694512",
+      "uncompressedSha256": "c38e7dc2420d98208b2816156239d3610c1210330975d52521aa68c38c694512",
+      "uncompressedBytes": 13157
+    },
+    "reload-field/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01\\reload-field\\launcher.json",
+      "classification": "actual native related regression original",
+      "sha256": "008ddf8be4c839c7f248ee37ba8cc1a2792b8870db5a99e1a4e90558c61c1f27",
+      "uncompressedSha256": "008ddf8be4c839c7f248ee37ba8cc1a2792b8870db5a99e1a4e90558c61c1f27",
+      "uncompressedBytes": 2570
+    },
+    "reload-field/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01\\reload-field\\Player.log",
+      "classification": "actual native related regression original",
+      "sha256": "b9a0fb6e3717c0aa5b4bcdc168914eec17c0f18497e8d32ed028ab59041c8b8f",
+      "uncompressedSha256": "93a8096c0c8a5646823ce1a969e5ab5a329d4fdac95fd0981f478c8ceffab21c",
+      "uncompressedBytes": 34818
+    },
+    "reload-field/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01\\reload-field\\pawn-manifest.txt",
+      "classification": "actual native related regression original",
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    },
+    "reload-field/Saves/R7TacticalCheckpoint1.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01\\reload-field\\Saves\\R7TacticalCheckpoint1.rws",
+      "classification": "actual native saved game",
+      "sha256": "bd299f2172f2d088e48c4579db3592d00b8aca5a1c9634cc67fa8bf93364b648",
+      "uncompressedSha256": "b4f8001d9d7799a7793e268d66f0333dacc56200da570498d3589ce3fdb604fb",
+      "uncompressedBytes": 3790683
+    },
+    "reload-field/Saves/R7TacticalCheckpoint2.rws.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01\\reload-field\\Saves\\R7TacticalCheckpoint2.rws",
+      "classification": "actual native saved game",
+      "sha256": "42c471cf94d0470cab2a0087bf406436daee87c6c1abf349df8fb5faedff9acb",
+      "uncompressedSha256": "d8be5133ed141f5ec9dcc8bd721bd92bde07a3ff9c80c864f383064c098a9755",
+      "uncompressedBytes": 3837715
+    },
+    "checks.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-01\\checks.json",
+      "classification": "actual completed one-case related queue, not final44",
+      "sha256": "cdd48878776836af300c4eca8d66f896b3a676ef31e91a253f62db0eae7f822e",
+      "uncompressedSha256": "cdd48878776836af300c4eca8d66f896b3a676ef31e91a253f62db0eae7f822e",
+      "uncompressedBytes": 1597
+    },
+    "verification.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-field-job-identity-fix-verification.json",
+      "classification": "derived common original verification, not final44 or CPU pass",
+      "sha256": "62d63cd3cc161709bd6ecd28f2cb981cdbc9e0061fd068b1f1b56947df4d799f",
+      "uncompressedSha256": "62d63cd3cc161709bd6ecd28f2cb981cdbc9e0061fd068b1f1b56947df4d799f",
+      "uncompressedBytes": 594
+    }
+  }
+}

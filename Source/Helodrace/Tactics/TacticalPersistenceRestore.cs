@@ -113,7 +113,7 @@ namespace Helodrace.Tactics
                 }
                 if (command.ContactResponse != null) command.ContactResponse.Plan = command.Plan;
                 if (command.FieldResponse?.Screen != null)
-                    command.FieldResponse.Screen.Job = command.Members.Find(m => m.Pawn == command.FieldResponse.Screen.Thrower)?.Job;
+                    command.FieldResponse.Screen.RestoreJob(command.Members.Find(m => m.Pawn == command.FieldResponse.Screen.Thrower)?.Job);
                 if (command.ChargeAction != null)
                 {
                     command.ChargeAction.Charge = (command.ChargeAction.SavedCharge as ThingWithComps)?.TryGetComp<CompInstalledBreachCharge>();
