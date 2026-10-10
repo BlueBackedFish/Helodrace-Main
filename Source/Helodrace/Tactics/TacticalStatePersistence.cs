@@ -283,6 +283,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Focus, "focus");
             Scribe_Values.Look(ref Forward, "forward");
             Scribe_Deep.Look(ref Screen, "screen");
+            Scribe_Collections.Look(ref FirePoints, "firePoints", LookMode.Value);
             Scribe_Collections.Look(ref Posts, "posts", LookMode.Value);
             Scribe_Collections.Look(ref Order, "order", LookMode.Value);
             Scribe_Collections.Look(ref FireGroup, "fireGroup", LookMode.Value);

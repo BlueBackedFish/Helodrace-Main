@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.IO;
 using Helodrace.Tactics;
 using Verse;
 using HarmonyLib;
@@ -33,31 +34,7 @@ internal static class TacticalFieldTests
         memory.Remember(1, first, first, false, true, 790, "other-observer");
         if (TacticalFieldPolicy.Motion(contact, anchor) != TacticalObservedMotion.Unknown)
             throw new Exception("Unrelated reports were treated as continuous tracking.");
-        var arc = Enumerable.Range(0, 13).Select(i => TacticalFieldPolicy.Arc(anchor, IntVec3.North, i, 13, 8)).ToArray();
-        if (arc.Distinct().Count() != 13 || arc[6].z >= arc[0].z || arc[0].z != arc[12].z)
-            throw new Exception("Bow formation must have forward wings and a recessed center.");
-        foreach (IntVec3 forward in GenAdj.CardinalDirections)
-        foreach (int count in new[] { 4, 8, 13 })
-        {
-            IntVec3 side = new IntVec3(-forward.z, 0, forward.x);
-            var slots = Enumerable.Range(0, count).Select(i => TacticalFieldPolicy.Arc(anchor, forward, i, count, 8)).ToArray();
-            int Depth(IntVec3 cell) => (cell - anchor).x * forward.x + (cell - anchor).z * forward.z;
-            if (slots.Distinct().Count() != count || Depth(slots[0]) != 2 || Depth(slots[count - 1]) != 2
-                || Depth(slots[count / 2]) >= Depth(slots[0]))
-                throw new Exception("Rotating the bow must preserve its concavity toward the attacker.");
-            foreach (IntVec3 slot in slots)
-            {
-                if (!TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slot, slot, 8)
-                    || TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slot, slot + forward * 2, 8)
-                    || TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slot, anchor + side * 9 + forward * Depth(slot), 8))
-                    throw new Exception("Cover correction must preserve depth and formation width.");
-            }
-            if (TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slots[0], slots[count - 1], 8))
-                throw new Exception("A wing must not move across the opposite side of the bow.");
-            if (count == 13 && (!TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slots[6], slots[6] + side, 8)
-                || TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slots[6], slots[6] + side * 2, 8)))
-                throw new Exception("Center cover adjustment must stay close to the bow axis.");
-        }
+        CheckFirePoints(anchor);
         if (TacticalFieldPolicy.SightRadius <= TacticalContactState.Radius)
             throw new Exception("Field sight does not extend the CQB radius.");
         if (TacticalFieldPolicy.NextMover(-1,7,true)!=0 || TacticalFieldPolicy.NextMover(0,7,true)!=1
@@ -77,6 +54,65 @@ internal static class TacticalFieldTests
         if (AccessTools.DeclaredMethod(typeof(Pawn_HealthTracker), "MakeUndowned") == null
             || AccessTools.Field(typeof(Pawn_HealthTracker), "pawn")?.FieldType != typeof(Pawn))
             throw new Exception("Native recovery wake binding is missing.");
-        Console.WriteLine("PASS: R6 first-sample, approach/cross/leave/stationary, stale-gap, copied report history, origin change and bow geometry checks.");
+        Console.WriteLine("PASS: R6 first-sample, approach/cross/leave/stationary, stale-gap, copied report history, origin change and fire-point areas and converging fire checks.");
     }
+    private static void CheckFirePoints(IntVec3 anchor)
+    {
+        foreach (IntVec3 forward in GenAdj.CardinalDirections)
+        foreach (int seed in new[] { 10, 999, 10001 })
+        {
+            IntVec3 focus = anchor + forward * 50;
+            var points = Enumerable.Range(0, 3).Select(i => TacticalFieldPolicy.FirePoint(anchor, focus, forward, i, seed)).ToArray();
+            int Depth(IntVec3 cell) => (cell - anchor).x * forward.x + (cell - anchor).z * forward.z;
+            IntVec3 side = new IntVec3(-forward.z, 0, forward.x);
+            int Lateral(IntVec3 cell) => (cell - anchor).x * side.x + (cell - anchor).z * side.z;
+            if (points.Distinct().Count() != 3 || Depth(points[1]) >= -3 || Depth(points[0]) < 4 || Depth(points[2]) < 4
+                || Lateral(points[0]) >= -6 || Lateral(points[2]) <= 6 || Lateral(points[1]) != 0)
+                throw new Exception("Three fire-point centers must have advanced lateral wings and a recessed base.");
+            foreach (IntVec3 point in points)
+            {
+                var scattered = Enumerable.Range(1, 20).Select(id => TacticalFieldPolicy.Scatter(point, id, seed)).ToArray();
+                if (scattered.Any(cell => Math.Abs(cell.x - point.x) > 2 || Math.Abs(cell.z - point.z) > 2)
+                    || scattered.Select(Depth).Distinct().Count() < 2 || scattered.Select(Lateral).Distinct().Count() < 2)
+                    throw new Exception("Posts must scatter through an area, not form an exact depth row or curve.");
+                IntVec3 moved = TacticalFieldPolicy.AdvanceFirePoint(point, forward, focus);
+                if (moved != point + forward * 5) throw new Exception("A moving group advances one shared area.");
+            }
+            IntVec3 near = focus - forward * 4;
+            if (TacticalFieldPolicy.AdvanceFirePoint(near, forward, focus) != near + forward
+                || TacticalFieldPolicy.AdvanceFirePoint(focus - forward * 2, forward, focus) != focus - forward * 2)
+                throw new Exception("A firing area must not advance through the observed enemy.");
+        }
+        if (Enumerable.Range(0, 3).Any(team => TacticalFieldPolicy.FirePointIndex(true, team, false, 10) != team)
+            || TacticalFieldPolicy.FirePointIndex(true, -1, false, 10) != 1
+            || TacticalFieldPolicy.FirePointIndex(false, -1, true, 0) != 1
+            || TacticalFieldPolicy.FirePointIndex(false, -1, false, 4) != 0
+            || TacticalFieldPolicy.FirePointIndex(false, -1, false, 5) != 2)
+            throw new Exception("High uses physical teams; LOW places its core between two flank groups.");
+        if (TacticalFieldPolicy.FirePostScore(true, 0, 8, 100, 1) <= TacticalFieldPolicy.FirePostScore(false, 1, 0, 0, 1))
+            throw new Exception("A covered firing position must not lose to a blind holding position.");
+        if (TacticalFieldPolicy.Scatter(anchor, 10, 100) == TacticalFieldPolicy.Scatter(anchor, 10, 200))
+            throw new Exception("Independent encounters must allow different local positions.");
+        CheckFirePointSave(anchor);
+    }
+    private static void CheckFirePointSave(IntVec3 anchor)
+    {
+        string path = Path.Combine(Path.GetTempPath(), "Helodrace-firepoints-" + Guid.NewGuid() + ".xml");
+        var field = new TacticalFieldResponse { Anchor = anchor, Focus = anchor + IntVec3.North * 50,
+            Forward = IntVec3.North, Started = 123, High = true };
+        for (int i = 0; i < 3; i++) field.FirePoints.Add(TacticalFieldPolicy.FirePoint(anchor, field.Focus, field.Forward, i, 123));
+        try
+        {
+            Scribe.saver.InitSaving(path, "field"); field.ExposeData(); Scribe.saver.FinalizeSaving();
+            var loaded = new TacticalFieldResponse();
+            Scribe.loader.InitLoading(path); loaded.ExposeData(); Scribe.loader.ForceStop();
+            if (!loaded.FirePoints.SequenceEqual(field.FirePoints) || loaded.Started != field.Started
+                || TacticalFieldPolicy.Scatter(loaded.FirePoints[0], 10, loaded.Started)
+                    != TacticalFieldPolicy.Scatter(field.FirePoints[0], 10, field.Started))
+                throw new Exception("Saving must preserve shared firing areas and stable post scatter.");
+            Console.WriteLine("PASS: native Scribe fire-point value payload round trip (not a full Unity world load).");
+        }
+        finally { Scribe.ForceStop(); if (File.Exists(path)) File.Delete(path); }
+    }
+
 }
