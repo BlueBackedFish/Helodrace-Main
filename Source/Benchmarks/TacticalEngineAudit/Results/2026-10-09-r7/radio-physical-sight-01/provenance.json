@@ -1,0 +1,31 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-radio-physical-sight-01",
+  "classification": "Actual radio fixture physical wall occlusion using real roof28/field80 range. Genuine source report at2037, without receiver local sight true; actor withdrawn2038 retaining bed/faction. Case remains failed: C4 rejected1947 by friendly at102,109 withinradius9, abandoned deadline -> cooperative milestone absent. No CPU/full R7 proof.",
+  "files": {
+    "checks.json": {
+      "sha256": "b70b12a266937e0a5060320012a8712f7bc6b9f1c30d902adb611884bf238106",
+      "uncompressedSha256": "b70b12a266937e0a5060320012a8712f7bc6b9f1c30d902adb611884bf238106",
+      "uncompressedBytes": 1666
+    },
+    "radio-loss/audit.json": {
+      "sha256": "2f81590f223f9953de1f4c038197205b3f3bff5af2764dfa13faf52301351f1b",
+      "uncompressedSha256": "2f81590f223f9953de1f4c038197205b3f3bff5af2764dfa13faf52301351f1b",
+      "uncompressedBytes": 76881
+    },
+    "radio-loss/launcher.json": {
+      "sha256": "88f20c03edce93dc039d5370f6cc8797360d06341162af5570d24af68016e1fc",
+      "uncompressedSha256": "88f20c03edce93dc039d5370f6cc8797360d06341162af5570d24af68016e1fc",
+      "uncompressedBytes": 2503
+    },
+    "radio-loss/pawn-manifest.txt.gz": {
+      "sha256": "330616e28845ae43e9ff9d6045c839196f5916dcf800f780b3d0c836f00084a1",
+      "uncompressedSha256": "0e994de7dbcb524edb15bd3895910ab636898587baa9caabf3f636d5345e7ad2",
+      "uncompressedBytes": 192436
+    },
+    "radio-loss/Player.log.gz": {
+      "sha256": "92a1b3301688c7550253b44d53ea40521a6de945dbb7519eae595c89fd632c54",
+      "uncompressedSha256": "455f1aac37738f8d63fb6659b610a00e8b6594e627adf0c8ceddd654f50d6ab8",
+      "uncompressedBytes": 92405
+    }
+  }
+}

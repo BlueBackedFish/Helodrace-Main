@@ -130,11 +130,13 @@ namespace Helodrace
             TacticalSquadCommand a=commands[0], b=commands[1];
             TacticalCommunications network=Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications;
             ObserveCooperationCompletion(commands, tick);
-            if (result.newCooperationCompletedTick >= 0 && owner.Spawned)
+            if ((result.newCooperationCompletedTick >= 0
+                || result.fixtureCase == "r5-radio-loss" && result.newContactReportShared) && owner.Spawned)
             {
                 // A completed squad returns to vanilla combat and can approach
                 // this immortal stimulus. Remove the actor only after actual
-                // joint room/bed/entry coverage; otherwise an unrelated endless
+                // joint room/bed/entry coverage, or the completed radio stimulus;
+                // otherwise an unrelated endless
                 // field engagement contaminates the subsequent expiry test.
                 // Keep the living named bed owner in the deep-saved fixture
                 // holder. WorldPawns can change a player pawn's faction/ownership.
@@ -146,7 +148,7 @@ namespace Helodrace
                     throw new InvalidOperationException("Cooperation actor withdrawal lost the named bed objective.");
                 result.r7FixtureActorWithdrawn = true;
                 result.r7FixtureActorWithdrawTick = tick - started;
-                CooperationEvent("completed cooperation actor withdrawn into fixture holder; player faction and existing named bed owner retained");
+                CooperationEvent("completed cooperation stimulus withdrawn into fixture holder; player faction and existing named bed owner retained");
             }
             if (network.MessagesDropped>lastLoggedDrops)
             {
@@ -257,21 +259,27 @@ namespace Helodrace
         private void ApplyRadioContactReport(TacticalSquadCommand a, TacticalSquadCommand b, int tick)
         {
             if (result.newContactReportShared) return;
-            bool Sees(TacticalSquadCommand command) => command.Members.Any(m=>m.Pawn.Spawned && !m.Pawn.Dead
-                && TacticalContactSight.CanSee(map,m.Pawn.Position,owner,new TacticalContactState()));
+            bool Sees(TacticalSquadCommand command) => command.Members.Any(m => m.Pawn.Spawned && !m.Pawn.Dead
+                && !m.Pawn.Downed && TacticalContactSight.CanSee(map, m.Pawn.Position, owner, new TacticalContactState(),
+                    m.Pawn.Position.Roofed(map) ? TacticalContactState.Radius : TacticalFieldPolicy.SightRadius));
             if (!reportExposed && a.Link.Cooperation.Active && b.Link.Cooperation.Active
-                && a.Phase==TacticalCommandPhase.Stack && b.Phase==TacticalCommandPhase.Stack
-                && a.Members.Count(m=>m.Pawn.Spawned && a.Plan.Stack.Contains(m.Pawn.Position))>=8
-                && b.Members.Count(m=>m.Pawn.Spawned && b.Plan.Stack.Contains(m.Pawn.Position))>=8)
+                && a.Plan != null && b.Plan != null && a.Plan.Opening.Standable(map)
+                && !b.Plan.Opening.Standable(map))
             {
-                IntVec3 tangent=new IntVec3(-a.Plan.Inward.z,0,a.Plan.Inward.x);
-                owner.Position=a.Plan.Outside-tangent*26;
-                if (owner.Position.Standable(map) && Sees(a) && !Sees(b))
+                // Use physical wall occlusion at the real outdoor 80-cell sight
+                // range. A distance-only 28-cell assay falsely hid the actor from B.
+                IntVec3 previous = owner.Position;
+                IntVec3 candidate = a.Plan.Inside + a.Plan.Inward * 2;
+                if (candidate.InBounds(map) && candidate.Standable(map) && candidate.GetFirstPawn(map) == null)
                 {
-                    reportSource=a; reportReceiver=b; reportExposed=true; reportExposedAt=tick;
-                    CooperationEvent("contact exposed only to source squad " + owner.Position);
+                    owner.Position = candidate;
+                    if (Sees(a) && !Sees(b))
+                    {
+                        reportSource = a; reportReceiver = b; reportExposed = true; reportExposedAt = tick;
+                        CooperationEvent("contact exposed through source opening with actual roof/field sight; receiver occluded " + owner.Position);
+                    }
+                    else owner.Position = previous;
                 }
-                else owner.Position=new IntVec3(155,0,155);
             }
             if (!reportExposed) return;
             reportSightClean &= !Sees(reportReceiver);
@@ -280,7 +288,7 @@ namespace Helodrace
             if (received==null) return;
             result.newContactReportShared=true; result.newContactReportWithoutLocalSight=reportSightClean;
             CooperationEvent("radio contact received with original observed tick " + (received.SeenTick-started));
-            owner.Position=new IntVec3(155,0,155);
+            // Next drill frame withdraws the completed stimulus into the holder.
         }
         private IntVec3[] CooperationRegions(TacticalSquadCommand[] commands) => MultiRoomFixture
             ? new[] { new IntVec3(108,0,110), new IntVec3(120,0,110), new IntVec3(120,0,128) }
