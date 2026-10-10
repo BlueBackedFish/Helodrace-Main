@@ -195,6 +195,96 @@ class CollectionTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"savedata/journal"):
                 module.inspect_run(path,row,s,self.pinned)
 
+    def test_resumed_union_requires_all96_and_preserves_failed_source(self):
+        with tempfile.TemporaryDirectory() as root:
+            base = Path(root)
+            repository, functional = base / "repo", base / "functional"
+            functional.mkdir()
+            for filename in self.pinned:
+                file = repository / Path(filename.replace("\\", "/"))
+                file.parent.mkdir(parents=True, exist_ok=True)
+                data = ("synthetic pin: " + filename).encode()
+                file.write_bytes(data)
+                self.pinned[filename] = hashlib.sha256(data).hexdigest()
+            (functional / "checks.json").write_text(json.dumps(self.functional), encoding="utf-8")
+            roots = [base / "attempt1", base / "attempt2"]
+            journals = []
+            for index, selected in enumerate((self.specs[:3], self.specs[3:])):
+                r = roots[index]; r.mkdir()
+                records = []
+                for s in selected:
+                    group = r / s["name"]; group.mkdir()
+                    matrix = self.matrix(s)
+                    for row in matrix["records"]:
+                        row["root"] = str(group / s["workload"] / row["engine"] / f"run-{row['repeat']}")
+                    (group / "checks.json").write_text(json.dumps(matrix), encoding="utf-8")
+                    records.append(dict(name=s["name"], category=s["category"], status="collected",
+                                        error=None, root=str(group)))
+                journal = dict(self.collection, functionalRoot=str(functional),
+                               requestedGroups=[s["name"] for s in selected], records=records)
+                if index == 0:
+                    s = self.specs[3]
+                    journal["requestedGroups"] = [s["name"] for s in self.specs]
+                    journal["allSpecifiedCollected"] = False
+                    journal["records"].append(dict(name=s["name"], category=s["category"],
+                        status="failed", error="output missing", root=str(r / s["name"])))
+                journals.append(journal)
+                (r / "checks.json").write_text(json.dumps(journal), encoding="utf-8")
+            originals = [(r / "checks.json").read_bytes() for r in roots]
+            with patch.object(module, "inspect_interrupted_attempt", return_value={"reason": "synthetic interruption"}), \
+                    patch.object(module, "inspect_run", side_effect=lambda path,row,spec,pinned:module.canonical(row["root"])):
+                result = module.inspect_resumed(functional, roots, repository)
+                self.assertEqual(result["nativeRuns"], 96)
+                self.assertEqual(len(result["interruptedAttempts"]), 1)
+                self.assertFalse(result["cpuGateEvaluated"])
+                self.assertFalse(result["finalR7Complete"])
+                self.assertEqual(originals, [(r / "checks.json").read_bytes() for r in roots])
+                # Duplicate successful groups must not be silently deduplicated.
+                journal = copy.deepcopy(journals[1])
+                journal["requestedGroups"].insert(0, self.specs[2]["name"])
+                journal["records"].insert(0, dict(journals[0]["records"][2], root=str(roots[1] / self.specs[2]["name"])))
+                (roots[1] / "checks.json").write_text(json.dumps(journal), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "Duplicate successful"):
+                    module.inspect_resumed(functional, roots, repository)
+                # A partial supplement never establishes final coverage.
+                journal = copy.deepcopy(journals[1])
+                journal["records"].pop(); journal["allSpecifiedCollected"] = False
+                (roots[1] / "checks.json").write_text(json.dumps(journal), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "final24 coverage incomplete"):
+                    module.inspect_resumed(functional, roots, repository)
+                journal = copy.deepcopy(journals[1]); journal["pinned"] = {}
+                (roots[1] / "checks.json").write_text(json.dumps(journal), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "build/scope/selectors differ"):
+                    module.inspect_resumed(functional, roots, repository)
+
+    def test_interruption_cannot_hide_completed_output_or_native_errors(self):
+        with tempfile.TemporaryDirectory() as root:
+            group = Path(root)
+            s = self.specs[0]; matrix = self.matrix(s)
+            matrix["allSpecifiedPassed"] = False
+            for row in matrix["records"]:
+                row["root"] = str(group / s["workload"] / row["engine"] / f"run-{row['repeat']}")
+            row = matrix["records"][-1]; row["status"] = "failed"; row["error"] = "missing output"
+            run = Path(row["root"]); (run / "profiles").mkdir(parents=True)
+            plan = matrix["planned"][-1]
+            launcher = dict(plan, **{k:self.pinned[v] for k,v in module.CONTENT.items()},
+                            high=s["high"], headless=False, defaultEngine=True, targets=";".join(module.TARGETS),
+                            arguments=[f'"-savedatafolder={run}"'])
+            (run / "launcher.json").write_text(json.dumps(launcher), encoding="utf-8")
+            (run / "Player.log").write_text("synthetic interrupted process", encoding="utf-8")
+            (group / "checks.json").write_text(json.dumps(matrix), encoding="utf-8")
+            with patch.object(module, "inspect_run", return_value="synthetic-completed-sibling"):
+                result = module.inspect_interrupted_attempt(group, s, self.pinned)
+                self.assertEqual(result["nativeRuns"], 2)
+                for f in (run / "audit.json", run / "profiles/capture-synthetic.json"):
+                    f.write_text("{}", encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "completed or captured"):
+                        module.inspect_interrupted_attempt(group, s, self.pinned)
+                    f.unlink()
+                (run / "Player.log").write_text("Exception: synthetic", encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "native errors"):
+                    module.inspect_interrupted_attempt(group, s, self.pinned)
+
 
 if __name__ == "__main__":
     unittest.main()

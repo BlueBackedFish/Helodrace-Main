@@ -1,0 +1,8 @@
+{
+  "root": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x",
+  "name": "scale-100-1x",
+  "nativeRuns": 2,
+  "reason": "Native process ended without audit/capture; completed sibling retained, excluded from final96",
+  "failedPid": 56540,
+  "failedStartedUtc": "2026-10-10T02:50:46.6079066Z"
+}

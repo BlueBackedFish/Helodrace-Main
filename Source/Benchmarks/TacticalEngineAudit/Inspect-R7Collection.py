@@ -200,13 +200,133 @@ def inspect(functional_root, performance_root, repository):
                         "Scale single pairs cannot pass repeated CPU gates; collection coverage is not CPU acceptance.")
 
 
+def inspect_interrupted_attempt(group, spec, pinned):
+    """Preserve an output-less interruption; never discard a completed failed run."""
+    matrix = read(group / "checks.json")
+    rows = matrix.get("records", [])
+    expected = [dict(engine=engine, workload=spec["workload"], repeat=repeat,
+                     requestedPopulation=spec["population"], speed=spec["speed"], fixtureCase=spec["fixtureCase"],
+                     warmupTicks=0, sampleTicks=spec["ticks"], methodProfile=spec["methodProfile"], cpuWindows=True)
+                for repeat in range(1, spec["repeats"] + 1)
+                for engine in (("vanilla", "new") if repeat % 2 else ("new", "vanilla"))]
+    require(matrix.get("pinned") == pinned and matrix.get("planned") == expected
+            and matrix.get("allSpecifiedPassed") is False and 0 < len(rows) <= len(expected)
+            and rows[-1].get("status") == "failed"
+            and all(r.get("status") == "passed" for r in rows[:-1]), "Invalid interrupted matrix")
+    previous = None
+    for row, plan in zip(rows, expected):
+        require(all(row.get(k) == plan[k] for k in ("engine", "workload", "repeat", "speed", "fixtureCase"))
+                and isinstance(row.get("pid"), int) and row["pid"] > 0 and row.get("startedUtc"),
+                "Interrupted native order/identity missing")
+        birth = datetime.fromisoformat(row["startedUtc"].replace("Z", "+00:00"))
+        require(birth.tzinfo is not None and (previous is None or birth > previous), "Interrupted native creation order")
+        previous = birth
+        run = group / spec["workload"] / row["engine"] / f"run-{row['repeat']}"
+        if row["status"] == "passed":
+            inspect_run(run, row, spec, pinned)
+            continue
+        require(not (run / "audit.json").exists() and not list((run / "profiles").glob("capture-*.json")),
+                "Cannot exclude a completed or captured failed attempt")
+        launcher = read(run / "launcher.json")
+        require(all(launcher.get(field) == pinned[content] for field, content in CONTENT.items())
+                and all(launcher.get(k) == plan[k] for k in plan if k != "repeat")
+                and launcher.get("high") == spec["high"] and launcher.get("headless") is False
+                and launcher.get("defaultEngine") == (row["engine"] == "new")
+                and launcher.get("targets") == ";".join(TARGETS), "Interrupted launcher content/input differs")
+        identity = [arg for arg in launcher.get("arguments", []) if "-savedatafolder=" in arg]
+        require(len(identity) == 1 and canonical(identity[0].split("-savedatafolder=", 1)[1].strip('"'))
+                == canonical(row["root"]) == canonical(run), "Interrupted native root differs")
+        log = (run / "Player.log").read_text(encoding="utf-8-sig")
+        require(not re.search(r"Exception:|Exception while|Error in ", log),
+                "Interrupted attempt contains native errors; diagnose before accepting resumed evidence")
+    return dict(root=str(group), name=spec["name"], nativeRuns=len(rows),
+                reason="Native process ended without audit/capture; completed sibling retained, excluded from final96",
+                failedPid=rows[-1]["pid"], failedStartedUtc=rows[-1]["startedUtc"])
+
+
+def inspect_resumed(functional_root, performance_roots, repository):
+    """Read original journals across fresh roots; do not rewrite a failed journal."""
+    require(len(performance_roots) >= 2 and len({canonical(r) for r in performance_roots}) == len(performance_roots),
+            "Need distinct original collection roots")
+    functional = read(functional_root / "checks.json")
+    specs = specifications()
+    names = [s["name"] for s in specs]
+    selected, interrupted, sources = {}, [], []
+    first = None
+    for root in performance_roots:
+        path = root / "checks.json"
+        journal = read(path)
+        requested, records = journal.get("requestedGroups", []), journal.get("records", [])
+        require(requested and len(set(requested)) == len(requested)
+                and requested == [n for n in names if n in requested]
+                and [r["name"] for r in records] == requested[:len(records)]
+                and records and all(r.get("status") in ("collected", "failed") for r in records),
+                "Resumed collection selection/order incomplete or still running")
+        require(canonical(journal.get("functionalRoot", "")) == canonical(functional_root), "Functional journal link differs")
+        common = dict(pinned=journal.get("pinned"), profileTargets=journal.get("profileTargets"),
+                      finalFunctionalSkipped=journal.get("finalFunctionalSkipped", False),
+                      verifiedFunctionalCases=journal.get("verifiedFunctionalCases", []))
+        if first is None:
+            first = common
+        require(common == first, "Resumed collection build/scope/selectors differ")
+        require(journal.get("allSpecifiedCollected") is (len(records) == len(requested)
+                and all(r["status"] == "collected" for r in records)), "Resumed collection completion flag differs")
+        sources.append(dict(root=str(root), journalSha256=hashlib.sha256(path.read_bytes()).hexdigest()))
+        for record in records:
+            spec = next(s for s in specs if s["name"] == record["name"])
+            group = root / spec["name"]
+            require(record.get("category") == spec["category"] and canonical(record.get("root", "")) == canonical(group),
+                    "Resumed group category/root differs")
+            if record["status"] == "failed":
+                interrupted.append((group, spec))
+            else:
+                require(record.get("error") is None and spec["name"] not in selected,
+                        "Duplicate successful group or recorded error")
+                selected[spec["name"]] = (group, record)
+    # This in-memory index describes the union only; each original journal and
+    # failed attempt remains authoritative and is separately validated below.
+    require(set(selected) == set(names), "Resumed final24 coverage incomplete")
+    union = dict(first, requestedGroups=names, allSpecifiedCollected=True,
+                 records=[selected[n][1] for n in names])
+    inspect_headers(functional, union)
+    for file, expected in functional["pinned"].items():
+        require(hashlib.sha256((repository / Path(file.replace("\\", "/"))).read_bytes()).hexdigest() == expected,
+                "Current repository content differs: " + file)
+    excluded = [inspect_interrupted_attempt(group, spec, functional["pinned"]) for group, spec in interrupted]
+    identities, groups = set(), []
+    for spec in specs:
+        group, _ = selected[spec["name"]]
+        rows = inspect_matrix(read(group / "checks.json"), spec, functional["pinned"])
+        for row in rows:
+            run = group / spec["workload"] / row["engine"] / f"run-{row['repeat']}"
+            identity = inspect_run(run, row, spec, functional["pinned"])
+            require(identity not in identities, "Duplicate native savedata identity across resumed final96")
+            identities.add(identity)
+        groups.append(dict(name=spec["name"], category=spec["category"], nativeRuns=len(rows),
+                           repeated=spec["repeats"] >= 3, sourceRoot=str(group.parent),
+                           baseline=str(group / spec["workload"] / "vanilla"),
+                           candidate=str(group / spec["workload"] / "new")))
+    require(len(identities) == 96, "Resumed final96 coverage incomplete")
+    return dict(scope="Read-only resumed R7 original collection coverage/identity inspection only",
+                finalR7Complete=False, cpuGateEvaluated=False, collectionCoverageVerified=True,
+                finalFunctionalSkipped=first["finalFunctionalSkipped"],
+                verifiedFunctionalCases=first["verifiedFunctionalCases"], nativeRuns=len(identities),
+                collectionSources=sources, interruptedAttempts=excluded, groups=groups,
+                warning="No original journal was changed. Output-less interrupted attempts are preserved, not passed. "
+                        "Matched CPU comparisons, repeated gates, method/phase/spike report and final requirements remain necessary.")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("functional", type=Path)
     parser.add_argument("performance", type=Path)
     parser.add_argument("--repository", type=Path, default=Path(__file__).resolve().parents[3])
+    parser.add_argument("--supplement", type=Path, action="append", default=[],
+                        help="Additional original resumed collection root; never rewrites failed journals")
     args = parser.parse_args()
     try:
-        print(json.dumps(inspect(args.functional, args.performance, args.repository), ensure_ascii=False, indent=2))
+        result = (inspect_resumed(args.functional, [args.performance] + args.supplement, args.repository)
+                  if args.supplement else inspect(args.functional, args.performance, args.repository))
+        print(json.dumps(result, ensure_ascii=False, indent=2))
     except (ValueError, KeyError, OSError, TypeError) as error:
         parser.exit(1, "Collection inspection rejected: " + str(error) + "\n")

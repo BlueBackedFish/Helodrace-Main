@@ -1,0 +1,118 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01",
+  "classification": "Actual interrupted108 pair. Baseline completed; new process exited without audit/capture and without logged exception. Cause unknown. Failed original preserved, not CPU evidence or acceptance.",
+  "files": {
+    "vanilla/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\vanilla\\run-1\\audit.json",
+      "classification": "Actual completed native baseline, excluded interrupted pair",
+      "sha256": "9eea8592b16020c9afdb7a759dbd6e32754442bdac76cb0d224aae913a1dfbd5",
+      "uncompressedSha256": "9eea8592b16020c9afdb7a759dbd6e32754442bdac76cb0d224aae913a1dfbd5",
+      "uncompressedBytes": 20281
+    },
+    "vanilla/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\vanilla\\run-1\\launcher.json",
+      "classification": "Actual completed native baseline, excluded interrupted pair",
+      "sha256": "7204b0b68d3fde68e3fb6c28589a2dd039a5d37f80e07274413744d3423b68e9",
+      "uncompressedSha256": "7204b0b68d3fde68e3fb6c28589a2dd039a5d37f80e07274413744d3423b68e9",
+      "uncompressedBytes": 3107
+    },
+    "vanilla/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\vanilla\\run-1\\Player.log",
+      "classification": "Actual completed native baseline, excluded interrupted pair",
+      "sha256": "9c5978a0c1cd9ba5f11d9e30bdcf205985d7fb73f78f8c892fed5535ba1e5f7b",
+      "uncompressedSha256": "898aedd619a0f0d67f3683b86e165fc482e1e98975f52b10b7a2648169fde3e1",
+      "uncompressedBytes": 30536
+    },
+    "vanilla/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\vanilla\\run-1\\pawn-manifest.txt",
+      "classification": "Actual completed native baseline, excluded interrupted pair",
+      "sha256": "8aaddf24d856561ddcaea73cb2bebc19944358c4b21ad5ff068e66fce1a059ce",
+      "uncompressedSha256": "6348a8f92c1a850352b5759dbda1d15a3383b885ee3aea1f74a2b9b7f671c4e0",
+      "uncompressedBytes": 93615
+    },
+    "vanilla/profiles/capabilities.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\vanilla\\run-1\\profiles\\capabilities.json",
+      "classification": "Actual completed native baseline, excluded interrupted pair",
+      "sha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedSha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedBytes": 14154
+    },
+    "vanilla/profiles/capture-20261010-025042-150-1.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\vanilla\\run-1\\profiles\\capture-20261010-025042-150-1.json",
+      "classification": "Actual completed native baseline, excluded interrupted pair",
+      "sha256": "0ce3bc89bb1be1b48a510b2ec67f5b9d108868898428781e658b051703062707",
+      "uncompressedSha256": "0ce3bc89bb1be1b48a510b2ec67f5b9d108868898428781e658b051703062707",
+      "uncompressedBytes": 27400
+    },
+    "vanilla/profiles/status.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\vanilla\\run-1\\profiles\\status.json",
+      "classification": "Actual completed native baseline, excluded interrupted pair",
+      "sha256": "c5deafe2237ddad19ebc8a87aa3572b2696afa693a5347adb75c20082dc306dd",
+      "uncompressedSha256": "c5deafe2237ddad19ebc8a87aa3572b2696afa693a5347adb75c20082dc306dd",
+      "uncompressedBytes": 224
+    },
+    "new/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\new\\run-1\\launcher.json",
+      "classification": "Actual interrupted native run; no audit/capture, not passed",
+      "sha256": "60f67e71f23fa97c613d0790e515dac6ed99f82459f7bfc4d250d603801bd61a",
+      "uncompressedSha256": "60f67e71f23fa97c613d0790e515dac6ed99f82459f7bfc4d250d603801bd61a",
+      "uncompressedBytes": 3034
+    },
+    "new/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\new\\run-1\\Player.log",
+      "classification": "Actual interrupted native run; no audit/capture, not passed",
+      "sha256": "8e8904605010428e51dee0c8d1af2f4643784a60379ca448efea0d4fbfb3e780",
+      "uncompressedSha256": "a32becf498ac555cf45c15dd8fd91f388451ca2acd93a4903734439c2f3aba6e",
+      "uncompressedBytes": 30507
+    },
+    "new/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\new\\run-1\\pawn-manifest.txt",
+      "classification": "Actual interrupted native run; no audit/capture, not passed",
+      "sha256": "8aaddf24d856561ddcaea73cb2bebc19944358c4b21ad5ff068e66fce1a059ce",
+      "uncompressedSha256": "6348a8f92c1a850352b5759dbda1d15a3383b885ee3aea1f74a2b9b7f671c4e0",
+      "uncompressedBytes": 93615
+    },
+    "new/profiles/capabilities.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\new\\run-1\\profiles\\capabilities.json",
+      "classification": "Actual interrupted native run; no audit/capture, not passed",
+      "sha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedSha256": "16e101d0c0896a1a66b74cf247f20cd0a222e6f5c868937482a2e3fe0ac980b5",
+      "uncompressedBytes": 14154
+    },
+    "new/profiles/status.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\new\\run-1\\profiles\\status.json",
+      "classification": "Actual interrupted native run; no audit/capture, not passed",
+      "sha256": "71a299347c6df9e5c3c400d31c1b689d222b02d35e4633deda6a56f1d6e0eed7",
+      "uncompressedSha256": "71a299347c6df9e5c3c400d31c1b689d222b02d35e4633deda6a56f1d6e0eed7",
+      "uncompressedBytes": 193
+    },
+    "new/process-id.txt": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\sapper-wall\\new\\run-1\\process-id.txt",
+      "classification": "Actual interrupted native run; no audit/capture, not passed",
+      "sha256": "c0054a461f7c3eafb3e59a45f5b6fe623bf7e95c70944492b2b7638b11e04f89",
+      "uncompressedSha256": "c0054a461f7c3eafb3e59a45f5b6fe623bf7e95c70944492b2b7638b11e04f89",
+      "uncompressedBytes": 7
+    },
+    "matrix-failed-original.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\scale-100-1x\\checks.json",
+      "classification": "Actual terminal matrix journal; failure unchanged",
+      "sha256": "c876d428c8611fb4a0c9549ec59a0d00422d411b1872c527d614a66054a039bc",
+      "uncompressedSha256": "c876d428c8611fb4a0c9549ec59a0d00422d411b1872c527d614a66054a039bc",
+      "uncompressedBytes": 3554
+    },
+    "collection-failed-original.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-01\\checks.json",
+      "classification": "Actual terminal collection journal; three complete groups and interrupted fourth",
+      "sha256": "140c5c7be2d0c1474159e5b3a2a5c32381749073fad56178baba837e7718c6ac",
+      "uncompressedSha256": "140c5c7be2d0c1474159e5b3a2a5c32381749073fad56178baba837e7718c6ac",
+      "uncompressedBytes": 4804
+    },
+    "interrupted-output-validation.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-interrupted-108-proof.json",
+      "classification": "Derived read-only interruption validation; no completed failed native output discarded",
+      "sha256": "a379ec2f8cf6261f5cf6e50af9ee1cdd6cb68f7e70314a2d8d9017d978057415",
+      "uncompressedSha256": "a379ec2f8cf6261f5cf6e50af9ee1cdd6cb68f7e70314a2d8d9017d978057415",
+      "uncompressedBytes": 346
+    }
+  }
+}
