@@ -1,0 +1,41 @@
+﻿{
+    "scope":  "Read-only native functional evidence verification",
+    "partial":  true,
+    "finalFunctionalVerified":  false,
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "verified":  [
+                     {
+                         "name":  "door",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "narrow",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "rocks",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "interrupt",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     }
+                 ]
+}
