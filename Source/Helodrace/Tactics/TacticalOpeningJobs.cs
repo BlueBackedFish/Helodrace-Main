@@ -46,7 +46,7 @@ namespace Helodrace.Tactics
                     bool visible = false;
                     foreach (IntVec3 destination in shootable)
                         if (GenSight.LineOfSight(Source, destination, pawn.Map, true)) { visible = true; break; }
-                    if (!visible) continue;
+                    if (!visible || !TacticalThreatEligibility.Ranged(enemy)) continue;
                     Peeking = false;
                     pawn.Map.GetComponent<MapComponent_TacticalCommands>().Observed(pawn, job, cell, enemy.thingIDNumber);
                     ReadyForNextToil(); return;

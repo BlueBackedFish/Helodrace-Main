@@ -31,7 +31,8 @@ namespace Helodrace.Tactics
                     if (state.CandidateCursor >= pawns.Count) state.CandidateCursor = 0;
                     Pawn enemy = pawns[state.CandidateCursor++]; ContactCandidates++;
                     if (enemy.Dead || enemy.Downed || !enemy.HostileTo(observer)
-                        || !TacticalContactSight.CanSee(map, observer.Position, enemy, state, radius)) continue;
+                        || !TacticalContactSight.CanSee(map, observer.Position, enemy, state, radius)
+                        || !TacticalThreatEligibility.Ranged(enemy)) continue;
                     RecordContact(command, enemy.thingIDNumber, enemy.Position, observer.Position, tick);
                     if (++observed == 2) break;
                 }
@@ -59,7 +60,7 @@ namespace Helodrace.Tactics
                 }
                 DoorContactsSeen++;
             }
-            command.Contacts.Memory.Remember(enemyId, cell, area, door, tick, command.Id); ContactsSeen++;
+            command.Contacts.Memory.Remember(enemyId, cell, area, door, true, tick, command.Id); ContactsSeen++;
         }
     }
 }

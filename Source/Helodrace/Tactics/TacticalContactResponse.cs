@@ -13,7 +13,7 @@ namespace Helodrace.Tactics
         public TacticalLocalPlan Plan;
         public TacticalCommandPhase Phase;
         public IntVec3 Anchor, First, Second = IntVec3.Invalid;
-        public bool Rear, Opposed, Door;
+        public bool Rear, Opposed, Door, DirectAttack;
         public List<IntVec3> Posts = new List<IntVec3>();
         public HashSet<IntVec3> Occupied = new HashSet<IntVec3>();
     }
@@ -23,6 +23,29 @@ namespace Helodrace.Tactics
         public long ContactResponses, RearResponses, OpposedResponses, DoorResponses, ContactResumes, ContactGuardJobs;
         public long ContactPostCandidates;
         public long ContactShots, FieldShots;
+        // An actual adjacent attack is a local emergency, not an observed
+        // ranged contact. Never add it to memory or send it as a report.
+        internal void NotifyCloseAttack(Pawn victim, Job job, Pawn attacker)
+        {
+            if (attacker?.Spawned != true || attacker.Map != map || attacker.Dead || attacker.Downed
+                || !attacker.HostileTo(victim) || victim.Position.DistanceToSquared(attacker.Position) > 2
+                || !byPawn.TryGetValue(victim, out TacticalSquadCommand command) || command.Terminal
+                || victim.CurJob != job || job.playerForced
+                || command.Members.Find(m => m.Pawn == victim)?.Job != job) return;
+            int tick = GenTicks.TicksGame;
+            TacticalContactResponse response = command.ContactResponse;
+            if (response == null)
+            {
+                response = new TacticalContactResponse { Started = tick, Anchor = victim.Position,
+                    Plan = command.Plan, Phase = command.Phase, SecuredCount = command.SecuredCells.Count };
+                for (int i = 0; i < command.Members.Count; i++) response.Posts.Add(IntVec3.Invalid);
+                command.ContactResponse = response; ContactResponses++;
+            }
+            response.DirectAttack = true; response.LastSeen = response.FocusUpdatedAt = tick;
+            response.First = attacker.Position; response.FirstId = attacker.thingIDNumber;
+            if (command.MedicalCare != null) command.MedicalCare.CancelRequested = true;
+            Wake(victim);
+        }
         internal void ContactShot(Pawn pawn)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return;
@@ -35,6 +58,12 @@ namespace Helodrace.Tactics
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
                 return false;
             TacticalContactResponse response = command.ContactResponse;
+            if (response?.DirectAttack == true && command.FieldResponse != null)
+            {
+                EndFieldResponse(command, tick);
+                // Field time was restored above; start the emergency pause now.
+                response.Started = tick;
+            }
             if (response == null)
             {
                 Pawn anchor = active[active.Count / 2].Pawn;

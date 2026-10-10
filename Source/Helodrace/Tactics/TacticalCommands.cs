@@ -311,7 +311,7 @@ namespace Helodrace.Tactics
             var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (UpdateDefensiveMission(command, tick)) return;
-            if (command.Phase == TacticalCommandPhase.Complete && !ResumeExpiredAllocation(command, tick))
+            if (command.Phase == TacticalCommandPhase.Complete && command.ContactResponse?.DirectAttack != true && !ResumeExpiredAllocation(command, tick))
             { command.Due = tick + 600; return; }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));

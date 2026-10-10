@@ -79,6 +79,7 @@ namespace Helodrace.Tactics
             // contact or portal transit still belongs to the CQB response.
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
                 return false;
+            if (command.ContactResponse?.DirectAttack == true) return false;
             TacticalFieldResponse field = command.FieldResponse;
             bool support = WaitingForSupport(command, tick);
             if (field == null)

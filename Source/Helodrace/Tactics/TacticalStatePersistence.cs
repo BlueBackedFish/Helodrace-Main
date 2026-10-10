@@ -208,6 +208,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Position, "position");
             Scribe_Values.Look(ref Area, "area");
             Scribe_Values.Look(ref Door, "door");
+            Scribe_Values.Look(ref RangedThreat, "rangedThreat");
             Scribe_Values.Look(ref Origin, "origin");
         }
     }
@@ -217,6 +218,11 @@ namespace Helodrace.Tactics
         public void ExposeData()
         {
             Scribe_Collections.Look(ref entries, "entries", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                if (entries == null) entries = new List<TacticalContact>(Limit);
+                entries.RemoveAll(contact => contact == null || !contact.RangedThreat);
+            }
         }
     }
 
@@ -239,6 +245,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref LastSeen, "lastSeen");
             Scribe_Values.Look(ref Assigned, "assigned");
             Scribe_Values.Look(ref SecuredCount, "securedCount");
+            Scribe_Values.Look(ref DirectAttack, "directAttack");
             Scribe_Values.Look(ref FirstId, "firstId");
             Scribe_Values.Look(ref SecondId, "secondId");
             Scribe_Values.Look(ref FocusUpdatedAt, "focusUpdatedAt");

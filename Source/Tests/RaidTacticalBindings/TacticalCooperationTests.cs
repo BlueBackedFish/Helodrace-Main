@@ -38,12 +38,12 @@ internal static class TacticalCooperationTests
             && !b.Receive(TacticalMessageKind.Confirm,agenda,"B",goal,320), "Abort cannot be resurrected by an old confirmation.");
         var waiting = new TacticalCooperationState { Agenda=agenda, Stage=TacticalAgreementStage.Offered, NegotiationStarted=50 };
         Check(!waiting.Expired(649) && waiting.Expired(650) && a.Expired(6000), "Negotiation and mission deadlines provide bounded independent fallback.");
-        var source = new TacticalContactMemory(); source.Remember(7,new IntVec3(12,0,12),new IntVec3(13,0,12),true,100,"A");
+        var source = new TacticalContactMemory(); source.Remember(7,new IntVec3(12,0,12),new IntVec3(13,0,12),true, true,100,"A");
         var report = source.Entries.Single().Copy(); var recipient = new TacticalContactMemory();
         Check(recipient.Receive(report,200) && recipient.Entries.Single().SeenTick==100, "Reported contact retains original observation time.");
-        source.Remember(7,new IntVec3(20,0,20),IntVec3.Invalid,false,250,"A");
+        source.Remember(7,new IntVec3(20,0,20),IntVec3.Invalid,false, true,250,"A");
         Check(recipient.Entries.Single().Position == new IntVec3(12,0,12), "Reports must be detached value snapshots.");
-        recipient.Remember(7,new IntVec3(30,0,30),IntVec3.Invalid,false,300,"B");
+        recipient.Remember(7,new IntVec3(30,0,30),IntVec3.Invalid,false, true,300,"B");
         Check(!recipient.Receive(report,350) && recipient.Entries.Single().Origin=="B", "Old external knowledge cannot overwrite newer local observation.");
         Check(!new TacticalContactMemory().Receive(report,1900), "Delayed reports cannot refresh expired contacts.");
         Check(TacticalCommunicationPolicy.Radio(true,true,"net","net",300,200,199*199)

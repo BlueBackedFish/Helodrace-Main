@@ -10,10 +10,10 @@ namespace Helodrace.Tactics
         public int EnemyId, SeenTick, PreviousTick = -1;
         public IntVec3 PreviousPosition = IntVec3.Invalid;
         public IntVec3 Position, Area;
-        public bool Door;
+        public bool Door, RangedThreat;
         public string Origin;
         public TacticalContact Copy() => new TacticalContact { EnemyId = EnemyId, SeenTick = SeenTick,
-            Position = Position, Area = Area, Door = Door, Origin = Origin,
+            Position = Position, Area = Area, Door = Door, RangedThreat = RangedThreat, Origin = Origin,
             PreviousPosition = PreviousPosition, PreviousTick = PreviousTick };
     }
 
@@ -22,8 +22,9 @@ namespace Helodrace.Tactics
         public const int Limit = 8, FreshTicks = 240, RetentionTicks = 1800;
         private List<TacticalContact> entries = new List<TacticalContact>(Limit);
         public IReadOnlyList<TacticalContact> Entries => entries;
-        public void Remember(int enemyId, IntVec3 position, IntVec3 area, bool door, int tick, string origin = null)
+        public void Remember(int enemyId, IntVec3 position, IntVec3 area, bool door, bool rangedThreat, int tick, string origin = null)
         {
+            if (!rangedThreat) { entries.RemoveAll(value => value.EnemyId == enemyId); return; }
             TacticalContact contact = entries.Find(value => value.EnemyId == enemyId);
             bool existing = contact != null;
             if (contact == null)
@@ -41,14 +42,15 @@ namespace Helodrace.Tactics
             { contact.PreviousPosition = contact.Position; contact.PreviousTick = contact.SeenTick; }
             else if (tick > contact.SeenTick)
             { contact.PreviousPosition = IntVec3.Invalid; contact.PreviousTick = -1; }
-            contact.Position = position; contact.Area = area; contact.Door = door; contact.SeenTick = tick; contact.Origin = origin;
+            contact.Position = position; contact.Area = area; contact.Door = door; contact.RangedThreat = true;
+            contact.SeenTick = tick; contact.Origin = origin;
         }
         public bool Receive(TacticalContact report, int now)
         {
-            if (report == null || !report.Position.IsValid || report.SeenTick > now || now - report.SeenTick >= RetentionTicks) return false;
+            if (report == null || !report.RangedThreat || !report.Position.IsValid || report.SeenTick > now || now - report.SeenTick >= RetentionTicks) return false;
             TacticalContact own = entries.Find(value => value.EnemyId == report.EnemyId);
             if (own != null && own.SeenTick >= report.SeenTick) return false;
-            Remember(report.EnemyId, report.Position, report.Area, report.Door, report.SeenTick, report.Origin);
+            Remember(report.EnemyId, report.Position, report.Area, report.Door, report.RangedThreat, report.SeenTick, report.Origin);
             own = entries.Find(value => value.EnemyId == report.EnemyId);
             own.PreviousPosition = report.PreviousPosition; own.PreviousTick = report.PreviousTick;
             return true;

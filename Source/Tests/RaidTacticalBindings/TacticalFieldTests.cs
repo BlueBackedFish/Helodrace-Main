@@ -10,13 +10,13 @@ internal static class TacticalFieldTests
     {
         var memory = new TacticalContactMemory();
         IntVec3 anchor = new IntVec3(10, 0, 10), first = new IntVec3(10, 0, 60);
-        memory.Remember(1, first, first, false, 100, "a");
+        memory.Remember(1, first, first, false, true, 100, "a");
         TacticalContact contact = memory.Entries.Single();
         if (TacticalFieldPolicy.Motion(contact, anchor) != TacticalObservedMotion.Unknown)
             throw new Exception("First observation invented a motion sample.");
         void Move(IntVec3 next, int tick, TacticalObservedMotion expected)
         {
-            memory.Remember(1, next, next, false, tick, "a");
+            memory.Remember(1, next, next, false, true, tick, "a");
             if (TacticalFieldPolicy.Motion(contact, anchor) != expected) throw new Exception("Motion: " + expected);
         }
         Move(new IntVec3(10, 0, 55), 145, TacticalObservedMotion.Approaching);
@@ -30,7 +30,7 @@ internal static class TacticalFieldTests
         if (TacticalFieldPolicy.Motion(peer.Entries.Single(), anchor) != TacticalObservedMotion.Approaching
             || peer.Entries.Single().PreviousPosition != report.PreviousPosition)
             throw new Exception("Report lost its observed history.");
-        memory.Remember(1, first, first, false, 790, "other-observer");
+        memory.Remember(1, first, first, false, true, 790, "other-observer");
         if (TacticalFieldPolicy.Motion(contact, anchor) != TacticalObservedMotion.Unknown)
             throw new Exception("Unrelated reports were treated as continuous tracking.");
         var arc = Enumerable.Range(0, 13).Select(i => TacticalFieldPolicy.Arc(anchor, IntVec3.North, i, 13, 8)).ToArray();

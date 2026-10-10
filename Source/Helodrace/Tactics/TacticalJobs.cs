@@ -11,6 +11,12 @@ namespace Helodrace.Tactics
         public bool AtPost;
         public bool Crossed;
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
+        public override void Notify_DamageTaken(DamageInfo dinfo)
+        {
+            base.Notify_DamageTaken(dinfo);
+            if (dinfo.Instigator is Pawn attacker && dinfo.Def.harmsHealth)
+                pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.NotifyCloseAttack(pawn, job, attacker);
+        }
         protected void BindOwner()
         {
             MapComponent_TacticalCommands owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
