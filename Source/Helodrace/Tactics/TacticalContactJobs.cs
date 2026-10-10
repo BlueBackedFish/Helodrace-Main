@@ -24,7 +24,7 @@ namespace Helodrace.Tactics
                 if (tick < nextShot) return;
                 nextShot = tick + 30 + pawn.thingIDNumber % 7;
                 pawn.rotationTracker.FaceCell(job.targetB.Cell);
-                if (pawn.stances.FullBodyBusy || pawn.equipment?.Primary == null) return;
+                if (pawn.stances.FullBodyBusy) return;
                 // The last observed tile is the sole query. A moved/hidden
                 // enemy is never recovered through a remembered Pawn reference.
                 Pawn enemy = job.targetB.Cell.GetFirstPawn(pawn.Map);
@@ -33,6 +33,11 @@ namespace Helodrace.Tactics
                 if (scheduler == null || !scheduler.WorkBudget.TryObserve(tick)) return;
                 if (!TacticalContactSight.CanSee(pawn.Map, pawn.Position, enemy, sight,
                     pawn.Position.Roofed(pawn.Map) ? TacticalContactState.Radius : TacticalFieldPolicy.SightRadius)) return;
+                // A real close-attack emergency may name a melee-only enemy.
+                // Native melee owns reachability, cooldown and attack selection;
+                // do not wait for a gun that cannot fire at an adjacent target.
+                if (pawn.Position.DistanceToSquared(enemy.Position) <= 2 && pawn.meleeVerbs.TryMeleeAttack(enemy)) return;
+                if (pawn.equipment?.Primary == null) return;
                 Verb verb = pawn.equipment.PrimaryEq.PrimaryVerb;
                 if (verb != null && !verb.IsMeleeAttack && verb.Available() && verb.CanHitTarget(enemy))
                     if (verb.TryStartCastOn(enemy)) pawn.Map.GetComponent<MapComponent_TacticalCommands>()?.ContactShot(pawn);

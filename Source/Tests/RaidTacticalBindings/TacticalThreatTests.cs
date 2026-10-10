@@ -63,6 +63,8 @@ internal static class TacticalThreatTests
             memory.Remember(1, cell, cell, false, false, 130);
             Check(memory.Entries.Count == 0, "A new ineligible sighting must remove the old contact.");
             Check(receiver.Entries.Single().RangedThreat, "Report mutation must not alter recipient knowledge.");
+            Check(AccessTools.Method(typeof(Pawn_MeleeVerbs), "TryMeleeAttack", new[] { typeof(Thing), typeof(Verb), typeof(bool) }) != null,
+                "Contact guards must use the installed native melee attack API for actual adjacent attackers.");
             CheckScribe(receiver.Entries.Single(), Check);
         }
         finally { DamageDefOf.EMP = previousEmp; }
