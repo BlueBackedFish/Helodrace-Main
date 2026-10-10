@@ -1,0 +1,70 @@
+﻿{
+    "scope":  "Fixed-input engine comparison collection",
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "pinned":  {
+                   "Defs\\GreatWar\\Sledgehammer_Breach.xml":  "b2291fc24f0f2af4aae4b29c8b0fb4c7e8c20b210fed80bfd459f233d8e69307",
+                   "Defs\\ColdWar\\BreachExplosive_ColdWar.xml":  "d06eefc7597634c2e5bcfc8c6d535af80137d5bb1fd061a0a6c3cdadfbfc59d8",
+                   "Assemblies\\Helodrace.dll":  "6a737c2bd3ae84d19c99929ec459f160adf60f59b85f42b9bc6ce14d8c423e4b",
+                   "Defs\\Organization\\NewTacticalJobs.xml":  "b02b818512b64abde2ddef882a4b9445cc62809d20f0e2232af749305440aad3"
+               },
+    "planned":  [
+                    {
+                        "engine":  "vanilla",
+                        "workload":  "sapper-wall",
+                        "repeat":  1,
+                        "requestedPopulation":  400,
+                        "speed":  1,
+                        "fixtureCase":  "normal",
+                        "warmupTicks":  0,
+                        "sampleTicks":  20000,
+                        "methodProfile":  true,
+                        "cpuWindows":  true
+                    },
+                    {
+                        "engine":  "new",
+                        "workload":  "sapper-wall",
+                        "repeat":  1,
+                        "requestedPopulation":  400,
+                        "speed":  1,
+                        "fixtureCase":  "normal",
+                        "warmupTicks":  0,
+                        "sampleTicks":  20000,
+                        "methodProfile":  true,
+                        "cpuWindows":  true
+                    }
+                ],
+    "records":  [
+                    {
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-400-1x\\sapper-wall\\vanilla\\run-1",
+                        "engine":  "vanilla",
+                        "workload":  "sapper-wall",
+                        "repeat":  1,
+                        "pid":  39144,
+                        "status":  "passed",
+                        "error":  null,
+                        "startedUtc":  "2026-10-10T09:26:41.4993421Z",
+                        "population":  408,
+                        "entered":  408,
+                        "objectiveReached":  408,
+                        "speed":  1,
+                        "fixtureCase":  "normal"
+                    },
+                    {
+                        "root":  "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-performance-6a73-02\\scale-400-1x\\sapper-wall\\new\\run-1",
+                        "engine":  "new",
+                        "workload":  "sapper-wall",
+                        "repeat":  1,
+                        "pid":  56376,
+                        "status":  "passed",
+                        "error":  null,
+                        "startedUtc":  "2026-10-10T09:44:15.5653581Z",
+                        "population":  408,
+                        "entered":  408,
+                        "objectiveReached":  408,
+                        "speed":  1,
+                        "fixtureCase":  "normal"
+                    }
+                ],
+    "allSpecifiedPassed":  true
+}

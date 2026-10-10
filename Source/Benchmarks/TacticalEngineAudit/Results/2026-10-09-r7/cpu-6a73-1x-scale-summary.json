@@ -1,0 +1,227 @@
+{
+  "classification": "Read-only complete1x scale curve, six single pairs/twelve valid native runs. Not repeated CPU acceptance or final R7 completion. Zero-population functional proof is no commands/jobs/advances. Frame counts/TPS differ; whole-window ratios are not pure AI cost. Interrupted108 pair excluded and preserved separately.",
+  "rows": [
+    {
+      "actualPopulation": 0,
+      "comparisonSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-0-12-1x/scale-0-1x/comparison.json",
+      "comparisonSha256": "58de0d4953e55784cdbe5184451d966ac8234124c8d8ab667111decab7b6ad9a",
+      "tickCpuRatio": 0.25999999999999995,
+      "mainWindowCpuRatio": 0.5524896923564858,
+      "repeatedGateEligible": false,
+      "functionalProof": true,
+      "runs": {
+        "vanilla": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-0-12-1x/scale-0-1x/vanilla/run-1/profiles/capture-20261010-023142-917-1.json",
+          "profileSha256": "d0bd0b09e22f5e2277391110e1605587e83b6ee690f5b7136443816a328c940d",
+          "ticks": 3000,
+          "tickCpuMsPerTick": 1.0416666666666667,
+          "mainWindowCpuMsPerTick": 16.421875,
+          "wallSeconds": 50.1342888,
+          "actualTps": 59.83928508426353,
+          "frames": 19650,
+          "tickElapsedP95Last2048Ms": 1.109,
+          "tickElapsedP99Last2048Ms": 1.3445,
+          "tickElapsedMaxWholeWindowMs": 54.0194
+        },
+        "new": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-0-12-1x/scale-0-1x/new/run-1/profiles/capture-20261010-023349-183-1.json",
+          "profileSha256": "e7f25c13248e70a08c82bbc7d18f66504586c3cafcf52ef77d722b9d3a1ea56f",
+          "ticks": 3000,
+          "tickCpuMsPerTick": 0.2708333333333333,
+          "mainWindowCpuMsPerTick": 9.072916666666666,
+          "wallSeconds": 50.1828774,
+          "actualTps": 59.78134685437547,
+          "frames": 8196,
+          "tickElapsedP95Last2048Ms": 1.0797,
+          "tickElapsedP99Last2048Ms": 1.3909,
+          "tickElapsedMaxWholeWindowMs": 51.8045
+        }
+      }
+    },
+    {
+      "actualPopulation": 12,
+      "comparisonSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-0-12-1x/scale-12-1x/comparison.json",
+      "comparisonSha256": "fb457276cfbb3082cab46b642083d6c59af7ec33fcf851d89d955887331c5b8b",
+      "tickCpuRatio": 0.80718954248366,
+      "mainWindowCpuRatio": 0.7399713467048711,
+      "repeatedGateEligible": false,
+      "functionalProof": true,
+      "runs": {
+        "vanilla": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-0-12-1x/scale-12-1x/vanilla/run-1/profiles/capture-20261010-023649-028-1.json",
+          "profileSha256": "73b5914afd0747c869fb758bfc6bf8e4259cb0dc9da6ff1fc852389aed140774",
+          "ticks": 6000,
+          "tickCpuMsPerTick": 0.796875,
+          "mainWindowCpuMsPerTick": 14.541666666666666,
+          "wallSeconds": 100.222279,
+          "actualTps": 59.86692839024345,
+          "frames": 25696,
+          "tickElapsedP95Last2048Ms": 1.8364,
+          "tickElapsedP99Last2048Ms": 2.3595,
+          "tickElapsedMaxWholeWindowMs": 101.2267
+        },
+        "new": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-0-12-1x/scale-12-1x/new/run-1/profiles/capture-20261010-023939-890-1.json",
+          "profileSha256": "e897d9f14fbdd8d260983b18c22d0d9e97f5e2b907eaf3627f02b2ed332727fc",
+          "ticks": 6000,
+          "tickCpuMsPerTick": 0.6432291666666666,
+          "mainWindowCpuMsPerTick": 10.760416666666666,
+          "wallSeconds": 100.2318033,
+          "actualTps": 59.861239671021664,
+          "frames": 17411,
+          "tickElapsedP95Last2048Ms": 1.7291,
+          "tickElapsedP99Last2048Ms": 2.3931,
+          "tickElapsedMaxWholeWindowMs": 76.1005
+        }
+      }
+    },
+    {
+      "actualPopulation": 60,
+      "comparisonSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-60-1x/comparison.json",
+      "comparisonSha256": "eb29328a3202b79e47a27eec87028d986e80aee2a2e3eb31b1360a4b0bc58e65",
+      "tickCpuRatio": 0.8668341708542714,
+      "mainWindowCpuRatio": 0.9868785361743109,
+      "repeatedGateEligible": false,
+      "functionalProof": true,
+      "runs": {
+        "vanilla": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-60-1x/vanilla/run-1/profiles/capture-20261010-024308-460-1.json",
+          "profileSha256": "c047f4f08485340adb1ee60c97d3ccf97d9ec1496f2ccc59cc6128828241dd5f",
+          "ticks": 8000,
+          "tickCpuMsPerTick": 2.33203125,
+          "mainWindowCpuMsPerTick": 16.224609375,
+          "wallSeconds": 133.5751718,
+          "actualTps": 59.89136972234836,
+          "frames": 29897,
+          "tickElapsedP95Last2048Ms": 3.7482,
+          "tickElapsedP99Last2048Ms": 4.9118,
+          "tickElapsedMaxWholeWindowMs": 60.0003
+        },
+        "new": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-60-1x/new/run-1/profiles/capture-20261010-024643-161-1.json",
+          "profileSha256": "a70fdb4aa87c43be04ad78dcafb2bfa31ff117bcd1323770047ce283ba991d9c",
+          "ticks": 8000,
+          "tickCpuMsPerTick": 2.021484375,
+          "mainWindowCpuMsPerTick": 16.01171875,
+          "wallSeconds": 133.5528942,
+          "actualTps": 59.901360041061544,
+          "frames": 27096,
+          "tickElapsedP95Last2048Ms": 3.7898,
+          "tickElapsedP99Last2048Ms": 4.9874,
+          "tickElapsedMaxWholeWindowMs": 70.1292
+        }
+      }
+    },
+    {
+      "actualPopulation": 108,
+      "comparisonSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-108-1x/comparison.json",
+      "comparisonSha256": "2e899cf5728513a1e7697f997838b35046055eb7dff50414de2570018e6522cc",
+      "tickCpuRatio": 0.9174493326742461,
+      "mainWindowCpuRatio": 1.0634507606084866,
+      "repeatedGateEligible": false,
+      "functionalProof": true,
+      "runs": {
+        "vanilla": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-108-1x/vanilla/run-1/profiles/capture-20261010-091232-753-1.json",
+          "profileSha256": "e381592d673973a063072d3f447366f46c2af9a2b140f6de52614bf08be2a3e7",
+          "ticks": 10000,
+          "tickCpuMsPerTick": 3.1609375,
+          "mainWindowCpuMsPerTick": 15.6125,
+          "wallSeconds": 166.8250936,
+          "actualTps": 59.943020466556476,
+          "frames": 24411,
+          "tickElapsedP95Last2048Ms": 5.2364,
+          "tickElapsedP99Last2048Ms": 6.4208,
+          "tickElapsedMaxWholeWindowMs": 56.5194
+        },
+        "new": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-108-1x/new/run-1/profiles/capture-20261010-091640-663-1.json",
+          "profileSha256": "ad611b17a33a3260e35cb874b7710b07d3cfcf8c9cb265a3070d22a64e7e91c6",
+          "ticks": 10000,
+          "tickCpuMsPerTick": 2.9,
+          "mainWindowCpuMsPerTick": 16.603125,
+          "wallSeconds": 183.955596,
+          "actualTps": 54.36094480104862,
+          "frames": 26011,
+          "tickElapsedP95Last2048Ms": 5.4723,
+          "tickElapsedP99Last2048Ms": 7.0694,
+          "tickElapsedMaxWholeWindowMs": 59.7823
+        }
+      }
+    },
+    {
+      "actualPopulation": 204,
+      "comparisonSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-204-1x/comparison.json",
+      "comparisonSha256": "1a9b8e3a598342f5e0490993a2614a4c1569614a2fe72b9fa2e320872b5293a5",
+      "tickCpuRatio": 0.873250861894139,
+      "mainWindowCpuRatio": 0.970417857418707,
+      "repeatedGateEligible": false,
+      "functionalProof": true,
+      "runs": {
+        "vanilla": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-204-1x/vanilla/run-1/profiles/capture-20261010-092141-586-1.json",
+          "profileSha256": "60f38875214a91a7f4a9106d4650fda0e8b04c2583e0b181aaf8cfee5968ca20",
+          "ticks": 14000,
+          "tickCpuMsPerTick": 5.503348214285714,
+          "mainWindowCpuMsPerTick": 14.449776785714286,
+          "wallSeconds": 233.4848077,
+          "actualTps": 59.96107471792478,
+          "frames": 36746,
+          "tickElapsedP95Last2048Ms": 9.4722,
+          "tickElapsedP99Last2048Ms": 11.7172,
+          "tickElapsedMaxWholeWindowMs": 55.2801
+        },
+        "new": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-204-1x/new/run-1/profiles/capture-20261010-092638-276-1.json",
+          "profileSha256": "69a7658cc23eee3043bd5966d4d88833e3fa2d693631d295ab14bf50e0a1958c",
+          "ticks": 14000,
+          "tickCpuMsPerTick": 4.805803571428571,
+          "mainWindowCpuMsPerTick": 14.022321428571429,
+          "wallSeconds": 236.4419798,
+          "actualTps": 59.21114351961622,
+          "frames": 37343,
+          "tickElapsedP95Last2048Ms": 10.3053,
+          "tickElapsedP99Last2048Ms": 13.9188,
+          "tickElapsedMaxWholeWindowMs": 62.6609
+        }
+      }
+    },
+    {
+      "actualPopulation": 408,
+      "comparisonSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-408-1x/comparison.json",
+      "comparisonSha256": "df98424ad9d9abcd2a8a1445dc740f03212378d2aa81ba4701c90ec8c6e7aa2d",
+      "tickCpuRatio": 0.8060292039566651,
+      "mainWindowCpuRatio": 0.5225475006115958,
+      "repeatedGateEligible": false,
+      "functionalProof": true,
+      "runs": {
+        "vanilla": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-408-1x/vanilla/run-1/profiles/capture-20261010-094410-131-1.json",
+          "profileSha256": "5f343bfc782eb125e87751e8d01f725fb4c0bcb4bad6d96fb241eb4c0e296d2f",
+          "ticks": 20000,
+          "tickCpuMsPerTick": 16.5859375,
+          "mainWindowCpuMsPerTick": 47.90234375,
+          "wallSeconds": 978.3943267,
+          "actualTps": 20.441655735532997,
+          "frames": 36578,
+          "tickElapsedP95Last2048Ms": 24.6984,
+          "tickElapsedP99Last2048Ms": 29.7338,
+          "tickElapsedMaxWholeWindowMs": 167.2193
+        },
+        "new": {
+          "profileSource": "Source/Benchmarks/TacticalEngineAudit/Results/2026-10-09-r7/cpu-6a73-scale-408-1x/new/run-1/profiles/capture-20261010-095354-282-1.json",
+          "profileSha256": "911b5c8b7781470d2e660b7e4b5e37e9198a69a654a8e0704c54137fd1d0f830",
+          "ticks": 20000,
+          "tickCpuMsPerTick": 13.36875,
+          "mainWindowCpuMsPerTick": 25.03125,
+          "wallSeconds": 508.7801919,
+          "actualTps": 39.30970646736768,
+          "frames": 15545,
+          "tickElapsedP95Last2048Ms": 26.3071,
+          "tickElapsedP99Last2048Ms": 32.1518,
+          "tickElapsedMaxWholeWindowMs": 184.6445
+        }
+      }
+    }
+  ]
+}
