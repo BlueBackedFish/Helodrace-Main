@@ -1,0 +1,233 @@
+﻿{
+    "scope":  "Read-only native functional evidence verification",
+    "partial":  true,
+    "finalFunctionalVerified":  false,
+    "finalR7Complete":  false,
+    "cpuGateEvaluated":  false,
+    "verified":  [
+                     {
+                         "name":  "door",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "narrow",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "rocks",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "interrupt",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "recovery",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "cutter",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "cutter-active-recovery",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "charge-recovery",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "charge-fuse-casualty",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "charge-change",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "wide-opening",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "unexpected-hole",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "inside-goal",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "tiny-adjacent",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "room-recovery",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "door-contact",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "small-unseen",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "outdoor-opening",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "r4-contact-drill",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "casualty",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "low-cooperation",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "shared-entry",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "radio-loss",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "field-low",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "smoke-low",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "field-high",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "smoke-high",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     },
+                     {
+                         "name":  "care",
+                         "actualMinimumSpeed":  3,
+                         "actualMaximumSpeed":  3,
+                         "reloads":  0,
+                         "functionalComplete":  true,
+                         "nativeExceptions":  0
+                     }
+                 ]
+}

@@ -1,0 +1,249 @@
+﻿[
+    {
+        "name":  "r4-contact-drill",
+        "case":  "r4-contact-drill",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newContactDrillComplete",
+                      "newContactMemoryFrozen",
+                      "newContactPlanPreserved",
+                      "newUnseenDoorIgnored"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newOpposedResponses":  1,
+                         "newContactResumes":  3,
+                         "newRearResponses":  1,
+                         "newContactGuardJobs":  6,
+                         "newDoorResponses":  1
+                     }
+    },
+    {
+        "name":  "casualty",
+        "case":  "casualty",
+        "population":  13,
+        "ticks":  8000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newCasualtyContinued"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "caseLossTick":  1
+                     }
+    },
+    {
+        "name":  "low-cooperation",
+        "case":  "r5-low-coop",
+        "population":  24,
+        "ticks":  12000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "shared-entry",
+        "case":  "r5-shared",
+        "population":  24,
+        "ticks":  12000,
+        "workload":  "sapper-door",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "radio-loss",
+        "case":  "r5-radio-loss",
+        "population":  26,
+        "ticks":  14000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "newCooperationComplete",
+                      "newCooperationMilestonePreserved",
+                      "r7FixtureActorWithdrawn"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newCooperationStarts":  2,
+                         "newAgreementsConfirmed":  2,
+                         "newCooperationCompletedTick":  1
+                     }
+    },
+    {
+        "name":  "field-low",
+        "case":  "r6-field-drill",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldResponses":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "smoke-low",
+        "case":  "r6-smoke-drill",
+        "population":  12,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed",
+                      "newFieldSmokeSharedTargets",
+                      "newFieldSmokeSeen"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldSmokeThrows":  2,
+                         "newFieldSmokeAdvances":  2,
+                         "newFieldResponses":  1,
+                         "newFieldShots":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "field-high",
+        "case":  "r6-field-drill",
+        "population":  13,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldResponses":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "smoke-high",
+        "case":  "r6-smoke-drill",
+        "population":  13,
+        "ticks":  10000,
+        "workload":  "sapper-wall",
+        "high":  true,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newFieldEarlySight",
+                      "newFieldMotionObserved",
+                      "newFieldUniquePosts",
+                      "newFieldSingleTeamBounds",
+                      "newFieldMemoryFrozen",
+                      "newFieldMissionResumed",
+                      "newFieldSmokeSharedTargets",
+                      "newFieldSmokeSeen"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newFieldSmokeThrows":  2,
+                         "newFieldSmokeAdvances":  2,
+                         "newFieldResponses":  1,
+                         "newFieldShots":  1,
+                         "newFieldResumes":  1
+                     }
+    },
+    {
+        "name":  "care",
+        "case":  "r6-care-drill",
+        "population":  12,
+        "ticks":  14000,
+        "workload":  "sapper-wall",
+        "high":  false,
+        "reload":  false,
+        "flags":  [
+                      "caseTriggered",
+                      "newMedicalNoVanillaTend",
+                      "newMedicalGuardsHeld",
+                      "newMedicalMissionResumed",
+                      "newMedicalDressings",
+                      "newMedicalPlasmaApplied"
+                  ],
+        "functional":  true,
+        "reloads":  0,
+        "retained":  false,
+        "minimums":  {
+                         "newMedicalCompleted":  2,
+                         "newMedicalPlasma":  1,
+                         "newMedicalTreatments":  2,
+                         "newMedicalRejoins":  1
+                     }
+    }
+]

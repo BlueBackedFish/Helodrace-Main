@@ -1,0 +1,314 @@
+{
+  "sourceRoot": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01",
+  "classification": "Actual same fa9e44 DLL completed cases19-28 all10passed of ongoing final44 queue. Radio predeadline5070 milestone retained through14001 actual ticks, real physical receiver occlusion/report, unlit C4 hammer recovery. Common verification covers first28 allpassed; earlier18 archived separately. Allcases nativeexceptions/unsafeentries0, recovered jobs retained. No final44/CPU/R7 pass.",
+  "files": {
+    "r4-contact-drill/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\r4-contact-drill\\audit.json",
+      "classification": "completed native original",
+      "sha256": "ce7a432ab9b60caeee2e2cf36d5f580325d48e0d93912e7ce0a26c7244f1fb1f",
+      "uncompressedSha256": "ce7a432ab9b60caeee2e2cf36d5f580325d48e0d93912e7ce0a26c7244f1fb1f",
+      "uncompressedBytes": 13340
+    },
+    "r4-contact-drill/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\r4-contact-drill\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "29c9f9052fc582004b3d58b224127246d04000ea8fda74a62cc25ebb19ea298a",
+      "uncompressedSha256": "29c9f9052fc582004b3d58b224127246d04000ea8fda74a62cc25ebb19ea298a",
+      "uncompressedBytes": 2512
+    },
+    "r4-contact-drill/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\r4-contact-drill\\Player.log",
+      "classification": "completed native original",
+      "sha256": "d4b6da23694c1ca0097a120f54ffce38aa4d9dcd29ad10068b08c7327562299c",
+      "uncompressedSha256": "8afbeb9159bd05f1f311b1280379a5ab8ce4c42bd12f0491f470bd19b5e667d6",
+      "uncompressedBytes": 30282
+    },
+    "r4-contact-drill/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\r4-contact-drill\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "casualty/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\casualty\\audit.json",
+      "classification": "completed native original",
+      "sha256": "5052b084194362273ec7a6b086b82b1c38f4ee40b8599916f13de19afe7fe9fe",
+      "uncompressedSha256": "5052b084194362273ec7a6b086b82b1c38f4ee40b8599916f13de19afe7fe9fe",
+      "uncompressedBytes": 12844
+    },
+    "casualty/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\casualty\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "aeb9fab4172972be8bbac05a9ce86a0ebd0663a2757145903ae47d6c431700b6",
+      "uncompressedSha256": "aeb9fab4172972be8bbac05a9ce86a0ebd0663a2757145903ae47d6c431700b6",
+      "uncompressedBytes": 2470
+    },
+    "casualty/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\casualty\\Player.log",
+      "classification": "completed native original",
+      "sha256": "f1ef4d742c480e8196b9a87565edad43778ddcca50d745bb18279bbecdb42e9b",
+      "uncompressedSha256": "db793a574369bc96821163df2c0caaeff913b1c9881e3deb9f2c37444eae413d",
+      "uncompressedBytes": 29717
+    },
+    "casualty/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\casualty\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    },
+    "low-cooperation/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\low-cooperation\\audit.json",
+      "classification": "completed native original",
+      "sha256": "ced7eb1cf67b32bd7d851b52dce4574646ce5285bdf08840a1cfdbf0d8ba391a",
+      "uncompressedSha256": "ced7eb1cf67b32bd7d851b52dce4574646ce5285bdf08840a1cfdbf0d8ba391a",
+      "uncompressedBytes": 71012
+    },
+    "low-cooperation/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\low-cooperation\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "19b8f941afa580020e8e2ecb3eb735d81fd005b572834245f031bcb57866034a",
+      "uncompressedSha256": "19b8f941afa580020e8e2ecb3eb735d81fd005b572834245f031bcb57866034a",
+      "uncompressedBytes": 2499
+    },
+    "low-cooperation/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\low-cooperation\\Player.log",
+      "classification": "completed native original",
+      "sha256": "c1cd5a406a36c72c05de996a5be40498795f49d7015f63e3d7850a2f20a510f1",
+      "uncompressedSha256": "db224b12b6ac1861e341bccb24805e8425acfbd5ca64ba8bd05b9b80f20e9e5b",
+      "uncompressedBytes": 84818
+    },
+    "low-cooperation/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\low-cooperation\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "0b9a515d2c09133db7bdec33c07452f97b1a44364618d928759d4cf8d1378436",
+      "uncompressedSha256": "8a57c0b4e9e643bd3d240cad83eebab9298096410eb3a5e511fb8d206d0a4af4",
+      "uncompressedBytes": 20823
+    },
+    "shared-entry/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\shared-entry\\audit.json",
+      "classification": "completed native original",
+      "sha256": "94cf672fcb126d6df2ae03bd5c528a7aa5ce7d55379e9ccc5eef8d28058c3879",
+      "uncompressedSha256": "94cf672fcb126d6df2ae03bd5c528a7aa5ce7d55379e9ccc5eef8d28058c3879",
+      "uncompressedBytes": 70226
+    },
+    "shared-entry/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\shared-entry\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "e9bd0cbe37ae4843a20d25f4c7d29f0b49efed7487197b06ff4ef530b8d16ef5",
+      "uncompressedSha256": "e9bd0cbe37ae4843a20d25f4c7d29f0b49efed7487197b06ff4ef530b8d16ef5",
+      "uncompressedBytes": 2486
+    },
+    "shared-entry/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\shared-entry\\Player.log",
+      "classification": "completed native original",
+      "sha256": "a4413bef2f098a32a6e4ba5ab0e437cc2bf04fc17d7910053b502975d45ff041",
+      "uncompressedSha256": "a7fde7f7aa19aaede98e196308f4ceeadc1e7954da9fac0f8e7f9e6cdf5ba19c",
+      "uncompressedBytes": 83955
+    },
+    "shared-entry/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\shared-entry\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "81a2f5885a5367849449c060ed765f5c55e55456ba048b986a996fc9756946be",
+      "uncompressedSha256": "c59bcb4392a311152fa92ee2554247a6079dcdd4c920b5ed2f2a251f24734594",
+      "uncompressedBytes": 20755
+    },
+    "radio-loss/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\radio-loss\\audit.json",
+      "classification": "completed native original",
+      "sha256": "9660ad2f844f76691b2c224457e93b10d2716626e425d456cd76a7b1f9729ab2",
+      "uncompressedSha256": "9660ad2f844f76691b2c224457e93b10d2716626e425d456cd76a7b1f9729ab2",
+      "uncompressedBytes": 80686
+    },
+    "radio-loss/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\radio-loss\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "bf0f807a4f082f97c99413e8fa3b024d76c6d1fe9eed85a2eee22ec295caa797",
+      "uncompressedSha256": "bf0f807a4f082f97c99413e8fa3b024d76c6d1fe9eed85a2eee22ec295caa797",
+      "uncompressedBytes": 2488
+    },
+    "radio-loss/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\radio-loss\\Player.log",
+      "classification": "completed native original",
+      "sha256": "b947bc810956042a552c3fadc9fbd9eb50141eb61d9bab72a6be8172be4e9fbb",
+      "uncompressedSha256": "ff38b83f93d454f21508b91b93aaaca92ef2810d6169b96ab5023da8fb49e320",
+      "uncompressedBytes": 94582
+    },
+    "radio-loss/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\radio-loss\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "330616e28845ae43e9ff9d6045c839196f5916dcf800f780b3d0c836f00084a1",
+      "uncompressedSha256": "0e994de7dbcb524edb15bd3895910ab636898587baa9caabf3f636d5345e7ad2",
+      "uncompressedBytes": 192436
+    },
+    "field-low/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-low\\audit.json",
+      "classification": "completed native original",
+      "sha256": "f7c480154894a52ea347f040a4e5f2cd49a413ba9d0d9b14309e49a266543189",
+      "uncompressedSha256": "f7c480154894a52ea347f040a4e5f2cd49a413ba9d0d9b14309e49a266543189",
+      "uncompressedBytes": 12896
+    },
+    "field-low/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-low\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "426a9e42156b59cebb67168a58ce09b69d89b97970c852e915a58b035693cc7e",
+      "uncompressedSha256": "426a9e42156b59cebb67168a58ce09b69d89b97970c852e915a58b035693cc7e",
+      "uncompressedBytes": 2487
+    },
+    "field-low/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-low\\Player.log",
+      "classification": "completed native original",
+      "sha256": "baba28ecb842b79387bb7156fe8f248625ee3a61b0b8e9497d205672d2cc095b",
+      "uncompressedSha256": "94a08f9d1ada461329f4f8a75699e42fa5a947f0bf738ffc9b24a992e95be027",
+      "uncompressedBytes": 29622
+    },
+    "field-low/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-low\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "smoke-low/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-low\\audit.json",
+      "classification": "completed native original",
+      "sha256": "168dfe1f3f294848a90f650f8004151f21592ed49c961e342009614db4678381",
+      "uncompressedSha256": "168dfe1f3f294848a90f650f8004151f21592ed49c961e342009614db4678381",
+      "uncompressedBytes": 13147
+    },
+    "smoke-low/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-low\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "32b7e1b337cb475d504c729a48c26930fab28c3c75663b9f3162a5e97c02f6bd",
+      "uncompressedSha256": "32b7e1b337cb475d504c729a48c26930fab28c3c75663b9f3162a5e97c02f6bd",
+      "uncompressedBytes": 2487
+    },
+    "smoke-low/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-low\\Player.log",
+      "classification": "completed native original",
+      "sha256": "45e64774faba93e4ca6b492a48a7147861a2a6c3c6ca352f3633f8e883dc68ab",
+      "uncompressedSha256": "553509b7bc28da1ca1e82b6bd1aa8b47127298dd51806f6a9374d06a1db67035",
+      "uncompressedBytes": 30051
+    },
+    "smoke-low/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-low\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "field-high/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-high\\audit.json",
+      "classification": "completed native original",
+      "sha256": "d3f7b20f12c3ebc202f49404701c3bc9b5cfa13e992668d21f2c0ec5460036d3",
+      "uncompressedSha256": "d3f7b20f12c3ebc202f49404701c3bc9b5cfa13e992668d21f2c0ec5460036d3",
+      "uncompressedBytes": 13113
+    },
+    "field-high/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-high\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "7a8bb50829a82dd440e6bdf6337776d482772783d4da94eb3bced68b93cff23b",
+      "uncompressedSha256": "7a8bb50829a82dd440e6bdf6337776d482772783d4da94eb3bced68b93cff23b",
+      "uncompressedBytes": 2490
+    },
+    "field-high/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-high\\Player.log",
+      "classification": "completed native original",
+      "sha256": "79844f80ff499448a893b62c1adf36a1fb9f89f198a7ac920ae509222dc14dad",
+      "uncompressedSha256": "d7f51778f2a3f42c2d76f4cfca484197ebed7a6d3bf727948f65e45550583d63",
+      "uncompressedBytes": 30017
+    },
+    "field-high/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\field-high\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    },
+    "smoke-high/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-high\\audit.json",
+      "classification": "completed native original",
+      "sha256": "d2ca5c769c934b0069b1df2d613188630f592158295bde096afc656d92c07790",
+      "uncompressedSha256": "d2ca5c769c934b0069b1df2d613188630f592158295bde096afc656d92c07790",
+      "uncompressedBytes": 13148
+    },
+    "smoke-high/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-high\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "9eb73d67a3207d06e6bbced9f7362e272b1e204f380e9f6cc0ff855c797c1f63",
+      "uncompressedSha256": "9eb73d67a3207d06e6bbced9f7362e272b1e204f380e9f6cc0ff855c797c1f63",
+      "uncompressedBytes": 2490
+    },
+    "smoke-high/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-high\\Player.log",
+      "classification": "completed native original",
+      "sha256": "ae87fe461b0682cda8db4c802c74e4e28cf4cd089052e96534f5aacac5a3e2df",
+      "uncompressedSha256": "442b2caa967687d8ccc05f5d03a57fa379d9115f66088c924bdc32bb19a044e4",
+      "uncompressedBytes": 30054
+    },
+    "smoke-high/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\smoke-high\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "1783c4753f6aa92bd1aa0ff7a662fd608f59f88b8c091f1d7696935c30cfd116",
+      "uncompressedSha256": "9d1468facfd17e8c79b4ac064259ea1b17d131bdbf0f0b039fc93a3f6376eb93",
+      "uncompressedBytes": 95723
+    },
+    "care/audit.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care\\audit.json",
+      "classification": "completed native original",
+      "sha256": "33485120f715e8aa0363290d030e9e5c748c4b2898b805e6dcf585a79993ad1b",
+      "uncompressedSha256": "33485120f715e8aa0363290d030e9e5c748c4b2898b805e6dcf585a79993ad1b",
+      "uncompressedBytes": 13417
+    },
+    "care/launcher.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care\\launcher.json",
+      "classification": "completed native original",
+      "sha256": "34bfedea5372e8a4153022eab75a3d8545151dfca06dd68cc310c65566a6abca",
+      "uncompressedSha256": "34bfedea5372e8a4153022eab75a3d8545151dfca06dd68cc310c65566a6abca",
+      "uncompressedBytes": 2470
+    },
+    "care/Player.log.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care\\Player.log",
+      "classification": "completed native original",
+      "sha256": "f09f35f6b123c275cbae38dc2c1d0351e588fdf0f376ca58891d1460ef2b696c",
+      "uncompressedSha256": "b1d1854a8b5663ffc28e6cfd8c99365bf58b80ff5771e8517cf42afbc42a44d7",
+      "uncompressedBytes": 30099
+    },
+    "care/pawn-manifest.txt.gz": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\care\\pawn-manifest.txt",
+      "classification": "completed native original",
+      "sha256": "96e9c28349173c55cf00ee878371490b832382c629ff6932cea6152011aafad3",
+      "uncompressedSha256": "a9c5b454861d474bf59e4ff18054797b1c8da4eda13dcbe02571a7685529225f",
+      "uncompressedBytes": 10399
+    },
+    "queue-snapshot.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-full-01\\checks.json",
+      "classification": "original control journal snapshot; later running records not completion proof",
+      "sha256": "7d27d4b0d7a04faf124a383ddf63c5d699c25cd08615246c7415ab70e05ec9c0",
+      "uncompressedSha256": "7d27d4b0d7a04faf124a383ddf63c5d699c25cd08615246c7415ab70e05ec9c0",
+      "uncompressedBytes": 20127
+    },
+    "case-specifications.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-middle-specifications.json",
+      "classification": "derived read-only specs/verification; verification covers first28 of live queue",
+      "sha256": "cbb37887903958299ef64464fd485b980b6b6c7d1a7683430b48186efb0eb51f",
+      "uncompressedSha256": "cbb37887903958299ef64464fd485b980b6b6c7d1a7683430b48186efb0eb51f",
+      "uncompressedBytes": 8289
+    },
+    "partial-verification.json": {
+      "source": "C:\\Users\\Public\\Documents\\ESTsoft\\CreatorTemp\\hd-r7-final-fa9e-middle-verification.json",
+      "classification": "derived read-only specs/verification; verification covers first28 of live queue",
+      "sha256": "280a6f81b948f1865ed5a487b06494c5f60eaadec23ccb013e87e148b0250f9b",
+      "uncompressedSha256": "280a6f81b948f1865ed5a487b06494c5f60eaadec23ccb013e87e148b0250f9b",
+      "uncompressedBytes": 9994
+    },
+    "diagnostic-summary.json": {
+      "source": null,
+      "classification": "derived summary; originals authoritative",
+      "sha256": "25d120d0fb406687d10416e0037fa6fa2ff3b86e8ddebdedb96cb2a0c39e4ff3",
+      "uncompressedSha256": "25d120d0fb406687d10416e0037fa6fa2ff3b86e8ddebdedb96cb2a0c39e4ff3",
+      "uncompressedBytes": 6999
+    }
+  }
+}
