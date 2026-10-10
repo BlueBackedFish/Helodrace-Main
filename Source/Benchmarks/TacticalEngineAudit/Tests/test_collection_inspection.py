@@ -51,6 +51,23 @@ class CollectionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "functional journal"):
             module.inspect_headers(self.functional, self.collection)
 
+    def test_explicit_partial_override_keeps_native_build_and_cpu_scope(self):
+        self.functional["records"] = self.functional["records"][:14]
+        self.functional["allSpecifiedPassed"] = False
+        self.collection["finalFunctionalSkipped"] = True
+        self.collection["verifiedFunctionalCases"] = [r["name"] for r in self.functional["records"]]
+        self.assertEqual(len(module.inspect_headers(self.functional, self.collection)), 24)
+        self.functional["records"][0]["status"] = "failed"
+        with self.assertRaisesRegex(ValueError, "partial functional evidence"):
+            module.inspect_headers(self.functional, self.collection)
+
+    def test_partial_override_does_not_invent_verified_cases(self):
+        self.functional["records"] = self.functional["records"][:14]
+        self.collection["finalFunctionalSkipped"] = True
+        self.collection["verifiedFunctionalCases"] = self.functional["requestedCases"]
+        with self.assertRaisesRegex(ValueError, "partial functional evidence"):
+            module.inspect_headers(self.functional, self.collection)
+
     def test_subset_or_duplicate_groups_rejected(self):
         for mutate in (lambda c: c["records"].pop(),
                        lambda c: c["records"].__setitem__(1, c["records"][0])):

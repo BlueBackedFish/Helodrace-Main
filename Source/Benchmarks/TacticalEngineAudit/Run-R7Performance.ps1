@@ -2,6 +2,7 @@
     [string]$FunctionalRoot,
     [string]$AuditRoot = ('C:\Users\Public\Documents\ESTsoft\CreatorTemp\hd-r7-performance-' + (Get-Date -Format 'yyyyMMdd-HHmmss')),
     [string[]]$Groups = @(),
+    [switch]$AllowPartialFunctional,
     [switch]$Preview
 )
 $ErrorActionPreference = 'Stop'
@@ -42,17 +43,23 @@ $selected = @($specs | Where-Object { $Groups.Count -eq 0 -or $Groups -contains 
 if ($Preview) {
     [pscustomobject]@{ scope='Collection plan only'; finalR7Complete=$false; cpuGateEvaluated=$false;
         groups=$selected; nativeRuns=($selected | Measure-Object -Property repeats -Sum).Sum * 2;
-        requiresFinalFunctionalPass=$true; profileTargets=$profileTargets } | ConvertTo-Json -Depth 8
+        requiresFinalFunctionalPass=(-not $AllowPartialFunctional); finalFunctionalSkipped=[bool]$AllowPartialFunctional;
+        profileTargets=$profileTargets } | ConvertTo-Json -Depth 8
     return
 }
 $root = [IO.Path]::GetFullPath($AuditRoot)
 if (-not $root.StartsWith('C:\Users\Public\Documents\ESTsoft\CreatorTemp\', [StringComparison]::OrdinalIgnoreCase) -or
     (Test-Path -LiteralPath $root)) { throw 'Use a fresh R7 performance directory under CreatorTemp.' }
 if (Get-Process -Name 'RimWorld*' -ErrorAction SilentlyContinue) { throw 'Preserve the existing RimWorld process; do not start another queue.' }
-if (-not $FunctionalRoot) { throw 'Supply the completed final-DLL44-case functional root before collecting final performance.' }
+if (-not $FunctionalRoot) { throw 'Supply the same-DLL functional evidence root before collecting performance.' }
 $functional = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $FunctionalRoot 'checks.json') -Raw | ConvertFrom-Json
-& (Join-Path $PSScriptRoot 'Verify-R7Functional.ps1') -Root $FunctionalRoot -RequireFinal | Out-Null
-if (-not $functional.fullFunctionalQueue -or -not $functional.allSpecifiedPassed -or
+$functionalVerification = & (Join-Path $PSScriptRoot 'Verify-R7Functional.ps1') -Root $FunctionalRoot `
+    -AllowPartial:$AllowPartialFunctional -RequireFinal:(-not $AllowPartialFunctional) | ConvertFrom-Json
+if ($AllowPartialFunctional) {
+    if (@($functional.records | Where-Object { $_.status -eq 'failed' -or $_.nativeExceptions -ne 0 }).Count) {
+        throw 'Partial-functional override does not discard failed native evidence.'
+    }
+} elseif (-not $functional.fullFunctionalQueue -or -not $functional.allSpecifiedPassed -or
     $functional.requestedCases.Count -ne 44 -or $functional.records.Count -ne 44 -or
     @($functional.records | Where-Object { $_.status -ne 'passed' -or $_.nativeExceptions -ne 0 }).Count) {
     throw 'Final functional queue is incomplete or failed; preserve its live process or diagnose the failed evidence first.'
@@ -70,7 +77,9 @@ New-Item -ItemType Directory -Path $root | Out-Null
 $records = @()
 function Write-Journal {
     [pscustomobject]@{ scope='R7 CPU scaling and repeated comparison collection only'; finalR7Complete=$false; cpuGateEvaluated=$false;
-        functionalRoot=$FunctionalRoot; pinned=$pinned; requestedGroups=@($selected.name); profileTargets=$profileTargets; records=$records;
+        functionalRoot=$FunctionalRoot; finalFunctionalSkipped=[bool]$AllowPartialFunctional;
+        verifiedFunctionalCases=@($functionalVerification.verified.name);
+        pinned=$pinned; requestedGroups=@($selected.name); profileTargets=$profileTargets; records=$records;
         allSpecifiedCollected=($records.Count -eq $selected.Count -and @($records | Where-Object { $_.status -ne 'collected' }).Count -eq 0)
     } | ConvertTo-Json -Depth 12 | Set-Content -Encoding UTF8 -LiteralPath (Join-Path $root 'checks.json')
 }

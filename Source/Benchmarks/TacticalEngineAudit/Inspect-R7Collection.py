@@ -1,7 +1,8 @@
 """Read-only final R7 collection coverage/identity inspection, never CPU acceptance.
 
-Run Verify-R7Functional.ps1 -RequireFinal separately. This checks that the CPU
-collection is complete and linked to that journal, not the functional actions.
+Re-verify native functional evidence separately. Full44 is the default; an
+explicit finalFunctionalSkipped collection preserves the user's partial scope.
+This checks CPU coverage and its journal link, not the functional actions.
 Then run engine-compare and Compare-R7Unprofiled.py on the emitted directories.
 All matched groups, CPU ratios, phase costs and final requirements still need
 review; neither a collected flag nor this inspection establishes R7 completion.
@@ -63,7 +64,17 @@ def specifications():
 
 def inspect_headers(functional, collection):
     specs = specifications()
-    require(functional.get("fullFunctionalQueue") is True and functional.get("allSpecifiedPassed") is True
+    if collection.get("finalFunctionalSkipped") is True:
+        rows = functional.get("records", [])
+        names = functional.get("requestedCases", [])
+        verified = [r["name"] for r in rows if r.get("status") == "passed"]
+        require(verified and len(names) == 44 and len(set(names)) == 44
+                and [r["name"] for r in rows] == names[:len(rows)]
+                and all(r.get("status") in ("passed", "running") and r.get("nativeExceptions") == 0 for r in rows)
+                and collection.get("verifiedFunctionalCases") == verified,
+                "Explicit partial functional evidence is missing, failed or inconsistent")
+    else:
+        require(functional.get("fullFunctionalQueue") is True and functional.get("allSpecifiedPassed") is True
             and len(functional.get("requestedCases", [])) == 44
             and len(set(functional["requestedCases"])) == 44
             and len(functional.get("records", [])) == 44
@@ -181,7 +192,9 @@ def inspect(functional_root, performance_root, repository):
                            candidate=str(group / spec["workload"] / "new")))
     require(len(identities) == 96, "Final native96 coverage incomplete")
     return dict(scope="Read-only R7 collection coverage/identity inspection only", finalR7Complete=False,
-                cpuGateEvaluated=False, collectionCoverageVerified=True, nativeRuns=len(identities), groups=groups,
+                cpuGateEvaluated=False, finalFunctionalSkipped=p.get("finalFunctionalSkipped", False),
+                verifiedFunctionalCases=p.get("verifiedFunctionalCases", []),
+                collectionCoverageVerified=True, nativeRuns=len(identities), groups=groups,
                 warning="Functional native re-verification, matched CPU/input comparison with no unmatched groups, "
                         "Core/method/phase/spike reports, cooperation outcome review and final requirements audit remain necessary. "
                         "Scale single pairs cannot pass repeated CPU gates; collection coverage is not CPU acceptance.")
