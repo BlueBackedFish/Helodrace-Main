@@ -34,8 +34,30 @@ internal static class TacticalFieldTests
         if (TacticalFieldPolicy.Motion(contact, anchor) != TacticalObservedMotion.Unknown)
             throw new Exception("Unrelated reports were treated as continuous tracking.");
         var arc = Enumerable.Range(0, 13).Select(i => TacticalFieldPolicy.Arc(anchor, IntVec3.North, i, 13, 8)).ToArray();
-        if (arc.Distinct().Count() != 13 || arc[6].z <= arc[0].z || arc[0].z != arc[12].z)
-            throw new Exception("Bow formation is not unique, symmetric and forward-curved.");
+        if (arc.Distinct().Count() != 13 || arc[6].z >= arc[0].z || arc[0].z != arc[12].z)
+            throw new Exception("Bow formation must have forward wings and a recessed center.");
+        foreach (IntVec3 forward in GenAdj.CardinalDirections)
+        foreach (int count in new[] { 4, 8, 13 })
+        {
+            IntVec3 side = new IntVec3(-forward.z, 0, forward.x);
+            var slots = Enumerable.Range(0, count).Select(i => TacticalFieldPolicy.Arc(anchor, forward, i, count, 8)).ToArray();
+            int Depth(IntVec3 cell) => (cell - anchor).x * forward.x + (cell - anchor).z * forward.z;
+            if (slots.Distinct().Count() != count || Depth(slots[0]) != 2 || Depth(slots[count - 1]) != 2
+                || Depth(slots[count / 2]) >= Depth(slots[0]))
+                throw new Exception("Rotating the bow must preserve its concavity toward the attacker.");
+            foreach (IntVec3 slot in slots)
+            {
+                if (!TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slot, slot, 8)
+                    || TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slot, slot + forward * 2, 8)
+                    || TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slot, anchor + side * 9 + forward * Depth(slot), 8))
+                    throw new Exception("Cover correction must preserve depth and formation width.");
+            }
+            if (TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slots[0], slots[count - 1], 8))
+                throw new Exception("A wing must not move across the opposite side of the bow.");
+            if (count == 13 && (!TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slots[6], slots[6] + side, 8)
+                || TacticalFieldPolicy.ArcCoverCandidate(anchor, forward, slots[6], slots[6] + side * 2, 8)))
+                throw new Exception("Center cover adjustment must stay close to the bow axis.");
+        }
         if (TacticalFieldPolicy.SightRadius <= TacticalContactState.Radius)
             throw new Exception("Field sight does not extend the CQB radius.");
         if (TacticalFieldPolicy.NextMover(-1,7,true)!=0 || TacticalFieldPolicy.NextMover(0,7,true)!=1

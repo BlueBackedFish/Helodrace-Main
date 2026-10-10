@@ -40,7 +40,18 @@ namespace Helodrace.Tactics
             float u = count <= 1 ? 0 : 2f * slot / (count - 1) - 1f;
             IntVec3 side = new IntVec3(-forward.z, 0, forward.x);
             return anchor + side * (int)Math.Round(u * width)
-                + forward * (int)Math.Round(1 - 3 * u * u);
+                + forward * (int)Math.Round(3 * u * u - 1);
+        }
+        // Cover can shift a slot sideways, but cannot invert its bow depth.
+        // Formation slots also stay on their original wing and within its span.
+        public static bool ArcCoverCandidate(IntVec3 anchor, IntVec3 forward, IntVec3 desired, IntVec3 cell, int width)
+        {
+            IntVec3 change = cell - desired, side = new IntVec3(-forward.z, 0, forward.x);
+            if (change.x * forward.x + change.z * forward.z != 0) return false;
+            IntVec3 offset = cell - anchor, original = desired - anchor;
+            int lateral = offset.x * side.x + offset.z * side.z;
+            int slot = original.x * side.x + original.z * side.z;
+            return Math.Abs(lateral) <= width && (slot == 0 ? Math.Abs(lateral) <= 1 : Math.Sign(slot) == Math.Sign(lateral));
         }
         public static int NextMover(int previous, int liveTeams, bool reserves)
         {
@@ -140,12 +151,12 @@ namespace Helodrace.Tactics
                         int slot = field.Assigned++, index = field.Order[slot];
                         TacticalMemberCommand member = command.Members[index];
                         if (!Available(member, map)) continue;
-                        IntVec3 desired = field.High
-                            ? TacticalFieldPolicy.Arc(field.Anchor, field.Forward, slot, field.Order.Count, 8)
-                            : slot < 4 ? TacticalFieldPolicy.Arc(field.Anchor, field.Forward, slot, Math.Min(4, field.Order.Count), 4)
-                            : TacticalFieldPolicy.Arc(field.Anchor - field.Forward * 3, field.Forward,
-                                slot - 4, field.Order.Count - 4, 5);
-                        AssignFieldPost(command, member, field, index, desired);
+                        IntVec3 arcAnchor = field.High || slot < 4 ? field.Anchor : field.Anchor - field.Forward * 3;
+                        int width = field.High ? 8 : slot < 4 ? 4 : 5;
+                        IntVec3 desired = TacticalFieldPolicy.Arc(arcAnchor, field.Forward,
+                            field.High || slot < 4 ? slot : slot - 4,
+                            field.High ? field.Order.Count : slot < 4 ? Math.Min(4, field.Order.Count) : field.Order.Count - 4, width);
+                        AssignFieldPost(command, member, field, index, desired, arcAnchor, width);
                     }
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
@@ -168,7 +179,7 @@ namespace Helodrace.Tactics
                     try
                     {
                         AssignFieldPost(command, member, field, index,
-                            TacticalFieldPolicy.Arc(field.Anchor, field.Forward, index, command.Members.Count, 6));
+                            TacticalFieldPolicy.Arc(field.Anchor, field.Forward, index, command.Members.Count, 6), field.Anchor, 6);
                         post = field.Posts[index];
                     }
                     finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
@@ -271,16 +282,23 @@ namespace Helodrace.Tactics
                 || field.MovingTeam == -3 && field.FireGroup.Contains(index);
 
         private void AssignFieldPost(TacticalSquadCommand command, TacticalMemberCommand member,
-            TacticalFieldResponse field, int index, IntVec3 desired)
+            TacticalFieldResponse field, int index, IntVec3 desired, IntVec3? arcAnchor = null, int width = 6)
         {
             IntVec3 old = field.Posts[index];
             IntVec3 best = IntVec3.Invalid; float score = float.MinValue;
-            // If a wall clips the bow template, search the member's own local
-            // floor once instead of parking forever with an invalid assignment.
+            // If cover clips the template, try the member's lateral position
+            // projected onto the same depth row. Both passes stay bounded;
+            // never repair a blocked slot by flipping the bow or taking a detour.
+            IntVec3 fallback = member.Pawn.Position;
+            int advance = (desired.x - fallback.x) * field.Forward.x + (desired.z - fallback.z) * field.Forward.z;
+            fallback += field.Forward * advance;
             for (int pass = 0; pass < 2 && !best.IsValid; pass++)
             for (int x = -2; x <= 2; x++) for (int z = -2; z <= 2; z++)
             {
-                IntVec3 cell = (pass == 0 ? desired : member.Pawn.Position) + new IntVec3(x, 0, z); FieldPostCandidates++;
+                IntVec3 cell = (pass == 0 ? desired : fallback) + new IntVec3(x, 0, z); FieldPostCandidates++;
+                if (arcAnchor.HasValue
+                    ? !TacticalFieldPolicy.ArcCoverCandidate(arcAnchor.Value, field.Forward, desired, cell, width)
+                    : (cell.x - desired.x) * field.Forward.x + (cell.z - desired.z) * field.Forward.z != 0) continue;
                 if (!cell.InBounds(map) || !cell.Standable(map) || cell.Roofed(map) && command.SupportCaller == null
                     || field.Occupied.Contains(cell) && cell != old
                     || claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command) continue;
