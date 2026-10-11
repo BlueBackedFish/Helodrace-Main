@@ -45,6 +45,20 @@ internal static class TacticalWallSpanTests
         Check(reverse.Outside == plan.Inside && reverse.Inside == plan.Outside,
             "Reusing the exit must reverse both faces of the complete channel.");
 
+        var arrived = new[] { plan.Inside + IntVec3.East, plan.Inside + IntVec3.East + IntVec3.North };
+        var indoor = new HashSet<IntVec3>(arrived);
+        IntVec3 seed = TacticalRoomProgress.SurveySeed(plan, arrived, indoor.Contains);
+        Check(seed == arrived[0], "A roofless breached mouth must survey the actual indoor arrival, not finish as an outdoor passage.");
+        indoor.Add(plan.Inside);
+        Check(TacticalRoomProgress.SurveySeed(plan, arrived, indoor.Contains) == plan.Inside,
+            "An intact inside mouth must remain the stable room survey seed.");
+        Check(!TacticalRoomProgress.SurveySeed(plan, arrived, _ => false).IsValid,
+            "A genuine outdoor passage with no indoor arrival must not manufacture room clearance.");
+        Check(!TacticalRoomProgress.SurveySeed(plan, Array.Empty<IntVec3>(), arrived[0].Equals).IsValid,
+            "An indoor cell nobody entered must not replace a roofless mouth as survey evidence.");
+        Check(TacticalRoomProgress.SurveySeed(new TacticalLocalPlan { Direct = true }, arrived, indoor.Contains) == arrived[0],
+            "A direct indoor objective must survey an actual arrived member rather than the synthetic inside coordinate.");
+
         // Exercise the real room scanner's new thick boundary adapter.
         walls.Clear();
         for (int z = 0; z < 6; z++) { walls.Add(new IntVec3(5, 0, z)); walls.Add(new IntVec3(6, 0, z)); }

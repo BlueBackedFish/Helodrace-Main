@@ -10,6 +10,12 @@ internal static class TacticalChargeTests
 {
     internal static void Run()
     {
+        if (TacticalChargePolicy.CanTimeoutFallback(true, false, false, 1200, 2400)
+            || TacticalChargePolicy.CanTimeoutFallback(false, true, false, 1200, 2400)
+            || TacticalChargePolicy.CanTimeoutFallback(false, false, true, 1200, 2400)
+            || TacticalChargePolicy.CanTimeoutFallback(false, false, false, 1200, 1200)
+            || !TacticalChargePolicy.CanTimeoutFallback(false, false, false, 1200, 1201))
+            throw new Exception("Timeout must not cancel installed C4, ongoing installation or live effects; only failed uninstalled work may fall back.");
         var props = new CompProperties_InstalledBreachCharge { beyondFragmentRadius = 8,
             explosionRadiusBase = 1.5f, explosionRadiusPerC4 = .3f };
         if (TacticalChargePolicy.SafeRadius(props, 1) < 9) throw new Exception("Withdrawal must include far-side fragment reach.");
@@ -51,6 +57,6 @@ internal static class TacticalChargeTests
                     throw new Exception("A live explosive or absent backup hammer must never be abandoned by the fallback transition.");
             }
         }
-        Console.WriteLine("PASS: C4 blast/fragment withdrawal extent and live fuse/fragment/explosion/settling safety; unlit fallback preserves allocation and rejects live explosives/missing backup.");
+        Console.WriteLine("PASS: C4 blast/fragment withdrawal and settling safety; timeout retains installed/working C4 and only failed uninstalled work falls back with mission history preserved.");
     }
 }

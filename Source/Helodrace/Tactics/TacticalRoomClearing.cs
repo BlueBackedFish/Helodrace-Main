@@ -10,6 +10,16 @@ namespace Helodrace.Tactics
 {
     public static class TacticalRoomProgress
     {
+        // A blast may remove the roof above the mouth without turning the
+        // occupied room into an outdoor passage. Use an actual indoor arrival.
+        public static IntVec3 SurveySeed(TacticalLocalPlan plan, IEnumerable<IntVec3> arrived, Func<IntVec3, bool> indoorFloor)
+        {
+            if (!plan.Direct && indoorFloor(plan.Inside)) return plan.Inside;
+            foreach (IntVec3 cell in arrived)
+                if (indoorFloor(cell)) return cell;
+            return IntVec3.Invalid;
+        }
+
         // A later blast can join two former rooms. Require all requested floor
         // regions and actual entry history, rather than an obsolete room count.
         public static bool CoversGoal(TacticalSquadCommand command, IList<IntVec3> regions) =>
@@ -104,8 +114,10 @@ namespace Helodrace.Tactics
             if (plan.ReportedPassage && command.SecuredKnowledge.Cleared(plan.Direct ? plan.Opening : plan.Inside))
             { FinishOutdoorPassage(command, tick); return; }
             RetireEntryApproach(command);
-            IntVec3 seed = plan.Direct ? command.Members.First(m => Available(m, map)).Pawn.Position : plan.Inside;
-            if (!seed.Roofed(map)) { FinishOutdoorPassage(command, tick); return; }
+            IntVec3 seed = TacticalRoomProgress.SurveySeed(plan,
+                command.Members.Where(m => Available(m, map) && m.Entered).Select(m => m.Pawn.Position),
+                cell => cell.InBounds(map) && cell.Roofed(map) && cell.Walkable(map) && !(cell.GetEdifice(map) is Building_Door));
+            if (!seed.IsValid) { FinishOutdoorPassage(command, tick); return; }
             command.Mission.NextGoal = IntVec3.Invalid; command.Mission.FailedPlans = 0;
             command.Mission.Stage = TacticalMissionStage.Searching; command.Mission.Survey = null;
             command.Mission.EmptySurveys = 0; command.Mission.SearchAt = tick;

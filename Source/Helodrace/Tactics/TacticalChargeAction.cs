@@ -24,6 +24,8 @@ namespace Helodrace.Tactics
     }
     public static class TacticalChargePolicy
     {
+        public static bool CanTimeoutFallback(bool installed, bool installing, bool detonated, int deadline, int tick) =>
+            !installed && !installing && !detonated && tick > deadline;
         public static float SafeRadius(CompProperties_InstalledBreachCharge props, int count) =>
             Math.Max(props.explosionRadiusBase + (float)Math.Sqrt(Math.Max(1, count)) * props.explosionRadiusPerC4 + 1,
                 props.beyondFragmentRadius + 1);
@@ -128,7 +130,9 @@ namespace Helodrace.Tactics
                 AbandonCharge(command); plan.Barrier = TacticalLocalPlanner.NextBarrier(map, plan);
                 command.BarrierHitPoints = -1; command.PhaseStarted = tick; return;
             }
-            if (tick > action.Deadline)
+            bool installing = action.Installation != null && active.Exists(m => m.Pawn == action.Installer
+                && m.Job == action.Installation && m.Pawn.CurJob == action.Installation);
+            if (TacticalChargePolicy.CanTimeoutFallback(action.Charge != null, installing, action.Detonated, action.Deadline, tick))
             {
                 if (!TryChargeHammerFallback(command, active, tick)) { AbandonCharge(command); Release(command); }
                 return;
@@ -198,7 +202,9 @@ namespace Helodrace.Tactics
         private bool TryChargeHammerFallback(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
             TacticalChargeAction action = command.ChargeAction;
-            if (action == null || action.Detonated || action.Charge?.Triggered == true) return false;
+            // An installed unlit charge is still valid C4 work. Delayed arrival
+            // or another friendly squad inside its radius is not install failure.
+            if (action == null || action.Detonated || action.Charge != null) return false;
             TacticalMemberCommand hammer = active.Find(m => CompSledgehammerBreach.WornBy(m.Pawn) != null
                 && CompSledgehammerBreach.IsValidTarget(m.Pawn, command.Plan.Barrier));
             if (hammer == null) return false;
