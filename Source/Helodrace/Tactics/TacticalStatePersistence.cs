@@ -41,6 +41,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Id, "id");
             Scribe_Values.Look(ref Phase, "phase");
             Scribe_Values.Look(ref Goal, "goal");
+            Scribe_References.Look(ref TargetFaction, "targetFaction");
             Scribe_Values.Look(ref Due, "due");
             Scribe_Values.Look(ref PhaseStarted, "phaseStarted");
             Scribe_Values.Look(ref Failures, "failures");
@@ -134,6 +135,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Opening, "opening");
             Scribe_Values.Look(ref Inward, "inward");
             Scribe_Values.Look(ref Preference, "preference");
+            Scribe_Values.Look(ref Excluded, "excluded");
         }
     }
 

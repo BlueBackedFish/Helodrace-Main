@@ -197,10 +197,14 @@ namespace Helodrace.Tactics
         }
 
         // Public/debug mission input. This also permits an AI-v-AI target.
-        public void SetObjective(IntVec3 goal)
+        public void SetObjective(IntVec3 goal, Faction targetFaction = null)
         {
             if (!goal.InBounds(map)) throw new ArgumentException("Objective is outside this map.");
             explicitGoal = goal;
+            explicitTargetFaction = targetFaction ?? goal.GetEdifice(map)?.Faction;
+            if (explicitTargetFaction == null)
+                foreach (Thing thing in goal.GetThingList(map))
+                    if (thing.Faction != null) { explicitTargetFaction = thing.Faction; break; }
             // A different objective does not erase a physically secured portal.
             // ReuseOpening still validates its face, occupancy and live passage.
             foreach (TacticalSquadCommand command in squads.Values.ToArray())
@@ -387,6 +391,7 @@ namespace Helodrace.Tactics
                 }
                 if (!budget.TryPlan(tick)) { command.Due = tick + 1; return; }
                 PlansAttempted++;
+                PrepareStructureTargets(command, tick);
                 bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
                 long planStarted = Stopwatch.GetTimestamp();
                 TacticalLocalPlan plan;
@@ -409,7 +414,8 @@ namespace Helodrace.Tactics
                         if (triedKnown) BusyOpeningFallbacks++;
                         plan = TacticalLocalPlanner.Find(map, leader, planningGoal, command.Members.Count,
                             Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
-                            out failure, command.Failures, frontage, command.SecuredCells.Count == 0 ? null : (Func<IntVec3, bool>)command.SecuredCells.Contains);
+                            out failure, command.Failures, frontage, command.SecuredCells.Count == 0 ? null : (Func<IntVec3, bool>)command.SecuredCells.Contains,
+                            (opening, inward) => ClassifyStructure(command, opening, inward, leader));
                         if (plan == null) failure |= knownFailure;
                     }
                 }
@@ -417,6 +423,8 @@ namespace Helodrace.Tactics
                 command.LastPlanFailure = failure;
                 if (plan == null)
                 {
+                    if ((failure & TacticalPlanFailure.Classification) != 0)
+                    { command.Due = tick + 1; return; }
                     if (MayAbandonPendingPlan(hammer != null, command.Link.Cooperation.Active, command.Failures, leases.Count))
                     {
                         if (command.SecuredPlans.Count > 0) BeginReturn(command, tick, false, replan: true);
@@ -606,7 +614,7 @@ namespace Helodrace.Tactics
         {
             if (command.GoalSecured)
                 foreach (TacticalRoomFrontier frontier in command.Frontiers)
-                    if (!command.SecuredCells.Contains(frontier.Inside)) return frontier.Inside;
+                    if (!frontier.Excluded && !command.SecuredCells.Contains(frontier.Inside)) return frontier.Inside;
             return command.Goal;
         }
         private IntVec3 Goal(int tick)
@@ -637,6 +645,11 @@ namespace Helodrace.Tactics
             foreach (TacticalLocalPlan known in knownOpenings)
             {
                 if (command.SecuredCells.Contains(known.Inside)) continue;
+                if (!TargetPlan(command, known, leader, out bool classificationPending))
+                {
+                    if (classificationPending) { tried = true; failure = TacticalPlanFailure.Classification; return null; }
+                    continue;
+                }
                 if (!command.Link.KnownPortals.Contains(known.Opening)
                     && !command.SecuredPlans.Any(p => p.Opening == known.Opening)
                     && (leader.Position.DistanceToSquared(known.Opening) > 784

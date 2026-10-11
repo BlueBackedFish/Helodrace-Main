@@ -7,7 +7,7 @@ using Verse;
 namespace Helodrace.Tactics
 {
     [Flags]
-    public enum TacticalPlanFailure { None = 0, Busy = 1, NotBoundary = 2, Tool = 4, Obstructed = 8, Stack = 16, Inside = 32, Unreachable = 64, Unsecured = 128 }
+    public enum TacticalPlanFailure { None = 0, Busy = 1, NotBoundary = 2, Tool = 4, Obstructed = 8, Stack = 16, Inside = 32, Unreachable = 64, Unsecured = 128, Classification = 256 }
     // Only the small physical footprint of one command. No topology/grid cache.
     public sealed partial class TacticalLocalPlan
     {
@@ -55,7 +55,8 @@ namespace Helodrace.Tactics
 
         internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
-            out TacticalPlanFailure failure, int failedAttempts, int frontage = 0, Func<IntVec3, bool> secured = null)
+            out TacticalPlanFailure failure, int failedAttempts, int frontage = 0, Func<IntVec3, bool> secured = null,
+            Func<IntVec3, IntVec3, TacticalStructureClass> classify = null)
         {
             failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
@@ -80,14 +81,29 @@ namespace Helodrace.Tactics
                 {
                     bool face = TacticalPortalGeometry.TryWallNormal(cell, travel, Support, out IntVec3 normal);
                     if (face || building is Building_Door)
-                    { if (face) preferred = normal; first = cell; break; }
+                    {
+                        IntVec3 inward = face ? normal : preferred;
+                        if (secured?.Invoke(cell + inward) == true) continue;
+                        TacticalStructureClass kind = classify?.Invoke(cell, inward) ?? TacticalStructureClass.Target;
+                        if (kind == TacticalStructureClass.Pending) { failure = TacticalPlanFailure.Classification; return null; }
+                        if (kind != TacticalStructureClass.Target) continue;
+                        preferred = inward; first = cell; break;
+                    }
                 }
                 // An already opened wall gap is still a portal. Do not turn
                 // later squads into unconstrained vanilla destination paths.
                 if (building == null && TacticalPortalGeometry.TryGapNormal(cell, Wall, Walkable, out IntVec3 gapNormal))
                 {
                     int heading = gapNormal.x * travel.x + gapNormal.z * travel.z;
-                    if (heading != 0) { preferred = gapNormal * Math.Sign(heading); first = cell; break; }
+                    if (heading != 0)
+                    {
+                        IntVec3 inward = gapNormal * Math.Sign(heading);
+                        if (secured?.Invoke(cell + inward) == true) continue;
+                        TacticalStructureClass kind = classify?.Invoke(cell, inward) ?? TacticalStructureClass.Target;
+                        if (kind == TacticalStructureClass.Pending) { failure = TacticalPlanFailure.Classification; return null; }
+                        if (kind != TacticalStructureClass.Target) continue;
+                        preferred = inward; first = cell; break;
+                    }
                 }
             }
             if (!first.IsValid)
@@ -112,6 +128,9 @@ namespace Helodrace.Tactics
             {
                 IntVec3 opening = first + tangent * (offset + frontage + band);
                 if (!opening.InBounds(map)) { failure |= TacticalPlanFailure.NotBoundary; continue; }
+                TacticalStructureClass target = classify?.Invoke(opening, preferred) ?? TacticalStructureClass.Target;
+                if (target == TacticalStructureClass.Pending) { failure |= TacticalPlanFailure.Classification; continue; }
+                if (target != TacticalStructureClass.Target) { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 if (leased(opening)) { failure |= TacticalPlanFailure.Busy; continue; }
                 Building barrier = opening.GetEdifice(map);
                 if (barrier == null)

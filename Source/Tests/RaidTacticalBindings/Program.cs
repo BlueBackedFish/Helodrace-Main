@@ -52,6 +52,7 @@ internal static class Program
     {
         try
         {
+            if (args.Contains("--a2")) { TacticalMissionTests.Run(); TacticalRoomScanTests.Run(); TacticalRetainedMissionTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--a1-focus")) { TacticalFocusTests.Run(); TacticalThreatTests.Run(); TacticalContactTests.Run(); TacticalCooperationTests.Run(); TacticalOpeningTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--a1-contact")) { TacticalThreatTests.Run(); TacticalContactTests.Run(); TacticalCooperationTests.Run(); return 0; }
             if (args.Contains("--a1-field")) { TacticalFieldTests.Run(); return 0; }

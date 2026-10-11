@@ -22,6 +22,7 @@ namespace Helodrace.Tactics
     {
         public IntVec3 Opening, Inward;
         public int Preference;
+        public bool Excluded;
         public IntVec3 Inside => Opening + Inward;
     }
 
@@ -160,6 +161,7 @@ namespace Helodrace.Tactics
             long started = Stopwatch.GetTimestamp();
             try
             {
+                PrepareStructureTargets(command, tick);
                 if (command.SurveyPending)
                 {
                     // Recreate only the interrupted bounded local survey. All
@@ -201,8 +203,9 @@ namespace Helodrace.Tactics
                 for (int examined = 0; examined < 2 && command.FrontierCursor < command.Frontiers.Count; examined++)
                 {
                     TacticalRoomFrontier frontier = command.Frontiers[command.FrontierCursor++];
-                    if (command.SecuredCells.Contains(frontier.Inside)) continue;
+                    if (frontier.Excluded || command.SecuredCells.Contains(frontier.Inside)) continue;
                     TacticalLocalPlan plan = PlanRoomFrontier(command, active, frontier, out bool occupied, out bool missingTool);
+                    if (plan == null && command.DeferredWork) { command.FrontierCursor--; return; }
                     busy |= occupied; RoomPlansAttempted++;
                     if (plan == null && missingTool && command.RoomRecoveryUntil >= 0
                         && command.BreachTools.Any(tool => TacticalBreachTools.SourceFor(tool)?.Spawned == true))
@@ -234,7 +237,7 @@ namespace Helodrace.Tactics
                     command.PlanRetryAt = tick + 240; command.Due = command.PlanRetryAt; return;
                 }
                 bool unfinished = command.SecuredPlans.Count > 0 && (!command.GoalSecured
-                    || command.Frontiers.Any(f => !command.SecuredCells.Contains(f.Inside)));
+                    || command.Frontiers.Any(f => !f.Excluded && !command.SecuredCells.Contains(f.Inside)));
                 if (unfinished) command.LastPlanFailure |= TacticalPlanFailure.Unsecured;
                 BeginReturn(command, tick, false, replan: unfinished);
             }
@@ -255,6 +258,9 @@ namespace Helodrace.Tactics
             TacticalRoomFrontier frontier, out bool occupied, out bool missingTool)
         {
             occupied = missingTool = false;
+            TacticalStructureClass kind = ClassifyStructure(command, frontier.Opening, frontier.Inward, active[0].Pawn);
+            if (kind == TacticalStructureClass.Pending) { command.DeferredWork = true; return null; }
+            if (kind != TacticalStructureClass.Target) { frontier.Excluded = true; return null; }
             Building barrier = frontier.Opening.GetEdifice(map);
             bool opened = barrier == null || barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
             if (!opened && !active.Any(m => TacticalBreachTools.CanUse(m.Pawn, barrier)))
