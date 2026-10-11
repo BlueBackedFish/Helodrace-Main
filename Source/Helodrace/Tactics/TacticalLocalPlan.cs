@@ -13,7 +13,7 @@ namespace Helodrace.Tactics
     {
         public IntVec3 Opening, Inward;
         public int Depth = 1;
-        public int StackSide; // One wall-tangent side, locked after planning.
+        public int StackSide; // Preferred observation/entry side; stack uses both wings.
         public IntVec3 EntryLane = IntVec3.Invalid;
         public IntVec3 Outside => Opening - Inward;
         public IntVec3 Inside => Opening + Inward * Depth;

@@ -4,8 +4,8 @@ using Verse;
 
 namespace Helodrace.Tactics
 {
-    // Try LOS, axis-only, then unrestricted seats. Safety exclusions remain
-    // hard constraints; map/LOS probes are shared across all three attempts.
+    // Fill both connected wings from the same reachable approach floor.
+    // Try LOS, axis-only, then unrestricted seats; safety stays mandatory.
     public static class TacticalStackFormation
     {
         public const int Width = 8, Depth = 8, CellLimit = (Width * 2 + 1) * Depth;
@@ -19,7 +19,9 @@ namespace Helodrace.Tactics
             IntVec3 tangent = new IntVec3(-inward.z, 0, inward.x);
             var status = new byte[CellLimit];
             var sight = new byte[CellLimit];
-            var attempted = new bool[CellLimit * 2];
+            var attempted = new bool[CellLimit];
+            var wings = new[] { new List<IntVec3>(), new List<IntVec3>(), new List<IntVec3>() };
+            var candidate = new List<IntVec3>();
             List<IntVec3> best = allowPartial ? new List<IntVec3>() : null;
             int bestSide = 0;
             int Index(IntVec3 cell)
@@ -50,48 +52,89 @@ namespace Helodrace.Tactics
                 return sight[index] == 2;
             }
             int Side(IntVec3 cell) => Math.Sign((cell.x - opening.x) * tangent.x + (cell.z - opening.z) * tangent.z);
-            int lockedSide = side;
+            // This is an observation/entry preference, never a wing restriction.
+            int preferredSide = side < 0 ? -1 : 1;
             var search = new Flood(Index, inward);
             var component = new Flood(Index, inward);
-            int candidateSide = 0;
-            Func<IntVec3, bool> approach = next => (lockedSide == 0 || Side(next) == 0 || Side(next) == lockedSide)
-                && Walk(next);
-            Func<IntVec3, bool> covered = next => (Side(next) == candidateSide || Side(next) == 0) && Seat(next);
+            int candidateWing = 0;
+            Func<IntVec3, bool> covered = next => Side(next) + 1 == candidateWing && Seat(next);
+            int SelectedSide()
+            {
+                if (posts.Exists(c => Side(c) == preferredSide)) return preferredSide;
+                if (posts.Exists(c => Side(c) == -preferredSide)) return -preferredSide;
+                return 0;
+            }
+            void Fill()
+            {
+                posts.Clear();
+                List<IntVec3> first = wings[preferredSide + 1], second = wings[1 - preferredSide];
+                int a = 0, b = 0;
+                // Alternate the wings; use spare capacity when one is shorter.
+                while (posts.Count < count && (a < first.Count || b < second.Count))
+                {
+                    if (a < first.Count) posts.Add(first[a++]);
+                    if (posts.Count < count && b < second.Count) posts.Add(second[b++]);
+                }
+                // Keep the axis empty whenever the two wings alone suffice.
+                foreach (IntVec3 cell in wings[1])
+                { if (posts.Count == count) break; posts.Add(cell); }
+            }
             if (!Walk(opening - inward)) return false;
             for (tier = 0; tier < 3; tier++)
             {
                 Array.Clear(attempted, 0, attempted.Length);
+                foreach (List<IntVec3> wing in wings) wing.Clear();
                 search.Reset(); search.Add(opening - inward, 0);
                 while (search.Pop(out IntVec3 seed, out int cost))
                 {
-                    int seedSide = Side(seed);
-                    // Centre posts can join either side, never both. A one-tile
-                    // corridor keeps the lock and uses its connected centre.
-                    int firstSide = lockedSide != 0 ? lockedSide : seedSide != 0 ? seedSide : 1;
-                    int choices = lockedSide == 0 && seedSide == 0 ? 2 : 1;
-                    for (int choice = 0; choice < choices; choice++)
+                    if (!attempted[Index(seed)] && Seat(seed))
                     {
-                        candidateSide = choice == 0 ? firstSide : -firstSide;
-                        int offset = candidateSide > 0 ? 0 : CellLimit;
-                        if (attempted[Index(seed) + offset] || seedSide != 0 && seedSide != candidateSide || !Seat(seed)) continue;
+                        candidateWing = Side(seed) + 1;
+                        candidate.Clear();
                         component.Reset(); component.Add(seed, 0);
                         while (component.Pop(out IntVec3 cell, out int distance))
                         {
-                            attempted[Index(cell) + offset] = true;
-                            posts.Add(cell);
-                            if (posts.Count == count) { side = candidateSide; return true; }
+                            attempted[Index(cell)] = true;
+                            if (candidate.Count < count) candidate.Add(cell);
                             component.Expand(cell, distance, covered);
                         }
-                        if (allowPartial && posts.Count > best.Count)
-                        { best.Clear(); best.AddRange(posts); bestSide = candidateSide; }
-                        posts.Clear();
+                        // Never merge separated pockets within the same wing.
+                        if (candidate.Count > wings[candidateWing].Count)
+                        { wings[candidateWing].Clear(); wings[candidateWing].AddRange(candidate); }
+                        if (wings[0].Count > 0 && wings[2].Count > 0 && wings[0].Count + wings[2].Count >= count)
+                        { Fill(); side = SelectedSide(); return true; }
                     }
-                    search.Expand(seed, cost, approach);
+                    search.Expand(seed, cost, Walk);
                 }
+                Fill();
+                if (posts.Count == count) { side = SelectedSide(); return true; }
+                if (allowPartial && posts.Count > best.Count)
+                { best.Clear(); best.AddRange(posts); bestSide = SelectedSide(); }
             }
+            posts.Clear();
             if (allowPartial && best.Count > 0)
             { posts.AddRange(best); side = bestSide; return true; }
             return false;
+        }
+
+        // Each occupied strip is contiguous. The builder separately verifies
+        // that both wings share the reachable floor behind the same opening;
+        // the unoccupied centre lane need not contain a pawn to join them.
+        public static bool ConnectedWings(IntVec3 opening, IntVec3 inward, IList<IntVec3> posts)
+        {
+            if (posts.Count == 0) return false;
+            IntVec3 tangent = new IntVec3(-inward.z, 0, inward.x);
+            var unique = new HashSet<IntVec3>();
+            var wings = new[] { new List<IntVec3>(), new List<IntVec3>(), new List<IntVec3>() };
+            foreach (IntVec3 cell in posts)
+            {
+                if (!unique.Add(cell)) return false;
+                int side = Math.Sign((cell.x - opening.x) * tangent.x + (cell.z - opening.z) * tangent.z);
+                wings[side + 1].Add(cell);
+            }
+            foreach (List<IntVec3> wing in wings)
+                if (wing.Count > 0 && !TacticalLocalPlanner.Connected(wing)) return false;
+            return true;
         }
 
         // A tiny Dijkstra heap. Wall-parallel steps cost 1; normal steps cost 4.

@@ -26,10 +26,12 @@ internal static class TacticalStackFormationTests
             bool Free(IntVec3 c) { reads++; Check(probed.Add(c), "Each cell must be probed only once per formation."); return true; }
             Check(TacticalStackFormation.Build(opening, inward, 6, ref side, Free,
                 c => { sightReads++; return Math.Abs(Width(c)) <= 1; }, posts), "Covered formation must be reachable through the unoccupied mouth/peek cells.");
-            Check(posts.Take(4).All(c => Depth(c) == 1) && posts.Count(c => Depth(c) == 1) >= 5
-                && posts.All(c => Width(c) >= 2), "Weighted flood must favour wall-parallel growth over depth expansion.");
+            Check(posts.All(c => Depth(c) == 1 && Math.Abs(Width(c)) >= 2)
+                && posts.Count(c => Width(c) > 0) == 3 && posts.Count(c => Width(c) < 0) == 3,
+                "Weighted flood must grow along both wall wings before expanding backwards.");
             Check(!posts.Contains(Cell(1, 0)) && posts.All(c => Width(c) != 0), "Entire ingress axis must stay clear, not just the mouth.");
-            Check(TacticalLocalPlanner.Connected(posts) && posts.Distinct().Count() == 6, "Posts must remain one connected, nonoverlapping patch.");
+            Check(TacticalStackFormation.ConnectedWings(opening, inward, posts) && posts.Distinct().Count() == 6,
+                "Each reachable wing must remain connected and posts must not overlap.");
             Check(reads <= TacticalStackFormation.CellLimit && sightReads <= reads, "Native cell/LOS probes must have a fixed bound.");
 
             // Narrow corridor: the side strip must not consume its centre lane.
@@ -43,10 +45,17 @@ internal static class TacticalStackFormationTests
                 "LOS-only seats must not also apply the axis exclusion.");
             side = -1;
             Check(TacticalStackFormation.Build(opening, inward, 6, ref side, c => Math.Abs(Width(c)) <= 1,
-                _ => true, posts) && posts.All(c => Width(c) == -1), "Narrow-corridor stack must remain on its selected edge.");
+                _ => true, posts) && posts.Count(c => Width(c) == -1) == 3 && posts.Count(c => Width(c) == 1) == 3,
+                "An existing side preference must not prevent bilateral corridor stacking.");
             side = -1;
-            Check(TacticalStackFormation.Build(opening, inward, 9, ref side, c => Math.Abs(Width(c)) <= 1,
-                _ => true, posts) && posts.Any(c => Width(c) == 0) && posts.All(c => Width(c) <= 0) && side == -1, "Insufficient side space must relax to the centre without switching sides.");
+            Check(TacticalStackFormation.Build(opening, inward, 13, ref side, c => Math.Abs(Width(c)) <= 1,
+                _ => true, posts) && posts.All(c => Width(c) != 0) && side == -1
+                && posts.Count(c => Width(c) < 0) == 7 && posts.Count(c => Width(c) > 0) == 6
+                && TacticalStackFormation.ConnectedWings(opening, inward, posts),
+                "A 13-person squad must use both corridor edges and preserve its centre lane in all four orientations.");
+            var bilateral = new TacticalLocalPlan { Opening = opening, Inward = inward };
+            bilateral.Stack.AddRange(posts);
+            Check(TacticalEntryAllocation.ConnectedStack(bilateral), "Bilateral stack validation must allow the unoccupied lane between connected wings.");
 
             // Two disconnected covered pockets, each too small for the squad.
             side = 1;
@@ -55,21 +64,22 @@ internal static class TacticalStackFormationTests
                 "Flood travel through exposed cells must not combine disconnected post components.");
             // An obstacle isolates all side cover from the mouth, despite free destinations.
             side = 1;
-            Check(!TacticalStackFormation.Build(opening, inward, 9, ref side, c => Width(c) != 1,
+            Check(!TacticalStackFormation.Build(opening, inward, 9, ref side, c => Width(c) >= 0 && Width(c) != 1,
                 _ => false, posts), "Flood must not jump over a blocked approach to reach side cover.");
             side = 0;
             Check(TacticalStackFormation.Build(opening, inward, 13, ref side, c => Width(c) <= 0,
                 c => Math.Abs(Width(c)) <= 1, posts) && side == -1 && posts.All(c => Width(c) < 0),
-                "An initially unselected side must choose available cover and lock it for the whole formation.");
+                "When only one wing is available, use it and retain that observation preference.");
 
-            // C4 shares the ordinary formation search, on the same locked side.
+            // C4 shares the ordinary bilateral formation search.
             side = 1;
             IntVec3 innerCharge = opening + inward;
             Check(TacticalStackFormation.Build(opening, inward, 13, ref side, _ => true,
                 _ => false, posts, c => TacticalChargePolicy.UnsafeApproach(innerCharge, inward, c)),
                 "Inner-layer C4 must admit a connected lateral withdrawal without a nine-tile radial retreat.");
             Check(posts.All(c => !TacticalChargePolicy.UnsafeApproach(innerCharge, inward, c))
-                && posts.Any(c => Depth(c) == 1 && Width(c) == 2) && TacticalLocalPlanner.Connected(posts),
+                && posts.Any(c => Depth(c) == 1 && Width(c) == 2)
+                && posts.Any(c => Width(c) < 0) && TacticalStackFormation.ConnectedWings(opening, inward, posts),
                 "C4 posts must exclude the actual installation rectangle while retaining nearby wall cover.");
             side = 1; reads = 0;
             Check(!TacticalStackFormation.Build(opening, inward, 13, ref side,
@@ -84,7 +94,7 @@ internal static class TacticalStackFormationTests
         CheckWorkshop(Check);
         CheckSave(Check, opening);
         CheckWithdrawalClaims(Check, opening);
-        Console.WriteLine("PASS: " + checks + " weighted stack, corridor axis, locked side, disconnected cover, bounded probes, C4 withdrawal and native save/claim checks.");
+        Console.WriteLine("PASS: " + checks + " weighted bilateral stack, corridor axis, disconnected cover, bounded probes, C4 withdrawal and native save/claim checks.");
     }
 
     private static void CheckNativeLos(Action<bool, string> check, IntVec3 opening)
@@ -107,8 +117,8 @@ internal static class TacticalStackFormationTests
         bool Exposed(IntVec3 cell) => GenSight.LineOfSight(opening, cell, map, true);
         check(TacticalStackFormation.Build(opening, IntVec3.East, 13, ref side,
             c => c.x < opening.x, Exposed, posts), "Actual RimWorld LOS must admit wall-covered stack posts.");
-        check(posts.All(c => !Exposed(c)) && posts.All(c => c.z > opening.z)
-            && TacticalLocalPlanner.Connected(posts), "Native wall LOS and side lock must produce connected cover.");
+        check(posts.All(c => !Exposed(c)) && posts.Any(c => c.z > opening.z) && posts.Any(c => c.z < opening.z)
+            && TacticalStackFormation.ConnectedWings(opening, IntVec3.East, posts), "Native wall LOS must produce connected cover on both wings.");
     }
 
     private static void CheckWorkshop(Action<bool, string> check)
@@ -137,10 +147,10 @@ internal static class TacticalStackFormationTests
         check(formed && posts.Count == 13, "Workshop must form a full squad after relaxing LOS before using a partial party.");
         check(TacticalStackFormation.Build(opening, IntVec3.West, 13, ref side, Free,
             c => GenSight.LineOfSight(opening, c, map, true), posts, allowPartial: true)
-            && posts.Count == 13 && TacticalLocalPlanner.Connected(posts),
+            && posts.Count == 13 && TacticalStackFormation.ConnectedWings(opening, IntVec3.West, posts),
             "Workshop west partition must admit a small connected breach party instead of stalling the whole squad.");
         Console.WriteLine("Workshop west partition: connected breach party=" + posts.Count + "/13");
-        var plan = new TacticalLocalPlan(); plan.Stack.AddRange(posts);
+        var plan = new TacticalLocalPlan { Opening = opening, Inward = IntVec3.West }; plan.Stack.AddRange(posts);
         var previous = new List<IntVec3>();
         for (int x = 20; x <= 29 && previous.Count < 13; x++) for (int z = 14; z <= 19 && previous.Count < 13; z++)
         { var cell = new IntVec3(x, 0, z); if (Free(cell)) previous.Add(cell); }
@@ -165,7 +175,7 @@ internal static class TacticalStackFormationTests
             Scribe.saver.InitSaving(path, "plan"); plan.ExposeData(); Scribe.saver.FinalizeSaving();
             var loaded = new TacticalLocalPlan(); Scribe.loader.InitLoading(path); loaded.ExposeData(); Scribe.loader.ForceStop();
             check(loaded.StackSide == -1 && loaded.Stack.SequenceEqual(plan.Stack) && loaded.StackMembers.SequenceEqual(plan.StackMembers),
-                "Native save must retain side lock, indexed posts and partial approach members.");
+                "Native save must retain the observation preference, indexed posts and partial approach members.");
         }
         finally { Scribe.ForceStop(); if (File.Exists(path)) File.Delete(path); }
     }

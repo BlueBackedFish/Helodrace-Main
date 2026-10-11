@@ -7,7 +7,7 @@ namespace Helodrace.Tactics
 {
     public static class TacticalEntryAllocation
     {
-        public static bool ConnectedStack(TacticalLocalPlan plan) => TacticalLocalPlanner.Connected(
+        public static bool ConnectedStack(TacticalLocalPlan plan) => TacticalStackFormation.ConnectedWings(plan.Opening, plan.Inward,
             plan.StackMembers.Count == 0 ? plan.Stack : plan.StackMembers.Select(i => plan.Stack[i]).ToList());
 
         public static bool BindApproach(TacticalLocalPlan plan, IList<IntVec3> previous, IList<int> eligible,
