@@ -14,7 +14,7 @@ namespace Helodrace.Tactics
         public IntVec3 ObservationPosition = IntVec3.Invalid, Source = IntVec3.Invalid, Enemy = IntVec3.Invalid,
             Target = IntVec3.Invalid, ReturnPosition = IntVec3.Invalid;
         public int EnemyId = -1, Started, SupportStarted, SettledAt = -1;
-        public bool ObservationDone, ObservationIssued, StackPrepared, ThrowIssued, Launched, Returned, EffectsCleared, EntryAdjusted, Outdoors;
+        public bool ObservationDone, ObservationIssued, ThrowIssued, Launched, Returned, EffectsCleared, EntryAdjusted, Outdoors;
         public int RoomCells;
         public Projectile Projectile;
         public ThingDef ProjectileDef;
@@ -129,21 +129,31 @@ namespace Helodrace.Tactics
                 if (!action.ObservationIssued)
                 {
                     IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
-                    foreach (int side in new[] { 1, -1 })
+                    int side = plan.StackSide;
+                    IntVec3 spot = plan.Outside + lateral * side;
+                    if (side != 0 && TacticalLocalPlanner.Free(map, spot,
+                        cell => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command)
+                        && (spot + plan.Inward).InBounds(map) && !(spot + plan.Inward).CanBeSeenOver(map))
                     {
-                        IntVec3 spot = plan.Outside + lateral * side;
-                        int index = plan.Stack.IndexOf(spot);
-                        if (index < 0 || !spot.Standable(map) || !(spot + plan.Inward).InBounds(map)
-                            || (spot + plan.Inward).CanBeSeenOver(map)) continue;
-                        TacticalMemberCommand observer = command.Members[index];
-                        if (!Available(observer, map) || !AtPost(observer)) continue;
-                        if (!CanIssue(observer)) return;
-                        Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalObserve"), spot, plan.Inside, plan.Stack[index]);
-                        job.targetQueueA = new List<LocalTargetInfo> { plan.Outside, plan.Opening };
-                        job.canUseRangedWeapon = false;
-                        action.Observer = observer.Pawn; action.ObservationPosition = spot;
-                        action.ObservationIssued = true; Observations++;
-                        Issue(observer, job); return;
+                        TacticalMemberCommand observer = null;
+                        int nearest = int.MaxValue;
+                        foreach (TacticalMemberCommand member in active)
+                        {
+                            int distance = plan.Stack[command.Members.IndexOf(member)].DistanceToSquared(spot);
+                            if (!Available(member, map) || !AtPost(member) || distance >= nearest) continue;
+                            observer = member; nearest = distance;
+                        }
+                        if (observer != null)
+                        {
+                            if (!CanIssue(observer)) return;
+                            IntVec3 returnPosition = plan.Stack[command.Members.IndexOf(observer)];
+                            Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalObserve"), spot, plan.Inside, returnPosition);
+                            job.targetQueueA = new List<LocalTargetInfo> { plan.Outside, plan.Opening };
+                            job.canUseRangedWeapon = false;
+                            action.Observer = observer.Pawn; action.ObservationPosition = spot;
+                            action.ObservationIssued = true; Observations++;
+                            Issue(observer, job); return;
+                        }
                     }
                     // No suitable covered slot: retain unknown interior instead
                     // of inventing an unsafe observer destination.
@@ -174,12 +184,6 @@ namespace Helodrace.Tactics
                 IntVec3 target = action.Target.IsValid ? action.Target : ChooseSupportTarget(plan, action);
                 if (!target.IsValid) { command.Phase = TacticalCommandPhase.Enter; return; }
                 action.Target = target;
-                if (!action.StackPrepared)
-                {
-                    action.StackPrepared = true;
-                    if (!action.Outdoors && !PrepareThrowStack(command, target))
-                    { command.Phase = TacticalCommandPhase.Enter; return; }
-                }
                 if (active.Exists(member => !AtPost(member)))
                 {
                     if (tick - action.SupportStarted > 600) command.Phase = TacticalCommandPhase.Enter;
@@ -264,53 +268,6 @@ namespace Helodrace.Tactics
                     if (action.ObservationPosition.IsValid && !GenSight.LineOfSight(action.ObservationPosition, cell, map, true)) return cell;
                 }
             return fallback;
-        }
-
-        private bool PrepareThrowStack(TacticalSquadCommand command, IntVec3 target)
-        {
-            TacticalLocalPlan plan = command.Plan;
-            if (plan.Stack.TrueForAll(cell => !GenSight.LineOfSight(target, cell, map, true))) return true;
-            // Rebuild only once for this throw, in a small connected patch on
-            // the original wall face. Reject every exposed cell, including the
-            // middle-line fallback used for non-explosive narrow-room entry.
-            IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
-            var slots = new List<IntVec3>(command.Members.Count);
-            var queue = new Queue<IntVec3>(); var seen = new HashSet<IntVec3>();
-            bool Covered(IntVec3 cell)
-            {
-                IntVec3 delta = cell - plan.Opening;
-                int depth = -(delta.x * plan.Inward.x + delta.z * plan.Inward.z);
-                int width = delta.x * lateral.x + delta.z * lateral.z;
-                if (depth < 1 || depth > 6 || System.Math.Abs(width) > 8 || !cell.InBounds(map)
-                    || !cell.Standable(map) || claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command
-                    || GenSight.LineOfSight(target, cell, map, true)) return false;
-                for (int i = 1; i <= System.Math.Abs(width); i++)
-                {
-                    IntVec3 wall = plan.Opening + lateral * (i * System.Math.Sign(width));
-                    Building support = wall.InBounds(map) ? wall.GetEdifice(map) : null;
-                    if (support == null || !(support.def.IsWall || support is Building_Door)) return false;
-                }
-                return true;
-            }
-            foreach (IntVec3 cell in plan.Stack)
-                if (Covered(cell)) { queue.Enqueue(cell); seen.Add(cell); break; }
-            while (queue.Count > 0 && slots.Count < command.Members.Count && seen.Count <= 96)
-            {
-                IntVec3 cell = queue.Dequeue(); slots.Add(cell);
-                foreach (IntVec3 direction in GenAdj.CardinalDirections)
-                {
-                    IntVec3 next = cell + direction;
-                    if (seen.Contains(next) || !Covered(next)) continue;
-                    seen.Add(next); queue.Enqueue(next);
-                }
-            }
-            if (slots.Count != command.Members.Count) return false;
-            foreach (IntVec3 cell in plan.Stack)
-                if (claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command) claims.Remove(cell);
-            plan.Stack.Clear(); plan.Stack.AddRange(slots);
-            TacticalEntryAllocation.SyncOutside(plan);
-            foreach (IntVec3 cell in slots) claims[cell] = command;
-            return true;
         }
 
         private static Thing SupportGrenade(Pawn pawn, bool smoke)

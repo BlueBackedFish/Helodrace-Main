@@ -18,9 +18,6 @@ internal static class TacticalEntryAllocationTests
             || plan.Positions[4] != new IntVec3(8,0,0) || plan.Positions[9] != new IntVec3(8,0,2)
             || plan.RetainedOutside.Any(i => plan.Positions[i] != plan.Stack[i]))
             throw new Exception("Small entry must preserve member indices, eligibility, priority and unique outside posts.");
-        plan.Stack[2] = new IntVec3(4,0,2); TacticalEntryAllocation.SyncOutside(plan);
-        if (plan.Positions[2] != plan.Stack[2] || plan.Positions[4] != new IntVec3(8,0,0))
-            throw new Exception("Throw-cover stack changes must update guards only.");
         if (!TacticalEntryAllocation.Promote(plan, 2, 4) || plan.RetainedOutside.Contains(2)
             || !plan.RetainedOutside.Contains(4) || plan.Positions[2] != new IntVec3(8,0,0)
             || plan.Positions[4] != plan.Stack[4] || plan.Positions.Distinct().Count() != 12
@@ -44,6 +41,6 @@ internal static class TacticalEntryAllocationTests
         if (member.EntryAssignmentDone || member.Entered || member.Crossed || member.Passed || !member.EverEntered
             || command.Plan != null || !command.GoalSecured || command.Phase != TacticalCommandPhase.Pending)
             throw new Exception("Post-support objective changes must reset current arrivals while preserving actual entry history.");
-        Console.WriteLine("PASS: partial room entry indexing, outside guards, cover relocation, casualty replacement and invalid footprint rejection.");
+        Console.WriteLine("PASS: partial room entry indexing, outside guards, casualty replacement and invalid footprint rejection.");
     }
 }

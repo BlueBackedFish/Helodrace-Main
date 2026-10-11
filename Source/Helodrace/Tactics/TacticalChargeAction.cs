@@ -19,16 +19,21 @@ namespace Helodrace.Tactics
         public List<IntVec3> OriginalStack = new List<IntVec3>(), Withdrawal = new List<IntVec3>();
         public int Deadline, SettledAt = -1;
         public bool Withdrawing, Detonated, EffectsCleared;
-        public float Radius;
         public IntVec3 Position;
     }
     public static class TacticalChargePolicy
     {
         public static bool CanTimeoutFallback(bool installed, bool installing, bool detonated, int deadline, int tick) =>
             !installed && !installing && !detonated && tick > deadline;
-        public static float SafeRadius(CompProperties_InstalledBreachCharge props, int count) =>
-            Math.Max(props.explosionRadiusBase + (float)Math.Sqrt(Math.Max(1, count)) * props.explosionRadiusPerC4 + 1,
-                props.beyondFragmentRadius + 1);
+        // Three cells across the wall, six toward the installation approach.
+        // Includes the charge tile; the remaining five rows are outside it.
+        public static bool UnsafeApproach(IntVec3 charge, IntVec3 inward, IntVec3 cell)
+        {
+            IntVec3 delta = cell - charge;
+            int depth = -(delta.x * inward.x + delta.z * inward.z);
+            int width = delta.x * -inward.z + delta.z * inward.x;
+            return depth >= 0 && depth < 6 && Math.Abs(width) <= 1;
+        }
         public static bool EffectsPending(bool charge, bool fragments, bool explosion, int settledAt, int tick) =>
             charge || fragments || explosion || settledAt < 0 || tick - settledAt < TacticalOpeningPolicy.SettleTicks;
     }
@@ -59,7 +64,6 @@ namespace Helodrace.Tactics
             if (igniter == null) return false;
             int count = BreachExplosiveUtility.RequiredC4For(command.Plan.Barrier);
             var action = new TacticalChargeAction { Installer = installer.Pawn, Position = command.Plan.Barrier.Position,
-                Radius = TacticalChargePolicy.SafeRadius(BreachExplosiveUtility.ChargeProps, count),
                 Deadline = tick + 1200 + BreachExplosiveUtility.WorkTicksFor(installer.Pawn, igniter,
                     igniter.Supports(BreachInitiationMode.ShockTube) ? BreachInitiationMode.ShockTube : BreachInitiationMode.TimeFuse, count) };
             action.OriginalStack.AddRange(command.Plan.Stack);
@@ -70,30 +74,16 @@ namespace Helodrace.Tactics
 
         private bool PrepareChargeWithdrawal(TacticalSquadCommand command, TacticalChargeAction action, float range)
         {
-            TacticalLocalPlan plan = command.Plan; IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
-            int minimumDepth = Math.Max(4, (int)Math.Ceiling(action.Radius) + 1);
-            var pending = new Queue<IntVec3>(); var seen = new HashSet<IntVec3>();
-            IntVec3 root = plan.Opening - plan.Inward * minimumDepth;
-            bool Free(IntVec3 cell) => TacticalLocalPlanner.Free(map, cell,
-                p => claims.TryGetValue(p, out TacticalSquadCommand owner) && owner != command);
-            if (!Free(root) || root.DistanceTo(action.Position) > range) return false;
-            pending.Enqueue(root); seen.Add(root);
-            while (pending.Count > 0 && action.Withdrawal.Count < command.Members.Count && seen.Count <= 128)
-            {
-                IntVec3 cell = pending.Dequeue(); action.Withdrawal.Add(cell);
-                foreach (IntVec3 direction in GenAdj.CardinalDirections)
-                {
-                    IntVec3 next = cell + direction, delta = next - plan.Opening;
-                    int depth = -(delta.x * plan.Inward.x + delta.z * plan.Inward.z), width = delta.x * lateral.x + delta.z * lateral.z;
-                    if (depth < minimumDepth || depth > minimumDepth + 4 || Math.Abs(width) > 8 || !Free(next) || !seen.Add(next)) continue;
-                    pending.Enqueue(next);
-                }
-            }
-            if (action.Withdrawal.Count != command.Members.Count || !TacticalLocalPlanner.Connected(action.Withdrawal)) return false;
-            // The installer must retain the cable/fuse range. Other withdrawn
-            // members can occupy farther slots in the same connected formation.
+            TacticalLocalPlan plan = command.Plan;
+            if (!TacticalLocalPlanner.BuildFormation(map, plan, command.Members.Count,
+                cell => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command,
+                action.Withdrawal, cell => TacticalChargePolicy.UnsafeApproach(action.Position, plan.Inward, cell))) return false;
+            // The installer must retain cable/fuse range at an eligible post.
             int installer = command.Members.FindIndex(m => m.Pawn == action.Installer);
-            IntVec3 temp = action.Withdrawal[installer]; action.Withdrawal[installer] = root; action.Withdrawal[0] = temp;
+            int withinRange = action.Withdrawal.FindIndex(cell => cell.DistanceTo(action.Position) <= range);
+            if (installer < 0 || withinRange < 0) return false;
+            IntVec3 temp = action.Withdrawal[installer]; action.Withdrawal[installer] = action.Withdrawal[withinRange];
+            action.Withdrawal[withinRange] = temp;
             foreach (IntVec3 cell in action.Withdrawal) claims[cell] = command;
             return true;
         }
@@ -203,7 +193,7 @@ namespace Helodrace.Tactics
         {
             TacticalChargeAction action = command.ChargeAction;
             // An installed unlit charge is still valid C4 work. Delayed arrival
-            // or another friendly squad inside its radius is not install failure.
+            // or another friendly squad inside its approach exclusion is not install failure.
             if (action == null || action.Detonated || action.Charge != null) return false;
             TacticalMemberCommand hammer = active.Find(m => CompSledgehammerBreach.WornBy(m.Pawn) != null
                 && CompSledgehammerBreach.IsValidTarget(m.Pawn, command.Plan.Barrier));
@@ -232,7 +222,7 @@ namespace Helodrace.Tactics
             IntVec3 position = action.Charge.parent.Position;
             foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
                 if (pawn.Faction != null && action.Charge.OperatorPawn.Faction != null && !pawn.HostileTo(action.Charge.OperatorPawn)
-                    && pawn.Position.DistanceToSquared(position) <= action.Radius * action.Radius) return false;
+                    && TacticalChargePolicy.UnsafeApproach(position, command.Plan.Inward, pawn.Position)) return false;
             return true;
         }
         private bool ChargeEffectsPending(TacticalSquadCommand command, int tick)
@@ -257,7 +247,8 @@ namespace Helodrace.Tactics
             TacticalChargeAction action = command.ChargeAction;
             if (action == null) return;
             foreach (IntVec3 cell in action.Withdrawal)
-                if (claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command) claims.Remove(cell);
+                if (!action.OriginalStack.Contains(cell) && !command.Plan.Positions.Contains(cell)
+                    && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command) claims.Remove(cell);
             if (action.Withdrawing)
             { command.Plan.Stack.Clear(); command.Plan.Stack.AddRange(action.OriginalStack); action.Withdrawing = false; }
         }

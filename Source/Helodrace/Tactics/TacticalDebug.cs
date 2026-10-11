@@ -22,6 +22,7 @@ namespace Helodrace.Tactics
                     + "\n" + string.Join("\n", service.Commands.Select(command => command.Id + ": " + command.Phase
                         + " goal=" + command.Goal + " opening=" + command.Plan?.Opening + " depth=" + command.Plan?.Depth
                         + " inside=" + command.Plan?.Inside + " barrier=" + command.Plan?.Barrier?.Position + " connected=" + command.HadConnectedStack
+                        + " stack side=" + command.Plan?.StackSide
                         + " observed=" + command.OpeningAction?.Enemy + " throw=" + command.OpeningAction?.Launched
                         + " opening outdoors=" + command.OpeningAction?.Outdoors
                         + " C4=" + (command.ChargeAction == null ? "none" : command.ChargeAction.Detonated ? "effects"

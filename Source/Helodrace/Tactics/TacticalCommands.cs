@@ -714,7 +714,7 @@ namespace Helodrace.Tactics
                 if (!leader.CanReach(known.Outside, PathEndMode.OnCell, Danger.Deadly))
                 { failure |= TacticalPlanFailure.Unreachable; continue; }
                 var plan = new TacticalLocalPlan { Opening = known.Opening, Inward = known.Inward, ExistingOpening = true,
-                    Depth = known.Depth, Barrier = TacticalLocalPlanner.NextBarrier(map, known), EntryLane = known.EntryLane };
+                    Depth = known.Depth, StackSide = known.StackSide, Barrier = TacticalLocalPlanner.NextBarrier(map, known), EntryLane = known.EntryLane };
                 for (int i = 0; i < count; i++) { plan.Stack.Add(known.Stack[i]); plan.Positions.Add(known.Positions[i]); }
                 plan.Interior.UnionWith(known.Interior);
                 failure = TacticalPlanFailure.None; return plan;

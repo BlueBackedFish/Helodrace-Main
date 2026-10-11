@@ -23,10 +23,6 @@ namespace Helodrace.Tactics
             for (int i = 0; i < count; i++) plan.RetainedOutside.Remove(eligible[i]);
             return true;
         }
-        public static void SyncOutside(TacticalLocalPlan plan)
-        {
-            foreach (int index in plan.RetainedOutside) plan.Positions[index] = plan.Stack[index];
-        }
         public static bool Promote(TacticalLocalPlan plan, int outsideMember, int vacantInsideMember)
         {
             if (!plan.RetainedOutside.Contains(outsideMember) || plan.RetainedOutside.Contains(vacantInsideMember)

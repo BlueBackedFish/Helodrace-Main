@@ -237,6 +237,7 @@ namespace Helodrace
                     || !command.Members.Any(m => m.Pawn == controller && m.Job == job)
                     || !tracedCooperationChargeJobs.Add(job)) continue;
                 IntVec3 position = charge.parent.Position;
+                IntVec3 inward = command.Plan.Inward;
                 CooperationEvent("C4 trigger observed " + command.Id + " at=" + position
                     + " controller=" + controller.thingIDNumber + " remaining=" + (action.Deadline - GenTicks.TicksGame));
                 driver.AddFinishAction(condition =>
@@ -244,13 +245,13 @@ namespace Helodrace
                     bool canTrigger = charge.CanTrigger(out string reason);
                     Pawn nearby = map.mapPawns.AllPawnsSpawned.FirstOrDefault(p => p.Faction != null
                         && controller.Faction != null && !p.HostileTo(controller)
-                        && p.Position.DistanceToSquared(position) <= action.Radius * action.Radius);
+                        && TacticalChargePolicy.UnsafeApproach(position, inward, p.Position));
                     CooperationEvent("C4 trigger exit " + condition + " " + command.Id
                         + " phase=" + command.Phase + " sameAction=" + (command.ChargeAction == action)
                         + " chargeSpawned=" + charge.parent.Spawned + " active=" + charge.IsActive
                         + " detonated=" + action.Detonated + " canTrigger=" + canTrigger + " reason=" + reason
                         + " controller=" + controller.thingIDNumber + " at=" + controller.Position
-                        + " range=" + charge.TetherRange + " radius=" + action.Radius
+                        + " range=" + charge.TetherRange + " approachExclusion=3x6"
                         + " nearbyFriendly=" + (nearby == null ? "none" : nearby.thingIDNumber + "@" + nearby.Position)
                         + " remaining=" + (action.Deadline - GenTicks.TicksGame));
                 });

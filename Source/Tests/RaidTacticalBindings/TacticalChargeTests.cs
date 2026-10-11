@@ -16,11 +16,19 @@ internal static class TacticalChargeTests
             || TacticalChargePolicy.CanTimeoutFallback(false, false, false, 1200, 1200)
             || !TacticalChargePolicy.CanTimeoutFallback(false, false, false, 1200, 1201))
             throw new Exception("Timeout must not cancel installed C4, ongoing installation or live effects; only failed uninstalled work may fall back.");
-        var props = new CompProperties_InstalledBreachCharge { beyondFragmentRadius = 8,
-            explosionRadiusBase = 1.5f, explosionRadiusPerC4 = .3f };
-        if (TacticalChargePolicy.SafeRadius(props, 1) < 9) throw new Exception("Withdrawal must include far-side fragment reach.");
-        props.explosionRadiusBase = 12;
-        if (TacticalChargePolicy.SafeRadius(props, 4) < 13.6f) throw new Exception("Large charges must extend withdrawal beyond blast reach.");
+        foreach (IntVec3 inward in GenAdj.CardinalDirections)
+        {
+            IntVec3 position = new IntVec3(20, 0, 20), tangent = new IntVec3(-inward.z, 0, inward.x);
+            int unsafeCells = 0;
+            for (int depth = -2; depth <= 8; depth++) for (int width = -4; width <= 4; width++)
+            {
+                bool unsafeCell = TacticalChargePolicy.UnsafeApproach(position, inward, position - inward * depth + tangent * width);
+                if (unsafeCell != (depth >= 0 && depth < 6 && Math.Abs(width) <= 1))
+                    throw new Exception("C4 exclusion must rotate with the actual installation face.");
+                if (unsafeCell) unsafeCells++;
+            }
+            if (unsafeCells != 18) throw new Exception("C4 approach must exclude exactly 3x6 cells, not a fragment-radius circle.");
+        }
         if (!TacticalChargePolicy.EffectsPending(true, false, false, 0, 100)
             || !TacticalChargePolicy.EffectsPending(false, true, false, 0, 100)
             || !TacticalChargePolicy.EffectsPending(false, false, true, 0, 100)
@@ -57,6 +65,6 @@ internal static class TacticalChargeTests
                     throw new Exception("A live explosive or absent backup hammer must never be abandoned by the fallback transition.");
             }
         }
-        Console.WriteLine("PASS: C4 blast/fragment withdrawal and settling safety; timeout retains installed/working C4 and only failed uninstalled work falls back with mission history preserved.");
+        Console.WriteLine("PASS: C4 3x6 directional exclusion in four orientations and effects settling; installed/working C4 survives timeout with mission history preserved.");
     }
 }

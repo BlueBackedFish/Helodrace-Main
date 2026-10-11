@@ -13,6 +13,7 @@ namespace Helodrace.Tactics
     {
         public IntVec3 Opening, Inward;
         public int Depth = 1;
+        public int StackSide; // One wall-tangent side, locked after planning.
         public IntVec3 EntryLane = IntVec3.Invalid;
         public IntVec3 Outside => Opening - Inward;
         public IntVec3 Inside => Opening + Inward * Depth;
@@ -210,61 +211,18 @@ namespace Helodrace.Tactics
 
         internal static bool BuildStack(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed)
         {
-            IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
-            foreach (int side in new[] { 1, -1 })
-            {
-                plan.Stack.Clear();
-                // A rectangular, cardinally connected patch on ONE face of the
-                // wall. Every column must have a continuous wall behind it;
-                // the first corner/obstacle terminates that template.
-                for (int column = 1; column <= 8 && plan.Stack.Count < count; column++)
-                {
-                    IntVec3 wallCell = plan.Opening + lateral * (column * side);
-                    Building support = wallCell.InBounds(map) ? wallCell.GetEdifice(map) : null;
-                    // A blast-made opening can span several cells. Begin the
-                    // connected covered patch at its intact edge, not in the gap.
-                    if (support == null && plan.ExistingOpening && column <= 3 && wallCell.InBounds(map) && wallCell.Standable(map)) continue;
-                    if (support == null || !(support.def.IsWall || support is Building_Door)) break;
-                    for (int depth = 1; depth <= 3 && plan.Stack.Count < count; depth++)
-                    {
-                        IntVec3 cell = wallCell - plan.Inward * depth;
-                        if (!Free(map, cell, claimed)) break;
-                        plan.Stack.Add(cell);
-                    }
-                }
-                if (plan.Stack.Count == count && Connected(plan.Stack)) return true;
-            }
-            plan.Stack.Clear();
-            // Short wall: join both sides BEHIND the mouth. Still one wall face,
-            // still connected, and neither the outside mouth nor a corner is a post.
-            var queue = new Queue<IntVec3>();
-            var seen = new HashSet<IntVec3>();
-            IntVec3 root = plan.Opening - plan.Inward * 2;
-            if (!Free(map, root, claimed)) return false;
-            queue.Enqueue(root); seen.Add(root);
-            while (queue.Count > 0 && plan.Stack.Count < count)
-            {
-                IntVec3 cell = queue.Dequeue(); plan.Stack.Add(cell);
-                foreach (IntVec3 direction in GenAdj.CardinalDirections)
-                {
-                    IntVec3 next = cell + direction, delta = next - plan.Opening;
-                    int depth = -(delta.x * plan.Inward.x + delta.z * plan.Inward.z);
-                    int width = delta.x * lateral.x + delta.z * lateral.z;
-                    if (depth < 1 || depth > 3 || Math.Abs(width) > 8 || depth == 1 && width == 0
-                        || seen.Contains(next) || !Free(map, next, claimed)) continue;
-                    bool continuous = true;
-                    for (int i = 1; i <= Math.Abs(width); i++)
-                    {
-                        IntVec3 wall = plan.Opening + lateral * (i * Math.Sign(width));
-                        Building support = wall.InBounds(map) ? wall.GetEdifice(map) : null;
-                        if (support == null || !(support.def.IsWall || support is Building_Door)) { continuous = false; break; }
-                    }
-                    if (!continuous) continue;
-                    seen.Add(next); queue.Enqueue(next);
-                }
-            }
-            if (plan.Stack.Count == count && Connected(plan.Stack)) return true;
-            plan.Stack.Clear(); return false;
+            return BuildFormation(map, plan, count, claimed, plan.Stack);
+        }
+
+        internal static bool BuildFormation(Map map, TacticalLocalPlan plan, int count,
+            Func<IntVec3, bool> claimed, List<IntVec3> posts, Func<IntVec3, bool> excluded = null)
+        {
+            // Skip the opaque source, but not intervening walls.
+            IntVec3 barrier = plan.Barrier?.Position ?? plan.Opening;
+            bool Exposed(IntVec3 cell) => GenSight.LineOfSight(plan.Opening, cell, map, true)
+                || barrier != plan.Opening && GenSight.LineOfSight(barrier, cell, map, true);
+            return TacticalStackFormation.Build(plan.Opening, plan.Inward, count, ref plan.StackSide,
+                cell => Free(map, cell, claimed), Exposed, posts, excluded);
         }
 
         internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,
