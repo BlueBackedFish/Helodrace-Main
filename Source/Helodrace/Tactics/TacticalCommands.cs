@@ -223,6 +223,7 @@ namespace Helodrace.Tactics
                 command.ContactResponse = null; command.ContactRestoring = false;
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
+                command.Mission = new TacticalAssaultMission();
                 command.RoomScan = null; command.GoalSecured = command.SecuredCells.Contains(goal);
                 command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
                 command.Phase = TacticalCommandPhase.Pending; command.Due = GenTicks.TicksGame;
@@ -398,7 +399,7 @@ namespace Helodrace.Tactics
                 TacticalPlanFailure failure;
                 try
                 {
-                    int frontage = command.Link.Cooperation.Active && command.Failures < 2
+                    int frontage = !command.Mission.NextGoal.IsValid && command.Link.Cooperation.Active && command.Failures < 2
                         ? command.Link.Cooperation.Agenda.Side(command.Id) * 12 : 0;
                     bool triedKnown = false; failure = TacticalPlanFailure.None;
                     plan = frontage == 0 ? ReuseOpening(command, leader, planningGoal, command.Members.Count, Claimed,
@@ -425,10 +426,17 @@ namespace Helodrace.Tactics
                 {
                     if ((failure & TacticalPlanFailure.Classification) != 0)
                     { command.Due = tick + 1; return; }
-                    if (MayAbandonPendingPlan(hammer != null, command.Link.Cooperation.Active, command.Failures, leases.Count))
+                    if (command.Failures >= 3 || hammer == null)
                     {
-                        if (command.SecuredPlans.Count > 0) BeginReturn(command, tick, false, replan: true);
-                        else Release(command);
+                        command.Mission.Stage = TacticalMissionStage.Blocked;
+                        if (command.Mission.NextGoal.IsValid && command.Mission.FailedDestinations.Count < 32)
+                            command.Mission.FailedDestinations.Add(command.Mission.NextGoal);
+                        command.Mission.ForgetFailuresAt = tick + 1200;
+                        command.Mission.FailedPlans++; command.Mission.NextGoal = IntVec3.Invalid;
+                        foreach (TacticalMemberCommand member in active) EnsureParking(command, member, tick);
+                        command.Phase = TacticalCommandPhase.Clear; command.FrontierCursor = command.Frontiers.Count;
+                        command.Mission.Survey = null; command.Mission.EmptySurveys = 0;
+                        command.Mission.SearchAt = tick + 600; command.Due = tick + 600;
                         return;
                     }
                     // Waiting for another squad's physical footprint does not let
@@ -612,6 +620,7 @@ namespace Helodrace.Tactics
         }
         private static IntVec3 PendingGoal(TacticalSquadCommand command)
         {
+            if (command.Mission.NextGoal.IsValid) return command.Mission.NextGoal;
             if (command.GoalSecured)
                 foreach (TacticalRoomFrontier frontier in command.Frontiers)
                     if (!frontier.Excluded && !command.SecuredCells.Contains(frontier.Inside)) return frontier.Inside;

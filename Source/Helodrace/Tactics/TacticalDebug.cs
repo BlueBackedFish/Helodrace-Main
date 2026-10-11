@@ -30,6 +30,8 @@ namespace Helodrace.Tactics
                         + " cooperation=" + command.Link.Cooperation.Stage + " channel=" + command.Link.LastChannel
                         + " liaison=" + command.Link.Liaison?.thingIDNumber + " peer=" + command.Link.Peer?.Id
                         + " area=" + command.Link.Cooperation.Agenda?.Area(command.Id)
+                        + " mission=" + command.Mission.Stage + " next=" + command.Mission.NextGoal
+                        + " traversed=" + command.Mission.Traversed.Count + " blocked=" + command.Mission.FailedPlans
                         + " ready=" + command.Link.Cooperation.LocalReady + "/" + command.Link.Cooperation.PeerReady
                         + " peer report age=" + (command.Link.Cooperation.PeerStatusAt < 0 ? -1
                             : GenTicks.TicksGame - command.Link.Cooperation.PeerStatusAt)

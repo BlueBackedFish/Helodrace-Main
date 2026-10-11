@@ -79,6 +79,7 @@ namespace Helodrace.Tactics
             Scribe_References.Look(ref Breacher, "breacher");
             Scribe_Deep.Look(ref Link, "link");
             Scribe_Deep.Look(ref Plan, "plan");
+            Scribe_Deep.Look(ref Mission, "assaultMission");
             Scribe_Deep.Look(ref OpeningAction, "openingAction");
             Scribe_Deep.Look(ref ContactResponse, "contactResponse");
             Scribe_Deep.Look(ref FieldResponse, "fieldResponse");
@@ -136,6 +137,8 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Inward, "inward");
             Scribe_Values.Look(ref Preference, "preference");
             Scribe_Values.Look(ref Excluded, "excluded");
+            Scribe_Values.Look(ref Outdoors, "outdoors");
+            Scribe_Values.Look(ref Approach, "approach");
         }
     }
 
