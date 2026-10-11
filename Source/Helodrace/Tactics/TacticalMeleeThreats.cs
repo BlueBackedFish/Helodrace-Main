@@ -115,6 +115,7 @@ namespace Helodrace.Tactics
             bool intent = !enemy.Dead && !enemy.Downed && !enemy.WorkTagIsDisabled(WorkTags.Violent)
                 && (attack || melee && enemy.InAggroMentalState && closing);
             int urgency = TacticalFocusPolicy.Urgency(intent, enemy.Position.DistanceToSquared(anchor));
+            if (urgency > 0) command.SecuredKnowledge.ObserveThreat(enemy.Position, enemy.Position, tick);
             // A non-aggressive sample is only retained for an existing identity
             // or an aggro melee approach. Zero urgency retracts old reports.
             if (urgency == 0 && previous == null && !(melee && enemy.InAggroMentalState)) return;

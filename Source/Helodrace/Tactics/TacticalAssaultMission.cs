@@ -69,8 +69,9 @@ namespace Helodrace.Tactics
         {
             TacticalLocalPlan plan = command.Plan;
             RetireEntryApproach(command);
-            if (plan.Direct && plan.Opening == command.Goal) command.GoalSecured = true;
+            if (plan.Direct && !plan.ReportedPassage && plan.Opening == command.Goal) command.GoalSecured = true;
             if (!plan.Direct && command.Mission.Traversed.Add(plan.Opening)) command.SecuredPlans.Add(plan);
+            if (!plan.Direct && !plan.ReportedPassage) FlushSecuredReport(command, tick, portalOnly: true);
             command.Mission.NextGoal = IntVec3.Invalid; command.Mission.FailedPlans = 0;
             command.Mission.Stage = TacticalMissionStage.Searching; command.Mission.Survey = null;
             command.Mission.EmptySurveys = 0; command.Mission.SearchAt = tick;
@@ -100,7 +101,7 @@ namespace Helodrace.Tactics
                     inward = Math.Abs(travel.x) >= Math.Abs(travel.z)
                         ? new IntVec3(Math.Sign(travel.x), 0, 0) : new IntVec3(0, 0, Math.Sign(travel.z));
                 IntVec3 inside = cell + inward;
-                if (!inside.InBounds(map) || command.SecuredCells.Contains(inside) || mission.Traversed.Contains(cell)
+                if (!inside.InBounds(map) || command.SecuredCells.Contains(inside) || command.SecuredKnowledge.Cleared(inside) || mission.Traversed.Contains(cell)
                     || mission.FailedDestinations.Contains(inside)) continue;
                 if (command.Link.Cooperation.Active && !command.Link.Cooperation.Agenda.OwnsSide(command.Id, inside)) continue;
                 TacticalStructureClass kind = ClassifyStructure(command, cell, inward, observer);
@@ -108,8 +109,15 @@ namespace Helodrace.Tactics
                 {
                     // The candidate survives a yielded classification; do not
                     // discard it because this survey already stopped its ray.
-                    command.Frontiers.Add(new TacticalRoomFrontier { Opening = cell, Inward = inward, Approach = true });
-                    command.FrontierCursor = command.Frontiers.Count - 1; command.Due = tick + 1; return true;
+                    int index = command.Frontiers.FindIndex(f => f.Opening == cell);
+                    if (index < 0)
+                    {
+                        command.FrontierKeys.Add(cell);
+                        command.Frontiers.Add(new TacticalRoomFrontier { Opening = cell, Inward = inward, Approach = true });
+                        index = command.Frontiers.Count - 1;
+                    }
+                    else { command.Frontiers[index].Excluded = false; command.Frontiers[index].Approach = true; }
+                    command.FrontierCursor = index; command.Due = tick + 1; return true;
                 }
                 if (kind != TacticalStructureClass.Target) continue;
                 SelectMissionDestination(command, inside, tick); return true;
@@ -119,8 +127,9 @@ namespace Helodrace.Tactics
             if (++mission.EmptySurveys < 2) { mission.SearchAt = tick + 300; command.Due = mission.SearchAt; return true; }
             bool unresolved = command.Frontiers.Exists(f => !f.Excluded && !f.Approach
                 && !command.SecuredCells.Contains(f.Inside) && !mission.Traversed.Contains(f.Opening)
+                && !command.SecuredKnowledge.Cleared(f.Inside)
                 && (!command.Link.Cooperation.Active || command.Link.Cooperation.Agenda.OwnsSide(command.Id, f.Inside)));
-            if (command.GoalSecured && !unresolved)
+            if ((command.GoalSecured || command.SecuredKnowledge.Cleared(command.Goal)) && !unresolved)
             { mission.Stage = TacticalMissionStage.Finished; return false; }
             // No found candidate is not a retreat or permission to hand the
             // squad back to a vanilla raid which may choose an unrelated ruin.

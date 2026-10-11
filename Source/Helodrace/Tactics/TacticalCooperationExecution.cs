@@ -6,7 +6,7 @@ namespace Helodrace.Tactics
 {
     public sealed partial class MapComponent_TacticalCommands
     {
-        public long CooperationWaits, CooperationStarts, AllocatedAreasSecured, IdentificationHolds;
+        public long CooperationWaits, CooperationStarts, IdentificationHolds;
         private bool AdvanceCoordination(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
             TacticalSquadLink link = command.Link;
@@ -92,8 +92,6 @@ namespace Helodrace.Tactics
             { agreement.Stage = TacticalAgreementStage.Started; CooperationStarts++; }
             return true;
         }
-        private static bool AllocatedAreaSecured(TacticalSquadCommand command) => command.Link.Cooperation.Active
-            && command.SecuredCells.Contains(command.Link.Cooperation.Agenda.Area(command.Id));
         private static bool ResumeExpiredAllocation(TacticalSquadCommand command, int tick)
         {
             TacticalCooperationState agreement = command.Link.Cooperation;

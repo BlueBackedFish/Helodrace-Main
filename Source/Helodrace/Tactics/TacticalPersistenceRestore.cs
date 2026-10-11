@@ -183,7 +183,6 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref NormalCombatReturns, "NormalCombatReturnsCounter");
             Scribe_Values.Look(ref CooperationWaits, "CooperationWaitsCounter");
             Scribe_Values.Look(ref CooperationStarts, "CooperationStartsCounter");
-            Scribe_Values.Look(ref AllocatedAreasSecured, "AllocatedAreasSecuredCounter");
             Scribe_Values.Look(ref IdentificationHolds, "IdentificationHoldsCounter");
             Scribe_Values.Look(ref FieldResponses, "FieldResponsesCounter");
             Scribe_Values.Look(ref FieldResumes, "FieldResumesCounter");

@@ -24,6 +24,7 @@ namespace Helodrace.Tactics
         public bool Direct, ExistingOpening;
         // A failed unlit charge must not be selected again for this same barrier.
         public bool HammerFallback;
+        public bool ReportedPassage;
     }
 
     public static class TacticalLocalPlanner

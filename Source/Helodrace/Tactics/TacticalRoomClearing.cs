@@ -41,6 +41,7 @@ namespace Helodrace.Tactics
         private readonly IntVec3 entry;
         private HashSet<IntVec3>.Enumerator copy;
         private bool copying;
+        private bool copied;
         public bool Finished { get; private set; }
         public TacticalRoomScan(IntVec3 seed, IntVec3 entry, Func<IntVec3, bool> floor, Func<IntVec3, bool> barrier,
             Func<IntVec3, int> preference = null, Func<IntVec3, bool> exterior = null)
@@ -71,14 +72,16 @@ namespace Helodrace.Tactics
             }
             return Finished = pending.Count == 0;
         }
-        public bool CopyCellsTo(HashSet<IntVec3> secured)
+        public bool CopyCellsTo(HashSet<IntVec3> secured, Action<IntVec3> copiedCell = null)
         {
             if (!Finished) return false;
+            if (copied) return true;
             if (!copying) { copy = Cells.GetEnumerator(); copying = true; }
             for (int i = 0; i < CellsPerStep; i++)
             {
-                if (!copy.MoveNext()) { copy.Dispose(); return true; }
+                if (!copy.MoveNext()) { copy.Dispose(); copied = true; return true; }
                 secured.Add(copy.Current);
+                copiedCell?.Invoke(copy.Current);
             }
             return false;
         }
@@ -90,6 +93,9 @@ namespace Helodrace.Tactics
         private void BeginRoomClear(TacticalSquadCommand command, int tick)
         {
             TacticalLocalPlan plan = command.Plan;
+            command.ReportBatch.Clear(); command.ReportFrontierCursor = 0;
+            if (plan.ReportedPassage && command.SecuredKnowledge.Cleared(plan.Direct ? plan.Opening : plan.Inside))
+            { FinishOutdoorPassage(command, tick); return; }
             RetireEntryApproach(command);
             IntVec3 seed = plan.Direct ? command.Members.First(m => Available(m, map)).Pawn.Position : plan.Inside;
             command.Mission.NextGoal = IntVec3.Invalid; command.Mission.FailedPlans = 0;
@@ -182,7 +188,11 @@ namespace Helodrace.Tactics
                     RoomScanSteps++;
                     if (!command.RoomScan.Step()) return;
                     TacticalRoomScan scan = command.RoomScan;
-                    if (!scan.CopyCellsTo(command.SecuredCells)) return;
+                    if (!scan.CopyCellsTo(command.SecuredCells, cell => ReportSecuredCell(command, cell, tick))) return;
+                    FlushSecuredReport(command, tick);
+                    for (int i = 0; i < 2 && command.ReportFrontierCursor < scan.Frontiers.Count; i++)
+                        FlushSecuredReport(command, tick, portalOnly: true);
+                    if (command.ReportFrontierCursor < scan.Frontiers.Count) return;
                     if (scan.Cells.Count > 0)
                     {
                         command.GoalSecured |= scan.Cells.Contains(command.Goal);
@@ -211,7 +221,7 @@ namespace Helodrace.Tactics
                 for (int examined = 0; examined < 2 && command.FrontierCursor < command.Frontiers.Count; examined++)
                 {
                     TacticalRoomFrontier frontier = command.Frontiers[command.FrontierCursor++];
-                    if (frontier.Excluded || command.SecuredCells.Contains(frontier.Inside)
+                    if (frontier.Excluded || command.SecuredCells.Contains(frontier.Inside) || command.SecuredKnowledge.Cleared(frontier.Inside)
                         || command.Mission.Traversed.Contains(frontier.Opening)) continue;
                     if (command.Link.Cooperation.Active && !command.Link.Cooperation.Agenda.OwnsSide(command.Id, frontier.Inside)) continue;
                     if (frontier.Approach)

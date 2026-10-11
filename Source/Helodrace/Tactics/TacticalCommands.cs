@@ -224,6 +224,8 @@ namespace Helodrace.Tactics
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
                 command.Mission = new TacticalAssaultMission();
+                command.SecuredKnowledge = new TacticalSecuredKnowledge(); command.Link.SecuredAcks.Clear();
+                foreach (TacticalRoomFrontier frontier in command.Frontiers) frontier.Excluded = false;
                 command.RoomScan = null; command.GoalSecured = command.SecuredCells.Contains(goal);
                 command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
                 command.Phase = TacticalCommandPhase.Pending; command.Due = GenTicks.TicksGame;
@@ -321,7 +323,14 @@ namespace Helodrace.Tactics
             if (UpdateDefensiveMission(command, tick)) return;
             if (command.Phase == TacticalCommandPhase.Complete && command.FocusFire == null
                 && !command.Contacts.Melee.Dangerous(tick) && command.ContactResponse?.DirectAttack != true && !ResumeExpiredAllocation(command, tick))
-            { command.Due = tick + 600; return; }
+            {
+                ScanContacts(command, active, tick);
+                if (!command.Contacts.Melee.Dangerous(tick) && command.Contacts.Memory.Entries.Count == 0)
+                { command.Due = tick + 600; return; }
+                command.Phase = TacticalCommandPhase.Clear;
+                command.Mission.Stage = TacticalMissionStage.Searching;
+                command.Mission.SearchAt = tick; command.Mission.EmptySurveys = 0;
+            }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
             if (command.MedicalCare != null && AdvanceMedicalCare(command, active, tick)) return;
@@ -425,7 +434,10 @@ namespace Helodrace.Tactics
                 if (plan == null)
                 {
                     if ((failure & TacticalPlanFailure.Classification) != 0)
-                    { command.Due = tick + 1; return; }
+                    {
+                        foreach (TacticalMemberCommand member in active) EnsureParking(command, member, tick);
+                        command.Due = tick + 1; return;
+                    }
                     if (command.Failures >= 3 || hammer == null)
                     {
                         command.Mission.Stage = TacticalMissionStage.Blocked;
@@ -447,6 +459,7 @@ namespace Helodrace.Tactics
                     command.Due = command.PlanRetryAt; return;
                 }
                 ReleaseClaims(command); command.Plan = plan; PlansBuilt++; command.PhaseStarted = tick;
+                plan.ReportedPassage = command.SecuredKnowledge.Cleared(plan.Direct ? plan.Opening : plan.Inside);
                 command.Link.Cooperation.LocalReady = false;
                 command.OpeningAction = null;
                 command.HadConnectedStack = plan.Direct || TacticalLocalPlanner.Connected(plan.Stack);
@@ -541,9 +554,13 @@ namespace Helodrace.Tactics
             if (command.Phase == TacticalCommandPhase.Observe || command.Phase == TacticalCommandPhase.Support
                 || command.Phase == TacticalCommandPhase.BlastWait)
             {
+                if (command.Phase == TacticalCommandPhase.Observe && current.ReportedPassage
+                    && command.SecuredKnowledge.Cleared(current.Inside) && OpeningUsable(current)
+                    && command.OpeningAction == null && command.ChargeAction == null)
+                    command.Phase = TacticalCommandPhase.Enter;
                 if (command.Phase == TacticalCommandPhase.Observe && command.OpeningAction == null
                     && !CooperationReady(command, tick)) return;
-                AdvanceOpeningAction(command, active, tick);
+                if (command.Phase != TacticalCommandPhase.Enter) AdvanceOpeningAction(command, active, tick);
                 if (command.Phase != TacticalCommandPhase.Enter) return;
             }
             if (command.Phase != TacticalCommandPhase.Enter) return;
@@ -621,7 +638,7 @@ namespace Helodrace.Tactics
         private static IntVec3 PendingGoal(TacticalSquadCommand command)
         {
             if (command.Mission.NextGoal.IsValid) return command.Mission.NextGoal;
-            if (command.GoalSecured)
+            if (command.GoalSecured || command.SecuredKnowledge.Cleared(command.Goal))
                 foreach (TacticalRoomFrontier frontier in command.Frontiers)
                     if (!frontier.Excluded && !command.SecuredCells.Contains(frontier.Inside)) return frontier.Inside;
             return command.Goal;
@@ -691,20 +708,11 @@ namespace Helodrace.Tactics
                 plan.Interior.UnionWith(known.Interior);
                 failure = TacticalPlanFailure.None; return plan;
             }
-            return null;
+            return !tried ? ReuseReportedOpening(command, leader, goal, count, claimed, out tried, out failure) : null;
         }
         private static bool AtPost(TacticalMemberCommand member) => member.Pawn.CurJob == member.Job
             && member.Pawn.jobs.curDriver is TacticalJobDriver driver && driver.AtPost
             && member.Pawn.Position == member.Job.targetA.Cell;
-        private static bool MayAbandonPendingPlan(bool hasTool, bool activeAgreement, int failures, int leasedOpenings)
-        {
-            // An allocated partner may still be clearing its physical posts
-            // after releasing the portal lease. Keep the same command through
-            // the already bounded agreement window instead of retiring it and
-            // letting vanilla walk inside before discovery re-registers it.
-            // AdvanceCoordination expires the agreement before planning.
-            return !activeAgreement && (!hasTool || failures >= 4) && leasedOpenings == 0;
-        }
         private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick)
         {
             if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalPost"

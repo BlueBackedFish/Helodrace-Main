@@ -63,6 +63,7 @@ namespace Helodrace.Tactics
                 DoorContactsSeen++;
             }
             command.Contacts.Memory.Remember(enemyId, cell, area, door, true, tick, command.Id); ContactsSeen++;
+            command.SecuredKnowledge.ObserveThreat(cell, area, tick);
         }
     }
 }

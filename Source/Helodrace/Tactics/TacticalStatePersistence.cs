@@ -80,6 +80,7 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref Link, "link");
             Scribe_Deep.Look(ref Plan, "plan");
             Scribe_Deep.Look(ref Mission, "assaultMission");
+            Scribe_Deep.Look(ref SecuredKnowledge, "securedKnowledge");
             Scribe_Deep.Look(ref OpeningAction, "openingAction");
             Scribe_Deep.Look(ref ContactResponse, "contactResponse");
             Scribe_Deep.Look(ref FieldResponse, "fieldResponse");
@@ -121,6 +122,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Direct, "direct");
             Scribe_Values.Look(ref ExistingOpening, "existingOpening");
             Scribe_Values.Look(ref HammerFallback, "hammerFallback");
+            Scribe_Values.Look(ref ReportedPassage, "reportedPassage");
             Scribe_References.Look(ref Barrier, "barrier");
             Scribe_Collections.Look(ref Stack, "stack", LookMode.Value);
             Scribe_Collections.Look(ref Positions, "positions", LookMode.Value);
@@ -352,6 +354,7 @@ namespace Helodrace.Tactics
             Scribe_References.Look(ref Liaison, "liaison");
             Scribe_Deep.Look(ref Cooperation, "cooperation");
             Scribe_Collections.Look(ref KnownPortals, "knownPortals", LookMode.Value);
+            Scribe_Collections.Look(ref SecuredAcks, "securedAcks", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref Identified, "identified", LookMode.Value, LookMode.Value);
             if (Scribe.mode == LoadSaveMode.Saving) SavedPeer = Peer?.Id;
             Scribe_Values.Look(ref SavedPeer, "peerId");
@@ -411,6 +414,7 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref Agenda, "agenda");
             Scribe_Deep.Look(ref Contact, "contact");
             Scribe_Deep.Look(ref MeleeThreat, "meleeThreat");
+            Scribe_Deep.Look(ref SecuredReport, "securedReport");
             if (Scribe.mode == LoadSaveMode.Saving) { SavedFrom = From?.Id; SavedTo = To?.Id; SavedMap = From?.Owner.map; }
             Scribe_Values.Look(ref SavedFrom, "fromId"); Scribe_Values.Look(ref SavedTo, "toId");
             Scribe_References.Look(ref SavedMap, "map");

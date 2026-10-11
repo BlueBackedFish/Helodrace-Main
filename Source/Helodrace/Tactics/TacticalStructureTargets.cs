@@ -44,7 +44,7 @@ namespace Helodrace.Tactics
         public Faction TargetFaction;
         internal readonly Dictionary<IntVec3, TacticalStructureProbe> StructureProbes = new Dictionary<IntVec3, TacticalStructureProbe>();
         internal IntVec3 StructureGoal = IntVec3.Invalid;
-        internal int StructureExpiry, StructureAllowance;
+        internal int StructureExpiry, StructureAllowance, StructureSightAllowance;
     }
 
     public sealed partial class MapComponent_TacticalCommands
@@ -59,14 +59,18 @@ namespace Helodrace.Tactics
                 command.TargetFaction = target; command.StructureExpiry = tick + 600;
             }
             command.StructureAllowance = TacticalStructureProbe.Slice;
+            command.StructureSightAllowance = 2;
         }
         private TacticalStructureClass ClassifyStructure(TacticalSquadCommand command, IntVec3 opening, IntVec3 inward, Pawn observer)
         {
             if (!opening.InBounds(map)) return TacticalStructureClass.Incidental;
             Building barrier = opening.GetEdifice(map);
+            IntVec3 inside = opening + inward;
+            if (barrier?.Faction != null && barrier.Faction != command.TargetFaction) return TacticalStructureClass.Incidental;
+            if (command.SecuredKnowledge.Cleared(inside))
+                return barrier?.def.IsWall == true ? TacticalStructureClass.Incidental : TacticalStructureClass.Target;
             if (barrier?.Faction != null)
                 return barrier.Faction == command.TargetFaction ? TacticalStructureClass.Target : TacticalStructureClass.Incidental;
-            IntVec3 inside = opening + inward;
             if (!inside.InBounds(map)) return TacticalStructureClass.Incidental;
             // A neutral partition shared with a secured indoor target is part
             // of that local building, but never extend this rule over a yard.
@@ -87,9 +91,10 @@ namespace Helodrace.Tactics
                 if (building.def.IsWall || building is Building_Door) return true;
                 // Reused ruins: require actual sight of an owned bed/workplace,
                 // not an invisible lamp or a radius around unrelated furniture.
-                return (building is Building_Bed || building is Building_WorkTable)
-                    && observer != null && observer.Position.DistanceToSquared(cell) <= 784
-                    && GenSight.LineOfSight(observer.Position, cell, map, true);
+                if (!(building is Building_Bed) && !(building is Building_WorkTable)
+                    || observer == null || observer.Position.DistanceToSquared(cell) > 784 || command.StructureSightAllowance <= 0) return false;
+                command.StructureSightAllowance--;
+                return GenSight.LineOfSight(observer.Position, cell, map, true);
             }
             bool Floor(IntVec3 cell) => cell.InBounds(map) && cell.Roofed(map) && cell.Walkable(map)
                 && !(cell.GetEdifice(map) is Building_Door);

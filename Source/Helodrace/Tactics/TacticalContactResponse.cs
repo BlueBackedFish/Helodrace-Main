@@ -33,6 +33,7 @@ namespace Helodrace.Tactics
                 || victim.CurJob != job || job.playerForced
                 || command.Members.Find(m => m.Pawn == victim)?.Job != job) return;
             int tick = GenTicks.TicksGame;
+            command.SecuredKnowledge.ObserveThreat(attacker.Position, attacker.Position, tick);
             command.Contacts.Melee.Receive(new TacticalMeleeThreat { EnemyId = attacker.thingIDNumber,
                 Position = attacker.Position, SeenTick = tick, Urgency = 3, Shielded = ObservedShield(attacker), Origin = command.Id }, tick);
             if (command.FocusFire != null)
