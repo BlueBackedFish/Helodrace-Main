@@ -151,6 +151,9 @@ namespace Helodrace.Tactics
         }
         private void ExposeCounters()
         {
+            Scribe_Values.Look(ref FurniturePlans, "FurniturePlansCounter");
+            Scribe_Values.Look(ref FurnitureCompleted, "FurnitureCompletedCounter");
+            Scribe_Values.Look(ref FurnitureAborted, "FurnitureAbortedCounter");
             Scribe_Values.Look(ref ToolRecoveriesStarted, "ToolRecoveriesStartedCounter");
             Scribe_Values.Look(ref ToolRecoveriesCompleted, "ToolRecoveriesCompletedCounter");
             Scribe_Values.Look(ref CutterJobsStarted, "CutterJobsStartedCounter");

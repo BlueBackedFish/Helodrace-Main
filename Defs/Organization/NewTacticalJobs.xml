@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <JobDef>
+    <defName>HD_NewTacticalClearFurniture</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalClearFurniture</driverClass>
+    <reportString>가구를 부수어 전술 공간을 확보하는 중</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
     <defName>HD_NewTacticalFocusFire</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalFocusFire</driverClass>
     <reportString>접근하는 근접 위협에 집중 사격하는 중</reportString>

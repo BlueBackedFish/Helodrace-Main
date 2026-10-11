@@ -274,6 +274,9 @@ namespace Helodrace.Tactics
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
             if (member == null || member.Job != job) return;
             member.Job = null;
+            if (job.def.defName == TacticalFurniturePolicy.JobName && command.FurnitureAction?.Worker == pawn
+                && condition != JobCondition.Succeeded && condition != JobCondition.InterruptForced)
+                command.FurnitureAction.Failed = true;
             if (condition != JobCondition.Succeeded)
             {
                 JobFailures++; member.RetryTick = GenTicks.TicksGame + 180;
@@ -311,6 +314,7 @@ namespace Helodrace.Tactics
         }
         private void AdvanceCore(TacticalSquadCommand command, int tick)
         {
+            command.FurnitureProbes = TacticalFurniturePolicy.SimulationsPerAdvance;
             if (command.Phase == TacticalCommandPhase.Returning)
             {
                 if (SupportEffectsPending(command, tick) || ChargeEffectsPending(command, tick)) { command.Due = tick + 15; return; }
@@ -343,6 +347,8 @@ namespace Helodrace.Tactics
             if (RestoreContactPosts(command, active, tick)) return;
             if (command.Defensive) { AdvanceDefenseIdle(command, active, tick); return; }
             if (AdvanceCoordination(command, active, tick)) return;
+            if (AwaitPendingFurniture(command, active, tick)) return;
+            if (AdvanceFurniture(command, active, tick)) return;
             if (command.Phase == TacticalCommandPhase.Clear)
             { AdvanceRoomClear(command, active, tick); return; }
             if (command.Phase == TacticalCommandPhase.Breach && command.ChargeAction != null)
@@ -351,6 +357,10 @@ namespace Helodrace.Tactics
             {
                 if (member.Pawn.Position != member.LastPosition)
                 { member.LastPosition = member.Pawn.Position; member.LastProgressTick = tick; }
+                if ((member.Job == null && tick < member.RetryTick
+                    || member.Pawn.CurJob == member.Job && member.Pawn.jobs.curDriver is TacticalJobDriver stalled
+                        && !stalled.AtPost && !(stalled is JobDriver_TacticalBreach) && tick - member.LastProgressTick > 180)
+                    && RecoverStalledFurniture(command, active, member)) return;
                 if (member.Pawn.CurJob == member.Job && member.Pawn.jobs.curDriver is TacticalJobDriver driver
                     && !driver.AtPost && !(driver is JobDriver_TacticalBreach) && tick - member.LastProgressTick > 1200)
                 {
@@ -418,9 +428,15 @@ namespace Helodrace.Tactics
                     int frontage = !command.Mission.NextGoal.IsValid && command.Link.Cooperation.Active && command.Failures < 2
                         ? command.Link.Cooperation.Agenda.Side(command.Id) * 12 : 0;
                     bool triedKnown = false; failure = TacticalPlanFailure.None;
-                    plan = frontage == 0 ? ReuseOpening(command, leader, planningGoal, command.Members.Count, Claimed,
+                    bool RecoverFurniture(TacticalLocalPlan candidate) => TryPrepareFurniture(command, active, candidate,
+                        Claimed, Claimed, cell => cell.InBounds(map) && cell.Roofed(map) == candidate.Inside.Roofed(map)
+                            && !command.SecuredCells.Contains(cell), requireFull: true);
+                    plan = ResumeFurniturePlan(command, active, leader, Claimed);
+                    if (plan == null && command.FurnitureAction == null)
+                        plan = frontage == 0 ? ReuseOpening(command, leader, planningGoal, command.Members.Count, Claimed,
                         out triedKnown, out failure) : null;
-                    if (TacticalLocalPlanner.SearchFreshOpening(triedKnown, failure, command.Failures))
+                    if (plan == null && command.FurnitureAction == null
+                        && TacticalLocalPlanner.SearchFreshOpening(triedKnown, failure, command.Failures))
                     {
                         // Busy-only reuse did not run CanReach. After two failed
                         // attempts, allow the same bounded fresh search rather
@@ -432,7 +448,7 @@ namespace Helodrace.Tactics
                         plan = TacticalLocalPlanner.Find(map, leader, planningGoal, command.Members.Count,
                             Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
                             out failure, command.Failures, frontage, command.SecuredCells.Count == 0 ? null : (Func<IntVec3, bool>)command.SecuredCells.Contains,
-                            (opening, inward) => ClassifyStructure(command, opening, inward, leader));
+                            (opening, inward) => ClassifyStructure(command, opening, inward, leader), RecoverFurniture);
                         if (plan == null) failure |= knownFailure;
                     }
                     if (plan != null && !plan.Direct)
@@ -444,6 +460,7 @@ namespace Helodrace.Tactics
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - planStarted); }
                 command.LastPlanFailure = failure;
+                if (command.FurnitureAction != null) { command.Due = tick + 1; return; }
                 if (plan == null)
                 {
                     if ((failure & TacticalPlanFailure.Classification) != 0)
@@ -848,6 +865,7 @@ namespace Helodrace.Tactics
             ReleaseClaims(command);
             command.MedicalCare = null;
             command.FocusFire = null;
+            command.FurnitureAction = null; command.FurnitureResumePlan = null;
             if (command.ReplanAfterReturn) { RestartRetainedMission(command, tick); return; }
             command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released
                 : command.Defensive ? TacticalCommandPhase.Defending : TacticalCommandPhase.Complete;

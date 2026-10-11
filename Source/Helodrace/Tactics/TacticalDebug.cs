@@ -25,6 +25,9 @@ namespace Helodrace.Tactics
                         + " stack side=" + command.Plan?.StackSide
                         + " stack party=" + (command.Plan?.StackMembers.Count > 0 ? command.Plan.StackMembers.Count : command.Members.Count)
                         + " entry order=" + (command.Plan == null ? "none" : string.Join(",", command.Plan.EntryOrder))
+                        + " furniture=" + command.FurnitureAction?.Target?.Position
+                        + " pending furniture=" + command.Plan?.PendingFurniture?.Position
+                        + " clearing pawn=" + command.FurnitureAction?.Worker?.thingIDNumber
                         + " observed=" + command.OpeningAction?.Enemy + " throw=" + command.OpeningAction?.Launched
                         + " opening outdoors=" + command.OpeningAction?.Outdoors
                         + " C4=" + (command.ChargeAction == null ? "none" : command.ChargeAction.Detonated ? "effects"

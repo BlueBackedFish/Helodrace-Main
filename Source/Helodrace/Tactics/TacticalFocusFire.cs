@@ -74,6 +74,7 @@ namespace Helodrace.Tactics
             return job == "HD_NewTacticalIngress" && !(pawn.jobs.curDriver is JobDriver_TacticalIngress ingress && ingress.AtPost)
                 || job == "HD_NewTacticalRecoverTool"
                 || job == "HD_NewTacticalBreach" || job == "HD_NewTacticalCut"
+                || job == TacticalFurniturePolicy.JobName
                 || job == "HD_NewTacticalObserve" && !(pawn.jobs.curDriver is JobDriver_TacticalObserve observe && observe.AtPost && !observe.Peeking)
                 || job == "HD_NewTacticalThrow" && !(pawn.jobs.curDriver is JobDriver_TacticalThrow throwing && throwing.Released && throwing.AtPost)
                 || command.MedicalCare != null && (command.MedicalCare.Patient == member || command.MedicalCare.Helper == member)

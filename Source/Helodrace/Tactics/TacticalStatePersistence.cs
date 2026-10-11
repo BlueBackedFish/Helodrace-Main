@@ -90,6 +90,9 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref Contacts, "contacts");
             Scribe_Deep.Look(ref ChargeAction, "chargeAction");
             Scribe_Deep.Look(ref RecoveryFrontier, "recoveryFrontier");
+            Scribe_Deep.Look(ref FurnitureAction, "furnitureAction");
+            Scribe_Deep.Look(ref FurnitureResumePlan, "furnitureResumePlan");
+            Scribe_Collections.Look(ref RejectedFurniture, "rejectedFurniture", LookMode.Value);
             Scribe_Collections.Look(ref Members, "members", LookMode.Deep);
             Scribe_Collections.Look(ref SecuredCells, "securedCells", LookMode.Value);
             Scribe_Collections.Look(ref SecuredPlans, "securedPlans", LookMode.Deep);
@@ -116,6 +119,7 @@ namespace Helodrace.Tactics
             if (Scribe.mode == LoadSaveMode.Saving)
             {
                 if (Barrier?.Destroyed == true) Barrier = null;
+                if (PendingFurniture?.Destroyed == true) PendingFurniture = null;
             }
             Scribe_Values.Look(ref Opening, "opening");
             Scribe_Values.Look(ref Inward, "inward");
@@ -127,6 +131,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref HammerFallback, "hammerFallback");
             Scribe_Values.Look(ref ReportedPassage, "reportedPassage");
             Scribe_References.Look(ref Barrier, "barrier");
+            Scribe_References.Look(ref PendingFurniture, "pendingFurniture");
             Scribe_Collections.Look(ref Stack, "stack", LookMode.Value);
             Scribe_Collections.Look(ref StackMembers, "stackMembers", LookMode.Value);
             Scribe_Collections.Look(ref EntryOrder, "entryOrder", LookMode.Value);

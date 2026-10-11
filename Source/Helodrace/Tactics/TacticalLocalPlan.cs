@@ -19,6 +19,9 @@ namespace Helodrace.Tactics
         public IntVec3 Inside => Opening + Inward * Depth;
         public IntVec3 InnerOpening => Inside - Inward;
         public Building Barrier;
+        // A validated future footprint that needs reachable furniture cleared
+        // after opening the wall, before observation/entry can begin.
+        public Building PendingFurniture;
         public List<IntVec3> Stack = new List<IntVec3>();
         // Empty means the whole squad; otherwise remaining members guard their
         // existing secured-room posts rather than requiring a full local stack.
@@ -61,11 +64,13 @@ namespace Helodrace.Tactics
         internal static bool Free(Map map, IntVec3 cell, Func<IntVec3, bool> claimed) =>
             cell.InBounds(map) && cell.Standable(map) && !claimed(cell);
 
-        internal static bool SetDepth(Map map, TacticalLocalPlan plan) => TryDepth(map, plan.Opening, plan.Inward, out plan.Depth);
+        internal static bool SetDepth(Map map, TacticalLocalPlan plan, bool allowFurniture = false) =>
+            TryDepth(map, plan.Opening, plan.Inward, out plan.Depth, allowFurniture);
 
-        internal static bool TryDepth(Map map, IntVec3 opening, IntVec3 inward, out int depth) => TacticalPortalGeometry.TryDepth(opening, inward,
+        internal static bool TryDepth(Map map, IntVec3 opening, IntVec3 inward, out int depth, bool allowFurniture = false) => TacticalPortalGeometry.TryDepth(opening, inward,
             cell => cell.InBounds(map) && (cell.GetEdifice(map)?.def.IsWall == true || cell.GetEdifice(map) is Building_Door),
-            cell => cell.InBounds(map) && cell.Walkable(map), out depth);
+            cell => cell.InBounds(map) && (cell.Walkable(map)
+                || allowFurniture && TacticalFurniturePolicy.IsFurniture(cell.GetEdifice(map))), out depth);
 
         internal static Building NextBarrier(Map map, TacticalLocalPlan plan) => NextBarrier(map, plan.Opening, plan.Inward, plan.Depth);
 
@@ -89,7 +94,7 @@ namespace Helodrace.Tactics
         internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
             out TacticalPlanFailure failure, int failedAttempts, int frontage = 0, Func<IntVec3, bool> secured = null,
-            Func<IntVec3, IntVec3, TacticalStructureClass> classify = null)
+            Func<IntVec3, IntVec3, TacticalStructureClass> classify = null, Func<TacticalLocalPlan, bool> recoverFurniture = null)
         {
             failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
@@ -177,7 +182,7 @@ namespace Helodrace.Tactics
                 if (barrier == null && !opening.Standable(map)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier,
                     ExistingOpening = barrier == null || openDoor };
-                if (!SetDepth(map, plan)) { failure |= TacticalPlanFailure.Inside; continue; }
+                if (!SetDepth(map, plan, recoverFurniture != null)) { failure |= TacticalPlanFailure.Inside; continue; }
                 bool busy = false;
                 for (int layer = 0; layer < plan.Depth; layer++) busy |= leased(opening + preferred * layer);
                 if (busy) { failure |= TacticalPlanFailure.Busy; continue; }
@@ -191,14 +196,28 @@ namespace Helodrace.Tactics
                 if (!tools) { failure |= TacticalPlanFailure.Tool; continue; }
                 plan.Barrier = NextBarrier(map, plan); plan.ExistingOpening = PassageOpen(map, plan);
                 if (secured?.Invoke(plan.Inside) == true) { failure |= TacticalPlanFailure.NotBoundary; continue; }
-                if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed)) { failure |= TacticalPlanFailure.Obstructed; continue; }
-                if (!BuildStack(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Stack; continue; }
+                if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed))
+                {
+                    if (recoverFurniture?.Invoke(plan) == true)
+                    { if (plan.PendingFurniture == null) return null; candidates.Add(plan); continue; }
+                    failure |= TacticalPlanFailure.Obstructed; continue;
+                }
+                if (!BuildStack(map, plan, count, claimed))
+                {
+                    if (recoverFurniture?.Invoke(plan) == true)
+                    { if (plan.PendingFurniture == null) return null; candidates.Add(plan); continue; }
+                    failure |= TacticalPlanFailure.Stack; continue;
+                }
                 // A blast at a corner can connect the local flood to outdoors.
                 // Keep this footprint on the inside mouth's roof/floor space,
                 // as the direct objective and later room-entry planners do.
                 bool insideRoofed = plan.Inside.Roofed(map);
                 if (!BuildPositions(map, plan, count, claimed, cell => cell.Roofed(map) == insideRoofed && secured?.Invoke(cell) != true))
-                { failure |= TacticalPlanFailure.Inside; continue; }
+                {
+                    if (recoverFurniture?.Invoke(plan) == true)
+                    { if (plan.PendingFurniture == null) return null; candidates.Add(plan); continue; }
+                    failure |= TacticalPlanFailure.Inside; continue;
+                }
                 candidates.Add(plan);
             }
             // Prefer a suitable ordinary door; never spend more than two final
@@ -213,24 +232,26 @@ namespace Helodrace.Tactics
         private static int Score(TacticalLocalPlan plan, IntVec3 from) => plan.Outside.DistanceToSquared(from)
             - (plan.ExistingOpening ? 1600 : plan.Barrier is Building_Door ? 400 : 0);
 
-        internal static bool BuildStack(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed, bool allowPartial = false)
+        internal static bool BuildStack(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,
+            bool allowPartial = false, Building ignored = null)
         {
-            return BuildFormation(map, plan, count, claimed, plan.Stack, allowPartial: allowPartial);
+            return BuildFormation(map, plan, count, claimed, plan.Stack, allowPartial: allowPartial, ignored: ignored);
         }
 
         internal static bool BuildFormation(Map map, TacticalLocalPlan plan, int count,
-            Func<IntVec3, bool> claimed, List<IntVec3> posts, Func<IntVec3, bool> excluded = null, bool allowPartial = false)
+            Func<IntVec3, bool> claimed, List<IntVec3> posts, Func<IntVec3, bool> excluded = null,
+            bool allowPartial = false, Building ignored = null)
         {
             // Skip the opaque source, but not intervening walls.
             IntVec3 barrier = plan.Barrier?.Position ?? plan.Opening;
             bool Exposed(IntVec3 cell) => GenSight.LineOfSight(plan.Opening, cell, map, true)
                 || barrier != plan.Opening && GenSight.LineOfSight(barrier, cell, map, true);
             return TacticalStackFormation.Build(plan.Opening, plan.Inward, count, ref plan.StackSide,
-                cell => Free(map, cell, claimed), Exposed, posts, excluded, allowPartial);
+                cell => TacticalFurniturePolicy.FreeIgnoring(map, cell, claimed, ignored), Exposed, posts, excluded, allowPartial);
         }
 
         internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,
-            Func<IntVec3, bool> insideAllowed = null)
+            Func<IntVec3, bool> insideAllowed = null, Building ignored = null)
         {
             var walls = new Dictionary<IntVec3, bool>();
             bool Wall(IntVec3 cell)
@@ -243,9 +264,9 @@ namespace Helodrace.Tactics
                 return value;
             }
             return TacticalEntryFootprint.Build(plan.InnerOpening, plan.Inward, count, plan.StackSide,
-                cell => cell.InBounds(map) && cell.Walkable(map) && !(cell.GetEdifice(map) is Building_Door)
+                cell => TacticalFurniturePolicy.WalkIgnoring(map, cell, ignored) && !(cell.GetEdifice(map) is Building_Door)
                     && (insideAllowed == null || insideAllowed(cell)),
-                cell => Free(map, cell, claimed), Wall, plan.Positions, plan.Interior, out plan.EntryLane);
+                cell => TacticalFurniturePolicy.FreeIgnoring(map, cell, claimed, ignored), Wall, plan.Positions, plan.Interior, out plan.EntryLane);
         }
     }
 }
