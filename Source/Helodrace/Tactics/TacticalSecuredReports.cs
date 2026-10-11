@@ -194,7 +194,8 @@ namespace Helodrace.Tactics
                 if (!OpeningUsable(plan)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 if (!TacticalLocalPlanner.Free(map, plan.Outside, claimed) || !TacticalLocalPlanner.Free(map, plan.Inside, claimed)
                     || !TacticalLocalPlanner.BuildStack(map, plan, count, claimed)
-                    || !TacticalLocalPlanner.BuildPositions(map, plan, count, claimed, c => c.Roofed(map) == plan.Inside.Roofed(map)))
+                    || (!TacticalLocalPlanner.BuildPositions(map, plan, count, claimed, c => c.Roofed(map) == plan.Inside.Roofed(map))
+                        && plan.Positions.Count == 0))
                 { failure |= TacticalPlanFailure.Obstructed; continue; }
                 if (!leader.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly))
                 { failure |= TacticalPlanFailure.Unreachable; continue; }

@@ -41,9 +41,9 @@ namespace Helodrace.Tactics
             return true;
         }
 
-        // Called once when a following room cannot fit the whole squad. Preserve
-        // member indexing and distinct outside posts; do not invent inside arrivals.
-        public static bool Allocate(TacticalLocalPlan plan, IList<int> eligible)
+        // Choose entry seats once; surplus members move to nearby covered
+        // entrance flanks instead of retaining their distant original posts.
+        public static bool Allocate(TacticalLocalPlan plan, IList<int> eligible, Func<IntVec3, bool> covered = null)
         {
             int count = System.Math.Min(plan.Positions.Count, eligible.Count);
             if (count == 0 || eligible.Distinct().Count() != eligible.Count
@@ -51,6 +51,42 @@ namespace Helodrace.Tactics
             var inside = plan.Positions.Take(count).ToArray();
             var positions = plan.Stack.ToArray();
             for (int i = 0; i < count; i++) positions[eligible[i]] = inside[i];
+            var entering = new HashSet<int>(eligible.Take(count));
+            if (entering.Count < positions.Length)
+            {
+                var used = new HashSet<IntVec3>(inside);
+                if (used.Count != inside.Length) return false;
+                IntVec3 tangent = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
+                var guards = new List<Guard>();
+                foreach (IntVec3 cell in plan.Stack)
+                {
+                    if (!used.Add(cell)) continue;
+                    int side = Math.Sign((cell.x - plan.Opening.x) * tangent.x + (cell.z - plan.Opening.z) * tangent.z);
+                    guards.Add(new Guard { Cell = cell, Side = side, Covered = side != 0 && covered?.Invoke(cell) == true,
+                        Distance = cell.DistanceToSquared(plan.Opening) });
+                }
+                if (guards.Count < positions.Length - entering.Count) return false;
+                guards.Sort((a, b) =>
+                {
+                    int compare = b.Covered.CompareTo(a.Covered);
+                    if (compare == 0) compare = a.Distance.CompareTo(b.Distance);
+                    if (compare == 0) compare = a.Cell.x.CompareTo(b.Cell.x);
+                    if (compare == 0) compare = a.Cell.z.CompareTo(b.Cell.z);
+                    return compare;
+                });
+                int nextSide = plan.StackSide < 0 ? -1 : 1;
+                for (int i = 0; i < positions.Length; i++)
+                {
+                    if (entering.Contains(i)) continue;
+                    bool cover = guards[0].Covered;
+                    int selected = guards.FindIndex(g => g.Covered == cover && g.Side == nextSide);
+                    if (selected < 0) selected = guards.FindIndex(g => g.Covered == cover && g.Side == -nextSide);
+                    if (selected < 0) selected = 0;
+                    Guard guard = guards[selected]; guards.RemoveAt(selected);
+                    positions[i] = guard.Cell;
+                    if (guard.Side != 0) nextSide = -guard.Side;
+                }
+            }
             if (positions.Distinct().Count() != positions.Length) return false;
             plan.Positions.Clear(); plan.Positions.AddRange(positions);
             plan.RetainedOutside.Clear();
@@ -65,11 +101,12 @@ namespace Helodrace.Tactics
         {
             if (!plan.RetainedOutside.Contains(outsideMember) || plan.RetainedOutside.Contains(vacantInsideMember)
                 || vacantInsideMember < 0 || vacantInsideMember >= plan.Positions.Count) return false;
+            IntVec3 guard = plan.Positions[outsideMember];
             plan.Positions[outsideMember] = plan.Positions[vacantInsideMember];
-            // The unavailable member's guard post stays indexed to its own stack.
-            plan.Positions[vacantInsideMember] = plan.Stack[vacantInsideMember];
+            plan.Positions[vacantInsideMember] = guard;
             plan.RetainedOutside.Remove(outsideMember); plan.RetainedOutside.Add(vacantInsideMember);
             return true;
         }
+        private struct Guard { internal IntVec3 Cell; internal int Side, Distance; internal bool Covered; }
     }
 }

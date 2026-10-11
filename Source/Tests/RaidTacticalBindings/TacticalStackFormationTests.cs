@@ -160,8 +160,9 @@ internal static class TacticalStackFormationTests
             "Small approach must keep unique secured guard posts without combining them into the breach formation.");
         plan.Positions.AddRange(new[] { new IntVec3(17, 0, 17), new IntVec3(17, 0, 18) });
         check(TacticalEntryAllocation.Allocate(plan, plan.StackMembers)
-            && plan.StackMembers.All(i => !plan.RetainedOutside.Contains(i) || plan.Positions[i] == plan.Stack[i]),
-            "Only the selected breach party may take inside posts; other members retain their guards.");
+            && plan.StackMembers.All(i => !plan.RetainedOutside.Contains(i) || plan.Stack.Contains(plan.Positions[i]))
+            && plan.Positions.Distinct().Count() == plan.Stack.Count,
+            "Only the selected breach party may take inside posts; remaining members get unique entrance guards.");
     }
 
     private static void CheckSave(Action<bool, string> check, IntVec3 opening)

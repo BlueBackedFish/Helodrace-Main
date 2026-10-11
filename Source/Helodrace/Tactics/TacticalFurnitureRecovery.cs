@@ -107,7 +107,8 @@ namespace Helodrace.Tactics
                 && !command.SecuredCells.Contains(cell);
             if (TacticalLocalPlanner.Free(map, plan.Outside, claimed) && TacticalLocalPlanner.Free(map, plan.Inside, claimed)
                 && TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, claimed)
-                && TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, claimed, Allowed)
+                && (TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, claimed, Allowed)
+                    || plan.Positions.Count > 0)
                 && leader.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) return plan;
             TryPrepareFurniture(command, active, plan, claimed, claimed, Allowed, requireFull: true);
             return null;

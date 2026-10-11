@@ -379,12 +379,7 @@ namespace Helodrace.Tactics
                     // escort/wander orders while its bounded retry is pending.
                     // Reuse the existing assigned post; no plan is recalculated.
                     if (!CanIssue(member)) continue;
-                    IntVec3 post = member.Pawn.Position;
-                    if (command.Plan != null)
-                    {
-                        int index = command.Members.IndexOf(member);
-                        post = member.Crossed || command.Plan.Direct ? command.Plan.Positions[index] : command.Plan.Stack[index];
-                    }
+                    IntVec3 post = RetryPost(command, member);
                     Issue(member, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), post, command.Goal));
                 }
             }
@@ -454,7 +449,7 @@ namespace Helodrace.Tactics
                     if (plan != null && !plan.Direct)
                     {
                         command.Breacher = hammer;
-                        if (!TacticalEntryAllocation.Allocate(plan, TacticalEntryOrder.For(command, active, plan)))
+                        if (!TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan)))
                         { plan = null; failure |= TacticalPlanFailure.Inside; }
                     }
                 }
@@ -786,7 +781,9 @@ namespace Helodrace.Tactics
         {
             if (command.Plan == null) return member.Pawn.Position;
             int index = command.Members.IndexOf(member);
-            return member.Crossed || command.Plan.Direct ? command.Plan.Positions[index] : command.Plan.Stack[index];
+            bool guard = command.Plan.RetainedOutside.Contains(index)
+                && (command.Phase == TacticalCommandPhase.Enter || command.Phase == TacticalCommandPhase.Clear);
+            return member.Crossed || command.Plan.Direct || guard ? command.Plan.Positions[index] : command.Plan.Stack[index];
         }
         private bool Issue(TacticalMemberCommand member, Job job)
         {

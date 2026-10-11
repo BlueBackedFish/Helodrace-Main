@@ -217,7 +217,9 @@ namespace Helodrace.Tactics
                 {
                     if (recoverFurniture?.Invoke(plan) == true)
                     { if (plan.PendingFurniture == null) return null; candidates.Add(plan); continue; }
-                    failure |= TacticalPlanFailure.Inside; continue;
+                    // A small room still gets entered; surplus members take
+                    // covered entrance guards during indexed allocation.
+                    if (plan.Positions.Count == 0) { failure |= TacticalPlanFailure.Inside; continue; }
                 }
                 candidates.Add(plan);
             }
@@ -254,20 +256,14 @@ namespace Helodrace.Tactics
         internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,
             Func<IntVec3, bool> insideAllowed = null, Building ignored = null)
         {
-            var walls = new Dictionary<IntVec3, bool>();
-            bool Wall(IntVec3 cell)
-            {
-                if (!walls.TryGetValue(cell, out bool value))
-                {
-                    Building edifice = cell.InBounds(map) ? cell.GetEdifice(map) : null;
-                    walls[cell] = value = edifice?.def.IsWall == true || edifice is Building_Door door && !door.Open;
-                }
-                return value;
-            }
             return TacticalEntryFootprint.Build(plan.InnerOpening, plan.Inward, count, plan.StackSide,
                 cell => TacticalFurniturePolicy.WalkIgnoring(map, cell, ignored) && !(cell.GetEdifice(map) is Building_Door)
                     && (insideAllowed == null || insideAllowed(cell)),
-                cell => TacticalFurniturePolicy.FreeIgnoring(map, cell, claimed, ignored), Wall, plan.Positions, plan.Interior, out plan.EntryLane);
+                cell => TacticalFurniturePolicy.FreeIgnoring(map, cell, claimed, ignored), plan.Positions, plan.Interior, out plan.EntryLane);
         }
+
+        internal static bool AllocateEntry(Map map, TacticalLocalPlan plan, IList<int> eligible) =>
+            TacticalEntryAllocation.Allocate(plan, eligible,
+                cell => !GenSight.LineOfSight(plan.Opening, cell, map, true));
     }
 }

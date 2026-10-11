@@ -389,7 +389,7 @@ namespace Helodrace.Tactics
                     && (command.Plan == null || !TacticalEntryAllocation.BindApproach(plan, command.Plan.Positions,
                         TacticalEntryOrder.For(command, active, plan),
                         cell => command.SecuredCells.Contains(cell) && TacticalLocalPlanner.Free(map, cell, Claimed)))) return null;
-                return TacticalEntryAllocation.Allocate(plan, TacticalEntryOrder.For(command, active, plan))
+                return TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan))
                     && active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly) ? plan : null;
             }
             if (!TacticalLocalPlanner.Free(map, plan.Outside, OutsideBlocked) || !TacticalLocalPlanner.Free(map, plan.Inside, InsideBlocked))
@@ -418,8 +418,8 @@ namespace Helodrace.Tactics
             bool fullInside = TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
                 InsideAllowed);
             if (!fullInside && !touchedClaim && RecoverFurniture()) return FurniturePreview();
-            if (!fullInside && touchedClaim) { occupied = true; return null; }
-            if (!TacticalEntryAllocation.Allocate(plan, TacticalEntryOrder.For(command, active, plan))) return null;
+            if (!fullInside && touchedClaim && plan.Positions.Count == 0) { occupied = true; return null; }
+            if (!TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan))) return null;
             if (!active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) return null;
             return plan;
         }

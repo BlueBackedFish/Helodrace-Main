@@ -244,13 +244,18 @@ namespace Helodrace.Tactics
             action.EntryAdjusted = true;
             if (!action.Enemy.IsValid) return;
             int index = command.Plan.Positions.IndexOf(action.Enemy);
-            if (index < 0) return;
+            if (index < 0 || command.Plan.RetainedOutside.Contains(index)) return;
             var candidate = new TacticalLocalPlan { Opening = command.Plan.Opening, Inward = command.Plan.Inward, Depth = command.Plan.Depth };
-            bool Busy(IntVec3 cell) => cell == action.Enemy || !command.Plan.Interior.Contains(cell) || command.Plan.Positions.Contains(cell)
+            bool Busy(IntVec3 cell) => cell == action.Enemy || cell == command.Plan.Inside || cell == command.Plan.EntryLane
+                || command.Plan.Positions.Contains(cell)
                 || claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
-            if (!TacticalLocalPlanner.BuildPositions(map, candidate, 1, Busy)) return;
+            // The compact footprint has no spare seat. Only this observed
+            // collision expands locally to find one replacement destination.
+            if (!TacticalLocalPlanner.BuildPositions(map, candidate, 1, Busy,
+                cell => cell.Roofed(map) == command.Plan.Inside.Roofed(map) && !command.SecuredCells.Contains(cell))) return;
             if (claims.TryGetValue(action.Enemy, out TacticalSquadCommand current) && current == command) claims.Remove(action.Enemy);
             command.Plan.Positions[index] = candidate.Positions[0]; claims[candidate.Positions[0]] = command;
+            command.Plan.Interior.UnionWith(candidate.Interior);
         }
 
         private IntVec3 ChooseSupportTarget(TacticalLocalPlan plan, TacticalOpeningAction action)
