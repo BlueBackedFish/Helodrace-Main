@@ -52,6 +52,7 @@ internal static class Program
     {
         try
         {
+            if (args.Contains("--evasion")) { TacticalExplosiveEvasionTests.Run(); TacticalWorkBudgetTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); return 0; }
             if (args.Contains("--entry-combat")) { TacticalEntryCombatTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--portals")) { TacticalRoomScanTests.Run(); TacticalFacadeTests.Run(); return 0; }
             if (args.Contains("--stack")) { TacticalStackFormationTests.Run(); TacticalEntryFootprintTests.Run(); TacticalFurnitureTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); TacticalEntryAllocationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <JobDef>
+    <defName>HD_NewTacticalEvadeExplosion</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalEvadeExplosion</driverClass>
+    <reportString>폭발물을 피해 달아나는 중</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
     <defName>HD_NewTacticalClearFurniture</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalClearFurniture</driverClass>
     <reportString>가구를 부수어 전술 공간을 확보하는 중</reportString>

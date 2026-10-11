@@ -277,7 +277,9 @@ namespace Helodrace.Tactics
             if (job.def.defName == TacticalFurniturePolicy.JobName && command.FurnitureAction?.Worker == pawn
                 && condition != JobCondition.Succeeded && condition != JobCondition.InterruptForced)
                 command.FurnitureAction.Failed = true;
-            if (condition != JobCondition.Succeeded)
+            bool safetyInterrupt = (condition == JobCondition.InterruptForced || condition == JobCondition.InterruptOptional)
+                && TacticalExplosiveEvasionPolicy.Pending(pawn, command);
+            if (condition != JobCondition.Succeeded && !safetyInterrupt)
             {
                 JobFailures++; member.RetryTick = GenTicks.TicksGame + 180;
                 LastJobFailure = job.def.defName + ":" + condition + " pawn=" + pawn.thingIDNumber;
@@ -314,6 +316,7 @@ namespace Helodrace.Tactics
         }
         private void AdvanceCore(TacticalSquadCommand command, int tick)
         {
+            if (PauseForExplosiveEvasion(command, tick)) return;
             command.FurnitureProbes = TacticalFurniturePolicy.SimulationsPerAdvance;
             if (command.Phase == TacticalCommandPhase.Returning)
             {
@@ -797,7 +800,9 @@ namespace Helodrace.Tactics
         }
         private bool Issue(TacticalMemberCommand member, Job job)
         {
-            if (StationaryGuidance(member)) return false;
+            if (StationaryGuidance(member) || TacticalExplosiveEvasionPolicy.OwnsMovement(member.Pawn.CurJob)) return false;
+            if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner)
+                && TacticalExplosiveEvasionPolicy.Pending(member.Pawn, owner)) return false;
             int tick = GenTicks.TicksGame;
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (!budget.TryJob(tick))
@@ -824,7 +829,9 @@ namespace Helodrace.Tactics
         }
         private bool CanIssue(TacticalMemberCommand member)
         {
-            if (StationaryGuidance(member)) return false;
+            if (StationaryGuidance(member) || TacticalExplosiveEvasionPolicy.OwnsMovement(member.Pawn.CurJob)) return false;
+            if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner)
+                && TacticalExplosiveEvasionPolicy.Pending(member.Pawn, owner)) return false;
             if (Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.CanJob(GenTicks.TicksGame)) return true;
             Defer(member); return false;
         }
