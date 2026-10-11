@@ -5,6 +5,34 @@ namespace Helodrace.Tactics
 {
     public static class TacticalPortalGeometry
     {
+        public const int LayerLimit = 4;
+        public static IntVec3 FirstBlocked(IntVec3 opening, IntVec3 inward, int depth, Func<IntVec3, bool> open)
+        {
+            for (int layer = 0; layer < depth; layer++)
+            {
+                IntVec3 cell = opening + inward * layer;
+                if (!open(cell)) return cell;
+            }
+            return IntVec3.Invalid;
+        }
+        public static bool PassageOpen(IntVec3 opening, IntVec3 inward, int depth, Func<IntVec3, bool> open) =>
+            !FirstBlocked(opening, inward, depth + 1, open).IsValid;
+        // Contiguous layers share one outer mouth and one destination floor.
+        // A walkable gap between two walls is a separate space, not thickness.
+        public static bool TryDepth(IntVec3 opening, IntVec3 inward, Func<IntVec3, bool> layer,
+            Func<IntVec3, bool> floor, out int depth)
+        {
+            depth = 1;
+            for (int distance = 1; distance <= LayerLimit; distance++)
+            {
+                IntVec3 cell = opening + inward * distance;
+                if (layer(cell)) continue;
+                if (!floor(cell)) return false;
+                depth = distance; return true;
+            }
+            return false;
+        }
+
         private static readonly IntVec3[] axes = { IntVec3.East, IntVec3.North };
         // Short gaps retain the two room faces of their wall. Parallel corridor
         // walls do not: their supports continue along the supposed inward axis.

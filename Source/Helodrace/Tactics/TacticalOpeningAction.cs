@@ -241,7 +241,7 @@ namespace Helodrace.Tactics
             if (!action.Enemy.IsValid) return;
             int index = command.Plan.Positions.IndexOf(action.Enemy);
             if (index < 0) return;
-            var candidate = new TacticalLocalPlan { Opening = command.Plan.Opening, Inward = command.Plan.Inward };
+            var candidate = new TacticalLocalPlan { Opening = command.Plan.Opening, Inward = command.Plan.Inward, Depth = command.Plan.Depth };
             bool Busy(IntVec3 cell) => cell == action.Enemy || !command.Plan.Interior.Contains(cell) || command.Plan.Positions.Contains(cell)
                 || claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
             if (!TacticalLocalPlanner.BuildPositions(map, candidate, 1, Busy)) return;
@@ -252,13 +252,13 @@ namespace Helodrace.Tactics
         private IntVec3 ChooseSupportTarget(TacticalLocalPlan plan, TacticalOpeningAction action)
         {
             if (action.Enemy.IsValid)
-                return TacticalOpeningPolicy.FarEnough(plan.Opening, action.Enemy) ? action.Enemy : IntVec3.Invalid;
+                return TacticalOpeningPolicy.FarEnough(plan.InnerOpening, action.Enemy) ? action.Enemy : IntVec3.Invalid;
             IntVec3 fallback = IntVec3.Invalid, lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
             // Nine local cells, no scoring grid. Prefer an unseen corner.
             for (int depth = 3; depth <= 5; depth++)
                 foreach (int width in new[] { 0, 2, -2 })
                 {
-                    IntVec3 cell = plan.Opening + plan.Inward * depth + lateral * width;
+                    IntVec3 cell = plan.InnerOpening + plan.Inward * depth + lateral * width;
                     if (!cell.InBounds(map) || !cell.Standable(map)) continue;
                     if (!fallback.IsValid) fallback = cell;
                     if (action.ObservationPosition.IsValid && !GenSight.LineOfSight(action.ObservationPosition, cell, map, true)) return cell;

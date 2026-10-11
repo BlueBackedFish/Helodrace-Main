@@ -119,6 +119,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Opening, "opening");
             Scribe_Values.Look(ref Inward, "inward");
             Scribe_Values.Look(ref EntryLane, "entryLane");
+            Scribe_Values.Look(ref Depth, "depth", 1);
             Scribe_Values.Look(ref Direct, "direct");
             Scribe_Values.Look(ref ExistingOpening, "existingOpening");
             Scribe_Values.Look(ref HammerFallback, "hammerFallback");
@@ -138,6 +139,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Opening, "opening");
             Scribe_Values.Look(ref Inward, "inward");
             Scribe_Values.Look(ref Preference, "preference");
+            Scribe_Values.Look(ref Depth, "depth", 1);
             Scribe_Values.Look(ref Excluded, "excluded");
             Scribe_Values.Look(ref Outdoors, "outdoors");
             Scribe_Values.Look(ref Approach, "approach");
@@ -189,6 +191,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Detonated, "detonated");
             Scribe_Values.Look(ref EffectsCleared, "effectsCleared");
             Scribe_Values.Look(ref Radius, "radius");
+            Scribe_Values.Look(ref Position, "position");
             Scribe_References.Look(ref Installer, "installer");
             Scribe_Collections.Look(ref OriginalStack, "originalStack", LookMode.Value);
             Scribe_Collections.Look(ref Withdrawal, "withdrawal", LookMode.Value);

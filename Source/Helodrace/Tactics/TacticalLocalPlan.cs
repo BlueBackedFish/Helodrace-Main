@@ -12,9 +12,11 @@ namespace Helodrace.Tactics
     public sealed partial class TacticalLocalPlan
     {
         public IntVec3 Opening, Inward;
+        public int Depth = 1;
         public IntVec3 EntryLane = IntVec3.Invalid;
         public IntVec3 Outside => Opening - Inward;
-        public IntVec3 Inside => Opening + Inward;
+        public IntVec3 Inside => Opening + Inward * Depth;
+        public IntVec3 InnerOpening => Inside - Inward;
         public Building Barrier;
         public List<IntVec3> Stack = new List<IntVec3>();
         public List<IntVec3> Positions = new List<IntVec3>();
@@ -53,6 +55,31 @@ namespace Helodrace.Tactics
 
         internal static bool Free(Map map, IntVec3 cell, Func<IntVec3, bool> claimed) =>
             cell.InBounds(map) && cell.Standable(map) && !claimed(cell);
+
+        internal static bool SetDepth(Map map, TacticalLocalPlan plan) => TryDepth(map, plan.Opening, plan.Inward, out plan.Depth);
+
+        internal static bool TryDepth(Map map, IntVec3 opening, IntVec3 inward, out int depth) => TacticalPortalGeometry.TryDepth(opening, inward,
+            cell => cell.InBounds(map) && (cell.GetEdifice(map)?.def.IsWall == true || cell.GetEdifice(map) is Building_Door),
+            cell => cell.InBounds(map) && cell.Walkable(map), out depth);
+
+        internal static Building NextBarrier(Map map, TacticalLocalPlan plan) => NextBarrier(map, plan.Opening, plan.Inward, plan.Depth);
+
+        internal static Building NextBarrier(Map map, IntVec3 opening, IntVec3 inward, int depth)
+        {
+            IntVec3 cell = TacticalPortalGeometry.FirstBlocked(opening, inward, depth,
+                position => CellOpen(map, position));
+            return cell.IsValid && cell.InBounds(map) ? cell.GetEdifice(map) : null;
+        }
+
+        private static bool CellOpen(Map map, IntVec3 cell) => cell.InBounds(map)
+            && (cell.GetEdifice(map) is Building_Door door ? door.Open || DoorBreachFaultUtility.Jammed(door) : cell.Standable(map));
+
+        internal static bool PassageOpen(Map map, TacticalLocalPlan plan) => PassageOpen(map, plan.Opening, plan.Inward, plan.Depth);
+
+        internal static bool PassageOpen(Map map, IntVec3 opening, IntVec3 inward, int depth)
+        {
+            return TacticalPortalGeometry.PassageOpen(opening, inward, depth, cell => CellOpen(map, cell));
+        }
 
         internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
@@ -145,6 +172,19 @@ namespace Helodrace.Tactics
                 if (barrier == null && !opening.Standable(map)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier,
                     ExistingOpening = barrier == null || openDoor };
+                if (!SetDepth(map, plan)) { failure |= TacticalPlanFailure.Inside; continue; }
+                bool busy = false;
+                for (int layer = 0; layer < plan.Depth; layer++) busy |= leased(opening + preferred * layer);
+                if (busy) { failure |= TacticalPlanFailure.Busy; continue; }
+                bool tools = true;
+                for (int layer = 0; layer < plan.Depth; layer++)
+                {
+                    Building next = (opening + preferred * layer).GetEdifice(map);
+                    if (next != null && !(next is Building_Door d && (d.Open || DoorBreachFaultUtility.Jammed(d))) && !canBreach(next))
+                    { tools = false; break; }
+                }
+                if (!tools) { failure |= TacticalPlanFailure.Tool; continue; }
+                plan.Barrier = NextBarrier(map, plan); plan.ExistingOpening = PassageOpen(map, plan);
                 if (secured?.Invoke(plan.Inside) == true) { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed)) { failure |= TacticalPlanFailure.Obstructed; continue; }
                 if (!BuildStack(map, plan, count, claimed)) { failure |= TacticalPlanFailure.Stack; continue; }
@@ -166,7 +206,7 @@ namespace Helodrace.Tactics
             return null;
         }
         private static int Score(TacticalLocalPlan plan, IntVec3 from) => plan.Outside.DistanceToSquared(from)
-            - (plan.Barrier is Building_Door ? 400 : 0);
+            - (plan.ExistingOpening ? 1600 : plan.Barrier is Building_Door ? 400 : 0);
 
         internal static bool BuildStack(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed)
         {
@@ -242,7 +282,7 @@ namespace Helodrace.Tactics
                 foreach (IntVec3 direction in GenAdj.CardinalDirections)
                 {
                     IntVec3 cell = current + direction;
-                    IntVec3 delta = cell - plan.Opening;
+                    IntVec3 delta = cell - plan.InnerOpening;
                     int depth = delta.x * plan.Inward.x + delta.z * plan.Inward.z;
                     int width = delta.x * lateral.x + delta.z * lateral.z;
                     if (depth < 1 || depth > 4 || Math.Abs(width) > 8 || !cell.InBounds(map)
@@ -256,7 +296,7 @@ namespace Helodrace.Tactics
                 for (int width = 1; width <= 8; width++)
                     foreach (int side in new[] { 1, -1 })
                     {
-                        IntVec3 cell = plan.Opening + plan.Inward * depth + lateral * (width * side);
+                        IntVec3 cell = plan.InnerOpening + plan.Inward * depth + lateral * (width * side);
                         if (depth == 4 && !GenAdj.CardinalDirections.Any(direction =>
                             (cell + direction).InBounds(map) && (cell + direction).GetEdifice(map)?.def.IsWall == true)) continue;
                         if (plan.Positions.Count < count && reachable.Contains(cell) && Free(map, cell, claimed))
@@ -270,7 +310,7 @@ namespace Helodrace.Tactics
             if (reachable.Contains(lane) && Free(map, lane, claimed)) plan.EntryLane = lane;
             for (int depth = 2; depth <= 4 && plan.Positions.Count < count; depth++)
             {
-                IntVec3 cell = plan.Opening + plan.Inward * depth;
+                IntVec3 cell = plan.InnerOpening + plan.Inward * depth;
                 if (cell == plan.EntryLane) continue;
                 if (reachable.Contains(cell) && Free(map, cell, claimed)) plan.Positions.Add(cell);
             }

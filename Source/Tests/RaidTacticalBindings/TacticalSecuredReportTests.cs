@@ -49,6 +49,7 @@ internal static class TacticalSecuredReportTests
         Check(knowledge.Sequence == 1 && knowledge.Own.Count == 1, "Only a local recorded clear result receives an outgoing revision.");
         knowledge.ObserveThreat(goal, goal, 310);
         Check(knowledge.Own[0].Recheck, "A known local reinfiltration must revoke unsent safe claims.");
+        knowledge.Own[0].Depth = 2; knowledge.Own[0].Frontiers[0].Depth = 3;
         string path = Path.Combine(Path.GetTempPath(), "Helodrace-Secured-" + Guid.NewGuid() + ".xml");
         // The console harness has no running Unity mod registry/meta header.
         // Seed only the native resolver's type entries; data extraction and
@@ -68,6 +69,8 @@ internal static class TacticalSecuredReportTests
                 && loaded.Received.Count == 64 && !loaded.Cleared(new IntVec3(79, 0, 5)) && !loaded.Cleared(goal)
                 && loaded.Received.All(r => r.Recheck && r.ThreatAt == 310),
                 "Native Scribe must preserve separate histories and rebuild the bounded clearance index correctly.");
+            Check(loaded.Own[0].Depth == 2 && loaded.Own[0].Frontiers[0].Depth == 3,
+                "Native deep Scribe must preserve the reported portal and next frontier thickness.");
         }
         finally { ScribeMetaHeaderUtility.modListChanged = previousHeader; if (File.Exists(path)) File.Delete(path); }
         var doctrine = (DoctrineDef)RuntimeHelpers.GetUninitializedObject(typeof(DoctrineDef)); doctrine.voiceReportTicks = 40;

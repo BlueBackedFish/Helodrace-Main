@@ -31,7 +31,8 @@ namespace Helodrace.Tactics
                 if (!budget.TryObserve(tick)) return;
                 nextScan = tick + 15;
                 var enemies = pawn.Map.mapPawns.AllPawnsSpawned;
-                IntVec3 opening = job.targetQueueA[1].Cell, inward = job.targetB.Cell - opening;
+                IntVec3 opening = job.targetQueueA[1].Cell, travel = job.targetB.Cell - opening;
+                IntVec3 inward = new IntVec3(System.Math.Sign(travel.x), 0, System.Math.Sign(travel.z));
                 // Rotation through at most sixteen pawn candidates per scan.
                 // Reuse shootable cells instead of allocating per enemy.
                 for (int i = 0; i < System.Math.Min(16, enemies.Count); i++)

@@ -106,7 +106,8 @@ namespace Helodrace.Tactics
                 if (!TacticalPortalGeometry.TryWallNormal(cell, travel, Support, out IntVec3 inward))
                     inward = Math.Abs(travel.x) >= Math.Abs(travel.z)
                         ? new IntVec3(Math.Sign(travel.x), 0, 0) : new IntVec3(0, 0, Math.Sign(travel.z));
-                IntVec3 inside = cell + inward;
+                if (!TacticalLocalPlanner.TryDepth(map, cell, inward, out int depth)) continue;
+                IntVec3 inside = cell + inward * depth;
                 if (!inside.InBounds(map) || command.SecuredCells.Contains(inside) || command.SecuredKnowledge.Cleared(inside) || mission.Traversed.Contains(cell)
                     || mission.FailedDestinations.Contains(inside)) continue;
                 if (command.Link.Cooperation.Active && !command.Link.Cooperation.Agenda.OwnsSide(command.Id, inside)) continue;
@@ -119,10 +120,10 @@ namespace Helodrace.Tactics
                     if (index < 0)
                     {
                         command.FrontierKeys.Add(cell);
-                        command.Frontiers.Add(new TacticalRoomFrontier { Opening = cell, Inward = inward, Approach = true });
+                        command.Frontiers.Add(new TacticalRoomFrontier { Opening = cell, Inward = inward, Depth = depth, Approach = true });
                         index = command.Frontiers.Count - 1;
                     }
-                    else { command.Frontiers[index].Excluded = false; command.Frontiers[index].Approach = true; }
+                    else { command.Frontiers[index].Excluded = false; command.Frontiers[index].Approach = true; command.Frontiers[index].Depth = depth; }
                     command.FrontierCursor = index; command.Due = tick + 1; return true;
                 }
                 if (kind != TacticalStructureClass.Target) continue;

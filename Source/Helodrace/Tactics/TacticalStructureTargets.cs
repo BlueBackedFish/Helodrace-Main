@@ -66,15 +66,17 @@ namespace Helodrace.Tactics
             command.StructureAllowance = TacticalStructureProbe.Slice;
             command.StructureSightAllowance = 2;
         }
-        private TacticalStructureClass ClassifyStructure(TacticalSquadCommand command, IntVec3 opening, IntVec3 inward, Pawn observer)
+        private TacticalStructureClass ClassifyStructure(TacticalSquadCommand command, IntVec3 opening, IntVec3 inward, Pawn observer, int knownDepth = 1)
         {
             if (!opening.InBounds(map)) return TacticalStructureClass.Incidental;
             Building barrier = opening.GetEdifice(map);
-            IntVec3 inside = opening + inward;
+            if (!TacticalLocalPlanner.TryDepth(map, opening, inward, out int depth)) return TacticalStructureClass.Incidental;
+            depth = Math.Max(depth, knownDepth);
+            IntVec3 inside = opening + inward * depth;
             if (barrier?.Faction != null && barrier.Faction != command.TargetFaction) return TacticalStructureClass.Incidental;
             if (command.SecuredKnowledge.Cleared(inside))
                 return barrier?.def.IsWall == true ? TacticalStructureClass.Incidental : TacticalStructureClass.Target;
-            TacticalStructureClass secured = SecuredRegion(command, opening, inward);
+            TacticalStructureClass secured = SecuredRegion(command, opening, inward, depth);
             if (secured == TacticalStructureClass.Pending) return secured;
             if (secured == TacticalStructureClass.Target) return TacticalStructureClass.Incidental;
             if (barrier?.Faction != null)
@@ -110,7 +112,7 @@ namespace Helodrace.Tactics
         }
         private bool TargetPlan(TacticalSquadCommand command, TacticalLocalPlan plan, Pawn observer, out bool pending)
         {
-            TacticalStructureClass result = ClassifyStructure(command, plan.Opening, plan.Inward, observer);
+            TacticalStructureClass result = ClassifyStructure(command, plan.Opening, plan.Inward, observer, plan.Depth);
             pending = result == TacticalStructureClass.Pending;
             return result == TacticalStructureClass.Target;
         }

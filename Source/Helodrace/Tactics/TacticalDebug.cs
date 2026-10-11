@@ -20,7 +20,8 @@ namespace Helodrace.Tactics
             Find.WindowStack.Add(new Dialog_MessageBox(service == null ? "Start with -hdTacticalEngine=new."
                 : "Jobs=" + service.JobsIssued + " failures=" + service.JobFailures + " plans=" + service.PlansAttempted
                     + "\n" + string.Join("\n", service.Commands.Select(command => command.Id + ": " + command.Phase
-                        + " goal=" + command.Goal + " opening=" + command.Plan?.Opening + " connected=" + command.HadConnectedStack
+                        + " goal=" + command.Goal + " opening=" + command.Plan?.Opening + " depth=" + command.Plan?.Depth
+                        + " inside=" + command.Plan?.Inside + " barrier=" + command.Plan?.Barrier?.Position + " connected=" + command.HadConnectedStack
                         + " observed=" + command.OpeningAction?.Enemy + " throw=" + command.OpeningAction?.Launched
                         + " returned=" + command.OpeningAction?.Returned + " safe=" + command.OpeningAction?.EffectsCleared
                         + " passed=" + command.Members.Count(member => member.Passed) + " entered="

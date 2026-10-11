@@ -12,20 +12,22 @@ namespace Helodrace.Tactics
         public const int CellLimit = 16, HistoryLimit = 64;
         public string Origin;
         public int Sequence, SeenTick, ThreatAt = -1;
+        public int Depth = 1;
         public IntVec3 Goal, Opening, Inward;
         public bool PortalUsable, Recheck;
         public List<IntVec3> Cells = new List<IntVec3>();
         public List<TacticalRoomFrontier> Frontiers = new List<TacticalRoomFrontier>();
         public TacticalSecuredReport Copy() => new TacticalSecuredReport { Origin = Origin, Sequence = Sequence,
-            SeenTick = SeenTick, ThreatAt = ThreatAt, Goal = Goal, Opening = Opening, Inward = Inward,
+            SeenTick = SeenTick, ThreatAt = ThreatAt, Goal = Goal, Opening = Opening, Inward = Inward, Depth = Depth,
             PortalUsable = PortalUsable, Recheck = Recheck, Cells = Cells.ToList(),
             Frontiers = Frontiers.Select(f => new TacticalRoomFrontier { Opening = f.Opening, Inward = f.Inward,
-                Preference = f.Preference, Outdoors = f.Outdoors }).ToList() };
+                Depth = f.Depth, Preference = f.Preference, Outdoors = f.Outdoors }).ToList() };
         public void ExposeData()
         {
             Scribe_Values.Look(ref Origin, "origin"); Scribe_Values.Look(ref Sequence, "sequence");
             Scribe_Values.Look(ref SeenTick, "seenTick"); Scribe_Values.Look(ref ThreatAt, "threatAt", -1);
             Scribe_Values.Look(ref Goal, "goal"); Scribe_Values.Look(ref Opening, "opening"); Scribe_Values.Look(ref Inward, "inward");
+            Scribe_Values.Look(ref Depth, "depth", 1);
             Scribe_Values.Look(ref PortalUsable, "portalUsable"); Scribe_Values.Look(ref Recheck, "recheck");
             Scribe_Collections.Look(ref Cells, "cells", LookMode.Value);
             Scribe_Collections.Look(ref Frontiers, "frontiers", LookMode.Deep);
@@ -63,7 +65,9 @@ namespace Helodrace.Tactics
         public bool Receive(TacticalSecuredReport report, string source, IntVec3 goal, int tick)
         {
             if (report == null || report.Origin != source || report.Goal != goal || report.SeenTick > tick
-                || report.Sequence <= 0 || report.Cells.Count > TacticalSecuredReport.CellLimit || report.Frontiers.Count > 2
+                || report.Sequence <= 0 || report.Depth < 1 || report.Depth > TacticalPortalGeometry.LayerLimit
+                || report.Cells.Count > TacticalSecuredReport.CellLimit || report.Frontiers.Count > 2
+                || report.Frontiers.Any(f => f.Depth < 1 || f.Depth > TacticalPortalGeometry.LayerLimit)
                 || Received.Exists(r => r.Origin == source && r.Sequence == report.Sequence)) return false;
             EnsureIndex();
             TacticalSecuredReport snapshot = report.Copy();
@@ -128,14 +132,14 @@ namespace Helodrace.Tactics
             if (command.Plan == null || !portalOnly && command.ReportBatch.Count == 0) return;
             TacticalLocalPlan plan = command.Plan;
             var report = new TacticalSecuredReport { Origin = command.Id, Goal = command.Goal, SeenTick = tick,
-                Opening = plan.Opening, Inward = plan.Inward, PortalUsable = !plan.Direct && OpeningUsable(plan),
+                Opening = plan.Opening, Inward = plan.Inward, Depth = plan.Depth, PortalUsable = !plan.Direct && OpeningUsable(plan),
                 Cells = command.ReportBatch.ToList() };
             if (command.RoomScan != null)
                 for (int i = 0; i < 2 && command.ReportFrontierCursor < command.RoomScan.Frontiers.Count; i++)
                 {
                     TacticalRoomFrontier frontier = command.RoomScan.Frontiers[command.ReportFrontierCursor++];
                     report.Frontiers.Add(new TacticalRoomFrontier { Opening = frontier.Opening, Inward = frontier.Inward,
-                        Preference = frontier.Preference, Outdoors = frontier.Outdoors });
+                        Depth = frontier.Depth, Preference = frontier.Preference, Outdoors = frontier.Outdoors });
                 }
             command.ReportBatch.Clear(); command.SecuredKnowledge.Record(report);
         }
@@ -151,7 +155,7 @@ namespace Helodrace.Tactics
                 if (command.FrontierKeys.Add(frontier.Opening))
                 {
                     command.Frontiers.Add(new TacticalRoomFrontier { Opening = frontier.Opening, Inward = frontier.Inward,
-                        Preference = frontier.Preference, Outdoors = frontier.Outdoors, Approach = true });
+                        Depth = frontier.Depth, Preference = frontier.Preference, Outdoors = frontier.Outdoors, Approach = true });
                     added = true;
                 }
             if (added)
@@ -176,8 +180,8 @@ namespace Helodrace.Tactics
             {
                 TacticalSecuredReport report = reports[i];
                 if (!report.PortalUsable || !command.Link.KnownPortals.Contains(report.Opening) || !seen.Add(report.Opening)
-                    || command.SecuredCells.Contains(report.Opening + report.Inward) || report.Goal != command.Goal) continue;
-                var plan = new TacticalLocalPlan { Opening = report.Opening, Inward = report.Inward, ExistingOpening = true };
+                    || command.SecuredCells.Contains(report.Opening + report.Inward * report.Depth) || report.Goal != command.Goal) continue;
+                var plan = new TacticalLocalPlan { Opening = report.Opening, Inward = report.Inward, Depth = report.Depth, ExistingOpening = true };
                 IntVec3 travel = goal - leader.Position, relative = leader.Position - plan.Opening;
                 if (travel.x * plan.Inward.x + travel.z * plan.Inward.z <= 0
                     || relative.x * plan.Inward.x + relative.z * plan.Inward.z >= 1

@@ -470,7 +470,11 @@ namespace Helodrace.Tactics
                 }
                 else
                 {
-                    leases.Add(plan.Opening, command);
+                    for (int layer = 0; layer < plan.Depth; layer++)
+                    {
+                        IntVec3 cell = plan.Opening + plan.Inward * layer;
+                        leases[cell] = command; claims[cell] = command;
+                    }
                     foreach (IntVec3 cell in plan.Stack.Concat(plan.Positions)) claims[cell] = command;
                     claims[plan.Outside] = command;
                     claims[plan.Inside] = command;
@@ -510,7 +514,7 @@ namespace Helodrace.Tactics
                 }
                 if (command.Phase == TacticalCommandPhase.Breach)
                 {
-                    current.Barrier = current.Opening.GetEdifice(map);
+                    current.Barrier = TacticalLocalPlanner.NextBarrier(map, current);
                     int hitPoints = current.Barrier?.HitPoints ?? 0;
                     if (hitPoints != command.BarrierHitPoints)
                     { command.BarrierHitPoints = hitPoints; command.PhaseStarted = tick; }
@@ -537,12 +541,12 @@ namespace Helodrace.Tactics
                         if (CompSledgehammerBreach.WornBy(worker.Pawn) == null) { Release(command); return; }
                     }
                     string breachJob = cutter ? TacticalBreachTools.CutterJob : "HD_NewTacticalBreach";
-                    if (worker.Job?.def.defName != breachJob || worker.Pawn.CurJob != worker.Job)
+                    if (worker.Job?.def.defName != breachJob || worker.Pawn.CurJob != worker.Job || worker.Job.targetA.Thing != current.Barrier)
                     {
                         if (tick < worker.RetryTick) return;
                         if (!CanIssue(worker)) return;
                         Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(breachJob), current.Barrier,
-                            current.Outside, cutter ? worker.Pawn.equipment.Primary : CompSledgehammerBreach.WornBy(worker.Pawn).parent);
+                            current.Barrier.Position - current.Inward, cutter ? worker.Pawn.equipment.Primary : CompSledgehammerBreach.WornBy(worker.Pawn).parent);
                         if (Issue(worker, job) && cutter) { CutterJobsStarted++; command.PhaseStarted = tick; }
                     }
                     else if (worker.Pawn.jobs.curDriver is JobDriver_TacticalCut cutting && cutting.CuttingActive)
@@ -569,7 +573,7 @@ namespace Helodrace.Tactics
             {
                 // Local obstruction, not global topology refresh. Keep the
                 // selected entrance and retry the breach, with bounded latency.
-                current.Barrier = current.Opening.GetEdifice(map);
+                current.Barrier = TacticalLocalPlanner.NextBarrier(map, current);
                 command.Phase = TacticalCommandPhase.Breach; command.Due = tick + 180; return;
             }
             if (current.RetainedOutside.Count > 0 && active.All(m => current.RetainedOutside.Contains(command.Members.IndexOf(m))))
@@ -656,9 +660,7 @@ namespace Helodrace.Tactics
         }
         private bool OpeningUsable(TacticalLocalPlan plan)
         {
-            Building barrier = plan.Opening.GetEdifice(map);
-            return barrier == null ? plan.Opening.Standable(map)
-                : barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
+            return TacticalLocalPlanner.PassageOpen(map, plan);
         }
         private void RememberOpening(TacticalLocalPlan plan)
         {
@@ -703,7 +705,7 @@ namespace Helodrace.Tactics
                 if (!leader.CanReach(known.Outside, PathEndMode.OnCell, Danger.Deadly))
                 { failure |= TacticalPlanFailure.Unreachable; continue; }
                 var plan = new TacticalLocalPlan { Opening = known.Opening, Inward = known.Inward, ExistingOpening = true,
-                    Barrier = known.Opening.GetEdifice(map), EntryLane = known.EntryLane };
+                    Depth = known.Depth, Barrier = TacticalLocalPlanner.NextBarrier(map, known), EntryLane = known.EntryLane };
                 for (int i = 0; i < count; i++) { plan.Stack.Add(known.Stack[i]); plan.Positions.Add(known.Positions[i]); }
                 plan.Interior.UnionWith(known.Interior);
                 failure = TacticalPlanFailure.None; return plan;

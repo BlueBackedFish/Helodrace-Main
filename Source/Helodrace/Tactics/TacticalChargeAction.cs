@@ -20,6 +20,7 @@ namespace Helodrace.Tactics
         public int Deadline, SettledAt = -1;
         public bool Withdrawing, Detonated, EffectsCleared;
         public float Radius;
+        public IntVec3 Position;
     }
     public static class TacticalChargePolicy
     {
@@ -55,7 +56,7 @@ namespace Helodrace.Tactics
             CompBreachIgniter igniter = TacticalBreachTools.IgniterFor(installer.Pawn);
             if (igniter == null) return false;
             int count = BreachExplosiveUtility.RequiredC4For(command.Plan.Barrier);
-            var action = new TacticalChargeAction { Installer = installer.Pawn,
+            var action = new TacticalChargeAction { Installer = installer.Pawn, Position = command.Plan.Barrier.Position,
                 Radius = TacticalChargePolicy.SafeRadius(BreachExplosiveUtility.ChargeProps, count),
                 Deadline = tick + 1200 + BreachExplosiveUtility.WorkTicksFor(installer.Pawn, igniter,
                     igniter.Supports(BreachInitiationMode.ShockTube) ? BreachInitiationMode.ShockTube : BreachInitiationMode.TimeFuse, count) };
@@ -73,7 +74,7 @@ namespace Helodrace.Tactics
             IntVec3 root = plan.Opening - plan.Inward * minimumDepth;
             bool Free(IntVec3 cell) => TacticalLocalPlanner.Free(map, cell,
                 p => claims.TryGetValue(p, out TacticalSquadCommand owner) && owner != command);
-            if (!Free(root) || root.DistanceTo(plan.Opening) > range) return false;
+            if (!Free(root) || root.DistanceTo(action.Position) > range) return false;
             pending.Enqueue(root); seen.Add(root);
             while (pending.Count > 0 && action.Withdrawal.Count < command.Members.Count && seen.Count <= 128)
             {
@@ -105,15 +106,27 @@ namespace Helodrace.Tactics
                     EnsurePost(member, action.Withdrawal[command.Members.IndexOf(member)], plan.Opening, tick);
                 if (ChargeEffectsPending(command, tick)) { ChargeWaits++; return; }
                 RestoreChargeStack(command);
-                RememberOpening(plan);
                 if (command.ReplanAfterSupport) { ResetAfterSupport(command, tick); return; }
                 command.ChargeAction = null;
-                command.Phase = TacticalCommandPhase.Observe; command.PhaseStarted = tick; return;
+                bool opened = OpeningUsable(plan);
+                if (opened) RememberOpening(plan);
+                else { plan.Barrier = TacticalLocalPlanner.NextBarrier(map, plan); command.BarrierHitPoints = -1; }
+                command.Phase = opened ? TacticalCommandPhase.Observe : TacticalCommandPhase.Breach;
+                command.PhaseStarted = tick; return;
             }
             if (OpeningUsable(plan))
             {
                 AbandonCharge(command); RememberOpening(plan); command.Phase = TacticalCommandPhase.Observe;
                 command.PhaseStarted = tick; return;
+            }
+            if (action.Charge == null && (plan.Barrier == null || plan.Barrier.Destroyed || !plan.Barrier.Spawned))
+            {
+                // Another explosion removed this layer before installation.
+                // Keep the same channel and move to its next remaining layer.
+                foreach (TacticalMemberCommand member in active)
+                    if (member.Job == action.Installation && member.Pawn.CurJob == member.Job) EndOwned(member, false);
+                AbandonCharge(command); plan.Barrier = TacticalLocalPlanner.NextBarrier(map, plan);
+                command.BarrierHitPoints = -1; command.PhaseStarted = tick; return;
             }
             if (tick > action.Deadline)
             {
@@ -147,14 +160,15 @@ namespace Helodrace.Tactics
                 if (installer.Pawn.CurJob == action.Installation && action.Installation != null) return;
                 if (tick < installer.RetryTick || !CanIssue(installer)) return;
                 CompBreachIgniter igniter = TacticalBreachTools.IgniterFor(installer.Pawn);
-                Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(TacticalBreachTools.InstallJob), plan.Barrier, plan.Outside, igniter.parent);
+                Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(TacticalBreachTools.InstallJob), plan.Barrier,
+                    plan.Barrier.Position - plan.Inward, igniter.parent);
                 job.count = BreachExplosiveUtility.RequiredC4For(plan.Barrier); action.Installation = job; Issue(installer, job); return;
             }
             if (!action.Charge.parent.Spawned) { AbandonCharge(command); Release(command); return; }
             if (!action.Withdrawing)
             {
                 int controllerIndex = command.Members.FindIndex(m => m.Pawn == action.Charge.OperatorPawn);
-                int withinRange = action.Withdrawal.FindIndex(cell => cell.DistanceTo(plan.Opening) <= action.Charge.TetherRange);
+                int withinRange = action.Withdrawal.FindIndex(cell => cell.DistanceTo(action.Position) <= action.Charge.TetherRange);
                 if (withinRange < 0) { AbandonCharge(command); Release(command); return; }
                 IntVec3 temp = action.Withdrawal[controllerIndex]; action.Withdrawal[controllerIndex] = action.Withdrawal[withinRange];
                 action.Withdrawal[withinRange] = temp;
@@ -164,7 +178,7 @@ namespace Helodrace.Tactics
             if (!active.Exists(m => m.Pawn == controller))
             {
                 TacticalMemberCommand successor = active.Find(m => BreachExplosiveUtility.CanOperate(m.Pawn)
-                    && action.Withdrawal[command.Members.IndexOf(m)].DistanceTo(plan.Opening) <= action.Charge.TetherRange);
+                    && action.Withdrawal[command.Members.IndexOf(m)].DistanceTo(action.Position) <= action.Charge.TetherRange);
                 if (successor == null || !action.Charge.TryAssignOperator(successor.Pawn)) { AbandonCharge(command); Release(command); return; }
                 controller = successor.Pawn; ChargeOperatorTransfers++;
             }
@@ -225,7 +239,7 @@ namespace Helodrace.Tactics
             bool explosion = false;
             foreach (Thing thing in map.listerThings.ThingsOfDef(ThingDefOf.Explosion))
                 if (thing is Explosion effect && effect.Spawned && effect.instigator == (action.Charge?.OperatorPawn ?? action.EffectOperator)
-                    && effect.Position == command.Plan.Opening) { explosion = true; break; }
+                    && effect.Position == action.Position) { explosion = true; break; }
             if (charge || fragments || explosion) action.SettledAt = -1;
             else if (action.SettledAt < 0) action.SettledAt = tick;
             bool pending = TacticalChargePolicy.EffectsPending(charge, fragments, explosion, action.SettledAt, tick);

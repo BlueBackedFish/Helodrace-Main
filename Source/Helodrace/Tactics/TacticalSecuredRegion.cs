@@ -15,11 +15,13 @@ namespace Helodrace.Tactics
         private readonly HashSet<IntVec3> seen = new HashSet<IntVec3>();
         private readonly IntVec3 opening, inward;
         private readonly bool openMouth;
+        private readonly int depth;
         public TacticalStructureClass Result { get; private set; }
-        public TacticalSecuredRegionProbe(IntVec3 opening, IntVec3 inward, bool openMouth)
+        public TacticalSecuredRegionProbe(IntVec3 opening, IntVec3 inward, bool openMouth, int depth = 1)
         {
             this.opening = opening; this.inward = inward; this.openMouth = openMouth;
-            IntVec3 seed = opening + inward; seen.Add(seed); pending.Enqueue(seed);
+            this.depth = depth;
+            IntVec3 seed = opening + inward * depth; seen.Add(seed); pending.Enqueue(seed);
         }
         public TacticalStructureClass Step(Func<IntVec3, bool> floor, Func<IntVec3, bool> secured, ref int allowance)
         {
@@ -33,7 +35,7 @@ namespace Helodrace.Tactics
                     IntVec3 next = cell + direction, delta = next - opening;
                     int depth = delta.x * inward.x + delta.z * inward.z;
                     int lateral = delta.x * -inward.z + delta.z * inward.x;
-                    if (next == opening || openMouth && depth == 0 && Math.Abs(lateral) <= 3) continue;
+                    if (next == opening || openMouth && depth >= 0 && depth < this.depth && Math.Abs(lateral) <= 3) continue;
                     if (seen.Count < CellLimit && seen.Add(next)) pending.Enqueue(next);
                 }
             }
@@ -44,25 +46,25 @@ namespace Helodrace.Tactics
 
     public sealed partial class TacticalSquadCommand
     {
-        internal readonly Dictionary<Tuple<IntVec3, IntVec3>, TacticalSecuredRegionProbe> SecuredRegionProbes
-            = new Dictionary<Tuple<IntVec3, IntVec3>, TacticalSecuredRegionProbe>();
+        internal readonly Dictionary<Tuple<IntVec3, IntVec3, int>, TacticalSecuredRegionProbe> SecuredRegionProbes
+            = new Dictionary<Tuple<IntVec3, IntVec3, int>, TacticalSecuredRegionProbe>();
         internal int SecuredRegionAllowance, SecuredRegionExpiry;
     }
 
     public sealed partial class MapComponent_TacticalCommands
     {
-        private TacticalStructureClass SecuredRegion(TacticalSquadCommand command, IntVec3 opening, IntVec3 inward)
+        private TacticalStructureClass SecuredRegion(TacticalSquadCommand command, IntVec3 opening, IntVec3 inward, int depth)
         {
-            IntVec3 inside = opening + inward;
+            IntVec3 inside = opening + inward * depth;
             if (command.SecuredCells.Contains(inside)) return TacticalStructureClass.Target;
             if (command.SecuredCells.Count == 0 || !inside.InBounds(map) || !inside.Roofed(map))
                 return TacticalStructureClass.Incidental;
-            var key = Tuple.Create(opening, inward);
+            var key = Tuple.Create(opening, inward, depth);
             if (!command.SecuredRegionProbes.TryGetValue(key, out TacticalSecuredRegionProbe probe))
             {
                 if (command.SecuredRegionProbes.Count >= 64) return TacticalStructureClass.Incidental;
                 Building barrier = opening.GetEdifice(map);
-                command.SecuredRegionProbes.Add(key, probe = new TacticalSecuredRegionProbe(opening, inward, barrier == null));
+                command.SecuredRegionProbes.Add(key, probe = new TacticalSecuredRegionProbe(opening, inward, barrier == null, depth));
             }
             return probe.Step(cell => cell.InBounds(map) && cell.Roofed(map) && cell.Walkable(map)
                 && !(cell.GetEdifice(map) is Building_Door), command.SecuredCells.Contains, ref command.SecuredRegionAllowance);
