@@ -23,6 +23,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Rear, "rear");
             Scribe_Values.Look(ref Fireteam, "fireteam");
             Scribe_Values.Look(ref AutomaticWeapon, "automaticWeapon");
+            Scribe_Values.Look(ref CombatFunction, "combatFunction");
             Scribe_Values.Look(ref LastCareAt, "lastCareAt");
             Scribe_Values.Look(ref MedicalRejoinPending, "medicalRejoinPending");
             Scribe_References.Look(ref Pawn, "pawn");
@@ -128,6 +129,7 @@ namespace Helodrace.Tactics
             Scribe_References.Look(ref Barrier, "barrier");
             Scribe_Collections.Look(ref Stack, "stack", LookMode.Value);
             Scribe_Collections.Look(ref StackMembers, "stackMembers", LookMode.Value);
+            Scribe_Collections.Look(ref EntryOrder, "entryOrder", LookMode.Value);
             Scribe_Collections.Look(ref Positions, "positions", LookMode.Value);
             Scribe_Collections.Look(ref RetainedOutside, "retainedOutside", LookMode.Value);
             Scribe_Collections.Look(ref Interior, "interior", LookMode.Value);

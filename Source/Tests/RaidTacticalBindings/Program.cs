@@ -52,7 +52,7 @@ internal static class Program
     {
         try
         {
-            if (args.Contains("--stack")) { TacticalStackFormationTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); TacticalEntryAllocationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
+            if (args.Contains("--stack")) { TacticalStackFormationTests.Run(); TacticalEntryFootprintTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); TacticalEntryAllocationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--a2-routing")) { TacticalMissionRoutingTests.Run(); TacticalMissionTests.Run(); TacticalRetainedMissionTests.Run(); TacticalRoomScanTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--a2-walls")) { TacticalWallSpanTests.Run(); TacticalRoomScanTests.Run(); TacticalFacadeTests.Run(); TacticalSecuredReportTests.Run(); TacticalRetainedMissionTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--a2-safety")) { TacticalGrenadeTests.Run(); TacticalOpeningTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }

@@ -22,6 +22,7 @@ namespace Helodrace.Tactics
         public bool Passed, Crossed, Entered, EverEntered, EntryAssignmentDone, Rear;
         public int Fireteam = -1;
         public bool AutomaticWeapon;
+        public string CombatFunction;
         public int LastCareAt = -6000;
         public bool MedicalRejoinPending;
         public int FocusCheckAt;
@@ -252,6 +253,7 @@ namespace Helodrace.Tactics
                     string function = group?.roleAssignments.FirstOrDefault(a => a.pawn == pawn)?.combatRole?.combatFunction;
                     command.Members.Add(new TacticalMemberCommand { Pawn = pawn,
                         Fireteam = unit.Group.children.IndexOf(group),
+                        CombatFunction = function,
                         AutomaticWeapon = function == "HAR" || function == "MachineGun" });
                     TacticalBreachTools.Remember(command, pawn);
                     byPawn[pawn] = command;
@@ -433,6 +435,12 @@ namespace Helodrace.Tactics
                             (opening, inward) => ClassifyStructure(command, opening, inward, leader));
                         if (plan == null) failure |= knownFailure;
                     }
+                    if (plan != null && !plan.Direct)
+                    {
+                        command.Breacher = hammer;
+                        if (!TacticalEntryAllocation.Allocate(plan, TacticalEntryOrder.For(command, active, plan)))
+                        { plan = null; failure |= TacticalPlanFailure.Inside; }
+                    }
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - planStarted); }
                 command.LastPlanFailure = failure;
@@ -467,7 +475,7 @@ namespace Helodrace.Tactics
                 plan.ReportedPassage = command.SecuredKnowledge.Cleared(plan.Direct ? plan.Opening : plan.Inside);
                 command.Link.Cooperation.LocalReady = false;
                 command.OpeningAction = null;
-                command.HadConnectedStack = plan.Direct || TacticalLocalPlanner.Connected(plan.Stack);
+                command.HadConnectedStack = plan.Direct || TacticalEntryAllocation.ConnectedStack(plan);
                 if (plan.Direct)
                 {
                     foreach (IntVec3 cell in plan.Positions) claims[cell] = command;
@@ -596,8 +604,9 @@ namespace Helodrace.Tactics
                     }
                 }
             }
-            for (int i = 0; i < command.Members.Count; i++)
+            for (int ordinal = 0; ordinal < command.Members.Count; ordinal++)
             {
+                int i = current.EntryOrder.Count == command.Members.Count ? current.EntryOrder[ordinal] : ordinal;
                 TacticalMemberCommand member = command.Members[i]; if (!Available(member, map)) continue;
                 if (current.RetainedOutside.Contains(i))
                 {
@@ -715,9 +724,10 @@ namespace Helodrace.Tactics
                 { failure |= TacticalPlanFailure.Unreachable; continue; }
                 var plan = new TacticalLocalPlan { Opening = known.Opening, Inward = known.Inward, ExistingOpening = true,
                     Depth = known.Depth, StackSide = known.StackSide, Barrier = TacticalLocalPlanner.NextBarrier(map, known), EntryLane = known.EntryLane };
-                for (int i = 0; i < count; i++) { plan.Stack.Add(known.Stack[i]); plan.Positions.Add(known.Positions[i]); }
+                for (int i = 0; i < count; i++) plan.Stack.Add(known.Stack[i]);
+                foreach (int i in known.EntryOrder)
+                    if (i < count && !known.RetainedOutside.Contains(i)) plan.Positions.Add(known.Positions[i]);
                 plan.StackMembers.AddRange(known.StackMembers.Where(i => i < count));
-                plan.RetainedOutside.UnionWith(known.RetainedOutside.Where(i => i < count));
                 plan.Interior.UnionWith(known.Interior);
                 failure = TacticalPlanFailure.None; return plan;
             }

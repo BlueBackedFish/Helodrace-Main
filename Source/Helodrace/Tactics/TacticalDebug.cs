@@ -23,6 +23,8 @@ namespace Helodrace.Tactics
                         + " goal=" + command.Goal + " opening=" + command.Plan?.Opening + " depth=" + command.Plan?.Depth
                         + " inside=" + command.Plan?.Inside + " barrier=" + command.Plan?.Barrier?.Position + " connected=" + command.HadConnectedStack
                         + " stack side=" + command.Plan?.StackSide
+                        + " stack party=" + (command.Plan?.StackMembers.Count > 0 ? command.Plan.StackMembers.Count : command.Members.Count)
+                        + " entry order=" + (command.Plan == null ? "none" : string.Join(",", command.Plan.EntryOrder))
                         + " observed=" + command.OpeningAction?.Enemy + " throw=" + command.OpeningAction?.Launched
                         + " opening outdoors=" + command.OpeningAction?.Outdoors
                         + " C4=" + (command.ChargeAction == null ? "none" : command.ChargeAction.Detonated ? "effects"

@@ -86,7 +86,7 @@ namespace Helodrace.Tactics
 
         // A tiny Dijkstra heap. Wall-parallel steps cost 1; normal steps cost 4.
         // Distance/status arrays cap map probes, including rejected cells.
-        private sealed class Flood
+        internal sealed class Flood
         {
             private struct Node { internal IntVec3 Cell; internal int Cost; }
             private readonly List<Node> heap = new List<Node>();

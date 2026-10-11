@@ -56,6 +56,9 @@ namespace Helodrace.Tactics
             plan.RetainedOutside.Clear();
             for (int i = 0; i < positions.Length; i++) plan.RetainedOutside.Add(i);
             for (int i = 0; i < count; i++) plan.RetainedOutside.Remove(eligible[i]);
+            plan.EntryOrder.Clear(); plan.EntryOrder.AddRange(eligible.Take(count));
+            for (int i = 0; i < positions.Length; i++)
+                if (!plan.EntryOrder.Contains(i)) plan.EntryOrder.Add(i);
             return true;
         }
         public static bool Promote(TacticalLocalPlan plan, int outsideMember, int vacantInsideMember)

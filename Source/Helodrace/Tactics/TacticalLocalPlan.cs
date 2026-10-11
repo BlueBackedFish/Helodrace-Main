@@ -23,6 +23,7 @@ namespace Helodrace.Tactics
         // Empty means the whole squad; otherwise remaining members guard their
         // existing secured-room posts rather than requiring a full local stack.
         public List<int> StackMembers = new List<int>();
+        public List<int> EntryOrder = new List<int>();
         public List<IntVec3> Positions = new List<IntVec3>();
         // Member indices held on the secured approach face during a small-room entry.
         public HashSet<int> RetainedOutside = new HashSet<int>();
@@ -231,51 +232,20 @@ namespace Helodrace.Tactics
         internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,
             Func<IntVec3, bool> insideAllowed = null)
         {
-            IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
-            var reachable = plan.Interior;
-            reachable.Clear(); reachable.Add(plan.Inside);
-            var queue = new Queue<IntVec3>(); queue.Enqueue(plan.Inside);
-            // Small near-wall patch, not a live room graph. Expansion is
-            // bounded; only cells connected to the inside mouth are selected.
-            while (queue.Count > 0 && reachable.Count <= 80)
+            var walls = new Dictionary<IntVec3, bool>();
+            bool Wall(IntVec3 cell)
             {
-                IntVec3 current = queue.Dequeue();
-                foreach (IntVec3 direction in GenAdj.CardinalDirections)
+                if (!walls.TryGetValue(cell, out bool value))
                 {
-                    IntVec3 cell = current + direction;
-                    IntVec3 delta = cell - plan.InnerOpening;
-                    int depth = delta.x * plan.Inward.x + delta.z * plan.Inward.z;
-                    int width = delta.x * lateral.x + delta.z * lateral.z;
-                    if (depth < 1 || depth > 4 || Math.Abs(width) > 8 || !cell.InBounds(map)
-                        || !cell.Standable(map) || cell.GetEdifice(map) is Building_Door || reachable.Contains(cell)
-                        || insideAllowed != null && !insideAllowed(cell)) continue;
-                    if (reachable.Count >= 81) break;
-                    reachable.Add(cell); queue.Enqueue(cell);
+                    Building edifice = cell.InBounds(map) ? cell.GetEdifice(map) : null;
+                    walls[cell] = value = edifice?.def.IsWall == true || edifice is Building_Door door && !door.Open;
                 }
+                return value;
             }
-            for (int depth = 1; depth <= 4; depth++)
-                for (int width = 1; width <= 8; width++)
-                    foreach (int side in new[] { 1, -1 })
-                    {
-                        IntVec3 cell = plan.InnerOpening + plan.Inward * depth + lateral * (width * side);
-                        if (depth == 4 && !GenAdj.CardinalDirections.Any(direction =>
-                            (cell + direction).InBounds(map) && (cell + direction).GetEdifice(map)?.def.IsWall == true)) continue;
-                        if (plan.Positions.Count < count && reachable.Contains(cell) && Free(map, cell, claimed))
-                            plan.Positions.Add(cell);
-                    }
-            // A tiny room cannot fit a full squad if every center-line tile is
-            // discarded. Only the first inside mouth must remain clear.
-            // Keep a second mouth cell free: pawn avoidance can otherwise strand
-            // a late entrant behind the stationary near-wall posts on both sides.
-            IntVec3 lane = plan.Inside + plan.Inward;
-            if (reachable.Contains(lane) && Free(map, lane, claimed)) plan.EntryLane = lane;
-            for (int depth = 2; depth <= 4 && plan.Positions.Count < count; depth++)
-            {
-                IntVec3 cell = plan.InnerOpening + plan.Inward * depth;
-                if (cell == plan.EntryLane) continue;
-                if (reachable.Contains(cell) && Free(map, cell, claimed)) plan.Positions.Add(cell);
-            }
-            return plan.Positions.Count == count;
+            return TacticalEntryFootprint.Build(plan.InnerOpening, plan.Inward, count, plan.StackSide,
+                cell => cell.InBounds(map) && cell.Walkable(map) && !(cell.GetEdifice(map) is Building_Door)
+                    && (insideAllowed == null || insideAllowed(cell)),
+                cell => Free(map, cell, claimed), Wall, plan.Positions, plan.Interior, out plan.EntryLane);
         }
     }
 }

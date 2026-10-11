@@ -378,9 +378,8 @@ namespace Helodrace.Tactics
             bool InsideBlocked(IntVec3 cell) => command.SecuredCells.Contains(cell) || Claimed(cell);
             if (!TacticalLocalPlanner.Free(map, plan.Outside, OutsideBlocked) || !TacticalLocalPlanner.Free(map, plan.Inside, InsideBlocked))
             { occupied = Claimed(plan.Outside) || Claimed(plan.Inside); return null; }
-            var eligible = active.OrderByDescending(m => TacticalBreachTools.CanUse(m.Pawn, barrier))
-                .ThenByDescending(m => m.Pawn == command.Breacher).ThenBy(m => m.Rear)
-                .Select(m => command.Members.IndexOf(m)).ToArray();
+            var eligible = TacticalEntryOrder.For(command, active, plan)
+                .OrderByDescending(i => TacticalBreachTools.CanUse(command.Members[i].Pawn, barrier)).ToArray();
             if (!TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, OutsideBlocked, allowPartial: !frontier.Outdoors))
             {
                 // Reusing our own exit needs no second full indoor stack. A
@@ -397,12 +396,11 @@ namespace Helodrace.Tactics
             {
                 if (command.Plan == null || !TacticalEntryAllocation.BindApproach(plan, command.Plan.Positions,
                     eligible, cell => command.SecuredCells.Contains(cell) && TacticalLocalPlanner.Free(map, cell, Claimed))) return null;
-                eligible = eligible.Where(i => plan.StackMembers.Contains(i)).ToArray();
             }
             bool fullInside = TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
                 cell => cell.Roofed(map) != frontier.Outdoors && !command.SecuredCells.Contains(cell));
             if (!fullInside && touchedClaim) { occupied = true; return null; }
-            if ((partialStack || !fullInside) && !TacticalEntryAllocation.Allocate(plan, eligible)) return null;
+            if (!TacticalEntryAllocation.Allocate(plan, TacticalEntryOrder.For(command, active, plan))) return null;
             if (!active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) return null;
             return plan;
         }
