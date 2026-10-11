@@ -54,6 +54,8 @@ namespace Helodrace.Tactics
         internal void ContactShot(Pawn pawn)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return;
+            if (TacticalEntryCombatPolicy.ArrivalPhase(command.Phase))
+                command.EntryCombatUntil = System.Math.Max(command.EntryCombatUntil, GenTicks.TicksGame + TacticalEntryCombatPolicy.QuietTicks);
             if (command.FieldResponse != null) FieldShots++; else ContactShots++;
         }
         private bool RespondToContacts(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
@@ -88,7 +90,8 @@ namespace Helodrace.Tactics
                     rear |= behind; door |= otherDoor;
                     if (close) command.ContactCloseAt = contact.SeenTick;
                 }
-                if (first == null || !command.Defensive && !rear && !opposed && !door && tick - command.ContactCloseAt >= TacticalContactMemory.FreshTicks)
+                if (first == null || !command.Defensive && !rear && !opposed && !door
+                    && (TacticalEntryCombatPolicy.ArrivalPhase(command.Phase) || tick - command.ContactCloseAt >= TacticalContactMemory.FreshTicks))
                     return false;
                 response = new TacticalContactResponse { Started = tick, LastSeen = first.SeenTick,
                     Anchor = anchor.Position, First = first.Position, Second = second?.Position ?? IntVec3.Invalid,

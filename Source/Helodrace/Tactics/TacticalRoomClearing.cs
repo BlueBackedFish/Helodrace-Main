@@ -185,6 +185,10 @@ namespace Helodrace.Tactics
         }
         private void AdvanceRoomClear(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
+            // An actual visible firing opportunity, shot or incoming damage
+            // holds this room. Old contact memory alone cannot stall progress.
+            if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
+            { command.Due = tick + 30; return; }
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             command.Due = tick + 1;
             // Recovery also needs Plan allowance for its native reach probe.

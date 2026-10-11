@@ -64,6 +64,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref ContactRestoring, "contactRestoring");
             Scribe_Values.Look(ref ContactHandledAt, "contactHandledAt");
             Scribe_Values.Look(ref ContactCloseAt, "contactCloseAt");
+            Scribe_Values.Look(ref EntryCombatUntil, "entryCombatUntil");
+            Scribe_Values.Look(ref EntryCandidateCursor, "entryCandidateCursor");
+            Scribe_Values.Look(ref EntryCombatFocus, "entryCombatFocus", IntVec3.Invalid);
             Scribe_Values.Look(ref ReplanAfterSupport, "replanAfterSupport");
             Scribe_Values.Look(ref GoalSecured, "goalSecured");
             Scribe_Values.Look(ref FrontierBusy, "frontierBusy");
@@ -125,6 +128,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Inward, "inward");
             Scribe_Values.Look(ref EntryLane, "entryLane");
             Scribe_Values.Look(ref StackSide, "stackSide");
+            Scribe_Collections.Look(ref EntryCoverChecked, "entryCoverChecked", LookMode.Value);
             Scribe_Values.Look(ref Depth, "depth", 1);
             Scribe_Values.Look(ref Direct, "direct");
             Scribe_Values.Look(ref ExistingOpening, "existingOpening");

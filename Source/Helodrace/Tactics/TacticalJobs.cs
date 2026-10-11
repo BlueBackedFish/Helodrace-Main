@@ -8,6 +8,7 @@ namespace Helodrace.Tactics
 {
     public abstract class TacticalJobDriver : JobDriver
     {
+        private int nextEntryShot;
         public bool AtPost;
         public bool Crossed;
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
@@ -15,7 +16,10 @@ namespace Helodrace.Tactics
         {
             base.Notify_DamageTaken(dinfo);
             if (dinfo.Instigator is Pawn attacker && dinfo.Def.harmsHealth)
+            {
+                pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.NotifyEntryDamage(pawn, job, attacker);
                 pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.NotifyCloseAttack(pawn, job, attacker);
+            }
         }
         protected void BindOwner()
         {
@@ -36,7 +40,7 @@ namespace Helodrace.Tactics
             };
             return gate;
         }
-        protected Toil Hold(IntVec3 face)
+        protected Toil Hold(IntVec3 face, bool entryCombat = false)
         {
             var hold = ToilMaker.MakeToil("TacticalHold");
             hold.defaultCompleteMode = ToilCompleteMode.Never;
@@ -46,7 +50,16 @@ namespace Helodrace.Tactics
                 AtPost = true; pawn.pather.StopDead(); pawn.rotationTracker.FaceCell(face);
                 pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.Wake(pawn);
             };
-            // No per-pawn per-tick tactical lookup or correction callback.
+            // Only arrival posts fire. Stack, observation and blast-wait posts
+            // retain their stationary discipline without tactical tick queries.
+            if (entryCombat) hold.tickAction = () =>
+            {
+                int tick = GenTicks.TicksGame;
+                if (tick < nextEntryShot) return;
+                nextEntryShot = tick + 30 + pawn.thingIDNumber % 7;
+                if (pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.TryEntryFire(pawn, job, tick) == false)
+                    nextEntryShot = tick + 3 + pawn.thingIDNumber % 3;
+            };
             return hold;
         }
         public override void ExposeData()
@@ -63,7 +76,7 @@ namespace Helodrace.Tactics
             BindOwner();
             yield return AdmitMovement();
             yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
-            yield return Hold(job.targetB.Cell);
+            yield return Hold(job.targetB.Cell, job.count == 1);
         }
     }
     public sealed class JobDriver_TacticalIngress : TacticalJobDriver
@@ -71,6 +84,7 @@ namespace Helodrace.Tactics
         protected override IEnumerable<Toil> MakeNewToils()
         {
             BindOwner();
+            job.canUseRangedWeapon = false;
             // Mandatory outside -> actual opening -> inside, then ONE final
             // near-wall destination. Every pawn including rear security uses it.
             Crossed |= job.count >= 2;
@@ -104,7 +118,7 @@ namespace Helodrace.Tactics
             }
             yield return AdmitMovement();
             yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
-            yield return Hold(job.targetB.Cell);
+            yield return Hold(job.targetB.Cell, entryCombat: true);
         }
     }
     public sealed class JobDriver_TacticalBreach : TacticalJobDriver

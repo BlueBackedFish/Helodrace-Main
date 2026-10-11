@@ -346,6 +346,7 @@ namespace Helodrace.Tactics
             if (RespondToContacts(command, active, tick)) return;
             if (RestoreContactPosts(command, active, tick)) return;
             if (command.Defensive) { AdvanceDefenseIdle(command, active, tick); return; }
+            AdvanceEntryPosts(command, active, tick);
             if (AdvanceCoordination(command, active, tick)) return;
             if (AwaitPendingFurniture(command, active, tick)) return;
             if (AdvanceFurniture(command, active, tick)) return;
@@ -623,13 +624,16 @@ namespace Helodrace.Tactics
                 if (current.RetainedOutside.Contains(i))
                 {
                     member.EntryAssignmentDone = AtPost(member) && member.Pawn.Position == current.Positions[i];
-                    EnsurePost(member, current.Positions[i], current.Opening, tick); continue;
+                    EnsurePost(member, current.Positions[i], current.Opening, tick, entryCombat: true); continue;
                 }
                 if (member.Pawn.jobs.curDriver is TacticalJobDriver driver && member.Pawn.CurJob == member.Job && driver.AtPost)
                     member.Entered |= member.Pawn.Position == current.Positions[i] && (current.Direct || member.Crossed && member.Passed);
-                member.EverEntered |= member.Entered; member.EntryAssignmentDone = member.Entered;
+                member.EverEntered |= member.Entered;
+                member.EntryAssignmentDone = member.Entered && member.Pawn.CurJob == member.Job
+                    && member.Pawn.jobs.curDriver is TacticalJobDriver arrival && arrival.AtPost
+                    && member.Pawn.Position == current.Positions[i];
                 if (member.Entered) continue;
-                if (current.Direct) EnsurePost(member, current.Positions[i], command.Goal, tick);
+                if (current.Direct) EnsurePost(member, current.Positions[i], command.Goal, tick, entryCombat: true);
                 else if (member.Job?.def.defName != "HD_NewTacticalIngress" || member.Pawn.CurJob != member.Job
                     || member.Pawn.jobs.curDriver is TacticalJobDriver stopped && stopped.AtPost)
                 {
@@ -645,6 +649,8 @@ namespace Helodrace.Tactics
             }
             if (active.All(member => member.EntryAssignmentDone) && active.Any(member => member.Entered))
             {
+                if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
+                { command.Due = tick + 30; return; }
                 // Keep owned posts while freeing the unused entry approach.
                 // Vanilla next-job selection must not run for a whole squad here.
                 BeginRoomClear(command, tick);
@@ -748,14 +754,18 @@ namespace Helodrace.Tactics
         private static bool AtPost(TacticalMemberCommand member) => member.Pawn.CurJob == member.Job
             && member.Pawn.jobs.curDriver is TacticalJobDriver driver && driver.AtPost
             && member.Pawn.Position == member.Job.targetA.Cell;
-        private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick)
+        private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick, bool entryCombat = false)
         {
             if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalPost"
                 && member.Job.targetA.Cell == position
+                && member.Job.count == (entryCombat ? 1 : 0)
                 && (!(member.Pawn.jobs.curDriver is TacticalJobDriver driver) || !driver.AtPost || member.Pawn.Position == position)) return;
             if (member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) return;
             if (!CanIssue(member)) return;
-            Issue(member, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), position, face));
+            Job post = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), position, face);
+            post.count = entryCombat ? 1 : 0;
+            if (entryCombat) post.canUseRangedWeapon = false;
+            Issue(member, post);
         }
         private void EnsureParking(TacticalSquadCommand command, TacticalMemberCommand member, int tick)
         {
@@ -799,7 +809,10 @@ namespace Helodrace.Tactics
             // cannot clear the replacement. One owner, one persistent job.
             member.Job = job; JobsIssued++;
             member.LastPosition = member.Pawn.Position; member.LastProgressTick = GenTicks.TicksGame;
-            job.locomotionUrgency = LocomotionUrgency.Jog;
+            if (job.def.defName == "HD_NewTacticalPost" && job.count != 1) job.count = 0;
+            job.locomotionUrgency = job.def.defName == "HD_NewTacticalIngress"
+                || job.def.defName == "HD_NewTacticalPost" && job.count == 1
+                ? LocomotionUrgency.Sprint : LocomotionUrgency.Jog;
             long started = Stopwatch.GetTimestamp();
             try
             {
