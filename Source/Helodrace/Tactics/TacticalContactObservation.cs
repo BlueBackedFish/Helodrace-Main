@@ -18,7 +18,7 @@ namespace Helodrace.Tactics
             try
             {
                 state.NextScan = tick + TacticalContactState.ScanInterval;
-                state.Memory.Expire(tick); ContactScans++;
+                state.Memory.Expire(tick); state.Melee.Expire(tick); ContactScans++;
                 // Three cheap stations alternate front, rear and middle. No
                 // pawn-pair graph or repeated all-member LOS calculation.
                 int station = state.ObserverCursor++ % 3;
@@ -30,9 +30,10 @@ namespace Helodrace.Tactics
                 {
                     if (state.CandidateCursor >= pawns.Count) state.CandidateCursor = 0;
                     Pawn enemy = pawns[state.CandidateCursor++]; ContactCandidates++;
-                    if (enemy.Dead || enemy.Downed || !enemy.HostileTo(observer)
-                        || !TacticalContactSight.CanSee(map, observer.Position, enemy, state, radius)
-                        || !TacticalThreatEligibility.Ranged(enemy)) continue;
+                    if (!enemy.HostileTo(observer)
+                        || !TacticalContactSight.CanSee(map, observer.Position, enemy, state, radius)) continue;
+                    ObserveMeleeThreat(command, enemy, observer, tick);
+                    if (enemy.Dead || enemy.Downed || !TacticalThreatEligibility.Ranged(enemy)) continue;
                     RecordContact(command, enemy.thingIDNumber, enemy.Position, observer.Position, tick);
                     if (++observed == 2) break;
                 }

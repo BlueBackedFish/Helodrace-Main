@@ -234,6 +234,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref ObserverCursor, "observerCursor");
             Scribe_Values.Look(ref CandidateCursor, "candidateCursor");
             Scribe_Deep.Look(ref Memory, "memory");
+            Scribe_Deep.Look(ref Melee, "melee");
         }
     }
 
@@ -403,6 +404,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref StartAt, "startAt");
             Scribe_Deep.Look(ref Agenda, "agenda");
             Scribe_Deep.Look(ref Contact, "contact");
+            Scribe_Deep.Look(ref MeleeThreat, "meleeThreat");
             if (Scribe.mode == LoadSaveMode.Saving) { SavedFrom = From?.Id; SavedTo = To?.Id; SavedMap = From?.Owner.map; }
             Scribe_Values.Look(ref SavedFrom, "fromId"); Scribe_Values.Look(ref SavedTo, "toId");
             Scribe_References.Look(ref SavedMap, "map");

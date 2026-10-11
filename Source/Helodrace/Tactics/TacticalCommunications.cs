@@ -31,6 +31,7 @@ namespace Helodrace.Tactics
         public TacticalChannel Channel;
         public TacticalCooperationAgenda Agenda;
         public TacticalContact Contact;
+        public TacticalMeleeThreat MeleeThreat;
         public bool Ready, Finished, GoalSecured, PortalUsable;
         public IntVec3 Opening = IntVec3.Invalid;
         public int StartAt = -1;
@@ -209,8 +210,11 @@ namespace Helodrace.Tactics
                 }
             }
             int reports = 0;
+            foreach (TacticalMeleeThreat threat in source.Contacts.Melee.Entries)
+                if (threat.Origin == source.Id && TacticalFocusPolicy.Fresh(threat, tick))
+                { Send(source, receiver, TacticalMessageKind.MeleeThreat, tick, channel, melee: threat); if (++reports == 2) break; }
             foreach (TacticalContact contact in source.Contacts.Memory.Entries)
-                if (contact.Origin == source.Id && tick - contact.SeenTick < TacticalContactMemory.RetentionTicks)
+                if (reports < 2 && contact.Origin == source.Id && tick - contact.SeenTick < TacticalContactMemory.RetentionTicks)
                 { Send(source, receiver, TacticalMessageKind.Contact, tick, channel, contact); if (++reports == 2) break; }
         }
         private void Identify(TacticalSquadCommand command, TacticalSquadCommand peer, int tick)
@@ -222,16 +226,17 @@ namespace Helodrace.Tactics
             command.Due = Math.Min(command.Due, tick + 1); Identifications++;
         }
         private void Send(TacticalSquadCommand from, TacticalSquadCommand to, TacticalMessageKind kind, int tick,
-            TacticalChannel channel, TacticalContact contact = null)
+            TacticalChannel channel, TacticalContact contact = null, TacticalMeleeThreat melee = null)
         {
-            if (pending.Any(p => p.From == from && p.To == to && p.Kind == kind && p.Contact?.EnemyId == contact?.EnemyId)) return;
+            if (pending.Any(p => p.From == from && p.To == to && p.Kind == kind
+                && p.Contact?.EnemyId == contact?.EnemyId && p.MeleeThreat?.EnemyId == melee?.EnemyId)) return;
             if (pending.Count >= TacticalCommunicationPolicy.QueueLimit) { QueueRejected++; return; }
             var doctrine = from.Link.Unit.Organization.doctrine;
             TacticalCooperationState own = from.Link.Cooperation;
             pending.Add(new TacticalMessage { From = from, To = to, Kind = kind, Channel = channel,
                 FromPawn = from.Link.Liaison.thingIDNumber, ToPawn = to.Link.Liaison.thingIDNumber,
                 Sent = tick, Due = tick + (channel == TacticalChannel.Radio ? doctrine?.radioReportTicks ?? 20 : doctrine?.voiceReportTicks ?? 40),
-                Agenda = own.Agenda, Contact = contact?.Copy(), Ready = own.LocalReady,
+                Agenda = own.Agenda, Contact = contact?.Copy(), MeleeThreat = melee?.Copy(), Ready = own.LocalReady,
                 Finished = own.Stage == TacticalAgreementStage.Finished, GoalSecured = from.GoalSecured,
                 Opening = from.Plan?.Opening ?? IntVec3.Invalid,
                 PortalUsable = from.Members.Any(m => m.Crossed), StartAt = own.ConfirmedStart });
@@ -245,6 +250,12 @@ namespace Helodrace.Tactics
             if (tick - message.Sent >= TacticalCommunicationPolicy.PacketLife || channel != message.Channel)
             { MessagesDropped++; LastDropReason = channel != message.Channel ? "channel" : "expired"; return; }
             TacticalSquadCommand receiver = message.To;
+            if (message.Kind == TacticalMessageKind.MeleeThreat)
+            {
+                if (receiver.Contacts.Melee.Receive(message.MeleeThreat, tick))
+                { ReportsReceived++; receiver.Due = Math.Min(receiver.Due, tick + 1); }
+                MessagesDelivered++; return;
+            }
             if (message.Kind == TacticalMessageKind.Contact)
             {
                 if (receiver.Contacts.Memory.Receive(message.Contact, tick)) { ReportsReceived++; receiver.Due = Math.Min(receiver.Due, tick + 1); }

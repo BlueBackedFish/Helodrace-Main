@@ -83,15 +83,26 @@ internal static class TacticalCooperationTests
         for (int i=0;i<70;i++)
         {
             var to=new TacticalSquadCommand {Id="recipient"+i}; to.Link.Liaison=new Pawn {thingIDNumber=200+i}; receivers.Add(to);
-            send.Invoke(network,new object[]{from,to,TacticalMessageKind.Contact,400,TacticalChannel.Voice,report});
+            send.Invoke(network,new object[]{from,to,TacticalMessageKind.Contact,400,TacticalChannel.Voice,report,null});
         }
         Check(network.PendingCount==64 && network.QueueRejected==6,"Pending packet queue must remain bounded under overload.");
         var queued=(List<TacticalMessage>)AccessTools.Field(typeof(TacticalCommunications),"pending").GetValue(network);
         Check(queued[0].Contact!=report && queued[0].Contact.SeenTick==100 && queued[0].Due==440,"Packet creation detaches report and preserves voice delay.");
         from.Link.Cooperation.LocalReady=false;
         Check(queued[0].Ready && queued[0].FromPawn==123,"Changing sender state cannot mutate an in-flight readiness/endpoint snapshot.");
-        send.Invoke(network,new object[]{from,receivers[0],TacticalMessageKind.Contact,410,TacticalChannel.Voice,report});
+        send.Invoke(network,new object[]{from,receivers[0],TacticalMessageKind.Contact,410,TacticalChannel.Voice,report,null});
         Check(network.PendingCount==64 && network.QueueRejected==6,"Duplicate in-flight reports must coalesce before consuming queue space.");
+        var meleeNetwork=new TacticalCommunications();
+        var melee=new TacticalMeleeThreat {EnemyId=99,Position=goal,Urgency=2,Shielded=true,SeenTick=400,Origin=from.Id};
+        send.Invoke(meleeNetwork,new object[]{from,receivers[0],TacticalMessageKind.MeleeThreat,400,TacticalChannel.Voice,null,melee});
+        var meleeQueued=(List<TacticalMessage>)AccessTools.Field(typeof(TacticalCommunications),"pending").GetValue(meleeNetwork);
+        Check(meleeQueued[0].Contact==null && meleeQueued[0].MeleeThreat!=melee && meleeQueued[0].MeleeThreat.Shielded
+            && meleeQueued[0].Due==440,"Melee reports use detached snapshots and the existing voice delay.");
+        send.Invoke(meleeNetwork,new object[]{from,receivers[0],TacticalMessageKind.MeleeThreat,410,TacticalChannel.Voice,null,melee});
+        Check(meleeNetwork.PendingCount==1,"Duplicate melee identities coalesce in the shared queue.");
+        melee.EnemyId=100;
+        send.Invoke(meleeNetwork,new object[]{from,receivers[0],TacticalMessageKind.MeleeThreat,410,TacticalChannel.Voice,null,melee});
+        Check(meleeNetwork.PendingCount==2 && meleeQueued[0].MeleeThreat.EnemyId==99,"Distinct melee threats must not coalesce or mutate old packets.");
         Console.WriteLine("PASS: "+checks+" R5 agreement, report freshness, isolated state, role allocation and physical armor radio checks.");
     }
 }
