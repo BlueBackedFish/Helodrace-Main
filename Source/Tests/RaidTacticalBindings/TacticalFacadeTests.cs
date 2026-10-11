@@ -33,8 +33,11 @@ internal static class TacticalFacadeTests
         supports.Add(root + IntVec3.North * 3); supports.Add(root - IntVec3.North * 3);
         var gapMethod = AccessTools.Method(typeof(TacticalPortalGeometry), "TryGapNormal");
         object[] gap = { root, (Func<IntVec3,bool>)supports.Contains, (Func<IntVec3,bool>)(c => !supports.Contains(c)), IntVec3.Invalid };
+        if ((bool)gapMethod.Invoke(null, gap))
+            throw new Exception("Two isolated supports must not invent a wall-face portal.");
+        supports.Add(root + IntVec3.North * 4);
         if (!(bool)gapMethod.Invoke(null, gap) || Math.Abs(((IntVec3)gap[3]).x) != 1 || ((IntVec3)gap[3]).z != 0)
-            throw new Exception("Five-cell gap detection must also return its real wall normal.");
+            throw new Exception("A five-cell gap with one fragmented end must retain its real wall normal.");
         var search = AccessTools.Method(typeof(TacticalLocalPlanner), "SearchBand");
         int Band(int failures) => (int)search.Invoke(null, new object[] { failures });
         var bands = new HashSet<int>();

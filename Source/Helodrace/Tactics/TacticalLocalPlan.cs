@@ -104,7 +104,8 @@ namespace Helodrace.Tactics
             bool Wall(IntVec3 cell) => cell.InBounds(map) && cell.GetEdifice(map)?.def.IsWall == true;
             bool Support(IntVec3 cell) => cell.InBounds(map)
                 && (cell.GetEdifice(map)?.def.IsWall == true || cell.GetEdifice(map) is Building_Door);
-            bool Walkable(IntVec3 cell) => cell.InBounds(map) && cell.Walkable(map);
+            bool GapFloor(IntVec3 cell) => cell.InBounds(map) && cell.Walkable(map)
+                && !(cell.GetEdifice(map) is Building_Door);
             IntVec3 first = IntVec3.Invalid;
             int steps = Math.Max(Math.Abs(goal.x - from.x), Math.Abs(goal.z - from.z));
             // One directional probe, capped at 256 cells. It does not run A*.
@@ -130,7 +131,7 @@ namespace Helodrace.Tactics
                 }
                 // An already opened wall gap is still a portal. Do not turn
                 // later squads into unconstrained vanilla destination paths.
-                if (building == null && TacticalPortalGeometry.TryGapNormal(cell, Wall, Walkable, out IntVec3 gapNormal))
+                if (building == null && TacticalPortalGeometry.TryGapNormal(cell, Wall, GapFloor, out IntVec3 gapNormal))
                 {
                     int heading = gapNormal.x * travel.x + gapNormal.z * travel.z;
                     if (heading != 0)
@@ -173,7 +174,7 @@ namespace Helodrace.Tactics
                 Building barrier = opening.GetEdifice(map);
                 if (barrier == null)
                 {
-                    if (!TacticalPortalGeometry.IsGap(opening, Wall, Walkable))
+                    if (!TacticalPortalGeometry.IsGap(opening, Wall, GapFloor))
                     { failure |= TacticalPlanFailure.NotBoundary; continue; }
                 }
                 bool openDoor = barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));

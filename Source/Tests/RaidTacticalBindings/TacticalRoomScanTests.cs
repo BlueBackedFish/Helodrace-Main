@@ -9,6 +9,8 @@ internal static class TacticalRoomScanTests
     internal static void Run()
     {
         CheckSecuredConnections();
+        CheckFacingDoorCorridor();
+        CheckLayeredGaps();
         var walls = new HashSet<IntVec3>(Enumerable.Range(0, 20).Select(z => new IntVec3(20, 0, z)));
         bool Roof(IntVec3 cell) => cell.x >= 0 && cell.x < 40 && cell.z >= 0 && cell.z < 20;
         bool Floor(IntVec3 cell) => Roof(cell) && !walls.Contains(cell);
@@ -99,6 +101,49 @@ internal static class TacticalRoomScanTests
         merged.SecuredPlans.Clear();
         if (TacticalRoomProgress.CoversGoal(merged, regions)) throw new Exception("Stored floor without actual entry history must not certify progression.");
         Console.WriteLine("PASS: bounded local room scan, closed boundaries, unexpected-hole merging, stale snapshot and squad isolation.");
+    }
+    private static void CheckFacingDoorCorridor()
+    {
+        for (int rotation = 0; rotation < 4; rotation++)
+        {
+            IntVec3 Rotate(int x, int z)
+            {
+                for (int i = 0; i < rotation; i++) { int previousX = x; x = -z; z = previousX; }
+                return new IntVec3(x, 0, z);
+            }
+            var floors = new HashSet<IntVec3>(); var walls = new HashSet<IntVec3>();
+            var doors = new HashSet<IntVec3> { Rotate(9, -1), Rotate(9, 3) };
+            for (int x = 0; x < 18; x++)
+            {
+                for (int z = 0; z < 3; z++) floors.Add(Rotate(x, z));
+                foreach (int z in new[] { -1, 3 }) if (!doors.Contains(Rotate(x, z))) walls.Add(Rotate(x, z));
+            }
+            bool Walkable(IntVec3 c) => !walls.Contains(c);
+            bool GapFloor(IntVec3 c) => Walkable(c) && !doors.Contains(c);
+            if (floors.Any(c => TacticalPortalGeometry.IsGap(c, walls.Contains, Walkable))
+                || floors.Any(c => TacticalPortalGeometry.IsGap(c, walls.Contains, GapFloor)))
+                throw new Exception("Facing doors must not turn a three-wide corridor into transverse gap boundaries.");
+            bool Gap(IntVec3 c) => floors.Contains(c) && TacticalPortalGeometry.IsGap(c, walls.Contains, GapFloor);
+            var scan = new TacticalRoomScan(Rotate(9, 0), IntVec3.Invalid,
+                c => floors.Contains(c) && !Gap(c), c => walls.Contains(c) || doors.Contains(c) || Gap(c));
+            while (!scan.Step()) { }
+            if (!scan.Cells.SetEquals(floors))
+                throw new Exception("The facing-door corridor must remain one connected 54-cell floor in every orientation.");
+        }
+        Console.WriteLine("PASS: facing-door corridor preserves all 54 floor cells in four orientations, including path-walkable doors.");
+    }
+    private static void CheckLayeredGaps()
+    {
+        foreach (int thickness in new[] { 1, 2, 4 }) foreach (int width in new[] { 1, 3, 5 })
+        {
+            var walls = new HashSet<IntVec3>();
+            for (int x = 0; x < thickness; x++) for (int z = -5; z <= 5; z++)
+                if (Math.Abs(z) > width / 2) walls.Add(new IntVec3(x, 0, z));
+            foreach (int x in new[] { 0, thickness - 1 })
+                if (!TacticalPortalGeometry.IsGap(new IntVec3(x, 0, 0), walls.Contains, c => !walls.Contains(c)))
+                    throw new Exception("Actual openings in single, double and four-layer walls must retain both room faces.");
+        }
+        Console.WriteLine("PASS: one-, three- and five-cell real openings retain their single/double/four-layer wall faces.");
     }
     private static void CheckSecuredConnections()
     {

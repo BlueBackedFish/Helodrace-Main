@@ -124,6 +124,7 @@ namespace Helodrace.Tactics
             var geometry = new Dictionary<IntVec3, byte>();
             Func<IntVec3, bool> wall = cell => cell.InBounds(map) && cell.GetEdifice(map)?.def.IsWall == true;
             Func<IntVec3, bool> walkable = cell => cell.InBounds(map) && cell.Walkable(map);
+            Func<IntVec3, bool> gapFloor = cell => walkable(cell) && !(cell.GetEdifice(map) is Building_Door);
             byte Kind(IntVec3 cell)
             {
                 if (geometry.TryGetValue(cell, out byte kind)) return kind;
@@ -136,7 +137,7 @@ namespace Helodrace.Tactics
                     // Furniture belongs to the floor; a short empty wall gap is
                     // a portal, so opening it does not silently clear both rooms.
                     else if (cell.Walkable(map))
-                        kind = cell != seed && building == null && TacticalPortalGeometry.IsGap(cell, wall, walkable)
+                        kind = cell != seed && building == null && TacticalPortalGeometry.IsGap(cell, wall, gapFloor)
                             ? (byte)4 : cell.Roofed(map) ? (byte)1 : (byte)0;
                 }
                 geometry[cell] = kind; return kind;

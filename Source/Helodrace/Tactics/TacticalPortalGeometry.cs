@@ -34,10 +34,10 @@ namespace Helodrace.Tactics
         }
 
         private static readonly IntVec3[] axes = { IntVec3.East, IntVec3.North };
-        // Short gaps retain the two room faces of their wall. Parallel corridor
-        // walls do not: their supports continue along the supposed inward axis.
-        public static bool IsGap(IntVec3 cell, Func<IntVec3, bool> wall, Func<IntVec3, bool> walkable) =>
-            TryGapNormal(cell, wall, walkable, out _);
+        // Floor excludes doors even when their path-grid cells are walkable.
+        // A gap needs a wall run along its lateral axis, not two parallel walls.
+        public static bool IsGap(IntVec3 cell, Func<IntVec3, bool> wall, Func<IntVec3, bool> floor) =>
+            TryGapNormal(cell, wall, floor, out _);
         internal static bool TryWallNormal(IntVec3 cell, IntVec3 travel, Func<IntVec3, bool> support, out IntVec3 normal)
         {
             int alongZ = (support(cell - IntVec3.North) ? 1 : 0) + (support(cell + IntVec3.North) ? 1 : 0);
@@ -50,7 +50,7 @@ namespace Helodrace.Tactics
             if (heading == 0) return false;
             normal = axis * Math.Sign(heading); return true;
         }
-        internal static bool TryGapNormal(IntVec3 cell, Func<IntVec3, bool> wall, Func<IntVec3, bool> walkable, out IntVec3 normal)
+        internal static bool TryGapNormal(IntVec3 cell, Func<IntVec3, bool> wall, Func<IntVec3, bool> floor, out IntVec3 normal)
         {
             foreach (IntVec3 lateral in axes)
             {
@@ -59,19 +59,23 @@ namespace Helodrace.Tactics
                 {
                     IntVec3 probe = cell - lateral * distance;
                     if (wall(probe)) { left = probe; break; }
-                    if (!walkable(probe)) break;
+                    if (!floor(probe)) break;
                 }
                 if (!left.IsValid) continue;
                 for (int distance = 1; distance <= 3; distance++)
                 {
                     IntVec3 probe = cell + lateral * distance;
                     if (wall(probe)) { right = probe; break; }
-                    if (!walkable(probe)) break;
+                    if (!floor(probe)) break;
                 }
                 if (!right.IsValid) continue;
+                // At least one end must continue away from the gap along the
+                // wall. Keep fragmented ends, but reject corridor side walls
+                // whose facing doors make their normal neighbours walkable.
+                if (!wall(left - lateral) && !wall(right + lateral)) continue;
                 IntVec3 candidate = new IntVec3(-lateral.z, 0, lateral.x);
-                if (walkable(left + candidate) && walkable(right + candidate)
-                    || walkable(left - candidate) && walkable(right - candidate))
+                if (floor(left + candidate) && floor(right + candidate)
+                    || floor(left - candidate) && floor(right - candidate))
                 { normal = candidate; return true; }
             }
             normal = IntVec3.Invalid;
