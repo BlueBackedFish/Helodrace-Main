@@ -389,6 +389,11 @@ namespace Helodrace.Tactics
                 if (!command.Goal.IsValid) { command.Due = tick + 300; return; }
                 TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
                 IntVec3 planningGoal = PendingGoal(command);
+                if (!planningGoal.IsValid)
+                {
+                    command.Phase = TacticalCommandPhase.Clear; command.FrontierCursor = 0;
+                    command.Due = tick + 1; return;
+                }
                 Pawn leader = PendingPlanner(active, planningGoal);
                 Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => BreachExplosiveUtility.CanOperate(pawn)
                     && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
@@ -641,10 +646,14 @@ namespace Helodrace.Tactics
         }
         private static IntVec3 PendingGoal(TacticalSquadCommand command)
         {
-            if (command.Mission.NextGoal.IsValid) return command.Mission.NextGoal;
+            IntVec3 transit = TacticalMissionRouting.TransitGoal(command);
+            if (transit.IsValid) return transit;
             if (command.GoalSecured || command.SecuredKnowledge.Cleared(command.Goal))
+            {
                 foreach (TacticalRoomFrontier frontier in command.Frontiers)
-                    if (!frontier.Excluded && !command.SecuredCells.Contains(frontier.Inside)) return frontier.Inside;
+                    if (TacticalMissionRouting.UnenteredRoom(command, frontier)) return frontier.Inside;
+                return IntVec3.Invalid;
+            }
             return command.Goal;
         }
         private IntVec3 Goal(int tick)

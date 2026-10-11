@@ -41,8 +41,8 @@ internal static class TacticalMissionTests
             "An unbounded floor predicate must still terminate at the local cell cap.");
         var command = new TacticalSquadCommand { GoalSecured = true, Goal = goal };
         command.Frontiers.Add(new TacticalRoomFrontier { Opening = opening, Inward = IntVec3.East, Excluded = true });
-        Check((IntVec3)AccessTools.Method(typeof(MapComponent_TacticalCommands), "PendingGoal").Invoke(null, new object[] { command }) == goal,
-            "An excluded incidental frontier must not become the pending mission goal.");
+        Check(!((IntVec3)AccessTools.Method(typeof(MapComponent_TacticalCommands), "PendingGoal").Invoke(null, new object[] { command })).IsValid,
+            "A secured bed and excluded frontier must not restart the original mission.");
         command.Mission.NextGoal = new IntVec3(40, 0, 40);
         Check((IntVec3)AccessTools.Method(typeof(MapComponent_TacticalCommands), "PendingGoal").Invoke(null, new object[] { command }) == command.Mission.NextGoal,
             "An independently found next building must override the original already secured bed destination.");

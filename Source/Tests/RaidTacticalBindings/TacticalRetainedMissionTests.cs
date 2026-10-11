@@ -36,7 +36,7 @@ internal static class TacticalRetainedMissionTests
         command.GoalSecured = false;
         if (Target() != command.Goal) throw new Exception("The original unentered objective remains first priority.");
         command.GoalSecured = true; command.SecuredCells.Add(frontier.Inside);
-        if (Target() != command.Goal) throw new Exception("A cleared frontier must not become another replan target.");
+        if (Target().IsValid) throw new Exception("A cleared frontier and secured bed must not become another replan target.");
         var known = (List<TacticalLocalPlan>)AccessTools.Field(service.GetType(), "knownOpenings").GetValue(service);
         known.Add(first);
         // A known secured portal must be rejected before any geometry/reach

@@ -69,6 +69,7 @@ namespace Helodrace.Tactics
         private TacticalStructureClass ClassifyStructure(TacticalSquadCommand command, IntVec3 opening, IntVec3 inward, Pawn observer, int knownDepth = 1)
         {
             if (!opening.InBounds(map)) return TacticalStructureClass.Incidental;
+            if (TacticalMissionRouting.CompletedChannel(command, opening, inward)) return TacticalStructureClass.Incidental;
             Building barrier = opening.GetEdifice(map);
             if (!TacticalLocalPlanner.TryDepth(map, opening, inward, out int depth)) return TacticalStructureClass.Incidental;
             depth = Math.Max(depth, knownDepth);

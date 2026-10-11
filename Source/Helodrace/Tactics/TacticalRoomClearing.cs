@@ -105,10 +105,10 @@ namespace Helodrace.Tactics
             { FinishOutdoorPassage(command, tick); return; }
             RetireEntryApproach(command);
             IntVec3 seed = plan.Direct ? command.Members.First(m => Available(m, map)).Pawn.Position : plan.Inside;
+            if (!seed.Roofed(map)) { FinishOutdoorPassage(command, tick); return; }
             command.Mission.NextGoal = IntVec3.Invalid; command.Mission.FailedPlans = 0;
             command.Mission.Stage = TacticalMissionStage.Searching; command.Mission.Survey = null;
             command.Mission.EmptySurveys = 0; command.Mission.SearchAt = tick;
-            if (!seed.Roofed(map)) { FinishOutdoorPassage(command, tick); return; }
             var geometry = new Dictionary<IntVec3, byte>();
             Func<IntVec3, bool> wall = cell => cell.InBounds(map) && cell.GetEdifice(map)?.def.IsWall == true;
             Func<IntVec3, bool> walkable = cell => cell.InBounds(map) && cell.Walkable(map);
@@ -245,13 +245,21 @@ namespace Helodrace.Tactics
                     TacticalRoomFrontier frontier = command.Frontiers[command.FrontierCursor++];
                     if (frontier.Excluded || command.SecuredCells.Contains(frontier.Inside) || command.SecuredKnowledge.Cleared(frontier.Inside)
                         || !frontier.Outdoors && command.Mission.Traversed.Contains(frontier.Opening)) continue;
+                    if (frontier.Outdoors && (!TacticalMissionRouting.TransitGoal(command).IsValid || frontier.Approach)) continue;
                     if (command.Link.Cooperation.Active && !command.Link.Cooperation.Agenda.OwnsSide(command.Id, frontier.Inside)) continue;
                     if (frontier.Approach)
                     {
+                        if (!frontier.Inside.InBounds(map)
+                            || !TacticalMissionRouting.FacadeDestination(command, frontier.Opening, frontier.Inside, frontier.Inside.Roofed(map)))
+                        { frontier.Excluded = true; continue; }
                         TacticalStructureClass kind = ClassifyStructure(command, frontier.Opening, frontier.Inward, active[0].Pawn, frontier.Depth);
                         if (kind == TacticalStructureClass.Pending) { command.FrontierCursor--; return; }
                         frontier.Excluded = true;
-                        if (kind == TacticalStructureClass.Target) { SelectMissionDestination(command, frontier.Inside, tick); return; }
+                        if (kind == TacticalStructureClass.Target)
+                        {
+                            IntVec3 approach = frontier.Opening - frontier.Inward;
+                            SelectMissionDestination(command, frontier.Inside, tick, approach.InBounds(map) && !approach.Roofed(map)); return;
+                        }
                         continue;
                     }
                     TacticalLocalPlan plan = PlanRoomFrontier(command, active, frontier, out bool occupied, out bool missingTool);
@@ -299,6 +307,13 @@ namespace Helodrace.Tactics
                     command.FrontierBusy = false; command.FrontierCursor = 0;
                     command.PlanRetryAt = tick + 240; command.Due = command.PlanRetryAt; return;
                 }
+                IntVec3 transit = TacticalMissionRouting.TransitGoal(command);
+                if (transit.IsValid)
+                {
+                    // A temporarily unusable exit must not replace the observed
+                    // destination with another survey of the building we are in.
+                    SelectMissionDestination(command, transit, tick); return;
+                }
                 if (ContinueAssaultMission(command, active, tick)) return;
                 BeginReturn(command, tick, false);
             }
@@ -320,6 +335,7 @@ namespace Helodrace.Tactics
             TacticalRoomFrontier frontier, out bool occupied, out bool missingTool)
         {
             occupied = missingTool = false;
+            if (frontier.Outdoors && !TacticalMissionRouting.TransitGoal(command).IsValid) return null;
             TacticalStructureClass kind = frontier.Outdoors && command.SecuredCells.Contains(frontier.Opening - frontier.Inward)
                 ? TacticalStructureClass.Target : ClassifyStructure(command, frontier.Opening, frontier.Inward, active[0].Pawn, frontier.Depth);
             if (kind == TacticalStructureClass.Pending) { command.DeferredWork = true; return null; }
@@ -327,6 +343,11 @@ namespace Helodrace.Tactics
             var plan = new TacticalLocalPlan { Opening = frontier.Opening, Inward = frontier.Inward, Depth = frontier.Depth };
             if (!TacticalLocalPlanner.SetDepth(map, plan)) return null;
             plan.Depth = Math.Max(plan.Depth, frontier.Depth);
+            // A changed roof/channel can turn a stored room boundary into an
+            // outdoor exit. It must obey the same transit-only rule as a new exit.
+            if (!plan.Inside.Roofed(map)) frontier.Outdoors = true;
+            if (frontier.Outdoors && (!TacticalMissionRouting.TransitGoal(command).IsValid
+                || !TacticalLocalPlanner.PassageOpen(map, plan))) return null;
             Building barrier = plan.Barrier = TacticalLocalPlanner.NextBarrier(map, plan);
             bool opened = plan.ExistingOpening = TacticalLocalPlanner.PassageOpen(map, plan);
             if (!opened && !active.Any(m => TacticalBreachTools.CanUse(m.Pawn, barrier)))
