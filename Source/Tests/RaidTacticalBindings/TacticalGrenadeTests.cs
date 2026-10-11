@@ -57,6 +57,29 @@ internal static class TacticalGrenadeTests
         Check(!TacticalGrenadePolicy.AllowsAutomatic(high, cs), "Explosion gas extension cannot bypass High's CS restriction.");
         foreach (string name in new[] { "HD_Grenade_M8_Item", "HD_Grenade_M84_Item", "HD_Grenade_M67_Item", "HD_C4_Charge" })
             Check(TacticalGrenadePolicy.AllowsAutomatic(high, Definition(name)), "High's non-CS equipment must remain usable: " + name);
-        Console.WriteLine($"PASS: {checks} A1 High CS issuance/automatic policy, preserved equipment and 13-person formation checks.");
+        var explosive = Definition("test-frag");
+        explosive.projectile = new ProjectileProperties { explosionRadius = 3 };
+        explosive.modExtensions.Add(new FragmentationGrenadeExtension { radius = 8, longRangeRadius = 12, longRangeFragmentFraction = .15f });
+        Check(TacticalGrenadePolicy.HazardRadius(explosive, false) == 12, "Fragment safety must include long-range fragments.");
+        var flash = Definition("test-flash"); flash.projectile = new ProjectileProperties { explosionRadius = .1f };
+        flash.modExtensions.Add(new FlashbangProjectileExtension { effectRadius = 12, indoorRadiusFactor = 1.5f });
+        Check(TacticalGrenadePolicy.HazardRadius(flash, true) == 18 && TacticalGrenadePolicy.HazardRadius(flash, false) == 12,
+            "Flashbang friendly safety must use the real indoor effect radius, not its small explosion radius.");
+        flash.modExtensions.Add(new ModernGrenadeProjectileExtension { projectileBounceTravelDistance = 2 });
+        Check(TacticalGrenadePolicy.HazardRadius(flash, true) == 20, "Projectile bounce must not move damage outside the safety margin.");
+        var gasProjectile = Definition("test-gas"); gasProjectile.projectile = new ProjectileProperties();
+        gasProjectile.modExtensions.Add(new HelodGasOnExplosionExtension { gasDef = gas, radius = 9 });
+        Check(TacticalGrenadePolicy.HazardRadius(gasProjectile, true) == 9, "Non-screening gas must retain its emission danger radius.");
+        var room = (Room)RuntimeHelpers.GetUninitializedObject(typeof(Room));
+        var otherRoom = (Room)RuntimeHelpers.GetUninitializedObject(typeof(Room));
+        Room RoomAt(IntVec3 cell) => cell.x >= 1 ? room : otherRoom;
+        Check(TacticalGrenadePolicy.FriendlyInRoom(room, new IntVec3(10, 0, 10), false, RoomAt),
+            "A friendly in the target room is protected even beyond nominal blast range or behind local cover.");
+        Check(TacticalGrenadePolicy.FriendlyInRoom(room, IntVec3.Zero, true, RoomAt),
+            "An adjacent door occupant must prevent a throw into the connected room.");
+        Check(!TacticalGrenadePolicy.FriendlyInRoom(room, IntVec3.Zero, false, RoomAt)
+            && !TacticalGrenadePolicy.FriendlyInRoom(null, IntVec3.Zero, true, RoomAt),
+            "A separate room or unavailable room identity must not match by null equality.");
+        Console.WriteLine($"PASS: {checks} grenade issuance, extended hazard radius, friendly room and adjacent door safety checks.");
     }
 }

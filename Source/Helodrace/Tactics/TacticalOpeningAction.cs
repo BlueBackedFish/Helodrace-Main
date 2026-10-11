@@ -329,15 +329,26 @@ namespace Helodrace.Tactics
             ThingDef projectile = grenade?.def.projectileWhenLoaded;
             if (projectile?.projectile == null) return false;
             if (RaidSmokeUtility.IsSmoke(grenade)) return true;
+            if (pawn?.Map == null || !target.InBounds(pawn.Map)) return false;
+            bool roofed = target.Roofed(pawn.Map);
+            Room targetRoom = target.GetRoom(pawn.Map);
+            // A structural change can temporarily leave native regions dirty.
+            // Unknown indoor friendly safety is not permission to throw.
+            if (roofed && targetRoom == null) return false;
             float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, false, position.DistanceTo(target));
-            FragmentationGrenadeExtension fragments = projectile.GetModExtension<FragmentationGrenadeExtension>();
-            float radius = Math.Max(projectile.projectile.explosionRadius, fragments == null ? 0 :
-                Math.Max(fragments.radius, fragments.longRangeFragmentFraction > 0 ? fragments.longRangeRadius : 0)) + scatter + .75f;
+            float radius = TacticalGrenadePolicy.HazardRadius(projectile,
+                targetRoom != null && !targetRoom.UsesOutdoorTemperature) + scatter + .75f;
+            FlashbangProjectileExtension flash = projectile.GetModExtension<FlashbangProjectileExtension>();
+            Room RoomAt(IntVec3 cell) => cell.InBounds(pawn.Map) ? cell.GetRoom(pawn.Map) : null;
             foreach (Pawn ally in pawn.Map.mapPawns.AllPawnsSpawned)
             {
+                if (ally.Dead || ally.HostileTo(pawn)) continue;
                 IntVec3 cell = ally == pawn ? position : ally.Position;
-                if (!ally.Dead && !ally.HostileTo(pawn) && cell.DistanceToSquared(target) <= radius * radius
-                    && (cell.DistanceTo(target) <= scatter + .75f || GenSight.LineOfSight(target, cell, pawn.Map, true))) return false;
+                if (roofed && TacticalGrenadePolicy.FriendlyInRoom(targetRoom, cell,
+                    cell.GetEdifice(pawn.Map) is Building_Door, RoomAt)) return false;
+                if (cell.DistanceToSquared(target) <= radius * radius
+                    && (cell.DistanceTo(target) <= scatter + .75f || flash?.blockedPathFactor > 0
+                        || GenSight.LineOfSight(target, cell, pawn.Map, true))) return false;
             }
             return true;
         }
