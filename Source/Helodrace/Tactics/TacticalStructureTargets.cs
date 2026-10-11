@@ -52,6 +52,11 @@ namespace Helodrace.Tactics
         private Faction explicitTargetFaction;
         private void PrepareStructureTargets(TacticalSquadCommand command, int tick)
         {
+            if (tick >= command.SecuredRegionExpiry)
+            {
+                command.SecuredRegionProbes.Clear(); command.SecuredRegionExpiry = tick + 120;
+            }
+            command.SecuredRegionAllowance = TacticalSecuredRegionProbe.Slice;
             Faction target = explicitGoal.IsValid ? explicitTargetFaction : Faction.OfPlayer;
             if (command.StructureGoal != command.Goal || command.TargetFaction != target || tick >= command.StructureExpiry)
             {
@@ -69,6 +74,9 @@ namespace Helodrace.Tactics
             if (barrier?.Faction != null && barrier.Faction != command.TargetFaction) return TacticalStructureClass.Incidental;
             if (command.SecuredKnowledge.Cleared(inside))
                 return barrier?.def.IsWall == true ? TacticalStructureClass.Incidental : TacticalStructureClass.Target;
+            TacticalStructureClass secured = SecuredRegion(command, opening, inward);
+            if (secured == TacticalStructureClass.Pending) return secured;
+            if (secured == TacticalStructureClass.Target) return TacticalStructureClass.Incidental;
             if (barrier?.Faction != null)
                 return barrier.Faction == command.TargetFaction ? TacticalStructureClass.Target : TacticalStructureClass.Incidental;
             if (!inside.InBounds(map)) return TacticalStructureClass.Incidental;

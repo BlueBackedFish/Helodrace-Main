@@ -126,6 +126,12 @@ namespace Helodrace.Tactics
                 cell => Kind(cell) == 1, cell => Kind(cell) >= 2,
                 cell => Kind(cell) == 4 ? 800 : Kind(cell) == 3 ? 400 : 0,
                 cell => cell.InBounds(map) && !cell.Roofed(map) && cell.Walkable(map));
+            // The entry was deliberately excluded from the floor survey. Keep
+            // its reverse face as the preferred outdoor exit instead of opening
+            // a second hole in the same exterior wall after clearing this room.
+            if (!plan.Direct && plan.Outside.InBounds(map) && !plan.Outside.Roofed(map))
+                command.RoomScan.Frontiers.Add(new TacticalRoomFrontier { Opening = plan.Opening,
+                    Inward = -plan.Inward, Outdoors = true, Preference = 1600 });
             command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
             command.Phase = TacticalCommandPhase.Clear; command.PhaseStarted = tick; command.Due = tick + 1;
         }
@@ -196,7 +202,9 @@ namespace Helodrace.Tactics
                     if (scan.Cells.Count > 0)
                     {
                         command.GoalSecured |= scan.Cells.Contains(command.Goal);
-                        command.SecuredPlans.Add(command.Plan); RoomsSecured++;
+                        if (!command.SecuredPlans.Any(p => p.Opening == command.Plan.Opening)) command.SecuredPlans.Add(command.Plan);
+                        command.Mission.Traversed.Add(command.Plan.Opening); RoomsSecured++;
+                        command.SecuredRegionProbes.Clear();
                         foreach (TacticalRoomFrontier frontier in scan.Frontiers)
                             if (command.FrontierKeys.Add(frontier.Opening))
                                 command.Frontiers.Add(frontier);
@@ -222,7 +230,7 @@ namespace Helodrace.Tactics
                 {
                     TacticalRoomFrontier frontier = command.Frontiers[command.FrontierCursor++];
                     if (frontier.Excluded || command.SecuredCells.Contains(frontier.Inside) || command.SecuredKnowledge.Cleared(frontier.Inside)
-                        || command.Mission.Traversed.Contains(frontier.Opening)) continue;
+                        || !frontier.Outdoors && command.Mission.Traversed.Contains(frontier.Opening)) continue;
                     if (command.Link.Cooperation.Active && !command.Link.Cooperation.Agenda.OwnsSide(command.Id, frontier.Inside)) continue;
                     if (frontier.Approach)
                     {

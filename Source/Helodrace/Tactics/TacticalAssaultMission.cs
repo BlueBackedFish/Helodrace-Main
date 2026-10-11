@@ -72,6 +72,12 @@ namespace Helodrace.Tactics
             if (plan.Direct && !plan.ReportedPassage && plan.Opening == command.Goal) command.GoalSecured = true;
             if (!plan.Direct && command.Mission.Traversed.Add(plan.Opening)) command.SecuredPlans.Add(plan);
             if (!plan.Direct && !plan.ReportedPassage) FlushSecuredReport(command, tick, portalOnly: true);
+            // These are alternative exits from already visited rooms, not more
+            // rooms to clear. Once outside, search the next building rather than
+            // walking back inside to breach every remaining exterior wall tile.
+            if (!plan.Direct && !plan.Inside.Roofed(map))
+                foreach (TacticalRoomFrontier frontier in command.Frontiers)
+                    if (frontier.Outdoors) frontier.Excluded = true;
             command.Mission.NextGoal = IntVec3.Invalid; command.Mission.FailedPlans = 0;
             command.Mission.Stage = TacticalMissionStage.Searching; command.Mission.Survey = null;
             command.Mission.EmptySurveys = 0; command.Mission.SearchAt = tick;

@@ -8,6 +8,7 @@ internal static class TacticalRoomScanTests
 {
     internal static void Run()
     {
+        CheckSecuredConnections();
         var walls = new HashSet<IntVec3>(Enumerable.Range(0, 20).Select(z => new IntVec3(20, 0, z)));
         bool Roof(IntVec3 cell) => cell.x >= 0 && cell.x < 40 && cell.z >= 0 && cell.z < 20;
         bool Floor(IntVec3 cell) => Roof(cell) && !walls.Contains(cell);
@@ -98,5 +99,46 @@ internal static class TacticalRoomScanTests
         merged.SecuredPlans.Clear();
         if (TacticalRoomProgress.CoversGoal(merged, regions)) throw new Exception("Stored floor without actual entry history must not certify progression.");
         Console.WriteLine("PASS: bounded local room scan, closed boundaries, unexpected-hole merging, stale snapshot and squad isolation.");
+    }
+    private static void CheckSecuredConnections()
+    {
+        var wall = new HashSet<IntVec3>(Enumerable.Range(0, 12).Select(z => new IntVec3(6, 0, z)));
+        bool Floor(IntVec3 c) => c.x >= 0 && c.x < 12 && c.z >= 0 && c.z < 12 && !wall.Contains(c);
+        var secured = new HashSet<IntVec3> { new IntVec3(2, 0, 5) };
+        TacticalStructureClass Finish(IntVec3 mouth, bool opened, Func<IntVec3, bool> floor, Func<IntVec3, bool> history)
+        {
+            var probe = new TacticalSecuredRegionProbe(mouth, IntVec3.East, opened);
+            for (int i = 0; i < 10; i++)
+            {
+                int allowance = TacticalSecuredRegionProbe.Slice;
+                var result = probe.Step(floor, history, ref allowance);
+                if (allowance < 0) throw new Exception("Connection checks exceeded the shared plan slice.");
+                if (result != TacticalStructureClass.Pending) return result;
+            }
+            throw new Exception("Secured connection check did not finish within its cell cap.");
+        }
+        var candidate = new IntVec3(6, 0, 5);
+        if (Finish(candidate, false, Floor, secured.Contains) != TacticalStructureClass.Incidental)
+            throw new Exception("An intact wall must keep the unentered room separate.");
+        wall.Remove(new IntVec3(6, 0, 3));
+        if (Finish(candidate, false, Floor, secured.Contains) != TacticalStructureClass.Target)
+            throw new Exception("An alternate open passage must suppress another wall breach into the same connected space.");
+        if (Finish(candidate, false, c => Floor(c) && c != new IntVec3(6, 0, 3), secured.Contains) != TacticalStructureClass.Incidental)
+            throw new Exception("A real door boundary must not be treated as an open wall gap.");
+        foreach (int z in Enumerable.Range(3, 5)) wall.Remove(new IntVec3(6, 0, z));
+        if (Finish(candidate, true, Floor, secured.Contains) != TacticalStructureClass.Incidental)
+            throw new Exception("A wide new opening cannot reach back through its own mouth and certify the far room.");
+        secured.Add(new IntVec3(9, 0, 5));
+        if (Finish(candidate, true, Floor, secured.Contains) != TacticalStructureClass.Target)
+            throw new Exception("A shifted mouth into an already entered room must still recognize that room's history.");
+        int reads = 0;
+        if (Finish(candidate, false, _ => { reads++; return true; }, _ => false) != TacticalStructureClass.Incidental
+            || reads > TacticalSecuredRegionProbe.CellLimit)
+            throw new Exception("Connection checks must stop on large unknown spaces without clearing them.");
+        var deferred = new TacticalSecuredRegionProbe(candidate, IntVec3.East, false);
+        int none = 0;
+        if (deferred.Step(Floor, _ => true, ref none) != TacticalStructureClass.Pending)
+            throw new Exception("A depleted plan allowance must defer the connection verdict.");
+        Console.WriteLine("PASS: shifted opening, alternate breach passage, real door separation, wide new mouth, bounded and deferred secured-region checks.");
     }
 }
