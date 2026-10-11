@@ -127,6 +127,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref ReportedPassage, "reportedPassage");
             Scribe_References.Look(ref Barrier, "barrier");
             Scribe_Collections.Look(ref Stack, "stack", LookMode.Value);
+            Scribe_Collections.Look(ref StackMembers, "stackMembers", LookMode.Value);
             Scribe_Collections.Look(ref Positions, "positions", LookMode.Value);
             Scribe_Collections.Look(ref RetainedOutside, "retainedOutside", LookMode.Value);
             Scribe_Collections.Look(ref Interior, "interior", LookMode.Value);

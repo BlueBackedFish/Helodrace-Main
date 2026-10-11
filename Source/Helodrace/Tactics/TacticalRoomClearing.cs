@@ -296,8 +296,9 @@ namespace Helodrace.Tactics
                     if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
                     command.OpeningAction = null; command.ChargeAction = null;
                     bool ownExit = frontier.Outdoors && plan.ExistingOpening;
-                    if (!ownExit) command.HadConnectedStack &= TacticalLocalPlanner.Connected(plan.Stack);
-                    command.Breacher = active.Find(m => TacticalBreachTools.CanUse(m.Pawn, plan.Barrier))?.Pawn;
+                    if (!ownExit) command.HadConnectedStack &= TacticalEntryAllocation.ConnectedStack(plan);
+                    command.Breacher = active.Find(m => (plan.StackMembers.Count == 0 || plan.StackMembers.Contains(command.Members.IndexOf(m)))
+                        && TacticalBreachTools.CanUse(m.Pawn, plan.Barrier))?.Pawn;
                     foreach (TacticalMemberCommand member in command.Members)
                     { member.Passed = member.Crossed = member.Entered = member.EntryAssignmentDone = false; member.Parking = IntVec3.Invalid; }
                     command.BarrierHitPoints = -1; command.PhaseStarted = tick;
@@ -377,7 +378,10 @@ namespace Helodrace.Tactics
             bool InsideBlocked(IntVec3 cell) => command.SecuredCells.Contains(cell) || Claimed(cell);
             if (!TacticalLocalPlanner.Free(map, plan.Outside, OutsideBlocked) || !TacticalLocalPlanner.Free(map, plan.Inside, InsideBlocked))
             { occupied = Claimed(plan.Outside) || Claimed(plan.Inside); return null; }
-            if (!TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, OutsideBlocked))
+            var eligible = active.OrderByDescending(m => TacticalBreachTools.CanUse(m.Pawn, barrier))
+                .ThenByDescending(m => m.Pawn == command.Breacher).ThenBy(m => m.Rear)
+                .Select(m => command.Members.IndexOf(m)).ToArray();
+            if (!TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, OutsideBlocked, allowPartial: !frontier.Outdoors))
             {
                 // Reusing our own exit needs no second full indoor stack. A
                 // tiny room may retain guards outside and cannot hold everyone.
@@ -388,14 +392,17 @@ namespace Helodrace.Tactics
                     plan.Stack.AddRange(command.Plan.Positions);
                 else { occupied = touchedClaim; return null; }
             }
-            if (!TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
-                cell => cell.Roofed(map) != frontier.Outdoors && !command.SecuredCells.Contains(cell)))
+            bool partialStack = plan.Stack.Count < command.Members.Count;
+            if (partialStack)
             {
-                if (touchedClaim) { occupied = true; return null; }
-                var eligible = active.OrderByDescending(m => m.Pawn == command.Breacher).ThenBy(m => m.Rear)
-                    .Select(m => command.Members.IndexOf(m)).ToArray();
-                if (!TacticalEntryAllocation.Allocate(plan, eligible)) return null;
+                if (command.Plan == null || !TacticalEntryAllocation.BindApproach(plan, command.Plan.Positions,
+                    eligible, cell => command.SecuredCells.Contains(cell) && TacticalLocalPlanner.Free(map, cell, Claimed))) return null;
+                eligible = eligible.Where(i => plan.StackMembers.Contains(i)).ToArray();
             }
+            bool fullInside = TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
+                cell => cell.Roofed(map) != frontier.Outdoors && !command.SecuredCells.Contains(cell));
+            if (!fullInside && touchedClaim) { occupied = true; return null; }
+            if ((partialStack || !fullInside) && !TacticalEntryAllocation.Allocate(plan, eligible)) return null;
             if (!active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) return null;
             return plan;
         }

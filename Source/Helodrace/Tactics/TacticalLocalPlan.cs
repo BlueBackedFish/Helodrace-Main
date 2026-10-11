@@ -20,6 +20,9 @@ namespace Helodrace.Tactics
         public IntVec3 InnerOpening => Inside - Inward;
         public Building Barrier;
         public List<IntVec3> Stack = new List<IntVec3>();
+        // Empty means the whole squad; otherwise remaining members guard their
+        // existing secured-room posts rather than requiring a full local stack.
+        public List<int> StackMembers = new List<int>();
         public List<IntVec3> Positions = new List<IntVec3>();
         // Member indices held on the secured approach face during a small-room entry.
         public HashSet<int> RetainedOutside = new HashSet<int>();
@@ -209,20 +212,20 @@ namespace Helodrace.Tactics
         private static int Score(TacticalLocalPlan plan, IntVec3 from) => plan.Outside.DistanceToSquared(from)
             - (plan.ExistingOpening ? 1600 : plan.Barrier is Building_Door ? 400 : 0);
 
-        internal static bool BuildStack(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed)
+        internal static bool BuildStack(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed, bool allowPartial = false)
         {
-            return BuildFormation(map, plan, count, claimed, plan.Stack);
+            return BuildFormation(map, plan, count, claimed, plan.Stack, allowPartial: allowPartial);
         }
 
         internal static bool BuildFormation(Map map, TacticalLocalPlan plan, int count,
-            Func<IntVec3, bool> claimed, List<IntVec3> posts, Func<IntVec3, bool> excluded = null)
+            Func<IntVec3, bool> claimed, List<IntVec3> posts, Func<IntVec3, bool> excluded = null, bool allowPartial = false)
         {
             // Skip the opaque source, but not intervening walls.
             IntVec3 barrier = plan.Barrier?.Position ?? plan.Opening;
             bool Exposed(IntVec3 cell) => GenSight.LineOfSight(plan.Opening, cell, map, true)
                 || barrier != plan.Opening && GenSight.LineOfSight(barrier, cell, map, true);
             return TacticalStackFormation.Build(plan.Opening, plan.Inward, count, ref plan.StackSide,
-                cell => Free(map, cell, claimed), Exposed, posts, excluded);
+                cell => Free(map, cell, claimed), Exposed, posts, excluded, allowPartial);
         }
 
         internal static bool BuildPositions(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,

@@ -12,13 +12,15 @@ namespace Helodrace.Tactics
 
         public static bool Build(IntVec3 opening, IntVec3 inward, int count, ref int side,
             Func<IntVec3, bool> free, Func<IntVec3, bool> exposed, List<IntVec3> posts,
-            Func<IntVec3, bool> excluded = null)
+            Func<IntVec3, bool> excluded = null, bool allowPartial = false)
         {
             posts.Clear();
             if (count <= 0 || count > Width * Depth) return false;
             IntVec3 tangent = new IntVec3(-inward.z, 0, inward.x);
             var status = new byte[CellLimit];
             var attempted = new bool[CellLimit];
+            List<IntVec3> best = allowPartial ? new List<IntVec3>() : null;
+            int bestSide = 0;
             int Index(IntVec3 cell)
             {
                 IntVec3 delta = cell - opening;
@@ -70,11 +72,15 @@ namespace Helodrace.Tactics
                         if (posts.Count == count) { side = candidateSide; return true; }
                         component.Expand(cell, distance, covered);
                     }
+                    if (allowPartial && posts.Count > best.Count)
+                    { best.Clear(); best.AddRange(posts); bestSide = candidateSide; }
                     // Never combine disconnected cover patches or opposite sides.
                     posts.Clear();
                 }
                 search.Expand(seed, cost, approach);
             }
+            if (allowPartial && best.Count > 0)
+            { posts.AddRange(best); side = bestSide; return true; }
             return false;
         }
 

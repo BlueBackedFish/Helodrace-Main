@@ -73,6 +73,7 @@ internal static class TacticalStackFormationTests
             && m.GetParameters().Length > 3 && m.GetParameters()[3].Name == "skipFirstCell"),
             "Installed RimWorld LOS must skip the source wall with the supplied boolean argument.");
         CheckNativeLos(Check, opening);
+        CheckWorkshop(Check);
         CheckSave(Check, opening);
         CheckWithdrawalClaims(Check, opening);
         Console.WriteLine("PASS: " + checks + " weighted stack, corridor axis, locked side, disconnected cover, bounded probes, C4 withdrawal and native save/claim checks.");
@@ -102,6 +103,49 @@ internal static class TacticalStackFormationTests
             && TacticalLocalPlanner.Connected(posts), "Native wall LOS and side lock must produce connected cover.");
     }
 
+    private static void CheckWorkshop(Action<bool, string> check)
+    {
+        // Exterior2 save workshop: x=148..157,z=135..140; north door
+        // (149,141), two 3x1 benches along the north face, 2x1 bench south.
+        // Translate to a small native LOS fixture; no live command was saved.
+        var map = (Map)RuntimeHelpers.GetUninitializedObject(typeof(Map));
+        map.info = new MapInfo { Size = new IntVec3(50, 1, 50) };
+        map.cellIndices = new CellIndices(50, 50); map.edificeGrid = new EdificeGrid(map);
+        var grid = (Building[])typeof(EdificeGrid).GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            .Single(f => f.FieldType == typeof(Building[])).GetValue(map.edificeGrid);
+        var def = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef)); def.fillPercent = 1;
+        for (int x = 19; x <= 30; x++) for (int z = 13; z <= 20; z++)
+        {
+            if (x != 19 && x != 30 && z != 13 && z != 20) continue;
+            var wall = (Building)RuntimeHelpers.GetUninitializedObject(typeof(Building)); wall.def = def;
+            grid[map.cellIndices.CellToIndex(new IntVec3(x, 0, z))] = wall;
+        }
+        bool Free(IntVec3 c) => c.x >= 20 && c.x <= 29 && c.z >= 14 && c.z <= 19
+            && !(c.z == 19 && c.x >= 24) && !(c.z == 14 && c.x >= 28);
+        var opening = new IntVec3(19, 0, 17); // West partition into the adjacent room.
+        int side = 0; var posts = new List<IntVec3>();
+        bool formed = TacticalStackFormation.Build(opening, IntVec3.West, 13, ref side, Free,
+            c => GenSight.LineOfSight(opening, c, map, true), posts);
+        check(!formed, "Saved workshop furniture must reproduce the full-squad stack rejection.");
+        check(TacticalStackFormation.Build(opening, IntVec3.West, 13, ref side, Free,
+            c => GenSight.LineOfSight(opening, c, map, true), posts, allowPartial: true)
+            && posts.Count > 0 && posts.Count < 13 && TacticalLocalPlanner.Connected(posts),
+            "Workshop west partition must admit a small connected breach party instead of stalling the whole squad.");
+        Console.WriteLine("Workshop west partition: connected breach party=" + posts.Count + "/13");
+        var plan = new TacticalLocalPlan(); plan.Stack.AddRange(posts);
+        var previous = new List<IntVec3>();
+        for (int x = 20; x <= 29 && previous.Count < 13; x++) for (int z = 14; z <= 19 && previous.Count < 13; z++)
+        { var cell = new IntVec3(x, 0, z); if (Free(cell)) previous.Add(cell); }
+        check(TacticalEntryAllocation.BindApproach(plan, previous, Enumerable.Range(0, 13).ToArray(), Free)
+            && plan.Stack.Count == 13 && plan.Stack.Distinct().Count() == 13
+            && TacticalEntryAllocation.ConnectedStack(plan) && plan.RetainedOutside.Count > 0,
+            "Small approach must keep unique secured guard posts without combining them into the breach formation.");
+        plan.Positions.AddRange(new[] { new IntVec3(17, 0, 17), new IntVec3(17, 0, 18) });
+        check(TacticalEntryAllocation.Allocate(plan, plan.StackMembers)
+            && plan.StackMembers.All(i => !plan.RetainedOutside.Contains(i) || plan.Positions[i] == plan.Stack[i]),
+            "Only the selected breach party may take inside posts; other members retain their guards.");
+    }
+
     private static void CheckSave(Action<bool, string> check, IntVec3 opening)
     {
         string path = Path.Combine(Path.GetTempPath(), "Helodrace-Stack-" + Guid.NewGuid() + ".xml");
@@ -109,9 +153,11 @@ internal static class TacticalStackFormationTests
         {
             var plan = new TacticalLocalPlan { Opening = opening, Inward = IntVec3.East, StackSide = -1 };
             plan.Stack.Add(opening - IntVec3.East + IntVec3.South * 2);
+            plan.StackMembers.Add(0);
             Scribe.saver.InitSaving(path, "plan"); plan.ExposeData(); Scribe.saver.FinalizeSaving();
             var loaded = new TacticalLocalPlan(); Scribe.loader.InitLoading(path); loaded.ExposeData(); Scribe.loader.ForceStop();
-            check(loaded.StackSide == -1 && loaded.Stack.SequenceEqual(plan.Stack), "Native save must retain side lock and indexed posts.");
+            check(loaded.StackSide == -1 && loaded.Stack.SequenceEqual(plan.Stack) && loaded.StackMembers.SequenceEqual(plan.StackMembers),
+                "Native save must retain side lock, indexed posts and partial approach members.");
         }
         finally { Scribe.ForceStop(); if (File.Exists(path)) File.Delete(path); }
     }

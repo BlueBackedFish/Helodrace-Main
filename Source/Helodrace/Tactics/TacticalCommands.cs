@@ -716,6 +716,8 @@ namespace Helodrace.Tactics
                 var plan = new TacticalLocalPlan { Opening = known.Opening, Inward = known.Inward, ExistingOpening = true,
                     Depth = known.Depth, StackSide = known.StackSide, Barrier = TacticalLocalPlanner.NextBarrier(map, known), EntryLane = known.EntryLane };
                 for (int i = 0; i < count; i++) { plan.Stack.Add(known.Stack[i]); plan.Positions.Add(known.Positions[i]); }
+                plan.StackMembers.AddRange(known.StackMembers.Where(i => i < count));
+                plan.RetainedOutside.UnionWith(known.RetainedOutside.Where(i => i < count));
                 plan.Interior.UnionWith(known.Interior);
                 failure = TacticalPlanFailure.None; return plan;
             }

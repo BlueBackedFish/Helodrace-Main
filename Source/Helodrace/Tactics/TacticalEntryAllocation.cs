@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using Verse;
 
@@ -6,6 +7,40 @@ namespace Helodrace.Tactics
 {
     public static class TacticalEntryAllocation
     {
+        public static bool ConnectedStack(TacticalLocalPlan plan) => TacticalLocalPlanner.Connected(
+            plan.StackMembers.Count == 0 ? plan.Stack : plan.StackMembers.Select(i => plan.Stack[i]).ToList());
+
+        public static bool BindApproach(TacticalLocalPlan plan, IList<IntVec3> previous, IList<int> eligible,
+            Func<IntVec3, bool> free)
+        {
+            int count = previous.Count, entering = Math.Min(plan.Stack.Count, eligible.Count);
+            if (entering == 0 || eligible.Distinct().Count() != eligible.Count
+                || eligible.Any(i => i < 0 || i >= count)) return false;
+            var stack = new IntVec3[count];
+            var participants = eligible.Take(entering).ToList();
+            var used = new HashSet<IntVec3>();
+            for (int j = 0; j < entering; j++)
+            { stack[participants[j]] = plan.Stack[j]; if (!used.Add(plan.Stack[j])) return false; }
+            for (int i = 0; i < count; i++)
+            {
+                if (participants.Contains(i)) continue;
+                IntVec3 guard = previous[i];
+                if (used.Contains(guard) || !free(guard))
+                {
+                    guard = IntVec3.Invalid;
+                    foreach (IntVec3 candidate in previous)
+                        if (!used.Contains(candidate) && free(candidate)) { guard = candidate; break; }
+                }
+                if (!guard.IsValid) return false;
+                used.Add(guard); stack[i] = guard;
+            }
+            plan.Stack.Clear(); plan.Stack.AddRange(stack);
+            plan.StackMembers.Clear(); plan.StackMembers.AddRange(participants);
+            plan.RetainedOutside.Clear();
+            for (int i = 0; i < count; i++) if (!participants.Contains(i)) plan.RetainedOutside.Add(i);
+            return true;
+        }
+
         // Called once when a following room cannot fit the whole squad. Preserve
         // member indexing and distinct outside posts; do not invent inside arrivals.
         public static bool Allocate(TacticalLocalPlan plan, IList<int> eligible)
