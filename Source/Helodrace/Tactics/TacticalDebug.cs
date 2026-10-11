@@ -36,6 +36,8 @@ namespace Helodrace.Tactics
                         + " contact response=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
                         + " field=" + command.FieldResponse?.Stage + " motion=" + command.FieldResponse?.Motion
                         + " focus=" + command.FieldResponse?.Focus + " moving team=" + command.FieldResponse?.MovingTeam
+                        + " focus fire=" + command.FocusFire?.Stage + " target=" + command.FocusFire?.TargetId
+                        + " melee threats=" + command.Contacts.Melee.Entries.Count
                         + " treatment=" + command.MedicalCare?.Job?.def.defName
                         + " patient=" + command.MedicalCare?.Patient.Pawn.thingIDNumber
                         + " medic=" + command.MedicalCare?.Helper.Pawn.thingIDNumber

@@ -48,6 +48,7 @@ namespace Helodrace.Tactics
             AbandonCharge(command);
             Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, tick, true);
             EndFieldResponse(command, tick);
+            FinishFocusPause(command, tick);
             ReleaseClaims(command); command.Plan = null; command.OpeningAction = null;
             command.ContactResponse = null; command.ContactRestoring = false;
             command.RoomScan = null; command.ReturnCursor = 0; command.ReleaseAfterReturn = false;

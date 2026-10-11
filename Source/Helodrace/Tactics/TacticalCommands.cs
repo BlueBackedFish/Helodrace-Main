@@ -24,6 +24,7 @@ namespace Helodrace.Tactics
         public bool AutomaticWeapon;
         public int LastCareAt = -6000;
         public bool MedicalRejoinPending;
+        public int FocusCheckAt;
     }
     public sealed partial class TacticalSquadCommand
     {
@@ -48,6 +49,7 @@ namespace Helodrace.Tactics
         public TacticalContactState Contacts = new TacticalContactState();
         public TacticalContactResponse ContactResponse;
         public TacticalFieldResponse FieldResponse;
+        public TacticalFocusFire FocusFire;
         public TacticalMedicalCare MedicalCare;
         public int MedicalCursor, MedicalWindowUntil, NextMedicalCheck;
         public TacticalMemberCommand MedicalCandidate;
@@ -213,6 +215,7 @@ namespace Helodrace.Tactics
                 AbandonCharge(command);
                 if (command.MedicalCare != null) command.MedicalCare.CancelRequested = true;
                 EndFieldResponse(command, GenTicks.TicksGame);
+                FinishFocusPause(command, GenTicks.TicksGame);
                 command.ContactResponse = null; command.ContactRestoring = false;
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
@@ -311,10 +314,13 @@ namespace Helodrace.Tactics
             var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (UpdateDefensiveMission(command, tick)) return;
-            if (command.Phase == TacticalCommandPhase.Complete && command.ContactResponse?.DirectAttack != true && !ResumeExpiredAllocation(command, tick))
+            if (command.Phase == TacticalCommandPhase.Complete && command.FocusFire == null
+                && !command.Contacts.Melee.Dangerous(tick) && command.ContactResponse?.DirectAttack != true && !ResumeExpiredAllocation(command, tick))
             { command.Due = tick + 600; return; }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
+            if (command.MedicalCare != null && AdvanceMedicalCare(command, active, tick)) return;
+            if (AdvanceFocusFire(command, active, tick)) return;
             if (AdvanceMedicalCare(command, active, tick)) return;
             if (AdvanceFieldResponse(command, active, tick)) return;
             if (RespondToContacts(command, active, tick)) return;
@@ -788,6 +794,7 @@ namespace Helodrace.Tactics
             }
             ReleaseClaims(command);
             command.MedicalCare = null;
+            command.FocusFire = null;
             if (command.ReplanAfterReturn) { RestartRetainedMission(command, tick); return; }
             command.Phase = command.ReleaseAfterReturn ? TacticalCommandPhase.Released
                 : command.Defensive ? TacticalCommandPhase.Defending : TacticalCommandPhase.Complete;

@@ -23,8 +23,8 @@ namespace Helodrace.Tactics
         public long ContactResponses, RearResponses, OpposedResponses, DoorResponses, ContactResumes, ContactGuardJobs;
         public long ContactPostCandidates;
         public long ContactShots, FieldShots;
-        // An actual adjacent attack is a local emergency, not an observed
-        // ranged contact. Never add it to memory or send it as a report.
+        // Actual adjacent damage is also a short melee-danger sample. It never
+        // enters ranged memory; the separate melee report uses normal channels.
         internal void NotifyCloseAttack(Pawn victim, Job job, Pawn attacker)
         {
             if (attacker?.Spawned != true || attacker.Map != map || attacker.Dead || attacker.Downed
@@ -33,6 +33,10 @@ namespace Helodrace.Tactics
                 || victim.CurJob != job || job.playerForced
                 || command.Members.Find(m => m.Pawn == victim)?.Job != job) return;
             int tick = GenTicks.TicksGame;
+            command.Contacts.Melee.Receive(new TacticalMeleeThreat { EnemyId = attacker.thingIDNumber,
+                Position = attacker.Position, SeenTick = tick, Urgency = 3, Shielded = ObservedShield(attacker), Origin = command.Id }, tick);
+            if (command.FocusFire != null)
+            { command.FocusFire.NextDecision = tick; Wake(victim); return; }
             TacticalContactResponse response = command.ContactResponse;
             if (response == null)
             {

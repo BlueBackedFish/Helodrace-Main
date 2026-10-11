@@ -32,8 +32,9 @@ namespace Helodrace.Tactics
                     Pawn enemy = pawns[state.CandidateCursor++]; ContactCandidates++;
                     if (!enemy.HostileTo(observer)
                         || !TacticalContactSight.CanSee(map, observer.Position, enemy, state, radius)) continue;
-                    ObserveMeleeThreat(command, enemy, observer, tick);
-                    if (enemy.Dead || enemy.Downed || !TacticalThreatEligibility.Ranged(enemy)) continue;
+                    bool ranged = TacticalThreatEligibility.Ranged(enemy);
+                    ObserveMeleeThreat(command, enemy, observer, tick, ranged);
+                    if (enemy.Dead || enemy.Downed || !ranged) continue;
                     RecordContact(command, enemy.thingIDNumber, enemy.Position, observer.Position, tick);
                     if (++observed == 2) break;
                 }

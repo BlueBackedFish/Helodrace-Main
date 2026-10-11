@@ -112,6 +112,11 @@ namespace Helodrace.Tactics
                     member.Job = member.Pawn.CurJob?.loadID == member.SavedJobId ? member.Pawn.CurJob : null;
                 }
                 if (command.ContactResponse != null) command.ContactResponse.Plan = command.Plan;
+                if (command.FocusFire != null)
+                {
+                    command.FocusFire.Restore(command.Contacts.Melee, GenTicks.TicksGame, command.Members.Count);
+                    command.Due = Math.Min(command.Due, GenTicks.TicksGame + 1);
+                }
                 if (command.FieldResponse?.Screen != null)
                     command.FieldResponse.Screen.RestoreJob(command.Members.Find(m => m.Pawn == command.FieldResponse.Screen.Thrower)?.Job);
                 if (command.ChargeAction != null)
@@ -170,6 +175,11 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref ContactPostCandidates, "ContactPostCandidatesCounter");
             Scribe_Values.Look(ref ContactShots, "ContactShotsCounter");
             Scribe_Values.Look(ref FieldShots, "FieldShotsCounter");
+            Scribe_Values.Look(ref FocusResponses, "FocusResponsesCounter");
+            Scribe_Values.Look(ref FocusChanges, "FocusChangesCounter");
+            Scribe_Values.Look(ref FocusJobs, "FocusJobsCounter");
+            Scribe_Values.Look(ref FocusShots, "FocusShotsCounter");
+            Scribe_Values.Look(ref NormalCombatReturns, "NormalCombatReturnsCounter");
             Scribe_Values.Look(ref CooperationWaits, "CooperationWaitsCounter");
             Scribe_Values.Look(ref CooperationStarts, "CooperationStartsCounter");
             Scribe_Values.Look(ref AllocatedAreasSecured, "AllocatedAreasSecuredCounter");

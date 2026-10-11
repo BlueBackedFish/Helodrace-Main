@@ -28,6 +28,17 @@ namespace Helodrace.Tactics
     {
         public const int CandidateLimit = 6, FreshTicks = 180, DecisionInterval = 30, HoldTicks = 90;
         public const int NormalMinimumTicks = 90;
+        public static readonly IReadOnlyList<IntVec3> FollowOffsets = BuildFollowOffsets();
+        private static List<IntVec3> BuildFollowOffsets()
+        {
+            var offsets = new List<IntVec3>(29);
+            for (int radius = 0; radius <= 3; radius++)
+                for (int z = -radius; z <= radius; z++)
+                    for (int x = -radius; x <= radius; x++)
+                        if (Math.Max(Math.Abs(x), Math.Abs(z)) == radius && x * x + z * z <= 9)
+                            offsets.Add(new IntVec3(x, 0, z));
+            return offsets;
+        }
         public static int Urgency(bool intent, int distanceSquared) => !intent || distanceSquared > 900 ? 0
             : distanceSquared <= 9 ? 3 : distanceSquared <= 100 ? 2 : 1;
         public static bool Fresh(TacticalMeleeThreat threat, int tick) => threat != null
@@ -88,7 +99,7 @@ namespace Helodrace.Tactics
 
     public sealed partial class MapComponent_TacticalCommands
     {
-        private void ObserveMeleeThreat(TacticalSquadCommand command, Pawn enemy, Pawn observer, int tick)
+        private void ObserveMeleeThreat(TacticalSquadCommand command, Pawn enemy, Pawn observer, int tick, bool ranged)
         {
             // Called only AFTER shooting-geometry LOS passes. Reading a current
             // melee job is an intent sample, not permission to track it later.
@@ -100,7 +111,7 @@ namespace Helodrace.Tactics
                 && victimCommand == command ? victim.Position : observer.Position;
             bool closing = previous != null && previous.Origin == command.Id && TacticalFocusPolicy.Fresh(previous, tick)
                 && previous.Position.DistanceToSquared(anchor) > enemy.Position.DistanceToSquared(anchor);
-            bool melee = enemy.equipment?.PrimaryEq?.PrimaryVerb?.IsMeleeAttack == true || !TacticalThreatEligibility.Ranged(enemy);
+            bool melee = enemy.equipment?.PrimaryEq?.PrimaryVerb?.IsMeleeAttack == true || !ranged;
             bool intent = !enemy.Dead && !enemy.Downed && !enemy.WorkTagIsDisabled(WorkTags.Violent)
                 && (attack || melee && enemy.InAggroMentalState && closing);
             int urgency = TacticalFocusPolicy.Urgency(intent, enemy.Position.DistanceToSquared(anchor));

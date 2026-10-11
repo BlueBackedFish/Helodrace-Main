@@ -46,9 +46,13 @@ namespace Helodrace.Tactics
                     bool visible = false;
                     foreach (IntVec3 destination in shootable)
                         if (GenSight.LineOfSight(Source, destination, pawn.Map, true)) { visible = true; break; }
-                    if (!visible || !TacticalThreatEligibility.Ranged(enemy)) continue;
+                    if (!visible) continue;
+                    bool ranged = TacticalThreatEligibility.Ranged(enemy);
+                    MapComponent_TacticalCommands owner = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
+                    bool melee = owner?.ObservedOpeningMelee(pawn, job, enemy, tick, ranged) == true;
+                    if (!ranged && !melee) continue;
                     Peeking = false;
-                    pawn.Map.GetComponent<MapComponent_TacticalCommands>().Observed(pawn, job, cell, enemy.thingIDNumber);
+                    owner.Observed(pawn, job, cell, enemy.thingIDNumber, ranged);
                     ReadyForNextToil(); return;
                 }
             };

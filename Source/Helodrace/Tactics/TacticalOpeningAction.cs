@@ -54,7 +54,14 @@ namespace Helodrace.Tactics
     {
         public long Observations, ObservationContacts, SupportThrows, SupportWaits, SupportReturns, UnsafeEntries;
 
-        internal void Observed(Pawn pawn, Job job, IntVec3 enemy, int id)
+        internal bool ObservedOpeningMelee(Pawn pawn, Job job, Pawn enemy, int tick, bool ranged)
+        {
+            if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.OpeningAction?.Observer != pawn
+                || pawn.CurJob != job || command.Phase != TacticalCommandPhase.Observe) return false;
+            ObserveMeleeThreat(command, enemy, pawn, tick, ranged);
+            return command.Contacts.Melee.Find(enemy.thingIDNumber)?.Urgency > 0;
+        }
+        internal void Observed(Pawn pawn, Job job, IntVec3 enemy, int id, bool ranged = true)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.OpeningAction?.Observer != pawn
                 || pawn.CurJob != job || command.Phase != TacticalCommandPhase.Observe) return;
@@ -63,7 +70,7 @@ namespace Helodrace.Tactics
             if (enemy.IsValid)
             {
                 ObservationContacts++;
-                RecordContact(command, id, enemy, command.OpeningAction.Source, GenTicks.TicksGame);
+                if (ranged) RecordContact(command, id, enemy, command.OpeningAction.Source, GenTicks.TicksGame);
             }
             Wake(pawn);
         }

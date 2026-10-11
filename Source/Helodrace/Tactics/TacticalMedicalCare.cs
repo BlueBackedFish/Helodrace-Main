@@ -70,7 +70,7 @@ namespace Helodrace.Tactics
             bool field = command.FieldResponse != null;
             bool safePhase = TacticalMedicalPolicy.SafePhase(command.Phase, command.RoomScan == null, command.FieldResponse?.Stage);
             if (!safePhase || !field && tick >= command.MedicalWindowUntil || tick < command.NextMedicalCheck
-                || command.ContactResponse != null || command.ChargeAction != null
+                || command.ContactResponse != null || command.FocusFire != null || command.Contacts.Melee.Dangerous(tick) || command.ChargeAction != null
                 || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) return false;
             if (field && active.Exists(m => !AtPost(m))) return false;
             if (!MedicalSafe(command, active[0].Pawn.Position, tick)) return false;
@@ -113,6 +113,7 @@ namespace Helodrace.Tactics
 
         private bool MedicalSafe(TacticalSquadCommand command, IntVec3 patient, int tick)
         {
+            if (command.FocusFire != null || command.Contacts.Melee.Dangerous(tick)) return false;
             if (command.FieldResponse == null && !command.SecuredCells.Contains(patient)) return false;
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
                 || command.FieldResponse?.Screen != null || command.ContactResponse != null) return false;

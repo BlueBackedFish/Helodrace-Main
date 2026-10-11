@@ -81,6 +81,7 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref OpeningAction, "openingAction");
             Scribe_Deep.Look(ref ContactResponse, "contactResponse");
             Scribe_Deep.Look(ref FieldResponse, "fieldResponse");
+            Scribe_Deep.Look(ref FocusFire, "focusFire");
             Scribe_Deep.Look(ref MedicalCare, "medicalCare");
             Scribe_Deep.Look(ref Contacts, "contacts");
             Scribe_Deep.Look(ref ChargeAction, "chargeAction");
