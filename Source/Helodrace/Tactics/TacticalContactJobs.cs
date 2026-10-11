@@ -33,6 +33,7 @@ namespace Helodrace.Tactics
                 if (scheduler == null || !scheduler.WorkBudget.TryObserve(tick)) return;
                 if (!TacticalContactSight.CanSee(pawn.Map, pawn.Position, enemy, sight,
                     pawn.Position.Roofed(pawn.Map) ? TacticalContactState.Radius : TacticalFieldPolicy.SightRadius)) return;
+                pawn.Map.GetComponent<MapComponent_TacticalCommands>()?.ObserveGuardContact(pawn, job, enemy, tick);
                 // A real close-attack emergency may name a melee-only enemy.
                 // Native melee owns reachability, cooldown and attack selection;
                 // do not wait for a gun that cannot fire at an adjacent target.

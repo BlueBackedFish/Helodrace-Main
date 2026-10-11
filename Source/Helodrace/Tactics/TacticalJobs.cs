@@ -30,11 +30,15 @@ namespace Helodrace.Tactics
         }
         protected Toil AdmitMovement()
         {
+            MapComponent_TacticalCommands owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
             var gate = ToilMaker.MakeToil("TacticalMovementBudget");
             gate.defaultCompleteMode = ToilCompleteMode.Never;
             gate.initAction = () => pawn.pather.StopDead();
             gate.tickAction = () =>
             {
+                // A gathering job may still be waiting here when contact pauses
+                // its squad. Do not start its old path before a guard replaces it.
+                if (job.def.defName == "HD_NewTacticalPost" && owner?.StackMovementPaused(pawn, job) == true) return;
                 GameComponent_TacticalCommands scheduler = Current.Game.GetComponent<GameComponent_TacticalCommands>();
                 if (scheduler == null || scheduler.WorkBudget.TryPath(GenTicks.TicksGame)) ReadyForNextToil();
             };

@@ -7,6 +7,20 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
+    public static class TacticalContactResponsePolicy
+    {
+        // Existing gaps start in Observe even while the squad is gathering.
+        // A completed opening observation still owns its grenade/entry decision.
+        public static bool Gathering(TacticalCommandPhase phase, bool observationDone) =>
+            phase == TacticalCommandPhase.Stack || phase == TacticalCommandPhase.Breach
+                || phase == TacticalCommandPhase.Observe && !observationDone;
+        public static bool ShouldStart(bool freshContact, bool gathering, bool defensive,
+            bool rear, bool opposed, bool door, bool arrival, bool close) => freshContact
+            && (gathering || defensive || rear || opposed || door || !arrival && close);
+        public static float PostScore(bool canFire, float cover, int travel, bool closer) =>
+            (canFire ? 40f : 0f) + cover * 12f - travel * 2f - (closer ? 12f : 0f);
+    }
+
     public sealed partial class TacticalContactResponse
     {
         public int Started, LastSeen, Assigned, SecuredCount, FirstId, SecondId = -1, FocusUpdatedAt;
@@ -23,6 +37,10 @@ namespace Helodrace.Tactics
         public long ContactResponses, RearResponses, OpposedResponses, DoorResponses, ContactResumes, ContactGuardJobs;
         public long ContactPostCandidates;
         public long ContactShots, FieldShots;
+        internal bool StackMovementPaused(Pawn pawn, Job job) => !job.playerForced
+            && byPawn.TryGetValue(pawn, out TacticalSquadCommand command) && command.ContactResponse != null
+            && command.ChargeAction == null
+            && !(command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared);
         // Actual adjacent damage is also a short melee-danger sample. It never
         // enters ranged memory; the separate melee report uses normal channels.
         internal void NotifyCloseAttack(Pawn victim, Job job, Pawn attacker)
@@ -58,6 +76,14 @@ namespace Helodrace.Tactics
                 command.EntryCombatUntil = System.Math.Max(command.EntryCombatUntil, GenTicks.TicksGame + TacticalEntryCombatPolicy.QuietTicks);
             if (command.FieldResponse != null) FieldShots++; else ContactShots++;
         }
+        internal void ObserveGuardContact(Pawn pawn, Job job, Pawn enemy, int tick)
+        {
+            // Reuse the guard's completed, budgeted LOS query. This is an
+            // observed tile, not tracking a remembered enemy across the map.
+            if (pawn.CurJob != job || !byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
+                || command.Members.Find(m => m.Pawn == pawn)?.Job != job || !TacticalThreatEligibility.Ranged(enemy)) return;
+            RecordContact(command, enemy.thingIDNumber, enemy.Position, pawn.Position, tick);
+        }
         private bool RespondToContacts(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
             // Never preempt a launched throw or any C4 installation/safety
@@ -90,8 +116,9 @@ namespace Helodrace.Tactics
                     rear |= behind; door |= otherDoor;
                     if (close) command.ContactCloseAt = contact.SeenTick;
                 }
-                if (first == null || !command.Defensive && !rear && !opposed && !door
-                    && (TacticalEntryCombatPolicy.ArrivalPhase(command.Phase) || tick - command.ContactCloseAt >= TacticalContactMemory.FreshTicks))
+                bool gathering = TacticalContactResponsePolicy.Gathering(command.Phase, command.OpeningAction?.ObservationDone == true);
+                if (!TacticalContactResponsePolicy.ShouldStart(first != null, gathering, command.Defensive, rear, opposed, door,
+                    TacticalEntryCombatPolicy.ArrivalPhase(command.Phase), tick - command.ContactCloseAt < TacticalContactMemory.FreshTicks))
                     return false;
                 response = new TacticalContactResponse { Started = tick, LastSeen = first.SeenTick,
                     Anchor = anchor.Position, First = first.Position, Second = second?.Position ?? IntVec3.Invalid,
@@ -100,6 +127,11 @@ namespace Helodrace.Tactics
                     SecuredCount = command.SecuredCells.Count };
                 for (int i = 0; i < command.Members.Count; i++) response.Posts.Add(IntVec3.Invalid);
                 command.ContactResponse = response; ContactResponses++;
+                if (gathering)
+                    foreach (TacticalMemberCommand member in active)
+                        if (member.Pawn.CurJob == member.Job && member.Job?.playerForced != true
+                            && member.Pawn.jobs.curDriver is JobDriver_TacticalPost)
+                            member.Pawn.pather.StopDead();
                 if (rear) RearResponses++; if (opposed) OpposedResponses++; if (door) DoorResponses++;
             }
             // Only fresh, actually observed samples extend this response. The
@@ -162,7 +194,9 @@ namespace Helodrace.Tactics
             // At most two local assignments per advance, plus the existing
             // global job/path limits. No synchronous whole-squad cover search.
             int assigned = 0;
-            while (response.Assigned < command.Members.Count && assigned++ < 2)
+            TacticalWorkBudget work = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+            bool mayAssign = response.Assigned < command.Members.Count && work.TryPlan(tick);
+            while (mayAssign && response.Assigned < command.Members.Count && assigned++ < 2)
             {
                 int index = response.Assigned++;
                 TacticalMemberCommand member = command.Members[index];
@@ -255,6 +289,9 @@ namespace Helodrace.Tactics
             int Depth(IntVec3 cell) => (cell.x - command.Plan.Opening.x) * command.Plan.Inward.x
                 + (cell.z - command.Plan.Opening.z) * command.Plan.Inward.z;
             bool inside = command.Plan != null && Depth(root) > 0;
+            Pawn enemy = focus.InBounds(map) ? focus.GetFirstPawn(map) : null;
+            if (enemy != null && (enemy.Dead || enemy.Downed || !enemy.HostileTo(member.Pawn))) enemy = null;
+            Verb gun = member.Pawn.equipment?.PrimaryEq?.PrimaryVerb;
             float bestScore = float.MinValue;
             var pending = new Queue<IntVec3>(); var seen = new HashSet<IntVec3>();
             pending.Enqueue(root); seen.Add(root);
@@ -269,8 +306,9 @@ namespace Helodrace.Tactics
                 {
                     bool hidden = !GenSight.LineOfSight(focus, cell, map, true);
                     float cover = hidden ? 1f : CoverUtility.CalculateOverallBlockChance(cell, focus, map);
-                    float score = cover * 30f - cell.DistanceToSquared(root) * 2f;
-                    if (cell.DistanceToSquared(focus) < root.DistanceToSquared(focus)) score -= 12f;
+                    bool canFire = enemy != null && gun != null && !gun.IsMeleeAttack && gun.CanHitTargetFrom(cell, enemy);
+                    float score = TacticalContactResponsePolicy.PostScore(canFire, cover, cell.DistanceToSquared(root),
+                        cell.DistanceToSquared(focus) < root.DistanceToSquared(focus));
                     if (score > bestScore) { best = cell; bestScore = score; }
                 }
                 foreach (IntVec3 direction in GenAdj.CardinalDirections)
