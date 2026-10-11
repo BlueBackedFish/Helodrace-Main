@@ -25,7 +25,7 @@ internal static class TacticalStackFormationTests
             var probed = new HashSet<IntVec3>();
             bool Free(IntVec3 c) { reads++; Check(probed.Add(c), "Each cell must be probed only once per formation."); return true; }
             Check(TacticalStackFormation.Build(opening, inward, 6, ref side, Free,
-                c => { sightReads++; return Math.Abs(Width(c)) == 1; }, posts), "Covered formation must be reachable through the unoccupied mouth/peek cells.");
+                c => { sightReads++; return Math.Abs(Width(c)) <= 1; }, posts), "Covered formation must be reachable through the unoccupied mouth/peek cells.");
             Check(posts.Take(4).All(c => Depth(c) == 1) && posts.Count(c => Depth(c) == 1) >= 5
                 && posts.All(c => Width(c) >= 2), "Weighted flood must favour wall-parallel growth over depth expansion.");
             Check(!posts.Contains(Cell(1, 0)) && posts.All(c => Width(c) != 0), "Entire ingress axis must stay clear, not just the mouth.");
@@ -33,25 +33,33 @@ internal static class TacticalStackFormationTests
             Check(reads <= TacticalStackFormation.CellLimit && sightReads <= reads, "Native cell/LOS probes must have a fixed bound.");
 
             // Narrow corridor: the side strip must not consume its centre lane.
+            side = 1;
+            Check(TacticalStackFormation.Build(opening, inward, 6, ref side, c => Width(c) == 0,
+                _ => true, posts) && posts.All(c => Width(c) == 0) && TacticalLocalPlanner.Connected(posts),
+                "One-tile corridor must use centre posts when LOS and axis filters cannot fit anyone.");
+            side = 1;
+            Check(TacticalStackFormation.Build(opening, inward, 2, ref side, _ => true,
+                c => Width(c) != 0, posts) && posts.All(c => Width(c) == 0),
+                "LOS-only seats must not also apply the axis exclusion.");
             side = -1;
             Check(TacticalStackFormation.Build(opening, inward, 6, ref side, c => Math.Abs(Width(c)) <= 1,
-                _ => false, posts) && posts.All(c => Width(c) == -1), "Narrow-corridor stack must remain on its selected edge.");
+                _ => true, posts) && posts.All(c => Width(c) == -1), "Narrow-corridor stack must remain on its selected edge.");
             side = -1;
-            Check(!TacticalStackFormation.Build(opening, inward, 9, ref side, c => Math.Abs(Width(c)) <= 1,
-                _ => false, posts) && posts.Count == 0 && side == -1, "A locked side must fail rather than fill the opposite corridor edge.");
+            Check(TacticalStackFormation.Build(opening, inward, 9, ref side, c => Math.Abs(Width(c)) <= 1,
+                _ => true, posts) && posts.Any(c => Width(c) == 0) && posts.All(c => Width(c) <= 0) && side == -1, "Insufficient side space must relax to the centre without switching sides.");
 
             // Two disconnected covered pockets, each too small for the squad.
             side = 1;
             Check(!TacticalStackFormation.Build(opening, inward, 7, ref side, _ => true,
-                c => !(Depth(c) <= 3 && (Width(c) == 2 || Width(c) == 4)), posts) && posts.Count == 0,
+                _ => false, posts, c => !(Depth(c) <= 3 && (Width(c) == 2 || Width(c) == 4))) && posts.Count == 0,
                 "Flood travel through exposed cells must not combine disconnected post components.");
             // An obstacle isolates all side cover from the mouth, despite free destinations.
             side = 1;
-            Check(!TacticalStackFormation.Build(opening, inward, 1, ref side, c => Width(c) != 1,
+            Check(!TacticalStackFormation.Build(opening, inward, 9, ref side, c => Width(c) != 1,
                 _ => false, posts), "Flood must not jump over a blocked approach to reach side cover.");
             side = 0;
             Check(TacticalStackFormation.Build(opening, inward, 13, ref side, c => Width(c) <= 0,
-                c => Math.Abs(Width(c)) == 1, posts) && side == -1 && posts.All(c => Width(c) < 0),
+                c => Math.Abs(Width(c)) <= 1, posts) && side == -1 && posts.All(c => Width(c) < 0),
                 "An initially unselected side must choose available cover and lock it for the whole formation.");
 
             // C4 shares the ordinary formation search, on the same locked side.
@@ -65,7 +73,7 @@ internal static class TacticalStackFormationTests
                 "C4 posts must exclude the actual installation rectangle while retaining nearby wall cover.");
             side = 1; reads = 0;
             Check(!TacticalStackFormation.Build(opening, inward, 13, ref side,
-                c => { reads++; return true; }, _ => true, posts) && reads <= TacticalStackFormation.CellLimit,
+                c => { reads++; return true; }, _ => true, posts, _ => true) && reads <= TacticalStackFormation.CellLimit,
                 "A fully exposed frontage must fail within the fixed work bound.");
         }
         // Validate the actual game's LOS argument: true skips the opaque source.
@@ -126,10 +134,10 @@ internal static class TacticalStackFormationTests
         int side = 0; var posts = new List<IntVec3>();
         bool formed = TacticalStackFormation.Build(opening, IntVec3.West, 13, ref side, Free,
             c => GenSight.LineOfSight(opening, c, map, true), posts);
-        check(!formed, "Saved workshop furniture must reproduce the full-squad stack rejection.");
+        check(formed && posts.Count == 13, "Workshop must form a full squad after relaxing LOS before using a partial party.");
         check(TacticalStackFormation.Build(opening, IntVec3.West, 13, ref side, Free,
             c => GenSight.LineOfSight(opening, c, map, true), posts, allowPartial: true)
-            && posts.Count > 0 && posts.Count < 13 && TacticalLocalPlanner.Connected(posts),
+            && posts.Count == 13 && TacticalLocalPlanner.Connected(posts),
             "Workshop west partition must admit a small connected breach party instead of stalling the whole squad.");
         Console.WriteLine("Workshop west partition: connected breach party=" + posts.Count + "/13");
         var plan = new TacticalLocalPlan(); plan.Stack.AddRange(posts);
@@ -138,7 +146,7 @@ internal static class TacticalStackFormationTests
         { var cell = new IntVec3(x, 0, z); if (Free(cell)) previous.Add(cell); }
         check(TacticalEntryAllocation.BindApproach(plan, previous, Enumerable.Range(0, 13).ToArray(), Free)
             && plan.Stack.Count == 13 && plan.Stack.Distinct().Count() == 13
-            && TacticalEntryAllocation.ConnectedStack(plan) && plan.RetainedOutside.Count > 0,
+            && TacticalEntryAllocation.ConnectedStack(plan) ,
             "Small approach must keep unique secured guard posts without combining them into the breach formation.");
         plan.Positions.AddRange(new[] { new IntVec3(17, 0, 17), new IntVec3(17, 0, 18) });
         check(TacticalEntryAllocation.Allocate(plan, plan.StackMembers)

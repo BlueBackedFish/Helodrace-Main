@@ -4,8 +4,8 @@ using Verse;
 
 namespace Helodrace.Tactics
 {
-    // Two bounded floods: find cover from the mouth, then fill one connected
-    // component of eligible posts. Excluded posts remain traversable on approach.
+    // Try LOS, axis-only, then unrestricted seats. Safety exclusions remain
+    // hard constraints; map/LOS probes are shared across all three attempts.
     public static class TacticalStackFormation
     {
         public const int Width = 8, Depth = 8, CellLimit = (Width * 2 + 1) * Depth;
@@ -18,7 +18,8 @@ namespace Helodrace.Tactics
             if (count <= 0 || count > Width * Depth) return false;
             IntVec3 tangent = new IntVec3(-inward.z, 0, inward.x);
             var status = new byte[CellLimit];
-            var attempted = new bool[CellLimit];
+            var sight = new byte[CellLimit];
+            var attempted = new bool[CellLimit * 2];
             List<IntVec3> best = allowPartial ? new List<IntVec3>() : null;
             int bestSide = 0;
             int Index(IntVec3 cell)
@@ -33,19 +34,20 @@ namespace Helodrace.Tactics
             {
                 int index = Index(cell);
                 if (index < 0) return false;
-                if (status[index] == 0) status[index] = free(cell) ? (byte)2 : (byte)1;
+                if (status[index] == 0) status[index] = free(cell)
+                    ? excluded?.Invoke(cell) == true ? (byte)3 : (byte)2 : (byte)1;
                 return status[index] >= 2;
             }
+            int tier = 0;
             bool Seat(IntVec3 cell)
             {
                 if (!Walk(cell)) return false;
                 int index = Index(cell);
-                if (status[index] == 2)
-                {
-                    int width = (cell.x - opening.x) * tangent.x + (cell.z - opening.z) * tangent.z;
-                    status[index] = width == 0 || excluded?.Invoke(cell) == true || exposed(cell) ? (byte)3 : (byte)4;
-                }
-                return status[index] == 4;
+                if (status[index] == 3) return false;
+                if (tier == 2) return true;
+                if (tier == 1) return Side(cell) != 0;
+                if (sight[index] == 0) sight[index] = exposed(cell) ? (byte)1 : (byte)2;
+                return sight[index] == 2;
             }
             int Side(IntVec3 cell) => Math.Sign((cell.x - opening.x) * tangent.x + (cell.z - opening.z) * tangent.z);
             int lockedSide = side;
@@ -54,30 +56,38 @@ namespace Helodrace.Tactics
             int candidateSide = 0;
             Func<IntVec3, bool> approach = next => (lockedSide == 0 || Side(next) == 0 || Side(next) == lockedSide)
                 && Walk(next);
-            Func<IntVec3, bool> covered = next => Side(next) == candidateSide && Seat(next);
+            Func<IntVec3, bool> covered = next => (Side(next) == candidateSide || Side(next) == 0) && Seat(next);
             if (!Walk(opening - inward)) return false;
-            search.Add(opening - inward, 0);
-            while (search.Pop(out IntVec3 seed, out int cost))
+            for (tier = 0; tier < 3; tier++)
             {
-                int index = Index(seed);
-                candidateSide = Side(seed);
-                if (!attempted[index] && (lockedSide == 0 || candidateSide == lockedSide) && Seat(seed))
+                Array.Clear(attempted, 0, attempted.Length);
+                search.Reset(); search.Add(opening - inward, 0);
+                while (search.Pop(out IntVec3 seed, out int cost))
                 {
-                    component.Reset();
-                    component.Add(seed, 0);
-                    while (component.Pop(out IntVec3 cell, out int distance))
+                    int seedSide = Side(seed);
+                    // Centre posts can join either side, never both. A one-tile
+                    // corridor keeps the lock and uses its connected centre.
+                    int firstSide = lockedSide != 0 ? lockedSide : seedSide != 0 ? seedSide : 1;
+                    int choices = lockedSide == 0 && seedSide == 0 ? 2 : 1;
+                    for (int choice = 0; choice < choices; choice++)
                     {
-                        attempted[Index(cell)] = true;
-                        posts.Add(cell);
-                        if (posts.Count == count) { side = candidateSide; return true; }
-                        component.Expand(cell, distance, covered);
+                        candidateSide = choice == 0 ? firstSide : -firstSide;
+                        int offset = candidateSide > 0 ? 0 : CellLimit;
+                        if (attempted[Index(seed) + offset] || seedSide != 0 && seedSide != candidateSide || !Seat(seed)) continue;
+                        component.Reset(); component.Add(seed, 0);
+                        while (component.Pop(out IntVec3 cell, out int distance))
+                        {
+                            attempted[Index(cell) + offset] = true;
+                            posts.Add(cell);
+                            if (posts.Count == count) { side = candidateSide; return true; }
+                            component.Expand(cell, distance, covered);
+                        }
+                        if (allowPartial && posts.Count > best.Count)
+                        { best.Clear(); best.AddRange(posts); bestSide = candidateSide; }
+                        posts.Clear();
                     }
-                    if (allowPartial && posts.Count > best.Count)
-                    { best.Clear(); best.AddRange(posts); bestSide = candidateSide; }
-                    // Never combine disconnected cover patches or opposite sides.
-                    posts.Clear();
+                    search.Expand(seed, cost, approach);
                 }
-                search.Expand(seed, cost, approach);
             }
             if (allowPartial && best.Count > 0)
             { posts.AddRange(best); side = bestSide; return true; }
