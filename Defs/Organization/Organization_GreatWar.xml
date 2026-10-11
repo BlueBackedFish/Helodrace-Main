@@ -139,6 +139,7 @@
     <commandLossDelayTicks>90</commandLossDelayTicks><commandRecoveryTicks>300</commandRecoveryTicks>
     <actingCommandEfficiency>0.70</actingCommandEfficiency>
     <directControl>0.9</directControl><fireteamIndependence>0.2</fireteamIndependence><squadCohesion>0.9</squadCohesion>
+    <voiceContactRange>20</voiceContactRange>
     <availableFormations>
       <li>HD_Formation_GW_RiflePlatoon</li><li>HD_Formation_GW_RifleSquad</li><li>HD_Formation_GW_Patrol</li>
     </availableFormations>

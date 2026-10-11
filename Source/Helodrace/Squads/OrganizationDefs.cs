@@ -184,7 +184,7 @@ namespace Helodrace.Squads
                 || movementPortalRadius < 1 || movementPortalRadius > 6
                 || movementArrivalRefreshTicks < 1 || movementDestinationRetryTicks < 1)
                 yield return "Movement node settings exceed their bounded work limits.";
-            if (voiceContactRange < 1 || voiceContactRange > 12 || voiceReportTicks < 20 || voiceReportTicks > 180
+            if (voiceContactRange < 1 || voiceContactRange > 32 || voiceReportTicks < 20 || voiceReportTicks > 180
                 || radioReportTicks < 10 || radioReportTicks > 120 || communicationAckTicks < 10 || communicationAckTicks > 120
                 || fieldObservationRadius < 24 || fieldObservationRadius > 120 || contactLosBudget < 16 || contactLosBudget > 128)
                 yield return "Tactical communication settings exceed their bounded work limits.";
