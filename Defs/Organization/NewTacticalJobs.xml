@@ -6,6 +6,7 @@
     <reportString>폭발물을 피해 달아나는 중</reportString>
     <checkOverrideOnDamage>Never</checkOverrideOnDamage>
     <casualInterruptible>false</casualInterruptible>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
   </JobDef>
   <JobDef>
     <defName>HD_NewTacticalClearFurniture</defName>

@@ -7,6 +7,15 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
+    public static class TacticalPostFirePolicy
+    {
+        // Old value-only sightings may nominate a cell during recovery, but
+        // its live occupant/identity and weapon LOS must still pass below.
+        public static bool RecheckKnown(TacticalContact contact, int tick, bool recovery) => contact != null
+            && contact.SeenTick <= tick && tick - contact.SeenTick
+                < (recovery ? TacticalContactMemory.RetentionTicks : TacticalContactMemory.FreshTicks);
+    }
+
     public static class TacticalEntryCombatPolicy
     {
         public const int QuietTicks = 180, CandidateLimit = 8, CoverCells = 13;
@@ -66,16 +75,23 @@ namespace Helodrace.Tactics
         }
 
         // False means only budget denial: the driver retries a few ticks later.
-        internal bool TryEntryFire(Pawn pawn, Job job, int tick)
+        internal bool TryEntryFire(Pawn pawn, Job job, int tick) => TryPostFire(pawn, job, tick, recovery: false, out _);
+        internal bool TryRecoveryFire(Pawn pawn, Job job, int tick, out bool engaged) =>
+            TryPostFire(pawn, job, tick, recovery: true, out engaged);
+        private bool TryPostFire(Pawn pawn, Job job, int tick, bool recovery, out bool engaged)
         {
+            engaged = false;
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.Plan == null
-                || !TacticalEntryCombatPolicy.ArrivalPhase(command.Phase) || pawn.CurJob != job
+                || !(recovery ? TacticalExplosiveEvasionPolicy.OwnsMovement(job) : TacticalEntryCombatPolicy.ArrivalPhase(command.Phase)) || pawn.CurJob != job
                 || command.Members.Find(m => m.Pawn == pawn)?.Job != job) return true;
             if (pawn.stances.FullBodyBusy)
             {
                 if (pawn.stances.curStance is Stance_Busy busy && busy.focusTarg.Thing is Pawn enemy
                     && !enemy.Dead && !enemy.Downed && enemy.HostileTo(pawn))
+                {
+                    engaged = true;
                     command.EntryCombatUntil = Math.Max(command.EntryCombatUntil, tick + TacticalEntryCombatPolicy.QuietTicks);
+                }
                 return true;
             }
             Verb verb = pawn.equipment?.PrimaryEq?.PrimaryVerb;
@@ -85,12 +101,13 @@ namespace Helodrace.Tactics
             long started = Stopwatch.GetTimestamp();
             try
             {
+                int radius = recovery && !pawn.Position.Roofed(map) ? TacticalFieldPolicy.SightRadius : TacticalContactState.Radius;
                 Pawn target = null;
                 foreach (TacticalContact contact in command.Contacts.Memory.Entries)
                 {
-                    if (!TacticalContactMemory.Fresh(contact, tick)) continue;
+                    if (!TacticalPostFirePolicy.RecheckKnown(contact, tick, recovery)) continue;
                     Pawn enemy = contact.Position.GetFirstPawn(map);
-                    if (enemy?.thingIDNumber == contact.EnemyId && EntryFireTarget(pawn, enemy, verb))
+                    if (enemy?.thingIDNumber == contact.EnemyId && EntryFireTarget(pawn, enemy, verb, radius))
                     { target = enemy; break; }
                 }
                 if (target == null)
@@ -102,10 +119,12 @@ namespace Helodrace.Tactics
                     {
                         if (command.EntryCandidateCursor >= pawns.Count) command.EntryCandidateCursor = 0;
                         Pawn enemy = pawns[command.EntryCandidateCursor++];
-                        if (EntryFireTarget(pawn, enemy, verb)) { target = enemy; break; }
+                        if (EntryFireTarget(pawn, enemy, verb, radius)) { target = enemy; break; }
                     }
                 }
                 if (target == null) return true;
+                engaged = true;
+                if (recovery) pawn.pather.StopDead();
                 command.EntryCombatFocus = target.Position;
                 command.EntryCombatUntil = Math.Max(command.EntryCombatUntil, tick + TacticalEntryCombatPolicy.QuietTicks);
                 bool ranged = TacticalThreatEligibility.Ranged(target);
@@ -119,10 +138,10 @@ namespace Helodrace.Tactics
             finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
         }
 
-        private static bool EntryFireTarget(Pawn pawn, Pawn enemy, Verb verb)
+        private static bool EntryFireTarget(Pawn pawn, Pawn enemy, Verb verb, int radius)
         {
             if (enemy == null || enemy.Dead || enemy.Downed || !enemy.HostileTo(pawn)
-                || pawn.Position.DistanceToSquared(enemy.Position) > TacticalContactState.Radius * TacticalContactState.Radius) return false;
+                || pawn.Position.DistanceToSquared(enemy.Position) > radius * radius) return false;
             // Harmless hostile animals are not ranged contacts. An actual melee
             // attack against this faction is still a valid close-combat target.
             bool attacking = enemy.CurJobDef == JobDefOf.AttackMelee

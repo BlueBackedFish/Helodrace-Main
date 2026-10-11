@@ -60,6 +60,39 @@ internal static class TacticalExplosiveEvasionTests
         pause.Invoke(owner, new object[] { command, 201 });
         Check(command.PhaseStarted == 140, "An ended evasion must shift phase clocks exactly once.");
 
+        int quietUntil = TacticalExplosiveEvasionPolicy.QuietUntil(100, false);
+        Check(!TacticalExplosiveEvasionPolicy.CanReturn(189, quietUntil, true, false, false)
+            && TacticalExplosiveEvasionPolicy.CanReturn(190, quietUntil, true, false, false),
+            "Recovery must reassess before returning, then release an empty firing area without indefinite holding.");
+        quietUntil = TacticalExplosiveEvasionPolicy.QuietUntil(130, true);
+        Check(!TacticalExplosiveEvasionPolicy.CanReturn(309, quietUntil, true, false, false)
+            && TacticalExplosiveEvasionPolicy.CanReturn(310, quietUntil, true, false, false),
+            "An observed firing opportunity extends the quiet window before formation return.");
+        Check(!TacticalExplosiveEvasionPolicy.CanReturn(400, quietUntil, true, true, false)
+            && !TacticalExplosiveEvasionPolicy.CanReturn(400, quietUntil, false, false, false)
+            && !TacticalExplosiveEvasionPolicy.CanReturn(400, quietUntil, true, false, true),
+            "A target, denied observation budget or ongoing gun stance cannot be treated as a clear return route.");
+        var route = new TacticalLocalPlan();
+        route.Stack.Add(new IntVec3(10, 0, 20)); route.Stack.Add(new IntVec3(11, 0, 20));
+        route.Positions.Add(new IntVec3(10, 0, 23)); route.Positions.Add(new IntVec3(11, 0, 23));
+        Check(TacticalExplosiveEvasionPolicy.ReturnPost(route, TacticalCommandPhase.Stack, 1) == route.Stack[1]
+            && TacticalExplosiveEvasionPolicy.ReturnPost(route, TacticalCommandPhase.Observe, 1) == route.Stack[1]
+            && TacticalExplosiveEvasionPolicy.ReturnPost(route, TacticalCommandPhase.Clear, 1) == route.Positions[1],
+            "One owned evasion/return job must preserve the member's existing stack or interior post.");
+        Check(!TacticalExplosiveEvasionPolicy.ReturnPost(route, TacticalCommandPhase.Returning, 1).IsValid
+            && !TacticalExplosiveEvasionPolicy.ReturnPost(route, TacticalCommandPhase.Stack, -1).IsValid
+            && !TacticalExplosiveEvasionPolicy.ReturnPost(route, TacticalCommandPhase.Stack, 2).IsValid
+            && !TacticalExplosiveEvasionPolicy.ReturnPost(null, TacticalCommandPhase.Stack, 0).IsValid,
+            "Released control or missing seats must not invent stale return positions.");
+        var remembered = new TacticalContact { EnemyId = 1, SeenTick = 100, Position = route.Stack[0] };
+        Check(TacticalPostFirePolicy.RecheckKnown(remembered, 500, true)
+            && !TacticalPostFirePolicy.RecheckKnown(remembered, 500, false),
+            "Recovery may recheck an old observed tile after a long fuse without broadening normal entry memory freshness.");
+        Check(!TacticalPostFirePolicy.RecheckKnown(remembered, 1900, true)
+            && !TacticalPostFirePolicy.RecheckKnown(remembered, 99, true)
+            && !TacticalPostFirePolicy.RecheckKnown(null, 100, true),
+            "Expired, future or missing memory is not a usable recovery observation.");
+
         IntVec3 origin = new IntVec3(20, 0, 20);
         IntVec3 escape = TacticalExplosiveEvasionPolicy.LocalFallback(origin, origin - IntVec3.East * 4,
             c => c.z == origin.z && Math.Abs(c.x - origin.x) <= 7, _ => true, _ => false);

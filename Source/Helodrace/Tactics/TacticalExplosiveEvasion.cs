@@ -11,6 +11,19 @@ namespace Helodrace.Tactics
     {
         public const string JobName = "HD_NewTacticalEvadeExplosion";
         public const float NotifyRadius = JobGiver_FleePotentialExplosion.FleeDist;
+        public const int RecoveryCheckTicks = 90;
+        public static int QuietUntil(int tick, bool engaged) => tick
+            + (engaged ? TacticalEntryCombatPolicy.QuietTicks : RecoveryCheckTicks);
+        public static bool CanReturn(int tick, int quietUntil, bool checkedNow, bool engaged, bool busy) =>
+            checkedNow && !engaged && !busy && tick >= quietUntil;
+        public static IntVec3 ReturnPost(TacticalLocalPlan plan, TacticalCommandPhase phase, int index)
+        {
+            if (plan == null || index < 0 || phase == TacticalCommandPhase.Returning || phase == TacticalCommandPhase.Released)
+                return IntVec3.Invalid;
+            List<IntVec3> posts = TacticalEntryCombatPolicy.ArrivalPhase(phase) || phase == TacticalCommandPhase.Complete
+                ? plan.Positions : plan.Stack;
+            return index < posts.Count ? posts[index] : IntVec3.Invalid;
+        }
         public static bool OwnsMovement(Job job) => job?.def?.defName == JobName;
         public static bool Controlled(TacticalSquadCommand command, Thing danger) => danger != null
             && (command.OpeningAction?.Projectile == danger || command.ChargeAction?.Charge?.parent == danger);
@@ -108,6 +121,7 @@ namespace Helodrace.Tactics
 
     public sealed class JobDriver_TacticalEvadeExplosion : TacticalJobDriver
     {
+        private int nextCombatCheck, recoveryUntil = -1;
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             pawn.Map.pawnDestinationReservationManager.Reserve(pawn, job, job.targetA.Cell);
@@ -115,7 +129,8 @@ namespace Helodrace.Tactics
         }
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.AdoptEvasion(pawn, job);
+            MapComponent_TacticalCommands owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
+            owner?.AdoptEvasion(pawn, job);
             BindOwner(); job.canUseRangedWeapon = false;
             // The native giver already chose a flee destination. Keep that path
             // and stay there until this explosive disappears; do not rush back
@@ -128,6 +143,62 @@ namespace Helodrace.Tactics
             // Despawning starts the explosion. Leave time for its propagation
             // and fragments instead of immediately returning into that effect.
             yield return Toils_General.Wait(TacticalOpeningPolicy.SettleTicks);
+            Toil recovery = Hold(job.targetC.IsValid ? job.targetC.Cell : pawn.Position);
+            recovery.initAction += () =>
+            {
+                recoveryUntil = Math.Max(recoveryUntil, TacticalExplosiveEvasionPolicy.QuietUntil(GenTicks.TicksGame, false));
+                nextCombatCheck = 0;
+            };
+            bool CheckCombat(int tick, out bool engaged)
+            {
+                engaged = false;
+                if (tick < nextCombatCheck) return false;
+                bool checkedNow = owner == null || owner.TryRecoveryFire(pawn, job, tick, out engaged);
+                nextCombatCheck = tick + (checkedNow ? 30 + pawn.thingIDNumber % 7 : 3 + pawn.thingIDNumber % 3);
+                if (engaged) recoveryUntil = Math.Max(recoveryUntil, TacticalExplosiveEvasionPolicy.QuietUntil(tick, true));
+                return checkedNow;
+            }
+            recovery.tickAction = () =>
+            {
+                int tick = GenTicks.TicksGame;
+                bool checkedNow = CheckCombat(tick, out bool engaged);
+                if (TacticalExplosiveEvasionPolicy.CanReturn(tick, recoveryUntil, checkedNow, engaged, pawn.stances.FullBodyBusy))
+                    ReadyForNextToil();
+            };
+            yield return recovery;
+            if (!job.targetC.IsValid) yield break;
+            Toil returnGate = AdmitMovement();
+            Action admitReturn = returnGate.tickAction;
+            returnGate.tickAction = () =>
+            {
+                if (CheckCombat(GenTicks.TicksGame, out bool engaged) && engaged) JumpToToil(recovery);
+                else admitReturn();
+            };
+            yield return returnGate;
+            Toil returning = Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
+            returning.AddPreInitAction(() => AtPost = false);
+            returning.AddPreTickAction(() =>
+            {
+                // Keep one owned job while switching between return and fire.
+                // A newly visible target stops the path before casting; jumping
+                // to the hold does not restart the job/cancel its gun warmup.
+                if (CheckCombat(GenTicks.TicksGame, out bool engaged) && engaged) JumpToToil(recovery);
+            });
+            yield return returning;
+            Toil arrival = Hold(job.targetC.Cell);
+            arrival.initAction += () => nextCombatCheck = 0;
+            arrival.tickAction = () =>
+            {
+                if (!CheckCombat(GenTicks.TicksGame, out bool engaged)) return;
+                if (engaged) JumpToToil(recovery);
+                else if (!pawn.stances.FullBodyBusy) ReadyForNextToil();
+            };
+            yield return arrival;
+        }
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref recoveryUntil, "evasionRecoveryUntil", -1);
         }
     }
 
@@ -168,6 +239,8 @@ namespace Helodrace.Tactics
             }
             __result = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed(TacticalExplosiveEvasionPolicy.JobName),
                 destination, pawn.mindState.knownExploder);
+            __result.targetC = TacticalExplosiveEvasionPolicy.ReturnPost(command.Plan, command.Phase,
+                command.Members.FindIndex(member => member.Pawn == pawn));
             __result.locomotionUrgency = LocomotionUrgency.Sprint;
             if (native != null) JobMaker.ReturnToPool(native);
         }
