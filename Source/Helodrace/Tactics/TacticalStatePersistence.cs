@@ -308,6 +308,11 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Forward, "forward");
             Scribe_Deep.Look(ref Screen, "screen");
             Scribe_Collections.Look(ref FirePoints, "firePoints", LookMode.Value);
+            Scribe_Collections.Look(ref Areas, "areas", LookMode.Deep);
+            Scribe_Collections.Look(ref Groups, "groups", LookMode.Value);
+            Scribe_Collections.Look(ref JoinAt, "joinAt", LookMode.Value);
+            Scribe_Values.Look(ref LeaderIndex, "leaderIndex", -1);
+            Scribe_Values.Look(ref LeaderTeam, "leaderTeam", -1);
             Scribe_Collections.Look(ref Posts, "posts", LookMode.Value);
             Scribe_Collections.Look(ref Order, "order", LookMode.Value);
             Scribe_Collections.Look(ref FireGroup, "fireGroup", LookMode.Value);

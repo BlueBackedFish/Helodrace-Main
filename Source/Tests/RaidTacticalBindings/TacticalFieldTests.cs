@@ -35,6 +35,16 @@ internal static class TacticalFieldTests
         if (TacticalFieldPolicy.Motion(contact, anchor) != TacticalObservedMotion.Unknown)
             throw new Exception("Unrelated reports were treated as continuous tracking.");
         CheckFirePoints(anchor);
+        var area = TacticalFieldPolicy.ConnectedArea(anchor, p => p.x != anchor.x + 1);
+        if (area.Count > TacticalFieldPolicy.AreaLimit || area.Any(p => p.x > anchor.x)
+            || area.Any(p => !area.Contains(p + IntVec3.North) && !area.Contains(p + IntVec3.South)
+                && !area.Contains(p + IntVec3.East) && !area.Contains(p + IntVec3.West)))
+            throw new Exception("Shared gathering area crossed a wall or included disconnected cells.");
+        if (!TacticalFieldPolicy.Ready(4,3) || TacticalFieldPolicy.Ready(4,2)
+            || !TacticalFieldPolicy.Ready(1,1) || TacticalFieldPolicy.Ready(1,0) || !TacticalFieldPolicy.Ready(0,0))
+            throw new Exception("A prepared majority must release the team without accepting an isolated/unarrived member.");
+        if (TacticalFieldPolicy.AdvanceFirePoint(anchor,IntVec3.North,first,TacticalFieldPolicy.HighBound) != anchor + IntVec3.North * 12)
+            throw new Exception("High's shared team bound must use the longer interval.");
         if (TacticalFieldPolicy.SightRadius <= TacticalContactState.Radius)
             throw new Exception("Field sight does not extend the CQB radius.");
         if (TacticalFieldPolicy.NextMover(-1,7,true)!=0 || TacticalFieldPolicy.NextMover(0,7,true)!=1
@@ -101,18 +111,32 @@ internal static class TacticalFieldTests
         var field = new TacticalFieldResponse { Anchor = anchor, Focus = anchor + IntVec3.North * 50,
             Forward = IntVec3.North, Started = 123, High = true };
         for (int i = 0; i < 3; i++) field.FirePoints.Add(TacticalFieldPolicy.FirePoint(anchor, field.Focus, field.Forward, i, 123));
+        field.Areas.Add(new TacticalFireArea { Cells = areaForSave(anchor), Started = 100, Attempts = 1, Prepared = true });
+        field.Groups.Add(2); field.JoinAt.Add(456); field.LeaderIndex = 0; field.LeaderTeam = 2;
+        // Console has no active mod registry. Seed the native type resolver,
+        // while keeping nested data extraction in the real Scribe methods.
+        var cache = (System.Collections.IDictionary)AccessTools.Field(typeof(GenTypes), "typeCache").GetValue(null);
+        Type keyType = typeof(GenTypes).GetNestedType("TypeCacheKey", System.Reflection.BindingFlags.NonPublic);
+        cache[Activator.CreateInstance(keyType, new object[] { typeof(TacticalFireArea).FullName, null })] = typeof(TacticalFireArea);
+        bool previousHeader = ScribeMetaHeaderUtility.modListChanged;
+        ScribeMetaHeaderUtility.modListChanged = true;
         try
         {
             Scribe.saver.InitSaving(path, "field"); field.ExposeData(); Scribe.saver.FinalizeSaving();
             var loaded = new TacticalFieldResponse();
             Scribe.loader.InitLoading(path); loaded.ExposeData(); Scribe.loader.ForceStop();
             if (!loaded.FirePoints.SequenceEqual(field.FirePoints) || loaded.Started != field.Started
+                || !loaded.Areas[0].Cells.SequenceEqual(field.Areas[0].Cells) || loaded.Areas[0].Attempts != 1
+                || !loaded.Areas[0].Prepared || loaded.Groups[0] != 2 || loaded.JoinAt[0] != 456
+                || loaded.LeaderIndex != 0 || loaded.LeaderTeam != 2
                 || TacticalFieldPolicy.Scatter(loaded.FirePoints[0], 10, loaded.Started)
                     != TacticalFieldPolicy.Scatter(field.FirePoints[0], 10, field.Started))
                 throw new Exception("Saving must preserve shared firing areas and stable post scatter.");
             Console.WriteLine("PASS: native Scribe fire-point value payload round trip (not a full Unity world load).");
         }
-        finally { Scribe.ForceStop(); if (File.Exists(path)) File.Delete(path); }
+        finally { Scribe.ForceStop(); ScribeMetaHeaderUtility.modListChanged = previousHeader; if (File.Exists(path)) File.Delete(path); }
     }
+    private static System.Collections.Generic.List<IntVec3> areaForSave(IntVec3 anchor) =>
+        TacticalFieldPolicy.ConnectedArea(anchor, p => p.x != anchor.x + 1);
 
 }

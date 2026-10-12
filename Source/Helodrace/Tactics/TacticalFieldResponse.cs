@@ -36,6 +36,25 @@ namespace Helodrace.Tactics
                 ? new IntVec3(Math.Sign(delta.x), 0, 0) : new IntVec3(0, 0, Math.Sign(delta.z));
         }
         public const int FirePointRadius = 2, FirePostEvaluationLimit = 16;
+        public const int AreaRadius = 3, AreaLimit = 49, GatherTicks = 360, JoinInterval = 180, HighBound = 12;
+        public static bool Ready(int count, int arrived) => count == 0 || arrived >= (count * 3 + 3) / 4;
+        // Four-neighbour connectivity excludes isolated pockets behind walls.
+        public static List<IntVec3> ConnectedArea(IntVec3 seed, Func<IntVec3, bool> floor)
+        {
+            var cells = new List<IntVec3>(AreaLimit);
+            var seen = new HashSet<IntVec3>();
+            if (!floor(seed)) return cells;
+            cells.Add(seed); seen.Add(seed);
+            for (int cursor = 0; cursor < cells.Count && cells.Count < AreaLimit; cursor++)
+                foreach (IntVec3 direction in GenAdj.CardinalDirections)
+                {
+                    IntVec3 cell = cells[cursor] + direction;
+                    if (Math.Abs(cell.x - seed.x) > AreaRadius || Math.Abs(cell.z - seed.z) > AreaRadius
+                        || !seen.Add(cell) || !floor(cell)) continue;
+                    cells.Add(cell);
+                }
+            return cells;
+        }
         private static uint Mix(int seed)
         {
             uint value = unchecked((uint)seed);
@@ -66,10 +85,10 @@ namespace Helodrace.Tactics
         public static float FirePostScore(bool canFire, float cover, int scatterDistance, int travelDistance, int seed) =>
             (canFire ? 24f : 0f) + cover * 8f - scatterDistance * .4f - travelDistance * .03f
                 + (Mix(seed) % 1000) * .004f;
-        public static IntVec3 AdvanceFirePoint(IntVec3 point, IntVec3 forward, IntVec3 focus)
+        public static IntVec3 AdvanceFirePoint(IntVec3 point, IntVec3 forward, IntVec3 focus, int distance = 5)
         {
             int depth = (focus.x - point.x) * forward.x + (focus.z - point.z) * forward.z;
-            return point + forward * Math.Max(0, Math.Min(5, depth - 3));
+            return point + forward * Math.Max(0, Math.Min(distance, depth - 3));
         }
         public static int NextMover(int previous, int liveTeams, bool reserves)
         {
@@ -80,6 +99,20 @@ namespace Helodrace.Tactics
                 if ((liveTeams & (1 << team)) != 0) return team;
             }
             return -1;
+        }
+    }
+
+    public sealed class TacticalFireArea : IExposable
+    {
+        public List<IntVec3> Cells = new List<IntVec3>();
+        public int Started, Attempts;
+        public bool Prepared;
+        public void ExposeData()
+        {
+            Scribe_Collections.Look(ref Cells, "cells", LookMode.Value);
+            Scribe_Values.Look(ref Started, "started");
+            Scribe_Values.Look(ref Attempts, "attempts");
+            Scribe_Values.Look(ref Prepared, "prepared");
         }
     }
 
@@ -94,6 +127,10 @@ namespace Helodrace.Tactics
         public List<IntVec3> Posts = new List<IntVec3>();
         public List<IntVec3> FirePoints = new List<IntVec3>(3);
         public List<int> Order = new List<int>();
+        public List<int> Groups = new List<int>();
+        public List<int> JoinAt = new List<int>();
+        public List<TacticalFireArea> Areas = new List<TacticalFireArea>();
+        public int LeaderIndex = -1, LeaderTeam = -1;
         public HashSet<int> FireGroup = new HashSet<int>();
         public HashSet<IntVec3> Occupied = new HashSet<IntVec3>();
         public TacticalFieldSmoke Screen;
@@ -133,7 +170,8 @@ namespace Helodrace.Tactics
                     Motion = TacticalFieldPolicy.Motion(nearest, observer.Position),
                     High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
                         && active.Exists(m => m.Fireteam >= 0) };
-                for (int i = 0; i < command.Members.Count; i++) field.Posts.Add(IntVec3.Invalid);
+                for (int i = 0; i < command.Members.Count; i++)
+                { field.Posts.Add(IntVec3.Invalid); field.JoinAt.Add(0); }
                 // LOW forms one temporary group around an actual automatic
                 // weapon role. This does not mutate the organization tree.
                 for (int i = 0; i < command.Members.Count; i++)
@@ -143,8 +181,14 @@ namespace Helodrace.Tactics
                 for (int i = 0; i < field.Order.Count && field.FireGroup.Count < coreSize; i++)
                     if (Available(command.Members[field.Order[i]], map)) field.FireGroup.Add(field.Order[i]);
                 for (int point = 0; point < 3; point++)
+                {
                     field.FirePoints.Add(TacticalFieldPolicy.FirePoint(field.Anchor, field.Focus, field.Forward, point,
                         unchecked(field.Started ^ field.EnemyId * 397)));
+                    field.Areas.Add(new TacticalFireArea { Started = tick });
+                }
+                for (int i = 0; i < command.Members.Count; i++)
+                    field.Groups.Add(TacticalFieldPolicy.FirePointIndex(field.High, command.Members[i].Fireteam,
+                        field.FireGroup.Contains(i), field.Order.IndexOf(i)));
                 command.FieldResponse = field; FieldResponses++;
                 command.Link.Cooperation.LocalReady = false;
             }
@@ -163,6 +207,7 @@ namespace Helodrace.Tactics
             { EndFieldResponse(command, tick); return false; }
             command.Due = Math.Min(command.Due, tick + 30);
             if (field.High && !active.Exists(m => m.Fireteam >= 0)) field.High = false;
+            RefreshFieldLeader(command, active, field, tick);
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (field.Assigned < field.Order.Count && budget.TryPlan(tick))
             {
@@ -182,13 +227,25 @@ namespace Helodrace.Tactics
             if (support && field.Stage == TacticalFieldStage.Moving)
             { field.BoundPending = false; field.Stage = TacticalFieldStage.Defending; }
             if (!support) AdvanceFieldBoundPosts(command, field, tick);
-            int ready = 0, coverReady = 0, coverCount = 0, movers = 0, moversReady = 0;
+            int[] counts = new int[3], arrived = new int[3], shooters = new int[3];
+            int movers = 0, moversReady = 0;
             float range = 0;
             foreach (TacticalMemberCommand member in active)
             {
                 int index = command.Members.IndexOf(member);
                 IntVec3 post = field.Posts[index];
-                if (!post.IsValid && field.Assigned == field.Order.Count && budget.TryPlan(tick))
+                int group = field.Groups[index];
+                TacticalFireArea area = field.Areas[group];
+                // Keep a usable arrival anywhere within the shared area. Tiny
+                // deviations never restart a path to an exact formation slot.
+                bool inArea = area.Cells.Contains(member.Pawn.Position) && FieldFloor(command, member.Pawn.Position);
+                if (inArea && member.Pawn.Position != post && member.Pawn.CurJob == member.Job
+                    && member.Job?.def.defName == "HD_NewTacticalContactGuard"
+                    && !field.Occupied.Contains(member.Pawn.Position)
+                    && (!claims.TryGetValue(member.Pawn.Position, out TacticalSquadCommand cellOwner) || cellOwner == command))
+                { SetFieldPost(command, field, index, member.Pawn.Position); post = member.Pawn.Position; }
+                if ((!post.IsValid || !area.Cells.Contains(post) || !FieldFloor(command, post)) && field.Assigned == field.Order.Count
+                    && tick >= field.JoinAt[index] && budget.TryPlan(tick))
                 {
                     // A previously downed member can recover after the initial
                     // template has finished. Admit one missing local assignment
@@ -201,15 +258,17 @@ namespace Helodrace.Tactics
                     }
                     finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
                 }
-                bool at = post.IsValid && AtPost(member) && member.Pawn.Position == post;
-                if (at) ready++;
+                bool at = inArea && AtPost(member);
+                counts[group]++; if (at) arrived[group]++;
+                if (at && member.Pawn.equipment?.PrimaryEq?.PrimaryVerb is Verb readyVerb && !readyVerb.IsMeleeAttack)
+                    shooters[group]++;
                 if (FieldMover(field, member, index))
                 { movers++; if (at) moversReady++; }
-                else { coverCount++; if (at) coverReady++; }
                 range = Math.Max(range, member.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.verbProps.range ?? 0);
                 if (field.Screen?.Thrower == member.Pawn && field.Screen.ActiveJob != null
                     && !field.Screen.Returned) continue;
-                if (!post.IsValid) { EnsureParking(command, member, tick); continue; }
+                if (!post.IsValid || !area.Cells.Contains(post) || !FieldFloor(command, post))
+                { EnsureFieldWaiting(command, member, field, tick); continue; }
                 if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalContactGuard"
                     && member.Job.targetA.Cell == post)
                 { member.Job.targetB = field.Focus; continue; }
@@ -217,7 +276,16 @@ namespace Helodrace.Tactics
                 if (Issue(member, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalContactGuard"), post, field.Focus))) FieldGuardJobs++;
             }
             if (field.Assigned < field.Order.Count) return true;
-            if (field.Stage == TacticalFieldStage.Forming && ready == active.Count) field.Stage = TacticalFieldStage.Defending;
+            bool teamsReady = true;
+            for (int group = 0; group < 3; group++)
+            {
+                bool ready = TacticalFieldPolicy.Ready(counts[group], arrived[group]) && (counts[group] == 0 || shooters[group] > 0);
+                teamsReady &= ready;
+                if (!ready && tick - field.Areas[group].Started >= TacticalFieldPolicy.GatherTicks)
+                    RepairFieldArea(command, active, field, group, tick);
+            }
+            if (field.Stage == TacticalFieldStage.Forming && (teamsReady || tick - field.Started >= TacticalFieldPolicy.GatherTicks))
+                field.Stage = TacticalFieldStage.Defending;
             if (field.Stage == TacticalFieldStage.Screening)
             {
                 if (AdvanceFieldSmoke(command, active, field, tick))
@@ -234,14 +302,14 @@ namespace Helodrace.Tactics
                 return true;
             }
             if (field.Stage == TacticalFieldStage.Moving && !field.BoundPending
-                && (moversReady == movers || tick - field.MoveStarted >= 600))
+                && (TacticalFieldPolicy.Ready(movers, moversReady) || tick - field.MoveStarted >= 600))
             {
                 field.Stage = TacticalFieldStage.Defending; field.NextMove = tick + TacticalFieldPolicy.MoveInterval;
             }
             // HIGH: only one real child team moves; the other teams must already
             // be at their guard posts. Never invent teams from pawn index/modulo.
             if (TacticalSupportPolicy.CanAdvance(command.Defensive, support) && field.Stage == TacticalFieldStage.Defending && tick >= field.NextMove
-                && ready == active.Count && coverReady == coverCount && field.Motion != TacticalObservedMotion.Approaching
+                && teamsReady && field.Motion != TacticalObservedMotion.Approaching
                 && field.Anchor.DistanceToSquared(field.Focus) > Math.Max(100, range * range * .64f))
             {
                 if (tick >= field.SmokeRetryAt && PlanFieldSmoke(command, active, field, tick)) return true;
@@ -270,8 +338,17 @@ namespace Helodrace.Tactics
             for (int point = 0; point < 3; point++)
                 if (field.High ? point == team : team == -2 ? point != 1 : point == 1)
                 {
-                    IntVec3 next = TacticalFieldPolicy.AdvanceFirePoint(field.FirePoints[point], field.Forward, field.Focus);
-                    moved |= next != field.FirePoints[point]; field.FirePoints[point] = next;
+                    IntVec3 next = TacticalFieldPolicy.AdvanceFirePoint(field.FirePoints[point], field.Forward, field.Focus,
+                        field.High ? TacticalFieldPolicy.HighBound : 5);
+                    // Limit the separation from the covering areas. This cheap
+                    // center test replaces pawn-pair distance/reach searches.
+                    if (field.High)
+                        for (int other = 0; other < 3; other++)
+                            if (other != point && field.Areas[other].Cells.Count > 0
+                                && next.DistanceToSquared(field.FirePoints[other]) > 30 * 30)
+                                next = TacticalFieldPolicy.AdvanceFirePoint(field.FirePoints[point], field.Forward, field.Focus, 5);
+                    if (next != field.FirePoints[point])
+                    { moved = true; field.FirePoints[point] = next; field.Areas[point] = new TacticalFireArea { Started = tick }; }
                 }
             if (!moved) { field.NextMove = tick + TacticalFieldPolicy.MoveInterval; return false; }
             field.Stage = TacticalFieldStage.Moving;
@@ -305,29 +382,126 @@ namespace Helodrace.Tactics
         }
 
         private static bool FieldMover(TacticalFieldResponse field, TacticalMemberCommand member, int index) => field.High
-            ? field.MovingTeam >= 0 && member.Fireteam == field.MovingTeam
+            ? field.MovingTeam >= 0 && field.Groups[index] == field.MovingTeam
             : field.MovingTeam == -2 && !field.FireGroup.Contains(index)
                 || field.MovingTeam == -3 && field.FireGroup.Contains(index);
 
         private static IntVec3 MemberFirePoint(TacticalFieldResponse field, TacticalMemberCommand member, int index) =>
-            field.FirePoints[TacticalFieldPolicy.FirePointIndex(field.High, member.Fireteam, field.FireGroup.Contains(index), field.Order.IndexOf(index))];
+            field.FirePoints[field.Groups[index]];
+
+        private void RefreshFieldLeader(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick)
+        {
+            if (!field.High) return;
+            Pawn commander = command.Link.Unit.Commander;
+            int index = command.Members.FindIndex(m => m.Pawn == commander);
+            bool live = active.Exists(m => m.Fireteam == field.LeaderTeam && m.Fireteam >= 0);
+            if (index == field.LeaderIndex && live) return;
+            int previous = field.LeaderIndex;
+            field.LeaderIndex = index; field.LeaderTeam = -1;
+            int distance = int.MaxValue;
+            foreach (TacticalMemberCommand member in active)
+                if (member.Fireteam >= 0 && member.Fireteam < 3)
+                {
+                    int candidate = commander?.Position.DistanceToSquared(member.Pawn.Position) ?? 0;
+                    if (candidate < distance) { distance = candidate; field.LeaderTeam = member.Fireteam; }
+                }
+            if (previous >= 0 && previous != index && command.Members[previous].Fireteam < 0)
+                field.Groups[previous] = field.LeaderTeam < 0 ? 1 : field.LeaderTeam;
+            if (index < 0 || field.LeaderTeam < 0 || command.Members[index].Fireteam >= 0) return;
+            field.Groups[index] = field.LeaderTeam;
+            field.JoinAt[index] = tick;
+        }
+
+        private bool FieldFloor(TacticalSquadCommand command, IntVec3 cell)
+        {
+            if (!cell.InBounds(map) || !cell.Standable(map) || cell.GetEdifice(map) is Building_Door
+                || cell.Roofed(map) && command.SupportCaller == null) return false;
+            TacticalLocalPlan plan = command.Plan;
+            if (plan == null || plan.Direct) return true;
+            int Depth(IntVec3 p) => (p.x - plan.Opening.x) * plan.Inward.x + (p.z - plan.Opening.z) * plan.Inward.z;
+            return (Depth(cell) >= 1) == (Depth(command.FieldResponse.Anchor) >= 1)
+                && cell != plan.Opening && cell != plan.Outside && cell != plan.Inside && cell != plan.EntryLane;
+        }
+
+        private void BuildFieldArea(TacticalSquadCommand command, TacticalFieldResponse field, int group, IntVec3 desired)
+        {
+            IntVec3 seed = IntVec3.Invalid;
+            int distance = int.MaxValue;
+            // A single bounded seed search, then a shared flood for the group.
+            for (int x = -3; x <= 3; x++) for (int z = -3; z <= 3; z++)
+            {
+                IntVec3 cell = desired + new IntVec3(x, 0, z);
+                if (x*x + z*z >= distance || !FieldFloor(command, cell)) continue;
+                seed = cell; distance = x*x + z*z;
+            }
+            field.Areas[group].Cells = seed.IsValid
+                ? TacticalFieldPolicy.ConnectedArea(seed, cell => FieldFloor(command, cell)) : new List<IntVec3>();
+            field.Areas[group].Prepared = true;
+            if (seed.IsValid) field.FirePoints[group] = seed;
+        }
+
+        private void RepairFieldArea(TacticalSquadCommand command, List<TacticalMemberCommand> active,
+            TacticalFieldResponse field, int group, int tick)
+        {
+            TacticalFireArea area = field.Areas[group];
+            if (area.Attempts >= 2 || field.BoundPending || field.Stage == TacticalFieldStage.Screening) return;
+            TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+            if (!budget.TryPlan(tick)) return;
+            long started = Stopwatch.GetTimestamp();
+            try
+            {
+                TacticalMemberCommand representative = active.Find(m => field.Groups[command.Members.IndexOf(m)] == group);
+                if (representative == null) return;
+                IntVec3 from = representative.Pawn.Position;
+                IntVec3 desired = field.FirePoints[group];
+                // One shared intermediate join point, then a compact defense
+                // near the representative if the advance is still obstructed.
+                if (area.Attempts == 0)
+                {
+                    IntVec3 direction = TacticalFieldPolicy.Direction(from, desired);
+                    for (int step = 1; step <= 6; step++)
+                    {
+                        IntVec3 next = from + direction;
+                        if (next.DistanceToSquared(desired) >= from.DistanceToSquared(desired) || !FieldFloor(command, next)) break;
+                        from = next; // stop at the first wall, never route around a building
+                    }
+                }
+                area.Attempts++; area.Started = tick;
+                BuildFieldArea(command, field, group, from);
+                for (int i = 0; i < field.Groups.Count; i++) if (field.Groups[i] == group)
+                { ClearFieldPost(command, field, i); field.JoinAt[i] = tick; }
+            }
+            finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
+        }
+
+        private void EnsureFieldWaiting(TacticalSquadCommand command, TacticalMemberCommand member, TacticalFieldResponse field, int tick)
+        {
+            // Isolated fallback is only a waiting/cover job; it never counts as
+            // arrival in the group's connected area.
+            if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalContactGuard")
+            { member.Job.targetB = field.Focus; return; }
+            if (tick >= member.RetryTick && CanIssue(member))
+                Issue(member, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalContactGuard"), member.Pawn.Position, field.Focus));
+        }
 
         private void AssignFieldPost(TacticalSquadCommand command, TacticalMemberCommand member,
             TacticalFieldResponse field, int index, IntVec3 point)
         {
+            int group = field.Groups[index];
+            TacticalFireArea area = field.Areas[group];
+            field.JoinAt[index] = GenTicks.TicksGame + TacticalFieldPolicy.JoinInterval;
+            if (!area.Prepared) BuildFieldArea(command, field, group, point);
             IntVec3 old = field.Posts[index];
             IntVec3 best = IntVec3.Invalid; float score = float.MinValue; bool bestCanFire = false;
             // Pick freely in the group's area. Scatter is sampled only when
             // assigning a post, so a settled pawn never shuffles every tick.
             IntVec3 desired = TacticalFieldPolicy.Scatter(point, member.Pawn.thingIDNumber, field.Started);
-            int start = desired.x - point.x + 2 + (desired.z - point.z + 2) * 5, evaluated = 0;
-            for (int pass = 0; pass < 2 && !best.IsValid; pass++)
-            for (int candidate = 0; candidate < 25 && evaluated < (pass + 1) * TacticalFieldPolicy.FirePostEvaluationLimit / 2; candidate++)
+            int start = Math.Abs(member.Pawn.thingIDNumber % Math.Max(1, area.Cells.Count)), evaluated = 0;
+            for (int candidate = 0; candidate < area.Cells.Count && evaluated < TacticalFieldPolicy.FirePostEvaluationLimit; candidate++)
             {
                 // Coprime stride samples the whole area instead of exhausting
                 // one fixed row first. Heavy LOS/cover work has its own cap.
-                int sample = (start + candidate * 7) % 25;
-                IntVec3 cell = (pass == 0 ? point : member.Pawn.Position) + new IntVec3(sample % 5 - 2, 0, sample / 5 - 2); FieldPostCandidates++;
+                IntVec3 cell = area.Cells[(start + candidate) % area.Cells.Count]; FieldPostCandidates++;
                 // A blocked area has a local holding fallback; do not restore
                 // exact depth rows or a distant path around an entire building.
                 if (!cell.InBounds(map) || !cell.Standable(map) || cell.Roofed(map) && command.SupportCaller == null
@@ -356,13 +530,25 @@ namespace Helodrace.Tactics
                 if (!best.IsValid || canFire && !bestCanFire || canFire == bestCanFire && value > score)
                 { score = value; best = cell; bestCanFire = canFire; }
             }
-            if (!best.IsValid) return; // Keep the previous usable post.
+            if (!best.IsValid) return;
+            SetFieldPost(command, field, index, best);
+        }
+
+        private void ClearFieldPost(TacticalSquadCommand command, TacticalFieldResponse field, int index)
+        {
+            IntVec3 old = field.Posts[index];
             if (old.IsValid)
             {
                 field.Occupied.Remove(old);
                 if (!OriginalClaim(command, old) && claims.TryGetValue(old, out TacticalSquadCommand owner) && owner == command)
                     claims.Remove(old);
             }
+            field.Posts[index] = IntVec3.Invalid;
+        }
+
+        private void SetFieldPost(TacticalSquadCommand command, TacticalFieldResponse field, int index, IntVec3 best)
+        {
+            ClearFieldPost(command, field, index);
             field.Posts[index] = best; field.Occupied.Add(best); claims[best] = command;
         }
 
