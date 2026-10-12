@@ -102,7 +102,7 @@ namespace Helodrace.Tactics
         private void AdvanceOpeningAction(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
             TacticalLocalPlan plan = command.Plan;
-            command.Due = tick + 15;
+            command.Due = tick + TacticalCadence.DecisionTicks;
             if (command.OpeningAction == null)
             {
                 command.OpeningAction = new TacticalOpeningAction { Started = tick, Source = plan.Outside,

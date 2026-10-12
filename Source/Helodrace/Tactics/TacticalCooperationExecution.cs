@@ -74,11 +74,10 @@ namespace Helodrace.Tactics
                     command.Due = tick + 1; return true;
                 }
             }
-            if (command.Phase == TacticalCommandPhase.Pending && (agreement.Negotiating
-                || agreement.Stage == TacticalAgreementStage.None && squads.Count > 1 && tick < link.OpportunityUntil))
+            if (command.Phase == TacticalCommandPhase.Pending && agreement.Negotiating)
             {
                 foreach (TacticalMemberCommand member in active) EnsureParking(command, member, tick);
-                CooperationWaits++; command.Due = tick + 15; return true;
+                CooperationWaits++; command.Due = tick + TacticalCadence.DecisionTicks; return true;
             }
             return false;
         }
@@ -88,7 +87,7 @@ namespace Helodrace.Tactics
             if (!agreement.Active) return true;
             agreement.LocalReady = true;
             if (!agreement.CanStart(tick, true))
-            { CooperationWaits++; command.Due = System.Math.Min(command.Due, tick + 15); return false; }
+            { CooperationWaits++; command.Due = System.Math.Min(command.Due, tick + TacticalCadence.DecisionTicks); return false; }
             if (agreement.Stage != TacticalAgreementStage.Started)
             { agreement.Stage = TacticalAgreementStage.Started; CooperationStarts++; }
             return true;

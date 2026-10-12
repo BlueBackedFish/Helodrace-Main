@@ -49,6 +49,8 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Failures, "failures");
             Scribe_Values.Look(ref PlanRetryAt, "planRetryAt");
             Scribe_Values.Look(ref HadConnectedStack, "hadConnectedStack");
+            Scribe_Values.Look(ref MovementDispatchAt, "movementDispatchAt");
+            Scribe_Values.Look(ref MovementCursor, "movementCursor");
             Scribe_Values.Look(ref Defensive, "defensive");
             Scribe_Values.Look(ref DefenseRestoring, "defenseRestoring");
             Scribe_Values.Look(ref DefenseAnchor, "defenseAnchor", IntVec3.Invalid);
@@ -369,7 +371,6 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref ExchangeAt, "exchangeAt");
             Scribe_Values.Look(ref PartnerExchangeAt, "partnerExchangeAt");
             Scribe_Values.Look(ref PartnerProbeAt, "partnerProbeAt");
-            Scribe_Values.Look(ref OpportunityUntil, "opportunityUntil");
             Scribe_Values.Look(ref IdentifyUntil, "identifyUntil");
             Scribe_Values.Look(ref IdentifyStarted, "identifyStarted");
             Scribe_Values.Look(ref ResetPlan, "resetPlan");

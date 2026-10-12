@@ -13,7 +13,7 @@ namespace Helodrace.Tactics
         public RaidTacticalUnit Unit;
         public Pawn Liaison;
         public CompTacticalRadio Radio;
-        public int SelectionCursor, PeerCursor, ExchangeAt, PartnerExchangeAt, PartnerProbeAt, OpportunityUntil;
+        public int SelectionCursor, PeerCursor, ExchangeAt, PartnerExchangeAt, PartnerProbeAt;
         public TacticalSquadCommand Peer;
         public TacticalCooperationState Cooperation = new TacticalCooperationState();
         public Dictionary<string, int> Identified = new Dictionary<string, int>();
@@ -190,7 +190,7 @@ namespace Helodrace.Tactics
                     : new IntVec3(0, 0, Math.Sign(delta.z));
                 if (forward == IntVec3.Zero) forward = IntVec3.East;
                 cooperation.Agenda = new TacticalCooperationAgenda(source.Id + ":" + receiver.Id + ":" + tick,
-                    source.Id, receiver.Id, source.Goal, forward, tick + 900, tick + 6000);
+                    source.Id, receiver.Id, source.Goal, forward, tick + 300, tick + 6000);
                 cooperation.Stage = TacticalAgreementStage.Offered; cooperation.NegotiationStarted = tick; source.Link.Peer = receiver;
                 Send(source, receiver, TacticalMessageKind.Offer, tick, channel);
             }
@@ -204,6 +204,8 @@ namespace Helodrace.Tactics
                 if (source.Id == cooperation.Agenda.First && cooperation.LocalReady && cooperation.PeerReady
                     && tick - cooperation.PeerStatusAt < 600 && cooperation.ConfirmedStart < 0)
                 {
+                    // Leave the voice packet and bounded delivery queue enough
+                    // time; faster local polling must not start before the peer.
                     cooperation.ConfirmedStart = tick + 90;
                     Send(source, receiver, TacticalMessageKind.Start, tick, channel);
                 }

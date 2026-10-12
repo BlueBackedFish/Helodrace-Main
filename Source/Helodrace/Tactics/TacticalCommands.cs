@@ -39,6 +39,7 @@ namespace Helodrace.Tactics
         public TacticalLocalPlan Plan;
         public IntVec3 Goal;
         public int Due, PhaseStarted, Failures, PlanRetryAt;
+        public int MovementDispatchAt, MovementCursor;
         public bool HadConnectedStack;
         public Pawn Breacher;
         public int BarrierHitPoints = -1;
@@ -148,14 +149,14 @@ namespace Helodrace.Tactics
         {
             if (tick < discoverAt) return;
             GameComponent_CombatOrganizations registry = OrganizationAPI.Registry;
-            if (registry == null) { discoverAt = tick + 300; return; }
+            if (registry == null) { discoverAt = tick + TacticalCadence.DecisionTicks; return; }
             if (discovering != null && (registry.GetOrganization(discovering.id) != discovering
                 || discovering.StructureRevision != discoveryRevision))
             { discovery?.Dispose(); discovery = null; discovering = null; }
             if (discovery == null)
             {
                 if (discoverOrganization >= registry.Organizations.Count)
-                { discoverOrganization = 0; discoverAt = tick + 300; return; }
+                { discoverOrganization = 0; discoverAt = tick + TacticalCadence.DecisionTicks; return; }
                 discovering = registry.Organizations[discoverOrganization++];
                 discoveryRevision = discovering.StructureRevision;
                 discovery = RaidTacticalUnit.ForOrganization(discovering).GetEnumerator();
@@ -248,7 +249,7 @@ namespace Helodrace.Tactics
         {
             if (squads.ContainsKey(unit.Id)) return null;
             var command = new TacticalSquadCommand { Id = unit.Id, Owner = this, Due = tick, PhaseStarted = tick };
-            command.Link.Unit = unit; command.Link.OpportunityUntil = tick + 600; command.Goal = Goal(tick);
+            command.Link.Unit = unit; command.Goal = Goal(tick);
             command.RaidLord = unit.Members.Select(p => p.GetLord()).FirstOrDefault(GameComponent_TacticalCommands.IsTacticalLord);
             foreach (Pawn pawn in unit.Members)
                 if (pawn.Spawned && pawn.Map == map && !pawn.Dead && !byPawn.ContainsKey(pawn))
@@ -334,7 +335,7 @@ namespace Helodrace.Tactics
                 if (command.ReplanAfterSupport) { ResetAfterSupport(command, tick); return; }
                 ReturnMembers(command, tick); return;
             }
-            command.Due = tick + (command.Phase == TacticalCommandPhase.Enter ? 30 : 120);
+            command.Due = tick + TacticalCadence.DecisionInterval(command.Phase);
             RejoinTreatedMembers(command, tick);
             var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
             if (active.Count == 0) { Release(command); return; }
@@ -505,6 +506,7 @@ namespace Helodrace.Tactics
                     command.Due = command.PlanRetryAt; return;
                 }
                 ReleaseClaims(command); command.Plan = plan; PlansBuilt++; command.PhaseStarted = tick;
+                command.MovementCursor = 0; command.MovementDispatchAt = tick;
                 plan.ReportedPassage = TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan)
                     && (plan.Direct || OpeningUsable(plan));
                 command.Link.Cooperation.LocalReady = false;
@@ -541,13 +543,25 @@ namespace Helodrace.Tactics
             if (command.Phase == TacticalCommandPhase.Stack || command.Phase == TacticalCommandPhase.Breach)
             {
                 int ready = 0;
+                bool dispatch = tick >= command.MovementDispatchAt;
+                int issued = 0, start = command.MovementCursor;
+                if (dispatch) command.MovementDispatchAt = tick + TacticalCadence.DecisionTicks;
                 for (int i = 0; i < command.Members.Count; i++)
                 {
                     TacticalMemberCommand member = command.Members[i]; if (!Available(member, map)) continue;
                     if (command.Phase == TacticalCommandPhase.Breach && member.Pawn == command.Breacher) continue;
-                    EnsurePost(member, current.Stack[i], current.Opening, tick);
-                    if (AtPost(member)) ready++;
+                    if (AtPost(member) && member.Pawn.Position == current.Stack[i]) ready++;
                 }
+                if (dispatch)
+                    for (int n = 0; n < command.Members.Count && issued < TacticalCadence.MovementBatch; n++)
+                    {
+                        int i = (start + n) % command.Members.Count;
+                        TacticalMemberCommand member = command.Members[i];
+                        if (!Available(member, map) || command.Phase == TacticalCommandPhase.Breach && member.Pawn == command.Breacher
+                            || HoldsPost(member, current.Stack[i], false)) continue;
+                        EnsurePost(member, current.Stack[i], current.Opening, tick);
+                        command.MovementCursor = (i + 1) % command.Members.Count; issued++;
+                    }
                 if (OpeningUsable(current))
                 {
                     if (command.Phase == TacticalCommandPhase.Stack && !CooperationReady(command, tick)) return;
@@ -645,6 +659,9 @@ namespace Helodrace.Tactics
                     }
                 }
             }
+            bool dispatchEntry = tick >= command.MovementDispatchAt;
+            int entryIssues = 0;
+            if (dispatchEntry) command.MovementDispatchAt = tick + TacticalCadence.DecisionTicks;
             for (int ordinal = 0; ordinal < command.Members.Count; ordinal++)
             {
                 int i = current.EntryOrder.Count == command.Members.Count ? current.EntryOrder[ordinal] : ordinal;
@@ -652,7 +669,9 @@ namespace Helodrace.Tactics
                 if (current.RetainedOutside.Contains(i))
                 {
                     member.EntryAssignmentDone = AtPost(member) && member.Pawn.Position == current.Positions[i];
-                    EnsurePost(member, current.Positions[i], current.Opening, tick, entryCombat: true); continue;
+                    if (dispatchEntry && entryIssues < TacticalCadence.MovementBatch && !HoldsPost(member, current.Positions[i], true))
+                    { EnsurePost(member, current.Positions[i], current.Opening, tick, entryCombat: true); entryIssues++; }
+                    continue;
                 }
                 if (member.Pawn.jobs.curDriver is TacticalJobDriver driver && member.Pawn.CurJob == member.Job && driver.AtPost)
                     member.Entered |= member.Pawn.Position == current.Positions[i] && (current.Direct || member.Crossed && member.Passed);
@@ -661,7 +680,12 @@ namespace Helodrace.Tactics
                     && member.Pawn.jobs.curDriver is TacticalJobDriver arrival && arrival.AtPost
                     && member.Pawn.Position == current.Positions[i];
                 if (member.Entered) continue;
-                if (current.Direct) EnsurePost(member, current.Positions[i], command.Goal, tick, entryCombat: true);
+                if (!dispatchEntry || entryIssues >= TacticalCadence.MovementBatch) continue;
+                if (current.Direct)
+                {
+                    if (!HoldsPost(member, current.Positions[i], true))
+                    { EnsurePost(member, current.Positions[i], command.Goal, tick, entryCombat: true); entryIssues++; }
+                }
                 else if (member.Job?.def.defName != "HD_NewTacticalIngress" || member.Pawn.CurJob != member.Job
                     || member.Pawn.jobs.curDriver is TacticalJobDriver stopped && stopped.AtPost)
                 {
@@ -672,7 +696,7 @@ namespace Helodrace.Tactics
                     ingress.targetQueueA = new List<LocalTargetInfo> { current.Inside };
                     if (!current.ReportedPassage && current.EntryLane.IsValid) ingress.targetQueueA.Add(current.EntryLane);
                     ingress.count = TacticalSharedPassagePolicy.IngressLeg(member.Crossed, member.Passed, current.ReportedPassage);
-                    Issue(member, ingress);
+                    Issue(member, ingress); entryIssues++;
                 }
             }
             if (active.All(member => member.EntryAssignmentDone) && active.Any(member => member.Entered))
@@ -797,12 +821,13 @@ namespace Helodrace.Tactics
         private static bool AtPost(TacticalMemberCommand member) => member.Pawn.CurJob == member.Job
             && member.Pawn.jobs.curDriver is TacticalJobDriver driver && driver.AtPost
             && member.Pawn.Position == member.Job.targetA.Cell;
+        private static bool HoldsPost(TacticalMemberCommand member, IntVec3 position, bool entryCombat) =>
+            member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalPost"
+                && member.Job.targetA.Cell == position && member.Job.count == (entryCombat ? 1 : 0)
+                && (!(member.Pawn.jobs.curDriver is TacticalJobDriver driver) || !driver.AtPost || member.Pawn.Position == position);
         private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick, bool entryCombat = false)
         {
-            if (member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalPost"
-                && member.Job.targetA.Cell == position
-                && member.Job.count == (entryCombat ? 1 : 0)
-                && (!(member.Pawn.jobs.curDriver is TacticalJobDriver driver) || !driver.AtPost || member.Pawn.Position == position)) return;
+            if (HoldsPost(member, position, entryCombat)) return;
             if (member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) return;
             if (!CanIssue(member)) return;
             Job post = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), position, face);
