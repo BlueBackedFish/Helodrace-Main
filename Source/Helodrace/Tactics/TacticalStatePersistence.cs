@@ -203,6 +203,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref GrenadeChecks, "grenadeChecks");
             Scribe_Values.Look(ref TrajectoryChecks, "trajectoryChecks");
             Scribe_Values.Look(ref UnsafeChecks, "unsafeChecks");
+            Scribe_Values.Look(ref SupportRoomReady, "supportRoomReady");
+            Scribe_Values.Look(ref SupportRoomTruncated, "supportRoomTruncated");
+            Scribe_Collections.Look(ref SupportRoomCells, "supportRoomCells", LookMode.Value);
             Scribe_Collections.Look(ref SupportTargets, "supportTargets", LookMode.Value);
             Scribe_Values.Look(ref SupportSkip, "supportSkip");
             Scribe_Values.Look(ref SettledAt, "settledAt");

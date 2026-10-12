@@ -92,6 +92,7 @@ internal static class TacticalGrenadeTests
                 &&TacticalGrenadePolicy.FriendlyInRoom(room,forward,true,Merged,opening),
                 "Far-side allies and channel/door occupants remain protected after room merging.");
         }
+        CheckSupportRoomSurvey(room, Check);
         var greatWar=XDocument.Load(Path.Combine(root,"Defs/GreatWar/Items/Grenades_GreatWar.xml")).Root;
         foreach(string name in new[]{"HD_Projectile_MKII","HD_Projectile_MKIII"})
         {
@@ -123,6 +124,40 @@ internal static class TacticalGrenadeTests
             "A short-fuse grenade must not allow a planned return after detonation.");
         CheckInventorySelection(greatWar,Check);
         Console.WriteLine($"PASS: {checks} grenade issuance, extended hazard radius, friendly room and adjacent door safety checks.");
+    }
+    private static void CheckSupportRoomSurvey(Room nativeRoom, Action<bool,string> check)
+    {
+        var reads = new Dictionary<IntVec3,int>();
+        bool Floor(IntVec3 cell)
+        {
+            reads.TryGetValue(cell,out int count); reads[cell] = count + 1;
+            return cell.x >= 1 && cell.x <= 8 && cell.z >= 1 && cell.z <= 18;
+        }
+        var survey = new TacticalSupportRoomSurvey(new IntVec3(2,0,2),Floor);
+        int slices = 0;
+        while (!survey.Finished && slices++ < 20)
+        {
+            int before = reads.Values.Sum(); survey.Step();
+            check(reads.Values.Sum() - before <= TacticalSupportRoomSurvey.ProbesPerSlice,
+                "A support-room survey must bound live map reads per slice.");
+        }
+        check(survey.Finished && !survey.Truncated && survey.Cells.Count == 144 && reads.Values.All(n => n == 1),
+            "A sealed room is surveyed once, including rejected perimeter cells.");
+        Room Merged(IntVec3 cell) => nativeRoom;
+        var opening = new TacticalLocalPlan { Opening=IntVec3.Zero, Inward=IntVec3.East, Depth=1 };
+        var animal = new IntVec3(40,0,40);
+        check(TacticalGrenadePolicy.FriendlyInRoom(nativeRoom,animal,false,Merged,opening)
+            && !TacticalGrenadePolicy.FriendlyInRoom(nativeRoom,animal,false,Merged,opening,survey.Cells),
+            "An outdoor animal in the merged native Room must not veto an indoor throw.");
+        check(TacticalGrenadePolicy.FriendlyInRoom(nativeRoom,new IntVec3(4,0,4),false,Merged,opening,survey.Cells)
+            && TacticalGrenadePolicy.FriendlyInRoom(nativeRoom,new IntVec3(0,0,4),true,Merged,opening,survey.Cells)
+            && !TacticalGrenadePolicy.FriendlyInRoom(nativeRoom,new IntVec3(0,0,4),false,Merged,opening,survey.Cells),
+            "The bounded footprint must still protect interior allies and adjacent door occupants.");
+        var huge = new TacticalSupportRoomSurvey(IntVec3.Zero,_ => true);
+        int hugeSlices = 0;
+        while (!huge.Finished && hugeSlices++ < 100) huge.Step();
+        check(huge.Finished && huge.Truncated && huge.Cells.Count == TacticalSupportRoomSurvey.CellLimit,
+            "An unbounded connected floor must terminate at the room cell cap.");
     }
     private static void CheckInventorySelection(XElement xml,Action<bool,string> check)
     {

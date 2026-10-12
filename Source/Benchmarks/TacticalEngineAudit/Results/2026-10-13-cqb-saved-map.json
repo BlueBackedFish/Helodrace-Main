@@ -1,0 +1,90 @@
+{
+    "fixture":  "copied-save-exterior2-cqb",
+    "originalGeometry":  true,
+    "spawn":  [
+                  125,
+                  0,
+                  151
+              ],
+    "profilerDisabled":  true,
+    "actorsDamageProtected":  true,
+    "note":  "Before reproduction already includes the committed-ingress priority fix; this comparison isolates the bounded grenade-room footprint. Entry controller behavior additionally has narrow unit coverage. Existing unrelated mod startup errors are not claimed fixed.",
+    "runs":  [
+                 {
+                     "name":  "cqb-exterior2-inner-before-20261013",
+                     "sourceSha256":  "F7FDFD7CD29CFFE883E09D28EA98EEBFA386B89C8F8373DAAF775465D36B5910",
+                     "assemblySha256":  "3690BE67368B1334DF9DF75EE170E94C73527059E62A6CE96B69CF4029BDBE29",
+                     "complete":  true,
+                     "error":  null,
+                     "ticks":  4500,
+                     "population":  12,
+                     "throws":  0,
+                     "returns":  0,
+                     "unsafeEntries":  0,
+                     "passed":  12,
+                     "entered":  12,
+                     "contactShots":  260,
+                     "nativeRoomVetoes":  null,
+                     "supportTrace":  [
+
+                                      ],
+                     "finalCommands":  [
+                                           "HD_Raid_1::HD_Raid_1_Group_1:Enter opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=False launched=False skip=UnsafeFriendly checks=48/10/10 cursor=48 ready=0/12 passed=12 entered=12 jobs=HD_NewTacticalIngress=12"
+                                       ]
+                 },
+                 {
+                     "name":  "cqb-exterior2-inner-after-20261013",
+                     "sourceSha256":  "F7FDFD7CD29CFFE883E09D28EA98EEBFA386B89C8F8373DAAF775465D36B5910",
+                     "assemblySha256":  "2350059F5F9BC9C6ABD49A9AD16051FDD39C0DDE56E3133B41727090F6D4789D",
+                     "complete":  true,
+                     "error":  null,
+                     "ticks":  4501,
+                     "population":  12,
+                     "throws":  1,
+                     "returns":  1,
+                     "unsafeEntries":  0,
+                     "passed":  12,
+                     "entered":  12,
+                     "contactShots":  231,
+                     "nativeRoomVetoes":  [
+                                              "Ostrich11675@(193, 0, 233) roof=False target=(135, 0, 151) distance=100.439",
+                                              "Vulture11674@(148, 0, 187) roof=False target=(135, 0, 151) distance=38.27532"
+                                          ],
+                     "supportTrace":  [
+                                          "887:HD_Raid_1::HD_Raid_1_Group_1:Support opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=False skip=None checks=1/1/0 cursor=1 ready=11/12 passed=0 entered=0 jobs=HD_NewTacticalThrow=1,HD_NewTacticalPost=11",
+                                          "929:HD_Raid_1::HD_Raid_1_Group_1:BlastWait opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 cursor=1 ready=12/12 passed=0 entered=0 jobs=HD_NewTacticalPost=12"
+                                      ],
+                     "finalCommands":  [
+                                           "HD_Raid_1::HD_Raid_1_Group_1:Enter opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 cursor=1 ready=0/12 passed=12 entered=12 jobs=HD_NewTacticalIngress=12"
+                                       ]
+                 },
+                 {
+                     "name":  "cqb-exterior2-inner-final-20261013",
+                     "sourceSha256":  "F7FDFD7CD29CFFE883E09D28EA98EEBFA386B89C8F8373DAAF775465D36B5910",
+                     "assemblySha256":  "EE0C49A722D7B26B916B3C329219153FD2093C554550E7C66C9B98CDDD356BFE",
+                     "complete":  true,
+                     "error":  null,
+                     "ticks":  3001,
+                     "population":  12,
+                     "throws":  1,
+                     "returns":  1,
+                     "unsafeEntries":  0,
+                     "passed":  12,
+                     "entered":  12,
+                     "contactShots":  123,
+                     "nativeRoomVetoes":  [
+                                              "Ostrich11675@(188, 0, 233) roof=False target=(135, 0, 151) distance=97.63708",
+                                              "Vulture11674@(145, 0, 185) roof=False target=(135, 0, 151) distance=35.44009"
+                                          ],
+                     "supportTrace":  [
+                                          "898:HD_Raid_1::HD_Raid_1_Group_1:Support opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=False skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=11/12 passed=0 entered=0 jobs=HD_NewTacticalThrow=1,HD_NewTacticalPost=11",
+                                          "956:HD_Raid_1::HD_Raid_1_Group_1:BlastWait opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=12/12 passed=0 entered=0 jobs=HD_NewTacticalPost=12",
+                                          "1064:HD_Raid_1::HD_Raid_1_Group_1:BlastWait opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=11/12 passed=0 entered=0 jobs=Wait_Wander=1,HD_NewTacticalPost=11",
+                                          "1079:HD_Raid_1::HD_Raid_1_Group_1:BlastWait opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=12/12 passed=0 entered=0 jobs=HD_NewTacticalPost=12"
+                                      ],
+                     "finalCommands":  [
+                                           "HD_Raid_1::HD_Raid_1_Group_1:Enter opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=0/12 passed=12 entered=12 jobs=HD_NewTacticalIngress=12"
+                                       ]
+                 }
+             ]
+}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Helodrace.ModernWar;
 using RimWorld;
 using Verse;
@@ -46,11 +47,19 @@ namespace Helodrace.Tactics
             return radius + Math.Max(0, modern?.projectileBounceTravelDistance ?? 0);
         }
 
-        // Use the live native room only for last-moment friendly safety, never
-        // as mission progress or an enemy observation. Door occupants belong
-        // to both adjacent rooms for this conservative safety check.
-        public static bool FriendlyInRoom(Room targetRoom, IntVec3 ally, bool door, Func<IntVec3, Room> roomAt, TacticalLocalPlan opening = null)
+        // A sealed support footprint avoids the outdoor/interior native Room
+        // merger. Without one, retain the conservative live-room check. Door
+        // occupants belong to both adjacent rooms. Neither is mission progress.
+        public static bool FriendlyInRoom(Room targetRoom, IntVec3 ally, bool door, Func<IntVec3, Room> roomAt,
+            TacticalLocalPlan opening = null, ISet<IntVec3> roomCells = null)
         {
+            if (roomCells != null)
+            {
+                if (roomCells.Contains(ally)) return true;
+                if (door) foreach (IntVec3 direction in GenAdj.CardinalDirections)
+                    if (roomCells.Contains(ally + direction)) return true;
+                return false;
+            }
             if (targetRoom == null) return false;
             // A destroyed wall joins the old approach and destination in the
             // native Room graph. The approach side is not the target room;

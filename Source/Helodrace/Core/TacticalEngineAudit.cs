@@ -130,6 +130,8 @@ namespace Helodrace
         public MapComponent_TacticalEngineAudit(Map map) : base(map)
         {
             GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out output);
+            savedMapAudit = GenCommandLine.TryGetCommandLineArg("hdCqbSavedMapAudit", out string savedOutput);
+            if (savedMapAudit) output = savedOutput;
             cpuWindows = output != null && GenCommandLine.TryGetCommandLineArg("hdTacticalAuditCpuWindows", out _);
             if (cpuWindows) cpuWindowPoints = new List<ProfileCpuCheckpoint>(64);
             if (output != null) TacticalAuditNativeErrors.Start(output);
@@ -143,6 +145,7 @@ namespace Helodrace
         public override void MapComponentUpdate()
         {
             if (output == null || finished) return;
+            if (savedMapAudit) { UpdateSavedMapAudit(); return; }
             try
             {
                 if (!initialized)

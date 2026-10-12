@@ -38,6 +38,7 @@ namespace Helodrace.Tactics
                         + " returned=" + command.OpeningAction?.Returned + " safe=" + command.OpeningAction?.EffectsCleared
                         + " support skip=" + command.OpeningAction?.SupportSkip
                         + " support issued=" + command.OpeningAction?.ThrowIssued
+                        + " support room=" + command.OpeningAction?.SupportRoomCells.Count + " ready=" + command.OpeningAction?.SupportRoomReady
                         + " support checks grenade/LOS/unsafe=" + command.OpeningAction?.GrenadeChecks + "/"
                             + command.OpeningAction?.TrajectoryChecks + "/" + command.OpeningAction?.UnsafeChecks
                         + " passed=" + command.Members.Count(member => member.Passed) + " entered="

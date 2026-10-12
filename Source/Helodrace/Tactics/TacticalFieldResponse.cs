@@ -579,7 +579,7 @@ namespace Helodrace.Tactics
             field.Posts[index] = best; field.Occupied.Add(best); claims[best] = command;
         }
 
-        private void EndFieldResponse(TacticalSquadCommand command, int tick)
+        private void EndFieldResponse(TacticalSquadCommand command, int tick, bool preserveOpening = false)
         {
             TacticalFieldResponse field = command.FieldResponse;
             if (field == null) return;
@@ -591,7 +591,7 @@ namespace Helodrace.Tactics
             {
                 member.Entered = member.EntryAssignmentDone = false; member.RetryTick = 0; member.LastProgressTick = tick;
             }
-            if (command.OpeningAction != null)
+            if (!preserveOpening && command.OpeningAction != null)
             {
                 command.OpeningAction = null;
                 if (command.Phase == TacticalCommandPhase.Observe || command.Phase == TacticalCommandPhase.Support)

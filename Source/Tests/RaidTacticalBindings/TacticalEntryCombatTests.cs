@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using HarmonyLib;
+using Verse.AI;
 using Helodrace.Tactics;
 using Verse;
 
@@ -53,6 +55,42 @@ internal static class TacticalEntryCombatTests
         typeof(MapComponent_TacticalCommands).GetMethod("AdvanceRoomClear", BindingFlags.Instance | BindingFlags.NonPublic)
             .Invoke(owner,new object[]{command,new List<TacticalMemberCommand>(),275});
         Check(command.Due == 280,"Quiet-window expiry must wake the command without an extra 30-tick polling delay.");
+        CheckCommittedIngress(Check,origin);
         Console.WriteLine("PASS: " + checks + " entry combat quiet-window, connected bounded cover, occupied posts and room-progress checks.");
+    }
+    private static void CheckCommittedIngress(Action<bool,string> check,IntVec3 origin)
+    {
+        var owner=new MapComponent_TacticalCommands(null);
+        var command=new TacticalSquadCommand {Phase=TacticalCommandPhase.Enter,
+            Plan=new TacticalLocalPlan {Opening=origin,Inward=IntVec3.East},
+            ContactResponse=new TacticalContactResponse {Rear=true,DirectAttack=true},
+            ContactRestoring=true,FocusFire=new TacticalFocusFire {Started=90},
+            FieldResponse=new TacticalFieldResponse {Started=80},MedicalCare=new TacticalMedicalCare(),
+            OpeningAction=new TacticalOpeningAction {Launched=true,EffectsCleared=true,Enemy=origin+IntVec3.East*3}};
+        var pawn=new Pawn {Position=origin-IntVec3.East};
+        pawn.jobs=(Pawn_JobTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_JobTracker));
+        var definition=(JobDef)RuntimeHelpers.GetUninitializedObject(typeof(JobDef));definition.defName="HD_NewTacticalIngress";
+        var job=new Job {def=definition,targetA=pawn.Position};
+        AccessTools.Field(typeof(Pawn_JobTracker),"curJob").SetValue(pawn.jobs,job);
+        pawn.jobs.curDriver=new JobDriver_TacticalIngress();
+        var member=new TacticalMemberCommand {Pawn=pawn,Job=job,Crossed=true,Passed=true};command.Members.Add(member);
+        IntVec3 contactPost=origin+IntVec3.North*5,fieldPost=origin+IntVec3.South*5;
+        command.ContactResponse.Occupied.Add(contactPost);command.FieldResponse.Occupied.Add(fieldPost);
+        var claims=(Dictionary<IntVec3,TacticalSquadCommand>)AccessTools.Field(owner.GetType(),"claims").GetValue(owner);
+        claims[contactPost]=claims[fieldPost]=claims[command.Plan.Outside]=command;
+        command.Contacts.Memory.Remember(12,origin+IntVec3.East*3,origin+IntVec3.East*3,false,true,90);
+        var action=command.OpeningAction;
+        check(TacticalEntryCombatPolicy.CommittedIngress(command),"A real portal ingress must retain execution ownership during combat.");
+        AccessTools.Method(owner.GetType(),"PrepareCommittedIngress").Invoke(owner,new object[]{command,100});
+        check(command.ContactResponse==null&&command.FocusFire==null&&command.FieldResponse==null&&!command.ContactRestoring
+            &&command.MedicalCare.CancelRequested,"Squad reaction, identification/restoration and medical overlays cannot stop queued entrants.");
+        check(member.Job==job&&pawn.CurJob==job&&member.Crossed&&member.Passed&&command.OpeningAction==action
+            &&command.Contacts.Memory.Entries.Count==1,"Removing competing controllers must preserve live ingress, actual crossing, grenade safety and observed knowledge.");
+        check(!claims.ContainsKey(contactPost)&&!claims.ContainsKey(fieldPost)&&claims.ContainsKey(command.Plan.Outside),
+            "Only obsolete reaction footprints are released, not the actual ingress mouth.");
+        command.Plan.Direct=true;
+        check(!TacticalEntryCombatPolicy.CommittedIngress(command),"Ordinary field movement remains eligible for tactical reactions.");
+        command.Plan.Direct=false;command.Phase=TacticalCommandPhase.Clear;
+        check(!TacticalEntryCombatPolicy.CommittedIngress(command),"After all entrants arrive, normal combat/room responses resume.");
     }
 }

@@ -78,6 +78,9 @@ internal static class TacticalContactTests
         if (Paused()) throw new Exception("A queued contact must not block movement before grenade effects clear.");
         a.OpeningAction.EffectsCleared = true;
         if (!Paused()) throw new Exception("After explosive safety completes, the queued contact pause must be available again.");
+        a.Phase=TacticalCommandPhase.Enter;a.Plan=new TacticalLocalPlan();
+        if(Paused())throw new Exception("Combat must not stop admission of security/arrival movement during committed portal ingress.");
+        a.Phase=TacticalCommandPhase.Stack;a.Plan=null;
         a.OpeningAction = null;
         postJob.playerForced = true;
         if (Paused()) throw new Exception("Contact must not block a player-forced movement job.");

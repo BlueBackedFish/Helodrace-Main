@@ -42,6 +42,7 @@ namespace Helodrace.Tactics
         internal bool StackMovementPaused(Pawn pawn, Job job) => !job.playerForced
             && byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
             && (TacticalExplosiveEvasionPolicy.Pending(pawn, command) || command.ContactResponse != null
+                && !TacticalEntryCombatPolicy.CommittedIngress(command)
                 && command.ChargeAction == null
                 && !(command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared));
         // Actual adjacent damage is also a short melee-danger sample. It never

@@ -20,6 +20,8 @@ namespace Helodrace.Tactics
     {
         public const int QuietTicks = 90, CandidateLimit = 8, CoverCells = 13;
         public static bool ArrivalPhase(TacticalCommandPhase phase) => phase == TacticalCommandPhase.Enter || phase == TacticalCommandPhase.Clear;
+        public static bool CommittedIngress(TacticalSquadCommand command) => !command.Defensive
+            && command.Phase == TacticalCommandPhase.Enter && command.Plan != null && !command.Plan.Direct;
         public static bool Engaged(int until, int tick) => tick < until;
 
         // A connected diamond of at most 13 floor cells. No pathfinder or Room
@@ -65,6 +67,33 @@ namespace Helodrace.Tactics
 
     public sealed partial class MapComponent_TacticalCommands
     {
+        private bool AdvanceCommittedIngress(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
+        {
+            // Root reactions must not suspend the scheduler of an entering
+            // HIGH child. The child uses the same exclusive execution below.
+            bool children = command.CqbTeams.Exists(TacticalEntryCombatPolicy.CommittedIngress);
+            if (!children && !TacticalEntryCombatPolicy.CommittedIngress(command)) return false;
+            PrepareCommittedIngress(command,tick);
+            if (children) { AdvanceHighCqb(command,active,tick); return true; }
+            AdvanceEntryPosts(command,active,tick);
+            AdvanceAssault(command,active,tick);
+            return true;
+        }
+        private void PrepareCommittedIngress(TacticalSquadCommand command, int tick)
+        {
+            // Keep contact knowledge and actual crossing progress. Only remove
+            // competing squad controllers; owned ingress jobs continue intact.
+            if (command.ContactResponse != null)
+            {
+                foreach (IntVec3 cell in command.ContactResponse.Occupied)
+                    if (!OriginalClaim(command,cell) && claims.TryGetValue(cell,out var owner) && owner == command) claims.Remove(cell);
+                command.ContactResponse = null; ContactResumes++;
+            }
+            command.ContactRestoring = false;
+            FinishFocusPause(command,tick);
+            if (command.FieldResponse != null) EndFieldResponse(command,tick,preserveOpening:true);
+            if (command.MedicalCare != null) command.MedicalCare.CancelRequested = true;
+        }
         internal void NotifyEntryDamage(Pawn pawn, Job job, Pawn attacker)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)

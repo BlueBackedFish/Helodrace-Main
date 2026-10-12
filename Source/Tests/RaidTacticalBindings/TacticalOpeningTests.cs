@@ -131,6 +131,7 @@ internal static class TacticalOpeningTests
         var owner=new MapComponent_TacticalCommands(null);
         var command=new TacticalSquadCommand {Phase=TacticalCommandPhase.Support,Plan=new TacticalLocalPlan(),
             OpeningAction=new TacticalOpeningAction {ObservationDone=true,RoomCells=17,
+                SupportRoomReady=true,
                 SupportTargets=new List<IntVec3>{new IntVec3(10,0,10),new IntVec3(11,0,10)}}};
         // Forced jobs must never be replaced. They also provide a genuine held
         // formation while probing deferred selection without a Unity map.

@@ -16,10 +16,12 @@ namespace Helodrace
         {
             // Hidden audits must keep pumping startup before a map exists.
             // Normal player sessions retain their own background preference.
-            if (GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _))
+            if (GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _)
+                || GenCommandLine.TryGetCommandLineArg("hdCqbSavedMapAudit", out _))
             {
                 Prefs.RunInBackground = true;
                 Application.runInBackground = true;
+                if (GenCommandLine.TryGetCommandLineArg("hdCqbSavedMapAudit", out _)) Prefs.DevMode = true;
             }
         }
     }
@@ -27,7 +29,8 @@ namespace Helodrace
     [HarmonyPatch(typeof(Thing), nameof(Thing.TakeDamage))]
     internal static class Patch_RaidRuntimeAudit_Owner
     {
-        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _);
+        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _)
+            || GenCommandLine.TryGetCommandLineArg("hdCqbSavedMapAudit", out _);
         private static bool Prefix(Thing __instance, ref DamageWorker.DamageResult __result)
         {
             if (__instance != TacticalAuditProtection.ProtectedOwner
@@ -41,7 +44,8 @@ namespace Helodrace
     {
         // The installed game's ordinary spawner does not consult noAnimals.
         // Install only in the isolated audit process, equally in both engines.
-        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _);
+        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdTacticalEngineAudit", out _)
+            || GenCommandLine.TryGetCommandLineArg("hdCqbSavedMapAudit", out _);
         private static bool Prefix() => false;
     }
 }

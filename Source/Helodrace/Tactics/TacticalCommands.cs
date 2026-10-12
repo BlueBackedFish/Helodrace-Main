@@ -360,6 +360,7 @@ namespace Helodrace.Tactics
             }
             if (command.CqbParent != null)
             {
+                if (AdvanceCommittedIngress(command, active, tick)) return;
                 if (RespondToContacts(command, active, tick) || RestoreContactPosts(command, active, tick)) return;
                 if (RefreshSharedPassage(command, tick)) return;
                 AdvanceEntryPosts(command, active, tick);
@@ -381,6 +382,7 @@ namespace Helodrace.Tactics
             }
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
+            if (AdvanceCommittedIngress(command, active, tick)) return;
             if (command.MedicalCare != null && AdvanceMedicalCare(command, active, tick)) return;
             if (command.BagRecovery != null && AdvanceMedicalBagRecovery(command, active, tick)) return;
             if (AdvanceFocusFire(command, active, tick)) return;

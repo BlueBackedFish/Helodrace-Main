@@ -45,7 +45,9 @@ namespace Helodrace
         private System.Collections.Generic.List<IntVec3> savedStartPositions;
         public override void ExposeData()
         {
-            if (output == null) return;
+            // Saved-map replay starts a fresh fixture after native loading;
+            // it must not deserialize dormant audit data from the user's save.
+            if (output == null || savedMapAudit) return;
             GetDirectlyHeldThings().ExposeData();
             string state = null;
             if (Scribe.mode == LoadSaveMode.Saving)

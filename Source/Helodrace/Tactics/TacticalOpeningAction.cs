@@ -6,7 +6,7 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
-    public enum TacticalSupportSkip { None, Policy, NoTarget, NoGrenade, NoThrowPosition, UnsafeFriendly, Formation, Budget, Interrupted }
+    public enum TacticalSupportSkip { None, Policy, NoTarget, NoGrenade, NoThrowPosition, UnsafeFriendly, Formation, Budget, Interrupted, RoomSnapshot }
     // One small action record per opening. No live room graph or enemy tracking.
     public sealed partial class TacticalOpeningAction
     {
@@ -18,6 +18,9 @@ namespace Helodrace.Tactics
         public int RoomCells;
         public int SupportCursor;
         public int GrenadeChecks, TrajectoryChecks, UnsafeChecks;
+        public HashSet<IntVec3> SupportRoomCells = new HashSet<IntVec3>();
+        public bool SupportRoomReady, SupportRoomTruncated;
+        internal TacticalSupportRoomSurvey SupportRoomSurvey;
         public List<IntVec3> SupportTargets = new List<IntVec3>(9);
         public TacticalSupportSkip SupportSkip;
         public Projectile Projectile;
@@ -51,6 +54,8 @@ namespace Helodrace.Tactics
             if (!command.OpeningAction.ThrowIssued)
             {
                 command.OpeningAction.SupportTargets.Clear(); command.OpeningAction.SupportCursor = 0;
+                command.OpeningAction.SupportRoomCells.Clear(); command.OpeningAction.SupportRoomReady = false;
+                command.OpeningAction.SupportRoomSurvey = null; command.OpeningAction.SupportRoomTruncated = false;
                 command.OpeningAction.Target = IntVec3.Invalid;
                 command.OpeningAction.GrenadeChecks = command.OpeningAction.TrajectoryChecks = command.OpeningAction.UnsafeChecks = 0;
                 if (command.Phase == TacticalCommandPhase.Support) command.OpeningAction.SupportStarted = tick;
@@ -308,6 +313,8 @@ namespace Helodrace.Tactics
                 try
                 {
                     if (action.SupportSkip == TacticalSupportSkip.Budget) action.SupportSkip = TacticalSupportSkip.None;
+                    if (!PrepareSupportRoom(command))
+                    { action.SupportSkip = TacticalSupportSkip.RoomSnapshot; command.Due = tick + 1; return; }
                     int passSize = command.Members.Count * action.SupportTargets.Count;
                     for (int tested = 0; tested < TacticalOpeningPolicy.ThrowCandidatesPerSlice && action.SupportCursor < passSize * 2; tested++)
                     {
@@ -382,6 +389,33 @@ namespace Helodrace.Tactics
             command.OpeningAction.SupportSkip = reason;
             command.OpeningAction.Target = IntVec3.Invalid;
             command.Phase = TacticalCommandPhase.Enter;
+        }
+
+        private bool PrepareSupportRoom(TacticalSquadCommand command)
+        {
+            TacticalOpeningAction action = command.OpeningAction;
+            if (action.SupportRoomReady) return true;
+            if (action.Outdoors) { action.SupportRoomReady = true; return true; }
+            if (action.SupportRoomSurvey == null)
+            {
+                TacticalLocalPlan plan = command.Plan;
+                IntVec3 seed = action.SupportTargets[0];
+                if (seed.GetEdifice(map) is Building_Door) seed += plan.Inward;
+                bool roofed = seed.Roofed(map);
+                bool Floor(IntVec3 cell)
+                {
+                    if (!cell.InBounds(map) || !cell.Walkable(map) || cell.Roofed(map) != roofed
+                        || cell.GetEdifice(map) is Building_Door) return false;
+                    for (int layer = 0; layer < plan.Depth; layer++) if (cell == plan.Opening + plan.Inward * layer) return false;
+                    return true;
+                }
+                action.SupportRoomSurvey = new TacticalSupportRoomSurvey(seed,Floor);
+            }
+            if (!action.SupportRoomSurvey.Step()) return false;
+            action.SupportRoomCells = action.SupportRoomSurvey.Cells;
+            action.SupportRoomTruncated = action.SupportRoomSurvey.Truncated;
+            action.SupportRoomReady = true; action.SupportRoomSurvey = null;
+            return true;
         }
 
         private bool SupportEffectsPending(TacticalSquadCommand command, int tick)
@@ -462,6 +496,8 @@ namespace Helodrace.Tactics
             TacticalSquadCommand command = null;
             TacticalLocalPlan opening = owner != null && owner.byPawn.TryGetValue(pawn, out command)
                 && command.OpeningAction?.Target == target ? command.Plan : null;
+            ISet<IntVec3> roomCells = opening != null && command.OpeningAction.SupportRoomReady
+                && command.OpeningAction.SupportRoomCells.Count > 0 ? command.OpeningAction.SupportRoomCells : null;
             IntVec3 selfPosition = position;
             if (opening != null)
             {
@@ -482,7 +518,7 @@ namespace Helodrace.Tactics
                 // explosion-time position vetoes otherwise safe CQB throws.
                 IntVec3 cell = ally == pawn ? selfPosition : ally.Position;
                 if (roofed && TacticalGrenadePolicy.FriendlyInRoom(targetRoom, cell,
-                    cell.GetEdifice(pawn.Map) is Building_Door, RoomAt, opening)) return false;
+                    cell.GetEdifice(pawn.Map) is Building_Door, RoomAt, opening, roomCells)) return false;
                 if (cell.DistanceToSquared(target) <= radius * radius
                     && (cell.DistanceTo(target) <= scatter + .75f || throughCover
                         || GenSight.LineOfSight(target, cell, pawn.Map, true))) return false;
@@ -496,7 +532,7 @@ namespace Helodrace.Tactics
                         || other.Members.Exists(m => m.Pawn == pawn) || other.RaidLord?.faction == null
                         || other.RaidLord.faction.HostileTo(pawn.Faction)) continue;
                     foreach (var cell in other.Plan.Positions)
-                        if (roofed && RoomAt(cell) == targetRoom
+                        if (roofed && TacticalGrenadePolicy.FriendlyInRoom(targetRoom,cell,false,RoomAt,opening,roomCells)
                             || cell.DistanceToSquared(target) <= radius * radius && GenSight.LineOfSight(target, cell, pawn.Map, true)) return false;
                 }
             return true;
