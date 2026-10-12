@@ -49,16 +49,20 @@ internal static class TacticalPlanPreparationTests
         AccessTools.Field(work.GetType(), "Candidate").SetValue(work, candidate);
         var stage = AccessTools.Field(work.GetType(), "Stage");
         stage.SetValue(work, Enum.Parse(stage.FieldType, "Allocate"));
-        var finish = AccessTools.Method(typeof(MapComponent_TacticalCommands), "FinishPreparation");
-        object[] arguments = {command, active, (Func<IntVec3,bool>)(_=>false),null,TacticalPlanFailure.None};
+        var finish = AccessTools.Method(typeof(MapComponent_TacticalCommands), "AdvancePreparation");
+        object[] arguments = {command, active, (Func<IntVec3,bool>)(_=>false),work,false,null,TacticalPlanFailure.None};
         var allocationOwner = new MapComponent_TacticalCommands(null);
-        for (int i=0; i<8 && stage.GetValue(work).ToString() != "Commit"; i++)
-            if ((bool)finish.Invoke(allocationOwner, arguments) || command.Plan != null || arguments[3] != null)
+        int allocationSlices = 0;
+        for (; allocationSlices<8 && stage.GetValue(work).ToString() != "Commit"; allocationSlices++)
+            if ((bool)finish.Invoke(allocationOwner, arguments) || command.Plan != null || arguments[5] != null)
                 throw new Exception("Incomplete seat assignment must stay private between slices.");
-        if (candidate.Positions[1] != new IntVec3(6,0,4) || stage.GetValue(work).ToString() != "Commit")
+        if (candidate.Positions[1] != new IntVec3(6,0,4) || stage.GetValue(work).ToString() != "Commit" || allocationSlices != 2)
             throw new Exception("Role-based allocation has its own slice, and movement cannot see the plan before final live-claim validation.");
-        AccessTools.Method(typeof(TacticalSquadCommand), "CancelPreparation").Invoke(command, null);
-        if (command.Preparation != null || command.Plan != null) throw new Exception("Cancellation must discard uncommitted seats without fabricating entry.");
+        candidate.Positions.Clear();
+        object[] finalArguments = {command,active,(Func<IntVec3,bool>)(_=>false),null,TacticalPlanFailure.None};
+        if (!(bool)AccessTools.Method(allocationOwner.GetType(), "FinishPreparation").Invoke(allocationOwner, finalArguments)
+            || (TacticalPlanFailure)finalArguments[4] != TacticalPlanFailure.Busy || command.Preparation != null || command.Plan != null)
+            throw new Exception("Changed preview seats must fail final validation and discard the private result without fabricated entry.");
         Console.WriteLine("PASS: bounded lazy planning slices, cancellation, roster/goal/phase invalidation, separate role allocation and no partial publication.");
     }
 }

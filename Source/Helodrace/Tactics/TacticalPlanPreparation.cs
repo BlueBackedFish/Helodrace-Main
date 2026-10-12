@@ -34,17 +34,27 @@ namespace Helodrace.Tactics
         private readonly IntVec3 goal;
         private readonly TacticalLocalPlan sourcePlan;
         private readonly Pawn[] members;
-        private readonly TacticalCommandPhase phase;
+        private TacticalCommandPhase phase;
         private readonly string agreement;
         public TacticalPlanPreparation(TacticalSquadCommand command, IList<TacticalMemberCommand> active, IntVec3 goal)
         { this.goal = goal; sourcePlan = command.Plan; phase = command.Phase; members = active.Select(m => m.Pawn).ToArray();
             agreement = command.Link.Cooperation.Active ? command.Link.Cooperation.Agenda.Id : null; }
         public bool Matches(TacticalSquadCommand command, IList<TacticalMemberCommand> active, IntVec3 destination)
         {
-            if (goal != destination || sourcePlan != command.Plan || phase != command.Phase || members.Length != active.Count) return false;
+            return phase == command.Phase && MatchesSource(command, active, destination);
+        }
+        private bool MatchesSource(TacticalSquadCommand command, IList<TacticalMemberCommand> active, IntVec3 destination)
+        {
+            if (goal != destination || sourcePlan != command.Plan || members.Length != active.Count) return false;
             if (agreement != (command.Link.Cooperation.Active ? command.Link.Cooperation.Agenda.Id : null)) return false;
             for (int i = 0; i < members.Length; i++) if (members[i] != active[i].Pawn) return false;
             return true;
+        }
+        internal bool AdoptEntryPreview(TacticalSquadCommand command, IList<TacticalMemberCommand> active, IntVec3 destination)
+        {
+            if (phase != TacticalCommandPhase.Enter || command.Phase != TacticalCommandPhase.Clear
+                || !MatchesSource(command, active, destination)) return false;
+            phase = command.Phase; return true;
         }
         public void Dispose() { Search?.Dispose(); Search = null; }
     }
@@ -101,6 +111,14 @@ namespace Helodrace.Tactics
             Func<IntVec3, bool> claimed, out TacticalLocalPlan plan, out TacticalPlanFailure failure)
         {
             TacticalPlanPreparation work = command.Preparation;
+            bool done = AdvancePreparation(command, active, claimed, work, true, out plan, out failure);
+            if (done) command.CancelPreparation();
+            return done;
+        }
+        private bool AdvancePreparation(TacticalSquadCommand command, List<TacticalMemberCommand> active,
+            Func<IntVec3, bool> claimed, TacticalPlanPreparation work, bool commit,
+            out TacticalLocalPlan plan, out TacticalPlanFailure failure)
+        {
             plan = null; failure = work.Failure;
             if (work.Stage == TacticalPreparationStage.Search)
             {
@@ -111,7 +129,7 @@ namespace Helodrace.Tactics
                 if (work.Candidate != null) return false;
             }
             if (work.Candidate == null)
-            { failure = work.Failure; command.CancelPreparation(); return true; }
+            { failure = work.Failure; return true; }
             if (work.Stage == TacticalPreparationStage.Allocate)
             {
                 if (!work.Candidate.Direct && work.Candidate.EntryOrder.Count != command.Members.Count)
@@ -120,14 +138,15 @@ namespace Helodrace.Tactics
                     {
                         work.Allocation = new TacticalEntryAllocator(work.Candidate, TacticalEntryOrder.For(command, active, work.Candidate),
                             work.Candidate.ReportedPassage ? (Func<IntVec3,bool>)null : cell => !GenSight.LineOfSight(work.Candidate.Opening, cell, map, true));
-                        return false;
                     }
                     if (!work.Allocation.Step()) return false;
                     if (!work.Allocation.Valid)
-                    { failure = work.Failure | TacticalPlanFailure.Inside; command.CancelPreparation(); return true; }
+                    { failure = work.Failure | TacticalPlanFailure.Inside; return true; }
                 }
-                work.Stage = TacticalPreparationStage.Commit; return false;
+                work.Stage = TacticalPreparationStage.Commit;
             }
+            // A preview may compute seats, but only Clear can validate/publish.
+            if (!commit) return false;
             TacticalLocalPlan candidate = work.Candidate;
             bool Free(IntVec3 cell) => TacticalFurniturePolicy.FreeIgnoring(map, cell, claimed, candidate.PendingFurniture);
             // Other squads can reserve space while this work is suspended.
@@ -137,18 +156,18 @@ namespace Helodrace.Tactics
                     || Enumerable.Range(0, candidate.Depth).Any(i => !candidate.ReportedPassage
                         && leases.TryGetValue(candidate.Opening + candidate.Inward * i, out TacticalSquadCommand owner) && owner != command)
                     || !candidate.ReportedPassage && candidate.EntryLane.IsValid && !Free(candidate.EntryLane)))
-            { failure = work.Failure | TacticalPlanFailure.Busy; command.CancelPreparation(); return true; }
+            { failure = work.Failure | TacticalPlanFailure.Busy; return true; }
             if (!candidate.Direct)
             {
                 if (candidate.ReportedPassage && !TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, candidate))
-                { failure = TacticalPlanFailure.Unsecured; command.CancelPreparation(); return true; }
+                { failure = TacticalPlanFailure.Unsecured; return true; }
                 candidate.Barrier = TacticalLocalPlanner.NextBarrier(map, candidate);
                 candidate.ExistingOpening = OpeningUsable(candidate);
                 if (candidate.ReportedPassage && !candidate.ExistingOpening
                     || !candidate.ExistingOpening && !active.Any(m => CanBreachPlan(m.Pawn, candidate)))
-                { failure = work.Failure | TacticalPlanFailure.Obstructed; command.CancelPreparation(); return true; }
+                { failure = work.Failure | TacticalPlanFailure.Obstructed; return true; }
             }
-            plan = candidate; failure = TacticalPlanFailure.None; command.CancelPreparation(); return true;
+            plan = candidate; failure = TacticalPlanFailure.None; return true;
         }
     }
 }

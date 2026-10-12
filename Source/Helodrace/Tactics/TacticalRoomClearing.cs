@@ -402,7 +402,6 @@ namespace Helodrace.Tactics
                 var preparation = command.Preparation = new TacticalPlanPreparation(command, active, frontier.Inside);
                 preparation.Search = PlanRoomFrontier(command, active, frontier);
                 preparation.Stage = TacticalPreparationStage.Search;
-                return false;
             }
             bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
             if (!FinishPreparation(command, active, Claimed, out plan, out TacticalPlanFailure failure)) return false;

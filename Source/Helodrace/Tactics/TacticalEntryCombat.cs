@@ -18,7 +18,7 @@ namespace Helodrace.Tactics
 
     public static class TacticalEntryCombatPolicy
     {
-        public const int QuietTicks = 180, CandidateLimit = 8, CoverCells = 13;
+        public const int QuietTicks = 90, CandidateLimit = 8, CoverCells = 13;
         public static bool ArrivalPhase(TacticalCommandPhase phase) => phase == TacticalCommandPhase.Enter || phase == TacticalCommandPhase.Clear;
         public static bool Engaged(int until, int tick) => tick < until;
 

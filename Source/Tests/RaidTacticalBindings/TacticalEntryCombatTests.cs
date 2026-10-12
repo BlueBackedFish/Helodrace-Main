@@ -30,6 +30,10 @@ internal static class TacticalEntryCombatTests
             "A tiny room with no spare connected cell must keep its existing usable post.");
         Check(TacticalEntryCombatPolicy.Engaged(280, 279) && !TacticalEntryCombatPolicy.Engaged(280, 280)
             && !TacticalEntryCombatPolicy.Engaged(0, 0), "The quiet window must expire, including a command that never engaged.");
+        Check(TacticalEntryCombatPolicy.QuietTicks == 90
+            && TacticalEntryCombatPolicy.Engaged(100 + TacticalEntryCombatPolicy.QuietTicks,189)
+            && !TacticalEntryCombatPolicy.Engaged(100 + TacticalEntryCombatPolicy.QuietTicks,190),
+            "The requested quiet interval must be exactly 90 ticks after the last evidence, without an idle-room delay.");
         Check(TacticalEntryCombatPolicy.ArrivalPhase(TacticalCommandPhase.Enter)
             && TacticalEntryCombatPolicy.ArrivalPhase(TacticalCommandPhase.Clear)
             && !TacticalEntryCombatPolicy.ArrivalPhase(TacticalCommandPhase.Stack)
