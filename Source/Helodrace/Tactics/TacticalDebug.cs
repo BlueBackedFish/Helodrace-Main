@@ -36,6 +36,7 @@ namespace Helodrace.Tactics
                             : command.ChargeAction.Charge == null ? "install" : command.ChargeAction.Withdrawing ? "trigger wait" : "withdraw")
                         + " C4 deadline=" + command.ChargeAction?.Deadline + " hammer fallback=" + command.Plan?.HammerFallback
                         + " returned=" + command.OpeningAction?.Returned + " safe=" + command.OpeningAction?.EffectsCleared
+                        + " support skip=" + command.OpeningAction?.SupportSkip
                         + " passed=" + command.Members.Count(member => member.Passed) + " entered="
                         + command.Members.Count(member => member.Entered)
                         + " outside guards=" + command.Plan?.RetainedOutside.Count

@@ -199,6 +199,8 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref EnemyId, "enemyId");
             Scribe_Values.Look(ref Started, "started");
             Scribe_Values.Look(ref SupportStarted, "supportStarted");
+            Scribe_Values.Look(ref SupportCursor, "supportCursor");
+            Scribe_Values.Look(ref SupportSkip, "supportSkip");
             Scribe_Values.Look(ref SettledAt, "settledAt");
             Scribe_Values.Look(ref ObservationDone, "observationDone");
             Scribe_Values.Look(ref ObservationIssued, "observationIssued");

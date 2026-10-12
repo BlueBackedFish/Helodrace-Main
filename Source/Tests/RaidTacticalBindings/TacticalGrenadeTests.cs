@@ -80,6 +80,32 @@ internal static class TacticalGrenadeTests
         Check(!TacticalGrenadePolicy.FriendlyInRoom(room, IntVec3.Zero, false, RoomAt)
             && !TacticalGrenadePolicy.FriendlyInRoom(null, IntVec3.Zero, true, RoomAt),
             "A separate room or unavailable room identity must not match by null equality.");
+        foreach (IntVec3 forward in GenAdj.CardinalDirections)
+        {
+            var opening = new TacticalLocalPlan {Opening=IntVec3.Zero,Inward=forward,Depth=2};
+            IntVec3 tangent=new IntVec3(-forward.z,0,forward.x);
+            Room Merged(IntVec3 cell)=>room;
+            Check(!TacticalGrenadePolicy.FriendlyInRoom(room,-forward+tangent*2,false,Merged,opening),
+                "A wall-merged approach-side stack is not an ally inside the target room.");
+            Check(TacticalGrenadePolicy.FriendlyInRoom(room,forward*3+tangent*2,false,Merged,opening)
+                &&TacticalGrenadePolicy.FriendlyInRoom(room,forward,true,Merged,opening),
+                "Far-side allies and channel/door occupants remain protected after room merging.");
+        }
+        var greatWar=XDocument.Load(Path.Combine(root,"Defs/GreatWar/Items/Grenades_GreatWar.xml")).Root;
+        foreach(string name in new[]{"HD_Projectile_MKII","HD_Projectile_MKIII"})
+        {
+            var xml=greatWar.Elements().Single(d=>(string)d.Element("defName")==name);
+            var shockXml=xml.Element("modExtensions").Elements("li").Single(d=>(string)d.Attribute("Class")==typeof(FlashbangProjectileExtension).FullName);
+            float Value(string field)=>float.Parse((string)shockXml.Element(field),System.Globalization.CultureInfo.InvariantCulture);
+            var shock=new FlashbangProjectileExtension {severityAtCenter=Value("severityAtCenter"),blockedPathFactor=Value("blockedPathFactor"),
+                smallRoomFactor=Value("smallRoomFactor"),largeRoomFactor=Value("largeRoomFactor"),outdoorFactor=Value("outdoorFactor"),
+                stunThreshold=Value("stunThreshold"),damageThreshold=shockXml.Element("damageThreshold")==null?float.MaxValue:Value("damageThreshold")};
+            var definition=Definition(name);definition.modExtensions.Add(shock);
+            Check(!TacticalGrenadePolicy.DangerousThroughCover(definition),"Weak blocked shock must not veto wall-covered LOW throws: "+name);
+            shock.stunThreshold=.01f;
+            Check(TacticalGrenadePolicy.DangerousThroughCover(definition),"A custom through-wall shock strong enough to stun must remain unsafe.");
+        }
+        Check(TacticalGrenadePolicy.DangerousThroughCover(gasProjectile),"Harmful gas must remain unsafe through cover.");
         Console.WriteLine($"PASS: {checks} grenade issuance, extended hazard radius, friendly room and adjacent door safety checks.");
     }
 }

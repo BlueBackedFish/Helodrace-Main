@@ -26,14 +26,37 @@ namespace Helodrace.Tactics
         // Use the live native room only for last-moment friendly safety, never
         // as mission progress or an enemy observation. Door occupants belong
         // to both adjacent rooms for this conservative safety check.
-        public static bool FriendlyInRoom(Room targetRoom, IntVec3 ally, bool door, Func<IntVec3, Room> roomAt)
+        public static bool FriendlyInRoom(Room targetRoom, IntVec3 ally, bool door, Func<IntVec3, Room> roomAt, TacticalLocalPlan opening = null)
         {
             if (targetRoom == null) return false;
+            // A destroyed wall joins the old approach and destination in the
+            // native Room graph. The approach side is not the target room;
+            // it still receives the separate physical hazard/LOS check.
+            if (opening != null && !opening.Direct && roomAt(opening.Outside) == targetRoom)
+            {
+                IntVec3 delta = ally - opening.Opening;
+                if (delta.x * opening.Inward.x + delta.z * opening.Inward.z < 0) return false;
+            }
             if (roomAt(ally) == targetRoom) return true;
             if (door)
                 foreach (IntVec3 direction in GenAdj.CardinalDirections)
                     if (roomAt(ally + direction) == targetRoom) return true;
             return false;
+        }
+
+        public static bool DangerousThroughCover(ThingDef projectile)
+        {
+            if (projectile?.GetModExtension<ModernGrenadeProjectileExtension>()?.gasDef != null
+                || projectile?.GetModExtension<HelodGasOnExplosionExtension>()?.gasDef != null) return true;
+            var flash = projectile?.GetModExtension<FlashbangProjectileExtension>();
+            if (flash == null) return false;
+            float environment = Math.Max(Math.Max(0, flash.outdoorFactor), Math.Max(flash.smallRoomFactor, flash.largeRoomFactor));
+            float intensity = Math.Max(0, Math.Max(flash.severityAtCenter, flash.severityAtEdge)) * Math.Max(0, environment)
+                * Math.Max(0, Math.Min(1, flash.blockedPathFactor));
+            // MK II/III's small audible shock through a wall is not a stun or
+            // intensity injury. Do not equate any nonzero attenuation to damage.
+            return intensity > 0 && (intensity >= Math.Max(0, flash.stunThreshold)
+                || flash.intensityDamageDef != null && intensity >= Math.Max(0, flash.damageThreshold));
         }
 
         // Tactical automatic selection only. Manual inventory throws and other

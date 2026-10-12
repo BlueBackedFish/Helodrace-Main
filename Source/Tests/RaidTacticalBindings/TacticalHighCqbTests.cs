@@ -194,7 +194,8 @@ internal static class TacticalHighCqbTests
         var team=new TacticalSquadCommand {Id="root::cqb:1",CqbTeam=1,CqbEntered=true,Phase=TacticalCommandPhase.BlastWait,
             CqbTask=new TacticalRoomFrontier {Opening=new IntVec3(4,0,4),Inward=IntVec3.North},
             CqbFollow=true,CqbFollowSeen=4,CqbFollowGoal=new IntVec3(4,0,6),
-            OpeningAction=new TacticalOpeningAction {Launched=true,Returned=false,Target=new IntVec3(4,0,7),KnownHelodPrisoner=true}};
+            OpeningAction=new TacticalOpeningAction {Launched=true,Returned=false,Target=new IntVec3(4,0,7),KnownHelodPrisoner=true,
+                SupportCursor=3,SupportSkip=TacticalSupportSkip.UnsafeFriendly}};
         AccessTools.Field(typeof(TacticalSquadCommand),"CqbRoster").SetValue(team,new List<int>{0}); root.CqbTeams.Add(team);
         string path=Path.Combine(Path.GetTempPath(),"hd-cqb-"+Guid.NewGuid()+".xml");
         try
@@ -208,6 +209,8 @@ internal static class TacticalHighCqbTests
             check(restored.CqbPassageSequence==5 && child.CqbFollow && child.CqbFollowSeen==4
                 && child.CqbFollowGoal==new IntVec3(4,0,6) && child.OpeningAction.KnownHelodPrisoner,
                 "Save must retain ordered cleared-passage follow and actually observed prisoner knowledge.");
+            check(child.OpeningAction.SupportCursor==3&&child.OpeningAction.SupportSkip==TacticalSupportSkip.UnsafeFriendly,
+                "Save must retain bounded support selection progress and skip diagnostics without resetting launched safety.");
             check(restored.Members.Count==1 && child.Members.Count==0
                 && ((List<int>)AccessTools.Field(typeof(TacticalSquadCommand),"CqbRoster").GetValue(child)).Single()==0,
                 "Child save must store root member indices rather than duplicate pawn/job records.");

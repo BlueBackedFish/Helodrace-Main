@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Helodrace.ModernWar;
 using RimWorld;
 using Verse;
 using Verse.AI;
 
 namespace Helodrace.Tactics
 {
+    public enum TacticalSupportSkip { None, Policy, NoTarget, NoGrenade, NoThrowPosition, UnsafeFriendly, Formation, Budget, Interrupted }
     // One small action record per opening. No live room graph or enemy tracking.
     public sealed partial class TacticalOpeningAction
     {
@@ -16,6 +16,8 @@ namespace Helodrace.Tactics
         public int EnemyId = -1, Started, SupportStarted, SettledAt = -1;
         public bool ObservationDone, ObservationIssued, ThrowIssued, Launched, Returned, EffectsCleared, EntryAdjusted, Outdoors, KnownHelodPrisoner;
         public int RoomCells;
+        public int SupportCursor;
+        public TacticalSupportSkip SupportSkip;
         public Projectile Projectile;
         public ThingDef ProjectileDef;
     }
@@ -23,6 +25,18 @@ namespace Helodrace.Tactics
     public static class TacticalOpeningPolicy
     {
         public const int ObservationTicks = 90, PrepareTicks = 30, ReleaseTicks = 18, SettleTicks = 30;
+        public const int ThrowCandidatesPerSlice = 4;
+        public static IntVec3 FindThrowPosition(TacticalLocalPlan plan, IntVec3 post,
+            Func<IntVec3,bool> free, Func<IntVec3,bool> canThrow)
+        {
+            if (free(post) && canThrow(post)) return post;
+            IntVec3 lateral = new IntVec3(-plan.Inward.z,0,plan.Inward.x);
+            int side = plan.StackSide < 0 ? -1 : 1;
+            IntVec3 spot = plan.Outside + lateral * side;
+            if (free(spot) && canThrow(spot)) return spot;
+            spot = plan.Outside - lateral * side;
+            return free(spot) && canThrow(spot) ? spot : IntVec3.Invalid;
+        }
         public static bool WantsSupport(bool outdoors, int cells, bool contact) => outdoors || contact || cells > 16;
         public static bool FarEnough(IntVec3 opening, IntVec3 target) => opening.DistanceToSquared(target) >= 4;
         public static bool EffectsPending(bool live, bool explosion, bool returned, int settledAt, int now) =>
@@ -183,40 +197,67 @@ namespace Helodrace.Tactics
                     // A preparation interrupted before launch simply returns
                     // to the held formation; never keep retrying every tick.
                     if (action.Thrower?.jobs.curDriver is JobDriver_TacticalThrow preparing && !preparing.AtPost) return;
-                    command.Phase = TacticalCommandPhase.Enter; return;
+                    action.SupportSkip = TacticalSupportSkip.Interrupted; command.Phase = TacticalCommandPhase.Enter; return;
                 }
                 bool high = TacticalHighCqbPolicy.High(command);
                 bool combat = TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick);
                 if (!TacticalCqbDoctrine.Support(high, action.Outdoors, action.RoomCells, action.Enemy.IsValid, action.KnownHelodPrisoner, combat))
-                { command.Phase = TacticalCommandPhase.Enter; return; }
+                { action.SupportSkip = TacticalSupportSkip.Policy; command.Phase = TacticalCommandPhase.Enter; return; }
                 IntVec3 target = action.Target.IsValid ? action.Target : ChooseSupportTarget(plan, action);
-                if (!target.IsValid) { command.Phase = TacticalCommandPhase.Enter; return; }
+                if (!target.IsValid) { action.SupportSkip = TacticalSupportSkip.NoTarget; command.Phase = TacticalCommandPhase.Enter; return; }
                 action.Target = target;
                 if (active.Exists(member => !AtPost(member)))
                 {
+                    action.SupportSkip = TacticalSupportSkip.Formation;
                     if (tick - action.SupportStarted > 600) command.Phase = TacticalCommandPhase.Enter;
                     return;
                 }
                 bool lethal = TacticalCqbDoctrine.Lethal(high, action.Enemy.IsValid, combat, action.KnownHelodPrisoner);
-                for (int preference = 2; preference >= 0; preference -= 2)
-                foreach (TacticalMemberCommand member in active)
+                var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+                if (!budget.TryPlan(tick)) { action.SupportSkip = TacticalSupportSkip.Budget; command.Due = tick + 1; return; }
+                long started = System.Diagnostics.Stopwatch.GetTimestamp();
+                try
                 {
-                    if (!AtPost(member) || member.Pawn.CurJob?.playerForced == true) continue;
-                    IntVec3 throwPosition = plan.Stack[command.Members.IndexOf(member)];
-                    Thing grenade = SupportGrenade(member.Pawn, action.Outdoors, lethal);
-                    if (grenade == null || !action.Outdoors && TacticalCqbDoctrine.GrenadePreference(high, lethal, grenade.def.defName) < preference
-                        || !InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, throwPosition,
-                        target, InventoryGrenadeUtility.NormalThrowRange, out _)
-                        || !SafeOpeningThrow(member.Pawn, grenade, throwPosition, target)) continue;
-                    if (!CanIssue(member)) return;
-                    Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalThrow"), target, grenade, throwPosition);
-                    job.targetQueueA = new List<LocalTargetInfo> { plan.Stack[command.Members.IndexOf(member)], plan.Opening };
-                    job.canUseRangedWeapon = false;
-                    action.Thrower = member.Pawn; action.Target = target; action.ThrowIssued = true;
-                    action.ReturnPosition = throwPosition;
-                    Issue(member, job); return;
+                    if (action.SupportSkip == TacticalSupportSkip.Budget) action.SupportSkip = TacticalSupportSkip.None;
+                    for (int tested = 0; tested < TacticalOpeningPolicy.ThrowCandidatesPerSlice && action.SupportCursor < command.Members.Count * 2; tested++)
+                    {
+                        int slot = action.SupportCursor++, index = slot % command.Members.Count;
+                        int preference = slot < command.Members.Count ? 2 : 0;
+                        TacticalMemberCommand member = command.Members[index];
+                        if (!active.Contains(member) || !AtPost(member) || member.Pawn.CurJob?.playerForced == true) continue;
+                        IntVec3 returnPosition = plan.Stack[index];
+                        Thing grenade = SupportGrenade(member.Pawn, action.Outdoors, lethal);
+                        if (grenade == null || !action.Outdoors && TacticalCqbDoctrine.GrenadePreference(high, lethal, grenade.def.defName) < preference)
+                        { action.SupportSkip = TacticalSupportSkip.NoGrenade; continue; }
+                        bool Free(IntVec3 cell)
+                        {
+                            if (!TacticalLocalPlanner.Free(map, cell, c => claims.TryGetValue(c, out var owner) && owner != command)) return false;
+                            foreach (Thing thing in cell.GetThingList(map)) if (thing is Pawn occupant && occupant != member.Pawn) return false;
+                            return true;
+                        }
+                        bool trajectory = false;
+                        IntVec3 throwPosition = TacticalOpeningPolicy.FindThrowPosition(plan, returnPosition, Free, cell =>
+                        {
+                            if (!InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, cell,
+                                target, InventoryGrenadeUtility.NormalThrowRange, out _)) return false;
+                            trajectory = true;
+                            return SafeOpeningThrow(member.Pawn, grenade, cell, target);
+                        });
+                        if (!throwPosition.IsValid)
+                        { action.SupportSkip = trajectory ? TacticalSupportSkip.UnsafeFriendly : TacticalSupportSkip.NoThrowPosition; continue; }
+                        if (!CanIssue(member)) { action.SupportCursor--; action.SupportSkip = TacticalSupportSkip.Budget; command.Due = tick + 1; return; }
+                        Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalThrow"), target, grenade, throwPosition);
+                        job.targetQueueA = new List<LocalTargetInfo> { returnPosition, plan.Opening };
+                        job.canUseRangedWeapon = false;
+                        action.Thrower = member.Pawn; action.Target = target; action.ThrowIssued = true;
+                        action.ReturnPosition = returnPosition; action.SupportSkip = TacticalSupportSkip.None;
+                        Issue(member, job); return;
+                    }
+                    if (action.SupportCursor < command.Members.Count * 2) { command.Due = tick + 1; return; }
+                    if (action.SupportSkip == TacticalSupportSkip.None) action.SupportSkip = TacticalSupportSkip.NoGrenade;
+                    command.Phase = TacticalCommandPhase.Enter;
                 }
-                command.Phase = TacticalCommandPhase.Enter;
+                finally { budget.Account(tick, System.Diagnostics.Stopwatch.GetTimestamp() - started); }
             }
             if (command.Phase == TacticalCommandPhase.BlastWait)
             {
@@ -315,21 +356,23 @@ namespace Helodrace.Tactics
             float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, false, position.DistanceTo(target));
             float radius = TacticalGrenadePolicy.HazardRadius(projectile,
                 targetRoom != null && !targetRoom.UsesOutdoorTemperature) + scatter + .75f;
-            FlashbangProjectileExtension flash = projectile.GetModExtension<FlashbangProjectileExtension>();
+            bool throughCover = TacticalGrenadePolicy.DangerousThroughCover(projectile);
             Room RoomAt(IntVec3 cell) => cell.InBounds(pawn.Map) ? cell.GetRoom(pawn.Map) : null;
+            var owner = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
+            TacticalLocalPlan opening = owner != null && owner.byPawn.TryGetValue(pawn, out var command)
+                && command.OpeningAction?.Target == target ? command.Plan : null;
             foreach (Pawn ally in pawn.Map.mapPawns.AllPawnsSpawned)
             {
                 if (ally.Dead || ally.HostileTo(pawn)) continue;
                 IntVec3 cell = ally == pawn ? position : ally.Position;
                 if (roofed && TacticalGrenadePolicy.FriendlyInRoom(targetRoom, cell,
-                    cell.GetEdifice(pawn.Map) is Building_Door, RoomAt)) return false;
+                    cell.GetEdifice(pawn.Map) is Building_Door, RoomAt, opening)) return false;
                 if (cell.DistanceToSquared(target) <= radius * radius
-                    && (cell.DistanceTo(target) <= scatter + .75f || flash?.blockedPathFactor > 0
+                    && (cell.DistanceTo(target) <= scatter + .75f || throughCover
                         || GenSight.LineOfSight(target, cell, pawn.Map, true))) return false;
             }
             // A currently empty target is not safe when an adjacent allied
             // team is already executing ingress into the grenade's destination.
-            var owner = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
             if (owner != null)
                 foreach (var other in owner.ExecutionCommands)
                 {
