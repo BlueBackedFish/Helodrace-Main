@@ -874,9 +874,16 @@ namespace Helodrace
             result.isolationVerified &= result.newComponents.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? 2 : 0);
             // R3 adds narrow presentation/weapon hooks; these must still be
             // absent in Vanilla, with every concrete New patch present.
-            int expectedHooks = typeof(TacticalEngineSelection).Assembly.GetTypes().Count(type => type.IsDefined(typeof(NewTacticalAttribute), false)
-                && type.IsDefined(typeof(HarmonyPatch), false));
-            result.isolationVerified &= result.installedNewHooks.Length == (TacticalEngineSelection.Kind == TacticalEngineKind.New ? expectedHooks : 0);
+            string[] expectedHooks = typeof(TacticalEngineSelection).Assembly.GetTypes()
+                .Where(type => type.IsDefined(typeof(NewTacticalAttribute), false) && type.IsDefined(typeof(HarmonyPatch), false))
+                .Select(type => type.FullName).OrderBy(name => name).ToArray();
+            // A patch class can install both a Prefix and a Postfix. Compare
+            // concrete patch classes, retaining every hook in the raw evidence.
+            string[] installedHooks = result.installedNewHooks
+                .Select(hook => hook.Substring(hook.LastIndexOf(" <- ", StringComparison.Ordinal) + 4))
+                .Distinct().OrderBy(name => name).ToArray();
+            result.isolationVerified &= TacticalEngineSelection.Kind == TacticalEngineKind.New
+                ? installedHooks.SequenceEqual(expectedHooks) : installedHooks.Length == 0;
             if (!result.isolationVerified) throw new InvalidOperationException("Tactical engine isolation failed.");
         }
         private void Write()
