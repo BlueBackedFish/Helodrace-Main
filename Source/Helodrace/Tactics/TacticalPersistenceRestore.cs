@@ -67,8 +67,14 @@ namespace Helodrace.Tactics
         private List<TacticalLocalPlan> savedOpenings;
         private Dictionary<IntVec3, string> savedClaims, savedLeases;
         public long RestoredCommands;
-        internal TacticalSquadCommand SavedCommand(string id) => id != null && squads.TryGetValue(id, out TacticalSquadCommand command)
-            ? command : null;
+        internal TacticalSquadCommand SavedCommand(string id)
+        {
+            if (id == null) return null;
+            if (squads.TryGetValue(id, out var command)) return command;
+            foreach (var parent in squads.Values)
+                foreach (var child in parent.CqbTeams) if (child.Id == id) return child;
+            return null;
+        }
         public override void ExposeData()
         {
             Scribe_Values.Look(ref explicitGoal, "tacticalExplicitGoal", IntVec3.Invalid);
@@ -142,6 +148,18 @@ namespace Helodrace.Tactics
                     recovery.RestoreJob(job);
                 }
                 squads[command.Id] = command; scheduler.TrackRestored(command); RestoredCommands++;
+                foreach (var team in command.CqbTeams)
+                {
+                    team.Members = team.CqbRoster.Where(i => i >= 0 && i < command.Members.Count).Select(i => command.Members[i]).ToList();
+                    BindCqbShared(command, team);
+                    foreach (var member in team.Members) if (member.Pawn != null) byPawn[member.Pawn] = team;
+                    if (team.ContactResponse != null) team.ContactResponse.Plan = team.Plan;
+                    if (team.ChargeAction != null)
+                    {
+                        team.ChargeAction.Charge = (team.ChargeAction.SavedCharge as ThingWithComps)?.TryGetComp<CompInstalledBreachCharge>();
+                        team.ChargeAction.Installation = team.Members.Find(m => m.Pawn == team.ChargeAction.Installer)?.Job;
+                    }
+                }
             }
             foreach (TacticalSquadCommand command in squads.Values)
                 command.Link.Peer = SavedCommand(command.Link.SavedPeer);
@@ -154,7 +172,7 @@ namespace Helodrace.Tactics
         {
             if (saved == null) return;
             foreach (var pair in saved)
-                if (pair.Key.InBounds(map) && squads.TryGetValue(pair.Value, out TacticalSquadCommand command))
+                if (pair.Key.InBounds(map) && SavedCommand(pair.Value) is TacticalSquadCommand command)
                     destination[pair.Key] = command;
         }
         private void ExposeCounters()

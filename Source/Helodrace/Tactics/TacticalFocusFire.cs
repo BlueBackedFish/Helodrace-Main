@@ -212,7 +212,7 @@ namespace Helodrace.Tactics
 
         internal void FocusFireSeen(Pawn observer, Pawn enemy, int tick)
         {
-            if (!byPawn.TryGetValue(observer, out TacticalSquadCommand command)) return;
+            if (!RootContext(observer, out TacticalSquadCommand command)) return;
             ObserveMeleeThreat(command, enemy, observer, tick, TacticalThreatEligibility.Ranged(enemy));
             TacticalMeleeThreat threat = command.Contacts.Melee.Find(enemy.thingIDNumber);
             if (threat?.Urgency == 0 && command.FocusFire != null)
@@ -233,7 +233,7 @@ namespace Helodrace.Tactics
             }
             return null;
         }
-        internal bool OwnsFocusTarget(Pawn pawn, Job job) => byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
+        internal bool OwnsFocusTarget(Pawn pawn, Job job) => RootContext(pawn, out TacticalSquadCommand command)
             && command.FocusFire?.Stage == TacticalFocusStage.Focused && command.FocusFire.TargetId == job.count
             && command.Members.Find(m => m.Pawn == pawn)?.Job == job;
     }

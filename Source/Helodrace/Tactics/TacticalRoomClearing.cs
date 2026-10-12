@@ -109,8 +109,11 @@ namespace Helodrace.Tactics
         public long RoomScanSteps, RoomsSecured, RoomPlansAttempted, RoomToolRecoveryWaits;
         private void BeginRoomClear(TacticalSquadCommand command, int tick)
         {
+            if (command.CqbParent != null) command.CqbEntered = true;
             TacticalLocalPlan plan = command.Plan;
             command.ReportBatch.Clear(); command.ReportFrontierCursor = 0;
+            if (command.CqbFollow && plan.ReportedPassage && TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan))
+            { command.RoomScan = null; command.Phase = TacticalCommandPhase.Clear; command.Due = tick + 1; return; }
             if (plan.ReportedPassage && TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan))
             { FinishOutdoorPassage(command, tick); return; }
             RetireEntryApproach(command);
@@ -189,6 +192,8 @@ namespace Helodrace.Tactics
             // holds this room. Old contact memory alone cannot stall progress.
             if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
             { command.Due = tick + 30; return; }
+            if (command.CqbParent != null && command.CqbEntered && command.RoomScan == null && !command.SurveyPending)
+            { FinishCqbRoom(command, tick); return; }
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             command.Due = tick + 1;
             // Recovery also needs Plan allowance for its native reach probe.
@@ -327,6 +332,13 @@ namespace Helodrace.Tactics
                 }
                 if (busy) command.FrontierBusy = true;
                 if (command.FrontierCursor < command.Frontiers.Count) return;
+                if (command.CqbParent != null)
+                {
+                    // A failed assigned boundary is not a completed room. Keep
+                    // the task and retry slowly instead of starting a new survey.
+                    command.FrontierCursor = 0; command.PlanRetryAt = tick + 600;
+                    command.Due = command.PlanRetryAt; return;
+                }
                 if (command.FrontierBusy && tick - command.PhaseStarted < 1200)
                 {
                     command.FrontierBusy = false; command.FrontierCursor = 0;

@@ -82,14 +82,14 @@ namespace Helodrace.Tactics
 
         private bool FieldSmokeLaunched(Pawn pawn, Job job, Projectile projectile)
         {
-            if (projectile == null || !byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return false;
+            if (projectile == null || !RootContext(pawn, out TacticalSquadCommand command)) return false;
             TacticalFieldSmoke screen = command.FieldResponse?.Screen;
             if (screen?.Thrower != pawn || screen.Job != job || pawn.CurJob != job) return false;
             screen.Launched = true; screen.Projectile = projectile; FieldSmokeThrows++; Wake(pawn); return true;
         }
         private bool FieldSmokeReturned(Pawn pawn, Job job)
         {
-            if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return false;
+            if (!RootContext(pawn, out TacticalSquadCommand command)) return false;
             TacticalFieldSmoke screen = command.FieldResponse?.Screen;
             if (screen?.Thrower != pawn || screen.Job != job || pawn.CurJob != job || pawn.Position != screen.ReturnPosition) return false;
             screen.Returned = true; Wake(pawn); return true;

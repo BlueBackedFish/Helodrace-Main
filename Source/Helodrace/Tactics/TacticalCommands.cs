@@ -217,6 +217,13 @@ namespace Helodrace.Tactics
             {
                 if (command.Terminal) { squads.Remove(command.Id); continue; }
                 if (command.Defensive) continue;
+                if (command.CqbTeams.Count > 0)
+                {
+                    Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, GenTicks.TicksGame, true);
+                    command.Link.Cooperation.Abort();
+                    command.CqbCancelRequested = command.CqbObjectiveChanged = true; command.Goal = goal;
+                    command.Due = GenTicks.TicksGame + 1; continue;
+                }
                 command.CancelPreparation();
                 Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, GenTicks.TicksGame, true);
                 // Never erase an already launched grenade's safety state.
@@ -277,6 +284,7 @@ namespace Helodrace.Tactics
             {
                 if (pawn.Dead || pawn.Downed) command.BagRecoveryAt = Math.Min(command.BagRecoveryAt, GenTicks.TicksGame + 1);
                 command.Due = Math.Min(command.Due, GenTicks.TicksGame + 1);
+                if (command.CqbParent != null) command.CqbParent.Due = Math.Min(command.CqbParent.Due, GenTicks.TicksGame + 1);
             }
         }
         internal void JobFinished(Pawn pawn, Job job, JobCondition condition)
@@ -317,10 +325,11 @@ namespace Helodrace.Tactics
 
         public void Advance(TacticalSquadCommand command, int tick)
         {
-            command.DeferredWork = false;
+            command.DeferredWork = false; command.CqbStepped = false;
             try { AdvanceCore(command, tick); }
             finally
             {
+                if (command.CqbTeams.Count > 0 && !command.CqbStepped && command.CqbPausedAt < 0) command.CqbPausedAt = tick;
                 if (command.DeferredWork && !command.Terminal)
                     command.Due = Math.Min(command.Due, tick + 1);
             }
@@ -340,7 +349,22 @@ namespace Helodrace.Tactics
             command.Due = tick + TacticalCadence.DecisionInterval(command.Phase);
             RejoinTreatedMembers(command, tick);
             var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
-            if (active.Count == 0) { Release(command); return; }
+            if (active.Count == 0)
+            {
+                if (command.CqbTeams.Count > 0)
+                { command.CqbCancelRequested = command.ReleaseAfterReturn = true; AdvanceHighCqb(command, active, tick); }
+                else Release(command);
+                return;
+            }
+            if (command.CqbParent != null)
+            {
+                if (RespondToContacts(command, active, tick) || RestoreContactPosts(command, active, tick)) return;
+                if (RefreshSharedPassage(command, tick)) return;
+                AdvanceEntryPosts(command, active, tick);
+                AdvanceAssault(command, active, tick); return;
+            }
+            if (command.CqbTeams.Count > 0 && (command.CqbCancelRequested || command.CqbTeams.Any(CqbLiveAction)))
+            { AdvanceHighCqb(command, active, tick); return; }
             if (UpdateDefensiveMission(command, tick)) return;
             SyncSharedSecured(command, tick);
             if (command.Phase == TacticalCommandPhase.Complete && command.FocusFire == null
@@ -365,8 +389,13 @@ namespace Helodrace.Tactics
             if (RestoreContactPosts(command, active, tick)) return;
             if (RefreshSharedPassage(command, tick)) return;
             if (command.Defensive) { AdvanceDefenseIdle(command, active, tick); return; }
-            AdvanceEntryPosts(command, active, tick);
+            if (command.CqbTeams.Count == 0) AdvanceEntryPosts(command, active, tick);
             if (AdvanceCoordination(command, active, tick)) return;
+            if (AdvanceHighCqb(command, active, tick)) return;
+            AdvanceAssault(command, active, tick);
+        }
+        private void AdvanceAssault(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
+        {
             if (AwaitPendingFurniture(command, active, tick)) return;
             if (AdvanceFurniture(command, active, tick)) return;
             if (command.Phase == TacticalCommandPhase.Clear)
@@ -412,7 +441,7 @@ namespace Helodrace.Tactics
                     foreach (TacticalMemberCommand member in active) EnsureParking(command, member, tick);
                     command.Due = command.PlanRetryAt; return;
                 }
-                command.Goal = Goal(tick);
+                if (command.CqbParent == null) command.Goal = Goal(tick);
                 if (!command.Goal.IsValid) { command.Due = tick + 300; return; }
                 TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
                 IntVec3 planningGoal = PendingGoal(command);
@@ -651,6 +680,7 @@ namespace Helodrace.Tactics
                     && member.Pawn.jobs.curDriver is TacticalJobDriver arrival && arrival.AtPost
                     && member.Pawn.Position == current.Positions[i];
                 if (member.Entered) continue;
+                if (!TacticalHighCqbPolicy.EntryReleased(command, i)) continue;
                 if (!dispatchEntry || entryIssues >= TacticalCadence.MovementBatch) continue;
                 if (member.Pawn.CurJob?.playerForced == true || StationaryGuidance(member)) continue;
                 if (current.Direct)
@@ -697,6 +727,7 @@ namespace Helodrace.Tactics
         }
         private static IntVec3 PendingGoal(TacticalSquadCommand command)
         {
+            if (command.CqbFollow && command.CqbFollowGoal.IsValid) return command.CqbFollowGoal;
             IntVec3 transit = TacticalMissionRouting.TransitGoal(command);
             if (transit.IsValid) return transit;
             if (command.GoalSecured || command.SecuredKnowledge.Cleared(command.Goal))
@@ -894,6 +925,11 @@ namespace Helodrace.Tactics
         }
         private static void BeginReturn(TacticalSquadCommand command, int tick, bool release, bool replan = false)
         {
+            if (command.CqbTeams.Count > 0)
+            {
+                command.CqbCancelRequested = true; command.ReleaseAfterReturn = release;
+                command.ReplanAfterReturn = replan; command.Due = tick + 1; return;
+            }
             command.CancelPreparation();
             Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, tick, release || replan);
             command.Phase = TacticalCommandPhase.Returning; command.ReleaseAfterReturn = release;
@@ -948,6 +984,7 @@ namespace Helodrace.Tactics
         }
         internal void Retire(TacticalSquadCommand command)
         {
+            EndHighCqb(command);
             command.CancelPreparation();
             command.Phase = TacticalCommandPhase.Released;
             foreach (TacticalMemberCommand member in command.Members)
@@ -969,6 +1006,7 @@ namespace Helodrace.Tactics
             // without doing a new vanilla job search on a map being disposed.
             foreach (TacticalSquadCommand command in squads.Values)
             {
+                EndHighCqb(command);
                 command.CancelPreparation();
                 foreach (TacticalMemberCommand member in command.Members) EndOwned(member, false);
                 command.Phase = TacticalCommandPhase.Released;

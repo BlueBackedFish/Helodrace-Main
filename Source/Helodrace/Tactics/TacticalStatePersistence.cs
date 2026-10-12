@@ -41,6 +41,22 @@ namespace Helodrace.Tactics
         public void ExposeData()
         {
             Scribe_Values.Look(ref Id, "id");
+            Scribe_Values.Look(ref CqbTeam, "cqbTeam", -1);
+            Scribe_Values.Look(ref CqbCursor, "cqbCursor");
+            Scribe_Values.Look(ref CqbSearchCursor, "cqbSearchCursor");
+            Scribe_Values.Look(ref CqbPausedAt, "cqbPausedAt", -1);
+            Scribe_Values.Look(ref CqbEntered, "cqbEntered");
+            Scribe_Values.Look(ref CqbCancelRequested, "cqbCancelRequested");
+            Scribe_Values.Look(ref CqbObjectiveChanged, "cqbObjectiveChanged");
+            Scribe_Values.Look(ref CqbFollow, "cqbFollow");
+            Scribe_Values.Look(ref CqbFollowGoal, "cqbFollowGoal", IntVec3.Invalid);
+            Scribe_Values.Look(ref CqbPassageSequence, "cqbPassageSequence");
+            Scribe_Values.Look(ref CqbFollowSeen, "cqbFollowSeen");
+            Scribe_Deep.Look(ref CqbLastPassage, "cqbLastPassage");
+            Scribe_Deep.Look(ref CqbTask, "cqbTask");
+            Scribe_Collections.Look(ref CqbArea, "cqbArea", LookMode.Value);
+            Scribe_Collections.Look(ref CqbRoster, "cqbRoster", LookMode.Value);
+            Scribe_Collections.Look(ref CqbTeams, "cqbTeams", LookMode.Deep);
             Scribe_Values.Look(ref Phase, "phase");
             Scribe_Values.Look(ref Goal, "goal");
             Scribe_References.Look(ref TargetFaction, "targetFaction");
@@ -103,7 +119,7 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref FurnitureAction, "furnitureAction");
             Scribe_Deep.Look(ref FurnitureResumePlan, "furnitureResumePlan");
             Scribe_Collections.Look(ref RejectedFurniture, "rejectedFurniture", LookMode.Value);
-            Scribe_Collections.Look(ref Members, "members", LookMode.Deep);
+            if (CqbTeam < 0) Scribe_Collections.Look(ref Members, "members", LookMode.Deep);
             Scribe_Collections.Look(ref SecuredCells, "securedCells", LookMode.Value);
             Scribe_Collections.Look(ref SecuredPlans, "securedPlans", LookMode.Deep);
             Scribe_Collections.Look(ref Frontiers, "frontiers", LookMode.Deep);

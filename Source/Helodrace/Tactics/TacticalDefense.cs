@@ -36,6 +36,11 @@ namespace Helodrace.Tactics
         {
             bool defending = GameComponent_TacticalCommands.IsDefensiveLord(command.RaidLord);
             if (defending == command.Defensive) return false;
+            if (command.CqbTeams.Count > 0)
+            {
+                if (command.CqbTeams.Any(CqbLiveAction)) return false;
+                EndHighCqb(command);
+            }
             if (!GameComponent_TacticalCommands.CanControlMission(defending, command.Link.Unit.Faction.HostileTo(Faction.OfPlayer), HasExplicitGoal))
             { Release(command); return true; }
             // Leave a live explosive's existing controller running, including

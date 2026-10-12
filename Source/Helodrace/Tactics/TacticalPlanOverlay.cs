@@ -87,10 +87,10 @@ namespace Helodrace.Tactics
         {
             planOverlayNodes.Clear(); int squad = 0;
             var labelRows = new Dictionary<IntVec3,int>();
-            foreach (TacticalSquadCommand command in squads.Values)
+            foreach (TacticalSquadCommand command in ExecutionCommands)
             {
                 if (command.Terminal || command.Phase == TacticalCommandPhase.Returning || command.Phase == TacticalCommandPhase.Complete) continue;
-                string prefix = (++squad) + ": ";
+                string prefix = (++squad) + (command.CqbTeam >= 0 ? " FT" + (command.CqbTeam + 1) : "") + ": ";
                 var atCell = new Dictionary<IntVec3, PlanOverlayNode>();
                 void Add(IntVec3 cell, string key, SimpleColor color, int number = 0, bool major = true)
                 {

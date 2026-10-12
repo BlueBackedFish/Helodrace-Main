@@ -29,12 +29,12 @@ namespace Helodrace.Tactics
     public sealed partial class MapComponent_TacticalCommands
     {
         public long MedicalMemberChecks, MedicalTreatments, MedicalCompleted, MedicalAborted, MedicalPlasma, MedicalRejoins;
-        internal bool OwnsMedicalJob(Pawn pawn, Job job) => byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
+        internal bool OwnsMedicalJob(Pawn pawn, Job job) => RootContext(pawn, out TacticalSquadCommand command)
             && command.MedicalCare?.Helper.Pawn == pawn && command.MedicalCare.Job == job;
         public void MedicalJobFinished(Pawn pawn, Job job, JobCondition condition)
         {
             if (!OwnsMedicalJob(pawn, job)) return;
-            TacticalMedicalCare care = byPawn[pawn].MedicalCare;
+            TacticalMedicalCare care = (byPawn[pawn].CqbParent ?? byPawn[pawn]).MedicalCare;
             care.Finished = true; care.Successful = condition == JobCondition.Succeeded;
             JobFinished(pawn, job, condition);
         }

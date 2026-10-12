@@ -44,7 +44,7 @@ namespace Helodrace.Tactics
                 candidates.Add(new TacticalEntryCandidate { Index = index, Distance = position.DistanceToSquared(plan.Outside),
                     Priority = m.Pawn == command.Breacher ? -1 : Priority(m.CombatFunction), Leader = leader != null && m.Pawn == leader });
             }
-            return Build(candidates);
+            return TacticalHighCqbPolicy.GroupOrder(command, Build(candidates));
         }
     }
 }

@@ -82,7 +82,8 @@ namespace Helodrace.Tactics
         {
             engaged = false;
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.Plan == null
-                || !(recovery ? TacticalExplosiveEvasionPolicy.OwnsMovement(job) : TacticalEntryCombatPolicy.ArrivalPhase(command.Phase)) || pawn.CurJob != job
+                || !(recovery ? TacticalExplosiveEvasionPolicy.OwnsMovement(job) : TacticalEntryCombatPolicy.ArrivalPhase(command.Phase)
+                    || command.CqbParent != null && command.Phase == TacticalCommandPhase.Complete) || pawn.CurJob != job
                 || command.Members.Find(m => m.Pawn == pawn)?.Job != job) return true;
             if (pawn.stances.FullBodyBusy)
             {

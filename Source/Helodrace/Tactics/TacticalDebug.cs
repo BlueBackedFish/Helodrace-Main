@@ -19,7 +19,7 @@ namespace Helodrace.Tactics
             MapComponent_TacticalCommands service = Find.CurrentMap.GetComponent<MapComponent_TacticalCommands>();
             Find.WindowStack.Add(new Dialog_MessageBox(service == null ? "Start with -hdTacticalEngine=new."
                 : "Jobs=" + service.JobsIssued + " failures=" + service.JobFailures + " plans=" + service.PlansAttempted
-                    + "\n" + string.Join("\n", service.Commands.Select(command => command.Id + ": " + command.Phase
+                    + "\n" + string.Join("\n", service.ExecutionCommands.Select(command => command.Id + ": " + command.Phase
                         + " goal=" + command.Goal + " opening=" + command.Plan?.Opening + " depth=" + command.Plan?.Depth
                         + " inside=" + command.Plan?.Inside + " barrier=" + command.Plan?.Barrier?.Position + " connected=" + command.HadConnectedStack
                         + " observe side=" + command.Plan?.StackSide

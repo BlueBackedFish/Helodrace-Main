@@ -279,6 +279,22 @@ namespace Helodrace.Tactics
             var search = new TacticalPlanSearch();
             search.Start(ReusedFootprintSteps(map, leader, plan, count, claimed, search)); return search;
         }
+        internal static TacticalPlanSearch ClearedTransitSearch(Map map, Pawn leader, TacticalLocalPlan source, int count,
+            Func<IntVec3,bool> claimed)
+        {
+            var search = new TacticalPlanSearch();
+            search.Start(ClearedTransitSteps(map, leader, source, count, claimed, search)); return search;
+        }
+        private static IEnumerable<TacticalLocalPlan> ClearedTransitSteps(Map map, Pawn leader, TacticalLocalPlan source, int count,
+            Func<IntVec3,bool> claimed, TacticalPlanSearch search)
+        {
+            var plan = new TacticalLocalPlan { Opening = source.Opening, Inward = source.Inward, Depth = source.Depth,
+                ExistingOpening = true, ReportedPassage = true };
+            if (!BuildClearedTransit(map, plan, count, claimed)) { search.Failure = TacticalPlanFailure.Inside; yield break; }
+            yield return null;
+            if (!leader.CanReach(plan.Inside, Verse.AI.PathEndMode.OnCell, Danger.Deadly)) { search.Failure = TacticalPlanFailure.Unreachable; yield break; }
+            yield return plan;
+        }
         private static IEnumerable<TacticalLocalPlan> ReusedFootprintSteps(Map map, Pawn leader, TacticalLocalPlan plan,
             int count, Func<IntVec3,bool> claimed, TacticalPlanSearch search)
         {

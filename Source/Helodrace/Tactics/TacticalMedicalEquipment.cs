@@ -53,17 +53,17 @@ namespace Helodrace.Tactics
 
         internal void MedicalBagUnequipped(Pawn pawn, Thing bag)
         {
-            if (pawn != null && byPawn.TryGetValue(pawn, out TacticalSquadCommand command) && command.MedicalBags.Contains(bag))
+            if (pawn != null && RootContext(pawn, out TacticalSquadCommand command) && command.MedicalBags.Contains(bag))
             { command.BagRecoveryAt = GenTicks.TicksGame + 1; Wake(pawn); }
         }
 
-        internal bool OwnsBagRecovery(Pawn pawn, Job job) => byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
+        internal bool OwnsBagRecovery(Pawn pawn, Job job) => RootContext(pawn, out TacticalSquadCommand command)
             && command.BagRecovery?.Helper == pawn && command.BagRecovery.Job == job;
 
         internal void MedicalBagRecovered(Pawn pawn, Job job)
         {
             if (!OwnsBagRecovery(pawn, job)) return;
-            TacticalSquadCommand command = byPawn[pawn];
+            TacticalSquadCommand command = byPawn[pawn].CqbParent ?? byPawn[pawn];
             command.BagRecovery.Recovered = true;
             foreach (TacticalMemberCommand member in command.Members)
             {
