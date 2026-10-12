@@ -16,6 +16,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/RaidMoveme
 
 추가 메서드는 실행 시 선택한다. 메서드 이름에 해당하는 구체적 선언의 오버로드를 모두 등록하고, 전체 서명은 capabilities에서 확인한다. 지원 어셈블리는 Helodrace와 게임 Assembly-CSharp이며 제네릭/추상 메서드와 수집기 자체는 제외한다.
 
+현재 분산 전술 계획에서 `TacticalLocalPlanner.Find`는 지연 계산을 만드는 함수다. 실제 후속 계산은 `Helodrace.Tactics.TacticalPlanSearch::Step`, 개인 자리 배정은 `Helodrace.Tactics.TacticalEntryAllocator::Step`을 수집해야 한다. 호출을 만들 때의 시간만으로 전체 계획 비용을 판단하지 않는다. `Helodrace.Tactics.MapComponent_TacticalCommands::FinishPreparation`과 `Helodrace.Tactics.TacticalEntryOrder::For`를 추가하면 배정 준비·게시 전 확인도 나눠 볼 수 있다.
+
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/RaidMovementAudit/Run-GameAudit.ps1 -Cases '16,17,15' -MethodProfile -ProfileElapsedOnly -ProfileTargets 'Helodrace.MapComponent_RaidTacticalExecution::ExecuteUnit;Helodrace.MapComponent_RaidTacticalExecution::UpdateStep'
 ```

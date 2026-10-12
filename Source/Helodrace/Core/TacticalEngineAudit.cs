@@ -668,7 +668,7 @@ namespace Helodrace
                 bool Physical(Tactics.TacticalLocalPlan plan, int count) => plan.Positions.All(Interior)
                     && plan.Positions.Distinct().Count() == count && (plan.Direct || Interior(plan.Inside)
                         && (MultiRoomFixture || !Interior(plan.Outside)))
-                    && plan.RetainedOutside.All(i => i >= 0 && i < count && plan.Positions[i] == plan.Stack[i])
+                    && plan.RetainedOutside.All(i => i >= 0 && i < count && plan.Stack.Contains(plan.Positions[i]))
                     && plan.Positions.Where((cell, i) => !plan.Direct && !plan.RetainedOutside.Contains(i)).All(plan.Interior.Contains);
                 result.newPhysicalPlansValid = commands.All(command => command.Plan != null
                     && command.Plan.Positions.All(Interior) && command.Plan.Positions.Distinct().Count() == command.Members.Count
@@ -677,7 +677,7 @@ namespace Helodrace
                         && !Interior(command.Plan.Outside) && Interior(command.Plan.Inside)));
                 if (MultiRoomFixture)
                     result.newPhysicalPlansValid = commands.All(command => command.Plan != null && Physical(command.Plan, command.Members.Count)
-                        && command.SecuredPlans.All(plan => Physical(plan, command.Members.Count) && (plan.Direct || Tactics.TacticalLocalPlanner.Connected(plan.Stack))));
+                        && command.SecuredPlans.All(plan => Physical(plan, command.Members.Count) && (plan.Direct || Tactics.TacticalEntryAllocation.ConnectedStack(plan))));
                 result.newJobsIssued = newService.JobsIssued; result.newJobFailures = newService.JobFailures;
                 result.newWideOpeningReused = result.fixtureCase != "wide-opening" || result.caseTriggered
                     && commands.All(command => command.Plan?.ExistingOpening == true && command.Plan.Opening == new IntVec3(100, 0, 118));

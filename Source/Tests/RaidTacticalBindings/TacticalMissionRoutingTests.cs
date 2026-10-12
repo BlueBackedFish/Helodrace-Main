@@ -39,8 +39,9 @@ internal static class TacticalMissionRoutingTests
         Check(!Pending().IsValid, "Outdoor frontiers must not restart the secured bed objective.");
         Check(TacticalMissionRouting.ExitForDestination(command, command.Goal, _ => true) == -1,
             "A building with no latched next destination must not select an outdoor exit.");
-        object[] args = { command, new List<TacticalMemberCommand>(), exit, false, false };
-        Check(AccessTools.Method(service.GetType(), "PlanRoomFrontier").Invoke(service, args) == null,
+        object[] args = { command, new List<TacticalMemberCommand>(), exit };
+        var search = (TacticalPlanSearch)AccessTools.Method(service.GetType(), "PlanRoomFrontier").Invoke(service, args);
+        Check(search.Step() && search.Plan == null,
             "Unrequested outdoor breach must be rejected by the actual planner before geometry or reach checks.");
         Check(!TacticalMissionRouting.FacadeDestination(command, closedExit.Opening, closedExit.Inside, false),
             "An owned wall facing outdoor floor is not a next-building destination.");

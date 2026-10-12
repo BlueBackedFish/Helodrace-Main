@@ -279,12 +279,11 @@ namespace Helodrace.Tactics
                 bool cleared = TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan);
                 if (!cleared && leases.ContainsKey(plan.Opening)) { failure |= TacticalPlanFailure.Busy; continue; }
                 if (cleared ? !TacticalLocalPlanner.BuildClearedTransit(map, plan, count, claimed)
-                    : !TacticalLocalPlanner.Free(map, plan.Outside, claimed) || !TacticalLocalPlanner.Free(map, plan.Inside, claimed)
-                    || !TacticalLocalPlanner.BuildStack(map, plan, count, claimed)
-                    || (!TacticalLocalPlanner.BuildPositions(map, plan, count, claimed, c => c.Roofed(map) == plan.Inside.Roofed(map))
-                        && plan.Positions.Count == 0))
+                    : !TacticalLocalPlanner.Free(map, plan.Outside, claimed) || !TacticalLocalPlanner.Free(map, plan.Inside, claimed))
                 { failure |= TacticalPlanFailure.Obstructed; continue; }
-                if (!leader.CanReach(cleared ? plan.Inside : plan.Outside, PathEndMode.OnCell, Danger.Deadly))
+                // An uncleared reported opening returns geometry only; its
+                // stack, inside seats and reach check use separate slices.
+                if (cleared && !leader.CanReach(plan.Inside, PathEndMode.OnCell, Danger.Deadly))
                 { failure |= TacticalPlanFailure.Unreachable; continue; }
                 plan.Barrier = plan.Opening.GetEdifice(map); failure = TacticalPlanFailure.None; return plan;
             }

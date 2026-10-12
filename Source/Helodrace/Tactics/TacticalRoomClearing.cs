@@ -279,7 +279,8 @@ namespace Helodrace.Tactics
                         }
                         continue;
                     }
-                    TacticalLocalPlan plan = PlanRoomFrontier(command, active, frontier, out bool occupied, out bool missingTool);
+                    if (!PrepareRoomFrontier(command, active, frontier, out TacticalLocalPlan plan, out bool occupied, out bool missingTool))
+                    { command.FrontierCursor--; command.Due = tick + 1; return; }
                     if (command.FurnitureAction != null) { command.FrontierCursor--; command.Due = tick + 1; return; }
                     if (plan == null && command.DeferredWork) { command.FrontierCursor--; return; }
                     busy |= occupied; RoomPlansAttempted++;
@@ -305,6 +306,7 @@ namespace Helodrace.Tactics
                         if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
                     }
                     command.OpeningAction = null; command.ChargeAction = null;
+                    command.MovementCursor = 0; command.MovementDispatchAt = tick;
                     bool ownExit = frontier.Outdoors && plan.ExistingOpening;
                     if (!ownExit && !plan.ReportedPassage) command.HadConnectedStack &= TacticalEntryAllocation.ConnectedStack(plan);
                     command.Breacher = active.Find(m => (plan.StackMembers.Count == 0 || plan.StackMembers.Contains(command.Members.IndexOf(m)))
@@ -354,31 +356,54 @@ namespace Helodrace.Tactics
                 + (frontier.Outdoors ? 100000 : 0);
         }
 
-        private TacticalLocalPlan PlanRoomFrontier(TacticalSquadCommand command, List<TacticalMemberCommand> active,
-            TacticalRoomFrontier frontier, out bool occupied, out bool missingTool)
+        private bool PrepareRoomFrontier(TacticalSquadCommand command, List<TacticalMemberCommand> active,
+            TacticalRoomFrontier frontier, out TacticalLocalPlan plan, out bool occupied, out bool missingTool)
         {
-            occupied = missingTool = false;
-            if (frontier.Outdoors && !TacticalMissionRouting.TransitGoal(command).IsValid) return null;
+            plan = null; occupied = missingTool = false;
+            if (command.Preparation != null && !command.Preparation.Matches(command, active, frontier.Inside)) command.CancelPreparation();
+            if (command.Preparation == null)
+            {
+                var preparation = command.Preparation = new TacticalPlanPreparation(command, active, frontier.Inside);
+                preparation.Search = PlanRoomFrontier(command, active, frontier);
+                preparation.Stage = TacticalPreparationStage.Search;
+                return false;
+            }
+            bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
+            if (!FinishPreparation(command, active, Claimed, out plan, out TacticalPlanFailure failure)) return false;
+            occupied = (failure & TacticalPlanFailure.Busy) != 0;
+            missingTool = (failure & TacticalPlanFailure.Tool) != 0;
+            command.DeferredWork |= (failure & TacticalPlanFailure.Classification) != 0;
+            return true;
+        }
+        private TacticalPlanSearch PlanRoomFrontier(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalRoomFrontier frontier)
+        {
+            var search = new TacticalPlanSearch(); search.Start(RoomFrontierSteps(command, active, frontier, search)); return search;
+        }
+        private IEnumerable<TacticalLocalPlan> RoomFrontierSteps(TacticalSquadCommand command, List<TacticalMemberCommand> active,
+            TacticalRoomFrontier frontier, TacticalPlanSearch search)
+        {
+            if (frontier.Outdoors && !TacticalMissionRouting.TransitGoal(command).IsValid) yield break;
             TacticalStructureClass kind = frontier.Outdoors && command.SecuredCells.Contains(frontier.Opening - frontier.Inward)
                 ? TacticalStructureClass.Target : ClassifyStructure(command, frontier.Opening, frontier.Inward, active[0].Pawn, frontier.Depth);
-            if (kind == TacticalStructureClass.Pending) { command.DeferredWork = true; return null; }
-            if (kind != TacticalStructureClass.Target) { frontier.Excluded = true; return null; }
+            if (kind == TacticalStructureClass.Pending) { search.Failure = TacticalPlanFailure.Classification; yield break; }
+            if (kind != TacticalStructureClass.Target) { frontier.Excluded = true; yield break; }
             var plan = new TacticalLocalPlan { Opening = frontier.Opening, Inward = frontier.Inward, Depth = frontier.Depth };
-            if (!TacticalLocalPlanner.SetDepth(map, plan, allowFurniture: true)) return null;
+            if (!TacticalLocalPlanner.SetDepth(map, plan, allowFurniture: true)) yield break;
             plan.Depth = Math.Max(plan.Depth, frontier.Depth);
             // A changed roof/channel can turn a stored room boundary into an
             // outdoor exit. It must obey the same transit-only rule as a new exit.
             if (!plan.Inside.Roofed(map)) frontier.Outdoors = true;
             if (frontier.Outdoors && (!TacticalMissionRouting.TransitGoal(command).IsValid
-                || !TacticalLocalPlanner.PassageOpen(map, plan))) return null;
+                || !TacticalLocalPlanner.PassageOpen(map, plan))) yield break;
             Building barrier = plan.Barrier = TacticalLocalPlanner.NextBarrier(map, plan);
             bool opened = plan.ExistingOpening = TacticalLocalPlanner.PassageOpen(map, plan);
             bool cleared = opened && TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan);
             if (!opened && !active.Any(m => TacticalBreachTools.CanUse(m.Pawn, barrier)))
-            { missingTool = true; return null; }
+            { search.Failure = TacticalPlanFailure.Tool; yield break; }
             for (int layer = 0; !cleared && layer < plan.Depth; layer++)
                 if (leases.TryGetValue(plan.Opening + plan.Inward * layer, out TacticalSquadCommand owner) && owner != command)
-                { occupied = true; return null; }
+                { search.Failure = TacticalPlanFailure.Busy; yield break; }
+            yield return null;
             bool touchedClaim = false;
             bool Claimed(IntVec3 cell)
             {
@@ -388,9 +413,10 @@ namespace Helodrace.Tactics
             if (cleared)
             {
                 if (!TacticalLocalPlanner.BuildClearedTransit(map, plan, command.Members.Count, Claimed))
-                { occupied = touchedClaim; return null; }
-                return TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan))
-                    && active[0].Pawn.CanReach(plan.Inside, PathEndMode.OnCell, Danger.Deadly) ? plan : null;
+                { if (touchedClaim) search.Failure = TacticalPlanFailure.Busy; yield break; }
+                yield return null;
+                if (active[0].Pawn.CanReach(plan.Inside, PathEndMode.OnCell, Danger.Deadly)) yield return plan;
+                yield break;
             }
             bool OutsideBlocked(IntVec3 cell) => !FurnitureApproachSecured(command, cell) || Claimed(cell);
             bool InsideBlocked(IntVec3 cell) => command.SecuredCells.Contains(cell) || Claimed(cell);
@@ -405,16 +431,21 @@ namespace Helodrace.Tactics
                     && (command.Plan == null || !TacticalEntryAllocation.BindApproach(plan, command.Plan.Positions,
                         TacticalEntryOrder.For(command, active, plan),
                         cell => command.SecuredCells.Contains(cell) && TacticalLocalPlanner.Free(map, cell, Claimed)))) return null;
-                return TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan))
-                    && active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly) ? plan : null;
+                return active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly) ? plan : null;
             }
             if (!TacticalLocalPlanner.Free(map, plan.Outside, OutsideBlocked) || !TacticalLocalPlanner.Free(map, plan.Inside, InsideBlocked))
-            { if (RecoverFurniture()) return FurniturePreview(); occupied = Claimed(plan.Outside) || Claimed(plan.Inside); return null; }
+            {
+                yield return null;
+                if (RecoverFurniture()) { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
+                if (Claimed(plan.Outside) || Claimed(plan.Inside)) search.Failure = TacticalPlanFailure.Busy;
+                yield break;
+            }
             var eligible = TacticalEntryOrder.For(command, active, plan)
                 .OrderByDescending(i => TacticalBreachTools.CanUse(command.Members[i].Pawn, barrier)).ToArray();
             if (!TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, OutsideBlocked, allowPartial: !frontier.Outdoors))
             {
-                if (RecoverFurniture()) return FurniturePreview();
+                yield return null;
+                if (RecoverFurniture()) { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
                 // Reusing our own exit needs no second full indoor stack. A
                 // tiny room may retain guards outside and cannot hold everyone.
                 if (opened && frontier.Outdoors && command.Plan != null
@@ -422,22 +453,25 @@ namespace Helodrace.Tactics
                     && command.Plan.Positions.Distinct().Count() == command.Members.Count
                     && command.Plan.Positions.All(cell => TacticalLocalPlanner.Free(map, cell, Claimed)))
                     plan.Stack.AddRange(command.Plan.Positions);
-                else { occupied = touchedClaim; return null; }
+                else { if (touchedClaim) search.Failure = TacticalPlanFailure.Busy; yield break; }
             }
+            yield return null;
             bool partialStack = plan.Stack.Count < command.Members.Count;
             if (partialStack)
             {
-                if (RecoverFurniture()) return FurniturePreview();
+                if (RecoverFurniture()) { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
                 if (command.Plan == null || !TacticalEntryAllocation.BindApproach(plan, command.Plan.Positions,
-                    eligible, cell => command.SecuredCells.Contains(cell) && TacticalLocalPlanner.Free(map, cell, Claimed))) return null;
+                    eligible, cell => command.SecuredCells.Contains(cell) && TacticalLocalPlanner.Free(map, cell, Claimed))) yield break;
             }
+            yield return null;
             bool fullInside = TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
                 InsideAllowed);
-            if (!fullInside && !touchedClaim && RecoverFurniture()) return FurniturePreview();
-            if (!fullInside && touchedClaim && plan.Positions.Count == 0) { occupied = true; return null; }
-            if (!TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan))) return null;
-            if (!active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) return null;
-            return plan;
+            yield return null;
+            if (!fullInside && !touchedClaim && RecoverFurniture())
+            { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
+            if (!fullInside && touchedClaim && plan.Positions.Count == 0) { search.Failure = TacticalPlanFailure.Busy; yield break; }
+            if (!active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) yield break;
+            yield return plan;
         }
     }
 }

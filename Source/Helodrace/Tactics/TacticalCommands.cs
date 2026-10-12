@@ -217,6 +217,7 @@ namespace Helodrace.Tactics
             {
                 if (command.Terminal) { squads.Remove(command.Id); continue; }
                 if (command.Defensive) continue;
+                command.CancelPreparation();
                 Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, GenTicks.TicksGame, true);
                 // Never erase an already launched grenade's safety state.
                 if (command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
@@ -326,6 +327,7 @@ namespace Helodrace.Tactics
         }
         private void AdvanceCore(TacticalSquadCommand command, int tick)
         {
+            if (command.Phase != TacticalCommandPhase.Pending && command.Phase != TacticalCommandPhase.Clear) command.CancelPreparation();
             if (PauseForExplosiveEvasion(command, tick)) return;
             command.FurnitureProbes = TacticalFurniturePolicy.SimulationsPerAdvance;
             if (command.Phase == TacticalCommandPhase.Returning)
@@ -424,7 +426,6 @@ namespace Helodrace.Tactics
                     && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
                         || BreachExplosiveUtility.CountInInventory(pawn, BreachExplosiveUtility.C4Def) > 0 && TacticalBreachTools.IgniterFor(pawn) != null));
                 if (!budget.TryPlan(tick)) { command.Due = tick + 1; return; }
-                PlansAttempted++;
                 PrepareStructureTargets(command, tick);
                 bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
                 long planStarted = Stopwatch.GetTimestamp();
@@ -432,40 +433,9 @@ namespace Helodrace.Tactics
                 TacticalPlanFailure failure;
                 try
                 {
-                    int frontage = !command.Mission.NextGoal.IsValid && command.Link.Cooperation.Active && command.Failures < 2
-                        ? command.Link.Cooperation.Agenda.Side(command.Id) * 12 : 0;
-                    bool triedKnown = false; failure = TacticalPlanFailure.None;
-                    bool RecoverFurniture(TacticalLocalPlan candidate) => TryPrepareFurniture(command, active, candidate,
-                        Claimed, Claimed, cell => cell.InBounds(map) && cell.Roofed(map) == candidate.Inside.Roofed(map)
-                            && !command.SecuredCells.Contains(cell), requireFull: true);
-                    plan = ResumeFurniturePlan(command, active, leader, Claimed);
-                    if (plan == null && command.FurnitureAction == null)
-                        plan = frontage == 0 ? ReuseOpening(command, leader, planningGoal, command.Members.Count, Claimed,
-                        out triedKnown, out failure) : ReuseReportedOpening(command, leader, planningGoal, command.Members.Count,
-                            Claimed, out triedKnown, out failure, onlyCleared: true);
-                    if (plan == null && command.FurnitureAction == null
-                        && TacticalLocalPlanner.SearchFreshOpening(triedKnown, failure, command.Failures))
-                    {
-                        // Busy-only reuse did not run CanReach. After two failed
-                        // attempts, allow the same bounded fresh search rather
-                        // than reserving this squad in an endless 240-tick wait.
-                        // An unreachable reuse already consumed reach probes;
-                        // it must not add another search in this plan allowance.
-                        TacticalPlanFailure knownFailure = failure;
-                        if (triedKnown) BusyOpeningFallbacks++;
-                        plan = TacticalLocalPlanner.Find(map, leader, planningGoal, command.Members.Count,
-                            Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
-                            out failure, command.Failures, frontage, command.SecuredCells.Count == 0 ? null : (Func<IntVec3, bool>)command.SecuredCells.Contains,
-                            (opening, inward) => ClassifyStructure(command, opening, inward, leader), RecoverFurniture,
-                            candidate => TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, candidate));
-                        if (plan == null) failure |= knownFailure;
-                    }
-                    if (plan != null && !plan.Direct)
-                    {
-                        command.Breacher = hammer;
-                        if (!TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan)))
-                        { plan = null; failure |= TacticalPlanFailure.Inside; }
-                    }
+                    command.Breacher = hammer;
+                    if (!PreparePendingPlan(command, active, leader, planningGoal, Claimed, out plan, out failure))
+                    { command.Due = tick + 1; return; }
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - planStarted); }
                 command.LastPlanFailure = failure;
@@ -558,6 +528,7 @@ namespace Helodrace.Tactics
                         int i = (start + n) % command.Members.Count;
                         TacticalMemberCommand member = command.Members[i];
                         if (!Available(member, map) || command.Phase == TacticalCommandPhase.Breach && member.Pawn == command.Breacher
+                            || member.Pawn.CurJob?.playerForced == true || StationaryGuidance(member)
                             || HoldsPost(member, current.Stack[i], false)) continue;
                         EnsurePost(member, current.Stack[i], current.Opening, tick);
                         command.MovementCursor = (i + 1) % command.Members.Count; issued++;
@@ -681,6 +652,7 @@ namespace Helodrace.Tactics
                     && member.Pawn.Position == current.Positions[i];
                 if (member.Entered) continue;
                 if (!dispatchEntry || entryIssues >= TacticalCadence.MovementBatch) continue;
+                if (member.Pawn.CurJob?.playerForced == true || StationaryGuidance(member)) continue;
                 if (current.Direct)
                 {
                     if (!HoldsPost(member, current.Positions[i], true))
@@ -922,6 +894,7 @@ namespace Helodrace.Tactics
         }
         private static void BeginReturn(TacticalSquadCommand command, int tick, bool release, bool replan = false)
         {
+            command.CancelPreparation();
             Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, tick, release || replan);
             command.Phase = TacticalCommandPhase.Returning; command.ReleaseAfterReturn = release;
             command.ReplanAfterReturn = replan;
@@ -958,6 +931,7 @@ namespace Helodrace.Tactics
         }
         private static void RestartRetainedMission(TacticalSquadCommand command, int tick)
         {
+            command.CancelPreparation();
             command.ReplanAfterReturn = false; command.ReleaseAfterReturn = false;
             command.Plan = null; command.OpeningAction = null; command.RoomScan = null;
             command.ContactRestoring = false; command.Breacher = null;
@@ -974,6 +948,7 @@ namespace Helodrace.Tactics
         }
         internal void Retire(TacticalSquadCommand command)
         {
+            command.CancelPreparation();
             command.Phase = TacticalCommandPhase.Released;
             foreach (TacticalMemberCommand member in command.Members)
                 if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner) && owner == command)
@@ -994,6 +969,7 @@ namespace Helodrace.Tactics
             // without doing a new vanilla job search on a map being disposed.
             foreach (TacticalSquadCommand command in squads.Values)
             {
+                command.CancelPreparation();
                 foreach (TacticalMemberCommand member in command.Members) EndOwned(member, false);
                 command.Phase = TacticalCommandPhase.Released;
                 Current.Game?.GetComponent<GameComponent_TacticalCommands>()?.Forget(command);

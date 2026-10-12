@@ -91,13 +91,24 @@ namespace Helodrace.Tactics
             return TacticalPortalGeometry.PassageOpen(opening, inward, depth, cell => CellOpen(map, cell));
         }
 
-        internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
+        internal static TacticalPlanSearch Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
             out TacticalPlanFailure failure, int failedAttempts, int frontage = 0, Func<IntVec3, bool> secured = null,
             Func<IntVec3, IntVec3, TacticalStructureClass> classify = null, Func<TacticalLocalPlan, bool> recoverFurniture = null,
             Func<TacticalLocalPlan, bool> clearedPassage = null)
         {
             failure = TacticalPlanFailure.None;
+            var search = new TacticalPlanSearch();
+            search.Start(FindSteps(map, leader, goal, count, claimed, leased, canBreach, search,
+                failedAttempts, frontage, secured, classify, recoverFurniture, clearedPassage));
+            return search;
+        }
+        private static IEnumerable<TacticalLocalPlan> FindSteps(Map map, Pawn leader, IntVec3 goal,
+            int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
+            TacticalPlanSearch search, int failedAttempts, int frontage, Func<IntVec3, bool> secured,
+            Func<IntVec3, IntVec3, TacticalStructureClass> classify, Func<TacticalLocalPlan, bool> recoverFurniture,
+            Func<TacticalLocalPlan, bool> clearedPassage)
+        {
             IntVec3 from = leader.Position;
             IntVec3 preferred = Math.Abs(goal.x - from.x) >= Math.Abs(goal.z - from.z)
                 ? new IntVec3(Math.Sign(goal.x - from.x), 0, 0) : new IntVec3(0, 0, Math.Sign(goal.z - from.z));
@@ -112,6 +123,7 @@ namespace Helodrace.Tactics
             // One directional probe, capped at 256 cells. It does not run A*.
             for (int i = 1; i <= Math.Min(steps, 256); i++)
             {
+                if (i % 32 == 0) yield return null;
                 var cell = new IntVec3(from.x + (int)Math.Round((goal.x - from.x) * (double)i / steps), 0,
                     from.z + (int)Math.Round((goal.z - from.z) * (double)i / steps));
                 Building building = cell.GetEdifice(map);
@@ -125,7 +137,7 @@ namespace Helodrace.Tactics
                         IntVec3 inward = face ? normal : preferred;
                         if (secured?.Invoke(cell + inward) == true) continue;
                         TacticalStructureClass kind = classify?.Invoke(cell, inward) ?? TacticalStructureClass.Target;
-                        if (kind == TacticalStructureClass.Pending) { failure = TacticalPlanFailure.Classification; return null; }
+                        if (kind == TacticalStructureClass.Pending) { search.Failure = TacticalPlanFailure.Classification; yield break; }
                         if (kind != TacticalStructureClass.Target) continue;
                         preferred = inward; first = cell; break;
                     }
@@ -140,7 +152,7 @@ namespace Helodrace.Tactics
                         IntVec3 inward = gapNormal * Math.Sign(heading);
                         if (secured?.Invoke(cell + inward) == true) continue;
                         TacticalStructureClass kind = classify?.Invoke(cell, inward) ?? TacticalStructureClass.Target;
-                        if (kind == TacticalStructureClass.Pending) { failure = TacticalPlanFailure.Classification; return null; }
+                        if (kind == TacticalStructureClass.Pending) { search.Failure = TacticalPlanFailure.Classification; yield break; }
                         if (kind != TacticalStructureClass.Target) continue;
                         preferred = inward; first = cell; break;
                     }
@@ -148,6 +160,7 @@ namespace Helodrace.Tactics
             }
             if (!first.IsValid)
             {
+                yield return null;
                 var direct = new TacticalLocalPlan { Direct = true, Opening = goal, Inward = IntVec3.North };
                 // Keep the posts in the objective's connected local space.
                 // Radial standability alone could put them across a nearby wall.
@@ -155,9 +168,10 @@ namespace Helodrace.Tactics
                 direct.Positions.AddRange(TacticalDestinationFootprint.Find(goal, count,
                     cell => cell.InBounds(map) && cell.Walkable(map) && cell.Roofed(map) == roofed
                         && !(cell.GetEdifice(map) is Building_Door) && secured?.Invoke(cell) != true, cell => Free(map, cell, claimed)));
-                if (direct.Positions.Count != count) { failure = TacticalPlanFailure.Inside; return null; }
-                if (leader.CanReach(direct.Positions[0], Verse.AI.PathEndMode.OnCell, Danger.Deadly)) return direct;
-                failure = TacticalPlanFailure.Unreachable; return null;
+                if (direct.Positions.Count != count) { search.Failure = TacticalPlanFailure.Inside; yield break; }
+                yield return null;
+                if (leader.CanReach(direct.Positions[0], Verse.AI.PathEndMode.OnCell, Danger.Deadly)) { yield return direct; yield break; }
+                search.Failure = TacticalPlanFailure.Unreachable; yield break;
             }
             var candidates = new List<TacticalLocalPlan>(8);
             IntVec3 tangent = new IntVec3(-preferred.z, 0, preferred.x);
@@ -166,34 +180,36 @@ namespace Helodrace.Tactics
             int band = SearchBand(failedAttempts);
             foreach (int offset in Offsets)
             {
+                // One cheap geometry candidate per slice. Expensive footprints
+                // are built only after ranking, never for all eight choices.
+                yield return null;
                 IntVec3 opening = first + tangent * (offset + frontage + band);
-                if (!opening.InBounds(map)) { failure |= TacticalPlanFailure.NotBoundary; continue; }
+                if (!opening.InBounds(map)) { search.Failure |= TacticalPlanFailure.NotBoundary; continue; }
                 TacticalStructureClass target = classify?.Invoke(opening, preferred) ?? TacticalStructureClass.Target;
-                if (target == TacticalStructureClass.Pending) { failure |= TacticalPlanFailure.Classification; continue; }
-                if (target != TacticalStructureClass.Target) { failure |= TacticalPlanFailure.NotBoundary; continue; }
+                if (target == TacticalStructureClass.Pending) { search.Failure |= TacticalPlanFailure.Classification; continue; }
+                if (target != TacticalStructureClass.Target) { search.Failure |= TacticalPlanFailure.NotBoundary; continue; }
                 Building barrier = opening.GetEdifice(map);
                 if (barrier == null)
                 {
                     if (!TacticalPortalGeometry.IsGap(opening, Wall, GapFloor))
-                    { failure |= TacticalPlanFailure.NotBoundary; continue; }
+                    { search.Failure |= TacticalPlanFailure.NotBoundary; continue; }
                 }
                 bool openDoor = barrier is Building_Door door && (door.Open || DoorBreachFaultUtility.Jammed(door));
                 if (barrier != null && !openDoor && !canBreach(barrier))
-                { failure |= TacticalPlanFailure.Tool; continue; }
-                if (barrier == null && !opening.Standable(map)) { failure |= TacticalPlanFailure.Obstructed; continue; }
+                { search.Failure |= TacticalPlanFailure.Tool; continue; }
+                if (barrier == null && !opening.Standable(map)) { search.Failure |= TacticalPlanFailure.Obstructed; continue; }
                 var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier,
                     ExistingOpening = barrier == null || openDoor };
-                if (!SetDepth(map, plan, recoverFurniture != null)) { failure |= TacticalPlanFailure.Inside; continue; }
+                if (!SetDepth(map, plan, recoverFurniture != null)) { search.Failure |= TacticalPlanFailure.Inside; continue; }
                 plan.ExistingOpening = PassageOpen(map, plan);
                 if (plan.ExistingOpening && clearedPassage?.Invoke(plan) == true)
                 {
-                    if (BuildClearedTransit(map, plan, count, claimed)) candidates.Add(plan);
-                    else failure |= TacticalPlanFailure.Inside;
+                    plan.ReportedPassage = true; candidates.Add(plan);
                     continue;
                 }
                 bool busy = false;
                 for (int layer = 0; layer < plan.Depth; layer++) busy |= leased(opening + preferred * layer);
-                if (busy) { failure |= TacticalPlanFailure.Busy; continue; }
+                if (busy) { search.Failure |= TacticalPlanFailure.Busy; continue; }
                 bool tools = true;
                 for (int layer = 0; layer < plan.Depth; layer++)
                 {
@@ -201,47 +217,80 @@ namespace Helodrace.Tactics
                     if (next != null && !(next is Building_Door d && (d.Open || DoorBreachFaultUtility.Jammed(d))) && !canBreach(next))
                     { tools = false; break; }
                 }
-                if (!tools) { failure |= TacticalPlanFailure.Tool; continue; }
+                if (!tools) { search.Failure |= TacticalPlanFailure.Tool; continue; }
                 plan.Barrier = NextBarrier(map, plan); plan.ExistingOpening = PassageOpen(map, plan);
-                if (secured?.Invoke(plan.Inside) == true) { failure |= TacticalPlanFailure.NotBoundary; continue; }
+                if (secured?.Invoke(plan.Inside) == true) { search.Failure |= TacticalPlanFailure.NotBoundary; continue; }
+                candidates.Add(plan);
+            }
+            candidates.Sort((a, b) => Score(a, from).CompareTo(Score(b, from)));
+            int probes = 0;
+            foreach (TacticalLocalPlan plan in candidates)
+            {
+                yield return null;
+                if (plan.ReportedPassage)
+                {
+                    if (!BuildClearedTransit(map, plan, count, claimed)) { search.Failure |= TacticalPlanFailure.Inside; continue; }
+                }
+                else
+                {
                 if (!Free(map, plan.Outside, claimed) || !Free(map, plan.Inside, claimed))
                 {
+                    yield return null;
                     if (recoverFurniture?.Invoke(plan) == true)
-                    { if (plan.PendingFurniture == null) return null; candidates.Add(plan); continue; }
-                    failure |= TacticalPlanFailure.Obstructed; continue;
+                    { if (plan.PendingFurniture == null) yield break; yield return plan; yield break; }
+                    search.Failure |= TacticalPlanFailure.Obstructed; continue;
                 }
                 if (!BuildStack(map, plan, count, claimed))
                 {
+                    yield return null;
                     if (recoverFurniture?.Invoke(plan) == true)
-                    { if (plan.PendingFurniture == null) return null; candidates.Add(plan); continue; }
-                    failure |= TacticalPlanFailure.Stack; continue;
+                    { if (plan.PendingFurniture == null) yield break; yield return plan; yield break; }
+                    search.Failure |= TacticalPlanFailure.Stack; continue;
                 }
+                yield return null;
                 // A blast at a corner can connect the local flood to outdoors.
                 // Keep this footprint on the inside mouth's roof/floor space,
                 // as the direct objective and later room-entry planners do.
                 bool insideRoofed = plan.Inside.Roofed(map);
                 if (!BuildPositions(map, plan, count, claimed, cell => cell.Roofed(map) == insideRoofed && secured?.Invoke(cell) != true))
                 {
+                    yield return null;
                     if (recoverFurniture?.Invoke(plan) == true)
-                    { if (plan.PendingFurniture == null) return null; candidates.Add(plan); continue; }
+                    { if (plan.PendingFurniture == null) yield break; yield return plan; yield break; }
                     // A small room still gets entered; surplus members take
                     // covered entrance guards during indexed allocation.
-                    if (plan.Positions.Count == 0) { failure |= TacticalPlanFailure.Inside; continue; }
+                    if (plan.Positions.Count == 0) { search.Failure |= TacticalPlanFailure.Inside; continue; }
                 }
-                candidates.Add(plan);
+                }
+                yield return null;
+                if (probes++ >= 2) break;
+                if (leader.CanReach(plan.ReportedPassage ? plan.Inside : plan.Outside, Verse.AI.PathEndMode.OnCell, Danger.Deadly))
+                { search.Failure = TacticalPlanFailure.None; yield return plan; yield break; }
+                search.Failure |= TacticalPlanFailure.Unreachable;
             }
-            // Prefer a suitable ordinary door; never spend more than two final
-            // reachability probes per command attempt.
-            candidates.Sort((a, b) => Score(a, from).CompareTo(Score(b, from)));
-            for (int i = 0; i < Math.Min(2, candidates.Count); i++)
-                if (leader.CanReach(candidates[i].ReportedPassage ? candidates[i].Inside : candidates[i].Outside,
-                    Verse.AI.PathEndMode.OnCell, Danger.Deadly))
-                { failure = TacticalPlanFailure.None; return candidates[i]; }
-            if (candidates.Count > 0) failure |= TacticalPlanFailure.Unreachable;
-            return null;
+            if (candidates.Count > 0 && search.Failure == TacticalPlanFailure.None) search.Failure = TacticalPlanFailure.Unreachable;
         }
         private static int Score(TacticalLocalPlan plan, IntVec3 from) => plan.Outside.DistanceToSquared(from)
             - (plan.ExistingOpening ? 1600 : plan.Barrier is Building_Door ? 400 : 0);
+
+        internal static TacticalPlanSearch ReusedFootprint(Map map, Pawn leader, TacticalLocalPlan plan, int count,
+            Func<IntVec3,bool> claimed)
+        {
+            var search = new TacticalPlanSearch();
+            search.Start(ReusedFootprintSteps(map, leader, plan, count, claimed, search)); return search;
+        }
+        private static IEnumerable<TacticalLocalPlan> ReusedFootprintSteps(Map map, Pawn leader, TacticalLocalPlan plan,
+            int count, Func<IntVec3,bool> claimed, TacticalPlanSearch search)
+        {
+            if (!BuildStack(map, plan, count, claimed)) { search.Failure=TacticalPlanFailure.Stack; yield break; }
+            yield return null;
+            if (!BuildPositions(map, plan, count, claimed, cell => cell.Roofed(map)==plan.Inside.Roofed(map)) && plan.Positions.Count==0)
+            { search.Failure=TacticalPlanFailure.Inside; yield break; }
+            yield return null;
+            if (!leader.CanReach(plan.Outside, Verse.AI.PathEndMode.OnCell, Danger.Deadly))
+            { search.Failure=TacticalPlanFailure.Unreachable; yield break; }
+            yield return plan;
+        }
 
         internal static bool BuildStack(Map map, TacticalLocalPlan plan, int count, Func<IntVec3, bool> claimed,
             bool allowPartial = false, Building ignored = null)
@@ -270,8 +319,5 @@ namespace Helodrace.Tactics
                 cell => TacticalFurniturePolicy.FreeIgnoring(map, cell, claimed, ignored), plan.Positions, plan.Interior, out plan.EntryLane);
         }
 
-        internal static bool AllocateEntry(Map map, TacticalLocalPlan plan, IList<int> eligible) =>
-            TacticalEntryAllocation.Allocate(plan, eligible,
-                plan.ReportedPassage ? (Func<IntVec3, bool>)null : cell => !GenSight.LineOfSight(plan.Opening, cell, map, true));
     }
 }
