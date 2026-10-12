@@ -422,12 +422,6 @@ namespace Helodrace.Tactics
                 Pawn hammer = active.Select(member => member.Pawn).FirstOrDefault(pawn => BreachExplosiveUtility.CanOperate(pawn)
                     && (CompSledgehammerBreach.WornBy(pawn) != null || pawn.equipment?.Primary?.TryGetComp<CompPowerCutterBreach>() != null
                         || BreachExplosiveUtility.CountInInventory(pawn, BreachExplosiveUtility.C4Def) > 0 && TacticalBreachTools.IgniterFor(pawn) != null));
-                if (hammer == null && tick - command.PhaseStarted < 1200 && RecoverBreachTool(command, active, tick))
-                {
-                    foreach (TacticalMemberCommand member in active)
-                        if (member.Pawn != command.Breacher) EnsureParking(command, member, tick);
-                    command.Due = tick + 30; return;
-                }
                 if (!budget.TryPlan(tick)) { command.Due = tick + 1; return; }
                 PlansAttempted++;
                 PrepareStructureTargets(command, tick);
@@ -446,7 +440,8 @@ namespace Helodrace.Tactics
                     plan = ResumeFurniturePlan(command, active, leader, Claimed);
                     if (plan == null && command.FurnitureAction == null)
                         plan = frontage == 0 ? ReuseOpening(command, leader, planningGoal, command.Members.Count, Claimed,
-                        out triedKnown, out failure) : null;
+                        out triedKnown, out failure) : ReuseReportedOpening(command, leader, planningGoal, command.Members.Count,
+                            Claimed, out triedKnown, out failure, onlyCleared: true);
                     if (plan == null && command.FurnitureAction == null
                         && TacticalLocalPlanner.SearchFreshOpening(triedKnown, failure, command.Failures))
                     {
@@ -460,7 +455,8 @@ namespace Helodrace.Tactics
                         plan = TacticalLocalPlanner.Find(map, leader, planningGoal, command.Members.Count,
                             Claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
                             out failure, command.Failures, frontage, command.SecuredCells.Count == 0 ? null : (Func<IntVec3, bool>)command.SecuredCells.Contains,
-                            (opening, inward) => ClassifyStructure(command, opening, inward, leader), RecoverFurniture);
+                            (opening, inward) => ClassifyStructure(command, opening, inward, leader), RecoverFurniture,
+                            candidate => TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, candidate));
                         if (plan == null) failure |= knownFailure;
                     }
                     if (plan != null && !plan.Direct)
@@ -475,6 +471,14 @@ namespace Helodrace.Tactics
                 if (command.FurnitureAction != null) { command.Due = tick + 1; return; }
                 if (plan == null)
                 {
+                    // Try usable passages first. Tool recovery must not gather
+                    // a squad that can simply walk through an already clear room.
+                    if (hammer == null && tick - command.PhaseStarted < 1200 && RecoverBreachTool(command, active, tick))
+                    {
+                        foreach (TacticalMemberCommand member in active)
+                            if (member.Pawn != command.Breacher) EnsureParking(command, member, tick);
+                        command.Due = tick + 30; return;
+                    }
                     if ((failure & TacticalPlanFailure.Classification) != 0)
                     {
                         foreach (TacticalMemberCommand member in active) EnsureParking(command, member, tick);
@@ -501,14 +505,16 @@ namespace Helodrace.Tactics
                     command.Due = command.PlanRetryAt; return;
                 }
                 ReleaseClaims(command); command.Plan = plan; PlansBuilt++; command.PhaseStarted = tick;
-                plan.ReportedPassage = command.SecuredKnowledge.Cleared(plan.Direct ? plan.Opening : plan.Inside);
+                plan.ReportedPassage = TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan)
+                    && (plan.Direct || OpeningUsable(plan));
                 command.Link.Cooperation.LocalReady = false;
                 command.OpeningAction = null;
-                command.HadConnectedStack = plan.Direct || TacticalEntryAllocation.ConnectedStack(plan);
-                if (plan.Direct)
+                command.HadConnectedStack = plan.Direct || plan.ReportedPassage || TacticalEntryAllocation.ConnectedStack(plan);
+                if (plan.Direct || plan.ReportedPassage)
                 {
                     foreach (IntVec3 cell in plan.Positions) claims[cell] = command;
                     command.Phase = TacticalCommandPhase.Enter;
+                    if (!plan.Direct) RememberOpening(plan);
                 }
                 else
                 {
@@ -601,7 +607,7 @@ namespace Helodrace.Tactics
                 || command.Phase == TacticalCommandPhase.BlastWait)
             {
                 if (command.Phase == TacticalCommandPhase.Observe && current.ReportedPassage
-                    && command.SecuredKnowledge.Cleared(current.Inside) && OpeningUsable(current)
+                    && TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, current) && OpeningUsable(current)
                     && command.OpeningAction == null && command.ChargeAction == null)
                     command.Phase = TacticalCommandPhase.Enter;
                 if (command.Phase == TacticalCommandPhase.Observe && command.OpeningAction == null
@@ -613,6 +619,12 @@ namespace Helodrace.Tactics
             AvoidObservedOccupiedPost(command);
             if (!current.Direct && !OpeningUsable(current))
             {
+                if (current.ReportedPassage)
+                {
+                    // Destination-only transit posts cannot become a breach
+                    // formation when somebody closes/blocks the shared passage.
+                    BeginReturn(command, tick, false, replan: true); return;
+                }
                 // Local obstruction, not global topology refresh. Keep the
                 // selected entrance and retry the breach, with bounded latency.
                 current.Barrier = TacticalLocalPlanner.NextBarrier(map, current);
@@ -658,8 +670,8 @@ namespace Helodrace.Tactics
                     Job ingress = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalIngress"),
                         current.Outside, current.Opening, current.Positions[i]);
                     ingress.targetQueueA = new List<LocalTargetInfo> { current.Inside };
-                    if (current.EntryLane.IsValid) ingress.targetQueueA.Add(current.EntryLane);
-                    ingress.count = member.Crossed ? 2 : member.Passed ? 1 : 0;
+                    if (!current.ReportedPassage && current.EntryLane.IsValid) ingress.targetQueueA.Add(current.EntryLane);
+                    ingress.count = TacticalSharedPassagePolicy.IngressLeg(member.Crossed, member.Passed, current.ReportedPassage);
                     Issue(member, ingress);
                 }
             }
@@ -737,15 +749,27 @@ namespace Helodrace.Tactics
                     && !command.SecuredPlans.Any(p => p.Opening == known.Opening)
                     && (leader.Position.DistanceToSquared(known.Opening) > 784
                         || !GenSight.LineOfSight(leader.Position, known.Opening, map, true))) continue;
-                // Guard assignments depend on this squad's secured history.
-                if (known.RetainedOutside.Count > 0) continue;
                 IntVec3 travel = goal - leader.Position, relative = leader.Position - known.Opening;
                 // Reuse only the same approach face, never route an already
                 // indoor squad back out or an opposite-edge squad around a base.
                 if (travel.x * known.Inward.x + travel.z * known.Inward.z <= 0
                     || relative.x * known.Inward.x + relative.z * known.Inward.z >= 1
                     || known.Outside.DistanceToSquared(leader.Position) > goal.DistanceToSquared(leader.Position)
-                    || known.Stack.Count < count || known.Positions.Count < count || !OpeningUsable(known)) continue;
+                    || !OpeningUsable(known)) continue;
+                if (TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, known))
+                {
+                    tried = true;
+                    if (probes++ >= 2) break;
+                    var transit = new TacticalLocalPlan { Opening = known.Opening, Inward = known.Inward,
+                        Depth = known.Depth, ExistingOpening = true };
+                    if (!TacticalLocalPlanner.BuildClearedTransit(map, transit, count, claimed))
+                    { failure |= TacticalPlanFailure.Inside; continue; }
+                    if (!leader.CanReach(transit.Inside, PathEndMode.OnCell, Danger.Deadly))
+                    { failure |= TacticalPlanFailure.Unreachable; continue; }
+                    failure = TacticalPlanFailure.None; return transit;
+                }
+                // Guard assignments depend on this squad's secured history.
+                if (known.RetainedOutside.Count > 0 || known.Stack.Count < count || known.Positions.Count < count) continue;
                 bool physical = known.Outside.Standable(map) && known.Inside.Standable(map);
                 physical &= !known.EntryLane.IsValid || known.EntryLane.Standable(map);
                 for (int i = 0; physical && i < count; i++)
@@ -812,7 +836,8 @@ namespace Helodrace.Tactics
             int index = command.Members.IndexOf(member);
             bool guard = command.Plan.RetainedOutside.Contains(index)
                 && (command.Phase == TacticalCommandPhase.Enter || command.Phase == TacticalCommandPhase.Clear);
-            return member.Crossed || command.Plan.Direct || guard ? command.Plan.Positions[index] : command.Plan.Stack[index];
+            return member.Crossed || command.Plan.Direct || command.Plan.ReportedPassage || guard
+                ? command.Plan.Positions[index] : command.Plan.Stack[index];
         }
         private bool Issue(TacticalMemberCommand member, Job job)
         {

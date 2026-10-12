@@ -76,7 +76,7 @@ namespace Helodrace.Tactics
             depth = Math.Max(depth, knownDepth);
             IntVec3 inside = opening + inward * depth;
             if (barrier?.Faction != null && barrier.Faction != command.TargetFaction) return TacticalStructureClass.Incidental;
-            if (command.SecuredKnowledge.Cleared(inside))
+            if (command.SecuredKnowledge.Cleared(inside) || command.SecuredKnowledge.ClearedPassage(opening, inward, depth))
                 return barrier?.def.IsWall == true ? TacticalStructureClass.Incidental : TacticalStructureClass.Target;
             TacticalStructureClass secured = SecuredRegion(command, opening, inward, depth);
             if (secured == TacticalStructureClass.Pending) return secured;

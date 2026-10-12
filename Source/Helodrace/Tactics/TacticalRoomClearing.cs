@@ -111,7 +111,7 @@ namespace Helodrace.Tactics
         {
             TacticalLocalPlan plan = command.Plan;
             command.ReportBatch.Clear(); command.ReportFrontierCursor = 0;
-            if (plan.ReportedPassage && command.SecuredKnowledge.Cleared(plan.Direct ? plan.Opening : plan.Inside))
+            if (plan.ReportedPassage && TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan))
             { FinishOutdoorPassage(command, tick); return; }
             RetireEntryApproach(command);
             IntVec3 seed = TacticalRoomProgress.SurveySeed(plan,
@@ -292,23 +292,27 @@ namespace Helodrace.Tactics
                     if (plan == null) continue;
                     ReleaseClaims(command); command.Plan = plan; PlansBuilt++;
                     command.Link.Cooperation.LocalReady = false;
-                    foreach (IntVec3 cell in plan.Stack.Concat(plan.Positions)) claims[cell] = command;
-                    claims[plan.Outside] = claims[plan.Inside] = command;
-                    for (int layer = 0; layer < plan.Depth; layer++)
+                    foreach (IntVec3 cell in plan.Positions) claims[cell] = command;
+                    if (!plan.ReportedPassage)
                     {
-                        IntVec3 cell = plan.Opening + plan.Inward * layer;
-                        claims[cell] = command; leases[cell] = command;
+                        foreach (IntVec3 cell in plan.Stack) claims[cell] = command;
+                        claims[plan.Outside] = claims[plan.Inside] = command;
+                        for (int layer = 0; layer < plan.Depth; layer++)
+                        {
+                            IntVec3 cell = plan.Opening + plan.Inward * layer;
+                            claims[cell] = command; leases[cell] = command;
+                        }
+                        if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
                     }
-                    if (plan.EntryLane.IsValid) claims[plan.EntryLane] = command;
                     command.OpeningAction = null; command.ChargeAction = null;
                     bool ownExit = frontier.Outdoors && plan.ExistingOpening;
-                    if (!ownExit) command.HadConnectedStack &= TacticalEntryAllocation.ConnectedStack(plan);
+                    if (!ownExit && !plan.ReportedPassage) command.HadConnectedStack &= TacticalEntryAllocation.ConnectedStack(plan);
                     command.Breacher = active.Find(m => (plan.StackMembers.Count == 0 || plan.StackMembers.Contains(command.Members.IndexOf(m)))
                         && TacticalBreachTools.CanUse(m.Pawn, plan.Barrier))?.Pawn;
                     foreach (TacticalMemberCommand member in command.Members)
                     { member.Passed = member.Crossed = member.Entered = member.EntryAssignmentDone = false; member.Parking = IntVec3.Invalid; }
                     command.BarrierHitPoints = -1; command.PhaseStarted = tick;
-                    command.Phase = ownExit ? TacticalCommandPhase.Enter
+                    command.Phase = ownExit || plan.ReportedPassage ? TacticalCommandPhase.Enter
                         : plan.ExistingOpening ? TacticalCommandPhase.Observe : TacticalCommandPhase.Stack;
                     if (ownExit)
                         foreach (TacticalMemberCommand member in active)
@@ -369,9 +373,10 @@ namespace Helodrace.Tactics
                 || !TacticalLocalPlanner.PassageOpen(map, plan))) return null;
             Building barrier = plan.Barrier = TacticalLocalPlanner.NextBarrier(map, plan);
             bool opened = plan.ExistingOpening = TacticalLocalPlanner.PassageOpen(map, plan);
+            bool cleared = opened && TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan);
             if (!opened && !active.Any(m => TacticalBreachTools.CanUse(m.Pawn, barrier)))
             { missingTool = true; return null; }
-            for (int layer = 0; layer < plan.Depth; layer++)
+            for (int layer = 0; !cleared && layer < plan.Depth; layer++)
                 if (leases.TryGetValue(plan.Opening + plan.Inward * layer, out TacticalSquadCommand owner) && owner != command)
                 { occupied = true; return null; }
             bool touchedClaim = false;
@@ -379,6 +384,13 @@ namespace Helodrace.Tactics
             {
                 bool blocked = claims.TryGetValue(cell, out TacticalSquadCommand other) && other != command;
                 touchedClaim |= blocked; return blocked;
+            }
+            if (cleared)
+            {
+                if (!TacticalLocalPlanner.BuildClearedTransit(map, plan, command.Members.Count, Claimed))
+                { occupied = touchedClaim; return null; }
+                return TacticalLocalPlanner.AllocateEntry(map, plan, TacticalEntryOrder.For(command, active, plan))
+                    && active[0].Pawn.CanReach(plan.Inside, PathEndMode.OnCell, Danger.Deadly) ? plan : null;
             }
             bool OutsideBlocked(IntVec3 cell) => !FurnitureApproachSecured(command, cell) || Claimed(cell);
             bool InsideBlocked(IntVec3 cell) => command.SecuredCells.Contains(cell) || Claimed(cell);

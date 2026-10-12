@@ -28,7 +28,8 @@ namespace Helodrace.Tactics
             }
             bool liveAction = command.ChargeAction != null
                 || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared;
-            if (tick < link.IdentifyUntil && !liveAction && command.ContactResponse == null)
+            if (tick < link.IdentifyUntil && !liveAction && command.ContactResponse == null
+                && !(command.Phase == TacticalCommandPhase.Enter && command.Plan?.ReportedPassage == true))
             {
                 if (!link.IdentificationHolding)
                 {

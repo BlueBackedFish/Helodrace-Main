@@ -89,8 +89,9 @@ namespace Helodrace.Tactics
         {
             BindOwner();
             job.canUseRangedWeapon = false;
-            // Mandatory outside -> actual opening -> inside, then ONE final
-            // near-wall destination. Every pawn including rear security uses it.
+            // Unsecured entry stages outside first. Cleared transit skips that
+            // leg but still physically crosses the chosen opening and inside
+            // mouth, including rear security; it cannot take an old detour.
             Crossed |= job.count >= 2;
             if (job.count < 1)
             {

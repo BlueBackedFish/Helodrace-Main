@@ -37,7 +37,7 @@ namespace Helodrace.Tactics
         public bool ReportedPassage;
     }
 
-    public static class TacticalLocalPlanner
+    public static partial class TacticalLocalPlanner
     {
         private static readonly int[] Offsets = { 0, -1, 1, -3, 3, -6, 6, 10 };
         // Sample between sparse offsets before moving to a distant frontage.
@@ -94,7 +94,8 @@ namespace Helodrace.Tactics
         internal static TacticalLocalPlan Find(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
             out TacticalPlanFailure failure, int failedAttempts, int frontage = 0, Func<IntVec3, bool> secured = null,
-            Func<IntVec3, IntVec3, TacticalStructureClass> classify = null, Func<TacticalLocalPlan, bool> recoverFurniture = null)
+            Func<IntVec3, IntVec3, TacticalStructureClass> classify = null, Func<TacticalLocalPlan, bool> recoverFurniture = null,
+            Func<TacticalLocalPlan, bool> clearedPassage = null)
         {
             failure = TacticalPlanFailure.None;
             IntVec3 from = leader.Position;
@@ -170,7 +171,6 @@ namespace Helodrace.Tactics
                 TacticalStructureClass target = classify?.Invoke(opening, preferred) ?? TacticalStructureClass.Target;
                 if (target == TacticalStructureClass.Pending) { failure |= TacticalPlanFailure.Classification; continue; }
                 if (target != TacticalStructureClass.Target) { failure |= TacticalPlanFailure.NotBoundary; continue; }
-                if (leased(opening)) { failure |= TacticalPlanFailure.Busy; continue; }
                 Building barrier = opening.GetEdifice(map);
                 if (barrier == null)
                 {
@@ -184,6 +184,13 @@ namespace Helodrace.Tactics
                 var plan = new TacticalLocalPlan { Opening = opening, Inward = preferred, Barrier = barrier,
                     ExistingOpening = barrier == null || openDoor };
                 if (!SetDepth(map, plan, recoverFurniture != null)) { failure |= TacticalPlanFailure.Inside; continue; }
+                plan.ExistingOpening = PassageOpen(map, plan);
+                if (plan.ExistingOpening && clearedPassage?.Invoke(plan) == true)
+                {
+                    if (BuildClearedTransit(map, plan, count, claimed)) candidates.Add(plan);
+                    else failure |= TacticalPlanFailure.Inside;
+                    continue;
+                }
                 bool busy = false;
                 for (int layer = 0; layer < plan.Depth; layer++) busy |= leased(opening + preferred * layer);
                 if (busy) { failure |= TacticalPlanFailure.Busy; continue; }
@@ -227,7 +234,8 @@ namespace Helodrace.Tactics
             // reachability probes per command attempt.
             candidates.Sort((a, b) => Score(a, from).CompareTo(Score(b, from)));
             for (int i = 0; i < Math.Min(2, candidates.Count); i++)
-                if (leader.CanReach(candidates[i].Outside, Verse.AI.PathEndMode.OnCell, Danger.Deadly))
+                if (leader.CanReach(candidates[i].ReportedPassage ? candidates[i].Inside : candidates[i].Outside,
+                    Verse.AI.PathEndMode.OnCell, Danger.Deadly))
                 { failure = TacticalPlanFailure.None; return candidates[i]; }
             if (candidates.Count > 0) failure |= TacticalPlanFailure.Unreachable;
             return null;
@@ -264,6 +272,6 @@ namespace Helodrace.Tactics
 
         internal static bool AllocateEntry(Map map, TacticalLocalPlan plan, IList<int> eligible) =>
             TacticalEntryAllocation.Allocate(plan, eligible,
-                cell => !GenSight.LineOfSight(plan.Opening, cell, map, true));
+                plan.ReportedPassage ? (Func<IntVec3, bool>)null : cell => !GenSight.LineOfSight(plan.Opening, cell, map, true));
     }
 }

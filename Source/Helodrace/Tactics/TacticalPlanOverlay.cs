@@ -112,11 +112,11 @@ namespace Helodrace.Tactics
                     Add(plan.Opening,"HD_Tactics_NodeOpening",SimpleColor.Red);
                     if (!plan.Direct)
                     {
-                        Add(plan.Outside,"HD_Tactics_NodeApproach",SimpleColor.Yellow);
+                        if (!plan.ReportedPassage) Add(plan.Outside,"HD_Tactics_NodeApproach",SimpleColor.Yellow);
                         Add(plan.Inside,"HD_Tactics_NodeInside",SimpleColor.Green);
-                        Add(plan.EntryLane,"HD_Tactics_NodeLane",SimpleColor.Cyan);
+                        if (!plan.ReportedPassage) Add(plan.EntryLane,"HD_Tactics_NodeLane",SimpleColor.Cyan);
                     }
-                    for(int i=0;i<plan.Stack.Count;i++)
+                    for(int i=0;!plan.ReportedPassage && i<plan.Stack.Count;i++)
                         Add(plan.Stack[i],"HD_Tactics_NodeStack",SimpleColor.Yellow,i+1,false);
                     for(int i=0;i<plan.Positions.Count;i++)
                         Add(plan.Positions[i],plan.RetainedOutside.Contains(i) ? "HD_Tactics_NodeGuard" : "HD_Tactics_NodeEntry",

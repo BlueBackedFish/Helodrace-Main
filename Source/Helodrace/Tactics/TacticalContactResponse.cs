@@ -230,7 +230,7 @@ namespace Helodrace.Tactics
             // The Clear transition retired the unused approach. Temporary
             // contact/identification posts must not preserve it as an old claim.
             return command.FurnitureAction?.TemporaryClaims.Contains(cell) == true
-                || plan != null && (plan.Positions.Contains(cell) || command.Phase != TacticalCommandPhase.Clear
+                || plan != null && (plan.Positions.Contains(cell) || !plan.ReportedPassage && command.Phase != TacticalCommandPhase.Clear
                 && (plan.Stack.Contains(cell) || cell == plan.Outside || cell == plan.Inside
                     || cell == plan.Opening || cell == plan.EntryLane));
         }

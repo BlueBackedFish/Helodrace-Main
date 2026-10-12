@@ -9,6 +9,10 @@ namespace Helodrace.Tactics
 {
     public static class TacticalSharedPassagePolicy
     {
+        public static bool Cleared(TacticalSecuredKnowledge knowledge, TacticalLocalPlan plan) =>
+            knowledge.Cleared(plan.Direct ? plan.Opening : plan.Inside)
+            || !plan.Direct && knowledge.ClearedPassage(plan.Opening, plan.Inward, plan.Depth);
+        public static int IngressLeg(bool crossed, bool passed, bool cleared) => crossed ? 2 : passed || cleared ? 1 : 0;
         public static bool Reconsider(TacticalCommandPhase phase, bool cleared, bool direct, bool charge, bool launched) =>
             cleared && !direct && !charge && !launched && (phase == TacticalCommandPhase.Stack
                 || phase == TacticalCommandPhase.Breach || phase == TacticalCommandPhase.Observe || phase == TacticalCommandPhase.Support);
@@ -92,6 +96,16 @@ namespace Helodrace.Tactics
             return byOpening.TryGetValue(opening, out List<TacticalSecuredReport> group)
                 && group.Exists(r => r.PortalUsable && r.Inward == inward && r.Depth == depth);
         }
+        public bool ClearedPassage(IntVec3 opening, IntVec3 inward, int depth)
+        {
+            EnsureIndex();
+            // The mouth may be unroofed by the blast and absent from the floor
+            // survey. Require actual floor-clear evidence, not a portal-only
+            // report. Destroyed adjoining wall layers can shorten the channel.
+            return byOpening.TryGetValue(opening, out List<TacticalSecuredReport> group)
+                && group.Exists(r => r.PortalUsable && !r.Recheck && r.Cells.Count > 0
+                    && r.Inward == inward && r.Depth >= depth);
+        }
         public bool Record(TacticalSecuredReport report)
         {
             if (report == null || report.Depth < 1 || report.Depth > TacticalPortalGeometry.LayerLimit
@@ -156,7 +170,7 @@ namespace Helodrace.Tactics
         {
             TacticalLocalPlan plan = command.Plan;
             if (plan == null || command.FurnitureAction != null || command.ContactResponse != null
-                || !TacticalSharedPassagePolicy.Reconsider(command.Phase, command.SecuredKnowledge.Cleared(plan.Inside),
+                || !TacticalSharedPassagePolicy.Reconsider(command.Phase, TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan),
                     plan.Direct, command.ChargeAction != null, command.OpeningAction?.Launched == true)) return false;
             // Stop preparatory work before releasing its controller. A launched
             // grenade or a C4 action always retains its own safety/return flow.
@@ -178,7 +192,11 @@ namespace Helodrace.Tactics
                 BeginReturn(command, tick, false, replan: true); return true;
             }
             plan.ReportedPassage = true;
-            command.Phase = TacticalCommandPhase.Observe; command.PhaseStarted = tick;
+            // Free the obsolete staging footprint and the exclusive breach
+            // lease. Subsequent squads only reserve their destination posts.
+            ReleaseClaims(command);
+            foreach (IntVec3 cell in plan.Positions) claims[cell] = command;
+            command.Phase = TacticalCommandPhase.Enter; command.PhaseStarted = tick;
             return false;
         }
         private void SyncSharedSecured(TacticalSquadCommand command, int tick)
@@ -237,7 +255,7 @@ namespace Helodrace.Tactics
             // Shared geometry never fakes physical entry by this squad.
         }
         private TacticalLocalPlan ReuseReportedOpening(TacticalSquadCommand command, Pawn leader, IntVec3 goal, int count,
-            Func<IntVec3, bool> claimed, out bool tried, out TacticalPlanFailure failure)
+            Func<IntVec3, bool> claimed, out bool tried, out TacticalPlanFailure failure, bool onlyCleared = false)
         {
             tried = false; failure = TacticalPlanFailure.None;
             int candidates = 0; var seen = new HashSet<IntVec3>();
@@ -245,7 +263,8 @@ namespace Helodrace.Tactics
             for (int i = reports.Count - 1; i >= 0 && candidates < 2; i--)
             {
                 TacticalSecuredReport report = reports[i];
-                if (!report.PortalUsable || !seen.Add(report.Opening)
+                if (!report.PortalUsable || onlyCleared && !command.SecuredKnowledge.ClearedPassage(report.Opening, report.Inward, report.Depth)
+                    || !seen.Add(report.Opening)
                     || command.SecuredCells.Contains(report.Opening + report.Inward * report.Depth)) continue;
                 var plan = new TacticalLocalPlan { Opening = report.Opening, Inward = report.Inward, Depth = report.Depth, ExistingOpening = true };
                 IntVec3 travel = goal - leader.Position, relative = leader.Position - plan.Opening;
@@ -256,14 +275,16 @@ namespace Helodrace.Tactics
                 Building live = plan.Opening.GetEdifice(map);
                 if (live?.Faction != null && live.Faction != command.TargetFaction)
                 { failure |= TacticalPlanFailure.NotBoundary; continue; }
-                if (leases.ContainsKey(plan.Opening)) { failure |= TacticalPlanFailure.Busy; continue; }
                 if (!OpeningUsable(plan)) { failure |= TacticalPlanFailure.Obstructed; continue; }
-                if (!TacticalLocalPlanner.Free(map, plan.Outside, claimed) || !TacticalLocalPlanner.Free(map, plan.Inside, claimed)
+                bool cleared = TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan);
+                if (!cleared && leases.ContainsKey(plan.Opening)) { failure |= TacticalPlanFailure.Busy; continue; }
+                if (cleared ? !TacticalLocalPlanner.BuildClearedTransit(map, plan, count, claimed)
+                    : !TacticalLocalPlanner.Free(map, plan.Outside, claimed) || !TacticalLocalPlanner.Free(map, plan.Inside, claimed)
                     || !TacticalLocalPlanner.BuildStack(map, plan, count, claimed)
                     || (!TacticalLocalPlanner.BuildPositions(map, plan, count, claimed, c => c.Roofed(map) == plan.Inside.Roofed(map))
                         && plan.Positions.Count == 0))
                 { failure |= TacticalPlanFailure.Obstructed; continue; }
-                if (!leader.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly))
+                if (!leader.CanReach(cleared ? plan.Inside : plan.Outside, PathEndMode.OnCell, Danger.Deadly))
                 { failure |= TacticalPlanFailure.Unreachable; continue; }
                 plan.Barrier = plan.Opening.GetEdifice(map); failure = TacticalPlanFailure.None; return plan;
             }
