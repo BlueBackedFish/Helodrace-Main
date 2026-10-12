@@ -40,7 +40,7 @@ namespace Helodrace.Tactics
             foreach (TacticalMemberCommand member in active)
             {
                 if (!AtPost(member) || member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) continue;
-                Thing grenade = SupportGrenade(member.Pawn, true);
+                Thing grenade = SupportGrenade(member.Pawn, true, false);
                 if (grenade == null || !InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, member.Pawn.Position,
                     target, InventoryGrenadeUtility.NormalThrowRange, out _)) continue;
                 float candidate = member.Pawn.Position.DistanceToSquared(target);

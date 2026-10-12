@@ -41,13 +41,16 @@ namespace Helodrace.Tactics
                     Pawn enemy = enemies[cursor++]; IntVec3 cell = enemy.Position, delta = cell - opening;
                     int forward = delta.x * inward.x + delta.z * inward.z;
                     bool door = cell.GetEdifice(pawn.Map) is RimWorld.Building_Door;
-                    if (enemy.Dead || enemy.Downed || !enemy.HostileTo(pawn) || forward < (door ? 0 : 1)
+                    bool prisoner = !enemy.Dead && enemy.IsPrisoner && HelodRace.IsHelod(enemy);
+                    if (!prisoner && (enemy.Dead || enemy.Downed || !enemy.HostileTo(pawn)) || forward < (door ? 0 : 1)
                         || Source.DistanceToSquared(cell) > 196) continue;
                     shootable.Clear(); ShootLeanUtility.CalcShootableCellsOf(shootable, enemy, Source);
                     bool visible = false;
                     foreach (IntVec3 destination in shootable)
                         if (GenSight.LineOfSight(Source, destination, pawn.Map, true)) { visible = true; break; }
                     if (!visible) continue;
+                    if (prisoner)
+                    { pawn.Map.GetComponent<MapComponent_TacticalCommands>()?.ObservedPrisoner(pawn, job); continue; }
                     bool ranged = TacticalThreatEligibility.Ranged(enemy);
                     MapComponent_TacticalCommands owner = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
                     bool melee = owner?.ObservedOpeningMelee(pawn, job, enemy, tick, ranged) == true;

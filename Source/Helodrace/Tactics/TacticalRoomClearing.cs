@@ -148,9 +148,21 @@ namespace Helodrace.Tactics
             int PortalDepth(IntVec3 opening, IntVec3 inward) => TacticalPortalGeometry.TryDepth(opening, inward,
                 cell => Kind(cell) == 2 || Kind(cell) == 3,
                 walkable, out int depth) ? depth : 0;
+            int doorSightProbes = 0;
+            int CapturedPreference(IntVec3 cell)
+            {
+                if (Kind(cell) == 4) return 800;
+                if (Kind(cell) != 3) return 0;
+                // Capture at most two visible open doors once, during this room
+                // survey. Later unseen opening/closing never reorders the plan.
+                if (TacticalHighCqbPolicy.High(command) && cell.DistanceToSquared(seed) <= 196
+                    && cell.GetEdifice(map) is Building_Door door && door.Open && doorSightProbes++ < 2
+                    && GenSight.LineOfSight(seed, cell, map, true)) return 600;
+                return 400;
+            }
             command.RoomScan = new TacticalRoomScan(seed, plan.Direct ? IntVec3.Invalid : plan.InnerOpening,
                 cell => Kind(cell) == 1, cell => Kind(cell) >= 2,
-                cell => Kind(cell) == 4 ? 800 : Kind(cell) == 3 ? 400 : 0,
+                CapturedPreference,
                 cell => cell.InBounds(map) && !cell.Roofed(map) && cell.Walkable(map), PortalDepth);
             // The entry was deliberately excluded from the floor survey. Keep
             // its reverse face as the preferred outdoor exit instead of opening
@@ -192,6 +204,13 @@ namespace Helodrace.Tactics
             // holds this room. Old contact memory alone cannot stall progress.
             if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
             { command.Due = tick + 30; return; }
+            if (command.CqbParent != null && !command.CqbEntered && command.CqbTask?.Excluded == true)
+            {
+                foreach (var frontier in command.CqbParent.Frontiers)
+                    if (frontier.Opening == command.CqbTask.Opening) frontier.Excluded = true;
+                command.CqbTask = null; command.CqbArea.Clear(); command.CancelPreparation();
+                command.Phase = TacticalCommandPhase.Complete; command.Due = tick + 10; return;
+            }
             if (command.CqbParent != null && command.CqbEntered && command.RoomScan == null && !command.SurveyPending)
             { FinishCqbRoom(command, tick); return; }
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
@@ -364,7 +383,9 @@ namespace Helodrace.Tactics
             // Latched structural preference plus actual contact knowledge.
             // Never reorder entrances by an unseen door's current Open state.
             return (command.GoalSecured ? frontier.Opening.DistanceToSquared(command.Plan.Inside)
-                : frontier.Inside.DistanceToSquared(CooperativeGoal(command))) - frontier.Preference - observedThreat
+                : frontier.Inside.DistanceToSquared(CooperativeGoal(command)))
+                + TacticalCqbDoctrine.EntryPenalty(TacticalHighCqbPolicy.High(command), frontier.Preference >= 800,
+                    frontier.Preference == 600, frontier.Preference >= 400 && frontier.Preference < 800, false) - observedThreat
                 + (frontier.Outdoors ? 100000 : 0);
         }
 

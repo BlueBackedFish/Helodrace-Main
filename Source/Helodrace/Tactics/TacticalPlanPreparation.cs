@@ -91,7 +91,7 @@ namespace Helodrace.Tactics
                     claimed, cell => leases.ContainsKey(cell), barrier => active.Any(member => TacticalBreachTools.CanUse(member.Pawn, barrier)),
                     out failure, command.Failures, frontage, command.SecuredCells.Count == 0 ? null : (Func<IntVec3, bool>)command.SecuredCells.Contains,
                     (opening, inward) => ClassifyStructure(command, opening, inward, leader), RecoverFurniture,
-                    candidate => TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, candidate));
+                    candidate => TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, candidate), TacticalHighCqbPolicy.High(command));
                 work.Stage = TacticalPreparationStage.Search;
             }
             else work.Stage = TacticalPreparationStage.Allocate;

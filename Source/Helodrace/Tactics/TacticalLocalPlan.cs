@@ -95,19 +95,19 @@ namespace Helodrace.Tactics
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
             out TacticalPlanFailure failure, int failedAttempts, int frontage = 0, Func<IntVec3, bool> secured = null,
             Func<IntVec3, IntVec3, TacticalStructureClass> classify = null, Func<TacticalLocalPlan, bool> recoverFurniture = null,
-            Func<TacticalLocalPlan, bool> clearedPassage = null)
+            Func<TacticalLocalPlan, bool> clearedPassage = null, bool highDoctrine = false)
         {
             failure = TacticalPlanFailure.None;
             var search = new TacticalPlanSearch();
             search.Start(FindSteps(map, leader, goal, count, claimed, leased, canBreach, search,
-                failedAttempts, frontage, secured, classify, recoverFurniture, clearedPassage));
+                failedAttempts, frontage, secured, classify, recoverFurniture, clearedPassage, highDoctrine));
             return search;
         }
         private static IEnumerable<TacticalLocalPlan> FindSteps(Map map, Pawn leader, IntVec3 goal,
             int count, Func<IntVec3, bool> claimed, Func<IntVec3, bool> leased, Func<Building, bool> canBreach,
             TacticalPlanSearch search, int failedAttempts, int frontage, Func<IntVec3, bool> secured,
             Func<IntVec3, IntVec3, TacticalStructureClass> classify, Func<TacticalLocalPlan, bool> recoverFurniture,
-            Func<TacticalLocalPlan, bool> clearedPassage)
+            Func<TacticalLocalPlan, bool> clearedPassage, bool highDoctrine)
         {
             IntVec3 from = leader.Position;
             IntVec3 preferred = Math.Abs(goal.x - from.x) >= Math.Abs(goal.z - from.z)
@@ -222,7 +222,16 @@ namespace Helodrace.Tactics
                 if (secured?.Invoke(plan.Inside) == true) { search.Failure |= TacticalPlanFailure.NotBoundary; continue; }
                 candidates.Add(plan);
             }
-            candidates.Sort((a, b) => Score(a, from).CompareTo(Score(b, from)));
+            var scores = new Dictionary<TacticalLocalPlan, int>(); int doorObservations = 0;
+            foreach (TacticalLocalPlan p in candidates)
+            {
+                bool door = p.Opening.GetEdifice(map) is Building_Door;
+                bool visibleOpen = p.ExistingOpening && door && (!highDoctrine
+                    || doorObservations++ < 2 && GenSight.LineOfSight(from, p.Opening, map, true));
+                scores[p] = p.Outside.DistanceToSquared(from) + TacticalCqbDoctrine.EntryPenalty(highDoctrine,
+                    p.ExistingOpening && !door, visibleOpen, door, p.ReportedPassage);
+            }
+            candidates.Sort((a, b) => scores[a].CompareTo(scores[b]));
             int probes = 0;
             foreach (TacticalLocalPlan plan in candidates)
             {
@@ -270,8 +279,6 @@ namespace Helodrace.Tactics
             }
             if (candidates.Count > 0 && search.Failure == TacticalPlanFailure.None) search.Failure = TacticalPlanFailure.Unreachable;
         }
-        private static int Score(TacticalLocalPlan plan, IntVec3 from) => plan.Outside.DistanceToSquared(from)
-            - (plan.ExistingOpening ? 1600 : plan.Barrier is Building_Door ? 400 : 0);
 
         internal static TacticalPlanSearch ReusedFootprint(Map map, Pawn leader, TacticalLocalPlan plan, int count,
             Func<IntVec3,bool> claimed)

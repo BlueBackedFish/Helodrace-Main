@@ -208,6 +208,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref EntryAdjusted, "entryAdjusted");
             Scribe_Values.Look(ref Outdoors, "outdoors");
             Scribe_Values.Look(ref RoomCells, "roomCells");
+            Scribe_Values.Look(ref KnownHelodPrisoner, "knownHelodPrisoner");
             Scribe_References.Look(ref Observer, "observer");
             Scribe_References.Look(ref Thrower, "thrower");
             Scribe_References.Look(ref Projectile, "projectile");

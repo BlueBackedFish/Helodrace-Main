@@ -728,6 +728,7 @@ namespace Helodrace.Tactics
         private static IntVec3 PendingGoal(TacticalSquadCommand command)
         {
             if (command.CqbFollow && command.CqbFollowGoal.IsValid) return command.CqbFollowGoal;
+            if (command.CqbParent != null && command.CqbTask != null) return command.CqbTask.Inside;
             IntVec3 transit = TacticalMissionRouting.TransitGoal(command);
             if (transit.IsValid) return transit;
             if (command.GoalSecured || command.SecuredKnowledge.Cleared(command.Goal))

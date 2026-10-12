@@ -34,7 +34,14 @@ namespace Helodrace.Tactics
             int ordinal = command.Plan.EntryOrder.IndexOf(index);
             if (ordinal < 0) return true;
             int team = command.Members[index].Fireteam;
-            if (team < 0) return true;
+            if (team < 0)
+            {
+                // The attached commander belongs to the middle wave for this
+                // passage, even though the organization has no fireteam slot.
+                for (int n = ordinal + 1; n < command.Plan.EntryOrder.Count && team < 0; n++)
+                    team = command.Members[command.Plan.EntryOrder[n]].Fireteam;
+                if (team < 0) return true;
+            }
             // Release when the preceding team's live ingress personnel physically
             // cross, not when they finish shooting or reach distant final seats.
             for (int n = 0; n < ordinal; n++)
