@@ -215,6 +215,8 @@ namespace Helodrace.Tactics
             }
             if (command.CqbParent != null && command.CqbEntered && command.RoomScan == null && !command.SurveyPending)
             { FinishCqbRoom(command, tick); return; }
+            if (command.RoomScan == null && !command.SurveyPending && command.RecoveryFrontier == null && tick < command.PlanRetryAt)
+            { command.Due = command.PlanRetryAt; return; }
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             command.Due = tick + 1;
             // Recovery also needs Plan allowance for its native reach probe.
@@ -281,7 +283,6 @@ namespace Helodrace.Tactics
                 }
                 // An allocated room is not the whole settlement. Continue to
                 // known yards/buildings instead of stopping at its first room.
-                if (tick < command.PlanRetryAt) { command.Due = command.PlanRetryAt; return; }
                 bool busy = false;
                 for (int examined = 0; examined < 2 && command.FrontierCursor < command.Frontiers.Count; examined++)
                 {

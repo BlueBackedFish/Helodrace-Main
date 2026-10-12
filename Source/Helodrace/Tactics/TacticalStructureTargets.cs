@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -54,15 +55,26 @@ namespace Helodrace.Tactics
         {
             if (tick >= command.SecuredRegionExpiry || command.SharedStructureRevision != command.SecuredKnowledge.Sequence)
             {
-                command.SecuredRegionProbes.Clear(); command.SecuredRegionExpiry = tick + 120;
+                // Shared reports and expiry invalidate answers, not unfinished
+                // bounded work. Busy squads may need longer than this lifetime
+                // to receive all four slices; restarting can starve them forever.
+                foreach (var key in command.SecuredRegionProbes.Where(p => p.Value.Result != TacticalStructureClass.Pending)
+                    .Select(p => p.Key).ToArray()) command.SecuredRegionProbes.Remove(key);
+                command.SecuredRegionExpiry = tick + 120;
                 command.SharedStructureRevision = command.SecuredKnowledge.Sequence;
             }
             command.SecuredRegionAllowance = TacticalSecuredRegionProbe.Slice;
             Faction target = explicitGoal.IsValid ? explicitTargetFaction : Faction.OfPlayer;
-            if (command.StructureGoal != command.Goal || command.TargetFaction != target || tick >= command.StructureExpiry)
+            if (command.StructureGoal != command.Goal || command.TargetFaction != target)
             {
                 command.StructureProbes.Clear(); command.StructureGoal = command.Goal;
                 command.TargetFaction = target; command.StructureExpiry = tick + 600;
+            }
+            else if (tick >= command.StructureExpiry)
+            {
+                foreach (var key in command.StructureProbes.Where(p => p.Value.Result != TacticalStructureClass.Pending)
+                    .Select(p => p.Key).ToArray()) command.StructureProbes.Remove(key);
+                command.StructureExpiry = tick + 600;
             }
             command.StructureAllowance = TacticalStructureProbe.Slice;
             command.StructureSightAllowance = 2;
