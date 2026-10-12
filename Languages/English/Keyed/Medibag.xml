@@ -7,11 +7,12 @@
   <HD_Medibag_Load_NoSupplies>No {0} in the wearer's inventory.</HD_Medibag_Load_NoSupplies>
   <HD_Medibag_NotEnoughSupplies>The medic bag needs loaded {0}.</HD_Medibag_NotEnoughSupplies>
   <HD_Medibag_Hemostasis_Label>Hemostasis</HD_Medibag_Hemostasis_Label>
-  <HD_Medibag_Hemostasis_Desc>Spend 30 seconds applying the same dressing as the hemostasis skill to up to {0} non-vital parts: 80% less bleeding for 12 hours. Each dressed part adds 5% pain, capped at 20%. Combines with systemic hemostatic agents. Uses {1} loaded supplies without tending wounds.</HD_Medibag_Hemostasis_Desc>
+  <HD_Medibag_Hemostasis_Desc>Spend 30 seconds applying the same dressing as the hemostasis skill to up to {0} non-vital parts: 80% less bleeding for 12 hours. Each dressed part adds 5% pain, capped at 20%. Combines with systemic hemostatic agents. No supplies on normal use; shared one-hour cooldown. Early reuse consumes {1} loaded supplies. Wounds are not tended.</HD_Medibag_Hemostasis_Desc>
   <HD_Medibag_Hemostasis_NoBleeding>{0} has no eligible bleeding wounds.</HD_Medibag_Hemostasis_NoBleeding>
   <HD_Medibag_Hemostasis_Applied>{0} stabilized bleeding on {1}: {2} parts treated.</HD_Medibag_Hemostasis_Applied>
   <HD_Medibag_Plasma_Label>Plasma transfusion</HD_Medibag_Plasma_Label>
-  <HD_Medibag_Plasma_Desc>Reduce blood loss and apply plasma transfusion if the target does not already have it. Uses {0} loaded treatment supplies.</HD_Medibag_Plasma_Desc>
+  <HD_Medibag_Plasma_Desc>Reduce blood loss and apply plasma transfusion if the target does not already have it. No supplies on normal use; shared one-hour cooldown. Early reuse consumes {0} loaded supplies.</HD_Medibag_Plasma_Desc>
   <HD_Medibag_Plasma_AlreadyActive>{0} has already received a plasma transfusion recently.</HD_Medibag_Plasma_AlreadyActive>
   <HD_Medibag_Plasma_Applied>{0} gave {1} an emergency plasma transfusion.</HD_Medibag_Plasma_Applied>
+  <HD_Medibag_Cooldown>Treatment cooldown: {0}</HD_Medibag_Cooldown>
 </LanguageData>

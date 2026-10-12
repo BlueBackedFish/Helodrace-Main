@@ -52,6 +52,7 @@ internal static class Program
     {
         try
         {
+            if (args.Contains("--a4")) { TacticalEquipmentRulesTests.Run(); TacticalMedicalEquipmentTests.Run(); return 0; }
             if (args.Contains("--cadence")) { TacticalCadenceTests.Run(); TacticalPlanPreparationTests.Run(); TacticalCooperationTests.Run(); TacticalIdentificationTests.Run(); TacticalEntryCombatTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--cleared-transit")) { TacticalClearedTransitTests.Run(); TacticalSecuredReportTests.Run(); TacticalMissionRoutingTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--shared-secured")) { TacticalSecuredReportTests.Run(); TacticalMissionRoutingTests.Run(); TacticalCooperationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }

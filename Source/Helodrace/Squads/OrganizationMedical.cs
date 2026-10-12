@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using RimWorld;
 using Verse;
@@ -58,7 +58,7 @@ namespace Helodrace.Squads
                 }
                 selected.medicalDuty = true; AddTraining(pawn);
                 CompMedibag comp = bag.TryGetComp<CompMedibag>();
-                ThingDef supplyDef = comp.Props.supplyDef ?? comp.Props.medicineDef ?? ThingDefOf.MedicineHerbal;
+                ThingDef supplyDef = comp.Props.supplyDef ?? ThingDefOf.MedicineHerbal;
                 Thing supplies = ThingMaker.MakeThing(supplyDef); supplies.stackCount = 5;
                 if (!pawn.inventory.innerContainer.TryAdd(supplies)) supplies.Destroy(DestroyMode.Vanish);
                 else
@@ -70,3 +70,4 @@ namespace Helodrace.Squads
         }
     }
 }
+

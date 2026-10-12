@@ -153,8 +153,9 @@ namespace Helodrace.Tactical
                             && actor.health.hediffSet.hediffs.Contains(completedDressing)
                             && !leftWound.IsTended() && !rightWound.IsTended(),
                             "Real bag job reuses self-care dressing and adds only one new part without tending");
-                        Check((int)AccessTools.Field(typeof(CompMedibag),"storedSupplies").GetValue(bag.TryGetComp<CompMedibag>())==1,
-                            "Real bag job consumes one loaded supply");
+                        Check((int)AccessTools.Field(typeof(CompMedibag),"storedSupplies").GetValue(bag.TryGetComp<CompMedibag>())==2
+                            && bag.TryGetComp<CompMedibag>().CooldownRemaining > 0,
+                            "Normal bag treatment preserves supplies and starts its shared cooldown");
                         Check(GenTicks.TicksGame-started>=1800 && GenTicks.TicksGame-started<1830,
                             "Actual bag hemostasis takes thirty seconds");
                         Check(Math.Abs(actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Sum(h=>h.PainOffset)-.10f)<.001f,

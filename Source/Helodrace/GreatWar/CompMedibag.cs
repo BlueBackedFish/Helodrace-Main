@@ -11,17 +11,14 @@ namespace Helodrace
     public class CompProperties_Medibag : CompProperties
     {
         public ThingDef supplyDef;
-        public ThingDef medicineDef;
         public HediffDef plasmaTransfusionHediff;
-        public int maxStoredSupplies = -1;
-        public int maxStoredMedicine = 5;
-        public int hemostasisSupplyCost = -1;
-        public int hemostasisMedicineCost = 1;
-        public int plasmaSupplyCost = -1;
-        public int plasmaMedicineCost = 1;
+        public int maxStoredSupplies = 5;
+        public int hemostasisSupplyCost = 1;
+        public int plasmaSupplyCost = 1;
         public int hemostasisPartCount = 4;
         public float bloodLossReduction = 0.60f;
         public int treatmentTicks = 180;
+        public int cooldownTicks = 2500;
         public List<BodyPartDef> excludedHemostasisParts;
 
         public CompProperties_Medibag()
@@ -33,6 +30,9 @@ namespace Helodrace
     public class CompMedibag : ThingComp
     {
         private int storedSupplies;
+        private int readyAt;
+        public int CooldownRemaining => System.Math.Max(0, readyAt - GenTicks.TicksGame);
+        private bool AvailableFor(int cost) => CooldownRemaining == 0 || storedSupplies >= cost;
         public override void Notify_Unequipped(Pawn pawn)
         {
             base.Notify_Unequipped(pawn);
@@ -43,17 +43,17 @@ namespace Helodrace
 
         private Pawn Wearer => (parent as Apparel)?.Wearer;
 
-        private ThingDef SupplyDef => Props.supplyDef ?? Props.medicineDef ?? ThingDefOf.MedicineHerbal;
+        private ThingDef SupplyDef => Props.supplyDef ?? ThingDefOf.MedicineHerbal;
 
-        private int MaxStoredSupplies => Props.maxStoredSupplies > 0 ? Props.maxStoredSupplies : Props.maxStoredMedicine;
+        private int MaxStoredSupplies => Props.maxStoredSupplies;
 
-        private int HemostasisSupplyCost => Props.hemostasisSupplyCost > 0 ? Props.hemostasisSupplyCost : Props.hemostasisMedicineCost;
+        private int HemostasisSupplyCost => Props.hemostasisSupplyCost;
 
-        private int PlasmaSupplyCost => Props.plasmaSupplyCost > 0 ? Props.plasmaSupplyCost : Props.plasmaMedicineCost;
+        private int PlasmaSupplyCost => Props.plasmaSupplyCost;
 
         public Pawn CurrentWearer => Wearer;
-        public bool HemostasisAvailable => storedSupplies >= HemostasisSupplyCost;
-        public bool PlasmaAvailable => storedSupplies >= PlasmaSupplyCost && Props.plasmaTransfusionHediff != null;
+        public bool HemostasisAvailable => AvailableFor(HemostasisSupplyCost);
+        public bool PlasmaAvailable => AvailableFor(PlasmaSupplyCost) && Props.plasmaTransfusionHediff != null;
         public bool AllowsHemostasisPart(BodyPartDef part) => !IsExcludedHemostasisPart(part);
 
         // Tactical care loads only an actual item carried by this bag's wearer;
@@ -69,15 +69,13 @@ namespace Helodrace
         {
             base.PostExposeData();
             Scribe_Values.Look(ref storedSupplies, "storedSupplies", 0);
-            if (Scribe.mode == LoadSaveMode.LoadingVars && storedSupplies == 0)
-            {
-                Scribe_Values.Look(ref storedSupplies, "storedMedicine", 0);
-            }
+            Scribe_Values.Look(ref readyAt, "readyAt");
         }
 
         public override string CompInspectStringExtra()
         {
-            return "HD_Medibag_StoredSupplies".Translate(storedSupplies, MaxStoredSupplies, SupplyDef.label);
+            return "HD_Medibag_StoredSupplies".Translate(storedSupplies, MaxStoredSupplies, SupplyDef.label)
+                + "\n" + "HD_Medibag_Cooldown".Translate(CooldownRemaining.ToStringTicksToPeriod());
         }
 
         public override IEnumerable<Gizmo> CompGetWornGizmosExtra()
@@ -123,7 +121,7 @@ namespace Helodrace
                 action = BeginHemostasisTargeting
             };
 
-            if (storedSupplies < HemostasisSupplyCost)
+            if (!HemostasisAvailable)
             {
                 hemostasisCommand.Disable("HD_Medibag_NotEnoughSupplies".Translate(SupplyDef.label));
             }
@@ -138,7 +136,7 @@ namespace Helodrace
                 action = BeginPlasmaTargeting
             };
 
-            if (storedSupplies < PlasmaSupplyCost)
+            if (!PlasmaAvailable)
             {
                 plasmaCommand.Disable("HD_Medibag_NotEnoughSupplies".Translate(SupplyDef.label));
             }
@@ -205,7 +203,7 @@ namespace Helodrace
         public bool TryApplyHemostasis(Pawn target, bool onlyUncovered = false)
         {
             Pawn wearer = Wearer;
-            if (!CanUseOn(wearer, target) || !TryConsumeSupplies(HemostasisSupplyCost))
+            if (!CanUseOn(wearer, target) || !HemostasisAvailable)
             {
                 return false;
             }
@@ -230,26 +228,25 @@ namespace Helodrace
 
             if (treatedParts == 0)
             {
-                storedSupplies += HemostasisSupplyCost;
                 Messages.Message("HD_Medibag_Hemostasis_NoBleeding".Translate(target.LabelShort), target, MessageTypeDefOf.RejectInput);
                 return false;
             }
 
             Messages.Message("HD_Medibag_Hemostasis_Applied".Translate(wearer.LabelShort, target.LabelShort, treatedParts), target, MessageTypeDefOf.PositiveEvent);
+            CompleteTreatment(HemostasisSupplyCost);
             return true;
         }
 
         public bool TryApplyPlasma(Pawn target)
         {
             Pawn wearer = Wearer;
-            if (!CanUseOn(wearer, target) || Props.plasmaTransfusionHediff == null || !TryConsumeSupplies(PlasmaSupplyCost))
+            if (!CanUseOn(wearer, target) || !PlasmaAvailable)
             {
                 return false;
             }
 
             if (target.health.hediffSet.HasHediff(Props.plasmaTransfusionHediff))
             {
-                storedSupplies += PlasmaSupplyCost;
                 Messages.Message("HD_Medibag_Plasma_AlreadyActive".Translate(target.LabelShort), target, MessageTypeDefOf.RejectInput);
                 return false;
             }
@@ -269,19 +266,16 @@ namespace Helodrace
             target.health.AddHediff(plasma);
 
             Messages.Message("HD_Medibag_Plasma_Applied".Translate(wearer.LabelShort, target.LabelShort), target, MessageTypeDefOf.PositiveEvent);
+            CompleteTreatment(PlasmaSupplyCost);
             return true;
         }
 
-        private bool TryConsumeSupplies(int count)
+        private void CompleteTreatment(int count)
         {
-            if (storedSupplies < count)
-            {
-                Messages.Message("HD_Medibag_NotEnoughSupplies".Translate(SupplyDef.label), parent, MessageTypeDefOf.RejectInput);
-                return false;
-            }
-
-            storedSupplies -= count;
-            return true;
+            // Commit only after a real successful effect. Interruptions and
+            // invalid patients spend neither resources nor cooldown.
+            if (CooldownRemaining > 0) storedSupplies -= count;
+            readyAt = GenTicks.TicksGame + System.Math.Max(0, Props.cooldownTicks);
         }
 
         private void LoadOneSupply()

@@ -230,6 +230,7 @@
         <maxStoredSupplies>5</maxStoredSupplies>
         <hemostasisSupplyCost>1</hemostasisSupplyCost>
         <plasmaSupplyCost>1</plasmaSupplyCost>
+        <cooldownTicks>2500</cooldownTicks>
         <hemostasisPartCount>4</hemostasisPartCount>
         <bloodLossReduction>0.60</bloodLossReduction>
         <treatmentTicks>180</treatmentTicks>
