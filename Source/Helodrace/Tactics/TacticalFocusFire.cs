@@ -73,6 +73,7 @@ namespace Helodrace.Tactics
             string job = pawn.CurJobDef?.defName;
             return job == "HD_NewTacticalIngress" && !(pawn.jobs.curDriver is JobDriver_TacticalIngress ingress && ingress.AtPost)
                 || job == "HD_NewTacticalRecoverTool"
+                  || job == TacticalMedicalEquipmentPolicy.RecoveryJob
                 || job == "HD_NewTacticalBreach" || job == "HD_NewTacticalCut"
                 || job == TacticalFurniturePolicy.JobName
                 || job == "HD_NewTacticalObserve" && !(pawn.jobs.curDriver is JobDriver_TacticalObserve observe && observe.AtPost && !observe.Peeking)

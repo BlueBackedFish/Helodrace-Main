@@ -36,6 +36,8 @@ internal static class TacticalFieldTests
             throw new Exception("Unrelated reports were treated as continuous tracking.");
         CheckFirePoints(anchor);
         var area = TacticalFieldPolicy.ConnectedArea(anchor, p => p.x != anchor.x + 1);
+        if (TacticalFieldPolicy.ConnectedArea(anchor, p => true).Count != TacticalFieldPolicy.AreaLimit)
+            throw new Exception("An unobstructed arrival area must respect its hard cell-work limit.");
         if (area.Count > TacticalFieldPolicy.AreaLimit || area.Any(p => p.x > anchor.x)
             || area.Any(p => !area.Contains(p + IntVec3.North) && !area.Contains(p + IntVec3.South)
                 && !area.Contains(p + IntVec3.East) && !area.Contains(p + IntVec3.West)))

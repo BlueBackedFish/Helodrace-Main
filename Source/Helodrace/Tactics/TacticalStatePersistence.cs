@@ -26,6 +26,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref CombatFunction, "combatFunction");
             Scribe_Values.Look(ref LastCareAt, "lastCareAt");
             Scribe_Values.Look(ref MedicalRejoinPending, "medicalRejoinPending");
+            Scribe_Values.Look(ref Medic, "medic");
             Scribe_References.Look(ref Pawn, "pawn");
             if (Scribe.mode == LoadSaveMode.Saving) SavedJobId = Job?.loadID ?? -1;
             Scribe_Values.Look(ref SavedJobId, "ownedJobId", -1);
@@ -91,6 +92,9 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref FieldResponse, "fieldResponse");
             Scribe_Deep.Look(ref FocusFire, "focusFire");
             Scribe_Deep.Look(ref MedicalCare, "medicalCare");
+            Scribe_Deep.Look(ref BagRecovery, "bagRecovery");
+            Scribe_Collections.Look(ref MedicalBags, "medicalBags", LookMode.Reference);
+            Scribe_Values.Look(ref BagRecoveryAt, "bagRecoveryAt");
             Scribe_Deep.Look(ref Contacts, "contacts");
             Scribe_Deep.Look(ref ChargeAction, "chargeAction");
             Scribe_Deep.Look(ref RecoveryFrontier, "recoveryFrontier");

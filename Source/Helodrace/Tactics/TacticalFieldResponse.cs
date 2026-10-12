@@ -52,6 +52,7 @@ namespace Helodrace.Tactics
                     if (Math.Abs(cell.x - seed.x) > AreaRadius || Math.Abs(cell.z - seed.z) > AreaRadius
                         || !seen.Add(cell) || !floor(cell)) continue;
                     cells.Add(cell);
+                    if (cells.Count == AreaLimit) return cells;
                 }
             return cells;
         }
@@ -228,6 +229,7 @@ namespace Helodrace.Tactics
             { field.BoundPending = false; field.Stage = TacticalFieldStage.Defending; }
             if (!support) AdvanceFieldBoundPosts(command, field, tick);
             int[] counts = new int[3], arrived = new int[3], shooters = new int[3];
+            bool[] separated = new bool[3];
             int movers = 0, moversReady = 0;
             float range = 0;
             foreach (TacticalMemberCommand member in active)
@@ -260,6 +262,7 @@ namespace Helodrace.Tactics
                 }
                 bool at = inArea && AtPost(member);
                 counts[group]++; if (at) arrived[group]++;
+                if (!at && member.Pawn.Position.DistanceToSquared(field.FirePoints[group]) > 12 * 12) separated[group] = true;
                 if (at && member.Pawn.equipment?.PrimaryEq?.PrimaryVerb is Verb readyVerb && !readyVerb.IsMeleeAttack)
                     shooters[group]++;
                 if (FieldMover(field, member, index))
@@ -279,7 +282,8 @@ namespace Helodrace.Tactics
             bool teamsReady = true;
             for (int group = 0; group < 3; group++)
             {
-                bool ready = TacticalFieldPolicy.Ready(counts[group], arrived[group]) && (counts[group] == 0 || shooters[group] > 0);
+                bool ready = TacticalFieldPolicy.Ready(counts[group], arrived[group]) && !separated[group]
+                    && (counts[group] == 0 || shooters[group] > 0);
                 teamsReady &= ready;
                 if (!ready && tick - field.Areas[group].Started >= TacticalFieldPolicy.GatherTicks)
                     RepairFieldArea(command, active, field, group, tick);
@@ -343,10 +347,15 @@ namespace Helodrace.Tactics
                     // Limit the separation from the covering areas. This cheap
                     // center test replaces pawn-pair distance/reach searches.
                     if (field.High)
+                    {
                         for (int other = 0; other < 3; other++)
                             if (other != point && field.Areas[other].Cells.Count > 0
                                 && next.DistanceToSquared(field.FirePoints[other]) > 30 * 30)
                                 next = TacticalFieldPolicy.AdvanceFirePoint(field.FirePoints[point], field.Forward, field.Focus, 5);
+                        for (int other = 0; other < 3; other++)
+                            if (other != point && field.Areas[other].Cells.Count > 0
+                                && next.DistanceToSquared(field.FirePoints[other]) > 30 * 30) next = field.FirePoints[point];
+                    }
                     if (next != field.FirePoints[point])
                     { moved = true; field.FirePoints[point] = next; field.Areas[point] = new TacticalFireArea { Started = tick }; }
                 }

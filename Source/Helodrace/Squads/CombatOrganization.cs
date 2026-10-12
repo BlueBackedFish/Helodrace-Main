@@ -19,6 +19,7 @@ namespace Helodrace.Squads
         public List<RoleDef> commandQualifications = new List<RoleDef>();
         public int explicitSuccessionOrder = -1;
         public int rankPriority;
+        public bool medicalDuty;
 
         public void ExposeData()
         {
@@ -28,6 +29,7 @@ namespace Helodrace.Squads
             Scribe_Collections.Look(ref commandQualifications, "commandQualifications", LookMode.Def);
             Scribe_Values.Look(ref explicitSuccessionOrder, "explicitSuccessionOrder", -1);
             Scribe_Values.Look(ref rankPriority, "rankPriority");
+            Scribe_Values.Look(ref medicalDuty, "medicalDuty");
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
                 commandQualifications = commandQualifications ?? new List<RoleDef>();
         }

@@ -134,6 +134,12 @@ namespace Helodrace.Tactics
                     else care.Job = care.Helper.Job;
                 }
                 command.MedicalCandidate = command.Members.Find(m => m.Pawn == command.SavedMedicalCandidate);
+                if (command.BagRecovery != null)
+                {
+                    TacticalBagRecovery recovery = command.BagRecovery;
+                    var job = command.Members.Find(m => m.Pawn == recovery.Helper)?.Job;
+                    recovery.RestoreJob(job);
+                }
                 squads[command.Id] = command; scheduler.TrackRestored(command); RestoredCommands++;
             }
             foreach (TacticalSquadCommand command in squads.Values)

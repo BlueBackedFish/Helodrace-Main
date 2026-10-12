@@ -155,7 +155,15 @@ namespace Helodrace.Tactics
         {
             TacticalMemberCommand helper = null; Job treatment = null; bool plasma = false;
             bool needsHemostasis = NeedsHemostasis(patient.Pawn, null, tick);
-            if (needsHemostasis)
+            // Prefer the designated medic's shared bag, then existing TCCC.
+            foreach (TacticalMemberCommand member in active)
+            {
+                if (!member.Medic || member.Pawn.Position.DistanceToSquared(patient.Pawn.Position) > 64
+                    || member.Pawn.CurJob?.playerForced == true || !TcccUtility.CanTreat(member.Pawn, patient.Pawn)) continue;
+                treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma);
+                if (treatment != null) { helper = member; break; }
+            }
+            if (helper == null && needsHemostasis)
             {
                 if (Available(patient, map) && TcccUtility.CanTreat(patient.Pawn, patient.Pawn)) helper = patient;
                 else foreach (TacticalMemberCommand member in active)
@@ -169,25 +177,12 @@ namespace Helodrace.Tactics
             }
             if (helper == null)
             {
-                bool needsPlasma = TacticalMedicalPolicy.Urgent(patient.Pawn.health.hediffSet
-                    .GetFirstHediffOfDef(HediffDefOf.BloodLoss)?.Severity ?? 0);
                 foreach (TacticalMemberCommand member in active)
                 {
                     if (member.Pawn.Position.DistanceToSquared(patient.Pawn.Position) > 64 || member.Pawn.CurJob?.playerForced == true
-                        || !member.Pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation)) continue;
-                    foreach (Apparel apparel in member.Pawn.apparel.WornApparel)
-                    {
-                        CompMedibag bag = apparel.TryGetComp<CompMedibag>();
-                        if (bag == null || !bag.CanUseOn(member.Pawn, patient.Pawn)) continue;
-                        if (!bag.HemostasisAvailable && !bag.PlasmaAvailable && member.Pawn.inventory != null)
-                            foreach (Thing stock in member.Pawn.inventory.innerContainer.InnerListForReading.ToArray())
-                                if (bag.TryLoadInventorySupply(stock)) break;
-                        if (needsHemostasis && bag.HemostasisAvailable && NeedsHemostasis(patient.Pawn, bag, tick))
-                            treatment = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_MedibagHemostasis"), patient.Pawn, apparel);
-                        else if (needsPlasma && bag.PlasmaAvailable && !patient.Pawn.health.hediffSet.HasHediff(bag.Props.plasmaTransfusionHediff))
-                        { treatment = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_MedibagPlasmaTransfusion"), patient.Pawn, apparel); plasma = true; }
-                        if (treatment != null) { helper = member; break; }
-                    }
+                        || !TcccUtility.CanTreat(member.Pawn, patient.Pawn)) continue;
+                    treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma);
+                    if (treatment != null) helper = member;
                     if (helper != null) break;
                 }
             }
@@ -207,6 +202,27 @@ namespace Helodrace.Tactics
             patient.MedicalRejoinPending |= patient.Pawn.Downed;
             MedicalTreatments++; if (plasma) MedicalPlasma++;
             command.Link.Cooperation.LocalReady = false; command.Due = tick + 15; return true;
+        }
+        private static Job BagTreatment(Pawn helper, Pawn patient, bool needsHemostasis, int tick, out bool plasma)
+        {
+            plasma = false;
+            bool needsPlasma = TacticalMedicalPolicy.Urgent(patient.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss)?.Severity ?? 0);
+            foreach (Apparel apparel in helper.apparel.WornApparel)
+            {
+                CompMedibag bag = apparel.TryGetComp<CompMedibag>();
+                if (bag == null || !bag.CanUseOn(helper, patient)) continue;
+                if (!bag.HemostasisAvailable && !bag.PlasmaAvailable && helper.inventory != null)
+                    foreach (Thing stock in helper.inventory.innerContainer.InnerListForReading.ToArray())
+                        if (bag.TryLoadInventorySupply(stock)) break;
+                if (needsHemostasis && bag.HemostasisAvailable && NeedsHemostasis(patient, bag, tick))
+                    return JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_MedibagHemostasis"), patient, apparel);
+                if (needsPlasma && bag.PlasmaAvailable && !patient.health.hediffSet.HasHediff(bag.Props.plasmaTransfusionHediff))
+                {
+                    plasma = true;
+                    return JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_MedibagPlasmaTransfusion"), patient, apparel);
+                }
+            }
+            return null;
         }
         private void EndMedicalCare(TacticalSquadCommand command, TacticalMedicalCare care, int tick, bool success)
         {

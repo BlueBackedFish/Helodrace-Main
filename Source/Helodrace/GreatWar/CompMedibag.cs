@@ -33,6 +33,11 @@ namespace Helodrace
     public class CompMedibag : ThingComp
     {
         private int storedSupplies;
+        public override void Notify_Unequipped(Pawn pawn)
+        {
+            base.Notify_Unequipped(pawn);
+            pawn.MapHeld?.GetComponent<Tactics.MapComponent_TacticalCommands>()?.MedicalBagUnequipped(pawn, parent);
+        }
 
         public CompProperties_Medibag Props => (CompProperties_Medibag)props;
 

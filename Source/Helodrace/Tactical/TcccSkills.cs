@@ -54,7 +54,7 @@ namespace Helodrace.Tactical
         public static bool CanAct(Pawn pawn) => pawn != null && pawn.Spawned && !pawn.Dead && !pawn.Downed
             && ((pawn.Faction == Faction.OfPlayer && pawn.Drafted)
                 || (OrganizationAPI.GetOrganization(pawn)?.faction?.def?.defName
-                    == "HD_HelodCivilHighFaction"))
+                    == "HD_HelodCivilHighFaction") || OrganizationMedical.HasDuty(pawn))
             && pawn.RaceProps.Humanlike
             && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && !pawn.InMentalState
             && HasTraining(pawn);

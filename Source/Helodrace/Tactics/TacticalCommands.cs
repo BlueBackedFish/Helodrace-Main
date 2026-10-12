@@ -25,6 +25,7 @@ namespace Helodrace.Tactics
         public string CombatFunction;
         public int LastCareAt = -6000;
         public bool MedicalRejoinPending;
+        public bool Medic;
         public int FocusCheckAt;
     }
     public sealed partial class TacticalSquadCommand
@@ -52,6 +53,9 @@ namespace Helodrace.Tactics
         public TacticalFieldResponse FieldResponse;
         public TacticalFocusFire FocusFire;
         public TacticalMedicalCare MedicalCare;
+        public TacticalBagRecovery BagRecovery;
+        public List<Thing> MedicalBags = new List<Thing>();
+        public int BagRecoveryAt;
         public int MedicalCursor, MedicalWindowUntil, NextMedicalCheck;
         public TacticalMemberCommand MedicalCandidate;
         public float MedicalCandidateScore;
@@ -254,8 +258,10 @@ namespace Helodrace.Tactics
                     command.Members.Add(new TacticalMemberCommand { Pawn = pawn,
                         Fireteam = unit.Group.children.IndexOf(group),
                         CombatFunction = function,
+                        Medic = OrganizationMedical.HasDuty(pawn),
                         AutomaticWeapon = function == "HAR" || function == "MachineGun" });
                     TacticalBreachTools.Remember(command, pawn);
+                    RememberMedicalBags(command, pawn);
                     byPawn[pawn] = command;
                 }
             if (command.Members.Count == 0) return null;
@@ -266,7 +272,10 @@ namespace Helodrace.Tactics
         public void Wake(Pawn pawn)
         {
             if (pawn != null && byPawn.TryGetValue(pawn, out TacticalSquadCommand command) && !command.Terminal)
+            {
+                if (pawn.Dead || pawn.Downed) command.BagRecoveryAt = Math.Min(command.BagRecoveryAt, GenTicks.TicksGame + 1);
                 command.Due = Math.Min(command.Due, GenTicks.TicksGame + 1);
+            }
         }
         internal void JobFinished(Pawn pawn, Job job, JobCondition condition)
         {
@@ -343,7 +352,9 @@ namespace Helodrace.Tactics
             ScanContacts(command, active, tick);
             command.Due = Math.Min(command.Due, Math.Max(tick + 1, command.Contacts.NextScan));
             if (command.MedicalCare != null && AdvanceMedicalCare(command, active, tick)) return;
+            if (command.BagRecovery != null && AdvanceMedicalBagRecovery(command, active, tick)) return;
             if (AdvanceFocusFire(command, active, tick)) return;
+            if (AdvanceMedicalBagRecovery(command, active, tick)) return;
             if (AdvanceMedicalCare(command, active, tick)) return;
             if (AdvanceFieldResponse(command, active, tick)) return;
             if (RespondToContacts(command, active, tick)) return;
@@ -881,6 +892,7 @@ namespace Helodrace.Tactics
             }
             ReleaseClaims(command);
             command.MedicalCare = null;
+            command.BagRecovery = null;
             command.FocusFire = null;
             command.FurnitureAction = null; command.FurnitureResumePlan = null;
             if (command.ReplanAfterReturn) { RestartRetainedMission(command, tick); return; }

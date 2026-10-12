@@ -113,6 +113,7 @@ namespace Helodrace.Squads
                     member.assignment.pawn = pawn;
                 }
                 EnsureSmokeCarriers(result);
+                OrganizationMedical.Equip(result);
                 foreach (CombatGroup root in result.rootGroups) root.InitializeCommand();
                 if (parms.forceOneDowned && pawns.Count > 0)
                     HealthUtility.DamageUntilDowned(pawns[0]);
