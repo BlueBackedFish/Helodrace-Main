@@ -15,6 +15,12 @@ namespace Helodrace.Tactics
     public static class TacticalFieldPolicy
     {
         public const int SightRadius = 80, FocusInterval = 90, MoveInterval = 180;
+        public const int PlayerApproachRadius = 55;
+        public static bool FormationAllowed(TacticalContact contact, IntVec3 anchor, int tick) => contact != null
+            && TacticalContactMemory.Fresh(contact, tick)
+            && (!contact.PlayerControlled || contact.Position.DistanceToSquared(anchor) <= PlayerApproachRadius * PlayerApproachRadius
+                && Motion(contact, anchor) == TacticalObservedMotion.Approaching
+                && contact.Position.DistanceToSquared(anchor) < contact.PreviousPosition.DistanceToSquared(anchor));
         public static TacticalObservedMotion Motion(TacticalContact contact, IntVec3 anchor)
         {
             if (contact == null || !contact.PreviousPosition.IsValid || contact.PreviousTick < 0
@@ -159,11 +165,14 @@ namespace Helodrace.Tactics
                 foreach (TacticalContact contact in command.Contacts.Memory.Entries)
                 {
                     if (!TacticalContactMemory.Fresh(contact, tick) || contact.SeenTick <= command.ContactHandledAt
-                        || contact.Door || contact.Position.Roofed(map)) continue;
+                        || contact.Door || contact.Position.Roofed(map)
+                        || !TacticalFieldPolicy.FormationAllowed(contact, observer.Position, tick)) continue;
                     if (nearest == null || observer.Position.DistanceToSquared(contact.Position)
                         < observer.Position.DistanceToSquared(nearest.Position)) nearest = contact;
                 }
-                if (nearest == null && !support) return false;
+                // A support request alone does not authorize an arc against a
+                // stationary player target. Wait for an eligible observation.
+                if (nearest == null) return false;
                 IntVec3 focus = nearest?.Position ?? command.SupportAim;
                 field = new TacticalFieldResponse { Started = tick, LastSeen = nearest?.SeenTick ?? tick, EnemyId = nearest?.EnemyId ?? -1,
                     Anchor = command.Defensive ? command.DefenseAnchor : observer.Position, Focus = focus, FocusAt = tick, NextMove = tick + 180,
@@ -193,9 +202,11 @@ namespace Helodrace.Tactics
                 command.FieldResponse = field; FieldResponses++;
                 command.Link.Cooperation.LocalReady = false;
             }
+            bool permitted = false;
             foreach (TacticalContact contact in command.Contacts.Memory.Entries)
                 if (contact.EnemyId == field.EnemyId && TacticalContactMemory.Fresh(contact, tick))
                 {
+                    permitted = TacticalFieldPolicy.FormationAllowed(contact, active[active.Count / 2].Pawn.Position, tick);
                     if (contact.SeenTick > field.LastSeen) field.Motion = TacticalFieldPolicy.Motion(contact, field.Anchor);
                     field.LastSeen = Math.Max(field.LastSeen, contact.SeenTick);
                     if (tick - field.FocusAt >= TacticalFieldPolicy.FocusInterval)
@@ -204,8 +215,14 @@ namespace Helodrace.Tactics
                         field.FocusAt = tick;
                     }
                 }
-            if (!support && (field.EnemyId < 0 || tick - field.LastSeen >= TacticalContactMemory.FreshTicks))
-            { EndFieldResponse(command, tick); return false; }
+            if (!permitted)
+            {
+                var screen = field.Screen;
+                bool returning = screen?.ActiveJob != null && screen.Thrower?.Spawned == true && !screen.Thrower.Dead && !screen.Thrower.Downed;
+                if (returning || screen?.Projectile?.Spawned == true && !screen.Projectile.Destroyed)
+                { command.Due = Math.Min(command.Due, tick + 15); return true; }
+                EndFieldResponse(command, tick); return false;
+            }
             command.Due = Math.Min(command.Due, tick + 30);
             if (field.High && !active.Exists(m => m.Fireteam >= 0)) field.High = false;
             RefreshFieldLeader(command, active, field, tick);

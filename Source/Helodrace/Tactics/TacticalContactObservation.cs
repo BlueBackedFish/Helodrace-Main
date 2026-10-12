@@ -62,7 +62,13 @@ namespace Helodrace.Tactics
                 }
                 DoorContactsSeen++;
             }
-            command.Contacts.Memory.Remember(enemyId, cell, area, door, true, tick, command.Id); ContactsSeen++;
+            bool playerControlled = false;
+            // Only the actually observed cell; no lookup of an unseen pawn's
+            // current position or a whole-map faction scan.
+            foreach (Thing thing in cell.GetThingList(map))
+                if (thing is Pawn enemy && enemy.thingIDNumber == enemyId)
+                { playerControlled = enemy.Faction?.IsPlayer == true; break; }
+            command.Contacts.Memory.Remember(enemyId, cell, area, door, true, tick, command.Id, playerControlled); ContactsSeen++;
             command.SecuredKnowledge.ObserveThreat(cell, area, tick);
         }
     }

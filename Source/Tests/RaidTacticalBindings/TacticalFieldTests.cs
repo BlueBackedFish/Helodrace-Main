@@ -35,6 +35,27 @@ internal static class TacticalFieldTests
         if (TacticalFieldPolicy.Motion(contact, anchor) != TacticalObservedMotion.Unknown)
             throw new Exception("Unrelated reports were treated as continuous tracking.");
         CheckFirePoints(anchor);
+        var playerMemory = new TacticalContactMemory();
+        playerMemory.Remember(2,anchor+IntVec3.North*60,first,false,true,100,"observer",true);
+        playerMemory.Remember(2,anchor+IntVec3.North*55,first,false,true,145,"observer",true);
+        var player = playerMemory.Entries.Single();
+        if (!TacticalFieldPolicy.FormationAllowed(player,anchor,145)
+            || TacticalFieldPolicy.FormationAllowed(player,anchor,385))
+            throw new Exception("Only a fresh approach inside the inclusive 55-cell player boundary may form fire points.");
+        var sharedPlayer=new TacticalContactMemory();sharedPlayer.Receive(player.Copy(),150);
+        if (!sharedPlayer.Entries.Single().PlayerControlled || !TacticalFieldPolicy.FormationAllowed(sharedPlayer.Entries.Single(),anchor,150))
+            throw new Exception("Shared contact reports must retain player ownership and observed motion.");
+        playerMemory.Remember(2,anchor+IntVec3.North*55,first,false,true,190,"observer",true);
+        if (TacticalFieldPolicy.FormationAllowed(player,anchor,190)) throw new Exception("A stationary player cannot retain an arc indefinitely.");
+        playerMemory.Remember(2,anchor+IntVec3.North*56,first,false,true,235,"observer",true);
+        if (TacticalFieldPolicy.FormationAllowed(player,anchor,235)) throw new Exception("A retreating player cannot trigger fire points.");
+        playerMemory.Remember(2,anchor+IntVec3.North*57,first,false,true,280,"observer",true);
+        playerMemory.Remember(2,anchor+IntVec3.North*56,first,false,true,325,"observer",true);
+        if (TacticalFieldPolicy.FormationAllowed(player,anchor,325)) throw new Exception("An approaching player outside 55 cells cannot trigger fire points.");
+        playerMemory.Remember(2,anchor+IntVec3.North*54,first,false,true,370,"different-observer",true);
+        if (TacticalFieldPolicy.FormationAllowed(player,anchor,370)) throw new Exception("A lone/new-observer sample cannot invent a player approach.");
+        player.PlayerControlled=false;
+        if (!TacticalFieldPolicy.FormationAllowed(player,anchor,370)) throw new Exception("AI opponents remain eligible without an approach sample.");
         var area = TacticalFieldPolicy.ConnectedArea(anchor, p => p.x != anchor.x + 1);
         if (TacticalFieldPolicy.ConnectedArea(anchor, p => true).Count != TacticalFieldPolicy.AreaLimit)
             throw new Exception("An unobstructed arrival area must respect its hard cell-work limit.");

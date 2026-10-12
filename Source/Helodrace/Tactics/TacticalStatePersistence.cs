@@ -255,6 +255,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Area, "area");
             Scribe_Values.Look(ref Door, "door");
             Scribe_Values.Look(ref RangedThreat, "rangedThreat");
+            Scribe_Values.Look(ref PlayerControlled, "playerControlled");
             Scribe_Values.Look(ref Origin, "origin");
         }
     }
