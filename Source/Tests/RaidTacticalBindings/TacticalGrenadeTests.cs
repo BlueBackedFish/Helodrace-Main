@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
+using HarmonyLib;
 using Helodrace;
 using Helodrace.ModernWar;
 using Helodrace.Tactics;
@@ -106,6 +107,64 @@ internal static class TacticalGrenadeTests
             Check(TacticalGrenadePolicy.DangerousThroughCover(definition),"A custom through-wall shock strong enough to stun must remain unsafe.");
         }
         Check(TacticalGrenadePolicy.DangerousThroughCover(gasProjectile),"Harmful gas must remain unsafe through cover.");
+        var timed=Definition("timed-CQB-grenade");timed.thingClass=typeof(Projectile_ModernGrenade);
+        timed.modExtensions.Add(new ModernGrenadeProjectileExtension {fuseTicks=270,fuseVarianceTicks=30});
+        IntVec3 from=new IntVec3(10,0,10),covered=new IntVec3(9,0,11);
+        Check(TacticalGrenadePolicy.CanRetreatBeforeFuse(timed,from,covered,15,_=>true),
+            "An exposed thrower with a short clear return and ample fuse time may be assessed at its covered return post.");
+        Check(!TacticalGrenadePolicy.CanRetreatBeforeFuse(timed,from,covered,15,c=>c!=covered)
+            &&!TacticalGrenadePolicy.CanRetreatBeforeFuse(timed,from,covered,60,_=>true),
+            "An occupied return post or wounded slow thrower must not borrow unsafe future cover.");
+        Check(!TacticalGrenadePolicy.CanRetreatBeforeFuse(timed,from,from+IntVec3.East*5,15,_=>true)
+            &&!TacticalGrenadePolicy.CanRetreatBeforeFuse(explosive,from,covered,15,_=>true),
+            "Long or unknown non-fuse retreats must keep current-position safety.");
+        timed.modExtensions[0]=new ModernGrenadeProjectileExtension {fuseTicks=50,fuseVarianceTicks=10};
+        Check(!TacticalGrenadePolicy.CanRetreatBeforeFuse(timed,from,covered,15,_=>true),
+            "A short-fuse grenade must not allow a planned return after detonation.");
+        CheckInventorySelection(greatWar,Check);
         Console.WriteLine($"PASS: {checks} grenade issuance, extended hazard radius, friendly room and adjacent door safety checks.");
+    }
+    private static void CheckInventorySelection(XElement xml,Action<bool,string> check)
+    {
+        var oldCategories=DefDatabase<ThingCategoryDef>.AllDefsListForReading.ToArray();
+        var category=DefDatabase<ThingCategoryDef>.GetNamedSilentFail("HD_InventoryGrenades");
+        bool registered=category==null;
+        if(registered)
+        {
+            category=(ThingCategoryDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingCategoryDef));
+            category.defName="HD_InventoryGrenades";DefDatabase<ThingCategoryDef>.Add(category);
+        }
+        try
+        {
+            var pawn=new Pawn {kindDef=new PawnKindDef()};
+            pawn.inventory=new Pawn_InventoryTracker(pawn);
+            var faction=new Faction {def=new FactionDef {defName="HD_HelodCivilLowFaction"}};
+            AccessTools.Field(typeof(Thing),"factionInt").SetValue(pawn,faction);
+            Thing Item(string name)
+            {
+                var itemXml=xml.Elements().Single(e=>(string)e.Element("defName")==name);
+                var def=(ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+                def.defName=name;def.thingCategories=new List<ThingCategoryDef>{category};
+                var projectile=(ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+                projectile.defName=(string)itemXml.Element("projectileWhenLoaded");
+                projectile.projectile=new ProjectileProperties {damageDef=new DamageDef {defName=name=="HD_Grenade_M8_Item"?"Smoke":"Bomb"}};
+                projectile.modExtensions=new List<DefModExtension>();
+                if(name=="HD_Grenade_M8_Item") projectile.modExtensions.Add(new HelodGasOnExplosionExtension {gasDef=new HelodGasDef {defName="HD_HCSmokeGrid"}});
+                def.projectileWhenLoaded=projectile;
+                var item=new Thing {def=def,stackCount=1};pawn.inventory.innerContainer.InnerListForReading.Add(item);return item;
+            }
+            var smoke=Item("HD_Grenade_M8_Item");var frag=Item("HD_Grenade_MKII");var offensive=Item("HD_Grenade_MKIII");
+            var select=AccessTools.Method(typeof(MapComponent_TacticalCommands),"SelectSupportGrenade");
+            Thing Select(bool outdoors)=>(Thing)select.Invoke(null,new object[]{pawn.inventory.innerContainer,faction.def,outdoors,true});
+            check(InventoryGrenadeUtility.IsInventoryGrenade(frag.def)&&Select(false)==frag,
+                "Actual LOW inventory/category selection must accept an MK II as indoor antipersonnel equipment, not smoke.");
+            pawn.inventory.innerContainer.InnerListForReading.Remove(frag);
+            check(Select(false)==offensive&&Select(true)==smoke,
+                "Actual LOW selection must use MK III indoors and preserve HC outdoors.");
+        }
+        finally
+        {
+            if(registered) {DefDatabase<ThingCategoryDef>.Clear();DefDatabase<ThingCategoryDef>.Add(oldCategories);}
+        }
     }
 }

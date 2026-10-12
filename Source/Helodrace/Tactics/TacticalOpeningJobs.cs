@@ -10,6 +10,7 @@ namespace Helodrace.Tactics
     public sealed class JobDriver_TacticalObserve : TacticalJobDriver
     {
         public bool Peeking;
+        public bool RetreatRequested;
         private int nextScan, cursor;
         private readonly List<IntVec3> shootable = new List<IntVec3>(5);
         public IntVec3 Source => job.targetQueueA[0].Cell;
@@ -25,6 +26,7 @@ namespace Helodrace.Tactics
             AddFinishAction(_ => Peeking = false);
             observe.tickAction = () =>
             {
+                if (RetreatRequested) { Peeking = false; ReadyForNextToil(); return; }
                 int tick = GenTicks.TicksGame;
                 if (tick < nextScan) return;
                 TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
@@ -74,6 +76,7 @@ namespace Helodrace.Tactics
         public override void ExposeData()
         {
             base.ExposeData(); Scribe_Values.Look(ref Peeking, "tacticalPeeking");
+            Scribe_Values.Look(ref RetreatRequested, "tacticalRetreatRequested");
             Scribe_Values.Look(ref nextScan, "tacticalNextScan"); Scribe_Values.Look(ref cursor, "tacticalScanCursor");
         }
     }

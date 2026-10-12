@@ -60,6 +60,8 @@ namespace Helodrace.Tactics
         public long FocusResponses, FocusChanges, FocusJobs, FocusShots, NormalCombatReturns;
 
         private static bool FocusSafetyPending(TacticalSquadCommand command) => command.ChargeAction != null
+            || TacticalOpeningPolicy.OwnsContact(command, command.OpeningAction?.Enemy ?? IntVec3.Invalid)
+                && command.ContactResponse?.DirectAttack != true
             || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
             || command.FieldResponse?.Screen != null;
 

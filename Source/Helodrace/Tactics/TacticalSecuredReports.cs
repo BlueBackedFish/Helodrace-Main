@@ -170,6 +170,7 @@ namespace Helodrace.Tactics
         {
             TacticalLocalPlan plan = command.Plan;
             if (plan == null || command.FurnitureAction != null || command.ContactResponse != null
+                || TacticalOpeningPolicy.OwnsContact(command, command.OpeningAction?.Enemy ?? IntVec3.Invalid)
                 || !TacticalSharedPassagePolicy.Reconsider(command.Phase, TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, plan),
                     plan.Direct, command.ChargeAction != null, command.OpeningAction?.Launched == true)) return false;
             // Stop preparatory work before releasing its controller. A launched

@@ -151,7 +151,8 @@ namespace Helodrace.Tactics
         {
             // CQB explosives keep their own controller until safe. An indoor
             // contact or portal transit still belongs to the CQB response.
-            if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
+            if (command.ChargeAction != null || TacticalOpeningPolicy.OwnsContact(command, command.OpeningAction?.Enemy ?? IntVec3.Invalid)
+                || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
                 return false;
             if (command.ContactResponse?.DirectAttack == true) return false;
             TacticalFieldResponse field = command.FieldResponse;

@@ -48,6 +48,7 @@ internal static class TacticalOpeningTests
                 throw new Exception("Throw positioning must never force occupied cells or stand inside the breach channel.");
         }
         CheckTargetFallback();
+        CheckContactOwnership();
         CheckSelectionSlices();
         Console.WriteLine("PASS: bounded room/target selection, unseen fallback, admitted-only markers, deferred candidates, preparation ownership and projectile/explosion/return safety.");
     }
@@ -71,7 +72,8 @@ internal static class TacticalOpeningTests
             TacticalOpeningPolicy.CollectSupportTargets(plan,safe,_=>true,_=>true,targets);
             if(targets.Count!=1||targets[0]!=safe)throw new Exception("Observed enemy location must retain sole target priority.");
             TacticalOpeningPolicy.CollectSupportTargets(plan,plan.InnerOpening+forward,_=>true,_=>false,targets);
-            if(targets.Count!=0)throw new Exception("Too-close observed enemy must not silently redirect the throw to an unknown cell.");
+            if(targets.Count!=1||targets[0]!=plan.InnerOpening+forward*2)
+                throw new Exception("A sighted door/channel enemy must aim just beyond it at the minimum safe opening distance, not discard support.");
         }
         var action=new TacticalOpeningAction {Target=new IntVec3(10,0,10)};
         if(action.ShowThrow)throw new Exception("A proposed target without an admitted grenade job must not be shown as a committed throw.");
@@ -83,6 +85,46 @@ internal static class TacticalOpeningTests
         if(!action.ShowThrow)throw new Exception("A live grenade must retain its marker even if a routine was interrupted.");
         action.EffectsCleared=true;
         if(action.ShowThrow)throw new Exception("Resolved explosives must not retain an active throw marker during entry.");
+    }
+    private static void CheckContactOwnership()
+    {
+        var owner = new MapComponent_TacticalCommands(null);
+        var pawn = new Pawn {Position=new IntVec3(19,0,20)};
+        var member = new TacticalMemberCommand {Pawn=pawn};
+        var command = new TacticalSquadCommand {Plan=new TacticalLocalPlan {Opening=new IntVec3(20,0,20),Inward=IntVec3.East},
+            Phase=TacticalCommandPhase.Breach,OpeningAction=new TacticalOpeningAction {SupportCursor=10,Target=new IntVec3(23,0,22)}};
+        command.Members.Add(member);
+        command.OpeningAction.SupportTargets.Add(command.OpeningAction.Target);
+        IntVec3 enemy=new IntVec3(24,0,20), other=new IntVec3(25,0,22), rear=new IntVec3(17,0,20);
+        if(!TacticalOpeningPolicy.RememberContact(command,enemy,12,100)||!command.OpeningAction.ObservationDone
+            ||command.OpeningAction.Enemy!=enemy||command.OpeningAction.SupportTargets.Count!=0||command.OpeningAction.SupportCursor!=0)
+            throw new Exception("A genuine breach contact must become one completed opening observation and replace any blind selection.");
+        if(TacticalOpeningPolicy.RememberContact(command,other,13,101)||command.OpeningAction.Enemy!=enemy
+            ||TacticalOpeningPolicy.OwnsContact(command,rear)||!TacticalOpeningPolicy.OwnsContact(command,other))
+            throw new Exception("The opening owns frontal room contacts without tracking later enemy positions or suppressing rear emergencies.");
+        command.Phase=TacticalCommandPhase.Support;
+        command.Contacts.Memory.Remember(12,enemy,enemy,false,true,100);
+        var active=new List<TacticalMemberCommand>{member};
+        bool Advance(string name) => (bool)AccessTools.Method(typeof(MapComponent_TacticalCommands),name).Invoke(owner,new object[]{command,active,101});
+        if(Advance("AdvanceFocusFire")||Advance("AdvanceFieldResponse")||Advance("RespondToContacts")
+            ||command.ContactResponse!=null||command.OpeningAction.Enemy!=enemy)
+            throw new Exception("Focus, field or close-contact response must not capture a completed opening observation before its retreat/throw.");
+        command.ContactResponse=new TacticalContactResponse {First=enemy,FirstId=12,Started=99,LastSeen=100};
+        if(Advance("RespondToContacts")||command.ContactResponse!=null||command.OpeningAction.Enemy!=enemy)
+            throw new Exception("A previous frontal firefight must yield to the retained opening contact without erasing it.");
+        if((bool)AccessTools.Method(typeof(MapComponent_TacticalCommands),"RefreshSharedPassage").Invoke(owner,new object[]{command,101}))
+            throw new Exception("A shared room-clear report cannot bypass a newly observed enemy's opening action.");
+        // Synthetic pawns do not have native race/equality state.
+        var byPawn=new Dictionary<Pawn,TacticalSquadCommand>(ReferenceEqualityComparer.Instance);
+        AccessTools.Field(typeof(MapComponent_TacticalCommands),"byPawn").SetValue(owner,byPawn);
+        byPawn[pawn]=command;
+        bool OwnShot(IntVec3 cell)=>(bool)AccessTools.Method(typeof(MapComponent_TacticalCommands),"OpeningOwnsShot").Invoke(owner,new object[]{pawn,cell});
+        if(!OwnShot(enemy)||OwnShot(rear))throw new Exception("The observed room's guard fire must stop while rear-directed security remains available.");
+        command.ContactResponse=new TacticalContactResponse {DirectAttack=true};
+        if(OwnShot(enemy))throw new Exception("An actual close-attack emergency must retain its immediate defense.");
+        command.ContactResponse=null;command.Phase=TacticalCommandPhase.Enter;
+        if(TacticalOpeningPolicy.OwnsContact(command,enemy)||OwnShot(enemy))
+            throw new Exception("Opening withdrawal must not suppress combat after entry.");
     }
     private static void CheckSelectionSlices()
     {

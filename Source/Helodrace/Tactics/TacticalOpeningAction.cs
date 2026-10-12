@@ -17,6 +17,7 @@ namespace Helodrace.Tactics
         public bool ObservationDone, ObservationIssued, ThrowIssued, Launched, Returned, EffectsCleared, EntryAdjusted, Outdoors, KnownHelodPrisoner;
         public int RoomCells;
         public int SupportCursor;
+        public int GrenadeChecks, TrajectoryChecks, UnsafeChecks;
         public List<IntVec3> SupportTargets = new List<IntVec3>(9);
         public TacticalSupportSkip SupportSkip;
         public Projectile Projectile;
@@ -28,6 +29,34 @@ namespace Helodrace.Tactics
     {
         public const int ObservationTicks = 90, PrepareTicks = 30, ReleaseTicks = 18, SettleTicks = 30;
         public const int ThrowCandidatesPerSlice = 4;
+        public static bool ContactStage(TacticalCommandPhase phase) => phase == TacticalCommandPhase.Breach
+            || phase == TacticalCommandPhase.Observe || phase == TacticalCommandPhase.Support;
+        public static bool TargetSide(TacticalLocalPlan plan, IntVec3 cell)
+        {
+            if (plan == null || plan.Direct || !cell.IsValid) return false;
+            IntVec3 delta = cell - plan.Opening;
+            int depth = delta.x * plan.Inward.x + delta.z * plan.Inward.z;
+            int width = delta.z * plan.Inward.x - delta.x * plan.Inward.z;
+            return depth >= 0 && depth <= 14 && Math.Abs(width) <= 14
+                && (depth > 0 || Math.Abs(width) <= 1);
+        }
+        public static bool OwnsContact(TacticalSquadCommand command, IntVec3 cell) => ContactStage(command.Phase)
+            && command.OpeningAction?.Enemy.IsValid == true && TargetSide(command.Plan, cell);
+        public static bool RememberContact(TacticalSquadCommand command, IntVec3 cell, int id, int tick)
+        {
+            if (!ContactStage(command.Phase) || !TargetSide(command.Plan, cell)
+                || command.OpeningAction == null || command.OpeningAction.Launched || command.OpeningAction.Enemy.IsValid) return false;
+            command.OpeningAction.Enemy = cell; command.OpeningAction.EnemyId = id;
+            command.OpeningAction.ObservationDone = true;
+            if (!command.OpeningAction.ThrowIssued)
+            {
+                command.OpeningAction.SupportTargets.Clear(); command.OpeningAction.SupportCursor = 0;
+                command.OpeningAction.Target = IntVec3.Invalid;
+                command.OpeningAction.GrenadeChecks = command.OpeningAction.TrajectoryChecks = command.OpeningAction.UnsafeChecks = 0;
+                if (command.Phase == TacticalCommandPhase.Support) command.OpeningAction.SupportStarted = tick;
+            }
+            return true;
+        }
         public static void CollectSupportTargets(TacticalLocalPlan plan, IntVec3 enemy,
             Func<IntVec3,bool> valid, Func<IntVec3,bool> hidden, List<IntVec3> targets)
         {
@@ -35,6 +64,14 @@ namespace Helodrace.Tactics
             if (enemy.IsValid)
             {
                 if (FarEnough(plan.InnerOpening, enemy) && valid(enemy)) targets.Add(enemy);
+                // A sighted pawn in the door/channel is still a contact. Aim
+                // just beyond it instead of discarding the observation entirely.
+                else if (!FarEnough(plan.InnerOpening, enemy))
+                    for (int offset = 1; offset <= 3; offset++)
+                    {
+                        IntVec3 cell = enemy + plan.Inward * offset;
+                        if (FarEnough(plan.InnerOpening, cell) && valid(cell)) { targets.Add(cell); break; }
+                    }
                 return;
             }
             IntVec3 lateral = new IntVec3(-plan.Inward.z,0,plan.Inward.x);
@@ -94,6 +131,27 @@ namespace Helodrace.Tactics
     {
         public long Observations, ObservationContacts, SupportThrows, SupportWaits, SupportReturns, UnsafeEntries;
 
+        private void RecordOpeningContact(TacticalSquadCommand command, IntVec3 cell, int id, int tick)
+        {
+            if (!TacticalOpeningPolicy.ContactStage(command.Phase) || !TacticalOpeningPolicy.TargetSide(command.Plan, cell)
+                || command.OpeningAction?.Enemy.IsValid == true) return;
+            if (command.OpeningAction == null)
+                command.OpeningAction = new TacticalOpeningAction { Started = tick, Source = command.Plan.Outside,
+                    Outdoors = !command.Plan.Inside.Roofed(map) };
+            if (!TacticalOpeningPolicy.RememberContact(command, cell, id, tick)) return;
+            // A blasted mouth can lose its roof while the sighted enemy is
+            // still inside. That one observed roof sample is enough to retain
+            // indoor grenade doctrine instead of requiring missing HC smoke.
+            if (cell.Roofed(map)) command.OpeningAction.Outdoors = false;
+            ObservationContacts++;
+            if (command.OpeningAction.Observer?.jobs?.curDriver is JobDriver_TacticalObserve observer) observer.RetreatRequested = true;
+            // An already open hammer/cutter breach must retreat to its stack.
+            // An installed charge retains its complete safety controller first.
+            if (command.Phase == TacticalCommandPhase.Breach && command.ChargeAction == null && OpeningUsable(command.Plan))
+            { command.Phase = TacticalCommandPhase.Observe; command.PhaseStarted = tick; }
+            command.Due = tick + 1;
+        }
+
         internal bool ObservedOpeningMelee(Pawn pawn, Job job, Pawn enemy, int tick, bool ranged)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.OpeningAction?.Observer != pawn
@@ -109,6 +167,7 @@ namespace Helodrace.Tactics
             command.OpeningAction.Enemy = enemy; command.OpeningAction.EnemyId = id;
             if (enemy.IsValid)
             {
+                if (enemy.Roofed(map)) command.OpeningAction.Outdoors = false;
                 ObservationContacts++;
                 if (ranged) RecordContact(command, id, enemy, command.OpeningAction.Source, GenTicks.TicksGame);
             }
@@ -173,7 +232,7 @@ namespace Helodrace.Tactics
             {
                 if (!OpeningUsable(plan))
                 { command.OpeningAction = null; command.Phase = TacticalCommandPhase.Breach; return; }
-                if (!action.ObservationIssued)
+                if (!action.ObservationIssued && !action.ObservationDone)
                 {
                     IntVec3 lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
                     int side = plan.StackSide;
@@ -262,6 +321,7 @@ namespace Helodrace.Tactics
                         Thing grenade = SupportGrenade(member.Pawn, action.Outdoors, lethal);
                         if (grenade == null || !action.Outdoors && TacticalCqbDoctrine.GrenadePreference(high, lethal, grenade.def.defName) < preference)
                         { action.SupportSkip = TacticalSupportSkip.NoGrenade; continue; }
+                        action.GrenadeChecks++;
                         bool Free(IntVec3 cell)
                         {
                             if (!TacticalLocalPlanner.Free(map, cell, c => claims.TryGetValue(c, out var owner) && owner != command)) return false;
@@ -274,10 +334,14 @@ namespace Helodrace.Tactics
                             if (!InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, cell,
                                 target, InventoryGrenadeUtility.NormalThrowRange, out _)) return false;
                             trajectory = true;
-                            return SafeOpeningThrow(member.Pawn, grenade, cell, target);
+                            return SafeOpeningThrow(member.Pawn, grenade, cell, target, returnPosition);
                         });
+                        if (trajectory) action.TrajectoryChecks++;
                         if (!throwPosition.IsValid)
-                        { action.SupportSkip = trajectory ? TacticalSupportSkip.UnsafeFriendly : TacticalSupportSkip.NoThrowPosition; continue; }
+                        {
+                            if (trajectory) action.UnsafeChecks++;
+                            action.SupportSkip = trajectory ? TacticalSupportSkip.UnsafeFriendly : TacticalSupportSkip.NoThrowPosition; continue;
+                        }
                         if (!CanIssue(member)) { action.SupportCursor--; action.SupportSkip = TacticalSupportSkip.Budget; command.Due = tick + 1; return; }
                         Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalThrow"), target, grenade, throwPosition);
                         job.targetQueueA = new List<LocalTargetInfo> { returnPosition, plan.Opening };
@@ -295,7 +359,8 @@ namespace Helodrace.Tactics
                         action.SupportSkip = TacticalSupportSkip.None; return;
                     }
                     if (action.SupportCursor < passSize * 2) { command.Due = tick + 1; return; }
-                    if (action.SupportSkip == TacticalSupportSkip.None) action.SupportSkip = TacticalSupportSkip.NoGrenade;
+                    action.SupportSkip = action.UnsafeChecks > 0 ? TacticalSupportSkip.UnsafeFriendly
+                        : action.GrenadeChecks > 0 ? TacticalSupportSkip.NoThrowPosition : TacticalSupportSkip.NoGrenade;
                     SkipOpeningSupport(command, action.SupportSkip);
                 }
                 finally { budget.Account(tick, System.Diagnostics.Stopwatch.GetTimestamp() - started); }
@@ -361,11 +426,15 @@ namespace Helodrace.Tactics
         private static Thing SupportGrenade(Pawn pawn, bool smoke, bool lethal)
         {
             if (!InventoryGrenadeUtility.CanUseGrenades(pawn) || pawn.inventory == null) return null;
-            bool high = pawn.Faction?.def?.defName == "HD_HelodCivilHighFaction";
+            return SelectSupportGrenade(pawn.inventory.innerContainer, pawn.Faction?.def, smoke, lethal);
+        }
+        private static Thing SelectSupportGrenade(IEnumerable<Thing> inventory, FactionDef faction, bool smoke, bool lethal)
+        {
+            bool high = faction?.defName == "HD_HelodCivilHighFaction";
             Thing selected = null; int best = -1;
-            foreach (Thing item in pawn.inventory.innerContainer)
+            foreach (Thing item in inventory)
                 if (InventoryGrenadeUtility.IsInventoryGrenade(item.def)
-                    && TacticalGrenadePolicy.AllowsAutomatic(pawn.Faction?.def, item.def) && RaidSmokeUtility.IsSmoke(item) == smoke)
+                    && TacticalGrenadePolicy.AllowsAutomatic(faction, item.def) && RaidSmokeUtility.IsSmoke(item) == smoke)
                 {
                     int priority = smoke ? 0 : TacticalCqbDoctrine.GrenadePreference(high, lethal, item.def.defName);
                     if (priority > best) { selected = item; best = priority; }
@@ -373,7 +442,7 @@ namespace Helodrace.Tactics
             return selected;
         }
 
-        internal static bool SafeOpeningThrow(Pawn pawn, Thing grenade, IntVec3 position, IntVec3 target)
+        internal static bool SafeOpeningThrow(Pawn pawn, Thing grenade, IntVec3 position, IntVec3 target, IntVec3? retreat = null)
         {
             ThingDef projectile = grenade?.def.projectileWhenLoaded;
             if (projectile?.projectile == null) return false;
@@ -390,12 +459,28 @@ namespace Helodrace.Tactics
             bool throughCover = TacticalGrenadePolicy.DangerousThroughCover(projectile);
             Room RoomAt(IntVec3 cell) => cell.InBounds(pawn.Map) ? cell.GetRoom(pawn.Map) : null;
             var owner = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
-            TacticalLocalPlan opening = owner != null && owner.byPawn.TryGetValue(pawn, out var command)
+            TacticalSquadCommand command = null;
+            TacticalLocalPlan opening = owner != null && owner.byPawn.TryGetValue(pawn, out command)
                 && command.OpeningAction?.Target == target ? command.Plan : null;
+            IntVec3 selfPosition = position;
+            if (opening != null)
+            {
+                IntVec3 returnPosition = retreat ?? command.OpeningAction.ReturnPosition;
+                if (returnPosition.IsValid && returnPosition != position)
+                {
+                    bool Clear(IntVec3 cell) => cell.InBounds(pawn.Map) && cell.Standable(pawn.Map)
+                        && (cell.GetFirstPawn(pawn.Map) == null || cell.GetFirstPawn(pawn.Map) == pawn);
+                    if (!TacticalGrenadePolicy.CanRetreatBeforeFuse(projectile, position, returnPosition, pawn.TicksPerMoveCardinal, Clear)) return false;
+                    selfPosition = returnPosition;
+                }
+            }
             foreach (Pawn ally in pawn.Map.mapPawns.AllPawnsSpawned)
             {
                 if (ally.Dead || ally.HostileTo(pawn)) continue;
-                IntVec3 cell = ally == pawn ? position : ally.Position;
+                // The grenade has a fuse. Its thrower immediately returns to
+                // known cover; treating its temporary lean/throw cell as its
+                // explosion-time position vetoes otherwise safe CQB throws.
+                IntVec3 cell = ally == pawn ? selfPosition : ally.Position;
                 if (roofed && TacticalGrenadePolicy.FriendlyInRoom(targetRoom, cell,
                     cell.GetEdifice(pawn.Map) is Building_Door, RoomAt, opening)) return false;
                 if (cell.DistanceToSquared(target) <= radius * radius

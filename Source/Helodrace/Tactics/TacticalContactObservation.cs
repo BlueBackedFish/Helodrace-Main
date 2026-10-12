@@ -70,6 +70,7 @@ namespace Helodrace.Tactics
                 { playerControlled = enemy.Faction?.IsPlayer == true; break; }
             command.Contacts.Memory.Remember(enemyId, cell, area, door, true, tick, command.Id, playerControlled); ContactsSeen++;
             command.SecuredKnowledge.ObserveThreat(cell, area, tick);
+            RecordOpeningContact(command, cell, enemyId, tick);
         }
     }
 }

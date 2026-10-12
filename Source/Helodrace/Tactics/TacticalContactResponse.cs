@@ -37,6 +37,8 @@ namespace Helodrace.Tactics
         public long ContactResponses, RearResponses, OpposedResponses, DoorResponses, ContactResumes, ContactGuardJobs;
         public long ContactPostCandidates;
         public long ContactShots, FieldShots;
+        internal bool OpeningOwnsShot(Pawn pawn, IntVec3 focus) => byPawn.TryGetValue(pawn, out var command)
+            && command.ContactResponse?.DirectAttack != true && TacticalOpeningPolicy.OwnsContact(command, focus);
         internal bool StackMovementPaused(Pawn pawn, Job job) => !job.playerForced
             && byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
             && (TacticalExplosiveEvasionPolicy.Pending(pawn, command) || command.ContactResponse != null
@@ -93,6 +95,15 @@ namespace Helodrace.Tactics
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
                 return false;
             TacticalContactResponse response = command.ContactResponse;
+            if (response != null && !response.DirectAttack && !response.Rear && !response.Opposed
+                && TacticalOpeningPolicy.OwnsContact(command, response.First)
+                && (!response.Second.IsValid || TacticalOpeningPolicy.TargetSide(command.Plan, response.Second)))
+            {
+                foreach (IntVec3 cell in response.Occupied)
+                    if (!OriginalClaim(command, cell) && claims.TryGetValue(cell, out var owner) && owner == command) claims.Remove(cell);
+                command.PhaseStarted += tick - response.Started;
+                command.ContactResponse = null; response = null; ContactResumes++;
+            }
             if (response?.DirectAttack == true && command.FieldResponse != null)
             {
                 EndFieldResponse(command, tick);
@@ -108,6 +119,7 @@ namespace Helodrace.Tactics
                 foreach (TacticalContact contact in command.Contacts.Memory.Entries)
                 {
                     if (!TacticalContactMemory.Fresh(contact, tick) || contact.SeenTick <= command.ContactHandledAt) continue;
+                    if (TacticalOpeningPolicy.OwnsContact(command, contact.Position)) continue;
                     bool behind = TacticalContactMemory.Rear(anchor.Position, forward, contact.Position);
                     bool otherDoor = contact.Door && command.Plan != null && contact.Position != command.Plan.Opening;
                     bool close = anchor.Position.DistanceToSquared(contact.Position) <= 36;

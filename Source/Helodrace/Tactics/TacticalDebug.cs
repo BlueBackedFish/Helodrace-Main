@@ -37,6 +37,9 @@ namespace Helodrace.Tactics
                         + " C4 deadline=" + command.ChargeAction?.Deadline + " hammer fallback=" + command.Plan?.HammerFallback
                         + " returned=" + command.OpeningAction?.Returned + " safe=" + command.OpeningAction?.EffectsCleared
                         + " support skip=" + command.OpeningAction?.SupportSkip
+                        + " support issued=" + command.OpeningAction?.ThrowIssued
+                        + " support checks grenade/LOS/unsafe=" + command.OpeningAction?.GrenadeChecks + "/"
+                            + command.OpeningAction?.TrajectoryChecks + "/" + command.OpeningAction?.UnsafeChecks
                         + " passed=" + command.Members.Count(member => member.Passed) + " entered="
                         + command.Members.Count(member => member.Entered)
                         + " outside guards=" + command.Plan?.RetainedOutside.Count

@@ -7,6 +7,29 @@ namespace Helodrace.Tactics
 {
     public static class TacticalGrenadePolicy
     {
+        public static bool CanRetreatBeforeFuse(ThingDef projectile, IntVec3 from, IntVec3 to, float ticksPerStep, Func<IntVec3,bool> clear)
+        {
+            int steps = Math.Abs(from.x - to.x) + Math.Abs(from.z - to.z);
+            if (steps == 0) return clear(to);
+            if (steps > 4 || projectile?.thingClass == null
+                || !typeof(Projectile_ModernGrenade).IsAssignableFrom(projectile.thingClass)) return false;
+            var extension = projectile.GetModExtension<ModernGrenadeProjectileExtension>();
+            int fuse = Math.Max(1, (extension?.fuseTicks ?? 270) - Math.Max(0, extension?.fuseVarianceTicks ?? 30));
+            if (Math.Max(1,ticksPerStep) * (steps + 2) + 60 >= fuse) return false;
+            bool Path(bool xFirst)
+            {
+                IntVec3 cell = from;
+                for (int i = 0; i < steps; i++)
+                {
+                    if (xFirst ? cell.x != to.x : cell.z == to.z)
+                        cell.x += Math.Sign(to.x - cell.x);
+                    else cell.z += Math.Sign(to.z - cell.z);
+                    if (!clear(cell)) return false;
+                }
+                return true;
+            }
+            return Path(true) || Path(false);
+        }
         public static float HazardRadius(ThingDef projectile, bool indoors)
         {
             float radius = Math.Max(0, projectile?.projectile?.explosionRadius ?? 0);
