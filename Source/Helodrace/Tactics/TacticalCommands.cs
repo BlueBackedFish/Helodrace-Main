@@ -682,7 +682,7 @@ namespace Helodrace.Tactics
                     && member.Pawn.jobs.curDriver is TacticalJobDriver arrival && arrival.AtPost
                     && member.Pawn.Position == current.Positions[i];
                 if (member.Entered) continue;
-                if (!TacticalHighCqbPolicy.EntryReleased(command, i)) continue;
+                if (!TacticalHighCqbPolicy.EntryReleased(command, i, active)) continue;
                 if (!dispatchEntry || entryIssues >= TacticalCadence.MovementBatch) continue;
                 if (member.Pawn.CurJob?.playerForced == true || StationaryGuidance(member)) continue;
                 if (current.Direct)

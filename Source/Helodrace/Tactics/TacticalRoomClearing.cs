@@ -109,6 +109,7 @@ namespace Helodrace.Tactics
         public long RoomScanSteps, RoomsSecured, RoomPlansAttempted, RoomToolRecoveryWaits;
         private void BeginRoomClear(TacticalSquadCommand command, int tick)
         {
+            command.CqbTogether = false;
             if (command.CqbParent != null) command.CqbEntered = true;
             TacticalLocalPlan plan = command.Plan;
             command.ReportBatch.Clear(); command.ReportFrontierCursor = 0;
@@ -420,6 +421,7 @@ namespace Helodrace.Tactics
             }
             bool Claimed(IntVec3 cell) => claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner != command;
             if (!FinishPreparation(command, active, Claimed, out plan, out TacticalPlanFailure failure)) return false;
+            command.LastPlanFailure = failure;
             occupied = (failure & TacticalPlanFailure.Busy) != 0;
             missingTool = (failure & TacticalPlanFailure.Tool) != 0;
             command.DeferredWork |= (failure & TacticalPlanFailure.Classification) != 0;

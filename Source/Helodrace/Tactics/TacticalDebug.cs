@@ -22,6 +22,8 @@ namespace Helodrace.Tactics
                     + "\n" + string.Join("\n", service.ExecutionCommands.Select(command => command.Id + ": " + command.Phase
                         + " goal=" + command.Goal + " opening=" + command.Plan?.Opening + " depth=" + command.Plan?.Depth
                         + " inside=" + command.Plan?.Inside + " barrier=" + command.Plan?.Barrier?.Position + " connected=" + command.HadConnectedStack
+                        + " cqb task=" + command.CqbTask?.Opening + " combined=" + command.CqbTogether
+                        + " plan retry=" + command.PlanRetryAt + " failure=" + command.LastPlanFailure
                         + " observe side=" + command.Plan?.StackSide
                         + " stack party=" + (command.Plan?.StackMembers.Count > 0 ? command.Plan.StackMembers.Count : command.Members.Count)
                         + " entry order=" + (command.Plan == null ? "none" : string.Join(",", command.Plan.EntryOrder))

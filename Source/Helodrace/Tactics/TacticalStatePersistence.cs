@@ -49,6 +49,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref CqbCancelRequested, "cqbCancelRequested");
             Scribe_Values.Look(ref CqbObjectiveChanged, "cqbObjectiveChanged");
             Scribe_Values.Look(ref CqbFollow, "cqbFollow");
+            Scribe_Values.Look(ref CqbTogether, "cqbTogether");
             Scribe_Values.Look(ref CqbFollowGoal, "cqbFollowGoal", IntVec3.Invalid);
             Scribe_Values.Look(ref CqbPassageSequence, "cqbPassageSequence");
             Scribe_Values.Look(ref CqbFollowSeen, "cqbFollowSeen");

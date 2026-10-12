@@ -40,6 +40,8 @@ internal static class TacticalHighCqbTests
         parent.Plan.Direct = false; parent.Plan.EntryOrder = order;
         Check(TacticalHighCqbPolicy.EntryReleased(parent,1) && !TacticalHighCqbPolicy.EntryReleased(parent,5), "Second team must guard until first crosses.");
         Check(!TacticalHighCqbPolicy.EntryReleased(parent,0), "Middle-wave commander must not jump ahead of a blocked second team.");
+        Check(TacticalHighCqbPolicy.EntryReleased(parent,5,parent.Members.Skip(5).ToList()),
+            "Earlier members outside the live assault roster must not permanently block the next entry wave.");
         for (int i=1;i<=4;i++) parent.Members[i].Crossed = true;
         Check(TacticalHighCqbPolicy.EntryReleased(parent,5) && !TacticalHighCqbPolicy.EntryReleased(parent,9), "Crossing releases only the next team, without waiting for final seats.");
         Check(TacticalHighCqbPolicy.EntryReleased(parent,0), "Commander must depart with the middle team once the first team has crossed.");
@@ -119,7 +121,44 @@ internal static class TacticalHighCqbTests
         CheckDoctrine(Check);
         AccessTools.Method(typeof(MapComponent_TacticalCommands),"EndHighCqb").Invoke(service,new object[]{parent});
         Check(parent.CqbTeams.Count==0 && parent.Members.All(m=>byPawn[m.Pawn]==parent),"Join/retirement must return each member to the squad owner.");
+        CheckRegroup(service,parent,Check);
         Console.WriteLine("PASS: "+checks+" HIGH CQB ownership, grouping, bounded area, task allocation, release and native Scribe checks.");
+    }
+    private static void CheckRegroup(MapComponent_TacticalCommands service,TacticalSquadCommand source,Action<bool,string> check)
+    {
+        var parent=new TacticalSquadCommand {Id="narrow",Owner=service,Phase=TacticalCommandPhase.Clear,Goal=source.Goal,
+            Plan=new TacticalLocalPlan {Opening=new IntVec3(115,0,169),Inward=IntVec3.East}};
+        parent.Link.Unit=source.Link.Unit;parent.Members.AddRange(source.Members);
+        for(int i=0;i<13;i++)parent.Plan.Positions.Add(new IntVec3(116+i/2,0,168+i%2));
+        parent.Plan.RetainedOutside.Add(12);
+        var mouth=new TacticalRoomFrontier {Opening=new IntVec3(122,0,170),Inward=IntVec3.North};
+        parent.Frontiers.Add(mouth);parent.SecuredCells.Add(mouth.Opening-mouth.Inward);
+        AccessTools.Method(service.GetType(),"StartHighCqb").Invoke(service,new object[]{parent,parent.Members.ToList(),100});
+        var team=parent.CqbTeams[0];team.CqbTask=mouth;team.Phase=TacticalCommandPhase.Clear;
+        team.PlanRetryAt=700;team.LastPlanFailure=TacticalPlanFailure.Busy;
+        check(TacticalHighCqbPolicy.ShouldRegroup(parent,200),"An exhausted narrow-room task blocked by guard claims must not remain on permanent child retries.");
+        team.LastPlanFailure=TacticalPlanFailure.Tool;
+        check(!TacticalHighCqbPolicy.ShouldRegroup(parent,200),"Missing tools require recovery, not a false space regroup.");
+        team.LastPlanFailure=TacticalPlanFailure.Busy;var other=parent.CqbTeams[1];other.Phase=TacticalCommandPhase.BlastWait;
+        other.OpeningAction=new TacticalOpeningAction {Launched=true};
+        check(!TacticalHighCqbPolicy.ShouldRegroup(parent,200),"A live sibling grenade must prevent regrouping.");
+        other.Phase=TacticalCommandPhase.Complete;
+        check(!TacticalHighCqbPolicy.ShouldRegroup(parent,200),"A completion flag must not hide a still-live explosive from regroup safety.");
+        other.OpeningAction=null;other.Phase=TacticalCommandPhase.Stack;
+        check(!TacticalHighCqbPolicy.ShouldRegroup(parent,200),"Do not cancel a sibling that is already approaching its working entrance.");
+        other.Phase=TacticalCommandPhase.Complete;
+        check((bool)AccessTools.Method(service.GetType(),"TryRegroupCqb").Invoke(service,new object[]{parent,200})
+            &&parent.CqbTeams.Count==0&&parent.CqbTogether&&parent.Phase==TacticalCommandPhase.Clear
+            &&parent.PlanRetryAt==0&&parent.FrontierCursor==0&&parent.Members.Count==13,
+            "Safe regroup must preserve the boundary and all 13 members while releasing child ownership.");
+        var owners=(Dictionary<Pawn,TacticalSquadCommand>)AccessTools.Field(service.GetType(),"byPawn").GetValue(service);
+        var claims=(Dictionary<IntVec3,TacticalSquadCommand>)AccessTools.Field(service.GetType(),"claims").GetValue(service);
+        check(parent.Members.All(m=>owners[m.Pawn]==parent)&&parent.Plan.Positions.Distinct().Count()==13
+            &&parent.Plan.Positions.All(p=>claims[p]==parent)&&parent.Plan.RetainedOutside.Contains(12),
+            "Combined planning must retain unique posts and exterior guard metadata under one owner instead of ignoring conflicting claims.");
+        check(!(bool)AccessTools.Method(service.GetType(),"AdvanceHighCqb").Invoke(service,new object[]{parent,parent.Members.ToList(),201})
+            &&parent.CqbTeams.Count==0,"A regrouped corridor must not immediately split and recreate the same deadlock.");
+        AccessTools.Method(service.GetType(),"EndHighCqb").Invoke(service,new object[]{parent});
     }
     private static void CheckSave(Action<bool,string> check)
     {
@@ -143,7 +182,7 @@ internal static class TacticalHighCqbTests
         var converters = AccessTools.Field(typeof(BackCompatibility), "conversionChain");
         var oldConverters = converters.GetValue(null);
         converters.SetValue(null, new List<BackCompatibilityConverter>());
-        var root=new TacticalSquadCommand {Id="root",CqbCursor=2,CqbCancelRequested=true,CqbPassageSequence=5};
+        var root=new TacticalSquadCommand {Id="root",CqbCursor=2,CqbCancelRequested=true,CqbPassageSequence=5,CqbTogether=true};
         root.Phase=TacticalCommandPhase.Enter;
         root.Plan=new TacticalLocalPlan {Direct=true,Opening=new IntVec3(9,0,9),Inward=IntVec3.North};
         var previewType=typeof(TacticalSquadCommand).Assembly.GetType("Helodrace.Tactics.TacticalEntryPreview",true);
@@ -173,7 +212,7 @@ internal static class TacticalHighCqbTests
                 && ((List<int>)AccessTools.Field(typeof(TacticalSquadCommand),"CqbRoster").GetValue(child)).Single()==0,
                 "Child save must store root member indices rather than duplicate pawn/job records.");
             check(log.Errors == 0, "Native nested Scribe must load without errors.");
-            check(restored.Phase==TacticalCommandPhase.Enter&&restored.SecuredCells.Count==0
+            check(restored.CqbTogether&&restored.Phase==TacticalCommandPhase.Enter&&restored.SecuredCells.Count==0
                 &&AccessTools.Field(restored.GetType(),"EntryPreview").GetValue(restored)==null
                 &&!(bool)AccessTools.Field(restored.GetType(),"SurveyPending").GetValue(restored),
                 "Saving during speculative entry must retain Enter without serializing the preview or inventing pending/secured survey state.");

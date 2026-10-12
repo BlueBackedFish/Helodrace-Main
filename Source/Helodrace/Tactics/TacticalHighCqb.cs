@@ -28,7 +28,7 @@ namespace Helodrace.Tactics
             return result;
         }
 
-        public static bool EntryReleased(TacticalSquadCommand command, int index)
+        public static bool EntryReleased(TacticalSquadCommand command, int index, IList<TacticalMemberCommand> active = null)
         {
             if (command.CqbParent != null || !High(command) || command.Plan.Direct || command.Plan.ReportedPassage) return true;
             int ordinal = command.Plan.EntryOrder.IndexOf(index);
@@ -47,6 +47,7 @@ namespace Helodrace.Tactics
             for (int n = 0; n < ordinal; n++)
             {
                 int earlier = command.Plan.EntryOrder[n]; var member = command.Members[earlier];
+                if (active != null && !active.Contains(member)) continue;
                 if (member.Fireteam == team || member.Fireteam < 0 || command.Plan.RetainedOutside.Contains(earlier)) continue;
                 if (member.Pawn?.Dead != true && member.Pawn?.Downed != true && !member.Crossed) return false;
             }
@@ -57,6 +58,23 @@ namespace Helodrace.Tactics
         public static bool Conflicts(TacticalRoomFrontier a, TacticalRoomFrontier b) =>
             a.Opening == b.Opening || a.Inside == b.Inside
             || a.Inside.DistanceToSquared(b.Inside) <= 4 && a.Inward == b.Inward;
+
+        public static bool ShouldRegroup(TacticalSquadCommand parent, int tick)
+        {
+            if (parent.CqbTeams.Count < 2 || parent.CqbCancelRequested) return false;
+            bool blocked = false;
+            foreach (var team in parent.CqbTeams)
+            {
+                if (team.ChargeAction != null || team.OpeningAction?.Launched == true && !team.OpeningAction.EffectsCleared) return false;
+                if (team.Terminal || team.Phase == TacticalCommandPhase.Complete) continue;
+                if (team.Phase != TacticalCommandPhase.Clear || team.CqbEntered || team.RoomScan != null || team.Preparation != null
+                    || team.ContactResponse != null || TacticalEntryCombatPolicy.Engaged(team.EntryCombatUntil, tick)) return false;
+                if (team.CqbTask != null && !team.CqbTask.Excluded && team.PlanRetryAt > tick
+                    && (team.LastPlanFailure & (TacticalPlanFailure.Tool | TacticalPlanFailure.Classification | TacticalPlanFailure.Obstructed)) == 0)
+                    blocked = true;
+            }
+            return blocked;
+        }
 
         public static HashSet<IntVec3> LocalArea(IntVec3 seed, Func<IntVec3, bool> floor)
         {
@@ -81,7 +99,7 @@ namespace Helodrace.Tactics
         public List<TacticalSquadCommand> CqbTeams = new List<TacticalSquadCommand>();
         public TacticalSquadCommand CqbParent;
         public int CqbTeam = -1, CqbCursor, CqbSearchCursor, CqbPausedAt = -1, CqbPassageSequence, CqbFollowSeen;
-        public bool CqbEntered, CqbCancelRequested, CqbObjectiveChanged, CqbFollow;
+        public bool CqbEntered, CqbCancelRequested, CqbObjectiveChanged, CqbFollow, CqbTogether;
         internal bool CqbStepped;
         internal List<int> CqbRoster = new List<int>();
         public TacticalRoomFrontier CqbTask;
@@ -106,9 +124,10 @@ namespace Helodrace.Tactics
         private bool AdvanceHighCqb(TacticalSquadCommand parent, List<TacticalMemberCommand> active, int tick)
         {
             if (parent.CqbParent != null || parent.Defensive) return false;
+            if (TryRegroupCqb(parent, tick)) return false;
             if (parent.CqbTeams.Count == 0)
             {
-                if (!TacticalHighCqbPolicy.High(parent) || parent.Phase != TacticalCommandPhase.Clear
+                if (parent.CqbTogether || !TacticalHighCqbPolicy.High(parent) || parent.Phase != TacticalCommandPhase.Clear
                     || parent.RoomScan != null || parent.Plan == null || parent.Preparation != null
                     || !parent.Frontiers.Any(f => TacticalMissionRouting.UnenteredRoom(parent, f))) return false;
                 StartHighCqb(parent, active, tick);
@@ -186,6 +205,21 @@ namespace Helodrace.Tactics
             return true;
         }
 
+        private bool TryRegroupCqb(TacticalSquadCommand parent, int tick)
+        {
+            if (!TacticalHighCqbPolicy.ShouldRegroup(parent, tick)) return false;
+            var blocked = parent.CqbTeams.First(t => t.CqbTask != null && !t.CqbTask.Excluded && t.PlanRetryAt > tick);
+            int frontier = parent.Frontiers.FindIndex(f => f.Opening == blocked.CqbTask.Opening && f.Inward == blocked.CqbTask.Inward);
+            UpdateCqbPosts(parent); EndHighCqb(parent);
+            // The same 13 members now own one footprint, so idle sibling guard
+            // claims cannot permanently block a narrow corridor's next stack.
+            // Stay combined until physical entry completes, not a timer retry.
+            parent.CqbTogether = true; parent.CancelPreparation(); parent.CancelEntryPreview();
+            parent.Phase = TacticalCommandPhase.Clear; parent.FrontierCursor = Math.Max(0, frontier);
+            parent.PlanRetryAt = 0; parent.FrontierBusy = false; parent.Due = tick + 1;
+            return true;
+        }
+
         private void StartHighCqb(TacticalSquadCommand parent, List<TacticalMemberCommand> active, int tick)
         {
             var groups = active.Where(m => m.Fireteam >= 0).Select(m => m.Fireteam).Distinct().OrderBy(i => i).Take(3).ToList();
@@ -214,6 +248,7 @@ namespace Helodrace.Tactics
                 {
                     int index = parent.Members.IndexOf(member); team.CqbRoster.Add(index);
                     posts.Positions.Add(parent.Plan.Positions[index]);
+                    if (parent.Plan.RetainedOutside.Contains(index)) posts.RetainedOutside.Add(team.Members.IndexOf(member));
                     byPawn[member.Pawn] = team; claims[posts.Positions.Last()] = team;
                 }
                 team.Plan = posts;
@@ -274,6 +309,7 @@ namespace Helodrace.Tactics
             parent.CqbSearchCursor = 0;
             foreach (var plan in team.SecuredPlans)
                 if (!parent.SecuredPlans.Any(p => p.Opening == plan.Opening)) parent.SecuredPlans.Add(plan);
+            parent.Mission.Traversed.UnionWith(team.Mission.Traversed);
             parent.GoalSecured |= team.GoalSecured;
             // Keep one stable claimed seat per member while releasing staging.
             ReleaseClaims(team);
@@ -311,6 +347,7 @@ namespace Helodrace.Tactics
                 int index = team?.Members.IndexOf(member) ?? -1;
                 IntVec3 post = TacticalExplosiveEvasionPolicy.ReturnPost(team?.Plan, team?.Phase ?? TacticalCommandPhase.Complete, index);
                 plan.Positions.Add(post.IsValid ? post : member.Pawn.Position);
+                if (index >= 0 && team.Plan?.RetainedOutside.Contains(index) == true) plan.RetainedOutside.Add(plan.Positions.Count - 1);
             }
             parent.Plan = plan;
         }
