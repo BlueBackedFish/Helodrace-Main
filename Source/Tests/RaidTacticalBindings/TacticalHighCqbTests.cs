@@ -87,6 +87,29 @@ internal static class TacticalHighCqbTests
             parent.CqbSearchCursor=0;
             Check((bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[1],101})
                 && parent.CqbTeams[0].CqbTask.Opening!=parent.CqbTeams[1].CqbTask.Opening,"Sibling assignment must skip a claimed boundary.");
+            var budget = game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+            parent.CqbSearchCursor = 0;
+            Check(!(bool)assign.Invoke(service, new object[]{parent,parent.CqbTeams[2],110}) && budget.TryPlan(110),
+                "Idle guard selection must not consume the plan slice needed by a busy sibling.");
+            var visited = new TacticalRoomFrontier { Opening = new IntVec3(40,0,20), Inward = IntVec3.North };
+            var traversed = new TacticalRoomFrontier { Opening = new IntVec3(45,0,20), Inward = IntVec3.North };
+            parent.Frontiers.Add(visited); parent.Frontiers.Add(traversed);
+            parent.SecuredCells.Add(visited.Inside); parent.Mission.Traversed.Add(traversed.Opening);
+            Check(!(bool)assign.Invoke(service, new object[]{parent,parent.CqbTeams[2],111})
+                && parent.CqbTeams[2].CqbTask == null && budget.TryPlan(111),
+                "Local entered history must prevent reassignment even without a shared clear report.");
+            var team = parent.CqbTeams[0];
+            parent.SecuredCells.Add(team.CqbTask.Inside);
+            AccessTools.Method(service.GetType(), "AdvanceRoomClear").Invoke(service,
+                new object[]{team,new List<TacticalMemberCommand>(),112});
+            Check(team.Phase == TacticalCommandPhase.Complete && team.CqbTask == null && team.CqbArea.Count == 0,
+                "A room cleared by a sibling during assignment must release the stale task rather than retry it forever.");
+            parent.SecuredCells.Remove(visited.Inside); parent.CqbSearchCursor = 2;
+            Check(budget.TryPlan(113) && (bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[2],113})
+                && parent.CqbSearchCursor == 2 && parent.CqbTeams[2].CqbTask == null,
+                "A deferred assignment must retain its exact unentered candidate.");
+            Check((bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[2],114})
+                && ReferenceEquals(parent.CqbTeams[2].CqbTask,visited), "The retained candidate must be allocated on the next available slice.");
             AccessTools.Method(typeof(MapComponent_TacticalCommands),"BeginReturn").Invoke(null,new object[]{parent,102,true,false});
             Check(parent.CqbCancelRequested && parent.ReleaseAfterReturn && parent.Phase!=TacticalCommandPhase.Returning,
                 "Squad release must drain child safety/return instead of bypassing live subtasks.");

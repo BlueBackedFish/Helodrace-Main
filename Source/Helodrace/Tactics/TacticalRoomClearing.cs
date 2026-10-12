@@ -204,10 +204,12 @@ namespace Helodrace.Tactics
             // holds this room. Old contact memory alone cannot stall progress.
             if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
             { command.Due = tick + 30; return; }
-            if (command.CqbParent != null && !command.CqbEntered && command.CqbTask?.Excluded == true)
+            if (command.CqbParent != null && !command.CqbEntered && command.CqbTask != null
+                && !TacticalMissionRouting.UnenteredRoom(command.CqbParent, command.CqbTask))
             {
-                foreach (var frontier in command.CqbParent.Frontiers)
-                    if (frontier.Opening == command.CqbTask.Opening) frontier.Excluded = true;
+                if (command.CqbTask.Excluded)
+                    foreach (var frontier in command.CqbParent.Frontiers)
+                        if (frontier.Opening == command.CqbTask.Opening) frontier.Excluded = true;
                 command.CqbTask = null; command.CqbArea.Clear(); command.CancelPreparation();
                 command.Phase = TacticalCommandPhase.Complete; command.Due = tick + 10; return;
             }

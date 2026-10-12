@@ -110,8 +110,7 @@ namespace Helodrace.Tactics
             {
                 if (!TacticalHighCqbPolicy.High(parent) || parent.Phase != TacticalCommandPhase.Clear
                     || parent.RoomScan != null || parent.Plan == null || parent.Preparation != null
-                    || !parent.Frontiers.Any(f => !f.Outdoors && !f.Approach && !f.Excluded
-                        && !parent.SecuredKnowledge.Cleared(f.Inside))) return false;
+                    || !parent.Frontiers.Any(f => TacticalMissionRouting.UnenteredRoom(parent, f))) return false;
                 StartHighCqb(parent, active, tick);
                 if (parent.CqbTeams.Count < 2) { EndHighCqb(parent); return false; }
             }
@@ -234,21 +233,24 @@ namespace Helodrace.Tactics
             // A single mouth has one owner; other teams keep their current guard
             // positions until its room is secured or another boundary is known.
             TacticalRoomFrontier selected = null;
-            if (!Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.TryPlan(tick)) return true;
+            int selectedIndex = -1;
             for (int inspected = 0; inspected < 12 && parent.CqbSearchCursor < parent.Frontiers.Count; inspected++)
             {
                 var frontier = parent.Frontiers[parent.CqbSearchCursor++];
-                if (frontier.Excluded || frontier.Outdoors || frontier.Approach || parent.SecuredKnowledge.Cleared(frontier.Inside)
-                    || parent.Link.Cooperation.Active && !parent.Link.Cooperation.Agenda.OwnsSide(parent.Id, frontier.Inside)
+                if (!TacticalMissionRouting.UnenteredRoom(parent, frontier)
                     || parent.CqbTeams.Any(t => t != team && !t.Terminal && t.CqbTask != null
                         && (TacticalHighCqbPolicy.Conflicts(frontier, t.CqbTask) || t.CqbArea.Contains(frontier.Inside)))) continue;
-                selected = frontier; break;
+                selected = frontier; selectedIndex = parent.CqbSearchCursor - 1; break;
             }
             if (selected == null)
             {
                 if (parent.CqbSearchCursor < parent.Frontiers.Count) return true; // yielded candidate scan
                 parent.CqbSearchCursor = 0; return false;
             }
+            // Idle guards must not spend the one plan slice needed by a busy
+            // sibling. Preserve this candidate if its area cannot run yet.
+            if (!Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.TryPlan(tick))
+            { parent.CqbSearchCursor = selectedIndex; return true; }
             team.CancelPreparation(); team.CqbTask = selected; team.CqbEntered = false;
             team.CqbFollow = false; team.CqbFollowGoal = IntVec3.Invalid;
             team.CqbArea = TacticalHighCqbPolicy.LocalArea(selected.Inside,
