@@ -22,23 +22,23 @@
       <li>
         <label>coughing and blinded</label>
         <minSeverity>0.25</minSeverity>
-        <painOffset>0.30</painOffset>
+        <painOffset>0.15</painOffset>
         <capMods>
           <li><capacity>Sight</capacity><offset>-0.55</offset></li>
-          <li><capacity>Moving</capacity><offset>-0.25</offset></li>
+          <li><capacity>Moving</capacity><offset>-0.05</offset></li>
           <li><capacity>Manipulation</capacity><offset>-0.35</offset></li>
-          <li><capacity>Breathing</capacity><offset>-0.20</offset></li>
+          <li><capacity>Breathing</capacity><offset>-0.05</offset></li>
         </capMods>
       </li>
       <li>
         <label>incapacitating irritation</label>
         <minSeverity>0.60</minSeverity>
-        <painOffset>0.55</painOffset>
+        <painOffset>0.20</painOffset>
         <capMods>
           <li><capacity>Sight</capacity><offset>-0.85</offset></li>
-          <li><capacity>Moving</capacity><offset>-0.50</offset></li>
+          <li><capacity>Moving</capacity><offset>-0.10</offset></li>
           <li><capacity>Manipulation</capacity><offset>-0.65</offset></li>
-          <li><capacity>Breathing</capacity><offset>-0.40</offset></li>
+          <li><capacity>Breathing</capacity><offset>-0.10</offset></li>
         </capMods>
       </li>
     </stages>

@@ -96,7 +96,7 @@
           <li><capacity>Sight</capacity><offset>-1.00</offset></li>
           <li><capacity>Hearing</capacity><offset>-1.00</offset></li>
           <li><capacity>Manipulation</capacity><postFactor>0.08</postFactor></li>
-          <li><capacity>Moving</capacity><offset>-0.30</offset></li>
+          <li><capacity>Moving</capacity><offset>-0.10</offset></li>
         </capMods>
       </li>
     </stages>
