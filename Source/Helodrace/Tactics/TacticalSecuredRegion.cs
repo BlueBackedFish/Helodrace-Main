@@ -56,8 +56,9 @@ namespace Helodrace.Tactics
         private TacticalStructureClass SecuredRegion(TacticalSquadCommand command, IntVec3 opening, IntVec3 inward, int depth)
         {
             IntVec3 inside = opening + inward * depth;
-            if (command.SecuredCells.Contains(inside)) return TacticalStructureClass.Target;
-            if (command.SecuredCells.Count == 0 || !inside.InBounds(map) || !inside.Roofed(map))
+            bool Cleared(IntVec3 cell) => command.SecuredCells.Contains(cell) || command.SecuredKnowledge.Cleared(cell);
+            if (Cleared(inside)) return TacticalStructureClass.Target;
+            if (command.SecuredCells.Count == 0 && command.SecuredKnowledge.Records.Count == 0 || !inside.InBounds(map) || !inside.Roofed(map))
                 return TacticalStructureClass.Incidental;
             var key = Tuple.Create(opening, inward, depth);
             if (!command.SecuredRegionProbes.TryGetValue(key, out TacticalSecuredRegionProbe probe))
@@ -67,7 +68,7 @@ namespace Helodrace.Tactics
                 command.SecuredRegionProbes.Add(key, probe = new TacticalSecuredRegionProbe(opening, inward, barrier == null, depth));
             }
             return probe.Step(cell => cell.InBounds(map) && cell.Roofed(map) && cell.Walkable(map)
-                && !(cell.GetEdifice(map) is Building_Door), command.SecuredCells.Contains, ref command.SecuredRegionAllowance);
+                && !(cell.GetEdifice(map) is Building_Door), Cleared, ref command.SecuredRegionAllowance);
         }
     }
 }

@@ -43,8 +43,8 @@ namespace Helodrace.Tactics
                         + " area=" + command.Link.Cooperation.Agenda?.Area(command.Id)
                         + " mission=" + command.Mission.Stage + " next=" + command.Mission.NextGoal
                         + " traversed=" + command.Mission.Traversed.Count + " blocked=" + command.Mission.FailedPlans
-                        + " secured own/reported=" + command.SecuredCells.Count + "/" + command.SecuredKnowledge.Received.Count
-                        + " recheck=" + command.SecuredKnowledge.Received.Count(r => r.Recheck)
+                        + " secured own/shared=" + command.SecuredCells.Count + "/" + command.SecuredKnowledge.Records.Count
+                        + " recheck=" + command.SecuredKnowledge.Records.Count(r => r.Recheck)
                         + " ready=" + command.Link.Cooperation.LocalReady + "/" + command.Link.Cooperation.PeerReady
                         + " peer report age=" + (command.Link.Cooperation.PeerStatusAt < 0 ? -1
                             : GenTicks.TicksGame - command.Link.Cooperation.PeerStatusAt)

@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using HarmonyLib;
-using Helodrace.Squads;
 using Helodrace.Tactics;
 using Verse;
 
@@ -15,89 +13,117 @@ internal static class TacticalSecuredReportTests
     {
         int checks = 0;
         void Check(bool value, string message) { if (!value) throw new Exception(message); checks++; }
-        IntVec3 goal = new IntVec3(50, 0, 50), opening = new IntVec3(10, 0, 10);
-        TacticalSecuredReport Packet(int sequence, int tick, IntVec3 cell) => new TacticalSecuredReport {
-            Origin = "source", Sequence = sequence, SeenTick = tick, Goal = goal, Opening = opening,
+        IntVec3 goal = new IntVec3(50,0,50), opening = new IntVec3(10,0,10);
+        TacticalSecuredReport Packet(int tick, IntVec3 cell, IntVec3? mouth = null) => new TacticalSecuredReport {
+            Origin = "low", SeenTick = tick, Goal = goal, Opening = mouth ?? opening,
             Inward = IntVec3.East, PortalUsable = true, Cells = new List<IntVec3> { cell },
-            Frontiers = new List<TacticalRoomFrontier> { new TacticalRoomFrontier { Opening = new IntVec3(20, 0, 10), Inward = IntVec3.East } } };
-        var report = Packet(1, 100, goal); var knowledge = new TacticalSecuredKnowledge();
-        Check(knowledge.Receive(report, "source", goal, 150) && knowledge.Cleared(goal) && knowledge.Own.Count == 0,
-            "Received clearance must remain detached from physical/local entry and must not auto-relay.");
+            Frontiers = new List<TacticalRoomFrontier> { new TacticalRoomFrontier { Opening = new IntVec3(20,0,10), Inward = IntVec3.East } } };
+        var owner = new MapComponent_TacticalCommands(null);
+        var low = new TacticalSquadCommand { Id = "low", Owner = owner, Goal = goal };
+        var high = new TacticalSquadCommand { Id = "high", Owner = owner, Goal = goal + IntVec3.North };
+        var otherMap = new TacticalSquadCommand { Owner = new MapComponent_TacticalCommands(null) };
+        Check(ReferenceEquals(low.SecuredKnowledge, high.SecuredKnowledge)
+            && !ReferenceEquals(low.SecuredKnowledge, otherMap.SecuredKnowledge), "All map squads share one clearance ledger, independent of doctrine/contact/goal, while another map remains isolated.");
+        var report = Packet(100,goal); var knowledge = owner.SharedSecured;
+        Check(knowledge.Record(report) && high.SecuredKnowledge.Cleared(goal) && high.SecuredCells.Count == 0
+            && !high.GoalSecured && high.Link.Liaison == null, "A clear is immediately visible without a liaison, radio, voice or fake physical entry.");
         report.Cells.Clear(); report.Frontiers[0].Opening = IntVec3.Zero;
-        Check(knowledge.Cleared(goal) && knowledge.Received[0].Frontiers[0].Opening != IntVec3.Zero,
-            "A sender must not mutate a received floor or boundary snapshot.");
-        Check(!knowledge.Receive(Packet(1, 100, goal), "source", goal, 150)
-            && !knowledge.Receive(Packet(2, 200, goal), "source", goal, 150)
-            && !knowledge.Receive(Packet(2, 100, goal), "different", goal, 150)
-            && !knowledge.Receive(Packet(2, 100, goal), "source", goal + IntVec3.North, 150),
-            "Duplicate, future, forged-origin and obsolete-mission reports must be rejected.");
-        var oversized = Packet(2, 100, goal); oversized.Cells = Enumerable.Repeat(goal, 17).ToList();
-        Check(!knowledge.Receive(oversized, "source", goal, 150), "Floor packet size must be bounded before indexing.");
-        knowledge.Receive(Packet(2, 110, opening + IntVec3.East), "source", goal, 150);
-        knowledge.ObserveThreat(goal, goal, 200);
-        Check(!knowledge.Cleared(goal) && !knowledge.Cleared(opening + IntVec3.East)
-            && knowledge.Received.All(r => r.Recheck && r.PortalUsable),
-            "Reinfiltration invalidates that room's clear claim while keeping its physical portal history.");
-        Check(knowledge.Receive(Packet(3, 150, goal), "source", goal, 210) && !knowledge.Cleared(goal),
-            "A delayed old floor report must not undo a newer enemy observation.");
-        Check(knowledge.Receive(Packet(4, 220, goal), "source", goal, 230) && knowledge.Cleared(goal),
-            "A genuinely newer clear report can restore its own reported cells.");
-        for (int i = 5; i < 80; i++) knowledge.Receive(Packet(i, 230, new IntVec3(i, 0, 5)), "source", goal, 240);
-        Check(knowledge.Received.Count == 64 && !knowledge.Cleared(goal) && knowledge.Cleared(new IntVec3(79, 0, 5)),
-            "Evicted report cells must leave the index, keeping memory and lookup work bounded.");
-        knowledge.Record(Packet(0, 300, goal));
-        Check(knowledge.Sequence == 1 && knowledge.Own.Count == 1, "Only a local recorded clear result receives an outgoing revision.");
-        knowledge.ObserveThreat(goal, goal, 310);
-        Check(knowledge.Own[0].Recheck, "A known local reinfiltration must revoke unsent safe claims.");
-        knowledge.Own[0].Depth = 2; knowledge.Own[0].Frontiers[0].Depth = 3;
-        string path = Path.Combine(Path.GetTempPath(), "Helodrace-Secured-" + Guid.NewGuid() + ".xml");
-        // The console harness has no running Unity mod registry/meta header.
-        // Seed only the native resolver's type entries; data extraction and
-        // nested ExposeData still use the installed game's actual Scribe.
-        var cache = (IDictionary)AccessTools.Field(typeof(GenTypes), "typeCache").GetValue(null);
-        var keyType = typeof(GenTypes).GetNestedType("TypeCacheKey", System.Reflection.BindingFlags.NonPublic);
-        foreach (Type type in new[] { typeof(TacticalSecuredReport), typeof(TacticalRoomFrontier) })
-            cache[Activator.CreateInstance(keyType, new object[] { type.FullName, null })] = type;
-        bool previousHeader = ScribeMetaHeaderUtility.modListChanged;
-        ScribeMetaHeaderUtility.modListChanged = true;
+        Check(knowledge.Cleared(goal) && knowledge.Records[0].Frontiers[0].Opening != IntVec3.Zero,
+            "Published evidence must detach its small value payload from the scanner.");
+        low.Contacts.Memory.Remember(5,goal,goal,false,true,100,"low");
+        Check(high.Contacts.Memory.Entries.Count == 0 && new TacticalCommunications().PendingCount == 0,
+            "Sharing clear geometry must not share enemy contacts or generate radio packets.");
+        var sync = AccessTools.Method(typeof(MapComponent_TacticalCommands), "SyncSharedSecured");
+        sync.Invoke(owner,new object[]{high,101});
+        Check(high.Frontiers.Count == 1 && high.Frontiers[0].Approach && high.SecuredKnowledge.KnownOpening(opening)
+            && high.SecuredCells.Count == 0, "Shared frontier hints enter the existing planner without fabricating local room survey/entry.");
+        sync.Invoke(owner,new object[]{high,102});
+        Check(high.Frontiers.Count == 1, "The revision cursor must suppress duplicate imports.");
+        knowledge.Record(Packet(110, opening + IntVec3.East));
+        IntVec3 otherOpening = opening + IntVec3.North * 10, unrelated = goal + IntVec3.East;
+        knowledge.Record(Packet(120, unrelated,otherOpening));
+        knowledge.ObserveThreat(goal,goal,200);
+        Check(!high.SecuredKnowledge.Cleared(goal) && !high.SecuredKnowledge.Cleared(opening + IntVec3.East)
+            && knowledge.Cleared(unrelated) && knowledge.KnownPassage(opening,IntVec3.East,1),
+            "Indexed reinfiltration revokes all batches of the affected room across squads, preserves other rooms and remembers the usable passage.");
+        int invalidatedRevision = knowledge.Sequence;
+        knowledge.ObserveThreat(goal,goal,205);
+        Check(knowledge.Sequence == invalidatedRevision && knowledge.Records[0].ThreatAt == 205,
+            "Repeated observations in an already uncertain room update threat age without restarting every squad's structural import/cache.");
+        knowledge.Record(Packet(150,goal));
+        Check(!knowledge.Cleared(goal), "An older clear batch may not undo newer observed reinfiltration.");
+        knowledge.Record(Packet(220,goal));
+        Check(knowledge.Cleared(goal), "A newer completed clear can restore that room's cells.");
+        knowledge.ObserveThreat(goal,goal,210);
+        Check(knowledge.Cleared(goal), "Delayed enemy observations must not revoke a newer actual clear.");
+        var oversized = Packet(250,goal); oversized.Cells = Enumerable.Repeat(goal,17).ToList();
+        int revision = knowledge.Sequence;
+        Check(!knowledge.Record(oversized) && knowledge.Sequence == revision, "The bounded floor payload must be checked before indexing.");
+        var invalid = Packet(250,goal); invalid.Depth = TacticalPortalGeometry.LayerLimit + 1;
+        Check(!knowledge.Record(invalid), "Impossible channel depths must not enter the common ledger.");
+        // Force multiple stale/fresh overlapping batches out of the history.
+        for(int i=0;i<TacticalSecuredReport.HistoryLimit+5;i++)
+            knowledge.Record(Packet(300,new IntVec3(i,0,5),new IntVec3(i,0,6)));
+        Check(knowledge.Records.Count == TacticalSecuredReport.HistoryLimit && !knowledge.Cleared(goal)
+            && knowledge.Cleared(new IntVec3(TacticalSecuredReport.HistoryLimit+4,0,5)),
+            "Eviction must remove cell/opening index membership and keep shared memory/work bounded.");
+        Check(!knowledge.KnownOpening(opening), "Evicted opening evidence must not leave a stale index entry.");
+        var bounded = new MapComponent_TacticalCommands(null);
+        var follower = new TacticalSquadCommand { Id="follower", Owner=bounded, Phase=TacticalCommandPhase.Complete };
+        for(int i=0;i<5;i++)
+        {
+            var batch=Packet(400,new IntVec3(40+i,0,4),new IntVec3(40+i,0,5));
+            batch.Frontiers[0].Opening = new IntVec3(40+i,0,6);
+            bounded.SharedSecured.Record(batch);
+        }
+        sync.Invoke(bounded,new object[]{follower,401});
+        Check(follower.SharedSecuredCursor==2 && follower.Frontiers.Count==2 && follower.Phase==TacticalCommandPhase.Clear,
+            "A shared revision imports at most two metadata batches per advance and resumes a completed squad only for new work.");
+        sync.Invoke(bounded,new object[]{follower,402}); sync.Invoke(bounded,new object[]{follower,403});
+        Check(follower.SharedSecuredCursor==bounded.SharedSecured.Sequence && follower.Frontiers.Count==5,
+            "Bounded imports must eventually consume the revision without a permanent partial cursor.");
+        CheckNativeSave(owner,goal,opening,Check);
+        owner.MapRemoved();
+        Check(owner.SharedSecured.Records.Count==0 && !low.SecuredKnowledge.Cleared(goal),
+            "Map cleanup must discard the common evidence without leaving a ticking service or a stale ledger for future raids.");
+        Check(TacticalSharedPassagePolicy.Reconsider(TacticalCommandPhase.Breach,true,false,false,false)
+            && TacticalSharedPassagePolicy.Reconsider(TacticalCommandPhase.Support,true,false,false,false)
+            && !TacticalSharedPassagePolicy.Reconsider(TacticalCommandPhase.Breach,true,false,true,false)
+            && !TacticalSharedPassagePolicy.Reconsider(TacticalCommandPhase.Support,true,false,false,true)
+            && !TacticalSharedPassagePolicy.Reconsider(TacticalCommandPhase.Enter,true,false,false,false)
+            && !TacticalSharedPassagePolicy.Reconsider(TacticalCommandPhase.Stack,false,false,false,false),
+            "An already selected redundant wall/preparation may replan, while C4, launched grenades and committed entry retain execution ownership.");
+        Check(AccessTools.Method(typeof(TacticalCommunications),"SendSecured")==null
+            && typeof(TacticalMessage).GetField("SecuredReport")==null && !Enum.GetNames(typeof(TacticalMessageKind)).Contains("Secured"),
+            "Removed clearance transport/acks must not remain as parallel legacy paths.");
+        Console.WriteLine("PASS: " + checks + " common clearance, doctrine/contact independence, enemy isolation, indexed recheck, bounded import/eviction and native map-save checks.");
+    }
+    private static void CheckNativeSave(MapComponent_TacticalCommands owner, IntVec3 goal, IntVec3 opening, Action<bool,string> check)
+    {
+        owner.SharedSecured.Record(new TacticalSecuredReport { Origin="low", SeenTick=500, Opening=opening, Inward=IntVec3.East,
+            Depth=2, PortalUsable=true, Cells=new List<IntVec3>{goal},
+            Frontiers=new List<TacticalRoomFrontier>{new TacticalRoomFrontier{Opening=opening+IntVec3.East*4,Inward=IntVec3.East,Depth=3}} });
+        owner.SharedSecured.ObserveThreat(goal,goal,510);
+        var cache=(IDictionary)AccessTools.Field(typeof(GenTypes),"typeCache").GetValue(null);
+        Type keyType=typeof(GenTypes).GetNestedType("TypeCacheKey",System.Reflection.BindingFlags.NonPublic);
+        foreach(Type type in new[]{typeof(TacticalSecuredKnowledge),typeof(TacticalSecuredReport),typeof(TacticalRoomFrontier)})
+            cache[Activator.CreateInstance(keyType,new object[]{type.FullName,null})]=type;
+        bool previousHeader=ScribeMetaHeaderUtility.modListChanged; ScribeMetaHeaderUtility.modListChanged=true;
+        string path=Path.Combine(Path.GetTempPath(),"Helodrace-shared-clear-"+Guid.NewGuid()+".xml");
         try
         {
-            Scribe.saver.InitSaving(path, "secured"); knowledge.ExposeData(); Scribe.saver.FinalizeSaving();
-            var loaded = new TacticalSecuredKnowledge();
+            Scribe.saver.InitSaving(path,"map"); owner.ExposeData(); Scribe.saver.FinalizeSaving();
+            var loaded=new MapComponent_TacticalCommands(null);
             Scribe.loader.InitLoading(path); loaded.ExposeData(); Scribe.loader.ForceStop();
-            Check(loaded.Sequence == 1 && loaded.Own.Count == 1 && loaded.Own[0].Recheck
-                && loaded.Received.Count == 64 && !loaded.Cleared(new IntVec3(79, 0, 5)) && !loaded.Cleared(goal)
-                && loaded.Received.All(r => r.Recheck && r.ThreatAt == 310),
-                "Native Scribe must preserve separate histories and rebuild the bounded clearance index correctly.");
-            Check(loaded.Own[0].Depth == 2 && loaded.Own[0].Frontiers[0].Depth == 3,
-                "Native deep Scribe must preserve the reported portal and next frontier thickness.");
+            var a=new TacticalSquadCommand{Owner=loaded}; var b=new TacticalSquadCommand{Owner=loaded};
+            check(ReferenceEquals(a.SecuredKnowledge,b.SecuredKnowledge) && !a.SecuredKnowledge.Cleared(goal)
+                && a.SecuredKnowledge.Records.Last().Recheck && a.SecuredKnowledge.KnownPassage(opening,IntVec3.East,2),
+                "Native map-level Scribe restores one common ledger and rebuilds its clear/portal indexes.");
+            check(a.SecuredKnowledge.Records.Last().Frontiers[0].Depth==3 && loaded.SharedSecured.Sequence==owner.SharedSecured.Sequence,
+                "Native deep save preserves thick channel/frontier geometry and the common revision.");
+            check(System.Xml.Linq.XDocument.Load(path).Root.Elements("tacticalSharedSecured").Count()==1,
+                "Map must save the common ledger exactly once, outside per-squad payloads.");
         }
-        finally { ScribeMetaHeaderUtility.modListChanged = previousHeader; if (File.Exists(path)) File.Delete(path); }
-        var doctrine = (DoctrineDef)RuntimeHelpers.GetUninitializedObject(typeof(DoctrineDef)); doctrine.voiceReportTicks = 40;
-        var group = new CombatGroup { id = "source" };
-        var organization = new CombatOrganization { id = "org", doctrine = doctrine, rootGroups = new List<CombatGroup> { group } };
-        organization.RestoreTreeLinks();
-        var from = new TacticalSquadCommand { Id = "source", Goal = goal }; from.Link.Unit = RaidTacticalUnit.ForGroup(group);
-        from.Link.Liaison = new Pawn { thingIDNumber = 101 }; from.SecuredKnowledge.Record(Packet(0, 300, goal));
-        var to = new TacticalSquadCommand { Id = "receiver", Goal = goal }; to.Link.Liaison = new Pawn { thingIDNumber = 102 };
-        var network = new TacticalCommunications();
-        var send = AccessTools.Method(typeof(TacticalCommunications), "SendSecured");
-        void Send() => send.Invoke(network, new object[] { from, to, 310, TacticalChannel.Voice });
-        Send(); Send();
-        var queued = (List<TacticalMessage>)AccessTools.Field(typeof(TacticalCommunications), "pending").GetValue(network);
-        Check(network.PendingCount == 1 && queued[0].Due == 350 && queued[0].SecuredReport != from.SecuredKnowledge.Own[0],
-            "Clear reports share the existing delayed/coalesced queue and detach their small payload.");
-        queued.Clear(); from.Link.SecuredAcks[to.Id] = 1; Send();
-        Check(network.PendingCount == 0, "An acknowledged revision must not be sent again each communication frame.");
-        from.SecuredKnowledge.Record(Packet(0, 320, opening)); Send();
-        Check(network.PendingCount == 1 && queued[0].SecuredReport.Sequence == 2,
-            "A new local change must send only the next unacknowledged revision.");
-        var receiver = new TacticalSquadCommand();
-        var owner = new MapComponent_TacticalCommands(null);
-        AccessTools.Method(typeof(MapComponent_TacticalCommands), "ReceiveSecuredReport").Invoke(owner, new object[] { receiver, queued[0].SecuredReport });
-        Check(receiver.SecuredCells.Count == 0 && receiver.SecuredKnowledge.Own.Count == 0
-            && receiver.Link.KnownPortals.Contains(opening) && receiver.Frontiers.Count == 1,
-            "Report application must expose a reusable portal/known frontier without copying a peer's secured state.");
-        Console.WriteLine("PASS: " + checks + " secured report isolation, reinfiltration, eviction, native save and change-only packet checks.");
+        finally { Scribe.ForceStop(); ScribeMetaHeaderUtility.modListChanged=previousHeader; if(File.Exists(path))File.Delete(path); }
     }
 }

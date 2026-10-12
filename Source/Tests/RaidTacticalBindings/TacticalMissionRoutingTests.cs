@@ -91,7 +91,7 @@ internal static class TacticalMissionRoutingTests
         command.SecuredCells.Remove(next);
         var packet = new TacticalSecuredReport { Origin = "peer", Sequence = 1, SeenTick = 1000,
             Goal = command.Goal, Opening = new IntVec3(24, 0, 10), Inward = IntVec3.East, Cells = new List<IntVec3> { next } };
-        Check(command.SecuredKnowledge.Receive(packet, "peer", command.Goal, 1001)
+        Check(command.SecuredKnowledge.Record(packet)
             && !TacticalMissionRouting.TransitGoal(command).IsValid && !Pending().IsValid,
             "Received clearance must also stop a now-unnecessary transit.");
         Console.WriteLine("PASS: " + checks + " actual-room survey, outdoor-loop prevention, open-exit reuse, mission resumption and native transit-save checks.");

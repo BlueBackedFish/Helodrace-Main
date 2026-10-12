@@ -75,6 +75,7 @@ namespace Helodrace.Tactics
             Scribe_References.Look(ref explicitTargetFaction, "tacticalExplicitTargetFaction");
             Scribe_Values.Look(ref automaticGoal, "tacticalAutomaticGoal", IntVec3.Invalid);
             Scribe_Values.Look(ref goalRetry, "tacticalGoalRetry");
+            Scribe_Deep.Look(ref SharedSecured, "tacticalSharedSecured");
             if (Scribe.mode == LoadSaveMode.Saving)
             {
                 savedCommands = squads.Values.Where(c => !c.Terminal).ToList();
@@ -146,6 +147,7 @@ namespace Helodrace.Tactics
                 command.Link.Peer = SavedCommand(command.Link.SavedPeer);
             RestoreClaims(savedClaims, claims); RestoreClaims(savedLeases, leases);
             if (squads.Count > 0 && savedOpenings != null) knownOpenings.AddRange(savedOpenings);
+            if (squads.Count == 0) SharedSecured = new TacticalSecuredKnowledge();
             savedCommands = null; savedOpenings = null; savedClaims = savedLeases = null;
         }
         private void RestoreClaims(Dictionary<IntVec3, string> saved, Dictionary<IntVec3, TacticalSquadCommand> destination)

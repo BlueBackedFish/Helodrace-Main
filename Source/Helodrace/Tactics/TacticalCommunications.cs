@@ -16,7 +16,6 @@ namespace Helodrace.Tactics
         public int SelectionCursor, PeerCursor, ExchangeAt, PartnerExchangeAt, PartnerProbeAt, OpportunityUntil;
         public TacticalSquadCommand Peer;
         public TacticalCooperationState Cooperation = new TacticalCooperationState();
-        public HashSet<IntVec3> KnownPortals = new HashSet<IntVec3>();
         public Dictionary<string, int> Identified = new Dictionary<string, int>();
         public int IdentifyUntil, IdentifyStarted;
         public bool ResetPlan, IdentificationHolding;
@@ -32,8 +31,7 @@ namespace Helodrace.Tactics
         public TacticalCooperationAgenda Agenda;
         public TacticalContact Contact;
         public TacticalMeleeThreat MeleeThreat;
-        public TacticalSecuredReport SecuredReport;
-        public bool Ready, Finished, GoalSecured, PortalUsable;
+        public bool Ready, Finished, GoalSecured;
         public IntVec3 Opening = IntVec3.Invalid;
         public int StartAt = -1;
     }
@@ -60,7 +58,6 @@ namespace Helodrace.Tactics
             foreach (TacticalSquadCommand other in remaining)
             {
                 other.Link.Identified.Remove(command.Id);
-                other.Link.SecuredAcks.Remove(command.Id);
                 if (other.Link.Peer != command && other.Link.Cooperation.Agenda?.Peer(other.Id) != command.Id) continue;
                 other.Link.Peer = null;
                 other.Link.Cooperation.Abort();
@@ -107,8 +104,7 @@ namespace Helodrace.Tactics
         }
         private static bool Address(TacticalSquadCommand command) => command != null && !command.Terminal && !command.Owner.map.Disposed;
         private static bool Active(TacticalSquadCommand command) => Address(command) && command.Phase != TacticalCommandPhase.Returning
-            && (command.Phase != TacticalCommandPhase.Complete || command.SecuredKnowledge.Own.Count > 0
-                && GenTicks.TicksGame - command.SecuredKnowledge.Own[command.SecuredKnowledge.Own.Count - 1].SeenTick < 1200);
+            && command.Phase != TacticalCommandPhase.Complete;
         private static bool Person(TacticalSquadCommand command, Pawn pawn) => pawn?.Spawned == true && pawn.Map == command.Owner.map
             && !pawn.Dead && !pawn.Downed && !pawn.InMentalState;
         private void SelectLiaison(TacticalSquadCommand command)
@@ -213,24 +209,13 @@ namespace Helodrace.Tactics
                 }
             }
             int reports = 0;
-            source.Link.SecuredAcks.TryGetValue(receiver.Id, out int securedAck);
-            int contactLimit = source.SecuredKnowledge.Own.Exists(r => r.Sequence > securedAck && r.Goal == receiver.Goal) ? 1 : 2;
+            const int contactLimit = 2;
             foreach (TacticalMeleeThreat threat in source.Contacts.Melee.Entries)
                 if (threat.Origin == source.Id && TacticalFocusPolicy.Fresh(threat, tick))
                 { Send(source, receiver, TacticalMessageKind.MeleeThreat, tick, channel, melee: threat); if (++reports == contactLimit) break; }
             foreach (TacticalContact contact in source.Contacts.Memory.Entries)
                 if (reports < contactLimit && contact.Origin == source.Id && tick - contact.SeenTick < TacticalContactMemory.RetentionTicks)
                 { Send(source, receiver, TacticalMessageKind.Contact, tick, channel, contact); if (++reports == contactLimit) break; }
-            if (reports < 2) SendSecured(source, receiver, tick, channel);
-        }
-        private void SendSecured(TacticalSquadCommand from, TacticalSquadCommand to, int tick, TacticalChannel channel)
-        {
-            from.Link.SecuredAcks.TryGetValue(to.Id, out int acknowledged);
-            TacticalSecuredReport report = from.SecuredKnowledge.Own.Find(r => r.Sequence > acknowledged && r.Goal == to.Goal);
-            if (report == null) return;
-            int before = pending.Count;
-            Send(from, to, TacticalMessageKind.Secured, tick, channel);
-            if (pending.Count > before) pending[pending.Count - 1].SecuredReport = report.Copy();
         }
         private void Identify(TacticalSquadCommand command, TacticalSquadCommand peer, int tick)
         {
@@ -255,7 +240,7 @@ namespace Helodrace.Tactics
                 Agenda = own.Agenda, Contact = contact?.Copy(), MeleeThreat = melee?.Copy(), Ready = own.LocalReady,
                 Finished = own.Stage == TacticalAgreementStage.Finished, GoalSecured = from.GoalSecured,
                 Opening = from.Plan?.Opening ?? IntVec3.Invalid,
-                PortalUsable = from.Members.Any(m => m.Crossed), StartAt = own.ConfirmedStart });
+                StartAt = own.ConfirmedStart });
             MessagesSent++;
         }
         private void Deliver(TacticalMessage message, int tick)
@@ -266,27 +251,6 @@ namespace Helodrace.Tactics
             if (tick - message.Sent >= TacticalCommunicationPolicy.PacketLife || channel != message.Channel)
             { MessagesDropped++; LastDropReason = channel != message.Channel ? "channel" : "expired"; return; }
             TacticalSquadCommand receiver = message.To;
-            if (message.Kind == TacticalMessageKind.Secured)
-            {
-                TacticalSecuredReport report = message.SecuredReport;
-                if (report == null || report.Origin != message.From.Id || report.Goal != receiver.Goal)
-                { MessagesDropped++; LastDropReason = "secured-mission"; return; }
-                if (receiver.SecuredKnowledge.Receive(report, message.From.Id, receiver.Goal, tick))
-                {
-                    foreach (TacticalContact contact in receiver.Contacts.Memory.Entries)
-                        if (contact.SeenTick >= report.SeenTick)
-                            receiver.SecuredKnowledge.ObserveThreat(contact.Position, contact.Area, contact.SeenTick);
-                    foreach (TacticalMeleeThreat threat in receiver.Contacts.Melee.Entries)
-                        if (threat.Urgency > 0 && threat.SeenTick >= report.SeenTick)
-                            receiver.SecuredKnowledge.ObserveThreat(threat.Position, threat.Position, threat.SeenTick);
-                    receiver.Owner.ReceiveSecuredReport(receiver, receiver.SecuredKnowledge.Received.Last()); ReportsReceived++;
-                    receiver.Due = Math.Min(receiver.Due, tick + 1);
-                }
-                if (message.From.Link.SecuredAcks.Count >= 8 && !message.From.Link.SecuredAcks.ContainsKey(receiver.Id))
-                    message.From.Link.SecuredAcks.Remove(message.From.Link.SecuredAcks.Keys.First());
-                message.From.Link.SecuredAcks[receiver.Id] = report.Sequence;
-                MessagesDelivered++; return;
-            }
             if (message.Kind == TacticalMessageKind.MeleeThreat)
             {
                 if (receiver.Contacts.Melee.Receive(message.MeleeThreat, tick))
@@ -319,11 +283,6 @@ namespace Helodrace.Tactics
             { OffersAccepted++; Send(receiver, message.From, TacticalMessageKind.Accept, tick, channel); }
             if (message.Kind == TacticalMessageKind.Accept) Send(receiver, message.From, TacticalMessageKind.Confirm, tick, channel);
             if (message.Kind == TacticalMessageKind.Start) StartMessages++;
-            if (message.Kind == TacticalMessageKind.Status && message.PortalUsable && message.Opening.IsValid)
-            {
-                if (receiver.Link.KnownPortals.Count >= 8) receiver.Link.KnownPortals.Remove(receiver.Link.KnownPortals.First());
-                receiver.Link.KnownPortals.Add(message.Opening);
-            }
         }
         public void Announce(TacticalSquadCommand command, int tick, bool aborted)
         {

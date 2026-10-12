@@ -52,6 +52,7 @@ internal static class Program
     {
         try
         {
+            if (args.Contains("--shared-secured")) { TacticalSecuredReportTests.Run(); TacticalMissionRoutingTests.Run(); TacticalCooperationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--a3")) { TacticalFieldTests.Run(); TacticalMedicalEquipmentTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--evasion")) { TacticalExplosiveEvasionTests.Run(); TacticalWorkBudgetTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); return 0; }
             if (args.Contains("--entry-combat")) { TacticalEntryCombatTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }

@@ -55,7 +55,7 @@ namespace Helodrace
             (p.From?.Id ?? p.SavedFrom) + ":" + (p.To?.Id ?? p.SavedTo)
             + ":" + (p.From?.Owner.map ?? p.SavedMap)?.uniqueID + ":" + p.FromPawn + ":" + p.ToPawn
             + ":" + p.Sent + ":" + p.Due + ":" + p.Kind + ":" + p.Channel + ":" + Agenda(p.Agenda)
-            + ":" + p.Ready + ":" + p.Finished + ":" + p.GoalSecured + ":" + p.PortalUsable + ":" + p.Opening + ":" + p.StartAt
+            + ":" + p.Ready + ":" + p.Finished + ":" + p.GoalSecured + ":" + p.Opening + ":" + p.StartAt
             + ":" + p.Contact?.EnemyId + ":" + p.Contact?.Position + ":" + p.Contact?.SeenTick + ":" + p.Contact?.Origin)));
         private static string SquadState(TacticalSquadCommand c)
         {
@@ -63,7 +63,7 @@ namespace Helodrace
             return c.Id + ":" + c.Phase + ":" + c.Plan?.Opening + ":" + c.Goal + ":" + History(c) + ":" + NativeJobs(c)
                 + ":" + Contacts(c) + ":" + l.Peer?.Id + ":" + l.Liaison?.thingIDNumber + ":" + l.IdentifyUntil
                 + ":" + l.IdentifyStarted + ":" + l.IdentificationHolding + ":" + l.LastChannel
-                + ":" + string.Join(";", l.KnownPortals.OrderBy(p => p.x).ThenBy(p => p.z))
+                + ":shared-clear=" + c.SecuredKnowledge.Sequence + ":cursor=" + c.SharedSecuredCursor
                 + ":" + string.Join(";", l.Identified.OrderBy(p => p.Key).Select(p => p.Key + ":" + p.Value))
                 + ":" + Agenda(a.Agenda) + ":" + a.Stage + ":" + a.LocalReady + ":" + a.PeerReady
                 + ":" + a.PeerFinished + ":" + a.PeerGoalSecured + ":" + a.PeerStatusAt + ":" + a.ConfirmedStart

@@ -52,9 +52,10 @@ namespace Helodrace.Tactics
         private Faction explicitTargetFaction;
         private void PrepareStructureTargets(TacticalSquadCommand command, int tick)
         {
-            if (tick >= command.SecuredRegionExpiry)
+            if (tick >= command.SecuredRegionExpiry || command.SharedStructureRevision != command.SecuredKnowledge.Sequence)
             {
                 command.SecuredRegionProbes.Clear(); command.SecuredRegionExpiry = tick + 120;
+                command.SharedStructureRevision = command.SecuredKnowledge.Sequence;
             }
             command.SecuredRegionAllowance = TacticalSecuredRegionProbe.Slice;
             Faction target = explicitGoal.IsValid ? explicitTargetFaction : Faction.OfPlayer;

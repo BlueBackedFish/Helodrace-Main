@@ -229,7 +229,7 @@ namespace Helodrace.Tactics
                 ReleaseClaims(command); command.Plan = null; command.Goal = goal;
                 command.OpeningAction = null;
                 command.Mission = new TacticalAssaultMission();
-                command.SecuredKnowledge = new TacticalSecuredKnowledge(); command.Link.SecuredAcks.Clear();
+                command.SharedSecuredCursor = 0;
                 foreach (TacticalRoomFrontier frontier in command.Frontiers) frontier.Excluded = false;
                 command.RoomScan = null; command.GoalSecured = command.SecuredCells.Contains(goal);
                 command.RecoveryFrontier = null; command.RoomRecoveryUntil = 0;
@@ -339,12 +339,13 @@ namespace Helodrace.Tactics
             var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
             if (active.Count == 0) { Release(command); return; }
             if (UpdateDefensiveMission(command, tick)) return;
+            SyncSharedSecured(command, tick);
             if (command.Phase == TacticalCommandPhase.Complete && command.FocusFire == null
                 && !command.Contacts.Melee.Dangerous(tick) && command.ContactResponse?.DirectAttack != true && !ResumeExpiredAllocation(command, tick))
             {
                 ScanContacts(command, active, tick);
                 if (!command.Contacts.Melee.Dangerous(tick) && command.Contacts.Memory.Entries.Count == 0)
-                { command.Due = tick + 600; return; }
+                { command.Due = Math.Min(command.Due, tick + 600); return; }
                 command.Phase = TacticalCommandPhase.Clear;
                 command.Mission.Stage = TacticalMissionStage.Searching;
                 command.Mission.SearchAt = tick; command.Mission.EmptySurveys = 0;
@@ -359,6 +360,7 @@ namespace Helodrace.Tactics
             if (AdvanceFieldResponse(command, active, tick)) return;
             if (RespondToContacts(command, active, tick)) return;
             if (RestoreContactPosts(command, active, tick)) return;
+            if (RefreshSharedPassage(command, tick)) return;
             if (command.Defensive) { AdvanceDefenseIdle(command, active, tick); return; }
             AdvanceEntryPosts(command, active, tick);
             if (AdvanceCoordination(command, active, tick)) return;
@@ -524,7 +526,7 @@ namespace Helodrace.Tactics
                     // Already-open doors/gaps skip Stack/Breach, whose normal
                     // transition records the portal. Keep the validated local
                     // footprint for later squads as well; ReuseOpening still
-                    // requires their own history, received report or actual LOS.
+                    // validates live passage/claims against shared geometry.
                     if (plan.ExistingOpening) RememberOpening(plan);
                     command.Phase = plan.ExistingOpening ? TacticalCommandPhase.Observe : TacticalCommandPhase.Stack;
                 }
@@ -715,6 +717,9 @@ namespace Helodrace.Tactics
         private void RememberOpening(TacticalLocalPlan plan)
         {
             if (knownOpenings.Count < 8 && !knownOpenings.Any(known => known.Opening == plan.Opening)) knownOpenings.Add(plan);
+            if (!SharedSecured.KnownPassage(plan.Opening, plan.Inward, plan.Depth))
+                SharedSecured.Record(new TacticalSecuredReport { Opening = plan.Opening, Inward = plan.Inward, Depth = plan.Depth,
+                    PortalUsable = true, SeenTick = GenTicks.TicksGame });
         }
         private TacticalLocalPlan ReuseOpening(TacticalSquadCommand command, Pawn leader, IntVec3 goal, int count, Func<IntVec3,bool> claimed,
             out bool tried, out TacticalPlanFailure failure)
@@ -728,7 +733,7 @@ namespace Helodrace.Tactics
                     if (classificationPending) { tried = true; failure = TacticalPlanFailure.Classification; return null; }
                     continue;
                 }
-                if (!command.Link.KnownPortals.Contains(known.Opening)
+                if (!command.SecuredKnowledge.KnownOpening(known.Opening)
                     && !command.SecuredPlans.Any(p => p.Opening == known.Opening)
                     && (leader.Position.DistanceToSquared(known.Opening) > 784
                         || !GenSight.LineOfSight(leader.Position, known.Opening, map, true))) continue;
@@ -929,6 +934,7 @@ namespace Helodrace.Tactics
             if (squads.Count == 0)
             {
                 claims.Clear(); leases.Clear(); knownOpenings.Clear();
+                SharedSecured = new TacticalSecuredKnowledge();
                 automaticGoal = IntVec3.Invalid; goalRetry = 0;
             }
         }
@@ -943,6 +949,7 @@ namespace Helodrace.Tactics
                 Current.Game?.GetComponent<GameComponent_TacticalCommands>()?.Forget(command);
             }
             squads.Clear(); byPawn.Clear(); claims.Clear(); leases.Clear(); knownOpenings.Clear();
+            SharedSecured = new TacticalSecuredKnowledge();
         }
     }
 
