@@ -212,8 +212,8 @@
       </wornGraphicData>
       <useWornGraphicMask>false</useWornGraphicMask>
       <parentTagDef>ApparelBody</parentTagDef>
-      <layers>
-        <li>Belt</li>
+      <layers Inherit="False">
+        <li>HD_MedicalBag</li>
       </layers>
       <tags>
         <li>HD_Apparel</li>

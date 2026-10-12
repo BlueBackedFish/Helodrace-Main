@@ -6,4 +6,11 @@
     <label>pouch</label>
     <drawOrder>310</drawOrder>
   </ApparelLayerDef>
+  <!-- Medical bags share shoulder groups with mandatory chest rigs/armor.
+       Their own layer lets a medic keep the complete issued uniform. -->
+  <ApparelLayerDef>
+    <defName>HD_MedicalBag</defName>
+    <label>medical bag</label>
+    <drawOrder>320</drawOrder>
+  </ApparelLayerDef>
 </Defs>

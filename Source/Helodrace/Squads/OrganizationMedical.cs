@@ -40,11 +40,22 @@ namespace Helodrace.Squads
                 RoleAssignment selected = Select(squad, a => a.pawn?.apparel != null
                     && ApparelUtility.HasPartsToWear(a.pawn, bagDef)
                     && a.pawn.apparel.WornApparel.All(item => ApparelUtility.CanWearTogether(item.def, bagDef, a.pawn.RaceProps.body)));
-                if (selected == null) throw new InvalidOperationException("No compatible medic slot in " + squad.formation.defName);
+                if (selected == null)
+                {
+                    // Optional support equipment must not destroy an otherwise
+                    // valid whole raid when another mod blocks every wearer.
+                    Log.Warning("Helodrace: no compatible medic slot in " + squad.formation.defName + "; raid kept, medical bag skipped.");
+                    continue;
+                }
                 Pawn pawn = selected.pawn;
                 var bag = (Apparel)ThingMaker.MakeThing(bagDef, GenStuff.DefaultStuffFor(bagDef));
                 pawn.apparel.Wear(bag, false);
-                if (bag.Wearer != pawn) { bag.Destroy(DestroyMode.Vanish); throw new InvalidOperationException("Medic bag could not be worn in " + squad.formation.defName); }
+                if (bag.Wearer != pawn)
+                {
+                    bag.Destroy(DestroyMode.Vanish);
+                    Log.Warning("Helodrace: medic bag could not be worn in " + squad.formation.defName + "; raid kept, medical bag skipped.");
+                    continue;
+                }
                 selected.medicalDuty = true; AddTraining(pawn);
                 CompMedibag comp = bag.TryGetComp<CompMedibag>();
                 ThingDef supplyDef = comp.Props.supplyDef ?? comp.Props.medicineDef ?? ThingDefOf.MedicineHerbal;

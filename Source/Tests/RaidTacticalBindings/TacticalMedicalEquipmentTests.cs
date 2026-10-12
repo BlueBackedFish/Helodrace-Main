@@ -4,10 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
+using HarmonyLib;
 using Helodrace.Squads;
 using Helodrace.Tactics;
 using Verse;
 using Verse.AI;
+using RimWorld;
+using Helodrace;
 
 internal static class TacticalMedicalEquipmentTests
 {
@@ -15,6 +18,7 @@ internal static class TacticalMedicalEquipmentTests
     {
         int checks = 0;
         void Check(bool condition, string reason) { checks++; if (!condition) throw new Exception(reason); }
+        CheckMedicalLayers(Check);
         var rifle = new RoleDef { combatFunction = "Rifle" };
         var automatic = new RoleDef { combatFunction = "HAR" };
         var command = new RoleDef { isCommandRole = true };
@@ -61,5 +65,66 @@ internal static class TacticalMedicalEquipmentTests
         Check((string)pickup.Element("driverClass") == typeof(JobDriver_TacticalRecoverMedibag).FullName,
             "Recovery definition must bind the actual budgeted pickup driver.");
         Console.WriteLine("PASS: " + checks + " A3 medic billet, drop eligibility, native job ownership/save and recovery binding checks.");
+    }
+
+    private static void CheckMedicalLayers(Action<bool, string> check)
+    {
+        XElement greatWar = XDocument.Load("Defs/GreatWar/Items/Items_GreatWar.xml").Root;
+        XElement modern = XDocument.Load("Defs/ModernWar/Items/Apparel_ModernWar.xml").Root;
+        XElement bagXml = greatWar.Elements("ThingDef").Single(d => (string)d.Element("defName") == OrganizationMedical.BagDefName);
+        var groups = new Dictionary<string, BodyPartGroupDef>();
+        var layers = new Dictionary<string, ApparelLayerDef>();
+        BodyPartGroupDef Group(string name)
+        {
+            if (!groups.TryGetValue(name, out var value)) groups[name] = value = new BodyPartGroupDef { defName = name };
+            return value;
+        }
+        ApparelLayerDef Layer(string name)
+        {
+            if (!layers.TryGetValue(name, out var value)) layers[name] = value = new ApparelLayerDef { defName = name };
+            return value;
+        }
+        ThingDef ApparelDef(XElement xml)
+        {
+            var def = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+            def.defName = (string)xml.Element("defName");
+            def.apparel = new ApparelProperties {
+                bodyPartGroups = xml.Element("apparel").Element("bodyPartGroups").Elements("li").Select(e => Group(e.Value)).ToList(),
+                layers = xml.Element("apparel").Element("layers").Elements("li").Select(e => Layer(e.Value)).ToList() };
+            return def;
+        }
+        var bag = ApparelDef(bagXml);
+        var rig = ApparelDef(greatWar.Elements("ThingDef").Single(d => (string)d.Element("defName") == "HD_Apparel_GreatWarStormFrontChestRig"));
+        var body = new BodyDef { defName = "A3MedicLayerRegression" };
+        foreach (XElement xml in XDocument.Load("Defs/Helod/Race/Body.xml").Descendants("groups"))
+            body.AllParts.Add(new BodyPartRecord { groups = xml.Elements("li").Select(e => Group(e.Value)).ToList() });
+        DefDatabase<BodyDef>.Add(body);
+        var relevant = AccessTools.Field(typeof(ApparelProperties), "apparelRelevantGroups");
+        object previous = relevant.GetValue(null);
+        relevant.SetValue(null, groups.Values.ToArray());
+        try
+        {
+            var legacy = (ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef));
+            legacy.apparel = new ApparelProperties { bodyPartGroups = bag.apparel.bodyPartGroups,
+                layers = new List<ApparelLayerDef> { Layer("Belt") } };
+            check(!ApparelUtility.CanWearTogether(legacy, rig, body), "Reproduce the original native Belt/Shoulders conflict with the mandatory LOW chest rig.");
+            check(ApparelUtility.CanWearTogether(bag, rig, body), "Issued medic bag must coexist with the mandatory LOW chest rig instead of aborting raid generation.");
+            foreach (string name in new[] { "HD_Apparel_GreatWarStormFrontInner", "HD_Apparel_GreatWarStormFrontOuter", "HD_Apparel_GreatWarM1Helmet" })
+                check(ApparelUtility.CanWearTogether(bag, ApparelDef(greatWar.Elements("ThingDef").Single(d => (string)d.Element("defName") == name)), body), "LOW required uniform/helmet must remain wearable with bag: " + name);
+            foreach (string name in new[] { "HD_Apparel_UCPBlouse", "HD_Apparel_UCPPants", "HD_Apparel_IBTVAssault", "HD_Apparel_FASTMT" })
+                check(ApparelUtility.CanWearTogether(bag, ApparelDef(modern.Elements("ThingDef").Single(d => (string)d.Element("defName") == name)), body), "HIGH required uniform/armor must remain wearable with bag: " + name);
+            check((string)bagXml.Element("apparel").Element("layers").Attribute("Inherit") == "False", "Bag layer must replace inherited Belt, not merge it back into the resolved definition.");
+            XElement layerDefs = XDocument.Load("Defs/GreatWar/ApparelLayers_GreatWar.xml").Root;
+            check(bag.apparel.layers.All(l => layerDefs.Elements("ApparelLayerDef").Any(d => (string)d.Element("defName") == l.defName)), "Bag's dedicated layer must actually be defined.");
+            bool utility = false;
+            Patch_MedicalBagUtilityLayer.Postfix(bag.apparel.layers[0], ref utility);
+            check(utility, "Medical layer must retain native pack texture paths instead of inventing body-type suffix textures.");
+            utility = false; Patch_MedicalBagUtilityLayer.Postfix(Layer("Middle"), ref utility);
+            check(!utility, "Ordinary armor layers must not become utility packs.");
+            utility = true; Patch_MedicalBagUtilityLayer.Postfix(Layer("Belt"), ref utility);
+            check(utility, "Vanilla Belt classification must remain intact.");
+            check(AccessTools.PropertyGetter(typeof(ApparelLayerDef), nameof(ApparelLayerDef.IsUtilityLayer))?.ReturnType == typeof(bool), "Pack rendering patch must bind the installed native getter.");
+        }
+        finally { relevant.SetValue(null, previous); AccessTools.Method(typeof(DefDatabase<BodyDef>), "Remove").Invoke(null, new object[] { body }); }
     }
 }
