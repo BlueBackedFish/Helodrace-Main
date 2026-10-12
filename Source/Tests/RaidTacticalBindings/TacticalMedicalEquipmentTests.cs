@@ -19,6 +19,22 @@ internal static class TacticalMedicalEquipmentTests
         int checks = 0;
         void Check(bool condition, string reason) { checks++; if (!condition) throw new Exception(reason); }
         CheckMedicalLayers(Check);
+        Check(TacticalMedicalPolicy.WithinTreatmentRange(IntVec3.Zero,new IntVec3(20,0,0))
+            && !TacticalMedicalPolicy.WithinTreatmentRange(IntVec3.Zero,new IntVec3(21,0,0)),
+            "A settled medic may reach a room patient beyond eight cells, with a fixed 20-cell bound.");
+        Check(TacticalMedicalPolicy.SafeSite(false,true,true,true,true)
+            && !TacticalMedicalPolicy.SafeSite(false,true,true,true,false)
+            && !TacticalMedicalPolicy.SafeSite(false,true,false,true,true)
+            && !TacticalMedicalPolicy.SafeSite(false,false,true,true,true)
+            && TacticalMedicalPolicy.SafeSite(true,false,false,false,false),
+            "Actual completed exterior guards belong to a cleared entry's care sites, without treating unfinished stacks as safe.");
+        var service=new MapComponent_TacticalCommands(null);
+        var careCommand=new TacticalSquadCommand {Phase=TacticalCommandPhase.Clear,MedicalWindowUntil=5000,MedicalCursor=1};
+        var outside=new TacticalMemberCommand {Pawn=new Pawn {Position=new IntVec3(90,0,90)}};
+        careCommand.Members.Add(outside);
+        AccessTools.Method(service.GetType(),"AdvanceMedicalCare").Invoke(service,new object[]{careCommand,new List<TacticalMemberCommand>{outside},2000});
+        Check(careCommand.NextMedicalCheck==2600&&careCommand.MedicalCursor==0,
+            "An exterior first roster member must not block completion of the whole medical candidate scan.");
         var rifle = new RoleDef { combatFunction = "Rifle" };
         var automatic = new RoleDef { combatFunction = "HAR" };
         var command = new RoleDef { isCommandRole = true };

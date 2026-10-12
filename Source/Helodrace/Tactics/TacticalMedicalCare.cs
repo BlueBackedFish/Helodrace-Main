@@ -14,6 +14,10 @@ namespace Helodrace.Tactics
     public static class TacticalMedicalPolicy
     {
         public const int ScanMembers = 2, ScanInterval = 600, RetryInterval = 1800, MaximumCareTicks = 2400;
+        public const int TreatmentRange = 20;
+        public static bool WithinTreatmentRange(IntVec3 helper, IntVec3 patient) => helper.DistanceToSquared(patient) <= TreatmentRange * TreatmentRange;
+        public static bool SafeSite(bool secured, bool clear, bool scanDone, bool retained, bool arrived) =>
+            secured || clear && scanDone && retained && arrived;
         public static bool Urgent(float bloodLoss) => bloodLoss >= .4f;
         public static bool SafePhase(TacticalCommandPhase phase, bool scanDone, TacticalFieldStage? fieldStage) =>
             (phase == TacticalCommandPhase.Defending && fieldStage == null) || fieldStage == TacticalFieldStage.Defending || phase == TacticalCommandPhase.Clear && scanDone && fieldStage == null;
@@ -73,7 +77,6 @@ namespace Helodrace.Tactics
                 || command.ContactResponse != null || command.FocusFire != null || command.Contacts.Melee.Dangerous(tick) || command.ChargeAction != null
                 || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) return false;
             if (field && active.Exists(m => !AtPost(m))) return false;
-            if (!MedicalSafe(command, active[0].Pawn.Position, tick)) return false;
             // Two health-cache reads per advance, not a map/organization sweep.
             for (int checkedMembers = 0; checkedMembers < TacticalMedicalPolicy.ScanMembers
                 && command.MedicalCursor < command.Members.Count; checkedMembers++)
@@ -114,7 +117,14 @@ namespace Helodrace.Tactics
         private bool MedicalSafe(TacticalSquadCommand command, IntVec3 patient, int tick)
         {
             if (command.FocusFire != null || command.Contacts.Melee.Dangerous(tick)) return false;
-            if (command.FieldResponse == null && !command.SecuredCells.Contains(patient)) return false;
+            if (command.FieldResponse == null)
+            {
+                int index = command.Plan?.Positions.IndexOf(patient) ?? -1;
+                bool guard = index >= 0 && index < command.Members.Count
+                    && command.Members[index].Pawn?.Position == patient && command.Plan.RetainedOutside.Contains(index);
+                if (!TacticalMedicalPolicy.SafeSite(command.SecuredCells.Contains(patient), command.Phase == TacticalCommandPhase.Clear,
+                    command.RoomScan == null, guard, guard && command.Members[index].EntryAssignmentDone)) return false;
+            }
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
                 || command.FieldResponse?.Screen != null || command.ContactResponse != null) return false;
             foreach (TacticalContact contact in command.Contacts.Memory.Entries)
@@ -158,8 +168,9 @@ namespace Helodrace.Tactics
             // Prefer the designated medic's shared bag, then existing TCCC.
             foreach (TacticalMemberCommand member in active)
             {
-                if (!member.Medic || member.Pawn.Position.DistanceToSquared(patient.Pawn.Position) > 64
-                    || member.Pawn.CurJob?.playerForced == true || !TcccUtility.CanTreat(member.Pawn, patient.Pawn)) continue;
+                if (!member.Medic || !TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position, patient.Pawn.Position)
+                    || member.Pawn.CurJob?.playerForced == true || !TcccUtility.CanTreat(member.Pawn, patient.Pawn)
+                    || !MedicalSafe(command, member.Pawn.Position, tick)) continue;
                 treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma);
                 if (treatment != null) { helper = member; break; }
             }
@@ -167,8 +178,8 @@ namespace Helodrace.Tactics
             {
                 if (Available(patient, map) && TcccUtility.CanTreat(patient.Pawn, patient.Pawn)) helper = patient;
                 else foreach (TacticalMemberCommand member in active)
-                    if (member.Pawn.Position.DistanceToSquared(patient.Pawn.Position) <= 64
-                        && TcccUtility.CanTreat(member.Pawn, patient.Pawn)) { helper = member; break; }
+                    if (TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position, patient.Pawn.Position)
+                        && TcccUtility.CanTreat(member.Pawn, patient.Pawn) && MedicalSafe(command, member.Pawn.Position, tick)) { helper = member; break; }
                 if (helper != null)
                 {
                     treatment = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_TCCC_Treat"), patient.Pawn);
@@ -179,8 +190,8 @@ namespace Helodrace.Tactics
             {
                 foreach (TacticalMemberCommand member in active)
                 {
-                    if (member.Pawn.Position.DistanceToSquared(patient.Pawn.Position) > 64 || member.Pawn.CurJob?.playerForced == true
-                        || !TcccUtility.CanTreat(member.Pawn, patient.Pawn)) continue;
+                    if (!TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position, patient.Pawn.Position) || member.Pawn.CurJob?.playerForced == true
+                        || !TcccUtility.CanTreat(member.Pawn, patient.Pawn) || !MedicalSafe(command, member.Pawn.Position, tick)) continue;
                     treatment = BagTreatment(member.Pawn, patient.Pawn, needsHemostasis, tick, out plasma);
                     if (treatment != null) helper = member;
                     if (helper != null) break;
@@ -189,7 +200,7 @@ namespace Helodrace.Tactics
             if (helper == null || helper.Pawn.CurJob?.playerForced == true || tick < helper.RetryTick
                 || KnownCareDanger(helper.Pawn) || !CanIssue(helper)) return false;
             if (helper != patient && !GenSight.LineOfSight(helper.Pawn.Position, patient.Pawn.Position, map, true,
-                c => c.Walkable(map) && !(c.GetEdifice(map) is Building_Door))) return false;
+                c => c.Walkable(map) && (!(c.GetEdifice(map) is Building_Door door) || door.Open))) return false;
             if (helper != patient && Available(patient, map))
             {
                 EnsurePost(patient, patient.Pawn.Position, command.Goal, tick);
