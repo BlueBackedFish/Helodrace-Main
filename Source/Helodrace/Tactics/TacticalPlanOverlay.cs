@@ -134,8 +134,11 @@ namespace Helodrace.Tactics
                 if (command.OpeningAction is TacticalOpeningAction opening)
                 {
                     Add(opening.ObservationPosition,"HD_Tactics_NodeObserve",SimpleColor.Cyan);
-                    Add(opening.Source,"HD_Tactics_NodeThrowFrom",SimpleColor.Yellow);
-                    Add(opening.Target,"HD_Tactics_NodeThrowAt",SimpleColor.Red);
+                    if (opening.ShowThrow)
+                    {
+                        Add(opening.Source,"HD_Tactics_NodeThrowFrom",SimpleColor.Yellow);
+                        Add(opening.Target,"HD_Tactics_NodeThrowAt",SimpleColor.Red);
+                    }
                 }
                 if (planOverlayNodes.Count >= OverlayNodeLimit) break;
             }

@@ -17,15 +17,41 @@ namespace Helodrace.Tactics
         public bool ObservationDone, ObservationIssued, ThrowIssued, Launched, Returned, EffectsCleared, EntryAdjusted, Outdoors, KnownHelodPrisoner;
         public int RoomCells;
         public int SupportCursor;
+        public List<IntVec3> SupportTargets = new List<IntVec3>(9);
         public TacticalSupportSkip SupportSkip;
         public Projectile Projectile;
         public ThingDef ProjectileDef;
+        public bool ShowThrow => ThrowIssued && Target.IsValid && (Launched ? !EffectsCleared : SupportSkip == TacticalSupportSkip.None);
     }
 
     public static class TacticalOpeningPolicy
     {
         public const int ObservationTicks = 90, PrepareTicks = 30, ReleaseTicks = 18, SettleTicks = 30;
         public const int ThrowCandidatesPerSlice = 4;
+        public static void CollectSupportTargets(TacticalLocalPlan plan, IntVec3 enemy,
+            Func<IntVec3,bool> valid, Func<IntVec3,bool> hidden, List<IntVec3> targets)
+        {
+            targets.Clear();
+            if (enemy.IsValid)
+            {
+                if (FarEnough(plan.InnerOpening, enemy) && valid(enemy)) targets.Add(enemy);
+                return;
+            }
+            IntVec3 lateral = new IntVec3(-plan.Inward.z,0,plan.Inward.x);
+            int hiddenCount = 0;
+            for (int depth = 3; depth <= 5; depth++)
+                for (int wing = 0; wing < 3; wing++)
+                {
+                    int width = wing == 0 ? 0 : wing == 1 ? 2 : -2;
+                    IntVec3 cell = plan.InnerOpening + plan.Inward * depth + lateral * width;
+                    if (!valid(cell)) continue;
+                    if (hidden(cell)) targets.Insert(hiddenCount++, cell); else targets.Add(cell);
+                }
+        }
+        public static bool ThrowInProgress(TacticalOpeningAction action) => action?.ThrowIssued == true
+            && action.Thrower?.CurJob?.def.defName == "HD_NewTacticalThrow"
+            && action.Thrower.CurJob.targetA.Cell == action.Target
+            && !(action.Thrower.jobs.curDriver is TacticalJobDriver driver && driver.AtPost);
         public static IntVec3 FindThrowPosition(TacticalLocalPlan plan, IntVec3 post,
             Func<IntVec3,bool> free, Func<IntVec3,bool> canThrow)
         {
@@ -133,12 +159,13 @@ namespace Helodrace.Tactics
                     cell => cell.InBounds(map) && cell != plan.Opening && cell.Walkable(map) && !(cell.GetEdifice(map) is Building_Door));
             }
             TacticalOpeningAction action = command.OpeningAction;
+            if (action.Launched && !action.EffectsCleared) command.Phase = TacticalCommandPhase.BlastWait;
             // A completed observation records one fixed enemy location. Do not
             // query that pawn's future position while preparing the throw.
             foreach (TacticalMemberCommand member in active)
             {
                 if ((member.Pawn == action.Observer && member.Pawn.jobs.curDriver is JobDriver_TacticalObserve observe && !observe.AtPost)
-                    || (member.Pawn == action.Thrower && member.Pawn.jobs.curDriver is JobDriver_TacticalThrow throwing && !throwing.AtPost)) continue;
+                    || (member.Pawn == action.Thrower && TacticalOpeningPolicy.ThrowInProgress(action))) continue;
                 int index = command.Members.IndexOf(member);
                 EnsurePost(member, plan.Stack[index], plan.Opening, tick);
             }
@@ -196,20 +223,23 @@ namespace Helodrace.Tactics
                 {
                     // A preparation interrupted before launch simply returns
                     // to the held formation; never keep retrying every tick.
-                    if (action.Thrower?.jobs.curDriver is JobDriver_TacticalThrow preparing && !preparing.AtPost) return;
-                    action.SupportSkip = TacticalSupportSkip.Interrupted; command.Phase = TacticalCommandPhase.Enter; return;
+                    if (TacticalOpeningPolicy.ThrowInProgress(action)) return;
+                    SkipOpeningSupport(command, TacticalSupportSkip.Interrupted); return;
                 }
                 bool high = TacticalHighCqbPolicy.High(command);
                 bool combat = TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick);
                 if (!TacticalCqbDoctrine.Support(high, action.Outdoors, action.RoomCells, action.Enemy.IsValid, action.KnownHelodPrisoner, combat))
-                { action.SupportSkip = TacticalSupportSkip.Policy; command.Phase = TacticalCommandPhase.Enter; return; }
-                IntVec3 target = action.Target.IsValid ? action.Target : ChooseSupportTarget(plan, action);
-                if (!target.IsValid) { action.SupportSkip = TacticalSupportSkip.NoTarget; command.Phase = TacticalCommandPhase.Enter; return; }
-                action.Target = target;
+                { SkipOpeningSupport(command, TacticalSupportSkip.Policy); return; }
+                if (action.SupportTargets.Count == 0)
+                    TacticalOpeningPolicy.CollectSupportTargets(plan, action.Enemy,
+                        cell => cell.InBounds(map) && cell.Standable(map),
+                        cell => action.ObservationPosition.IsValid && !GenSight.LineOfSight(action.ObservationPosition, cell, map, true),
+                        action.SupportTargets);
+                if (action.SupportTargets.Count == 0) { SkipOpeningSupport(command, TacticalSupportSkip.NoTarget); return; }
                 if (active.Exists(member => !AtPost(member)))
                 {
                     action.SupportSkip = TacticalSupportSkip.Formation;
-                    if (tick - action.SupportStarted > 600) command.Phase = TacticalCommandPhase.Enter;
+                    if (tick - action.SupportStarted > 600) SkipOpeningSupport(command, TacticalSupportSkip.Formation);
                     return;
                 }
                 bool lethal = TacticalCqbDoctrine.Lethal(high, action.Enemy.IsValid, combat, action.KnownHelodPrisoner);
@@ -219,10 +249,13 @@ namespace Helodrace.Tactics
                 try
                 {
                     if (action.SupportSkip == TacticalSupportSkip.Budget) action.SupportSkip = TacticalSupportSkip.None;
-                    for (int tested = 0; tested < TacticalOpeningPolicy.ThrowCandidatesPerSlice && action.SupportCursor < command.Members.Count * 2; tested++)
+                    int passSize = command.Members.Count * action.SupportTargets.Count;
+                    for (int tested = 0; tested < TacticalOpeningPolicy.ThrowCandidatesPerSlice && action.SupportCursor < passSize * 2; tested++)
                     {
                         int slot = action.SupportCursor++, index = slot % command.Members.Count;
-                        int preference = slot < command.Members.Count ? 2 : 0;
+                        int preference = slot < passSize ? 2 : 0;
+                        IntVec3 target = action.SupportTargets[(slot % passSize) / command.Members.Count];
+                        action.Target = target;
                         TacticalMemberCommand member = command.Members[index];
                         if (!active.Contains(member) || !AtPost(member) || member.Pawn.CurJob?.playerForced == true) continue;
                         IntVec3 returnPosition = plan.Stack[index];
@@ -249,13 +282,21 @@ namespace Helodrace.Tactics
                         Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalThrow"), target, grenade, throwPosition);
                         job.targetQueueA = new List<LocalTargetInfo> { returnPosition, plan.Opening };
                         job.canUseRangedWeapon = false;
-                        action.Thrower = member.Pawn; action.Target = target; action.ThrowIssued = true;
-                        action.ReturnPosition = returnPosition; action.SupportSkip = TacticalSupportSkip.None;
-                        Issue(member, job); return;
+                        action.Thrower = member.Pawn; action.ReturnPosition = returnPosition;
+                        // StartJob may invoke the driver synchronously. Keep
+                        // its action context ready, but commit only if admitted.
+                        if (!Issue(member, job))
+                        {
+                            action.Thrower = null; action.ReturnPosition = IntVec3.Invalid;
+                            action.SupportCursor--; action.SupportSkip = TacticalSupportSkip.Budget;
+                            command.Due = tick + 1; return;
+                        }
+                        action.Source = throwPosition; action.ThrowIssued = true;
+                        action.SupportSkip = TacticalSupportSkip.None; return;
                     }
-                    if (action.SupportCursor < command.Members.Count * 2) { command.Due = tick + 1; return; }
+                    if (action.SupportCursor < passSize * 2) { command.Due = tick + 1; return; }
                     if (action.SupportSkip == TacticalSupportSkip.None) action.SupportSkip = TacticalSupportSkip.NoGrenade;
-                    command.Phase = TacticalCommandPhase.Enter;
+                    SkipOpeningSupport(command, action.SupportSkip);
                 }
                 finally { budget.Account(tick, System.Diagnostics.Stopwatch.GetTimestamp() - started); }
             }
@@ -269,6 +310,13 @@ namespace Helodrace.Tactics
                 }
                 command.Phase = TacticalCommandPhase.Enter;
             }
+        }
+
+        private static void SkipOpeningSupport(TacticalSquadCommand command, TacticalSupportSkip reason)
+        {
+            command.OpeningAction.SupportSkip = reason;
+            command.OpeningAction.Target = IntVec3.Invalid;
+            command.Phase = TacticalCommandPhase.Enter;
         }
 
         private bool SupportEffectsPending(TacticalSquadCommand command, int tick)
@@ -308,23 +356,6 @@ namespace Helodrace.Tactics
             if (claims.TryGetValue(action.Enemy, out TacticalSquadCommand current) && current == command) claims.Remove(action.Enemy);
             command.Plan.Positions[index] = candidate.Positions[0]; claims[candidate.Positions[0]] = command;
             command.Plan.Interior.UnionWith(candidate.Interior);
-        }
-
-        private IntVec3 ChooseSupportTarget(TacticalLocalPlan plan, TacticalOpeningAction action)
-        {
-            if (action.Enemy.IsValid)
-                return TacticalOpeningPolicy.FarEnough(plan.InnerOpening, action.Enemy) ? action.Enemy : IntVec3.Invalid;
-            IntVec3 fallback = IntVec3.Invalid, lateral = new IntVec3(-plan.Inward.z, 0, plan.Inward.x);
-            // Nine local cells, no scoring grid. Prefer an unseen corner.
-            for (int depth = 3; depth <= 5; depth++)
-                foreach (int width in new[] { 0, 2, -2 })
-                {
-                    IntVec3 cell = plan.InnerOpening + plan.Inward * depth + lateral * width;
-                    if (!cell.InBounds(map) || !cell.Standable(map)) continue;
-                    if (!fallback.IsValid) fallback = cell;
-                    if (action.ObservationPosition.IsValid && !GenSight.LineOfSight(action.ObservationPosition, cell, map, true)) return cell;
-                }
-            return fallback;
         }
 
         private static Thing SupportGrenade(Pawn pawn, bool smoke, bool lethal)

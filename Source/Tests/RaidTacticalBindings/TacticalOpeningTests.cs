@@ -47,14 +47,49 @@ internal static class TacticalOpeningTests
                 || TacticalOpeningPolicy.FindThrowPosition(plan,post,_=>true,c=>c==plan.Opening).IsValid)
                 throw new Exception("Throw positioning must never force occupied cells or stand inside the breach channel.");
         }
+        CheckTargetFallback();
         CheckSelectionSlices();
-        Console.WriteLine("PASS: bounded room classification, small-room/contact exception, throw distance, projectile/explosion/return safety.");
+        Console.WriteLine("PASS: bounded room/target selection, unseen fallback, admitted-only markers, deferred candidates, preparation ownership and projectile/explosion/return safety.");
+    }
+    private static void CheckTargetFallback()
+    {
+        foreach(IntVec3 forward in GenAdj.CardinalDirections)
+        {
+            var plan=new TacticalLocalPlan {Opening=new IntVec3(20,0,20),Inward=forward,Depth=2};
+            IntVec3 side=new IntVec3(-forward.z,0,forward.x);
+            IntVec3 unreachable=plan.InnerOpening+forward*3+side*2;
+            IntVec3 safe=plan.InnerOpening+forward*4;
+            var targets=new List<IntVec3>();
+            TacticalOpeningPolicy.CollectSupportTargets(plan,IntVec3.Invalid,_=>true,c=>c==unreachable,targets);
+            if(targets.Count!=9||targets[0]!=unreachable||!targets.Contains(safe))
+                throw new Exception("Unseen priority must retain all bounded alternatives, not commit to the first unthrowable corner.");
+            IntVec3 selected=IntVec3.Invalid;
+            foreach(var target in targets)
+                if(TacticalOpeningPolicy.FindThrowPosition(plan,plan.Outside+side,_=>true,_=>target==safe).IsValid)
+                {selected=target;break;}
+            if(selected!=safe)throw new Exception("An unreachable preferred target must fall back to a throw-capable alternative.");
+            TacticalOpeningPolicy.CollectSupportTargets(plan,safe,_=>true,_=>true,targets);
+            if(targets.Count!=1||targets[0]!=safe)throw new Exception("Observed enemy location must retain sole target priority.");
+            TacticalOpeningPolicy.CollectSupportTargets(plan,plan.InnerOpening+forward,_=>true,_=>false,targets);
+            if(targets.Count!=0)throw new Exception("Too-close observed enemy must not silently redirect the throw to an unknown cell.");
+        }
+        var action=new TacticalOpeningAction {Target=new IntVec3(10,0,10)};
+        if(action.ShowThrow)throw new Exception("A proposed target without an admitted grenade job must not be shown as a committed throw.");
+        action.ThrowIssued=true;
+        if(!action.ShowThrow)throw new Exception("An admitted throw must display its target through preparation.");
+        action.SupportSkip=TacticalSupportSkip.Interrupted;
+        if(action.ShowThrow)throw new Exception("An interrupted prelaunch throw must not retain an active marker.");
+        action.Launched=true;
+        if(!action.ShowThrow)throw new Exception("A live grenade must retain its marker even if a routine was interrupted.");
+        action.EffectsCleared=true;
+        if(action.ShowThrow)throw new Exception("Resolved explosives must not retain an active throw marker during entry.");
     }
     private static void CheckSelectionSlices()
     {
         var owner=new MapComponent_TacticalCommands(null);
         var command=new TacticalSquadCommand {Phase=TacticalCommandPhase.Support,Plan=new TacticalLocalPlan(),
-            OpeningAction=new TacticalOpeningAction {ObservationDone=true,RoomCells=17,Target=new IntVec3(10,0,10)}};
+            OpeningAction=new TacticalOpeningAction {ObservationDone=true,RoomCells=17,
+                SupportTargets=new List<IntVec3>{new IntVec3(10,0,10),new IntVec3(11,0,10)}}};
         // Forced jobs must never be replaced. They also provide a genuine held
         // formation while probing deferred selection without a Unity map.
         for(int i=0;i<12;i++)
@@ -80,9 +115,32 @@ internal static class TacticalOpeningTests
             advance.Invoke(owner,new object[]{command,command.Members,100});
             if(command.OpeningAction.SupportCursor!=4)throw new Exception("Selection cannot consume a second plan slice in the same tick.");
             for(int tick=101;tick<=105;tick++)advance.Invoke(owner,new object[]{command,command.Members,tick});
-            if(command.Phase!=TacticalCommandPhase.Enter||command.OpeningAction.SupportCursor!=24||command.OpeningAction.ThrowIssued
+            if(command.Phase!=TacticalCommandPhase.Support||command.OpeningAction.SupportCursor!=24)
+                throw new Exception("An exhausted first preference pass must still test the alternative targets before entering.");
+            for(int tick=106;tick<=111;tick++)advance.Invoke(owner,new object[]{command,command.Members,tick});
+            if(command.Phase!=TacticalCommandPhase.Enter||command.OpeningAction.SupportCursor!=48||command.OpeningAction.ThrowIssued
+                ||command.OpeningAction.Target.IsValid||command.OpeningAction.ShowThrow
                 ||command.Members.Exists(m=>m.Pawn.CurJob!=m.Job))
                 throw new Exception("Both preference passes must finish once, preserving forced jobs and avoiding perpetual Support retries.");
+            // Job identity owns preparation even before its driver initializes.
+            var thrower=command.Members[0];
+            var definition=(JobDef)RuntimeHelpers.GetUninitializedObject(typeof(JobDef));definition.defName="HD_NewTacticalThrow";
+            var throwing=new Verse.AI.Job {def=definition,targetA=new IntVec3(10,0,10),playerForced=true};
+            AccessTools.Field(typeof(Verse.AI.Pawn_JobTracker),"curJob").SetValue(thrower.Pawn.jobs,throwing);
+            thrower.Pawn.jobs.curDriver=null;thrower.Job=throwing;
+            command.Phase=TacticalCommandPhase.Support;
+            command.OpeningAction=new TacticalOpeningAction {ThrowIssued=true,Thrower=thrower.Pawn,Target=throwing.targetA.Cell};
+            advance.Invoke(owner,new object[]{command,command.Members,112});
+            if(command.Phase!=TacticalCommandPhase.Support||thrower.Pawn.CurJob!=throwing)
+                throw new Exception("An admitted throw with driver initialization pending must keep the squad out of entry.");
+            var oldPost=command.Members[1].Job;
+            var forced=new Verse.AI.Job {def=oldPost.def,playerForced=true,targetA=thrower.Pawn.Position};
+            AccessTools.Field(typeof(Verse.AI.Pawn_JobTracker),"curJob").SetValue(thrower.Pawn.jobs,forced);
+            thrower.Pawn.jobs.curDriver=null;thrower.Job=null;
+            advance.Invoke(owner,new object[]{command,command.Members,113});
+            if(command.Phase!=TacticalCommandPhase.Enter||command.OpeningAction.Target.IsValid
+                ||command.OpeningAction.SupportSkip!=TacticalSupportSkip.Interrupted||command.OpeningAction.ShowThrow)
+                throw new Exception("A genuine prelaunch interruption may enter, but must clear its target and record the reason.");
         }
         finally {Current.Game=oldGame;}
     }

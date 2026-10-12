@@ -200,6 +200,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Started, "started");
             Scribe_Values.Look(ref SupportStarted, "supportStarted");
             Scribe_Values.Look(ref SupportCursor, "supportCursor");
+            Scribe_Collections.Look(ref SupportTargets, "supportTargets", LookMode.Value);
             Scribe_Values.Look(ref SupportSkip, "supportSkip");
             Scribe_Values.Look(ref SettledAt, "settledAt");
             Scribe_Values.Look(ref ObservationDone, "observationDone");
