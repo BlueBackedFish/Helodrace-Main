@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <!-- Native injury/armor/explosion behaviour, with one tenth building damage.
+       These defs are used only by hand-held antipersonnel grenades. -->
+  <DamageDef ParentName="Bomb">
+    <defName>HD_AntipersonnelBlast</defName>
+    <buildingDamageFactor>0.1</buildingDamageFactor>
+  </DamageDef>
+  <DamageDef ParentName="CutBase">
+    <defName>HD_AntipersonnelFragment</defName>
+    <buildingDamageFactor>0.1</buildingDamageFactor>
+  </DamageDef>
+</Defs>

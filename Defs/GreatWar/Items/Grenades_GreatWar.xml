@@ -273,7 +273,7 @@
     <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
     <graphicData><texPath>Weapons/GreatWar/Projectiles/MKII/HD_MKII_proj</texPath></graphicData>
     <projectile>
-      <damageDef>Bomb</damageDef>
+      <damageDef>HD_AntipersonnelBlast</damageDef>
       <damageAmountBase>40</damageAmountBase>
       <armorPenetrationBase>0.30</armorPenetrationBase>
       <explosionRadius>2.8</explosionRadius>
@@ -331,7 +331,7 @@
     <thingClass>Helodrace.ModernWar.Projectile_ExplosiveGrenade</thingClass>
     <graphicData><texPath>Weapons/GreatWar/Projectiles/MKIII/HD_MKIII_proj</texPath></graphicData>
     <projectile>
-      <damageDef>Bomb</damageDef>
+      <damageDef>HD_AntipersonnelBlast</damageDef>
       <damageAmountBase>60</damageAmountBase>
       <armorPenetrationBase>0.15</armorPenetrationBase>
       <explosionRadius>2.3</explosionRadius>
@@ -386,7 +386,7 @@
       <drawSize>(0.11,0.31)</drawSize>
     </graphicData>
     <projectile>
-      <damageDef>Cut</damageDef>
+      <damageDef>HD_AntipersonnelFragment</damageDef>
       <damageAmountBase>10</damageAmountBase>
       <armorPenetrationBase>0.18</armorPenetrationBase>
       <stoppingPower>0.30</stoppingPower>

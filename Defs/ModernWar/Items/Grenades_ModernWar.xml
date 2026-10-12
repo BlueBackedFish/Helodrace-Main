@@ -184,7 +184,7 @@
       <texPath>Weapons/ModernWar/Projectiles/HD_M67_proj</texPath>
     </graphicData>
     <projectile>
-      <damageDef>Bomb</damageDef>
+      <damageDef>HD_AntipersonnelBlast</damageDef>
       <damageAmountBase>45</damageAmountBase>
       <armorPenetrationBase>0.35</armorPenetrationBase>
       <explosionRadius>3.1</explosionRadius>
@@ -293,7 +293,7 @@
       <texPath>Weapons/ModernWar/Projectiles/HD_M111_proj</texPath>
     </graphicData>
     <projectile>
-      <damageDef>Bomb</damageDef>
+      <damageDef>HD_AntipersonnelBlast</damageDef>
       <damageAmountBase>70</damageAmountBase>
       <armorPenetrationBase>0.18</armorPenetrationBase>
       <explosionRadius>2.2</explosionRadius>
@@ -348,7 +348,7 @@
       <drawSize>(0.12,0.34)</drawSize>
     </graphicData>
     <projectile>
-      <damageDef>Cut</damageDef>
+      <damageDef>HD_AntipersonnelFragment</damageDef>
       <damageAmountBase>12</damageAmountBase>
       <armorPenetrationBase>0.24</armorPenetrationBase>
       <stoppingPower>0.35</stoppingPower>
