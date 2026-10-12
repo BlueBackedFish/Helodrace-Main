@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Tactics_ShowPlanNodes>Raid tactical plan nodes</HD_Tactics_ShowPlanNodes>
+  <HD_Tactics_NodeGoal>Goal</HD_Tactics_NodeGoal>
+  <HD_Tactics_NodeNext>Next goal</HD_Tactics_NodeNext>
+  <HD_Tactics_NodeOpening>Opening</HD_Tactics_NodeOpening>
+  <HD_Tactics_NodeApproach>Approach</HD_Tactics_NodeApproach>
+  <HD_Tactics_NodeInside>Inside</HD_Tactics_NodeInside>
+  <HD_Tactics_NodeLane>Entry lane</HD_Tactics_NodeLane>
+  <HD_Tactics_NodeStack>Stack</HD_Tactics_NodeStack>
+  <HD_Tactics_NodeEntry>Entry post</HD_Tactics_NodeEntry>
+  <HD_Tactics_NodeGuard>Guard</HD_Tactics_NodeGuard>
+  <HD_Tactics_NodeFocus>Fire target</HD_Tactics_NodeFocus>
+  <HD_Tactics_NodeFireArea>Fire area</HD_Tactics_NodeFireArea>
+  <HD_Tactics_NodeFirePost>Fire post</HD_Tactics_NodeFirePost>
+  <HD_Tactics_NodeSmoke>Smoke</HD_Tactics_NodeSmoke>
+  <HD_Tactics_NodeObserve>Observation</HD_Tactics_NodeObserve>
+  <HD_Tactics_NodeThrowFrom>Throw from</HD_Tactics_NodeThrowFrom>
+  <HD_Tactics_NodeThrowAt>Throw target</HD_Tactics_NodeThrowAt>
+</LanguageData>

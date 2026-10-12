@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_Tactics_ShowPlanNodes>습격 전술 계획 노드 표시</HD_Tactics_ShowPlanNodes>
+  <HD_Tactics_NodeGoal>목표</HD_Tactics_NodeGoal>
+  <HD_Tactics_NodeNext>다음 목표</HD_Tactics_NodeNext>
+  <HD_Tactics_NodeOpening>개구부</HD_Tactics_NodeOpening>
+  <HD_Tactics_NodeApproach>접근</HD_Tactics_NodeApproach>
+  <HD_Tactics_NodeInside>진입 안쪽</HD_Tactics_NodeInside>
+  <HD_Tactics_NodeLane>진입 통로</HD_Tactics_NodeLane>
+  <HD_Tactics_NodeStack>집결</HD_Tactics_NodeStack>
+  <HD_Tactics_NodeEntry>진입 자리</HD_Tactics_NodeEntry>
+  <HD_Tactics_NodeGuard>경계</HD_Tactics_NodeGuard>
+  <HD_Tactics_NodeFocus>사격 표적</HD_Tactics_NodeFocus>
+  <HD_Tactics_NodeFireArea>화력점</HD_Tactics_NodeFireArea>
+  <HD_Tactics_NodeFirePost>야전 자리</HD_Tactics_NodeFirePost>
+  <HD_Tactics_NodeSmoke>연막</HD_Tactics_NodeSmoke>
+  <HD_Tactics_NodeObserve>관측</HD_Tactics_NodeObserve>
+  <HD_Tactics_NodeThrowFrom>투척 위치</HD_Tactics_NodeThrowFrom>
+  <HD_Tactics_NodeThrowAt>투척 목표</HD_Tactics_NodeThrowAt>
+</LanguageData>
