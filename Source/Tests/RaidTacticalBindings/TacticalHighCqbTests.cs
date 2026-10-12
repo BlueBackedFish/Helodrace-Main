@@ -144,6 +144,13 @@ internal static class TacticalHighCqbTests
         var oldConverters = converters.GetValue(null);
         converters.SetValue(null, new List<BackCompatibilityConverter>());
         var root=new TacticalSquadCommand {Id="root",CqbCursor=2,CqbCancelRequested=true,CqbPassageSequence=5};
+        root.Phase=TacticalCommandPhase.Enter;
+        root.Plan=new TacticalLocalPlan {Direct=true,Opening=new IntVec3(9,0,9),Inward=IntVec3.North};
+        var previewType=typeof(TacticalSquadCommand).Assembly.GetType("Helodrace.Tactics.TacticalEntryPreview",true);
+        var previewScan=new TacticalRoomScan(IntVec3.Zero,IntVec3.Invalid,c=>c==IntVec3.Zero,_=>false);
+        var preview=AccessTools.Constructor(previewType,new[]{typeof(TacticalSquadCommand),typeof(TacticalRoomScan)})
+            .Invoke(new object[]{root,previewScan});
+        AccessTools.Field(root.GetType(),"EntryPreview").SetValue(root,preview);
         root.Members.Add(new TacticalMemberCommand());
         var team=new TacticalSquadCommand {Id="root::cqb:1",CqbTeam=1,CqbEntered=true,Phase=TacticalCommandPhase.BlastWait,
             CqbTask=new TacticalRoomFrontier {Opening=new IntVec3(4,0,4),Inward=IntVec3.North},
@@ -166,6 +173,10 @@ internal static class TacticalHighCqbTests
                 && ((List<int>)AccessTools.Field(typeof(TacticalSquadCommand),"CqbRoster").GetValue(child)).Single()==0,
                 "Child save must store root member indices rather than duplicate pawn/job records.");
             check(log.Errors == 0, "Native nested Scribe must load without errors.");
+            check(restored.Phase==TacticalCommandPhase.Enter&&restored.SecuredCells.Count==0
+                &&AccessTools.Field(restored.GetType(),"EntryPreview").GetValue(restored)==null
+                &&!(bool)AccessTools.Field(restored.GetType(),"SurveyPending").GetValue(restored),
+                "Saving during speculative entry must retain Enter without serializing the preview or inventing pending/secured survey state.");
         }
         finally
         {

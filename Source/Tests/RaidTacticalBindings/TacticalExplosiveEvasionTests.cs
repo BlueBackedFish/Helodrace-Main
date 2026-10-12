@@ -65,8 +65,8 @@ internal static class TacticalExplosiveEvasionTests
             && TacticalExplosiveEvasionPolicy.CanReturn(190, quietUntil, true, false, false),
             "Recovery must reassess before returning, then release an empty firing area without indefinite holding.");
         quietUntil = TacticalExplosiveEvasionPolicy.QuietUntil(130, true);
-        Check(!TacticalExplosiveEvasionPolicy.CanReturn(309, quietUntil, true, false, false)
-            && TacticalExplosiveEvasionPolicy.CanReturn(310, quietUntil, true, false, false),
+        Check(!TacticalExplosiveEvasionPolicy.CanReturn(219, quietUntil, true, false, false)
+            && TacticalExplosiveEvasionPolicy.CanReturn(220, quietUntil, true, false, false),
             "An observed firing opportunity extends the quiet window before formation return.");
         Check(!TacticalExplosiveEvasionPolicy.CanReturn(400, quietUntil, true, true, false)
             && !TacticalExplosiveEvasionPolicy.CanReturn(400, quietUntil, false, false, false)

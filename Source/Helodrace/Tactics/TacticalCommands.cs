@@ -217,6 +217,7 @@ namespace Helodrace.Tactics
             {
                 if (command.Terminal) { squads.Remove(command.Id); continue; }
                 if (command.Defensive) continue;
+                command.CancelEntryPreview();
                 if (command.CqbTeams.Count > 0)
                 {
                     Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, GenTicks.TicksGame, true);
@@ -336,6 +337,7 @@ namespace Helodrace.Tactics
         }
         private void AdvanceCore(TacticalSquadCommand command, int tick)
         {
+            if (command.Phase != TacticalCommandPhase.Enter && command.Phase != TacticalCommandPhase.Clear) command.CancelEntryPreview();
             if (command.Phase != TacticalCommandPhase.Pending && command.Phase != TacticalCommandPhase.Clear) command.CancelPreparation();
             if (PauseForExplosiveEvasion(command, tick)) return;
             command.FurnitureProbes = TacticalFurniturePolicy.SimulationsPerAdvance;
@@ -701,10 +703,11 @@ namespace Helodrace.Tactics
                     Issue(member, ingress); entryIssues++;
                 }
             }
+            AdvanceEntryPreview(command, active, tick);
             if (active.All(member => member.EntryAssignmentDone) && active.Any(member => member.Entered))
             {
                 if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
-                { command.Due = tick + 30; return; }
+                { command.Due = Math.Min(tick + 30, command.EntryCombatUntil); return; }
                 // Keep owned posts while freeing the unused entry approach.
                 // Vanilla next-job selection must not run for a whole squad here.
                 BeginRoomClear(command, tick);
@@ -926,6 +929,7 @@ namespace Helodrace.Tactics
         }
         private static void BeginReturn(TacticalSquadCommand command, int tick, bool release, bool replan = false)
         {
+            command.CancelEntryPreview();
             if (command.CqbTeams.Count > 0)
             {
                 command.CqbCancelRequested = true; command.ReleaseAfterReturn = release;
@@ -968,6 +972,7 @@ namespace Helodrace.Tactics
         }
         private static void RestartRetainedMission(TacticalSquadCommand command, int tick)
         {
+            command.CancelEntryPreview();
             command.CancelPreparation();
             command.ReplanAfterReturn = false; command.ReleaseAfterReturn = false;
             command.Plan = null; command.OpeningAction = null; command.RoomScan = null;
@@ -986,6 +991,7 @@ namespace Helodrace.Tactics
         internal void Retire(TacticalSquadCommand command)
         {
             EndHighCqb(command);
+            command.CancelEntryPreview();
             command.CancelPreparation();
             command.Phase = TacticalCommandPhase.Released;
             foreach (TacticalMemberCommand member in command.Members)
@@ -1008,6 +1014,7 @@ namespace Helodrace.Tactics
             foreach (TacticalSquadCommand command in squads.Values)
             {
                 EndHighCqb(command);
+                command.CancelEntryPreview();
                 command.CancelPreparation();
                 foreach (TacticalMemberCommand member in command.Members) EndOwned(member, false);
                 command.Phase = TacticalCommandPhase.Released;

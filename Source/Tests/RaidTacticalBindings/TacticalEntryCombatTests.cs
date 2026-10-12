@@ -50,6 +50,9 @@ internal static class TacticalEntryCombatTests
             .Invoke(owner, new object[] { command, new List<TacticalMemberCommand>(), 100 });
         Check(command.Due == 130 && command.FrontierCursor == 0 && command.Plan == plan
             && command.Phase == TacticalCommandPhase.Clear, "Ongoing engagement must preserve the current room and defer the next frontier.");
+        typeof(MapComponent_TacticalCommands).GetMethod("AdvanceRoomClear", BindingFlags.Instance | BindingFlags.NonPublic)
+            .Invoke(owner,new object[]{command,new List<TacticalMemberCommand>(),275});
+        Check(command.Due == 280,"Quiet-window expiry must wake the command without an extra 30-tick polling delay.");
         Console.WriteLine("PASS: " + checks + " entry combat quiet-window, connected bounded cover, occupied posts and room-progress checks.");
     }
 }

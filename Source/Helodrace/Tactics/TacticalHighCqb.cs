@@ -265,6 +265,7 @@ namespace Helodrace.Tactics
 
         private void FinishCqbRoom(TacticalSquadCommand team, int tick)
         {
+            team.CancelEntryPreview();
             var parent = team.CqbParent;
             if (!team.CqbFollow && team.Plan != null)
             { parent.CqbLastPassage = team.Plan; team.CqbFollowSeen = ++parent.CqbPassageSequence; }
@@ -318,6 +319,7 @@ namespace Helodrace.Tactics
         {
             foreach (var team in parent.CqbTeams)
             {
+                team.CancelEntryPreview();
                 team.CancelPreparation(); ReleaseClaims(team);
                 foreach (var member in team.Members) byPawn[member.Pawn] = parent;
                 team.Phase = TacticalCommandPhase.Released;
