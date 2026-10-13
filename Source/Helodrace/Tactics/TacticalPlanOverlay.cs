@@ -125,7 +125,12 @@ namespace Helodrace.Tactics
                 if (command.FieldResponse is TacticalFieldResponse field)
                 {
                     Add(field.Focus,"HD_Tactics_NodeFocus",SimpleColor.Red);
-                    for(int i=0;i<field.FirePoints.Count;i++) Add(field.FirePoints[i],"HD_Tactics_NodeFireArea",SimpleColor.Cyan,i+1);
+                    if (field.High) for(int i=0;i<field.FirePoints.Count;i++) Add(field.FirePoints[i],"HD_Tactics_NodeFireArea",SimpleColor.Cyan,i+1);
+                    else
+                    {
+                        Add(field.Anchor,"HD_Tactics_NodeFireArea",SimpleColor.Cyan,1);
+                        if (field.LowFlank) Add(field.FirePoints[1],"HD_Tactics_NodeFireArea",SimpleColor.Cyan,2);
+                    }
                     for(int i=0;i<field.Posts.Count;i++) Add(field.Posts[i],"HD_Tactics_NodeFirePost",SimpleColor.Blue,i+1,false);
                     if(field.Screen != null) Add(field.Screen.Target,"HD_Tactics_NodeSmoke",SimpleColor.White);
                 }

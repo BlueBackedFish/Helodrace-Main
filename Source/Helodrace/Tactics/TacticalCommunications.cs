@@ -35,6 +35,8 @@ namespace Helodrace.Tactics
         public TacticalContact Contact;
         public TacticalMeleeThreat MeleeThreat;
         public TacticalPursuitProposal PursuitProposal;
+        public TacticalFieldFormation FieldFormation;
+        public bool FieldReply;
         public bool Ready, Finished, GoalSecured;
         public IntVec3 Opening = IntVec3.Invalid;
         public int StartAt = -1;
@@ -153,7 +155,8 @@ namespace Helodrace.Tactics
             SelectLiaison(a); SelectLiaison(b);
             if (!Person(a, a.Link.Liaison) || !Person(b, b.Link.Liaison)) return TacticalChannel.None;
             CompTacticalRadio x = a.Link.Radio, y = b.Link.Radio;
-            if (x != null && y != null && TacticalCommunicationPolicy.Radio(a.Link.Unit.Organization.doctrine.tacticalRadio,
+            if (x != null && y != null && RaidTacticalRadioUtility.SignalAvailable(a.Owner.map)
+                && TacticalCommunicationPolicy.Radio(a.Link.Unit.Organization.doctrine.tacticalRadio,
                 b.Link.Unit.Organization.doctrine.tacticalRadio, x.RadioProperties.network, y.RadioProperties.network,
                 x.RadioProperties.range, y.RadioProperties.range, a.Link.Liaison.Position.DistanceToSquared(b.Link.Liaison.Position)))
                 return TacticalChannel.Radio;
@@ -178,6 +181,7 @@ namespace Helodrace.Tactics
             TacticalChannel channel = Channel(source, receiver);
             if (channel == TacticalChannel.None) return;
             source.Link.LastChannel = receiver.Link.LastChannel = channel.ToString();
+            ProbeFieldPair(source, receiver, channel, tick);
             ProbePursuitPair(source,receiver,channel,tick);
             if (source.Link.Liaison.Position.Roofed(source.Owner.map) && receiver.Link.Liaison.Position.Roofed(source.Owner.map)
                 && Physical(source, receiver))
@@ -265,6 +269,7 @@ namespace Helodrace.Tactics
             if (tick - message.Sent >= TacticalCommunicationPolicy.PacketLife || channel != message.Channel)
             { MessagesDropped++; LastDropReason = channel != message.Channel ? "channel" : "expired"; return; }
             TacticalSquadCommand receiver = message.To;
+            if (message.Kind == TacticalMessageKind.FieldFormation) { DeliverFieldFormation(message, channel, tick); return; }
             if (message.PursuitProposal!=null)
             { DeliverPursuit(message,channel,tick); return; }
             if (message.Kind == TacticalMessageKind.MeleeThreat)

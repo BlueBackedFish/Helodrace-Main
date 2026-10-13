@@ -67,6 +67,9 @@ namespace Helodrace.Tactics
                         + " field=" + command.FieldResponse?.Stage + " motion=" + command.FieldResponse?.Motion
                         + " focus=" + command.FieldResponse?.Focus + " moving team=" + command.FieldResponse?.MovingTeam
                         + " accompanying team=" + command.FieldResponse?.LeaderTeam
+                        + " low flank=" + command.FieldResponse?.LowFlank + "/" + command.FieldResponse?.LowFlankAttack
+                        + " party=" + command.FieldResponse?.FireGroup.Count + " retreat=" + command.FieldResponse?.AppliedStep
+                        + " field radio=" + command.FieldResponse?.Formation?.Coordinator + "/" + command.FieldResponse?.Formation?.Members.Count
                         + " field areas=" + (command.FieldResponse == null ? "none" : string.Join(";", command.FieldResponse.Areas
                             .Select((area, index) => index + ":" + area.Cells.Count + " cells/retries=" + area.Attempts)))
                         + " focus fire=" + command.FocusFire?.Stage + " target=" + command.FocusFire?.TargetId

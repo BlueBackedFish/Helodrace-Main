@@ -66,15 +66,8 @@ internal static class TacticalFieldTests
         if (!TacticalFieldPolicy.Ready(4,3) || TacticalFieldPolicy.Ready(4,2)
             || !TacticalFieldPolicy.Ready(1,1) || TacticalFieldPolicy.Ready(1,0) || !TacticalFieldPolicy.Ready(0,0))
             throw new Exception("A prepared majority must release the team without accepting an isolated/unarrived member.");
-        if (TacticalFieldPolicy.AdvanceFirePoint(anchor,IntVec3.North,first,TacticalFieldPolicy.HighBound) != anchor + IntVec3.North * 12)
-            throw new Exception("High's shared team bound must use the longer interval.");
         if (TacticalFieldPolicy.SightRadius <= TacticalContactState.Radius)
             throw new Exception("Field sight does not extend the CQB radius.");
-        if (TacticalFieldPolicy.NextMover(-1,7,true)!=0 || TacticalFieldPolicy.NextMover(0,7,true)!=1
-            || TacticalFieldPolicy.NextMover(2,7,true)!=0 || TacticalFieldPolicy.NextMover(0,5,true)!=2
-            || TacticalFieldPolicy.NextMover(2,4,true)!=2 || TacticalFieldPolicy.NextMover(-1,0,false)!=-3
-            || TacticalFieldPolicy.NextMover(-1,0,true)!=-2 || TacticalFieldPolicy.NextMover(-2,0,true)!=-3)
-            throw new Exception("Absent child teams or reserves must not create a frozen/empty movement wave.");
         if (!TacticalMedicalPolicy.Urgent(.4f) || TacticalMedicalPolicy.Urgent(.399f)
             || !TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, true, null)
             || TacticalMedicalPolicy.SafePhase(TacticalCommandPhase.Clear, false, null)
@@ -99,29 +92,20 @@ internal static class TacticalFieldTests
             int Depth(IntVec3 cell) => (cell - anchor).x * forward.x + (cell - anchor).z * forward.z;
             IntVec3 side = new IntVec3(-forward.z, 0, forward.x);
             int Lateral(IntVec3 cell) => (cell - anchor).x * side.x + (cell - anchor).z * side.z;
-            if (points.Distinct().Count() != 3 || Depth(points[1]) >= -3 || Depth(points[0]) < 4 || Depth(points[2]) < 4
+            if (points.Distinct().Count() != 3 || points.Any(p => Depth(p) != 0)
                 || Lateral(points[0]) >= -6 || Lateral(points[2]) <= 6 || Lateral(points[1]) != 0)
-                throw new Exception("Three fire-point centers must have advanced lateral wings and a recessed base.");
+                throw new Exception("Three HIGH fire-point centres must initially lie on one transverse line.");
             foreach (IntVec3 point in points)
             {
                 var scattered = Enumerable.Range(1, 20).Select(id => TacticalFieldPolicy.Scatter(point, id, seed)).ToArray();
                 if (scattered.Any(cell => Math.Abs(cell.x - point.x) > 2 || Math.Abs(cell.z - point.z) > 2)
                     || scattered.Select(Depth).Distinct().Count() < 2 || scattered.Select(Lateral).Distinct().Count() < 2)
                     throw new Exception("Posts must scatter through an area, not form an exact depth row or curve.");
-                IntVec3 moved = TacticalFieldPolicy.AdvanceFirePoint(point, forward, focus);
-                if (moved != point + forward * 5) throw new Exception("A moving group advances one shared area.");
             }
-            IntVec3 near = focus - forward * 4;
-            if (TacticalFieldPolicy.AdvanceFirePoint(near, forward, focus) != near + forward
-                || TacticalFieldPolicy.AdvanceFirePoint(focus - forward * 2, forward, focus) != focus - forward * 2)
-                throw new Exception("A firing area must not advance through the observed enemy.");
         }
-        if (Enumerable.Range(0, 3).Any(team => TacticalFieldPolicy.FirePointIndex(true, team, false, 10) != team)
-            || TacticalFieldPolicy.FirePointIndex(true, -1, false, 10) != 1
-            || TacticalFieldPolicy.FirePointIndex(false, -1, true, 0) != 1
-            || TacticalFieldPolicy.FirePointIndex(false, -1, false, 4) != 0
-            || TacticalFieldPolicy.FirePointIndex(false, -1, false, 5) != 2)
-            throw new Exception("High uses physical teams; LOW places its core between two flank groups.");
+        if (Enumerable.Range(0, 3).Any(team => TacticalFieldPolicy.FirePointIndex(true, team) != team)
+            || TacticalFieldPolicy.FirePointIndex(true, -1) != 1 || TacticalFieldPolicy.FirePointIndex(false, -1) != 0)
+            throw new Exception("HIGH uses its actual fireteams; LOW's main body is not split into automatic fixed flank groups.");
         if (TacticalFieldPolicy.FirePostScore(true, 0, 8, 100, 1) <= TacticalFieldPolicy.FirePostScore(false, 1, 0, 0, 1))
             throw new Exception("A covered firing position must not lose to a blind holding position.");
         if (TacticalFieldPolicy.Scatter(anchor, 10, 100) == TacticalFieldPolicy.Scatter(anchor, 10, 200))

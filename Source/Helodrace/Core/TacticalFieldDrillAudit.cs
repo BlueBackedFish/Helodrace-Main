@@ -80,12 +80,15 @@ namespace Helodrace
                 {
                     var moving = fieldCommand.Members.Where(m => m.Pawn.Spawned && !m.Pawn.Downed && !m.Pawn.Dead
                         && m.Pawn.pather.Moving && m.Job?.def.defName == "HD_NewTacticalContactGuard");
-                    fieldSingleTeam &= moving.All(m => field.High ? m.Fireteam == field.MovingTeam
+                    fieldSingleTeam &= moving.All(m => field.High ? (field.MovingGroups & (1 << field.Groups[fieldCommand.Members.IndexOf(m)])) != 0
                         : field.FireGroup.Contains(fieldCommand.Members.IndexOf(m)) == (field.MovingTeam == -3));
                 }
                 if (field.Screen != null)
                 {
-                    fieldSmokeTargets &= field.Screen.Target == field.Anchor + field.Forward * 8;
+                    IntVec3 expected = field.LowFlank ? field.Anchor
+                        + new IntVec3(-field.Forward.z, 0, field.Forward.x) * (field.FlankSide * 8) + field.Forward * 4
+                        : field.Anchor + field.Forward * 8;
+                    fieldSmokeTargets &= field.Screen.Target == expected;
                     if (field.Screen.Launched && RaidSmokeUtility.SmokeAt(map, field.Screen.Target))
                         result.newFieldSmokeSeen = true;
                 }
@@ -106,8 +109,9 @@ namespace Helodrace
             if (fieldStep == 2)
             {
                 if (field == null || field.Stage != TacticalFieldStage.Defending) return;
-                if (field.High && service.FieldBounds <= fieldBoundBaseline) return;
-                if (result.fixtureCase == "r6-smoke-drill" && service.FieldSmokeAdvances < 2) return;
+                // Withdrawal now follows actual fighting. Do not require a
+                // forward bound before moving the distant stimulus into range.
+                if (result.fixtureCase == "r6-smoke-drill" && service.FieldSmokeAdvances < 1) return;
                 // Real second sighting, without modifying memory/controller.
                 fieldSeen = result.fixtureCase == "r6-smoke-drill" ? field.Anchor + field.Forward * 12
                     : fieldSeen + new IntVec3(0,0,-5);
@@ -147,7 +151,7 @@ namespace Helodrace
                 && (fieldCommand.Link.Unit.Faction.def.defName != "HD_HelodCivilHighFaction" || service.FieldBounds > 0);
             result.newFieldMemoryFrozen = fieldFrozen && fieldStep == 5;
             result.newFieldEvents = fieldEvents.ToArray();
-            result.newFieldSmokeSharedTargets = fieldSmokeTargets && service.FieldSmokeThrows >= 2;
+            result.newFieldSmokeSharedTargets = fieldSmokeTargets && service.FieldSmokeThrows >= 1;
         }
     }
 }

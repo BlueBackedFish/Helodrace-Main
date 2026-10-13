@@ -28,6 +28,7 @@ namespace Helodrace
 
     public static class RaidTacticalRadioUtility
     {
+        public static bool SignalAvailable(Map map) => map != null && map.gameConditionManager?.ElectricityDisabled(map) != true;
         public static bool OperatorAvailable(Pawn pawn) => pawn?.Spawned == true && !pawn.Dead && !pawn.Downed
             && !pawn.InMentalState && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Consciousness)
             && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation);

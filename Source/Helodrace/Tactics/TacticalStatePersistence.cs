@@ -14,6 +14,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref RetryTick, "retryTick");
             Scribe_Values.Look(ref LastProgressTick, "lastProgressTick");
             Scribe_Values.Look(ref FireCandidateCursor, "fireCandidateCursor");
+            Scribe_Values.Look(ref LowDecisionAt, "lowDecisionAt");
             Scribe_Values.Look(ref LastPosition, "lastPosition");
             Scribe_Values.Look(ref Parking, "parking");
             Scribe_Values.Look(ref Passed, "passed");
@@ -340,6 +341,20 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Stage, "stage");
             Scribe_Values.Look(ref Motion, "motion");
             Scribe_Values.Look(ref High, "high");
+            Scribe_Values.Look(ref LastEngaged, "lastEngaged", -1);
+            Scribe_Values.Look(ref RetreatStep, "retreatStep");
+            Scribe_Values.Look(ref MovingGroups, "movingGroups");
+            Scribe_Values.Look(ref RadioAt, "radioAt");
+            Scribe_Values.Look(ref AppliedStep, "appliedStep", -1);
+            Scribe_Values.Look(ref AppliedGroup, "appliedGroup");
+            Scribe_Values.Look(ref LowFlank, "lowFlank");
+            Scribe_Values.Look(ref LowFlankAttack, "lowFlankAttack");
+            Scribe_Values.Look(ref NextFlank, "nextFlank");
+            Scribe_Values.Look(ref FlankStarted, "flankStarted");
+            Scribe_Values.Look(ref FlankSide, "flankSide", 1);
+            Scribe_Values.Look(ref NativeCursor, "nativeCursor");
+            Scribe_Collections.Look(ref RetreatBases, "retreatBases", LookMode.Value);
+            Scribe_Deep.Look(ref Formation, "formation");
             Scribe_Values.Look(ref Anchor, "anchor");
             Scribe_Values.Look(ref Focus, "focus");
             Scribe_Values.Look(ref Forward, "forward");
@@ -472,6 +487,8 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref Contact, "contact");
             Scribe_Deep.Look(ref MeleeThreat, "meleeThreat");
             Scribe_Deep.Look(ref PursuitProposal,"pursuitProposal");
+            Scribe_Deep.Look(ref FieldFormation, "fieldFormation");
+            Scribe_Values.Look(ref FieldReply, "fieldReply");
             if (Scribe.mode == LoadSaveMode.Saving) { SavedFrom = From?.Id; SavedTo = To?.Id; SavedMap = From?.Owner.map; }
             Scribe_Values.Look(ref SavedFrom, "fromId"); Scribe_Values.Look(ref SavedTo, "toId");
             Scribe_References.Look(ref SavedMap, "map");

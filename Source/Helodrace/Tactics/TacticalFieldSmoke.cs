@@ -33,13 +33,15 @@ namespace Helodrace.Tactics
         {
             // A squad segment, independent of the selected carrier's location.
             // Only harmless HC/blind smoke passes SupportGrenade/IsSmoke.
-            IntVec3 target = field.Anchor + field.Forward * 8;
+            IntVec3 target = field.LowFlank ? new IntVec3((field.Anchor.x + field.FirePoints[1].x) / 2, 0,
+                (field.Anchor.z + field.FirePoints[1].z) / 2) + field.Forward * 4 : field.Anchor + field.Forward * 8;
             field.SmokeRetryAt = tick + 300;
             if (!target.InBounds(map) || !target.Walkable(map) || target.Roofed(map)) return false;
             TacticalMemberCommand best = null; Thing stock = null; float distance = float.MaxValue;
             foreach (TacticalMemberCommand member in active)
             {
-                if (!AtPost(member) || member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) continue;
+                bool settled = AtPost(member) || !field.High && member.Pawn.CurJobDef == JobDefOf.Wait_Combat && !member.Pawn.pather.Moving;
+                if (!settled || member.Pawn.stances.FullBodyBusy || member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) continue;
                 Thing grenade = SupportGrenade(member.Pawn, true, false);
                 if (grenade == null || !InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, member.Pawn.Position,
                     target, InventoryGrenadeUtility.NormalThrowRange, out _)) continue;
@@ -49,7 +51,7 @@ namespace Helodrace.Tactics
             }
             if (best == null) return false;
             if (!CanIssue(best)) { field.SmokeRetryAt = tick + 1; return false; }
-            IntVec3 post = field.Posts[command.Members.IndexOf(best)];
+            IntVec3 post = field.High ? field.Posts[command.Members.IndexOf(best)] : best.Pawn.Position;
             Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalThrow"), target, stock, post);
             job.targetQueueA = new List<LocalTargetInfo> { post, field.Focus };
             job.canUseRangedWeapon = false;
