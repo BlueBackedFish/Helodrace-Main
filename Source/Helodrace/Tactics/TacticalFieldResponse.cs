@@ -14,7 +14,7 @@ namespace Helodrace.Tactics
     // are based on the two reported/observed value samples only.
     public static class TacticalFieldPolicy
     {
-        public const int SightRadius = 80, FocusInterval = 90;
+        public const int SightRadius = 120, FocusInterval = 90;
         public const int PlayerApproachRadius = 55;
         public static bool FormationAllowed(TacticalContact contact, IntVec3 anchor, int tick) => contact != null
             && TacticalContactMemory.Fresh(contact, tick)
@@ -159,7 +159,7 @@ namespace Helodrace.Tactics
                     Motion = TacticalFieldPolicy.Motion(nearest, observer.Position),
                     High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
                         && active.Exists(m => m.Fireteam >= 0) };
-                if (field.High) field.Forward = TacticalFieldDoctrine.Facing(field.Anchor, focus);
+                field.Forward = TacticalFieldDoctrine.Facing(field.Anchor, focus);
                 for (int i = 0; i < command.Members.Count; i++)
                 { field.Posts.Add(IntVec3.Invalid); field.JoinAt.Add(0); }
                 // LOW forms one temporary group around an actual automatic
@@ -207,7 +207,7 @@ namespace Helodrace.Tactics
             }
             command.Due = Math.Min(command.Due, tick + 30);
             if (field.High && !active.Exists(m => m.Fireteam >= 0))
-            { field.High = false; field.Forward = TacticalFieldPolicy.Direction(field.Anchor, field.Focus); }
+            { field.High = false; field.Forward = TacticalFieldDoctrine.Facing(field.Anchor, field.Focus); }
             if (field.Screen != null && AdvanceFieldSmoke(command, active, field, tick))
             {
                 if (field.LowFlank) FieldSmokeAdvances++;

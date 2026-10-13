@@ -9,6 +9,7 @@ namespace Helodrace.Tactics
     public static class TacticalFieldDoctrine
     {
         public const int LowRadius = 24, LowMainRadius = 14, LowFlankRadius = 4;
+        public const int LowDepth = 18, LowMainDepth = 8, LowFlankDepth = 3;
         public const int FlankInterval = 900, FlankLifetime = 600, FlankGatherTicks = 240;
         public const int RetreatDelay = 600, RetreatInterval = 300, SoloSteps = 6, GroupSteps = 12;
         public const int RadioLife = 600, GroupLimit = 4, GroupSpacing = 15;
@@ -18,7 +19,15 @@ namespace Helodrace.Tactics
         public static bool FlankOpportunity(int tick, int next, bool defensive, bool support, int live, bool automatic, int seed) =>
             tick >= next && !defensive && !support && FlankSize(live) > 0 && automatic && (uint)seed % 3 == 0;
         public static IntVec3 FlankPoint(IntVec3 anchor, IntVec3 forward, int side, bool attack) =>
-            anchor + new IntVec3(-forward.z, 0, forward.x) * (side * 16) + forward * (attack ? 12 : 0);
+            anchor + Offset(forward, side * 16, attack ? 12 : 0);
+        public static bool WithinEllipse(IntVec3 origin, IntVec3 cell, IntVec3 forward, int width, int depth)
+        {
+            if (forward == IntVec3.Zero) forward = IntVec3.North;
+            double x = cell.x - origin.x, z = cell.z - origin.z;
+            double lateral = -forward.z * x + forward.x * z, along = forward.x * x + forward.z * z;
+            double lengthSquared = (double)forward.x * forward.x + (double)forward.z * forward.z;
+            return lateral * lateral / (width * width) + along * along / (depth * depth) <= lengthSquared;
+        }
         public static IntVec3 LinePoint(IntVec3 anchor, IntVec3 forward, int point, int seed) =>
             anchor + Offset(forward, (point - 1) * (((7 + (int)((uint)seed % 3)) * 5 + 1) / 2), 0);
         // Forward is an observed direction vector, not a cardinal tile step.

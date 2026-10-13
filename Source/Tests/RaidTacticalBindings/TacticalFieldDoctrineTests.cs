@@ -66,6 +66,7 @@ internal static class TacticalFieldDoctrineTests
             && TacticalFieldDoctrine.RetreatDepth(12, 8, 9) == 6, "Multiple squads amplify centre withdrawal and keep symmetric shallower flanks.");
         CheckHighExecution(Check, anchor);
         CheckAngledLine(Check, anchor);
+        CheckLowDefense(Check, anchor);
         CheckRadio(Check, anchor);
         CheckNativeBindings(Check);
         CheckSave(Check, anchor);
@@ -98,6 +99,45 @@ internal static class TacticalFieldDoctrineTests
             check(Depth(safe) <= 0 && (Depth(next) > 0 || safe == next),
                 "Membership changes cannot advance toward an angled enemy or overcorrect by vector magnitude.");
         }
+    }
+    private static void CheckLowDefense(Action<bool, string> check, IntVec3 anchor)
+    {
+        foreach (var forward in GenAdj.CardinalDirections)
+        {
+            var side = new IntVec3(-forward.z, 0, forward.x);
+            check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor + side * 14, forward, 14, 8)
+                && TacticalFieldDoctrine.WithinEllipse(anchor, anchor + forward * 8, forward, 14, 8)
+                && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + forward * 9, forward, 14, 8)
+                && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + side * 14 + forward, forward, 14, 8),
+                "LOW's main zone is wide across the enemy direction and shallow along it, not a circle.");
+        }
+        var angle = new IntVec3(60, 0, 25);
+        check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor + TacticalFieldDoctrine.Offset(angle, 12, 0), angle, 14, 8)
+            && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + TacticalFieldDoctrine.Offset(angle, 0, 12), angle, 14, 8),
+            "The ellipse follows the actual angled enemy direction.");
+        check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor, IntVec3.Zero, 14, 8), "A zero facing does not divide by zero.");
+        foreach (int side in new[] { -1, 1 })
+            check(TacticalFieldDoctrine.WithinEllipse(anchor, TacticalFieldDoctrine.FlankPoint(anchor, angle, side, true), angle, 24, 18),
+                "LOW's existing temporary flank destination remains inside the rotated shared ellipse.");
+        var search = new TacticalLowDefenseSearch { Origin = anchor, Forward = IntVec3.North, Needed = 6, CurrentCover = 0 };
+        var choices = new[] { anchor + IntVec3.South * 20, anchor + IntVec3.East * 20,
+            anchor + IntVec3.West * 20, anchor + IntVec3.North * 20 };
+        int calls = 0, worst = 0, slices = 0;
+        while (!search.Scanned && slices++ < 60)
+        {
+            int before = calls;
+            search.Advance(cell => { calls++; if (cell.DistanceToSquared(anchor) > 2500) throw new Exception("Defense probe exceeded fifty cells.");
+                return choices.Contains(cell) ? 6 : 0; });
+            worst = Math.Max(worst, calls - before);
+        }
+        check(search.Scanned && worst <= 8 && calls > 250 && calls < 350, "A fifty-cell search completes through bounded eight-candidate slices.");
+        check(search.Candidates.Count == 3 && !search.Candidates.Contains(choices[3]),
+            "Equal-cover rear/lateral points beat advancing toward the threat; only three shared finalists remain.");
+        var empty = new TacticalLowDefenseSearch { Origin = anchor, Forward = IntVec3.North, Needed = 6, CurrentCover = 3 };
+        for (int slice = 0; slice < 60 && !empty.Scanned; slice++) empty.Advance(_ => 3);
+        check(empty.Scanned && empty.Candidates.Count == 0, "Equally poor cover cannot cause endless relocation between points.");
+        check(TacticalLowDefenseSearch.RequiredCover(12) == 6 && TacticalLowDefenseSearch.RequiredCover(3) == 2
+            && TacticalLowDefenseSearch.RequiredCover(40) == 6, "Cover adequacy scales with the squad but stays bounded for large raids.");
     }
     private static void CheckHighExecution(Action<bool, string> check, IntVec3 anchor)
     {
@@ -198,11 +238,14 @@ internal static class TacticalFieldDoctrineTests
     {
         var cache = (System.Collections.IDictionary)AccessTools.Field(typeof(GenTypes), "typeCache").GetValue(null);
         var key = typeof(GenTypes).GetNestedType("TypeCacheKey", BindingFlags.NonPublic);
-        foreach (Type t in new[] { typeof(TacticalFieldFormation), typeof(TacticalFireArea) })
+        foreach (Type t in new[] { typeof(TacticalFieldFormation), typeof(TacticalFireArea), typeof(TacticalLowDefenseSearch) })
             cache[Activator.CreateInstance(key, new object[] { t.FullName, null })] = t;
         var field = new TacticalFieldResponse { High = true, LowFlank = true, LowFlankAttack = true, NextFlank = 900,
             Formation = Solo("A", anchor, 100), RetreatStep = 3, AppliedStep = 3, MovingGroups = 7, LastEngaged = 99 };
         field.Forward = field.Formation.Forward = new IntVec3(60, 0, 25);
+        field.LowCoverCells.Add(anchor); field.LowCoverReady = true; field.LowCoverCheckAt = 1800;
+        field.LowDefenseSearch = new TacticalLowDefenseSearch { Origin = anchor, Forward = field.Forward, Cursor = 104, NextSlice = 110 };
+        field.LowDefenseSearch.Candidates.Add(anchor + IntVec3.South * 20); field.LowDefenseSearch.Scores.Add(55);
         field.RetreatBases.Add(anchor);
         string path = Path.Combine(Path.GetTempPath(), "Helodrace-field-doctrine-" + Guid.NewGuid() + ".xml");
         bool previous = ScribeMetaHeaderUtility.modListChanged; ScribeMetaHeaderUtility.modListChanged = true;
@@ -214,6 +257,10 @@ internal static class TacticalFieldDoctrineTests
                 && loaded.RetreatStep == 3 && loaded.MovingGroups == 7 && loaded.LowFlankAttack && loaded.NextFlank == 900
                 && loaded.Forward == field.Forward && loaded.Formation.Forward == field.Forward,
                 "Native Scribe must retain group reports, retreat progress and the active LOW temporary party.");
+            check(loaded.LowCoverReady && loaded.LowCoverCells.Single() == anchor && loaded.LowCoverCheckAt == 1800
+                && loaded.LowDefenseSearch.Cursor == 104 && loaded.LowDefenseSearch.NextSlice == 110
+                && loaded.LowDefenseSearch.Candidates.Single() == anchor + IntVec3.South * 20 && loaded.LowDefenseSearch.Scores.Single() == 55,
+                "Incremental defense searches and shared shelter candidates resume from saved value state.");
         }
         finally { Scribe.ForceStop(); ScribeMetaHeaderUtility.modListChanged = previous; if (File.Exists(path)) File.Delete(path); }
     }

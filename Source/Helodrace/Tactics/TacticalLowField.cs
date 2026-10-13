@@ -39,7 +39,14 @@ namespace Helodrace.Tactics
                     && command.FieldResponse.FireGroup.Contains(command.Members.FindIndex(m => m.Pawn == pawn)));
         }
         internal bool LowFieldFloor(TacticalSquadCommand command, IntVec3 cell) =>
-            TacticalFieldDoctrine.Within(command.FieldResponse.Anchor, cell, TacticalFieldDoctrine.LowRadius) && FieldFloor(command, cell);
+            TacticalFieldDoctrine.WithinEllipse(command.FieldResponse.Anchor, cell, command.FieldResponse.Forward,
+                TacticalFieldDoctrine.LowRadius, TacticalFieldDoctrine.LowDepth) && FieldFloor(command, cell);
+        internal bool LowLocusContains(TacticalSquadCommand command, Pawn pawn, IntVec3 cell)
+        {
+            LowLocus(command, pawn, out IntVec3 locus, out int radius);
+            return TacticalFieldDoctrine.WithinEllipse(locus, cell, command.FieldResponse.Forward, radius,
+                radius == TacticalFieldDoctrine.LowFlankRadius ? TacticalFieldDoctrine.LowFlankDepth : TacticalFieldDoctrine.LowMainDepth);
+        }
         internal void LowLocus(TacticalSquadCommand command, Pawn pawn, out IntVec3 locus, out int radius)
         {
             var field = command.FieldResponse;
@@ -60,9 +67,10 @@ namespace Helodrace.Tactics
                 try
                 {
                     member.LowDecisionAt = tick + 180 + pawn.thingIDNumber % 30;
-                    LowLocus(command, pawn, out IntVec3 locus, out int radius);
-                    if (TacticalFieldDoctrine.Within(locus, pawn.Position, radius)) job = TacticalLowFieldFight.Instance.Build(pawn);
-                    if (job != null && job.def == JobDefOf.Goto && !LowFieldFloor(command, job.targetA.Cell))
+                    if (TryLowShelter(command, pawn, out IntVec3 shelter)) job = JobMaker.MakeJob(JobDefOf.Goto, shelter);
+                    else if (LowLocusContains(command, pawn, pawn.Position)) job = TacticalLowFieldFight.Instance.Build(pawn);
+                    if (job != null && job.def == JobDefOf.Goto && (!LowFieldFloor(command, job.targetA.Cell)
+                        || !LowLocusContains(command, pawn, job.targetA.Cell)))
                     { JobMaker.ReturnToPool(job); job = null; }
                     nativeDecision = job != null;
                 }
@@ -71,7 +79,7 @@ namespace Helodrace.Tactics
             if (job == null)
             {
                 LowLocus(command, pawn, out IntVec3 locus, out int radius);
-                if (!TacticalFieldDoctrine.Within(locus, pawn.Position, radius))
+                if (!LowLocusContains(command, pawn, pawn.Position))
                 {
                     // Bounded straight seed probes, one native path only after
                     // acceptance. Never roam around the map to regain cohesion.
@@ -110,6 +118,7 @@ namespace Helodrace.Tactics
         private bool AdvanceLowField(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick, bool support)
         {
             command.Due = Math.Min(command.Due, tick + 10);
+            AdvanceLowDefense(command, active, field, tick);
             if (field.LowFlank && (tick - field.FlankStarted >= TacticalFieldDoctrine.FlankLifetime
                 || active.Count(m => field.FireGroup.Contains(command.Members.IndexOf(m))) < 3
                 || !active.Exists(m => LowAutomatic(m) && field.FireGroup.Contains(command.Members.IndexOf(m)))))
@@ -118,7 +127,7 @@ namespace Helodrace.Tactics
                 for (int i = 0; i < command.Members.Count; i++) { ClearFieldPost(command, field, i); field.Groups[i] = 0; command.Members[i].LowDecisionAt = 0; }
             }
             bool automatic = active.Exists(LowAutomatic);
-            if (!field.LowFlank && tick >= field.NextFlank)
+            if (!field.LowFlank && field.LowDefenseSearch == null && tick >= field.NextFlank)
             {
                 bool attempt = TacticalFieldDoctrine.FlankOpportunity(tick, field.NextFlank, command.Defensive, support,
                     active.Count, automatic, unchecked(field.EnemyId * 397 ^ tick / TacticalFieldDoctrine.FlankInterval));
@@ -178,11 +187,12 @@ namespace Helodrace.Tactics
                         && CanIssue(member)) { Issue(member, JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalContactGuard"), field.Posts[index], field.Focus)); issued++; }
                     continue;
                 }
-                LowLocus(command, pawn, out IntVec3 locus, out int radius);
                 bool native = pawn.CurJob == member.Job && (pawn.CurJobDef == JobDefOf.Wait_Combat || pawn.CurJobDef == JobDefOf.Goto || pawn.CurJobDef == JobDefOf.AttackMelee);
-                if (native && TacticalFieldDoctrine.Within(field.Anchor, pawn.Position, TacticalFieldDoctrine.LowRadius + 2)
+                if (native && TacticalFieldDoctrine.WithinEllipse(field.Anchor, pawn.Position, field.Forward,
+                        TacticalFieldDoctrine.LowRadius + 2, TacticalFieldDoctrine.LowDepth + 2)
                     && FieldFloor(command, pawn.Position)
-                    && TacticalFieldDoctrine.Within(locus, pawn.CurJobDef == JobDefOf.Goto ? pawn.CurJob.targetA.Cell : pawn.Position, radius)) continue;
+                    && LowLocusContains(command, pawn, pawn.CurJobDef == JobDefOf.Goto ? pawn.CurJob.targetA.Cell : pawn.Position)
+                    && !(pawn.CurJobDef == JobDefOf.Wait_Combat && tick >= member.LowDecisionAt && LowNeedsShelter(command, pawn))) continue;
                 if (!CanIssue(member)) continue;
                 Job job = LowNativeJob(pawn, tick, controller: true);
                 if (job != null && Issue(member, job)) issued++;
@@ -216,7 +226,8 @@ namespace Helodrace.Tactics
             owner.LowLocus(command, pawn, out IntVec3 locus, out int radius);
             return CastPositionFinder.TryFindCastPosition(new CastPositionRequest { caster = pawn, target = target, verb = verb,
                 maxRangeFromTarget = verb.EffectiveRange, maxRangeFromCaster = 8, locus = locus, maxRangeFromLocus = radius,
-                maxRegions = 3, wantCoverFromTarget = verb.EffectiveRange > 5, validator = c => owner.LowFieldFloor(command, c) }, out dest);
+                maxRegions = 3, wantCoverFromTarget = verb.EffectiveRange > 5,
+                validator = c => owner.LowFieldFloor(command, c) && owner.LowLocusContains(command, pawn, c) }, out dest);
         }
     }
     [NewTactical, HarmonyPatch(typeof(Pawn_JobTracker), "DetermineNextJob")]

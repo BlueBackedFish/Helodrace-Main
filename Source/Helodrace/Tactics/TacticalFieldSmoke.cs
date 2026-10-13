@@ -34,7 +34,8 @@ namespace Helodrace.Tactics
             // A squad segment, independent of the selected carrier's location.
             // Only harmless HC/blind smoke passes SupportGrenade/IsSmoke.
             IntVec3 target = field.LowFlank ? new IntVec3((field.Anchor.x + field.FirePoints[1].x) / 2, 0,
-                (field.Anchor.z + field.FirePoints[1].z) / 2) + field.Forward * 4 : field.Anchor + TacticalFieldDoctrine.Offset(field.Forward, 0, 8);
+                (field.Anchor.z + field.FirePoints[1].z) / 2) + TacticalFieldDoctrine.Offset(field.Forward, 0, 4)
+                : field.Anchor + TacticalFieldDoctrine.Offset(field.Forward, 0, 8);
             field.SmokeRetryAt = tick + 300;
             if (!target.InBounds(map) || !target.Walkable(map) || target.Roofed(map)) return false;
             TacticalMemberCommand best = null; Thing stock = null; float distance = float.MaxValue;

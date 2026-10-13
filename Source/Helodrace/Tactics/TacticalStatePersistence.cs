@@ -353,6 +353,12 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref FlankStarted, "flankStarted");
             Scribe_Values.Look(ref FlankSide, "flankSide", 1);
             Scribe_Values.Look(ref NativeCursor, "nativeCursor");
+            Scribe_Values.Look(ref LowCoverCheckAt, "lowCoverCheckAt");
+            Scribe_Values.Look(ref LowCoverCount, "lowCoverCount");
+            Scribe_Values.Look(ref LowRelocations, "lowRelocations");
+            Scribe_Values.Look(ref LowCoverReady, "lowCoverReady");
+            Scribe_Collections.Look(ref LowCoverCells, "lowCoverCells", LookMode.Value);
+            Scribe_Deep.Look(ref LowDefenseSearch, "lowDefenseSearch");
             Scribe_Collections.Look(ref RetreatBases, "retreatBases", LookMode.Value);
             Scribe_Deep.Look(ref Formation, "formation");
             Scribe_Values.Look(ref Anchor, "anchor");
