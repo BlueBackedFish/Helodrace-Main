@@ -159,9 +159,11 @@ namespace Helodrace.Tactics
                 if (!(barrier is Building_Door) && barrier?.def.IsWall != true) continue;
                 IntVec3 travel = cell - survey.Origin;
                 bool Support(IntVec3 c) => c.InBounds(map) && (c.GetEdifice(map)?.def.IsWall == true || c.GetEdifice(map) is Building_Door);
-                if (!TacticalPortalGeometry.TryWallNormal(cell, travel, Support, out IntVec3 inward))
+                if (!TacticalPortalGeometry.TryEntryFrontage(cell, travel, Support,
+                    (mouth, direction) => TacticalLocalPlanner.EntryDirection(map, mouth, direction), out IntVec3 inward, out IntVec3 frontageCell))
                     inward = Math.Abs(travel.x) >= Math.Abs(travel.z)
                         ? new IntVec3(Math.Sign(travel.x), 0, 0) : new IntVec3(0, 0, Math.Sign(travel.z));
+                else cell = frontageCell;
                 bool hasFloor = TacticalLocalPlanner.TryDepth(map, cell, inward, out int depth);
                 IntVec3 inside = cell + inward * depth;
                 // An open exit is transparent. Stopping the ray at our own open

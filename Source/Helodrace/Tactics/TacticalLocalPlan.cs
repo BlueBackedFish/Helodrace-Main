@@ -69,6 +69,14 @@ namespace Helodrace.Tactics
         internal static bool SetDepth(Map map, TacticalLocalPlan plan, bool allowFurniture = false) =>
             TryDepth(map, plan.Opening, plan.Inward, out plan.Depth, allowFurniture);
 
+        internal static bool LeadsIndoors(Map map, IntVec3 opening, IntVec3 inward, int depth) =>
+            TacticalPortalGeometry.LeadsIndoors(opening, inward, depth,
+                cell => cell.InBounds(map) && !(cell.GetEdifice(map) is Building_Door)
+                    && (cell.Walkable(map) || TacticalFurniturePolicy.IsFurniture(cell.GetEdifice(map))),
+                cell => cell.Roofed(map));
+        internal static bool EntryDirection(Map map, IntVec3 opening, IntVec3 inward) =>
+            TryDepth(map, opening, inward, out int depth, allowFurniture: true) && LeadsIndoors(map, opening, inward, depth);
+
         internal static bool TryDepth(Map map, IntVec3 opening, IntVec3 inward, out int depth, bool allowFurniture = false) => TacticalPortalGeometry.TryDepth(opening, inward,
             cell => cell.InBounds(map) && (cell.GetEdifice(map)?.def.IsWall == true || cell.GetEdifice(map) is Building_Door),
             cell => cell.InBounds(map) && (cell.Walkable(map)
@@ -133,15 +141,17 @@ namespace Helodrace.Tactics
                 // The local footprint validator still rejects obstructed slots.
                 if (building is Building_Door || building?.def.IsWall == true)
                 {
-                    bool face = TacticalPortalGeometry.TryWallNormal(cell, travel, Support, out IntVec3 normal);
+                    bool face = TacticalPortalGeometry.TryEntryFrontage(cell, travel, Support,
+                        (mouth, inward) => EntryDirection(map, mouth, inward), out IntVec3 normal, out IntVec3 frontageCell);
                     if (face || building is Building_Door)
                     {
                         IntVec3 inward = face ? normal : preferred;
-                        if (secured?.Invoke(cell + inward) == true) continue;
-                        TacticalStructureClass kind = classify?.Invoke(cell, inward) ?? TacticalStructureClass.Target;
+                        IntVec3 mouth = face ? frontageCell : cell;
+                        if (secured?.Invoke(mouth + inward) == true) continue;
+                        TacticalStructureClass kind = classify?.Invoke(mouth, inward) ?? TacticalStructureClass.Target;
                         if (kind == TacticalStructureClass.Pending) { search.Failure = TacticalPlanFailure.Classification; yield break; }
                         if (kind != TacticalStructureClass.Target) continue;
-                        preferred = inward; first = cell; break;
+                        preferred = inward; first = mouth; break;
                     }
                 }
                 // An already opened wall gap is still a portal. Do not turn

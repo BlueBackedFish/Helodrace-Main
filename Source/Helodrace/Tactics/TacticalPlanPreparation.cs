@@ -160,6 +160,14 @@ namespace Helodrace.Tactics
             { failure = work.Failure | TacticalPlanFailure.Busy; return true; }
             if (!candidate.Direct)
             {
+                // Preparation spans multiple ticks: a new unknown entrance
+                // must still lead indoors when published. Reported open transit
+                // and exits from already secured rooms keep their own rules.
+                bool knownExit = command.SecuredCells.Contains(candidate.Outside)
+                    && TacticalMissionRouting.TransitGoal(command).IsValid && OpeningUsable(candidate);
+                if (!candidate.ReportedPassage && !knownExit
+                    && !TacticalLocalPlanner.LeadsIndoors(map, candidate.Opening, candidate.Inward, candidate.Depth))
+                { failure = work.Failure | TacticalPlanFailure.NotBoundary; return true; }
                 if (candidate.ReportedPassage && !TacticalSharedPassagePolicy.Cleared(command.SecuredKnowledge, candidate))
                 { failure = TacticalPlanFailure.Unsecured; return true; }
                 candidate.Barrier = TacticalLocalPlanner.NextBarrier(map, candidate);

@@ -6,6 +6,21 @@ namespace Helodrace.Tactics
     public static class TacticalPortalGeometry
     {
         public const int LayerLimit = 4;
+        public const int DestinationProbeCells = 3;
+        // A roofless mouth after a blast may still lead into a room. Only look
+        // forward on the destination side; nearby roofs behind/along a wall
+        // must not make a yard-to-yard channel count as a building entrance.
+        public static bool LeadsIndoors(IntVec3 opening, IntVec3 inward, int depth,
+            Func<IntVec3, bool> floor, Func<IntVec3, bool> roofed)
+        {
+            for (int step = 0; step < DestinationProbeCells; step++)
+            {
+                IntVec3 cell = opening + inward * (depth + step);
+                if (!floor(cell)) return false;
+                if (roofed(cell)) return true;
+            }
+            return false;
+        }
         public static IntVec3 FirstBlocked(IntVec3 opening, IntVec3 inward, int depth, Func<IntVec3, bool> open)
         {
             for (int layer = 0; layer < depth; layer++)
@@ -49,6 +64,38 @@ namespace Helodrace.Tactics
             int heading = axis.x * travel.x + axis.z * travel.z;
             if (heading == 0) return false;
             normal = axis * Math.Sign(heading); return true;
+        }
+        public static bool TryEntryNormal(IntVec3 cell, IntVec3 travel, Func<IntVec3, bool> support,
+            Func<IntVec3, IntVec3, bool> destination, out IntVec3 normal) =>
+            TryEntryFrontage(cell, travel, support, destination, out normal, out _);
+        public static bool TryEntryFrontage(IntVec3 cell, IntVec3 travel, Func<IntVec3, bool> support,
+            Func<IntVec3, IntVec3, bool> destination, out IntVec3 normal, out IntVec3 frontage)
+        {
+            normal = frontage = IntVec3.Invalid;
+            if (!TryWallNormal(cell, travel, support, out IntVec3 preferred)) return false;
+            IntVec3 Face(IntVec3 direction)
+            {
+                if (destination(cell, direction)) return cell;
+                // A corner itself can have walls in both directions. Keep a
+                // frontage whose immediately adjacent wall leads into the room;
+                // exact candidate validation still rejects the corner channel.
+                IntVec3 lateral = new IntVec3(-direction.z, 0, direction.x);
+                IntVec3 left = cell - lateral, right = cell + lateral;
+                if (support(left) && destination(left, direction)) return left;
+                return support(right) && destination(right, direction) ? right : IntVec3.Invalid;
+            }
+            IntVec3 mouth = Face(preferred);
+            if (mouth.IsValid) { normal = preferred; frontage = mouth; return true; }
+            // At a corner the run lengths tie, and dominant travel can point
+            // along the end wall. Try its other supported face, still heading
+            // toward the objective, rather than crossing the building's width.
+            IntVec3 axis = new IntVec3(-preferred.z, 0, preferred.x);
+            int heading = axis.x * travel.x + axis.z * travel.z;
+            if (heading == 0 || !support(cell - preferred) && !support(cell + preferred)) return false;
+            IntVec3 alternative = axis * Math.Sign(heading);
+            mouth = Face(alternative);
+            if (!mouth.IsValid) return false;
+            normal = alternative; frontage = mouth; return true;
         }
         internal static bool TryGapNormal(IntVec3 cell, Func<IntVec3, bool> wall, Func<IntVec3, bool> floor, out IntVec3 normal)
         {

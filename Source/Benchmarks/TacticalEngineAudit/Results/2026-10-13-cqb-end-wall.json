@@ -1,0 +1,21 @@
+﻿{
+    "date":  "2026-10-13",
+    "fixture":  "Copied 외부인들2, LOW 12 spawned at (170,0,114), original geometry and defenders preserved",
+    "complete":  true,
+    "error":  null,
+    "measuredTicks":  2203,
+    "population":  12,
+    "firstPlan":  [
+                      "30:HD_Raid_1::HD_Raid_1_Group_1:Stack opening=(162, 0, 123) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=False room= outdoors= observed= done= issued= launched= skip= checks=// roomSafety=// cursor= ready=0/12 passed=0 entered=0 jobs=GotoWander=7,Mine=1,FollowClose=4"
+                  ],
+    "finalCommands":  [
+                          "HD_Raid_1::HD_Raid_1_Group_1:Breach opening=(162, 0, 123) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=False room= outdoors= observed= done= issued= launched= skip= checks=// roomSafety=// cursor= ready=4/12 passed=0 entered=0 jobs=HD_NewTacticalPost=11,HD_NewTacticalBreach=1"
+                      ],
+    "jobFailures":  0,
+    "outsideEndWallPlans":  0,
+    "cqbExecutionException":  false,
+    "profilerDisabled":  true,
+    "sourceSavePreserved":  true,
+    "assemblySha256":  "690C72ACCCB2BCD1C4CFF43193277743E4F15424B7D304086F8B6DDBAD39D029",
+    "limitation":  "Selected the genuine room-facing wall (162,0,123). Still hammer breaching when the short run ended; no entry-completion claim. Read-only saved geometry tests cover all four reported end-wall cells."
+}
