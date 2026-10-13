@@ -161,7 +161,9 @@ namespace Helodrace.Tactics
             Scribe_References.Look(ref Barrier, "barrier");
             Scribe_References.Look(ref PendingFurniture, "pendingFurniture");
             Scribe_Collections.Look(ref Stack, "stack", LookMode.Value);
+            Scribe_Collections.Look(ref StackDirections, "stackDirections", LookMode.Value);
             Scribe_Collections.Look(ref StackMembers, "stackMembers", LookMode.Value);
+            Scribe_Collections.Look(ref StackedMembers, "stackedMembers", LookMode.Value);
             Scribe_Collections.Look(ref EntryOrder, "entryOrder", LookMode.Value);
             Scribe_Collections.Look(ref Positions, "positions", LookMode.Value);
             Scribe_Collections.Look(ref RetainedOutside, "retainedOutside", LookMode.Value);

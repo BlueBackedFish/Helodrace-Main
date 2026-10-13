@@ -477,19 +477,22 @@ namespace Helodrace.Tactics
                 && !Visited(cell);
             bool RecoverFurniture() => previewFloor == null && TryPrepareFurniture(command, active, plan, OutsideBlocked, InsideBlocked,
                 InsideAllowed, requireFull: false);
-            TacticalLocalPlan FurniturePreview()
+            IEnumerable<TacticalLocalPlan> FurniturePreview()
             {
-                if (plan.PendingFurniture == null) return null; // Actual work is queued; retry this frontier.
-                if (plan.Stack.Count < command.Members.Count
-                    && (command.Plan == null || !TacticalEntryAllocation.BindApproach(plan, command.Plan.Positions,
-                        TacticalEntryOrder.For(command, active, plan),
-                        cell => Visited(cell) && TacticalLocalPlanner.Free(map, cell, Claimed)))) return null;
-                return active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly) ? plan : null;
+                if (plan.PendingFurniture == null) yield break; // Actual work is queued; retry this frontier.
+                if (plan.Stack.Count < command.Members.Count)
+                {
+                    bool bound = false;
+                    foreach (TacticalLocalPlan result in BindNearbyApproachSteps(command,active,plan,Visited,Claimed))
+                    { if (result == null) yield return null; else bound = true; }
+                    if (!bound) yield break;
+                }
+                if (active[0].Pawn.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) yield return plan;
             }
             if (!TacticalLocalPlanner.Free(map, plan.Outside, OutsideBlocked) || !TacticalLocalPlanner.Free(map, plan.Inside, InsideBlocked))
             {
                 yield return null;
-                if (RecoverFurniture()) { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
+                if (RecoverFurniture()) { foreach (TacticalLocalPlan preview in FurniturePreview()) yield return preview; yield break; }
                 if (Claimed(plan.Outside) || Claimed(plan.Inside)) search.Failure = TacticalPlanFailure.Busy;
                 yield break;
             }
@@ -498,7 +501,7 @@ namespace Helodrace.Tactics
             if (!TacticalLocalPlanner.BuildStack(map, plan, command.Members.Count, OutsideBlocked, allowPartial: !frontier.Outdoors))
             {
                 yield return null;
-                if (RecoverFurniture()) { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
+                if (RecoverFurniture()) { foreach (TacticalLocalPlan preview in FurniturePreview()) yield return preview; yield break; }
                 // Reusing our own exit needs no second full indoor stack. A
                 // tiny room may retain guards outside and cannot hold everyone.
                 if (opened && frontier.Outdoors && command.Plan != null
@@ -512,20 +515,37 @@ namespace Helodrace.Tactics
             bool partialStack = plan.Stack.Count < command.Members.Count;
             if (partialStack)
             {
-                if (RecoverFurniture()) { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
-                if (command.Plan == null || !TacticalEntryAllocation.BindApproach(plan, command.Plan.Positions,
-                    eligible, cell => Visited(cell) && TacticalLocalPlanner.Free(map, cell, Claimed))) yield break;
+                if (RecoverFurniture()) { foreach (TacticalLocalPlan preview in FurniturePreview()) yield return preview; yield break; }
+                bool bound = false;
+                foreach (TacticalLocalPlan result in BindNearbyApproachSteps(command,active,plan,Visited,Claimed,eligible))
+                { if (result == null) yield return null; else bound = true; }
+                if (!bound) yield break;
             }
             yield return null;
             bool fullInside = TacticalLocalPlanner.BuildPositions(map, plan, command.Members.Count, InsideBlocked,
                 InsideAllowed);
             yield return null;
             if (!fullInside && !touchedClaim && RecoverFurniture())
-            { TacticalLocalPlan preview = FurniturePreview(); if (preview != null) yield return preview; yield break; }
+            { foreach (TacticalLocalPlan preview in FurniturePreview()) yield return preview; yield break; }
             if (!fullInside && touchedClaim && plan.Positions.Count == 0) { search.Failure = TacticalPlanFailure.Busy; yield break; }
             Pawn planner = previewFloor == null ? active[0].Pawn : PendingPlanner(active, plan.Outside);
             if (!planner.CanReach(plan.Outside, PathEndMode.OnCell, Danger.Deadly)) yield break;
             yield return plan;
+        }
+        private IEnumerable<TacticalLocalPlan> BindNearbyApproachSteps(TacticalSquadCommand command,
+            List<TacticalMemberCommand> active, TacticalLocalPlan plan, Func<IntVec3,bool> visited,
+            Func<IntVec3,bool> claimed, IList<int> eligible = null)
+        {
+            eligible = eligible ?? TacticalEntryOrder.For(command,active,plan);
+            int count = command.Members.Count, entering = Math.Min(plan.Stack.Count,eligible.Count);
+            var used = new HashSet<IntVec3>(plan.Stack);
+            bool Walk(IntVec3 cell) => cell.InBounds(map) && visited(cell) && cell.Walkable(map)
+                && !claimed(cell) && (!(cell.GetEdifice(map) is Building_Door door) || door.Open || DoorBreachFaultUtility.Jammed(door));
+            bool Seat(IntVec3 cell) => !used.Contains(cell) && cell != plan.Outside && cell != plan.EntryLane
+                && !(cell.GetEdifice(map) is Building_Door) && TacticalLocalPlanner.Free(map,cell,claimed);
+            var guards = new TacticalApproachGuards(plan.Outside,count-entering,Walk,Seat);
+            while (!guards.Step()) yield return null;
+            if (guards.Valid && TacticalEntryAllocation.BindApproach(plan,count,eligible,guards.Posts)) yield return plan;
         }
     }
 }

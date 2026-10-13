@@ -553,7 +553,8 @@ namespace Helodrace.Tactics
                 {
                     TacticalMemberCommand member = command.Members[i]; if (!Available(member, map)) continue;
                     if (command.Phase == TacticalCommandPhase.Breach && member.Pawn == command.Breacher) continue;
-                    if (AtPost(member) && member.Pawn.Position == current.Stack[i]) ready++;
+                    if (AtPost(member) && member.Pawn.Position == current.Stack[i])
+                    { ready++; TacticalStackSecurity.Arrived(current,i,member.Pawn.Position); }
                 }
                 if (dispatch)
                     for (int n = 0; n < command.Members.Count && issued < TacticalCadence.MovementBatch; n++)
@@ -562,8 +563,9 @@ namespace Helodrace.Tactics
                         TacticalMemberCommand member = command.Members[i];
                         if (!Available(member, map) || command.Phase == TacticalCommandPhase.Breach && member.Pawn == command.Breacher
                             || member.Pawn.CurJob?.playerForced == true || StationaryGuidance(member)
-                            || HoldsPost(member, current.Stack[i], false)) continue;
-                        EnsurePost(member, current.Stack[i], current.Opening, tick);
+                            || HoldsPost(member, current.Stack[i], false)
+                                && member.Job.targetB.Cell == TacticalStackSecurity.Face(current,i,current.Stack[i])) continue;
+                        EnsurePost(member, current.Stack[i], TacticalStackSecurity.Face(current,i,current.Stack[i]), tick);
                         command.MovementCursor = (i + 1) % command.Members.Count; issued++;
                     }
                 if (OpeningUsable(current))
@@ -654,7 +656,9 @@ namespace Helodrace.Tactics
                     && !current.RetainedOutside.Contains(command.Members.IndexOf(m)));
                 if (vacant >= 0)
                 {
-                    TacticalMemberCommand replacement = active[0];
+                    TacticalMemberCommand replacement = active.Find(m => current.StackMembers.Count == 0
+                        || current.StackMembers.Contains(command.Members.IndexOf(m)));
+                    if (replacement == null) { BeginReturn(command,tick,false,replan:true); return; }
                     if (TacticalEntryAllocation.Promote(current, command.Members.IndexOf(replacement), vacant))
                     {
                         replacement.EntryAssignmentDone = false;
@@ -673,8 +677,10 @@ namespace Helodrace.Tactics
                 if (current.RetainedOutside.Contains(i))
                 {
                     member.EntryAssignmentDone = AtPost(member) && member.Pawn.Position == current.Positions[i];
-                    if (dispatchEntry && entryIssues < TacticalCadence.MovementBatch && !HoldsPost(member, current.Positions[i], true))
-                    { EnsurePost(member, current.Positions[i], current.Opening, tick, entryCombat: true); entryIssues++; }
+                    IntVec3 face = TacticalStackSecurity.Face(current,i,current.Positions[i]);
+                    if (dispatchEntry && entryIssues < TacticalCadence.MovementBatch
+                        && (!HoldsPost(member,current.Positions[i],true) || member.Job.targetB.Cell != face))
+                    { EnsurePost(member,current.Positions[i],face,tick,entryCombat:true); entryIssues++; }
                     continue;
                 }
                 if (member.Pawn.jobs.curDriver is TacticalJobDriver driver && member.Pawn.CurJob == member.Job && driver.AtPost)
@@ -684,6 +690,16 @@ namespace Helodrace.Tactics
                     && member.Pawn.jobs.curDriver is TacticalJobDriver arrival && arrival.AtPost
                     && member.Pawn.Position == current.Positions[i];
                 if (member.Entered) continue;
+                if (!TacticalStackSecurity.ReadyToEnter(current,i))
+                {
+                    if (AtPost(member)) TacticalStackSecurity.Arrived(current,i,member.Pawn.Position);
+                    if (!TacticalStackSecurity.ReadyToEnter(current,i))
+                    {
+                        if (dispatchEntry && entryIssues < TacticalCadence.MovementBatch && !StationaryGuidance(member))
+                        { EnsurePost(member,current.Stack[i],TacticalStackSecurity.Face(current,i,current.Stack[i]),tick); entryIssues++; }
+                        continue;
+                    }
+                }
                 if (!TacticalHighCqbPolicy.EntryReleased(command, i, active)) continue;
                 if (!dispatchEntry || entryIssues >= TacticalCadence.MovementBatch) continue;
                 if (member.Pawn.CurJob?.playerForced == true || StationaryGuidance(member)) continue;
@@ -836,7 +852,7 @@ namespace Helodrace.Tactics
                 && (!(member.Pawn.jobs.curDriver is TacticalJobDriver driver) || !driver.AtPost || member.Pawn.Position == position);
         private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick, bool entryCombat = false)
         {
-            if (HoldsPost(member, position, entryCombat)) return;
+            if (HoldsPost(member, position, entryCombat) && member.Job.targetB.Cell == face) return;
             if (member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) return;
             if (!CanIssue(member)) return;
             Job post = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), position, face);

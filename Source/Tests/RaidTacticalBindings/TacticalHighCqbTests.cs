@@ -185,6 +185,8 @@ internal static class TacticalHighCqbTests
         var root=new TacticalSquadCommand {Id="root",CqbCursor=2,CqbCancelRequested=true,CqbPassageSequence=5,CqbTogether=true};
         root.Phase=TacticalCommandPhase.Enter;
         root.Plan=new TacticalLocalPlan {Direct=true,Opening=new IntVec3(9,0,9),Inward=IntVec3.North};
+        root.Plan.StackDirections.Add(IntVec3.South);
+        root.Plan.StackedMembers.Add(0);
         var previewType=typeof(TacticalSquadCommand).Assembly.GetType("Helodrace.Tactics.TacticalEntryPreview",true);
         var previewScan=new TacticalRoomScan(IntVec3.Zero,IntVec3.Invalid,c=>c==IntVec3.Zero,_=>false);
         var preview=AccessTools.Constructor(previewType,new[]{typeof(TacticalSquadCommand),typeof(TacticalRoomScan)})
@@ -206,6 +208,8 @@ internal static class TacticalHighCqbTests
             Scribe.saver.InitSaving(path,"root"); root.ExposeData(); Scribe.saver.FinalizeSaving();
             var restored=new TacticalSquadCommand(); Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe.loader.ForceStop();
             var child=restored.CqbTeams.Single();
+            check(restored.Plan.StackDirections.SequenceEqual(root.Plan.StackDirections),"Save must retain assigned stack watch directions.");
+            check(restored.Plan.StackedMembers.SetEquals(root.Plan.StackedMembers),"Save must retain actual stack arrivals before ingress.");
             check(restored.CqbCursor==2 && restored.CqbCancelRequested && child.CqbTeam==1 && child.CqbEntered
                 && child.Phase==TacticalCommandPhase.BlastWait && child.OpeningAction.Launched && !child.OpeningAction.Returned,
                 "Save must preserve team assignment, cancellation and live grenade safety.");

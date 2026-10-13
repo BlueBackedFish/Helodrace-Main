@@ -151,10 +151,7 @@ internal static class TacticalStackFormationTests
             "Workshop west partition must admit a small connected breach party instead of stalling the whole squad.");
         Console.WriteLine("Workshop west partition: connected breach party=" + posts.Count + "/13");
         var plan = new TacticalLocalPlan { Opening = opening, Inward = IntVec3.West }; plan.Stack.AddRange(posts);
-        var previous = new List<IntVec3>();
-        for (int x = 20; x <= 29 && previous.Count < 13; x++) for (int z = 14; z <= 19 && previous.Count < 13; z++)
-        { var cell = new IntVec3(x, 0, z); if (Free(cell)) previous.Add(cell); }
-        check(TacticalEntryAllocation.BindApproach(plan, previous, Enumerable.Range(0, 13).ToArray(), Free)
+        check(TacticalEntryAllocation.BindApproach(plan,13,Enumerable.Range(0,13).ToArray(),Array.Empty<IntVec3>())
             && plan.Stack.Count == 13 && plan.Stack.Distinct().Count() == 13
             && TacticalEntryAllocation.ConnectedStack(plan) ,
             "Small approach must keep unique secured guard posts without combining them into the breach formation.");

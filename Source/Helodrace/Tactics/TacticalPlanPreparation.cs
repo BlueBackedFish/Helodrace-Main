@@ -143,6 +143,7 @@ namespace Helodrace.Tactics
                     if (!work.Allocation.Valid)
                     { failure = work.Failure | TacticalPlanFailure.Inside; return true; }
                 }
+                TacticalStackSecurity.Assign(work.Candidate);
                 work.Stage = TacticalPreparationStage.Commit;
             }
             // A preview may compute seats, but only Clear can validate/publish.

@@ -231,7 +231,8 @@ namespace Helodrace.Tactics
                 if ((member.Pawn == action.Observer && member.Pawn.jobs.curDriver is JobDriver_TacticalObserve observe && !observe.AtPost)
                     || (member.Pawn == action.Thrower && TacticalOpeningPolicy.ThrowInProgress(action))) continue;
                 int index = command.Members.IndexOf(member);
-                EnsurePost(member, plan.Stack[index], plan.Opening, tick);
+                if (AtPost(member)) TacticalStackSecurity.Arrived(plan,index,member.Pawn.Position);
+                EnsurePost(member, plan.Stack[index], TacticalStackSecurity.Face(plan,index,plan.Stack[index]), tick);
             }
             if (command.Phase == TacticalCommandPhase.Observe)
             {

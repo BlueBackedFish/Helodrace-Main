@@ -23,9 +23,11 @@ namespace Helodrace.Tactics
         // after opening the wall, before observation/entry can begin.
         public Building PendingFurniture;
         public List<IntVec3> Stack = new List<IntVec3>();
-        // Empty means the whole squad; otherwise remaining members guard their
-        // existing secured-room posts rather than requiring a full local stack.
+        public List<IntVec3> StackDirections = new List<IntVec3>();
+        // Empty means the whole squad; otherwise remaining members follow to
+        // nearby connected secured-floor guard posts and do not assault inward.
         public List<int> StackMembers = new List<int>();
+        public HashSet<int> StackedMembers = new HashSet<int>();
         public List<int> EntryOrder = new List<int>();
         public List<IntVec3> Positions = new List<IntVec3>();
         // Member indices held on the secured approach face during a small-room entry.

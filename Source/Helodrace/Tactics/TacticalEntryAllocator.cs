@@ -13,21 +13,32 @@ namespace Helodrace.Tactics
         private readonly IList<int> eligible;
         private readonly Func<IntVec3,bool> covered;
         private readonly IntVec3[] positions, inside;
-        private readonly bool[] entering;
+        private readonly bool[] entering, fixedGuards;
         private readonly HashSet<IntVec3> used = new HashSet<IntVec3>();
         private readonly List<Guard> guards = new List<Guard>();
-        private int cursor, stage, nextSide;
+        private int cursor, stage, nextSide, fixedCount;
         public bool Complete { get; private set; }
         public bool Valid { get; private set; } = true;
         public TacticalEntryAllocator(TacticalLocalPlan plan, IList<int> eligible, Func<IntVec3,bool> covered = null)
         {
-            this.plan = plan; this.eligible = eligible; this.covered = covered;
+            this.plan = plan; this.covered = covered;
             positions = plan.Stack.ToArray(); entering = new bool[positions.Length];
-            inside = new IntVec3[Math.Min(plan.Positions.Count, eligible.Count)];
-            for (int i=0; i<inside.Length; i++) inside[i] = plan.Positions[i];
+            fixedGuards = new bool[positions.Length];
             var seen = new HashSet<int>();
             foreach (int index in eligible)
                 if (index < 0 || index >= positions.Length || !seen.Add(index)) { Complete=true; Valid=false; return; }
+            var participants = new List<int>();
+            foreach (int index in eligible)
+                if (plan.StackMembers.Count == 0 || plan.StackMembers.Contains(index)) participants.Add(index);
+            this.eligible = participants;
+            inside = new IntVec3[Math.Min(plan.Positions.Count, participants.Count)];
+            for (int i=0; i<inside.Length; i++) inside[i] = plan.Positions[i];
+            for (int i=0; i<positions.Length; i++)
+                if (plan.StackMembers.Count > 0 && !plan.StackMembers.Contains(i))
+                {
+                    if (!used.Add(positions[i])) { Complete=true; Valid=false; return; }
+                    fixedGuards[i] = true; fixedCount++;
+                }
             if (inside.Length == 0) { Complete=true; Valid=false; }
             nextSide = plan.StackSide < 0 ? -1 : 1;
         }
@@ -58,7 +69,7 @@ namespace Helodrace.Tactics
                 }
                 if (cursor == plan.Stack.Count)
                 {
-                    if (guards.Count < positions.Length-inside.Length) return Fail();
+                    if (guards.Count < positions.Length-inside.Length-fixedCount) return Fail();
                     guards.Sort((a,b) => { int compare=b.Covered.CompareTo(a.Covered);
                         if(compare==0)compare=a.Distance.CompareTo(b.Distance);
                         if(compare==0)compare=a.Cell.x.CompareTo(b.Cell.x);
@@ -71,7 +82,7 @@ namespace Helodrace.Tactics
             {
                 while (cursor < positions.Length && remaining > 0)
                 {
-                    int member=cursor++; if(entering[member])continue;
+                    int member=cursor++; if(entering[member] || fixedGuards[member])continue;
                     bool cover=guards[0].Covered;
                     int selected=guards.FindIndex(g=>g.Covered==cover && g.Side==nextSide);
                     if(selected<0)selected=guards.FindIndex(g=>g.Covered==cover && g.Side==-nextSide);
