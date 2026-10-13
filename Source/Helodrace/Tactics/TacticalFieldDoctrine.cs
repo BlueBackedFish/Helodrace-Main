@@ -11,7 +11,7 @@ namespace Helodrace.Tactics
         public const int LowRadius = 24, LowMainRadius = 14, LowFlankRadius = 4;
         public const int FlankInterval = 900, FlankLifetime = 600, FlankGatherTicks = 240;
         public const int RetreatDelay = 600, RetreatInterval = 300, SoloSteps = 6, GroupSteps = 12;
-        public const int RadioLife = 600, GroupLimit = 4, GroupSpacing = 6;
+        public const int RadioLife = 600, GroupLimit = 4, GroupSpacing = 15;
         public static bool EquipmentWork(Job job) => job?.def?.defName?.IndexOf("Reload", StringComparison.OrdinalIgnoreCase) >= 0;
         public static bool Within(IntVec3 origin, IntVec3 cell, int radius) => cell.DistanceToSquared(origin) <= radius * radius;
         public static int FlankSize(int live) => live < 6 ? 0 : Math.Min(4, Math.Max(3, live / 3));
@@ -20,7 +20,7 @@ namespace Helodrace.Tactics
         public static IntVec3 FlankPoint(IntVec3 anchor, IntVec3 forward, int side, bool attack) =>
             anchor + new IntVec3(-forward.z, 0, forward.x) * (side * 16) + forward * (attack ? 12 : 0);
         public static IntVec3 LinePoint(IntVec3 anchor, IntVec3 forward, int point, int seed) =>
-            anchor + new IntVec3(-forward.z, 0, forward.x) * ((point - 1) * (7 + (int)((uint)seed % 3)));
+            anchor + new IntVec3(-forward.z, 0, forward.x) * ((point - 1) * (((7 + (int)((uint)seed % 3)) * 5 + 1) / 2));
         public static int RetreatDepth(int step, int slot, int slots)
         {
             if (slots <= 3) return Math.Min(SoloSteps, step) * (slot == 1 ? 2 : 1);
@@ -83,7 +83,7 @@ namespace Helodrace.Tactics
             int rank = Members.IndexOf(squad); if (rank < 0) rank = 0;
             int slots = Members.Count * 3, slot = rank * 3 + point;
             IntVec3 side = new IntVec3(-Forward.z, 0, Forward.x);
-            int lateral = (2 * slot - (slots - 1)) * TacticalFieldDoctrine.GroupSpacing / 2;
+            int lateral = slot * TacticalFieldDoctrine.GroupSpacing - (slots - 1) * TacticalFieldDoctrine.GroupSpacing / 2;
             return Origin + side * lateral - Forward * TacticalFieldDoctrine.RetreatDepth(Step, slot, slots);
         }
         public void ExposeData()

@@ -24,6 +24,16 @@ internal static class TacticalFieldDoctrineTests
             int Depth(IntVec3 cell) => (cell - anchor).x * forward.x + (cell - anchor).z * forward.z;
             Check(points.All(p => Depth(p) == 0) && points[1] == anchor && points.Distinct().Count() == 3,
                 "A HIGH squad starts with three fire areas on a transverse line in all four orientations.");
+            foreach (int seed in new[] { 0, 1, 2 })
+            {
+                var left = TacticalFieldDoctrine.LinePoint(anchor, forward, 0, seed);
+                var right = TacticalFieldDoctrine.LinePoint(anchor, forward, 2, seed);
+                int oldSpacing = 7 + seed;
+                Check(left.DistanceToSquared(anchor) >= 4 * oldSpacing * oldSpacing
+                    && left.DistanceToSquared(anchor) <= 9 * oldSpacing * oldSpacing
+                    && left - anchor == anchor - right,
+                    "HIGH's lateral spacing is two to three times the previous distance and stays symmetric.");
+            }
             foreach (int side in new[] { -1, 1 })
                 Check(TacticalFieldDoctrine.Within(anchor, TacticalFieldDoctrine.FlankPoint(anchor, forward, side, false), TacticalFieldDoctrine.LowRadius)
                     && TacticalFieldDoctrine.Within(anchor, TacticalFieldDoctrine.FlankPoint(anchor, forward, side, true), TacticalFieldDoctrine.LowRadius),
@@ -105,6 +115,15 @@ internal static class TacticalFieldDoctrineTests
             Members = new List<string> { "A", "B", "C" } };
         var line = all.Members.SelectMany(id => Enumerable.Range(0, 3).Select(p => all.Point(id, p))).ToArray();
         check(line.Distinct().Count() == 9 && line.All(p => p.z == anchor.z), "Three squads start as nine distinct aligned fire points.");
+        foreach (int count in new[] { 2, 3, 4 })
+        foreach (var forward in GenAdj.CardinalDirections)
+        {
+            var wide = new TacticalFieldFormation { Origin = anchor, Forward = forward,
+                Members = Enumerable.Range(0, count).Select(i => i.ToString()).ToList() };
+            var centres = wide.Members.SelectMany(id => Enumerable.Range(0, 3).Select(p => wide.Point(id, p))).ToArray();
+            check(centres.Zip(centres.Skip(1), (a, b) => a.DistanceToSquared(b)).All(d => d == 225),
+                "Radio formations retain a uniform 15-cell gap for odd and even squad counts in every orientation.");
+        }
         all.Step = 12;
         check(all.Point("B", 1).z == anchor.z - 24 && all.Point("A", 0).z == anchor.z - 6
             && all.Point("C", 2).z == anchor.z - 6, "The global central fireteam withdraws much deeper than the outside teams.");
