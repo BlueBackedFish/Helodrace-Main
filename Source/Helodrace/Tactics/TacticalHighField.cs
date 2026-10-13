@@ -16,7 +16,7 @@ namespace Helodrace.Tactics
     {
         private void AdvanceHighFieldRetreat(TacticalSquadCommand command, TacticalFieldResponse field, int tick)
         {
-            if (field.BoundPending || field.Assigned < field.Order.Count || field.Stage == TacticalFieldStage.Forming) return;
+            if (field.Stage == TacticalFieldStage.Forming || field.Stage == TacticalFieldStage.Moving) return;
             var formation = field.Formation;
             if (formation?.Members.Count > 1 && (!RaidTacticalRadioUtility.SignalAvailable(map)
                 || formation.Expire(command.Id, tick)))
@@ -55,8 +55,8 @@ namespace Helodrace.Tactics
                 field.MovingGroups |= 1 << point;
             }
             if (field.MovingGroups == 0) return;
-            field.MovingTeam = field.MovingGroups == 2 ? 1 : -1;
-            field.Stage = TacticalFieldStage.Moving; field.BoundPending = true; field.BoundCursor = 0;
+            foreach (var member in command.Members) member.FieldDecisionAt = 0;
+            field.Stage = TacticalFieldStage.Moving;
             field.MoveStarted = tick; FieldBounds++;
         }
     }

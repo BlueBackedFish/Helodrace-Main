@@ -1,4 +1,5 @@
 using System;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Helodrace.Tactics;
@@ -74,20 +75,20 @@ namespace Helodrace
             TacticalFieldResponse field = fieldCommand.FieldResponse;
             if (field != null)
             {
-                var posts = field.Posts.Where(c => c.IsValid).ToArray();
+                var posts = fieldCommand.Members.Where(m => m.Pawn.CurJobDef == JobDefOf.Wait_Combat && !m.Pawn.pather.Moving)
+                    .Select(m => m.Pawn.Position).ToArray();
                 fieldPostsUnique &= posts.Distinct().Count() == posts.Length && fieldCommand.Plan == fieldPlan;
                 if (field.Stage == TacticalFieldStage.Moving)
                 {
                     var moving = fieldCommand.Members.Where(m => m.Pawn.Spawned && !m.Pawn.Downed && !m.Pawn.Dead
-                        && m.Pawn.pather.Moving && m.Job?.def.defName == "HD_NewTacticalContactGuard");
-                    fieldSingleTeam &= moving.All(m => field.High ? (field.MovingGroups & (1 << field.Groups[fieldCommand.Members.IndexOf(m)])) != 0
-                        : field.FireGroup.Contains(fieldCommand.Members.IndexOf(m)) == (field.MovingTeam == -3));
+                        && m.Pawn.pather.Moving && m.Job?.def == JobDefOf.Goto);
+                    fieldSingleTeam &= moving.All(m => service.FieldLocusContains(fieldCommand, m.Pawn, m.Job.targetA.Cell));
                 }
                 if (field.Screen != null)
                 {
-                    IntVec3 expected = field.LowFlank ? field.Anchor
-                        + new IntVec3(-field.Forward.z, 0, field.Forward.x) * (field.FlankSide * 8) + field.Forward * 4
-                        : field.Anchor + field.Forward * 8;
+                    IntVec3 expected = field.LowFlank ? new IntVec3((field.Anchor.x + field.FirePoints[1].x) / 2, 0,
+                        (field.Anchor.z + field.FirePoints[1].z) / 2) + TacticalFieldDoctrine.Offset(field.Forward, 0, 4)
+                        : field.Anchor + TacticalFieldDoctrine.Offset(field.Forward, 0, 8);
                     fieldSmokeTargets &= field.Screen.Target == expected;
                     if (field.Screen.Launched && RaidSmokeUtility.SmokeAt(map, field.Screen.Target))
                         result.newFieldSmokeSeen = true;
@@ -139,7 +140,7 @@ namespace Helodrace
         {
             MapComponent_TacticalCommands service = map.GetComponent<MapComponent_TacticalCommands>();
             result.newFieldResponses = service.FieldResponses; result.newFieldResumes = service.FieldResumes;
-            result.newFieldBounds = service.FieldBounds; result.newFieldGuardJobs = service.FieldGuardJobs;
+            result.newFieldBounds = service.FieldBounds; result.newFieldNativeJobs = service.FieldNativeJobs;
             result.newFieldPostCandidates = service.FieldPostCandidates;
             result.newFieldSmokePlans = service.FieldSmokePlans; result.newFieldSmokeThrows = service.FieldSmokeThrows;
             result.newFieldSmokeAdvances = service.FieldSmokeAdvances;

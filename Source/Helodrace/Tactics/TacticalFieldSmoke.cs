@@ -41,7 +41,7 @@ namespace Helodrace.Tactics
             TacticalMemberCommand best = null; Thing stock = null; float distance = float.MaxValue;
             foreach (TacticalMemberCommand member in active)
             {
-                bool settled = AtPost(member) || !field.High && member.Pawn.CurJobDef == JobDefOf.Wait_Combat && !member.Pawn.pather.Moving;
+                bool settled = member.Pawn.CurJobDef == JobDefOf.Wait_Combat && !member.Pawn.pather.Moving;
                 if (!settled || member.Pawn.stances.FullBodyBusy || member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) continue;
                 Thing grenade = SupportGrenade(member.Pawn, true, false);
                 if (grenade == null || !InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, member.Pawn.Position,
@@ -52,7 +52,7 @@ namespace Helodrace.Tactics
             }
             if (best == null) return false;
             if (!CanIssue(best)) { field.SmokeRetryAt = tick + 1; return false; }
-            IntVec3 post = field.High ? field.Posts[command.Members.IndexOf(best)] : best.Pawn.Position;
+            IntVec3 post = best.Pawn.Position;
             Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalThrow"), target, stock, post);
             job.targetQueueA = new List<LocalTargetInfo> { post, field.Focus };
             job.canUseRangedWeapon = false;

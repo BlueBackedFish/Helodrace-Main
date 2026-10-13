@@ -56,13 +56,6 @@ internal static class TacticalFieldTests
         if (TacticalFieldPolicy.FormationAllowed(player,anchor,370)) throw new Exception("A lone/new-observer sample cannot invent a player approach.");
         player.PlayerControlled=false;
         if (!TacticalFieldPolicy.FormationAllowed(player,anchor,370)) throw new Exception("AI opponents remain eligible without an approach sample.");
-        var area = TacticalFieldPolicy.ConnectedArea(anchor, p => p.x != anchor.x + 1);
-        if (TacticalFieldPolicy.ConnectedArea(anchor, p => true).Count != TacticalFieldPolicy.AreaLimit)
-            throw new Exception("An unobstructed arrival area must respect its hard cell-work limit.");
-        if (area.Count > TacticalFieldPolicy.AreaLimit || area.Any(p => p.x > anchor.x)
-            || area.Any(p => !area.Contains(p + IntVec3.North) && !area.Contains(p + IntVec3.South)
-                && !area.Contains(p + IntVec3.East) && !area.Contains(p + IntVec3.West)))
-            throw new Exception("Shared gathering area crossed a wall or included disconnected cells.");
         if (!TacticalFieldPolicy.Ready(4,3) || TacticalFieldPolicy.Ready(4,2)
             || !TacticalFieldPolicy.Ready(1,1) || TacticalFieldPolicy.Ready(1,0) || !TacticalFieldPolicy.Ready(0,0))
             throw new Exception("A prepared majority must release the team without accepting an isolated/unarrived member.");
@@ -97,19 +90,11 @@ internal static class TacticalFieldTests
                 throw new Exception("Three HIGH fire-point centres must initially lie on one transverse line.");
             foreach (IntVec3 point in points)
             {
-                var scattered = Enumerable.Range(1, 20).Select(id => TacticalFieldPolicy.Scatter(point, id, seed)).ToArray();
-                if (scattered.Any(cell => Math.Abs(cell.x - point.x) > 2 || Math.Abs(cell.z - point.z) > 2)
-                    || scattered.Select(Depth).Distinct().Count() < 2 || scattered.Select(Lateral).Distinct().Count() < 2)
-                    throw new Exception("Posts must scatter through an area, not form an exact depth row or curve.");
             }
         }
         if (Enumerable.Range(0, 3).Any(team => TacticalFieldPolicy.FirePointIndex(true, team) != team)
             || TacticalFieldPolicy.FirePointIndex(true, -1) != 1 || TacticalFieldPolicy.FirePointIndex(false, -1) != 0)
             throw new Exception("HIGH uses its actual fireteams; LOW's main body is not split into automatic fixed flank groups.");
-        if (TacticalFieldPolicy.FirePostScore(true, 0, 8, 100, 1) <= TacticalFieldPolicy.FirePostScore(false, 1, 0, 0, 1))
-            throw new Exception("A covered firing position must not lose to a blind holding position.");
-        if (TacticalFieldPolicy.Scatter(anchor, 10, 100) == TacticalFieldPolicy.Scatter(anchor, 10, 200))
-            throw new Exception("Independent encounters must allow different local positions.");
         CheckFirePointSave(anchor);
     }
     private static void CheckFirePointSave(IntVec3 anchor)
@@ -118,8 +103,8 @@ internal static class TacticalFieldTests
         var field = new TacticalFieldResponse { Anchor = anchor, Focus = anchor + IntVec3.North * 50,
             Forward = IntVec3.North, Started = 123, High = true };
         for (int i = 0; i < 3; i++) field.FirePoints.Add(TacticalFieldPolicy.FirePoint(anchor, field.Focus, field.Forward, i, 123));
-        field.Areas.Add(new TacticalFireArea { Cells = areaForSave(anchor), Started = 100, Attempts = 1, Prepared = true });
-        field.Groups.Add(2); field.JoinAt.Add(456); field.LeaderIndex = 0; field.LeaderTeam = 2;
+        field.Areas.Add(new TacticalFireArea { Cells = areaForSave(anchor), Started = 100, Cursor = 96, Seed = anchor, Prepared = true });
+        field.Groups.Add(2); field.LeaderIndex = 0; field.LeaderTeam = 2;
         // Console has no active mod registry. Seed the native type resolver,
         // while keeping nested data extraction in the real Scribe methods.
         var cache = (System.Collections.IDictionary)AccessTools.Field(typeof(GenTypes), "typeCache").GetValue(null);
@@ -133,17 +118,15 @@ internal static class TacticalFieldTests
             var loaded = new TacticalFieldResponse();
             Scribe.loader.InitLoading(path); loaded.ExposeData(); Scribe.loader.ForceStop();
             if (!loaded.FirePoints.SequenceEqual(field.FirePoints) || loaded.Started != field.Started
-                || !loaded.Areas[0].Cells.SequenceEqual(field.Areas[0].Cells) || loaded.Areas[0].Attempts != 1
-                || !loaded.Areas[0].Prepared || loaded.Groups[0] != 2 || loaded.JoinAt[0] != 456
-                || loaded.LeaderIndex != 0 || loaded.LeaderTeam != 2
-                || TacticalFieldPolicy.Scatter(loaded.FirePoints[0], 10, loaded.Started)
-                    != TacticalFieldPolicy.Scatter(field.FirePoints[0], 10, field.Started))
-                throw new Exception("Saving must preserve shared firing areas and stable post scatter.");
+                || !loaded.Areas[0].Cells.SequenceEqual(field.Areas[0].Cells) || loaded.Areas[0].Cursor != 96 || loaded.Areas[0].Seed != anchor
+                || !loaded.Areas[0].Prepared || loaded.Groups[0] != 2
+                || loaded.LeaderIndex != 0 || loaded.LeaderTeam != 2)
+                throw new Exception("Saving must preserve shared firing areas and regional shelter metadata.");
             Console.WriteLine("PASS: native Scribe fire-point value payload round trip (not a full Unity world load).");
         }
         finally { Scribe.ForceStop(); ScribeMetaHeaderUtility.modListChanged = previousHeader; if (File.Exists(path)) File.Delete(path); }
     }
     private static System.Collections.Generic.List<IntVec3> areaForSave(IntVec3 anchor) =>
-        TacticalFieldPolicy.ConnectedArea(anchor, p => p.x != anchor.x + 1);
+        new System.Collections.Generic.List<IntVec3> { anchor, anchor + IntVec3.West };
 
 }

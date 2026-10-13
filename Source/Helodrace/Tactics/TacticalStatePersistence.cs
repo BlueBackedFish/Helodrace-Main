@@ -14,7 +14,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref RetryTick, "retryTick");
             Scribe_Values.Look(ref LastProgressTick, "lastProgressTick");
             Scribe_Values.Look(ref FireCandidateCursor, "fireCandidateCursor");
-            Scribe_Values.Look(ref LowDecisionAt, "lowDecisionAt");
+            Scribe_Values.Look(ref FieldDecisionAt, "lowDecisionAt");
             Scribe_Values.Look(ref LastPosition, "lastPosition");
             Scribe_Values.Look(ref Parking, "parking");
             Scribe_Values.Look(ref Passed, "passed");
@@ -331,13 +331,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref LastSeen, "lastSeen");
             Scribe_Values.Look(ref EnemyId, "enemyId");
             Scribe_Values.Look(ref FocusAt, "focusAt");
-            Scribe_Values.Look(ref Assigned, "assigned");
-            Scribe_Values.Look(ref MovingTeam, "movingTeam");
             Scribe_Values.Look(ref NextMove, "nextMove");
             Scribe_Values.Look(ref MoveStarted, "moveStarted");
             Scribe_Values.Look(ref SmokeRetryAt, "smokeRetryAt");
-            Scribe_Values.Look(ref BoundCursor, "boundCursor");
-            Scribe_Values.Look(ref BoundPending, "boundPending");
             Scribe_Values.Look(ref Stage, "stage");
             Scribe_Values.Look(ref Motion, "motion");
             Scribe_Values.Look(ref High, "high");
@@ -368,13 +364,9 @@ namespace Helodrace.Tactics
             Scribe_Collections.Look(ref FirePoints, "firePoints", LookMode.Value);
             Scribe_Collections.Look(ref Areas, "areas", LookMode.Deep);
             Scribe_Collections.Look(ref Groups, "groups", LookMode.Value);
-            Scribe_Collections.Look(ref JoinAt, "joinAt", LookMode.Value);
             Scribe_Values.Look(ref LeaderIndex, "leaderIndex", -1);
             Scribe_Values.Look(ref LeaderTeam, "leaderTeam", -1);
-            Scribe_Collections.Look(ref Posts, "posts", LookMode.Value);
-            Scribe_Collections.Look(ref Order, "order", LookMode.Value);
             Scribe_Collections.Look(ref FireGroup, "fireGroup", LookMode.Value);
-            Scribe_Collections.Look(ref Occupied, "occupied", LookMode.Value);
         }
     }
 

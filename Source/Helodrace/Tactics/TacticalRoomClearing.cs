@@ -195,8 +195,7 @@ namespace Helodrace.Tactics
             TacticalLocalPlan plan = command.Plan;
             if (plan == null || plan.Direct) return;
             bool Held(IntVec3 cell) => plan.Positions.Contains(cell)
-                || command.ContactResponse?.Occupied.Contains(cell) == true
-                || command.FieldResponse?.Occupied.Contains(cell) == true;
+                || command.ContactResponse?.Occupied.Contains(cell) == true;
             void Remove(IntVec3 cell)
             {
                 if (!Held(cell) && claims.TryGetValue(cell, out TacticalSquadCommand owner) && owner == command)

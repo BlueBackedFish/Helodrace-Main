@@ -220,7 +220,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref FieldResumes, "FieldResumesCounter");
             Scribe_Values.Look(ref FieldPostCandidates, "FieldPostCandidatesCounter");
             Scribe_Values.Look(ref FieldBounds, "FieldBoundsCounter");
-            Scribe_Values.Look(ref FieldGuardJobs, "FieldGuardJobsCounter");
+            Scribe_Values.Look(ref FieldNativeJobs, "FieldNativeJobsCounter");
             Scribe_Values.Look(ref FieldSmokePlans, "FieldSmokePlansCounter");
             Scribe_Values.Look(ref FieldSmokeThrows, "FieldSmokeThrowsCounter");
             Scribe_Values.Look(ref FieldSmokeAdvances, "FieldSmokeAdvancesCounter");

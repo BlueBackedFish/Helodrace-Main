@@ -62,14 +62,21 @@ namespace Helodrace.Tactics
     }
     public sealed partial class MapComponent_TacticalCommands
     {
-        private bool LowCoverAt(TacticalSquadCommand command, IntVec3 cell, IntVec3 forward)
+        private bool FieldCoverAt(TacticalSquadCommand command, IntVec3 cell, IntVec3 focus)
         {
             if (!FieldFloor(command, cell)) return false;
+            float protection = 0;
             foreach (IntVec3 side in GenAdj.AdjacentCells)
             {
-                if ((long)side.x * forward.x + (long)side.z * forward.z < 0) continue;
                 IntVec3 neighbour = cell + side;
-                if (neighbour.InBounds(map) && neighbour.GetCover(map)?.def.fillPercent >= .2f) return true;
+                if (!neighbour.InBounds(map)) continue;
+                Thing cover = neighbour.GetCover(map);
+                if (cover == null) continue;
+                float block = cover.BaseBlockChance() * TacticalFieldPolicy.CoverWeight(side, focus - cell);
+                int range = focus.DistanceToSquared(neighbour);
+                if (range < 4) block *= .3333f; else if (range < 9) block *= .66666f;
+                protection += (1 - protection) * block;
+                if (protection >= TacticalFieldPolicy.MinimumCover) return true;
             }
             return false;
         }
@@ -84,7 +91,7 @@ namespace Helodrace.Tactics
                     IntVec3 cell = centre + TacticalFieldDoctrine.Offset(forward,
                         side * TacticalFieldDoctrine.LowMainRadius / 3.0, depth * TacticalFieldDoctrine.LowMainDepth * .75);
                     if (TacticalFieldDoctrine.WithinEllipse(centre, cell, forward,
-                        TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth) && LowCoverAt(command, cell, forward)) count++;
+                        TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth) && FieldCoverAt(command, cell, focus)) count++;
                 }
             return count;
         }
@@ -104,7 +111,7 @@ namespace Helodrace.Tactics
                     int known = 0, required = TacticalLowDefenseSearch.RequiredCover(active.Count);
                     // Reuse confirmed cover before a sparse probe can needlessly move a settled squad again.
                     foreach (IntVec3 cell in field.LowCoverCells)
-                        if (LowFieldFloor(command, cell) && LowCoverAt(command, cell, field.Forward) && ++known >= required) break;
+                        if (FieldCombatFloor(command, cell) && FieldCoverAt(command, cell, field.Focus) && ++known >= required) break;
                     field.LowCoverCount = Math.Max(field.LowCoverCount, known);
                     search = field.LowDefenseSearch = new TacticalLowDefenseSearch { Origin = field.Anchor, Forward = field.Forward,
                         Focus = field.Focus, CurrentCover = field.LowCoverCount, Needed = required,
@@ -123,7 +130,7 @@ namespace Helodrace.Tactics
                             destination, PathEndMode.OnCell, TraverseParms.For(active[active.Count / 2].Pawn, Danger.Some))) return;
                         field.Anchor = destination; field.Forward = TacticalFieldDoctrine.Facing(destination, search.Focus);
                         field.FirePoints[0] = destination; field.LowRelocations++;
-                        foreach (var member in command.Members) member.LowDecisionAt = 0;
+                        foreach (var member in command.Members) member.FieldDecisionAt = 0;
                     }
                     // No better reachable point: keep the current centre instead of repeatedly replanning.
                     search.BuildingCache = true;
@@ -135,33 +142,14 @@ namespace Helodrace.Tactics
                     IntVec3 cell = TacticalLowDefenseSearch.CoverCell(field.Anchor, search.CacheCursor++);
                     if (TacticalFieldDoctrine.WithinEllipse(field.Anchor, cell, field.Forward,
                             TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth)
-                        && LowCoverAt(command, cell, field.Forward)) field.LowCoverCells.Add(cell);
+                        && FieldCoverAt(command, cell, field.Focus)) field.LowCoverCells.Add(cell);
                 }
                 if (search.CacheCursor < TacticalLowDefenseSearch.CoverGridCount && field.LowCoverCells.Count < TacticalLowDefenseSearch.CacheLimit) return;
                 field.LowCoverReady = true; field.LowCoverCheckAt = tick + 1800; field.LowDefenseSearch = null;
                 field.LowCoverCount = field.LowCoverCells.Count;
-                foreach (var member in command.Members) member.LowDecisionAt = 0;
+                foreach (var member in command.Members) member.FieldDecisionAt = 0;
             }
             finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
-        }
-        internal bool LowNeedsShelter(TacticalSquadCommand command, Pawn pawn) => command.FieldResponse.LowCoverReady
-            && command.FieldResponse.LowCoverCells.Count > 0 && !LowCoverAt(command, pawn.Position, command.FieldResponse.Forward);
-        internal bool TryLowShelter(TacticalSquadCommand command, Pawn pawn, out IntVec3 destination)
-        {
-            destination = IntVec3.Invalid;
-            if (!LowNeedsShelter(command, pawn)) return false;
-            var field = command.FieldResponse;
-            int start = (int)((uint)pawn.thingIDNumber % (uint)field.LowCoverCells.Count), distance = int.MaxValue;
-            for (int visit = 0; visit < Math.Min(24, field.LowCoverCells.Count); visit++)
-            {
-                IntVec3 cell = field.LowCoverCells[(start + visit) % field.LowCoverCells.Count];
-                int travel = cell.DistanceToSquared(pawn.Position);
-                if (travel >= distance || !LowLocusContains(command, pawn, cell) || !LowFieldFloor(command, cell)
-                    || !LowCoverAt(command, cell, field.Forward) || cell.GetFirstPawn(map) != null
-                    || !map.pawnDestinationReservationManager.CanReserve(cell, pawn, false)) continue;
-                destination = cell; distance = travel;
-            }
-            return destination.IsValid && map.reachability.CanReach(pawn.Position, destination, PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Some));
         }
     }
 }

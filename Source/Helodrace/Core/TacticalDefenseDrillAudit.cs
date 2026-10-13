@@ -82,7 +82,7 @@ namespace Helodrace
                 if (commands.Any(c => c.FieldResponse == null)) return;
                 result.r7DefenseEarlySight = commands.All(c => c.Members.Any(m => m.Pawn.Position.DistanceTo(owner.Position)
                     > (m.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.verbProps.range ?? 0)));
-                if (commands.Any(c => c.FieldResponse.Assigned != c.Members.Count)) return;
+                if (commands.Any(c => c.FieldResponse.Stage == TacticalFieldStage.Forming)) return;
                 owner.Position = new IntVec3(80, 0, 124); defenseStep = 2;
                 DefenseEvent("both squads detected outside range and formed bounded defense; actor approached");
             }

@@ -59,8 +59,8 @@ namespace Helodrace
             {
                 result.r7SupportNoAdvance &= service.FieldBounds == 0;
                 result.r7SupportPlanPreserved &= command.Plan?.Opening == externalOpening;
-                if (command.FieldResponse?.Assigned == command.Members.Count
-                    && command.Members.Any(m => m.Job?.def.defName == "HD_NewTacticalContactGuard" && m.Pawn.CurJob == m.Job))
+                if (command.FieldResponse?.Stage == TacticalFieldStage.Defending
+                    && command.Members.Any(m => m.Job?.def == JobDefOf.Wait_Combat && m.Pawn.CurJob == m.Job))
                     result.r7SupportHeld = true;
                 if (externalStep == 1 && tick - externalRequestedAt > TacticalSupportPolicy.MinimumHold
                     && map.GetComponent<MapComponent_HelodMortarSupport>().HasActiveStrike(caller)
@@ -117,8 +117,8 @@ namespace Helodrace
         {
             if (reloadStep >= RequiredReloads || externalStep != (reloadStep == 0 ? 1 : 3)) return;
             TacticalSquadCommand command = ExternalCommand;
-            if (command.FieldResponse?.Assigned != command.Members.Count
-                || !command.Members.Any(m => m.Job?.def.defName == "HD_NewTacticalContactGuard" && m.Pawn.CurJob == m.Job)) return;
+            if (command.FieldResponse?.Stage != TacticalFieldStage.Defending
+                || !command.Members.Any(m => m.Job?.def == JobDefOf.Wait_Combat && m.Pawn.CurJob == m.Job)) return;
             externalSnapshot = ExternalState(); reloadPending = true; reloadStep++;
             ExternalEvent("saving actual support checkpoint " + reloadStep);
             string save = "R7TacticalCheckpoint" + reloadStep;

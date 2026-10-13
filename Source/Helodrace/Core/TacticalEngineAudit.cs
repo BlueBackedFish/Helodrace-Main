@@ -49,7 +49,7 @@ namespace Helodrace
         [DataMember] public long newContactResponses, newRearResponses, newDoorResponses, newOpposedResponses, newContactResumes, newContactGuardJobs;
         [DataMember] public bool newContactDrillComplete, newContactMemoryFrozen, newContactPlanPreserved, newUnseenDoorIgnored;
         [DataMember] public string[] newContactEvents;
-        [DataMember] public long newFieldResponses, newFieldResumes, newFieldBounds, newFieldGuardJobs, newFieldPostCandidates;
+        [DataMember] public long newFieldResponses, newFieldResumes, newFieldBounds, newFieldNativeJobs, newFieldPostCandidates;
         [DataMember] public bool newFieldEarlySight, newFieldMotionObserved, newFieldUniquePosts, newFieldSingleTeamBounds;
         [DataMember] public bool newFieldMemoryFrozen, newFieldMissionResumed;
         [DataMember] public string[] newFieldEvents;

@@ -227,7 +227,7 @@ namespace Helodrace.Tactics
                 }
                 command.CancelPreparation();
                 Current.Game.GetComponent<GameComponent_TacticalCommands>().Communications.Announce(command, GenTicks.TicksGame, true);
-                foreach (var member in command.Members) pendingLowJobs.Remove(member.Pawn);
+                foreach (var member in command.Members) pendingFieldJobs.Remove(member.Pawn);
                 // Never erase an already launched grenade's safety state.
                 if (command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
                     || command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared)
@@ -1013,7 +1013,7 @@ namespace Helodrace.Tactics
             command.CancelEntryPreview();
             command.CancelPreparation();
             command.Phase = TacticalCommandPhase.Released;
-            foreach (var member in command.Members) pendingLowJobs.Remove(member.Pawn);
+            foreach (var member in command.Members) pendingFieldJobs.Remove(member.Pawn);
             foreach (TacticalMemberCommand member in command.Members)
                 if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner) && owner == command)
                     byPawn.Remove(member.Pawn);
@@ -1041,7 +1041,7 @@ namespace Helodrace.Tactics
                 Current.Game?.GetComponent<GameComponent_TacticalCommands>()?.Forget(command);
             }
             squads.Clear(); byPawn.Clear(); claims.Clear(); leases.Clear(); knownOpenings.Clear();
-            pendingLowJobs.Clear();
+            pendingFieldJobs.Clear();
             SharedSecured = new TacticalSecuredKnowledge();
         }
     }

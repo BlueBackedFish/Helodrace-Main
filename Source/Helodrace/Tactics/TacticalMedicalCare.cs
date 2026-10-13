@@ -76,9 +76,8 @@ namespace Helodrace.Tactics
             if (!safePhase || !field && tick >= command.MedicalWindowUntil || tick < command.NextMedicalCheck
                 || command.ContactResponse != null || command.FocusFire != null || command.Contacts.Melee.Dangerous(tick) || command.ChargeAction != null
                 || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) return false;
-            if (field && active.Exists(m => command.FieldResponse.High ? !AtPost(m)
-                : !AtPost(m) && (m.Pawn.pather.Moving || m.Pawn.CurJobDef != JobDefOf.Wait_Combat)
-                    || !TacticalFieldDoctrine.Within(command.FieldResponse.Anchor, m.Pawn.Position, TacticalFieldDoctrine.LowRadius))) return false;
+            if (field && active.Exists(m => !AtPost(m) && (m.Pawn.pather.Moving || m.Pawn.CurJobDef != JobDefOf.Wait_Combat)
+                || !FieldLocusContains(command, m.Pawn, m.Pawn.Position))) return false;
             // Two health-cache reads per advance, not a map/organization sweep.
             for (int checkedMembers = 0; checkedMembers < TacticalMedicalPolicy.ScanMembers
                 && command.MedicalCursor < command.Members.Count; checkedMembers++)

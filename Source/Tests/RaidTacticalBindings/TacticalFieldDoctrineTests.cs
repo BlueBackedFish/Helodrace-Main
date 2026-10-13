@@ -67,6 +67,7 @@ internal static class TacticalFieldDoctrineTests
         CheckHighExecution(Check, anchor);
         CheckAngledLine(Check, anchor);
         CheckLowDefense(Check, anchor);
+        CheckScopedCombat(Check, anchor);
         CheckRadio(Check, anchor);
         CheckNativeBindings(Check);
         CheckSave(Check, anchor);
@@ -146,6 +147,46 @@ internal static class TacticalFieldDoctrineTests
         check(TacticalLowDefenseSearch.RequiredCover(12) == 6 && TacticalLowDefenseSearch.RequiredCover(3) == 2
             && TacticalLowDefenseSearch.RequiredCover(40) == 6, "Cover adequacy scales with the squad but stays bounded for large raids.");
     }
+    private static void CheckScopedCombat(Action<bool, string> check, IntVec3 anchor)
+    {
+        check(TacticalFieldPolicy.CoverWeight(IntVec3.East, IntVec3.North * 20) == 0
+            && TacticalFieldPolicy.CoverWeight(new IntVec3(1, 0, 1), IntVec3.North * 20) == 0,
+            "Side and diagonal objects that cannot block the observed shot must not suppress shelter movement.");
+        check(TacticalFieldPolicy.CoverWeight(IntVec3.North, IntVec3.North * 20) == 1
+            && TacticalFieldPolicy.CoverWeight(IntVec3.South, IntVec3.North * 20) == 0
+            && TacticalFieldPolicy.CoverWeight(IntVec3.North, IntVec3.Zero) == 0, "Facing cover follows the incoming shot angle.");
+        check(TacticalFieldPolicy.ContactHandoffAllowed(new TacticalContactResponse { Rear = true, Opposed = true }, true, false),
+            "A plain outdoor contact response hands off to bounded individual combat, even with multiple directions.");
+        check(!TacticalFieldPolicy.ContactHandoffAllowed(new TacticalContactResponse { DirectAttack = true }, true, false)
+            && !TacticalFieldPolicy.ContactHandoffAllowed(new TacticalContactResponse { Door = true }, true, false)
+            && !TacticalFieldPolicy.ContactHandoffAllowed(new TacticalContactResponse(), false, false)
+            && !TacticalFieldPolicy.ContactHandoffAllowed(null, true, true), "Melee emergencies and owned CQB contacts retain their controller.");
+        var owner = new MapComponent_TacticalCommands(null);
+        var left = new Pawn { thingIDNumber = 71 }; var right = new Pawn { thingIDNumber = 72 };
+        var field = new TacticalFieldResponse { High = true, Anchor = anchor, Forward = IntVec3.North };
+        for (int i = 0; i < 3; i++) field.FirePoints.Add(TacticalFieldDoctrine.LinePoint(anchor, field.Forward, i, 0));
+        field.Groups.Add(0); field.Groups.Add(2);
+        var command = new TacticalSquadCommand { FieldResponse = field };
+        command.Members.Add(new TacticalMemberCommand { Pawn = left }); command.Members.Add(new TacticalMemberCommand { Pawn = right });
+        var method = AccessTools.Method(owner.GetType(), "FieldLocusContains");
+        bool Inside(Pawn pawn, IntVec3 cell) => (bool)method.Invoke(owner, new object[] { command, pawn, cell });
+        check(Inside(left, field.FirePoints[0] + IntVec3.East * 6) && Inside(left, field.FirePoints[0] + IntVec3.North * 5),
+            "HIGH members may select different cover cells in their group region instead of returning to a fixed slot.");
+        check(!Inside(left, field.FirePoints[2]) && Inside(right, field.FirePoints[2])
+            && !Inside(right, field.FirePoints[2] + IntVec3.North * 7), "Actual HIGH fireteam membership selects and bounds the group's fighting region.");
+        field.Stage = TacticalFieldStage.Moving; field.MovingGroups = 1;
+        check(!Inside(left, field.FirePoints[0] + IntVec3.North) && Inside(left, field.FirePoints[0] + IntVec3.South * 3)
+            && Inside(right, field.FirePoints[2] + IntVec3.North * 5),
+            "A withdrawing group may use any cover in its rear half-area while unmoved fireteams keep their whole scope.");
+        field.Stage = TacticalFieldStage.Defending;
+        check(Inside(left, field.FirePoints[0] + IntVec3.North * 5), "Finishing the retreat restores the full fighting region without restoring a fixed slot.");
+        field.High = false;
+        check(Inside(left, anchor + IntVec3.East * 25) && Inside(left, anchor + IntVec3.North * 12)
+            && !Inside(left, anchor + IntVec3.North * 13), "LOW main fighters keep the requested 25 by 12 scope.");
+        field.LowFlank = true; field.FireGroup.Add(0);
+        check(Inside(left, field.FirePoints[1] + IntVec3.East * 3) && !Inside(left, anchor + IntVec3.East * 20),
+            "A gathering temporary flank group uses a region too, without a forever guard slot.");
+    }
     private static void CheckHighExecution(Action<bool, string> check, IntVec3 anchor)
     {
         var map = (Map)RuntimeHelpers.GetUninitializedObject(typeof(Map));
@@ -157,19 +198,19 @@ internal static class TacticalFieldDoctrineTests
         var command = new TacticalSquadCommand { Id = "B", FieldResponse = field };
         var method = AccessTools.Method(owner.GetType(), "AdvanceHighFieldRetreat");
         method.Invoke(owner, new object[] { command, field, 599 });
-        check(field.RetreatStep == 0 && !field.BoundPending, "The real HIGH controller must preserve its initial line before the fighting delay.");
+        check(field.RetreatStep == 0 && field.Stage == TacticalFieldStage.Defending, "The real HIGH controller must preserve its initial line before the fighting delay.");
         method.Invoke(owner, new object[] { command, field, 600 });
         check(field.RetreatStep == 1 && field.FirePoints[1] == anchor + IntVec3.South * 2
             && field.FirePoints[0] == field.RetreatBases[0] + IntVec3.South
-            && field.MovingGroups == 7 && field.BoundPending, "Actual retreat changes three shared areas, with a deeper centre and incremental assignment.");
+            && field.MovingGroups == 7 && field.Stage == TacticalFieldStage.Moving, "Actual retreat changes three shared regions, with a deeper centre and bounded individual fighting.");
         method.Invoke(owner, new object[] { command, field, 1200 });
-        check(field.RetreatStep == 1, "Unfinished assignment cannot start a second calculation/movement wave.");
-        field.BoundPending = false; field.Stage = TacticalFieldStage.Defending; field.LastEngaged = 1190;
+        check(field.RetreatStep == 1, "Unfinished regional movement cannot start a second retreat wave.");
+        field.Stage = TacticalFieldStage.Defending; field.LastEngaged = 1190;
         var group = Solo("A", anchor, 1190); group.Members.Add("B"); group.Seen["B"] = 1190;
         field.Formation = group;
         method.Invoke(owner, new object[] { command, field, 1200 });
         check(group.Step == 0, "A follower squad must await a delivered coordinator step rather than independently advancing the shared clock.");
-        group.Step = 2; field.BoundPending = false;
+        group.Step = 2; field.Stage = TacticalFieldStage.Defending;
         method.Invoke(owner, new object[] { command, field, 1201 });
         check(field.AppliedStep == 2 && field.AppliedGroup == "A|B", "A delivered group step reaches the actual HIGH controller.");
     }
@@ -209,11 +250,11 @@ internal static class TacticalFieldDoctrineTests
     }
     private static void CheckNativeBindings(Action<bool, string> check)
     {
-        check(typeof(JobGiver_AIFightEnemies).IsAssignableFrom(typeof(TacticalLowFieldFight)), "LOW must actually inherit native fighting/cover selection.");
-        RuntimeHelpers.RunClassConstructor(typeof(Patch_NewTactical_LowFieldJobs).TypeHandle);
-        check(AccessTools.Field(typeof(Patch_NewTactical_LowFieldJobs), "ConstantJobs").GetValue(null) != null,
+        check(typeof(JobGiver_AIFightEnemies).IsAssignableFrom(typeof(TacticalFieldFight)), "LOW must actually inherit native fighting/cover selection.");
+        RuntimeHelpers.RunClassConstructor(typeof(Patch_NewTactical_FieldJobs).TypeHandle);
+        check(AccessTools.Field(typeof(Patch_NewTactical_FieldJobs), "ConstantJobs").GetValue(null) != null,
             "The installed native constant-tree delegate must bind successfully to retain safety priority.");
-        foreach (Type patch in new[] { typeof(Patch_NewTactical_LowFieldJobs), typeof(Patch_NewTactical_AdoptLowFieldJob) })
+        foreach (Type patch in new[] { typeof(Patch_NewTactical_FieldJobs), typeof(Patch_NewTactical_AdoptFieldJob) })
         {
             HarmonyMethod info = HarmonyMethod.Merge(HarmonyMethodExtensions.GetFromType(patch));
             var target = AccessTools.DeclaredMethod(info.declaringType, info.methodName, info.argumentTypes);
@@ -235,9 +276,9 @@ internal static class TacticalFieldDoctrineTests
         var pawn = new Pawn { jobs = (Pawn_JobTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_JobTracker)) };
         var candidate = new Job();
         var pending = new Dictionary<Pawn, Job>(ReferenceEqualityComparer.Instance);
-        AccessTools.Field(owner.GetType(), "pendingLowJobs").SetValue(owner, pending);
+        AccessTools.Field(owner.GetType(), "pendingFieldJobs").SetValue(owner, pending);
         pending[pawn] = candidate;
-        AccessTools.Method(owner.GetType(), "AdoptLowNative").Invoke(owner, new object[] { pawn, candidate });
+        AccessTools.Method(owner.GetType(), "AdoptFieldNative").Invoke(owner, new object[] { pawn, candidate });
         check(pending.Count == 0 && pawn.CurJob == null,
             "An unsuccessful native start must drop the pending candidate without adopting another driver's job.");
     }

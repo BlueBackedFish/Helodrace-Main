@@ -65,7 +65,7 @@ namespace Helodrace.Tactics
                             : GenTicks.TicksGame - command.Link.Cooperation.PeerStatusAt)
                         + " contact response=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
                         + " field=" + command.FieldResponse?.Stage + " motion=" + command.FieldResponse?.Motion
-                        + " focus=" + command.FieldResponse?.Focus + " moving team=" + command.FieldResponse?.MovingTeam
+                        + " focus=" + command.FieldResponse?.Focus + " moving groups=" + command.FieldResponse?.MovingGroups
                         + " accompanying team=" + command.FieldResponse?.LeaderTeam
                         + " low flank=" + command.FieldResponse?.LowFlank + "/" + command.FieldResponse?.LowFlankAttack
                         + " party=" + command.FieldResponse?.FireGroup.Count + " retreat=" + command.FieldResponse?.AppliedStep
@@ -73,7 +73,7 @@ namespace Helodrace.Tactics
                         + " relocation=" + command.FieldResponse?.LowRelocations + " search=" + command.FieldResponse?.LowDefenseSearch?.Cursor
                         + " field radio=" + command.FieldResponse?.Formation?.Coordinator + "/" + command.FieldResponse?.Formation?.Members.Count
                         + " field areas=" + (command.FieldResponse == null ? "none" : string.Join(";", command.FieldResponse.Areas
-                            .Select((area, index) => index + ":" + area.Cells.Count + " cells/retries=" + area.Attempts)))
+                            .Select((area, index) => index + ":" + area.Cells.Count + " cover/scan=" + area.Cursor)))
                         + " focus fire=" + command.FocusFire?.Stage + " target=" + command.FocusFire?.TargetId
                         + " melee threats=" + command.Contacts.Melee.Entries.Count
                         + " treatment=" + command.MedicalCare?.Job?.def.defName

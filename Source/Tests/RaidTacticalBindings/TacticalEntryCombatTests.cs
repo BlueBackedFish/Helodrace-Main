@@ -75,9 +75,9 @@ internal static class TacticalEntryCombatTests
         pawn.jobs.curDriver=new JobDriver_TacticalIngress();
         var member=new TacticalMemberCommand {Pawn=pawn,Job=job,Crossed=true,Passed=true};command.Members.Add(member);
         IntVec3 contactPost=origin+IntVec3.North*5,fieldPost=origin+IntVec3.South*5;
-        command.ContactResponse.Occupied.Add(contactPost);command.FieldResponse.Occupied.Add(fieldPost);
+        command.ContactResponse.Occupied.Add(contactPost);
         var claims=(Dictionary<IntVec3,TacticalSquadCommand>)AccessTools.Field(owner.GetType(),"claims").GetValue(owner);
-        claims[contactPost]=claims[fieldPost]=claims[command.Plan.Outside]=command;
+        claims[contactPost]=claims[command.Plan.Outside]=command;
         command.Contacts.Memory.Remember(12,origin+IntVec3.East*3,origin+IntVec3.East*3,false,true,90);
         var action=command.OpeningAction;
         check(TacticalEntryCombatPolicy.CommittedIngress(command),"A real portal ingress must retain execution ownership during combat.");

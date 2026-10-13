@@ -131,7 +131,6 @@ namespace Helodrace.Tactics
                         Add(field.Anchor,"HD_Tactics_NodeFireArea",SimpleColor.Cyan,1);
                         if (field.LowFlank) Add(field.FirePoints[1],"HD_Tactics_NodeFireArea",SimpleColor.Cyan,2);
                     }
-                    for(int i=0;i<field.Posts.Count;i++) Add(field.Posts[i],"HD_Tactics_NodeFirePost",SimpleColor.Blue,i+1,false);
                     if(field.Screen != null) Add(field.Screen.Target,"HD_Tactics_NodeSmoke",SimpleColor.White);
                 }
                 if (command.ContactResponse is TacticalContactResponse contact)
