@@ -78,6 +78,7 @@ namespace Helodrace.Tactics
         public override void ExposeData()
         {
             Scribe_Values.Look(ref explicitGoal, "tacticalExplicitGoal", IntVec3.Invalid);
+            Scribe_Values.Look(ref PlayerRadioJammedUntil, "playerRadioJammedUntil");
             Scribe_References.Look(ref explicitTargetFaction, "tacticalExplicitTargetFaction");
             Scribe_Values.Look(ref automaticGoal, "tacticalAutomaticGoal", IntVec3.Invalid);
             Scribe_Values.Look(ref goalRetry, "tacticalGoalRetry");

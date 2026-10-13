@@ -131,6 +131,9 @@ namespace Helodrace.Tactics
                 cursor++;
                 if (command.Due > tick) continue;
                 command.Owner.Advance(command, tick); Advances++; processed++;
+                if (command.Phase == TacticalCommandPhase.Complete && command.RaidLord?.LordJob is LordJob_HelodSweep sweep
+                    && !sweep.RetreatRequested && commands.Where(c => c.RaidLord == command.RaidLord).All(c => c.Terminal || c.Phase == TacticalCommandPhase.Complete))
+                    command.RaidLord.ReceiveMemo("HelodSweepComplete");
                 if (Stopwatch.GetTimestamp() - started > Stopwatch.Frequency * .0015)
                 { BudgetStops++; break; }
             }
@@ -338,6 +341,12 @@ namespace Helodrace.Tactics
         }
         private void AdvanceCore(TacticalSquadCommand command, int tick)
         {
+            if (command.CqbParent == null && command.RaidLord?.LordJob is LordJob_HelodSweep sweep && sweep.RetreatRequested
+                && command.Phase != TacticalCommandPhase.Returning && !command.ReleaseAfterReturn)
+            {
+                if (command.MedicalCare != null) command.MedicalCare.CancelRequested = true;
+                BeginReturn(command, tick, true);
+            }
             if (command.Phase != TacticalCommandPhase.Enter && command.Phase != TacticalCommandPhase.Clear) command.CancelEntryPreview();
             if (command.Phase != TacticalCommandPhase.Pending && command.Phase != TacticalCommandPhase.Clear) command.CancelPreparation();
             if (PauseForExplosiveEvasion(command, tick)) return;
@@ -352,6 +361,7 @@ namespace Helodrace.Tactics
             command.Due = tick + TacticalCadence.DecisionInterval(command.Phase);
             RejoinTreatedMembers(command, tick);
             var active = command.Members.Where(member => Available(member, map) && member.Pawn.GetLord() == command.RaidLord).ToList();
+            if (command.CqbParent == null && active.Count > 0) RaidSupport.Advance(command, tick);
             if (active.Count == 0)
             {
                 if (command.CqbTeams.Count > 0)
@@ -1021,6 +1031,8 @@ namespace Helodrace.Tactics
                     byPawn.Remove(member.Pawn);
             ReleaseClaims(command);
             squads.Remove(command.Id);
+            if (!squads.Values.Any(c => c.Link.Unit.Organization == command.Link.Unit.Organization && !c.Terminal))
+                RaidSupport.Cancel(command.Link.Unit.Organization);
             Current.Game?.GetComponent<GameComponent_TacticalCommands>()?.Forget(command);
             if (squads.Count == 0)
             {

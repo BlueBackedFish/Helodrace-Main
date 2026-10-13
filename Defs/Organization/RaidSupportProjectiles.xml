@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BaseBullet">
+    <defName>HD_RaidHCSmokeShell</defName>
+    <label>HC 연막 지원탄</label>
+    <thingClass>Projectile_Explosive</thingClass>
+    <graphicData><texPath>Weapons/GreatWar/Ammo/HD_81mmM57WP</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.6,0.6)</drawSize></graphicData>
+    <projectile><damageDef>Smoke</damageDef><damageAmountBase>0</damageAmountBase><speed>40</speed><flyOverhead>true</flyOverhead><explosionRadius>3</explosionRadius><soundExplode>Artillery_ShellExploded</soundExplode></projectile>
+    <modExtensions><li Class="Helodrace.HelodGasOnExplosionExtension"><gasDef>HD_HCSmokeGrid</gasDef><radius>4</radius></li></modExtensions>
+  </ThingDef>
+</Defs>

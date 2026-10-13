@@ -41,6 +41,7 @@ namespace Helodrace.Squads
             pawn.TryGetComp<PawnOrganizationComponent>()?.Clear();
             if (!organization.AllMembers.Any())
             {
+                RaidSupport.Cancel(organization);
                 organizations.Remove(organization);
                 byId.Remove(organization.id);
                 commandDue.Remove(organization);

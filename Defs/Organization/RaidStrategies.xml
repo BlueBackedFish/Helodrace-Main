@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RaidStrategyDef>
+    <defName>HD_SweepAssault</defName>
+    <label>소탕 습격</label>
+    <workerClass>Helodrace.Squads.RaidStrategyWorker_HelodSweep</workerClass>
+    <selectionWeightPerPointsCurve><points><li>(0, 1)</li><li>(10000, 1)</li></points></selectionWeightPerPointsCurve>
+    <arriveModes><li>EdgeWalkIn</li><li>EdgeWalkInGroups</li></arriveModes>
+    <letterLabelEnemy>소탕 습격</letterLabelEnemy>
+    <arrivalTextEnemy>습격자들이 정착지를 소탕하기 위해 접근하고 있습니다.</arrivalTextEnemy>
+    <pawnsCanBringFood>true</pawnsCanBringFood>
+  </RaidStrategyDef>
+</Defs>

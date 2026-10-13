@@ -256,7 +256,7 @@
   <HD_SCR300_SuppliesDispatched>{1} dispatched {0} to the radio operator's position.</HD_SCR300_SuppliesDispatched>
   <HD_SCR300_InfantryDispatched>{0} deployed {1} supporting infantry near the radio operator.</HD_SCR300_InfantryDispatched>
   <HD_SCR300_DeploymentFailed>The forward base could not assemble an infantry detachment.</HD_SCR300_DeploymentFailed>
-  <HD_SCR300_SolarFlare>Solar flare interference has disabled the SCR-300.</HD_SCR300_SolarFlare>
+  <HD_SCR300_SolarFlare>Solar flare interference or hostile jamming has disabled the SCR-300.</HD_SCR300_SolarFlare>
   <HD_SCR300_TargetNotVisible>The radio operator must have line of sight to the artillery or CAS target.</HD_SCR300_TargetNotVisible>
   <HD_M8Flare_TimeRemaining>Flare burn time remaining: {0}</HD_M8Flare_TimeRemaining>
   <HD_CAS_Guidance_TalkOn>Talk-on guidance</HD_CAS_Guidance_TalkOn>

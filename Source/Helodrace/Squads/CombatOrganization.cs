@@ -215,7 +215,7 @@ namespace Helodrace.Squads
         }
     }
 
-    public sealed class CombatOrganization : IExposable
+    public sealed partial class CombatOrganization : IExposable
     {
         public string id;
         public Faction faction;
@@ -224,6 +224,17 @@ namespace Helodrace.Squads
         public float initialRaidPoints;
         public float formationPointsSpent;
         private float supportPointsRemaining;
+        private float supportPointsSpent;
+        private int nextSupportReservation = 1;
+        private List<SupportReservation> supportReservations = new List<SupportReservation>();
+        public int PendingSupportCount => supportReservations.Count;
+        public float SupportPointsReserved => supportReservations.Sum(r => r.Cost);
+        public sealed class SupportReservation : IExposable
+        {
+            public int Id;
+            public float Cost;
+            public void ExposeData() { Scribe_Values.Look(ref Id, "id"); Scribe_Values.Look(ref Cost, "cost"); }
+        }
         public IEnumerable<CombatGroup> AllGroups => rootGroups.SelectMany(group => group.DescendantsAndSelf);
         public IEnumerable<Pawn> AllMembers => AllGroups.SelectMany(group => group.Members).Distinct();
         public float SupportPointsRemaining => supportPointsRemaining;
@@ -244,6 +255,7 @@ namespace Helodrace.Squads
             initialRaidPoints = plan.initialRaidPoints;
             formationPointsSpent = plan.formationPointsSpent;
             supportPointsRemaining = plan.SupportPointsRemaining;
+            supportPointsSpent = 0; supportReservations.Clear(); nextSupportReservation = 1;
         }
         public float GetSupportPoints() => supportPointsRemaining;
         public bool CanSpendSupportPoints(float cost) => cost >= 0 && !float.IsNaN(cost)
@@ -252,12 +264,31 @@ namespace Helodrace.Squads
         {
             if (!CanSpendSupportPoints(cost)) return false;
             supportPointsRemaining -= cost;
+            supportPointsSpent += cost;
+            return true;
+        }
+        public int ReserveSupport(float cost)
+        {
+            if (cost <= 0 || supportReservations.Count >= 4 || !CanSpendSupportPoints(cost)) return 0;
+            int id = nextSupportReservation++;
+            supportPointsRemaining -= cost;
+            supportReservations.Add(new SupportReservation { Id = id, Cost = cost });
+            return id;
+        }
+        public bool FinishSupport(int id, bool success)
+        {
+            SupportReservation reservation = supportReservations.Find(r => r.Id == id);
+            if (reservation == null) return false;
+            supportReservations.Remove(reservation);
+            if (success) supportPointsSpent += reservation.Cost;
+            else supportPointsRemaining += reservation.Cost;
             return true;
         }
         public void RefundSupportPoints(float cost)
         {
             if (cost < 0 || float.IsNaN(cost) || float.IsInfinity(cost)) return;
-            supportPointsRemaining = Math.Min(Math.Max(0, initialRaidPoints - formationPointsSpent),
+            supportPointsSpent = Math.Max(0, supportPointsSpent - cost);
+            supportPointsRemaining = Math.Min(Math.Max(0, initialRaidPoints - formationPointsSpent - SupportPointsReserved - supportPointsSpent),
                 supportPointsRemaining + cost);
         }
         public void RestoreTreeLinks()
@@ -297,11 +328,17 @@ namespace Helodrace.Squads
             Scribe_Values.Look(ref initialRaidPoints, "initialRaidPoints");
             Scribe_Values.Look(ref formationPointsSpent, "formationPointsSpent");
             Scribe_Values.Look(ref supportPointsRemaining, "supportPointsRemaining");
+            Scribe_Values.Look(ref supportPointsSpent, "supportPointsSpent");
+            Scribe_Values.Look(ref nextSupportReservation, "nextSupportReservation", 1);
+            Scribe_Collections.Look(ref supportReservations, "supportReservations", LookMode.Deep);
+            ExposeRaidSupport();
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 rootGroups = rootGroups ?? new List<CombatGroup>();
+                supportReservations = supportReservations ?? new List<SupportReservation>();
                 RestoreTreeLinks();
             }
         }
+        partial void ExposeRaidSupport();
     }
 }

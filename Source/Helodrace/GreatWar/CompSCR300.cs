@@ -12,8 +12,8 @@ namespace Helodrace
         public static bool IsBlackout(Map map)
         {
             GameConditionDef solarFlare = DefDatabase<GameConditionDef>.GetNamedSilentFail("SolarFlare");
-            return solarFlare != null
-                && map?.gameConditionManager?.ConditionIsActive(solarFlare) == true;
+            return solarFlare != null && map?.gameConditionManager?.ConditionIsActive(solarFlare) == true
+                || map?.GetComponent<Helodrace.Tactics.MapComponent_TacticalCommands>()?.PlayerRadioJammed == true;
         }
 
         public static bool HasLineOfSight(Pawn radioOperator, Map map, IntVec3 cell)
