@@ -106,14 +106,7 @@
   </JobDef>
 
   <JobDef>
-    <defName>HD_ThrowInventoryGrenadeClose</defName>
-    <driverClass>Helodrace.JobDriver_ThrowInventoryGrenade</driverClass>
-    <reportString>preparing a close grenade throw.</reportString>
-    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
-  </JobDef>
-
-  <JobDef>
-    <defName>HD_ThrowInventoryGrenadeNormal</defName>
+    <defName>HD_ThrowInventoryGrenade</defName>
     <driverClass>Helodrace.JobDriver_ThrowInventoryGrenade</driverClass>
     <reportString>preparing a grenade throw.</reportString>
     <allowOpportunisticPrefix>false</allowOpportunisticPrefix>

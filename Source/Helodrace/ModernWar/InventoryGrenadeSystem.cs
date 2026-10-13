@@ -9,14 +9,13 @@ namespace Helodrace
 {
     public static class InventoryGrenadeUtility
     {
-        public const float CloseThrowRange = 5.9f;
-        public const float NormalThrowRange = 13.9f;
-        public const int CloseThrowTicks = 90;
-        public const int NormalThrowTicks = 180;
-        private const float CloseThrowMinimumMissRadius = 0.08f;
-        private const float CloseThrowMaximumMissRadius = 1.15f;
-        private const float NormalThrowMinimumMissRadius = 0.16f;
-        private const float NormalThrowMaximumMissRadius = 2.4f;
+        public const string ThrowJobName = "HD_ThrowInventoryGrenade";
+        public const float ThrowRange = 20.85f;
+        public const int ThrowTicks = 150;
+        public const float UnderhandDistance = 8.85f;
+        private const float MinimumMissRadius = 0.16f;
+        private const float MaximumMissRadius = 2.4f;
+        public static bool UnderhandThrow(float distance) => distance <= UnderhandDistance;
         private static readonly IntVec3[] LeanThrowOffsets =
         {
             new IntVec3(0, 0, 1),
@@ -120,39 +119,27 @@ namespace Helodrace
             }
 
             Texture2D grenadeIcon = grenades[0].def.uiIcon ?? BaseContent.BadTex;
-            Texture2D closeThrowIcon =
-                ContentFinder<Texture2D>.Get("Skill/HD_ThrowShort", false) ?? grenadeIcon;
-            Texture2D normalThrowIcon =
+            Texture2D throwIcon =
                 ContentFinder<Texture2D>.Get("Skill/HD_ThrowLong", false) ?? grenadeIcon;
-            Command_Action closeCommand = new Command_Action
+            Command_Action command = new Command_Action
             {
-                defaultLabel = "HD_Grenade_CloseThrow".Translate().ToString(),
-                defaultDesc = "HD_Grenade_CloseThrowDesc".Translate(
-                    CloseThrowTicks.ToStringTicksToPeriod(), CloseThrowRange).ToString(),
-                icon = closeThrowIcon,
-                action = () => BeginChooseGrenade(pawn, true)
-            };
-            Command_Action normalCommand = new Command_Action
-            {
-                defaultLabel = "HD_Grenade_NormalThrow".Translate().ToString(),
-                defaultDesc = "HD_Grenade_NormalThrowDesc".Translate(
-                    NormalThrowTicks.ToStringTicksToPeriod(), NormalThrowRange).ToString(),
-                icon = normalThrowIcon,
-                action = () => BeginChooseGrenade(pawn, false)
+                defaultLabel = "HD_Grenade_Throw".Translate().ToString(),
+                defaultDesc = "HD_Grenade_ThrowDesc".Translate(
+                    ThrowTicks.ToStringTicksToPeriod(), ThrowRange).ToString(),
+                icon = throwIcon,
+                action = () => BeginChooseGrenade(pawn)
             };
 
             if (!CanUseGrenades(pawn))
             {
                 string reason = "IsIncapableOfViolenceShort".Translate();
-                closeCommand.Disable(reason);
-                normalCommand.Disable(reason);
+                command.Disable(reason);
             }
 
-            yield return closeCommand;
-            yield return normalCommand;
+            yield return command;
         }
 
-        private static void BeginChooseGrenade(Pawn pawn, bool closeThrow)
+        private static void BeginChooseGrenade(Pawn pawn)
         {
             if (!CanUseGrenades(pawn))
             {
@@ -178,7 +165,7 @@ namespace Helodrace
 
             if (grenades.Count == 1)
             {
-                BeginTargeting(pawn, grenades[0].def, closeThrow);
+                BeginTargeting(pawn, grenades[0].def);
                 return;
             }
 
@@ -187,15 +174,15 @@ namespace Helodrace
                 int count = pawn.inventory.Count(grenade.def);
                 return new FloatMenuOption(
                     "HD_Grenade_SelectEntry".Translate(grenade.def.LabelCap, count),
-                    () => BeginTargeting(pawn, grenade.def, closeThrow),
+                    () => BeginTargeting(pawn, grenade.def),
                     grenade.def);
             }).ToList();
             Find.WindowStack.Add(new FloatMenu(options));
         }
 
-        private static void BeginTargeting(Pawn pawn, ThingDef grenadeDef, bool closeThrow)
+        private static void BeginTargeting(Pawn pawn, ThingDef grenadeDef)
         {
-            float range = closeThrow ? CloseThrowRange : NormalThrowRange;
+            float range = ThrowRange;
             TargetingParameters parameters = new TargetingParameters
             {
                 canTargetLocations = true,
@@ -216,7 +203,7 @@ namespace Helodrace
                 if (target.IsValid && target.Cell.InBounds(pawn.Map))
                 {
                     float distance = pawn.Position.DistanceTo(target.Cell);
-                    float missRadius = ThrowMissRadius(pawn, closeThrow, distance);
+                    float missRadius = ThrowMissRadius(pawn, distance);
                     Color color = CanThrowAt(pawn, target.Cell, range) ? Color.yellow : Color.red;
                     GenDraw.DrawRadiusRing(target.Cell, Mathf.Max(0.1f, missRadius), color);
                 }
@@ -234,8 +221,7 @@ namespace Helodrace
                         return;
                     }
 
-                    JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(
-                        closeThrow ? "HD_ThrowInventoryGrenadeClose" : "HD_ThrowInventoryGrenadeNormal");
+                    JobDef jobDef = DefDatabase<JobDef>.GetNamedSilentFail(ThrowJobName);
                     if (jobDef == null)
                     {
                         return;
@@ -248,29 +234,21 @@ namespace Helodrace
             MapComponent_PersistentTargetingOverlay.Set(pawn.Map, drawPreview);
         }
 
-        public static float ThrowMissRadius(Pawn pawn, bool closeThrow, float distance)
+        public static float ThrowMissRadius(Pawn pawn, float distance)
         {
             int shootingLevel = pawn?.skills?.GetSkill(SkillDefOf.Shooting)?.Level ?? 0;
             float skillFactor = 1f - Mathf.Clamp01(shootingLevel / 20f);
-            float minimumRadius = closeThrow
-                ? CloseThrowMinimumMissRadius
-                : NormalThrowMinimumMissRadius;
-            float maximumRadius = closeThrow
-                ? CloseThrowMaximumMissRadius
-                : NormalThrowMaximumMissRadius;
-            float range = closeThrow ? CloseThrowRange : NormalThrowRange;
-            float distanceFactor = Mathf.Lerp(0.45f, 1f, Mathf.Clamp01(distance / range));
-            return Mathf.Lerp(minimumRadius, maximumRadius, Mathf.Pow(skillFactor, 1.15f))
+            float distanceFactor = Mathf.Lerp(0.45f, 1f, Mathf.Clamp01(distance / ThrowRange));
+            return Mathf.Lerp(MinimumMissRadius, MaximumMissRadius, Mathf.Pow(skillFactor, 1.15f))
                 * distanceFactor;
         }
 
         private static LocalTargetInfo ScatteredThrowTarget(
             Pawn pawn,
-            LocalTargetInfo intendedTarget,
-            bool closeThrow)
+            LocalTargetInfo intendedTarget)
         {
             float distance = pawn.Position.DistanceTo(intendedTarget.Cell);
-            float missRadius = ThrowMissRadius(pawn, closeThrow, distance);
+            float missRadius = ThrowMissRadius(pawn, distance);
             Vector2 missOffset = Rand.InsideUnitCircle * missRadius;
             Vector3 scatteredPosition = intendedTarget.CenterVector3
                 + new Vector3(missOffset.x, 0f, missOffset.y);
@@ -283,11 +261,10 @@ namespace Helodrace
         public static Projectile Launch(
             Pawn pawn,
             Thing grenade,
-            LocalTargetInfo target,
-            bool closeThrow)
+            LocalTargetInfo target)
         {
             ThingDef projectileDef = grenade?.def?.projectileWhenLoaded;
-            float range = closeThrow ? CloseThrowRange : NormalThrowRange;
+            float range = ThrowRange;
             if (grenade == null
                 || !CanUseGrenades(pawn)
                 || projectileDef == null
@@ -301,7 +278,7 @@ namespace Helodrace
             Projectile projectile = GenSpawn.Spawn(projectileDef, sourceCell, pawn.Map) as Projectile;
             if (projectile != null)
             {
-                LocalTargetInfo usedTarget = ScatteredThrowTarget(pawn, target, closeThrow);
+                LocalTargetInfo usedTarget = ScatteredThrowTarget(pawn, target);
                 Vector3 throwOrigin = pawn.DrawPos;
                 if (sourceCell != pawn.Position)
                 {
@@ -321,7 +298,7 @@ namespace Helodrace
 
                 if (projectile is Helodrace.ModernWar.Projectile_ModernGrenade modernGrenade)
                 {
-                    modernGrenade.ConfigureInventoryThrow(closeThrow);
+                    modernGrenade.ConfigureInventoryThrow(pawn.Position.DistanceTo(target.Cell));
                 }
             }
 
@@ -337,10 +314,6 @@ namespace Helodrace
 
         private LocalTargetInfo ThrowTarget => job.GetTarget(TargetInd);
         private Thing Grenade => job.GetTarget(GrenadeInd).Thing;
-        private bool CloseThrow => job.def.defName == "HD_ThrowInventoryGrenadeClose";
-        private float Range => CloseThrow
-            ? InventoryGrenadeUtility.CloseThrowRange
-            : InventoryGrenadeUtility.NormalThrowRange;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
 
@@ -351,12 +324,9 @@ namespace Helodrace
                 || pawn.inventory?.Contains(Grenade) != true
                 || !InventoryGrenadeUtility.IsInventoryGrenade(Grenade.def));
             this.FailOn(() => !ThrowTarget.IsValid
-                || !InventoryGrenadeUtility.CanThrowAt(pawn, ThrowTarget.Cell, Range));
+                || !InventoryGrenadeUtility.CanThrowAt(pawn, ThrowTarget.Cell, InventoryGrenadeUtility.ThrowRange));
 
-            int preparationTicks = CloseThrow
-                ? InventoryGrenadeUtility.CloseThrowTicks
-                : InventoryGrenadeUtility.NormalThrowTicks;
-            Toil prepare = Toils_General.Wait(preparationTicks, TargetInd);
+            Toil prepare = Toils_General.Wait(InventoryGrenadeUtility.ThrowTicks, TargetInd);
             prepare.WithProgressBarToilDelay(TargetInd);
             yield return prepare;
 
@@ -365,8 +335,7 @@ namespace Helodrace
                 initAction = () => InventoryGrenadeUtility.Launch(
                     pawn,
                     Grenade,
-                    ThrowTarget,
-                    CloseThrow),
+                    ThrowTarget),
                 defaultCompleteMode = ToilCompleteMode.Instant
             };
         }

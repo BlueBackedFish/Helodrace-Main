@@ -139,9 +139,9 @@ namespace Helodrace.ModernWar
                 180);
         }
 
-        public void ConfigureInventoryThrow(bool closeThrow)
+        public void ConfigureInventoryThrow(float distance)
         {
-            closeUnderhandThrow = closeThrow;
+            closeUnderhandThrow = InventoryGrenadeUtility.UnderhandThrow(distance);
             age = 0;
             landedTick = -1;
             InitializeTrajectory(

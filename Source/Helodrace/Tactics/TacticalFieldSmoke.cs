@@ -45,7 +45,7 @@ namespace Helodrace.Tactics
                 if (!settled || member.Pawn.stances.FullBodyBusy || member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) continue;
                 Thing grenade = SupportGrenade(member.Pawn, true, false);
                 if (grenade == null || !InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, member.Pawn.Position,
-                    target, InventoryGrenadeUtility.NormalThrowRange, out _)) continue;
+                    target, InventoryGrenadeUtility.ThrowRange, out _)) continue;
                 float candidate = member.Pawn.Position.DistanceToSquared(target);
                 if (candidate >= distance) continue;
                 best = member; stock = grenade; distance = candidate;

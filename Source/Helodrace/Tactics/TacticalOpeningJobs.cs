@@ -107,7 +107,7 @@ namespace Helodrace.Tactics
             {
                 if (!MapComponent_TacticalCommands.SafeOpeningThrow(pawn, Grenade, pawn.Position, job.targetA.Cell))
                 { EndJobWith(JobCondition.Incompletable); return; }
-                Projectile projectile = InventoryGrenadeUtility.Launch(pawn, Grenade, job.targetA, false);
+                Projectile projectile = InventoryGrenadeUtility.Launch(pawn, Grenade, job.targetA);
                 if (projectile == null) { EndJobWith(JobCondition.Incompletable); return; }
                 Released = true; Prepared = false;
                 pawn.Map.GetComponent<MapComponent_TacticalCommands>().Launched(pawn, job, projectile);

@@ -18,6 +18,18 @@ internal static class TacticalGrenadeTests
         int checks = 0;
         void Check(bool condition, string message) { checks++; if (!condition) throw new Exception(message); }
         string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../.."));
+        XElement jobs = XDocument.Load(Path.Combine(root, "Defs/GreatWar/Jobs_GreatWar.xml")).Root;
+        var throws = jobs.Elements().Where(def => (string)def.Element("driverClass") == "Helodrace.JobDriver_ThrowInventoryGrenade").ToArray();
+        Check(throws.Length == 1 && (string)throws[0].Element("defName") == InventoryGrenadeUtility.ThrowJobName,
+            "Player and field throws must resolve to one inventory throw job, without obsolete short/normal definitions.");
+        Check((int)typeof(InventoryGrenadeUtility).GetField("ThrowTicks").GetRawConstantValue() == 150
+            && TacticalOpeningPolicy.PrepareTicks + TacticalOpeningPolicy.ReleaseTicks == 150,
+            "Manual and tactical throws must both prepare for 2.5 seconds, excluding travel.");
+        Check(Math.Abs((float)typeof(InventoryGrenadeUtility).GetField("ThrowRange").GetRawConstantValue() - 13.9f * 1.5f) < .001f,
+            "The unified throw range must increase the previous maximum by 50 percent.");
+        Check(InventoryGrenadeUtility.UnderhandThrow(2) && InventoryGrenadeUtility.UnderhandThrow(8.85f)
+            && !InventoryGrenadeUtility.UnderhandThrow(8.86f) && !InventoryGrenadeUtility.UnderhandThrow(20.85f),
+            "Short and long flight presentation must switch by distance without a separate throw command.");
         XElement organization = XDocument.Load(Path.Combine(root, "Defs/Organization/Organization_Modern.xml")).Root;
         XElement squad = organization.Elements().Single(def => (string)def.Element("defName") == "HD_Formation_MW_RifleSquad");
         XElement team = organization.Elements().Single(def => (string)def.Element("defName") == "HD_Formation_MW_Fireteam");

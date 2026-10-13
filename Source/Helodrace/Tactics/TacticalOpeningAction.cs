@@ -30,7 +30,8 @@ namespace Helodrace.Tactics
 
     public static class TacticalOpeningPolicy
     {
-        public const int ObservationTicks = 90, PrepareTicks = 30, ReleaseTicks = 18, SettleTicks = 30;
+        public const int ObservationTicks = 90, ReleaseTicks = 18, SettleTicks = 30;
+        public const int PrepareTicks = InventoryGrenadeUtility.ThrowTicks - ReleaseTicks;
         public const int ThrowCandidatesPerSlice = 4;
         public static bool ContactStage(TacticalCommandPhase phase) => phase == TacticalCommandPhase.Breach
             || phase == TacticalCommandPhase.Observe || phase == TacticalCommandPhase.Support;
@@ -340,7 +341,7 @@ namespace Helodrace.Tactics
                         IntVec3 throwPosition = TacticalOpeningPolicy.FindThrowPosition(plan, returnPosition, Free, cell =>
                         {
                             if (!InventoryGrenadeUtility.TryFindThrowSourceFrom(member.Pawn, cell,
-                                target, InventoryGrenadeUtility.NormalThrowRange, out _)) return false;
+                                target, InventoryGrenadeUtility.ThrowRange, out _)) return false;
                             trajectory = true;
                             return SafeOpeningThrow(member.Pawn, grenade, cell, target, returnPosition);
                         });
@@ -488,7 +489,7 @@ namespace Helodrace.Tactics
             // A structural change can temporarily leave native regions dirty.
             // Unknown indoor friendly safety is not permission to throw.
             if (roofed && targetRoom == null) return false;
-            float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, false, position.DistanceTo(target));
+            float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, position.DistanceTo(target));
             float radius = TacticalGrenadePolicy.HazardRadius(projectile,
                 targetRoom != null && !targetRoom.UsesOutdoorTemperature) + scatter + .75f;
             bool throughCover = TacticalGrenadePolicy.DangerousThroughCover(projectile);

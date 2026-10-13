@@ -14,7 +14,6 @@
   <HD_AssembleM1MortarBarrel.reportString>M1 박격포 총열을 설치하는 중.</HD_AssembleM1MortarBarrel.reportString>
   <HD_DisassembleM1Mortar.reportString>M1 박격포를 분해하는 중.</HD_DisassembleM1Mortar.reportString>
   <HD_ReloadM79FromInventory.reportString>소지품에서 M79 유탄발사기를 재장전하는 중.</HD_ReloadM79FromInventory.reportString>
-  <HD_ThrowInventoryGrenadeClose.reportString>근거리 수류탄 투척을 준비하는 중.</HD_ThrowInventoryGrenadeClose.reportString>
-  <HD_ThrowInventoryGrenadeNormal.reportString>수류탄 투척을 준비하는 중.</HD_ThrowInventoryGrenadeNormal.reportString>
+  <HD_ThrowInventoryGrenade.reportString>수류탄 투척을 준비하는 중.</HD_ThrowInventoryGrenade.reportString>
   <HD_OperateMultiCrewTurret.reportString>다인 운용 포탑을 조작하는 중.</HD_OperateMultiCrewTurret.reportString>
 </LanguageData>
