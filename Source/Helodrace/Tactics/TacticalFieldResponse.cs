@@ -18,6 +18,10 @@ namespace Helodrace.Tactics
         public const int PlayerApproachRadius = 55;
         public const int HighWidth = 8, HighDepth = 6, CoverLimit = 64, CoverBatch = 96, CoverRefresh = 600;
         public const float MinimumCover = .15f;
+        public const int ContactGrace = 900;
+        public static bool Continue(int tick, int seen, int engaged) => tick - Math.Max(seen, engaged) < ContactGrace;
+        public static bool Prepare(bool defensive, bool support, bool takingFire, float range, int distanceSquared) =>
+            defensive || support || takingFire || distanceSquared <= range * range;
         public static bool ContactHandoffAllowed(TacticalContactResponse response, bool outside, bool openingOwned) =>
             !openingOwned && (response == null || outside && !response.DirectAttack && !response.Door);
         public static float CoverWeight(IntVec3 adjacent, IntVec3 threat)
@@ -124,6 +128,18 @@ namespace Helodrace.Tactics
                         < observer.Position.DistanceToSquared(nearest.Position)) nearest = contact;
                 }
                 if (nearest == null) return false;
+                float range = 0; bool takingFire = false;
+                foreach (var member in active)
+                {
+                    Verb gun = member.Pawn.equipment?.PrimaryEq?.PrimaryVerb;
+                    if (gun?.IsMeleeAttack == false) range = Math.Max(range, gun.EffectiveRange);
+                    int hurt = member.Pawn.mindState.lastHarmTick;
+                    takingFire |= hurt >= 0 && tick - hurt < 180;
+                }
+                // Distant observation alone must not stop an attacking squad's
+                // approach. Defense/support and incoming fire remain responses.
+                if (!TacticalFieldPolicy.Prepare(command.Defensive, support, takingFire, range,
+                    observer.Position.DistanceToSquared(nearest.Position))) return false;
                 IntVec3 focus = nearest?.Position ?? command.SupportAim;
                 var previous = command.ContactResponse;
                 bool outsideContact = !observer.Position.Roofed(map) && (previous == null
@@ -175,7 +191,7 @@ namespace Helodrace.Tactics
                         field.FocusAt = tick;
                     }
                 }
-            if (!permitted)
+            if (!permitted && !TacticalFieldPolicy.Continue(tick, field.LastSeen, field.LastEngaged))
             {
                 var screen = field.Screen;
                 bool returning = screen?.ActiveJob != null && screen.Thrower?.Spawned == true && !screen.Thrower.Dead && !screen.Thrower.Downed;

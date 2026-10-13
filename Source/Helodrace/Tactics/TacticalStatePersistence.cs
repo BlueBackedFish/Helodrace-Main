@@ -15,6 +15,8 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref LastProgressTick, "lastProgressTick");
             Scribe_Values.Look(ref FireCandidateCursor, "fireCandidateCursor");
             Scribe_Values.Look(ref FieldDecisionAt, "lowDecisionAt");
+            Scribe_Values.Look(ref FieldShotAt, "fieldShotAt", -1);
+            Scribe_Values.Look(ref FieldObservationAt, "fieldObservationAt");
             Scribe_Values.Look(ref LastPosition, "lastPosition");
             Scribe_Values.Look(ref Parking, "parking");
             Scribe_Values.Look(ref Passed, "passed");
