@@ -9,6 +9,16 @@ namespace Helodrace.Tactics
 {
     public static class TacticalPostFirePolicy
     {
+        public static bool IndividualContact(TacticalSquadCommand command, bool indoorDirect = false) =>
+            !command.Defensive && command.Plan != null && (!command.Plan.Direct || indoorDirect)
+                && command.Phase != TacticalCommandPhase.Pending && command.Phase != TacticalCommandPhase.Returning
+                && command.Phase != TacticalCommandPhase.Released;
+        public static bool SafeToFire(TacticalSquadCommand command) => !command.Terminal
+            && command.Phase != TacticalCommandPhase.BlastWait && command.ChargeAction == null
+            && !(command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared);
+        public static int CheckDelay(bool checkedNow, int pawnId) => checkedNow ? 15 + pawnId % 7 : 3 + pawnId % 3;
+        public static bool CanStop(TacticalLocalPlan plan, IntVec3 cell) => plan.Direct
+            || cell != plan.Opening && cell != plan.Outside && cell != plan.Inside && cell != plan.EntryLane;
         // Old value-only sightings may nominate a cell during recovery, but
         // its live occupant/identity and weapon LOS must still pass below.
         public static bool RecheckKnown(TacticalContact contact, int tick, bool recovery) => contact != null
@@ -56,9 +66,16 @@ namespace Helodrace.Tactics
 
     public sealed partial class TacticalSquadCommand
     {
-        public int EntryCombatUntil, EntryCandidateCursor;
+        public int EntryCombatUntil;
         public IntVec3 EntryCombatFocus = IntVec3.Invalid;
     }
+
+    public sealed partial class TacticalMemberCommand
+    {
+        public int FireCandidateCursor;
+    }
+
+    internal enum TacticalPostFireMode { Arrival, Recovery, Stack, Movement }
 
     public sealed partial class TacticalLocalPlan
     {
@@ -104,23 +121,39 @@ namespace Helodrace.Tactics
         }
 
         // False means only budget denial: the driver retries a few ticks later.
-        internal bool TryEntryFire(Pawn pawn, Job job, int tick) => TryPostFire(pawn, job, tick, recovery: false, out _);
+        internal bool IndividualContact(TacticalSquadCommand command) => TacticalPostFirePolicy.IndividualContact(command,
+            command.Plan?.Direct == true && command.Plan.Opening.InBounds(map) && command.Plan.Opening.Roofed(map));
+        internal bool TryEntryFire(Pawn pawn, Job job, int tick) => TryPostFire(pawn, job, tick, TacticalPostFireMode.Arrival, out _);
+        internal bool TryStackFire(Pawn pawn, Job job, int tick) => TryPostFire(pawn, job, tick, TacticalPostFireMode.Stack, out _);
+        internal bool TryMovementFire(Pawn pawn, Job job, int tick, out bool engaged) =>
+            TryPostFire(pawn, job, tick, TacticalPostFireMode.Movement, out engaged);
         internal bool TryRecoveryFire(Pawn pawn, Job job, int tick, out bool engaged) =>
-            TryPostFire(pawn, job, tick, recovery: true, out engaged);
-        private bool TryPostFire(Pawn pawn, Job job, int tick, bool recovery, out bool engaged)
+            TryPostFire(pawn, job, tick, TacticalPostFireMode.Recovery, out engaged);
+        private bool TryPostFire(Pawn pawn, Job job, int tick, TacticalPostFireMode mode, out bool engaged)
         {
             engaged = false;
+            bool recovery = mode == TacticalPostFireMode.Recovery;
+            bool local = mode == TacticalPostFireMode.Stack || mode == TacticalPostFireMode.Movement;
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.Plan == null
-                || !(recovery ? TacticalExplosiveEvasionPolicy.OwnsMovement(job) : TacticalEntryCombatPolicy.ArrivalPhase(command.Phase)
-                    || command.CqbParent != null && command.Phase == TacticalCommandPhase.Complete) || pawn.CurJob != job
-                || command.Members.Find(m => m.Pawn == pawn)?.Job != job) return true;
+                || !TacticalPostFirePolicy.SafeToFire(command) || job.playerForced
+                || !(recovery ? TacticalExplosiveEvasionPolicy.OwnsMovement(job) : local ? IndividualContact(command)
+                    : TacticalEntryCombatPolicy.ArrivalPhase(command.Phase)
+                    || command.CqbParent != null && command.Phase == TacticalCommandPhase.Complete) || pawn.CurJob != job) return true;
+            TacticalMemberCommand member = command.Members.Find(m => m.Pawn == pawn);
+            if (member?.Job != job || mode == TacticalPostFireMode.Movement && !TacticalPostFirePolicy.CanStop(command.Plan, pawn.Position)) return true;
+            if (mode == TacticalPostFireMode.Movement)
+                foreach (Thing thing in pawn.Position.GetThingList(map))
+                    if (thing is Pawn other && other != pawn && !other.Dead && !other.Downed && !other.HostileTo(pawn))
+                        return true; // Followers pass the shooter instead of piling onto its firing tile.
             if (pawn.stances.FullBodyBusy)
             {
                 if (pawn.stances.curStance is Stance_Busy busy && busy.focusTarg.Thing is Pawn enemy
-                    && !enemy.Dead && !enemy.Downed && enemy.HostileTo(pawn))
+                    && !enemy.Dead && !enemy.Downed && enemy.HostileTo(pawn) && !OpeningOwnsShot(pawn, enemy.Position))
                 {
                     engaged = true;
-                    command.EntryCombatUntil = Math.Max(command.EntryCombatUntil, tick + TacticalEntryCombatPolicy.QuietTicks);
+                    member.LastProgressTick = tick;
+                    if (TacticalEntryCombatPolicy.ArrivalPhase(command.Phase))
+                        command.EntryCombatUntil = Math.Max(command.EntryCombatUntil, tick + TacticalEntryCombatPolicy.QuietTicks);
                 }
                 return true;
             }
@@ -137,7 +170,8 @@ namespace Helodrace.Tactics
                 {
                     if (!TacticalPostFirePolicy.RecheckKnown(contact, tick, recovery)) continue;
                     Pawn enemy = contact.Position.GetFirstPawn(map);
-                    if (enemy?.thingIDNumber == contact.EnemyId && EntryFireTarget(pawn, enemy, verb, radius))
+                    if (enemy?.thingIDNumber == contact.EnemyId && !OpeningOwnsShot(pawn, enemy.Position)
+                        && EntryFireTarget(pawn, enemy, verb, radius))
                     { target = enemy; break; }
                 }
                 if (target == null)
@@ -147,19 +181,27 @@ namespace Helodrace.Tactics
                     var pawns = map.mapPawns.AllPawnsSpawned;
                     for (int i = 0; i < Math.Min(TacticalEntryCombatPolicy.CandidateLimit, pawns.Count); i++)
                     {
-                        if (command.EntryCandidateCursor >= pawns.Count) command.EntryCandidateCursor = 0;
-                        Pawn enemy = pawns[command.EntryCandidateCursor++];
-                        if (EntryFireTarget(pawn, enemy, verb, radius)) { target = enemy; break; }
+                        if (member.FireCandidateCursor >= pawns.Count) member.FireCandidateCursor = 0;
+                        Pawn enemy = pawns[member.FireCandidateCursor++];
+                        if (!OpeningOwnsShot(pawn, enemy.Position) && EntryFireTarget(pawn, enemy, verb, radius)) { target = enemy; break; }
                     }
                 }
                 if (target == null) return true;
-                engaged = true;
-                if (recovery) pawn.pather.StopDead();
-                command.EntryCombatFocus = target.Position;
-                command.EntryCombatUntil = Math.Max(command.EntryCombatUntil, tick + TacticalEntryCombatPolicy.QuietTicks);
                 bool ranged = TacticalThreatEligibility.Ranged(target);
                 if (ranged) RecordContact(command, target.thingIDNumber, target.Position, pawn.Position, tick);
                 else ObserveMeleeThreat(command, target, pawn, tick, ranged: false);
+                // A target-side sighting can create the observation/grenade
+                // action above. Rear/side watches fire; that action still owns
+                // retreating from the opening rather than holding a gunfight.
+                if (OpeningOwnsShot(pawn, target.Position)) return true;
+                engaged = true;
+                member.LastProgressTick = tick;
+                if (recovery || mode == TacticalPostFireMode.Movement) pawn.pather.StopDead();
+                if (TacticalEntryCombatPolicy.ArrivalPhase(command.Phase))
+                {
+                    command.EntryCombatFocus = target.Position;
+                    command.EntryCombatUntil = Math.Max(command.EntryCombatUntil, tick + TacticalEntryCombatPolicy.QuietTicks);
+                }
                 pawn.rotationTracker.FaceCell(target.Position);
                 if (pawn.Position.DistanceToSquared(target.Position) <= 2 && pawn.meleeVerbs.TryMeleeAttack(target)) return true;
                 if (verb.Available() && verb.TryStartCastOn(target)) ContactShot(pawn);

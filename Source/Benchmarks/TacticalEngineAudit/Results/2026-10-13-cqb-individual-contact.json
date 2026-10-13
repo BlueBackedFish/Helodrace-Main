@@ -1,0 +1,77 @@
+﻿{
+    "date":  "2026-10-13",
+    "fixture":  "Copied 외부인들2, LOW 12, central building, both sides injury-protected",
+    "limitation":  "Persistent invulnerable defenders: does not prove post-combat resume or stack watch visuals. Run 01 exposed firing-cell overlap; run 02 is final corrected DLL.",
+    "runs":  [
+                 {
+                     "run":  "01",
+                     "complete":  true,
+                     "error":  null,
+                     "measuredTicks":  2203,
+                     "population":  12,
+                     "supportThrows":  1,
+                     "supportReturns":  1,
+                     "passedOpening":  12,
+                     "contactShots":  72,
+                     "jobFailures":  0,
+                     "unsafeEntries":  0,
+                     "uniqueFinalPositions":  3,
+                     "finalJobs":  [
+                                       "Helod26463@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26471@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26480@(131, 0, 152):HD_NewTacticalIngress",
+                                       "Helod26488@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26496@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26504@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26512@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26520@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26528@(132, 0, 152):HD_NewTacticalIngress",
+                                       "Helod26536@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26544@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26552@(131, 0, 150):HD_NewTacticalIngress"
+                                   ],
+                     "commands":  [
+                                      "HD_Raid_1::HD_Raid_1_Group_1:Enter opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=0/12 passed=12 entered=3 jobs=HD_NewTacticalIngress=12"
+                                  ],
+                     "cqbExecutionException":  false,
+                     "profilerDisabled":  true,
+                     "sourceSavePreserved":  true,
+                     "assemblySha256":  "7FA24764E8474F58307D91888BF36D8071C69D01CCBE94131E4EC0D1C6277704"
+                 },
+                 {
+                     "run":  "02",
+                     "complete":  true,
+                     "error":  null,
+                     "measuredTicks":  2202,
+                     "population":  12,
+                     "supportThrows":  1,
+                     "supportReturns":  1,
+                     "passedOpening":  12,
+                     "contactShots":  70,
+                     "jobFailures":  0,
+                     "unsafeEntries":  0,
+                     "uniqueFinalPositions":  12,
+                     "finalJobs":  [
+                                       "Helod26463@(131, 0, 147):HD_NewTacticalIngress",
+                                       "Helod26471@(131, 0, 143):HD_NewTacticalIngress",
+                                       "Helod26480@(131, 0, 152):HD_NewTacticalIngress",
+                                       "Helod26488@(131, 0, 144):HD_NewTacticalIngress",
+                                       "Helod26496@(132, 0, 147):HD_NewTacticalIngress",
+                                       "Helod26504@(132, 0, 148):HD_NewTacticalIngress",
+                                       "Helod26512@(131, 0, 148):HD_NewTacticalIngress",
+                                       "Helod26520@(131, 0, 149):HD_NewTacticalIngress",
+                                       "Helod26528@(132, 0, 152):HD_NewTacticalIngress",
+                                       "Helod26536@(131, 0, 150):HD_NewTacticalIngress",
+                                       "Helod26544@(131, 0, 145):HD_NewTacticalIngress",
+                                       "Helod26552@(131, 0, 146):HD_NewTacticalIngress"
+                                   ],
+                     "commands":  [
+                                      "HD_Raid_1::HD_Raid_1_Group_1:Enter opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=0/12 passed=12 entered=12 jobs=HD_NewTacticalIngress=12"
+                                  ],
+                     "cqbExecutionException":  false,
+                     "profilerDisabled":  true,
+                     "sourceSavePreserved":  true,
+                     "assemblySha256":  "00676FFA094CD15E9A00589F5B9726EA8EAAA9CBBB047B2BB2D512C525674C0A"
+                 }
+             ]
+}

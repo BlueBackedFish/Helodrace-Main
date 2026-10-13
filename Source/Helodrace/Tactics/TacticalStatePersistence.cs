@@ -13,6 +13,7 @@ namespace Helodrace.Tactics
         {
             Scribe_Values.Look(ref RetryTick, "retryTick");
             Scribe_Values.Look(ref LastProgressTick, "lastProgressTick");
+            Scribe_Values.Look(ref FireCandidateCursor, "fireCandidateCursor");
             Scribe_Values.Look(ref LastPosition, "lastPosition");
             Scribe_Values.Look(ref Parking, "parking");
             Scribe_Values.Look(ref Passed, "passed");
@@ -86,7 +87,6 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref ContactCloseAt, "contactCloseAt");
             Scribe_Values.Look(ref EntryCombatUntil, "entryCombatUntil");
             Scribe_Values.Look(ref EvasionStarted, "evasionStarted", -1);
-            Scribe_Values.Look(ref EntryCandidateCursor, "entryCandidateCursor");
             Scribe_Values.Look(ref EntryCombatFocus, "entryCombatFocus", IntVec3.Invalid);
             Scribe_Values.Look(ref ReplanAfterSupport, "replanAfterSupport");
             Scribe_Values.Look(ref GoalSecured, "goalSecured");

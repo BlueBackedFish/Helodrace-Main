@@ -8,7 +8,7 @@ namespace Helodrace.Tactics
 {
     public abstract class TacticalJobDriver : JobDriver
     {
-        private int nextEntryShot;
+        private int nextEntryShot, movementQuietUntil;
         public bool AtPost;
         public bool Crossed;
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
@@ -54,23 +54,63 @@ namespace Helodrace.Tactics
                 AtPost = true; pawn.pather.StopDead(); pawn.rotationTracker.FaceCell(face);
                 pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.Wake(pawn);
             };
-            // Only arrival posts fire. Stack, observation and blast-wait posts
-            // retain their stationary discipline without tactical tick queries.
-            if (entryCombat) hold.tickAction = () =>
+            // Only post jobs opt into stack fire. Observation/throw/charge
+            // drivers also use Hold, but retain exclusive action ownership.
+            if (entryCombat || job.def.defName == "HD_NewTacticalPost") hold.tickAction = () =>
             {
                 int tick = GenTicks.TicksGame;
                 if (tick < nextEntryShot) return;
-                nextEntryShot = tick + 30 + pawn.thingIDNumber % 7;
-                if (pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.TryEntryFire(pawn, job, tick) == false)
-                    nextEntryShot = tick + 3 + pawn.thingIDNumber % 3;
+                var owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
+                bool checkedNow = (entryCombat ? owner?.TryEntryFire(pawn, job, tick) : owner?.TryStackFire(pawn, job, tick)) != false;
+                nextEntryShot = tick + TacticalPostFirePolicy.CheckDelay(checkedNow, pawn.thingIDNumber);
+                if (!pawn.stances.FullBodyBusy) pawn.rotationTracker.FaceCell(face);
             };
             return hold;
+        }
+        protected IEnumerable<Toil> CombatMove(TargetIndex destination)
+        {
+            var owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
+            Toil gate = AdmitMovement();
+            Toil move = Toils_Goto.GotoCell(destination, PathEndMode.OnCell);
+            Toil done = Toils_General.Do(() => { });
+            Toil contact = ToilMaker.MakeToil("TacticalIndividualContact");
+            contact.defaultCompleteMode = ToilCompleteMode.Never;
+            contact.handlingFacing = true;
+            contact.initAction = () => { AtPost = false; pawn.pather.StopDead(); };
+            bool Check(int tick, out bool engaged)
+            {
+                engaged = false;
+                if (tick < nextEntryShot) return false;
+                bool checkedNow = owner == null || owner.TryMovementFire(pawn, job, tick, out engaged);
+                nextEntryShot = tick + TacticalPostFirePolicy.CheckDelay(checkedNow, pawn.thingIDNumber);
+                if (engaged) movementQuietUntil = tick + TacticalEntryCombatPolicy.QuietTicks;
+                return checkedNow;
+            }
+            move.AddPreTickAction(() =>
+            {
+                if (Check(GenTicks.TicksGame, out bool engaged) && engaged) JumpToToil(contact);
+            });
+            contact.tickAction = () =>
+            {
+                int tick = GenTicks.TicksGame;
+                if (TacticalExplosiveEvasionPolicy.CanReturn(tick, movementQuietUntil,
+                    Check(tick, out bool engaged), engaged, pawn.stances.FullBodyBusy)) ReadyForNextToil();
+            };
+            // Jumping between toils preserves the owned job and gun warmup.
+            // Followers have independent drivers and keep their original path.
+            yield return gate;
+            yield return move;
+            yield return Toils_Jump.Jump(done);
+            yield return contact;
+            yield return Toils_Jump.Jump(gate);
+            yield return done;
         }
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref AtPost, "tacticalAtPost");
             Scribe_Values.Look(ref Crossed, "tacticalCrossed");
+            Scribe_Values.Look(ref movementQuietUntil, "movementQuietUntil");
         }
     }
     public sealed class JobDriver_TacticalPost : TacticalJobDriver
@@ -78,8 +118,8 @@ namespace Helodrace.Tactics
         protected override IEnumerable<Toil> MakeNewToils()
         {
             BindOwner();
-            yield return AdmitMovement();
-            yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+            job.canUseRangedWeapon = false;
+            foreach (Toil toil in CombatMove(TargetIndex.A)) yield return toil;
             yield return Hold(job.targetB.Cell, job.count == 1);
         }
     }
@@ -121,8 +161,9 @@ namespace Helodrace.Tactics
                 yield return AdmitMovement();
                 yield return Toils_Goto.GotoCell(job.targetQueueA[1].Cell, PathEndMode.OnCell);
             }
-            yield return AdmitMovement();
-            yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
+            // Fire while moving toward an interior post only after clearing
+            // the mouth/lane. A stopped shooter must not plug the entrance.
+            foreach (Toil toil in CombatMove(TargetIndex.C)) yield return toil;
             yield return Hold(job.targetB.Cell, entryCombat: true);
         }
     }

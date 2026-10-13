@@ -42,6 +42,7 @@ namespace Helodrace.Tactics
         internal bool StackMovementPaused(Pawn pawn, Job job) => !job.playerForced
             && byPawn.TryGetValue(pawn, out TacticalSquadCommand command)
             && (TacticalExplosiveEvasionPolicy.Pending(pawn, command) || command.ContactResponse != null
+                && !IndividualContact(command)
                 && !TacticalEntryCombatPolicy.CommittedIngress(command)
                 && command.ChargeAction == null
                 && !(command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared));
@@ -91,6 +92,19 @@ namespace Helodrace.Tactics
         }
         private bool RespondToContacts(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
+            // CQB posts react individually. Keep the existing destination jobs
+            // for followers instead of replacing the whole squad with guards.
+            if (IndividualContact(command) || command.CqbTeams.Exists(IndividualContact))
+            {
+                if (command.ContactResponse != null)
+                {
+                    foreach (IntVec3 cell in command.ContactResponse.Occupied)
+                        if (!OriginalClaim(command, cell) && claims.TryGetValue(cell, out var owner) && owner == command) claims.Remove(cell);
+                    command.ContactResponse = null; ContactResumes++;
+                }
+                command.ContactRestoring = false;
+                return false;
+            }
             // Never preempt a launched throw or any C4 installation/safety
             // sequence. Its driver/controller must retain the live action.
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
