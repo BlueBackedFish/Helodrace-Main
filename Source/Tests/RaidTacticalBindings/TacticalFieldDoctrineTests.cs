@@ -105,19 +105,26 @@ internal static class TacticalFieldDoctrineTests
         foreach (var forward in GenAdj.CardinalDirections)
         {
             var side = new IntVec3(-forward.z, 0, forward.x);
-            check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor + side * 14, forward, 14, 8)
-                && TacticalFieldDoctrine.WithinEllipse(anchor, anchor + forward * 8, forward, 14, 8)
-                && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + forward * 9, forward, 14, 8)
-                && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + side * 14 + forward, forward, 14, 8),
+            check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor + side * 25, forward, TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth)
+                && TacticalFieldDoctrine.WithinEllipse(anchor, anchor + forward * 12, forward, TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth)
+                && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + forward * 13, forward, TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth)
+                && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + side * 25 + forward, forward, TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth)
+                && TacticalFieldDoctrine.WithinEllipse(anchor, anchor + side * 25, forward, TacticalFieldDoctrine.LowRadius, TacticalFieldDoctrine.LowDepth),
                 "LOW's main zone is wide across the enemy direction and shallow along it, not a circle.");
         }
         var angle = new IntVec3(60, 0, 25);
-        check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor + TacticalFieldDoctrine.Offset(angle, 12, 0), angle, 14, 8)
-            && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + TacticalFieldDoctrine.Offset(angle, 0, 12), angle, 14, 8),
+        check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor + TacticalFieldDoctrine.Offset(angle, 22, 0), angle,
+                TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth)
+            && !TacticalFieldDoctrine.WithinEllipse(anchor, anchor + TacticalFieldDoctrine.Offset(angle, 0, 16), angle,
+                TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth),
             "The ellipse follows the actual angled enemy direction.");
         check(TacticalFieldDoctrine.WithinEllipse(anchor, anchor, IntVec3.Zero, 14, 8), "A zero facing does not divide by zero.");
+        check(TacticalLowDefenseSearch.CoverCell(anchor, 0) == anchor + new IntVec3(-25, 0, -25)
+            && TacticalLowDefenseSearch.CoverCell(anchor, TacticalLowDefenseSearch.CoverGridCount - 1) == anchor + new IntVec3(25, 0, 25),
+            "Shared cover sampling spans the enlarged ellipse instead of retaining the old fourteen-cell grid.");
         foreach (int side in new[] { -1, 1 })
-            check(TacticalFieldDoctrine.WithinEllipse(anchor, TacticalFieldDoctrine.FlankPoint(anchor, angle, side, true), angle, 24, 18),
+            check(TacticalFieldDoctrine.WithinEllipse(anchor, TacticalFieldDoctrine.FlankPoint(anchor, angle, side, true), angle,
+                TacticalFieldDoctrine.LowRadius, TacticalFieldDoctrine.LowDepth),
                 "LOW's existing temporary flank destination remains inside the rotated shared ellipse.");
         var search = new TacticalLowDefenseSearch { Origin = anchor, Forward = IntVec3.North, Needed = 6, CurrentCover = 0 };
         var choices = new[] { anchor + IntVec3.South * 20, anchor + IntVec3.East * 20,

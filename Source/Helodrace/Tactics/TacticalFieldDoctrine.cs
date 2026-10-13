@@ -8,8 +8,8 @@ namespace Helodrace.Tactics
 {
     public static class TacticalFieldDoctrine
     {
-        public const int LowRadius = 24, LowMainRadius = 14, LowFlankRadius = 4;
-        public const int LowDepth = 18, LowMainDepth = 8, LowFlankDepth = 3;
+        public const int LowRadius = 25, LowMainRadius = 25, LowFlankRadius = 4;
+        public const int LowDepth = 18, LowMainDepth = 12, LowFlankDepth = 3;
         public const int FlankInterval = 900, FlankLifetime = 600, FlankGatherTicks = 240;
         public const int RetreatDelay = 600, RetreatInterval = 300, SoloSteps = 6, GroupSteps = 12;
         public const int RadioLife = 600, GroupLimit = 4, GroupSpacing = 15;

@@ -11,6 +11,11 @@ namespace Helodrace.Tactics
     public sealed class TacticalLowDefenseSearch : IExposable
     {
         public const int Radius = 50, GridCount = 441, CandidateBatch = 8, CacheBatch = 96, CacheLimit = 64;
+        public const int CoverGridSide = TacticalFieldDoctrine.LowMainRadius * 2 + 1;
+        public const int CoverGridCount = CoverGridSide * CoverGridSide;
+        public static IntVec3 CoverCell(IntVec3 origin, int index) => origin + new IntVec3(
+            index % CoverGridSide - TacticalFieldDoctrine.LowMainRadius, 0,
+            index / CoverGridSide - TacticalFieldDoctrine.LowMainRadius);
         public IntVec3 Origin, Forward, Focus;
         public int CurrentCover, Needed, Cursor, Choice, CacheCursor, NextSlice;
         public bool Scanned, BuildingCache;
@@ -73,10 +78,11 @@ namespace Helodrace.Tactics
             if (!FieldFloor(command, centre)) return 0;
             IntVec3 forward = TacticalFieldDoctrine.Facing(centre, focus);
             int count = 0;
-            for (int side = -10; side <= 10; side += 5)
-                for (int depth = -6; depth <= 6; depth += 6)
+            for (int side = -2; side <= 2; side++)
+                for (int depth = -1; depth <= 1; depth++)
                 {
-                    IntVec3 cell = centre + TacticalFieldDoctrine.Offset(forward, side, depth);
+                    IntVec3 cell = centre + TacticalFieldDoctrine.Offset(forward,
+                        side * TacticalFieldDoctrine.LowMainRadius / 3.0, depth * TacticalFieldDoctrine.LowMainDepth * .75);
                     if (TacticalFieldDoctrine.WithinEllipse(centre, cell, forward,
                         TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth) && LowCoverAt(command, cell, forward)) count++;
                 }
@@ -122,16 +128,16 @@ namespace Helodrace.Tactics
                     // No better reachable point: keep the current centre instead of repeatedly replanning.
                     search.BuildingCache = true;
                 }
-                for (int visit = 0; visit < TacticalLowDefenseSearch.CacheBatch && search.CacheCursor < 29 * 29; visit++)
+                for (int visit = 0; visit < TacticalLowDefenseSearch.CacheBatch
+                    && search.CacheCursor < TacticalLowDefenseSearch.CoverGridCount
+                    && field.LowCoverCells.Count < TacticalLowDefenseSearch.CacheLimit; visit++)
                 {
-                    int cursor = search.CacheCursor++;
-                    IntVec3 cell = field.Anchor + new IntVec3(cursor % 29 - 14, 0, cursor / 29 - 14);
-                    if (field.LowCoverCells.Count < TacticalLowDefenseSearch.CacheLimit
-                        && TacticalFieldDoctrine.WithinEllipse(field.Anchor, cell, field.Forward,
+                    IntVec3 cell = TacticalLowDefenseSearch.CoverCell(field.Anchor, search.CacheCursor++);
+                    if (TacticalFieldDoctrine.WithinEllipse(field.Anchor, cell, field.Forward,
                             TacticalFieldDoctrine.LowMainRadius, TacticalFieldDoctrine.LowMainDepth)
                         && LowCoverAt(command, cell, field.Forward)) field.LowCoverCells.Add(cell);
                 }
-                if (search.CacheCursor < 29 * 29) return;
+                if (search.CacheCursor < TacticalLowDefenseSearch.CoverGridCount && field.LowCoverCells.Count < TacticalLowDefenseSearch.CacheLimit) return;
                 field.LowCoverReady = true; field.LowCoverCheckAt = tick + 1800; field.LowDefenseSearch = null;
                 field.LowCoverCount = field.LowCoverCells.Count;
                 foreach (var member in command.Members) member.LowDecisionAt = 0;
