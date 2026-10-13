@@ -10,4 +10,25 @@
     <arrivalTextEnemy>습격자들이 정착지를 소탕하기 위해 접근하고 있습니다.</arrivalTextEnemy>
     <pawnsCanBringFood>true</pawnsCanBringFood>
   </RaidStrategyDef>
+  <RaidStrategyDef>
+    <defName>HD_MortarAssault</defName><label>박격포 습격</label>
+    <workerClass>Helodrace.Squads.RaidStrategyWorker_HelodMortar</workerClass>
+    <minPawns>6</minPawns><raidLootValueFactor>0</raidLootValueFactor>
+    <selectionWeightPerPointsCurve><points><li>(0, 0.3)</li><li>(10000, 0.3)</li></points></selectionWeightPerPointsCurve>
+    <arriveModes><li>EdgeWalkIn</li><li>EdgeWalkInGroups</li></arriveModes>
+    <letterLabelEnemy>박격포 습격</letterLabelEnemy>
+    <arrivalTextEnemy>습격자들이 휴대용 M1 박격포로 야전 진지를 구축하려 합니다. 교전이나 손실이 커지면 박격포를 회수하고 철수할 수 있습니다.</arrivalTextEnemy>
+    <pawnsCanBringFood>true</pawnsCanBringFood>
+  </RaidStrategyDef>
+  <RaidStrategyDef>
+    <defName>HD_ChemicalMortarAssault</defName><label>화학탄 습격</label>
+    <workerClass>Helodrace.Squads.RaidStrategyWorker_HelodMortar</workerClass>
+    <modExtensions><li Class="Helodrace.Squads.MortarRaidExtension"><chemical>true</chemical></li></modExtensions>
+    <minPawns>6</minPawns><raidLootValueFactor>0</raidLootValueFactor>
+    <selectionWeightPerPointsCurve><points><li>(0, 0.15)</li><li>(10000, 0.15)</li></points></selectionWeightPerPointsCurve>
+    <arriveModes><li>EdgeWalkIn</li><li>EdgeWalkInGroups</li></arriveModes>
+    <letterLabelEnemy>화학탄 습격</letterLabelEnemy>
+    <arrivalTextEnemy>방호장비를 갖춘 습격자들이 M1 박격포와 BA 화학탄을 운반하고 있습니다. 사격 후 박격포를 회수하여 철수하려 합니다.</arrivalTextEnemy>
+    <pawnsCanBringFood>true</pawnsCanBringFood>
+  </RaidStrategyDef>
 </Defs>

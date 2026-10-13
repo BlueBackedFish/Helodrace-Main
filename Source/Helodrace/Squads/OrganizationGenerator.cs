@@ -38,7 +38,7 @@ namespace Helodrace.Squads
         public static List<Pawn> Generate(PawnGroupMakerParms parms, out CombatOrganization organization)
         {
             DoctrineDef doctrine = DoctrineFor(parms);
-            FormationPlan plan = FormationPlanner.Plan(parms.points, doctrine, RaidSettings.LimitToOnePlatoon);
+            FormationPlan plan = PlanForRaid(parms);
             var pawns = new List<Pawn>();
             organization = null;
             if (plan.roots.Count == 0) return pawns;
@@ -46,6 +46,8 @@ namespace Helodrace.Squads
             if (registry == null) throw new InvalidOperationException("No combat organization registry.");
             var result = new CombatOrganization { id = registry.AllocateId(), faction = parms.faction, doctrine = doctrine };
             result.SetBudget(plan);
+            if (MortarWorker(parms.raidStrategy) is RaidStrategyWorker_HelodMortar mortar)
+                result.MortarKitReservation = result.ReserveSupport(mortar.KitCost);
             var members = new List<PlannedMember>();
             int sequence = 0;
             foreach (FormationDef root in plan.roots)
@@ -133,6 +135,16 @@ namespace Helodrace.Squads
             }
         }
 
+        public static FormationPlan PlanForRaid(PawnGroupMakerParms parms)
+        {
+            float kit = MortarWorker(parms.raidStrategy)?.KitCost ?? 0;
+            FormationPlan plan = FormationPlanner.Plan(Math.Max(0, parms.points - kit), DoctrineFor(parms), RaidSettings.LimitToOnePlatoon);
+            plan.initialRaidPoints = parms.points;
+            return plan;
+        }
+        private static RaidStrategyWorker_HelodMortar MortarWorker(RaidStrategyDef strategy) =>
+            strategy?.workerClass == typeof(RaidStrategyWorker_HelodMortar) ? (RaidStrategyWorker_HelodMortar)strategy.Worker : null;
+
         private static void EnsureSmokeCarriers(CombatOrganization organization)
         {
             ThingDef smoke = DefDatabase<ThingDef>.GetNamed("HD_Grenade_M8_Item");
@@ -207,7 +219,7 @@ namespace Helodrace.Squads
         public static bool Prefix(PawnGroupMakerParms parms, ref IEnumerable<PawnKindDef> __result)
         {
             if (!OrganizationGenerator.AppliesTo(parms)) return true;
-            FormationPlan plan = FormationPlanner.Plan(parms.points, OrganizationGenerator.DoctrineFor(parms), RaidSettings.LimitToOnePlatoon);
+            FormationPlan plan = OrganizationGenerator.PlanForRaid(parms);
             __result = plan.roots.SelectMany(OrganizationGenerator.KindsFor).ToList();
             return false;
         }

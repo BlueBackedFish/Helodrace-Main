@@ -35,26 +35,28 @@ namespace Helodrace.Squads
             Scribe_Collections.Look(ref SupportRequests, "raidSupportRequests", LookMode.Deep);
             Scribe_Values.Look(ref NextSupportAt, "nextSupportAt"); Scribe_Values.Look(ref SupportSequence, "supportSequence");
             Scribe_Values.Look(ref Supplied, "raidSupplied");
+            Scribe_Values.Look(ref MortarKitReservation, "mortarKitReservation");
             if (Scribe.mode == LoadSaveMode.PostLoadInit) SupportRequests = SupportRequests ?? new List<RaidSupportRequest>();
         }
     }
     public static class RaidSupport
     {
         public static int Cost(RaidSupportKind kind) => kind == RaidSupportKind.Smoke ? 100 : kind == RaidSupportKind.Sniper ? 180 : 150;
+        public static bool SupplyCandidate(RoleAssignment assignment) => !assignment.medicalDuty && assignment.combatRole?.combatFunction == "Rifle";
         public static void Equip(CombatOrganization organization)
         {
             if (organization.Supplied) return;
             organization.Supplied = true;
             if (organization.faction.def.defName != "HD_HelodCivilLowFaction") return;
             Pawn[] candidates = organization.AllGroups.SelectMany(g => g.roleAssignments)
-                .Where(a => !a.medicalDuty && a.combatRole?.combatFunction == "Rifleman").Select(a => a.pawn).Take(2).ToArray();
+                .Where(SupplyCandidate).Select(a => a.pawn).Take(2).ToArray();
             if (candidates.Length == 0) return;
             ThingDef armor = DefDatabase<ThingDef>.GetNamedSilentFail("HD_Apparel_M1952AFlakJacket");
             int reservation = armor == null ? 0 : organization.ReserveSupport(120);
             if (reservation != 0)
             {
                 bool success = false;
-                try { candidates[0].apparel.Wear((Apparel)ThingMaker.MakeThing(armor), false); success = candidates[0].apparel.WornApparel.Any(a => a.def == armor); }
+                try { candidates[0].apparel.Wear((Apparel)ThingMaker.MakeThing(armor, GenStuff.DefaultStuffFor(armor)), false); success = candidates[0].apparel.WornApparel.Any(a => a.def == armor); }
                 finally { organization.FinishSupport(reservation, success); }
             }
             var preset = DefDatabase<ModernWar.ModularWeaponPresetDef>.GetNamedSilentFail("HD_WeaponPreset_ModularM14_Default");

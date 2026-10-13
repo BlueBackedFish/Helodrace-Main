@@ -40,6 +40,12 @@ internal static class RaidSupportTests
             foreach (var child in node.Elements())
                 Check(AccessTools.Field(typeof(RimWorld.RaidStrategyDef), child.Name.LocalName) != null,
                     "Unsupported native raid XML field: " + child.Name);
+        string rifleFunction = XDocument.Load(Path.Combine(directory.FullName, "Defs/Organization/Organization_GreatWar.xml"))
+            .Root.Elements("Helodrace.Squads.RoleDef").First(n => n.Element("defName")?.Value == "HD_Role_Rifleman").Element("combatFunction").Value;
+        var rifleAssignment = new RoleAssignment { combatRole = new RoleDef { combatFunction = rifleFunction } };
+        Check(RaidSupport.SupplyCandidate(rifleAssignment), "Supply selection must match the actual XML rifle combat function.");
+        rifleAssignment.medicalDuty = true;
+        Check(!RaidSupport.SupplyCandidate(rifleAssignment), "Support gear must not replace the medical specialist's equipment.");
         Check(typeof(LordJob_HelodSweep).GetMethod("CreateGraph").GetBaseDefinition().DeclaringType == typeof(Verse.AI.Group.LordJob),
             "The mission must use a real native Lord graph.");
         Check(typeof(LordToil_HelodWithdrawal).IsSubclassOf(typeof(RimWorld.LordToil_AssaultColony)),

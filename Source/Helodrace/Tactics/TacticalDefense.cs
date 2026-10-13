@@ -9,15 +9,20 @@ namespace Helodrace.Tactics
     public sealed partial class GameComponent_TacticalCommands
     {
         public static bool IsDefensePhase(LordToil toil) => toil is LordToil_DefendPoint || toil is LordToil_DefendBase;
-        public static bool IsDefensiveLord(Lord lord) => lord != null && !IsAssaultLord(lord) && (IsDefensePhase(lord.CurLordToil)
+        public static bool CanOwnLordJob(LordJob job) => !(job is Helodrace.Squads.LordJob_HelodMortar);
+        public static bool IsDefensiveLord(Lord lord) => lord != null && CanOwnLordJob(lord.LordJob)
+            && !IsAssaultLord(lord) && (IsDefensePhase(lord.CurLordToil)
             || lord.ownedPawns.Any(p => p.Faction != Faction.OfPlayer && (p.mindState?.duty?.def == DutyDefOf.Defend
                 || p.mindState?.duty?.def == DutyDefOf.DefendBase)));
         public static bool IsTacticalLord(Lord lord) => IsAssaultLord(lord) || IsDefensiveLord(lord);
         public static bool CanControlMission(bool defensive, bool hostileToPlayer, bool explicitGoal) =>
             defensive || hostileToPlayer || explicitGoal;
-        internal static bool IsTacticalPawn(Pawn pawn) => IsAssaultLord(pawn.GetLord())
-            || pawn.Faction != Faction.OfPlayer && pawn.GetLord() != null
-                && (pawn.mindState?.duty?.def == DutyDefOf.Defend || pawn.mindState?.duty?.def == DutyDefOf.DefendBase);
+        internal static bool IsTacticalPawn(Pawn pawn)
+        {
+            Lord lord = pawn.GetLord();
+            return CanOwnLordJob(lord?.LordJob) && (IsAssaultLord(lord) || pawn.Faction != Faction.OfPlayer && lord != null
+                && (pawn.mindState?.duty?.def == DutyDefOf.Defend || pawn.mindState?.duty?.def == DutyDefOf.DefendBase));
+        }
     }
 
     public sealed partial class MapComponent_TacticalCommands

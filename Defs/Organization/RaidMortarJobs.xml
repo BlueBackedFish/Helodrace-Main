@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <JobDef><defName>HD_RaidAssembleMortar</defName><driverClass>Helodrace.Squads.JobDriver_RaidAssembleMortar</driverClass><reportString>박격포를 설치하는 중.</reportString><checkOverrideOnDamage>Always</checkOverrideOnDamage><casualInterruptible>false</casualInterruptible></JobDef>
+  <JobDef><defName>HD_RaidManMortar</defName><driverClass>Helodrace.Squads.JobDriver_RaidManMortar</driverClass><reportString>박격포를 운용하는 중.</reportString><checkOverrideOnDamage>Always</checkOverrideOnDamage><casualInterruptible>false</casualInterruptible></JobDef>
+  <JobDef><defName>HD_RaidPackMortar</defName><driverClass>Helodrace.Squads.JobDriver_RaidPackMortar</driverClass><reportString>박격포를 분해하여 회수하는 중.</reportString><checkOverrideOnDamage>Always</checkOverrideOnDamage><casualInterruptible>false</casualInterruptible></JobDef>
+</Defs>

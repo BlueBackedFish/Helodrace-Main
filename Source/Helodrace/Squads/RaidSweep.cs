@@ -11,7 +11,8 @@ namespace Helodrace.Squads
     public class RaidStrategyWorker_HelodSweep : RaidStrategyWorker
     {
         public override bool CanUseWith(IncidentParms parms, PawnGroupKindDef groupKind) =>
-            parms.faction?.def.GetModExtension<FactionOrganizationExtension>()?.doctrine != null && base.CanUseWith(parms, groupKind);
+            parms.faction?.def.GetModExtension<FactionOrganizationExtension>()?.doctrine != null
+            && parms.faction.HostileTo(Faction.OfPlayer) && base.CanUseWith(parms, groupKind);
         protected override LordJob MakeLordJob(IncidentParms parms, Map map, List<Pawn> pawns, int raidSeed) => new LordJob_HelodSweep(parms.faction);
     }
     public sealed class LordJob_HelodSweep : LordJob
