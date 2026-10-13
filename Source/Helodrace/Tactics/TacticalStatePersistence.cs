@@ -17,6 +17,11 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref FieldDecisionAt, "lowDecisionAt");
             Scribe_Values.Look(ref FieldShotAt, "fieldShotAt", -1);
             Scribe_Values.Look(ref FieldObservationAt, "fieldObservationAt");
+            Scribe_Values.Look(ref FieldPostState, "fieldPostState");
+            Scribe_Values.Look(ref FieldPost, "fieldPost", IntVec3.Invalid);
+            Scribe_References.Look(ref FieldCover, "fieldCover");
+            Scribe_Values.Look(ref FieldHadCover, "fieldHadCover");
+            Scribe_Values.Look(ref FieldCoverCheckAt, "fieldCoverCheckAt");
             Scribe_Values.Look(ref LastPosition, "lastPosition");
             Scribe_Values.Look(ref Parking, "parking");
             Scribe_Values.Look(ref Passed, "passed");

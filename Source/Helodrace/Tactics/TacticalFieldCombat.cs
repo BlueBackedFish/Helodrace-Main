@@ -100,10 +100,18 @@ namespace Helodrace.Tactics
                 if (field.NativeCursor >= active.Count) field.NativeCursor = 0;
                 var member = active[field.NativeCursor++]; var pawn = member.Pawn;
                 if (!FieldCombatContext(pawn, out _)) continue;
+                bool anvil = !field.FireGroup.Contains(command.Members.IndexOf(member));
+                if (anvil) RefreshFieldPost(member, field, tick);
                 bool native = pawn.CurJob == member.Job && (pawn.CurJobDef == JobDefOf.Wait_Combat
                     || pawn.CurJobDef == JobDefOf.Goto || pawn.CurJobDef == JobDefOf.AttackMelee);
                 if (native)
                 {
+                    if (anvil && member.FieldPostState != TacticalFieldPostState.Unplaced)
+                    {
+                        if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == member.FieldPost) continue;
+                        if (pawn.CurJobDef == JobDefOf.Wait_Combat && (pawn.Position == member.FieldPost
+                            || member.FieldPostState == TacticalFieldPostState.Blocked)) continue;
+                    }
                     if (pawn.CurJobDef == JobDefOf.Wait_Combat && tick < member.FieldDecisionAt) continue;
                     FieldLocus(command, pawn, out IntVec3 locus, out int width);
                     bool inside = TacticalFieldDoctrine.WithinEllipse(locus, pawn.Position, field.Forward, width + 2, FieldDepth(command, pawn) + 2);

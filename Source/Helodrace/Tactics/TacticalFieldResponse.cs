@@ -170,6 +170,7 @@ namespace Helodrace.Tactics
                 for (int i = 0; i < command.Members.Count; i++)
                     field.Groups.Add(TacticalFieldPolicy.FirePointIndex(field.High, command.Members[i].Fireteam));
                 command.FieldResponse = field; FieldResponses++;
+                foreach (var member in command.Members) { member.ResetFieldPost(); member.FieldShotAt = -1; }
                 field.NextFlank = tick + TacticalFieldDoctrine.RetreatDelay;
                 field.NextMove = tick + TacticalFieldDoctrine.RetreatDelay;
                 field.RetreatBases.AddRange(field.FirePoints);
@@ -268,6 +269,7 @@ namespace Helodrace.Tactics
             command.PhaseStarted += tick - field.Started;
             foreach (TacticalMemberCommand member in command.Members)
             {
+                member.ResetFieldPost();
                 member.Entered = member.EntryAssignmentDone = false; member.RetryTick = 0; member.LastProgressTick = tick;
             }
             if (!preserveOpening && command.OpeningAction != null)

@@ -73,7 +73,14 @@ namespace Helodrace.Tactics
             var member = command.Members.Find(m => m.Pawn == pawn);
             var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (!controller && !budget.TryJob(tick)) return null;
-            Job job = null; bool nativeDecision = false, planned = false;
+            bool anvil = !command.FieldResponse.FireGroup.Contains(command.Members.IndexOf(member));
+            if (anvil)
+            {
+                RefreshFieldPost(member, command.FieldResponse, tick);
+                Job fixedJob = FixedFieldPostJob(member, command, tick);
+                if (fixedJob != null) { pendingFieldJobs[pawn] = fixedJob; return fixedJob; }
+            }
+            Job job = null; bool nativeDecision = false, planned = false, pathDeferred = false;
             if (tick >= member.FieldDecisionAt && budget.TryPlan(tick))
             {
                 long started = Stopwatch.GetTimestamp();
@@ -81,7 +88,7 @@ namespace Helodrace.Tactics
                 {
                     planned = true;
                     member.FieldDecisionAt = tick + 180 + pawn.thingIDNumber % 30;
-                    if (TryFieldShelter(command, pawn, out IntVec3 shelter)) job = JobMaker.MakeJob(JobDefOf.Goto, shelter);
+                    if (!anvil && TryFieldShelter(command, pawn, out IntVec3 shelter)) job = JobMaker.MakeJob(JobDefOf.Goto, shelter);
                     else if (FieldLocusContains(command, pawn, pawn.Position)) job = TacticalFieldFight.Instance.Build(pawn);
                     if (job != null && job.def == JobDefOf.Goto && (!FieldCombatFloor(command, job.targetA.Cell)
                         || !FieldLocusContains(command, pawn, job.targetA.Cell)))
@@ -113,6 +120,15 @@ namespace Helodrace.Tactics
             {
                 JobMaker.ReturnToPool(job); job = JobMaker.MakeJob(JobDefOf.Wait_Combat);
                 job.expiryInterval = 30 + pawn.thingIDNumber % 15; job.checkOverrideOnExpire = false;
+                nativeDecision = false;
+                pathDeferred = true;
+            }
+            if (anvil && planned && !pathDeferred && FieldLocusContains(command, pawn, pawn.Position))
+            {
+                if (job.def == JobDefOf.Goto && nativeDecision)
+                { member.FieldPost = job.targetA.Cell; member.FieldPostState = TacticalFieldPostState.Moving; }
+                else if (job.def == JobDefOf.Wait_Combat && nativeDecision) CaptureFieldPost(member, command.FieldResponse, tick);
+                else if (job.def == JobDefOf.Wait_Combat) CaptureFieldPost(member, command.FieldResponse, tick);
             }
             pendingFieldJobs[pawn] = job;
             return job;
@@ -129,6 +145,12 @@ namespace Helodrace.Tactics
             pawn.jobs.curDriver.AddFinishAction(condition =>
             {
                 if (member.Job != job) return;
+                if (member.FieldPostState == TacticalFieldPostState.Moving)
+                {
+                    if (condition == JobCondition.Succeeded && pawn.Position == member.FieldPost)
+                        CaptureFieldPost(member, command.FieldResponse, GenTicks.TicksGame);
+                    else member.ResetFieldPost();
+                }
                 member.Job = null; Wake(pawn);
             });
         }
