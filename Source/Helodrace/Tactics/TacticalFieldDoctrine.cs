@@ -20,7 +20,25 @@ namespace Helodrace.Tactics
         public static IntVec3 FlankPoint(IntVec3 anchor, IntVec3 forward, int side, bool attack) =>
             anchor + new IntVec3(-forward.z, 0, forward.x) * (side * 16) + forward * (attack ? 12 : 0);
         public static IntVec3 LinePoint(IntVec3 anchor, IntVec3 forward, int point, int seed) =>
-            anchor + new IntVec3(-forward.z, 0, forward.x) * ((point - 1) * (((7 + (int)((uint)seed % 3)) * 5 + 1) / 2));
+            anchor + Offset(forward, (point - 1) * (((7 + (int)((uint)seed % 3)) * 5 + 1) / 2), 0);
+        // Forward is an observed direction vector, not a cardinal tile step.
+        public static IntVec3 Facing(IntVec3 from, IntVec3 to) => from == to ? IntVec3.North : to - from;
+        public static IntVec3 Offset(IntVec3 forward, double lateral, double depth)
+        {
+            double length = Math.Sqrt((double)forward.x * forward.x + (double)forward.z * forward.z);
+            if (length == 0) return IntVec3.Zero;
+            return new IntVec3((int)Math.Round((-forward.z * lateral + forward.x * depth) / length, MidpointRounding.AwayFromZero), 0,
+                (int)Math.Round((forward.x * lateral + forward.z * depth) / length, MidpointRounding.AwayFromZero));
+        }
+        public static IntVec3 WithoutAdvance(IntVec3 previous, IntVec3 next, IntVec3 forward)
+        {
+            double dot = (double)(next.x - previous.x) * forward.x + (double)(next.z - previous.z) * forward.z;
+            if (dot <= 0) return next;
+            double squared = (double)forward.x * forward.x + (double)forward.z * forward.z;
+            // Round each correction outward so tile quantization cannot leave an advance.
+            return next - new IntVec3(Math.Sign(forward.x) * (int)Math.Ceiling(Math.Abs(forward.x * dot / squared)), 0,
+                Math.Sign(forward.z) * (int)Math.Ceiling(Math.Abs(forward.z * dot / squared)));
+        }
         public static int RetreatDepth(int step, int slot, int slots)
         {
             if (slots <= 3) return Math.Min(SoloSteps, step) * (slot == 1 ? 2 : 1);
@@ -82,9 +100,8 @@ namespace Helodrace.Tactics
         {
             int rank = Members.IndexOf(squad); if (rank < 0) rank = 0;
             int slots = Members.Count * 3, slot = rank * 3 + point;
-            IntVec3 side = new IntVec3(-Forward.z, 0, Forward.x);
             int lateral = slot * TacticalFieldDoctrine.GroupSpacing - (slots - 1) * TacticalFieldDoctrine.GroupSpacing / 2;
-            return Origin + side * lateral - Forward * TacticalFieldDoctrine.RetreatDepth(Step, slot, slots);
+            return Origin + TacticalFieldDoctrine.Offset(Forward, lateral, -TacticalFieldDoctrine.RetreatDepth(Step, slot, slots));
         }
         public void ExposeData()
         {

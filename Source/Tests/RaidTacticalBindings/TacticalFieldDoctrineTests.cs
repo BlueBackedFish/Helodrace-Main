@@ -65,6 +65,7 @@ internal static class TacticalFieldDoctrineTests
         Check(TacticalFieldDoctrine.RetreatDepth(12, 4, 9) == 24 && TacticalFieldDoctrine.RetreatDepth(12, 0, 9) == 6
             && TacticalFieldDoctrine.RetreatDepth(12, 8, 9) == 6, "Multiple squads amplify centre withdrawal and keep symmetric shallower flanks.");
         CheckHighExecution(Check, anchor);
+        CheckAngledLine(Check, anchor);
         CheckRadio(Check, anchor);
         CheckNativeBindings(Check);
         CheckSave(Check, anchor);
@@ -73,6 +74,31 @@ internal static class TacticalFieldDoctrineTests
     private static TacticalFieldFormation Solo(string id, IntVec3 anchor, int tick) => new TacticalFieldFormation
         { Coordinator = id, Origin = anchor, Forward = IntVec3.North, Started = 0,
             Members = new List<string> { id }, Seen = new Dictionary<string, int> { [id] = tick } };
+    private static void CheckAngledLine(Action<bool, string> check, IntVec3 anchor)
+    {
+        foreach (var direction in new[] { new IntVec3(40, 0, 40), new IntVec3(60, 0, 25), new IntVec3(-25, 0, 60),
+            new IntVec3(-60, 0, -25), new IntVec3(25, 0, -60) })
+        {
+            var forward = TacticalFieldDoctrine.Facing(anchor, anchor + direction);
+            double length = Math.Sqrt(direction.LengthHorizontalSquared);
+            double Depth(IntVec3 cell) => ((cell.x - anchor.x) * direction.x + (cell.z - anchor.z) * direction.z) / length;
+            var left = TacticalFieldDoctrine.LinePoint(anchor, forward, 0, 0);
+            var right = TacticalFieldDoctrine.LinePoint(anchor, forward, 2, 0);
+            check(Math.Abs(Depth(left)) <= .71 && left - anchor == anchor - right
+                && left.DistanceToSquared(anchor) >= 17 * 17 && left.DistanceToSquared(anchor) <= 19 * 19,
+                "Angled enemy approaches produce perpendicular, symmetric fire points with only tile-rounding error.");
+            var retreat = TacticalFieldDoctrine.Offset(forward, 0, -12);
+            check(Math.Abs(Depth(anchor + retreat) + 12) <= .71 && retreat.LengthHorizontalSquared <= 13 * 13,
+                "Retreat remains twelve cells along the enemy axis, independent of the direction vector length.");
+            var formation = new TacticalFieldFormation { Origin = anchor, Forward = forward, Members = new List<string> { "A", "B" } };
+            check(formation.Members.SelectMany(id => Enumerable.Range(0, 3).Select(p => formation.Point(id, p)))
+                .All(p => Math.Abs(Depth(p)) <= .71), "Radio formations use the same perpendicular enemy axis.");
+            var next = anchor + new IntVec3(20, 0, 20);
+            var safe = TacticalFieldDoctrine.WithoutAdvance(anchor, next, forward);
+            check(Depth(safe) <= 0 && (Depth(next) > 0 || safe == next),
+                "Membership changes cannot advance toward an angled enemy or overcorrect by vector magnitude.");
+        }
+    }
     private static void CheckHighExecution(Action<bool, string> check, IntVec3 anchor)
     {
         var map = (Map)RuntimeHelpers.GetUninitializedObject(typeof(Map));
@@ -176,6 +202,7 @@ internal static class TacticalFieldDoctrineTests
             cache[Activator.CreateInstance(key, new object[] { t.FullName, null })] = t;
         var field = new TacticalFieldResponse { High = true, LowFlank = true, LowFlankAttack = true, NextFlank = 900,
             Formation = Solo("A", anchor, 100), RetreatStep = 3, AppliedStep = 3, MovingGroups = 7, LastEngaged = 99 };
+        field.Forward = field.Formation.Forward = new IntVec3(60, 0, 25);
         field.RetreatBases.Add(anchor);
         string path = Path.Combine(Path.GetTempPath(), "Helodrace-field-doctrine-" + Guid.NewGuid() + ".xml");
         bool previous = ScribeMetaHeaderUtility.modListChanged; ScribeMetaHeaderUtility.modListChanged = true;
@@ -184,7 +211,8 @@ internal static class TacticalFieldDoctrineTests
             Scribe.saver.InitSaving(path, "field"); field.ExposeData(); Scribe.saver.FinalizeSaving();
             var loaded = new TacticalFieldResponse(); Scribe.loader.InitLoading(path); loaded.ExposeData(); Scribe.loader.ForceStop();
             check(loaded.Formation.Coordinator == "A" && loaded.Formation.Seen["A"] == 100 && loaded.RetreatBases[0] == anchor
-                && loaded.RetreatStep == 3 && loaded.MovingGroups == 7 && loaded.LowFlankAttack && loaded.NextFlank == 900,
+                && loaded.RetreatStep == 3 && loaded.MovingGroups == 7 && loaded.LowFlankAttack && loaded.NextFlank == 900
+                && loaded.Forward == field.Forward && loaded.Formation.Forward == field.Forward,
                 "Native Scribe must retain group reports, retreat progress and the active LOW temporary party.");
         }
         finally { Scribe.ForceStop(); ScribeMetaHeaderUtility.modListChanged = previous; if (File.Exists(path)) File.Delete(path); }

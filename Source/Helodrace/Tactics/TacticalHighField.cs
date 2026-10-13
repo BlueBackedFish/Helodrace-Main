@@ -26,7 +26,7 @@ namespace Helodrace.Tactics
                 field.RetreatStep = Math.Min(TacticalFieldDoctrine.SoloSteps, formation.Step);
                 field.RetreatBases.Clear();
                 for (int point = 0; point < 3; point++) field.RetreatBases.Add(field.FirePoints[point]
-                    + field.Forward * TacticalFieldDoctrine.RetreatDepth(field.RetreatStep, point, 3));
+                    + TacticalFieldDoctrine.Offset(field.Forward, 0, TacticalFieldDoctrine.RetreatDepth(field.RetreatStep, point, 3)));
                 field.Formation = formation = null; field.AppliedGroup = null; field.AppliedStep = field.RetreatStep;
             }
             bool grouped = formation?.Members.Count > 1;
@@ -46,12 +46,10 @@ namespace Helodrace.Tactics
             for (int point = 0; point < 3; point++)
             {
                 IntVec3 next = grouped ? formation.Point(command.Id, point)
-                    : field.RetreatBases[point] - field.Forward * TacticalFieldDoctrine.RetreatDepth(step, point, 3);
+                    : field.RetreatBases[point] - TacticalFieldDoctrine.Offset(field.Forward, 0, TacticalFieldDoctrine.RetreatDepth(step, point, 3));
                 // Membership changes may spread laterally but cannot order a
                 // pawn forward merely because it inherited a different slot.
-                int forward = (next.x - field.FirePoints[point].x) * field.Forward.x
-                    + (next.z - field.FirePoints[point].z) * field.Forward.z;
-                if (forward > 0) next -= field.Forward * forward;
+                next = TacticalFieldDoctrine.WithoutAdvance(field.FirePoints[point], next, field.Forward);
                 if (next == field.FirePoints[point]) continue;
                 field.FirePoints[point] = next; field.Areas[point] = new TacticalFireArea { Started = tick };
                 field.MovingGroups |= 1 << point;
