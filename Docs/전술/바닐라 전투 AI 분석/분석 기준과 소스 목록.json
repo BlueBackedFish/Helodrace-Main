@@ -1,0 +1,177 @@
+{
+    "version":  "1.6.4871 rev590",
+    "assembly":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/RimWorldWin64_Data/Managed/Assembly-CSharp.dll",
+    "sha256":  "5CF1B5BE399D5B1C9C56CA72C9D35B4ECF307FEACF5859D04AC5A1AA5926356A",
+    "decompiler":  "ilspycmd 11.0.0.9375",
+    "sourceRoot":  "C:/Users/Public/Documents/ESTsoft/CreatorTemp/vanilla-combat-4871-20261014",
+    "sourceFiles":  9217,
+    "aiCandidateFiles":  1027,
+    "candidateMethodRows":  3399,
+    "definitionFiles":  [
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/DutyDefs/Duties_Misc.xml",
+                                "sha256":  "FA481ED6E8DD6F8F16DB9ADF421A3AF414C3686EB0967B247F04EEF9B799F606"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/DutyDefs/Duties_PsychicRituals.xml",
+                                "sha256":  "37BBD760D4A6A065AC653A04C3F968C97D8DDA8BA90CF8D70182A7471E3CA9A7"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/AwokenCorpse.xml",
+                                "sha256":  "381E9DE4057281709DEF13B733CD0FDF337575DCA8697BBE16A813EEFD528E27"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Chimera.xml",
+                                "sha256":  "F2A8149C662E47F5E72AC6F5A4E7AD92DDE5E61229B39BEBC733AABCD2832BB7"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Devourer.xml",
+                                "sha256":  "514D7A9398EA22FC6603DAB9BC9C73BEF9DB5833A07F594F64A9FC2BF8F1E15F"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Fleshbeast.xml",
+                                "sha256":  "FFA08B9869C0E4F3DDF498DAD76BDB122CF7A3202A68A16C9ABD8BBAD95566E5"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/FleshmassNucleus.xml",
+                                "sha256":  "539D0EAE3586DB698C26806750811C338C3CA2EE8B4343B00791939764212E15"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Ghoul.xml",
+                                "sha256":  "91DE0BC688A59B85A85CC4235E792A50C88DA29255BA740E4F30B061BEACAB56"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Gorehulk.xml",
+                                "sha256":  "8373265DE30B828D8D7014969FAB4448C0E6C1253C4E314845314AE3B26FE0F5"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Metalhorror.xml",
+                                "sha256":  "47313FA0B729BEAB5D72EF5832EC10BF1AACF951CA3A13CE994D712B74FD67C1"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Nociosphere.xml",
+                                "sha256":  "E62A1F5AE45C7D293845BA2E6843FB70EC6A7CF84E54F825F3472AECEEC618B3"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Noctol.xml",
+                                "sha256":  "FD34983F2C64FD5B5ADD61571677B42483F3086D8EB2B5F7FCE1625E5369460F"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Revenant.xml",
+                                "sha256":  "D33E54A72CCE438F98CEC6A45667FE3E320DA9A8995ED138002618E807A9882A"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Shambler.xml",
+                                "sha256":  "652054079DABAFCAE37E3BE202B91EA0A6F0E50F977185E6438041022DBB1FDD"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Anomaly/Defs/ThinkTreeDefs/Sightstealer.xml",
+                                "sha256":  "C7A9643F617AF2458FB7E03331AFB711B00BAD65B2736C8CB54C5491EFFF874D"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Biotech/Defs/DutyDefs/Duties_MechBosses.xml",
+                                "sha256":  "CF0802AC75EC6F2BBCDEB6CDF0559FFDAC38960ED973BAC455D1E3B209F73A83"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Biotech/Defs/DutyDefs/Duties_Misc.xml",
+                                "sha256":  "BD1D4E947F0FC304BBC098316E3121ED8BA5BDC5DE37E8BECFBE6C9F3B4D2F7E"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Biotech/Defs/DutyDefs/Duties_Rituals.xml",
+                                "sha256":  "4AF4518E965A4F98C71ED4BF780AB546F0B5C00564FF07A45C875B10E34AC255"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Biotech/Defs/ThinkTreeDefs/HumanlikeBaby.xml",
+                                "sha256":  "A45F375CCF5D6BD846EBC6D8A778A08326A9DCBCC951D52EA902AFA1A0DB4AED"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Biotech/Defs/ThinkTreeDefs/SubTrees_Mech.xml",
+                                "sha256":  "7B870DE09B32836EBE1E53527BDEDFC2C8C0DF0A7F8A3E63EBCB8BED085CFA73"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/DutyDefs/Duties_Caravan.xml",
+                                "sha256":  "BF4909903654FBACE3CE0E25B4F57AC0236A06CA44B7470410BEDF2D7AEA2AAF"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/DutyDefs/Duties_Gatherings.xml",
+                                "sha256":  "75E8367731BFB740A33F74E5D40F0BFAC98355EFE49E4F5184B315A3675C96B0"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/DutyDefs/Duties_Misc.xml",
+                                "sha256":  "9BF1AA50460348E62D1A2F57A001B7086666839AB8824D488133B7F81967A88A"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/DutyDefs/Duties_NonPlayerHome.xml",
+                                "sha256":  "6FFC054CFA01C8A7A0FB000D5C425BF62EE852DC37E3D64DC2CA09F06BAB3500"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/DutyDefs/Duties_Rituals.xml",
+                                "sha256":  "E76BECEDF0FCE16081CB675D8687A3B4B6FCF6BCBF9FFBB6C4A0AC8E1EF0F7CD"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/ThinkTreeDefs/Animal.xml",
+                                "sha256":  "D857FB17533F17F90DA48FAE355D5014F7A4F78AB3DCC6EE755A881BDA732121"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/ThinkTreeDefs/Humanlike.xml",
+                                "sha256":  "047FC3C5BCB60EAD007ADBCD0090690A25AF882ADEB11298DF8F4B551BBBDD4E"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/ThinkTreeDefs/Insect.xml",
+                                "sha256":  "C08226F87C3FEBE3BA80FE6D32B51EF74A4A51431EBF794AB84501EFA9C14545"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/ThinkTreeDefs/Mechanoid.xml",
+                                "sha256":  "FF6A36445EE8F9BC8FB1EE7FEDF1C6B9D7FA501D5278853FCC4CAA6E6FE27793"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/ThinkTreeDefs/SubTrees_Ability.xml",
+                                "sha256":  "D2476A40B3E14FC59FB79E00C6B916C3E1E5641821BF14661DAC4597D8C8193E"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/ThinkTreeDefs/SubTrees_Duty.xml",
+                                "sha256":  "9381BCAF4D8EDD5B89D8AF082FCA27E7301C6A95308854C492E4D9E5FC073298"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Core/Defs/ThinkTreeDefs/SubTrees_Misc.xml",
+                                "sha256":  "C287C0C2A97F151D86516CF058E2EB54B4D87F1BCCF50BFA46FAF8B26EBA3071"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Ideology/Defs/DutyDefs/Duties_Gatherings.xml",
+                                "sha256":  "440C71A260FB36AB8283A413AD2DAEB4055650BE1FB9D1FCA3729B3181DF5267"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Ideology/Defs/DutyDefs/Duties_Rituals.xml",
+                                "sha256":  "AEC2C00EAD68739B123858FC86966CCF398FC08303543B92455DE98AFF398EB7"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Ideology/Defs/ThinkTreeDefs/Dryad.xml",
+                                "sha256":  "F94779A41E0EC241CF9BF52C9769AE7B82125DD9C49C666CA9A3B977C5A08824"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Odyssey/Defs/DutyDefs/Duties_Gatherings.xml",
+                                "sha256":  "DD59646B0F4678AF9D8C246071467F9D0F98BE4A30B0B9079E5DD665E94D2477"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Odyssey/Defs/DutyDefs/Duties_Misc.xml",
+                                "sha256":  "B307C840F2420A2EA66DD0FA4C8747ADDCCEC152DC751CF16DDB192F4CB3A132"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Odyssey/Defs/ThinkTreeDefs/Drone.xml",
+                                "sha256":  "D2188A03EA16CD6EB45D10C79A5DF2FB37F6C2C2A937518EDF6B7C927CD22AA8"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Odyssey/Defs/ThinkTreeDefs/SubTrees_Drones.xml",
+                                "sha256":  "ED16954B72C54677CFC92AAC6F09F19B102E3B6766DE5DA803EFD6286D904891"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Royalty/Defs/DutyDefs/Duties_Gatherings.xml",
+                                "sha256":  "F2ACD49F4D657F5F5FA1401D60C905F92CE03096F4F039000F700642B054CD72"
+                            },
+                            {
+                                "path":  "C:/Program Files (x86)/Steam/steamapps/common/RimWorld/Data/Royalty/Defs/DutyDefs/Duties_Misc.xml",
+                                "sha256":  "BEE808B989418CCF1A8433C6D406839B3FE42B8F9D65E34ACD3D7D0983DE1391"
+                            }
+                        ],
+    "note":  "Static analysis candidate inventory, not a claim that every method has been analyzed. Includes noncombat job drivers and AI dependencies for completeness."
+}
