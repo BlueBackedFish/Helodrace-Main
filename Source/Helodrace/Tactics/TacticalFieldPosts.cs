@@ -50,7 +50,7 @@ namespace Helodrace.Tactics
             if (tick < member.FieldCoverCheckAt || member.FieldPostState == TacticalFieldPostState.Unplaced) return;
             member.FieldCoverCheckAt = tick + 90 + member.Pawn.thingIDNumber % 30;
             if (member.FieldHadCover && (member.FieldCover == null || member.FieldCover.Destroyed))
-            { member.ResetFieldPost(); return; }
+            { IntVec3 origin = member.FieldPost; member.ResetFieldPost(); member.FieldPost = origin; return; }
             // Loss of firing LOS/target does not invalidate an intact cover.
             if (member.FieldPost.IsValid && !member.FieldPost.Standable(map)) member.FieldPostState = TacticalFieldPostState.Blocked;
         }

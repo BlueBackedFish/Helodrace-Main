@@ -52,7 +52,7 @@ internal static class Program
     {
         try
         {
-            if (args.Contains("--field-maneuver")) { TacticalFieldManeuverTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
+            if (args.Contains("--field-maneuver")) { TacticalFieldManeuverTests.Run(); TacticalFieldDoctrineTests.Run(); TacticalCooperationTests.Run(); TacticalExplosiveEvasionTests.Run(); TacticalFocusTests.Run(); TacticalGrenadeTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--field-doctrine")) { TacticalFieldDoctrineTests.Run(); TacticalFieldTests.Run(); TacticalCooperationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--boundary-destination")) { int index = Array.IndexOf(args, "--boundary-destination"); TacticalBoundaryDestinationTests.Run(index + 1 < args.Length ? args[index + 1] : null); TacticalFacadeTests.Run(); TacticalMissionRoutingTests.Run(); TacticalRoomScanTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--individual-contact")) { TacticalIndividualContactTests.Run(); TacticalEntryCombatTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); TacticalOpeningTests.Run(); TacticalExplosiveEvasionTests.Run(); return 0; }

@@ -208,7 +208,11 @@ namespace Helodrace.Tactics
             int duration = System.Math.Max(0, tick - focus.Started);
             command.PhaseStarted += duration;
             if (command.FieldResponse != null)
-            { command.FieldResponse.Started += duration; command.FieldResponse.NextMove += duration; }
+            {
+                command.FieldResponse.Started += duration;
+                if (command.FieldResponse.Maneuver != null)
+                { command.FieldResponse.Maneuver.Started += duration; command.FieldResponse.Maneuver.PhaseAt += duration; }
+            }
             if (command.ContactResponse != null) command.ContactResponse.Started += duration;
             command.FocusFire = null; command.Due = tick + 1;
         }

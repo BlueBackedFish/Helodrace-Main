@@ -12,6 +12,7 @@ namespace Helodrace.Tactics
         private int FieldDepth(TacticalSquadCommand command, Pawn pawn)
         {
             var field = command.FieldResponse;
+            if (Hammer(command, pawn)) return TacticalFieldDoctrine.LowFlankDepth;
             return field.High ? TacticalFieldPolicy.HighDepth
                 : field.LowFlank && field.FireGroup.Contains(command.Members.FindIndex(m => m.Pawn == pawn))
                     ? TacticalFieldDoctrine.LowFlankDepth : TacticalFieldDoctrine.LowMainDepth;
@@ -59,20 +60,18 @@ namespace Helodrace.Tactics
         }
         private void PrepareFieldCover(TacticalSquadCommand command, TacticalFieldResponse field, int tick)
         {
-            int first = field.High ? 0 : 1, last = field.High ? 3 : 2;
+            int first = 1, last = 2;
             for (int group = first; group < last; group++)
             {
                 var area = field.Areas[group];
-                if (area.Prepared && tick - area.Started >= TacticalFieldPolicy.CoverRefresh)
-                    field.Areas[group] = area = new TacticalFireArea { Started = tick };
                 if (area.Prepared) continue;
                 var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
                 if (!budget.TryPlan(tick)) return;
                 long started = Stopwatch.GetTimestamp();
                 try
                 {
-                    int width = field.High ? TacticalFieldPolicy.HighWidth : TacticalFieldDoctrine.LowFlankRadius;
-                    int depth = field.High ? TacticalFieldPolicy.HighDepth : TacticalFieldDoctrine.LowFlankDepth;
+                    int width = TacticalFieldDoctrine.LowFlankRadius;
+                    int depth = TacticalFieldDoctrine.LowFlankDepth;
                     int side = width * 2 + 1, limit = side * side;
                     IntVec3 centre = field.FirePoints[group];
                     for (int count = 0; count < TacticalFieldPolicy.CoverBatch && area.Cursor < limit
@@ -106,6 +105,18 @@ namespace Helodrace.Tactics
                     || pawn.CurJobDef == JobDefOf.Goto || pawn.CurJobDef == JobDefOf.AttackMelee);
                 if (native)
                 {
+                    // A valid destination remains valid while the native path
+                    // detours outside the locus. Do not restart it every slice.
+                    if (pawn.CurJobDef == JobDefOf.Goto && (!anvil || member.FieldPostState == TacticalFieldPostState.Unplaced
+                        || member.FieldPostState == TacticalFieldPostState.Moving || pawn.CurJob.targetA.Cell == member.FieldPost)
+                        && FieldCombatFloor(command, pawn.CurJob.targetA.Cell)
+                        && FieldLocusContains(command, pawn, pawn.CurJob.targetA.Cell)) continue;
+                    if (!anvil && field.Maneuver != null)
+                    {
+                        if (pawn.CurJobDef == JobDefOf.Goto && TacticalFieldDoctrine.WithinEllipse(field.FirePoints[1], pawn.CurJob.targetA.Cell,
+                            field.Forward, TacticalFieldDoctrine.LowFlankRadius, TacticalFieldDoctrine.LowFlankDepth)) continue;
+                        if (pawn.CurJobDef == JobDefOf.Wait_Combat && (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))) continue;
+                    }
                     if (anvil && member.FieldPostState != TacticalFieldPostState.Unplaced)
                     {
                         if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == member.FieldPost) continue;
@@ -115,7 +126,7 @@ namespace Helodrace.Tactics
                     if (pawn.CurJobDef == JobDefOf.Wait_Combat && tick < member.FieldDecisionAt) continue;
                     FieldLocus(command, pawn, out IntVec3 locus, out int width);
                     bool inside = TacticalFieldDoctrine.WithinEllipse(locus, pawn.Position, field.Forward, width + 2, FieldDepth(command, pawn) + 2);
-                    if (inside && FieldCombatFloor(command, pawn.Position)
+                    if (anvil && inside && FieldCombatFloor(command, pawn.Position)
                         && FieldLocusContains(command, pawn, pawn.CurJobDef == JobDefOf.Goto ? pawn.CurJob.targetA.Cell : pawn.Position)
                         && !(pawn.CurJobDef == JobDefOf.Wait_Combat && FieldNeedsShelter(command, pawn))) continue;
                 }

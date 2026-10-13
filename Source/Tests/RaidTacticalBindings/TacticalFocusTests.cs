@@ -170,14 +170,14 @@ internal static class TacticalFocusTests
         command.MedicalCare = null;
         command.Phase = TacticalCommandPhase.Enter; command.PhaseStarted = 80;
         command.FocusFire = new TacticalFocusFire { Started = 100, Stage = TacticalFocusStage.Normal };
-        command.FieldResponse = new TacticalFieldResponse { Started = 200, NextMove = 180 };
+        command.FieldResponse = new TacticalFieldResponse { Started = 200, Maneuver = new TacticalFieldManeuver { Started = 200, PhaseAt = 180 } };
         command.ContactResponse = new TacticalContactResponse { Started = 100 };
         command.Plan = new TacticalLocalPlan(); member.Passed = member.Crossed = true;
         var cell = new IntVec3(4, 0, 5); command.SecuredCells.Add(cell);
         var plan = command.Plan; var field = command.FieldResponse;
         var finish = AccessTools.Method(typeof(MapComponent_TacticalCommands), "FinishFocusPause");
         finish.Invoke(null, new object[] { command, 500 });
-        check(command.FocusFire == null && command.PhaseStarted == 480 && field.Started == 600 && field.NextMove == 580
+        check(command.FocusFire == null && command.PhaseStarted == 480 && field.Started == 600 && field.Maneuver.PhaseAt == 580
             && command.ContactResponse.Started == 500, "Pause duration must be restored once to mission and retained response clocks.");
         finish.Invoke(null, new object[] { command, 500 });
         check(command.PhaseStarted == 480 && command.Phase == TacticalCommandPhase.Enter && command.Plan == plan

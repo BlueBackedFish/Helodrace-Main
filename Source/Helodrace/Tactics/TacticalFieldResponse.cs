@@ -16,7 +16,7 @@ namespace Helodrace.Tactics
     {
         public const int SightRadius = 120, FocusInterval = 90;
         public const int PlayerApproachRadius = 55;
-        public const int HighWidth = 8, HighDepth = 6, CoverLimit = 64, CoverBatch = 96, CoverRefresh = 600;
+        public const int HighWidth = 8, HighDepth = 6, CoverLimit = 64, CoverBatch = 96;
         public const float MinimumCover = .15f;
         public const int ContactGrace = 900;
         public static bool Continue(int tick, int seen, int engaged) => tick - Math.Max(seen, engaged) < ContactGrace;
@@ -59,14 +59,7 @@ namespace Helodrace.Tactics
             return Math.Abs(delta.x) >= Math.Abs(delta.z)
                 ? new IntVec3(Math.Sign(delta.x), 0, 0) : new IntVec3(0, 0, Math.Sign(delta.z));
         }
-        public const int GatherTicks = 360;
         public static bool Ready(int count, int arrived) => count == 0 || arrived >= (count * 3 + 3) / 4;
-        // Start the three fireteams on a line. Later withdrawal, not an initial
-        // hard-coded bow, creates converging fields of fire.
-        public static IntVec3 FirePoint(IntVec3 anchor, IntVec3 focus, IntVec3 forward, int point, int seed)
-        {
-            return TacticalFieldDoctrine.LinePoint(anchor, forward, point, seed);
-        }
         public static int FirePointIndex(bool high, int fireteam) => high ? fireteam >= 0 && fireteam < 3 ? fireteam : 1 : 0;
     }
 
@@ -88,10 +81,11 @@ namespace Helodrace.Tactics
 
     public sealed partial class TacticalFieldResponse
     {
-        public int Started, LastSeen, EnemyId, FocusAt, NextMove, MoveStarted, SmokeRetryAt;
+        public int Started, LastSeen, EnemyId, FocusAt, SmokeRetryAt;
         public TacticalFieldStage Stage;
         public TacticalObservedMotion Motion;
         public bool High;
+        public float WeaponRange;
         public IntVec3 Anchor, Focus, Forward;
         public List<IntVec3> FirePoints = new List<IntVec3>(3);
         public List<int> Groups = new List<int>();
@@ -155,7 +149,7 @@ namespace Helodrace.Tactics
                     command.ContactResponse = null; command.ContactRestoring = false;
                 }
                 field = new TacticalFieldResponse { Started = tick, LastSeen = nearest?.SeenTick ?? tick, EnemyId = nearest?.EnemyId ?? -1,
-                    Anchor = command.Defensive ? command.DefenseAnchor : observer.Position, Focus = focus, FocusAt = tick, NextMove = tick + 180,
+                    Anchor = command.Defensive ? command.DefenseAnchor : observer.Position, Focus = focus, FocusAt = tick, WeaponRange = range,
                     Forward = TacticalFieldPolicy.Direction(command.Defensive ? command.DefenseAnchor : observer.Position, focus),
                     Motion = TacticalFieldPolicy.Motion(nearest, observer.Position),
                     High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
@@ -163,18 +157,15 @@ namespace Helodrace.Tactics
                 field.Forward = TacticalFieldDoctrine.Facing(field.Anchor, focus);
                 for (int point = 0; point < 3; point++)
                 {
-                    field.FirePoints.Add(TacticalFieldPolicy.FirePoint(field.Anchor, field.Focus, field.Forward, point,
-                        unchecked(field.Started ^ field.EnemyId * 397)));
+                    field.FirePoints.Add(field.Anchor);
                     field.Areas.Add(new TacticalFireArea { Started = tick });
                 }
                 for (int i = 0; i < command.Members.Count; i++)
-                    field.Groups.Add(TacticalFieldPolicy.FirePointIndex(field.High, command.Members[i].Fireteam));
+                    field.Groups.Add(command.Members[i].Pawn == command.Link.Unit.Commander ? 0
+                        : TacticalFieldPolicy.FirePointIndex(field.High, command.Members[i].Fireteam));
+                if (field.High) InitialHighFieldAreas(field, active);
                 command.FieldResponse = field; FieldResponses++;
                 foreach (var member in command.Members) { member.ResetFieldPost(); member.FieldShotAt = -1; }
-                field.NextFlank = tick + TacticalFieldDoctrine.RetreatDelay;
-                field.NextMove = tick + TacticalFieldDoctrine.RetreatDelay;
-                field.RetreatBases.AddRange(field.FirePoints);
-                field.AppliedStep = 0;
                 command.Link.Cooperation.LocalReady = false;
             }
             bool permitted = false;
@@ -185,6 +176,13 @@ namespace Helodrace.Tactics
                     // bounded individual fighting itself does not.
                     permitted = true;
                     if (contact.SeenTick > field.LastSeen) field.Motion = TacticalFieldPolicy.Motion(contact, field.Anchor);
+                    if (!field.High && command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
+                        && TacticalFieldPolicy.FormationAllowed(contact,field.Anchor,tick))
+                    {
+                        field.High = true; InitialHighFieldAreas(field,active);
+                        for (int i=0;i<command.Members.Count;i++) field.Groups[i] = command.Members[i].Pawn == command.Link.Unit.Commander
+                            ? 0 : TacticalFieldPolicy.FirePointIndex(true,command.Members[i].Fireteam);
+                    }
                     field.LastSeen = Math.Max(field.LastSeen, contact.SeenTick);
                     if (tick - field.FocusAt >= TacticalFieldPolicy.FocusInterval)
                     {
@@ -201,6 +199,9 @@ namespace Helodrace.Tactics
                 EndFieldResponse(command, tick); return false;
             }
             command.Due = Math.Min(command.Due, tick + 30);
+            if (!command.Defensive && !support && field.Maneuver == null && tick - field.LastEngaged > 300
+                && field.Focus.DistanceToSquared(field.Anchor) > field.WeaponRange * field.WeaponRange)
+            { EndFieldResponse(command,tick); return false; }
             if (field.High && !active.Exists(m => m.Fireteam >= 0))
             { field.High = false; field.Forward = TacticalFieldDoctrine.Facing(field.Anchor, field.Focus); }
             if (field.Screen != null && AdvanceFieldSmoke(command, active, field, tick))
@@ -208,25 +209,8 @@ namespace Helodrace.Tactics
                 if (field.LowFlank) FieldSmokeAdvances++;
                 field.Screen = null; field.Stage = TacticalFieldStage.Defending;
             }
-            if (!field.High) return AdvanceLowField(command, active, field, tick, support);
-            RefreshFieldLeader(command, active, field, tick);
-            AdvanceHighFieldRetreat(command, field, tick);
-            PrepareFieldCover(command, field, tick);
-            AdvanceFieldCombatActors(command, active, field, tick);
-            int count = 0, arrived = 0;
-            foreach (var member in active)
-            {
-                count++;
-                if (FieldLocusContains(command, member.Pawn, member.Pawn.Position)) arrived++;
-            }
-            if (field.Stage == TacticalFieldStage.Forming && (TacticalFieldPolicy.Ready(count, arrived)
-                || tick - field.Started >= TacticalFieldPolicy.GatherTicks)) field.Stage = TacticalFieldStage.Defending;
-            if (field.Stage == TacticalFieldStage.Moving && (TacticalFieldPolicy.Ready(count, arrived) || tick - field.MoveStarted >= 600))
-            {
-                field.Stage = TacticalFieldStage.Defending;
-                field.NextMove = Math.Max(field.NextMove, tick + TacticalFieldDoctrine.RetreatInterval);
-            }
-            return true;
+            if (field.High) RefreshFieldLeader(command, active, field, tick);
+            return AdvanceLowField(command, active, field, tick, support);
         }
         private void RefreshFieldLeader(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick)
         {
@@ -247,8 +231,22 @@ namespace Helodrace.Tactics
             if (previous >= 0 && previous != index && command.Members[previous].Fireteam < 0)
                 field.Groups[previous] = field.LeaderTeam < 0 ? 1 : field.LeaderTeam;
             if (index < 0 || field.LeaderTeam < 0 || command.Members[index].Fireteam >= 0) return;
-            field.Groups[index] = field.LeaderTeam;
+            field.Groups[index] = 0;
             command.Members[index].FieldDecisionAt = 0;
+        }
+
+        private static void InitialHighFieldAreas(TacticalFieldResponse field, List<TacticalMemberCommand> active)
+        {
+            // Initial positions come from the soldiers' real team locations;
+            // native combat chooses their covers. Wide lateral displacement is
+            // an explicit hammer mission, not three arbitrary empty markers.
+            for (int group=0;group<3;group++)
+            {
+                int x=0,z=0,count=0;
+                foreach (var member in active) if (member.Fireteam==group)
+                { x+=member.Pawn.Position.x; z+=member.Pawn.Position.z; count++; }
+                if (count>0) field.FirePoints[group]=new IntVec3(x/count,0,z/count);
+            }
         }
 
         private bool FieldFloor(TacticalSquadCommand command, IntVec3 cell)

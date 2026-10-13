@@ -106,7 +106,9 @@ namespace Helodrace.Tactics
 
         internal void FieldGrenadeLaunched(Pawn pawn)
         {
-            FieldGrenadeThrows++; ContactShot(pawn);
+            FieldGrenadeThrows++;
+            if (byPawn.TryGetValue(pawn,out var command) && command.FieldResponse != null)
+                command.FieldResponse.LastEngaged = GenTicks.TicksGame;
         }
     }
 }

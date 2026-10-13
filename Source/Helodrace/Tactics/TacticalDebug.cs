@@ -65,12 +65,14 @@ namespace Helodrace.Tactics
                             : GenTicks.TicksGame - command.Link.Cooperation.PeerStatusAt)
                         + " contact response=" + (command.ContactResponse == null ? "none" : command.ContactResponse.First.ToString())
                         + " field=" + command.FieldResponse?.Stage + " motion=" + command.FieldResponse?.Motion
-                        + " focus=" + command.FieldResponse?.Focus + " moving groups=" + command.FieldResponse?.MovingGroups
+                        + " focus=" + command.FieldResponse?.Focus + " maneuver=" + command.FieldResponse?.Maneuver?.Phase
                         + " accompanying team=" + command.FieldResponse?.LeaderTeam
                         + " field grenade next=" + command.FieldResponse?.GrenadeCheckAt
                         + " grenade checks/plans/throws=" + service.FieldGrenadeChecks + "/" + service.FieldGrenadePlans + "/" + service.FieldGrenadeThrows
                         + " low flank=" + command.FieldResponse?.LowFlank + "/" + command.FieldResponse?.LowFlankAttack
-                        + " party=" + command.FieldResponse?.FireGroup.Count + " retreat=" + command.FieldResponse?.AppliedStep
+                        + " party=" + command.FieldResponse?.FireGroup.Count + " leg/half=" + command.FieldResponse?.Maneuver?.Leg + "/" + command.FieldResponse?.Maneuver?.Half
+                        + " crossfire=" + command.FieldResponse?.Maneuver?.ReadyShots
+                        + " anvil posts=" + string.Join(",",command.Members.Select(m => m.Pawn.thingIDNumber + ":" + m.FieldPostState))
                         + " shelter=" + command.FieldResponse?.LowCoverCount + "/" + command.FieldResponse?.LowCoverReady
                         + " relocation=" + command.FieldResponse?.LowRelocations + " search=" + command.FieldResponse?.LowDefenseSearch?.Cursor
                         + " field radio=" + command.FieldResponse?.Formation?.Coordinator + "/" + command.FieldResponse?.Formation?.Members.Count

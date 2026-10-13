@@ -132,6 +132,11 @@ namespace Helodrace.Tactics
                         if (field.LowFlank) Add(field.FirePoints[1],"HD_Tactics_NodeFireArea",SimpleColor.Cyan,2);
                     }
                     if(field.Screen != null) Add(field.Screen.Target,"HD_Tactics_NodeSmoke",SimpleColor.White);
+                    for (int i=0;i<command.Members.Count;i++)
+                        if (command.Members[i].FieldPostState == TacticalFieldPostState.Fixed)
+                            Add(command.Members[i].FieldPost,"HD_Tactics_NodeGuard",SimpleColor.Blue,i+1,false);
+                    if (field.Maneuver != null) for (int i=0;i<field.Maneuver.Waypoints.Count;i++)
+                        Add(field.Maneuver.Waypoints[i],"HD_Tactics_NodeFireArea",SimpleColor.Cyan,i+1);
                 }
                 if (command.ContactResponse is TacticalContactResponse contact)
                     for(int i=0;i<contact.Posts.Count;i++) Add(contact.Posts[i],"HD_Tactics_NodeGuard",SimpleColor.Blue,i+1,false);

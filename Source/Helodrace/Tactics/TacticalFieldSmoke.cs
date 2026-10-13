@@ -33,8 +33,12 @@ namespace Helodrace.Tactics
         {
             // A squad segment, independent of the selected carrier's location.
             // Only harmless HC/blind smoke passes SupportGrenade/IsSmoke.
-            IntVec3 target = field.LowFlank ? new IntVec3((field.Anchor.x + field.FirePoints[1].x) / 2, 0,
-                (field.Anchor.z + field.FirePoints[1].z) / 2) + TacticalFieldDoctrine.Offset(field.Forward, 0, 4)
+            var maneuver = field.Maneuver;
+            IntVec3 previous = maneuver?.Phase == TacticalManeuverPhase.Moving
+                ? maneuver.Leg > 0 ? maneuver.Waypoints[maneuver.Leg - 1] : maneuver.Origin : field.Anchor;
+            IntVec3 target = maneuver?.Phase == TacticalManeuverPhase.Moving
+                ? new IntVec3((previous.x + field.FirePoints[1].x) / 2, 0, (previous.z + field.FirePoints[1].z) / 2)
+                    + TacticalFieldDoctrine.Offset(field.Forward, 0, 2)
                 : field.Anchor + TacticalFieldDoctrine.Offset(field.Forward, 0, 8);
             field.SmokeRetryAt = tick + 300;
             if (!target.InBounds(map) || !target.Walkable(map) || target.Roofed(map)) return false;
@@ -74,7 +78,7 @@ namespace Helodrace.Tactics
             if (!screen.Launched && !working || tick - screen.Started >= 600)
             {
                 field.Screen = null; field.Stage = TacticalFieldStage.Defending;
-                field.NextMove = tick + 180; return false;
+                return false;
             }
             // Do not equate launch/fuse expiry with an established screen.
             if (!screen.Launched || live || working && !screen.Returned || !RaidSmokeUtility.SmokeAt(map, screen.Target)) return false;

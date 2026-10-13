@@ -244,6 +244,8 @@ namespace Helodrace.Tactics
             care.Patient.LastCareAt = followUp ? tick - TacticalMedicalPolicy.RetryInterval : tick;
             command.NextMedicalCheck = followUp ? tick + 1 : tick + TacticalMedicalPolicy.ScanInterval;
             command.PhaseStarted += tick - care.Started;
+            if (command.FieldResponse?.Maneuver != null)
+            { command.FieldResponse.Maneuver.Started += tick - care.Started; command.FieldResponse.Maneuver.PhaseAt += tick - care.Started; }
             care.Patient.Entered = care.Patient.EntryAssignmentDone = false;
             care.Patient.MedicalRejoinPending |= care.Patient.Pawn.Downed;
             care.Helper.Entered = care.Helper.EntryAssignmentDone = false;

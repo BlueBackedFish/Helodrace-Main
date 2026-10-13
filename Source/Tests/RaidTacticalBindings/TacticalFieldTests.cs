@@ -77,21 +77,6 @@ internal static class TacticalFieldTests
     }
     private static void CheckFirePoints(IntVec3 anchor)
     {
-        foreach (IntVec3 forward in GenAdj.CardinalDirections)
-        foreach (int seed in new[] { 10, 999, 10001 })
-        {
-            IntVec3 focus = anchor + forward * 50;
-            var points = Enumerable.Range(0, 3).Select(i => TacticalFieldPolicy.FirePoint(anchor, focus, forward, i, seed)).ToArray();
-            int Depth(IntVec3 cell) => (cell - anchor).x * forward.x + (cell - anchor).z * forward.z;
-            IntVec3 side = new IntVec3(-forward.z, 0, forward.x);
-            int Lateral(IntVec3 cell) => (cell - anchor).x * side.x + (cell - anchor).z * side.z;
-            if (points.Distinct().Count() != 3 || points.Any(p => Depth(p) != 0)
-                || Lateral(points[0]) >= -6 || Lateral(points[2]) <= 6 || Lateral(points[1]) != 0)
-                throw new Exception("Three HIGH fire-point centres must initially lie on one transverse line.");
-            foreach (IntVec3 point in points)
-            {
-            }
-        }
         if (Enumerable.Range(0, 3).Any(team => TacticalFieldPolicy.FirePointIndex(true, team) != team)
             || TacticalFieldPolicy.FirePointIndex(true, -1) != 1 || TacticalFieldPolicy.FirePointIndex(false, -1) != 0)
             throw new Exception("HIGH uses its actual fireteams; LOW's main body is not split into automatic fixed flank groups.");
@@ -102,7 +87,7 @@ internal static class TacticalFieldTests
         string path = Path.Combine(Path.GetTempPath(), "Helodrace-firepoints-" + Guid.NewGuid() + ".xml");
         var field = new TacticalFieldResponse { Anchor = anchor, Focus = anchor + IntVec3.North * 50,
             Forward = IntVec3.North, Started = 123, High = true };
-        for (int i = 0; i < 3; i++) field.FirePoints.Add(TacticalFieldPolicy.FirePoint(anchor, field.Focus, field.Forward, i, 123));
+        for (int i = 0; i < 3; i++) field.FirePoints.Add(anchor + IntVec3.East * i * 3);
         field.Areas.Add(new TacticalFireArea { Cells = areaForSave(anchor), Started = 100, Cursor = 96, Seed = anchor, Prepared = true });
         field.Groups.Add(2); field.LeaderIndex = 0; field.LeaderTeam = 2;
         // Console has no active mod registry. Seed the native type resolver,

@@ -86,10 +86,10 @@ namespace Helodrace
                 }
                 if (field.Screen != null)
                 {
-                    IntVec3 expected = field.LowFlank ? new IntVec3((field.Anchor.x + field.FirePoints[1].x) / 2, 0,
-                        (field.Anchor.z + field.FirePoints[1].z) / 2) + TacticalFieldDoctrine.Offset(field.Forward, 0, 4)
-                        : field.Anchor + TacticalFieldDoctrine.Offset(field.Forward, 0, 8);
-                    fieldSmokeTargets &= field.Screen.Target == expected;
+                    // Segment snapshots remain stable while the maneuver can
+                    // advance to a later waypoint before the smoke disperses.
+                    fieldSmokeTargets &= field.Screen.Target.IsValid
+                        && (field.Screen.Job == null || field.Screen.Job.targetA.Cell == field.Screen.Target);
                     if (field.Screen.Launched && RaidSmokeUtility.SmokeAt(map, field.Screen.Target))
                         result.newFieldSmokeSeen = true;
                 }

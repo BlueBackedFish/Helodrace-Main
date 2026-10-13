@@ -13,7 +13,7 @@ namespace Helodrace.Tactics
     public sealed partial class TacticalFieldResponse
     {
         public bool LowFlank, LowFlankAttack;
-        public int NextFlank, FlankStarted, FlankSide = 1, NativeCursor;
+        public int NativeCursor;
     }
     public sealed partial class MapComponent_TacticalCommands
     {
@@ -48,16 +48,19 @@ namespace Helodrace.Tactics
         {
             FieldLocus(command, pawn, out IntVec3 locus, out int radius);
             var field = command.FieldResponse;
-            if (!TacticalFieldDoctrine.WithinEllipse(locus, cell, field.Forward, radius, FieldDepth(command, pawn))) return false;
-            if (!field.High || field.Stage != TacticalFieldStage.Moving) return true;
-            int group = field.Groups[command.Members.FindIndex(m => m.Pawn == pawn)];
-            // Retreat changes the group's allowed half-area, never an exact personal slot.
-            return (field.MovingGroups & (1 << group)) == 0
-                || (long)(cell.x - locus.x) * field.Forward.x + (long)(cell.z - locus.z) * field.Forward.z <= 0;
+            if (TacticalFieldDoctrine.WithinEllipse(locus, cell, field.Forward, radius, FieldDepth(command, pawn))) return true;
+            if (!Hammer(command, pawn) || field.Maneuver == null) return false;
+            var m = field.Maneuver;
+            IntVec3 previous = m.Leg > 0 && m.Leg <= m.Waypoints.Count ? m.Waypoints[m.Leg - 1] : m.Origin;
+            return TacticalFieldDoctrine.WithinEllipse(previous, cell, field.Forward, radius, FieldDepth(command, pawn));
         }
         internal void FieldLocus(TacticalSquadCommand command, Pawn pawn, out IntVec3 locus, out int radius)
         {
             var field = command.FieldResponse;
+            if (Hammer(command, pawn)) { locus = field.FirePoints[1]; radius = TacticalFieldDoctrine.LowFlankRadius; return; }
+            var member = command.Members.Find(m => m.Pawn == pawn);
+            if (member.FieldPost.IsValid)
+            { locus = member.FieldPost; radius = field.High ? TacticalFieldPolicy.HighWidth : TacticalFieldDoctrine.LowMainRadius; return; }
             if (field.High)
             {
                 locus = field.FirePoints[field.Groups[command.Members.FindIndex(m => m.Pawn == pawn)]];
@@ -74,6 +77,21 @@ namespace Helodrace.Tactics
             var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (!controller && !budget.TryJob(tick)) return null;
             bool anvil = !command.FieldResponse.FireGroup.Contains(command.Members.IndexOf(member));
+            if (!anvil)
+            {
+                Job moving = null;
+                if (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))
+                { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 180; }
+                else if (tick >= member.FieldDecisionAt && budget.TryPlan(tick))
+                {
+                    long started = Stopwatch.GetTimestamp();
+                    try { moving = FieldManeuverJob(command, member, tick); }
+                    finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
+                    member.FieldDecisionAt = tick + (moving?.def == JobDefOf.Goto ? 90 : 15);
+                }
+                if (moving == null) { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 30; }
+                moving.checkOverrideOnExpire = false; pendingFieldJobs[pawn] = moving; return moving;
+            }
             if (anvil)
             {
                 RefreshFieldPost(member, command.FieldResponse, tick);
@@ -149,61 +167,26 @@ namespace Helodrace.Tactics
                 {
                     if (condition == JobCondition.Succeeded && pawn.Position == member.FieldPost)
                         CaptureFieldPost(member, command.FieldResponse, GenTicks.TicksGame);
-                    else member.ResetFieldPost();
+                    else CaptureFieldPost(member, command.FieldResponse, GenTicks.TicksGame);
                 }
+                else if (member.FieldPostState == TacticalFieldPostState.Fixed && job.def == JobDefOf.Goto
+                    && condition != JobCondition.Succeeded) member.FieldPostState = TacticalFieldPostState.Blocked;
                 member.Job = null; Wake(pawn);
             });
         }
         private bool AdvanceLowField(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick, bool support)
         {
             command.Due = Math.Min(command.Due, tick + 10);
-            AdvanceLowDefense(command, active, field, tick);
-            if (field.LowFlank && (tick - field.FlankStarted >= TacticalFieldDoctrine.FlankLifetime
-                || active.Count(m => field.FireGroup.Contains(command.Members.IndexOf(m))) < 3
-                || !active.Exists(m => LowAutomatic(m) && field.FireGroup.Contains(command.Members.IndexOf(m)))))
+            if (!field.High) AdvanceLowDefense(command, active, field, tick);
+            AdvanceFieldManeuver(command, active, field, tick, support);
+            if (field.Maneuver != null && field.Maneuver.Phase != TacticalManeuverPhase.Planning)
             {
-                field.LowFlank = field.LowFlankAttack = false; field.FireGroup.Clear(); field.Stage = TacticalFieldStage.Defending;
-                for (int i = 0; i < command.Members.Count; i++) { field.Groups[i] = 0; command.Members[i].FieldDecisionAt = 0; }
+                PrepareFieldCover(command, field, tick);
+                if (field.Maneuver.Phase == TacticalManeuverPhase.Moving && tick >= field.SmokeRetryAt
+                    && field.Screen == null) PlanFieldSmoke(command, active, field, tick);
             }
-            bool automatic = command.Link.Unit.Faction.def.defName == "HD_HelodCivilLowFaction" && active.Exists(LowAutomatic);
-            if (!field.LowFlank && field.LowDefenseSearch == null && tick >= field.NextFlank)
-            {
-                bool attempt = TacticalFieldDoctrine.FlankOpportunity(tick, field.NextFlank, command.Defensive, support,
-                    active.Count, automatic, unchecked(field.EnemyId * 397 ^ tick / TacticalFieldDoctrine.FlankInterval));
-                field.NextFlank = tick + TacticalFieldDoctrine.FlankInterval;
-                if (attempt)
-                {
-                    var gunner = active.First(LowAutomatic);
-                    var party = active.OrderBy(m => m == gunner ? -1 : m.Pawn.Position.DistanceToSquared(gunner.Pawn.Position))
-                        .Take(TacticalFieldDoctrine.FlankSize(active.Count));
-                    field.FireGroup.Clear(); foreach (var member in party) field.FireGroup.Add(command.Members.IndexOf(member));
-
-                    field.LowFlank = true; field.LowFlankAttack = false; field.FlankStarted = tick;
-                    field.FlankSide = (field.EnemyId ^ tick) % 2 == 0 ? -1 : 1;
-                    field.FirePoints[1] = TacticalFieldDoctrine.FlankPoint(field.Anchor, field.Forward, field.FlankSide, false);
-                    field.Areas[1] = new TacticalFireArea { Started = tick };
-                    field.Stage = TacticalFieldStage.Forming;
-                    for (int i = 0; i < field.Groups.Count; i++) field.Groups[i] = field.FireGroup.Contains(i) ? 1 : 0;
-                    if (tick >= field.SmokeRetryAt) PlanFieldSmoke(command, active, field, tick);
-                }
-            }
-            if (field.LowFlank && !field.LowFlankAttack)
-            {
-                if (field.Areas[1].Prepared && !field.Areas[1].Seed.IsValid)
-                { field.FlankStarted = tick - TacticalFieldDoctrine.FlankLifetime; command.Due = tick + 1; return true; }
-                int arrived = active.Count(m => field.FireGroup.Contains(command.Members.IndexOf(m)) && FieldLocusContains(command, m.Pawn, m.Pawn.Position));
-                if (TacticalFieldPolicy.Ready(field.FireGroup.Count, arrived) || tick - field.FlankStarted >= TacticalFieldDoctrine.FlankGatherTicks)
-                {
-                    field.LowFlankAttack = true; field.Stage = TacticalFieldStage.Defending;
-                    field.FirePoints[1] = TacticalFieldDoctrine.FlankPoint(field.Anchor, field.Forward, field.FlankSide, true);
-                    field.Areas[1] = new TacticalFireArea { Started = tick };
-                    foreach (var member in active) if (field.FireGroup.Contains(command.Members.IndexOf(member)))
-                    { member.FieldDecisionAt = 0; }
-                }
-            }
-            if (field.LowFlank) PrepareFieldCover(command, field, tick);
             AdvanceFieldCombatActors(command, active, field, tick);
-            if (!field.LowFlank) field.Stage = TacticalFieldStage.Defending;
+            if (field.Maneuver == null) field.Stage = TacticalFieldStage.Defending;
             return true;
         }
     }

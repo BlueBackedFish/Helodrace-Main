@@ -111,7 +111,11 @@ namespace Helodrace.Tactics
                 command.PhaseStarted += duration;
                 if (command.ContactResponse != null) command.ContactResponse.Started += duration;
                 if (command.FieldResponse != null)
-                { command.FieldResponse.Started += duration; command.FieldResponse.NextMove += duration; }
+                {
+                    command.FieldResponse.Started += duration;
+                    if (command.FieldResponse.Maneuver != null)
+                    { command.FieldResponse.Maneuver.Started += duration; command.FieldResponse.Maneuver.PhaseAt += duration; }
+                }
                 if (command.FocusFire != null) command.FocusFire.Started += duration;
                 command.EvasionStarted = -1;
             }

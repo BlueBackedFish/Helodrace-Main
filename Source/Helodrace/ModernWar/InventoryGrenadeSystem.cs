@@ -315,6 +315,8 @@ namespace Helodrace
         private LocalTargetInfo ThrowTarget => job.GetTarget(TargetInd);
         public Thing Grenade => job.GetTarget(GrenadeInd).Thing;
         public bool Released;
+        private Projectile launchedProjectile;
+        private int safeReturnAt = -1;
         private bool FieldThrow => job.targetC.IsValid;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
@@ -357,6 +359,7 @@ namespace Helodrace
                     Projectile projectile = InventoryGrenadeUtility.Launch(pawn, Grenade, ThrowTarget);
                     if (projectile == null) { EndJobWith(JobCondition.Incompletable); return; }
                     Released = true;
+                    launchedProjectile = projectile;
                     if (FieldThrow) pawn.Map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.FieldGrenadeLaunched(pawn);
                 },
                 defaultCompleteMode = ToilCompleteMode.Instant
@@ -365,10 +368,25 @@ namespace Helodrace
             {
                 yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
             }
+            if (FieldThrow)
+            {
+                var safety = ToilMaker.MakeToil("FieldGrenadeFuseWait");
+                safety.defaultCompleteMode = ToilCompleteMode.Never;
+                safety.initAction = () => pawn.pather.StopDead();
+                safety.tickAction = () =>
+                {
+                    if (launchedProjectile?.Spawned == true && !launchedProjectile.Destroyed) return;
+                    if (safeReturnAt < 0) safeReturnAt = GenTicks.TicksGame + 60;
+                    if (GenTicks.TicksGame >= safeReturnAt) ReadyForNextToil();
+                };
+                yield return safety;
+            }
         }
         public override void ExposeData()
         {
             base.ExposeData(); Scribe_Values.Look(ref Released, "inventoryGrenadeReleased");
+            Scribe_References.Look(ref launchedProjectile, "inventoryGrenadeProjectile");
+            Scribe_Values.Look(ref safeReturnAt, "inventoryGrenadeSafeReturnAt", -1);
         }
     }
 }

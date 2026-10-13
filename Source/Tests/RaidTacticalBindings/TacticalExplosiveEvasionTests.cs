@@ -49,13 +49,13 @@ internal static class TacticalExplosiveEvasionTests
         command.Plan = new TacticalLocalPlan(); TacticalLocalPlan plan = command.Plan;
         command.PhaseStarted = 40; command.EvasionStarted = 100;
         command.ContactResponse = new TacticalContactResponse { Started = 70 };
-        command.FieldResponse = new TacticalFieldResponse { Started = 80, NextMove = 180 };
+        command.FieldResponse = new TacticalFieldResponse { Started = 80, Maneuver = new TacticalFieldManeuver { Started = 80, PhaseAt = 180 } };
         command.FocusFire = new TacticalFocusFire { Started = 90 };
         MethodInfo pause = AccessTools.Method(typeof(MapComponent_TacticalCommands), "PauseForExplosiveEvasion");
         Check(!(bool)pause.Invoke(owner, new object[] { command, 200 }) && command.Plan == plan
             && command.Phase == TacticalCommandPhase.Stack && command.PhaseStarted == 140
             && command.ContactResponse.Started == 170 && command.FieldResponse.Started == 180
-            && command.FieldResponse.NextMove == 280 && command.FocusFire.Started == 190
+            && command.FieldResponse.Maneuver.PhaseAt == 280 && command.FocusFire.Started == 190
             && command.EvasionStarted == -1, "Resuming after danger preserves the selected opening/phase and adjusts paused clocks.");
         pause.Invoke(owner, new object[] { command, 201 });
         Check(command.PhaseStarted == 140, "An ended evasion must shift phase clocks exactly once.");

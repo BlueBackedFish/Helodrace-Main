@@ -154,7 +154,7 @@ namespace Helodrace
             TacticalFieldResponse field = command.FieldResponse;
             if (field == null) return "none";
             TacticalFieldSmoke smoke = field.Screen;
-            return field.Stage + ":" + field.Anchor + ":" + field.Focus + ":" + field.MovingGroups
+            return field.Stage + ":" + field.Anchor + ":" + field.Focus + ":" + field.Maneuver?.Phase
                 + ":" + string.Join(";", field.FirePoints) + ":" + string.Join(";", field.FireGroup)
                 + ":" + smoke?.Target + ":" + smoke?.Thrower?.thingIDNumber + ":" + smoke?.ActiveJob?.loadID
                 + ":" + smoke?.Launched + ":" + smoke?.Returned

@@ -96,6 +96,8 @@ namespace Helodrace.Tactics
                         command.FieldResponse?.Focus ?? command.Goal));
                 }
                 command.PhaseStarted += tick - recovery.Started;
+                if (command.FieldResponse?.Maneuver != null)
+                { command.FieldResponse.Maneuver.Started += tick - recovery.Started; command.FieldResponse.Maneuver.PhaseAt += tick - recovery.Started; }
                 command.BagRecovery = null;
                 command.ContactRestoring |= command.Phase == TacticalCommandPhase.Clear && command.Plan != null;
                 command.BagRecoveryAt = tick + TacticalMedicalEquipmentPolicy.RetryTicks;
