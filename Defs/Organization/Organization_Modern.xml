@@ -52,7 +52,7 @@
 
   <Helodrace.Squads.DoctrineDef>
     <defName>HD_Doctrine_Modern</defName><label>modern combined-arms doctrine</label>
-    <formationPointTolerance>0.10</formationPointTolerance>
+    <formationPointTolerance>0</formationPointTolerance><maximumRaidPersonnel>43</maximumRaidPersonnel>
     <commandLossDelayTicks>45</commandLossDelayTicks><commandRecoveryTicks>180</commandRecoveryTicks>
     <actingCommandEfficiency>0.85</actingCommandEfficiency>
     <tacticalRadio>true</tacticalRadio>

@@ -461,8 +461,8 @@ internal static class Program
         Check(!doctrine.ConfigErrors().Any(), "Actual doctrine is valid");
         Near(510, ((FormationDef)defs["HD_Formation_GW_Patrol"]).FormationCost, "Actual patrol cost");
         Near(1000, ((FormationDef)defs["HD_Formation_GW_RifleSquad"]).FormationCost, "Actual squad cost");
-        Near(3885, ((FormationDef)defs["HD_Formation_GW_RiflePlatoon"]).FormationCost, "Actual reinforced platoon cost");
-        Check(((FormationDef)defs["HD_Formation_GW_RiflePlatoon"]).StandardPersonnel == 45, "Platoon is complete");
+        Near(3320, ((FormationDef)defs["HD_Formation_GW_RiflePlatoon"]).FormationCost, "Actual rifle platoon cost");
+        Check(((FormationDef)defs["HD_Formation_GW_RiflePlatoon"]).StandardPersonnel == 40, "Platoon is complete");
         var modern = (DoctrineDef)defs["HD_Doctrine_Modern"];
         Check(!modern.ConfigErrors().Any(), "Modern doctrine is valid");
         foreach (FormationDef formation in defs.Values.OfType<FormationDef>()
@@ -574,18 +574,22 @@ internal static class Program
             Check(highPlan.Personnel == 0 || highPlan.Personnel >= 13,
                 "High never fields fewer than thirteen personnel");
         }
-        Check(FormationPlanner.Plan(2100f, modern).Personnel == 13,
+        Check(FormationPlanner.Plan(2275f, modern).Personnel == 13,
             "A mid-sized high-faction raid fields one complete squad");
-        Check(FormationPlanner.Plan(6800f, modern).Personnel == 43,
+        Check(FormationPlanner.Plan(7445f, modern).Personnel == 43,
             "A large high-faction raid fields one complete platoon");
         foreach (float points in Enumerable.Range(0, 400).Select(index => index * 47f))
         {
             var plan = FormationPlanner.Plan(points, doctrine);
+            Check(plan.Personnel <= 40 && plan.PointOverrun == 0, "LOW capped personnel and exact budget");
             Check(plan.formationPointsSpent <= points * 1.1f + 0.001f, "Total tolerance boundary");
             Near(Math.Max(0, points - plan.formationPointsSpent), plan.SupportPointsRemaining, "Reserve conservation");
             Check(plan.roots.All(formation => formation.StandardPersonnel == formation.idealPersonnel),
                 "Every chosen unit is complete");
         }
+        Check(FormationPlanner.Plan(50000, doctrine).Personnel == 40
+            && FormationPlanner.Plan(50000, modern).Personnel == 43, "Large raids cap at a full platoon");
+        Check(FormationPlanner.Plan(50000, doctrine, false).Personnel > 40, "The setting can lift the personnel cap");
         foreach (float points in new[] { 500f, 1000f, 1300f, 1400f, 3000f, 4000f })
         {
             var plan = FormationPlanner.Plan(points, doctrine);

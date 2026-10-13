@@ -38,7 +38,7 @@ namespace Helodrace.Squads
         public static List<Pawn> Generate(PawnGroupMakerParms parms, out CombatOrganization organization)
         {
             DoctrineDef doctrine = DoctrineFor(parms);
-            FormationPlan plan = FormationPlanner.Plan(parms.points, doctrine);
+            FormationPlan plan = FormationPlanner.Plan(parms.points, doctrine, RaidSettings.LimitToOnePlatoon);
             var pawns = new List<Pawn>();
             organization = null;
             if (plan.roots.Count == 0) return pawns;
@@ -206,7 +206,7 @@ namespace Helodrace.Squads
         public static bool Prefix(PawnGroupMakerParms parms, ref IEnumerable<PawnKindDef> __result)
         {
             if (!OrganizationGenerator.AppliesTo(parms)) return true;
-            FormationPlan plan = FormationPlanner.Plan(parms.points, OrganizationGenerator.DoctrineFor(parms));
+            FormationPlan plan = FormationPlanner.Plan(parms.points, OrganizationGenerator.DoctrineFor(parms), RaidSettings.LimitToOnePlatoon);
             __result = plan.roots.SelectMany(OrganizationGenerator.KindsFor).ToList();
             return false;
         }

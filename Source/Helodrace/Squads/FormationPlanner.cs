@@ -18,7 +18,7 @@ namespace Helodrace.Squads
     {
         // Prefer doctrine priorities, then larger complete units. Tolerance is a single
         // allowance on the ORIGINAL raid budget, never applied afresh to every unit.
-        public static FormationPlan Plan(float points, DoctrineDef doctrine)
+        public static FormationPlan Plan(float points, DoctrineDef doctrine, bool limitPersonnel = true)
         {
             if (doctrine == null) throw new ArgumentNullException(nameof(doctrine));
             if (points < 0 || float.IsNaN(points) || float.IsInfinity(points))
@@ -26,18 +26,22 @@ namespace Helodrace.Squads
             var result = new FormationPlan { initialRaidPoints = points };
             var candidates = doctrine.availableFormations.Distinct()
                 .Where(formation => formation != null && !formation.ConfigErrors().Any())
-                .Select(formation => new { formation, cost = formation.FormationCost })
+                .Select(formation => new { formation, cost = formation.FormationCost, personnel = formation.StandardPersonnel })
                 .OrderByDescending(item => item.formation.selectionPriority)
                 .ThenByDescending(item => item.cost)
                 .ThenBy(item => item.formation.defName, StringComparer.Ordinal).ToList();
             double limit = (double)points * (1d + doctrine.formationPointTolerance);
             double spent = 0;
+            int personnel = 0;
             while (true)
             {
-                var next = candidates.FirstOrDefault(item => spent + item.cost <= limit + 0.0001d);
+                var next = candidates.FirstOrDefault(item => spent + item.cost <= limit + 0.0001d
+                    && (!limitPersonnel || doctrine.maximumRaidPersonnel <= 0
+                        || personnel + item.personnel <= doctrine.maximumRaidPersonnel));
                 if (next == null) break;
                 result.roots.Add(next.formation);
                 spent += next.cost;
+                personnel += next.personnel;
             }
             result.formationPointsSpent = (float)spent;
             return result;

@@ -53,11 +53,21 @@ namespace Helodrace
     public class HelodraceBase : Mod
     {
         public static HelodraceBase Instance { get; private set; }
+        public RaidSettings RaidOptions { get; }
 
         public HelodraceBase(ModContentPack content) : base(content)
         {
             Instance = this;
+            RaidOptions = GetSettings<RaidSettings>();
             Log.Message("Helodrace Mod loaded.");
+        }
+        public override string SettingsCategory() => "Helodrace";
+        public override void DoSettingsWindowContents(UnityEngine.Rect rect)
+        {
+            var listing = new Listing_Standard(); listing.Begin(rect);
+            listing.CheckboxLabeled("습격 인원을 최대 1소대로 제한", ref RaidOptions.limitToOnePlatoon,
+                "LOW 최대 40명, HIGH 최대 43명. 초과 예산은 지원 포인트로 전환합니다.");
+            listing.End();
         }
     }
 

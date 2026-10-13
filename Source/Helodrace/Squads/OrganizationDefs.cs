@@ -143,6 +143,7 @@ namespace Helodrace.Squads
     {
         public List<FormationDef> availableFormations = new List<FormationDef>();
         public float formationPointTolerance = 0.10f;
+        public int maximumRaidPersonnel;
         public int commandLossDelayTicks = 90;
         public int commandRecoveryTicks = 300;
         public float actingCommandEfficiency = 0.70f;

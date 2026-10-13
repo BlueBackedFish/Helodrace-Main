@@ -116,26 +116,25 @@
   </Helodrace.Squads.FormationDef>
 
   <Helodrace.Squads.FormationDef>
-    <defName>HD_Formation_GW_RiflePlatoon</defName><label>Great War reinforced rifle platoon</label><unitLevel>Platoon</unitLevel>
-    <minimumPersonnel>45</minimumPersonnel><idealPersonnel>45</idealPersonnel><maximumPersonnel>45</maximumPersonnel>
+    <defName>HD_Formation_GW_RiflePlatoon</defName><label>Great War rifle platoon</label><unitLevel>Platoon</unitLevel>
+    <minimumPersonnel>40</minimumPersonnel><idealPersonnel>40</idealPersonnel><maximumPersonnel>40</maximumPersonnel>
     <selectionPriority>200</selectionPriority><commanderRole>HD_Role_PlatoonLeader</commanderRole>
     <doctrine>HD_Doctrine_GreatWar</doctrine>
     <requiredRoles>
       <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_PlatoonLeader</commandRole><explicitSuccessionOrder>0</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M8_Item</li></grenadeLoadout></li>
       <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><commandRole>HD_Role_PlatoonSergeant</commandRole><explicitSuccessionOrder>1</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M8_Item</li></grenadeLoadout></li>
+      <li><pawnKind>HD_GW_HelodCarbine</pawnKind><combatRole>HD_Role_Carbine</combatRole><explicitSuccessionOrder>2</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_M8_Item</li></grenadeLoadout></li>
+      <li><pawnKind>HD_GW_HelodRifleman</pawnKind><combatRole>HD_Role_Rifleman</combatRole><explicitSuccessionOrder>3</explicitSuccessionOrder><grenadeLoadout><li>HD_Grenade_MKII</li></grenadeLoadout></li>
     </requiredRoles>
     <childFormations>
       <li><formation>HD_Formation_GW_RifleSquad</formation><count>3</count><successionPriority>0</successionPriority></li>
-      <li><formation>HD_Formation_GW_MachineGunTeam</formation><successionPriority>20</successionPriority></li>
-      <li><formation>HD_Formation_GW_BazookaTeam</formation><successionPriority>30</successionPriority></li>
-      <li><formation>HD_Formation_GW_SniperTeam</formation><successionPriority>40</successionPriority></li>
     </childFormations>
     <successionRoles><li>HD_Role_PlatoonSergeant</li></successionRoles>
   </Helodrace.Squads.FormationDef>
 
   <Helodrace.Squads.DoctrineDef>
     <defName>HD_Doctrine_GreatWar</defName><label>Great War infantry doctrine</label>
-    <formationPointTolerance>0.10</formationPointTolerance>
+    <formationPointTolerance>0</formationPointTolerance><maximumRaidPersonnel>40</maximumRaidPersonnel>
     <commandLossDelayTicks>90</commandLossDelayTicks><commandRecoveryTicks>300</commandRecoveryTicks>
     <actingCommandEfficiency>0.70</actingCommandEfficiency>
     <directControl>0.9</directControl><fireteamIndependence>0.2</fireteamIndependence><squadCohesion>0.9</squadCohesion>
