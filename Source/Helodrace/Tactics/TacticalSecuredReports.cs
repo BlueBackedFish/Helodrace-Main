@@ -89,6 +89,25 @@ namespace Helodrace.Tactics
                 { entries.Remove(report); if (entries.Count == 0) byCell.Remove(cell); }
         }
         public bool Cleared(IntVec3 cell) { EnsureIndex(); return clearedCells.ContainsKey(cell); }
+        public List<TacticalRoomFrontier> ClearedFrontiersAt(IntVec3 cell)
+        {
+            EnsureIndex();
+            var result=new List<TacticalRoomFrontier>(); var seen=new HashSet<IntVec3>();
+            if (!byCell.TryGetValue(cell,out var reports)) return result;
+            foreach (var report in reports)
+            {
+                if (report.Recheck || !byOpening.TryGetValue(report.Opening,out var batches)) continue;
+                // Frontier-only batches follow the room's floor batches. Read
+                // the newest local batches, never the whole map's reports.
+                for (int i=batches.Count-1, inspected=0;i>=0 && inspected++<32;i--)
+                    if (!batches[i].Recheck)
+                        foreach (var frontier in batches[i].Frontiers)
+                            if (seen.Add(frontier.Opening))
+                            { result.Add(frontier); if (result.Count==16) return result; }
+                break;
+            }
+            return result;
+        }
         public bool KnownOpening(IntVec3 cell) { EnsureIndex(); return byOpening.ContainsKey(cell); }
         public bool KnownPassage(IntVec3 opening, IntVec3 inward, int depth)
         {

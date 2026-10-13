@@ -407,7 +407,9 @@ namespace Helodrace.Tactics
                 if (contact.Door && contact.Position == frontier.Opening) { observedThreat = 600; break; }
             // Latched structural preference plus actual contact knowledge.
             // Never reorder entrances by an unseen door's current Open state.
-            return command.Contacts.Pursuit.Priority(frontier,GenTicks.TicksGame) * 200000
+            var root=command.CqbParent ?? command;
+            bool follow=root.Link.PursuitDivision.Role(root.Id,root.Goal,GenTicks.TicksGame)!=TacticalPursuitRole.Clear;
+            return command.Contacts.Pursuit.Priority(frontier,GenTicks.TicksGame,follow) * 200000
                 + ((goalSecured ?? command.GoalSecured) ? frontier.Opening.DistanceToSquared(command.Plan.Inside)
                 : frontier.Inside.DistanceToSquared(CooperativeGoal(command)))
                 + TacticalCqbDoctrine.EntryPenalty(TacticalHighCqbPolicy.High(command), frontier.Preference >= 800,

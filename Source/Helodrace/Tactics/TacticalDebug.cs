@@ -47,6 +47,11 @@ namespace Helodrace.Tactics
                         + " pursuit=" + command.Contacts.Pursuit.Target + "/" + command.Contacts.Pursuit.EnemyId
                         + " room=" + command.Contacts.Pursuit.Room.Count + " ready=" + command.Contacts.Pursuit.RoomReady
                         + " entered=" + command.Contacts.Pursuit.Entered + " exits=" + command.Contacts.Pursuit.AdjacentDoors.Count
+                        + " division=" + (command.CqbParent ?? command).Link.PursuitDivision.Role(
+                            (command.CqbParent ?? command).Id,(command.CqbParent ?? command).Goal,GenTicks.TicksGame)
+                        + " tracker=" + (command.CqbParent ?? command).Link.PursuitDivision.Assignment?.Tracker
+                        + " division stage=" + (command.CqbParent ?? command).Link.PursuitDivision.Stage
+                        + " group=" + (command.CqbParent ?? command).Link.PursuitDivision.Assignment?.Id
                         + " assignments arrived=" + command.Members.Count(member => member.EntryAssignmentDone)
                         + " cooperation=" + command.Link.Cooperation.Stage + " channel=" + command.Link.LastChannel
                         + " liaison=" + command.Link.Liaison?.thingIDNumber + " peer=" + command.Link.Peer?.Id

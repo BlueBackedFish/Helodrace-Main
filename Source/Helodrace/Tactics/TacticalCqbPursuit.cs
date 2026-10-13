@@ -32,18 +32,31 @@ namespace Helodrace.Tactics
         }
         internal void CompleteRoom(HashSet<IntVec3> cells, bool truncated)
         { Room = cells; RoomReady = true; Truncated = truncated; Survey = null; Version++; }
+        internal void AssignedLead(int id, IntVec3 position, int seen)
+        {
+            // A communicated task lead does not replace local combat memory.
+            if (position==Target || RoomReady && Room.Contains(position))
+            { EnemyId=id; Target=position; SeenTick=seen; return; }
+            SeenTick=-1; Observe(id,position,seen);
+        }
         public void RecordEntered(ISet<IntVec3> cells, IEnumerable<TacticalRoomFrontier> frontiers, int tick)
         {
             if (!Active(tick) || !cells.Contains(Target)) return;
+            RecordClearedLead(frontiers);
+        }
+        internal void RecordClearedLead(IEnumerable<TacticalRoomFrontier> frontiers)
+        {
             AdjacentDoors.Clear();
             foreach (var frontier in frontiers)
                 if (!frontier.Excluded && !frontier.Outdoors)
                 { AdjacentDoors.Add(frontier.Opening); if (AdjacentDoors.Count == 16) break; }
             Entered = true; Version++;
         }
-        public int Priority(TacticalRoomFrontier frontier, int tick)
+        public int Priority(TacticalRoomFrontier frontier, int tick, bool follow = true)
         {
             if (!Active(tick)) return 2;
+            if (!follow) return (RoomReady && Room.Contains(frontier.Inside) || frontier.Inside==Target
+                || Entered && AdjacentDoors.Contains(frontier.Opening)) ? 3 : 2;
             if (!Entered && (RoomReady && Room.Contains(frontier.Inside) || frontier.Inside == Target)) return 0;
             return Entered && AdjacentDoors.Contains(frontier.Opening) ? 1 : 2;
         }
@@ -64,8 +77,15 @@ namespace Helodrace.Tactics
     {
         private bool PrepareCqbPursuit(TacticalSquadCommand command, int tick, bool ownsPlanAllowance)
         {
+            TacticalCommunications.RefreshPursuitDivision(command.CqbParent ?? command,tick);
             var pursuit = command.Contacts.Pursuit;
             pursuit.Expire(tick);
+            var root=command.CqbParent ?? command;
+            var assignment=root.Link.PursuitDivision.Assignment;
+            bool assigned=root.Link.PursuitDivision.Role(root.Id,root.Goal,tick)==TacticalPursuitRole.Clear
+                && assignment.Lead.IsValid && assignment.EnemyId>=0 && assignment.LeadTick<=tick
+                && tick-assignment.LeadTick<TacticalContactMemory.RetentionTicks;
+            if (assigned) pursuit.AssignedLead(assignment.EnemyId,assignment.Lead,assignment.LeadTick);
             int selectedId=-1, selectedTick=-1;
             IntVec3 selected=IntVec3.Invalid;
             void Consider(int id, IntVec3 area, int seen)
@@ -79,12 +99,22 @@ namespace Helodrace.Tactics
             }
             // Only remembered visible samples nominate a room. A report's
             // door Area already points to its observed adjacent floor.
-            foreach (var contact in command.Contacts.Memory.Entries)
-                Consider(contact.EnemyId,contact.Area,contact.SeenTick);
-            foreach (var threat in command.Contacts.Melee.Entries)
-                if (threat.Urgency > 0) Consider(threat.EnemyId,threat.Position,threat.SeenTick);
+            if (!assigned)
+            {
+                foreach (var contact in command.Contacts.Memory.Entries)
+                    Consider(contact.EnemyId,contact.Area,contact.SeenTick);
+                foreach (var threat in command.Contacts.Melee.Entries)
+                    if (threat.Urgency > 0) Consider(threat.EnemyId,threat.Position,threat.SeenTick);
+            }
             if (selected.IsValid) pursuit.Observe(selectedId,selected,selectedTick);
-            if (!pursuit.Active(tick) || pursuit.RoomReady) return true;
+            void SharedLeadExits()
+            {
+                if (!assigned || pursuit.Entered || !command.SecuredKnowledge.Cleared(pursuit.Target)) return;
+                var exits=command.SecuredKnowledge.ClearedFrontiersAt(pursuit.Target);
+                if (exits.Count>0) pursuit.RecordClearedLead(exits);
+            }
+            if (!pursuit.Active(tick)) return true;
+            if (pursuit.RoomReady) { SharedLeadExits(); return true; }
             var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (!ownsPlanAllowance && !budget.TryPlan(tick)) return false;
             long started = Stopwatch.GetTimestamp();
@@ -108,6 +138,7 @@ namespace Helodrace.Tactics
                 }
                 if (!pursuit.Survey.Step()) return false;
                 pursuit.CompleteRoom(pursuit.Survey.Cells,pursuit.Survey.Truncated);
+                SharedLeadExits();
                 return true;
             }
             finally { if (!ownsPlanAllowance) budget.Account(tick,Stopwatch.GetTimestamp()-started); }

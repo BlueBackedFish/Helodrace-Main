@@ -16,6 +16,9 @@ namespace Helodrace.Tactics
         public int SelectionCursor, PeerCursor, ExchangeAt, PartnerExchangeAt, PartnerProbeAt;
         public TacticalSquadCommand Peer;
         public TacticalCooperationState Cooperation = new TacticalCooperationState();
+        public TacticalPursuitDivision PursuitDivision = new TacticalPursuitDivision();
+        public TacticalSquadCommand PursuitPeer;
+        public int PursuitProbeAt;
         public Dictionary<string, int> Identified = new Dictionary<string, int>();
         public int IdentifyUntil, IdentifyStarted;
         public bool ResetPlan, IdentificationHolding;
@@ -31,6 +34,7 @@ namespace Helodrace.Tactics
         public TacticalCooperationAgenda Agenda;
         public TacticalContact Contact;
         public TacticalMeleeThreat MeleeThreat;
+        public TacticalPursuitProposal PursuitProposal;
         public bool Ready, Finished, GoalSecured;
         public IntVec3 Opening = IntVec3.Invalid;
         public int StartAt = -1;
@@ -57,12 +61,15 @@ namespace Helodrace.Tactics
             // once at retirement, rather than retaining that peer until timeout.
             foreach (TacticalSquadCommand other in remaining)
             {
+                if (other.Link.PursuitPeer==command)
+                { other.Link.PursuitPeer=null; other.Link.PursuitDivision.CancelProposal(); }
                 other.Link.Identified.Remove(command.Id);
                 if (other.Link.Peer != command && other.Link.Cooperation.Agenda?.Peer(other.Id) != command.Id) continue;
                 other.Link.Peer = null;
                 other.Link.Cooperation.Abort();
                 other.Due = Math.Min(other.Due, tick + 1);
             }
+            command.Link.PursuitPeer=null; command.Link.PursuitDivision.CancelProposal();
             command.Link.Peer = null; command.Link.Liaison = null; command.Link.Radio = null;
         }
         public void Pump(IList<TacticalSquadCommand> commands, TacticalWorkBudget budget, int tick)
@@ -91,7 +98,9 @@ namespace Helodrace.Tactics
             if (source == null) return;
             TacticalSquadLink link = source.Link;
             TacticalSquadCommand receiver;
-            if (link.Peer != null && tick >= link.PartnerProbeAt)
+            if (link.PursuitDivision.Proposal!=null && link.PursuitPeer!=null && tick>=link.PursuitProbeAt)
+            { receiver=link.PursuitPeer; link.PursuitProbeAt=tick+TacticalCommunicationPolicy.ExchangeInterval; }
+            else if (link.Peer != null && tick >= link.PartnerProbeAt)
             { receiver = link.Peer; link.PartnerProbeAt = tick + TacticalCommunicationPolicy.ExchangeInterval; }
             else
             {
@@ -169,6 +178,7 @@ namespace Helodrace.Tactics
             TacticalChannel channel = Channel(source, receiver);
             if (channel == TacticalChannel.None) return;
             source.Link.LastChannel = receiver.Link.LastChannel = channel.ToString();
+            ProbePursuitPair(source,receiver,channel,tick);
             if (source.Link.Liaison.Position.Roofed(source.Owner.map) && receiver.Link.Liaison.Position.Roofed(source.Owner.map)
                 && Physical(source, receiver))
             { Identify(source, receiver, tick); Identify(receiver, source, tick); }
@@ -213,12 +223,14 @@ namespace Helodrace.Tactics
             int reports = 0;
             const int contactLimit = 2;
             foreach (TacticalMeleeThreat threat in source.Contacts.Melee.Entries)
-                if (threat.Origin == source.Id && TacticalFocusPolicy.Fresh(threat, tick))
+                if (OwnObservation(source.Id,threat.Origin) && TacticalFocusPolicy.Fresh(threat, tick))
                 { Send(source, receiver, TacticalMessageKind.MeleeThreat, tick, channel, melee: threat); if (++reports == contactLimit) break; }
             foreach (TacticalContact contact in source.Contacts.Memory.Entries)
-                if (reports < contactLimit && contact.Origin == source.Id && tick - contact.SeenTick < TacticalContactMemory.RetentionTicks)
+                if (reports < contactLimit && OwnObservation(source.Id,contact.Origin) && tick - contact.SeenTick < TacticalContactMemory.RetentionTicks)
                 { Send(source, receiver, TacticalMessageKind.Contact, tick, channel, contact); if (++reports == contactLimit) break; }
         }
+        internal static bool OwnObservation(string squad, string origin) => origin==squad
+            || origin!=null && origin.StartsWith(squad+"::cqb:",StringComparison.Ordinal);
         private void Identify(TacticalSquadCommand command, TacticalSquadCommand peer, int tick)
         {
             if (!Active(command) || command.Phase == TacticalCommandPhase.Complete
@@ -253,6 +265,8 @@ namespace Helodrace.Tactics
             if (tick - message.Sent >= TacticalCommunicationPolicy.PacketLife || channel != message.Channel)
             { MessagesDropped++; LastDropReason = channel != message.Channel ? "channel" : "expired"; return; }
             TacticalSquadCommand receiver = message.To;
+            if (message.PursuitProposal!=null)
+            { DeliverPursuit(message,channel,tick); return; }
             if (message.Kind == TacticalMessageKind.MeleeThreat)
             {
                 if (receiver.Contacts.Melee.Receive(message.MeleeThreat, tick))

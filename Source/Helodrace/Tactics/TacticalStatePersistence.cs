@@ -394,7 +394,7 @@ namespace Helodrace.Tactics
 
     public sealed partial class TacticalSquadLink : IExposable
     {
-        internal string SavedPeer;
+        internal string SavedPeer, SavedPursuitPeer;
         public void ExposeData()
         {
             Scribe_Values.Look(ref SelectionCursor, "selectionCursor");
@@ -409,9 +409,13 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref LastChannel, "lastChannel");
             Scribe_References.Look(ref Liaison, "liaison");
             Scribe_Deep.Look(ref Cooperation, "cooperation");
+            Scribe_Deep.Look(ref PursuitDivision,"pursuitDivision");
+            Scribe_Values.Look(ref PursuitProbeAt,"pursuitProbeAt");
             Scribe_Collections.Look(ref Identified, "identified", LookMode.Value, LookMode.Value);
             if (Scribe.mode == LoadSaveMode.Saving) SavedPeer = Peer?.Id;
             Scribe_Values.Look(ref SavedPeer, "peerId");
+            if (Scribe.mode==LoadSaveMode.Saving) SavedPursuitPeer=PursuitPeer?.Id;
+            Scribe_Values.Look(ref SavedPursuitPeer,"pursuitPeerId");
         }
     }
 
@@ -467,6 +471,7 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref Agenda, "agenda");
             Scribe_Deep.Look(ref Contact, "contact");
             Scribe_Deep.Look(ref MeleeThreat, "meleeThreat");
+            Scribe_Deep.Look(ref PursuitProposal,"pursuitProposal");
             if (Scribe.mode == LoadSaveMode.Saving) { SavedFrom = From?.Id; SavedTo = To?.Id; SavedMap = From?.Owner.map; }
             Scribe_Values.Look(ref SavedFrom, "fromId"); Scribe_Values.Look(ref SavedTo, "toId");
             Scribe_References.Look(ref SavedMap, "map");

@@ -123,6 +123,14 @@ internal static class TacticalHighCqbTests
             Check((bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[0],116})
                 && ReferenceEquals(parent.CqbTeams[0].CqbTask,sighted),
                 "Actual HIGH assignment must prefer a sighted room over another exit closer to the bed.");
+            parent.Link.PursuitDivision.Assignment=new TacticalPursuitAssignment {Id="division",Coordinator=parent.Id,
+                Tracker="peer",Goal=parent.Goal,Until=2000,Members=new List<string>{parent.Id,"peer"}};
+            AccessTools.Method(typeof(TacticalCommunications),"InvalidatePursuitOrder").Invoke(null,new object[]{parent});
+            parent.CqbTeams[0].CqbTask=null;
+            AccessTools.Field(typeof(TickManager),"ticksGameInt").SetValue(game.tickManager,117);
+            Check((bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[0],117})
+                && parent.CqbTeams[0].CqbTask.Opening==new IntVec3(49,0,49),
+                "A clearing squad's HIGH child must inherit the confirmed role and prefer other rooms instead of following the lead.");
             AccessTools.Method(typeof(MapComponent_TacticalCommands),"BeginReturn").Invoke(null,new object[]{parent,102,true,false});
             Check(parent.CqbCancelRequested && parent.ReleaseAfterReturn && parent.Phase!=TacticalCommandPhase.Returning,
                 "Squad release must drain child safety/return instead of bypassing live subtasks.");
@@ -201,6 +209,11 @@ internal static class TacticalHighCqbTests
         root.Contacts.Pursuit.Observe(17,new IntVec3(11,0,11),100);
         root.Contacts.Pursuit.RoomReady=true;root.Contacts.Pursuit.Room.Add(new IntVec3(11,0,11));
         root.Contacts.Pursuit.Entered=true;root.Contacts.Pursuit.AdjacentDoors.Add(new IntVec3(12,0,11));
+        root.Link.PursuitDivision.Assignment=new TacticalPursuitAssignment {Id="division",Coordinator=root.Id,Tracker="peer",
+            Goal=root.Goal,Until=1000,Lead=new IntVec3(11,0,11),EnemyId=17,LeadTick=100,Members=new List<string>{root.Id,"peer"}};
+        var divisionProposal=TacticalPursuitDivision.Build(root.Id,"extra",root.Goal,150,root.Link.PursuitDivision.Assignment,null,100,-1);
+        root.Link.PursuitDivision.Begin(divisionProposal,root.Id,root.Goal,150);
+        TacticalMessage divisionPacket=new TacticalMessage {Kind=TacticalMessageKind.PursuitOffer,PursuitProposal=divisionProposal.Copy(),Sent=150,Due=190};
         var previewType=typeof(TacticalSquadCommand).Assembly.GetType("Helodrace.Tactics.TacticalEntryPreview",true);
         var previewScan=new TacticalRoomScan(IntVec3.Zero,IntVec3.Invalid,c=>c==IntVec3.Zero,_=>false);
         var preview=AccessTools.Constructor(previewType,new[]{typeof(TacticalSquadCommand),typeof(TacticalRoomScan)})
@@ -219,9 +232,17 @@ internal static class TacticalHighCqbTests
         string path=Path.Combine(Path.GetTempPath(),"hd-cqb-"+Guid.NewGuid()+".xml");
         try
         {
-            Scribe.saver.InitSaving(path,"root"); root.ExposeData(); Scribe.saver.FinalizeSaving();
-            var restored=new TacticalSquadCommand(); Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe.loader.ForceStop();
+            Scribe.saver.InitSaving(path,"root"); root.ExposeData(); Scribe_Deep.Look(ref divisionPacket,"divisionPacket"); Scribe.saver.FinalizeSaving();
+            var restored=new TacticalSquadCommand(); TacticalMessage loadedPacket=null;
+            Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe_Deep.Look(ref loadedPacket,"divisionPacket"); Scribe.loader.ForceStop();
             var child=restored.CqbTeams.Single();
+            check(restored.Link.PursuitDivision.Role(root.Id,root.Goal,200)==TacticalPursuitRole.Clear
+                && restored.Link.PursuitDivision.Proposal.Id==divisionProposal.Id && restored.Link.PursuitDivision.Stage==TacticalAgreementStage.Offered,
+                "Native save must preserve confirmed division plus an unfinished relay conversation.");
+            check(loadedPacket.Kind==TacticalMessageKind.PursuitOffer && loadedPacket.Due==190
+                && loadedPacket.PursuitProposal.Assignment.Tracker=="peer" && loadedPacket.PursuitProposal.Assignment.Members.Contains("extra")
+                && loadedPacket.PursuitProposal.Assignment.Lead==new IntVec3(11,0,11) && loadedPacket.PursuitProposal.Assignment.EnemyId==17,
+                "Native save must preserve detached in-flight role packets and their original delay.");
             check(restored.Plan.StackDirections.SequenceEqual(root.Plan.StackDirections),"Save must retain assigned stack watch directions.");
             check(restored.Plan.StackedMembers.SetEquals(root.Plan.StackedMembers),"Save must retain actual stack arrivals before ingress.");
             check(restored.Contacts.Pursuit.EnemyId==17 && restored.Contacts.Pursuit.RoomReady && restored.Contacts.Pursuit.Entered

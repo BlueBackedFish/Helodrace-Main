@@ -56,6 +56,7 @@ internal static class Program
             if (args.Contains("--a4")) { TacticalEquipmentRulesTests.Run(); TacticalMedicalEquipmentTests.Run(); return 0; }
             if (args.Contains("--stack-security")) { TacticalStackSecurityTests.Run(); TacticalEntryAllocationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--cqb-pursuit")) { TacticalCqbPursuitTests.Run(); TacticalRoomScanTests.Run(); TacticalHighCqbTests.Run(); TacticalContactTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
+            if (args.Contains("--pursuit-division")) { TacticalPursuitDivisionTests.Run(); TacticalCooperationTests.Run(); TacticalCqbPursuitTests.Run(); TacticalHighCqbTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--a5")) { TacticalHighCqbTests.Run(); TacticalEntryAllocationTests.Run(); TacticalWorkBudgetTests.Run(); TacticalOpeningTests.Run(); TacticalChargeTests.Run(); return 0; }
             if (args.Contains("--cadence")) { TacticalCadenceTests.Run(); TacticalPlanPreparationTests.Run(); TacticalCooperationTests.Run(); TacticalIdentificationTests.Run(); TacticalEntryCombatTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--cleared-transit")) { TacticalClearedTransitTests.Run(); TacticalSecuredReportTests.Run(); TacticalMissionRoutingTests.Run(); TacticalChargeTests.Run(); TacticalOpeningTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }

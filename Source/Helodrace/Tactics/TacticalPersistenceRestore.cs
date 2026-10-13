@@ -162,7 +162,10 @@ namespace Helodrace.Tactics
                 }
             }
             foreach (TacticalSquadCommand command in squads.Values)
+            {
                 command.Link.Peer = SavedCommand(command.Link.SavedPeer);
+                command.Link.PursuitPeer=SavedCommand(command.Link.SavedPursuitPeer);
+            }
             RestoreClaims(savedClaims, claims); RestoreClaims(savedLeases, leases);
             if (squads.Count > 0 && savedOpenings != null) knownOpenings.AddRange(savedOpenings);
             if (squads.Count == 0) SharedSecured = new TacticalSecuredKnowledge();
