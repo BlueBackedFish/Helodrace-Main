@@ -129,6 +129,7 @@ namespace Helodrace.Tactics
     public static class TacticalOpeningPresentation
     {
         internal static bool BlocksGun(Pawn pawn) => pawn?.jobs?.curDriver is JobDriver_TacticalThrow driver && !driver.Released
+            || pawn?.jobs?.curDriver is JobDriver_ThrowInventoryGrenade inventory && !inventory.Released
             || pawn?.jobs?.curDriver is JobDriver_TacticalObserve;
     }
     [NewTactical, HarmonyPatch(typeof(Verb), nameof(Verb.TryStartCastOn), new[] {
@@ -162,6 +163,7 @@ namespace Helodrace.Tactics
         {
             var driver = pawn.jobs?.curDriver as JobDriver_TacticalThrow;
             Thing grenade = driver?.Prepared == true && !driver.Released ? driver.Grenade : null;
+            if (pawn.jobs?.curDriver is JobDriver_ThrowInventoryGrenade inventory && !inventory.Released) grenade = inventory.Grenade;
             if (grenade?.Graphic == null || flags.HasFlag(PawnRenderFlags.Portrait) || pawn.Dead || pawn.Downed) return;
             Vector3 hand = drawPos + new Vector3(.23f, .045f, .25f).RotatedBy(facing.AsAngle);
             Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(hand, facing.AsQuat, new Vector3(.42f, 1f, .42f)),

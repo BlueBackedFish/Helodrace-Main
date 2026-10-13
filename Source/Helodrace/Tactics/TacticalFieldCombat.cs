@@ -93,6 +93,7 @@ namespace Helodrace.Tactics
         private void AdvanceFieldCombatActors(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick)
         {
             command.Due = Math.Min(command.Due, tick + 10);
+            PlanFieldGrenade(command, active, field, tick);
             int issued = 0;
             for (int visit = 0; visit < active.Count && issued < 2; visit++)
             {

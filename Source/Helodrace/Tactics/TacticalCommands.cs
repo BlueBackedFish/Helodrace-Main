@@ -892,6 +892,7 @@ namespace Helodrace.Tactics
         }
         private bool Issue(TacticalMemberCommand member, Job job)
         {
+            if (member.Pawn.CurJobDef?.defName == InventoryGrenadeUtility.ThrowJobName) return false;
             if (StationaryGuidance(member) || TacticalExplosiveEvasionPolicy.OwnsMovement(member.Pawn.CurJob)) return false;
             if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner)
                 && TacticalExplosiveEvasionPolicy.Pending(member.Pawn, owner)) return false;
@@ -921,6 +922,7 @@ namespace Helodrace.Tactics
         }
         private bool CanIssue(TacticalMemberCommand member)
         {
+            if (member.Pawn.CurJobDef?.defName == InventoryGrenadeUtility.ThrowJobName) return false;
             if (StationaryGuidance(member) || TacticalExplosiveEvasionPolicy.OwnsMovement(member.Pawn.CurJob)) return false;
             if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner)
                 && TacticalExplosiveEvasionPolicy.Pending(member.Pawn, owner)) return false;

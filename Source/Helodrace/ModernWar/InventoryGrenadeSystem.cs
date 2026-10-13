@@ -307,37 +307,68 @@ namespace Helodrace
         }
     }
 
-    public sealed class JobDriver_ThrowInventoryGrenade : JobDriver
+    public sealed class JobDriver_ThrowInventoryGrenade : Tactics.TacticalJobDriver
     {
         private const TargetIndex TargetInd = TargetIndex.A;
         private const TargetIndex GrenadeInd = TargetIndex.B;
 
         private LocalTargetInfo ThrowTarget => job.GetTarget(TargetInd);
-        private Thing Grenade => job.GetTarget(GrenadeInd).Thing;
+        public Thing Grenade => job.GetTarget(GrenadeInd).Thing;
+        public bool Released;
+        private bool FieldThrow => job.targetC.IsValid;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOn(() => Grenade == null
+            BindOwner(); job.canUseRangedWeapon = false;
+            this.FailOn(() => !Released && (Grenade == null
                 || !InventoryGrenadeUtility.CanUseGrenades(pawn)
                 || pawn.inventory?.Contains(Grenade) != true
-                || !InventoryGrenadeUtility.IsInventoryGrenade(Grenade.def));
-            this.FailOn(() => !ThrowTarget.IsValid
-                || !InventoryGrenadeUtility.CanThrowAt(pawn, ThrowTarget.Cell, InventoryGrenadeUtility.ThrowRange));
+                || !InventoryGrenadeUtility.IsInventoryGrenade(Grenade.def)));
+            this.FailOn(() => !Released && (!ThrowTarget.IsValid
+                || !ThrowTarget.Cell.InBounds(pawn.Map)));
 
             Toil prepare = Toils_General.Wait(InventoryGrenadeUtility.ThrowTicks, TargetInd);
+            prepare.handlingFacing = true;
+            prepare.initAction = () =>
+            {
+                pawn.pather.StopDead(); pawn.stances.CancelBusyStanceHard();
+                pawn.rotationTracker.FaceCell(ThrowTarget.Cell);
+                if (pawn.equipment != null) foreach (Verb verb in pawn.equipment.AllEquipmentVerbs) verb.Reset();
+            };
             prepare.WithProgressBarToilDelay(TargetInd);
             yield return prepare;
 
+            // Admit the withdrawal before starting the fuse, so a saturated
+            // path budget does not delay escape after the grenade is launched.
+            if (FieldThrow && job.targetC.Cell != pawn.Position) yield return AdmitMovement();
+
             yield return new Toil
             {
-                initAction = () => InventoryGrenadeUtility.Launch(
-                    pawn,
-                    Grenade,
-                    ThrowTarget),
+                initAction = () =>
+                {
+                    // Revalidate trajectory once at release, not every preparation
+                    // tick. Launch checks range/LOS; safety also includes allies
+                    // that entered the target area during preparation.
+                    if (FieldThrow && !Tactics.MapComponent_TacticalCommands.SafeOpeningThrow(
+                        pawn, Grenade, pawn.Position, ThrowTarget.Cell, job.targetC.Cell))
+                    { EndJobWith(JobCondition.Incompletable); return; }
+                    Projectile projectile = InventoryGrenadeUtility.Launch(pawn, Grenade, ThrowTarget);
+                    if (projectile == null) { EndJobWith(JobCondition.Incompletable); return; }
+                    Released = true;
+                    if (FieldThrow) pawn.Map.GetComponent<Tactics.MapComponent_TacticalCommands>()?.FieldGrenadeLaunched(pawn);
+                },
                 defaultCompleteMode = ToilCompleteMode.Instant
             };
+            if (FieldThrow && job.targetC.Cell != pawn.Position)
+            {
+                yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
+            }
+        }
+        public override void ExposeData()
+        {
+            base.ExposeData(); Scribe_Values.Look(ref Released, "inventoryGrenadeReleased");
         }
     }
 }

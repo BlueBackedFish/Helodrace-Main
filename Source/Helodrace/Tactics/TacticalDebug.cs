@@ -67,6 +67,8 @@ namespace Helodrace.Tactics
                         + " field=" + command.FieldResponse?.Stage + " motion=" + command.FieldResponse?.Motion
                         + " focus=" + command.FieldResponse?.Focus + " moving groups=" + command.FieldResponse?.MovingGroups
                         + " accompanying team=" + command.FieldResponse?.LeaderTeam
+                        + " field grenade next=" + command.FieldResponse?.GrenadeCheckAt
+                        + " grenade checks/plans/throws=" + service.FieldGrenadeChecks + "/" + service.FieldGrenadePlans + "/" + service.FieldGrenadeThrows
                         + " low flank=" + command.FieldResponse?.LowFlank + "/" + command.FieldResponse?.LowFlankAttack
                         + " party=" + command.FieldResponse?.FireGroup.Count + " retreat=" + command.FieldResponse?.AppliedStep
                         + " shelter=" + command.FieldResponse?.LowCoverCount + "/" + command.FieldResponse?.LowCoverReady

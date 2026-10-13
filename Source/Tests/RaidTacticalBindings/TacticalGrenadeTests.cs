@@ -30,6 +30,28 @@ internal static class TacticalGrenadeTests
         Check(InventoryGrenadeUtility.UnderhandThrow(2) && InventoryGrenadeUtility.UnderhandThrow(8.85f)
             && !InventoryGrenadeUtility.UnderhandThrow(8.86f) && !InventoryGrenadeUtility.UnderhandThrow(20.85f),
             "Short and long flight presentation must switch by distance without a separate throw command.");
+        var fieldProjectile = Definition("field-blast");
+        fieldProjectile.projectile = new ProjectileProperties { explosionRadius = 3, damageDef = new DamageDef { harmsHealth = true } };
+        var fieldItem = Definition("field-grenade"); fieldItem.projectileWhenLoaded = fieldProjectile;
+        Check(TacticalFieldGrenadePolicy.Lethal(fieldItem), "Field combat must accept damaging explosive inventory grenades.");
+        fieldProjectile.modExtensions.Add(new ModernGrenadeProjectileExtension { gasDef = new HelodGasDef() });
+        Check(!TacticalFieldGrenadePolicy.Lethal(fieldItem), "A hazardous gas grenade must not be selected as a field blast grenade.");
+        fieldProjectile.modExtensions.Clear(); fieldProjectile.projectile.damageDef.harmsHealth = false;
+        Check(!TacticalFieldGrenadePolicy.Lethal(fieldItem), "Harmless smoke and non-damaging flashes remain outside automatic field blast selection.");
+        var service = new MapComponent_TacticalCommands(null);
+        var carrier = new Pawn { jobs = (Verse.AI.Pawn_JobTracker)RuntimeHelpers.GetUninitializedObject(typeof(Verse.AI.Pawn_JobTracker)) };
+        var throwing = new Verse.AI.Job { def = new JobDef { defName = InventoryGrenadeUtility.ThrowJobName } };
+        AccessTools.Field(typeof(Verse.AI.Pawn_JobTracker), "curJob").SetValue(carrier.jobs, throwing);
+        var carrierMember = new TacticalMemberCommand { Pawn = carrier, Job = throwing };
+        Check(!(bool)AccessTools.Method(service.GetType(), "CanIssue").Invoke(service, new object[] { carrierMember })
+            && !(bool)AccessTools.Method(service.GetType(), "Issue").Invoke(service, new object[] { carrierMember, new Verse.AI.Job() }),
+            "Formation and native field updates must not replace a carrier's ongoing grenade throw/withdrawal.");
+        var throwDriver = (JobDriver_ThrowInventoryGrenade)RuntimeHelpers.GetUninitializedObject(typeof(JobDriver_ThrowInventoryGrenade));
+        AccessTools.Field(typeof(Verse.AI.Pawn_JobTracker), "curDriver").SetValue(carrier.jobs, throwDriver);
+        var blocksGun = AccessTools.Method(typeof(TacticalOpeningPresentation), "BlocksGun");
+        Check((bool)blocksGun.Invoke(null, new object[] { carrier }), "Inventory grenade preparation must block gun firing.");
+        throwDriver.Released = true;
+        Check(!(bool)blocksGun.Invoke(null, new object[] { carrier }), "Gun availability must return after grenade release.");
         XElement organization = XDocument.Load(Path.Combine(root, "Defs/Organization/Organization_Modern.xml")).Root;
         XElement squad = organization.Elements().Single(def => (string)def.Element("defName") == "HD_Formation_MW_RifleSquad");
         XElement team = organization.Elements().Single(def => (string)def.Element("defName") == "HD_Formation_MW_Fireteam");

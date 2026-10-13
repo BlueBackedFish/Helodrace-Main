@@ -501,7 +501,7 @@ namespace Helodrace.Tactics
             ISet<IntVec3> roomCells = opening != null && command.OpeningAction.SupportRoomReady
                 && command.OpeningAction.SupportRoomCells.Count > 0 ? command.OpeningAction.SupportRoomCells : null;
             IntVec3 selfPosition = position;
-            if (opening != null)
+            if (opening != null || retreat.HasValue)
             {
                 IntVec3 returnPosition = retreat ?? command.OpeningAction.ReturnPosition;
                 if (returnPosition.IsValid && returnPosition != position)

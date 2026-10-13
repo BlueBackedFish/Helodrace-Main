@@ -349,6 +349,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref FlankStarted, "flankStarted");
             Scribe_Values.Look(ref FlankSide, "flankSide", 1);
             Scribe_Values.Look(ref NativeCursor, "nativeCursor");
+            Scribe_Values.Look(ref GrenadeCheckAt, "grenadeCheckAt");
+            Scribe_Values.Look(ref GrenadeMemberCursor, "grenadeMemberCursor");
+            Scribe_Values.Look(ref GrenadeContactCursor, "grenadeContactCursor");
             Scribe_Values.Look(ref LowCoverCheckAt, "lowCoverCheckAt");
             Scribe_Values.Look(ref LowCoverCount, "lowCoverCount");
             Scribe_Values.Look(ref LowRelocations, "lowRelocations");

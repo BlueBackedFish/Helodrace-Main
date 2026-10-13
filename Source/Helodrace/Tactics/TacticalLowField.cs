@@ -34,6 +34,7 @@ namespace Helodrace.Tactics
                 && !(pawn.jobs.curDriver is JobDriver_FleeAndCower) && !(pawn.jobs.curDriver is JobDriver_FleeAndCowerShort)
                 && command.Phase != TacticalCommandPhase.Returning
                 && !TacticalFieldDoctrine.EquipmentWork(pawn.CurJob)
+                && pawn.CurJobDef?.defName != InventoryGrenadeUtility.ThrowJobName
                 && !LowTreatmentWait(command, pawn)
                 && command.MedicalCare == null && !PawnUtility.PlayerForcedJobNowOrSoon(pawn) && command.BagRecovery?.Helper != pawn
                 && command.FieldResponse.Screen?.Thrower != pawn

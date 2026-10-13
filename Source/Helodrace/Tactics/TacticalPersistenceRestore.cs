@@ -223,6 +223,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref FieldNativeJobs, "FieldNativeJobsCounter");
             Scribe_Values.Look(ref FieldSmokePlans, "FieldSmokePlansCounter");
             Scribe_Values.Look(ref FieldSmokeThrows, "FieldSmokeThrowsCounter");
+            Scribe_Values.Look(ref FieldGrenadeChecks, "FieldGrenadeChecksCounter");
+            Scribe_Values.Look(ref FieldGrenadePlans, "FieldGrenadePlansCounter");
+            Scribe_Values.Look(ref FieldGrenadeThrows, "FieldGrenadeThrowsCounter");
             Scribe_Values.Look(ref FieldSmokeAdvances, "FieldSmokeAdvancesCounter");
             Scribe_Values.Look(ref MedicalMemberChecks, "MedicalMemberChecksCounter");
             Scribe_Values.Look(ref MedicalTreatments, "MedicalTreatmentsCounter");
