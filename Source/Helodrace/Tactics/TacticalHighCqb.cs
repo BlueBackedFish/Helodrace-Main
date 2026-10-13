@@ -99,6 +99,7 @@ namespace Helodrace.Tactics
         public List<TacticalSquadCommand> CqbTeams = new List<TacticalSquadCommand>();
         public TacticalSquadCommand CqbParent;
         public int CqbTeam = -1, CqbCursor, CqbSearchCursor, CqbPausedAt = -1, CqbPassageSequence, CqbFollowSeen;
+        internal int CqbPursuitOrderVersion = -1;
         public bool CqbEntered, CqbCancelRequested, CqbObjectiveChanged, CqbFollow, CqbTogether;
         internal bool CqbStepped;
         internal List<int> CqbRoster = new List<int>();
@@ -265,6 +266,13 @@ namespace Helodrace.Tactics
 
         private bool AssignCqbFrontier(TacticalSquadCommand parent, TacticalSquadCommand team, int tick)
         {
+            if (!PrepareCqbPursuit(parent,tick,ownsPlanAllowance:false)) return true;
+            if (parent.CqbPursuitOrderVersion != parent.Contacts.Pursuit.Version)
+            {
+                if (parent.Contacts.Pursuit.Version > 0)
+                    parent.Frontiers.Sort((a,b)=>FrontierScore(a,parent).CompareTo(FrontierScore(b,parent)));
+                parent.CqbSearchCursor=0; parent.CqbPursuitOrderVersion=parent.Contacts.Pursuit.Version;
+            }
             // A single mouth has one owner; other teams keep their current guard
             // positions until its room is secured or another boundary is known.
             TacticalRoomFrontier selected = null;

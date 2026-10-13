@@ -253,6 +253,7 @@ namespace Helodrace.Tactics
             long started = Stopwatch.GetTimestamp();
             try
             {
+                if (!PrepareCqbPursuit(command,tick,ownsPlanAllowance:true)) return;
                 PrepareStructureTargets(command, tick);
                 if (command.SurveyPending)
                 {
@@ -273,6 +274,7 @@ namespace Helodrace.Tactics
                     if (command.ReportFrontierCursor < scan.Frontiers.Count) return;
                     if (scan.Cells.Count > 0)
                     {
+                        command.Contacts.Pursuit.RecordEntered(scan.Cells,scan.Frontiers,tick);
                         command.GoalSecured |= scan.Cells.Contains(command.Goal);
                         if (!command.SecuredPlans.Any(p => p.Opening == command.Plan.Opening)) command.SecuredPlans.Add(command.Plan);
                         command.Mission.Traversed.Add(command.Plan.Opening); RoomsSecured++;
@@ -283,9 +285,10 @@ namespace Helodrace.Tactics
                     }
                     command.RoomScan = null;
                     command.Frontiers.RemoveAll(f => command.SecuredCells.Contains(f.Inside));
-                    // Goal-directed progress first, then adjacent unentered rooms.
+                    // Sighted room/its exits first, then goal-directed rooms.
                     // The order is latched once per completed entry, not refreshed.
                     command.Frontiers.Sort((a, b) => FrontierScore(a, command).CompareTo(FrontierScore(b, command)));
+                    command.CqbPursuitOrderVersion=command.Contacts.Pursuit.Version;
                     command.FrontierCursor = 0;
                     command.MedicalWindowUntil = tick + 3600;
                     command.NextMedicalCheck = tick + 1; command.MedicalCursor = 0;
@@ -293,6 +296,12 @@ namespace Helodrace.Tactics
                     // Give bounded care selection an opportunity before choosing
                     // the next room or returning a completed allocated mission.
                     return;
+                }
+                if (command.CqbPursuitOrderVersion != command.Contacts.Pursuit.Version)
+                {
+                    if (command.Contacts.Pursuit.Version > 0)
+                        command.Frontiers.Sort((a,b)=>FrontierScore(a,command).CompareTo(FrontierScore(b,command)));
+                    command.FrontierCursor=0; command.CqbPursuitOrderVersion=command.Contacts.Pursuit.Version;
                 }
                 // An allocated room is not the whole settlement. Continue to
                 // known yards/buildings instead of stopping at its first room.
@@ -398,7 +407,8 @@ namespace Helodrace.Tactics
                 if (contact.Door && contact.Position == frontier.Opening) { observedThreat = 600; break; }
             // Latched structural preference plus actual contact knowledge.
             // Never reorder entrances by an unseen door's current Open state.
-            return ((goalSecured ?? command.GoalSecured) ? frontier.Opening.DistanceToSquared(command.Plan.Inside)
+            return command.Contacts.Pursuit.Priority(frontier,GenTicks.TicksGame) * 200000
+                + ((goalSecured ?? command.GoalSecured) ? frontier.Opening.DistanceToSquared(command.Plan.Inside)
                 : frontier.Inside.DistanceToSquared(CooperativeGoal(command)))
                 + TacticalCqbDoctrine.EntryPenalty(TacticalHighCqbPolicy.High(command), frontier.Preference >= 800,
                     frontier.Preference == 600, frontier.Preference >= 400 && frontier.Preference < 800, false) - observedThreat

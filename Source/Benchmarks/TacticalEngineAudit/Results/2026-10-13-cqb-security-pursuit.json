@@ -1,0 +1,48 @@
+{
+    "sourceSave":  "외부인들2.rws",
+    "originalGeometry":  true,
+    "spawn":  [
+                  125,
+                  0,
+                  151
+              ],
+    "actorsDamageProtected":  true,
+    "profilerDisabled":  true,
+    "scope":  "Short full-stack CQB integration smoke check. Partial formations, visual guard directions and multiroom pursuit remain user functional checks F57-F59; pure footprint/entry/priority and native Scribe checks were separately run.",
+    "runs":  [
+                 {
+                     "name":  "cqb-stack-security-20261013",
+                     "sourceSha256":  "F7FDFD7CD29CFFE883E09D28EA98EEBFA386B89C8F8373DAAF775465D36B5910",
+                     "assemblySha256":  "6F3CA88AD3CDFD4E108DFB37B9EC0103323A9801EF9F7D36C6C23FDF4386414A",
+                     "complete":  true,
+                     "error":  null,
+                     "ticks":  2204,
+                     "population":  12,
+                     "throws":  1,
+                     "returns":  1,
+                     "passed":  12,
+                     "entered":  12,
+                     "unsafeEntries":  0,
+                     "finalCommands":  [
+                                           "HD_Raid_1::HD_Raid_1_Group_1:Enter opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=0/12 passed=12 entered=12 jobs=HD_NewTacticalIngress=12"
+                                       ]
+                 },
+                 {
+                     "name":  "cqb-security-pursuit-final-20261013",
+                     "sourceSha256":  "F7FDFD7CD29CFFE883E09D28EA98EEBFA386B89C8F8373DAAF775465D36B5910",
+                     "assemblySha256":  "7A20C6A4A55D98C8E072826EE8470ACC85D873D150BD7BA2A3C93F3868389925",
+                     "complete":  true,
+                     "error":  null,
+                     "ticks":  2206,
+                     "population":  12,
+                     "throws":  1,
+                     "returns":  1,
+                     "passed":  12,
+                     "entered":  12,
+                     "unsafeEntries":  0,
+                     "finalCommands":  [
+                                           "HD_Raid_1::HD_Raid_1_Group_1:Enter opening=(130, 0, 151) goal=(133, 0, 151) direct=False shared=False failure=None retry=0 next=(-1000, -1000, -1000) contact=False focus= field= action=True room=17 outdoors=False observed=(-1000, -1000, -1000) done=True issued=True launched=True skip=None checks=1/1/0 roomSafety=144/True/False cursor=1 ready=0/12 passed=12 entered=12 jobs=HD_NewTacticalIngress=12"
+                                       ]
+                 }
+             ]
+}

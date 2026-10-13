@@ -79,6 +79,7 @@ internal static class TacticalHighCqbTests
         try
         {
             var game=(Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
+            game.tickManager=(TickManager)RuntimeHelpers.GetUninitializedObject(typeof(TickManager));
             game.components=new List<GameComponent>{new GameComponent_TacticalCommands(game)}; Current.Game=game;
             parent.Frontiers.Add(first); parent.Frontiers.Add(new TacticalRoomFrontier {Opening=new IntVec3(30,0,20),Inward=IntVec3.North});
             var assign=AccessTools.Method(typeof(MapComponent_TacticalCommands),"AssignCqbFrontier");
@@ -112,6 +113,16 @@ internal static class TacticalHighCqbTests
                 "A deferred assignment must retain its exact unentered candidate.");
             Check((bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[2],114})
                 && ReferenceEquals(parent.CqbTeams[2].CqbTask,visited), "The retained candidate must be allocated on the next available slice.");
+            var sighted=new TacticalRoomFrontier {Opening=new IntVec3(20,0,35),Inward=IntVec3.North};
+            parent.Frontiers.Add(new TacticalRoomFrontier {Opening=new IntVec3(49,0,49),Inward=IntVec3.North});
+            parent.Frontiers.Add(sighted);
+            parent.Contacts.Pursuit.Observe(99,sighted.Inside,115);
+            parent.Contacts.Pursuit.RoomReady=true;parent.Contacts.Pursuit.Room.Add(sighted.Inside);
+            AccessTools.Field(typeof(TickManager),"ticksGameInt").SetValue(game.tickManager,116);
+            parent.CqbTeams[0].CqbTask=null;
+            Check((bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[0],116})
+                && ReferenceEquals(parent.CqbTeams[0].CqbTask,sighted),
+                "Actual HIGH assignment must prefer a sighted room over another exit closer to the bed.");
             AccessTools.Method(typeof(MapComponent_TacticalCommands),"BeginReturn").Invoke(null,new object[]{parent,102,true,false});
             Check(parent.CqbCancelRequested && parent.ReleaseAfterReturn && parent.Phase!=TacticalCommandPhase.Returning,
                 "Squad release must drain child safety/return instead of bypassing live subtasks.");
@@ -187,6 +198,9 @@ internal static class TacticalHighCqbTests
         root.Plan=new TacticalLocalPlan {Direct=true,Opening=new IntVec3(9,0,9),Inward=IntVec3.North};
         root.Plan.StackDirections.Add(IntVec3.South);
         root.Plan.StackedMembers.Add(0);
+        root.Contacts.Pursuit.Observe(17,new IntVec3(11,0,11),100);
+        root.Contacts.Pursuit.RoomReady=true;root.Contacts.Pursuit.Room.Add(new IntVec3(11,0,11));
+        root.Contacts.Pursuit.Entered=true;root.Contacts.Pursuit.AdjacentDoors.Add(new IntVec3(12,0,11));
         var previewType=typeof(TacticalSquadCommand).Assembly.GetType("Helodrace.Tactics.TacticalEntryPreview",true);
         var previewScan=new TacticalRoomScan(IntVec3.Zero,IntVec3.Invalid,c=>c==IntVec3.Zero,_=>false);
         var preview=AccessTools.Constructor(previewType,new[]{typeof(TacticalSquadCommand),typeof(TacticalRoomScan)})
@@ -210,6 +224,10 @@ internal static class TacticalHighCqbTests
             var child=restored.CqbTeams.Single();
             check(restored.Plan.StackDirections.SequenceEqual(root.Plan.StackDirections),"Save must retain assigned stack watch directions.");
             check(restored.Plan.StackedMembers.SetEquals(root.Plan.StackedMembers),"Save must retain actual stack arrivals before ingress.");
+            check(restored.Contacts.Pursuit.EnemyId==17 && restored.Contacts.Pursuit.RoomReady && restored.Contacts.Pursuit.Entered
+                && restored.Contacts.Pursuit.Room.SetEquals(root.Contacts.Pursuit.Room)
+                && restored.Contacts.Pursuit.AdjacentDoors.SetEquals(root.Contacts.Pursuit.AdjacentDoors),
+                "Native Scribe must retain value-only observed-room and connected-exit pursuit knowledge.");
             check(restored.CqbCursor==2 && restored.CqbCancelRequested && child.CqbTeam==1 && child.CqbEntered
                 && child.Phase==TacticalCommandPhase.BlastWait && child.OpeningAction.Launched && !child.OpeningAction.Returned,
                 "Save must preserve team assignment, cancellation and live grenade safety.");

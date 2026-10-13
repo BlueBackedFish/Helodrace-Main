@@ -73,6 +73,7 @@ namespace Helodrace.Tactics
         public const int ScanInterval = 45, CandidateLimit = 16, Radius = 28;
         public TacticalContactMemory Memory = new TacticalContactMemory();
         public TacticalMeleeMemory Melee = new TacticalMeleeMemory();
+        public TacticalCqbPursuit Pursuit = new TacticalCqbPursuit();
         public List<IntVec3> Destinations = new List<IntVec3>(5), Sources = new List<IntVec3>(5);
         public int NextScan, ObserverCursor, CandidateCursor;
     }

@@ -44,6 +44,9 @@ namespace Helodrace.Tactics
                         + " passed=" + command.Members.Count(member => member.Passed) + " entered="
                         + command.Members.Count(member => member.Entered)
                         + " outside guards=" + command.Plan?.RetainedOutside.Count
+                        + " pursuit=" + command.Contacts.Pursuit.Target + "/" + command.Contacts.Pursuit.EnemyId
+                        + " room=" + command.Contacts.Pursuit.Room.Count + " ready=" + command.Contacts.Pursuit.RoomReady
+                        + " entered=" + command.Contacts.Pursuit.Entered + " exits=" + command.Contacts.Pursuit.AdjacentDoors.Count
                         + " assignments arrived=" + command.Members.Count(member => member.EntryAssignmentDone)
                         + " cooperation=" + command.Link.Cooperation.Stage + " channel=" + command.Link.LastChannel
                         + " liaison=" + command.Link.Liaison?.thingIDNumber + " peer=" + command.Link.Peer?.Id

@@ -55,6 +55,7 @@ namespace Helodrace.Tactics
             long started = Stopwatch.GetTimestamp();
             try
             {
+                if (!PrepareCqbPursuit(command,tick,ownsPlanAllowance:true)) return;
                 if (preview == null)
                 {
                     IntVec3 seed = TacticalRoomProgress.SurveySeed(command.Plan,

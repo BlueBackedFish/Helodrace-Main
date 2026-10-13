@@ -289,6 +289,7 @@ namespace Helodrace.Tactics
     {
         public void ExposeData()
         {
+            Scribe_Deep.Look(ref Pursuit,"cqbPursuit");
             Scribe_Values.Look(ref NextScan, "nextScan");
             Scribe_Values.Look(ref ObserverCursor, "observerCursor");
             Scribe_Values.Look(ref CandidateCursor, "candidateCursor");
