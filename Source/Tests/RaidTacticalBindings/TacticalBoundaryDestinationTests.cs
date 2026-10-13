@@ -14,26 +14,41 @@ internal static class TacticalBoundaryDestinationTests
         int checks = 0;
         void Check(bool value, string reason) { if (!value) throw new Exception(reason); checks++; }
         IntVec3 opening = new IntVec3(10, 0, 10), inward = IntVec3.North;
+        // No roofs in these perimeter-wall fixtures. Only transverse geometry
+        // and actual thickness matter, so outdoors-to-outdoors remains valid.
+        for (int thickness = 1; thickness <= TacticalPortalGeometry.LayerLimit; thickness++)
+        {
+            var wall = new HashSet<IntVec3>();
+            for (int layer = 0; layer < thickness; layer++)
+                for (int side = -2; side <= 2; side++) wall.Add(opening + inward * layer + IntVec3.East * side);
+            Check(TacticalPortalGeometry.CrossesWall(opening, inward, thickness, wall.Contains),
+                "An unroofed perimeter wall with " + thickness + " genuine layers must remain breachable.");
+            Check(TacticalPortalGeometry.TryEntryFrontage(opening, inward * 20 + IntVec3.East * 2, wall.Contains,
+                (mouth, heading) => TacticalPortalGeometry.TryDepth(mouth, heading, wall.Contains, c => !wall.Contains(c), out int depth)
+                    && TacticalPortalGeometry.CrossesWall(mouth, heading, depth, wall.Contains), out IntVec3 face, out IntVec3 mouth)
+                && face == inward && mouth == opening, "Roofless exterior wall must still become a real initial frontage.");
+        }
+        var endWall = new HashSet<IntVec3>();
+        for (int x = 0; x < 4; x++) endWall.Add(opening + IntVec3.East * x);
+        endWall.Add(opening + IntVec3.North); endWall.Add(opening + IntVec3.East * 3 + IntVec3.North);
+        Check(!TacticalPortalGeometry.CrossesWall(opening, IntVec3.East, 4, endWall.Contains),
+            "An end wall's length must not be mistaken for four transverse layers.");
+        Check(TacticalPortalGeometry.CrossesWall(opening + IntVec3.East, IntVec3.North, 1, endWall.Contains)
+            && TacticalPortalGeometry.CrossesWall(opening + IntVec3.East, IntVec3.South, 1, endWall.Contains),
+            "The same end wall can legitimately be crossed normally in either outdoor or indoor direction.");
+        Check(!TacticalPortalGeometry.CrossesWall(opening, inward, 0, _ => true)
+            && !TacticalPortalGeometry.CrossesWall(opening, inward, 5, _ => true), "Wall checks retain the one-to-four-layer bound.");
         int probes = 0;
-        Check(!TacticalPortalGeometry.LeadsIndoors(opening, inward, 1,
-            _ => { probes++; return true; }, _ => false) && probes == TacticalPortalGeometry.DestinationProbeCells,
-            "An open yard-to-yard wall must be rejected with a fixed three-cell forward probe.");
-        Check(TacticalPortalGeometry.LeadsIndoors(opening, inward, 1, _ => true, c => c == opening + inward),
-            "An ordinary indoor mouth must remain eligible.");
-        Check(TacticalPortalGeometry.LeadsIndoors(opening, inward, 2, _ => true, c => c == opening + inward * 4),
-            "Roof loss at a double-wall mouth can still lead into the roofed room two steps farther.");
-        Check(!TacticalPortalGeometry.LeadsIndoors(opening, inward, 1, _ => true,
-            c => c == opening - inward || c == opening + IntVec3.East || c == opening + inward * 4),
-            "A roof behind/beside the channel or beyond the forward bound cannot authorize a yard crossing.");
-        Check(!TacticalPortalGeometry.LeadsIndoors(opening, inward, 1,
-            c => c != opening + inward * 2, c => c == opening + inward * 3),
-            "A second wall/closed door cannot be crossed to borrow another room's roof.");
+        Check(TacticalPortalGeometry.CrossesWall(opening, inward, 4, _ => { probes++; return true; }) && probes <= 12,
+            "Thick-wall axis checking must have fixed work independent of room or map size.");
+        Check(TacticalPortalGeometry.CrossesWall(opening, inward, 4, _ => false),
+            "Already destroyed layers cannot invalidate a retained open channel by requiring nonexistent wall neighbours.");
         var cornerSupports = new HashSet<IntVec3> { opening, opening + IntVec3.East, opening + IntVec3.North };
         Check(TacticalPortalGeometry.TryEntryNormal(opening, new IntVec3(8, 0, 3), cornerSupports.Contains,
             (mouth, direction) => direction == IntVec3.North, out IntVec3 selected) && selected == IntVec3.North,
-            "A corner's dominant travel axis must yield to the other supported indoor face.");
+            "A corner's dominant travel axis must yield to the other valid transverse face.");
         Check(!TacticalPortalGeometry.TryEntryNormal(opening, new IntVec3(8, 0, 3), cornerSupports.Contains,
-            (_, __) => false, out selected), "Neither outside-only corner face may become a breach frontage.");
+            (_, __) => false, out selected), "Neither invalid lengthwise corner face may become a breach frontage.");
         Check(!TacticalPortalGeometry.TryEntryNormal(opening, new IntVec3(8, 0, 0), cornerSupports.Contains,
             (mouth, direction) => direction == IntVec3.North, out selected), "The alternate face must still head toward the goal.");
         Check(TacticalPortalGeometry.TryEntryNormal(opening, new IntVec3(8, 0, 3), cornerSupports.Contains,
@@ -58,15 +73,17 @@ internal static class TacticalBoundaryDestinationTests
             }
             bool Floor(IntVec3 c) => c.x >= 0 && c.z >= 0 && c.x < size.x && c.z < size.z && !walls.Contains(c) && !doors.Contains(c);
             bool Roofed(IntVec3 c) => BitConverter.ToUInt16(roofs, (c.x + c.z * size.x) * 2) != 0;
-            bool Direction(IntVec3 mouth, IntVec3 heading) => TacticalPortalGeometry.TryDepth(mouth, heading,
+            bool Direction(IntVec3 mouth, IntVec3 heading) => Floor(mouth - heading) && TacticalPortalGeometry.TryDepth(mouth, heading,
                 c => walls.Contains(c) || doors.Contains(c), Floor, out int depth)
-                && TacticalPortalGeometry.LeadsIndoors(mouth, heading, depth, Floor, Roofed);
+                && TacticalPortalGeometry.CrossesWall(mouth, heading, depth, c => walls.Contains(c) || doors.Contains(c));
             for (int x = 159; x <= 162; x++)
             {
                 IntVec3 cell = new IntVec3(x, 0, 122);
                 Check(walls.Contains(cell) && !Roofed(cell + IntVec3.South), "Reported coordinates must be the saved south end wall.");
-                Check(!Direction(cell, IntVec3.East) && !Direction(cell, IntVec3.West) && !Direction(cell, IntVec3.South),
-                    "A player-owned end wall must not authorize a widthwise or outward outdoor crossing: " + cell);
+                Check(!Direction(cell, IntVec3.East) && !Direction(cell, IntVec3.West),
+                    "A player-owned end wall must not authorize a lengthwise crossing: " + cell);
+                if (x == 160 || x == 161)
+                    Check(Direction(cell, IntVec3.South), "An actual transverse crossing must not be rejected just because its destination is outdoors.");
             }
             Check(Direction(new IntVec3(160, 0, 122), IntVec3.North) && Direction(new IntVec3(161, 0, 122), IntVec3.North),
                 "The two proper end-wall entrances into the saved corridor must remain eligible.");
@@ -81,6 +98,6 @@ internal static class TacticalBoundaryDestinationTests
                 walls.Contains, Direction, out selected, out IntVec3 frontage) && frontage == new IntVec3(162, 0, 123)
                 && Direction(frontage, selected), "The planner must anchor on the valid adjacent frontage, not classify the rejected corner again.");
         }
-        Console.WriteLine("PASS: " + checks + " bounded destination-side roof/floor, corner frontage and read-only saved end-wall checks.");
+        Console.WriteLine("PASS: " + checks + " bounded transverse wall checks, roofless perimeter entry and read-only saved end-wall checks.");
     }
 }

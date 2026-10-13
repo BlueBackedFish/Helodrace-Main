@@ -6,20 +6,21 @@ namespace Helodrace.Tactics
     public static class TacticalPortalGeometry
     {
         public const int LayerLimit = 4;
-        public const int DestinationProbeCells = 3;
-        // A roofless mouth after a blast may still lead into a room. Only look
-        // forward on the destination side; nearby roofs behind/along a wall
-        // must not make a yard-to-yard channel count as a building entrance.
-        public static bool LeadsIndoors(IntVec3 opening, IntVec3 inward, int depth,
-            Func<IntVec3, bool> floor, Func<IntVec3, bool> roofed)
+        // Each remaining layer of a thick wall must extend sideways across
+        // the crossing direction. Walking along an end wall instead exposes
+        // layers with no sideways run. Roofs do not define a valid crossing:
+        // exterior perimeter walls and unroofed yards remain breachable.
+        public static bool CrossesWall(IntVec3 opening, IntVec3 inward, int depth, Func<IntVec3, bool> support)
         {
-            for (int step = 0; step < DestinationProbeCells; step++)
+            if (depth < 1 || depth > LayerLimit) return false;
+            if (depth == 1) return true;
+            IntVec3 lateral = new IntVec3(-inward.z, 0, inward.x);
+            for (int layer = 0; layer < depth; layer++)
             {
-                IntVec3 cell = opening + inward * (depth + step);
-                if (!floor(cell)) return false;
-                if (roofed(cell)) return true;
+                IntVec3 cell = opening + inward * layer;
+                if (support(cell) && !support(cell - lateral) && !support(cell + lateral)) return false;
             }
-            return false;
+            return true;
         }
         public static IntVec3 FirstBlocked(IntVec3 opening, IntVec3 inward, int depth, Func<IntVec3, bool> open)
         {
@@ -76,9 +77,8 @@ namespace Helodrace.Tactics
             IntVec3 Face(IntVec3 direction)
             {
                 if (destination(cell, direction)) return cell;
-                // A corner itself can have walls in both directions. Keep a
-                // frontage whose immediately adjacent wall leads into the room;
-                // exact candidate validation still rejects the corner channel.
+                // A corner may run along the end wall in both directions.
+                // Keep its adjacent genuine transverse wall face instead.
                 IntVec3 lateral = new IntVec3(-direction.z, 0, direction.x);
                 IntVec3 left = cell - lateral, right = cell + lateral;
                 if (support(left) && destination(left, direction)) return left;

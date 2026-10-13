@@ -90,10 +90,9 @@ namespace Helodrace.Tactics
             if (barrier?.Faction != null && barrier.Faction != command.TargetFaction) return TacticalStructureClass.Incidental;
             if (command.SecuredKnowledge.Cleared(inside) || command.SecuredKnowledge.ClearedPassage(opening, inward, depth))
                 return barrier?.def.IsWall == true ? TacticalStructureClass.Incidental : TacticalStructureClass.Target;
-            // Ownership identifies the building, not which side is its room.
-            // Validate the destination before that fast path, including neutral
-            // gaps and cached plans whose roof/channel changed while preparing.
-            if (!TacticalLocalPlanner.LeadsIndoors(map, opening, inward, depth)) return TacticalStructureClass.Incidental;
+            // Ownership does not validate wall thickness/orientation. Reject
+            // lengthwise end-wall channels, without excluding outdoor facades.
+            if (!TacticalLocalPlanner.CrossesWall(map, opening, inward, depth)) return TacticalStructureClass.Incidental;
             TacticalStructureClass secured = SecuredRegion(command, opening, inward, depth);
             if (secured == TacticalStructureClass.Pending) return secured;
             if (secured == TacticalStructureClass.Target) return TacticalStructureClass.Incidental;

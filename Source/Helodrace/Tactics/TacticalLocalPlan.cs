@@ -69,13 +69,11 @@ namespace Helodrace.Tactics
         internal static bool SetDepth(Map map, TacticalLocalPlan plan, bool allowFurniture = false) =>
             TryDepth(map, plan.Opening, plan.Inward, out plan.Depth, allowFurniture);
 
-        internal static bool LeadsIndoors(Map map, IntVec3 opening, IntVec3 inward, int depth) =>
-            TacticalPortalGeometry.LeadsIndoors(opening, inward, depth,
-                cell => cell.InBounds(map) && !(cell.GetEdifice(map) is Building_Door)
-                    && (cell.Walkable(map) || TacticalFurniturePolicy.IsFurniture(cell.GetEdifice(map))),
-                cell => cell.Roofed(map));
+        internal static bool CrossesWall(Map map, IntVec3 opening, IntVec3 inward, int depth) =>
+            TacticalPortalGeometry.CrossesWall(opening, inward, depth,
+                cell => cell.InBounds(map) && (cell.GetEdifice(map)?.def.IsWall == true || cell.GetEdifice(map) is Building_Door));
         internal static bool EntryDirection(Map map, IntVec3 opening, IntVec3 inward) =>
-            TryDepth(map, opening, inward, out int depth, allowFurniture: true) && LeadsIndoors(map, opening, inward, depth);
+            TryDepth(map, opening, inward, out int depth, allowFurniture: true) && CrossesWall(map, opening, inward, depth);
 
         internal static bool TryDepth(Map map, IntVec3 opening, IntVec3 inward, out int depth, bool allowFurniture = false) => TacticalPortalGeometry.TryDepth(opening, inward,
             cell => cell.InBounds(map) && (cell.GetEdifice(map)?.def.IsWall == true || cell.GetEdifice(map) is Building_Door),
