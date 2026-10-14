@@ -1,0 +1,35 @@
+{
+    "date":  "2026-10-14",
+    "analysisType":  "static code and definition analysis; no runtime profiling or game replay",
+    "version":  "1.6.4871 rev590",
+    "assemblyHashMatches":  true,
+    "sourceFileCount":  9217,
+    "candidateMethodRows":  3399,
+    "thinkTreeDutyClassNodes":  1505,
+    "definitionFiles":  41,
+    "definitionHashMismatches":  0,
+    "markdownFiles":  11,
+    "sourceLinks":  267,
+    "uniqueLinkedSourceFiles":  194,
+    "relativeLinks":  43,
+    "invalidLinks":  [
+
+                     ],
+    "chapters":  [
+                     "01 틱과 판단과 작업 소유권.md",
+                     "02 표적과 엄폐와 대기 사격.md",
+                     "03 그룹 이동과 개인 경로와 접촉.md",
+                     "04 사격선과 공격 실행.md",
+                     "05 습격과 공병과 브리처.md",
+                     "06 회피와 플레이어 명령.md",
+                     "07 종족과 능력과 특수 전투.md",
+                     "08 도달성과 경로 비용과 포탑.md",
+                     "09 대기와 접촉의 장면별 실행.md",
+                     "10 메서드 책임과 분석 범위.md",
+                     "README.md"
+                 ],
+    "semanticScope":  "Common job, combat, cover, LOS, path, Lord and Duty pipelines; main raid and defense families; player commands and avoidance; animal, mechanoid and DLC special AI; ability selection, turrets, hunting and arrival groups",
+    "excluded":  "Noncombat life and work trees in full detail; every quest/transport event; per-weapon damage/effect and rendering internals; runtime Harmony/XML patch results",
+    "methodInventoryIsNotCompletionCount":  true,
+    "sourceLinkCheckIsNotSemanticProof":  true
+}
