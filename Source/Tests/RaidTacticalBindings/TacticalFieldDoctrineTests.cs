@@ -35,6 +35,14 @@ internal static class TacticalFieldDoctrineTests
         Check(TacticalFieldPolicy.CoverWeight(IntVec3.East, IntVec3.North * 20) == 0
             && TacticalFieldPolicy.CoverWeight(IntVec3.North, IntVec3.North * 20) == 1,
             "Side objects must not masquerade as cover against the incoming direction.");
+        var focus = anchor + IntVec3.North * 40;
+        Check(TacticalFieldSpacingPolicy.Penalty(anchor, anchor + IntVec3.North * 8, focus)
+            > TacticalFieldSpacingPolicy.Penalty(anchor, anchor + IntVec3.East * 8, focus),
+            "Incoming miss paths must penalize front/back alignment more than separated lateral covers.");
+        Check(TacticalFieldSpacingPolicy.Close(anchor, anchor + IntVec3.East)
+            && !TacticalFieldSpacingPolicy.Close(anchor, anchor + IntVec3.East * 2), "Adjacent clustering must be excluded while two-cell spacing remains possible.");
+        Check(TacticalFieldPolicy.FormationAllowed(new TacticalContact { SeenTick = 100, PlayerControlled = true,
+            Position = focus }, anchor, 100, engaged: true), "Actual player combat does not require an invented approach sample.");
         var search = new TacticalLowDefenseSearch { Origin = anchor, Forward = IntVec3.North, Needed = 2 };
         int calls = 0, worst = 0;
         while (!search.Scanned)

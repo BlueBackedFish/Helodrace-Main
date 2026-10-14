@@ -34,9 +34,9 @@ namespace Helodrace.Tactics
             if (adjacent.x != 0 && adjacent.z != 0) angle *= 1.75;
             return angle < 15 ? 1 : angle < 27 ? .8f : angle < 40 ? .6f : angle < 52 ? .4f : angle < 65 ? .2f : 0;
         }
-        public static bool FormationAllowed(TacticalContact contact, IntVec3 anchor, int tick) => contact != null
+        public static bool FormationAllowed(TacticalContact contact, IntVec3 anchor, int tick, bool engaged = false) => contact != null
             && TacticalContactMemory.Fresh(contact, tick)
-            && (!contact.PlayerControlled || contact.Position.DistanceToSquared(anchor) <= PlayerApproachRadius * PlayerApproachRadius
+            && (engaged || !contact.PlayerControlled || contact.Position.DistanceToSquared(anchor) <= PlayerApproachRadius * PlayerApproachRadius
                 && Motion(contact, anchor) == TacticalObservedMotion.Approaching
                 && contact.Position.DistanceToSquared(anchor) < contact.PreviousPosition.DistanceToSquared(anchor));
         public static TacticalObservedMotion Motion(TacticalContact contact, IntVec3 anchor)
@@ -69,6 +69,8 @@ namespace Helodrace.Tactics
         public int Started, Cursor;
         public IntVec3 Seed = IntVec3.Invalid;
         public bool Prepared;
+        internal Queue<IntVec3> CoverPending;
+        internal HashSet<IntVec3> CoverVisited;
         public void ExposeData()
         {
             Scribe_Collections.Look(ref Cells, "cells", LookMode.Value);
@@ -153,7 +155,8 @@ namespace Helodrace.Tactics
                     Forward = TacticalFieldPolicy.Direction(command.Defensive ? command.DefenseAnchor : observer.Position, focus),
                     Motion = TacticalFieldPolicy.Motion(nearest, observer.Position),
                     High = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
-                        && active.Exists(m => m.Fireteam >= 0) && TacticalFieldPolicy.FormationAllowed(nearest, observer.Position, tick) };
+                        && active.Exists(m => m.Fireteam >= 0) && TacticalFieldPolicy.FormationAllowed(nearest, observer.Position, tick,
+                            takingFire || observer.Position.DistanceToSquared(nearest.Position) <= range * range) };
                 field.Forward = TacticalFieldDoctrine.Facing(field.Anchor, focus);
                 for (int point = 0; point < 3; point++)
                 {
@@ -177,7 +180,7 @@ namespace Helodrace.Tactics
                     permitted = true;
                     if (contact.SeenTick > field.LastSeen) field.Motion = TacticalFieldPolicy.Motion(contact, field.Anchor);
                     if (!field.High && command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction"
-                        && TacticalFieldPolicy.FormationAllowed(contact,field.Anchor,tick))
+                        && TacticalFieldPolicy.FormationAllowed(contact,field.Anchor,tick, field.LastEngaged >= 0 && tick - field.LastEngaged < 300))
                     {
                         field.High = true; InitialHighFieldAreas(field,active);
                         for (int i=0;i<command.Members.Count;i++) field.Groups[i] = command.Members[i].Pawn == command.Link.Unit.Commander

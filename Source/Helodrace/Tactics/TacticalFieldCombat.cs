@@ -43,14 +43,16 @@ namespace Helodrace.Tactics
             if (!FieldNeedsShelter(command, pawn)) return false;
             var cells = FieldShelters(command, pawn, out _);
             int start = (int)((uint)pawn.thingIDNumber % (uint)cells.Count);
-            var best = new List<IntVec3>(3); var distances = new List<int>(3);
+            var best = new List<IntVec3>(3); var distances = new List<float>(3);
             for (int visit = 0; visit < Math.Min(24, cells.Count); visit++)
             {
                 IntVec3 cell = cells[(start + visit) % cells.Count];
                 if (!FieldLocusContains(command, pawn, cell) || !FieldCombatFloor(command, cell)
                     || !FieldCoverAt(command, cell, command.FieldResponse.Focus) || cell.GetFirstPawn(map) != null
                     || !map.pawnDestinationReservationManager.CanReserve(cell, pawn, false)) continue;
-                int distance = cell.DistanceToSquared(pawn.Position), place = 0;
+                float spacing = FieldSpacingCost(command, pawn, cell, true);
+                if (spacing == float.MaxValue) continue;
+                float distance = (float)Math.Sqrt(cell.DistanceToSquared(pawn.Position)) + spacing; int place = 0;
                 while (place < distances.Count && distances[place] <= distance) place++;
                 if (place >= 3) continue;
                 best.Insert(place, cell); distances.Insert(place, distance);
@@ -75,18 +77,27 @@ namespace Helodrace.Tactics
                 {
                     int width = TacticalFieldDoctrine.LowFlankRadius;
                     int depth = TacticalFieldDoctrine.LowFlankDepth;
-                    int side = width * 2 + 1, limit = side * side;
                     IntVec3 centre = field.FirePoints[group];
-                    for (int count = 0; count < TacticalFieldPolicy.CoverBatch && area.Cursor < limit
+                    if (area.CoverPending == null)
+                    {
+                        area.Cells.Clear(); area.Cursor = 0; area.Seed = centre;
+                        area.CoverPending = new Queue<IntVec3>(); area.CoverVisited = new HashSet<IntVec3> { centre };
+                        if (FieldFloor(command, centre)) area.CoverPending.Enqueue(centre);
+                    }
+                    for (int count = 0; count < TacticalFieldPolicy.CoverBatch && area.CoverPending.Count > 0
                         && area.Cells.Count < TacticalFieldPolicy.CoverLimit; count++)
                     {
-                        int cursor = area.Cursor++;
-                        IntVec3 cell = centre + new IntVec3(cursor % side - width, 0, cursor / side - width);
-                        if (!TacticalFieldDoctrine.WithinEllipse(centre, cell, field.Forward, width, depth) || !FieldFloor(command, cell)) continue;
-                        if (!area.Seed.IsValid || cell.DistanceToSquared(centre) < area.Seed.DistanceToSquared(centre)) area.Seed = cell;
+                        IntVec3 cell = area.CoverPending.Dequeue(); area.Cursor++;
                         if (FieldCoverAt(command, cell, field.Focus)) area.Cells.Add(cell);
+                        foreach (IntVec3 direction in GenAdj.CardinalDirections)
+                        {
+                            IntVec3 next = cell + direction;
+                            if (TacticalFieldDoctrine.WithinEllipse(centre, next, field.Forward, width, depth)
+                                && area.CoverVisited.Add(next) && FieldFloor(command, next)) area.CoverPending.Enqueue(next);
+                        }
                     }
-                    area.Prepared = area.Cursor >= limit || area.Cells.Count == TacticalFieldPolicy.CoverLimit;
+                    area.Prepared = area.CoverPending.Count == 0 || area.Cells.Count == TacticalFieldPolicy.CoverLimit;
+                    if (area.Prepared) { area.CoverPending = null; area.CoverVisited = null; }
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
                 return;

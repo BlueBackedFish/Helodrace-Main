@@ -8,8 +8,8 @@ namespace Helodrace.Tactics
 {
     public static class TacticalFieldDoctrine
     {
-        public const int LowRadius = 25, LowMainRadius = 25, LowFlankRadius = 4;
-        public const int LowDepth = 18, LowMainDepth = 12, LowFlankDepth = 3;
+        public const int LowRadius = 25, LowMainRadius = 25, LowFlankRadius = 6;
+        public const int LowDepth = 18, LowMainDepth = 12, LowFlankDepth = 4;
         public const int RadioLife = 600, GroupLimit = 4;
         public static bool EquipmentWork(Job job) => job?.def?.defName?.IndexOf("Reload", StringComparison.OrdinalIgnoreCase) >= 0;
         public static bool Within(IntVec3 origin, IntVec3 cell, int radius) => cell.DistanceToSquared(origin) <= radius * radius;

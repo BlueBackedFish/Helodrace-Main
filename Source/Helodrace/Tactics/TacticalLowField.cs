@@ -42,7 +42,8 @@ namespace Helodrace.Tactics
                 && pawn.CurJobDef?.defName != "HD_NewTacticalFocusFire";
         }
         internal bool FieldCombatFloor(TacticalSquadCommand command, IntVec3 cell) =>
-            (command.FieldResponse.High || TacticalFieldDoctrine.WithinEllipse(command.FieldResponse.Anchor, cell, command.FieldResponse.Forward,
+            (command.FieldResponse.High || command.FieldResponse.Maneuver != null && TacticalFieldDoctrine.Within(command.FieldResponse.Anchor, cell, 60)
+                || TacticalFieldDoctrine.WithinEllipse(command.FieldResponse.Anchor, cell, command.FieldResponse.Forward,
                 TacticalFieldDoctrine.LowRadius, TacticalFieldDoctrine.LowDepth)) && FieldFloor(command, cell);
         internal bool FieldLocusContains(TacticalSquadCommand command, Pawn pawn, IntVec3 cell)
         {
@@ -118,6 +119,7 @@ namespace Helodrace.Tactics
             }
             if (job == null)
             {
+                if (!planned && member.Job != null && pawn.CurJob == member.Job) return null;
                 FieldLocus(command, pawn, out IntVec3 locus, out int radius);
                 if (planned && !FieldLocusContains(command, pawn, pawn.Position))
                 {
@@ -209,7 +211,7 @@ namespace Helodrace.Tactics
             owner.FieldLocus(command, pawn, out IntVec3 locus, out int radius);
             if (!CastPositionFinder.TryFindCastPosition(new CastPositionRequest { caster = pawn, target = target, verb = verb,
                 maxRangeFromTarget = verb.EffectiveRange, maxRangeFromCaster = 8, locus = locus, maxRangeFromLocus = radius,
-                wantCoverFromTarget = true, validator = c => owner.FieldCoveredCandidate(command, pawn, c) }, out IntVec3 cell)) return null;
+                wantCoverFromTarget = true, validator = c => owner.FieldSeparatedCover(command, pawn, c) }, out IntVec3 cell)) return null;
             return cell == pawn.Position ? JobMaker.MakeJob(JobDefOf.Wait_Combat) : JobMaker.MakeJob(JobDefOf.Goto, cell);
         }
         protected override float GetFlagRadius(Pawn pawn) => FieldAnchor(pawn, out int radius).IsValid

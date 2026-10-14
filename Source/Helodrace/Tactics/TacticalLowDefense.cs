@@ -10,7 +10,7 @@ namespace Helodrace.Tactics
     // One bounded, value-only search per squad. No pawn-pair or whole-map scan.
     public sealed class TacticalLowDefenseSearch : IExposable
     {
-        public const int Radius = 50, GridCount = 441, CandidateBatch = 8, CacheBatch = 96, CacheLimit = 64;
+        public const int Radius = 50, GridCount = 24, CandidateBatch = 4, CacheBatch = 96, CacheLimit = 64;
         public const int CoverGridSide = TacticalFieldDoctrine.LowMainRadius * 2 + 1;
         public const int CoverGridCount = CoverGridSide * CoverGridSide;
         public static IntVec3 CoverCell(IntVec3 origin, int index) => origin + new IntVec3(
@@ -22,8 +22,12 @@ namespace Helodrace.Tactics
         public List<IntVec3> Candidates = new List<IntVec3>();
         public List<float> Scores = new List<float>();
         public static int RequiredCover(int live) => Math.Min(6, Math.Max(2, (live + 1) / 2));
-        public static IntVec3 Candidate(IntVec3 origin, int index) =>
-            origin + new IntVec3((index % 21 - 10) * 5, 0, (index / 21 - 10) * 5);
+        public static IntVec3 Candidate(IntVec3 origin, int index)
+        {
+            int radius = index / 8 == 0 ? 15 : index / 8 == 1 ? 30 : Radius;
+            double angle = index % 8 * Math.PI / 4;
+            return origin + new IntVec3((int)Math.Round(Math.Cos(angle) * radius), 0, (int)Math.Round(Math.Sin(angle) * radius));
+        }
         public void Advance(Func<IntVec3, int> cover)
         {
             for (int visit = 0; visit < CandidateBatch && Cursor < GridCount; visit++)
@@ -120,7 +124,7 @@ namespace Helodrace.Tactics
                         Scanned = field.LowCoverCount >= required, BuildingCache = field.LowCoverCount >= required };
                     field.LowCoverCells.Clear(); field.LowCoverReady = false;
                 }
-                search.NextSlice = tick + 10;
+                search.NextSlice = tick + 30; // leave plan slots for individual placement
                 if (!search.Scanned) { search.Advance(cell => CountLowCover(command, cell, search.Focus)); return; }
                 if (!search.BuildingCache)
                 {

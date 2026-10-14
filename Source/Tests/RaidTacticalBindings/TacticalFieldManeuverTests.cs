@@ -73,6 +73,8 @@ internal static class TacticalFieldManeuverTests
         var advance=AccessTools.Method(service.GetType(),"AdvanceFieldManeuver");
         void Step(int tick)
         {
+            field.Areas[1].Prepared = true; field.Areas[1].Cells.Clear();
+            for (int index = 2; index < 6; index++) field.Areas[1].Cells.Add(active[index].Pawn.Position);
             active[0].FieldShotAt=active[1].FieldShotAt=tick;
             advance.Invoke(service,new object[]{command,active,field,tick,false});
         }
@@ -87,10 +89,12 @@ internal static class TacticalFieldManeuverTests
         check(m.Phase==TacticalManeuverPhase.Strike && m.ReadyShots==0,"Arrival must not fabricate actual crossfire evidence.");
         for(int i=2;i<5;i++) active[i].FieldShotAt=2540;
         Step(2540); check(m.ReadyShots==3,"Only actual new firing records confirm the team established crossfire.");
-        Step(2890); check(m.Phase==TacticalManeuverPhase.Recover && field.FirePoints[1]==field.Anchor,
-            "An expired strike returns the maneuver team without moving intact anvil posts.");
+        Step(2890); check(m.Phase==TacticalManeuverPhase.Strike,
+            "Confirmed crossfire must not return on the old fixed strike timer.");
+        Step(3440); check(m.Phase==TacticalManeuverPhase.Recover && field.FirePoints[1]==field.Anchor,
+            "A flank that has lost useful shooting for the bounded grace period may recover.");
         for(int i=2;i<5;i++) Place(i,field.Anchor);
-        Step(2900); check(field.Maneuver==null && field.FireGroup.Count==0 && active[0].FieldPostState==TacticalFieldPostState.Fixed,
+        Step(3450); check(field.Maneuver==null && field.FireGroup.Count==0 && active[0].FieldPostState==TacticalFieldPostState.Fixed,
             "A ready majority completes recovery while preserving the original main body's fixed state.");
     }
 }
