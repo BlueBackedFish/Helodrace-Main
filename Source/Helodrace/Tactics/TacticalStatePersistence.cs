@@ -19,6 +19,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref FieldObservationAt, "fieldObservationAt");
             Scribe_Values.Look(ref FieldPostState, "fieldPostState");
             Scribe_Values.Look(ref FieldPost, "fieldPost", IntVec3.Invalid);
+            Scribe_Values.Look(ref FieldPlacementFailures, "fieldPlacementFailures");
             Scribe_References.Look(ref FieldCover, "fieldCover");
             Scribe_Values.Look(ref FieldHadCover, "fieldHadCover");
             Scribe_Values.Look(ref FieldCoverCheckAt, "fieldCoverCheckAt");

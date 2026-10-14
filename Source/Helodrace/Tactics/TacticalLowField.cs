@@ -70,12 +70,12 @@ namespace Helodrace.Tactics
             locus = flank ? field.FirePoints[1] : field.Anchor;
             radius = flank ? TacticalFieldDoctrine.LowFlankRadius : TacticalFieldDoctrine.LowMainRadius;
         }
-        internal Job FieldNativeJob(Pawn pawn, int tick, bool controller = false)
+        internal Job FieldNativeJob(Pawn pawn, int tick)
         {
             if (!FieldCombatContext(pawn, out var command)) return null;
             var member = command.Members.Find(m => m.Pawn == pawn);
             var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
-            if (!controller && !budget.TryJob(tick)) return null;
+            if (!budget.TryJob(tick)) return null;
             bool anvil = !command.FieldResponse.FireGroup.Contains(command.Members.IndexOf(member));
             if (!anvil)
             {
@@ -106,12 +106,13 @@ namespace Helodrace.Tactics
                 {
                     planned = true;
                     member.FieldDecisionAt = tick + 180 + pawn.thingIDNumber % 30;
-                    if (!anvil && TryFieldShelter(command, pawn, out IntVec3 shelter)) job = JobMaker.MakeJob(JobDefOf.Goto, shelter);
-                    else if (FieldLocusContains(command, pawn, pawn.Position)) job = TacticalFieldFight.Instance.Build(pawn);
+                    if (FieldLocusContains(command, pawn, pawn.Position)) job = TacticalFieldFight.Instance.BuildCovered(pawn);
+                    if (job == null && TryFieldShelter(command, pawn, out IntVec3 shelter)) job = JobMaker.MakeJob(JobDefOf.Goto, shelter);
                     if (job != null && job.def == JobDefOf.Goto && (!FieldCombatFloor(command, job.targetA.Cell)
                         || !FieldLocusContains(command, pawn, job.targetA.Cell)))
                     { JobMaker.ReturnToPool(job); job = null; }
                     nativeDecision = job != null;
+                    if (!nativeDecision) RejectFieldPost(member, tick);
                 }
                 finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
             }
@@ -146,7 +147,6 @@ namespace Helodrace.Tactics
                 if (job.def == JobDefOf.Goto && nativeDecision)
                 { member.FieldPost = job.targetA.Cell; member.FieldPostState = TacticalFieldPostState.Moving; }
                 else if (job.def == JobDefOf.Wait_Combat && nativeDecision) CaptureFieldPost(member, command.FieldResponse, tick);
-                else if (job.def == JobDefOf.Wait_Combat) CaptureFieldPost(member, command.FieldResponse, tick);
             }
             pendingFieldJobs[pawn] = job;
             return job;
@@ -163,14 +163,15 @@ namespace Helodrace.Tactics
             pawn.jobs.curDriver.AddFinishAction(condition =>
             {
                 if (member.Job != job) return;
+                if (command.FieldResponse == null) { member.Job = null; Wake(pawn); return; }
                 if (member.FieldPostState == TacticalFieldPostState.Moving)
                 {
                     if (condition == JobCondition.Succeeded && pawn.Position == member.FieldPost)
                         CaptureFieldPost(member, command.FieldResponse, GenTicks.TicksGame);
-                    else CaptureFieldPost(member, command.FieldResponse, GenTicks.TicksGame);
+                    else RejectFieldPost(member, GenTicks.TicksGame);
                 }
                 else if (member.FieldPostState == TacticalFieldPostState.Fixed && job.def == JobDefOf.Goto
-                    && condition != JobCondition.Succeeded) member.FieldPostState = TacticalFieldPostState.Blocked;
+                    && condition != JobCondition.Succeeded) RejectFieldPost(member, GenTicks.TicksGame);
                 member.Job = null; Wake(pawn);
             });
         }
@@ -198,6 +199,19 @@ namespace Helodrace.Tactics
         public TacticalFieldFight() { ignoreNonCombatants = true; }
         protected override bool DisableAbilityVerbs => true;
         public Job Build(Pawn pawn) => base.TryGiveJob(pawn);
+        public Job BuildCovered(Pawn pawn)
+        {
+            UpdateEnemyTarget(pawn);
+            Thing target = pawn.mindState.enemyTarget;
+            Verb verb = target == null ? null : pawn.TryGetAttackVerb(target, true);
+            var owner = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
+            if (verb == null || verb.IsMeleeAttack || !owner.FieldCombatContext(pawn, out var command)) return null;
+            owner.FieldLocus(command, pawn, out IntVec3 locus, out int radius);
+            if (!CastPositionFinder.TryFindCastPosition(new CastPositionRequest { caster = pawn, target = target, verb = verb,
+                maxRangeFromTarget = verb.EffectiveRange, maxRangeFromCaster = 8, locus = locus, maxRangeFromLocus = radius,
+                wantCoverFromTarget = true, validator = c => owner.FieldCoveredCandidate(command, pawn, c) }, out IntVec3 cell)) return null;
+            return cell == pawn.Position ? JobMaker.MakeJob(JobDefOf.Wait_Combat) : JobMaker.MakeJob(JobDefOf.Goto, cell);
+        }
         protected override float GetFlagRadius(Pawn pawn) => FieldAnchor(pawn, out int radius).IsValid
             ? radius + (pawn.equipment?.PrimaryEq?.PrimaryVerb?.EffectiveRange ?? 30) : 54;
         protected override IntVec3 GetFlagPosition(Pawn pawn) => FieldAnchor(pawn, out _);

@@ -9,6 +9,9 @@ namespace Helodrace.Tactics
 {
     public sealed partial class MapComponent_TacticalCommands
     {
+        internal bool FieldCoveredCandidate(TacticalSquadCommand command, Pawn pawn, IntVec3 cell) =>
+            FieldCombatFloor(command, cell) && FieldLocusContains(command, pawn, cell)
+            && FieldCoverAt(command, cell, command.FieldResponse.Focus);
         private int FieldDepth(TacticalSquadCommand command, Pawn pawn)
         {
             var field = command.FieldResponse;
@@ -117,7 +120,7 @@ namespace Helodrace.Tactics
                             field.Forward, TacticalFieldDoctrine.LowFlankRadius, TacticalFieldDoctrine.LowFlankDepth)) continue;
                         if (pawn.CurJobDef == JobDefOf.Wait_Combat && (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))) continue;
                     }
-                    if (anvil && member.FieldPostState != TacticalFieldPostState.Unplaced)
+                    if (anvil && member.FieldPostState == TacticalFieldPostState.Fixed)
                     {
                         if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == member.FieldPost) continue;
                         if (pawn.CurJobDef == JobDefOf.Wait_Combat && (pawn.Position == member.FieldPost
@@ -126,13 +129,17 @@ namespace Helodrace.Tactics
                     if (pawn.CurJobDef == JobDefOf.Wait_Combat && tick < member.FieldDecisionAt) continue;
                     FieldLocus(command, pawn, out IntVec3 locus, out int width);
                     bool inside = TacticalFieldDoctrine.WithinEllipse(locus, pawn.Position, field.Forward, width + 2, FieldDepth(command, pawn) + 2);
-                    if (anvil && inside && FieldCombatFloor(command, pawn.Position)
+                    if (anvil && member.FieldPostState == TacticalFieldPostState.Fixed && inside && FieldCombatFloor(command, pawn.Position)
                         && FieldLocusContains(command, pawn, pawn.CurJobDef == JobDefOf.Goto ? pawn.CurJob.targetA.Cell : pawn.Position)
                         && !(pawn.CurJobDef == JobDefOf.Wait_Combat && FieldNeedsShelter(command, pawn))) continue;
                 }
-                if (!CanIssue(member)) continue;
-                Job job = FieldNativeJob(pawn, tick, controller: true);
-                if (job != null && Issue(member, job)) issued++;
+                if (pawn.stances.FullBodyBusy) continue;
+                // One job source: the native override invokes FieldNativeJob
+                // through the existing safety-first tree adapter. It preserves
+                // busy stances and avoids controller/thinker competing starts.
+                Job before = pawn.CurJob;
+                pawn.jobs.CheckForJobOverride();
+                if (pawn.CurJob != before) issued++;
             }
         }
     }

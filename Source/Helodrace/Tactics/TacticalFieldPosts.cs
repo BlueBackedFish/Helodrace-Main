@@ -13,17 +13,21 @@ namespace Helodrace.Tactics
         public Thing FieldCover;
         public bool FieldHadCover;
         public int FieldCoverCheckAt;
+        public int FieldPlacementFailures;
         internal void ResetFieldPost()
         {
             FieldPostState = TacticalFieldPostState.Unplaced; FieldPost = IntVec3.Invalid;
-            FieldCover = null; FieldHadCover = false; FieldCoverCheckAt = 0; FieldDecisionAt = 0;
+            FieldCover = null; FieldHadCover = false; FieldCoverCheckAt = 0; FieldDecisionAt = 0; FieldPlacementFailures = 0;
         }
     }
     public sealed partial class MapComponent_TacticalCommands
     {
         private void CaptureFieldPost(TacticalMemberCommand member, TacticalFieldResponse field, int tick)
         {
-            Pawn pawn = member.Pawn; member.FieldPost = pawn.Position;
+            Pawn pawn = member.Pawn;
+            if (!FieldCoverAt(byPawn[pawn], pawn.Position, field.Focus))
+            { RejectFieldPost(member, tick); return; }
+            member.FieldPost = pawn.Position;
             Thing best = null; float score = 0;
             foreach (IntVec3 side in GenAdj.AdjacentCells)
             {
@@ -35,16 +39,24 @@ namespace Helodrace.Tactics
                 if (block > score) { best = cover; score = block; }
             }
             member.FieldCover = best; member.FieldHadCover = best != null;
-            member.FieldPostState = best == null ? TacticalFieldPostState.Uncovered : TacticalFieldPostState.Fixed;
+            member.FieldPostState = TacticalFieldPostState.Fixed;
+            member.FieldPlacementFailures = 0;
             member.FieldCoverCheckAt = tick + 90 + pawn.thingIDNumber % 30;
             member.FieldDecisionAt = int.MaxValue;
+        }
+        private static void RejectFieldPost(TacticalMemberCommand member, int tick)
+        {
+            member.FieldPostState = TacticalFieldPostState.Uncovered;
+            member.FieldPost = IntVec3.Invalid; member.FieldCover = null; member.FieldHadCover = false;
+            member.FieldPlacementFailures++;
+            member.FieldDecisionAt = tick + (member.FieldPlacementFailures < 2 ? 90 : 900);
         }
         private void RefreshFieldPost(TacticalMemberCommand member, TacticalFieldResponse field, int tick)
         {
             if (member.FieldPostState == TacticalFieldPostState.Moving)
             {
                 if (member.Pawn.Position == member.FieldPost) CaptureFieldPost(member, field, tick);
-                else if (member.Job == null || member.Pawn.CurJob != member.Job) member.ResetFieldPost();
+                else if (member.Job == null || member.Pawn.CurJob != member.Job) RejectFieldPost(member, tick);
                 return;
             }
             if (tick < member.FieldCoverCheckAt || member.FieldPostState == TacticalFieldPostState.Unplaced) return;
@@ -52,11 +64,11 @@ namespace Helodrace.Tactics
             if (member.FieldHadCover && (member.FieldCover == null || member.FieldCover.Destroyed))
             { IntVec3 origin = member.FieldPost; member.ResetFieldPost(); member.FieldPost = origin; return; }
             // Loss of firing LOS/target does not invalidate an intact cover.
-            if (member.FieldPost.IsValid && !member.FieldPost.Standable(map)) member.FieldPostState = TacticalFieldPostState.Blocked;
+            if (member.FieldPost.IsValid && !member.FieldPost.Standable(map)) RejectFieldPost(member, tick);
         }
         private Job FixedFieldPostJob(TacticalMemberCommand member, TacticalSquadCommand command, int tick)
         {
-            if (member.FieldPostState == TacticalFieldPostState.Unplaced || member.FieldPostState == TacticalFieldPostState.Moving) return null;
+            if (member.FieldPostState != TacticalFieldPostState.Fixed) return null;
             if (member.FieldPostState != TacticalFieldPostState.Blocked && member.Pawn.Position != member.FieldPost)
             {
                 var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;

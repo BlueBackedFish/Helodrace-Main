@@ -39,6 +39,18 @@ internal static class TacticalFieldManeuverTests
         Check(carrier.FieldPostState == TacticalFieldPostState.Unplaced && carrier.FieldCover == null,
             "Destroying the actual cover must request a fresh placement for its user.");
         CheckMovement(Check);
+        var rejected = new TacticalMemberCommand { FieldPostState = TacticalFieldPostState.Moving,
+            FieldPost = new IntVec3(1,0,1), FieldHadCover = true };
+        var reject = AccessTools.Method(typeof(MapComponent_TacticalCommands), "RejectFieldPost");
+        reject.Invoke(null, new object[] { rejected, 100 });
+        Check(rejected.FieldPostState == TacticalFieldPostState.Uncovered && !rejected.FieldPost.IsValid
+            && !rejected.FieldHadCover && rejected.FieldDecisionAt == 190, "Failed placement is not fixed or a compulsory return destination.");
+        reject.Invoke(null, new object[] { rejected, 200 });
+        Check(rejected.FieldDecisionAt == 1100 && rejected.FieldPlacementFailures == 2,
+            "Repeated failed placement backs off instead of scanning every decision slice.");
+        var fixedJob = AccessTools.Method(typeof(MapComponent_TacticalCommands), "FixedFieldPostJob");
+        Check(fixedJob.Invoke(service, new object[] { rejected, new TacticalSquadCommand(), 200 }) == null,
+            "Uncovered placement cannot acquire a permanent fixed-position wait.");
         Console.WriteLine("PASS: " + checks + " field feedback, contact grace and attack approach checks.");
     }
     private static void CheckMovement(Action<bool,string> check)
