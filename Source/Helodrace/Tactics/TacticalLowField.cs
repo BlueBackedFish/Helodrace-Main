@@ -34,6 +34,7 @@ namespace Helodrace.Tactics
                 && !(pawn.jobs.curDriver is JobDriver_FleeAndCower) && !(pawn.jobs.curDriver is JobDriver_FleeAndCowerShort)
                 && command.Phase != TacticalCommandPhase.Returning
                 && !TacticalFieldDoctrine.EquipmentWork(pawn.CurJob)
+                && pawn.CurJobDef?.defName != FieldModeJobName
                 && pawn.CurJobDef?.defName != InventoryGrenadeUtility.ThrowJobName
                 && !LowTreatmentWait(command, pawn)
                 && command.MedicalCare == null && !PawnUtility.PlayerForcedJobNowOrSoon(pawn) && command.BagRecovery?.Helper != pawn
@@ -77,6 +78,11 @@ namespace Helodrace.Tactics
             var member = command.Members.Find(m => m.Pawn == pawn);
             var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (!budget.TryJob(tick)) return null;
+            if (!Hammer(command, pawn) && member.FieldPostState != TacticalFieldPostState.Moving
+                && member.FieldPostState != TacticalFieldPostState.Fixed && FieldSeparatedCover(command, pawn, pawn.Position))
+                CaptureFieldPost(member, command.FieldResponse, tick);
+            Job mode = FieldModeJob(command, member);
+            if (mode != null) return mode;
             bool anvil = !command.FieldResponse.FireGroup.Contains(command.Members.IndexOf(member));
             if (!anvil)
             {
@@ -173,7 +179,7 @@ namespace Helodrace.Tactics
                 }
                 return;
             }
-            if (!FieldCombatContext(pawn, out var command)) return;
+            if (!byPawn.TryGetValue(pawn, out var command) || command.FieldResponse == null) return;
             var member = command.Members.Find(m => m.Pawn == pawn); if (member == null) return;
             FieldNativeJobs++;
             member.Job = job; member.LastProgressTick = GenTicks.TicksGame;
@@ -197,9 +203,10 @@ namespace Helodrace.Tactics
             command.Due = Math.Min(command.Due, tick + 10);
             if (!field.High) AdvanceLowDefense(command, active, field, tick);
             AdvanceFieldManeuver(command, active, field, tick, support);
+            if (field.High) { AdvanceHighDefense(command, active, field, tick); PrepareFieldCover(command, field, tick); }
             if (field.Maneuver != null && field.Maneuver.Phase != TacticalManeuverPhase.Planning)
             {
-                PrepareFieldCover(command, field, tick);
+                if (!field.High) PrepareFieldCover(command, field, tick);
                 if (field.Maneuver.Phase == TacticalManeuverPhase.Moving && tick >= field.SmokeRetryAt
                     && field.Screen == null) PlanFieldSmoke(command, active, field, tick);
             }
@@ -286,7 +293,11 @@ namespace Helodrace.Tactics
     [NewTactical, HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
     public static class Patch_NewTactical_AdoptFieldJob
     {
-        public static void Prefix(Pawn ___pawn, Job newJob) => ___pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PrepareFieldNativeStart(___pawn,newJob);
+        public static void Prefix(Pawn ___pawn, Job newJob)
+        {
+            MapComponent_TacticalCommands.FieldModeSafety(___pawn, newJob);
+            ___pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PrepareFieldNativeStart(___pawn,newJob);
+        }
         public static void Postfix(Pawn ___pawn, Job newJob) => ___pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.AdoptFieldNative(___pawn, newJob);
     }
 }

@@ -14,6 +14,13 @@ namespace Helodrace
         public float altAccuracyMultiplier = 1.0f; 
         public float moveSpeedOffset = 0.0f;
         public int switchTicks = 120; // Default 2 seconds to switch modes
+        public List<string> aiModeTags;
+        public bool DefensiveAI { get; private set; }
+        public override void ResolveReferences(ThingDef parentDef)
+        {
+            base.ResolveReferences(parentDef);
+            DefensiveAI = aiModeTags?.Contains("Defensive") == true;
+        }
         public string normalModeLabelKey = "HD_SharpshooterMode_Normal";
         public string altModeLabelKey = "HD_SharpshooterMode_Label";
         public string modeDescriptionKey = "HD_SharpshooterMode_Desc";
@@ -29,11 +36,13 @@ namespace Helodrace
         public CompProperties_SharpshooterWeapon Props => (CompProperties_SharpshooterWeapon)props;
         
         public bool altModeActive = false;
+        public bool aiModeOwned;
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref altModeActive, "altModeActive", false);
+            Scribe_Values.Look(ref aiModeOwned, "aiModeOwned");
         }
 
         public Pawn Wielder
@@ -99,8 +108,27 @@ namespace Helodrace
 
         public void PerformSwitch()
         {
-            altModeActive = !altModeActive;
+            aiModeOwned = false; // an explicit manual toggle takes ownership
+            SetMode(!altModeActive);
+        }
+
+        public void SetMode(bool enabled)
+        {
+            if (altModeActive == enabled) return;
+            altModeActive = enabled;
             parent.TryGetComp<CompCEDoubleTapWeapon>()?.ApplyMode();
+        }
+
+        public void ReleaseAIMode()
+        {
+            if (!aiModeOwned) return;
+            SetMode(false); aiModeOwned = false;
+        }
+
+        public override void Notify_Unequipped(Pawn pawn)
+        {
+            ReleaseAIMode();
+            base.Notify_Unequipped(pawn);
         }
 
         public string CurrentModeLabel
@@ -136,6 +164,12 @@ namespace Helodrace
         {
             var comp = Weapon?.TryGetComp<CompSharpshooterWeapon>();
             if (comp == null) yield break;
+            bool ai = job.def.defName == "HD_AISetSharpshooterMode";
+            bool enabled = job.count == 1;
+            this.FailOn(() => Weapon == null || Weapon.Destroyed || pawn.equipment?.Primary != Weapon
+                || !comp.CanUseSharpshooterMode || ai && (pawn.Faction?.IsPlayer == true || pawn.Drafted
+                    || !comp.Props.DefensiveAI || comp.AltVerb == null));
+            if (ai && comp.altModeActive == enabled) yield break;
 
             Toil switchToil = new Toil();
             switchToil.initAction = delegate
@@ -155,7 +189,8 @@ namespace Helodrace
             {
                 initAction = delegate
                 {
-                    comp.PerformSwitch();
+                    if (ai) { comp.SetMode(enabled); comp.aiModeOwned = enabled; }
+                    else comp.PerformSwitch();
                 },
                 defaultCompleteMode = ToilCompleteMode.Instant
             };

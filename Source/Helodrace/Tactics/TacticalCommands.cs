@@ -1025,7 +1025,11 @@ namespace Helodrace.Tactics
             command.CancelEntryPreview();
             command.CancelPreparation();
             command.Phase = TacticalCommandPhase.Released;
-            foreach (var member in command.Members) pendingFieldJobs.Remove(member.Pawn);
+            foreach (var member in command.Members)
+            {
+                pendingFieldJobs.Remove(member.Pawn);
+                member.Pawn.equipment?.Primary?.TryGetComp<CompSharpshooterWeapon>()?.ReleaseAIMode();
+            }
             foreach (TacticalMemberCommand member in command.Members)
                 if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner) && owner == command)
                     byPawn.Remove(member.Pawn);

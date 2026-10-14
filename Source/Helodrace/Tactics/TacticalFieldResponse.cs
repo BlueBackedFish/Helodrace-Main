@@ -20,8 +20,9 @@ namespace Helodrace.Tactics
         public const float MinimumCover = .15f;
         public const int ContactGrace = 900;
         public static bool Continue(int tick, int seen, int engaged) => tick - Math.Max(seen, engaged) < ContactGrace;
-        public static bool Prepare(bool defensive, bool support, bool takingFire, float range, int distanceSquared) =>
-            defensive || support || takingFire || distanceSquared <= range * range;
+        public static bool Prepare(bool defensive, bool support, bool takingFire, float range, int distanceSquared,
+            TacticalObservedMotion motion = TacticalObservedMotion.Unknown) =>
+            defensive || support || takingFire || motion == TacticalObservedMotion.Approaching || distanceSquared <= range * range;
         public static bool ContactHandoffAllowed(TacticalContactResponse response, bool outside, bool openingOwned) =>
             !openingOwned && (response == null || outside && !response.DirectAttack && !response.Door);
         public static float CoverWeight(IntVec3 adjacent, IntVec3 threat)
@@ -69,6 +70,8 @@ namespace Helodrace.Tactics
         public int Started, Cursor;
         public IntVec3 Seed = IntVec3.Invalid;
         public bool Prepared;
+        public bool RelocationAttempted;
+        public TacticalLowDefenseSearch RelocationSearch;
         internal Queue<IntVec3> CoverPending;
         internal HashSet<IntVec3> CoverVisited;
         public void ExposeData()
@@ -78,6 +81,8 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Cursor, "cursor");
             Scribe_Values.Look(ref Seed, "seed");
             Scribe_Values.Look(ref Prepared, "prepared");
+            Scribe_Values.Look(ref RelocationAttempted, "relocationAttempted");
+            Scribe_Deep.Look(ref RelocationSearch, "relocationSearch");
         }
     }
 
@@ -135,7 +140,7 @@ namespace Helodrace.Tactics
                 // Distant observation alone must not stop an attacking squad's
                 // approach. Defense/support and incoming fire remain responses.
                 if (!TacticalFieldPolicy.Prepare(command.Defensive, support, takingFire, range,
-                    observer.Position.DistanceToSquared(nearest.Position))) return false;
+                    observer.Position.DistanceToSquared(nearest.Position), TacticalFieldPolicy.Motion(nearest, observer.Position))) return false;
                 IntVec3 focus = nearest?.Position ?? command.SupportAim;
                 var previous = command.ContactResponse;
                 bool outsideContact = !observer.Position.Roofed(map) && (previous == null
@@ -191,6 +196,9 @@ namespace Helodrace.Tactics
                     {
                         field.Focus = contact.Position;
                         field.FocusAt = tick;
+                        field.WeaponRange = 0;
+                        foreach (var member in active)
+                            field.WeaponRange = Math.Max(field.WeaponRange, member.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.EffectiveRange ?? 0);
                     }
                 }
             if (!permitted && !TacticalFieldPolicy.Continue(tick, field.LastSeen, field.LastEngaged))
@@ -203,6 +211,7 @@ namespace Helodrace.Tactics
             }
             command.Due = Math.Min(command.Due, tick + 30);
             if (!command.Defensive && !support && field.Maneuver == null && tick - field.LastEngaged > 300
+                && field.Motion != TacticalObservedMotion.Approaching
                 && field.Focus.DistanceToSquared(field.Anchor) > field.WeaponRange * field.WeaponRange)
             { EndFieldResponse(command,tick); return false; }
             if (field.High && !active.Exists(m => m.Fireteam >= 0))
@@ -270,6 +279,7 @@ namespace Helodrace.Tactics
             command.PhaseStarted += tick - field.Started;
             foreach (TacticalMemberCommand member in command.Members)
             {
+                member.Pawn.equipment?.Primary?.TryGetComp<CompSharpshooterWeapon>()?.ReleaseAIMode();
                 member.ResetFieldPost();
                 member.Entered = member.EntryAssignmentDone = false; member.RetryTick = 0; member.LastProgressTick = tick;
             }

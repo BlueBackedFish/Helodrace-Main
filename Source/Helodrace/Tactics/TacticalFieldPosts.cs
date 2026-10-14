@@ -64,6 +64,9 @@ namespace Helodrace.Tactics
             if (member.FieldHadCover && (member.FieldCover == null || member.FieldCover.Destroyed))
             { IntVec3 origin = member.FieldPost; member.ResetFieldPost(); member.FieldPost = origin; return; }
             // Loss of firing LOS/target does not invalidate an intact cover.
+            if (member.FieldPostState == TacticalFieldPostState.Fixed && member.FieldPost.IsValid
+                && !FieldCoverAt(byPawn[member.Pawn], member.FieldPost, field.Focus))
+            { member.ResetFieldPost(); return; }
             if (member.FieldPost.IsValid && !member.FieldPost.Standable(map)) RejectFieldPost(member, tick);
         }
         private Job FixedFieldPostJob(TacticalMemberCommand member, TacticalSquadCommand command, int tick)

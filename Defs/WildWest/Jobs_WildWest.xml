@@ -46,6 +46,13 @@
   </JobDef>
 
   <JobDef>
+    <defName>HD_AISetSharpshooterMode</defName>
+    <driverClass>Helodrace.JobDriver_SwitchSharpshooterMode</driverClass>
+    <reportString>preparing defensive weapon mode.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
     <defName>HD_IgnitePhotochlorogenCan</defName>
     <driverClass>Helodrace.JobDriver_IgnitePhotochlorogenCan</driverClass>
     <reportString>igniting photochlorogen can.</reportString>

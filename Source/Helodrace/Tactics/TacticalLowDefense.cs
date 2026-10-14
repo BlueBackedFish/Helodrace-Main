@@ -75,7 +75,7 @@ namespace Helodrace.Tactics
                 IntVec3 neighbour = cell + side;
                 if (!neighbour.InBounds(map)) continue;
                 Thing cover = neighbour.GetCover(map);
-                if (cover == null) continue;
+                if (cover == null || cover is Building_Door door && door.Open) continue;
                 float block = cover.BaseBlockChance() * TacticalFieldPolicy.CoverWeight(side, focus - cell);
                 int range = focus.DistanceToSquared(neighbour);
                 if (range < 4) block *= .3333f; else if (range < 9) block *= .66666f;

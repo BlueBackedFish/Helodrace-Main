@@ -65,7 +65,7 @@ namespace Helodrace.Tactics
         }
         private void PrepareFieldCover(TacticalSquadCommand command, TacticalFieldResponse field, int tick)
         {
-            int first = 1, last = 2;
+            int first = field.High ? 0 : 1, last = field.High ? 3 : 2;
             for (int group = first; group < last; group++)
             {
                 var area = field.Areas[group];
@@ -75,8 +75,9 @@ namespace Helodrace.Tactics
                 long started = Stopwatch.GetTimestamp();
                 try
                 {
-                    int width = field.FlankWidth;
-                    int depth = field.FlankDepth;
+                    bool flank = group == 1 && field.Maneuver != null && field.Maneuver.Phase != TacticalManeuverPhase.Planning;
+                    int width = field.High && !flank ? TacticalFieldPolicy.HighWidth : field.FlankWidth;
+                    int depth = field.High && !flank ? TacticalFieldPolicy.HighDepth : field.FlankDepth;
                     IntVec3 centre = field.FirePoints[group];
                     if (area.CoverPending == null)
                     {
@@ -115,6 +116,13 @@ namespace Helodrace.Tactics
                 if (!FieldCombatContext(pawn, out _)) continue;
                 bool anvil = !field.FireGroup.Contains(command.Members.IndexOf(member));
                 if (anvil) RefreshFieldPost(member, field, tick);
+                if (FieldModeNeeded(command, member, out _, out _) && !pawn.stances.FullBodyBusy)
+                {
+                    Job beforeMode = pawn.CurJob;
+                    pawn.jobs.CheckForJobOverride();
+                    if (pawn.CurJob != beforeMode) issued++;
+                    continue;
+                }
                 bool native = pawn.CurJob == member.Job && (pawn.CurJobDef == JobDefOf.Wait_Combat
                     || pawn.CurJobDef == JobDefOf.Goto || pawn.CurJobDef == JobDefOf.AttackMelee);
                 if (native)
