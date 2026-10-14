@@ -116,6 +116,8 @@ namespace Helodrace.Tactics
     {
         private int revision=-1, leg, quietUntil, nextShot;
         private IntVec3 pathGoal=IntVec3.Invalid;
+        private IntVec3 lastCell=IntVec3.Invalid;
+        private int nextStepAt;
         private TacticalMemberCommand member;
         public override IntVec3 PostCell => member?.CqbOrder?.Destination ?? job.targetA.Cell;
         protected override IEnumerable<Toil> MakeNewToils()
@@ -128,13 +130,17 @@ namespace Helodrace.Tactics
         }
         private void Step()
         {
+            if(!pawn.Spawned || pawn.Dead || pawn.Downed || pawn.CurJob!=job) return;
+            int tick=GenTicks.TicksGame;
+            if(member?.Job==job && member.CqbOrder?.Revision==revision && pawn.Position==lastCell
+                && AtPost && tick<nextStepAt) return;
+            lastCell=pawn.Position; nextStepAt=tick+3;
             var owner=pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
             if (owner==null) { EndJobWith(JobCondition.Incompletable); return; }
             member=member??owner.ActorMember(pawn,job);
             TacticalCqbOrder order=member?.CqbOrder;
             if(member==null || !owner.ActorValid(member,order))
-            { pawn.pather.StopDead(); AtPost=false; return; } // Await an admitted new role/intent.
-            int tick=GenTicks.TicksGame;
+            { if(pawn.pather.Moving) pawn.pather.StopDead(); AtPost=false; return; } // Await an admitted new role/intent.
             if(revision!=order.Revision)
             {
                 revision=order.Revision; leg=order.StartLeg; AtPost=false; quietUntil=0;
@@ -165,21 +171,19 @@ namespace Helodrace.Tactics
             {
                 if(!AtPost) { AtPost=true; pawn.pather.StopDead(); owner.PostArrived(pawn,job,PlanVersion,CqbOwnerId); }
                 Fire(owner,order,tick,false);
+                nextStepAt=nextShot;
                 if(!pawn.stances.FullBodyBusy) pawn.rotationTracker.FaceCell(order.Face);
                 return;
             }
             AtPost=false;
-            if(!owner.ActorMovementAllowed(member,order)) { pawn.pather.StopDead(); return; }
-            if(!order.Ingress && owner.StackMovementPaused(pawn,job)) { pawn.pather.StopDead(); return; }
+            if(!owner.ActorMovementAllowed(member,order)) { if(pawn.pather.Moving) pawn.pather.StopDead(); return; }
+            if(!order.Ingress && owner.StackMovementPaused(pawn,job)) { if(pawn.pather.Moving) pawn.pather.StopDead(); return; }
             // An admitted local cover change must actually reach that cover;
             // reacquiring the same enemy on the old exposed tile cannot cancel it.
             if(leg==order.LastLeg && !order.Reposition && Fire(owner,order,tick,true)) return;
             if(tick<quietUntil || pawn.stances.FullBodyBusy) return;
             if(pawn.pather.Moving && pathGoal==goal) return;
-            var budget=Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
-            if(!budget.TryPath(tick)) return;
-            pathGoal=goal;
-            pawn.pather.StartPath(goal,PathEndMode.OnCell);
+            if(StartAdmittedPath(goal)) pathGoal=goal;
         }
         private bool Fire(MapComponent_TacticalCommands owner,TacticalCqbOrder order,int tick,bool moving)
         {

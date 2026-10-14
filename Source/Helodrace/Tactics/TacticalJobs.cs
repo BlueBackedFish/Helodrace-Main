@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -15,6 +16,17 @@ namespace Helodrace.Tactics
         public string CqbOwnerId;
         public virtual IntVec3 PostCell => job.targetA.Cell;
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
+        protected bool StartAdmittedPath(IntVec3 destination)
+        {
+            if(!pawn.Spawned || pawn.Dead || pawn.Downed || pawn.CurJob!=job) return false;
+            int tick=GenTicks.TicksGame;
+            TacticalWorkBudget budget=Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
+            if(!budget.TryPath(tick)) return false;
+            long started=Stopwatch.GetTimestamp();
+            try { pawn.pather.StartPath(destination,PathEndMode.OnCell); }
+            finally { budget.Account(tick,Stopwatch.GetTimestamp()-started); }
+            return true;
+        }
         public override void Notify_DamageTaken(DamageInfo dinfo)
         {
             base.Notify_DamageTaken(dinfo);

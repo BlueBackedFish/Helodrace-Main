@@ -52,6 +52,10 @@ $targets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;H
 
 ## CPU 비교
 
+`Run-SavedMapAudit.ps1`은 `-High`로 HIGH13명, `-GoalX/-GoalZ`로 플레이어 팩션에 대한 명시 목표를 설정할 수 있다. `-MethodProfile/-ProfileTargets`는 관련 CQB 메서드와 coarse 틱 부모만 수집하고 종료 시 capture를 저장한다. 경로 워커도 호출하는 RegionGrid 조회는 넣지 않는다. `newCommands`에는 부모와 HIGH 자식의 소유자/버전·대기 이유·후보 커서·실제 자리/통과를 기록한다. 원본 save/config를 덮어쓰지 않는다.
+
+`-DownProbe`는 복사본에서만900틱 뒤 생성 습격원1명과 기존 플레이어 폰을 마취로 다운시키고 탄환 피해를 가한다. `savedMapDownProbe`에 실제 피해/상처 증가 또는 예외를 남긴다. 치료·후속 전술을 바꾸므로 일반 진행/CPU 대조와 분리한다. 저장본 재현은 기능 진단용이며 엄격한 Vanilla/New 성능 게이트를 대체하지 않는다.
+
 R3 장비 회귀: `-Case recovery`는 유일한 해머 공병을 돌파 작업 발행 뒤 죽이고 시체의 장비 회수를 확인한다. `-Case cutter-recovery`는 해머를 제거하고 절단기 하나를 지급한 뒤 같은 작업 승계/회수를 확인한다. `-Case cutter`는 사망 이벤트 없이 절단기를 사용한다. fixture 장비 변경은 모든 엔진에서 폰 지문 생성 전에 적용한다. 사망 이벤트는 New 전용 기능 검사이며 바닐라 CPU 대조로 사용하지 않는다. `newToolRecoveriesStarted/newToolRecoveriesCompleted/newCutterJobsStarted`와 생존자 전원 진입/기능 완료를 함께 확인한다.
 
 ```powershell

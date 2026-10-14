@@ -54,6 +54,17 @@ internal static class TacticalHighCqbTests
             "Children must share contacts, secured history and recovery gear without independent services.");
         var byPawn=(Dictionary<Pawn,TacticalSquadCommand>)AccessTools.Field(typeof(MapComponent_TacticalCommands),"byPawn").GetValue(service);
         Check(parent.CqbTeams.All(t=>t.Members.All(m=>byPawn[m.Pawn]==t)),"Job callbacks must resolve to their actual CQB owner.");
+        var aggregate=AccessTools.Method(typeof(MapComponent_TacticalCommands),"UpdateCqbPosts");
+        aggregate.Invoke(null,new object[]{parent});
+        var stable=parent.Plan; int stableVersion=parent.PlanVersion;
+        aggregate.Invoke(null,new object[]{parent});
+        Check(ReferenceEquals(stable,parent.Plan) && stableVersion==parent.PlanVersion,
+            "Repeated child decisions with unchanged posts must not allocate or invalidate the parent plan.");
+        parent.CqbTeams[0].Plan.RetainedOutside.Add(0);
+        aggregate.Invoke(null,new object[]{parent});
+        Check(parent.PlanVersion==stableVersion+1 && parent.Plan.RetainedOutside.Contains(parent.Members.IndexOf(parent.CqbTeams[0].Members[0])),
+            "A real retained-role change must refresh the aggregate generation.");
+        parent.CqbTeams[0].Plan.RetainedOutside.Clear(); aggregate.Invoke(null,new object[]{parent});
         var context=AccessTools.Method(typeof(MapComponent_TacticalCommands),"RootContext");
         object[] call={parent.Members[5].Pawn,null};
         Check((bool)context.Invoke(service,call)&&ReferenceEquals(call[1],parent),"Shared medical/focus/smoke callbacks must resolve to the squad.");
@@ -83,6 +94,15 @@ internal static class TacticalHighCqbTests
             game.components=new List<GameComponent>{new GameComponent_TacticalCommands(game)}; Current.Game=game;
             parent.Frontiers.Add(first); parent.Frontiers.Add(new TacticalRoomFrontier {Opening=new IntVec3(30,0,20),Inward=IntVec3.North});
             var assign=AccessTools.Method(typeof(MapComponent_TacticalCommands),"AssignCqbFrontier");
+            var exhausted=new TacticalSquadCommand {Id="exhausted",Goal=parent.Goal};
+            for(int i=0;i<32;i++) exhausted.Frontiers.Add(new TacticalRoomFrontier {Excluded=true});
+            Check((bool)assign.Invoke(service,new object[]{exhausted,parent.CqbTeams[0],98})
+                && exhausted.CqbSearchCursor==12,"A rejected frontier pass must yield after its bounded slice.");
+            Check((bool)assign.Invoke(service,new object[]{exhausted,parent.CqbTeams[1],99})
+                && exhausted.CqbSearchCursor==24,"Idle siblings must continue the same parent scan.");
+            Check(!(bool)assign.Invoke(service,new object[]{exhausted,parent.CqbTeams[2],100})
+                && !(bool)assign.Invoke(service,new object[]{exhausted,parent.CqbTeams[0],101})
+                && exhausted.CqbSearchCursor==32,"Exhausted candidates must stay exhausted so all-idle completion can run.");
             Check((bool)assign.Invoke(service,new object[]{parent,parent.CqbTeams[0],100}),"First team gets a known boundary.");
             Check((IntVec3)AccessTools.Method(typeof(MapComponent_TacticalCommands), "PendingGoal").Invoke(null,
                 new object[]{parent.CqbTeams[0]}) == first.Inside,

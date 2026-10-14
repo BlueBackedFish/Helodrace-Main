@@ -145,8 +145,8 @@ namespace Helodrace.Tactics
                 if(pawn.Position==goal)
                 { pawn.pather.StopDead(); owner.SupportReturned(pawn,job); ReadyForNextToil(); return; }
                 if(pawn.pather.Moving && returnGoal==goal) return;
-                if(!Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.TryPath(tick)) return;
-                returnGoal=goal; pawn.pather.StartPath(goal,PathEndMode.OnCell);
+                IntVec3 previousGoal=returnGoal; returnGoal=goal;
+                if(!StartAdmittedPath(goal)) returnGoal=previousGoal;
             };
             yield return returning;
             yield return Hold(job.targetQueueA[1].Cell);

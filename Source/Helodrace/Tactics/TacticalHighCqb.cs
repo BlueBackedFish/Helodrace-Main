@@ -292,7 +292,12 @@ namespace Helodrace.Tactics
             if (selected == null)
             {
                 if (parent.CqbSearchCursor < parent.Frontiers.Count) return true; // yielded candidate scan
-                parent.CqbSearchCursor = 0; return false;
+                // Exhaustion belongs to the parent pass, not to one idle team.
+                // Resetting here lets the next idle sibling immediately begin
+                // another 12-cell slice, so >12 rejected boundaries can prevent
+                // the all-idle completion below forever. New room/pursuit data
+                // already reset this cursor at their explicit change boundary.
+                return false;
             }
             // Idle guards must not spend the one plan slice needed by a busy
             // sibling. Preserve this candidate if its area cannot run yet.
@@ -352,6 +357,23 @@ namespace Helodrace.Tactics
 
         private static void UpdateCqbPosts(TacticalSquadCommand parent)
         {
+            // This is a display/recovery aggregate, not a new assault plan on
+            // every child decision. Preserve identity and generation when no
+            // child's assigned seat or retained status has changed.
+            var previous=parent.Plan;
+            bool changed=previous==null || !previous.Direct || previous.Opening!=parent.Goal
+                || previous.Positions.Count!=parent.Members.Count;
+            for(int i=0;!changed && i<parent.Members.Count;i++)
+            {
+                var member=parent.Members[i];
+                var team=parent.CqbTeams.FirstOrDefault(t=>t.Members.Contains(member));
+                int index=team?.Members.IndexOf(member)??-1;
+                IntVec3 post=TacticalExplosiveEvasionPolicy.ReturnPost(team?.Plan,team?.Phase??TacticalCommandPhase.Complete,index);
+                if(!post.IsValid) post=member.Pawn.Position;
+                bool retained=index>=0 && team.Plan?.RetainedOutside.Contains(index)==true;
+                changed=previous.Positions[i]!=post || previous.RetainedOutside.Contains(i)!=retained;
+            }
+            if(!changed) return;
             var plan = new TacticalLocalPlan { Direct = true, Opening = parent.Goal, Inward = IntVec3.North };
             foreach (var member in parent.Members)
             {

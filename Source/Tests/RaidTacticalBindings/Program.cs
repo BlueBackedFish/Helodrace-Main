@@ -52,6 +52,7 @@ internal static class Program
     {
         try
         {
+            if (args.Contains("--path-admission")) { TacticalPathAdmissionTests.Run(); return 0; }
             if (args.Contains("--sharp-load")) { SharpshooterLoadTests.Run(); TacticalFieldModeTests.Run(); return 0; }
             if (args.Contains("--raid-support")) { RaidSupportTests.Run(); return 0; }
             if (args.Contains("--cqb-c4")) { TacticalCqbAutonomyTests.Run(); TacticalHighCqbTests.Run(); TacticalEntryCombatTests.Run(); TacticalOpeningTests.Run(); TacticalChargeTests.Run(); TacticalStackSecurityTests.Run(); TacticalCadenceTests.Run(); TacticalGrenadeTests.Run(); TacticalExplosiveEvasionTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
