@@ -4,7 +4,7 @@ using Verse;
 namespace Helodrace.Tactics
 {
     public enum TacticalMessageKind { Offer, Accept, Confirm, Status, Start, Abort, Contact, MeleeThreat,
-        PursuitOffer, PursuitAccept, PursuitConfirm, PursuitReceipt, FieldFormation }
+        PursuitOffer, PursuitAccept, PursuitConfirm, PursuitReceipt, FieldFormation, FieldMission }
     public enum TacticalAgreementStage { None, Offered, Accepted, Agreed, Started, Finished, Aborted }
     public enum TacticalChannel { None, Voice, Radio }
 

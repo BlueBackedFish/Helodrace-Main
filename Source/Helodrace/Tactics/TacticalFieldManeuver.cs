@@ -14,6 +14,7 @@ namespace Helodrace.Tactics
         public TacticalManeuverPhase Phase;
         public int Started, PhaseAt, CandidateCursor, Leg, Half, Side = 1, BestSide = 1, ReadyShots, Team = -1, LastStrikeAt = -1;
         public float BestScore = float.MinValue;
+        public bool WholeSquad;
         public IntVec3 Best = IntVec3.Invalid, Origin, Focus;
         public List<int> Party = new List<int>(4);
         public List<IntVec3> Waypoints = new List<IntVec3>(3);
@@ -25,6 +26,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref BestSide,"bestSide",1);
             Scribe_Values.Look(ref Team,"team",-1);
             Scribe_Values.Look(ref LastStrikeAt,"lastStrikeAt",-1);
+            Scribe_Values.Look(ref WholeSquad,"wholeSquad");
             Scribe_Values.Look(ref BestScore,"bestScore",float.MinValue); Scribe_Values.Look(ref Best,"best",IntVec3.Invalid);
             Scribe_Values.Look(ref Origin,"origin"); Scribe_Values.Look(ref Focus,"focus");
             Scribe_Collections.Look(ref Party,"party",LookMode.Value); Scribe_Collections.Look(ref Waypoints,"waypoints",LookMode.Value);
@@ -37,7 +39,7 @@ namespace Helodrace.Tactics
     }
     public static class TacticalFieldManeuverPolicy
     {
-        public const int CandidateLimit = 24, CandidateBatch = 4, HalfTimeout = 240, MoveTimeout = 1800, StrikeTicks = 360;
+        public const int CandidateLimit = 24, CandidateBatch = 4, HalfTimeout = 240, MoveTimeout = 1800;
         public static IntVec3 Candidate(IntVec3 anchor, IntVec3 focus, int side, int index, bool high)
         {
             double distance = Math.Sqrt(anchor.DistanceToSquared(focus));
@@ -77,7 +79,7 @@ namespace Helodrace.Tactics
         }
         private bool FieldAtWaypoint(TacticalSquadCommand command, TacticalMemberCommand member) =>
             TacticalFieldDoctrine.WithinEllipse(command.FieldResponse.FirePoints[1], member.Pawn.Position,
-                command.FieldResponse.Forward, TacticalFieldDoctrine.LowFlankRadius, TacticalFieldDoctrine.LowFlankDepth)
+                command.FieldResponse.Forward, command.FieldResponse.FlankWidth, command.FieldResponse.FlankDepth)
             && (command.FieldResponse.Maneuver?.Phase == TacticalManeuverPhase.Recover
                 || command.FieldResponse.Areas[1].Prepared && command.FieldResponse.Areas[1].Cells.Contains(member.Pawn.Position));
         private bool MainFireReady(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick, ICollection<int> excluded)
@@ -92,21 +94,30 @@ namespace Helodrace.Tactics
             TacticalFieldResponse field, int tick, bool support)
         {
             var m = field.Maneuver;
+            var order = field.MissionOrder;
+            bool assigned = order != null && order.Assignee == command.Id && order.Fresh(tick)
+                && (order.Stage == TacticalFieldMissionStage.Committed || order.Stage == TacticalFieldMissionStage.Active);
             if (m == null)
             {
-                if (tick < field.ManeuverCheckAt || tick < field.NextSortieAt || command.Defensive || support || active.Count < 6) return;
+                if (tick < field.ManeuverCheckAt || tick < field.NextSortieAt || command.Defensive || support || active.Count < (assigned ? 3 : 6)) return;
                 field.ManeuverCheckAt = tick + 90;
                 bool highFaction = command.Link.Unit.Faction.def.defName == "HD_HelodCivilHighFaction";
-                if (highFaction && !field.High) return;
+                if (highFaction && !field.High && !assigned) return;
                 // Only membership received through real voice/radio packets
                 // restricts sorties. Never inspect live peer pawn states here.
                 if (field.Formation != null)
                 {
                     if (field.Formation.Expire(command.Id, tick)) field.Formation = null;
-                    else if (field.Formation.Coordinator != command.Id) return;
+                    else if (field.Formation.Members.Count > 1 && !assigned) return;
                 }
                 var party = new List<int>(4);
-                if (field.High)
+                if (assigned)
+                {
+                    foreach (var member in active)
+                        if (member.Pawn.equipment?.PrimaryEq?.PrimaryVerb?.IsMeleeAttack == false)
+                            party.Add(command.Members.IndexOf(member));
+                }
+                else if (field.High)
                 {
                     foreach (var member in active)
                         if (member.Fireteam == 1 && member.Pawn != command.Link.Unit.Commander) party.Add(command.Members.IndexOf(member));
@@ -123,15 +134,22 @@ namespace Helodrace.Tactics
                         party.Add(command.Members.IndexOf(member)); if (party.Count == TacticalFieldDoctrine.FlankSize(active.Count)) break;
                     }
                 }
-                if (party.Count < 3 || !MainFireReady(command, active, tick, party)) return;
-                field.Maneuver = m = new TacticalFieldManeuver { Started = tick, PhaseAt = tick, Origin = field.Anchor, Focus = field.Focus,
-                    Party = party, Team = field.High ? 1 : -1, Side = (field.EnemyId ^ field.Started) % 2 == 0 ? -1 : 1 };
+                if (party.Count < 3)
+                { if (assigned) { order.Stage = TacticalFieldMissionStage.Declined; field.NextSortieAt = tick + 900; } return; }
+                if (!assigned && !MainFireReady(command, active, tick, party)) return;
+                field.Maneuver = m = new TacticalFieldManeuver { Started = tick, PhaseAt = tick, Origin = field.Anchor,
+                    Focus = assigned ? order.Focus : field.Focus, WholeSquad = assigned,
+                    Party = party, Team = !assigned && field.High ? 1 : -1,
+                    Side = assigned ? order.Side : (field.EnemyId ^ field.Started) % 2 == 0 ? -1 : 1 };
+                if (assigned) order.Stage = TacticalFieldMissionStage.Active;
             }
+            if (m.WholeSquad && m.Phase != TacticalManeuverPhase.Strike && m.Phase != TacticalManeuverPhase.Recover && !assigned)
+            { BeginFieldRecovery(command,field,tick); return; }
             int live = active.Count(member => m.Party.Contains(command.Members.IndexOf(member)));
             if (live < 3) { FinishFieldManeuver(command, field, tick); return; }
             if (m.Phase == TacticalManeuverPhase.Planning)
             {
-                if (tick - field.LastSeen >= TacticalContactMemory.FreshTicks || tick - m.Started >= 600)
+                if (!m.WholeSquad && tick - field.LastSeen >= TacticalContactMemory.FreshTicks || tick - m.Started >= 600)
                 { FinishFieldManeuver(command, field, tick); return; }
                 var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
                 if (!budget.TryPlan(tick)) return;
@@ -145,7 +163,7 @@ namespace Helodrace.Tactics
                     {
                         int index = m.CandidateCursor++, side = index < 12 ? m.Side : -m.Side;
                         FieldPostCandidates++;
-                        IntVec3 candidate = TacticalFieldManeuverPolicy.Candidate(m.Origin, m.Focus, side, index % 12, field.High);
+                        IntVec3 candidate = TacticalFieldManeuverPolicy.Candidate(m.Origin, m.Focus, side, index % 12, field.High || m.WholeSquad);
                         if (!FieldCombatFloor(command, candidate) || candidate.DistanceToSquared(m.Focus) > range * range
                             || !GenSight.LineOfSight(candidate, m.Focus, map, true)) continue;
                         int covered = 0;
@@ -154,7 +172,8 @@ namespace Helodrace.Tactics
                         if (FieldCoverAt(command, candidate, m.Focus)) covered++;
                         double angle = TacticalFieldManeuverPolicy.Angle(m.Origin, m.Focus, candidate);
                         if (covered < 2 || angle < 20 || angle > 100) continue;
-                        float score = covered * 20 - (float)Math.Abs(60 - angle) - (float)Math.Sqrt(candidate.DistanceToSquared(m.Origin)) * .2f;
+                        float score = covered * 20 - (float)Math.Abs(60 - angle) - (float)Math.Sqrt(candidate.DistanceToSquared(m.Origin)) * .2f
+                            - FieldPeerSectorCost(command,candidate,tick);
                         if (score > m.BestScore) { m.BestScore = score; m.Best = candidate; m.BestSide = side; }
                     }
                     if (m.CandidateCursor < TacticalFieldManeuverPolicy.CandidateLimit) return;
@@ -181,7 +200,7 @@ namespace Helodrace.Tactics
             if (m.Phase == TacticalManeuverPhase.Moving)
             {
                 if (tick - m.Started >= TacticalFieldManeuverPolicy.MoveTimeout
-                    || tick - m.Started >= 600 && !MainFireReady(command, active, tick, m.Party))
+                    || !m.WholeSquad && tick - m.Started >= 600 && !MainFireReady(command, active, tick, m.Party))
                 { BeginFieldRecovery(command, field, tick); return; }
                 int moving = 0, arrived = 0;
                 foreach (var member in active)
@@ -206,6 +225,8 @@ namespace Helodrace.Tactics
                 m.ReadyShots = active.Count(member => m.Party.Contains(command.Members.IndexOf(member))
                     && member.FieldShotAt >= m.PhaseAt && tick - member.FieldShotAt < 300);
                 if (TacticalFieldPolicy.Ready(live, m.ReadyShots)) m.LastStrikeAt = tick;
+                if (m.WholeSquad && TacticalFieldPolicy.Ready(live,m.ReadyShots) && field.MissionOrder != null)
+                    field.MissionOrder.Stage = TacticalFieldMissionStage.Finished;
                 if (field.High && m.Team == 1 && TacticalFieldPolicy.Ready(live, m.ReadyShots)
                     && StartFieldReserve(command, active, field, tick)) return;
                 // A successful flank holds its useful angle; a fixed strike
@@ -249,6 +270,8 @@ namespace Helodrace.Tactics
         }
         private void FinishFieldManeuver(TacticalSquadCommand command, TacticalFieldResponse field, int tick)
         {
+            if (field.Maneuver?.WholeSquad == true && field.MissionOrder?.Stage != TacticalFieldMissionStage.Finished
+                && field.MissionOrder != null) field.MissionOrder.Stage = TacticalFieldMissionStage.Declined;
             foreach (int index in field.FireGroup) command.Members[index].ResetFieldPost();
             field.FireGroup.Clear(); field.LowFlank = field.LowFlankAttack = false; field.Maneuver = null;
             field.FirePoints[1] = field.Anchor; field.Areas[1] = new TacticalFireArea { Started = tick };
@@ -258,7 +281,7 @@ namespace Helodrace.Tactics
         {
             var field = command.FieldResponse;
             if (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))
-            { Job hold = JobMaker.MakeJob(JobDefOf.Wait_Combat); hold.expiryInterval = 180; hold.checkOverrideOnExpire = false; return hold; }
+            { Job hold = JobMaker.MakeJob(JobDefOf.Wait_Combat); hold.expiryInterval = 600; hold.checkOverrideOnExpire = false; return hold; }
             if (!field.Areas[1].Prepared) return null;
             IntVec3 destination = IntVec3.Invalid;
             // Share the squad's prepared cover footprint, at most one selected
@@ -280,7 +303,7 @@ namespace Helodrace.Tactics
                 {
                     if (++visited > 24) break;
                     if (!TacticalFieldDoctrine.WithinEllipse(field.FirePoints[1],cell,field.Forward,
-                            TacticalFieldDoctrine.LowFlankRadius,TacticalFieldDoctrine.LowFlankDepth)
+                            field.FlankWidth,field.FlankDepth)
                         || !FieldCombatFloor(command,cell) || cell.GetFirstPawn(map) != null
                         || !FieldCoverAt(command,cell,field.Focus) || FieldSpacingCost(command,member.Pawn,cell,true) == float.MaxValue
                         || !map.pawnDestinationReservationManager.CanReserve(cell,member.Pawn,false)) continue;

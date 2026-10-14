@@ -58,7 +58,7 @@ namespace Helodrace.Tactics
         internal void FieldLocus(TacticalSquadCommand command, Pawn pawn, out IntVec3 locus, out int radius)
         {
             var field = command.FieldResponse;
-            if (Hammer(command, pawn)) { locus = field.FirePoints[1]; radius = TacticalFieldDoctrine.LowFlankRadius; return; }
+            if (Hammer(command, pawn)) { locus = field.FirePoints[1]; radius = field.FlankWidth; return; }
             var member = command.Members.Find(m => m.Pawn == pawn);
             if (member.FieldPost.IsValid)
             { locus = member.FieldPost; radius = field.High ? TacticalFieldPolicy.HighWidth : TacticalFieldDoctrine.LowMainRadius; return; }
@@ -82,7 +82,7 @@ namespace Helodrace.Tactics
             {
                 Job moving = null;
                 if (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))
-                { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 180; }
+                { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 600; }
                 else if (tick >= member.FieldDecisionAt && budget.TryPlan(tick))
                 {
                     long started = Stopwatch.GetTimestamp();
@@ -90,7 +90,7 @@ namespace Helodrace.Tactics
                     finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
                     member.FieldDecisionAt = tick + (moving?.def == JobDefOf.Goto ? 90 : 15);
                 }
-                if (moving == null) { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 30; }
+                if (moving == null) { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 600; }
                 moving.checkOverrideOnExpire = false; pendingFieldJobs[pawn] = moving; return moving;
             }
             if (anvil)
@@ -135,12 +135,12 @@ namespace Helodrace.Tactics
                 }
                 if (job == null) job = JobMaker.MakeJob(JobDefOf.Wait_Combat);
             }
-            job.expiryInterval = job.def == JobDefOf.Wait_Combat && !nativeDecision ? 30 + pawn.thingIDNumber % 15 : 240 + pawn.thingIDNumber % 60;
+            job.expiryInterval = job.def == JobDefOf.Wait_Combat ? 600 + pawn.thingIDNumber % 90 : 1800;
             job.checkOverrideOnExpire = false;
             if (job.def == JobDefOf.Goto && !budget.TryPath(tick))
             {
                 JobMaker.ReturnToPool(job); job = JobMaker.MakeJob(JobDefOf.Wait_Combat);
-                job.expiryInterval = 30 + pawn.thingIDNumber % 15; job.checkOverrideOnExpire = false;
+                job.expiryInterval = 600 + pawn.thingIDNumber % 90; job.checkOverrideOnExpire = false;
                 nativeDecision = false;
                 pathDeferred = true;
             }
@@ -153,11 +153,26 @@ namespace Helodrace.Tactics
             pendingFieldJobs[pawn] = job;
             return job;
         }
+        internal void PrepareFieldNativeStart(Pawn pawn, Job job)
+        {
+            if (!pendingFieldJobs.TryGetValue(pawn,out Job pending) || pending != job || !byPawn.TryGetValue(pawn,out var command)) return;
+            var member = command.Members.Find(m => m.Pawn == pawn);
+            if (member != null) member.Job = job; // before old-job cleanup can notify its owner
+        }
         internal void AdoptFieldNative(Pawn pawn, Job job)
         {
             if (!pendingFieldJobs.TryGetValue(pawn, out Job pending) || pending != job) return;
             pendingFieldJobs.Remove(pawn);
-            if (pawn.CurJob != job) return;
+            if (pawn.CurJob != job)
+            {
+                if (byPawn.TryGetValue(pawn,out var failed))
+                {
+                    var actor = failed.Members.Find(m => m.Pawn == pawn);
+                    if (actor?.Job == job) { actor.Job = null; actor.FieldPostState = TacticalFieldPostState.Uncovered;
+                        actor.FieldPost = IntVec3.Invalid; actor.FieldCover = null; actor.FieldHadCover = false; }
+                }
+                return;
+            }
             if (!FieldCombatContext(pawn, out var command)) return;
             var member = command.Members.Find(m => m.Pawn == pawn); if (member == null) return;
             FieldNativeJobs++;
@@ -200,7 +215,6 @@ namespace Helodrace.Tactics
         public static readonly TacticalFieldFight Instance = new TacticalFieldFight();
         public TacticalFieldFight() { ignoreNonCombatants = true; }
         protected override bool DisableAbilityVerbs => true;
-        public Job Build(Pawn pawn) => base.TryGiveJob(pawn);
         public Job BuildCovered(Pawn pawn)
         {
             UpdateEnemyTarget(pawn);
@@ -209,8 +223,11 @@ namespace Helodrace.Tactics
             var owner = pawn.Map.GetComponent<MapComponent_TacticalCommands>();
             if (verb == null || verb.IsMeleeAttack || !owner.FieldCombatContext(pawn, out var command)) return null;
             owner.FieldLocus(command, pawn, out IntVec3 locus, out int radius);
+            // 1.6 clips maxRangeFromLocus around targetLoc, not the supplied
+            // locus. Keep the small caster bound and validate our real area
+            // explicitly instead of accidentally discarding nearby covers.
             if (!CastPositionFinder.TryFindCastPosition(new CastPositionRequest { caster = pawn, target = target, verb = verb,
-                maxRangeFromTarget = verb.EffectiveRange, maxRangeFromCaster = 8, locus = locus, maxRangeFromLocus = radius,
+                maxRangeFromTarget = verb.EffectiveRange, maxRangeFromCaster = 8, locus = locus,
                 wantCoverFromTarget = true, validator = c => owner.FieldSeparatedCover(command, pawn, c) }, out IntVec3 cell)) return null;
             return cell == pawn.Position ? JobMaker.MakeJob(JobDefOf.Wait_Combat) : JobMaker.MakeJob(JobDefOf.Goto, cell);
         }
@@ -269,6 +286,7 @@ namespace Helodrace.Tactics
     [NewTactical, HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
     public static class Patch_NewTactical_AdoptFieldJob
     {
+        public static void Prefix(Pawn ___pawn, Job newJob) => ___pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PrepareFieldNativeStart(___pawn,newJob);
         public static void Postfix(Pawn ___pawn, Job newJob) => ___pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.AdoptFieldNative(___pawn, newJob);
     }
 }

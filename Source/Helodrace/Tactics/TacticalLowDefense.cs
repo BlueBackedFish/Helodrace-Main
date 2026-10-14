@@ -102,6 +102,7 @@ namespace Helodrace.Tactics
         private void AdvanceLowDefense(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalFieldResponse field, int tick)
         {
             if (field.LowFlank || field.Screen != null || command.MedicalCare != null) return;
+            if (field.LowRelocations >= 1 && field.LowCoverReady) return;
             if (active.Exists(m => m.FieldPostState == TacticalFieldPostState.Fixed))
             { field.LowDefenseSearch = null; return; }
             var search = field.LowDefenseSearch;

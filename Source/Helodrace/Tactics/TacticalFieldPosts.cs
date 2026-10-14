@@ -5,7 +5,7 @@ using Verse.AI;
 
 namespace Helodrace.Tactics
 {
-    public enum TacticalFieldPostState { Unplaced, Moving, Fixed, Uncovered, Blocked }
+    public enum TacticalFieldPostState { Unplaced, Moving, Fixed, Uncovered }
     public sealed partial class TacticalMemberCommand
     {
         public TacticalFieldPostState FieldPostState;
@@ -69,7 +69,7 @@ namespace Helodrace.Tactics
         private Job FixedFieldPostJob(TacticalMemberCommand member, TacticalSquadCommand command, int tick)
         {
             if (member.FieldPostState != TacticalFieldPostState.Fixed) return null;
-            if (member.FieldPostState != TacticalFieldPostState.Blocked && member.Pawn.Position != member.FieldPost)
+            if (member.Pawn.Position != member.FieldPost)
             {
                 var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
                 if (member.FieldPost.Standable(map) && budget.TryPath(tick))

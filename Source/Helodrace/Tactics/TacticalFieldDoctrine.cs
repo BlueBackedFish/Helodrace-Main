@@ -40,11 +40,13 @@ namespace Helodrace.Tactics
         public string Coordinator;
         public List<string> Members = new List<string>();
         public Dictionary<string, int> Seen = new Dictionary<string, int>();
+        public Dictionary<string, TacticalFieldSector> Sectors = new Dictionary<string, TacticalFieldSector>();
         public IntVec3 Origin, Forward;
         public int Started, Until, LastEngaged = -1, LastPacket = -1;
         public TacticalFieldFormation Copy() => new TacticalFieldFormation { Coordinator = Coordinator,
             Members = new List<string>(Members), Seen = new Dictionary<string, int>(Seen), Origin = Origin, Forward = Forward, Started = Started,
-            Until = Until, LastEngaged = LastEngaged, LastPacket = LastPacket };
+            Until = Until, LastEngaged = LastEngaged, LastPacket = LastPacket,
+            Sectors = Sectors.ToDictionary(p => p.Key,p => p.Value.Copy()) };
         public bool Receive(TacticalFieldFormation report, string own, string sender, int sent, int tick)
         {
             if (report == null || string.IsNullOrEmpty(own) || string.IsNullOrEmpty(sender)
@@ -67,6 +69,10 @@ namespace Helodrace.Tactics
             if (string.CompareOrdinal(report.Coordinator, Coordinator) < 0)
             { Coordinator = report.Coordinator; Origin = report.Origin; Forward = report.Forward; Started = report.Started; }
             Members = merged; Seen = merged.ToDictionary(id => id, id => dates[id]); LastEngaged = Math.Max(LastEngaged, report.LastEngaged);
+            foreach (var pair in report.Sectors)
+                if (Members.Contains(pair.Key) && pair.Value != null && pair.Value.At <= sent && tick - pair.Value.At < TacticalFieldDoctrine.RadioLife
+                    && (!Sectors.TryGetValue(pair.Key,out var previous) || pair.Value.At > previous.At)) Sectors[pair.Key] = pair.Value.Copy();
+            foreach (string id in Sectors.Keys.Where(id => !Members.Contains(id)).ToArray()) Sectors.Remove(id);
             Until = tick + TacticalFieldDoctrine.RadioLife; LastPacket = sent;
             return true;
         }
@@ -75,12 +81,14 @@ namespace Helodrace.Tactics
             Seen[own] = tick;
             Members.RemoveAll(id => id != own && (!Seen.TryGetValue(id, out int seen) || tick - seen >= TacticalFieldDoctrine.RadioLife));
             foreach (string id in Seen.Keys.Where(id => !Members.Contains(id)).ToArray()) Seen.Remove(id);
+            foreach (string id in Sectors.Keys.Where(id => !Members.Contains(id)).ToArray()) Sectors.Remove(id);
             return !Members.Contains(Coordinator) || Members.Count <= 1;
         }
         public void ExposeData()
         {
             Scribe_Values.Look(ref Coordinator, "coordinator"); Scribe_Collections.Look(ref Members, "members", LookMode.Value);
             Scribe_Collections.Look(ref Seen, "seen", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref Sectors, "sectors", LookMode.Value, LookMode.Deep);
             Scribe_Values.Look(ref Origin, "origin"); Scribe_Values.Look(ref Forward, "forward");
             Scribe_Values.Look(ref Started, "started"); Scribe_Values.Look(ref Until, "until");
             Scribe_Values.Look(ref LastEngaged, "lastEngaged", -1); Scribe_Values.Look(ref LastPacket, "lastPacket", -1);

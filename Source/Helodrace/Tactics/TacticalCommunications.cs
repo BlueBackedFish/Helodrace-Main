@@ -66,6 +66,12 @@ namespace Helodrace.Tactics
                 if (other.Link.PursuitPeer==command)
                 { other.Link.PursuitPeer=null; other.Link.PursuitDivision.CancelProposal(); }
                 other.Link.Identified.Remove(command.Id);
+                var field = other.FieldResponse;
+                if (field?.MissionOrder != null && (field.MissionOrder.Coordinator == command.Id || field.MissionOrder.Assignee == command.Id))
+                    field.MissionOrder.Stage = TacticalFieldMissionStage.Declined;
+                field?.Formation?.Members.Remove(command.Id);
+                field?.Formation?.Seen.Remove(command.Id);
+                field?.Formation?.Sectors.Remove(command.Id);
                 if (other.Link.Peer != command && other.Link.Cooperation.Agenda?.Peer(other.Id) != command.Id) continue;
                 other.Link.Peer = null;
                 other.Link.Cooperation.Abort();
@@ -270,6 +276,7 @@ namespace Helodrace.Tactics
             { MessagesDropped++; LastDropReason = channel != message.Channel ? "channel" : "expired"; return; }
             TacticalSquadCommand receiver = message.To;
             if (message.Kind == TacticalMessageKind.FieldFormation) { DeliverFieldFormation(message, channel, tick); return; }
+            if (message.Kind == TacticalMessageKind.FieldMission) { DeliverFieldMission(message, channel, tick); return; }
             if (message.PursuitProposal!=null)
             { DeliverPursuit(message,channel,tick); return; }
             if (message.Kind == TacticalMessageKind.MeleeThreat)

@@ -15,7 +15,7 @@ namespace Helodrace.Tactics
         private int FieldDepth(TacticalSquadCommand command, Pawn pawn)
         {
             var field = command.FieldResponse;
-            if (Hammer(command, pawn)) return TacticalFieldDoctrine.LowFlankDepth;
+            if (Hammer(command, pawn)) return field.FlankDepth;
             return field.High ? TacticalFieldPolicy.HighDepth
                 : field.LowFlank && field.FireGroup.Contains(command.Members.FindIndex(m => m.Pawn == pawn))
                     ? TacticalFieldDoctrine.LowFlankDepth : TacticalFieldDoctrine.LowMainDepth;
@@ -75,8 +75,8 @@ namespace Helodrace.Tactics
                 long started = Stopwatch.GetTimestamp();
                 try
                 {
-                    int width = TacticalFieldDoctrine.LowFlankRadius;
-                    int depth = TacticalFieldDoctrine.LowFlankDepth;
+                    int width = field.FlankWidth;
+                    int depth = field.FlankDepth;
                     IntVec3 centre = field.FirePoints[group];
                     if (area.CoverPending == null)
                     {
@@ -128,14 +128,13 @@ namespace Helodrace.Tactics
                     if (!anvil && field.Maneuver != null)
                     {
                         if (pawn.CurJobDef == JobDefOf.Goto && TacticalFieldDoctrine.WithinEllipse(field.FirePoints[1], pawn.CurJob.targetA.Cell,
-                            field.Forward, TacticalFieldDoctrine.LowFlankRadius, TacticalFieldDoctrine.LowFlankDepth)) continue;
+                            field.Forward, field.FlankWidth, field.FlankDepth)) continue;
                         if (pawn.CurJobDef == JobDefOf.Wait_Combat && (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))) continue;
                     }
                     if (anvil && member.FieldPostState == TacticalFieldPostState.Fixed)
                     {
                         if (pawn.CurJobDef == JobDefOf.Goto && pawn.CurJob.targetA.Cell == member.FieldPost) continue;
-                        if (pawn.CurJobDef == JobDefOf.Wait_Combat && (pawn.Position == member.FieldPost
-                            || member.FieldPostState == TacticalFieldPostState.Blocked)) continue;
+                        if (pawn.CurJobDef == JobDefOf.Wait_Combat && pawn.Position == member.FieldPost) continue;
                     }
                     if (pawn.CurJobDef == JobDefOf.Wait_Combat && tick < member.FieldDecisionAt) continue;
                     FieldLocus(command, pawn, out IntVec3 locus, out int width);
@@ -144,7 +143,8 @@ namespace Helodrace.Tactics
                         && FieldLocusContains(command, pawn, pawn.CurJobDef == JobDefOf.Goto ? pawn.CurJob.targetA.Cell : pawn.Position)
                         && !(pawn.CurJobDef == JobDefOf.Wait_Combat && FieldNeedsShelter(command, pawn))) continue;
                 }
-                if (pawn.stances.FullBodyBusy) continue;
+                if (pawn.stances.FullBodyBusy && (anvil && member.FieldPostState == TacticalFieldPostState.Fixed
+                    || !anvil && !FieldHammerMoving(command,member))) continue;
                 // One job source: the native override invokes FieldNativeJob
                 // through the existing safety-first tree adapter. It preserves
                 // busy stances and avoids controller/thinker competing starts.

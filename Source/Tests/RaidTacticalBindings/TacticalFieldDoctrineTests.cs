@@ -91,6 +91,20 @@ internal static class TacticalFieldDoctrineTests
         AccessTools.Field(service.GetType(), "pendingFieldJobs").SetValue(service, pending); pending[pawn] = candidate;
         AccessTools.Method(service.GetType(), "AdoptFieldNative").Invoke(service, new object[] { pawn, candidate });
         Check(pending.Count == 0 && pawn.CurJob == null, "An unsuccessful native job start must not adopt another job.");
+        var member = new TacticalMemberCommand { Pawn = pawn, Job = new Job(), FieldPostState = TacticalFieldPostState.Moving,
+            FieldPost = anchor, FieldHadCover = true };
+        var command = new TacticalSquadCommand { FieldResponse = new TacticalFieldResponse() }; command.Members.Add(member);
+        // Console pawns have no loaded race defs for Pawn.Equals. Ownership
+        // identity here is intentionally tested without creating a Unity world.
+        var owned = new Dictionary<Pawn,TacticalSquadCommand>(ReferenceEqualityComparer.Instance);
+        AccessTools.Field(service.GetType(),"byPawn").SetValue(service,owned);
+        owned[pawn] = command; pending[pawn] = candidate;
+        AccessTools.Method(service.GetType(),"PrepareFieldNativeStart").Invoke(service,new object[] { pawn,candidate });
+        Check(member.Job == candidate && member.FieldPostState == TacticalFieldPostState.Moving,
+            "Ownership must transfer before the previous job's finish callback can erase the new placement.");
+        AccessTools.Method(service.GetType(),"AdoptFieldNative").Invoke(service,new object[] { pawn,candidate });
+        Check(member.Job == null && member.FieldPostState == TacticalFieldPostState.Uncovered && !member.FieldPost.IsValid,
+            "A native start that failed after preparation must clear its provisional ownership and destination.");
         Console.WriteLine("PASS: " + checks + " bounded anvil/hammer geometry, contact-only cooperation and native field bindings.");
     }
 }

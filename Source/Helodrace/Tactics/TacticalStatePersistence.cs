@@ -345,6 +345,9 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref High, "high");
             Scribe_Values.Look(ref WeaponRange, "weaponRange");
             Scribe_Values.Look(ref LastEngaged, "lastEngaged", -1);
+            Scribe_Deep.Look(ref MissionOrder, "fieldMissionOrder");
+            Scribe_Values.Look(ref MissionSequence, "fieldMissionSequence");
+            Scribe_Values.Look(ref MissionRetryAt, "fieldMissionRetryAt");
             Scribe_Values.Look(ref RadioAt, "radioAt");
             Scribe_Values.Look(ref LowFlank, "lowFlank");
             Scribe_Values.Look(ref LowFlankAttack, "lowFlankAttack");
@@ -491,6 +494,7 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref MeleeThreat, "meleeThreat");
             Scribe_Deep.Look(ref PursuitProposal,"pursuitProposal");
             Scribe_Deep.Look(ref FieldFormation, "fieldFormation");
+            Scribe_Deep.Look(ref FieldMission, "fieldMission");
             Scribe_Values.Look(ref FieldReply, "fieldReply");
             if (Scribe.mode == LoadSaveMode.Saving) { SavedFrom = From?.Id; SavedTo = To?.Id; SavedMap = From?.Owner.map; }
             Scribe_Values.Look(ref SavedFrom, "fromId"); Scribe_Values.Look(ref SavedTo, "toId");

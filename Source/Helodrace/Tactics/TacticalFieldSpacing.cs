@@ -30,7 +30,9 @@ namespace Helodrace.Tactics
             float cost = 0; int checkedMembers = 0;
             foreach (var peer in command.Members)
             {
-                if (peer.Pawn == pawn || !Available(peer, map)) continue;
+                // The command roster is already registered. Do not repeat the
+                // organization lookup for every cast-position candidate.
+                if (peer.Pawn == pawn || peer.Pawn?.Spawned != true || peer.Pawn.Map != map || peer.Pawn.Dead || peer.Pawn.Downed) continue;
                 if (++checkedMembers > 16) break;
                 IntVec3 position = peer.FieldPost.IsValid && (peer.FieldPostState == TacticalFieldPostState.Fixed
                     || peer.FieldPostState == TacticalFieldPostState.Moving) ? peer.FieldPost
@@ -38,9 +40,27 @@ namespace Helodrace.Tactics
                 if (hard && TacticalFieldSpacingPolicy.Close(cell, position)) return float.MaxValue;
                 cost += TacticalFieldSpacingPolicy.Penalty(cell, position, command.FieldResponse.Focus);
             }
+            return cost + FieldPeerSectorCost(command,cell,GenTicks.TicksGame);
+        }
+        private static float FieldPeerSectorCost(TacticalSquadCommand command, IntVec3 cell, int tick)
+        {
+            float cost = 0; var formation = command.FieldResponse.Formation;
+            if (formation == null) return 0;
+            foreach (var pair in formation.Sectors)
+            {
+                if (pair.Key == command.Id || !formation.Members.Contains(pair.Key)
+                    || tick < pair.Value.At || tick - pair.Value.At >= TacticalFieldDoctrine.RadioLife) continue;
+                cost += TacticalFieldSpacingPolicy.Penalty(cell,pair.Value.Origin,command.FieldResponse.Focus);
+                if (pair.Value.Flank.IsValid) cost += TacticalFieldSpacingPolicy.Penalty(cell,pair.Value.Flank,command.FieldResponse.Focus);
+            }
             return cost;
         }
-        internal bool FieldSeparatedCover(TacticalSquadCommand command, Pawn pawn, IntVec3 cell) =>
-            FieldCoveredCandidate(command, pawn, cell) && FieldSpacingCost(command, pawn, cell, true) < float.MaxValue;
+        internal bool FieldSeparatedCover(TacticalSquadCommand command, Pawn pawn, IntVec3 cell)
+        {
+            if (!FieldCoveredCandidate(command,pawn,cell) || FieldSpacingCost(command,pawn,cell,true) == float.MaxValue) return false;
+            foreach (Thing thing in cell.GetThingList(map))
+                if (thing is Pawn other && other != pawn && !other.Dead && !other.Downed) return false;
+            return true;
+        }
     }
 }

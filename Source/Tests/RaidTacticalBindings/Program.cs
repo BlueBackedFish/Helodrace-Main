@@ -53,6 +53,7 @@ internal static class Program
         try
         {
             if (args.Contains("--raid-support")) { RaidSupportTests.Run(); return 0; }
+            if (args.Contains("--field-w2")) { TacticalFieldCoordinationTests.Run(); TacticalFieldManeuverTests.Run(); TacticalFieldDoctrineTests.Run(); TacticalFieldTests.Run(); TacticalCooperationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--raid-mortar")) { RaidSupportTests.Run(); RaidMortarTests.Run(); RaidSpawnGenerationTests.Run(); return 0; }
             if (args.Contains("--field-maneuver")) { TacticalFieldManeuverTests.Run(); TacticalFieldDoctrineTests.Run(); TacticalCooperationTests.Run(); TacticalExplosiveEvasionTests.Run(); TacticalFocusTests.Run(); TacticalGrenadeTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }
             if (args.Contains("--field-doctrine")) { TacticalFieldDoctrineTests.Run(); TacticalFieldTests.Run(); TacticalCooperationTests.Run(); TacticalWorkBudgetTests.Run(); return 0; }

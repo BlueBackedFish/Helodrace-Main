@@ -76,6 +76,8 @@ namespace Helodrace.Tactics
                         + " shelter=" + command.FieldResponse?.LowCoverCount + "/" + command.FieldResponse?.LowCoverReady
                         + " relocation=" + command.FieldResponse?.LowRelocations + " search=" + command.FieldResponse?.LowDefenseSearch?.Cursor
                         + " field radio=" + command.FieldResponse?.Formation?.Coordinator + "/" + command.FieldResponse?.Formation?.Members.Count
+                        + " field order=" + command.FieldResponse?.MissionOrder?.Coordinator + "→" + command.FieldResponse?.MissionOrder?.Assignee
+                        + ":" + command.FieldResponse?.MissionOrder?.Stage + " whole=" + command.FieldResponse?.Maneuver?.WholeSquad
                         + " field areas=" + (command.FieldResponse == null ? "none" : string.Join(";", command.FieldResponse.Areas
                             .Select((area, index) => index + ":" + area.Cells.Count + " cover/scan=" + area.Cursor)))
                         + " focus fire=" + command.FocusFire?.Stage + " target=" + command.FocusFire?.TargetId

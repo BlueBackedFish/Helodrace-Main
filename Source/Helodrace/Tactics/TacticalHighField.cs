@@ -18,6 +18,7 @@ namespace Helodrace.Tactics
                     Seen = new Dictionary<string, int> { [command.Id] = tick }, Origin = field.Anchor, Forward = field.Forward,
                     Started = field.Started, LastEngaged = field.LastEngaged };
             field.Formation.Seen[command.Id] = tick;
+            PublishFieldSector(command,field.Formation,tick);
             return field.Formation;
         }
         private void ProbeFieldPair(TacticalSquadCommand source, TacticalSquadCommand receiver, TacticalChannel channel, int tick)
@@ -25,6 +26,7 @@ namespace Helodrace.Tactics
             if (channel == TacticalChannel.None || !FieldPair(source, receiver) || tick < source.FieldResponse.RadioAt) return;
             source.FieldResponse.RadioAt = tick + 120;
             QueueFieldFormation(source, receiver, FieldFormation(source, tick), false, channel, tick);
+            ProbeFieldMission(source,receiver,channel,tick);
         }
         private static bool FieldPair(TacticalSquadCommand a, TacticalSquadCommand b) => Active(a) && Active(b)
             && a.FieldResponse != null && b.FieldResponse != null && a.Goal == b.Goal && a.Owner == b.Owner
