@@ -137,7 +137,8 @@ namespace Helodrace.Tactics
                     {
                         if (pawn.CurJobDef == JobDefOf.Goto && TacticalFieldDoctrine.WithinEllipse(field.FirePoints[1], pawn.CurJob.targetA.Cell,
                             field.Forward, field.FlankWidth, field.FlankDepth)) continue;
-                        if (pawn.CurJobDef == JobDefOf.Wait_Combat && (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))) continue;
+                        if (pawn.CurJobDef == JobDefOf.Wait_Combat && (FieldAtWaypoint(command,member)
+                            || !FieldHammerMoving(command,member) && (tick<member.FieldDecisionAt || FieldCoverAt(command,pawn.Position,field.Focus)))) continue;
                     }
                     if (anvil && member.FieldPostState == TacticalFieldPostState.Fixed)
                     {

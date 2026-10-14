@@ -18,6 +18,8 @@ namespace Helodrace.Tactics
         {
             FieldPostState = TacticalFieldPostState.Unplaced; FieldPost = IntVec3.Invalid;
             FieldCover = null; FieldHadCover = false; FieldCoverCheckAt = 0; FieldDecisionAt = 0; FieldPlacementFailures = 0;
+            FieldSupportCheckAt = 0; FieldSupportUntil = -1;
+            FieldArrivalCell = IntVec3.Invalid; FieldArrivalCheckAt = 0; FieldArrivalCovered = false;
         }
     }
     public sealed partial class MapComponent_TacticalCommands

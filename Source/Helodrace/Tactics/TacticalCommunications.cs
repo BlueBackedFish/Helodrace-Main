@@ -67,7 +67,7 @@ namespace Helodrace.Tactics
                 { other.Link.PursuitPeer=null; other.Link.PursuitDivision.CancelProposal(); }
                 other.Link.Identified.Remove(command.Id);
                 var field = other.FieldResponse;
-                if (field?.MissionOrder != null && (field.MissionOrder.Coordinator == command.Id || field.MissionOrder.Assignee == command.Id))
+                if (field?.MissionOrder != null && (field.MissionOrder.Coordinator == command.Id || field.MissionOrder.Assignee == command.Id || field.MissionOrder.Supporter == command.Id))
                     field.MissionOrder.Stage = TacticalFieldMissionStage.Declined;
                 field?.Formation?.Members.Remove(command.Id);
                 field?.Formation?.Seen.Remove(command.Id);
@@ -172,11 +172,28 @@ namespace Helodrace.Tactics
         {
             int range = Math.Min(a.Link.Unit.Organization.doctrine?.voiceContactRange ?? 8,
                 b.Link.Unit.Organization.doctrine?.voiceContactRange ?? 8);
-            IntVec3 x = a.Link.Liaison.Position, y = b.Link.Liaison.Position;
-            if (x.DistanceToSquared(y) > range * range || !GenSight.LineOfSight(x, y, a.Owner.map, true)) return false;
-            foreach (IntVec3 cell in GenSight.PointsOnLineOfSight(x, y))
-                if (RaidSmokeUtility.CoveringSmokeAt(a.Owner.map, cell)) return false;
+            return Voice(a.Link.Liaison,b.Link.Liaison,range);
+        }
+        private static bool Voice(Pawn a,Pawn b,int range)
+        {
+            IntVec3 x=a.Position,y=b.Position;
+            if(x.DistanceToSquared(y)>range*range || !GenSight.LineOfSight(x,y,a.Map,true)) return false;
+            foreach(IntVec3 cell in GenSight.PointsOnLineOfSight(x,y))
+                if(RaidSmokeUtility.CoveringSmokeAt(a.Map,cell)) return false;
             return true;
+        }
+        internal static TacticalChannel TeamChannel(TacticalSquadCommand command,Pawn a,Pawn b)
+        {
+            if(a==null || b==null || a==b || !a.Spawned || !b.Spawned || a.Map!=b.Map || a.Faction!=b.Faction
+                || a.Dead || b.Dead || a.Downed || b.Downed || a.InMentalState || b.InMentalState) return TacticalChannel.None;
+            var doctrine=command.Link.Unit.Organization.doctrine;
+            if(doctrine?.tacticalRadio==true && RaidTacticalRadioUtility.SignalAvailable(a.Map))
+            {
+                var x=RaidTacticalRadioUtility.Radios(a).FirstOrDefault(); var y=RaidTacticalRadioUtility.Radios(b).FirstOrDefault();
+                if(x!=null && y!=null && TacticalCommunicationPolicy.Radio(true,true,x.RadioProperties.network,y.RadioProperties.network,
+                    x.RadioProperties.range,y.RadioProperties.range,a.Position.DistanceToSquared(b.Position))) return TacticalChannel.Radio;
+            }
+            return Voice(a,b,doctrine?.voiceContactRange ?? 8) ? TacticalChannel.Voice : TacticalChannel.None;
         }
         private static bool Negotiate(TacticalSquadCommand command) => Active(command) && !command.Defensive && command.ContactResponse == null
             && (command.Phase == TacticalCommandPhase.Pending || command.Phase == TacticalCommandPhase.Stack

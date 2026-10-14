@@ -38,7 +38,8 @@ namespace Helodrace.Tactics
             if (comp?.aiModeOwned != true) return;
             if (next?.playerForced == true || pawn.Drafted || pawn.Faction?.IsPlayer == true)
             { comp.aiModeOwned = false; return; }
-            if (next?.def == JobDefOf.Goto || next?.def == JobDefOf.AttackMelee
+            if (pawn.IsBurning() || pawn.Dead || pawn.Downed || pawn.InMentalState
+                || next?.def == JobDefOf.Goto || next?.def == JobDefOf.AttackMelee
                 || next?.def?.driverClass != null && typeof(JobDriver_Flee).IsAssignableFrom(next.def.driverClass)
                 || next?.def?.driverClass != null && typeof(JobDriver_FleeAndCower).IsAssignableFrom(next.def.driverClass)
                 || next?.def?.driverClass != null && typeof(JobDriver_FleeAndCowerShort).IsAssignableFrom(next.def.driverClass)

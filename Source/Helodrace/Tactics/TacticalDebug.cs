@@ -70,8 +70,11 @@ namespace Helodrace.Tactics
                         + " field grenade next=" + command.FieldResponse?.GrenadeCheckAt
                         + " grenade checks/plans/throws=" + service.FieldGrenadeChecks + "/" + service.FieldGrenadePlans + "/" + service.FieldGrenadeThrows
                         + " low flank=" + command.FieldResponse?.LowFlank + "/" + command.FieldResponse?.LowFlankAttack
-                        + " party=" + command.FieldResponse?.FireGroup.Count + " leg/half=" + command.FieldResponse?.Maneuver?.Leg + "/" + command.FieldResponse?.Maneuver?.Half
+                        + " party=" + command.FieldResponse?.FireGroup.Count + " leg/bound=" + command.FieldResponse?.Maneuver?.Leg + "/" + command.FieldResponse?.Maneuver?.Bound?.Step
                         + " crossfire=" + command.FieldResponse?.Maneuver?.ReadyShots
+                        + " bound split/packet=" + command.FieldResponse?.Maneuver?.Bound?.Split + "/"
+                        + command.FieldResponse?.Maneuver?.Bound?.Pending?.Channel
+                        + " bound ready=" + command.FieldResponse?.Maneuver?.Bound?.ReportReady
                         + " anvil posts=" + string.Join(",",command.Members.Select(m => m.Pawn.thingIDNumber + ":" + m.FieldPostState))
                         + " shelter=" + command.FieldResponse?.LowCoverCount + "/" + command.FieldResponse?.LowCoverReady
                         + " relocation=" + command.FieldResponse?.LowRelocations + " search=" + command.FieldResponse?.LowDefenseSearch?.Cursor

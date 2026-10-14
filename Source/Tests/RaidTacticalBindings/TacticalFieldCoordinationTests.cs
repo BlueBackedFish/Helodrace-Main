@@ -54,6 +54,7 @@ internal static class TacticalFieldCoordinationTests
         Check(TacticalFieldCoordinationPolicy.Assignee(group,"A",240) == "C", "A squad holding a flank is not repeatedly assigned the same sortie.");
         Check(new TacticalFieldResponse { Maneuver = new TacticalFieldManeuver { WholeSquad = true } }.FlankWidth > TacticalFieldDoctrine.LowFlankRadius,
             "A whole squad requires a larger spaced cover footprint than a three-person party.");
+        offer.Supporter="A"; offer.FinishAcknowledged=true;
         RoundTrip(group,offer,Check);
         Console.WriteLine("PASS: " + checks + " W2 report-only assignment, acceptance/commitment, replay, expiry and native persistence checks.");
     }
@@ -74,6 +75,8 @@ internal static class TacticalFieldCoordinationTests
             Scribe.loader.InitLoading(path);
             Scribe_Deep.Look(ref loadedFormation,"formation"); Scribe_Deep.Look(ref loadedMission,"mission"); Scribe.loader.ForceStop();
             check(loadedMission.Matches(mission) && loadedMission.Stage == mission.Stage,"Native save must retain exact commitment identity and stage.");
+            check(loadedMission.Supporter=="A" && loadedMission.FinishAcknowledged,
+                "Native save retains the explicit supporter and completion confirmation.");
             check(loadedFormation.Sectors.Count == formation.Sectors.Count
                 && loadedFormation.Sectors["B"].Flank == formation.Sectors["B"].Flank,"Native save must retain received spatial evidence, not live peer objects.");
         }

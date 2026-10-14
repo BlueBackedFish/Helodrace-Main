@@ -22,27 +22,51 @@ namespace Helodrace.Tactics
     public enum TacticalFieldMissionStage { Offered, Accepted, Committed, Active, Finished, Declined }
     public sealed class TacticalFieldMission : IExposable
     {
-        public string Coordinator, Assignee;
+        public string Coordinator, Assignee, Supporter;
         public int Epoch, Number, Started, Until, Side;
         public IntVec3 Origin, Focus;
         public TacticalFieldMissionStage Stage;
+        public bool FinishAcknowledged;
         public TacticalFieldMission Copy() => (TacticalFieldMission)MemberwiseClone();
         public bool Fresh(int tick) => Started <= tick && tick < Until && Until - Started <= 2400
             && Number > 0 && !string.IsNullOrEmpty(Coordinator) && !string.IsNullOrEmpty(Assignee)
-            && Coordinator != Assignee && (Side == 1 || Side == -1) && Origin.IsValid && Focus.IsValid;
+            && (Coordinator != Assignee || !string.IsNullOrEmpty(Supporter) && Supporter != Assignee)
+            && (Side == 1 || Side == -1) && Origin.IsValid && Focus.IsValid;
         public bool Matches(TacticalFieldMission other) => other != null && Coordinator == other.Coordinator && Assignee == other.Assignee
-            && Epoch == other.Epoch && Number == other.Number && Started == other.Started && Until == other.Until
+            && Supporter == other.Supporter && Epoch == other.Epoch && Number == other.Number && Started == other.Started && Until == other.Until
             && Origin == other.Origin && Focus == other.Focus && Side == other.Side;
         public void ExposeData()
         {
             Scribe_Values.Look(ref Coordinator,"coordinator"); Scribe_Values.Look(ref Assignee,"assignee");
+            Scribe_Values.Look(ref Supporter,"supporter");
             Scribe_Values.Look(ref Epoch,"epoch"); Scribe_Values.Look(ref Number,"number"); Scribe_Values.Look(ref Started,"started");
             Scribe_Values.Look(ref Until,"until"); Scribe_Values.Look(ref Side,"side");
             Scribe_Values.Look(ref Origin,"origin"); Scribe_Values.Look(ref Focus,"focus"); Scribe_Values.Look(ref Stage,"stage");
+            Scribe_Values.Look(ref FinishAcknowledged,"finishAcknowledged");
         }
     }
     public static class TacticalFieldCoordinationPolicy
     {
+        public static string Supporter(TacticalFieldFormation formation,string own,int tick)
+        {
+            string best=null;
+            if(formation==null) return null;
+            foreach(string id in formation.Members)
+                if(formation.Sectors.TryGetValue(id,out var s) && s.Ready>=2 && !s.Busy
+                    && s.At<=tick && tick-s.At<TacticalFieldDoctrine.RadioLife && (best==null || id==own)) best=id;
+            return best;
+        }
+        public static bool Handover(TacticalFieldFormation formation,TacticalFieldMission previous,int tick)
+        {
+            return previous?.Stage==TacticalFieldMissionStage.Finished
+                && (previous.Assignee!=previous.Coordinator || previous.FinishAcknowledged) && !string.IsNullOrEmpty(previous.Supporter)
+                && previous.Assignee!=previous.Supporter && formation?.Coordinator==previous.Coordinator
+                && formation.Members.Contains(previous.Assignee) && formation.Members.Contains(previous.Supporter)
+                && formation.Sectors.TryGetValue(previous.Assignee,out var s) && s.Ready>=2 && !s.Busy
+                && s.At<=tick && tick-s.At<180
+                && formation.Sectors.TryGetValue(previous.Supporter,out var next) && next.Available>=3 && !next.Busy
+                && next.At<=tick && tick-next.At<180;
+        }
         public static string Assignee(TacticalFieldFormation formation, string own, int tick)
         {
             if (formation == null || formation.Coordinator != own) return null;
@@ -70,8 +94,9 @@ namespace Helodrace.Tactics
         {
             if (packet == null || !packet.Fresh(tick) || formation?.Coordinator != packet.Coordinator
                 || !formation.Members.Contains(sender) || !formation.Members.Contains(receiver)) return false;
-            bool recipient = receiver == packet.Assignee && sender == packet.Coordinator;
-            bool coordinator = receiver == packet.Coordinator && sender == packet.Assignee;
+            string partner=packet.Assignee==packet.Coordinator ? packet.Supporter : packet.Assignee;
+            bool recipient = receiver == partner && sender == packet.Coordinator;
+            bool coordinator = receiver == packet.Coordinator && sender == partner;
             if (packet.Stage == TacticalFieldMissionStage.Offered && recipient)
             {
                 if (current?.Matches(packet) == true) return current.Stage == TacticalFieldMissionStage.Accepted;
@@ -82,10 +107,18 @@ namespace Helodrace.Tactics
                 current = packet.Copy(); current.Stage = TacticalFieldMissionStage.Accepted; return true;
             }
             if (current?.Matches(packet) != true) return false;
+            if(packet.Stage==TacticalFieldMissionStage.Finished && packet.Assignee==packet.Coordinator)
+            {
+                if(recipient && (current.Stage==TacticalFieldMissionStage.Active || current.Stage==TacticalFieldMissionStage.Finished))
+                { current.Stage=TacticalFieldMissionStage.Finished; return true; }
+                if(coordinator && current.Stage==TacticalFieldMissionStage.Finished)
+                { current.FinishAcknowledged=true; return true; }
+                return false;
+            }
             if (packet.Stage == TacticalFieldMissionStage.Accepted && coordinator && current.Stage == TacticalFieldMissionStage.Offered)
             { current.Stage = TacticalFieldMissionStage.Committed; return true; }
             if (packet.Stage == TacticalFieldMissionStage.Committed && recipient && current.Stage == TacticalFieldMissionStage.Accepted)
-            { current.Stage = TacticalFieldMissionStage.Committed; return true; }
+            { current.Stage = packet.Assignee==packet.Coordinator ? TacticalFieldMissionStage.Active : TacticalFieldMissionStage.Committed; return true; }
             if (coordinator && (packet.Stage == TacticalFieldMissionStage.Active || packet.Stage == TacticalFieldMissionStage.Finished
                 || packet.Stage == TacticalFieldMissionStage.Declined)
                 && (current.Stage == TacticalFieldMissionStage.Committed || current.Stage == TacticalFieldMissionStage.Active
@@ -112,12 +145,12 @@ namespace Helodrace.Tactics
                 Pawn pawn = member.Pawn;
                 if (pawn?.Spawned != true || pawn.Dead || pawn.Downed || pawn.InMentalState) continue;
                 if (pawn.equipment?.PrimaryEq?.PrimaryVerb?.IsMeleeAttack == false) live++;
-                if (member.FieldPostState == TacticalFieldPostState.Fixed && member.FieldShotAt >= 0 && tick - member.FieldShotAt < 300) ready++;
+                if (command.Owner.FieldSupportReady(command,member,tick)) ready++;
             }
             var field = command.FieldResponse; var maneuver = field.Maneuver;
             bool mobile = !command.Defensive && command.MedicalCare == null && command.ContactResponse == null
                 && field.Screen == null && command.SupportCaller == null;
-            formation.Sectors[command.Id] = new TacticalFieldSector { Origin = field.Anchor, Focus = field.Focus, At = tick,
+            formation.Sectors[command.Id] = new TacticalFieldSector { Origin = maneuver?.Phase == TacticalManeuverPhase.Strike ? field.FirePoints[1] : field.Anchor, Focus = field.Focus, At = tick,
                 Available = mobile ? live : 0, Ready = ready, Busy = maneuver != null && maneuver.Phase != TacticalManeuverPhase.Strike,
                 Flank = maneuver?.Phase == TacticalManeuverPhase.Strike ? field.FirePoints[1] : IntVec3.Invalid };
         }
@@ -125,14 +158,20 @@ namespace Helodrace.Tactics
         {
             var field = from.FieldResponse; var formation = FieldFormation(from,tick);
             var order = field.MissionOrder;
-            if (order == null || !order.Fresh(tick) || order.Stage == TacticalFieldMissionStage.Declined || order.Stage == TacticalFieldMissionStage.Finished)
+            bool waitingFinish=order?.Assignee==from.Id && order.Coordinator==from.Id
+                && order.Stage==TacticalFieldMissionStage.Finished && !order.FinishAcknowledged;
+            if (order == null || !order.Fresh(tick) || order.Stage == TacticalFieldMissionStage.Declined
+                || order.Stage == TacticalFieldMissionStage.Finished && !waitingFinish)
             {
-                if (formation.Coordinator == from.Id && tick >= field.MissionRetryAt
-                    && TacticalFieldCoordinationPolicy.Assignee(formation,from.Id,tick) == to.Id
-                    && formation.Sectors.TryGetValue(to.Id,out var sector))
+                bool handover=TacticalFieldCoordinationPolicy.Handover(formation,order,tick);
+                string assignee=handover ? order.Supporter : TacticalFieldCoordinationPolicy.Assignee(formation,from.Id,tick);
+                string supporter=handover ? order.Assignee : TacticalFieldCoordinationPolicy.Supporter(formation,from.Id,tick);
+                string partner=assignee==from.Id ? supporter : assignee;
+                if (formation.Coordinator == from.Id && (tick >= field.MissionRetryAt || handover)
+                    && partner == to.Id && supporter!=null && formation.Sectors.TryGetValue(assignee,out var sector))
                 {
                     IntVec3 direction = field.Focus - field.Anchor, delta = sector.Origin - field.Anchor;
-                    field.MissionOrder = order = new TacticalFieldMission { Coordinator = from.Id, Assignee = to.Id,
+                    field.MissionOrder = order = new TacticalFieldMission { Coordinator = from.Id, Assignee = assignee, Supporter=supporter,
                         Epoch = field.Started, Number = ++field.MissionSequence, Started = tick, Until = tick + 2400,
                         Origin = sector.Origin, Focus = field.Focus,
                         Side = (long)direction.x * delta.z - (long)direction.z * delta.x > 0 ? 1 : -1 };
@@ -140,9 +179,11 @@ namespace Helodrace.Tactics
                 }
             }
             if (order == null || !order.Fresh(tick)) return;
-            if (from.Id == order.Coordinator && to.Id == order.Assignee
-                && (order.Stage == TacticalFieldMissionStage.Offered || order.Stage == TacticalFieldMissionStage.Committed)
-                || from.Id == order.Assignee && to.Id == order.Coordinator)
+            string endpoint=order.Assignee==order.Coordinator ? order.Supporter : order.Assignee;
+            if (from.Id == order.Coordinator && to.Id == endpoint
+                && (order.Stage == TacticalFieldMissionStage.Offered || order.Stage == TacticalFieldMissionStage.Committed
+                    || order.Assignee==order.Coordinator && order.Stage==TacticalFieldMissionStage.Finished)
+                || from.Id == endpoint && to.Id == order.Coordinator)
                 QueueFieldMission(from,to,order,channel,tick);
         }
         private void QueueFieldMission(TacticalSquadCommand from, TacticalSquadCommand to, TacticalFieldMission order, TacticalChannel channel, int tick)
@@ -159,8 +200,12 @@ namespace Helodrace.Tactics
         {
             if (channel == TacticalChannel.None || !FieldPair(message.From,message.To)) { MessagesDropped++; return; }
             var field = message.To.FieldResponse;
-            bool canAccept = field.Maneuver == null && !message.To.Defensive && message.To.MedicalCare == null
+            bool supportingSelf=message.FieldMission?.Assignee==message.FieldMission?.Coordinator && message.FieldMission?.Supporter==message.To.Id;
+            bool canAccept = (field.Maneuver == null || field.Maneuver.Phase==TacticalManeuverPhase.Strike
+                    && (supportingSelf || field.MissionOrder?.Stage==TacticalFieldMissionStage.Finished))
+                && !message.To.Defensive && message.To.MedicalCare == null
                 && message.To.ContactResponse == null && message.To.SupportCaller == null && field.Screen == null && tick >= field.NextSortieAt;
+            if(supportingSelf) canAccept &= message.To.Members.Count(m=>message.To.Owner.FieldSupportReady(message.To,m,tick))>=2;
             if (!TacticalFieldCoordinationPolicy.Receive(ref field.MissionOrder,message.FieldMission,message.From.Id,
                 message.To.Id,FieldFormation(message.To,tick),canAccept,tick))
             {
@@ -171,7 +216,10 @@ namespace Helodrace.Tactics
                 return;
             }
             MessagesDelivered++; message.To.Due = Math.Min(message.To.Due,tick + 1);
-            if (field.MissionOrder.Stage == TacticalFieldMissionStage.Accepted || message.FieldMission.Stage == TacticalFieldMissionStage.Accepted)
+            if (field.MissionOrder.Stage == TacticalFieldMissionStage.Accepted || message.FieldMission.Stage == TacticalFieldMissionStage.Accepted
+                || supportingSelf && message.FieldMission.Stage==TacticalFieldMissionStage.Committed)
+                QueueFieldMission(message.To,message.From,field.MissionOrder,channel,tick);
+            else if(supportingSelf && message.FieldMission.Stage==TacticalFieldMissionStage.Finished)
                 QueueFieldMission(message.To,message.From,field.MissionOrder,channel,tick);
         }
     }

@@ -17,6 +17,11 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref FieldDecisionAt, "lowDecisionAt");
             Scribe_Values.Look(ref FieldShotAt, "fieldShotAt", -1);
             Scribe_Values.Look(ref FieldObservationAt, "fieldObservationAt");
+            Scribe_Values.Look(ref FieldSupportCheckAt, "fieldSupportCheckAt");
+            Scribe_Values.Look(ref FieldSupportUntil, "fieldSupportUntil", -1);
+            Scribe_Values.Look(ref FieldArrivalCell,"fieldArrivalCell",IntVec3.Invalid);
+            Scribe_Values.Look(ref FieldArrivalCheckAt,"fieldArrivalCheckAt");
+            Scribe_Values.Look(ref FieldArrivalCovered,"fieldArrivalCovered");
             Scribe_Values.Look(ref FieldPostState, "fieldPostState");
             Scribe_Values.Look(ref FieldPost, "fieldPost", IntVec3.Invalid);
             Scribe_Values.Look(ref FieldPlacementFailures, "fieldPlacementFailures");

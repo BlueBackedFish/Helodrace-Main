@@ -68,21 +68,10 @@ namespace Helodrace.Tactics
     {
         private bool FieldCoverAt(TacticalSquadCommand command, IntVec3 cell, IntVec3 focus)
         {
-            if (!FieldFloor(command, cell)) return false;
-            float protection = 0;
-            foreach (IntVec3 side in GenAdj.AdjacentCells)
-            {
-                IntVec3 neighbour = cell + side;
-                if (!neighbour.InBounds(map)) continue;
-                Thing cover = neighbour.GetCover(map);
-                if (cover == null || cover is Building_Door door && door.Open) continue;
-                float block = cover.BaseBlockChance() * TacticalFieldPolicy.CoverWeight(side, focus - cell);
-                int range = focus.DistanceToSquared(neighbour);
-                if (range < 4) block *= .3333f; else if (range < 9) block *= .66666f;
-                protection += (1 - protection) * block;
-                if (protection >= TacticalFieldPolicy.MinimumCover) return true;
-            }
-            return false;
+            // Native cell-target geometry; no fake pawn or enemy reference is
+            // required to prepare cover against an observed approach.
+            return FieldFloor(command,cell) && CoverUtility.CalculateOverallBlockChance(new LocalTargetInfo(cell),focus,map)
+                >= TacticalFieldPolicy.MinimumCover;
         }
         private int CountLowCover(TacticalSquadCommand command, IntVec3 centre, IntVec3 focus)
         {

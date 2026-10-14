@@ -87,14 +87,16 @@ namespace Helodrace.Tactics
             if (!anvil)
             {
                 Job moving = null;
-                if (!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member))
+                bool seekingCover = !FieldHammerMoving(command,member) && !FieldAtWaypoint(command,member)
+                    && !FieldCoverAt(command,pawn.Position,command.FieldResponse.Focus);
+                if ((!FieldHammerMoving(command, member) || FieldAtWaypoint(command, member)) && !seekingCover)
                 { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 600; }
                 else if (tick >= member.FieldDecisionAt && budget.TryPlan(tick))
                 {
                     long started = Stopwatch.GetTimestamp();
                     try { moving = FieldManeuverJob(command, member, tick); }
                     finally { budget.Account(tick, Stopwatch.GetTimestamp() - started); }
-                    member.FieldDecisionAt = tick + (moving?.def == JobDefOf.Goto ? 90 : 15);
+                    member.FieldDecisionAt = tick + (moving?.def == JobDefOf.Goto ? 90 : seekingCover ? 180 : 30);
                 }
                 if (moving == null) { moving = JobMaker.MakeJob(JobDefOf.Wait_Combat); moving.expiryInterval = 600; }
                 moving.checkOverrideOnExpire = false; pendingFieldJobs[pawn] = moving; return moving;
@@ -222,7 +224,7 @@ namespace Helodrace.Tactics
         public static readonly TacticalFieldFight Instance = new TacticalFieldFight();
         public TacticalFieldFight() { ignoreNonCombatants = true; }
         protected override bool DisableAbilityVerbs => true;
-        public Job BuildCovered(Pawn pawn)
+        public Job BuildCovered(Pawn pawn, Predicate<IntVec3> extra = null)
         {
             UpdateEnemyTarget(pawn);
             Thing target = pawn.mindState.enemyTarget;
@@ -235,7 +237,7 @@ namespace Helodrace.Tactics
             // explicitly instead of accidentally discarding nearby covers.
             if (!CastPositionFinder.TryFindCastPosition(new CastPositionRequest { caster = pawn, target = target, verb = verb,
                 maxRangeFromTarget = verb.EffectiveRange, maxRangeFromCaster = 8, locus = locus,
-                wantCoverFromTarget = true, validator = c => owner.FieldSeparatedCover(command, pawn, c) }, out IntVec3 cell)) return null;
+                wantCoverFromTarget = true, validator = c => owner.FieldSeparatedCover(command, pawn, c) && (extra==null || extra(c)) }, out IntVec3 cell)) return null;
             return cell == pawn.Position ? JobMaker.MakeJob(JobDefOf.Wait_Combat) : JobMaker.MakeJob(JobDefOf.Goto, cell);
         }
         protected override float GetFlagRadius(Pawn pawn) => FieldAnchor(pawn, out int radius).IsValid
