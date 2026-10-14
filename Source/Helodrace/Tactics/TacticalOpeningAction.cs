@@ -22,6 +22,7 @@ namespace Helodrace.Tactics
         public bool SupportRoomReady, SupportRoomTruncated;
         internal TacticalSupportRoomSurvey SupportRoomSurvey;
         public List<IntVec3> SupportTargets = new List<IntVec3>(9);
+        public List<int> SupportActors = new List<int>(4);
         public TacticalSupportSkip SupportSkip;
         public Projectile Projectile;
         public ThingDef ProjectileDef;
@@ -278,7 +279,7 @@ namespace Helodrace.Tactics
                 {
                     if (action.Observer?.Dead == true || action.Observer?.Downed == true || tick - action.Started > 600)
                     { action.ObservationDone = true; action.Observer = null; }
-                    else return;
+                    else { command.CqbWait=action.ObservationDone ? TacticalCqbWait.ObserverReturn : TacticalCqbWait.Observation; return; }
                 }
                 command.Phase = TacticalCommandPhase.Support;
                 action.SupportStarted = tick;
@@ -289,7 +290,7 @@ namespace Helodrace.Tactics
                 {
                     // A preparation interrupted before launch simply returns
                     // to the held formation; never keep retrying every tick.
-                    if (TacticalOpeningPolicy.ThrowInProgress(action)) return;
+                    if (TacticalOpeningPolicy.ThrowInProgress(action)) { command.CqbWait=TacticalCqbWait.ThrowPreparation; return; }
                     SkipOpeningSupport(command, TacticalSupportSkip.Interrupted); return;
                 }
                 bool high = TacticalHighCqbPolicy.High(command);
@@ -302,13 +303,27 @@ namespace Helodrace.Tactics
                         cell => action.ObservationPosition.IsValid && !GenSight.LineOfSight(action.ObservationPosition, cell, map, true),
                         action.SupportTargets);
                 if (action.SupportTargets.Count == 0) { SkipOpeningSupport(command, TacticalSupportSkip.NoTarget); return; }
-                if (active.Exists(member => !AtPost(member)))
-                {
-                    action.SupportSkip = TacticalSupportSkip.Formation;
-                    if (tick - action.SupportStarted > 600) SkipOpeningSupport(command, TacticalSupportSkip.Formation);
-                    return;
-                }
                 bool lethal = TacticalCqbDoctrine.Lethal(high, action.Enemy.IsValid, combat, action.KnownHelodPrisoner);
+                if(action.SupportActors.Count==0)
+                {
+                    // Only throw-capable, actually gathered personnel enter the
+                    // shared candidate list; distant watches do not hold it.
+                    foreach(var member in active)
+                    {
+                        if(!AtPost(member) || member.Pawn.CurJob?.playerForced==true || SupportGrenade(member.Pawn,action.Outdoors,lethal)==null) continue;
+                        int index=command.Members.IndexOf(member),at=0;
+                        while(at<action.SupportActors.Count && plan.Stack[action.SupportActors[at]].DistanceToSquared(plan.Opening)
+                            <=plan.Stack[index].DistanceToSquared(plan.Opening)) at++;
+                        if(at>=4) continue;
+                        action.SupportActors.Insert(at,index); if(action.SupportActors.Count>4) action.SupportActors.RemoveAt(4);
+                    }
+                    if(action.SupportActors.Count==0)
+                    {
+                        action.SupportSkip=TacticalSupportSkip.Formation; command.CqbWait=TacticalCqbWait.Roles;
+                        if(tick-action.SupportStarted>180) SkipOpeningSupport(command,TacticalSupportSkip.NoGrenade);
+                        return;
+                    }
+                }
                 var budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
                 if (!budget.TryPlan(tick)) { action.SupportSkip = TacticalSupportSkip.Budget; command.Due = tick + 1; return; }
                 long started = System.Diagnostics.Stopwatch.GetTimestamp();
@@ -317,12 +332,12 @@ namespace Helodrace.Tactics
                     if (action.SupportSkip == TacticalSupportSkip.Budget) action.SupportSkip = TacticalSupportSkip.None;
                     if (!PrepareSupportRoom(command))
                     { action.SupportSkip = TacticalSupportSkip.RoomSnapshot; command.Due = tick + 1; return; }
-                    int passSize = command.Members.Count * action.SupportTargets.Count;
+                    int passSize = action.SupportActors.Count * action.SupportTargets.Count;
                     for (int tested = 0; tested < TacticalOpeningPolicy.ThrowCandidatesPerSlice && action.SupportCursor < passSize * 2; tested++)
                     {
-                        int slot = action.SupportCursor++, index = slot % command.Members.Count;
+                        int slot = action.SupportCursor++, index = action.SupportActors[slot % action.SupportActors.Count];
                         int preference = slot < passSize ? 2 : 0;
-                        IntVec3 target = action.SupportTargets[(slot % passSize) / command.Members.Count];
+                        IntVec3 target = action.SupportTargets[(slot % passSize) / action.SupportActors.Count];
                         action.Target = target;
                         TacticalMemberCommand member = command.Members[index];
                         if (!active.Contains(member) || !AtPost(member) || member.Pawn.CurJob?.playerForced == true) continue;
@@ -376,7 +391,7 @@ namespace Helodrace.Tactics
             }
             if (command.Phase == TacticalCommandPhase.BlastWait)
             {
-                if (SupportEffectsPending(command, tick)) { SupportWaits++; return; }
+                if (SupportEffectsPending(command, tick)) { command.CqbWait=TacticalCqbWait.BlastSafety; SupportWaits++; return; }
                 if (command.ReplanAfterSupport)
                 {
                     ResetAfterSupport(command, tick);
@@ -524,6 +539,15 @@ namespace Helodrace.Tactics
                 if (cell.DistanceToSquared(target) <= radius * radius
                     && (cell.DistanceTo(target) <= scatter + .75f || throughCover
                         || GenSight.LineOfSight(target, cell, pawn.Map, true))) return false;
+                if(ally!=pawn && ally.pather?.Moving==true)
+                {
+                    IntVec3 destination=ally.pather.Destination.Cell;
+                    if(destination.IsValid && destination.InBounds(pawn.Map)
+                        && (roofed && TacticalGrenadePolicy.FriendlyInRoom(targetRoom,destination,
+                            destination.GetEdifice(pawn.Map) is Building_Door,RoomAt,opening,roomCells)
+                            || destination.DistanceToSquared(target)<=radius*radius && (throughCover
+                                || GenSight.LineOfSight(target,destination,pawn.Map,true)))) return false;
+                }
             }
             // A currently empty target is not safe when an adjacent allied
             // team is already executing ingress into the grenade's destination.

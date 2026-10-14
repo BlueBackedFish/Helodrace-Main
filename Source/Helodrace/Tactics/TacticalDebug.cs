@@ -53,6 +53,9 @@ namespace Helodrace.Tactics
                         + " division stage=" + (command.CqbParent ?? command).Link.PursuitDivision.Stage
                         + " group=" + (command.CqbParent ?? command).Link.PursuitDivision.Assignment?.Id
                         + " assignments arrived=" + command.Members.Count(member => member.EntryAssignmentDone)
+                        + " cqb wait=" + command.CqbWait + " version=" + command.PlanVersion
+                        + " roles=" + command.CqbRequiredReady + "/" + command.CqbRequiredCount
+                        + " physically entered/post=" + command.CqbCrossedCount + "/" + command.CqbPostCount
                         + " cooperation=" + command.Link.Cooperation.Stage + " channel=" + command.Link.LastChannel
                         + " liaison=" + command.Link.Liaison?.thingIDNumber + " peer=" + command.Link.Peer?.Id
                         + " area=" + command.Link.Cooperation.Agenda?.Area(command.Id)

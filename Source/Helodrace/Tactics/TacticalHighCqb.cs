@@ -180,7 +180,7 @@ namespace Helodrace.Tactics
                 if (SiblingCqbHazard(team)) continue;
                 if (team.Phase == TacticalCommandPhase.Enter && team.Plan != null)
                     for (int i = 0; i < team.Members.Count; i++)
-                        if (team.Members[i].Pawn.Position != team.Plan.Positions[i]) team.Members[i].Entered = team.Members[i].EntryAssignmentDone = false;
+                        if (team.Members[i].Pawn.Position != team.Plan.Positions[i]) team.Members[i].EntryAssignmentDone = false;
                 AdvanceCore(team, tick); UpdateCqbPosts(parent);
                 foreach (var pending in parent.CqbTeams)
                     if (!pending.Terminal && pending.Phase != TacticalCommandPhase.Complete)

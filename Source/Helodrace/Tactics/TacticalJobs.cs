@@ -11,6 +11,8 @@ namespace Helodrace.Tactics
         private int nextEntryShot, movementQuietUntil;
         public bool AtPost;
         public bool Crossed;
+        public int PlanVersion = -1;
+        public virtual IntVec3 PostCell => job.targetA.Cell;
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
         public override void Notify_DamageTaken(DamageInfo dinfo)
         {
@@ -25,6 +27,7 @@ namespace Helodrace.Tactics
         {
             MapComponent_TacticalCommands owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
             Job owned = job;
+            PlanVersion=owner?.CqbVersion(pawn,job) ?? -1;
             AddFinishAction(condition => owner?.JobFinished(pawn, owned, condition));
             this.FailOn(() => pawn.Downed || pawn.InMentalState);
         }
@@ -52,7 +55,7 @@ namespace Helodrace.Tactics
             hold.initAction = () =>
             {
                 AtPost = true; pawn.pather.StopDead(); pawn.rotationTracker.FaceCell(face);
-                pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.Wake(pawn);
+                pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PostArrived(pawn,job,PlanVersion);
             };
             // Only post jobs opt into stack fire. Observation/throw/charge
             // drivers also use Hold, but retain exclusive action ownership.
@@ -110,6 +113,7 @@ namespace Helodrace.Tactics
             base.ExposeData();
             Scribe_Values.Look(ref AtPost, "tacticalAtPost");
             Scribe_Values.Look(ref Crossed, "tacticalCrossed");
+            Scribe_Values.Look(ref PlanVersion,"cqbPlanVersion",-1);
             Scribe_Values.Look(ref movementQuietUntil, "movementQuietUntil");
         }
     }
@@ -125,6 +129,7 @@ namespace Helodrace.Tactics
     }
     public sealed class JobDriver_TacticalIngress : TacticalJobDriver
     {
+        public override IntVec3 PostCell => job.targetC.Cell;
         protected override IEnumerable<Toil> MakeNewToils()
         {
             BindOwner();
@@ -144,14 +149,14 @@ namespace Helodrace.Tactics
                 yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
                 yield return Toils_General.Do(() =>
                 {
-                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PassedOpening(pawn, job, pawn.Position);
+                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PassedOpening(pawn, job, pawn.Position,PlanVersion);
                 });
                 yield return AdmitMovement();
                 yield return Toils_Goto.GotoCell(job.targetQueueA[0].Cell, PathEndMode.OnCell);
                 yield return Toils_General.Do(() =>
                 {
                     Crossed = true;
-                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.CrossedInside(pawn, job);
+                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.CrossedInside(pawn, job,PlanVersion);
                 });
             }
             if (job.targetQueueA.Count > 1)
@@ -161,6 +166,7 @@ namespace Helodrace.Tactics
                 yield return AdmitMovement();
                 yield return Toils_Goto.GotoCell(job.targetQueueA[1].Cell, PathEndMode.OnCell);
             }
+            yield return Toils_General.Do(()=>pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.EntryLaneCleared(pawn,job,PlanVersion));
             // Fire while moving toward an interior post only after clearing
             // the mouth/lane. A stopped shooter must not plug the entrance.
             foreach (Toil toil in CombatMove(TargetIndex.C)) yield return toil;

@@ -35,6 +35,10 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Entered, "entered");
             Scribe_Values.Look(ref EverEntered, "everEntered");
             Scribe_Values.Look(ref EntryAssignmentDone, "entryAssignmentDone");
+            Scribe_Values.Look(ref EntryVersion,"entryVersion");
+            Scribe_Values.Look(ref LaneCleared,"laneCleared");
+            Scribe_Values.Look(ref PostReady,"postReady");
+            Scribe_Values.Look(ref CqbExecutionVersion,"cqbExecutionVersion");
             Scribe_Values.Look(ref Rear, "rear");
             Scribe_Values.Look(ref Fireteam, "fireteam");
             Scribe_Values.Look(ref AutomaticWeapon, "automaticWeapon");
@@ -117,7 +121,9 @@ namespace Helodrace.Tactics
             Scribe_References.Look(ref RaidLord, "raidLord");
             Scribe_References.Look(ref Breacher, "breacher");
             Scribe_Deep.Look(ref Link, "link");
-            Scribe_Deep.Look(ref Plan, "plan");
+            Scribe_Deep.Look(ref plan, "plan");
+            Scribe_Values.Look(ref PlanVersion,"planVersion");
+            Scribe_Values.Look(ref CqbWait,"cqbWait");
             Scribe_Deep.Look(ref Mission, "assaultMission");
             Scribe_Values.Look(ref SharedSecuredCursor, "sharedSecuredCursor");
             Scribe_Deep.Look(ref OpeningAction, "openingAction");
@@ -149,7 +155,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref savedPlanIndex, "currentSecuredPlanIndex", -1);
             Scribe_References.Look(ref SavedMedicalCandidate, "medicalCandidate");
             if (Scribe.mode == LoadSaveMode.PostLoadInit && savedPlanIndex >= 0 && savedPlanIndex < SecuredPlans.Count)
-                Plan = SecuredPlans[savedPlanIndex];
+                plan = SecuredPlans[savedPlanIndex];
         }
     }
 
@@ -223,6 +229,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref SupportRoomTruncated, "supportRoomTruncated");
             Scribe_Collections.Look(ref SupportRoomCells, "supportRoomCells", LookMode.Value);
             Scribe_Collections.Look(ref SupportTargets, "supportTargets", LookMode.Value);
+            Scribe_Collections.Look(ref SupportActors,"supportActors",LookMode.Value);
             Scribe_Values.Look(ref SupportSkip, "supportSkip");
             Scribe_Values.Look(ref SettledAt, "settledAt");
             Scribe_Values.Look(ref ObservationDone, "observationDone");

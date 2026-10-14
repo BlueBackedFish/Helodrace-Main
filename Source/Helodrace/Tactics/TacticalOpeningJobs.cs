@@ -9,6 +9,7 @@ namespace Helodrace.Tactics
 {
     public sealed class JobDriver_TacticalObserve : TacticalJobDriver
     {
+        public override IntVec3 PostCell => job.targetC.Cell;
         public bool Peeking;
         public bool RetreatRequested;
         private int nextScan, cursor;
@@ -83,6 +84,7 @@ namespace Helodrace.Tactics
 
     public sealed class JobDriver_TacticalThrow : TacticalJobDriver
     {
+        public override IntVec3 PostCell => job.targetQueueA[0].Cell;
         public bool Prepared, Released;
         public Thing Grenade => job.targetB.Thing;
         protected override IEnumerable<Toil> MakeNewToils()

@@ -132,7 +132,7 @@ internal static class TacticalOpeningTests
         var command=new TacticalSquadCommand {Phase=TacticalCommandPhase.Support,Plan=new TacticalLocalPlan(),
             OpeningAction=new TacticalOpeningAction {ObservationDone=true,RoomCells=17,
                 SupportRoomReady=true,
-                SupportTargets=new List<IntVec3>{new IntVec3(10,0,10),new IntVec3(11,0,10)}}};
+                SupportTargets=new List<IntVec3>{new IntVec3(10,0,10),new IntVec3(11,0,10)},SupportActors=new List<int>{0,1,2,3}}};
         // Forced jobs must never be replaced. They also provide a genuine held
         // formation while probing deferred selection without a Unity map.
         for(int i=0;i<12;i++)
@@ -143,7 +143,7 @@ internal static class TacticalOpeningTests
             var def=(JobDef)RuntimeHelpers.GetUninitializedObject(typeof(JobDef));def.defName="HD_NewTacticalPost";
             var job=new Verse.AI.Job {def=def,playerForced=true,targetA=pawn.Position};
             AccessTools.Field(typeof(Verse.AI.Pawn_JobTracker),"curJob").SetValue(pawn.jobs,job);
-            pawn.jobs.curDriver=new JobDriver_TacticalPost {AtPost=true};
+            pawn.jobs.curDriver=new JobDriver_TacticalPost {AtPost=true,job=job};
             command.Members.Add(new TacticalMemberCommand {Pawn=pawn,Job=job});
         }
         var oldGame=Current.Game;
@@ -157,11 +157,11 @@ internal static class TacticalOpeningTests
                 throw new Exception("Support selection must yield after four carriers and resume next tick, without entering early.");
             advance.Invoke(owner,new object[]{command,command.Members,100});
             if(command.OpeningAction.SupportCursor!=4)throw new Exception("Selection cannot consume a second plan slice in the same tick.");
-            for(int tick=101;tick<=105;tick++)advance.Invoke(owner,new object[]{command,command.Members,tick});
-            if(command.Phase!=TacticalCommandPhase.Support||command.OpeningAction.SupportCursor!=24)
+            for(int tick=101;tick<=102;tick++)advance.Invoke(owner,new object[]{command,command.Members,tick});
+            if(command.Phase!=TacticalCommandPhase.Support||command.OpeningAction.SupportCursor!=12)
                 throw new Exception("An exhausted first preference pass must still test the alternative targets before entering.");
-            for(int tick=106;tick<=111;tick++)advance.Invoke(owner,new object[]{command,command.Members,tick});
-            if(command.Phase!=TacticalCommandPhase.Enter||command.OpeningAction.SupportCursor!=48||command.OpeningAction.ThrowIssued
+            advance.Invoke(owner,new object[]{command,command.Members,103});
+            if(command.Phase!=TacticalCommandPhase.Enter||command.OpeningAction.SupportCursor!=16||command.OpeningAction.ThrowIssued
                 ||command.OpeningAction.Target.IsValid||command.OpeningAction.ShowThrow
                 ||command.Members.Exists(m=>m.Pawn.CurJob!=m.Job))
                 throw new Exception("Both preference passes must finish once, preserving forced jobs and avoiding perpetual Support retries.");

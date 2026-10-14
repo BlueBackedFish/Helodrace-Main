@@ -36,7 +36,6 @@ namespace Helodrace.Tactics
         public MapComponent_TacticalCommands Owner;
         public Lord RaidLord;
         public TacticalCommandPhase Phase;
-        public TacticalLocalPlan Plan;
         public IntVec3 Goal;
         public int Due, PhaseStarted, Failures, PlanRetryAt;
         public int MovementDispatchAt, MovementCursor;
@@ -310,19 +309,19 @@ namespace Helodrace.Tactics
             }
             Wake(pawn);
         }
-        internal void PassedOpening(Pawn pawn, Job job, IntVec3 at)
+        internal void PassedOpening(Pawn pawn, Job job, IntVec3 at, int version = -1)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.Plan == null) return;
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
             if (member?.Job == job && command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) UnsafeEntries++;
             if (member?.Job == job && command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared) UnsafeEntries++;
-            if (member?.Job == job && at == command.Plan.Opening) member.Passed = true;
+            if (member?.Job == job && (version<0 || version==command.PlanVersion) && at == command.Plan.Opening) member.Passed = true;
         }
-        internal void CrossedInside(Pawn pawn, Job job)
+        internal void CrossedInside(Pawn pawn, Job job, int version = -1)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return;
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
-            if (member?.Job == job) member.Crossed = true;
+            if (member?.Job == job && (version<0 || version==command.PlanVersion)) member.Crossed = true;
         }
         private static bool Available(TacticalMemberCommand member, Map map) => member.Pawn?.Spawned == true
             && member.Pawn.Map == map && !member.Pawn.Dead && !member.Pawn.Downed && !member.Pawn.InMentalState
@@ -331,6 +330,7 @@ namespace Helodrace.Tactics
         public void Advance(TacticalSquadCommand command, int tick)
         {
             command.DeferredWork = false; command.CqbStepped = false;
+            command.CqbWait=TacticalCqbWait.None;
             try { AdvanceCore(command, tick); }
             finally
             {
@@ -411,6 +411,7 @@ namespace Helodrace.Tactics
         }
         private void AdvanceAssault(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
         {
+            RefreshCqbProgress(command,active);
             if (AwaitPendingFurniture(command, active, tick)) return;
             if (AdvanceFurniture(command, active, tick)) return;
             if (command.Phase == TacticalCommandPhase.Clear)
@@ -587,8 +588,8 @@ namespace Helodrace.Tactics
                 else if (command.Phase == TacticalCommandPhase.Stack)
                 {
                     // A lost straggler must not keep the entire squad frozen.
-                    if (ready < active.Count && tick - command.PhaseStarted < 1200) return;
-                    if (!CooperationReady(command, tick)) return;
+                    if (!CqbBreachReady(command,active)) return;
+                    if (!CooperationReady(command, tick)) { command.CqbWait=TacticalCqbWait.Cooperation; return; }
                     command.Phase = TacticalCommandPhase.Breach; command.PhaseStarted = tick;
                 }
                 if (command.Phase == TacticalCommandPhase.Breach)
@@ -733,10 +734,10 @@ namespace Helodrace.Tactics
                 }
             }
             AdvanceEntryPreview(command, active, tick);
-            if (active.All(member => member.EntryAssignmentDone) && active.Any(member => member.Entered))
+            if (CqbEntryReady(command,active,tick))
             {
                 if (TacticalEntryCombatPolicy.Engaged(command.EntryCombatUntil, tick))
-                { command.Due = Math.Min(tick + 30, command.EntryCombatUntil); return; }
+                { command.CqbWait=TacticalCqbWait.CombatQuiet; command.Due = Math.Min(tick + 30, command.EntryCombatUntil); return; }
                 // Keep owned posts while freeing the unused entry approach.
                 // Vanilla next-job selection must not run for a whole squad here.
                 BeginRoomClear(command, tick);
@@ -856,7 +857,7 @@ namespace Helodrace.Tactics
         }
         private static bool AtPost(TacticalMemberCommand member) => member.Pawn.CurJob == member.Job
             && member.Pawn.jobs.curDriver is TacticalJobDriver driver && driver.AtPost
-            && member.Pawn.Position == member.Job.targetA.Cell;
+            && member.Pawn.Position == driver.PostCell;
         private static bool HoldsPost(TacticalMemberCommand member, IntVec3 position, bool entryCombat) =>
             member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalPost"
                 && member.Job.targetA.Cell == position && member.Job.count == (entryCombat ? 1 : 0)
@@ -916,6 +917,8 @@ namespace Helodrace.Tactics
             // Set ownership before StartJob; an old job's finish notification
             // cannot clear the replacement. One owner, one persistent job.
             member.Job = job; JobsIssued++;
+            if(byPawn.TryGetValue(member.Pawn,out var execution)) member.CqbExecutionVersion=execution.PlanVersion;
+            member.PostReady=false;
             member.LastPosition = member.Pawn.Position; member.LastProgressTick = GenTicks.TicksGame;
             if (job.def.defName == "HD_NewTacticalPost" && job.count != 1) job.count = 0;
             job.locomotionUrgency = job.def.defName == "HD_NewTacticalIngress"
@@ -941,7 +944,8 @@ namespace Helodrace.Tactics
         }
         private void Defer(TacticalMemberCommand member)
         {
-            if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand command)) command.DeferredWork = true;
+            if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand command))
+            { command.DeferredWork = true; command.CqbWait=TacticalCqbWait.JobBudget; }
         }
         private static void EndOwned(TacticalMemberCommand member, bool startNewJob = true)
         {
