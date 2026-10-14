@@ -64,4 +64,8 @@
   <HD_Stat_GeneratorRatedInput_Desc>발전기가 최고 변환 효율에 도달하는 기계 동력 입력입니다.</HD_Stat_GeneratorRatedInput_Desc>
   <HD_Stat_GeneratorEfficiency>최고 / 최저 효율</HD_Stat_GeneratorEfficiency>
   <HD_Stat_GeneratorEfficiency_Desc>기계 입력이 정격 입력에서 10% 멀어질 때마다 변환 효율이 5%p씩 감소하며, 최저 효율 아래로는 내려가지 않습니다.</HD_Stat_GeneratorEfficiency_Desc>
+  <HD_SharpshooterMode_Preparing>(준비 중: {0}초)</HD_SharpshooterMode_Preparing>
+  <HD_SharpshooterMode_InstantSwitch>즉시 전환하며 무기의 조준을 취소합니다. 연사 중이거나 무기 재사용 대기 중에는 전환할 수 없습니다.</HD_SharpshooterMode_InstantSwitch>
+  <HD_SharpshooterMode_StationarySetup>정지 후 {0}초간 준비해야 사격할 수 있습니다. 이동하면 준비가 초기화되며, 준비 중에는 사격하지 않습니다.</HD_SharpshooterMode_StationarySetup>
+  <HD_SharpshooterMode_CooldownLocked>연사 중이거나 무기 재사용 대기 중에는 전환할 수 없습니다.</HD_SharpshooterMode_CooldownLocked>
 </LanguageData>

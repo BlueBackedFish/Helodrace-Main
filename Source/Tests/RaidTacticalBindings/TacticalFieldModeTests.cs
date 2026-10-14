@@ -3,6 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using HarmonyLib;
+using Verse.AI;
 using Helodrace;
 using Helodrace.Tactics;
 using Verse;
@@ -21,21 +24,121 @@ internal static class TacticalFieldModeTests
         Check(!props.DefensiveAI,"Untagged guns do not receive automatic modes.");
         props.aiModeTags = new(){"Defensive"}; props.ResolveReferences(null);
         Check(props.DefensiveAI,"Explicit tags are resolved once, outside ticks.");
-        var comp = new CompSharpshooterWeapon { parent = (ThingWithComps)RuntimeHelpers.GetUninitializedObject(typeof(ThingWithComps)) };
-        comp.SetMode(true); comp.SetMode(true);
+        var weapon=(ThingWithComps)RuntimeHelpers.GetUninitializedObject(typeof(ThingWithComps));
+        weapon.def=(ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef)); weapon.def.equipmentType=EquipmentType.Primary;
+        var pawn=new Pawn { def=(ThingDef)RuntimeHelpers.GetUninitializedObject(typeof(ThingDef)) };
+        pawn.def.defName="Helod"; pawn.equipment=new Pawn_EquipmentTracker(pawn);
+        pawn.jobs=(Pawn_JobTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_JobTracker)); pawn.stances=new Pawn_StanceTracker(pawn);
+        var owner=(ThingOwner<ThingWithComps>)AccessTools.Field(typeof(Pawn_EquipmentTracker),"equipment").GetValue(pawn.equipment);
+        owner.InnerListForReading.Add(weapon); weapon.holdingOwner=owner;
+        var comp = new CompSharpshooterWeapon { parent=weapon,props=props };
+        var eq=new CompEquippable { parent=weapon };
+        var normal=new Verb_Shoot { verbProps=new VerbProperties { isPrimary=true }, caster=pawn };
+        var alternate=new Verb_Shoot { verbProps=new VerbProperties(),caster=pawn };
+        normal.verbTracker=alternate.verbTracker=eq.verbTracker;
+        AccessTools.Field(typeof(VerbTracker),"verbs").SetValue(eq.verbTracker,new List<Verb>{normal,alternate});
+        AccessTools.Field(typeof(ThingWithComps),"comps").SetValue(weapon,new List<ThingComp>{comp,eq});
+        Check(comp.CanSwitchMode && comp.TrySetMode(true) && comp.TrySetMode(true),"Equipped capable shooters switch immediately.");
         Check(comp.altModeActive,"Repeated desired ON is idempotent.");
+        Check(comp.SelectedVerb==alternate,"Immediate selection uses the alternate verb.");
+        var cooldown=(Stance_Cooldown)RuntimeHelpers.GetUninitializedObject(typeof(Stance_Cooldown));
+        cooldown.ticksLeft=90; cooldown.verb=alternate; pawn.stances.curStance=cooldown;
+        Check(!comp.PerformSwitch() && comp.altModeActive,"Actual native cooldown blocks mode switching without consuming its timer.");
+        Check(((Stance_Cooldown)pawn.stances.curStance).ticksLeft==90,"A rejected toggle does not erase cooldown.");
+        pawn.stances.curStance=new Stance_Mobile();
+        AccessTools.Field(typeof(Verb),"burstShotsLeft").SetValue(alternate,2);
+        Check(!comp.CanSwitchMode && !comp.PerformSwitch(),"An active native burst cannot be escaped by mode switching.");
+        alternate.Reset();
+        var warmup=(Stance_Warmup)RuntimeHelpers.GetUninitializedObject(typeof(Stance_Warmup));
+        warmup.ticksLeft=100; warmup.verb=alternate; pawn.stances.curStance=warmup;
+        Check(comp.PerformSwitch() && pawn.stances.curStance is Stance_Mobile && !comp.altModeActive,
+            "Immediate mode switching cancels actual weapon warmup, without issuing or replacing a job.");
+        Check(comp.TrySetMode(true,true),"AI can select the same immediate mode path.");
+        cooldown=(Stance_Cooldown)RuntimeHelpers.GetUninitializedObject(typeof(Stance_Cooldown));
+        cooldown.ticksLeft=90; cooldown.verb=alternate; pawn.stances.curStance=cooldown;
+        comp.ReleaseAIMode();
+        Check(comp.altModeActive && comp.aiModeOwned,"AI cleanup must also respect an active cooldown.");
+        pawn.stances.curStance=new Stance_Mobile(); comp.TickEquipped(pawn,100);
+        Check(!comp.altModeActive && !comp.aiModeOwned,"Deferred cleanup releases the mode when cooldown ends.");
+        comp.TrySetMode(true);
         comp.aiModeOwned = true; comp.ReleaseAIMode(); comp.ReleaseAIMode();
         Check(!comp.altModeActive && !comp.aiModeOwned,"AI cleanup idempotently releases only owned modes.");
-        comp.SetMode(true); comp.ReleaseAIMode();
+        comp.TrySetMode(true); comp.ReleaseAIMode();
         Check(comp.altModeActive,"Unowned manual modes survive cleanup.");
         comp.aiModeOwned = true; comp.PerformSwitch();
         Check(!comp.aiModeOwned && !comp.altModeActive,"Manual switching takes ownership away from AI.");
+        CheckPreparedFire(pawn,comp,normal,alternate,Check);
+        var clock=new SharpshooterPreparationClock(); var cell=new IntVec3(5,0,5);
+        clock.Update(true,false,cell,100);
+        Check(clock.Remaining(219,120)==1 && clock.Remaining(220,120)==0,"Stationary setup respects the exact two-second boundary.");
+        clock.Update(true,false,cell,300);
+        Check(clock.StartedAt==100,"Repeated stop/inspection calls do not restart completed setup.");
+        clock.Update(true,true,cell,301);
+        Check(clock.Remaining(1000,120)==120,"Movement clears readiness instead of letting its old clock finish.");
+        clock.Update(true,false,cell,400);
+        Check(clock.Remaining(519,120)==1 && clock.Remaining(520,120)==0,"Stopping starts a full fresh setup.");
+        clock.Update(true,false,cell+IntVec3.East,600);
+        Check(clock.StartedAt==600,"Unexpected displacement cannot reuse old stationary preparation.");
+        clock.Update(false,false,cell,700);
+        Check(clock.StartedAt==-1 && clock.Remaining(700,0)==0,"Normal mode has no setup timer or shot blockade.");
         string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory,"../../../../../../"));
         var defs = XDocument.Load(Path.Combine(root,"Defs/GreatWar/Items/Weapons_GreatWar.xml"));
         string[] tagged = defs.Root.Elements("ThingDef").Where(x=>x.Descendants("aiModeTags").Any(t=>t.Elements("li").Any(v=>v.Value=="Defensive")))
             .Select(x=>x.Element("defName").Value).OrderBy(x=>x).ToArray();
         Check(tagged.SequenceEqual(new[]{"HD_Gun_M1903A4_Weapon","HD_Gun_M1918A2HAR_Weapon","HD_Gun_M1919A6LMG_Weapon","HD_Gun_M1D_Weapon"}.OrderBy(x=>x)),
             "Only reviewed long range/automatic defensive modes are tagged.");
+        var west=XDocument.Load(Path.Combine(root,"Defs/WildWest/Items/Weapons_WildWest.xml"));
+        var prepared=defs.Root.Elements("ThingDef").Concat(west.Root.Elements("ThingDef"))
+            .Where(x=>x.Descendants("stationaryPreparationTicks").Any(t=>t.Value=="120"))
+            .Select(x=>x.Element("defName").Value).OrderBy(x=>x);
+        Check(prepared.SequenceEqual(new[]{"HD_Gun_SprMOne_Weapon","HD_Gun_SprMThreeHigh_Weapon","HD_Gun_M1903A4_Weapon",
+            "HD_Gun_M1918A2HAR_Weapon","HD_Gun_M1919A6LMG_Weapon","HD_Gun_M1D_Weapon"}.OrderBy(x=>x)),"Exactly the six requested guns opt into stationary preparation.");
+        Check(!defs.Descendants("moveSpeedOffset").Any() && !defs.Descendants("switchTicks").Any(),"Obsolete movement penalties and timed switching are removed.");
+        var hooks=Patch_SharpshooterPreparationCast.TargetMethods().Cast<System.Reflection.MethodInfo>().ToArray();
+        Check(hooks.Length==2 && hooks.All(m=>m.GetParameters().Length==5 || m.GetParameters().Length==6),"Both native cast overloads, including mobile-fire shortcuts, are gated.");
         Console.WriteLine("PASS: " + checks + " field approach and defensive desired-mode checks.");
+    }
+    private static void CheckPreparedFire(Pawn pawn,CompSharpshooterWeapon comp,Verb normal,Verb alternate,Action<bool,string> check)
+    {
+        Game old=Current.Game;
+        var game=(Game)RuntimeHelpers.GetUninitializedObject(typeof(Game));
+        game.tickManager=(TickManager)RuntimeHelpers.GetUninitializedObject(typeof(TickManager));
+        var tickField=AccessTools.Field(typeof(TickManager),"ticksGameInt");
+        pawn.health=(Pawn_HealthTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
+        AccessTools.Field(typeof(Pawn_HealthTracker),"healthState").SetValue(pawn.health,PawnHealthState.Mobile);
+        comp.Props.stationaryPreparationTicks=120;
+        try
+        {
+            Current.Game=game; tickField.SetValue(game.tickManager,100);
+            check(comp.TrySetMode(true) && !comp.ReadyToFire,"Selecting prepared fire is instant but firing is initially unavailable.");
+            bool result=true;
+            check(!Patch_SharpshooterPreparationCast.Prefix(normal,ref result) && !result,
+                "A retained normal-fire command cannot shoot while the selected mode prepares.");
+            result=true;
+            check(!Patch_SharpshooterPreparationCast.Prefix(alternate,ref result) && !result,
+                "The alternate cast cannot start its warmup before stationary setup.");
+            tickField.SetValue(game.tickManager,219);
+            check(!comp.ReadyToFire,"Actual equipped mode waits through the final preparation tick.");
+            tickField.SetValue(game.tickManager,220);
+            check(comp.ReadyToFire && comp.AltModeEffective,"The prepared mode becomes effective at the exact completion boundary.");
+            result=false;
+            check(Patch_SharpshooterPreparationCast.Prefix(alternate,ref result),"Completed setup lets native firing resume.");
+            var warmup=(Stance_Warmup)RuntimeHelpers.GetUninitializedObject(typeof(Stance_Warmup));
+            warmup.verb=alternate; warmup.ticksLeft=90; pawn.stances.curStance=warmup;
+            comp.NotifyMovementStarted(pawn);
+            check(comp.altModeActive && pawn.stances.curStance is Stance_Mobile && comp.Preparation.StartedAt==-1,
+                "Movement cancels warmup and readiness without disabling selection or issuing a preparation job.");
+            tickField.SetValue(game.tickManager,300); comp.TickEquipped(pawn,300);
+            tickField.SetValue(game.tickManager,419);
+            check(!comp.ReadyToFire,"The next stopped position needs its own full setup.");
+            tickField.SetValue(game.tickManager,420);
+            check(comp.ReadyToFire,"Repeated stationary setup eventually enables the same selected mode.");
+            comp.NotifyMovementStarted(pawn); AccessTools.Field(typeof(Verb),"burstShotsLeft").SetValue(alternate,2);
+            result=true; Patch_SharpshooterBurstPreparation.Postfix(alternate,ref result);
+            check(!result,"Movement invalidation prevents remaining alternate burst shots through the native unavailable path.");
+            alternate.Reset(); pawn.stances.curStance=new Stance_Mobile();
+            check(comp.TrySetMode(false) && comp.ReadyToFire && comp.SelectedVerb==normal,"Switching back to normal restores normal fire immediately.");
+        }
+        finally { Current.Game=old; comp.Props.stationaryPreparationTicks=0; }
     }
 }

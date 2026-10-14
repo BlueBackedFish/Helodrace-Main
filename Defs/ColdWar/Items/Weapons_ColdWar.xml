@@ -407,7 +407,6 @@
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>0.90</altAccuracyMultiplier>
-        <switchTicks>60</switchTicks>
       </li>
     </comps>
     <verbs>

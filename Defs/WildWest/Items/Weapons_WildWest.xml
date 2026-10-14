@@ -615,6 +615,7 @@
 
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <stationaryPreparationTicks>120</stationaryPreparationTicks>
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>1.5</altAccuracyMultiplier>
@@ -695,6 +696,7 @@
 
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
+        <stationaryPreparationTicks>120</stationaryPreparationTicks>
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>1.25</altAccuracyMultiplier>

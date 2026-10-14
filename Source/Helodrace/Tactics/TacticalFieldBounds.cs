@@ -85,6 +85,7 @@ namespace Helodrace.Tactics
         internal bool FieldSupportReady(TacticalSquadCommand command, TacticalMemberCommand member, int tick)
         {
             Pawn pawn=member.Pawn;
+            if(pawn.equipment?.Primary?.TryGetComp<CompSharpshooterWeapon>()?.ReadyToFire==false) return false;
             if (pawn.CurJobDef != JobDefOf.Wait_Combat || pawn.CurJob != member.Job
                 || pawn.Dead || pawn.Downed || pawn.InMentalState || PawnUtility.PlayerForcedJobNowOrSoon(pawn)) return false;
             if(tick<member.FieldSupportCheckAt) return tick<member.FieldSupportUntil;

@@ -59,8 +59,7 @@ namespace Helodrace.Future
             LanceLra7ProjectileExtension extension = def.GetModExtension<LanceLra7ProjectileExtension>();
             CompSharpshooterWeapon sharpshooter = equipment?.TryGetComp<CompSharpshooterWeapon>();
             float accuracyMultiplier = sharpshooter != null
-                && sharpshooter.altModeActive
-                && sharpshooter.CanUseSharpshooterMode
+                && sharpshooter.AltModeEffective
                     ? sharpshooter.Props.altAccuracyMultiplier
                     : 1f;
             bool hitRollSucceeded = RollHit(launcher, equipment, distance, accuracyMultiplier);

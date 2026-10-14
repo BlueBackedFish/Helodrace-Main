@@ -119,7 +119,7 @@ internal static class TacticalFieldBoundTests
     {
         var cache=(IDictionary)AccessTools.Field(typeof(GenTypes),"typeCache").GetValue(null);
         var key=typeof(GenTypes).GetNestedType("TypeCacheKey",BindingFlags.NonPublic);
-        foreach(var t in new[]{typeof(TacticalFieldBound),typeof(TacticalBoundPacket),typeof(CompSharpshooterWeapon)})
+        foreach(var t in new[]{typeof(TacticalFieldBound),typeof(TacticalBoundPacket),typeof(CompSharpshooterWeapon),typeof(SharpshooterPreparationClock)})
             cache[Activator.CreateInstance(key,new object[]{t.FullName,null})]=t;
         string path=Path.Combine(Path.GetTempPath(),"Helodrace-field-bound-"+Guid.NewGuid()+".xml");
         bool old=ScribeMetaHeaderUtility.modListChanged; ScribeMetaHeaderUtility.modListChanged=true;
@@ -127,6 +127,7 @@ internal static class TacticalFieldBoundTests
         {
             bound.Pending=new TacticalBoundPacket { Epoch=100,Leg=2,Step=TacticalBoundStep.Start,From=10,To=20,Channel=TacticalChannel.Radio,Due=999 };
             var mode=new CompSharpshooterWeapon { altModeActive=true,aiModeOwned=true };
+            mode.Preparation.Update(true,false,new IntVec3(10,0,10),900);
             Scribe.saver.InitSaving(path,"bound"); Scribe_Deep.Look(ref bound,"state");
             Scribe.EnterNode("mode"); mode.PostExposeData(); Scribe.ExitNode(); Scribe.saver.FinalizeSaving();
             TacticalFieldBound loaded=null; var loadedMode=new CompSharpshooterWeapon();
@@ -135,6 +136,8 @@ internal static class TacticalFieldBoundTests
             check(loaded.Step==bound.Step && loaded.Split && loaded.First.Count==2 && loaded.ReportAt==bound.ReportAt,"Save restores the committed leg and delivered readiness.");
             check(loaded.Pending.Due==999 && loaded.Pending.Channel==TacticalChannel.Radio && loaded.Pending.Leg==2,"Save restores the bounded pending packet without pawn/job objects.");
             check(loadedMode.altModeActive && loadedMode.aiModeOwned,"Save retains AI mode ownership for safe movement cleanup.");
+            check(loadedMode.Preparation.StartedAt==900 && loadedMode.Preparation.Remaining(1000,120)==20,
+                "Save retains elapsed stationary preparation without a waiting job.");
         }
         finally { Scribe.ForceStop(); ScribeMetaHeaderUtility.modListChanged=old; if(File.Exists(path)) File.Delete(path); }
     }

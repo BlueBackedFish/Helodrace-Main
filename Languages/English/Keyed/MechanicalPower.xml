@@ -51,4 +51,8 @@
   <HD_Stat_GeneratorRatedInput_Desc>The mechanical input at which this generator reaches its peak conversion efficiency.</HD_Stat_GeneratorRatedInput_Desc>
   <HD_Stat_GeneratorEfficiency>Peak / minimum efficiency</HD_Stat_GeneratorEfficiency>
   <HD_Stat_GeneratorEfficiency_Desc>Conversion efficiency drops by 5 percentage points for every 10% that mechanical input deviates from the rated input, down to the minimum.</HD_Stat_GeneratorEfficiency_Desc>
+  <HD_SharpshooterMode_Preparing>(preparing: {0}s)</HD_SharpshooterMode_Preparing>
+  <HD_SharpshooterMode_InstantSwitch>Switches instantly and cancels weapon warmup. Switching is unavailable during a burst or weapon cooldown.</HD_SharpshooterMode_InstantSwitch>
+  <HD_SharpshooterMode_StationarySetup>Requires {0}s stationary preparation before firing. Movement resets preparation; no shots are fired while preparing.</HD_SharpshooterMode_StationarySetup>
+  <HD_SharpshooterMode_CooldownLocked>Cannot switch during a burst or weapon cooldown.</HD_SharpshooterMode_CooldownLocked>
 </LanguageData>

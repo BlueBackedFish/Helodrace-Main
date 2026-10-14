@@ -34,7 +34,6 @@ namespace Helodrace.Tactics
                 && !(pawn.jobs.curDriver is JobDriver_FleeAndCower) && !(pawn.jobs.curDriver is JobDriver_FleeAndCowerShort)
                 && command.Phase != TacticalCommandPhase.Returning
                 && !TacticalFieldDoctrine.EquipmentWork(pawn.CurJob)
-                && pawn.CurJobDef?.defName != FieldModeJobName
                 && pawn.CurJobDef?.defName != InventoryGrenadeUtility.ThrowJobName
                 && !LowTreatmentWait(command, pawn)
                 && command.MedicalCare == null && !PawnUtility.PlayerForcedJobNowOrSoon(pawn) && command.BagRecovery?.Helper != pawn
@@ -81,8 +80,7 @@ namespace Helodrace.Tactics
             if (!Hammer(command, pawn) && member.FieldPostState != TacticalFieldPostState.Moving
                 && member.FieldPostState != TacticalFieldPostState.Fixed && FieldSeparatedCover(command, pawn, pawn.Position))
                 CaptureFieldPost(member, command.FieldResponse, tick);
-            Job mode = FieldModeJob(command, member);
-            if (mode != null) return mode;
+            PrepareFieldMode(command, member);
             bool anvil = !command.FieldResponse.FireGroup.Contains(command.Members.IndexOf(member));
             if (!anvil)
             {

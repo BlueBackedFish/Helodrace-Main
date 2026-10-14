@@ -7,13 +7,38 @@ using HarmonyLib;
 
 namespace Helodrace
 {
+    // The mode is a preference. Preparation is a separate, passive clock;
+    // it never owns a job, stops a path or changes movement speed.
+    public sealed class SharpshooterPreparationClock : IExposable
+    {
+        public int StartedAt = -1;
+        public IntVec3 Position = IntVec3.Invalid;
+        public void Reset() { StartedAt = -1; Position = IntVec3.Invalid; }
+        public void Update(bool selected, bool moving, IntVec3 position, int tick)
+        {
+            if (!selected || moving) { Reset(); return; }
+            if (StartedAt < 0 || Position.IsValid && Position != position) StartedAt = tick;
+            Position = position;
+        }
+        public int Remaining(int tick, int duration) => duration <= 0 ? 0
+            : StartedAt < 0 ? duration : System.Math.Max(0, duration - System.Math.Max(0, tick - StartedAt));
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref StartedAt, "startedAt", -1);
+            Scribe_Values.Look(ref Position, "position", IntVec3.Invalid);
+        }
+    }
+    public static class SharpshooterModePolicy
+    {
+        public static bool CanSwitch(bool cooldown, bool bursting) => !cooldown && !bursting;
+    }
     public class CompProperties_SharpshooterWeapon : CompProperties
     {
-        public int altVerbIndex = 1; 
-        public float altCooldownMultiplier = 1.0f; 
-        public float altAccuracyMultiplier = 1.0f; 
-        public float moveSpeedOffset = 0.0f;
-        public int switchTicks = 120; // Default 2 seconds to switch modes
+        public int altVerbIndex = 1;
+        public float altCooldownMultiplier = 1.0f;
+        public float altAccuracyMultiplier = 1.0f;
+        // Zero means immediate fire. Positive values require stationary setup.
+        public int stationaryPreparationTicks;
         public List<string> aiModeTags;
         public bool DefensiveAI { get; private set; }
         public override void ResolveReferences(ThingDef parentDef)
@@ -24,216 +49,155 @@ namespace Helodrace
         public string normalModeLabelKey = "HD_SharpshooterMode_Normal";
         public string altModeLabelKey = "HD_SharpshooterMode_Label";
         public string modeDescriptionKey = "HD_SharpshooterMode_Desc";
-
-        public CompProperties_SharpshooterWeapon()
-        {
-            this.compClass = typeof(CompSharpshooterWeapon);
-        }
+        public CompProperties_SharpshooterWeapon() { compClass = typeof(CompSharpshooterWeapon); }
     }
-
     public class CompSharpshooterWeapon : ThingComp
     {
         public CompProperties_SharpshooterWeapon Props => (CompProperties_SharpshooterWeapon)props;
-        
-        public bool altModeActive = false;
-        public bool aiModeOwned;
-
+        public bool altModeActive, aiModeOwned;
+        private bool aiReleasePending;
+        public SharpshooterPreparationClock Preparation = new SharpshooterPreparationClock();
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref altModeActive, "altModeActive", false);
+            Scribe_Values.Look(ref altModeActive, "altModeActive");
             Scribe_Values.Look(ref aiModeOwned, "aiModeOwned");
+            Scribe_Values.Look(ref aiReleasePending, "aiReleasePending");
+            Scribe_Deep.Look(ref Preparation, "stationaryPreparation");
         }
-
-        public Pawn Wielder
-        {
-            get
-            {
-                if (parent.ParentHolder is Pawn_EquipmentTracker equipmentTracker)
-                {
-                    return equipmentTracker.pawn;
-                }
-                if (parent.ParentHolder is Pawn_ApparelTracker apparelTracker)
-                {
-                    return apparelTracker.pawn;
-                }
-                if (parent.ParentHolder is Pawn_InventoryTracker inventoryTracker)
-                {
-                    return inventoryTracker.pawn;
-                }
-                return parent.ParentHolder as Pawn;
-            }
-        }
-
+        // Inventory guns cannot grant a mode or borrow the carrier's clock.
+        public Pawn Wielder => (parent.ParentHolder as Pawn_EquipmentTracker)?.pawn;
         public bool CanUseSharpshooterMode
         {
             get
             {
-                Pawn wielder = Wielder;
-                if (wielder == null)
-                {
-                    return false;
-                }
-                // Sharpshooting is innate to Helod; the gene check remains for non-Helod users.
-                // This also keeps the mode functional when Biotech genes are unavailable.
-                if (BTXUtility.IsHelod(wielder))
-                {
-                    return true;
-                }
-                if (wielder.genes == null)
-                {
-                    return false;
-                }
-                GeneDef geneDef = DefDatabase<GeneDef>.GetNamedSilentFail("HD_Gene_Sharpshooter");
-                if (geneDef == null)
-                {
-                    return false;
-                }
-                return wielder.genes.HasActiveGene(geneDef);
+                Pawn pawn = Wielder;
+                if (pawn == null || pawn.equipment?.Primary != parent) return false;
+                if (BTXUtility.IsHelod(pawn)) return true;
+                GeneDef gene = DefDatabase<GeneDef>.GetNamedSilentFail("HD_Gene_Sharpshooter");
+                return gene != null && pawn.genes?.HasActiveGene(gene) == true;
             }
         }
-
         public Verb AltVerb
         {
             get
             {
                 var eq = parent.GetComp<CompEquippable>();
-                if (eq != null && eq.AllVerbs.Count > Props.altVerbIndex)
-                {
-                    return eq.AllVerbs[Props.altVerbIndex];
-                }
+                return eq != null && Props.altVerbIndex >= 0 && eq.AllVerbs.Count > Props.altVerbIndex
+                    ? eq.AllVerbs[Props.altVerbIndex] : null;
+            }
+        }
+        public Verb SelectedVerb
+        {
+            get
+            {
+                var doubleTap = parent.TryGetComp<CompCEDoubleTapWeapon>();
+                if (doubleTap != null) return doubleTap.CurrentVerb;
+                if (altModeActive && CanUseSharpshooterMode && AltVerb != null) return AltVerb;
+                var eq = parent.GetComp<CompEquippable>();
+                if (eq != null) foreach (Verb verb in eq.AllVerbs) if (verb.verbProps.isPrimary) return verb;
                 return null;
             }
         }
-
-        public void PerformSwitch()
+        private bool CycleBusy(Pawn pawn)
         {
-            aiModeOwned = false; // an explicit manual toggle takes ownership
-            SetMode(!altModeActive);
+            bool bursting = false;
+            var eq = parent.GetComp<CompEquippable>();
+            if (eq != null) foreach (Verb verb in eq.AllVerbs) if (verb.Bursting) { bursting = true; break; }
+            return !SharpshooterModePolicy.CanSwitch(pawn?.stances?.curStance is Stance_Cooldown, bursting);
         }
-
-        public void SetMode(bool enabled)
+        public bool CanSwitchMode => Wielder != null && !CycleBusy(Wielder) && CanUseSharpshooterMode
+            && (AltVerb != null || parent.TryGetComp<CompCEDoubleTapWeapon>()?.ModeVerb != null);
+        public bool TrySetMode(bool enabled, bool ai = false)
         {
-            if (altModeActive == enabled) return;
-            altModeActive = enabled;
+            if (altModeActive == enabled) return true;
+            if (!CanSwitchMode) return false;
+            ApplySelection(enabled, ai);
+            return true;
+        }
+        public bool PerformSwitch() => TrySetMode(!altModeActive);
+        private void ApplySelection(bool enabled, bool ai)
+        {
+            CancelWeaponWarmup(Wielder);
+            altModeActive = enabled; aiModeOwned = ai && enabled; aiReleasePending = false;
+            Preparation.Reset();
+            if (Wielder != null) TickEquipped(Wielder, GenTicks.TicksGame);
             parent.TryGetComp<CompCEDoubleTapWeapon>()?.ApplyMode();
         }
-
+        private void CancelWeaponWarmup(Pawn pawn)
+        {
+            if (pawn?.stances?.curStance is Stance_Warmup warmup && warmup.verb?.EquipmentSource == parent)
+            {
+                pawn.stances.CancelBusyStanceSoft();
+                warmup.verb.Reset();
+            }
+        }
+        public bool AltModeEffective => ReadyToFire && altModeActive && CanUseSharpshooterMode;
+        public bool ReadyToFire
+        {
+            get
+            {
+                if (!altModeActive || !CanUseSharpshooterMode || Props.stationaryPreparationTicks <= 0) return true;
+                Pawn pawn = Wielder;
+                TickEquipped(pawn, GenTicks.TicksGame);
+                return !altModeActive || Preparation.Remaining(GenTicks.TicksGame, Props.stationaryPreparationTicks) == 0;
+            }
+        }
+        public void TickEquipped(Pawn pawn, int tick)
+        {
+            if (aiReleasePending && !CycleBusy(pawn)) { ApplySelection(false, false); return; }
+            if (!altModeActive || Props.stationaryPreparationTicks <= 0) return;
+            bool moving = pawn.pather?.MovingNow == true || pawn.Downed || pawn.Dead;
+            Preparation.Update(true, moving, pawn.Position, tick);
+        }
+        public void NotifyMovementStarted(Pawn pawn)
+        {
+            if (!altModeActive || Props.stationaryPreparationTicks <= 0) return;
+            Preparation.Reset(); CancelWeaponWarmup(pawn);
+        }
+        public void ForgetAIOwnership() { aiModeOwned = aiReleasePending = false; }
         public void ReleaseAIMode()
         {
             if (!aiModeOwned) return;
-            SetMode(false); aiModeOwned = false;
+            if (Wielder == null) { altModeActive = false; ForgetAIOwnership(); Preparation.Reset(); return; }
+            if (!TrySetMode(false)) aiReleasePending = true;
         }
-
         public override void Notify_Unequipped(Pawn pawn)
         {
-            ReleaseAIMode();
+            Preparation.Reset(); ReleaseAIMode();
             base.Notify_Unequipped(pawn);
         }
-
+        public override void Notify_Equipped(Pawn pawn)
+        {
+            Preparation.Reset();
+            base.Notify_Equipped(pawn);
+        }
         public string CurrentModeLabel
         {
             get
             {
-                string key = altModeActive ? Props.altModeLabelKey : Props.normalModeLabelKey;
-                return key.Translate().Resolve();
+                string label = (altModeActive ? Props.altModeLabelKey : Props.normalModeLabelKey).Translate().Resolve();
+                if (altModeActive && CanUseSharpshooterMode && !ReadyToFire)
+                    label += " " + "HD_SharpshooterMode_Preparing".Translate((Preparation.Remaining(GenTicks.TicksGame,
+                        Props.stationaryPreparationTicks) / 60f).ToString("0.0")).Resolve();
+                return label;
             }
         }
-
-        public string ModeDescription => Props.modeDescriptionKey.Translate().Resolve();
-
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            foreach (Gizmo g in base.CompGetGizmosExtra())
-            {
-                yield return g;
-            }
-        }
+        public string ModeDescription => Props.modeDescriptionKey.Translate().Resolve() + "\n"
+            + "HD_SharpshooterMode_InstantSwitch".Translate().Resolve()
+            + (Props.stationaryPreparationTicks > 0 ? "\n" + "HD_SharpshooterMode_StationarySetup"
+                .Translate((Props.stationaryPreparationTicks / 60f).ToString("0.0")).Resolve() : "");
     }
-
-    public class JobDriver_SwitchSharpshooterMode : JobDriver
-    {
-        protected Thing Weapon => job.targetB.Thing;
-
-        public override bool TryMakePreToilReservations(bool errorOnFailed)
-        {
-            return true;
-        }
-
-        protected override IEnumerable<Toil> MakeNewToils()
-        {
-            var comp = Weapon?.TryGetComp<CompSharpshooterWeapon>();
-            if (comp == null) yield break;
-            bool ai = job.def.defName == "HD_AISetSharpshooterMode";
-            bool enabled = job.count == 1;
-            this.FailOn(() => Weapon == null || Weapon.Destroyed || pawn.equipment?.Primary != Weapon
-                || !comp.CanUseSharpshooterMode || ai && (pawn.Faction?.IsPlayer == true || pawn.Drafted
-                    || !comp.Props.DefensiveAI || comp.AltVerb == null));
-            if (ai && comp.altModeActive == enabled) yield break;
-
-            Toil switchToil = new Toil();
-            switchToil.initAction = delegate
-            {
-                pawn.pather.StopDead();
-            };
-            switchToil.tickAction = delegate
-            {
-                // Can add custom effects or sounds here while switching
-            };
-            switchToil.defaultCompleteMode = ToilCompleteMode.Delay;
-            switchToil.defaultDuration = comp.Props.switchTicks;
-            switchToil.WithProgressBarToilDelay(TargetIndex.A);
-            yield return switchToil;
-
-            yield return new Toil
-            {
-                initAction = delegate
-                {
-                    if (ai) { comp.SetMode(enabled); comp.aiModeOwned = enabled; }
-                    else comp.PerformSwitch();
-                },
-                defaultCompleteMode = ToilCompleteMode.Instant
-            };
-        }
-    }
-
     [HarmonyPatch(typeof(StatExtension), "GetStatValue")]
     public static class Patch_StatExtension_GetStatValue
     {
         public static void Postfix(Thing thing, StatDef stat, ref float __result)
         {
-            if (thing is Pawn pawn)
-            {
-                if (pawn.equipment?.Primary == null)
-                {
-                    return;
-                }
-
-                var comp = pawn.equipment.Primary.TryGetComp<CompSharpshooterWeapon>();
-                if (comp == null || !comp.altModeActive || !comp.CanUseSharpshooterMode)
-                {
-                    return;
-                }
-
-                if (stat == StatDefOf.MoveSpeed && comp.Props.moveSpeedOffset != 0f)
-                {
-                    __result = UnityEngine.Mathf.Max(0.0f, __result + comp.Props.moveSpeedOffset);
-                }
-            }
-            else
-            {
-                if (stat == StatDefOf.RangedWeapon_Cooldown)
-                {
-                    var comp = thing.TryGetComp<CompSharpshooterWeapon>();
-                    if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode)
-                    {
-                        __result *= comp.Props.altCooldownMultiplier;
-                    }
-                }
-            }
+            if (stat != StatDefOf.RangedWeapon_Cooldown) return;
+            var comp = thing.TryGetComp<CompSharpshooterWeapon>();
+            if (comp?.AltModeEffective == true) __result *= comp.Props.altCooldownMultiplier;
         }
     }
-
     [HarmonyPatch(typeof(VerbTracker), "get_PrimaryVerb")]
     public static class Patch_VerbTracker_PrimaryVerb
     {
@@ -270,7 +234,7 @@ namespace Helodrace
             if (caster is Pawn pawn && pawn.equipment?.Primary != null)
             {
                 var comp = pawn.equipment.Primary.TryGetComp<CompSharpshooterWeapon>();
-                if (comp != null && comp.altModeActive && comp.CanUseSharpshooterMode)
+                if (comp != null && comp.AltModeEffective && verb == comp.SelectedVerb)
                 {
                     SharpshooterAccuracyReport.Register(__result, comp.Props.altAccuracyMultiplier);
                 }
@@ -483,14 +447,10 @@ namespace Helodrace
                             icon = iconTex, 
                             action = () => 
                             {
-                                Pawn pawn = comp.Wielder;
-                                if (pawn != null)
-                                {
-                                    Job job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_SwitchSharpshooterMode"), pawn, comp.parent);
-                                    pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                                }
+                                comp.PerformSwitch();
                             }
                         };
+                        if (!comp.CanSwitchMode) switchCommand.Disable("HD_SharpshooterMode_CooldownLocked".Translate().Resolve());
                         updated.Add(switchCommand);
                     }
                     

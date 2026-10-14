@@ -1625,11 +1625,10 @@
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <aiModeTags><li>Defensive</li></aiModeTags>
+        <stationaryPreparationTicks>120</stationaryPreparationTicks>
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>1.3</altAccuracyMultiplier>
-        <moveSpeedOffset>-0.4</moveSpeedOffset>
-        <switchTicks>120</switchTicks>
       </li>
     </comps>
     <verbs>
@@ -1702,11 +1701,10 @@
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <aiModeTags><li>Defensive</li></aiModeTags>
+        <stationaryPreparationTicks>120</stationaryPreparationTicks>
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>1.25</altAccuracyMultiplier>
-        <moveSpeedOffset>-1.2</moveSpeedOffset>
-        <switchTicks>120</switchTicks>
       </li>
     </comps>
     <verbs>
@@ -1790,11 +1788,10 @@
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <aiModeTags><li>Defensive</li></aiModeTags>
+        <stationaryPreparationTicks>120</stationaryPreparationTicks>
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>2.5</altAccuracyMultiplier>
-        <moveSpeedOffset>-10.0</moveSpeedOffset>
-        <switchTicks>120</switchTicks>
       </li>
     </comps>
     <verbs>
@@ -1950,11 +1947,10 @@
     <comps>
       <li Class="Helodrace.CompProperties_SharpshooterWeapon">
         <aiModeTags><li>Defensive</li></aiModeTags>
+        <stationaryPreparationTicks>120</stationaryPreparationTicks>
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>1.0</altCooldownMultiplier>
         <altAccuracyMultiplier>1.35</altAccuracyMultiplier>
-        <moveSpeedOffset>-0.4</moveSpeedOffset>
-        <switchTicks>120</switchTicks>
       </li>
     </comps>
     <verbs>

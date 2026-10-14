@@ -116,13 +116,7 @@ namespace Helodrace.Tactics
                 if (!FieldCombatContext(pawn, out _)) continue;
                 bool anvil = !field.FireGroup.Contains(command.Members.IndexOf(member));
                 if (anvil) RefreshFieldPost(member, field, tick);
-                if (FieldModeNeeded(command, member, out _, out _) && !pawn.stances.FullBodyBusy)
-                {
-                    Job beforeMode = pawn.CurJob;
-                    pawn.jobs.CheckForJobOverride();
-                    if (pawn.CurJob != beforeMode) issued++;
-                    continue;
-                }
+                if (PrepareFieldMode(command, member)) issued++;
                 bool native = pawn.CurJob == member.Job && (pawn.CurJobDef == JobDefOf.Wait_Combat
                     || pawn.CurJobDef == JobDefOf.Goto || pawn.CurJobDef == JobDefOf.AttackMelee);
                 if (native)

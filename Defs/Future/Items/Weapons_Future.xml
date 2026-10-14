@@ -112,7 +112,6 @@
         <altVerbIndex>1</altVerbIndex>
         <altCooldownMultiplier>0.3</altCooldownMultiplier>
         <altAccuracyMultiplier>1.04</altAccuracyMultiplier>
-        <switchTicks>45</switchTicks>
       </li>
     </comps>
     <verbs>
