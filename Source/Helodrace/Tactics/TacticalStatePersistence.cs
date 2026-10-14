@@ -36,6 +36,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref EverEntered, "everEntered");
             Scribe_Values.Look(ref EntryAssignmentDone, "entryAssignmentDone");
             Scribe_Values.Look(ref EntryVersion,"entryVersion");
+            Scribe_Values.Look(ref EntryOwner,"entryOwner");
             Scribe_Values.Look(ref LaneCleared,"laneCleared");
             Scribe_Values.Look(ref PostReady,"postReady");
             Scribe_Values.Look(ref CqbExecutionVersion,"cqbExecutionVersion");
@@ -124,6 +125,7 @@ namespace Helodrace.Tactics
             Scribe_Deep.Look(ref plan, "plan");
             Scribe_Values.Look(ref PlanVersion,"planVersion");
             Scribe_Values.Look(ref CqbWait,"cqbWait");
+            Scribe_Deep.Look(ref CqbSignals,"cqbSignals");
             Scribe_Deep.Look(ref Mission, "assaultMission");
             Scribe_Values.Look(ref SharedSecuredCursor, "sharedSecuredCursor");
             Scribe_Deep.Look(ref OpeningAction, "openingAction");

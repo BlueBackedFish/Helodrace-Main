@@ -38,6 +38,7 @@ namespace Helodrace.Tactics
         }
         public void Account(int now, long cost)
         { BeginTick(now); if (cost > 0) elapsed += cost; }
+        public bool CanTransition(int now) { BeginTick(now); return elapsed<elapsedLimit; }
         public bool TryObserve(int now)
         {
             BeginTick(now);

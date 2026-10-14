@@ -12,6 +12,7 @@ namespace Helodrace.Tactics
         public bool AtPost;
         public bool Crossed;
         public int PlanVersion = -1;
+        public string CqbOwnerId;
         public virtual IntVec3 PostCell => job.targetA.Cell;
         public override bool TryMakePreToilReservations(bool errorOnFailed) => true;
         public override void Notify_DamageTaken(DamageInfo dinfo)
@@ -28,6 +29,7 @@ namespace Helodrace.Tactics
             MapComponent_TacticalCommands owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
             Job owned = job;
             PlanVersion=owner?.CqbVersion(pawn,job) ?? -1;
+            CqbOwnerId=owner?.CqbOwner(pawn,job);
             AddFinishAction(condition => owner?.JobFinished(pawn, owned, condition));
             this.FailOn(() => pawn.Downed || pawn.InMentalState);
         }
@@ -55,7 +57,7 @@ namespace Helodrace.Tactics
             hold.initAction = () =>
             {
                 AtPost = true; pawn.pather.StopDead(); pawn.rotationTracker.FaceCell(face);
-                pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PostArrived(pawn,job,PlanVersion);
+                pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PostArrived(pawn,job,PlanVersion,CqbOwnerId);
             };
             // Only post jobs opt into stack fire. Observation/throw/charge
             // drivers also use Hold, but retain exclusive action ownership.
@@ -114,6 +116,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref AtPost, "tacticalAtPost");
             Scribe_Values.Look(ref Crossed, "tacticalCrossed");
             Scribe_Values.Look(ref PlanVersion,"cqbPlanVersion",-1);
+            Scribe_Values.Look(ref CqbOwnerId,"cqbOwner");
             Scribe_Values.Look(ref movementQuietUntil, "movementQuietUntil");
         }
     }
@@ -166,7 +169,7 @@ namespace Helodrace.Tactics
                 yield return AdmitMovement();
                 yield return Toils_Goto.GotoCell(job.targetQueueA[1].Cell, PathEndMode.OnCell);
             }
-            yield return Toils_General.Do(()=>pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.EntryLaneCleared(pawn,job,PlanVersion));
+            yield return Toils_General.Do(()=>pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.EntryLaneCleared(pawn,job,PlanVersion,CqbOwnerId));
             // Fire while moving toward an interior post only after clearing
             // the mouth/lane. A stopped shooter must not plug the entrance.
             foreach (Toil toil in CombatMove(TargetIndex.C)) yield return toil;

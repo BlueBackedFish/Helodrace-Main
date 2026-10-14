@@ -117,6 +117,7 @@ namespace Helodrace.Tactics
             DiscoverOne(tick);
             if (commands.Count == 0) return;
             long started = Stopwatch.GetTimestamp();
+            PumpCqbEvents(tick);
             Communications.Pump(commands, WorkBudget, tick);
             if (Stopwatch.GetTimestamp() - started > Stopwatch.Frequency * .0015) { BudgetStops++; return; }
             int visited = 0, processed = 0;
@@ -297,6 +298,7 @@ namespace Helodrace.Tactics
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
             if (member == null || member.Job != job) return;
             member.Job = null;
+            CqbNotice(command,TacticalCqbNotice.Failure,member.CqbExecutionVersion);
             if (job.def.defName == TacticalFurniturePolicy.JobName && command.FurnitureAction?.Worker == pawn
                 && condition != JobCondition.Succeeded && condition != JobCondition.InterruptForced)
                 command.FurnitureAction.Failed = true;
@@ -321,7 +323,8 @@ namespace Helodrace.Tactics
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return;
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
-            if (member?.Job == job && (version<0 || version==command.PlanVersion)) member.Crossed = true;
+            if (member?.Job == job && (version<0 || version==command.PlanVersion))
+            { member.Crossed = true; CqbNotice(command,TacticalCqbNotice.Passage,command.PlanVersion); }
         }
         private static bool Available(TacticalMemberCommand member, Map map) => member.Pawn?.Spawned == true
             && member.Pawn.Map == map && !member.Pawn.Dead && !member.Pawn.Downed && !member.Pawn.InMentalState

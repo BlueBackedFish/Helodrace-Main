@@ -12,6 +12,11 @@ namespace Helodrace.Tactics
         internal void TrackRestored(TacticalSquadCommand command)
         {
             if (!commands.Contains(command)) commands.Add(command);
+            if(command.CqbSignals.Mask!=TacticalCqbNotice.None)
+                QueueCqb(command,command.CqbSignals.Mask,command.CqbSignals.Version,command.CqbSignals.Due);
+            foreach(var child in command.CqbTeams)
+                if(child.CqbSignals.Mask!=TacticalCqbNotice.None)
+                    QueueCqb(child,child.CqbSignals.Mask,child.CqbSignals.Version,child.CqbSignals.Due);
         }
         public override void ExposeData()
         {

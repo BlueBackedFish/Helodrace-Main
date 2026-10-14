@@ -154,11 +154,15 @@ namespace Helodrace.Tactics
             }
             parent.Due = tick + TacticalCadence.DecisionTicks;
             int count = parent.CqbTeams.Count;
+            int urgent=parent.CqbTeams.FindIndex(t=>t.CqbUrgent && !t.Terminal && t.Due<=tick);
             // Exactly one subtask per admitted squad decision; the existing
             // global plan/movement/jobs allowance is shared by all three teams.
             for (int inspected = 0; inspected < count; inspected++)
             {
-                var team = parent.CqbTeams[parent.CqbCursor++ % count];
+                int selected=inspected==0 && urgent>=0 ? urgent : parent.CqbCursor++%count;
+                if(inspected>0 && selected==urgent) continue;
+                var team = parent.CqbTeams[selected];
+                if(team.Due<=tick) team.CqbUrgent=false;
                 if (parent.CqbCursor >= count) parent.CqbCursor = 0;
                 if (team.Terminal) continue;
                 if (parent.CqbCancelRequested && team.Phase != TacticalCommandPhase.Complete
@@ -181,7 +185,7 @@ namespace Helodrace.Tactics
                 if (team.Phase == TacticalCommandPhase.Enter && team.Plan != null)
                     for (int i = 0; i < team.Members.Count; i++)
                         if (team.Members[i].Pawn.Position != team.Plan.Positions[i]) team.Members[i].EntryAssignmentDone = false;
-                AdvanceCore(team, tick); UpdateCqbPosts(parent);
+                team.CqbUrgent=false; AdvanceCore(team, tick); UpdateCqbPosts(parent);
                 foreach (var pending in parent.CqbTeams)
                     if (!pending.Terminal && pending.Phase != TacticalCommandPhase.Complete)
                         parent.Due = Math.Min(parent.Due, Math.Max(tick + 1, pending.Due));

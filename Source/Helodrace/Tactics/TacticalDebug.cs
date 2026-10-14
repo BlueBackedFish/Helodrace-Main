@@ -56,6 +56,7 @@ namespace Helodrace.Tactics
                         + " cqb wait=" + command.CqbWait + " version=" + command.PlanVersion
                         + " roles=" + command.CqbRequiredReady + "/" + command.CqbRequiredCount
                         + " physically entered/post=" + command.CqbCrossedCount + "/" + command.CqbPostCount
+                        + " notices=" + command.CqbSignals.Mask + " event due=" + command.CqbSignals.Due
                         + " cooperation=" + command.Link.Cooperation.Stage + " channel=" + command.Link.LastChannel
                         + " liaison=" + command.Link.Liaison?.thingIDNumber + " peer=" + command.Link.Peer?.Id
                         + " area=" + command.Link.Cooperation.Agenda?.Area(command.Id)

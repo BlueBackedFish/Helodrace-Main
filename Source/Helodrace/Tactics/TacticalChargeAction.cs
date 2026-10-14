@@ -240,6 +240,7 @@ namespace Helodrace.Tactics
             else if (action.SettledAt < 0) action.SettledAt = tick;
             bool pending = TacticalChargePolicy.EffectsPending(charge, fragments, explosion, action.SettledAt, tick);
             if (!pending) action.EffectsCleared = true;
+            else if(action.SettledAt>=0) CqbNotice(command,TacticalCqbNotice.Safety,command.PlanVersion,action.SettledAt+TacticalOpeningPolicy.SettleTicks);
             return pending;
         }
         private void RestoreChargeStack(TacticalSquadCommand command)

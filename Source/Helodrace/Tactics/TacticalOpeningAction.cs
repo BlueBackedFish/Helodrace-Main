@@ -179,11 +179,12 @@ namespace Helodrace.Tactics
                 if (ranged) RecordContact(command, id, enemy, command.OpeningAction.Source, GenTicks.TicksGame);
             }
             Wake(pawn);
+            CqbNotice(command,TacticalCqbNotice.Observation,command.PlanVersion);
         }
         internal void ObservationFinished(Pawn pawn, Job job)
         {
             if (byPawn.TryGetValue(pawn, out TacticalSquadCommand command) && command.OpeningAction?.Observer == pawn
-                && pawn.CurJob == job) { command.OpeningAction.ObservationDone = true; Wake(pawn); }
+                && pawn.CurJob == job) { command.OpeningAction.ObservationDone = true; Wake(pawn); CqbNotice(command,TacticalCqbNotice.Observation,command.PlanVersion); }
         }
         internal void ObservedPrisoner(Pawn pawn, Job job)
         {
@@ -201,6 +202,7 @@ namespace Helodrace.Tactics
             action.Launched = true; action.Projectile = projectile; action.ProjectileDef = projectile.def;
             action.SettledAt = -1; command.Phase = TacticalCommandPhase.BlastWait;
             SupportThrows++; Wake(pawn);
+            CqbNotice(command,TacticalCqbNotice.Launch,command.PlanVersion);
         }
         internal void SupportReturned(Pawn pawn, Job job)
         {
@@ -209,6 +211,7 @@ namespace Helodrace.Tactics
                 || pawn.CurJob != job || pawn.Position != command.OpeningAction.ReturnPosition) return;
             if (!command.OpeningAction.Returned) SupportReturns++;
             command.OpeningAction.Returned = true; Wake(pawn);
+            CqbNotice(command,TacticalCqbNotice.Return,command.PlanVersion);
         }
 
         private void AdvanceOpeningAction(TacticalSquadCommand command, List<TacticalMemberCommand> active, int tick)
@@ -451,6 +454,7 @@ namespace Helodrace.Tactics
             else if (action.SettledAt < 0) action.SettledAt = tick;
             bool pending = TacticalOpeningPolicy.EffectsPending(live, explosion, returned, action.SettledAt, tick);
             if (!pending) action.EffectsCleared = true;
+            else if(action.SettledAt>=0) CqbNotice(command,TacticalCqbNotice.Safety,command.PlanVersion,action.SettledAt+TacticalOpeningPolicy.SettleTicks);
             return pending;
         }
         private void AvoidObservedOccupiedPost(TacticalSquadCommand command)

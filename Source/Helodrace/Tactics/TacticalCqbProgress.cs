@@ -11,6 +11,7 @@ namespace Helodrace.Tactics
     {
         public int CqbExecutionVersion, EntryVersion;
         public bool LaneCleared, PostReady;
+        public string EntryOwner;
     }
     public sealed partial class TacticalSquadCommand
     {
@@ -42,33 +43,36 @@ namespace Helodrace.Tactics
             }
             return result;
         }
-        public static bool Physical(TacticalMemberCommand member,int version) => member.EntryVersion==version && member.LaneCleared;
+        public static bool Physical(TacticalMemberCommand member,int version,string owner=null) => member.EntryVersion==version && member.EntryOwner==owner && member.LaneCleared;
         public static bool RealFailure(JobCondition condition,bool safety) => !safety
-            && (condition==JobCondition.Incompletable || condition==JobCondition.Errored);
+            && (condition==JobCondition.Incompletable || condition==JobCondition.Errored || condition==JobCondition.ErroredPather);
     }
     public sealed partial class MapComponent_TacticalCommands
     {
         internal int CqbVersion(Pawn pawn,Job job) => byPawn.TryGetValue(pawn,out var command)
             && command.Members.Find(m=>m.Pawn==pawn)?.Job==job ? command.PlanVersion : -1;
-        internal void PostArrived(Pawn pawn,Job job,int version)
+        internal string CqbOwner(Pawn pawn,Job job) => byPawn.TryGetValue(pawn,out var c) && c.Members.Find(m=>m.Pawn==pawn)?.Job==job ? c.Id : null;
+        internal void PostArrived(Pawn pawn,Job job,int version,string ownerId=null)
         {
-            if(!byPawn.TryGetValue(pawn,out var command) || command.Plan==null || command.PlanVersion!=version) return;
+            if(!byPawn.TryGetValue(pawn,out var command) || command.Plan==null || command.PlanVersion!=version || ownerId!=null && ownerId!=command.Id) return;
             var member=command.Members.Find(m=>m.Pawn==pawn);
             if(member?.Job!=job) return;
             member.PostReady=true;
             int index=command.Members.IndexOf(member);
             TacticalStackSecurity.Arrived(command.Plan,index,pawn.Position);
             if(!command.Plan.RetainedOutside.Contains(index) && (command.Plan.Direct || member.Passed && member.Crossed))
-                EntryLaneCleared(pawn,job,version);
+                EntryLaneCleared(pawn,job,version,ownerId);
             Wake(pawn);
+            CqbNotice(command,TacticalCqbNotice.Post,version);
         }
-        internal void EntryLaneCleared(Pawn pawn,Job job,int version)
+        internal void EntryLaneCleared(Pawn pawn,Job job,int version,string ownerId=null)
         {
-            if(!byPawn.TryGetValue(pawn,out var command) || command.PlanVersion!=version || command.Plan==null) return;
+            if(!byPawn.TryGetValue(pawn,out var command) || command.PlanVersion!=version || command.Plan==null || ownerId!=null && ownerId!=command.Id) return;
             var member=command.Members.Find(m=>m.Pawn==pawn);
             if(member?.Job!=job) return;
-            member.EntryVersion=version; member.LaneCleared=true; member.Entered=member.EverEntered=true;
+            member.EntryVersion=version; member.EntryOwner=command.Id; member.LaneCleared=true; member.Entered=member.EverEntered=true;
             Wake(pawn);
+            CqbNotice(command,TacticalCqbNotice.Passage,version);
         }
         private void RefreshCqbProgress(TacticalSquadCommand command,List<TacticalMemberCommand> active)
         {
@@ -77,7 +81,7 @@ namespace Helodrace.Tactics
             {
                 member.PostReady=AtPost(member);
                 if(member.PostReady) command.CqbPostCount++;
-                if(TacticalCqbProgressPolicy.Physical(member,command.PlanVersion))
+                if(TacticalCqbProgressPolicy.Physical(member,command.PlanVersion,command.Id))
                 { member.Entered=member.EverEntered=true; command.CqbCrossedCount++; }
             }
         }
@@ -110,7 +114,7 @@ namespace Helodrace.Tactics
                 }
                 participants++;
                 IntVec3 delta=member.Pawn.Position-command.Plan.Opening;
-                bool clear=TacticalCqbProgressPolicy.Physical(member,command.PlanVersion)
+                bool clear=TacticalCqbProgressPolicy.Physical(member,command.PlanVersion,command.Id)
                     && (command.Plan.Direct || delta.x*command.Plan.Inward.x+delta.z*command.Plan.Inward.z>=command.Plan.Depth)
                     && TacticalPostFirePolicy.CanStop(command.Plan,member.Pawn.Position);
                 if(!clear) { command.CqbWait=TacticalCqbWait.EntryTransit; return false; }

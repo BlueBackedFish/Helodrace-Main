@@ -220,6 +220,8 @@ internal static class TacticalHighCqbTests
             .Invoke(new object[]{root,previewScan});
         AccessTools.Field(root.GetType(),"EntryPreview").SetValue(root,preview);
         root.Members.Add(new TacticalMemberCommand());
+        root.Members[0].EntryVersion=root.PlanVersion; root.Members[0].LaneCleared=true;
+        root.CqbSignals.Record(root.PlanVersion,root.PlanVersion,TacticalCqbNotice.Post|TacticalCqbNotice.Passage,100);
         var team=new TacticalSquadCommand {Id="root::cqb:1",CqbTeam=1,CqbEntered=true,Phase=TacticalCommandPhase.BlastWait,
             CqbTask=new TacticalRoomFrontier {Opening=new IntVec3(4,0,4),Inward=IntVec3.North},
             CqbFollow=true,CqbFollowSeen=4,CqbFollowGoal=new IntVec3(4,0,6),
@@ -235,6 +237,10 @@ internal static class TacticalHighCqbTests
             Scribe.saver.InitSaving(path,"root"); root.ExposeData(); Scribe_Deep.Look(ref divisionPacket,"divisionPacket"); Scribe.saver.FinalizeSaving();
             var restored=new TacticalSquadCommand(); TacticalMessage loadedPacket=null;
             Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe_Deep.Look(ref loadedPacket,"divisionPacket"); Scribe.loader.ForceStop();
+            check(restored.PlanVersion==root.PlanVersion && TacticalCqbProgressPolicy.Physical(restored.Members[0],restored.PlanVersion),
+                "Save preserves actual portal history separately from current post readiness.");
+            check(restored.CqbSignals.Version==root.PlanVersion && restored.CqbSignals.Mask==root.CqbSignals.Mask && restored.CqbSignals.Due==100,
+                "Save preserves merged readiness notices for bounded scheduler reconstruction.");
             var child=restored.CqbTeams.Single();
             check(restored.Link.PursuitDivision.Role(root.Id,root.Goal,200)==TacticalPursuitRole.Clear
                 && restored.Link.PursuitDivision.Proposal.Id==divisionProposal.Id && restored.Link.PursuitDivision.Stage==TacticalAgreementStage.Offered,
