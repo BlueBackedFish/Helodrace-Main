@@ -73,7 +73,7 @@ namespace Helodrace.Tactics
                 || pawn.jobs.curDriver is JobDriver_FleeAndCowerShort) return true;
             // Keep ingress mouths and equipment/medical work out of the hold.
             string job = pawn.CurJobDef?.defName;
-            return job == "HD_NewTacticalIngress" && !(pawn.jobs.curDriver is JobDriver_TacticalIngress ingress && ingress.AtPost)
+            return IngressJob(member) && !(pawn.jobs.curDriver is TacticalJobDriver ingress && ingress.AtPost)
                 || job == InventoryGrenadeUtility.ThrowJobName
                 || job == "HD_NewTacticalRecoverTool"
                   || job == TacticalMedicalEquipmentPolicy.RecoveryJob

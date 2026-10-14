@@ -221,6 +221,14 @@ internal static class TacticalHighCqbTests
         AccessTools.Field(root.GetType(),"EntryPreview").SetValue(root,preview);
         root.Members.Add(new TacticalMemberCommand());
         root.Members[0].EntryVersion=root.PlanVersion; root.Members[0].LaneCleared=true;
+        root.Members[0].CqbOrder=new TacticalCqbOrder { Owner="root",Version=root.PlanVersion,Revision=7,
+            Ingress=true,Combat=true,StartLeg=3,Destination=new IntVec3(15,0,11),Opening=root.Plan.Opening,
+            Inside=new IntVec3(9,0,10),Lane=new IntVec3(9,0,11),Face=new IntVec3(9,0,9) };
+        TacticalCqbOrder savedOrder=root.Members[0].CqbOrder;
+        var savedDriver=new JobDriver_TacticalActor {PlanVersion=root.PlanVersion,CqbOwnerId="root",Crossed=true};
+        AccessTools.Field(savedDriver.GetType(),"revision").SetValue(savedDriver,7);
+        AccessTools.Field(savedDriver.GetType(),"leg").SetValue(savedDriver,3);
+        AccessTools.Field(savedDriver.GetType(),"quietUntil").SetValue(savedDriver,170);
         root.CqbSignals.Record(root.PlanVersion,root.PlanVersion,TacticalCqbNotice.Post|TacticalCqbNotice.Passage,100);
         var team=new TacticalSquadCommand {Id="root::cqb:1",CqbTeam=1,CqbEntered=true,Phase=TacticalCommandPhase.BlastWait,
             CqbTask=new TacticalRoomFrontier {Opening=new IntVec3(4,0,4),Inward=IntVec3.North},
@@ -234,9 +242,19 @@ internal static class TacticalHighCqbTests
         string path=Path.Combine(Path.GetTempPath(),"hd-cqb-"+Guid.NewGuid()+".xml");
         try
         {
-            Scribe.saver.InitSaving(path,"root"); root.ExposeData(); Scribe_Deep.Look(ref divisionPacket,"divisionPacket"); Scribe.saver.FinalizeSaving();
+            Scribe.saver.InitSaving(path,"root"); root.ExposeData(); Scribe_Deep.Look(ref divisionPacket,"divisionPacket");
+            Scribe_Deep.Look(ref savedDriver,"actorDriver"); Scribe.saver.FinalizeSaving();
             var restored=new TacticalSquadCommand(); TacticalMessage loadedPacket=null;
-            Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe_Deep.Look(ref loadedPacket,"divisionPacket"); Scribe.loader.ForceStop();
+            JobDriver_TacticalActor loadedDriver=null;
+            Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe_Deep.Look(ref loadedPacket,"divisionPacket");
+            Scribe_Deep.Look(ref loadedDriver,"actorDriver"); Scribe.loader.ForceStop();
+            var order=restored.Members[0].CqbOrder;
+            check(order.SameRoute(savedOrder) && order.Revision==7 && order.StartLeg==3 && order.Face==savedOrder.Face,
+                "Native nested Scribe must preserve value-only CQB intent, owner and route revision.");
+            check(loadedDriver.PlanVersion==root.PlanVersion && loadedDriver.CqbOwnerId=="root" && loadedDriver.Crossed
+                && (int)AccessTools.Field(loadedDriver.GetType(),"leg").GetValue(loadedDriver)==3
+                && (int)AccessTools.Field(loadedDriver.GetType(),"quietUntil").GetValue(loadedDriver)==170,
+                "Native Scribe retains the continuing driver's physical leg and individual quiet deadline.");
             check(restored.PlanVersion==root.PlanVersion && TacticalCqbProgressPolicy.Physical(restored.Members[0],restored.PlanVersion),
                 "Save preserves actual portal history separately from current post readiness.");
             check(restored.CqbSignals.Version==root.PlanVersion && restored.CqbSignals.Mask==root.CqbSignals.Mask && restored.CqbSignals.Due==100,

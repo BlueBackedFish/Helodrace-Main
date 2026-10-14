@@ -36,6 +36,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref EverEntered, "everEntered");
             Scribe_Values.Look(ref EntryAssignmentDone, "entryAssignmentDone");
             Scribe_Values.Look(ref EntryVersion,"entryVersion");
+            Scribe_Deep.Look(ref CqbOrder,"cqbOrder");
             Scribe_Values.Look(ref EntryOwner,"entryOwner");
             Scribe_Values.Look(ref LaneCleared,"laneCleared");
             Scribe_Values.Look(ref PostReady,"postReady");

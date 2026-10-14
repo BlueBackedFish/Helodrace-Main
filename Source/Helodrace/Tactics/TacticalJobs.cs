@@ -28,9 +28,9 @@ namespace Helodrace.Tactics
         {
             MapComponent_TacticalCommands owner = pawn.Map?.GetComponent<MapComponent_TacticalCommands>();
             Job owned = job;
-            PlanVersion=owner?.CqbVersion(pawn,job) ?? -1;
-            CqbOwnerId=owner?.CqbOwner(pawn,job);
-            AddFinishAction(condition => owner?.JobFinished(pawn, owned, condition));
+            if(PlanVersion<0) PlanVersion=owner?.CqbVersion(pawn,job) ?? -1;
+            if(CqbOwnerId==null) CqbOwnerId=owner?.CqbOwner(pawn,job);
+            AddFinishAction(condition => pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.JobFinished(pawn, owned, condition));
             this.FailOn(() => pawn.Downed || pawn.InMentalState);
         }
         protected Toil AdmitMovement()
@@ -152,14 +152,14 @@ namespace Helodrace.Tactics
                 yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
                 yield return Toils_General.Do(() =>
                 {
-                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PassedOpening(pawn, job, pawn.Position,PlanVersion);
+                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.PassedOpening(pawn, job, pawn.Position,PlanVersion,CqbOwnerId);
                 });
                 yield return AdmitMovement();
                 yield return Toils_Goto.GotoCell(job.targetQueueA[0].Cell, PathEndMode.OnCell);
                 yield return Toils_General.Do(() =>
                 {
                     Crossed = true;
-                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.CrossedInside(pawn, job,PlanVersion);
+                    pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.CrossedInside(pawn, job,PlanVersion,CqbOwnerId);
                 });
             }
             if (job.targetQueueA.Count > 1)

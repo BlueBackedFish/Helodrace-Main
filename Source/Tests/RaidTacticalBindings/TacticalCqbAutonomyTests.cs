@@ -58,6 +58,25 @@ internal static class TacticalCqbAutonomyTests
             && signals.Take(4,100)==TacticalCqbNotice.None,"Merged events are consumed once without recursive replay.");
         signals.Record(4,4,TacticalCqbNotice.Safety,130);
         Check(signals.Take(5,130)==TacticalCqbNotice.None && signals.Mask==TacticalCqbNotice.None,"Replacing a plan clears its future safety notice.");
+        var publish=AccessTools.Method(typeof(MapComponent_TacticalCommands),"PublishActorOrder");
+        var first=new TacticalCqbOrder {Owner="root",Version=5,Ingress=true,Combat=true,Destination=new IntVec3(8,0,8),
+            Outside=new IntVec3(1,0,1),Opening=new IntVec3(2,0,1),Inside=new IntVec3(3,0,1),Lane=new IntVec3(4,0,1)};
+        var actorMember=new TacticalMemberCommand();
+        publish.Invoke(null,new object[]{actorMember,first});
+        var facing=new TacticalCqbOrder {Owner=first.Owner,Version=first.Version,Ingress=true,Combat=true,Destination=first.Destination,
+            Outside=first.Outside,Opening=first.Opening,Inside=first.Inside,Lane=first.Lane,Face=new IntVec3(20,0,20)};
+        publish.Invoke(null,new object[]{actorMember,facing});
+        Check(facing.Revision==first.Revision,"A face-only update must preserve the continuing route and weapon warmup.");
+        actorMember.EntryOwner="root"; actorMember.EntryVersion=5; actorMember.LaneCleared=true;
+        var cover=new TacticalCqbOrder {Owner="root",Version=5,Ingress=true,Combat=true,Destination=new IntVec3(9,0,8),
+            Outside=first.Outside,Opening=first.Opening,Inside=first.Inside,Lane=first.Lane};
+        publish.Invoke(null,new object[]{actorMember,cover});
+        Check(cover.Revision==facing.Revision+1 && cover.StartLeg==4,"A new post after actual crossing must not repeat the opening/lane route.");
+        var nextOwner=new TacticalCqbOrder {Owner="child",Version=5,Ingress=true,Destination=cover.Destination};
+        publish.Invoke(null,new object[]{actorMember,nextOwner});
+        Check(nextOwner.StartLeg==0 && nextOwner.Revision==cover.Revision+1,"Delegating to another HIGH owner cannot reuse another owner's crossing.");
+        Check(first.Cell(0)==first.Outside && first.Cell(1)==first.Opening && first.Cell(2)==first.Inside
+            && first.Cell(3)==first.Lane && first.Cell(4)==first.Destination,"The continuing driver preserves all mandatory physical portal legs.");
         Console.WriteLine("PASS: "+checks+" CQB role barriers, generation-bound progress and actual return-post checks.");
     }
 }

@@ -304,26 +304,26 @@ namespace Helodrace.Tactics
                 command.FurnitureAction.Failed = true;
             bool safetyInterrupt = (condition == JobCondition.InterruptForced || condition == JobCondition.InterruptOptional)
                 && TacticalExplosiveEvasionPolicy.Pending(pawn, command);
-            if (condition != JobCondition.Succeeded && !safetyInterrupt)
+            if (TacticalCqbProgressPolicy.RealFailure(condition,safetyInterrupt))
             {
                 JobFailures++; member.RetryTick = GenTicks.TicksGame + 180;
                 LastJobFailure = job.def.defName + ":" + condition + " pawn=" + pawn.thingIDNumber;
             }
             Wake(pawn);
         }
-        internal void PassedOpening(Pawn pawn, Job job, IntVec3 at, int version = -1)
+        internal void PassedOpening(Pawn pawn, Job job, IntVec3 at, int version = -1, string ownerId = null)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command) || command.Plan == null) return;
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
             if (member?.Job == job && command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) UnsafeEntries++;
             if (member?.Job == job && command.ChargeAction?.Detonated == true && !command.ChargeAction.EffectsCleared) UnsafeEntries++;
-            if (member?.Job == job && (version<0 || version==command.PlanVersion) && at == command.Plan.Opening) member.Passed = true;
+            if (member?.Job == job && (version<0 || version==command.PlanVersion) && (ownerId==null || ownerId==command.Id) && at == command.Plan.Opening) member.Passed = true;
         }
-        internal void CrossedInside(Pawn pawn, Job job, int version = -1)
+        internal void CrossedInside(Pawn pawn, Job job, int version = -1, string ownerId = null)
         {
             if (!byPawn.TryGetValue(pawn, out TacticalSquadCommand command)) return;
             TacticalMemberCommand member = command.Members.Find(item => item.Pawn == pawn);
-            if (member?.Job == job && (version<0 || version==command.PlanVersion))
+            if (member?.Job == job && (version<0 || version==command.PlanVersion) && (ownerId==null || ownerId==command.Id))
             { member.Crossed = true; CqbNotice(command,TacticalCqbNotice.Passage,command.PlanVersion); }
         }
         private static bool Available(TacticalMemberCommand member, Map map) => member.Pawn?.Spawned == true
@@ -570,6 +570,8 @@ namespace Helodrace.Tactics
                     if (command.Phase == TacticalCommandPhase.Breach && member.Pawn == command.Breacher) continue;
                     if (AtPost(member) && member.Pawn.Position == current.Stack[i])
                     { ready++; TacticalStackSecurity.Arrived(current,i,member.Pawn.Position); }
+                    if (!StationaryGuidance(member))
+                        PublishPostIntent(member,current.Stack[i],TacticalStackSecurity.Face(current,i,current.Stack[i]));
                 }
                 if (dispatch)
                     for (int n = 0; n < command.Members.Count && issued < TacticalCadence.MovementBatch; n++)
@@ -691,9 +693,10 @@ namespace Helodrace.Tactics
                 TacticalMemberCommand member = command.Members[i]; if (!Available(member, map)) continue;
                 if (current.RetainedOutside.Contains(i))
                 {
+                    PublishPostIntent(member,current.Positions[i],TacticalStackSecurity.Face(current,i,current.Positions[i]),true);
                     member.EntryAssignmentDone = AtPost(member) && member.Pawn.Position == current.Positions[i];
                     IntVec3 face = TacticalStackSecurity.Face(current,i,current.Positions[i]);
-                    if (dispatchEntry && entryIssues < TacticalCadence.MovementBatch
+                    if ((ContinuingActor(member) || dispatchEntry && entryIssues < TacticalCadence.MovementBatch)
                         && (!HoldsPost(member,current.Positions[i],true) || member.Job.targetB.Cell != face))
                     { EnsurePost(member,current.Positions[i],face,tick,entryCombat:true); entryIssues++; }
                     continue;
@@ -710,20 +713,23 @@ namespace Helodrace.Tactics
                     if (AtPost(member)) TacticalStackSecurity.Arrived(current,i,member.Pawn.Position);
                     if (!TacticalStackSecurity.ReadyToEnter(current,i))
                     {
-                        if (dispatchEntry && entryIssues < TacticalCadence.MovementBatch && !StationaryGuidance(member))
+                        PublishPostIntent(member,current.Stack[i],TacticalStackSecurity.Face(current,i,current.Stack[i]));
+                        if ((ContinuingActor(member) || dispatchEntry && entryIssues < TacticalCadence.MovementBatch) && !StationaryGuidance(member))
                         { EnsurePost(member,current.Stack[i],TacticalStackSecurity.Face(current,i,current.Stack[i]),tick); entryIssues++; }
                         continue;
                     }
                 }
                 if (!TacticalHighCqbPolicy.EntryReleased(command, i, active)) continue;
-                if (!dispatchEntry || entryIssues >= TacticalCadence.MovementBatch) continue;
+                if(current.Direct) PublishPostIntent(member,current.Positions[i],command.Goal,true);
+                else PublishIngressIntent(command,member,i);
+                if (!ContinuingActor(member) && (!dispatchEntry || entryIssues >= TacticalCadence.MovementBatch)) continue;
                 if (member.Pawn.CurJob?.playerForced == true || StationaryGuidance(member)) continue;
                 if (current.Direct)
                 {
                     if (!HoldsPost(member, current.Positions[i], true))
                     { EnsurePost(member, current.Positions[i], command.Goal, tick, entryCombat: true); entryIssues++; }
                 }
-                else if (member.Job?.def.defName != "HD_NewTacticalIngress" || member.Pawn.CurJob != member.Job
+                else if (!IngressJob(member) || member.Pawn.CurJob != member.Job
                     || member.Pawn.jobs.curDriver is TacticalJobDriver stopped && stopped.AtPost)
                 {
                     if (tick < member.RetryTick) continue;
@@ -733,7 +739,8 @@ namespace Helodrace.Tactics
                     ingress.targetQueueA = new List<LocalTargetInfo> { current.Inside };
                     if (!current.ReportedPassage && current.EntryLane.IsValid) ingress.targetQueueA.Add(current.EntryLane);
                     ingress.count = TacticalSharedPassagePolicy.IngressLeg(member.Crossed, member.Passed, current.ReportedPassage);
-                    Issue(member, ingress); entryIssues++;
+                    bool continuation=ContinuingActor(member);
+                    Issue(member, ingress); if(!continuation) entryIssues++;
                 }
             }
             AdvanceEntryPreview(command, active, tick);
@@ -862,14 +869,18 @@ namespace Helodrace.Tactics
             && member.Pawn.jobs.curDriver is TacticalJobDriver driver && driver.AtPost
             && member.Pawn.Position == driver.PostCell;
         private static bool HoldsPost(TacticalMemberCommand member, IntVec3 position, bool entryCombat) =>
-            member.Pawn.CurJob == member.Job && member.Job?.def.defName == "HD_NewTacticalPost"
-                && member.Job.targetA.Cell == position && member.Job.count == (entryCombat ? 1 : 0)
+            member.Pawn.CurJob == member.Job && (ContinuingActor(member)
+                ? member.CqbOrder?.Ingress==false && member.CqbOrder.Destination==position && member.CqbOrder.Combat==entryCombat
+                : member.Job?.def.defName == "HD_NewTacticalPost" && member.Job.targetA.Cell == position && member.Job.count == (entryCombat ? 1 : 0))
                 && (!(member.Pawn.jobs.curDriver is TacticalJobDriver driver) || !driver.AtPost || member.Pawn.Position == position);
         private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick, bool entryCombat = false)
         {
             if (HoldsPost(member, position, entryCombat) && member.Job.targetB.Cell == face) return;
             if (member.Pawn.CurJob?.playerForced == true || tick < member.RetryTick) return;
-            if (!CanIssue(member)) return;
+            if (ContinuingActor(member) && ActorContext(member,out var c)
+                && !TacticalExplosiveEvasionPolicy.Pending(member.Pawn,c))
+            { PublishPostIntent(member,position,face,entryCombat); return; }
+            if (!ContinuingActor(member) && !CanIssue(member)) return;
             Job post = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalPost"), position, face);
             post.count = entryCombat ? 1 : 0;
             if (entryCombat) post.canUseRangedWeapon = false;
@@ -911,6 +922,7 @@ namespace Helodrace.Tactics
             if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner)
                 && TacticalExplosiveEvasionPolicy.Pending(member.Pawn, owner)) return false;
             int tick = GenTicks.TicksGame;
+            if (PrepareActor(member,ref job)) return true;
             TacticalWorkBudget budget = Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;
             if (!budget.TryJob(tick))
             {
@@ -925,7 +937,7 @@ namespace Helodrace.Tactics
             member.LastPosition = member.Pawn.Position; member.LastProgressTick = GenTicks.TicksGame;
             if (job.def.defName == "HD_NewTacticalPost" && job.count != 1) job.count = 0;
             job.locomotionUrgency = job.def.defName == "HD_NewTacticalIngress"
-                || job.def.defName == "HD_NewTacticalPost" && job.count == 1
+                || (job.def.defName == "HD_NewTacticalPost" || job.def.defName == "HD_NewTacticalActor") && job.count == 1
                 ? LocomotionUrgency.Sprint : LocomotionUrgency.Jog;
             long started = Stopwatch.GetTimestamp();
             try
@@ -942,6 +954,7 @@ namespace Helodrace.Tactics
             if (StationaryGuidance(member) || TacticalExplosiveEvasionPolicy.OwnsMovement(member.Pawn.CurJob)) return false;
             if (byPawn.TryGetValue(member.Pawn, out TacticalSquadCommand owner)
                 && TacticalExplosiveEvasionPolicy.Pending(member.Pawn, owner)) return false;
+            if (ContinuingActor(member)) return true;
             if (Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.CanJob(GenTicks.TicksGame)) return true;
             Defer(member); return false;
         }

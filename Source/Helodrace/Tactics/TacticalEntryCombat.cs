@@ -278,7 +278,8 @@ namespace Helodrace.Tactics
                 }
                 if (member.Pawn.CurJob == member.Job && member.Pawn.jobs.curDriver is TacticalJobDriver current
                     && current.AtPost && member.Pawn.Position == plan.Positions[index]
-                    && (current is JobDriver_TacticalIngress || member.Job.def.defName == "HD_NewTacticalPost" && member.Job.count == 1)) continue;
+                    && (current is JobDriver_TacticalIngress || current is JobDriver_TacticalActor
+                        || member.Job.def.defName == "HD_NewTacticalPost" && member.Job.count == 1)) continue;
                 EnsurePost(member, plan.Positions[index], command.EntryCombatFocus.IsValid ? command.EntryCombatFocus : command.Goal,
                     tick, entryCombat: true);
             }

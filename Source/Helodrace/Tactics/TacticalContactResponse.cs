@@ -283,7 +283,7 @@ namespace Helodrace.Tactics
                 if (!Held())
                 {
                     if (plan.Direct || member.Crossed || plan.RetainedOutside.Contains(index)) EnsurePost(member, post, plan.Opening, tick);
-                    else if ((member.Pawn.CurJob != member.Job || member.Job?.def.defName != "HD_NewTacticalIngress")
+                    else if ((member.Pawn.CurJob != member.Job || !IngressJob(member))
                         && member.Pawn.CurJob?.playerForced != true && tick >= member.RetryTick && CanIssue(member))
                     {
                         // A treated straggler can still be in the previous room.
