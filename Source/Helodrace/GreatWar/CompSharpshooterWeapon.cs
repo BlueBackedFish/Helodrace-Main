@@ -64,6 +64,9 @@ namespace Helodrace
             Scribe_Values.Look(ref aiModeOwned, "aiModeOwned");
             Scribe_Values.Look(ref aiReleasePending, "aiReleasePending");
             Scribe_Deep.Look(ref Preparation, "stationaryPreparation");
+            // A missing/null deep node clears the field initializer. Every
+            // loaded weapon still needs a clock before drop/down notifications.
+            if(Preparation==null) Preparation=new SharpshooterPreparationClock();
         }
         // Inventory guns cannot grant a mode or borrow the carrier's clock.
         public Pawn Wielder => (parent.ParentHolder as Pawn_EquipmentTracker)?.pawn;
