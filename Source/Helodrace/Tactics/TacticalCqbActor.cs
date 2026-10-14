@@ -9,10 +9,10 @@ namespace Helodrace.Tactics
     {
         public string Owner;
         public int Version, Revision, StartLeg;
-        public bool Ingress, Combat;
+        public bool Ingress, Combat, Reposition;
         public IntVec3 Destination, Face, Outside, Opening, Inside, Lane = IntVec3.Invalid;
         public bool SameRoute(TacticalCqbOrder other) => other != null && Owner == other.Owner
-            && Version == other.Version && Ingress == other.Ingress && Combat == other.Combat
+            && Version == other.Version && Ingress == other.Ingress && Combat == other.Combat && Reposition==other.Reposition
             && Destination == other.Destination && (!Ingress || Outside == other.Outside
                 && Opening == other.Opening && Inside == other.Inside && Lane == other.Lane);
         public int LastLeg => Ingress ? 4 : 0;
@@ -23,6 +23,7 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref Owner,"owner"); Scribe_Values.Look(ref Version,"version");
             Scribe_Values.Look(ref Revision,"revision"); Scribe_Values.Look(ref StartLeg,"startLeg");
             Scribe_Values.Look(ref Ingress,"ingress"); Scribe_Values.Look(ref Combat,"combat");
+            Scribe_Values.Look(ref Reposition,"reposition");
             Scribe_Values.Look(ref Destination,"destination"); Scribe_Values.Look(ref Face,"face");
             Scribe_Values.Look(ref Outside,"outside"); Scribe_Values.Look(ref Opening,"opening");
             Scribe_Values.Look(ref Inside,"inside"); Scribe_Values.Look(ref Lane,"lane",IntVec3.Invalid);
@@ -37,6 +38,18 @@ namespace Helodrace.Tactics
         internal bool ActorValid(TacticalMemberCommand member, TacticalCqbOrder order) => order != null
             && byPawn.TryGetValue(member.Pawn,out var c) && c.Id==order.Owner && c.PlanVersion==order.Version
             && !c.Terminal && c.Phase!=TacticalCommandPhase.Returning;
+        internal bool ActorMovementAllowed(TacticalMemberCommand member,TacticalCqbOrder order)
+        {
+            if(!byPawn.TryGetValue(member.Pawn,out var c)) return false;
+            if(order.Ingress && c.Phase!=TacticalCommandPhase.Enter && c.Phase!=TacticalCommandPhase.Clear
+                && c.Phase!=TacticalCommandPhase.Complete) return false;
+            if(c.Plan.Direct) return true;
+            bool blast=c.OpeningAction?.Launched==true && !c.OpeningAction.EffectsCleared
+                || c.ChargeAction!=null && !c.ChargeAction.EffectsCleared;
+            IntVec3 target=order.Destination-c.Plan.Opening,source=member.Pawn.Position-c.Plan.Opening;
+            return !blast || target.x*c.Plan.Inward.x+target.z*c.Plan.Inward.z<c.Plan.Depth
+                || source.x*c.Plan.Inward.x+source.z*c.Plan.Inward.z>=c.Plan.Depth;
+        }
         private static bool ContinuingActor(TacticalMemberCommand member) => member.Job != null
             && member.Pawn.CurJob==member.Job && member.Pawn.jobs.curDriver is JobDriver_TacticalActor;
         private static bool IngressJob(TacticalMemberCommand member) => member.Job?.def.defName=="HD_NewTacticalIngress"
@@ -55,6 +68,7 @@ namespace Helodrace.Tactics
                 Inside=ingress?requested.targetQueueA[0].Cell:IntVec3.Invalid,
                 Lane=ingress && requested.targetQueueA.Count>1?requested.targetQueueA[1].Cell:IntVec3.Invalid,
                 StartLeg=ingress?ActorIngressStart(c,member):0 };
+            order.Reposition=!ingress && order.Combat && CoverMove(c,member,order.Destination);
             PublishActorOrder(member,order);
             if (ContinuingActor(member)) return true;
             requested=JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_NewTacticalActor"),order.Destination,order.Face);
@@ -74,7 +88,7 @@ namespace Helodrace.Tactics
         {
             if(member.Pawn.CurJob?.playerForced==true || !ActorContext(member,out var c)) return;
             PublishActorOrder(member,new TacticalCqbOrder { Owner=c.Id,Version=c.PlanVersion,
-                Destination=destination,Face=face,Combat=combat });
+                Destination=destination,Face=face,Combat=combat,Reposition=combat && CoverMove(c,member,destination) });
         }
         private void PublishIngressIntent(TacticalSquadCommand c,TacticalMemberCommand member,int index)
         {
@@ -93,6 +107,9 @@ namespace Helodrace.Tactics
                 same=driver.PlanVersion==c.PlanVersion && driver.CqbOwnerId==c.Id;
             return same && member.Crossed?3:same && member.Passed || c.Plan.ReportedPassage?1:0;
         }
+        private static bool CoverMove(TacticalSquadCommand c,TacticalMemberCommand member,IntVec3 destination) =>
+            TacticalEntryCombatPolicy.ArrivalPhase(c.Phase) && member.EntryCoverOwner==c.Id
+                && member.EntryCoverVersion==c.PlanVersion && member.EntryCoverAnchor.IsValid && destination!=member.EntryCoverAnchor;
     }
 
     public sealed class JobDriver_TacticalActor : TacticalJobDriver
@@ -152,8 +169,11 @@ namespace Helodrace.Tactics
                 return;
             }
             AtPost=false;
+            if(!owner.ActorMovementAllowed(member,order)) { pawn.pather.StopDead(); return; }
             if(!order.Ingress && owner.StackMovementPaused(pawn,job)) { pawn.pather.StopDead(); return; }
-            if(leg==order.LastLeg && Fire(owner,order,tick,true)) return;
+            // An admitted local cover change must actually reach that cover;
+            // reacquiring the same enemy on the old exposed tile cannot cancel it.
+            if(leg==order.LastLeg && !order.Reposition && Fire(owner,order,tick,true)) return;
             if(tick<quietUntil || pawn.stances.FullBodyBusy) return;
             if(pawn.pather.Moving && pathGoal==goal) return;
             var budget=Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget;

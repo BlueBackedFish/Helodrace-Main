@@ -37,6 +37,14 @@ namespace Helodrace.Tactics
             Scribe_Values.Look(ref EntryAssignmentDone, "entryAssignmentDone");
             Scribe_Values.Look(ref EntryVersion,"entryVersion");
             Scribe_Deep.Look(ref CqbOrder,"cqbOrder");
+            Scribe_Values.Look(ref EntryCoverOwner,"entryCoverOwner");
+            Scribe_Values.Look(ref EntryCoverVersion,"entryCoverVersion",-1);
+            Scribe_Values.Look(ref EntryCoverAnchor,"entryCoverAnchor",IntVec3.Invalid);
+            Scribe_Values.Look(ref EntryCoverCheckAt,"entryCoverCheckAt");
+            Scribe_Values.Look(ref EntryNoShotSince,"entryNoShotSince",-1);
+            Scribe_Values.Look(ref EntryNoShotId,"entryNoShotId",-1);
+            Scribe_References.Look(ref EntryCoverObject,"entryCoverObject");
+            Scribe_Values.Look(ref EntryHadCover,"entryHadCover");
             Scribe_Values.Look(ref EntryOwner,"entryOwner");
             Scribe_Values.Look(ref LaneCleared,"laneCleared");
             Scribe_Values.Look(ref PostReady,"postReady");

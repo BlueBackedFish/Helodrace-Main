@@ -77,6 +77,56 @@ internal static class TacticalCqbAutonomyTests
         Check(nextOwner.StartLeg==0 && nextOwner.Revision==cover.Revision+1,"Delegating to another HIGH owner cannot reuse another owner's crossing.");
         Check(first.Cell(0)==first.Outside && first.Cell(1)==first.Opening && first.Cell(2)==first.Inside
             && first.Cell(3)==first.Lane && first.Cell(4)==first.Destination,"The continuing driver preserves all mandatory physical portal legs.");
+        Check(TacticalCqbAutonomyPolicy.LocalCell(IntVec3.Zero,IntVec3.East*2,true,false)
+            && !TacticalCqbAutonomyPolicy.LocalCell(IntVec3.Zero,IntVec3.East*3,true,false)
+            && !TacticalCqbAutonomyPolicy.LocalCell(IntVec3.Zero,IntVec3.East,false,false)
+            && !TacticalCqbAutonomyPolicy.LocalCell(IntVec3.Zero,IntVec3.East,true,true),
+            "Local cover cannot drift beyond the original footprint, pass a door or enter another room.");
+        Check(!TacticalCqbAutonomyPolicy.Refresh(false,false,-1,1000)
+            && !TacticalCqbAutonomyPolicy.Refresh(false,false,100,279)
+            && TacticalCqbAutonomyPolicy.Refresh(false,false,100,280)
+            && TacticalCqbAutonomyPolicy.Refresh(false,true,-1,100)
+            && TacticalCqbAutonomyPolicy.Refresh(true,false,-1,100),
+            "Cover is reconsidered initially, on actual cover loss or persistent 180-tick no-shot evidence, not every decision.");
+        foreach(var inward in GenAdj.CardinalDirections)
+        {
+            var opening=new TacticalLocalPlan {Opening=new IntVec3(20,0,20),Inward=inward};
+            IntVec3 side=new IntVec3(-inward.z,0,inward.x);
+            IntVec3 source=opening.Opening-inward*2+side*2;
+            Check(TacticalCqbAutonomyPolicy.RearLine(opening,source,opening.Opening-inward*5+side*4,true),
+                "An outside same-flank shot may proceed without clearing C4 safety.");
+            Check(!TacticalCqbAutonomyPolicy.RearLine(opening,source,opening.Opening+inward*3,false)
+                && !TacticalCqbAutonomyPolicy.RearLine(opening,source,opening.Opening-inward*2-side*3,true),
+                "Forward opening shots and firing lines through the charge withdrawal strip remain locked.");
+        }
+        command.Plan=new TacticalLocalPlan {Opening=new IntVec3(20,0,20),Inward=IntVec3.East,Depth=1};
+        command.Phase=TacticalCommandPhase.BlastWait;
+        command.OpeningAction=new TacticalOpeningAction {Launched=true};
+        pawn.Position=command.Plan.Opening-IntVec3.East*3;
+        var entryOrder=new TacticalCqbOrder {Ingress=true,Destination=command.Plan.Opening+IntVec3.East*3};
+        var movement=AccessTools.Method(service.GetType(),"ActorMovementAllowed");
+        Check(!(bool)movement.Invoke(service,new object[]{member,entryOrder}),"A continuing actor cannot bypass BlastWait by retaining an earlier ingress order.");
+        command.Phase=TacticalCommandPhase.Enter;
+        Check(!(bool)movement.Invoke(service,new object[]{member,entryOrder}),"Phase alone cannot override live explosive support safety.");
+        command.OpeningAction.EffectsCleared=true;
+        Check((bool)movement.Invoke(service,new object[]{member,entryOrder}),"Verified explosive completion permits the existing actor's ingress without a new job.");
+        int returnChecks=0;
+        Check(TacticalCqbAutonomyPolicy.FindReturn(IntVec3.Zero,_=>true,
+            cell=>{returnChecks++;return cell==IntVec3.North*2;},cell=>cell.LengthHorizontalSquared)==IntVec3.North*2
+            && returnChecks==13,"Alternate return safety is evaluated at most once per cell in a 13-cell connected footprint.");
+        Check(!TacticalCqbAutonomyPolicy.FindReturn(IntVec3.Zero,cell=>cell!=IntVec3.North,
+            cell=>cell==IntVec3.North*2,_=>0).IsValid,"A safe return beyond a blocked connecting tile cannot be accepted.");
+        Check(!TacticalCqbAutonomyPolicy.FindReturn(IntVec3.Zero,_=>true,_=>false,_=>0).IsValid,
+            "No safe return remains invalid instead of inventing arrival at the thrower's current tile.");
+        pawn.jobs=(Pawn_JobTracker)RuntimeHelpers.GetUninitializedObject(typeof(Pawn_JobTracker));
+        AccessTools.Field(typeof(Pawn_JobTracker),"curJob").SetValue(pawn.jobs,job);
+        command.OpeningAction.Thrower=pawn; command.OpeningAction.ReturnPosition=pawn.Position+IntVec3.North;
+        var returned=AccessTools.Method(service.GetType(),"SupportReturned");
+        returned.Invoke(service,new object[]{pawn,job});
+        Check(!command.OpeningAction.Returned,"A thrower still away from the validated return cannot clear blast safety.");
+        pawn.Position=command.OpeningAction.ReturnPosition;
+        returned.Invoke(service,new object[]{pawn,job});
+        Check(command.OpeningAction.Returned,"The owned return is acknowledged only after actual arrival at the chosen safe cell.");
         Console.WriteLine("PASS: "+checks+" CQB role barriers, generation-bound progress and actual return-post checks.");
     }
 }

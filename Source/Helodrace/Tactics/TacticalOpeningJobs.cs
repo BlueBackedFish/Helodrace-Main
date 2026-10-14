@@ -86,6 +86,8 @@ namespace Helodrace.Tactics
     {
         public override IntVec3 PostCell => job.targetQueueA[0].Cell;
         public bool Prepared, Released;
+        private int returnCheckAt,returnDeadline=-1,failedReturnUntil;
+        private IntVec3 returnGoal=IntVec3.Invalid,failedReturn=IntVec3.Invalid;
         public Thing Grenade => job.targetB.Thing;
         protected override IEnumerable<Toil> MakeNewToils()
         {
@@ -101,12 +103,26 @@ namespace Helodrace.Tactics
             yield return Toils_General.Do(() => Prepared = true);
             yield return AdmitMovement();
             yield return Toils_Goto.GotoCell(TargetIndex.C, PathEndMode.OnCell);
+            Toil returnReady=ToilMaker.MakeToil("TacticalCoveredReturnReady");
+            returnReady.defaultCompleteMode=ToilCompleteMode.Never;
+            returnReady.initAction=()=> { if(returnDeadline<0) returnDeadline=GenTicks.TicksGame+180; };
+            returnReady.tickAction=()=>
+            {
+                int tick=GenTicks.TicksGame;
+                if(tick<returnCheckAt) return;
+                returnCheckAt=tick+10;
+                if(pawn.Map.GetComponent<MapComponent_TacticalCommands>().EnsureSupportReturn(pawn,job,IntVec3.Invalid)) ReadyForNextToil();
+                else if(tick>=returnDeadline) EndJobWith(JobCondition.Incompletable);
+            };
+            yield return returnReady;
             Toil release = Toils_General.Wait(TacticalOpeningPolicy.ReleaseTicks, TargetIndex.A);
             release.handlingFacing = true;
             release.initAction = () => pawn.rotationTracker.FaceCell(job.targetA.Cell);
             yield return release;
             yield return Toils_General.Do(() =>
             {
+                if(!pawn.Map.GetComponent<MapComponent_TacticalCommands>().EnsureSupportReturn(pawn,job,IntVec3.Invalid))
+                { JumpToToil(returnReady); return; }
                 if (!MapComponent_TacticalCommands.SafeOpeningThrow(pawn, Grenade, pawn.Position, job.targetA.Cell))
                 { EndJobWith(JobCondition.Incompletable); return; }
                 Projectile projectile = InventoryGrenadeUtility.Launch(pawn, Grenade, job.targetA);
@@ -114,17 +130,43 @@ namespace Helodrace.Tactics
                 Released = true; Prepared = false;
                 pawn.Map.GetComponent<MapComponent_TacticalCommands>().Launched(pawn, job, projectile);
             });
-            // Keep ownership across the complete return, with no vanilla job
-            // selection between the throw and its original covered stack slot.
-            yield return AdmitMovement();
-            yield return Toils_Goto.GotoCell(job.targetQueueA[0].Cell, PathEndMode.OnCell);
-            yield return Toils_General.Do(() => pawn.Map.GetComponent<MapComponent_TacticalCommands>().SupportReturned(pawn, job));
+            // A blocked slot may change only to a validated connected safe return.
+            // Actual arrival still owns Returned; no timeout can fabricate it.
+            Toil returning=ToilMaker.MakeToil("TacticalCoveredReturn");
+            returning.defaultCompleteMode=ToilCompleteMode.Never;
+            returning.tickAction=()=>
+            {
+                int tick=GenTicks.TicksGame; if(tick<returnCheckAt) return;
+                returnCheckAt=tick+10;
+                if(tick>=failedReturnUntil) failedReturn=IntVec3.Invalid;
+                var owner=pawn.Map.GetComponent<MapComponent_TacticalCommands>();
+                if(!owner.EnsureSupportReturn(pawn,job,failedReturn)) { pawn.pather.StopDead(); return; }
+                IntVec3 goal=job.targetQueueA[0].Cell;
+                if(pawn.Position==goal)
+                { pawn.pather.StopDead(); owner.SupportReturned(pawn,job); ReadyForNextToil(); return; }
+                if(pawn.pather.Moving && returnGoal==goal) return;
+                if(!Current.Game.GetComponent<GameComponent_TacticalCommands>().WorkBudget.TryPath(tick)) return;
+                returnGoal=goal; pawn.pather.StartPath(goal,PathEndMode.OnCell);
+            };
+            yield return returning;
             yield return Hold(job.targetQueueA[1].Cell);
+        }
+        public override void Notify_PatherFailed()
+        {
+            if(Released && pawn.Map?.GetComponent<MapComponent_TacticalCommands>()?.CqbThrowOwned(pawn,job)==true)
+            { failedReturn=returnGoal; failedReturnUntil=GenTicks.TicksGame+90; returnGoal=IntVec3.Invalid;
+                pawn.pather.StopDead(); returnCheckAt=GenTicks.TicksGame+1; return; }
+            base.Notify_PatherFailed();
         }
         public override void ExposeData()
         {
             base.ExposeData(); Scribe_Values.Look(ref Prepared, "tacticalGrenadePrepared");
             Scribe_Values.Look(ref Released, "tacticalGrenadeReleased");
+            Scribe_Values.Look(ref returnCheckAt,"returnCheckAt");
+            Scribe_Values.Look(ref returnDeadline,"returnDeadline",-1);
+            Scribe_Values.Look(ref returnGoal,"returnGoal",IntVec3.Invalid);
+            Scribe_Values.Look(ref failedReturn,"failedReturn",IntVec3.Invalid);
+            Scribe_Values.Look(ref failedReturnUntil,"failedReturnUntil");
         }
     }
 

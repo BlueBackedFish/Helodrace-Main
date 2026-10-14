@@ -222,13 +222,20 @@ internal static class TacticalHighCqbTests
         root.Members.Add(new TacticalMemberCommand());
         root.Members[0].EntryVersion=root.PlanVersion; root.Members[0].LaneCleared=true;
         root.Members[0].CqbOrder=new TacticalCqbOrder { Owner="root",Version=root.PlanVersion,Revision=7,
-            Ingress=true,Combat=true,StartLeg=3,Destination=new IntVec3(15,0,11),Opening=root.Plan.Opening,
+            Ingress=true,Combat=true,Reposition=true,StartLeg=3,Destination=new IntVec3(15,0,11),Opening=root.Plan.Opening,
             Inside=new IntVec3(9,0,10),Lane=new IntVec3(9,0,11),Face=new IntVec3(9,0,9) };
         TacticalCqbOrder savedOrder=root.Members[0].CqbOrder;
+        root.Members[0].EntryCoverAnchor=new IntVec3(15,0,11); root.Members[0].EntryCoverOwner="root";
+        root.Members[0].EntryCoverVersion=root.PlanVersion; root.Members[0].EntryCoverCheckAt=250;
+        root.Members[0].EntryNoShotSince=150; root.Members[0].EntryNoShotId=23;
         var savedDriver=new JobDriver_TacticalActor {PlanVersion=root.PlanVersion,CqbOwnerId="root",Crossed=true};
         AccessTools.Field(savedDriver.GetType(),"revision").SetValue(savedDriver,7);
         AccessTools.Field(savedDriver.GetType(),"leg").SetValue(savedDriver,3);
         AccessTools.Field(savedDriver.GetType(),"quietUntil").SetValue(savedDriver,170);
+        var savedThrow=new JobDriver_TacticalThrow {Released=true,PlanVersion=root.PlanVersion,CqbOwnerId="root"};
+        AccessTools.Field(savedThrow.GetType(),"returnGoal").SetValue(savedThrow,new IntVec3(7,0,8));
+        AccessTools.Field(savedThrow.GetType(),"failedReturn").SetValue(savedThrow,new IntVec3(8,0,8));
+        AccessTools.Field(savedThrow.GetType(),"failedReturnUntil").SetValue(savedThrow,350);
         root.CqbSignals.Record(root.PlanVersion,root.PlanVersion,TacticalCqbNotice.Post|TacticalCqbNotice.Passage,100);
         var team=new TacticalSquadCommand {Id="root::cqb:1",CqbTeam=1,CqbEntered=true,Phase=TacticalCommandPhase.BlastWait,
             CqbTask=new TacticalRoomFrontier {Opening=new IntVec3(4,0,4),Inward=IntVec3.North},
@@ -243,18 +250,29 @@ internal static class TacticalHighCqbTests
         try
         {
             Scribe.saver.InitSaving(path,"root"); root.ExposeData(); Scribe_Deep.Look(ref divisionPacket,"divisionPacket");
-            Scribe_Deep.Look(ref savedDriver,"actorDriver"); Scribe.saver.FinalizeSaving();
+            Scribe_Deep.Look(ref savedDriver,"actorDriver"); Scribe_Deep.Look(ref savedThrow,"throwDriver"); Scribe.saver.FinalizeSaving();
             var restored=new TacticalSquadCommand(); TacticalMessage loadedPacket=null;
             JobDriver_TacticalActor loadedDriver=null;
+            JobDriver_TacticalThrow loadedThrow=null;
             Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe_Deep.Look(ref loadedPacket,"divisionPacket");
-            Scribe_Deep.Look(ref loadedDriver,"actorDriver"); Scribe.loader.ForceStop();
+            Scribe_Deep.Look(ref loadedDriver,"actorDriver"); Scribe_Deep.Look(ref loadedThrow,"throwDriver"); Scribe.loader.ForceStop();
             var order=restored.Members[0].CqbOrder;
-            check(order.SameRoute(savedOrder) && order.Revision==7 && order.StartLeg==3 && order.Face==savedOrder.Face,
+            check(order.SameRoute(savedOrder) && order.Revision==7 && order.StartLeg==3 && order.Face==savedOrder.Face && order.Reposition,
                 "Native nested Scribe must preserve value-only CQB intent, owner and route revision.");
             check(loadedDriver.PlanVersion==root.PlanVersion && loadedDriver.CqbOwnerId=="root" && loadedDriver.Crossed
                 && (int)AccessTools.Field(loadedDriver.GetType(),"leg").GetValue(loadedDriver)==3
                 && (int)AccessTools.Field(loadedDriver.GetType(),"quietUntil").GetValue(loadedDriver)==170,
                 "Native Scribe retains the continuing driver's physical leg and individual quiet deadline.");
+            check(restored.Members[0].EntryCoverAnchor==root.Members[0].EntryCoverAnchor
+                && restored.Members[0].EntryCoverOwner=="root" && restored.Members[0].EntryCoverVersion==root.PlanVersion
+                && restored.Members[0].EntryCoverCheckAt==250 && restored.Members[0].EntryNoShotSince==150
+                && restored.Members[0].EntryNoShotId==23,
+                "Save preserves the original autonomy footprint and event deadlines rather than recentering/drifting after load.");
+            check(loadedThrow.Released && !loadedThrow.Prepared
+                && (IntVec3)AccessTools.Field(loadedThrow.GetType(),"returnGoal").GetValue(loadedThrow)==new IntVec3(7,0,8)
+                && (IntVec3)AccessTools.Field(loadedThrow.GetType(),"failedReturn").GetValue(loadedThrow)==new IntVec3(8,0,8)
+                && (int)AccessTools.Field(loadedThrow.GetType(),"failedReturnUntil").GetValue(loadedThrow)==350,
+                "Save retains actual launch and bounded failed-return suppression without fabricating Returned.");
             check(restored.PlanVersion==root.PlanVersion && TacticalCqbProgressPolicy.Physical(restored.Members[0],restored.PlanVersion),
                 "Save preserves actual portal history separately from current post readiness.");
             check(restored.CqbSignals.Version==root.PlanVersion && restored.CqbSignals.Mask==root.CqbSignals.Mask && restored.CqbSignals.Due==100,
