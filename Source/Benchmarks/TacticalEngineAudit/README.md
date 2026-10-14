@@ -48,7 +48,7 @@ $targets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;H
 
 `-Case contact -Population 12 -SampleTicks 2400 -WarmupTicks 0`은 16칸 방을 만든 뒤 관측 단계에 고정 적을 개구부 시야 안에 배치한다. `narrow`는 기존 위치를 유지하므로 시야 밖 적으로 절약 규칙을 해제하지 않는 대조다. 일반 큰 방의 관측·지원은 `-Case normal`로 확인한다. 동적 적 추격이나 다방 정리 시험은 아니다.
 
-`newObservations/newObservationContacts/newSupportThrows/newSupportReturns/newSupportWaits/newUnsafeEntries`를 남긴다. `newUnsafeEntries=0`과 실제 투척·복귀 횟수 및 전원 내부 고유 자리 완료를 함께 확인한다. `newLastJobFailure`는 마지막 실패/중단 종류이며 exceptions와 구분한다. New 컴포넌트는 2개, R3 현재 훅은 습격 등록 및 준비/관측 표현·사격의 6개다. Vanilla/Legacy에는 New 훅을 설치하지 않는다. 단계 진행 기록은 [R3 문서](../../../Docs/전술/R3%20CQB%20구현과%20검증.md)에 있다.
+`newObservations/newObservationContacts/newSupportThrows/newSupportReturns/newSupportWaits/newUnsafeEntries`를 남긴다. `newUnsafeEntries=0`과 실제 투척·복귀 횟수 및 전원 내부 고유 자리 완료를 함께 확인한다. `newLastJobFailure`는 마지막 실패/중단 종류이며 exceptions와 구분한다. New 컴포넌트는 2개, R3 현재 훅은 습격 등록 및 준비/관측 표현·사격의 6개다. Vanilla/Legacy에는 New 훅을 설치하지 않는다. 단계 진행 기록은 R3 문서에 있다.
 
 ## CPU 비교
 
@@ -66,7 +66,7 @@ dotnet $cli engine-compare "$matrix/sapper-wall/vanilla" "$matrix/sapper-wall/ne
 
 메서드는 Stopwatch 경과 시간과 Core 10,000회 배치 대비 비율이다. OS 실제 CPU는 전체 틱/창에만 기록한다. 부모/자식 inclusive를 더하지 않으며 호출 분포는 마지막 2,048회다. 프로세스−메인 차이는 특정 워커 CPU가 아니다. 명시적인 전술 엔진 격리 감사는 최대 1,800초를 허용하고 일반 수집은 300초 제한을 유지한다.
 
-오류·타임아웃 원본은 보존한다. 실행기 타임아웃은 30분이며 살아 있는 프로세스를 임의 재시작하지 않는다. 최종 기능/CPU 결과는 [R2 보고서](../../../Docs/전술/R2%20최소%20돌파%20진입%20구현과%20검증.md)에 정리한다.
+오류·타임아웃 원본은 보존한다. 실행기 타임아웃은 30분이며 살아 있는 프로세스를 임의 재시작하지 않는다. 최종 기능/CPU 결과는 R2 보고서에 정리한다.
 
 
 ## R3 연속 방 진입 약식 시험

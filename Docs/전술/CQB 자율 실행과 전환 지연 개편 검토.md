@@ -27,7 +27,7 @@
 
 근거: [TacticalCommands](../../Source/Helodrace/Tactics/TacticalCommands.cs), [Cadence](../../Source/Helodrace/Tactics/TacticalCadence.cs), [전역 예산](../../Source/Helodrace/Tactics/TacticalWorkBudget.cs), [개인 Driver](../../Source/Helodrace/Tactics/TacticalJobs.cs), [관측/투척 제어](../../Source/Helodrace/Tactics/TacticalOpeningAction.cs), [관측/투척 Driver](../../Source/Helodrace/Tactics/TacticalOpeningJobs.cs), [HIGH CQB](../../Source/Helodrace/Tactics/TacticalHighCqb.cs).
 
-이미 [진입 중 예비 준비](CQB%20연속%20돌파%20준비와%20전환%20간격.md)가 있어 LOW는 다음 방 조사/예비 대형, HIGH는 조사를 앞당길 수 있다. 이를 다시 처음부터 만들기보다, 실제 진입 이력과 개인 준비 상태를 분리해 예비 결과를 적절한 시점에 확정하는 구조로 발전시키는 편이 낫다.
+이미 [진입 중 예비 준비](../../Source/Helodrace/Tactics/TacticalEntryPreview.cs)가 있어 LOW는 다음 방 조사/예비 대형, HIGH는 조사를 앞당길 수 있다. 이를 다시 처음부터 만들기보다, 실제 진입 이력과 개인 준비 상태를 분리해 예비 결과를 적절한 시점에 확정하는 구조로 발전시키는 편이 낫다.
 
 ## 바닐라에서 참고할 구조
 
