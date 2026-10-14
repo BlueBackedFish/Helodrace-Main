@@ -868,9 +868,10 @@ namespace Helodrace.Tactics
         private static bool AtPost(TacticalMemberCommand member) => member.Pawn.CurJob == member.Job
             && member.Pawn.jobs.curDriver is TacticalJobDriver driver && driver.AtPost
             && member.Pawn.Position == driver.PostCell;
-        private static bool HoldsPost(TacticalMemberCommand member, IntVec3 position, bool entryCombat) =>
+        private bool HoldsPost(TacticalMemberCommand member, IntVec3 position, bool entryCombat) =>
             member.Pawn.CurJob == member.Job && (ContinuingActor(member)
-                ? member.CqbOrder?.Ingress==false && member.CqbOrder.Destination==position && member.CqbOrder.Combat==entryCombat
+                ? ActorValid(member,member.CqbOrder) && member.CqbOrder.Ingress==false
+                    && member.CqbOrder.Destination==position && member.CqbOrder.Combat==entryCombat
                 : member.Job?.def.defName == "HD_NewTacticalPost" && member.Job.targetA.Cell == position && member.Job.count == (entryCombat ? 1 : 0))
                 && (!(member.Pawn.jobs.curDriver is TacticalJobDriver driver) || !driver.AtPost || member.Pawn.Position == position);
         private void EnsurePost(TacticalMemberCommand member, IntVec3 position, IntVec3 face, int tick, bool entryCombat = false)

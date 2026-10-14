@@ -127,6 +127,18 @@ internal static class TacticalCqbAutonomyTests
         pawn.Position=command.OpeningAction.ReturnPosition;
         returned.Invoke(service,new object[]{pawn,job});
         Check(command.OpeningAction.Returned,"The owned return is acknowledged only after actual arrival at the chosen safe cell.");
+        command.Id="root::cqb:1"; command.Phase=TacticalCommandPhase.Complete;
+        var actorDef=(JobDef)RuntimeHelpers.GetUninitializedObject(typeof(JobDef)); actorDef.defName="HD_NewTacticalActor";
+        job.def=actorDef; job.targetA=pawn.Position; job.count=1;
+        pawn.jobs.curDriver=new JobDriver_TacticalActor {pawn=pawn,job=job,AtPost=true};
+        member.CqbOrder=new TacticalCqbOrder {Owner="root",Version=command.PlanVersion,Combat=true,Destination=pawn.Position};
+        var holds=AccessTools.Method(service.GetType(),"HoldsPost");
+        Check(!(bool)holds.Invoke(service,new object[]{member,pawn.Position,true}),
+            "HIGH rebinding must not accept the old parent's post intent even when the job and destination are unchanged.");
+        member.CqbOrder.Owner=command.Id;
+        Check((bool)holds.Invoke(service,new object[]{member,pawn.Position,true}),"The current child owner may continue its valid post without job restart.");
+        member.CqbOrder.Version--;
+        Check(!(bool)holds.Invoke(service,new object[]{member,pawn.Position,true}),"An unchanged destination in a replaced plan still requires a current intent.");
         Console.WriteLine("PASS: "+checks+" CQB role barriers, generation-bound progress and actual return-post checks.");
     }
 }
