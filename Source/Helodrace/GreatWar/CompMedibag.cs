@@ -208,13 +208,7 @@ namespace Helodrace
                 return false;
             }
 
-            List<IGrouping<BodyPartRecord, Hediff>> bleedingParts = target.health.hediffSet.hediffs
-                .Where(hediff => hediff.BleedRate > 0f && hediff.Part != null && !IsExcludedHemostasisPart(hediff.Part.def)
-                    && (!onlyUncovered || !Tactical.PartHemostasis.HasDressing(target.health.hediffSet, hediff.Part, Find.TickManager.TicksGame)))
-                .GroupBy(hediff => hediff.Part)
-                .OrderByDescending(group => group.Sum(hediff => hediff.BleedRate))
-                .Take(Props.hemostasisPartCount)
-                .ToList();
+            List<IGrouping<BodyPartRecord, Hediff>> bleedingParts = HemostasisParts(target, onlyUncovered);
 
             int treatedParts = 0;
             foreach (IGrouping<BodyPartRecord, Hediff> partGroup in bleedingParts)
@@ -235,6 +229,21 @@ namespace Helodrace
             Messages.Message("HD_Medibag_Hemostasis_Applied".Translate(wearer.LabelShort, target.LabelShort, treatedParts), target, MessageTypeDefOf.PositiveEvent);
             CompleteTreatment(HemostasisSupplyCost);
             return true;
+        }
+
+        public int HemostasisDuration(Pawn target, bool onlyUncovered = false) =>
+            Tactical.TcccRules.HemostasisDuration(HemostasisParts(target, onlyUncovered).Count);
+
+        private List<IGrouping<BodyPartRecord, Hediff>> HemostasisParts(Pawn target, bool onlyUncovered)
+        {
+            if (target?.health?.hediffSet == null) return new List<IGrouping<BodyPartRecord, Hediff>>();
+            return target.health.hediffSet.hediffs
+                .Where(hediff => hediff.BleedRate > 0f && hediff.Part != null && !IsExcludedHemostasisPart(hediff.Part.def)
+                    && (!onlyUncovered || !Tactical.PartHemostasis.HasDressing(target.health.hediffSet, hediff.Part, Find.TickManager.TicksGame)))
+                .GroupBy(hediff => hediff.Part)
+                .OrderByDescending(group => group.Sum(hediff => hediff.BleedRate))
+                .Take(Props.hemostasisPartCount)
+                .ToList();
         }
 
         public bool TryApplyPlasma(Pawn target)
@@ -386,7 +395,8 @@ namespace Helodrace
 
     public class JobDriver_MedibagHemostasis : JobDriver_MedibagTreatment
     {
-        protected override int TreatmentDuration(CompMedibag medibag) => Tactical.TcccRules.HemostasisTicks;
+        protected override int TreatmentDuration(CompMedibag medibag) =>
+            medibag.HemostasisDuration(Patient, Tactics.TacticalCareBridge.Owned(pawn, job));
         protected override bool ApplyTreatment(CompMedibag medibag, Pawn target)
         {
             return medibag.TryApplyHemostasis(target, Tactics.TacticalCareBridge.Owned(pawn, job));

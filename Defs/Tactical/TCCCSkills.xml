@@ -12,7 +12,7 @@
   <HediffDef>
     <defName>HD_TCCCTraining_HIGH</defName>
     <label>TCCC advanced training</label>
-    <description>Advanced tactical casualty care training: basic skills plus measured analgesia, hemostatic agents and MIST handovers.</description>
+    <description>Advanced tactical casualty care training: basic skills plus full-dose analgesia, hemostatic agents and MIST handovers.</description>
     <defaultLabelColor>(0.35,0.90,0.55)</defaultLabelColor>
     <scenarioCanAdd>false</scenarioCanAdd>
     <isBad>false</isBad>
@@ -56,20 +56,18 @@
       <RangedCooldownFactor>1.5</RangedCooldownFactor><MeleeCooldownFactor>1.5</MeleeCooldownFactor>
     </statFactors></li></stages>
   </HediffDef>
-  <HediffDef>
-    <defName>HD_TCCC_Analgesia</defName><label>titrated analgesia</label>
-    <hediffClass>Helodrace.Tactical.Hediff_TcccAnalgesia</hediffClass>
-    <description>A measured dose of a Blanca's Drugs analgesic. The active drug determines duration and side effects, scaled to the administered amount.</description>
-    <isBad>false</isBad><tendable>false</tendable>
-  </HediffDef>
   <JobDef>
     <defName>HD_TCCC_Treat</defName><driverClass>Helodrace.Tactical.JobDriver_TcccTreatment</driverClass>
     <reportString>performing tactical casualty care.</reportString>
     <casualInterruptible>false</casualInterruptible>
   </JobDef>
+  <JobDef>
+    <defName>HD_TCCC_LoadPouch</defName><driverClass>Helodrace.Tactical.JobDriver_TcccLoadPouch</driverClass>
+    <reportString>loading medical pouch.</reportString>
+  </JobDef>
   <ThingDef ParentName="ResourceBase">
     <defName>HD_TCCC_HemostaticAgent</defName><label>hemostatic agent</label>
-    <description>A field hemostatic dose. Administer with the TCCC menu in 3 seconds to reduce all bleeding by 70% for 6 hours. Combines with body-part hemostasis. Blood pumping -10%, consciousness -5%. Does not heal injuries or replace lost blood.</description>
+    <description>A field hemostatic dose. Load into a large medical pouch and administer with the TCCC menu in 1 second to reduce all bleeding by 70% for 6 hours. Combines with body-part hemostasis. Blood pumping -10%, consciousness -5%. Does not heal injuries or replace lost blood.</description>
     <graphicData><texPath>Things/Item/Resource/Medicine/MedicineIndustrial</texPath><graphicClass>Graphic_StackCount</graphicClass><color>(0.95,0.45,0.40)</color></graphicData>
     <techLevel>Industrial</techLevel><stackLimit>25</stackLimit>
     <thingCategories><li>Manufactured</li></thingCategories>

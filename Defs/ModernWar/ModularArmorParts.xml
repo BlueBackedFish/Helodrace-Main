@@ -738,7 +738,7 @@
   <!-- PALS parts can be installed repeatedly and occupy multiple grid cells. -->
   <Helodrace.ModernWar.ModularArmorPartDef>
     <defName>HD_IOTVPart_IFAK</defName>
-    <label>medium medical pouch</label>
+    <label>small medical pouch</label>
     <installMode>Positionable</installMode>
     <allowedPalsPanels><li>HD_IOTV_PALS_Front</li><li>HD_IOTV_PALS_Lower</li><li>HD_IOTV_PALS_Side</li><li>HD_IOTV_PALS_SideLeft</li><li>HD_IOTV_PALS_Groin</li><li>HD_IOTV_PALS_Back</li><li>HD_BattleBelt_PALS_Right</li><li>HD_BattleBelt_PALS_Left</li></allowedPalsPanels>
     <palsWidth>4</palsWidth>

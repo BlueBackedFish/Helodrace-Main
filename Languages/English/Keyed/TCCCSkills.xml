@@ -2,23 +2,19 @@
 <LanguageData>
   <HD_Hemostasis_Reduction>Bleeding reduction on this body part: {0}</HD_Hemostasis_Reduction>
   <HD_TCCC_Menu>TCCC</HD_TCCC_Menu>
-  <HD_TCCC_MenuDesc>Hemostasis takes 30 seconds on yourself or another friendly pawn, treating up to six of the most heavily bleeding parts without body-part exclusions. Temporary pressure starts after 20 seconds; completed dressings reduce local bleeding by 80% for 12 hours. Each part adds 5% pain, capped at 20%. Medic bag hemostasis also takes 30 seconds but retains its non-vital, four-part limit. Casualty tethers allow hands-free movement at reduced speed. Measured analgesics target 10% pain. A hemostatic agent takes 3 seconds and reduces systemic bleeding by 70% for 6 hours with blood pumping -10% and consciousness -5%; it combines with local dressings. MIST preparation takes 5 seconds.</HD_TCCC_MenuDesc>
-  <HD_TCCC_Hemostasis>Hemostasis (30 sec)</HD_TCCC_Hemostasis>
+  <HD_TCCC_MenuDesc>Hemostasis requires a charged medical pouch on worn body armor and treats up to six bleeding parts. It takes 5 seconds for up to three parts, then 5 more seconds per part, up to 20 seconds. Temporary pressure begins after two thirds of the work; completed dressings reduce local bleeding by 80% for 12 hours. Casualty tether attachment takes 1 second. Hemostasis, attachment and MIST each use one treatment charge. Analgesia requires a charged large pouch and gives one full dose: ketamine when breathing is below 70%, otherwise fentanyl. Addiction chance is reduced by 30%. A hemostatic agent requires separate stock in a large pouch and takes 1 second; it reduces systemic bleeding by 70% for 6 hours. MIST preparation takes 5 seconds.</HD_TCCC_MenuDesc>
+  <HD_TCCC_Hemostasis>Hemostasis (5–20 sec)</HD_TCCC_Hemostasis>
   <HD_TCCC_AttachDrag>Attach casualty tether</HD_TCCC_AttachDrag>
-  <HD_TCCC_Analgesic>Administer measured analgesic</HD_TCCC_Analgesic>
-  <HD_TCCC_Hemostatic>Administer hemostatic agent (3 sec)</HD_TCCC_Hemostatic>
+  <HD_TCCC_Analgesic>Administer analgesic</HD_TCCC_Analgesic>
+  <HD_TCCC_Hemostatic>Administer hemostatic agent (1 sec)</HD_TCCC_Hemostatic>
   <HD_TCCC_Mist>Prepare MIST handover (5 sec)</HD_TCCC_Mist>
   <HD_TCCC_Detach>Disconnect casualty tether</HD_TCCC_Detach>
   <HD_TCCC_Remaining>Remaining: {0}</HD_TCCC_Remaining>
   <HD_TCCC_NoBleeding>The patient is not bleeding.</HD_TCCC_NoBleeding>
   <HD_TCCC_NoPain>No additional analgesia is needed at the current pain level.</HD_TCCC_NoPain>
-  <HD_TCCC_NoAnalgesic>No available Blanca's Drugs analgesic. Bring morphine, fentanyl, ketamine or laudanum in inventory, or leave a reachable dose on the map. The companion drug module must be active.</HD_TCCC_NoAnalgesic>
-  <HD_TCCC_NoHemostatic>No reachable hemostatic agent. Make it at a drug lab or carry it in inventory.</HD_TCCC_NoHemostatic>
+  <HD_TCCC_NoAnalgesic>Fentanyl or ketamine from Blanca's Drugs is unavailable. The companion drug module must be active.</HD_TCCC_NoAnalgesic>
   <HD_TCCC_CannotDrag>The casualty must be downed, adjacent and not already connected to another rescuer.</HD_TCCC_CannotDrag>
-  <HD_TCCC_AnalgesicActive>An analgesic is already active. Wait until it wears off before using another measured dose.</HD_TCCC_AnalgesicActive>
-  <HD_TCCC_DoseRemaining>Remaining dose: {0}</HD_TCCC_DoseRemaining>
-  <HD_TCCC_DoseEffect>Administered dose: {0}\nPain reduction: {1}</HD_TCCC_DoseEffect>
-  <HD_TCCC_DoseGiven>{0} received {2} of a standard dose of {1}.</HD_TCCC_DoseGiven>
+  <HD_TCCC_DoseGiven>{0} received a full dose of {1}.</HD_TCCC_DoseGiven>
   <HD_TCCC_MistReport>MIST — {0}\nM / Mechanism: {1}\nI / Injuries: {2}\nS / Signs: bleeding {3}, pain {4}, {5}\nT / Treatments and current conditions: {6}</HD_TCCC_MistReport>
   <HD_TCCC_Downed>unable to walk</HD_TCCC_Downed>
   <HD_TCCC_Mobile>able to walk</HD_TCCC_Mobile>

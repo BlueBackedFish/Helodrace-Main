@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using HarmonyLib;
+using Helodrace.ModernWar;
 using RimWorld;
 using Verse;
 using Verse.AI;
@@ -17,6 +18,7 @@ namespace Helodrace.Tactical
         private Hediff leftWound, rightWound;
         private Hediff_PartHemostasis completedDressing;
         private Apparel bag;
+        private CompMedicalPouch pouch;
         private Pawn patient;
         private BodyPartRecord[] patientWoundedParts;
         private int phase, started;
@@ -60,9 +62,20 @@ namespace Helodrace.Tactical
                             if (colonist.drafter != null && !colonist.Downed) colonist.drafter.Drafted=true;
                         actor=PawnGenerator.GeneratePawn(DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman"),Faction.OfPlayer);
                         actor.story.traits.allTraits.Clear();
+                        foreach (Hediff existing in actor.health.hediffSet.hediffs.ToList())
+                            actor.health.RemoveHediff(existing);
                         GenSpawn.Spawn(actor,Find.CurrentMap.Center,Find.CurrentMap);
                         actor.drafter.Drafted=true;
                         actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_HIGH"));
+                        ThingDef armorDef=DefDatabase<ThingDef>.GetNamed("HD_Apparel_IBTVAssault");
+                        Apparel armor=(Apparel)ThingMaker.MakeThing(armorDef,GenStuff.DefaultStuffFor(armorDef));
+                        actor.apparel.Wear(armor,false);
+                        var mounted=armor.TryGetComp<CompModularArmor>().InstallPalsPart(
+                            DefDatabase<ModularArmorPartDef>.GetNamed("HD_IOTVPart_MediL"),
+                            DefDatabase<ModularArmorPalsPanelDef>.GetNamed("HD_IOTV_PALS_Front"),0,0,
+                            ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_ModularPart_MediL")));
+                        Check(mounted?.InstalledItem!=null,"Large pouch mounted on worn body armor");
+                        pouch=mounted.InstalledItem.TryGetComp<CompMedicalPouch>();
                         var arms=actor.RaceProps.body.AllParts.Where(p=>p.def==BodyPartDefOf.Arm).ToArray();
                         left=arms[0]; right=arms[1];
                         leftWound=Wound(left); rightWound=Wound(right);
@@ -110,29 +123,30 @@ namespace Helodrace.Tactical
                             "Removing dressings releases all dressing pain");
                         Thing dose=ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_TCCC_HemostaticAgent"));
                         dose.stackCount=2; actor.inventory.innerContainer.TryAdd(dose);
-                        TcccUtility.Start(actor,actor,TcccTreatment.Hemostatic,dose); Next(1); break;
+                        Check(pouch.TryLoad(actor,dose) && pouch.Hemostatic==1,"Separate hemostatic dose loaded");
+                        TcccUtility.Start(actor,actor,TcccTreatment.Hemostatic); Next(1); break;
                     case 1:
                         if (WorkTicks>=40 && !addedLater) {rightWound=Wound(right); addedLater=true;}
                         if (TcccUtility.Effect(actor,"HD_TCCC_Hemostatic")==null) break;
                         Check(addedLater && TcccUtility.Effect(actor,"HD_TCCC_Hemostatic") is Hediff_SystemicHemostatic
                             && !actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Any()
                             && PartHemostasis.Factor(actor.health.hediffSet,right,GenTicks.TicksGame)==.30f,
-                            "Real three-second drug job creates one systemic effect covering the other arm");
-                        Check(actor.inventory.innerContainer.Where(t=>t.def.defName=="HD_TCCC_HemostaticAgent").Sum(t=>t.stackCount)==1,
+                            "Real one-second drug job creates one systemic effect covering the other arm");
+                        Check(pouch.Hemostatic==0,
                             "Real drug job consumes exactly one dose");
                         Reset(); TcccUtility.Start(actor,actor,TcccTreatment.Hemostasis); Next(2); break;
                     case 2:
-                        if (WorkTicks<1201) break;
+                        if (WorkTicks<201) break;
                         Check(TcccUtility.Effect(actor,"HD_TCCC_Pressure")?.Part==left
                             && PartHemostasis.Factor(actor.health.hediffSet,left,GenTicks.TicksGame)==.30f,
-                            "Twenty-second temporary pressure stage remains part-specific");
+                            "Temporary pressure stage remains part-specific");
                         actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
                         Check(TcccUtility.Effect(actor,"HD_TCCC_Pressure")==null
                             && PartHemostasis.Factor(actor.health.hediffSet,left,GenTicks.TicksGame)==1f,
                             "Interruption removes temporary pressure and its cached reduction");
                         Reset(); TcccUtility.Start(actor,actor,TcccTreatment.Hemostasis); Next(3); break;
                     case 3:
-                        if (WorkTicks>=1201 && !addedLater) {rightWound=Wound(right); addedLater=true;}
+                        if (WorkTicks>=201 && !addedLater) {rightWound=Wound(right); addedLater=true;}
                         if (TcccUtility.Effect(actor,PartHemostasis.DressingDefName)==null) break;
                         completedDressing=(Hediff_PartHemostasis)TcccUtility.Effect(actor,PartHemostasis.DressingDefName);
                         Check(addedLater && completedDressing.Part==left
@@ -156,8 +170,8 @@ namespace Helodrace.Tactical
                         Check((int)AccessTools.Field(typeof(CompMedibag),"storedSupplies").GetValue(bag.TryGetComp<CompMedibag>())==2
                             && bag.TryGetComp<CompMedibag>().CooldownRemaining > 0,
                             "Normal bag treatment preserves supplies and starts its shared cooldown");
-                        Check(GenTicks.TicksGame-started>=1800 && GenTicks.TicksGame-started<1830,
-                            "Actual bag hemostasis takes thirty seconds");
+                        Check(GenTicks.TicksGame-started>=300 && GenTicks.TicksGame-started<330,
+                            "Actual two-part bag hemostasis takes five seconds");
                         Check(Math.Abs(actor.health.hediffSet.hediffs.OfType<Hediff_PartHemostasis>().Sum(h=>h.PainOffset)-.10f)<.001f,
                             "Two shared dressings add ten percent pain, not three markers worth");
                         patient=PawnGenerator.GeneratePawn(DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman"),Faction.OfPlayer);
@@ -178,7 +192,7 @@ namespace Helodrace.Tactical
                             "Other pawn is eligible and vital brain part is not excluded from six-part skill selection");
                         TcccUtility.Start(actor,patient,TcccTreatment.Hemostasis); Next(5); break;
                     case 5:
-                        if (WorkTicks<1201) break;
+                        if (WorkTicks<801) break;
                         Check(patient.health.hediffSet.hediffs.Count(h=>h.def.defName=="HD_TCCC_Pressure")==6
                             && TcccUtility.Effect(actor,"HD_TCCC_Pressure")==null,
                             "Actual other-pawn hemostasis applies pressure to six patient parts, never the caregiver");
@@ -195,7 +209,7 @@ namespace Helodrace.Tactical
                         Check(dressings.Length==6 && dressings.All(h=>patientWoundedParts.Contains(h.Part))
                             && dressings.Any(h=>h.Part.def.defName=="Brain")
                             && TcccUtility.Effect(patient,"HD_TCCC_Pressure")==null,
-                            "Actual other-pawn thirty-second skill dresses exactly six wounded parts including brain");
+                            "Actual other-pawn twenty-second skill dresses exactly six wounded parts including brain");
                         File.AppendAllText(Results,"COMPLETE\n"); finished=true; Root.Shutdown(); break;
                 }
             }

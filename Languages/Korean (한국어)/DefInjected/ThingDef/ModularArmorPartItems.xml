@@ -12,14 +12,14 @@
   <HD_ModularPart_IBTVLowerBody.description>IBTV 캐리어 전면에 장착하여 골반을 보호하는 탈착식 사타구니 보호대입니다.</HD_ModularPart_IBTVLowerBody.description>
   <HD_ModularPart_IBTVBackProtector.label>IBTV 후방 하단 보호대 모듈</HD_ModularPart_IBTVBackProtector.label>
   <HD_ModularPart_IBTVBackProtector.description>IBTV 캐리어 후방 하단에 장착하며 PALS 부착망을 제공하는 탈착식 보호대입니다.</HD_ModularPart_IBTVBackProtector.description>
-  <HD_ModularPart_IFAK.label>중형 의료 파우치 모듈</HD_ModularPart_IFAK.label>
-  <HD_ModularPart_IFAK.description>PALS 부착망에서 4칸을 차지하는 탈착식 의료 파우치입니다.</HD_ModularPart_IFAK.description>
+  <HD_ModularPart_IFAK.label>소형 의료 파우치 모듈</HD_ModularPart_IFAK.label>
+  <HD_ModularPart_IFAK.description>방탄복에 장착하는 소형 의료 파우치입니다. 일반 처치 충전량 4칸을 보관하며 산업약품 1개로 2칸을 충전합니다.</HD_ModularPart_IFAK.description>
   <HD_ModularPart_RifleMagazinePouch.label>소총 탄창 파우치 모듈</HD_ModularPart_RifleMagazinePouch.label>
   <HD_ModularPart_RifleMagazinePouch.description>PALS 부착망에서 2칸을 차지하는 탈착식 소총 탄창 파우치입니다.</HD_ModularPart_RifleMagazinePouch.description>
   <HD_ModularPart_WalkieTalkie.label>무전기 파우치 모듈</HD_ModularPart_WalkieTalkie.label>
   <HD_ModularPart_WalkieTalkie.description>PALS 부착망에서 2칸을 차지하는 무전기 파우치입니다. 착용 중인 방탄복에 장착하면 호환되는 보병 무전망에서 전술 보고를 주고받을 수 있습니다.</HD_ModularPart_WalkieTalkie.description>
   <HD_ModularPart_MediL.label>대형 의료 파우치 모듈</HD_ModularPart_MediL.label>
-  <HD_ModularPart_MediL.description>기본적으로 6칸을 차지하며, 가랑이처럼 좁은 부착망에서는 모든 칸을 채우는 의료 파우치입니다.</HD_ModularPart_MediL.description>
+  <HD_ModularPart_MediL.description>방탄복에 장착하는 대형 의료 파우치입니다. 일반 처치 충전량 8칸과 별도 지혈제 2개를 보관합니다. 산업약품 1개로 일반 충전량 2칸을 충전합니다.</HD_ModularPart_MediL.description>
   <HD_ModularPart_AdminPouch.label>어드민 파우치 모듈</HD_ModularPart_AdminPouch.label>
   <HD_ModularPart_AdminPouch.description>PALS 부착망에서 4칸을 사용하는 납작한 관리용 파우치입니다.</HD_ModularPart_AdminPouch.description>
   <HD_ModularPart_IBTVCamelBak.label>IBTV 수낭 모듈</HD_ModularPart_IBTVCamelBak.label>

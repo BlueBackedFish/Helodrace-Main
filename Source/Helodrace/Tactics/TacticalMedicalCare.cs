@@ -177,10 +177,10 @@ namespace Helodrace.Tactics
             }
             if (helper == null && needsHemostasis)
             {
-                if (Available(patient, map) && TcccUtility.CanTreat(patient.Pawn, patient.Pawn)) helper = patient;
+                if (Available(patient, map) && TcccUtility.CanTreat(patient.Pawn, patient.Pawn, TcccTreatment.Hemostasis)) helper = patient;
                 else foreach (TacticalMemberCommand member in active)
                     if (TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position, patient.Pawn.Position)
-                        && TcccUtility.CanTreat(member.Pawn, patient.Pawn) && MedicalSafe(command, member.Pawn.Position, tick)) { helper = member; break; }
+                        && TcccUtility.CanTreat(member.Pawn, patient.Pawn, TcccTreatment.Hemostasis) && MedicalSafe(command, member.Pawn.Position, tick)) { helper = member; break; }
                 if (helper != null)
                 {
                     treatment = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_TCCC_Treat"), patient.Pawn);

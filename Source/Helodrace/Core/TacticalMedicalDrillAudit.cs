@@ -23,7 +23,7 @@ namespace Helodrace
 
         private static bool MedicalInterruptionReady(bool pressure, bool ownedBagTreatment,
             bool treatmentToil, int remainingTicks) => pressure || ownedBagTreatment && treatmentToil
-                && remainingTicks > 0 && remainingTicks <= TcccRules.HemostasisTicks - TcccRules.PartialHemostasisTicks;
+                && remainingTicks > 0 && remainingTicks <= TcccRules.HemostasisDuration(4) / 3;
 
         private void MedicalEvent(string value)
         {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MedicalPouch_StockSmall>처치 충전: {0}/{1}</HD_MedicalPouch_StockSmall>
+  <HD_MedicalPouch_StockLarge>처치 충전: {0}/{1}\n지혈제: {2}/{3}</HD_MedicalPouch_StockLarge>
+  <HD_MedicalPouch_LoadMedicine>{0} 충전</HD_MedicalPouch_LoadMedicine>
+  <HD_MedicalPouch_LoadMedicineDesc>산업약품 1개로 처치 충전 2칸을 채웁니다. 현재: {0}/{1}.</HD_MedicalPouch_LoadMedicineDesc>
+  <HD_MedicalPouch_LoadHemostatic>지혈제 적재</HD_MedicalPouch_LoadHemostatic>
+  <HD_MedicalPouch_LoadHemostaticDesc>대형 의료 파우치에 지혈제 1개를 넣습니다. 현재: {0}/{1}.</HD_MedicalPouch_LoadHemostaticDesc>
+  <HD_MedicalPouch_Full>파우치의 해당 칸이 가득 찼습니다.</HD_MedicalPouch_Full>
+  <HD_MedicalPouch_NoSupply>적재할 수 있는 {0}이(가) 없습니다.</HD_MedicalPouch_NoSupply>
+  <HD_TCCC_NeedPouch>착용 중인 방탄복에 충전된 소형 또는 대형 의료 파우치가 필요합니다.</HD_TCCC_NeedPouch>
+  <HD_TCCC_NeedLargePouch>착용 중인 방탄복에 충전된 대형 의료 파우치가 필요합니다.</HD_TCCC_NeedLargePouch>
+  <HD_TCCC_NeedHemostatic>대형 의료 파우치에 지혈제를 적재해야 합니다.</HD_TCCC_NeedHemostatic>
+</LanguageData>

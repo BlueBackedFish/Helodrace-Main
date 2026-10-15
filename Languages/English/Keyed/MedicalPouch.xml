@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <HD_MedicalPouch_StockSmall>Treatment charges: {0}/{1}</HD_MedicalPouch_StockSmall>
+  <HD_MedicalPouch_StockLarge>Treatment charges: {0}/{1}\nHemostatic agents: {2}/{3}</HD_MedicalPouch_StockLarge>
+  <HD_MedicalPouch_LoadMedicine>Load {0}</HD_MedicalPouch_LoadMedicine>
+  <HD_MedicalPouch_LoadMedicineDesc>Consume one industrial medicine to restore two treatment charges. Current charges: {0}/{1}.</HD_MedicalPouch_LoadMedicineDesc>
+  <HD_MedicalPouch_LoadHemostatic>Load hemostatic agent</HD_MedicalPouch_LoadHemostatic>
+  <HD_MedicalPouch_LoadHemostaticDesc>Load one hemostatic agent into this large pouch. Current stock: {0}/{1}.</HD_MedicalPouch_LoadHemostaticDesc>
+  <HD_MedicalPouch_Full>This pouch compartment is full.</HD_MedicalPouch_Full>
+  <HD_MedicalPouch_NoSupply>No reachable {0} to load.</HD_MedicalPouch_NoSupply>
+  <HD_TCCC_NeedPouch>Requires a charged small or large medical pouch installed on worn body armor.</HD_TCCC_NeedPouch>
+  <HD_TCCC_NeedLargePouch>Requires a charged large medical pouch installed on worn body armor.</HD_TCCC_NeedLargePouch>
+  <HD_TCCC_NeedHemostatic>Requires a hemostatic agent loaded into a large medical pouch.</HD_TCCC_NeedHemostatic>
+</LanguageData>

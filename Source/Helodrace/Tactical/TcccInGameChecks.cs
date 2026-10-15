@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
+using Helodrace.ModernWar;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -25,7 +26,8 @@ namespace Helodrace.Tactical
         private int captureFrames;
         private int lastWorkTicks;
         private float moveBefore, workBefore;
-        private List<float> savedDoses = new List<float>();
+        private int savedCharges;
+        private CompMedicalPouch pouch;
         public static float ObservedAddictionChance;
         private string Results => Path.Combine(GenFilePaths.SaveDataFolderPath, "tccc-results.txt");
         public TcccInGameChecks(Game game) { }
@@ -53,7 +55,7 @@ namespace Helodrace.Tactical
             Scribe_References.Look(ref evacPatient, "evacPatient"); Scribe_References.Look(ref helicopter, "helicopter");
             Scribe_References.Look(ref bed, "bed"); Scribe_References.Look(ref shootingTarget, "shootingTarget");
             Scribe_Values.Look(ref baselineBleed, "baselineBleed"); Scribe_Values.Look(ref shotsBefore, "shotsBefore");
-            Scribe_Collections.Look(ref savedDoses, "savedDoses", LookMode.Value);
+            Scribe_Values.Look(ref savedCharges, "savedCharges");
         }
         public override void GameComponentTick()
         {
@@ -84,6 +86,15 @@ namespace Helodrace.Tactical
                             "TCCC commands and treatments require training");
                         HediffDef lowTraining = DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_LOW");
                         actor.health.AddHediff(lowTraining);
+                        Check(!TcccUtility.CanTreat(actor, actor, TcccTreatment.Hemostasis),
+                            "TCCC hemostasis needs a pouch installed on worn body armor");
+                        pouch = EquipLargePouch(actor);
+                        Thing stock = ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_TCCC_HemostaticAgent"));
+                        stock.stackCount = 2;
+                        Check(actor.inventory.innerContainer.TryAdd(stock), "Hemostatic stock enters caregiver inventory");
+                        stock = actor.inventory.innerContainer.First(item => item.def.defName == "HD_TCCC_HemostaticAgent");
+                        Check(pouch.TryLoad(actor, stock) && pouch.Hemostatic == 1,
+                            "Large pouch loads hemostatic agents separately");
                         Check(TcccUtility.CanTreat(actor, actor, TcccTreatment.Hemostasis)
                             && TcccUtility.CanTreat(actor, actor, TcccTreatment.AttachDrag)
                             && !TcccUtility.CanTreat(actor, actor, TcccTreatment.Analgesic)
@@ -98,15 +109,23 @@ namespace Helodrace.Tactical
                             && TcccUtility.Gizmos(actor).Count() == 5,
                             "advanced TCCC training includes all basic and advanced skills");
                         Check(baselineBleed > 0 && TcccUtility.CanAct(actor), "self-care actor is capable and bleeding");
+                        Check(TcccDrugs.SelectedDef(actor)?.defName == "BD_Fentanyl",
+                            "Normal breathing selects fentanyl");
+                        float addiction = DefDatabase<ThingDef>.GetNamed("BD_Fentanyl")
+                            .comps.OfType<CompProperties_Drug>().First().addictiveness;
+                        Check(TcccDrugs.Administer(actor, actor)
+                            && Math.Abs(ObservedAddictionChance - addiction * .70f) < .000001f
+                            && pouch.Charges == 7, "Full native fentanyl dose uses one charge and 70 percent addiction risk");
+                        baselineBleed = actor.health.hediffSet.BleedRateTotal;
                         TcccUtility.Start(actor, actor, TcccTreatment.Hemostasis);
                         Next(1); break;
                     case 1:
-                        if (WorkTicks < 1199) break;
-                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - 1f) < .02f, "no bleeding reduction before 20 seconds");
+                        if (WorkTicks < 199) break;
+                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - 1f) < .02f, "no bleeding reduction before pressure stage");
                         Next(2); break;
                     case 2:
-                        if (WorkTicks < 1201) break;
-                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - .30f) < .02f, "70 percent reduction starts at 20 seconds");
+                        if (WorkTicks < 201) break;
+                        Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - .30f) < .02f, "70 percent reduction starts after two thirds of the treatment");
                         Next(3); break;
                     case 3:
                         if (TcccUtility.Effect(actor, PartHemostasis.DressingDefName) == null) break;
@@ -116,17 +135,15 @@ namespace Helodrace.Tactical
                         TcccUtility.Start(actor, actor, TcccTreatment.Hemostasis);
                         Next(4); break;
                     case 4:
-                        if (WorkTicks < 1201) break;
+                        if (WorkTicks < 201) break;
                         actor.jobs.EndCurrentJob(JobCondition.InterruptForced);
                         Check(TcccUtility.Effect(actor, "HD_TCCC_Pressure") == null
                             && TcccUtility.Effect(actor, PartHemostasis.DressingDefName) == null, "interruption removes temporary pressure without granting completed effect");
-                        Thing agent = ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_TCCC_HemostaticAgent"));
-                        actor.inventory.innerContainer.TryAdd(agent);
-                        TcccUtility.Start(actor, actor, TcccTreatment.Hemostatic, agent);
+                        TcccUtility.Start(actor, actor, TcccTreatment.Hemostatic);
                         Next(5); break;
                     case 5:
                         if (TcccUtility.Effect(actor, "HD_TCCC_Hemostatic") == null) break;
-                        Check(Elapsed >= 180 && Elapsed < 195, "hemostatic administration takes 3 seconds");
+                        Check(Elapsed >= 60 && Elapsed < 75, "hemostatic administration takes 1 second");
                         Check(TcccUtility.Effect(actor, "HD_TCCC_Hemostatic").expiresTick - Find.TickManager.TicksGame >= 14998, "hemostatic effect lasts 6 hours");
                         Check(Math.Abs(actor.health.hediffSet.BleedRateTotal / baselineBleed - .30f) < .02f, "hemostatic reduces bleeding by 70 percent");
                         casualty = SpawnPawn(actor.Position + IntVec3.East);
@@ -172,20 +189,22 @@ namespace Helodrace.Tactical
                         Check(lastWorkTicks >= 448 && lastWorkTicks <= 451,
                             "tether extends actual interaction from 300 to 450 ticks (observed work=" + lastWorkTicks + ", elapsed=" + Elapsed + ")");
                         Next(9);
+                        savedCharges = pouch.Charges;
                         GameDataSaveLoader.SaveGame("TcccIntegrationCheckpoint");
                         GameDataSaveLoader.LoadGame("TcccIntegrationCheckpoint");
                         break;
                     case 9:
                         Check(actor.Map.GetComponent<MapComponent_TcccDragging>().IsDragging(actor)
                             && casualty.Spawned, "save/load preserves drag link and casualty");
-                        int index = 0;
-                        foreach (string drugName in new[] { "BD_Morphine", "BD_Fentanyl", "BD_Ketamine", "BD_Laudanum" })
-                        {
-                            var partial = Find.CurrentMap.mapPawns.AllPawnsSpawned.SelectMany(p => p.inventory.innerContainer.InnerListForReading)
-                                .First(t => t.def.defName == drugName && t.TryGetComp<CompTcccDose>().remaining < .99999f);
-                            Check(Math.Abs(partial.TryGetComp<CompTcccDose>().remaining - savedDoses[index++]) < .00001f,
-                                drugName + " fractional inventory remainder survives save/load");
-                        }
+                        pouch = MedicalPouchUtility.WornPouches(actor).Single();
+                        Check(pouch.Charges == savedCharges && pouch.Hemostatic == 0,
+                            "Mounted pouch charge and separate hemostatic stock survive save/load");
+                        Thing medicine = ThingMaker.MakeThing(ThingDefOf.MedicineIndustrial);
+                        actor.inventory.innerContainer.TryAdd(medicine);
+                        medicine = actor.inventory.innerContainer.First(item => item.def == ThingDefOf.MedicineIndustrial);
+                        int beforeLoad = pouch.Charges;
+                        Check(pouch.TryLoad(actor, medicine) && pouch.Charges == Math.Min(8, beforeLoad + 2),
+                            "One industrial medicine restores two treatment charges up to pouch capacity");
                         actor.Map.GetComponent<MapComponent_TcccDragging>().Detach(actor);
                         Check(!actor.health.hediffSet.HasHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCC_Dragging")), "detach removes penalties");
                         TcccUtility.Start(actor, casualty, TcccTreatment.Mist);
@@ -259,7 +278,7 @@ namespace Helodrace.Tactical
                 cell.GetEdifice(map)?.Destroy(); map.roofGrid.SetRoof(cell, null);
                 map.terrainGrid.SetTerrain(cell, TerrainDefOf.Soil);
             }
-            Pawn pawn = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
+            Pawn pawn = PawnGenerator.GeneratePawn(DefDatabase<PawnKindDef>.GetNamed("HD_GW_HelodRifleman"), Faction.OfPlayer);
             foreach (Hediff h in pawn.health.hediffSet.hediffs.ToList()) pawn.health.RemoveHediff(h);
             pawn.story.traits.allTraits.Clear();
             GenSpawn.Spawn(pawn, near, map); pawn.drafter.Drafted = true;
@@ -272,42 +291,30 @@ namespace Helodrace.Tactical
         }
         private void RulesAndDrugs()
         {
-            Check(TcccRules.HemostasisTicks == 1800 && TcccRules.PartialHemostasisTicks == 1200
-                && PartHemostasis.DressingTicks == 30000 && TcccRules.DrugEffectTicks == 15000, "all specified timing constants");
-            foreach (string name in new[] { "BD_Morphine", "BD_Fentanyl", "BD_Ketamine", "BD_Laudanum" })
-            {
-                Pawn patient = SpawnPawn(Find.CurrentMap.Center + new IntVec3(0, 0, -12)); Wound(patient);
-                patient.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_HIGH"));
-                float before = patient.health.hediffSet.PainTotal;
-                Thing drug = ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(name)); drug.stackCount = 3;
-                patient.inventory.innerContainer.TryAdd(drug);
-                Check(drug.TryGetComp<CompTcccDose>() != null, name + " receives fractional-dose comp");
-                float expected = TcccRules.DoseFor(before, TcccDrugs.HighDef(drug.def).stages[0].painFactor);
-                Check(expected > 0f && TcccDrugs.Administer(patient, patient, drug), name + " actual administration succeeds");
-                float after = patient.inventory.innerContainer.InnerListForReading.Where(t => t.def == drug.def)
-                    .Sum(t => t.stackCount * t.TryGetComp<CompTcccDose>().remaining);
-                Check(Math.Abs(after - (3f - expected)) < .0001f, name + " charges only the actual fractional amount");
-                Check(Math.Abs(patient.health.hediffSet.PainTotal - TcccRules.TargetPain) < .015f, name + " reaches measured target pain");
-                Check(patient.health.hediffSet.HasHediff(TcccDrugs.HighDef(drug.def)), name + " retains native drug effect");
-                var props = drug.TryGetComp<CompDrug>().Props;
-                Check(Math.Abs(ObservedAddictionChance - TcccRules.AddictionChance(props.addictiveness, expected, true)) < .000001f,
-                    name + " native CompDrug receives exact dose-scaled reduced addiction chance");
-                Check(Math.Abs(patient.health.hediffSet.GetFirstHediffOfDef(TcccDrugs.HighDef(drug.def)).Severity - expected) < .001f,
-                    name + " native high severity scales with dose");
-                Check(TcccRules.AddictionChance(props.addictiveness, expected, true) < props.addictiveness,
-                    name + " dose-adjusted addiction probability is below a normal use");
-                var remaining = patient.inventory.innerContainer.InnerListForReading.First(t => t.def == drug.def && t.stackCount == 1);
-                savedDoses.Add(remaining.TryGetComp<CompTcccDose>().remaining);
-                Check(!remaining.CanStackWith(drug), name + " partial vial cannot merge into full stack");
-                Pawn ordinaryPatient = SpawnPawn(Find.CurrentMap.Center + new IntVec3(0, 0, -16)); Wound(ordinaryPatient);
-                Thing quarterDose = ThingMaker.MakeThing(drug.def);
-                quarterDose.TryGetComp<CompTcccDose>().remaining = .25f;
-                quarterDose.Ingested(ordinaryPatient, 0f);
-                Check(Math.Abs(ordinaryPatient.health.hediffSet.GetFirstHediffOfDef(TcccDrugs.HighDef(drug.def)).Severity - .25f) < .001f,
-                    name + " normal ingestion of a partial vial cannot grant a full high");
-                Check(Math.Abs(ObservedAddictionChance - props.addictiveness * .25f) < .000001f && TcccDrugs.Current == null,
-                    name + " ordinary partial ingestion uses its actual addiction risk and clears context");
-            }
+            Check(TcccRules.HemostasisDuration(3) == 300 && TcccRules.HemostasisDuration(6) == 1200
+                && TcccRules.HemostaticTicks == 60 && TcccRules.DragAttachTicks == 60
+                && PartHemostasis.DressingTicks == 30000 && TcccRules.DrugEffectTicks == 15000,
+                "Updated TCCC timing boundaries");
+            Check(Math.Abs(TcccDrugs.ReducedAddictionChance(.25f) - .175f) < .000001f,
+                "TCCC drug administration reduces addiction chance by thirty percent");
+        }
+        private CompMedicalPouch EquipLargePouch(Pawn pawn)
+        {
+            ThingDef armorDef = DefDatabase<ThingDef>.GetNamed("HD_Apparel_IBTVAssault");
+            Apparel armor = (Apparel)ThingMaker.MakeThing(armorDef, GenStuff.DefaultStuffFor(armorDef));
+            pawn.apparel.Wear(armor, false);
+            var mounted = armor.TryGetComp<CompModularArmor>().InstallPalsPart(
+                DefDatabase<ModularArmorPartDef>.GetNamed("HD_IOTVPart_MediL"),
+                DefDatabase<ModularArmorPalsPanelDef>.GetNamed("HD_IOTV_PALS_Front"), 0, 0,
+                ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_ModularPart_MediL")));
+            Check(mounted?.InstalledItem != null, "Large medical pouch is installed on body armor");
+            var pouch = mounted.InstalledItem.TryGetComp<CompMedicalPouch>();
+            Check(armor.Wearer == pawn, "Body armor is worn by test caregiver");
+            Check(armor.TryGetComp<CompModularArmor>().Props.armorTags?.Contains("HD_IOTVGen4") == true,
+                "Body armor has the expected modular armor tag");
+            Check(MedicalPouchUtility.WornPouches(pawn).Contains(pouch),
+                "Installed large pouch is available to its wearer");
+            return pouch;
         }
         private void BeginEvacuation()
         {

@@ -109,8 +109,9 @@
 
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_IFAK</defName>
-    <label>medium medical pouch module</label>
-    <description>A four-cell detachable medical pouch for PALS webbing.</description>
+    <label>small medical pouch module</label>
+    <description>A detachable medical pouch for PALS webbing. Holds four treatment charges, reloaded two at a time with industrial medicine.</description>
+    <comps><li Class="Helodrace.Tactical.CompProperties_MedicalPouch"><capacity>4</capacity></li></comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/MediM/FrontHigh/HD_IBTV_FrontHigh_MediM_1_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>75</MarketValue><Mass>0.30</Mass><WorkToMake>1200</WorkToMake></statBases>
     <costList><Cloth>12</Cloth><MedicineIndustrial>1</MedicineIndustrial></costList>
@@ -141,7 +142,8 @@
   <ThingDef ParentName="HD_ModularArmorPartItemBase">
     <defName>HD_ModularPart_MediL</defName>
     <label>large medical pouch module</label>
-    <description>A six-cell medical pouch that fills narrower PALS panels when installed on them.</description>
+    <description>A large medical pouch for PALS webbing. Holds eight treatment charges and two separately loaded hemostatic agents.</description>
+    <comps><li Class="Helodrace.Tactical.CompProperties_MedicalPouch"><capacity>8</capacity><hemostaticCapacity>2</hemostaticCapacity></li></comps>
     <graphicData><texPath>Helod/Apparel/HD_IOTVGen4Assault/MediL/FrontHigh/HD_IBTV_FrontHigh_MediL_east</texPath><graphicClass>Graphic_Single</graphicClass><drawSize>(0.62,0.62)</drawSize></graphicData>
     <statBases><MarketValue>110</MarketValue><Mass>0.55</Mass><WorkToMake>1800</WorkToMake></statBases>
     <costList><Cloth>18</Cloth><MedicineIndustrial>2</MedicineIndustrial></costList>

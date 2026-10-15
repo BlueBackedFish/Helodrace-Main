@@ -92,10 +92,38 @@ internal static class PartHemostasisTests
         Check(untreated.Count==6 && !untreated.Contains(parts[0]) && !untreated.Contains(parts[7]),
             "AI selection may omit already dressed parts without changing the six-part cap or player selection.");
         var duration=AccessTools.Method(typeof(JobDriver_MedibagTreatment),"TreatmentDuration");
-        var bag=new CompMedibag { props=new CompProperties_Medibag { treatmentTicks=180 } };
-        Check((int)duration.Invoke(new JobDriver_MedibagHemostasis(),new object[]{bag})==TcccRules.HemostasisTicks
+        var bag=new CompMedibag { props=new CompProperties_Medibag { treatmentTicks=180,
+            hemostasisPartCount=4 } };
+        Check(bag.HemostasisDuration(patient)==600
             && (int)duration.Invoke(new JobDriver_MedibagPlasmaTransfusion(),new object[]{bag})==180,
-            "Bag hemostasis shares thirty-second skill time without slowing plasma transfusion.");
+            "Four bleeding parts take ten seconds with the bag; plasma keeps its three-second time.");
+        Check(TcccRules.HemostasisDuration(0)==300 && TcccRules.HemostasisDuration(1)==300
+            && TcccRules.HemostasisDuration(3)==300 && TcccRules.HemostasisDuration(4)==600
+            && TcccRules.HemostasisDuration(5)==900 && TcccRules.HemostasisDuration(6)==1200
+            && TcccRules.HemostasisDuration(8)==1200,
+            "Hemostasis is five seconds through three parts, rising to twenty seconds at six.");
+        Check(TcccRules.HemostaticTicks==60 && TcccRules.DragAttachTicks==60,
+            "Hemostatic administration and casualty tether each take one second.");
+        var small=new CompMedicalPouch { props=new CompProperties_MedicalPouch { capacity=4 } };
+        var large=new CompMedicalPouch { props=new CompProperties_MedicalPouch { capacity=8, hemostaticCapacity=2 } };
+        AccessTools.Field(typeof(CompMedicalPouch),"charges").SetValue(small,4);
+        AccessTools.Field(typeof(CompMedicalPouch),"charges").SetValue(large,8);
+        AccessTools.Field(typeof(CompMedicalPouch),"hemostatic").SetValue(large,2);
+        Check(small.CanSpend(TcccTreatment.Hemostasis) && !small.CanSpend(TcccTreatment.Analgesic)
+            && !small.CanSpend(TcccTreatment.Hemostatic)
+            && large.CanSpend(TcccTreatment.Hemostasis) && large.CanSpend(TcccTreatment.Analgesic)
+            && large.CanSpend(TcccTreatment.Hemostatic),
+            "Small pouch permits basic care; large pouch also permits analgesic and loaded hemostatic care.");
+        Check(small.TrySpend(TcccTreatment.Hemostasis) && small.Charges==3
+            && large.TrySpend(TcccTreatment.Analgesic) && large.Charges==7
+            && large.TrySpend(TcccTreatment.Hemostatic) && large.Hemostatic==1 && large.Charges==7,
+            "Treatment charges and the separate hemostatic compartment decrease independently.");
+        Check(Math.Abs(TcccDrugs.ReducedAddictionChance(.30f)-.21f)<.000001f,
+            "Native analgesic addiction chance is reduced by thirty percent.");
+        Check(TcccDrugs.DrugNameForBreathing(.699f)=="BD_Ketamine"
+            && TcccDrugs.DrugNameForBreathing(.70f)=="BD_Fentanyl"
+            && TcccDrugs.DrugNameForBreathing(1f)=="BD_Fentanyl",
+            "Breathing below seventy percent selects ketamine; the boundary selects fentanyl.");
         var targets = Patch_PartHemostasis_Bleeding.TargetMethods().ToArray();
         Check(targets.Length==3 && targets.All(method=>method!=null) && targets.Distinct().Count()==3,
             "Real installed injury/missing-part/base bleeding getters bind independently.");

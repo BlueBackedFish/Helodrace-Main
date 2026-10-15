@@ -14,6 +14,4 @@
   <HD_TCCC_Mist.description>손상 기전, 부상, 징후와 처치를 정리한 MIST 후송 인계서입니다. 구조대와 의료진이 환자 상태를 빠르게 파악해 후송을 원활히 진행할 수 있습니다.</HD_TCCC_Mist.description>
   <HD_TCCC_Dragging.label>부상자 견인 중</HD_TCCC_Dragging.label>
   <HD_TCCC_Dragging.description>카라비너 연결끈으로 손을 비운 채 부상자를 끌고 있습니다. 부상자의 무게 때문에 이동과 다른 행동이 둔해집니다.</HD_TCCC_Dragging.description>
-  <HD_TCCC_Analgesia.label>적정량 진통 효과</HD_TCCC_Analgesia.label>
-  <HD_TCCC_Analgesia.description>Blanca's Drugs 진통제를 필요한 양만큼 투여했습니다. 해당 약물의 효과와 부작용이 투여량에 맞춰 적용됩니다.</HD_TCCC_Analgesia.description>
 </LanguageData>

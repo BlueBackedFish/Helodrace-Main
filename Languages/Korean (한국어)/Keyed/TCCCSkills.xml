@@ -2,23 +2,19 @@
 <LanguageData>
   <HD_Hemostasis_Reduction>이 부위의 출혈 감소: {0}</HD_Hemostasis_Reduction>
   <HD_TCCC_Menu>TCCC 전술 응급처치</HD_TCCC_Menu>
-  <HD_TCCC_MenuDesc>지혈: 자신 또는 다른 우호적 폰을 대상으로 30초간 처치합니다. 부위 종류 제한 없이 출혈이 큰 최대 6곳을 선택하며 20초부터 임시 압박으로 출혈량 70% 감소, 완료하면 12시간 동안 80% 감소합니다. 부위당 고통 5% 추가(최대 20%). 매딕가방 지혈도 30초이며 기존 주요 장기 제외·최대 4부위 제한을 유지합니다. 부상자 연결: 손을 비운 채 끌고 이동하지만 이동속도와 다른 행동이 느려집니다. 진통제: 필요한 양만 투여해 고통 10%를 목표로 완화합니다. 지혈제: 3초 투여 후 6시간 동안 전신 출혈량 70% 감소, 혈액순환 -10%, 의식 -5%. 부위 지혈과 함께 사용할 수 있습니다. MIST: 5초간 후송 인계서를 작성합니다.</HD_TCCC_MenuDesc>
-  <HD_TCCC_Hemostasis>지혈 (30초)</HD_TCCC_Hemostasis>
+  <HD_TCCC_MenuDesc>지혈은 방탄복에 장착한 소형 또는 대형 의료 파우치의 일반 충전량 1칸을 사용합니다. 출혈 부위 3곳까지 5초, 4곳 10초, 5곳 15초, 6곳 20초가 걸립니다. 작업 시간의 3분의 2가 지나면 임시 압박을 시작하고 완료하면 12시간 동안 부위 출혈량을 80% 줄입니다. 부상자 연결은 1초이며 일반 충전량 1칸을 사용합니다. 진통제 투여는 대형 파우치의 일반 충전량 1칸을 사용하며, 호흡 능력 70% 미만이면 케타민, 이상이면 펜타닐 정량 1회를 자동 투여합니다. 중독 확률은 30% 감소합니다. 지혈제 투여는 대형 파우치에 별도로 적재한 지혈제 1개를 1초에 사용합니다. MIST는 5초이며 일반 충전량 1칸을 사용합니다.</HD_TCCC_MenuDesc>
+  <HD_TCCC_Hemostasis>지혈 (5~20초)</HD_TCCC_Hemostasis>
   <HD_TCCC_AttachDrag>부상자 이동 — 카라비너 연결</HD_TCCC_AttachDrag>
-  <HD_TCCC_Analgesic>진통제 적정량 투여</HD_TCCC_Analgesic>
-  <HD_TCCC_Hemostatic>지혈제 투여 (3초)</HD_TCCC_Hemostatic>
+  <HD_TCCC_Analgesic>진통제 투여</HD_TCCC_Analgesic>
+  <HD_TCCC_Hemostatic>지혈제 투여 (1초)</HD_TCCC_Hemostatic>
   <HD_TCCC_Mist>MIST 인계서 작성 (5초)</HD_TCCC_Mist>
   <HD_TCCC_Detach>부상자 연결 해제</HD_TCCC_Detach>
   <HD_TCCC_Remaining>남은 시간: {0}</HD_TCCC_Remaining>
   <HD_TCCC_NoBleeding>대상이 출혈 중이 아닙니다.</HD_TCCC_NoBleeding>
   <HD_TCCC_NoPain>현재 고통 수치에는 추가 진통제가 필요하지 않습니다.</HD_TCCC_NoPain>
-  <HD_TCCC_NoAnalgesic>사용 가능한 Blanca's Drugs 진통제가 없습니다. 모르핀·펜타닐·케타민·아편팅크를 소지하거나 접근 가능한 곳에 두세요. 해당 약물 모듈이 활성화되어 있어야 합니다.</HD_TCCC_NoAnalgesic>
-  <HD_TCCC_NoHemostatic>사용 가능한 지혈제가 없습니다. 약품 연구대에서 제작하거나 소지품에 준비하세요.</HD_TCCC_NoHemostatic>
+  <HD_TCCC_NoAnalgesic>Blanca's Drugs의 펜타닐 또는 케타민을 사용할 수 없습니다. 해당 모드가 활성화되어 있어야 합니다.</HD_TCCC_NoAnalgesic>
   <HD_TCCC_CannotDrag>인접한 쓰러진 부상자만 연결할 수 있으며, 다른 구조자와 중복 연결할 수 없습니다.</HD_TCCC_CannotDrag>
-  <HD_TCCC_AnalgesicActive>이미 진통 효과가 적용 중입니다. 효과가 끝난 뒤 적정량을 다시 투여하세요.</HD_TCCC_AnalgesicActive>
-  <HD_TCCC_DoseRemaining>약물 잔량: {0}</HD_TCCC_DoseRemaining>
-  <HD_TCCC_DoseEffect>투여량: 정량의 {0}\n고통 감소량: {1}</HD_TCCC_DoseEffect>
-  <HD_TCCC_DoseGiven>{0}에게 {1} 정량의 {2}를 투여했습니다.</HD_TCCC_DoseGiven>
+  <HD_TCCC_DoseGiven>{0}에게 {1} 정량 1회를 투여했습니다.</HD_TCCC_DoseGiven>
   <HD_TCCC_MistReport>MIST — {0}\nM / 손상 기전: {1}\nI / 손상 부위: {2}\nS / 징후: 출혈 {3}, 고통 {4}, {5}\nT / 처치 및 현재 상태: {6}</HD_TCCC_MistReport>
   <HD_TCCC_Downed>보행 불가</HD_TCCC_Downed>
   <HD_TCCC_Mobile>보행 가능</HD_TCCC_Mobile>
