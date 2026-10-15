@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using Verse.AI;
 using Helodrace;
+using Helodrace.ModernWar;
 using Helodrace.Tactics;
 using Verse;
 
@@ -41,6 +42,7 @@ internal static class TacticalFieldModeTests
         Check(comp.CanSwitchMode && comp.TrySetMode(true) && comp.TrySetMode(true),"Equipped capable shooters switch immediately.");
         Check(comp.altModeActive,"Repeated desired ON is idempotent.");
         Check(comp.SelectedVerb==alternate,"Immediate selection uses the alternate verb.");
+        CheckAuxiliaryFire(pawn,comp,eq,normal,alternate,Check);
         var cooldown=(Stance_Cooldown)RuntimeHelpers.GetUninitializedObject(typeof(Stance_Cooldown));
         cooldown.ticksLeft=90; cooldown.verb=alternate; pawn.stances.curStance=cooldown;
         Check(!comp.PerformSwitch() && comp.altModeActive,"Actual native cooldown blocks mode switching without consuming its timer.");
@@ -98,6 +100,46 @@ internal static class TacticalFieldModeTests
         Check(hooks.Length==2 && hooks.All(m=>m.GetParameters().Length==5 || m.GetParameters().Length==6),"Both native cast overloads, including mobile-fire shortcuts, are gated.");
         Console.WriteLine("PASS: " + checks + " field approach and defensive desired-mode checks.");
     }
+    private static void CheckAuxiliaryFire(Pawn pawn,CompSharpshooterWeapon comp,CompEquippable eq,
+        Verb normal,Verb alternate,Action<bool,string> check)
+    {
+        // Auxiliary verbs can also have isPrimary=true by default. Only the first
+        // primary and the configured mode verb belong to the rifle's mode switch.
+        var grenade=new Verb_ShootModularUnderbarrel { verbProps=new VerbProperties { isPrimary=true },caster=pawn,verbTracker=eq.verbTracker };
+        var auxiliary=new Verb_Shoot { verbProps=new VerbProperties { isPrimary=true },caster=pawn,verbTracker=eq.verbTracker };
+        eq.AllVerbs.Add(grenade); eq.AllVerbs.Add(auxiliary);
+        try
+        {
+            check(comp.IsModeVerb(normal) && comp.IsModeVerb(alternate)
+                && !comp.IsModeVerb(grenade) && !comp.IsModeVerb(auxiliary),
+                "Mode selection owns only the rifle verbs, including when an auxiliary verb is marked primary.");
+            foreach(bool alt in new[]{false,true})
+            {
+                comp.altModeActive=alt;
+                foreach(Verb verb in new Verb[]{grenade,auxiliary})
+                {
+                    bool result=false;
+                    check(Patch_SharpshooterCurrentVerbShortCast.Prefix(verb,default,false,false,false,false,ref result) && !result,
+                        "The short cast overload must preserve auxiliary fire in both rifle modes.");
+                    check(Patch_SharpshooterCurrentVerbCast.Prefix(verb,default,default,false,false,false,false,ref result) && !result,
+                        "The destination cast overload must preserve auxiliary fire in both rifle modes.");
+                }
+            }
+            var warmup=(Stance_Warmup)RuntimeHelpers.GetUninitializedObject(typeof(Stance_Warmup));
+            warmup.verb=grenade; warmup.ticksLeft=90; pawn.stances.curStance=warmup;
+            check(comp.PerformSwitch() && pawn.stances.curStance==warmup && warmup.ticksLeft==90,
+                "Switching rifle modes must preserve the underbarrel launcher's ongoing aim.");
+            var doubleTap=new CompCEDoubleTapWeapon { parent=comp.parent,
+                props=new CompProperties_CEDoubleTapWeapon { normalVerbIndex=0,doubleTapVerbIndex=1 } };
+            check(doubleTap.IsModeVerb(normal) && doubleTap.IsModeVerb(alternate) && !doubleTap.IsModeVerb(grenade),
+                "CE double-tap mode selection also excludes the independent grenade launcher.");
+        }
+        finally
+        {
+            eq.AllVerbs.Remove(grenade); eq.AllVerbs.Remove(auxiliary);
+            comp.altModeActive=true; pawn.stances.curStance=new Stance_Mobile();
+        }
+    }
     private static void CheckPreparedFire(Pawn pawn,CompSharpshooterWeapon comp,Verb normal,Verb alternate,Action<bool,string> check)
     {
         Game old=Current.Game;
@@ -117,6 +159,13 @@ internal static class TacticalFieldModeTests
             result=true;
             check(!Patch_SharpshooterPreparationCast.Prefix(alternate,ref result) && !result,
                 "The alternate cast cannot start its warmup before stationary setup.");
+            var grenade=new Verb_ShootModularUnderbarrel { verbProps=new VerbProperties(),caster=pawn,verbTracker=normal.verbTracker };
+            result=true;
+            check(Patch_SharpshooterPreparationCast.Prefix(grenade,ref result) && result,
+                "Rifle stationary preparation must not block the independent underbarrel launcher.");
+            AccessTools.Field(typeof(Verb),"burstShotsLeft").SetValue(grenade,1);
+            Patch_SharpshooterBurstPreparation.Postfix(grenade,ref result);
+            check(result,"Rifle stationary preparation must not cancel an auxiliary shot already in progress.");
             tickField.SetValue(game.tickManager,219);
             check(!comp.ReadyToFire,"Actual equipped mode waits through the final preparation tick.");
             tickField.SetValue(game.tickManager,220);

@@ -102,6 +102,19 @@ namespace Helodrace
                 return null;
             }
         }
+        // Auxiliary weapons on the same equipment keep their own firing verb.
+        public bool IsModeVerb(Verb verb)
+        {
+            if (verb == null || verb.IsMeleeAttack) return false;
+            var doubleTap = parent.TryGetComp<CompCEDoubleTapWeapon>();
+            if (doubleTap != null) return doubleTap.IsModeVerb(verb);
+            if (verb == AltVerb) return true;
+            var eq = parent.GetComp<CompEquippable>();
+            if (eq != null)
+                foreach (Verb candidate in eq.AllVerbs)
+                    if (candidate.verbProps.isPrimary) return verb == candidate;
+            return false;
+        }
         private bool CycleBusy(Pawn pawn)
         {
             bool bursting = false;
@@ -129,7 +142,7 @@ namespace Helodrace
         }
         private void CancelWeaponWarmup(Pawn pawn)
         {
-            if (pawn?.stances?.curStance is Stance_Warmup warmup && warmup.verb?.EquipmentSource == parent)
+            if (pawn?.stances?.curStance is Stance_Warmup warmup && IsModeVerb(warmup.verb))
             {
                 pawn.stances.CancelBusyStanceSoft();
                 warmup.verb.Reset();
@@ -499,6 +512,8 @@ namespace Helodrace
         public Verb CurrentVerb => DoubleTapActive ? DoubleTapVerb ?? NormalVerb : NormalVerb ?? DoubleTapVerb;
 
         public Verb ModeVerb => DoubleTapVerb;
+
+        public bool IsModeVerb(Verb verb) => verb != null && (verb == NormalVerb || verb == DoubleTapVerb);
 
         private bool DoubleTapActive
         {

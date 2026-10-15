@@ -42,7 +42,7 @@ namespace Helodrace
         {
             if (__instance.IsMeleeAttack) return true;
             var comp = __instance.EquipmentSource?.TryGetComp<CompSharpshooterWeapon>();
-            if (comp == null || comp.ReadyToFire) return true;
+            if (comp == null || !comp.IsModeVerb(__instance) || comp.ReadyToFire) return true;
             __result = false; return false;
         }
     }
@@ -56,7 +56,7 @@ namespace Helodrace
         {
             if (__instance.IsMeleeAttack) return true;
             var comp = __instance.EquipmentSource?.TryGetComp<CompSharpshooterWeapon>();
-            if (comp == null || !comp.CanUseSharpshooterMode) return true;
+            if (comp == null || !comp.IsModeVerb(__instance) || !comp.CanUseSharpshooterMode) return true;
             if (!comp.ReadyToFire) { __result = false; return false; }
             Verb selected = comp.SelectedVerb;
             if (selected == null || selected == __instance) return true;
@@ -77,7 +77,7 @@ namespace Helodrace
         {
             if (__instance.IsMeleeAttack) return true;
             var comp=__instance.EquipmentSource?.TryGetComp<CompSharpshooterWeapon>();
-            if(comp==null || !comp.CanUseSharpshooterMode) return true;
+            if(comp==null || !comp.IsModeVerb(__instance) || !comp.CanUseSharpshooterMode) return true;
             if(!comp.ReadyToFire) { __result=false; return false; }
             Verb selected=comp.SelectedVerb;
             if(selected==null || selected==__instance) return true;
@@ -92,8 +92,9 @@ namespace Helodrace
         {
             // The native failed-burst path preserves the final weapon cooldown
             // and callbacks. Outside bursts leave AI weapon discovery intact.
-            if (__result && __instance.Bursting && !__instance.IsMeleeAttack
-                && __instance.EquipmentSource?.TryGetComp<CompSharpshooterWeapon>()?.ReadyToFire == false) __result=false;
+            if (!__result || !__instance.Bursting || __instance.IsMeleeAttack) return;
+            var comp = __instance.EquipmentSource?.TryGetComp<CompSharpshooterWeapon>();
+            if (comp != null && comp.IsModeVerb(__instance) && !comp.ReadyToFire) __result=false;
         }
     }
 }
