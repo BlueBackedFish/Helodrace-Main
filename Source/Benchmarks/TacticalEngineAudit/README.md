@@ -1,4 +1,14 @@
-# 전술 엔진 대조 실행 — R1/R2
+# 수동 기능 테스트 준비
+
+현재 사용자가 진행할 약식 검사는 [12개 실행 묶음](../../../Docs/전술/습격%20기능%20약식%20테스트%20목록.md)을 따른다. 아래 R1~R7 성능 대조 절차는 과거 진단 도구 설명이며 현재 기능 테스트의 필수 절차가 아니다.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File Source/Benchmarks/TacticalEngineAudit/Prepare-ManualRaidTests.ps1 -SaveFile "$env:USERPROFILE/AppData/LocalLow/Ludeon Studios/RimWorld by Ludeon Studios/Saves/외부인들2.rws" -OutputRoot 'C:/Users/Public/Documents/ESTsoft/CreatorTemp/manual-raid-tests-new'
+```
+
+새 폴더에 원본과 같은 `Base.rws`/`Autostart.rws`, 저장 당시 모드 목록, 개발자 설정, 수동 실행기, 원본·DLL·핵심 정의 해시를 만든다. 기본은 게임을 열지 않는다. 준비한 `Start-TestGame.ps1`을 실행하면 별도 저장 경로로 게임이 열리며, 기존 게임이 있으면 종료하지 않고 실행을 거절한다. 분대와 적은 사용자가 B01부터 생성한다. 프로파일러·강제 배속·무적·자동 종료를 사용하는 `Run-SavedMapAudit.ps1`과 구분한다. 파일이 있는 출력 폴더는 재사용하지 않는다.
+
+# 과거 전술 엔진 대조 실행 — R1/R2
 
 같은 DLL/콘텐츠에서 `vanilla`, `legacy`, `new`를 선택한다. 기본 플레이는 `legacy`이고 선택은 프로세스 시작 시 고정한다. 현재 `new`는 R2의 분대 지휘·지속 작업·연결 스택·해머 돌파·필수 개구부 통과를 실행한다. R1의 `vanilla-fallback` 기록은 새 AI 합격 증거가 아니다.
 
