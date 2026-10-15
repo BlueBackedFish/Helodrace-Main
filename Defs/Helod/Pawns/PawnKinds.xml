@@ -481,7 +481,6 @@
 						<weaponPreset>HD_WeaponPreset_ModularM16A4_Default</weaponPreset>
 						<armorPresets>
 							<li>HD_ArmorPreset_IBTV_Rifleman</li>
-							<li>HD_ArmorPreset_FASTMT_GPNVG18</li>
 						</armorPresets>
 					</li>
 				</loadouts>

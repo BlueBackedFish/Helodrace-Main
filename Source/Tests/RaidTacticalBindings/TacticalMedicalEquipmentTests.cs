@@ -38,6 +38,12 @@ internal static class TacticalMedicalEquipmentTests
         var rifle = new RoleDef { combatFunction = "Rifle" };
         var automatic = new RoleDef { combatFunction = "HAR" };
         var command = new RoleDef { isCommandRole = true };
+        var eligible=new RoleAssignment {pawn=new Pawn(),combatRole=rifle};
+        Check(OrganizationMedical.AdvancedSlot(eligible),"An ordinary rifle billet may take advanced TCCC duty.");
+        eligible.combatRole=automatic;
+        Check(!OrganizationMedical.AdvancedSlot(eligible),"Automatic riflemen must retain their fire role instead of advanced medic duty.");
+        eligible.combatRole=rifle; eligible.commandRole=command;
+        Check(!OrganizationMedical.AdvancedSlot(eligible),"Command billets must not become the per-team advanced medic.");
         var squad = new CombatGroup();
         squad.roleAssignments.Add(new RoleAssignment { combatRole = rifle, commandRole = command });
         for (int team = 0; team < 3; team++)
