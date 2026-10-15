@@ -171,7 +171,8 @@ namespace Helodrace.Tactical
         public static void RegisterShot(Projectile projectile, Thing launcher, LocalTargetInfo intendedTarget)
         {
             Pawn shooter = launcher as Pawn;
-            Verb verb = shooter?.equipment?.Primary?.GetComp<CompEquippable>()?.PrimaryVerb;
+            Verb verb = (projectile is Projectile_ShotgunPellet ? ShotgunSpreadContext.Launching?.verb : null)
+                ?? shooter?.equipment?.Primary?.GetComp<CompEquippable>()?.PrimaryVerb;
             if (verb == null || !TryGetRequestedPart(shooter, intendedTarget, verb, out BodyPartRecord part))
             {
                 return;
@@ -180,6 +181,15 @@ namespace Helodrace.Tactical
             Pawn target = intendedTarget.Thing as Pawn;
             if (target == null)
             {
+                return;
+            }
+
+            if (projectile is Projectile_ShotgunPellet pellet && pellet.Shell != null)
+            {
+                // Preserve the physical pattern and per-pellet armor checks.
+                // Precision selects the shell's centre, not an exact part for
+                // every pellet in only some of the native collision paths.
+                pellet.Shell.TrySetAimCentre(target, part);
                 return;
             }
 
@@ -210,7 +220,7 @@ namespace Helodrace.Tactical
             ShotState state = impact;
             if (state == null || victim == null || state.target != victim
                 || dinfo.Instigator != state.shooter
-                || state.part == null)
+                || state.part == null || ShotgunSpreadContext.Impact?.pawn == victim)
             {
                 return;
             }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_TacticalPrecisionFire_Command>정확한 사격</HD_TacticalPrecisionFire_Command>
-  <HD_TacticalPrecisionFire_CommandDesc>조준 중 우선 노릴 신체 부위를 선택합니다. 현재 선택: {0}.</HD_TacticalPrecisionFire_CommandDesc>
+  <HD_TacticalPrecisionFire_CommandDesc>조준 중 우선 노릴 신체 부위를 선택합니다. 산탄은 선택 부위를 중심으로 분산됩니다. 현재 선택: {0}.</HD_TacticalPrecisionFire_CommandDesc>
   <HD_TacticalPrecisionFire_Head>머리</HD_TacticalPrecisionFire_Head>
   <HD_TacticalPrecisionFire_Chest>흉부</HD_TacticalPrecisionFire_Chest>
   <HD_TacticalPrecisionFire_Arm>팔</HD_TacticalPrecisionFire_Arm>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <HD_TacticalPrecisionFire_Command>Precision fire</HD_TacticalPrecisionFire_Command>
-  <HD_TacticalPrecisionFire_CommandDesc>Choose a body part to prioritize while aiming. Current selection: {0}.</HD_TacticalPrecisionFire_CommandDesc>
+  <HD_TacticalPrecisionFire_CommandDesc>Choose a body part to prioritize while aiming. Shotgun pellets spread around the selected part. Current selection: {0}.</HD_TacticalPrecisionFire_CommandDesc>
   <HD_TacticalPrecisionFire_Head>Head</HD_TacticalPrecisionFire_Head>
   <HD_TacticalPrecisionFire_Chest>Chest</HD_TacticalPrecisionFire_Chest>
   <HD_TacticalPrecisionFire_Arm>Arm</HD_TacticalPrecisionFire_Arm>

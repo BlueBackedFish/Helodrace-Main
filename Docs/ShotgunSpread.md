@@ -148,3 +148,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File Source/Tests/ShotgunSpre
 결과는 각 실행 폴더의 `SaveData/shotgun-impact-audit.txt`에 저장한다. 각 조건의 평균 실제 충돌 수 4.5발 이상·피해 발생 4발 이상을 확인한다. 별도의 좌표 교체용 비교 패치와 `-PhysicalPosition` 옵션은 제거했다. 일반 통합 검사는 총상 흔들림을 두 번 발생시켜도 명중 후보가 유지되는지 확인하고, 발사 뒤 사선에 벽을 세워 후속 충돌 검사가 벽을 관통하지 않는지도 검사한다. 검증 구성 요소만 `SHOTGUN_TESTS` 빌드에 포함되며, 실제 수정은 배포 DLL에 적용한다.
 
 최종 검증: 독립 실행 검사 361개, 실제 게임 통합 검사 82개, 8개 조건의 실제 비행·피해 검사 64회 통과. 피해 총량 검사는 생성된 폰의 실제 피격 피해 배율을 반영한다. 한국어·영어 설명 및 XML 키 일치, 배포 DLL의 진단 코드 제외도 확인했다.
+
+## CQB 정확한 사격 연동
+
+정확한 사격의 선택 부위를 발사 시점에 공통 피격 중심으로 지정한다. 기존에는 일반 투사체의 충돌 함수 안에서만 피해 부위를 강제해, 산탄의 직접 충돌 경로에서는 선택이 적용되지 않았다. 이제 첫 산탄의 발사 등록에서 공유 중심을 설정하므로 실제 충돌 경로와 관계없이 같은 선택을 사용한다. 이후 탄의 등록이나 비행 중 선택 변경은 이미 발사한 중심을 바꾸지 않는다. 중심은 기존 산탄 저장 데이터에 함께 저장된다.
+
+머리·흉부·팔·다리를 선택해도 모든 탄을 그 부위에 고정하지 않는다. 거리·산포·신체 연결 구조에 따른 주변 부위 분산, 탄별 방어구와 내부 관통 판정을 유지한다. 내부 부위를 지정한 경우 해당 부위를 감싸는 체표를 중심으로 삼고, 없는 부위는 지정하지 않는다. CQB 훈련, 정지 조준, 집중 사격각 조건과 기존 부위별 조준시간 배율을 유지한다. 일반 탄환은 기존 부위 지정 방식을 사용한다.
+
+독립 실행 검사 366개를 통과했다. 인간·Helod 각각의 네 가지 선택 부위로 실제 게임에서 8회 발사해 발사 등록, 공통 중심, 실제 충돌·피해, 비행 중 선택 변경, 일반 투사체 부위 지정, 미훈련·미조준·사격각 밖 조건, 조준시간 배율 등 96개 검사를 통과했다. 한국어·영어 스킬 설명에도 산탄의 동작을 표시한다.
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File Source/Tests/ShotgunSpread/Run-InGameChecks.ps1 -RuntimeRoot C:/Users/human/Documents/GitHub/Helodrace-Main/.codex-staging/ShotgunPrecisionValidation -PrecisionAudit
+```
+
+결과는 실행 폴더의 `SaveData/shotgun-results.txt`에 기록한다. 검증 구성 요소는 `SHOTGUN_TESTS` 빌드에만 포함된다.

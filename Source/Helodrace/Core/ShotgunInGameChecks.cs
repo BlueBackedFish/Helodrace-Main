@@ -34,6 +34,11 @@ namespace Helodrace
         public override void GameComponentTick()
         {
             if (finished || Find.CurrentMap == null || Find.TickManager.TicksGame < waitUntil) return;
+            if (GenCommandLine.TryGetCommandLineArg("hdShotgunPrecisionAudit", out _))
+            {
+                TickPrecisionAudit();
+                return;
+            }
             if (GenCommandLine.TryGetCommandLineArg("hdShotgunImpactAudit", out _))
             {
                 TickImpactAudit();

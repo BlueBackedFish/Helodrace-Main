@@ -78,6 +78,19 @@ namespace Helodrace
             return target.centre;
         }
 
+        internal bool TrySetAimCentre(Pawn pawn, BodyPartRecord part)
+        {
+            // Only the first pellet's launch may set the shell's aim. Later
+            // pellets and in-flight selection changes reuse that same centre.
+            if (projectiles.Count != 0 || part == null) return false;
+            BodyPartRecord surface = ShotgunBodyProfile.For(pawn.RaceProps.body).Owner(part)?.part;
+            if (!ShotgunBallistics.IsPresent(pawn, surface)) return false;
+            ShotgunTarget target = targets.Find(value => value.pawn == pawn);
+            if (target == null) targets.Add(new ShotgunTarget { pawn = pawn, centre = surface });
+            else target.centre = surface;
+            return true;
+        }
+
         public void ExposeData()
         {
             Scribe_Values.Look(ref id, "id");

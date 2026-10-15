@@ -204,6 +204,15 @@ internal static class Program
         for (int i = 0; i < 30; i++) internalSeen.Add(profile.ChooseInternal(pawn, torso, damage.Def));
         Check(internalSeen.SetEquals(new[] { heart }), "Torso penetration must not jump into the head or wings.");
         Check(profile.ChooseInternal(pawn, wing, damage.Def) == null, "Species without an organ in that surface must keep surface-only damage.");
+        var aimed = new ShotgunShell();
+        aimed.CentreFor(pawn, damage.Def);
+        Check(aimed.TrySetAimCentre(pawn, wing) && aimed.CentreFor(pawn, damage.Def) == wing,
+            "Precision must replace the random shell centre with the selected custom surface.");
+        Check(aimed.TrySetAimCentre(pawn, brain) && aimed.CentreFor(pawn, damage.Def) == head,
+            "An internal requested part must map to its enclosing body surface.");
+        aimed.projectiles.Add(Bare<Projectile_ShotgunPellet>());
+        Check(!aimed.TrySetAimCentre(pawn, torso) && aimed.CentreFor(pawn, damage.Def) == head,
+            "Later pellets or in-flight selection changes must not retarget a launched shell.");
         Near(ShotgunBodyProfile.Distance(profile.Owner(wing), profile.Owner(tail)), ShotgunBodyProfile.Distance(profile.Owner(tail), profile.Owner(wing)), "Anatomical proximity must be symmetric.");
         torso.coverageAbs -= 0.05f;
         Part(body, "SecondPump", 0.05f, torso, true);
@@ -216,6 +225,7 @@ internal static class Program
         var wrapped = new ShotgunBodyProfile(body);
         Near(ShotgunBodyProfile.Distance(wrapped.Owner(wing), wrapped.Owner(tail)), ShotgunBodyProfile.Distance(profile.Owner(wing), profile.Owner(tail)), "Zero-area structural wrappers must not alter spread distance.");
         pawn.health.hediffSet.hediffs.Add(new Hediff_MissingPart { pawn = pawn, Part = wing });
+        Check(!new ShotgunShell().TrySetAimCentre(pawn, wing), "Precision must not target a missing surface.");
         Check(profile.ChooseSurface(pawn, wing, damage, 0f) == null, "Lost limbs must not redirect tightly grouped pellets.");
         Check(profile.ChooseSurface(pawn, wing, damage, 0.01f) == null, "Near-zero spread must not jump to a distant intact limb.");
         var malformed = new BodyDef();
@@ -242,7 +252,8 @@ internal static class Program
     private static void RoundTrip()
     {
         var body = new BodyDef { defName = "ShotgunPersistenceBody" };
-        var part = Part(body, "Surface", 1f);
+        var part = Part(body, "Surface", 0.7f);
+        var selected = Part(body, "SelectedSurface", 0.3f, part);
         DefDatabase<BodyDef>.Add(body);
         var pawn = Pawn(body);
         pawn.thingIDNumber = 111;
@@ -254,6 +265,7 @@ internal static class Program
         second.thingIDNumber = 113;
         var shell = new ShotgunShell { id = 112, origin = Vector3.zero, targetPoint = new Vector3(0f, 0f, 15f), aimError = new Vector2(0.1f, 0.2f) };
         shell.CentreFor(pawn, new DamageDef());
+        Check(shell.TrySetAimCentre(pawn, selected), "The saved fixture must have an explicitly selected aim centre.");
         var tracker = new MapComponent_ShotgunShells(null);
         tracker.Register(first, shell);
         tracker.Register(second, shell);
@@ -283,7 +295,7 @@ internal static class Program
             Scribe.loader.FinalizeLoading();
             ShotgunShell loaded = tracker.ShellFor(first);
             Check(loaded != shell && loaded == tracker.ShellFor(second), "Loaded pellets must share one restored shell.");
-            Check(loaded.id == shell.id && loaded.aimError == shell.aimError && loaded.CentreFor(pawn, new DamageDef()) == part, "Save/load must retain common aim and the preselected body centre.");
+            Check(loaded.id == shell.id && loaded.aimError == shell.aimError && loaded.CentreFor(pawn, new DamageDef()) == selected, "Save/load must retain common aim and the explicitly selected body centre.");
             Check(ledger.For(injury).shellId == shell.id && ledger.For(injury).pelletCount == 2, "Wound provenance and pellet counts must survive save/load.");
         }
         finally { Scribe.ForceStop(); if (File.Exists(path)) File.Delete(path); }
