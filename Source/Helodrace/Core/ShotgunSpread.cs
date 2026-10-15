@@ -1,116 +1,88 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
-using RimWorld;
-using UnityEngine;
 using Verse;
+using UnityEngine;
 
 namespace Helodrace
 {
-    internal static class ShotgunSpreadRules
-    {
-        internal static IEnumerable<BodyPartRecord> Candidates(BodyPartRecord hitPart, int spreadFactor)
-        {
-            if (hitPart == null) yield break;
-            yield return hitPart;
-            BodyPartRecord current = hitPart;
-            for (int level = 0; level < spreadFactor; level++)
-            {
-                BodyPartRecord parent = current.parent;
-                // The core has no parent: use its own children at the first level.
-                if (parent == null)
-                {
-                    if (level == 0)
-                        foreach (BodyPartRecord child in current.parts) yield return child;
-                    yield break;
-                }
-                // Exactly one downward link from this parent, never a recursive
-                // walk through its children. Spread 1 therefore hits siblings.
-                foreach (BodyPartRecord child in parent.parts)
-                    if (child != hitPart) yield return child;
-                current = parent;
-            }
-        }
-
-        internal static bool IsPresent(Pawn pawn, BodyPartRecord part)
-        {
-            for (BodyPartRecord current = part; current != null; current = current.parent)
-                if (pawn.health.hediffSet.PartIsMissing(current)) return false;
-            return true;
-        }
-
-        internal static BodyPartRecord Choose(Pawn pawn, BodyPartRecord anchor, int spreadFactor, DamageInfo damage)
-        {
-            List<BodyPartRecord> candidates = Candidates(anchor, spreadFactor)
-                .Where(part => IsPresent(pawn, part) && part.coverageAbs > 0f
-                    && (damage.Depth == BodyPartDepth.Undefined || part.depth == damage.Depth))
-                .ToList();
-            List<BodyPartRecord> atHeight = candidates
-                .Where(part => damage.Height == BodyPartHeight.Undefined || part.height == damage.Height).ToList();
-            if (atHeight.Count > 0) candidates = atHeight;
-            if (candidates.TryRandomElementByWeight(
-                part => part.coverageAbs * part.def.GetHitChanceFactorFor(damage.Def), out BodyPartRecord result))
-                return result;
-            candidates.TryRandomElementByWeight(part => part.coverageAbs, out result);
-            // An exhausted region must not fall back to an unrelated body part.
-            return result;
-        }
-    }
-
-    public sealed class ShotgunHitAnchor : IExposable
+    public sealed class ShotgunTarget : IExposable
     {
         public Pawn pawn;
-        public BodyPartRecord part;
-
+        public BodyPartRecord centre;
         public void ExposeData()
         {
             Scribe_References.Look(ref pawn, "pawn");
-            Scribe_BodyParts.Look(ref part, "part");
+            Scribe_BodyParts.Look(ref centre, "centre");
         }
     }
 
     public sealed class ShotgunShell : IExposable
     {
-        public int spreadFactor = 1;
+        public int id;
+        public Vector3 origin;
+        public Vector3 targetPoint;
+        public Vector2 aimError;
         public List<Projectile> projectiles = new List<Projectile>();
-        private List<ShotgunHitAnchor> anchors = new List<ShotgunHitAnchor>();
+        private List<ShotgunTarget> targets = new List<ShotgunTarget>();
 
-        public ShotgunShell() { }
-        public ShotgunShell(int spreadFactor) { this.spreadFactor = Math.Max(0, spreadFactor); }
-
-        internal ShotgunHitAnchor AnchorFor(Pawn pawn) => anchors.Find(anchor => anchor.pawn == pawn);
-
-        internal void Remember(Pawn pawn, BodyPartRecord part)
+        internal Vector3 Forward
         {
-            if (part != null && AnchorFor(pawn) == null)
-                anchors.Add(new ShotgunHitAnchor { pawn = pawn, part = part });
+            get
+            {
+                Vector3 delta = targetPoint - origin;
+                delta.y = 0f;
+                return delta.sqrMagnitude > 0.001f ? delta.normalized : new Vector3(0f, 0f, 1f);
+            }
+        }
+        internal Vector3 Right => new Vector3(Forward.z, 0f, -Forward.x);
+        internal float AimDistance => Math.Max(0.1f, (targetPoint - origin).MagnitudeHorizontal());
+        internal float DistanceTo(Vector3 point) => Math.Max(0f, Vector3.Dot(point - origin, Forward));
+        internal Vector2 OffsetAt(Vector3 point, Vector2 slope)
+        {
+            float distance = DistanceTo(point);
+            Vector2 offset = aimError * (distance / AimDistance) + slope * distance;
+            offset.x -= Vector3.Dot(point - origin, Right);
+            return offset;
+        }
+
+        internal BodyPartRecord CentreFor(Pawn pawn, DamageDef damage)
+        {
+            ShotgunTarget target = targets.Find(value => value.pawn == pawn);
+            if (target == null)
+            {
+                target = new ShotgunTarget { pawn = pawn, centre = ShotgunBodyProfile.For(pawn.RaceProps.body).Centre(pawn, damage)?.part };
+                targets.Add(target);
+            }
+            return target.centre;
         }
 
         public void ExposeData()
         {
-            Scribe_Values.Look(ref spreadFactor, "spreadFactor", 1);
+            Scribe_Values.Look(ref id, "id");
+            Scribe_Values.Look(ref origin.x, "originX");
+            Scribe_Values.Look(ref origin.y, "originY");
+            Scribe_Values.Look(ref origin.z, "originZ");
+            Scribe_Values.Look(ref targetPoint.x, "targetX");
+            Scribe_Values.Look(ref targetPoint.y, "targetY");
+            Scribe_Values.Look(ref targetPoint.z, "targetZ");
+            Scribe_Values.Look(ref aimError.x, "aimX");
+            Scribe_Values.Look(ref aimError.y, "aimY");
             Scribe_Collections.Look(ref projectiles, "projectiles", LookMode.Reference);
-            Scribe_Collections.Look(ref anchors, "anchors", LookMode.Deep);
+            Scribe_Collections.Look(ref targets, "targets", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 projectiles = projectiles ?? new List<Projectile>();
-                anchors = anchors ?? new List<ShotgunHitAnchor>();
-                anchors.RemoveAll(anchor => anchor?.pawn == null || anchor.part == null);
-                spreadFactor = Math.Max(0, spreadFactor);
+                targets = targets ?? new List<ShotgunTarget>();
+                targets.RemoveAll(target => target?.pawn == null);
             }
         }
     }
 
-    // Own the shared shell once so that in-flight pellets retain their common
-    // anchors after save/load, including pellets that strike different pawns.
     public sealed class MapComponent_ShotgunShells : MapComponent
     {
         private List<ShotgunShell> shells = new List<ShotgunShell>();
         private readonly Dictionary<Projectile, ShotgunShell> byProjectile = new Dictionary<Projectile, ShotgunShell>();
-
         public MapComponent_ShotgunShells(Map map) : base(map) { }
-
         internal void Register(Projectile projectile, ShotgunShell shell)
         {
             if (byProjectile.ContainsKey(projectile)) return;
@@ -118,10 +90,7 @@ namespace Helodrace
             shell.projectiles.Add(projectile);
             byProjectile.Add(projectile, shell);
         }
-
-        internal ShotgunShell ShellFor(Projectile projectile) =>
-            byProjectile.TryGetValue(projectile, out ShotgunShell shell) ? shell : null;
-
+        internal ShotgunShell ShellFor(Projectile projectile) => byProjectile.TryGetValue(projectile, out ShotgunShell shell) ? shell : null;
         private void Prune()
         {
             foreach (ShotgunShell shell in shells)
@@ -133,95 +102,42 @@ namespace Helodrace
                 });
             shells.RemoveAll(shell => shell.projectiles.Count == 0);
         }
-
         public override void MapComponentTick()
         {
-            if (Find.TickManager.TicksGame % 60 == 0 && shells.Count > 0) Prune();
+            if (shells.Count > 0 && Find.TickManager.TicksGame % 60 == 0) Prune();
         }
-
         public override void ExposeData()
         {
             base.ExposeData();
             if (Scribe.mode == LoadSaveMode.Saving) Prune();
             Scribe_Collections.Look(ref shells, "shotgunShells", LookMode.Deep);
-            if (Scribe.mode == LoadSaveMode.PostLoadInit)
-            {
-                shells = shells ?? new List<ShotgunShell>();
-                shells.RemoveAll(shell => shell == null);
-                Prune();
-                byProjectile.Clear();
-                foreach (ShotgunShell shell in shells)
-                    foreach (Projectile projectile in shell.projectiles) byProjectile[projectile] = shell;
-            }
+            if (Scribe.mode != LoadSaveMode.PostLoadInit) return;
+            shells = shells ?? new List<ShotgunShell>();
+            shells.RemoveAll(shell => shell == null);
+            Prune();
+            byProjectile.Clear();
+            foreach (ShotgunShell shell in shells)
+                foreach (Projectile projectile in shell.projectiles) byProjectile[projectile] = shell;
         }
     }
 
     internal sealed class ShotgunImpact
     {
         internal ShotgunShell shell;
+        internal Projectile_ShotgunPellet pellet;
         internal Pawn pawn;
         internal DamageDef damageDef;
+        internal BodyPartRecord surface;
+        internal bool selectedSurface;
+        internal float relativeSpread;
+        internal float energy;
+        internal float incomingDamage;
+        internal bool internalDamage;
     }
 
     internal static class ShotgunSpreadContext
     {
-        [ThreadStatic] internal static ShotgunShell Launching;
+        [ThreadStatic] internal static ShotgunLaunch Launching;
         [ThreadStatic] internal static ShotgunImpact Impact;
-    }
-
-    [HarmonyPatch(typeof(Projectile), nameof(Projectile.Launch), new[]
-    {
-        typeof(Thing), typeof(Vector3), typeof(LocalTargetInfo), typeof(LocalTargetInfo),
-        typeof(ProjectileHitFlags), typeof(bool), typeof(Thing), typeof(ThingDef)
-    })]
-    public static class Patch_Projectile_Launch_ShotgunShell
-    {
-        public static void Postfix(Projectile __instance)
-        {
-            ShotgunShell shell = ShotgunSpreadContext.Launching;
-            if (shell != null && __instance is Bullet && __instance.Map != null)
-                __instance.Map.GetComponent<MapComponent_ShotgunShells>().Register(__instance, shell);
-        }
-    }
-
-    [HarmonyPatch(typeof(Bullet), "Impact")]
-    public static class Patch_Bullet_Impact_ShotgunShell
-    {
-        internal static void Prefix(Bullet __instance, Thing hitThing, bool blockedByShield, out ShotgunImpact __state)
-        {
-            __state = ShotgunSpreadContext.Impact;
-            ShotgunShell shell = __instance.Map?.GetComponent<MapComponent_ShotgunShells>().ShellFor(__instance);
-            ShotgunSpreadContext.Impact = !blockedByShield && shell != null && hitThing is Pawn pawn
-                ? new ShotgunImpact { shell = shell, pawn = pawn, damageDef = __instance.DamageDef }
-                : null;
-        }
-
-        internal static void Finalizer(ShotgunImpact __state)
-        {
-            ShotgunSpreadContext.Impact = __state;
-        }
-    }
-
-    // Patch the exact-part lookup so an exhausted region can return null without
-    // ChooseHitPart's vanilla warning or a fallback to an unrelated part.
-    [HarmonyPatch(typeof(DamageWorker_AddInjury), "GetExactPartFromDamageInfo")]
-    public static class Patch_DamageWorker_ShotgunHitPart
-    {
-        public static bool Prefix(DamageInfo dinfo, Pawn pawn, ref BodyPartRecord __result)
-        {
-            ShotgunImpact impact = ShotgunSpreadContext.Impact;
-            if (impact?.pawn != pawn || impact.damageDef != dinfo.Def || dinfo.HitPart != null) return true;
-            ShotgunHitAnchor anchor = impact.shell.AnchorFor(pawn);
-            if (anchor == null) return true;
-            __result = ShotgunSpreadRules.Choose(pawn, anchor.part, impact.shell.spreadFactor, dinfo);
-            return false;
-        }
-
-        public static void Postfix(DamageInfo dinfo, Pawn pawn, BodyPartRecord __result)
-        {
-            ShotgunImpact impact = ShotgunSpreadContext.Impact;
-            if (impact?.pawn == pawn && impact.damageDef == dinfo.Def)
-                impact.shell.Remember(pawn, __result);
-        }
     }
 }

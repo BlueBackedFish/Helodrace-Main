@@ -5,10 +5,9 @@
     <RimWorldPath Condition="'$(RimWorldPath)' == ''">C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorldPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="../../Helodrace/Core/ShotgunSpread.cs" Link="ShotgunSpread.cs" />
+    <Compile Include="../../Helodrace/Core/Shotgun*.cs" Link="%(Filename)%(Extension)" />
+    <Compile Include="../../Helodrace/Core/Projectile_ShotgunPellet.cs" Link="Projectile_ShotgunPellet.cs" />
     <Compile Include="../../Helodrace/Core/Verb_ShootShotgun.cs" Link="Verb_ShootShotgun.cs" />
-    <Compile Include="../../Helodrace/Core/ShotgunDisplayStats.cs" Link="ShotgunDisplayStats.cs" />
-    <Compile Include="../../Helodrace/Core/ShotgunInjuryMerge.cs" Link="ShotgunInjuryMerge.cs" />
     <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath></Reference>
     <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath></Reference>
     <PackageReference Include="Lib.Harmony" Version="2.3.3" />

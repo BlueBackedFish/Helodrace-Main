@@ -10,16 +10,13 @@ namespace Helodrace
     public sealed class VerbProperties_Shotgun : VerbProperties
     {
         public int pelletCount = 1;
-        // Ascend at most this many parent links. At each parent, descend only
-        // one child link; grandchildren are not included through that parent.
-        public int spreadFactor = 1;
+        // Angular standard deviation, in degrees. Ammunition can scale it.
+        public float spreadAngle = 0.9f;
     }
 
     /// <summary>
-    /// Launches every pellet during one logical shot. RimWorld therefore plays
-    /// the report and muzzle flash once and records one shot, while each pellet
-    /// still receives its own vanilla accuracy and armor calculation. Pellets
-    /// share an anatomical hit region for each pawn struck by the shell.
+    /// One vanilla shot supplies the common aim, consumes one shell and records
+    /// one shot. Additional pellets reuse that launch with individual offsets.
     /// </summary>
     public class Verb_ShootShotgun : Verb_Shoot
     {
@@ -34,10 +31,10 @@ namespace Helodrace
 
         protected override bool TryCastShot()
         {
-            ShotgunShell previous = ShotgunSpreadContext.Launching;
+            ShotgunLaunch previous = ShotgunSpreadContext.Launching;
             int pelletCount = PelletCount;
             ShotgunSpreadContext.Launching = pelletCount > 1
-                ? new ShotgunShell((verbProps as VerbProperties_Shotgun)?.spreadFactor ?? 1)
+                ? new ShotgunLaunch(this, pelletCount, (verbProps as VerbProperties_Shotgun)?.spreadAngle ?? 0.9f)
                 : null;
             try
             {
@@ -46,11 +43,7 @@ namespace Helodrace
                     return false;
                 }
 
-                for (int pelletIndex = 1; pelletIndex < pelletCount; pelletIndex++)
-                {
-                    // A later pellet failing to launch must not refund the shell.
-                    base.TryCastShot();
-                }
+                ShotgunSpreadContext.Launching?.LaunchRemaining();
 
                 return true;
             }

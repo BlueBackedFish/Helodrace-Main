@@ -66,6 +66,8 @@
 
   <ThingDef ParentName="BaseBullet">
     <defName>HD_Bullet_M1897_Proj</defName>
+    <thingClass>Helodrace.Projectile_ShotgunPellet</thingClass>
+    <modExtensions><li Class="Helodrace.ShotgunProjectileExtension"><spreadMultiplier>1</spreadMultiplier><energyHalfDistance>40</energyHalfDistance><internalPenetrationChance>0.35</internalPenetrationChance></li></modExtensions>
     <label>Frontier Arms M1897 buckshot</label>
     <graphicData>
       <texPath>Things/Projectile/Bullet_Small</texPath>
@@ -1317,7 +1319,7 @@
         <burstShotCount>1</burstShotCount>
         <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
         <pelletCount>9</pelletCount>
-        <spreadFactor>1</spreadFactor>
+        <spreadAngle>0.8</spreadAngle>
         <soundCast>Shot_Shotgun</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>
@@ -1331,7 +1333,7 @@
         <burstShotCount>1</burstShotCount>
         <ticksBetweenBurstShots>0</ticksBetweenBurstShots>
         <pelletCount>9</pelletCount>
-        <spreadFactor>1</spreadFactor>
+        <spreadAngle>0.8</spreadAngle>
         <soundCast>Shot_Shotgun</soundCast>
         <soundCastTail>GunTail_Heavy</soundCastTail>
         <muzzleFlashScale>12</muzzleFlashScale>

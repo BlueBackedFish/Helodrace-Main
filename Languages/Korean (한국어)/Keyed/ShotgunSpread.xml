@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_Shotgun_SpreadFactor>산탄 확산 계수</HD_Shotgun_SpreadFactor>
-  <HD_Shotgun_SpreadFactor_Desc>설정된 확산 계수: {0}\n\n같은 한 발에서 나온 산탄은 대상별 최초 피격 부위를 기준으로 퍼집니다. 확산 계수는 부모 부위를 올라가는 최대 단계 수입니다. 탐색한 각 부모에서 자식은 1단계까지만 내려가며, 해당 부모의 손자 부위는 포함하지 않습니다.\n\n확산 1은 부모로 최대 1단계 올라가고, 거기서 자식으로 최대 1단계 내려갑니다. 예를 들어 폐의 부모가 흉부라면 흉부의 직계 자식 부위만 맞을 수 있습니다. 확산 0은 최초 피격 부위에 후속 산탄을 집중합니다. 최초 피격 부위에 부모가 없으면 확산 1 이상에서 그 부위와 직계 자식을 후보로 사용합니다.\n\n같은 부위에 같은 종류의 산탄 상처가 생기면 하나의 미치료 상처에 중증도를 합산합니다. 치료된 상처와 영구 흉터는 따로 유지합니다.\n\n손실된 부위나 손실된 조상 아래의 부위는 제외합니다. 이 설정은 산탄에 적용되며, 단일 투사체 탄약에는 영향을 주지 않습니다.</HD_Shotgun_SpreadFactor_Desc>
+  <HD_Shotgun_SpreadAngle>기본 산탄 확산각</HD_Shotgun_SpreadAngle>
+  <HD_Shotgun_SpreadAngle_Desc>기본 확산각: {0}\n\n한 발의 산탄은 공통된 조준 오차를 가지며, 각 산탄은 그 조준점을 중심으로 흩어집니다. 거리가 멀수록 탄군이 넓어지고, 확산각이 작을수록 탄이 더 모입니다. 탄약에 따라 확산이 달라질 수 있습니다. 대상의 크기와 자세에 따라 실제 명중하는 산탄 수가 달라집니다.\n\n방어구 판정은 산탄 한 알씩 적용하며, 비행 거리에 따라 피해와 관통력이 감소합니다. 내부 부위는 해당 체표를 통과한 산탄만 손상시킬 수 있고, 체표와 내부 손상은 한 알의 피해를 나누어 사용합니다.\n\n같은 한 발·같은 부위·같은 종류의 상처만 합산합니다. 이전 총상, 치료된 상처와 영구 흉터는 구분하며 상처 이름에 명중한 산탄 수를 표시합니다.</HD_Shotgun_SpreadAngle_Desc>
+  <HD_Shotgun_PatternDiameter>10칸 거리 탄군 지름</HD_Shotgun_PatternDiameter>
+  <HD_Shotgun_PatternDiameter_Desc>10칸 거리에서 산탄의 약 90%가 들어가는 탄군의 예상 지름입니다. 단위는 지도 칸입니다. 사수의 조준 오차와 탄약의 확산 보정은 제외한 무기 기본값이며, 거리에 비례해 지름이 증가합니다.</HD_Shotgun_PatternDiameter_Desc>
+  <HD_Shotgun_PelletCount>산탄 {0}발</HD_Shotgun_PelletCount>
 </LanguageData>

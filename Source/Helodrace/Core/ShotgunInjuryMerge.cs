@@ -8,13 +8,18 @@ namespace Helodrace
     {
         [ThreadStatic] internal static ShotgunInjuryMerge Current;
         internal Hediff_Injury incoming;
+        internal Hediff_Injury target;
+        internal ShotgunImpact impact;
+        internal GameComponent_ShotgunWounds ledger;
         internal bool merged;
 
-        internal static bool CanMerge(Hediff_Injury existing, Hediff_Injury incoming)
+        internal bool CanMerge(Hediff_Injury existing)
         {
-            return existing != incoming && existing.pawn == incoming.pawn
+            return ledger.For(existing)?.shellId == impact.shell.id
+                && existing != incoming && existing.pawn == incoming.pawn
                 && incoming.Part != null && existing.Part == incoming.Part && existing.def == incoming.def
                 && existing.destroysBodyParts == incoming.destroysBodyParts
+                && existing.Severity + incoming.Severity <= existing.def.maxSeverity
                 && !existing.IsTended() && !incoming.IsTended()
                 && !existing.IsPermanent() && !incoming.IsPermanent();
         }
@@ -30,10 +35,19 @@ namespace Helodrace
         {
             __state = ShotgunInjuryMerge.Current;
             ShotgunImpact impact = ShotgunSpreadContext.Impact;
+            GameComponent_ShotgunWounds ledger = GameComponent_ShotgunWounds.Current;
             ShotgunInjuryMerge.Current = impact != null && impact.pawn == __instance.pawn
-                && dinfo.HasValue && dinfo.Value.Amount > 0f && hediff is Hediff_Injury injury
-                ? new ShotgunInjuryMerge { incoming = injury }
+                && ledger != null && dinfo.HasValue && dinfo.Value.Amount > 0f && hediff is Hediff_Injury injury
+                ? new ShotgunInjuryMerge { incoming = injury, impact = impact, ledger = ledger }
                 : null;
+        }
+
+        internal static void Postfix()
+        {
+            ShotgunInjuryMerge context = ShotgunInjuryMerge.Current;
+            if (context?.impact.pellet != null)
+                context.ledger.Register(context.target ?? context.incoming,
+                    context.impact.shell.id, context.impact.pellet.thingIDNumber);
         }
 
         internal static void Finalizer(ShotgunInjuryMerge __state)
@@ -58,8 +72,15 @@ namespace Helodrace
                 return false;
             }
 
-            if (!ShotgunInjuryMerge.CanMerge(__instance, context.incoming)) return true;
+            if (!context.CanMerge(__instance))
+            {
+                // Even normally mergeable injury types stay separate across
+                // shells, preserving previous hits and treatment history.
+                __result = false;
+                return false;
+            }
             context.merged = true;
+            context.target = __instance;
             __instance.Severity += context.incoming.Severity;
             __instance.ageTicks = 0;
             if (__instance.comps != null)
