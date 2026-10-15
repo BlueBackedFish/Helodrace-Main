@@ -114,7 +114,7 @@ internal static class Program
         finally { Rand.PopState(); }
 
         // Validate Harmony binding against the installed game's actual methods.
-        foreach (Type type in new[] { typeof(Patch_Projectile_Launch_ShotgunShell), typeof(Patch_Bullet_Impact_ShotgunShell), typeof(Patch_DamageWorker_ShotgunHitPart), typeof(Patch_ThingDef_ShotgunDisplayStats) })
+        foreach (Type type in new[] { typeof(Patch_Projectile_Launch_ShotgunShell), typeof(Patch_Bullet_Impact_ShotgunShell), typeof(Patch_DamageWorker_ShotgunHitPart), typeof(Patch_ThingDef_ShotgunDisplayStats), typeof(Patch_HediffSet_ShotgunInjuryMerge), typeof(Patch_HediffInjury_ShotgunInjuryMerge) })
         {
             harmony.CreateClassProcessor(type).Patch();
             checks++;
@@ -137,6 +137,7 @@ internal static class Program
         ShotgunSpreadContext.Impact = null;
         LaunchTests(harmony);
         DisplayStatsTests();
+        ShotgunInjuryMergeTests.Run(harmony, Check);
         RoundTrip(torso, pawn, lung);
         harmony.UnpatchAll(harmony.Id);
         Console.WriteLine($"Shotgun spread: {checks} checks passed.");
