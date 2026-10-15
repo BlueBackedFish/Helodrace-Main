@@ -70,6 +70,10 @@ namespace Helodrace.Tactics
         public void ExposeData()
         {
             Scribe_Values.Look(ref Id, "id");
+            Scribe_Values.Look(ref Withdrawing,"withdrawing");
+            Scribe_Values.Look(ref NextCasualtyCheck,"nextCasualtyCheck");
+            Scribe_Values.Look(ref CasualtyCursor,"casualtyCursor");
+            Scribe_Values.Look(ref WithdrawalGoal,"withdrawalGoal",IntVec3.Invalid);
             Scribe_Values.Look(ref CqbTeam, "cqbTeam", -1);
             Scribe_Values.Look(ref CqbCursor, "cqbCursor");
             Scribe_Values.Look(ref CqbSearchCursor, "cqbSearchCursor");

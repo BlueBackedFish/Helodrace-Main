@@ -15,6 +15,7 @@ namespace Helodrace.Tactics
     {
         public const int ScanMembers = 2, ScanInterval = 600, RetryInterval = 1800, MaximumCareTicks = 2400;
         public const int TreatmentRange = 20;
+        public static bool PreferAgent(int bleedingParts) => bleedingParts>=4;
         public static bool WithinTreatmentRange(IntVec3 helper, IntVec3 patient) => helper.DistanceToSquared(patient) <= TreatmentRange * TreatmentRange;
         public static bool SafeSite(bool secured, bool clear, bool scanDone, bool retained, bool arrived) =>
             secured || clear && scanDone && retained && arrived;
@@ -49,6 +50,7 @@ namespace Helodrace.Tactics
             {
                 command.Due = Math.Min(command.Due, tick + 15);
                 if (care.CancelRequested || !care.Patient.Pawn.Spawned || care.Patient.Pawn.Dead || !Available(care.Helper, map)
+                    || !care.Patient.Pawn.Position.Roofed(map) && MedicalThreatActive(command,tick)
                     || !MedicalSafe(command, care.Patient.Pawn.Position, tick)
                     || KnownCareDanger(care.Patient.Pawn) || KnownCareDanger(care.Helper.Pawn)
                     || tick - care.Started >= TacticalMedicalPolicy.MaximumCareTicks
@@ -71,13 +73,14 @@ namespace Helodrace.Tactics
                 }
                 EndMedicalCare(command, care, tick, care.Successful); return false;
             }
-            bool field = command.FieldResponse != null;
+            bool field = command.FieldResponse != null || map!=null && command.CqbParent==null && active.Exists(m=>!m.Pawn.Position.Roofed(map));
             bool safePhase = TacticalMedicalPolicy.SafePhase(command.Phase, command.RoomScan == null, command.FieldResponse?.Stage);
+            safePhase |= field && command.Phase!=TacticalCommandPhase.Returning && !TacticalEntryCombatPolicy.CommittedIngress(command)
+                && !MedicalThreatActive(command,tick);
             if (!safePhase || !field && tick >= command.MedicalWindowUntil || tick < command.NextMedicalCheck
                 || command.ContactResponse != null || command.FocusFire != null || command.Contacts.Melee.Dangerous(tick) || command.ChargeAction != null
                 || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared) return false;
-            if (field && active.Exists(m => !AtPost(m) && (m.Pawn.pather.Moving || m.Pawn.CurJobDef != JobDefOf.Wait_Combat)
-                || !FieldLocusContains(command, m.Pawn, m.Pawn.Position))) return false;
+            if(field && MedicalThreatActive(command,tick)) return false;
             // Two health-cache reads per advance, not a map/organization sweep.
             for (int checkedMembers = 0; checkedMembers < TacticalMedicalPolicy.ScanMembers
                 && command.MedicalCursor < command.Members.Count; checkedMembers++)
@@ -118,7 +121,7 @@ namespace Helodrace.Tactics
         private bool MedicalSafe(TacticalSquadCommand command, IntVec3 patient, int tick)
         {
             if (command.FocusFire != null || command.Contacts.Melee.Dangerous(tick)) return false;
-            if (command.FieldResponse == null)
+            if (command.FieldResponse == null && (patient.Roofed(map) || MedicalThreatActive(command,tick)))
             {
                 int index = command.Plan?.Positions.IndexOf(patient) ?? -1;
                 bool guard = index >= 0 && index < command.Members.Count
@@ -129,11 +132,20 @@ namespace Helodrace.Tactics
             if (command.ChargeAction != null || command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared
                 || command.FieldResponse?.Screen != null || command.ContactResponse != null) return false;
             foreach (TacticalContact contact in command.Contacts.Memory.Entries)
-                if (TacticalContactMemory.Fresh(contact, tick) && GenSight.LineOfSight(patient, contact.Position, map, true)
+                if (CareContactDanger(contact,tick) && GenSight.LineOfSight(patient, contact.Position, map, true)
                     && (patient.DistanceToSquared(contact.Position) <= 784
                         || command.FieldResponse != null && CoverUtility.CalculateOverallBlockChance(patient, contact.Position, map) < .1f)) return false;
             return true;
         }
+        private bool CareContactDanger(TacticalContact contact,int tick)
+        {
+            if(!TacticalContactMemory.Fresh(contact,tick) || tick-contact.SeenTick>180) return false;
+            Pawn enemy=contact.Position.InBounds(map)?contact.Position.GetFirstPawn(map):null;
+            return enemy!=null && enemy.thingIDNumber==contact.EnemyId && !enemy.Dead && !enemy.Downed;
+        }
+        private bool MedicalThreatActive(TacticalSquadCommand command,int tick) =>
+            tick<command.EntryCombatUntil || command.FieldResponse?.LastEngaged>=tick-90
+            || command.Contacts.Melee.Dangerous(tick) || command.Contacts.Memory.Entries.Any(c=>CareContactDanger(c,tick));
         private void GuardDuringCare(TacticalSquadCommand command, List<TacticalMemberCommand> active, TacticalMedicalCare care, int tick)
         {
             IntVec3 focus = command.FieldResponse?.Focus ?? command.Plan?.Opening ?? command.Goal;
@@ -152,7 +164,7 @@ namespace Helodrace.Tactics
                     && hediff.BleedRate > 0 && !PartHemostasis.HasDressing(patient.health.hediffSet, hediff.Part, tick)) return true;
             return false;
         }
-        private static bool KnownCareDanger(Pawn pawn)
+        internal static bool KnownCareDanger(Pawn pawn)
         {
             Thing known = pawn.mindState?.knownExploder;
             if (known?.Spawned != true || known.Destroyed || RaidSmokeUtility.IsScreeningProjectile(known.def)) return false;
@@ -166,9 +178,19 @@ namespace Helodrace.Tactics
         {
             TacticalMemberCommand helper = null; Job treatment = null; bool plasma = false;
             bool needsHemostasis = NeedsHemostasis(patient.Pawn, null, tick);
+            int parts=PartHemostasis.BleedingParts(patient.Pawn,7,
+                p=>!PartHemostasis.HasDressing(patient.Pawn.health.hediffSet,p,tick)).Count;
+            if(TacticalMedicalPolicy.PreferAgent(parts) && TcccUtility.Effect(patient.Pawn,"HD_TCCC_Hemostatic")==null)
+                foreach(var member in active)
+                    if(TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position,patient.Pawn.Position)
+                        && member.Pawn.CurJob?.playerForced!=true && MedicalSafe(command,member.Pawn.Position,tick)
+                        && TcccUtility.CanTreat(member.Pawn,patient.Pawn,TcccTreatment.Hemostatic))
+                    { helper=member; treatment=JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_TCCC_Treat"),patient.Pawn);
+                        treatment.count=(int)TcccTreatment.Hemostatic; break; }
             // Prefer the designated medic's shared bag, then existing TCCC.
             foreach (TacticalMemberCommand member in active)
             {
+                if(helper!=null) break;
                 if (!member.Medic || !TacticalMedicalPolicy.WithinTreatmentRange(member.Pawn.Position, patient.Pawn.Position)
                     || member.Pawn.CurJob?.playerForced == true || !TcccUtility.CanTreat(member.Pawn, patient.Pawn)
                     || !MedicalSafe(command, member.Pawn.Position, tick)) continue;
@@ -239,8 +261,8 @@ namespace Helodrace.Tactics
         private void EndMedicalCare(TacticalSquadCommand command, TacticalMedicalCare care, int tick, bool success)
         {
             if (success) MedicalCompleted++; else MedicalAborted++;
-            bool followUp = success && !care.Plasma && TacticalMedicalPolicy.Urgent(care.Patient.Pawn.health.hediffSet
-                .GetFirstHediffOfDef(HediffDefOf.BloodLoss)?.Severity ?? 0);
+            bool followUp = success && !care.Plasma && (NeedsHemostasis(care.Patient.Pawn,null,tick)
+                || TacticalMedicalPolicy.Urgent(care.Patient.Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss)?.Severity ?? 0));
             care.Patient.LastCareAt = followUp ? tick - TacticalMedicalPolicy.RetryInterval : tick;
             command.NextMedicalCheck = followUp ? tick + 1 : tick + TacticalMedicalPolicy.ScanInterval;
             command.PhaseStarted += tick - care.Started;

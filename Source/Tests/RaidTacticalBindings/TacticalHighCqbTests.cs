@@ -222,6 +222,7 @@ internal static class TacticalHighCqbTests
         var oldConverters = converters.GetValue(null);
         converters.SetValue(null, new List<BackCompatibilityConverter>());
         var root=new TacticalSquadCommand {Id="root",CqbCursor=2,CqbCancelRequested=true,CqbPassageSequence=5,CqbTogether=true};
+        root.Withdrawing=true; root.WithdrawalGoal=new IntVec3(0,0,25); root.NextCasualtyCheck=130; root.CasualtyCursor=4;
         root.Phase=TacticalCommandPhase.Enter;
         root.Plan=new TacticalLocalPlan {Direct=true,Opening=new IntVec3(9,0,9),Inward=IntVec3.North};
         root.Plan.StackDirections.Add(IntVec3.South);
@@ -277,6 +278,8 @@ internal static class TacticalHighCqbTests
             Scribe.loader.InitLoading(path); restored.ExposeData(); Scribe_Deep.Look(ref loadedPacket,"divisionPacket");
             Scribe_Deep.Look(ref loadedDriver,"actorDriver"); Scribe_Deep.Look(ref loadedThrow,"throwDriver"); Scribe.loader.ForceStop();
             var order=restored.Members[0].CqbOrder;
+            check(restored.Withdrawing && restored.WithdrawalGoal==root.WithdrawalGoal
+                && restored.NextCasualtyCheck==130 && restored.CasualtyCursor==4,"Withdrawal goal and bounded casualty scan must survive native Scribe.");
             check(order.SameRoute(savedOrder) && order.Revision==7 && order.StartLeg==3 && order.Face==savedOrder.Face && order.Reposition,
                 "Native nested Scribe must preserve value-only CQB intent, owner and route revision.");
             check(loadedDriver.PlanVersion==root.PlanVersion && loadedDriver.CqbOwnerId=="root" && loadedDriver.Crossed

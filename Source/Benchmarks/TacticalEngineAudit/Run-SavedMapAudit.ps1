@@ -7,6 +7,7 @@ param(
     [switch]$High,
     [switch]$MethodProfile,
     [switch]$DownProbe,
+    [switch]$RetreatProbe,
     [int]$GoalX = -1,
     [int]$GoalZ = 132,
     [string]$ProfileTargets = 'Helodrace.Tactics.JobDriver_TacticalActor::Step;Helodrace.Tactics.MapComponent_TacticalCommands::ActorValid;Helodrace.Tactics.MapComponent_TacticalCommands::ActorMovementAllowed;Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceAssault;Helodrace.Tactics.MapComponent_TacticalCommands::AdvanceEntryPosts;Helodrace.Tactics.MapComponent_TacticalCommands::TryPostFire;Helodrace.Tactics.MapComponent_TacticalCommands::TryLocalEntryCover;Verse.AI.Pawn_PathFollower::StartPath;Verse.AI.Pawn_PathFollower::StopDead;Verse.PathFinder::ForceCompleteScheduledJobs',
@@ -40,6 +41,7 @@ $launchArguments = @(('"-savedatafolder=' + $auditPath + '"'),('"-hdCqbSavedMapA
     '-screen-fullscreen','0','-screen-width','800','-screen-height','600','-logFile',('"' + $auditPath + '\Player.log"'))
 if($High) { $launchArguments += '-hdCqbSavedHigh=true' }
 if($DownProbe) { $launchArguments += '-hdCqbSavedDownProbe=true' }
+if($RetreatProbe) { $launchArguments += '-hdCqbSavedRetreatProbe=true' }
 if($GoalX -ge 0) { $launchArguments += "-hdCqbSavedGoalX=$GoalX","-hdCqbSavedGoalZ=$GoalZ" }
 if($MethodProfile) {
     $launchArguments += ('"-hdMethodProfile=' + $auditPath + '\profiles"'),'-hdMethodProfilePreset=coarse',

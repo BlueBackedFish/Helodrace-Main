@@ -288,6 +288,12 @@ namespace Helodrace.Tactics
             if (pawn != null && byPawn.TryGetValue(pawn, out TacticalSquadCommand command) && !command.Terminal)
             {
                 if (pawn.Dead || pawn.Downed) command.BagRecoveryAt = Math.Min(command.BagRecoveryAt, GenTicks.TicksGame + 1);
+                if(pawn.Downed)
+                {
+                    var root=command.CqbParent??command;
+                    root.NextMedicalCheck=Math.Min(root.NextMedicalCheck,GenTicks.TicksGame+1);
+                    root.MedicalCursor=0; root.MedicalCandidate=null; root.MedicalCandidateScore=0;
+                }
                 command.Due = Math.Min(command.Due, GenTicks.TicksGame + 1);
                 if (command.CqbParent != null) command.CqbParent.Due = Math.Min(command.CqbParent.Due, GenTicks.TicksGame + 1);
             }
@@ -344,6 +350,7 @@ namespace Helodrace.Tactics
         }
         private void AdvanceCore(TacticalSquadCommand command, int tick)
         {
+            if(AdvanceCasualties(command,tick)) return;
             if (command.CqbParent == null && command.RaidLord?.LordJob is LordJob_HelodSweep sweep && sweep.RetreatRequested
                 && command.Phase != TacticalCommandPhase.Returning && !command.ReleaseAfterReturn)
             {

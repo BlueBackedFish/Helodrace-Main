@@ -16,6 +16,9 @@ namespace Helodrace
     {
         [DataMember] public string[] savedMapDefenders, savedMapLoadout, savedMapNativeRoomVetoes;
         [DataMember] public string savedMapDownProbe;
+        [DataMember] public string savedMapRetreatProbe;
+        [DataMember] public int savedMapEvacuated;
+        [DataMember] public bool savedMapPatientEvacuated;
     }
     // Explicit CLI only. Load a COPY through native autostart, retain its
     // structures/defenders, and spawn one ordinary complete raid organization.
@@ -24,6 +27,7 @@ namespace Helodrace
         private readonly bool savedMapAudit;
         private readonly List<string> savedMapTrace = new List<string>();
         private readonly Dictionary<string,string> savedMapStates = new Dictionary<string,string>();
+        private Pawn retreatProbePatient;
         private void UpdateSavedMapAudit()
         {
             if (map != Find.CurrentMap) return;
@@ -36,6 +40,17 @@ namespace Helodrace
                 }
                 Find.TickManager.CurTimeSpeed = TimeSpeed.Superfast;
                 int tick = GenTicks.TicksGame;
+                if(tick-started>=120 && result.savedMapRetreatProbe==null
+                    && GenCommandLine.TryGetCommandLineArg("hdCqbSavedRetreatProbe",out _))
+                {
+                    retreatProbePatient=raiders.First(p=>!p.Dead && !p.Downed && !OrganizationMedical.HasDuty(p));
+                    Lord lord=retreatProbePatient.GetLord();
+                    retreatProbePatient.health.AddHediff(HediffDefOf.Anesthetic);
+                    var exit=lord.Graph.lordToils.FirstOrDefault(t=>TacticalCasualtyPolicy.RetreatPhase(t));
+                    if(exit==null) { exit=new LordToil_ExitMapAndDefendSelf {lord=lord}; lord.Graph.AddToil(exit); }
+                    lord.GotoToil(exit);
+                    result.savedMapRetreatProbe="downed="+retreatProbePatient.ThingID+" exit="+exit.GetType().Name;
+                }
                 if (tick >= nextProgress)
                 {
                     nextProgress = tick + 10; TraceSavedMapAudit(tick);
@@ -114,6 +129,12 @@ namespace Helodrace
             }
             result.population = members.Count; result.units = 1;
             result.savedMapLoadout = members.Select(p => p.ThingID + "@" + p.Position + " canGrenade=" + InventoryGrenadeUtility.CanUseGrenades(p)
+                + " medic="+OrganizationMedical.HasDuty(p)+" training="+string.Join(",",p.health.hediffSet.hediffs
+                    .Where(h=>h.def.defName.Contains("Training")).Select(h=>h.def.defName))
+                + " pouches="+string.Join(",",Helodrace.Tactical.MedicalPouchUtility.WornPouches(p)
+                    .Select(b=>b.Capacity+":"+b.Hemostatic))
+                + " nvg="+p.apparel.WornApparel.SelectMany(a=>a.TryGetComp<Helodrace.ModernWar.CompModularArmor>()?.InstalledParts
+                    ?? Array.Empty<Helodrace.ModernWar.InstalledModularArmorPart>()).Count(part=>part.slot?.defName=="HD_MH_Slot_NightVision")
                 + " inventory=" + string.Join(",",p.inventory.innerContainer.Select(t => t.def.defName + ":grenade=" + InventoryGrenadeUtility.IsInventoryGrenade(t.def)))).ToArray();
             LordMaker.MakeNewLord(faction,new LordJob_AssaultColony(faction,canKidnap:false,canTimeoutOrFlee:false,
                 sappers:true,canSteal:false),map,members);
@@ -128,6 +149,8 @@ namespace Helodrace
             result.newSupportReturns = service.SupportReturns; result.newUnsafeEntries = service.UnsafeEntries;
             result.newContactResponses = service.ContactResponses; result.newContactShots = service.ContactShots;
             result.newLastJobFailure = service.LastJobFailure; result.newJobsIssued = service.JobsIssued;
+            result.savedMapEvacuated=raiders.Count(p=>!p.Spawned && !p.Dead);
+            result.savedMapPatientEvacuated=retreatProbePatient!=null && !retreatProbePatient.Spawned && !retreatProbePatient.Dead;
             result.newPassedOpening = service.Commands.Sum(c => c.Members.Count(m => m.Passed));
             result.newEnteredByOrder = service.Commands.Sum(c => c.Members.Count(m => m.Entered));
             result.newCommands = service.ExecutionCommands.Select(SavedMapState).ToArray();

@@ -14,13 +14,14 @@ namespace Helodrace.Tactics
             && !IsAssaultLord(lord) && (IsDefensePhase(lord.CurLordToil)
             || lord.ownedPawns.Any(p => p.Faction != Faction.OfPlayer && (p.mindState?.duty?.def == DutyDefOf.Defend
                 || p.mindState?.duty?.def == DutyDefOf.DefendBase)));
-        public static bool IsTacticalLord(Lord lord) => IsAssaultLord(lord) || IsDefensiveLord(lord);
+        public static bool IsTacticalLord(Lord lord) => IsAssaultLord(lord) || IsDefensiveLord(lord)
+            || TacticalCasualtyPolicy.RetreatPhase(lord?.CurLordToil);
         public static bool CanControlMission(bool defensive, bool hostileToPlayer, bool explicitGoal) =>
             defensive || hostileToPlayer || explicitGoal;
         internal static bool IsTacticalPawn(Pawn pawn)
         {
             Lord lord = pawn.GetLord();
-            return CanOwnLordJob(lord?.LordJob) && (IsAssaultLord(lord) || pawn.Faction != Faction.OfPlayer && lord != null
+            return TacticalCasualtyPolicy.RetreatPhase(lord?.CurLordToil) || CanOwnLordJob(lord?.LordJob) && (IsAssaultLord(lord) || pawn.Faction != Faction.OfPlayer && lord != null
                 && (pawn.mindState?.duty?.def == DutyDefOf.Defend || pawn.mindState?.duty?.def == DutyDefOf.DefendBase));
         }
     }

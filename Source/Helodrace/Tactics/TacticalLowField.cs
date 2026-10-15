@@ -24,7 +24,8 @@ namespace Helodrace.Tactics
             && pawn.CurJobDef?.defName == "HD_NewTacticalPost" && command.NextMedicalCheck <= GenTicks.TicksGame + 30;
         internal bool FieldCombatContext(Pawn pawn, out TacticalSquadCommand command)
         {
-            return byPawn.TryGetValue(pawn, out command) && command.FieldResponse != null && command.CqbParent == null
+            return byPawn.TryGetValue(pawn, out command) && !command.Withdrawing && !CasualtyJob(pawn)
+                && command.FieldResponse != null && command.CqbParent == null
                 && command.ChargeAction == null && command.ContactResponse?.DirectAttack != true
                 && !(command.OpeningAction?.Launched == true && !command.OpeningAction.EffectsCleared)
                 && !TacticalEntryCombatPolicy.CommittedIngress(command)

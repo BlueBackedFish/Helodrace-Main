@@ -30,6 +30,8 @@ namespace Helodrace.Tactical
         private List<TcccDragLink> links = new List<TcccDragLink>();
         public MapComponent_TcccDragging(Map map) : base(map) { }
         public bool IsDragging(Pawn pawn) => links.Any(l => l.carrier == pawn);
+        public bool IsPatient(Pawn pawn) => links.Any(l=>l.patient==pawn);
+        public Pawn PatientFor(Pawn carrier) => links.FirstOrDefault(l=>l.carrier==carrier)?.patient;
         public bool Attach(Pawn carrier, Pawn patient)
         {
             if (!TcccUtility.CanTreat(carrier, patient) || carrier == patient || !patient.Downed

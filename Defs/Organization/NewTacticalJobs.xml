@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <JobDef>
+    <defName>HD_NewTacticalCasualtyMove</defName>
+    <driverClass>Helodrace.Tactics.JobDriver_TacticalCasualtyMove</driverClass>
+    <reportString>엄호하며 부상자 후송 및 후퇴 중</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <casualInterruptible>false</casualInterruptible>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+  </JobDef>
+  <JobDef>
     <defName>HD_NewTacticalActor</defName>
     <driverClass>Helodrace.Tactics.JobDriver_TacticalActor</driverClass>
     <reportString>전술 명령에 따라 이동·경계·교전하는 중</reportString>
