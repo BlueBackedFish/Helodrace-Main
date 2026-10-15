@@ -102,7 +102,7 @@
       <texPath>Things/Projectile/Bullet_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <projectile><damageDef>Bullet</damageDef><damageAmountBase>6</damageAmountBase><armorPenetrationBase>0.08</armorPenetrationBase><stoppingPower>0.55</stoppingPower><speed>65</speed></projectile>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>2</damageAmountBase><armorPenetrationBase>0.03</armorPenetrationBase><stoppingPower>0.55</stoppingPower><speed>65</speed></projectile>
   </ThingDef>
 
   <ThingDef ParentName="BaseBullet">

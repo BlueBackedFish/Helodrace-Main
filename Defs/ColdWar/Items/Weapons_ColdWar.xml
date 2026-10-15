@@ -27,8 +27,8 @@
     </graphicData>
     <projectile>
       <damageDef>Bomb</damageDef>
-      <damageAmountBase>18</damageAmountBase>
-      <armorPenetrationBase>0.28</armorPenetrationBase>
+      <damageAmountBase>30</damageAmountBase>
+      <armorPenetrationBase>0.42</armorPenetrationBase>
       <stoppingPower>2.0</stoppingPower>
       <speed>120</speed>
       <explosionRadius>0.7</explosionRadius>
@@ -60,8 +60,8 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>30</damageAmountBase>
-      <armorPenetrationBase>0.72</armorPenetrationBase>
+      <damageAmountBase>36</damageAmountBase>
+      <armorPenetrationBase>0.58</armorPenetrationBase>
       <stoppingPower>2.2</stoppingPower>
       <speed>130</speed>
     </projectile>
@@ -85,8 +85,8 @@
     </graphicData>
     <projectile>
       <damageDef>Bomb</damageDef>
-      <damageAmountBase>18</damageAmountBase>
-      <armorPenetrationBase>0.28</armorPenetrationBase>
+      <damageAmountBase>30</damageAmountBase>
+      <armorPenetrationBase>0.42</armorPenetrationBase>
       <stoppingPower>2.0</stoppingPower>
       <speed>120</speed>
       <explosionRadius>0.7</explosionRadius>
@@ -170,8 +170,8 @@
     </graphicData>
     <projectile>
       <damageDef>Bomb</damageDef>
-      <damageAmountBase>145</damageAmountBase>
-      <armorPenetrationBase>2.6</armorPenetrationBase>
+      <damageAmountBase>100</damageAmountBase>
+      <armorPenetrationBase>1.80</armorPenetrationBase>
       <stoppingPower>4</stoppingPower>
       <!-- M47 speed is 50; TOW uses 1.5x that speed. -->
       <speed>75</speed>

@@ -13,8 +13,8 @@
     </graphicData>
     <projectile>
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>14</damageAmountBase>
-      <armorPenetrationBase>0.14</armorPenetrationBase>
+      <damageAmountBase>15</damageAmountBase>
+      <armorPenetrationBase>0.19</armorPenetrationBase>
       <stoppingPower>1.0</stoppingPower>
       <speed>75</speed>
     </projectile>
@@ -24,7 +24,7 @@
     <defName>HD_Bullet_76251M80A1_Proj</defName>
     <label>7.62x51mm M80A1 bullet</label>
     <graphicData><texPath>Things/Projectile/Bullet_Small</texPath><graphicClass>Graphic_Single</graphicClass></graphicData>
-    <projectile><damageDef>Bullet</damageDef><damageAmountBase>15</damageAmountBase><armorPenetrationBase>0.3</armorPenetrationBase><stoppingPower>1.05</stoppingPower><speed>90</speed></projectile>
+    <projectile><damageDef>Bullet</damageDef><damageAmountBase>18</damageAmountBase><armorPenetrationBase>0.34</armorPenetrationBase><stoppingPower>1.05</stoppingPower><speed>90</speed></projectile>
   </ThingDef>
 
   <!-- Physical ammunition selectors installed inside compatible magazine nodes. They
