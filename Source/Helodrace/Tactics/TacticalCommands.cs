@@ -409,6 +409,7 @@ namespace Helodrace.Tactics
             if (AdvanceFocusFire(command, active, tick)) return;
             if (AdvanceMedicalBagRecovery(command, active, tick)) return;
             if (AdvanceMedicalCare(command, active, tick)) return;
+            if (AdvanceUnderbarrelReload(command,active,tick)) return;
             if (AdvanceFieldResponse(command, active, tick)) return;
             if (RespondToContacts(command, active, tick)) return;
             if (RestoreContactPosts(command, active, tick)) return;

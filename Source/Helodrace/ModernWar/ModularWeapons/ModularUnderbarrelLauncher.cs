@@ -183,6 +183,9 @@ namespace Helodrace.ModernWar
         {
             CompModularUnderbarrelLauncher launcher = Launcher;
             if (launcher?.Loaded != true) return false;
+            if(CasterPawn?.Faction!=Faction.OfPlayer
+                && CasterPawn?.Map?.GetComponent<Helodrace.Tactics.MapComponent_TacticalCommands>()
+                    ?.LauncherSafe(CasterPawn,this,currentTarget)!=true) return false;
             bool fired = base.TryCastShot();
             if (fired) launcher.NotifyFired();
             return fired;
@@ -196,6 +199,8 @@ namespace Helodrace.ModernWar
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
+            Job owned=job;
+            AddFinishAction(condition=>pawn.Map?.GetComponent<Helodrace.Tactics.MapComponent_TacticalCommands>()?.JobFinished(pawn,owned,condition));
             this.FailOn(() => Weapon == null || pawn.equipment?.Primary != Weapon
                 || ModularUnderbarrelLauncherUtility.Installed(Weapon) == null);
             this.FailOn(() => ModularUnderbarrelLauncherUtility.Installed(Weapon)?.Loaded == true);

@@ -500,15 +500,19 @@ namespace Helodrace.Tactics
         internal static bool SafeOpeningThrow(Pawn pawn, Thing grenade, IntVec3 position, IntVec3 target, IntVec3? retreat = null)
         {
             ThingDef projectile = grenade?.def.projectileWhenLoaded;
+            return SafeExplosiveShot(pawn,projectile,position,target,retreat);
+        }
+        internal static bool SafeExplosiveShot(Pawn pawn,ThingDef projectile,IntVec3 position,IntVec3 target,IntVec3? retreat=null,float? scatterOverride=null)
+        {
             if (projectile?.projectile == null) return false;
-            if (RaidSmokeUtility.IsSmoke(grenade)) return true;
+            if (RaidSmokeUtility.IsScreeningProjectile(projectile)) return true;
             if (pawn?.Map == null || !target.InBounds(pawn.Map)) return false;
             bool roofed = target.Roofed(pawn.Map);
             Room targetRoom = target.GetRoom(pawn.Map);
             // A structural change can temporarily leave native regions dirty.
             // Unknown indoor friendly safety is not permission to throw.
             if (roofed && targetRoom == null) return false;
-            float scatter = InventoryGrenadeUtility.ThrowMissRadius(pawn, position.DistanceTo(target));
+            float scatter = scatterOverride??InventoryGrenadeUtility.ThrowMissRadius(pawn, position.DistanceTo(target));
             float radius = TacticalGrenadePolicy.HazardRadius(projectile,
                 targetRoom != null && !targetRoom.UsesOutdoorTemperature) + scatter + .75f;
             bool throughCover = TacticalGrenadePolicy.DangerousThroughCover(projectile);

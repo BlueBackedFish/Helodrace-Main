@@ -212,6 +212,7 @@ namespace Helodrace.Tactics
                 }
                 pawn.rotationTracker.FaceCell(target.Position);
                 if (pawn.Position.DistanceToSquared(target.Position) <= 2 && pawn.meleeVerbs.TryMeleeAttack(target)) return true;
+                verb=SelectUnderbarrel(pawn,target,verb,ownsObservation:true);
                 if (verb.Available() && verb.TryStartCastOn(target)) ContactShot(pawn);
                 return true;
             }
