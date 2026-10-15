@@ -32,6 +32,8 @@
 
 ## XML 적용 위치
 
+방탄판의 확정 방어 컷은 SAPI·SSAPI 27%, ESAPI·ESBI·RAMPART 4800 34%로 맞춘다. 해당 방향 판의 내구도 40% 이상에서 적용하며, 컷을 넘는 탄은 일반 방어 확률로 판정한다. [방탄판 대응표](Ballistic_Reference_Notes.md)를 참고한다.
+
 | 파일 | 투사체 DefName |
 |---|---|
 | `Defs/ModernWar/Items/Weapons_ModernWar.xml` | `HD_Bullet_Glock19_Proj` |

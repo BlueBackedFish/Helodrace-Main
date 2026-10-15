@@ -399,7 +399,7 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.33</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.45</armorRatingBlunt>
     <armorRatingHeat>0.20</armorRatingHeat>
@@ -414,7 +414,7 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.50</armorRatingBlunt>
     <armorRatingHeat>0.25</armorRatingHeat>
@@ -429,7 +429,7 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.33</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.55</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -445,7 +445,7 @@
     <fixedPosition>HD_MA_Pos_FrontRearTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_RAMPART4800_Plate</plateThingDef>
-    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.65</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -461,7 +461,7 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.33</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.45</armorRatingBlunt>
     <armorRatingHeat>0.20</armorRatingHeat>
@@ -477,7 +477,7 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_ESAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.50</armorRatingBlunt>
     <armorRatingHeat>0.25</armorRatingHeat>
@@ -493,7 +493,7 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_SSAPI</plateThingDef>
-    <guaranteedBlockPenetration>0.33</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.27</guaranteedBlockPenetration>
     <armorRatingSharp>1.20</armorRatingSharp>
     <armorRatingBlunt>0.55</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -508,7 +508,7 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_ESBI</plateThingDef>
-    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.60</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>
@@ -523,7 +523,7 @@
     <fixedPosition>HD_MA_Pos_SideTorso</fixedPosition>
     <compatibleArmorTags><li>HD_IOTVGen4</li></compatibleArmorTags>
     <plateThingDef>HD_ArmorPlate_RAMPART4800_Plate</plateThingDef>
-    <guaranteedBlockPenetration>0.50</guaranteedBlockPenetration>
+    <guaranteedBlockPenetration>0.34</guaranteedBlockPenetration>
     <armorRatingSharp>1.65</armorRatingSharp>
     <armorRatingBlunt>0.65</armorRatingBlunt>
     <armorRatingHeat>0.30</armorRatingHeat>

@@ -99,10 +99,24 @@ internal static class Program
             .ToDictionary(n => (string)n.Element("defName"));
         var plateStats = new Dictionary<string, (float armor, float cutoff)>
         {
-            ["SAPI"] = (1.20f, 0.33f), ["SSAPI"] = (1.20f, 0.33f),
-            ["ESAPI"] = (1.65f, 0.50f), ["ESBI"] = (1.65f, 0.50f),
-            ["RAMPART4800"] = (1.65f, 0.50f)
+            ["SAPI"] = (1.20f, 0.27f), ["SSAPI"] = (1.20f, 0.27f),
+            ["ESAPI"] = (1.65f, 0.34f), ["ESBI"] = (1.65f, 0.34f),
+            ["RAMPART4800"] = (1.65f, 0.34f)
         };
+        var rifleThreats = new[]
+        {
+            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_M1Garand_Proj", true, true),
+            ("Defs/Items/WeaponFamilies_Helod.xml", "HD_Bullet_M16A4_Proj", false, true),
+            ("Defs/ModernWar/Items/RifleAmmunition_Development.xml", "HD_Bullet_76251M80A1_Proj", false, true),
+            ("Defs/GreatWar/Items/Weapons_GreatWar.xml", "HD_Bullet_M2HB_Proj", false, false),
+            ("Defs/ColdWar/Items/Weapons_ColdWar.xml", "HD_Projectile_M167_20mmAPI", false, false)
+        }.Select(threat =>
+        {
+            var projectile = XDocument.Load(System.IO.Path.Combine(root, threat.Item1))
+                .Root.Elements("ThingDef").Single(n => (string)n.Element("defName") == threat.Item2);
+            return (name: threat.Item2, ap: (float)projectile.Element("projectile").Element("armorPenetrationBase"),
+                sapiBlocks: threat.Item3, esapiBlocks: threat.Item4);
+        }).ToArray();
         foreach (string position in new[] { "FrontRear", "Sides" })
         {
             foreach (var plate in plateStats)
@@ -111,6 +125,18 @@ internal static class Program
                 if (!partDefs.ContainsKey(name)) continue;
                 Near(plate.Value.armor, (float)partDefs[name].Element("armorRatingSharp"), name + " grade armor");
                 Near(plate.Value.cutoff, (float)partDefs[name].Element("guaranteedBlockPenetration"), name + " grade cutoff");
+                float cutoff = (float)partDefs[name].Element("guaranteedBlockPenetration");
+                bool standardPlate = plate.Key == "SAPI" || plate.Key == "SSAPI";
+                foreach (var threat in rifleThreats)
+                {
+                    Check(BallisticArmorRules.CanGuaranteeBlock(threat.ap, cutoff, 0.4f,
+                        BallisticArmorRules.PlateGuaranteedBlockMinimumDurability)
+                        == (standardPlate ? threat.sapiBlocks : threat.esapiBlocks),
+                        name + " current ammunition guarantee: " + threat.name);
+                }
+                Check(!BallisticArmorRules.CanGuaranteeBlock(cutoff, cutoff, 0.3999f,
+                    BallisticArmorRules.PlateGuaranteedBlockMinimumDurability),
+                    name + " below 40% durability loses guarantee");
             }
         }
         foreach (string suffix in new[] { "FrontRearPlates", "SidePlates", "FrontPlate", "RearPlate", "LeftPlate", "RightPlate" })
