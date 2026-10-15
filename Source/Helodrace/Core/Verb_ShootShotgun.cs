@@ -10,12 +10,15 @@ namespace Helodrace
     public sealed class VerbProperties_Shotgun : VerbProperties
     {
         public int pelletCount = 1;
+        // Number of ancestors whose children may be hit by the same shell.
+        public int spreadFactor = 1;
     }
 
     /// <summary>
     /// Launches every pellet during one logical shot. RimWorld therefore plays
     /// the report and muzzle flash once and records one shot, while each pellet
-    /// still receives its own vanilla accuracy and impact calculation.
+    /// still receives its own vanilla accuracy and armor calculation. Pellets
+    /// share an anatomical hit region for each pawn struck by the shell.
     /// </summary>
     public class Verb_ShootShotgun : Verb_Shoot
     {
@@ -30,20 +33,30 @@ namespace Helodrace
 
         protected override bool TryCastShot()
         {
-            if (!base.TryCastShot())
-            {
-                return false;
-            }
-
+            ShotgunShell previous = ShotgunSpreadContext.Launching;
             int pelletCount = PelletCount;
-            for (int pelletIndex = 1; pelletIndex < pelletCount; pelletIndex++)
+            ShotgunSpreadContext.Launching = pelletCount > 1
+                ? new ShotgunShell((verbProps as VerbProperties_Shotgun)?.spreadFactor ?? 1)
+                : null;
+            try
             {
-                // The first successful projectile represents the shell being
-                // fired. A later pellet failing to launch must not refund it.
-                base.TryCastShot();
-            }
+                if (!base.TryCastShot())
+                {
+                    return false;
+                }
 
-            return true;
+                for (int pelletIndex = 1; pelletIndex < pelletCount; pelletIndex++)
+                {
+                    // A later pellet failing to launch must not refund the shell.
+                    base.TryCastShot();
+                }
+
+                return true;
+            }
+            finally
+            {
+                ShotgunSpreadContext.Launching = previous;
+            }
         }
     }
 }

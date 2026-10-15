@@ -1,0 +1,34 @@
+# 산탄 확산
+
+산탄 발사 Verb는 `Helodrace.VerbProperties_Shotgun`의 `spreadFactor`로 명중 부위의 확산 범위를 설정한다. 기본값은 1이며 음수는 0으로 처리한다.
+
+```xml
+<li Class="Helodrace.VerbProperties_Shotgun">
+  <verbClass>Helodrace.Verb_ShootShotgun</verbClass>
+  <pelletCount>9</pelletCount>
+  <spreadFactor>1</spreadFactor>
+  <!-- 나머지 사격 설정 -->
+</li>
+```
+
+- `0`: 최초 피격 부위에 후속 산탄을 집중한다.
+- `1`: 최초 피격 부위의 바로 위 부모가 가진 자식 부위에서 선택한다. 폐의 부모가 흉부라면 흉부의 자식 부위만 후보가 된다.
+- `2` 이상: 부모를 한 단계씩 더 올라가며 각 부모의 직접 자식 부위를 후보에 추가한다. 다른 자식의 하위 부위 전체를 자동으로 포함하지는 않는다.
+- 최초 피격 부위가 최상위 부위라서 부모가 없으면, 1 이상에서 그 부위와 직접 자식들을 후보로 사용한다. 신체 최상위에 도달하면 더 이상 확장하지 않는다.
+
+최초 피격 부위는 한 발의 산탄과 피격 대상별로 한 번 정한다. 후속 산탄이 다른 부위를 맞혀도 기준은 이동하지 않는다. 서로 다른 발이나 대상은 기준을 공유하지 않는다. 각 산탄의 기존 명중률, 엄폐 판정, 방어구 및 피해 전파 처리는 유지한다.
+
+부위와 그 조상이 손실되지 않았고 피격 면적이 있는 후보 중 기존 피격 가중치로 선택한다. 후보가 모두 없어지면 해당 산탄의 부위 피해를 생략한다. 비행 중 저장된 산탄도 불러온 뒤 동일한 기준 부위와 확산 계수를 공유한다. 종료된 산탄 묶음은 주기적으로 정리한다.
+
+M1887, M1897의 일반·근접 사격과 M79 및 하부 유탄발사기의 산탄 모드에 기본값 1을 설정했다. 유탄발사기의 단일 투사체 모드는 산탄 묶음을 만들지 않는다.
+
+## 검증
+
+설치된 RimWorld 1.6 DLL과 Harmony를 사용하는 독립 실행 테스트다. 게임 설치 경로가 다르면 빌드 시 `-p:RimWorldPath=...`를 지정한다.
+
+```powershell
+dotnet build Source/Tests/ShotgunSpread/ShotgunSpread.Tests.csproj
+& Source/Tests/ShotgunSpread/bin/Debug/net48/ShotgunSpread.Tests.exe
+```
+
+부모 탐색 범위, 부위 손실, 발사·대상 분리, 9발/20발 발사와 실패 처리, 실제 게임 메서드 패치, Scribe 저장·불러오기를 검증한다. 실제 게임에서의 사격 연출 및 전투 밸런스는 별도 확인 대상이다.
