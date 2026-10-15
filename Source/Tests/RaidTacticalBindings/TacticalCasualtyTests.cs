@@ -21,6 +21,16 @@ internal static class TacticalCasualtyTests
             "Quiet casualty retrieval remains local, with a bounded 32-cell approach.");
         Check(!TacticalMedicalPolicy.PreferAgent(3) && TacticalMedicalPolicy.PreferAgent(4),
             "Few bleeding parts use dressings; widespread bleeding prefers the systemic agent.");
+        var service=new MapComponent_TacticalCommands(null);
+        var patient=new TacticalMemberCommand {Pawn=new Pawn()}; var helper=new TacticalMemberCommand();
+        patient.Pawn.health=(Pawn_HealthTracker)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(Pawn_HealthTracker));
+        AccessTools.Field(typeof(Pawn_HealthTracker),"healthState").SetValue(patient.Pawn.health,PawnHealthState.Mobile);
+        var interrupted=new TacticalMedicalCare {Patient=patient,Helper=helper,Started=100};
+        var command=new TacticalSquadCommand {MedicalCare=interrupted};
+        AccessTools.Method(service.GetType(),"EndMedicalCare").Invoke(service,new object[]{command,interrupted,200,false});
+        Check(command.MedicalCare==null && command.NextMedicalCheck==290
+            && patient.LastCareAt+TacticalMedicalPolicy.RetryInterval==290,
+            "Threat-interrupted care must become eligible again after 90 ticks instead of a 30-second lockout.");
         Check(TacticalCasualtyPolicy.RetreatPhase(new LordToil_ExitMap())
             && TacticalCasualtyPolicy.RetreatPhase(new LordToil_ExitMapAndDefendSelf())
             && !TacticalCasualtyPolicy.RetreatPhase(new LordToil_AssaultColony()),

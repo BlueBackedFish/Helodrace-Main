@@ -263,8 +263,9 @@ namespace Helodrace.Tactics
             if (success) MedicalCompleted++; else MedicalAborted++;
             bool followUp = success && !care.Plasma && (NeedsHemostasis(care.Patient.Pawn,null,tick)
                 || TacticalMedicalPolicy.Urgent(care.Patient.Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss)?.Severity ?? 0));
-            care.Patient.LastCareAt = followUp ? tick - TacticalMedicalPolicy.RetryInterval : tick;
-            command.NextMedicalCheck = followUp ? tick + 1 : tick + TacticalMedicalPolicy.ScanInterval;
+            care.Patient.LastCareAt = !success ? tick-TacticalMedicalPolicy.RetryInterval+90
+                : followUp ? tick - TacticalMedicalPolicy.RetryInterval : tick;
+            command.NextMedicalCheck = !success ? tick+90 : followUp ? tick + 1 : tick + TacticalMedicalPolicy.ScanInterval;
             command.PhaseStarted += tick - care.Started;
             if (command.FieldResponse?.Maneuver != null)
             { command.FieldResponse.Maneuver.Started += tick - care.Started; command.FieldResponse.Maneuver.PhaseAt += tick - care.Started; }
