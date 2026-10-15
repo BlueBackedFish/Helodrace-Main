@@ -10,7 +10,8 @@ namespace Helodrace
     public sealed class VerbProperties_Shotgun : VerbProperties
     {
         public int pelletCount = 1;
-        // Number of ancestors whose children may be hit by the same shell.
+        // Ascend at most this many parent links. At each parent, descend only
+        // one child link; grandchildren are not included through that parent.
         public int spreadFactor = 1;
     }
 

@@ -72,6 +72,8 @@ internal static class Program
         var heart = Part("Heart", chest);
         var head = Part("Head", torso);
         var brain = Part("Brain", head);
+        var lungChild = Part("LungChild", lung);
+        var lungGrandchild = Part("LungGrandchild", lungChild);
         SameRegion(lung, 0, lung);
         SameRegion(lung, 1, lung, otherLung, heart);
         SameRegion(lung, 2, lung, otherLung, heart, chest, head);
@@ -79,6 +81,9 @@ internal static class Program
         SameRegion(torso, 0, torso);
         SameRegion(torso, 1, torso, chest, head);
         Check(!ShotgunSpreadRules.Candidates(lung, 2).Contains(brain), "Do not include grandchildren of another parent.");
+        Check(!ShotgunSpreadRules.Candidates(lung, 1).Contains(chest), "Spread 1 must descend one link from the parent.");
+        Check(!ShotgunSpreadRules.Candidates(lung, 1).Contains(lungChild), "Spread 1 must exclude the parent's grandchildren.");
+        Check(!ShotgunSpreadRules.Candidates(lung, 1).Contains(lungGrandchild), "Spread 1 must exclude deeper descendants.");
         Check(!ShotgunSpreadRules.Candidates(null, 1).Any(), "Null anchor must have no candidates.");
 
         var pawn = Pawn();
@@ -109,7 +114,7 @@ internal static class Program
         finally { Rand.PopState(); }
 
         // Validate Harmony binding against the installed game's actual methods.
-        foreach (Type type in new[] { typeof(Patch_Projectile_Launch_ShotgunShell), typeof(Patch_Bullet_Impact_ShotgunShell), typeof(Patch_DamageWorker_ShotgunHitPart) })
+        foreach (Type type in new[] { typeof(Patch_Projectile_Launch_ShotgunShell), typeof(Patch_Bullet_Impact_ShotgunShell), typeof(Patch_DamageWorker_ShotgunHitPart), typeof(Patch_ThingDef_ShotgunDisplayStats) })
         {
             harmony.CreateClassProcessor(type).Patch();
             checks++;
@@ -131,9 +136,30 @@ internal static class Program
         Check(ShotgunSpreadContext.Impact == previous, "Impact finalizer must restore the previous context.");
         ShotgunSpreadContext.Impact = null;
         LaunchTests(harmony);
+        DisplayStatsTests();
         RoundTrip(torso, pawn, lung);
         harmony.UnpatchAll(harmony.Id);
         Console.WriteLine($"Shotgun spread: {checks} checks passed.");
+    }
+
+    private static void DisplayStatsTests()
+    {
+        var weapon = Bare<ThingDef>();
+        Check(!ShotgunDisplayStats.SpreadFactors(weapon).Any(), "Weapons without shotgun verbs must have no spread stat.");
+        var verbs = new System.Collections.Generic.List<VerbProperties>
+        {
+            new VerbProperties { verbClass = typeof(Verb_Shoot) },
+            new VerbProperties_Shotgun { verbClass = typeof(Verb_ShootShotgun), spreadFactor = 1 },
+            new VerbProperties_Shotgun { verbClass = typeof(Verb_ShootShotgun), spreadFactor = 1 },
+            new VerbProperties_Shotgun { verbClass = typeof(TestShotgun), spreadFactor = 2 },
+            new VerbProperties_Shotgun { verbClass = typeof(Verb_ShootShotgun), spreadFactor = -1 },
+            new VerbProperties_Shotgun { verbClass = typeof(Verb_Shoot), spreadFactor = 5 }
+        };
+        AccessTools.Field(typeof(ThingDef), "verbs").SetValue(weapon, verbs);
+        Check(ShotgunDisplayStats.SpreadFactors(weapon).SequenceEqual(new[] { 0, 1, 2 }),
+            "Display factors must match clamping, merge duplicate firing modes, and include runtime shotgun subclasses.");
+        verbs.Clear();
+        Check(!ShotgunDisplayStats.SpreadFactors(weapon).Any(), "Non-shotgun weapons must have no spread stat.");
     }
 
     private sealed class TestShotgun : Verb_ShootShotgun

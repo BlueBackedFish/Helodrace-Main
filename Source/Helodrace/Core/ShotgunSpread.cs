@@ -25,6 +25,8 @@ namespace Helodrace
                         foreach (BodyPartRecord child in current.parts) yield return child;
                     yield break;
                 }
+                // Exactly one downward link from this parent, never a recursive
+                // walk through its children. Spread 1 therefore hits siblings.
                 foreach (BodyPartRecord child in parent.parts)
                     if (child != hitPart) yield return child;
                 current = parent;
