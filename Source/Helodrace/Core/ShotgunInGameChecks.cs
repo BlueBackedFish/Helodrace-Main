@@ -12,7 +12,7 @@ using Verse.AI;
 
 namespace Helodrace
 {
-    public sealed class ShotgunInGameChecks : GameComponent
+    public sealed partial class ShotgunInGameChecks : GameComponent
     {
         private bool finished;
         private int phase;
@@ -32,6 +32,11 @@ namespace Helodrace
         public override void GameComponentTick()
         {
             if (finished || Find.CurrentMap == null || Find.TickManager.TicksGame < waitUntil) return;
+            if (GenCommandLine.TryGetCommandLineArg("hdShotgunImpactAudit", out _))
+            {
+                TickImpactAudit();
+                return;
+            }
             try
             {
                 if (phase == 0)

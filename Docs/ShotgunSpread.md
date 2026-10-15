@@ -100,3 +100,31 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File Source/Tests/ShotgunSpre
 | M1897 | 8.13발 | 100% | 98.0% |
 
 M1897의 사격 20레벨은 8칸에서 평균 8.64발이었다. 17칸에서는 사격 0레벨 3.13발, 20레벨 4.44발로 거리와 조준 능력에 따른 차이를 유지했다. 별도 사격 0레벨·8칸 실탄 비행 검사에서는 9발이 실제로 피격했다. 무기 모드 8개와 산탄 투사체 3종의 XML, 한국어·영어 키도 확인했다. 기본 신체 확장 외에 전투 체계를 교체하는 모드와의 연동 검증은 포함하지 않는다.
+
+## 실제 피격 수 감소 원인 조사
+
+2026-10-15 추가 조사에서 발사 직후 탄도 집계와 실제 피격 수 사이의 큰 차이를 재현했다. 위 분포 수치는 발사 시점의 표적 탄도이며 반복 실탄 피격 평균을 의미하지 않는다. 기존 단발 통합 검사만으로 이 문제를 충분히 검출하지 못했다.
+
+`HitsPawn`, `ImpactSomething`, `Impact`가 `Pawn.DrawPos`를 충돌·거리 계산에 사용한다. 이 좌표에는 `Pawn_DrawTracker`의 이동 보간 외에도 피격 흔들림, 조준 기울기와 작업용 시각 오프셋이 합쳐져 있다. 바닐라 `JitterHandler`는 총상마다 발사 방향으로 0.17칸의 시각 오프셋을 즉시 더한다. 두 발 뒤에는 약 0.34칸이다. 성인 인간의 현재 전방 거리 허용치는 약 0.32칸이므로 지도 위치가 그대로여도 다음 탄의 `HitsPawn`이 거짓이 된다. 산포를 줄여도 이 전방 거리 조건은 남는다.
+
+전체 비행·피해를 추적하는 `-ImpactAudit` 모드를 추가했다. 8개 조건에 각각 8회, 총 64회를 발사해 최초 표적 탄도, 실제 충돌, 피해 발생, 상처에 남은 탄 수, 부위 선택 실패를 따로 기록한다. 동일 무기·탄약·산포를 유지하고 렌더 좌표만 경로 진행률 기반 위치로 바꾼 비교 빌드도 각 조건 8회씩 검사했다. 사수는 사격 0레벨이며 표적의 의복을 제거한다. 폰 생성 조건은 실행마다 달라질 수 있다.
+
+| 조건 | 현재 코드의 평균 실제 피격 / 9발 | 렌더 좌표 제외 시 평균 실제 피격 / 9발 |
+|---|---:|---:|
+| M1897·인간·정지·5칸 | 2.75 | 9.00 |
+| M1897·Helod·정지·5칸 | 2.75 | 9.00 |
+| M1897·Helod·정지·8칸 | 2.00 | 7.75 |
+| M1887·인간·정지·8칸 | 2.00 | 7.25 |
+
+8칸 횡이동·후퇴 표적은 두 검사 모두 거의 맞지 않았다. 발사 당시 칸 중심에 조준하고 이동을 선행 보정하지 않는 문제와, 화면 밖 투사체의 15틱 갱신 주기로 같은 한 발의 실제 충돌이 여러 틱에 걸쳐 처리되는 문제를 별도로 다뤄야 한다. 움직임을 반영한 조준점과 비행 중 충돌 판정, 짧은 비행에 맞는 갱신 주기가 후속 수정 대상이다.
+
+상처 표기의 합계도 고유 명중 탄 수와 다르다. 한 탄이 체표와 내부 장기 양쪽에 상처를 내면 두 상처에 각각 기여한 탄으로 표시되며, 파괴된 부위의 상처는 사라질 수 있다. 실제 명중 수의 검증에는 충돌한 투사체의 고유 ID를 사용해야 한다.
+
+```powershell
+# 현재 충돌 경로의 실제 결과
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File Source/Tests/ShotgunSpread/Run-InGameChecks.ps1 -RuntimeRoot C:/Users/human/Documents/GitHub/Helodrace-Main/.codex-staging/ShotgunImpactBaseline -ImpactAudit
+# 동일 충돌 코드에서 렌더 좌표만 제외하는 비교 검사
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File Source/Tests/ShotgunSpread/Run-InGameChecks.ps1 -RuntimeRoot C:/Users/human/Documents/GitHub/Helodrace-Main/.codex-staging/ShotgunImpactPhysicalComparison -ImpactAudit -PhysicalPosition
+```
+
+결과는 각 실행 폴더의 `SaveData/shotgun-impact-audit.txt`에 저장한다. 좌표 교체 패치는 `SHOTGUN_TESTS` 빌드와 명시적인 비교 옵션에서만 설치한다. 이 조사 커밋은 검증 도구와 진단 기록만 추가하며 배포 DLL의 동작은 바꾸지 않는다.
