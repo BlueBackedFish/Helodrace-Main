@@ -123,8 +123,12 @@ namespace Helodrace.Tactics
         protected override IEnumerable<Toil> MakeNewToils()
         {
             BindOwner(); job.canUseRangedWeapon=false;
+            // Native rotation prioritizes the firing stance, then the next
+            // path cell, and only faces B (the watch direction) when stopped.
+            // Owning facing for this whole continuing toil freezes transit.
+            rotateToFace=TargetIndex.B;
             var actor=ToilMaker.MakeToil("TacticalCqbActor");
-            actor.defaultCompleteMode=ToilCompleteMode.Never; actor.handlingFacing=true;
+            actor.defaultCompleteMode=ToilCompleteMode.Never;
             actor.tickAction=Step;
             yield return actor;
         }
@@ -172,7 +176,6 @@ namespace Helodrace.Tactics
                 if(!AtPost) { AtPost=true; pawn.pather.StopDead(); owner.PostArrived(pawn,job,PlanVersion,CqbOwnerId); }
                 Fire(owner,order,tick,false);
                 nextStepAt=nextShot;
-                if(!pawn.stances.FullBodyBusy) pawn.rotationTracker.FaceCell(order.Face);
                 return;
             }
             AtPost=false;
