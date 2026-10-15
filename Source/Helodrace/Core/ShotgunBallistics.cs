@@ -17,6 +17,18 @@ namespace Helodrace
         internal static float Slope(float angle) => (float)Math.Tan(Math.Max(0f, Math.Min(15f, angle)) * Math.PI / 180d);
         internal static float PatternDiameter(float angle, float distance) => 4.292f * Slope(angle) * Math.Max(0f, distance);
         internal static Vector2 Sample(float angle) => new Vector2(Rand.Gaussian(), Rand.Gaussian()) * Slope(angle);
+        // Treat accuracy as continuous muzzle error, rather than a chance to
+        // move the whole shell into a neighbouring tile. Close targets are
+        // easier to point at even for an inexperienced shooter.
+        internal static float AimDeviation(float accuracy, float distance)
+        {
+            distance = Math.Max(0f, distance);
+            float inaccuracy = 1f - Mathf.Clamp01(accuracy);
+            return 0.025f + distance * Slope(0.15f + 1.5f * inaccuracy * distance / (distance + 8f));
+        }
+        // Poor aim adds a modest handling penalty. Good aim approaches the
+        // weapon's physical, unchoked pattern; it never removes that spread.
+        internal static float HandlingSpread(float accuracy) => 1f + 0.25f * (1f - Mathf.Clamp01(accuracy));
         internal static float Energy(float distance, float halfDistance) =>
             (float)Math.Pow(0.5d, Math.Max(0f, distance) / Math.Max(1f, halfDistance));
         internal static Vector2 BodyRadii(float size, bool standing)

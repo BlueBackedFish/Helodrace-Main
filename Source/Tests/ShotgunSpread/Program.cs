@@ -86,6 +86,7 @@ internal static class Program
         try
         {
             BallisticsTests();
+            AccuracyTests();
             AnatomyTests();
             ShotgunLaunchTests.Run(harmony);
             ShotgunDamageTests.Run(harmony);
@@ -123,6 +124,54 @@ internal static class Program
         Vector2 offset = shell.OffsetAt(shell.targetPoint, new Vector2(0.01f, 0.02f));
         Near(offset.x, 0.3f, "Pellets must add their offset to the common horizontal aiming error.");
         Near(offset.y, 0.3f, "Pellets must share the vertical aiming error.");
+    }
+
+    private static void AccuracyTests()
+    {
+        const int shells = 10000;
+        var radii = ShotgunBallistics.BodyRadii(1f, true);
+        float noviceNear = 0f, noviceFar = 0f;
+        foreach (float accuracy in new[] { 0f, 1f })
+        foreach (float distance in new[] { 5f, 8f, 12f, 20f })
+        {
+            int total = 0, four = 0, five = 0;
+            Rand.PushState(57419);
+            try
+            {
+                for (int shot = 0; shot < shells; shot++)
+                {
+                    float deviation = ShotgunBallistics.AimDeviation(accuracy, distance);
+                    var aim = new Vector2(Rand.Gaussian(0f, deviation), Rand.Gaussian(0f, deviation));
+                    int hits = 0;
+                    for (int pellet = 0; pellet < 9; pellet++)
+                        if (ShotgunBallistics.Hits(aim + ShotgunBallistics.Sample(1f * ShotgunBallistics.HandlingSpread(accuracy)) * distance, radii)) hits++;
+                    total += hits;
+                    if (hits >= 4) four++;
+                    if (hits >= 5) five++;
+                }
+            }
+            finally { Rand.PopState(); }
+            float mean = (float)total / shells;
+            Console.WriteLine($"Accuracy={accuracy:0}, distance={distance:0}: {mean:0.00}/9 pellets, >=4 {100f * four / shells:0.0}%, >=5 {100f * five / shells:0.0}% (unchoked 1 degree).");
+            if (accuracy == 0f)
+            {
+                if (distance == 5f) Check(five > shells * 0.99f, "Even the worst aim must usually land five pellets at five tiles.");
+                if (distance == 8f)
+                {
+                    noviceNear = mean;
+                    Check(four > shells * 0.94f && five > shells * 0.88f, "Close-range poor aim must usually land four to five pellets without a hit quota.");
+                }
+                if (distance == 20f) { noviceFar = mean; Check(mean < noviceNear * 0.5f, "Unchoked spread and aim error must still penalize distant shots."); }
+            }
+            else
+            {
+                if (distance == 8f) Check(mean > noviceNear + 1f, "Better aim must put a tighter group on target.");
+                if (distance == 20f) Check(mean > noviceFar * 1.5f && mean < 6f, "Skilled distant shots must improve without eliminating physical spread.");
+            }
+        }
+        Near(ShotgunBallistics.HandlingSpread(1f), 1f, "Perfect aim must retain the full unchoked base pattern.");
+        Near(ShotgunBallistics.HandlingSpread(-1f), ShotgunBallistics.HandlingSpread(0f), "Accuracy inputs must be clamped.");
+        Check(ShotgunBallistics.AimDeviation(0f, 8f) > ShotgunBallistics.AimDeviation(1f, 8f), "Accuracy must reduce shared muzzle error.");
     }
 
     private static void AnatomyTests()

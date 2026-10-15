@@ -14,6 +14,7 @@ namespace Helodrace
         internal readonly float angle;
         internal ShotReport? report;
         internal ShotgunShell shell;
+        internal float handlingSpread = 1f;
         private Projectile_ShotgunPellet template;
         private Thing launcher;
         private Thing equipment;
@@ -43,16 +44,30 @@ namespace Helodrace
             preventFriendlyFire = preventFriendly;
             cover = coverDef;
             shell = new ShotgunShell { id = pellet.thingIDNumber, origin = origin, targetPoint = intended.Cell.ToVector3Shifted() };
-            // A selected cover is an obstruction, not an aiming error. Cover
-            // rolls are made separately for each pellet below.
-            Vector3 aim = used.HasThing && used.Thing != intended.Thing
-                ? shell.targetPoint : used.Cell.ToVector3Shifted();
-            Vector3 error = aim - shell.targetPoint;
-            float jitter = 0.03f + 0.12f * Math.Max(0f, 1f - Math.Min(1f, report?.AimOnTargetChance_IgnoringPosture ?? 1f));
-            shell.aimError = new Vector2(Vector3.Dot(error, shell.Right) + Rand.Gaussian(0f, jitter),
-                Vector3.Dot(error, shell.Forward) + Rand.Gaussian(0f, jitter));
-            // Choose the anatomical centre before any pellet has impacted.
-            if (intended.Thing is Pawn pawn) shell.CentreFor(pawn, pellet.DamageDef);
+            if (intended.Thing is Pawn pawn)
+            {
+                // Forced-miss launcher paths can bypass HitReportFor. Buckshot
+                // still needs shooter/weather/cover data in that case.
+                if (!report.HasValue) report = ShotReport.HitReportFor(shooter, verb, intended);
+                // Size and posture are handled by the silhouette, not twice in
+                // the aiming error. Ignore vanilla's all-or-nothing miss tile.
+                float accuracy = report.Value.AimOnTargetChance_StandardTarget;
+                float deviation = ShotgunBallistics.AimDeviation(accuracy, shell.AimDistance);
+                shell.aimError = new Vector2(Rand.Gaussian(0f, deviation), Rand.Gaussian(0f, deviation));
+                handlingSpread = ShotgunBallistics.HandlingSpread(accuracy);
+                // Choose the anatomical centre before any pellet has impacted.
+                shell.CentreFor(pawn, pellet.DamageDef);
+            }
+            else
+            {
+                // Keep map-space misses for buildings and ground targeting.
+                Vector3 aim = used.HasThing && used.Thing != intended.Thing
+                    ? shell.targetPoint : used.Cell.ToVector3Shifted();
+                Vector3 error = aim - shell.targetPoint;
+                float jitter = 0.03f + 0.12f * Math.Max(0f, 1f - Math.Min(1f, report?.AimOnTargetChance_IgnoringPosture ?? 1f));
+                shell.aimError = new Vector2(Vector3.Dot(error, shell.Right) + Rand.Gaussian(0f, jitter),
+                    Vector3.Dot(error, shell.Forward) + Rand.Gaussian(0f, jitter));
+            }
         }
 
         internal void LaunchRemaining()
@@ -102,7 +117,7 @@ namespace Helodrace
             }
             launch.Capture(this, launcher, origin, usedTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
             shell = launch.shell;
-            slope = ShotgunBallistics.Sample(launch.angle * Math.Max(0f, Settings.spreadMultiplier));
+            slope = ShotgunBallistics.Sample(launch.angle * Math.Max(0f, Settings.spreadMultiplier) * launch.handlingSpread);
             Vector3 endpoint = shell.targetPoint + shell.Right * (shell.aimError.x + slope.x * shell.AimDistance);
             LocalTargetInfo actualTarget = endpoint.ToIntVec3();
             hitFlags |= ProjectileHitFlags.NonTargetWorld;

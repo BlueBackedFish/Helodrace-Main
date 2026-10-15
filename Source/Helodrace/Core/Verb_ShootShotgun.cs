@@ -15,8 +15,8 @@ namespace Helodrace
     }
 
     /// <summary>
-    /// One vanilla shot supplies the common aim, consumes one shell and records
-    /// one shot. Additional pellets reuse that launch with individual offsets.
+    /// One vanilla shot supplies accuracy/cover data, consumes one shell and
+    /// records one shot. Pellets share a continuous aim with individual offsets.
     /// </summary>
     public class Verb_ShootShotgun : Verb_Shoot
     {

@@ -1,6 +1,7 @@
 #if SHOTGUN_TESTS
 // Isolated -quicktest validation build only; excluded from the shipped assembly.
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using HarmonyLib;
@@ -20,6 +21,7 @@ namespace Helodrace
         private Pawn victim;
         private int shellId;
         private int recordedShots;
+        private int expectedHits;
         private string Results => Path.Combine(GenFilePaths.SaveDataFolderPath, "shotgun-results.txt");
         public ShotgunInGameChecks(Game game) { }
         private void Check(bool condition, string message)
@@ -52,6 +54,13 @@ namespace Helodrace
                         .Count(entry => entry.LabelCap == "HD_Shotgun_SpreadAngle".Translate().Resolve().CapitalizeFirst()
                             || entry.LabelCap == "HD_Shotgun_PatternDiameter".Translate().Resolve().CapitalizeFirst());
                     Check(stats == 2, "weapon info exposes spread and pattern diameter");
+                    AccuracyChecks();
+                    StartShot(PawnKindDefOf.Colonist, 8, 0);
+                    phase = 3;
+                }
+                else if (phase == 3)
+                {
+                    InspectShot("skill-0 human at eight tiles");
                     File.AppendAllText(Results, "COMPLETE\n");
                     finished = true;
                     Application.Quit(0);
@@ -64,7 +73,7 @@ namespace Helodrace
                 Application.Quit(1);
             }
         }
-        private void StartShot(PawnKindDef kind, int distance)
+        private Verb_ShootShotgun PrepareShot(PawnKindDef kind, int distance, int skill, string weaponName)
         {
             Map map = Find.CurrentMap;
             IntVec3 source = map.Center + new IntVec3(0, 0, -12);
@@ -76,7 +85,7 @@ namespace Helodrace
             if (victim != null && !victim.Destroyed) victim.Destroy();
             shooter = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
             victim = PawnGenerator.GeneratePawn(kind);
-            shooter.skills.GetSkill(SkillDefOf.Shooting).Level = 20;
+            shooter.skills.GetSkill(SkillDefOf.Shooting).Level = skill;
             victim.apparel?.DestroyAll();
             victim.equipment?.DestroyAllEquipment();
             GenSpawn.Spawn(shooter, source, map);
@@ -87,28 +96,96 @@ namespace Helodrace
                 wait.expiryInterval = 99999;
                 pawn.jobs.StartJob(wait, JobCondition.InterruptForced);
             }
-            ThingWithComps weapon = (ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed("HD_Gun_M1897_Weapon"));
+            ThingWithComps weapon = (ThingWithComps)ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(weaponName));
             shooter.equipment.DestroyAllEquipment();
             shooter.equipment.AddEquipment(weapon);
             Verb_ShootShotgun verb = (Verb_ShootShotgun)weapon.TryGetComp<CompEquippable>().PrimaryVerb;
             verb.caster = shooter;
-            // Isolate trajectory/damage integration from ordinary aim failures.
-            verb.verbProps.canGoWild = false;
             AccessTools.FieldRefAccess<Verb, LocalTargetInfo>("currentTarget")(verb) = victim;
+            return verb;
+        }
+        private void StartShot(PawnKindDef kind, int distance, int skill = 20)
+        {
+            Verb_ShootShotgun verb = PrepareShot(kind, distance, skill, "HD_Gun_M1897_Weapon");
             recordedShots = (int)shooter.records.GetValue(RecordDefOf.ShotsFired);
             Check((bool)AccessTools.Method(typeof(Verb_ShootShotgun), "TryCastShot").Invoke(verb, null), kind.defName + " shell fired");
-            var launched = map.listerThings.ThingsInGroup(ThingRequestGroup.Projectile).OfType<Projectile_ShotgunPellet>()
+            var launched = shooter.Map.listerThings.ThingsInGroup(ThingRequestGroup.Projectile).OfType<Projectile_ShotgunPellet>()
                 .Where(pellet => pellet.Launcher == shooter).ToArray();
             Check(launched.Length == 9 && launched.Select(pellet => pellet.Shell).Distinct().Count() == 1,
                 kind.defName + " has nine native projectiles sharing one shell");
             shellId = launched[0].Shell.id;
+            expectedHits = launched.Count(pellet => pellet.usedTarget.Thing == victim && pellet.HitsPawn(victim));
+            ShotgunInGameImpactProbe.shellId = shellId;
+            ShotgunInGameImpactProbe.hits.Clear();
             Check((int)shooter.records.GetValue(RecordDefOf.ShotsFired) - recordedShots == 1, "native shot record increments once");
             Check(ShotgunBodyProfile.For(victim.RaceProps.body).surfaces.Count > 0, kind.defName + " body automatically has an external profile");
             waitUntil = Find.TickManager.TicksGame + 120;
             Find.TickManager.CurTimeSpeed = TimeSpeed.Superfast;
         }
+        private void AccuracyChecks()
+        {
+            foreach (string weapon in new[] { "HD_Gun_M1897_Weapon", "HD_Gun_WinM1887_Weapon" })
+            {
+                SampleAccuracy(weapon, 0, 5);
+                float near = SampleAccuracy(weapon, 0, 8);
+                float skilled = SampleAccuracy(weapon, 20, 8);
+                Check(skilled > near, weapon + " better aim improves close grouping");
+            }
+            SampleAccuracy("HD_Gun_M1897_Weapon", 0, 12);
+            float farNovice = SampleAccuracy("HD_Gun_M1897_Weapon", 0, 17);
+            float farSkilled = SampleAccuracy("HD_Gun_M1897_Weapon", 20, 17);
+            Check(farSkilled > farNovice + 1f, "native shooting skill improves distant hits");
+            Check(farSkilled < 7f, "native skilled aim retains unchoked distant spread");
+            SampleAccuracy("HD_Gun_M79_Weapon", 0, 8);
+        }
+        private float SampleAccuracy(string weaponName, int skill, int distance)
+        {
+            const int samples = 256;
+            Verb_ShootShotgun verb = PrepareShot(PawnKindDefOf.Colonist, distance, skill, weaponName);
+            Check(verb.verbProps.canGoWild, weaponName + " tests ordinary native aim failures");
+            CompM79Launcher launcher = verb.EquipmentSource.TryGetComp<CompM79Launcher>();
+            if (launcher != null)
+                AccessTools.FieldRefAccess<CompM79Launcher, ThingDef>("selectedAmmoDef")(launcher) = DefDatabase<ThingDef>.GetNamed("HD_40mmM576MP_Round");
+            int count = launcher == null ? 9 : 20;
+            int total = 0, four = 0, five = 0;
+            bool validShells = true;
+            Rand.PushState(39715);
+            try
+            {
+                for (int shot = 0; shot < samples; shot++)
+                {
+                    if (launcher != null) AccessTools.FieldRefAccess<CompM79Launcher, bool>("loaded")(launcher) = true;
+                    if (!(bool)AccessTools.Method(typeof(Verb_ShootShotgun), "TryCastShot").Invoke(verb, null))
+                        throw new InvalidOperationException(weaponName + " failed to fire accuracy sample " + shot);
+                    var launched = shooter.Map.listerThings.ThingsInGroup(ThingRequestGroup.Projectile).OfType<Projectile_ShotgunPellet>()
+                        .Where(pellet => pellet.Launcher == shooter).ToArray();
+                    validShells &= launched.Length == count && launched.All(pellet => pellet.Shell != null)
+                        && launched.Select(pellet => pellet.Shell).Distinct().Count() == 1;
+                    // Native firing and cover selection, sampled before flight
+                    // so repeated shots do not destroy or down the target.
+                    int hits = launched.Count(pellet => pellet.usedTarget.Thing == victim && pellet.HitsPawn(victim));
+                    total += hits;
+                    if (hits >= 4) four++;
+                    if (hits >= 5) five++;
+                    foreach (var pellet in launched) pellet.Destroy();
+                }
+            }
+            finally { Rand.PopState(); }
+            float mean = (float)total / samples;
+            File.AppendAllText(Results, $"ACCURACY {weaponName}, skill={skill}, distance={distance}, mean={mean:0.00}/{count}, >=4={100f * four / samples:0.0}%, >=5={100f * five / samples:0.0}%\n");
+            Check(validShells, weaponName + " accuracy samples retain correct shell/projectile count");
+            if (skill == 0 && distance <= 8)
+            {
+                Check(mean >= count * 0.65f, weaponName + " inexperienced close shots land most pellets");
+                Check(four >= samples * 0.90f && five >= samples * 0.85f, weaponName + " inexperienced close shots usually land at least four to five pellets");
+            }
+            return mean;
+        }
         private void InspectShot(string label)
         {
+            int actualHits = ShotgunInGameImpactProbe.hits.Count;
+            File.AppendAllText(Results, $"IMPACTS {label}: {actualHits}/9 actual, {expectedHits}/9 initially on target\n");
+            Check(actualHits >= Math.Min(4, expectedHits), label + " sampled close trajectories reach the target during native flight");
             var wounds = victim.health.hediffSet.hediffs.OfType<Hediff_Injury>()
                 .Where(injury => GameComponent_ShotgunWounds.Current.For(injury)?.shellId == shellId).ToArray();
             Check(wounds.Length > 0, label + " received native pellet injuries");
@@ -118,6 +195,18 @@ namespace Helodrace
                 .All(group => group.Count() == 1), label + " same-shell same-part injuries are grouped");
             Check(wounds.All(injury => injury.LabelBase.Contains("HD_Shotgun_PelletCount".Translate(
                 GameComponent_ShotgunWounds.Current.For(injury).pelletCount).Resolve())), label + " wound labels show pellet counts");
+        }
+    }
+
+    [HarmonyPatch(typeof(Projectile_ShotgunPellet), "Impact")]
+    internal static class ShotgunInGameImpactProbe
+    {
+        internal static int shellId;
+        internal static readonly HashSet<int> hits = new HashSet<int>();
+        private static void Prefix(Projectile_ShotgunPellet __instance, Thing hitThing, bool blockedByShield)
+        {
+            if (!blockedByShield && hitThing is Pawn && hitThing == __instance.intendedTarget.Thing && __instance.Shell?.id == shellId)
+                hits.Add(__instance.thingIDNumber);
         }
     }
 }

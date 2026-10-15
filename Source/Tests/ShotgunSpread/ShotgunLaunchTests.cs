@@ -73,6 +73,38 @@ internal static class ShotgunLaunchTests
         }
         return false;
     }
+    private static ShotReport Report(float accuracy, float size)
+    {
+        object report = default(ShotReport);
+        foreach (string field in new[] { "factorFromShooterAndDist", "factorFromEquipment", "factorFromWeather", "factorFromCoveringGas" })
+            AccessTools.Field(typeof(ShotReport), field).SetValue(report, field == "factorFromShooterAndDist" ? accuracy : 1f);
+        AccessTools.Field(typeof(ShotReport), "factorFromTargetSize").SetValue(report, size);
+        return (ShotReport)report;
+    }
+
+    private static void CheckPawnAim(Verb verb)
+    {
+        var body = new BodyDef();
+        Program.Part(body, "AimSurface", 1f);
+        Pawn target = Program.Pawn(body);
+        AccessTools.Field(typeof(Thing), "positionInt").SetValue(target, new IntVec3(3, 0, 8));
+        Vector2 first = default(Vector2);
+        foreach (float size in new[] { 0.5f, 2f })
+        {
+            var launch = new ShotgunLaunch(verb, 9, 1f) { report = Report(0.1f, size) };
+            Rand.PushState(7891);
+            try
+            {
+                launch.Capture(NewPellet(projectile), null, new Vector3(3.5f, 0f, 3.5f),
+                    new IntVec3(3, 0, 13), target, ProjectileHitFlags.NonTargetWorld, false, null, null);
+            }
+            finally { Rand.PopState(); }
+            Program.Check(launch.shell.aimError.magnitude < 0.3f, "Pawn aiming must replace the coarse vanilla miss tile with a close continuous error.");
+            Program.Check(launch.handlingSpread > 1f && launch.handlingSpread <= 1.25f, "Poor aim must add only a modest handling penalty to base spread.");
+            if (size == 0.5f) first = launch.shell.aimError;
+            else Program.Check(first == launch.shell.aimError, "Target size must affect the silhouette without also worsening shared aim.");
+        }
+    }
     internal static void Run(Harmony harmony)
     {
         map = Program.Bare<Map>();
@@ -116,6 +148,7 @@ internal static class ShotgunLaunchTests
         harmony.Unpatch(baseLaunch, HarmonyPatchType.Prefix, harmony.Id);
         harmony.Unpatch(spawn, HarmonyPatchType.Prefix, harmony.Id);
         harmony.Unpatch(shot, HarmonyPatchType.Prefix, harmony.Id);
+        CheckPawnAim(verb);
         var weapon = Program.Bare<ThingDef>();
         AccessTools.Field(typeof(ThingDef), "verbs").SetValue(weapon, new List<VerbProperties>
         {
