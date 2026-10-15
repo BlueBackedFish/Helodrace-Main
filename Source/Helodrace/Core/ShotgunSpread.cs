@@ -1,10 +1,18 @@
 using System;
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
 using UnityEngine;
 
 namespace Helodrace
 {
+    internal struct ShotgunPose
+    {
+        internal int tick;
+        internal Vector3 position;
+        internal Vector2 radii;
+    }
+
     public sealed class ShotgunTarget : IExposable
     {
         public Pawn pawn;
@@ -24,6 +32,20 @@ namespace Helodrace
         public Vector2 aimError;
         public List<Projectile> projectiles = new List<Projectile>();
         private List<ShotgunTarget> targets = new List<ShotgunTarget>();
+        private readonly Dictionary<Pawn, ShotgunPose> poses = new Dictionary<Pawn, ShotgunPose>();
+
+        internal ShotgunPose PoseFor(Pawn pawn)
+        {
+            int tick = Find.TickManager?.TicksGame ?? -1;
+            if (poses.TryGetValue(pawn, out ShotgunPose pose) && pose.tick == tick) return pose;
+            // A hit may interrupt a job and reset path progress immediately.
+            // All pellets arriving in this tick must see the same physical
+            // pose, while armor and injuries still resolve independently.
+            pose = new ShotgunPose { tick = tick, position = ShotgunBallistics.Position(pawn),
+                radii = ShotgunBallistics.BodyRadii(pawn.BodySize, pawn.GetPosture() == PawnPosture.Standing) };
+            poses[pawn] = pose;
+            return pose;
+        }
 
         internal Vector3 Forward
         {

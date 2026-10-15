@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -46,6 +47,7 @@ namespace Helodrace
             shell = new ShotgunShell { id = pellet.thingIDNumber, origin = origin, targetPoint = intended.Cell.ToVector3Shifted() };
             if (intended.Thing is Pawn pawn)
             {
+                shell.targetPoint = ShotgunBallistics.AimPoint(pawn, origin, pellet.def.projectile.SpeedTilesPerTick);
                 // Forced-miss launcher paths can bypass HitReportFor. Buckshot
                 // still needs shooter/weather/cover data in that case.
                 if (!report.HasValue) report = ShotReport.HitReportFor(shooter, verb, intended);
@@ -98,6 +100,8 @@ namespace Helodrace
         private Vector2 slope;
         private ShotgunShell shell;
         private float impactDistance = -1f;
+        private bool flightStep;
+        private float stepStart, stepEnd;
         internal ShotgunProjectileExtension Settings => def.GetModExtension<ShotgunProjectileExtension>() ?? defaults;
         private static readonly ShotgunProjectileExtension defaults = new ShotgunProjectileExtension();
         internal ShotgunShell Shell => shell ?? (shell = Map?.GetComponent<MapComponent_ShotgunShells>().ShellFor(this));
@@ -105,6 +109,10 @@ namespace Helodrace
         internal float Energy => ShotgunBallistics.Energy(TravelDistance, Settings.energyHalfDistance);
         public override int DamageAmount => Shell == null ? base.DamageAmount : Math.Max(1, (int)Math.Round(base.DamageAmount * Energy));
         public override float ArmorPenetration => Shell == null ? base.ArmorPenetration : base.ArmorPenetration * (float)Math.Sqrt(Energy);
+        // This must already be true when GenSpawn registers tickability, before
+        // Launch attaches the shell. Off-screen pellets must not split a shell
+        // into staggered 15-tick updates.
+        public override int UpdateRateTicks => 1;
 
         public override void Launch(Thing launcher, Vector3 origin, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget,
             ProjectileHitFlags hitFlags, bool preventFriendlyFire = false, Thing equipment = null, ThingDef targetCoverDef = null)
@@ -126,9 +134,11 @@ namespace Helodrace
                 // Let the ray test decide at impact too, including a target
                 // moving into or out of the pattern after launch.
                 hitFlags |= ProjectileHitFlags.IntendedTarget;
-                if (HitsPawn(pawn))
+                actualTarget = pawn;
+                // Test cover at the predicted interception point. Testing the
+                // pawn's current position here would reject a valid lead shot.
+                if (HitsAt(pawn, shell.targetPoint))
                 {
-                    actualTarget = pawn;
                     if (launch.report.HasValue && !Rand.Chance(launch.report.Value.PassCoverChance))
                     {
                         Thing obstruction = launch.report.Value.GetRandomCoverToMissInto();
@@ -153,6 +163,10 @@ namespace Helodrace
                     hitFlags |= ProjectileHitFlags.IntendedTarget;
                 }
             }
+            // Native flight time uses full Vector3 distance, while flight is
+            // horizontal. Keep equal render heights so altitude is not added
+            // to the travel distance and the moving-target lead stays valid.
+            endpoint.y = origin.y;
             base.Launch(launcher, origin, actualTarget, intendedTarget, hitFlags, preventFriendlyFire, equipment, targetCoverDef);
             // The base launch adds unrelated cell jitter. Preserve the sampled
             // continuous trajectory and recompute its flight time instead.
@@ -162,14 +176,48 @@ namespace Helodrace
             Map.GetComponent<MapComponent_ShotgunShells>().Register(this, shell);
         }
 
+        protected override void TickInterval(int delta)
+        {
+            ShotgunShell current = Shell;
+            if (current == null) { base.TickInterval(delta); return; }
+            stepStart = current.DistanceTo(ExactPosition);
+            float fraction = Mathf.Clamp01(1f - (ticksToImpact - delta) / StartingTicksToImpact);
+            stepEnd = current.DistanceTo(origin + (destination - origin) * fraction);
+            flightStep = true;
+            try
+            {
+                // Native flight resolves walls and projectile shields first.
+                base.TickInterval(delta);
+                // Resolve the aimed pawn deterministically when this segment
+                // crosses its body. Vanilla's random cell interception can
+                // otherwise let one early pellet stop a moving pawn before
+                // the rest reach their endpoint.
+                if (!Destroyed && usedTarget.Thing is Pawn target && intendedTarget.Thing == target && CanHit(target))
+                    Impact(target);
+            }
+            finally { flightStep = false; }
+        }
+
         internal bool HitsPawn(Pawn pawn)
         {
             ShotgunShell current = Shell;
             if (current == null) return true;
-            Vector2 radii = ShotgunBallistics.BodyRadii(pawn.BodySize, pawn.GetPosture() == PawnPosture.Standing);
-            return current.DistanceTo(pawn.DrawPos) > 0f
-                && current.DistanceTo(pawn.DrawPos) <= current.AimDistance + radii.x
-                && ShotgunBallistics.Hits(current.OffsetAt(pawn.DrawPos, slope),
+            ShotgunPose pose = current.PoseFor(pawn);
+            float distance = current.DistanceTo(pose.position);
+            return HitsAt(pose.position, pose.radii) && (!flightStep ||
+                (distance >= Math.Min(stepStart, stepEnd) - pose.radii.x && distance <= Math.Max(stepStart, stepEnd) + pose.radii.x));
+        }
+
+        internal bool HitsAt(Pawn pawn, Vector3 position) => HitsAt(position,
+            ShotgunBallistics.BodyRadii(pawn.BodySize, pawn.GetPosture() == PawnPosture.Standing));
+
+        private bool HitsAt(Vector3 position, Vector2 radii)
+        {
+            ShotgunShell current = Shell;
+            if (current == null) return true;
+            return current.DistanceTo(position) > 0f
+                && current.DistanceTo(position) <= current.AimDistance + radii.x
+                && ShotgunBallistics.Hits(current.OffsetAt(position, slope),
                     radii);
         }
 
@@ -179,14 +227,27 @@ namespace Helodrace
             // Pawn size/posture has already been tested against the ellipse.
             // Do not add vanilla's second random hit/posture roll at the end.
             if (usedTarget.HasThing && CanHit(usedTarget.Thing)
-                && (!(usedTarget.Thing is Pawn target) || Math.Abs(Shell.DistanceTo(target.DrawPos) - Shell.AimDistance)
-                    <= ShotgunBallistics.BodyRadii(target.BodySize, target.GetPosture() == PawnPosture.Standing).x + 0.5f))
+                && (!(usedTarget.Thing is Pawn target) || Math.Abs(Shell.DistanceTo(Shell.PoseFor(target).position) - Shell.AimDistance)
+                    <= Shell.PoseFor(target).radii.x + 0.5f))
             { Impact(usedTarget.Thing); return; }
             List<Thing> things = VerbUtility.ThingsToHit(Position, Map, CanHit);
             things.Shuffle();
             foreach (Thing thing in things)
                 if (thing is Pawn || Rand.Chance(1.5f * thing.def.fillPercent)) { Impact(thing); return; }
             Impact(null);
+        }
+
+        internal bool TryHitSolid(IntVec3 cell)
+        {
+            if (Shell == null) return false;
+            foreach (Thing thing in cell.GetThingList(Map))
+                if (!(thing is Pawn) && thing.def.Fillage == FillCategory.Full
+                    && !(thing is Building_Door door && door.Open) && CanHit(thing))
+                {
+                    Impact(thing);
+                    return true;
+                }
+            return false;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
@@ -196,12 +257,12 @@ namespace Helodrace
             ShotgunSpreadContext.Impact = null;
             if (!blockedByShield && Shell != null && hitThing is Pawn pawn)
             {
-                Vector2 radii = ShotgunBallistics.BodyRadii(pawn.BodySize, pawn.GetPosture() == PawnPosture.Standing);
+                ShotgunPose pose = Shell.PoseFor(pawn);
                 ShotgunSpreadContext.Impact = new ShotgunImpact
                 {
                     shell = Shell, pellet = this, pawn = pawn, damageDef = DamageDef,
                     energy = Energy, incomingDamage = DamageAmount,
-                    relativeSpread = (slope * Shell.DistanceTo(pawn.DrawPos)).magnitude / Math.Min(radii.x, radii.y)
+                    relativeSpread = (slope * Shell.DistanceTo(pose.position)).magnitude / Math.Min(pose.radii.x, pose.radii.y)
                 };
             }
             try { base.Impact(hitThing, blockedByShield); }
@@ -224,5 +285,38 @@ namespace Helodrace
             if (__result && __instance is Projectile_ShotgunPellet pellet && thing is Pawn pawn)
                 __result = pellet.HitsPawn(pawn);
         }
+    }
+
+    [HarmonyPatch(typeof(Projectile), "CheckForFreeIntercept")]
+    public static class Patch_Projectile_ShotgunSolidCollision
+    {
+        public static bool Prefix(Projectile __instance, IntVec3 c, ref bool __result)
+        {
+            if (!(__instance is Projectile_ShotgunPellet pellet) || !pellet.TryHitSolid(c)) return true;
+            __result = true;
+            return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(Projectile), "CheckForFreeInterceptBetween")]
+    public static class Patch_Projectile_ShotgunWorldSweep
+    {
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var distanceFactor = AccessTools.Method(typeof(VerbUtility), nameof(VerbUtility.InterceptChanceFactorFromDistance));
+            var allowSweep = AccessTools.Method(typeof(Patch_Projectile_ShotgunWorldSweep), nameof(AllowSweep));
+            foreach (CodeInstruction instruction in instructions)
+            {
+                yield return instruction;
+                if (!instruction.Calls(distanceFactor)) continue;
+                yield return new CodeInstruction(OpCodes.Ldarg_0);
+                yield return new CodeInstruction(OpCodes.Call, allowSweep);
+            }
+        }
+        private static float AllowSweep(float factor, Projectile projectile) =>
+            projectile is Projectile_ShotgunPellet pellet && pellet.Shell != null ? Math.Max(0.0001f, factor) : factor;
+        // Only enable cell traversal here. The original distance factors for
+        // incidental pawns and partial cover remain inside each cell check;
+        // solid walls cannot be skipped merely for being near the shooter.
     }
 }

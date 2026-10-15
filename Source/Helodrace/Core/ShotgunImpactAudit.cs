@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -18,7 +17,10 @@ namespace Helodrace
     {
         private int auditShot;
         private bool auditWaiting;
+        private bool auditPrepared;
         private Verb_ShootShotgun auditVerb;
+        private readonly int[] auditHits = new int[8];
+        private readonly int[] auditDamaging = new int[8];
         private string AuditResults => Path.Combine(GenFilePaths.SaveDataFolderPath, "shotgun-impact-audit.txt");
         private void TickImpactAudit()
         {
@@ -33,15 +35,30 @@ namespace Helodrace
                         .Sum(injury => GameComponent_ShotgunWounds.Current.For(injury)?.pelletCount ?? 0);
                     string summary = $"SHOT case={auditShot / repeats}, repeat={auditShot % repeats}, initial={trace.initial}, impacts={trace.impacts}, damaging={trace.damaging.Count}, visible={visible}, rejectedParts={trace.rejectedParts}, damage={trace.damage:0.00}, centre={trace.centre}, dead={victim.Dead}, posture={victim.GetPosture()}";
                     File.AppendAllText(AuditResults, summary + "\n" + string.Join("\n", trace.events) + "\n");
+                    auditHits[auditShot / repeats] += trace.impacts;
+                    auditDamaging[auditShot / repeats] += trace.damaging.Count;
                     ShotgunImpactTrace.current = null;
                     auditWaiting = false;
                     auditShot++;
                 }
                 if (auditShot == repeats * scenarios)
                 {
+                    for (int caseIndex = 0; caseIndex < scenarios; caseIndex++)
+                    {
+                        float hits = (float)auditHits[caseIndex] / repeats;
+                        float damaging = (float)auditDamaging[caseIndex] / repeats;
+                        File.AppendAllText(AuditResults, $"MEAN case={caseIndex}, impacts={hits:0.00}, damaging={damaging:0.00}\n");
+                        if (hits < 4.5f || damaging < 4f) throw new InvalidOperationException("Insufficient actual close hits in case " + caseIndex);
+                    }
                     File.AppendAllText(AuditResults, "COMPLETE\n");
                     finished = true;
                     Application.Quit(0);
+                    return;
+                }
+                if (auditPrepared)
+                {
+                    FireAuditShot();
+                    auditPrepared = false;
                     return;
                 }
                 if (auditShot == 0) File.WriteAllText(AuditResults, "Native shotgun impact pipeline audit; 8 shots per scenario\n"
@@ -58,21 +75,14 @@ namespace Helodrace
                     IntVec3 goal = victim.Position + direction * 10;
                     foreach (IntVec3 cell in CellRect.FromLimits(victim.Position, goal).ExpandedBy(1))
                         foreach (Thing thing in cell.GetThingList(victim.Map).ToArray())
-                            if (!(thing is Pawn) && (thing.def.category == ThingCategory.Plant || thing.def.category == ThingCategory.Building)) thing.Destroy();
+                            if (!(thing is Pawn) && (thing.def.category == ThingCategory.Plant || thing.def.category == ThingCategory.Building
+                                || thing.def.Fillage != FillCategory.None)) thing.Destroy();
                     victim.jobs.StartJob(JobMaker.MakeJob(JobDefOf.Goto, goal), JobCondition.InterruptForced);
                 }
-                var traceNext = new ShotgunImpactTrace { pawn = victim };
-                ShotgunImpactTrace.current = traceNext;
-                if (!(bool)AccessTools.Method(typeof(Verb_ShootShotgun), "TryCastShot").Invoke(auditVerb, null)) throw new InvalidOperationException("Audit shot failed");
-                var pellets = shooter.Map.listerThings.ThingsInGroup(ThingRequestGroup.Projectile).OfType<Projectile_ShotgunPellet>()
-                    .Where(pellet => pellet.Launcher == shooter).ToArray();
-                if (pellets.Length != 9) throw new InvalidOperationException("Expected nine pellets");
-                traceNext.shell = pellets[0].Shell;
-                traceNext.centre = traceNext.shell.CentreFor(victim, pellets[0].DamageDef)?.Label;
-                traceNext.initial = pellets.Count(pellet => pellet.usedTarget.Thing == victim && pellet.HitsPawn(victim));
-                traceNext.events.Add($"START scenario={scenario}, distance={distance}, weapon={weapon}, size={victim.BodySize:0.00}, position={victim.Position}, draw={victim.DrawPos}, aim={traceNext.shell.targetPoint}, error={traceNext.shell.aimError}");
-                auditWaiting = true;
-                waitUntil = Find.TickManager.TicksGame + 45;
+                // Observe established movement, as a normal weapon does after
+                // warmup, rather than firing before the path request exists.
+                auditPrepared = true;
+                waitUntil = Find.TickManager.TicksGame + 10;
                 Find.TickManager.CurTimeSpeed = TimeSpeed.Superfast;
             }
             catch (Exception error)
@@ -81,6 +91,23 @@ namespace Helodrace
                 File.AppendAllText(AuditResults, "FAIL " + error + "\n");
                 Application.Quit(1);
             }
+        }
+        private void FireAuditShot()
+        {
+            var traceNext = new ShotgunImpactTrace { pawn = victim };
+            ShotgunImpactTrace.current = traceNext;
+            if (!(bool)AccessTools.Method(typeof(Verb_ShootShotgun), "TryCastShot").Invoke(auditVerb, null)) throw new InvalidOperationException("Audit shot failed");
+            var pellets = shooter.Map.listerThings.ThingsInGroup(ThingRequestGroup.Projectile).OfType<Projectile_ShotgunPellet>()
+                .Where(pellet => pellet.Launcher == shooter).ToArray();
+            if (pellets.Length != 9) throw new InvalidOperationException("Expected nine pellets");
+            if (pellets.Any(pellet => pellet.UpdateRateTicks != 1)) throw new InvalidOperationException("Pellets must tick every game tick");
+            traceNext.shell = pellets[0].Shell;
+            traceNext.centre = traceNext.shell.CentreFor(victim, pellets[0].DamageDef)?.Label;
+            traceNext.initial = pellets.Count(pellet => pellet.usedTarget.Thing == victim && pellet.HitsAt(victim, traceNext.shell.targetPoint));
+            traceNext.events.Add($"START tick={Find.TickManager.TicksGame}, scenario={auditShot / 8}, size={victim.BodySize:0.00}, position={ShotgunBallistics.Position(victim)}, velocity={ShotgunBallistics.Velocity(victim)}, draw={victim.DrawPos}, aim={traceNext.shell.targetPoint}, error={traceNext.shell.aimError}");
+            auditWaiting = true;
+            waitUntil = Find.TickManager.TicksGame + 45;
+            Find.TickManager.CurTimeSpeed = TimeSpeed.Superfast;
         }
     }
 
@@ -104,7 +131,7 @@ namespace Helodrace
             ShotgunImpactTrace trace = ShotgunImpactTrace.current;
             if (trace == null || __instance.Shell != trace.shell) return;
             if (hitThing == trace.pawn && !blockedByShield) trace.impacts++;
-            trace.events.Add($"IMPACT tick={Find.TickManager.TicksGame}, pellet={__instance.thingIDNumber}, hit={hitThing?.def.defName ?? "ground"}, shield={blockedByShield}, posture={trace.pawn.GetPosture()}, position={trace.pawn.Position}, draw={trace.pawn.DrawPos}, fits={__instance.HitsPawn(trace.pawn)}");
+            trace.events.Add($"IMPACT tick={Find.TickManager.TicksGame}, pellet={__instance.thingIDNumber}, hit={hitThing?.def.defName ?? "ground"}, shield={blockedByShield}, posture={trace.pawn.GetPosture()}, position={ShotgunBallistics.Position(trace.pawn)}, pose={trace.shell.PoseFor(trace.pawn).position}, draw={trace.pawn.DrawPos}, fits={__instance.HitsPawn(trace.pawn)}");
         }
     }
 
@@ -132,40 +159,5 @@ namespace Helodrace
         }
     }
 
-    // Diagnostic A/B switch only. Replace render coordinates in all three
-    // collision/damage paths, leaving aiming/spread/armor unchanged.
-    [HarmonyPatch]
-    internal static class Patch_ShotgunAuditPhysicalPosition
-    {
-        private static bool Prepare() => GenCommandLine.TryGetCommandLineArg("hdShotgunAuditPhysicalPosition", out _);
-        private static IEnumerable<MethodBase> TargetMethods()
-        {
-            yield return AccessTools.Method(typeof(Projectile_ShotgunPellet), "HitsPawn");
-            yield return AccessTools.Method(typeof(Projectile_ShotgunPellet), "ImpactSomething");
-            yield return AccessTools.Method(typeof(Projectile_ShotgunPellet), "Impact");
-        }
-        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            var pawnGetter = AccessTools.PropertyGetter(typeof(Pawn), nameof(Pawn.DrawPos));
-            var thingGetter = AccessTools.PropertyGetter(typeof(Thing), nameof(Thing.DrawPos));
-            var physical = AccessTools.Method(typeof(Patch_ShotgunAuditPhysicalPosition), nameof(PositionFor));
-            foreach (CodeInstruction instruction in instructions)
-            {
-                if (instruction.Calls(pawnGetter) || instruction.Calls(thingGetter))
-                {
-                    instruction.opcode = System.Reflection.Emit.OpCodes.Call;
-                    instruction.operand = physical;
-                }
-                yield return instruction;
-            }
-        }
-        private static Vector3 PositionFor(Pawn pawn)
-        {
-            Vector3 current = pawn.Position.ToVector3Shifted();
-            return pawn.pather != null && pawn.pather.MovingNow && pawn.pather.nextCell.IsValid
-                ? Vector3.Lerp(current, pawn.pather.nextCell.ToVector3Shifted(), pawn.pather.MovePercentage)
-                : current;
-        }
-    }
 }
 #endif

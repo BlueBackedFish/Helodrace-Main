@@ -87,6 +87,7 @@ internal static class Program
         {
             BallisticsTests();
             AccuracyTests();
+            ShotgunMotionTests.Run();
             AnatomyTests();
             ShotgunLaunchTests.Run(harmony);
             ShotgunDamageTests.Run(harmony);

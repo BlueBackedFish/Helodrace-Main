@@ -69,7 +69,7 @@ internal static class ShotgunLaunchTests
             var pellet = NewPellet(projectile);
             pellet.damageDefOverride = projectile.projectile.damageDef;
             pellet.extraDamages.Add(new ExtraDamage());
-            pellet.Launch(null, new Vector3(3.5f, 0f, 3.5f), new IntVec3(3, 0, missLong ? 21 : 18), new IntVec3(3, 0, 18), ProjectileHitFlags.All);
+            pellet.Launch(null, new Vector3(3.5f, 8.4f, 3.5f), new IntVec3(3, 0, missLong ? 21 : 18), new IntVec3(3, 0, 18), ProjectileHitFlags.All);
         }
         return false;
     }
@@ -125,6 +125,12 @@ internal static class ShotgunLaunchTests
         Program.Check(pellets.All(pellet => pellet.Shell == shell) && shell.projectiles.Count == 9, "Every pellet must share one shell.");
         Program.Check(pellets.All(pellet => pellet.damageDefOverride == projectile.projectile.damageDef && pellet.extraDamages.Count == 1), "Clones must retain projectile damage overrides and weapon traits.");
         Program.Check(pellets.Select(pellet => projectileDestination(pellet)).Distinct().Count() > 1, "Pellets must have distinct continuous trajectories.");
+        Program.Check(pellets.All(pellet => Math.Abs(projectileDestination(pellet).y - projectileOrigin(pellet).y) < 0.001f),
+            "Render altitude must not add a vertical distance to horizontal flight.");
+        var ticks = AccessTools.FieldRefAccess<Projectile, int>("ticksToImpact");
+        Program.Check(pellets.All(pellet => ticks(pellet) == (int)Math.Ceiling(
+                (projectileDestination(pellet) - projectileOrigin(pellet)).MagnitudeHorizontal() / projectile.projectile.SpeedTilesPerTick)),
+            "Pellet arrival time must match the horizontal speed used by moving-target lead.");
         Program.Check(ShotgunSpreadContext.Launching == outer, "Launch context must be restored.");
         pellets.Clear(); shots = 0; missLong = true;
         Program.Check(verb.Fire() && pellets.Average(pellet => projectileDestination(pellet).z) > 20f,

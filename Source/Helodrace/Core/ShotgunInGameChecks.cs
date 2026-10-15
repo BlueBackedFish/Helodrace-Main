@@ -22,6 +22,8 @@ namespace Helodrace
         private int shellId;
         private int recordedShots;
         private int expectedHits;
+        private float expectedDamageBudget;
+        private Thing testWall;
         private string Results => Path.Combine(GenFilePaths.SaveDataFolderPath, "shotgun-results.txt");
         public ShotgunInGameChecks(Game game) { }
         private void Check(bool condition, string message)
@@ -66,6 +68,17 @@ namespace Helodrace
                 else if (phase == 3)
                 {
                     InspectShot("skill-0 human at eight tiles");
+                    StartShot(PawnKindDefOf.Colonist, 8);
+                    testWall = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Wall, ThingDefOf.Steel),
+                        shooter.Position + new IntVec3(0, 0, 5), shooter.Map);
+                    phase = 4;
+                }
+                else if (phase == 4)
+                {
+                    Check(ShotgunInGameImpactProbe.hits.Count == 0, "swept pawn collision does not bypass a wall placed during flight");
+                    Check(testWall.HitPoints < testWall.MaxHitPoints, "native flight resolves the blocking wall before pawn collision");
+                    Check(!victim.health.hediffSet.hediffs.OfType<Hediff_Injury>().Any(injury =>
+                        GameComponent_ShotgunWounds.Current.For(injury)?.shellId == shellId), "wall-blocked pellets create no pawn wounds");
                     File.AppendAllText(Results, "COMPLETE\n");
                     finished = true;
                     Application.Quit(0);
@@ -85,7 +98,8 @@ namespace Helodrace
             IntVec3 destination = source + new IntVec3(0, 0, distance);
             foreach (IntVec3 cell in CellRect.FromLimits(source + new IntVec3(-3, 0, -3), destination + new IntVec3(3, 0, 3)))
                 foreach (Thing thing in cell.GetThingList(map).ToArray())
-                    if (!(thing is Pawn) && (thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant)) thing.Destroy();
+                    if (!(thing is Pawn) && (thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant
+                        || thing.def.Fillage != FillCategory.None)) thing.Destroy();
             if (shooter != null && !shooter.Destroyed) shooter.Destroy();
             if (victim != null && !victim.Destroyed) victim.Destroy();
             shooter = PawnGenerator.GeneratePawn(PawnKindDefOf.Colonist, Faction.OfPlayer);
@@ -120,6 +134,21 @@ namespace Helodrace
                 kind.defName + " has nine native projectiles sharing one shell");
             shellId = launched[0].Shell.id;
             expectedHits = launched.Count(pellet => pellet.usedTarget.Thing == victim && pellet.HitsPawn(victim));
+            // Generated pawns may have Tough/Delicate or damage-factor genes.
+            // The shell budget must include their actual incoming multiplier.
+            expectedDamageBudget = launched.Sum(pellet => pellet.DamageAmount) * victim.GetStatValue(StatDefOf.IncomingDamageFactor);
+            var jitter = AccessTools.FieldRefAccess<Pawn_DrawTracker, JitterHandler>("jitterer")(victim.Drawer);
+            var offset = AccessTools.FieldRefAccess<JitterHandler, Vector3>("curOffset");
+            Vector3 previousOffset = offset(jitter);
+            try
+            {
+                var visualDamage = new DamageInfo(DamageDefOf.Bullet, 1f, angle: 0f);
+                jitter.Notify_DamageApplied(visualDamage);
+                jitter.Notify_DamageApplied(visualDamage);
+                Check(launched.Count(pellet => pellet.usedTarget.Thing == victim && pellet.HitsPawn(victim)) == expectedHits,
+                    "two bullet flinch animations do not remove on-target pellets");
+            }
+            finally { offset(jitter) = previousOffset; }
             ShotgunInGameImpactProbe.shellId = shellId;
             ShotgunInGameImpactProbe.hits.Clear();
             Check((int)shooter.records.GetValue(RecordDefOf.ShotsFired) - recordedShots == 1, "native shot record increments once");
@@ -194,12 +223,27 @@ namespace Helodrace
             var wounds = victim.health.hediffSet.hediffs.OfType<Hediff_Injury>()
                 .Where(injury => GameComponent_ShotgunWounds.Current.For(injury)?.shellId == shellId).ToArray();
             Check(wounds.Length > 0, label + " received native pellet injuries");
-            Check(wounds.Sum(injury => injury.Severity) <= 36.01f, label + " surface and internal injuries respect shell damage budget");
+            Check(wounds.Sum(injury => injury.Severity) <= expectedDamageBudget + 0.01f, label + " surface and internal injuries respect shell damage budget");
             Check(wounds.All(injury => GameComponent_ShotgunWounds.Current.For(injury).pelletCount > 0), label + " wounds retain pellet counts");
             Check(wounds.Where(injury => !injury.IsPermanent() && !injury.IsTended()).GroupBy(injury => new { injury.Part, injury.def })
                 .All(group => group.Count() == 1), label + " same-shell same-part injuries are grouped");
             Check(wounds.All(injury => injury.LabelBase.Contains("HD_Shotgun_PelletCount".Translate(
                 GameComponent_ShotgunWounds.Current.For(injury).pelletCount).Resolve())), label + " wound labels show pellet counts");
+            Hediff_Injury scar = wounds.FirstOrDefault(injury => injury.TryGetComp<HediffComp_GetsPermanent>() != null);
+            Check(scar != null, label + " gunshot supports the permanent-injury label path");
+            var permanent = scar.TryGetComp<HediffComp_GetsPermanent>();
+            HediffCompProperties previousProps = permanent.props;
+            bool wasPermanent = permanent.IsPermanent;
+            try
+            {
+                permanent.props = new HediffCompProperties_GetsPermanent { permanentLabel = "audit scar", instantlyPermanentLabel = "audit destroyed" };
+                permanent.IsPermanent = true;
+                string expected = "HD_Shotgun_PelletCount".Translate(GameComponent_ShotgunWounds.Current.For(scar).pelletCount).Resolve();
+                string actual = scar.LabelBase;
+                Check(actual.StartsWith("audit") && actual.Contains(expected) && actual.IndexOf(expected) == actual.LastIndexOf(expected),
+                    label + " permanent and destroyed-organ labels show pellet counts exactly once");
+            }
+            finally { permanent.props = previousProps; permanent.IsPermanent = wasPermanent; }
         }
     }
 

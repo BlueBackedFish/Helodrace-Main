@@ -68,13 +68,14 @@ namespace Helodrace
         }
     }
 
-    [HarmonyPatch(typeof(HediffWithComps), nameof(HediffWithComps.LabelBase), MethodType.Getter)]
+    // Injury overrides can return a scar/destroyed-organ label without calling
+    // HediffWithComps.LabelBase. Append at the final injury getter once.
+    [HarmonyPatch(typeof(Hediff_Injury), nameof(Hediff_Injury.LabelBase), MethodType.Getter)]
     public static class Patch_Hediff_ShotgunPelletCount
     {
-        public static void Postfix(HediffWithComps __instance, ref string __result)
+        public static void Postfix(Hediff_Injury __instance, ref string __result)
         {
-            if (!(__instance is Hediff_Injury injury)) return;
-            ShotgunWound wound = GameComponent_ShotgunWounds.Current?.For(injury);
+            ShotgunWound wound = GameComponent_ShotgunWounds.Current?.For(__instance);
             if (wound != null && wound.pelletCount > 0)
                 __result += " (" + "HD_Shotgun_PelletCount".Translate(wound.pelletCount).Resolve() + ")";
         }

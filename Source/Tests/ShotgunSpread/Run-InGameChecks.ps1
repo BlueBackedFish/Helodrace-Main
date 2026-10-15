@@ -2,11 +2,9 @@ param(
     [Parameter(Mandatory = $true)][string]$RuntimeRoot,
     [string]$GameRoot = 'C:\Program Files (x86)\Steam\steamapps\common\RimWorld',
     [string]$HarmonyRoot = 'C:\Program Files (x86)\Steam\steamapps\workshop\content\294100\2009463077',
-    [switch]$ImpactAudit,
-    [switch]$PhysicalPosition
+    [switch]$ImpactAudit
 )
 $ErrorActionPreference = 'Stop'
-if ($PhysicalPosition -and -not $ImpactAudit) { throw 'PhysicalPosition is an A/B option for ImpactAudit only.' }
 $repository = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $runtime = [IO.Path]::GetFullPath($RuntimeRoot)
 if (Test-Path -LiteralPath $runtime) { throw 'Use a fresh runtime directory to preserve previous evidence.' }
@@ -35,6 +33,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Shotgun in-game validation build failed.' }
 $arguments = @('-quicktest', '-batchmode', '-nographics', ('"-savedatafolder=' + (Join-Path $runtime 'SaveData') + '"'),
     '-hdMethodProfileDisabled=true', '-logFile', ('"' + (Join-Path $runtime 'Player.log') + '"'))
 if ($ImpactAudit) { $arguments += '-hdShotgunImpactAudit=true' }
-if ($PhysicalPosition) { $arguments += '-hdShotgunAuditPhysicalPosition=true' }
 $process = Start-Process -FilePath (Join-Path $runtime 'RimWorldWin64.exe') -WorkingDirectory $runtime -WindowStyle Hidden -PassThru -ArgumentList $arguments
 Write-Output "Shotgun in-game checks started: pid=$($process.Id) results=$(Join-Path $runtime 'SaveData/shotgun-results.txt')"
