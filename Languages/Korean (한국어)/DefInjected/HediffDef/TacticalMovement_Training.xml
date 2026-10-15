@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_CQBTraining.label>CQB 교육</HD_CQBTraining.label>
-  <HD_CQBTraining.description>헤로드 종족의 근접전 및 전술 사격 기술을 시험하기 위한 임시 훈련 자격입니다.</HD_CQBTraining.description>
+  <HD_CQBTraining_LOW.label>CQB 초급 교육</HD_CQBTraining_LOW.label>
+  <HD_CQBTraining_LOW.description>조준, 급작 사격, 정확한 사격, 강타, 기동, 기동사격을 사용할 수 있습니다.</HD_CQBTraining_LOW.description>
+  <HD_CQBTraining_HIGH.label>CQB 고급 교육</HD_CQBTraining_HIGH.label>
+  <HD_CQBTraining_HIGH.description>초급 스킬과 고속 기동, 다중 목표 사격, 선제 사격, 협동 조준, 사살, 테이크다운을 사용할 수 있습니다.</HD_CQBTraining_HIGH.description>
 </LanguageData>

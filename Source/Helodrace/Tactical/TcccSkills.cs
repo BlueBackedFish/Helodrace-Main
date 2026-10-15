@@ -44,13 +44,10 @@ namespace Helodrace.Tactical
 
     public static class TcccUtility
     {
-        private const string TrainingDefName = "HD_TCCCTraining";
-        public static bool HasTraining(Pawn pawn)
-        {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(TrainingDefName);
-            return pawn?.health?.hediffSet != null && def != null
-                && pawn.health.hediffSet.HasHediff(def);
-        }
+        public static bool HasTraining(Pawn pawn) => TacticalTraining.HasTcccLow(pawn);
+        public static bool HasTraining(Pawn pawn, TcccTreatment treatment) =>
+            treatment == TcccTreatment.Hemostasis || treatment == TcccTreatment.AttachDrag
+                ? TacticalTraining.HasTcccLow(pawn) : TacticalTraining.HasTcccHigh(pawn);
         public static bool CanAct(Pawn pawn) => pawn != null && pawn.Spawned && !pawn.Dead && !pawn.Downed
             && ((pawn.Faction == Faction.OfPlayer && pawn.Drafted)
                 || (OrganizationAPI.GetOrganization(pawn)?.faction?.def?.defName
@@ -60,6 +57,8 @@ namespace Helodrace.Tactical
             && HasTraining(pawn);
         public static bool CanTreat(Pawn actor, Pawn patient) => CanAct(actor) && patient != null && patient.Spawned
             && !patient.Dead && patient.Map == actor.Map && patient.RaceProps.Humanlike && !patient.HostileTo(actor);
+        public static bool CanTreat(Pawn actor, Pawn patient, TcccTreatment treatment) =>
+            CanTreat(actor, patient) && HasTraining(actor, treatment);
         public static Hediff_TcccTimed Effect(Pawn pawn, string name) => pawn?.health?.hediffSet?.hediffs
             .OfType<Hediff_TcccTimed>().FirstOrDefault(h => h.def.defName == name && !h.ShouldRemove);
         public static bool MistReady(Pawn pawn) => Effect(pawn, "HD_TCCC_Mist") != null;
@@ -85,7 +84,7 @@ namespace Helodrace.Tactical
 
         public static void Start(Pawn actor, Pawn patient, TcccTreatment treatment, Thing supply = null)
         {
-            if (!CanTreat(actor, patient)) return;
+            if (!CanTreat(actor, patient, treatment)) return;
             if ((treatment == TcccTreatment.Hemostasis || treatment == TcccTreatment.Hemostatic)
                 && patient.health.hediffSet.BleedRateTotal <= 0f) { Reject("HD_TCCC_NoBleeding"); return; }
             var job = JobMaker.MakeJob(DefDatabase<JobDef>.GetNamed("HD_TCCC_Treat"), patient);
@@ -106,10 +105,11 @@ namespace Helodrace.Tactical
 
         public static void Target(Pawn actor, TcccTreatment treatment)
         {
+            if (!CanAct(actor) || !HasTraining(actor, treatment)) return;
             Find.Targeter.BeginTargeting(new TargetingParameters
             {
                 canTargetPawns = true, canTargetBuildings = false, canTargetItems = false,
-                validator = t => CanTreat(actor, t.Thing as Pawn)
+                validator = t => CanTreat(actor, t.Thing as Pawn, treatment)
                     && (treatment != TcccTreatment.AttachDrag || t.Thing != actor && ((Pawn)t.Thing).Downed)
             }, target =>
             {
@@ -142,6 +142,7 @@ namespace Helodrace.Tactical
             foreach (TcccTreatment treatment in Enum.GetValues(typeof(TcccTreatment)))
             {
                 TcccTreatment local = treatment;
+                if (!HasTraining(pawn, local)) continue;
                 yield return new Command_Action
                 {
                     defaultLabel = ("HD_TCCC_" + local).Translate(),
@@ -220,7 +221,7 @@ namespace Helodrace.Tactical
         }
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOn(() => !TcccUtility.CanTreat(pawn, Patient));
+            this.FailOn(() => !TcccUtility.CanTreat(pawn, Patient, Treatment));
             Job owned = job;
             AddFinishAction(condition => Tactics.TacticalCareBridge.Finished(pawn, owned, condition));
             AddFinishAction(condition =>

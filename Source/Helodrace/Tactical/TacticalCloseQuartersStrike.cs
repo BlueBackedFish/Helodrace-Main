@@ -11,7 +11,6 @@ namespace Helodrace.Tactical
 {
     public static class TacticalCloseQuartersStrikeUtility
     {
-        private const string CqbTrainingDefName = "HD_CQBTraining";
         private const float Range = 1.5f;
         private const int KnockbackDistance = 2;
         private const int StunTicks = 60;
@@ -407,10 +406,7 @@ namespace Helodrace.Tactical
 
         private static bool HasCQBTraining(Pawn pawn)
         {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(CqbTrainingDefName);
-            return pawn?.health?.hediffSet != null
-                && def != null
-                && pawn.health.hediffSet.HasHediff(def);
+            return TacticalAimUtility.HasCQBTraining(pawn);
         }
     }
 

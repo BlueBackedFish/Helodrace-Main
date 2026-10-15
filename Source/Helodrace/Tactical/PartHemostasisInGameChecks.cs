@@ -62,7 +62,7 @@ namespace Helodrace.Tactical
                         actor.story.traits.allTraits.Clear();
                         GenSpawn.Spawn(actor,Find.CurrentMap.Center,Find.CurrentMap);
                         actor.drafter.Drafted=true;
-                        actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining"));
+                        actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_HIGH"));
                         var arms=actor.RaceProps.body.AllParts.Where(p=>p.def==BodyPartDefOf.Arm).ToArray();
                         left=arms[0]; right=arms[1];
                         leftWound=Wound(left); rightWound=Wound(right);

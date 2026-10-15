@@ -112,7 +112,7 @@ namespace Helodrace.Tactical
 
         public static bool Administer(Pawn actor, Pawn patient, Thing source)
         {
-            if (!TcccUtility.CanTreat(actor, patient) || source == null || source.Destroyed
+            if (!TcccUtility.CanTreat(actor, patient, TcccTreatment.Analgesic) || source == null || source.Destroyed
                 || source.ParentHolder != actor.inventory || !IsAnalgesic(source.def)) return false;
             float pain = patient.health.hediffSet.PainTotal;
             HediffDef high = HighDef(source.def);

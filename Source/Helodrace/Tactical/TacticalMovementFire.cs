@@ -11,7 +11,6 @@ namespace Helodrace.Tactical
 {
     public static class TacticalMovementFireUtility
     {
-        private const string CqbTrainingDefName = "HD_CQBTraining";
         private const int PreviewRange = 30;
 
         private sealed class State
@@ -332,10 +331,7 @@ namespace Helodrace.Tactical
 
         private static bool HasCQBTraining(Pawn pawn)
         {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(CqbTrainingDefName);
-            return pawn?.health?.hediffSet != null
-                && def != null
-                && pawn.health.hediffSet.HasHediff(def);
+            return TacticalAimUtility.HasCQBTraining(pawn);
         }
     }
 

@@ -27,8 +27,8 @@ namespace Helodrace.Squads
 
         private static void AddTraining(Pawn pawn)
         {
-            HediffDef training = DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining");
-            if (!pawn.health.hediffSet.HasHediff(training)) pawn.health.AddHediff(training);
+            HediffDef training = DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_LOW");
+            if (!Helodrace.Tactical.TacticalTraining.HasTcccLow(pawn)) pawn.health.AddHediff(training);
         }
 
         internal static void Equip(CombatOrganization organization)

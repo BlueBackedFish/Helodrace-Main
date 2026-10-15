@@ -19,7 +19,6 @@ namespace Helodrace.Tactical
 
     public static class TacticalTakedownUtility
     {
-        private const string CqbTrainingDefName = "HD_CQBTraining";
         private const float MaximumRange = 4f;
         private const float BackArcHalfWidth = 60f;
         private const float MaximumLethalPartHealth = 25f;
@@ -39,7 +38,7 @@ namespace Helodrace.Tactical
                 && !pawn.Dead
                 && !pawn.Downed
                 && pawn.Drafted
-                && HasCQBTraining(pawn);
+                && HasHighTraining(pawn);
         }
 
         public static void BeginModeSelection(Pawn pawn)
@@ -391,12 +390,9 @@ namespace Helodrace.Tactical
             };
         }
 
-        private static bool HasCQBTraining(Pawn pawn)
+        private static bool HasHighTraining(Pawn pawn)
         {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(CqbTrainingDefName);
-            return pawn?.health?.hediffSet != null
-                && def != null
-                && pawn.health.hediffSet.HasHediff(def);
+            return TacticalAimUtility.HasAdvancedCQBTraining(pawn);
         }
     }
 

@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <HediffDef>
-    <defName>HD_CQBTraining</defName>
-    <label>CQB training</label>
-    <description>Temporary training qualification for testing Helodrace close-quarters and tactical shooting skills.</description>
+    <defName>HD_CQBTraining_LOW</defName>
+    <label>CQB basic training</label>
+    <description>Basic CQB training: aiming, sudden fire, precision fire, close-quarters strike, tactical movement and movement fire.</description>
+    <defaultLabelColor>(0.35,0.90,0.55)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <isBad>false</isBad>
+    <tendable>false</tendable>
+  </HediffDef>
+  <HediffDef>
+    <defName>HD_CQBTraining_HIGH</defName>
+    <label>CQB advanced training</label>
+    <description>Advanced CQB training: all basic skills plus high-speed movement, multi-target fire, preemptive fire, coordinated aim, rapid kill and takedown.</description>
     <defaultLabelColor>(0.35,0.90,0.55)</defaultLabelColor>
     <scenarioCanAdd>false</scenarioCanAdd>
     <isBad>false</isBad>

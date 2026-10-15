@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_CQBTraining.label>CQB 교육</HD_CQBTraining.label>
-  <HD_CQBTraining.description>CQB 및 전술 사격 스킬을 시험하기 위한 임시 교육 자격입니다.</HD_CQBTraining.description>
   <HD_TacticalAim_Command>조준</HD_TacticalAim_Command>
   <HD_TacticalAim_CommandDesc>지정한 지점을 계속 주목합니다. 이동하면 그 지점을 향하도록 조준 각도가 바뀝니다. 90도 안에서는 조준시간 보너스, 밖에서는 페널티를 받으며 이동 중 사격은 120도 범위로 제한됩니다.</HD_TacticalAim_CommandDesc>
   <HD_TacticalAim_Retarget>주목 지점 변경</HD_TacticalAim_Retarget>

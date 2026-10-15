@@ -91,7 +91,7 @@ namespace Helodrace.Squads
                             new Helodrace.ModernWar.ModularPawnKindLoadout
                             { weaponPreset = member.slot.weaponPreset });
                     if (parms.faction?.def?.defName == "HD_HelodCivilHighFaction")
-                        foreach (string training in new[] { "HD_CQBTraining", "HD_TCCCTraining" })
+                        foreach (string training in new[] { "HD_CQBTraining_HIGH", "HD_TCCCTraining_HIGH" })
                         {
                             HediffDef trainingDef = DefDatabase<HediffDef>.GetNamedSilentFail(training);
                             if (trainingDef != null && !pawn.health.hediffSet.HasHediff(trainingDef))

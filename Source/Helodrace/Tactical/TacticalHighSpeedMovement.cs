@@ -47,7 +47,7 @@ namespace Helodrace.Tactical
                 && pawn.Drafted
                 && !pawn.Dead
                 && !pawn.Downed
-                && TacticalAimUtility.HasCQBTraining(pawn)
+                && TacticalAimUtility.HasAdvancedCQBTraining(pawn)
                 && !TacticalAimUtility.IsAiming(pawn)
                 && !IsActive(pawn);
         }
@@ -64,6 +64,7 @@ namespace Helodrace.Tactical
             if (pawn.Dead
                 || pawn.Downed
                 || !pawn.Spawned
+                || !TacticalAimUtility.HasAdvancedCQBTraining(pawn)
                 || !IsHighSpeedJob(pawn.jobs?.curJob?.def)
                 || pawn.Position == state.destination)
             {
@@ -154,7 +155,8 @@ namespace Helodrace.Tactical
 
         public static SlideAdvanceResult AdvanceSlide(Pawn pawn)
         {
-            if (!IsActive(pawn)
+            if (!TacticalAimUtility.HasAdvancedCQBTraining(pawn)
+                || !IsActive(pawn)
                 || !activeStates.TryGetValue(
                     pawn.thingIDNumber,
                     out State state)
@@ -437,7 +439,7 @@ namespace Helodrace.Tactical
             if (!TacticalCqbModeUtility.ShowCommands(__instance)) return;
             if (__instance?.Faction != Faction.OfPlayer
                 || __instance.Dead
-                || !TacticalAimUtility.HasCQBTraining(__instance))
+                || !TacticalAimUtility.HasAdvancedCQBTraining(__instance))
             {
                 return;
             }

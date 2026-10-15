@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <HediffDef>
-    <defName>HD_TCCCTraining</defName>
-    <label>TCCC training</label>
-    <description>Training qualification for tactical casualty care skills.</description>
+    <defName>HD_TCCCTraining_LOW</defName>
+    <label>TCCC basic training</label>
+    <description>Basic tactical casualty care training: hemostasis and casualty movement.</description>
+    <defaultLabelColor>(0.35,0.90,0.55)</defaultLabelColor>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <isBad>false</isBad>
+    <tendable>false</tendable>
+  </HediffDef>
+  <HediffDef>
+    <defName>HD_TCCCTraining_HIGH</defName>
+    <label>TCCC advanced training</label>
+    <description>Advanced tactical casualty care training: basic skills plus measured analgesia, hemostatic agents and MIST handovers.</description>
     <defaultLabelColor>(0.35,0.90,0.55)</defaultLabelColor>
     <scenarioCanAdd>false</scenarioCanAdd>
     <isBad>false</isBad>

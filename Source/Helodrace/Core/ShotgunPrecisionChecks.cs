@@ -52,7 +52,8 @@ namespace Helodrace
                 var verb = PrepareShot(kind, 5, 20, "HD_Gun_M1897_Weapon");
                 PrecisionSelections[shooter.thingIDNumber] = requested;
                 Check(!TacticalPrecisionFireUtility.TryGetRequestedPart(shooter, victim, verb, out _), "untrained shooter cannot use precision");
-                shooter.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_CQBTraining"));
+                shooter.health.AddHediff(DefDatabase<HediffDef>.GetNamed(
+                    precisionShot < 4 ? "HD_CQBTraining_LOW" : "HD_CQBTraining_HIGH"));
                 Check(!TacticalPrecisionFireUtility.TryGetRequestedPart(shooter, victim, verb, out _), "precision requires aiming");
                 TacticalAimUtility.SetFocusForAI(shooter, victim.Position);
                 Check(TacticalPrecisionFireUtility.TryGetRequestedPart(shooter, victim, verb, out precisionCentre),

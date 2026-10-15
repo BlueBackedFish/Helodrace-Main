@@ -21,7 +21,6 @@ namespace Helodrace.Tactical
 
     public static class TacticalPrecisionFireUtility
     {
-        private const string CqbTrainingDefName = "HD_CQBTraining";
         private const float ChestWarmupMultiplier = 1f;
         private const float ArmLegWarmupMultiplier = 1.35f;
         private const float HeadWarmupMultiplier = 1.75f;
@@ -267,10 +266,7 @@ namespace Helodrace.Tactical
 
         private static bool HasCQBTraining(Pawn pawn)
         {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(CqbTrainingDefName);
-            return pawn?.health?.hediffSet != null
-                && def != null
-                && pawn.health.hediffSet.HasHediff(def);
+            return TacticalAimUtility.HasCQBTraining(pawn);
         }
     }
 

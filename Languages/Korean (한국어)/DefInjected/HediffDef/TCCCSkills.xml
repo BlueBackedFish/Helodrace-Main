@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_TCCCTraining.label>TCCC 교육</HD_TCCCTraining.label>
-  <HD_TCCCTraining.description>전술 응급처치 스킬을 사용할 수 있는 교육 자격입니다.</HD_TCCCTraining.description>
+  <HD_TCCCTraining_LOW.label>TCCC 초급 교육</HD_TCCCTraining_LOW.label>
+  <HD_TCCCTraining_LOW.description>지혈과 부상자 이동을 사용할 수 있습니다.</HD_TCCCTraining_LOW.description>
+  <HD_TCCCTraining_HIGH.label>TCCC 고급 교육</HD_TCCCTraining_HIGH.label>
+  <HD_TCCCTraining_HIGH.description>초급 스킬과 진통제 적정량 투여, 지혈제 투여, MIST 인계서 작성을 사용할 수 있습니다.</HD_TCCCTraining_HIGH.description>
   <HD_TCCC_Pressure.label>압박 지혈 중</HD_TCCC_Pressure.label>
   <HD_TCCC_Pressure.description>이 부위를 압박 지혈하는 중입니다. 압박을 유지하는 동안 해당 부위의 출혈량이 70% 감소합니다.</HD_TCCC_Pressure.description>
   <HD_TCCC_Hemostatic.label>지혈제 효과</HD_TCCC_Hemostatic.label>

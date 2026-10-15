@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <HD_CQBTraining.label>CQB training</HD_CQBTraining.label>
-  <HD_CQBTraining.description>Temporary training qualification for testing close-quarters and tactical shooting skills.</HD_CQBTraining.description>
   <HD_TacticalAim_Command>Aim</HD_TacticalAim_Command>
   <HD_TacticalAim_CommandDesc>Keep watching a chosen point. Aim direction follows that point as you move. The 90-degree focus arc grants faster warmup; outside it, warmup is slower. Moving fire is limited to a 120-degree arc.</HD_TacticalAim_CommandDesc>
   <HD_TacticalAim_Retarget>Retarget Aim</HD_TacticalAim_Retarget>

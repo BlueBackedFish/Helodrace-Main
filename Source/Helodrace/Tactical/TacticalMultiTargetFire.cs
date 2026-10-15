@@ -22,7 +22,6 @@ namespace Helodrace.Tactical
         private const int FirePriorityPasses = 2;
         private const int SuppressionShotsPerTarget = 3;
         private const int TickBetweenShots = 1;
-        private const string CqbTrainingDefName = "HD_CQBTraining";
 
         private sealed class State
         {
@@ -51,7 +50,7 @@ namespace Helodrace.Tactical
                 && !pawn.Dead
                 && !pawn.Downed
                 && pawn.Faction == Faction.OfPlayer
-                && TacticalAimUtility.HasCQBTraining(pawn)
+                && TacticalAimUtility.HasAdvancedCQBTraining(pawn)
                 && GetPrimaryVerb(pawn) != null
                 && TacticalAimUtility.IsRangedVerb(GetPrimaryVerb(pawn))
                 && !GetPrimaryVerb(pawn).Bursting
@@ -357,6 +356,7 @@ namespace Helodrace.Tactical
             return pawn.Spawned
                 && !pawn.Dead
                 && !pawn.Downed
+                && TacticalAimUtility.HasAdvancedCQBTraining(pawn)
                 && pawn.Map != null
                 && TacticalAimUtility.IsRangedVerb(state.verb)
                 && GetPrimaryVerb(pawn) == state.verb;

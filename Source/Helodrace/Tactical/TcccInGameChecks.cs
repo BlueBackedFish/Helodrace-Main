@@ -70,9 +70,33 @@ namespace Helodrace.Tactical
                         actor = SpawnPawn(Find.CurrentMap.Center);
                         Wound(actor);
                         baselineBleed = actor.health.hediffSet.BleedRateTotal;
+                        HediffDef cqbLow = DefDatabase<HediffDef>.GetNamed("HD_CQBTraining_LOW");
+                        Check(!TacticalTraining.HasCqbLow(actor) && !TacticalTraining.HasCqbHigh(actor),
+                            "CQB skills require training");
+                        actor.health.AddHediff(cqbLow);
+                        Check(TacticalTraining.HasCqbLow(actor) && !TacticalTraining.HasCqbHigh(actor),
+                            "basic CQB training does not unlock advanced skills");
+                        actor.health.RemoveHediff(actor.health.hediffSet.GetFirstHediffOfDef(cqbLow));
+                        actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_CQBTraining_HIGH"));
+                        Check(TacticalTraining.HasCqbLow(actor) && TacticalTraining.HasCqbHigh(actor),
+                            "advanced CQB training includes basic skills");
                         Check(!TcccUtility.CanAct(actor) && !TcccUtility.CanTreat(actor, actor),
                             "TCCC commands and treatments require training");
-                        actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining"));
+                        HediffDef lowTraining = DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_LOW");
+                        actor.health.AddHediff(lowTraining);
+                        Check(TcccUtility.CanTreat(actor, actor, TcccTreatment.Hemostasis)
+                            && TcccUtility.CanTreat(actor, actor, TcccTreatment.AttachDrag)
+                            && !TcccUtility.CanTreat(actor, actor, TcccTreatment.Analgesic)
+                            && !TcccUtility.CanTreat(actor, actor, TcccTreatment.Hemostatic)
+                            && !TcccUtility.CanTreat(actor, actor, TcccTreatment.Mist)
+                            && TcccUtility.Gizmos(actor).Count() == 2,
+                            "basic TCCC training unlocks only hemostasis and casualty movement");
+                        actor.health.RemoveHediff(actor.health.hediffSet.GetFirstHediffOfDef(lowTraining));
+                        actor.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_HIGH"));
+                        Check(Enum.GetValues(typeof(TcccTreatment)).Cast<TcccTreatment>()
+                            .All(treatment => TcccUtility.CanTreat(actor, actor, treatment))
+                            && TcccUtility.Gizmos(actor).Count() == 5,
+                            "advanced TCCC training includes all basic and advanced skills");
                         Check(baselineBleed > 0 && TcccUtility.CanAct(actor), "self-care actor is capable and bleeding");
                         TcccUtility.Start(actor, actor, TcccTreatment.Hemostasis);
                         Next(1); break;
@@ -253,7 +277,7 @@ namespace Helodrace.Tactical
             foreach (string name in new[] { "BD_Morphine", "BD_Fentanyl", "BD_Ketamine", "BD_Laudanum" })
             {
                 Pawn patient = SpawnPawn(Find.CurrentMap.Center + new IntVec3(0, 0, -12)); Wound(patient);
-                patient.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining"));
+                patient.health.AddHediff(DefDatabase<HediffDef>.GetNamed("HD_TCCCTraining_HIGH"));
                 float before = patient.health.hediffSet.PainTotal;
                 Thing drug = ThingMaker.MakeThing(DefDatabase<ThingDef>.GetNamed(name)); drug.stackCount = 3;
                 patient.inventory.innerContainer.TryAdd(drug);

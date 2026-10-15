@@ -12,7 +12,6 @@ namespace Helodrace.Tactical
 {
     public static class TacticalCoordinatedAimUtility
     {
-        private const string CqbTrainingDefName = "HD_CQBTraining";
         private const float PartnerMaximumDistance = 1.5f;
         private const float TargetHalfAngle = 30f;
         private const float FinalAccuracyMultiplier = 1.20f;
@@ -56,7 +55,7 @@ namespace Helodrace.Tactical
                 && !pawn.Dead
                 && !pawn.Downed
                 && pawn.Drafted
-                && HasCQBTraining(pawn)
+                && HasHighTraining(pawn)
                 && TacticalAimUtility.IsRangedVerb(verb)
                 && !verb.Bursting
                 && !states.ContainsKey(pawn.thingIDNumber);
@@ -255,6 +254,7 @@ namespace Helodrace.Tactical
                 && !state.partner.Dead
                 && !state.shooter.Downed
                 && state.shooter.Drafted
+                && HasHighTraining(state.shooter)
                 && PrimaryVerb(state.shooter) == state.verb
                 && !state.partner.Downed
                 && state.shooter.Map != null
@@ -464,12 +464,9 @@ namespace Helodrace.Tactical
             return pawn?.equipment?.Primary?.GetComp<CompEquippable>()?.PrimaryVerb;
         }
 
-        private static bool HasCQBTraining(Pawn pawn)
+        private static bool HasHighTraining(Pawn pawn)
         {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(CqbTrainingDefName);
-            return pawn?.health?.hediffSet != null
-                && def != null
-                && pawn.health.hediffSet.HasHediff(def);
+            return TacticalAimUtility.HasAdvancedCQBTraining(pawn);
         }
     }
 

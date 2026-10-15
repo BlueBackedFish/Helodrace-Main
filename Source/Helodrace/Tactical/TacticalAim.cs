@@ -85,7 +85,6 @@ namespace Helodrace.Tactical
 
     public static class TacticalAimUtility
     {
-        private const string CqbTrainingDefName = "HD_CQBTraining";
         private const string AimDefName = "HD_TacticalAim";
         private const int MessageCooldownTicks = 60;
         private const int AimPreparationTicks = 90;
@@ -140,11 +139,10 @@ namespace Helodrace.Tactical
 
         public static bool HasCQBTraining(Pawn pawn)
         {
-            HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(CqbTrainingDefName);
-            return pawn?.health?.hediffSet != null
-                && def != null
-                && pawn.health.hediffSet.HasHediff(def);
+            return TacticalTraining.HasCqbLow(pawn);
         }
+
+        public static bool HasAdvancedCQBTraining(Pawn pawn) => TacticalTraining.HasCqbHigh(pawn);
 
         public static bool IsRangedVerb(Verb verb)
         {
