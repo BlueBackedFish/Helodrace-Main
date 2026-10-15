@@ -56,6 +56,8 @@ $targets = 'Verse.AI.Pawn_JobTracker::StartJob;Verse.PathFinder::CreateRequest;H
 
 `-DownProbe`는 복사본에서만900틱 뒤 생성 습격원1명과 기존 플레이어 폰을 마취로 다운시키고 탄환 피해를 가한다. `savedMapDownProbe`에 실제 피해/상처 증가 또는 예외를 남긴다. 치료·후속 전술을 바꾸므로 일반 진행/CPU 대조와 분리한다. 저장본 재현은 기능 진단용이며 엄격한 Vanilla/New 성능 게이트를 대체하지 않는다.
 
+`-RetreatProbe -High -SpawnX 8 -SpawnZ 30 -Ticks 1200`은120틱 뒤 비의료 인원2명을 다운시키고 같은 Lord를 실제 ExitMap 상태로 전환한다. `savedMapRetreatProbe/savedMapEvacuated/savedMapPatientEvacuated`와 작업 실패/오류를 확인한다. 생성 직후 `savedMapLoadout`의 training/medic/pouches/nvg 값으로 교육·파우치 재고·야투경도 확인할 수 있다. 원본 지도/저장은 복사본에서만 바뀌며 사격받는 후송이나 CPU 합격 시험을 대신하지 않는다.
+
 R3 장비 회귀: `-Case recovery`는 유일한 해머 공병을 돌파 작업 발행 뒤 죽이고 시체의 장비 회수를 확인한다. `-Case cutter-recovery`는 해머를 제거하고 절단기 하나를 지급한 뒤 같은 작업 승계/회수를 확인한다. `-Case cutter`는 사망 이벤트 없이 절단기를 사용한다. fixture 장비 변경은 모든 엔진에서 폰 지문 생성 전에 적용한다. 사망 이벤트는 New 전용 기능 검사이며 바닐라 CPU 대조로 사용하지 않는다. `newToolRecoveriesStarted/newToolRecoveriesCompleted/newCutterJobsStarted`와 생존자 전원 진입/기능 완료를 함께 확인한다.
 
 ```powershell

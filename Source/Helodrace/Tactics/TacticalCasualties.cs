@@ -34,7 +34,7 @@ namespace Helodrace.Tactics
                     && CoverUtility.CalculateOverallBlockChance(cell,contact.Position,map)<.35f) return false;
             return true;
         }
-        // One casualty operation per squad, two roster checks per slice. No
+        // One new operation per decision, two roster checks per slice. No
         // global pawn search or continuously rebuilt rescue path/cover map.
         private bool AdvanceCasualties(TacticalSquadCommand command,int tick)
         {
@@ -73,7 +73,7 @@ namespace Helodrace.Tactics
                     if(!command.WithdrawalGoal.IsValid) { command.Due=tick+120; return true; }
                 }
             }
-            if(!rescuing && tick>=command.NextCasualtyCheck && command.MedicalCare==null
+            if((retreat || !rescuing) && tick>=command.NextCasualtyCheck && command.MedicalCare==null
                 && command.ChargeAction==null && !(command.OpeningAction?.Launched==true && !command.OpeningAction.EffectsCleared))
             {
                 bool danger=MedicalThreatActive(command,tick);

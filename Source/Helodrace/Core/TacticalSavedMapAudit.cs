@@ -43,13 +43,14 @@ namespace Helodrace
                 if(tick-started>=120 && result.savedMapRetreatProbe==null
                     && GenCommandLine.TryGetCommandLineArg("hdCqbSavedRetreatProbe",out _))
                 {
-                    retreatProbePatient=raiders.First(p=>!p.Dead && !p.Downed && !OrganizationMedical.HasDuty(p));
+                    var patients=raiders.Where(p=>!p.Dead && !p.Downed && !OrganizationMedical.HasDuty(p)).Take(2).ToArray();
+                    retreatProbePatient=patients[0];
                     Lord lord=retreatProbePatient.GetLord();
-                    retreatProbePatient.health.AddHediff(HediffDefOf.Anesthetic);
+                    foreach(var patient in patients) patient.health.AddHediff(HediffDefOf.Anesthetic);
                     var exit=lord.Graph.lordToils.FirstOrDefault(t=>TacticalCasualtyPolicy.RetreatPhase(t));
                     if(exit==null) { exit=new LordToil_ExitMapAndDefendSelf {lord=lord}; lord.Graph.AddToil(exit); }
                     lord.GotoToil(exit);
-                    result.savedMapRetreatProbe="downed="+retreatProbePatient.ThingID+" exit="+exit.GetType().Name;
+                    result.savedMapRetreatProbe="downed="+string.Join(",",patients.Select(p=>p.ThingID))+" exit="+exit.GetType().Name;
                 }
                 if (tick >= nextProgress)
                 {
